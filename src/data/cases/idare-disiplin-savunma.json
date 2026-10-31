@@ -1,0 +1,148 @@
+{
+  "id": "idare-disiplin-savunma",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "basit",
+  "title": "Okunmamış E-posta",
+  "area": "İdare Hukuku · Disiplin cezası ve savunma hakkı",
+  "court": "Erzurum 2. İdare Mahkemesi",
+  "courtShort": "2. İDARE MAHKEMESİ",
+  "esas": "2026/612 Esas",
+  "kararTarihi": "15.10.2026",
+  "color": "#3d4f6a",
+  "teaser": "Yıllık izindeki bir memura e-postayla savunma soruldu, cevap gelmeyince kınama cezası verildi. Savunma hakkının gerçekten tanınıp tanınmadığını mahkemeye gösterin.",
+  "sides": { "p1": { "role": "Davacı (memur) vekili", "short": "Siz" }, "p2": { "role": "Davalı idare", "short": "Davalı idare" } },
+  "bench": { "judges": 3, "title": "Mahkeme Başkanı ve iki üye" },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Mahkeme Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Hülya Demirtaş · Davalı idare vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e8c09c", "hair": "#4a2e1f", "style": "bun", "glasses": true } },
+    "client": { "name": "Serdar Kılınç · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#c7936a", "hair": "#1e1814", "style": "short", "beard": true, "shirt": "#4b5a6b", "inner": "#dcd6ca" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Erzurum. Büronuza Serdar Kılınç geliyor. Kurgusal Doğu Anadolu Bölge Arşiv Müdürlüğü'nde dokuz yıldır veri hazırlama ve kontrol işletmeni olarak çalışan bir Devlet memuru." },
+    { "who": "client", "text": "Bana kınama cezası verdiler. Kurumun aracını özel işimde kullanmışım. Oysa o gün müdür yardımcısı göndermişti. Savunmamı da hiç sormadılar." },
+    { "who": "narr", "text": "Ceza kararı 23 Mart 2026'da müvekkile tebliğ edilmiş. Bugün 2 Nisan. Disiplin kuruluna itiraz için öngörülen yedi günlük süre geçmiş." }
+  ],
+  "docs": [
+    { "t": "Kınama cezası kararı", "d": "20 Mart 2026. Devlete ait resmî aracı özel işinde kullandığı gerekçesiyle 657 s.K. m.125/B uyarınca kınama. Tebliğ: 23 Mart 2026." },
+    { "t": "Soruşturma raporu", "d": "Savunma istem yazısının 3 Mart'ta davacının kurumsal e-posta adresine gönderildiği, yedi gün içinde cevap verilmediği, savunma hakkından vazgeçmiş sayıldığı yazılı." },
+    { "t": "Savunma istem yazısı", "d": "Yalnızca kurumsal e-postayla gönderilmiş. Altında imza ya da tebellüğ şerhi yok." }
+  ],
+  "evidence": [
+    { "id": "ev_ceza", "type": "belge", "title": "Kınama cezası kararı", "desc": "20 Mart 2026 tarihli; resmî aracı özel işte kullanma gerekçesiyle kınama." },
+    { "id": "ev_yazi", "type": "belge", "title": "Savunma istem yazısı", "desc": "3 Mart 2026. Yalnızca kurumsal e-postayla gönderilmiş; imza, tebellüğ şerhi ya da tebliğ mazbatası yok." },
+    { "id": "ev_rapor", "type": "belge", "title": "Soruşturma raporu", "desc": "Davacının süresinde savunma vermediği, savunma hakkından vazgeçmiş sayıldığı yazılı." },
+    { "id": "ev_izin", "type": "belge", "title": "Yıllık izin onayı", "desc": "Müdürlüğün kendi onayı: davacı 2–13 Mart 2026 arasında yıllık izinde. Kurumsal e-postaya yalnızca iş yeri ağından erişiliyor.", "if": "izin" },
+    { "id": "ev_gorev", "type": "belge", "title": "Müdür yardımcısının görev talimatı", "desc": "12 Şubat 2026 tarihli, imzalı not: “Ekteki evrak bugün mesai içinde valilik evrak servisine teslim edilecek; hizmet aracı kullanılacak.”", "if": "gorev" },
+    { "id": "law_ay129", "type": "kanun", "title": "Anayasa m.129/2", "desc": "Memurlara ve diğer kamu görevlilerine savunma hakkı tanınmadıkça disiplin cezası verilemez.", "law": "Anayasa m.129/2" },
+    { "id": "law_657_130", "type": "kanun", "title": "657 s.K. m.130 · Savunma hakkı", "desc": "Savunması alınmadan disiplin cezası verilemez. Savunma için verilecek süre yedi günden az olamaz. Süresinde savunma vermeyen savunma hakkından vazgeçmiş sayılır.", "law": "657 s.K. m.130" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Dava dilekçesini yazmadan önce müvekkille konuşuyorsunuz. İki soru sorabilecek vaktiniz var." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Savunma yazısının gönderildiği günlerde neredeydiniz?", "delta": 15, "set": ["izin"],
+          "reply": [{ "who": "client", "text": "Yıllık izindeydim, 2–13 Mart arası. Köyde annemin yanındaydım. Kurumsal e-postaya dışarıdan giremiyoruz zaten. İzin onayı bende." }],
+          "note": "Kilit soru. Savunma istemi, müvekkilin hiç ulaşamayacağı bir zamanda ve ulaşamayacağı bir kanaldan gönderilmiş. İzin onayı delil çantanıza eklendi." },
+        { "text": "Aracı o gün neden kullandınız?", "delta": 10, "set": ["gorev"],
+          "reply": [{ "who": "client", "text": "Müdür yardımcısı evrakı valiliğe götürmemi istedi, notunu da yazdı. Dönüşte yol üstündeki eczaneye uğradım, beş dakika. Biri fotoğrafımı çekmiş." }],
+          "note": "Eylemin kendisini tartışmak için önemli. Aracın görev için verildiğini gösteren yazılı talimat delil çantanıza eklendi." },
+        { "text": "Daha önce disiplin cezası aldınız mı?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Hiç almadım. Dokuz yıldır sicilim temiz." }],
+          "note": "Arka plan için faydalı, ama cezanın hukuka uygunluğunu belirleyen bilgi bu değil." },
+        { "text": "Sizi şikâyet edenle aranız nasıl?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Pek iyi değil. Geçen yıl nöbet çizelgesi yüzünden tartışmıştık." }],
+          "note": "Kişisel husumet iddiası ispatı zor ve davaya katkısı sınırlı bir konu. Sınırlı soru hakkınızı buna harcadınız." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Müvekkil itiraz süresini kaçırdığı için endişeli. Büronun kıdemli ortağı Av. Leyla Ünsal içeri bakıp hatırlatıyor: “Disiplin kuruluna itiraz bir seçenekti, zorunlu değil. Tebliğden itibaren altmış gün içinde iptal davası açabiliriz.”" },
+        { "who": "narr", "text": "Dava dilekçesinin ana dayanağını belirleyeceksiniz." }
+      ],
+      "prompt": "Dilekçenin ana dayanağı ne olacak?",
+      "choices": [
+        { "text": "Savunma hakkı tanınmadan ceza verildi: savunma istemi müvekkile usulüne uygun ulaştırılmadı, bu yüzden “vazgeçmiş sayılma” sonucu doğmaz.", "delta": 25, "set": ["savunma"],
+          "law": "Anayasa m.129/2; 657 s.K. m.130; İYUK m.7",
+          "note": "Doğru dayanak. Savunma hakkı tanınmadıkça disiplin cezası verilemez (Anayasa m.129/2; 657 s.K. m.130). Vazgeçme sonucu ancak savunma istemi memura usulüne uygun ulaştırılmış ve en az yedi günlük süre tanınmışsa doğar. Dava süresi idare mahkemesinde altmış gündür (İYUK m.7)." },
+        { "text": "Eylem sabit değil: araç müdür yardımcısının talimatıyla görev için kullanıldı.", "delta": 10, "set": ["esas"],
+          "note": "Geçerli bir iptal sebebi, ama dosyadaki en güçlü hukuka aykırılık bu değil. Savunma hakkının ihlali, eylemin tartışılmasına gerek bırakmadan işlemi sakatlar." },
+        { "text": "Ceza ağır: dokuz yıllık temiz sicil gözetilerek uyarma verilmeliydi.", "delta": -5, "set": ["hafif"],
+          "note": "Kanun, bu fiil için kınama öngörüyor (657 s.K. m.125/B). Asıl sorun cezanın ağırlığı değil, savunma alınmadan verilmiş olması." },
+        { "text": "Şikâyet eden amirin kişisel husumeti nedeniyle işlem kötü niyetli.", "delta": -10,
+          "note": "Kanıtsız bir kötü niyet iddiası heyetin dikkatini asıl hukuka aykırılıktan uzaklaştırır." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Dava açıldı. Taraflardan hiçbiri duruşma istemedi; mahkeme dosya üzerinden karar verecek. İdarenin savunması geldi; cevap dilekçenizi hazırlıyorsunuz." }
+      ],
+      "statement": { "who": "opp", "text": "Savunma istem yazısı 3 Mart'ta davacının kurumsal e-posta adresine gönderilmiş, yedi gün içinde cevap verilmemiştir. 657 sayılı Kanun'un 130. maddesi uyarınca davacı savunma hakkından vazgeçmiş sayılır." },
+      "prompt": "Bu savunmaya hangi delille cevap vereceksiniz?",
+      "correct": ["ev_izin"],
+      "hit": { "delta": 25, "set": ["teblig", "izinArg"],
+        "reply": [{ "who": "narr", "text": "Cevap dilekçenize idarenin kendi onayladığı izin belgesini eklediniz. Savunma istemi, müvekkilin izinde olduğu ve kurumsal e-postaya erişemediği günlerde gönderilmiş." }],
+        "law": "657 s.K. m.130",
+        "note": "Vazgeçme sonucu ancak savunma istemi memura gerçekten ulaştırılmışsa doğar. İdarenin kendi izin onayı, istemin müvekkile ulaşmadığını gösteriyor. Ayrıca yazıda imza ya da tebellüğ şerhi yok." },
+      "responses": {
+        "ev_yazi": { "delta": 15, "set": ["teblig"],
+          "note": "Doğru delil. Yazıda imza, tebellüğ şerhi ya da tebliğ mazbatası yok; usulüne uygun tebliğ ispatlanamıyor. İzin onayı da olsaydı istemin müvekkile hiç ulaşamayacağı açıkça görülürdü." },
+        "law_657_130": { "delta": 5, "set": ["ilke"],
+          "note": "Doğru madde, ama belge göstermediniz. Vazgeçme sonucunun doğmadığını belgeyle ortaya koymak gerekiyordu." },
+        "law_ay129": { "delta": 5, "set": ["ilke"],
+          "note": "Doğru ilke, ama idarenin “istem gönderildi” iddiasını belgeyle çürütmediniz." },
+        "ev_gorev": { "delta": -5,
+          "note": "Bu belge eylemin esasıyla ilgili. Savunma hakkının tanınıp tanınmadığı sorusuna cevap vermiyor." },
+        "ev_rapor": { "delta": -10,
+          "note": "Soruşturma raporu idarenin tezini tekrarlıyor: “vazgeçmiş sayıldı.” Sizin işinize yaramaz." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge idarenin savunmasına cevap vermiyor." },
+      "pass": { "delta": -15, "note": "İdarenin “savunma istendi, cevap verilmedi” iddiası cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Dilekçenin sonuç ve istem bölümüne geldiniz. Mahkeme yalnızca hukuka uygunluğu denetleyecek." }],
+      "prompt": "Sonuç ve isteminizi nasıl yazacaksınız?",
+      "choices": [
+        { "if": "gorev", "text": "Kınama cezasının iptalini isteyin; ek olarak görev talimatıyla eylemin sabit olmadığını da gösterin; yargılama giderleri ve vekâlet ücretinin idareye yükletilmesini isteyin.", "delta": 20, "set": ["talep", "gorevArg"],
+          "law": "İYUK m.2",
+          "note": "Talep iptal davasının sınırları içinde. Görev talimatı, savunma hakkı ihlaline ek olarak cezanın sebep unsurunu da çürütüyor." },
+        { "text": "Kınama cezasının iptalini, yargılama giderleri ve vekâlet ücretinin idareye yükletilmesini isteyin.", "delta": 10, "set": ["talep"],
+          "law": "İYUK m.2",
+          "note": "Doğru talep. İptal davası işlemin hukuka uygunluğunu denetler; mahkeme işlemi iptal eder, yerine yenisini kurmaz." },
+        { "text": "Cezanın iptal edilip yerine uyarma cezası verilmesini isteyin.", "delta": -10, "set": ["cevir"],
+          "law": "İYUK m.2/2",
+          "note": "İdari yargı yerleri idari işlem niteliğinde ya da idarenin takdir yetkisini kaldıracak biçimde karar veremez (İYUK m.2/2). Mahkeme cezayı değiştiremez; ancak iptal edebilir." },
+        { "text": "Davayı bekletip disiplin kuruluna şimdi itiraz edin.", "delta": -10,
+          "law": "657 s.K. m.135",
+          "note": "İtiraz süresi tebliğden itibaren yedi gündü ve çoktan geçti (657 s.K. m.135). Dava zaten süresinde açıldı; bu başvuru yalnızca zaman kaybettirir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "teblig && savunma", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu kınama cezasına ilişkin işlemin İPTALİNE, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, savunma istemi usulüne uygun tebliğ edilmediği için davacının savunma hakkından vazgeçmiş sayılamayacağını, ceza savunma alınmadan verildiğinden hukuka aykırı olduğunu kabul etti (Anayasa m.129/2; 657 s.K. m.130)." },
+        { "if": "izinArg", "text": " İdarenin kendi izin onayı, istemin müvekkile hiç ulaşamayacağını açıkça gösterdi." },
+        { "if": "gorevArg", "text": " Görev talimatı, eylemin özel iş için araç kullanımı olmadığını da ortaya koydu." },
+        { "if": "cevir", "text": " Cezanın uyarmaya çevrilmesi isteği ise yargı yetkisinin sınırı nedeniyle karşılıksız kaldı (İYUK m.2/2)." },
+        { "if": "!gorevArg", "text": " Not: İptal usul yönünden verildi. Zamanaşımı süreleri geçmediyse idare savunmayı usulüne uygun alarak yeniden işlem yapabilir." }
+      ] },
+    { "if": "teblig || gorevArg", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu kınama cezasına ilişkin işlemin İPTALİNE, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "if": "teblig", "text": "Heyet, savunma isteminin usulüne uygun tebliğ edildiğinin ispatlanamadığını, cezanın savunma alınmadan verildiğini kabul etti. Dilekçenizi baştan savunma hakkına dayandırsaydınız dosya çok daha güçlü olurdu." },
+        { "if": "!teblig", "text": "Heyet, görev talimatı karşısında aracın özel işte kullanıldığının sabit olmadığını kabul etti. Savunma hakkının ihlalini belgeyle gösterseydiniz iptal çok daha sağlam bir gerekçeye dayanırdı." },
+        { "if": "cevir", "text": " Cezanın uyarmaya çevrilmesi isteği yargı yetkisinin sınırı nedeniyle karşılıksız kaldı (İYUK m.2/2)." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "DAVANIN REDDİNE, yargılama giderlerinin davacı üzerinde bırakılmasına, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "İdarenin “savunma istendi, cevap verilmedi” iddiası belgeyle çürütülemedi; heyet savunma hakkının tanındığı sonucuna vardı." },
+        { "if": "!izin", "text": " Müvekkile savunma yazısının gönderildiği günlerde nerede olduğunu sorsaydınız, idarenin kendi izin onayı elinizde olurdu." },
+        { "if": "izin", "text": " İzin onayı çantanızdaydı, ama idarenin savunmasına karşı onu sunmadınız." },
+        { "if": "hafif", "text": " Cezanın ağırlığına dayanmak sonuç vermedi: kanun bu fiil için kınama öngörüyor." }
+      ] }
+  ]
+}

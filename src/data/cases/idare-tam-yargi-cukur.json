@@ -1,0 +1,177 @@
+{
+  "id": "idare-tam-yargi-cukur",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "orta",
+  "title": "İşaretsiz Çukur",
+  "area": "İdare Hukuku · Hizmet kusuru ve tam yargı davası",
+  "court": "Samsun 2. İdare Mahkemesi",
+  "courtShort": "2. İDARE MAHKEMESİ",
+  "esas": "2027/143 Esas",
+  "kararTarihi": "09.09.2027",
+  "color": "#38545a",
+  "teaser": "Gece yarısına doğru, işaretsiz bir kazı çukuru ve devrilen bir motosiklet. Tazminata giden yol mahkemeden değil, belediyenin kapısından geçiyor.",
+  "sides": { "p1": { "role": "Davacı vekili", "short": "Siz" }, "p2": { "role": "Davalı belediye", "short": "Davalı belediye" } },
+  "bench": { "judges": 3, "title": "Mahkeme Başkanı ve iki üye" },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Mahkeme Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Gülşen Er · Davalı belediye vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#c48d66", "hair": "#6e3b22", "style": "curly" } },
+    "client": { "name": "Barış Ekinci · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#b07a52", "hair": "#18120e", "style": "short", "shirt": "#a8572e", "inner": "#2a2a2a" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Samsun. Büronuza 27 yaşındaki motokurye Barış Ekinci geliyor; sol bileği hâlâ ateldeymiş gibi tutuyor." },
+    { "who": "client", "text": "9 Ocak gecesi, saat on bire doğru, teslimattan dönüyordum. Mahalle yolunda kocaman bir çukur vardı; ne şerit ne ışık. Motor takla attı, bileğim iki yerden kırıldı. Üç ay çalışamadım." },
+    { "who": "narr", "text": "Çukuru kurgusal Çınarlı Belediyesi'nin fen işleri ekibi yağmur suyu ızgarası onarımı için açmış. Bugün 18 Kasım 2026; kazanın üzerinden on aydan fazla geçti. Henüz hiçbir yere başvurulmamış." }
+  ],
+  "docs": [
+    { "t": "Trafik kazası tespit tutanağı", "d": "9 Ocak 2026, 22.50. “Yol üzerinde yaklaşık 1,5 m genişliğinde kazı çukuru mevcut; çevresinde uyarı işareti görülmedi.” Sürücüye kusur yazılmamış." },
+    { "t": "Hastane raporları", "d": "Sol el bileğinde iki yerden kırık, ameliyat; 90 gün iş göremezlik." },
+    { "t": "Masraflar", "d": "Tedavi gideri 48.000 TL; motosiklet onarımı 62.000 TL; üç aylık kazanç kaybı yaklaşık 105.000 TL." }
+  ],
+  "evidence": [
+    { "id": "ev_tutanak", "type": "belge", "title": "Trafik kazası tespit tutanağı", "desc": "“Çukurun çevresinde uyarı işareti görülmedi.” Sürücüye kusur yazılmamış." },
+    { "id": "ev_ekip", "type": "belge", "title": "Belediye ekip şefinin tutanağı", "desc": "Kazıdan sonra çukurun şeritle çevrildiği ve uyarı levhası konulduğu yazılı; saat yok, fotoğraf yok." },
+    { "id": "ev_hastane", "type": "belge", "title": "Hastane raporları", "desc": "Bilekte iki yerden kırık; 90 gün iş göremezlik." },
+    { "id": "ev_fatura", "type": "belge", "title": "Onarım ve tedavi faturaları", "desc": "Motosiklet onarımı 62.000 TL; tedavi gideri 48.000 TL." },
+    { "id": "ev_kamera", "type": "belge", "title": "Fırının güvenlik kamerası kaydı", "desc": "Kaza anı: çukurun çevresinde şerit, levha ya da ışık yok; motosiklet sakin bir hızla geliyor. Kayıttaki zaman damgasından hız yaklaşık 38 km/s (sınır 50).", "if": "kamera" },
+    { "id": "ev_esnaf", "type": "beyan", "title": "Fırın sahibinin yazılı beyanı", "desc": "Çukur kazadan iki gün önce açılmış; o iki gün boyunca hiçbir işaret konulmamış.", "if": "kazi" },
+    { "id": "law_ay125", "type": "kanun", "title": "Anayasa m.125/son", "desc": "İdare, kendi eylem ve işlemlerinden doğan zararı ödemekle yükümlüdür.", "law": "Anayasa m.125" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Önce müvekkili dinliyorsunuz. İki soru sorabilirsiniz." }],
+      "prompt": "Barış Ekinci'ye ne soracaksınız?",
+      "choices": [
+        { "text": "Kaza yerini gören bir kamera ya da çekilmiş fotoğraf var mı?", "delta": 15, "set": ["kamera"],
+          "reply": [{ "who": "client", "text": "Köşedeki fırının kamerası yola bakıyor! Fırıncı kaydı bana telefonda gösterdi, sonra flaş belleğe aldık. Bende duruyor." }],
+          "note": "Kilit soru. Kayıt hem işaretleme olmadığını hem de müvekkilin hızını gösteriyor. Kamera kaydı delil çantanıza eklendi." },
+        { "text": "Çukur ne zamandan beri oradaydı, kim açmıştı?", "delta": 10, "set": ["kazi"],
+          "reply": [{ "who": "client", "text": "Fırıncı abi söyledi: belediye ekibi iki gün önce kazmış, öylece bırakmışlar. Yazıyla da beyan verir." }],
+          "note": "Faydalı bilgi: hem davalıyı netleştiriyor hem de işaretsizliğin süresini gösteriyor. Fırın sahibinin beyanı delil çantanıza eklendi." },
+        { "text": "Kask takıyor muydunuz, ehliyetiniz uygun muydu?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Kask takılıydı, kaza tutanağında da yazıyor. Ehliyetim A sınıfı." }],
+          "note": "Belediye müterafik kusur ileri sürecektir; bunu önceden bilmek iyi. Ama ispat için elinizde yeni bir belge yok." },
+        { "text": "Kurye şirketiniz size bir ödeme yaptı mı?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Hayır, ben serbest çalışıyorum. Kimse bir şey vermedi." }],
+          "note": "Davanın ana meselesi bu değil. Sınırlı soru hakkınızı başka bir konuya harcayabilirdiniz." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Zarar, belediyenin bir eyleminden doğmuş: çukuru açıp işaretlemeden bırakmak." },
+        { "who": "client", "text": "Hemen dava açalım mı? Bir an önce bitsin istiyorum." }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        { "text": "Önce belediyeye yazılı başvurup zararın ödenmesini isteyin. Ret ya da otuz gün içinde cevap gelmemesi üzerine, dava süresi içinde tam yargı davası açın.", "delta": 20, "set": ["basvuru"],
+          "law": "İYUK m.13, m.7",
+          "reply": [{ "who": "narr", "text": "Başvuru 20 Kasım'da yapıldı. Belediye otuz gün içinde cevap vermedi; istek reddedilmiş sayıldı. Ocak başında dava açtınız." }],
+          "note": "İdari eylemden doğan zararlarda dava açmadan önce idareye başvurmak zorunludur: öğrenmeden itibaren bir yıl, her hâlde eylemden itibaren beş yıl içinde (İYUK m.13). Kazanın üzerinden on ay geçti; bir yıllık süre 9 Ocak 2027'de doluyor." },
+        { "text": "Doğrudan Samsun İdare Mahkemesinde tam yargı davası açın.", "delta": -15, "set": ["dogrudan"],
+          "law": "İYUK m.13",
+          "reply": [{ "who": "narr", "text": "Mahkeme ilk incelemede, idareye başvuru yapılmadığını tespit edip dilekçeyi başvuru olarak değerlendirilmek üzere belediyeye gönderdi. Zımni ret beklendi, dava yeniden açıldı. Aylar kaybedildi." }],
+          "note": "İdari eylemden doğan tam yargı davasında idareye ön başvuru dava şartıdır (İYUK m.13). Başvurmadan dava açmak, dosyanın idareye gönderilmesine ve ciddi zaman kaybına yol açar." },
+        { "text": "Asliye hukuk mahkemesinde belediyeye karşı tazminat davası açın.", "delta": -15, "set": ["adli"],
+          "law": "Anayasa m.125; İYUK m.2/1-b",
+          "reply": [{ "who": "narr", "text": "Asliye hukuk mahkemesi, uyuşmazlığın idari yargının görev alanında olduğu gerekçesiyle görevsizlik kararı verdi. Dosya aylarca geriye gitti." }],
+          "note": "Kamu hizmetinin yürütülmesinden doğan zararlar hizmet kusuru esasına göre idari yargıda tam yargı davasıyla istenir (İYUK m.2/1-b). Adli yargıda görevsizlik kararından sonra idari yargıda ön başvuru şartı aranmaz (İYUK m.13/2); ama zaman kaybı büyük." },
+        { "text": "Kalıcı maluliyet raporu kesinleşsin; başvuruyu iki üç ay sonra, tam rakamla yapın.", "delta": -25,
+          "law": "İYUK m.13",
+          "fatal": { "label": "HÜKÜM:", "hukum": "İdari eylemin öğrenildiği tarihten itibaren bir yıllık süre geçtikten sonra idareye yapılan başvuru üzerine açılan davanın SÜRE AŞIMI NEDENİYLE REDDİNE, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+                     "summary": "İdari eylemden doğan zararlarda idareye başvuru, eylemin öğrenilmesinden itibaren bir yıl içinde yapılmalıdır (İYUK m.13). Müvekkil zararı kaza gecesi öğrenmişti; süre 9 Ocak 2027'de doldu. Tazminat miktarı sonradan artırılabilirdi; beklemeye gerek yoktu." },
+          "note": "Başvuru süresi hak düşürücüdür. Kesin rakam beklemek yerine başvuruyu süresinde yapıp miktarı yargılama sırasında artırmak mümkündü." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Dava dilekçesinin istem bölümünü yazıyorsunuz." }],
+      "prompt": "Talepleri ve davalıyı nasıl belirleyeceksiniz?",
+      "choices": [
+        { "text": "Belediyeye karşı: tedavi gideri, motosiklet onarımı ve kazanç kaybı için maddi, acı ve ıstırap için manevi tazminat; başvuru tarihinden işleyecek yasal faiziyle.", "delta": 15, "set": ["talep"],
+          "law": "Anayasa m.125; İYUK m.2/1-b",
+          "note": "Hizmet kusurundan doğan bütün zarar kalemleri tek davada istenebilir. Faiz başlangıcı olarak idareye başvuru tarihi gösterilir. Tam yargı davasında miktar, kanundaki şartlarla yargılama sırasında artırılabilir." },
+        { "text": "Yalnızca motosiklet onarım bedelini isteyin; diğerleri ispatı zor kalemler.", "delta": -5, "set": ["dar"],
+          "note": "Tedavi gideri ve kazanç kaybı belgeli; manevi zarar ise ağır bir yaralanmada açık. Talebi daraltmak müvekkilin hakkını kendi elinizle kısmak demek." },
+        { "text": "Belediyeyle birlikte çukuru açan ekip şefini de kişisel olarak davalı gösterin.", "delta": -10, "set": ["personel", "talep"],
+          "law": "Anayasa m.129/5",
+          "note": "Kamu görevlilerinin yetkilerini kullanırken işledikleri kusurlardan doğan tazminat davaları, kendilerine rücu edilmek kaydıyla ancak idare aleyhine açılabilir (Anayasa m.129/5). Ekip şefine yönelik talep reddedilir ve aleyhinize vekâlet ücreti doğar." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Belediyenin savunması geldi. Taraflar duruşma istemedi; mahkeme dosya üzerinden inceleyecek. Cevap dilekçenizi hazırlıyorsunuz." }],
+      "statement": { "who": "opp", "text": "Kazı alanı ekip şefinin tutanağıyla sabit olduğu üzere şeritle çevrilmiş ve uyarı levhası konulmuştur. Kaza, davacının gece saatinde aşırı hızla ve dikkatsiz sürmesinden kaynaklanmıştır. Belediyenin hizmet kusuru yoktur." },
+      "prompt": "Bu savunmaya hangi delille cevap vereceksiniz?",
+      "correct": ["ev_kamera"],
+      "hit": { "delta": 25, "set": ["kameraHit"],
+        "reply": [{ "who": "narr", "text": "Kaydı cevap dilekçenize eklediniz. Mahkeme, kaydın ve trafik tutanağının bilirkişiye incelettirilmesine karar verdi." }],
+        "law": "Anayasa m.125",
+        "note": "Kayıt, belediyenin “şerit ve levha vardı” iddiasını da “aşırı hız” iddiasını da aynı anda çürütüyor. Kazı yapan idare, alanı işaretleyip güvenliği sağlamakla yükümlüdür; bunu yapmamak hizmet kusurudur." },
+      "responses": {
+        "ev_tutanak": { "delta": 10, "set": ["kusurKismi"],
+          "note": "Doğru belge: trafik polisi işaret görmediğini yazmış. Ama tutanak, belediyenin tutanağıyla çelişen bir tespitten ibaret; hızı göstermiyor. Kamera kaydı her iki iddiayı birden çürütürdü." },
+        "ev_esnaf": { "delta": 10, "set": ["kusurKismi"],
+          "note": "Faydalı bir beyan: çukur iki gün işaretsiz kalmış. Ama tanık beyanı, belediyenin resmî tutanağı karşısında tek başına zayıf kalabilir." },
+        "ev_ekip": { "delta": -10, "note": "Bu, belediyenin kendi tutanağı. Saat ve fotoğraf içermemesi bir zayıflık, ama onu sunmak savunmayı çürütmez." },
+        "law_ay125": { "delta": 0, "note": "Doğru ilke, ama savunma olgulara ilişkin. Olguyu belgeyle çürütmeniz gerekiyordu." },
+        "ev_hastane": { "delta": -5, "note": "Zararın varlığını gösterir; kusur sorusuna cevap vermez." },
+        "ev_fatura": { "delta": -5, "note": "Zararın miktarını gösterir; kusur sorusuna cevap vermez." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil savunmayı çürütmüyor." },
+      "pass": { "delta": -15, "note": "Belediyenin savunması cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Bilirkişi raporu geldi: belediye yüzde 70 oranında kusurlu; davacı ise “gece saatinde hızını yol koşullarına uydurmadığı” gerekçesiyle yüzde 30 oranında müterafik kusurlu.", "if": "kameraHit || kusurKismi" },
+        { "who": "narr", "text": "Bilirkişi raporu geldi: belediyenin tutanağına dayanarak alanın işaretlendiğini kabul etmiş; kazayı ağırlıklı olarak davacının dikkatsizliğine bağlamış.", "if": "!kameraHit && !kusurKismi" }
+      ],
+      "prompt": "Rapora karşı ne yapacaksınız?",
+      "choices": [
+        { "if": "kamera", "text": "Rapora itiraz edin: kamera kaydı hızın yaklaşık 38 km/s olduğunu ve hiçbir işaret bulunmadığını gösteriyor; müterafik kusur somut bir kural ihlaline dayanmalı. Ek rapor isteyin.", "delta": 15, "set": ["itirazOk"],
+          "note": "Müterafik kusur, zarar görenin zararın doğmasına ya da artmasına somut bir davranışıyla katkıda bulunması hâlinde tazminatı indirir. Sınırın altında, kasklı ve işaretsiz bir çukura giren sürücüye soyut bir “dikkatsizlik” kusuru yüklenemez." },
+        { "if": "!kamera", "text": "Rapora itiraz edin: müterafik kusurun hangi somut kurala aykırılığa dayandığı gösterilmemiş; ek rapor isteyin.", "delta": 5, "set": ["itirazZayif"],
+          "note": "Doğru itiraz, ama elinizde hızı ve işaretsizliği gösteren bir belge olmadığı için ek raporun sonucu değişmeyebilir." },
+        { "text": "Raporu kabul edin; ama tazminatın tamamını yine de isteyin.", "delta": -5,
+          "note": "Rapora itiraz etmeyen taraf, raporun tespitlerini zımnen kabul etmiş olur. Heyet hükmü bu rapora dayandırır." },
+        { "text": "Bilirkişinin taraflı olduğunu ileri sürüp raporun tamamen dışlanmasını isteyin.", "delta": -10,
+          "note": "Somut bir ret sebebi gösterilmeden yapılan taraflılık suçlaması heyeti ikna etmez. Rapora içerik yönünden itiraz edilir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "kameraHit && itirazOk", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": [
+        { "if": "!dar", "text": "Davanın KABULÜ ile maddi ve manevi tazminatın idareye başvuru tarihinden itibaren işleyecek yasal faiziyle birlikte davalı idareden alınarak davacıya ödenmesine," },
+        { "if": "dar", "text": "Davanın KABULÜ ile motosiklet onarım bedelinin idareye başvuru tarihinden itibaren işleyecek yasal faiziyle birlikte davalı idareden alınarak davacıya ödenmesine," },
+        { "if": "personel", "text": " ekip şefine yönelik davanın husumet yönünden REDDİNE," },
+        { "text": " kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi." }
+      ],
+      "summary": [
+        { "text": "Kamera kaydı, kazı alanının işaretlenmediğini ve davacının sınırın altında seyrettiğini gösterdi. Ek raporda müterafik kusur kaldırıldı; heyet belediyenin hizmet kusurunu tam olarak kabul etti (Anayasa m.125)." },
+        { "if": "dar", "text": " Ama yalnızca motosiklet bedelini istediğiniz için tedavi gideri, kazanç kaybı ve manevi tazminat hiç talep edilmemiş oldu." },
+        { "if": "dogrudan", "text": " Doğrudan dava açmanız, dosyanın önce idareye gönderilmesine ve aylarca gecikmeye yol açtı." },
+        { "if": "adli", "text": " Adli yargıda açılan dava görevsizlikle döndü; aylar kaybedildi." }
+      ] },
+    { "if": "kameraHit || kusurKismi || itirazOk", "winner": "draw", "stamp": "KISMİ BAŞARI", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": [
+        { "text": "Davanın KISMEN KABULÜ ile davacının yüzde 30 oranındaki müterafik kusuru nedeniyle indirim yapılarak belirlenen" },
+        { "if": "!dar", "text": " maddi ve manevi tazminatın" },
+        { "if": "dar", "text": " motosiklet onarım bedelinin" },
+        { "text": " idareye başvuru tarihinden itibaren işleyecek yasal faiziyle birlikte davalı idareden alınarak davacıya ödenmesine, fazlaya ilişkin istemin REDDİNE," },
+        { "if": "personel", "text": " ekip şefine yönelik davanın husumet yönünden REDDİNE," },
+        { "text": " kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi." }
+      ],
+      "summary": [
+        { "text": "Heyet belediyenin hizmet kusurunu kabul etti, ama davacıya yüzde 30 müterafik kusur yükleyen bilirkişi raporunu esas aldı." },
+        { "if": "!kamera", "text": " Müvekkile kaza yerini gören bir kamera olup olmadığını sorsaydınız, hızı ve işaretsizliği gösteren kayıt elinizde olurdu." },
+        { "if": "kamera && !kameraHit", "text": " Kamera kaydı çantanızdaydı, ama belediyenin savunmasına karşı onu sunmadınız." },
+        { "if": "kameraHit && !itirazOk", "text": " Kamera kaydı dosyadaydı, ama rapordaki müterafik kusur tespitine bu kayıtla itiraz etmediniz." },
+        { "if": "dogrudan", "text": " Doğrudan dava açmanız dosyayı aylarca geciktirdi." },
+        { "if": "adli", "text": " Adli yargıda açılan dava görevsizlikle döndü; aylar kaybedildi." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "DAVANIN REDDİNE, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Belediyenin “alan işaretlenmişti, kaza davacının dikkatsizliğinden oldu” savunması çürütülemedi. Heyet hizmet kusurunun ispatlanamadığı sonucuna vardı." },
+        { "if": "!kamera && !kazi", "text": " Müvekkile kaza yerini gören bir kamera ya da çukurun ne zamandan beri açık olduğunu sorsaydınız, elinizde belediyenin tutanağını çürütecek delil olurdu." },
+        { "if": "kamera || kazi", "text": " Belediyenin tutanağını çürütecek delil çantanızdaydı, ama savunmaya karşı onu sunmadınız." }
+      ] }
+  ]
+}

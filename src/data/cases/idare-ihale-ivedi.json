@@ -1,0 +1,178 @@
+{
+  "id": "idare-ihale-ivedi",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "zor",
+  "title": "Aşırı Düşük",
+  "area": "Kamu İhale Hukuku · İvedi yargılama usulü",
+  "court": "Ankara 14. İdare Mahkemesi",
+  "courtShort": "14. İDARE MAHKEMESİ",
+  "esas": "2027/1068 Esas",
+  "kararTarihi": "16.06.2027",
+  "color": "#5a3d3d",
+  "teaser": "Kamu İhale Kurulu, müvekkilin aşırı düşük teklif açıklamasını yetersiz bulup teklifini dışarıda bıraktı. İvedi yargılamada süreler kısa, alışkanlıklar ölümcül.",
+  "sides": { "p1": { "role": "Davacı (istekli) vekili", "short": "Siz" }, "p2": { "role": "Davalı Kamu İhale Kurumu", "short": "Davalı idare" } },
+  "bench": { "judges": 3, "title": "Mahkeme Başkanı ve iki üye" },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Mahkeme Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Murat Sezgin · Davalı Kurum vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e2b590", "hair": "#3d342c", "style": "short", "glasses": true } },
+    "client": { "name": "Aylin Akbulut · Genel müdür", "np": "civil", "look": { "kind": "civil", "skin": "#cf9d76", "hair": "#2a1810", "style": "long", "shirt": "#1f3a4a", "inner": "#ebe5d8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Ankara. Büronuza kurgusal Akbulut Yol Yapı A.Ş.'nin genel müdürü Aylin Akbulut geliyor. Şirket, kurgusal Kızılöz Belediyesi'nin (Kırşehir) 14 kilometrelik sathi kaplama ihalesinde en düşük teklifi vermiş." },
+    { "who": "client", "text": "Teklifimiz sınır değerin altında kaldı, açıklama istendi. Kendi taş ocağımız ve asfalt plentimiz var; maliyetimizi belgeledik, komisyon kabul etti, ihale bize kaldı. Rakip itirazen şikâyete gitti; Kurul açıklamamızı yetersiz buldu, teklifimizi dışarıda bıraktı." },
+    { "who": "narr", "text": "Kamu İhale Kurulu kararı 6 Nisan 2027'de şirkete tebliğ edilmiş. Bugün 20 Nisan 2027." }
+  ],
+  "docs": [
+    { "t": "Kamu İhale Kurulu kararı", "d": "Agrega (mıcır) kalemi için açıklamada kendi üretim maliyetini tevsik eden, meslek mensubunca düzenlenmiş maliyet tespit tutanağı sunulmadığı gerekçesiyle davacının teklifinin değerlendirme dışı bırakılması yönünde düzeltici işlem." },
+    { "t": "Aşırı düşük teklif açıklaması", "d": "Agreganın şirketin kendi ocağından üretileceği belirtilmiş; “maliyet tespit tutanağı ektedir” ibaresi var." },
+    { "t": "Ocak işletme ruhsatı", "d": "Şirket adına, ihale sahasına 9 km mesafedeki taş ocağı." }
+  ],
+  "evidence": [
+    { "id": "ev_kik", "type": "belge", "title": "Kamu İhale Kurulu kararı", "desc": "Maliyet tespit tutanağı sunulmadığı gerekçesiyle teklif değerlendirme dışı." },
+    { "id": "ev_aciklama", "type": "belge", "title": "Aşırı düşük teklif açıklaması", "desc": "“Agrega kendi ocağımızdan üretilecektir; maliyet tespit tutanağı ektedir.”" },
+    { "id": "ev_ruhsat", "type": "belge", "title": "Ocak işletme ruhsatı", "desc": "İhale sahasına 9 km mesafedeki taş ocağı şirket adına ruhsatlı." },
+    { "id": "ev_tutanak", "type": "belge", "title": "Maliyet tespit tutanağı ve EKAP gönderim kaydı", "desc": "Serbest muhasebeci mali müşavir imzalı agrega maliyet tespit tutanağı; EKAP kaydına göre açıklamayla aynı gün, ayrı bir dosya olarak yüklenmiş.", "if": "tutanak" },
+    { "id": "ev_davet", "type": "belge", "title": "Sözleşmeye davet yazısı", "desc": "Belediye, Kurul kararından sonra rakip istekliyi on gün içinde kesin teminat verip sözleşme imzalamaya davet etmiş.", "if": "davet" },
+    { "id": "law_4734_38", "type": "kanun", "title": "4734 s.K. m.38 · Aşırı düşük teklifler", "desc": "İhale komisyonu aşırı düşük teklifleri tespit eder, istekliden yazılı açıklama ister; üretim süreci, seçilen teknik çözümler ve isteklinin avantajlı koşulları dikkate alınır.", "law": "4734 s.K. m.38" }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "Belediyenin hukuk müşaviri “acele etmeyin, idari davada süre altmış gün; önce Kurum'a bir yazı yazın, belki kararı düzeltir” dedi." }
+      ],
+      "prompt": "Davayı nasıl ve ne zaman açacaksınız?",
+      "choices": [
+        { "text": "Kurul kararının iptali için Kamu İhale Kurumu'nu davalı göstererek Ankara İdare Mahkemesinde, tebliğden itibaren otuz gün içinde dava açın.", "delta": 25, "set": ["dogruYer"],
+          "law": "İYUK m.20/A, m.32",
+          "note": "İhale işlemlerinden doğan davalar ivedi yargılama usulüne tabidir; dava açma süresi otuz gündür (İYUK m.20/A). Genel yetkili mahkeme, işlemi yapan idari merciin bulunduğu yer idare mahkemesidir (İYUK m.32): Kurul kararı için Ankara." },
+        { "text": "Kızılöz Belediyesini davalı göstererek Kırşehir İdare Mahkemesinde dava açın.", "delta": -15, "set": ["yanlisYer"],
+          "law": "İYUK m.9, m.32",
+          "reply": [{ "who": "narr", "text": "Kırşehir İdare Mahkemesi yetkisizlik kararı verip dosyayı Ankara'ya gönderdi. İlk başvuru tarihi korundu, ama ivedi bir davada üç hafta kaybettiniz." }],
+          "note": "Dava konusu işlem Kurul kararıdır; onu yapan Kurum Ankara'dadır (İYUK m.32). Yetkisiz mahkemeye başvurma tarihi yetkili mahkemeye başvurma tarihi sayılır (İYUK m.9); süre kurtuldu, ama zaman kaybedildi." },
+        { "text": "Önce Kurum'a başvurup kararın düzeltilmesini isteyin; başvuru dava süresini durdurur.", "delta": -25,
+          "law": "İYUK m.20/A, m.11",
+          "fatal": { "label": "HÜKÜM:", "hukum": "Davanın SÜRE AŞIMI NEDENİYLE REDDİNE, kararın tebliğinden itibaren on beş gün içinde Danıştaya temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+                     "summary": "İvedi yargılama usulüne tabi davalarda İYUK m.11 uygulanmaz (İYUK m.20/A): idareye yapılan başvuru dava süresini durdurmaz. Otuz günlük süre 6 Mayıs'ta doldu; Kurum'un cevabını beklerken dava hakkı kaybedildi." },
+          "note": "Genel usulde süreyi durduran başvuru, ivedi yargılamada süreyi durdurmaz." },
+        { "text": "İdari davada süre altmış gündür. Açıklama dosyasını baştan derleyip dilekçeyi Mayıs sonunda verin.", "delta": -25,
+          "law": "İYUK m.20/A",
+          "fatal": { "label": "HÜKÜM:", "hukum": "Davanın SÜRE AŞIMI NEDENİYLE REDDİNE, kararın tebliğinden itibaren on beş gün içinde Danıştaya temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+                     "summary": "İhale işlemlerinden doğan davalarda dava açma süresi otuz gündür (İYUK m.20/A). Altmış günlük genel süreye (İYUK m.7) güvenmek davayı kaybettirdi." },
+          "note": "İvedi yargılamada dava açma süresi otuz gündür; genel süre uygulanmaz." }
+      ] },
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Dilekçeye oturmadan önce genel müdürle konuşuyorsunuz. Vakit dar; iki soru sorabilirsiniz." }],
+      "prompt": "Aylin Akbulut'a ne soracaksınız?",
+      "choices": [
+        { "text": "Açıklamanın ekinde tam olarak hangi belgeler vardı? EKAP'a ne yüklendi?", "delta": 15, "set": ["tutanak"],
+          "reply": [{ "who": "client", "text": "Mali müşavirimizin imzaladığı maliyet tespit tutanağı vardı! Açıklama yazısıyla aynı gün, ayrı bir dosya olarak yükledik. EKAP gönderim kaydının çıktısı bende." }],
+          "note": "Kilit soru. Kurul'un “tutanak sunulmadı” tespiti maddi bir hataya dayanıyor olabilir. Tutanak ve EKAP gönderim kaydı delil çantanıza eklendi." },
+        { "text": "Belediye şu anda ne yapıyor? Sözleşme aşamasında bir gelişme var mı?", "delta": 15, "set": ["davet"],
+          "reply": [{ "who": "client", "text": "Dün öğrendik: belediye rakip firmayı sözleşme imzalamaya davet etmiş. On gün içinde imzalayacaklar." }],
+          "note": "Yürütmenin durdurulması için telafisi güç zararı somutlaştıran bilgi. Davet yazısı delil çantanıza eklendi." },
+        { "text": "Ocaktan ihale sahasına mesafe ve üretim kapasiteniz nedir?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Dokuz kilometre. Günde 800 ton kırma taş üretebiliyoruz." }],
+          "note": "Avantajlı koşulu güçlendiren bir bilgi (4734 s.K. m.38). Ama Kurul'un gerekçesi belge eksikliği; o soruya cevap vermiyor." },
+        { "text": "Rakip firmanın sahibiyle aranızda bir husumet var mı?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Eskiden ortaktık, ayrıldık. Bize hep itiraz eder." }],
+          "note": "Rakibin saiki, Kurul kararının hukuka uygunluğunu değiştirmez. Sınırlı vaktinizi buna harcadınız." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Dilekçenin yürütmenin durdurulması bölümüne geldiniz." }],
+      "prompt": "Yürütmenin durdurulması konusunda ne yapacaksınız?",
+      "choices": [
+        { "if": "davet", "text": "Yürütmenin durdurulmasını isteyin; Kurul kararının açıkça hukuka aykırı olduğunu ve sözleşmeye davet yazısıyla telafisi güç zararın yakın olduğunu gösterin.", "delta": 20, "set": ["yd"],
+          "law": "İYUK m.27, m.20/A",
+          "reply": [{ "who": "narr", "text": "Kurum'un savunması alındı. Mahkeme, Kurul kararının yürütmesini durdurdu; sözleşme imzalanmadı." }],
+          "note": "Açık hukuka aykırılık ve telafisi güç ya da imkânsız zarar birlikte aranır (İYUK m.27). Sözleşme rakiple imzalanırsa iptal kararının pratik değeri büyük ölçüde kaybolur; davet yazısı zararı somutlaştırıyor." },
+        { "if": "!davet", "text": "Yürütmenin durdurulmasını isteyin; işin başkasına verileceğini genel olarak anlatın.", "delta": 5, "set": ["ydZayif"],
+          "law": "İYUK m.27",
+          "reply": [{ "who": "narr", "text": "Kurum'un savunması alındı. Mahkeme, zararın somut olarak gösterilmediği gerekçesiyle yürütmenin durdurulması isteğini reddetti." }],
+          "note": "İki şart birlikte aranır. Zararın yakın ve somut olduğunu gösteren bir belge olmadan istek zayıf kalır." },
+        { "text": "Yürütmenin durdurulmasını istemeyin; ivedi yargılamada esas karar nasılsa çabuk çıkar.", "delta": -10,
+          "note": "İvedi yargılama hızlıdır ama sözleşme imzalanmasından daha hızlı değildir. Yürütmenin durdurulması, iptal kararının boşa çıkmasını önlemek içindir." }
+      ] },
+    { "side": "p1", "scene": "office", "if": "ydZayif",
+      "lines": [{ "who": "narr", "text": "Yürütmenin durdurulması isteğinin reddi kararı tebliğ edildi. Müvekkil endişeli." }],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        { "text": "Yedi gün içinde Bölge İdare Mahkemesine itiraz edin.", "delta": -10,
+          "law": "İYUK m.20/A",
+          "reply": [{ "who": "narr", "text": "Bölge İdare Mahkemesi itirazı, kanun yolu kapalı olduğu gerekçesiyle inceleme dışı bıraktı." }],
+          "note": "İvedi yargılama usulünde yürütmenin durdurulması istemi hakkında verilen kararlara itiraz edilemez (İYUK m.20/A). Genel usuldeki itiraz yolu burada kapalı." },
+        { "text": "Ret kararını Danıştay'a temyiz edin.", "delta": -10,
+          "reply": [{ "who": "narr", "text": "Danıştay, ara kararın temyiz edilemeyeceği gerekçesiyle dilekçeyi inceleme dışı bıraktı." }],
+          "note": "Yürütmenin durdurulmasına ilişkin karar nihai karar değildir; temyiz yalnızca nihai kararlara karşı açıktır." },
+        { "text": "Kanun yolu yok; esasa odaklanın. Duruşmaya açıklama dosyasını eksiksiz hazırlayın.", "delta": 5, "set": ["odak"],
+          "law": "İYUK m.20/A",
+          "note": "Doğru değerlendirme. İvedi yargılamada mahkeme dosya tamamlandıktan sonra kısa sürede karar verir; en iyi hamle esası güçlendirmektir." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Dilekçenizde duruşma istemiştiniz. Kurum'un savunmasıyla dosya tamamlandı; ivedi usulde ikinci dilekçe yok. Duruşma günü geldi." },
+        { "who": "judge", "text": "İvedi yargılamadayız; açıklamaları kısa tutalım. Davalı Kurum vekili." }
+      ],
+      "statement": { "who": "opp", "text": "Davacı, açıklamasında kendi üretimi olan agrega için meslek mensubunca düzenlenmiş maliyet tespit tutanağı sunmamıştır. Açıklama mevzuata uygun değildir; Kurul kararı hukuka uygundur." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_tutanak"],
+      "hit": { "delta": 25, "set": ["aciklamaOk"],
+        "reply": [{ "who": "judge", "text": "EKAP gönderim kaydı tutanağa geçti. Kurum'dan itirazen şikâyet dosyasının EKAP kayıtlarıyla birlikte eksiksiz gönderilmesini istiyoruz." }],
+        "law": "4734 s.K. m.38",
+        "note": "Kurul'un gerekçesi tek bir olguya dayanıyordu: tutanak sunulmadı. EKAP kaydı, tutanağın açıklamayla aynı gün yüklendiğini gösteriyor. Açıklama, ekleriyle birlikte değerlendirilmeden reddedilmiş." },
+      "responses": {
+        "ev_aciklama": { "delta": 10, "set": ["ekAtif"],
+          "note": "Açıklamada “tutanak ektedir” yazıyor; doğru yöndesiniz. Ama yazıdaki bir atıf, ekin gerçekten sunulduğunu ispatlamaz. Tutanağın kendisi ve EKAP gönderim kaydı gerekiyordu." },
+        "ev_ruhsat": { "delta": 5,
+          "note": "Avantajlı koşulun varlığını gösterir (4734 s.K. m.38). Ama Kurul'un gerekçesi maliyet belgesinin sunulmadığı; ruhsat bu soruya cevap vermiyor." },
+        "law_4734_38": { "delta": 5,
+          "note": "Doğru madde. Ama Kurul'un olgusal tespitini belgeyle çürütmeden kanun maddesi sonuç vermez." },
+        "ev_davet": { "delta": -5, "note": "Davet yazısı zararı gösterir; açıklamanın yeterliliği sorusuna cevap vermez." },
+        "ev_kik": { "delta": -10, "note": "Kurul kararı, karşı tarafın tezini tekrarlıyor." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil Kurum'un beyanını çürütmüyor." },
+      "pass": { "delta": -20, "note": "Kurum'un tespiti cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Davacı vekili, son sözünüz ve isteminiz?" }],
+      "prompt": "Son sözünüz ne olacak?",
+      "choices": [
+        { "text": "Açıklama ekleriyle birlikte değerlendirilmeden reddedilmiştir. Kurul kararının iptalini isteriz.", "delta": 15, "set": ["sonSoz"],
+          "law": "4734 s.K. m.38; İYUK m.2",
+          "note": "Talep iptal davasının sınırları içinde ve Kurul kararının tek gerekçesine yöneliyor." },
+        { "text": "Kurul kararının iptaliyle birlikte ihalenin müvekkil üzerinde bırakılmasına karar verilmesini isteriz.", "delta": -10, "set": ["kendisiVer"],
+          "law": "İYUK m.2/2",
+          "note": "İdari yargı yerleri idari işlem niteliğinde karar veremez (İYUK m.2/2). İptal kararından sonra ne yapılacağına idare karar verir." },
+        { "text": "Rakip firmanın teklifinin de mevzuata aykırı olduğunu ileri sürüyoruz.", "delta": -10,
+          "note": "Dava konusu Kurul kararıdır. Rakip teklifine yönelik iddialar, şikâyet ve itirazen şikâyet süreleri içinde ileri sürülmeliydi; ilk kez duruşmada ileri sürülen yeni bir uyuşmazlık davaya bir şey katmaz." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "aciklamaOk && yd", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu Kamu İhale Kurulu kararının İPTALİNE, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren on beş gün içinde Danıştaya temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, Kurul'un açıklamayı ekindeki maliyet tespit tutanağını görmeden değerlendirdiğini, kararın bu yönüyle hukuka aykırı olduğunu kabul etti. Yürütmenin durdurulması sayesinde sözleşme imzalanmamıştı; belediye ihale sürecine Kurul kararından önceki noktadan devam edecek." },
+        { "if": "yanlisYer", "text": " Yanlış mahkemede açılan dava süreyi korudu, ama ivedi bir dosyada üç hafta kaybettirdi." },
+        { "if": "kendisiVer", "text": " İhalenin müvekkile verilmesi isteği ise yargı yetkisinin sınırı nedeniyle karşılıksız kaldı." }
+      ] },
+    { "if": "aciklamaOk", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu Kamu İhale Kurulu kararının İPTALİNE, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren on beş gün içinde Danıştaya temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, Kurul'un açıklamayı ekindeki maliyet tespit tutanağını görmeden değerlendirdiğini kabul etti." },
+        { "text": " Ama yürütmenin durdurulması kararı alınamadığı için belediye dava sürerken rakip istekliyle sözleşme imzaladı. İptal kararı müvekkili haklı çıkardı; işi geri almak ise artık kolay değil." },
+        { "if": "!davet", "text": " Müvekkile sözleşme aşamasını sorsaydınız, zararı somutlaştıran davet yazısı elinizde olurdu." },
+        { "if": "yanlisYer", "text": " Yanlış mahkemede açılan dava ivedi bir dosyada üç hafta kaybettirdi." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "DAVANIN REDDİNE, kararın tebliğinden itibaren on beş gün içinde Danıştaya temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Kurul'un “maliyet tespit tutanağı sunulmadı” tespiti çürütülemedi; heyet açıklamanın mevzuata uygun olmadığını kabul etti." },
+        { "if": "ekAtif", "text": " Açıklamadaki “ektedir” atfı, tutanağın gerçekten sunulduğunu ispatlamaya yetmedi." },
+        { "if": "!tutanak", "text": " Müvekkile açıklamanın ekinde neler bulunduğunu sorsaydınız, tutanak ve EKAP gönderim kaydı elinizde olurdu." },
+        { "if": "tutanak", "text": " Tutanak ve EKAP gönderim kaydı çantanızdaydı, ama Kurum'un beyanına karşı onları sunmadınız." }
+      ] }
+  ]
+}

@@ -61,6 +61,11 @@ import aileNafakaArtirim from "./aile-nafaka-artirim.json";
 import mirasRed from "./miras-red.json";
 import aileMalRejimi from "./aile-mal-rejimi.json";
 import mirasTenkis from "./miras-tenkis.json";
+import idareDisiplinSavunma from "./idare-disiplin-savunma.json";
+import idareImarParaCezasi from "./idare-imar-para-cezasi.json";
+import vergiSahteFatura from "./vergi-sahte-fatura.json";
+import idareTamYargiCukur from "./idare-tam-yargi-cukur.json";
+import idareIhaleIvedi from "./idare-ihale-ivedi.json";
 
 export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, sozluFesih, uzakAdliye, yargitayDurusma, aihmBuyukDaire, ucmYargilama,
   danistayYonetmelik, danistayAceleKamulastirma, danistayCedBoruHatti, danistayImtiyaz, danistayVergiTeblig,
@@ -100,7 +105,12 @@ export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, soz
   aileNafakaArtirim,
   mirasRed,
   aileMalRejimi,
-  mirasTenkis].map(c => normalizeCase(c as unknown as CaseFile));
+  mirasTenkis,
+  idareDisiplinSavunma,
+  idareImarParaCezasi,
+  vergiSahteFatura,
+  idareTamYargiCukur,
+  idareIhaleIvedi].map(c => normalizeCase(c as unknown as CaseFile));
 export const DUEL_CASES = CASES.filter(c => c.mode === "duel");
 export const SOLO_CASES = CASES.filter(c => c.mode === "solo");
 export const caseById = (id: string) => CASES.find(c => c.id === id)!;

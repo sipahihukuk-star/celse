@@ -1,0 +1,188 @@
+{
+  "id": "idare-imar-para-cezasi",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "orta",
+  "title": "Yazlıktaki Tebligat",
+  "area": "İmar Hukuku · Yıkım kararı ve imar para cezası",
+  "court": "Balıkesir 1. İdare Mahkemesi",
+  "courtShort": "1. İDARE MAHKEMESİ",
+  "esas": "2026/1977 Esas",
+  "kararTarihi": "18.03.2027",
+  "color": "#5b4a36",
+  "teaser": "Belediye yazlığın çatı katı için yıkım kararı ve imar para cezası verdi; tebligat ise kimsenin olmadığı yazlığın adresinde muhtara bırakıldı. Süreyi kurtarın, iki kararı birlikte yıkın.",
+  "sides": { "p1": { "role": "Davacı (malik) vekili", "short": "Siz" }, "p2": { "role": "Davalı belediye", "short": "Davalı belediye" } },
+  "bench": { "judges": 3, "title": "Mahkeme Başkanı ve iki üye" },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Mahkeme Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Okan Taşdelen · Davalı belediye vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#b98a62", "hair": "#141414", "style": "short", "beard": true } },
+    "client": { "name": "Nermin Yalçın · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#eac8a8", "hair": "#a9a9ad", "style": "bun", "glasses": true, "shirt": "#7a4a52", "inner": "#ece6da" } }
+  },
+  "courtCast": ["judge", "you", "opp", "client"],
+  "intro": [
+    { "who": "narr", "text": "Bursa. Büronuza emekli öğretmen Nermin Yalçın geliyor. Balıkesir'in kurgusal kıyı ilçesi Gökliman'da bir yazlığı var; yılın büyük kısmını Bursa'daki evinde geçiriyor." },
+    { "who": "client", "text": "2 Ekim'de e-Devlet'e girdim, belediyeye yüz seksen bin lira borçlu görünüyorum. Aradım: “Çatı katınız kaçak, yıkım kararı da var” dediler. Oysa ben o çatıyı ruhsatla yaptırdım!" },
+    { "who": "narr", "text": "Belediye encümeni 10 Haziran 2026'da iki ayrı karar almış: biri yıkım, biri imar para cezası. Bugün 14 Ekim 2026." }
+  ],
+  "docs": [
+    { "t": "Yapı tatil tutanağı", "d": "28 Mayıs 2026. Çatı katında ruhsat ve eklerine aykırı 38 m² ilave tespit edildiği yazılı; tutanak yapıya asılmış." },
+    { "t": "Encümen kararı no. 412", "d": "10 Haziran 2026. Ruhsata aykırı kısmın yıkımına (3194 s.K. m.32)." },
+    { "t": "Encümen kararı no. 413", "d": "10 Haziran 2026. 3194 s.K. m.42 uyarınca 180.400 TL imar para cezası." },
+    { "t": "Belediyenin tebliğ kaydı", "d": "Her iki karar 17 Haziran 2026'da yazlığın adresinde “muhatap adreste bulunamadı” şerhiyle mahalle muhtarına teslim edilmiş." }
+  ],
+  "evidence": [
+    { "id": "ev_tatil", "type": "belge", "title": "Yapı tatil tutanağı", "desc": "28 Mayıs 2026; çatı katında 38 m² ilave. Belediyenin dayanağı." },
+    { "id": "ev_encumen", "type": "belge", "title": "Encümen kararları (412 ve 413)", "desc": "Yıkım kararı ve 180.400 TL imar para cezası; aynı tespite dayanıyor." },
+    { "id": "ev_mazbata", "type": "belge", "title": "Tebliğ mazbatası", "desc": "17 Haziran 2026; yazlığın adresinde muhtara teslim." },
+    { "id": "ev_tadilat", "type": "belge", "title": "2023 tadilat ruhsatı ve onaylı proje", "desc": "Gökliman Belediyesinin 2023'te verdiği tadilat ruhsatı; onaylı projede çatı katında 38 m² piyes açıkça çizili.", "if": "tadilat" },
+    { "id": "ev_kesif", "type": "beyan", "title": "Keşif ve bilirkişi incelemesi isteği", "desc": "Yapının mahallinde incelenip ruhsat ve eki projeyle karşılaştırılması isteği." },
+    { "id": "law_3194_32", "type": "kanun", "title": "3194 s.K. m.32", "desc": "Ruhsatsız ya da ruhsat ve eklerine aykırı yapılarda mühürleme, aykırılığın giderilmesi için süre ve encümen kararıyla yıkım.", "law": "3194 s.K. m.32" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Dilekçeye başlamadan önce müvekkille konuşuyorsunuz. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Resmî yerleşim yeri adresiniz neresi? Kararları daha önce hiç gördünüz mü?", "delta": 15, "set": ["teblig"],
+          "reply": [{ "who": "client", "text": "Nüfusta adresim on yıldır Bursa. Yazlıkta haziranda kimse yoktu. Hiçbir kâğıt görmedim; 2 Ekim'de e-Devlet'te borcu görünce öğrendim, ekran görüntüsü bende." }],
+          "note": "Kilit soru. Tebliğ, muhatabın yerleşim yeri adresine değil, kimsenin oturmadığı yazlığın adresine yapılmış. Müvekkilin kararları öğrendiği tarih de belli. Bu bilgi süre tartışmasında elinizde." },
+        { "text": "Çatı katını yaptırırken belediyeden bir izin aldınız mı?", "delta": 15, "set": ["tadilat"],
+          "reply": [{ "who": "client", "text": "Aldım tabii! 2023'te tadilat ruhsatı çıkardık, proje de onaylandı. Müteahhit dosyayı bana teslim etti, evde duruyor." }],
+          "note": "Esas için kilit belge. 2023 tadilat ruhsatı ve onaylı proje delil çantanıza eklendi." },
+        { "text": "Para cezasını ödediniz mi?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Hayır. Ödersem kabul etmiş olur muyum?" }],
+          "note": "Ödeme ya da ödememe dava hakkını etkilemez. Ama asıl soru, cezanın ve yıkımın hukuka uygun olup olmadığı." },
+        { "text": "Sizi kim şikâyet etmiş olabilir?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Yan komşu olabilir. Manzarası kapandı diye söyleniyordu." }],
+          "note": "Şikâyetçinin kim olduğu işlemin hukuka uygunluğunu değiştirmez. Sınırlı soru hakkınızı buna harcadınız." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Belediyenin kaydına göre kararlar 17 Haziran'da tebliğ edilmiş. Bu tarihten sayılırsa altmış günlük süre ağustosta dolmuş." },
+        { "who": "client", "text": "Yani artık hiçbir şey yapamaz mıyız?" }
+      ],
+      "prompt": "Dava açma süresi konusunda ne yapacaksınız?",
+      "choices": [
+        { "text": "Tebliğin usulsüz olduğunu ileri sürün; süreyi müvekkilin kararları öğrendiği 2 Ekim'den başlatıp altmış gün içinde dava açın.", "delta": 20, "set": ["sureYol"],
+          "law": "İYUK m.7; 7201 s.K. m.32",
+          "note": "İdare mahkemesinde dava süresi yazılı bildirimden itibaren altmış gündür (İYUK m.7). Tebliğ usulsüzse muhatabın öğrendiğini beyan ettiği tarih tebliğ tarihi sayılır (7201 s.K. m.32). Öğrenme tarihi dilekçede açıkça yazılmalı." },
+        { "text": "Önce belediye encümenine başvurup kararların geri alınmasını isteyin; cevabı bekleyin.", "delta": -5, "set": ["sureYol", "gecikme"],
+          "law": "İYUK m.11",
+          "reply": [{ "who": "narr", "text": "Belediye cevap vermedi; istek reddedilmiş sayıldı. Kalan süre içinde dava açtınız; ama yıkım kararı bu arada uygulanabilir durumdaydı." }],
+          "note": "Süre içinde üst makama ya da işlemi yapan makama başvurmak dava süresini durdurur (İYUK m.11). Hak kaybı olmaz, ama yıkım tehlikesi sürerken dava haftalarca gecikti." },
+        { "text": "Süre ağustosta doldu; dava açmak anlamsız. Yeniden ruhsat başvurusu yapmayı önerin.", "delta": -25,
+          "law": "İYUK m.7; 7201 s.K. m.32",
+          "fatal": { "label": "SONUÇ:", "hukum": "Dava açılmadı. Yıkım kararı ve imar para cezası müvekkil yönünden kesinleşmiş gibi uygulanmaya başlandı; belediye yıkım için ekip görevlendirdi.",
+                     "summary": "Usulsüz tebliğ süreyi başlatmaz; muhatabın öğrendiği tarih tebliğ tarihi sayılır (7201 s.K. m.32). Müvekkil kararları 2 Ekim'de öğrenmişti; dava süresi Aralık başına kadar açıktı. Belediyenin kaydını sorgulamadan süreyi kaçmış saydınız." },
+          "note": "Belediyenin kaydı tebliğin usulüne uygun yapıldığını kendiliğinden ispatlamaz. Usulsüz tebliğde süre, öğrenme tarihinden başlar." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "İki ayrı encümen kararı var: yıkım (no. 412) ve imar para cezası (no. 413). İkisi de aynı yapı tatil tutanağına dayanıyor." }],
+      "prompt": "Davayı nasıl kuracaksınız?",
+      "choices": [
+        { "text": "İki karara tek dilekçeyle dava açın; yıkım kararının yürütmesinin durdurulmasını isteyin.", "delta": 25, "set": ["birlikte", "yd"],
+          "law": "İYUK m.5/1, m.27; 3194 s.K. m.32, m.42",
+          "reply": [{ "who": "narr", "text": "Mahkeme, belediyenin savunmasını aldıktan sonra yıkım kararının yürütmesini durdurdu." }],
+          "note": "Aralarında maddi ya da hukuki bağlılık veya sebep-sonuç ilişkisi bulunan işlemlere tek dilekçeyle dava açılabilir (İYUK m.5/1). Yıkım uygulanırsa telafisi imkânsız bir zarar doğar; yürütmenin durdurulması bu yüzden şart (İYUK m.27)." },
+        { "text": "Önce yalnızca para cezasına dava açın; yıkım kararını sonra düşünürsünüz.", "delta": -15, "set": ["yalnizPara"],
+          "note": "Yıkım kararına süresinde dava açılmazsa o karar yargı denetimi dışında kalır. Para cezası iptal edilse bile yapı yıkılabilir." },
+        { "text": "İki karara ayrı ayrı iki dava açın; yürütmenin durdurulmasını istemeyin.", "delta": 0, "set": ["birlikte"],
+          "law": "İYUK m.5/1",
+          "note": "Ayrı davalar açmak hukuken mümkün, ama gereksiz masraf ve çelişkili karar riski doğurur; bağlantılı işlemler tek dilekçeyle dava edilebilir. Yürütmenin durdurulmasını istememek ise yıkımı engellemiyor." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Belediyenin savunması geldi. İlk itiraz süreye ilişkin." },
+        { "who": "opp", "text": "Kararlar 17 Haziran 2026'da muhtara teslim edilerek tebliğ edilmiştir. Dava süresinde açılmamıştır; davanın süre aşımından reddi gerekir." }
+      ],
+      "prompt": "Savunmaya cevap dilekçenizde süre itirazına nasıl cevap vereceksiniz?",
+      "choices": [
+        { "if": "teblig", "text": "Tebliğ, müvekkilin sürekli oturmadığı yazlığa yapıldı; adreste bulunmama nedeni araştırılmadı, adres kayıt sistemindeki Bursa adresine hiç tebligat çıkarılmadı. Usulsüz tebliğde süre öğrenme tarihinden, 2 Ekim'den başlar. Nüfus kaydını ve e-Devlet ekran görüntüsünü ekleyin.", "delta": 20, "set": ["sureOk"],
+          "law": "7201 s.K. m.10, m.21, m.32",
+          "note": "Muhtara teslim usulü, muhatap o adreste oturduğu hâlde geçici olarak bulunamadığında uygulanır (7201 s.K. m.21); adresten sürekli ayrıldığı anlaşılan muhatap için adres kayıt sistemindeki adres esas alınır (m.10). Usulsüz tebliğde muhatabın öğrendiğini beyan ettiği tarih tebliğ tarihi sayılır (m.32)." },
+        { "if": "!teblig", "text": "Tebliğin usulsüz olduğunu genel olarak ileri sürün; mahkemeden tebliğ evrakını ve müvekkilin adres kaydını getirtmesini isteyin.", "delta": 5, "set": ["sureZayif"],
+          "law": "7201 s.K. m.32; İYUK m.20",
+          "reply": [{ "who": "narr", "text": "Mahkeme, müvekkilin adres kaydını kendiliğinden getirtti ve tebliğin yerleşim yeri dışında yapıldığını gördü." }],
+          "note": "İdari yargıda mahkeme gerekli bilgi ve belgeyi kendiliğinden ister (İYUK m.20). Bu kez sizi kurtardı; ama müvekkile adresini sorsaydınız somut bir cevap dilekçesi verebilirdiniz." },
+        { "text": "Süre geçmiş olsa bile hakkaniyet gereği esasın incelenmesini isteyin.", "delta": -15,
+          "note": "Dava açma süresi hak düşürücüdür; hakkaniyet gerekçesiyle aşılamaz. Bu cevap belediyenin tezini zımnen kabul etmek demek." },
+        { "text": "Süre itirazına hiç değinmeyin; esas yönünden haklı olmanız yeter.", "delta": -15,
+          "note": "Süre, mahkemenin esasa girmeden önce baktığı bir dava şartıdır. Cevapsız bırakılan bir süre itirazı bütün davayı bitirebilir." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Belediye savunmasında duruşma istemişti; mahkeme duruşma günü verdi (İYUK m.17). Salon dolu; müvekkiliniz de arkanızda oturuyor." },
+        { "who": "judge", "text": "Davalı belediye vekili, açıklamalarınızı alalım." },
+        { "who": "opp", "text": "Davacı yazlığını kaçak katla büyütmüş, şimdi de tebligat oyunu oynuyor." },
+        { "who": "client", "text": "Kaçak mı? Ben kimseden bir şey çalmadım! Siz kendi arşivinize bile bakmıyorsunuz!" },
+        { "who": "judge", "text": "Hanımefendi, oturun lütfen. Davacı vekili?" }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        { "text": "Müvekkili sakince yerine oturtun; heyetten kısa bir söz isteyip “kaçak” nitelemesine dosyadaki belgelerle cevap vereceğinizi söyleyin.", "delta": 5, "set": ["sakin"],
+          "law": "İYUK m.31; HMK m.151",
+          "reply": [{ "who": "judge", "text": "Teşekkür ederim. Taraflar dosya üzerinden konuşsun. Devam edin." }],
+          "note": "Duruşma düzenini sağlamak başkanın görevidir; düzeni bozan davranışlara karşı HMK hükümleri uygulanır (İYUK m.31; HMK m.151). Müvekkili yatıştırıp tartışmayı hukuka döndürmek vekilin işidir." },
+        { "text": "Siz de sesinizi yükseltip belediye vekilini müvekkilinizi aşağılamakla suçlayın.", "delta": -10,
+          "reply": [{ "who": "judge", "text": "Davacı vekili, salonda düzeni ben sağlarım. Lütfen sözünüzü dosyaya ilişkin tutun." }],
+          "note": "Heyetin önünde karşı vekille kişisel tartışma güven kaybettirir. Tahrik edici bir söz, tutanağa geçirilmesi istenerek sakin biçimde karşılanır." },
+        { "text": "Müvekkilinizin haklı olduğunu söyleyip onun konuşmaya devam etmesine izin verin.", "delta": -5,
+          "reply": [{ "who": "judge", "text": "Davacı vekili, müvekkilinizi uyarın; aksi hâlde salondan çıkarılmasına karar vermek zorunda kalırım." }],
+          "note": "Duruşma düzenini bozan kişi salondan çıkarılabilir (HMK m.151). Müvekkili korumak, onu bu riske sokmamaktır." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Esasa geçiyoruz. Davalı vekili, yapının durumunu özetleyin." }],
+      "statement": { "who": "opp", "text": "Yapı tatil tutanağına göre çatı katında ruhsat ve eklerine aykırı 38 metrekare ilave vardır. Encümen kararları 3194 sayılı Kanun'a uygundur." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_tadilat"],
+      "hit": { "delta": 25, "set": ["esasOk"],
+        "reply": [{ "who": "judge", "text": "Tadilat ruhsatı ve onaylı projenin belediye arşivindeki asıllarının getirtilmesine, gerekirse mahallinde keşif yapılmasına karar verildi." }],
+        "law": "3194 s.K. m.32, m.42",
+        "note": "Yıkım ve para cezası ancak ruhsatsız ya da ruhsat ve eklerine aykırı yapılar için verilir. Belediyenin kendi verdiği tadilat ruhsatı ve onaylı proje, “aykırılık” denilen 38 m²'nin projede yer aldığını gösteriyor." },
+      "responses": {
+        "ev_kesif": { "delta": 10, "set": ["esasOk", "kesif"],
+          "reply": [{ "who": "judge", "text": "Mahallinde keşif ve bilirkişi incelemesi yapılmasına karar verildi." }],
+          "note": "Doğru bir usul hamlesi: imar uyuşmazlıklarında keşif ve bilirkişi incelemesi yapılır (İYUK m.31). Bilirkişi, belediye arşivinde 2023 tadilat ruhsatını buldu. Ama ruhsatı baştan kendiniz sunsaydınız aylar kazanırdınız." },
+        "ev_tatil": { "delta": -10, "note": "Bu tutanak belediyenin dayanağı; aykırılık iddiasını tekrarlıyor." },
+        "ev_encumen": { "delta": -10, "note": "Kararların kendisi, hukuka aykırılığını göstermiyor." },
+        "ev_mazbata": { "delta": -5, "note": "Tebliğ mazbatası süre tartışmasının konusu; esasa ilişkin beyana cevap vermiyor." },
+        "law_3194_32": { "delta": -5, "note": "Bu madde belediyenin dayanağı. Elinizde ruhsat varsa madde değil belge sunulur." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil aykırılık iddiasını çürütmüyor." },
+      "pass": { "delta": -20, "note": "Aykırılık iddiası cevapsız kaldı." }
+    }
+  ],
+  "outcomes": [
+    { "if": "!sureOk && !sureZayif", "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Davanın SÜRE AŞIMI NEDENİYLE REDDİNE, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Belediyenin süre itirazı cevapsız kaldı ya da hakkaniyet gerekçesiyle karşılandı. Heyet, belediyenin tebliğ kaydını esas aldı." },
+        { "if": "!teblig", "text": " Müvekkile yerleşim yeri adresini ve kararları nasıl öğrendiğini sorsaydınız, tebliğin usulsüz olduğunu somut olarak gösterebilirdiniz (7201 s.K. m.10, m.32)." },
+        { "if": "teblig", "text": " Müvekkilin adres kaydı ve öğrenme tarihi elinizdeydi, ama süre itirazına karşı bunları kullanmadınız." }
+      ] },
+    { "if": "esasOk && yalnizPara", "winner": "draw", "stamp": "KISMİ BAŞARI", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu imar para cezasına ilişkin encümen kararının İPTALİNE, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, çatı katının 2023 tadilat ruhsatına ve onaylı projeye uygun olduğunu kabul edip para cezasını iptal etti." },
+        { "text": " Ancak yıkım kararına dava açılmadığı için o karar bu davanın konusu olmadı; müvekkil, yapısı ruhsata uygun olduğu hâlde yıkım tehdidiyle baş başa kaldı. İki karara tek dilekçeyle dava açılabilirdi (İYUK m.5/1)." }
+      ] },
+    { "if": "esasOk", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu yıkım ve imar para cezasına ilişkin encümen kararlarının İPTALİNE, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, tebliğin usulsüz olduğunu ve davanın öğrenme tarihinden itibaren süresinde açıldığını kabul etti. Esas yönünden, çatı katındaki 38 m²'nin belediyenin kendi verdiği tadilat ruhsatına uygun olduğu anlaşıldı." },
+        { "if": "kesif", "text": " Ruhsat, keşif sırasında bilirkişi tarafından belediye arşivinde bulundu; müvekkile çatıyı nasıl yaptırdığını sorsaydınız dava aylar önce bitebilirdi." },
+        { "if": "yd", "text": " Yürütmenin durdurulması kararı sayesinde yapı dava boyunca korundu." },
+        { "if": "!yd", "text": " Yürütmenin durdurulmasını istemediğiniz için yapı dava boyunca yıkım tehlikesi altında kaldı." },
+        { "if": "gecikme", "text": " Belediyeye önce başvurmanız süreyi korudu, ama davayı haftalarca geciktirdi." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "DAVANIN REDDİNE, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Dava süresinde açılmış sayıldı, ama ruhsata aykırılık iddiası çürütülemedi. Heyet, yapı tatil tutanağındaki tespiti esas aldı." },
+        { "if": "!tadilat", "text": " Müvekkile çatı katını yaptırırken belediyeden izin alıp almadığını sorsaydınız, 2023 tadilat ruhsatı elinizde olurdu." },
+        { "if": "tadilat", "text": " Tadilat ruhsatı çantanızdaydı, ama belediyenin aykırılık iddiasına karşı onu sunmadınız." }
+      ] }
+  ]
+}

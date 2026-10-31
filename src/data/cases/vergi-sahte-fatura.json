@@ -1,0 +1,165 @@
+{
+  "id": "vergi-sahte-fatura",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "orta",
+  "title": "Demirin Yolculuğu",
+  "area": "Vergi Hukuku · Sahte fatura iddiası ve vergi ziyaı cezası",
+  "court": "Kayseri 1. Vergi Mahkemesi",
+  "courtShort": "1. VERGİ MAHKEMESİ",
+  "esas": "2026/2214 Esas",
+  "kararTarihi": "22.04.2027",
+  "color": "#4a5a3a",
+  "teaser": "Satıcı firma “sahte belge düzenleyicisi” ilan edildi; müvekkilin indirimleri reddedildi ve üç kat vergi ziyaı cezası kesildi. Demirin gerçekten geldiğini ispatlayın, ama önce süreyi doğru sayın.",
+  "sides": { "p1": { "role": "Davacı (mükellef) vekili", "short": "Siz" }, "p2": { "role": "Davalı vergi dairesi", "short": "Davalı idare" } },
+  "bench": { "judges": 3, "title": "Mahkeme Başkanı ve iki üye" },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Mahkeme Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Sevgi Karakaya · Davalı vergi dairesi vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#d8a47e", "hair": "#2b1a12", "style": "long" } },
+    "client": { "name": "Kemal Tuncer · Şirket müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#e3b892", "hair": "#5c5c60", "style": "bald", "glasses": true, "shirt": "#2f3d4f", "inner": "#e2ddd0" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Kayseri. Kurgusal Tuncer Yapı Market Ltd. Şti., inşaat demiri ve yapı malzemesi satan orta ölçekli bir işletme. Müdürü Kemal Tuncer ve mali müşaviri büronuzda." },
+    { "who": "client", "text": "2025'te Kızılırmak Metal'den 1,2 milyon liralık demir aldık. Şimdi o firma “sahte fatura düzenleyicisi” çıktı. Bizim indirimlerimizi reddedip üstüne üç kat ceza kestiler. Demir depoya geldi, sattık da!" },
+    { "who": "narr", "text": "Vergi/ceza ihbarnameleri 2 Kasım 2026'da şirketin elektronik tebligat adresine ulaşmış. Bugün 24 Kasım 2026." }
+  ],
+  "docs": [
+    { "t": "Vergi inceleme raporu (davacı hakkında)", "d": "Kızılırmak Metal hakkında düzenlenen vergi tekniği raporuna atıfla, bu firmadan alınan faturaların sahte olduğu kabul edilmiş. Davacı nezdinde mal teslimine ilişkin ayrı bir tespit yok." },
+    { "t": "Vergi tekniği raporu (düzenleyici hakkında)", "d": "Kızılırmak Metal'in adresinde faaliyet bulunmadığı, çok sayıda mükellefe sahte belge düzenlediği yazılı." },
+    { "t": "Vergi/ceza ihbarnameleri", "d": "2025/3–9. dönemler KDV: 236.000 TL vergi, 708.000 TL üç kat vergi ziyaı cezası (VUK m.344/2). Elektronik adrese ulaşma: 2 Kasım 2026." }
+  ],
+  "evidence": [
+    { "id": "ev_rapor", "type": "belge", "title": "Davacı hakkındaki inceleme raporu", "desc": "Yalnızca düzenleyici hakkındaki vergi tekniği raporuna atıf yapıyor; davacının stok, sevk ve ödeme kayıtları incelenmemiş." },
+    { "id": "ev_vtr", "type": "belge", "title": "Düzenleyici hakkındaki vergi tekniği raporu", "desc": "Kızılırmak Metal'in sahte belge düzenleyicisi olduğu tespiti." },
+    { "id": "ev_ihbar", "type": "belge", "title": "Vergi/ceza ihbarnameleri", "desc": "236.000 TL KDV ve 708.000 TL üç kat vergi ziyaı cezası." },
+    { "id": "ev_nakliye", "type": "belge", "title": "Sevk irsaliyeleri, kantar fişleri ve nakliye faturaları", "desc": "Her faturaya karşılık gelen sevk irsaliyesi; bağımsız bir nakliye firmasının faturaları ve organize sanayi kantarının tartım fişleri.", "if": "nakliye" },
+    { "id": "ev_banka", "type": "belge", "title": "Banka ödeme kayıtları ve satış faturaları", "desc": "Bedellerin tamamı Kızılırmak Metal'in hesabına havale edilmiş; aynı demirin şantiyelere satıldığını gösteren satış faturaları ve stok kartları.", "if": "banka" },
+    { "id": "law_vuk3", "type": "kanun", "title": "VUK m.3/B · İspat", "desc": "Vergiyi doğuran olay ve buna ilişkin muamelelerin gerçek mahiyeti esastır; yemin hariç her türlü delille ispatlanabilir. Olağan dışı bir durumu iddia eden ispatla yükümlüdür.", "law": "VUK m.3/B" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Dilekçeye başlamadan önce müdürle konuşuyorsunuz. İki soru sorabilirsiniz." }],
+      "prompt": "Kemal Tuncer'e ne soracaksınız?",
+      "choices": [
+        { "text": "Demir depoya nasıl geldi? Taşımaya ait belge var mı?", "delta": 15, "set": ["nakliye"],
+          "reply": [{ "who": "client", "text": "Her sevkiyat bağımsız bir nakliyeciyle geldi. İrsaliyeler, nakliyecinin faturaları, organize sanayi kantarının tartım fişleri… Hepsi dosyada." }],
+          "note": "Kilit soru. Malın fiilen taşındığını üçüncü kişilerin belgeleriyle gösterebilirsiniz. Belgeler delil çantanıza eklendi." },
+        { "text": "Ödemeleri nasıl yaptınız, demiri kime sattınız?", "delta": 15, "set": ["banka"],
+          "reply": [{ "who": "client", "text": "Hepsi bankadan, firmanın kendi hesabına. Nakit tek kuruş yok. Demiri de üç şantiyeye sattık, faturaları kesildi." }],
+          "note": "Kilit soru. Bedelin satıcıya gerçekten ödendiğini ve malın satışla stoktan çıktığını gösteren kayıtlar delil çantanıza eklendi." },
+        { "text": "Kızılırmak Metal'in sahibini tanıyor musunuz?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Hiç görmedim. Satış temsilcisi gelirdi, fiyatı iyiydi." }],
+          "note": "İyi niyeti anlatmaya yarar, ama mal alımının gerçekliğini ispatlamaz." },
+        { "text": "İnceleme elemanıyla aranız nasıldı?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Soğuktu. Bizi hiç dinlemedi bence." }],
+          "note": "Kişisel izlenimler davaya katkı sağlamaz. Sınırlı soru hakkınızı buna harcadınız." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Mali müşavir bir öneriyle geliyor." },
+        { "who": "client", "text": "Müşavirimiz “Uzlaşma isteyelim, nasılsa dava süresi korunur; bir de raporu ayrıntılı inceleyelim, acele etmeyelim” diyor." }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        { "text": "Tarhiyat VUK m.359'daki fiile dayanıyor; bu durumda tarhiyat sonrası uzlaşma yolu kapalı. Otuz günlük süre içinde Kayseri Vergi Mahkemesinde, duruşma isteğiyle dava açın.", "delta": 20, "set": ["dava", "durusma"],
+          "law": "İYUK m.7/1, m.17; VUK m.107/A, m.359",
+          "note": "Vergi mahkemesinde dava süresi otuz gündür (İYUK m.7/1). Elektronik tebliğ, elektronik adrese ulaştığı tarihi izleyen beşinci günün sonunda yapılmış sayılır (VUK m.107/A): süre 7 Kasım'dan başlar. VUK m.359'daki fiillerle vergi ziyaına sebebiyet verildiği iddiasındaki tarhiyatlar tarhiyat sonrası uzlaşmanın kapsamı dışındadır." },
+        { "text": "Uzlaşma talep edin ve sonucunu bekleyin; dava sonra açılır.", "delta": -10, "set": ["dava", "uzlasma"],
+          "reply": [{ "who": "narr", "text": "Vergi dairesi, tarhiyatın VUK m.359 kapsamındaki bir fiile dayandığını belirterek talebi uzlaşma kapsamı dışında buldu. Cevabı beklerken bir hafta kaybettiniz; dilekçeyi son günlerde yetiştirdiniz." }],
+          "note": "VUK m.359'daki fiillere dayanan tarhiyatlarda tarhiyat sonrası uzlaşma yapılamaz. Kapsam dışı bir talebin dava süresini koruyacağına güvenmek büyük risktir. Uzlaşma sağlansaydı ise üzerinde uzlaşılan vergi ve ceza için dava açılamazdı." },
+        { "text": "Önce vergi dairesine düzeltme başvurusu yapın.", "delta": -10, "set": ["dava"],
+          "law": "VUK m.116 vd.",
+          "reply": [{ "who": "narr", "text": "Vergi dairesi talebi “düzeltme konusu değil” diyerek reddetti. Süre dolmadan dava açtınız." }],
+          "note": "Düzeltme yolu vergi hataları içindir (VUK m.116 vd.). Faturaların sahte olup olmadığı bir hesap ya da vergilendirme hatası değil, değerlendirme uyuşmazlığıdır; yeri vergi mahkemesidir." },
+        { "text": "İdari davalarda süre altmış gündür. Raporu bilirkişiye inceletin, dilekçeyi Aralık sonunda verin.", "delta": -25,
+          "law": "İYUK m.7/1",
+          "fatal": { "label": "HÜKÜM:", "hukum": "Davanın SÜRE AŞIMI NEDENİYLE REDDİNE, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+                     "summary": "Dava açma süresi Danıştay'da ve idare mahkemelerinde altmış, vergi mahkemelerinde otuz gündür (İYUK m.7/1). Elektronik tebliğ 7 Kasım'da tamamlanmıştı; süre 7 Aralık'ta doldu. Tarhiyat ve üç kat ceza kesinleşti." },
+          "note": "Vergi mahkemesinde dava süresi otuz gündür. Altmış günlük genel süre idare mahkemeleri içindir." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Dilekçenin hukuki dayanağını kuruyorsunuz." }],
+      "prompt": "Dilekçenin ana tezi ne olacak?",
+      "choices": [
+        { "text": "Rapor yalnızca düzenleyici hakkındaki vergi tekniği raporuna dayanıyor; müvekkil nezdinde mal alımının gerçekleşmediğine dair somut bir tespit yok. Mal hareketini belgelerle göstereceğiz.", "delta": 20, "set": ["somut"],
+          "law": "VUK m.3/B",
+          "note": "Danıştay'ın yerleşik yaklaşımı: düzenleyicinin sahte belge düzenlediğinin tespiti tek başına yetmez; kullanıcı hakkında, o faturalardaki işlemlerin gerçekleşmediğini gösteren somut tespit gerekir. Gerçek mahiyet her türlü delille ispatlanabilir (VUK m.3/B)." },
+        { "text": "Müvekkil iyi niyetliydi; satıcının sahte belge düzenlediğini bilemezdi.", "delta": 5, "set": ["iyiniyet"],
+          "note": "İyi niyet, ceza yönünden değerlendirilebilecek bir unsur; ama tarhiyatın kaldırılması için asıl soru malın gerçekten alınıp alınmadığıdır." },
+        { "text": "Düzenleyici hakkındaki ceza davasının sonucunun bekletici mesele yapılmasını isteyin.", "delta": -10,
+          "note": "Vergi mahkemesi, vergilendirme işleminin hukuka uygunluğunu kendi önündeki delillerle değerlendirir; ceza yargılamasını beklemek zorunda değildir. Bu talep davayı yalnızca uzatır." },
+        { "text": "Vergi aslını kabul edin; yalnızca üç kat cezanın kaldırılmasını isteyin.", "delta": -10, "set": ["kabul"],
+          "note": "Mal alımı gerçekse indirim reddi de hukuka aykırıdır. Vergi aslından vazgeçmek, elinizdeki en güçlü argümanı bırakmak demek." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Dilekçenizdeki istem üzerine mahkeme duruşma yaptı (İYUK m.17).", "if": "durusma" },
+        { "who": "narr", "text": "Vergi dairesi savunmasında duruşma istedi; mahkeme duruşma günü verdi (İYUK m.17).", "if": "!durusma" },
+        { "who": "judge", "text": "Davalı idare vekili, savunmanızı özetleyin." }
+      ],
+      "statement": { "who": "opp", "text": "Kızılırmak Metal'in sahte belge düzenleyicisi olduğu vergi tekniği raporuyla sabittir. Bu firmadan mal alındığı ispatlanamamıştır. İndirimlerin reddi ve üç kat ceza yerindedir." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_nakliye", "ev_banka"],
+      "hit": { "delta": 25, "set": ["malNet"],
+        "reply": [{ "who": "judge", "text": "Sunulan belgelerin asıllarının ve nakliye firmasının kayıtlarının getirtilmesine karar verildi." }],
+        "law": "VUK m.3/B",
+        "note": "Mal hareketi üçüncü kişilerin belgeleri ve banka kayıtlarıyla somut olarak gösterildi. Düzenleyicinin genel durumu, bu somut işlemin gerçekleşmediğini ispatlamaz." },
+      "responses": {
+        "ev_rapor": { "delta": 10, "set": ["raporArg"],
+          "note": "Doğru tespit: raporda davacı nezdinde somut bir inceleme yok. Ama malın gerçekten geldiğini gösteren belgeleri sunsaydınız iddia tamamen çökerdi." },
+        "law_vuk3": { "delta": 5, "set": ["raporArg"],
+          "note": "Doğru ilke. Ama gerçek mahiyeti ispat edecek belge sunmadınız." },
+        "ev_vtr": { "delta": -10, "note": "Bu rapor idarenin tezini destekliyor." },
+        "ev_ihbar": { "delta": -10, "note": "İhbarnameler tarhiyatın kendisi; beyana cevap vermiyor." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil beyanı çürütmüyor." },
+      "pass": { "delta": -20, "note": "İdarenin iddiası cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Davacı vekili, ispat için başka bir isteminiz var mı?" }],
+      "prompt": "Ne isteyeceksiniz?",
+      "choices": [
+        { "text": "Nakliye firmasının ve organize sanayi kantarının kayıtlarının mahkemece getirtilmesini isteyin.", "delta": 15, "set": ["arastirma"],
+          "law": "İYUK m.20",
+          "note": "Mahkeme, davayla ilgili her türlü bilgi ve belgeyi kendiliğinden ister (İYUK m.20). Üçüncü kişilerin resmî kayıtları, mal hareketinin en güvenilir teyididir." },
+        { "text": "Nakliyeci şoförün tanık olarak dinlenmesini isteyin.", "delta": 5,
+          "law": "VUK m.3/B",
+          "note": "Vergiyi doğuran olayla ilgisi tabii ve açık bulunmayan şahit ifadesi ispat vasıtası olarak kullanılamaz (VUK m.3/B). Şoförün ifadesi belgelerle desteklenirse işe yarar; tek başına zayıftır." },
+        { "text": "İnceleme elemanının taraflı davrandığını ileri sürün.", "delta": -10,
+          "note": "Somut dayanağı olmayan kişisel bir suçlama heyetin dikkatini asıl meseleden uzaklaştırır." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "malNet && somut && !kabul", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu katma değer vergisi ile üç kat vergi ziyaı cezasının KALDIRILMASINA, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, inceleme raporunun davacı nezdinde somut bir tespit içermediğini, mal hareketinin ise sevk, nakliye ve ödeme belgeleriyle ispatlandığını kabul etti (VUK m.3/B)." },
+        { "if": "arastirma", "text": " Getirtilen nakliye ve kantar kayıtları belgeleri teyit etti." },
+        { "if": "uzlasma", "text": " Kapsam dışı uzlaşma talebi yüzünden süre neredeyse kaçıyordu." }
+      ] },
+    { "if": "somut && raporArg && !kabul", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu katma değer vergisi ile üç kat vergi ziyaı cezasının KALDIRILMASINA, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, tarhiyatın yalnızca düzenleyici hakkındaki rapora dayandığını, davacı nezdinde faturalardaki işlemlerin gerçekleşmediğine ilişkin somut bir tespit bulunmadığını kabul etti." },
+        { "if": "!nakliye && !banka", "text": " Yine de dosya ince bir çizgide kazanıldı: müvekkile malın nasıl taşındığını ya da ödendiğini sorsaydınız, mal hareketini belgeyle de ispatlayabilirdiniz." },
+        { "if": "nakliye || banka", "text": " Mal hareketini gösteren belgeler çantanızdaydı; onları sunsaydınız karar çok daha sağlam bir gerekçeye dayanırdı." }
+      ] },
+    { "if": "kabul && (malNet || raporArg)", "winner": "draw", "stamp": "KISMİ BAŞARI", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu üç kat vergi ziyaı cezasının KALDIRILMASINA, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": "Heyet, mal alımının gerçek olmadığının ispatlanamadığını kabul edip cezayı kaldırdı. Ama vergi aslını dava konusu etmediğiniz için 236.000 TL'lik tarhiyat kesinleşti. Aynı gerekçe indirim reddini de ortadan kaldırırdı." },
+    { "if": "malNet && !kabul", "winner": "draw", "stamp": "KISMİ BAŞARI", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Davanın KISMEN KABULÜ ile sevk ve ödeme belgeleriyle teyit edilen faturalara isabet eden vergi ve cezanın KALDIRILMASINA, belgelerle desteklenemeyen iki faturaya isabet eden kısım yönünden davanın REDDİNE, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": "Heyet, tarhiyatın büyük kısmını kaldırdı. Ama dilekçeniz raporun davacı nezdinde somut tespit içermemesi üzerine kurulmadığı için heyet ispat yükünü her fatura yönünden davacıda gördü; belgesi eksik iki fatura için tarhiyat ayakta kaldı." },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "DAVANIN REDDİNE, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, mal alımının gerçekliği ispatlanamadığı için indirim reddini ve üç kat vergi ziyaı cezasını hukuka uygun buldu." },
+        { "if": "kabul", "text": " Vergi aslını kabul etmeniz, mal alımının gerçek olduğu tezini kendi elinizle zayıflattı." },
+        { "if": "!nakliye && !banka", "text": " Müvekkile malın nasıl taşındığını ya da bedelin nasıl ödendiğini sorsaydınız, elinizde mal hareketini gösteren belgeler olurdu." },
+        { "if": "nakliye || banka", "text": " Mal hareketini gösteren belgeler çantanızdaydı, ama idarenin iddiasına karşı onları sunmadınız." }
+      ] }
+  ]
+}
