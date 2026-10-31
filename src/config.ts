@@ -5,6 +5,9 @@ export const SUPABASE_ANON_KEY = "sb_publishable_Q4-NnTAvRCcATNHc-LLogA_iXkjpV2v
 
 export const serverReady = () => !!SUPABASE_URL && !!SUPABASE_ANON_KEY;
 
+/** Supabase'deki seslendirme fonksiyonunun adresi (panelden kurulurken verilen ad). */
+export const TTS_FUNCTION = "bright-action";
+
 /** Bulut seslendirme (Google Cloud Text-to-Speech) için karakter sesleri. Supabase "seslendir" fonksiyonu
  *  GOOGLE_TTS_KEY ile kurulunca kullanılır; ses adı bulunamazsa fonksiyon WaveNet sesine düşer. */
 export const CLOUD_VOICES = {
