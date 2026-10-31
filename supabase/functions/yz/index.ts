@@ -23,8 +23,13 @@ async function ask(model: string, system: string, user: string, maxTokens: numbe
   const data = await r.json();
   const text = (data.content || []).map((p: { text?: string }) => p.text || "").join("");
   const a = text.indexOf("{"), z = text.lastIndexOf("}");
-  if (a < 0 || z <= a) throw new Error("biçim");
-  return JSON.parse(text.slice(a, z + 1));
+  if (a >= 0 && z > a) {
+    try { return JSON.parse(text.slice(a, z + 1)); } catch (_e) { /* aşağıda kurtarmayı dene */ }
+  }
+  // Kurtarma: model JSON dışında yazdıysa ya da kesildiyse puanı metinden çek.
+  const sm = text.match(/score[^0-9]{0,6}([0-9]{1,3})/i);
+  if (sm) return { score: Number(sm[1]), feedback: text.replace(/[{}"]/g, "").slice(0, 500) };
+  throw new Error("biçim: " + text.slice(0, 160));
 }
 
 const NL = String.fromCharCode(10);
@@ -50,7 +55,7 @@ async function puan(b: Record<string, unknown>) {
     b.ornek ? "Örnek iyi cevap: " + cut(b.ornek, 2000) : "",
     "Oyuncunun cevabı:" + NL + Q3 + cevap + Q3
   ].filter(Boolean).join(NL + NL);
-  const out = await ask("claude-haiku-5-5", system, user, 400);
+  const out = await ask("claude-haiku-5-5", system, user, 1200);
   return { score: Math.max(0, Math.min(100, Math.round(Number(out.score) || 0))), feedback: cut(out.feedback, 600) };
 }
 
