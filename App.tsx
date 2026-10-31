@@ -103,8 +103,8 @@ export default function App() {
         )}
         {route.k === "list" && (
           <CaseListScreen mode={route.mode} cases={route.mode === "duel" ? cases.duel : cases.solo}
-            lockedNote={c => c.mode === "duel" ? (premium ? undefined : "Yıllık abonelikle açılır")
-              : lockOf.get(c.id) === "premium" ? "Yıllık abonelikle açılır"
+            lockedNote={c => c.mode === "duel" ? (premium ? undefined : "Abonelikle açılır")
+              : lockOf.get(c.id) === "premium" ? "Abonelikle açılır"
               : !c.career?.off && !careerOpen.has(c.id) ? `Kariyerde açılır · ${CHAPTERS[levelOf(c) - 1].title}` : undefined}
             onLocked={c => { if (c.mode === "duel" || lockOf.get(c.id) === "premium") setRoute({ k: "paywall", back: "list", mode: c.mode }); }}
             onBack={() => setRoute({ k: "title" })}

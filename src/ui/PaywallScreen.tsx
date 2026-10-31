@@ -1,7 +1,7 @@
 // Abonelik ekranı. Ödeme altyapısı (App Store / Google Play aboneliği, web'de iyzico) bağlanınca "Abone ol" çalışır.
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { FREE_CASES, PRICE_LABEL, usePremium } from "../data/subscription";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FREE_CASES, PLANS, tl, usePremium } from "../data/subscription";
 import { Btn } from "./kit";
 import { C, F } from "./theme";
 
@@ -15,17 +15,18 @@ const BENEFITS = [
 export default function PaywallScreen({ onBack }: { onBack: () => void }) {
   const { premium, until } = usePremium();
   const [msg, setMsg] = useState("");
+  const [plan, setPlan] = useState<string>("yillik");
   return (
     <ScrollView contentContainerStyle={s.wrap}>
       <View style={s.head}>
         <Btn kind="ghost" label="‹ Geri" onPress={onBack} />
       </View>
-      <Text style={s.eyebrow}>CELSE · YILLIK ABONELİK</Text>
+      <Text style={s.eyebrow}>CELSE · ABONELİK</Text>
       <Text style={s.title}>{premium ? "Aboneliğiniz etkin" : "Kürsüye devam edin"}</Text>
       <Text style={s.sub}>
         {premium
           ? until ? `Aboneliğiniz ${until.toLocaleDateString("tr-TR")} tarihine kadar geçerli.` : "Bu oturumda bütün içerik açık."
-          : `İlk ${FREE_CASES} dava ücretsiz. Yıllık abonelikle oyunun tamamı açılır.`}
+          : `İlk ${FREE_CASES} dava ücretsiz. Abonelikle oyunun tamamı açılır.`}
       </Text>
       <View style={s.card}>
         {BENEFITS.map(([t, d]) => (
@@ -39,10 +40,20 @@ export default function PaywallScreen({ onBack }: { onBack: () => void }) {
         ))}
         {!premium && (
           <>
-            <Text style={s.price}>{PRICE_LABEL || "Fiyat yakında açıklanacak"}</Text>
-            <Btn label="Yıllık abone ol" onPress={() => setMsg("Ödeme sistemi kurulum aşamasında. Abonelik çok yakında açılacak.")} />
+            <View style={s.plans}>
+              {PLANS.map(p => (
+                <Pressable key={p.id} accessibilityRole="radio" accessibilityState={{ checked: plan === p.id }} onPress={() => setPlan(p.id)}
+                  style={[s.plan, plan === p.id && s.planOn]}>
+                  {"best" in p && p.best && <Text style={s.badge}>EN AVANTAJLI</Text>}
+                  <Text style={s.planLabel}>{p.label}</Text>
+                  <Text style={s.price}>{tl(p.price)}<Text style={s.per}> / {p.per}</Text></Text>
+                  <Text style={s.planNote}>{p.note}</Text>
+                </Pressable>
+              ))}
+            </View>
+            <Btn label={plan === "yillik" ? "Yıllık abone ol" : "Aylık abone ol"} onPress={() => setMsg("Ödeme sistemi kurulum aşamasında. Abonelik çok yakında açılacak.")} />
             {!!msg && <Text style={s.msg}>{msg}</Text>}
-            <Text style={s.fine}>Telefonda App Store ya da Google Play hesabınızdan, web'de kartla ödenir. Abonelik hesabınıza bağlanır; bütün cihazlarda geçerlidir. Yenilemeyi istediğiniz zaman kapatabilirsiniz.</Text>
+            <Text style={s.fine}>Fiyatlara KDV dahildir. Telefonda App Store ya da Google Play hesabınızdan, web'de kartla ödenir. Abonelik dönem sonunda kendiliğinden yenilenir; yenilemeyi istediğiniz zaman kapatabilirsiniz. Abonelik hesabınıza bağlanır ve bütün cihazlarda geçerlidir.</Text>
           </>
         )}
       </View>
@@ -61,7 +72,14 @@ const s = StyleSheet.create({
   tick: { fontFamily: F.bodyBold, fontSize: 18, color: C.brass, width: 20 },
   itemT: { fontFamily: F.bodyBold, fontSize: 17, color: C.text },
   itemD: { fontFamily: F.body, fontSize: 15, color: C.textSoft },
-  price: { fontFamily: F.display, fontSize: 24, color: C.text, marginTop: 6 },
+  plans: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginTop: 6 },
+  plan: { flexGrow: 1, flexBasis: 200, borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 14, gap: 2, backgroundColor: C.panel2 },
+  planOn: { borderColor: C.brass, backgroundColor: "rgba(208,166,76,0.12)" },
+  badge: { alignSelf: "flex-start", fontFamily: F.mono, fontSize: 10, letterSpacing: 1, color: C.brassInk, backgroundColor: C.brass, borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2, marginBottom: 4 },
+  planLabel: { fontFamily: F.bodyBold, fontSize: 16, color: C.text },
+  price: { fontFamily: F.display, fontSize: 26, color: C.text },
+  per: { fontFamily: F.body, fontSize: 15, color: C.muted },
+  planNote: { fontFamily: F.body, fontSize: 13, color: C.textSoft },
   msg: { fontFamily: F.bodyMed, fontSize: 15, color: C.brass },
   fine: { fontFamily: F.body, fontSize: 13, color: C.muted }
 });

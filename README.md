@@ -109,7 +109,7 @@ Oyun ekranındaki 🔊 düğmesiyle açılır. Satırlar, sorular ve geri bildir
 - **Ücretsiz kısım:** Kariyer sırasındaki ilk 5 dava (`FREE_CASES`, `src/data/subscription.ts`). Diğer bütün davalar ve karşılıklı duruşma abonelikle açılır; kilitli davaya basınca abonelik ekranı çıkar.
 - **Abonelik kaydı:** Supabase `abonelikler` tablosu (`bitis`, `kaynak`). Oyuncu yalnızca okuyabilir; satırları ödeme bildirimleri yazar: telefonda App Store / Google Play (RevenueCat üzerinden), web'de iyzico.
 - **İçerik denetimi:** Yönetim paneline PIN ile girildiğinde o oturumda bütün içerik açılır.
-- **Fiyat:** `PRICE_LABEL` boşken ekranda "Fiyat yakında açıklanacak" yazar.
+- **Fiyat (KDV dahil):** Yıllık 5.000 TL, aylık 520 TL (`PLANS`). Yıllık plan 12 aylık ödemeye göre yaklaşık %20 avantajlıdır.
 
 ## Yeni dava ekleme (kod yoluyla)
 

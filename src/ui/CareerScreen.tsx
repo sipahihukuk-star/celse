@@ -30,7 +30,7 @@ export default function CareerScreen({ view, onBack, onPick, onReset, onPaywall,
       {!premium && (
         <Pressable accessibilityRole="button" onPress={onPaywall} style={s.promo}>
           <Text style={s.promoT}>İlk 5 dava ücretsiz.</Text>
-          <Text style={s.promoD}>Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne, AİHM'e ve karşılıklı duruşmaya yıllık abonelikle devam edin ›</Text>
+          <Text style={s.promoD}>Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne, AİHM'e ve karşılıklı duruşmaya abonelikle devam edin · yıllık 5.000 TL ›</Text>
         </Pressable>
       )}
       <View style={{ gap: 18, marginTop: 22 }}>

@@ -5,8 +5,12 @@ import { useEffect, useState } from "react";
 import { currentAccount, onAccountChange, supabase } from "./account";
 
 export const FREE_CASES = 5;
-/** Fiyat netleşince yazılacak (ör. "₺ 999 / yıl"). */
-export const PRICE_LABEL = "";
+/** Planlar (KDV dahil). Yıllık plan, 12 aylık ödemeye göre yaklaşık %20 avantajlıdır: 12 × 520 = 6.240 TL yerine 5.000 TL. */
+export const PLANS = [
+  { id: "yillik", label: "Yıllık", price: 5000, per: "yıl", note: "Aylık yaklaşık 417 TL · %20 avantajlı", best: true },
+  { id: "aylik", label: "Aylık", price: 520, per: "ay", note: "İstediğiniz zaman iptal" }
+] as const;
+export const tl = (n: number) => `${n.toLocaleString("tr-TR")} TL`;
 
 let premiumUntil: Date | null = null;
 let adminPreview = false;
