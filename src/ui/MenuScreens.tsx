@@ -38,6 +38,7 @@ export function TitleScreen({ onCareer, onOffice, office, onDuel, onSolo, onAdmi
         </View>
         <Text style={styles.eyebrow}>BİR AVUKATLIK OYUNU</Text>
         <Text style={[styles.logo, { fontSize: wide ? 128 : 84, lineHeight: wide ? 120 : 82 }]}>Celse</Text>
+        <Text style={styles.byline}>BY THEMISCODE</Text>
         <Text style={styles.lede}>Genç bir avukat olarak sulh ve asliye mahkemelerinde başlayın; davaları kazandıkça Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne ve Strazburg'a yükselin.</Text>
         <View style={styles.facts}>
           <Text style={styles.fact}><Text style={styles.factB}>{duelCount}</Text> karşılıklı dava</Text>
@@ -198,6 +199,7 @@ const styles = StyleSheet.create({
   accRow: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 14, marginBottom: 6 },
   accHello: { fontFamily: F.bodyMed, fontSize: 15, color: C.textSoft },
   accLink: { fontFamily: F.mono, fontSize: 12, letterSpacing: 1, color: C.brass },
+  byline: { fontFamily: F.monoBold, fontSize: 12, letterSpacing: 4, color: C.brassDim, marginTop: -2, marginBottom: 6 },
   careerCard: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: C.brass, borderRadius: 10, paddingHorizontal: 18, paddingVertical: 14, marginBottom: 12, maxWidth: 480 },
   officeCard: { flexDirection: "row", alignItems: "center", gap: 12, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 10, marginTop: 8 },
   officeT: { fontFamily: F.displayMed, fontSize: 19, color: C.text },

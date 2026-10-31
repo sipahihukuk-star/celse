@@ -13,7 +13,17 @@ export type Phase =
   | { k: "feedback"; step: number }
   | { k: "done" };
 
-interface Flow { game: GameState; phase: Phase; scene: Scene; lastSide: Side | null }
+interface Flow { game: GameState; phase: Phase; scene: Scene; lastSide: Side | null; called?: boolean }
+
+/** Mübaşirin çağrısı: "2026/566 esas sayılı dosyanın tarafları, İzmir 4. İş Mahkemesi duruşma salonuna!" */
+export function mubasirLine(c: CaseFile): Line {
+  const esas = (c.esas || "").replace(/\s*Esas$/i, "");
+  if (c.room === "uluslararasi" || /İnsan Hakları|Uluslararası/.test(c.court)) return { who: "mubasir", text: "Mahkeme! Lütfen ayağa kalkın." };
+  const yuksek = /Yargıtay|Danıştay|Sayıştay|Anayasa/.test(c.court);
+  return { who: "mubasir", text: yuksek
+    ? `${esas} esas sayılı dosyada duruşma başlıyor. Taraf vekilleri salona!`
+    : `${esas} esas sayılı dosyanın tarafları, ${c.court} duruşma salonuna!` };
+}
 
 export const LETTERS = "ABCDEFGH";
 
@@ -44,7 +54,10 @@ export function useCourt(c: CaseFile, players: Record<Side, Player>, onFinish: (
     // Süren bir müvekkil görüşmesine dönülüyorsa giriş satırları tekrar oynatılmaz.
     if (idx === cur.game.stepIdx) return toTurn(cur, idx);
     const st = c.steps[idx];
-    return toLines({ ...cur, scene: st.scene }, linesOf(st.lines, cur.game.flags), { k: "turn", step: idx });
+    let lines = linesOf(st.lines, cur.game.flags);
+    // Duruşma salonuna ilk girişte mübaşir dosyayı ve tarafları çağırır.
+    if (st.scene === "court" && cur.scene !== "court" && !cur.called) lines = [mubasirLine(c), ...lines];
+    return toLines({ ...cur, scene: st.scene, called: cur.called || st.scene === "court" }, lines, { k: "turn", step: idx });
   };
   const resolveAfter = (cur: Flow, after: After): Flow => {
     if (after.k === "docs") return { ...cur, phase: { k: "docs" } };

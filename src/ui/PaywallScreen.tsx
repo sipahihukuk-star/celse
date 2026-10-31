@@ -74,7 +74,7 @@ const s = StyleSheet.create({
   itemD: { fontFamily: F.body, fontSize: 15, color: C.textSoft },
   plans: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginTop: 6 },
   plan: { flexGrow: 1, flexBasis: 200, borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 14, gap: 2, backgroundColor: C.panel2 },
-  planOn: { borderColor: C.brass, backgroundColor: "rgba(208,166,76,0.12)" },
+  planOn: { borderColor: C.brass, backgroundColor: "rgba(255,255,255,0.10)" },
   badge: { alignSelf: "flex-start", fontFamily: F.mono, fontSize: 10, letterSpacing: 1, color: C.brassInk, backgroundColor: C.brass, borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2, marginBottom: 4 },
   planLabel: { fontFamily: F.bodyBold, fontSize: 16, color: C.text },
   price: { fontFamily: F.display, fontSize: 26, color: C.text },

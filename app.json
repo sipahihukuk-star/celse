@@ -24,9 +24,9 @@
       "favicon": "./assets/favicon.png",
       "output": "single",
       "name": "Celse",
-      "backgroundColor": "#161c22",
+      "backgroundColor": "#1c0a0f",
       "themeColor": "#161c22"
     },
-    "backgroundColor": "#161c22"
+    "backgroundColor": "#1c0a0f"
   }
 }

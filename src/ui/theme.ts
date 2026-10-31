@@ -1,12 +1,14 @@
-// Görsel kimlik: gece duruşma salonu — arduvaz duvar, ceviz lambri, pirinç terazi.
+// Görsel kimlik (Themiscode): bordo ve beyaz. Koyu bordo zemin, beyaz yazı ve vurgular, bordo mürekkep.
+// Anahtar adları tarihseldir ("brass" artık beyaz vurgu rengidir).
 export const C = {
-  wall: "#2a333d", wallDeep: "#161c22", wallHi: "#3a4652",
+  wall: "#3a1520", wallDeep: "#1c0a0f", wallHi: "#4d1c2a",
   office: "#2c3631", officeHi: "#3b4a42", officeDeep: "#171d1a",
   wood: "#5c3b29", woodDeep: "#38231a", woodHi: "#80543a",
-  brass: "#d0a64c", brassDim: "#8f7436", brassInk: "#2a1f0c",
+  brass: "#fbf4f5", brassDim: "#c79aa3", brassInk: "#7b1e2e",
   paper: "#e9e8e1", paperHi: "#f8f7f2", ink: "#1d2127", inkSoft: "#575d64", rule: "#c9c7bd",
-  text: "#ece8dd", textSoft: "#d4d0c4", muted: "#a2aab1",
-  panel: "#141a20", panel2: "#1c242c", line: "#2f3b46",
+  text: "#ffffff", textSoft: "#efe2e4", muted: "#c4a9ae",
+  panel: "#2a1018", panel2: "#371621", line: "#55283a",
+  bordo: "#8c1d2f", bordoHi: "#a8293d",
   good: "#4fae7c", bad: "#d65a45", mid: "#d0a64c",
   p1: "#7db3e3", p2: "#eb9a62", p1Ink: "#255f96", p2Ink: "#a44c17",
   hakim: "#8f1d24", avukat: "#1f6b47", robe: "#15161a", shirt: "#f0eee6", mouth: "#5b2622",

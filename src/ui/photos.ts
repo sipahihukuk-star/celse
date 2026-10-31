@@ -38,5 +38,13 @@ export const PHOTOS = {
   "ul-kadin-aihm2": { src: require("../../assets/gercek/ul-kadin-aihm2.webp"), w: 400, h: 515 },
   "ul-kadin-ucm": { src: require("../../assets/gercek/ul-kadin-ucm.webp"), w: 400, h: 496 },
   "ul-kadin-ucm2": { src: require("../../assets/gercek/ul-kadin-ucm2.webp"), w: 400, h: 513 },
+  "mubasir": { src: require("../../assets/gercek/mubasir.webp"), w: 372, h: 512 },
+  "katip": { src: require("../../assets/gercek/katip.webp"), w: 369, h: 512 },
+  "mubasir-kadin": { src: require("../../assets/gercek/mubasir-kadin.webp"), w: 322, h: 512 },
+  "mubasir-genc": { src: require("../../assets/gercek/mubasir-genc.webp"), w: 380, h: 512 },
+  "mubasir-yasli": { src: require("../../assets/gercek/mubasir-yasli.webp"), w: 398, h: 512 },
+  "katip-erkek": { src: require("../../assets/gercek/katip-erkek.webp"), w: 402, h: 512 },
+  "katip-kadin-45": { src: require("../../assets/gercek/katip-kadin-45.webp"), w: 393, h: 512 },
+  "katip-erkek-45": { src: require("../../assets/gercek/katip-erkek-45.webp"), w: 398, h: 512 },
 } as const;
 export type PhotoKey = keyof typeof PHOTOS;

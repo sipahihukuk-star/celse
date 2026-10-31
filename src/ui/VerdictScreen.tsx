@@ -113,7 +113,7 @@ function Meta({ k, v }: { k: string; v: string }) {
 }
 
 const styles = StyleSheet.create({
-  notice: { width: "100%", marginTop: 16, borderWidth: 1, borderColor: C.brass, backgroundColor: "rgba(208,166,76,0.12)", borderRadius: 8, padding: 14, gap: 4 },
+  notice: { width: "100%", marginTop: 16, borderWidth: 1, borderColor: C.brass, backgroundColor: "rgba(255,255,255,0.10)", borderRadius: 8, padding: 14, gap: 4 },
   noticeK: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.brass },
   noticeText: { fontFamily: F.bodyMed, fontSize: 17, color: C.text },
   wrap: { width: "100%", maxWidth: 800, alignSelf: "center", paddingHorizontal: 16, paddingVertical: 20 },

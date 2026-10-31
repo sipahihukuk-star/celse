@@ -182,7 +182,7 @@ const s = StyleSheet.create({
   hNote: { fontFamily: F.body, fontSize: 14, color: C.muted },
   avatars: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
   avatar: { alignItems: "center", borderWidth: 1, borderColor: C.line, borderRadius: 10, paddingTop: 8, paddingBottom: 6, paddingHorizontal: 6, backgroundColor: C.panel },
-  on: { borderColor: C.brass, backgroundColor: "rgba(208,166,76,0.14)" },
+  on: { borderColor: C.brass, backgroundColor: "rgba(255,255,255,0.11)" },
   avLabel: { fontFamily: F.mono, fontSize: 11, color: C.textSoft, marginTop: 4 },
   input: { borderWidth: 1, borderColor: C.line, borderRadius: 8, backgroundColor: C.panel, color: C.text, fontFamily: F.body, fontSize: 17, paddingHorizontal: 12, paddingVertical: 10 },
   cities: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 8 },

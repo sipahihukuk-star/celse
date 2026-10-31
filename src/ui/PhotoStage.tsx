@@ -43,6 +43,12 @@ function roomOf(c: CaseFile) {
 
 /** Görüşme odası (bg-gorusme, 1280×716): masanın uzak kenarı ve müvekkilin yeri. */
 const DESK = { edge: 467, clientX: 632, clientBottom: 520, clientH: 430 };
+/** Yerel salonda zabıt kâtibinin masası (hâkimin önündeki bilgisayarlı masa, bg-yerel 1280×716). */
+const KATIP_DESK = { x0: 470, x1: 800, top: 413, bottom: 492, sitX: 742, sitBottom: 462, h: 168 };
+
+/** Mahkemeye göre değişen mübaşir ve kâtip yüzleri. */
+const MUBASIR = ["mubasir", "mubasir-kadin", "mubasir-genc", "mubasir-yasli"] as const;
+const KATIP = ["katip", "katip-erkek", "katip-kadin-45", "katip-erkek-45"] as const;
 
 interface Fig { key: string; photo: PhotoKey; flip?: boolean; x: number; bottom: number; h: number; z: number; front?: boolean }
 
@@ -79,6 +85,11 @@ export function cast(c: CaseFile, avatar?: Avatar | null) {
     map.p1 = mine;
     used.add(mine);
   }
+  // Mübaşir ve kâtip dosyanın mahkemesine göre seçilir: aynı mahkemede hep aynı kişiler, başka mahkemede başkaları.
+  const pool = <T extends readonly string[]>(arr: T) => arr.filter(k => k in PHOTOS) as unknown as PhotoKey[];
+  const mubs = pool(MUBASIR), kats = pool(KATIP);
+  if (mubs.length) map.mubasir = mubs[hash(c.court + "mub") % mubs.length];
+  if (kats.length) map.katip = kats[hash(c.court + "kat") % kats.length];
   return map;
 }
 
@@ -140,6 +151,12 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
       const k = isP ? faces.judge : others[mi % others.length];
       figs.push({ key: isP ? "judge" : `judge_${i}`, photo: k, flip: !isP && Math.floor(mi / others.length) % 2 === 1, x, bottom: H - Y(room.bench.y) - room.bench.h * s * 0.06, h: room.bench.h * s * (isP ? 1.06 : crowd), z: 1 });
     });
+    // Zabıt kâtibi: hâkimin önündeki bilgisayarlı masada oturur (masanın önü ayrıca üstüne çizilir).
+    if (room === ROOM.yerel && faces.katip) {
+      figs.push({ key: "katip", photo: faces.katip, x: X(KATIP_DESK.sitX), bottom: H - Y(KATIP_DESK.sitBottom), h: KATIP_DESK.h * s, z: 1 });
+    }
+    // Mübaşir yalnızca tarafları çağırırken öne çıkar.
+    if (focus === "mubasir" && faces.mubasir) figs.push({ key: "mubasir", photo: faces.mubasir, x: W * 0.5, bottom: 0, h: H * 0.62, z: 6, front: true });
     if (!duel && n === 1 && c.courtCast?.includes("pros") && room.pros && faces.pros) {
       figs.push({ key: "pros", photo: faces.pros, x: X(room.pros.x), bottom: H - Y(room.pros.y), h: room.pros.h * s, z: 1 });
     }
@@ -183,6 +200,11 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
         <>
           <Image source={bg.src} resizeMode="cover" style={{ position: "absolute", left: ox, top: oy, width: bg.w * s, height: bg.h * s }} />
           {figs.sort((a, b) => a.z - b.z).map(fig)}
+          {scene === "court" && room === ROOM.yerel && faces.katip && (
+            <View pointerEvents="none" style={{ position: "absolute", left: X(KATIP_DESK.x0), width: (KATIP_DESK.x1 - KATIP_DESK.x0) * s, top: Y(KATIP_DESK.top), height: (KATIP_DESK.bottom - KATIP_DESK.top) * s, overflow: "hidden", zIndex: 2 }}>
+              <Image source={bg.src} resizeMode="cover" style={{ position: "absolute", left: ox - X(KATIP_DESK.x0), top: oy - Y(KATIP_DESK.top), width: bg.w * s, height: bg.h * s }} />
+            </View>
+          )}
           {scene === "office" && !duel && (
             // Masa ön katmanı: arka planın masa kısmı, müvekkilin belinin üstüne yeniden çizilir.
             <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: Y(DESK.edge), bottom: 0, overflow: "hidden", zIndex: 5 }}>

@@ -42,6 +42,7 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
 
   const speakerName = (who: string) => {
     if (who === "narr") return { name: "Dosya notu", dot: C.muted };
+    if (who === "mubasir") return { name: "Mübaşir", dot: C.muted };
     if (who === "p1" || who === "p2") return { name: `${players[who].name} · ${c.sides[who].role}`, dot: sideColor(who) };
     const m = c.cast[who];
     return { name: m?.name || who, dot: m?.np === "red" ? "#c2343c" : m?.np === "green" ? "#2f9a66" : C.brass };
@@ -320,7 +321,7 @@ const styles = StyleSheet.create({
   dlgNarr: { fontFamily: F.bodyItalic, color: C.textSoft },
   rowEnd: { flexDirection: "row", justifyContent: "flex-end", marginTop: 12 },
   rowBetween: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8, marginTop: 12 },
-  recKarar: { backgroundColor: "rgba(208,166,76,0.14)", paddingHorizontal: 8 },
+  recKarar: { backgroundColor: "rgba(255,255,255,0.11)", paddingHorizontal: 8 },
   rowStart: { flexDirection: "row", justifyContent: "flex-start", marginTop: 12 },
   statement: { backgroundColor: C.panel2, borderLeftWidth: 4, borderLeftColor: C.bad, borderRadius: 6, padding: 12, marginBottom: 12, gap: 4 },
   statementWho: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1, color: C.muted },

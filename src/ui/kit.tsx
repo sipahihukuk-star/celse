@@ -68,7 +68,7 @@ export function Scale({ angle, left = C.brass, right = C.brass, size = 82 }: { a
 
 const styles = StyleSheet.create({
   btn: { borderRadius: 6, paddingHorizontal: 20, paddingVertical: 12, alignItems: "center", justifyContent: "center" },
-  primary: { backgroundColor: C.brass },
+  primary: { backgroundColor: C.bordo, borderWidth: 1, borderColor: "#c0485c" },
   secondary: { borderWidth: 1, borderColor: C.brassDim },
   ghost: { borderWidth: 1, borderColor: C.line, paddingHorizontal: 12, paddingVertical: 7 },
   ghostInk: { borderWidth: 1, borderColor: C.rule, paddingHorizontal: 14, paddingVertical: 9 },
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
 });
 
 const textStyles: Record<BtnKind, TextStyle> = {
-  primary: { color: C.brassInk },
+  primary: { color: "#ffffff" },
   secondary: { color: C.brass },
   ghost: { color: C.text, fontFamily: F.body, fontSize: 15 },
   ghostInk: { color: C.ink, fontFamily: F.body, fontSize: 15 },
