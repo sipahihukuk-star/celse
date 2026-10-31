@@ -12,7 +12,7 @@ export const serverReady = () => reachable && !!SUPABASE_URL && !!SUPABASE_ANON_
 export const TTS_FUNCTION = "bright-action";
 
 /** Yapay zekâ hâkim fonksiyonunun adresi (serbest cevap puanı ve karşılıklı duruşma kararı). */
-export const AI_FUNCTION = "yz";
+export const AI_FUNCTION = "quick-worker";
 
 /** Bulut seslendirme (Google Cloud Text-to-Speech) için karakter sesleri. Supabase "seslendir" fonksiyonu
  *  GOOGLE_TTS_KEY ile kurulunca kullanılır; ses adı bulunamazsa fonksiyon WaveNet sesine düşer. */
