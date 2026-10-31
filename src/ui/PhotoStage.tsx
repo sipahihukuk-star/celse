@@ -1,8 +1,11 @@
 // Gerçekçi sahne: salon fotoğrafı üzerine fotoğraf karakterler. Çizim sahnesiyle (Stage) aynı arayüzü kullanır.
 // Karakterler davanın kadrosundan seçilir: rol (hâkim, savcı, avukat, müvekkil), salon ve tahmini cinsiyete göre
 // havuzdan, dava kimliğine bağlı olarak hep aynı kişi gelir; bir davada aynı yüz iki kez kullanılmaz.
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Image, LayoutChangeEvent, Platform, StyleSheet, Text, View } from "react-native";
+import { Avatar, useOffice } from "../data/office";
+import { MOUTHS } from "./mouths";
+import { firstName, FEMALE, isFemale } from "./people";
 import { currentAccount } from "../data/account";
 import { CaseFile, Look, Scene } from "../engine/types";
 import { PhotoKey, PHOTOS } from "./photos";
@@ -18,18 +21,6 @@ const CIVIL: Pool = { f: ["mv-kadin-45", "mv-kadin-25", "mv-kadin-62", "mv-kadin
 const AIHM: Pool = { f: ["ul-kadin-aihm", "ul-kadin-aihm2"], m: ["ul-erkek-aihm", "ul-erkek-aihm2", "ul-erkek-aihm3"] };
 const UCM: Pool = { f: ["ul-kadin-ucm", "ul-kadin-ucm2"], m: ["ul-erkek-ucm", "ul-erkek-ucm2"] };
 
-const FEMALE = new Set(("ayşe fatma zeynep elif emine hatice merve selin derya esra gül nur seda özlem aslı burcu ebru pınar sevgi canan leyla melek nazlı sibel tuğba " +
-  "yasemin gamze didem filiz hande ipek meltem nesrin sevim şule ülkü zehra gülay gülsüm hülya nermin sevda songül feride nilüfer dilek ayten hacer " +
-  "esma büşra kübra sema şeyma tülay yeliz aylin ceren cansu damla ezgi gizem irem melis nazan oya pelin serap sinem tuba tülin aysel nurcan gönül " +
-  "berna eda sevil şükran hilal neslihan sena ece buket duygu nihan mine nevin perihan saadet sultan şerife zübeyde ayla birsen figen gülşen hale " +
-  "lale meryem müge nalan nihal reyhan rukiye saliha semra sevinç şenay türkan yıldız zerrin zuhal fadime gülten necla nuray tülin halide naciye").split(" "));
-
-const firstName = (name?: string) => (name || "").replace(/^(Av\.|Dr\.|Prof\.)\s*/i, "").split(/[\s·]+/)[0]?.toLocaleLowerCase("tr") || "";
-function isFemale(look?: Look, name?: string): boolean {
-  if (FEMALE.has(firstName(name))) return true;
-  if (look?.beard || look?.style === "bald") return false;
-  return look?.style === "long" || look?.style === "bun";
-}
 const isOld = (look?: Look) => !!look?.hair && /^#(6b6b|9a9a|a0a0|8a8a|b0b0|c0c0|7a7a)/i.test(look.hair);
 
 function hash(s: string) { let h = 2166136261; for (const ch of s) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
@@ -53,8 +44,8 @@ function roomOf(c: CaseFile) {
 interface Fig { key: string; photo: PhotoKey; flip?: boolean; x: number; bottom: number; h: number; z: number; front?: boolean }
 
 /** Davanın kadrosuna fotoğraf atar. Aynı dava her açılışta aynı kişileri gösterir. */
-function cast(c: CaseFile) {
-  const used = new Set<PhotoKey>();
+export function cast(c: CaseFile, avatar?: Avatar | null) {
+  const used = new Set<PhotoKey>(avatar ? [avatar] : []);
   const pick = (pool: Pool, female: boolean, seed: string, old = false): PhotoKey => {
     const list = [...(female ? pool.f : pool.m), ...(female ? pool.m : pool.f)];
     const start = old ? 0 : hash(c.id + seed) % (female ? pool.f.length : pool.m.length);
@@ -76,22 +67,41 @@ function cast(c: CaseFile) {
     const pool = !robe ? CIVIL : red ? (intl ? judgePool : PROS) : LAWYER;
     map[role] = pick(pool, isFemale(m.look, m.name), role, isOld(m.look));
   }
-  // Tek kişilik davada oyuncunun kendisi: hesaptaki ada göre avukat fotoğrafı.
-  if (c.mode === "solo") {
-    const me = currentAccount()?.adSoyad;
-    const f = FEMALE.has(firstName(me));
-    map.p1 = used.has(f ? "av-kadin-32" : "av-erkek-38") ? pick(LAWYER, f, "me") : (f ? "av-kadin-32" : "av-erkek-38");
-    used.add(map.p1);
+  // Oyuncunun kendisi: büroda seçtiği karakter; seçmemişse hesaptaki ada göre bir avukat.
+  if (avatar || c.mode === "solo") {
+    const f = FEMALE.has(firstName(currentAccount()?.adSoyad));
+    const mine: PhotoKey = avatar || (f ? "av-kadin-32" : "av-erkek-38");
+    // Karşı tarafın avukatı oyuncunun yüzünü taşıyorsa ona başka bir yüz ver.
+    for (const [r, k] of Object.entries(map)) if (k === mine && r !== "p1") { used.delete(k); used.add(mine); map[r] = pick(LAWYER, k.includes("kadin"), r + "2"); }
+    map.p1 = mine;
+    used.add(mine);
   }
   return map;
 }
 
-export default function PhotoStage({ c, scene, focus }: Props) {
+/** Konuşan karakterin ağzı: kapalı → yarı açık → açık kareleri düzensiz aralıklarla değişir. */
+function useMouthFrame(on: boolean) {
+  const [f, setF] = useState(0);
+  useEffect(() => {
+    if (!on) { setF(0); return; }
+    let alive = true, t: ReturnType<typeof setTimeout>;
+    const seq = [1, 2, 1, 0, 2, 1, 2, 0, 1, 2, 2, 1, 0];
+    let i = 0;
+    const step = () => { if (!alive) return; setF(seq[i++ % seq.length]); t = setTimeout(step, 85 + Math.random() * 70); };
+    step();
+    return () => { alive = false; clearTimeout(t); };
+  }, [on]);
+  return f;
+}
+
+export default function PhotoStage({ c, scene, focus, talking }: Props) {
+  const { office } = useOffice();
+  const mouth = useMouthFrame(talking && focus !== null && focus !== "narr");
   const [box, setBox] = useState({ w: 0, h: 0 });
   const onLayout = (e: LayoutChangeEvent) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height });
   const { w: W, h: H } = box;
   const duel = c.mode === "duel";
-  const faces = useMemo(() => cast(c), [c.id]);
+  const faces = useMemo(() => cast(c, office?.avatar), [c.id, office?.avatar]);
   const room = roomOf(c);
   const bg = scene === "office" ? PHOTOS["bg-buro"] : PHOTOS[room.bg];
 
@@ -147,10 +157,12 @@ export default function PhotoStage({ c, scene, focus }: Props) {
     const bench = f.key.startsWith("judge");
     const lit = focus === null || focus === f.key || (bench && focus === "judge") || bench;
     const speaking = focus !== null && (focus === f.key || (f.key === "judge" && focus === "judge"));
+    const m = speaking && mouth ? MOUTHS[f.photo] : undefined;
     return (
-      <View key={f.key} pointerEvents="none" style={{ position: "absolute", left: f.x - w / 2, bottom: f.bottom, width: w, height: h, zIndex: f.z + (speaking ? 1 : 0) }}>
+      <View key={f.key} pointerEvents="none" style={[{ position: "absolute", left: f.x - w / 2, bottom: f.bottom, width: w, height: h, zIndex: f.z + (speaking ? 1 : 0) }, f.flip && { transform: [{ scaleX: -1 }] }]}>
         <Image source={p.src} resizeMode="contain" accessibilityIgnoresInvertColors
-          style={[{ width: w, height: h }, f.flip && { transform: [{ scaleX: -1 }] }, !lit && f.front && styles.dim]} />
+          style={[{ width: w, height: h }, !lit && f.front && styles.dim]} />
+        {m && <Image source={mouth === 1 ? m.a : m.b} resizeMode="stretch" style={{ position: "absolute", left: m.x * w, top: m.y * h, width: m.w * w, height: m.h * h }} />}
       </View>
     );
   };

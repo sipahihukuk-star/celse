@@ -4,3 +4,11 @@ export const SUPABASE_URL = "";
 export const SUPABASE_ANON_KEY = "";
 
 export const serverReady = () => !!SUPABASE_URL && !!SUPABASE_ANON_KEY;
+
+/** Bulut seslendirme (Google Cloud Text-to-Speech) için karakter sesleri. Supabase "seslendir" fonksiyonu
+ *  GOOGLE_TTS_KEY ile kurulunca kullanılır; ses adı bulunamazsa fonksiyon WaveNet sesine düşer. */
+export const CLOUD_VOICES = {
+  narr: "tr-TR-Chirp3-HD-Kore",
+  f: ["tr-TR-Chirp3-HD-Aoede", "tr-TR-Chirp3-HD-Leda", "tr-TR-Chirp3-HD-Zephyr", "tr-TR-Chirp3-HD-Despina", "tr-TR-Chirp3-HD-Gacrux"],
+  m: ["tr-TR-Chirp3-HD-Charon", "tr-TR-Chirp3-HD-Orus", "tr-TR-Chirp3-HD-Fenrir", "tr-TR-Chirp3-HD-Iapetus", "tr-TR-Chirp3-HD-Algenib", "tr-TR-Chirp3-HD-Schedar"]
+};

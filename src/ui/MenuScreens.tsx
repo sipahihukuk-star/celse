@@ -5,16 +5,20 @@ import { Account } from "../data/account";
 import { DIFFICULTY } from "../data/career";
 import { Btn, Scale } from "./kit";
 import { useViewMode } from "./viewMode";
+import { useMusic } from "./music";
+import { CITIES, Office, tl } from "../data/office";
+import { AvatarFace } from "./OfficeScreen";
 import { loadResults, SavedResult } from "./storage";
 import { C, F } from "./theme";
 
 /* ---------- Giriş ---------- */
-export function TitleScreen({ onCareer, onDuel, onSolo, onAdmin, onAccount, onSignOut, account, server, duelCount, soloCount, rankName, started, won, total }: { onCareer: () => void; onAccount: () => void; onSignOut: () => void; account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; duelCount: number; soloCount: number; rankName: string; won: number; total: number }) {
+export function TitleScreen({ onCareer, onOffice, office, onDuel, onSolo, onAdmin, onAccount, onSignOut, account, server, duelCount, soloCount, rankName, started, won, total }: { onCareer: () => void; onOffice: () => void; office: Office | null; onAccount: () => void; onSignOut: () => void; account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; duelCount: number; soloCount: number; rankName: string; won: number; total: number }) {
   const { width } = useWindowDimensions();
   const [tilt, setTilt] = useState(-4);
   useEffect(() => { const t = setInterval(() => setTilt(a => -a), 3000); return () => clearInterval(t); }, []);
   const wide = width >= 760;
   const [view, setView] = useViewMode();
+  const [music, setMusic] = useMusic();
   return (
     <ScrollView contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "center" }]}>
       <View style={[styles.titleArt, wide && { flex: 0.8 }]}>
@@ -47,12 +51,25 @@ export function TitleScreen({ onCareer, onDuel, onSolo, onAdmin, onAccount, onSi
           </View>
           <Text style={styles.careerGo}>{!account ? "Üye ol ›" : started ? "Devam et ›" : "Başla ›"}</Text>
         </Pressable>
+        {account && (
+          <Pressable accessibilityRole="button" onPress={onOffice} style={({ pressed }) => [styles.officeCard, pressed && { opacity: 0.85 }]}>
+            {office && <AvatarFace k={office.avatar} size={44} />}
+            <View style={{ flex: 1 }}>
+              <Text style={styles.careerK}>{office ? `BÜRO · ${(CITIES.find(c => c.id === office.city)?.name || "").toLocaleUpperCase("tr")} · ${office.month}. AY` : "BÜRO"}</Text>
+              <Text style={styles.officeT}>{office ? `Kasa ${tl(office.cash)}` : "Karakterinizi seçin, büronuzu açın"}</Text>
+            </View>
+            <Text style={styles.careerGo}>{office ? "Büro ›" : "Aç ›"}</Text>
+          </Pressable>
+        )}
         <View style={styles.cta}>
           <Btn kind="secondary" label="Karşılıklı duruşma" onPress={onDuel} />
           <Btn kind="secondary" label="Tek kişilik dosyalar" onPress={onSolo} />
         </View>
         <Pressable accessibilityRole="button" onPress={() => setView(view === "gercek" ? "cizim" : "gercek")} style={styles.adminLink}>
           <Text style={styles.adminLinkText}>Görünüm: {view === "gercek" ? "Gerçekçi ⇄ Çizime geç" : "Çizim ⇄ Gerçekçiye geç"}</Text>
+        </Pressable>
+        <Pressable accessibilityRole="switch" accessibilityState={{ checked: music }} onPress={() => setMusic(!music)} style={styles.adminLink}>
+          <Text style={styles.adminLinkText}>Fon müziği: {music ? "Açık ♪ (kapat)" : "Kapalı (aç)"}</Text>
         </Pressable>
         <Pressable accessibilityRole="button" onPress={onAdmin} style={styles.adminLink}>
           <Text style={styles.adminLinkText}>Yönetim paneli ›</Text>
@@ -182,6 +199,8 @@ const styles = StyleSheet.create({
   accHello: { fontFamily: F.bodyMed, fontSize: 15, color: C.textSoft },
   accLink: { fontFamily: F.mono, fontSize: 12, letterSpacing: 1, color: C.brass },
   careerCard: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: C.brass, borderRadius: 10, paddingHorizontal: 18, paddingVertical: 14, marginBottom: 12, maxWidth: 480 },
+  officeCard: { flexDirection: "row", alignItems: "center", gap: 12, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 10, marginTop: 8 },
+  officeT: { fontFamily: F.displayMed, fontSize: 19, color: C.text },
   careerK: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.brassInk, opacity: 0.8 },
   careerRank: { fontFamily: F.display, fontSize: 26, color: C.brassInk },
   careerGo: { fontFamily: F.bodyBold, fontSize: 17, color: C.brassInk },

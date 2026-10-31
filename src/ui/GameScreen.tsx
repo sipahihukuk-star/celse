@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { bagOf, choicesOf, GameState, grade, kindOf } from "../engine/engine";
 import { CaseFile, Line, Player, Side } from "../engine/types";
 import { Btn, Chip, Scale } from "./kit";
-import PhotoStage from "./PhotoStage";
+import PhotoStage, { cast } from "./PhotoStage";
+import { useOffice } from "../data/office";
 import Stage from "./Stage";
 import { useViewMode } from "./viewMode";
 import { C, F, sideColor, toneColor } from "./theme";
 import { LETTERS, useCourt } from "./useCourt";
-import { speakLine, stopSpeaking, useVoiceEnabled } from "./voice";
+import { Speaker, speakLine, stopSpeaking, useSpeaking, useVoiceEnabled } from "./voice";
 import FreeAnswer from "./FreeAnswer";
 
 interface Props { c: CaseFile; players: Record<Side, Player>; onExit: () => void; onFinish: (g: GameState) => void }
@@ -72,9 +73,15 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
   // Seslendirme: her yeni satır, soru ve geri bildirim okunur.
   const [voiceOn, setVoiceOn] = useVoiceEnabled();
   const [viewMode] = useViewMode();
+  const speaking = useSpeaking();
+  const { office } = useOffice();
+  // Her karakterin sesi, sahnede görünen yüzün cinsiyetine göre seçilir; oyuncunun sesi bütün davalarda aynıdır.
+  const faces = useMemo(() => cast(c, office?.avatar), [c.id, office?.avatar]);
+  const speaker = (who: string): Speaker => who === "narr" ? { id: "narr", role: "narr", female: false }
+    : { id: who === "p1" && !duel ? `oyuncu:${faces.p1}` : `${c.id}:${who}:${faces[who] || ""}`, role: who, female: (faces[who] || "").includes("kadin") };
   useEffect(() => {
     if (!voiceOn) return;
-    if (phase.k === "lines" && line) speakLine(line.text, line.who);
+    if (phase.k === "lines" && line) speakLine(line.text, speaker(line.who));
     else if (phase.k === "choices" && !court.aiTurn) { const pr = c.steps[phase.step].prompt; if (pr) speakLine(pr, "narr"); }
     else if (phase.k === "feedback" && last) speakLine(last.note || "", "narr");
   }, [phase, voiceOn]);
@@ -102,7 +109,7 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
 
       <View style={[styles.stageWrap, { flex: wide ? 1.15 : 1 }]}>
         {viewMode === "gercek"
-          ? <PhotoStage c={c} scene={scene} focus={focus} talking={!!line && !tw.done} />
+          ? <PhotoStage c={c} scene={scene} focus={focus} talking={!!line && (!tw.done || (voiceOn && speaking))} />
           : <Stage c={c} scene={scene} focus={focus} talking={!!line && !tw.done} />}
       </View>
 

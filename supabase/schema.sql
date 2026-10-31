@@ -64,3 +64,6 @@ alter table public.abonelikler enable row level security;
 drop policy if exists "kendi aboneliğini görür" on public.abonelikler;
 create policy "kendi aboneliğini görür" on public.abonelikler
   for select using (auth.uid() = kullanici_id);
+
+-- Seslendirme dosyaları: "seslendir" fonksiyonu yazar (servis anahtarıyla), herkes okuyabilir.
+insert into storage.buckets (id, name, public) values ('ses', 'ses', true) on conflict (id) do nothing;

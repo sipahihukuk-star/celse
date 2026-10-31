@@ -92,7 +92,23 @@ Oyuncu genç avukat olarak tek hâkimli yerel mahkemelerde başlar ve kazandık�
 
 ## Seslendirme
 
-Oyun ekranındaki 🔊 düğmesiyle açılır. Satırlar, sorular ve geri bildirimler cihazın Türkçe sesiyle okunur (`expo-speech`; web'de tarayıcı sesi). Konuşana göre ton değişir (hâkim daha tok). Kod: `src/ui/voice.ts`.
+Oyun ekranındaki 🔊 düğmesiyle açılır. Kod: `src/ui/voice.ts`.
+
+- **Bulut sesleri:** Supabase'de `seslendir` fonksiyonu `GOOGLE_TTS_KEY` gizli anahtarıyla kuruluysa satırlar Google Cloud Text-to-Speech ile seslendirilir. Her (ses, metin) çifti bir kez üretilip `ses` deposunda saklanır; sonraki oynayışlarda hazır dosya çalınır. Karakterlere kadın/erkek ses listesinden sabit bir ses atanır (`CLOUD_VOICES`, `src/config.ts`); oyuncunun sesi bütün davalarda aynıdır.
+- **Cihaz sesi:** Sunucu yoksa `expo-speech`. Cihazdaki Türkçe seslerden cinsiyete uygun olan seçilir, her karaktere ayrı ton verilir.
+- **Kısaltmalar:** Okunmadan önce açılır: "TBK m.147" → "Türk Borçlar Kanunu madde 147", "CMK'da" → "Ceza Muhakemesi Kanununda" (ekler ünlü uyumuna göre). Kod: `src/engine/speechText.ts`, örnekler: `npx tsx tools/speech-test.ts`. Serbest cevap puanlamasında da aynı açılım kullanılır; oyuncu "Türk Borçlar Kanunu madde 147" dese de "TBK m.147" sayılır.
+
+## Ağız hareketi
+
+Gerçekçi görünümde konuşan karakterin ağzı açılıp kapanır. Her fotoğraf için yarı açık ve açık ağız yamaları `tools/mouth.py` ile üretilir (dlib 68 nokta yüz işaretleri; çene aşağı iner, dudak arası koyulaşır): `assets/gercek/agiz/`, konumlar `src/ui/mouths.ts`. Yeni karakter fotoğrafı eklenince betik yeniden çalıştırılır.
+
+## Fon müziği
+
+Giriş ekranında "Fon müziği" ile açılıp kapanır (varsayılan kapalı). Sakin bir piyano döngüsüdür (`tools/muzik.py` ile üretilir, `assets/muzik/fon.mp3`); satır seslendirilirken kısılır. Kod: `src/ui/music.ts`.
+
+## Büro
+
+Kariyere başlamadan önce oyuncu karakterini (7 avukat fotoğrafı), büronun adını ve şehrini (16 il) seçer. 150.000 TL sermayeyle başlar; her dava bir ay sürer: ücret kasaya girer, ay sonunda kira (şehre göre), büro giderleri, baro aidatı ve mali müşavir düşer. İsteğe bağlı sekreter müvekkil davalarında ücreti %10 artırır. Davalar üç yoldan gelir: müvekkil (kazanınca ikna puanına göre prim, kaybedince peşin kısım), CMK görevlendirmesi (sanık müdafiliği, sabit ücret) ve adli yardım (sabit ücret). Tutarlar oyun içi yaklaşık değerlerdir. Kod: `src/data/office.ts`, `src/ui/OfficeScreen.tsx`.
 
 ## Serbest cevap (yazılı / sesli)
 

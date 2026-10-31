@@ -1,5 +1,6 @@
 // Serbest cevap değerlendirmesi. Sunucu varsa yapay zekâ (Supabase Edge Function → Claude) puanlar;
 // yoksa ya da cevap gelmezse adımdaki anahtar kavramlarla çevrimdışı puanlanır.
+import { expandForSpeech } from "./speechText";
 import { CaseFile, KeywordGroup, Step } from "./types";
 
 export interface Evaluation { score: number; feedback: string; by: "ai" | "kavram" }
@@ -9,14 +10,22 @@ export function norm(s: string): string {
   return s.toLocaleLowerCase("tr").replace(/[âà]/g, "a").replace(/[îì]/g, "i").replace(/[ûù]/g, "u").replace(/\s+/g, " ").trim();
 }
 
+/** Kısaltma ile açık yazımı eşitler: "TBK m.147", "Türk Borçlar Kanunu madde 147" ve "TBK 147. madde" aynı sayılır. */
+export function canon(s: string): string {
+  return norm(expandForSpeech(s))
+    .replace(/(\d+)\s*\.\s*maddes[iı]/g, "madde $1").replace(/(\d+)\s*\.\s*madde/g, "madde $1")
+    .replace(/(\d+)\s*\.\s*fıkras[iı]/g, "fıkra $1")
+    .replace(/['’`"“”.,;:()]/g, " ").replace(/\s+/g, " ").trim();
+}
+
 export function keywordScore(answer: string, groups: KeywordGroup[] = []): Evaluation {
-  const a = norm(answer);
+  const a = norm(answer), ac = canon(answer);
   const total = groups.reduce((n, g) => n + (g.weight ?? 1), 0);
   if (!total) return { score: a.length > 40 ? 50 : 20, feedback: "", by: "kavram" };
   const hits: string[] = [], misses: string[] = [];
   let got = 0;
   for (const g of groups) {
-    const hit = g.terms.find(t => a.includes(norm(t)));
+    const hit = g.terms.find(t => a.includes(norm(t)) || ac.includes(canon(t)));
     if (hit) { got += g.weight ?? 1; hits.push(g.terms[0]); } else misses.push(g.terms[0]);
   }
   const score = Math.round((got / total) * 100);

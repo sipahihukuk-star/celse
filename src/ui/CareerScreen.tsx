@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { CareerCase, CareerChapter, CareerView, DIFFICULTY } from "../data/career";
 import { CaseFile } from "../engine/types";
+import { CITIES, feeFor, Office, sourceOf, SOURCE_LABEL, tl } from "../data/office";
+import { AvatarFace } from "./OfficeScreen";
 import { Btn } from "./kit";
 import { C, F } from "./theme";
 
-export default function CareerScreen({ view, onBack, onPick, onReset, onPaywall, premium }: { view: CareerView; onBack: () => void; onPick: (c: CaseFile) => void; onReset: () => void; onPaywall: () => void; premium: boolean }) {
+export default function CareerScreen({ view, onBack, onPick, onReset, onPaywall, premium, office, onOffice }: { office: Office | null; onOffice: () => void; view: CareerView; onBack: () => void; onPick: (c: CaseFile) => void; onReset: () => void; onPaywall: () => void; premium: boolean }) {
   const pct = view.total ? Math.round((view.won / view.total) * 100) : 0;
   const [confirm, setConfirm] = useState(false);
   return (
@@ -23,6 +25,13 @@ export default function CareerScreen({ view, onBack, onPick, onReset, onPaywall,
           <Stat k="Kazanılan" v={`${view.won}/${view.total}`} />
         </View>
       </View>
+      {office && (
+        <Pressable accessibilityRole="button" onPress={onOffice} style={s.office}>
+          <AvatarFace k={office.avatar} size={40} />
+          <Text style={s.officeT} numberOfLines={1}>{office.name} · {CITIES.find(c => c.id === office.city)?.name}</Text>
+          <Text style={[s.officeCash, office.cash < 0 && { color: C.bad }]}>{tl(office.cash)} ›</Text>
+        </Pressable>
+      )}
       <View style={s.bar} accessibilityRole="progressbar" accessibilityValue={{ min: 0, max: 100, now: pct }}>
         <View style={[s.barFill, { width: `${pct}%` }]} />
       </View>
@@ -34,7 +43,7 @@ export default function CareerScreen({ view, onBack, onPick, onReset, onPaywall,
         </Pressable>
       )}
       <View style={{ gap: 18, marginTop: 22 }}>
-        {view.chapters.map((ch, i) => <ChapterCard key={ch.level} ch={ch} no={i + 1} onPick={onPick} onPaywall={onPaywall} />)}
+        {view.chapters.map((ch, i) => <ChapterCard key={ch.level} ch={ch} no={i + 1} onPick={onPick} onPaywall={onPaywall} office={office} />)}
       </View>
 
       {confirm ? (
@@ -63,7 +72,7 @@ function Stat({ k, v }: { k: string; v: string }) {
   );
 }
 
-function ChapterCard({ ch, no, onPick, onPaywall }: { ch: CareerChapter; no: number; onPick: (c: CaseFile) => void; onPaywall: () => void }) {
+function ChapterCard({ ch, no, onPick, onPaywall, office }: { office: Office | null; ch: CareerChapter; no: number; onPick: (c: CaseFile) => void; onPaywall: () => void }) {
   const soon = !ch.cases.length;
   const done = ch.open && ch.wins >= ch.need;
   return (
@@ -85,16 +94,18 @@ function ChapterCard({ ch, no, onPick, onPaywall }: { ch: CareerChapter; no: num
       {soon && <Text style={s.chWhy}>Bu basamağın davaları hazırlanıyor; şimdilik bir sonraki bölüme geçilir.</Text>}
       {ch.cases.length > 0 && (
         <View style={s.cases}>
-          {ch.cases.map((x, i) => <CaseRow key={x.c.id} x={x} i={i} onPick={onPick} onPaywall={onPaywall} />)}
+          {ch.cases.map((x, i) => <CaseRow key={x.c.id} x={x} i={i} onPick={onPick} onPaywall={onPaywall} office={office} />)}
         </View>
       )}
     </View>
   );
 }
 
-function CaseRow({ x, i, onPick, onPaywall }: { x: CareerCase; i: number; onPick: (c: CaseFile) => void; onPaywall: () => void }) {
+function CaseRow({ x, i, onPick, onPaywall, office }: { office: Office | null; x: CareerCase; i: number; onPick: (c: CaseFile) => void; onPaywall: () => void }) {
   const open = x.lock === "open";
   const paid = x.lock === "premium";
+  const src = sourceOf(x.c);
+  const fee = office ? feeFor(x.c, office, true, 60).amount : 0;
   const st = !x.rec?.played ? (open ? "Yeni" : "") : x.rec.won ? `Kazandınız · ${x.rec.best}` : "Kaybettiniz";
   return (
     <Pressable accessibilityRole="button" accessibilityState={{ disabled: !open }} disabled={!open && !paid} onPress={() => (paid ? onPaywall() : onPick(x.c))}
@@ -106,6 +117,7 @@ function CaseRow({ x, i, onPick, onPaywall }: { x: CareerCase; i: number; onPick
           {!!x.c.difficulty && <Text style={[s.diff, { color: DIFFICULTY[x.c.difficulty].color, borderColor: DIFFICULTY[x.c.difficulty].color }]}>{DIFFICULTY[x.c.difficulty].label}</Text>}
         </View>
         <Text style={s.rowSub} numberOfLines={1}>{x.c.court} · {x.c.area}</Text>
+        {!!office && <Text style={[s.rowFee, src !== "muvekkil" && { color: C.p1 }]} numberOfLines={1}>{SOURCE_LABEL[src]} · {src === "muvekkil" ? `ücret ~${tl(fee)}` : `sabit ücret ${tl(fee)}`}</Text>}
         {!open && !!x.why && <Text style={s.rowWhy}>{x.why}</Text>}
       </View>
       {!!st && (
@@ -152,6 +164,10 @@ const s = StyleSheet.create({
   rowTitle: { flexShrink: 1, fontFamily: F.displayMed, fontSize: 18, color: C.text },
   diff: { fontFamily: F.mono, fontSize: 10, letterSpacing: 1, borderWidth: 1, borderRadius: 4, paddingHorizontal: 5, paddingVertical: 1, textTransform: "uppercase" },
   rowSub: { fontFamily: F.body, fontSize: 13, color: C.muted },
+  rowFee: { fontFamily: F.mono, fontSize: 11, color: C.brassDim },
+  office: { flexDirection: "row", alignItems: "center", gap: 10, marginTop: 14, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8 },
+  officeT: { flex: 1, fontFamily: F.bodyMed, fontSize: 15, color: C.textSoft },
+  officeCash: { fontFamily: F.monoBold, fontSize: 15, color: C.text },
   rowWhy: { fontFamily: F.body, fontSize: 13, color: C.brassDim },
   status: { borderWidth: 1, borderColor: C.line, borderRadius: 999, paddingHorizontal: 9, paddingVertical: 3 },
   statusWin: { backgroundColor: "rgba(79,174,124,0.2)", borderColor: "rgba(79,174,124,0.6)" },

@@ -1,0 +1,55 @@
+// Seslendirme (Supabase Edge Function, Deno): bir satırı Google Cloud Text-to-Speech ile seslendirir.
+// Her (ses, metin) çifti yalnızca bir kez üretilir ve "ses" deposunda saklanır; sonraki isteklerde hazır dosyanın adresi döner.
+// Gerekli gizli anahtar: GOOGLE_TTS_KEY (Supabase > Edge Functions > Secrets). Google anahtarı uygulamaya hiç gitmez.
+import { createClient } from "npm:@supabase/supabase-js@2";
+
+const cors = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS"
+};
+const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...cors, "Content-Type": "application/json" } });
+// Ses bulunamazsa düşülecek WaveNet sesleri (kadın / erkek).
+const FALLBACK_F = "tr-TR-Wavenet-A", FALLBACK_M = "tr-TR-Wavenet-B";
+const MALE = /Charon|Orus|Fenrir|Iapetus|Algenib|Schedar|Puck|Achird|Algieba|Alnilam|Enceladus|Rasalgethi|Sadachbia|Sadaltager|Umbriel|Zubenelgenubi|Wavenet-B|Wavenet-E/;
+
+async function sha(s: string) {
+  const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return [...new Uint8Array(d)].map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 40);
+}
+
+async function synth(text: string, name: string) {
+  const r = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${Deno.env.get("GOOGLE_TTS_KEY")}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ input: { text }, voice: { languageCode: "tr-TR", name }, audioConfig: { audioEncoding: "MP3", sampleRateHertz: 24000 } })
+  });
+  if (!r.ok) return null;
+  const j = await r.json();
+  return Uint8Array.from(atob(j.audioContent), c => c.charCodeAt(0));
+}
+
+Deno.serve(async req => {
+  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+  if (!Deno.env.get("GOOGLE_TTS_KEY")) return json({ error: "seslendirme kurulmadı" }, 501);
+  try {
+    const b = await req.json();
+    const text = String(b.text || "").trim().slice(0, 900);
+    const voice = String(b.voice || "");
+    if (!text || !/^tr-TR-[A-Za-z0-9-]+$/.test(voice)) return json({ error: "geçersiz istek" }, 400);
+
+    const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const path = `${voice}/${await sha(voice + "\n" + text)}.mp3`;
+    const url = sb.storage.from("ses").getPublicUrl(path).data.publicUrl;
+    const head = await fetch(url, { method: "HEAD" });
+    if (head.ok) return json({ url });
+
+    const audio = (await synth(text, voice)) || (await synth(text, MALE.test(voice) ? FALLBACK_M : FALLBACK_F));
+    if (!audio) return json({ error: "seslendirilemedi" }, 502);
+    const up = await sb.storage.from("ses").upload(path, audio, { contentType: "audio/mpeg", upsert: true });
+    if (up.error) return json({ error: up.error.message }, 500);
+    return json({ url });
+  } catch (e) {
+    return json({ error: String(e) }, 500);
+  }
+});
