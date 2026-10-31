@@ -65,7 +65,7 @@ Oyundaki yüksek mahkeme dosyaları bu notlara göre kurgulanır. Her bilginin y
 ### Kanun yolları
 - **Temyiz:** Temyiz Kuruluna yapılır. Süre ilamın tebliğinden itibaren **altmış gündür.** Taraflar isterse ya da Kurul gerekli görürse duruşma yapılır, taraflara ikişer kez söz verilir. Temyiz Kurulu kararları kesindir.
 - **Karar düzeltme:** Tebliğden itibaren **on beş gün** içinde, bir kez istenebilir.
-- **Yargılamanın iadesi:** İlamın tebliğinden itibaren **beş yıl** içinde istenebilir. Sebepleri arasında hesapta maddi hata, hükme etki eden belgede sahtecilik ve sonradan ortaya çıkan belge vardır. İstem ilamın icrasını durdurmaz.
+- **Yargılamanın iadesi:** İlamın tebliğinden itibaren **beş yıl** içinde istenebilir. Sebepleri arasında hesapta maddi hata, hükme etki eden belgede sahtecilik ve sonradan ortaya çıkan belge vardır. İstem ilamın icrasını durdurmaz; ancak daire, teminat karşılığında icranın geciktirilmesine karar verebilir.
 
 ## Kaynaklar
 - [Sayıştay Yargısı, T.C. Sayıştay Başkanlığı](https://www.sayistay.gov.tr/pages/64-sayistay-yargisi)

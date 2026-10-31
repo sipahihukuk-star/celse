@@ -1,0 +1,148 @@
+{
+  "id": "sayistay-fazla-mesai",
+  "mode": "solo",
+  "title": "Sel Mesaisi",
+  "area": "Sayıştay · Hesap yargılaması · Fazla çalışma ücreti",
+  "court": "Sayıştay 5. Daire",
+  "courtShort": "SAYIŞTAY · 5. DAİRE",
+  "esas": "Ek-Dosya 2025/63 · İlam 3870",
+  "kararTarihi": "27.04.2027",
+  "color": "#22484a",
+  "teaser": "Sel felaketinde gece gündüz çalışan 42 personele aylık sınırın üzerinde fazla çalışma ücreti ödendi. Ödemenin bir dayanağı var mıydı?",
+  "sides": { "p1": { "role": "Sorumlu (harcama yetkilisi) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": null,
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e2b690", "hair": "#4a3a2e", "style": "bun", "glasses": true } },
+    "opp": { "name": "Sayıştay Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#cf9d76", "hair": "#1c1714", "style": "short" } },
+    "client": { "name": "Murat Yalçın · Müvekkil (harcama yetkilisi)", "np": "civil", "look": { "kind": "civil", "skin": "#c99670", "hair": "#2a2220", "style": "short", "beard": true, "shirt": "#2f4a5a", "inner": "#dcd7ca" } },
+    "denetci": { "name": "Raportör denetçi", "np": "civil", "look": { "kind": "civil", "skin": "#e8c3a0", "hair": "#6b4a32", "style": "short", "glasses": true, "shirt": "#555a63", "inner": "#e8e3d8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Güneyova Su ve Kanalizasyon İdaresi. Şubat 2025'te kenti sel bastı. Arıza ekipleri bir ay boyunca vardiyasız çalıştı." },
+    { "who": "narr", "text": "Sayıştay denetçisi, 42 personele idarenin Personel Yönetmeliğindeki aylık 50 saatlik sınırın üzerinde 860.000 TL fazla çalışma ücreti ödendiğini tespit etti. Sorumlulardan biri, ödeme emrini imzalayan İnsan Kaynakları Dairesi Başkanı Murat Yalçın." },
+    { "who": "client", "text": "O ekipler olmasa şehir susuz kalırdı. Şimdi bu para benden ya da onlardan geri istenecek diye herkes tedirgin." }
+  ],
+  "docs": [
+    { "t": "Denetçinin sorgusu", "d": "Aylık 50 saati aşan fazla çalışma için ödenen 860.000 TL'nin dayanağı bulunmadığı tespiti." },
+    { "t": "Personel Yönetmeliği", "d": "İdarenin yürürlükteki yönetmeliği. m.14 fazla çalışmayı düzenliyor." },
+    { "t": "Ödeme emri belgeleri", "d": "Şubat ve Mart 2025 fazla çalışma ödemeleri; harcama yetkilisi imzalı." },
+    { "t": "Usul notu", "d": "Sorumlular savunmalarında ve/veya dilekçelerinde belirterek duruşma isteyebilir. Paranın ödendiği kişiler (ahizler) dilekçeyle başvurur, daire kabul ederse fer'i müdahil olur." }
+  ],
+  "evidence": [
+    { "id": "ev_yonetmelik", "type": "belge", "title": "Personel Yönetmeliği m.14", "desc": "m.14/1: Aylık fazla çalışma en çok 50 saattir. m.14/3: Afet ve olağanüstü durumlarda Genel Müdürün yazılı onayıyla bu sınır iki katına kadar uygulanabilir." },
+    { "id": "ev_genelge", "type": "belge", "title": "Bakanlık genelgesi", "desc": "Afet bölgelerindeki kurumlara hizmetin aksatılmaması için gerekli tedbirleri alma talimatı. Ödemelere ilişkin bir hüküm içermiyor." },
+    { "id": "ev_olur", "type": "belge", "title": "Genel Müdür Oluru (6 Şubat 2025)", "desc": "Yönetmelik m.14/3 uyarınca sel süresince arıza ekipleri için aylık fazla çalışma sınırının 100 saat olarak uygulanmasına onay.", "if": "olur" },
+    { "id": "ev_puantaj", "type": "belge", "title": "Puantaj cetvelleri", "desc": "Amirlerce imzalı günlük çalışma kayıtları. Ödenen saatlerin hiçbiri 100 saati aşmıyor.", "if": "puantaj" },
+    { "id": "law_71", "type": "kanun", "title": "5018 s.K. m.71 · Kamu zararı", "desc": "Mevzuata aykırı karar, işlem ya da eylemler sonucunda kamu kaynağında artışa engel ya da azalışa neden olunması.", "law": "5018 s.K. m.71" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Sorgu müvekkile tebliğ edildi. Savunmayı birlikte hazırlayacaksınız. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Sel döneminde sınırın aşılması için yazılı bir onay alındı mı?", "delta": 15, "set": ["olur"],
+          "reply": [{ "who": "client", "text": "Aldık. Yönetmeliğin 14. maddesinin üçüncü fıkrası afette Genel Müdür onayıyla sınırın iki katına çıkmasına izin veriyor. Genel Müdür 6 Şubat'ta olur verdi. Olur, İnsan Kaynaklarının arşivinde. Denetçiye gönderilen klasörde yoktu." }],
+          "note": "Kritik bilgi. Kamu zararı mevzuata aykırı bir işlem arar (5018 s.K. m.71). Yönetmelikteki istisna ve usulüne uygun onay, ödemenin dayanağıdır. Olur delil çantanıza eklendi." },
+        { "text": "Fazla çalışma gerçekten yapıldı mı? Kaydı var mı?", "delta": 5, "set": ["puantaj"],
+          "reply": [{ "who": "client", "text": "Her gün puantaj tutuldu, amirler imzaladı. Kimseye 100 saatin üstünde ödeme yapılmadı." }],
+          "note": "Faydalı bir teyit. Puantajlar çalışmanın yapıldığını gösterir. Ama asıl soru, sınırı aşan ödemenin hukuki dayanağıdır. Puantajlar delil çantanıza eklendi." },
+        { "text": "Başka su idareleri sel döneminde ne yaptı?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Komşu ilin idaresi de fazla mesai ödemiş diye duydum." }],
+          "note": "Başka idarelerin uygulaması, bu idarenin ödemesinin kendi mevzuatına uygun olduğunu göstermez." },
+        { "text": "Personelin yöneticilerden şikâyeti var mı?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Sel dışında pek yok. Herkes elinden geleni yaptı." }],
+          "note": "Sınırlı soru hakkınızı davayla ilgisiz bir konuya harcadınız." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Yazılı savunmayı yazıyorsunuz. Savunma, raportör denetçinin hazırlayacağı rapora eklenecek." }],
+      "prompt": "Savunmada duruşma konusunu nasıl ele alacaksınız?",
+      "choices": [
+        { "text": "Savunmada müvekkil adına açıkça duruşma talep et.", "delta": 20, "set": ["durusma"],
+          "law": "6085 s.K.",
+          "note": "Sorumlular ve vekilleri, savunmalarında ve/veya dilekçelerinde belirterek duruşmaya katılma isteminde bulunabilir. Talep üzerine davet edilirsiniz." },
+        { "text": "Ayrıntılı yazılı savunma ver, duruşma isteme. Dosya zaten açık.", "delta": -10, "set": ["rapor"],
+          "note": "Talep yoksa duruşma yapılmaz. Daire raporu ve Başsavcılığın yazılı görüşünü esas alarak karar verir." },
+        { "text": "Duruşma talebini personelin sendika temsilcisi yapsın; müvekkil adına talepte bulunma.", "delta": -10, "set": ["rapor"],
+          "note": "Duruşma talebini sorumlular, kanuni temsilcileri ya da vekilleri yapar. Paranın ödendiği personel ahizdir ve fer'i müdahil olarak katılabilir. Müvekkil adına talep yapılmadı." }
+      ] },
+    { "side": "p1", "scene": "office", "if": "durusma",
+      "lines": [
+        { "who": "narr", "text": "Duruşma günü belli oldu. Sendika temsilcisi büronuza geldi." },
+        { "who": "client", "text": "Personel, paranın geri istenmesinden korkuyor. Duruşmada onlar da dinlensin istiyorlar." }
+      ],
+      "prompt": "Personele ne önereceksiniz?",
+      "choices": [
+        { "text": "Ödemeyi alan personel daireye dilekçeyle başvursun ve fer'i müdahil olarak katılmak istesin. Kabul daireye aittir.", "delta": 15, "set": ["mudahil"],
+          "law": "6085 s.K.",
+          "note": "Paranın ödendiği kişiler (ahizler) dilekçeyle başvurur. Daire başvuruyu kabul ederse duruşmaya fer'i müdahil olarak katılırlar." },
+        { "text": "Personel zaten taraftır; onlara da davetiye gelir.", "delta": -5,
+          "note": "Davetiye sorumlulara ve vekillerine gönderilir. Ahizlerin katılması başvuruya ve dairenin kabulüne bağlıdır." },
+        { "text": "Personel duruşmaya hiçbir şekilde katılamaz.", "delta": -10,
+          "note": "Yanlış. Ahizler dilekçeyle başvurur, daire kabul ederse fer'i müdahil olarak katılır." },
+        { "text": "Personelden de vekâlet alın, onları da sorumlu sıfatıyla savunun.", "delta": -5,
+          "note": "Personel bu dosyada ahiz konumundadır. Katılımın yolu fer'i müdahale başvurusudur." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court", "if": "durusma",
+      "lines": [
+        { "who": "narr", "text": "Sayıştay, 5. Daire duruşma salonu. Kürsüde Daire Başkanı ve dört üye." },
+        { "who": "judge", "text": "Ahiz personelin fer'i müdahale dilekçesi kabul edilmiştir. Temsilcileri salonda hazır.", "if": "mudahil" },
+        { "who": "judge", "text": "Duruşmayı açıyorum. Raportör denetçi, raporunuzu özetleyin." }
+      ],
+      "statement": { "who": "denetci", "text": "Yönetmeliğin 14. maddesi aylık fazla çalışmayı 50 saatle sınırlar. Sınırı aşan ödemeler için dosyada geçerli bir onay yoktur. Aşan kısım olan 860.000 TL kamu zararıdır." },
+      "prompt": "Hangi belgeyle karşılık vereceksiniz?",
+      "correct": ["ev_olur"],
+      "hit": { "delta": 25, "set": ["dayanak"],
+        "reply": [{ "who": "judge", "text": "Olurun aslı incelendi. Tarihi selin başladığı güne denk düşüyor. Tutanağa geçsin." }],
+        "law": "5018 s.K. m.71",
+        "note": "Olur, yönetmelikteki istisnanın usulüne uygun işletildiğini gösteriyor. Ödemelerin mevzuat dayanağı var. Mevzuata aykırılık yoksa kamu zararı da yoktur." },
+      "responses": {
+        "ev_yonetmelik": { "delta": 5, "note": "İstisna hükmünü gösterdiniz. Ama istisna Genel Müdürün yazılı onayına bağlı. Raportörün itirazı tam da onayın yokluğuna yönelikti." },
+        "ev_genelge": { "delta": -10, "note": "Genelge ödemeye ilişkin bir hüküm içermiyor. Üstelik bir genelge, yönetmelikteki sınırı aşan ödemeye kendi başına dayanak olamaz." },
+        "ev_puantaj": { "delta": 5, "note": "Çalışmanın yapıldığını gösterdiniz. Ama soru, sınırı aşan ödemenin hukuki dayanağıydı." },
+        "law_71": { "delta": 5, "note": "Doğru tanım: mevzuata aykırılık yoksa kamu zararı yoktur. Ama ödemenin mevzuata uygun olduğunu gösteren belgeyi sunmalıydınız." }
+      },
+      "pass": { "delta": -15, "note": "Raportörün tespitine karşılık vermediniz. Ödemenin dayanaksız olduğu tezi cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court", "if": "durusma",
+      "lines": [
+        { "who": "opp", "if": "dayanak", "text": "Başsavcılık yazılı görüşünde kamu zararı bulunduğunu bildirmişti. Sunulan olur karşısında ödemelerin yönetmelikteki istisnaya dayandığı anlaşılmaktadır. Takdir heyetindir." },
+        { "who": "opp", "if": "!dayanak", "text": "Başsavcılığın yazılı görüşü doğrultusunda, sınırı aşan ödemelerin sorumlulardan tazmini gerekir." },
+        { "who": "judge", "text": "Sorumlu vekili, talebiniz nedir?" }
+      ],
+      "prompt": "Heyetten ne isteyeceksiniz?",
+      "choices": [
+        { "if": "dayanak", "text": "Ödemeler yönetmelikteki istisnaya ve usulüne uygun onaya dayanıyor. Kamu zararı oluşmadığından ilişilecek bir husus bulunmadığına karar verilmesini isteriz.", "delta": 15, "set": ["talep"],
+          "note": "Talep, ortaya koyduğunuz dayanağın doğal sonucu. Daire, kamu zararı yoksa “ilişilecek bir husus bulunmadığına” karar verir." },
+        { "if": "!dayanak", "text": "Fazla çalışma fiilen yapılmıştır. Karşılıksız bir ödeme yoktur.", "delta": 5,
+          "note": "Çalışma yapılmış olsa da, sınırı aşan ödemenin bir dayanağı gösterilmedikçe ödeme mevzuata aykırı kalır." },
+        { "text": "Personel ve müvekkil iyi niyetlidir; tazmine hükmedilmemelidir.", "delta": -5,
+          "note": "İyi niyet, mevzuata aykırılığı ortadan kaldırmaz. Ölçüt, ödemenin mevzuata uygunluğudur." },
+        { "text": "Tazmin tutarının taksitle ödenmesine izin verilmesini isteriz.", "delta": -10,
+          "note": "Bu talep, kamu zararını kabul ettiğiniz izlenimini verir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "rapor", "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Güneyova Su ve Kanalizasyon İdaresinin 2025 yılı hesabına ilişkin ek dosyada, 860.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte sorumlulardan TAZMİNİNE, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Müvekkil adına duruşma istenmedi. Daire raporu ve Başsavcılığın görüşünü esas aldı." },
+        { "if": "olur", "text": " Elinizdeki Genel Müdür Oluru heyet önünde hiç tartışılmadı; duruşmada sunulsaydı ödemenin dayanağını gösterebilirdi." }
+      ] },
+    { "if": "dayanak", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Güneyova Su ve Kanalizasyon İdaresinin 2025 yılı hesabına ilişkin ek dosyada, fazla çalışma ücreti ödemelerinin Personel Yönetmeliği m.14/3 ve 6 Şubat 2025 tarihli onaya dayandığı anlaşıldığından, kamu zararı oluşmadığından İLİŞİLECEK BİR HUSUS BULUNMADIĞINA, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Müvekkil görüşmesinde ortaya çıkan olur, ödemelerin mevzuat dayanağını gösterdi. Mevzuata aykırılık yoksa kamu zararı da yoktur (5018 s.K. m.71)." },
+        { "if": "mudahil", "text": " Personel fer'i müdahil olarak duruşmada yer aldı; paranın ödendiği kişiler de kararı yakından izledi." },
+        { "if": "!mudahil", "text": " Personelin fer'i müdahale yolunu doğru göstermediniz; ahizler duruşmada yer alamadı." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Güneyova Su ve Kanalizasyon İdaresinin 2025 yılı hesabına ilişkin ek dosyada, 860.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte sorumlulardan TAZMİNİNE, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oy çokluğuyla karar verildi.",
+      "summary": [
+        { "text": "Duruşma yapıldı, ama sınırı aşan ödemenin dayanağı gösterilemedi. Yönetmelikteki istisna, onay olmadan işlemez." },
+        { "if": "!olur", "text": " Müvekkile yazılı bir onay alınıp alınmadığı sorulsaydı, arşivdeki Genel Müdür Oluru bulunabilirdi." }
+      ] }
+  ]
+}

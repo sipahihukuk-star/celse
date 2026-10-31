@@ -1,0 +1,135 @@
+{
+  "id": "sayistay-temsil-agirlama",
+  "mode": "solo",
+  "title": "Ağırlama Faturaları",
+  "area": "Sayıştay · Hesap yargılaması · Temsil, ağırlama ve tören giderleri",
+  "court": "Sayıştay 2. Daire",
+  "courtShort": "SAYIŞTAY · 2. DAİRE",
+  "esas": "Ek-Dosya 2025/94 · İlam 4078",
+  "kararTarihi": "21.09.2027",
+  "color": "#47304f",
+  "teaser": "Bir üniversitenin ağırlama ödemelerinde fatura yok, mezuniyet yemeğinde sınır aşılmış. Müvekkiliniz muhasebe yetkilisi; neyi kontrol etmekle yükümlüydü?",
+  "sides": { "p1": { "role": "Sorumlu (muhasebe yetkilisi) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": null,
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e0b48e", "hair": "#6b6b70", "style": "short", "beard": true } },
+    "opp": { "name": "Sayıştay Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#2b1d17", "style": "short", "glasses": true } },
+    "client": { "name": "Aylin Demir · Müvekkil (muhasebe yetkilisi)", "np": "civil", "look": { "kind": "civil", "skin": "#edc6a2", "hair": "#2a1a12", "style": "long", "glasses": true, "shirt": "#3e4a3a", "inner": "#e9e4d8" } },
+    "denetci": { "name": "Raportör denetçi", "np": "civil", "look": { "kind": "civil", "skin": "#d6a57c", "hair": "#4a4a4e", "style": "short", "beard": true, "shirt": "#4b4f58", "inner": "#d8d3c6" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Doğu Anadolu Teknik Üniversitesi, 2025 yılı hesabı. Sayıştay denetçisi temsil, ağırlama ve tören giderlerinde iki bulgu yazdı." },
+    { "who": "narr", "text": "Birincisi: dört ödemenin faturası ve katılımcı listesi dosyada yok, toplam 312.000 TL. İkincisi: mezuniyet yemeğinde kişi başı harcama üniversitenin yönergesindeki sınırı aşmış, aşan kısım 148.000 TL." },
+    { "who": "client", "text": "Sorguda harcama yetkilisi, gerçekleştirme görevlisi ve ben varım. Ben muhasebe yetkilisiyim. Belgesiz ödeme yapmam, yapmadım da." }
+  ],
+  "docs": [
+    { "t": "Denetçinin sorgusu", "d": "Belgesiz ödendiği değerlendirilen 312.000 TL ile yönerge sınırını aşan 148.000 TL; sorumlular harcama yetkilisi, gerçekleştirme görevlisi ve muhasebe yetkilisi." },
+    { "t": "Ödeme emri belgeleri", "d": "Dört ödeme emri. İmzalar tam. Denetime gönderilen klasörde ekleri yok." },
+    { "t": "Temsil ve Ağırlama Yönergesi", "d": "Üniversitenin tören yemekleri için kişi başı harcama sınırı belirleyen yönergesi." },
+    { "t": "Usul notu", "d": "Sorumlular savunmalarında ve/veya dilekçelerinde belirterek duruşma isteyebilir. Talep yoksa daire raporu esas alır." }
+  ],
+  "evidence": [
+    { "id": "ev_odeme", "type": "belge", "title": "Dört ödeme emri belgesi", "desc": "Harcama yetkilisi ve gerçekleştirme görevlisinin imzaları tam. Denetime gönderilen klasörde ekleri yok." },
+    { "id": "ev_yonerge", "type": "belge", "title": "Temsil ve Ağırlama Yönergesi", "desc": "Tören yemeklerinde kişi başı harcama sınırı belirlenmiş." },
+    { "id": "ev_toren", "type": "belge", "title": "Mezuniyet yemeği faturası", "desc": "650 kişilik yemek. Kişi başı tutar yönergedeki sınırın üzerinde. Harcama yetkilisinin onayı var." },
+    { "id": "ev_ekler", "type": "belge", "title": "Fatura asılları ve ek listeleri", "desc": "Dört ödemenin faturaları ve katılımcı listeleri. Muhasebe biriminin kayıtlarında her ödeme emrinin ek listesi, ödeme tarihinde işlenmiş.", "if": "ekler" },
+    { "id": "law_61", "type": "kanun", "title": "5018 s.K. m.33 ve m.61 · Muhasebe yetkilisinin kontrolü", "desc": "Muhasebe yetkilisi ödeme belgesinde yetkililerin imzasını, maddi hata bulunup bulunmadığını ve ödemeye ilişkin belgelerin tam olup olmadığını kontrol eder.", "law": "5018 s.K. m.33, m.61" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Müvekkil öğle arasında büronuza geldi. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Denetçinin “faturası yok” dediği dört ödemenin belgeleri, ödeme sırasında elinizde miydi?", "delta": 15, "set": ["ekler"],
+          "reply": [{ "who": "client", "text": "Hepsi vardı. Faturalar ve katılımcı listeleri ödeme emrine ekliydi. Denetime klasör hazırlanırken ekler ayrı bir kutuya konmuş. Muhasebe kayıtlarında her ödeme emrinin ek listesi duruyor. Asılları arşivde buldum." }],
+          "note": "Kritik bilgi. Belge eksikliği tek başına kamu zararı değildir. Harcama gerçekten yapılmış ve belgeleri tamsa kamu zararı oluşmaz. Belgeler delil çantanıza eklendi." },
+        { "text": "Mezuniyet yemeğinde yönergedeki sınırı kontrol etmek sizin göreviniz miydi?", "delta": 10,
+          "reply": [{ "who": "client", "text": "Faturada toplam tutar ve kişi sayısı vardı. Harcama yetkilisi onay vermişti. Ben imzaları, tutarın doğruluğunu ve eklerin tamlığını kontrol ettim." }],
+          "note": "Yerinde bir soru. Muhasebe yetkilisi imza, maddi hata ve belgelerin tamlığı yönünden kontrol yapar (5018 s.K. m.33, m.61). Harcamanın yönergeye uygunluğu harcama yetkilisinin alanındadır." },
+        { "text": "Rektör bu yemeklere katıldı mı?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Mezuniyet yemeğine katıldı. Diğerlerini bilmiyorum." }],
+          "note": "Kimlerin katıldığı, müvekkilin sorumluluğu sorusunu cevaplamaz." },
+        { "text": "Bu harcamaların yapılmasına sizce gerek var mıydı?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Bu benim karar vereceğim bir şey değil ki." }],
+          "note": "Harcamanın yerindeliği muhasebe yetkilisinin sorumluluk alanında değil. Soru dosyaya bir şey katmadı." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Sorguya yazılı savunma hazırlıyorsunuz. Savunma, raportör denetçinin hazırlayacağı rapora eklenecek." }],
+      "prompt": "Duruşma konusunda ne yapacaksınız?",
+      "choices": [
+        { "text": "Savunmada açıkça duruşma talep et. Belge asıllarını duruşmada sunacağınızı bildir.", "delta": 20, "set": ["durusma"],
+          "law": "6085 s.K.",
+          "note": "Sorumlular savunmalarında ve/veya dilekçelerinde belirterek duruşmaya katılma isteminde bulunabilir. Duruşmada belgeleri heyete doğrudan sunabilirsiniz." },
+        { "text": "Duruşma talebini raportör denetçiye telefonla bildir.", "delta": -10, "set": ["rapor"],
+          "note": "Talep savunmada ve/veya dilekçede belirtilerek yapılır. Telefonla yapılan bildirim dosyaya girmez; daire raporu esas alır." },
+        { "text": "Yazılı savunmayla yetin, duruşma isteme. Belgeleri sonra gönderirsin.", "delta": -10, "set": ["rapor"],
+          "note": "Talep yoksa duruşma yapılmaz. Daire raporu ve Başsavcılığın yazılı görüşünü esas alarak karar verir." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court", "if": "durusma",
+      "lines": [
+        { "who": "narr", "text": "Sayıştay, 2. Daire duruşma salonu. Kürsüde Daire Başkanı ve dört üye." },
+        { "who": "judge", "text": "Duruşmayı açıyorum. Raportör denetçi, birinci bulguyu özetleyin." }
+      ],
+      "statement": { "who": "denetci", "text": "Dört ödemenin dayanağı olan fatura ve katılımcı listesi dosyada yoktur. Belgesiz ödenen 312.000 TL kamu zararıdır. Muhasebe yetkilisi belgelerin tamlığını kontrol etmeden ödeme yapmıştır." },
+      "prompt": "Hangi belgeyle karşılık vereceksiniz?",
+      "correct": ["ev_ekler"],
+      "hit": { "delta": 25, "set": ["belge"],
+        "reply": [{ "who": "judge", "text": "Fatura asılları ve ek listeleri incelendi. Ödeme tarihinde işlendiği görülüyor. Tutanağa geçsin." }],
+        "note": "Belgeler ödeme sırasında vardı ve tamdı. Harcama gerçekten yapılmış, belgesi de var. Kamu zararı oluşmaz." },
+      "responses": {
+        "law_61": { "delta": 5, "note": "Doğru madde: belgelerin tamlığı muhasebe yetkilisinin kontrol alanında. Bu yüzden tam olduklarını gösteren belgeyi sunmanız gerekirdi." },
+        "ev_odeme": { "delta": -5, "note": "Ödeme emirlerinin eksiz hâli raportörün tezini destekliyor." },
+        "ev_yonerge": { "delta": -5, "note": "Yönerge bu bulguyla ilgili değil. Sorun belgelerin varlığı." },
+        "ev_toren": { "delta": -5, "note": "Bu fatura ikinci bulguyla ilgili. Birinci bulguya karşılık vermiyor." }
+      },
+      "pass": { "delta": -15, "note": "Raportörün tespitine karşılık vermediniz. Belgesiz ödeme iddiası cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court", "if": "durusma",
+      "lines": [
+        { "who": "judge", "text": "İkinci bulguya geçiyoruz. Sayın Savcı?" },
+        { "who": "opp", "text": "Mezuniyet yemeğinde yönergedeki kişi başı sınır aşılmıştır. Aşan 148.000 TL'den muhasebe yetkilisi de harcama yetkilisi ve gerçekleştirme görevlisiyle birlikte sorumludur." },
+        { "who": "judge", "text": "Sorumlu vekili, cevabınız?" }
+      ],
+      "prompt": "Nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "text": "Muhasebe yetkilisi imza, maddi hata ve belgelerin tamlığı yönünden kontrol yapar; sorumluluğu bu kontrollerle sınırlıdır. Harcamanın yönergedeki sınıra uygunluğu harcama yetkilisi ve gerçekleştirme görevlisinin alanıdır.", "delta": 20, "set": ["sinirli"],
+          "law": "5018 s.K. m.31–33, m.61",
+          "note": "Harcama yetkilisi, gerçekleştirme görevlisi ve muhasebe yetkilisinin sorumlulukları ayrıdır. Faturada imzalar tam, tutar doğru, belgeler eksiksiz. Müvekkilin kontrol alanında bir eksik yok." },
+        { "text": "Sınır aşılmamıştır; kişi sayısı yanlış hesaplanmıştır.", "delta": -5,
+          "note": "Somut bir belgeye dayanmayan bir sayı itirazı heyeti ikna etmez. Faturadaki kişi sayısı da raportörü doğruluyor." },
+        { "text": "Mezuniyet töreni üniversitenin itibarı için gerekliydi.", "delta": -10,
+          "note": "Yerindelik savunması mevzuata aykırılığı gidermez. Üstelik müvekkilin rolüyle de ilgisi yok." },
+        { "text": "Tutarı müvekkil ve harcama yetkilisi yarı yarıya ödesin.", "delta": -15, "set": ["kabul"],
+          "note": "Bu teklif, müvekkilin kendi kontrol alanı dışındaki bir tutardan sorumluluğunu kabul etmek anlamına gelir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "rapor", "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Doğu Anadolu Teknik Üniversitesinin 2025 yılı hesabına ilişkin ek dosyada, 460.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte harcama yetkilisi, gerçekleştirme görevlisi ve muhasebe yetkilisinden TAZMİNİNE, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Duruşma usulüne uygun istenmedi. Daire raporu ve Başsavcılığın görüşünü esas aldı; belgeler heyetin önüne gelmedi." },
+        { "if": "ekler", "text": " Fatura asılları elinizdeydi. Duruşmada sunulsaydı birinci bulgu tümüyle düşebilirdi." }
+      ] },
+    { "if": "belge && sinirli", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Doğu Anadolu Teknik Üniversitesinin 2025 yılı hesabına ilişkin ek dosyada, belgeleri ibraz edilen 312.000,00 TL yönünden kamu zararı oluşmadığından İLİŞİLECEK BİR HUSUS BULUNMADIĞINA; yönerge sınırını aşan 148.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte harcama yetkilisi ve gerçekleştirme görevlisinden TAZMİNİNE, muhasebe yetkilisinin bu tutardan SORUMLU TUTULMAMASINA, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oy çokluğuyla karar verildi.",
+      "summary": "Müvekkil görüşmesinde ortaya çıkan fatura asılları, belge eksikliğinin kamu zararı olmadığını gösterdi. Sınır aşımında da muhasebe yetkilisinin sorumluluğunun kendi kontrol alanıyla sınırlı olduğunu anlattınız. Müvekkil hiçbir tutardan sorumlu tutulmadı." },
+    { "if": "belge", "winner": "draw", "stamp": "KISMİ BAŞARI", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Doğu Anadolu Teknik Üniversitesinin 2025 yılı hesabına ilişkin ek dosyada, belgeleri ibraz edilen 312.000,00 TL yönünden kamu zararı oluşmadığından İLİŞİLECEK BİR HUSUS BULUNMADIĞINA; yönerge sınırını aşan 148.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte harcama yetkilisi, gerçekleştirme görevlisi ve muhasebe yetkilisinden TAZMİNİNE, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oy çokluğuyla karar verildi.",
+      "summary": [
+        { "text": "Fatura asıllarıyla birinci bulguyu düşürdünüz. Ama sınır aşımında müvekkilin sorumluluğunun imza, maddi hata ve belge tamlığı kontrolüyle sınırlı olduğunu ortaya koymadınız." },
+        { "if": "kabul", "text": " Yarı yarıya ödeme teklifi, sorumluluğu kabul gibi okundu." }
+      ] },
+    { "if": "sinirli", "winner": "draw", "stamp": "KISMİ BAŞARI", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Doğu Anadolu Teknik Üniversitesinin 2025 yılı hesabına ilişkin ek dosyada, belgesiz ödendiği anlaşılan 312.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte harcama yetkilisi, gerçekleştirme görevlisi ve muhasebe yetkilisinden TAZMİNİNE; yönerge sınırını aşan 148.000,00 TL'nin aynı şekilde harcama yetkilisi ve gerçekleştirme görevlisinden TAZMİNİNE, muhasebe yetkilisinin bu tutardan SORUMLU TUTULMAMASINA, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oy çokluğuyla karar verildi.",
+      "summary": [
+        { "text": "Sınır aşımında muhasebe yetkilisinin sorumluluğunun sınırlı olduğunu doğru anlattınız. Ama belgesiz ödeme bulgusu, belgelerin tamlığı tam da müvekkilin kontrol alanında olduğu için ona da yüklendi." },
+        { "if": "!ekler", "text": " Müvekkile belgelerin ödeme sırasında elinde olup olmadığı sorulsaydı, arşivdeki fatura asılları bulunabilirdi." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Doğu Anadolu Teknik Üniversitesinin 2025 yılı hesabına ilişkin ek dosyada, 460.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte harcama yetkilisi, gerçekleştirme görevlisi ve muhasebe yetkilisinden TAZMİNİNE, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oy çokluğuyla karar verildi.",
+      "summary": "Duruşma yapıldı, ama iki bulguya da etkili bir karşılık verilemedi. Belgelerin varlığı ispatlanamadı; muhasebe yetkilisinin kontrol alanının sınırları da ortaya konmadı." }
+  ]
+}

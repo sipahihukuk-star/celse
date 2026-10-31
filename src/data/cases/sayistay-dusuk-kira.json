@@ -1,0 +1,143 @@
+{
+  "id": "sayistay-dusuk-kira",
+  "mode": "solo",
+  "title": "Ucuz Kira",
+  "area": "Sayıştay · Hesap yargılaması · Rayicin altında kira",
+  "court": "Sayıştay 7. Daire",
+  "courtShort": "SAYIŞTAY · 7. DAİRE",
+  "esas": "Ek-Dosya 2025/211 · İlam 5126",
+  "kararTarihi": "08.06.2027",
+  "color": "#5b3a26",
+  "teaser": "Belediyenin sahildeki kafeteryası aylık 18.000 TL'ye kiraya verildi. Denetçi rayicin 60.000 TL olduğunu söylüyor. Para kasadan çıkmadı; yine de kamu zararı olabilir mi?",
+  "sides": { "p1": { "role": "Sorumlu (ihale yetkilisi) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": null,
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d6a57c", "hair": "#b0b0b4", "style": "bald", "glasses": true } },
+    "opp": { "name": "Sayıştay Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#edc6a2", "hair": "#3a2418", "style": "long" } },
+    "client": { "name": "Ayşe Karaca · Müvekkil (ihale yetkilisi)", "np": "civil", "look": { "kind": "civil", "skin": "#e0b48e", "hair": "#4a3020", "style": "bun", "shirt": "#5a3f4f", "inner": "#e9e4d8" } },
+    "denetci": { "name": "Raportör denetçi", "np": "civil", "look": { "kind": "civil", "skin": "#c99670", "hair": "#2a2220", "style": "short", "shirt": "#4a4f57", "inner": "#c9c4b8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Batıkıyı Belediyesi, Kasım 2024'te sahildeki 1.200 metrekarelik kafeterya alanını açık artırmayla beş yıllığına kiraya verdi. Sözleşme 1 Ocak 2025'te başladı. Aylık kira 18.000 TL." },
+    { "who": "narr", "text": "Sayıştay denetçisi, yakındaki marina restoranının aylık 60.000 TL kira ödediğini tespit etti. 2025 yılı için 504.000 TL tutarında kamu kaynağında artışa engel olunduğunu yazdı." },
+    { "who": "client", "text": "Belediyenin kasasından tek kuruş çıkmadı ki. Ben ihaleyi onayladım, şimdi bu parayı benden mi isteyecekler?" }
+  ],
+  "docs": [
+    { "t": "Denetçinin sorgusu", "d": "Taşınmazın rayiç bedelin çok altında kiraya verildiği, 2025 yılı için 504.000 TL kamu zararı oluştuğu tespiti." },
+    { "t": "Kira sözleşmesi", "d": "1 Ocak 2025 başlangıçlı, beş yıl süreli. Aylık 18.000 TL. 2026'dan itibaren her yıl TÜFE oranında artış hükmü var." },
+    { "t": "İhale karar tutanağı", "d": "Açık artırmaya beş istekli katılmış. En yüksek teklif 18.000 TL." },
+    { "t": "Usul notu", "d": "Sorumlular savunmalarında ve/veya dilekçelerinde belirterek duruşma isteyebilir. Talep yoksa daire raporu esas alır." }
+  ],
+  "evidence": [
+    { "id": "ev_sozlesme", "type": "belge", "title": "Kira sözleşmesi", "desc": "1 Ocak 2025 başlangıçlı, beş yıl süreli. Aylık 18.000 TL. 2026'dan itibaren her yıl TÜFE oranında artış hükmü var." },
+    { "id": "ev_ihale", "type": "belge", "title": "İhale karar tutanağı", "desc": "Açık artırmaya beş istekli katılmış. En yüksek teklif 18.000 TL." },
+    { "id": "ev_degerleme", "type": "belge", "title": "Tahmini bedel komisyonu kararı ve değerleme raporu", "desc": "Ekim 2024. Lisanslı değerleme uzmanının raporu ve üç emsal. Yol ve elektrik bağlantısı olmadığı için aylık rayiç kira 17.500 TL olarak belirlenmiş.", "if": "degerleme" },
+    { "id": "ev_imar", "type": "belge", "title": "Altyapı yazısı ve marina ruhsatı", "desc": "2024 tarihli yazı: kafeterya alanına yol ve elektrik bağlantısı yok. Marina restoranı 3.000 metrekare, ruhsatlı ve otoparklı.", "if": "emsal" },
+    { "id": "law_71", "type": "kanun", "title": "5018 s.K. m.71 · Kamu zararı", "desc": "Mevzuata aykırı işlemler sonucunda kamu kaynağında artışa engel ya da azalışa neden olunması.", "law": "5018 s.K. m.71" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Belediye binasında, müvekkilin odasındasınız. Toplantıya çağrılmadan önce iki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Kira bedeli belirlenmeden önce rayiç nasıl tespit edildi? Yazılı bir rapor var mı?", "delta": 15, "set": ["degerleme"],
+          "reply": [{ "who": "client", "text": "Tahmini bedel komisyonu kurduk. Lisanslı bir değerleme uzmanından rapor da aldık. Üç emsal incelendi. O tarihte alana yol ve elektrik yoktu, rayiç 17.500 TL çıktı. Rapor Emlak Müdürlüğündeki ihale klasöründe." }],
+          "note": "Kritik bilgi. Raportörün tezi, rayicin hiç araştırılmadığı üzerine kurulu. Değerleme raporu bu tezi doğrudan karşılar. Delil çantanıza eklendi." },
+        { "text": "Denetçinin emsal aldığı marina restoranı sizin taşınmazınıza benziyor mu?", "delta": 10, "set": ["emsal"],
+          "reply": [{ "who": "client", "text": "Hiç benzemiyor. Marina 3.000 metrekare, ruhsatlı, otoparklı. Bizim alanın o tarihte yolu bile yoktu. Altyapı yazısı Fen İşlerinde." }],
+          "note": "Yerinde bir soru. Emsalin uygun olmaması, raportörün hesapladığı tutarı doğrudan etkiler. Altyapı yazısı delil çantanıza eklendi." },
+        { "text": "Kiracı firma kimin?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Yerel bir işletme. Kimseyle akrabalığım yok." }],
+          "note": "Dosyada bir kayırma iddiası yok. Soru hakkınızı davaya bir şey katmayan bir konuya harcadınız." },
+        { "text": "Kira bedelleri düzenli ödeniyor mu?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Her ay zamanında yatıyor." }],
+          "note": "Ödemenin düzenli olması, bedelin rayice uygun olup olmadığı sorusunu cevaplamaz." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Sorguya yazılı savunma hazırlıyorsunuz. Savunma, raportör denetçinin hazırlayacağı rapora eklenecek." }],
+      "prompt": "Savunmayı nasıl kuracaksınız?",
+      "choices": [
+        { "if": "degerleme", "text": "Savunmada duruşma talep et. Değerleme raporunu ve komisyon kararını savunmaya ekle.", "delta": 20, "set": ["durusma"],
+          "law": "6085 s.K.",
+          "note": "Sorumlular savunmalarında ve/veya dilekçelerinde belirterek duruşmaya katılma isteminde bulunabilir. Belge de dosyaya girdi." },
+        { "if": "!degerleme", "text": "Savunmada duruşma talep et. Raportörün emsalinin uygun olmadığını yaz.", "delta": 10, "set": ["durusma"],
+          "law": "6085 s.K.",
+          "note": "Duruşma talebi yerinde. Ama savunmayı rayicin nasıl belirlendiğini gösteren bir belgeye dayandırmadınız." },
+        { "text": "Savunmada duruşma talep et. Kira gelirinin bütçeye girdiğini, kamu kaynağında azalma olmadığını yaz.", "delta": -5, "set": ["durusma", "yanlisTez"],
+          "law": "5018 s.K. m.71",
+          "note": "Duruşma talebi yerinde, ama tez yanlış. Kamu zararı, kamu kaynağında artışa engel olunmasını da kapsar (5018 s.K. m.71)." },
+        { "text": "Yazılı savunmayla yetin, duruşma isteme.", "delta": -10, "set": ["rapor"],
+          "note": "Talep yoksa duruşma yapılmaz. Daire raporu ve Başsavcılığın yazılı görüşünü esas alarak karar verir." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court", "if": "durusma",
+      "lines": [
+        { "who": "narr", "text": "Sayıştay, 7. Daire duruşma salonu. Kürsüde Daire Başkanı ve dört üye." },
+        { "who": "judge", "text": "Duruşmayı açıyorum. Raportör denetçi, raporunuzu özetleyin." }
+      ],
+      "statement": { "who": "denetci", "text": "Taşınmaz rayicin çok altında kiraya verilmiştir. Komşu marina restoranı aylık 60.000 TL ödemektedir. Rayiç araştırılmadan ihale yapılmış, 2025 yılı için 504.000 TL tutarında kamu kaynağında artışa engel olunmuştur." },
+      "prompt": "Hangi belgeyle karşılık vereceksiniz?",
+      "correct": ["ev_degerleme"],
+      "hit": { "delta": 25, "set": ["rayic"],
+        "reply": [{ "who": "judge", "text": "Değerleme raporu ve komisyon kararı okundu. Raporun tarihi ihaleden önce. Tutanağa geçsin." }],
+        "note": "Rayiç ihaleden önce lisanslı bir uzmanca, emsallerle belirlenmiş. Raportörün “rayiç araştırılmadı” tezi belgeyle çürüdü." },
+      "responses": {
+        "ev_imar": { "delta": 10, "set": ["emsalItiraz"], "note": "Raportörün emsalinin uygun olmadığını gösterdiniz. Ama “rayiç araştırılmadı” iddiasını çürüten belge değerleme raporuydu." },
+        "ev_ihale": { "delta": 5, "note": "Rekabetin sağlandığını gösterdiniz. Ama tahmini bedel doğru belirlenmediyse rekabet tek başına yetmez." },
+        "ev_sozlesme": { "delta": -5, "note": "Sözleşme bedelin düşüklüğünü gösteriyor. Raportörün tezine karşılık vermiyor." },
+        "law_71": { "delta": -5, "note": "Bu madde raportörün tezini destekliyor: artışa engel olmak da kamu zararıdır." }
+      },
+      "pass": { "delta": -15, "note": "Raportörün tespitine karşılık vermediniz." }
+    },
+    { "side": "p1", "scene": "court", "if": "durusma",
+      "lines": [
+        { "who": "opp", "if": "rayic", "text": "Değerleme 2024 tarihlidir. 2025 yılında bölgeye yol ve elektrik getirilmiş, rayiç yükselmiştir. İdare bedeli güncellemeliydi." },
+        { "who": "opp", "if": "!rayic", "text": "Rayicin araştırıldığına dair dosyada bir belge yoktur. Başsavcılık, 504.000 TL'nin tazmini görüşündedir." },
+        { "who": "judge", "text": "Sorumlu vekili, cevabınız?" }
+      ],
+      "prompt": "Nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "if": "rayic", "text": "Kamu zararı mevzuata aykırı bir işlem arar. Bedel ihale tarihinde usulüne uygun belirlendi, açık artırmayla rekabet sağlandı. Sözleşme süresince bedel, sözleşmedeki TÜFE artış hükmüne göre işler.", "delta": 20, "set": ["tarih"],
+          "law": "5018 s.K. m.71",
+          "note": "İşlemin mevzuata uygunluğu, yapıldığı tarihteki koşullara göre değerlendirilir. Usulüne uygun belirlenen ve sözleşmeye bağlanan bedel, sonradan artan rayiç nedeniyle mevzuata aykırı hâle gelmez." },
+        { "if": "!rayic", "text": "Raportörün emsali uygun değil. Tutarın uygun emsallerle, gerekirse bilirkişi incelemesiyle yeniden hesaplanmasını isteriz.", "delta": 10, "set": ["bilirkisi"],
+          "note": "Rayicin doğru emsale göre belirlenmesi, tazmin tutarını doğrudan etkiler. Elinizdeki en iyi yol bu." },
+        { "text": "Kira geliri bütçeye girdiğine göre kamu kaynağında azalma yoktur.", "delta": -15, "set": ["yanlisTez"],
+          "law": "5018 s.K. m.71",
+          "note": "Kamu zararı, kamu kaynağında artışa engel olunmasını da kapsar (5018 s.K. m.71). Bu savunma heyetin gözünde tezinizi zayıflattı." },
+        { "text": "Kiracı iyi niyetlidir; sözleşmeye dokunulmamalıdır.", "delta": -5,
+          "note": "Kiracının iyi niyeti, sorumluların işleminin mevzuata uygun olup olmadığı sorusunu cevaplamaz." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "rapor", "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Batıkıyı Belediyesinin 2025 yılı hesabına ilişkin ek dosyada, taşınmazın rayicin altında kiraya verilmesi nedeniyle oluşan 504.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte sorumlulardan TAZMİNİNE, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Duruşma istenmedi. Daire raporu ve Başsavcılığın görüşünü esas aldı." },
+        { "if": "degerleme", "text": " Değerleme raporu elinizdeydi; heyet önünde sunulsaydı rayicin araştırıldığı görülürdü." }
+      ] },
+    { "if": "rayic", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": [
+        { "text": "Batıkıyı Belediyesinin 2025 yılı hesabına ilişkin ek dosyada, kira bedelinin ihale tarihindeki rayice göre usulüne uygun belirlendiği anlaşıldığından, kamu zararı oluşmadığından İLİŞİLECEK BİR HUSUS BULUNMADIĞINA, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere " },
+        { "if": "tarih", "text": "oybirliğiyle karar verildi." },
+        { "if": "!tarih", "text": "oy çokluğuyla karar verildi." }
+      ],
+      "summary": [
+        { "text": "Müvekkil görüşmesinde ortaya çıkan değerleme raporu, rayicin ihaleden önce araştırıldığını gösterdi." },
+        { "if": "tarih", "text": " Savcının “rayiç sonradan yükseldi” itirazını da karşıladınız: işlemin mevzuata uygunluğu yapıldığı tarihe göre değerlendirilir." },
+        { "if": "!tarih", "text": " Savcının “rayiç sonradan yükseldi” itirazına güçlü bir cevap veremediniz; bir üye karşı oy yazdı." },
+        { "if": "yanlisTez", "text": " “Kasadan para çıkmadı” savunması ise yanlıştı: artışa engel olmak da kamu zararıdır." }
+      ] },
+    { "if": "bilirkisi && emsalItiraz", "winner": "draw", "stamp": "KISMİ BAŞARI", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Batıkıyı Belediyesinin 2025 yılı hesabına ilişkin ek dosyada, bilirkişi incelemesiyle uygun emsallere göre belirlenen aylık 31.000 TL rayiç esas alınarak hesaplanan 156.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte sorumlulardan TAZMİNİNE, fazlaya ilişkin 348.000,00 TL yönünden İLİŞİLECEK BİR HUSUS BULUNMADIĞINA, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oy çokluğuyla karar verildi.",
+      "summary": "Emsalin uygun olmadığını belgeyle gösterdiniz; tazmin tutarı üçte birin altına indi. Ama rayicin ihaleden önce araştırıldığı ispatlanamadı. Müvekkile değerleme raporu sorulsaydı kamu zararı tümüyle düşebilirdi." },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Batıkıyı Belediyesinin 2025 yılı hesabına ilişkin ek dosyada, taşınmazın rayicin altında kiraya verilmesi nedeniyle oluşan 504.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte sorumlulardan TAZMİNİNE, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oy çokluğuyla karar verildi.",
+      "summary": [
+        { "text": "Rayicin ihaleden önce araştırıldığı gösterilemedi. Kamu kaynağında artışa engel olunması da kamu zararıdır (5018 s.K. m.71)." },
+        { "if": "!degerleme", "text": " Müvekkile rayicin nasıl belirlendiği sorulsaydı, ihale klasöründeki değerleme raporu bulunabilirdi." }
+      ] }
+  ]
+}

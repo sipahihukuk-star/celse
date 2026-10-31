@@ -11,8 +11,14 @@ import uzakAdliye from "./uzak-adliye.json";
 import yargitayDurusma from "./yargitay-durusma.json";
 import aihmBuyukDaire from "./aihm-buyuk-daire.json";
 import ucmYargilama from "./ucm-yargilama.json";
+import sayistayFazlaHakedis from "./sayistay-fazla-hakedis.json";
+import sayistayFazlaMesai from "./sayistay-fazla-mesai.json";
+import sayistayDusukKira from "./sayistay-dusuk-kira.json";
+import sayistayTemsilAgirlama from "./sayistay-temsil-agirlama.json";
+import sayistayYargilamaninIadesi from "./sayistay-yargilamanin-iadesi.json";
 
-export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, sozluFesih, uzakAdliye, yargitayDurusma, aihmBuyukDaire, ucmYargilama].map(c => normalizeCase(c as unknown as CaseFile));
+export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, sozluFesih, uzakAdliye, yargitayDurusma, aihmBuyukDaire, ucmYargilama,
+  sayistayFazlaHakedis, sayistayFazlaMesai, sayistayDusukKira, sayistayTemsilAgirlama, sayistayYargilamaninIadesi].map(c => normalizeCase(c as unknown as CaseFile));
 export const DUEL_CASES = CASES.filter(c => c.mode === "duel");
 export const SOLO_CASES = CASES.filter(c => c.mode === "solo");
 export const caseById = (id: string) => CASES.find(c => c.id === id)!;

@@ -1,0 +1,155 @@
+{
+  "id": "sayistay-fazla-hakedis",
+  "mode": "solo",
+  "title": "Fazla Hakediş",
+  "area": "Sayıştay · Hesap yargılaması · Fazla hakediş ödemesi",
+  "court": "Sayıştay 3. Daire",
+  "courtShort": "SAYIŞTAY · 3. DAİRE",
+  "esas": "Ek-Dosya 2025/127 · İlam 4512",
+  "kararTarihi": "16.03.2027",
+  "color": "#4a3b22",
+  "teaser": "Bir kültür merkezi inşaatında yükleniciye 1,24 milyon TL fazla ödendi. Ödeme emrini müvekkiliniz imzaladı; hata nerede başladı?",
+  "sides": { "p1": { "role": "Sorumlu (harcama yetkilisi) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": null,
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#dcae88", "hair": "#8d8d92", "style": "short", "glasses": true } },
+    "opp": { "name": "Sayıştay Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e3b892", "hair": "#2e2219", "style": "short", "beard": true } },
+    "client": { "name": "Kemal Arslan · Müvekkil (harcama yetkilisi)", "np": "civil", "look": { "kind": "civil", "skin": "#d4a37c", "hair": "#5a5a5e", "style": "short", "glasses": true, "shirt": "#3f4a5a", "inner": "#d8d3c6" } },
+    "denetci": { "name": "Raportör denetçi", "np": "civil", "look": { "kind": "civil", "skin": "#e6bf9c", "hair": "#3b2a1f", "style": "bun", "shirt": "#4b4f58", "inner": "#e6e1d6" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Kuzeykent Belediyesi, Sahil Kültür Merkezi yapım işi. Sayıştay denetçisi 7 no.lu hakedişte betonarme demirinin iki ayrı kalemde aynı miktarla hesaplandığını tespit etti." },
+    { "who": "narr", "text": "Yükleniciye 1.240.000 TL fazla ödeme yapılmış. Denetçi sorgu düzenledi. Sorumlu olarak harcama yetkilisi Belediye Başkan Yardımcısı Kemal Arslan ile kontrol teşkilatındaki üç mühendis gösterildi." },
+    { "who": "client", "text": "Ödeme emrini ben imzaladım, doğru. Ama metrajı ben ölçmedim ki. Savunma süremiz dolmak üzere." }
+  ],
+  "docs": [
+    { "t": "Denetçinin sorgusu", "d": "Mükerrer metraj nedeniyle 1.240.000 TL fazla hakediş ödemesi. Sorumlular: harcama yetkilisi ve gerçekleştirme görevlileri." },
+    { "t": "7 no.lu hakediş raporu", "d": "Kontrol teşkilatının üç mühendisince düzenlenip imzalanmış." },
+    { "t": "Ödeme emri belgesi", "d": "Harcama yetkilisi olarak Kemal Arslan'ın imzasını taşıyor." },
+    { "t": "Usul notu", "d": "Sorumlular savunmalarında ve/veya dilekçelerinde belirterek duruşmaya katılma isteminde bulunabilir. Talep yoksa daire raporu esas alır." }
+  ],
+  "evidence": [
+    { "id": "ev_hakedis", "type": "belge", "title": "7 no.lu hakediş raporu", "desc": "Kontrol teşkilatının üç mühendisi düzenleyip imzalamış. Demir imalatı iki ayrı pozda aynı miktarla yer alıyor." },
+    { "id": "ev_odeme", "type": "belge", "title": "Ödeme emri belgesi", "desc": "Harcama yetkilisi olarak müvekkilin imzası var." },
+    { "id": "ev_tutanak", "type": "belge", "title": "Yazılı talimat ve metraj kontrol tutanağı", "desc": "Müvekkilin 4 Eylül 2025 tarihli yazısı: demir metrajı yerinde yeniden ölçülsün. Altında üç mühendisin imzasıyla “Metraj yerinde kontrol edilmiştir, doğrudur.” şerhi.", "if": "tutanak" },
+    { "id": "law_71", "type": "kanun", "title": "5018 s.K. m.71 · Kamu zararı", "desc": "Kamu görevlilerinin kasıt, kusur ya da ihmallerinden kaynaklanan mevzuata aykırı işlemleri sonucunda kamu kaynağında artışa engel ya da azalışa neden olunması.", "law": "5018 s.K. m.71" },
+    { "id": "law_31", "type": "kanun", "title": "5018 s.K. m.31–33 · Görev ayrımı", "desc": "Harcama yetkilisi ile giderin gerçekleştirilmesinde görev alan gerçekleştirme görevlilerinin görevleri ayrı ayrı düzenlenmiştir.", "law": "5018 s.K. m.31–33" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Büronuzdasınız. Müvekkil yarım saat sonra belediyeye dönecek. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Ödeme emrini imzalamadan önce metrajı kontrol ettirdiniz mi? Bunun yazılı bir izi var mı?", "delta": 15, "set": ["tutanak"],
+          "reply": [{ "who": "client", "text": "Demir miktarı bana yüksek geldi. Kontrol şefine yazı yazdım, yerinde yeniden ölçün dedim. Üç mühendis “metraj doğrudur” diye tutanak imzaladı. Ben de ondan sonra imzaladım. Suretleri Fen İşlerinde." }],
+          "note": "Kritik bilgi. Kamu zararı kasıt, kusur ya da ihmal arar (5018 s.K. m.71). Yazı ve tutanak, hatanın nerede başladığını ve müvekkilin özen gösterdiğini gösterir. Delil çantanıza eklendi." },
+        { "text": "Denetçinin sorgusunda kimler, hangi sıfatla sorumlu gösterildi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Ben harcama yetkilisi olarak. Kontrol teşkilatındaki üç mühendis de gerçekleştirme görevlisi olarak. Muhasebe yetkilisi sorumlu tutulmamış." }],
+          "note": "Yerinde bir soru. Harcama yetkilisi, gerçekleştirme görevlisi ve muhasebe yetkilisinin sorumlulukları ayrıdır (5018 s.K. m.31–33, m.61)." },
+        { "text": "Yüklenici firmayla bir tanışıklığınız var mı?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Hayır. İş açık ihaleyle verildi, firmayı ilk kez sözleşmede gördüm." }],
+          "note": "Dosyada bir kayırma iddiası yok. Bu soru savunmanın merkezine bir şey katmadı." },
+        { "text": "Belediye başkanı bu konuda ne düşünüyor?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Başkan “Sayıştay işidir, siz halledin” dedi." }],
+          "note": "Hesap yargılamasında sorumluluk, kişinin kendi görevine göre belirlenir. Bu soru davayla ilgisizdi." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Sorguya yazılı savunma hazırlıyorsunuz. Savunma, raportör denetçinin hazırlayacağı yargılamaya esas rapora eklenecek." }],
+      "prompt": "Savunmayı nasıl kuracaksınız?",
+      "choices": [
+        { "if": "tutanak", "text": "Savunmada açıkça duruşma talep et. Talimat yazısını ve metraj kontrol tutanağını savunmaya ekle.", "delta": 20, "set": ["durusma"],
+          "law": "6085 s.K.",
+          "note": "Sorumlular savunmalarında ve/veya dilekçelerinde belirterek duruşmaya katılma isteminde bulunabilir. Talep üzerine siz ve müvekkil davet edilirsiniz. Belgeler de dosyaya girdi." },
+        { "if": "!tutanak", "text": "Savunmada açıkça duruşma talep et. Metrajı ölçmenin harcama yetkilisinin görevi olmadığını yaz.", "delta": 10, "set": ["durusma"],
+          "law": "6085 s.K.",
+          "note": "Duruşma talebi yerinde. Ama savunmayı somut bir belgeye dayandırmadınız." },
+        { "text": "Ayrıntılı bir yazılı savunma ver, duruşma isteme. Heyet dosyayı zaten okur.", "delta": -10, "set": ["rapor"],
+          "note": "Talep yoksa duruşma yapılmaz. Daire, raporu ve Başsavcılığın yazılı görüşünü esas alarak karar verir. Heyet önünde açıklama fırsatınız olmaz." },
+        { "text": "Savunma verme. İlam çıkarsa idare mahkemesinde iptal davası açarız.", "delta": -20, "set": ["rapor", "idari"],
+          "law": "Anayasa m.160",
+          "note": "Sayıştay kararları dolayısıyla idari yargı yoluna başvurulamaz (Anayasa m.160). Daire ilamına karşı yol, Temyiz Kuruludur. Savunma hakkınızı da kullanmadınız." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court", "if": "durusma",
+      "lines": [
+        { "who": "narr", "text": "Sayıştay, 3. Daire duruşma salonu. Kürsüde Daire Başkanı ve dört üye. Raportör denetçi ve savcı yerlerinde." },
+        { "who": "judge", "text": "Duruşmayı açıyorum. Raportör denetçi, raporunuzu özetleyin." },
+        { "who": "denetci", "text": "7 no.lu hakedişte betonarme demiri iki ayrı pozda aynı miktarla hesaplanmış. Yükleniciye 1.240.000 TL fazla ödenmiştir. Sorumlular harcama yetkilisi ve gerçekleştirme görevlileridir." },
+        { "who": "judge", "text": "Sayın Savcı, görüşünüzü alalım." }
+      ],
+      "statement": { "who": "opp", "text": "Ödeme emrini harcama yetkilisi imzalamıştır. Ödemeyi o yaptırmıştır. Fazla ödemenin sorumlusu odur; tazmin edilmelidir." },
+      "prompt": "Hangi belgeyle karşılık vereceksiniz?",
+      "correct": ["ev_tutanak"],
+      "hit": { "delta": 25, "set": ["kaynak"],
+        "reply": [{ "who": "judge", "text": "Tutanak okundu. Üç mühendisin imzası ve şerhi tutanağa geçsin." }],
+        "law": "5018 s.K. m.71",
+        "note": "Belge, müvekkilin şüphelendiğini ve yazılı olarak yeniden ölçüm istediğini gösteriyor. Hatalı metraj kontrol teşkilatının imzasıyla doğrulanmış. Kusurun kaynağı belli oldu." },
+      "responses": {
+        "ev_hakedis": { "delta": 5, "note": "Hakedişi kontrol teşkilatının düzenlediğini gösterdiniz. Ama müvekkilin özen gösterdiğini kanıtlayan belge talimat yazısı ve tutanaktı." },
+        "ev_odeme": { "delta": -10, "note": "Bu belge savcının tezini destekliyor: ödeme emrinde müvekkilin imzası var." },
+        "law_71": { "delta": 5, "note": "Doğru dayanak: kamu zararı kusur arar. Ama heyet, kusurun kimde olduğunu gösteren belgeyi görmek ister." },
+        "law_31": { "delta": 5, "note": "Görev ayrımını hatırlattınız. Ama bu ayrımı somut olaya bağlayan belgeyi sunmadınız." }
+      },
+      "pass": { "delta": -15, "note": "Savcının görüşüne karşılık vermediniz. İmza tek başına konuşmaya devam ediyor." }
+    },
+    { "side": "p1", "scene": "court", "if": "durusma",
+      "lines": [
+        { "who": "denetci", "if": "kaynak", "text": "Tutanak var, kabul ediyorum. Ancak harcama yetkilisi ödeme emrini imzalarken hakedişi incelemekle yükümlüdür." },
+        { "who": "denetci", "if": "!kaynak", "text": "Harcama yetkilisi ödeme emrini imzalayarak ödemeye onay vermiştir. Fazla ödemeden doğrudan sorumludur." },
+        { "who": "judge", "text": "Sorumlu vekili, sorumluluk paylaşımı konusunda ne diyorsunuz?" }
+      ],
+      "prompt": "Nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "if": "kaynak", "text": "Görev ayrımını açıklayın: metrajı ölçmek ve hakedişi düzenlemek gerçekleştirme görevlilerinin işidir. Müvekkil şüphelendiğinde yazılı kontrol istedi. Kamu zararında kusur aranır.", "delta": 20, "set": ["gorev"],
+          "law": "5018 s.K. m.31–33, m.71",
+          "note": "Harcama yetkilisi ile gerçekleştirme görevlilerinin görevleri ayrıdır. Müvekkil kendi görev alanında özen gösterdiğini belgeyle kanıtladı. Kusur, metrajı yanlış doğrulayan kontrol teşkilatında." },
+        { "if": "!kaynak", "text": "Metraj teknik bir iştir. Gerçekleştirme görevlilerinin alanıdır; harcama yetkilisi bunu ölçemez.", "delta": 5,
+          "law": "5018 s.K. m.31–33",
+          "note": "Doğru yönde bir savunma. Ama müvekkilin özen gösterdiğini kanıtlayan bir belge yok. Harcama yetkilisi yalnızca “teknik bilmem” diyerek sorumluluktan kurtulamaz." },
+        { "text": "Müvekkil imzalamak zorundaydı. Aksi hâlde ödeme gecikir, yükleniciye faiz doğardı.", "delta": -5,
+          "note": "Gecikme kaygısı, mevzuata aykırı bir ödemeyi haklı kılmaz." },
+        { "text": "Fazla ödeme yükleniciden zaten geri alınacak. Bu nedenle dosya düşmelidir.", "delta": -5,
+          "note": "Tahsil ihtimali tek başına kamu zararını ortadan kaldırmaz. Dosyada ödendiğini gösteren bir belge de yok." }
+      ] },
+    { "side": "p1", "scene": "court", "if": "durusma",
+      "lines": [
+        { "who": "opp", "text": "Başsavcılık yazılı görüşünü tekrar ediyorum. Fazla ödeme gerçektir; tutarın tazmini gerekir. Kimden tazmin edileceği heyetin takdirindedir." },
+        { "who": "judge", "text": "Sorumlu vekili, son sözünüz?" }
+      ],
+      "prompt": "Heyetten ne isteyeceksiniz?",
+      "choices": [
+        { "text": "Müvekkilin bu tutardan sorumlu tutulmamasını isteriz.", "delta": 15, "set": ["talep"],
+          "note": "Talep, savunmanın doğal sonucuyla sınırlı. Fazla ödemeyi inkâr etmeden müvekkilin kusursuzluğuna dayandınız." },
+        { "text": "Kamu zararı oluşmadığından ilişilecek bir husus bulunmadığına karar verilmesini isteriz.", "delta": -10,
+          "note": "Mükerrer metraj tartışmasız. Kamu zararı var; tartışma kimin sorumlu olduğu üzerinde. Bu talep güvenilirliğinizi zedeler." },
+        { "text": "Tutarın sorumlular arasında eşit bölünmesini isteriz.", "delta": -10,
+          "note": "Bu talep, müvekkilin sorumluluğunu kabul ettiğiniz anlamına gelir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "rapor && idari", "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Kuzeykent Belediyesinin 2025 yılı hesabına ilişkin ek dosyada, 1.240.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte harcama yetkilisi ve gerçekleştirme görevlilerinden TAZMİNİNE, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": "Savunma verilmedi, duruşma istenmedi. Daire raporu esas aldı. İdare mahkemesi planı da işe yaramayacak: Sayıştay kararları dolayısıyla idari yargı yoluna başvurulamaz (Anayasa m.160). Tek yol altmış gün içinde Temyiz Kuruludur." },
+    { "if": "rapor", "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Kuzeykent Belediyesinin 2025 yılı hesabına ilişkin ek dosyada, 1.240.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte harcama yetkilisi ve gerçekleştirme görevlilerinden TAZMİNİNE, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Duruşma istemediğiniz için daire, raportörün değerlendirmesini ve Başsavcılığın yazılı görüşünü esas aldı. Heyet önünde görev ayrımını anlatma fırsatı doğmadı." },
+        { "if": "tutanak", "text": " Elinizdeki talimat yazısı ve tutanak, duruşmada sunulsaydı kusurun kaynağını gösterebilirdi." }
+      ] },
+    { "if": "kaynak", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Kuzeykent Belediyesinin 2025 yılı hesabına ilişkin ek dosyada, 1.240.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte metrajı doğrulayan gerçekleştirme görevlilerinden TAZMİNİNE, harcama yetkilisinin bu tutardan SORUMLU TUTULMAMASINA, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oy çokluğuyla karar verildi.",
+      "summary": [
+        { "text": "Müvekkil görüşmesinde ortaya çıkan talimat yazısı ve tutanak, hatanın kontrol teşkilatında başladığını gösterdi." },
+        { "if": "gorev", "text": " Görev ayrımını belgeye bağladınız: müvekkil kendi alanında özen göstermişti." },
+        { "if": "!gorev", "text": " Görev ayrımını heyete daha açık anlatabilirdiniz. Sonucu belge kurtardı." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Kuzeykent Belediyesinin 2025 yılı hesabına ilişkin ek dosyada, 1.240.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte harcama yetkilisi ve gerçekleştirme görevlilerinden TAZMİNİNE, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oy çokluğuyla karar verildi.",
+      "summary": [
+        { "text": "Duruşma yapıldı, ama müvekkilin özen gösterdiği belgeyle kanıtlanamadı. Ödeme emrindeki imza belirleyici oldu." },
+        { "if": "!tutanak", "text": " Müvekkile metrajı kontrol ettirip ettirmediği sorulsaydı, kusurun kaynağını gösteren tutanak bulunabilirdi." }
+      ] }
+  ]
+}

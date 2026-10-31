@@ -1,0 +1,158 @@
+{
+  "id": "sayistay-yargilamanin-iadesi",
+  "mode": "solo",
+  "title": "Kayıp Tutanak",
+  "area": "Sayıştay · Yargılamanın iadesi",
+  "court": "Sayıştay 8. Daire",
+  "courtShort": "SAYIŞTAY · 8. DAİRE",
+  "esas": "Ek-Dosya 2020/48 · İlam 1904 · İade",
+  "kararTarihi": "22.06.2027",
+  "color": "#2e3b2c",
+  "teaser": "Beş yıl önce kesinleşen bir tazmin ilamı, maaşından her ay kesiliyor. Şimdi bir arşivden imzalı bir teslim tutanağı çıktı. Süre dolmak üzere.",
+  "sides": { "p1": { "role": "Sorumlu (gerçekleştirme görevlisi) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": null,
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#c99670", "hair": "#9a9a9e", "style": "short" } },
+    "opp": { "name": "Sayıştay Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e8c09c", "hair": "#5a4a3c", "style": "bun", "glasses": true } },
+    "client": { "name": "Cemal Öztürk · Müvekkil (gerçekleştirme görevlisi)", "np": "civil", "look": { "kind": "civil", "skin": "#d6a57c", "hair": "#c9c9cc", "style": "short", "beard": true, "shirt": "#5b6b4e", "inner": "#d9d4c8" } },
+    "denetci": { "name": "Raportör denetçi", "np": "civil", "look": { "kind": "civil", "skin": "#e0b48e", "hair": "#2b1d17", "style": "long", "shirt": "#4a4f57", "inner": "#e6e1d6" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Yeşilova İl Özel İdaresi, 2020 yılı hesabı. Sayıştay 8. Dairesi 20 Aralık 2021 tarihli ilamla iki hükme vardı." },
+    { "who": "narr", "text": "Birinci hüküm: 40 jeneratörün teslim alınmadan bedelinin ödendiği gerekçesiyle 685.000 TL'nin harcama yetkilisi ile gerçekleştirme görevlisi Cemal Öztürk'ten tazmini. İkinci hüküm: akaryakıt alımında 45.000 TL'nin tazmini. Temyiz Kurulu ilamı onadı. Bugün 15 Şubat 2027." },
+    { "who": "client", "text": "Afet Koordinasyon Merkezi taşınırken arşivden bir tutanak çıkmış. Jeneratörler teslim alınmış, imzalar var. Ama ilam kesinleşti. Artık yapacak bir şey var mı?" }
+  ],
+  "docs": [
+    { "t": "Daire ilamı (20.12.2021)", "d": "1. hüküm: 685.000 TL, jeneratör alımı. 2. hüküm: 45.000 TL, akaryakıt alımı." },
+    { "t": "Temyiz Kurulu kararı", "d": "İlamın onanması. Temyiz Kurulu kararları kesindir." },
+    { "t": "İcra dosyası", "d": "Tazmin tutarı İİK hükümlerine göre takip ediliyor; müvekkilin maaşından her ay kesinti yapılıyor." },
+    { "t": "Usul notu", "d": "Yargılamanın iadesi ilamın tebliğinden itibaren beş yıl içinde istenebilir. İstem ilamın icrasını alıkoymaz." }
+  ],
+  "evidence": [
+    { "id": "ev_ilam", "type": "belge", "title": "Daire ilamı (20.12.2021)", "desc": "Jeneratörlerin depoya girişini gösteren taşınır işlem fişi bulunmadığından teslim alınmadan ödeme yapıldığı sonucuna varılmış." },
+    { "id": "ev_fatura", "type": "belge", "title": "Yüklenici faturası", "desc": "40 adet jeneratör, toplam 685.000 TL." },
+    { "id": "ev_tutanak", "type": "belge", "title": "Muayene ve kabul tutanağı", "desc": "3 Kasım 2020. Komisyonun üç üyesi imzalamış. 40 jeneratörün seri numaraları tek tek yazılı. Teslim yeri: Afet Koordinasyon Merkezi, doğrudan sahaya.", "if": "tutanak" },
+    { "id": "ev_teblig", "type": "belge", "title": "İlamın tebliğ belgesi", "desc": "Daire ilamı müvekkile 8 Mart 2022 tarihinde tebliğ edilmiş.", "if": "teblig" },
+    { "id": "law_iade", "type": "kanun", "title": "6085 s.K. · Yargılamanın iadesi", "desc": "Sebepler arasında: denetleme ya da hesap yargılaması sırasında bulunmayan, hükme etki edebilecek belgelerin hükümden sonra ortaya çıkması. Süre, ilamın tebliğinden itibaren beş yıl.", "law": "6085 s.K." }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Müvekkil büronuzda, elinde bir dosya. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Tutanakta tam olarak ne yazıyor? Kimler imzalamış?", "delta": 15, "set": ["tutanak"],
+          "reply": [{ "who": "client", "text": "Muayene ve kabul komisyonunun üç üyesi imzalamış. 40 jeneratörün seri numaraları tek tek yazılı. Jeneratörler depoya hiç girmemiş; doğrudan Afet Koordinasyon Merkezine teslim edilmiş. Depoda fiş o yüzden yok." }],
+          "note": "Kritik bilgi. Denetleme ya da yargılama sırasında bulunmayan, hükme etki edebilecek bir belgenin hükümden sonra ortaya çıkması iade sebebidir. Tutanak delil çantanıza eklendi." },
+        { "text": "Daire ilamı size hangi tarihte tebliğ edildi?", "delta": 10, "set": ["teblig"],
+          "reply": [{ "who": "client", "text": "8 Mart 2022. Tebligat zarfını sakladım." }],
+          "note": "Yerinde bir soru. Beş yıllık süre ilamın tebliğinden işler. Süre 8 Mart 2027'de doluyor; üç haftanız var. Tebliğ belgesi delil çantanıza eklendi." },
+        { "text": "Maaşınızdan ne kadar kesildi, ne kadar borç kaldı?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Her ay kesiliyor. Faiziyle birlikte 540.000 TL kadar borç kaldı." }],
+          "note": "İcranın etkisini bilmek önemli. İade istemi icrayı kendiliğinden durdurmaz." },
+        { "text": "O dönemki harcama yetkilisiyle hâlâ görüşüyor musunuz?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Emekli oldu. Arada bir telefonlaşırız." }],
+          "note": "Sınırlı soru hakkınızı davaya bir şey katmayan bir konuya harcadınız." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Yargılamanın iadesi dilekçesini yazıyorsunuz." }],
+      "prompt": "Dilekçeyi nasıl kuracaksınız?",
+      "choices": [
+        { "if": "tutanak", "text": "İlamı veren 8. Daireye başvur. Tutanağı ekle; hükümden sonra ortaya çıkan belgeyi iade sebebi olarak göster. Duruşma talep et. Teminat karşılığında icranın geciktirilmesini iste.", "delta": 20, "set": ["durusma", "geciktirme"],
+          "law": "6085 s.K.",
+          "note": "İstem hükmü veren dairece incelenir. İade istemi icrayı alıkoymaz; ama daire gerekli görürse kanunen geçerli teminat karşılığında icranın geciktirilmesine karar verebilir." },
+        { "if": "!tutanak", "text": "İlamı veren 8. Daireye başvur. Yeni bir belge bulunduğunu yaz. Duruşma talep et. Teminat karşılığında icranın geciktirilmesini iste.", "delta": 10, "set": ["durusma", "geciktirme"],
+          "law": "6085 s.K.",
+          "note": "Usul doğru. Ama belgenin içeriğini incelemeden ve dilekçeye eklemeden iade sebebi soyut kaldı." },
+        { "if": "tutanak", "text": "İade dilekçesine tutanağı ekle, duruşma isteme. Dilekçe verilince icra zaten kendiliğinden durur.", "delta": -10, "set": ["rapor"],
+          "note": "Yargılamanın iadesi istemi ilamın icrasını alıkoymaz. Teminat karşılığında geciktirme istemediğiniz için kesintiler sürecek. Duruşma da istemediniz; dosya üzerinden incelenecek." },
+        { "if": "!tutanak", "text": "İade dilekçesini ver, duruşma isteme. Dilekçe verilince icra zaten kendiliğinden durur.", "delta": -10, "set": ["rapor"],
+          "note": "Yargılamanın iadesi istemi ilamın icrasını alıkoymaz. Teminat karşılığında geciktirme istemediğiniz için kesintiler sürecek. Duruşma da istemediniz." },
+        { "text": "Temyiz Kuruluna karar düzeltme başvurusu yap.", "delta": -20,
+          "law": "6085 s.K.",
+          "note": "Karar düzeltme, Temyiz Kurulu kararının bildiriminden itibaren on beş gün içinde ve temyiz sebeplerine dayanarak bir kez istenebilir. Süre çoktan geçti.",
+          "fatal": { "label": "KARAR:", "hukum": "Temyiz Kurulu, karar düzeltme isteminin SÜRE AŞIMI NEDENİYLE REDDİNE karar verdi. Bu sırada yargılamanın iadesi için beş yıllık süre doldu.",
+                     "summary": "Karar düzeltme on beş gün içinde istenir. Hükümden sonra ortaya çıkan belge için doğru yol, ilamı veren daireye yargılamanın iadesi başvurusuydu." } },
+        { "text": "İdare mahkemesinde ilamın iptali için dava aç.", "delta": -20,
+          "law": "Anayasa m.160",
+          "note": "Sayıştay kararları dolayısıyla idari yargı yoluna başvurulamaz (Anayasa m.160).",
+          "fatal": { "label": "SONUÇ:", "hukum": "İdare mahkemesi, Sayıştay kararları dolayısıyla idari yargı yoluna başvurulamayacağından davayı REDDETTİ. Bu sırada yargılamanın iadesi için beş yıllık süre doldu.",
+                     "summary": "Sayıştay kararları dolayısıyla idari yargı yoluna başvurulamaz (Anayasa m.160). Doğru yol, ilamı veren daireye yargılamanın iadesi başvurusuydu." } }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court", "if": "durusma",
+      "lines": [
+        { "who": "narr", "text": "Sayıştay, 8. Daire duruşma salonu. Kürsüde Daire Başkanı ve dört üye." },
+        { "who": "judge", "text": "Teminat gösterilmesi şartıyla icranın geciktirilmesine karar verilmiştir.", "if": "geciktirme" },
+        { "who": "judge", "text": "Daire önce iade isteminin kabulü ya da reddi hakkında karar verecektir. Sayın Savcı?" }
+      ],
+      "statement": { "who": "opp", "text": "İlam 20 Aralık 2021 tarihlidir. Beş yıllık süre 20 Aralık 2026'da dolmuştur. İstem süre aşımı nedeniyle reddedilmelidir." },
+      "prompt": "Süre itirazını hangi belgeyle karşılayacaksınız?",
+      "correct": ["ev_teblig"],
+      "hit": { "delta": 20, "set": ["sureOk"],
+        "reply": [{ "who": "judge", "text": "Tebliğ tarihi 8 Mart 2022. İstem 15 Şubat 2027'de verilmiş. Süre itirazı yerinde görülmemiştir." }],
+        "law": "6085 s.K.",
+        "note": "Süre ilamın tebliğinden işler. Tebliğ belgesi istemin beş yıl içinde yapıldığını gösterdi." },
+      "responses": {
+        "law_iade": { "delta": 10, "set": ["sureOk"],
+          "reply": [{ "who": "judge", "text": "Daire tebliğ tarihini kendi kayıtlarından doğrulamıştır. Süre itirazı yerinde görülmemiştir." }],
+          "note": "Doğru kural: süre tebliğden işler. Daire tebliğ tarihini kendi kayıtlarından doğruladı. Tebliğ belgesini sunsaydınız tartışma hemen biterdi." },
+        "ev_ilam": { "delta": -10, "note": "İlamın tarihi savcının tezini destekliyor. Süreyi başlatan tebliğdir." },
+        "ev_fatura": { "delta": -5, "note": "Fatura süre sorusuyla ilgili değil." },
+        "ev_tutanak": { "delta": -5, "note": "Tutanak esasla ilgili. Süre sorusunu cevaplamıyor." }
+      },
+      "pass": { "delta": -15, "note": "Savcının süre itirazına karşılık vermediniz. Daire tebliğ tarihini kendi kayıtlarından buldu, ama bu fırsatı siz kullanmadınız." }
+    },
+    { "kind": "evidence", "side": "p1", "scene": "court", "if": "durusma",
+      "lines": [{ "who": "judge", "text": "Esasa ilişkin iade sebebine geçiyoruz. Raportör denetçi?" }],
+      "statement": { "who": "denetci", "text": "İlama esas raporda, jeneratörlerin depoya girişini gösteren taşınır işlem fişi bulunmadığı tespit edilmiştir. Teslim alınmayan mal için ödeme yapılmıştır. Hükme etki edecek yeni bir husus yoktur." },
+      "prompt": "Hangi belgeyle karşılık vereceksiniz?",
+      "correct": ["ev_tutanak"],
+      "hit": { "delta": 25, "set": ["kabul"],
+        "reply": [{ "who": "judge", "text": "Tutanak incelendi. Seri numaraları Afet Koordinasyon Merkezinin envanteriyle karşılaştırılacak. Daire, birinci hüküm yönünden yargılamanın iadesi isteminin kabulüne karar vermiştir." }],
+        "note": "Tutanak, denetleme ve yargılama sırasında dosyada bulunmayan, hükme etki edebilecek bir belge. Jeneratörlerin teslim alındığını ve fişin neden depoda olmadığını açıklıyor." },
+      "responses": {
+        "law_iade": { "delta": 5, "note": "Doğru iade sebebini gösterdiniz. Ama sebebi oluşturan belgenin kendisini sunmadınız." },
+        "ev_fatura": { "delta": -5, "note": "Fatura yalnızca ödemenin istendiğini gösterir. Teslimi kanıtlamaz." },
+        "ev_ilam": { "delta": -5, "note": "İlam raportörün tezini tekrarlıyor." },
+        "ev_teblig": { "delta": 0, "note": "Tebliğ belgesi yalnızca süreyle ilgili." }
+      },
+      "pass": { "delta": -20, "note": "Raportörün tespitine karşılık vermediniz. İade sebebi ortaya konmadı." }
+    },
+    { "side": "p1", "scene": "court", "if": "kabul",
+      "lines": [{ "who": "judge", "text": "İade kabul edildiğine göre, yeniden yargılama yapılacaktır. Sorumlu vekili, talebiniz nedir?" }],
+      "prompt": "Heyetten ne isteyeceksiniz?",
+      "choices": [
+        { "text": "İade edilen birinci hüküm yönünden yeniden hüküm kurulmasını, teslim belgelendiğinden ilamın bu kısmının kaldırılarak ilişilecek bir husus bulunmadığına karar verilmesini isteriz.", "delta": 15, "set": ["sinir"],
+          "note": "Kabul kararından sonra hesap yargılaması, iade edilen hususlarla sınırlı yapılır. Talebiniz bu sınırı gözetiyor." },
+        { "text": "İlamdaki bütün hükümlerin, akaryakıt alımı da dahil, baştan incelenmesini isteriz.", "delta": -10,
+          "note": "Yeniden yargılama iade edilen hususlarla sınırlıdır. Akaryakıt hükmü için ileri sürülmüş bir iade sebebi yok." },
+        { "text": "Müvekkile manevi tazminat ödenmesine karar verilmesini isteriz.", "delta": -10,
+          "note": "Hesap yargılamasında daire, sorumluların hesap ve işlemleri hakkında hüküm kurar. Tazminat talebi bu yargılamanın konusu değil." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "rapor && tutanak", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Yargılamanın iadesi isteminin KABULÜ ile 20.12.2021 tarihli ilamın 685.000,00 TL'ye ilişkin birinci hükmünün KALDIRILMASINA, jeneratörlerin teslim alındığı anlaşıldığından bu tutar yönünden kamu zararı oluşmadığından İLİŞİLECEK BİR HUSUS BULUNMADIĞINA, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": "Daire, dilekçeye eklediğiniz tutanağı dosya üzerinden inceledi ve ilamın birinci hükmünü kaldırdı. Ama dilekçenin icrayı durduracağını sandınız. İade istemi icrayı alıkoymaz; teminat karşılığında geciktirme istemediğiniz için kesintiler karar gününe kadar sürdü." },
+    { "if": "rapor", "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Hükme etki edebilecek bir belge ibraz edilmediğinden yargılamanın iadesi isteminin REDDİNE, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": "Dilekçede yeni bir belge bulunduğu yazıldı, ama belgenin kendisi eklenmedi. Duruşma da istenmedi. İcra kendiliğinden durmadı; kesintiler sürüyor. Müvekkile tutanağın içeriği sorulsaydı belge dosyaya girebilirdi." },
+    { "if": "kabul", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Yargılamanın iadesi isteminin KABULÜ ile 20.12.2021 tarihli ilamın 685.000,00 TL'ye ilişkin birinci hükmünün KALDIRILMASINA, jeneratörlerin teslim alındığı anlaşıldığından bu tutar yönünden kamu zararı oluşmadığından İLİŞİLECEK BİR HUSUS BULUNMADIĞINA, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Arşivden çıkan tutanak, hükme etki eden yeni belge olarak iadenin kilidi oldu. Daire önce istemin kabulüne karar verdi, sonra yalnızca iade edilen hususu yeniden inceledi." },
+        { "if": "sureOk", "text": " Savcının süre itirazını, sürenin tebliğden işlediğini göstererek karşıladınız." },
+        { "if": "!sureOk", "text": " Süre itirazını siz karşılamadınız; daire tebliğ tarihini kendi kayıtlarından buldu." },
+        { "if": "!sinir", "text": " Talebinizi iade edilen hususla sınırlamadınız; daire bu sınırı kendisi gözetti." },
+        { "if": "geciktirme", "text": " Teminat karşılığında icranın geciktirilmesini istediniz; teminat gösterildi ve kesintiler yargılama süresince ertelendi." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Hükme etki edebilecek bir belge ibraz edilmediğinden yargılamanın iadesi isteminin REDDİNE, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oy çokluğuyla karar verildi.",
+      "summary": [
+        { "text": "İade sebebini oluşturan belge heyete sunulamadı. Daire istemi esasa girmeden reddetti." },
+        { "if": "!tutanak", "text": " Müvekkile tutanağın içeriği sorulsaydı, belge delil çantanızda olacaktı." }
+      ] }
+  ]
+}
