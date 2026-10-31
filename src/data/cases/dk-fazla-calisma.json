@@ -1,0 +1,885 @@
+{
+  "id": "dk-fazla-calisma",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Pazar Mesaisi",
+  "area": "İş Hukuku · Fazla çalışma ve hafta tatili alacağı",
+  "court": "Adana 5. İş Mahkemesi",
+  "courtShort": "5. İŞ MAHKEMESİ",
+  "esas": "2026/1512 Esas",
+  "kararTarihi": "22.06.2027",
+  "color": "#6b3f2a",
+  "teaser": "Sabah sekizden akşam sekize, ayda iki de pazar. Bordrolar imzalı, tanıkların ikisi de işverene dava açmış.",
+  "sides": {
+    "p1": {
+      "role": "İşçi vekili",
+      "short": "İşçi"
+    },
+    "p2": {
+      "role": "İşveren vekili",
+      "short": "İşveren"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#c08b62",
+        "hair": "#2b1d17",
+        "style": "short",
+        "beard": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#edc6a2",
+        "hair": "#a0522d",
+        "style": "long"
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#d9a982",
+        "hair": "#6b6b70",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "client": {
+      "name": "Derya Kaplan · İşçi",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#b07a52",
+        "hair": "#151515",
+        "style": "bun",
+        "shirt": "#5a3a4a",
+        "inner": "#ece6da"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Derya Kaplan, 01.03.2020'den 15.09.2026'ya kadar Çukurbağ Market A.Ş.'nin Adana'daki bir mağazasında reyon sorumlusu olarak çalıştı. İşveren sözleşmeyi feshetti; kıdem ve ihbar tazminatını ödedi."
+    },
+    {
+      "who": "client",
+      "text": "Pazartesiden cumartesiye sabah sekizden akşam sekize çalıştım, bir saat molayla. Ayda iki pazar da on ile altı arası. Fazla mesai yıllardır yatmadı."
+    },
+    {
+      "who": "narr",
+      "text": "Bordroların hepsi imzalı. 2020–2022'de bazı aylarda “fazla mesai: 10 saat” tahakkuku var; 2023'ten sonra fazla mesai sütunu boş. Hafta tatili çalışması hiçbir bordroda görünmüyor."
+    },
+    {
+      "who": "narr",
+      "text": "Arabulucuya 22.09.2026'da başvuruldu. Bugün 29.09.2026; ilk toplantı yarın."
+    }
+  ],
+  "docs": [
+    {
+      "t": "SGK hizmet dökümü",
+      "d": "01.03.2020 – 15.09.2026, kesintisiz."
+    },
+    {
+      "t": "Ücret bordroları",
+      "d": "Hepsi imzalı. 2020–2022'de bazı aylarda 10 saat fazla mesai tahakkuku; 2023–2026'da fazla mesai sütunu boş. Hafta tatili çalışması tahakkuku hiç yok."
+    },
+    {
+      "t": "Arabuluculuk başvurusu",
+      "d": "Başvuru 22.09.2026. İlk toplantı 30.09.2026."
+    },
+    {
+      "t": "Tanık adayları",
+      "d": "Eski çalışanlar Selda Ak ve Hüseyin Tan. İkisi de aynı işverene karşı fazla çalışma alacağı davası açmış; davaları sürüyor."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_bordro",
+      "type": "belge",
+      "title": "2023–2026 bordroları",
+      "desc": "İmzalı; fazla mesai sütunu boş, hiçbir ayda tahakkuk yok."
+    },
+    {
+      "id": "ev_tanik",
+      "type": "beyan",
+      "title": "Davacı tanıkları",
+      "desc": "Selda Ak ve Hüseyin Tan; aynı mağazada çalışmışlar. İkisi de işverene karşı dava açmış."
+    },
+    {
+      "id": "law_m41",
+      "type": "kanun",
+      "title": "İş K. m.41 · Fazla çalışma",
+      "desc": "Haftalık 45 saati aşan çalışma fazla çalışmadır; her saati yüzde elli zamlı ödenir.",
+      "law": "İş K. m.41"
+    },
+    {
+      "id": "ev_sofor",
+      "type": "belge",
+      "title": "Ekmek teslim fişleri ve şoför tanık",
+      "desc": "Fırın firmasının 2022–2026 teslim fişleri: her sabah 07.40–07.55 arası, çoğu davacının imzasıyla. Fişleri getiren şoför Yusuf Er'in işverenle bir uyuşmazlığı yok.",
+      "if": "sofor"
+    },
+    {
+      "id": "ev_kasa",
+      "type": "belge",
+      "title": "Kasa açılış-kapanış kayıtları",
+      "desc": "Mağaza kasasının sabah açılışı ve akşam kapanışı (Z raporları) davacının kullanıcı koduyla yapılmış. Kayıtlar işverenin sisteminde; ibrazı istenebilir.",
+      "if": "kasa"
+    },
+    {
+      "id": "ev_cizelge",
+      "type": "belge",
+      "title": "Vardiya çizelgeleri",
+      "desc": "Mağaza müdürünün çalışanların WhatsApp grubunda paylaştığı aylık çizelgeler (2023–2026): davacı ayda iki pazar 10.00–18.00 yazılı.",
+      "if": "cizelge"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "ARABULUCULUK · İşveren ilk toplantıya davet edildi. İşçi fazla çalışma ve hafta tatili ücreti istiyor."
+        }
+      ],
+      "prompt": "İşveren vekili olarak ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "İlk toplantıya katıl; işçinin dayandığı belgeleri dinle, müvekkille değerlendirmek için ikinci bir toplantı iste.",
+          "delta": 10,
+          "law": "7036 s.K. m.3",
+          "note": "Yerinde. Toplantıya katılmak gider riskini ortadan kaldırır; karşı tarafın delillerini erkenden görmek de davaya hazırlanmanın en ucuz yoludur.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Anlaşma sağlanamadı; 06.10.2026'da anlaşamama tutanağı düzenlendi."
+            }
+          ]
+        },
+        {
+          "text": "İlk toplantıya katıl; bordroların imzalı olduğunu söyle, başka bir şey konuşma.",
+          "delta": 5,
+          "law": "7036 s.K. m.3",
+          "note": "Gider riskinden kurtuldunuz, ama karşı tarafın elindeki delilleri öğrenme ve uzlaşma fırsatını kullanmadınız.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Anlaşma sağlanamadı; 06.10.2026'da anlaşamama tutanağı düzenlendi."
+            }
+          ]
+        },
+        {
+          "text": "Toplantıya katılma; nasılsa dava açılacak.",
+          "delta": -15,
+          "set": [
+            "yokluk"
+          ],
+          "law": "7036 s.K. m.3",
+          "note": "Geçerli mazeret olmadan ilk toplantıya katılmayan taraf, davada kısmen ya da tamamen haklı çıksa bile yargılama giderlerinin tamamından sorumlu tutulur ve lehine vekâlet ücretine hükmedilmez (7036 s.K. m.3).",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "İşveren tarafı ilk toplantıya katılmadı. Anlaşma sağlanamadı; 06.10.2026'da anlaşamama tutanağı düzenlendi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Dava dilekçesinden önce müvekkille görüşüyorsunuz. Tanıklarınızın ikisi de işverene karşı dava açmış; başka bir dayanak bulmanız gerekiyor. İki soru sorabilirsiniz."
+        }
+      ],
+      "prompt": "Müvekkilinize ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Mağazaya her gün sabah ya da akşam düzenli gelen, şirketten olmayan biri var mıydı?",
+          "delta": 15,
+          "set": [
+            "sofor"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Fırının şoförü Yusuf Bey! Her sabah sekize çeyrek kala ekmeği getirirdi, teslim fişini ben imzalardım. Şirketle hiçbir alıp veremediği yok."
+            }
+          ],
+          "note": "Kilit soru. Hem yazılı belge hem de işverenle husumeti olmayan bir tanık çıktı. Fişler ve şoför delil çantanıza eklendi."
+        },
+        {
+          "text": "Mağazayı açıp kapatırken sisteme kendi şifrenizle mi giriyordunuz?",
+          "delta": 15,
+          "set": [
+            "kasa"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Evet. Sabah kasayı ben açardım, akşam Z raporunu ben alırdım. Hepsi benim kodumla, saatiyle kayıtlı."
+            }
+          ],
+          "note": "Değerli. İşverendeki elektronik kayıtlar yazılı delil niteliğindedir; ibrazı istenebilir (HMK m.219–220). Kayıtlar delil çantanıza eklendi."
+        },
+        {
+          "text": "Hangi pazarlar çalışacağınızı nereden öğreniyordunuz?",
+          "delta": 10,
+          "set": [
+            "cizelge"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Müdürümüz her ay çizelgeyi WhatsApp grubuna atardı. Hepsi telefonumda."
+            }
+          ],
+          "note": "Hafta tatili çalışması için yazılı bir dayanak çıktı. Çizelgeler delil çantanıza eklendi."
+        },
+        {
+          "text": "Tanıklarınız kimler, işverenle aralarında bir sorun var mı?",
+          "delta": 5,
+          "reply": [
+            {
+              "who": "client",
+              "text": "Selda ile Hüseyin. İkisi de şirkete dava açtı, aynı sebepten."
+            }
+          ],
+          "note": "Bunu zaten biliyordunuz. Yargıtay uygulamasında işverene karşı dava açmış tanığın beyanı ihtiyatla değerlendirilir; başka bir delile ihtiyacınız var."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "DAVA DİLEKÇESİ · Alacağın tutarı bilirkişi hesabına bağlı. 31.07.2026'dan sonra açılan davalarda belirsiz alacak davası yolu yok."
+        }
+      ],
+      "prompt": "Davayı nasıl açacaksınız?",
+      "choices": [
+        {
+          "text": "Kısmi dava: fazlaya ilişkin hakları saklı tutarak 20.000 TL fazla çalışma ve 5.000 TL hafta tatili ücreti iste; bilirkişi raporundan sonra talebi HMK m.109/4 uyarınca artır. Delilleri ve tanık listesini dilekçeyle bildir.",
+          "delta": 20,
+          "set": [
+            "k109"
+          ],
+          "law": "HMK m.109/4 · İş K. m.32",
+          "note": "Doğru. Belirsiz alacak davası 7589 sayılı Kanunla kaldırıldı; artık araç kısmi davadır. Talep, tahkikat sona erinceye kadar bir defaya mahsus ve iddianın genişletilmesi yasağına takılmadan artırılabilir; artırılan kısım için zamanaşımı dava tarihinde kesilmiş sayılır (HMK m.109/4). Ücret alacaklarında zamanaşımı beş yıldır (İş K. m.32)."
+        },
+        {
+          "text": "Kısmi dava aç; bilirkişi raporundan sonra talebi ıslahla artır.",
+          "delta": 5,
+          "set": [
+            "islahYolu"
+          ],
+          "law": "HMK m.109, m.176–177",
+          "note": "Mümkün, ama gereksiz ve riskli. Kısmi davada talep artık ıslaha gerek olmadan bir kez artırılabilir (HMK m.109/4). Islah hakkı aynı davada yalnızca bir kez kullanılabilir; burada harcanırsa sonra bir düzeltme için elinizde kalmaz."
+        },
+        {
+          "text": "Tahmini tam tutarı yaz: 2.400.000 TL.",
+          "delta": -10,
+          "set": [
+            "tahmin"
+          ],
+          "law": "HMK m.326",
+          "note": "Bilirkişi hesabını aşan kısım reddedilir ve o kısım için davalı lehine vekâlet ücretine hükmedilir; peşin harç da bu tutar üzerinden ödenir."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "CEVAP DİLEKÇESİ · Dava dilekçesi tebliğ edildi. Davacı tanık olarak Selda Ak ve Hüseyin Tan'ı gösterdi."
+        },
+        {
+          "who": "narr",
+          "if": "sofor",
+          "text": "Tanık listesinde ayrıca fırın firmasının şoförü Yusuf Er var; teslim fişleri dilekçeye eklenmiş."
+        },
+        {
+          "who": "narr",
+          "if": "kasa",
+          "text": "Davacı, kasa açılış-kapanış kayıtlarının işverenden getirtilmesini de istiyor."
+        }
+      ],
+      "prompt": "Cevap dilekçenizin ana ekseni ne olacak?",
+      "choices": [
+        {
+          "text": "Bordrolar imzalı; tahakkuklu aylar için ihtirazi kayıt yok. Davacı tanıklarının ikisi de müvekkile karşı dava açmış, husumetli. İhtiyaten zamanaşımı def'i: arabulucuya başvuru tarihinden geriye beş yılı aşan alacaklar.",
+          "delta": 20,
+          "set": [
+            "husumet",
+            "zaman"
+          ],
+          "law": "İş K. m.32 · 7036 s.K. m.3 · TBK m.161",
+          "note": "Güçlü ve eksiksiz. Husumetli tanık beyanı Yargıtay uygulamasında tek başına hükme esas alınmaz, başka delillerle desteklenmesi aranır. Zamanaşımı hâkimce kendiliğinden gözetilmez; def'i süresinde ileri sürdünüz. Arabuluculuk süresince zamanaşımı durduğundan, 22.09.2021'den önceki aylara ait alacaklar zamanaşımına uğramış durumda."
+        },
+        {
+          "text": "Davacı hiç fazla çalışma yapmadı; ispat yükü işçidedir.",
+          "delta": 5,
+          "set": [
+            "inkar"
+          ],
+          "law": "HMK m.190",
+          "note": "Kural doğru: Fazla çalışmayı ispat yükü işçidedir. Ama tanıkların husumetini ve zamanaşımını ileri sürmediniz; zamanaşımını hâkim kendiliğinden dikkate alamaz (TBK m.161)."
+        },
+        {
+          "text": "Davacı reyon sorumlusu, yani yöneticidir; fazla çalışma ücreti isteyemez.",
+          "delta": -10,
+          "set": [
+            "yonetici"
+          ],
+          "law": "İş K. m.41",
+          "note": "Yargıtay bu istisnayı, işyerinin tamamını yöneten ve çalışma saatlerini kendisi belirleyen üst düzey yöneticiler için uygular. Bir reyon sorumlusu bu kapsamda değildir; tanıklarınızın husumetini ve zamanaşımını da ileri sürmediniz."
+        },
+        {
+          "text": "Kısmi dava açılamaz; alacak belirlidir.",
+          "delta": -10,
+          "set": [
+            "kismiItiraz"
+          ],
+          "law": "HMK m.109/2",
+          "note": "Kısmi dava yasağı, miktarı tartışmasız ya da kesin olarak belirli alacaklar içindir (HMK m.109/2). Burada miktar tamamen tartışmalı ve bilirkişi hesabına bağlı. Asıl savunmalarınızı ileri sürmediniz."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "husumet",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Tahkikat duruşması. Davalı vekili, tanıklar hakkındaki beyanınızı alalım."
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Davacının iki tanığı da müvekkil şirkete karşı aynı nitelikte dava açmıştır. Husumetli tanık beyanı hükme esas alınamaz. Bordrolar da imzalıdır."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_sofor"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "destekOK"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Tanık Yusuf Er dinlendi: “Her sabah sekize çeyrek kala ekmeği teslim ederdim; fişi hep Derya Hanım imzalardı. Akşam yedi buçukta ikinci teslimatta da oradaydı.” Teslim fişleri dosyaya alındı."
+          }
+        ],
+        "note": "Tam isabet. Husumetli tanıkların beyanları, işverenle ilgisi olmayan bir tanıkla ve saatli teslim fişleriyle desteklendi. 2023–2026 bordrolarında tahakkuk yok; imzalı ama tahakkuksuz bordro fazla çalışma yapılmadığını göstermez."
+      },
+      "responses": {
+        "ev_kasa": {
+          "delta": 25,
+          "set": [
+            "destekOK",
+            "kasaTalep"
+          ],
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Davalıya, kasa açılış-kapanış kayıtlarını ibraz etmesi için iki hafta süre veriyorum. Kayıtlar sunulmazsa HMK m.220 uyarınca değerlendirme yapılacak."
+            }
+          ],
+          "note": "Çok güçlü. İşverendeki saatli elektronik kayıtlar yazılı delildir ve husumet tartışmasını aşar. Kayıtlara dayalı hesapta hakkaniyet indirimine de gerek kalmaz."
+        },
+        "ev_cizelge": {
+          "delta": 10,
+          "set": [
+            "htOK"
+          ],
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Çizelgeler hafta tatili çalışması yönünden dosyaya alındı."
+            }
+          ],
+          "note": "Hafta tatili çalışması için yazılı dayanak sundunuz. Ama hafta içi fazla çalışma yönünden husumet itirazı cevapsız kaldı."
+        },
+        "ev_bordro": {
+          "delta": 5,
+          "set": [
+            "bosBordro"
+          ],
+          "note": "Doğru ama eksik. Tahakkuksuz imzalı bordro fazla çalışma yapılmadığını göstermez. Ama husumetli tanıkların beyanını destekleyecek bir delil göstermediniz."
+        },
+        "ev_tanik": {
+          "delta": -10,
+          "note": "Davalının itirazı tam da bu tanıklara yönelikti. Onları destekleyecek başka bir delil gerekiyordu."
+        },
+        "law_m41": {
+          "delta": -5,
+          "note": "Fazla çalışmanın tanımı doğru, ama sorun ispat: husumetli tanıkları neyle destekleyeceğiniz."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu delil husumet itirazını karşılamıyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz; husumet itirazı ve imzalı bordro savunması cevapsız kaldı."
+      }
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "!husumet",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Tahkikat duruşması. Davalı vekili, beyanınız?"
+        },
+        {
+          "who": "p2",
+          "if": "yonetici",
+          "text": "Ayrıca davacı reyon sorumlusudur, yönetici konumundadır."
+        },
+        {
+          "who": "p2",
+          "if": "kismiItiraz",
+          "text": "Ayrıca alacak belirli olduğu için kısmi dava açılamazdı."
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Davacının fazla çalışma ve hafta tatili iddiaları soyuttur, hiçbir delille ispatlanmamıştır."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_tanik",
+        "ev_sofor"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "destekOK"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Tanıklar dinlendi; çalışma saatlerini birbiriyle uyumlu anlattılar. Davalı tanıkların husumetine ilişkin bir itirazda bulunmadı."
+          }
+        ],
+        "note": [
+          {
+            "text": "Doğru. Tahakkuksuz dönemde fazla çalışma tanıkla ispatlanabilir. Davalı süresinde husumet itirazı yapmadığı için tanık beyanları tartışmasız kaldı."
+          },
+          {
+            "if": "yonetici",
+            "text": " Reyon sorumlusu üst düzey yönetici değildir; o istisna burada uygulanmaz."
+          },
+          {
+            "if": "kismiItiraz",
+            "text": " Miktarı tartışmalı alacakta kısmi dava açılabilir (HMK m.109/2)."
+          }
+        ]
+      },
+      "responses": {
+        "ev_kasa": {
+          "delta": 25,
+          "set": [
+            "destekOK",
+            "kasaTalep"
+          ],
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Davalıya, kasa açılış-kapanış kayıtlarını ibraz etmesi için iki hafta süre veriyorum. Kayıtlar sunulmazsa HMK m.220 uyarınca değerlendirme yapılacak."
+            }
+          ],
+          "note": "Çok güçlü. İşverendeki saatli elektronik kayıtlar yazılı delildir; kayıtlara dayalı hesapta hakkaniyet indirimine de gerek kalmaz."
+        },
+        "ev_cizelge": {
+          "delta": 10,
+          "set": [
+            "htOK"
+          ],
+          "note": "Hafta tatili çalışmasını yazılı olarak gösterdiniz. Ama hafta içi fazla çalışma için de delil gerekiyordu."
+        },
+        "ev_bordro": {
+          "delta": 5,
+          "set": [
+            "bosBordro"
+          ],
+          "note": "Tahakkuksuz bordronun fazla çalışma yapılmadığını göstermediği doğru. Ama fazla çalışmayı ispatlayan delili (tanık) sunmadınız."
+        },
+        "law_m41": {
+          "delta": -5,
+          "note": "Madde doğru, ama soyutluk iddiası olguya ilişkin; olgu delille ispatlanır."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu delil beyanı çürütmüyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz; fazla çalışma iddiası delilsiz kaldı."
+      }
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "kasaTalep",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Mahkemenin verdiği iki haftalık süre doluyor. Şirketin bilgi işlem müdürü, kasa kayıtlarının sistemde eksiksiz durduğunu söylüyor. Kayıtlar davacının çalışma saatlerini doğruluyor."
+        }
+      ],
+      "prompt": "Kayıtlar konusunda ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Kayıtları süresinde ibraz et; hesapta zamanaşımına uğrayan dönemin ve pazar çalışmalarının ayrıca gözetilmesini iste.",
+          "delta": 10,
+          "set": [
+            "ibraz"
+          ],
+          "law": "HMK m.219–220",
+          "note": "Doğru ve dürüst. Belgeyi ibraz etmemek HMK m.220 uyarınca davacının iddiasının kabulüne yol açabilirdi. İbrazla birlikte hesabın doğru yapılmasını istemek, müvekkilin elinde kalan en iyi savunma."
+        },
+        {
+          "text": "“Kayıtlar tutulmuyor” diye cevap ver.",
+          "delta": -20,
+          "set": [
+            "ibrazYok"
+          ],
+          "law": "HMK m.220 · Avukatlık K. m.34",
+          "note": "Gerçeğe aykırı beyan. Kayıtlar sistemde duruyor; avukat görevini doğruluk içinde yapmakla yükümlüdür. İbraz edilmeyen belge hakkında mahkeme, karşı tarafın beyanını kabul edebilir (HMK m.220)."
+        },
+        {
+          "text": "Kayıtlar kişisel veridir; KVKK gereği ibraz edilemez.",
+          "delta": -10,
+          "set": [
+            "ibrazYok"
+          ],
+          "law": "KVKK m.5 · HMK m.220",
+          "note": "Hakkın tesisi, kullanılması veya korunması için veri işlenmesinin zorunlu olması, açık rıza aranmayan hâllerdendir (KVKK m.5/2). Mahkemenin ibraz kararı karşısında bu itiraz tutmaz; ibraz edilmeyen belge HMK m.220 uyarınca değerlendirilir."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "!kasaTalep && (destekOK || htOK || bosBordro)",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Bilirkişi raporu geldi. Haftada 21 saat fazla çalışma ve ayda iki pazar hafta tatili çalışması hesaplanmış. Rapor taraflara tebliğ edildi; iki haftalık itiraz süresi işliyor."
+        },
+        {
+          "who": "narr",
+          "text": "Raporda pazar günleri çalışılan saatler hem hafta tatili ücretine hem de haftalık fazla çalışma toplamına eklenmiş. Hesap tanık beyanlarına dayanıyor; indirim yapılmamış."
+        }
+      ],
+      "prompt": "Rapora karşı ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "İki hafta içinde gerekçeli itiraz: Pazar çalışması hem hafta tatili hem fazla çalışma olarak mükerrer hesaplanmış; tanık beyanına dayalı hesapta hakkaniyet indirimi yapılmalı; zamanaşımı def'i gözetilmeli.",
+          "delta": 20,
+          "set": [
+            "mukerrer"
+          ],
+          "law": "HMK m.281 · İş K. m.41, m.46",
+          "note": [
+            {
+              "text": "Güçlü ve süresinde. Yargıtay, aynı çalışmanın hem hafta tatili hem fazla çalışma alacağı olarak hüküm altına alınmasını mükerrer ödeme sayar. Tanık beyanına dayalı fazla çalışma hesabında da Yargıtay uygulaması hakkaniyet indirimi yapılmasıdır."
+            },
+            {
+              "if": "!zaman",
+              "text": " Ancak cevap dilekçesinde zamanaşımı def'inde bulunmadığınız için bu kısım sonuç vermeyecek; def'i sonradan getirilemez (HMK m.141)."
+            }
+          ]
+        },
+        {
+          "text": "Rapora genel itiraz: “Hesap hatalıdır.”",
+          "delta": -5,
+          "law": "HMK m.281",
+          "note": "Soyut itiraz, mahkemeyi ek rapor almaya zorlamaz. Mükerrer hesap gibi somut bir hata vardı; onu göstermediniz."
+        },
+        {
+          "text": "Müvekkille görüşüp sulh teklif et: rapordaki tutarın yüzde yetmişi peşin ödensin.",
+          "delta": 10,
+          "set": [
+            "sulhTeklif"
+          ],
+          "law": "HMK m.313",
+          "note": "Meşru bir tercih: Yargılama giderini ve faizi sınırlar. Ama rapordaki somut hatayı göstermeden yapılan teklif, pazarlıkta elinizi zayıflatır."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "destekOK || htOK || bosBordro",
+      "lines": [
+        {
+          "who": "judge",
+          "if": "ibraz",
+          "text": "Kasa kayıtları ibraz edildi; bilirkişi kayıtlara göre hesap yaptı. Pazar çalışmaları fazla çalışma toplamından ayrıldı; hakkaniyet indirimi önerilmedi."
+        },
+        {
+          "who": "judge",
+          "if": "ibrazYok",
+          "text": "Davalı kayıtları ibraz etmedi. Bilirkişi, HMK m.220 uyarınca davacının beyan ettiği saatleri esas alarak hesap yaptı."
+        },
+        {
+          "who": "judge",
+          "if": "mukerrer",
+          "text": "Davalının itirazı üzerine ek rapor alındı: mükerrer hesaplanan pazar saatleri çıkarıldı, yüzde otuz hakkaniyet indirimi uygulandı."
+        },
+        {
+          "who": "p2",
+          "if": "sulhTeklif",
+          "text": "Sayın Hâkim, müvekkil rapordaki tutarın yüzde yetmişini peşin ödemeyi teklif ediyor."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, rapora karşı beyanınız ve talebiniz?"
+        }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "if": "k109",
+          "text": "Rapor doğrultusunda talebimizi HMK m.109/4 uyarınca artırıyor, harcını yatırıyoruz.",
+          "delta": 20,
+          "set": [
+            "artirim"
+          ],
+          "law": "HMK m.109/4",
+          "note": "Doğru ve zamanında. Tahkikat sona ermeden, ıslaha gerek olmaksızın ve bir defaya mahsus artırım yaptınız; artırılan kısım için zamanaşımı dava tarihinde kesilmiş sayılır. Artırılan kısmın harcı tamamlanmalıdır."
+        },
+        {
+          "if": "k109",
+          "text": "Artırımı karar duruşmasında, son sözlerimizle birlikte yaparız.",
+          "delta": -15,
+          "set": [
+            "gec"
+          ],
+          "law": "HMK m.109/4, m.184",
+          "note": "Usul tuzağı. HMK m.109/4'teki artırım hakkı tahkikat sona erinceye kadar kullanılabilir. Tahkikat bitip sözlü yargılamaya geçildikten sonra yapılan artırım dikkate alınmaz; mahkeme dava dilekçesindeki tutarla bağlı kalır."
+        },
+        {
+          "if": "islahYolu",
+          "text": "Rapor doğrultusunda ıslah dilekçesi veriyor, talebi artırıyoruz.",
+          "delta": 10,
+          "set": [
+            "islah"
+          ],
+          "law": "HMK m.176–177",
+          "note": "Sonuç alırsınız: Islah tahkikat sona erinceye kadar bir kez yapılabilir. Ama aynı artırımı ıslaha gerek olmadan HMK m.109/4 ile yapabilirdiniz; tek ıslah hakkınızı harcadınız ve davalıya zamanaşımı tartışması açtınız."
+        },
+        {
+          "text": "Rapora itirazımız yok; mahkeme rapordaki tutara kendiliğinden hükmeder.",
+          "delta": -15,
+          "set": [
+            "artirmadi"
+          ],
+          "law": "HMK m.26",
+          "note": [
+            {
+              "if": "!tahmin",
+              "text": "Ağır hata. Hâkim taleple bağlıdır (HMK m.26). Talep artırılmazsa mahkeme dava dilekçesindeki tutarı aşamaz."
+            },
+            {
+              "if": "tahmin",
+              "text": "Talebiniz rapordan yüksek olduğu için mahkeme rapordaki tutara hükmedecek; ama talebin raporu aşan kısmı reddedilecek ve o kısım için davalı lehine vekâlet ücretine hükmedilecek (HMK m.326). Fazla kısımdan feragat de sonucu değiştirmezdi."
+            }
+          ]
+        },
+        {
+          "if": "tahmin",
+          "text": "Rapordaki tutar talebimizin altında; takdiri mahkemeye bırakıyoruz.",
+          "delta": 0,
+          "law": "HMK m.326",
+          "note": "Yapacak bir şey kalmadı: talebin raporu aşan kısmı reddedilecek ve o kısım için davalı lehine vekâlet ücretine hükmedilecek."
+        },
+        {
+          "if": "sulhTeklif",
+          "text": "Müvekkilin onayını al; ödeme tarihini ve ödenmezse tamamının muaccel olacağını yazdırarak sulhü kabul et.",
+          "delta": 10,
+          "set": [
+            "sulh"
+          ],
+          "law": "HMK m.74, m.313",
+          "note": "Uzun bir yargılama ve tahsil riskine karşı makul bir uzlaşma. Sulh için vekâletnamede özel yetki gerekir (HMK m.74).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Sulh tutanağa geçirildi; taraflar tutanağı imzaladı."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "sulh",
+      "winner": "draw",
+      "stamp": "SULH",
+      "label": "SONUÇ:",
+      "noCourt": true,
+      "hukum": "Taraflar, bilirkişi raporundaki alacak tutarının yüzde yetmişinin peşin ödenmesi konusunda sulh oldu. Sulh tutanağa geçirildi.",
+      "summary": "İşçi vekili fazla çalışmayı delillendirdi; işveren vekili yargılama gideri ve faiz riskini sınırlamak için uzlaşmayı seçti. İki taraf da riskini paylaştı."
+    },
+    {
+      "if": "!destekOK && !htOK && !bosBordro",
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        {
+          "text": "Fazla çalışma ve hafta tatili çalışması ispatlanamadı."
+        },
+        {
+          "if": "husumet",
+          "text": " Davacının iki tanığı da işverene karşı dava açmıştı; beyanları başka bir delille desteklenmedi."
+        },
+        {
+          "if": "yokluk",
+          "text": " İşveren ilk arabuluculuk toplantısına geçerli mazeret olmadan katılmadığı için davada haklı çıksa da yargılama giderlerinin tamamından sorumlu tutuldu ve lehine vekâlet ücretine hükmedilmedi (7036 s.K. m.3)."
+        }
+      ]
+    },
+    {
+      "if": "(artirmadi && !tahmin) || gec",
+      "winner": "p2",
+      "hukum": "Davanın KABULÜ ile dava dilekçesinde talep edilen 20.000 TL fazla çalışma ve 5.000 TL hafta tatili ücretinin davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        {
+          "text": "Alacak ispatlandı, ama talep süresinde artırılmadığı için mahkeme dava dilekçesindeki tutarla bağlı kaldı (HMK m.26)."
+        },
+        {
+          "if": "gec",
+          "text": " Artırım, tahkikat sona erdikten sonra yapılmak istendi; HMK m.109/4'teki hak tahkikatın sonuna kadar kullanılabilirdi."
+        },
+        {
+          "text": " Bilirkişinin hesapladığı alacağın çok küçük bir kısmı hüküm altına alındı."
+        },
+        {
+          "if": "yokluk",
+          "text": " İşveren ilk arabuluculuk toplantısına geçerli mazeret olmadan katılmadığı için davada haklı çıksa da yargılama giderlerinin tamamından sorumlu tutuldu ve lehine vekâlet ücretine hükmedilmedi (7036 s.K. m.3)."
+        }
+      ]
+    },
+    {
+      "if": "!destekOK",
+      "winner": "draw",
+      "stamp": "KISMEN KABUL",
+      "hukum": [
+        {
+          "if": "htOK",
+          "text": "Davanın KISMEN KABULÜ ile hafta tatili ücretinin davalıdan alınarak davacıya verilmesine, fazla çalışma ücreti talebinin REDDİNE,"
+        },
+        {
+          "if": "!htOK",
+          "text": "Davanın KISMEN KABULÜ ile yalnızca 2023–2026 dönemine ait sınırlı fazla çalışma ücretinin davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,"
+        }
+      ],
+      "summary": "İşçi vekili alacağın bir kısmını yazılı delille gösterdi, ama husumetli tanıkların beyanlarını destekleyecek tarafsız bir delil getirmedi. Alacağın büyük kısmı ispatsız kaldı."
+    },
+    {
+      "if": "tahmin",
+      "winner": "p1",
+      "hukum": "Davanın KISMEN KABULÜ ile bilirkişi raporunda hesaplanan fazla çalışma ve hafta tatili ücretinin davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        {
+          "text": "Alacak ispatlandı, ama tahminle yazılan 2.400.000 TL'lik talebin raporu aşan büyük kısmı reddedildi; o kısım için davalı lehine vekâlet ücretine hükmedildi (HMK m.326)."
+        },
+        {
+          "if": "zaman",
+          "text": " Zamanaşımına uğrayan 22.09.2021 öncesi alacaklar da hesap dışı kaldı."
+        }
+      ]
+    },
+    {
+      "if": "ibraz || ibrazYok",
+      "winner": "p1",
+      "hukum": "Davanın KABULÜ ile bilirkişi raporunda hesaplanan fazla çalışma ve hafta tatili ücretinin, hakkaniyet indirimi yapılmaksızın, dava ve talep artırım tarihlerinden itibaren işleyecek faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        {
+          "if": "ibraz",
+          "text": "Kasa kayıtları fazla çalışmayı yazılı delille ispatladı; kayda dayalı hesapta hakkaniyet indirimi yapılmadı. İşveren vekili kayıtları dürüstçe ibraz etti; pazar saatleri fazla çalışmadan ayrıldı."
+        },
+        {
+          "if": "ibrazYok",
+          "text": "İşveren, mahkemenin ibraz kararına rağmen kasa kayıtlarını sunmadı. Mahkeme HMK m.220 uyarınca davacının beyan ettiği çalışma saatlerini esas aldı."
+        },
+        {
+          "if": "zaman",
+          "text": " 22.09.2021 öncesine ait alacaklar zamanaşımı nedeniyle reddedildi."
+        },
+        {
+          "if": "islah",
+          "text": " Talep ıslahla artırıldı; HMK m.109/4 bu iş için yeterliydi ve ıslah hakkı boşa harcandı."
+        }
+      ]
+    },
+    {
+      "if": "mukerrer",
+      "winner": "p1",
+      "hukum": "Davanın KISMEN KABULÜ ile ek raporda mükerrer saatler çıkarılarak ve yüzde otuz hakkaniyet indirimi uygulanarak hesaplanan fazla çalışma ve hafta tatili ücretinin davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        {
+          "text": "Fazla çalışma, husumeti olmayan bir tanık ve yazılı belgelerle ispatlandı. İşveren vekili ise rapordaki mükerrer hesabı süresinde gösterdi: Aynı pazar çalışması hem hafta tatili hem fazla çalışma olarak ödenemez. Alacak, ilk rapordakinden belirgin biçimde düşük hüküm altına alındı."
+        },
+        {
+          "if": "zaman",
+          "text": " 22.09.2021 öncesine ait alacaklar zamanaşımı nedeniyle reddedildi."
+        },
+        {
+          "if": "islah",
+          "text": " Talep ıslahla artırıldı; HMK m.109/4 bu iş için yeterliydi."
+        }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": "Davanın KABULÜ ile bilirkişi raporunda hesaplanan fazla çalışma ve hafta tatili ücretinin dava ve talep artırım tarihlerinden itibaren işleyecek faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        {
+          "text": "Fazla çalışma ve hafta tatili çalışması ispatlandı; talep süresinde artırıldı. İşveren vekili rapordaki mükerrer hesaba somut bir itiraz getirmediği için rapor olduğu gibi esas alındı."
+        },
+        {
+          "if": "zaman",
+          "text": " 22.09.2021 öncesine ait alacaklar zamanaşımı nedeniyle reddedildi."
+        },
+        {
+          "if": "islah",
+          "text": " Talep ıslahla artırıldı; HMK m.109/4 bu iş için yeterliydi."
+        }
+      ]
+    }
+  ]
+}

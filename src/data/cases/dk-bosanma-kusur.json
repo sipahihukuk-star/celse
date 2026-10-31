@@ -1,0 +1,724 @@
+{
+  "id": "dk-bosanma-kusur",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Kusur Terazisi",
+  "area": "Aile Hukuku · Çekişmeli boşanma ve tazminat",
+  "court": "Samsun 2. Aile Mahkemesi",
+  "courtShort": "2. AİLE MAHKEMESİ",
+  "esas": "2026/942 Esas",
+  "kararTarihi": "18.05.2027",
+  "color": "#5a3f5c",
+  "teaser": "On bir yıllık evlilik, kaybedilen bir birikim, bir aile yemeğinde söylenen sözler. Kimin kusuru daha ağır?",
+  "sides": {
+    "p1": {
+      "role": "Davacı eş vekili",
+      "short": "Davacı"
+    },
+    "p2": {
+      "role": "Davalı eş vekili",
+      "short": "Davalı"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#d9a982",
+        "hair": "#9a9a9e",
+        "style": "bun",
+        "glasses": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#c08b62",
+        "hair": "#2b1d17",
+        "style": "curly"
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#e8c09c",
+        "hair": "#3a3a3a",
+        "style": "short"
+      }
+    },
+    "davaci": {
+      "name": "Seda Arıkan · Davacı",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#e0b48e",
+        "hair": "#5a3a28",
+        "style": "long",
+        "shirt": "#3f5a6b",
+        "inner": "#ece6da"
+      }
+    },
+    "davali": {
+      "name": "Kerem Arıkan · Davalı",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#c99670",
+        "hair": "#1c1c1c",
+        "style": "short",
+        "beard": true,
+        "shirt": "#4a4f57",
+        "inner": "#d9d4c8"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Seda ve Kerem Arıkan 2015'te evlendi; çocukları yok. Seda Samsun'da bir lisede öğretmen, Kerem bir enerji şirketinde mühendis."
+    },
+    {
+      "who": "narr",
+      "text": "Mart 2023'te Kerem, ortak hesaptaki 850.000 TL birikimi Seda'ya danışmadan kripto para yatırımına yatırdı ve kaybetti."
+    },
+    {
+      "who": "narr",
+      "text": "15.03.2026'daki bir aile yemeğinde Kerem, Seda'ya herkesin önünde “Sen zaten hiçbir işi beceremezsin, seninle evlendiğime pişmanım” dedi. Nisan'da benzer sözler mesajla sürdü."
+    },
+    {
+      "who": "narr",
+      "text": "Seda 20.04.2026'da annesinin yanına taşındı. Boşanma davası 08.07.2026'da açılacak."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Nüfus kaydı",
+      "d": "Evlilik 12.06.2015. Ortak çocuk yok."
+    },
+    {
+      "t": "Banka kayıtları",
+      "d": "Mart 2023: Ortak hesaptan 850.000 TL, davalının adına açılmış bir kripto para platformuna aktarılmış; bakiye sıfırlanmış."
+    },
+    {
+      "t": "Mesajlar",
+      "d": "Nisan 2026: Davalıdan davacıya “Bir işe yaramıyorsun, hep aynısın.”"
+    },
+    {
+      "t": "Davacı tanıkları",
+      "d": "Kuzen Elif Tuna: 15.03.2026 yemeğinde bulundu. Kız kardeş Gül Demir: olayları davacıdan dinledi."
+    },
+    {
+      "t": "Davalının anlattığı",
+      "d": "Davalıya göre davacı, 2025 Ramazan Bayramı'nda davalının annesine “Bu evde istenmiyorsunuz” demiş ve ziyaretini geri çevirmiş."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_sosyal",
+      "type": "belge",
+      "title": "Davacının sosyal medya paylaşımı",
+      "desc": "Ağustos 2026, dava açıldıktan sonra: davacı, davalıyı kastederek “ruhsuz biriyle on bir yıl” yazmış."
+    },
+    {
+      "id": "ev_af",
+      "type": "belge",
+      "title": "Haziran 2023 tatili ve mesaj",
+      "desc": "Haziran 2023'te çiftin birlikte gittiği Amasra tatilinin rezervasyonu ve davacının mesajı: “Olan oldu, geçmişi kapattık, yeniden başlıyoruz.”",
+      "if": "af"
+    },
+    {
+      "id": "ev_kardes",
+      "type": "beyan",
+      "title": "Tanık Ozan Arıkan",
+      "desc": "Davalının kardeşi. 2025 Ramazan Bayramı'nda davacının, davalının annesine “Bu evde istenmiyorsunuz” dediğini bizzat duymuş.",
+      "if": "kardes"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "davaci",
+          "text": "Artık bu evliliği sürdüremem. Yıllarca sustum; o yemekte herkesin önünde söylediklerinden sonra bir daha dönmedim."
+        },
+        {
+          "who": "narr",
+          "text": "DAVA DİLEKÇESİ · Boşanma davasında kusur, ancak dilekçelerde ileri sürülen vakıalar üzerinden değerlendirilir."
+        }
+      ],
+      "prompt": "Dava dilekçesini nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "TMK m.166/1'e dayan. 2023 birikim kaybını, 15.03.2026 yemeğini ve Nisan mesajlarını tarih ve ayrıntılarıyla yaz; her vakıa için tanığını ve belgesini göster. Maddi ve manevi tazminatı tutar belirterek iste.",
+          "delta": 20,
+          "set": [
+            "vakia",
+            "tazminat"
+          ],
+          "law": "TMK m.166/1, m.174 · HMK m.119, m.240",
+          "note": "Doğru. Hâkim kusuru yalnızca taraflarca ileri sürülen ve ispatlanan vakıalara dayandırabilir. Tanık listesinde hangi vakıanın ispatlanacağı da gösterilmelidir (HMK m.240/2). Boşanma yüzünden menfaati zedelenen kusursuz ya da daha az kusurlu eş maddi, kişilik hakkı saldırıya uğrayan eş manevi tazminat isteyebilir (TMK m.174)."
+        },
+        {
+          "text": "Ayrıntıya girme: “Taraflar arasında şiddetli geçimsizlik var, davalı tam kusurlu.” Olayları duruşmada anlatırız. Tazminatları da iste.",
+          "delta": -10,
+          "set": [
+            "genel",
+            "tazminat"
+          ],
+          "law": "HMK m.119/1-e, m.141",
+          "note": "Somutlaştırılmamış bir iddia ispat edilemez. Vakıaların dilekçede açıkça yazılması gerekir; dilekçeler aşamasından sonra iddia ancak karşı tarafın açık muvafakatiyle ya da ıslahla genişletilebilir (HMK m.141)."
+        },
+        {
+          "text": "Vakıaları ayrıntılı yaz; tazminatları şimdilik isteme, boşanmadan sonra ayrı dava açarız.",
+          "delta": 5,
+          "set": [
+            "vakia"
+          ],
+          "law": "TMK m.174, m.178",
+          "note": "Hukuken mümkün: Boşanmadan doğan tazminat istemleri, boşanma kararının kesinleşmesinden itibaren bir yıl içinde ayrıca ileri sürülebilir (TMK m.178). Ama kusur bu davada belirlenecek; tazminatı aynı davada istemek zaman ve gider kazandırırdı."
+        },
+        {
+          "text": "Anlaşmalı boşanma davası aç (TMK m.166/3); davalı nasılsa boşanmak istiyor. Olayları yazmaya gerek yok.",
+          "delta": -10,
+          "set": [
+            "genel"
+          ],
+          "law": "TMK m.166/3 · HMK m.119",
+          "note": "Anlaşmalı boşanma, eşlerin boşanmanın mali sonuçları ve diğer konularda uzlaştığı bir protokol gerektirir; burada böyle bir anlaşma yok. Dava çekişmeli olarak görülecek ve dilekçede kusuru gösterecek hiçbir somut olay yer almıyor."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Dava dilekçesi tebliğ edildi. İki haftalık cevap süresi işliyor. Davalı vekili müvekkiliyle görüşüyor; iki soru sorabilecek zamanı var."
+        },
+        {
+          "who": "davali",
+          "text": "Dilekçede beni canavar gibi göstermişler. Hata yaptım, kabul ediyorum, ama tek taraflı değil."
+        }
+      ],
+      "prompt": "Müvekkilinize ne soracaksınız?",
+      "choices": [
+        {
+          "text": "2023'teki yatırım kaybından sonra aranızda ne oldu?",
+          "delta": 15,
+          "set": [
+            "af"
+          ],
+          "reply": [
+            {
+              "who": "davali",
+              "text": "Çok kötü günlerdi. Ama Haziran'da birlikte Amasra'ya gittik. Seda dönüşte “Olan oldu, geçmişi kapattık, yeniden başlıyoruz” diye yazdı. Mesaj duruyor."
+            },
+            {
+              "who": "narr",
+              "text": "Rezervasyon ve mesaj delil çantasına eklendi."
+            }
+          ],
+          "note": "Kilit soru. Yargıtay uygulamasında affedilen ya da hoşgörüyle karşılanan olaylar sonradan kusur olarak yüklenemez; ama af olgusunu davalının savunmada ileri sürmesi gerekir."
+        },
+        {
+          "text": "Eşinizin size ya da ailenize karşı kusurlu bir davranışı oldu mu? Bunu kim gördü?",
+          "delta": 10,
+          "set": [
+            "kardes"
+          ],
+          "reply": [
+            {
+              "who": "davali",
+              "text": "Geçen bayram annem ziyarete geldi; Seda kapıda “Bu evde istenmiyorsunuz” dedi. Kardeşim Ozan yanımdaydı, her şeyi duydu."
+            },
+            {
+              "who": "narr",
+              "text": "Tanık Ozan Arıkan delil çantasına eklendi."
+            }
+          ],
+          "note": "Değerli. Eşin diğer eşin ailesine karşı saygısız davranışı da kusur değerlendirmesine girer. Bu vakıayı cevap dilekçesinde ya da karşı davada ileri sürmelisiniz."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "office",
+      "if": "vakia",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "CEVAP DİLEKÇESİ · Davalı vekili, dava dilekçesindeki iddialara tek tek cevap veriyor."
+        }
+      ],
+      "statement": {
+        "who": "p1",
+        "text": "Davalı 2023'te ortak birikimi eşine danışmadan kaybetmiş; evliliğin güven temeli o gün yıkılmıştır. Bu olay tek başına davalının ağır kusurunu gösterir."
+      },
+      "prompt": "Cevap dilekçenizde bu iddiaya hangi delille karşılık vereceksiniz?",
+      "correct": [
+        "ev_af"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "afOK"
+        ],
+        "note": "Tam isabet. Olaydan sonra taraflar barışmış, birlikte tatile gitmiş ve davacı “geçmişi kapattık” yazmış. Affedilen olay sonradan kusur olarak yüklenemez; af olgusunu cevap dilekçesinde, süresinde ileri sürdünüz."
+      },
+      "responses": {
+        "ev_kardes": {
+          "delta": 5,
+          "set": [
+            "kardesOK"
+          ],
+          "note": "Davacının kendi kusurunu gösteren bir tanığı cevapta bildirdiniz; bu kusur dağılımında işinize yarar. Ama 2023 iddiasının kendisini cevapsız bıraktınız."
+        },
+        "ev_sosyal": {
+          "delta": -10,
+          "note": "Paylaşım dava açıldıktan sonra yapıldı; Yargıtay'a göre dava tarihinden sonraki olaylar bu davada kusur olarak esas alınamaz. Üstelik 2023 iddiasına cevap değil."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu delil iddiayı karşılamıyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İddiaya cevap vermediniz. Af olgusu savunmada ileri sürülmezse mahkeme bunu kendiliğinden gözetmez."
+      }
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "if": "genel",
+          "text": "Dava dilekçesinde somut bir olay anlatılmamış; yalnızca “şiddetli geçimsizlik, davalı tam kusurlu” deniyor."
+        },
+        {
+          "who": "narr",
+          "text": "Müvekkil de boşanmak istiyor, ama kusurun yalnızca ona yüklenmesini istemiyor."
+        }
+      ],
+      "prompt": "Cevap dilekçesinde başka ne yapacaksınız?",
+      "choices": [
+        {
+          "if": "kardes",
+          "text": "Cevapla birlikte karşı dava aç: Davacının 2025 bayramında müvekkilin annesine söylediklerine dayan, tanık Ozan Arıkan'ı göster; boşanma ve manevi tazminat iste.",
+          "delta": 20,
+          "set": [
+            "karsi",
+            "kardesOK"
+          ],
+          "law": "HMK m.132–133 · TMK m.166/1, m.174/2",
+          "note": "Doğru. Davalı da boşanma ve kendi lehine tazminat istiyorsa karşı dava açmalıdır; karşı dava cevap dilekçesiyle açılabilir (HMK m.132–133). Somut vakıayı tanığıyla getirdiniz."
+        },
+        {
+          "if": "!kardes",
+          "text": "Cevapla birlikte karşı dava aç: Davacı da kusurludur; boşanma ve tazminat iste.",
+          "delta": 0,
+          "set": [
+            "karsi"
+          ],
+          "law": "HMK m.132 · m.119",
+          "note": "Usul doğru, içerik boş. Davacıya hangi somut davranışı yüklediğinizi ve neyle ispat edeceğinizi göstermediniz."
+        },
+        {
+          "text": "Boşanmaya itiraz et: Davacı daha ağır kusurlu; dava açması hakkın kötüye kullanılmasıdır.",
+          "delta": -10,
+          "set": [
+            "itiraz"
+          ],
+          "law": "TMK m.166/2",
+          "note": "Bu itiraz ancak davacının kusuru daha ağırsa ve evliliğin devamında korunmaya değer bir yarar kalmışsa dinlenir (TMK m.166/2). Müvekkiliniz de boşanmak istiyor; itiraz onun iradesiyle de çelişiyor."
+        },
+        {
+          "text": "Karşı dava açmadan cevap dilekçesinde müvekkil lehine de tazminat iste.",
+          "delta": -5,
+          "set": [
+            "cevaptaTaz"
+          ],
+          "law": "HMK m.132",
+          "note": "Davalının kendi lehine bir hüküm alabilmesi için karşı dava açması ve harcını yatırması gerekir. Cevap dilekçesindeki tazminat istemi hüküm altına alınamaz; olsa olsa savunma olarak değerlendirilir."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Tahkikat duruşmasını açıyorum. Taraflar ve vekilleri hazır."
+        },
+        {
+          "who": "p2",
+          "text": "Sayın Hâkim, davacı yıllardır eşinin ailesine kapısını kapatmış biridir; şimdi mağduru oynuyor."
+        },
+        {
+          "who": "narr",
+          "text": "Seda yerinden kalkıyor; sesi titriyor. Kerem'e dönüp konuşmaya başlıyor. Salondaki herkes size bakıyor."
+        }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Müvekkilinizin yanına gidip sakinleştirin; hâkimden kısa bir ara isteyin ve karşı vekilin sözlerinin tutanağa geçirilmesini talep edin.",
+          "delta": 10,
+          "law": "HMK m.151",
+          "note": "Doğru. Duruşmanın düzenini hâkim sağlar; kısa ara talebi müvekkilinizi korur. Karşı vekilin dosyayla ilgisiz nitelendirmesi tutanağa geçince hâkimin dikkatine girer.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "On dakika ara veriyorum. Taraf vekillerinin nitelendirmelerden kaçınmasını rica ediyorum."
+            }
+          ]
+        },
+        {
+          "text": "Müvekkilinizin konuşmasına izin verin; içini dökmesi davaya yarar.",
+          "delta": -5,
+          "note": "Taraf ancak hâkimin izniyle söz alır. Karşı tarafa yönelen kontrolsüz bir konuşma hem müvekkilinize zarar verir hem de duruşma düzenini bozar."
+        },
+        {
+          "text": "Herkesin önünde müvekkilinizi sertçe uyarın: “Oturun, beni zor durumda bırakıyorsunuz.”",
+          "delta": -10,
+          "note": "Müvekkilinizi salonda yalnız bıraktınız. Soğukkanlılık, onu korumak ve usule başvurmaktır: kısa ara istemek."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "vakia",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Tanıklar dinlendi. Davalı vekili, tanık beyanları hakkındaki değerlendirmeniz?"
+        },
+        {
+          "who": "p2",
+          "text": "Davacının tanıkları akrabasıdır. Kız kardeşi olayların hiçbirini görmemiş, ablasından dinlemiştir. Bu beyanlara itibar edilemez."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili?"
+        }
+      ],
+      "prompt": "Tanık beyanlarını nasıl savunacaksınız?",
+      "choices": [
+        {
+          "text": "Kuzen Elif Tuna 15.03.2026 yemeğinde bizzat bulundu; beyanı görgüye dayanıyor ve Nisan mesajlarıyla örtüşüyor. Akrabalık tek başına tanık beyanını değersiz kılmaz.",
+          "delta": 20,
+          "set": [
+            "tanikOK"
+          ],
+          "law": "HMK m.240, m.198 · TMK m.184",
+          "note": "Doğru. Hâkim delilleri serbestçe takdir eder (TMK m.184). Akraba tanığın beyanı yalnızca akrabalık nedeniyle reddedilmez; olayları bizzat gören tanığın beyanı, yazılı mesajlarla desteklenince güçlüdür."
+        },
+        {
+          "text": "Kız kardeşin anlattıkları yeterli; ablası ona her şeyi o gün anlatmış.",
+          "delta": -10,
+          "law": "TMK m.184",
+          "note": "Duyuma dayalı tanık beyanı, olayı gören bir tanık ya da belgeyle desteklenmedikçe kusur belirlemesinde tek başına yeterli görülmez. Elinizdeki görgü tanığını öne çıkarmadınız."
+        },
+        {
+          "text": "O hâlde yemekte bulunan bir komşuyu da yeni tanık olarak bildiriyoruz.",
+          "delta": -10,
+          "law": "HMK m.240/2",
+          "note": "Tanık listesinde gösterilmemiş kişiler tanık olarak dinlenemez ve ikinci bir liste verilemez (HMK m.240/2). Talep reddedilecek; elinizdeki görgü tanığını da savunmadınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Tanık listesi verilmiştir; ikinci liste kabul edilemez. Talep reddedildi."
+            }
+          ]
+        },
+        {
+          "text": "Tanık beyanları hakkında bir diyeceğimiz yok; takdir mahkemenindir.",
+          "delta": -5,
+          "law": "TMK m.184",
+          "note": "Delilleri hâkim serbestçe takdir eder, ama karşı tarafın itirazını cevapsız bırakmak risklidir. Görgü tanığınızın beyanının neden güvenilir olduğunu göstermediniz."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Tahkikat tamamlanmak üzere. Davalı vekili, kusur ve tazminatlar yönünden son beyanınız?"
+        },
+        {
+          "who": "judge",
+          "if": "tazminat",
+          "text": "Davacı 600.000 TL maddi ve 400.000 TL manevi tazminat istiyor."
+        }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Müvekkille görüşüp teklif et: Çekişmeli dava anlaşmalı boşanmaya dönüşsün; protokolde davacıya 250.000 TL toplu ödeme yapılsın, başka tazminat istenmesin.",
+          "delta": 15,
+          "set": [
+            "sulhTeklif"
+          ],
+          "law": "TMK m.166/3, m.184/5",
+          "note": "Evlilik en az bir yıl sürmüşse ve eşler birlikte başvurur ya da biri diğerinin davasını kabul ederse, hâkim tarafları bizzat dinleyip iradelerini serbestçe açıkladıklarına kanaat getirerek ve protokolü uygun bularak anlaşmalı boşanmaya karar verebilir (TMK m.166/3). Belirsiz bir kusur kararının riskini sınırladınız."
+        },
+        {
+          "text": "Kusurun ağırlığını tartış: Davacının da kusurlu olduğunu, tazminat miktarlarının tarafların ekonomik durumuna göre fahiş olduğunu, sosyal ve ekonomik durum araştırmasına göre belirlenmesi gerektiğini söyle.",
+          "delta": 15,
+          "set": [
+            "miktar"
+          ],
+          "law": "TMK m.174, m.4",
+          "note": "Yerinde. Tazminatın miktarı tarafların sosyal ve ekonomik durumu, kusurun ağırlığı ve hakkaniyete göre belirlenir. Somut gerekçe gösterdiniz."
+        },
+        {
+          "text": "Davacının dava açıldıktan sonraki sosyal medya paylaşımını en ağır kusur olarak değerlendirin.",
+          "delta": -10,
+          "law": "TMK m.166 · HMK m.141",
+          "note": "Yargıtay uygulamasında dava tarihinden sonraki olaylar, ıslahla bile, görülmekte olan davada kusur olarak yüklenemez; ancak ayrı bir dava konusu olabilir."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "sulhTeklif",
+      "lines": [
+        {
+          "who": "p2",
+          "text": "Sayın Hâkim, müvekkilim anlaşmalı boşanmayı ve davacıya 250.000 TL toplu ödeme yapılmasını kabul ediyor. Protokol hazır."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, teklif hakkında beyanınız?"
+        }
+      ],
+      "prompt": "Teklife cevabınız?",
+      "choices": [
+        {
+          "text": "Müvekkille salon dışında görüş; onayını al. Protokolde ödeme tarihini ve eşyaların paylaşımını netleştir; hâkimin müvekkili bizzat dinlemesini bekle.",
+          "delta": 15,
+          "set": [
+            "sulh"
+          ],
+          "law": "TMK m.166/3 · HMK m.74",
+          "note": "Doğru. Anlaşmalı boşanmada hâkim tarafları bizzat dinler; vekilin beyanı yetmez. Protokolün belirsiz kalan noktalarını kapattınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Taraflar bizzat dinlendi; protokolü özgür iradeleriyle kabul ettiklerini beyan ettiler. Protokol uygun bulundu."
+            }
+          ]
+        },
+        {
+          "text": "Reddet; mahkeme davalıyı ağır kusurlu bulacak ve daha yüksek tazminata hükmedecek.",
+          "delta": 5,
+          "note": "Savunulabilir: Dosyanız güçlüyse daha yüksek tazminat alabilirsiniz. Ama kusur değerlendirmesi belirsizdir ve istinaf, temyiz süreci yılları bulabilir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Anlaşma sağlanamadı. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Müvekkile sormadan hemen kabul et.",
+          "delta": -15,
+          "law": "TMK m.166/3",
+          "note": "Anlaşmalı boşanmada hâkim tarafların iradesini bizzat dinleyerek tespit eder. Müvekkilinize sormadan verilen kabul geçersizdir ve güveni zedeler.",
+          "reply": [
+            {
+              "who": "davaci",
+              "text": "Ben böyle bir şeyi kabul etmedim, Sayın Hâkim."
+            },
+            {
+              "who": "judge",
+              "text": "Davacı protokolü kabul etmediğini beyan etti. Karar için ara veriyorum."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "sulh",
+      "winner": "draw",
+      "stamp": "ANLAŞMALI BOŞANMA",
+      "label": "HÜKÜM:",
+      "hukum": "Davanın KABULÜ ile tarafların TMK m.166/3 uyarınca BOŞANMALARINA, taraflarca imzalanan protokolün aynen onaylanmasına,",
+      "summary": "Davalı vekili belirsiz bir kusur kararının riskini görüp anlaşma önerdi; davacı vekili müvekkilinin onayıyla protokolü netleştirdi. Kusur tartışması yapılmadan evlilik sona erdi."
+    },
+    {
+      "if": "genel && karsi && kardesOK",
+      "winner": "p2",
+      "hukum": "Asıl davanın REDDİNE; karşı davanın KABULÜ ile tarafların TMK m.166/1 uyarınca BOŞANMALARINA, davalı-karşı davacı lehine 100.000 TL manevi tazminata,",
+      "summary": "Davacı vekili somut hiçbir vakıa ileri sürmedi; kusur ispat edilemedi. Davalı vekili ise karşı davada davacının 2025 bayramındaki davranışını görgü tanığıyla ispatladı."
+    },
+    {
+      "if": "genel",
+      "winner": "p2",
+      "hukum": [
+        {
+          "if": "!karsi",
+          "text": "Davanın REDDİNE,"
+        },
+        {
+          "if": "karsi",
+          "text": "Asıl davanın REDDİNE; karşı davanın KABULÜ ile tarafların TMK m.166/1 uyarınca BOŞANMALARINA, karşı davadaki tazminat talebinin REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Davacı vekili dava dilekçesinde somut bir olay anlatmadı; “şiddetli geçimsizlik” iddiası ispatlanamadı. Hâkim kusuru ancak ileri sürülen vakıalara dayandırabilir."
+        },
+        {
+          "if": "itiraz",
+          "text": " Davalının m.166/2 itirazına ise gerek kalmadı."
+        }
+      ]
+    },
+    {
+      "if": "tanikOK && !afOK",
+      "winner": "p1",
+      "hukum": [
+        {
+          "text": "Davanın KABULÜ ile tarafların TMK m.166/1 uyarınca BOŞANMALARINA,"
+        },
+        {
+          "if": "tazminat && !miktar",
+          "text": " davacı lehine 500.000 TL maddi ve 350.000 TL manevi tazminatın davalıdan alınarak davacıya verilmesine,"
+        },
+        {
+          "if": "tazminat && miktar",
+          "text": " davacı lehine 350.000 TL maddi ve 250.000 TL manevi tazminatın davalıdan alınarak davacıya verilmesine, fazlaya ilişkin tazminat taleplerinin REDDİNE,"
+        },
+        {
+          "if": "karsi",
+          "text": " karşı davanın boşanma yönünden KABULÜNE, karşı davadaki tazminat talebinin REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Davalı ağır kusurlu bulundu: 2023'te ortak birikimi eşine danışmadan kaybetti, 2026'da eşini aile önünde ve mesajlarla küçük düşürdü. Görgü tanığının beyanı mesajlarla desteklendi."
+        },
+        {
+          "if": "kardesOK",
+          "text": " Davacının 2025 bayramındaki sözleri de kusur olarak kabul edildi, ama davalının kusurunun yanında daha hafif kaldı."
+        },
+        {
+          "if": "!tazminat",
+          "text": " Tazminat istenmediği için hüküm kurulmadı; davacı bir yıl içinde ayrı dava açabilir (TMK m.178)."
+        },
+        {
+          "if": "itiraz",
+          "text": " Davalının m.166/2 itirazı reddedildi: davacının kusuru daha ağır değildi."
+        },
+        {
+          "if": "cevaptaTaz",
+          "text": " Davalının cevap dilekçesindeki tazminat istemi, karşı dava açılmadığı için incelenmedi."
+        }
+      ]
+    },
+    {
+      "if": "tanikOK && afOK && kardesOK",
+      "winner": "draw",
+      "stamp": "KISMEN KABUL",
+      "hukum": "Davanın KABULÜ ile tarafların TMK m.166/1 uyarınca BOŞANMALARINA, tarafların eşit kusurlu bulunması nedeniyle tarafların tazminat taleplerinin REDDİNE,",
+      "summary": "2023 olayı affedildiği için kusur olarak yüklenemedi. Davalının 2026'daki sözleri ile davacının 2025 bayramındaki sözleri birlikte tartıldı; mahkeme tarafları eşit kusurlu buldu. Eşit kusurlu eş lehine boşanma tazminatına hükmedilmedi."
+    },
+    {
+      "if": "tanikOK",
+      "winner": "p1",
+      "hukum": [
+        {
+          "text": "Davanın KABULÜ ile tarafların TMK m.166/1 uyarınca BOŞANMALARINA,"
+        },
+        {
+          "if": "tazminat",
+          "text": " davacı lehine 200.000 TL maddi ve 250.000 TL manevi tazminatın davalıdan alınarak davacıya verilmesine, fazlaya ilişkin tazminat taleplerinin REDDİNE,"
+        },
+        {
+          "if": "karsi",
+          "text": " karşı davanın boşanma yönünden KABULÜNE, karşı davadaki tazminat talebinin REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Davalının 2026'da eşini aile önünde ve mesajlarla küçük düşürmesi ispatlandı; davalı daha ağır kusurlu bulundu."
+        },
+        {
+          "if": "afOK",
+          "text": " Ancak 2023 olayı affedildiği için kusur olarak yüklenmedi; tazminatlar buna göre düşük belirlendi."
+        },
+        {
+          "if": "itiraz",
+          "text": " Davalının m.166/2 itirazı reddedildi."
+        }
+      ]
+    },
+    {
+      "if": "!afOK && !kardesOK",
+      "winner": "p1",
+      "hukum": [
+        {
+          "text": "Davanın KABULÜ ile tarafların TMK m.166/1 uyarınca BOŞANMALARINA,"
+        },
+        {
+          "if": "tazminat",
+          "text": " davacı lehine 250.000 TL maddi ve 100.000 TL manevi tazminatın davalıdan alınarak davacıya verilmesine, fazlaya ilişkin tazminat taleplerinin REDDİNE,"
+        }
+      ],
+      "summary": "Görgü tanığı yeterince öne çıkarılmadığı için 2026 olayları ispatsız kaldı. Ama 2023'te ortak birikimin eşe danışılmadan kaybedildiği banka kayıtlarıyla sabitti ve davalı buna karşı bir savunma getirmedi; davalı daha ağır kusurlu bulundu."
+    },
+    {
+      "if": "!afOK",
+      "winner": "draw",
+      "stamp": "KISMEN KABUL",
+      "hukum": "Davanın KABULÜ ile tarafların TMK m.166/1 uyarınca BOŞANMALARINA, tarafların eşit kusurlu bulunması nedeniyle tarafların tazminat taleplerinin REDDİNE,",
+      "summary": "2026 olayları ispatsız kaldı. Davalının 2023'teki birikim kaybı ile davacının 2025 bayramındaki sözleri birlikte tartıldı; taraflar eşit kusurlu bulundu."
+    },
+    {
+      "winner": "p2",
+      "hukum": [
+        {
+          "if": "!karsi",
+          "text": "Davanın REDDİNE,"
+        },
+        {
+          "if": "karsi && kardesOK",
+          "text": "Asıl davanın REDDİNE; karşı davanın KABULÜ ile tarafların TMK m.166/1 uyarınca BOŞANMALARINA, davalı-karşı davacı lehine 75.000 TL manevi tazminata,"
+        },
+        {
+          "if": "karsi && !kardesOK",
+          "text": "Asıl davanın ve karşı davanın ayrı ayrı REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "2023 olayı affedilmişti; affedilen olay kusur olarak yüklenemez. 2026 olayları ise görgü tanığıyla desteklenmediği için ispatsız kaldı. Davalıya ispatlanmış bir kusur yüklenemedi."
+        },
+        {
+          "if": "karsi && kardesOK",
+          "text": " Davalı vekili karşı davada davacının kusurunu tanıkla ispatladı."
+        }
+      ]
+    }
+  ]
+}

@@ -76,6 +76,11 @@ import bamKatilmaYoluylaIstinaf from "./bam-katilma-yoluyla-istinaf.json";
 import bamCezaAleyheBozma from "./bam-ceza-aleyhe-bozma.json";
 import bamIslahIstinafta from "./bam-islah-istinafta.json";
 import bamKaldiripGonderme from "./bam-kaldirip-gonderme.json";
+import dkDevamsizlikFesih from "./dk-devamsizlik-fesih.json";
+import dkFazlaCalisma from "./dk-fazla-calisma.json";
+import dkBosanmaKusur from "./dk-bosanma-kusur.json";
+import dkVelayetDegisikligi from "./dk-velayet-degisikligi.json";
+import dkYoksullukNafakasi from "./dk-yoksulluk-nafakasi.json";
 
 export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, sozluFesih, uzakAdliye, yargitayDurusma, aihmBuyukDaire, ucmYargilama,
   danistayYonetmelik, danistayAceleKamulastirma, danistayCedBoruHatti, danistayImtiyaz, danistayVergiTeblig,
@@ -130,7 +135,12 @@ export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, soz
   bamKatilmaYoluylaIstinaf,
   bamCezaAleyheBozma,
   bamIslahIstinafta,
-  bamKaldiripGonderme].map(c => normalizeCase(c as unknown as CaseFile));
+  bamKaldiripGonderme,
+  dkDevamsizlikFesih,
+  dkFazlaCalisma,
+  dkBosanmaKusur,
+  dkVelayetDegisikligi,
+  dkYoksullukNafakasi].map(c => normalizeCase(c as unknown as CaseFile));
 export const DUEL_CASES = CASES.filter(c => c.mode === "duel");
 export const SOLO_CASES = CASES.filter(c => c.mode === "solo");
 export const caseById = (id: string) => CASES.find(c => c.id === id)!;

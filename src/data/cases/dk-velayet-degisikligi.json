@@ -1,0 +1,716 @@
+{
+  "id": "dk-velayet-degisikligi",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Yeni Şehir",
+  "area": "Aile Hukuku · Velayetin değiştirilmesi",
+  "court": "Eskişehir 1. Aile Mahkemesi",
+  "courtShort": "1. AİLE MAHKEMESİ",
+  "esas": "2027/214 Esas",
+  "kararTarihi": "21.09.2027",
+  "color": "#2f5a6b",
+  "teaser": "Anne çocukla İstanbul'a taşındı. On bir yaşındaki kızı babasına “seninle kalmak istiyorum” diyor. Karar çocuğun yararına göre verilecek.",
+  "sides": {
+    "p1": {
+      "role": "Davacı baba vekili",
+      "short": "Baba"
+    },
+    "p2": {
+      "role": "Davalı anne vekili",
+      "short": "Anne"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#b88560",
+        "hair": "#151515",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#f0caa6",
+        "hair": "#3a2418",
+        "style": "long",
+        "glasses": true
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#c99670",
+        "hair": "#2a2220",
+        "style": "short",
+        "beard": true
+      }
+    },
+    "baba": {
+      "name": "Onur Yalçın · Davacı",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#dcae86",
+        "hair": "#3a2a20",
+        "style": "short",
+        "shirt": "#2f4a3a",
+        "inner": "#e2ddd0"
+      }
+    },
+    "anne": {
+      "name": "Nur Yalçın · Davalı",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#e6bd98",
+        "hair": "#1c1c1c",
+        "style": "bun",
+        "shirt": "#6b3f4a",
+        "inner": "#ece6da"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Onur ve Nur Yalçın 2022'de Eskişehir'de boşandı. Kızları Ece'nin velayeti anneye verildi; babayla her ay iki hafta sonu ve yaz tatilinin bir ayı kişisel ilişki kuruldu."
+    },
+    {
+      "who": "narr",
+      "text": "Ağustos 2026'da Nur, bir lojistik şirketinde işe başlayarak Ece'yle İstanbul'a taşındı. Ece şimdi on bir yaşında ve yeni bir okulda."
+    },
+    {
+      "who": "baba",
+      "text": "Kızım telefonda ağlıyor. “Babacığım, seninle kalmak istiyorum” dedi. İlk dönem karnesinde notları düştü, dokuz gün devamsızlığı var. Annesi akşam yediye kadar işte."
+    },
+    {
+      "who": "narr",
+      "text": "Bugün 03.02.2027. Yarıyıl tatili için Ece bu hafta babasının yanında."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Boşanma ilamı (2022)",
+      "d": "Eskişehir 2. Aile Mahkemesi. Velayet anneye; babayla her ay iki hafta sonu ve yaz tatilinde bir ay kişisel ilişki. Kesinleşti."
+    },
+    {
+      "t": "Adres kayıtları",
+      "d": "Anne ve çocuk Eylül 2026'dan beri İstanbul Kartal'da kayıtlı. Baba Eskişehir'de."
+    },
+    {
+      "t": "İlk dönem karnesi",
+      "d": "Ocak 2027. Notlarda düşüş; dokuz gün devamsızlık."
+    },
+    {
+      "t": "Annenin iş sözleşmesi",
+      "d": "Lojistik şirketi; çalışma saatleri 09.00–18.30."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_karne",
+      "type": "belge",
+      "title": "İlk dönem karnesi",
+      "desc": "Ocak 2027: notlarda düşüş, dokuz gün devamsızlık."
+    },
+    {
+      "id": "ev_is",
+      "type": "belge",
+      "title": "Annenin iş sözleşmesi",
+      "desc": "Lojistik şirketi; çalışma saatleri 09.00–18.30."
+    },
+    {
+      "id": "ev_rapor",
+      "type": "belge",
+      "title": "Sosyal inceleme raporu",
+      "desc": "Mahkemenin uzmanı: Çocuk babasıyla yaşamak istiyor; annesiyle bağı güçlü. Uzman, velayetin değiştirilmesi yerine kişisel ilişkinin genişletilmesini öneriyor."
+    },
+    {
+      "id": "ev_okul",
+      "type": "belge",
+      "title": "Rehber öğretmen yazısı",
+      "desc": "Şubat 2027: Uyum güçlükleri ikinci dönemde belirgin biçimde azaldı, çocuk arkadaş edindi. Dokuz günlük devamsızlığın altı günü doktor raporlu grip.",
+      "if": "okul"
+    },
+    {
+      "id": "ev_etut",
+      "type": "belge",
+      "title": "Etüt merkezi kaydı ve bakım düzeni",
+      "desc": "Çocuk okul çıkışı 18.00'e kadar etüt merkezinde; ardından anneannesinin evinde. Anne 19.00'da alıyor. Etüt merkezinin devam çizelgesi ekli.",
+      "if": "etut"
+    },
+    {
+      "id": "ev_ihmal",
+      "type": "belge",
+      "title": "Kişisel ilişki mesajları",
+      "desc": "Eylül 2026 – Ocak 2027: Babanın kullanabileceği on hafta sonundan dördüne “işim var” diye gelmediğini gösteren mesajlar.",
+      "if": "ihmal"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "baba",
+          "text": "Tatil bitince Ece'yi geri göndermesem? Burada kalsın, okuluna da yazdırırım. Sonra dava açarız."
+        }
+      ],
+      "prompt": "Müvekkilinize ne önereceksiniz, davayı nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Çocuğu tatil bitiminde annesine teslim edin. Velayetin değiştirilmesi davası açalım: Annenin başka şehre taşınması yeni bir olgu; okul ve bakım düzenindeki değişikliği anlatalım, sosyal inceleme ve çocuğun uzman eşliğinde dinlenmesini isteyelim; terditli olarak kişisel ilişkinin genişletilmesini de talep edelim.",
+          "delta": 20,
+          "set": [
+            "talep",
+            "terdit"
+          ],
+          "law": "TMK m.183 · HMK m.111",
+          "note": "Doğru. TMK m.183'e göre ana veya babanın başka bir yere gitmesi gibi yeni olgular zorunlu kılarsa hâkim, ana veya babadan birinin istemi üzerine ya da kendiliğinden gerekli önlemleri alır. Ölçüt çocuğun üstün yararıdır. Terditli talep (HMK m.111), asıl talep reddedilirse ikinci talebin incelenmesini sağlar."
+        },
+        {
+          "text": "Çocuğu teslim edin. Davayı yalnızca çocuğun “babamla kalmak istiyorum” sözüne dayandıralım; başka bir talebe gerek yok.",
+          "delta": 0,
+          "set": [
+            "dar"
+          ],
+          "law": "TMK m.183",
+          "note": "İdrak çağındaki çocuğun görüşü önemlidir, ama tek başına belirleyici değildir; mahkeme çocuğun üstün yararını bütün olgularla birlikte tartar. Taşınmayı, okul ve bakım düzenini anlatmadınız; velayet reddedilirse elinizde ikinci bir talep de yok."
+        },
+        {
+          "text": "Önce çocuğu yanınızda tutun, yeni okuluna yazdırın; fiilî durum oluştuktan sonra dava açarız.",
+          "delta": -20,
+          "set": [
+            "fiili"
+          ],
+          "law": "TMK m.183, m.324",
+          "note": "Ağır hata. Kişisel ilişki düzenine aykırı davranıp çocuğu velayet sahibinden alıkoymak, çocuğu uyuşmazlığın ortasına çeker ve mahkemenin çocuğun yararı değerlendirmesinde babanın aleyhine ağır bir veri olur. Velayet sahibi çocuğun teslimini icra yoluyla isteyebilir.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Anne, çocuğun teslimi için icra dairesine başvurdu. Ece iki hafta sonra annesine teslim edildi. Baba ardından velayetin değiştirilmesi davasını açtı."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Dava dilekçesi tebliğ edildi. Anne vekili müvekkiliyle görüşüyor; iki soru soracak zamanı var."
+        },
+        {
+          "who": "anne",
+          "text": "Kızımı benden almak istiyor. İstanbul'a mecburen geldim; Eskişehir'deki işim kapandı."
+        }
+      ],
+      "prompt": "Müvekkilinize ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Okulda durum şimdi nasıl? Öğretmenleri ne diyor?",
+          "delta": 15,
+          "set": [
+            "okul"
+          ],
+          "reply": [
+            {
+              "who": "anne",
+              "text": "İlk aylar zordu. Ama rehber öğretmeni geçen hafta yazı verdi: arkadaş edindi, uyumu çok düzeldi. Devamsızlığın altı günü griple raporlu."
+            },
+            {
+              "who": "narr",
+              "text": "Rehber öğretmen yazısı delil çantasına eklendi."
+            }
+          ],
+          "note": "Kilit soru. Okul uyumunun düzeldiğini ve devamsızlığın çoğunun raporlu olduğunu gösteren tarafsız bir belge çıktı."
+        },
+        {
+          "text": "Siz işteyken okul çıkışından sonra Ece'ye kim bakıyor?",
+          "delta": 15,
+          "set": [
+            "etut"
+          ],
+          "reply": [
+            {
+              "who": "anne",
+              "text": "Okuldan sonra altıya kadar etüt merkezinde. Sonra annemin evine geçiyor, iki sokak ötede. Yedide ben alıyorum."
+            },
+            {
+              "who": "narr",
+              "text": "Etüt merkezi kaydı ve bakım düzeni delil çantasına eklendi."
+            }
+          ],
+          "note": "Değerli. “Çocuk akşamları yalnız” iddiasına karşı somut bir bakım düzeni gösterebilirsiniz."
+        },
+        {
+          "text": "Baba kişisel ilişkiyi düzenli kullanıyor mu?",
+          "delta": 5,
+          "set": [
+            "ihmal"
+          ],
+          "reply": [
+            {
+              "who": "anne",
+              "text": "Eylül'den beri on hafta sonunun dördüne “işim var” deyip gelmedi. Mesajlar telefonumda."
+            },
+            {
+              "who": "narr",
+              "text": "Mesajlar delil çantasına eklendi."
+            }
+          ],
+          "note": "Yararlı bir bilgi, ama asıl soru annenin yanındaki bakım ve okul düzeni. Babanın ilgisi tartışmanın merkezinde değil."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "CEVAP DİLEKÇESİ · Davacı, annenin İstanbul'a taşınmasına, karneye ve çocuğun isteğine dayanıyor."
+        },
+        {
+          "who": "narr",
+          "if": "fiili",
+          "text": "Davacı ayrıca, çocuğu yarıyıl tatilinden sonra iki hafta annesine teslim etmemişti."
+        }
+      ],
+      "prompt": "Cevap dilekçenizin ana ekseni ne olacak?",
+      "choices": [
+        {
+          "text": "Taşınmanın yeni bir olgu olduğunu inkâr etme. Ama çocuğun üstün yararı velayetin değişmesini gerektirmiyor: bakım düzeni ve okul uyumu sağlandı. Sosyal incelemeye ve çocuğun uzman eşliğinde dinlenmesine biz de katılıyoruz.",
+          "delta": 20,
+          "set": [
+            "cevap"
+          ],
+          "law": "TMK m.182, m.183 · 4787 s.K. m.5",
+          "note": [
+            {
+              "text": "Doğru. Taşınma, TMK m.183'te açıkça sayılan bir yeni olgudur; inkârı güven kaybettirir. Tartışmayı belirleyici ölçüte, çocuğun üstün yararına taşıdınız. Aile mahkemesi uzmanlarının incelemesine katılmak da iyi niyet gösterir."
+            },
+            {
+              "if": "fiili",
+              "text": " Babanın çocuğu teslim etmemesini de, çocuğun yararı değerlendirmesinde gözetilmek üzere dosyaya getirdiniz."
+            }
+          ]
+        },
+        {
+          "text": "Çocuk dinlenmesin; babası tarafından yönlendiriliyor.",
+          "delta": -10,
+          "set": [
+            "dinlenmesin"
+          ],
+          "law": "BM Çocuk Hakları Sözleşmesi m.12",
+          "note": "Yargıtay uygulamasında idrak çağındaki çocuğun velayet konusundaki görüşünün alınması gerekir; Çocuk Hakları Sözleşmesi m.12 de çocuğa görüşünü ifade etme hakkı tanır. Yönlendirme şüphesi, çocuğu dinlememenin değil, uzman eşliğinde dinlemenin gerekçesidir."
+        },
+        {
+          "text": "Baba üç aydır iştirak nafakasını ödemiyor; velayet istemeye hakkı yok.",
+          "delta": -10,
+          "set": [
+            "nafaka"
+          ],
+          "law": "TMK m.182, m.183",
+          "note": "Nafaka borcu icra yoluyla takip edilir; velayette ölçüt çocuğun üstün yararıdır. Ödeme düzensizliği babanın ilgisi hakkında bir veri olabilir, ama savunmanın ekseni olamaz."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Ön inceleme duruşmasını açıyorum. Taraflar ve vekilleri hazır."
+        },
+        {
+          "who": "p2",
+          "if": "dinlenmesin",
+          "text": "Sayın Hâkim, çocuğun dinlenmesine karşıyız; babası tarafından yönlendirildiğini düşünüyoruz."
+        },
+        {
+          "who": "judge",
+          "text": "Çocuk on bir yaşında. Davacı vekili, çocuğun görüşünün alınmasına ilişkin talebiniz?"
+        }
+      ],
+      "prompt": "Çocuğun nasıl dinlenmesini isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Çocuğun, aile mahkemesi uzmanı eşliğinde, tarafların ve vekillerin bulunmadığı bir ortamda dinlenmesini; beyanının tutanağa geçirilmesini talep ediyoruz.",
+          "delta": 15,
+          "set": [
+            "dinleme"
+          ],
+          "law": "4787 s.K. m.5 · BM Çocuk Hakları Sözleşmesi m.12",
+          "note": [
+            {
+              "text": "Doğru. İdrak çağındaki çocuk, onu baskı altında bırakmayacak bir ortamda, uzman eşliğinde dinlenir. Böylece hem görüşü alınır hem de yönlendirme şüphesi uzmanca değerlendirilir."
+            },
+            {
+              "if": "dinlenmesin",
+              "text": " Karşı tarafın yönlendirme kaygısına da en iyi cevap bu yöntem."
+            }
+          ],
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Çocuğun uzman eşliğinde hâkim odasında dinlenmesine ve sosyal inceleme raporu alınmasına karar verildi."
+            }
+          ]
+        },
+        {
+          "text": "Çocuk duruşma salonunda, anne ve babasının önünde dinlensin; kimi seçtiğini açıkça söylesin.",
+          "delta": -15,
+          "law": "BM Çocuk Hakları Sözleşmesi m.12",
+          "note": "Çocuğu anne ve babası arasında seçim yapmaya zorlamak onun yararına aykırıdır. Çocuk, baskı altında kalmayacağı bir ortamda uzman eşliğinde dinlenir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Talep yerinde görülmedi. Çocuğun uzman eşliğinde hâkim odasında dinlenmesine ve sosyal inceleme raporu alınmasına karar verildi."
+            }
+          ]
+        },
+        {
+          "text": "Dinlemeye gerek yok; çocuğun “babamla kalmak istiyorum” dediği video kaydını sunuyoruz.",
+          "delta": -15,
+          "set": [
+            "video"
+          ],
+          "law": "TMK m.183",
+          "note": "Çocuğu bir kayıt için kameraya konuşturmak, onu uyuşmazlığın içine çeker ve yönlendirme şüphesini güçlendirir. Mahkeme çocuğun görüşünü kendi yöntemiyle, uzman eşliğinde alır.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Kayıt dosyaya alınmadı. Çocuğun uzman eşliğinde hâkim odasında dinlenmesine ve sosyal inceleme raporu alınmasına karar verildi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Ece, hâkim odasında uzman eşliğinde dinlendi. Sosyal inceleme raporu geldi: Çocuk babasıyla yaşamak istediğini söylemiş; annesiyle bağı güçlü. Uzman, velayetin değiştirilmesi yerine kişisel ilişkinin genişletilmesini öneriyor."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, rapor hakkında beyanınız?"
+        }
+      ],
+      "statement": {
+        "who": "p1",
+        "text": "Çocuk babasıyla yaşamak istediğini açıkça söyledi. Annesinin yanında akşamları yalnız kalıyor; okulunda başarısız, dokuz gün devamsızlığı var."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_okul"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "okulOK"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Rehber öğretmen yazısı dosyaya alındı. Devamsızlığın altı günü raporlu; uyum ikinci dönemde düzelmiş görünüyor."
+          }
+        ],
+        "note": "Tam isabet. Tarafsız bir okul belgesi, karneye dayanan “başarısız” iddiasını ve devamsızlığın büyük kısmını açıkladı. Çocuğun yeni çevresine uyum sağladığı belgelendi."
+      },
+      "responses": {
+        "ev_etut": {
+          "delta": 20,
+          "set": [
+            "etutOK"
+          ],
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Etüt merkezi kaydı dosyaya alındı. Çocuğun okul sonrası bakımı düzenli görünüyor."
+            }
+          ],
+          "note": "Çok güçlü. “Akşamları yalnız kalıyor” iddiası, somut bir bakım düzeniyle çürüdü. Okul iddiası ise cevapsız kaldı."
+        },
+        "ev_rapor": {
+          "delta": 10,
+          "note": "Rapor genel olarak lehinize: uzman velayetin değişmesini önermiyor. Ama karşı tarafın somut iddialarını, yalnızlık ve okul sorununu çürüten bir belge göstermediniz."
+        },
+        "ev_ihmal": {
+          "delta": 5,
+          "note": "Babanın kişisel ilişkiyi aksattığı bir veri olabilir; ama karşı tarafın iddiası annenin yanındaki bakım ve okul düzeniyle ilgiliydi."
+        },
+        "ev_karne": {
+          "delta": -10,
+          "note": "Bu, karşı tarafın delili; düşen notları gösteriyor."
+        },
+        "ev_is": {
+          "delta": -10,
+          "note": "Bu belge annenin akşam 18.30'a kadar çalıştığını gösteriyor; karşı tarafın iddiasını doğrular. Çocuğun o saatlerde kimin yanında olduğunu gösteren bir belge gerekiyordu."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu delil beyanı çürütmüyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz; yalnızlık ve okul iddiaları cevapsız kaldı."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "if": "okulOK",
+          "text": "Okul yazısı dosyada. Davacı vekili, rapora karşı son beyanınız?"
+        },
+        {
+          "who": "judge",
+          "if": "etutOK",
+          "text": "Bakım düzenine ilişkin belgeler dosyada. Davacı vekili, rapora karşı son beyanınız?"
+        },
+        {
+          "who": "judge",
+          "if": "!okulOK && !etutOK",
+          "text": "Davacı vekili, rapora karşı son beyanınız? Rapor taraflara tebliğ edildi; iki haftalık süre işliyor."
+        }
+      ],
+      "prompt": "Rapora karşı ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Süresi içinde gerekçeli itiraz: Rapor, idrak çağındaki çocuğun açık ve istikrarlı iradesine ve annenin şehir değiştirmesinin çocuğun hayatına etkisine yeterli ağırlık vermemiş. Ek rapor ya da başka bir uzmandan inceleme isteyin.",
+          "delta": 15,
+          "set": [
+            "itirazRapor"
+          ],
+          "law": "HMK m.281 · TMK m.183",
+          "note": [
+            {
+              "text": "Usulen doğru. Rapora karşı itiraz, tebliğden itibaren iki hafta içinde ve somut gerekçeyle yapılmalıdır. Hâkim raporla bağlı değildir; ama raporun eksikliklerini göstermek size düşer."
+            },
+            {
+              "if": "okulOK || etutOK",
+              "text": " Ancak anne tarafının sunduğu belgeler raporu destekliyor; ek inceleme de büyük olasılıkla aynı sonuca varacak."
+            }
+          ]
+        },
+        {
+          "text": "Çocuğun isteği mahkemeyi bağlar; rapor ne derse desin velayet babaya verilmeli.",
+          "delta": -10,
+          "set": [
+            "bagli"
+          ],
+          "law": "TMK m.183",
+          "note": "Çocuğun görüşü önemlidir, ama mahkemeyi bağlamaz. Ölçüt çocuğun üstün yararıdır ve görüş bütün olgularla birlikte tartılır."
+        },
+        {
+          "if": "terdit",
+          "text": "Raporun önerisini kabul edin: Terditli talebimiz doğrultusunda kişisel ilişkinin genişletilmesini isteyin (her ay iki hafta sonu, yarıyıl tatilinin tamamı, yaz tatilinin yarısı).",
+          "delta": 10,
+          "set": [
+            "genisleme"
+          ],
+          "law": "TMK m.323–324 · HMK m.111",
+          "note": "Gerçekçi bir tercih. Çocuğun babasıyla bağını güçlendirir ve uzman görüşüyle örtüşür. Terditli talep sayesinde ayrıca ıslaha gerek kalmadı."
+        },
+        {
+          "if": "!terdit",
+          "text": "Islahla kişisel ilişkinin genişletilmesi talebini ekleyin; velayet talebini ikinci plana alın.",
+          "delta": 5,
+          "set": [
+            "genisleme",
+            "islah"
+          ],
+          "law": "HMK m.176–180 · TMK m.323–324",
+          "note": "Sonuç verir, ama bedeli var: Islah eden taraf, ıslah nedeniyle geçersiz kalan işlemlerin ve karşı tarafın uğradığı zararın giderlerini öder (HMK m.180). Bu talep baştan terditli olarak dilekçede yer alabilirdi."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "fiili && !genisleme",
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        {
+          "text": "Baba, kişisel ilişki düzenine aykırı biçimde çocuğu annesine teslim etmedi; çocuk ancak icra yoluyla teslim edilebildi. Mahkeme, çocuğu uyuşmazlığın içine çeken bu davranışı çocuğun üstün yararı değerlendirmesinde babanın aleyhine tarttı."
+        },
+        {
+          "if": "itirazRapor",
+          "text": " Rapora itiraz üzerine alınan ek rapor da velayetin değiştirilmesini önermedi."
+        }
+      ]
+    },
+    {
+      "if": "genisleme",
+      "winner": "draw",
+      "stamp": "KISMEN KABUL",
+      "hukum": "Velayetin değiştirilmesi talebinin REDDİNE; kişisel ilişkinin genişletilmesine, babanın her ay iki hafta sonu, yarıyıl tatilinin tamamı ve yaz tatilinin yarısında çocukla kişisel ilişki kurmasına,",
+      "summary": [
+        {
+          "text": "Annenin taşınması yeni bir olguydu, ama mahkeme çocuğun annesiyle bağını ve yeni düzenini gözeterek velayeti değiştirmedi. Çocuğun babasıyla yaşama isteği, kişisel ilişkinin genişletilmesiyle karşılandı."
+        },
+        {
+          "if": "islah",
+          "text": " Islah giderleri davacıya yükletildi (HMK m.180)."
+        },
+        {
+          "if": "fiili",
+          "text": " Babanın çocuğu teslim etmemesi, velayet talebinin reddinde etkili oldu."
+        }
+      ]
+    },
+    {
+      "if": "itirazRapor && !video && !okulOK",
+      "winner": "p1",
+      "hukum": "Davanın KABULÜ ile çocuğun velayetinin anneden alınarak babaya VERİLMESİNE; anneyle çocuk arasında her ay iki hafta sonu, yarıyıl tatilinin yarısı ve yaz tatilinin bir ayı kişisel ilişki kurulmasına,",
+      "summary": [
+        {
+          "text": "Annenin başka bir şehre taşınması TMK m.183 anlamında yeni bir olguydu. Baba vekilinin itirazı üzerine alınan ek raporda ikinci uzman, idrak çağındaki çocuğun istikrarlı biçimde babasıyla yaşamak istediğini ve yeni okulunda uyum sorununun sürdüğünü tespit etti. Anne tarafı okul durumuna ilişkin bu tespiti çürütecek bir belge sunmadı."
+        },
+        {
+          "if": "dar",
+          "text": " Dava dilekçesinde yalnızca çocuğun isteğine dayanılmıştı; mahkeme diğer olguları kendiliğinden araştırdı (TMK m.183)."
+        },
+        {
+          "if": "etutOK",
+          "text": " Okul sonrası bakım düzeninin kurulduğu belgelenmişti; ama mahkeme bunu velayetin annede kalması için yeterli görmedi."
+        },
+        {
+          "if": "dinlenmesin",
+          "text": " Anne vekilinin çocuğun dinlenmemesi talebi de reddedilmişti."
+        },
+        {
+          "if": "nafaka",
+          "text": " Nafaka borcuna ilişkin savunma, velayet ölçütü olmadığı için dikkate alınmadı."
+        }
+      ]
+    },
+    {
+      "if": "itirazRapor",
+      "winner": "draw",
+      "stamp": "KISMEN KABUL",
+      "hukum": "Velayetin değiştirilmesi talebinin REDDİNE; kişisel ilişkinin, babanın yaz tatilinin yarısında da çocukla kalabileceği şekilde genişletilmesine,",
+      "summary": [
+        {
+          "if": "okulOK",
+          "text": "Ek rapor çocuğun babasıyla yaşama isteğini doğruladı; ama anne vekilinin sunduğu okul yazısı, çocuğun yeni çevresine uyum sağladığını gösteriyordu. Mahkeme velayeti değiştirmedi, kişisel ilişkiyi genişletti."
+        },
+        {
+          "if": "!okulOK",
+          "text": "Ek rapor çocuğun babasıyla yaşama isteğini doğruladı, ama mahkeme velayeti değiştirecek kadar güçlü bir gerekçe görmedi; kişisel ilişkiyi genişletti."
+        },
+        {
+          "if": "video",
+          "text": " Babanın çocuğu kamera karşısına konuşturması olumsuz değerlendirildi."
+        },
+        {
+          "if": "dar",
+          "text": " Dava yalnızca çocuğun isteğine dayandırılmış, taşınma ve bakım düzeni ayrıntılı anlatılmamıştı."
+        }
+      ]
+    },
+    {
+      "if": "!itirazRapor && (okulOK || etutOK)",
+      "winner": "p2",
+      "hukum": [
+        {
+          "text": "Velayetin değiştirilmesi talebinin REDDİNE,"
+        },
+        {
+          "if": "terdit",
+          "text": " terditli talebin kabulü ile kişisel ilişkinin, babanın yaz tatilinin yarısında da çocukla kalabileceği şekilde genişletilmesine,"
+        }
+      ],
+      "summary": [
+        {
+          "if": "okulOK",
+          "text": "Anne vekili, okul uyumunun düzeldiğini ve devamsızlığın çoğunun raporlu olduğunu tarafsız bir belgeyle gösterdi."
+        },
+        {
+          "if": "etutOK",
+          "text": "Anne vekili, çocuğun okul sonrası bakımının düzenli olduğunu belgeledi; “akşamları yalnız” iddiası çürüdü."
+        },
+        {
+          "text": " Mahkeme, idrak çağındaki çocuğun görüşünü dikkate aldı; ama üstün yararının annenin yanında kalmasında olduğu sonucuna vardı."
+        },
+        {
+          "if": "video",
+          "text": " Babanın çocuğu kamera karşısına konuşturması da olumsuz değerlendirildi."
+        },
+        {
+          "if": "bagli",
+          "text": " Çocuğun görüşü mahkemeyi bağlamaz; davacı vekilinin aksi yöndeki beyanı kabul görmedi."
+        }
+      ]
+    },
+    {
+      "if": "dinleme && !okulOK && !etutOK && !video && !genisleme",
+      "winner": "p1",
+      "hukum": "Davanın KABULÜ ile çocuğun velayetinin anneden alınarak babaya VERİLMESİNE; anneyle çocuk arasında her ay iki hafta sonu, yarıyıl tatilinin yarısı ve yaz tatilinin bir ayı kişisel ilişki kurulmasına,",
+      "summary": [
+        {
+          "text": "Hâkim uzman raporuyla bağlı değildir. Annenin başka bir şehre taşınması TMK m.183 anlamında yeni bir olguydu; idrak çağındaki çocuk uzman eşliğinde dinlenmiş ve babasıyla yaşamak istediğini açıkça söylemişti. Anne tarafı okul ve bakım düzenine ilişkin iddiaları çürütecek bir belge sunmadığından, mahkeme gerekçesini açıklayarak rapordan ayrıldı."
+        },
+        {
+          "if": "bagli",
+          "text": " Davacı vekilinin “çocuğun görüşü mahkemeyi bağlar” beyanı ise yerinde değildi; görüş, diğer olgularla birlikte tartıldı."
+        }
+      ]
+    },
+    {
+      "if": "terdit",
+      "winner": "draw",
+      "stamp": "KISMEN KABUL",
+      "hukum": "Velayetin değiştirilmesi talebinin REDDİNE; terditli talebin kabulü ile kişisel ilişkinin, babanın yaz tatilinin yarısında da çocukla kalabileceği şekilde genişletilmesine,",
+      "summary": [
+        {
+          "text": "Mahkeme sosyal inceleme raporunu esas aldı: Çocuğun annesiyle bağı güçlü, velayetin değişmesi yararına değil. Baba vekili rapora süresinde gerekçeli itiraz etmediği için rapor tartışmasız kaldı. Terditli talep sayesinde kişisel ilişki genişletildi."
+        },
+        {
+          "if": "bagli",
+          "text": " Çocuğun görüşünün mahkemeyi bağladığı beyanı kabul görmedi."
+        }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        {
+          "text": "Mahkeme sosyal inceleme raporunu esas aldı: Velayetin değişmesi çocuğun yararına değil. Dava yalnızca çocuğun isteğine dayandırılmıştı; çocuğun görüşü tek başına belirleyici değildir ve ikinci bir talep de yoktu."
+        },
+        {
+          "if": "bagli",
+          "text": " Çocuğun görüşünün mahkemeyi bağladığı beyanı kabul görmedi."
+        },
+        {
+          "if": "video",
+          "text": " Babanın çocuğu kamera karşısına konuşturması da olumsuz değerlendirildi."
+        }
+      ]
+    }
+  ]
+}

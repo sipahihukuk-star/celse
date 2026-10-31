@@ -1,0 +1,769 @@
+{
+  "id": "dk-devamsizlik-fesih",
+  "mode": "duel",
+  "difficulty": "basit",
+  "title": "İki Gün",
+  "area": "İş Hukuku · Devamsızlık nedeniyle fesih",
+  "court": "Bursa 3. İş Mahkemesi",
+  "courtShort": "3. İŞ MAHKEMESİ",
+  "esas": "2026/1287 Esas",
+  "kararTarihi": "11.03.2027",
+  "color": "#4a5a2c",
+  "teaser": "İşçi iki gün işe gelmedi, işveren üçüncü gün haklı nedenle feshetti. Çekmecede bir istirahat raporu var.",
+  "sides": {
+    "p1": {
+      "role": "İşçi vekili",
+      "short": "İşçi"
+    },
+    "p2": {
+      "role": "İşveren vekili",
+      "short": "İşveren"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#e6bd98",
+        "hair": "#4a3a30",
+        "style": "long",
+        "glasses": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#b88560",
+        "hair": "#151515",
+        "style": "short",
+        "beard": true
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#f0caa6",
+        "hair": "#7a5a3c",
+        "style": "bun"
+      }
+    },
+    "client": {
+      "name": "Tuncay Erdem · İşçi",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#c99670",
+        "hair": "#2a2220",
+        "style": "short",
+        "shirt": "#3a4a5a",
+        "inner": "#e2ddd0"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Tuncay Erdem 2022'den beri Bursa'daki Karaçam Döküm Sanayi A.Ş.'de CNC operatörü. İşyerinde 120 işçi çalışıyor."
+    },
+    {
+      "who": "narr",
+      "text": "14 ve 15.10.2026'da, Çarşamba ve Perşembe, işe gelmedi. İşveren her gün için üç çalışanın imzaladığı birer tutanak düzenledi: “İşe gelmedi, telefonla ulaşılamadı.”"
+    },
+    {
+      "who": "narr",
+      "text": "16.10.2026 Cuma sabahı işe geldiğinde insan kaynakları ona yazılı fesih bildirimi verdi: “İş K. m.25/II-g · ardı ardına iki iş günü mazeretsiz devamsızlık.” Kıdem ve ihbar tazminatı ödenmedi."
+    },
+    {
+      "who": "client",
+      "text": "Ateşim kırka çıkmıştı. Aile sağlık merkezinden iki gün rapor aldım. İnsan kaynaklarına uzattım, “fesih yazısı hazır” deyip almadılar."
+    },
+    {
+      "who": "narr",
+      "text": "Bugün 21.10.2026."
+    }
+  ],
+  "docs": [
+    {
+      "t": "İş sözleşmesi",
+      "d": "Belirsiz süreli, 03.01.2022'den beri. Görev: CNC operatörü."
+    },
+    {
+      "t": "SGK kayıtları",
+      "d": "İşyerinde 120 işçi çalışıyor."
+    },
+    {
+      "t": "Devamsızlık tutanakları",
+      "d": "14.10.2026 ve 15.10.2026; her biri üç çalışanın imzasıyla: “İşe gelmedi, telefonla ulaşılamadı.”"
+    },
+    {
+      "t": "Fesih bildirimi",
+      "d": "16.10.2026, yazılı. Sebep: “İş K. m.25/II-g, ardı ardına iki iş günü mazeretsiz devamsızlık.” Savunma istenmemiş."
+    },
+    {
+      "t": "İstirahat raporu",
+      "d": "Aile sağlık merkezi, 14.10.2026 tarihli: “14–15.10.2026 tarihleri arasında iki gün istirahati uygundur.”"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_tutanak",
+      "type": "belge",
+      "title": "Devamsızlık tutanakları",
+      "desc": "14 ve 15.10.2026; üç çalışanın imzasıyla: “İşe gelmedi, telefonla ulaşılamadı.”"
+    },
+    {
+      "id": "ev_fesih",
+      "type": "belge",
+      "title": "Fesih bildirimi",
+      "desc": "16.10.2026; sebep İş K. m.25/II-g. Savunma istenmemiş."
+    },
+    {
+      "id": "ev_rapor",
+      "type": "belge",
+      "title": "İstirahat raporu",
+      "desc": "Aile sağlık merkezi, 14.10.2026 tarihli; 14–15.10.2026 için iki gün istirahat."
+    },
+    {
+      "id": "law_m25",
+      "type": "kanun",
+      "title": "İş K. m.25/II-g",
+      "desc": "İşçinin işverenden izin almaksızın veya haklı bir sebebe dayanmaksızın ardı ardına iki iş günü işine devam etmemesi, işverene haklı fesih hakkı verir.",
+      "law": "İş K. m.25/II-g"
+    },
+    {
+      "id": "ev_mesaj",
+      "type": "belge",
+      "title": "Ustabaşıyla mesajlaşma",
+      "desc": "14.10.2026, saat 07.12: “Ustam ateşim çıktı, sağlık ocağına gidiyorum, rapor alırsam getiririm.” Mesaj okunmuş; ustabaşı Kemal Duru 07.40'ta “Geçmiş olsun” diye cevap vermiş.",
+      "if": "mesaj"
+    },
+    {
+      "id": "ev_erapor",
+      "type": "belge",
+      "title": "SGK e-rapor kaydı",
+      "desc": "Rapor aynı gün elektronik ortamda SGK'ya bildirilmiş. İşveren, işyeri sicil numarasıyla bu kaydı SGK'nın sisteminden görebiliyor.",
+      "if": "erapor"
+    }
+  ],
+  "steps": [
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "İşçi vekili, dava stratejisini belirlemeden önce müvekkiliyle görüşüyor. İki soru soracak kadar zaman var."
+        }
+      ],
+      "prompt": "Müvekkilinize ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Raporu aldığınız gün işe gelemeyeceğinizi kimseye haber verdiniz mi?",
+          "delta": 15,
+          "set": [
+            "mesaj"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Sabah yediyi on geçe ustabaşı Kemal Usta'ya mesaj attım. Okudu, “geçmiş olsun” yazdı. Telefonumda duruyor."
+            }
+          ],
+          "note": "Kilit soru. Tutanaktaki “ulaşılamadı” ifadesiyle çelişen yazılı bir bildirim çıktı. Mesaj delil çantanıza eklendi."
+        },
+        {
+          "text": "Rapor sisteme işlendi mi, yoksa yalnızca elinizdeki kâğıt mı var?",
+          "delta": 10,
+          "set": [
+            "erapor"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Doktor bilgisayara girdi, “SGK'ya gitti” dedi. Bana da çıktısını verdi."
+            }
+          ],
+          "note": "Değerli. Elektronik rapor kaydı raporun o gün düzenlendiğini gösterir; işveren de bu kaydı SGK sisteminden görebilir. Kayıt delil çantanıza eklendi."
+        },
+        {
+          "text": "Daha önce devamsızlık ya da uyarı aldınız mı?",
+          "delta": 5,
+          "reply": [
+            {
+              "who": "client",
+              "text": "2025'te bir sabah geç kaldım, şef sözlü uyardı. Başka hiçbir şey yok."
+            }
+          ],
+          "note": "Bilmekte yarar var, ama fesih bu olaya dayanmıyor. Fesih sebebi bildirimde ne yazıyorsa odur."
+        },
+        {
+          "text": "İşe geri dönmek mi istersiniz, yoksa tazminat mı?",
+          "delta": 5,
+          "reply": [
+            {
+              "who": "client",
+              "text": "İşimi seviyorum, dönmek isterim. Dönemezsem de hakkım neyse onu alayım."
+            }
+          ],
+          "note": "Strateji için önemli. Ama önce feshin hukuka uygun olup olmadığını gösterecek delili bulmanız gerekiyor."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Fesih 16.10.2026'da yapıldı. İşçi 2022'den beri çalışıyor; işyerinde 120 işçi var."
+        }
+      ],
+      "prompt": "Hangi davayı, hangi dayanakla açacaksınız?",
+      "choices": [
+        {
+          "text": "Bir ay dolmadan arabulucuya başvur; anlaşma olmazsa işe iade davası aç. Dayanak: raporlu günler devamsızlık sayılmaz; fesih ne haklı ne geçerli nedene dayanıyor.",
+          "delta": 20,
+          "set": [
+            "iade"
+          ],
+          "law": "İş K. m.18, m.20, m.25/II-g · 7036 s.K. m.3",
+          "note": "Doğru. Müvekkil iş güvencesi kapsamında: altı aydan uzun kıdem, otuzdan fazla işçi (İş K. m.18). m.25/II-g, devamsızlığın izinsiz ya da haklı bir sebebe dayanmaksızın olmasını arar; raporlu hastalık haklı sebeptir. Feshin geçerli nedene dayandığını ispat yükü işverendedir (m.20/2).",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Arabulucuya fesihten itibaren bir ay dolmadan başvuruldu."
+            }
+          ]
+        },
+        {
+          "text": "İşe iade yerine kıdem ve ihbar tazminatı davası aç: fesih haksız.",
+          "delta": 5,
+          "set": [
+            "alacak"
+          ],
+          "law": "1475 s.K. m.14 · İş K. m.17",
+          "note": "Hukuken mümkün: fesih haklı nedene dayanmıyorsa kıdem ve ihbar tazminatı doğar. Ama müvekkil işine dönmek istiyor ve iş güvencesi kapsamında; işe iade, işe başlatmama tazminatı ve boşta geçen süre ücretiyle daha geniş koruma sağlardı.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Arabulucuya fesihten itibaren bir ay dolmadan başvuruldu."
+            }
+          ]
+        },
+        {
+          "text": "İşe iade davası aç. Dayanak: işveren fesihten önce savunma almadı; fesih bu yüzden kendiliğinden geçersiz.",
+          "delta": 0,
+          "set": [
+            "iade",
+            "savunmaDayanak"
+          ],
+          "law": "İş K. m.19/2",
+          "note": "Dava türü doğru, dayanak zayıf. İşveren m.25/II'ye dayanarak feshediyorsa savunma alması şart değildir (m.19/2 son cümle). Asıl dayanağınız, devamsızlığın raporlu hastalığa yani haklı bir sebebe dayanmasıydı.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Arabulucuya fesihten itibaren bir ay dolmadan başvuruldu."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "ARABULUCULUK · İşçi vekili arabulucuya başvurdu. İşveren ilk toplantıya davet edildi."
+        }
+      ],
+      "prompt": "İşveren vekili olarak ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "İlk toplantıya katıl; işçinin dayandığı belgeleri dinle, müvekkille değerlendirmek için ikinci bir toplantı iste.",
+          "delta": 10,
+          "law": "7036 s.K. m.3",
+          "note": "Yerinde. Toplantıya katılmak gider riskini ortadan kaldırır; karşı tarafın delillerini erkenden görmek de davaya hazırlanmanın en ucuz yoludur.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Anlaşma sağlanamadı; son tutanak düzenlendi. Dava süresinde açıldı."
+            }
+          ]
+        },
+        {
+          "text": "İlk toplantıya katıl; devamsızlığın tutanakla sabit olduğunu söyle, başka bir şey konuşma.",
+          "delta": 5,
+          "law": "7036 s.K. m.3",
+          "note": "Gider riskinden kurtuldunuz, ama karşı tarafın elindeki delilleri öğrenme ve uzlaşma fırsatını kullanmadınız.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Anlaşma sağlanamadı; son tutanak düzenlendi. Dava süresinde açıldı."
+            }
+          ]
+        },
+        {
+          "text": "Toplantıya katılma; nasılsa dava açılacak.",
+          "delta": -15,
+          "set": [
+            "yokluk"
+          ],
+          "law": "7036 s.K. m.3",
+          "note": "Geçerli mazeret olmadan ilk toplantıya katılmayan taraf, davada kısmen ya da tamamen haklı çıksa bile yargılama giderlerinin tamamından sorumlu tutulur ve lehine vekâlet ücretine hükmedilmez (7036 s.K. m.3).",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "İşveren tarafı ilk toplantıya katılmadı. Anlaşma sağlanamadı; son tutanak düzenlendi. Dava süresinde açıldı."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "CEVAP DİLEKÇESİ · Dava dilekçesi işverene tebliğ edildi. Dilekçede istirahat raporuna dayanılıyor."
+        },
+        {
+          "who": "narr",
+          "if": "savunmaDayanak",
+          "text": "Davacı ayrıca, fesihten önce savunma alınmadığını ileri sürüyor."
+        }
+      ],
+      "prompt": "Cevap dilekçenizin ana ekseni ne olacak?",
+      "choices": [
+        {
+          "text": "Devamsızlık tutanaklarla sabit; işçi iki gün boyunca işverene haber vermedi, rapor ancak fesihten sonra ortaya çıktı. m.25/II'ye dayanan fesihte savunma alınması gerekmez.",
+          "delta": 15,
+          "set": [
+            "bildirim"
+          ],
+          "law": "İş K. m.25/II-g, m.19/2",
+          "note": [
+            {
+              "text": "Elinizdeki en güçlü savunma: tutanaklar ve bildirim yapılmadığı iddiası. Savunma konusunda da haklısınız; m.19/2 işverenin m.25/II'deki fesih hakkını saklı tutar."
+            },
+            {
+              "if": "savunmaDayanak",
+              "text": " Davacının savunma itirazını da doğru dayanakla karşıladınız."
+            }
+          ]
+        },
+        {
+          "text": "Haklı neden sayılmasa bile fesih geçerli nedene dayanır: işçinin haber vermemesi bir davranış kusurudur.",
+          "delta": -10,
+          "set": [
+            "gecerli"
+          ],
+          "law": "İş K. m.19/2",
+          "note": "Tehlikeli bir geri çekilme. İşçinin davranışına dayanan geçerli fesihte savunma alınması zorunludur (m.19/2) ve işveren savunma almadı. Bu savunma, işvereni kendi eksikliğine götürüyor."
+        },
+        {
+          "text": "Rapor hatır raporudur; işçi o günlerde başka bir işte çalışıyordu.",
+          "delta": -15,
+          "set": [
+            "hatir"
+          ],
+          "law": "HMK m.190",
+          "note": "Elinizde bunu gösteren hiçbir delil yok. Resmî bir sağlık kuruluşunun raporuna karşı iddiayı ileri süren ispatlamalıdır (HMK m.190); dayanaksız iddia hâkimde güven kaybettirir."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "bildirim",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Ön inceleme duruşmasını açıyorum. Taraf vekilleri hazır. İşveren vekili, savunmanızı özetleyin."
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Davacı iki gün boyunca işverene hiçbir bildirimde bulunmamış, telefonla da ulaşılamamıştır. Tutanaklar ortada. Rapor, fesihten sonra ortaya çıkarılmıştır."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_mesaj",
+        "ev_erapor"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "bildirOK"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Belge dosyaya alındı. Rapor 14.10.2026'da düzenlenmiş ve aynı gün işverenin muhatabına ulaşmış görünüyor. Tutanağa geçirildi."
+          }
+        ],
+        "note": "Tam isabet. Rapor fesihten sonra “ortaya çıkarılmış” değil; ilk gün düzenlenmiş ve işveren tarafına bildirilmiş. Ustabaşı işveren adına işçiyi yöneten kişidir; ona yapılan bildirim işverene yapılmış sayılır. Tutanaktaki “ulaşılamadı” ifadesi çöktü."
+      },
+      "responses": {
+        "ev_rapor": {
+          "delta": 10,
+          "set": [
+            "raporOK"
+          ],
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Rapor dosyaya alındı. Bildirim iddiasına dair başka beyanınız var mı?"
+            }
+          ],
+          "note": "Doğru yön: Raporlu günler devamsızlık sayılmaz. Ama karşı tarafın asıl iddiası, raporun işverene bildirilmediğiydi; bunu karşılayan bir belge göstermediniz."
+        },
+        "law_m25": {
+          "delta": 0,
+          "note": "Madde “haklı bir sebebe dayanmaksızın” der; hastalık haklı sebeptir. Ama tartışma bir olgu üzerinde: hastalık ve bildirim belgeyle gösterilmeliydi."
+        },
+        "ev_tutanak": {
+          "delta": -10,
+          "note": "Bu, karşı tarafın delili. Tutanaklar “ulaşılamadı” diyor; sizin işinize yaramaz."
+        },
+        "ev_fesih": {
+          "delta": -5,
+          "note": "Fesih bildirimi sebebi gösteriyor, ama bildirim yapılmadığı iddiasını çürütmüyor."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu delil karşı tarafın beyanını çürütmüyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz. Tutanaklara karşı raporu bile göstermediniz; işverenin haklı fesih iddiası cevapsız kaldı."
+      }
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "hatir",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Ön inceleme duruşmasını açıyorum. Taraf vekilleri hazır. İşveren vekili, savunmanızı özetleyin."
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Davacının sunduğu rapor bir hatır raporudur. Davacı o günlerde hasta değildi, başka bir işte çalışıyordu."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_erapor",
+        "ev_mesaj",
+        "ev_rapor"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "raporOK"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "İşveren vekili, başka bir işte çalışıldığına dair delilinizi soruyorum."
+          },
+          {
+            "who": "p2",
+            "text": "Şu an için… bir delilimiz yok, Sayın Hâkim."
+          },
+          {
+            "who": "judge",
+            "text": "Tutanağa geçirildi."
+          }
+        ],
+        "note": "Doğru. Sağlık kuruluşunun raporu dosyada; sahte ya da gerçeğe aykırı olduğunu iddia eden taraf bunu ispatlamalıdır (HMK m.190). Karşı taraf tek bir delil gösteremedi."
+      },
+      "responses": {
+        "law_m25": {
+          "delta": 0,
+          "note": "Madde doğru, ama tartışma raporun gerçekliği üzerinde. Rapor ve kaydı belgeyle göstermeliydiniz."
+        },
+        "ev_tutanak": {
+          "delta": -10,
+          "note": "Bu, karşı tarafın delili; raporun gerçekliği hakkında bir şey söylemiyor."
+        },
+        "ev_fesih": {
+          "delta": -5,
+          "note": "Fesih bildirimi bu iddiayı karşılamıyor."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu delil karşı tarafın beyanını çürütmüyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz. Raporu bile göstermediğiniz için hatır raporu iddiası cevapsız kaldı."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "gecerli",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Ön inceleme duruşmasını açıyorum. Taraf vekilleri hazır."
+        },
+        {
+          "who": "p2",
+          "text": "Sayın Hâkim, devamsızlık haklı neden sayılmasa bile, davacının iki gün haber vermemesi geçerli fesih nedenidir."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili?"
+        }
+      ],
+      "prompt": "Bu savunmaya cevabınız?",
+      "choices": [
+        {
+          "text": "Raporlu günler devamsızlık değildir; raporu sunuyoruz. Davranışa dayanan geçerli fesihte savunma alınması zorunludur ve işveren savunma almadı.",
+          "delta": 20,
+          "set": [
+            "gecersizOK"
+          ],
+          "law": "İş K. m.19/2, m.25/II-g",
+          "note": "Doğru. Hastalık devamsızlığı haklı bir sebebe bağlar. İşveren geçerli nedene sığınırsa da m.19/2'deki savunma şartına takılır: işçinin davranışı nedeniyle sözleşme savunması alınmadan feshedilemez.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Rapor dosyaya alındı. Beyan tutanağa geçirildi."
+            }
+          ]
+        },
+        {
+          "text": "İşveren önce haklı nedenle feshetti; şimdi geçerli nedene dayanamaz.",
+          "delta": 5,
+          "law": "İş K. m.19/1",
+          "note": "Kısmen doğru bir sezgi, ama tek başına yetmez. Asıl güçlü cevaplar raporlu günlerin devamsızlık sayılmaması ve savunma alınmamasıydı; ikisini de söylemediniz."
+        },
+        {
+          "text": "Haber vermediğimizi kabul ediyoruz; ama tazminat hakkı saklı kalsın.",
+          "delta": -15,
+          "set": [
+            "kabul"
+          ],
+          "law": "HMK m.188",
+          "note": "Elinizde rapor varken feshin dayanağını kabul etmiş oldunuz. Mahkeme önünde yapılan ikrar ispat gerektirmez (HMK m.188)."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "bildirOK || raporOK || gecersizOK",
+      "lines": [
+        {
+          "who": "judge",
+          "if": "bildirOK",
+          "text": "İşveren vekili, rapor ilk gün düzenlenmiş ve ustabaşına bildirilmiş görünüyor. Beyanınız?"
+        },
+        {
+          "who": "judge",
+          "if": "!bildirOK",
+          "text": "İşveren vekili, istirahat raporu dosyada. Beyanınız?"
+        }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Müvekkille görüşüp sulh teklif et: İşçi bir ay içinde işe başlatılsın, boşta geçen iki aylık ücreti ödensin.",
+          "delta": 15,
+          "set": [
+            "sulhTeklif"
+          ],
+          "law": "HMK m.313 · İş K. m.21",
+          "note": [
+            {
+              "if": "alacak",
+              "text": "Dava kıdem ve ihbar tazminatı için açılmış olsa da işe başlatma teklifi müvekkil işçinin isteğine uyuyor. "
+            },
+            {
+              "text": "Belgelenmiş bir mazerete karşı ısrar etmek yerine sulh, işvereni işe başlatmama tazminatı ve yargılama gideri riskinden kurtarabilir."
+            }
+          ]
+        },
+        {
+          "text": "Ustabaşına mesaj atmak işverene bildirim değildir; insan kaynaklarına yazılı bildirim gerekirdi.",
+          "delta": -5,
+          "set": [
+            "israr"
+          ],
+          "law": "İş K. m.2/4",
+          "note": "İşveren adına işin yönetiminde görev alan kişi işveren vekilidir (İş K. m.2/4); ona yapılan bildirim işverene yapılmış sayılır. Kanunda devamsızlık için insan kaynaklarına yazılı bildirim şartı yok."
+        },
+        {
+          "text": "Raporun gerçekliğinin araştırılması için sağlık merkezinden muayene kayıtlarının getirtilmesini iste.",
+          "delta": 5,
+          "set": [
+            "arastir"
+          ],
+          "law": "HMK m.190",
+          "note": "Usulen meşru bir talep, ama elinizde raporu şüpheli kılan somut bir olgu yok. Kayıtlar büyük ihtimalle raporu doğrulayacak.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Sağlık merkezinin kayıtları geldi: Davacı 14.10.2026 sabahı 38,9 derece ateşle muayene edilmiş."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "sulhTeklif",
+      "lines": [
+        {
+          "who": "p2",
+          "text": "Sayın Hâkim, müvekkil şirket davacının bir ay içinde işe başlatılmasını ve iki aylık boşta geçen süre ücretinin ödenmesini teklif ediyor."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, teklif hakkında beyanınız?"
+        }
+      ],
+      "prompt": "Teklife cevabınız?",
+      "choices": [
+        {
+          "text": "Müvekkilin onayını al; işe başlama tarihini, ödeme tutarını ve kıdemin kesintisiz sayılacağını tutanağa yazdırarak kabul et.",
+          "delta": 15,
+          "set": [
+            "sulh"
+          ],
+          "law": "HMK m.74, m.313",
+          "note": "Müvekkil işine dönmek istiyordu; teklifi netleştirip güvenceye aldınız. Sulh için vekâletnamede özel yetki gerekir (HMK m.74).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Sulh tutanağa geçirildi; taraflar tutanağı imzaladı."
+            }
+          ]
+        },
+        {
+          "text": "Reddet; kararla işe iade ve işe başlatmama tazminatını iste.",
+          "delta": 5,
+          "note": "Savunulabilir: dosya güçlü. Ama kanun yolu süreci uzayabilir ve müvekkil zaten işine dönmek istiyordu.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Sulh sağlanamadı. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Teklifi müvekkile sormadan hemen kabul et.",
+          "delta": -15,
+          "law": "HMK m.74",
+          "note": "Sulh vekâletnamede özel yetki gerektirir (HMK m.74) ve müvekkilin iradesine dayanır. Onu almadınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Vekâletnamenizde sulh yetkisi bulunmuyor. Beyanınız sulh olarak kabul edilmemiştir."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "sulh",
+      "winner": "draw",
+      "stamp": "SULH",
+      "label": "SONUÇ:",
+      "noCourt": true,
+      "hukum": "Taraflar, davacının bir ay içinde işe başlatılması ve iki aylık boşta geçen süre ücretinin ödenmesi konusunda sulh oldu. Sulh tutanağa geçirildi.",
+      "summary": "İşçi vekili raporu ve bildirimi belgeledi; işveren vekili zayıflayan savunmada ısrar etmek yerine müvekkilini işe başlatmama tazminatı riskinden kurtardı. İşçi işine döndü."
+    },
+    {
+      "if": "kabul",
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        {
+          "text": "İşçi vekili, elinde istirahat raporu varken devamsızlığın dayanağını mahkeme önünde kabul etti (HMK m.188). Mahkeme feshi haklı saydı."
+        },
+        {
+          "if": "yokluk",
+          "text": " İşveren ilk arabuluculuk toplantısına geçerli mazeret olmadan katılmadığı için davada haklı çıksa da yargılama giderlerinin tamamından sorumlu tutuldu ve lehine vekâlet ücretine hükmedilmedi (7036 s.K. m.3)."
+        }
+      ]
+    },
+    {
+      "if": "(bildirOK || raporOK || gecersizOK) && iade",
+      "winner": "p1",
+      "hukum": "Feshin GEÇERSİZLİĞİNE ve davacının İŞE İADESİNE; davacı süresinde başvurduğu hâlde işe başlatılmazsa 4 aylık brüt ücreti tutarında işe başlatmama tazminatı ile 4 aya kadar boşta geçen süre ücreti ve diğer haklarının davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        {
+          "if": "bildirOK",
+          "text": "Rapor ilk gün düzenlenmiş ve aynı gün işveren tarafına bildirilmişti. Raporlu günler devamsızlık sayılmaz; m.25/II-g'deki “haklı bir sebebe dayanmaksızın” şartı gerçekleşmedi."
+        },
+        {
+          "if": "!bildirOK && raporOK",
+          "text": "Devamsızlık istirahat raporuna, yani haklı bir sebebe dayanıyordu (İş K. m.25/II-g). İşveren feshin geçerli ya da haklı bir nedene dayandığını ispatlayamadı (m.20/2)."
+        },
+        {
+          "if": "!bildirOK && !raporOK",
+          "text": "Raporlu günler devamsızlık sayılmadı. İşveren geçerli nedene sığındı, ama davranışa dayanan fesihte savunma alınması zorunluydu ve alınmamıştı (m.19/2)."
+        },
+        {
+          "if": "israr",
+          "text": " İşveren vekilinin “ustabaşına bildirim yetmez” savunması da kabul görmedi: ustabaşı işveren vekilidir (m.2/4)."
+        },
+        {
+          "if": "savunmaDayanak",
+          "text": " Davacının savunma alınmadığı itirazı ise yerinde değildi: m.25/II'ye dayanan fesihte savunma şartı yoktur."
+        }
+      ]
+    },
+    {
+      "if": "bildirOK || raporOK || gecersizOK",
+      "winner": "p1",
+      "hukum": "Davanın KABULÜ ile kıdem ve ihbar tazminatlarının yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        {
+          "text": "Devamsızlık raporlu hastalığa dayanıyordu; fesih haklı nedene dayanmadığı için kıdem ve ihbar tazminatı doğdu (1475 s.K. m.14, İş K. m.17)."
+        },
+        {
+          "text": " Ancak işçi işine dönmek istediği ve iş güvencesi kapsamında olduğu hâlde işe iade istenmedi."
+        }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        {
+          "text": "İşveren devamsızlığı imzalı tutanaklarla belgeledi. İşçi vekili istirahat raporunu ve bildirimi mahkemeye etkili biçimde sunmadı; mahkeme önündeki delillere göre devamsızlık mazeretsiz kaldı (İş K. m.25/II-g)."
+        },
+        {
+          "if": "savunmaDayanak",
+          "text": " Savunma alınmadığı itirazı da sonuç vermedi: m.25/II'ye dayanan fesihte savunma şartı yoktur (m.19/2)."
+        },
+        {
+          "if": "yokluk",
+          "text": " İşveren ilk arabuluculuk toplantısına geçerli mazeret olmadan katılmadığı için davada haklı çıksa da yargılama giderlerinin tamamından sorumlu tutuldu ve lehine vekâlet ücretine hükmedilmedi (7036 s.K. m.3)."
+        }
+      ]
+    }
+  ]
+}
