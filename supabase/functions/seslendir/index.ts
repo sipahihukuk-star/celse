@@ -26,7 +26,7 @@ async function sha(s: string) {
 }
 
 async function synth(text: string, name: string) {
-  const r = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${Deno.env.get("GOOGLE_TTS_KEY")}`, {
+  const r = await fetch("https://texttospeech.googleapis.com/v1/text:synthesize?key=" + Deno.env.get("GOOGLE_TTS_KEY"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ input: { text }, voice: { languageCode: "tr-TR", name }, audioConfig: { audioEncoding: "MP3", sampleRateHertz: 24000 } })
@@ -46,7 +46,7 @@ Deno.serve(async req => {
     if (!text || !/^tr-TR-[A-Za-z0-9-]+$/.test(voice)) return json({ error: "geçersiz istek" }, 400);
 
     const sb = createClient(Deno.env.get("SUPABASE_URL")!, serviceKey());
-    const path = `${voice}/${await sha(voice + "\n" + text)}.mp3`;
+    const path = voice + "/" + (await sha(voice + "\n" + text)) + ".mp3";
     const url = sb.storage.from("ses").getPublicUrl(path).data.publicUrl;
     const head = await fetch(url, { method: "HEAD" });
     if (head.ok) return json({ url });
