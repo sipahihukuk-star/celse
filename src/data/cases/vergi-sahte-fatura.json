@@ -1,7 +1,7 @@
 {
   "id": "vergi-sahte-fatura",
   "mode": "solo",
-  "career": { "level": 2 },
+  "career": { "level": 2, "order": 12 },
   "difficulty": "orta",
   "title": "Demirin Yolculuğu",
   "area": "Vergi Hukuku · Sahte fatura iddiası ve vergi ziyaı cezası",

@@ -1,7 +1,7 @@
 {
   "id": "aile-nafaka-artirim",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 10 },
   "difficulty": "basit",
   "title": "Büyüyen İhtiyaç",
   "area": "Aile Hukuku · İştirak nafakasının artırılması",

@@ -1,7 +1,7 @@
 {
   "id": "ucm-ust-sorumlulugu",
   "mode": "solo",
-  "career": { "level": 5 },
+  "career": { "level": 5, "order": 7 },
   "difficulty": "zor",
   "title": "Uzaktaki Komutan",
   "area": "Uluslararası Ceza Mahkemesi · Komutan sorumluluğu (m.28)",

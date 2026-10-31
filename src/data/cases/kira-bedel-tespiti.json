@@ -1,9 +1,7 @@
 {
   "id": "kira-bedel-tespiti",
   "mode": "solo",
-  "career": {
-    "level": 1
-  },
+  "career": { "level": 1, "order": 20 },
   "difficulty": "orta",
   "title": "Beşinci Yılın Sonu",
   "area": "Kira Hukuku · Kira bedelinin tespiti",

@@ -1,7 +1,7 @@
 {
   "id": "ceza-basit-yaralama-sikayet",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 4 },
   "difficulty": "basit",
   "title": "Geç Gelen Şikâyet",
   "area": "Ceza Hukuku · Şikâyete bağlı suçlar",

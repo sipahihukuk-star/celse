@@ -1,7 +1,7 @@
 {
   "id": "borc-devrilen-agac",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 12 },
   "difficulty": "basit",
   "title": "Çürük Çınar",
   "area": "Borçlar Hukuku · Haksız fiil ve zarar kalemleri",

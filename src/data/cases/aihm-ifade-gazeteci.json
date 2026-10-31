@@ -1,7 +1,7 @@
 {
   "id": "aihm-ifade-gazeteci",
   "mode": "solo",
-  "career": { "level": 5 },
+  "career": { "level": 5, "order": 1 },
   "difficulty": "orta",
   "title": "Kıyı Gazetesi",
   "area": "AİHM · İfade özgürlüğü (m.10) · Siyasetçiye eleştiri",

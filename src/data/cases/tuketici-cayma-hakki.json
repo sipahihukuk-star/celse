@@ -1,9 +1,7 @@
 {
   "id": "tuketici-cayma-hakki",
   "mode": "solo",
-  "career": {
-    "level": 1
-  },
+  "career": { "level": 1, "order": 13 },
   "difficulty": "basit",
   "title": "Açılmış Kutu",
   "area": "Tüketici Hukuku · Mesafeli satışta cayma hakkı",

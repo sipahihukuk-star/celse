@@ -1,7 +1,7 @@
 {
   "id": "is-ucret-hakli-fesih",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 11 },
   "difficulty": "basit",
   "title": "Üç Ay Maaşsız",
   "area": "İş Hukuku · Ücretin ödenmemesi ve haklı fesih",

@@ -1,7 +1,7 @@
 {
   "id": "yargitay-muris-muvazaasi",
   "mode": "solo",
-  "career": { "level": 3 },
+  "career": { "level": 3, "order": 6 },
   "difficulty": "orta",
   "title": "Babanın Evi",
   "area": "Yargıtay · Muris muvazaası, tapu iptali ve tescil",

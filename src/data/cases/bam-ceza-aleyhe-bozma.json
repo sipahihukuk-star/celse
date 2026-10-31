@@ -1,7 +1,7 @@
 {
   "id": "bam-ceza-aleyhe-bozma",
   "mode": "solo",
-  "career": { "level": 2 },
+  "career": { "level": 2, "order": 4 },
   "difficulty": "orta",
   "title": "Tek Taraflı İstinaf",
   "area": "Bölge Adliye · Ceza istinafı ve aleyhe değiştirme yasağı",

@@ -1,7 +1,7 @@
 {
   "id": "aile-anlasmali-bosanma",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 5 },
   "difficulty": "basit",
   "title": "Ortak Karar",
   "area": "Aile Hukuku · Anlaşmalı boşanma",

@@ -1,7 +1,7 @@
 {
   "id": "yargitay-destekten-yoksun",
   "mode": "solo",
-  "career": { "level": 3 },
+  "career": { "level": 3, "order": 12 },
   "difficulty": "zor",
   "title": "Peşin Sermaye",
   "area": "Yargıtay · Destekten yoksun kalma tazminatı ve SGK mahsubu",

@@ -1,7 +1,7 @@
 {
   "id": "borc-kefalet-sekli",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 17 },
   "difficulty": "basit",
   "title": "Bir İmza",
   "area": "Borçlar Hukuku · Kefalet sözleşmesinin şekli",

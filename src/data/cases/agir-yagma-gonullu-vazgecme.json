@@ -1,7 +1,7 @@
 {
   "id": "agir-yagma-gonullu-vazgecme",
   "mode": "solo",
-  "career": { "level": 2 },
+  "career": { "level": 2, "order": 2 },
   "difficulty": "basit",
   "title": "Boş Kasa",
   "area": "Ceza Hukuku · Gönüllü vazgeçme",

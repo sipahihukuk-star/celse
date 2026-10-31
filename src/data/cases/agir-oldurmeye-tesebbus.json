@@ -1,7 +1,7 @@
 {
   "id": "agir-oldurmeye-tesebbus",
   "mode": "solo",
-  "career": { "level": 2 },
+  "career": { "level": 2, "order": 8 },
   "difficulty": "orta",
   "title": "Tek Darbe",
   "area": "Ceza Hukuku · Öldürmeye teşebbüs mü, yaralama mı",

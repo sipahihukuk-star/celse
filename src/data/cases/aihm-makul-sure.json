@@ -1,7 +1,7 @@
 {
   "id": "aihm-makul-sure",
   "mode": "solo",
-  "career": { "level": 5 },
+  "career": { "level": 5, "order": 3 },
   "difficulty": "orta",
   "title": "On İki Yıl",
   "area": "AİHM · Makul sürede yargılanma (m.6/1)",

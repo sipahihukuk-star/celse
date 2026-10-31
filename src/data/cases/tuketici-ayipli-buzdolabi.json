@@ -1,7 +1,7 @@
 {
   "id": "tuketici-ayipli-buzdolabi",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 8 },
   "difficulty": "basit",
   "title": "Soğutmayan Dolap",
   "area": "Tüketici Hukuku · Ayıplı mal ve seçimlik haklar",

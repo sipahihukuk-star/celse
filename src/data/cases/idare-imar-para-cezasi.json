@@ -1,7 +1,7 @@
 {
   "id": "idare-imar-para-cezasi",
   "mode": "solo",
-  "career": { "level": 2 },
+  "career": { "level": 2, "order": 6 },
   "difficulty": "orta",
   "title": "Yazlıktaki Tebligat",
   "area": "İmar Hukuku · Yıkım kararı ve imar para cezası",

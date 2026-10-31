@@ -1,7 +1,7 @@
 {
   "id": "bam-yeni-delil-yasagi",
   "mode": "solo",
-  "career": { "level": 2 },
+  "career": { "level": 2, "order": 1 },
   "difficulty": "basit",
   "title": "Getirtilmeyen Dekont",
   "area": "Bölge Adliye · İstinafta yeni delil yasağı",

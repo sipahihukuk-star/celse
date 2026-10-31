@@ -1,7 +1,7 @@
 {
   "id": "borc-ceza-kosulu",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 19 },
   "difficulty": "orta",
   "title": "Doksan Gün",
   "area": "Borçlar Hukuku · Eser sözleşmesinde ceza koşulu",

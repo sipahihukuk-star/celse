@@ -1,7 +1,7 @@
 {
   "id": "kira-tahliye-taahhudu",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 27 },
   "difficulty": "zor",
   "title": "Boş Tarihli Taahhüt",
   "area": "Kira Hukuku · Yazılı tahliye taahhüdü",

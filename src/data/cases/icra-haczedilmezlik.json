@@ -1,7 +1,7 @@
 {
   "id": "icra-haczedilmezlik",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 14 },
   "difficulty": "basit",
   "title": "Evdeki Haciz",
   "area": "İcra Hukuku · Haczedilmezlik şikâyeti",

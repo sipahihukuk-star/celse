@@ -1,7 +1,7 @@
 {
   "id": "ceza-hakaret-hagb",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 28 },
   "difficulty": "zor",
   "title": "Site Toplantısı",
   "area": "Ceza Hukuku · Karşılıklı hakaret ve HAGB",

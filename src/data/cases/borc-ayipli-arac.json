@@ -1,7 +1,7 @@
 {
   "id": "borc-ayipli-arac",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 7 },
   "difficulty": "basit",
   "title": "Çatlak Blok",
   "area": "Borçlar Hukuku · Satışta gizli ayıp",

@@ -1,7 +1,7 @@
 {
   "id": "miras-tenkis",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 29 },
   "difficulty": "zor",
   "title": "Saklı Pay",
   "area": "Miras Hukuku · Muris muvazaası ve tenkis",

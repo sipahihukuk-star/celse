@@ -1,7 +1,7 @@
 {
   "id": "agir-uyusturucu-ticaret",
   "mode": "solo",
-  "career": { "level": 2 },
+  "career": { "level": 2, "order": 11 },
   "difficulty": "orta",
   "title": "Hassas Terazi",
   "area": "Ceza Hukuku · Uyuşturucu ticareti mi, kullanma mı",

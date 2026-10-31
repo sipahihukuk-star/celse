@@ -1,7 +1,7 @@
 {
   "id": "miras-red",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 15 },
   "difficulty": "basit",
   "title": "Borçlu Miras",
   "area": "Miras Hukuku · Mirasın reddi",

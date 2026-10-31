@@ -1,7 +1,7 @@
 {
   "id": "bam-kaldirip-gonderme",
   "mode": "solo",
-  "career": { "level": 2 },
+  "career": { "level": 2, "order": 13 },
   "difficulty": "zor",
   "title": "Eksik Mirasçı",
   "area": "Bölge Adliye · Kaldırıp gönderme ve taraf teşkili",

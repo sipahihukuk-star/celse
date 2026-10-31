@@ -1,7 +1,7 @@
 {
   "id": "idare-disiplin-savunma",
   "mode": "solo",
-  "career": { "level": 2 },
+  "career": { "level": 2, "order": 3 },
   "difficulty": "basit",
   "title": "Okunmamış E-posta",
   "area": "İdare Hukuku · Disiplin cezası ve savunma hakkı",

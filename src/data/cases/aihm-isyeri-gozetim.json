@@ -1,7 +1,7 @@
 {
   "id": "aihm-isyeri-gozetim",
   "mode": "solo",
-  "career": { "level": 5 },
+  "career": { "level": 5, "order": 6 },
   "difficulty": "zor",
   "title": "Okunan Mesajlar",
   "area": "AİHM · Özel hayata saygı (m.8) · İşyerinde gözetim",

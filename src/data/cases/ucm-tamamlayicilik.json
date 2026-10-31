@@ -1,7 +1,7 @@
 {
   "id": "ucm-tamamlayicilik",
   "mode": "solo",
-  "career": { "level": 5 },
+  "career": { "level": 5, "order": 2 },
   "difficulty": "orta",
   "title": "Meydan Davası",
   "area": "Uluslararası Ceza Mahkemesi · Tamamlayıcılık (m.17)",

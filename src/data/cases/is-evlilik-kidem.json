@@ -1,7 +1,7 @@
 {
   "id": "is-evlilik-kidem",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 6 },
   "difficulty": "basit",
   "title": "Evlilik Kıdemi",
   "area": "İş Hukuku · Evlilik nedeniyle fesih ve kıdem tazminatı",

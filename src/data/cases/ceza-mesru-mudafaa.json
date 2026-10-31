@@ -1,7 +1,7 @@
 {
   "id": "ceza-mesru-mudafaa",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 24 },
   "difficulty": "orta",
   "title": "Kırık Şişe",
   "area": "Ceza Hukuku · Meşru savunma",

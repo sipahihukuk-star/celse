@@ -1,7 +1,7 @@
 {
   "id": "yargitay-ek-savunma",
   "mode": "solo",
-  "career": { "level": 3 },
+  "career": { "level": 3, "order": 14 },
   "difficulty": "zor",
   "title": "Söylenmeyen Madde",
   "area": "Yargıtay · Ek savunma hakkı ve aleyhe bozma yasağı",

@@ -1,7 +1,7 @@
 {
   "id": "is-yillik-izin",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 16 },
   "difficulty": "basit",
   "title": "Kullanılmayan İzin",
   "area": "İş Hukuku · Yıllık izin ücreti",

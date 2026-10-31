@@ -1,7 +1,7 @@
 {
   "id": "yargitay-bilincli-taksir",
   "mode": "solo",
-  "career": { "level": 3 },
+  "career": { "level": 3, "order": 9 },
   "difficulty": "zor",
   "title": "Çekilirler",
   "area": "Yargıtay · Trafikte olası kast ve bilinçli taksir",

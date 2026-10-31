@@ -1,7 +1,7 @@
 {
   "id": "yargitay-haksiz-tahrik",
   "mode": "solo",
-  "career": { "level": 3 },
+  "career": { "level": 3, "order": 4 },
   "difficulty": "orta",
   "title": "Yirmi Bir Dakika",
   "area": "Yargıtay · Kasten öldürme ve haksız tahrik",

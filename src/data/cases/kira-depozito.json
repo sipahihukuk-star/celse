@@ -1,7 +1,7 @@
 {
   "id": "kira-depozito",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 3 },
   "difficulty": "basit",
   "title": "Dört Aylık Depozito",
   "area": "Kira Hukuku · Güvence bedelinin iadesi",
