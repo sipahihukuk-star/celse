@@ -3,7 +3,10 @@
 export const SUPABASE_URL = "https://ouyyfhobpihyrnwlcimo.supabase.co";
 export const SUPABASE_ANON_KEY = "sb_publishable_Q4-NnTAvRCcATNHc-LLogA_iXkjpV2v";
 
-export const serverReady = () => !!SUPABASE_URL && !!SUPABASE_ANON_KEY;
+let reachable = true;
+/** Sunucuya ulaşılamıyorsa (ağ yok, tarayıcı engeli) oyun cihaz moduna düşer. */
+export const setServerReachable = (v: boolean) => { reachable = v; };
+export const serverReady = () => reachable && !!SUPABASE_URL && !!SUPABASE_ANON_KEY;
 
 /** Supabase'deki seslendirme fonksiyonunun adresi (panelden kurulurken verilen ad). */
 export const TTS_FUNCTION = "bright-action";

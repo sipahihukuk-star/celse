@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AudioPlayer, createAudioPlayer } from "expo-audio";
 import * as Speech from "expo-speech";
 import { useEffect, useState } from "react";
-import { CLOUD_VOICES, SUPABASE_ANON_KEY, SUPABASE_URL, TTS_FUNCTION } from "../config";
+import { CLOUD_VOICES, serverReady, SUPABASE_ANON_KEY, SUPABASE_URL, TTS_FUNCTION } from "../config";
 import { getAccessToken } from "../data/account";
 import { expandForSpeech } from "../engine/speechText";
 export { expandForSpeech };
@@ -76,7 +76,7 @@ let token = 0;
 let cloudDown = false;
 
 async function cloudUrl(text: string, voice: string): Promise<string | null> {
-  if (!SUPABASE_URL || cloudDown) return null;
+  if (!serverReady() || cloudDown) return null;
   try {
     const auth = (await getAccessToken()) || SUPABASE_ANON_KEY;
     const r = await fetch(`${SUPABASE_URL}/functions/v1/${TTS_FUNCTION}`, {

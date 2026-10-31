@@ -5,7 +5,7 @@ import "react-native-url-polyfill/auto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
-import { serverReady, SUPABASE_ANON_KEY, SUPABASE_URL } from "../config";
+import { serverReady, setServerReachable, SUPABASE_ANON_KEY, SUPABASE_URL } from "../config";
 
 export interface Account {
   id: string;
@@ -63,8 +63,21 @@ async function loadServerProfile(userId: string, email: string): Promise<Account
   return { id: userId, adSoyad: data?.ad_soyad || "", telefon: data?.telefon || "", eposta: data?.eposta || email, mode: "server" };
 }
 
+/** Sunucu gerçekten erişilebilir mi? Erişilemiyorsa cihaz profilleriyle devam edilir. */
+async function probe() {
+  if (!serverReady()) return;
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 6000);
+    const r = await fetch(`${SUPABASE_URL}/auth/v1/health`, { headers: { apikey: SUPABASE_ANON_KEY }, signal: ctrl.signal });
+    clearTimeout(t);
+    if (r.status >= 500) setServerReachable(false);
+  } catch { setServerReachable(false); }
+}
+
 export async function initAccount() {
   if (ready) return;
+  await probe();
   const sb = supabase();
   if (sb) {
     const { data } = await sb.auth.getSession();
