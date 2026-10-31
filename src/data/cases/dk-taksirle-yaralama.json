@@ -1,0 +1,677 @@
+{
+  "id": "dk-taksirle-yaralama",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Yeşil Ok",
+  "area": "Ceza Hukuku · Trafik kazasında taksirle yaralama",
+  "court": "Antalya 5. Asliye Ceza Mahkemesi",
+  "courtShort": "5. ASLİYE CEZA",
+  "esas": "2026/1377 Esas",
+  "kararTarihi": "26.01.2027",
+  "color": "#2f6b5a",
+  "teaser": "Sola dönen bir kamyonet, karşıdan gelen bir motosikletli kurye, kırık bir uyluk kemiği. Bilirkişi “kamyonet asli kusurlu” diyor; ama kimse kavşağın ışık planına bakmadı.",
+  "sides": {
+    "p1": {
+      "role": "Katılan vekili",
+      "short": "Katılan"
+    },
+    "p2": {
+      "role": "Sanık müdafii",
+      "short": "Sanık"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#b47e55",
+        "hair": "#141414",
+        "style": "bun"
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#dcae86",
+        "hair": "#3a2a20",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#e8c09c",
+        "hair": "#a0522d",
+        "style": "curly"
+      }
+    },
+    "pros": {
+      "name": "Cumhuriyet Savcısı",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#c08b62",
+        "hair": "#2a2220",
+        "style": "short",
+        "beard": true
+      }
+    },
+    "sanik": {
+      "name": "Kenan Yurt · Sanık",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#c99670",
+        "hair": "#4a4a4a",
+        "style": "short",
+        "beard": true,
+        "shirt": "#2b4a6b",
+        "inner": "#e6e0d4"
+      }
+    },
+    "katilan": {
+      "name": "Melis Aksoy · Katılan",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#edc6a2",
+        "hair": "#1e1612",
+        "style": "long",
+        "shirt": "#a0522d",
+        "inner": "#f2ede2"
+      }
+    },
+    "uzl": {
+      "name": "Uzlaştırmacı",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#d6a57c",
+        "hair": "#6b6b70",
+        "style": "short",
+        "glasses": true,
+        "shirt": "#4a4f57",
+        "inner": "#c9c4b8"
+      }
+    }
+  },
+  "evidence": [
+    {
+      "id": "ev_rapor1",
+      "type": "belge",
+      "title": "Soruşturma bilirkişi raporu",
+      "desc": "Tek trafik bilirkişisi; kolluk tutanağı ve fotoğraflara dayanıyor. “Sanık sola dönerken karşı yönden gelen araca ilk geçiş hakkı vermemiştir: asli kusurlu. Katılan kusursuz.” Sinyal faz planı ve kavşak kamerası incelenmemiş."
+    },
+    {
+      "id": "ev_adli",
+      "type": "belge",
+      "title": "Katılanın adli raporu",
+      "desc": "Sol femur (uyluk kemiği) kırığı; ameliyat edildi. Hayati tehlike yok. Kırık basit tıbbi müdahaleyle giderilemez."
+    },
+    {
+      "id": "ev_hts",
+      "type": "belge",
+      "title": "HTS kaydı",
+      "desc": "Hâkim kararıyla alındı. Sanığın hattında 18.04.2026 14.30.50–14.33.10 arası görüşme. Kaza saati 14.32."
+    },
+    {
+      "id": "ev_tanik",
+      "type": "beyan",
+      "title": "Görgü tanığı Hasan Öz'ün ifadesi",
+      "desc": "“Karşı kaldırımda bekliyordum. Kamyonet hiç yavaşlamadan, karşıya bakmadan döndü. Motor da hızlı geliyordu.”"
+    },
+    {
+      "id": "ev_atk",
+      "type": "belge",
+      "title": "Adli Tıp Kurumu trafik ihtisas raporu",
+      "desc": "Sinyal faz planı ve kavşak kamerasına göre: sola dönüş oku yanarken karşı yön kırmızıdır; motosiklet kırmızı yandıktan yaklaşık 2 saniye sonra kavşağa girmiştir. Katılan asli kusurlu. Sanığın dönüşte karşı yönü yeterince kontrol etmediği başka delillerle belirlenirse tali kusurlu sayılabilir; kamera görüntüsü bunu kesin göstermemektedir.",
+      "if": "p2_atk"
+    },
+    {
+      "id": "law_89",
+      "type": "kanun",
+      "title": "TCK m.89 · Taksirle yaralama",
+      "desc": "(2-b) Kemik kırılmasına neden olmuşsa ceza yarı oranında artırılır. (5) Soruşturma ve kovuşturma şikâyete bağlıdır; birinci fıkra dışındaki yaralamada suç bilinçli taksirle işlenmişse şikâyet aranmaz.",
+      "law": "TCK m.89"
+    }
+  ],
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Antalya, Muratpaşa. 18.04.2026 saat 14.32'de su dağıtım şoförü Kenan Yurt, ışıklı bir kavşakta kamyonetiyle sola dönüyor. Karşı yönden düz gelen motosikletli kurye Melis Aksoy kamyonete çarpıyor."
+    },
+    {
+      "who": "narr",
+      "text": "Melis'in sol uyluk kemiği kırıldı, ameliyat edildi; dört ay çalışamadı. Kenan kaza anında kulaklıkla telefonda konuşuyordu."
+    },
+    {
+      "who": "narr",
+      "text": "Savcılığın bilirkişisi Kenan'ı asli kusurlu buldu. İddianame TCK m.89/1, m.89/2-b ve bilinçli taksir (m.22/3) uyarınca düzenlendi. Savcılık “bilinçli taksir iddiası var” diyerek dosyayı uzlaştırmaya göndermedi."
+    },
+    {
+      "who": "narr",
+      "text": "Melis davaya katıldı. Bugün ilk duruşma."
+    }
+  ],
+  "docs": [
+    {
+      "t": "İddianame",
+      "d": "TCK m.89/1, m.89/2-b, m.22/3. Bilinçli taksir gerekçesi: “Sanık telefonla konuşarak, yavaşlamadan dönmüştür.”"
+    },
+    {
+      "t": "Bilirkişi raporu",
+      "d": "Tek trafik bilirkişisi. Sanık asli kusurlu, katılan kusursuz. Sinyal faz planı ve kavşak kamerası incelenmemiş."
+    },
+    {
+      "t": "Kaza tespit tutanağı",
+      "d": "Kavşak ışıklı. Katılan kasklı. Kamyonet sola dönüşte, motosiklet karşı yönden düz."
+    },
+    {
+      "t": "Adli rapor",
+      "d": "Sol femur kırığı. Hayati tehlike yok."
+    },
+    {
+      "t": "HTS kaydı",
+      "d": "Kaza anında sanığın hattında görüşme var."
+    },
+    {
+      "t": "Tanık ifadesi",
+      "d": "Hasan Öz: “Kamyonet hiç yavaşlamadan döndü. Motor da hızlı geliyordu.”"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "İddianame okundu. Sanık savunmasında kusuru olmadığını, ışığın kendisine yandığını söyledi."
+        },
+        {
+          "who": "judge",
+          "text": "Katılan vekili, beyanınız?"
+        }
+      ],
+      "prompt": "Davayı hangi zemine oturtacaksınız?",
+      "choices": [
+        {
+          "text": "Sanık asli kusurlu; kemik kırığı nedeniyle TCK m.89/2-b uygulanmalı. Bilinçli taksir somut bir öngörme delili ister; bu yönü mahkemenin takdirine bırakıyoruz.",
+          "delta": 15,
+          "set": [
+            "p1_asli"
+          ],
+          "law": "TCK m.89/1, m.89/2-b, m.22/3",
+          "note": "Davanın güçlü yanı kusur ve yaralamanın ağırlığı. Bilinçli taksir, failin neticeyi öngörüp istememesidir; telefonla konuşmak ve yavaşlamamak kusurdur ama öngörmeyi tek başına göstermez. Zayıf iddiaya yaslanmadınız."
+        },
+        {
+          "text": "Sanık telefonla konuşarak döndü; bu bilinçli taksirdir, ceza TCK m.22/3 uyarınca artırılmalı.",
+          "delta": 0,
+          "set": [
+            "p1_bt"
+          ],
+          "law": "TCK m.22/3",
+          "note": "İddianamede de yazıyor; ama bilinçli taksir için failin neticeyi somut olarak öngörmesi gerekir. Kural ihlali tek başına bunu göstermez. Davanın ağırlığını zayıf bir iddiaya verdiniz."
+        },
+        {
+          "text": "Eylem olası kastla yaralamadır; dosya bu yönde değerlendirilsin.",
+          "delta": -15,
+          "set": [
+            "p1_kast"
+          ],
+          "law": "TCK m.21/2",
+          "note": "Olası kast, failin neticeyi öngörüp kabullenmesidir. Kavşakta dönen bir sürücünün çarpışmayı göze aldığını gösteren hiçbir delil yok."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Duruşmaya ara verildi. Müdafi, Kenan'la adliye kantininde; iki soruya vakit var."
+        }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Dönerken ışık nasıldı?",
+          "delta": 15,
+          "set": [
+            "p2_ok"
+          ],
+          "reply": [
+            {
+              "who": "sanik",
+              "text": "Bana sola dönüş yeşil oku yanıyordu, eminim. O ok yanınca karşı yöne kırmızı yanar. Kavşakta kamera da var."
+            }
+          ],
+          "note": "Bilirkişi ne sinyal faz planına ne kavşak kamerasına bakmış. Raporun eksik dayanağı burada."
+        },
+        {
+          "text": "Kaza anında telefonla konuşuyor muydunuz?",
+          "delta": 5,
+          "set": [
+            "p2_tel"
+          ],
+          "reply": [
+            {
+              "who": "sanik",
+              "text": "Kulaklıkla konuşuyordum. Ama yolu görüyordum."
+            }
+          ],
+          "note": "Görüşme HTS kaydında var. İnkâr etmek yerine bunun öngörme anlamına gelmediğini savunmalısınız."
+        },
+        {
+          "text": "Katılanla hiç görüştünüz mü?",
+          "delta": 10,
+          "set": [
+            "p2_odeme"
+          ],
+          "reply": [
+            {
+              "who": "sanik",
+              "text": "Hastanede ziyaret ettim. Sigortanın karşılamadığı zararı ödemeye hazırım; 250.000 TL toplayabilirim."
+            }
+          ],
+          "note": "Uzlaştırmada somut bir edim önerebileceksiniz."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Duruşmaya devam ediyoruz. Sanık müdafii, talepleriniz?"
+        }
+      ],
+      "prompt": "Uzlaştırma konusunda ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Taksirle yaralama, bilinçli taksir iddiası olsa bile uzlaştırma kapsamındadır. Soruşturmada uzlaştırma yapılmadı; dosyanın uzlaştırma bürosuna gönderilmesini talep ediyoruz.",
+          "delta": 20,
+          "set": [
+            "p2_uzl"
+          ],
+          "law": "CMK m.253/1-b, m.254/1",
+          "note": "CMK m.253/1-b, taksirle yaralamayı (m.89) bilinçli taksir ayrımı yapmadan uzlaştırma kapsamında sayar. Kamu davası açıldıktan sonra suçun uzlaştırma kapsamında olduğu anlaşılırsa dosya uzlaştırma bürosuna gönderilir (m.254/1).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Dosyanın uzlaştırma bürosuna gönderilmesine karar verildi."
+            }
+          ]
+        },
+        {
+          "text": "Bilinçli taksir iddiası olduğu için uzlaştırma mümkün değil; kusur raporuna itiraz edeceğiz.",
+          "delta": -10,
+          "law": "CMK m.253/1-b",
+          "note": "Yaygın bir yanılgı. Bilinçli taksir, m.89/2 ve sonrası yaralamalarda şikâyet şartını kaldırır (m.89/5); ama uzlaştırma kapsamından çıkarmaz. Mahkeme dosyayı yine de gönderdi.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Taksirle yaralama uzlaştırma kapsamındadır. Dosyanın uzlaştırma bürosuna gönderilmesine karar verildi."
+            }
+          ]
+        },
+        {
+          "text": "Uzlaştırma istemiyoruz; beraat bekliyoruz.",
+          "delta": 0,
+          "law": "CMK m.254/1",
+          "note": "Uzlaşıp uzlaşmamak taraflara kalır; ama uzlaştırma kapsamındaki bir suçta dosya büroya gönderilir. Müvekkile somut bir teklif hazırlama fırsatını kullanmadınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Suç uzlaştırma kapsamında. Dosyanın uzlaştırma bürosuna gönderilmesine karar verildi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Uzlaştırma bürosu. Uzlaştırmacı sanığın teklifini katılan vekiline iletiyor."
+        },
+        {
+          "who": "uzl",
+          "text": "Sanık, sigortanın karşılamadığı zarar için 250.000 TL'yi peşin ödemeyi ve özür dilemeyi teklif ediyor.",
+          "if": "p2_odeme"
+        },
+        {
+          "who": "uzl",
+          "text": "Sanık özür diliyor; ama bir ödeme teklifi yok.",
+          "if": "!p2_odeme"
+        },
+        {
+          "who": "katilan",
+          "text": "Dört ay çalışamadım. Siz ne dersiniz?"
+        }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "if": "p2_odeme",
+          "text": "Teklifi ve sonuçlarını müvekkile anlat; müvekkil yeterli bulmuyor. Uzlaşmıyoruz.",
+          "delta": 5,
+          "note": "Uzlaşma gönüllüdür; müvekkil karar verdi. Uzlaştırma sonuçsuz kaldı ve bir daha denenemez (CMK m.253/18).",
+          "reply": [
+            {
+              "who": "uzl",
+              "text": "Uzlaşma sağlanamadı; dosya mahkemeye iade ediliyor."
+            }
+          ]
+        },
+        {
+          "if": "p2_odeme",
+          "text": "Teklifi ve sonuçlarını müvekkile anlat; müvekkil kabul ediyor. Peşin ödeme karşılığında uzlaşıyoruz.",
+          "delta": 5,
+          "set": [
+            "uzlasma",
+            "end"
+          ],
+          "law": "CMK m.254/2",
+          "note": "Meşru bir tercih: müvekkil yargılamayı beklemeden zararının bir kısmını aldı. Edim peşin ödendiği için mahkeme davanın düşmesine karar verir (m.254/2).",
+          "reply": [
+            {
+              "who": "katilan",
+              "text": "Kabul ediyorum. Yeter ki bu iş bitsin."
+            }
+          ]
+        },
+        {
+          "if": "!p2_odeme",
+          "text": "Yalnızca özür zararı karşılamıyor; müvekkilin onayıyla uzlaşmıyoruz.",
+          "delta": 10,
+          "note": "Somut bir edim yokken uzlaşmamak makul. Uzlaştırma sonuçsuz kaldı ve bir daha denenemez (CMK m.253/18).",
+          "reply": [
+            {
+              "who": "uzl",
+              "text": "Uzlaşma sağlanamadı; dosya mahkemeye iade ediliyor."
+            }
+          ]
+        },
+        {
+          "text": "Müvekkile danışmadan teklifi kabul et.",
+          "delta": -15,
+          "note": "Uzlaşma tarafın kişisel iradesine dayanır; vekil müvekkili yerine karar veremez. Melis Hanım kabul etmediğini söyledi; uzlaşma sağlanamadı.",
+          "reply": [
+            {
+              "who": "katilan",
+              "text": "Ben kabul etmedim!"
+            },
+            {
+              "who": "uzl",
+              "text": "Uzlaşma sağlanamadı; dosya mahkemeye iade ediliyor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Uzlaştırma sonuçsuz kaldı. Sanık müdafii, bilirkişi raporuna beyanınız?"
+        }
+      ],
+      "prompt": "Rapora nasıl itiraz edeceksiniz?",
+      "choices": [
+        {
+          "if": "p2_ok",
+          "text": "Rapor kavşağın sinyal faz planına ve kameraya hiç bakmamış. İkisinin getirtilmesini ve Adli Tıp Kurumu Trafik İhtisas Dairesinden rapor alınmasını talep ediyoruz: sola dönüş oku yanarken karşı yön kırmızıydı.",
+          "delta": 20,
+          "set": [
+            "p2_atk"
+          ],
+          "law": "CMK m.63, m.67",
+          "note": "Bilirkişi raporuna itirazın gücü, raporun hangi veriyi eksik incelediğini göstermekten gelir. Işık planı ve kamera, kimin kırmızıda geçtiğini doğrudan gösterir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Faz planı ve kavşak kamerası kaydı getirtilsin; dosya Adli Tıp Kurumuna gönderilsin."
+            }
+          ]
+        },
+        {
+          "if": "!p2_ok",
+          "text": "Rapor kavşak kamerasını ve sinyal faz planını incelememiş. İkisinin getirtilmesini ve Adli Tıp Kurumu Trafik İhtisas Dairesinden rapor alınmasını talep ediyoruz.",
+          "delta": 15,
+          "set": [
+            "p2_atk"
+          ],
+          "law": "CMK m.63, m.67",
+          "note": "Işıklı bir kavşakta kimin hangi ışıkta geçtiğini en iyi faz planı ve kamera gösterir; bunları incelemeyen bir rapora itirazın dayanağı budur. Müvekkile ışığı sorsaydınız talebinizi somut bir iddiayla destekleyebilirdiniz.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Faz planı ve kavşak kamerası kaydı getirtilsin; dosya Adli Tıp Kurumuna gönderilsin."
+            }
+          ]
+        },
+        {
+          "text": "Rapor tek bilirkişiden alınmış; yeni bir bilirkişi heyetinden rapor istiyoruz.",
+          "delta": 5,
+          "set": [
+            "p2_genel"
+          ],
+          "law": "CMK m.67",
+          "note": "Yeni rapor istemek meşru; ama raporun neyi eksik incelediğini göstermediğiniz için yeni heyet aynı verilerle aynı sonuca vardı."
+        },
+        {
+          "text": "Katılan kask takmıyordu; kusurludur.",
+          "delta": -10,
+          "note": "Tutanakta katılanın kasklı olduğu yazıyor. Kask zaten kazanın oluşumunda değil, zararın ağırlaşmasında etkili olabilirdi."
+        },
+        {
+          "if": "p1_bt",
+          "text": "Bilinçli taksir, failin neticeyi somut olarak öngörmesini ister; telefonla konuşmak bunu göstermez.",
+          "delta": 10,
+          "set": [
+            "p2_btRet"
+          ],
+          "law": "TCK m.22/3",
+          "note": "Doğru: kural ihlali kusurdur, öngörme değil. Ama asıl mesele olan kusur raporuna dokunmadınız."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "p2_atk",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Üç ay sonra Adli Tıp Kurumunun raporu geldi: motosiklet kırmızı yandıktan yaklaşık 2 saniye sonra kavşağa girmiş; katılan asli kusurlu."
+        },
+        {
+          "who": "judge",
+          "text": "Katılan vekili, rapora ve müdafiin beyanına karşı ne diyorsunuz?"
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Rapor açık: katılan kırmızı ışıkta kavşağa girmiş. Müvekkilim kusursuzdur; beraatini talep ediyoruz."
+      },
+      "prompt": "Müdafiin “kusursuz” iddiasına hangi delille karşı çıkacaksınız?",
+      "choices": [],
+      "correct": [
+        "ev_tanik"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "p1_tali"
+        ],
+        "law": "TCK m.22/4",
+        "note": "Rapor, sanığın tali kusurunu “karşıyı kontrol etmediği başka delillerle belirlenirse” şartına bağlamıştı. Tarafsız tanık tam olarak bunu söylüyor: kamyonet yavaşlamadan, karşıya bakmadan döndü. Katılanın asli kusuru sanığı tamamen kurtarmaz; ceza kusura göre belirlenir.",
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Tanık Hasan Öz'ün duruşmada dinlenmesine karar verildi."
+          },
+          {
+            "who": "narr",
+            "text": "Tanık beyanını tekrarladı: kamyonet yavaşlamadan dönmüştü."
+          }
+        ]
+      },
+      "responses": {
+        "ev_hts": {
+          "delta": 5,
+          "note": "Telefon görüşmesi dikkatin dağıldığını düşündürür; ama sanığın dönüşte karşıyı kontrol etmediğini tek başına göstermez. Görgü tanığı daha güçlüydü."
+        },
+        "ev_rapor1": {
+          "delta": -5,
+          "note": "Soruşturma raporu faz planına ve kameraya bakmamıştı; Adli Tıp Kurumunun raporu karşısında mahkeme onu esas almaz."
+        },
+        "ev_adli": {
+          "delta": -10,
+          "note": "Adli rapor yaralanmanın ağırlığını gösterir; kusur dağılımı hakkında bir şey söylemez."
+        },
+        "ev_atk": {
+          "delta": -10,
+          "note": "Bu rapor savunmanın delili: katılanı asli kusurlu buluyor."
+        },
+        "law_89": {
+          "delta": 0,
+          "note": "Madde doğru; ama tartışılan kusur. Kusuru delille göstermeniz gerekiyordu."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu belge sanığın kusurunu göstermiyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz; sanığın kusursuz olduğu iddiası cevapsız kaldı."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "!p2_atk",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Yeni bilirkişi heyetinin raporu geldi: sanık asli kusurlu, katılan kusursuz.",
+          "if": "p2_genel"
+        },
+        {
+          "who": "pros",
+          "text": "Mütalaam: Sanığın TCK m.89/1 ve m.89/2-b uyarınca cezalandırılması talep olunur. Bilinçli taksire ilişkin somut bir delil bulunmamaktadır."
+        },
+        {
+          "who": "judge",
+          "text": "Katılan vekili, esas hakkındaki beyanınız?"
+        }
+      ],
+      "prompt": "Esas hakkında ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Sanık asli kusurlu; TCK m.89/1 ve m.89/2-b uyarınca, kusur durumu gözetilerek cezalandırılmasını talep ediyoruz.",
+          "delta": 15,
+          "law": "TCK m.89/1, m.89/2-b, m.22/4",
+          "note": "Taksirli suçta ceza failin kusuruna göre belirlenir (m.22/4). Asli kusur ve kemik kırığı, davanın en sağlam iki dayanağı."
+        },
+        {
+          "text": "Bilinçli taksir uygulanmalı; sanık telefonla konuşuyordu.",
+          "delta": -5,
+          "law": "TCK m.22/3",
+          "note": "Savcı da somut delil olmadığını söyledi. Bilinçli taksir öngörme ister; telefon görüşmesi bunu göstermez."
+        },
+        {
+          "text": "Mahkeme müvekkilin tedavi giderlerine ve kazanç kaybına da hükmetsin.",
+          "delta": -10,
+          "note": "Ceza mahkemesi tazminata hükmetmez; maddi ve manevi tazminat hukuk mahkemesinde, sigorta şirketine karşı da istenebilir."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "uzlasma",
+      "winner": "draw",
+      "stamp": "UZLAŞMA",
+      "hukum": "Taraflar uzlaştığından ve sanık edimini peşin olarak yerine getirdiğinden CMK m.254/2 uyarınca kamu davasının DÜŞMESİNE,",
+      "summary": "Taksirle yaralama, bilinçli taksir iddiası olsa da uzlaştırma kapsamındadır. Dosya uzlaştırmaya gönderildi; sanığın somut teklifi katılanın onayıyla kabul edildi."
+    },
+    {
+      "if": "p2_atk && !p1_tali",
+      "winner": "p2",
+      "hukum": "Sanığın kazanın oluşumunda kusurunun bulunmadığı anlaşıldığından CMK m.223/2-c uyarınca BERAATİNE,",
+      "summary": [
+        {
+          "text": "Müdafi, soruşturma raporunun kavşağın ışık planına ve kameraya hiç bakmadığını gösterdi. Adli Tıp Kurumu motosikletin kırmızı ışıkta girdiğini tespit etti; katılan asli kusurluydu."
+        },
+        {
+          "text": " Katılan vekili sanığın dönüşte karşıyı kontrol etmediğini gösteren tanık beyanını öne çıkarmadı; sanığın kusuru belirlenemedi."
+        }
+      ]
+    },
+    {
+      "if": "p2_atk && p1_tali",
+      "winner": "draw",
+      "stamp": "KISMİ MAHKÛMİYET",
+      "hukum": "Sanığın TCK m.89/1 uyarınca seçimlik adli para cezasına, m.89/2-b uyarınca yarı oranında artırılarak ve tali kusuru gözetilerek (TCK m.22/4) alt sınırdan belirlenen ADLİ PARA CEZASI İLE CEZALANDIRILMASINA,",
+      "summary": [
+        {
+          "text": "Adli Tıp Kurumu katılanın kırmızı ışıkta girdiğini ve asli kusurlu olduğunu tespit etti. Ama tarafsız tanık kamyonetin yavaşlamadan, karşıya bakmadan döndüğünü doğruladı: sanık tali kusurlu."
+        },
+        {
+          "text": " Taksirli suçta ceza kusura göre belirlenir; ceza alt sınıra indi."
+        },
+        {
+          "if": "p1_bt",
+          "text": " Bilinçli taksir uygulanmadı: telefon görüşmesi öngörmeyi göstermez."
+        }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": "Sanığın TCK m.89/1 ve m.89/2-b uyarınca, asli kusuru gözetilerek belirlenen 9 ay hapis cezası ile CEZALANDIRILMASINA; bilinçli taksire ilişkin TCK m.22/3'ün UYGULANMASINA YER OLMADIĞINA,",
+      "summary": [
+        {
+          "text": "Sanık sola dönerken karşı yönden gelen motosiklete geçiş hakkı vermedi; katılanın uyluk kemiği kırıldı (m.89/2-b)."
+        },
+        {
+          "if": "p2_genel",
+          "text": " Müdafi yeni bir heyet raporu aldı; ama raporun neyi eksik incelediğini göstermediği için sonuç değişmedi."
+        },
+        {
+          "if": "!p2_atk && !p2_genel",
+          "text": " Müdafi soruşturma raporunun dayanaklarına somut bir itiraz getirmedi."
+        },
+        {
+          "if": "p2_ok && !p2_atk",
+          "text": " Sanık dönüş okunun yandığını söylemişti; kavşağın ışık planı ve kamerası hiç istenmedi."
+        },
+        {
+          "text": " Bilinçli taksir uygulanmadı: telefonla konuşmak kusurdur, neticenin öngörüldüğünü göstermez."
+        },
+        {
+          "if": "p1_kast",
+          "text": " Katılan vekilinin olası kast iddiası dayanaksız bulundu."
+        }
+      ]
+    }
+  ]
+}

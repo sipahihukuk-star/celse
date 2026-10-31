@@ -1,0 +1,826 @@
+{
+  "id": "dk-guveni-kotuye",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Ödünç Makine",
+  "area": "Ceza Hukuku · Hırsızlık mı, güveni kötüye kullanma mı",
+  "court": "Eskişehir 3. Asliye Ceza Mahkemesi",
+  "courtShort": "3. ASLİYE CEZA",
+  "esas": "2026/1033 Esas",
+  "kararTarihi": "18.03.2027",
+  "color": "#2e4f6b",
+  "teaser": "İddianame “dolaptan aldı” diyor. Oysa makineyi ona müdürün kendisi vermişti: önce bir düğün için, sonra bir katalog çekimi için. Hangi teslim hangi suçu doğurur?",
+  "sides": {
+    "p1": {
+      "role": "Katılan (işveren) vekili",
+      "short": "Katılan"
+    },
+    "p2": {
+      "role": "Sanık (eski çalışan) müdafii",
+      "short": "Sanık"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#cf9d74",
+        "hair": "#2a1d16",
+        "style": "short",
+        "beard": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#edc7a3",
+        "hair": "#6e3a22",
+        "style": "bun"
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#a8714a",
+        "hair": "#151515",
+        "style": "short"
+      }
+    },
+    "pros": {
+      "name": "Cumhuriyet Savcısı",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#e3b98f",
+        "hair": "#6b6b70",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "mudur": {
+      "name": "Nermin Aydoğdu · Katılan şirketin müdürü",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#e8c09c",
+        "hair": "#3a2a20",
+        "style": "bun",
+        "glasses": true,
+        "shirt": "#7a3b3b",
+        "inner": "#f2ede2"
+      }
+    },
+    "sanik": {
+      "name": "Barış Tekin · Sanık",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#c28a5c",
+        "hair": "#2b1d17",
+        "style": "curly",
+        "shirt": "#2f4a3a",
+        "inner": "#e6e0d4"
+      }
+    }
+  },
+  "evidence": [
+    {
+      "id": "ev_ilan",
+      "type": "belge",
+      "title": "Satış ilanı ve alıcının ifadesi",
+      "desc": "09.02.2026'da ikinci el sitesinde, ajansın makinesinin seri numarasıyla ilan; satıcı sanık. Alıcı Tuncay Er: “12 Şubat'ta 98.000 TL'ye ondan aldım.”"
+    },
+    {
+      "id": "ev_sikayet",
+      "type": "belge",
+      "title": "Şikâyet dilekçesi",
+      "desc": "02.10.2026, katılan şirket: “Makinenin satıldığını yakın zamanda öğrendik.”"
+    },
+    {
+      "id": "ev_eposta",
+      "type": "belge",
+      "title": "Ajans e-postası · 05.01.2026",
+      "desc": "Nermin Aydoğdu'dan sanığa: “Makine sende kalsın; Yıldız Mobilya katalog çekimini sen yapacaksın, teslim 20 Ocak.” Sanığın cevabı: “Tamam, çekim bende.”",
+      "if": "p1_belge"
+    },
+    {
+      "id": "ev_wp",
+      "type": "belge",
+      "title": "WhatsApp mesajı · 02.01.2026",
+      "desc": "Nermin Aydoğdu'dan sanığa: “Makineyi al, hafta sonu kardeşinin düğününde kullan. Pazartesi getirirsin.”",
+      "if": "p2_wp"
+    },
+    {
+      "id": "ev_arama",
+      "type": "belge",
+      "title": "WhatsApp mesajı · 09.02.2026",
+      "desc": "Nermin Aydoğdu'dan sanığa: “İlanı gördüm. Makineyi derhal getir, yoksa savcılığa gideceğim.”",
+      "if": "p2_tarih"
+    },
+    {
+      "id": "law_155",
+      "type": "kanun",
+      "title": "TCK m.155 · Güveni kötüye kullanma",
+      "desc": "(1) Muhafaza etmek veya belirli bir şekilde kullanmak üzere zilyetliği devredilen mal üzerinde, devir amacı dışında tasarruf: şikâyete bağlı. (2) Suçun meslek, sanat, ticaret veya hizmet ilişkisinin gereği olarak teslim edilen eşya hakkında işlenmesi: nitelikli hâl, şikâyete bağlı değil.",
+      "law": "TCK m.155"
+    }
+  ],
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Eskişehir. Porsuk Görsel Reklam Ltd. Şti.'nin 145.000 TL değerindeki fotoğraf makinesi ve iki objektifi, ajansın fotoğrafçısı Barış Tekin'deydi."
+    },
+    {
+      "who": "narr",
+      "text": "Barış 30.01.2026'da istifa etti, makineyi geri getirmedi. 09.02.2026'da makine ikinci el sitesinde ilana çıktı; üç gün sonra 98.000 TL'ye satıldı."
+    },
+    {
+      "who": "narr",
+      "text": "Şirket 02.10.2026'da şikâyetçi oldu. Soruşturmada uzlaştırma denendi; sanık görüşmeye gelmedi, uzlaştırma sonuçsuz kaldı. İddianame, sanığın makineyi “ajansın dolabından, rızası dışında aldığı” gerekçesiyle hırsızlıktan (TCK m.141/1) düzenlendi."
+    },
+    {
+      "who": "narr",
+      "text": "Şirket davaya katıldı. Barış tutuksuz yargılanıyor."
+    }
+  ],
+  "docs": [
+    {
+      "t": "İddianame",
+      "d": "TCK m.141/1, hırsızlık: “Sanık makineyi ajansın dolabından, rızası dışında alıp götürmüştür.”"
+    },
+    {
+      "t": "Sanığın kolluk ifadesi",
+      "d": "“Makineyi bana Nermin Hanım verdi. Sonra paraya ihtiyacım oldu, sattım.”"
+    },
+    {
+      "t": "Satış ilanı ve alıcı ifadesi",
+      "d": "İlan 09.02.2026; satış 12.02.2026, 98.000 TL."
+    },
+    {
+      "t": "Şikâyet dilekçesi",
+      "d": "02.10.2026: “Makinenin satıldığını yakın zamanda öğrendik.”"
+    },
+    {
+      "t": "Uzlaştırma raporu",
+      "d": "Şüpheli görüşmeye katılmadı; sonuçsuz."
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "İlk duruşmadan önce. Katılan vekili, şirket müdürü Nermin Aydoğdu ile dosyayı hazırlıyor."
+        },
+        {
+          "who": "mudur",
+          "text": "Makine ajansın. O adam alıp sattı, hepsi bu."
+        }
+      ],
+      "prompt": "Hazırlığı nasıl yapacaksınız?",
+      "choices": [
+        {
+          "text": "Makinenin sanığa nasıl ve hangi amaçla verildiğine dair bütün yazışmaları iste; dosyayı belgelere göre kur.",
+          "delta": 15,
+          "set": [
+            "p1_belge"
+          ],
+          "law": "TCK m.141, m.155",
+          "note": "Hırsızlık ile güveni kötüye kullanmayı ayıran, zilyetliğin devredilip devredilmediğidir. Bunu ancak teslimin belgeleri gösterir. Müvekkilin özet anlatımı yetmez.",
+          "reply": [
+            {
+              "who": "mudur",
+              "text": "Düğün için ben verdim, doğru. Ama pazartesi e-postayla “makine sende kalsın, Yıldız Mobilya çekimini sen yapacaksın” yazdım. Çekimi de yaptı."
+            }
+          ]
+        },
+        {
+          "text": "Müvekkilin “dolaptan aldı” anlatımına güven; iddianameyi destekle.",
+          "delta": -10,
+          "set": [
+            "p1_guven"
+          ],
+          "note": "Müvekkilin anlatımını belgelerle sınamadınız. Sanık “makineyi bana verdi” diyor; ya doğruysa?"
+        },
+        {
+          "text": "Önce sanığa noterden ihtarname çekip makinenin bedelini iste.",
+          "delta": -5,
+          "note": "Ceza yargılaması sürerken ihtarname dosyaya bir şey katmaz; bedel talebi hukuk mahkemesinin işidir. Asıl ihtiyacınız teslimin nasıl yapıldığını gösteren belgelerdi."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "İddianame okundu, sanığın sorgusu yapıldı. Sanık makineyi müdürün verdiğini, sonra sattığını söyledi."
+        },
+        {
+          "who": "judge",
+          "text": "Katılan vekili, iddianameye karşı beyanınız?"
+        }
+      ],
+      "prompt": "Nitelendirme konusunda ne diyeceksiniz?",
+      "choices": [
+        {
+          "if": "p1_belge",
+          "text": "Makine sanığa ajansın çekimi için teslim edilmişti: eylem hırsızlık değil, hizmet ilişkisi nedeniyle güveni kötüye kullanmadır (TCK m.155/2). Sanığa ek savunma hakkı verilmesini talep ediyoruz.",
+          "delta": 20,
+          "set": [
+            "p1_1552",
+            "p1_ek"
+          ],
+          "law": "TCK m.141, m.155/2 · CMK m.226/1",
+          "note": "Hırsızlık, başkasının zilyetliğindeki malı rızası dışında almaktır; zilyetlik sanığa devredilmişse hırsızlık olmaz. Yeni nitelendirme daha ağır olduğundan sanığa bildirilip savunma imkânı verilmeden hüküm kurulamaz (CMK m.226/1). Bunu baştan istemek, kuracağınız hükmü bozmaya karşı korur."
+        },
+        {
+          "if": "p1_belge",
+          "text": "Eylem TCK m.155/2'dir; bu maddeden mahkûmiyet talep ediyoruz.",
+          "delta": 10,
+          "set": [
+            "p1_1552"
+          ],
+          "law": "TCK m.155/2 · CMK m.226/1",
+          "note": "Nitelendirme doğru. Ama değişiklik sanığa bildirilmeden hüküm kurulursa bu bir bozma sebebidir (CMK m.226/1); talebinizi ek savunmayla birlikte yapmalıydınız. Mahkeme bildirimi kendiliğinden yaptı."
+        },
+        {
+          "if": "p1_belge",
+          "text": "İddianamedeki hırsızlık nitelendirmesine katılıyoruz; makine dolaptan alındı.",
+          "delta": -15,
+          "set": [
+            "p1_141"
+          ],
+          "law": "TCK m.141",
+          "note": "Müdürün kendi mesajından ve e-postasından haberdarsınız: makine teslim edilmişti. Bildiğiniz bir gerçeğe aykırı vakıa ileri sürdünüz; sanık mesajı sunarsa güveniniz de gider."
+        },
+        {
+          "if": "!p1_belge",
+          "text": "İddianamedeki hırsızlık nitelendirmesine katılıyoruz; makine dolaptan alındı.",
+          "delta": 0,
+          "set": [
+            "p1_141"
+          ],
+          "law": "TCK m.141",
+          "note": "Müvekkilin anlatımı bu. Ama sanık makinenin kendisine verildiğini söylüyor ve siz bunu sınamadınız; doğruysa hırsızlık çöker."
+        },
+        {
+          "text": "Makinenin 145.000 TL'lik bedeline de bu davada hükmedilsin.",
+          "delta": -10,
+          "note": "Ceza mahkemesi tazminata hükmetmez; bedel hukuk mahkemesinde istenir. Nitelendirme hakkında da bir şey söylemediniz."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Duruşmaya ara verildi. Müdafi, müvekkiliyle avukat odasında; iki soruya vakit var."
+        }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Makineyi size kim, nasıl verdi?",
+          "delta": 15,
+          "set": [
+            "p2_wp",
+            "p2_tarih"
+          ],
+          "reply": [
+            {
+              "who": "sanik",
+              "text": "Nermin Hanım verdi, kardeşimin düğünü için. Mesajı hâlâ telefonumda. İlanı görünce de 9 Şubat'ta “makineyi derhal getir, yoksa savcılığa gideceğim” diye yazmıştı."
+            }
+          ],
+          "note": "Teslim belgeli: zilyetlik size devredilmiş, bu hırsızlığı dışlar. Üstelik katılan satışı 9 Şubat'ta öğrenmiş; şikâyet 2 Ekim'de, altı ay geçtikten sonra yapılmış. Bu ikinci bilgi yalnızca suç şikâyete bağlıysa işe yarar."
+        },
+        {
+          "text": "İstifa ederken makineyi neden geri vermediniz?",
+          "delta": 0,
+          "set": [
+            "p2_prim"
+          ],
+          "reply": [
+            {
+              "who": "sanik",
+              "text": "Son iki ayın primini vermediler. Prim ödenince getiririm dedim; sonra paraya sıkışınca sattım."
+            }
+          ],
+          "note": "Alacağınız olsa bile, size belirli bir amaçla teslim edilen malı satmak devir amacı dışında tasarruftur. Bu bir savunma değil; prim alacağı ancak iş mahkemesinde istenir."
+        },
+        {
+          "text": "Makinenin bedelini ödeyebilir misiniz?",
+          "delta": 5,
+          "set": [
+            "p2_odeme"
+          ],
+          "reply": [
+            {
+              "who": "sanik",
+              "text": "Ailem yardım eder. 145.000 TL'yi karar çıkmadan öderim."
+            }
+          ],
+          "note": "Zararın hükümden önce tamamen giderilmesi cezada indirim sağlar (TCK m.168/2). Ama bu bir savunma değil, bir son çaredir."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "p1_1552",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Eylemin TCK m.155/2 kapsamında güveni kötüye kullanma suçunu oluşturabileceği CMK m.226 uyarınca sanığa ve müdafiine bildirildi. Sanık müdafii?"
+        }
+      ],
+      "prompt": "Bildirime nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "if": "p2_wp",
+          "text": "Ek savunma için süre istiyoruz. Ek savunmada makinenin kişisel olarak, düğün için ödünç verildiğini; eylemin en fazla m.155/1 olduğunu ve şikâyet süresinin geçtiğini ileri süreceğiz.",
+          "delta": 20,
+          "set": [
+            "p2_sure",
+            "p2_1551"
+          ],
+          "law": "CMK m.226/3 · TCK m.155/1, m.73/1",
+          "note": "İstem üzerine ek savunma için süre verilir (CMK m.226/3). Teslim iş için değil kişisel bir iyilik için yapıldıysa nitelikli hâl uygulanmaz; m.155/1 şikâyete bağlıdır ve altı aylık süreye tabidir (TCK m.73/1).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Ek savunma için süre verildi."
+            }
+          ]
+        },
+        {
+          "if": "!p2_wp",
+          "text": "Ek savunma için süre istiyoruz.",
+          "delta": 10,
+          "set": [
+            "p2_sure"
+          ],
+          "law": "CMK m.226/3",
+          "note": "Usulen doğru; ama ek savunmada dayanacağınız bir belge yok. Teslimin kişisel olduğunu gösteremezseniz nitelikli hâl uygulanır.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Ek savunma için süre verildi."
+            }
+          ]
+        },
+        {
+          "text": "Mahkeme iddianamedeki nitelendirmeyle bağlıdır; m.141 dışında hüküm kurulamaz.",
+          "delta": -15,
+          "set": [
+            "p2_bagli"
+          ],
+          "law": "CMK m.225",
+          "note": "Mahkeme iddianamedeki fiil ve kişiyle bağlıdır, fiilin hukuki nitelendirmesiyle değil (CMK m.225). Ek savunma hakkını kullanmak yerine boşa harcadınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Mahkeme nitelendirmeyle bağlı değildir. Ek savunma hakkınızı kullanmadığınız tutanağa geçirildi."
+            }
+          ]
+        },
+        {
+          "if": "p2_odeme",
+          "text": "Nitelendirmeyi kabul ediyoruz; bedelin tamamını hükümden önce ödeyeceğiz (TCK m.168/2).",
+          "delta": 10,
+          "set": [
+            "p2_168"
+          ],
+          "law": "TCK m.168/2",
+          "note": "Etkin pişmanlık nitelikli güveni kötüye kullanmada da uygulanır: kovuşturma başladıktan sonra, hükümden önce zarar tamamen giderilirse ceza yarısına kadar indirilir. Ama teslimin kişisel olduğu savunmasından vazgeçtiniz."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "!p1_1552",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Sanık müdafii, savunmanız?"
+        }
+      ],
+      "prompt": "Savunmanızı neye dayandıracaksınız?",
+      "choices": [
+        {
+          "if": "p2_wp",
+          "text": "Makine rızayla teslim edildi; hırsızlık oluşmaz. Eylem olsa olsa m.155/1'dir: şikâyete bağlıdır ve şikâyet süresi geçmiştir. Mesajı sunuyoruz.",
+          "delta": 20,
+          "set": [
+            "p2_1551"
+          ],
+          "law": "TCK m.141, m.155/1, m.73/1",
+          "note": "Zilyetliği kendisine devredilen kişi o malı “alamaz”; hırsızlık oluşmaz. Mahkeme nitelendirmeyle bağlı olmadığından fiili m.155/1 olarak değerlendirebilir; bu suç şikâyete bağlıdır."
+        },
+        {
+          "if": "!p2_wp",
+          "text": "Makineyi müvekkile müdür verdi; hırsızlık oluşmaz.",
+          "delta": 5,
+          "set": [
+            "p2_1551",
+            "p2_zayif"
+          ],
+          "law": "TCK m.141",
+          "note": "Doğru yön; ama yalnızca sanığın anlatımı. Teslimi gösteren bir belge sunmadınız."
+        },
+        {
+          "if": "p2_prim",
+          "text": "Müvekkil makineyi ödenmeyen primine karşılık tuttu; hakkını aradı, suç kastı yok.",
+          "delta": -10,
+          "set": [
+            "p2_primSav"
+          ],
+          "law": "TCK m.155/1",
+          "note": "Alacak, kendisine teslim edilen malı satmayı haklı kılmaz; satış devir amacı dışında tasarruftur. Üstelik zilyetliğin devredildiğini gösteren mesajı sunmadınız, iddianamedeki hırsızlık anlatımı ayakta kaldı."
+        },
+        {
+          "text": "Müvekkil makineyi hiç almadı.",
+          "delta": -20,
+          "set": [
+            "p2_inkar"
+          ],
+          "note": "Sanık sorguda makineyi aldığını ve sattığını kabul etti; ilan ve alıcı da dosyada. İnkâr hem dayanaksız hem müvekkilin kendi beyanına aykırı."
+        },
+        {
+          "if": "p2_odeme",
+          "text": "Bedelin tamamını hükümden önce ödeyeceğiz; etkin pişmanlık uygulansın (TCK m.168/2).",
+          "delta": 10,
+          "set": [
+            "p2_168"
+          ],
+          "law": "TCK m.168/2",
+          "note": "Etkin pişmanlık cezayı indirir; ama hırsızlık nitelendirmesini tartışmadan kabul etmiş oldunuz."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "p2_1551",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Bir sonraki duruşma. Müdafi ek savunmasını sundu ve 2 Ocak tarihli WhatsApp mesajını dosyaya verdi.",
+          "if": "p2_sure"
+        },
+        {
+          "who": "judge",
+          "text": "Katılan vekili?"
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Makine, sanığın kardeşinin düğünü için kişisel olarak ödünç verilmiştir. Hizmet ilişkisi yoktur. Suç m.155/1'dir, şikâyete bağlıdır; şikâyet ise altı ay geçtikten sonra yapılmıştır."
+      },
+      "prompt": "Bu savunmayı hangi delille karşılayacaksınız?",
+      "choices": [],
+      "correct": [
+        "ev_eposta"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "p1_hizmet"
+        ],
+        "law": "TCK m.155/2",
+        "note": "E-posta, düğünden sonra makinenin ajansın işi için sanıkta bırakıldığını ve sanığın bunu kabul ettiğini gösteriyor. Teslim artık hizmet ilişkisinin gereğidir: m.155/2 şikâyete bağlı değildir, şikâyet süresi de işlemez.",
+        "reply": [
+          {
+            "who": "judge",
+            "text": "E-posta okundu, tutanağa geçirildi."
+          }
+        ]
+      },
+      "responses": {
+        "ev_ilan": {
+          "delta": 0,
+          "note": "İlan ve satış, makinenin devir amacı dışında tasarruf edildiğini gösteriyor; bu tartışmasız. Tartışılan, teslimin kişisel mi iş için mi yapıldığı."
+        },
+        "ev_sikayet": {
+          "delta": -10,
+          "note": "Bu dilekçe şikâyetin Ekim'de yapıldığını gösteriyor; müdafiin süre itirazını destekler."
+        },
+        "ev_wp": {
+          "delta": -15,
+          "note": "Bu mesaj makinenin düğün için verildiğini gösteriyor; savunmanın delili."
+        },
+        "ev_arama": {
+          "delta": -15,
+          "note": "Bu mesaj katılanın satışı Şubat'ta öğrendiğini gösteriyor; süre itirazını destekler."
+        },
+        "law_155": {
+          "delta": 0,
+          "note": "Madde doğru; ama vakıayı belgeyle göstermelisiniz: teslimin iş için yapıldığını."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu belge teslimin iş için yapıldığını göstermiyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz; teslimin kişisel olduğu savunması cevapsız kaldı."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "!p2_1551",
+      "lines": [
+        {
+          "who": "p2",
+          "text": "Müvekkilim makineyi hiç almamıştır.",
+          "if": "p2_inkar"
+        },
+        {
+          "who": "p2",
+          "text": "Müvekkilim makineyi ödenmeyen primine karşılık tutmuştur; hakkını aramıştır.",
+          "if": "p2_primSav"
+        },
+        {
+          "who": "p2",
+          "text": "Müvekkilim zararın tamamını hükümden önce ödeyecektir; etkin pişmanlık hükümleri uygulanmalıdır.",
+          "if": "p2_168"
+        },
+        {
+          "who": "narr",
+          "text": "Bir sonraki duruşma. Müdafi ek savunmasını sundu; teslimin iş için yapılmadığını ileri sürdü ama bir belge vermedi.",
+          "if": "p2_sure"
+        },
+        {
+          "who": "judge",
+          "text": "Katılan vekili, beyanınız?"
+        }
+      ],
+      "prompt": "Ne söyleyeceksiniz?",
+      "choices": [
+        {
+          "if": "p2_inkar || p2_primSav",
+          "text": "Sanık sorguda makineyi aldığını ve sattığını kabul etti; ilan ve alıcının ifadesi dosyada. Satış, hangi gerekçeyle olursa olsun malın sahibine karşı bir tasarruftur.",
+          "delta": 15,
+          "note": [
+            {
+              "if": "p2_inkar",
+              "text": "İnkârı dosyadaki kendi beyanı ve bağımsız delillerle karşıladınız."
+            },
+            {
+              "if": "p2_primSav",
+              "text": "Prim alacağı, malı satmayı haklı kılmaz; alacak iş mahkemesinde istenir."
+            }
+          ]
+        },
+        {
+          "if": "p2_168",
+          "text": "Zararın tamamı ödenirse müvekkil ödemeyi kabul eder. Ödemenin hükümden önce ve eksiksiz yapılmasını istiyoruz.",
+          "delta": 10,
+          "set": [
+            "p1_168"
+          ],
+          "law": "TCK m.168",
+          "note": "Zarar tamamen giderilirse indirim uygulanır; mağdurun rızası yalnızca kısmi ödemede aranır (m.168/4). Tam ödemeye karşı çıkmak sonuç doğurmazdı; ödemenin eksiksiz olmasını istemek doğru."
+        },
+        {
+          "if": "p2_bagli",
+          "text": "Mahkeme iddianamedeki fiil ve kişiyle bağlıdır, nitelendirmeyle değil; bildirim usulüne uygun yapıldı.",
+          "delta": 15,
+          "law": "CMK m.225, m.226",
+          "note": "Doğru: fiil aynı kaldıkça mahkeme onu başka bir maddeyle niteleyebilir; yeter ki sanığa bildirilip savunma imkânı verilsin."
+        },
+        {
+          "if": "p1_belge",
+          "text": "E-postayı sunuyoruz: makine ajansın çekimi için sanıkta bırakılmıştı ve sanık bunu kabul etmişti. m.155/2 uygulanmalı.",
+          "delta": 10,
+          "set": [
+            "p1_hizmet"
+          ],
+          "law": "TCK m.155/2",
+          "note": "Teslimin hizmet ilişkisinin gereği olduğunu belgeyle gösterdiniz."
+        },
+        {
+          "if": "!p1_belge",
+          "text": "İddianamedeki hırsızlık nitelendirmesinde ısrar ediyoruz.",
+          "delta": 0,
+          "note": "Elinizde başka bir belge yok; dosyayı iddianameye bıraktınız."
+        },
+        {
+          "if": "p2_sure && !p2_1551",
+          "text": "Ek savunmada bir belge sunulmadı; teslimin kişisel olduğu gösterilemedi.",
+          "delta": 5,
+          "note": "Doğru bir tespit; ama kendi iddianızı da belgeyle desteklemeniz daha güçlü olurdu."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "p1_hizmet",
+      "lines": [
+        {
+          "who": "pros",
+          "text": "Mütalaam: Sanığın, hizmet ilişkisi gereği kendisine teslim edilen makineyi satması nedeniyle TCK m.155/2 uyarınca cezalandırılması talep olunur."
+        },
+        {
+          "who": "judge",
+          "text": "Sanık müdafii, son savunmanız?"
+        }
+      ],
+      "prompt": "Son savunmanız?",
+      "choices": [
+        {
+          "if": "p2_odeme && !p2_168",
+          "text": "Bedelin tamamı bugün katılana ödendi; makbuzu sunuyoruz. TCK m.168/2 uyarınca indirim talep ediyoruz.",
+          "delta": 15,
+          "set": [
+            "p2_168"
+          ],
+          "law": "TCK m.168/2",
+          "note": "Nitelendirme aleyhinize döndükten sonra en etkili hamle bu: kovuşturma başladıktan sonra, hükümden önce zarar tamamen giderildi; ceza yarısına kadar indirilir."
+        },
+        {
+          "text": "E-posta yalnızca bir çekim talimatıdır; teslim düğün için yapılmıştı.",
+          "delta": 0,
+          "note": "Çekim talimatı ve sanığın “tamam” cevabıyla makine, düğünden sonra ajansın işi için sanıkta kaldı. Bu itiraz nitelendirmeyi değiştirmez."
+        },
+        {
+          "text": "E-posta sonradan düzenlenmiştir.",
+          "delta": -15,
+          "note": "Dayanaksız bir sahtelik iddiası: e-posta ajansın sunucusunda ve sanığın kendi cevabı da var."
+        },
+        {
+          "if": "!p2_odeme || p2_168",
+          "text": "Sanığın sabıkasızlığı ve pişmanlığı gözetilerek ceza alt sınırdan belirlensin, TCK m.62 uygulansın.",
+          "delta": 10,
+          "set": [
+            "p2_alt"
+          ],
+          "law": "TCK m.61, m.62",
+          "note": "Nitelendirme kesinleştikten sonra cezanın bireyselleştirilmesini istemek yerinde bir hamle."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_hizmet && p2_168",
+      "winner": "draw",
+      "stamp": "İNDİRİMLİ MAHKÛMİYET",
+      "hukum": "Sanığın TCK m.155/2 uyarınca 1 yıl 6 ay hapis ve 100 gün adli para cezasına; zararı hükümden önce tamamen gidermesi nedeniyle TCK m.168/2 uyarınca 1/2 indirimle 9 ay hapis ve 50 gün karşılığı 1.000 TL adli para cezası ile CEZALANDIRILMASINA,",
+      "summary": [
+        {
+          "text": "Makine düğün için verilmişti; ama düğünden sonra ajansın çekimi için sanıkta bırakıldı ve sanık bunu kabul etti. Teslim hizmet ilişkisinin gereğiydi; suç m.155/2'dir ve şikâyet süresine bağlı değildir."
+        },
+        {
+          "if": "p1_ek",
+          "text": " Katılan vekili nitelendirme değişikliğini baştan ek savunma talebiyle birlikte istedi."
+        },
+        {
+          "text": " Sanık zararın tamamını hükümden önce giderdiği için ceza yarı oranında indirildi."
+        }
+      ]
+    },
+    {
+      "if": "p1_hizmet",
+      "winner": "p1",
+      "hukum": [
+        {
+          "if": "p2_alt",
+          "text": "Sanığın TCK m.155/2 uyarınca alt sınırdan 1 yıl hapis ve 30 gün adli para cezasına, TCK m.62 uyarınca 1/6 indirimle 10 ay hapis ve 25 gün karşılığı 500 TL adli para cezası ile CEZALANDIRILMASINA,"
+        },
+        {
+          "if": "!p2_alt",
+          "text": "Sanığın TCK m.155/2 uyarınca 1 yıl 6 ay hapis ve 100 gün karşılığı 2.000 TL adli para cezası ile CEZALANDIRILMASINA,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "İddianamedeki hırsızlık nitelendirmesi tutmadı: makine sanığa teslim edilmişti. Ama düğünden sonra ajansın çekimi için sanıkta bırakıldı; satış, hizmet ilişkisi gereği teslim edilen eşya üzerinde devir amacı dışında tasarruftu (m.155/2). Bu hâl şikâyete bağlı değildir."
+        },
+        {
+          "if": "p1_ek",
+          "text": " Nitelendirme değişikliği katılan vekilinin talebiyle sanığa bildirildi ve ek savunma imkânı tanındı (CMK m.226)."
+        },
+        {
+          "if": "!p1_ek",
+          "text": " Mahkeme nitelendirme değişikliğini sanığa kendiliğinden bildirdi (CMK m.226)."
+        },
+        {
+          "if": "p2_bagli",
+          "text": " Müdafiin “mahkeme nitelendirmeyle bağlıdır” itirazı reddedildi: bağlılık fiil ve kişiyledir (CMK m.225)."
+        },
+        {
+          "if": "p2_wp && p2_tarih",
+          "text": " Müdafiin şikâyet süresi itirazı haklıydı; ama yalnızca m.155/1 için geçerliydi."
+        }
+      ]
+    },
+    {
+      "if": "p2_1551 && !p2_zayif",
+      "winner": "p2",
+      "hukum": "Eylemin TCK m.155/1 kapsamında kaldığı, bu suçun şikâyete bağlı olduğu ve katılanın fiili ve faili 09.02.2026'da öğrenmesine karşın altı aylık süre geçtikten sonra şikâyette bulunduğu anlaşıldığından TCK m.73/1 ve CMK m.223/8 uyarınca kamu davasının DÜŞMESİNE,",
+      "summary": [
+        {
+          "text": "Müdafi, makinenin müdür tarafından kardeşinin düğünü için kişisel olarak verildiğini mesajla gösterdi: zilyetlik devredilmişti, hırsızlık oluşmadı. Kişisel ödünçte suç m.155/1'dir ve şikâyete bağlıdır."
+        },
+        {
+          "text": " Katılan satışı 9 Şubat'ta öğrenmiş, ama 2 Ekim'de şikâyetçi olmuştu."
+        },
+        {
+          "if": "p1_belge",
+          "text": " Teslimi iş amacına bağlayan 5 Ocak tarihli e-posta katılan vekilinin elindeydi; sunulsaydı m.155/2 uygulanır, süre sorunu ortadan kalkardı."
+        },
+        {
+          "if": "!p1_belge",
+          "text": " Katılan vekili teslimin nasıl yapıldığını belgelerle araştırmadı; teslimi iş amacına bağlayan bir e-posta şirketin kendi kayıtlarındaydı."
+        }
+      ]
+    },
+    {
+      "if": "p2_168",
+      "winner": "draw",
+      "stamp": "İNDİRİMLİ MAHKÛMİYET",
+      "hukum": [
+        {
+          "if": "p1_1552",
+          "text": "Sanığın TCK m.155/2 uyarınca 1 yıl 6 ay hapis ve 100 gün adli para cezasına, TCK m.168/2 uyarınca 1/2 indirimle 9 ay hapis ve 50 gün karşılığı 1.000 TL adli para cezası ile CEZALANDIRILMASINA,"
+        },
+        {
+          "if": "!p1_1552",
+          "text": "Sanığın TCK m.141/1 uyarınca 1 yıl 6 ay hapis cezasına, TCK m.168/2 uyarınca 1/2 indirimle 9 ay hapis cezası ile CEZALANDIRILMASINA,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Müdafi nitelendirmeyi tartışmadan etkin pişmanlığa yöneldi; zarar hükümden önce tamamen giderildiği için ceza yarı oranında indirildi."
+        },
+        {
+          "if": "p2_wp",
+          "text": " Oysa makinenin düğün için kişisel olarak verildiğini gösteren mesaj elinizdeydi."
+        }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": [
+        {
+          "if": "p1_1552",
+          "text": "Sanığın TCK m.155/2 uyarınca 1 yıl 6 ay hapis ve 100 gün karşılığı 2.000 TL adli para cezası ile CEZALANDIRILMASINA,"
+        },
+        {
+          "if": "!p1_1552",
+          "text": "Sanığın TCK m.141/1 uyarınca 1 yıl 6 ay hapis cezası ile CEZALANDIRILMASINA,"
+        }
+      ],
+      "summary": [
+        {
+          "if": "p2_primSav",
+          "text": "Müdafi makinenin prim alacağına karşılık tutulduğunu savundu; alacak, teslim edilen malı satmayı haklı kılmaz."
+        },
+        {
+          "if": "p2_inkar",
+          "text": "Müdafi makinenin hiç alınmadığını savundu; sanığın kendi sorgusu, satış ilanı ve alıcının ifadesi bunu çürüttü."
+        },
+        {
+          "if": "p2_zayif",
+          "text": "Müdafi makineyi müdürün verdiğini söyledi, ama bunu gösteren bir belge sunmadı. Müvekkile teslimin nasıl yapıldığını sorsaydınız WhatsApp mesajı ortaya çıkardı."
+        },
+        {
+          "if": "p2_bagli",
+          "text": "Müdafi ek savunma hakkını kullanmak yerine mahkemenin nitelendirmeyle bağlı olduğunu savundu; bağlılık fiil ve kişiyledir (CMK m.225)."
+        },
+        {
+          "if": "p2_sure && !p2_1551 && !p2_bagli",
+          "text": "Müdafi ek savunma için süre aldı, ama teslimin kişisel olduğunu gösteren bir belge sunmadı."
+        },
+        {
+          "if": "p1_1552",
+          "text": " Mahkeme, makinenin ajansın işi için sanıkta bulunduğuna ilişkin katılan anlatımını dosya kapsamıyla yeterli gördü ve fiili m.155/2 olarak niteledi."
+        },
+        {
+          "if": "!p1_1552",
+          "text": " İddianamedeki hırsızlık anlatımı çürütülemedi."
+        }
+      ]
+    }
+  ]
+}

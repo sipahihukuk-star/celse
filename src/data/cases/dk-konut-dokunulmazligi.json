@@ -1,0 +1,484 @@
+{
+  "id": "dk-konut-dokunulmazligi",
+  "mode": "duel",
+  "difficulty": "basit",
+  "title": "Yedek Anahtar",
+  "area": "Ceza Hukuku · Konut dokunulmazlığının ihlali",
+  "court": "Konya 2. Asliye Ceza Mahkemesi",
+  "courtShort": "2. ASLİYE CEZA",
+  "esas": "2026/488 Esas",
+  "kararTarihi": "10.12.2026",
+  "color": "#4f5b2e",
+  "teaser": "Ev sahibi “ev benim” diyor, kiracı “ama ben orada yaşıyorum”. Arada bir su sızıntısı, bir yedek anahtar ve yatak odasında çekilmiş on dört fotoğraf var.",
+  "sides": {
+    "p1": { "role": "Katılan (kiracı) vekili", "short": "Katılan" },
+    "p2": { "role": "Sanık (ev sahibi) müdafii", "short": "Sanık" }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": { "kind": "robe", "collar": "hakim", "skin": "#e8c09c", "hair": "#6b6b70", "style": "short", "glasses": true }
+    },
+    "p1": {
+      "look": { "kind": "robe", "collar": "avukat", "skin": "#c08b62", "hair": "#151515", "style": "curly" }
+    },
+    "p2": {
+      "look": { "kind": "robe", "collar": "avukat", "skin": "#edc6a2", "hair": "#a0522d", "style": "short" }
+    },
+    "pros": {
+      "name": "Cumhuriyet Savcısı",
+      "np": "red",
+      "look": { "kind": "robe", "collar": "hakim", "skin": "#e6bd98", "hair": "#4a3426", "style": "bun" }
+    },
+    "katilan": {
+      "name": "Derya Uçar · Katılan",
+      "np": "civil",
+      "look": { "kind": "civil", "skin": "#dcae86", "hair": "#2b1d17", "style": "long", "shirt": "#3a6f7a", "inner": "#f2ede2" }
+    },
+    "sanik": {
+      "name": "Halil Bozkurt · Sanık",
+      "np": "civil",
+      "look": { "kind": "civil", "skin": "#d9a982", "hair": "#c9c9c9", "style": "short", "glasses": true, "shirt": "#5b4a3a", "inner": "#e6e0d4" }
+    }
+  },
+  "evidence": [
+    {
+      "id": "ev_kira",
+      "type": "belge",
+      "title": "Kira sözleşmesi",
+      "desc": "01.06.2024 başlangıçlı, konut. Özel şart 7: “Kiraya veren, önceden haber vermek kaydıyla kiralananı gezebilir.”"
+    },
+    {
+      "id": "ev_mesaj13",
+      "type": "belge",
+      "title": "13 Mart sabah mesajları",
+      "desc": "09.10, Halil: “Alt kattaki Sevim Hanım tavandan su geldiğini söylüyor, tesisatçıyla bakmam lazım.” 09.25, Derya: “Nöbetteyim. Bugün tesisatçıyla gelebilirsiniz, anahtarınız var.”"
+    },
+    {
+      "id": "ev_geri",
+      "type": "belge",
+      "title": "13 Mart akşam mesajı",
+      "desc": "21.40, Derya: “Bugün kimse gelmemiş. Bundan sonra ben evdeyken gelin lütfen, habersiz girmeyin.” Mesaj okunmuş, cevap verilmemiş.",
+      "if": "p1_riza"
+    },
+    {
+      "id": "ev_kamera",
+      "type": "belge",
+      "title": "Kapı zili kamerası kaydı",
+      "desc": "14.03.2026 Cumartesi: 11.20'de sanık yedek anahtarla tek başına giriyor, 11.46'da çıkıyor."
+    },
+    {
+      "id": "ev_komsu",
+      "type": "beyan",
+      "title": "Alt kat komşusu Sevim Tan'ın ifadesi",
+      "desc": "“Cumartesi sabah banyo tavanından birkaç damla düştü, Halil Bey'i aradım. Öğlene doğru geldi.”"
+    },
+    {
+      "id": "ev_ihtar",
+      "type": "belge",
+      "title": "Noter ihtarnamesi ve ekindeki fotoğraflar",
+      "desc": "21.03.2026, sanıktan katılana: “Kiralanan özensiz kullanılıyor, tahliye hakkımızı saklı tutuyoruz.” Ekinde 14.03.2026 11.28–11.41 arasında çekilmiş 14 fotoğraf: salon, yatak odası, açık gardırop, mutfak dolapları.",
+      "if": "p1_ihtar"
+    },
+    {
+      "id": "ev_sizinti",
+      "type": "belge",
+      "title": "Sızıntı için eski mesajlar",
+      "desc": "Kasım 2025 ve Ocak 2026, Derya'dan Halil'e: “Banyo vanası sızdırıyor, tamir ettirir misiniz?” İkisi de cevapsız.",
+      "if": "p1_kacak"
+    },
+    {
+      "id": "law_116",
+      "type": "kanun",
+      "title": "TCK m.116/1 · Konut dokunulmazlığının ihlali",
+      "desc": "Bir kimsenin konutuna, konutunun eklentilerine rızasına aykırı olarak giren veya rıza ile girdikten sonra buradan çıkmayan kişi, mağdurun şikâyeti üzerine cezalandırılır.",
+      "law": "TCK m.116/1"
+    }
+  ],
+  "intro": [
+    { "who": "narr", "text": "Konya, Meram. Hemşire Derya Uçar, 2024'ten beri Halil Bozkurt'un dairesinde kiracı. Ocak 2026'da Halil “oğlum gelecek, evi boşalt” dedi; Derya kabul etmedi." },
+    { "who": "narr", "text": "13 Mart Cuma sabahı Halil, alt kata su sızdığını yazdı. Nöbetteki Derya “bugün tesisatçıyla gelebilirsiniz” dedi. O gün kimse gelmedi." },
+    { "who": "narr", "text": "14 Mart Cumartesi 11.20'de Halil yedek anahtarla daireye tek başına girdi, 11.46'da çıktı. Derya'nın kapı zili kamerası girişi ve çıkışı kaydetti." },
+    { "who": "narr", "text": "Derya ertesi gün şikâyetçi oldu. Soruşturmada uzlaştırma önerildi; Halil “ev benim, neyin uzlaşması” diyerek reddetti. İddianame TCK m.116/1'den düzenlendi." }
+  ],
+  "docs": [
+    { "t": "Kira sözleşmesi", "d": "01.06.2024, konut. Özel şart: kiraya veren önceden haber vererek kiralananı gezebilir." },
+    { "t": "13 Mart sabah mesajları", "d": "Halil: “Tavandan su geliyormuş, tesisatçıyla bakmam lazım.” Derya: “Bugün tesisatçıyla gelebilirsiniz, anahtarınız var.”" },
+    { "t": "Kapı zili kamerası", "d": "14.03.2026, 11.20 giriş, 11.46 çıkış; sanık yalnız." },
+    { "t": "Komşunun ifadesi", "d": "Sevim Tan: “Cumartesi sabah tavandan birkaç damla düştü, Halil Bey'i aradım.”" },
+    { "t": "Uzlaştırma raporu", "d": "Şüpheli uzlaştırmayı reddetti; sonuçsuz." },
+    { "t": "İddianame", "d": "TCK m.116/1. Şikâyet 15.03.2026." }
+  ],
+  "steps": [
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Duruşmadan bir hafta önce. Derya nöbet çıkışı büroya uğradı; iki soruya vakit var." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Halil Bey'e eve girmesi için ne zaman, nasıl izin verdiniz?",
+          "delta": 10,
+          "set": ["p1_riza"],
+          "reply": [
+            { "who": "katilan", "text": "Sadece cuma günü, tesisatçıyla gelsin dedim. Kimse gelmeyince akşam “ben evdeyken gelin, habersiz girmeyin” diye yazdım. Mesajı okudu." }
+          ],
+          "note": "Rıza belirli bir gün ve amaçla sınırlıydı ve aynı akşam açıkça geri alındı."
+        },
+        {
+          "text": "Bu olaydan sonra ev sahibinden size bir şey geldi mi?",
+          "delta": 15,
+          "set": ["p1_ihtar"],
+          "reply": [
+            { "who": "katilan", "text": "Bir hafta sonra noterden ihtarname geldi. Ekinde yatak odamın, açık dolabımın fotoğrafları var!" }
+          ],
+          "note": "Fotoğraflar girişin amacını gösteriyor: vanayı kapatmak değil, tahliye için delil toplamak."
+        },
+        {
+          "text": "Su kaçağı gerçekten var mıydı?",
+          "delta": 10,
+          "set": ["p1_kacak"],
+          "reply": [
+            { "who": "katilan", "text": "Banyo vanası aylardır sızdırıyordu. Kasımda da ocakta da yazdım, tamir ettirmedi." }
+          ],
+          "note": "Sızıntı ani değil, aylardır bilinen ve ev sahibinin gidermediği bir arıza. Zorunluluk hâlinin aradığı “ağır ve muhakkak tehlike” tartışmalı hâle gelir."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "İddianame okundu. Sanık, savunmanızı alalım." },
+        { "who": "sanik", "text": "Ev benim. Alttan su geliyor dediler, girdim, vanayı kapattım." },
+        { "who": "judge", "text": "Sanık müdafii, savunmanız?" }
+      ],
+      "prompt": "Savunmayı hangi zemine oturtacaksınız?",
+      "choices": [
+        {
+          "text": "Daire müvekkilin tapulu malıdır; kişi kendi evine girmekle suç işlemez.",
+          "delta": -15,
+          "set": ["p2_mulk"],
+          "law": "TCK m.116/1",
+          "note": "Konut dokunulmazlığı mülkiyeti değil, konutta fiilen yaşayanın huzurunu ve özel alanını korur. Kiralanan daire kiracının konutudur; malik de onun rızası olmadan giremez."
+        },
+        {
+          "text": "Zorunluluk hâli: alt kata su sızıyordu, kiracıya ulaşılamadı; müvekkil yalnızca vanayı kapatmak için girdi.",
+          "delta": 15,
+          "set": ["p2_zor"],
+          "law": "TCK m.25/2",
+          "note": "Ağır ve muhakkak bir tehlikeden başkasının malını korumak için, orantılı biçimde yapılan bir giriş cezalandırılmaz. Savunmanın en güçlü dayanağı bu; ama orantının korunduğunu göstermeniz gerekecek."
+        },
+        {
+          "text": "Kiracı 13 Mart'ta “anahtarınız var, gelebilirsiniz” dedi; rızası vardı.",
+          "delta": 5,
+          "set": ["p2_riza"],
+          "law": "TCK m.116/1",
+          "note": "Rıza suçun unsurunu ortadan kaldırır. Ama mesaj cuma günüyle ve tesisatçıyla sınırlı görünüyor; giriş cumartesi oldu."
+        },
+        {
+          "text": "Müvekkil kendi mülküne girebileceğini sanıyordu; hataya düştü.",
+          "delta": -5,
+          "set": ["p2_hata"],
+          "law": "TCK m.30/4",
+          "note": "Haksızlık yanılgısı ancak kaçınılmazsa cezayı kaldırır. Kiraya verilen bir eve kiracının izni olmadan girilemeyeceğini öğrenmek bir ev sahibi için zor değildir; bu hata kaçınılmaz sayılmaz."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "p2_zor",
+      "lines": [
+        { "who": "judge", "text": "Katılan vekili, zorunluluk hâli savunmasına beyanınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Müvekkilim alt kata su sızdığı için, kiracıya ulaşamayınca girmiş; vanayı kapatıp çıkmıştır. Zorunluluk hâli vardır." },
+      "prompt": "Bu savunmayı hangi delille çürüteceksiniz?",
+      "choices": [],
+      "correct": ["ev_ihtar"],
+      "hit": {
+        "delta": 25,
+        "set": ["p1_amac"],
+        "law": "TCK m.25/2",
+        "note": "Fotoğraflar 11.28–11.41 arasında, yatak odası ve dolap içi dâhil çekilmiş ve bir hafta sonra tahliye ihtarına eklenmiş. Giriş tehlikeyi gidermenin çok ötesine geçti; zorunluluk hâlinin aradığı orantı yok.",
+        "reply": [
+          { "who": "judge", "text": "İhtarname ve fotoğraflar dosyaya alındı. Sanık, fotoğrafları neden çektiniz?" },
+          { "who": "sanik", "text": "Evin ne hâlde olduğunu görmek istedim..." }
+        ]
+      },
+      "responses": {
+        "ev_sizinti": {
+          "delta": 15,
+          "set": ["p1_ani"],
+          "law": "TCK m.25/2",
+          "note": "Sızıntı aylardır biliniyordu ve sanık tamir ettirmemişti. Zorunluluk hâli, failin bilerek neden olmadığı ve başka türlü korunma imkânı olmayan bir tehlike arar; burada tamir ettirmek ya da kiracıyla gün ayarlamak mümkündü."
+        },
+        "ev_kamera": {
+          "delta": 5,
+          "set": ["p1_sure"],
+          "note": "Kayıt sanığın 26 dakika kaldığını gösteriyor. Vanayı kapatmak için uzun; ama “vana sıkışmıştı” denebilir. Girişin amacını ya da tehlikenin ani olmadığını gösteren bir delil daha güçlü olurdu."
+        },
+        "ev_geri": {
+          "delta": 0,
+          "note": "Rıza geri alınmıştı, doğru; ama zorunluluk hâli rızaya dayanmaz. Bu belge savunmanın asıl dayanağını karşılamıyor."
+        },
+        "ev_komsu": {
+          "delta": -10,
+          "note": "Komşunun ifadesi sızıntıyı doğruluyor; savunmayı destekler."
+        },
+        "law_116": {
+          "delta": 0,
+          "note": "Madde doğru, ama savunma bir hukuka uygunluk iddiası. Vakıayı delille çürütmeniz gerekiyordu."
+        }
+      },
+      "miss": {
+        "delta": -5,
+        "note": "Bu belge zorunluluk hâli savunmasını çürütmüyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz; zorunluluk hâli savunması cevapsız kaldı."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "p2_riza",
+      "lines": [
+        { "who": "p2", "text": "Kiracı 13 Mart'ta açıkça “anahtarınız var, gelebilirsiniz” demiştir. Müvekkilim bu rızaya dayanarak girmiştir." },
+        { "who": "judge", "text": "Katılan vekili?" }
+      ],
+      "prompt": "Rıza savunmasına cevabınız?",
+      "choices": [
+        {
+          "if": "p1_riza",
+          "text": "Rıza yalnızca cuma günü ve tesisatçıyla verildi; aynı akşam açıkça geri alındı ve sanık mesajı okudu. Akşam mesajını sunuyoruz.",
+          "delta": 20,
+          "set": ["p1_rizaRet"],
+          "law": "TCK m.116/1",
+          "note": "Rıza giriş anında bulunmalıdır; verilen rıza her zaman geri alınabilir. Geri alma mesajı okunmuştu; cumartesi girişi rızaya aykırıydı.",
+          "reply": [
+            { "who": "judge", "text": "Mesaj okundu, tutanağa geçirildi." }
+          ]
+        },
+        {
+          "if": "!p1_riza",
+          "text": "Rıza yalnızca 13 Mart cuma için ve tesisatçıyla verildi; ertesi gün tek başına giriş bu rızanın dışında kalır.",
+          "delta": 10,
+          "set": ["p1_rizaRet"],
+          "law": "TCK m.116/1",
+          "note": "Doğru: rıza verildiği gün ve amaçla sınırlıdır. Müvekkile sorsaydınız rızanın aynı akşam açıkça geri alındığını da gösterebilirdiniz."
+        },
+        {
+          "text": "Konuta girme rızası noterden ya da yazılı verilmeliydi; mesaj geçersiz.",
+          "delta": -10,
+          "note": "Rıza şekle bağlı değildir; sözlü ya da bir mesajla verilebilir. Asıl mesele rızanın kapsamı ve geri alınmasıydı."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "p2_mulk || p2_hata",
+      "lines": [
+        { "who": "p2", "text": "Daire müvekkilimin tapulu malıdır. Kişi kendi evine girmekle suç işlemez.", "if": "p2_mulk" },
+        { "who": "p2", "text": "Müvekkilim kendi mülküne girebileceğini sanıyordu; hataya düşmüştür.", "if": "p2_hata" },
+        { "who": "judge", "text": "Katılan vekili?" }
+      ],
+      "prompt": "Ne cevap vereceksiniz?",
+      "choices": [
+        {
+          "text": "TCK m.116 mülkiyeti değil, konutta yaşayanın huzurunu korur. Kiralanan daire kiracının konutudur; malik de onun rızası olmadan giremez. “Girebilirim sandım” demek kaçınılmaz bir hata değildir.",
+          "delta": 20,
+          "set": ["p1_konut"],
+          "law": "TCK m.116/1, m.30/4",
+          "note": "Korunan hukuki değer konutta yaşayanın özel alanıdır. Kira sözleşmesiyle zilyetlik kiracıya geçmiştir; ev sahibinin hakkı, gerekirse kiracıyı mahkemeye götürmektir, kendi başına girmek değil."
+        },
+        {
+          "text": "Ev sanığın, kabul; ama kira sözleşmesindeki şart gereği önceden haber vermesi gerekirdi.",
+          "delta": -5,
+          "note": "Sorun sözleşmeye aykırılık değil. Konut kiracınındır ve rızası olmadan girilemez; savunmanın yanlış zeminini kabul ettiniz."
+        },
+        {
+          "text": "Sanık yedek anahtarla girdi; bu cebirdir, TCK m.116/4 uygulansın.",
+          "delta": -10,
+          "law": "TCK m.116/4",
+          "note": "Elindeki anahtarla kapıyı açmak cebir değildir. Giriş saat 11.20'de, gündüz yapıldı; nitelikli hâlin koşulları yok."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Katılan vekili konuşurken Halil Bozkurt ayağa kalkıyor." },
+        { "who": "sanik", "text": "Kendi evime girmek için kimseden izin almam! Ev benim!" },
+        { "who": "judge", "text": "Sanık, oturun. Müdafi Bey, müvekkilinizi uyarın." }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "“Sayın Hâkim, beş dakikalık bir ara rica ediyorum. Müvekkilim bundan sonra sözünü benim aracılığımla söyleyecek.”",
+          "delta": 10,
+          "law": "CMK m.203",
+          "note": "Duruşmanın düzenini hâkim sağlar (CMK m.203). Müdafiin işi müvekkili yatıştırıp savunmayı kendisi sürdürmektir. “İzin almam” sözü savunmaya zarar verir; onu büyütmediniz.",
+          "reply": [
+            { "who": "judge", "text": "Beş dakika ara veriyorum." }
+          ]
+        },
+        {
+          "text": "“Müvekkilim haklı; kendi malına giren adama ceza mı verilir?”",
+          "delta": -10,
+          "set": ["p2_ofke"],
+          "note": "Müvekkilin öfkesini salona taşıdınız ve “kimseden izin almam” sözünü savunmanın parçası yaptınız. Hâkimin sabrını da zorladınız.",
+          "reply": [
+            { "who": "judge", "text": "Müdafi Bey, salonda düzeni ben sağlarım. Sanığın sözleri tutanağa geçirildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Taraflar arasında bir anlaşma imkânı var mı?" }
+      ],
+      "prompt": "Sulh konusunda ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Dosyanın uzlaştırma bürosuna gönderilmesini istiyoruz.",
+          "delta": -10,
+          "law": "CMK m.253/18",
+          "note": "Konut dokunulmazlığının ihlali uzlaştırma kapsamındadır (CMK m.253/1); ama soruşturmada uzlaştırma sonuçsuz kaldı ve tekrarlanamaz (m.253/18).",
+          "reply": [
+            { "who": "judge", "text": "Uzlaştırma soruşturmada sonuçsuz kalmış; tekrarı mümkün değil." }
+          ]
+        },
+        {
+          "text": "Müvekkil özür diliyor; fotoğrafları imha edecek, bir daha habersiz girmeyeceğini yazılı taahhüt ediyor. Katılanın şikâyetinden vazgeçmesini rica ediyoruz.",
+          "delta": 10,
+          "set": ["teklif"],
+          "law": "TCK m.73/4",
+          "note": "Suç şikâyete bağlıdır; şikâyetten vazgeçme davayı düşürür, yeter ki sanık da kabul etsin (TCK m.73/4, m.73/6). Uzlaştırmanın kapandığı yerde sulhun meşru yolu budur."
+        },
+        {
+          "text": "Teklifimiz yok; beraat bekliyoruz.",
+          "delta": 0,
+          "note": "Meşru bir tercih; ama şikâyete bağlı bir suçta sulh kapısını kendiniz kapattınız."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "teklif",
+      "lines": [
+        { "who": "judge", "text": "Katılan vekili, teklif hakkında ne diyorsunuz?" }
+      ],
+      "prompt": "Cevabınız?",
+      "choices": [
+        {
+          "text": "Müvekkile danıştım; vazgeçmek istemiyor. Yargılamaya devam edilsin.",
+          "delta": 5,
+          "note": "Şikâyetten vazgeçmek müvekkilin kararıdır; o devam etmek istedi."
+        },
+        {
+          "text": "Müvekkile danıştım; özür ve yazılı taahhüt karşılığında şikâyetinden vazgeçiyor.",
+          "delta": 5,
+          "set": ["vazgec", "end"],
+          "law": "TCK m.73/4",
+          "note": "Meşru bir tercih: müvekkil özel alanını güvenceye aldı. Vazgeçme davayı düşürür; sanık da kabul etti (TCK m.73/4, m.73/6). Vekilin vazgeçebilmesi için vekâletnamede özel yetki bulunmalıdır.",
+          "reply": [
+            { "who": "katilan", "text": "Evet, vazgeçiyorum. Yeter ki bir daha habersiz girmesin." },
+            { "who": "sanik", "text": "Kabul ediyorum." }
+          ]
+        },
+        {
+          "text": "Müvekkile sormadan, vekil olarak şikâyetten vazgeç.",
+          "delta": -15,
+          "note": "Şikâyetten vazgeçme müvekkilin kararıdır ve vekâletnamede özel yetki ister. Hâkim beyanı müvekkile sordu; Derya Hanım vazgeçmediğini söyledi. Müvekkilinizin güvenini zedelediniz.",
+          "reply": [
+            { "who": "katilan", "text": "Ben vazgeçmiyorum!" }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "pros", "text": "Mütalaam: Sanığın TCK m.116/1 uyarınca cezalandırılması talep olunur." },
+        { "who": "judge", "text": "Katılan vekili, esas hakkındaki beyanınız?" }
+      ],
+      "prompt": "Esas hakkında ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Kiralanan daire müvekkilin konutudur; girişte geçerli bir rıza yoktu, zorunluluk sınırı da aşıldı. TCK m.116/1 uyarınca mahkûmiyet talep ediyoruz.",
+          "delta": 15,
+          "law": "TCK m.116/1",
+          "note": "Beyanınız suçun unsurlarını ve savunmanın neden tutmadığını doğru özetliyor."
+        },
+        {
+          "text": "Sanık eve kilitli kapıyı açarak girdi; TCK m.116/4 uyarınca cezası artırılsın.",
+          "delta": -10,
+          "law": "TCK m.116/4",
+          "note": "Kendi anahtarıyla kapıyı açmak cebir değildir; olay gündüz oldu. Mütalaanın ötesinde, dayanaksız bir talepte bulundunuz."
+        },
+        {
+          "text": "Müvekkilin manevi zararının da bu davada tazminine hükmedilsin.",
+          "delta": -10,
+          "note": "Ceza mahkemesi tazminata hükmetmez; manevi tazminat hukuk mahkemesinde istenir."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "vazgec",
+      "winner": "draw",
+      "hukum": "Katılanın şikâyetinden vazgeçmesi ve sanığın vazgeçmeyi kabul etmesi nedeniyle TCK m.73/4, m.73/6 ve CMK m.223/8 uyarınca kamu davasının DÜŞMESİNE,",
+      "summary": "Konut dokunulmazlığının ihlali şikâyete bağlıdır. Uzlaştırma soruşturmada sonuçsuz kalmıştı; taraflar duruşmada özür, fotoğrafların imhası ve yazılı taahhüt karşılığında anlaştı."
+    },
+    {
+      "if": "p2_zor && !p1_amac && !p1_ani",
+      "winner": "p2",
+      "hukum": "Sanığın eyleminin zorunluluk hâli kapsamında kaldığı anlaşıldığından TCK m.25/2 ve CMK m.223/3-b uyarınca sanık hakkında CEZA VERİLMESİNE YER OLMADIĞINA,",
+      "summary": [
+        { "text": "Alt kata su sızıyordu ve kiracıya ulaşılamamıştı. Müdafi girişi zorunluluk hâline dayandırdı." },
+        { "if": "p1_sure", "text": " Katılan vekili sanığın 26 dakika kaldığını gösterdi; ama bu tek başına girişin amacını ya da tehlikenin ani olmadığını göstermedi." },
+        { "if": "!p1_sure", "text": " Katılan vekili, girişin vanayı kapatmanın ötesine geçtiğini gösteren bir delil sunmadı." },
+        { "if": "p1_ihtar", "text": " Ekinde yatak odası fotoğrafları olan ihtarname elinizdeydi; zorunluluk hâlinin orantısızlığını en iyi o gösterirdi." },
+        { "if": "p1_kacak", "text": " Sızıntının aylardır bilindiğini gösteren mesajlar da elinizdeydi." }
+      ]
+    },
+    {
+      "if": "p2_riza && !p1_rizaRet",
+      "winner": "p2",
+      "hukum": "Sanığın katılanın rızasıyla girdiği, suçun yasal unsurlarının oluşmadığı anlaşıldığından CMK m.223/2-a uyarınca sanığın BERAATİNE,",
+      "summary": [
+        { "text": "Müdafi 13 Mart sabahki mesajı rıza olarak sundu. Katılan vekili rızanın yalnızca o gün ve tesisatçıyla verildiğini ileri sürmedi." },
+        { "if": "p1_riza", "text": " Rızanın aynı akşam açıkça geri alındığını gösteren mesaj elinizdeydi." }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": "Sanığın TCK m.116/1 uyarınca 6 ay hapis cezasına, TCK m.62 uyarınca 1/6 indirimle 5 ay hapis cezası ile CEZALANDIRILMASINA,",
+      "summary": [
+        { "text": "Kiralanan daire katılanın konutudur; mülkiyetin sanıkta olması onu bu evin dışında bırakır, içinde değil." },
+        { "if": "p1_amac", "text": " Zorunluluk hâli savunması, girişte yatak odası ve dolap içi fotoğraflarının çekilip tahliye ihtarına eklendiğinin gösterilmesiyle çöktü: giriş tehlikeyi gidermenin çok ötesine geçmişti." },
+        { "if": "p1_ani", "text": " Sızıntının aylardır bilindiği ve sanığın tamir ettirmediği gösterildi; ani ve başka türlü önlenemeyecek bir tehlike yoktu." },
+        { "if": "p1_rizaRet", "text": " Rıza yalnızca cuma günü ve tesisatçıyla sınırlıydı" },
+        { "if": "p1_rizaRet && p1_riza", "text": " ve aynı akşam açıkça geri alınmıştı" },
+        { "if": "p1_rizaRet", "text": "." },
+        { "if": "p2_mulk || p2_hata", "text": " “Ev benim” savunması, konut dokunulmazlığının mülkiyeti değil konutta yaşayanı koruduğu gerekçesiyle reddedildi." },
+        { "if": "p2_ofke", "text": " Sanığın salondaki “kimseden izin almam” sözü, müdafi tarafından da sahiplenilince savunmayı zayıflattı." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,771 @@
+{
+  "id": "dk-agir-yaralama-tahrik",
+  "mode": "duel",
+  "difficulty": "zor",
+  "title": "Açık Kapı",
+  "area": "Ceza Hukuku · Silahla kasten yaralama ve haksız tahrik",
+  "court": "Samsun 4. Ağır Ceza Mahkemesi",
+  "courtShort": "4. AĞIR CEZA",
+  "esas": "2026/214 Esas",
+  "kararTarihi": "03.03.2027",
+  "color": "#6b2f2f",
+  "teaser": "Tek el ateş, bir itiş, sesi olmayan bir kamera kaydı ve salonda korkan bir eczacı. İlk haksız hareket kimden geldi? Cevap, kaydın tamamında ve tanığın gerçekten konuşabilmesinde.",
+  "sides": {
+    "p1": {
+      "role": "Katılan vekili",
+      "short": "Katılan"
+    },
+    "p2": {
+      "role": "Sanık müdafii",
+      "short": "Sanık"
+    }
+  },
+  "bench": {
+    "judges": 3,
+    "title": "Mahkeme Başkanı ve iki üye"
+  },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": {
+      "name": "Mahkeme Başkanı",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#d9a982",
+        "hair": "#6b6b70",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#d4a47a",
+        "hair": "#2c2c2c",
+        "style": "long"
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#b88560",
+        "hair": "#151515",
+        "style": "short",
+        "beard": true
+      }
+    },
+    "pros": {
+      "name": "Cumhuriyet Savcısı",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#edc7a3",
+        "hair": "#6e3a22",
+        "style": "bun",
+        "glasses": true
+      }
+    },
+    "sanik": {
+      "name": "Volkan Er · Sanık (tutuklu)",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#c28a5c",
+        "hair": "#1d1510",
+        "style": "short",
+        "beard": true,
+        "shirt": "#3a3a3a",
+        "inner": "#e6e0d4"
+      }
+    },
+    "tanik": {
+      "name": "Gülay Şen · Tanık (eczacı)",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#e8c09c",
+        "hair": "#4a3426",
+        "style": "bun",
+        "glasses": true,
+        "shirt": "#e6e0d4",
+        "inner": "#c9c4b8"
+      }
+    },
+    "dinleyici": {
+      "name": "Arka sıradan bir ses",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#c99670",
+        "hair": "#2a2220",
+        "style": "short",
+        "shirt": "#4a4f57",
+        "inner": "#c9c4b8"
+      }
+    }
+  },
+  "evidence": [
+    {
+      "id": "ev_kisa",
+      "type": "belge",
+      "title": "35 saniyelik telefon görüntüsü",
+      "desc": "Katılanın yeğeni Emre Avcı'nın eczanenin kamera monitöründen telefonla çektiği görüntü. 18.42.00–18.42.35: sanık elinde tabancayla yürüyor; katılan kaldırımda, elleri boş; tek atış; sanık uzaklaşıyor. Ses yok."
+    },
+    {
+      "id": "ev_tam",
+      "type": "belge",
+      "title": "Tam kaydın bilirkişi incelemesi",
+      "desc": "Emre Avcı'nın 23.05.2026'da eczanenin cihazından USB'ye aldığı 20 dakikalık kopya. Kesinti yok, zaman damgaları tutarlı. 18.40.10 sanık parmağını katılanın yüzüne sallayarak bağırıyor; 18.40.30 katılan sanığı itiyor, sanık düşüyor; 18.41.10 sanık arabasına yürüyor; 18.42.20 tabancayla dönüyor; 18.42.25 dört metreden tek atış. Eczanenin camlı kapısı kayıt boyunca açık. Ses yok.",
+      "if": "p1_tam || p1_kendi || p2_tam"
+    },
+    {
+      "id": "ev_gulay",
+      "type": "beyan",
+      "title": "Tanık Gülay Şen'in kolluk ifadesi",
+      "desc": "“Eczanenin kapısı açıktı. Volkan Bey, Cengiz Bey'in annesine çok ağır bir küfür etti; Cengiz Bey de onu itti, Volkan yere düştü. Sonra Volkan arabasına gitti.”"
+    },
+    {
+      "id": "ev_atk",
+      "type": "belge",
+      "title": "Adli Tıp raporu",
+      "desc": "Sağ femur kırığı; hayat fonksiyonlarına etkisi orta (3). Femoral arter yaralanması nedeniyle hayati tehlike geçirmiştir."
+    },
+    {
+      "id": "law_29",
+      "type": "kanun",
+      "title": "TCK m.29 · Haksız tahrik",
+      "desc": "Haksız bir fiilin meydana getirdiği hiddet veya şiddetli elemin etkisi altında suç işleyen kimsenin cezası, öldürme dışındaki hâllerde dörtte birinden dörtte üçüne kadar indirilir.",
+      "law": "TCK m.29"
+    }
+  ],
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Samsun, İlkadım. Oto galerici Cengiz Avcı ile yan dükkândaki kasap Volkan Er haftalardır kaldırıma park edilen araçlar yüzünden tartışıyor."
+    },
+    {
+      "who": "narr",
+      "text": "22.05.2026 akşamı tartışma büyüdü. Volkan arabasına gitti, ruhsatsız tabancasıyla döndü ve dört metreden Cengiz'in sağ uyluğuna bir el ateş etti. Kemik kırıldı, atardamar zedelendi; Cengiz ameliyatla kurtuldu."
+    },
+    {
+      "who": "narr",
+      "text": "Polise yalnızca Cengiz'in yeğeni Emre'nin eczane monitöründen telefonla çektiği 35 saniyelik görüntü verildi. Eczanenin kayıt cihazına el konulmadı; cihaz kayıtların üzerine 30 günde bir yazıyor."
+    },
+    {
+      "who": "narr",
+      "text": "İddianame kasten öldürmeye teşebbüsten ve ruhsatsız silah taşımaktan düzenlendi. Mahkeme ilk duruşmada, eylemin nitelikli kasten yaralama sayılabileceğini CMK m.226 uyarınca sanığa bildirdi. Asıl kavga şimdi başka yerde: haksız tahrik kimden geldi?"
+    }
+  ],
+  "docs": [
+    {
+      "t": "İddianame",
+      "d": "TCK m.81/1, m.35 (kasten öldürmeye teşebbüs); 6136 s.K. m.13/1 (ruhsatsız silah)."
+    },
+    {
+      "t": "Adli Tıp raporu",
+      "d": "Sağ femur kırığı, hayat fonksiyonlarına etkisi orta (3). Femoral arter yaralanması: hayati tehlike geçirmiştir."
+    },
+    {
+      "t": "35 saniyelik görüntü",
+      "d": "Monitörden telefonla çekilmiş. Yalnızca silahla dönüş ve atış görünüyor. Ses yok."
+    },
+    {
+      "t": "Kolluk tutanağı",
+      "d": "Eczanenin kayıt cihazına el konulmadı. Eczacı: “Cihaz 30 günde bir üzerine yazıyor.”"
+    },
+    {
+      "t": "Tanık Gülay Şen (kolluk)",
+      "d": "“Kapı açıktı. Volkan, Cengiz'in annesine ağır bir küfür etti; Cengiz onu itti.”"
+    },
+    {
+      "t": "Sanığın savunması",
+      "d": "“Cengiz beni itti, çarşının ortasında yere düşürdü, rezil etti. Gözüm döndü. Öldürmek istemedim, bacağına sıktım.”"
+    },
+    {
+      "t": "Katılanın beyanı",
+      "d": "“Bana küfretti, ben uzaklaştırmak için ittim. Sonra silahla geldi.”"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Nitelendirme değişikliği sanığa bildirildi. Katılan vekili, delil talepleriniz?"
+        },
+        {
+          "who": "narr",
+          "text": "Katılan vekili biliyor: Emre, olayın ertesi gecesi eczanenin cihazındaki kaydın tamamını bir USB belleğe almıştı. Kayıtta itme de görünüyor."
+        }
+      ],
+      "prompt": "Tam kayıt hakkında ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Katılanın yeğenindeki tam kopyaya CMK m.123 uyarınca el konulmasını, bütünlüğünün bilirkişiye incelettirilmesini ve kaydın tamamının izlenmesini talep et.",
+          "delta": 20,
+          "set": [
+            "p1_tam"
+          ],
+          "law": "CMK m.123",
+          "note": "Tam kayıt bazı yönleriyle karşı tarafın işine yarayabilir; ama katılan vekili delili saklayamaz, saklarsa bütün anlatımının güvenilirliğini yitirir. Delilin mahkeme eliyle alınması ve bütünlüğünün denetlenmesi onu hükme esas alınabilir kılar.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "USB belleğe el konulmasına ve bilirkişi incelemesine karar verildi."
+            }
+          ]
+        },
+        {
+          "text": "35 saniyelik görüntü yeterli; başka kayıt istemiyoruz.",
+          "delta": -10,
+          "set": [
+            "p1_kisa"
+          ],
+          "note": "Müvekkil tarafının elinde tam kayıt var. Kesilmiş bir parçayla yetinmek, kayıt ortaya çıkarsa katılanın bütün anlatımını şüpheli hâle getirir."
+        },
+        {
+          "text": "USB'yi biz mahkemeye sunarız; ayrıca bir karara gerek yok.",
+          "delta": -5,
+          "set": [
+            "p1_kendi"
+          ],
+          "law": "CMK m.123",
+          "note": "Kaydı sunmanız doğru; ama tarafın kendi seçip getirdiği bir kopya “seçilerek getirildi” itirazına açıktır. Mahkeme yine el koyup bilirkişiye inceletmek zorunda kaldı; bir duruşma kaybettiniz.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Sunulan USB belleğe el konuldu; bütünlüğünün bilirkişiye incelettirilmesine karar verildi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Cezaevi görüş odası. Volkan beş aydır tutuklu. Görüş süresi kısa; iki soruya vakit var."
+        }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Kavga nasıl başladı? İlk kim ne yaptı?",
+          "delta": 10,
+          "set": [
+            "p2_itme"
+          ],
+          "reply": [
+            {
+              "who": "sanik",
+              "text": "Arabasını yine dükkânın önüne çekmişti. Kaldır dedim, bağırdık. Belki ağır bir laf ettim... Ama ilk eli o kaldırdı: itti, yere düştüm. Bütün çarşının önünde."
+            }
+          ],
+          "note": "Müvekkil ağır bir söz söylemiş olabileceğini kabul ediyor. Haksız tahrikte ilk haksız hareketin kimden geldiği belirleyicidir."
+        },
+        {
+          "text": "Olayı baştan sona gösteren bir kayıt var mı?",
+          "delta": 15,
+          "set": [
+            "p2_usb"
+          ],
+          "reply": [
+            {
+              "who": "sanik",
+              "text": "Eczanenin çırağı söyledi: olayın ertesi gecesi Emre gelip cihazdaki her şeyi USB'ye almış. Polise sadece kısa kısmını vermişler."
+            }
+          ],
+          "note": "Kısa görüntü itmeyi göstermiyor. Tam kopya katılan tarafında; ona mahkeme eliyle ulaşmanız gerekiyor."
+        },
+        {
+          "text": "Eczacı Gülay Hanım'la sizin tarafınızdan kimse görüştü mü?",
+          "delta": 5,
+          "set": [
+            "p2_baski"
+          ],
+          "reply": [
+            {
+              "who": "sanik",
+              "text": "Amcamın oğulları eczaneye gitmiş, “ifadeni düzelt” demişler. Ben istemedim bunu, inanın."
+            }
+          ],
+          "note": "Bu bilgi savunmayı zehirleyebilir. Müdafi tanığa baskıya ortak olamaz; müvekkili ve ailesini uyarmalısınız. Tanık salonda çekinirse sebebini bileceksiniz."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Sanık müdafii, delillere ilişkin talepleriniz?"
+        }
+      ],
+      "prompt": "Ne talep edeceksiniz?",
+      "choices": [
+        {
+          "if": "p2_usb && !p1_tam && !p1_kendi",
+          "text": "Katılan tarafında eczane kaydının tam kopyası var. CMK m.123 uyarınca el konulmasını ve bilirkişi incelemesini talep ediyoruz; 35 saniyelik görüntü kesilmiş bir parçadır.",
+          "delta": 20,
+          "set": [
+            "p2_tam"
+          ],
+          "law": "CMK m.123",
+          "note": "Elkoyma, ispat aracı olarak yararlı görülen ve başkasının elinde bulunan eşyayı da kapsar; istem üzerine teslim edilmezse zorla el konulabilir. Kısa görüntünün eksikliğini doğru yerden yakaladınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "USB belleğe el konulmasına ve bilirkişi incelemesine karar verildi."
+            },
+            {
+              "who": "narr",
+              "text": "Katılan tarafı kopyayı ancak mahkemenin kararı üzerine teslim etti.",
+              "if": "p1_kisa"
+            }
+          ]
+        },
+        {
+          "if": "p1_tam || p1_kendi",
+          "text": "Tam kaydın bilirkişi incelemesine katılıyoruz. Olayın saniye saniye dökümü çıkarılsın; ilk fiziksel temasın anı tespit edilsin.",
+          "delta": 15,
+          "set": [
+            "p2_dokum"
+          ],
+          "law": "CMK m.63",
+          "note": "Kayıt artık dosyaya giriyor; savunmanın işi, ondan tahrikin başladığı anı çıkarmak."
+        },
+        {
+          "text": "35 saniyelik görüntü hukuka aykırı delildir; dosyadan çıkarılsın.",
+          "delta": -10,
+          "set": [
+            "p2_yasak"
+          ],
+          "law": "CMK m.206/2-a, m.217/2",
+          "note": "Kamuya açık bir sokağı gösteren güvenlik kamerasının monitöründen çekilmiş bir görüntüde hukuka aykırı bir elde etme yöntemi yok. Görüntünün eksik olması güvenilirlik sorunudur, delil yasağı değil.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Talep reddedildi."
+            }
+          ]
+        },
+        {
+          "if": "!p2_usb && !p1_tam && !p1_kendi",
+          "text": "Eczanenin kayıt cihazının getirtilmesini talep ediyoruz.",
+          "delta": 5,
+          "note": "Doğru düşünce, ama geç: cihaz kayıtların üzerine 30 günde bir yazıyor; olaydan beş ay sonra cihazda bir şey kalmadı. Kaydın başka bir kopyası olup olmadığını müvekkile sormadınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Eczaneden gelen yazıya göre olay gününe ait kayıt cihazda bulunmamaktadır."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "p1_tam || p1_kendi || p2_tam",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Bilirkişi raporu geldi: kopyada kesinti yok. Kayıt duruşmada izlendi. 18.40.30'da katılan sanığı itiyor, sanık yere düşüyor; 70 saniye sonra silahla dönüyor. Ses yok."
+        },
+        {
+          "who": "judge",
+          "text": "Katılan vekili?"
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Tam kayıt açık: ilk fiziksel saldırı katılandan geldi. Müvekkilimi çarşının ortasında yere itti. Haksız tahrik üst orandan uygulanmalıdır."
+      },
+      "prompt": "Bu beyanı hangi delille karşılayacaksınız?",
+      "choices": [],
+      "correct": [
+        "ev_gulay"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "p1_ilk"
+        ],
+        "law": "TCK m.29",
+        "note": "Kayıtta ses yok; itmeden önce ne söylendiğini göstermiyor. Tanığın ifadesi bu boşluğu dolduruyor: sanık önce katılanın annesine ağır bir küfür etmiş. Yargıtay'a göre ilk haksız hareketi yapan, karşı tarafın orantılı tepkisinden dolayı tahrik indirimi isteyemez. Ama ifade duruşmada doğrulanmalı.",
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Tanık Gülay Şen'in duruşmada dinlenmesine karar verildi."
+          }
+        ]
+      },
+      "responses": {
+        "ev_tam": {
+          "delta": 10,
+          "set": [
+            "p1_ara"
+          ],
+          "note": "Kayıt sanığın 70 saniye sonra arabasından silahla döndüğünü gösteriyor. Bu hiddeti ortadan kaldırmaz; ama bir itişe silahla karşılık vermenin ne kadar orantısız olduğunu gösterir ve indirim oranını düşürür. İlk haksız hareketin kimden geldiği sorusunu ise cevaplamaz."
+        },
+        "ev_kisa": {
+          "delta": -5,
+          "note": "Kısa görüntü itmeden sonrasını gösteriyor; tahrikin nasıl başladığı hakkında bir şey söylemez."
+        },
+        "ev_atk": {
+          "delta": -5,
+          "note": "Rapor yaralamanın ağırlığını gösterir; tahrik hakkında bir şey söylemez."
+        },
+        "law_29": {
+          "delta": 0,
+          "note": "Madde doğru; ama tartışılan vakıa: ilk haksız hareket kimden geldi. Vakıa delille gösterilir."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu delil müdafiin beyanını karşılamıyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz; itmenin ilk haksız hareket olduğu anlatımı cevapsız kaldı."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "!p1_tam && !p1_kendi && !p2_tam",
+      "lines": [
+        {
+          "who": "p2",
+          "text": "Müvekkilim katılan tarafından itilip çarşının ortasında yere düşürülmüştür. Haksız tahrik uygulanmalıdır."
+        },
+        {
+          "who": "judge",
+          "text": "Katılan vekili?"
+        }
+      ],
+      "prompt": "Tahrik iddiasına cevabınız?",
+      "choices": [
+        {
+          "text": "Tanık Gülay Şen kollukta, sanığın önce müvekkilin annesine ağır bir küfür ettiğini söyledi. İlk haksız hareket sanıktan geldi; tanığın dinlenmesini istiyoruz.",
+          "delta": 15,
+          "set": [
+            "p1_ilk"
+          ],
+          "law": "TCK m.29",
+          "note": "İlk haksız hareketi yapan, karşı tarafın orantılı tepkisinden dolayı tahrik indirimi isteyemez. Ama kolluk ifadesi duruşmada doğrulanmalı.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Tanığın duruşmada dinlenmesine karar verildi."
+            }
+          ]
+        },
+        {
+          "text": "Müvekkil sanığa hiç dokunmadı.",
+          "delta": -10,
+          "note": "Katılan da kendi beyanında ittiğini kabul ediyor, tanık da itmeyi anlatıyor. Delillerle çelişen bir inkâr güveninizi sarsar.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Tanığın duruşmada dinlenmesine karar verildi."
+            }
+          ]
+        },
+        {
+          "text": "Haksız tahrik yalnızca öldürme suçlarında uygulanır.",
+          "delta": -15,
+          "law": "TCK m.29",
+          "note": "TCK m.29 bütün suçlarda uygulanır; öldürme dışındaki hâllerde ceza dörtte birinden dörtte üçüne kadar indirilir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Tanığın duruşmada dinlenmesine karar verildi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Tanık Gülay Şen kürsünün önüne çağrıldı. Salon kalabalık; arka sıralarda sanığın yakınları oturuyor."
+        },
+        {
+          "who": "dinleyici",
+          "text": "Doğru söyle, bak!"
+        },
+        {
+          "who": "tanik",
+          "text": "Ben... Bir şey duymadım. Kapı kapalıydı galiba. Hatırlamıyorum."
+        },
+        {
+          "who": "judge",
+          "text": "Katılan vekili?"
+        }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "“Sayın Başkan, arka sıradan tanığa söz atıldı. Düzeni bozanların salondan çıkarılmasını, tanığın sanığın yokluğunda dinlenmesini ve tanığa baskı yapıldığı yönündeki beyanımızın tutanağa geçirilmesini talep ediyorum. Ardından kolluk ifadesiyle çelişkinin sorulmasını istiyorum.”",
+          "delta": 10,
+          "set": [
+            "gulay_ok"
+          ],
+          "law": "CMK m.200, m.203",
+          "note": "Önce baskıyı ortadan kaldırdınız, sonra çelişkiyi sordunuz. Duruşmanın düzenini bozanlar salondan çıkarılabilir (CMK m.203); tanığın sanığın yüzüne karşı gerçeği söylemeyeceğinden endişe edilirse sanık dinleme sırasında salondan çıkarılabilir (CMK m.200).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Söz atan dinleyiciler salondan çıkarılsın. Sanık, tanığın dinlenmesi süresince salon dışına alınsın."
+            },
+            {
+              "who": "tanik",
+              "text": "Kapı açıktı. Volkan Bey önce Cengiz Bey'in annesine çok ağır bir küfür etti, Cengiz Bey de onu itti. Korktum, o yüzden öyle dedim."
+            }
+          ]
+        },
+        {
+          "text": "“Tanık yalan söylüyor; hakkında yalan tanıklıktan işlem yapılsın!”",
+          "delta": -10,
+          "set": [
+            "gulay_no"
+          ],
+          "note": "Korkan bir tanığı daha da sıkıştırdınız. Önce baskıyı ortadan kaldırmalı, sonra çelişkiyi sormalıydınız.",
+          "reply": [
+            {
+              "who": "tanik",
+              "text": "Ben bir şey bilmiyorum..."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "gulay_ok",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Sanık müdafii, tanığa sorunuz var mı?"
+        }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Sanık salona alındığında tanığın beyanının ona okunmasını talep ediyorum. Tanığa sorum: Küfrü duyduğunuzda eczanenin neresindeydiniz, kapıya mesafeniz neydi?",
+          "delta": 15,
+          "set": [
+            "p2_soru"
+          ],
+          "law": "CMK m.200/2, m.201",
+          "note": "Sanığın yokluğunda yapılanların ona bildirilmesini istediniz ve doğrudan soru hakkınızı tanığın algı imkânına yönelttiniz. Tanık bağırışı duymuş; sözü kelimesi kelimesine duyup duymadığı belirsizleşti.",
+          "reply": [
+            {
+              "who": "tanik",
+              "text": "Tezgâhın arkasındaydım. Kapıya sekiz on metre var. Bağırdıklarını duydum... ne dediklerini, şey, annesiyle ilgili bir şeydi."
+            }
+          ]
+        },
+        {
+          "text": "Sanığın salondan çıkarılmasına itiraz ediyorum; tanık sanığın huzurunda dinlenmeliydi.",
+          "delta": -5,
+          "law": "CMK m.200",
+          "note": "Mahkeme, tanığın sanığın yüzüne karşı gerçeği söylemeyeceğinden endişe ederse sanığı dinleme sırasında salondan çıkarabilir. Söz atılan bir salonda bu endişe somuttu."
+        },
+        {
+          "if": "p2_baski",
+          "text": "Tanık önceki ifadesinde katılan tarafından yönlendirilmiştir.",
+          "delta": -15,
+          "note": "Baskının hangi taraftan geldiğini biliyorsunuz. Gerçeğe aykırı bir iddia meslek kurallarına aykırıdır ve tanığa yapılan baskının yükünü savunmaya bindirir."
+        },
+        {
+          "if": "!p2_baski",
+          "text": "Tanık önceki ifadesinde yönlendirilmiş olabilir.",
+          "delta": -5,
+          "note": "Dayanaksız bir iddia. Tanığın neyi, nereden algıladığını sormak çok daha etkili olurdu."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "!gulay_ok",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Sanık müdafii, tanığın beyanına karşı ne diyorsunuz?"
+        }
+      ],
+      "prompt": "Ne söyleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Tanık duruşmada olayı hatırlamadığını söyledi. Kolluk ifadesi duruşmada doğrulanmadıkça tek başına hükme esas alınamaz.",
+          "delta": 10,
+          "set": [
+            "p2_kolluk"
+          ],
+          "law": "CMK m.217/1",
+          "note": "Hâkim kararını duruşmada ortaya konulan ve huzurunda tartışılan delillere dayandırır. Doğrulanmamış bir kolluk ifadesi, ilk haksız hareketin kimden geldiğini tek başına gösteremez."
+        },
+        {
+          "if": "p2_baski",
+          "text": "Müvekkilin yakınlarının tanıkla görüşmesi bir komşuluk ziyaretiydi; baskı yok.",
+          "delta": -15,
+          "note": "Müvekkil size “ifadeni düzelt” dendiğini anlattı. Bildiğiniz bir gerçeğe aykırı beyan meslek kurallarına aykırıdır; tanığa baskıyı savunmuş oldunuz."
+        },
+        {
+          "text": "Sorum yok.",
+          "delta": 0,
+          "note": "Tanığın geri adımı lehinize; ama bunun hukuki sonucunu mahkemeye söylemediniz."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "pros",
+          "text": "Mütalaam: Tek atış, uyluğa ve yakın mesafeden yapılmış, ardından ikinci bir hamle olmamıştır. Eylem silahla, hayati tehlikeye ve kemik kırığına neden olacak şekilde kasten yaralamadır: TCK m.86/1, 86/3-e, 87/1-d, 87/3. Ayrıca 6136 sayılı Kanun m.13/1. Haksız tahrik yönünden takdir mahkemenindir."
+        },
+        {
+          "who": "judge",
+          "text": "Katılan vekili, esas hakkındaki beyanınız?"
+        }
+      ],
+      "prompt": "Son beyanınız?",
+      "choices": [
+        {
+          "if": "(p1_tam || p1_kendi || p2_tam) && p2_soru",
+          "text": "Tam kayıtta eczanenin kapısı olay boyunca açık; tanık bağırışı da sözü de duyabilecek konumdaydı. İlk haksız hareket sanıktan geldi; haksız tahrik uygulanmamalı.",
+          "delta": 15,
+          "set": [
+            "p1_kapi"
+          ],
+          "law": "TCK m.29",
+          "note": "Müdafiin tanığın algısına yönelttiği şüpheyi, mahkemenin kendisinin izlediği kayıtla karşıladınız. Tam kaydı istemeniz burada karşılığını verdi."
+        },
+        {
+          "if": "p1_tam || p1_kendi || p2_tam",
+          "text": "Kayıtta sanık itildikten 70 saniye sonra arabasından silahla dönüyor. Bir itişe silahla karşılık vermek açıkça orantısızdır; tahrik uygulanacaksa bile asgari oranda kalmalıdır.",
+          "delta": 10,
+          "set": [
+            "p1_ara"
+          ],
+          "law": "TCK m.29",
+          "note": "Tahrik oranı, haksız fiilin ağırlığı ile ona verilen tepkinin ağırlığı karşılaştırılarak belirlenir. Kayıt, ilk teması kimin yaptığını değilse de tepkinin ölçüsünü açıkça gösteriyor."
+        },
+        {
+          "text": "Eylem silahla, hayati tehlikeye ve kemik kırığına neden olacak biçimde kasten yaralamadır. İlk haksız hareket sanıktan geldiği için haksız tahrik uygulanmamalıdır.",
+          "delta": 10,
+          "law": "TCK m.86/3-e, m.87/1-d, m.87/3, m.29",
+          "note": "Nitelendirme mütalaayla uyumlu; tahrik yönündeki talebiniz ise ancak delillerle desteklenmişse karşılık bulur."
+        },
+        {
+          "text": "Sanık arabasına gidip silahla döndü; öldürme kastı açık. Kasten öldürmeye teşebbüsten hüküm kurulsun.",
+          "delta": 0,
+          "set": [
+            "p1_tes"
+          ],
+          "law": "TCK m.81/1, m.35",
+          "note": "İddianamede böyle; ama tek atış, uyluğa, yakın mesafeden ve ardından ikinci bir hamle yok. Hedef bölge, atış sayısı ve eylemin sürdürülmemesi yaralama kastını gösteriyor. Bu talebin kabul şansı düşük."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "gulay_ok && (!p2_soru || p1_kapi)",
+      "winner": "p1",
+      "hukum": "İddianamede kasten öldürmeye teşebbüs olarak nitelendirilen eylemin silahla, hayati tehlikeye ve kemik kırığına neden olacak şekilde kasten yaralama suçunu oluşturduğu anlaşıldığından sanığın TCK m.86/1, 86/3-e, 87/1-d, 87/3 ve 62 uyarınca belirlenen hapis cezası ile; ayrıca 6136 sayılı Kanun m.13/1 uyarınca CEZALANDIRILMASINA; haksız tahrik koşulları oluşmadığından TCK m.29'un UYGULANMASINA YER OLMADIĞINA,",
+      "summary": [
+        {
+          "text": "Tanık, baskıdan arındırılmış bir ortamda, sanığın önce katılanın annesine ağır bir küfür ettiğini doğruladı. İlk haksız hareketi yapan sanık, katılanın itme biçimindeki orantılı tepkisinden dolayı tahrik indiriminden yararlanamadı."
+        },
+        {
+          "if": "p1_ilk",
+          "text": " Katılan vekili tanığın kolluk ifadesini kayda karşı zamanında öne sürmüştü; tanığın duruşmadaki beyanı bu ifadeyle örtüştü."
+        },
+        {
+          "if": "p1_kapi",
+          "text": " Müdafi tanığın sözleri duyup duyamadığını sorguladı; ama tam kayıt eczanenin kapısının olay boyunca açık olduğunu gösterdi."
+        },
+        {
+          "if": "p1_kisa",
+          "text": " Katılan vekili tam kaydı ilk başta istemedi; kayıt ancak mahkemenin el koymasıyla dosyaya girdi."
+        },
+        {
+          "if": "p1_tes",
+          "text": " Öldürmeye teşebbüs talebi kabul görmedi: tek atış, uyluğa ve yakın mesafeden yapılmıştı."
+        }
+      ]
+    },
+    {
+      "if": "(p1_tam || p1_kendi || p2_tam) && !p1_ara && !gulay_ok",
+      "winner": "p2",
+      "hukum": "İddianamede kasten öldürmeye teşebbüs olarak nitelendirilen eylemin silahla, hayati tehlikeye ve kemik kırığına neden olacak şekilde kasten yaralama suçunu oluşturduğu anlaşıldığından sanığın TCK m.86/1, 86/3-e, 87/1-d, 87/3 uyarınca belirlenen cezasından TCK m.29 uyarınca 1/2 oranında, TCK m.62 uyarınca 1/6 oranında indirim yapılarak belirlenen hapis cezası ile; ayrıca 6136 sayılı Kanun m.13/1 uyarınca CEZALANDIRILMASINA,",
+      "summary": [
+        {
+          "text": "Tam kayıt, ilk fiziksel temasın katılanın sanığı yere itmesi olduğunu gösterdi. Kayıtta ses yoktu ve itmeden önce söylenenler duruşmada ortaya konulamadı; mahkeme ilk haksız hareketi katılana yükledi ve tahriki yarı oranında uyguladı."
+        },
+        {
+          "if": "gulay_no",
+          "text": " Korkan tanık duruşmada geri adım attı; katılan vekili önce baskıyı ortadan kaldırmadığı için kolluk ifadesi doğrulanamadı."
+        },
+        {
+          "if": "p2_tam && p1_kisa",
+          "text": " Tam kaydı katılan tarafı saklamış, kayıt müdafiin talebiyle ortaya çıkmıştı; bu, katılan anlatımına güveni de sarstı."
+        }
+      ]
+    },
+    {
+      "winner": "draw",
+      "stamp": "ASGARİ TAHRİK",
+      "hukum": "İddianamede kasten öldürmeye teşebbüs olarak nitelendirilen eylemin silahla, hayati tehlikeye ve kemik kırığına neden olacak şekilde kasten yaralama suçunu oluşturduğu anlaşıldığından sanığın TCK m.86/1, 86/3-e, 87/1-d, 87/3 uyarınca belirlenen cezasından TCK m.29 uyarınca 1/4 oranında, TCK m.62 uyarınca 1/6 oranında indirim yapılarak belirlenen hapis cezası ile; ayrıca 6136 sayılı Kanun m.13/1 uyarınca CEZALANDIRILMASINA,",
+      "summary": [
+        {
+          "if": "p1_ara",
+          "text": "Tam kayıt ilk fiziksel temasın katılandan geldiğini gösterdi; ama katılan vekili sanığın 70 saniye sonra arabasından silahla döndüğünü öne çıkardı. Bir itişe silahla karşılık verilmesi orantısız bulundu; tahrik asgari oranda uygulandı."
+        },
+        {
+          "if": "!p1_ara && !(p1_tam || p1_kendi || p2_tam)",
+          "text": "Kısa görüntü yalnızca atışı gösteriyordu; tam kayıt dosyaya girmedi. İlk haksız hareketin kimden geldiği kesin olarak belirlenemedi; şüpheden sanık yararlandı ve tahrik asgari oranda uygulandı."
+        },
+        {
+          "if": "p2_soru && !p1_kapi && gulay_ok",
+          "text": " Tanık annesiyle ilgili bir söz duyduğunu söyledi; ama tezgâhın arkasından sözü tam duyup duymadığı belirsiz kaldı. Karşılıklı haksız hareketlerde ilk hareketin kimden geldiği kesinleşmediği için tahrik asgari oranda uygulandı."
+        },
+        {
+          "if": "!p1_ara && p2_usb && !p2_tam",
+          "text": " Müdafi tam kopyanın varlığını biliyordu, ama ona el konulmasını istemedi."
+        },
+        {
+          "if": "gulay_no",
+          "text": " Korkan tanık duruşmada geri adım attı; kolluk ifadesi doğrulanamadı."
+        },
+        {
+          "if": "p1_tes",
+          "text": " Öldürmeye teşebbüs talebi kabul görmedi: tek atış, uyluğa ve yakın mesafeden yapılmıştı."
+        }
+      ]
+    }
+  ]
+}

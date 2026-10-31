@@ -91,6 +91,11 @@ import dkTasanInsaat from "./dk-tasan-insaat.json";
 import dkTrafikTazminat from "./dk-trafik-tazminat.json";
 import dkEserAyip from "./dk-eser-ayip.json";
 import dkCekMenfiTespit from "./dk-cek-menfi-tespit.json";
+import dkTehdit from "./dk-tehdit.json";
+import dkKonutDokunulmazligi from "./dk-konut-dokunulmazligi.json";
+import dkGuveniKotuye from "./dk-guveni-kotuye.json";
+import dkTaksirleYaralama from "./dk-taksirle-yaralama.json";
+import dkAgirYaralamaTahrik from "./dk-agir-yaralama-tahrik.json";
 
 export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, sozluFesih, uzakAdliye, yargitayDurusma, aihmBuyukDaire, ucmYargilama,
   danistayYonetmelik, danistayAceleKamulastirma, danistayCedBoruHatti, danistayImtiyaz, danistayVergiTeblig,
@@ -160,7 +165,12 @@ export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, soz
   dkTasanInsaat,
   dkTrafikTazminat,
   dkEserAyip,
-  dkCekMenfiTespit].map(c => normalizeCase(c as unknown as CaseFile));
+  dkCekMenfiTespit,
+  dkTehdit,
+  dkKonutDokunulmazligi,
+  dkGuveniKotuye,
+  dkTaksirleYaralama,
+  dkAgirYaralamaTahrik].map(c => normalizeCase(c as unknown as CaseFile));
 export const DUEL_CASES = CASES.filter(c => c.mode === "duel");
 export const SOLO_CASES = CASES.filter(c => c.mode === "solo");
 export const caseById = (id: string) => CASES.find(c => c.id === id)!;

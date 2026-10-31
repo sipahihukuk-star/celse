@@ -1,0 +1,392 @@
+{
+  "id": "dk-tehdit",
+  "mode": "duel",
+  "difficulty": "basit",
+  "title": "Silinen Mesaj",
+  "area": "Ceza Hukuku · Tehdit",
+  "court": "Gaziantep 4. Asliye Ceza Mahkemesi",
+  "courtShort": "4. ASLİYE CEZA",
+  "esas": "2026/612 Esas",
+  "kararTarihi": "24.11.2026",
+  "color": "#5a3b52",
+  "teaser": "Gece yarısı üç mesaj: biri belediyeye şikâyet, biri beddua, biri iki dakika sonra silinmiş. Hangisi tehdit, hangisi ispatlı?",
+  "sides": {
+    "p1": { "role": "Katılan vekili", "short": "Katılan" },
+    "p2": { "role": "Sanık müdafii", "short": "Sanık" }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": { "kind": "robe", "collar": "hakim", "skin": "#c99670", "hair": "#2b1d17", "style": "bun" }
+    },
+    "p1": {
+      "look": { "kind": "robe", "collar": "avukat", "skin": "#e3b98f", "hair": "#1c1c1c", "style": "short", "beard": true }
+    },
+    "p2": {
+      "look": { "kind": "robe", "collar": "avukat", "skin": "#b88560", "hair": "#6e3a22", "style": "long", "glasses": true }
+    },
+    "pros": {
+      "name": "Cumhuriyet Savcısı",
+      "np": "red",
+      "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#3a3a3a", "style": "bald" }
+    },
+    "sanik": {
+      "name": "Oğuzhan Kaya · Sanık",
+      "np": "civil",
+      "look": { "kind": "civil", "skin": "#d6a57c", "hair": "#1e1612", "style": "short", "beard": true, "shirt": "#3c4f63", "inner": "#e6e0d4" }
+    }
+  },
+  "evidence": [
+    {
+      "id": "ev_ekran",
+      "type": "belge",
+      "title": "Bildirim ekran görüntüsü",
+      "desc": "Katılanın telefonundan: 02.02.2026 23.47, Oğuzhan Kaya: “Yarın gelip seni o kapının önünde yere sererim.” Sohbette bu mesaj “Bu mesaj silindi” olarak görünüyor."
+    },
+    {
+      "id": "ev_mesajlar",
+      "type": "belge",
+      "title": "İlk iki mesaj",
+      "desc": "23.41: “Paramı vermezsen o kafeyi sana dar ederim, kapını kapattırırım.” 23.44: “Allah belanı versin, inşallah o dükkânla birlikte batarsın.” Sanık ikisini de kabul ediyor."
+    },
+    {
+      "id": "ev_bilirkisi",
+      "type": "belge",
+      "title": "Bilişim bilirkişisi raporu",
+      "desc": "Katılanın rızasıyla teslim ettiği telefonun imajı alındı. Bildirim geçmişinde 02.02.2026 23.47'de sanığa kayıtlı numaradan gelen “Yarın gelip seni o kapının önünde yere sererim” bildirimi var. Mesaj 23.49'da gönderen tarafından silinmiş. Ekran görüntüsüyle birebir uyumlu.",
+      "if": "p1_bilirkisi"
+    },
+    {
+      "id": "ev_uzlastirma",
+      "type": "belge",
+      "title": "Uzlaştırma raporu",
+      "desc": "Mart 2026. Şüpheli uzlaştırma teklifini reddetti; uzlaştırma sonuçsuz kaldı."
+    },
+    {
+      "id": "ev_zabita",
+      "type": "belge",
+      "title": "Zabıtaya verilen dilekçenin alındısı",
+      "desc": "03.02.2026, sanığın belediyeye verdiği dilekçe: “Kafe ruhsatsız çalışıyor, denetlenmesini istiyorum.”",
+      "if": "p2_zabita"
+    },
+    {
+      "id": "law_106",
+      "type": "kanun",
+      "title": "TCK m.106/1 · Tehdit",
+      "desc": "Birinci cümle: hayata, vücut veya cinsel dokunulmazlığa yönelik saldırı tehdidi; şikâyete bağlı değil. İkinci cümle: malvarlığına büyük zarar ya da sair kötülük tehdidi; şikâyete bağlı.",
+      "law": "TCK m.106/1"
+    }
+  ],
+  "intro": [
+    { "who": "narr", "text": "Gaziantep, Şahinbey. Serkan Oral bir kafe işletiyor. Kafenin mutfağını eski ortağı Oğuzhan Kaya kurmuştu; aralarında 85.000 TL'lik bir alacak tartışması var." },
+    { "who": "narr", "text": "02.02.2026 gecesi Oğuzhan, Serkan'a WhatsApp'tan üç mesaj gönderdi. Üçüncüsünü iki dakika sonra “herkesten sil” seçeneğiyle sildi; ama Serkan mesajı bildirim ekranında okumuş ve ekran görüntüsünü almıştı." },
+    { "who": "narr", "text": "Serkan 04.02.2026'da şikâyetçi oldu. Soruşturmada dosya uzlaştırmaya gönderildi; Oğuzhan teklifi reddetti, uzlaştırma sonuçsuz kaldı. İddianame TCK m.106/1 uyarınca tehditten düzenlendi." },
+    { "who": "narr", "text": "Bugün ilk duruşma. Serkan davaya katılan olarak kabul edildi." }
+  ],
+  "docs": [
+    { "t": "Mesaj 1 · 23.41", "d": "“Paramı vermezsen o kafeyi sana dar ederim, kapını kapattırırım.”" },
+    { "t": "Mesaj 2 · 23.44", "d": "“Allah belanı versin, inşallah o dükkânla birlikte batarsın.”" },
+    { "t": "Mesaj 3 · 23.47 (23.49'da silindi)", "d": "Katılanın sunduğu bildirim ekran görüntüsü: “Yarın gelip seni o kapının önünde yere sererim.”" },
+    { "t": "Uzlaştırma raporu", "d": "Mart 2026. Şüpheli teklifi reddetti; uzlaştırma sonuçsuz." },
+    { "t": "İddianame", "d": "TCK m.106/1. Delil olarak katılanın ekran görüntüleri gösterildi." }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "İddianame okundu, sanığın sorgusu yapıldı. Sanık ilk iki mesajı kabul etti; üçüncü mesaj için “hatırlamıyorum” dedi." },
+        { "who": "judge", "text": "Katılan vekili, delil talepleriniz?" }
+      ],
+      "prompt": "Silinen üçüncü mesajı nasıl ispatlayacaksınız?",
+      "choices": [
+        {
+          "text": "Müvekkilin telefonunu rızasıyla teslim ettiğini bildir; bildirim kayıtlarının bilişim bilirkişisine incelettirilmesini iste.",
+          "delta": 20,
+          "set": ["p1_bilirkisi"],
+          "law": "CMK m.63",
+          "note": "Silinen bir mesaj, ekran görüntüsünden çok cihazdaki kayıtlarla ispatlanır. Katılan kendi telefonunu rızasıyla veriyor; bilirkişi, görüntünün gerçek olduğunu ve mesajın sanığın numarasından geldiğini gösterebilir.",
+          "reply": [
+            { "who": "judge", "text": "Katılanın telefonunun incelenmek üzere bilişim bilirkişisine verilmesine karar verildi." }
+          ]
+        },
+        {
+          "text": "Ekran görüntüsü yeterlidir; başka delile gerek yok.",
+          "delta": -10,
+          "set": ["p1_ekran"],
+          "note": "Ekran görüntüsü kolayca değiştirilebilen bir çıktıdır. Sanık itiraz ederse tek başına mahkûmiyete yetmeyebilir; şüpheden sanık yararlanır."
+        },
+        {
+          "text": "Sanığın telefonuna el konulsun, bütün yazışmaları incelensin.",
+          "delta": -5,
+          "law": "CMK m.63",
+          "note": "Mesajın izi zaten müvekkilin telefonunda. Sanığın bütün yazışmalarını inceletmek bu soru için ölçüsüz bir taleptir; elinizdeki en kolay delili kullanmadınız.",
+          "reply": [
+            { "who": "judge", "text": "Talep şu aşamada reddedildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Kısa bir ara. Müdafi, adliye koridorunda müvekkiliyle konuşuyor; iki soruya vakit var." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "“Kapını kapattırırım” derken ne demek istediniz?",
+          "delta": 15,
+          "set": ["p2_zabita"],
+          "reply": [
+            { "who": "sanik", "text": "Kafesi ruhsatsız çalışıyor. Belediyeye şikâyet edip kapattıracağım dedim. Ertesi gün zabıtaya dilekçe de verdim, alındısı bende." }
+          ],
+          "note": "Hukuki bir yola başvuracağını söylemek, haksız bir kötülük bildirmek değildir. Alındı bunu belgeliyor."
+        },
+        {
+          "text": "Silinen mesajda ne yazıyordu?",
+          "delta": 5,
+          "set": ["p2_itiraf"],
+          "reply": [
+            { "who": "sanik", "text": "Öfkeyle “yere sererim” gibi bir şey yazdım. İki dakika sonra pişman olup sildim." }
+          ],
+          "note": "Müvekkilin anlattığı sır olarak kalır. Ama artık mesajın hiç yazılmadığını ileri süremezsiniz; savunmayı ispat eksikliği üzerine kurabilirsiniz."
+        },
+        {
+          "text": "Uzlaştırmada neden kabul etmediniz?",
+          "delta": 0,
+          "set": ["p2_uzl"],
+          "law": "CMK m.253/18",
+          "reply": [
+            { "who": "sanik", "text": "Suç işlemedim diye düşündüm, reddettim. Şimdi olsa kabul ederdim." }
+          ],
+          "note": "Tehdit (m.106/1) uzlaştırma kapsamındadır; ama sonuçsuz kalan uzlaştırma tekrarlanamaz (CMK m.253/18). Bunu bilmek sizi yanlış bir talepten korur, savunmaya ise bir şey katmaz."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmaya devam ediyoruz. Sanık müdafii, savunmanız?" }
+      ],
+      "prompt": "Savunmanızı neye dayandıracaksınız?",
+      "choices": [
+        {
+          "if": "p2_zabita",
+          "text": "İlk mesaj belediyeye şikâyet hakkını kullanma bildirimidir, ikinci mesaj bedduadır; ikisi de tehdit değildir. Üçüncü mesajın ise gönderildiği ispatlanmış değil.",
+          "delta": 20,
+          "set": ["p2_hukuki", "p2_ispat"],
+          "law": "TCK m.106/1",
+          "note": "Tehdit, failin kendisinin gerçekleştireceği haksız bir kötülüğü bildirmektir. Hukuki yola başvuracağını söylemek haksız değildir; beddua da failin kendi eylemine dayanmaz. Üçüncü mesaj için ispat yükünü katılana bıraktınız.",
+          "reply": [
+            { "who": "narr", "text": "Müdafi zabıta dilekçesinin alındısını sundu." }
+          ]
+        },
+        {
+          "if": "!p2_zabita",
+          "text": "Mesajlar tehdit değildir; üçüncü mesajın gönderildiği de ispatlanmış değil.",
+          "delta": 5,
+          "set": ["p2_ispat"],
+          "law": "TCK m.106/1",
+          "note": "İspat itirazı yerinde. Ama ilk mesajın neden haksız bir kötülük bildirmediğini gösteremediniz; “kapını kapattırırım” sözü bu hâliyle “sair kötülük” tehdidi sayılabilir (m.106/1 ikinci cümle)."
+        },
+        {
+          "text": "Müvekkil mesajı iki dakika sonra sildi; tehditten vazgeçti.",
+          "delta": -10,
+          "set": ["p2_sildi"],
+          "law": "TCK m.106/1, m.36",
+          "note": "Tehdit, mesaj muhataba ulaşıp okunduğu anda tamamlanır. Gönüllü vazgeçme yalnızca teşebbüste olur (m.36). Üstelik mesajın gönderildiğini kendiniz kabul etmiş oldunuz."
+        },
+        {
+          "text": "Dosyanın yeniden uzlaştırmaya gönderilmesini talep ediyoruz.",
+          "delta": -10,
+          "set": ["p2_uzlTalep"],
+          "law": "CMK m.253/18",
+          "note": [
+            { "text": "Tehdit (m.106/1) uzlaştırma kapsamındadır; ama soruşturmada uzlaştırma sonuçsuz kaldı ve tekrarlanamaz (CMK m.253/18). Esasa ilişkin savunma fırsatını da kullanmadınız." },
+            { "if": "p2_uzl", "text": " Müvekkil size reddettiğini anlatmıştı." }
+          ],
+          "reply": [
+            { "who": "judge", "text": "Uzlaştırma soruşturma evresinde sonuçsuz kalmıştır, tekrarı mümkün değil. Talep reddedildi." }
+          ]
+        },
+        {
+          "if": "p2_itiraf",
+          "text": "Müvekkil o mesajı hiç yazmadı; ekran görüntüsü sahtedir.",
+          "delta": -20,
+          "set": ["p2_ispat"],
+          "note": "Müvekkil size mesajı yazdığını söyledi. Müdafi ispat eksikliğini savunabilir, ama bildiği bir gerçeğe aykırı vakıa ileri süremez; bu meslek kurallarına aykırıdır."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "p2_ispat",
+      "lines": [
+        { "who": "narr", "text": "Bir sonraki duruşma. Bilişim bilirkişisinin raporu dosyaya geldi.", "if": "p1_bilirkisi" },
+        { "who": "judge", "text": "Katılan vekili, müdafiin itirazına ne diyorsunuz?" }
+      ],
+      "statement": { "who": "p2", "text": "Üçüncü mesaj yalnızca bir ekran görüntüsüdür. Böyle bir mesajın müvekkilimin numarasından gönderildiği ispatlanmamıştır. Şüpheden sanık yararlanır." },
+      "prompt": "Bu itirazı hangi delille karşılayacaksınız?",
+      "choices": [],
+      "correct": ["ev_bilirkisi"],
+      "hit": {
+        "delta": 25,
+        "set": ["p1_ispat"],
+        "note": "Bilirkişi raporu mesajın sanığın numarasından geldiğini ve 23.49'da silindiğini gösteriyor. Ekran görüntüsü artık tek başına değil; cihaz kayıtlarıyla doğrulandı.",
+        "reply": [
+          { "who": "judge", "text": "Rapor okundu, tutanağa geçirildi." }
+        ]
+      },
+      "responses": {
+        "ev_ekran": {
+          "delta": -5,
+          "note": [
+            { "text": "İtiraz edilen delili yeniden sunmak itirazı karşılamaz. Görüntünün doğruluğunu gösteren bağımsız bir kayıt gerekiyordu." },
+            { "if": "!p1_bilirkisi", "text": " Telefonun incelenmesini ilk duruşmada istemediğiniz için elinizde böyle bir kayıt yok." }
+          ]
+        },
+        "ev_mesajlar": {
+          "delta": -5,
+          "note": "İlk iki mesaj tartışmasız; itiraz ise üçüncü mesaja yönelik."
+        },
+        "ev_zabita": {
+          "delta": -10,
+          "note": "Bu dilekçe sanığın lehine: ilk mesajdaki “kapattırırım” sözünün belediyeye şikâyeti kastettiğini gösteriyor."
+        },
+        "law_106": {
+          "delta": 0,
+          "note": "Madde doğru, ama itiraz vakıaya yönelik: mesajın gönderilip gönderilmediği. Vakıa delille ispatlanır."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu belge mesajın gönderildiğini göstermiyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz cevapsız kaldı. Üçüncü mesaj ispatlanamazsa geriye “kapattırırım” sözü ve beddua kalır."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "!p2_ispat",
+      "lines": [
+        { "who": "p2", "text": "Müvekkilim mesajı iki dakika sonra silmiştir; tehditten vazgeçmiştir.", "if": "p2_sildi" },
+        { "who": "judge", "text": "Katılan vekili, esasa ilişkin beyanınız?" }
+      ],
+      "prompt": "Ne söyleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Tehdit, mesaj okunduğu anda tamamlandı; silmek vazgeçme değildir. Üçüncü mesaj hayata ve vücut dokunulmazlığına yönelik bir saldırıyı bildiriyor: TCK m.106/1 birinci cümle.",
+          "delta": 20,
+          "set": ["p1_ispat"],
+          "law": "TCK m.106/1, m.36",
+          "note": "Doğru: suç tamamlanmıştır ve birinci cümle şikâyete bağlı değildir. Müdafi mesajın varlığına itiraz etmedi; ekran görüntüsü bu hâliyle hükme esas alınabilir."
+        },
+        {
+          "text": "Mesajlar gece gönderildi; gece vakti nitelikli hâli uygulanmalı.",
+          "delta": -10,
+          "law": "TCK m.106/2",
+          "note": "Tehditte gece vakti diye bir nitelikli hâl yoktur. Nitelikli hâller m.106/2'de sayılır: silahla, kendini tanınmayacak hâle koyarak ya da imzasız mektupla, birden fazla kişiyle, suç örgütünün korkutucu gücünden yararlanarak. Bu hâllerde uzlaştırma da uygulanmaz; uzlaştırma yalnızca birinci fıkra içindir (CMK m.253/1-b)."
+        },
+        {
+          "text": "Müvekkilin manevi zararının da bu davada tazminine karar verilsin.",
+          "delta": -10,
+          "note": "Ceza mahkemesi tazminata hükmetmez; manevi tazminat hukuk mahkemesinde istenir."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "pros", "text": "Mütalaam: Sanığın üçüncü mesaj nedeniyle TCK m.106/1 birinci cümle uyarınca cezalandırılması talep olunur.", "if": "p1_ispat || !p2_ispat" },
+        { "who": "pros", "text": "Mütalaam: Üçüncü mesajın sanıkça gönderildiği şüpheli kalmıştır. İlk mesaj yönünden TCK m.106/1 ikinci cümle uyarınca cezalandırılması talep olunur.", "if": "p2_ispat && !p1_ispat" },
+        { "who": "judge", "text": "Sanık müdafii, esas hakkındaki savunmanız?" }
+      ],
+      "prompt": "Son savunmanız?",
+      "choices": [
+        {
+          "if": "p1_ispat || !p2_ispat",
+          "text": "Mesaj öfkeyle yazılıp hemen silinmiştir; ilk iki mesaj suç değildir. Ceza alt sınırdan belirlensin, sanığın pişmanlığı ve sabıkasızlığı TCK m.62 kapsamında değerlendirilsin.",
+          "delta": 15,
+          "set": ["p2_alt"],
+          "law": "TCK m.61, m.62",
+          "note": "Mesaj ispatlandıktan sonra en verimli savunma, suçu üçüncü mesajla sınırlamak ve cezanın bireyselleştirilmesini istemektir. Silme, vazgeçme değildir ama cezanın belirlenmesinde pişmanlık olarak değerlendirilebilir."
+        },
+        {
+          "if": "p1_ispat && p1_bilirkisi",
+          "text": "Bilirkişi raporu hukuka aykırı delildir; dosyadan çıkarılsın.",
+          "delta": -10,
+          "law": "CMK m.217/2",
+          "note": "Katılan kendi telefonunu rızasıyla teslim etti, inceleme mahkeme kararıyla yapıldı. Hukuka aykırı bir elde etme yok."
+        },
+        {
+          "if": "p2_ispat && !p1_ispat",
+          "text": "Üçüncü mesaj ispatlanmadı, şüpheden sanık yararlanır. İlk mesaj hukuki yola başvuru bildirimi, ikincisi bedduadır: beraat talep ediyoruz.",
+          "delta": 15,
+          "set": ["p2_beraat"],
+          "law": "CMK m.223/2",
+          "note": [
+            { "if": "p2_hukuki", "text": "Alındıyla desteklenen bu savunma ilk mesajı tehdit olmaktan çıkarıyor." },
+            { "if": "!p2_hukuki", "text": "İspat itirazı tuttu; ama ilk mesajın belediyeye şikâyeti kastettiğini belgeyle göstermediniz. Mahkeme onu “sair kötülük” tehdidi sayabilir." }
+          ]
+        },
+        {
+          "text": "Mesaj öfke anında yazıldı; ciddi değildi, korku yaratmaya elverişli değildi.",
+          "delta": -5,
+          "law": "TCK m.106/1",
+          "note": "“Yere sererim” sözü vücut dokunulmazlığına yönelik bir saldırıyı bildiriyor ve korku yaratmaya elverişli. Tehditte failin sözünü gerçekleştirmeyi gerçekten istemesi aranmaz; öfkeyle söylenmesi suçu ortadan kaldırmaz."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_ispat || !p2_ispat",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Sanığın 02.02.2026 saat 23.47'de gönderdiği mesaj nedeniyle TCK m.106/1 birinci cümle uyarınca" },
+        { "if": "p2_alt", "text": " alt sınırdan 6 ay hapis cezasına, TCK m.62 uyarınca 1/6 indirimle 5 ay hapis cezası ile CEZALANDIRILMASINA," },
+        { "if": "!p2_alt", "text": " 8 ay hapis cezası ile CEZALANDIRILMASINA," }
+      ],
+      "summary": [
+        { "text": "Üçüncü mesaj katılanın vücut dokunulmazlığına yönelik bir saldırıyı bildiriyordu. Bu suç şikâyete bağlı değildir ve uzlaştırma soruşturmada sonuçsuz kalmıştı." },
+        { "if": "p2_ispat && p1_bilirkisi", "text": " Müdafi mesajın varlığına itiraz etti; ama katılan vekilinin istediği bilirkişi incelemesi mesajı cihaz kayıtlarıyla doğruladı." },
+        { "if": "p2_sildi", "text": " “Mesaj silindi” savunması sonuç doğurmadı: tamamlanmış suçta gönüllü vazgeçme olmaz." },
+        { "if": "p2_uzlTalep", "text": " Sonuçsuz kalmış uzlaştırmanın tekrarı istendi; CMK m.253/18 buna izin vermez." },
+        { "if": "p2_hukuki", "text": " İlk mesajın belediyeye şikâyeti, ikincisinin beddua olduğu kabul edildi; hüküm yalnızca üçüncü mesaja dayandı." },
+        { "if": "p2_alt", "text": " Müdafiin bireyselleştirme talebiyle ceza alt sınırdan belirlendi." }
+      ]
+    },
+    {
+      "if": "p2_hukuki",
+      "winner": "p2",
+      "hukum": "Üçüncü mesajın sanık tarafından gönderildiği sabit olmadığından, ilk iki mesaj ise tehdit suçunu oluşturmadığından CMK m.223/2 uyarınca sanığın BERAATİNE,",
+      "summary": [
+        { "text": "Müdafi, ilk mesajdaki “kapattırırım” sözünün zabıtaya şikâyeti kastettiğini alındıyla gösterdi; hukuki bir yola başvuracağını söylemek tehdit değildir. İkinci mesaj bir bedduaydı." },
+        { "if": "p1_ekran", "text": " Katılan vekili silinen mesajı yalnızca ekran görüntüsüyle ispatlamaya çalıştı; telefonun bilirkişiye incelettirilmesini istemedi." },
+        { "if": "!p1_ekran && !p1_bilirkisi", "text": " Katılan vekili mesajın izini taşıyan kendi telefonunu inceletmek yerine sanığın telefonuna el konulmasını istedi; talep reddedildi ve mesaj doğrulanamadı." },
+        { "if": "p1_bilirkisi", "text": " Bilirkişi raporu dosyadaydı, ama müdafiin itirazına karşı sunulmadı." }
+      ]
+    },
+    {
+      "winner": "draw",
+      "stamp": "KISMİ MAHKÛMİYET",
+      "hukum": "Üçüncü mesaj yönünden sanığın eylemi sabit görülmediğinden; ilk mesaj nedeniyle TCK m.106/1 ikinci cümle uyarınca 60 gün karşılığı 1.200 TL ADLİ PARA CEZASI İLE CEZALANDIRILMASINA,",
+      "summary": [
+        { "text": "Silinen mesaj ispatlanamadı. Geriye kalan “kapını kapattırırım” sözü, müdafi bunun belediyeye şikâyeti kastettiğini göstermediği için “sair kötülük” tehdidi sayıldı. Bu hâl şikâyete bağlıdır; şikâyet süresinde yapılmıştı." },
+        { "if": "p1_ekran", "text": " Katılan vekili telefonun bilirkişiye incelettirilmesini isteseydi, ağır olan birinci cümle uygulanabilirdi." }
+      ]
+    }
+  ]
+}
