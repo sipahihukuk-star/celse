@@ -27,6 +27,10 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
   const { game, phase, scene } = court;
   const { width } = useWindowDimensions();
   const [docs, setDocs] = useState(false);
+  const [record, setRecord] = useState(false);
+  // Duruşma tutanağı: gösterilen her satır ve verilen her karar, sırasıyla.
+  const [history, setHistory] = useState<{ who: string; text: string; karar?: boolean }[]>([]);
+  const seen = useRef(new WeakMap<object, number>());
   const duel = c.mode === "duel";
   const wide = width >= 860;
 
@@ -52,6 +56,16 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
   useEffect(() => { scroller.current?.scrollTo({ y: 0, animated: false }); }, [phase]);
 
   const tapLine = () => (tw.done ? court.next() : tw.finish());
+
+  useEffect(() => {
+    if (phase.k !== "lines" || !line) return;
+    const max = seen.current.get(phase.lines) ?? -1;
+    if (phase.i > max) { seen.current.set(phase.lines, phase.i); setHistory(h => [...h, { who: line.who, text: line.text }]); }
+  }, [phase]);
+  useEffect(() => {
+    const e = game.log[game.log.length - 1];
+    if (e) setHistory(h => [...h, { who: e.side, text: `${c.sides[e.side].short}: ${e.text}`, karar: true }]);
+  }, [game.log.length]);
 
   // Seslendirme: her yeni satır, soru ve geri bildirim okunur.
   const [voiceOn, setVoiceOn] = useVoiceEnabled();
@@ -93,7 +107,13 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
             <Pressable onPress={tapLine} accessibilityRole="button" accessibilityLabel="Devam">
               <View style={styles.np}><View style={[styles.dot, { backgroundColor: speakerName(line.who).dot }]} /><Text style={line.who === "narr" ? styles.npNarr : styles.npText}>{speakerName(line.who).name}</Text></View>
               <Text style={[styles.dlg, line.who === "narr" && styles.dlgNarr]}>{tw.shown}</Text>
-              <View style={styles.rowEnd}><Btn kind="next" label="Devam ▸" onPress={tapLine} /></View>
+              <View style={styles.rowBetween}>
+                <View style={{ flexDirection: "row", gap: 8 }}>
+                  <Btn kind="ghost" label="‹ Geri" onPress={court.prev} disabled={phase.i === 0} />
+                  <Btn kind="ghost" label="Tutanak" onPress={() => setRecord(true)} disabled={history.length < 2} />
+                </View>
+                <Btn kind="next" label="Devam ▸" onPress={tapLine} />
+              </View>
             </Pressable>
           )}
 
@@ -184,6 +204,9 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
                     </View>
                   );
                 })()}
+                {!isAI && history.length > 0 && (
+                  <View style={styles.rowStart}><Btn kind="ghost" label="‹ Önceki konuşmaları oku" onPress={() => setRecord(true)} /></View>
+                )}
                 {isAI && <Text style={styles.thinking}>{players[st.side].name} düşünüyor…</Text>}
               </View>
             );
@@ -212,6 +235,24 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
           })()}
         </ScrollView>
       </View>
+
+      <Modal visible={record} transparent animationType="fade" onRequestClose={() => setRecord(false)}>
+        <Pressable style={styles.overlay} onPress={() => setRecord(false)}>
+          <Pressable style={styles.sheet} onPress={() => {}}>
+            <Text style={styles.sheetTitle}>Duruşma tutanağı</Text>
+            <Text style={styles.sheetSub}>{c.court} · {c.esas}</Text>
+            <ScrollView style={{ maxHeight: 460 }} ref={r => { setTimeout(() => r?.scrollToEnd?.({ animated: false }), 0); }}>
+              {history.map((h, i) => (
+                <View key={i} style={[styles.sheetItem, h.karar && styles.recKarar]}>
+                  <Text style={styles.sheetT}>{h.karar ? "KARAR" : speakerName(h.who).name}</Text>
+                  <Text style={styles.sheetD}>{h.text}</Text>
+                </View>
+              ))}
+            </ScrollView>
+            <Btn kind="ghostInk" label="Kapat" onPress={() => setRecord(false)} style={{ alignSelf: "flex-start", marginTop: 14 }} />
+          </Pressable>
+        </Pressable>
+      </Modal>
 
       <Modal visible={docs} transparent animationType="fade" onRequestClose={() => setDocs(false)}>
         <Pressable style={styles.overlay} onPress={() => setDocs(false)}>
@@ -261,6 +302,8 @@ const styles = StyleSheet.create({
   dlg: { fontFamily: F.body, fontSize: 18, lineHeight: 27, color: C.text, minHeight: 54, maxWidth: 760 },
   dlgNarr: { fontFamily: F.bodyItalic, color: C.textSoft },
   rowEnd: { flexDirection: "row", justifyContent: "flex-end", marginTop: 12 },
+  rowBetween: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8, marginTop: 12 },
+  recKarar: { backgroundColor: "rgba(208,166,76,0.14)", paddingHorizontal: 8 },
   rowStart: { flexDirection: "row", justifyContent: "flex-start", marginTop: 12 },
   statement: { backgroundColor: C.panel2, borderLeftWidth: 4, borderLeftColor: C.bad, borderRadius: 6, padding: 12, marginBottom: 12, gap: 4 },
   statementWho: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1, color: C.muted },

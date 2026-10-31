@@ -66,6 +66,12 @@ export function useCourt(c: CaseFile, players: Record<Side, Player>, onFinish: (
     return cur;
   });
 
+  /** Bir önceki satıra dön (yalnızca okumak için; verilmiş kararlar geri alınmaz). */
+  const prev = () => setF(cur => {
+    const p = cur.phase;
+    return p.k === "lines" && p.i > 0 ? { ...cur, phase: { ...p, i: p.i - 1 } } : cur;
+  });
+
   const choose = (choice: number, letter: string) => setF(cur => {
     const p = cur.phase;
     if (p.k !== "choices") return cur;
@@ -105,5 +111,5 @@ export function useCourt(c: CaseFile, players: Record<Side, Player>, onFinish: (
 
   useEffect(() => { if (p.k === "done") onFinish(f.game); }, [p.k]);
 
-  return { ...f, next, choose, chooseFree, aiTurn };
+  return { ...f, next, prev, choose, chooseFree, aiTurn };
 }
