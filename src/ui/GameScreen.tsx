@@ -3,7 +3,9 @@ import { Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, Vi
 import { bagOf, choicesOf, GameState, grade, kindOf } from "../engine/engine";
 import { CaseFile, Line, Player, Side } from "../engine/types";
 import { Btn, Chip, Scale } from "./kit";
+import PhotoStage from "./PhotoStage";
 import Stage from "./Stage";
+import { useViewMode } from "./viewMode";
 import { C, F, sideColor, toneColor } from "./theme";
 import { LETTERS, useCourt } from "./useCourt";
 import { speakLine, stopSpeaking, useVoiceEnabled } from "./voice";
@@ -69,6 +71,7 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
 
   // Seslendirme: her yeni satır, soru ve geri bildirim okunur.
   const [voiceOn, setVoiceOn] = useVoiceEnabled();
+  const [viewMode] = useViewMode();
   useEffect(() => {
     if (!voiceOn) return;
     if (phase.k === "lines" && line) speakLine(line.text, line.who);
@@ -98,7 +101,9 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
       </View>
 
       <View style={[styles.stageWrap, { flex: wide ? 1.15 : 1 }]}>
-        <Stage c={c} scene={scene} focus={focus} talking={!!line && !tw.done} />
+        {viewMode === "gercek"
+          ? <PhotoStage c={c} scene={scene} focus={focus} talking={!!line && !tw.done} />
+          : <Stage c={c} scene={scene} focus={focus} talking={!!line && !tw.done} />}
       </View>
 
       <View style={[styles.panel, { flex: wide ? 0.85 : 1 }]}>

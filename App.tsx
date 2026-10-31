@@ -52,7 +52,7 @@ export default function App() {
   const cases = useCases();
   const progress = useProgress();
   const { account } = useAccount();
-  const { premium } = usePremium();
+  const { premium, admin } = usePremium();
 
   // Yazı tipleri yüklenemezse (ör. ağ engeli) sistem yazı tipiyle devam edilir.
   if (!loaded && !error) return <View style={styles.root} />;
@@ -103,7 +103,7 @@ export default function App() {
         )}
         {route.k === "list" && (
           <CaseListScreen mode={route.mode} cases={route.mode === "duel" ? cases.duel : cases.solo}
-            lockedNote={c => c.mode === "duel" ? (premium ? undefined : "Abonelikle açılır")
+            lockedNote={c => admin ? undefined : c.mode === "duel" ? (premium ? undefined : "Abonelikle açılır")
               : lockOf.get(c.id) === "premium" ? "Abonelikle açılır"
               : !c.career?.off && !careerOpen.has(c.id) ? `Kariyerde açılır · ${CHAPTERS[levelOf(c) - 1].title}` : undefined}
             onLocked={c => { if (c.mode === "duel" || lockOf.get(c.id) === "premium") setRoute({ k: "paywall", back: "list", mode: c.mode }); }}

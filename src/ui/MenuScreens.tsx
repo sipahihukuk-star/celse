@@ -4,6 +4,7 @@ import { CaseFile, Player, Side } from "../engine/types";
 import { Account } from "../data/account";
 import { DIFFICULTY } from "../data/career";
 import { Btn, Scale } from "./kit";
+import { useViewMode } from "./viewMode";
 import { loadResults, SavedResult } from "./storage";
 import { C, F } from "./theme";
 
@@ -13,6 +14,7 @@ export function TitleScreen({ onCareer, onDuel, onSolo, onAdmin, onAccount, onSi
   const [tilt, setTilt] = useState(-4);
   useEffect(() => { const t = setInterval(() => setTilt(a => -a), 3000); return () => clearInterval(t); }, []);
   const wide = width >= 760;
+  const [view, setView] = useViewMode();
   return (
     <ScrollView contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "center" }]}>
       <View style={[styles.titleArt, wide && { flex: 0.8 }]}>
@@ -49,6 +51,9 @@ export function TitleScreen({ onCareer, onDuel, onSolo, onAdmin, onAccount, onSi
           <Btn kind="secondary" label="Karşılıklı duruşma" onPress={onDuel} />
           <Btn kind="secondary" label="Tek kişilik dosyalar" onPress={onSolo} />
         </View>
+        <Pressable accessibilityRole="button" onPress={() => setView(view === "gercek" ? "cizim" : "gercek")} style={styles.adminLink}>
+          <Text style={styles.adminLinkText}>Görünüm: {view === "gercek" ? "Gerçekçi ⇄ Çizime geç" : "Çizim ⇄ Gerçekçiye geç"}</Text>
+        </Pressable>
         <Pressable accessibilityRole="button" onPress={onAdmin} style={styles.adminLink}>
           <Text style={styles.adminLinkText}>Yönetim paneli ›</Text>
         </Pressable>
