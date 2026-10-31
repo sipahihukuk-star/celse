@@ -107,7 +107,7 @@ export default function Stage({ c, scene, focus, talking }: Props) {
           <LinearGradient colors={[...pal.floor]} style={[styles.abs, { left: 0, right: 0, bottom: 0, height: h * 0.18 }]} />
           {slots.filter(s => s.z < 2).map(charView)}
           <View style={[styles.bench, { width: benchW, left: (w - benchW) / 2, bottom: h * 0.18, height: h * 0.28, backgroundColor: pal.bench, borderTopColor: pal.benchTop }]}>
-            <View style={[styles.plaque, { backgroundColor: pal.plaque }]}><Text style={[styles.plaqueText, { fontSize: Math.max(8, Math.min(13, w / 70)) }]} numberOfLines={1}>{c.courtShort}</Text></View>
+            <View style={[styles.plaque, { backgroundColor: pal.plaque }, !duel && c.courtCast?.includes("client") && { alignSelf: "flex-start", marginLeft: 12, maxWidth: "34%" }]}><Text style={[styles.plaqueText, { fontSize: Math.max(8, Math.min(13, w / 70)) }]} numberOfLines={1}>{c.courtShort}</Text></View>
           </View>
           {slots.filter(s => s.z === 3).map(charView)}
           {!duel && c.courtCast?.includes("client") && (
