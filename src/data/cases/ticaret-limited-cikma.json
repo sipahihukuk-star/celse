@@ -1,0 +1,178 @@
+{
+  "id": "ticaret-limited-cikma",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "zor",
+  "title": "Üçüncü Ortak",
+  "area": "Ticaret Hukuku · Limited şirketten haklı sebeple çıkma ve ayrılma akçesi",
+  "court": "Antalya 3. Asliye Ticaret Mahkemesi",
+  "courtShort": "3. ASLİYE TİCARET",
+  "esas": "2026/1407 Esas",
+  "kararTarihi": "21.06.2027",
+  "color": "#6b4a2c",
+  "teaser": "Beş yıldır kâr payı yok, defterler kapalı, rezervasyonlar müdürün eşinin acentesine akıyor. Müvekkil artık bu şirkette kalmak istemiyor. Kime, hangi davayla ve payını hangi değerden isteyeceksiniz?",
+  "sides": { "p1": { "role": "Davacı (ortak) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 3, "title": "Mahkeme Başkanı ve iki üye" },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Mahkeme Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Ayşen Tekin · Davalı şirket vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#f1d0b0", "hair": "#2b1d17", "style": "bun" } },
+    "client": { "name": "Deniz Aksoy · Müvekkil (ortak)", "np": "civil", "look": { "kind": "civil", "skin": "#a8774f", "hair": "#1a1a1a", "style": "short", "beard": true, "shirt": "#2f6f73", "inner": "#e9e4d8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Antalya, Konyaaltı. Mavi Koy Turizm Ltd. Şti. sahil şeridinde 120 odalı bir otel işletiyor. Esas sermaye payları: Kemal Dağ yüzde 50 (müdür), kardeşi Ferit Dağ yüzde 20, Deniz Aksoy yüzde 30." },
+    { "who": "client", "text": "Otel her yıl kâr ediyor, ama beş yıldır kâr payı dağıtılmıyor. Kemal kendi maaşını iki katına çıkardı. Defterleri görmek istedim; “ticari sır” dediler." },
+    { "who": "client", "text": "Ortaklar kurulunda hep iki oya karşı bir oy. Esas sözleşmede çıkma hakkı yok, payımı devretmeme de onay vermiyorlar. Bu şirketten çıkmak ve payımın gerçek değerini almak istiyorum." },
+    { "who": "narr", "text": "Ayrılma akçesi talebi bakımından ihtiyaten arabulucuya başvuruldu; anlaşma sağlanamadı. Talep edilecek değer yüksek olduğundan dava, parasal sınırı aşan davalarda heyetle görülecek." }
+  ],
+  "docs": [
+    { "t": "Şirket sözleşmesi", "d": "Esas sermaye 3.000.000 TL; Deniz Aksoy'un payı 900.000 TL itibari değerli. Çıkma hakkı tanınmamış; pay devri ortaklar kurulunun onayına bağlı." },
+    { "t": "Finansal tablolar (2021–2025)", "d": "Beş yıl üst üste kâr; hiç kâr payı dağıtımı yok. Müdür ücreti 2023'te iki katına çıkmış. Otel taşınmazı bilançoda 2009 maliyet bedeliyle kayıtlı." },
+    { "t": "Ortaklar kurulu tutanakları", "d": "2022–2026: kâr payı dağıtılmaması ve müdür ücretinin artırılması kararları; Deniz Aksoy'un ret oyları." },
+    { "t": "Heyet notu", "d": "Dava değeri asliye ticaret mahkemesinde heyetle görülmesi gereken parasal sınırın üzerinde; dava başkan ve iki üyeden oluşan heyetle görülüyor (5235 s.K. m.5/3)." }
+  ],
+  "evidence": [
+    { "id": "ev_bilanco", "type": "belge", "title": "Finansal tablolar", "desc": "Beş yıl kâr, sıfır dağıtım; müdür ücretinde iki kat artış." },
+    { "id": "ev_tutanak", "type": "belge", "title": "Ortaklar kurulu tutanakları", "desc": "Kâr dağıtmama ve ücret artışı kararları; davacının ret oyları." },
+    { "id": "ev_acente", "type": "belge", "title": "Acente sözleşmesi ve komisyon dökümü", "desc": "Rezervasyonların yüzde 40'ı müdürün eşine ait Dağ Seyahat'e, yüzde 22 komisyonla verilmiş; diğer acentelerde oran yüzde 10.", "if": "acente" },
+    { "id": "ev_bilgi", "type": "belge", "title": "Bilgi alma ihtarları ve ret cevabı", "desc": "2025'te iki noter ihtarıyla defter ve sözleşmeler istenmiş; müdürün cevabı: “Ticari sır; paylaşılamaz.”", "if": "bilgi" },
+    { "id": "law_641", "type": "kanun", "title": "TTK m.641 · Ayrılma akçesi", "desc": "Ayrılan ortak, esas sermaye payının gerçek değerine uyan ayrılma akçesini isteyebilir.", "law": "TTK m.641" }
+  ],
+  "steps": [
+    {
+      "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [ { "who": "narr", "text": "Deniz Aksoy büroda. Dilekçeyi yazmadan önce iki şeyi netleştirmeniz gerekiyor." } ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Acenteyle yapılan sözleşmeyi ya da komisyon oranlarını gösteren bir belge elinize geçti mi?", "delta": 15, "set": ["acente"],
+          "reply": [ { "who": "client", "text": "Muhasebeden ayrılan bir çalışan geçen yıl bana döküm gönderdi. Rezervasyonların yüzde 40'ı Kemal'in eşinin acentesine, yüzde 22 komisyonla gitmiş. Başkalarına yüzde 10 veriyoruz." } ],
+          "note": "Kilit soru. Müdürün şirket işini yakınına aktarması somut bir çıkar çatışmasıdır; haklı sebebin en güçlü dayanağı olabilir. Döküm delil çantanıza eklendi." },
+        { "text": "Bilgi alma taleplerinizi yazılı yaptınız mı, cevap aldınız mı?", "delta": 15, "set": ["bilgi"],
+          "reply": [ { "who": "client", "text": "İki kez noterden ihtar çektim. Kemal “ticari sır” diye cevap verdi, hiçbir belge göstermedi." } ],
+          "note": "Yerinde. Limited şirkette ortağın bilgi alma ve inceleme hakkı vardır (TTK m.614); yazılı ve gerekçesiz reddedilen talepler haklı sebebi destekler. İhtarlar delil çantanıza eklendi." },
+        { "text": "Sizin şirkete rakip bir işiniz ya da ortaklık borcunuzla ilgili bir aksaklık var mı?", "delta": 10,
+          "reply": [ { "who": "client", "text": "Hayır. Sermaye borcumu kuruluşta ödedim; başka bir turizm işim yok." } ],
+          "note": "İyi bir kontrol. Haklı sebebi kendi kusuruyla yaratan ortak buna dayanamaz; müvekkilin temiz olduğunu baştan bilmek önemli." },
+        { "text": "Otelin bugün kaç para edeceğini düşünüyorsunuz?", "delta": 5,
+          "reply": [ { "who": "client", "text": "Bölgedeki satışlara bakılırsa en az 400 milyon TL. Bilançoda 2009 maliyetiyle duruyor." } ],
+          "note": "Ayrılma akçesi tartışmasında işe yarar bir bilgi; ama bu değeri bilirkişi heyeti belirleyecek." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "lines": [ { "who": "client", "text": "Ne istediğimi biliyorum: bu şirketten çıkmak. Ama nasıl?" } ],
+      "prompt": "Hangi davayı açacaksınız?",
+      "choices": [
+        { "text": "Haklı sebeple çıkma davası ve aynı davada ayrılma akçesinin ödenmesi. Esas sözleşmede çıkma hakkı olmasa da haklı sebep varsa her ortak çıkma davası açabilir.", "delta": 20, "set": ["yol"],
+          "law": "TTK m.638/2 · m.641",
+          "note": "Doğru. Her ortak haklı sebeplerin varlığı hâlinde şirketten çıkmasına karar verilmesi için dava açabilir (TTK m.638/2); ayrılan ortak payının gerçek değerine uyan ayrılma akçesini isteyebilir (m.641). Uygulamada iki talep birlikte ileri sürülür." },
+        { "text": "Haklı sebeple şirketin feshi davası.", "delta": 5, "set": ["fesih"],
+          "law": "TTK m.636/3",
+          "note": "Mümkün, ama ağır bir yol. Müvekkil şirketin sona ermesini değil, kendisinin çıkmasını istiyor. Mahkeme fesih yerine davacıya payının gerçek değerinin ödenmesine ya da uygun başka bir çözüme karar verebilir; ama talebi baştan doğru kurmak daha iyiydi." },
+        { "text": "Kemal ve Ferit Dağ'a karşı, Deniz'in payını gerçek değerinden satın almaya zorlanmaları davası.", "delta": -10,
+          "note": "Böyle bir dava türü yok. Diğer ortakları payı satın almaya zorlayan bir hüküm bulunmuyor; kanunun öngördüğü yol çıkma davası ve ayrılma akçesidir." },
+        { "text": "Önce pay devri için ortaklar kuruluna bir kez daha başvuralım; reddederlerse bekleriz.", "delta": -5,
+          "note": "Pay devri ortaklar kurulunun onayına bağlı ve onay zaten verilmiyor. Bu, müvekkili aynı çıkmazda bırakır." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "lines": [ { "who": "narr", "text": "Dilekçenin taraf kısmına geldiniz. Müvekkil “Kemal'i ve Ferit'i davalı yazalım; bu durumu onlar yarattı” diyor." } ],
+      "prompt": "Davalı olarak kimi göstereceksiniz?",
+      "choices": [
+        { "text": "Yalnızca şirketi. Çıkma kararı şirketle ortaklık ilişkisini sona erdirir; ayrılma akçesi borcu da şirkete aittir.", "delta": 15, "set": ["husumet"],
+          "law": "TTK m.638/2 · m.641",
+          "note": "Doğru. Çıkma davası ve ayrılma akçesi talebi şirkete yöneltilir. Diğer ortaklar davanın tarafı değildir; onları davalı göstermek kendileri yönünden husumet yokluğundan ret ve vekâlet ücreti riski doğurur." },
+        { "text": "Kemal ve Ferit Dağ'ı; haklı sebebi onlar yarattı.", "delta": -20, "set": ["yanlisHusumet"],
+          "law": "HMK m.124",
+          "note": "Ağır usul hatası. Davanın konusu şirketle ortaklık ilişkisinin sona ermesi ve şirketin ayrılma akçesi borcu. Ortaklar bu davada sıfatı bulunan taraf değildir; davalı şirket olmalıydı. Taraf değişikliği ancak karşı tarafın rızası ya da kabul edilebilir bir yanılgı hâlinde mümkündür (HMK m.124)." },
+        { "text": "İhtiyaten şirketi ve iki ortağı birlikte.", "delta": -5, "set": ["husumet", "fazlaDavali"],
+          "note": "Şirket davalı olduğu için dava yürür; ama ortaklar yönünden husumet yokluğundan ret ve onlar lehine vekâlet ücreti çıkar. İhtiyat değil, masraf." }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court", "if": "!yanlisHusumet",
+      "lines": [ { "who": "judge", "text": "Heyet hazır. Davalı şirket vekili, savunmanızı özetleyin." } ],
+      "statement": { "who": "opp", "text": "Kâr, otelin yenilenmesi için şirkette bırakıldı. Müdür hiçbir çıkar çatışmasına girmedi; bütün işlemler şirketin yararınadır. Davacı yalnızca payını pahalıya satmak istiyor." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_acente"],
+      "hit": { "delta": 25, "set": ["cikar"],
+        "reply": [ { "who": "judge", "text": "Acente sözleşmesinin ve komisyon kayıtlarının davalı şirketten getirtilmesine karar verildi." }, { "who": "opp", "text": "…Dağ Seyahat'in hizmet kalitesi daha yüksek komisyonu haklı kılıyor." } ],
+        "note": "Doğru delil. Müdürün eşinin acentesine piyasanın iki katı komisyonla iş aktarması, “çıkar çatışması yok” beyanını doğrudan çürütüyor." },
+      "responses": {
+        "ev_bilgi": { "delta": 10, "set": ["bilgiItiraz"],
+          "note": "Değerli bir delil: bilgi alma hakkı gerekçesiz reddedilmiş (TTK m.614). Ama bu beyandaki “çıkar çatışması yok” iddiasını çürütmüyor; acente kayıtları bunun için gerekliydi." },
+        "ev_bilanco": { "delta": 5, "set": ["bilgiItiraz"],
+          "note": "Beş yıl kâr dağıtılmadığını gösteriyor. Ancak yatırım savunmasına ve çıkar çatışması iddiasına tek başına cevap vermiyor." },
+        "ev_tutanak": { "delta": -5, "note": "Tutanaklar kararların alındığını gösteriyor; çıkar çatışmasını değil." },
+        "law_641": { "delta": -5, "note": "Ayrılma akçesi maddesi; haklı sebebin varlığına ilişkin bu beyana cevap vermez." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil savunmaya cevap vermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; “bütün işlemler şirket yararına” savunması cevapsız kaldı." }
+    },
+    {
+      "side": "p1", "scene": "court", "if": "!yanlisHusumet",
+      "lines": [
+        { "who": "opp", "text": "Davacı iki yıldır ortaklar kurulu toplantılarına gelmiyor. Haklı sebep varsa onun kendi tutumundan doğmuştur." },
+        { "who": "judge", "text": "Davacı vekili, heyet haklı sebep ölçütünü ve davacının kendi durumunu duymak istiyor." }
+      ],
+      "prompt": "Haklı sebebi nasıl temellendireceksiniz?",
+      "choices": [
+        { "text": "Haklı sebep, ortaklığın sürdürülmesinin davacıdan beklenemeyecek hâle gelmesidir; kusurlu ortak buna dayanamaz. Müvekkil kusursuz: bilgi talepleri reddedildikten sonra toplantıların sonucunu değiştiremeyeceğini gördü. Beş yıl kâr dağıtılmaması, bilgi hakkının engellenmesi ve işin müdürün yakınına aktarılması birlikte çoğunluğun hakkını kötüye kullandığını gösteriyor.", "delta": 20, "set": ["hakli"],
+          "law": "TTK m.638/2 · m.614 · TMK m.2",
+          "note": "Doğru. Yargıtay, haklı sebebi kendi kusuruyla yaratan ortağın buna dayanamayacağını kabul eder; davacının kusursuzluğunu ve somut ihlalleri birlikte gösterdiniz." },
+        { "text": "Ortaklar arasında artık ciddi bir husumet var; bu tek başına haklı sebeptir.", "delta": -5,
+          "note": "Eksik. Geçimsizlik bir unsur olabilir, ama heyet somut ihlalleri ve davacının kusursuz olduğunu görmek ister." },
+        { "text": "Müvekkilin toplantılara gelmemesi önemsiz; çoğunluk zaten her kararı alıyor.", "delta": -10,
+          "note": "Karşı tarafın “kusurlu ortak” savunmasına cevap vermediniz. Davacının kendi tutumunun haklı sebebi doğurmadığını göstermek gerekiyordu." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court", "if": "!yanlisHusumet",
+      "lines": [
+        { "who": "judge", "text": "Heyet, ayrılma akçesinin belirlenmesi için bilirkişi heyeti görevlendirecek. Davacı vekili, değerleme ilkesine ilişkin talebiniz?" },
+        { "who": "opp", "text": "Ayrılma akçesi, son bilançodaki öz kaynağın yüzde 30'u olarak hesaplanmalıdır." }
+      ],
+      "prompt": "Değerlemenin nasıl yapılmasını isteyeceksiniz?",
+      "choices": [
+        { "text": "Ayrılma akçesi payın gerçek değeridir; itibari değer ya da defter değeri değil. Otel taşınmazının güncel piyasa değeri ve işletmenin değeri dâhil, şirketin karar tarihine en yakın tarihteki gerçek değeri esas alınmalı. Talebimizi bilirkişi raporuna göre artıracağımızı saklı tutuyoruz.", "delta": 20, "set": ["deger"],
+          "law": "TTK m.641 · HMK m.107",
+          "note": "Doğru. Ayrılma akçesi esas sermaye payının gerçek değeridir (m.641). Yargıtay, değerin karar tarihine en yakın tarihe göre belirlenmesini arar. Değer bilirkişiyle ortaya çıkacağı için belirsiz alacak olarak talep edip sonradan artırmak (HMK m.107) talebe bağlılık sorununu önler." },
+        { "text": "Esas sermaye payının itibari değeri: 900.000 TL.", "delta": -15, "set": ["dusukTalep"],
+          "law": "TTK m.641 · HMK m.26",
+          "note": "Büyük hata. İtibari değer gerçek değer değildir. Üstelik hâkim talepten fazlasına hükmedemez (HMK m.26); müvekkilin payı çok altında bir bedelle elinden çıkar." },
+        { "text": "Son bilançodaki öz kaynağın yüzde 30'u; davalının hesabını kabul ediyoruz.", "delta": -10, "set": ["dusukTalep"],
+          "law": "TTK m.641 · HMK m.26",
+          "note": "Defter değeri gerçek değer değildir; otel taşınmazı bilançoda 2009 maliyetiyle duruyor. Bu kabul talebinizi sınırladı (HMK m.26)." }
+      ]
+    }
+  ],
+  "outcomes": [
+    { "if": "yanlisHusumet", "winner": "p2",
+      "hukum": "Davanın pasif husumet yokluğundan REDDİNE,",
+      "summary": "Çıkma davası ve ayrılma akçesi talebi şirkete yöneltilmeliydi. Davalı ortaklar taraf değişikliğine rıza göstermedi, heyet de yanılgıyı kabul edilebilir bulmadı (HMK m.124). Haklı sebepler incelenmeden dava bitti." },
+    { "if": "(yol || fesih) && husumet && hakli && (cikar || bilgiItiraz) && deger", "winner": "p1",
+      "hukum": [
+        { "if": "yol", "text": "Davanın KABULÜ ile davacının haklı sebeple davalı şirketten ÇIKMASINA, esas sermaye payının bilirkişi heyetince karar tarihine en yakın tarihe göre belirlenen gerçek değeri olan 118.600.000 TL ayrılma akçesinin davalı şirketten alınarak davacıya verilmesine," },
+        { "if": "fesih", "text": "Fesih talebi yerine, davacıya esas sermaye payının bilirkişi heyetince belirlenen gerçek değeri olan 118.600.000 TL'nin davalı şirketçe ödenmesine ve davacının ortaklıktan ÇIKMASINA," }
+      ],
+      "summary": [
+        { "text": "Haklı sebep somut ihlallerle ve davacının kusursuzluğuyla ispatlandı (TTK m.638/2). Ayrılma akçesi defter değeri üzerinden değil, otel taşınmazı dâhil gerçek değer üzerinden belirlendi (m.641)." },
+        { "if": "fesih", "text": " Fesih istemiştiniz; heyet, kanunun tanıdığı yetkiyle fesih yerine payın gerçek değerinin ödenmesine karar verdi (m.636/3). Talebi baştan çıkma olarak kurmak daha doğruydu." },
+        { "if": "fazlaDavali", "text": " Ortaklar yönünden dava husumet yokluğundan reddedildi ve onlar lehine vekâlet ücreti çıktı." },
+        { "if": "!cikar", "text": " Haklı sebep bilgi hakkının engellenmesi ve kâr dağıtılmaması üzerinden kabul edildi; acente kayıtları dosyaya girse dava daha erken bitebilirdi." }
+      ] },
+    { "if": "(yol || fesih) && husumet && hakli && (cikar || bilgiItiraz)", "winner": "p1", "stamp": "YETERSİZ TALEP",
+      "hukum": "Davanın KABULÜ ile davacının haklı sebeple davalı şirketten ÇIKMASINA, talep edilen ayrılma akçesinin davalı şirketten alınarak davacıya verilmesine,",
+      "summary": "Çıkma davasını kazandınız. Ama ayrılma akçesini itibari değer ya da defter değeri üzerinden istediniz; bilirkişi heyeti gerçek değeri çok daha yüksek bulsa da mahkeme talepten fazlasına hükmedemedi (HMK m.26). Müvekkil çıktı, ama payının gerçek değerini alamadı." },
+    { "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        { "if": "!(yol || fesih)", "text": "Kanunda bulunmayan bir talep yoluna girildi; çıkma davası açılmadı." },
+        { "if": "(yol || fesih) && !hakli", "text": "Haklı sebep ölçütü ve davacının kusursuzluğu heyete gösterilemedi; “kendi tutumu” savunması kabul gördü." },
+        { "if": "(yol || fesih) && hakli", "text": "Haklı sebep ölçütünü doğru anlattınız ama somut ihlalleri belgeyle göstermediniz; yatırım savunması cevapsız kaldı." }
+      ] }
+  ]
+}

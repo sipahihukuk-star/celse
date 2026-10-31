@@ -1,0 +1,151 @@
+{
+  "id": "ticaret-cari-hesap",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "basit",
+  "title": "Açık Hesap",
+  "area": "Ticaret Hukuku · Cari hesap ve fatura alacağı",
+  "court": "Samsun 2. Asliye Ticaret Mahkemesi",
+  "courtShort": "2. ASLİYE TİCARET",
+  "esas": "2026/742 Esas",
+  "kararTarihi": "18.03.2027",
+  "color": "#3c5a6b",
+  "teaser": "Koliler teslim edildi, faturalar kesildi, ödeme gelmedi. Karşı taraf şimdi iki faturayı “hiç görmedik” diyor. Tacirler arasında fatura ve defter ne kadar konuşur?",
+  "sides": { "p1": { "role": "Davacı vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e6bd98", "hair": "#3b2a20", "style": "bun", "glasses": true } },
+    "opp": { "name": "Av. Murat Ekinci · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#c99670", "hair": "#2a2220", "style": "short", "beard": true } },
+    "client": { "name": "Cengiz Yalın · Müvekkil şirketin müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#d6a57c", "hair": "#8a8a8a", "style": "short", "glasses": true, "shirt": "#3e5266", "inner": "#e6e1d6" } },
+    "partner": { "name": "Av. Nevin Çakır · Büro ortağı", "np": "green", "look": { "kind": "civil", "skin": "#edc6a2", "hair": "#5a3a26", "style": "long", "shirt": "#5b3f5e", "inner": "#f1ece2" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Samsun. Kuzey Ambalaj Ltd. Şti., fındık işleyen Yeşilırmak Gıda A.Ş.'ye iki yıldır karton koli satıyor. Aralarında yazılı bir çerçeve sipariş sözleşmesi var: her teslimden sonra fatura, 45 gün vade." },
+    { "who": "client", "text": "Ocak–Nisan arasında 1.284.000 TL'lik fatura kestik, 420.000 TL ödediler. Cari hesapta 864.000 TL alacağımız var. Mutabakat istedik, cevap yok." },
+    { "who": "client", "text": "Şimdi de Mart'taki iki faturayı, toplam 612.000 TL, “sipariş etmedik, fiyat da yüksek” diye reddediyorlar. Kolileri onların depo sorumlusu teslim aldı." },
+    { "who": "partner", "text": "Dosya senin. Basit bir alacak gibi görünüyor, ama ticari davanın kendi kuralları var. Takılırsan söyle." }
+  ],
+  "docs": [
+    { "t": "Çerçeve sipariş sözleşmesi", "d": "01.02.2025. Birim fiyatlar ekli listede. Ödeme: her faturanın tesliminden itibaren 45 gün içinde." },
+    { "t": "e-Fatura dökümü", "d": "Altı fatura, toplam 1.284.000 TL. Mart'taki iki fatura 06.03.2026 ve 20.03.2026'da alıcının e-fatura kutusuna ulaşmış. Hiçbirine itiraz kaydı yok." },
+    { "t": "Sevk irsaliyeleri", "d": "Altı irsaliye; teslim alan: Yeşilırmak Gıda depo sorumlusu Hakan Er, imzalı." },
+    { "t": "Cari hesap ekstresi", "d": "Borç 1.284.000 TL, alacak 420.000 TL, bakiye 864.000 TL (davacı defterlerine göre)." }
+  ],
+  "steps": [
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "Yarın dava açalım. Bu işi daha fazla uzatmak istemiyorum." }
+      ],
+      "prompt": "İlk adımınız ne olacak?",
+      "choices": [
+        { "text": "Önce arabulucuya başvurun. Ticari davada konusu bir miktar para olan alacak için arabuluculuk dava şartıdır.", "delta": 15, "set": ["arabulucu"],
+          "law": "TTK m.5/A · 6325 s.K. m.18/A",
+          "note": "Doğru. Her iki taraf tacir ve uyuşmazlık ticari işletmeleriyle ilgili; bu bir ticari davadır (TTK m.4/1). Para alacağına ilişkin ticari davada dava açmadan önce arabulucuya başvurmak dava şartıdır (TTK m.5/A). Son tutanağın aslı ya da arabulucunun onayladığı örneği dava dilekçesine eklenir.",
+          "reply": [ { "who": "narr", "text": "Arabuluculuk görüşmesinde davalı Mart faturalarını kabul etmedi. Son tutanak düzenlendi; dava Samsun 2. Asliye Ticaret Mahkemesinde açıldı." } ] },
+        { "text": "Yarın doğrudan alacak davası açın; bekleyecek vakit yok.", "delta": -10,
+          "law": "TTK m.5/A · 6325 s.K. m.18/A",
+          "note": "Arabulucuya başvurulmadan açılan ticari alacak davası dava şartı yokluğundan usulden reddedilir (6325 s.K. m.18/A). Neyse ki büro ortağınız sizi durdurdu.",
+          "reply": [
+            { "who": "partner", "text": "Dur. Para alacağına ilişkin ticari davada arabuluculuk dava şartı. Başvurmadan açarsan dava hiçbir işlem yapılmadan usulden reddedilir. Önce arabulucu." },
+            { "who": "narr", "text": "Arabuluculuk bürosuna başvurdunuz. Davalı Mart faturalarını kabul etmedi; son tutanakla dava Samsun 2. Asliye Ticaret Mahkemesinde açıldı." }
+          ] },
+        { "text": "Fatura alacağı genel bir alacaktır; asliye hukuk mahkemesinde dava açın.", "delta": -10,
+          "law": "TTK m.4/1 · m.5",
+          "note": "Her iki tarafın ticari işletmesiyle ilgili hususlardan doğan davalar ticari davadır (TTK m.4/1) ve asliye ticaret mahkemesinde görülür (TTK m.5). Para alacağında önce arabuluculuk gerekir.",
+          "reply": [
+            { "who": "partner", "text": "İki taraf da tacir, alacak işletmeleriyle ilgili: bu ticari dava. Görevli mahkeme asliye ticaret. Ve önce arabulucu." },
+            { "who": "narr", "text": "Arabuluculukta anlaşma çıkmadı; dava son tutanakla birlikte Samsun 2. Asliye Ticaret Mahkemesinde açıldı." }
+          ] }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Taraf vekilleri hazır. Davalı vekili, cevabınızı özetleyin." },
+        { "who": "opp", "text": "Müvekkilim 6 ve 20 Mart tarihli iki faturayı kabul etmiyor. O kolileri sipariş etmedik; faturadaki birim fiyat da yüksek." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "Mart faturalarına itiraza nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "text": "Faturalar 6 ve 20 Mart'ta davalının e-fatura kutusuna ulaştı; sekiz gün içinde itiraz edilmedi, içerikleri kabul edilmiş sayılır. Sözleşme ilişkisi çerçeve sözleşmeyle, teslim de davalının depo sorumlusunun imzaladığı irsaliyelerle sabit.", "delta": 20, "set": ["fatura"],
+          "law": "TTK m.21/2",
+          "note": "Doğru ve eksiksiz. Faturayı alan kişi sekiz gün içinde içeriğine itiraz etmezse içeriği kabul etmiş sayılır (TTK m.21/2). Bu karine faturanın içeriğine ilişkindir; sözleşme ilişkisinin ve teslimin varlığını ayrıca gösterdiniz.",
+          "reply": [ { "who": "judge", "text": "e-Fatura kayıtlarının ve irsaliye asıllarının dosyaya sunulması için süre veriyorum." } ] },
+        { "text": "Fatura düzenlendiğine ve itiraz edilmediğine göre hem sözleşme hem teslim ispatlanmıştır; başka delile gerek yok.", "delta": -5,
+          "law": "TTK m.21/2",
+          "note": "Abartılı. Sekiz günlük süre içinde itiraz edilmemesi faturanın içeriğini kabul anlamına gelir; ama sözleşme ilişkisinin ve malın teslim edildiğinin varlığını tek başına ispatlamaz. İrsaliyeleri ve çerçeve sözleşmeyi de göstermeliydiniz." },
+        { "text": "Kolileri teslim eden şoförümüzü tanık olarak dinletelim.", "delta": 5,
+          "note": "Kullanılabilir ama zayıf bir yol. Elinizde imzalı irsaliyeler ve itiraz edilmemiş e-faturalar varken asıl dayanak bunlardır (TTK m.21/2)." },
+        { "text": "Davalı otuz gün içinde itiraz etmediği için faturalar kesinleşmiştir.", "delta": -10,
+          "law": "TTK m.21/2",
+          "note": "Süre yanlış. Faturaya itiraz süresi, faturanın alındığı tarihten itibaren sekiz gündür (TTK m.21/2)." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Davacının defterleri kendi tuttuğu kayıtlardır; kendi lehine delil olamaz." },
+        { "who": "judge", "text": "Davacı vekili, ticari defterler konusunda talebiniz nedir?" }
+      ],
+      "prompt": "Ticari defterlere nasıl dayanacaksınız?",
+      "choices": [
+        { "text": "Usulüne uygun tutulmuş, açılış ve kapanış onayları yapılmış ve birbirini doğrulayan defter kayıtları ticari davada sahibi lehine delil olabilir. Her iki tarafın defterlerinin bilirkişiye incelettirilmesini istiyoruz.", "delta": 20, "set": ["defter"],
+          "law": "HMK m.222",
+          "note": "Doğru. HMK m.222'ye göre kanuna uygun tutulan defterler, şartları varsa sahibi lehine delildir; karşı tarafın defterleri de incelenir. İki tarafın defterlerinin karşılaştırılması en güçlü yoldur.",
+          "reply": [
+            { "who": "narr", "text": "Bilirkişi raporu geldi: Davacının defterleri usulüne uygun. Davalının defterlerinde de Mart'taki iki fatura kayıtlı; KDV'leri indirilmiş. Her iki defterde bakiye 864.000 TL." },
+            { "who": "opp", "text": "Rapora karşı beyanımız… süre istiyoruz." }
+          ] },
+        { "text": "Ticari defterler kesin delildir; davalı aksini ispat edemez.", "delta": -10,
+          "law": "HMK m.222",
+          "note": "Yanlış. Defterler kesin delil değildir; HMK m.222'deki şartlar aranır ve karşı taraf kayıtların aksini ispat edebilir." },
+        { "text": "Defterlere dayanmaktan vazgeçip yalnızca tanıklara dayanalım.", "delta": -10,
+          "law": "HMK m.200 · m.222",
+          "note": "Tacirler arasındaki bu tutarda bir alacakta en güçlü delilleri, yani faturaları ve iki tarafın defterlerini bırakmak hatadır. Senetle ispat zorunluluğu da tanıkla ispatı sınırlar (HMK m.200)." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Tahkikat tamamlandı. Davacı vekili, talep sonucunuzu açıklayın." }
+      ],
+      "prompt": "Hüküm için talebiniz?",
+      "choices": [
+        { "text": "864.000 TL'nin, her faturanın sözleşmedeki 45 günlük vadesinin bitiminden itibaren işleyecek avans faiziyle birlikte davalıdan tahsili.", "delta": 20, "set": ["talep"],
+          "law": "TBK m.117/2 · 3095 s.K. m.2/2",
+          "note": "Doğru. Vade sözleşmeyle belirlendiği için vadenin bitimiyle davalı ihtara gerek kalmadan temerrüde düşer (TBK m.117/2). Ticari işlerde temerrüt faizi olarak avans faizi istenebilir (3095 s.K. m.2/2).",
+          "reply": [ { "who": "judge", "text": "Taraflara son sözleri soruldu. Karar için ara veriyorum." } ] },
+        { "text": "864.000 TL'nin dava tarihinden itibaren yasal faiziyle tahsili.", "delta": 5,
+          "law": "TBK m.117/2 · 3095 s.K. m.2/2",
+          "note": "Kabul edilebilir ama eksik. Vade sözleşmede belli olduğu için faizi vade tarihlerinden başlatabilir, ticari iş olduğu için avans faizi isteyebilirdiniz.",
+          "reply": [ { "who": "judge", "text": "Taraflara son sözleri soruldu. Karar için ara veriyorum." } ] },
+        { "text": "864.000 TL ile birlikte yüzde yirmi icra inkâr tazminatı.", "delta": -10,
+          "law": "İİK m.67/2",
+          "note": "İcra inkâr tazminatı, ilamsız takipte itirazın iptali davasında istenir (İİK m.67/2). Doğrudan açılan alacak davasında istenemez.",
+          "reply": [ { "who": "judge", "text": "İnkâr tazminatı talebi bu dava türünde dayanaksız. Karar için ara veriyorum." } ] }
+      ]
+    }
+  ],
+  "outcomes": [
+    { "if": "fatura && defter", "winner": "p1",
+      "hukum": [
+        { "if": "talep", "text": "Davanın KABULÜ ile 864.000 TL'nin, her faturanın vade tarihinden itibaren işleyecek avans faiziyle birlikte davalıdan alınarak davacıya verilmesine," },
+        { "if": "!talep", "text": "Davanın KABULÜ ile 864.000 TL'nin dava tarihinden itibaren işleyecek faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Mart faturaları sekiz gün içinde itiraz edilmediği için içerikleriyle kabul edilmiş sayıldı (TTK m.21/2); irsaliyeler teslimi, iki tarafın defterleri de bakiyeyi doğruladı (HMK m.222)." },
+        { "if": "talep", "text": " Faizi doğru başlangıçtan ve doğru oranla istediniz." },
+        { "if": "!talep", "text": " Faiz talebiniz eksik kaldı: vade sözleşmede belliydi ve ticari işte avans faizi istenebilirdi." }
+      ] },
+    { "if": "fatura || defter", "winner": "p1", "stamp": "KISMEN KABUL",
+      "hukum": "Davanın KISMEN KABULÜ ile 864.000 TL'nin dava tarihinden itibaren işleyecek faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "if": "fatura", "text": "Faturaya itiraz süresini doğru kullandınız; ama defterlerin delil gücünü yeterince işlemediniz. Mahkeme alacağı kabul etti, faiz başlangıcını dava tarihi aldı." },
+        { "if": "!fatura", "text": "Bilirkişi raporu davalının defterlerinde de faturaların kayıtlı olduğunu gösterdi ve alacak kabul edildi; ama TTK m.21/2'yi hiç kullanmadınız." }
+      ] },
+    { "winner": "p2",
+      "hukum": "Davanın KISMEN KABULÜ ile davalının kabul ettiği 252.000 TL'nin davalıdan alınarak davacıya verilmesine, Mart faturalarına ilişkin 612.000 TL yönünden davanın REDDİNE,",
+      "summary": "Mart faturalarının kabulü ne fatura karinesiyle (TTK m.21/2) ne de defterlerle (HMK m.222) ispatlandı. Müvekkil alacağının üçte ikisini kaybetti." }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "id": "ticaret-cek-ibraz",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "orta",
+  "title": "Karşılıksız",
+  "area": "Ticaret Hukuku · Çekte ibraz, başvurma hakkı ve zamanaşımı",
+  "court": "Malatya 2. Asliye Ticaret Mahkemesi",
+  "courtShort": "2. ASLİYE TİCARET",
+  "esas": "2026/905 Esas",
+  "kararTarihi": "27.01.2027",
+  "color": "#5b4a2f",
+  "teaser": "Müvekkil, karşılıksız çıkan bir çeki icra dosyasında kendi cebinden ödedi. Şimdi çeki düzenleyenden geri istiyor. Karşı tarafın üç savunması var: süre, süre ve ayıp.",
+  "sides": { "p1": { "role": "Davacı (ciranta) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#4a3b30", "style": "short", "beard": true } },
+    "opp": { "name": "Av. Kerem Atalay · Davalı (düzenleyen) vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e0b48e", "hair": "#1e1612", "style": "short", "glasses": true } },
+    "client": { "name": "Sevgi Kalkan · Müvekkil şirketin müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#c9946a", "hair": "#3a2418", "style": "long", "shirt": "#6b3b4a", "inner": "#eee8dc" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Kayseri. Erciyes Mobilya Ltd. Şti., Malatya'daki Bozkurt Yapı A.Ş.'nin şantiye ofisini döşedi. Bozkurt Yapı bedel olarak 420.000 TL'lik bir çek verdi." },
+    { "who": "client", "text": "Çeki kumaş borcumuz için Gaziantep'teki Akdağ Kumaş'a ciro ettik. Akdağ bankaya götürdü, karşılıksız çıktı. Sonra hem Bozkurt'a hem bize icra takibi yaptılar." },
+    { "who": "client", "text": "Akdağ'la ilişkimizi bozmamak için icra dosyasına bedeli, faizi ve masrafları ödedik: 446.800 TL. Bozkurt bir kuruş ödemedi. Arabuluculukta da “süre geçti” deyip kalktılar." },
+    { "who": "narr", "text": "Dava, Bozkurt Yapı'nın merkezinin bulunduğu Malatya'da 25.09.2026'da açıldı. Bugün ön inceleme sonrası ilk tahkikat duruşmasına hazırlanıyorsunuz." }
+  ],
+  "docs": [
+    { "t": "Çek (fotokopi)", "d": "Düzenleme yeri ve tarihi: Malatya, 05.01.2026. Muhatap: Anadolu Ticaret Bankası Gaziantep Şehitkamil Şubesi. 420.000 TL. Lehtar Erciyes Mobilya; Erciyes'in cirosuyla Akdağ Kumaş." },
+    { "t": "Bankanın çek üzerindeki şerhi", "d": "“22.01.2026 tarihinde ibraz edilmiş, hesapta karşılığı bulunmadığından ödenmemiştir.” Tarihli, kaşeli, imzalı." },
+    { "t": "İcra takibi", "d": "Gaziantep. Akdağ Kumaş'ın 09.02.2026 tarihli kambiyo senetlerine özgü haciz yoluyla takibi; borçlular Bozkurt Yapı ve Erciyes Mobilya." },
+    { "t": "Arabuluculuk son tutanağı", "d": "Başvuru 10.08.2026, son tutanak 18.09.2026. Anlaşma sağlanamadı." }
+  ],
+  "evidence": [
+    { "id": "ev_cek", "type": "belge", "title": "Çek ve banka şerhi", "desc": "Düzenleme yeri Malatya, ödeme yeri Gaziantep şubesi; 05.01.2026 tarihli; banka şerhi 22.01.2026." },
+    { "id": "ev_takip", "type": "belge", "title": "İcra takip talebi", "desc": "Akdağ Kumaş'ın 09.02.2026 tarihli kambiyo takibi." },
+    { "id": "ev_odeme", "type": "belge", "title": "İcra dairesi tahsilat makbuzu ve çek aslının teslim tutanağı", "desc": "03.03.2026: Erciyes Mobilya dosyaya 446.800 TL ödedi; çek aslı ve şerhi kendisine teslim edildi.", "if": "odeme" },
+    { "id": "ev_teslim", "type": "belge", "title": "Mobilya teslim tutanağı", "desc": "12.12.2025. Bozkurt Yapı şantiye şefinin imzası: “Eksiksiz ve hasarsız teslim alınmıştır.” Sonrasında hiçbir şikâyet yazısı yok.", "if": "teslim" },
+    { "id": "law_814", "type": "kanun", "title": "TTK m.814 · Çekte zamanaşımı", "desc": "Hamilin başvurma hakları ibraz süresinin bitiminden, çek borçlularının birbirine başvurma hakları ödeme gününden ya da dava tarihinden itibaren üç yılda zamanaşımına uğrar.", "law": "TTK m.814" }
+  ],
+  "steps": [
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "Çeki biz ödedik ama düzenleyen Bozkurt. Bu parayı ondan isteyebilir miyiz, yoksa çekle işimiz bitti mi?" }
+      ],
+      "prompt": "Davanın dayanağı ne?",
+      "choices": [
+        { "text": "Çeki ödeyen ciranta, çeki geri alarak düzenleyene başvurabilir. Şart, çekin süresinde ibraz edilmesi ve karşılıksızlığın bankanın tarihli şerhiyle tespit edilmiş olması; ikisi de var.", "delta": 20, "set": ["dayanak"],
+          "law": "TTK m.808 · m.814/2",
+          "note": "Doğru. Süresinde ibraz edilip ödenmeyen ve bu durumu muhatabın çek üzerine yazdığı, ibraz gününü gösteren tarihli beyanla tespit edilen çekte başvurma hakları doğar (TTK m.808). Çeki ödeyen çek borçlusu da diğer çek borçlularına başvurabilir; kanun bu hakkın zamanaşımını ayrıca düzenler (m.814/2)." },
+        { "text": "Çekle ilgili hak yalnızca son hamile aittir; biz ancak mobilya satışına dayanabiliriz.", "delta": -10,
+          "law": "TTK m.814/2",
+          "note": "Yanlış. Çeki ödeyen ciranta, çek borçlusu olarak düzenleyene başvurabilir; kanun bu hakkın zamanaşımını bile ayrıca düzenlemiştir (m.814/2). Temel ilişkiye dayanmak ek bir yol olabilir, tek yol değil." },
+        { "text": "Önce noterden protesto çekmemiz gerekirdi; bankanın şerhi yetmez.", "delta": -10,
+          "law": "TTK m.808",
+          "note": "Yanlış. Karşılıksızlık protestoyla, muhatabın çek üzerindeki tarihli ve ibraz gününü gösteren beyanıyla ya da takas odasının tarihli beyanıyla tespit edilebilir (m.808). Bankanın şerhi yeterli." }
+      ]
+    },
+    {
+      "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [ { "who": "narr", "text": "Duruşmadan önce Sevgi Kalkan'la telefonda son kez konuşuyorsunuz. Toplantıya girecek; iki soru sorabilirsiniz." } ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "İcra dosyasına ödemeyi hangi gün yaptınız? Ödediğinizi ve çek aslını aldığınızı gösteren bir belge var mı?", "delta": 15, "set": ["odeme"],
+          "reply": [ { "who": "client", "text": "3 Mart'ta ödedik. İcra dairesi tahsilat makbuzu verdi, çekin aslını da şerhiyle bize teslim ettiler; tutanağı muhasebede." } ],
+          "note": "Doğru soru. Ödeyen çek borçlusunun başvurma hakkında zamanaşımı ödeme gününden başlar (m.814/2); ödeme günü bu davanın kilidi. Makbuz delil çantanıza eklendi." },
+        { "text": "Bozkurt Yapı mobilyaları teslim alırken ya da sonra bir şikâyette bulundu mu?", "delta": 10, "set": ["teslim"],
+          "reply": [ { "who": "client", "text": "Hayır. Şantiye şefi teslim tutanağına “eksiksiz ve hasarsız” yazıp imzaladı. O günden beri tek bir yazı gelmedi." } ],
+          "note": "Yerinde. Müvekkil çekin lehtarı; düzenleyen ona karşı kişisel def'ilerini ileri sürebilir. Temiz bir teslim tutanağı bu savunmayı baştan zayıflatır. Tutanak delil çantanıza eklendi." },
+        { "text": "Çeki Akdağ Kumaş'a hangi borç için verdiniz?", "delta": 0,
+          "reply": [ { "who": "client", "text": "Kasım ayındaki kumaş faturası için." } ],
+          "note": "Bu ilişki Akdağ'la aranızda; düzenleyene karşı açılan bu davada bir şey değiştirmez." },
+        { "text": "Bozkurt Yapı'nın haczedilebilir malı var mı?", "delta": 5,
+          "reply": [ { "who": "client", "text": "Şantiyede iş makineleri var, merkez binası da kendi malı." } ],
+          "note": "Hüküm sonrası icra için faydalı bir bilgi; ama duruşmadaki savunmalara cevap vermez." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Davalı vekili, savunmanızı özetleyin." },
+        { "who": "opp", "text": "Çek on gün içinde ibraz edilmeliydi. 5 Ocak tarihli çek 22 Ocak'ta, on yedinci gün ibraz edilmiş. Başvurma hakkı düşmüştür." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "İbraz süresi itirazına cevabınız?",
+      "choices": [
+        { "text": "On günlük süre, çek düzenlendiği yerde ödenecekse geçerlidir. Çek Malatya'da düzenlenmiş, Gaziantep'teki şubede ödenecek; süre bir aydır ve düzenleme tarihinin ertesi günü başlar. Son gün 5 Şubat; 22 Ocak'taki ibraz süresinde.", "delta": 20, "set": ["ibraz"],
+          "law": "TTK m.796",
+          "note": "Doğru. Düzenlendiği yerde ödenecek çek on gün, başka bir yerde ödenecek çek bir ay içinde ibraz edilir; süreler çekte yazılı düzenleme tarihinin ertesi günü başlar (TTK m.796).",
+          "reply": [ { "who": "judge", "text": "Çekin ön yüzündeki düzenleme yeri ve muhatap şube kaydı tutanağa geçirildi." } ] },
+        { "text": "İbraz süreleri taraflarca uzatılabilir; müvekkil ile davalı arasında böyle bir anlaşma vardı.", "delta": -15,
+          "note": "Hem gerçeğe aykırı hem yanlış. Kanuni ibraz süreleri emredicidir; Yargıtay da sözleşmeyle değiştirilemeyeceğini kabul eder." },
+        { "text": "Süre geçmiş olabilir, ama bu sadece cirantaları ilgilendirir; düzenleyen her durumda sorumludur.", "delta": -10,
+          "law": "TTK m.808",
+          "note": "Yanlış ve gereksiz bir kabul. Çek süresinde ibraz edilmezse başvurma hakkı düzenleyene karşı da kaybedilir; geriye ancak temel ilişki ya da sebepsiz zenginleşme kalır. Oysa ibraz süresindeydi." }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [ { "who": "judge", "text": "Davalı vekili, zamanaşımı def'inizi açıklayın." } ],
+      "statement": { "who": "opp", "text": "Çekte zamanaşımı altı aydır ve ibraz süresinin bitiminden, yani 5 Şubat'tan başlar. Dava 25 Eylül'de açıldı; talep zamanaşımına uğramıştır." },
+      "prompt": "Bu def'iyi hangi delille çürüteceksiniz?",
+      "correct": ["ev_odeme"],
+      "hit": { "delta": 25, "set": ["zaman"],
+        "reply": [ { "who": "judge", "text": "Tahsilat makbuzuna göre ödeme 03.03.2026'da yapılmış. Def'iye ilişkin değerlendirme hükümle birlikte yapılacak." } ],
+        "note": "Doğru delil. Def'i iki yönden yanlış: 6102 sayılı TTK'da çekte zamanaşımı üç yıldır ve çeki ödeyen çek borçlusunun başvurusunda süre ödeme gününden başlar (m.814/2). Ödeme günü 03.03.2026; süre 2029'a kadar." },
+      "responses": {
+        "law_814": { "delta": 10, "set": ["zamanKismi"],
+          "reply": [ { "who": "judge", "text": "Ödeme tarihinin tespiti için Gaziantep'teki icra dosyasının UYAP'tan getirtilmesine karar verildi." } ],
+          "note": "Doğru madde: süre üç yıl ve ödeyen borçlu için ödeme gününden başlar (m.814/2). Ama ödeme gününü gösteren belgeyi sunamadınız; mahkeme icra dosyasını getirtmek zorunda kaldı." },
+        "ev_cek": { "delta": -5, "note": "Çek ve şerhi ibrazı ispatlar; zamanaşımının başlangıcı olan ödeme gününü göstermez." },
+        "ev_takip": { "delta": -5, "note": "Takip talebi hamilin işlem tarihini gösterir; sizin başvurunuzda zamanaşımı ödeme gününden işler." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil zamanaşımı def'ine cevap vermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; zamanaşımı def'i cevapsız kaldı." }
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Son olarak: müvekkilim çeki mobilya bedeli olarak verdi ve mobilyalar ayıplıydı. Lehtar Erciyes Mobilya'ya karşı bu def'iyi ileri sürüyoruz." },
+        { "who": "judge", "text": "Davacı vekili, ayıp def'ine diyeceğiniz?" }
+      ],
+      "prompt": "Ayıp def'ine nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "if": "teslim", "text": "Lehtara karşı kişisel def'i ileri sürülebilir, doğru. Ama davalı mobilyaları “eksiksiz ve hasarsız” diye imzalayarak teslim aldı; ticari satışta kanuni sürelerde ayıp ihbarı da yapmadı. Def'iyi ileri süren ispat etmelidir.", "delta": 20, "set": ["defi"],
+          "law": "TTK m.23/1-c · TMK m.6",
+          "note": "Doğru. Düzenleyen, doğrudan ilişki içinde olduğu lehtara kişisel def'ilerini ileri sürebilir; ama iddiasını ispat etmek ona düşer (TMK m.6). Çekincesiz teslim tutanağı ve ticari satıştaki kısa ihbar sürelerinde yapılmamış bir ihbar (TTK m.23/1-c) savunmayı çökertir.",
+          "reply": [ { "who": "judge", "text": "Davalı vekili, ayıp ihbarına ilişkin bir belgeniz var mı?" }, { "who": "opp", "text": "Şu an… dosyamızda yok." } ] },
+        { "if": "!teslim", "text": "Ayıp iddiasını ispat yükü davalıdadır; mobilyaların ayıplı olduğuna ya da süresinde ihbar edildiğine dair tek bir belge sunulmadı.", "delta": 10, "set": ["defi"],
+          "law": "TMK m.6 · TTK m.23/1-c",
+          "note": "İyi bir cevap. İspat yükü def'iyi ileri sürende. Elinizde imzalı teslim tutanağı olsaydı savunmayı doğrudan çürütebilirdiniz." },
+        { "text": "Kambiyo senedine karşı hiçbir def'i ileri sürülemez.", "delta": -10,
+          "note": "Yanlış. Def'ilerin sınırlanması iyi niyetli üçüncü hamili korur. Müvekkil çekin lehtarı ve davalıyla doğrudan ilişki içinde; düzenleyen ona karşı kişisel def'ilerini ileri sürebilir." },
+        { "text": "Ayıp iddiasını bilirkişi incelesin; sonucuna göre beyanda bulunuruz.", "delta": -5,
+          "note": "Savunmayı kendiniz tahkikata taşıdınız. Önce ispat yükünü ve ihbar yapılmadığını ileri sürmeliydiniz." }
+      ]
+    }
+  ],
+  "outcomes": [
+    { "if": "ibraz && (zaman || zamanKismi) && defi", "winner": "p1",
+      "hukum": "Davanın KABULÜ ile 446.800 TL'nin 03.03.2026 ödeme tarihinden itibaren işleyecek faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        { "text": "Çek süresinde ibraz edilmiş ve karşılıksızlık bankanın tarihli şerhiyle tespit edilmişti (TTK m.796, m.808). Ödeyen cirantanın başvurusunda üç yıllık zamanaşımı ödeme gününden başlar (m.814/2); def'i reddedildi. Ayıp def'i ispatlanamadı." },
+        { "if": "zamanKismi", "text": " Ödeme makbuzunu sunsaydınız mahkemeyi icra dosyasını beklemek zorunda bırakmazdınız." }
+      ] },
+    { "if": "ibraz && (zaman || zamanKismi)", "winner": "p1", "stamp": "KISMEN KABUL",
+      "hukum": "Davanın KISMEN KABULÜ ile bilirkişi raporuyla belirlenen ayıp indirimi düşüldükten sonra kalan 312.000 TL'nin ödeme tarihinden itibaren faiziyle davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Başvurma hakkı ve zamanaşımı yönünden haklı çıktınız. Ama ayıp def'ini ispat yükü ve ihbar yönünden karşılamadınız; mahkeme bilirkişi incelemesi yaptırıp bedelden indirim uyguladı." },
+    { "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        { "if": "!ibraz", "text": "İbraz süresinin bir ay olduğunu (TTK m.796) gösteremediniz; mahkeme başvurma hakkının düştüğünü kabul etti." },
+        { "if": "ibraz", "text": "Zamanaşımı def'i cevapsız kaldı. Oysa süre üç yıldı ve ödeyen ciranta için ödeme gününden başlıyordu (TTK m.814/2)." }
+      ] }
+  ]
+}

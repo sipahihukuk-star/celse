@@ -1,0 +1,167 @@
+{
+  "id": "ticaret-haksiz-rekabet",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "orta",
+  "title": "Mor Kutu",
+  "area": "Ticaret Hukuku · Haksız rekabet: iltibas ve müşteri ayartma",
+  "court": "Eskişehir 1. Asliye Ticaret Mahkemesi",
+  "courtShort": "1. ASLİYE TİCARET",
+  "esas": "2026/233 Esas",
+  "kararTarihi": "16.12.2026",
+  "color": "#5a3f6b",
+  "teaser": "Eski satış müdürü kendi şirketini kurdu: aynı mor kutu, aynı lavanta çizimi, başka bir isim. Üstüne distribütörleri tek tek arıyor. Tedbir kararı elinizde, ama saat işliyor.",
+  "sides": { "p1": { "role": "Davacı vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#c99670", "hair": "#2a2220", "style": "long" } },
+    "opp": { "name": "Av. Tolga Sezer · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e9c4a0", "hair": "#5b4636", "style": "short" } },
+    "client": { "name": "Gizem Porsuk · Müvekkil şirketin kurucusu", "np": "civil", "look": { "kind": "civil", "skin": "#f1d0b0", "hair": "#7a3b1f", "style": "curly", "shirt": "#5a4a7a", "inner": "#ece6da" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Eskişehir. Porsuk Doğal Kozmetik Ltd. Şti. on yıldır el yapımı lavanta sabunu satıyor. Ürünleri mor kraft kutuda, elle çizilmiş lavanta dalı ve yuvarlak krem etiketle tanınıyor. Ambalaj tasarımı tescilli değil." },
+    { "who": "client", "text": "Satış müdürümüz Burak Tunç geçen yıl ayrıldı, Sarıcakaya Kozmetik'i kurdu. Ürünün adı “Lavendula”, ama kutu bizimkinin aynısı: aynı mor, aynı çizim, etiket aynı yerde. Marketlerde yan yana duruyor." },
+    { "who": "client", "text": "Üç distribütörümüzden ikisi sözleşmesini feshetti. Fesih yazılarında “daha uygun bir teklif aldık” yazıyor." },
+    { "who": "narr", "text": "Dava açılmadan önce ihtiyati tedbir istediniz. Mahkeme teminat karşılığında, iltibaslı ambalajlı ürünlerin üretim ve satışının durdurulmasına karar verdi. Kararın uygulanmasını 2 Mart 2026'da talep ettiniz; aynı gün uygulandı. Bugün 4 Mart." }
+  ],
+  "docs": [
+    { "t": "İhtiyati tedbir kararı", "d": "Eskişehir 1. Asliye Ticaret Mahkemesi, 2026/41 D. İş. Teminat karşılığında “Lavendula” ambalajlı ürünlerin üretim ve satışının durdurulması." },
+    { "t": "Ambalaj karşılaştırması", "d": "İki kutunun fotoğrafları: aynı mor ton, aynı lavanta çizimi, etiket aynı konumda; yalnızca ürün adı farklı." },
+    { "t": "Distribütör fesih yazıları", "d": "Kasım 2025. Ege ve İç Anadolu distribütörleri sözleşmeyi feshetmiş; gerekçe: “daha uygun bir teklif.”" },
+    { "t": "Ticaret sicili kaydı", "d": "Sarıcakaya Kozmetik Ltd. Şti., kuruluş Temmuz 2025, müdür Burak Tunç." }
+  ],
+  "evidence": [
+    { "id": "ev_ambalaj", "type": "belge", "title": "Ambalaj karşılaştırması", "desc": "İki kutunun yan yana fotoğrafları; yalnızca ürün adı farklı." },
+    { "id": "ev_fesih", "type": "belge", "title": "Distribütör fesih yazıları", "desc": "“Daha uygun bir teklif aldık.” Teklifi kimin yaptığı yazmıyor." },
+    { "id": "ev_eposta", "type": "belge", "title": "Burak Tunç'un distribütöre e-postası", "desc": "Ekim 2025: “Porsuk'la sözleşmeni feshet, aynı ürünü yüzde 18 ucuza veririm. Kutuyu zaten tanıyorsun.”", "if": "eposta" },
+    { "id": "ev_iade", "type": "belge", "title": "Market zincirinin iade ve şikâyet kayıtları", "desc": "Müşterilerin Lavendula ürünlerini “Porsuk sabunu” diye Porsuk'un iade noktasına getirdiği 37 kayıt.", "if": "iade" },
+    { "id": "law_55", "type": "kanun", "title": "TTK m.55 · Haksız rekabet hâlleri", "desc": "Dürüstlük kuralına aykırı davranışlar ve ticari uygulamaların sayıldığı madde.", "law": "TTK m.55" }
+  ],
+  "steps": [
+    {
+      "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [ { "who": "narr", "text": "Gizem Porsuk büroda. Dava dilekçesini bugün bitirmek istiyorsunuz; iki soruluk vaktiniz var." } ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Distribütörlerden biri rakibin teklifini size yazılı olarak iletti mi?", "delta": 15, "set": ["eposta"],
+          "reply": [ { "who": "client", "text": "İç Anadolu distribütörü geçen ay bana Burak'ın e-postasını iletti. “Bunu bil” dedi. Hâlâ gelen kutumda." } ],
+          "note": "Doğru soru. Fesih yazıları teklifi kimin yaptığını göstermiyordu; e-posta ayartmayı doğrudan ispatlar. Delil çantanıza eklendi." },
+        { "text": "Müşterilerin iki ürünü karıştırdığına dair somut bir kayıt var mı?", "delta": 15, "set": ["iade"],
+          "reply": [ { "who": "client", "text": "Market zincirinin iade noktasına Lavendula'yı bizim sabunumuz sanıp getirenler olmuş. Zincirin kalite birimi 37 kayıt gönderdi." } ],
+          "note": "Yerinde. Karıştırılma ihtimali yeterlidir; ama fiilî karışıklık kayıtları iddianızı çok güçlendirir. Delil çantanıza eklendi." },
+        { "text": "Burak Tunç ayrılırken şirketten dosya ya da müşteri listesi aldı mı?", "delta": 5,
+          "reply": [ { "who": "client", "text": "Bilmiyorum. Bilgi işlemciye sorarım." } ],
+          "note": "Önemli olabilir, ama elinizde bir şey yok. Somut bir delil çıkmadı." },
+        { "text": "Sarıcakaya Kozmetik'in cirosu ne kadar?", "delta": 0,
+          "reply": [ { "who": "client", "text": "Tam bilmiyorum, ama hızla büyüyorlar." } ],
+          "note": "Tazminat hesabında ilerde işe yarayabilir; bugün bir delil getirmedi." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "Tazminat için de arabulucuya başvurmamız gerekiyormuş. O bitsin, sonra her şeyi tek davada açalım. Tedbir nasılsa elimizde." }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        { "text": "Tespit, men ve maddi durumun ortadan kaldırılması talepli davayı iki hafta dolmadan açın; bu talepler para alacağı olmadığı için arabuluculuğa tabi değil. Tazminat için aynı gün arabulucuya başvurun, anlaşma olmazsa açacağınız davanın bu davayla birleştirilmesini isteyin.", "delta": 20, "set": ["sure"],
+          "law": "HMK m.397/1 · TTK m.5/A · HMK m.166",
+          "note": "Doğru. Dava açılmadan alınan tedbirde, uygulanmasının talep edildiği tarihten itibaren iki hafta içinde esas dava açılmazsa tedbir kendiliğinden kalkar (HMK m.397/1). Arabuluculuk dava şartı yalnızca para alacağı, tazminat ve benzeri talepler içindir (TTK m.5/A).",
+          "reply": [ { "who": "narr", "text": "Dava 9 Mart'ta açıldı; dava açıldığını gösteren belge tedbiri uygulayan memura verildi. Tazminat için arabuluculuk sürüyor." } ] },
+        { "text": "Arabuluculuk sonuçlanınca bütün talepleri tek davada açarız.", "delta": -15, "set": ["kalkti"],
+          "law": "HMK m.397/1",
+          "note": "Usul tuzağı. Tedbir dava açılmadan alındı; uygulanmasının talep edildiği tarihten itibaren iki hafta içinde esas dava açılmadığı için tedbir kendiliğinden kalktı (HMK m.397/1). Men talebi arabuluculuğa tabi değildi, beklemek gerekmiyordu.",
+          "reply": [ { "who": "narr", "text": "16 Mart'ta süre doldu ve tedbir kendiliğinden kalktı. Lavendula kutuları yeniden rafa çıktı. Dava ancak Nisan'da açılabildi." } ] },
+        { "text": "Tedbir kararı alındı; artık acele yok. Haksız rekabet davası için bir yıl var.", "delta": -15, "set": ["kalkti"],
+          "law": "HMK m.397/1 · TTK m.60",
+          "note": "İki süreyi karıştırdınız. Zamanaşımı (TTK m.60) davanın ne zamana kadar açılabileceğini gösterir; dava öncesi alınan tedbir ise iki hafta içinde esas dava açılmazsa kendiliğinden kalkar (HMK m.397/1).",
+          "reply": [ { "who": "narr", "text": "Tedbir 16 Mart'ta kendiliğinden kalktı. Lavendula kutuları yeniden rafa çıktı; dava Nisan'da açıldı." } ] }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Davalı vekili, savunmanızı özetleyin." },
+        { "who": "opp", "text": "Sayın Hâkim, davacı şirket rakibinin başarısını hazmedemiyor. Meslektaşım da galiba ilk davasında; serbest rekabetle haksız rekabeti ayırt edemiyor." },
+        { "who": "narr", "text": "Salonda birkaç meslektaş sırasını bekliyor; biri gülümsüyor. Yüzünüzün ısındığını hissediyorsunuz." }
+      ],
+      "prompt": "Nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "text": "“Sayın Hâkim, meslektaşımın şahsıma yönelik ifadesinin tutanağa geçirilmesini rica ediyorum. Dosyanın esasına dönmek istiyorum.”", "delta": 5,
+          "law": "HMK m.151 · TBB Meslek Kuralları",
+          "note": "Soğukkanlı ve usule uygun. Duruşma düzenini hâkim sağlar (HMK m.151); meslektaşa yönelik kişisel sözler meslek kurallarına aykırıdır. Tutanağa geçirmek yeter, tartışmaya girmek gerekmez.",
+          "reply": [ { "who": "judge", "text": "Beyan tutanağa geçirildi. Taraf vekillerinden yalnızca dosyaya ilişkin beyan bekliyorum. Devam edin." } ] },
+        { "text": "“Haksız rekabeti asıl müvekkiliniz iyi biliyor; ondan ders almışsınız anlaşılan!”", "delta": -10,
+          "law": "HMK m.151 · TBB Meslek Kuralları",
+          "note": "Tahrike kapıldınız. Hâkim iki tarafı da uyardı; duruşma esastan uzaklaştı. Meslek kuralları meslektaşlar arasında saygıyı gerektirir.",
+          "reply": [ { "who": "judge", "text": "Avukat beyler, hanımlar! Kişisel tartışmaya izin vermeyeceğim. Bir daha olursa ara veririm." } ] },
+        { "text": "Hiçbir şey söylemeyin; dosyaya gömülüp sıranızı bekleyin.", "delta": -5,
+          "note": "Tartışmaya girmemek doğru, ama sözü cevapsız bırakmak duruşmanın tonunu karşı tarafa verdi. Kısa bir tutanak talebi yeterdi." }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [ { "who": "judge", "text": "Davalı vekili, distribütörlere ilişkin iddiaya cevabınız?" } ],
+      "statement": { "who": "opp", "text": "Müvekkilim hiçbir distribütörü sözleşmesini bozmaya yönlendirmedi. Onlar daha iyi fiyat için kendi istekleriyle bize geldi. Bu serbest piyasadır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_eposta"],
+      "hit": { "delta": 25, "set": ["ayartma"],
+        "reply": [ { "who": "judge", "text": "E-postanın çıktısı ve elektronik kaydı üzerinde bilirkişi incelemesi yaptırılmasına karar verildi." }, { "who": "opp", "text": "…Bu yazışmanın bağlamı farklıydı." } ],
+        "note": "Doğru delil. Müşterileri kendisiyle sözleşme yapmak için başkalarıyla yaptıkları sözleşmeleri bozmaya yöneltmek haksız rekabettir (TTK m.55/1-b-1). E-posta yöneltmeyi doğrudan gösteriyor." },
+      "responses": {
+        "ev_fesih": { "delta": 5, "set": ["ayartmaKismi"],
+          "note": "Fesih yazıları bir teklif alındığını gösteriyor, ama teklifi kimin, nasıl yaptığını değil. Mahkeme tanık olarak distribütörleri dinleyecek; sonuç belirsiz." },
+        "ev_ambalaj": { "delta": -5, "note": "Ambalaj karşılaştırması iltibasla ilgilidir; ayartma iddiasına cevap vermez." },
+        "ev_iade": { "delta": -5, "note": "İade kayıtları karışıklığı gösterir; distribütörlerin yönlendirilmesini değil." },
+        "law_55": { "delta": -5, "note": "Madde doğru yerde, ama beyan olgulara ilişkin. Olguyu belgeyle çürütmek gerekiyordu." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil ayartma iddiasına cevap vermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; “kendi istekleriyle geldiler” savunması cevapsız kaldı." }
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Ambalaj tescilli bile değil. Ürünün adı Lavendula, onlarınki Porsuk. Kimse karıştırmaz." },
+        { "who": "judge", "text": "Davacı vekili, karıştırılma iddianızı açıklayın." }
+      ],
+      "prompt": "İltibas iddiasını nasıl savunacaksınız?",
+      "choices": [
+        { "if": "iade", "text": "Tescil şart değil; haksız rekabet hükümleri tescilsiz ambalajı da korur. Ölçüt, ortalama alıcıdaki genel izlenimdir: renk, çizim ve etiket aynı, ürünler aynı rafta. Üstelik fiilî karışıklık var: 37 iade kaydı.", "delta": 25, "set": ["iltibas"],
+          "law": "TTK m.55/1-a-4",
+          "note": "Güçlü bir savunma. Başkasının malları veya iş ürünleriyle karıştırılmaya yol açan önlemler almak haksız rekabettir (TTK m.55/1-a-4). Fiilî karışıklık kayıtları genel izlenim değerlendirmesini somutlaştırdı." },
+        { "if": "!iade", "text": "Tescil şart değil; haksız rekabet hükümleri tescilsiz ambalajı da korur. Ölçüt, ortalama alıcıdaki genel izlenimdir; ambalajların bilirkişi incelemesiyle karşılaştırılmasını istiyoruz.", "delta": 15, "set": ["iltibas"],
+          "law": "TTK m.55/1-a-4",
+          "note": "Doğru ölçüt. Karıştırılma ihtimali yeterlidir (TTK m.55/1-a-4). Fiilî karışıklığı gösteren kayıtlarınız olsaydı daha da güçlü olurdu." },
+        { "text": "Ambalaj tescilli olmasa da marka hakkına tecavüz vardır; SMK uyarınca tecavüzün tespitini istiyoruz.", "delta": -10,
+          "law": "SMK · TTK m.55",
+          "note": "Yanlış dayanak. Marka hakkına tecavüz davası tescilli markaya dayanır; tescilsiz ambalajın korunması haksız rekabet hükümleriyle sağlanır." },
+        { "text": "İsimler farklı olduğu için iltibas iddiasından vazgeçip yalnızca ayartmaya odaklanıyoruz.", "delta": -15,
+          "note": "Davanın yarısını kendiniz bıraktınız. İltibas değerlendirmesinde isim tek başına belirleyici değil; ambalajın bütünü, yani genel izlenim önemlidir." }
+      ]
+    }
+  ],
+  "outcomes": [
+    { "if": "iltibas && ayartma", "winner": "p1",
+      "hukum": "Davalının, davacının ürünleriyle karıştırılmaya yol açan ambalaj kullanması ve davacının distribütörlerini sözleşmelerini feshetmeye yöneltmesi eylemlerinin haksız rekabet olduğunun TESPİTİNE, haksız rekabetin MEN'İNE, piyasadaki iltibaslı ambalajlı ürünlerin toplatılmasına ve tecavüzün önlenmesi için kaçınılmaz olduğundan bu ambalajların imhasına,",
+      "summary": [
+        { "text": "İki haksız rekabet hâli de ispatlandı: iltibas (TTK m.55/1-a-4) ve sözleşmeyi ihlale yöneltme (m.55/1-b-1). Tespit, men ve maddi durumun ortadan kaldırılması talepleri kabul edildi (m.56/1)." },
+        { "if": "sure", "text": " Tedbir dava boyunca yürürlükte kaldı. Tazminat davası arabuluculuk sonrasında açıldı ve bu davayla birleştirildi; davalının elde ettiği menfaat bilirkişiyle hesaplanıyor (m.56/1-d)." },
+        { "if": "kalkti", "text": " Ama tedbir iki haftalık süre kaçırıldığı için kalkmıştı (HMK m.397/1); aradaki aylarda satılan ürünler zararı büyüttü." }
+      ] },
+    { "if": "iltibas || ayartma", "winner": "p1", "stamp": "KISMEN KABUL",
+      "hukum": [
+        { "if": "iltibas", "text": "Davalının iltibaslı ambalaj kullanmasının haksız rekabet olduğunun TESPİTİNE ve MEN'İNE, ürünlerin toplatılmasına; distribütörlerin yönlendirilmesine ilişkin talebin ispatlanamadığından REDDİNE," },
+        { "if": "!iltibas", "text": "Davalının davacının distribütörlerini sözleşmelerini feshetmeye yöneltmesinin haksız rekabet olduğunun TESPİTİNE ve MEN'İNE; ambalaja ilişkin talebin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Haksız rekabet hâllerinden yalnız biri ispatlandı." },
+        { "if": "!iltibas", "text": " İltibas iddiasını ortalama alıcıdaki genel izlenim ölçütüyle savunmadınız; Lavendula kutuları rafta kaldı." },
+        { "if": "iltibas", "text": " Ayartmayı gösteren yazılı delil olmadan distribütörlerin “kendi istekleriyle geldik” beyanı aşılamadı." },
+        { "if": "iltibas && ayartmaKismi", "text": " Fesih yazıları teklif alındığını gösterdi, ama teklifi kimin nasıl yaptığını göstermedi; dinlenen distribütörler de çekingen kaldı." },
+        { "if": "kalkti", "text": " Tedbir de iki haftalık süre kaçırıldığı için kalkmıştı (HMK m.397/1)." }
+      ] },
+    { "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Ne iltibas ne ayartma ispatlandı. Ambalajlar ortada, distribütörlerin yazışması müvekkilin gelen kutusunda duruyordu; ikisi de mahkemenin önüne doğru biçimde çıkmadı." }
+  ]
+}

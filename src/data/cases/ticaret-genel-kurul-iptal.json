@@ -1,0 +1,203 @@
+{
+  "id": "ticaret-genel-kurul-iptal",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "zor",
+  "title": "Altı Gün",
+  "area": "Ticaret Hukuku · Anonim şirket genel kurul kararının iptali ve butlanı",
+  "court": "Gebze 2. Asliye Ticaret Mahkemesi",
+  "courtShort": "2. ASLİYE TİCARET",
+  "esas": "2026/1184 Esas",
+  "kararTarihi": "03.03.2027",
+  "color": "#2e4a3f",
+  "teaser": "Dört yıldır kâr dağıtılmıyor, huzur hakları üç katına çıktı, şimdi de esas sözleşmeyle bilgi alma hakkı kısıldı. Azınlık pay sahibinin altı günü var; ve her karar aynı kurala tabi değil.",
+  "sides": { "p1": { "role": "Davacı (pay sahibi) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 3, "title": "Mahkeme Başkanı ve iki üye" },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Mahkeme Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Bülent Arıkan · Davalı şirket vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e6bd98", "hair": "#9a9a9a", "style": "short", "glasses": true } },
+    "client": { "name": "Hülya Erdem · Müvekkil (pay sahibi)", "np": "civil", "look": { "kind": "civil", "skin": "#c08b62", "hair": "#1e1612", "style": "bun", "shirt": "#2f4f6f", "inner": "#efe9dd" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Kocaeli, Gebze. Körfez Kimya Sanayi A.Ş.'nin sermayesinin yüzde 12'si Hülya Erdem'e ait; geri kalanı kurucu ailede. Şirketin merkezi Gebze." },
+    { "who": "client", "text": "24 Haziran'daki olağan genel kurulda üç karar alındı. 2025 kârının tamamı olağanüstü yedeğe ayrıldı; yine dağıtım yok. Yönetim kurulunun huzur hakları artırıldı. Bir de esas sözleşme değiştirildi: pay sahipleri artık yalnızca yönetim kurulunun uygun gördüğü konularda bilgi alabilecek." },
+    { "who": "client", "text": "Üçüne de “hayır” dedim. Kâr kararına itirazımı yazılı olarak tutanağa geçirttim; diğerlerinde el kaldırıp ret oyu verdim, o kadar." },
+    { "who": "narr", "text": "Bugün 18 Eylül 2026. Genel kurul tarihinden bu yana neredeyse üç ay geçti." }
+  ],
+  "docs": [
+    { "t": "Genel kurul toplantı tutanağı (24.06.2026)", "d": "Gündem 5: kârın olağanüstü yedeğe ayrılması. Gündem 7: huzur hakkı artırımı. Gündem 8: esas sözleşmenin bilgi alma hakkına ilişkin maddesinin değiştirilmesi. Üçü de oy çokluğuyla kabul." },
+    { "t": "Esas sözleşme değişikliği", "d": "“Pay sahipleri, yönetim kurulunun uygun gördüğü konularla sınırlı olarak bilgi alabilir; şirket defterleri pay sahiplerinin incelemesine açılmaz.”" },
+    { "t": "Pay defteri kaydı", "d": "Hülya Erdem, toplantı tarihinde yüzde 12 pay sahibi." },
+    { "t": "Heyet notu", "d": "Genel kurul kararlarının iptali ve butlanına ilişkin davalara asliye ticaret mahkemesinde, değerine bakılmaksızın başkan ve iki üyeden oluşan heyet bakar (5235 s.K. m.5/3)." }
+  ],
+  "evidence": [
+    { "id": "ev_esas", "type": "belge", "title": "Esas sözleşme değişikliği", "desc": "Bilgi almayı yönetim kurulunun iznine bağlayan, defterleri incelemeye kapatan yeni madde." },
+    { "id": "ev_bilanco", "type": "belge", "title": "2022–2025 finansal tabloları", "desc": "Dört yıl üst üste kâr; hiç dağıtım yok." },
+    { "id": "ev_tutanak", "type": "belge", "title": "Müvekkilin muhalefet şerhi", "desc": "Tutanağın 4. sayfası: “Gündemin 5. maddesine ilişkin karara karşıyım; muhalefetimin tutanağa geçirilmesini istiyorum. Hülya Erdem.” Gündem 7 ve 8'de yalnızca ret oyu.", "if": "tutanak" },
+    { "id": "ev_faaliyet", "type": "belge", "title": "Yönetim kurulunun 2025 faaliyet raporu", "desc": "Bir yatırım planı ya da finansman ihtiyacından söz edilmiyor; nakit mevduatta bekliyor. Aynı dönemde huzur hakları üç katına çıkmış.", "if": "faaliyet" },
+    { "id": "law_447", "type": "kanun", "title": "TTK m.447 · Butlan", "desc": "Pay sahibinin bilgi alma, inceleme ve denetleme haklarını kanunun izin verdiği ölçü dışında sınırlandıran kararlar batıldır.", "law": "TTK m.447/1-b" }
+  ],
+  "steps": [
+    {
+      "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [ { "who": "narr", "text": "Hülya Erdem büroda. Dilekçeyi bugün yazmanız gerekiyor; iki soruya vaktiniz var." } ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Tutanağın imzalı bir örneği sizde mi? Muhalefetinizi tam olarak nasıl yazdırdınız?", "delta": 15, "set": ["tutanak"],
+          "reply": [ { "who": "client", "text": "Örneği aldım. Dördüncü sayfada, kâr kararına karşı olduğumu ve tutanağa geçirilmesini istediğimi yazdırdım, imzaladım. Diğer ikisinde sadece ret oyu verdim." } ],
+          "note": "Kilit soru. Toplantıda hazır bulunup karara olumsuz oy veren pay sahibinin iptal davası açabilmesi için muhalefetini tutanağa geçirtmiş olması gerekir. Muhalefet şerhi delil çantanıza eklendi." },
+        { "text": "Şirket son yıllarda kâr dağıttı mı? Yedeğe ayrılan para bir yatırım için mi tutuluyor?", "delta": 15, "set": ["faaliyet"],
+          "reply": [ { "who": "client", "text": "Dört yıldır tek kuruş dağıtılmadı. Faaliyet raporunda bir yatırım yok; para bankada duruyor. Bu arada yönetim kurulunun huzur hakları üç katına çıktı." } ],
+          "note": "Yerinde. Kâr dağıtmama kararının dürüstlük kuralına aykırılığını göstermek için şirketin gerçek ihtiyacını ortaya koymak gerekir. Faaliyet raporu delil çantanıza eklendi." },
+        { "text": "Diğer azınlık pay sahipleri de dava açmayı düşünüyor mu?", "delta": 5,
+          "reply": [ { "who": "client", "text": "Yüzde 3'lük bir pay sahibi daha var; o da kızgın ama karar vermedi." } ],
+          "note": "İlginç ama bugün belirleyici değil. Aynı karara karşı açılan iptal davaları birleştirilir (TTK m.448)." },
+        { "text": "Payınızı satmayı hiç düşündünüz mü?", "delta": 0,
+          "reply": [ { "who": "client", "text": "Aile almak istiyor, ama değerinin çok altında." } ],
+          "note": "Strateji için anlamlı, ama dava açma süresi işlerken bugünün sorusu değil." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "Önce yönetim kuruluna bir ihtar çeksek? Belki kararı geri alırlar, dava masrafına girmeyiz." }
+      ],
+      "prompt": "Bugün 18 Eylül. Ne yapacaksınız?",
+      "choices": [
+        { "text": "Beklemeyelim. Üç aylık süre hak düşürücü ve 24 Eylül'de doluyor. Davayı şirkete karşı, şirket merkezinin bulunduğu yer olan Gebze'de asliye ticaret mahkemesinde açalım. Genel kurul kararının iptali para alacağı olmadığından arabuluculuk dava şartı değil.", "delta": 20, "set": ["sure"],
+          "law": "TTK m.445 · m.5/A",
+          "note": "Doğru. İptal davası karar tarihinden itibaren üç ay içinde, şirket merkezinin bulunduğu yerdeki asliye ticaret mahkemesinde açılır (TTK m.445). Dava şartı arabuluculuk, konusu bir miktar para olan ticari davalar içindir (TTK m.5/A).",
+          "reply": [ { "who": "narr", "text": "Dava 21 Eylül'de Gebze 2. Asliye Ticaret Mahkemesinde açıldı. Yönetim kurulu davayı ilan etti (TTK m.448/1)." } ] },
+        { "text": "Önce yönetim kuruluna noter ihtarı çekelim; on beş gün cevap bekleyelim.", "delta": -25,
+          "law": "TTK m.445",
+          "note": "Üç aylık süre hak düşürücüdür; ihtar onu durdurmaz.",
+          "fatal": { "label": "SONUÇ:", "hukum": "İptal davası açma süresi 24.09.2026'da doldu. Kâr dağıtmama ve huzur hakkı kararları kesinleşti.",
+            "summary": "Genel kurul kararlarının iptali için üç aylık süre hak düşürücüdür (TTK m.445). İhtarnameyle geçen günlerde süre doldu. Yalnızca bilgi alma hakkını kısıtlayan karar için butlan yolu süresiz açık kaldı (m.447); ama müvekkilin asıl derdi olan kâr kararı artık tartışılamaz." } },
+        { "text": "Davayı yarın asliye hukuk mahkemesinde açalım; nasılsa şirketle bir uyuşmazlık.", "delta": -10, "set": ["sure", "gorev"],
+          "law": "TTK m.445 · HMK m.20",
+          "note": "Görevli mahkeme asliye ticaret mahkemesidir (TTK m.445). Asliye hukuk görevsizlik kararı verdi; kesinleşmesinden itibaren iki hafta içinde gönderme talep ettiğiniz için dava ilk açıldığı tarihte açılmış sayıldı (HMK m.20). Süre kurtuldu ama aylar kaybedildi.",
+          "reply": [ { "who": "narr", "text": "Asliye hukuk mahkemesi görevsizlik kararı verdi. Kesinleşmeden sonra süresinde gönderme talep ettiniz; dosya beş ay sonra Gebze 2. Asliye Ticaret Mahkemesine ulaştı." } ] }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office", "if": "sure",
+      "lines": [ { "who": "narr", "text": "Dava dilekçesinin talep kısmını yazıyorsunuz. Üç karar var; her biri aynı kurala tabi değil." } ],
+      "prompt": "Hangi kararlara, hangi dayanakla saldıracaksınız?",
+      "choices": [
+        { "text": "Kâr kararı için iptal: muhalefet tutanakta. Bilgi alma hakkını kısıtlayan esas sözleşme değişikliği için butlanın tespiti. Huzur hakkı kararında muhalefet tutanağa geçmediği için iptal davası açma hakkı yok; onu dava etmeyelim.", "delta": 25, "set": ["kapsam"],
+          "law": "TTK m.445 · m.446/1-a · m.447/1-b",
+          "note": "Doğru ayrım. İptal davası için toplantıda hazır bulunup olumsuz oy vermek ve muhalefeti tutanağa geçirtmek birlikte aranır; Yargıtay Hukuk Genel Kurulu bunu özel dava şartı sayar (HGK 17.11.2022, E.2020/11-662, K.2022/1551). Butlan ise süreye ve muhalefet şerhine bağlı değildir (m.447)." },
+        { "text": "Üç kararın tamamının iptalini isteyelim; ret oyu vermesi yeterli.", "delta": -10, "set": ["hepsi"],
+          "law": "TTK m.446/1-a",
+          "note": "Huzur hakkı kararında yalnızca ret oyu var, muhalefet tutanağa geçmemiş. Salt olumsuz oy iptal davası açma hakkı vermez; bu talep dava şartı yokluğundan usulden reddedilecek ve vekâlet ücreti doğuracak." },
+        { "text": "Yalnızca kâr kararını dava edelim. Esas sözleşme değişikliği de üç ay içinde dava edilmezse kesinleşir; zaten muhalefet yok.", "delta": -10, "set": ["dar"],
+          "law": "TTK m.447/1-b",
+          "note": "Bilgi alma, inceleme ve denetleme haklarını kanunun izin verdiği ölçü dışında sınırlayan karar batıldır (m.447/1-b); butlan süreye ve muhalefet şerhine bağlı değildir. Müvekkilin en güçlü talebini dilekçeye almadınız." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Heyet hazır. Davalı vekili, ön itirazlarınız?" },
+        { "who": "opp", "text": "Davacı muhalefet şerhi koymamıştır. Hukuk Genel Kurulu'nun kararına göre bu bir dava şartıdır; dava usulden reddedilmelidir." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "Dava şartı itirazına nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "if": "tutanak", "text": "Kâr kararına muhalefet tutanağın dördüncü sayfasında, müvekkilin imzasıyla yazılı. Esas sözleşme değişikliği ise batıldır; butlan süreye ve muhalefet şerhine bağlı değildir.", "delta": 20, "set": ["usul"],
+          "law": "TTK m.446/1-a · m.447",
+          "note": "Doğru. Her kararın hangi kurala tabi olduğunu ayırdınız ve muhalefeti belgeyle gösterdiniz.",
+          "reply": [
+            { "who": "judge", "text": "Tutanağın dördüncü sayfası incelendi. Gündemin 5. maddesine ilişkin muhalefet tutanakta mevcut." },
+            { "if": "hepsi", "who": "judge", "text": "Ancak huzur hakkı kararı yönünden muhalefet şerhi bulunmadığı tutanağa geçirildi." }
+          ] },
+        { "if": "!tutanak", "text": "Tutanağın şirketten getirtilmesini istiyoruz; müvekkil kâr kararına muhalefetini yazdırmıştır. Esas sözleşme değişikliği ise batıldır, muhalefet aranmaz.", "delta": 10, "set": ["usul"],
+          "law": "TTK m.446/1-a · m.447 · HMK m.220",
+          "note": "Yeterli. Tutanak şirketten getirtildi ve muhalefet orada çıktı. Müvekkilin elindeki örneği sorsaydınız beklemeye gerek kalmazdı.",
+          "reply": [ { "who": "judge", "text": "Tutanak aslının davalıdan getirtilmesine karar verildi." }, { "who": "narr", "text": "Bir sonraki duruşmada tutanak geldi: dördüncü sayfada müvekkilin muhalefeti yazılı." } ] },
+        { "text": "Müvekkil toplantıda üç karara da ret oyu verdi; bu yeterlidir.", "delta": -15,
+          "law": "TTK m.446/1-a",
+          "note": "Yetmez. Olumsuz oy ve muhalefetin tutanağa geçirilmesi birlikte aranır (HGK 17.11.2022, E.2020/11-662, K.2022/1551). Muhalefetin yazılı olduğu belgeyi göstermediniz, butlanı da ayırmadınız." },
+        { "text": "Muhalefet şerhi bir şekil şartıdır; dürüstlük kuralı gereği aranmamalıdır.", "delta": -10,
+          "note": "Hukuk Genel Kurulu'nun kararına karşı dayanaksız bir yorum. Elinizdeki olguyu, yani muhalefetin tutanakta yazılı olduğunu göstermek gerekiyordu." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, dilekçenizi heyet olarak okuduk. Lütfen tekrar etmeyin; bugün on iki dosyamız var. İki cümleyle: bu esas sözleşme değişikliği neden batıl?" },
+        { "who": "narr", "text": "Başkanın sesi sabırsız. Üyelerden biri saatine baktı." }
+      ],
+      "prompt": "Nasıl cevap vereceksiniz?",
+      "choices": [
+        { "text": "“Bilgi alma ve inceleme hakkı esas sözleşmeyle ya da bir organ kararıyla kaldırılamaz ve sınırlandırılamaz. Bu değişiklik hakkı yönetim kurulunun iznine bağlıyor; m.447/1-b'deki butlan hâlidir.”", "delta": 10, "set": ["butlan"],
+          "law": "TTK m.437 · m.447/1-b",
+          "note": "Kısa, kesin ve madde numarasıyla. Sabırsız bir heyete en iyi cevap budur.",
+          "reply": [ { "who": "judge", "text": "Teşekkür ederim. Devam ediyoruz." } ] },
+        { "text": "“Sayın Başkan, izin verirseniz konuyu baştan, şirketin kuruluşundan itibaren özetlemek istiyorum…”", "delta": -5,
+          "note": "Başkan tekrar istemediğini açıkça söyledi. Uzun anlatım heyetin dikkatini kaybettirdi.",
+          "reply": [ { "who": "judge", "text": "Davacı vekili, sorumu tekrar ediyorum: iki cümle." } ] },
+        { "text": "“Bunu bilirkişinin değerlendirmesini talep ediyoruz.”", "delta": -10,
+          "law": "HMK m.266",
+          "note": "Hukuki bir soru bilirkişiye bırakılamaz; hâkimlik mesleğinin gerektirdiği hukuki bilgiyle çözülebilecek konularda bilirkişiye başvurulmaz (HMK m.266)." }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [ { "who": "judge", "text": "Esasa geçiyoruz. Davalı vekili, kâr kararına ilişkin savunmanız?" } ],
+      "statement": { "who": "opp", "text": "Kârın yedeğe ayrılması şirketin geleceği için yapılan bir yatırım tercihidir. Bu genel kurulun takdiridir; dürüstlük kuralına aykırılık yoktur." },
+      "prompt": "Bu savunmayı hangi delille çürüteceksiniz?",
+      "correct": ["ev_faaliyet"],
+      "hit": { "delta": 25, "set": ["kar"],
+        "reply": [ { "who": "judge", "text": "Faaliyet raporu ve finansal tablolar üzerinde mali müşavir bilirkişi incelemesi yaptırılmasına karar verildi." }, { "who": "narr", "text": "Bilirkişi: yedeğe ayrılan tutarın karşılığı olan bir yatırım ya da finansman ihtiyacı yok; aynı dönemde huzur hakları üç katına çıkmış." } ],
+        "note": "Doğru delil. Yönetim kurulunun kendi raporu yatırım gerekçesini çürütüyor. Kâr dağıtmamak kural olarak genel kurulun takdirinde olsa da, gerçek bir ihtiyaç olmadan yıllarca sürdürülmesi ve yöneticilere ödemelerin artırılması dürüstlük kuralına aykırılık olarak iptal sebebidir (TTK m.445)." },
+      "responses": {
+        "ev_bilanco": { "delta": 5,
+          "note": "Dört yıllık kârı gösteriyor, ama yedeğe ayırmanın gerekçesiz olduğunu göstermiyor. Şirketin gerçek ihtiyacını ortaya koyan belge gerekirdi." },
+        "ev_tutanak": { "delta": -5, "note": "Muhalefet şerhi dava açma hakkını gösterir; kararın esastan hukuka aykırılığını değil." },
+        "ev_esas": { "delta": -5, "note": "Esas sözleşme değişikliği butlan talebinizle ilgili; kâr kararı savunmasına cevap vermez." },
+        "law_447": { "delta": -5, "note": "Butlan maddesi; kâr kararı iptal davasının konusudur ve dürüstlük kuralına aykırılık olgularla gösterilmelidir." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil savunmaya cevap vermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; “yatırım tercihi” savunması cevapsız kaldı." }
+    }
+  ],
+  "outcomes": [
+    { "if": "usul && kar && (kapsam || hepsi)", "winner": "p1",
+      "hukum": [
+        { "text": "24.06.2026 tarihli olağan genel kurulun 5 numaralı gündem maddesine ilişkin kâr dağıtmama kararının İPTALİNE, 8 numaralı gündem maddesine ilişkin esas sözleşme değişikliği kararının BATIL OLDUĞUNUN TESPİTİNE," },
+        { "if": "hepsi", "text": " 7 numaralı gündem maddesine ilişkin iptal talebinin dava şartı yokluğundan USULDEN REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Her kararı kendi kuralına göre dava ettiniz: kâr kararını süresinde ve muhalefet şerhiyle iptal ettirdiniz (TTK m.445, m.446/1-a); bilgi alma hakkını kısıtlayan değişikliğin butlanını tespit ettirdiniz (m.447/1-b). Karar ticaret siciline tescil edilecek ve bütün pay sahiplerini bağlayacak (m.450)." },
+        { "if": "hepsi", "text": " Huzur hakkı kararı için muhalefet şerhi olmadığından o talep usulden reddedildi ve aleyhinize vekâlet ücreti çıktı." },
+        { "if": "gorev", "text": " Görevsiz mahkemede geçen aylar davayı geciktirdi." }
+      ] },
+    { "if": "usul && kar", "winner": "p1", "stamp": "KISMEN KABUL",
+      "hukum": "24.06.2026 tarihli olağan genel kurulun 5 numaralı gündem maddesine ilişkin kâr dağıtmama kararının İPTALİNE,",
+      "summary": "Kâr kararını iptal ettirdiniz. Ama bilgi alma hakkını kısıtlayan esas sözleşme değişikliğini dava etmediniz; butlan süresiz ileri sürülebilir (TTK m.447), ama müvekkil yeni bir dava açmak zorunda kalacak." },
+    { "if": "(kapsam || hepsi) && (usul || butlan)", "winner": "p1", "stamp": "KISMEN KABUL",
+      "hukum": [
+        { "text": "24.06.2026 tarihli olağan genel kurulun 8 numaralı gündem maddesine ilişkin esas sözleşme değişikliği kararının BATIL OLDUĞUNUN TESPİTİNE," },
+        { "if": "!usul", "text": " kâr dağıtmama kararının iptali talebinin dava şartı yokluğundan USULDEN REDDİNE," },
+        { "if": "usul", "text": " kâr dağıtmama kararının iptali talebinin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Bilgi alma hakkını kısıtlayan değişikliğin butlanı tespit edildi (TTK m.447/1-b)." },
+        { "if": "!usul", "text": " Ama muhalefet şerhini göstermediğiniz için kâr kararı yönünden dava şartı eksik sayıldı." },
+        { "if": "usul && !kar", "text": " Kâr kararı ise esastan reddedildi: “yatırım tercihi” savunmasını yönetim kurulunun kendi raporuyla çürütmediniz." }
+      ] },
+    { "winner": "p2",
+      "hukum": [
+        { "if": "!usul", "text": "Davanın dava şartı yokluğundan USULDEN REDDİNE," },
+        { "if": "usul", "text": "Davanın REDDİNE," }
+      ],
+      "summary": [
+        { "if": "!usul", "text": "Muhalefet şerhini gösteremediniz; iptal davası açma hakkı ispatlanamadı (TTK m.446/1-a; HGK 2022/1551). Butlan ise dilekçeye alınmamıştı ya da heyete anlatılamadı." },
+        { "if": "usul", "text": "Dava açma hakkınız vardı, ama kâr kararının dürüstlük kuralına aykırılığını ispatlayamadınız ve esas sözleşme değişikliğini dava etmediniz." }
+      ] }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "id": "ticaret-tasima-hasar",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "basit",
+  "title": "Kırık Camlar",
+  "area": "Ticaret Hukuku · Eşya taşımasında taşıyıcının sorumluluğu",
+  "court": "Bursa 4. Asliye Ticaret Mahkemesi",
+  "courtShort": "4. ASLİYE TİCARET",
+  "esas": "2026/615 Esas",
+  "kararTarihi": "09.02.2027",
+  "color": "#2f5d62",
+  "teaser": "Yirmi iki sandık cam Bursa'dan Diyarbakır'a sağlam göründü, ama yedisinin içi paramparça çıktı. Teslimde çekince yok, taşıyıcı “ambalajınız kötüydü” diyor.",
+  "sides": { "p1": { "role": "Davacı (gönderen) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#b88560", "hair": "#151515", "style": "short" } },
+    "opp": { "name": "Av. Selda Karaman · Davalı (taşıyıcı) vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#efcaa6", "hair": "#a0522d", "style": "long", "glasses": true } },
+    "client": { "name": "Tamer Oral · Müvekkil şirketin lojistik müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#c08b62", "hair": "#2b1d17", "style": "short", "beard": true, "shirt": "#4a5a3a", "inner": "#dcd6c8" } },
+    "senior": { "name": "Av. Orhan Kaplan · Kıdemli meslektaş", "np": "green", "look": { "kind": "civil", "skin": "#dcae86", "hair": "#b0b0b0", "style": "bald", "glasses": true, "shirt": "#2c3440", "inner": "#efeae0" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Bursa. Nilüfer Cam San. A.Ş., Diyarbakır'da yapılan bir otel için 22 sandık temperli cam paneli Anka Hızlı Lojistik Ltd. Şti.'ye teslim etti. Toplam brüt ağırlık 9.600 kg." },
+    { "who": "client", "text": "Sandıkları şoför yüklemede kontrol etti, teslim alma belgesine çekincesiz imza attı. 14 Nisan'da Diyarbakır'da teslim edildi; sandıklar dışarıdan sağlamdı, alıcı irsaliyeyi imzaladı." },
+    { "who": "client", "text": "17 Nisan'da montaj için sandıkları açtılar: yedisinin içi kırık. Ertesi gün fotoğraflarla taşıyıcıya e-posta attık. Yeni camı biz gönderdik; zarar 486.000 TL." },
+    { "who": "narr", "text": "Arabuluculukta anlaşma sağlanamadı. Dava, taşıyıcının merkezinin bulunduğu Bursa'da açıldı." }
+  ],
+  "docs": [
+    { "t": "Teslim alma belgesi (Bursa, 10.04.2026)", "d": "Şoför imzalı: “22 sandık, ambalaj ve yükleme uygun.” Çekince yok." },
+    { "t": "Teslim irsaliyesi (Diyarbakır, 14.04.2026)", "d": "Alıcı imzalı. Sandıklar dıştan hasarsız. Çekince yok." },
+    { "t": "Hasar bildirimi (18.04.2026)", "d": "Alıcı ve gönderenin taşıyıcıya ortak e-postası; yedi sandığın fotoğrafı ve kırık cam listesi." },
+    { "t": "Ekspertiz raporu", "d": "Yedi sandıkta forklift çatalının içeri girdiğini gösteren delikler. Sandıklar sektör standardında. Hasarlı sandıkların brüt ağırlığı 3.150 kg; camların Bursa'daki teslim alma değeri 486.000 TL." }
+  ],
+  "evidence": [
+    { "id": "ev_teslimalma", "type": "belge", "title": "Teslim alma belgesi", "desc": "Şoför imzalı: “22 sandık, ambalaj ve yükleme uygun.” Çekince yok." },
+    { "id": "ev_irsaliye", "type": "belge", "title": "Teslim irsaliyesi", "desc": "Alıcı imzalı; sandıklar dıştan hasarsız, çekince yok." },
+    { "id": "ev_eposta", "type": "belge", "title": "Hasar bildirimi e-postası", "desc": "18.04.2026; fotoğraflar ve kırık cam listesi." },
+    { "id": "ev_ekspertiz", "type": "belge", "title": "Ekspertiz raporu", "desc": "Forklift çatalı delikleri; sandıklar standarda uygun; hasar değeri 486.000 TL." },
+    { "id": "law_882", "type": "kanun", "title": "TTK m.882 · Sorumluluk sınırı", "desc": "Ziya ve hasarda tazminat, brüt ağırlığın her kilogramı için 8,33 Özel Çekme Hakkı ile sınırlı.", "law": "TTK m.882" }
+  ],
+  "steps": [
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "senior", "text": "Dava dilekçesini sen yazacaksın. Önce şunu söyle: taşıyıcıyı hangi dayanakla sorumlu tutuyoruz?" }
+      ],
+      "prompt": "Talebin hukuki dayanağı ne?",
+      "choices": [
+        { "text": "Taşıyıcı, eşyayı taşımak üzere teslim aldığı andan teslim edinceye kadar ziya ve hasardan sorumludur. Kusurunu ispat etmemiz gerekmez; sorumluluktan kurtulmayı o ispat eder.", "delta": 20, "set": ["dayanak"],
+          "law": "TTK m.875 · m.876",
+          "note": "Doğru. TTK m.875 taşıyıcıya teslim alma ile teslim arasında ziya ve hasar sorumluluğu yükler. Taşıyıcı, en yüksek özeni gösterse de kaçınamayacağı bir sebebi ya da kanundaki özel kurtulma sebeplerini ispat ederek kurtulabilir.",
+          "reply": [ { "who": "senior", "text": "Güzel. Ziya ve hasar taşıyıcının elindeyken olmuşsa yük onda." } ] },
+        { "text": "Haksız fiil hükümlerine dayanırız; şoförün kusurunu ispat etmemiz gerekir.", "delta": -10,
+          "law": "TBK m.49 · TTK m.875",
+          "note": "Gereksiz yere ağır bir yük üstlendiniz. Taraflar arasında taşıma sözleşmesi var ve TTK'nın taşıma hükümleri taşıyıcıya özel bir sorumluluk yükler (m.875).",
+          "reply": [ { "who": "senior", "text": "Sözleşme varken neden haksız fiile gidelim? TTK m.875'e bak; taşıyıcının sorumluluğu ayrıca düzenlenmiş." } ] },
+        { "text": "Alıcı otel şirketi ayıp sebebiyle bize başvurmadıkça taşıyıcıya dava açamayız.", "delta": -10,
+          "note": "Böyle bir ön şart yok. Gönderen, taşıma sözleşmesinin tarafı olarak taşıyıcıya karşı zararını isteyebilir.",
+          "reply": [ { "who": "senior", "text": "Zararı biz karşıladık; yeni camı biz gönderdik. Sözleşmenin tarafı da biziz." } ] }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Davalı vekili, savunmanızı özetleyin." },
+        { "who": "opp", "text": "Alıcı teslim irsaliyesini çekincesiz imzaladı. Eşya sözleşmeye uygun, hasarsız teslim edilmiştir." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "Çekincesiz teslim savunmasına cevabınız?",
+      "choices": [
+        { "text": "Hasar dışarıdan görülemiyordu; sandıklar açılınca ortaya çıktı. Dıştan görülemeyen hasar teslimden itibaren yedi gün içinde bildirilir; dördüncü gün fotoğraflı e-postayla bildirdik.", "delta": 20, "set": ["ihbar"],
+          "law": "TTK m.889",
+          "note": "Doğru. Görülebilen hasar en geç teslimde, görülemeyen hasar teslimden itibaren yedi gün içinde bildirilir (TTK m.889). Bildirim yapılmasa bile hak düşmez; yalnızca eşyanın sözleşmeye uygun teslim edildiği karinesi doğar. Burada süresinde bildirim var.",
+          "reply": [ { "who": "judge", "text": "18.04.2026 tarihli e-postanın ve eklerinin dosyaya sunulduğu görüldü." } ] },
+        { "text": "Teslimde çekince konması diye bir şart yoktur; bildirimin önemi yok.", "delta": -10,
+          "law": "TTK m.889",
+          "note": "Yanlış. Süresinde bildirim yapılmazsa eşyanın sözleşmeye uygun teslim edildiği karinesi doğar (TTK m.889). Elinizde süresinde yapılmış bir bildirim varken onu göstermeliydiniz." },
+        { "text": "Bildirim süresi geçmiş olabilir ama zamanaşımı bir yıl olduğu için sorun yok.", "delta": -10,
+          "law": "TTK m.855 · m.889",
+          "note": "İki ayrı kurumu karıştırdınız. Bir yıllık süre zamanaşımıdır (m.855); hasar bildirimi ise ayrı bir kuraldır (m.889). Üstelik bildirim süresinde yapılmıştı; bunu kendiniz zayıflattınız." }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [ { "who": "judge", "text": "Davalı vekili, kurtuluş sebebinizi açıklayın." } ],
+      "statement": { "who": "opp", "text": "Hasar, gönderenin camları yetersiz ambalajlamasından doğmuştur. Taşıyıcı bu zarardan sorumlu değildir." },
+      "prompt": "Bu savunmayı hangi delille çürüteceksiniz?",
+      "correct": ["ev_ekspertiz"],
+      "hit": { "delta": 20, "set": ["ambalaj"],
+        "reply": [ { "who": "judge", "text": "Ekspertiz raporundaki forklift izleri yönünden bilirkişi incelemesine karar verildi." }, { "who": "narr", "text": "Bilirkişi, kırılmanın aktarma deposunda forklift çatalının sandığa girmesiyle oluştuğunu, ambalajın standarda uygun olduğunu bildirdi." } ],
+        "note": "Doğru delil. Yetersiz ambalaj kanundaki özel kurtulma sebeplerindendir; ama ekspertiz hasarın ambalajdan değil, taşıyıcının elleçlemesinden doğduğunu gösteriyor." },
+      "responses": {
+        "ev_teslimalma": { "delta": 10, "set": ["ambalajKismi"],
+          "note": "Faydalı. Şoför ambalajı çekincesiz “uygun” diye kabul etmiş; bu, savunmayı zayıflatır. Ama hasarın gerçek sebebini gösteren ekspertiz daha güçlüydü." },
+        "ev_irsaliye": { "delta": -5, "note": "İrsaliye çekincesiz teslimi gösteriyor; ambalaj savunmasına cevap vermez, karşı tarafın işine bile yarayabilir." },
+        "ev_eposta": { "delta": -5, "note": "Bildirim e-postası süresinde ihbarı ispatlar; hasarın sebebine ilişkin değildir." },
+        "law_882": { "delta": -5, "note": "Sorumluluk sınırı tazminatın miktarıyla ilgilidir; ambalaj savunmasını çürütmez." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil ambalaj savunmasına cevap vermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; taşıyıcının ambalaj savunması cevapsız kaldı." }
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Her hâlükârda müvekkilin sorumluluğu kanuni sınırla sınırlıdır." },
+        { "who": "judge", "text": "Davacı vekili, tazminat talebinizi netleştirin." }
+      ],
+      "prompt": "Tazminatı nasıl hesaplayıp isteyeceksiniz?",
+      "choices": [
+        { "text": "Camların teslim alındıkları Bursa'daki değeri olan 486.000 TL. Sınır brüt ağırlığın kilogramı başına 8,33 Özel Çekme Hakkıdır; hasarlı sandıkların ağırlığı esas alınsa bile sınır zararın üzerinde kalıyor.", "delta": 20, "set": ["hesap"],
+          "law": "TTK m.880 · m.882",
+          "note": "Doğru. Ziya ve hasar tazminatı eşyanın taşınmak üzere teslim alındığı yer ve zamandaki değerine göre hesaplanır (m.880). Kanuni sınır (m.882) bu dosyada zararın üstünde kalıyor; tamamı istenebilir.",
+          "reply": [ { "who": "judge", "text": "Taraflara son sözleri soruldu. Karar için ara veriyorum." } ] },
+        { "text": "Otel projesindeki satış bedeli, kaçan kâr ve alıcıya ödediğimiz gecikme cezası.", "delta": -10,
+          "law": "TTK m.880",
+          "note": "Ziya ve hasar tazminatı eşyanın teslim alındığı yer ve zamandaki değeri esas alınarak hesaplanır (m.880); kâr kaybı gibi zararlar bu hesaba girmez. Bu kalemler reddedilir.",
+          "reply": [ { "who": "judge", "text": "Taraflara son sözleri soruldu. Karar için ara veriyorum." } ] },
+        { "text": "Taşıyıcı kusurlu olduğu için sorumluluk sınırı hiç uygulanmaz.", "delta": -5,
+          "law": "TTK m.882 · m.886",
+          "note": "Sınır olağan kusurla kalkmaz; kast ya da zararın meydana gelmesi ihtimalinin bilinciyle pervasızca davranış gerekir (m.886). Bu dosyada sınır zaten zararın üzerinde; tartışmayı gereksiz yere açtınız.",
+          "reply": [ { "who": "judge", "text": "Taraflara son sözleri soruldu. Karar için ara veriyorum." } ] }
+      ]
+    }
+  ],
+  "outcomes": [
+    { "if": "ihbar && ambalaj", "winner": "p1",
+      "hukum": [
+        { "if": "!hesap", "text": "Davanın KISMEN KABULÜ ile 486.000 TL'nin dava tarihinden itibaren işleyecek avans faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "hesap", "text": "Davanın KABULÜ ile 486.000 TL'nin dava tarihinden itibaren işleyecek avans faiziyle birlikte davalıdan alınarak davacıya verilmesine," }
+      ],
+      "summary": [
+        { "text": "Hasar taşıyıcının elindeyken, aktarma deposunda oluştu (TTK m.875). Görülemeyen hasar yedi gün içinde bildirildi (m.889); ambalaj savunması ekspertizle çürüdü." },
+        { "if": "!hesap", "text": " Tazminatı yanlış kalemlerle istediğiniz için talebin bir kısmı reddedildi; değer, teslim alma yerindeki değerdir (m.880)." }
+      ] },
+    { "if": "ihbar || ambalaj || ambalajKismi", "winner": "p1", "stamp": "KISMEN KABUL",
+      "hukum": "Davanın KISMEN KABULÜ ile 243.000 TL'nin davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "if": "!ihbar", "text": "Süresinde yapılmış bildirimi mahkemeye göstermediniz; teslimin sözleşmeye uygun yapıldığı karinesi (TTK m.889) aleyhinize işledi ve mahkeme hasarın bir kısmının taşıma sırasında oluştuğunu ispatlanmış saymadı." },
+        { "if": "ihbar", "text": "Bildirim süresini doğru gösterdiniz; ama ambalaj savunmasını hasarın sebebini gösteren ekspertizle çürütmediniz. Mahkeme zararın bir kısmını gönderenin ambalajına bağladı." }
+      ] },
+    { "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Çekincesiz teslim karinesi ve ambalaj savunması cevapsız kaldı. Süresinde yapılmış bildirim ve ekspertiz raporu dosyada olduğu hâlde kullanılmadı." }
+  ]
+}

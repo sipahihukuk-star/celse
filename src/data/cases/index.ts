@@ -96,6 +96,12 @@ import dkKonutDokunulmazligi from "./dk-konut-dokunulmazligi.json";
 import dkGuveniKotuye from "./dk-guveni-kotuye.json";
 import dkTaksirleYaralama from "./dk-taksirle-yaralama.json";
 import dkAgirYaralamaTahrik from "./dk-agir-yaralama-tahrik.json";
+import ticaretCekIbraz from "./ticaret-cek-ibraz.json";
+import ticaretHaksizRekabet from "./ticaret-haksiz-rekabet.json";
+import ticaretCariHesap from "./ticaret-cari-hesap.json";
+import ticaretTasimaHasar from "./ticaret-tasima-hasar.json";
+import ticaretGenelKurulIptal from "./ticaret-genel-kurul-iptal.json";
+import ticaretLimitedCikma from "./ticaret-limited-cikma.json";
 
 export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, sozluFesih, uzakAdliye, yargitayDurusma, aihmBuyukDaire, ucmYargilama,
   danistayYonetmelik, danistayAceleKamulastirma, danistayCedBoruHatti, danistayImtiyaz, danistayVergiTeblig,
@@ -170,7 +176,13 @@ export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, soz
   dkKonutDokunulmazligi,
   dkGuveniKotuye,
   dkTaksirleYaralama,
-  dkAgirYaralamaTahrik].map(c => normalizeCase(c as unknown as CaseFile));
+  dkAgirYaralamaTahrik,
+  ticaretCekIbraz,
+  ticaretHaksizRekabet,
+  ticaretCariHesap,
+  ticaretTasimaHasar,
+  ticaretGenelKurulIptal,
+  ticaretLimitedCikma].map(c => normalizeCase(c as unknown as CaseFile));
 export const DUEL_CASES = CASES.filter(c => c.mode === "duel");
 export const SOLO_CASES = CASES.filter(c => c.mode === "solo");
 export const caseById = (id: string) => CASES.find(c => c.id === id)!;
