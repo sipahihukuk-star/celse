@@ -26,11 +26,31 @@ import sayistayFazlaMesai from "./sayistay-fazla-mesai.json";
 import sayistayDusukKira from "./sayistay-dusuk-kira.json";
 import sayistayTemsilAgirlama from "./sayistay-temsil-agirlama.json";
 import sayistayYargilamaninIadesi from "./sayistay-yargilamanin-iadesi.json";
+import isEvlilikKidem from "./is-evlilik-kidem.json";
+import isYillikIzin from "./is-yillik-izin.json";
+import isUcretHakliFesih from "./is-ucret-hakli-fesih.json";
+import isFazlaMesai from "./is-fazla-mesai.json";
+import isKazasiTazminat from "./is-kazasi-tazminat.json";
+import aihmMakulSure from "./aihm-makul-sure.json";
+import aihmIfadeGazeteci from "./aihm-ifade-gazeteci.json";
+import aihmIsyeriGozetim from "./aihm-isyeri-gozetim.json";
+import ucmTamamlayicilik from "./ucm-tamamlayicilik.json";
+import ucmUstSorumlulugu from "./ucm-ust-sorumlulugu.json";
 
 export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, sozluFesih, uzakAdliye, yargitayDurusma, aihmBuyukDaire, ucmYargilama,
   danistayYonetmelik, danistayAceleKamulastirma, danistayCedBoruHatti, danistayImtiyaz, danistayVergiTeblig,
   aymBireyselTutukluluk, aymBireyselMulkiyet, aymBireyselGerekce, aymIptalSozluAciklama, aymYuceDivan,
-  sayistayFazlaHakedis, sayistayFazlaMesai, sayistayDusukKira, sayistayTemsilAgirlama, sayistayYargilamaninIadesi].map(c => normalizeCase(c as unknown as CaseFile));
+  sayistayFazlaHakedis, sayistayFazlaMesai, sayistayDusukKira, sayistayTemsilAgirlama, sayistayYargilamaninIadesi,
+  isEvlilikKidem,
+  isYillikIzin,
+  isUcretHakliFesih,
+  isFazlaMesai,
+  isKazasiTazminat,
+  aihmMakulSure,
+  aihmIfadeGazeteci,
+  aihmIsyeriGozetim,
+  ucmTamamlayicilik,
+  ucmUstSorumlulugu].map(c => normalizeCase(c as unknown as CaseFile));
 export const DUEL_CASES = CASES.filter(c => c.mode === "duel");
 export const SOLO_CASES = CASES.filter(c => c.mode === "solo");
 export const caseById = (id: string) => CASES.find(c => c.id === id)!;

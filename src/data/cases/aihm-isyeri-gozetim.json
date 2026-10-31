@@ -1,0 +1,164 @@
+{
+  "id": "aihm-isyeri-gozetim",
+  "mode": "solo",
+  "career": { "level": 5 },
+  "difficulty": "zor",
+  "title": "Okunan Mesajlar",
+  "area": "AİHM · Özel hayata saygı (m.8) · İşyerinde gözetim",
+  "court": "Avrupa İnsan Hakları Mahkemesi · Daire",
+  "courtShort": "AİHM · DAİRE",
+  "esas": "Başvuru no. 52214/27",
+  "kararTarihi": "18.04.2028",
+  "color": "#33485a",
+  "teaser": "İşveren, bir mühendisin iş hesabındaki bütün yazışmalarını haber vermeden okudu ve onu işten çıkardı. Strazburg'a giden yol dar: önce doğru iç hukuk yolunu, sonra Devletin sorumluluğunu, en sonunda yerel mahkemelerin dengelemeyi hiç yapmadığını göstermelisiniz.",
+  "sides": { "p1": { "role": "Başvurucu vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 7, "title": "Daire: başkan ve altı yargıç" },
+  "room": "uluslararasi",
+  "inscription": null,
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "skin": "#e8c09c", "hair": "#6b6b70", "style": "short", "glasses": true, "robe": "#1b1d24", "collarColor": "#3a6fb0" } },
+    "opp": { "name": "Hükûmet temsilcisi", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#cf9a72", "hair": "#4a3428", "style": "long", "glasses": true, "robe": "#22252c", "collarColor": "#55606e" } },
+    "client": { "name": "Elif Durmaz · Başvurucu", "np": "civil", "look": { "kind": "civil", "skin": "#e9c3a0", "hair": "#2b1d17", "style": "long", "shirt": "#3d5a4a", "inner": "#e6e0d2" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Bursa. Elif Durmaz, Ardıç Otomotiv Yan Sanayi A.Ş.'de dokuz yıl kalite mühendisi olarak çalıştı. İşveren, altı hafta boyunca kurumsal e-posta ve şirket içi mesajlaşma hesabındaki bütün yazışmalarını kaydetti; içlerinde eşiyle ve doktoruyla yazışmaları da vardı." },
+    { "who": "client", "text": "Sonra 45 sayfalık bir döküm önüme kondu: “İş araçlarını kişisel amaçla kullandınız.” İş sözleşmem İş Kanunu m.25/II'ye dayanılarak feshedildi. İşe iade davasını kaybettim; bölge adliye mahkemesi de istinafı reddetti." },
+    { "who": "narr", "text": "İşe iade davasında bölge adliye mahkemesinin kararı kesindir (İş K. m.20). Karar dokuz gün önce tebliğ edildi. Buradan Strazburg'a kadar her adımda bir süre ve bir usul engeli var." }
+  ],
+  "docs": [
+    { "t": "Bölge adliye mahkemesi kararı", "d": "İstinaf başvurusu esastan reddedildi; karar kesin. Gerekçe: işyeri yönetmeliği kişisel kullanımı yasaklıyordu, fesih haklıdır. Gözetimin kapsamı ve önceden bildirilip bildirilmediği tartışılmamış." },
+    { "t": "İzleme raporu", "d": "Bilgi işlem biriminin altı haftalık kayıt dökümü: 45 sayfa, iş ve kişisel yazışmaların tamamı." },
+    { "t": "Anayasa m.20, m.22", "d": "Özel hayatın gizliliği ve haberleşme hürriyeti." }
+  ],
+  "evidence": [
+    { "id": "ev_bam", "type": "belge", "title": "Bölge adliye mahkemesi kararı", "desc": "Yalnızca kişisel kullanım yasağına ve feshin haklılığına dayanıyor; gözetimin bildirilip bildirilmediği, kapsamı ve gerekçesi tartışılmamış." },
+    { "id": "ev_rapor", "type": "belge", "title": "İzleme raporu", "desc": "Altı haftalık kayıt dökümü; 45 sayfa." },
+    { "id": "ev_aym", "type": "belge", "title": "Anayasa Mahkemesi kararı", "desc": "Özel hayat ve haberleşme hürriyeti şikâyeti açıkça dayanaktan yoksun bulundu." },
+    { "id": "ev_yonetmelik", "type": "belge", "title": "İşyeri yönetmeliği ve imzalı tebliğ formu", "desc": "Yönetmelik iş araçlarının kişisel amaçla kullanılmasını yasaklıyor. İzleme yapılacağına, kapsamına ya da yöntemine dair tek satır yok. Başvurucu yalnızca bu yasağı imzalamış.", "if": "yonetmelik" },
+    { "id": "ev_dilekce", "type": "belge", "title": "İşe iade dava ve istinaf dilekçeleri", "desc": "Gözetimin Anayasa m.20 ve m.22'ye aykırı olduğu, dökümün hukuka aykırı delil olduğu (HMK m.189/2) açıkça ileri sürülmüş.", "if": "dilekce" },
+    { "id": "ev_kapsam", "type": "beyan", "title": "Başvurucunun kapsam beyanı", "desc": "Kayıtlar eşiyle ve doktoruyla yazışmaları da içeriyordu; dökümü insan kaynakları ve üç birim müdürü okudu.", "if": "kapsam" },
+    { "id": "law_8", "type": "kanun", "title": "Sözleşme m.8", "desc": "Özel hayata ve haberleşmeye saygı hakkı.", "law": "Sözleşme m.8" }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "client", "text": "Yargıtay'a gidelim mi, yoksa artık doğrudan Avrupa'ya mı?" }],
+      "prompt": "Bölge adliye mahkemesinin kesin kararından sonra ne yapacaksınız?",
+      "choices": [
+        { "text": "Kararın tebliğinden itibaren otuz gün içinde Anayasa Mahkemesi'ne bireysel başvuruda bulunun; özel hayat ve haberleşme hürriyeti şikâyetini açıkça ileri sürün.", "delta": 20, "set": ["aym"],
+          "law": "6216 s.K. m.47/5; Sözleşme m.35/1",
+          "reply": [{ "who": "narr", "text": "Başvuru süresinde yapıldı. Anayasa Mahkemesi şikâyeti açıkça dayanaktan yoksun buldu. Karar tebliğinden sonra, dört aylık süre içinde, eksiksiz formla AİHM'e başvurdunuz. Başvuru Hükûmete bildirildi." }],
+          "note": "Anayasa Mahkemesi'ne bireysel başvuru, AİHM'in Türkiye bakımından tüketilmesini aradığı etkili bir iç hukuk yoludur. Süre, kesin kararın öğrenilmesinden itibaren otuz gündür. AİHM'in dört aylık süresi Anayasa Mahkemesi kararından sonra işlemeye başlar." },
+        { "text": "Bölge adliye mahkemesi kararını Yargıtay'da temyiz edin.", "delta": -25,
+          "law": "İş K. m.20; 6216 s.K. m.47/5",
+          "note": "İşe iade davasında bölge adliye mahkemesinin kararı kesindir. Açık olmayan bir kanun yoluna başvurmak süreleri durdurmaz.",
+          "fatal": { "label": "KARAR:",
+            "hukum": "Başvurunun, iç hukuk yollarının usulüne uygun tüketilmemesi nedeniyle Sözleşme m.35/1 ve m.35/4 uyarınca KABUL EDİLEMEZ OLDUĞUNA; Bu karar kesindir.",
+            "summary": "Temyiz dilekçesi karar kesin olduğu için reddedildi. Bu arada Anayasa Mahkemesi'nin otuz günlük süresi geçti; geç yapılan bireysel başvuru süre aşımından reddedildi. Süresinde yapılmayan bir başvuru, iç hukuk yolunun usulüne uygun tüketildiği anlamına gelmez." } },
+        { "text": "Anayasa Mahkemesi'ni atlayıp dört ay içinde doğrudan AİHM'e başvurun.", "delta": -25,
+          "law": "Sözleşme m.35/1",
+          "note": "23 Eylül 2012'den bu yana Anayasa Mahkemesi'ne bireysel başvuru, AİHM'den önce tüketilmesi gereken etkili bir yoldur.",
+          "fatal": { "label": "KARAR:",
+            "hukum": "Başvurunun, iç hukuk yollarının tüketilmemesi nedeniyle Sözleşme m.35/1 ve m.35/4 uyarınca KABUL EDİLEMEZ OLDUĞUNA; Bu karar kesindir.",
+            "summary": "AİHM, Anayasa Mahkemesi'ne bireysel başvuruyu Türkiye bakımından etkili bir iç hukuk yolu sayıyor. Bu yol kullanılmadan yapılan başvuru incelenmedi; Anayasa Mahkemesi'nin otuz günlük süresi de geçmişti." } }
+      ] },
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Hükûmetin yazılı görüşleri gelmeden müvekkille görüşüyorsunuz. Daire kabul edilebilirliği ve esası birlikte inceleyecek (Sözleşme m.29/1); duruşma yapılmayacak. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "İşyerinde yazışmaların izleneceği size önceden bildirilmiş miydi? Ne imzaladınız?", "delta": 15, "set": ["yonetmelik"],
+          "reply": [{ "who": "client", "text": "İşe girerken bir yönetmelik imzalattılar: “İş araçları kişisel amaçla kullanılamaz.” İzleme yapılacağına dair hiçbir şey yazmıyordu. İmzalı nüsha bende." }],
+          "note": "Kişisel kullanım yasağı ile izleme yapılacağının önceden bildirilmesi aynı şey değildir. Yönetmelik ve imzalı form delil çantanıza eklendi." },
+        { "text": "Yerel mahkemede gözetimin özel hayatı ihlal ettiğini ileri sürdünüz mü? Dilekçeler sizde mi?", "delta": 15, "set": ["dilekce"],
+          "reply": [{ "who": "client", "text": "Evet. Önceki avukatım dava dilekçesinde de istinaf dilekçesinde de Anayasa'nın 20. ve 22. maddelerini yazdı; dökümün hukuka aykırı delil olduğunu söyledi. İkisinin de kopyası bende." }],
+          "note": "Şikâyetin özünün ulusal mahkemeler önünde ileri sürülmüş olması gerekir. Dilekçeler delil çantanıza eklendi." },
+        { "text": "Kayıtlar neleri kapsıyordu? Kimler okudu?", "delta": 10, "set": ["kapsam"],
+          "reply": [{ "who": "client", "text": "Her şeyi. Eşimle, doktorumla yazışmalarım bile dökümde. İnsan kaynakları ve üç birim müdürü okumuş." }],
+          "note": "Gözetimin kapsamı ve müdahalenin derecesi dengelemede bir ölçüttür. Beyanınız delil çantanıza eklendi." },
+        { "text": "Şirket size kıdem tazminatı ödedi mi?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Hayır. Haklı nedenle feshettiklerini söylediler." }],
+          "note": "İş hukuku alacakları Strazburg'daki m.8 şikâyetinin konusu değil." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Hükûmetin yazılı görüşü geldi. İlk ön itiraz:" },
+        { "who": "opp", "text": "Gözetimi özel bir şirket yapmıştır. Devletin bir müdahalesi yoktur; başvuru Sözleşme hükümleriyle kişi bakımından bağdaşmaz." }
+      ],
+      "prompt": "Bu itiraza nasıl cevap vereceksiniz?",
+      "choices": [
+        { "text": "Şikâyet Devlete yöneliktir: m.8, Devlete işçi-işveren ilişkisinde de özel hayatı ve haberleşmeyi koruma pozitif yükümlülüğü yükler. Bu yükümlülük, ulusal mahkemelerin çatışan menfaatleri gerçekten dengelemesini de kapsar.", "delta": 20, "set": ["kisi"],
+          "law": "Sözleşme m.1, m.8",
+          "note": "Bărbulescu/Romanya [BD] (2017) kararında Mahkeme, özel işverenin gözetimini Devletin pozitif yükümlülükleri açısından inceledi. Sorun Devletin müdahalesi değil, ulusal mahkemelerin başvurucuyu yeterince koruyup korumadığıdır." },
+        { "text": "Şirket devlet teşviki aldığı için onun işlemleri Devlete yüklenmelidir.", "delta": -10,
+          "note": "Teşvik almak, özel bir şirketi Devlet organı yapmaz. Doğru dayanak pozitif yükümlülüktür." },
+        { "text": "Bu itiraz esasla birlikte incelenir; şimdilik cevap vermeye gerek yok.", "delta": -10,
+          "note": "Daire bir ön itirazı esasla birleştirebilir; ama cevapsız bırakılan itiraz Hükûmetin lehine işler. Her ön itiraza ayrı ayrı cevap verilmelidir." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "İkinci ön itiraz:" }],
+      "statement": { "who": "opp", "text": "Başvurucu yerel mahkemelerde yalnızca feshin haksız olduğunu savunmuştur; özel hayat şikâyetini hiç ileri sürmemiş, Kişisel Verileri Koruma Kurulu'na da başvurmamıştır. İç hukuk yolları tüketilmemiştir." },
+      "prompt": "Bu itirazı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_dilekce"],
+      "hit": { "delta": 20, "set": ["tuketme"],
+        "law": "Sözleşme m.35/1",
+        "note": "Dilekçeler, gözetimin özel hayata ve haberleşmeye aykırılığının ulusal mahkemeler önünde açıkça ileri sürüldüğünü gösteriyor. Aynı amaca yönelik etkili bir yolu tüketen başvurucudan, aynı amaca hizmet eden ikinci bir yolu da tüketmesi beklenmez." },
+      "responses": {
+        "ev_aym": { "delta": 5, "note": "Şikâyetin Anayasa Mahkemesi önünde ileri sürüldüğünü gösteriyor; ama Hükûmet olağan yargı aşamasını tartışıyor. Orada ileri sürüldüğünü gösteren belge dilekçelerdir." },
+        "ev_bam": { "delta": -5, "note": "Bölge adliye mahkemesi kararı bu şikâyeti hiç tartışmamış; tek başına Hükûmetin tezini destekler gibi görünüyor." },
+        "law_8": { "delta": 0, "note": "İtiraz usule ilişkin; maddeyi değil, şikâyetin ileri sürüldüğünü gösteren belgeyi sunmalıydınız." }
+      },
+      "pass": { "delta": -20, "note": "İç hukuk yollarının tüketilmediği itirazı cevapsız kaldı." }
+    },
+    { "kind": "evidence", "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Hükûmet esasa geçiyor." }],
+      "statement": { "who": "opp", "text": "Başvurucu, iş araçlarının kişisel kullanımının yasak olduğunu bilerek imzalamıştır. İzlenebileceğini öngörmesi gerekirdi; makul bir gizlilik beklentisi yoktur." },
+      "prompt": "Bu iddiayı hangi delille çürüteceksiniz?",
+      "correct": ["ev_yonetmelik"],
+      "hit": { "delta": 20, "set": ["bildirim"],
+        "law": "Sözleşme m.8",
+        "note": "Yönetmelik yalnızca kişisel kullanımı yasaklıyor; izleme yapılacağını, kapsamını ve yöntemini bildirmiyor. Bărbulescu ölçütlerinin ilki, çalışana izlemenin olasılığı ve niteliği hakkında açık ve önceden bilgi verilmesidir. Yasak, gizlilik beklentisini sıfırlamaz." },
+      "responses": {
+        "ev_kapsam": { "delta": 5, "note": "Gözetimin genişliği önemli bir ölçüt; ama Hükûmetin iddiası önceden bildirimle ilgili." },
+        "ev_rapor": { "delta": 0, "note": "Rapor gözetimin yapıldığını gösteriyor; bildirilmediğini göstermiyor." },
+        "ev_bam": { "delta": 5, "note": "Kararın bildirimi hiç tartışmadığını gösteriyor; ama bildirimin yapılmadığını ispat eden belge yönetmeliğin kendisi." }
+      },
+      "pass": { "delta": -15, "note": "Başvurucunun izlenebileceğini bildiği iddiası cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Cevap dilekçenizin esasa ilişkin son bölümünü yazıyorsunuz." }],
+      "prompt": "Esas savunmanızın merkezine ne koyacaksınız?",
+      "choices": [
+        { "text": "Ulusal mahkemeler dengelemeyi hiç yapmadı: izlemenin önceden bildirilip bildirilmediğini, kapsamını ve içeriğe erişimin derecesini, işverenin meşru gerekçesini, daha hafif bir yöntemin mümkün olup olmadığını, sonuçlarını ve güvenceleri incelemediler.", "delta": 25, "set": ["esas"],
+          "law": "Sözleşme m.8",
+          "note": [
+            { "text": "Bărbulescu/Romanya [BD] kararındaki ölçütler bunlardır. Mahkeme işverenin makul denetim hakkını tanır; ama ulusal mahkemelerin bu ölçütleri gerçekten tartmasını arar. Bărbulescu'da Daire ihlal bulmamış, Büyük Daire ise ihlal tespit etmişti." },
+            { "if": "kapsam", "text": " Müvekkilin eşi ve doktoruyla yazışmalarının da okunması, müdahalenin derecesini somutlaştırıyor." }
+          ] },
+        { "text": "Döküm hukuka aykırı delil olduğu hâlde kullanıldı; bu nedenle yargılama adil değildi (m.6).", "delta": -5,
+          "note": "Sözleşme m.6 delillerin kabul edilebilirliğine ilişkin kural koymaz; bu, öncelikle ulusal hukukun işidir. Şikâyetin merkezi m.8 kapsamındaki dengelemedir." },
+        { "text": "İşveren çalışanın iş yazışmalarını hiçbir koşulda denetleyemez.", "delta": -10,
+          "note": "AİHM işverenin işyeri düzenini sağlamak için makul denetim hakkını tanır. Mesele yasak değil, ölçülülük ve güvencelerdir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "!kisi", "winner": "p2", "label": "KARAR:", "noCourt": true,
+      "hukum": "Başvurunun Sözleşme hükümleriyle kişi bakımından bağdaşmadığından Sözleşme m.35/3-a ve m.35/4 uyarınca KABUL EDİLEMEZ OLDUĞUNA; Bu karar kesindir.",
+      "summary": "Şikâyeti Devletin pozitif yükümlülüğüne bağlamadınız; Daire özel işverenin işlemini Devlete yükleyecek bir dayanak bulamadı. Şikâyet, ulusal mahkemelerin başvurucuyu korumadığı üzerine kurulmalıydı." },
+    { "if": "!tuketme", "winner": "p2", "label": "KARAR:", "noCourt": true,
+      "hukum": "Başvurunun iç hukuk yollarının tüketilmemesi nedeniyle Sözleşme m.35/1 ve m.35/4 uyarınca KABUL EDİLEMEZ OLDUĞUNA; Bu karar kesindir.",
+      "summary": "Özel hayat şikâyetinin yerel mahkemeler önünde ileri sürüldüğü gösterilemedi. Dava ve istinaf dilekçeleri bu itirazı çürütebilirdi; müvekkile sormanız yeterliydi." },
+    { "if": "esas && bildirim", "winner": "p1", "noCourt": true,
+      "hukum": "Başvurunun kabul edilebilir olduğuna, Sözleşme'nin 8. maddesinin İHLAL EDİLDİĞİNE; ihlal tespitinin başvurucunun uğradığı manevi zarar için başlı başına yeterli adil tazmin oluşturduğuna; Davalı Devletin başvurucuya 3.000 avro masraf ve gider ödemesine; Bu karar Sözleşme m.44/2 uyarınca kesinleşecektir; taraflar üç ay içinde davanın Büyük Daire'ye gönderilmesini isteyebilir (m.43).",
+      "summary": [
+        { "text": "İç hukuk yollarını doğru tükettiniz, şikâyeti Devletin pozitif yükümlülüğüne bağladınız ve izlemenin önceden bildirilmediğini belgeyle gösterdiniz. Daire, yerel mahkemelerin dengelemeyi yapmadığını kabul etti." },
+        { "if": "kapsam", "text": " Yazışmaların kapsamına ilişkin beyan, müdahalenin ağırlığını da ortaya koydu." },
+        { "text": " İhlal kararı, HMK m.375/1-i uyarınca işe iade davasında yargılamanın yenilenmesi sebebidir." }
+      ] },
+    { "if": "esas", "winner": "p2", "noCourt": true,
+      "hukum": "Başvurunun kabul edilebilir olduğuna, Sözleşme'nin 8. maddesinin İHLAL EDİLMEDİĞİNE (dörde karşı üç oyla); Bu karar Sözleşme m.44/2 uyarınca kesinleşecektir; taraflar üç ay içinde davanın Büyük Daire'ye gönderilmesini isteyebilir (m.43).",
+      "summary": "Ölçütleri doğru saydınız; ama çoğunluk, başvurucunun imzaladığı yönetmelik nedeniyle izlemeyi öngörebileceği yönündeki Hükûmet iddiasını kabul etti. Yönetmeliğin izlemeyi hiç bildirmediğini gösteren imzalı nüsha müvekkildeydi." },
+    { "winner": "p2", "noCourt": true,
+      "hukum": "Başvurunun kabul edilebilir olduğuna, Sözleşme'nin 8. maddesinin İHLAL EDİLMEDİĞİNE; Bu karar Sözleşme m.44/2 uyarınca kesinleşecektir; taraflar üç ay içinde davanın Büyük Daire'ye gönderilmesini isteyebilir (m.43).",
+      "summary": "Kabul edilebilirlik aşamasını geçtiniz; ama esas savunma ulusal mahkemelerin dengeleme yapmadığı üzerine kurulmadı. Daire, işverenin denetim hakkı ile çalışanın özel hayatı arasındaki dengenin takdir payı içinde kaldığını kabul etti." }
+  ]
+}

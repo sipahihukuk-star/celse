@@ -1,0 +1,163 @@
+{
+  "id": "ucm-ust-sorumlulugu",
+  "mode": "solo",
+  "career": { "level": 5 },
+  "difficulty": "zor",
+  "title": "Uzaktaki Komutan",
+  "area": "Uluslararası Ceza Mahkemesi · Komutan sorumluluğu (m.28)",
+  "court": "Uluslararası Ceza Mahkemesi · Temyiz Dairesi",
+  "courtShort": "UCM · TEMYİZ DAİRESİ",
+  "esas": "ICC-05/25-01/26 A",
+  "kararTarihi": "22.06.2028",
+  "color": "#2f3550",
+  "teaser": "Müvekkiliniz, 600 kilometre ötedeki birliklerinin suçları yüzünden 18 yıl hapse mahkûm edildi. Beş yargıçlı Temyiz Dairesi önünde yeniden yargılama yok: hatayı göstermeli, kararı nasıl etkilediğini ispat etmelisiniz. Önce de süre.",
+  "sides": { "p1": { "role": "Sanık müdafii (temyiz eden)", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Temyiz Dairesi: beş yargıç" },
+  "room": "uluslararasi",
+  "inscription": null,
+  "cast": {
+    "judge": { "name": "Başkan Yargıç", "np": "red", "look": { "kind": "robe", "skin": "#b88560", "hair": "#151515", "style": "short", "robe": "#1f2b45", "collarColor": "#e8e4da" } },
+    "opp": { "name": "Savcılık temsilcisi", "np": "green", "look": { "kind": "robe", "skin": "#f0cfae", "hair": "#c9a46a", "style": "long", "robe": "#1d1f26", "collarColor": "#e8e4da" } },
+    "client": { "name": "Dario Venn · Müvekkil (hükümlü)", "np": "civil", "look": { "kind": "civil", "skin": "#a8714c", "hair": "#8e8e92", "style": "short", "beard": true, "shirt": "#3c4250", "inner": "#cfc9bc" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Kurgusal Talmira'nın emekli generali Dario Venn, komşu Korvana'ya gönderilen bir seferi kuvvetin komutanıydı. Birlikleri Korvana'nın kuzeyinde, karargâhından 600 kilometre uzakta sivilleri öldürdü ve köyleri yağmaladı." },
+    { "who": "narr", "text": "Yargılama Dairesi Venn'i, Roma Statüsü m.28/a uyarınca askeri komutan sıfatıyla savaş suçları ve insanlığa karşı suçlardan mahkûm etti; 18 yıl hapis cezası verdi. Venn suçları emretmekle değil, önlememekle suçlanıyor." },
+    { "who": "client", "text": "Ben o köylerin adını bile karardan öğrendim. Haber gelince iki soruşturma kurulu kurdum, askerleri divanıharbe verdim. Kararda bunların hiçbiri yok." }
+  ],
+  "docs": [
+    { "t": "Mahkûmiyet kararı (m.74)", "d": "Yargılama Dairesi, Venn'in birlikler üzerinde etkin kontrolü olduğunu, suçları bildiğini ve gerekli ve makul tedbirleri almadığını kabul etti. 19 olaya dayanıyor." },
+    { "t": "Roma Statüsü m.28/a", "d": "Askeri komutan, etkin komuta ve kontrolü altındaki kuvvetlerin suçlarından; bunları bildiği ya da koşullar gereği bilmesi gerektiği hâlde önlemek, bastırmak ya da yetkili makamlara bildirmek için elindeki bütün gerekli ve makul tedbirleri almamışsa sorumludur." },
+    { "t": "Temyiz sebepleri (m.81, m.83/2)", "d": "Usul hatası, olgu hatası, hukuk hatası; hükümlü bakımından yargılamanın dürüstlüğünü etkileyen başka sebepler. Temyiz Dairesi ancak hata kararı esaslı biçimde etkilemişse müdahale eder." }
+  ],
+  "evidence": [
+    { "id": "ev_karar", "type": "belge", "title": "Mahkûmiyet kararı", "desc": "Tedbirler bölümü iki sayfa: “Sanığın aldığı tedbirler suçları önlemedi; bu nedenle yetersizdir.” Uzaklık ve iletişim imkânları tartışılmamış." },
+    { "id": "ev_iletisim", "type": "belge", "title": "Muharebe düzeni ve iletişim kayıtları", "desc": "Birlikler Korvana ordusunun harekât koordinasyonu altında; karargâhla bağlantı günde bir kez, kesintili uydu telefonuyla.", "if": "iletisim" },
+    { "id": "ev_tedbir", "type": "belge", "title": "Soruşturma kurulu kararları ve divanıharp tutanakları", "desc": "Venn'in ilk haberden sonraki on gün içinde kurduğu iki soruşturma kurulu; yedi askerin divanıharbe sevki ve mahkûmiyeti; BM misyonuna ve Korvana makamlarına yazdığı mektuplar.", "if": "tedbir" },
+    { "id": "ev_onay", "type": "belge", "title": "Suçlamaları onaylama kararı", "desc": "Ön Dava Dairesi'nin onayladığı suçlamalar dokuz olayı sayıyor. Mahkûmiyetin dayandığı 19 olayın onu bu listede yok.", "if": "onay" },
+    { "id": "law_28", "type": "kanun", "title": "Roma Statüsü m.28/a", "desc": "Askeri komutanın sorumluluğu: etkin kontrol, bilme ya da bilmesi gerekme, gerekli ve makul tedbirler.", "law": "Roma Statüsü m.28/a" },
+    { "id": "law_74", "type": "kanun", "title": "Roma Statüsü m.74/2", "desc": "Karar, suçlamalarda ve bunlara ilişkin değişikliklerde anlatılan olgu ve koşulları aşamaz.", "law": "Roma Statüsü m.74/2" }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Mahkûmiyet kararı ve ceza kararı bugün tebliğ edildi. Karar 600 sayfa, yalnızca İngilizce." },
+        { "who": "client", "text": "Ekipten biri, Fransızca çeviri gelmeden temyize başlamamanızı söyledi. Bekleyelim mi?" }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        { "text": "Temyiz bildirimini tebliğden itibaren otuz gün içinde verin; gerekçeleri, Daire'nin belirleyeceği süre içinde temyiz belgesinde geliştirin.", "delta": 15, "set": ["bildirim"],
+          "law": "Roma Statüsü m.81; Usul ve Delil Kuralları k.150/1",
+          "note": "Mahkûmiyet kararına karşı temyiz, tebliğden itibaren otuz gün içinde yapılır. Bildirimde temyiz sebepleri ana hatlarıyla gösterilir; ayrıntı temyiz belgesindedir." },
+        { "text": "Süre dolmadan, haklı sebep göstererek Temyiz Dairesi'nden süre uzatımı isteyin; bu arada çeviri sürecini izleyin.", "delta": 5, "set": ["bildirim"],
+          "law": "Usul ve Delil Kuralları k.150/2",
+          "reply": [{ "who": "narr", "text": "Temyiz Dairesi uzatmayı kısmen kabul etti. Bildirimi yeni süre içinde verdiniz." }],
+          "note": "Temyiz Dairesi haklı sebeple süreyi uzatabilir; ama talep süre dolmadan yapılmalı ve kabul edileceğinin güvencesi yoktur. Bildirimi zamanında vermek daha güvenliydi." },
+        { "text": "Çeviriyi bekleyin; süre ancak çeviri tebliğ edilince başlar.", "delta": -25,
+          "law": "Usul ve Delil Kuralları k.150",
+          "note": "Süre, kararın tebliğinden itibaren işler. Uzatma istenmeden beklemek, temyiz hakkını yitirtir.",
+          "fatal": { "label": "KARAR:",
+            "hukum": "Temyiz başvurusunun süresinde yapılmadığından KABUL EDİLEMEZ OLDUĞUNA; mahkûmiyet ve ceza kararlarının KESİNLEŞTİĞİNE,",
+            "summary": "Otuz günlük süre karar tebliğ edilince başladı. Uzatma istenmedi, bildirim süre geçtikten sonra verildi. Mahkûmiyet, hiçbir temyiz sebebi incelenmeden kesinleşti." } }
+      ] },
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Lahey tutukevi. Temyiz belgesini yazmadan önce müvekkille görüşüyorsunuz. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Suç haberlerini aldığınızda tam olarak ne yaptınız? Belgesi var mı?", "delta": 15, "set": ["tedbir"],
+          "reply": [{ "who": "client", "text": "On gün içinde iki soruşturma kurulu kurdum. Yedi asker divanıharbe çıktı, mahkûm oldu. BM misyonuna ve Korvana'ya yazdım. Hepsinin kopyası yargılamada dosyadaydı ama karar onlardan söz etmiyor." },
+                    { "who": "narr", "text": "Soruşturma kurulu kararları ve divanıharp tutanakları delil çantanıza eklendi." }],
+          "note": "Gerekli ve makul tedbirler, komutanın o anda elinde olan imkânlarla ölçülür. Kararın bu belgeleri tartışmaması bir hata olabilir." },
+        { "text": "Mahkûmiyetteki olaylar, suçlamaları onaylama kararındaki olaylarla aynı mı?", "delta": 15, "set": ["onay"],
+          "reply": [{ "who": "client", "text": "Eski avukatım bunu hep söylerdi: onay kararında dokuz olay vardı. Mahkûmiyet 19 olaya dayanıyor." },
+                    { "who": "narr", "text": "Suçlamaları onaylama kararı delil çantanıza eklendi." }],
+          "note": "Karar, suçlamalarda anlatılan olgu ve koşulları aşamaz (m.74/2). Onaylanmamış olaylara dayanan mahkûmiyet usul hatasıdır." },
+        { "text": "Birliklerle nasıl haberleşiyordunuz? Sahada kimin koordinasyonundaydılar?", "delta": 10, "set": ["iletisim"],
+          "reply": [{ "who": "client", "text": "Günde bir kez, kesintili bir uydu telefonuyla. Harekâtı Korvana ordusu koordine ediyordu." },
+                    { "who": "narr", "text": "Muharebe düzeni ve iletişim kayıtları delil çantanıza eklendi." }],
+          "note": "Uzaklık ve iletişim imkânları, etkin kontrolün ve alınabilecek tedbirlerin değerlendirilmesinde önemlidir; ama tek başına kontrolü ortadan kaldırmaz." },
+        { "text": "Talmira hükûmeti sizi destekliyor mu?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Emekli bir generali kim hatırlar?" }],
+          "note": "Siyasi destek temyiz sebebi değildir." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Temyiz Dairesi, belirli sorular üzerine tarafları dinlemek için duruşma açtı. Salonun arka sıraları mağdurların yakınlarıyla dolu." },
+        { "who": "opp", "text": "Sayın Daire, savunmanın derdi adalet değil. Yüzlerce mağdurun acısını usul ayrıntılarının arkasına saklıyorlar." }
+      ],
+      "prompt": "Sözü size geçti. Nasıl başlayacaksınız?",
+      "choices": [
+        { "text": "Sakin bir sesle: “Mağdurların acısına saygı duyuyoruz. Temyiz sebeplerimiz kayıtta; Daire'nin izniyle onlara geçiyorum.”", "delta": 10,
+          "note": "Mesleki soğukkanlılık. Tahrik edici söze karşılık vermediniz; sözü temyiz sebeplerine, yani Daire'nin incelediği konuya taşıdınız. Avukatlar için Meslek Kuralları da Mahkeme önünde saygılı ve ölçülü bir dil ister." },
+        { "text": "“Asıl Savcılık, zayıf bir kararı duygularla kurtarmaya çalışıyor!”", "delta": -10,
+          "reply": [{ "who": "judge", "text": "Taraflar sözlerine dikkat etsin. Müdafi, temyiz sebeplerinize geçin." }],
+          "note": "Tahrike tahrikle karşılık vermek Daire'nin dikkatini hukuki sorudan uzaklaştırır ve size güven kaybettirir." },
+        { "text": "Bir süre sessiz kalıp notlarınızı karıştırın.", "delta": -5,
+          "note": "Savcılığın sözü cevapsız ve salonda asılı kaldı. Kısa ve ölçülü bir cümleyle konuya dönmek yeterliydi." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Savcılık, tedbirlere ilişkin temyiz sebebine cevabınız." }],
+      "statement": { "who": "opp", "text": "Sanık suç haberlerini almasına rağmen hiçbir gerekli ve makul tedbir almamıştır. Suçlar sürdüğüne göre tedbirler de yoktu." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_tedbir"],
+      "hit": { "delta": 20, "set": ["tedbirOk"],
+        "law": "Roma Statüsü m.28/a-ii",
+        "note": "Belgeler komutanın soruşturma kurulları kurduğunu, sorumluları yargılattığını ve makamlara bildirdiğini gösteriyor. Tedbirler sonuca göre değil, komutanın o andaki imkânlarına göre değerlendirilir; Yargılama Dairesi bu belgeleri tartışmadan “suç sürdü, demek ki tedbir yetersiz” diyerek hukuka aykırı bir ölçüt kullandı." },
+      "responses": {
+        "ev_iletisim": { "delta": 5, "note": "Uzaklık, alınabilecek tedbirlerin sınırını gösteriyor; ama Savcılık hiçbir tedbir alınmadığını söylüyor. Bunu çürüten belge alınan tedbirlerin kaydıdır." },
+        "ev_karar": { "delta": 0, "note": "Kararın tedbirleri yüzeysel tartıştığını gösteriyor; ama tedbirlerin alındığını gösteren belge siz sunmalıydınız." },
+        "law_28": { "delta": 5, "note": "Doğru madde; ama tedbirlerin varlığını belgeyle göstermediniz." }
+      },
+      "pass": { "delta": -20, "note": "Tedbir alınmadığı iddiası cevapsız kaldı." }
+    },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Savcılık, suçlamaların kapsamına ilişkin sebebe geçin." }],
+      "statement": { "who": "opp", "text": "Yargılama Dairesi'nin dayandığı bütün olaylar suçlamaların kapsamındadır; onay kararı “bunlarla sınırlı olmamak üzere” ifadesini kullanmıştır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_onay"],
+      "hit": { "delta": 20, "set": ["onayOk"],
+        "law": "Roma Statüsü m.74/2",
+        "note": "Onay kararı dokuz olayı sayıyor; “sınırlı olmamak üzere” gibi açık uçlu bir ifade, savunmanın hazırlanabileceği somut olgu ve koşulların yerini tutmaz. Onaylanmamış on olaya dayanan mahkûmiyet m.74/2'yi aşar." },
+      "responses": {
+        "law_74": { "delta": 5, "note": "Doğru madde; ama hangi olayların suçlamada bulunmadığını gösteren onay kararını sunmadınız." },
+        "ev_karar": { "delta": 0, "note": "Mahkûmiyet kararı 19 olayı sayıyor; ama karşılaştırma için onay kararı gerekiyordu." },
+        "ev_tedbir": { "delta": -5, "note": "Tedbirler bu temyiz sebebiyle ilgili değil." }
+      },
+      "pass": { "delta": -15, "note": "Suçlamaların aşılmadığı iddiası cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Müdafi, son sorumuz: Daire'den tam olarak ne istiyorsunuz ve hangi ölçüte göre? Burada yeniden yargılama yapmadığımızı biliyorsunuz." }],
+      "prompt": "Ne cevap vereceksiniz?",
+      "choices": [
+        { "text": "Yargılama Dairesi, tedbirleri komutanın uzaklığı ve elindeki imkânlarla değil sonuçla ölçerek hukuk hatası yaptı; belgeli tedbirleri hiç tartışmadı. Bu hata olmasaydı makul bir yargılama dairesi makul şüphenin ötesinde mahkûmiyete varamazdı; karar esaslı biçimde etkilendi.", "delta": 25, "set": ["olcut"],
+          "law": "Roma Statüsü m.28/a, m.66/3, m.83/2",
+          "note": [
+            { "text": "Temyizde hatayı belirlemek yetmez; kararı esaslı biçimde etkilediğini göstermek gerekir (m.83/2). Temyiz Dairesi Bemba kararında (2018) uzaktaki komutanın imkânlarını değerlendirmeden tedbirleri yetersiz saymayı hata saymış ve beraat kararı vermişti." },
+            { "if": "iletisim", "text": " İletişim kayıtları, komutanın imkânlarının sınırını somut biçimde gösteriyor." }
+          ] },
+        { "text": "Müvekkil suçları bilmiyordu; bilmeyen komutan sorumlu tutulamaz.", "delta": -10,
+          "note": "m.28/a-i askeri komutan için “bilmesi gereken” durumu da yeterli sayar. Bilmediğini söylemek tek başına savunma değildir; üstelik müvekkil haberleri aldıktan sonra tedbir aldığını söylüyor." },
+        { "text": "Daire bütün tanıkları yeniden dinlesin ve olayları baştan değerlendirsin.", "delta": -10,
+          "note": "Temyiz yeniden yargılama değildir. Temyiz Dairesi olgu bulgularına ancak makul bir yargılama dairesinin varamayacağı bir sonuç söz konusuysa müdahale eder." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "tedbirOk && olcut", "winner": "p1", "noCourt": true,
+      "hukum": [
+        { "text": "Temyizin KABULÜNE; mahkûmiyet kararının BOZULMASINA ve sanık Dario Venn'in Roma Statüsü m.28/a kapsamındaki bütün suçlamalardan BERAATİNE; başka bir sebeple tutulmuyorsa derhâl SERBEST BIRAKILMASINA" },
+        { "if": "onayOk", "text": "; ayrıca onaylanmamış olaylara dayanan kısmın m.74/2'ye aykırı olduğunun TESPİTİNE" },
+        { "text": "; Bu karar kesindir." }
+      ],
+      "summary": [
+        { "text": "Temyiz süresini korudunuz, tedbirlerin belgelerini buldunuz ve hatanın kararı nasıl etkilediğini doğru ölçütle anlattınız. Temyiz Dairesi, tedbirlerin komutanın imkânlarına göre değil sonuca göre değerlendirilmesini hukuk hatası saydı." },
+        { "if": "onayOk", "text": " Suçlamaların aşıldığını da onay kararıyla gösterdiniz." }
+      ] },
+    { "if": "onayOk", "winner": "p1", "stamp": "KISMEN KAZANDINIZ", "noCourt": true,
+      "hukum": "Temyizin KISMEN KABULÜNE; suçlamaları onaylama kararında yer almayan on olaya dayanan mahkûmiyetin m.74/2'ye aykırılık nedeniyle BOZULMASINA; kalan dokuz olay yönünden mahkûmiyetin ONANMASINA ve cezanın m.83/2-a uyarınca 18 yıldan 12 yıl hapse İNDİRİLMESİNE; Bu karar kesindir.",
+      "summary": "Onaylanmamış olaylara dayanan kısmı düşürdünüz; ama tedbirlere ilişkin temyiz sebebi, ya belgesi ya da doğru ölçütü eksik kaldığı için tutmadı. Kalan olaylar yönünden komutan sorumluluğu onandı." },
+    { "winner": "p2", "noCourt": true,
+      "hukum": "Temyiz itirazlarının REDDİNE; mahkûmiyet ve ceza kararlarının ONANMASINA; Bu karar kesindir; Roma Statüsü m.84 uyarınca mahkûmiyetin gözden geçirilmesini isteme hakkı saklıdır.",
+      "summary": "Temyiz Dairesi yeniden yargılama yapmaz; somut bir hatanın kararı esaslı biçimde etkilediği gösterilemedi. Tedbirlerin belgeleri ve onay kararı müvekkilin bilgisindeydi; doğru soruları sorsaydınız temyiz sebepleri belgeyle desteklenebilirdi." }
+  ]
+}

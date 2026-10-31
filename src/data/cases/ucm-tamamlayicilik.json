@@ -1,0 +1,151 @@
+{
+  "id": "ucm-tamamlayicilik",
+  "mode": "solo",
+  "career": { "level": 5 },
+  "difficulty": "orta",
+  "title": "Meydan Davası",
+  "area": "Uluslararası Ceza Mahkemesi · Tamamlayıcılık (m.17)",
+  "court": "Uluslararası Ceza Mahkemesi · Ön Dava Dairesi",
+  "courtShort": "UCM · ÖN DAVA DAİRESİ",
+  "esas": "ICC-04/26-01/27",
+  "kararTarihi": "09.11.2027",
+  "color": "#3d3a5a",
+  "teaser": "Lahey bir general için yakalama kararı çıkardı; onun ülkesi ise “biz zaten yargılıyoruz” diyor. Devletin vekilisiniz: soruşturmanın gerçek olduğunu, aynı kişi ve aynı fiil için yürüdüğünü gösterin. İtiraz hakkınız yalnızca bir kez.",
+  "sides": { "p1": { "role": "Devlet vekili (kabul edilemezlik itirazı)", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 3, "title": "Başkan yargıç ve iki yargıç" },
+  "room": "uluslararasi",
+  "inscription": null,
+  "cast": {
+    "judge": { "name": "Başkan Yargıç", "np": "red", "look": { "kind": "robe", "skin": "#b88560", "hair": "#151515", "style": "short", "robe": "#1f2b45", "collarColor": "#e8e4da" } },
+    "opp": { "name": "Savcılık temsilcisi", "np": "green", "look": { "kind": "robe", "skin": "#8d5a3b", "hair": "#1a1410", "style": "short", "beard": true, "robe": "#1d1f26", "collarColor": "#e8e4da" } },
+    "client": { "name": "Lidia Morev · Varnesya Başsavcı Yardımcısı", "np": "civil", "look": { "kind": "civil", "skin": "#efcfb0", "hair": "#8a5a3a", "style": "bun", "glasses": true, "shirt": "#2e3a52", "inner": "#e8e3d6" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Kurgusal Varnesya Cumhuriyeti, Roma Statüsü'ne taraf bir devlet. Mart 2026'da başkentteki Meridan Meydanı'nda protestocuların üzerine ateş açıldı; 31 kişi öldü." },
+    { "who": "narr", "text": "UCM Ön Dava Dairesi, güvenlik güçleri komutanı General Oren Talvik hakkında insanlığa karşı suç (m.7) iddiasıyla yakalama kararı çıkardı ve Varnesya'dan teslimini istedi." },
+    { "who": "client", "text": "Biz Talvik'i zaten kendi mahkemelerimizde yargılıyoruz. Hükûmet, davanın Lahey'de kabul edilemez olduğunu ileri sürmek için sizi vekil olarak atadı. Devletin vekili sizsiniz." }
+  ],
+  "docs": [
+    { "t": "Yakalama kararı", "d": "General Oren Talvik; Meridan Meydanı'nda 14–16 Mart 2026'da protestoculara yönelik öldürme ve zulüm fiilleri; insanlığa karşı suç (Roma Statüsü m.7)." },
+    { "t": "Roma Statüsü m.17", "d": "Dava, yargı yetkisi olan bir devletçe soruşturuluyor ya da kovuşturuluyorsa kabul edilemez; meğer ki devlet soruşturmayı gerçekten yürütmeye isteksiz ya da muktedir değil olsun." },
+    { "t": "Roma Statüsü m.19", "d": "Devlet kabul edilemezlik itirazını en erken fırsatta yapar (m.19/5); itiraz, kural olarak yalnızca bir kez yapılabilir (m.19/4)." },
+    { "t": "Soruşturma açılış kararı", "d": "Varnesya Başsavcılığı, Mart 2026: “Meridan olayları hakkında” soruşturma başlatıldı." }
+  ],
+  "evidence": [
+    { "id": "ev_acilis", "type": "belge", "title": "Soruşturma açılış kararı", "desc": "“Meridan olayları hakkında” genel bir soruşturma. Şüpheli adı yok." },
+    { "id": "ev_iddianame", "type": "belge", "title": "İddianame", "desc": "Ağustos 2026. Sanık: General Oren Talvik. Suçlama: 14–16 Mart 2026'da Meridan Meydanı'nda 31 protestocunun kasten öldürülmesi ve ateş açılması emri. Suç vasfı Varnesya Ceza Kanunu'ndaki kasten öldürme.", "if": "iddianame" },
+    { "id": "ev_adimlar", "type": "belge", "title": "Soruşturma işlemleri dökümü", "desc": "Tarihleriyle: 46 tanık ifadesi, 31 otopsi raporu, telsiz kayıtlarına el konulması, şüphelinin iki kez sorgusu, tutuklama kararı, duruşma takvimi.", "if": "adimlar" },
+    { "id": "law_17", "type": "kanun", "title": "Roma Statüsü m.17", "desc": "Kabul edilebilirlik: tamamlayıcılık; isteksizlik (m.17/2) ve muktedir olmama (m.17/3).", "law": "Roma Statüsü m.17" },
+    { "id": "law_20", "type": "kanun", "title": "Roma Statüsü m.20/3", "desc": "Aynı fiil için başka bir mahkemede yargılanmış kişinin UCM'de yeniden yargılanmaması.", "law": "Roma Statüsü m.20/3" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Lahey'deki elçilikte Başsavcı Yardımcısı Morev'le görüşüyorsunuz. İtirazı yazmadan önce iki soru sorabilirsiniz." }],
+      "prompt": "Ne soracaksınız?",
+      "choices": [
+        { "text": "Soruşturma tam olarak kimin hakkında ve hangi olaylar için yürüyor? İddianame var mı?", "delta": 15, "set": ["iddianame"],
+          "reply": [{ "who": "client", "text": "Ağustosta iddianame düzenlendi. Sanık Talvik; 14–16 Mart'taki 31 ölüm ve ateş emri. Suç vasfı bizim ceza kanunumuzdaki kasten öldürme." }],
+          "note": "Ölçüt aynı kişi ve esasen aynı fiildir. İddianame delil çantanıza eklendi." },
+        { "text": "Bugüne kadar somut olarak hangi soruşturma işlemleri yapıldı? Tarihleriyle belgeleyebilir misiniz?", "delta": 15, "set": ["adimlar"],
+          "reply": [{ "who": "client", "text": "46 tanık dinlendi, 31 otopsi raporu alındı, telsiz kayıtlarına el kondu. Talvik iki kez sorgulandı ve tutuklandı. Hepsinin dökümü tarihleriyle hazır." }],
+          "note": "Devlet, somut ve ilerleyen soruşturma adımlarını belirli ve ispat gücü yüksek delillerle göstermek zorundadır; niyet beyanı yetmez. Soruşturma dökümü delil çantanıza eklendi." },
+        { "text": "Talvik şu anda nerede?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Başkentteki cezaevinde tutuklu. Duruşması ocakta başlayacak." }],
+          "note": "Şüphelinin devletin elinde olması, m.17/3 bakımından devletin muktedir olduğunu destekler. Ama asıl tartışma soruşturmanın konusu ve gerçekliği üzerine olacak." },
+        { "text": "Hükûmet bu davanın basına nasıl yansımasını istiyor?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Mümkün olduğunca sessiz." }],
+          "note": "Kamuoyu stratejisi kabul edilebilirlik itirazına bir şey katmaz." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "client", "text": "Bakanlık acele ediyor. Ne zaman ve nasıl itiraz edeceğiz?" }],
+      "prompt": "Nasıl ilerleyeceksiniz?",
+      "choices": [
+        { "text": "Belgeleri derleyip kabul edilemezlik itirazını en erken fırsatta, m.19/2-b uyarınca sunun; itiraz incelenirken teslim talebinin yerine getirilmesinin ertelendiğini m.95 uyarınca Mahkeme'ye bildirin.", "delta": 20, "set": ["zaman"],
+          "law": "Roma Statüsü m.19/2-b, m.19/5, m.95",
+          "note": "Yargı yetkisi olan ve davayı soruşturan devlet itirazı en erken fırsatta yapar. Kabul edilebilirlik itirazı incelenirken talep edilen devlet, teslim talebinin yerine getirilmesini erteleyebilir (m.95)." },
+        { "text": "Bugün kısa bir yazıyla itiraz edin: “Varnesya yakında kapsamlı bir soruşturma yürütecektir.” Belgeleri sonra gönderirsiniz.", "delta": -25,
+          "law": "Roma Statüsü m.17, m.19/4",
+          "note": "Kabul edilebilirlik, itiraz anındaki somut duruma göre belirlenir; gelecekteki soruşturma vaadi yetmez. İtiraz kural olarak yalnızca bir kez yapılabilir.",
+          "fatal": { "label": "KARAR:",
+            "hukum": "Varnesya Cumhuriyeti'nin kabul edilemezlik itirazının REDDİNE; davanın Roma Statüsü m.17 uyarınca KABUL EDİLEBİLİR OLDUĞUNA; Bu karara karşı Roma Statüsü m.82/1-a uyarınca Temyiz Dairesi'ne başvurulabilir.",
+            "summary": "İtiraz yalnızca gelecekteki niyetlere dayandı; somut bir soruşturma adımı gösterilmedi. Devlet, itiraz hakkını m.19/4 uyarınca kullanmış oldu; yeni bir itiraz ancak istisnai durumlarda ve izinle mümkün." } },
+        { "text": "İtiraz etmeyin; Talvik'i teslim etmeyi reddedip yargılamayı içeride sürdürün.", "delta": -20, "set": ["isbirligi", "end"],
+          "law": "Roma Statüsü m.86, m.87/7, m.89",
+          "note": "Taraf devlet Mahkeme'yle işbirliği yapmak zorundadır. Tamamlayıcılığı ileri sürmenin yolu teslimden tek taraflı kaçınmak değil, m.19 itirazıdır." },
+        { "text": "Savcı'dan soruşturmayı m.18/2 uyarınca Varnesya lehine ertelemesini isteyin.", "delta": -10, "set": ["gec"],
+          "reply": [{ "who": "narr", "text": "Savcılık, m.18'in bu aşamada uygulanmadığını bildirdi. Haftalar sonra m.19 itirazını sundunuz; gecikme de tartışılacak." }],
+          "note": "m.18 ertelemesi, soruşturmanın başında Savcı'nın bildirimini izleyen kısa süre içinde istenir. Yakalama kararı çıkmış somut bir dava için doğru yol m.19 itirazıdır." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Daire itiraz üzerine duruşma açtı. Savcılık ve mağdurların yasal temsilcileri de görüş sundu (m.19/3)." },
+        { "who": "judge", "text": "Savcılık, itiraza cevabınız." }
+      ],
+      "statement": { "who": "opp", "text": "Varnesya'daki soruşturma “Meridan olayları” hakkında genel bir soruşturmadır. General Talvik o dosyada şüpheli bile değildir; ortada aynı dava yoktur." },
+      "prompt": "Bu iddiayı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_iddianame"],
+      "hit": { "delta": 20, "set": ["kisi"],
+        "law": "Roma Statüsü m.17/1-a",
+        "note": "İddianame, aynı kişi hakkında, yakalama kararındaki fiillerle esasen aynı fiiller için düzenlenmiş. UCM içtihadında ölçüt “aynı kişi, esasen aynı fiil”dir." },
+      "responses": {
+        "ev_acilis": { "delta": 0, "note": "Açılış kararı yalnızca olaylar hakkında genel bir soruşturma gösteriyor. Belirli bir kişiye yönelmeyen soruşturma aynı dava sayılmaz." },
+        "ev_adimlar": { "delta": 5, "note": "Soruşturmanın ilerlediğini gösteriyor; ama Savcılığın itirazı kişi ve fiil kimliği üzerine. Bunu gösteren belge iddianamedir." },
+        "law_17": { "delta": 5, "note": "Doğru madde; ama aynı kişi ve aynı fiil için soruşturma yürüdüğünü belgeyle göstermeniz gerekiyordu." },
+        "law_20": { "delta": -10, "note": "Talvik henüz yargılanmadı; m.20/3 bu aşamada uygulanmaz." }
+      },
+      "pass": { "delta": -20, "note": "Aynı davanın bulunmadığı iddiası cevapsız kaldı." }
+    },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Savcılık, isteksizlik iddianızı açıklayın." }],
+      "statement": { "who": "opp", "text": "Varnesya'nın soruşturması kâğıt üzerindedir. Somut bir adım atılmamıştır; amaç generali UCM'den korumaktır (m.17/2-a)." },
+      "prompt": "Bu iddiayı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_adimlar"],
+      "hit": { "delta": 20, "set": ["adim"],
+        "law": "Roma Statüsü m.17/2",
+        "note": "Tarihli soruşturma işlemleri; tanık ifadeleri, otopsiler, el koyma, sorgu ve tutuklama, gerçek ve ilerleyen bir soruşturmayı gösteriyor. Devlet bunu belirli ve ispat gücü yüksek delillerle ortaya koymak zorundadır." },
+      "responses": {
+        "ev_iddianame": { "delta": 5, "note": "İddianame kişiyi ve fiili gösteriyor; ama soruşturmanın gerçekten ilerlediğini gösteren belge işlemlerin dökümüdür." },
+        "ev_acilis": { "delta": -5, "note": "Yalnızca bir açılış kararı, Savcılığın “kâğıt üzerinde” iddiasını doğrular gibi görünüyor." },
+        "law_17": { "delta": 5, "note": "İsteksizlik ölçütleri doğru; ama bunları çürütecek somut adımları göstermediniz." },
+        "law_20": { "delta": -10, "note": "Henüz verilmiş bir hüküm yok; m.20/3 bu aşamada uygulanmaz." }
+      },
+      "pass": { "delta": -20, "note": "İsteksizlik iddiası cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Devlet vekili, bir sorum var. Varnesya generali insanlığa karşı suçtan değil, kasten öldürmeden yargılıyor. Bu, Mahkememizdeki davayla aynı dava sayılır mı?" }],
+      "prompt": "Ne cevap vereceksiniz?",
+      "choices": [
+        { "text": "Ölçüt suçun hukuki nitelendirmesi değil, aynı kişi ve esasen aynı fiildir. Fiil esasen aynıysa, iç hukukta adi bir suç olarak kovuşturulması yeterlidir.", "delta": 20, "set": ["nitelik"],
+          "law": "Roma Statüsü m.17/1-a",
+          "note": "UCM içtihadı tamamlayıcılıkta fiilin kimliğine bakar; devletin uluslararası suç tipini aynen kullanması aranmaz. Al-Senussi davasında Ön Dava Dairesi, Temyiz Dairesi'nce de onanan kararıyla, Libya'nın kendi ceza kanunundaki suç tipleri üzerinden yürüttüğü kovuşturmayı yeterli bularak davayı kabul edilemez ilan etmişti." },
+        { "text": "Varnesya egemen bir devlettir; Mahkeme'nin bu davada yetkisi yoktur.", "delta": -15,
+          "note": "Yargı yetkisi (m.12–13) ile kabul edilebilirlik (m.17) ayrı sorulardır. Taraf devletin ülkesinde işlenen suç için yetki tartışmasızdır; itiraz kabul edilebilirliğe ilişkindir." },
+        { "text": "Varnesya iddianameyi insanlığa karşı suç olarak değiştirecektir.", "delta": -5,
+          "note": "Gelecekteki niyet kabul edilebilirliği belirlemez; üstelik nitelendirme değişikliği gerekli de değildir." },
+        { "text": "Aynı fiilden iki kez yargılanma yasağı (m.20/3) davayı engeller.", "delta": -10,
+          "note": "m.20/3 başka bir mahkemede verilmiş bir hüküm gerektirir. Talvik henüz yargılanmadı." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "isbirligi", "winner": "p2", "label": "KARAR:", "noCourt": true,
+      "hukum": "Varnesya Cumhuriyeti'nin teslim talebini yerine getirmeyerek Roma Statüsü'nden doğan işbirliği yükümlülüğüne AYKIRI DAVRANDIĞININ TESPİTİNE ve konunun m.87/7 uyarınca Taraf Devletler Kurulu'na BİLDİRİLMESİNE,",
+      "summary": "Tamamlayıcılık hiç ileri sürülmedi; devlet teslimden tek taraflı kaçındı. Oysa elinizde iddianame ve somut soruşturma işlemleri vardı: m.19 itirazı ve m.95 ertelemesi doğru yoldu." },
+    { "if": "kisi && adim", "winner": "p1", "noCourt": true,
+      "hukum": "Varnesya Cumhuriyeti'nin kabul edilemezlik itirazının KABULÜNE; General Oren Talvik hakkındaki davanın Roma Statüsü m.17/1-a uyarınca KABUL EDİLEMEZ OLDUĞUNA; Bu karara karşı m.82/1-a uyarınca Temyiz Dairesi'ne başvurulabilir; Savcı, kararın dayanağını ortadan kaldıran yeni olgular ortaya çıkarsa m.19/10 uyarınca gözden geçirme isteyebilir.",
+      "summary": [
+        { "text": "Aynı kişi ve esasen aynı fiil için gerçek ve ilerleyen bir soruşturma yürüdüğünü belgelerle gösterdiniz." },
+        { "if": "zaman", "text": " İtirazı da en erken fırsatta ve tek seferde eksiksiz yaptınız." },
+        { "if": "gec", "text": " Ancak yanlış yola sapmanız itirazı geciktirdi; Daire, m.19/5'teki “en erken fırsat” kuralına uyulmamasını eleştirdi." },
+        { "if": "nitelik", "text": " Suç vasfının farklı olmasının önemsiz olduğunu da Daire'ye doğru anlattınız." },
+        { "if": "!nitelik", "text": " Suç vasfı sorusuna verdiğiniz cevap zayıf kaldı; Daire bu tereddüdü kendi içtihadıyla giderdi." },
+        { "text": " Varnesya'nın yargılamayı gerçekten yürütüp yürütmediği bundan sonra da izlenecek." }
+      ] },
+    { "if": "kisi", "winner": "p2", "noCourt": true,
+      "hukum": "Varnesya Cumhuriyeti'nin kabul edilemezlik itirazının REDDİNE; davanın Roma Statüsü m.17 uyarınca KABUL EDİLEBİLİR OLDUĞUNA; Bu karara karşı m.82/1-a uyarınca Temyiz Dairesi'ne başvurulabilir.",
+      "summary": "Aynı kişi hakkında iddianame olduğunu gösterdiniz; ama soruşturmanın gerçekten ilerlediğini somut işlemlerle ortaya koyamadınız. Daire, Savcılığın “kâğıt üzerinde soruşturma” iddiasını kabul etti." },
+    { "winner": "p2", "noCourt": true,
+      "hukum": "Varnesya Cumhuriyeti'nin kabul edilemezlik itirazının REDDİNE; davanın Roma Statüsü m.17 uyarınca KABUL EDİLEBİLİR OLDUĞUNA; Bu karara karşı m.82/1-a uyarınca Temyiz Dairesi'ne başvurulabilir.",
+      "summary": "Varnesya'daki soruşturmanın General Talvik'e ve Meridan'daki fiillere yöneldiği gösterilemedi. Tamamlayıcılık, ulusal makamların aynı kişi ve esasen aynı fiil için hareket ettiğinin belgelenmesini gerektirir." }
+  ]
+}

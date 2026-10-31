@@ -1,0 +1,166 @@
+{
+  "id": "is-ucret-hakli-fesih",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "basit",
+  "title": "Üç Ay Maaşsız",
+  "area": "İş Hukuku · Ücretin ödenmemesi ve haklı fesih",
+  "court": "Konya 1. İş Mahkemesi",
+  "courtShort": "1. İŞ MAHKEMESİ",
+  "esas": "2026/2210 Esas",
+  "kararTarihi": "22.05.2027",
+  "color": "#5a4632",
+  "teaser": "Üç aydır ücret alamayan bir işçi noterden fesih bildirdi. İşveren SGK'ya “istifa” yazdı.",
+  "sides": { "p1": { "role": "Davacı (işçi) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e0b48e", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Derya Koç · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#c08b62", "hair": "#151515", "style": "long" } },
+    "client": { "name": "Gülsüm Arslan · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#c99670", "hair": "#2a2220", "style": "bun", "shirt": "#8a5a3c", "inner": "#ece4d6" } }
+  },
+  "courtCast": ["judge", "you", "opp", "client"],
+  "intro": [
+    { "who": "narr", "text": "Gülsüm Arslan, Konya'daki Meram Ambalaj San. Ltd. Şti.'nde 02.05.2020'den beri paketleme operatörü." },
+    { "who": "client", "text": "Temmuz, Ağustos, Eylül… Üç aydır maaş yatmadı. Her ay “haftaya” dediler." },
+    { "who": "narr", "text": "12.10.2026'da noter aracılığıyla, ücretlerin ödenmemesi gerekçesiyle iş sözleşmesini derhâl feshetti. İşveren SGK'ya çıkışı “03 – istifa” koduyla bildirdi." },
+    { "who": "narr", "text": "Arabuluculukta işveren yalnızca ücretlerin taksitle ödenmesini önerdi; kıdem tazminatını reddetti. Anlaşma olmadı." }
+  ],
+  "docs": [
+    { "t": "Arabuluculuk son tutanağı", "d": "Kıdem tazminatı ve ücret alacakları konusunda anlaşma sağlanamadı (7036 s.K. m.3)." },
+    { "t": "Noter fesih ihtarnamesi (12.10.2026)", "d": "“Temmuz, Ağustos ve Eylül 2026 ücretlerim ödenmediğinden iş sözleşmemi İş K. m.24/II-e uyarınca derhâl feshediyorum.”" },
+    { "t": "Banka hesap dökümü", "d": "Son ücret ödemesi 10.07.2026 (Haziran ücreti). Sonrasında ödeme yok." },
+    { "t": "SGK işten ayrılış bildirgesi", "d": "Çıkış 12.10.2026, kod 03 (istifa)." }
+  ],
+  "evidence": [
+    { "id": "ev_ihtar", "type": "belge", "title": "Noter fesih ihtarnamesi", "desc": "12.10.2026; fesih nedeni olarak üç aylık ücretin ödenmemesi ve İş K. m.24/II-e açıkça yazılı." },
+    { "id": "ev_banka", "type": "belge", "title": "Banka hesap dökümü", "desc": "Son ücret 10.07.2026'da yatmış; Temmuz, Ağustos ve Eylül ücretleri yok." },
+    { "id": "ev_sgk", "type": "belge", "title": "SGK işten ayrılış bildirgesi", "desc": "İşveren çıkışı “03 – istifa” koduyla bildirmiş." },
+    { "id": "law_m24", "type": "kanun", "title": "İş K. m.24/II-e · İşçinin haklı feshi", "desc": "Ücret kanun ya da sözleşmeye uygun hesaplanmaz veya ödenmezse işçi sözleşmeyi bildirim süresini beklemeden feshedebilir.", "law": "İş K. m.24/II-e" },
+    { "id": "law_m34", "type": "kanun", "title": "İş K. m.34 · Ücretin gecikmesi", "desc": "Ücreti ödeme gününden itibaren 20 gün içinde ödenmeyen işçi iş görmekten kaçınabilir; gecikmiş ücrete mevduata uygulanan en yüksek faiz işler.", "law": "İş K. m.34" }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "İstifa etmiş gibi gösterdiler. Kıdem tazminatımı alabilir miyim? İhbar parası da var mı?" }
+      ],
+      "prompt": "Dava dilekçesinde neleri isteyeceksiniz?",
+      "choices": [
+        { "text": "Kıdem tazminatı ve ödenmeyen üç aylık ücret. İhbar tazminatı istenmez.", "delta": 20, "set": ["talep"],
+          "law": "1475 s.K. m.14/1 · İş K. m.24/II-e",
+          "note": "Doğru. İşçi m.24 uyarınca haklı nedenle feshederse kıdem tazminatına hak kazanır (1475 s.K. m.14/1). İhbar tazminatı ise bildirim süresine uyulmadan yapılan feshin karşılığıdır ve sözleşmeyi işçi feshettiği için işçiye ödenmez." },
+        { "text": "Kıdem tazminatı, ihbar tazminatı ve ödenmeyen ücretler.", "delta": 5, "set": ["ihbar"],
+          "law": "İş K. m.17",
+          "note": "Kıdem ve ücret doğru, ihbar yanlış. İhbar tazminatını, bildirim süresine uymadan fesheden taraf öder. Feshi müvekkil yaptığı için bu talep reddedilir, reddedilen kısım için davalı lehine vekâlet ücretine hükmedilir." },
+        { "text": "Yalnızca ödenmeyen ücretler. İstifa eden işçi kıdem tazminatı alamaz.", "delta": -15, "set": ["eksik"],
+          "law": "1475 s.K. m.14/1",
+          "note": "Bu bir istifa değil, haklı nedenle fesihtir. Kıdem tazminatı müvekkilin en büyük alacağıydı ve istenmedi; mahkeme talep edilmeyen şeye hükmedemez (HMK m.26)." },
+        { "text": "Kıdem tazminatı, ödenmeyen ücretler ve kötüniyet tazminatı.", "delta": -10, "set": ["fazla"],
+          "law": "İş K. m.17",
+          "note": "Kötüniyet tazminatı, işverenin fesih hakkını kötüye kullanmasına bağlıdır (İş K. m.17). Burada feshi işçi yaptı; bu talep reddedilir." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Davalı vekili, cevabınızı özetleyin." }
+      ],
+      "statement": { "who": "opp", "text": "Davacı istifa etmiştir. Müvekkil şirket çıkışı SGK'ya 03 istifa koduyla bildirmiştir. İstifa eden işçiye kıdem tazminatı ödenmez." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_ihtar"],
+      "hit": { "delta": 25, "set": ["kod"],
+        "reply": [{ "who": "judge", "text": "Noter ihtarnamesinde fesih nedeni açıkça yazılmış. Davalı vekili, SGK bildirgesini kendi tarafınız düzenlemiş, değil mi?" }, { "who": "opp", "text": "…Evet, Sayın Hâkim." }],
+        "note": "Feshin niteliğini, fesih bildiriminin içeriği belirler. İhtarname feshin ücretlerin ödenmemesine dayandığını gösteriyor. SGK çıkış kodu işverenin tek taraflı beyanıdır ve işçiyi bağlamaz." },
+      "responses": {
+        "law_m24": { "delta": 10, "set": ["kod"],
+          "note": "Doğru madde. Ama feshin bu nedene dayandığını gösteren belge, yani noter ihtarnamesi sunulmalıydı. Hâkim ihtarnameyi dosyadan kendisi buldu." },
+        "ev_banka": { "delta": 5,
+          "note": "Ücretlerin ödenmediğini gösterir; ama müvekkilin istifa etmediğini, haklı nedenle feshettiğini göstermez." },
+        "law_m34": { "delta": -5,
+          "note": "m.34 iş görmekten kaçınma hakkını ve gecikme faizini düzenler; feshin niteliğiyle ilgili değil." },
+        "ev_sgk": { "delta": -15,
+          "note": "Bu belge davalının iddiasını tekrarlıyor: işverenin kendi yazdığı istifa kodu." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil feshin haklı nedene dayandığını göstermiyor." },
+      "pass": { "delta": -15, "note": "İstifa savunması cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Kaldı ki Temmuz ücretinin ödeme günü 10 Ağustos'tu. Davacı ancak Ekim'de feshetti. İş K. m.26'daki altı iş günlük süre çoktan geçmiştir." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "Süre itirazına cevabınız?",
+      "choices": [
+        { "text": "Ücretin ödenmemesi süregelen bir durumdur; ücret ödenmedikçe fesih hakkı devam eder. Ayrıca Eylül ücreti 10 Ekim'de muaccel oldu, fesih iki gün sonra yapıldı.", "delta": 20, "set": ["sure"],
+          "law": "İş K. m.26 · m.24/II-e",
+          "note": "Doğru. Yargıtay, ücretin ödenmemesini devam eden bir ihlal sayar; ödenmeme sürdükçe altı iş günlük süre işlemeye başlamaz. Üstelik son ödenmeyen ücretin muaccel olmasından sadece iki gün sonra feshedildi.",
+          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
+        { "text": "m.26'daki süre yalnızca işverenin fesih hakkı için geçerlidir.", "delta": -10,
+          "law": "İş K. m.26",
+          "note": "Yanlış. m.26 hem işçi hem işveren için geçerlidir. Doğru cevap, ücretin ödenmemesinin süregelen bir durum olduğuydu." },
+        { "text": "Müvekkil işverene bir şans tanımak istedi; süre geçmiş olsa da hakkaniyet gereği dikkate alınmamalı.", "delta": -10,
+          "note": "Sürenin geçtiğini kabul eder gibi konuştunuz. Hak düşürücü süre hakkaniyetle aşılamaz; ama burada süre zaten işlememişti." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Şirket zor günler geçiriyordu. Davacı bunu fırsat bilip yeni bir işe geçmek için bahane aramıştır." },
+        { "who": "client", "text": "Bahane mi?! Üç ay maaşsız çalıştım! Çocuğumun okul parasını komşudan borç aldım!" },
+        { "who": "judge", "text": "Hanımefendi, lütfen oturun. Salonun düzenini bozmaya devam ederseniz sizi dışarı çıkartmak zorunda kalırım." }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        { "text": "Müvekkilinizi sakinleştirip yerine oturtun, hâkimden söz alıp konuyu esasa bağlayın: işverenin ekonomik sıkıntısı ücret borcunu ortadan kaldırmaz.", "delta": 10, "set": ["sakin"],
+          "law": "HMK m.151",
+          "note": "Doğru. Duruşmanın düzenini hâkim sağlar; düzeni bozan kişi salondan çıkarılabilir ve disiplin hapsi uygulanabilir (HMK m.151). Müvekkilin öfkesini siz hukuki bir cümleye çevirdiniz.",
+          "reply": [{ "who": "client", "text": "Özür dilerim, Sayın Hâkim." }, { "who": "judge", "text": "Buyurun, devam edin." }] },
+        { "text": "Siz de sesinizi yükseltip karşı vekile cevap verin.", "delta": -10,
+          "law": "HMK m.151",
+          "note": "Gerginliği büyüttünüz. Vekilin görevi, müvekkilin öfkesini salona taşımak değil, düzeni koruyarak hakkını savunmaktır." },
+        { "text": "Müvekkilin konuşmasına izin verin; salon onun haklılığını görsün.", "delta": -5,
+          "law": "HMK m.151",
+          "note": "Hâkim uyarmışken müvekkili konuşturmak onun salondan çıkarılmasına yol açabilirdi." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Son olarak: davacı bildirim süresine uymadan işi bırakmıştır. Müvekkil şirketin ihbar tazminatı alacağı, kıdem tazminatından mahsup edilmelidir." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "Mahsup talebine cevabınız?",
+      "choices": [
+        { "text": "Haklı nedenle fesih, bildirim süresi beklenmeden yapılır. Bildirim süresine uyma yükümlülüğü yoksa ihbar tazminatı da yoktur; mahsup talebi yersizdir.", "delta": 20, "set": ["ihbarYok"],
+          "law": "İş K. m.24 · m.17",
+          "note": "Doğru. m.24, işçiye sözleşmeyi “bildirim süresini beklemeksizin” feshetme hakkı verir. Haklı nedenle derhâl fesihte hiçbir taraf ihbar tazminatı ödemez." },
+        { "text": "Mahsuba itirazımız yok; asıl önemli olan kıdem tazminatı.", "delta": -15, "set": ["mahsup"],
+          "law": "İş K. m.24",
+          "note": "Haklı fesih yapan işçi ihbar tazminatı ödemez. Bu kabul, müvekkilin kıdem tazminatından haksız bir indirim yapılmasına yol açtı." },
+        { "text": "Müvekkil de ihbar tazminatı istiyor; iki alacak birbirine mahsup edilsin.", "delta": -10, "set": ["ihbar"],
+          "law": "İş K. m.17",
+          "note": "Haklı nedenle fesihte ne işçi ne işveren ihbar tazminatı alır. Olmayan iki alacağı birbirine mahsup etmeye çalıştınız." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "eksik", "winner": "p2", "stamp": "EKSİK DAVA",
+      "hukum": "Davanın KABULÜ ile ödenmeyen Temmuz, Ağustos ve Eylül 2026 ücretlerinin mevduata uygulanan en yüksek faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": "Ücretler hüküm altına alındı. Ama kıdem tazminatı hiç istenmediği için mahkeme bu konuda karar veremedi (HMK m.26). Müvekkil kıdem tazminatı için beş yıllık zamanaşımı (İş K. ek m.3) dolmadan ayrı bir dava açmak zorunda; yeniden arabuluculuk, yeniden masraf." },
+    { "if": "!kod && !sure", "winner": "p2",
+      "hukum": "Ödenmeyen ücret alacaklarının KABULÜ ile mevduata uygulanan en yüksek faiziyle birlikte davalıdan alınarak davacıya verilmesine, kıdem tazminatı talebinin REDDİNE,",
+      "summary": "İstifa ve hak düşürücü süre savunmaları cevapsız kaldı. Mahkeme feshin haklı nedene dayandığı kanaatine varmadı; müvekkil yalnızca ücretlerini alabildi." },
+    { "if": "ihbar || fazla || mahsup", "winner": "p1", "label": "HÜKÜM:",
+      "hukum": [
+        { "text": "Davanın KISMEN KABULÜ ile kıdem tazminatının fesih tarihinden itibaren işleyecek mevduata uygulanan en yüksek faiziyle ve ödenmeyen üç aylık ücretin mevduata uygulanan en yüksek faiziyle birlikte davalıdan alınarak davacıya verilmesine," },
+        { "if": "ihbar", "text": " ihbar tazminatı talebinin REDDİNE," },
+        { "if": "fazla", "text": " kötüniyet tazminatı talebinin REDDİNE," },
+        { "if": "mahsup", "text": " kabul edilen mahsup tutarının kıdem tazminatından düşülmesine," }
+      ],
+      "summary": [
+        { "text": "Fesih haklı nedene dayanıyordu ve kıdem tazminatı kabul edildi." },
+        { "if": "ihbar", "text": " Ama haklı nedenle derhâl fesihte ihbar tazminatı doğmaz; bu talep reddedildi ve davalı lehine vekâlet ücretine hükmedildi." },
+        { "if": "fazla", "text": " Kötüniyet tazminatı işverenin feshine bağlı olduğu için reddedildi." },
+        { "if": "mahsup", "text": " Duruşmadaki kabulünüz yüzünden, aslında var olmayan bir ihbar borcu müvekkilin alacağından düşüldü." }
+      ] },
+    { "winner": "p1",
+      "hukum": "Davanın KABULÜ ile 312.000 TL kıdem tazminatının fesih tarihi olan 12.10.2026'dan itibaren işleyecek mevduata uygulanan en yüksek faiziyle ve ödenmeyen Temmuz, Ağustos, Eylül 2026 ücretlerinin mevduata uygulanan en yüksek faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        { "text": "Ücretin ödenmemesi işçiye haklı nedenle derhâl fesih hakkı verir (İş K. m.24/II-e). Bu fesih kıdem tazminatı doğurur, ihbar tazminatı doğurmaz. Gecikmiş ücrete mevduata uygulanan en yüksek faiz işler (İş K. m.34)." },
+        { "if": "kod", "text": " SGK çıkış kodunun işçiyi bağlamadığını ihtarnameyle gösterdiniz." },
+        { "if": "sure", "text": " Süre itirazını da süregelen ihlal ilkesiyle karşıladınız." },
+        { "if": "sakin", "text": " Müvekkilin salondaki öfkesini yatıştırıp hukuki bir cümleye çevirdiniz." }
+      ] }
+  ]
+}

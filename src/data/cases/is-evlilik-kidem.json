@@ -1,0 +1,170 @@
+{
+  "id": "is-evlilik-kidem",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "basit",
+  "title": "Evlilik Kıdemi",
+  "area": "İş Hukuku · Evlilik nedeniyle fesih ve kıdem tazminatı",
+  "court": "Bursa 3. İş Mahkemesi",
+  "courtShort": "3. İŞ MAHKEMESİ",
+  "esas": "2027/214 Esas",
+  "kararTarihi": "18.06.2027",
+  "color": "#6b3e5a",
+  "teaser": "Evlendi, bir yıl dolmadan istifa etti. İşveren “istifa edene kıdem yok” diyor. Hangi tarih evlilik tarihidir?",
+  "sides": { "p1": { "role": "Davacı (işçi) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#c99670", "hair": "#2a2220", "style": "short", "beard": true } },
+    "opp": { "name": "Av. Hülya Ertem · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e8c09c", "hair": "#5a4a3c", "style": "bun", "glasses": true } },
+    "client": { "name": "Seda Yılmaz · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#d9a982", "hair": "#2b1d17", "style": "long", "shirt": "#7a4a6b", "inner": "#efe7dc" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Büronuz Bursa'da. Seda Yılmaz, Nilüfer Örme Tekstil A.Ş.'de dört yılı aşkın süre kalite kontrol elemanı olarak çalışmış." },
+    { "who": "client", "text": "Şubat 2026'da belediyede nikâhımız kıyıldı. Ocak 2027'de “evlendiğim için ayrılıyorum” diye dilekçe verdim. Şirket “istifa ettin, kıdem tazminatın yok” dedi." },
+    { "who": "client", "text": "Bir de şunu söylediler: “Sizin imam nikâhınız 2025'te kıyılmıştı, süre çoktan geçti.”" },
+    { "who": "narr", "text": "Arabuluculukta anlaşma sağlanamadı. Dava dilekçesini siz hazırlayacaksınız." }
+  ],
+  "docs": [
+    { "t": "Arabuluculuk son tutanağı", "d": "Kıdem tazminatı konusunda anlaşma sağlanamadı. Dava şartı yerine getirildi (7036 s.K. m.3)." },
+    { "t": "İstifa dilekçesi (05.01.2027)", "d": "“20.02.2026 tarihinde evlendiğimden iş sözleşmemi sona erdiriyorum; kıdem tazminatımın ödenmesini talep ederim.”" },
+    { "t": "SGK hizmet dökümü", "d": "İşe giriş 05.09.2022, çıkış 05.01.2027. 01.03.2027'den itibaren başka bir tekstil işyerinde sigortalı." },
+    { "t": "Nüfus kayıt örneği", "d": "Resmi evlenme tarihi: 20.02.2026, Osmangazi Evlendirme Memurluğu." }
+  ],
+  "evidence": [
+    { "id": "ev_istifa", "type": "belge", "title": "İstifa dilekçesi", "desc": "05.01.2027 tarihli; fesih nedeni olarak evlilik açıkça yazılmış." },
+    { "id": "ev_cuzdan", "type": "belge", "title": "Evlenme cüzdanı ve nüfus kayıt örneği", "desc": "Resmi evlenme tarihi 20.02.2026. Fesih tarihine göre 10 ay 16 gün önce." },
+    { "id": "ev_davetiye", "type": "belge", "title": "İmam nikâhı fotoğrafları", "desc": "14.11.2025 tarihli aile töreninin fotoğrafları. Davalı tarafından dosyaya sunuldu." },
+    { "id": "ev_sgk", "type": "belge", "title": "SGK hizmet dökümü", "desc": "Çıkış 05.01.2027; 01.03.2027'den itibaren başka işyerinde sigortalı." },
+    { "id": "law_1475", "type": "kanun", "title": "1475 s.K. m.14/1 · Kıdem tazminatı", "desc": "Kadının evlendiği tarihten itibaren bir yıl içinde kendi arzusuyla sözleşmeyi sona erdirmesi kıdem tazminatı hâlleri arasındadır. 4857 s.K. geçici m.6 uyarınca yürürlükte.", "law": "1475 s.K. m.14/1" },
+    { "id": "law_tmk143", "type": "kanun", "title": "TMK m.143 · Dinî tören", "desc": "Dinî tören, resmi evlenme töreni yapılmadan yapılamaz; evlenmenin geçerliliği dinî törene bağlı değildir.", "law": "TMK m.143" }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Dava dilekçesi masanızda. Talep kısmını ve dayanacağınız vakıayı yazacaksınız." },
+        { "who": "client", "text": "İhbar tazminatı da isteyebilir miyiz? Arkadaşım “hepsini iste” dedi." }
+      ],
+      "prompt": "Dilekçede neye dayanacak, ne isteyeceksiniz?",
+      "choices": [
+        { "text": "Evlenme tarihinden itibaren bir yıl içinde yapılan fesih: kıdem tazminatı. İhbar tazminatı istemeyin.", "delta": 20, "set": ["dayanak"],
+          "law": "1475 s.K. m.14/1 · 4857 s.K. geçici m.6",
+          "note": "Doğru. 1475 s.K. m.14/1, kadın işçinin evlendiği tarihten itibaren bir yıl içinde kendi arzusuyla sözleşmeyi sona erdirmesini kıdem tazminatı hâlleri arasında sayar. Hüküm, 4857 s.K. geçici m.6 uyarınca hâlâ yürürlüktedir. Sözleşmeyi müvekkil feshettiği için ihbar tazminatı istenemez." },
+        { "text": "Evlilik nedeniyle fesih: kıdem ve ihbar tazminatı birlikte.", "delta": 5, "set": ["dayanak", "ihbar"],
+          "law": "İş K. m.17",
+          "note": "Dayanak doğru, ama ihbar tazminatı fazla. İhbar tazminatını, bildirim süresine uymadan sözleşmeyi fesheden taraf karşı tarafa öder (İş K. m.17). Sözleşmeyi müvekkil feshettiği için bu talep reddedilir ve reddedilen kısım için davalı lehine vekâlet ücretine hükmedilir." },
+        { "text": "İşveren ücreti zamanında artırmadı: haklı nedenle fesih ve kıdem tazminatı.", "delta": -15, "set": ["yanlis"],
+          "law": "İş K. m.24",
+          "note": "Ücret sözleşmeye uygun ödendiği sürece zam yapılmaması İş K. m.24'teki haklı nedenlerden biri değildir. Asıl dayanak evlilikti; bu vakıa dilekçede ileri sürülmeliydi." },
+        { "text": "İstifa eden işçi kıdem tazminatı alamaz; dava açmayalım.", "delta": -20, "set": ["vazgec", "end"],
+          "law": "1475 s.K. m.14/1",
+          "note": "İstifa kural olarak kıdem hakkı doğurmaz. Ama kanun, evlenen kadın işçinin bir yıl içinde yaptığı feshi bu kuralın dışında tutar. Müvekkilin açık bir hakkını kullanmadınız." }
+      ] },
+    { "side": "p1", "scene": "court", "if": "yanlis",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, dilekçeniz ücret artışı yapılmamasına dayanıyor. Ama eklerde evlenme cüzdanı ve evlilik gerekçeli bir istifa dilekçesi var. Davanızı hangi vakıaya dayandırıyorsunuz?" }
+      ],
+      "prompt": "Hâkimin sorusuna nasıl cevap vereceksiniz?",
+      "choices": [
+        { "text": "Islah dilekçesiyle vakıaları düzeltiyoruz: fesih, evlenmeden itibaren bir yıl içinde evlilik nedeniyle yapıldı.", "delta": 10, "set": ["dayanak", "islah"],
+          "law": "HMK m.176–177 · HMK m.319",
+          "note": "Doğru çıkış yolu. İş mahkemesinde basit yargılama usulü uygulanır (7036 s.K. m.7); iddiayı değiştirme yasağı dava ve cevap dilekçeleriyle başlar. Bu yasak karşı tarafın açık muvafakati ya da ıslahla aşılır. Islah tahkikat sona erene kadar ve bir kez yapılabilir; ıslah eden taraf, bu yüzden boşa giden işlemlerin giderlerini öder.",
+          "reply": [{ "who": "judge", "text": "Islah dilekçesi ve harcı için süre verildi. Davalı vekili, ıslah dilekçesine cevabınızı bekliyorum." }] },
+        { "text": "Haklı fesih iddiasında ısrar ediyoruz.", "delta": -10,
+          "law": "İş K. m.24",
+          "note": "Zam yapılmaması haklı neden değildir. Hâkimin yol göstermesine rağmen evlilik vakıasını davaya sokmadınız." },
+        { "text": "Evlilik vakıasını şimdi sözlü olarak ekliyoruz; ıslaha gerek yok.", "delta": -5,
+          "law": "HMK m.319",
+          "reply": [{ "who": "opp", "text": "İddianın değiştirilmesine muvafakatimiz yoktur, Sayın Hâkim." }],
+          "note": "Davalı muvafakat etmediği için iddiayı değiştirme yasağına takıldınız. Bu yasağı aşmanın yolu ıslahtı." }
+      ] },
+    { "side": "p1", "scene": "court", "if": "dayanak",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, cevabınızı özetleyin." },
+        { "who": "opp", "text": "Davacı kendi isteğiyle istifa etmiştir. İstifa eden işçiye kıdem tazminatı ödenmez. Müvekkil şirketin bir borcu yoktur." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "İstifa savunmasına ne diyeceksiniz?",
+      "choices": [
+        { "text": "Kural olarak doğru. Ama 1475 s.K. m.14/1, kadın işçinin evlendiği tarihten itibaren bir yıl içinde kendi arzusuyla yaptığı feshi açıkça kıdem tazminatı hâlleri arasında sayar. İstifa dilekçesinde evlilik gerekçesi yazılı.", "delta": 20, "set": ["istifa"],
+          "law": "1475 s.K. m.14/1",
+          "note": "Kuralı kabul edip kanundaki istisnayı göstermek en güçlü cevaptır. Fesih bildiriminde evlilik nedeninin yazılı olması da ispatı kolaylaştırır.",
+          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
+        { "text": "Müvekkilim istifa etmedi; işten çıkarıldı.", "delta": -20,
+          "law": "HMK m.29",
+          "note": "Gerçeğe aykırı. Dosyada müvekkilin imzalı istifa dilekçesi var. Taraflar ve vekilleri doğruyu söylemekle yükümlüdür (HMK m.29); bu beyan hâkimin size güvenini sarstı." },
+        { "text": "Müvekkil işyerindeki yoğunluk yüzünden ayrıldı; bu da haklı nedendir.", "delta": -10,
+          "law": "İş K. m.24",
+          "note": "İş yoğunluğu tek başına haklı neden değildir, üstelik istifa dilekçesindeki gerekçeyle çelişir. Dayanağınız evlilikti." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court", "if": "dayanak",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, sürenin geçtiğine ilişkin savunmanızı açıklayın." }
+      ],
+      "statement": { "who": "opp", "text": "Davacı 14.11.2025'te imam nikâhıyla evlenmiş, o tarihten beri eşiyle birlikte yaşamaktadır. Bir yıllık süre bu tarihte başlamış ve 05.01.2027'deki fesihte dolmuştur." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_cuzdan"],
+      "hit": { "delta": 25, "set": ["nikah"],
+        "reply": [{ "who": "judge", "text": "Nüfus kaydına göre resmi evlenme tarihi 20.02.2026. Fesih bu tarihten itibaren bir yıl içinde yapılmış görünüyor. Beyanlar tutanağa geçirildi." }],
+        "note": "Kanundaki “evlendiği tarih”, evlendirme memuru önünde kıyılan resmi nikâhın tarihidir. Dinî törenin hukuken evlilik sonucu yoktur. Resmi tarih 20.02.2026; fesih bu tarihten 10 ay 16 gün sonra yapıldı." },
+      "responses": {
+        "law_tmk143": { "delta": 10, "set": ["nikah"],
+          "reply": [{ "who": "judge", "text": "Resmi evlenme tarihini göstermek için nüfus kaydını UYAP üzerinden getirtiyorum." }],
+          "note": "Doğru kural: dinî törenin hukuki sonucu yoktur. Ama resmi evlenme tarihini belgeyle göstermeniz gerekiyordu; hâkim nüfus kaydını kendisi getirtti." },
+        "law_1475": { "delta": 5,
+          "note": "Madde süreyi “evlendiği tarih”ten başlatır, ama hangi tarihin evlilik tarihi olduğunu söylemez. Asıl soru resmi nikâhın tarihiydi." },
+        "ev_istifa": { "delta": -5,
+          "note": "İstifa dilekçesi fesih nedenini gösterir, ama evlenme tarihini ispat etmez." },
+        "ev_davetiye": { "delta": -15,
+          "note": "Bu fotoğraflar davalının iddiasını destekliyor: 2025'teki törenin varlığını gösteriyor." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge evlenme tarihine ilişkin iddiayı karşılamıyor. Resmi nikâhın tarihini gösteren belge gerekiyordu." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; imam nikâhı tarihine dayanan savunma cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court", "if": "dayanak",
+      "lines": [
+        { "who": "opp", "text": "Ayrıca davacı, ayrıldıktan iki ay sonra başka bir tekstil firmasında işe başlamıştır. Ev hayatına dönmek için ayrılmadığı açıktır. Talep, hakkın kötüye kullanılmasıdır." },
+        { "who": "judge", "text": "Davacı vekili, bu konuda ne diyorsunuz?" }
+      ],
+      "prompt": "Sonraki çalışma itirazına cevabınız?",
+      "choices": [
+        { "text": "Kanun, evlenen kadın işçinin fesihten sonra çalışmamasını şart koşmuyor. Sonradan başka işte çalışmak tek başına hakkın kötüye kullanılması değildir. Davalı, önceden ayarlanmış bir işe geçiş olduğunu da ispatlamış değil.", "delta": 20, "set": ["calisma"],
+          "law": "1475 s.K. m.14/1 · TMK m.2",
+          "note": "Doğru. Hüküm, fesihten sonra çalışmama koşulu içermez. Yargıtay da sonraki çalışmayı tek başına hakkın kötüye kullanılması saymaz; somut olayın koşullarına bakar. Kötüye kullanmayı ileri süren işveren bunu ispatlamalıdır." },
+        { "text": "Müvekkilim şu anda çalışmıyor.", "delta": -20,
+          "law": "HMK m.29",
+          "note": "SGK dökümü 01.03.2027'den itibaren başka işyerinde sigortalı olduğunu gösteriyor. Gerçeğe aykırı beyan, doğruyu söyleme yükümlülüğüne aykırıdır (HMK m.29) ve güvenilirliğinizi yok eder." },
+        { "text": "Bu itirazı haklı buluyoruz; kıdem tazminatının yarısına razıyız.", "delta": -15, "set": ["yari"],
+          "law": "HMK m.307",
+          "note": "Hukuken dayanaksız bir itirazı kabul edip talebin yarısından vazgeçtiniz. Bu beyan kısmi feragat sonucu doğurur; feragat edilen kısım yeniden istenemez." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "vazgec", "winner": "p2", "label": "SONUÇ:", "noCourt": true,
+      "hukum": "Dava açılmadı. Müvekkilin kıdem tazminatı alacağı ödenmeden kaldı.",
+      "summary": "İstifa kural olarak kıdem hakkı doğurmaz. Ama 1475 s.K. m.14/1, evlenen kadın işçinin resmi nikâhtan itibaren bir yıl içinde yaptığı feshi bu kuralın dışında tutar. Kıdem tazminatında zamanaşımı beş yıldır (İş K. ek m.3); müvekkil süre dolmadan başka bir avukatla dava açabilir." },
+    { "if": "!dayanak", "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Ücret artışı yapılmaması haklı fesih nedeni sayılmadı (İş K. m.24). Evlilik nedeniyle fesih vakıası dava dilekçesinde ileri sürülmediği ve ıslahla da davaya getirilmediği için mahkeme bunu inceleyemedi." },
+    { "if": "(nikah || (istifa && calisma)) && (ihbar || yari)", "winner": "p1", "label": "HÜKÜM:",
+      "hukum": [
+        { "text": "Davanın KISMEN KABULÜ ile kıdem tazminatının fesih tarihi olan 05.01.2027'den itibaren işleyecek mevduata uygulanan en yüksek faiziyle birlikte davalıdan alınarak davacıya verilmesine," },
+        { "if": "ihbar", "text": " ihbar tazminatı talebinin REDDİNE," },
+        { "if": "yari", "text": " feragat edilen kısım yönünden davanın REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Mahkeme, sözleşmenin resmi evlenme tarihinden itibaren bir yıl içinde evlilik nedeniyle feshedildiğini kabul etti (1475 s.K. m.14/1)." },
+        { "if": "ihbar", "text": " Ama feshi müvekkil yaptığı için ihbar tazminatı reddedildi; reddedilen kısım için davalı lehine vekâlet ücretine hükmedildi." },
+        { "if": "yari", "text": " Duruşmada talebin yarısından feragat edildiği için müvekkil alacağının yarısını kaybetti." }
+      ] },
+    { "if": "nikah || (istifa && calisma)", "winner": "p1",
+      "hukum": "Davanın KABULÜ ile 208.000 TL kıdem tazminatının fesih tarihi olan 05.01.2027'den itibaren işleyecek mevduata uygulanan en yüksek faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        { "text": "Fesih, resmi evlenme tarihi olan 20.02.2026'dan itibaren bir yıl içinde ve evlilik gerekçesiyle yapıldı. Kıdem tazminatı tam olarak hüküm altına alındı. Kıdem tazminatı zamanında ödenmediği için mevduata uygulanan en yüksek faiz işler (1475 s.K. m.14)." },
+        { "if": "!nikah", "text": " İmam nikâhı savunmasını belgeyle karşılamadınız; mahkeme resmi evlenme tarihini nüfus kaydından kendisi tespit etti." },
+        { "if": "islah", "text": " Dilekçedeki hatalı dayanağı ıslahla düzelttiniz; ıslah giderleri müvekkile yükletildi." }
+      ] },
+    { "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "İstifa, evlenme tarihi ve sonraki çalışma savunmalarına etkili cevap verilmedi. Mahkeme, sözleşmenin evlenmeden itibaren bir yıl içinde evlilik nedeniyle feshedildiğinin ispatlanamadığı sonucuna vardı." }
+  ]
+}

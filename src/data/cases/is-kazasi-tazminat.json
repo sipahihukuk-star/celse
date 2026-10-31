@@ -1,0 +1,613 @@
+{
+  "id": "is-kazasi-tazminat",
+  "mode": "solo",
+  "career": {
+    "level": 1
+  },
+  "difficulty": "zor",
+  "title": "Dördüncü Kat",
+  "area": "İş Hukuku · İş kazası tazminatı",
+  "court": "Samsun 2. İş Mahkemesi",
+  "courtShort": "2. İŞ MAHKEMESİ",
+  "esas": "2026/1905 Esas",
+  "kararTarihi": "21.12.2027",
+  "color": "#6b2f2f",
+  "teaser": "Korkuluksuz bir kat kenarı, bağlanacak yeri olmayan bir emniyet kemeri. İşveren kusuru işçiye, süreyi de takvime yüklüyor.",
+  "sides": {
+    "p1": {
+      "role": "Davacı (işçi) vekili",
+      "short": "Siz"
+    },
+    "p2": {
+      "role": "Karşı taraf",
+      "short": "Karşı taraf"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#d9a982",
+        "hair": "#3a3a3a",
+        "style": "short",
+        "beard": true
+      }
+    },
+    "opp": {
+      "name": "Av. Nermin Uysal · Davalı vekili",
+      "np": "green",
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#e0b48e",
+        "hair": "#7a3b1f",
+        "style": "curly"
+      }
+    },
+    "client": {
+      "name": "Yusuf Kaplan · Müvekkil",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#b88560",
+        "hair": "#2b1d17",
+        "style": "short",
+        "shirt": "#5a5a4a",
+        "inner": "#d8d2c4"
+      }
+    }
+  },
+  "courtCast": [
+    "judge",
+    "you",
+    "opp"
+  ],
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Yusuf Kaplan, Atakum Yapı İnşaat Taahhüt A.Ş.'nin Samsun'daki şantiyesinde kalıpçıydı. 12.03.2024'te dördüncü kat döşemesinde kalıp sökerken kat kenarından düştü."
+    },
+    {
+      "who": "client",
+      "text": "Belim ve sol bacağım… Artık ağır iş yapamıyorum. SGK her ay bir gelir yatırıyor ama eski kazancımın yanına bile yaklaşmıyor."
+    },
+    {
+      "who": "narr",
+      "text": "SGK olayı iş kazası saydı. SGK Sağlık Kurulu'nun belirlediği %32 sürekli iş göremezlik oranı 20.01.2025'te kesinleşti; müvekkile sürekli iş göremezlik geliri bağlandı."
+    },
+    {
+      "who": "narr",
+      "text": "Şantiye şefi hakkında Samsun'da taksirle yaralama davası sürüyor. Bugün 02.11.2026; işverenden maddi ve manevi tazminat isteyeceksiniz."
+    }
+  ],
+  "docs": [
+    {
+      "t": "SGK iş kazası tespit yazısı",
+      "d": "12.03.2024 tarihli olay iş kazası kabul edildi."
+    },
+    {
+      "t": "SGK Sağlık Kurulu kararı",
+      "d": "Sürekli iş göremezlik oranı %32; 20.01.2025'te kesinleşti."
+    },
+    {
+      "t": "SGK gelir bağlama yazısı",
+      "d": "Sürekli iş göremezlik geliri bağlandı; ilk peşin sermaye değeri dosyaya getirtilecek."
+    },
+    {
+      "t": "İddianame",
+      "d": "Şantiye şefi hakkında taksirle yaralama (TCK m.89); dava sürüyor."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "law_tbk146",
+      "type": "kanun",
+      "title": "TBK m.146 · On yıllık zamanaşımı",
+      "desc": "Kanunda aksine hüküm bulunmadıkça her alacak on yıllık zamanaşımına tabidir. Sözleşmeye aykırılıktan doğan tazminat bu süreye girer.",
+      "law": "TBK m.146"
+    },
+    {
+      "id": "law_tbk72",
+      "type": "kanun",
+      "title": "TBK m.72 · Haksız fiilde zamanaşımı",
+      "desc": "Zararın ve tazminat yükümlüsünün öğrenilmesinden itibaren iki yıl, her hâlde fiilden itibaren on yıl; fiil suç oluşturuyorsa ceza zamanaşımı.",
+      "law": "TBK m.72"
+    },
+    {
+      "id": "ev_maluliyet",
+      "type": "belge",
+      "title": "SGK Sağlık Kurulu kararı",
+      "desc": "%32 sürekli iş göremezlik; 20.01.2025'te kesinleşti."
+    },
+    {
+      "id": "ev_iddianame",
+      "type": "belge",
+      "title": "İddianame",
+      "desc": "Şantiye şefi hakkında taksirle yaralama suçundan açılan ceza davası."
+    },
+    {
+      "id": "ev_foto",
+      "type": "belge",
+      "title": "Kaza yeri fotoğrafları",
+      "desc": "Kazadan hemen sonra çekilmiş: kat kenarında korkuluk yok, emniyet kemerinin bağlanacağı yaşam hattı yok.",
+      "if": "foto"
+    },
+    {
+      "id": "ev_egitim",
+      "type": "belge",
+      "title": "İSG eğitim formu",
+      "desc": "Kaza öncesine tarihli; ama müvekkile göre kazadan sonra hastanede imzalatıldı.",
+      "if": "egitim"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "client",
+          "text": "Bir arkadaş “önce arabulucuya gitmek zorunlu” dedi. Bir başkası “SGK'ya dava açın” dedi. Kime inanayım?"
+        }
+      ],
+      "prompt": "Davayı nasıl ve nerede açacaksınız?",
+      "choices": [
+        {
+          "text": "Doğrudan iş mahkemesinde, işveren aleyhine maddi ve manevi tazminat davası. İş kazası tazminatında arabuluculuk dava şartı değil. Davanın SGK'ya ihbarını ve gelirin peşin sermaye değerinin SGK'dan sorulmasını isteyin.",
+          "delta": 20,
+          "set": [
+            "dogru",
+            "sgkIhbar"
+          ],
+          "law": "7036 s.K. m.3, m.5 · HMK m.61",
+          "note": "Doğru. İş kazasından doğan maddi ve manevi tazminat davaları zorunlu arabuluculuğun dışındadır (7036 s.K. m.3) ve iş mahkemesinde görülür. SGK davalı değildir; ama bağladığı gelir tazminattan düşüleceği ve işverene rücu hakkı bulunduğu için davanın SGK'ya ihbarı ve gelir bilgisinin getirtilmesi gerekir.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Dava 04.11.2026'da açıldı: maddi tazminat belirsiz alacak olarak 10.000 TL, manevi tazminat 750.000 TL."
+            }
+          ]
+        },
+        {
+          "text": "Önce zorunlu arabulucuya başvurun, anlaşma olmazsa dava açın.",
+          "delta": -10,
+          "set": [
+            "arab"
+          ],
+          "law": "7036 s.K. m.3",
+          "note": "İş kazası ve meslek hastalığından doğan tazminat davalarında zorunlu arabuluculuk uygulanmaz (7036 s.K. m.3). İhtiyari arabuluculuk mümkündür; ama zamanaşımı itirazı beklenen bir dosyada boşa geçen her hafta risktir.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "İşveren arabuluculuk görüşmesine katılmadı. Bir ay kaybettiniz. Dava Aralık başında açıldı: maddi tazminat belirsiz alacak olarak 10.000 TL, manevi tazminat 750.000 TL."
+            }
+          ]
+        },
+        {
+          "text": "Asliye hukuk mahkemesinde haksız fiil davası açın.",
+          "delta": -15,
+          "set": [
+            "gorevsiz"
+          ],
+          "law": "7036 s.K. m.5",
+          "note": "Görevli mahkeme iş mahkemesidir. Görev dava şartıdır ve mahkeme bunu kendiliğinden inceler; görevsizlik kararı verilecek."
+        },
+        {
+          "text": "SGK zaten gelir bağladı; davayı SGK aleyhine açıp eksik kalan zararı isteyin.",
+          "delta": -30,
+          "law": "HMK m.114 · 5510 s.K. m.21",
+          "note": "İşverenin kusurundan doğan zarar işverenden istenir. SGK'nın bağladığı gelir sosyal sigorta edimidir; SGK bu tazminat davasında davalı olamaz.",
+          "fatal": {
+            "hukum": "Davanın pasif husumet yokluğu nedeniyle REDDİNE,",
+            "summary": "Zararın tazmini işverenden istenir; SGK iş kazası tazminat davasında davalı sıfatına sahip değildir. Dava reddedildi; yargılama giderleri ve SGK lehine vekâlet ücreti müvekkile yükletildi. İşverene karşı yeniden dava açmak gerekecek."
+          }
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "if": "gorevsiz",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Samsun 4. Asliye Hukuk Mahkemesi ilk duruşmada görevsizlik kararı verdi: iş kazasından doğan tazminat davalarında iş mahkemesi görevlidir. Karar 05.02.2027'de kesinleşti."
+        }
+      ],
+      "prompt": "Şimdi ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Kesinleşmeden itibaren iki hafta içinde, kararı veren mahkemeye başvurup dosyanın görevli iş mahkemesine gönderilmesini isteyin.",
+          "delta": 10,
+          "set": [
+            "gonder"
+          ],
+          "law": "HMK m.20",
+          "note": "Doğru. Görevsizlik kararı kesinleştikten sonra iki hafta içinde gönderme talebinde bulunulmazsa dava açılmamış sayılır (HMK m.20). Süresinde talep edildiği için dava görevli mahkemede devam ediyor.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Dosya Samsun 2. İş Mahkemesi'ne gönderildi. Maddi tazminat belirsiz alacak olarak 10.000 TL, manevi tazminat 750.000 TL talepli."
+            }
+          ]
+        },
+        {
+          "text": "Mahkeme dosyayı kendiliğinden gönderir; beklemek yeterli.",
+          "delta": -30,
+          "law": "HMK m.20",
+          "note": "Yanlış. Gönderme talep üzerine yapılır; iki haftalık süre kaçırıldı.",
+          "fatal": {
+            "hukum": "Davanın AÇILMAMIŞ SAYILMASINA,",
+            "summary": "Görevsizlik kararı kesinleştikten sonra iki hafta içinde dosyanın görevli mahkemeye gönderilmesi talep edilmediği için dava açılmamış sayıldı (HMK m.20). Yargılama giderleri müvekkile yükletildi; yeni bir dava açmak ve zamanaşımı tartışmasına baştan girmek gerekecek."
+          }
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "İlk duruşmadan önce müvekkille görüşüyorsunuz. Fizik tedaviye yetişmesi gerekiyor; yalnızca iki soru sorabilirsiniz."
+        }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Kaza yerinin fotoğrafı ya da videosu var mı?",
+          "delta": 15,
+          "set": [
+            "foto"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Ustabaşı Recep Abi kazadan hemen sonra telefonla çekmiş. Kat kenarında korkuluk yok, kemeri bağlayacak halat da yok. Fotoğraflar bende."
+            }
+          ],
+          "note": "Kilit soru. Fotoğraflar, işverenin toplu koruma önlemini almadığını ve kemerin bağlanabileceği bir yer bırakmadığını gösteriyor. Delil çantanıza eklendi."
+        },
+        {
+          "text": "Emniyet kemeriniz takılı mıydı?",
+          "delta": 5,
+          "set": [
+            "kemer"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Kemer belimdeydi, ama bağlayacak yer yoktu. “Kancayı demire takın” diyorlardı; o gün demir de yoktu."
+            }
+          ],
+          "note": "Önemli bir bilgi, ama yalnızca müvekkilin beyanı. Belgeyle desteklenmesi gerekiyor."
+        },
+        {
+          "text": "İş güvenliği eğitimi aldınız mı? İmzaladığınız bir belge var mı?",
+          "delta": 10,
+          "set": [
+            "egitim"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Hiç eğitim yapılmadı. Kazadan sonra hastanedeyken bir kâğıt imzalattılar; tarihini önceye atmışlar."
+            }
+          ],
+          "note": "Değerli. İşveren çalışanlarına eğitim vermekle yükümlüdür; geriye tarihli bir form bu yükümlülüğün yerine getirilmediğini düşündürür. Form delil çantanıza eklendi."
+        },
+        {
+          "text": "SGK'dan size bağlanan gelir ne kadar?",
+          "delta": 5,
+          "reply": [
+            {
+              "who": "client",
+              "text": "Her ay yatıyor, kurumun yazısı var. Tutarını tam hatırlamıyorum."
+            }
+          ],
+          "note": "Mahsup için önemli, ama bu bilgi SGK'dan zaten getirtilecek."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Duruşmayı açıyorum. Davalı vekili, ön itirazlarınızı ve savunmanızı özetleyin."
+        }
+      ],
+      "statement": {
+        "who": "opp",
+        "text": "Kaza 12.03.2024'te olmuştur, dava ise iki yılı aşkın süre sonra açılmıştır. TBK m.72'deki iki yıllık zamanaşımı dolmuştur. Davanın zamanaşımı nedeniyle reddini istiyoruz."
+      },
+      "prompt": "Zamanaşımı itirazını hangi dayanakla karşılayacaksınız?",
+      "correct": [
+        "law_tbk146"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "zaman"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Beyanlar tutanağa geçirildi. Zamanaşımı itirazı esasla birlikte değerlendirilecek."
+          }
+        ],
+        "note": "İş kazası, işverenin iş sözleşmesinden doğan işçiyi koruma ve gözetme borcunun ihlalidir (TBK m.417; 6331 s.K. m.4). Sözleşmeye aykırılıktan doğan tazminat on yıllık zamanaşımına tabidir (TBK m.146). Yargıtay da bu davalarda on yıllık süreyi uygular."
+      },
+      "responses": {
+        "ev_maluliyet": {
+          "delta": 15,
+          "set": [
+            "zaman"
+          ],
+          "note": "Güçlü bir ikinci savunma: TBK m.72'ye göre bile iki yıl, zararın öğrenildiği tarihten başlar. Bedensel zararda bu, iş göremezlik oranının kesinleştiği 20.01.2025'tir; süre dolmamıştı. Ama asıl dayanak on yıllık süreydi."
+        },
+        "ev_iddianame": {
+          "delta": 10,
+          "set": [
+            "zaman"
+          ],
+          "note": "Doğru bir nokta: fiil suç oluşturuyorsa ceza zamanaşımı uygulanır (TBK m.72/1). Ama asıl dayanak, iş sözleşmesine aykırılıktan doğan on yıllık süreydi."
+        },
+        "law_tbk72": {
+          "delta": -10,
+          "note": "Davalının dayandığı madde bu. Haksız fiil süresini kabul edip tartışmayı onun alanına taşıdınız."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu delil zamanaşımı itirazını karşılamıyor."
+      },
+      "pass": {
+        "delta": -20,
+        "note": "Zamanaşımı itirazını cevapsız bıraktınız. Mahkeme süreyi yine kendisi değerlendirecek, ama davanın varlığını ilgilendiren bir itirazı karşılamamak ağır bir ihmaldir."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Kusur bilirkişisinin raporu geldi: davalı işveren %60, davacı %40 kusurlu. Gerekçe, davacının emniyet kemerini bağlamamış olması. Rapor size tebliğ edildi; iki haftalık itiraz süreniz içindesiniz."
+        },
+        {
+          "who": "opp",
+          "text": "Rapor yerindedir. Davacı kendi dikkatsizliğiyle düşmüştür."
+        }
+      ],
+      "prompt": "Rapora karşı ne yapacaksınız?",
+      "choices": [
+        {
+          "if": "foto",
+          "text": "Fotoğrafları sunun: kat kenarında korkuluk ve kemerin bağlanacağı yaşam hattı yok. Kemerin bağlanabilir olmasını sağlamak ve uygulamayı denetlemek işverenin yükümlülüğüdür. İş güvenliği uzmanı ve inşaat mühendisinden oluşan yeni bir heyetten rapor isteyin.",
+          "delta": 25,
+          "set": [
+            "kusur"
+          ],
+          "law": "6331 s.K. m.4 · HMK m.281",
+          "note": "En güçlü itiraz. İşveren gerekli her türlü önlemi almak, araç gereci sağlamak ve önlemlere uyulup uyulmadığını denetlemekle yükümlüdür (6331 s.K. m.4). Bağlanacak yeri olmayan kemerin “takılmaması” işçiye ağır kusur olarak yüklenemez. Rapora süresinde itiraz edilmesi ve yeni heyet istenmesi HMK m.281'e uygundur.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "İtiraz yerinde görüldü. Dosyanın iş güvenliği uzmanı ve inşaat mühendisinden oluşan yeni bir bilirkişi heyetine tevdiine karar verildi."
+            }
+          ]
+        },
+        {
+          "if": "egitim",
+          "text": "İSG eğitim formunun kazadan sonra imzalatıldığını, işverenin eğitim yükümlülüğünü yerine getirmediğini ileri sürün; ek rapor isteyin.",
+          "delta": 15,
+          "set": [
+            "kusurKismi"
+          ],
+          "law": "6331 s.K. m.17 · HMK m.281",
+          "note": "Doğru bir itiraz: işveren çalışanlara iş sağlığı ve güvenliği eğitimi vermekle yükümlüdür. Ama formun geriye tarihli olduğu yalnızca müvekkilin beyanı; korkuluk ve yaşam hattı eksikliğini gösteren bir belge daha etkili olurdu.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Bilirkişiden itirazlar doğrultusunda ek rapor alınmasına karar verildi."
+            }
+          ]
+        },
+        {
+          "text": "İşverenin gözetim ve denetim yükümlülüğünü hatırlatıp rapora itiraz edin; ek rapor isteyin.",
+          "delta": 10,
+          "set": [
+            "kusurKismi"
+          ],
+          "law": "6331 s.K. m.4 · HMK m.281",
+          "note": "Doğru yönde, ama genel bir itiraz. Somut bir delil olmadan bilirkişinin tespitini sarsmak zor.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Bilirkişiden itirazlar doğrultusunda ek rapor alınmasına karar verildi."
+            }
+          ]
+        },
+        {
+          "text": "Rapora itirazımız yok.",
+          "delta": -15,
+          "set": [
+            "kusurKabul"
+          ],
+          "law": "HMK m.281 · TBK m.52",
+          "note": "Müvekkile yüklenen %40 kusur, tazminattan aynı oranda indirim yapılması demek (TBK m.52). İtiraz için elinizde süre ve gerekçe vardı."
+        },
+        {
+          "text": "İşveren iş kazasında kusursuz sorumludur; kusur oranları tartışılamaz.",
+          "delta": -10,
+          "law": "TBK m.417 · TBK m.52",
+          "note": "Yanlış. Yargıtay uygulamasında işverenin iş kazasından sorumluluğu kusura dayanır; özen yükümlülüğü ağırlaştırılmıştır. İşçinin müterafik kusuru tazminattan indirim sebebidir (TBK m.52). Rapora somut bir itiraz getirmediniz; rapor olduğu gibi kaldı.",
+          "set": [
+            "kusurKabul"
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Aktüerya raporu geldi. Maddi zarar, kusur oranına göre indirildikten sonra SGK'nın bağladığı gelirin ilk peşin sermaye değeri düşülerek hesaplandı."
+        },
+        {
+          "who": "opp",
+          "text": "SGK geliri manevi tazminattan da düşülmelidir. Davacı aynı zarar için iki kez ödeme almamalı."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, beyanınız ve talebiniz?"
+        }
+      ],
+      "prompt": "Rapor ve mahsup konusunda ne söyleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Rapora göre maddi tazminat talebimizi artırıyor, harcını yatırıyoruz. Peşin sermaye değeri yalnızca maddi tazminattan düşülür; manevi tazminattan mahsup yapılmaz.",
+          "delta": 20,
+          "set": [
+            "artirim"
+          ],
+          "law": "HMK m.107/2 · TBK m.56 · 5510 s.K. m.21",
+          "note": "Doğru. SGK geliri işçinin gelir kaybını karşılar; mükerrer ödemeyi önlemek için ilk peşin sermaye değeri maddi tazminattan düşülür. Manevi tazminat ise gelir kaybını değil, acı ve elemi karşılar (TBK m.56); ondan mahsup yapılmaz. Belirsiz alacakta talep ıslaha gerek olmadan artırılır."
+        },
+        {
+          "text": "SGK geliri müvekkilin primleriyle karşılandı; maddi tazminattan da düşülmesin. Talebimizi mahsupsuz tutar üzerinden artırıyoruz.",
+          "delta": -10,
+          "set": [
+            "artirim",
+            "mahsupYok"
+          ],
+          "law": "5510 s.K. m.21",
+          "note": "Talebi artırdınız; ama mahsup itirazınız yanlış. İşçi aynı gelir kaybı için hem SGK'dan hem işverenden tam ödeme alamaz. SGK, ödediği tutarı kusurlu işverenden rücuen ister (5510 s.K. m.21). Mahsupsuz tutarın aşan kısmı reddedilecek."
+        },
+        {
+          "text": "Rapora itirazımız yok. Mahkeme rapordaki tutara kendiliğinden hükmeder; ayrıca dilekçe vermeye gerek yok.",
+          "delta": -15,
+          "set": [
+            "artirmadi"
+          ],
+          "law": "HMK m.26 · m.107/2",
+          "note": "Ağır hata. Hâkim taleple bağlıdır (HMK m.26). Belirsiz alacak davasında talep artırılmazsa maddi tazminat dava dilekçesindeki 10.000 TL ile sınırlı kalır."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "artirmadi",
+      "winner": "p2",
+      "stamp": "YETERSİZ TALEP",
+      "hukum": "Maddi tazminat davasının dava dilekçesindeki talep miktarı olan 10.000 TL üzerinden KABULÜNE, manevi tazminat davasının KISMEN KABULÜ ile takdiren belirlenen manevi tazminatın kaza tarihi olan 12.03.2024'ten itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin manevi tazminat talebinin REDDİNE,",
+      "summary": "İşverenin kusuru ve zarar ispatlandı. Ama maddi tazminat talebi bilirkişi raporundan sonra artırılmadığı için mahkeme 10.000 TL ile bağlı kaldı (HMK m.26). Müvekkilin gelir kaybının çok küçük bir kısmı karşılandı."
+    },
+    {
+      "if": "kusurKabul",
+      "winner": "p1",
+      "label": "HÜKÜM:",
+      "hukum": [
+        {
+          "text": "Maddi tazminat davasının KABULÜ ile %40 müterafik kusur indirimi ve SGK gelirinin ilk peşin sermaye değeri düşülerek hesaplanan maddi tazminatın, manevi tazminat davasının KISMEN KABULÜ ile takdiren belirlenen manevi tazminatın kaza tarihi olan 12.03.2024'ten itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin manevi tazminat talebinin REDDİNE,"
+        },
+        {
+          "if": "mahsupYok",
+          "text": " SGK gelirinin mahsubu nedeniyle fazlaya ilişkin maddi tazminat talebinin REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Dava kazanıldı, ama itiraz edilmeyen kusur raporu yüzünden müvekkile %40 kusur yüklendi. Tazminat bu oranda indirildi (TBK m.52); manevi tazminat da müterafik kusur dikkate alınarak düşük belirlendi."
+        },
+        {
+          "if": "foto",
+          "text": " Elinizdeki fotoğraflar kemerin bağlanacağı bir yer olmadığını gösteriyordu; kullanılmadı."
+        },
+        {
+          "if": "mahsupYok",
+          "text": " Mahsupsuz tutar üzerinden yapılan artırımın aşan kısmı reddedildi; bu kısım için davalı lehine vekâlet ücretine hükmedildi."
+        }
+      ]
+    },
+    {
+      "if": "kusur",
+      "winner": "p1",
+      "hukum": [
+        {
+          "text": "Maddi tazminat davasının KABULÜ ile %15 müterafik kusur indirimi ve SGK gelirinin ilk peşin sermaye değeri düşülerek hesaplanan 2.180.000 TL maddi tazminatın, manevi tazminat davasının KISMEN KABULÜ ile 600.000 TL manevi tazminatın kaza tarihi olan 12.03.2024'ten itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin manevi tazminat talebinin REDDİNE,"
+        },
+        {
+          "if": "mahsupYok",
+          "text": " SGK gelirinin mahsubu nedeniyle fazlaya ilişkin maddi tazminat talebinin REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Yeni bilirkişi heyeti, korkuluk ve yaşam hattı bulunmadığı için işvereni %85, davacıyı %15 kusurlu buldu. Maddi tazminattan yalnızca SGK gelirinin ilk peşin sermaye değeri düşüldü; manevi tazminattan mahsup yapılmadı."
+        },
+        {
+          "if": "zaman",
+          "text": " Zamanaşımı itirazı reddedildi: iş kazasından doğan tazminat iş sözleşmesine aykırılıktan doğar ve on yıllık süreye tabidir."
+        },
+        {
+          "if": "!zaman",
+          "text": " Zamanaşımı itirazını mahkeme kendisi reddetti; sizin karşılamanız gerekirdi."
+        },
+        {
+          "if": "gonder",
+          "text": " Görevsizlik kararından sonra dosyayı süresinde iş mahkemesine taşıdınız; ama yanlış mahkemede aylar kaybedildi."
+        },
+        {
+          "if": "arab",
+          "text": " Zorunlu olmayan arabuluculuk bir ay kaybettirdi."
+        },
+        {
+          "if": "mahsupYok",
+          "text": " Mahsupsuz tutar üzerinden yapılan artırımın aşan kısmı reddedildi; bu kısım için davalı lehine vekâlet ücretine hükmedildi."
+        }
+      ]
+    },
+    {
+      "winner": "p1",
+      "label": "HÜKÜM:",
+      "hukum": [
+        {
+          "text": "Maddi tazminat davasının KABULÜ ile %30 müterafik kusur indirimi ve SGK gelirinin ilk peşin sermaye değeri düşülerek hesaplanan maddi tazminatın, manevi tazminat davasının KISMEN KABULÜ ile takdiren belirlenen manevi tazminatın kaza tarihi olan 12.03.2024'ten itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin manevi tazminat talebinin REDDİNE,"
+        },
+        {
+          "if": "mahsupYok",
+          "text": " SGK gelirinin mahsubu nedeniyle fazlaya ilişkin maddi tazminat talebinin REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Ek raporda kusur oranları işveren %70, davacı %30 olarak düzeltildi. Dava kazanıldı, ama korkuluk ve yaşam hattı eksikliğini gösteren somut bir delil sunulsaydı müvekkilin kusuru daha da düşebilirdi."
+        },
+        {
+          "if": "zaman",
+          "text": " Zamanaşımı itirazı, on yıllık süre gereği reddedildi."
+        },
+        {
+          "if": "!zaman",
+          "text": " Zamanaşımı itirazını mahkeme kendisi reddetti; sizin karşılamanız gerekirdi."
+        },
+        {
+          "if": "mahsupYok",
+          "text": " Mahsupsuz tutar üzerinden yapılan artırımın aşan kısmı reddedildi; bu kısım için davalı lehine vekâlet ücretine hükmedildi."
+        }
+      ]
+    }
+  ]
+}

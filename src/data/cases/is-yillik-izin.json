@@ -1,0 +1,163 @@
+{
+  "id": "is-yillik-izin",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "basit",
+  "title": "Kullanılmayan İzin",
+  "area": "İş Hukuku · Yıllık izin ücreti",
+  "court": "Eskişehir 2. İş Mahkemesi",
+  "courtShort": "2. İŞ MAHKEMESİ",
+  "esas": "2026/1742 Esas",
+  "kararTarihi": "09.04.2027",
+  "color": "#4a5d3a",
+  "teaser": "Yedi yılda iki kez izne çıkmış bir CNC operatörü. İşverenin elinde imzasız bir liste ve üç tanık var.",
+  "sides": { "p1": { "role": "Davacı (işçi) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#edc6a2", "hair": "#7a3b1f", "style": "bun" } },
+    "opp": { "name": "Av. Murat Kılınç · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#b88560", "hair": "#151515", "style": "short", "beard": true } },
+    "client": { "name": "Hakan Demir · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#e0b48e", "hair": "#3a3a3a", "style": "short", "shirt": "#3f5a6b", "inner": "#dcd8cc" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Hakan Demir, Eskişehir'deki Porsuk Mobilya San. A.Ş.'de 01.03.2019'dan beri CNC operatörüydü. 15.06.2026'da devamsızlık gerekçesiyle işten çıkarıldı." },
+    { "who": "client", "text": "Üç gün gitmedim, doğru. Kıdem tazminatı alamayacağımı biliyorum, ona itirazım yok." },
+    { "who": "client", "text": "Ama yedi yılda yalnızca iki kez izne çıktım: 2022'de iki hafta, 2025'te yirmi gün. Diğer yıllar “sipariş var” dediler, hiç izin vermediler." },
+    { "who": "narr", "text": "Arabuluculukta işveren “bütün izinler kullanıldı” dedi; anlaşma olmadı." }
+  ],
+  "docs": [
+    { "t": "Arabuluculuk son tutanağı", "d": "Yıllık izin ücreti konusunda anlaşma sağlanamadı. Dava şartı yerine getirildi (7036 s.K. m.3)." },
+    { "t": "İş sözleşmesi", "d": "Belirsiz süreli; işe giriş 01.03.2019. Son brüt günlük ücret 1.600 TL." },
+    { "t": "Fesih bildirimi", "d": "15.06.2026; İş K. m.25/II-g (devamsızlık). Müvekkil feshe itiraz etmiyor." },
+    { "t": "İzin defteri sureti", "d": "Davacının imzasını taşıyan iki kayıt: 2022'de 14 gün, 2025'te 20 gün." }
+  ],
+  "evidence": [
+    { "id": "ev_defter", "type": "belge", "title": "İzin defteri sureti", "desc": "Davacının imzalı iki kaydı: 2022'de 14 gün, 2025'te 20 gün. Başka imzalı kayıt yok." },
+    { "id": "ev_liste", "type": "belge", "title": "Davalının izin listesi", "desc": "Personel şefinin hazırladığı imzasız Excel tablosu; her yıl için “izin kullanıldı” yazıyor." },
+    { "id": "ev_fesih", "type": "belge", "title": "Fesih bildirimi", "desc": "İş sözleşmesi 15.06.2026'da sona erdi." },
+    { "id": "law_m59", "type": "kanun", "title": "İş K. m.59 · Kullanılmayan izin ücreti", "desc": "Sözleşme herhangi bir nedenle sona erince kullanılmayan izin ücreti son ücret üzerinden ödenir; zamanaşımı sözleşmenin sona erdiği tarihten başlar.", "law": "İş K. m.59" },
+    { "id": "law_m53", "type": "kanun", "title": "İş K. m.53 · İzin süreleri", "desc": "1–5 yıl (5 dahil): 14 gün; 5–15 yıl: 20 gün; 15 yıl ve fazla: 26 gün. İzin hakkından vazgeçilemez.", "law": "İş K. m.53" },
+    { "id": "law_tbk147", "type": "kanun", "title": "TBK m.147 · Beş yıllık zamanaşımı", "desc": "Hizmet ilişkisinden doğan işçi alacakları beş yıllık zamanaşımına tabidir.", "law": "TBK m.147" }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "Devamsızlıktan atılan biri izin parası alabilir mi? Alabilirsem ne kadar?" }
+      ],
+      "prompt": "Talebi nasıl kuracaksınız?",
+      "choices": [
+        { "text": "Kullanılmayan yıllık izin ücreti. Hak edilen: ilk beş yıl 14'er, 6. ve 7. yıl 20'şer gün, toplam 110 gün. İmzalı 34 gün düşülünce 76 gün.", "delta": 20, "set": ["hesap"],
+          "law": "İş K. m.53 · m.59",
+          "note": "Doğru. İzin ücreti, sözleşme “herhangi bir nedenle” sona erdiğinde ödenir; haklı nedenle fesih bu hakkı ortadan kaldırmaz (m.59). Beş yıldan fazla, on beş yıldan az kıdemde yıllık izin 20 gündür (m.53)." },
+        { "text": "Her yıl için 14 gün: toplam 98 gün, 34 gün düşülünce 64 gün.", "delta": 5, "set": ["eksik"],
+          "law": "İş K. m.53",
+          "note": "Eksik. Altıncı hizmet yılından itibaren izin 20 gündür. Mahkeme talepten fazlasına hükmedemez (HMK m.26); 12 gün kendi elinizle eksik istendi." },
+        { "text": "Her yıl için 26 gün: toplam 182 gün, 34 gün düşülünce 148 gün.", "delta": -10, "set": ["fazla"],
+          "law": "İş K. m.53",
+          "note": "26 gün, on beş yıl ve daha fazla kıdemi olan işçilerin iznidir. Fazla istenen kısım reddedilir ve bu kısım için karşı taraf lehine vekâlet ücretine hükmedilir." },
+        { "text": "Haklı nedenle çıkarılan işçi izin ücreti alamaz; dava açmayalım.", "delta": -20, "set": ["vazgec", "end"],
+          "law": "İş K. m.59",
+          "note": "Yanlış. Fesih nedeni kıdem ve ihbar tazminatını etkiler, kullanılmayan izin ücretini etkilemez. Kanun “herhangi bir nedenle” sona ermeden söz eder." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Davalı vekili, cevabınızı özetleyin." },
+        { "who": "opp", "text": "Davacı her yıl iznini kullanmıştır. Personel şefinin hazırladığı izin listesi dosyada. Personel şefi ve iki işçi bunu tanık olarak doğrulayacak." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "Bu savunmaya nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "text": "İzinlerin kullandırıldığını ispat yükü işverendedir. Bunun ölçüsü işçinin imzasını taşıyan izin defteri ya da eşdeğer bir belgedir. İmzasız liste ve tanık beyanı yetmez. İmzalı 34 günü kabul ediyoruz; kalanı için belge yok.", "delta": 20, "set": ["ispat"],
+          "law": "TMK m.6 · Yıllık Ücretli İzin Yönetmeliği",
+          "note": "Doğru. İşveren izin kayıtlarını tutmakla yükümlüdür; Yargıtay uygulamasında iznin kullandırıldığı, işçinin imzasını taşıyan izin defteri ya da eşdeğer yazılı belgeyle ispat edilir. İşverenin kendi hazırladığı imzasız liste bu yükü karşılamaz.",
+          "reply": [{ "who": "judge", "text": "Davalı vekili, davacının imzasını taşıyan başka izin kaydınız var mı?" }, { "who": "opp", "text": "Dosyadakiler dışında… bulunmuyor, Sayın Hâkim." }] },
+        { "text": "Tanıklarımızla müvekkilin izne çıkmadığını ispat edeceğiz.", "delta": -5,
+          "note": "Yanlış değil, ama ispat yükünü gereksiz yere üstlendiniz. İzni kullandırdığını ispat etmesi gereken işverendir." },
+        { "text": "Personel şefinin izin listesine bir itirazımız yok; ama müvekkil yine de izin ücretini istiyor.", "delta": -25, "set": ["liste"],
+          "law": "HMK m.188",
+          "note": "Ağır hata. Liste her yıl izin kullanıldığını gösteriyor; içeriğine itiraz etmemek o vakıaları kabul etmek demektir. İkrar edilen vakıa ispat gerektirmez (HMK m.188)." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Ayrıca zamanaşımı itirazımız var." }
+      ],
+      "statement": { "who": "opp", "text": "Davacının 2020 ve 2021 yıllarında hak ettiği izinlerin üzerinden beş yıl geçmiştir. Bu yıllara ait izin ücreti zamanaşımına uğramıştır." },
+      "prompt": "Zamanaşımı itirazını hangi dayanakla karşılayacaksınız?",
+      "correct": ["law_m59"],
+      "hit": { "delta": 25, "set": ["zaman"],
+        "reply": [{ "who": "judge", "text": "Beyanlar tutanağa geçirildi. Zamanaşımı itirazı hükümle birlikte değerlendirilecek." }],
+        "note": "İzin ücretinin zamanaşımı her izin yılından değil, iş sözleşmesinin sona erdiği tarihten başlar (İş K. m.59). Sözleşme 15.06.2026'da sona erdi; beş yıllık süre başlamış bile sayılmaz." },
+      "responses": {
+        "ev_fesih": { "delta": 10, "set": ["zaman"],
+          "note": "Doğru tarihi gösterdiniz: sözleşme 15.06.2026'da sona erdi. Ama sürenin neden bu tarihte başladığını gösteren hüküm m.59'du." },
+        "law_tbk147": { "delta": -5,
+          "note": "Süre gerçekten beş yıl; ama davalının itirazı da bu maddeye dayanıyor. Sorun sürenin uzunluğu değil, başlangıcıydı." },
+        "law_m53": { "delta": -5,
+          "note": "İzin sürelerini gösterir; zamanaşımının başlangıcı hakkında bir şey söylemez." },
+        "ev_defter": { "delta": -10,
+          "note": "İzin defteri, zamanaşımı itirazıyla ilgili değil." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil zamanaşımının başlangıcını göstermiyor." },
+      "pass": { "delta": -15, "note": "Zamanaşımı itirazını cevapsız bıraktınız. Hâkim kanunu kendiliğinden uygular (HMK m.33), ama bu itirazı karşılamak sizin işinizdi." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "2023 yılına gelince: davacı o yıl izne çıkmak istemedi, izin hakkından kendi isteğiyle vazgeçti. Karşılığında bayramda ikramiye aldı." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "Vazgeçme iddiasına cevabınız?",
+      "choices": [
+        { "text": "Yıllık ücretli izin hakkından vazgeçilemez. İzni kullandırmak işverenin yükümlülüğüdür; ikramiye izin ücretinin yerine geçmez.", "delta": 20, "set": ["vaz"],
+          "law": "İş K. m.53",
+          "note": "Doğru. Yıllık izin, işçinin dinlenme hakkını koruyan emredici bir haktır ve bu haktan vazgeçilemez (İş K. m.53). İşçinin “istemedim” demesi işvereni yükümlülükten kurtarmaz." },
+        { "text": "Müvekkil 2023 iznini kullanmadığını ve ikramiyeyle karşılandığını kabul ediyor; o yıl düşülsün.", "delta": -15, "set": ["feragat"],
+          "law": "İş K. m.53 · HMK m.307",
+          "note": "Hukuken geçersiz bir vazgeçmeyi duruşmada kabul ettiniz. Bu beyan, 2023 yılına ait 14 günlük talepten kısmi feragat sonucu doğurur." },
+        { "text": "İkramiye çok azdı, izin ücretini karşılamaz.", "delta": -10,
+          "note": "Tartışmayı miktara çektiniz; bu, vazgeçmenin geçerli olduğunu zımnen kabul ediyor gibi görünür. Asıl cevap, izin hakkından vazgeçilemeyeceğiydi." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Hesap için dosyayı bilirkişiye göndereceğim. Davalı, her yılın kendi ücretinin esas alınmasını istiyor. Davacı vekili, hangi ücret esas alınsın?" }
+      ],
+      "prompt": "Hangi ücreti istersiniz?",
+      "choices": [
+        { "text": "Sözleşmenin sona erdiği tarihteki ücret.", "delta": 15, "set": ["son"],
+          "law": "İş K. m.59",
+          "note": "Doğru. Kullanılmayan izin ücreti, sözleşmenin sona erdiği tarihteki ücret üzerinden hesaplanır (m.59). Böylece eski yıllardaki düşük ücretler işçinin aleyhine işlemez.",
+          "reply": [{ "who": "judge", "text": "Bilirkişiye son ücret üzerinden hesap yapması için talimat verildi." }] },
+        { "text": "Her izin yılının kendi ücreti.", "delta": -10,
+          "law": "İş K. m.59",
+          "note": "Kanun açıkça sona erme tarihindeki ücreti esas alır. Davalının müvekkil aleyhine talebine katıldınız; mahkeme yine de m.59'u uygulayacak." },
+        { "text": "Asgari ücret.", "delta": -15,
+          "note": "Müvekkilin gerçek ücreti belli; asgari ücret, ücret ispatlanamadığında başvurulan bir ölçüdür." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "vazgec", "winner": "p2", "label": "SONUÇ:", "noCourt": true,
+      "hukum": "Dava açılmadı. Müvekkilin 76 günlük yıllık izin ücreti alacağı ödenmeden kaldı.",
+      "summary": "Kullanılmayan izin ücreti, sözleşme herhangi bir nedenle sona erdiğinde ödenir (İş K. m.59). Zamanaşımı sözleşmenin sona erdiği 15.06.2026'dan başlar ve beş yıldır; müvekkil süre dolmadan başka bir avukatla dava açabilir." },
+    { "if": "liste", "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Davalının izin listesine itiraz edilmedi; listedeki izin kullanımları kabul edilmiş sayıldı. İspat yükü işverendeydi ve elinde imzalı belge yoktu; ama vekil beyanıyla bu üstünlük kaybedildi." },
+    { "if": "fazla", "winner": "p1", "label": "HÜKÜM:",
+      "hukum": "Davanın KISMEN KABULÜ ile 76 günlük kullanılmayan yıllık izin ücretinin dava tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Kullanılmayan 76 gün kabul edildi; ama 26 günlük süre on beş yıl ve daha fazla kıdem içindir. Fazla istenen kısım reddedildi ve bu kısım için davalı lehine vekâlet ücretine hükmedildi." },
+        { "if": "feragat", "text": " Duruşmada 2023 yılı için yapılan feragat de ayrıca düşüldü." }
+      ] },
+    { "if": "feragat", "winner": "p1", "label": "HÜKÜM:",
+      "hukum": "Davanın KISMEN KABULÜ ile 2023 yılına ait izin süresi düşülerek hesaplanan kullanılmayan yıllık izin ücretinin dava tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, feragat edilen kısım yönünden davanın REDDİNE,",
+      "summary": "İzin hakkından vazgeçilemez (İş K. m.53); ama duruşmada 2023 yılına ait vazgeçmeyi kabul ettiğiniz için bu kısım feragat olarak düşüldü." },
+    { "if": "eksik", "winner": "p1",
+      "hukum": "Davanın KABULÜ ile talep edilen 64 günlük kullanılmayan yıllık izin ücretinin dava tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": "Kazandınız, ama eksik. Müvekkil 76 gün hak etmişti; altıncı yıldan itibaren iznin 20 gün olduğu gözden kaçtı. Mahkeme talepten fazlasına hükmedemez (HMK m.26)." },
+    { "winner": "p1",
+      "hukum": "Davanın KABULÜ ile 76 günlük kullanılmayan yıllık izin ücreti olan 121.600 TL brüt alacağın dava tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        { "text": "Davalı, imzalı kayıtlardaki 34 gün dışında izin kullandırdığını ispat edemedi. 110 günlük izin hakkından 34 gün düşülerek 76 günlük ücrete hükmedildi." },
+        { "if": "zaman", "text": " Zamanaşımı itirazı reddedildi: süre, iş sözleşmesinin sona erdiği tarihten başlar (m.59)." },
+        { "if": "!zaman", "text": " Zamanaşımı itirazını mahkeme m.59 uyarınca kendisi reddetti; sizin karşılamanız gerekirdi." },
+        { "if": "!ispat", "text": " İspat yükünün işverende olduğunu vurgulamadınız; sonuç yine de lehinize çıktı." }
+      ] }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "id": "aihm-makul-sure",
+  "mode": "solo",
+  "career": { "level": 5 },
+  "difficulty": "orta",
+  "title": "On İki Yıl",
+  "area": "AİHM · Makul sürede yargılanma (m.6/1)",
+  "court": "Avrupa İnsan Hakları Mahkemesi · Komite",
+  "courtShort": "AİHM · KOMİTE",
+  "esas": "Başvuru no. 31207/27",
+  "kararTarihi": "07.12.2027",
+  "color": "#2f4f66",
+  "teaser": "Bir tapu davası on iki yıl sürdü. Müvekkil hemen Strazburg'a gitmek istiyor; ama önce Ankara'daki Komisyon'dan geçmek zorundasınız ve süre her aşamada işliyor.",
+  "sides": { "p1": { "role": "Başvurucu vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 3, "title": "Üç yargıçlı komite" },
+  "room": "uluslararasi",
+  "inscription": null,
+  "cast": {
+    "judge": { "name": "Başkan", "np": "red", "look": { "kind": "robe", "skin": "#e8c09c", "hair": "#6b6b70", "style": "short", "glasses": true, "robe": "#1b1d24", "collarColor": "#3a6fb0" } },
+    "opp": { "name": "Hükûmet temsilcisi", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#d8a67e", "hair": "#3b2b22", "style": "bun", "robe": "#22252c", "collarColor": "#55606e" } },
+    "client": { "name": "Hatice Koçak · Başvurucu", "np": "civil", "look": { "kind": "civil", "skin": "#c99872", "hair": "#a8a8ac", "style": "bun", "glasses": true, "shirt": "#5b4a3e", "inner": "#e2dccd" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Sivas, Şubat 2026. Hatice Koçak'ın 2014'te açtığı tapu iptali ve tescil davası, istinaf ve temyiz aşamalarından geçip on iki yıl sonra kesinleşti. Dosya iki kez bozuldu, üç kez bilirkişiye gitti." },
+    { "who": "client", "text": "Sonunda haklı çıktım; ama on iki yılımı kim geri verecek? Kararı geçen hafta öğrendim. Doğrudan Strazburg'a gidelim." },
+    { "who": "narr", "text": "Şikâyet açık: dava makul sürede görülmedi (Sözleşme m.6/1). Ama AİHM ikincil bir mahkemedir; önce iç hukuktaki etkili yolların tüketilmesini bekler." }
+  ],
+  "docs": [
+    { "t": "Kesinleşmiş karar", "d": "Sivas'ta görülen tapu iptali ve tescil davası. Dava 2014'te açıldı, Şubat 2026'da kesinleşti; davacı lehine sonuçlandı." },
+    { "t": "6384 sayılı Kanun", "d": "İnsan Hakları Tazminat Komisyonu. Makul sürede yargılanma şikâyetleri için yargılama sürerken ya da kesin kararın öğrenilmesinden itibaren bir ay içinde başvurulur. Komisyon kararına Ankara Bölge İdare Mahkemesi'ne itiraz edilebilir; itiraz üzerine verilen karar kesindir." },
+    { "t": "Sözleşme m.35/1", "d": "İç hukuk yollarının tüketilmesi ve kesin karardan itibaren dört aylık başvuru süresi (15 No.lu Protokol ile altı aydan dörde indi)." }
+  ],
+  "evidence": [
+    { "id": "ev_karar", "type": "belge", "title": "Kesinleşmiş karar", "desc": "Dava 2014'te açıldı, Şubat 2026'da kesinleşti. Üç derecede toplam on iki yıl." },
+    { "id": "ev_komisyon", "type": "belge", "title": "Tazminat Komisyonu kararı", "desc": "Makul süre ihlalini tespit ediyor; on iki yıllık yargılama için 24.000 TL manevi tazminata hükmediyor. Ankara Bölge İdare Mahkemesi itirazı kesin olarak reddetti." },
+    { "id": "ev_aym", "type": "belge", "title": "Anayasa Mahkemesi kararı", "desc": "Bireysel başvuru açıkça dayanaktan yoksun bulundu. Karar 15 Şubat 2027'de tebliğ edildi." },
+    { "id": "ev_tutanak", "type": "belge", "title": "Duruşma tutanakları (UYAP dökümü)", "desc": "31 duruşmanın 22'si bilirkişi raporu gelmediği ya da dosya üst mahkemeden dönmediği için ertelendi. Davacı ve vekili bütün duruşmalarda hazır.", "if": "tutanak" },
+    { "id": "ev_masraf", "type": "belge", "title": "Masraf belgeleri", "desc": "Komisyon, itiraz, Anayasa Mahkemesi ve AİHM aşamalarına ilişkin vekâlet ücreti makbuzları ile tercüme ve posta giderleri.", "if": "masraf" },
+    { "id": "law_34", "type": "kanun", "title": "Sözleşme m.34 · Mağdur sıfatı", "desc": "Mahkemeye ancak Sözleşme'deki bir hakkın ihlalinden mağdur olan kişi başvurabilir.", "law": "Sözleşme m.34" }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Müvekkil kesinleşme şerhli kararı masanıza bıraktı. Kesin kararı bir hafta önce öğrendi." }],
+      "prompt": "İlk adımınız ne olacak?",
+      "choices": [
+        { "text": "Bir aylık süre dolmadan İnsan Hakları Tazminat Komisyonu'na başvurun; sonra itiraz ve Anayasa Mahkemesi yolunu tüketip Strazburg'a gidin.", "delta": 20, "set": ["komisyon"],
+          "law": "6384 s.K.; Sözleşme m.35/1",
+          "reply": [{ "who": "narr", "text": "Başvuruyu Sivas Cumhuriyet Başsavcılığı aracılığıyla, süresi içinde yaptınız." }],
+          "note": "AİHM, Ümmühan Kaplan/Türkiye (2012) pilot kararından sonra kurulan Tazminat Komisyonu'nu makul süre şikâyetleri için etkili bir iç hukuk yolu saymıştır. Bu yol tüketilmeden yapılan başvuru kabul edilemez (Sözleşme m.35/1). Komisyon'a başvuru süresi de kısadır: kesin kararın öğrenilmesinden itibaren bir ay." },
+        { "text": "Komisyon'la vakit kaybetmeyin; dört aylık süre işlemeden doğrudan AİHM'e başvurun.", "delta": -25,
+          "law": "Sözleşme m.35/1, m.35/4",
+          "note": "Dört aylık süre, tüketilmesi gereken son etkili iç hukuk yolundan itibaren işler. Komisyon yolu dururken doğrudan Strazburg'a gitmek, başvuruyu kabul edilemez kılar.",
+          "fatal": { "label": "KARAR:",
+            "hukum": "Başvurunun, iç hukuk yollarının tüketilmemesi nedeniyle Sözleşme m.35/1 ve m.35/4 uyarınca KABUL EDİLEMEZ OLDUĞUNA; Bu karar kesindir.",
+            "summary": "AİHM, Tazminat Komisyonu'nu makul süre şikâyetleri için etkili bir iç hukuk yolu sayıyor. Komisyon, itiraz ve Anayasa Mahkemesi aşamaları tüketilmeden yapılan başvuru incelenmedi. Üstelik Komisyon'a başvuru için öngörülen bir aylık süre de bu arada kaçtı." } },
+        { "text": "Doğrudan Anayasa Mahkemesi'ne bireysel başvuruda bulunun.", "delta": -10, "set": ["uyari"],
+          "reply": [{ "who": "narr", "text": "Başvuru formunu hazırlarken kıdemli bir meslektaşınız uyardı: Anayasa Mahkemesi makul süre şikâyetlerinde önce Komisyon yolunun tüketilmesini arıyor. Bir aylık süre dolmadan Komisyon'a başvurdunuz; son gün, son saatte." }],
+          "note": "Anayasa Mahkemesi, Komisyon yolu tüketilmeden yapılan makul süre başvurularını iç hukuk yollarının tüketilmemesi nedeniyle kabul edilemez buluyor. Bu sıra hatası Komisyon'a başvuru süresini neredeyse kaçırtıyordu." }
+      ] },
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Mayıs 2027. Komisyon ihlali tespit etti, ama on iki yıl için yalnızca 24.000 TL manevi tazminata hükmetti. Ankara Bölge İdare Mahkemesi itirazı kesin olarak reddetti; Anayasa Mahkemesi de başvuruyu açıkça dayanaktan yoksun buldu." },
+        { "who": "narr", "text": "AİHM başvuru formunu hazırlamadan önce müvekkille görüşüyorsunuz. İki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Duruşmalar neden ertelendi? Sizin ya da vekilinizin gelmediği bir duruşma oldu mu?", "delta": 15, "set": ["tutanak"],
+          "reply": [{ "who": "client", "text": "Bir tane bile kaçırmadım. Hep aynı şey: bilirkişi raporu gelmedi, dosya Yargıtay'dan dönmedi. Eski avukatım bütün tutanakların UYAP dökümünü vermişti, burada." }],
+          "note": "Makul süre; davanın karmaşıklığı, başvurucunun tutumu, yetkili makamların tutumu ve davanın başvurucu için önemi ölçütleriyle değerlendirilir. Hükûmet gecikmeyi başvurucuya yüklemeye çalışacaktır. Duruşma tutanakları delil çantanıza eklendi." },
+        { "text": "Bu dava sizin için neden bu kadar önemliydi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Oturduğum evin tapusuydu. Dava başladığında 58 yaşındaydım, şimdi 71'im." }],
+          "note": "Davanın başvurucu için önemi bir ölçüttür; ama asıl tartışma gecikmenin kimden kaynaklandığı ve tazminatın yeterliliği üzerinde olacak." },
+        { "text": "Bu yolda ne kadar masraf yaptınız? Makbuzlarınız duruyor mu?", "delta": 10, "set": ["masraf"],
+          "reply": [{ "who": "client", "text": "Hepsini bir dosyada saklıyorum: Komisyon'dan bu yana avukatlık makbuzları, tercüme ve posta fişleri." }],
+          "note": "AİHM, masraf ve giderleri ancak gerçekten yapıldıkları, zorunlu oldukları ve makul oldukları belgelenirse karşılar. Masraf belgeleri delil çantanıza eklendi." },
+        { "text": "Karşı tarafla aranız şimdi nasıl?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Bayramda bile selamlaşmıyoruz." }],
+          "note": "Strazburg'daki dava Devlete karşıdır; özel taraflar arasındaki ilişki şikâyeti etkilemez." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Bugün 2 Haziran 2027. Anayasa Mahkemesi kararı 15 Şubat 2027'de tebliğ edildi." }],
+      "prompt": "AİHM başvurusunu ne zaman ve nasıl yapacaksınız?",
+      "choices": [
+        { "text": "Eksiksiz başvuru formunu bütün ekleriyle bu hafta gönderin; süre 15 Haziran 2027'de doluyor.", "delta": 15, "set": ["sure"],
+          "law": "Sözleşme m.35/1; AİHM İçtüzüğü m.47",
+          "note": "Dört aylık süre, son iç hukuk kararının başvurucuya tebliğinden itibaren işler. Süreyi ancak İçtüzük m.47'deki bütün bilgileri ve belgeleri içeren, eksiksiz bir başvuru formu keser." },
+        { "text": "Süre altı ay; Ağustos'a kadar vaktimiz var.", "delta": -25,
+          "law": "Sözleşme m.35/1 (15 No.lu Protokol)",
+          "note": "15 No.lu Protokol 1 Şubat 2022'de yürürlüğe girdi; o tarihten sonra kesinleşen kararlar için süre dört aydır.",
+          "fatal": { "label": "KARAR:",
+            "hukum": "Başvurunun, dört aylık süre geçtikten sonra yapıldığından Sözleşme m.35/1 ve m.35/4 uyarınca KABUL EDİLEMEZ OLDUĞUNA; Bu karar kesindir.",
+            "summary": "Başvuru Temmuz sonunda yapıldı; süre ise 15 Haziran 2027'de dolmuştu. Altı aylık süre 15 No.lu Protokol'den önce kesinleşen kararlar içindi." } },
+        { "text": "Bugün kısa bir mektupla AİHM'e başvurup süreyi kesin; formu ve ekleri sonra tamamlarsınız.", "delta": -25,
+          "law": "AİHM İçtüzüğü m.47",
+          "note": "Eski uygulamadaki ön mektup süreyi artık kesmiyor. Eksik form kaydedilmez; başvuru tarihi, eksiksiz formun gönderildiği tarihtir.",
+          "fatal": { "label": "KARAR:",
+            "hukum": "Başvurunun, dört aylık süre geçtikten sonra yapıldığından Sözleşme m.35/1 ve m.35/4 uyarınca KABUL EDİLEMEZ OLDUĞUNA; Bu karar kesindir.",
+            "summary": "Kısa mektup İçtüzük m.47'deki koşulları taşımadığından süreyi kesmedi. Eksiksiz form 15 Haziran'dan sonra ulaştı; başvuru süresinde yapılmamış sayıldı." } }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Başvuru kaydedildi. Konu yerleşik içtihat kapsamında olduğu için dosya üç yargıçlı Komite'ye ayrıldı ve Hükûmete bildirildi (Sözleşme m.28/1-b). Komite duruşma yapmaz; dava yazılı görüşlerle yürür." },
+        { "who": "narr", "text": "Hükûmetin yazılı görüşü büronuza ulaştı." }
+      ],
+      "statement": { "who": "opp", "text": "Ulusal makamlar ihlali tespit etmiş ve başvurucuya tazminat ödemiştir. Başvurucu artık mağdur değildir; başvuru Sözleşme m.34 bakımından kabul edilemez." },
+      "prompt": "Bu itirazı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_komisyon"],
+      "hit": { "delta": 20, "set": ["magdur"],
+        "law": "Sözleşme m.34",
+        "note": "Mağdur sıfatı ancak ulusal makamlar ihlali tanır ve yeterli giderim sağlarsa ortadan kalkar. Komisyon ihlali tanıdı; ama on iki yıl için verilen tutar, AİHM'nin Türkiye'ye karşı benzer davalarda hükmettiği tutarın çok altında. AİHM, Scordino/İtalya (No. 1) kararından beri tazminatın yeterliliğini bu karşılaştırmayla ölçer." },
+      "responses": {
+        "law_34": { "delta": 5, "note": "Doğru madde; ama tazminatın yetersiz olduğunu gösteren belge Komisyon kararıdır." },
+        "ev_aym": { "delta": 0, "note": "Anayasa Mahkemesi kararı başvurunun reddedildiğini gösteriyor; verilen tutarın yetersizliğini göstermiyor." },
+        "ev_karar": { "delta": 0, "note": "Yargılamanın süresini gösteriyor; ama mesele ödenen tazminatın yeterli olup olmadığı." }
+      },
+      "pass": { "delta": -20, "note": "Mağdur sıfatı itirazını cevapsız bıraktınız." }
+    },
+    { "kind": "evidence", "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Hükûmet, esasa ilişkin görüşünde gecikmenin sorumlusunu da gösteriyor." }],
+      "statement": { "who": "opp", "text": "Yargılamanın uzamasının önemli bir bölümü başvurucunun kendi tutumundan kaynaklanmıştır; duruşmalar onun yüzünden ertelenmiştir." },
+      "prompt": "Bu iddiayı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_tutanak"],
+      "hit": { "delta": 20, "set": ["davranis"],
+        "law": "Sözleşme m.6/1",
+        "note": "Tutanaklar ertelemelerin bilirkişi gecikmelerinden ve dosyanın üst mahkemelerde beklemesinden kaynaklandığını gösteriyor. Yetkili makamların neden olduğu gecikme Devlete yüklenir." },
+      "responses": {
+        "ev_karar": { "delta": 5, "note": "Toplam süreyi gösteriyor, ama ertelemelerin nedenini göstermiyor." },
+        "ev_komisyon": { "delta": 5, "note": "Komisyon da gecikmeyi tespit etmişti; ama ertelemelerin kimden kaynaklandığını tutanaklar gösterir." }
+      },
+      "pass": { "delta": -15, "note": "Gecikmenin başvurucuya yüklenmesine itiraz etmediniz." }
+    },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Yazı İşleri, Hükûmetin görüşlerine cevabınız ve adil tazmin talebiniz için süre verdi." }],
+      "prompt": "Adil tazmin talebini nasıl sunacaksınız?",
+      "choices": [
+        { "if": "masraf", "text": "Manevi tazminat ile iç hukuk ve Strazburg masraflarını, kalem kalem ve belgeleriyle, verilen süre içinde talep edin.", "delta": 20, "set": ["tazmin"],
+          "law": "Sözleşme m.41; AİHM İçtüzüğü m.60",
+          "note": "Adil tazmin talebi, gözlemler için verilen süre içinde, kalem kalem ve belgeleriyle sunulmalıdır (İçtüzük m.60). Masraf belgeleri talebinizi eksiksiz kıldı." },
+        { "if": "!masraf", "text": "Manevi tazminat ile masrafları verilen süre içinde talep edin; masraf belgeleri elinizde olmadığından götürü bir tutar yazın.", "delta": 5, "set": ["tazminKismi"],
+          "law": "Sözleşme m.41; AİHM İçtüzüğü m.60",
+          "note": "Süre içinde talep ettiniz; ama belgelenmeyen masraflar karşılanmaz. Müvekkile makbuzları sorsaydınız talep eksiksiz olurdu." },
+        { "text": "Adil tazmin talebini, Komite ihlal kararı verdikten sonra iletin.", "delta": -15,
+          "law": "AİHM İçtüzüğü m.60",
+          "note": "Süresinde ve belgeleriyle yapılmayan adil tazmin talebi bütünüyle ya da kısmen reddedilebilir." },
+        { "text": "Tapu davasının yeniden görülmesine karar verilmesini isteyin.", "delta": -10,
+          "note": "Makul süre şikâyeti, verilen kararın doğruluğunu sorgulamaz; AİHM ulusal mahkemelerin kararlarını yeniden inceleyen bir “dördüncü derece” değildir. Üstelik müvekkil davayı kazanmıştı." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "!magdur", "winner": "p2", "label": "KARAR:", "noCourt": true,
+      "hukum": "Başvurucunun ulusal makamlarca sağlanan giderim nedeniyle Sözleşme m.34 anlamında mağdur sıfatını yitirdiği gerekçesiyle başvurunun Sözleşme m.35/3-a ve m.35/4 uyarınca KABUL EDİLEMEZ OLDUĞUNA; Bu karar kesindir.",
+      "summary": "Hükûmetin mağdur sıfatı itirazı karşılıksız kaldı. Komisyon'un on iki yıl için verdiği tutarın AİHM ölçütlerine göre yetersiz olduğunu gösterseydiniz başvuru esastan incelenecekti." },
+    { "if": "davranis && tazmin", "winner": "p1", "noCourt": true,
+      "hukum": "Başvurunun kabul edilebilir olduğuna, Sözleşme'nin 6/1. maddesinin makul süre bakımından İHLAL EDİLDİĞİNE; Davalı Devletin, Komisyon'ca ödenen tutar mahsup edilerek başvurucuya 3.900 avro manevi tazminat ile 1.000 avro masraf ve gider ödemesine; Bu karar Sözleşme m.28/2 uyarınca kesindir.",
+      "summary": "İç hukuk yollarını doğru sırayla ve süresinde tükettiniz. Komisyon tazminatının yetersizliğini ve gecikmenin mahkemelerden kaynaklandığını belgeyle gösterdiniz; adil tazmin talebiniz de eksiksizdi." },
+    { "if": "davranis && tazminKismi", "winner": "p1", "noCourt": true,
+      "hukum": "Başvurunun kabul edilebilir olduğuna, Sözleşme'nin 6/1. maddesinin İHLAL EDİLDİĞİNE; Davalı Devletin, Komisyon'ca ödenen tutar mahsup edilerek başvurucuya 3.900 avro manevi tazminat ödemesine; belgelenmeyen masraf ve gider talebinin REDDİNE; Bu karar Sözleşme m.28/2 uyarınca kesindir.",
+      "summary": "İhlal tespit edildi ve manevi tazminata hükmedildi. Masraflar belgelenmediği için karşılanmadı; müvekkile makbuzları sormanız yeterliydi." },
+    { "if": "davranis", "winner": "p1", "stamp": "KISMEN KAZANDINIZ", "noCourt": true,
+      "hukum": "Başvurunun kabul edilebilir olduğuna, Sözleşme'nin 6/1. maddesinin İHLAL EDİLDİĞİNE; adil tazmin talebinin İçtüzük m.60'a uygun olarak süresinde sunulmadığından REDDİNE; Bu karar Sözleşme m.28/2 uyarınca kesindir.",
+      "summary": "İhlal tespit edildi; ama adil tazmin talebi süresinde ve belgeleriyle sunulmadığı için müvekkile Komisyon'un verdiğinden fazla bir şey ödenmedi." },
+    { "winner": "p1", "stamp": "KISMEN KAZANDINIZ", "noCourt": true,
+      "hukum": [
+        { "text": "Başvurunun kabul edilebilir olduğuna, Sözleşme'nin 6/1. maddesinin İHLAL EDİLDİĞİNE; " },
+        { "if": "tazmin || tazminKismi", "text": "ertelemelerin bir bölümünün başvurucuya yüklenebileceği de gözetilerek Davalı Devletin, Komisyon'ca ödenen tutar mahsup edilerek başvurucuya 1.800 avro manevi tazminat ödemesine; " },
+        { "if": "!tazmin && !tazminKismi", "text": "adil tazmin talebinin süresinde sunulmadığından REDDİNE; " },
+        { "text": "Bu karar Sözleşme m.28/2 uyarınca kesindir." }
+      ],
+      "summary": "On iki yıllık süre ihlal tespiti için yeterli bulundu. Ama Hükûmetin gecikmeyi başvurucuya yükleyen iddiası çürütülmediği için Komite bazı ertelemeleri başvurucunun hesabına yazdı. Duruşma tutanakları bu iddiayı boşa çıkarabilirdi." }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "id": "is-fazla-mesai",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "orta",
+  "title": "On İki Saat",
+  "area": "İş Hukuku · Fazla çalışma alacağı",
+  "court": "Gaziantep 4. İş Mahkemesi",
+  "courtShort": "4. İŞ MAHKEMESİ",
+  "esas": "2027/388 Esas",
+  "kararTarihi": "14.10.2027",
+  "color": "#2f4f6b",
+  "teaser": "Haftada altı gün, on iki saat. Bordrolar imzalı, fazla mesai sütunu çoğu ay boş. Hesap sizde, ispat da.",
+  "sides": { "p1": { "role": "Davacı (işçi) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#b88560", "hair": "#2b1d17", "style": "long", "glasses": true } },
+    "opp": { "name": "Av. Orhan Baysal · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#edc6a2", "hair": "#6b6b70", "style": "bald" } },
+    "client": { "name": "Emre Çelik · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#c08b62", "hair": "#151515", "style": "curly", "beard": true, "shirt": "#2f5a4a", "inner": "#e2ddd0" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Emre Çelik, Gaziantep'teki Şahinbey Lojistik Depoculuk A.Ş.'de 03.01.2022'den 30.11.2026'ya kadar sevkiyat elemanı olarak çalıştı. İşveren sözleşmeyi feshetti, kıdem ve ihbar tazminatını ödedi." },
+    { "who": "client", "text": "Pazartesiden cumartesiye sabah sekizden akşam sekize çalıştık. Bir saat yemek molası vardı. Fazla mesai ise ya hiç yatmadı ya da arada bir on saat yazdılar." },
+    { "who": "client", "text": "Her ay bordroyu önümüze koyup imzalatıyorlardı. İmzalamasan maaş yok." },
+    { "who": "narr", "text": "Bugün 07.12.2026. Fazla çalışma alacağı için yol haritasını siz çizeceksiniz." }
+  ],
+  "docs": [
+    { "t": "SGK hizmet dökümü", "d": "03.01.2022 – 30.11.2026, kesintisiz." },
+    { "t": "Ücret bordroları", "d": "Hepsi imzalı. 2022–2023'te bazı aylarda “fazla mesai: 10 saat” tahakkuku var; 2024–2026 bordrolarında fazla mesai sütunu boş." },
+    { "t": "Fesih bildirimi", "d": "30.11.2026; işveren feshi, kıdem ve ihbar tazminatı ödenmiş." }
+  ],
+  "evidence": [
+    { "id": "ev_bordro", "type": "belge", "title": "2024–2026 bordroları", "desc": "İmzalı; fazla mesai sütunu boş, hiçbir ayda tahakkuk yok." },
+    { "id": "ev_tanik", "type": "beyan", "title": "Tanık listesi", "desc": "Aynı vardiyada çalışmış iki sevkiyat elemanı." },
+    { "id": "law_m41", "type": "kanun", "title": "İş K. m.41 · Fazla çalışma", "desc": "Haftalık 45 saati aşan çalışma fazla çalışmadır; her saati yüzde elli zamlı ödenir; yıllık toplamı 270 saati geçemez.", "law": "İş K. m.41" },
+    { "id": "ev_ihtiraz", "type": "belge", "title": "İhtirazi kayıtlı bordro fotoğrafları", "desc": "2022–2023'e ait tahakkuklu bordrolar; imzanın yanında el yazısıyla “fazla mesailerim eksik ödenmiştir” notu.", "if": "ihtiraz" },
+    { "id": "ev_turnike", "type": "belge", "title": "Turnike giriş-çıkış kayıtları", "desc": "İşyerinin kartlı giriş sisteminin kayıtları; davalının elinde. İbrazı istenebilir.", "if": "turnike" }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "Hemen dava açalım. Kıdemimi zaten aldım, bu sadece fazla mesai." }
+      ],
+      "prompt": "İlk adımınız ne olacak?",
+      "choices": [
+        { "text": "Arabuluculuk bürosuna başvurun. Fazla çalışma ücreti de işçi alacağıdır; arabulucuya başvuru dava şartıdır.", "delta": 15, "set": ["arab"],
+          "law": "7036 s.K. m.3",
+          "note": "Doğru. Kanuna, bireysel ya da toplu iş sözleşmesine dayanan işçi ve işveren alacağı ile tazminatı davalarında arabulucuya başvurmak dava şartıdır. Başvurudan son tutanağa kadar zamanaşımı durur.",
+          "reply": [{ "who": "narr", "text": "Arabuluculuk görüşmesinde işveren “bordrolar imzalı” deyip ödeme önermedi. Son tutanak “anlaşamama” ile düzenlendi." }] },
+        { "text": "Önce ihtarnameyle işvereni temerrüde düşürün, sonra arabulucuya başvurun.", "delta": 5, "set": ["arab"],
+          "law": "7036 s.K. m.3 · TBK m.117",
+          "note": "Kabul edilebilir. İhtarname temerrüt ve faiz başlangıcı açısından yararlı olabilir, ama dava şartı arabuluculuktur; ihtar beklemek zaman kaybettirir.",
+          "reply": [{ "who": "narr", "text": "İhtarname cevapsız kaldı. Arabuluculukta da anlaşma olmadı; son tutanak düzenlendi." }] },
+        { "text": "Doğrudan iş mahkemesinde dava açın. Zorunlu arabuluculuk yalnızca işe iade davalarında var.", "delta": -30,
+          "law": "7036 s.K. m.3",
+          "note": "Yanlış. Zorunlu arabuluculuk işe iadeyle sınırlı değildir; işçi alacakları da kapsamdadır.",
+          "fatal": { "hukum": "Davanın dava şartı yokluğu nedeniyle usulden REDDİNE,",
+                     "summary": "İşçi alacağı davalarında arabulucuya başvuru dava şartıdır. Arabulucuya başvurulmadan açılan dava, herhangi bir işlem yapılmadan usulden reddedilir (7036 s.K. m.3). Yargılama giderleri ve davalı lehine vekâlet ücreti müvekkile yükletildi." } }
+      ] },
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Dava dilekçesinden önce müvekkille bir görüşme daha yapıyorsunuz. Yalnızca iki soru sorabilecek kadar vaktiniz var." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Bordroları imzalarken üzerine bir not düştünüz mü?", "delta": 15, "set": ["ihtiraz"],
+          "reply": [{ "who": "client", "text": "2022 ve 2023'te bazı bordrolara “fazla mesailerim eksik ödenmiştir” yazıp öyle imzaladım. Hepsinin fotoğrafı telefonumda." }],
+          "note": "Kilit soru. İhtirazi kayıtlı bordro, tahakkuk olan aylarda da tanıkla ispatın yolunu açar. Fotoğraflar delil çantanıza eklendi." },
+        { "text": "İşyerine girip çıkarken kart ya da turnike sistemi var mıydı?", "delta": 10, "set": ["turnike"],
+          "reply": [{ "who": "client", "text": "Kartla giriyorduk, turnike her geçişi kaydediyordu. Kayıtlar şirketin bilgisayarında." }],
+          "note": "Değerli bilgi. Karşı tarafın elindeki kayıtların ibrazı istenebilir (HMK m.220). Kayıtlar delil çantanıza eklendi." },
+        { "text": "Kaç saat fazla çalıştığınızı tam hesaplayabilir misiniz?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Haftada yirmi saatten fazla, ama tam hesabını bilmem. Bazı haftalar pazar da çağırdılar." }],
+          "note": "Alacağın miktarının dava açarken kesin bilinmediğini gösteriyor; dava türünü seçerken işinize yarar." },
+        { "text": "Mesai arkadaşlarınız tanıklık eder mi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "İki kişi var. Biri hâlâ orada çalışıyor, çekiniyor. Öteki ayrıldı, gelir." }],
+          "note": "Faydalı, ama tanıklar zaten belli. Asıl sorun imzalı bordrolara karşı neyin delil olacağı." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Dava dilekçesini yazıyorsunuz. Alacağın tutarı bilirkişi hesabına bağlı." }
+      ],
+      "prompt": "Davayı nasıl açacaksınız?",
+      "choices": [
+        { "text": "Belirsiz alacak davası: hukuki ilişkiyi ve 10.000 TL asgari miktarı yazın; bilirkişi raporundan sonra talebi artırın.", "delta": 20, "set": ["belirsiz"],
+          "law": "HMK m.107",
+          "note": "Doğru. Fazla çalışma alacağının miktarı çoğu zaman ancak işverendeki kayıtlar ve bilirkişi hesabıyla belli olur. Belirsiz alacak davasında talep, ıslaha gerek olmadan artırılabilir (HMK m.107/2); uygulamada dava açılmakla alacağın tamamı için zamanaşımı kesilmiş sayılır." },
+        { "text": "Kısmi dava: 10.000 TL isteyin, fazlasını saklı tutun; sonra ıslahla artırın.", "delta": 5, "set": ["kismi"],
+          "law": "HMK m.109 · m.176",
+          "note": "Mümkün, ama riskli. Kısmi davada ıslahla artırılan kısım için zamanaşımı ıslah tarihine göre değerlendirilir; davalı bu kısma zamanaşımı itirazında bulunabilir." },
+        { "text": "Tahmini tam tutarı yazın: 1.500.000 TL.", "delta": -10, "set": ["tahmin"],
+          "note": "Tahminle yazılan yüksek talebin bilirkişi hesabını aşan kısmı reddedilir; o kısım için davalı lehine vekâlet ücretine hükmedilir. Harç da peşin olarak bu tutar üzerinden ödenir." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, cevabınızı özetleyin." }
+      ],
+      "statement": { "who": "opp", "text": "Davacı bütün bordroları itirazsız imzalamıştır. Bordrolarda fazla mesai ödemesi görünmektedir. İmzalı bordroya karşı tanık dinlenemez." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_ihtiraz"],
+      "hit": { "delta": 25, "set": ["ihtirazOK"],
+        "reply": [{ "who": "judge", "text": "İhtirazi kayıtlı bordrolar yönünden tanıkla ispata engel yok. Tahakkuk içermeyen bordrolar da fazla çalışma yapılmadığını göstermez. Tanıkların dinlenmesine karar verildi." }],
+        "note": "Yargıtay uygulamasında, fazla çalışma tahakkuku içeren imzalı bordroya ihtirazi kayıt konmuşsa daha fazla çalışma tanıkla ispat edilebilir. Tahakkuk bulunmayan bordrolar için zaten tanıkla ispat mümkündür. “Bütün bordrolar itirazsız” savunması çöktü." },
+      "responses": {
+        "ev_turnike": { "delta": 20, "set": ["kayit"],
+          "reply": [{ "who": "judge", "text": "Davalıya, turnike giriş-çıkış kayıtlarını ibraz etmesi için iki hafta süre veriyorum. Kayıtlar sunulmazsa HMK m.220 uyarınca değerlendirme yapılacak." }],
+          "note": "Çok güçlü bir hamle. İşverendeki giriş-çıkış kayıtları yazılı delil niteliğindedir; imzalı bordroda görünenden fazla çalışma yazılı delille ispat edilebilir. Kayıtlara dayalı hesapta tanık beyanına dayalı hesaptaki hakkaniyet indirimine de gerek kalmaz." },
+        "ev_bordro": { "delta": 10, "set": ["bosBordro"],
+          "reply": [{ "who": "judge", "text": "Tahakkuk içermeyen dönem yönünden tanıkların dinlenmesine karar verildi." }],
+          "note": "Doğru ama eksik. Tahakkuk içermeyen imzalı bordro fazla çalışma yapılmadığını göstermez; 2024–2026 için tanıkla ispat mümkün. Ama 2022–2023'teki tahakkuklu bordrolar yönünden yazılı delil ya da ihtirazi kayıt gerekiyordu." },
+        "ev_tanik": { "delta": -5,
+          "note": "Davalının itirazı tam da buydu: tahakkuklu ve itirazsız imzalı bordroya karşı tanık yetmez. Önce bu engeli kaldıracak belge gerekiyordu." },
+        "law_m41": { "delta": -5,
+          "note": "Fazla çalışmanın tanımı doğru, ama sorun ispat aracı: imzalı bordrolara karşı neyle ispat edeceğiniz." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil imzalı bordro savunmasını karşılamıyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; imzalı bordro savunması cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Sayın Hâkim, meslektaşım herhalde ilk davasına çıkıyor. Bordroyla tanık arasındaki farkı ona burada öğretmek zorunda kalmayız umarım." },
+        { "who": "narr", "text": "Dinleyici sıralarından bir iki gülüşme duyuluyor. Hâkim size bakıyor." }
+      ],
+      "prompt": "Nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "text": "Sakin bir sesle: “Kişisel değerlendirmeleri bir yana bırakıp dosyaya dönmeyi öneriyorum. Beyanın tutanağa geçirilmesini talep ediyorum.”", "delta": 10,
+          "law": "HMK m.151 · Avukatlık Kanunu · TBB Meslek Kuralları",
+          "note": "Doğru. Meslektaşlar birbirine karşı saygılı davranmakla yükümlüdür. Tutanak talebi, duruşma düzenini sağlayan hâkimin konuyu görmesini sağlar; siz de tartışmayı dosyaya döndürürsünüz.",
+          "reply": [{ "who": "judge", "text": "Taraf vekillerinin kişisel değerlendirmelerden kaçınmasını rica ediyorum. Devam edelim." }] },
+        { "text": "Hiç cevap vermeden esasa ilişkin beyanınıza devam edin.", "delta": 5,
+          "note": "Kabul edilebilir. Tahrike kapılmadınız; ama tutanak talebiyle hâkimin müdahalesini de sağlayabilirdiniz." },
+        { "text": "Aynı tonda karşılık verin: “Tecrübe yaşla değil dosyayla ölçülür; sizinki boş.”", "delta": -10,
+          "law": "TBB Meslek Kuralları",
+          "note": "Tahrike kapıldınız. Hâkimin önünde iki vekilin atışması ikinize de zarar verir; meslek kurallarına da aykırıdır." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bilirkişi raporu geldi. Haftada 21 saat fazla çalışma hesaplanmış." },
+        { "who": "judge", "if": "kayit", "text": "Hesap turnike kayıtlarına dayanıyor; hakkaniyet indirimi önerilmemiş." },
+        { "who": "judge", "if": "!kayit", "text": "Hesap tanık beyanlarına dayanıyor; bilirkişi yüzde otuz hakkaniyet indirimi önermiş." },
+        { "who": "opp", "text": "Yıllık 270 saati aşan fazla çalışma kanunen yasaktır. Bu sınırı aşan kısım istenemez." },
+        { "who": "judge", "text": "Davacı vekili, beyanınız ve talebiniz?" }
+      ],
+      "prompt": "Rapora karşı beyanınız ne olacak?",
+      "choices": [
+        { "if": "belirsiz", "text": "270 saat sınırı işverene yönelik bir yasaktır; aşan çalışmanın ücreti de ödenir. Rapora göre talebimizi artırıyor, harcını yatırıyoruz.", "delta": 20, "set": ["artirim"],
+          "law": "İş K. m.41 · HMK m.107/2",
+          "note": "Doğru. Yıllık 270 saat sınırı işçiyi korumak için işverene konmuş bir sınırdır; aşıldığında aşan çalışmanın ücreti de ödenir. Belirsiz alacak davasında talep, ıslaha gerek olmadan artırılır; artırılan kısmın harcı tamamlanmalıdır." },
+        { "if": "kismi", "text": "270 saat sınırı işçinin ücretini kısmaz. Rapora göre ıslah dilekçesi veriyoruz.", "delta": 10, "set": ["islah"],
+          "law": "İş K. m.41 · HMK m.176–177",
+          "reply": [{ "who": "opp", "text": "Islahla artırılan kısım için zamanaşımı itirazımız var. Islah tarihinden beş yıl öncesine ait alacaklar zamanaşımına uğramıştır." }],
+          "note": "270 saat konusunda haklısınız; ıslah da tahkikat sona erene kadar bir kez yapılabilir. Ama kısmi davada ıslahla artırılan kısım için zamanaşımı ıslah tarihine göre değerlendirilir. 2022'nin ilk aylarına ait alacak tehlikede." },
+        { "if": "tahmin", "text": "270 saat sınırı işçinin ücretini kısmaz. Rapordaki tutar talebimizin altında kaldı; takdiri mahkemeye bırakıyoruz.", "delta": 5,
+          "law": "İş K. m.41",
+          "note": "270 saat konusunda doğru. Ama talebiniz rapordaki tutarı aşıyor; aşan kısım reddedilecek." },
+        { "if": "belirsiz", "text": "Rapora itirazımız yok. Mahkeme rapordaki tutara kendiliğinden hükmeder; ayrıca dilekçeye gerek yok.", "delta": -15, "set": ["artirmadi"],
+          "law": "HMK m.26 · m.107/2",
+          "note": "Ağır hata. Hâkim taleple bağlıdır (HMK m.26). Belirsiz alacak davasında talep artırılmazsa mahkeme dava dilekçesindeki 10.000 TL ile sınırlı kalır." },
+        { "text": "270 saat sınırını kabul ediyoruz; talebimizi yıllık 270 saatle sınırlıyoruz.", "delta": -15, "set": ["sinir"],
+          "law": "İş K. m.41 · HMK m.307",
+          "note": "270 saat sınırı aşılsa da fazla çalışmanın ücreti ödenir. Talebi kendiliğinden sınırlamak, aşan kısımdan feragat sonucunu doğurur." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "artirmadi", "winner": "p2", "stamp": "YETERSİZ TALEP",
+      "hukum": "Davanın KABULÜ ile dava dilekçesinde talep edilen 10.000 TL fazla çalışma ücretinin dava tarihinden itibaren işleyecek faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": "Fazla çalışma ispatlandı, ama talep artırılmadığı için mahkeme dava dilekçesindeki asgari miktarla bağlı kaldı (HMK m.26). Bilirkişinin hesapladığı alacağın çok küçük bir kısmı hüküm altına alındı." },
+    { "if": "!ihtirazOK && !kayit && !bosBordro", "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "İmzalı bordrolarda görünenden fazla çalışma yapıldığı ispatlanamadı. İhtirazi kayıt, yazılı kayıt ya da tahakkuk içermeyen bordrolar gibi tanıkla ispatın yolunu açacak bir delil ileri sürülmedi." },
+    { "if": "sinir", "winner": "p1", "label": "HÜKÜM:",
+      "hukum": "Davanın KISMEN KABULÜ ile yıllık 270 saatle sınırlı fazla çalışma ücretinin davalıdan alınarak davacıya verilmesine, feragat edilen kısım yönünden davanın REDDİNE,",
+      "summary": "Fazla çalışma ispatlandı. Ama yıllık 270 saat sınırı işverene yönelik bir yasaktır; aşan çalışmanın ücreti de ödenirdi. Talebi bu sınırla kısıtlamanız, alacağın önemli bir kısmından feragat anlamına geldi." },
+    { "if": "islah", "winner": "p1", "label": "HÜKÜM:",
+      "hukum": "Davanın KISMEN KABULÜ ile fazla çalışma ücretinin davalıdan alınarak davacıya verilmesine, ıslahla artırılan kısım yönünden zamanaşımına uğrayan döneme ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Fazla çalışma ispatlandı. Ama kısmi dava seçildiği için ıslahla artırılan kısımda zamanaşımı ıslah tarihine göre hesaplandı; 2022'nin ilk aylarına ait alacak zamanaşımına uğradı. Belirsiz alacak davası bu riski ortadan kaldırırdı." },
+        { "if": "!kayit", "text": " Tanık beyanına dayalı hesapta yüzde otuz hakkaniyet indirimi de uygulandı." }
+      ] },
+    { "if": "tahmin", "winner": "p1", "label": "HÜKÜM:",
+      "hukum": "Davanın KISMEN KABULÜ ile bilirkişi raporunda hesaplanan fazla çalışma ücretinin davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Fazla çalışma ispatlandı, ama tahminle yazılan talebin rapordaki tutarı aşan kısmı reddedildi. Reddedilen kısım için davalı lehine vekâlet ücretine hükmedildi; peşin ödenen fazla harç da boşa gitti." },
+    { "if": "bosBordro && !ihtirazOK && !kayit", "winner": "p1", "label": "HÜKÜM:",
+      "hukum": "Davanın KISMEN KABULÜ ile 2024–2026 dönemine ait fazla çalışma ücretinin, yüzde otuz hakkaniyet indirimi yapılarak davalıdan alınarak davacıya verilmesine, 2022–2023 dönemine ilişkin talebin REDDİNE,",
+      "summary": "Tahakkuk içermeyen bordrolu dönem tanıkla ispatlandı. Ama 2022–2023'teki tahakkuklu ve imzalı bordrolara karşı yazılı delil ya da ihtirazi kayıt gösterilmedi. Müvekkilin bordrolarına düştüğü not, sorulsaydı ortaya çıkacaktı." },
+    { "if": "kayit", "winner": "p1",
+      "hukum": "Davanın KABULÜ ile 642.000 TL brüt fazla çalışma ücretinin dava ve talep artırım tarihlerinden itibaren işleyecek faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": "Turnike kayıtları fazla çalışmayı yazılı delille ispatladı. Hesap kayıtlara dayandığı için hakkaniyet indirimi yapılmadı. Yıllık 270 saati aşan çalışmanın ücreti de hüküm altına alındı." },
+    { "winner": "p1",
+      "hukum": "Davanın KABULÜ ile yüzde otuz hakkaniyet indirimi yapılarak hesaplanan 449.400 TL brüt fazla çalışma ücretinin dava ve talep artırım tarihlerinden itibaren işleyecek faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": "İhtirazi kayıtlı bordrolar tanıkla ispatın önünü açtı; tahakkuk içermeyen dönem zaten tanıkla ispatlanabiliyordu. Tanık beyanına dayalı hesaplamada Yargıtay uygulaması gereği hakkaniyet indirimi yapıldı. Yazılı kayıtlar getirtilseydi bu indirim gerekmezdi." }
+  ]
+}
