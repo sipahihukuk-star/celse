@@ -1,0 +1,397 @@
+{
+  "id": "dk-kira-temerrut",
+  "mode": "duel",
+  "difficulty": "basit",
+  "title": "Elden Ödeme",
+  "area": "Kira Hukuku · Temerrüt nedeniyle tahliye",
+  "court": "Eskişehir 3. Sulh Hukuk Mahkemesi",
+  "courtShort": "3. SULH HUKUK",
+  "esas": "2026/611 Esas",
+  "kararTarihi": "15.10.2026",
+  "color": "#7a4b2e",
+  "teaser": "İki aylık kira hesaba hiç yatmadı. Kiracı parayı kapıda elden verdiğini söylüyor; elinde makbuz yok.",
+  "sides": {
+    "p1": { "role": "Kiraya veren vekili", "short": "Kiraya veren" },
+    "p2": { "role": "Kiracı vekili", "short": "Kiracı" }
+  },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e3b996", "hair": "#4a3a30", "style": "bun", "glasses": true } },
+    "p1": { "look": { "kind": "robe", "collar": "avukat", "skin": "#c4916b", "hair": "#1e1a18", "style": "short", "beard": true } },
+    "p2": { "look": { "kind": "robe", "collar": "avukat", "skin": "#f0caa6", "hair": "#8a5a3a", "style": "long" } },
+    "kiraci": { "name": "Tolga Şen · Kiracı", "np": "civil", "look": { "kind": "civil", "skin": "#d8a67e", "hair": "#2a2220", "style": "short", "shirt": "#4f6a7a", "inner": "#e2ddd2" } },
+    "kiraya": { "name": "Nermin Aydın · Kiraya veren", "np": "civil", "look": { "kind": "civil", "skin": "#e6bf9c", "hair": "#7a7a80", "style": "bun", "glasses": true, "shirt": "#7a4b5a", "inner": "#efe6dc" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Nermin Aydın, Eskişehir Tepebaşı'ndaki 3+1 dairesini 2023'ten beri Tolga Şen'e kiraya veriyor. Aylık kira 25.000 TL; sözleşmeye göre her ayın 5'ine kadar kiraya verenin banka hesabına yatırılıyor." },
+    { "who": "narr", "text": "Nermin'in hesabına Mart ve Nisan 2026 kiraları gelmedi. Tolga ise iki aylık kirayı, toplam 50.000 TL'yi, 05.04.2026'da kapıda elden verdiğini söylüyor. Makbuz almamış." },
+    { "who": "narr", "text": "Bugün 08.04.2026. Kiraya veren vekili ilk hamleyi yapacak. Arabuluculukta anlaşma çıkmazsa dava sulh hukuk mahkemesinde görülecek." }
+  ],
+  "docs": [
+    { "t": "Kira sözleşmesi", "d": "01.06.2023 başlangıçlı, bir yıllık, kendiliğinden yenileniyor. Konut. Aylık 25.000 TL; her ayın 5'ine kadar kiraya verenin banka hesabına ödenir." },
+    { "t": "Kiraya verenin hesap dökümü", "d": "Ocak ve Şubat 2026 kiraları zamanında gelmiş. Mart ve Nisan 2026 için ödeme yok." },
+    { "t": "Kiracının beyanı", "d": "“Mart'ı ödeyemedim; 05.04.2026'da iki ayın kirasını, 50.000 TL'yi zarfla kapıda verdim. Komşum Aysel Kaya merdivendeydi, gördü.”" }
+  ],
+  "evidence": [
+    { "id": "ev_sozlesme", "type": "belge", "title": "Kira sözleşmesi", "desc": "Kira her ayın 5'ine kadar kiraya verenin banka hesabına ödenir." },
+    { "id": "ev_hesap", "type": "belge", "title": "Kiraya verenin hesap dökümü", "desc": "Mart ve Nisan 2026 kiraları hesaba yatmamış." },
+    { "id": "ev_ihtar", "type": "belge", "title": "İhtar", "desc": "Kiraya verenin Mart ve Nisan kiraları için gönderdiği ihtar." },
+    { "id": "ev_mesaj", "type": "belge", "title": "WhatsApp yazışması", "desc": "05.04.2026, 19.42. Kiracı: “Nermin Hanım, iki ayın zarfını kapıda size verdim, haberiniz olsun.” Kiraya veren: “Tamam, aldım. İyi akşamlar.”", "if": "mesaj" },
+    { "id": "ev_atm", "type": "belge", "title": "Kiracının hesap hareketleri", "desc": "04.04.2026: İki ayrı ATM'den toplam 50.000 TL nakit çekim.", "if": "atm" },
+    { "id": "law_hmk202", "type": "kanun", "title": "HMK m.202 · Delil başlangıcı", "desc": "İddiayı tam ispata yetmeyen ama muhtemel gösteren, karşı taraftan gelen belge varsa tanık dinlenebilir.", "law": "HMK m.202" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İHTAR · Temerrüt nedeniyle tahliye için kiracıya önce usulüne uygun bir ihtar gerekiyor." }
+      ],
+      "prompt": "Kiracıya nasıl bir ihtar göndereceksiniz?",
+      "choices": [
+        {
+          "text": "Noter aracılığıyla yazılı ihtar: Mart ve Nisan kiralarını (50.000 TL) tebliğden itibaren 30 gün içinde ödemesini, ödemezse sözleşmenin feshedileceğini bildir.",
+          "delta": 20,
+          "set": ["ihtar30"],
+          "law": "TBK m.315",
+          "note": "Kiraya veren, ödenmeyen kira için kiracıya yazılı olarak süre verir ve süre içinde ödenmezse sözleşmeyi feshedeceğini bildirir. Konut kiralarında süre en az 30 gündür ve tebliği izleyen günden işlemeye başlar (TBK m.315).",
+          "reply": [
+            { "who": "narr", "text": "İhtar 14.04.2026'da tebliğ edildi; süre 14.05.2026'da doldu, ödeme gelmedi. Arabuluculukta anlaşma sağlanamadı. Dava 05.06.2026'da açıldı." }
+          ]
+        },
+        {
+          "text": "Noter aracılığıyla yazılı ihtar: Kiraları 10 gün içinde ödemesini, ödemezse sözleşmenin feshedileceğini bildir. Süre dolunca hemen harekete geç.",
+          "delta": -10,
+          "set": ["kisa"],
+          "law": "TBK m.315",
+          "note": "On günlük süre konut dışındaki kiralar içindir. Konut ve çatılı işyeri kiralarında süre en az 30 gündür (TBK m.315). Kanuni süre dolmadan temerrüt nedeniyle fesih ve tahliye istenemez.",
+          "reply": [
+            { "who": "narr", "text": "İhtar 14.04.2026'da tebliğ edildi. On gün dolunca arabulucuya başvurdunuz; anlaşma çıkmayınca dava 11.05.2026'da, kanuni 30 günlük süre dolmadan açıldı." }
+          ]
+        },
+        {
+          "text": "Kiracıyı telefonla ara; kiraları 30 gün içinde ödemezse sözleşmeyi feshedeceğini söyle ve görüşmeyi not et.",
+          "delta": -10,
+          "set": ["sozlu"],
+          "law": "TBK m.315",
+          "note": "TBK m.315'teki süre verme ve fesih bildirimi yazılı olmalıdır. Telefon görüşmesi bu şartı karşılamaz; temerrüt nedeniyle tahliyenin dayanağı kurulamadı.",
+          "reply": [
+            { "who": "narr", "text": "Otuz gün geçti, ödeme gelmedi. Arabuluculukta anlaşma sağlanamadı. Dava 05.06.2026'da açıldı." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Dava dilekçesi tebliğ edildi. Kiraya veren, temerrüt nedeniyle tahliye ile ödenmeyen Mart ve Nisan 2026 kiraları için 50.000 TL istiyor." },
+        { "who": "narr", "text": "Cevap dilekçesinden önce müvekkil Tolga Şen'le görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Parayı verdiğinizi gösteren bir mesaj, not ya da yazışma var mı?",
+          "delta": 15,
+          "set": ["mesaj"],
+          "reply": [
+            { "who": "kiraci", "text": "Zarfı verdiğim akşam Nermin Hanım'a WhatsApp'tan yazmıştım. “Tamam, aldım” diye cevap verdi. Telefonda duruyor." }
+          ],
+          "note": "Doğru soru. Kiraya verenden gelen yazılı bir cevap, ödemeyi ispatta kilit önemde. Yazışma delil çantanıza eklendi."
+        },
+        {
+          "text": "Bu kadar nakdi nereden buldunuz?",
+          "delta": 5,
+          "set": ["atm"],
+          "reply": [
+            { "who": "kiraci", "text": "Bir gün önce iki bankamatikten 50.000 TL çektim. Hesap dökümünde görünür." }
+          ],
+          "note": "Yardımcı bir ayrıntı. Ama kendi hesabınızdan para çekmeniz, paranın kiraya verene verildiğini göstermez. Döküm çantanıza eklendi."
+        },
+        {
+          "text": "Ev sahibiyle başka bir anlaşmazlığınız var mı?",
+          "delta": -5,
+          "reply": [
+            { "who": "kiraci", "text": "Kombi iki kez arızalandı, tamiri ben yaptırdım. Onu da istesek mi?" }
+          ],
+          "note": "Sınırlı vaktinizi bu davanın sonucunu belirlemeyecek bir konuya harcadınız. Asıl soru, ödemenin nasıl ispat edileceği."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP DİLEKÇESİ · Kira ilişkisinden doğan tahliye davası basit yargılama usulüne tabi. Cevap süresi iki hafta; deliller dilekçeyle birlikte bildirilir." }
+      ],
+      "prompt": "Cevap dilekçenizin merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "if": "kisa",
+          "text": "Dava erken açıldı: konut kirasında süre en az 30 gündür ve dava bu süre dolmadan açıldı. Ayrıca kiralar 05.04.2026'da elden ödendi; bütün delilleri (yazışma, banka kaydı, tanık, yemin) bildir.",
+          "delta": 20,
+          "set": ["ihtarItiraz", "odeme"],
+          "law": "TBK m.315 · HMK m.318",
+          "note": "Kanuni 30 günlük süre 14.05.2026'da doluyordu; dava 11.05.2026'da açıldı. Temerrüt şartı dava tarihinde gerçekleşmemişti. Ödeme savunmasını da delilleriyle birlikte, süresinde getirdiniz (HMK m.318)."
+        },
+        {
+          "if": "sozlu",
+          "text": "İhtar yazılı değil: TBK m.315'in aradığı yazılı süre verme ve fesih bildirimi yok. Ayrıca kiralar 05.04.2026'da elden ödendi; bütün delilleri (yazışma, banka kaydı, tanık, yemin) bildir.",
+          "delta": 20,
+          "set": ["ihtarItiraz", "odeme"],
+          "law": "TBK m.315 · HMK m.318",
+          "note": "Telefon görüşmesi TBK m.315'teki yazılı ihtarın yerini tutmaz. Ödeme savunmasını da delilleriyle birlikte, süresinde getirdiniz (HMK m.318)."
+        },
+        {
+          "text": "Temerrüt yok: Mart ve Nisan kiraları 05.04.2026'da elden ödendi. Bütün delilleri (yazışma, banka kaydı, tanık, yemin) dilekçede bildir.",
+          "delta": 15,
+          "set": ["odeme"],
+          "law": "TMK m.6 · HMK m.318",
+          "note": [
+            { "text": "Ödeme iddiasını ispat yükü kiracıdadır (TMK m.6). Basit yargılamada deliller dilekçeyle bildirilir (HMK m.318); bunu yaptınız." },
+            { "if": "!ihtar30", "text": " İhtardaki eksikliği ise ileri sürmediniz; hâkim bunu dosyadan kendiliğinden görecek, ama sizin göstermeniz daha güçlü olurdu." }
+          ]
+        },
+        {
+          "text": "Kira bedeli piyasaya göre fahiş; müvekkil ödemeyi bu yüzden durdurdu.",
+          "delta": -15,
+          "set": ["fahis"],
+          "law": "TBK m.344",
+          "note": "Kiracı, kira bedelini fahiş bulsa bile ödemeyi kendiliğinden durduramaz. Bedelin değiştirilmesi kira bedelinin tespiti davasıyla istenir (TBK m.344). Üstelik müvekkilin “ödedim” beyanını da bıraktınız."
+        },
+        {
+          "text": "Kiranın ödenmediğini ispat etmek kiraya verene düşer; müvekkilin bir şey ispatlaması gerekmez.",
+          "delta": -10,
+          "set": ["yuk"],
+          "law": "TMK m.6",
+          "note": "Borcun ödendiğini, ödediğini ileri süren borçlu ispatlar. Kiraya veren sözleşmeyi ve kiranın muaccel olduğunu gösterdi; ödeme iddiası sizin yükünüzdeydi. Delil de bildirmediniz."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "odeme",
+      "lines": [
+        { "who": "judge", "text": "Taraf vekilleri hazır. Kiracı vekili, delilleriniz?" },
+        { "who": "p2", "text": "Sayın Hâkim, müvekkilim 05.04.2026'da iki aylık kirayı, 50.000 TL'yi kapıda elden ödemiştir. Komşusu Aysel Kaya buna tanıktır; dinlenmesini istiyoruz." },
+        { "who": "judge", "text": "Kiraya veren vekili, tanık dinlenmesi hakkında beyanınız?" }
+      ],
+      "prompt": "Tanık talebine ne diyorsunuz?",
+      "choices": [
+        {
+          "text": "50.000 TL'lik ödeme senetle ispat sınırının üzerinde; senetle ispat edilmelidir. Tanık dinlenmesine açıkça muvafakat etmiyoruz.",
+          "delta": 20,
+          "set": ["itiraz"],
+          "law": "HMK m.200",
+          "note": "Borcu sona erdiren ödeme gibi işlemler, kanundaki parasal sınırı aştığında senetle ispat edilir. Karşı tarafın açık muvafakati olmadıkça tanık dinlenemez (HMK m.200). İtirazı tutanağa geçirdiniz.",
+          "reply": [
+            { "who": "judge", "text": "İtiraz tutanağa geçirildi. Kiracı vekili, ödemeye ilişkin yazılı bir deliliniz var mı?" }
+          ]
+        },
+        {
+          "text": "Sözleşmeye göre kira banka hesabına ödenir; elden ödeme geçersizdir.",
+          "delta": 5,
+          "law": "HMK m.200",
+          "note": "Ödeme yeri ve biçimi kararlaştırılmış olsa da alacaklının elden kabul ettiği ödeme borcu sona erdirir. Asıl itirazınız senetle ispat zorunluluğu olmalıydı (HMK m.200). Yine de açık muvafakat vermediğiniz için tanık kendiliğinden dinlenemez.",
+          "reply": [
+            { "who": "judge", "text": "Açık muvafakat bulunmadığından tanık şimdilik dinlenmeyecek. Kiracı vekili, ödemeye ilişkin yazılı bir deliliniz var mı?" }
+          ]
+        },
+        {
+          "text": "Tanık dinlensin; çapraz sorularla gerçeği ortaya çıkarırız.",
+          "delta": -15,
+          "set": ["muvafakat"],
+          "law": "HMK m.200",
+          "note": "Açık muvafakatinizle, senetle ispatı gereken bir ödemenin tanıkla ispatına kapı açtınız (HMK m.200). Komşu, zarfın verildiğini gördüğünü anlattı.",
+          "reply": [
+            { "who": "judge", "text": "Davacı vekilinin muvafakatiyle tanık dinlendi. Tanık, 05.04.2026 akşamı kiracının kiraya verene kapıda bir zarf verdiğini gördüğünü beyan etti." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "if": "odeme && !muvafakat",
+      "lines": [
+        { "who": "judge", "text": "Kiracı vekili, ödemeye ilişkin yazılı bir delil sunacak mısınız?" }
+      ],
+      "statement": { "who": "p1", "text": "Sayın Hâkim, kiracının elinde kiraya verenden gelen tek bir yazılı belge yoktur. Ödeme iddiası ispatlanamamıştır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_mesaj"],
+      "hit": {
+        "delta": 25,
+        "set": ["baslangic"],
+        "law": "HMK m.202",
+        "note": "Kiraya verenin “Tamam, aldım” cevabı, ödemeyi tam ispatlamasa da muhtemel gösteren ve karşı taraftan gelen bir yazılı belgedir. Bu bir delil başlangıcıdır; artık tanık da dinlenebilir (HMK m.202).",
+        "reply": [
+          { "who": "judge", "text": "Yazışma delil başlangıcı olarak kabul edildi; tanık dinlenecek." },
+          { "who": "narr", "text": "Tanık Aysel Kaya, 05.04.2026 akşamı kiracının kiraya verene kapıda bir zarf verdiğini ve “iki ayın kirası” dediğini duyduğunu anlattı." }
+        ]
+      },
+      "responses": {
+        "law_hmk202": {
+          "delta": -5,
+          "note": [
+            { "if": "mesaj", "text": "Doğru madde, ama maddeyi değil, delil başlangıcı olan belgenin kendisini sunmalıydınız: WhatsApp yazışması çantanızdaydı." },
+            { "if": "!mesaj", "text": "Doğru madde, ama elinizde karşı taraftan gelen bir belge yok. Müvekkile yazışma sorulsaydı bu kapı açılabilirdi." }
+          ]
+        },
+        "ev_atm": {
+          "delta": -5,
+          "note": "Kendi hesabınızdan nakit çekildiğini gösteriyor, paranın kiraya verene verildiğini değil. Delil başlangıcı, karşı taraftan gelen bir belge olmalıdır (HMK m.202)."
+        },
+        "ev_sozlesme": {
+          "delta": -10,
+          "note": "Sözleşme kiranın banka hesabına ödeneceğini söylüyor; elden ödeme iddianızı zayıflatır."
+        },
+        "ev_hesap": {
+          "delta": -10,
+          "note": "Hesap dökümü kiraların hesaba yatmadığını gösteriyor; kiraya verenin tezini destekler."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge ödemenin yapıldığını göstermiyor." },
+      "pass": { "delta": -10, "note": "Yazılı delil sunmadınız; ödeme iddiası tanığa da dayanamaz hâlde kaldı." }
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "odeme && !muvafakat && !baslangic",
+      "lines": [
+        { "who": "judge", "text": "Yazılı delil bulunmadığından tanık dinlenmeyecek. Kiracı vekili, başka bir deliliniz var mı?" }
+      ],
+      "prompt": "Elinizde son ne kaldı?",
+      "choices": [
+        {
+          "text": "Dilekçede bildirdiğimiz yemin deliline dayan: kiraya verene, 05.04.2026'da 50.000 TL almadığı konusunda yemin teklif et.",
+          "delta": 15,
+          "set": ["yemin"],
+          "law": "HMK m.225",
+          "note": "Senetle ispatı gereken bir vakıa, başka delil kalmadığında yemin deliliyle ispat edilebilir; yemin delili dilekçede bildirilmişti (HMK m.225 vd.). Kiraya veren yemin etmekten kaçındı ve zarfı aldığını söyledi.",
+          "reply": [
+            { "who": "kiraya", "text": "Ben… yemin edemem. 5 Nisan akşamı kapıda bir zarf almıştım. Hesaplarıma bakarken unutmuşum." },
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "Tanığın yine de dinlenmesinde ısrar et.",
+          "delta": -5,
+          "law": "HMK m.200",
+          "note": "Karşı tarafın açık muvafakati ya da bir delil başlangıcı olmadan senetle ispatı gereken ödeme tanıkla ispat edilemez (HMK m.200)."
+        },
+        {
+          "text": "Müvekkil kiraları hemen şimdi öderse temerrüt ortadan kalkar; ödeme teklif et.",
+          "delta": -10,
+          "law": "TBK m.315",
+          "note": "İhtarda verilen süre geçtikten sonra yapılan ödeme, gerçekleşmiş temerrüdü ortadan kaldırmaz. Üstelik bu teklif, “daha önce ödedik” savunmanızla çelişir."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "ihtar30 && !muvafakat && !baslangic && !yemin",
+      "lines": [
+        { "who": "judge", "text": "Tahkikat tamamlandı. Kiraya veren vekili, esas hakkındaki beyanınız?" }
+      ],
+      "prompt": "Son beyanınızda neyi isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Yazılı ihtarda verilen 30 günlük sürede kiralar ödenmedi. Temerrüt nedeniyle tahliyeye ve 50.000 TL kira alacağının temerrüt faiziyle tahsiline karar verilsin.",
+          "delta": 15,
+          "law": "TBK m.315",
+          "note": "Talebi doğru kurdunuz: usulüne uygun yazılı ihtar, konut için 30 günlük süre ve süre içinde ödememe. Ödeme iddiası ispatlanamadı.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi. Karar için ara veriyorum." }
+          ]
+        },
+        {
+          "text": "Tahliye ve alacak talebini tekrarla; yargılama giderleri ile vekâlet ücretinin de kiracıya yüklenmesine karar verilmesini ayrıca iste.",
+          "delta": 5,
+          "law": "HMK m.326, m.332",
+          "note": "Talep doğru, ama giderler için ayrıca talebe gerek yoktu: hâkim yargılama giderlerine kendiliğinden hükmeder ve bunları haksız çıkan tarafa yükler (HMK m.326, m.332).",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi. Karar için ara veriyorum." }
+          ]
+        },
+        {
+          "text": "Kiracının ayrıca manevi tazminat ödemesine karar verilsin.",
+          "delta": -10,
+          "law": "HMK m.26 · TBK m.58",
+          "note": "Dava dilekçesinde böyle bir talep yok; hâkim talepten fazlasına karar veremez (HMK m.26). Kira borcunun ödenmemesi tek başına kişilik hakkı ihlali de oluşturmaz.",
+          "reply": [
+            { "who": "judge", "text": "Dilekçede olmayan talep incelenmeyecek. Karar için ara veriyorum." }
+          ]
+        },
+        {
+          "text": "Tahliye talebinden vazgeç; yalnızca kira alacağını iste, kiracıyla ilişki sürsün.",
+          "delta": -10,
+          "set": ["vazgec"],
+          "law": "HMK m.307",
+          "note": "Tahliye talebinden feragat ettiniz (HMK m.307). Kazanmak üzere olduğunuz talebi bıraktınız; feragat kesin hüküm gibi sonuç doğurur.",
+          "reply": [
+            { "who": "judge", "text": "Tahliye talebinden feragat tutanağa geçirildi. Karar için ara veriyorum." }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "ihtar30 && !muvafakat && !baslangic && !yemin && !vazgec",
+      "winner": "p1",
+      "hukum": "Davanın KABULÜ ile Tepebaşı'ndaki dava konusu konutun davalı kiracıdan TAHLİYESİNE, 50.000 TL kira alacağının temerrüt faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        { "text": "Kiraya veren vekili usulüne uygun yazılı ihtar gönderdi ve konut için 30 günlük süreyi verdi (TBK m.315). Süre içinde ödeme yapılmadı." },
+        { "if": "odeme", "text": " Kiracı elden ödeme iddiasını senetle ispat edemedi; tanık dinlenmesine açık muvafakat verilmedi (HMK m.200)." },
+        { "if": "fahis", "text": " Kiracı vekilinin fahiş kira savunması, ödemeyi durdurmayı haklı kılmadı." },
+        { "if": "yuk", "text": " Kiracı vekili ispat yükünü kiraya verene yüklemeye çalıştı; oysa ödemeyi ispat borçluya düşer (TMK m.6)." }
+      ]
+    },
+    {
+      "if": "vazgec",
+      "winner": "draw",
+      "stamp": "KISMEN KABUL",
+      "hukum": "Tahliye talebinin feragat nedeniyle REDDİNE, 50.000 TL kira alacağının temerrüt faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": "Kiracı ödemeyi ispatlayamadı, ama kiraya veren vekili son beyanında tahliye talebinden feragat etti (HMK m.307). Alacak hüküm altına alındı, kiracı dairede kaldı."
+    },
+    {
+      "if": "ihtar30",
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        { "if": "muvafakat", "text": "Kiraya veren vekili tanık dinlenmesine açıkça muvafakat etti (HMK m.200); tanık 05.04.2026'daki ödemeyi doğruladı." },
+        { "if": "baslangic", "text": "Kiracı vekili, kiraya verenin “Tamam, aldım” mesajını delil başlangıcı olarak sundu (HMK m.202); tanık beyanıyla ödeme ispatlandı." },
+        { "if": "yemin", "text": "Kiracı vekili yemin deliline başvurdu; kiraya veren yemin etmekten kaçınıp zarfı aldığını söyledi." },
+        { "text": " Kiralar ihtardan önce ödenmiş olduğundan temerrüt oluşmadı; tahliye ve alacak talepleri reddedildi." }
+      ]
+    },
+    {
+      "if": "!muvafakat && !baslangic && !yemin",
+      "winner": "draw",
+      "stamp": "KISMEN KABUL",
+      "hukum": "Tahliye talebinin REDDİNE, 50.000 TL kira alacağının temerrüt faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        { "if": "kisa", "text": "Konut kirasında ihtar süresi en az 30 gündür; dava bu süre dolmadan açıldığından temerrüt nedeniyle tahliye şartları oluşmamıştı (TBK m.315)." },
+        { "if": "sozlu", "text": "TBK m.315'in aradığı yazılı ihtar yapılmamıştı; telefon görüşmesi tahliyeye dayanak olamadı." },
+        { "text": " Kiracı ise elden ödemeyi ispatlayamadı; kira alacağı hüküm altına alındı." },
+        { "if": "ihtarItiraz", "text": " İhtardaki eksikliği kiracı vekili de doğru biçimde ileri sürdü." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        { "if": "kisa", "text": "Kanuni 30 günlük süre dolmadan dava açıldı; tahliye şartları oluşmamıştı (TBK m.315)." },
+        { "if": "sozlu", "text": "Yazılı ihtar yapılmamıştı; tahliyenin dayanağı yoktu (TBK m.315)." },
+        { "if": "muvafakat", "text": " Kiraya veren vekilinin açık muvafakatiyle dinlenen tanık, 05.04.2026'daki ödemeyi doğruladı." },
+        { "if": "baslangic", "text": " Kiraya verenin “Tamam, aldım” mesajı delil başlangıcı sayıldı ve tanıkla birlikte ödemeyi ispatladı (HMK m.202)." },
+        { "if": "yemin", "text": " Yemin teklif edilen kiraya veren, zarfı aldığını söyledi." },
+        { "text": " Kiralar ödenmiş olduğundan alacak talebi de reddedildi." }
+      ]
+    }
+  ]
+}

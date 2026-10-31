@@ -1,0 +1,746 @@
+{
+  "id": "dk-eser-ayip",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Şişen Dolap",
+  "area": "Borçlar Hukuku · Eser sözleşmesinde ayıp",
+  "court": "Antalya 3. Asliye Ticaret Mahkemesi",
+  "courtShort": "3. ASLİYE TİCARET",
+  "esas": "2026/545 Esas",
+  "kararTarihi": "17.12.2026",
+  "color": "#4d6b3c",
+  "teaser": "Kafenin yeni mutfak dolapları üç ayda şişti, kapakların rengi tutmuyor. Yüklenici tek bir şey söylüyor: “Geç bildirdiniz.”",
+  "sides": {
+    "p1": {
+      "role": "İş sahibi (davacı) vekili",
+      "short": "İş sahibi"
+    },
+    "p2": {
+      "role": "Yüklenici (davalı) vekili",
+      "short": "Yüklenici"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#d9a982",
+        "hair": "#9a9a9e",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#c08b62",
+        "hair": "#2a2220",
+        "style": "long",
+        "glasses": true
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#e6bd98",
+        "hair": "#3a2a20",
+        "style": "short"
+      }
+    },
+    "derya": {
+      "name": "Derya Kılıç · İş sahibi şirketin müdürü",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#e8c09c",
+        "hair": "#1c1c1c",
+        "style": "bun",
+        "shirt": "#a0522d",
+        "inner": "#f0e8dc"
+      }
+    },
+    "erkan": {
+      "name": "Erkan Toprak · Yüklenici",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#b88560",
+        "hair": "#4a4a4a",
+        "style": "short",
+        "beard": true,
+        "shirt": "#5b6b4e",
+        "inner": "#d9d4c8"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Limon Ağacı Kafe Ltd. Şti., Antalya Muratpaşa'daki kafesinin mutfağı için ölçüye özel dolapları Erkan Toprak'ın mobilya atölyesine yaptırdı. Bedel 240.000 TL, teslimde tamamen ödendi."
+    },
+    {
+      "who": "narr",
+      "text": "Sözleşmede gövdeler için su itici (MR) MDF, kapaklar için tek renk lake kararlaştırıldı. Montaj 10.02.2026 akşamı bitti; şirket müdürü Derya Kılıç bir teslim tutanağı imzaladı."
+    },
+    {
+      "who": "narr",
+      "text": "Dört kapağın renk tonu diğerlerinden farklı. 05.05.2026'da evye altındaki ve yanındaki iki dolabın gövdesinin şiştiği fark edildi. 28.05.2026'da noter ihtarı çekildi; arabuluculukta anlaşma sağlanamadı."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Eser sözleşmesi",
+      "d": "10.12.2025. Gövde: su itici (MR) MDF. Kapak: tek renk lake. Bedel 240.000 TL."
+    },
+    {
+      "t": "Teslim tutanağı",
+      "d": "10.02.2026 akşamı. “Dolapları eksiksiz ve sağlam teslim aldım.” Derya Kılıç imzalı."
+    },
+    {
+      "t": "Noter ihtarnamesi",
+      "d": "28.05.2026. Şişen dolaplar ve renk farkı bildirilmiş; ücretsiz onarım ya da bedel indirimi istenmiş. Yüklenici cevap vermemiş."
+    },
+    {
+      "t": "Arabuluculuk son tutanağı",
+      "d": "Ticari dava; anlaşma sağlanamadı. Dava şartı yerine getirildi."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_sozlesme",
+      "type": "belge",
+      "title": "Eser sözleşmesi",
+      "desc": "Gövdeler su itici (MR) MDF, kapaklar tek renk lake olacak."
+    },
+    {
+      "id": "ev_noter",
+      "type": "belge",
+      "title": "Noter ihtarnamesi",
+      "desc": "28.05.2026 tarihli ayıp bildirimi."
+    },
+    {
+      "id": "ev_wa",
+      "type": "belge",
+      "title": "Mayıs yazışması",
+      "desc": "06.05.2026, 09.14. Derya Kılıç, şişen dolapların fotoğraflarını gönderiyor: “Evye altı ve yanındaki dolaplar şişti.” Erkan Toprak: “Hafta sonu gelip bakarım.”",
+      "if": "wa"
+    }
+  ],
+  "steps": [
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Dava dilekçesinden önce şirket müdürü Derya Kılıç'la görüşüyorsunuz. Kafe açık; iki soru soracak vaktiniz var."
+        }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Şişmeyi fark edince yükleniciye ne zaman, nasıl haber verdiniz?",
+          "delta": 15,
+          "set": [
+            "wa"
+          ],
+          "reply": [
+            {
+              "who": "derya",
+              "text": "Ertesi sabah, 6 Mayıs'ta, fotoğraflarla WhatsApp'tan yazdım. Erkan Bey “Hafta sonu bakarım” dedi, gelmedi. Noteri ondan sonra çektik."
+            }
+          ],
+          "note": "Kilit soru. Yüklenici “geç bildirildi” diyecek; ayıbın gecikmeksizin bildirildiğini gösteren yazışma delil çantanıza eklendi."
+        },
+        {
+          "text": "Teslim günü bir belge imzaladınız mı? Renk farkını ne zaman gördünüz?",
+          "delta": 10,
+          "set": [
+            "renk"
+          ],
+          "reply": [
+            {
+              "who": "derya",
+              "text": "Montajcı akşam “teslim aldım” yazan bir kâğıt imzalattı, mutfak loştu. Renk farkını ertesi sabah gün ışığında gördüm, hemen fotoğraf attım."
+            }
+          ],
+          "note": "Teslim tutanağına karşı önemli bir bilgi: açık ayıp da ertesi sabah, fotoğraflarla bildirilmiş. Bu yazışmayı renk farkı tartışmasında kullanabilirsiniz."
+        },
+        {
+          "text": "Evye altında daha önce su kaçağı oldu mu?",
+          "delta": 10,
+          "set": [
+            "sizinti"
+          ],
+          "reply": [
+            {
+              "who": "derya",
+              "text": "Mart'ta sifon damlatıyordu, tesisatçı değiştirdi. Dolabın tabanı biraz ıslanmıştı."
+            }
+          ],
+          "note": "Karşı tarafın kullanacağı bir gerçeği önceden öğrendiniz. Saklamak yerine nasıl karşılayacağınızı planlayabilirsiniz."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "DAVA DİLEKÇESİ · Ayıplı eserde iş sahibinin seçimlik hakları var. Hangisini kullanacağınız, hükmün ne olabileceğini belirleyecek."
+        }
+      ],
+      "prompt": "Dava dilekçesinde hangi hakkı kullanacaksınız?",
+      "choices": [
+        {
+          "text": "Ayıp oranında bedelden indirim iste; ayıp oranının keşif ve bilirkişiyle belirlenmesini talep et.",
+          "delta": 20,
+          "set": [
+            "indirim"
+          ],
+          "law": "TBK m.475/1-2",
+          "note": "Bedel tamamen ödendiği ve yüklenici ihbara rağmen gelmediği için, ayıp oranında indirim ve fazla ödenenin iadesi en pratik yol (TBK m.475/1-2). Oranı bilirkişi belirleyecek."
+        },
+        {
+          "text": "Ücretsiz onarım iste: şişen dolaplar sözleşmedeki su itici MDF ile yenilensin, renk farklı kapaklar değiştirilsin.",
+          "delta": 15,
+          "set": [
+            "onarim"
+          ],
+          "law": "TBK m.475/1-3",
+          "note": "Aşırı masraf gerektirmediği için seçilebilir bir hak (TBK m.475/1-3). Ancak yüklenici ihbara rağmen gelmedi; hükmün yerine getirilmesi yine ona bağlı kalacak."
+        },
+        {
+          "text": "Sözleşmeden dön; ödenen 240.000 TL'nin iadesini iste.",
+          "delta": -10,
+          "set": [
+            "donme"
+          ],
+          "law": "TBK m.475/1-1",
+          "note": "Dönme, eserin iş sahibinin kullanamayacağı ya da hakkaniyet gereği kabule zorlanamayacağı ölçüde ayıplı olmasını gerektirir (TBK m.475/1-1). Dolapların çoğu kullanılabiliyor; ayıp bu ağırlıkta değil."
+        },
+        {
+          "text": "Dönme, indirim ve onarımı birlikte iste.",
+          "delta": -10,
+          "set": [
+            "kumulatif"
+          ],
+          "law": "TBK m.475 · HMK m.31, m.111",
+          "note": "Seçimlik haklar birbirinin alternatifidir; aynı ayıp için birlikte kullanılamaz. Kademeli (terditli) talep mümkündü (HMK m.111). Hâkim talebi açıklattı (HMK m.31) ve davacı indirimde karar kıldı.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Ön incelemede hâkim talebin açıklanmasını istedi; davacı vekili bedelden indirimi seçti. Talebin belirsiz kurulması zaman kaybettirdi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "CEVAP DİLEKÇESİ · Erkan Toprak, Mayıs başında bir mesaj geldiğini hatırlamadığını söylüyor. Elinizde imzalı teslim tutanağı var."
+        }
+      ],
+      "prompt": "Cevap dilekçenizin merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "if": "donme",
+          "text": "Dönme koşulları yok: ayıplar dolapları kullanılamaz kılacak ağırlıkta değil. Davanın reddini iste; ihtiyaten geç ihbar savunmasını da ekle.",
+          "delta": 20,
+          "set": [
+            "donmeItiraz",
+            "gec"
+          ],
+          "law": "TBK m.475/1-1, m.477",
+          "note": "İş sahibi yanlış hakkı seçti; dönme ağır ayıp ister (TBK m.475/1-1). Hâkim talepten başka bir hakka kendiliğinden hükmedemez (HMK m.26). Geç ihbar savunmasını da ihtiyaten eklediniz."
+        },
+        {
+          "text": "Geç ihbar: davacı şişmeyi 05.05.2026'da fark etti, ancak 28.05.2026'da noterle bildirdi; eser kabul edilmiş sayılır. İhtiyaten: şişmede Mart'taki sifon kaçağının etkisi var; bilirkişi incelemesi iste.",
+          "delta": 20,
+          "set": [
+            "gec",
+            "neden"
+          ],
+          "law": "TBK m.477/3 · HMK m.266",
+          "note": "Sonradan ortaya çıkan ayıp gecikmeksizin bildirilmezse eser kabul edilmiş sayılır (TBK m.477/3). İhtiyati nedensellik savunmasıyla bilirkişi incelemesini de doğru yönlendirdiniz."
+        },
+        {
+          "text": "Yalnızca geç ihbar savunmasına dayan: eser kabul edilmiş sayılır.",
+          "delta": 10,
+          "set": [
+            "gec"
+          ],
+          "law": "TBK m.477/3",
+          "note": "Güçlü bir savunma (TBK m.477/3), ama tek bir dayanağa bağlandınız. İhbarın zamanında yapıldığı ispatlanırsa elinizde başka bir şey kalmaz."
+        },
+        {
+          "text": "Malzeme sözleşmeye uygun; dolaplarda ayıp yok.",
+          "delta": -10,
+          "set": [
+            "inkar"
+          ],
+          "law": "HMK m.266",
+          "note": "Bilirkişi gövde malzemesini inceleyecek. Asıl savunmanız olan ihbarın zamanını ise hiç ileri sürmediniz."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "gec",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Ön inceleme duruşmasını açıyorum. Taraf vekilleri hazır. Davalı vekili, savunmanızı özetleyin."
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Sayın Hâkim, davacı şişmeyi 05.05.2026'da fark ettiğini kendisi söylüyor; ama ancak 28.05.2026'da noterle bildirdi. Üç hafta beklemek “gecikmeksizin bildirim” değildir; eser kabul edilmiş sayılır."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_wa"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "ihbarIspat"
+        ],
+        "law": "TBK m.477/3",
+        "note": "Ayıp, fark edilmesinin ertesi sabahı fotoğraflarla bildirilmiş; yüklenici de “bakarım” diye cevap vermiş. Bildirim gecikmeksizin yapıldı (TBK m.477/3); noter ihtarı yalnızca bunu teyit etti.",
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Yazışma dosyaya alındı. Davalı vekili, yazışmadaki numara müvekkilinize mi ait?"
+          },
+          {
+            "who": "p2",
+            "text": "…Evet, Sayın Hâkim."
+          }
+        ]
+      },
+      "responses": {
+        "ev_noter": {
+          "delta": -5,
+          "note": "Noter ihtarı 28.05.2026 tarihli; tek başına karşı tarafın “üç hafta beklendi” iddiasını destekler."
+        },
+        "ev_sozlesme": {
+          "delta": 5,
+          "note": "Sözleşme ayıbın varlığı için önemli: su itici MDF kararlaştırılmış. Ama bildirimin zamanı sorusuna cevap vermiyor."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu belge bildirimin zamanını göstermiyor."
+      },
+      "pass": {
+        "delta": -10,
+        "note": "İtiraz etmediniz; “geç bildirim” iddiası cevapsız kaldı."
+      }
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "TAHKİKAT · Keşif yapıldı. Bilirkişi raporu: Evye altındaki ve yanındaki iki dolabın gövdesi standart MDF; sözleşmedeki su itici MDF kullanılmamış. Mart'taki sızıntı şişmeyi hızlandırmış, ancak su itici MDF bu düzeyde şişmezdi. Dört kapakta belirgin renk farkı var. Ayıp oranına göre indirim: dolaplar için 54.000 TL, kapaklar için 30.000 TL."
+        },
+        {
+          "who": "narr",
+          "text": "Rapor ayrıca, ayıpların dolapların genel kullanımını engellemediğini belirtiyor.",
+          "if": "donme"
+        },
+        {
+          "who": "erkan",
+          "text": "Bu kadın baştan beri her şeye kusur buluyor! Ben bu işi yirmi yıldır yapıyorum, kimse bana çürük malzeme diyemez!"
+        },
+        {
+          "who": "judge",
+          "text": "Davalı, oturun. Vekil Bey, müvekkilinizi uyarın; aksi hâlde salondan çıkarılmasına karar vereceğim."
+        }
+      ],
+      "prompt": "Müvekkiliniz salonda kendini kaybetti. Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Müvekkili sakinleştir; mahkemeden özür dile ve kısa bir ara iste.",
+          "delta": 5,
+          "law": "HMK m.151",
+          "note": "Duruşmanın düzeni hâkimdedir; düzeni bozanlar salondan çıkarılabilir, gerekirse disiplin hapsi verilebilir (HMK m.151). Soğukkanlılığınızla müvekkilinizi bu yaptırımlardan korudunuz.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "On dakika ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Müvekkilin tepkisini savun: “Haklı bir isyan, Sayın Hâkim.”",
+          "delta": -10,
+          "law": "HMK m.151",
+          "note": "Duruşma düzenini bozan bir davranışı savunmak, hem müvekkilinizi salondan çıkarılma riskine sokar hem de hâkim nezdinde güvenilirliğinizi zedeler (HMK m.151).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Davalının salondan çıkarılmasına karar verildi. Tutanağa geçirilsin."
+            }
+          ]
+        },
+        {
+          "text": "Hiçbir şey söyleme; duruşmaya devam et.",
+          "delta": -5,
+          "law": "HMK m.151",
+          "note": "Hâkimin uyarısını cevapsız bıraktınız. Müvekkiliniz yeniden patlarsa salondan çıkarılabilir (HMK m.151).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Son kez uyarıyorum."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "!donme && (!gec || ihbarIspat)",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, bilirkişi raporuna beyanınız?"
+        }
+      ],
+      "prompt": "Rapora karşı ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Müvekkille görüşüp sulh teklif et: şişen üç dolap su itici MDF ile yenilensin, renk farkı için 20.000 TL ödensin.",
+          "delta": 15,
+          "set": [
+            "sulhTeklif"
+          ],
+          "law": "HMK m.313",
+          "note": "Rapor malzemenin sözleşmeye aykırı olduğunu açıkça gösteriyor. Sulh, yargılama giderlerini ve faizi sınırlar; onarımı kendi atölyesinde yapmak müvekkile nakit indirimden daha ucuza gelir."
+        },
+        {
+          "text": "Renk farkı açık bir ayıptı ve teslim tutanağı imzalandı; bu ayıp yönünden eser kabul edilmiştir. Kapaklara ilişkin 30.000 TL indirimden çıkarılsın.",
+          "delta": 10,
+          "set": [
+            "renkItiraz"
+          ],
+          "law": "TBK m.474, m.477/1",
+          "note": "Gözden geçirmeyle görülebilecek açık ayıplar için eserin kabulü yükleniciyi sorumluluktan kurtarır (TBK m.477/1). Açık ayıp teslimden sonra uygun sürede bildirilmelidir (TBK m.474). Yerinde bir itiraz."
+        },
+        {
+          "if": "neden",
+          "text": "Rapora itiraz et: şişmenin tek sebebi sızıntıdır, malzemenin etkisi yoktur.",
+          "delta": -5,
+          "set": [
+            "nedenIsrar"
+          ],
+          "law": "HMK m.281",
+          "note": "Rapor, su itici MDF'nin bu sızıntıda şişmeyeceğini açıkça tespit etti. Somut dayanağı olmayan bir itiraz sonucu değiştirmez; asıl sorun sözleşmeye aykırı malzeme."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "sulhTeklif",
+      "lines": [
+        {
+          "who": "p2",
+          "text": "Sayın Hâkim, müvekkilim şişen üç dolabı su itici MDF ile yenilemeyi ve renk farkı için 20.000 TL ödemeyi teklif ediyor."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, teklif hakkında beyanınız?"
+        }
+      ],
+      "prompt": "Teklife ne diyorsunuz?",
+      "choices": [
+        {
+          "text": "Müvekkilin onayını al; yenilemenin bir ay içinde yapılmasını, yapılmazsa dolaplar için bilirkişinin belirlediği 54.000 TL'nin ödenmesini şart koşarak kabul et.",
+          "delta": 15,
+          "set": [
+            "sulh"
+          ],
+          "law": "HMK m.74, m.313",
+          "note": "Müvekkilin iradesini aldınız ve onarım yapılmazsa ne olacağını baştan bağladınız. Sulh için vekâletnamede özel yetki gerekir (HMK m.74).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Sulh tutanağa geçirildi; taraflar tutanağı imzaladı."
+            }
+          ]
+        },
+        {
+          "text": "Teklifi reddet; bilirkişinin belirlediği indirimin tamamını iste.",
+          "delta": 5,
+          "note": "Savunulabilir bir tercih: rapor lehinize. Ama yükleniciyle ilişki tamamen koptu ve hükmün tahsili zaman alabilir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Sulh sağlanamadı. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Teklifi müvekkile sormadan hemen kabul et.",
+          "delta": -15,
+          "law": "HMK m.74",
+          "note": "Sulh, vekâletnamede özel yetki gerektiren işlemlerdendir (HMK m.74). Müvekkilin iradesini de almadınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Vekâletnamenizde sulh yetkisi bulunmuyor. Beyanınız sulh olarak kabul edilmemiştir. Karar için ara veriyorum."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "renkItiraz",
+      "lines": [
+        {
+          "who": "p2",
+          "text": "Sayın Hâkim, renk farkı teslimde görülebilecek bir ayıptı ve davacı “eksiksiz ve sağlam teslim aldım” diye imza attı."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili?"
+        }
+      ],
+      "prompt": "Renk farkına ilişkin itiraza cevabınız?",
+      "choices": [
+        {
+          "if": "renk",
+          "text": "Tutanak montajın bittiği akşam, loş ışıkta imzalatıldı. Renk farkı ertesi sabah, 11.02.2026'da fotoğraflarla bildirildi; Şubat yazışmasını sun.",
+          "delta": 20,
+          "set": [
+            "renkSavun"
+          ],
+          "law": "TBK m.474",
+          "note": "İş sahibi eseri işlerin olağan akışına göre gözden geçirir ve ayıbı uygun sürede bildirir (TBK m.474). Ertesi sabahki bildirim süresindedir; akşam imzalatılan tutanak gözden geçirme imkânını ortadan kaldırmaz.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Yazışma dosyaya alındı. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Tutanak montajın bittiği akşam imzalatıldı; gözden geçirme için uygun süre tanınmadı.",
+          "delta": 5,
+          "law": "TBK m.474",
+          "note": "Doğru bir hukuki dayanak (TBK m.474), ama bildirimin ne zaman yapıldığını gösteren bir belge sunmadınız. İlk yazılı bildirim dosyada 28.05.2026 tarihli noter ihtarı.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Renk farkı önemsiz bir ayıptır; tartışmaya gerek yok.",
+          "delta": -10,
+          "note": "Önemsizse indirim talebinden vazgeçmiş olursunuz; değilse itirazı cevapsız bıraktınız. Her iki durumda da kapaklara ilişkin indirim tehlikeye girdi.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Karar için ara veriyorum."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "nedenIsrar",
+      "lines": [
+        {
+          "who": "p2",
+          "text": "Sayın Hâkim, şişmenin tek sebebi davacının Mart'taki sifon kaçağıdır. Müvekkilin malzemesiyle ilgisi yoktur."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili?"
+        }
+      ],
+      "prompt": "Sızıntı iddiasına cevabınız?",
+      "choices": [
+        {
+          "if": "sizinti",
+          "text": "Sızıntıyı kabul et: Mart'ta sifon damlattı ve hemen değiştirildi. Bilirkişi, su itici MDF'nin bu sızıntıda şişmeyeceğini tespit etti; ayıbın kaynağı sözleşmeye aykırı malzemedir.",
+          "delta": 20,
+          "law": "TBK m.475",
+          "note": "Bildiğiniz bir gerçeği saklamadınız ve tartışmayı asıl noktaya taşıdınız: evye altı gibi nemli bir yer için su itici MDF tam da bu yüzden kararlaştırılmıştı.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "if": "!sizinti",
+          "text": "Raporun tespitine dayan: sızıntı olsa bile su itici MDF bu düzeyde şişmezdi; ayıbın kaynağı sözleşmeye aykırı malzemedir.",
+          "delta": 15,
+          "law": "TBK m.475",
+          "note": "Doğru cevap: tartışmayı asıl noktaya taşıdınız. Müvekkile sızıntıyı önceden sorsaydınız konuya daha hazırlıklı girerdiniz.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Sızıntı hiç olmadı; davalı uyduruyor.",
+          "delta": -10,
+          "law": "HMK m.29",
+          "note": [
+            {
+              "if": "sizinti",
+              "text": "Müvekkiliniz size Mart'taki kaçağı anlatmıştı; bildiğiniz bir gerçeğe aykırı beyan doğruyu söyleme yükümlülüğüne aykırıdır (HMK m.29). "
+            },
+            {
+              "text": "Bilirkişi sızıntı izini zaten tespit etti; dayanaksız inkâr güvenilirliğinizi zedeledi."
+            }
+          ],
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Karar için ara veriyorum."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "sulh",
+      "winner": "draw",
+      "stamp": "SULH",
+      "label": "SONUÇ:",
+      "noCourt": true,
+      "hukum": "Taraflar, şişen üç dolabın bir ay içinde su itici MDF ile yenilenmesi, renk farkı için 20.000 TL ödenmesi ve yenileme yapılmazsa 54.000 TL ödenmesi konusunda sulh oldu. Sulh tutanağa geçirildi.",
+      "summary": "Yüklenici vekili sözleşmeye aykırı malzemeyi gösteren rapor karşısında sulh teklif etti; iş sahibi vekili onarımı süreye ve parasal güvenceye bağlayarak kabul etti."
+    },
+    {
+      "if": "donme",
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        {
+          "text": "İş sahibi vekili sözleşmeden dönmeyi seçti; ama ayıplar dolapları kullanılamaz kılacak ağırlıkta değildi (TBK m.475/1-1). Mahkeme, talep edilmeyen indirim ya da onarım hakkına kendiliğinden hükmedemedi (HMK m.26)."
+        },
+        {
+          "if": "donmeItiraz",
+          "text": " Yüklenici vekili bu zayıflığı cevap dilekçesinde doğru biçimde hedef aldı."
+        }
+      ]
+    },
+    {
+      "if": "gec && !ihbarIspat",
+      "winner": "p2",
+      "hukum": [
+        {
+          "if": "!onarim",
+          "text": "Davanın KISMEN KABULÜ ile yalnız kapaklardaki renk farkı yönünden 30.000 TL bedel indiriminin davalıdan alınarak davacıya verilmesine, şişen dolaplara ilişkin talebin REDDİNE,"
+        },
+        {
+          "if": "onarim",
+          "text": "Davanın KISMEN KABULÜ ile yalnız renk farklı dört kapağın davalı tarafından ücretsiz değiştirilmesine, şişen dolaplara ilişkin talebin REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Yüklenici vekili geç ihbar savunmasını ileri sürdü. İş sahibi şişmeyi 05.05.2026'da fark etmiş, ama dosyadaki ilk bildirim 28.05.2026 tarihli noter ihtarıydı; şişen dolaplar yönünden eser kabul edilmiş sayıldı (TBK m.477/3)."
+        },
+        {
+          "if": "!wa",
+          "text": " İş sahibi vekili, müvekkilinin ertesi gün WhatsApp'tan bildirim yaptığını hiç öğrenmedi."
+        },
+        {
+          "if": "wa",
+          "text": " İş sahibi vekili, elindeki 06.05.2026 yazışmasını doğru anda sunmadı."
+        }
+      ]
+    },
+    {
+      "if": "renkItiraz && !renkSavun",
+      "winner": "draw",
+      "stamp": "KISMEN KABUL",
+      "hukum": [
+        {
+          "if": "!onarim",
+          "text": "Davanın KISMEN KABULÜ ile şişen dolaplar yönünden 54.000 TL bedel indiriminin davalıdan alınarak davacıya verilmesine, kapaklardaki renk farkına ilişkin talebin REDDİNE,"
+        },
+        {
+          "if": "onarim",
+          "text": "Davanın KISMEN KABULÜ ile şişen üç dolabın davalı tarafından su itici MDF ile ücretsiz yenilenmesine, kapaklardaki renk farkına ilişkin talebin REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Malzemenin sözleşmeye aykırı olduğu ve şişmenin bundan kaynaklandığı bilirkişiyle ispatlandı; şişme süresinde bildirilmişti."
+        },
+        {
+          "text": " Ancak yüklenici vekili, renk farkının açık bir ayıp olduğunu ve teslim tutanağıyla kabul edildiğini ileri sürdü; iş sahibi vekili bu ayıbın süresinde bildirildiğini gösteremedi (TBK m.474, m.477/1)."
+        }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": [
+        {
+          "if": "!onarim",
+          "text": "Davanın KABULÜ ile ayıp oranında belirlenen 84.000 TL bedel indiriminin davalıdan alınarak davacıya verilmesine,"
+        },
+        {
+          "if": "onarim",
+          "text": "Davanın KABULÜ ile şişen üç dolabın su itici MDF ile yenilenmesine ve renk farklı dört kapağın değiştirilmesine; onarımın davalı tarafından ücretsiz yapılmasına,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Bilirkişi, sözleşmedeki su itici MDF yerine standart MDF kullanıldığını ve şişmenin bundan kaynaklandığını tespit etti (TBK m.475)."
+        },
+        {
+          "if": "ihbarIspat",
+          "text": " İş sahibi vekili, şişmenin fark edildiğinin ertesi sabahı bildirildiğini yazışmayla gösterdi; geç ihbar savunması çöktü (TBK m.477/3)."
+        },
+        {
+          "if": "!gec",
+          "text": " Yüklenici vekili, ihbarın zamanına ilişkin savunmayı hiç getirmedi."
+        },
+        {
+          "if": "renkSavun",
+          "text": " Renk farkının ertesi sabah bildirildiği de belgelendi (TBK m.474)."
+        },
+        {
+          "if": "kumulatif",
+          "text": " Talebin seçimlik haklar karıştırılarak kurulması yargılamayı uzattı."
+        }
+      ]
+    }
+  ]
+}

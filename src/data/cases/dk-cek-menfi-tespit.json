@@ -1,0 +1,1002 @@
+{
+  "id": "dk-cek-menfi-tespit",
+  "mode": "duel",
+  "difficulty": "zor",
+  "title": "Teminat Çeki",
+  "area": "Kıymetli Evrak · Çekte menfi tespit",
+  "court": "Konya 2. Asliye Ticaret Mahkemesi",
+  "courtShort": "2. ASLİYE TİCARET",
+  "esas": "2026/834 Esas",
+  "kararTarihi": "11.03.2027",
+  "color": "#2f4a6b",
+  "teaser": "Çek, teslimatların teminatı olarak verildi; faturalar ödendi, çek yine de takibe kondu. Kambiyo senedine karşı ne ispat edilebilir, nasıl?",
+  "sides": {
+    "p1": {
+      "role": "Keşideci (davacı) vekili",
+      "short": "Keşideci"
+    },
+    "p2": {
+      "role": "Hamil (davalı) vekili",
+      "short": "Hamil"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#e8c09c",
+        "hair": "#5a5a5e",
+        "style": "bun"
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#dcae86",
+        "hair": "#2b1d17",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#c4916b",
+        "hair": "#a0522d",
+        "style": "curly"
+      }
+    },
+    "selma": {
+      "name": "Selma Arslan · Muhasebe müdürü",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#d9a982",
+        "hair": "#3a2a20",
+        "style": "long",
+        "glasses": true,
+        "shirt": "#6b4a7a",
+        "inner": "#ece4d8"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Ozan Yapı Taahhüt Ltd. Şti., 05.01.2026'da Demirkaya Metal Ltd. Şti. ile bir tedarik protokolü imzaladı: yıl boyunca inşaat demiri alınacak, teslimatların teminatı olarak 280.000 TL tutarlı bir çek verilecek."
+    },
+    {
+      "who": "narr",
+      "text": "Çek, 30.06.2026 keşide tarihli ve Demirkaya lehine düzenlendi; ciro edilmedi. Beş teslimatın faturalarının hepsi havaleyle ödendi. Demirkaya yine de çeki bankaya ibraz etti; çek karşılıksız çıktı."
+    },
+    {
+      "who": "narr",
+      "text": "Kambiyo senetlerine özgü haciz yoluyla takip başlatıldı. Ödeme emri 13.07.2026'da tebliğ edildi, beş gün içinde itiraz edilmedi. Hacizle bankadan kesilen 280.000 TL icra veznesine yatmak üzere. Arabuluculukta anlaşma sağlanamadı. Bugün 07.08.2026."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Tedarik protokolü",
+      "d": "05.01.2026, iki tarafça imzalı. “Alıcı, teslimatların teminatı olarak 280.000 TL tutarlı bir çek verir. Bedeller faturadan itibaren 30 gün içinde ödenir; geciken ödemelere aylık %3 vade farkı uygulanır. Sözleşme sonunda borç kalmazsa çek iade edilir.”"
+    },
+    {
+      "t": "Çek",
+      "d": "Seri no. KNY 0048817. 280.000 TL, keşide tarihi 30.06.2026. Keşideci Ozan Yapı, lehtar Demirkaya Metal. Ciro yok."
+    },
+    {
+      "t": "Ödeme dekontları",
+      "d": "Beş fatura, toplam 1.150.000 TL, hepsi havaleyle ödenmiş. Mart ve Mayıs faturaları 20 ve 45 gün gecikmeli ödenmiş."
+    },
+    {
+      "t": "Önceki ilişki",
+      "d": "Ozan Yapı, 2025'te de Demirkaya'ya aynı tutarda (280.000 TL) bir ödeme çeki vermiş; o çek ödenmiş."
+    },
+    {
+      "t": "İcra dosyası",
+      "d": "Konya 4. İcra Dairesi. Kambiyo senetlerine özgü haciz yolu. Ödeme emri 13.07.2026'da tebliğ edildi; itiraz yok, takip kesinleşti."
+    }
+  ],
+  "steps": [
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Dava dilekçesinden önce Ozan Yapı'nın muhasebe müdürü Selma Arslan'la görüşüyorsunuz. İki soru soracak vaktiniz var."
+        }
+      ],
+      "prompt": "Muhasebe müdürüne ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Çeki teslim ederken bir tutanak ya da yazı imzalandı mı?",
+          "delta": 15,
+          "set": [
+            "tutanak"
+          ],
+          "reply": [
+            {
+              "who": "selma",
+              "text": "Evet, “teminat çeki teslim tutanağı” var. Çekin seri numarası, tutarı ve “protokol gereği teminat olarak alınmıştır” ibaresi yazılı; Demirkaya'nın muhasebe şefi Burcu Tan imzaladı."
+            }
+          ],
+          "note": "Kilit soru. Senede karşı iddia yazılı delille ispat edilir; protokol çeki tek başına belirlemiyor, ama tutanak seri numarasıyla takip konusu çeki teminata bağlıyor."
+        },
+        {
+          "text": "Bütün faturalar ödendi mi? Gecikme ya da ek fatura oldu mu?",
+          "delta": 10,
+          "set": [
+            "vadeBilgi"
+          ],
+          "reply": [
+            {
+              "who": "selma",
+              "text": "Beşi de ödendi. İkisini geç ödedik. Haziran sonunda 38.000 TL'lik bir vade farkı faturası geldi; kimse itiraz etmedi, kenara koyduk."
+            }
+          ],
+          "note": "Rahatsız edici ama önemli bir bilgi. Teminat çeki, teminat altındaki alacak doğmuşsa o tutarda kullanılabilir. Karşı tarafın elindeki kozu şimdiden biliyorsunuz."
+        },
+        {
+          "text": "Çek verilirken kim hazır bulundu?",
+          "delta": 0,
+          "set": [
+            "tanikBilgi"
+          ],
+          "reply": [
+            {
+              "who": "selma",
+              "text": "Satış müdürümüz Hakan Bey. Her şeyi anlatır."
+            }
+          ],
+          "note": "Bir tanık buldunuz. Ama kambiyo senedine karşı ileri sürülen bir iddiada tanığın işe yarayıp yaramayacağı ayrı bir soru."
+        },
+        {
+          "text": "Şirketin bu yıl başka tedarikçilerle de sorunu oldu mu?",
+          "delta": -5,
+          "reply": [
+            {
+              "who": "selma",
+              "text": "Bir çimento firmasıyla fatura tartışmamız var, ama o ayrı bir dosya."
+            }
+          ],
+          "note": "Sınırlı vaktinizi bu davanın sonucunu belirlemeyecek bir konuya harcadınız."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "DAVA DİLEKÇESİ · Takip kesinleşti. Para icra veznesine yatınca alacaklıya ödenecek."
+        }
+      ],
+      "prompt": "Nasıl bir dava açacak, ne talep edeceksiniz?",
+      "choices": [
+        {
+          "text": "Menfi tespit davası aç. Takipten sonra açıldığı için alacağın en az %15'i oranında teminat göstererek icra veznesindeki paranın alacaklıya ödenmemesi yönünde tedbir iste. Takip haksız ve kötüniyetli olduğundan en az %20 kötüniyet tazminatı talep et.",
+          "delta": 25,
+          "set": [
+            "tedbir",
+            "kotuTalep"
+          ],
+          "law": "İİK m.72/1, m.72/3, m.72/5",
+          "note": "Takipten sonra açılan menfi tespit davasında takip tedbirle durdurulamaz; ancak en az %15 teminatla paranın alacaklıya ödenmemesi istenebilir (İİK m.72/3). Kötüniyet tazminatı borçlunun talebine bağlıdır ve alacağın %20'sinden az olamaz (İİK m.72/5).",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Mahkeme 42.000 TL teminat karşılığında, icra veznesindeki paranın alacaklıya ödenmemesine tedbiren karar verdi."
+            }
+          ]
+        },
+        {
+          "text": "Menfi tespit davası aç; ihtiyati tedbirle icra takibinin durdurulmasını iste.",
+          "delta": -10,
+          "set": [
+            "odendi"
+          ],
+          "law": "İİK m.72/3, m.72/6",
+          "note": "Takipten sonra açılan menfi tespit davasında takibi durduran tedbir istenemez (İİK m.72/3). Talep reddedildi, para alacaklıya ödendi. Dava artık istirdat davası olarak sürecek (İİK m.72/6). Kötüniyet tazminatını da istemediniz.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Tedbir talebi reddedildi. Vezneye giren 280.000 TL alacaklıya ödendi."
+            }
+          ]
+        },
+        {
+          "text": "Önce icra mahkemesine başvur, borca itiraz et: çek teminat çekidir.",
+          "delta": -15,
+          "set": [
+            "odendi"
+          ],
+          "law": "İİK m.168",
+          "note": "Kambiyo senetlerine özgü takipte borca itiraz, ödeme emrinin tebliğinden itibaren beş gün içinde icra mahkemesine yapılır (İİK m.168). Süre 18.07.2026'da doldu. Menfi tespit davasını sonradan, tedbirsiz açabildiniz.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "İcra mahkemesi başvuruyu süre aşımından reddetti. Bu arada 280.000 TL alacaklıya ödendi; menfi tespit davası tedbirsiz açıldı."
+            }
+          ]
+        },
+        {
+          "text": "Menfi tespit davası aç; tedbir ya da tazminat isteme, yalnız borçlu olmadığının tespitini iste.",
+          "delta": 0,
+          "set": [
+            "odendi"
+          ],
+          "law": "İİK m.72",
+          "note": "Dava doğru, ama tedbir istemediğiniz için para alacaklıya ödendi; dava istirdat davasına dönüştü (İİK m.72/6). Kötüniyet tazminatı borçlunun talebine bağlıdır; istemediniz (İİK m.72/5).",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Vezneye giren 280.000 TL alacaklıya ödendi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "CEVAP DİLEKÇESİ · Demirkaya'nın muhasebe şefi Burcu Tan, çek teslim edilirken bir tutanak imzaladığını size söyledi. Ayrıca 25.06.2026'da 38.000 TL'lik vade farkı faturası kesilmiş; alıcı sekiz gün içinde itiraz etmemiş."
+        }
+      ],
+      "prompt": "Cevap dilekçenizin merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "text": "Çek soyut bir kambiyo senedidir; teminat iddiasını davacı ispat etmeli ve senede karşı iddia ancak yazılı delille ispatlanabilir. Tanığa açıkça muvafakat etmiyoruz. İhtiyaten: teminat altındaki vade farkı alacağı doğdu; 38.000 TL'lik fatura süresinde itiraz edilmediği için kabul edilmiş sayılır.",
+          "delta": 25,
+          "set": [
+            "ispatItiraz",
+            "vade"
+          ],
+          "law": "HMK m.190, m.201 · TTK m.21/2",
+          "note": "İspat yükünü ve senede karşı tanıkla ispat yasağını doğru kurdunuz (HMK m.201). Faturayı alan, sekiz gün içinde itiraz etmezse içeriğini kabul etmiş sayılır (TTK m.21/2); teminat çeki, teminat altındaki bu alacak oranında kullanılabilir. Bu savunmayı dilekçeler aşamasında getirdiğiniz için genişletme yasağına da takılmayacaksınız (HMK m.141)."
+        },
+        {
+          "text": "İspat yükünü ve senede karşı tanık yasağını hatırlat; tanığa açıkça muvafakat etmediğini yaz. Başka savunma ekleme.",
+          "delta": 15,
+          "set": [
+            "ispatItiraz"
+          ],
+          "law": "HMK m.190, m.201",
+          "note": "Temel savunma doğru. Ama vade farkı faturasını kullanmadınız; dilekçeler aşamasından sonra yeni bir savunmayı ancak karşı tarafın açık muvafakatiyle getirebilirsiniz (HMK m.141)."
+        },
+        {
+          "text": "Çek ödeme amacıyla verildi; son teslimatın faturasının karşılığıdır.",
+          "delta": -10,
+          "law": "HMK m.190",
+          "note": "Son fatura havaleyle ödenmiş; dekontlar dosyada. Belgelerle çelişen bir savunma ispat edilemez ve güvenilirliğinizi zedeler."
+        },
+        {
+          "text": "Davacı, çeki elinde bulunduran hamile karşı kişisel def'ilerini ileri süremez.",
+          "delta": -15,
+          "law": "TTK m.687, m.818",
+          "note": "Müvekkiliniz çekin lehtarı, yani keşidecinin doğrudan muhatabı; çek ciro edilmedi. Kişisel def'ilerin ileri sürülememesi, senedi sonradan iktisap eden hamilleri korur (TTK m.687, çek için m.818). Lehtara karşı bu def'iler ileri sürülebilir."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Ön inceleme duruşmasını açıyorum. Taraf vekilleri hazır."
+        },
+        {
+          "who": "p2",
+          "text": "Sayın Hâkim, teminat iddiası senede karşı bir iddiadır; ancak yazılı delille ispat edilebilir. Tanık dinlenmesine açıkça muvafakat etmiyoruz.",
+          "if": "ispatItiraz"
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, çekin teminat amacıyla verildiğini nasıl ispatlayacaksınız?"
+        }
+      ],
+      "prompt": "Teminat iddiasının ispatı için ne sunacaksınız?",
+      "choices": [
+        {
+          "if": "tutanak",
+          "text": "Protokolü ve teminat çeki teslim tutanağını sun: tutanaktaki seri numarası ve tutar takip konusu çekle aynı; tutanak davalının muhasebe şefince imzalanmış.",
+          "delta": 25,
+          "set": [
+            "ispat"
+          ],
+          "law": "HMK m.190, m.201",
+          "note": "Kambiyo senedinin teminat amacıyla verildiği, senede karşı bir iddiadır ve yazılı delille ispatlanmalıdır (HMK m.201). Protokol teminat ilişkisini, tutanak da bu çekin o teminat olduğunu gösteriyor.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Belgeler dosyaya alındı. Davalı vekili?"
+            }
+          ]
+        },
+        {
+          "if": "tanikBilgi",
+          "text": "Protokolü delil başlangıcı olarak sun; satış müdürünün tanık olarak dinlenmesini iste.",
+          "delta": 15,
+          "set": [
+            "ispat",
+            "tanikli"
+          ],
+          "law": "HMK m.202",
+          "note": "Protokol, davalının imzasını taşıyan ve “280.000 TL tutarlı teminat çeki” ibaresiyle iddiayı muhtemel gösteren bir belgedir: delil başlangıcı. Delil başlangıcı varsa tanık dinlenebilir (HMK m.202). Doğru yol, ama tanık beyanının takdiri hâkime kalıyor.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Protokol delil başlangıcı kabul edildi; tanık dinlendi."
+            },
+            {
+              "who": "narr",
+              "text": "Tanık Hakan Yıldız, 280.000 TL'lik çekin protokol imzalanırken teminat olarak verildiğini ve Demirkaya'nın muhasebe şefinin bunu teyit ettiğini anlattı."
+            }
+          ]
+        },
+        {
+          "text": "Yalnız protokolü sun: “280.000 TL tutarlı teminat çeki” ibaresi ile çekin tutarı örtüşüyor.",
+          "delta": 10,
+          "set": [
+            "protokol"
+          ],
+          "law": "HMK m.201",
+          "note": "Yazılı delil doğru yerde, ama protokol çeki seri numarasıyla belirlemiyor. Taraflar arasında 2025'te aynı tutarda bir ödeme çeki de olduğu için bu boşluk karşı tarafa bir kapı açıyor.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Protokol dosyaya alındı. Davalı vekili?"
+            }
+          ]
+        },
+        {
+          "text": "Satış müdürünü tanık olarak dinlet; çekin teminat için verildiğini anlatsın.",
+          "delta": -10,
+          "set": [
+            "tanikOnly"
+          ],
+          "law": "HMK m.201",
+          "note": "Senede karşı iddialar tanıkla ispat edilemez (HMK m.201). Elinizdeki yazılı belgeleri sunmadan yalnız tanığa dayandınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Davalı vekili açıkça muvafakat etmediğinden, senede karşı iddia için tanık dinlenmeyecek.",
+              "if": "ispatItiraz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "tanikOnly && !ispatItiraz",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, tanık dinlenmesi hakkında beyanınız?"
+        }
+      ],
+      "prompt": "Tanık talebine ne diyorsunuz?",
+      "choices": [
+        {
+          "text": "Senede karşı iddia tanıkla ispat edilemez; açıkça muvafakat etmiyoruz.",
+          "delta": 20,
+          "law": "HMK m.201",
+          "note": "Kambiyo senedine karşı teminat iddiası yazılı delille ispat edilmelidir (HMK m.201). Davacı yazılı delil sunmadı; kapıyı kapattınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Muvafakat bulunmadığından tanık dinlenmeyecek."
+            }
+          ]
+        },
+        {
+          "text": "Muvafakat ediyoruz; tanık gerçeği söyleyecektir.",
+          "delta": -20,
+          "set": [
+            "ispat",
+            "tanikli"
+          ],
+          "law": "HMK m.200, m.201",
+          "note": "Davacının yazılı delille ispatlaması gereken iddiaya, açık muvafakatinizle tanık yolunu açtınız. Tanık teminat ilişkisini doğruladı.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Tanık Hakan Yıldız, çekin protokol imzalanırken teminat olarak verildiğini anlattı."
+            }
+          ]
+        },
+        {
+          "text": "Tanığın davacı şirketin çalışanı olduğunu, tarafsız olamayacağını söyle.",
+          "delta": -5,
+          "law": "HMK m.201, m.255",
+          "note": "Çalışan da tanık olabilir; beyanını hâkim serbestçe değerlendirir (HMK m.255). Asıl itirazınız senede karşı tanık yasağı olmalıydı. Açık muvafakat vermediğiniz için tanık yine de dinlenmedi.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Açık muvafakat bulunmadığından tanık dinlenmeyecek."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "protokol",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, protokole beyanınız?"
+        }
+      ],
+      "prompt": "Protokole karşı ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Protokol çeki seri numarasıyla belirlemiyor; davacı 2025'te de müvekkile aynı tutarda bir ödeme çeki vermişti. Bu belge, takip konusu çekin teminat çeki olduğunu ispatlamaz.",
+          "delta": 15,
+          "set": [
+            "protokolYetersiz"
+          ],
+          "law": "HMK m.190, m.201",
+          "note": "İspat yükü davacıda. Protokol bir teminat çekinden söz ediyor, ama bu çeki belirlemiyor; aynı tutarda başka bir çek ilişkisi bu boşluğu anlamlı kılıyor.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Davacı vekili, başka bir yazılı deliliniz yoksa teminat iddiası ispatlanamamış sayılacak."
+            }
+          ]
+        },
+        {
+          "text": "Teminat ilişkisini kabul et; cevap dilekçesinde ileri sürdüğün 38.000 TL vade farkı alacağında ısrar et.",
+          "delta": 10,
+          "set": [
+            "ispat"
+          ],
+          "law": "TTK m.21/2",
+          "note": "Dürüst ve savunulabilir bir tutum: teminat ilişkisini kabul ettiniz, kozunuzu vade farkına sakladınız. Ama protokol tek başına zayıf bir delildi; ispatı karşı tarafa bırakabilirdiniz.",
+          "if": "vade"
+        },
+        {
+          "text": "Teminat ilişkisini kabul et; ama teminat altında doğan 38.000 TL vade farkı alacağını şimdi ileri sür.",
+          "delta": 0,
+          "set": [
+            "ispat",
+            "vadeGec"
+          ],
+          "law": "HMK m.141 · TTK m.21/2",
+          "note": "Cevap dilekçesinde ileri sürülmeyen vade farkı alacağı yeni bir savunmadır. Dilekçeler aşaması bittiği için ancak karşı tarafın açık muvafakatiyle dinlenebilir (HMK m.141). Karar artık davacı vekilinde. Üstelik zayıf bir protokole karşı teminat ilişkisini kendiniz kabul ettiniz.",
+          "if": "!vade"
+        },
+        {
+          "text": "Protokoldeki imzanın müvekkil şirkete ait olmadığını ileri sür.",
+          "delta": -20,
+          "set": [
+            "ispat"
+          ],
+          "law": "HMK m.29, m.329",
+          "note": "Protokol şirket yetkilisince imzalanmış ve şirket bunu biliyor. Gerçeğe aykırı beyan doğruyu söyleme yükümlülüğüne aykırıdır (HMK m.29) ve kötüniyetli yargılama yaptırımına yol açabilir (HMK m.329). İmza incelemesi protokolü doğruladı.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "İmza incelemesi protokoldeki imzanın davalı şirket yetkilisine ait olduğunu gösterdi. Mahkeme protokolü ve tutarın örtüşmesini, davalının tutumuyla birlikte değerlendirdi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "ispat && !protokol",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, teminat ilişkisine dair beyanınız?"
+        }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Teminat ilişkisini kabul et; cevap dilekçesinde ileri sürdüğün vade farkı alacağında ısrar et: 38.000 TL'lik fatura süresinde itiraz edilmediği için kabul edilmiş sayılır. Bu kısım yönünden davanın reddini iste.",
+          "delta": 20,
+          "set": [
+            "vade"
+          ],
+          "law": "TTK m.21/2",
+          "note": "Teminat çeki, teminat altındaki alacak doğduğu ölçüde kullanılabilir. Faturaya sekiz gün içinde itiraz edilmemesi içeriğinin kabulü sayılır (TTK m.21/2). Kaybedilecek bir inkâr yerine savunmayı kazanılabilecek kısma taşıdınız.",
+          "if": "vade"
+        },
+        {
+          "text": "Teminat ilişkisini kabul et; ama teminat altında doğan 38.000 TL vade farkı alacağını şimdi ileri sür ve bu kısım yönünden davanın reddini iste.",
+          "delta": 5,
+          "set": [
+            "vadeGec"
+          ],
+          "law": "HMK m.141 · TTK m.21/2",
+          "note": "Teminat ilişkisini kabul etmek dürüst ve doğru. Cevap dilekçesinde ileri sürülmeyen vade farkı alacağı yeni bir savunmadır. Dilekçeler aşaması bittiği için ancak karşı tarafın açık muvafakatiyle dinlenebilir (HMK m.141). Karar artık davacı vekilinde.",
+          "if": "!vade"
+        },
+        {
+          "text": "Müvekkille görüşüp sulh teklif et: 38.000 TL vade farkı ödensin; çek iade edilsin, takipten feragat edilsin.",
+          "delta": 15,
+          "set": [
+            "sulhTeklif"
+          ],
+          "law": "HMK m.313",
+          "note": "Teminat ilişkisi ispatlandı; kötüniyet tazminatı ve yargılama giderleri riskine karşı sulh, müvekkilin gerçek alacağını kurtarmanın hızlı yolu."
+        },
+        {
+          "if": "tutanak",
+          "text": "Teslim tutanağındaki imzanın muhasebe şefine ait olmadığını ileri sür.",
+          "delta": -20,
+          "law": "HMK m.29, m.329",
+          "note": "Muhasebe şefi imzanın kendisine ait olduğunu size söylemişti. Bildiğiniz bir gerçeğe aykırı beyan doğruyu söyleme yükümlülüğüne aykırıdır (HMK m.29); imza incelemesinde ortaya çıkar ve yaptırıma yol açabilir (HMK m.329).",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "İmza incelemesi, tutanaktaki imzanın muhasebe şefi Burcu Tan'a ait olduğunu gösterdi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "vadeGec",
+      "lines": [
+        {
+          "who": "p2",
+          "text": "Sayın Hâkim, davacının 25.06.2026 tarihli 38.000 TL'lik vade farkı faturasına sekiz gün içinde itiraz etmediğini, teminat altındaki alacağın bu kadarıyla doğduğunu beyan ediyoruz."
+        },
+        {
+          "who": "judge",
+          "text": "Bu savunma cevap dilekçesinde yok. Davacı vekili, savunmanın genişletilmesine muvafakat ediyor musunuz?"
+        }
+      ],
+      "prompt": "Muvafakat sorusuna cevabınız?",
+      "choices": [
+        {
+          "text": "Açıkça muvafakat etmiyoruz.",
+          "delta": 20,
+          "law": "HMK m.141",
+          "note": "Dilekçeler aşamasından sonra savunma ancak karşı tarafın açık muvafakatiyle genişletilebilir (HMK m.141). Muvafakat etmeyerek vade farkı savunmasını dosya dışında bıraktınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Davacı vekili muvafakat etmediğinden vade farkına ilişkin beyan dikkate alınmamıştır."
+            }
+          ]
+        },
+        {
+          "text": "Muvafakat ediyoruz; fatura tartışılsın.",
+          "delta": -20,
+          "set": [
+            "vade"
+          ],
+          "law": "HMK m.141",
+          "note": "Karşı tarafın kendi başına getiremeyeceği bir savunmaya kapı açtınız. Fatura süresinde itiraz edilmediği için içeriği kabul edilmiş sayılacak (TTK m.21/2).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Muvafakat tutanağa geçti. Vade farkı savunması incelenecektir."
+            }
+          ]
+        },
+        {
+          "text": "Beyanımız yok.",
+          "delta": 5,
+          "law": "HMK m.141",
+          "note": "Susmak muvafakat sayılmaz; kanun açık muvafakat arar (HMK m.141). Sonuç lehinize, ama açıkça itiraz etmek daha güvenliydi.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Açık muvafakat bulunmadığından vade farkına ilişkin beyan dikkate alınmamıştır."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "sulhTeklif",
+      "lines": [
+        {
+          "who": "p2",
+          "text": "Sayın Hâkim, müvekkilim 38.000 TL vade farkının ödenmesi karşılığında çeki iade etmeyi ve takipten feragat etmeyi teklif ediyor."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, teklif hakkında beyanınız?"
+        }
+      ],
+      "prompt": "Teklife ne diyorsunuz?",
+      "choices": [
+        {
+          "text": "Müvekkilin onayını al; ödeme yapılınca çekin iadesi, takipten feragat, hacizlerin kaldırılması ve teminatın iadesi şartıyla kabul et.",
+          "delta": 15,
+          "set": [
+            "sulh"
+          ],
+          "law": "HMK m.74, m.313",
+          "note": "Müvekkilin iradesini aldınız ve sulhü bütün sonuçlarıyla bağladınız: çek, takip, hacizler ve teminat. Sulh için vekâletnamede özel yetki gerekir (HMK m.74).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Sulh tutanağa geçirildi; taraflar tutanağı imzaladı."
+            }
+          ]
+        },
+        {
+          "text": "Teklifi reddet; davanın tamamının kabulünü ve kötüniyet tazminatını iste.",
+          "delta": 5,
+          "note": "Savunulabilir bir tercih. Ama cevap dilekçesinde vade farkı savunması varsa davanın tamamı kabul edilmeyebilir; riski müvekkile sormadan aldınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Sulh sağlanamadı."
+            },
+            {
+              "who": "p2",
+              "text": "Sayın Hâkim, cevap dilekçemizde ileri sürdüğümüz 25.06.2026 tarihli 38.000 TL'lik vade farkı faturasını sunuyoruz; sekiz gün içinde itiraz edilmemiştir.",
+              "if": "vade"
+            }
+          ]
+        },
+        {
+          "text": "Teklifi müvekkile sormadan hemen kabul et.",
+          "delta": -15,
+          "law": "HMK m.74",
+          "note": "Sulh, vekâletnamede özel yetki gerektiren işlemlerdendir (HMK m.74). Müvekkilin iradesini de almadınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Vekâletnamenizde sulh yetkisi bulunmuyor. Beyanınız sulh olarak kabul edilmemiştir."
+            },
+            {
+              "who": "p2",
+              "text": "Sayın Hâkim, cevap dilekçemizde ileri sürdüğümüz 25.06.2026 tarihli 38.000 TL'lik vade farkı faturasını sunuyoruz; sekiz gün içinde itiraz edilmemiştir.",
+              "if": "vade"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "ispat && vade && !sulh",
+      "lines": [
+        {
+          "who": "p2",
+          "text": "Sayın Hâkim, 25.06.2026 tarihli 38.000 TL'lik vade farkı faturasına sekiz gün içinde itiraz edilmemiştir. Teminat altındaki alacak bu kadarıyla doğmuştur."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, vade farkı faturasına beyanınız?"
+        }
+      ],
+      "prompt": "Vade farkı faturasına ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Vade farkının protokoldeki %3 oran ve gerçek gecikme günleriyle bilirkişiye hesaplatılmasını iste; fazlası yönünden itiraz et.",
+          "delta": 15,
+          "set": [
+            "hesap"
+          ],
+          "law": "TTK m.21/2 · HMK m.266",
+          "note": "TTK m.21/2'deki karine fatura içeriğine ilişkindir; ama vade farkının protokoldeki orana uygunluğu hesapla denetlenebilir. Bilirkişi gerçek gecikme günlerine göre vade farkını 31.500 TL buldu.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Bilirkişi raporu: Mart faturası 20, Mayıs faturası 45 gün gecikmeli. Protokoldeki %3 aylık oranla vade farkı 31.500 TL."
+            }
+          ]
+        },
+        {
+          "text": "Faturaya süresinde itiraz edilmediğini kabul et; davayı kalan 242.000 TL yönünden sürdür.",
+          "delta": 10,
+          "law": "TTK m.21/2",
+          "note": "Dürüst ve tutarlı bir tutum: itiraz edilmeyen faturanın içeriği kabul edilmiş sayılır (TTK m.21/2). Ama hesabın protokole uygunluğunu hiç denetlemediniz."
+        },
+        {
+          "if": "vadeBilgi",
+          "text": "Vade farkı faturası müvekkile hiç ulaşmadı.",
+          "delta": -15,
+          "law": "HMK m.29",
+          "note": "Muhasebe müdürü faturanın geldiğini ve kenara konduğunu size söylemişti. Bildiğiniz bir gerçeğe aykırı beyan doğruyu söyleme yükümlülüğüne aykırıdır (HMK m.29); e-fatura kayıtları da teslimi gösterdi."
+        },
+        {
+          "if": "!vadeBilgi",
+          "text": "Vade farkı faturası müvekkile hiç ulaşmadı.",
+          "delta": -5,
+          "law": "TTK m.21/2",
+          "note": "Müvekkile sormadan bir vakıa ileri sürdünüz; e-fatura kayıtları faturanın teslim edildiğini gösterdi. Muhasebe müdürüne faturaları sorsaydınız bu sürprizle karşılaşmazdınız."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "ispat && kotuTalep && !vade && !sulh",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Tahkikat tamamlandı. Davalı vekili, kötüniyet tazminatı talebine beyanınız?"
+        }
+      ],
+      "prompt": "Kötüniyet tazminatı talebine ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Kötüniyet, alacaklının bile bile haksız takip yapmasıdır ve ispat yükü davacıdadır; tazminata ancak bu ispatlanırsa hükmedilebileceğini hatırlat.",
+          "delta": 5,
+          "law": "İİK m.72/5",
+          "note": "Kural doğru: haksızlık yetmez, kötüniyet de aranır (İİK m.72/5). Ama bütün faturaların ödendiğini bilen alacaklının teminat çekini tam bedelle takibe koyması kötüniyetin güçlü bir göstergesi; mahkeme bunu dosyadaki belgelerden çıkarabilir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Kötüniyet tazminatının üst sınırı alacağın %20'sidir; daha fazlası istenemez.",
+          "delta": -10,
+          "law": "İİK m.72/5",
+          "note": "Kanun %20'yi üst sınır değil, alt sınır olarak koyar: tazminat alacağın %20'sinden az olamaz (İİK m.72/5).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Kötüniyet tazminatı yalnız alacaklı lehine istenebilir.",
+          "delta": -10,
+          "law": "İİK m.72/4, m.72/5",
+          "note": "İİK m.72 iki ayrı tazminat öngörür: dava borçlu aleyhine sonuçlanırsa alacaklı lehine (m.72/4), takip haksız ve kötüniyetli çıkarsa borçlu lehine (m.72/5).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Karar için ara veriyorum."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "!ispat && tedbir",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Tahkikat tamamlandı. Davalı vekili, tedbir kararı nedeniyle bir talebiniz var mı?"
+        }
+      ],
+      "prompt": "Tedbir yüzünden müvekkilin parası aylardır vezneye bağlı. Ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Dava reddedilirse tedbirin kaldırılmasını ve alacağını geç almasından doğan zarar için, alacağın %20'sinden az olmamak üzere tazminata hükmedilmesini iste.",
+          "delta": 15,
+          "set": [
+            "alacakliTaz"
+          ],
+          "law": "İİK m.72/4",
+          "note": "Dava borçlu aleyhine sonuçlanırsa tedbir kalkar; alacaklının geç tahsilden doğan zararı aynı davada takdir edilir ve alacağın %20'sinden aşağı olamaz (İİK m.72/4). Bu tazminatın teminattan karşılanması için talebi açıkça tutanağa geçirdiniz.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Talep tutanağa geçirildi. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Tazminatın %20 alt sınırında kalmamasını, müvekkilin vezneye bağlı kalan parası için ödediği kredi faizlerine göre belirlenmesini iste; banka belgelerini sun.",
+          "delta": 10,
+          "set": [
+            "alacakliTaz"
+          ],
+          "law": "İİK m.72/4",
+          "note": "%20 bir alt sınırdır; gerçek zarar daha yüksekse belgelenerek istenebilir (İİK m.72/4). Ama zararın ispatı size düşer ve belgeler tartışmaya açıktır; alt sınırı istemek de aynı sonucu güvenle sağlardı.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Talep ve belgeler tutanağa geçirildi. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Davanın reddini istemek yeterli; başka talep yok.",
+          "delta": 0,
+          "law": "İİK m.72/4",
+          "note": "Dava reddedilirse tedbir zaten kalkar. Ama geç tahsilden doğan zarar için İİK m.72/4'teki tazminatı istemediniz; müvekkilin aylarca vezneye bağlı kalan parasının karşılığı dosyada kaldı.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Davacı aleyhine İİK m.72/5 uyarınca kötüniyet tazminatı iste.",
+          "delta": -10,
+          "law": "İİK m.72/5",
+          "note": "İİK m.72/5'teki kötüniyet tazminatı borçlu lehinedir; alacaklının haksız ve kötüniyetli takibine karşı öngörülür. Alacaklı için doğru dayanak m.72/4'tü.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Talep yerinde görülmedi. Karar için ara veriyorum."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "sulh",
+      "winner": "draw",
+      "stamp": "SULH",
+      "label": "SONUÇ:",
+      "noCourt": true,
+      "hukum": "Taraflar, 38.000 TL vade farkının ödenmesi karşılığında çekin iadesi, takipten feragat, hacizlerin kaldırılması ve tedbir teminatının iadesi konusunda sulh oldu. Sulh tutanağa geçirildi.",
+      "summary": "Keşideci vekili teminat ilişkisini yazılı delille ispatladı; hamil vekili kaybedilecek bir inkâr yerine gerçek alacağını kurtaran bir sulh teklif etti. Keşideci vekili sulhü bütün sonuçlarıyla bağladı."
+    },
+    {
+      "if": "!ispat",
+      "winner": "p2",
+      "hukum": [
+        {
+          "text": "Davanın REDDİNE"
+        },
+        {
+          "if": "tedbir && !alacakliTaz",
+          "text": ", tedbirin kaldırılmasına"
+        },
+        {
+          "if": "tedbir && alacakliTaz",
+          "text": ", tedbirin kaldırılmasına; tedbir nedeniyle alacağını geç alan davalı lehine alacağın %20'si oranında 56.000 TL tazminatın davacıdan alınarak davalıya verilmesine"
+        },
+        {
+          "text": ","
+        }
+      ],
+      "summary": [
+        {
+          "text": "Kambiyo senedine karşı teminat iddiası yazılı delille ispatlanmalıydı (HMK m.201)."
+        },
+        {
+          "if": "tanikOnly",
+          "text": " Keşideci vekili yalnız tanığa dayandı; senede karşı tanık dinlenmedi."
+        },
+        {
+          "if": "protokolYetersiz",
+          "text": " Protokol çeki belirlemiyordu ve taraflar arasında 2025'te aynı tutarda bir ödeme çeki de vardı; hamil vekili bu boşluğu doğru hedef aldı."
+        },
+        {
+          "if": "!tutanak",
+          "text": " Çekin seri numarasını teminata bağlayan teslim tutanağı hiç dosyaya gelmedi."
+        },
+        {
+          "if": "tedbir && alacakliTaz",
+          "text": " Tedbir nedeniyle alacağını geç alan alacaklı lehine İİK m.72/4 uyarınca tazminata hükmedildi."
+        }
+      ]
+    },
+    {
+      "if": "vade",
+      "winner": "draw",
+      "stamp": "KISMEN KABUL",
+      "hukum": [
+        {
+          "if": "!odendi && hesap",
+          "text": "Davanın KISMEN KABULÜ ile davacının takip konusu çekten dolayı davalıya 248.500 TL BORÇLU OLMADIĞININ TESPİTİNE, 31.500 TL yönünden davanın REDDİNE"
+        },
+        {
+          "if": "!odendi && !hesap",
+          "text": "Davanın KISMEN KABULÜ ile davacının takip konusu çekten dolayı davalıya 242.000 TL BORÇLU OLMADIĞININ TESPİTİNE, 38.000 TL yönünden davanın REDDİNE"
+        },
+        {
+          "if": "odendi && hesap",
+          "text": "Davanın KISMEN KABULÜ ile takip sırasında ödenen paradan 248.500 TL'nin davalıdan alınarak davacıya İADESİNE, 31.500 TL yönünden davanın REDDİNE"
+        },
+        {
+          "if": "odendi && !hesap",
+          "text": "Davanın KISMEN KABULÜ ile takip sırasında ödenen paradan 242.000 TL'nin davalıdan alınarak davacıya İADESİNE, 38.000 TL yönünden davanın REDDİNE"
+        },
+        {
+          "if": "kotuTalep",
+          "text": ", kötüniyet tazminatı talebinin REDDİNE"
+        },
+        {
+          "text": ","
+        }
+      ],
+      "summary": [
+        {
+          "text": "Keşideci vekili çekin teminat amacıyla verildiğini ispatladı."
+        },
+        {
+          "if": "tanikli",
+          "text": " Teminat ilişkisi, yazılı delil başlangıcı ya da açık muvafakatle dinlenen tanıkla kuruldu."
+        },
+        {
+          "text": " Hamil vekili ise teminat altında doğmuş bir alacak gösterdi: süresinde itiraz edilmeyen vade farkı faturası (TTK m.21/2). Çek bu kadarıyla teminat işlevini gördü."
+        },
+        {
+          "if": "hesap",
+          "text": " Keşideci vekilinin itirazıyla vade farkı protokoldeki orana göre 31.500 TL'ye indirildi."
+        },
+        {
+          "if": "kotuTalep",
+          "text": " Teminat altında gerçek bir alacak bulunduğundan takip kötüniyetli sayılmadı."
+        },
+        {
+          "if": "odendi",
+          "text": " Tedbir alınmadığı için para alacaklıya ödenmişti; dava istirdat davası olarak sonuçlandı (İİK m.72/6)."
+        }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": [
+        {
+          "if": "!odendi",
+          "text": "Davanın KABULÜ ile davacının takip konusu KNY 0048817 seri numaralı çekten dolayı davalıya BORÇLU OLMADIĞININ TESPİTİNE"
+        },
+        {
+          "if": "odendi",
+          "text": "Davanın KABULÜ ile takip sırasında ödenen 280.000 TL'nin davalıdan alınarak davacıya İADESİNE"
+        },
+        {
+          "if": "kotuTalep",
+          "text": ", takip haksız ve kötüniyetli olduğundan alacağın %20'si oranında 56.000 TL kötüniyet tazminatının davalıdan alınarak davacıya verilmesine"
+        },
+        {
+          "text": ","
+        }
+      ],
+      "summary": [
+        {
+          "text": "Keşideci vekili çekin teminat amacıyla verildiğini ispatladı; teminat altındaki bütün faturalar ödenmişti."
+        },
+        {
+          "if": "tutanak && !tanikli",
+          "text": " Seri numaralı teslim tutanağı, protokoldeki teminat çekini takip konusu çekle birleştirdi (HMK m.201)."
+        },
+        {
+          "if": "tanikli",
+          "text": " Teminat ilişkisi, yazılı delil başlangıcı ya da açık muvafakatle dinlenen tanıkla kuruldu."
+        },
+        {
+          "if": "!vade",
+          "text": " Hamil vekili, teminat altında doğmuş vade farkı alacağını hiç ileri sürmedi."
+        },
+        {
+          "if": "kotuTalep",
+          "text": " Bütün faturaların ödendiğini bilen alacaklının çeki tam bedelle takibe koyması kötüniyetli bulundu (İİK m.72/5)."
+        },
+        {
+          "if": "odendi",
+          "text": " Tedbir alınmadığı için para alacaklıya ödenmişti; dava istirdat davası olarak sonuçlandı (İİK m.72/6)."
+        }
+      ]
+    }
+  ]
+}

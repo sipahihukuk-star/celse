@@ -1,0 +1,685 @@
+{
+  "id": "dk-trafik-tazminat",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Kırmızı Işık",
+  "area": "Sigorta Hukuku · Trafik kazasında maddi tazminat",
+  "court": "Kayseri 2. Asliye Ticaret Mahkemesi",
+  "courtShort": "2. ASLİYE TİCARET",
+  "esas": "2026/702 Esas",
+  "kararTarihi": "26.01.2027",
+  "color": "#8a2f2f",
+  "teaser": "Kamyonet kırmızıda geçti, otomobil hurdaya döndü. Sigortacının elinde iki koz var: bir kamera kaydı ve aracın hasar geçmişi.",
+  "sides": {
+    "p1": {
+      "role": "Zarar gören (davacı) vekili",
+      "short": "Zarar gören"
+    },
+    "p2": {
+      "role": "Sigortacı (davalı) vekili",
+      "short": "Sigortacı"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#edc6a2",
+        "hair": "#2a2220",
+        "style": "long"
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#b88560",
+        "hair": "#151515",
+        "style": "curly"
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#e0b48e",
+        "hair": "#6b6b70",
+        "style": "short",
+        "beard": true,
+        "glasses": true
+      }
+    },
+    "serkan": {
+      "name": "Serkan Uçar · Zarar gören",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#c99670",
+        "hair": "#2b1d17",
+        "style": "short",
+        "shirt": "#2f4a6b",
+        "inner": "#dcd6ca"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "14.03.2026, Kayseri Talas. Serkan Uçar'ın 2022 model hususi otomobili, kavşakta kırmızı ışıkta geçen bir kamyonetin çarpmasıyla sol yanından hasar gördü."
+    },
+    {
+      "who": "narr",
+      "text": "Polisin kaza tespit tutanağına göre kamyonet sürücüsü kırmızı ışık kuralını ihlal etti. Kamyonetin zorunlu mali sorumluluk (trafik) sigortası Mavi Kubbe Sigorta A.Ş.'de."
+    },
+    {
+      "who": "narr",
+      "text": "Yetkili serviste onarım 185.000 TL tuttu. Serkan'ın yaptırdığı özel ekspertiz, araçta 120.000 TL değer kaybı olduğunu ve kazadan önce hasar bulunmadığını yazdı. Bugün 20.04.2026."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Kaza tespit tutanağı",
+      "d": "14.03.2026, polis tarafından düzenlenmiş. Kamyonet sürücüsü kırmızı ışık kuralını ihlal etmiş."
+    },
+    {
+      "t": "Servis faturası",
+      "d": "Sol ön kapı ve sol ön çamurluk onarımı: 185.000 TL. Ödemeyi davacı yapmış."
+    },
+    {
+      "t": "Özel ekspertiz raporu",
+      "d": "Değer kaybı: 120.000 TL. “Araçta kaza öncesi hasar bulunmamaktadır.” Hasar kayıtları incelenmemiş."
+    },
+    {
+      "t": "Poliçe",
+      "d": "Kamyonetin trafik sigortası Mavi Kubbe Sigorta A.Ş.'de; talep, araç başına maddi zarar teminatının altında."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_tramer",
+      "type": "belge",
+      "title": "Hasar kaydı (Tramer)",
+      "desc": "Davacının aracı: 2024'te sol ön kapı onarımı, 28.000 TL hasar ödemesi."
+    },
+    {
+      "id": "ev_kamera",
+      "type": "belge",
+      "title": "Kavşak kamerası kaydı",
+      "desc": "Köşedeki işyerinin kamerası. Kamyonet kırmızı ışıkta kavşağa giriyor; otomobil 50 km/s sınırlı yolda yaklaşık 78 km/s hızla geliyor."
+    },
+    {
+      "id": "law_genel",
+      "type": "kanun",
+      "title": "Genel Şartlar · Değer kaybı formülü",
+      "desc": "Trafik sigortası Genel Şartlarındaki değer kaybı hesaplama formülü.",
+      "law": "ZMMS Genel Şartları"
+    }
+  ],
+  "steps": [
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Serkan Uçar büronuzda. Sigortacıya başvurmadan önce iki soru soracak vaktiniz var."
+        }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Aracınızın bu kazadan önce bir hasarı ya da hasar kaydı var mıydı?",
+          "delta": 15,
+          "set": [
+            "eski"
+          ],
+          "reply": [
+            {
+              "who": "serkan",
+              "text": "2024'te otoparkta sol ön kapıya çarpmışlardı; boyandı, sigortadan ödendi. Ekspertiz sormadı, ben de söylemedim."
+            }
+          ],
+          "note": "Kilit soru. Sigortacı hasar kayıtlarına erişebilir; önceki hasar değer kaybı hesabında dikkate alınır. Bunu önceden bilmek, talebi doğru kurmanızı sağlar."
+        },
+        {
+          "text": "Kavşağa girerken hızınız neydi?",
+          "delta": 10,
+          "set": [
+            "hiz"
+          ],
+          "reply": [
+            {
+              "who": "serkan",
+              "text": "Bize yeşil yanıyordu… Ama 75–80 civarındaydım herhalde, yol 50'lik. Kamyonet kırmızıda önüme daldı."
+            }
+          ],
+          "note": "Rahatsız edici ama gerekli bir bilgi. Sigortacı müterafik kusur ileri sürecek; ne söyleyip ne söylemeyeceğinizi şimdiden biliyorsunuz."
+        },
+        {
+          "text": "Aracı satmayı düşünüyor musunuz?",
+          "delta": -5,
+          "reply": [
+            {
+              "who": "serkan",
+              "text": "Hayır, kullanmaya devam edeceğim. Değer kaybı için satmam mı gerekiyor?"
+            }
+          ],
+          "note": "Değer kaybı kaza anında doğan bir zarardır; istenebilmesi için aracın satılması gerekmez. Soru hakkınızı sonuca etkisi olmayan bir konuya harcadınız."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "İLK HAMLE · Uyuşmazlık, kamyonetin trafik sigortacısına karşı açılacak bir maddi tazminat talebi."
+        }
+      ],
+      "prompt": "Nasıl ilerleyeceksiniz?",
+      "choices": [
+        {
+          "if": "eski",
+          "text": "Sigortacıya yazılı başvur: onarım bedeli 185.000 TL ve değer kaybı. 2024'teki sol ön kapı hasarını açıkça bildir; değer kaybının bu önceki hasar dikkate alınarak hesaplanmasını iste.",
+          "delta": 25,
+          "set": [
+            "basvuru",
+            "acik"
+          ],
+          "law": "KTK m.97",
+          "note": "Zarar gören, dava açmadan önce sigortacıya yazılı başvurmak zorundadır; 15 gün içinde cevap gelmez ya da uyuşmazlık çıkarsa dava açılabilir (KTK m.97). Önceki hasarı kendiniz açıklayarak sigortacının en güçlü kozunu boşa çıkardınız ve güvenilirliğinizi korudunuz.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Sigortacı 15 gün içinde cevap vermedi. Dava 18.05.2026'da Kayseri 2. Asliye Ticaret Mahkemesinde açıldı."
+            }
+          ]
+        },
+        {
+          "text": "Sigortacıya yazılı başvur: onarım bedeli 185.000 TL ve özel ekspertizdeki 120.000 TL değer kaybı. Faturayı, tutanağı, fotoğrafları ve ekspertiz raporunu ekle.",
+          "delta": 15,
+          "set": [
+            "basvuru"
+          ],
+          "law": "KTK m.97",
+          "note": "Dava şartı olan yazılı başvuruyu eksiksiz belgelerle yaptınız (KTK m.97). Ancak ekspertiz raporu hasar kayıtlarını incelememişti; talebiniz bir zayıf nokta taşıyor.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Sigortacı 15 gün içinde cevap vermedi. Dava 18.05.2026'da Kayseri 2. Asliye Ticaret Mahkemesinde açıldı."
+            }
+          ]
+        },
+        {
+          "text": "Başvuruyla vakit kaybetme; doğrudan asliye ticaret mahkemesinde 305.000 TL'lik dava aç.",
+          "delta": -10,
+          "set": [
+            "basvuruYok"
+          ],
+          "law": "KTK m.97 · HMK m.114",
+          "note": "Trafik sigortacısına karşı dava açmadan önce yazılı başvuru zorunludur (KTK m.97) ve bu bir dava şartıdır (HMK m.114). Mahkemeyi doğru seçtiniz, ama başvuru eksikliği davayı yavaşlatacak.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Dava 24.04.2026'da Kayseri 2. Asliye Ticaret Mahkemesinde açıldı."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "CEVAP DİLEKÇESİ · Sigortacı vekili olarak kavşaktaki bir işyerinin kamera kaydını ve aracın hasar geçmişini (Tramer) temin ettiniz."
+        }
+      ],
+      "prompt": "Cevap dilekçenizin merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "if": "basvuruYok",
+          "text": "Önce dava şartı itirazı: KTK m.97 başvurusu yapılmadan dava açıldı. Esas yönünden müterafik kusur: kamera kaydına göre davacı 50 km/s'lik yolda yaklaşık 78 km/s hızla kavşağa girdi. Kaydı sun; indirim ve kusur bilirkişisi iste.",
+          "delta": 25,
+          "set": [
+            "mukus"
+          ],
+          "law": "KTK m.97 · HMK m.115 · TBK m.52",
+          "note": "Dava şartı eksikliğini ilk fırsatta ileri sürdünüz ve esas savunmayı ihtiyaten eklediniz. Zarar gören, zararın doğmasına ya da artmasına katkıda bulunmuşsa tazminat indirilebilir (TBK m.52)."
+        },
+        {
+          "text": "Müterafik kusur: kamera kaydına göre davacı 50 km/s'lik yolda yaklaşık 78 km/s hızla kavşağa girdi. Kaydı sun; TBK m.52 uyarınca indirim ve kusur bilirkişisi iste.",
+          "delta": 20,
+          "set": [
+            "mukus"
+          ],
+          "law": "TBK m.52 · HMK m.266",
+          "note": [
+            {
+              "text": "Zarar gören, zararın doğmasına ya da artmasına katkıda bulunmuşsa tazminat indirilebilir (TBK m.52). Sigortacı, sigortalının kusuru oranında sorumludur; oranları bilirkişi belirler."
+            },
+            {
+              "if": "basvuruYok",
+              "text": " Başvuru eksikliğini ise ileri sürmediniz; hâkim dava şartını kendiliğinden inceleyecek (HMK m.115), ama bunu göstermek size düşerdi."
+            }
+          ]
+        },
+        {
+          "text": "Kaza tespit tutanağı mahkemeyi bağlamaz; kusur oranının bilirkişice belirlenmesini iste, başka bir şey ekleme.",
+          "delta": 5,
+          "law": "HMK m.266",
+          "note": "Doğru: tutanak hâkimi bağlamaz. Ama elinizdeki kamera kaydını sunmadınız; bilirkişi kusuru yalnız tutanağa göre belirleyecek."
+        },
+        {
+          "text": "Değer kaybı Genel Şartlar'daki formülle hesaplanmalı; formüle göre değer kaybı 18.000 TL'dir.",
+          "delta": -10,
+          "law": "KTK m.90",
+          "note": "Anayasa Mahkemesi, tazminatın Genel Şartlar'a göre belirlenmesini öngören KTK m.90'daki ibareyi iptal etti. Değer kaybı, aracın kaza öncesi ve onarım sonrası ikinci el piyasa değerleri karşılaştırılarak bilirkişiyle belirlenir. Kamera kaydını da kullanmadınız."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "basvuruYok",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Ön inceleme duruşmasını açıyorum. Taraf vekilleri hazır."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı, dava açmadan önce sigortacıya KTK m.97 uyarınca başvurmamış. Davacı vekili, beyanınız?"
+        }
+      ],
+      "prompt": "Dava şartı eksikliğine ne diyorsunuz?",
+      "choices": [
+        {
+          "text": "Eksikliği tamamlayacağız: mahkemenin vereceği kesin süre içinde sigortacıya yazılı başvuru yapılacak, sonuç dosyaya sunulacak.",
+          "delta": 10,
+          "set": [
+            "basvuru"
+          ],
+          "law": "KTK m.97 · HMK m.115/2",
+          "note": "Yargıtay uygulamasında KTK m.97 başvurusu tamamlanabilir bir dava şartı sayılır; hâkim eksikliğin giderilmesi için kesin süre verir (HMK m.115/2). Zaman kaybettiniz ama dava kurtuldu.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Davacıya, başvurunun yapılıp sonucunun dosyaya sunulması için kesin süre verildi."
+            },
+            {
+              "who": "narr",
+              "text": "Başvuru yapıldı; sigortacı 15 gün içinde cevap vermedi. Belge süresinde dosyaya sunuldu."
+            }
+          ]
+        },
+        {
+          "text": "Başvuru şartı gereksiz bir formalite; sigortacı zaten ödemeyecekti. Esasa girilmesini istiyoruz.",
+          "delta": -20,
+          "set": [
+            "usulRet"
+          ],
+          "law": "HMK m.115/2",
+          "note": "Dava şartı tamamlanmadıkça mahkeme esasa giremez. Verilen kesin süre içinde tamamlanmayan eksiklik, davanın usulden reddine yol açar (HMK m.115/2).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Verilen kesin süre içinde dava şartı tamamlanmadı. Karar için ara veriyorum."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "if": "!usulRet && !acik",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı vekili, değer kaybı talebinizi açıklayın."
+        }
+      ],
+      "statement": {
+        "who": "p1",
+        "text": "Sayın Hâkim, özel ekspertiz raporuna göre araçta kaza öncesinde hiçbir hasar yoktur. Değer kaybı 120.000 TL'dir."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_tramer"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "tramer"
+        ],
+        "note": "Hasar kaydı, bu kazada da hasar gören sol ön kapının 2024'te onarıldığını gösteriyor. Önceki hasarlar değer kaybı hesabında dikkate alınır; ekspertiz bu kaydı hiç incelememişti.",
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Hasar kaydı dosyaya alındı. Değer kaybı, aracın hasar geçmişi de dikkate alınarak bilirkişiye hesaplatılacak."
+          }
+        ]
+      },
+      "responses": {
+        "law_genel": {
+          "delta": -10,
+          "law": "KTK m.90",
+          "note": "Anayasa Mahkemesi, tazminatın Genel Şartlar'a göre hesaplanmasını öngören ibareyi iptal etti; formül mahkemeyi bağlamaz. Değer kaybı piyasa koşullarına göre bilirkişiyle belirlenir."
+        },
+        "ev_kamera": {
+          "delta": -5,
+          "note": "Kamera kaydı kusurla ilgili; aracın kazadan önceki durumuyla değil."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu belge ekspertizdeki “hasarsız araç” tespitini çürütmüyor."
+      },
+      "pass": {
+        "delta": -10,
+        "note": "İtiraz etmediniz; değer kaybı ekspertizdeki “hasarsız araç” varsayımıyla hesaplanacak."
+      }
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "!usulRet && acik",
+      "lines": [
+        {
+          "who": "p1",
+          "text": "Sayın Hâkim, müvekkilim 2024'teki sol ön kapı onarımını başvurusunda kendisi bildirdi. Değer kaybı, bu önceki hasar dikkate alınarak hesaplanmalıdır."
+        },
+        {
+          "who": "judge",
+          "text": "Davalı vekili, değer kaybı talebine beyanınız?"
+        }
+      ],
+      "prompt": "Ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Değer kaybının, önceki hasar ile aracın yaşı ve kilometresi dikkate alınarak ikinci el piyasa değerlerine göre bilirkişiye hesaplatılmasını iste.",
+          "delta": 15,
+          "law": "HMK m.266",
+          "note": "Doğru ve dürüst bir tutum. Değer kaybı, aracın kaza öncesi ve onarım sonrası piyasa değerleri farkıdır; önceki hasar, yaş ve kilometre bu hesaba girer."
+        },
+        {
+          "text": "Önceki hasar olduğu için hiç değer kaybı ödenmemeli.",
+          "delta": -10,
+          "note": "Önceki hasar değer kaybını azaltabilir, ama tamamen ortadan kaldırmaz: sol ön çamurluk ilk kez hasar gördü."
+        },
+        {
+          "text": "Değer kaybı ancak araç satılınca gerçekleşir; davacı aracı satmadı.",
+          "delta": -15,
+          "note": "Değer kaybı kaza anında doğan, gerçekleşmiş bir zarardır; istenebilmesi için aracın satılması gerekmez."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "mukus && !usulRet",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Kusur bilirkişisi raporu: Kamyonet sürücüsü kırmızı ışıkta kavşağa girdiği için asli kusurlu (%80); davacı hız sınırını aştığı için tali kusurlu (%20)."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, rapora beyanınız?"
+        }
+      ],
+      "prompt": "Kusur raporuna karşı ne yapacaksınız?",
+      "choices": [
+        {
+          "if": "hiz",
+          "text": "Hızı inkâr etme. İki hafta içinde rapora itiraz et: kaza kamyonetin kırmızı ışıkta önüne çıkmasıyla oluştu; davacı 50 km/s ile gitseydi çarpışmayı önleyip önleyemeyeceği, yani hızın kazaya etkisi incelenmemiş. Ek rapor iste.",
+          "delta": 20,
+          "set": [
+            "itirazRapor"
+          ],
+          "law": "TBK m.52 · HMK m.281",
+          "note": "Müterafik kusur için zarar görenin davranışının zararın doğmasına ya da artmasına katkıda bulunması gerekir (TBK m.52). Hızı kabul edip illiyeti sorguladınız; bu, müvekkilin size anlattıklarıyla da tutarlı. Rapora itiraz süresi iki haftadır (HMK m.281).",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Ek rapor: Kamyonet kırmızı ışıkta, davacının önüne kısa mesafeden çıkmış. Davacı 50 km/s ile gitseydi de durma mesafesi çarpışmayı önlemeye yetmeyecekti. Hız aşımının kazanın oluşumuna etkisi yok."
+            }
+          ]
+        },
+        {
+          "if": "!hiz",
+          "text": "İki hafta içinde rapora itiraz et: hız aşımının çarpışmaya gerçekten etkisi olup olmadığı incelenmemiş. Ek rapor iste.",
+          "delta": 15,
+          "set": [
+            "itirazRapor"
+          ],
+          "law": "TBK m.52 · HMK m.281",
+          "note": "Müterafik kusur için zarar görenin davranışının zarara katkıda bulunması gerekir (TBK m.52); illiyeti sorguladınız ve süresinde itiraz ettiniz (HMK m.281).",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Ek rapor: Kamyonet kırmızı ışıkta, davacının önüne kısa mesafeden çıkmış. Davacı 50 km/s ile gitseydi de durma mesafesi çarpışmayı önlemeye yetmeyecekti. Hız aşımının kazanın oluşumuna etkisi yok."
+            }
+          ]
+        },
+        {
+          "text": "Raporu kabul et.",
+          "delta": 5,
+          "law": "TBK m.52",
+          "note": "Raporu kabul ettiniz; tazminattan %20 indirim yapılacak. Hızın kazaya gerçekten etkisi olup olmadığı hiç sorgulanmadı."
+        },
+        {
+          "text": "Müvekkil hız sınırını aşmadı; kamera kaydı güvenilmezdir.",
+          "delta": -15,
+          "set": [
+            "inkarHiz"
+          ],
+          "law": "HMK m.29",
+          "note": [
+            {
+              "if": "hiz",
+              "text": "Müvekkiliniz size 75–80 km/s ile gittiğini söylemişti. Bildiğiniz bir gerçeğe aykırı beyan, doğruyu söyleme yükümlülüğüne aykırıdır (HMK m.29). "
+            },
+            {
+              "text": "Kayıt dosyada ve bilirkişi incelemesinden geçti; dayanaksız inkâr güvenilirliğinizi zedeledi ve %20 indirim yerinde kaldı."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "!usulRet",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Tahkikat tamamlandı. Davalı vekili, son beyanınız?"
+        }
+      ],
+      "prompt": "Son beyanınızda neyi vurgulayacaksınız?",
+      "choices": [
+        {
+          "text": "Davacı faizi kaza tarihinden istiyor. Sigortacı, belgelerle başvurudan itibaren sekiz iş günü geçince temerrüde düşer; faiz o tarihten işletilmeli.",
+          "delta": 15,
+          "set": [
+            "faizDuz"
+          ],
+          "law": "KTK m.99",
+          "note": "Sigortacı, gerekli belgelerin kendisine verilmesinden itibaren sekiz iş günü içinde ödemekle yükümlüdür (KTK m.99). Kaza tarihinden faiz, sigortacıya değil haksız fiil sorumlusuna işletilir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Sigortacının sorumluluğunun poliçedeki araç başına maddi teminat limitiyle sınırlı olduğunu tutanağa geçirt.",
+          "delta": 5,
+          "note": "Doğru bir hatırlatma; ama talep zaten teminat limitinin altında, sonuca etkisi yok.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Davacının aracı kendi kasko sigortacısına başvurmadan bize dava açamayacağını ileri sür.",
+          "delta": -15,
+          "note": "Zarar gören, kaskosu olsa bile, doğrudan sorumlunun trafik sigortacısına başvurabilir; ortada bir kasko poliçesi de yok. Bu itiraz sonuca etki etmedi, yalnız zaman kaybettirdi.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Karar için ara veriyorum."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "usulRet",
+      "winner": "p2",
+      "hukum": "Davanın dava şartı yokluğu nedeniyle usulden REDDİNE,",
+      "summary": "Davacı vekili sigortacıya KTK m.97 uyarınca başvurmadan dava açtı ve mahkemenin verdiği kesin süre içinde de eksikliği tamamlamadı (HMK m.115/2). Talep esastan hiç incelenmedi."
+    },
+    {
+      "if": "tramer",
+      "winner": "p2",
+      "hukum": [
+        {
+          "if": "mukus && !itirazRapor",
+          "text": "Davanın KISMEN KABULÜ ile %20 müterafik kusur indirimiyle 148.000 TL onarım bedeli ve aracın hasar geçmişi dikkate alınarak belirlenip aynı oranda indirilen 19.200 TL değer kaybı olmak üzere toplam 167.200 TL'nin"
+        },
+        {
+          "if": "!(mukus && !itirazRapor)",
+          "text": "Davanın KISMEN KABULÜ ile 185.000 TL onarım bedeli ve aracın hasar geçmişi dikkate alınarak belirlenen 24.000 TL değer kaybı olmak üzere toplam 209.000 TL'nin"
+        },
+        {
+          "text": ", davalı sigortacının temerrüt tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Sigortacı vekili hasar kaydıyla, bu kazada da hasar gören sol ön kapının 2024'te onarıldığını gösterdi. Ekspertizin “hasarsız araç” varsayımı çöktü; 120.000 TL'lik değer kaybı talebi 24.000 TL'ye indi ve davacının talebi güvenilirliğini yitirdi."
+        },
+        {
+          "if": "mukus && !itirazRapor && !inkarHiz",
+          "text": " Kamera kaydıyla davacının hız sınırını aştığı da gösterildi; davacı vekili kusur raporunu sorgulamadığı için %20 indirim yapıldı (TBK m.52)."
+        },
+        {
+          "if": "mukus && inkarHiz",
+          "text": " Davacı vekili kayda rağmen hızı inkâr etti; %20 müterafik kusur indirimi yerinde kaldı (TBK m.52)."
+        },
+        {
+          "if": "mukus && itirazRapor",
+          "text": " Davacı vekili kusur raporuna yerinde itiraz etti; ek raporla hızın kazaya etkisi olmadığı anlaşıldı ve kusur indirimi yapılmadı."
+        },
+        {
+          "if": "faizDuz",
+          "text": " Faiz, sigortacının başvurudan sekiz iş günü sonra temerrüde düştüğü tarihten işletildi (KTK m.99)."
+        }
+      ]
+    },
+    {
+      "if": "mukus && !itirazRapor",
+      "winner": "draw",
+      "stamp": "KISMEN KABUL",
+      "hukum": [
+        {
+          "if": "acik",
+          "text": "Davanın KISMEN KABULÜ ile %20 müterafik kusur indirimiyle 148.000 TL onarım bedeli ve önceki hasar dikkate alınarak belirlenip aynı oranda indirilen 62.400 TL değer kaybı olmak üzere toplam 210.400 TL'nin"
+        },
+        {
+          "if": "!acik",
+          "text": "Davanın KISMEN KABULÜ ile %20 müterafik kusur indirimiyle 148.000 TL onarım bedeli ve aynı oranda indirilen 96.000 TL değer kaybı olmak üzere toplam 244.000 TL'nin"
+        },
+        {
+          "text": ", davalı sigortacının temerrüt tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Sigortacı vekili kamera kaydıyla davacının hız sınırını aştığını gösterdi."
+        },
+        {
+          "if": "!inkarHiz",
+          "text": " Davacı vekili kusur raporunun dayanağını, yani hızın kazaya gerçekten etkisini sorgulamadı; %20 müterafik kusur indirimi yapıldı (TBK m.52)."
+        },
+        {
+          "if": "inkarHiz",
+          "text": " Davacı vekili kayda rağmen hızı inkâr etti; bu beyan güven kaybettirdi ve %20 müterafik kusur indirimi yerinde kaldı (TBK m.52)."
+        },
+        {
+          "if": "acik",
+          "text": " Davacı vekilinin önceki hasarı baştan açıklaması, değer kaybı talebini güvenilir kıldı."
+        },
+        {
+          "if": "!acik",
+          "text": " Sigortacı vekili aracın hasar geçmişini dosyaya getirmediği için değer kaybı ekspertize göre, kusur oranında indirilerek kabul edildi."
+        },
+        {
+          "if": "faizDuz",
+          "text": " Faiz, sigortacının başvurudan sekiz iş günü sonra temerrüde düştüğü tarihten işletildi (KTK m.99)."
+        }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": [
+        {
+          "if": "acik",
+          "text": "Davanın KABULÜ ile 185.000 TL onarım bedeli ve önceki hasar dikkate alınarak belirlenen 78.000 TL değer kaybı olmak üzere toplam 263.000 TL'nin"
+        },
+        {
+          "if": "!acik",
+          "text": "Davanın KABULÜ ile 185.000 TL onarım bedeli ve 120.000 TL değer kaybı olmak üzere toplam 305.000 TL'nin"
+        },
+        {
+          "text": ", davalı sigortacının temerrüt tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Kamyonet sürücüsü kırmızı ışıkta geçtiği için tam kusurlu bulundu."
+        },
+        {
+          "if": "itirazRapor",
+          "text": " Davacı vekili kusur raporuna süresinde itiraz etti; ek raporla hız aşımının kazanın oluşumuna etkisi olmadığı anlaşıldı (TBK m.52, HMK m.281)."
+        },
+        {
+          "if": "!mukus",
+          "text": " Sigortacı vekili elindeki kamera kaydıyla müterafik kusur savunması getirmedi."
+        },
+        {
+          "if": "acik",
+          "text": " Davacı vekili önceki hasarı baştan açıkladı; değer kaybı buna göre hesaplanarak tamamen kabul edildi."
+        },
+        {
+          "if": "!acik",
+          "text": " Sigortacı vekili aracın hasar geçmişini dosyaya getirmedi; değer kaybı ekspertiz raporuna göre kabul edildi."
+        },
+        {
+          "if": "basvuru && basvuruYok",
+          "text": " Başvuru eksikliği verilen kesin süre içinde tamamlandı."
+        },
+        {
+          "if": "faizDuz",
+          "text": " Faiz, sigortacının başvurudan sekiz iş günü sonra temerrüde düştüğü tarihten işletildi (KTK m.99)."
+        }
+      ]
+    }
+  ]
+}
