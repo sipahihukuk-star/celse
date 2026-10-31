@@ -2,6 +2,7 @@
   "id": "sayistay-fazla-mesai",
   "mode": "solo",
   "career": { "level": 3, "order": 5 },
+  "difficulty": "orta",
   "title": "Sel Mesaisi",
   "area": "Sayıştay · Hesap yargılaması · Fazla çalışma ücreti",
   "court": "Sayıştay 5. Daire",

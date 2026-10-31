@@ -2,6 +2,7 @@
   "id": "sayistay-dusuk-kira",
   "mode": "solo",
   "career": { "level": 3, "order": 7 },
+  "difficulty": "orta",
   "title": "Ucuz Kira",
   "area": "Sayıştay · Hesap yargılaması · Rayicin altında kira",
   "court": "Sayıştay 7. Daire",

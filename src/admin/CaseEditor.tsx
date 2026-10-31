@@ -124,6 +124,8 @@ function GeneralTab({ c, set, isNew }: TabProps & { isNew: boolean }) {
           <Field label="Dosya rengi" value={c.color} onChange={v => set({ ...c, color: v })} mono hint="#rrggbb" />
           <View style={[st.swatch, { backgroundColor: /^#[0-9a-fA-F]{6}$/.test(c.color) ? c.color : C.panel2 }]} />
         </Row>
+        <Seg label="Zorluk" value={c.difficulty || "orta"} onChange={v => set({ ...c, difficulty: v })}
+          options={[{ v: "basit", label: "Basit · maddi hukuk ağırlıklı" }, { v: "orta", label: "Orta · bir usul tuzağı" }, { v: "zor", label: "Zor · usul merkezde" }]} />
         <Seg label="Mod" value={c.mode} onChange={v => set({ ...c, mode: v })} options={[{ v: "solo", label: "Tek kişilik" }, { v: "duel", label: "Karşılıklı duruşma" }]} />
         <Row>
           <Field label="Oyuncunun / 1. tarafın rolü" value={c.sides.p1.role} onChange={v => set({ ...c, sides: { ...c.sides, p1: { ...c.sides.p1, role: v } } })} />

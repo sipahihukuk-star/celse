@@ -1,7 +1,7 @@
 // Kariyer haritası: bölümler aşağıdan yukarıya değil, oyuncunun yolculuğu sırasıyla yukarıdan aşağıya dizilir.
 import React, { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { CareerCase, CareerChapter, CareerView } from "../data/career";
+import { CareerCase, CareerChapter, CareerView, DIFFICULTY } from "../data/career";
 import { CaseFile } from "../engine/types";
 import { Btn } from "./kit";
 import { C, F } from "./theme";
@@ -94,7 +94,10 @@ function CaseRow({ x, i, onPick }: { x: CareerCase; i: number; onPick: (c: CaseF
       style={({ pressed }) => [s.row, !open && { opacity: 0.45 }, pressed && { backgroundColor: C.panel2 }]}>
       <View style={[s.dot, { backgroundColor: x.c.color }]}><Text style={s.dotText}>{open ? i + 1 : "🔒"}</Text></View>
       <View style={{ flex: 1, minWidth: 0 }}>
-        <Text style={s.rowTitle} numberOfLines={1}>{x.c.title}</Text>
+        <View style={s.titleLine}>
+          <Text style={s.rowTitle} numberOfLines={1}>{x.c.title}</Text>
+          {!!x.c.difficulty && <Text style={[s.diff, { color: DIFFICULTY[x.c.difficulty].color, borderColor: DIFFICULTY[x.c.difficulty].color }]}>{DIFFICULTY[x.c.difficulty].label}</Text>}
+        </View>
         <Text style={s.rowSub} numberOfLines={1}>{x.c.court} · {x.c.area}</Text>
         {!open && !!x.why && <Text style={s.rowWhy}>{x.why}</Text>}
       </View>
@@ -138,7 +141,9 @@ const s = StyleSheet.create({
   row: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 10, paddingHorizontal: 4, borderBottomWidth: 1, borderBottomColor: C.line },
   dot: { width: 30, height: 30, borderRadius: 6, alignItems: "center", justifyContent: "center" },
   dotText: { fontFamily: F.monoBold, fontSize: 12, color: "#f3efe4" },
-  rowTitle: { fontFamily: F.displayMed, fontSize: 18, color: C.text },
+  titleLine: { flexDirection: "row", alignItems: "center", gap: 8 },
+  rowTitle: { flexShrink: 1, fontFamily: F.displayMed, fontSize: 18, color: C.text },
+  diff: { fontFamily: F.mono, fontSize: 10, letterSpacing: 1, borderWidth: 1, borderRadius: 4, paddingHorizontal: 5, paddingVertical: 1, textTransform: "uppercase" },
   rowSub: { fontFamily: F.body, fontSize: 13, color: C.muted },
   rowWhy: { fontFamily: F.body, fontSize: 13, color: C.brassDim },
   status: { borderWidth: 1, borderColor: C.line, borderRadius: 999, paddingHorizontal: 9, paddingVertical: 3 },

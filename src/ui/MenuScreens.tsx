@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { CaseFile, Player, Side } from "../engine/types";
+import { DIFFICULTY } from "../data/career";
 import { Btn, Scale } from "./kit";
 import { loadResults, SavedResult } from "./storage";
 import { C, F } from "./theme";
@@ -70,7 +71,7 @@ export function CaseListScreen({ mode, cases, onPick, onBack, onSwitch, lockedNo
               style={({ pressed }) => [{ width: `${100 / cols - (cols > 1 ? 2 : 0)}%` as any }, lock && { opacity: 0.5 }, pressed && { transform: [{ translateY: -3 }] }]}>
               <View style={[styles.tab, { backgroundColor: c.color }]}><Text style={styles.tabText}>{c.esas}</Text></View>
               <View style={[styles.folder, { backgroundColor: c.color }]}>
-                <Text style={styles.fArea}>{c.area.toLocaleUpperCase("tr")}</Text>
+                <Text style={styles.fArea}>{c.area.toLocaleUpperCase("tr")}{c.difficulty ? `  ·  ${DIFFICULTY[c.difficulty].label.toLocaleUpperCase("tr")}` : ""}</Text>
                 <Text style={styles.fTitle}>{c.title}</Text>
                 <Text style={styles.fCourt}>{c.court}</Text>
                 <Text style={styles.fTeaser}>{c.teaser}</Text>

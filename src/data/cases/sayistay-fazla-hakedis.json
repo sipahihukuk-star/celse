@@ -2,6 +2,7 @@
   "id": "sayistay-fazla-hakedis",
   "mode": "solo",
   "career": { "level": 3, "order": 3 },
+  "difficulty": "orta",
   "title": "Fazla Hakediş",
   "area": "Sayıştay · Hesap yargılaması · Fazla hakediş ödemesi",
   "court": "Sayıştay 3. Daire",

@@ -102,8 +102,16 @@ export interface CareerView {
   next: string;
 }
 
-const sortCases = (a: CaseFile, b: CaseFile, idx: Map<string, number>) =>
-  (a.career?.order ?? 1000 + idx.get(a.id)!) - (b.career?.order ?? 1000 + idx.get(b.id)!);
+export const DIFFICULTY = {
+  basit: { label: "Basit", rank: 0, color: "#4fae7c" },
+  orta: { label: "Orta", rank: 1, color: "#d0a64c" },
+  zor: { label: "Zor", rank: 2, color: "#d65a45" }
+} as const;
+
+/** Bölüm içinde: önce basit, sonra orta, sonra zor; aynı zorlukta `order`, o da yoksa liste sırası. */
+const sortKey = (c: CaseFile, idx: Map<string, number>) =>
+  DIFFICULTY[c.difficulty || "orta"].rank * 100000 + (c.career?.order ?? 1000 + idx.get(c.id)!);
+const sortCases = (a: CaseFile, b: CaseFile, idx: Map<string, number>) => sortKey(a, idx) - sortKey(b, idx);
 
 /**
  * Kurallar:

@@ -79,6 +79,7 @@ Oyuncu genç avukat olarak tek hâkimli yerel mahkemelerde başlar ve kazandık�
 - **Bölümler:** 1. Adliyede ilk yıl (sulh, asliye, iş) → 2. Heyetli mahkemeler (ağır ceza, idare/vergi, bölge adliye) → 3. Yüksek yargı (Yargıtay, Danıştay, Sayıştay) → 4. Anayasa Mahkemesi → 5. Uluslararası mahkemeler (AİHM, UCM).
 - **Bölüm açılması:** Bir bölümün davalarının yüzde 60'ı (en çok 4) kazanılınca sonraki bölüm açılır. Davası olmayan bölüm "Yakında" görünür ve atlanır.
 - **Bölüm içi sıra:** Davalar sırayla açılır; bir dava oynanınca (kazanılsın ya da kaybedilsin) sıradaki açılır.
+- **Zorluk:** `"difficulty": "basit" | "orta" | "zor"`. Bölüm içinde önce basit, sonra orta, sonra zor davalar gelir. Basit davalarda kilit kararlar maddi hukuka dayanır; orta davalarda bir usul tuzağı vardır; zor davalarda usul merkezdedir.
 - **Unvan ve itibar:** Unvan açılan en yüksek bölümden gelir (Genç avukat → Avukat → Kıdemli avukat → Anayasa avukatı → Uluslararası avukat). İtibar, kazanılan davaların en iyi puanlarının toplamıdır.
 - **Serbest liste:** "Tek kişilik dosyalar" listesinde kariyerde henüz açılmamış davalar kilitli görünür.
 - **Davanın yeri:** Dava dosyasında `"career": { "level": 3, "order": 2 }`. `level` yazılmazsa mahkemeden çıkarılır; `"off": true` davayı kariyer dışında tutar. Yönetim panelinde Genel sekmesindeki "Kariyer" bölümünden ayarlanır.

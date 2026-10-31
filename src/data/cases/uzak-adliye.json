@@ -2,6 +2,7 @@
   "id": "uzak-adliye",
   "mode": "solo",
   "career": { "level": 1, "order": 4 },
+  "difficulty": "orta",
   "title": "Uzak Adliye",
   "area": "İş Hukuku · Elden ücretin ispatı",
   "court": "Trabzon 2. İş Mahkemesi",

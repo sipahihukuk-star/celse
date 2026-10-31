@@ -2,6 +2,7 @@
   "id": "danistay-vergi-teblig",
   "mode": "solo",
   "career": { "level": 3, "order": 2 },
+  "difficulty": "orta",
   "title": "Kiracının Vergisi",
   "area": "Danıştay · Vergi tebliğinin iptali",
   "court": "Danıştay 4. Daire",

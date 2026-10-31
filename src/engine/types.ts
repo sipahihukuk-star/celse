@@ -135,6 +135,8 @@ export interface CaseFile {
   /** mahkeme heyeti: kürsüdeki hâkim sayısı (1, 3, 5, 7, 15, 17 ...) */
   /** Kariyer modundaki yeri. level yazılmazsa mahkemeden çıkarılır; order bölüm içindeki sırayı belirler; off: true kariyerde gösterilmez. */
   career?: { level?: number; order?: number; off?: boolean };
+  /** Zorluk: basit (maddi hukuk ağırlıklı), orta (bir usul tuzağı), zor (usul tuzakları merkezde). */
+  difficulty?: "basit" | "orta" | "zor";
   bench?: { judges: number; title?: string };
   /** salonun görünümü */
   room?: "yerel" | "yuksek" | "uluslararasi";

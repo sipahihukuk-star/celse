@@ -2,6 +2,7 @@
   "id": "yargitay-durusma",
   "mode": "solo",
   "career": { "level": 3, "order": 1 },
+  "difficulty": "orta",
   "title": "Eksik Müdafi",
   "area": "Yargıtay · Duruşmalı temyiz",
   "court": "Yargıtay Ceza Dairesi",
