@@ -1,6 +1,7 @@
 {
   "id": "danistay-imtiyaz",
   "mode": "solo",
+  "career": { "level": 3, "order": 10 },
   "title": "Son Sefer",
   "area": "Danıştay · İmtiyaz sözleşmesi",
   "court": "Danıştay 13. Daire",

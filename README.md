@@ -44,6 +44,7 @@ src/engine/                  oyun kuralları — arayüzden bağımsız
   expr.ts                    koşul dili ("zaman && !kesme")
   engine.ts                  akış, puan, karar, bilgisayar rakip, doğrulama
   simulate.ts                bütün yolları oynatan denetim (test ve yönetim paneli)
+src/data/career.ts           kariyer bölümleri, kilit kuralları, ilerleme kaydı
 src/data/useCases.ts         uygulamayla gelen + yönetimden yayımlanan davaları birleştirir
 src/admin/                   yönetim paneli
   AdminScreen.tsx            PIN, dava listesi, yeni dava sihirbazı, JSON içe aktarma
@@ -70,6 +71,17 @@ Ana ekrandaki **Yönetim paneli ›** bağlantısıyla açılır. İlk girişte 
 - **Çoğalt, Sil, JSON içe aktar:** Tek dava ya da dava dizisi JSON olarak yapıştırılabilir; içe aktarılanlar taslak olarak kaydedilir.
 
 Şimdilik içerik cihazda (AsyncStorage) tutulur. Sunucuya taşımak için `src/admin/store.ts` içindeki `ContentStore` arayüzünü uygulayan bir Supabase deposu yazmak yeterlidir; ekranlar değişmez.
+
+## Kariyer modu
+
+Oyuncu genç avukat olarak tek hâkimli yerel mahkemelerde başlar ve kazandıkça yükselir. Kurallar `src/data/career.ts` içindedir.
+
+- **Bölümler:** 1. Adliyede ilk yıl (sulh, asliye, iş) → 2. Heyetli mahkemeler (ağır ceza, idare/vergi, bölge adliye) → 3. Yüksek yargı (Yargıtay, Danıştay, Sayıştay) → 4. Anayasa Mahkemesi → 5. Uluslararası mahkemeler (AİHM, UCM).
+- **Bölüm açılması:** Bir bölümün davalarının yüzde 60'ı (en çok 4) kazanılınca sonraki bölüm açılır. Davası olmayan bölüm "Yakında" görünür ve atlanır.
+- **Bölüm içi sıra:** Davalar sırayla açılır; bir dava oynanınca (kazanılsın ya da kaybedilsin) sıradaki açılır.
+- **Unvan ve itibar:** Unvan açılan en yüksek bölümden gelir (Genç avukat → Avukat → Kıdemli avukat → Anayasa avukatı → Uluslararası avukat). İtibar, kazanılan davaların en iyi puanlarının toplamıdır.
+- **Serbest liste:** "Tek kişilik dosyalar" listesinde kariyerde henüz açılmamış davalar kilitli görünür.
+- **Davanın yeri:** Dava dosyasında `"career": { "level": 3, "order": 2 }`. `level` yazılmazsa mahkemeden çıkarılır; `"off": true` davayı kariyer dışında tutar. Yönetim panelinde Genel sekmesindeki "Kariyer" bölümünden ayarlanır.
 
 ## Yeni dava ekleme (kod yoluyla)
 

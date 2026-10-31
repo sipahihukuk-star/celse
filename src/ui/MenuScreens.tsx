@@ -6,7 +6,7 @@ import { loadResults, SavedResult } from "./storage";
 import { C, F } from "./theme";
 
 /* ---------- Giriş ---------- */
-export function TitleScreen({ onDuel, onSolo, onAdmin, duelCount, soloCount }: { onDuel: () => void; onSolo: () => void; onAdmin: () => void; duelCount: number; soloCount: number }) {
+export function TitleScreen({ onCareer, onDuel, onSolo, onAdmin, duelCount, soloCount, rankName, started, won, total }: { onCareer: () => void; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; duelCount: number; soloCount: number; rankName: string; won: number; total: number }) {
   const { width } = useWindowDimensions();
   const [tilt, setTilt] = useState(-4);
   useEffect(() => { const t = setInterval(() => setTilt(a => -a), 3000); return () => clearInterval(t); }, []);
@@ -19,14 +19,21 @@ export function TitleScreen({ onDuel, onSolo, onAdmin, duelCount, soloCount }: {
       <View style={[{ gap: 6 }, wide && { flex: 1.2 }]}>
         <Text style={styles.eyebrow}>BİR AVUKATLIK OYUNU</Text>
         <Text style={[styles.logo, { fontSize: wide ? 128 : 84, lineHeight: wide ? 120 : 82 }]}>Celse</Text>
-        <Text style={styles.lede}>Aynı dava, iki vekil. Dilekçeden karara kadar sırayla hamle yapın; hâkimin terazisi her cevapla bir tarafa eğilir.</Text>
+        <Text style={styles.lede}>Genç bir avukat olarak sulh ve asliye mahkemelerinde başlayın; davaları kazandıkça Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne ve Strazburg'a yükselin.</Text>
         <View style={styles.facts}>
           <Text style={styles.fact}><Text style={styles.factB}>{duelCount}</Text> karşılıklı dava</Text>
           <Text style={styles.fact}><Text style={styles.factB}>{soloCount}</Text> tek kişilik dosya</Text>
           <Text style={styles.fact}><Text style={styles.factB}>2</Text> oyuncu ya da bilgisayara karşı</Text>
         </View>
+        <Pressable accessibilityRole="button" onPress={onCareer} style={({ pressed }) => [styles.careerCard, pressed && { opacity: 0.85 }]}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.careerK}>KARİYER · {won}/{total} DAVA KAZANILDI</Text>
+            <Text style={styles.careerRank}>{rankName}</Text>
+          </View>
+          <Text style={styles.careerGo}>{started ? "Devam et ›" : "Başla ›"}</Text>
+        </Pressable>
         <View style={styles.cta}>
-          <Btn label="Karşılıklı duruşma" onPress={onDuel} />
+          <Btn kind="secondary" label="Karşılıklı duruşma" onPress={onDuel} />
           <Btn kind="secondary" label="Tek kişilik dosyalar" onPress={onSolo} />
         </View>
         <Pressable accessibilityRole="button" onPress={onAdmin} style={styles.adminLink}>
@@ -38,7 +45,7 @@ export function TitleScreen({ onDuel, onSolo, onAdmin, duelCount, soloCount }: {
 }
 
 /* ---------- Dosya dolabı ---------- */
-export function CaseListScreen({ mode, cases, onPick, onBack, onSwitch }: { mode: "duel" | "solo"; cases: CaseFile[]; onPick: (c: CaseFile) => void; onBack: () => void; onSwitch: () => void }) {
+export function CaseListScreen({ mode, cases, onPick, onBack, onSwitch, lockedNote }: { mode: "duel" | "solo"; cases: CaseFile[]; onPick: (c: CaseFile) => void; onBack: () => void; onSwitch: () => void; lockedNote?: (c: CaseFile) => string | undefined }) {
   const [res, setRes] = useState<Record<string, SavedResult>>({});
   useEffect(() => { loadResults().then(setRes); }, [mode]);
   const { width } = useWindowDimensions();
@@ -57,8 +64,10 @@ export function CaseListScreen({ mode, cases, onPick, onBack, onSwitch }: { mode
       <View style={styles.folders}>
         {cases.map(c => {
           const r = res[c.id];
+          const lock = lockedNote?.(c);
           return (
-            <Pressable key={c.id} onPress={() => onPick(c)} accessibilityRole="button" style={({ pressed }) => [{ width: `${100 / cols - (cols > 1 ? 2 : 0)}%` as any }, pressed && { transform: [{ translateY: -3 }] }]}>
+            <Pressable key={c.id} onPress={() => onPick(c)} disabled={!!lock} accessibilityRole="button" accessibilityState={{ disabled: !!lock }}
+              style={({ pressed }) => [{ width: `${100 / cols - (cols > 1 ? 2 : 0)}%` as any }, lock && { opacity: 0.5 }, pressed && { transform: [{ translateY: -3 }] }]}>
               <View style={[styles.tab, { backgroundColor: c.color }]}><Text style={styles.tabText}>{c.esas}</Text></View>
               <View style={[styles.folder, { backgroundColor: c.color }]}>
                 <Text style={styles.fArea}>{c.area.toLocaleUpperCase("tr")}</Text>
@@ -68,8 +77,8 @@ export function CaseListScreen({ mode, cases, onPick, onBack, onSwitch }: { mode
                 <View style={styles.fMeta}>
                   <Text style={styles.fRole}>{duel ? `${c.sides.p1.role} ⇄ ${c.sides.p2.role}` : `Rol: ${c.sides.p1.role}`}</Text>
                   {!!c.bench && c.bench.judges > 1 && <Text style={styles.fBench}>Heyet: {c.bench.title || `${c.bench.judges} hâkim`}</Text>}
-                  <View style={[styles.status, r && r.tone === "win" && styles.statusWin, r && r.tone === "lose" && styles.statusLose]}>
-                    <Text style={styles.statusText}>{r ? `Son: ${r.text}` : "Oynanmadı"}</Text>
+                  <View style={[styles.status, !lock && r && r.tone === "win" && styles.statusWin, !lock && r && r.tone === "lose" && styles.statusLose]}>
+                    <Text style={styles.statusText}>{lock ? `🔒 ${lock}` : r ? `Son: ${r.text}` : "Oynanmadı"}</Text>
                   </View>
                 </View>
               </View>
@@ -151,6 +160,10 @@ const styles = StyleSheet.create({
   factB: { fontFamily: F.monoBold, color: C.text },
   adminLink: { alignSelf: "flex-start", paddingVertical: 8, marginTop: 6 },
   adminLinkText: { fontFamily: F.mono, fontSize: 12, letterSpacing: 1, color: C.muted },
+  careerCard: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: C.brass, borderRadius: 10, paddingHorizontal: 18, paddingVertical: 14, marginBottom: 12, maxWidth: 480 },
+  careerK: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.brassInk, opacity: 0.8 },
+  careerRank: { fontFamily: F.display, fontSize: 26, color: C.brassInk },
+  careerGo: { fontFamily: F.bodyBold, fontSize: 17, color: C.brassInk },
   cta: { flexDirection: "row", flexWrap: "wrap", gap: 12 },
   listWrap: { width: "100%", maxWidth: 1080, alignSelf: "center", paddingHorizontal: 16, paddingVertical: 20 },
   listHead: { flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start", gap: 14, marginBottom: 24 },

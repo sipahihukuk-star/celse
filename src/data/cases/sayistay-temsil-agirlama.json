@@ -1,6 +1,7 @@
 {
   "id": "sayistay-temsil-agirlama",
   "mode": "solo",
+  "career": { "level": 3, "order": 9 },
   "title": "Ağırlama Faturaları",
   "area": "Sayıştay · Hesap yargılaması · Temsil, ağırlama ve tören giderleri",
   "court": "Sayıştay 2. Daire",

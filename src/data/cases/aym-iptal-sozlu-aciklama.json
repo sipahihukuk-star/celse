@@ -1,6 +1,7 @@
 {
   "id": "aym-iptal-sozlu-aciklama",
   "mode": "solo",
+  "career": { "level": 4, "order": 4 },
   "title": "Beşte Bir",
   "area": "Anayasa Mahkemesi · İptal davası (sözlü açıklama)",
   "court": "Anayasa Mahkemesi · Genel Kurul",

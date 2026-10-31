@@ -1,6 +1,7 @@
 {
   "id": "gece-aramasi",
   "mode": "solo",
+  "career": { "level": 1, "order": 3 },
   "title": "Gece Araması",
   "area": "Ceza Muhakemesi · Delil yasakları",
   "court": "İzmir 12. Asliye Ceza Mahkemesi",

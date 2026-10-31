@@ -6,12 +6,12 @@ import { Btn, Chip } from "./kit";
 import { saveResult } from "./storage";
 import { C, F, sideColor, sideInk, toneColor } from "./theme";
 
-interface Props { c: CaseFile; game: GameState; onRetry: () => void; onBack: () => void; backLabel?: string }
+interface Props { c: CaseFile; game: GameState; onRetry: () => void; onBack: () => void; backLabel?: string; notice?: string }
 
 const TAIL = " istinaf yolu açık olmak üzere verilen karar açıkça okunup usulen anlatıldı.";
 const cap = (s: string) => { const l = s.toLocaleLowerCase("tr"); return l.charAt(0).toLocaleUpperCase("tr") + l.slice(1); };
 
-export default function VerdictScreen({ c, game, onRetry, onBack, backLabel }: Props) {
+export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, notice }: Props) {
   const v = useMemo(() => verdict(c, game), [c, game]);
   const duel = c.mode === "duel";
   const P = game.players;
@@ -63,6 +63,13 @@ export default function VerdictScreen({ c, game, onRetry, onBack, backLabel }: P
         )}
       </View>
 
+      {!!notice && (
+        <View style={styles.notice} accessibilityRole="alert">
+          <Text style={styles.noticeK}>KARİYER</Text>
+          <Text style={styles.noticeText}>{notice}</Text>
+        </View>
+      )}
+
       <View style={styles.actions}>
         <Btn label="Davayı yeniden oyna" onPress={onRetry} />
         <Btn kind="ghost" label={backLabel || "Dosya dolabına dön"} onPress={onBack} />
@@ -96,6 +103,9 @@ function Meta({ k, v }: { k: string; v: string }) {
 }
 
 const styles = StyleSheet.create({
+  notice: { width: "100%", marginTop: 16, borderWidth: 1, borderColor: C.brass, backgroundColor: "rgba(208,166,76,0.12)", borderRadius: 8, padding: 14, gap: 4 },
+  noticeK: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.brass },
+  noticeText: { fontFamily: F.bodyMed, fontSize: 17, color: C.text },
   wrap: { width: "100%", maxWidth: 800, alignSelf: "center", paddingHorizontal: 16, paddingVertical: 20 },
   karar: { backgroundColor: C.paper, borderRadius: 4, padding: 24 },
   head: { textAlign: "center", fontFamily: F.display, fontSize: 15, color: C.ink, letterSpacing: 1 },

@@ -1,6 +1,7 @@
 {
   "id": "aym-bireysel-tutukluluk",
   "mode": "solo",
+  "career": { "level": 4, "order": 2 },
   "title": "Otuz Gün",
   "area": "Anayasa Mahkemesi · Bireysel başvuru (tutukluluk)",
   "court": "Anayasa Mahkemesi · Birinci Bölüm",

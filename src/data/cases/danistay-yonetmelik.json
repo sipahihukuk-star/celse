@@ -1,6 +1,7 @@
 {
   "id": "danistay-yonetmelik",
   "mode": "solo",
+  "career": { "level": 3, "order": 4 },
   "title": "Kanunsuz Sınır",
   "area": "Danıştay · Yönetmeliğin iptali",
   "court": "Danıştay 10. Daire",

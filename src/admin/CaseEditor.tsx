@@ -1,6 +1,7 @@
 // Dava düzenleyici: sekmeler hâlinde bütün dava alanları, canlı denetim, önizleme ve JSON görünümü.
 import React, { useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
+import { CHAPTERS, levelOf } from "../data/career";
 import { normalizeCase, validateCase } from "../engine/engine";
 import { simulateCase, SimResult } from "../engine/simulate";
 import { CaseFile, CastMember, Choice, EvidenceItem, EvidenceResponse, Look, Outcome, Step } from "../engine/types";
@@ -167,6 +168,19 @@ function GeneralTab({ c, set, isNew }: TabProps & { isNew: boolean }) {
           </View>
         )}
       </Section>
+
+      {c.mode === "solo" && (
+        <Section title="Kariyer" hint={`Oyuncu ilk bölümden başlar; bir bölümün davalarının yüzde 60’ını (en çok 4) kazanınca sonraki bölüm açılır. Bölüm içinde davalar sırayla açılır. Seviye "Otomatik" bırakılırsa mahkemeden çıkarılır: şu an ${CHAPTERS[levelOf({ ...c, career: undefined }) - 1].title}.`}>
+          <Seg label="Bölüm" value={String(c.career?.level ?? 0)}
+            onChange={v => set({ ...c, career: { ...c.career, level: v === "0" ? undefined : Number(v) } })}
+            options={[{ v: "0", label: "Otomatik" }, ...CHAPTERS.map(ch => ({ v: String(ch.level), label: `${ch.level}. ${ch.title}` }))]} />
+          <Row>
+            <Field label="Bölüm içindeki sıra" value={c.career?.order} numeric width={200} hint="Küçük sayı önce oynanır. Boşsa listenin sonuna eklenir."
+              onChange={v => set({ ...c, career: { ...c.career, order: v.trim() ? Math.max(1, parseInt(v) || 1) : undefined } })} />
+          </Row>
+          <Toggle label="Kariyerde gösterme (yalnızca serbest listede oynansın)" value={!!c.career?.off} onChange={off => set({ ...c, career: { ...c.career, off: off || undefined } })} />
+        </Section>
+      )}
     </>
   );
 }

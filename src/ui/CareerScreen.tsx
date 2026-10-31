@@ -1,0 +1,152 @@
+// Kariyer haritası: bölümler aşağıdan yukarıya değil, oyuncunun yolculuğu sırasıyla yukarıdan aşağıya dizilir.
+import React, { useState } from "react";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { CareerCase, CareerChapter, CareerView } from "../data/career";
+import { CaseFile } from "../engine/types";
+import { Btn } from "./kit";
+import { C, F } from "./theme";
+
+export default function CareerScreen({ view, onBack, onPick, onReset }: { view: CareerView; onBack: () => void; onPick: (c: CaseFile) => void; onReset: () => void }) {
+  const pct = view.total ? Math.round((view.won / view.total) * 100) : 0;
+  const [confirm, setConfirm] = useState(false);
+  return (
+    <ScrollView contentContainerStyle={s.wrap}>
+      <View style={s.head}>
+        <Btn kind="ghost" label="‹ Giriş" onPress={onBack} />
+        <View style={{ flex: 1, minWidth: 220 }}>
+          <Text style={s.eyebrow}>KARİYER</Text>
+          <Text style={s.rank}>{view.rank}</Text>
+          <Text style={s.next}>{view.next}</Text>
+        </View>
+        <View style={s.stats}>
+          <Stat k="İtibar" v={String(view.itibar)} />
+          <Stat k="Kazanılan" v={`${view.won}/${view.total}`} />
+        </View>
+      </View>
+      <View style={s.bar} accessibilityRole="progressbar" accessibilityValue={{ min: 0, max: 100, now: pct }}>
+        <View style={[s.barFill, { width: `${pct}%` }]} />
+      </View>
+
+      <View style={{ gap: 18, marginTop: 22 }}>
+        {view.chapters.map((ch, i) => <ChapterCard key={ch.level} ch={ch} no={i + 1} onPick={onPick} />)}
+      </View>
+
+      {confirm ? (
+        <View style={s.confirm}>
+          <Text style={s.confirmText}>Bütün kariyer ilerlemesi silinir ve ilk bölümden başlarsınız.</Text>
+          <View style={{ flexDirection: "row", gap: 10 }}>
+            <Btn kind="ghost" label="Vazgeç" onPress={() => setConfirm(false)} />
+            <Btn label="Evet, sıfırla" onPress={() => { setConfirm(false); onReset(); }} />
+          </View>
+        </View>
+      ) : (
+        <Pressable accessibilityRole="button" onPress={() => setConfirm(true)} style={s.reset}>
+          <Text style={s.resetText}>Kariyeri sıfırla</Text>
+        </Pressable>
+      )}
+    </ScrollView>
+  );
+}
+
+function Stat({ k, v }: { k: string; v: string }) {
+  return (
+    <View style={s.stat}>
+      <Text style={s.statK}>{k}</Text>
+      <Text style={s.statV}>{v}</Text>
+    </View>
+  );
+}
+
+function ChapterCard({ ch, no, onPick }: { ch: CareerChapter; no: number; onPick: (c: CaseFile) => void }) {
+  const soon = !ch.cases.length;
+  const done = ch.open && ch.wins >= ch.need;
+  return (
+    <View style={[s.chapter, !ch.open && s.chapterLocked]}>
+      <View style={s.chHead}>
+        <View style={[s.chNo, ch.open && s.chNoOpen, done && s.chNoDone]}>
+          <Text style={[s.chNoText, ch.open && { color: C.brassInk }]}>{done ? "✓" : no}</Text>
+        </View>
+        <View style={{ flex: 1, minWidth: 0 }}>
+          <Text style={s.chTitle}>{ch.title}</Text>
+          <Text style={s.chCourts}>{ch.courts}</Text>
+          <View style={[s.badge, ch.open ? s.badgeOpen : s.badgeLocked]}>
+            <Text style={s.badgeText}>{soon ? "YAKINDA" : ch.open ? `${ch.wins}/${ch.need} GALİBİYET` : "KİLİTLİ"}</Text>
+          </View>
+        </View>
+      </View>
+      <Text style={s.chBlurb}>{ch.blurb}</Text>
+      {!ch.open && !!ch.why && !soon && <Text style={s.chWhy}>🔒 {ch.why}.</Text>}
+      {soon && <Text style={s.chWhy}>Bu basamağın davaları hazırlanıyor; şimdilik bir sonraki bölüme geçilir.</Text>}
+      {ch.cases.length > 0 && (
+        <View style={s.cases}>
+          {ch.cases.map((x, i) => <CaseRow key={x.c.id} x={x} i={i} onPick={onPick} />)}
+        </View>
+      )}
+    </View>
+  );
+}
+
+function CaseRow({ x, i, onPick }: { x: CareerCase; i: number; onPick: (c: CaseFile) => void }) {
+  const open = x.lock === "open";
+  const st = !x.rec?.played ? (open ? "Yeni" : "") : x.rec.won ? `Kazandınız · ${x.rec.best}` : "Kaybettiniz";
+  return (
+    <Pressable accessibilityRole="button" accessibilityState={{ disabled: !open }} disabled={!open} onPress={() => onPick(x.c)}
+      style={({ pressed }) => [s.row, !open && { opacity: 0.45 }, pressed && { backgroundColor: C.panel2 }]}>
+      <View style={[s.dot, { backgroundColor: x.c.color }]}><Text style={s.dotText}>{open ? i + 1 : "🔒"}</Text></View>
+      <View style={{ flex: 1, minWidth: 0 }}>
+        <Text style={s.rowTitle} numberOfLines={1}>{x.c.title}</Text>
+        <Text style={s.rowSub} numberOfLines={1}>{x.c.court} · {x.c.area}</Text>
+        {!open && !!x.why && <Text style={s.rowWhy}>{x.why}</Text>}
+      </View>
+      {!!st && (
+        <View style={[s.status, x.rec?.won && s.statusWin, !!x.rec?.played && !x.rec.won && s.statusLose]}>
+          <Text style={s.statusText}>{st}</Text>
+        </View>
+      )}
+    </Pressable>
+  );
+}
+
+const s = StyleSheet.create({
+  wrap: { width: "100%", maxWidth: 880, alignSelf: "center", paddingHorizontal: 16, paddingVertical: 20 },
+  head: { flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start", gap: 14 },
+  eyebrow: { fontFamily: F.mono, fontSize: 12, letterSpacing: 2.5, color: C.muted },
+  rank: { fontFamily: F.display, fontSize: 34, color: C.brass },
+  next: { fontFamily: F.body, fontSize: 16, color: C.textSoft, marginTop: 2 },
+  stats: { flexDirection: "row", gap: 10 },
+  stat: { borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 8, paddingHorizontal: 14, paddingVertical: 8, minWidth: 92 },
+  statK: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1, color: C.muted, textTransform: "uppercase" },
+  statV: { fontFamily: F.monoBold, fontSize: 20, color: C.text },
+  bar: { height: 6, borderRadius: 3, backgroundColor: C.panel2, marginTop: 16, overflow: "hidden" },
+  barFill: { height: 6, backgroundColor: C.brass },
+  chapter: { borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 12, padding: 16, gap: 8 },
+  chapterLocked: { backgroundColor: "rgba(20,26,32,0.55)" },
+  chHead: { flexDirection: "row", alignItems: "flex-start", gap: 12 },
+  chNo: { width: 36, height: 36, borderRadius: 18, borderWidth: 1, borderColor: C.brassDim, alignItems: "center", justifyContent: "center" },
+  chNoOpen: { backgroundColor: C.brass, borderColor: C.brass },
+  chNoDone: { backgroundColor: C.good, borderColor: C.good },
+  chNoText: { fontFamily: F.monoBold, fontSize: 15, color: C.muted },
+  chTitle: { fontFamily: F.display, fontSize: 22, color: C.text },
+  chCourts: { fontFamily: F.body, fontSize: 14, color: C.muted },
+  badge: { alignSelf: "flex-start", marginTop: 6, borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4, borderWidth: 1 },
+  badgeOpen: { borderColor: C.brassDim, backgroundColor: "rgba(208,166,76,0.12)" },
+  badgeLocked: { borderColor: C.line },
+  badgeText: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1, color: C.textSoft },
+  chBlurb: { fontFamily: F.body, fontSize: 15, color: C.textSoft },
+  chWhy: { fontFamily: F.bodyMed, fontSize: 14, color: C.brass },
+  cases: { marginTop: 4, borderTopWidth: 1, borderTopColor: C.line },
+  row: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 10, paddingHorizontal: 4, borderBottomWidth: 1, borderBottomColor: C.line },
+  dot: { width: 30, height: 30, borderRadius: 6, alignItems: "center", justifyContent: "center" },
+  dotText: { fontFamily: F.monoBold, fontSize: 12, color: "#f3efe4" },
+  rowTitle: { fontFamily: F.displayMed, fontSize: 18, color: C.text },
+  rowSub: { fontFamily: F.body, fontSize: 13, color: C.muted },
+  rowWhy: { fontFamily: F.body, fontSize: 13, color: C.brassDim },
+  status: { borderWidth: 1, borderColor: C.line, borderRadius: 999, paddingHorizontal: 9, paddingVertical: 3 },
+  statusWin: { backgroundColor: "rgba(79,174,124,0.2)", borderColor: "rgba(79,174,124,0.6)" },
+  statusLose: { backgroundColor: "rgba(214,90,69,0.2)", borderColor: "rgba(214,90,69,0.6)" },
+  statusText: { fontFamily: F.mono, fontSize: 11, color: C.text },
+  confirm: { alignSelf: "center", alignItems: "center", gap: 10, marginTop: 26, padding: 12 },
+  confirmText: { fontFamily: F.body, fontSize: 15, color: C.textSoft, textAlign: "center" },
+  reset: { alignSelf: "center", marginTop: 26, padding: 8 },
+  resetText: { fontFamily: F.mono, fontSize: 12, color: C.muted, letterSpacing: 1 }
+});

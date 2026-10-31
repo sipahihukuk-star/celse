@@ -1,4 +1,5 @@
 // Yönetim paneli: giriş, dava listesi, yeni dava sihirbazı, içe aktarma ve düzenleyici.
+import { levelOf } from "../data/career";
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { CASES } from "../data/cases";
@@ -136,7 +137,7 @@ function AdminHome({ onExit, onPreview }: Props) {
                   {errs > 0 && <Chip label={`${errs} HATA`} color={C.bad} />}
                   {e.overridden && <Chip label="DÜZENLENMİŞ" color={C.p2} />}
                 </View>
-                <Text style={st.rowMeta} numberOfLines={1}>{e.c.court} · {e.c.area} · {e.c.steps.length} adım{e.c.bench && e.c.bench.judges > 1 ? ` · ${e.c.bench.judges} hâkim` : ""}</Text>
+                <Text style={st.rowMeta} numberOfLines={1}>{e.c.court} · {e.c.area} · {e.c.steps.length} adım{e.c.bench && e.c.bench.judges > 1 ? ` · ${e.c.bench.judges} hâkim` : ""}{e.c.mode === "solo" ? (e.c.career?.off ? " · kariyer dışı" : ` · Kariyer ${levelOf(e.c)}${e.c.career?.order ? "." + e.c.career.order : ""}`) : ""}</Text>
                 {e.updatedAt && <Text style={st.rowDate}>Son değişiklik: {new Date(e.updatedAt).toLocaleString("tr-TR")}</Text>}
               </View>
               <View style={st.rowActions}>

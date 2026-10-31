@@ -1,6 +1,7 @@
 {
   "id": "sozlu-fesih",
   "mode": "solo",
+  "career": { "level": 1, "order": 1 },
   "title": "Sözlü Fesih",
   "area": "İş Hukuku · İşe iade",
   "court": "İzmir 4. İş Mahkemesi",

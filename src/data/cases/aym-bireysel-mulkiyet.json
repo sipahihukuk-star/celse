@@ -1,6 +1,7 @@
 {
   "id": "aym-bireysel-mulkiyet",
   "mode": "solo",
+  "career": { "level": 4, "order": 1 },
   "title": "Su Deposu",
   "area": "Anayasa Mahkemesi · Bireysel başvuru (mülkiyet hakkı)",
   "court": "Anayasa Mahkemesi · İkinci Bölüm",

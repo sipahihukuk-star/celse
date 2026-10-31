@@ -1,6 +1,7 @@
 {
   "id": "danistay-ced-boru-hatti",
   "mode": "solo",
+  "career": { "level": 3, "order": 8 },
   "title": "Vadideki Kaynak",
   "area": "Danıştay · ÇED olumlu kararı",
   "court": "Danıştay 14. Daire",

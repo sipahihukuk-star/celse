@@ -1,6 +1,7 @@
 {
   "id": "aym-bireysel-gerekce",
   "mode": "solo",
+  "career": { "level": 4, "order": 3 },
   "title": "Cevapsız Savunma",
   "area": "Anayasa Mahkemesi · Bireysel başvuru (gerekçeli karar hakkı)",
   "court": "Anayasa Mahkemesi · Birinci Bölüm",
