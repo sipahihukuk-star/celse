@@ -149,6 +149,8 @@ export interface CaseFile {
   career?: { level?: number; order?: number; off?: boolean };
   /** Zorluk: basit (maddi hukuk ağırlıklı), orta (bir usul tuzağı), zor (usul tuzakları merkezde). */
   difficulty?: "basit" | "orta" | "zor";
+  /** İcra takibi gibi aşamalı (süreç takipli) dosya */
+  process?: boolean;
   bench?: { judges: number; title?: string };
   /** salonun görünümü */
   room?: "yerel" | "yuksek" | "uluslararasi";

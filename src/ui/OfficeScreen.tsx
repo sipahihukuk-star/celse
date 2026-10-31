@@ -5,6 +5,7 @@ import { useAccount } from "../data/account";
 import { AVATARS, Avatar, CITIES, closeOffice, monthlyCost, Office, openOffice, SECRETARY, START_CASH, tl, updateOffice, useOffice } from "../data/office";
 import { Btn } from "./kit";
 import { PHOTOS } from "./photos";
+import { dateOf, personalCosts } from "../data/life";
 import { FEMALE, firstName } from "./people";
 import { C, F } from "./theme";
 
@@ -89,18 +90,19 @@ function Dashboard({ o, onBack, onCareer }: { o: Office; onBack: () => void; onC
   if (edit) return <Setup initial={o} onBack={() => setEdit(false)} onDone={() => setEdit(false)} />;
   const city = CITIES.find(c => c.id === o.city) || CITIES[0];
   const cost = monthlyCost(o);
-  const runway = cost.total ? Math.floor(o.cash / cost.total) : 0;
+  const allCost = cost.total + (o.life ? personalCosts(o.life, o.month + 1).total : 0);
+  const runway = allCost ? Math.floor(o.cash / allCost) : 0;
   return (
     <ScrollView contentContainerStyle={s.wrap}>
       <View style={s.headRow}>
         <Btn kind="ghost" label="‹ Giriş" onPress={onBack} />
         <View style={{ flex: 1 }} />
-        <Btn label="Kariyere git ›" onPress={onCareer} />
+        <Btn label="Büro masası ›" onPress={onCareer} />
       </View>
       <View style={s.idRow}>
         <AvatarFace k={o.avatar} size={84} />
         <View style={{ flex: 1, minWidth: 200 }}>
-          <Text style={s.eyebrow}>{city.name.toLocaleUpperCase("tr")} · {o.month}. AY</Text>
+          <Text style={s.eyebrow}>{city.name.toLocaleUpperCase("tr")} · {dateOf(o.month + 1).toLocaleUpperCase("tr")}</Text>
           <Text style={s.title}>{o.name}</Text>
           <Pressable onPress={() => setEdit(true)} accessibilityRole="button"><Text style={s.link}>Karakter, ad ya da şehir değiştir ›</Text></Pressable>
         </View>
@@ -113,7 +115,7 @@ function Dashboard({ o, onBack, onCareer }: { o: Office; onBack: () => void; onC
           <Text style={s.small}>{o.cash < 0 ? "Kasa ekside: kirayı ödemek için dava almalısınız." : runway < 2 ? "Kasa bir aydan az gidere yetiyor." : `Davasız ${runway} ay idare eder.`}</Text>
         </View>
         <View style={[s.card, { flexBasis: 280 }]}>
-          <Text style={s.k}>Aylık giderler · {tl(cost.total)}</Text>
+          <Text style={s.k}>Büro giderleri · {tl(cost.total)}/ay</Text>
           {cost.items.map(i => (
             <View key={i.text} style={s.line}><Text style={s.lineT}>{i.text}</Text><Text style={s.lineV}>{tl(i.amount)}</Text></View>
           ))}
@@ -123,6 +125,20 @@ function Dashboard({ o, onBack, onCareer }: { o: Office; onBack: () => void; onC
           </Pressable>
         </View>
       </View>
+
+      {o.life && (() => {
+        const L = o.life!; const pc = personalCosts(L, o.month + 1);
+        return (
+          <View style={s.card}>
+            <Text style={s.k}>Hayatınız · {dateOf(o.month + 1)} · kişisel gider {tl(pc.total)}/ay</Text>
+            <Text style={s.small}>{[L.married ? "Evli" : L.divorced ? "Boşanmış" : "Bekâr", L.children.length ? `${L.children.length} çocuk` : "", L.owner ? "Ev sahibi" : "Kirada", L.car && L.car !== "yok" ? "Arabalı" : "Arabasız", L.stajyer ? "Stajyer var" : "", L.katip ? "Katip var" : ""].filter(Boolean).join(" · ")}</Text>
+            {pc.items.map(i => (
+              <View key={i.text} style={s.line}><Text style={s.lineT}>{i.text}</Text><Text style={s.lineV}>{tl(i.amount)}</Text></View>
+            ))}
+            <Text style={s.small}>Zamanla hayatınızda olaylar çıkar (araba, evlilik, çocuk, ev, eleman…). Kararları büro masasında verirsiniz.</Text>
+          </View>
+        );
+      })()}
 
       <View style={s.card}>
         <Text style={s.k}>Davalar büroya nasıl gelir?</Text>

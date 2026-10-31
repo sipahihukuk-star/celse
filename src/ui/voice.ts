@@ -75,19 +75,38 @@ let player: AudioPlayer | null = null;
 let token = 0;
 let cloudDown = false;
 
-async function cloudUrl(text: string, voice: string): Promise<string | null> {
-  if (!serverReady() || cloudDown) return null;
-  try {
-    const auth = (await getAccessToken()) || SUPABASE_ANON_KEY;
-    const r = await fetch(`${SUPABASE_URL}/functions/v1/${TTS_FUNCTION}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${auth}` },
-      body: JSON.stringify({ text, voice })
-    });
-    if (!r.ok) { if (r.status === 404 || r.status === 501) cloudDown = true; return null; }
-    const j = await r.json();
-    return typeof j.url === "string" ? j.url : null;
-  } catch { return null; }
+const urlCache = new Map<string, Promise<string | null>>();
+
+/** Bulut ses dosyasının adresi; aynı (ses, metin) için istek bir kez yapılır ve sonucu saklanır. */
+function cloudUrl(text: string, voice: string): Promise<string | null> {
+  if (!serverReady() || cloudDown) return Promise.resolve(null);
+  const key = voice + "|" + text;
+  const hit = urlCache.get(key);
+  if (hit) return hit;
+  const p = (async () => {
+    try {
+      const auth = (await getAccessToken()) || SUPABASE_ANON_KEY;
+      const r = await fetch(`${SUPABASE_URL}/functions/v1/${TTS_FUNCTION}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${auth}` },
+        body: JSON.stringify({ text, voice })
+      });
+      if (!r.ok) { if (r.status === 404 || r.status === 501) cloudDown = true; urlCache.delete(key); return null; }
+      const j = await r.json();
+      const url = typeof j.url === "string" ? j.url : null;
+      // Dosyayı da önceden indir ki çalarken beklenmesin.
+      if (url) { try { fetch(url).catch(() => {}); } catch { /* yok say */ } }
+      return url;
+    } catch { urlCache.delete(key); return null; }
+  })();
+  urlCache.set(key, p);
+  return p;
+}
+
+/** Sıradaki satırları arka planda hazırlar (oyuncu okurken seslendirilir, geçince beklemeden çalar). */
+export function prefetchLines(lines: { text: string; speaker: Speaker }[]) {
+  if (!enabled) return;
+  for (const l of lines) if (l.text) cloudUrl(expandForSpeech(l.text), cloudVoice(l.speaker));
 }
 
 function stopAll() {

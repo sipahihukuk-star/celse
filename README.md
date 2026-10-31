@@ -92,7 +92,7 @@ Oyuncu genç avukat olarak tek hâkimli yerel mahkemelerde başlar ve kazandık�
 
 ## Seslendirme
 
-Oyun ekranındaki 🔊 düğmesiyle açılır. Kod: `src/ui/voice.ts`.
+Oyun ekranındaki 🔊 düğmesiyle açılır. Kod: `src/ui/voice.ts`. Sıradaki üç satır, oyuncu okurken arka planda seslendirilip indirilir.
 
 - **Bulut sesleri:** Supabase'de `seslendir` fonksiyonu `GOOGLE_TTS_KEY` gizli anahtarıyla kuruluysa satırlar Google Cloud Text-to-Speech ile seslendirilir. Her (ses, metin) çifti bir kez üretilip `ses` deposunda saklanır; sonraki oynayışlarda hazır dosya çalınır. Karakterlere kadın/erkek ses listesinden sabit bir ses atanır (`CLOUD_VOICES`, `src/config.ts`); oyuncunun sesi bütün davalarda aynıdır.
 - **Cihaz sesi:** Sunucu yoksa `expo-speech`. Cihazdaki Türkçe seslerden cinsiyete uygun olan seçilir, her karaktere ayrı ton verilir.
@@ -100,15 +100,23 @@ Oyun ekranındaki 🔊 düğmesiyle açılır. Kod: `src/ui/voice.ts`.
 
 ## Ağız hareketi
 
-Gerçekçi görünümde konuşan karakterin ağzı açılıp kapanır. Her fotoğraf için yarı açık ve açık ağız yamaları `tools/mouth.py` ile üretilir (dlib 68 nokta yüz işaretleri; çene aşağı iner, dudak arası koyulaşır): `assets/gercek/agiz/`, konumlar `src/ui/mouths.ts`. Yeni karakter fotoğrafı eklenince betik yeniden çalıştırılır.
+Gerçekçi görünümde konuşan karakterin ağzı açılıp kapanır (kapalı → açık → yuvarlak, hece ritminde). Her karakter için Higgsfield'da (gpt_image_2_5) aynı fotoğrafın "konuşurken" iki düzenlemesi üretildi (`tools/mouth-src/<anahtar>-a.jpg` açık, `-o.jpg` yuvarlak); `tools/mouth2.py` yalnızca ağız-çene bölgesini yüz işaretleriyle (dlib 68 nokta) asıl kesit fotoğrafa hizalar, rengini eşitler ve yumuşak kenarlı yama olarak `assets/gercek/agiz/` altına yazar; konumlar `src/ui/mouths.ts`. Yeni karakter eklenince bu iki düzenleme üretilip betik yeniden çalıştırılır.
 
 ## Fon müziği
 
 Giriş ekranında "Fon müziği" ile açılıp kapanır (varsayılan kapalı). Sakin bir piyano döngüsüdür (`tools/muzik.py` ile üretilir, `assets/muzik/fon.mp3`); satır seslendirilirken kısılır. Kod: `src/ui/music.ts`.
 
-## Büro
+## Büro masası (kariyer)
 
-Kariyere başlamadan önce oyuncu karakterini (7 avukat fotoğrafı), büronun adını ve şehrini (16 il) seçer. 150.000 TL sermayeyle başlar; her dava bir ay sürer: ücret kasaya girer, ay sonunda kira (şehre göre), büro giderleri, baro aidatı ve mali müşavir düşer. İsteğe bağlı sekreter müvekkil davalarında ücreti %10 artırır. Davalar üç yoldan gelir: müvekkil (kazanınca ikna puanına göre prim, kaybedince peşin kısım), CMK görevlendirmesi (sanık müdafiliği, sabit ücret) ve adli yardım (sabit ücret). Tutarlar oyun içi yaklaşık değerlerdir. Kod: `src/data/office.ts`, `src/ui/OfficeScreen.tsx`.
+Kariyer bir büro yönetimidir. Oyuncu karakterini (7 avukat fotoğrafı), büronun adını ve şehrini (16 il) seçer, 150.000 TL sermayeyle başlar. Kod: `src/data/office.ts`, `src/data/flow.ts`, `src/data/life.ts`, `src/ui/DeskScreen.tsx`, `src/ui/OfficeScreen.tsx`.
+
+- **Gelen dosyalar:** Her ay büroya üç dosya teklif edilir (stajyer ve katip her biri bir fazla). Kabul edilen dosya masaya konur (en çok 3); geri çevrilen altı ay gelmez, bekletilen teklif bir ay sonra düşer. Duruşması biten dosya masadan kalkar, ücreti kasaya girer, ay kapanır.
+- **Branşlar:** Borçlar ve Kira, Ticaret, İcra ve İflas, İş, Ceza, Aile ve Miras, İdare ve Vergi, Anayasa ve İnsan Hakları (`src/data/branches.ts`, davanın `area` önekinden). Bir branş, o branştan ilk dosya gelince açılır. Kazanılan her dosya o branştan gelme ağırlığını artırır, kaybedilen azaltır. Oyuncu branşlara odaklanabilir; o zaman yalnız onlardan dosya gelir. Zorluk zamanla artar: ilk aylarda basit dosyalar ağırlıklıdır.
+- **Ücret:** Müvekkil dosyasında basamağa ve şehre göre vekâlet ücreti; kazanınca ikna puanına göre prim, kaybedince peşin kısım. CMK görevlendirmesi ve adli yardım sabit ücretlidir. Her ay ayrıca rutin büro işleri geliri vardır (itibar, yani kazanılan dava sayısı, ve çalışanlarla artar).
+- **Giderler:** Büro (kira, ofis, baro aidatı, mali müşavir, sekreter, stajyer, katip) ve kişisel (ev kirası, geçim, ulaşım ya da araba, çocuklar, krediler, nafaka). Kişisel gider en az 60.000 TL/ay.
+- **Hayat olayları:** Ay sonlarında koşulu tutan bir olay çıkar ve masada karar beklenir: araba, stajyer, evlilik, çocuk, yıllık kira artışı (TBK m.344), katip, konut kredisi, kasa ekside eleman çıkarma ya da borçlanma, evde gerilim ve boşanma, araba arızası. Seçimlerin tek seferlik ve aylık etkisi vardır; takvim Ocak 2027'de başlar.
+- **Kariyer haritası:** Bölümler (yerelden uluslararasına) ve unvan aynen sürer; bir bölümdeki dosyalar ancak bölüm açılınca teklif edilir. Haritadan ya da serbest listeden oynanan davalar alıştırmadır, kasaya dokunmaz.
+- Tutarlar oyun içi yaklaşık değerlerdir.
 
 ## Serbest cevap (yazılı / sesli)
 

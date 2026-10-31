@@ -166,10 +166,11 @@ export function buildCareer(solo: CaseFile[], progress: Progress, premium = true
     const cases: CareerCase[] = list.map(c => {
       const rec = progress[c.id];
       if (rec?.won) { itibar += rec.best; wonAll++; }
-      const ok = open && prevPlayed;
+      // Dosya akışında davalar sırayla değil, büroya geldikçe açılır: açık bölümdeki her dava oynanabilir.
+      const ok = open;
       prevPlayed = !!rec?.played;
       if (!premium && seq++ >= freeCount) return { c, rec, lock: "premium", why: "Abonelikle açılır" };
-      return { c, rec, lock: ok ? "open" : "locked", why: ok ? undefined : open ? "Önceki davayı oynayın" : why };
+      return { c, rec, lock: ok ? "open" : "locked", why: ok ? undefined : why };
     });
     if (list.length) {
       if (open) {

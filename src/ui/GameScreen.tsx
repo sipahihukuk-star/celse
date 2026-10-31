@@ -9,7 +9,7 @@ import Stage from "./Stage";
 import { useViewMode } from "./viewMode";
 import { C, F, sideColor, toneColor } from "./theme";
 import { LETTERS, useCourt } from "./useCourt";
-import { Speaker, speakLine, stopSpeaking, useSpeaking, useVoiceEnabled } from "./voice";
+import { prefetchLines, Speaker, speakLine, stopSpeaking, useSpeaking, useVoiceEnabled } from "./voice";
 import FreeAnswer from "./FreeAnswer";
 
 interface Props { c: CaseFile; players: Record<Side, Player>; onExit: () => void; onFinish: (g: GameState) => void }
@@ -79,6 +79,11 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
   const faces = useMemo(() => cast(c, office?.avatar), [c.id, office?.avatar]);
   const speaker = (who: string): Speaker => who === "narr" ? { id: "narr", role: "narr", female: false }
     : { id: who === "p1" && !duel ? `oyuncu:${faces.p1}` : `${c.id}:${who}:${faces[who] || ""}`, role: who, female: (faces[who] || "").includes("kadin") };
+  // Sıradaki üç satırı önceden seslendir.
+  useEffect(() => {
+    if (!voiceOn || phase.k !== "lines") return;
+    prefetchLines(phase.lines.slice(phase.i + 1, phase.i + 4).map(l => ({ text: l.text, speaker: speaker(l.who) })));
+  }, [phase, voiceOn]);
   useEffect(() => {
     if (!voiceOn) return;
     if (phase.k === "lines" && line) speakLine(line.text, speaker(line.who));

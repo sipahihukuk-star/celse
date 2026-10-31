@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { CaseFile } from "../engine/types";
 import { currentAccount, onAccountChange } from "./account";
 import { levelOf } from "./career";
+import { branchOf } from "./branches";
+import { ageLife, Choice, dueEvent, EVENTS, Life, newLife, personalCosts, staffCosts } from "./life";
 
 export interface City { id: string; name: string; rent: number; fee: number; note: string }
 /** rent: aylık büro kirası (TL) · fee: vekâlet ücreti çarpanı (büyük şehirde ücret ve iş hacmi yüksek, kira da yüksek) */
@@ -42,6 +44,19 @@ export interface Office {
   month: number;
   secretary: boolean;
   ledger: Ledger[];
+  /** özel hayat ve büro çalışanları (eski kayıtlarda yok; ilk okumada oluşturulur) */
+  life?: Life;
+  /** bu ay cevaplanması gereken hayat olayı */
+  pendingEvent?: string;
+  /** büronun kazandığı dava sayısı (itibar: rutin işleri artırır) */
+  wins?: number;
+}
+
+/** Duruşmaya çıkmayan rutin işler (danışmanlık, ihtarname, sözleşme, icra takipleri): itibar ve çalışanlarla artar. */
+export function routineIncome(o: Office) {
+  const city = CITIES.find(c => c.id === o.city) || CITIES[0];
+  const base = 25000 + 4000 * Math.min(o.wins || 0, 20) + (o.life?.stajyer ? 12000 : 0) + (o.life?.katip ? 18000 : 0);
+  return Math.round((base * city.fee) / 500) * 500;
 }
 
 export const START_CASH = 150000;
@@ -57,6 +72,7 @@ export function monthlyCost(o: Office) {
     { text: "Mali müşavir", amount: FIXED.muhasebe }
   ];
   if (o.secretary) items.push({ text: "Sekreter maaşı", amount: SECRETARY });
+  if (o.life) items.push(...staffCosts(o.life));
   return { items, total: items.reduce((n, i) => n + i.amount, 0) };
 }
 
@@ -79,10 +95,11 @@ export const SOURCE_LABEL: Record<Source, string> = { muvekkil: "Müvekkil", cmk
 export function feeFor(c: CaseFile, o: Office, won: boolean, score: number) {
   const src = sourceOf(c);
   const city = CITIES.find(x => x.id === o.city) || CITIES[0];
-  if (src === "cmk") return { amount: 7500, text: "CMK ücreti (baro aracılığıyla, sonuçtan bağımsız)" };
-  if (src === "adli") return { amount: 9000, text: "Adli yardım ücreti (baro aracılığıyla, sonuçtan bağımsız)" };
-  const base = [0, 40000, 85000, 150000, 220000, 300000][levelOf(c)] || 40000;
-  const full = Math.round((base * city.fee * (o.secretary ? 1.1 : 1)) / 500) * 500;
+  if (src === "cmk") return { amount: 12000, text: "CMK ücreti (baro aracılığıyla, sonuçtan bağımsız)" };
+  if (src === "adli") return { amount: 14000, text: "Adli yardım ücreti (baro aracılığıyla, sonuçtan bağımsız)" };
+  const base = [0, 60000, 110000, 180000, 260000, 350000][levelOf(c)] || 60000;
+  const katip = o.life?.katip && branchOf(c) === "icra" ? 1.15 : 1;
+  const full = Math.round((base * city.fee * (o.secretary ? 1.1 : 1) * katip) / 500) * 500;
   if (won) {
     const bonus = Math.round((full * Math.max(0, score - 60)) / 100 / 500) * 500;
     return { amount: full + bonus, text: bonus ? `Vekâlet ücreti ve başarı primi (ikna ${score})` : "Vekâlet ücreti" };
@@ -98,7 +115,13 @@ const emit = () => listeners.forEach(f => f());
 onAccountChange(emit);
 
 export async function loadOffice(): Promise<Office | null> {
-  try { const v = await AsyncStorage.getItem(keyFor()); return v ? JSON.parse(v) : null; } catch { return null; }
+  try {
+    const v = await AsyncStorage.getItem(keyFor());
+    if (!v) return null;
+    const o: Office = JSON.parse(v);
+    if (!o.life) o.life = newLife(o.city);
+    return o;
+  } catch { return null; }
 }
 async function save(o: Office | null) {
   try { if (o) await AsyncStorage.setItem(keyFor(), JSON.stringify(o)); else await AsyncStorage.removeItem(keyFor()); } catch { /* yok say */ }
@@ -106,26 +129,66 @@ async function save(o: Office | null) {
 }
 
 export async function openOffice(name: string, city: string, avatar: Avatar) {
-  await save({ name, city, avatar, cash: START_CASH, month: 0, secretary: false, ledger: [{ ay: 0, text: "Kuruluş sermayesi", amount: START_CASH }] });
+  await save({ name, city, avatar, cash: START_CASH, month: 0, secretary: false, life: newLife(city), ledger: [{ ay: 0, text: "Kuruluş sermayesi", amount: START_CASH }] });
 }
 export async function updateOffice(patch: Partial<Office>) {
   const o = await loadOffice(); if (o) await save({ ...o, ...patch });
 }
 export async function closeOffice() { await save(null); }
 
-/** Dava bitince: ücret kasaya girer, bir ay geçer, ay sonu giderleri düşülür. Ekranda gösterilecek özet döner. */
+/** Ayın kapanışı: gelirler kasaya girer, büro ve kişisel giderler düşülür, hayat ilerler ve varsa bir olay çıkar. */
+export async function closeMonth(income: { text: string; amount: number }[], casesThisMonth: number) {
+  const o = await loadOffice();
+  if (!o) return null;
+  const life = o.life || newLife(o.city);
+  const month = o.month + 1;
+  const office = monthlyCost(o);
+  const personal = personalCosts(life, month);
+  income = [...income, { text: "Rutin büro işleri (danışmanlık, ihtarname, sözleşme)", amount: routineIncome(o) }];
+  const inc = income.reduce((n, i) => n + i.amount, 0);
+  const cash = o.cash + inc - office.total - personal.total;
+  const ledger = [...o.ledger,
+    ...income.map(i => ({ ay: month, ...i })),
+    { ay: month, text: "Büro giderleri", amount: -office.total },
+    { ay: month, text: "Kişisel giderler", amount: -personal.total }].slice(-80);
+  const aged = ageLife(life, cash, casesThisMonth);
+  const ev = o.pendingEvent ? null : dueEvent({ life: aged, month, cash, casesThisYear: 0 });
+  await save({ ...o, cash, month, ledger, life: aged, pendingEvent: o.pendingEvent || ev?.id });
+  return { income: inc, office: office.total, personal: personal.total, cash, month, event: ev?.title };
+}
+
+/** Dava bitince: ücret kasaya girer ve ay kapanır. */
 export async function settleCase(c: CaseFile, won: boolean, score: number) {
   const o = await loadOffice();
   if (!o) return null;
   const fee = feeFor(c, o, won, score);
-  const cost = monthlyCost(o);
-  const month = o.month + 1;
-  const ledger = [...o.ledger,
-    { ay: month, text: `${c.title}: ${fee.text}`, amount: fee.amount },
-    { ay: month, text: "Aylık giderler", amount: -cost.total }].slice(-60);
-  const cash = o.cash + fee.amount - cost.total;
-  await save({ ...o, cash, month, ledger });
-  return { fee, cost: cost.total, cash, month, source: sourceOf(c) };
+  if (won) await save({ ...o, wins: (o.wins || 0) + 1 });
+  const r = await closeMonth([{ text: `${c.title}: ${fee.text}`, amount: fee.amount }], 1);
+  return r && { ...r, fee, source: sourceOf(c) };
+}
+
+/** Bekleyen hayat olayının seçenekleri (o anki duruma göre). */
+export function eventChoices(o: Office): { title: string; text: string; choices: (Choice & { disabled?: boolean })[] } | null {
+  if (!o.pendingEvent || !o.life) return null;
+  const e = EVENTS.find(x => x.id === o.pendingEvent);
+  if (!e) return null;
+  const ctx = { life: o.life, month: o.month, cash: o.cash, casesThisYear: 0 };
+  return { title: e.title, text: e.text(ctx), choices: e.choices(ctx).map(ch => ({ ...ch, disabled: !!ch.needCash && o.cash < ch.needCash })) };
+}
+
+export async function resolveEvent(idx: number) {
+  const o = await loadOffice();
+  if (!o || !o.pendingEvent || !o.life) return;
+  const e = EVENTS.find(x => x.id === o.pendingEvent);
+  if (!e) { await save({ ...o, pendingEvent: undefined }); return; }
+  const ctx = { life: o.life, month: o.month, cash: o.cash, casesThisYear: 0 };
+  const ch = e.choices(ctx)[idx];
+  if (!ch || (ch.needCash && o.cash < ch.needCash)) return;
+  let life = ch.apply ? ch.apply(o.life, o.month) : o.life;
+  life = { ...life, done: life.done.includes(e.id) ? life.done : [...life.done, e.id],
+    snooze: { ...life.snooze, [e.id]: o.month + (ch.snooze || (e.repeat ? 1 : 0)) } };
+  const ledger = ch.once ? [...o.ledger, { ay: o.month, text: `${e.title}: ${ch.label}`, amount: ch.once }].slice(-80) : o.ledger;
+  await save({ ...o, life, cash: o.cash + (ch.once || 0), ledger, pendingEvent: undefined });
 }
 
 export function useOffice(): { office: Office | null; ready: boolean } {

@@ -9,6 +9,7 @@ export const PHOTOS = {
   "av-kadin-basortulu": { src: require("../../assets/gercek/av-kadin-basortulu.webp"), w: 358, h: 520 },
   "bg-aym": { src: require("../../assets/gercek/bg-aym.jpg"), w: 1280, h: 716 },
   "bg-buro": { src: require("../../assets/gercek/bg-buro.jpg"), w: 1280, h: 716 },
+  "bg-gorusme": { src: require("../../assets/gercek/bg-gorusme.jpg"), w: 1280, h: 716 },
   "bg-uluslararasi": { src: require("../../assets/gercek/bg-uluslararasi.jpg"), w: 1280, h: 716 },
   "bg-yerel": { src: require("../../assets/gercek/bg-yerel.jpg"), w: 1280, h: 716 },
   "bg-yuksek": { src: require("../../assets/gercek/bg-yuksek.jpg"), w: 1280, h: 716 },

@@ -41,6 +41,9 @@ function roomOf(c: CaseFile) {
   return ROOM.yerel;
 }
 
+/** Görüşme odası (bg-gorusme, 1280×716): masanın uzak kenarı ve müvekkilin yeri. */
+const DESK = { edge: 467, clientX: 632, clientBottom: 520, clientH: 430 };
+
 interface Fig { key: string; photo: PhotoKey; flip?: boolean; x: number; bottom: number; h: number; z: number; front?: boolean }
 
 /** Davanın kadrosuna fotoğraf atar. Aynı dava her açılışta aynı kişileri gösterir. */
@@ -85,9 +88,10 @@ function useMouthFrame(on: boolean) {
   useEffect(() => {
     if (!on) { setF(0); return; }
     let alive = true, t: ReturnType<typeof setTimeout>;
-    const seq = [1, 2, 1, 0, 2, 1, 2, 0, 1, 2, 2, 1, 0];
+    // 0: kapalı, 1: açık, 2: yuvarlak — hece ritmine yakın, düzensiz bir dizi.
+    const seq = [1, 0, 2, 1, 0, 1, 2, 0, 0, 1, 2, 1, 0, 2, 0, 1];
     let i = 0;
-    const step = () => { if (!alive) return; setF(seq[i++ % seq.length]); t = setTimeout(step, 85 + Math.random() * 70); };
+    const step = () => { if (!alive) return; setF(seq[i++ % seq.length]); t = setTimeout(step, 110 + Math.random() * 90); };
     step();
     return () => { alive = false; clearTimeout(t); };
   }, [on]);
@@ -103,7 +107,8 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
   const duel = c.mode === "duel";
   const faces = useMemo(() => cast(c, office?.avatar), [c.id, office?.avatar]);
   const room = roomOf(c);
-  const bg = scene === "office" ? PHOTOS["bg-buro"] : PHOTOS[room.bg];
+  // Büro görüşmesi: avukatın koltuğundan bakış; müvekkil masanın karşısındaki koltukta oturur.
+  const bg = scene === "office" ? PHOTOS["bg-gorusme"] : PHOTOS[room.bg];
 
   // Arka plan "kapla" ölçeği: sahneyi doldurur, taşan kenarlar kırpılır.
   const s = W && H ? Math.max(W / bg.w, H / bg.h) : 1;
@@ -147,7 +152,9 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
       figs.push({ key: "p1", photo: faces.p1 || "av-erkek-38", x: W * 0.25, bottom: 0, h: H * 0.72, z: 4, front: true });
       if (faces.p2) figs.push({ key: "p2", photo: faces.p2, flip: true, x: W * 0.75, bottom: 0, h: H * 0.72, z: 4, front: true });
     } else if (faces.client) {
-      figs.push({ key: "client", photo: faces.client, x: W * 0.5, bottom: 0, h: H * 0.8, z: 2, front: true });
+      // Koltuğun önünde, belinden aşağısı masanın arkasında kalacak biçimde (masa ön katmanı ayrıca çizilir).
+      const ch = DESK.clientH * s;
+      figs.push({ key: "client", photo: faces.client, x: X(DESK.clientX), bottom: H - Y(DESK.clientBottom), h: ch, z: 2, front: true });
     }
   }
 
@@ -162,7 +169,10 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
       <View key={f.key} pointerEvents="none" style={[{ position: "absolute", left: f.x - w / 2, bottom: f.bottom, width: w, height: h, zIndex: f.z + (speaking ? 1 : 0) }, f.flip && { transform: [{ scaleX: -1 }] }]}>
         <Image source={p.src} resizeMode="contain" accessibilityIgnoresInvertColors
           style={[{ width: w, height: h }, !lit && f.front && styles.dim]} />
-        {m && <Image source={mouth === 1 ? m.a : m.b} resizeMode="stretch" style={{ position: "absolute", left: m.x * w, top: m.y * h, width: m.w * w, height: m.h * h }} />}
+        {m && (mouth === 1 ? m.a || m.o : m.o || m.a) && (
+          <Image source={mouth === 1 ? m.a || m.o : m.o || m.a} resizeMode="stretch"
+            style={[{ position: "absolute", left: m.x * w, top: m.y * h, width: m.w * w, height: m.h * h }, !lit && f.front && styles.dim]} />
+        )}
       </View>
     );
   };
@@ -173,6 +183,12 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
         <>
           <Image source={bg.src} resizeMode="cover" style={{ position: "absolute", left: ox, top: oy, width: bg.w * s, height: bg.h * s }} />
           {figs.sort((a, b) => a.z - b.z).map(fig)}
+          {scene === "office" && !duel && (
+            // Masa ön katmanı: arka planın masa kısmı, müvekkilin belinin üstüne yeniden çizilir.
+            <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: Y(DESK.edge), bottom: 0, overflow: "hidden", zIndex: 5 }}>
+              <Image source={bg.src} resizeMode="cover" style={{ position: "absolute", left: ox, top: oy - Y(DESK.edge), width: bg.w * s, height: bg.h * s }} />
+            </View>
+          )}
           {scene === "court" && (
             <View style={styles.plaque} pointerEvents="none"><Text style={styles.plaqueText} numberOfLines={1}>{c.courtShort}</Text></View>
           )}
