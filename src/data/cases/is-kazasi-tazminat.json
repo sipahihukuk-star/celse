@@ -1,9 +1,7 @@
 {
   "id": "is-kazasi-tazminat",
   "mode": "solo",
-  "career": {
-    "level": 1
-  },
+  "career": { "level": 1, "order": 25 },
   "difficulty": "zor",
   "title": "Dördüncü Kat",
   "area": "İş Hukuku · İş kazası tazminatı",
@@ -167,7 +165,7 @@
           "reply": [
             {
               "who": "narr",
-              "text": "Dava 04.11.2026'da açıldı: maddi tazminat belirsiz alacak olarak 10.000 TL, manevi tazminat 750.000 TL."
+              "text": "Dava 04.11.2026'da açıldı: maddi tazminat fazlaya ilişkin haklar saklı tutularak kısmi dava olarak 10.000 TL, manevi tazminat 750.000 TL."
             }
           ]
         },
@@ -182,7 +180,7 @@
           "reply": [
             {
               "who": "narr",
-              "text": "İşveren arabuluculuk görüşmesine katılmadı. Bir ay kaybettiniz. Dava Aralık başında açıldı: maddi tazminat belirsiz alacak olarak 10.000 TL, manevi tazminat 750.000 TL."
+              "text": "İşveren arabuluculuk görüşmesine katılmadı. Bir ay kaybettiniz. Dava Aralık başında açıldı: maddi tazminat fazlaya ilişkin haklar saklı tutularak kısmi dava olarak 10.000 TL, manevi tazminat 750.000 TL."
             }
           ]
         },
@@ -230,7 +228,7 @@
           "reply": [
             {
               "who": "narr",
-              "text": "Dosya Samsun 2. İş Mahkemesi'ne gönderildi. Maddi tazminat belirsiz alacak olarak 10.000 TL, manevi tazminat 750.000 TL talepli."
+              "text": "Dosya Samsun 2. İş Mahkemesi'ne gönderildi. Maddi tazminat, fazlaya ilişkin haklar saklı tutularak kısmi dava olarak 10.000 TL, manevi tazminat 750.000 TL talepli."
             }
           ]
         },
@@ -481,8 +479,8 @@
           "set": [
             "artirim"
           ],
-          "law": "HMK m.107/2 · TBK m.56 · 5510 s.K. m.21",
-          "note": "Doğru. SGK geliri işçinin gelir kaybını karşılar; mükerrer ödemeyi önlemek için ilk peşin sermaye değeri maddi tazminattan düşülür. Manevi tazminat ise gelir kaybını değil, acı ve elemi karşılar (TBK m.56); ondan mahsup yapılmaz. Belirsiz alacakta talep ıslaha gerek olmadan artırılır."
+          "law": "HMK m.109/4 · TBK m.56 · 5510 s.K. m.21",
+          "note": "Doğru. SGK geliri işçinin gelir kaybını karşılar; mükerrer ödemeyi önlemek için ilk peşin sermaye değeri maddi tazminattan düşülür. Manevi tazminat ise gelir kaybını değil, acı ve elemi karşılar (TBK m.56); ondan mahsup yapılmaz. Kısmi davada talep, tahkikat sona ermeden bir defaya mahsus ve ıslaha gerek olmadan artırılır; artırılan kısım için zamanaşımı dava tarihinden kesilmiş sayılır (HMK m.109/4)."
         },
         {
           "text": "SGK geliri müvekkilin primleriyle karşılandı; maddi tazminattan da düşülmesin. Talebimizi mahsupsuz tutar üzerinden artırıyoruz.",
@@ -500,8 +498,8 @@
           "set": [
             "artirmadi"
           ],
-          "law": "HMK m.26 · m.107/2",
-          "note": "Ağır hata. Hâkim taleple bağlıdır (HMK m.26). Belirsiz alacak davasında talep artırılmazsa maddi tazminat dava dilekçesindeki 10.000 TL ile sınırlı kalır."
+          "law": "HMK m.26 · m.109/4",
+          "note": "Ağır hata. Hâkim taleple bağlıdır (HMK m.26). Kısmi davada talep tahkikat sona ermeden artırılmazsa maddi tazminat dava dilekçesindeki 10.000 TL ile sınırlı kalır."
         }
       ]
     }

@@ -1,7 +1,7 @@
 {
   "id": "aile-mal-rejimi",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 22 },
   "difficulty": "orta",
   "title": "Evin Yarısı",
   "area": "Aile Hukuku · Katılma alacağı",
@@ -61,12 +61,12 @@
       ],
       "prompt": "Davayı nasıl açacaksınız?",
       "choices": [
-        { "text": "Belirsiz alacak davası olarak, şimdilik 100.000 TL üzerinden açalım; bilirkişi değeri belirleyince talebi artırırız.", "delta": 20, "set": ["belirsiz"],
-          "law": "HMK m.107",
-          "note": "Alacağın miktarı dava açılırken tam ve kesin olarak belirlenemiyorsa, davacı asgari bir miktar göstererek belirsiz alacak davası açabilir; tahkikat sonucunda miktar belirlenince talebini artırabilir (HMK m.107)." },
+        { "text": "Kısmi dava olarak, fazlaya ilişkin hakları saklı tutup şimdilik 100.000 TL üzerinden açalım; bilirkişi değeri belirleyince talebi HMK m.109/4 uyarınca bir kez artırırız.", "delta": 20, "set": ["k109"],
+          "law": "HMK m.109/4",
+          "note": "Doğru. Belirsiz alacak davası 7589 sayılı Kanunla 31.07.2026'da kaldırıldı; bu tarihten sonra açılan davada araç kısmi davadır. Kısmi davada talep, aynı davada bir defaya mahsus ve tahkikat sona erinceye kadar, iddianın genişletilmesi yasağına takılmadan artırılabilir; zamanaşımı artırılan kısım için de dava tarihinden kesilmiş sayılır (HMK m.109/4)." },
         { "text": "Kısmi dava olarak 100.000 TL ile açalım, fazlaya ilişkin hakları saklı tutalım; sonra ıslahla artırırız.", "delta": 10, "set": ["kismi"],
-          "law": "HMK m.109, m.176",
-          "note": "Kabul edilebilir. Kısmi davada talep ıslahla artırılabilir; ancak ıslah aynı davada yalnızca bir kez ve tahkikat sona erene kadar yapılabilir (HMK m.177). Belirsiz alacak davası bu dosyaya daha uygun." },
+          "law": "HMK m.109, m.176, m.177",
+          "note": "Kabul edilebilir, ama gereksiz. Kısmi davada talep artık ıslaha gerek olmadan bir kez artırılabiliyor (HMK m.109/4). Islah aynı davada yalnızca bir kez ve tahkikat sona erene kadar yapılabilir (HMK m.176/2, m.177/1); talep artırımı için harcanırsa sonradan bir düzeltme gerektiğinde elinizde ıslah hakkı kalmaz." },
         { "text": "Müvekkilin dediği gibi 5.000.000 TL üzerinden, harcını peşin yatırarak açalım.", "delta": -10, "set": ["tam"],
           "note": "Değer henüz belli değilken tahmini tam değerle dava açmak ağır bir peşin harç yükü doğurur. Üstelik bu tahmin kişisel mal payını ve kalan kredi borcunu hiç hesaba katmıyor; fazla çıkan kısım reddedilir ve karşı tarafa vekâlet ücreti ödenir." }
       ] },
@@ -134,12 +134,12 @@
       ],
       "prompt": "Ne yapacaksınız?",
       "choices": [
-        { "if": "belirsiz", "text": "Talep artırım dilekçesiyle talebi 2.800.000 TL'ye çıkarın ve eksik harcı tamamlayın.", "delta": 20, "set": ["artirim"],
-          "law": "HMK m.107/2",
-          "note": "Belirsiz alacak davasında tahkikat sonucunda alacak belirlenebildiği anda davacı, iddianın genişletilmesi yasağına takılmadan talebini artırabilir (HMK m.107/2)." },
+        { "if": "k109", "text": "Talep artırım dilekçesiyle (HMK m.109/4) talebi 2.800.000 TL'ye çıkarın ve eksik harcı tamamlayın.", "delta": 20, "set": ["artirim"],
+          "law": "HMK m.109/4",
+          "note": "Doğru. Kısmi davada talep, tahkikat sona erinceye kadar bir defaya mahsus ve iddianın genişletilmesi yasağına takılmadan artırılabilir; artırılan kısım için zamanaşımı dava tarihinden kesilmiş sayılır (HMK m.109/4)." },
         { "if": "kismi", "text": "Islah dilekçesiyle talebi 2.800.000 TL'ye çıkarın, ıslah harcını yatırın.", "delta": 15, "set": ["artirim"],
           "law": "HMK m.176, m.177",
-          "note": "Islah, tahkikat sona erene kadar yapılabilir ve aynı davada yalnızca bir kez kullanılabilir (HMK m.177). Zamanında yapıldı." },
+          "note": "Islah, tahkikat sona erene kadar yapılabilir ve aynı davada yalnızca bir kez kullanılabilir (HMK m.176/2, m.177/1). Zamanında yapıldı; ama aynı sonucu ıslah hakkınızı harcamadan HMK m.109/4 artırımıyla da alabilirdiniz." },
         { "if": "!tam", "text": "Bir şey yapmaya gerek yok; hâkim rapordaki miktara kendiliğinden hükmeder.", "delta": -20,
           "law": "HMK m.26",
           "note": "Hatalı. Hâkim taleple bağlıdır, talep sonucundan fazlasına karar veremez (HMK m.26). Talebi artırmadığınız için mahkeme 100.000 TL ile sınırlı kalacak." },
@@ -154,7 +154,7 @@
     { "if": "itiraz && artirim", "winner": "p1",
       "hukum": "Davanın KABULÜ ile 2.800.000 TL katılma alacağının karar tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
       "summary": [
-        { "text": "Ödeme dökümüyle kredinin maaştan ödendiğini gösterdiniz; kişisel mal yalnızca peşinatla sınırlı kaldı. Değeri belirsiz alacağı doğru usulle isteyip rapordan sonra talebi artırdınız." },
+        { "text": "Ödeme dökümüyle kredinin maaştan ödendiğini gösterdiniz; kişisel mal yalnızca peşinatla sınırlı kaldı. Değeri dava açılırken belli olmayan alacağı kısmi dava olarak açıp rapordan sonra talebi artırdınız." },
         { "if": "!tarih", "text": " Bilirkişiye esasları hâkim kendisi belirledi; talebiniz yanlış tarihe dayanıyordu." }
       ] },
     { "if": "itiraz && tam", "winner": "draw", "stamp": "KISMİ BAŞARI",

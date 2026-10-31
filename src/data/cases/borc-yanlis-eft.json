@@ -1,7 +1,7 @@
 {
   "id": "borc-yanlis-eft",
   "mode": "solo",
-  "career": { "level": 1 },
+  "career": { "level": 1, "order": 26 },
   "difficulty": "zor",
   "title": "Yer Değiştiren İki Hane",
   "area": "Borçlar Hukuku · Sebepsiz zenginleşme",
@@ -87,10 +87,7 @@
           "note": "Doğru. Alacak dekontla kuruşuna kadar belli. Tamamını istemek, zamanaşımını alacağın tamamı için keser." },
         { "text": "Harçtan tasarruf için şimdilik 50.000 TL isteyin; fazlaya ilişkin haklarınızı saklı tutun.", "delta": -15, "set": ["kismi"],
           "law": "HMK m.109, TBK m.154",
-          "note": "Tehlikeli bir tasarruf. Kısmi talepte zamanaşımı yalnızca istenen kısım için kesilir. Kalan 330.000 TL'yi 15.04.2027'den sonra ıslahla ya da ek taleple isterseniz, davalı o kısım için zamanaşımı def'i ileri sürer." },
-        { "if": "dava", "text": "Belirsiz alacak davası açın; 10.000 TL ile başlayıp bilirkişi raporundan sonra artırın.", "delta": -20, "set": ["kismi", "belirsiz"],
-          "law": "HMK m.107",
-          "note": "Belirsiz alacak davası, alacağın miktarı dava açılırken tam ve kesin olarak belirlenemiyorsa açılır (HMK m.107/1). Burada miktar dekontta yazılı. Şartları bulunmayan dava kısmi dava gibi görülür; artırılan kısım için zamanaşımı artırma tarihine göre değerlendirilir." }
+          "note": "Tehlikeli bir tasarruf. Kısmi talepte zamanaşımı yalnızca istenen kısım için kesilir. Kısmi davada talep aynı davada bir kez artırılırsa artırılan kısım için zamanaşımı dava tarihinden kesilmiş sayılır (HMK m.109/4); ama bu güvence yalnızca o davada yapılan artırıma özgüdür, icra takibinde böyle bir imkân yoktur. Kalan 330.000 TL'yi 15.04.2027'den sonra ayrı bir takip ya da davayla isterseniz, davalı o kısım için zamanaşımı def'i ileri sürer." }
       ] },
     { "side": "p1", "scene": "office", "if": "icra",
       "lines": [
@@ -171,14 +168,13 @@
       "summary": "Ödemenin yanılgıyla yapıldığı ispatlanamadı (TBK m.78/1). Dekont açıklaması ve faturadaki doğru IBAN, davalının borç savunmasını çürütebilirdi." },
     { "if": "kismi", "winner": "draw", "stamp": "KISMİ BAŞARI",
       "hukum": [
-        { "if": "belirsiz", "text": "Davanın KISMEN KABULÜ ile 10.000 TL'nin yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, sonradan artırılan 370.000 TL yönünden zamanaşımı def'i nedeniyle talebin REDDİNE," },
-        { "if": "!belirsiz && !icra", "text": "Davanın KISMEN KABULÜ ile 50.000 TL yönünden talebin kabulüne, sonradan artırılan 330.000 TL yönünden zamanaşımı def'i nedeniyle talebin REDDİNE," },
+        { "if": "!icra", "text": "Davanın KABULÜ ile talep edilen 50.000 TL'nin yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine," },
         { "if": "icra", "text": "Davanın KABULÜ ile itirazın İPTALİNE, takibin 50.000 TL asıl alacak ve işleyecek yasal faiz üzerinden DEVAMINA, asıl alacağın yüzde yirmisi oranında icra inkâr tazminatının davalıdan alınarak davacıya verilmesine," }
       ],
       "summary": [
         { "text": "Yanılgı ispatlandı; ama zamanaşımı yalnızca istenen kısım için kesilmişti. Kalan kısım 15.04.2027'den sonra istendiğinde iki yıllık süre dolmuştu (TBK m.82/1, m.154). Harçtan yapılan tasarruf, alacağın büyük kısmına mal oldu." },
         { "if": "icra", "text": " Kalan 330.000 TL için sonradan başlatılan ek takipte davalı zamanaşımı def'i ileri sürdü; o kısım fiilen kaybedildi." },
-        { "if": "belirsiz", "text": " Miktarı dekontta yazılı bir alacak için belirsiz alacak davası açmanın şartları yoktu (HMK m.107/1)." }
+        { "if": "!icra", "text": " Talep aynı davada tahkikat sona ermeden artırılmadığı için mahkeme 50.000 TL ile bağlı kaldı (HMK m.26); HMK m.109/4'ün zamanaşımı güvencesinden de yararlanılamadı. Kalan 330.000 TL için sonradan açılan ek davada davalı zamanaşımı def'i ileri sürdü." }
       ] },
     { "if": "kalan || (!kotu && !kotugenel)", "winner": "draw", "stamp": "KISMİ BAŞARI",
       "hukum": [
