@@ -13,6 +13,13 @@ const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { sta
 const FALLBACK_F = "tr-TR-Wavenet-A", FALLBACK_M = "tr-TR-Wavenet-B";
 const MALE = /Charon|Orus|Fenrir|Iapetus|Algenib|Schedar|Puck|Achird|Algieba|Alnilam|Enceladus|Rasalgethi|Sadachbia|Sadaltager|Umbriel|Zubenelgenubi|Wavenet-B|Wavenet-E/;
 
+// Sunucu anahtarı: eski projelerde SUPABASE_SERVICE_ROLE_KEY, yeni anahtar düzeninde SUPABASE_SECRET_KEYS (JSON).
+function serviceKey(): string {
+  const old = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (old) return old;
+  try { const all = JSON.parse(Deno.env.get("SUPABASE_SECRET_KEYS") || "{}"); return all.default || Object.values(all)[0] as string; } catch { return ""; }
+}
+
 async function sha(s: string) {
   const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
   return [...new Uint8Array(d)].map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 40);
@@ -38,7 +45,7 @@ Deno.serve(async req => {
     const voice = String(b.voice || "");
     if (!text || !/^tr-TR-[A-Za-z0-9-]+$/.test(voice)) return json({ error: "geçersiz istek" }, 400);
 
-    const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const sb = createClient(Deno.env.get("SUPABASE_URL")!, serviceKey());
     const path = `${voice}/${await sha(voice + "\n" + text)}.mp3`;
     const url = sb.storage.from("ses").getPublicUrl(path).data.publicUrl;
     const head = await fetch(url, { method: "HEAD" });
