@@ -1,0 +1,146 @@
+{
+  "id": "borc-ayipli-arac",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "basit",
+  "title": "Çatlak Blok",
+  "area": "Borçlar Hukuku · Satışta gizli ayıp",
+  "court": "Bursa 5. Asliye Hukuk Mahkemesi",
+  "courtShort": "5. ASLİYE HUKUK",
+  "esas": "2026/612 Esas",
+  "kararTarihi": "18.02.2027",
+  "color": "#5b4a3a",
+  "teaser": "İkinci el bir otomobil, noterde imzalanmış “gördüm, beğendim” kaydı ve iki ay sonra ısınınca ortaya çıkan bir motor çatlağı. İlk davanız.",
+  "sides": { "p1": { "role": "Davacı (alıcı) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#edc6a2", "hair": "#3a2418", "style": "bun", "glasses": true } },
+    "opp": { "name": "Av. Burak Sezgin · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#c99670", "hair": "#151515", "style": "short", "beard": true } },
+    "client": { "name": "Zeynep Kılınç · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#e0b48e", "hair": "#7a3b1f", "style": "long", "shirt": "#6b4f7a", "inner": "#ece6da" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Büronuzdasınız. Bu, kendi adınıza üstlendiğiniz ilk dava. Karşınızda müvekkiliniz Zeynep Kılınç, ilkokul öğretmeni." },
+    { "who": "client", "text": "15 Ocak'ta Orhan Demirtaş'tan ikinci el bir otomobil aldım, 850.000 TL ödedim. Satıcı galerici değil, kendi arabasını satıyordu. Noterde satış sözleşmesi yaptık." },
+    { "who": "client", "text": "Mart ortasında motor hararet yapmaya başladı. Servis, motor bloğunda çatlak olduğunu, üzerinin bir sızdırmazlık macunuyla kapatıldığını söyledi. Dışarıdan bakınca hiçbir şey görünmüyormuş." },
+    { "who": "client", "text": "Arabayı seviyorum, elimde tutmak istiyorum. Ama bu parayı ödeyip ayıplı bir araçla kalmak da istemiyorum." }
+  ],
+  "docs": [
+    { "t": "Noter satış sözleşmesi", "d": "15.01.2026. Bedel 850.000 TL. “Alıcı aracı gördü, beğendi, olduğu gibi kabul etti; satıcıdan bir hak talep etmeyecektir.” kaydı var." },
+    { "t": "Servis raporu", "d": "20.03.2026. Motor bloğunda çatlak; çatlak kimyasal macunla kapatılmış. Blok değişimi gerekli. Olağan bir bakışla ya da sürüşle fark edilemez." },
+    { "t": "Noter ihtarnamesi", "d": "24.03.2026'da satıcıya gönderildi. Ayıp bildirilip giderilmesi istendi. Cevap verilmedi." },
+    { "t": "Yetkili servis kaydı (müzekkere cevabı)", "d": "11.08.2025. Satıcının aracı serviste: “Blokta çatlak, blok değişimi gerekir.” Satıcı değişimi kabul etmemiş, araç teslim alınmış." },
+    { "t": "Görev notu", "d": "Satıcı tacir ya da meslekten satıcı değil; işlem tüketici işlemi sayılmaz. Uyuşmazlık TBK'nın genel satış hükümlerine tabidir ve Asliye Hukuk Mahkemesi'nde görülür." }
+  ],
+  "evidence": [
+    { "id": "ev_satis", "type": "belge", "title": "Noter satış sözleşmesi", "desc": "15.01.2026. 850.000 TL. “Gördü, beğendi, olduğu gibi kabul etti” kaydı." },
+    { "id": "ev_servis", "type": "belge", "title": "Yetkili servis kaydı (2025)", "desc": "11.08.2025. Satıcıya blokta çatlak olduğu ve blok değişimi gerektiği bildirilmiş; satıcı değişimi yaptırmamış." },
+    { "id": "ev_rapor", "type": "belge", "title": "Servis raporu (2026)", "desc": "20.03.2026. Çatlak macunla kapatılmış; olağan bakışla fark edilemez." },
+    { "id": "ev_ihtar", "type": "belge", "title": "Noter ihtarnamesi", "desc": "24.03.2026. Ayıp, servis raporundan dört gün sonra satıcıya bildirildi." },
+    { "id": "law_223", "type": "kanun", "title": "TBK m.223 · Gözden geçirme ve bildirim", "desc": "Olağan gözden geçirmeyle ortaya çıkarılamayan ayıp sonradan anlaşılırsa hemen bildirilir.", "law": "TBK m.223/2" }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Dava dilekçesini yazıyorsunuz. Alıcının ayıp karşısında birden fazla seçimlik hakkı var; dilekçede hangisini kullandığınızı açıkça yazmalısınız." }],
+      "prompt": "Hangi seçimlik hakkı kullanacaksınız?",
+      "choices": [
+        { "text": "Aracı elde tutup ayıp oranında bedel indirimi isteyin; ayıp oranının bilirkişiyle belirlenmesini talep edin.", "delta": 20, "set": ["indirim"],
+          "law": "TBK m.227/1",
+          "note": "Alıcı satılanı alıkoyup ayıp oranında bedelden indirim isteyebilir (TBK m.227/1). Müvekkil aracı tutmak istiyor; talep onun amacına tam uyuyor. Ayrıca genel hükümlere göre tazminat hakkı saklıdır." },
+        { "text": "Sözleşmeden dönün; aracı geri verip 850.000 TL'nin iadesini isteyin.", "delta": 10, "set": ["donme"],
+          "law": "TBK m.227/1, m.229",
+          "note": "Geçerli bir seçimlik hak (m.227/1). Ama müvekkil aracı elinde tutmak istediğini söyledi. Avukat, kanunun tanıdığı haklar arasından müvekkilin amacına uyanı seçer." },
+        { "text": "Aracın ayıpsız bir benzeriyle değiştirilmesini isteyin.", "delta": -10, "set": ["misli"],
+          "law": "TBK m.227/1",
+          "note": "Ayıpsız benzeriyle değiştirme ancak “imkân varsa” istenebilir. Belirli bir ikinci el araç ferden belirlenmiş bir şeydir; satıcının elinde aynı aracın bir benzeri yoktur. Hâkim taleple bağlı olduğundan (HMK m.26) bu talep reddedilmeye mahkûm." },
+        { "text": "Önce Tüketici Hakem Heyeti'ne başvurun.", "delta": -10, "set": ["indirim"],
+          "law": "6502 s.K. m.3",
+          "reply": [{ "who": "narr", "text": "Kıdemli meslektaşınız dilekçeye göz atıyor: “Satıcı tacir de değil, galerici de değil. Tüketici işlemi yok; hakem heyeti ve tüketici mahkemesi devreye girmez. Asliye Hukuk'a, bedel indirimiyle gidelim.” Dava öyle açıldı." }],
+          "note": "Tüketici işlemi için karşı tarafın ticari veya mesleki amaçla hareket eden satıcı ya da sağlayıcı olması gerekir (6502 s.K. m.3). İki şahıs arasındaki satışta TBK'nın genel hükümleri uygulanır." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Bursa Adliyesi. Kalabalık bir koridor, arka arkaya çağrılan dosyalar. Elinizdeki dosya hafifçe titriyor." },
+        { "who": "judge", "text": "Davacı vekili, bugün on iki dosyam var. Dilekçenizi okudum. Bir cümleyle söyleyin: tam olarak ne istiyorsunuz?" }
+      ],
+      "prompt": "Hâkimin sabırsız sorusuna nasıl cevap vereceksiniz?",
+      "choices": [
+        { "text": "Bir nefes alın ve tek cümleyle özetleyin: gizli ayıp, süresinde bildirim, seçtiğiniz hak ve bilirkişi incelemesi talebi.", "delta": 5,
+          "reply": [{ "who": "judge", "text": "Anlaşıldı. Tutanağa geçirildi. Davalı vekili?" }],
+          "note": "Doğru refleks. Hâkim talep sonucunu soruyor; cevap kısa, dilekçeyle uyumlu ve talep sonucuna odaklı olmalı (HMK m.119/1-ğ). Heyecan normaldir, cümle kısa kalsın." },
+        { "text": "Dava dilekçesini baştan okumaya başlayın.", "delta": -5,
+          "reply": [{ "who": "judge", "text": "Davacı vekili, dilekçe dosyada. Talebinizi soruyorum." }],
+          "note": "Dilekçe zaten dosyada. Duruşmada beklenen, talep sonucunun açık ve kısa ifadesidir." },
+        { "text": "İlk davanız olduğunu söyleyip özür dileyin, sonra dosyayı karıştırın.", "delta": -5,
+          "reply": [{ "who": "judge", "text": "Acele etmeyin ama dosyaya hâkim olun. Talebiniz?" }],
+          "note": "Mesleki soğukkanlılık, müvekkilin güvenini de korur. Duruşmaya talep sonucunu tek cümleyle yazdığınız bir notla girin." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Sayın Hâkim, noter sözleşmesinde alıcı aracı gördüğünü, beğendiğini ve olduğu gibi kabul ettiğini imzalamıştır. Müvekkilim ayıptan sorumlu değildir." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "“Gördüm, beğendim” kaydına nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "text": "Satıcı ayıbı biliyordu ve gizledi. Ağır kusurlu satıcının ayıptan sorumluluğunu kaldıran ya da sınırlayan her anlaşma kesin olarak hükümsüzdür. Ayrıca kayıt, ancak bakarak görülebilen ayıplara ilişkin olabilir.", "delta": 20, "set": ["sorumsuz"],
+          "law": "TBK m.221",
+          "note": "Satıcı ayıplı devirde ağır kusurluysa sorumsuzluk anlaşması kesin hükümsüzdür (TBK m.221). Satıcının 2025'teki servis kaydı, ayıbı bildiğini gösteriyor. Kaydın gizli ayıpları kapsamayacak biçimde dar yorumlanması da güçlü bir ek argüman." },
+        { "text": "Bu kayıt matbu bir noter kaydıdır, ancak araçta dışarıdan görülebilen ayıpları kapsar; gizli ayıp bu kaydın dışında kalır.", "delta": 10, "set": ["sorumsuz"],
+          "law": "TBK m.222, m.223/2",
+          "note": "Doğru bir yorum: “gördüm, beğendim” kaydı ancak gözle görülebilen durumlara ilişkin olabilir. Ama elinizde daha güçlü bir argüman vardı: satıcının ağır kusuru bu tür anlaşmaları kesin hükümsüz kılar (TBK m.221)." },
+        { "text": "Noter sözleşmesinin tamamı geçersizdir, çünkü satıcı müvekkili aldatmıştır.", "delta": -10,
+          "law": "TBK m.36, m.39",
+          "note": "Aldatma, sözleşmeyi kendiliğinden geçersiz kılmaz; aldatılan taraf bir yıl içinde sözleşmeyle bağlı olmadığını bildirebilir (TBK m.36, m.39). Siz ise ayıp hükümlerine dayanıp sözleşmeyi ayakta tutan bir talepte bulundunuz; bu cevap kendi talebinizle çelişiyor." },
+        { "text": "Kayıt imzalandığına göre yapacak bir şey yok; ama satıcı iyi niyetle bir ödeme yapsın.", "delta": -20, "set": ["kabul"],
+          "note": "Karşı tarafın en zayıf savunmasını kendi beyanınızla güçlendirdiniz. Bu beyan tutanağa geçti." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Davalı vekili, bildirim konusundaki savunmanızı açıklayın." }],
+      "statement": { "who": "opp", "text": "Davacı aracı iki ay kullanmış, ekspertiz bile yaptırmamıştır. Gözden geçirme ve bildirim külfetini yerine getirmediği için satılanı ayıbıyla kabul etmiş sayılır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_ihtar"],
+      "hit": { "delta": 20, "set": ["bildirim"],
+        "reply": [{ "who": "judge", "text": "İhtarname tarihi ile servis raporu tarihi tutanağa geçirildi. Ayıp oranı yönünden bilirkişi incelemesine karar verildi." }],
+        "note": "Olağan gözden geçirmeyle anlaşılamayacak bir ayıp, sonradan anlaşılınca hemen bildirilir (TBK m.223/2). Ayıp 20 Mart'ta anlaşıldı, 24 Mart'ta noterle bildirildi. Bildirim süresindedir." },
+      "responses": {
+        "ev_servis": { "delta": 20, "set": ["bildirim", "agir"],
+          "reply": [{ "who": "judge", "text": "Satıcının ayıbı satıştan önce bildiğine ilişkin servis kaydı tutanağa geçirildi. Bilirkişi incelemesine karar verildi." }],
+          "note": "Güçlü bir hamle. Ağır kusurlu satıcı, ayıbın kendisine süresinde bildirilmediğini ileri sürerek sorumluluktan kurtulamaz (TBK m.225/1). Satıcı çatlağı bir yıl önce öğrenmiş ve gizlemişti. Bildirim de zaten dört gün içinde yapılmıştı." },
+        "ev_rapor": { "delta": 5, "set": ["bildirim"],
+          "note": "Rapor, ayıbın gizli olduğunu ve ne zaman anlaşıldığını gösteriyor. Ama savunma bildirime ilişkindi; bildirimin hemen yapıldığını doğrudan ihtarname gösterirdi." },
+        "law_223": { "delta": 0,
+          "note": "Doğru madde. Ama ispat edilmesi gereken bir olgu var: bildirimin hemen yapıldığı. Madde değil, tarihi gösteren belge sunulmalıydı." },
+        "ev_satis": { "delta": -10,
+          "note": "Satış sözleşmesi bildirimin zamanı hakkında bir şey söylemez; içindeki “gördü, beğendi” kaydı da karşı tarafın işine yarar." }
+      },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz. Bildirimin süresinde yapıldığı ispatlanmadı; satılan ayıbıyla kabul edilmiş sayılabilir (TBK m.223/2)." }
+    }
+  ],
+  "outcomes": [
+    { "if": "kabul", "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Sorumsuzluk kaydını duruşmada kendiniz kabul ettiniz. Satıcının ağır kusuru ve gizli ayıp, bu beyanla tartışılamaz hâle geldi." },
+    { "if": "!bildirim", "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Ayıbın sonradan anlaşılır anlaşılmaz bildirildiği ispatlanamadı; mahkeme satılanın ayıbıyla kabul edildiği sonucuna vardı (TBK m.223/2). Oysa ihtarname dört gün içinde çekilmişti ve dosyadaydı." },
+    { "if": "misli", "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Ayıp ve süresinde bildirim ispatlandı, ama talep edilen hak kullanılamazdı: ikinci el, ferden belirli bir aracın ayıpsız benzeri yoktur (TBK m.227/1). Mahkeme talepten başka bir şeye karar veremez (HMK m.26). Bedel indirimi ya da dönme istenmeliydi." },
+    { "if": "(sorumsuz || agir) && donme", "winner": "p1",
+      "hukum": "Davanın KABULÜ ile davacının sözleşmeden dönmesinin geçerli olduğuna, aracın davalıya iadesine ve 850.000 TL satış bedelinin faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        { "text": "Gizli ayıp ve süresinde bildirim ispatlandı; sorumsuzluk kaydı satıcıyı korumadı." },
+        { "if": "agir", "text": " Satıcının ayıbı bilerek gizlediği servis kaydıyla ortaya kondu (TBK m.221, m.225)." },
+        { "text": " Kazandınız; ama müvekkil aracı elinde tutmak istiyordu. Bedel indirimi onun amacına daha uygundu." }
+      ] },
+    { "if": "sorumsuz || agir", "winner": "p1",
+      "hukum": "Davanın KABULÜ ile bilirkişi raporuyla belirlenen ayıp oranına göre satış bedelinden 185.000 TL indirim yapılmasına ve bu tutarın faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        { "text": "Gizli ayıp, süresinde bildirim ve doğru seçimlik hak: müvekkil aracını elinde tuttu, ayıbın karşılığını geri aldı." },
+        { "if": "agir", "text": " Satıcının ayıbı bir yıl önce öğrenip gizlediği servis kaydıyla ispatlandı; ağır kusurlu satıcı ne sorumsuzluk kaydına ne de bildirim savunmasına sığınabildi (TBK m.221, m.225)." },
+        { "if": "!agir", "text": " Satıcının servis kaydını duruşmada kullanmadınız; ağır kusur ispatlansaydı satıcının bildirim savunması baştan çökerdi (TBK m.225)." }
+      ] },
+    { "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Sorumsuzluk kaydına etkili bir itiraz yöneltilmedi. Satıcının ayıbı bildiğini gösteren servis kaydı dosyadaydı ama kullanılmadı (TBK m.221)." }
+  ]
+}

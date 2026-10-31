@@ -1,0 +1,207 @@
+{
+  "id": "borc-yanlis-eft",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "zor",
+  "title": "Yer Değiştiren İki Hane",
+  "area": "Borçlar Hukuku · Sebepsiz zenginleşme",
+  "court": "Eskişehir 3. Asliye Hukuk Mahkemesi",
+  "courtShort": "3. ASLİYE HUKUK",
+  "esas": "2027/214 Esas",
+  "kararTarihi": "14.12.2027",
+  "color": "#2f4f6b",
+  "teaser": "IBAN'ın son iki hanesi yer değiştirdi; 380.000 TL bir yabancının hesabına gitti. Alıcı “borç ödemesiydi” diyor, takvim de iki yılı doldurmak üzere.",
+  "sides": { "p1": { "role": "Alacaklı (davacı) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e0b48e", "hair": "#b0b0b4", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Melike Doğru · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#c08b62", "hair": "#2a2220", "style": "bun", "glasses": true } },
+    "client": { "name": "Derya Yalçın · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#f1d0b0", "hair": "#c9a36b", "style": "long", "shirt": "#4a5f7a", "inner": "#ece6da" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Ankara'daki büronuzdasınız. Bugün 26 Mart 2027. Derya Yalçın bir mimarlık ofisinde proje sorumlusu; elinde iki yıl önceye ait bir banka dekontu var." },
+    { "who": "client", "text": "14 Nisan 2025'te mutfak dolabı ustasına 380.000 lira EFT yaptım. IBAN'ın son iki hanesini ters yazmışım; para Eskişehir'de oturan Tolga Er diye birine gitti." },
+    { "who": "client", "text": "Banka “alıcının rızası olmadan iade edemeyiz” dedi. Tolga Bey'e yazdım, “o para kardeşin Emre'nin bana borcuydu” dedi. Emre onu tanımıyor bile." },
+    { "who": "client", "text": "İşlerim yoğundu, hep erteledim. Hâlâ geri alabilir miyim?" }
+  ],
+  "docs": [
+    { "t": "EFT dekontu", "d": "14.04.2025. 380.000 TL. Alıcı: Tolga Er. Açıklama: “Kaya Mobilya – mutfak dolabı 2. taksit”." },
+    { "t": "Alıcının mesajı", "d": "20.04.2025, müvekkile: “O para kardeşin Emre'nin bana olan borcu. İade yok.”" },
+    { "t": "Müvekkil ve davalı", "d": "Müvekkil Ankara'da, Tolga Er Eskişehir'de oturuyor. Aralarında bir sözleşme ilişkisi yok." },
+    { "t": "Takvim", "d": "EFT 14.04.2025. Bugün 26.03.2027. Müvekkil adına başka hiçbir yasal işlem yapılmadı." }
+  ],
+  "evidence": [
+    { "id": "ev_dekont", "type": "belge", "title": "EFT dekontu", "desc": "14.04.2025, 380.000 TL. Açıklama: “Kaya Mobilya – mutfak dolabı 2. taksit”." },
+    { "id": "ev_mesaj", "type": "beyan", "title": "Alıcının mesajı", "desc": "20.04.2025: “O para kardeşin Emre'nin bana olan borcu. İade yok.”" },
+    { "id": "ev_fatura", "type": "belge", "title": "Kaya Mobilya proforma faturası ve 1. taksit dekontu", "desc": "Faturadaki IBAN …4518. Mart 2025'teki 1. taksit bu IBAN'a, aynı açıklamayla gönderilmiş. 2. taksit …4581'e gitmiş.", "if": "iban" },
+    { "id": "ev_banka", "type": "belge", "title": "Bankanın iade talebi yazısı", "desc": "Gönderen banka 16.04.2025'te alıcının bankası aracılığıyla Tolga Er'e “hatalı işlem – iade talebi” bildirdi. Tolga Er 17.04.2025'te 300.000 TL'yi başka bir hesaba aktardı.", "if": "bankayazi" },
+    { "id": "law_78", "type": "kanun", "title": "TBK m.78 · Borç olmayan edimin ifası", "desc": "Borçlu olmadığı bir edimi kendi isteğiyle ifa eden, ancak borçlu olduğu yanılgısıyla ifa ettiğini ispat ederse geri isteyebilir.", "law": "TBK m.78/1" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Müvekkil toplantıya yetişmek zorunda. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Bankaya ne zaman başvurdunuz? Banka alıcıya bir şey bildirdi mi?", "delta": 15, "set": ["bankayazi"],
+          "reply": [{ "who": "client", "text": "Ertesi gün başvurdum. Banka bir yazı verdi: 16 Nisan'da Tolga Bey'e iade talebini bildirmişler. Ertesi gün parayı başka hesaba aktarmış. Yazı evde." }],
+          "note": "Kilit bilgi. Zenginleşen, elden çıkarırken geri vermek zorunda kalabileceğini hesaba katması gerekiyorsa zenginleşmenin tamamını geri verir (TBK m.79/2). Banka yazısı delil çantanıza eklendi." },
+        { "text": "Ustanın IBAN'ını nereden aldınız? Önceki ödemeler nereye yapıldı?", "delta": 15, "set": ["iban"],
+          "reply": [{ "who": "client", "text": "Proforma faturadan. İlk taksiti martta doğru IBAN'a, aynı açıklamayla göndermiştim. İkincisinde son iki rakamı ters yazmışım: 18 yerine 81." }],
+          "note": "Kilit bilgi. Yanılgıyla ödeme yapıldığını ispat yükü sizde (TBK m.78/1). Fatura ve ilk taksit dekontu, ödemenin kime ve neden yapılmak istendiğini belgeyle gösteriyor. Delil çantanıza eklendi." },
+        { "text": "Yanlış hesaba gittiğini tam olarak hangi gün öğrendiniz?", "delta": 10,
+          "reply": [{ "who": "client", "text": "15 Nisan 2025. Usta “para gelmedi” dedi, bankaya gittim, o gün öğrendim." }],
+          "note": "Yerinde. Geri isteme hakkı, hak sahibinin bunu öğrendiği tarihten itibaren iki yılda zamanaşımına uğrar (TBK m.82/1). Son gün 15.04.2027; önünüzde yirmi gün var. Zamanaşımı ancak dava ya da takip gibi bir işlemle kesilir (TBK m.154)." },
+        { "text": "Tolga Er'i tanıyor musunuz?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Hiç tanımam. Kardeşim Emre de tanımıyor, adını ilk kez benden duydu." }],
+          "note": "Faydalı bir teyit; ama davalının borç savunmasını çürütmek için belge gerekiyor." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Müvekkil gitti. Takvime bakıyorsunuz: 26 Mart 2027. Nereden ve nasıl başlayacağınıza karar vermelisiniz." }],
+      "prompt": "Hangi yolu seçeceksiniz?",
+      "choices": [
+        { "text": "Eskişehir İcra Dairesi'nde ilamsız takip başlatın.", "delta": 20, "set": ["icra"],
+          "law": "İİK m.50, HMK m.6, TBK m.154",
+          "note": "Takip talebi zamanaşımını keser (TBK m.154). Para alacakları için icra dairesinin yetkisi HMK'nın yetki kurallarına göre belirlenir (İİK m.50): genel yetkili yer borçlunun yerleşim yeridir (HMK m.6). İtiraz edilirse itirazın iptali davasında, alacak likitse, yüzde yirmiden az olmamak üzere icra inkâr tazminatı istenebilir (İİK m.67)." },
+        { "text": "Eskişehir Asliye Hukuk Mahkemesi'nde alacak davası açın.", "delta": 15, "set": ["dava"],
+          "law": "HMK m.6, TBK m.154",
+          "note": "Doğru yer, doğru yol. Dava açılması zamanaşımını keser (TBK m.154). Ara aşama yok; ama takip yoluyla gidilseydi itiraz hâlinde icra inkâr tazminatı da istenebilirdi." },
+        { "text": "Ankara İcra Dairesi'nde takip başlatın; para borcu alacaklının yerleşim yerinde ödenir.", "delta": -10, "set": ["icra", "yetkisiz"],
+          "law": "TBK m.89, HMK m.10, İİK m.50",
+          "note": "Tuzak. Para borcunun alacaklının yerleşim yerinde ödeneceği kuralı (TBK m.89), HMK m.10 aracılığıyla yalnızca sözleşmeden doğan davalarda ek bir yetki yaratır. Sebepsiz zenginleşme sözleşmeden doğmaz; yetkili yer borçlunun yerleşim yeridir (HMK m.6, İİK m.50). Borçlu yetkiye itiraz edebilir." },
+        { "text": "Ankara Asliye Hukuk Mahkemesi'nde alacak davası açın.", "delta": -10, "set": ["dava", "yetkisizdava"],
+          "law": "HMK m.6, m.10, m.19",
+          "reply": [{ "who": "narr", "text": "Davalı cevap dilekçesinde yetki itirazında bulundu. Ankara mahkemesi yetkisizlik kararı verdi; dosya talebiniz üzerine Eskişehir'e gönderildi. Dört ay kaybettiniz." }],
+          "note": "HMK m.10'daki ifa yeri yetkisi sözleşmeden doğan davalar içindir. Yetki itirazı cevap dilekçesinde ileri sürüldü (HMK m.19); dava yetkili mahkemeye gönderildi (HMK m.20). Zamanaşımı dava açılmakla kesildiği için hak kaybı yok, ama zaman ve masraf kaybı var." },
+        { "text": "Önce noterden ihtarname çekin, otuz gün süre verin; ödemezse dava açın.", "delta": -25,
+          "law": "TBK m.82, m.154",
+          "fatal": { "hukum": "Davanın zamanaşımı nedeniyle REDDİNE,",
+                     "summary": "İhtarname zamanaşımını kesmez. Otuz günlük süre beklenirken 15.04.2027'de iki yıllık süre doldu (TBK m.82/1). Dava 2 Mayıs'ta açıldı; davalı zamanaşımı def'ini ileri sürdü. Zamanaşımı ancak borçlunun ikrarı, dava, takip gibi işlemlerle kesilir (TBK m.154)." },
+          "note": "İhtarname zamanaşımını kesmez (TBK m.154). Önünüzde yirmi gün vardı." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Talep miktarını yazıyorsunuz. Harç, talep edilen miktara göre yatırılacak." }],
+      "prompt": "Ne kadar isteyeceksiniz?",
+      "choices": [
+        { "text": "Alacağın tamamını: 380.000 TL, yasal faiziyle.", "delta": 20, "set": ["tam"],
+          "law": "TBK m.77, m.154",
+          "note": "Doğru. Alacak dekontla kuruşuna kadar belli. Tamamını istemek, zamanaşımını alacağın tamamı için keser." },
+        { "text": "Harçtan tasarruf için şimdilik 50.000 TL isteyin; fazlaya ilişkin haklarınızı saklı tutun.", "delta": -15, "set": ["kismi"],
+          "law": "HMK m.109, TBK m.154",
+          "note": "Tehlikeli bir tasarruf. Kısmi talepte zamanaşımı yalnızca istenen kısım için kesilir. Kalan 330.000 TL'yi 15.04.2027'den sonra ıslahla ya da ek taleple isterseniz, davalı o kısım için zamanaşımı def'i ileri sürer." },
+        { "if": "dava", "text": "Belirsiz alacak davası açın; 10.000 TL ile başlayıp bilirkişi raporundan sonra artırın.", "delta": -20, "set": ["kismi", "belirsiz"],
+          "law": "HMK m.107",
+          "note": "Belirsiz alacak davası, alacağın miktarı dava açılırken tam ve kesin olarak belirlenemiyorsa açılır (HMK m.107/1). Burada miktar dekontta yazılı. Şartları bulunmayan dava kısmi dava gibi görülür; artırılan kısım için zamanaşımı artırma tarihine göre değerlendirilir." }
+      ] },
+    { "side": "p1", "scene": "office", "if": "icra",
+      "lines": [
+        { "who": "narr", "text": "Ödeme emri tebliğ edildi. Tolga Er yedi gün içinde itiraz etti: “Borcum yoktur.” Takip durdu." },
+        { "who": "narr", "text": "İtirazında Ankara İcra Dairesi'nin yetkisine de itiraz etti: “Yerleşim yerim Eskişehir'dir.”", "if": "yetkisiz" }
+      ],
+      "prompt": "İtiraza karşı ne yapacaksınız?",
+      "choices": [
+        { "if": "!yetkisiz", "text": "Bir yıl içinde Eskişehir Asliye Hukuk Mahkemesi'nde itirazın iptali davası açın; yüzde yirmiden az olmamak üzere icra inkâr tazminatı isteyin.", "delta": 20, "set": ["iptal"],
+          "law": "İİK m.67",
+          "note": "İtiraz takibi durdurur. Alacaklı itirazın tebliğinden itibaren bir yıl içinde genel mahkemede itirazın iptalini isteyebilir; alacak likitse ve itiraz haksızsa icra inkâr tazminatına hükmedilir (İİK m.67)." },
+        { "if": "!yetkisiz", "text": "İcra hukuk mahkemesinden itirazın kaldırılmasını isteyin; EFT dekontu yeterli belgedir.", "delta": -10, "set": ["kaldirma", "iptal"],
+          "law": "İİK m.68",
+          "reply": [{ "who": "narr", "text": "İcra hukuk mahkemesi talebi reddetti: dekont, borçlunun imzasını taşıyan bir borç ikrarı değildir. Ardından, bir yıllık süre içinde itirazın iptali davasını açtınız." }],
+          "note": "İtirazın kaldırılması ancak İİK m.68'de sayılan belgelerle istenebilir: imzası ikrar edilmiş ya da noterce onaylanmış borç ikrarını içeren senet, resmî belge gibi. Banka dekontu borçlunun bir borç ikrarı değildir. Yöntem hatası zaman kaybettirdi." },
+        { "if": "yetkisiz", "text": "Yetki itirazını kabul edin; takip dosyasının Eskişehir İcra Dairesi'ne gönderilmesini isteyin, sonra itirazın iptali davasını Eskişehir'de açın.", "delta": 10, "set": ["iptal", "duzelt"],
+          "law": "İİK m.50, m.67",
+          "note": "Hatayı zamanında düzelttiniz. Yerinde bir yetki itirazını kabul edip dosyanın yetkili icra dairesine gönderilmesini istemek, takibi ve zamanaşımını kesen işlemi korur. İtirazın iptali artık yetkili yerde açılabilir." },
+        { "if": "yetkisiz", "text": "Ankara'da itirazın iptali davası açın; para borcu alacaklının yerleşim yerinde ödenir.", "delta": -25,
+          "law": "İİK m.50, HMK m.6, m.10",
+          "fatal": { "hukum": "İcra dairesinin yetkisine yapılan itiraz yerinde görüldüğünden davanın USULDEN REDDİNE,",
+                     "summary": "İtirazın iptali davasında mahkeme önce icra dairesinin yetkisine yapılan itirazı inceler. Sebepsiz zenginleşme sözleşmeden doğmadığı için TBK m.89 ile HMK m.10 yetki vermez; yetkili yer borçlunun yerleşim yeri Eskişehir'dir (HMK m.6, İİK m.50). Yetki itirazını kabul edip dosyayı Eskişehir'e göndertmek mümkündü." },
+          "note": "Yetkisiz icra dairesinde yapılan takibe dayanarak itirazın iptali istenemez. Borçlunun yetki itirazı haklıydı." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Ön inceleme tamamlandı, tahkikata geçiyoruz. Davalı vekili, savunmanızı özetleyin." }
+      ],
+      "statement": { "who": "opp", "text": "Para, davacının kardeşi Emre Yalçın'ın müvekkilime olan borcu için gönderilmiştir. Bankadan yapılan bir ödeme, bir borcun ödenmesi için yapılır. Davacı yanıldığını ispat edemez." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_fatura"],
+      "hit": { "delta": 25, "set": ["yanilgi"],
+        "reply": [
+          { "who": "judge", "text": "Proforma faturadaki IBAN ile gönderilen IBAN arasında yalnızca son iki hane farkı var. İlk taksit doğru hesaba, aynı açıklamayla gitmiş." },
+          { "who": "opp", "text": "Sayın Hâkim, Emre Bey'in borcuna ilişkin… şu an elimizde yazılı bir belge bulunmuyor." }
+        ],
+        "note": "Yanılgı belgeyle ispatlandı (TBK m.78/1): ödeme Kaya Mobilya'ya yapılmak istenmiş, ilk taksit doğru hesaba gitmiş, ikincisinde iki hane yer değiştirmiş. Havalenin bir borç ödemesi olduğu yönündeki karine böyle çürütülür; ileri sürdüğü borç ilişkisini davalı hiçbir belgeyle göstermedi." },
+      "responses": {
+        "ev_dekont": { "delta": 20, "set": ["yanilgi"],
+          "reply": [{ "who": "judge", "text": "Dekont açıklamasında “Kaya Mobilya – mutfak dolabı 2. taksit” yazıyor. Davalı vekili, müvekkiliniz mobilyacı mı?" }],
+          "note": "Güçlü bir hamle. Açıklama, ödemenin bir mobilya taksiti için yapıldığını, davalıya ya da Emre'nin borcuna ilişkin olmadığını gösteriyor (TBK m.78/1). Faturadaki doğru IBAN da gösterilebilseydi ispat kusursuz olurdu." },
+        "law_78": { "delta": 0,
+          "note": "Doğru madde, ama ispat yükü sizde: yanılgıyla ödediğinizi bir belgeyle göstermeniz gerekiyor. Madde tek başına yanılgıyı ispatlamaz." },
+        "ev_mesaj": { "delta": -10,
+          "note": "Bu, davalının kendi iddiası. Sunmanız savunmayı tekrar etmekten öteye geçmez." },
+        "ev_banka": { "delta": 5,
+          "note": "Banka yazısı davalının kötüniyetini gösterir; ama tartışılan, ödemenin bir borç için yapılıp yapılmadığı. Bu delili iade kapsamı tartışmasına saklayın." }
+      },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz. Yanılgıyla ödeme yapıldığını ispat yükü sizdeydi (TBK m.78/1)." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Her hâlde müvekkilim parayı iyiniyetle harcamıştır. Elinde yalnızca 80.000 TL kaldı. İade yükümlülüğü elde kalan kısımla sınırlıdır." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "İade kapsamına ilişkin cevabınız?",
+      "choices": [
+        { "if": "bankayazi", "text": "Banka 16 Nisan'da iade talebini davalıya bildirdi; davalı ertesi gün 300.000 TL'yi başka hesaba aktardı. Geri vermek zorunda kalacağını bilerek elden çıkardı; tamamından sorumludur.", "delta": 25, "set": ["kotu"],
+          "law": "TBK m.79/2",
+          "note": "Zenginleşen, zenginleşmeyi iyiniyetli olmaksızın ya da geri vermeyi hesaba katması gerekirken elden çıkarmışsa tamamını geri verir (TBK m.79/2). Banka bildirimi ve ertesi günkü aktarım bunu belgeyle gösteriyor." },
+        { "text": "Davalı paranın kendisine ait olmadığını biliyordu; ileri sürdüğü borç ilişkisi de yok. İyiniyetli sayılamaz; tamamını geri vermelidir.", "delta": 10, "set": ["kotugenel"],
+          "law": "TBK m.79/2",
+          "note": [
+            { "if": "yanilgi", "text": "Doğru bir çıkarım: davalının ileri sürdüğü borç ilişkisi çürütüldü; kendisine ait olmadığını bildiği parayı harcayan iyiniyetli sayılmaz (TBK m.79/2). Banka yazısı olsaydı bu, çıkarım değil belge olurdu." },
+            { "if": "!yanilgi", "text": "İddia doğru yönde, ama dayanaksız kaldı: davalının borç savunması çürütülmedi." }
+          ] },
+        { "text": "Para misli bir şeydir; harcansa bile zenginleşme her hâlde devam eder.", "delta": -5,
+          "law": "TBK m.79/1",
+          "note": "Fazla genel bir iddia. Kanun, iyiniyetle elden çıkarılan kısmı iade kapsamının dışında bırakır (TBK m.79/1). Tartışılması gereken, davalının iyiniyetli olup olmadığıydı." },
+        { "text": "Elde kalan 80.000 TL'nin iadesiyle yetinmeyi kabul ediyoruz.", "delta": -15, "set": ["kalan"],
+          "law": "TBK m.79",
+          "note": "Müvekkilin 300.000 TL'sinden kendi beyanınızla vazgeçtiniz. Davalının iyiniyetine ilişkin iddia tartışılmaya bile açılmadı." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "!yanilgi", "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Ödemenin yanılgıyla yapıldığı ispatlanamadı (TBK m.78/1). Dekont açıklaması ve faturadaki doğru IBAN, davalının borç savunmasını çürütebilirdi." },
+    { "if": "kismi", "winner": "draw", "stamp": "KISMİ BAŞARI",
+      "hukum": [
+        { "if": "belirsiz", "text": "Davanın KISMEN KABULÜ ile 10.000 TL'nin yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, sonradan artırılan 370.000 TL yönünden zamanaşımı def'i nedeniyle talebin REDDİNE," },
+        { "if": "!belirsiz && !icra", "text": "Davanın KISMEN KABULÜ ile 50.000 TL yönünden talebin kabulüne, sonradan artırılan 330.000 TL yönünden zamanaşımı def'i nedeniyle talebin REDDİNE," },
+        { "if": "icra", "text": "Davanın KABULÜ ile itirazın İPTALİNE, takibin 50.000 TL asıl alacak ve işleyecek yasal faiz üzerinden DEVAMINA, asıl alacağın yüzde yirmisi oranında icra inkâr tazminatının davalıdan alınarak davacıya verilmesine," }
+      ],
+      "summary": [
+        { "text": "Yanılgı ispatlandı; ama zamanaşımı yalnızca istenen kısım için kesilmişti. Kalan kısım 15.04.2027'den sonra istendiğinde iki yıllık süre dolmuştu (TBK m.82/1, m.154). Harçtan yapılan tasarruf, alacağın büyük kısmına mal oldu." },
+        { "if": "icra", "text": " Kalan 330.000 TL için sonradan başlatılan ek takipte davalı zamanaşımı def'i ileri sürdü; o kısım fiilen kaybedildi." },
+        { "if": "belirsiz", "text": " Miktarı dekontta yazılı bir alacak için belirsiz alacak davası açmanın şartları yoktu (HMK m.107/1)." }
+      ] },
+    { "if": "kalan || (!kotu && !kotugenel)", "winner": "draw", "stamp": "KISMİ BAŞARI",
+      "hukum": [
+        { "if": "iptal", "text": "Davanın KISMEN KABULÜ ile itirazın 80.000 TL yönünden İPTALİNE, takibin bu miktar üzerinden devamına, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "!iptal", "text": "Davanın KISMEN KABULÜ ile 80.000 TL'nin yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Yanılgı ispatlandı; ama iade, davalının elinde kalan kısımla sınırlandı (TBK m.79/1)." },
+        { "if": "kalan", "text": " Bu sınırı kendi beyanınızla kabul ettiniz." },
+        { "if": "bankayazi && !kalan", "text": " Banka yazısı elinizdeydi: davalı iade talebini öğrendikten bir gün sonra parayı aktarmıştı (TBK m.79/2)." },
+        { "if": "!bankayazi", "text": " Müvekkile bankanın alıcıya ne bildirdiği sorulsaydı, davalının kötüniyeti belgeyle ispatlanabilirdi (TBK m.79/2)." }
+      ] },
+    { "winner": "p1",
+      "hukum": [
+        { "if": "iptal", "text": "Davanın KABULÜ ile Eskişehir İcra Dairesi dosyasındaki itirazın İPTALİNE, takibin 380.000 TL asıl alacak ve işleyecek yasal faiz üzerinden DEVAMINA, asıl alacağın yüzde yirmisi oranında icra inkâr tazminatının davalıdan alınarak davacıya verilmesine," },
+        { "if": "!iptal", "text": "Davanın KABULÜ ile 380.000 TL'nin dava tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine," }
+      ],
+      "summary": [
+        { "text": "Süre dolmadan doğru işlemi yaptınız, yanılgıyı belgeyle ispatladınız ve davalının iyiniyet savunmasını çürüttünüz: zenginleşmenin tamamı iade edilecek (TBK m.78, m.79/2, m.82)." },
+        { "if": "iptal", "text": " Alacak likit olduğundan icra inkâr tazminatına da hükmedildi (İİK m.67)." },
+        { "if": "kaldirma", "text": " İcra hukuk mahkemesine yapılan itirazın kaldırılması başvurusu ise boşa zaman kaybıydı (İİK m.68)." },
+        { "if": "duzelt", "text": " Yetkisiz icra dairesinde başlayan takip, yetki itirazı kabul edilerek Eskişehir'e gönderildi; hata zamanında düzeltildi." },
+        { "if": "yetkisizdava", "text": " Dava önce yetkisiz Ankara mahkemesinde açıldığı için dört ay kaybedildi." }
+      ] }
+  ]
+}

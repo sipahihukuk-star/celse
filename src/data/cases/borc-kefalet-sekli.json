@@ -1,0 +1,141 @@
+{
+  "id": "borc-kefalet-sekli",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "basit",
+  "title": "Bir İmza",
+  "area": "Borçlar Hukuku · Kefalet sözleşmesinin şekli",
+  "court": "Kayseri 2. Asliye Hukuk Mahkemesi",
+  "courtShort": "2. ASLİYE HUKUK",
+  "esas": "2026/1047 Esas",
+  "kararTarihi": "09.03.2027",
+  "color": "#4a3f63",
+  "teaser": "Kuzenine iyilik olsun diye atılmış tek bir imza, 390.000 TL'lik bir takip. Kefalet senedinde kimin el yazısı var?",
+  "sides": { "p1": { "role": "Davalı (kefil) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#a8754f", "hair": "#2a2220", "style": "short", "beard": true } },
+    "opp": { "name": "Av. Gönül Taşkın · Davacı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#f1d0b0", "hair": "#c9a36b", "style": "bun" } },
+    "client": { "name": "Nesrin Aktaş · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#d9a982", "hair": "#2b1d17", "style": "long", "shirt": "#3f6b5a", "inner": "#e9e4d8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Büronuzdasınız. Nesrin Aktaş bir eczanede kalfa olarak çalışıyor, evli. Elinde bir icra ödeme emri ve bir dava dilekçesi var." },
+    { "who": "client", "text": "Kuzenim Serdar, Mart 2026'da Cengiz Oral'dan 300.000 lira borç aldı. Cengiz Bey kefil istedi, ben de imzaladım. Serdar ödemedi, şimdi benden istiyorlar." },
+    { "who": "client", "text": "Ödeme emrine itiraz ettim, takip durdu. Şimdi de itirazın iptali için dava açmışlar: 300.000 lira ana para, 90.000 lira faiz." }
+  ],
+  "docs": [
+    { "t": "Kefalet senedi", "d": "10.03.2026. Bilgisayarla yazılmış metin: “300.000 TL'ye kadar müteselsil kefilim.” Altında “300.000 TL, 10.03.2026, müteselsil kefil” ibaresi el yazısıyla yazılmış; imza müvekkile ait." },
+    { "t": "Eşin rıza beyanı", "d": "Davacının sunduğu belge. Müvekkilin eşi Hakan Aktaş'ın imzası var. Üzerinde 10.03.2026 tarihi yazıyor." },
+    { "t": "Takip ve itiraz", "d": "Kayseri 5. İcra Dairesi. 390.000 TL için ilamsız takip; müvekkil süresinde borca itiraz etti, takip durdu." },
+    { "t": "Dava dilekçesi", "d": "İtirazın iptali, takibin devamı ve yüzde yirmi icra inkâr tazminatı isteniyor (İİK m.67)." }
+  ],
+  "evidence": [
+    { "id": "ev_senet", "type": "belge", "title": "Kefalet senedi", "desc": "10.03.2026. Matbu metin ve altında el yazısıyla “300.000 TL, 10.03.2026, müteselsil kefil” ibaresi. İmza müvekkilin." },
+    { "id": "ev_riza", "type": "belge", "title": "Eşin rıza beyanı", "desc": "Hakan Aktaş imzalı, 10.03.2026 tarihli rıza beyanı." },
+    { "id": "ev_nufus", "type": "belge", "title": "Nüfus kayıt örneği", "desc": "Müvekkil 2019'dan beri Hakan Aktaş ile evli. Ayrılık kararı yok." },
+    { "id": "ev_pasaport", "type": "belge", "title": "Hakan Aktaş'ın giriş-çıkış kaydı ve iş yeri yazısı", "desc": "Hakan Aktaş 01.03.2026–30.04.2026 arasında yurt dışında, Stuttgart'taki şantiyede çalışıyor. 10.03.2026'da Türkiye'de değil.", "if": "es" },
+    { "id": "ev_yazi", "type": "belge", "title": "Müvekkilin el yazısı örnekleri", "desc": "Banka formları, eczane reçete defteri ve noter beyanı. Senetteki el yazısıyla karşılaştırma için.", "if": "yazi" },
+    { "id": "law_584", "type": "kanun", "title": "TBK m.584 · Eşin rızası", "desc": "Evli kişi ancak eşinin yazılı rızasıyla kefil olabilir; rıza en geç sözleşmenin kurulduğu anda verilmiş olmalıdır.", "law": "TBK m.584" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Cevap dilekçesi için iki haftalık süreniz işliyor. Müvekkil öğle arasında geldi; iki soruya vakit var." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Senedin altındaki el yazısı sizin mi? Rakamı ve “müteselsil kefil” ifadesini kim yazdı?", "delta": 15, "set": ["yazi"],
+          "reply": [{ "who": "client", "text": "Ben sadece imzaladım. Altındaki rakamı, tarihi, o “müteselsil” lafını Cengiz Bey kendi kalemiyle yazdı. “Formalite” dedi. Benim el yazım öyle değil ki." }],
+          "note": "Kilit soru. Kefilin azami miktarı, tarihi ve müteselsil kefil olduğunu kendi el yazısıyla yazması geçerlilik şartıdır (TBK m.583/1). El yazısı örnekleri delil çantanıza eklendi." },
+        { "text": "Eşiniz kefalete ne zaman, nerede imza verdi?", "delta": 15, "set": ["es"],
+          "reply": [{ "who": "client", "text": "Hakan mart ve nisanda Almanya'daydı, şantiyede çalışıyordu. Mayısta dönünce Cengiz Bey eve geldi, bir kâğıt imzalattı. Tarihi o zaman öyle mi yazdılar, bilmiyorum." }],
+          "note": "Kilit soru. Eşin rızası sözleşmeden önce ya da en geç sözleşme anında verilmelidir (TBK m.584/1). Eşin o tarihte yurt dışında olduğunu gösteren kayıt delil çantanıza eklendi." },
+        { "text": "Serdar'ın ödeme gücü var mı, başka malı var mı?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Bir arabası vardı, onu da sattı. Şu an işsiz." }],
+          "note": "Rücu ihtimali için faydalı bir bilgi. Ama asıl soru, kefaletin geçerli olup olmadığı." },
+        { "text": "Cengiz Bey'le aranız nasıldır?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Mahalleden tanırız. Kötü biri değil aslında." }],
+          "note": "Sınırlı soru hakkınızı davaya bir şey katmayan bir konuya harcadınız." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Cevap dilekçesini yazıyorsunuz. Burada ileri sürmediğiniz bir vakıa için sonradan savunmayı genişletmek kolay olmayacak." }],
+      "prompt": "Cevap dilekçesinin merkezine ne koyacaksınız?",
+      "choices": [
+        { "if": "yazi", "text": "Senetteki el yazısını açıkça inkâr edin: azami miktar, tarih ve “müteselsil kefil” ibaresi kefilin el yazısı değildir; yazı incelemesi isteyin. Kefalet şekil şartı yokluğundan geçersizdir.", "delta": 20, "set": ["sekil"],
+          "law": "TBK m.583/1",
+          "note": "Kefalet yazılı şekilde yapılmalı, azami miktar ve tarih gösterilmeli; kefil azami miktarı, tarihi ve müteselsil kefil olduğunu kendi el yazısıyla yazmalıdır (TBK m.583/1). El yazısının kefile ait olmadığı açıkça inkâr edilmezse mahkeme bunu araştırmaz; inkârla birlikte karşılaştırma incelemesi istenir." },
+        { "text": "Kefaletin TBK m.583'teki şekle uygun yapılıp yapılmadığının incelenmesini isteyin.", "delta": 5, "set": ["sekilgenel"],
+          "law": "TBK m.583",
+          "note": "Doğru madde, ama somut bir vakıa yok. Senette azami miktar, tarih ve el yazısıyla bir ibare görünüyor; yazının kime ait olduğunu inkâr etmezseniz mahkeme senedi şekle uygun kabul eder." },
+        { "text": "İmzanın müvekkile ait olmadığını ileri sürün.", "delta": -20,
+          "law": "Av.K. m.34",
+          "note": "İmza müvekkile ait. Bilerek gerçeğe aykırı savunma, avukatın meslek kurallarına uygun davranma yükümlülüğüyle bağdaşmaz (Av.K. m.34); imza incelemesi de aleyhinize sonuçlanır." },
+        { "text": "Borcu kabul edin, ama ödeme için taksit isteyin.", "delta": -20, "set": ["kabul"],
+          "note": "Geçersiz olabilecek bir kefalet için müvekkili borçlu ilan ettiniz. Bu beyan mahkemeyi bağlar ve icra inkâr tazminatına da kapı açar." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Ön inceleme ve tahkikat. Davacı vekili, eşin rızası konusundaki beyanınızı alalım." }],
+      "statement": { "who": "opp", "text": "Sayın Hâkim, davalının eşi Hakan Aktaş kefalete yazılı olarak rıza göstermiştir. Rıza beyanı sözleşmeyle aynı gün, 10 Mart 2026'da imzalanmıştır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_pasaport"],
+      "hit": { "delta": 25, "set": ["riza"],
+        "reply": [
+          { "who": "opp", "text": "Sayın Hâkim… tarih belki sonradan atılmış olabilir, ama eşin rızası sonuçta vardır." },
+          { "who": "judge", "text": "Beyan tutanağa geçirildi. Giriş-çıkış kaydının doğrulanması için Emniyet'e müzekkere yazılmasına karar verildi." }
+        ],
+        "note": "Hakan Aktaş 10 Mart'ta Türkiye'de değildi; imza mayısta atıldı. Eşin rızası sözleşmeden önce ya da en geç kuruluş anında verilmelidir (TBK m.584/1). Sonradan verilen rıza geçersiz kefaleti geçerli kılmaz." },
+      "responses": {
+        "law_584": { "delta": 5,
+          "note": "Doğru madde. Ama karşı taraf rızanın sözleşmeyle aynı gün verildiğini söylüyor; bunu çürütecek bir olgu ispatlanmalı. Madde tek başına tarihi değiştirmez." },
+        "ev_riza": { "delta": -5,
+          "note": "Belgenin üzerinde 10.03.2026 yazıyor; sunmanız karşı tarafın iddiasını teyit eder. Tarihin gerçeği yansıtmadığını gösteren bir delil gerekiyordu." },
+        "ev_nufus": { "delta": 0,
+          "note": "Müvekkilin evli olduğu zaten tartışmasız. Tartışılan, rızanın ne zaman verildiği." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil rızanın tarihine ilişkin beyanı çürütmüyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; rıza beyanının tarihi tartışmasız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Davalı senedi bilerek imzaladı, parayı kuzeni aldı. Şimdi şekle sığınması hakkın açıkça kötüye kullanılmasıdır. Kaldı ki bu belge kefalet değil, bir garanti taahhüdüdür; kefaletin şekil kuralları uygulanmaz." },
+        { "who": "judge", "text": "Davalı vekili?" }
+      ],
+      "prompt": "Nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "text": "Kefaletin şekline ve eşin rızasına ilişkin hükümler, gerçek kişilerin verdiği kişisel güvencelere, adı ne olursa olsun uygulanır. Şekil kuralı kefili korumak için konmuştur; ona dayanmak kural olarak hakkın kötüye kullanılması değildir.", "delta": 20, "set": ["savunma"],
+          "law": "TBK m.603, TMK m.2",
+          "note": "Kefaletin şekline, kefil olma ehliyetine ve eşin rızasına ilişkin hükümler, gerçek kişilerce kişisel güvence amacıyla yapılan başka adlardaki sözleşmelere de uygulanır (TBK m.603). Koruyucu şekil kuralına dayanmak ancak çok istisnai durumlarda hakkın kötüye kullanılması sayılır." },
+        { "text": "Hakkın kötüye kullanılması iddiası yerinde değildir; şekil eksikliğini ileri sürmek kefilin hakkıdır.", "delta": 10, "set": ["savunma"],
+          "law": "TMK m.2",
+          "note": "Doğru ama eksik. “Garanti taahhüdü” nitelendirmesine cevap vermediniz; oysa TBK m.603 bu kaçış yolunu açıkça kapatıyor." },
+        { "text": "Kefalet geçerli sayılsa bile kefil, senette yazan 300.000 TL'yi aşan faizden sorumlu değildir.", "delta": 5, "set": ["azami"],
+          "law": "TBK m.589/1",
+          "note": "Doğru bir ikincil savunma: kefil her durumda sözleşmede belirtilen azami miktara kadar sorumludur (TBK m.589/1). Ama asıl tartışma kefaletin geçerliliği; önce ona cevap vermeliydiniz." },
+        { "text": "Belge garanti sözleşmesiyse müvekkil zaten kefil değildir; garanti verdiğini kabul ediyoruz.", "delta": -20, "set": ["kabul"],
+          "law": "TBK m.128, m.603",
+          "note": "Karşı tarafın nitelendirmesini kabul edip müvekkili garanti veren olarak bağladınız. Oysa gerçek kişinin verdiği kişisel güvencede şekil kuralları yine uygulanırdı (TBK m.603)." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "kabul", "winner": "p2",
+      "hukum": "Davanın KABULÜ ile Kayseri 5. İcra Dairesi dosyasındaki itirazın İPTALİNE, takibin devamına, asıl alacağın yüzde yirmisi oranında icra inkâr tazminatının davalıdan alınarak davacıya verilmesine,",
+      "summary": "Müvekkil adına yaptığınız kabul beyanı, kefaletin geçerliliğini tartışılamaz hâle getirdi. Şekil ve eş rızası savunmaları elinizdeydi." },
+    { "if": "sekil && riza", "winner": "p1",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        { "text": "Yazı incelemesi, senetteki el yazısının kefile ait olmadığını gösterdi; kefalet şekil şartı yokluğundan geçersiz (TBK m.583/1). Eşin rızası da sözleşmeden sonra alınmıştı (TBK m.584/1). Kefalet iki ayrı nedenle hükümsüz." },
+        { "if": "savunma", "text": " “Garanti” nitelendirmesi ve hakkın kötüye kullanılması iddiası da sonuç doğurmadı." }
+      ] },
+    { "if": "sekil || riza", "winner": "p1",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        { "if": "sekil", "text": "Yazı incelemesi, azami miktar, tarih ve müteselsil kefalet ibaresinin kefilin el yazısı olmadığını gösterdi; kefalet geçersiz (TBK m.583/1)." },
+        { "if": "riza", "text": "Eşin rızasının sözleşmeden sonra alındığı ispatlandı; kefalet geçersiz (TBK m.584/1)." },
+        { "text": " Tek bir geçersizlik nedeni yetti; ama ikinci neden de dosyadaydı. Müvekkile doğru iki soruyu sormak davayı daha da sağlamlaştırırdı." }
+      ] },
+    { "if": "azami", "winner": "draw", "stamp": "KISMİ BAŞARI",
+      "hukum": "Davanın KISMEN KABULÜ ile itirazın 300.000 TL yönünden İPTALİNE, takibin bu miktar üzerinden devamına, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Kefalet geçerli sayıldı; ama kefilin sorumluluğu senetteki azami miktarla sınırlandı (TBK m.589/1). El yazısı ve eşin rızası sorulsaydı kefalet bütünüyle düşebilirdi." },
+    { "winner": "p2",
+      "hukum": "Davanın KABULÜ ile Kayseri 5. İcra Dairesi dosyasındaki itirazın İPTALİNE, takibin devamına, asıl alacağın yüzde yirmisi oranında icra inkâr tazminatının davalıdan alınarak davacıya verilmesine,",
+      "summary": "Senet görünüşte şekle uygundu ve el yazısı inkâr edilmedi; eşin rıza beyanının tarihi de çürütülmedi. Müvekkile senedi kimin doldurduğu ve eşin ne zaman imza attığı sorulmalıydı." }
+  ]
+}
