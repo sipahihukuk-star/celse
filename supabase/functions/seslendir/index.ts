@@ -25,14 +25,19 @@ async function sha(s: string) {
   return [...new Uint8Array(d)].map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 40);
 }
 
+let lastError = "";
 async function synth(text: string, name: string) {
   const r = await fetch("https://texttospeech.googleapis.com/v1/text:synthesize?key=" + Deno.env.get("GOOGLE_TTS_KEY"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ input: { text }, voice: { languageCode: "tr-TR", name }, audioConfig: { audioEncoding: "MP3", sampleRateHertz: 24000 } })
   });
-  if (!r.ok) return null;
-  const j = await r.json();
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || !j.audioContent) {
+    lastError = name + ": " + r.status + " " + ((j.error && j.error.message) || "");
+    console.error("Google TTS", lastError);
+    return null;
+  }
   return Uint8Array.from(atob(j.audioContent), c => c.charCodeAt(0));
 }
 
@@ -52,7 +57,7 @@ Deno.serve(async req => {
     if (head.ok) return json({ url });
 
     const audio = (await synth(text, voice)) || (await synth(text, MALE.test(voice) ? FALLBACK_M : FALLBACK_F));
-    if (!audio) return json({ error: "seslendirilemedi" }, 502);
+    if (!audio) return json({ error: "seslendirilemedi", google: lastError }, 502);
     const up = await sb.storage.from("ses").upload(path, audio, { contentType: "audio/mpeg", upsert: true });
     if (up.error) return json({ error: up.error.message }, 500);
     return json({ url });
