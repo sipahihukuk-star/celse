@@ -46,7 +46,7 @@ Deno.serve(async req => {
     if (!text || !/^tr-TR-[A-Za-z0-9-]+$/.test(voice)) return json({ error: "geçersiz istek" }, 400);
 
     const sb = createClient(Deno.env.get("SUPABASE_URL")!, serviceKey());
-    const path = voice + "/" + (await sha(voice + "\n" + text)) + ".mp3";
+    const path = voice + "/" + (await sha(voice + "|" + text)) + ".mp3";
     const url = sb.storage.from("ses").getPublicUrl(path).data.publicUrl;
     const head = await fetch(url, { method: "HEAD" });
     if (head.ok) return json({ url });
