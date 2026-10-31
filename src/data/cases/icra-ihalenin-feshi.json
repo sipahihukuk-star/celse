@@ -1,0 +1,222 @@
+{
+  "id": "icra-ihalenin-feshi",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "zor",
+  "process": true,
+  "title": "Habersiz İhale",
+  "area": "İcra Hukuku · İhalenin feshi",
+  "court": "Mersin 5. İcra Hukuk Mahkemesi",
+  "courtShort": "5. İCRA HUKUK",
+  "esas": "2026/3318 Esas",
+  "kararTarihi": "05.11.2026",
+  "color": "#5a3434",
+  "teaser": "Dükkân elektronik satışta yarı fiyatına gitti; müvekkil satışı alıcı kapıya gelince öğrendi. İhaleden bu yana on bir gün geçti. Yedi günlük süre gerçekten doldu mu?",
+  "sides": {
+    "p1": { "role": "Borçlu vekili", "short": "Siz" },
+    "p2": { "role": "İhale alıcısı vekili", "short": "Karşı taraf" }
+  },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e0b48e", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Gizem Arslanoğlu · İhale alıcısı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#f0cfae", "hair": "#1f1a16", "style": "bun" } },
+    "client": { "name": "Serkan Ilgaz · Müvekkil (borçlu)", "np": "civil", "look": { "kind": "civil", "skin": "#b98458", "hair": "#2a2220", "style": "short", "beard": true, "shirt": "#4a3a2a", "inner": "#e6e0d4" } },
+    "partner": { "name": "Av. Tülin Kaya · Büro ortağı", "np": "green", "look": { "kind": "civil", "skin": "#cfa07a", "hair": "#5b4636", "style": "long", "glasses": true, "shirt": "#2c3a4a", "inner": "#f2efe8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Mersin, 19 Ekim 2026, pazartesi. Serkan Ilgaz, Mezitli'deki dükkânının satıldığını cuma günü öğrendi." },
+    { "who": "client", "text": "Cuma sabahı bir adam geldi: “Dükkânı ihaleden ben aldım, ne zaman boşaltıyorsunuz?” Hiçbir şeyden haberim yoktu. Borcum var, inkâr etmiyorum; ama dükkân 4,2 milyon eder, 2,15 milyona gitmiş." },
+    { "who": "narr", "text": "UYAP'ta dosyaya bakıyorsunuz: elektronik satış 8 Ekim'de tamamlanmış. İhale kararı aynı gün portalda ilan edilmiş." },
+    { "who": "partner", "text": "İhalenin feshinde süre ve sebep her şeydir. Dosyayı iyi oku; bir hatan müvekkile dükkânını, bir hatan da ihale bedelinin yüzde onuna kadar para cezasını kaybettirebilir." }
+  ],
+  "docs": [
+    { "t": "Kıymet takdiri raporu", "d": "Muhammen bedel 4.200.000 TL. Rapor 2025 Kasım'ında borçlunun Tarsus'taki eski adresinde annesine tebliğ edilmiş; yedi gün içinde itiraz edilmemiş, kesinleşmiş." },
+    { "t": "Satış ilanı tebligatı", "d": "Satış ilanı borçlunun Tarsus'taki eski adresine çıkarılmış; mazbata: “Muhatap adreste tanınmıyor, taşındığı öğrenildi. İade.” Başka bir adrese tebligat çıkarılmamış." },
+    { "t": "Artırma sonuç tutanağı", "d": "Elektronik satış 08.10.2026'da tamamlandı. İhale bedeli 2.150.000 TL. Tek teklif. Alıcı: Volkan Er." }
+  ],
+  "evidence": [
+    { "id": "ev_tebligat", "type": "belge", "title": "Satış ilanı tebliğ mazbatası", "desc": "Tarsus'taki eski adres; “muhatap adreste tanınmıyor, taşındığı öğrenildi, iade”." },
+    { "id": "ev_kiymet", "type": "belge", "title": "Kıymet takdiri raporu", "desc": "Muhammen bedel 4.200.000 TL; tebliğ edilmiş ve itiraz edilmeden kesinleşmiş." },
+    { "id": "ev_mernis", "type": "belge", "title": "Adres kayıt sistemi belgesi", "desc": "Borçlunun yerleşim yeri 12.02.2026'dan beri Mezitli'deki yeni adres olarak kayıtlı.", "if": "mernis" },
+    { "id": "ev_teklif", "type": "belge", "title": "Yapılandırma teklifi e-postası", "desc": "Borçlunun Ağustos 2026'da alacaklı vekiline gönderdiği taksitli ödeme teklifi; cevapsız kalmış.", "if": "teklif" },
+    { "id": "law_134", "type": "kanun", "title": "İİK m.134 · İhalenin feshi", "desc": "İhalenin feshi, ihale tarihinden itibaren yedi gün içinde icra mahkemesinden şikâyet yoluyla istenebilir.", "law": "İİK m.134" }
+  ],
+  "steps": [
+    {
+      "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Müvekkil telaşlı. Soruları iyi seçin; zaman dar." }
+      ],
+      "prompt": "1. aşama · Satıştan haberdar olma: Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Tarsus'tan taşındığınızda adresinizi nüfus müdürlüğüne bildirdiniz mi?", "delta": 15, "set": ["mernis"],
+          "reply": [{ "who": "client", "text": "Şubat'ta taşındım, nüfusa hemen bildirdim. e-Devlet'te Mezitli görünüyor; çıktısını aldım." }],
+          "note": "Kilit soru. Bilinen adreste tebligat yapılamazsa tebligat adres kayıt sistemindeki adrese yapılır. Müvekkilin kayıtlı adresi belli olduğuna göre satış ilanı oraya tebliğ edilmeliydi. Belge delil çantanıza eklendi." },
+        { "text": "Satış gününden önce alacaklıyla ödeme konusunda görüştünüz mü?", "delta": 10, "set": ["teklif"],
+          "reply": [{ "who": "client", "text": "Ağustos'ta avukatlarına e-posta attım, taksit teklif ettim. Cevap gelmedi. Satıştan haberim olsa parayı bir şekilde bulurdum; kardeşim yardım edecekti." }],
+          "note": "Faydalı. İhalenin feshini isteyen, yolsuzluk yüzünden kendi menfaatinin ihlal edildiğini ispatlamak zorundadır. Satıştan haberdar olsaydı borcu ödeme ya da satışı durdurma imkânı bulunduğu bunu destekler. E-posta delil çantanıza eklendi." },
+        { "text": "Kıymet takdiri raporunu gördünüz mü?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Annem bir kâğıt almıştı geçen yıl, sonra unuttuk. İtiraz etmedik." }],
+          "note": "Öğrenmeniz gereken bir bilgi: kıymet takdiri tebliğ edilip itiraz edilmeden kesinleşmiş. Değer düşüklüğü bu aşamada fesih sebebi olarak ileri sürülemez." },
+        { "text": "Dükkânın piyasa değeri gerçekten 4,2 milyon mu?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Emlakçılar daha fazlasını söylüyor." }],
+          "note": "Değer tartışması kesinleşmiş kıymet takdiri karşısında sonuç vermez." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İhale 8 Ekim'de. Müvekkil satışı 16 Ekim cuma öğrendi. Bugün 19 Ekim pazartesi." },
+        { "who": "client", "text": "Yedi gün geçmiş mi? Her şey bitti mi?" }
+      ],
+      "prompt": "2. aşama · Süre ve merci: Ne yapacaksınız?",
+      "choices": [
+        { "text": "Bugün icra hukuk mahkemesine şikâyet yoluyla ihalenin feshini isteyin. Satış ilanı usulüne uygun tebliğ edilmediği için yedi günlük süre müvekkilin satışı öğrendiği 16 Ekim'den başlar ve 23 Ekim'de dolar; kanundaki bir yıllık üst sınır da aşılmadı.", "delta": 25, "set": ["sure"],
+          "law": "İİK m.134",
+          "note": "Doğru. Yedi günlük süre kural olarak ihale tarihinden başlar ve ilgililerin ihaleye kadarki yolsuzlukları en geç ihale günü öğrendiği kabul edilir. Ama satış ilanı usulüne uygun tebliğ edilmemiş ilgili için süre yolsuzluğun öğrenildiği tarihten işler; her hâlde bir yıllık üst sınır vardır." },
+        { "text": "İhaleden yedi gün geçti. Yapacak bir şey yok; müvekkile tahliyeye hazırlanmasını söyleyin.", "delta": -25,
+          "law": "İİK m.134",
+          "note": "Süreyi yanlış hesapladınız.",
+          "fatal": { "label": "SONUÇ:", "hukum": "İhalenin feshi talep edilmedi; ihale kesinleşti ve taşınmaz alıcı adına tescil edildi.", "summary": "Satış ilanı borçluya usulüne uygun tebliğ edilmediğinde ihalenin feshi süresi yolsuzluğun öğrenildiği tarihten başlar (İİK m.134; Yargıtay uygulaması). Müvekkilin 23 Ekim'e kadar süresi vardı." } },
+        { "text": "Asliye hukuk mahkemesinde ihalenin iptali davası açın.", "delta": -15, "set": ["sure"],
+          "law": "İİK m.134",
+          "note": "İhalenin feshi genel mahkemede dava yoluyla değil, icra hukuk mahkemesinden şikâyet yoluyla istenir.",
+          "reply": [{ "who": "partner", "text": "Yanlış merci. İhalenin feshi icra hukuk mahkemesinden şikâyetle istenir. Dilekçeyi bugün oraya verelim; süre 23 Ekim'de doluyor." }] },
+        { "text": "Bir yıllık süremiz var; satış dosyasını baştan sona inceleyip ay sonunda başvuralım.", "delta": -25,
+          "law": "İİK m.134",
+          "note": "Bir yıl, üst sınırdır; asıl süre öğrenmeden itibaren yedi gündür.",
+          "fatal": { "label": "SONUÇ:", "hukum": "İhalenin feshi talebinin SÜRE YÖNÜNDEN REDDİNE karar verildi.", "summary": "Satış ilanı tebliğ edilmeyen borçlu için süre, yolsuzluğu öğrendiği tarihten itibaren yedi gündür; bir yıl yalnızca her hâlde aşılamayacak üst sınırdır (İİK m.134). Müvekkil satışı 16 Ekim'de öğrendi; süre 23 Ekim'de doldu." } }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Dilekçeyi yazıyorsunuz. Hangi sebebe dayanacağınız davanın kaderini belirleyecek: esastan reddedilen talep para cezası doğurur." }
+      ],
+      "prompt": "2. aşama · Fesih sebebi: Dilekçede neye dayanacaksınız?",
+      "choices": [
+        { "text": "Satış ilanının borçluya tebliğ edilmemesi: eski adresten “tanınmıyor” diye dönen tebligattan sonra adres kayıt sistemindeki adrese tebligat yapılmadı. Müvekkil satıştan habersiz kaldı; borcu ödeme, satışı durdurma ya da ihaleye alıcı getirme imkânını yitirdi.", "delta": 25, "set": ["sebep", "menfaat"],
+          "law": "İİK m.127 · m.134 · Tebligat K. m.10",
+          "note": "Doğru. Satış ilanının borçluya tebliği zorunludur. Tebliğ edilmemesi, borçlunun satıştan habersiz kalmasıyla menfaatini ihlal ettiği için ihalenin feshi sebebidir. Menfaat ihlalini dilekçede somut olarak anlatmanız da önemli: fesih isteyen bunu ispatla yükümlüdür." },
+        { "text": "Kıymet takdiri düşük: dükkân en az 4,2 milyon ederken 2,15 milyona satıldı.", "delta": -15, "set": ["kiymet"],
+          "law": "İİK m.128/a · m.134",
+          "note": "Kıymet takdiri borçluya tebliğ edildi ve yedi gün içinde itiraz edilmeden kesinleşti. Kesinleşmiş kıymet takdirine ihalenin feshi aşamasında itiraz edilemez. Bu talep esastan reddedilir ve para cezası riski doğar." },
+        { "text": "Hem satış ilanının tebliğ edilmemesine hem kıymetin düşüklüğüne dayanın; ne kadar çok sebep, o kadar iyi.", "delta": 5, "set": ["sebep", "kiymet"],
+          "law": "İİK m.127 · m.128/a · m.134",
+          "note": "Birinci sebep güçlü; ikincisi kesinleşmiş kıymet takdiri yüzünden dinlenmez ve dilekçeyi zayıflatır. Menfaat ihlalini de somut olarak anlatmadınız." },
+        { "text": "İhaleye fesat karıştırıldı: tek teklif vardı, alıcı alacaklının tanıdığı olmalı.", "delta": -10, "set": ["fesat"],
+          "law": "İİK m.134 · TBK m.281",
+          "note": "Tek teklif verilmesi başlı başına fesat değildir. İhaleye fesat karıştırıldığı iddiası somut olgu ve delil ister; elinizde yok. Bu talep esastan reddedilir ve para cezası riski doğar." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Dilekçe 19 Ekim'de verildi. Mahkeme yirmi gün içinde, 5 Kasım'a duruşma günü verdi. Koridor kalabalık; hâkim saatlerdir dosya bitiriyor." },
+        { "who": "judge", "text": "Avukat Bey, ihale 8 Ekim, talep 19 Ekim. Süre geçmiş görünüyor. Kısa kesin; bugün kırk dosyam var." }
+      ],
+      "prompt": "3. aşama · İcra hukuk mahkemesi: Ne yaparsınız?",
+      "choices": [
+        { "text": "Bir cümleyle: “Sayın Hâkim, satış ilanı borçluya tebliğ edilmedi; süre öğrenme tarihi olan 16 Ekim'den başlar. Tebliğ mazbatası dosyada, sayfa 41.”", "delta": 5,
+          "law": "İİK m.134",
+          "note": "Mesleki soğukkanlılık. Sabırsız bir hâkime en iyi cevap, kısa ve dosyaya bağlı bir cümledir. Sertliğe karşılık vermediniz ama kilit noktayı da bırakmadınız.",
+          "reply": [{ "who": "judge", "text": "Sayfa kırk bir… Evet, iade dönmüş. Devam edin." }] },
+        { "text": "“Sayın Hâkim, bu tavrınızı tutanağa geçirmenizi istiyorum.”", "delta": -5,
+          "note": "Hâkimin yorgun ve sabırsız bir sorusu, tutanak tartışması gerektiren bir saldırı değildi. Gerilimi büyüttünüz; asıl sorunun cevabını hâlâ vermediniz.",
+          "reply": [{ "who": "judge", "text": "Talebiniz tutanağa geçti. Şimdi süre konusuna cevap verir misiniz?" }] },
+        { "text": "Hâkimi bekletmemek için süre konusunu geçin, değer düşüklüğünü anlatın.", "delta": -10,
+          "note": "Telaşla en güçlü noktanızı bıraktınız. Süre sorusu cevapsız kalırsa talep usulden reddedilir; hâkime kısa bir dosya göndermesi yapmak yeterdi.",
+          "reply": [{ "who": "judge", "text": "Süre konusunu dosyadan kendim inceleyeceğim. Karşı taraf?" }] }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "İhale alıcısı vekili, süre ve tebligata ilişkin beyanınız?" }
+      ],
+      "statement": { "who": "opp", "text": "Sayın Hâkim, borçluya Tarsus'taki adreste daha önce kıymet takdiri tebliğ edilmişti. Adresini değiştirdiğini icra dairesine bildirmedi. Tebligat Kanunu m.35 gereği eski adrese yapılan işlem geçerlidir; borçlu en geç ihale günü öğrenmiş sayılır ve talep süresizdir." },
+      "prompt": "3. aşama · İcra hukuk mahkemesi: Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_mernis"],
+      "hit": { "delta": 25, "set": ["adres"],
+        "reply": [{ "who": "judge", "text": "Borçlunun 12 Şubat 2026'dan beri adres kayıt sisteminde Mezitli adresinin kayıtlı olduğu görüldü. Beyan tutanağa geçirildi." }],
+        "note": "Adresini değiştiren muhatap bunu bildirmezse, eski adresi adres kayıt sistemindeki adresi değilse tebligat adres kayıt sistemindeki adrese yapılır. Müvekkilin kayıtlı adresi Şubat'tan beri Mezitli'ydi; icra dairesi satış ilanını oraya tebliğ etmeliydi. Ayrıca mazbatada Tebligat Kanunu m.35'e göre yapılmış bir işlem yok, düz bir iade var." },
+      "responses": {
+        "ev_tebligat": { "delta": 15, "set": ["adres"],
+          "reply": [{ "who": "judge", "text": "Mazbatada Tebligat Kanunu m.35'e göre yapılmış bir işlem yok; tebligat iade dönmüş. Adres kayıt sistemindeki adresin ayrıca sorulmasına karar verildi." }],
+          "note": "Yerinde. Mazbatada Tebligat Kanunu m.35'e göre yapılmış bir işlem yok, düz bir iade var; satış ilanı hiç tebliğ edilmemiş. Ama karşı tarafın adres değişikliği savunmasını en kesin biçimde, müvekkilin adres kayıt sistemindeki adresini gösteren belge kapatırdı." },
+        "ev_kiymet": { "delta": -10, "note": "Kıymet takdirinin eski adreste tebliğ edildiğini gösteren belge karşı tarafın işine yarar." },
+        "law_134": { "delta": -10, "note": "Madde metni yedi günü ihale tarihinden başlatıyor; tek başına sunulunca karşı tarafın tezini destekler. İstisnayı gösteren olgu belgesini sunmalıydınız." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil tebligat savunmasına cevap vermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; Tebligat Kanunu m.35 savunması cevapsız kaldı." }
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Ayrıca talep eden, ihale bedelinin yüzde beşi oranında teminat yatırmamıştır; talep bu nedenle de reddedilmelidir. Reddedildiğinde de borçlunun ihale bedelinin yüzde onu oranında para cezasına mahkûm edilmesini istiyoruz." },
+        { "who": "judge", "text": "Borçlu vekili?" }
+      ],
+      "prompt": "3. aşama · İcra hukuk mahkemesi: Teminat ve para cezası konusunda ne diyeceksiniz?",
+      "choices": [
+        { "text": "Yüzde beşlik teminat ve nispi harç; satış isteyen alacaklı, borçlu, sicildeki ilgililer ve sınırlı ayni hak sahipleri dışında kalanlar için öngörülmüştür. Borçlu bu yükümlülüğün dışındadır. Para cezası ise ancak talep reddedilirse ve ihale bedelinin yüzde onuna kadar takdir edilir.", "delta": 20, "set": ["teminat"],
+          "law": "İİK m.134",
+          "note": "Doğru. 7343 sayılı Kanunla eklenen teminat ve harç yükümlülüğü yalnızca bu sayılan kişiler dışındakiler için geçerlidir. Ret hâlinde para cezası sabit yüzde on değil, yüzde onuna kadar takdir edilir.",
+          "reply": [{ "who": "judge", "text": "Borçlunun teminat yükümlülüğü yoktur. Beyan tutanağa geçirildi." }] },
+        { "text": "Haklılar; teminatı bugün yatıralım, talep reddedilmesin.", "delta": -5, "set": ["teminatYatti"],
+          "law": "İİK m.134",
+          "note": "Borçlu teminat yükümlülüğünün dışındadır. Müvekkile 107.500 TL'lik gereksiz bir yük bindirdiniz ve karşı tarafın yanlış tezini kabul etmiş göründünüz." },
+        { "text": "Para cezası kesin olarak yüzde ondur; ama biz kazanacağız, önemi yok.", "delta": -5,
+          "law": "İİK m.134",
+          "note": "7343 sayılı Kanundan sonra para cezası yüzde onuna kadar takdir edilir. Teminat konusundaki yanlış iddiaya da cevap vermediniz." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court", "if": "sebep && !menfaat",
+      "lines": [
+        { "who": "judge", "text": "Borçlu vekili, tebliğ eksikliği müvekkilinize somut olarak ne kaybettirdi? Fesih isteyen menfaatinin ihlal edildiğini ispatlamak zorunda." }
+      ],
+      "prompt": "3. aşama · İcra hukuk mahkemesi: Menfaat ihlalini nasıl açıklayacaksınız?",
+      "choices": [
+        { "if": "teklif", "text": "Müvekkil Ağustos'ta alacaklıya yapılandırma teklif etmişti; e-postası dosyada. Satıştan haberi olsaydı borcu ödeme, satışı durdurma ya da ihaleye alıcı getirme imkânı vardı. Satış tek teklifle, muhammen bedelin yarısı civarında gerçekleşti.", "delta": 20, "set": ["menfaat"],
+          "law": "İİK m.134",
+          "note": "Doğru. Menfaat ihlalini somut olgularla ve belgeyle anlattınız." },
+        { "if": "!teklif", "text": "Satıştan haberi olsaydı borcu ödeme, satışı durdurma ya da ihaleye alıcı getirme imkânı vardı. Satış tek teklifle, muhammen bedelin yarısı civarında gerçekleşti.", "delta": 15, "set": ["menfaat"],
+          "law": "İİK m.134",
+          "note": "Doğru. Satış ilanından habersiz kalan borçlunun bu imkânları yitirmesi menfaat ihlalidir. Elinizde bunu destekleyen bir belge olsaydı daha güçlü olurdu." },
+        { "text": "Tebliğ eksikliği tek başına yeter Sayın Hâkim; menfaat aranmaz.", "delta": -15,
+          "law": "İİK m.134",
+          "note": "Kanun, ihalenin feshini isteyenin yolsuzluk yüzünden kendi menfaatinin ihlal edildiğini ispat etmesini açıkça arıyor." }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "sebep && menfaat && adres", "winner": "p1",
+      "hukum": [
+        { "text": "Satış ilanının borçluya usulüne uygun tebliğ edilmemesi nedeniyle İHALENİN FESHİNE," },
+        { "if": "kiymet", "text": " kıymet takdirine yönelik itirazın kesinleşmiş kıymet takdiri nedeniyle İNCELENMESİNE YER OLMADIĞINA," }
+      ],
+      "summary": [
+        { "text": "Süreyi doğru hesapladınız, doğru sebebe dayandınız ve Tebligat Kanunu m.35 savunmasını çürüttünüz. Dükkân yeniden satışa çıkacak; müvekkilin bu kez borcu ödemek ya da alıcı getirmek için zamanı var." },
+        { "if": "!mernis", "text": " Müvekkile adres kaydını sorsaydınız tebligat savunması ilk anda tümüyle kapanırdı." },
+        { "if": "teminatYatti", "text": " Yalnız yatırılması gerekmeyen teminatın iadesini ayrıca istemeniz gerekecek." }
+      ]
+    },
+    {
+      "if": "sebep && menfaat", "winner": "p2",
+      "hukum": "İhalenin feshi talebinin SÜRE YÖNÜNDEN REDDİNE,",
+      "summary": "Tebliğ eksikliği gerçekti, ama karşı tarafın tebligat savunmasına cevap vermediniz ve süreyi öğrenme tarihinden başlatmak için gereken olguyu ortaya koymadınız. Mahkeme karşı tarafın, borçlunun adres değişikliğini bildirmediği ve en geç ihale günü öğrenmiş sayılacağı savunmasını kabul etti. İade dönen mazbata ve adres kayıt sistemindeki adres bu savunmayı çürütecekti."
+    },
+    {
+      "winner": "p2",
+      "hukum": [
+        { "text": "İhalenin feshi talebinin esastan REDDİNE, talep edenin ihale bedelinin %5'i oranında 107.500 TL para cezasına mahkûm edilmesine," }
+      ],
+      "summary": [
+        { "if": "kiymet && !sebep", "text": "Kesinleşmiş kıymet takdirine ihalenin feshi aşamasında itiraz edilemez. Asıl yolsuzluk, satış ilanının tebliğ edilmemesiydi; ona dayanmadınız." },
+        { "if": "fesat", "text": "İhaleye fesat karıştırıldığı iddiası somut delil istiyordu; tek teklif tek başına fesat değildir. Asıl yolsuzluk, satış ilanının tebliğ edilmemesiydi." },
+        { "if": "sebep && !menfaat", "text": "Tebliğ eksikliği gerçekti, ama ihalenin feshini isteyen yolsuzluk yüzünden kendi menfaatinin ihlal edildiğini ispat etmek zorundadır (İİK m.134). Menfaat ihlalini ortaya koymadınız." }
+      ]
+    }
+  ]
+}

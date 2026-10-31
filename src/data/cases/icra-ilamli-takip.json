@@ -1,0 +1,186 @@
+{
+  "id": "icra-ilamli-takip",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "orta",
+  "process": true,
+  "title": "Noterdeki Makbuz",
+  "area": "İcra Hukuku · İcranın geri bırakılması",
+  "court": "Denizli 2. İcra Hukuk Mahkemesi",
+  "courtShort": "2. İCRA HUKUK",
+  "esas": "2026/2071 Esas",
+  "kararTarihi": "10.12.2026",
+  "color": "#4a5a2e",
+  "teaser": "Mahkeme kararından sonra 250.000 TL ödendi; alacaklı yine de bütün ilamı takibe koydu. İcra emrinin üstünde “yedi gün” yazıyor, müvekkilin elinde ise WhatsApp mesajları var.",
+  "sides": {
+    "p1": { "role": "Borçlu vekili", "short": "Siz" },
+    "p2": { "role": "Alacaklı vekili", "short": "Karşı taraf" }
+  },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#b88560", "hair": "#2b1d17", "style": "bun", "glasses": true } },
+    "opp": { "name": "Av. Emre Çakır · Alacaklı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e8c09c", "hair": "#3a2a1e", "style": "short", "glasses": true } },
+    "client": { "name": "Hülya Çınar · Müvekkil (borçlu)", "np": "civil", "look": { "kind": "civil", "skin": "#e6c09a", "hair": "#5b3a24", "style": "long", "shirt": "#3e5a6e", "inner": "#efe9df" } },
+    "partner": { "name": "Av. Kadir Ergün · Büro ortağı", "np": "green", "look": { "kind": "civil", "skin": "#c99670", "hair": "#4a4a4a", "style": "short", "beard": true, "shirt": "#3a3328", "inner": "#f2efe8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Denizli, 14 Ekim 2026. Hülya Çınar bir tekstil atölyesinin ortağı. Elinde dün akşam gelen bir icra emri var." },
+    { "who": "client", "text": "Eski kiracım Tarık Bey'e mahkeme kararıyla 420.000 TL tazminat borçlandım; 2024'te kesinleşti. Aynı yaz 250.000 TL ödedim. Kalanı için “acele etme” dedi." },
+    { "who": "client", "text": "Şimdi bütün 420.000 TL'yi, üstüne faiziyle istiyor. İcra emri 12 Ekim'de tebliğ edildi." }
+  ],
+  "docs": [
+    { "t": "İlam", "d": "Denizli 3. Asliye Hukuk Mahkemesi, 2023 tarihli karar: davalı Hülya Çınar'ın davacı Tarık Özkan'a 420.000 TL tazminat ve yasal faiz ödemesine. Kesinleşme: 14.05.2024." },
+    { "t": "İcra emri (örnek 4-5)", "d": "İlamlı takip. Alacaklı: Tarık Özkan. 420.000 TL asıl alacak ve işlemiş faiz. Tebliğ: 12.10.2026. Yedi gün içinde ödeme; icranın geri bırakılması için icra mahkemesine başvurma hakkı ihtarı." }
+  ],
+  "evidence": [
+    { "id": "ev_ilam", "type": "belge", "title": "İlam", "desc": "420.000 TL tazminat ve yasal faiz; kesinleşme 14.05.2024." },
+    { "id": "ev_noter", "type": "belge", "title": "Noter onaylı ödeme makbuzu", "desc": "26.06.2024: “Denizli 3. Asliye Hukuk Mahkemesinin ilamına mahsuben 250.000 TL'yi nakden aldım.” Altında Tarık Özkan'ın imzası; imza noterce onaylı.", "if": "noter" },
+    { "id": "ev_mesaj", "type": "belge", "title": "WhatsApp mesajı", "desc": "Tarık Özkan, 02.07.2024: “Kalanı için acele etme, 2027 sonuna kadar beklerim.”", "if": "mesaj" },
+    { "id": "ev_banka", "type": "belge", "title": "Banka çekim dekontu", "desc": "26.06.2024: müvekkilin hesabından 250.000 TL nakit çekim; açıklama yok." }
+  ],
+  "steps": [
+    {
+      "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Müvekkil telaşlı; yarım saat sonra atölyede olması gerekiyor. İki soruya vaktiniz var." }
+      ],
+      "prompt": "1. aşama · İcra emri: Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "250.000 TL'yi nasıl ödediniz; ödeme sırasında imzalanan bir belge var mı?", "delta": 15, "set": ["noter"],
+          "reply": [{ "who": "client", "text": "Bankadan nakit çektim, notere birlikte gittik. Tarık Bey makbuzu imzaladı, noter imzasını onayladı. Aslı evde, dosyada." }],
+          "note": "Kilit soru. İcranın geri bırakılmasında ödeme, resmî makamlarca düzenlenmiş ya da usulüne göre onaylanmış bir belgeyle ispatlanmalıdır. Noter onaylı makbuz tam aranan belge. Delil çantanıza eklendi." },
+        { "text": "Kalan borç için alacaklı size süre verdi mi; nasıl?", "delta": 5, "set": ["mesaj"],
+          "reply": [{ "who": "client", "text": "WhatsApp'tan yazdı: “2027 sonuna kadar beklerim.” Ekran görüntüsü telefonumda." }],
+          "note": "Bilmeniz gereken bir bilgi; ama süre verme (imhal) iddiası da resmî ya da onaylı bir belgeyle ispatlanmalıdır. Ekran görüntüsü bu nitelikte değil. Mesaj delil çantanıza eklendi." },
+        { "text": "Karar ne zaman kesinleşti; zamanaşımı dolmuş olabilir mi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Karar 2023'te verildi, 2024 mayısında kesinleşti." }],
+          "note": "Yerinde bir kontrol. İlama bağlanan alacaklarda zamanaşımı on yıldır; dolmamış. Zamanaşımı itirazı bu dosyada yapılmamalı." },
+        { "text": "Neden bankadan havale yapmadınız?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Tarık Bey nakit istedi." }],
+          "note": "Sınırlı soru hakkınızı sonuca etkisi olmayan bir ayrıntıya harcadınız." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İcra emri 12 Ekim pazartesi tebliğ edilmiş. Bugün 14 Ekim çarşamba." },
+        { "who": "partner", "text": "İlamlı takip; ödeme emri değil icra emri. Yolu ve süreyi doğru seç." }
+      ],
+      "prompt": "1. aşama · İcra emri: Ne yapacaksınız?",
+      "choices": [
+        { "text": "Yedi gün içinde, en geç 19 Ekim'de icra hukuk mahkemesine başvurun: ilamdan sonra 250.000 TL'nin ödendiğini ileri sürüp icranın bu kısım yönünden geri bırakılmasını isteyin.", "delta": 25, "set": ["sure", "itfa"],
+          "law": "İİK m.33",
+          "note": "Doğru. İcra emrinin tebliğinden itibaren yedi gün içinde borçlu, borcun itfa ya da imhal edildiğini veya zamanaşımına uğradığını ileri sürerek icra hukuk mahkemesinden icranın geri bırakılmasını isteyebilir. Ödeme icra emrinden önce yapıldığı için yedi günlük süreye bağlısınız." },
+        { "text": "Ne kadar çok sebep, o kadar iyi: itfa, imhal ve zamanaşımı birlikte ileri sürülsün; başvuru 19 Ekim'e kadar.", "delta": 5, "set": ["sure", "itfa", "imhal", "zaman"],
+          "law": "İİK m.33 · m.33/a",
+          "note": "Süre ve merci doğru. Ama zamanaşımı dolmadı ve imhal iddiası onaylı bir belgeye dayanmıyor; bu iki kalem reddedilecek ve dilekçenizin inandırıcılığını azaltacak." },
+        { "text": "İcra dairesine borca itiraz dilekçesi verin.", "delta": -15,
+          "law": "İİK m.32 · m.33",
+          "note": "İlamlı takipte ödeme emri ve itiraz yoktur; borçluya icra emri gönderilir. İcra emrine karşı yol, icra hukuk mahkemesinden icranın geri bırakılmasını istemektir.",
+          "reply": [{ "who": "partner", "text": "İlamlı takipte itiraz yok. İcra hukuk mahkemesine gideceğiz; süre 19 Ekim'de doluyor." }] },
+        { "text": "Acele yok: icranın geri bırakılması “her zaman” istenebilir. Önce alacaklıyla konuşalım.", "delta": -25,
+          "law": "İİK m.33",
+          "note": "“Her zaman” kuralı, icra emrinin tebliğinden sonra gerçekleşen itfa, imhal ya da zamanaşımı içindir.",
+          "fatal": { "label": "SONUÇ:", "hukum": "İcranın geri bırakılması talebinin SÜRE YÖNÜNDEN REDDİNE karar verildi.", "summary": "Ödeme icra emrinden önce yapılmıştı; bu nedenle icra emrinin tebliğinden itibaren yedi gün içinde icra hukuk mahkemesine başvurmak gerekiyordu (İİK m.33). İcra emrinden sonra gerçekleşen sebepler için öngörülen “her zaman” kuralı burada uygulanmaz. Müvekkil, ödediği parayı yeniden ödemek zorunda kalırsa ancak istirdat davası açabilir." } }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office", "if": "!sure",
+      "lines": [
+        { "who": "narr", "text": "Takvim 15 Ekim'i gösteriyor." }
+      ],
+      "prompt": "1. aşama · İcra emri: İcra hukuk mahkemesine ne zaman ve ne ile başvuracaksınız?",
+      "choices": [
+        { "text": "Bugün, ilamdan sonra yapılan 250.000 TL ödemeye dayanarak icranın kısmen geri bırakılmasını isteyin.", "delta": 10, "set": ["sure", "itfa"],
+          "law": "İİK m.33",
+          "note": "Doğru. Yedi günlük süre içindesiniz." },
+        { "text": "Önce alacaklıyla görüşelim; gerekirse ay sonunda başvururuz.", "delta": -25,
+          "law": "İİK m.33",
+          "note": "Yedi günlük süre kaçtı.",
+          "fatal": { "label": "SONUÇ:", "hukum": "İcranın geri bırakılması talebinin SÜRE YÖNÜNDEN REDDİNE karar verildi.", "summary": "İcra emrinden önce gerçekleşen itfa için süre icra emrinin tebliğinden itibaren yedi gündür (İİK m.33)." } }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Başvuru 16 Ekim'de yapıldı. Duruşma 10 Aralık'ta." },
+        { "who": "judge", "text": "Talep okundu. Alacaklı vekili, cevabınızı özetleyin." }
+      ],
+      "statement": { "who": "opp", "text": "Sayın Hâkim, borçlu ilamdan sonra hiçbir ödeme yapmamıştır. Banka dökümünde yalnızca bir nakit çekim var; paranın alacaklıya verildiğine dair tek belge yok." },
+      "prompt": "2. aşama · İcra hukuk mahkemesi: Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_noter"],
+      "hit": { "delta": 25, "set": ["odeme"],
+        "reply": [{ "who": "judge", "text": "Noter onaylı makbuzun aslı incelendi. Makbuz ilam tarihinden sonra, 26.06.2024'te düzenlenmiş; alacaklının imzası noterce onaylı." }],
+        "note": "İlamdan sonra yapılan ödeme, alacaklının noterce onaylanmış imzasını taşıyan makbuzla kanunun aradığı biçimde belgelendi." },
+      "responses": {
+        "ev_banka": { "delta": -5, "note": "Dekont yalnızca müvekkilin parayı çektiğini gösteriyor; paranın alacaklıya verildiğini göstermiyor." },
+        "ev_mesaj": { "delta": -10, "note": "Mesaj ödemeyi değil, süre verildiğini anlatıyor; üstelik onaylı bir belge değil." },
+        "ev_ilam": { "delta": -10, "note": "İlam borcu gösterir; sonradan yapılan ödemeyi değil." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil ödemeyi ispatlamıyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz. İcranın geri bırakılmasında belgesiz itfa iddiası dinlenmez." }
+    },
+    {
+      "side": "p1", "scene": "court", "if": "imhal || zaman",
+      "lines": [
+        { "who": "judge", "text": "Borçlu vekili, imhal ve zamanaşımı itirazlarınızın dayanağı nedir? İlam 2024'te kesinleşmiş; süre verildiğine dair elinizde ne var?" }
+      ],
+      "prompt": "2. aşama · İcra hukuk mahkemesi: Ne cevap vereceksiniz?",
+      "choices": [
+        { "text": "Sayın Hâkim, imhal ve zamanaşımı itirazlarımızdan vazgeçiyoruz; talebimiz ilamdan sonraki 250.000 TL ödemeyle sınırlıdır.", "delta": 5, "set": ["geri"],
+          "law": "İİK m.33",
+          "note": "Doğru düzeltme. İlam alacağının on yıllık zamanaşımı dolmadı; imhal de onaylı bir belgeye dayanmıyordu. Zayıf kalemleri geri çekmek güçlü talebinizi korur." },
+        { "text": "WhatsApp mesajı süre verildiğini gösteriyor; tanık da dinletebiliriz. Zamanaşımı itirazımızı da koruyoruz.", "delta": -10, "set": ["israr"],
+          "law": "İİK m.33",
+          "note": "İmhal iddiası resmî ya da usulüne göre onaylanmış bir belgeyle ispatlanmalıdır; ekran görüntüsü ve tanık bu nitelikte değil. Zamanaşımı ise dolmadı." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court", "if": "odeme",
+      "lines": [
+        { "who": "opp", "text": "Ödeme varsa bile önce işlemiş faize ve giderlere mahsup edilmelidir. Asıl alacak 420.000 TL olarak duruyor." },
+        { "who": "judge", "text": "Borçlu vekili, mahsup konusunda?" }
+      ],
+      "prompt": "2. aşama · İcra hukuk mahkemesi: Mahsup konusunda ne diyeceksiniz?",
+      "choices": [
+        { "text": "Kısmi ödemenin önce ödeme tarihine kadar işlemiş faize ve giderlere mahsup edileceği doğru; bunu kabul ediyoruz. Ama asıl alacağın 420.000 TL olarak durduğu doğru değil: faiz ve giderler düşüldükten sonra kalan kısım anaparadan düşülmeli ve icra o ölçüde geri bırakılmalıdır.", "delta": 15, "set": ["mahsup"],
+          "law": "TBK m.100",
+          "note": "Doğru. Faiz ya da giderleri ödemede gecikmiş olan borçlu, kısmi ödemeyi anapara borcundan düşemez; ödeme önce faiz ve giderlere, kalanı anaparaya sayılır. Böylece hem doğruyu kabul ettiniz hem karşı tarafın abartısını düzelttiniz.",
+          "reply": [{ "who": "judge", "text": "Mahsup hesabı için dosyanın hesap bilirkişisine verilmesine karar verildi." }] },
+        { "text": "Hayır, ödeme tamamen anaparadan düşülmelidir.", "delta": -5,
+          "law": "TBK m.100",
+          "note": "Faiz ve giderler ödenmemişken yapılan kısmi ödeme önce bunlara mahsup edilir. Yanlış bir tezde ısrar ettiniz." },
+        { "text": "Mahsup hesabını tümüyle bilirkişiye bırakıyoruz.", "delta": 5,
+          "note": "Hesabın bilirkişiye verilmesi doğru; ama karşı tarafın “asıl alacak aynen duruyor” beyanını düzeltmediniz." }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "odeme && !israr", "winner": "p1",
+      "hukum": [
+        { "text": "Borçlunun ilam tarihinden sonra 26.06.2024'te yaptığı 250.000 TL ödemenin, ödeme tarihindeki işlemiş faiz ve giderlere mahsubu yapılarak kalanının asıl alacaktan düşülmesi suretiyle, bu miktar yönünden İCRANIN GERİ BIRAKILMASINA," },
+        { "if": "geri", "text": " imhal ve zamanaşımı itirazlarından vazgeçildiğinden bu konularda karar verilmesine yer olmadığına," }
+      ],
+      "summary": [
+        { "text": "Yedi günlük süreyi kaçırmadınız ve ilamdan sonra yapılan ödemeyi noter onaylı makbuzla belgelediniz. Müvekkil aynı parayı ikinci kez ödemeyecek." },
+        { "if": "mahsup", "text": " Mahsup tartışmasında doğruyu kabul edip karşı tarafın abartısını düzelttiniz." },
+        { "if": "mesaj", "text": " Kalan borç için WhatsApp'taki süre sözü icra hukuk mahkemesinde işe yaramaz; müvekkil kalan kısmı ödemeye hazırlanmalı ya da alacaklıyla yazılı bir protokol yapmalı." }
+      ]
+    },
+    {
+      "if": "odeme", "winner": "draw", "stamp": "KISMEN KAZANDINIZ",
+      "hukum": "Borçlunun 26.06.2024'te yaptığı 250.000 TL ödeme yönünden, faiz ve giderlere mahsubu yapılarak İCRANIN KISMEN GERİ BIRAKILMASINA; imhal ve zamanaşımı itirazlarının REDDİNE,",
+      "summary": "Ödeme yönünden kazandınız, ama dayanaksız imhal ve zamanaşımı itirazlarında ısrar ettiniz. İlam alacağının zamanaşımı on yıldır; imhal de onaylı bir belge ister. Reddedilen kalemler yargılama giderlerini müvekkilin aleyhine paylaştırdı."
+    },
+    {
+      "winner": "p2",
+      "hukum": "İcranın geri bırakılması talebinin REDDİNE,",
+      "summary": [
+        { "text": "İlamdan sonra yapılan ödeme, kanunun aradığı nitelikte bir belgeyle ispatlanmadı." },
+        { "if": "!noter", "text": " Müvekkile ödemenin nasıl yapıldığını sorsaydınız noter onaylı makbuz ortaya çıkacaktı." },
+        { "text": " Müvekkil 420.000 TL'nin tamamıyla takip edilmeye devam ediyor; ödediği parayı ancak istirdat davasıyla geri isteyebilir." }
+      ]
+    }
+  ]
+}

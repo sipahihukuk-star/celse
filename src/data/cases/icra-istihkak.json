@@ -1,0 +1,198 @@
+{
+  "id": "icra-istihkak",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "orta",
+  "process": true,
+  "title": "Atölyedeki Makine",
+  "area": "İcra Hukuku · İstihkak davası",
+  "court": "Diyarbakır 1. İcra Hukuk Mahkemesi",
+  "courtShort": "1. İCRA HUKUK",
+  "esas": "2026/1903 Esas",
+  "kararTarihi": "04.03.2027",
+  "color": "#6a4b32",
+  "teaser": "Borçlunun atölyesinde haczedilen CNC makinesi aslında sizin müvekkilinizin; kirayla verilmiş. Ama mal borçlunun elinde bulunuyordu ve kanun bu durumda kimin malı sayılacağını söylüyor.",
+  "sides": {
+    "p1": { "role": "Davacı (üçüncü kişi) vekili", "short": "Siz" },
+    "p2": { "role": "Davalı (alacaklı) vekili", "short": "Karşı taraf" }
+  },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#c99670", "hair": "#2e2a28", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Baran Ekinci · Alacaklı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#b07a52", "hair": "#141414", "style": "short", "beard": true } },
+    "client": { "name": "Zelal Aydemir · Müvekkil (üçüncü kişi)", "np": "civil", "look": { "kind": "civil", "skin": "#d5a07a", "hair": "#3a2418", "style": "long", "shirt": "#2f5d62", "inner": "#ece6da" } },
+    "partner": { "name": "Av. Necla Güven · Büro ortağı", "np": "green", "look": { "kind": "civil", "skin": "#e9c4a0", "hair": "#a39a8e", "style": "short", "glasses": true, "shirt": "#463a4f", "inner": "#f2efe8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Diyarbakır, 15 Eylül 2026. Zelal Aydemir, Organize Sanayi'de küçük bir makine kiralama işletmesi yürütüyor." },
+    { "who": "client", "text": "Mobilyacı Mahmut Kaya'ya bir CNC freze makinesi kiraladım; aylık 18.000 TL. Dün Mahmut Bey'in bir alacaklısı icra memuruyla atölyeye gelmiş, makineyi haczettirmiş." },
+    { "who": "client", "text": "Mahmut Bey memura “makine benim değil, Zelal Hanım'ın” demiş; memur da tutanağa yazmış. Makinenin değeri 1.450.000 TL. Ne yapmalıyım?" }
+  ],
+  "docs": [
+    { "t": "Haciz tutanağı (14.09.2026)", "d": "Borçlu Mahmut Kaya'nın atölyesinde haciz. Haczedilen: CNC freze makinesi, seri no. KX-4471-B, yediemin olarak borçluya bırakıldı. Borçlunun beyanı: “Makine bana ait değil, Zelal Aydemir'den kiraladım.”" },
+    { "t": "Makine faturası", "d": "Satıcı: Dicle Takım Tezgâhları Ltd. Şti. Alıcı: Zelal Aydemir. Tarih: 20.11.2024. Bedel 1.450.000 TL." },
+    { "t": "Kira sözleşmesi", "d": "Kiraya veren Zelal Aydemir, kiracı Mahmut Kaya. Tarih 01.03.2025. Aylık 18.000 TL. Adi yazılı sözleşme; noter onayı yok." }
+  ],
+  "evidence": [
+    { "id": "ev_fatura", "type": "belge", "title": "Makine faturası", "desc": "Alıcı Zelal Aydemir, 20.11.2024, 1.450.000 TL." },
+    { "id": "ev_sozlesme", "type": "belge", "title": "Kira sözleşmesi", "desc": "01.03.2025 tarihli, adi yazılı; noter onayı yok." },
+    { "id": "ev_seri", "type": "belge", "title": "Üretici servis kayıtları", "desc": "Üreticinin yetkili servisinin KX-4471-B seri numaralı makine için Zelal Aydemir adına düzenlediği bakım formları (Haziran 2025, Ocak 2026).", "if": "seri" },
+    { "id": "ev_banka", "type": "belge", "title": "Banka hesap dökümü", "desc": "Mart 2025'ten beri her ay Mahmut Kaya'dan 18.000 TL; açıklama “CNC makine kirası”.", "if": "banka" },
+    { "id": "law_97a", "type": "kanun", "title": "İİK m.97/a · Mülkiyet karinesi", "desc": "Haczedilen taşınır borçlunun elinde ise borçluya ait olduğu karine olarak kabul edilir.", "law": "İİK m.97/a" }
+  ],
+  "steps": [
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Müvekkil takibin tarafı değil; haczedilen mal üzerinde mülkiyet iddia eden üçüncü kişi." }
+      ],
+      "prompt": "1. aşama · Haciz: Ne yapacaksınız?",
+      "choices": [
+        { "text": "İcra dairesine dilekçe verip makine üzerinde mülkiyet iddiasında bulunun; fatura ve kira sözleşmesini ekleyin.", "delta": 20, "set": ["iddia"],
+          "law": "İİK m.96",
+          "note": "Doğru. Haczedilen mal üzerinde mülkiyet ya da başka bir ayni hak iddia eden üçüncü kişi istihkak iddiasını icra dairesine bildirir. İcra dairesi iddiayı alacaklıya ve borçluya bildirir; üç gün içinde itiraz etmezlerse iddia kabul edilmiş sayılır." },
+        { "text": "Asliye hukuk mahkemesinde istihkak davası açalım.", "delta": -10,
+          "law": "İİK m.96 · m.97",
+          "note": "İstihkak davası icra hukuk mahkemesinde görülür. Önce iddia icra dairesine bildirilir; dava, itiraz ve mahkemenin takibin devamı ya da talikine ilişkin kararından sonra gündeme gelir.",
+          "reply": [{ "who": "partner", "text": "İstihkak davası icra hukuk mahkemesinin işi; ama önce iddiayı icra dairesine bildirmemiz gerek. Dilekçeyi bugün verelim." }] },
+        { "text": "Haciz işlemine karşı icra hukuk mahkemesine şikâyet yolu.", "delta": -10,
+          "law": "İİK m.16 · m.96",
+          "note": "Şikâyet, icra memurunun usule aykırı işlemine karşıdır. Malın kime ait olduğu maddi hukuka ilişkin bir tartışmadır ve istihkak yoluyla çözülür.",
+          "reply": [{ "who": "partner", "text": "Bu bir mülkiyet tartışması; şikâyetle değil istihkak yoluyla çözülür. Önce icra dairesine istihkak iddiası." }] },
+        { "text": "Makineyi bir gece atölyeden alıp kendi depomuza taşıyalım.", "delta": -15,
+          "note": "Haczedilmiş mal üzerinde tasarruf ceza sorumluluğu doğurur; yediemin olan borçlu da müvekkil de zor duruma düşer. Hak, kanunun gösterdiği yolla aranır.",
+          "reply": [{ "who": "partner", "text": "Hacizli malı kaçırmak suç. İstihkak iddiasını icra dairesine bildirelim." }] }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İddia 16 Eylül'de bildirildi. Alacaklı üç gün içinde itiraz etti; icra dairesi dosyayı icra hukuk mahkemesine gönderdi." },
+        { "who": "narr", "text": "Mahkeme dosya üzerinden takibin DEVAMINA karar verdi. Karar size 6 Ekim'de tebliğ edildi." },
+        { "who": "client", "text": "Devam mı? Yani makinemi satacaklar mı?" }
+      ],
+      "prompt": "2. aşama · Takibin devamı kararı: Şimdi ne yapacaksınız?",
+      "choices": [
+        { "text": "Kararın tebliğinden itibaren yedi gün içinde, en geç 13 Ekim'e kadar icra hukuk mahkemesinde alacaklıya karşı istihkak davası açın.", "delta": 25, "set": ["dava"],
+          "law": "İİK m.97",
+          "note": "Doğru. Mal borçlunun elinde haczedildiği için davayı açacak olan üçüncü kişidir. İcra hukuk mahkemesinin kararının tebliğinden itibaren yedi gün içinde dava açılmazsa üçüncü kişi iddiasından vazgeçmiş sayılır." },
+        { "text": "Devam kararına karşı istinaf yoluna başvuralım.", "delta": -10,
+          "law": "İİK m.97",
+          "note": "Takibin devamına ilişkin karar kesindir; kanun yolu yok. Bu arada yedi günlük dava açma süresi işliyor.",
+          "reply": [{ "who": "partner", "text": "Devam kararı kesin. Süre işliyor; istihkak davasını hemen açalım." }], "set": ["dava"] },
+        { "text": "Satış ilanı çıkınca dava açarız; şimdilik makine yerinde duruyor.", "delta": -25,
+          "law": "İİK m.97",
+          "note": "Yedi günlük süre kaçtı.",
+          "fatal": { "label": "SONUÇ:", "hukum": "Üçüncü kişi yedi günlük süre içinde istihkak davası açmadığından İDDİASINDAN VAZGEÇMİŞ SAYILDI; makinenin satışına geçildi.", "summary": "Mal borçlunun elinde haczedildiğinde istihkak davasını üçüncü kişi açmak zorundadır; süre icra hukuk mahkemesinin kararının tebliğinden itibaren yedi gündür (İİK m.97). Müvekkil artık ancak genel hükümlere göre borçluya ya da sebepsiz zenginleşenlere karşı dava yoluna gidebilir." } },
+        { "text": "Malı alacaklının ispat etmesi gerekir; alacaklıya dava açması için süre verilsin.", "delta": -10,
+          "law": "İİK m.99",
+          "note": "Alacaklıya dava açması için süre verilmesi, malın üçüncü kişinin elinde haczedildiği hâl içindir. Bu makine borçlunun atölyesinde, borçlunun elinde haczedildi; dava açma yükü müvekkilde.",
+          "reply": [{ "who": "partner", "text": "Makine borçlunun elindeydi; o madde bize uygulanmaz. Davayı biz açacağız, süre 13 Ekim." }], "set": ["dava"] }
+      ]
+    },
+    {
+      "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Dava 12 Ekim'de açıldı. Ön inceleme öncesi müvekkille görüşüyorsunuz; iki soru sorabileceksiniz." }
+      ],
+      "prompt": "3. aşama · İstihkak davası hazırlığı: Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Kira bedelini nasıl tahsil ediyordunuz?", "delta": 15, "set": ["banka"],
+          "reply": [{ "who": "client", "text": "Her ay bankadan geldi, Mart 2025'ten beri. Açıklamada “CNC makine kirası” yazıyor; Mahmut Bey'in muhasebecisi öyle yazıyordu." }],
+          "note": "Doğru soru. Hacizden aylar önce başlayan ve açıklaması makineyi gösteren düzenli ödemeler, kira ilişkisinin hacizden sonra uydurulmadığını gösterir. Döküm delil çantanıza eklendi." },
+        { "text": "Makinenin bakımını kim yaptırıyordu; servis kaydı var mı?", "delta": 10, "set": ["seri"],
+          "reply": [{ "who": "client", "text": "Ben yaptırırım; garanti benim adıma. Üreticinin servisi iki kez geldi, formlar bende. Seri numarası da yazıyor." }],
+          "note": "Faydalı. Seri numaralı servis kayıtları haczedilen makineyle faturadaki makinenin aynı olduğunu ve müvekkilin malik gibi davrandığını gösterir. Kayıtlar delil çantanıza eklendi." },
+        { "text": "Borçluyla akrabalığınız ya da ortaklığınız var mı?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Hayır. Eski bir müşterim, o kadar." }],
+          "note": "Yerinde bir kontrol: borçlu ile üçüncü kişi arasındaki akrabalık ya da organik bağ muvazaa şüphesini güçlendirir. Burada böyle bir bağ yok." },
+        { "text": "Makineyi sigortalattınız mı?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Hayır, hiç düşünmedim." }],
+          "note": "Davaya katkısı olmayan bir bilgi." }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "İstihkak davasında tahkikata geçiyoruz. Davalı alacaklı vekili, savunmanızı özetleyin." }
+      ],
+      "statement": { "who": "opp", "text": "Sayın Hâkim, kira sözleşmesi borçlu ile davacı arasında, haczi boşa çıkarmak için sonradan düzenlenmiştir. Noter onayı yok; üzerindeki tarihin hiçbir güvencesi yok." },
+      "prompt": "3. aşama · İstihkak davası: Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_banka"],
+      "hit": { "delta": 25, "set": ["tarih"],
+        "reply": [{ "who": "judge", "text": "Banka kayıtlarının ilgili bankadan resmî olarak getirtilmesine karar verildi." }],
+        "note": "Banka kayıtları, kira ilişkisinin hacizden on sekiz ay önce başladığını ve her ay sürdüğünü gösteriyor. Tarihi tartışılan adi sözleşmeyi, tarihi bağımsız bir kurumca kaydedilmiş ödemeler destekliyor." },
+      "responses": {
+        "ev_sozlesme": { "delta": -5, "note": "Tartışılan belgenin kendisiyle tartışmayı kapatamazsınız. Sözleşmenin tarihini doğrulayan bağımsız bir delile ihtiyacınız vardı." },
+        "ev_fatura": { "delta": 5, "set": ["mulkiyet"], "note": "Fatura makineyi müvekkilin satın aldığını gösterir; bu önemli. Ama alacaklının iddiası kira ilişkisinin sonradan uydurulduğu yönünde; ona doğrudan cevap vermiyor." },
+        "ev_seri": { "delta": 10, "set": ["mulkiyet"], "note": "Servis kayıtları makinenin müvekkile ait olduğunu ve malik gibi davrandığını gösteriyor. Ama sözleşmenin tarihine ilişkin iddiaya en doğrudan cevap banka ödemeleri olurdu." },
+        "law_97a": { "delta": -10, "note": "Bu madde alacaklının lehine: mal borçlunun elindeyse borçluya ait olduğu karine olarak kabul edilir." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil iddiaya cevap vermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; muvazaa iddiası cevapsız kaldı." }
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Kaldı ki makine borçlunun atölyesindeydi, borçlunun elindeydi. Kanun gereği borçlunun malı sayılır; davacı bunun aksini ispatlayamaz." },
+        { "who": "judge", "text": "Davacı vekili, ispat yükü konusunda ne diyorsunuz?" }
+      ],
+      "prompt": "3. aşama · İstihkak davası: Karine ve ispat yükü konusunda ne diyeceksiniz?",
+      "choices": [
+        { "text": "Mal borçlunun elinde haczedildiği için karine borçlu lehinedir; ispat yükü bizdedir, bunu kabul ediyoruz. Ama karinenin aksi ispatlanabilir: makineyi müvekkilin satın aldığını ve borçlunun elinde kira sözleşmesiyle bulunduğunu faturayla, servis kayıtlarıyla ve hacizden önceki banka ödemeleriyle gösteriyoruz.", "delta": 20, "set": ["ispat"],
+          "law": "İİK m.97/a · TMK m.985",
+          "note": "Doğru. Taşınırı elinde bulunduran malik sayılır; haczedilen mal borçlunun elinde ise borçluya ait olduğu karine olarak kabul edilir. İstihkak iddiasında bulunan, malı nasıl edindiğini ve malın hangi hukuki ilişkiyle borçlunun elinde bulunduğunu ispat etmelidir.",
+          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
+        { "text": "Hayır, karine müvekkilimin lehinedir; mal onundur, ispat yükü alacaklıdadır.", "delta": -15,
+          "law": "İİK m.97/a · m.99",
+          "note": "Karine, malın üçüncü kişinin elinde haczedildiği hâlde üçüncü kişi lehinedir. Burada mal borçlunun elindeydi; karine borçlu lehine, ispat yükü müvekkilde. Yanlış zeminde savunma yaptınız.",
+          "reply": [{ "who": "judge", "text": "Mal borçlunun işyerinde haczedilmiş, Avukat Hanım. Karine o yönde." }] },
+        { "text": "Karine diye bir şey yok; mülkiyet faturayla ispatlanır, fatura bizde.", "delta": -5,
+          "law": "İİK m.97/a",
+          "note": "Kanunda açık bir mülkiyet karinesi var. Fatura önemli bir delil, ama karinenin varlığını yok sayarak hâkimin gözünde güven kaybettiniz." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Son taleplerinizi alayım. Davacı vekili?" }
+      ],
+      "prompt": "3. aşama · İstihkak davası: Hüküm öncesi son talebiniz ne olacak?",
+      "choices": [
+        { "text": "Davanın kabulü ile makinenin müvekkile ait olduğunun tespitine ve üzerindeki haczin kaldırılmasına karar verilmesini talep ediyoruz.", "delta": 10, "set": ["olcu"],
+          "law": "İİK m.97",
+          "note": "Doğru ve ölçülü. Alacaklının itirazında kötü niyeti ispatlanmadıkça tazminat istenemez; itiraz hakkını kullanmak tek başına kötü niyet değildir." },
+        { "text": "Ayrıca alacaklının, itiraz ettiği için makine değerinin yüzde on beşi oranında tazminata mahkûm edilmesini talep ediyoruz.", "delta": -5, "set": ["fazlaTalep"],
+          "law": "İİK m.97",
+          "note": "Bu tazminat, istihkak iddiası kabul edilip itiraz edenin kötü niyeti sabit olduğunda verilir. İtiraz etmek tek başına kötü niyet değildir; talep reddedilecek." },
+        { "text": "Haczin kaldırılması yerine makinenin bedelinin alacaklıdan alınmasını talep ediyoruz.", "delta": -10,
+          "note": "Makine henüz satılmadı. İstihkak davasının amacı malın üçüncü kişiye ait olduğunun tespiti ve haczin kaldırılmasıdır; bedel talebi ancak mal satılmışsa gündeme gelir." }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "tarih", "winner": "p1",
+      "hukum": [
+        { "text": "Davanın KABULÜ ile KX-4471-B seri numaralı CNC freze makinesinin davacı üçüncü kişiye ait olduğunun TESPİTİNE, makine üzerindeki haczin KALDIRILMASINA," },
+        { "if": "fazlaTalep", "text": " davacının tazminat talebinin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Yedi günlük süre içinde doğru mahkemede davayı açtınız ve muvazaa iddiasını hacizden önceki banka ödemeleriyle çürüttünüz." },
+        { "if": "ispat", "text": " Karinenin borçlu lehine olduğunu kabul edip aksini ispatladınız; doğru strateji." },
+        { "if": "!ispat", "text": " İspat yükü konusunda yanlış zemindeydiniz, ama delilleriniz karineyi yine de çürüttü." },
+        { "if": "fazlaTalep", "text": " Kötü niyet ispatlanmadan istenen tazminat reddedildi." }
+      ]
+    },
+    {
+      "if": "mulkiyet && ispat", "winner": "p1",
+      "hukum": "Davanın KABULÜ ile KX-4471-B seri numaralı CNC freze makinesinin davacı üçüncü kişiye ait olduğunun TESPİTİNE, makine üzerindeki haczin KALDIRILMASINA,",
+      "summary": "Mülkiyeti fatura ve servis kayıtlarıyla gösterdiniz ve karinenin aksini ispat etmeniz gerektiğini doğru anlattınız; mahkeme banka kayıtlarını getirttikten sonra davayı kabul etti. Ama sözleşmenin tarihine yönelik muvazaa iddiasına doğrudan cevap vermediğiniz için dava aylarca uzadı. Müvekkile kira tahsilatını sorsaydınız hacizden önceki ödemeler ilk duruşmada önünüzde olurdu."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Mal borçlunun elinde haczedildiği için borçluya ait olduğu karine olarak kabul edildi (İİK m.97/a). Bu karinenin aksini, yani makineyi müvekkilin edindiğini ve borçlunun elinde hangi hukuki ilişkiyle bulunduğunu, tarihi güvenilir delillerle ispatlamanız gerekiyordu."
+    }
+  ]
+}

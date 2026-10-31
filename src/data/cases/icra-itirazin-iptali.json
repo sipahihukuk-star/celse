@@ -1,0 +1,175 @@
+{
+  "id": "icra-itirazin-iptali",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "orta",
+  "process": true,
+  "title": "Teslim Edilmeyen Koliler",
+  "area": "İcra Hukuku · İtirazın iptali",
+  "court": "Gaziantep 2. Asliye Ticaret Mahkemesi",
+  "courtShort": "2. ASLİYE TİCARET",
+  "esas": "2027/214 Esas",
+  "kararTarihi": "08.10.2027",
+  "color": "#3f5a4a",
+  "teaser": "Faturalar kesildi, ödeme gelmedi, itiraz geldi ve aylar geçti. Bir yıllık süre dolmak üzere; ama dava açmadan önce yapılması gereken bir şey var.",
+  "sides": {
+    "p1": { "role": "Davacı (alacaklı) vekili", "short": "Siz" },
+    "p2": { "role": "Davalı (borçlu) vekili", "short": "Karşı taraf" }
+  },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#c48f66", "hair": "#2b211b", "style": "short", "beard": true } },
+    "opp": { "name": "Av. Sevda Karataş · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#ecc7a3", "hair": "#6a3f22", "style": "long", "glasses": true } },
+    "client": { "name": "Yusuf Demirkıran · Müvekkil şirketin müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#b7825a", "hair": "#1e1a17", "style": "short", "beard": true, "shirt": "#2f4a3c", "inner": "#e8e3d6" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Gaziantep, 18 Ocak 2027. Karşınızda Zeytindalı Ambalaj Ltd. Şti.'nin müdürü Yusuf Demirkıran var." },
+    { "who": "client", "text": "Ballıkaya Gıda A.Ş.'ye 2025 sonbaharında üç parti koli ve etiket gönderdik, 286.400 TL. Faturaları kestik, ödemediler. Geçen şubat önceki avukatımız icra takibi başlattı; itiraz ettiler, sonra avukatımız işi bıraktı." },
+    { "who": "client", "text": "Dosya o günden beri öyle duruyor. Paramızı alabilir miyiz?" }
+  ],
+  "docs": [
+    { "t": "Takip dosyası", "d": "Genel haciz yoluyla ilamsız takip, 286.400 TL asıl alacak ve işlemiş faiz. Borçlu itirazı: “Borcum yoktur. Mallar teslim edilmedi; faturalara itiraz ederim.” İtiraz alacaklıya 10.03.2026'da tebliğ edilmiş." },
+    { "t": "Faturalar", "d": "Üç e-fatura (Ekim–Kasım 2025), toplam 286.400 TL; birim fiyatlar tedarik sözleşmesindeki listeyle aynı." },
+    { "t": "Tedarik sözleşmesi", "d": "İki şirket arasında, birim fiyat listeli çerçeve sözleşme (Mart 2025)." }
+  ],
+  "evidence": [
+    { "id": "ev_fatura", "type": "belge", "title": "E-faturalar", "desc": "Üç fatura, toplam 286.400 TL. Faturalara sekiz gün içinde itiraz edilmemiş." },
+    { "id": "ev_sozlesme", "type": "belge", "title": "Tedarik sözleşmesi", "desc": "Birim fiyat listeli çerçeve sözleşme; iki şirketin yetkililerinin imzası var." },
+    { "id": "ev_defter", "type": "belge", "title": "Müvekkilin ticari defterleri", "desc": "Açılış ve kapanış onayları tamam; faturalar alacak olarak kayıtlı.", "if": "defter" },
+    { "id": "ev_irsaliye", "type": "belge", "title": "İmzalı sevk irsaliyeleri", "desc": "Üç sevkiyatın irsaliyeleri; teslim alan kısmında davalının depo sorumlusunun imzası ve şirket kaşesi var.", "if": "irsaliye" },
+    { "id": "law_ttk21", "type": "kanun", "title": "TTK m.21/2 · Faturaya itiraz", "desc": "Faturayı alan, sekiz gün içinde içeriğine itiraz etmezse içeriği kabul etmiş sayılır.", "law": "TTK m.21/2" }
+  ],
+  "steps": [
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İtirazın tebliğinden bu yana on ay geçti. Takip duruyor." },
+        { "who": "client", "text": "Bir de şunu sorayım: önceki avukat “icra mahkemesine gidersek iki ayda biter” demişti. Hâlâ öyle mi?" }
+      ],
+      "prompt": "1. aşama · Takip ve itiraz: Hangi yola başvuracaksınız?",
+      "choices": [
+        { "text": "İtirazın iptali davası. Ticari dava olduğu için önce arabulucuya başvurun; arabuluculukta geçen sürede bir yıllık süre işlemez. Anlaşma olmazsa son tutanakla davayı açın.", "delta": 25, "set": ["arabulucu", "dava"],
+          "law": "İİK m.67 · TTK m.5/A · 6325 s.K. m.18/A",
+          "note": "Doğru. Alacaklı, itirazın tebliğinden itibaren bir yıl içinde genel mahkemede itirazın iptalini dava edebilir. İki tacir arasındaki, ticari işletmeyle ilgili bu dava ticari davadır; 7445 sayılı Kanundan sonra TTK m.5/A itirazın iptali davalarında da arabulucuya başvurulmasını dava şartı sayıyor. Arabulucuya başvurudan son tutanağa kadar hak düşürücü süreler işlemez." },
+        { "text": "Süre dar; hemen asliye ticaret mahkemesinde itirazın iptali davası açalım.", "delta": -25,
+          "law": "TTK m.5/A · 6325 s.K. m.18/A",
+          "note": "Ticari davalarda itirazın iptali davası açılmadan önce arabulucuya başvurulmuş olması dava şartıdır. Başvurmadan açılan dava, herhangi bir işlem yapılmaksızın usulden reddedilir.",
+          "fatal": { "label": "SONUÇ:", "hukum": "Davanın, dava açılmadan önce arabulucuya başvurulmadığından dava şartı yokluğu nedeniyle USULDEN REDDİNE karar verildi.", "summary": "TTK m.5/A uyarınca ticari davalarda itirazın iptali davası açılmadan önce arabulucuya başvurulması dava şartıdır. Ret kararı kesinleştiğinde bir yıllık süre de dolmuştu; artık ancak genel hükümlere göre alacak davası açılabilir ve icra inkâr tazminatı istenemez." } },
+        { "text": "Önceki avukat haklı: icra hukuk mahkemesinden itirazın kaldırılmasını isteyelim.", "delta": -10,
+          "law": "İİK m.68",
+          "note": "İki engel var. İtirazın kaldırılması, itirazın tebliğinden itibaren altı ay içinde istenebilir; o süre geçti. Üstelik bu yol için imzası ikrar edilmiş ya da noterce onaylanmış bir borç ikrarı gibi bir belge gerekir; tek taraflı faturalar bu nitelikte değildir.",
+          "reply": [{ "who": "client", "text": "Altı ay geçmiş mi? Peki şimdi ne yapacağız?" }] },
+        { "text": "Bir yılı kaçırsak da olur; genel hükümlere göre alacak davası açarız.", "delta": -5,
+          "law": "İİK m.67",
+          "note": "Alacak davası hakkı saklıdır, ama takip düşer, yeniden masraf yapılır ve icra inkâr tazminatı istenemez. Süre hâlâ işliyorken bu hakları bırakmak için bir neden yok.",
+          "reply": [{ "who": "client", "text": "Takip boşa mı gidecek? Süre varsa onu kullanalım." }] }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office", "if": "!dava",
+      "lines": [
+        { "who": "narr", "text": "Takvime bakıyorsunuz: itiraz 10 Mart 2026'da tebliğ edilmiş. Bir yıllık süre 10 Mart 2027'de doluyor." }
+      ],
+      "prompt": "1. aşama · Takip ve itiraz: Süre içinde nasıl ilerleyeceksiniz?",
+      "choices": [
+        { "text": "Önce arabulucuya başvurun; anlaşma olmazsa son tutanakla itirazın iptali davasını açın.", "delta": 10, "set": ["arabulucu", "dava"],
+          "law": "İİK m.67 · TTK m.5/A · 6325 s.K. m.18/A",
+          "note": "Doğru. Ticari itirazın iptali davasında arabuluculuk dava şartıdır; arabuluculukta geçen süre bir yıllık süreye eklenmez." },
+        { "text": "Doğrudan asliye ticaret mahkemesinde itirazın iptali davası açın.", "delta": -25,
+          "law": "TTK m.5/A · 6325 s.K. m.18/A",
+          "note": "Arabuluculuk dava şartı atlandı.",
+          "fatal": { "label": "SONUÇ:", "hukum": "Davanın, dava açılmadan önce arabulucuya başvurulmadığından dava şartı yokluğu nedeniyle USULDEN REDDİNE karar verildi.", "summary": "TTK m.5/A uyarınca ticari davalarda itirazın iptali davası açılmadan önce arabulucuya başvurulması dava şartıdır. Bir yıllık süre de bu arada doldu." } }
+      ]
+    },
+    {
+      "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Arabuluculuk 9 Şubat'ta anlaşmazlıkla bitti. Dava 16 Şubat 2027'de açıldı. Ön inceleme duruşmasından önce müvekkille son kez görüşüyorsunuz; vaktiniz iki soruya yetiyor." }
+      ],
+      "prompt": "2. aşama · Dava hazırlığı: Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Mallar teslim edilirken imzalanan bir irsaliye ya da teslim tutanağı var mı?", "delta": 15, "set": ["irsaliye"],
+          "reply": [{ "who": "client", "text": "Her sevkiyatta onların depo sorumlusu irsaliyeyi imzalayıp kaşeledi. Asılları muhasebede, klasörde duruyor." }],
+          "note": "Doğru soru. Davalı teslimi inkâr ediyor; teslim alanın imzasını taşıyan irsaliyeler bu inkârı doğrudan çürütür. İrsaliyeler delil çantanıza eklendi." },
+        { "text": "Ticari defterleriniz usulüne uygun tutuluyor mu, açılış ve kapanış onayları var mı?", "delta": 5, "set": ["defter"],
+          "reply": [{ "who": "client", "text": "Mali müşavirimiz tutuyor, onaylar tam. Faturaların hepsi kayıtlı." }],
+          "note": "Faydalı. Ticari defterler tacirler arasında belirli koşullarla delil olabilir (HMK m.222). Ama teslim inkâr edildiğinde, teslimi gösteren imzalı bir belge daha güçlüdür." },
+        { "text": "Faturalara karşı taraf hiç itiraz etti mi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Hayır, ne yazılı ne sözlü. Sadece ödemediler." }],
+          "note": "Bilmeniz gereken bir bilgi; ama faturaya itiraz edilmemesi içeriğin kabulü sonucunu doğurur, teslimin ispatı yerine geçmez." },
+        { "text": "Karşı şirketin yöneticisiyle aranız nasıl?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Eskiden iyiydi. Şimdi telefonlarıma çıkmıyor." }],
+          "note": "Sınırlı soru hakkınızı davaya katkısı olmayan bir konuya harcadınız." }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Ön inceleme tamamlandı, tahkikata geçiyoruz. Davalı vekili, savunmanızı özetleyin." }
+      ],
+      "statement": { "who": "opp", "text": "Sayın Hâkim, müvekkil şirket bu malları hiç teslim almamıştır. Faturalar davacının tek taraflı düzenlediği belgelerdir; teslim ispatlanmadıkça borç doğmaz." },
+      "prompt": "3. aşama · İtirazın iptali davası: Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_irsaliye"],
+      "hit": { "delta": 25, "set": ["teslim"],
+        "reply": [{ "who": "judge", "text": "İrsaliye asıllarının dosyaya sunulmasına; davalıdan, irsaliyelerdeki imzanın depo sorumlusuna ait olup olmadığı konusunda beyan istenmesine karar verildi." }],
+        "note": "Teslim alan çalışanın imzası ve şirket kaşesi taşıyan irsaliyeler malların teslim edildiğini yazılı olarak gösteriyor. Davalının inkârı belgeyle çelişti." },
+      "responses": {
+        "ev_fatura": { "delta": -5, "note": "Faturalar sizin düzenlediğiniz belgelerdir. İçeriklerine itiraz edilmemesi içeriğin kabulü sonucunu doğurur, ama teslim ayrıca inkâr edildiğinde teslimin ispatı gerekir." },
+        "law_ttk21": { "delta": -5, "note": "TTK m.21/2 faturanın içeriğine süresinde itiraz edilmemesinin sonucunu düzenler. Malın hiç teslim edilmediği savunmasına karşı teslimi gösteren bir belge sunmanız gerekiyordu." },
+        "ev_sozlesme": { "delta": -5, "note": "Sözleşme taraflar arasındaki ilişkiyi ve fiyatları gösterir; malın teslim edildiğini göstermez." },
+        "ev_defter": { "delta": 5, "set": ["defterItiraz"],
+          "reply": [{ "who": "judge", "text": "Tarafların ticari defterleri üzerinde bilirkişi incelemesi yapılmasına karar verildi." }],
+          "note": "Ticari defterler belirli koşullarla tacirler arasında delil olabilir (HMK m.222). Ama teslimi gösteren imzalı bir belge çok daha güçlü olurdu." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil teslim inkârına cevap vermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; teslim inkârı cevapsız kaldı. İspat yükü alacağın varlığını ileri süren sizdeydi." }
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Ayrıca alacak likit değildir. Tutarın ne olduğu ancak bilirkişi incelemesiyle anlaşılabilir; bu yüzden icra inkâr tazminatı istenemez." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "3. aşama · İtirazın iptali davası: İcra inkâr tazminatı için ne diyeceksiniz?",
+      "choices": [
+        { "text": "Alacak, sözleşmedeki birim fiyatlar ve faturalarla belirlidir; borçlu ne kadar borçlu olduğunu takip sırasında hesaplayabilecek durumdaydı. Bilirkişi incelemesi yapılması alacağı likit olmaktan çıkarmaz. Alacağın yüzde yirmisinden aşağı olmamak üzere icra inkâr tazminatı istiyoruz.", "delta": 20, "set": ["inkar"],
+          "law": "İİK m.67/2",
+          "note": "Doğru. Yargıtay uygulamasında likit alacak, miktarı belli ya da borçlunun bilgisi dahilindeki verilerle belirlenebilir alacaktır; bilirkişi incelemesi gerekmesi tek başına likitliği ortadan kaldırmaz.",
+          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
+        { "text": "Tazminat talebimizden vazgeçiyoruz; asıl alacak yeter.", "delta": -10,
+          "note": "Koşulları varken kanunun öngördüğü tazminattan vazgeçtiniz. Bu feragat müvekkilinize yüz binin üzerinde bir kayıp olabilir." },
+        { "text": "Tazminat için borçlunun kötü niyetini ispatlayacağız; itirazı bilerek yaptı.", "delta": -5,
+          "law": "İİK m.67/2-3",
+          "note": "İcra inkâr tazminatı için borçlunun kötü niyeti aranmaz; itirazın haksız çıkması ve alacağın likit olması yeter. Kötü niyet şartı yalnızca itiraz eden veli, vasi ya da mirasçı ise aranır. Gereksiz bir ispat yükü üstlendiniz." }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "teslim", "winner": "p1",
+      "hukum": [
+        { "text": "Davanın KABULÜ ile davalının icra takibine yaptığı itirazın İPTALİNE, takibin 286.400 TL asıl alacak ve işlemiş faiz üzerinden devamına," },
+        { "if": "inkar", "text": " hükmolunan alacağın %20'si oranındaki icra inkâr tazminatının davalıdan alınarak davacıya verilmesine," },
+        { "if": "!inkar", "text": " icra inkâr tazminatı talebinin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Önce arabulucuya gidip bir yıllık süreyi korudunuz; teslim inkârını imzalı irsaliyelerle çürüttünüz." },
+        { "if": "inkar", "text": " Alacağın likit olduğunu da doğru gerekçeyle savundunuz." },
+        { "if": "!inkar", "text": " Ama icra inkâr tazminatını kaybettiniz: bilirkişi incelemesi gerekmesi alacağı likit olmaktan çıkarmaz ve borçlunun kötü niyeti aranmaz." }
+      ]
+    },
+    {
+      "if": "defterItiraz", "winner": "draw", "stamp": "KISMEN KAZANDINIZ",
+      "hukum": [
+        { "text": "Davanın KISMEN KABULÜ ile davalının itirazının ilk iki sevkiyata ait 191.200 TL yönünden İPTALİNE, takibin bu miktar üzerinden devamına, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "inkar", "text": " hükmolunan alacağın %20'si oranındaki icra inkâr tazminatının davalıdan alınarak davacıya verilmesine," }
+      ],
+      "summary": "Bilirkişi incelemesinde iki tarafın defterleri yalnızca ilk iki sevkiyat yönünden birbirini doğruladı; üçüncü sevkiyatın teslimi ispatlanamadı. Müvekkile teslim belgelerini sorsaydınız imzalı irsaliyeler bütün alacağı ispatlayacaktı."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Alacağın varlığını ispat yükü itirazın iptalini isteyen alacaklıdaydı (İİK m.67: “genel hükümler dairesinde alacağının varlığını ispat suretiyle”). Teslim inkâr edildi ve siz teslimi gösteren bir delil sunmadınız; faturalar tek başına yetmedi."
+    }
+  ]
+}

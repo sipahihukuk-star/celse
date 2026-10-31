@@ -1,0 +1,200 @@
+{
+  "id": "icra-kambiyo-senedi",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "orta",
+  "process": true,
+  "title": "Beş Günlük Pencere",
+  "area": "İcra Hukuku · Kambiyo senedine dayalı takip",
+  "court": "Bursa 4. İcra Hukuk Mahkemesi",
+  "courtShort": "4. İCRA HUKUK",
+  "esas": "2026/2296 Esas",
+  "kararTarihi": "18.02.2027",
+  "color": "#4b3d5e",
+  "teaser": "İki bono, tek ödeme emri. Birini hiç imzalamadığını, ötekini çoktan ödediğini söylüyor. Ödeme emrinde “on gün” yazıyor; asıl süre daha kısa.",
+  "sides": {
+    "p1": { "role": "Borçlu vekili", "short": "Siz" },
+    "p2": { "role": "Alacaklı vekili", "short": "Karşı taraf" }
+  },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#5a5a60", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Kerem Ilıcak · Alacaklı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e6c09a", "hair": "#3b2b20", "style": "curly" } },
+    "client": { "name": "Filiz Akdoğan · Müvekkil (borçlu)", "np": "civil", "look": { "kind": "civil", "skin": "#c28a62", "hair": "#2a1b14", "style": "long", "shirt": "#7a3f3f", "inner": "#efe7dc" } },
+    "partner": { "name": "Av. Meral Tunç · Büro ortağı", "np": "green", "look": { "kind": "civil", "skin": "#f0cfae", "hair": "#8c8c8c", "style": "bun", "glasses": true, "shirt": "#3b3f55", "inner": "#f3f0ea" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Bursa, 6 Kasım 2026, cuma. Filiz Akdoğan elinde bir ödeme emriyle büroya geldi. Nilüfer'de bir kırtasiye işletiyor." },
+    { "who": "client", "text": "Ercan Yavuz adına iki bono için takip başlatılmış: biri 186.000 TL, öteki 90.000 TL. Doksan binlik benim, ama ödedim. Yüz seksen altı binlik senedi hayatımda görmedim; imza bana benziyor ama benim değil." },
+    { "who": "client", "text": "Ödeme emri 4 Kasım'da geldi. Üstünde “on gün içinde ödeyin” yazıyor. Daha vaktim var, değil mi?" }
+  ],
+  "docs": [
+    { "t": "Ödeme emri (örnek 10)", "d": "Kambiyo senetlerine özgü haciz yoluyla takip. Alacaklı: Ercan Yavuz. Tebliğ: 04.11.2026. Ödeme süresi on gün; şikâyet, borca itiraz ve imzaya itiraz için beş günlük süreler yazılı." },
+    { "t": "Birinci bono (186.000 TL)", "d": "Düzenleme: Bursa, 12.03.2026; vade 12.09.2026. Keşideci olarak “F. Akdoğan” imzası. Zorunlu unsurlar eksiksiz." },
+    { "t": "İkinci bono (90.000 TL)", "d": "Düzenleme: Bursa, 05.01.2026; vade 05.06.2026. Müvekkilin imzası. Zorunlu unsurlar eksiksiz." }
+  ],
+  "evidence": [
+    { "id": "ev_bono1", "type": "belge", "title": "Birinci bono (186.000 TL)", "desc": "“F. Akdoğan” imzası; müvekkil bu imzayı tanımıyor." },
+    { "id": "ev_bono2", "type": "belge", "title": "İkinci bono (90.000 TL)", "desc": "Müvekkilin kendi imzası; vadesi 05.06.2026." },
+    { "id": "ev_ornek", "type": "belge", "title": "Noter ve banka imza örnekleri", "desc": "Müvekkilin 2025 tarihli noter vekâletnamesindeki ve bankadaki imza kartonundaki imzaları; hepsinde tam ad soyad yazılı.", "if": "ornek" },
+    { "id": "ev_makbuz", "type": "belge", "title": "El yazısı makbuz", "desc": "“05.06.2026 vadeli 90.000 TL bono bedelini Filiz Akdoğan'dan nakden aldım.” Altında Ercan Yavuz'un imzası.", "if": "makbuz" }
+  ],
+  "steps": [
+    {
+      "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Müvekkil yarım saat sonra dükkânını açacak. İki soru sorabilecek kadar vaktiniz var." }
+      ],
+      "prompt": "1. aşama · Ödeme emri: Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Doksan binlik senedi öderken elinize bir kâğıt, makbuz, mesaj ya da dekont geçti mi?", "delta": 15, "set": ["makbuz"],
+          "reply": [{ "who": "client", "text": "Parayı elden verdim, ama Ercan Bey'e bir kâğıda yazdırdım: “bono bedelini aldım” diye. Altında onun imzası var. Kasada duruyor." }],
+          "note": "Doğru soru. Kambiyo takibinde borca itiraz, borcun ödendiğini gösteren resmî ya da imzası ikrar edilmiş bir belgeyle desteklenmelidir. Alacaklının imzasını taşıyan makbuz delil çantanıza eklendi." },
+        { "text": "Resmî bir yerde attığınız imzalar var mı: noter, banka, tapu?", "delta": 10, "set": ["ornek"],
+          "reply": [{ "who": "client", "text": "Geçen yıl noterde vekâletname verdim. Bankada imza kartonum var. Ben hep adımı soyadımı tam yazarım, “F.” diye kısaltmam." }],
+          "note": "Faydalı. İmza incelemesinde karşılaştırma için resmî kayıtlardaki imza örnekleri kullanılır. Örnekler delil çantanıza eklendi." },
+        { "text": "Ercan Yavuz'la başka bir ilişkiniz var mı?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Dükkânın tadilatını o yaptı. Doksan bin onun içindi; ödedim. Başka hiçbir borcum yok." }],
+          "note": "Arka planı öğrendiniz, ama ispat için bir belge ortaya çıkmadı." },
+        { "text": "Bonoları imzaladığınız günü hatırlıyor musunuz, yanınızda kim vardı?", "delta": -5,
+          "reply": [{ "who": "client", "text": "İkincisini dükkânda imzaladım, kimse yoktu. Birincisini hiç imzalamadım ki." }],
+          "note": "Bu takipte imza ve ödeme belgeyle ve bilirkişi incelemesiyle tartışılır; tanığa dayalı bir hatıranın faydası sınırlı." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Takvime bakıyorsunuz. Ödeme emri 4 Kasım çarşamba tebliğ edilmiş. Bugün 6 Kasım cuma." },
+        { "who": "partner", "text": "Kambiyo takibi bu. Ödeme emrindeki sürelerin hepsini oku, sonra karar ver." }
+      ],
+      "prompt": "1. aşama · Ödeme emri: Ne yapacaksınız?",
+      "choices": [
+        { "text": "Pazartesi, 9 Kasım'a kadar icra hukuk mahkemesine dilekçe verin: birinci senetteki imzaya ayrıca ve açıkça itiraz; ikinci senet için borcun ödendiği gerekçesiyle borca itiraz. Ayrıca takibin durdurulmasını isteyin.", "delta": 25, "set": ["imza", "borca"],
+          "law": "İİK m.168 · m.169 · m.169/a · m.170",
+          "note": "Doğru. Kambiyo takibinde borca itiraz ve imzaya itiraz, ödeme emrinin tebliğinden itibaren beş gün içinde icra hukuk mahkemesine yapılır. Süre ertesi günden başlar; beşinci gün 9 Kasım pazartesidir. İtirazlar, mahkeme bir durdurma kararı vermedikçe takibi kendiliğinden durdurmaz; durdurma ayrıca istenir." },
+        { "text": "Ödeme emrinde on gün yazıyor; önümüzdeki hafta icra dairesine itiraz edelim, ilamsız takipteki gibi.", "delta": -25,
+          "law": "İİK m.168",
+          "note": "On gün ödeme süresidir. Borca ve imzaya itiraz süresi beş gündür ve itiraz icra dairesine değil, icra hukuk mahkemesine yapılır.",
+          "fatal": { "label": "SONUÇ:", "hukum": "Borca ve imzaya itirazın SÜRE YÖNÜNDEN REDDİNE; takibin devamına karar verildi.", "summary": "Kambiyo senetlerine özgü haciz yolunda borca ve imzaya itiraz süresi ödeme emrinin tebliğinden itibaren beş gündür (İİK m.168). Süresinde açıkça inkâr edilmeyen imza, takip bakımından borçluya ait sayılır. Müvekkilin elinde artık yalnızca genel mahkemede menfi tespit ya da istirdat davası var." } },
+        { "text": "“Borcum yoktur” diye tek cümlelik bir borca itiraz yeter; iki senedi de kapsar.", "delta": -15, "set": ["borca", "imzaKabul"],
+          "law": "İİK m.168 · m.170",
+          "note": "İmzaya itiraz ayrıca ve açıkça yapılmalıdır. Yalnızca borca itiraz eden borçlu, senetteki imzayı takip bakımından kabul etmiş sayılır. Birinci senet yönünden en güçlü savunmanızı kaybettiniz." },
+        { "text": "Senetler kambiyo senedi niteliğinde değil diye şikâyet edip takibin iptalini isteyelim.", "delta": -10,
+          "law": "İİK m.170/a · TTK m.776",
+          "note": "Takibin iptali, senet kambiyo senedi niteliği taşımıyorsa söz konusudur. İki bononun zorunlu unsurları eksiksiz; bu şikâyet reddedilir. Sorununuz senedin şekli değil, imzanın sahteliği ve borcun ödenmesi.",
+          "reply": [{ "who": "partner", "text": "Bonolar şekil olarak eksiksiz. Sorun imzada ve ödemede. Süre pazartesi doluyor; ne yazacağız?" }] }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office", "if": "!imza && !borca",
+      "lines": [
+        { "who": "narr", "text": "Pazartesiye üç gün var." }
+      ],
+      "prompt": "1. aşama · Ödeme emri: Dilekçede neyi ileri süreceksiniz?",
+      "choices": [
+        { "text": "Birinci senet için imzaya, ikinci senet için borca, ayrı başlıklarla ve açıkça itiraz; takibin durdurulması talebi.", "delta": 15, "set": ["imza", "borca"],
+          "law": "İİK m.168 · m.169/a · m.170",
+          "note": "Doğru. İmzaya itiraz ayrıca ve açıkça yapılmalı; borca itiraz belgeyle desteklenmeli." },
+        { "text": "İki senet için tek cümle: “Borcum yoktur.”", "delta": -15, "set": ["borca", "imzaKabul"],
+          "law": "İİK m.168 · m.170",
+          "note": "İmza ayrıca ve açıkça inkâr edilmedi; takip bakımından kabul edilmiş sayılır." }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Dilekçe 9 Kasım'da verildi. Mahkeme ikinci senet yönünden önce borca itirazı ele aldı." },
+        { "who": "judge", "text": "Alacaklı vekili, ikinci senede ilişkin beyanınız?" }
+      ],
+      "statement": { "who": "opp", "text": "Sayın Hâkim, doksan bin liralık senet de ödenmemiştir. Borçlu kambiyo takibinde ödeme savunmasını ancak belgeyle yapabilir; ortada tek bir belge yok." },
+      "prompt": "2. aşama · İcra hukuk mahkemesi: Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_makbuz"],
+      "hit": { "delta": 25, "set": ["odeme"],
+        "reply": [{ "who": "judge", "text": "Makbuzun aslı incelendi. Alacaklı vekili, makbuzdaki imzaya diyeceğiniz?" }],
+        "note": "Alacaklının imzasını taşıyan makbuz, ikinci senedin bedelinin ödendiğini gösteriyor. Kambiyo takibinde borca itiraz, resmî ya da imzası ikrar edilmiş bir belgeyle yapılır (İİK m.169/a)." },
+      "responses": {
+        "ev_bono2": { "delta": -5, "note": "Senedin kendisi ödendiğini göstermez. Ödemeyi gösteren bir belge sunmalıydınız." },
+        "ev_ornek": { "delta": -5, "note": "İmza örnekleri birinci senedin imza incelemesi içindir; ikinci senedin ödendiğini göstermez." },
+        "ev_bono1": { "delta": -10, "note": "Birinci senet bu tartışmanın konusu değil." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil ödemeyi göstermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz. Kambiyo takibinde belgesiz ödeme savunması dinlenmez." }
+    },
+    {
+      "side": "p1", "scene": "court", "if": "odeme",
+      "lines": [
+        { "who": "opp", "text": "Makbuzdaki imza müvekkilime ait değildir. İmzayı inkâr ediyoruz." },
+        { "who": "judge", "text": "Borçlu vekili?" }
+      ],
+      "prompt": "2. aşama · İcra hukuk mahkemesi: Alacaklı makbuzdaki imzayı inkâr etti. Ne talep edeceksiniz?",
+      "choices": [
+        { "text": "Makbuzdaki imza için inceleme yapılmasını talep ediyoruz. İmzanın alacaklıya ait çıkması hâlinde alacaklının, belgedeki miktarın yüzde onu oranında para cezasına mahkûm edilmesini istiyoruz.", "delta": 15, "set": ["makbuzInceleme"],
+          "law": "İİK m.169/a · m.68",
+          "note": "Doğru. Borçlunun sunduğu belgedeki imzayı alacaklı inkâr ederse mahkeme imza incelemesi yapar; imza alacaklıya aitse alacaklı belgedeki miktarın yüzde onu oranında para cezasına mahkûm edilir.",
+          "reply": [{ "who": "judge", "text": "Alacaklının imza örneklerinin getirtilmesine ve makbuz üzerinde bilirkişi incelemesi yapılmasına karar verildi." }] },
+        { "text": "Tartışma uzamasın; makbuzu dosyadan geri çekiyoruz.", "delta": -15, "set": ["makbuzGeri"],
+          "note": "Elinizdeki tek ödeme belgesini kendiniz geri çektiniz. İkinci senet yönünden itiraz belgesiz kaldı." },
+        { "text": "Ödeme sırasında dükkânda çırak da vardı; tanık olarak dinlensin.", "delta": -5,
+          "note": "Kambiyo takibinde icra hukuk mahkemesi ödemeyi belgeyle inceler; tanık bu yargılamada sonuç vermez. Doğru yol makbuzdaki imzanın incelenmesini istemekti.",
+          "reply": [{ "who": "judge", "text": "Tanık dinlenmesine yer olmadığına; makbuz üzerinde re'sen bilirkişi incelemesi yaptırılmasına karar verildi." }] }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court", "if": "imza",
+      "lines": [
+        { "who": "narr", "text": "İki ay sonra bilirkişi raporu geldi: birinci senetteki “F. Akdoğan” imzası müvekkilin eli ürünü değil." },
+        { "who": "narr", "text": "Makbuzdaki imza ise Ercan Yavuz'a ait bulundu.", "if": "odeme && !makbuzGeri" },
+        { "who": "judge", "text": "Rapor taraflara tebliğ edildi. Borçlu vekili, son taleplerinizi alayım." }
+      ],
+      "prompt": "3. aşama · Karar öncesi: Birinci senet için son talebiniz ne olacak?",
+      "choices": [
+        { "text": "İmzaya itirazın kabulü ile birinci senet yönünden takibin durdurulmasına; senedi takibe koymakta kötü niyetli ya da ağır kusurlu olan alacaklının tazminat ve para cezasına mahkûm edilmesine karar verilmesini talep ediyoruz.", "delta": 15, "set": ["tazminat"],
+          "law": "İİK m.170",
+          "note": "Doğru. İmzaya itiraz kabul edilirse takip durur. Alacaklının senedi takibe koymakta kötü niyetli ya da ağır kusurlu olduğu anlaşılırsa, kanunun öngördüğü oranlarda tazminata ve para cezasına da hükmedilir." },
+        { "text": "İmzaya itirazın kabulüne karar verilmesini talep ediyoruz.", "delta": 5,
+          "law": "İİK m.170",
+          "note": "Asıl talep doğru. Ama sahte imzalı senedi takibe koyan alacaklı aleyhine kanunda öngörülen tazminatı istemediniz." },
+        { "text": "Sahte senet için alacaklı hakkında suç duyurusunda bulunuyoruz; icra dosyasında başka talebimiz yok.", "delta": 0,
+          "law": "TCK m.204 · m.210/1",
+          "note": "Bono emre yazılı kıymetli evrak olduğundan sahteciliği resmî belgede sahtecilik hükümlerine tabidir (TCK m.210/1); suç duyurusu yerinde olabilir. Ama icra hukuk mahkemesinden imzaya itirazın kabulünü istemeyi unuttunuz; mahkeme talebinizi dilekçedeki hâliyle değerlendirecek." }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "imza && odeme && !makbuzGeri", "winner": "p1",
+      "hukum": [
+        { "text": "Birinci senet yönünden imzaya itirazın KABULÜ ile takibin DURDURULMASINA; ikinci senet yönünden borca itirazın KABULÜ ile takibin DURDURULMASINA," },
+        { "if": "tazminat", "text": " senedi takibe koymakta kötü niyetli bulunan alacaklının kanunda öngörülen oranlarda tazminat ve para cezasına mahkûmiyetine," },
+        { "if": "makbuzInceleme", "text": " makbuzdaki imzayı inkâr eden alacaklının belgedeki miktarın %10'u oranında para cezasına mahkûmiyetine," }
+      ],
+      "summary": [
+        { "text": "Beş günlük süreyi kaçırmadınız, imzaya ayrıca ve açıkça itiraz ettiniz ve ödemeyi alacaklının imzaladığı makbuzla belgelediniz." },
+        { "if": "ornek", "text": " Resmî kayıtlardaki imza örnekleri bilirkişi incelemesini kolaylaştırdı." },
+        { "if": "!tazminat", "text": " Sahte imzalı senedi takibe koyan alacaklı aleyhine tazminat istenebilirdi; istemediniz." }
+      ]
+    },
+    {
+      "if": "imza", "winner": "draw", "stamp": "KISMEN KAZANDINIZ",
+      "hukum": [
+        { "text": "Birinci senet yönünden imzaya itirazın KABULÜ ile takibin DURDURULMASINA; ikinci senet yönünden borca itirazın REDDİNE," },
+        { "if": "tazminat", "text": " senedi takibe koymakta kötü niyetli bulunan alacaklının kanunda öngörülen oranlarda tazminat ve para cezasına mahkûmiyetine," }
+      ],
+      "summary": [
+        { "text": "Sahte imzalı senet yönünden takip durdu. Ama doksan binlik senedin ödendiğini belgeyle gösteremediniz; müvekkil aynı borcu iki kez ödeme riskiyle karşı karşıya ve genel mahkemede istirdat davası açmak zorunda kalabilir." },
+        { "if": "!makbuz", "text": " Müvekkile ödeme belgesini sorsaydınız kasada duran makbuz ortaya çıkacaktı." },
+        { "if": "makbuzGeri", "text": " Makbuzu kendiniz geri çektiniz; imzayı inkâr eden alacaklı, imza incelemesiyle para cezası riskine girecekti." }
+      ]
+    },
+    {
+      "if": "odeme && !makbuzGeri", "winner": "draw", "stamp": "KISMEN KAZANDINIZ",
+      "hukum": "İkinci senet yönünden borca itirazın KABULÜ ile takibin DURDURULMASINA; birinci senet yönünden itirazın REDDİNE,",
+      "summary": "Ödenen senet yönünden takip durdu. Ama birinci senetteki imzaya ayrıca ve açıkça itiraz etmediniz; imza takip bakımından borçluya ait sayıldı ve 186.000 TL için takip devam ediyor. Müvekkil artık sahteliği genel mahkemede ispatlamak zorunda."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Borçlunun itirazlarının REDDİNE, takibin devamına,",
+      "summary": "İmza süresinde ve açıkça inkâr edilmedi, ödeme de belgelenmedi. Kambiyo takibinde süreler kısa ve deliller belgeyle sınırlıdır; müvekkilin elinde yalnızca genel mahkemede menfi tespit ya da istirdat davası kaldı."
+    }
+  ]
+}
