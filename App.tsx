@@ -14,6 +14,8 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import AdminScreen from "./src/admin/AdminScreen";
 import { signOut, supabase, useAccount } from "./src/data/account";
 import AccountScreen from "./src/ui/AccountScreen";
+import PaywallScreen from "./src/ui/PaywallScreen";
+import { FREE_CASES, usePremium } from "./src/data/subscription";
 import { buildCareer, levelOf, openIds, Progress, recordResult, resetProgress, useProgress, CHAPTERS } from "./src/data/career";
 import { useCases } from "./src/data/useCases";
 import { GameState, verdict } from "./src/engine/engine";
@@ -32,6 +34,7 @@ type Route =
   | { k: "admin" }
   | { k: "career" }
   | { k: "account"; then?: "career" }
+  | { k: "paywall"; back: "career" | "list" | "title"; mode?: "duel" | "solo" }
   | { k: "game"; c: CaseFile; players: Record<Side, Player>; run: number; from: From }
   | { k: "verdict"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From; notice?: string };
 
@@ -49,6 +52,7 @@ export default function App() {
   const cases = useCases();
   const progress = useProgress();
   const { account } = useAccount();
+  const { premium } = usePremium();
 
   // Yazı tipleri yüklenemezse (ör. ağ engeli) sistem yazı tipiyle devam edilir.
   if (!loaded && !error) return <View style={styles.root} />;
@@ -56,7 +60,8 @@ export default function App() {
   const startGame = (c: CaseFile, players: Record<Side, Player>, from: From = "list") => { setRun(r => r + 1); setRoute({ k: "game", c, players, run: run + 1, from }); };
   const toList = (mode: "duel" | "solo") => setRoute({ k: "list", mode });
   const back = (c: CaseFile, from: From) => (from === "admin" ? setRoute({ k: "admin" }) : from === "career" ? setRoute({ k: "career" }) : toList(c.mode));
-  const career = buildCareer(cases.solo, progress);
+  const career = buildCareer(cases.solo, progress, premium, FREE_CASES);
+  const lockOf = new Map(career.chapters.flatMap(ch => ch.cases.map(x => [x.c.id, x.lock] as const)));
   const careerOpen = openIds(career);
 
   /** Oyun bitince: tek kişilik davada sonucu kariyere yazar, yeni açılan bölüm ya da davayı bildirir. */
@@ -87,15 +92,21 @@ export default function App() {
           account={account} server={!!supabase()}
           onAccount={() => setRoute({ k: "account" })} onSignOut={() => signOut()}
           onCareer={() => setRoute(account ? { k: "career" } : { k: "account", then: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })} />}
+        {route.k === "paywall" && (
+          <PaywallScreen onBack={() => (route.back === "career" ? setRoute({ k: "career" }) : route.back === "list" ? toList(route.mode || "solo") : setRoute({ k: "title" }))} />
+        )}
         {route.k === "account" && (
           <AccountScreen onBack={() => setRoute({ k: "title" })} onDone={() => setRoute(route.then === "career" ? { k: "career" } : { k: "title" })} />
         )}
         {route.k === "career" && (
-          <CareerScreen view={career} onBack={() => setRoute({ k: "title" })} onPick={c => startGame(c, SOLO_PLAYERS, "career")} onReset={() => resetProgress()} />
+          <CareerScreen view={career} premium={premium} onPaywall={() => setRoute({ k: "paywall", back: "career" })} onBack={() => setRoute({ k: "title" })} onPick={c => startGame(c, SOLO_PLAYERS, "career")} onReset={() => resetProgress()} />
         )}
         {route.k === "list" && (
           <CaseListScreen mode={route.mode} cases={route.mode === "duel" ? cases.duel : cases.solo}
-            lockedNote={c => (c.mode === "solo" && !c.career?.off && !careerOpen.has(c.id) ? `Kariyerde açılır · ${CHAPTERS[levelOf(c) - 1].title}` : undefined)}
+            lockedNote={c => c.mode === "duel" ? (premium ? undefined : "Yıllık abonelikle açılır")
+              : lockOf.get(c.id) === "premium" ? "Yıllık abonelikle açılır"
+              : !c.career?.off && !careerOpen.has(c.id) ? `Kariyerde açılır · ${CHAPTERS[levelOf(c) - 1].title}` : undefined}
+            onLocked={c => { if (c.mode === "duel" || lockOf.get(c.id) === "premium") setRoute({ k: "paywall", back: "list", mode: c.mode }); }}
             onBack={() => setRoute({ k: "title" })}
             onSwitch={() => toList(route.mode === "duel" ? "solo" : "duel")}
             onPick={c => (c.mode === "duel" ? setSetup(c) : startGame(c, SOLO_PLAYERS))} />

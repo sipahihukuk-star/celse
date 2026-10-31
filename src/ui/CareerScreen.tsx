@@ -6,7 +6,7 @@ import { CaseFile } from "../engine/types";
 import { Btn } from "./kit";
 import { C, F } from "./theme";
 
-export default function CareerScreen({ view, onBack, onPick, onReset }: { view: CareerView; onBack: () => void; onPick: (c: CaseFile) => void; onReset: () => void }) {
+export default function CareerScreen({ view, onBack, onPick, onReset, onPaywall, premium }: { view: CareerView; onBack: () => void; onPick: (c: CaseFile) => void; onReset: () => void; onPaywall: () => void; premium: boolean }) {
   const pct = view.total ? Math.round((view.won / view.total) * 100) : 0;
   const [confirm, setConfirm] = useState(false);
   return (
@@ -27,8 +27,14 @@ export default function CareerScreen({ view, onBack, onPick, onReset }: { view: 
         <View style={[s.barFill, { width: `${pct}%` }]} />
       </View>
 
+      {!premium && (
+        <Pressable accessibilityRole="button" onPress={onPaywall} style={s.promo}>
+          <Text style={s.promoT}>İlk 5 dava ücretsiz.</Text>
+          <Text style={s.promoD}>Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne, AİHM'e ve karşılıklı duruşmaya yıllık abonelikle devam edin ›</Text>
+        </Pressable>
+      )}
       <View style={{ gap: 18, marginTop: 22 }}>
-        {view.chapters.map((ch, i) => <ChapterCard key={ch.level} ch={ch} no={i + 1} onPick={onPick} />)}
+        {view.chapters.map((ch, i) => <ChapterCard key={ch.level} ch={ch} no={i + 1} onPick={onPick} onPaywall={onPaywall} />)}
       </View>
 
       {confirm ? (
@@ -57,7 +63,7 @@ function Stat({ k, v }: { k: string; v: string }) {
   );
 }
 
-function ChapterCard({ ch, no, onPick }: { ch: CareerChapter; no: number; onPick: (c: CaseFile) => void }) {
+function ChapterCard({ ch, no, onPick, onPaywall }: { ch: CareerChapter; no: number; onPick: (c: CaseFile) => void; onPaywall: () => void }) {
   const soon = !ch.cases.length;
   const done = ch.open && ch.wins >= ch.need;
   return (
@@ -79,20 +85,21 @@ function ChapterCard({ ch, no, onPick }: { ch: CareerChapter; no: number; onPick
       {soon && <Text style={s.chWhy}>Bu basamağın davaları hazırlanıyor; şimdilik bir sonraki bölüme geçilir.</Text>}
       {ch.cases.length > 0 && (
         <View style={s.cases}>
-          {ch.cases.map((x, i) => <CaseRow key={x.c.id} x={x} i={i} onPick={onPick} />)}
+          {ch.cases.map((x, i) => <CaseRow key={x.c.id} x={x} i={i} onPick={onPick} onPaywall={onPaywall} />)}
         </View>
       )}
     </View>
   );
 }
 
-function CaseRow({ x, i, onPick }: { x: CareerCase; i: number; onPick: (c: CaseFile) => void }) {
+function CaseRow({ x, i, onPick, onPaywall }: { x: CareerCase; i: number; onPick: (c: CaseFile) => void; onPaywall: () => void }) {
   const open = x.lock === "open";
+  const paid = x.lock === "premium";
   const st = !x.rec?.played ? (open ? "Yeni" : "") : x.rec.won ? `Kazandınız · ${x.rec.best}` : "Kaybettiniz";
   return (
-    <Pressable accessibilityRole="button" accessibilityState={{ disabled: !open }} disabled={!open} onPress={() => onPick(x.c)}
+    <Pressable accessibilityRole="button" accessibilityState={{ disabled: !open }} disabled={!open && !paid} onPress={() => (paid ? onPaywall() : onPick(x.c))}
       style={({ pressed }) => [s.row, !open && { opacity: 0.45 }, pressed && { backgroundColor: C.panel2 }]}>
-      <View style={[s.dot, { backgroundColor: x.c.color }]}><Text style={s.dotText}>{open ? i + 1 : "🔒"}</Text></View>
+      <View style={[s.dot, { backgroundColor: x.c.color }]}><Text style={s.dotText}>{open ? i + 1 : paid ? "💎" : "🔒"}</Text></View>
       <View style={{ flex: 1, minWidth: 0 }}>
         <View style={s.titleLine}>
           <Text style={s.rowTitle} numberOfLines={1}>{x.c.title}</Text>
@@ -152,6 +159,9 @@ const s = StyleSheet.create({
   statusText: { fontFamily: F.mono, fontSize: 11, color: C.text },
   confirm: { alignSelf: "center", alignItems: "center", gap: 10, marginTop: 26, padding: 12 },
   confirmText: { fontFamily: F.body, fontSize: 15, color: C.textSoft, textAlign: "center" },
+  promo: { marginTop: 18, borderWidth: 1, borderColor: C.brass, backgroundColor: "rgba(208,166,76,0.12)", borderRadius: 10, padding: 14, gap: 2 },
+  promoT: { fontFamily: F.display, fontSize: 18, color: C.brass },
+  promoD: { fontFamily: F.body, fontSize: 15, color: C.text },
   reset: { alignSelf: "center", marginTop: 26, padding: 8 },
   resetText: { fontFamily: F.mono, fontSize: 12, color: C.muted, letterSpacing: 1 }
 });

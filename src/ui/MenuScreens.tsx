@@ -58,7 +58,7 @@ export function TitleScreen({ onCareer, onDuel, onSolo, onAdmin, onAccount, onSi
 }
 
 /* ---------- Dosya dolabı ---------- */
-export function CaseListScreen({ mode, cases, onPick, onBack, onSwitch, lockedNote }: { mode: "duel" | "solo"; cases: CaseFile[]; onPick: (c: CaseFile) => void; onBack: () => void; onSwitch: () => void; lockedNote?: (c: CaseFile) => string | undefined }) {
+export function CaseListScreen({ mode, cases, onPick, onBack, onSwitch, lockedNote, onLocked }: { mode: "duel" | "solo"; cases: CaseFile[]; onPick: (c: CaseFile) => void; onBack: () => void; onSwitch: () => void; lockedNote?: (c: CaseFile) => string | undefined; onLocked?: (c: CaseFile) => void }) {
   const [res, setRes] = useState<Record<string, SavedResult>>({});
   useEffect(() => { loadResults().then(setRes); }, [mode]);
   const { width } = useWindowDimensions();
@@ -79,7 +79,7 @@ export function CaseListScreen({ mode, cases, onPick, onBack, onSwitch, lockedNo
           const r = res[c.id];
           const lock = lockedNote?.(c);
           return (
-            <Pressable key={c.id} onPress={() => onPick(c)} disabled={!!lock} accessibilityRole="button" accessibilityState={{ disabled: !!lock }}
+            <Pressable key={c.id} onPress={() => (lock ? onLocked?.(c) : onPick(c))} disabled={!!lock && !onLocked} accessibilityRole="button" accessibilityState={{ disabled: !!lock }}
               style={({ pressed }) => [{ width: `${100 / cols - (cols > 1 ? 2 : 0)}%` as any }, lock && { opacity: 0.5 }, pressed && { transform: [{ translateY: -3 }] }]}>
               <View style={[styles.tab, { backgroundColor: c.color }]}><Text style={styles.tabText}>{c.esas}</Text></View>
               <View style={[styles.folder, { backgroundColor: c.color }]}>

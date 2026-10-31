@@ -51,3 +51,16 @@ $$;
 drop trigger if exists uye_olunca on auth.users;
 create trigger uye_olunca after insert on auth.users
   for each row execute function public.yeni_uye();
+
+-- Abonelikler. Satırları yalnızca ödeme bildirimleri (RevenueCat / iyzico webhook'ları, service role anahtarıyla) yazar;
+-- oyuncu kendi aboneliğini yalnızca görebilir, değiştiremez.
+create table if not exists public.abonelikler (
+  kullanici_id uuid primary key references auth.users (id) on delete cascade,
+  bitis timestamptz not null,
+  kaynak text not null check (kaynak in ('app_store', 'google_play', 'iyzico', 'manuel')),
+  guncelleme timestamptz not null default now()
+);
+alter table public.abonelikler enable row level security;
+drop policy if exists "kendi aboneliğini görür" on public.abonelikler;
+create policy "kendi aboneliğini görür" on public.abonelikler
+  for select using (auth.uid() = kullanici_id);

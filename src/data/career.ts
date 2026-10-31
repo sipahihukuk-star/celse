@@ -109,7 +109,7 @@ export function useProgress(): Progress {
 
 /* ---------- Kariyer durumu ---------- */
 
-export type CaseLock = "open" | "locked";
+export type CaseLock = "open" | "locked" | "premium";
 export interface CareerCase { c: CaseFile; lock: CaseLock; rec?: CaseRecord; why?: string }
 export interface CareerChapter extends Chapter {
   cases: CareerCase[];
@@ -147,7 +147,9 @@ const sortCases = (a: CaseFile, b: CaseFile, idx: Map<string, number>) => sortKe
  * - İlk bölüm baştan açıktır. Bir bölüm, önceki dolu bölümde yeterli dava kazanılınca açılır. Boş bölümler ("yakında") atlanır.
  * - Açık bölümde davalar sırayla açılır: bir dava oynanınca (sonucu ne olursa olsun) sıradaki açılır.
  */
-export function buildCareer(solo: CaseFile[], progress: Progress): CareerView {
+/** premium false ise kariyer sırasındaki ilk `freeCount` dava dışındakiler abonelik kilidindedir. */
+export function buildCareer(solo: CaseFile[], progress: Progress, premium = true, freeCount = Infinity): CareerView {
+  let seq = 0;
   const idx = new Map(solo.map((c, i) => [c.id, i]));
   const pool = solo.filter(c => !c.career?.off);
   let prevOpen = true, prevWins = 0, prevNeed = 0, prevTitle = "";
@@ -166,6 +168,7 @@ export function buildCareer(solo: CaseFile[], progress: Progress): CareerView {
       if (rec?.won) { itibar += rec.best; wonAll++; }
       const ok = open && prevPlayed;
       prevPlayed = !!rec?.played;
+      if (!premium && seq++ >= freeCount) return { c, rec, lock: "premium", why: "Yıllık abonelikle açılır" };
       return { c, rec, lock: ok ? "open" : "locked", why: ok ? undefined : open ? "Önceki davayı oynayın" : why };
     });
     if (list.length) {

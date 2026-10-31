@@ -1,5 +1,6 @@
 // Yönetim paneli: giriş, dava listesi, yeni dava sihirbazı, içe aktarma ve düzenleyici.
 import { DIFFICULTY, levelOf } from "../data/career";
+import { setAdminPreview } from "../data/subscription";
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { CASES } from "../data/cases";
@@ -21,7 +22,7 @@ let sessionUnlocked = false;
 
 export default function AdminScreen({ onExit, onPreview }: Props) {
   const [unlocked, setUnlocked] = useState(sessionUnlocked);
-  if (!unlocked) return <PinGate onOk={() => { sessionUnlocked = true; setUnlocked(true); }} onExit={onExit} />;
+  if (!unlocked) return <PinGate onOk={() => { sessionUnlocked = true; setAdminPreview(true); setUnlocked(true); }} onExit={onExit} />;
   return <AdminHome onExit={onExit} onPreview={onPreview} />;
 }
 
