@@ -1,0 +1,176 @@
+{
+  "id": "danistay-imtiyaz",
+  "mode": "solo",
+  "title": "Son Sefer",
+  "area": "Danıştay · İmtiyaz sözleşmesi",
+  "court": "Danıştay 13. Daire",
+  "courtShort": "DANIŞTAY · 13. DAİRE",
+  "esas": "E.2026/1592",
+  "kararTarihi": "07.04.2027",
+  "color": "#4b2c47",
+  "teaser": "Belediye, on beş yıllık otobüs imtiyazını beşinci yılında tek bir yazıyla feshetti. Şirketin zararını Danıştay'da istemek için doğru davayı seçmeli ve savcıyı belgeyle karşılamalısınız.",
+  "sides": { "p1": { "role": "Davacı şirket vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#9a9a9e", "style": "bald", "glasses": true } },
+    "opp": { "name": "Av. Deniz Arslan · Davalı idare vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e0b48e", "hair": "#2b1d17", "style": "long" } },
+    "client": { "name": "Tuncay Erel · Şirket Genel Müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#e2b590", "hair": "#3a3a3a", "style": "short", "glasses": true, "shirt": "#2f3a4f", "inner": "#dcd6c8" } },
+    "savci": { "name": "Danıştay Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#c99670", "hair": "#4a3020", "style": "bun" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Sarıova. Kent Hat Ulaşım A.Ş., 2021'de Sarıova Büyükşehir Belediyesi ile on beş yıllık bir imtiyaz sözleşmesi imzaladı. Şehrin otobüs hatlarını işletiyor." },
+    { "who": "client", "text": "Eylülde belediyeden bir yazı geldi: “Sefer çizelgesine uymadığınız için sözleşme feshedilmiştir.” Ertesi hafta hatlarımızı belediyenin kendi şirketi devraldı." },
+    { "who": "narr", "text": "Kamu hizmetleriyle ilgili imtiyaz şartlaşma ve sözleşmelerinden doğan idari davalara Danıştay ilk derece olarak bakar. Duruşma isteyeceksiniz; Danıştay savcısı da düşüncesini duruşmada açıklayacak." }
+  ],
+  "docs": [
+    { "t": "İmtiyaz sözleşmesi", "d": "Süre on beş yıl. m.21: sözleşmeye aykırılık hâlinde yazılı ihtar ve otuz gün süre verilir; aykırılık giderilmezse fesih yapılabilir. Sözleşmede tahkim şartı yok." },
+    { "t": "Fesih yazısı", "d": "Eylül 2026. Gerekçe: sefer çizelgesine uyulmaması." },
+    { "t": "Belediye Meclisi kararı", "d": "Ağustos 2026: kent içi otobüs hatlarının belediye şirketince işletilmesine ilişkin karar." },
+    { "t": "Yıllık denetim raporları", "d": "Belediye Ulaşım Dairesi, 2024 ve 2025 hizmet kalitesi denetimlerinde şirketi “yeterli” bulmuş." }
+  ],
+  "evidence": [
+    { "id": "ev_sozlesme", "type": "belge", "title": "İmtiyaz sözleşmesi m.21", "desc": "Fesihten önce yazılı ihtar ve otuz gün süre verilmesi şartı." },
+    { "id": "ev_fesih", "type": "belge", "title": "Fesih yazısı", "desc": "Gerekçe: sefer çizelgesine uyulmaması." },
+    { "id": "ev_onay", "type": "belge", "title": "Ulaşım Dairesi onay yazısı", "desc": "Mart 2026: kış dönemi için azaltılmış sefer çizelgesi onaylanmıştır.", "if": "onay" },
+    { "id": "ev_meclis", "type": "belge", "title": "Belediye Meclisi kararı", "desc": "Fesihten bir ay önce: hatların belediye şirketince işletilmesi kararı." },
+    { "id": "ev_denetim", "type": "belge", "title": "Yıllık denetim raporları", "desc": "Belediyenin 2024 ve 2025 hizmet kalitesi denetimleri: “yeterli”." },
+    { "id": "ev_mali", "type": "belge", "title": "Mali müşavir raporu", "desc": "Fesih nedeniyle zarar: otobüs yatırımları, personel giderleri ve kalan süreye ilişkin kâr kaybı.", "if": "zarar" },
+    { "id": "law_iyuk2c", "type": "kanun", "title": "İYUK m.2/1-c · İdari sözleşme davaları", "desc": "Kamu hizmetlerinin yürütülmesi için yapılan idari sözleşmelerden doğan uyuşmazlıklar hakkında açılan davalar.", "law": "İYUK m.2/1-c" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Şirket genel merkezinde Genel Müdür Tuncay Erel'le görüşüyorsunuz. İki soru sorabilirsiniz." }],
+      "prompt": "Genel müdüre ne soracaksınız?",
+      "choices": [
+        { "text": "Sefer sayılarını azaltmadan önce belediyeden yazılı bir onay aldınız mı?", "delta": 15, "set": ["onay"],
+          "reply": [{ "who": "client", "text": "Aldık! Mart ayında kış dönemi için azaltılmış çizelgeyi Ulaşım Dairesi'ne sunduk, yazıyla onayladılar. Yazı arşivde." }],
+          "note": "Kritik bilgi. Belediye, fesih gerekçesi yaptığı çizelgeyi kendisi onaylamış. Onay yazısı delil çantanıza eklendi." },
+        { "text": "Fesihten önce size bir ihtar yazısı gönderildi mi?", "delta": 10, "set": ["ihtar"],
+          "reply": [{ "who": "client", "text": "Hayır. Ne ihtar geldi ne süre verildi. Doğrudan fesih yazısı geldi." }],
+          "note": "Sözleşme fesihten önce yazılı ihtar ve otuz gün süre verilmesini şart koşuyor. Bu usule uyulmamış." },
+        { "text": "Fesih nedeniyle şirketin zararı hesaplandı mı?", "delta": 5, "set": ["zarar"],
+          "reply": [{ "who": "client", "text": "Mali müşavirimiz hesapladı: otobüs yatırımları, personel giderleri ve kalan on yılın kâr kaybı. Rapor hazır." }],
+          "note": "Tazminat istemi için zararın hesabı gerekir. Mali müşavir raporu delil çantanıza eklendi; Daire ayrıca bilirkişi incelemesi yaptıracaktır." },
+        { "text": "Belediye başkanıyla aranızda kişisel bir sorun var mı?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Seçimden önce rakibini desteklediğimizi söylerler. Bilmiyorum." }],
+          "note": "Kişisel ilişkiler davanın hukuki çerçevesine bir şey katmaz." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Fesih yazısı on gün önce tebliğ edildi. Şirketin zararı her gün büyüyor." }],
+      "prompt": "Hangi davayı açacaksınız?",
+      "choices": [
+        { "text": "Sözleşmeden doğan uyuşmazlık olarak Danıştay'da dava açın: feshin sözleşmeye aykırılığını ileri sürün, zararın tazminini isteyin ve duruşma talep edin.", "delta": 20, "set": ["tamYargi"],
+          "law": "İYUK m.2/1-c, m.17; 2575 s.K. m.24/1",
+          "note": "İmtiyaz sözleşmesinden doğan uyuşmazlıkta feshin hukuka aykırılığı ve zarar aynı davada ileri sürülebilir (İYUK m.2/1-c). Talep edilen tutar, tam yargı davalarında duruşma için aranan sınırı aşıyor (İYUK m.17)." },
+        { "text": "Yalnızca fesih işleminin iptalini isteyin; tazminatı sonra düşünürsünüz.", "delta": -5, "set": ["iptal"],
+          "note": "İptal kararı şirketin uğradığı zararı tek başına karşılamaz. Zarar için iptal kararından sonra ayrıca dava açmak gerekir; uyuşmazlık iki davaya bölünür." },
+        { "text": "Asliye ticaret mahkemesinde alacak davası açın; iki taraf da ticari faaliyette bulunuyor.", "delta": -20,
+          "law": "İYUK m.2/1-c",
+          "fatal": { "label": "SONUÇ:", "hukum": "Asliye ticaret mahkemesi, uyuşmazlığın çözümü idari yargının görevine girdiğinden davanın YARGI YOLU BAKIMINDAN USULDEN REDDİNE karar verdi.",
+                     "summary": "Kamu hizmetinin yürütülmesi için yapılan imtiyaz sözleşmesi idari sözleşmedir; uyuşmazlık idari yargıda çözülür (İYUK m.2/1-c). Danıştay'da yeniden dava açmanız gerekecek. Hatlar bu arada belediye şirketinde kaldı." },
+          "note": "İdari sözleşmeden doğan uyuşmazlık adli yargıda görülmez. Tarafların ticari faaliyette bulunması sözleşmenin idari niteliğini değiştirmez." },
+        { "text": "Uyuşmazlığı tahkime götürün.", "delta": -10, "set": ["tamYargi", "gecikme"],
+          "law": "Anayasa m.125",
+          "reply": [{ "who": "narr", "text": "Sözleşmede tahkim şartı bulunmadığını gördünüz. İki hafta sonra Danıştay'da tazminat istemli dava açtınız ve duruşma istediniz." }],
+          "note": "İmtiyaz sözleşmelerinden doğan uyuşmazlıklarda tahkim öngörülebilir; milletlerarası tahkim ise yalnızca yabancılık unsuru taşıyan uyuşmazlıklar için mümkündür (Anayasa m.125). Bu sözleşmede tahkim şartı yok." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Duruşmayı açıyorum. Davacı vekili açıklamalarını yaptı. Davalı idare vekili, savunmanızı açıklayın." }],
+      "statement": { "who": "opp", "text": "İdare, kamu hizmetinin gereği olarak sözleşmeyi tek taraflı feshetme yetkisine sahiptir. Davacı şirket sefer çizelgesine uymamıştır; fesih bu nedenle haklıdır." },
+      "prompt": "Hangi delille cevap vereceksiniz?",
+      "correct": ["ev_onay"],
+      "hit": { "delta": 25, "set": ["onayArg"],
+        "reply": [
+          { "who": "judge", "text": "Onay yazısı tutanağa geçti. Davalı idare vekili, yazıyı inkâr ediyor musunuz?" },
+          { "who": "opp", "text": "Yazının varlığını inkâr etmiyoruz, Sayın Başkan." }
+        ],
+        "note": "Belediye azaltılmış çizelgeyi kendisi onaylamış. Kendi onayladığı çizelgeye uyulmadığını gerekçe gösterip sözleşmeyi feshedemez. Fesih gerekçesi çöktü." },
+      "responses": {
+        "ev_sozlesme": { "delta": 10, "set": ["ihtarArg"], "note": [
+          { "text": "Sözleşme, fesihten önce yazılı ihtar ve otuz gün süre verilmesini şart koşuyor." },
+          { "if": "ihtar", "text": " Müvekkil ihtar yapılmadığını doğruladı; usul ihlali açık. Ama fesih gerekçesinin kendisi hâlâ ayakta." },
+          { "if": "!ihtar", "text": " Ama ihtar yapılıp yapılmadığını müvekkile sormamıştınız; idare bunu tartışabilir." }
+        ] },
+        "ev_denetim": { "delta": 5, "note": "Denetim raporları şirketin genel performansını gösteriyor. Ama çizelgeye uyulmadığı iddiasına doğrudan cevap vermiyor." },
+        "ev_meclis": { "delta": 5, "note": "Feshin gerçek nedenine işaret ediyor. Bu belgeyi savcının düşüncesine karşı kullanmak daha etkili olurdu." },
+        "ev_fesih": { "delta": -10, "note": "Bu, idarenin dayandığı işlemin kendisi." },
+        "ev_mali": { "delta": -5, "note": "Zararın miktarı, feshin haklı olup olmadığı sorusuna cevap vermiyor." },
+        "law_iyuk2c": { "delta": -5, "note": "Görev konusu tartışılmıyor." }
+      },
+      "pass": { "delta": -15, "note": "İdarenin savunması cevapsız kaldı." }
+    },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Danıştay savcısı, düşüncenizi açıklayın." }],
+      "statement": { "who": "savci", "text": "Düşüncem: İdare, kamu hizmetinin gereklerine göre idari sözleşmeyi tek taraflı olarak değiştirme ve sona erdirme yetkisine sahiptir. Davacının hizmet kalitesinin düştüğü anlaşılmaktadır. Davanın reddi gerektiği düşünülmektedir." },
+      "prompt": "Savcının düşüncesine hangi belgeyle cevap vereceksiniz?",
+      "correct": ["ev_denetim"],
+      "hit": { "delta": 20, "set": ["kusursuz"],
+        "reply": [{ "who": "judge", "text": "Denetim raporları tutanağa geçti." }],
+        "note": "Belediyenin kendi denetimleri şirketi iki yıl üst üste “yeterli” bulmuş. Hizmet kalitesinin düştüğü iddiası idarenin kendi belgeleriyle çelişiyor." },
+      "responses": {
+        "ev_meclis": { "delta": 20, "set": ["kusursuz"],
+          "reply": [{ "who": "judge", "text": "Meclis kararı tutanağa geçti." }],
+          "note": "Fesihten bir ay önce alınan meclis kararı, feshin asıl nedeninin hatları belediye şirketine devretmek olduğunu gösteriyor. İdare kamu yararı gereği sözleşmeyi sona erdirebilir; ama kusuru olmayan sözleşmecinin zararını karşılamak zorundadır." },
+        "ev_onay": { "delta": 10, "note": "Onay yazısı fesih gerekçesini çürütüyor. Ama savcı genel hizmet kalitesinden söz ediyor; denetim raporları ya da meclis kararı daha doğrudan bir cevap olurdu." },
+        "ev_sozlesme": { "delta": 5, "note": "Usul şartını hatırlattınız. Ama savcının hizmet kalitesi değerlendirmesine cevap vermediniz." },
+        "ev_fesih": { "delta": -10, "note": "Bu, idarenin dayandığı işlemin kendisi." },
+        "ev_mali": { "delta": -5, "note": "Zararın miktarı, savcının düşüncesine cevap vermiyor." },
+        "law_iyuk2c": { "delta": -5, "note": "Görev konusu tartışılmıyor." }
+      },
+      "pass": { "delta": -15, "note": "Savcının düşüncesi cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Davacı vekili, son talebiniz?" }],
+      "prompt": "Heyetten ne isteyeceksiniz?",
+      "choices": [
+        { "if": "tamYargi", "text": "Feshin hukuka aykırılığı nedeniyle şirketin uğradığı zararın bilirkişi incelemesiyle belirlenerek yasal faiziyle ödenmesini isteriz.", "delta": 15, "set": ["talep"],
+          "note": [
+            { "text": "Talep, sözleşme davasının doğal sonucu. Zararın miktarını Daire bilirkişiye belirletir." },
+            { "if": "zarar", "text": " Mali müşavir raporu bilirkişiye yol gösterecek." }
+          ] },
+        { "if": "iptal", "text": "Fesih işleminin iptalini isteriz; tazminat hakkımızı saklı tutarız.", "delta": 15, "set": ["talep"],
+          "law": "İYUK m.12",
+          "note": "İptal davasında talep bununla sınırlıdır. İptal kararının tebliğinden sonra zarar için ayrıca tam yargı davası açılabilir (İYUK m.12)." },
+        { "text": "Otobüslerimizin hatlara geri dönmesine karar verilmesini isteriz.", "delta": -10,
+          "law": "İYUK m.2/2",
+          "note": "İdari yargı idari işlem niteliğinde karar veremez (İYUK m.2/2). Hatları kimin işleteceğine Daire karar vermez." },
+        { "text": "Belediye başkanının kişisel olarak tazminata mahkûm edilmesini isteriz.", "delta": -10,
+          "law": "Anayasa m.129",
+          "note": "Kamu görevlilerinin yetkilerini kullanırken işledikleri kusurlardan doğan tazminat davaları ancak idare aleyhine açılabilir (Anayasa m.129)." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "onayArg && kusursuz && tamYargi", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Davanın KABULÜ ile imtiyaz sözleşmesinin feshine ilişkin işlemin sözleşmeye ve hukuka aykırı olduğu anlaşıldığından, davacının bilirkişi raporuyla belirlenen zararının dava tarihinden itibaren işletilecek yasal faiziyle birlikte davalı idareden alınarak davacıya ödenmesine, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Belediyenin kendi onay yazısı fesih gerekçesini çökertti; kendi denetim belgeleri de savcının düşüncesini karşıladı. Heyet zararın tamamına hükmetti." },
+        { "if": "zarar", "text": " Mali müşavir raporu, bilirkişi incelemesini hızlandırdı." },
+        { "if": "gecikme", "text": " Tahkim denemesi iki hafta kaybettirdi." }
+      ] },
+    { "if": "(onayArg || ihtarArg) && (kusursuz || talep) && tamYargi", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Davanın KISMEN KABULÜ ile feshin sözleşmeye aykırı olduğu anlaşıldığından davacının bilirkişi raporuyla belirlenen fiili zararının yasal faiziyle birlikte davalı idareden alınarak davacıya ödenmesine, yoksun kalınan kâra ilişkin istemin REDDİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet feshi sözleşmeye aykırı buldu, ama zararın yalnızca bir kısmına hükmetti." },
+        { "if": "!onayArg", "text": " Çizelgenin belediyece onaylandığını gösterseydiniz fesih gerekçesi tamamen çökerdi." },
+        { "if": "!onay", "text": " Onay yazısını genel müdüre sorsaydınız elinizde olurdu." },
+        { "if": "!kusursuz", "text": " Savcının hizmet kalitesine ilişkin düşüncesi belgeyle karşılanmadı." }
+      ] },
+    { "if": "(onayArg || ihtarArg) && (kusursuz || talep)", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu imtiyaz sözleşmesinin feshine ilişkin işlemin İPTALİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Fesih hukuka aykırı bulundu. Ama yalnızca iptal istediğiniz için şirketin zararına hükmedilmedi; tazminat için ayrıca dava açmanız gerekecek (İYUK m.12)." },
+        { "if": "!onayArg", "text": " Çizelgenin belediyece onaylandığını gösterseydiniz fesih gerekçesi tamamen çökerdi." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "DAVANIN REDDİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, idarenin kamu hizmeti gereği tek taraflı fesih yetkisini kullandığını kabul etti." },
+        { "if": "!onay", "text": " Çizelgenin belediyece onaylanıp onaylanmadığını genel müdüre sorsaydınız, fesih gerekçesini idarenin kendi yazısıyla çürütebilirdiniz." },
+        { "if": "onay && !onayArg", "text": " Onay yazısı çantanızdaydı, ama idarenin savunmasına karşı onu sunmadınız." },
+        { "if": "!kusursuz", "text": " Savcının düşüncesine karşı belediyenin kendi denetim raporlarını ya da meclis kararını sunabilirdiniz." }
+      ] }
+  ]
+}

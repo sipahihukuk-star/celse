@@ -136,4 +136,4 @@ Davanın `evidence` listesi çantadaki belgeleri, kanun maddelerini ve beyanlar�
 - **`inscription`:** Kürsünün arkasındaki yazı. `null` verilirse yazı çıkmaz.
 - **Cübbe renkleri:** `look.robe` ve `look.collarColor` alanlarıyla her mahkeme için ayrı ayrı ayarlanabilir.
 
-Hazır örnek dosyalar: **Uzak Adliye** (tek hâkim), **Eksik Müdafi** (Yargıtay, 5 üye), **Strazburg** (AİHM Büyük Daire, 17 yargıç), **Lahey** (UCM Yargılama Dairesi, 3 yargıç).
+Hazır örnek dosyalar: **Uzak Adliye** (tek hâkim), **Eksik Müdafi** (Yargıtay, 5 üye), **Strazburg** (AİHM Büyük Daire, 17 yargıç), **Lahey** (UCM Yargılama Dairesi, 3 yargıç), beşer Anayasa Mahkemesi (`aym-*`), Danıştay (`danistay-*`) ve Sayıştay (`sayistay-*`) davası.

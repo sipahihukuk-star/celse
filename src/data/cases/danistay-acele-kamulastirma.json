@@ -1,0 +1,165 @@
+{
+  "id": "danistay-acele-kamulastirma",
+  "mode": "solo",
+  "title": "Acele Neden?",
+  "area": "Danıştay · Acele kamulaştırma",
+  "court": "Danıştay 6. Daire",
+  "courtShort": "DANIŞTAY · 6. DAİRE",
+  "esas": "E.2026/2271",
+  "kararTarihi": "11.05.2027",
+  "color": "#4a3a1f",
+  "teaser": "Bir Cumhurbaşkanı kararıyla zeytinliğe acele el konulacak. Bu aceleliğin nereden geldiğini beş üyeli heyetin önünde idareye sorma zamanı.",
+  "sides": { "p1": { "role": "Davacı (taşınmaz maliki) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e2b590", "hair": "#2f2520", "style": "short" } },
+    "opp": { "name": "Av. Gülay Sezer · Davalı idare vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e8c09c", "hair": "#4a2f22", "style": "bun", "glasses": true } },
+    "client": { "name": "Halil Önal · Müvekkil (taşınmaz maliki)", "np": "civil", "look": { "kind": "civil", "skin": "#c08b62", "hair": "#a5a29c", "style": "short", "beard": true, "shirt": "#5b6b4e", "inner": "#d9d4c8" } },
+    "savci": { "name": "Danıştay Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d6a57c", "hair": "#6b6b70", "style": "short", "glasses": true } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Değirmenli köyü. Halil Önal'ın ailesinden kalan bir zeytinliği ve küçük bir zeytinyağı işliği var." },
+    { "who": "client", "text": "Resmî Gazete'de bir Cumhurbaşkanı kararı çıktı. Bir lojistik merkezi için arazimin acele kamulaştırılmasına karar verilmiş. Ağaçlarım sökülecek mi?" },
+    { "who": "narr", "text": "Acele kamulaştırma, kanunda sayılan sınırlı hâllerde başvurulan istisnai bir yoldur. Cumhurbaşkanı kararlarına karşı dava Danıştay'da ilk derece olarak açılır. Duruşma isteyeceksiniz; Danıştay savcısı düşüncesini duruşmada açıklayacak." }
+  ],
+  "docs": [
+    { "t": "Cumhurbaşkanı kararı", "d": "9 Ekim 2026'da Resmî Gazete'de yayımlandı. Kuzeyova Lojistik Merkezi projesi için Değirmenli köyündeki taşınmazların acele kamulaştırılması. Gerekçe olarak yalnızca “proje kapsamında” ifadesi var." },
+    { "t": "Tapu kaydı", "d": "Müvekkil adına kayıtlı zeytinlik ve üzerindeki işlik binası." },
+    { "t": "Süre notu", "d": "Bugün 2 Kasım 2026. Yayım tarihini esas alan en temkinli hesapla altmış günlük süre 8 Aralık'ta doluyor." }
+  ],
+  "evidence": [
+    { "id": "ev_karar", "type": "belge", "title": "Cumhurbaşkanı kararı", "desc": "Acele kamulaştırma kararı. Aceleliğin nedenine ilişkin somut bir açıklama içermiyor." },
+    { "id": "ev_tapu", "type": "belge", "title": "Tapu kaydı", "desc": "Zeytinlik ve işlik binası müvekkil adına kayıtlı." },
+    { "id": "ev_program", "type": "belge", "title": "İdarenin yatırım programı", "desc": "İdarenin kendi yayımladığı program: lojistik merkezinin inşaat ihalesi 2029'da yapılacak. 2027 ve 2028 için ödenek ayrılmamış.", "if": "takvim" },
+    { "id": "ev_kesif", "type": "belge", "title": "Asliye hukuk mahkemesi tebligatı", "desc": "Acele el koyma için değer tespiti keşfi 20 Kasım 2026'da yapılacak.", "if": "elkoyma" },
+    { "id": "law_2942", "type": "kanun", "title": "Kamulaştırma Kanunu m.27 · Acele kamulaştırma", "desc": "Kanunda sayılan sınırlı hâllerde, mahkemece belirlenen değer bankaya yatırılarak taşınmaza önceden el konulmasına imkân veren istisnai yol.", "law": "2942 s.K. m.27" },
+    { "id": "law_iyuk27", "type": "kanun", "title": "İYUK m.27 · Yürütmenin durdurulması", "desc": "Açık hukuka aykırılık ve telafisi güç ya da imkânsız zarar şartları birlikte aranır.", "law": "İYUK m.27" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Zeytinliğin kenarındaki işlikte Halil Önal'la oturuyorsunuz. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "İdare projenin ne zaman yapılacağını hiç açıkladı mı? Elinize geçen bir belge var mı?", "delta": 15, "set": ["takvim"],
+          "reply": [{ "who": "client", "text": "Köy kahvesine bir broşür bıraktılar. İdarenin yatırım programıymış. İnşaat ihalesi 2029'da yapılacakmış, öyle yazıyor." }],
+          "note": "Acele kamulaştırma istisnai bir yoldur; idare aceleliği gerektiren durumu somut olarak ortaya koymalıdır. İdarenin kendi programı inşaatın üç yıl sonra başlayacağını gösteriyor. Program delil çantanıza eklendi." },
+        { "text": "Mahkemeden size bir tebligat geldi mi?", "delta": 10, "set": ["elkoyma"],
+          "reply": [{ "who": "client", "text": "Geçen hafta asliye hukuk mahkemesinden bir kâğıt geldi. 20 Kasım'da araziye keşfe geleceklermiş." }],
+          "note": "Acele el koyma süreci başlamış. Zararın ne kadar yakın olduğunu gösteren bu tebligat, yürütmenin durdurulması için önemli. Delil çantanıza eklendi." },
+        { "text": "Arazinizin değeri ne kadar?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Babamdan kaldı, değerini bilmem. Satmayı hiç düşünmedim." }],
+          "note": "Bedel, asliye hukuk mahkemesindeki değer tespitinde konuşulur. Danıştay'daki dava, kararın hukuka uygunluğuyla ilgilidir." },
+        { "text": "Köyde başka kimin arazisi karara dahil?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Yirmi kadar komşum var. Onlar da benim gibi şaşkın." }],
+          "note": "Komşuların durumu kararın kapsamını gösterir. Ama davanın kilidi aceleliğin gerekçesinde." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Asliye hukuk mahkemesinde acele el koyma dosyası açılmış. Danıştay'da açılacak iptal davası ise ayrı bir yoldur ve kendi süresine tabidir." }],
+      "prompt": "Davayı nerede ve ne zaman açacaksınız?",
+      "choices": [
+        { "text": "Cumhurbaşkanı kararının iptali için süre dolmadan Danıştay'da dava açın; duruşma isteğini dilekçeye yazın.", "delta": 20, "set": ["durusma"],
+          "law": "2575 s.K. m.24/1; İYUK m.7, m.17",
+          "note": "Cumhurbaşkanı kararlarına karşı dava Danıştay'da ilk derece olarak açılır (2575 s.K. m.24/1). Süre altmış gündür ve en temkinli hesap yayım tarihini esas alır (İYUK m.7)." },
+        { "text": "Asliye hukuk mahkemesindeki dosyanın bitmesini bekleyin; sonra kararın iptalini isteyin.", "delta": -25,
+          "law": "İYUK m.7",
+          "fatal": { "label": "HÜKÜM:", "hukum": "Dava konusu Cumhurbaşkanı kararına karşı altmış günlük dava açma süresi geçtikten sonra açılan davanın SÜRE AŞIMI NEDENİYLE REDDİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+                     "summary": "Asliye hukuk mahkemesi değeri belirler ve el koymaya karar verir; Cumhurbaşkanı kararının hukuka uygunluğunu denetlemez. İptal davasının süresi beklenirken doldu (İYUK m.7). Zeytinliğe el konuldu." },
+          "note": "İki yol birbirini beklemez. İptal davasının süresi asliye hukuk dosyasından bağımsız olarak işler." },
+        { "text": "Taşınmaz bölgedeki idare mahkemesinin yetki alanında; davayı orada açın.", "delta": -10, "set": ["durusma", "gorev"],
+          "reply": [{ "who": "narr", "text": "İdare mahkemesi görevsizlik kararı verdi. Dosya haftalar sonra Danıştay'a ulaştı." }],
+          "note": "Cumhurbaşkanı kararlarına karşı görevli mahkeme Danıştay'dır. İdare mahkemesi görevsizlik kararı verip dosyayı gönderir; dava düşmez, ama haftalar kaybolur." },
+        { "text": "Önce Cumhurbaşkanlığına başvurup kararın geri alınmasını isteyin.", "delta": -5, "set": ["durusma", "gecikme"],
+          "law": "İYUK m.11",
+          "reply": [{ "who": "narr", "text": "Başvurunuz cevapsız kaldı. Kalan süre içinde Danıştay'da dava açtınız." }],
+          "note": "Bu başvuru işleyen dava süresini durdurur. Ama el koyma süreci devam eder ve yürütmenin durdurulması için değerli zaman kaybolur." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Dilekçenin son bölümü: yürütmenin durdurulması." },
+        { "who": "narr", "text": "Gecikme yüzünden asliye hukuk mahkemesindeki el koyma süreci ilerledi.", "if": "gorev || gecikme" }
+      ],
+      "prompt": "Yürütmenin durdurulması isteğini nasıl kuracaksınız?",
+      "choices": [
+        { "if": "elkoyma", "text": "Kararda aceleliğin somut bir gerekçesi olmadığını ve 20 Kasım'daki keşifle el koymanın yaklaştığını birlikte gösterin.", "delta": 20, "set": ["yd"],
+          "law": "İYUK m.27",
+          "note": "Açık hukuka aykırılık ve telafisi güç ya da imkânsız zarar birlikte aranır (İYUK m.27). El konulursa yüzyıllık zeytin ağaçları sökülebilir; bu zarar geri döndürülemez." },
+        { "if": "!elkoyma", "text": "Kararda aceleliğin somut bir gerekçesi olmadığını ve el konulursa zeytin ağaçlarının sökülebileceğini anlatın.", "delta": 15, "set": ["yd"],
+          "law": "İYUK m.27",
+          "note": "İki şart birlikte aranır (İYUK m.27). El koymanın ne zaman yapılacağını gösteren bir belge olsaydı istek daha güçlü olurdu." },
+        { "text": "Bedelin düşük belirleneceğini, bu yüzden müvekkilin zarar göreceğini yazın.", "delta": -10,
+          "note": "Bedel uyuşmazlığı asliye hukuk mahkemesinde çözülür. Sonradan ödenebilecek bir bedel farkı, telafisi güç zarar şartını tek başına karşılamaz." },
+        { "text": "Yürütmenin durdurulmasını istemeyin; iptal kararı nasılsa geriye etkili olur.", "delta": -10,
+          "note": "İptal geriye etkilidir, ama sökülen ağaçlar geri gelmez. Yürütmenin durdurulması tam da bu zararı önlemek içindir." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Duruşmayı açıyorum. Davacı vekili açıklamalarını yaptı. Davalı idare vekili, savunmanızı açıklayın." }],
+      "statement": { "who": "opp", "text": "Lojistik merkezi bölge ekonomisi için hayati önemdedir. Acele kamulaştırmaya karar vermek Cumhurbaşkanının takdir yetkisindedir. Yargı yerindelik denetimi yapamaz." },
+      "prompt": "Hangi delille cevap vereceksiniz?",
+      "correct": ["ev_program"],
+      "hit": { "delta": 25, "set": ["somut"],
+        "reply": [
+          { "who": "judge", "text": "Yatırım programı tutanağa geçti. Davalı idare vekili, bir diyeceğiniz var mı?" },
+          { "who": "opp", "text": "Program bir ön planlamadır, Sayın Başkan." }
+        ],
+        "law": "2942 s.K. m.27",
+        "note": "Takdir yetkisi de hukuka ve kamu yararına bağlıdır. İdarenin kendi programı inşaatın 2029'da başlayacağını gösteriyor. Aceleliği gerektiren somut bir durum ortada yok." },
+      "responses": {
+        "ev_karar": { "delta": 10, "set": ["gerekce"], "note": "Kararın aceleliği açıklamadığını gösterdiniz. Ama idare gerekçenin dosyada olduğunu söyleyebilir; idarenin kendi takvimi bu savunmayı tamamen çürütürdü." },
+        "law_2942": { "delta": 5, "note": "Acele kamulaştırmanın istisnai olduğunu hatırlattınız. Ama somut olayda aceleliğin bulunmadığını gösteren bir belge sunmadınız." },
+        "ev_kesif": { "delta": -5, "note": "Bu belge yürütmenin durdurulması için önemliydi. Aceleliğin yokluğunu göstermiyor." },
+        "ev_tapu": { "delta": -5, "note": "Mülkiyet tartışmalı değil. Belge idarenin savunmasına cevap vermiyor." },
+        "law_iyuk27": { "delta": -5, "note": "Yürütmenin durdurulması koşulları, esasa ilişkin bu savunmaya cevap vermiyor." }
+      },
+      "pass": { "delta": -15, "note": "İdarenin savunması cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Danıştay savcısı, düşüncenizi açıklayın." },
+        { "who": "savci", "text": "Düşüncem: Dosyadaki bilgilere göre davalı idare, aceleliği gerektiren durumu somut olarak ortaya koymamıştır. Dava konusu kararın davacıya ait taşınmaz yönünden iptali gerektiği düşünülmektedir.", "if": "somut || gerekce" },
+        { "who": "savci", "text": "Düşüncem: Dava konusu kararın kamu yararı amacıyla alındığı anlaşılmaktadır. Davanın reddi gerektiği düşünülmektedir.", "if": "!somut && !gerekce" },
+        { "who": "judge", "text": "Davacı vekili, son talebiniz?" }
+      ],
+      "prompt": "Heyetten ne isteyeceksiniz?",
+      "choices": [
+        { "text": "Kararın müvekkile ait taşınmaz yönünden iptalini isteriz.", "delta": 15, "set": ["sinirli"],
+          "law": "İYUK m.2/1-a",
+          "note": "İptal davası menfaat ihlaline dayanır (İYUK m.2/1-a). Müvekkilin menfaati kendi taşınmazıyla sınırlı olduğundan talebi bu kapsamda tutmak yerinde." },
+        { "text": "Lojistik merkezinin başka bir yere taşınmasına karar verilmesini isteriz.", "delta": -10,
+          "law": "İYUK m.2/2",
+          "note": "Projenin yerini seçmek idarenin takdirindedir. Yargı yerindelik denetimi yapamaz ve idari işlem niteliğinde karar veremez (İYUK m.2/2)." },
+        { "text": "Kamulaştırma bedelinin artırılmasına karar verilmesini isteriz.", "delta": -10,
+          "note": "Bedel asliye hukuk mahkemesinde belirlenir. Danıştay bu davada bedel hakkında karar vermez." },
+        { "text": "Takdiri heyete bırakıyoruz.", "delta": -5,
+          "note": "Bir talepte bulunmamak, kurduğunuz argümanı sonuçsuz bırakır." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "somut", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu Cumhurbaşkanı kararının davacıya ait taşınmaz yönünden İPTALİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Müvekkilin elindeki broşür, idarenin kendi takvimiydi. Heyet, inşaatı 2029'da başlayacak bir proje için aceleliğin somut olarak ortaya konmadığını kabul etti." },
+        { "if": "yd", "text": " Yürütmenin durdurulması isteğiniz sayesinde dava sürerken ağaçlara dokunulmadı." },
+        { "if": "!yd", "text": " Yürütmenin durdurulması istenmediği için el koyma dava sürerken ilerledi; işlikte üretim durdu." },
+        { "if": "gorev", "text": " Görevli mahkemeyi ilk seferde seçseydiniz haftalar kaybolmazdı." },
+        { "if": "!sinirli", "text": " Son talebiniz yerinde değildi; heyet iptali müvekkilin taşınmazıyla sınırlı tuttu." }
+      ] },
+    { "if": "gerekce && sinirli", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu Cumhurbaşkanı kararının davacıya ait taşınmaz yönünden İPTALİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, kararda aceleliğe ilişkin somut bir gerekçe bulunmadığını kabul etti." },
+        { "if": "!takvim", "text": " Projenin takvimini müvekkile sorsaydınız, idarenin kendi yatırım programı dosyayı çok daha güçlü kılardı." },
+        { "if": "yd", "text": " Yürütmenin durdurulması isteğiniz sayesinde dava sürerken ağaçlara dokunulmadı." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "DAVANIN REDDİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, savcının düşüncesi doğrultusunda kararın kamu yararı amacıyla alındığını kabul etti. Zeytinliğe el konuldu." },
+        { "if": "!takvim", "text": " Projenin takvimini müvekkile sorsaydınız, aceleliğin olmadığını idarenin kendi belgesiyle gösterebilirdiniz." },
+        { "if": "takvim && !somut", "text": " İdarenin yatırım programı çantanızdaydı, ama savunmaya karşı onu sunmadınız." },
+        { "if": "gerekce && !sinirli", "text": " Kararın gerekçesizliğini gösterdiniz, ama son talebiniz bu argümanı sonuçsuz bıraktı." }
+      ] }
+  ]
+}

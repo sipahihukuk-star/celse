@@ -1,0 +1,148 @@
+{
+  "id": "danistay-vergi-teblig",
+  "mode": "solo",
+  "title": "Kiracının Vergisi",
+  "area": "Danıştay · Vergi tebliğinin iptali",
+  "court": "Danıştay 4. Daire",
+  "courtShort": "DANIŞTAY · 4. DAİRE",
+  "esas": "E.2026/2645",
+  "kararTarihi": "25.05.2027",
+  "color": "#5a2f22",
+  "teaser": "Bir genel tebliğ, ticari faaliyeti olmayan kiracılara vergi kesme ve beyanname verme yükümlülüğü getirdi. Kanunda olmayan bu yükü vergi dava dairesinin önünde kaldırtmanız gerek.",
+  "sides": { "p1": { "role": "Davacı dernek vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e8c09c", "hair": "#6b6b70", "style": "short", "beard": true } },
+    "opp": { "name": "Av. Murat Yalçın · Davalı idare vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#d6a57c", "hair": "#2a2220", "style": "short", "glasses": true } },
+    "client": { "name": "Sevgi Kaplan · Dernek Başkanı", "np": "civil", "look": { "kind": "civil", "skin": "#edc6a2", "hair": "#8a8a8a", "style": "curly", "glasses": true, "shirt": "#6b3f4f", "inner": "#e9e4d8" } },
+    "savci": { "name": "Danıştay Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#c08b62", "hair": "#2b1d17", "style": "long" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "İzmir. Bireysel Kiracılar ve Mükellef Hakları Derneği'nin küçük bürosu. Dernek, konut kiracılarının vergi ve kira haklarını korumak amacıyla kurulmuş." },
+    { "who": "client", "text": "Yeni bir genel tebliğ, ev kiralayan herkesin kira öderken vergi kesmesini ve beyanname vermesini istiyor. Üyelerimizin çoğu emekli ve öğrenci. Bu nasıl olur?" },
+    { "who": "narr", "text": "Kanun, kira ödemelerinde vergi kesintisi yapmakla yükümlü olanları tek tek sayar. Ticari faaliyeti olmayan bireysel kiracılar bu listede yok. Tebliğ ülke çapında uygulanan bir düzenleyici işlem; dava Danıştay'ın vergi dava dairelerinden birinde ilk derece olarak görülecek." }
+  ],
+  "docs": [
+    { "t": "Gelir Vergisi Genel Tebliği", "d": "16 Ekim 2026'da Resmî Gazete'de yayımlandı. 4. bölüm: konut kiralayan bütün gerçek kişiler kira öderken vergi keser ve beyanname verir." },
+    { "t": "Gelir Vergisi Kanunu m.94", "d": "Vergi kesintisi yapmakla yükümlü olanları sayar: kamu idareleri, kurumlar, kazancını bilanço ya da işletme hesabı esasına göre belirleyenler gibi. Ticari faaliyeti olmayan bireysel kiracılar sayılmamış." },
+    { "t": "Süre notu", "d": "Bugün 2 Kasım 2026. Yayımı izleyen günden başlayan altmış günlük süre 15 Aralık'ta doluyor." }
+  ],
+  "evidence": [
+    { "id": "ev_teblig", "type": "belge", "title": "Tebliğin 4. bölümü", "desc": "Konut kiralayan bütün gerçek kişiler kira öderken vergi kesmek ve beyanname vermek zorundadır. Beyanname vermeyenlere ceza uygulanır." },
+    { "id": "ev_ozelge", "type": "belge", "title": "Gelir İdaresi özelgesi (2024)", "desc": "Bir üyeye verilen özelge: “Ticari, zirai ya da mesleki faaliyeti olmayan kiracının vergi kesintisi yükümlülüğü yoktur.”", "if": "ozelge" },
+    { "id": "ev_ihbar", "type": "belge", "title": "Vergi dairesi yazıları", "desc": "Üç üyeye “beyanname vermediniz” uyarısı ve ceza uygulanacağı bildirimi.", "if": "uygulama" },
+    { "id": "law_gvk94", "type": "kanun", "title": "GVK m.94 · Vergi kesintisi yapacaklar", "desc": "Kanun kesinti yapacak kişileri sayma yoluyla belirler. Ticari faaliyeti olmayan bireysel kiracılar listede yok.", "law": "GVK m.94" },
+    { "id": "law_ay73", "type": "kanun", "title": "Anayasa m.73/3 · Verginin kanuniliği", "desc": "Vergi, resim, harç ve benzeri malî yükümlülükler kanunla konulur, değiştirilir veya kaldırılır.", "law": "Anayasa m.73/3" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Dava dilekçesinden önce Dernek Başkanı Sevgi Kaplan'la görüşüyorsunuz. İki soru sorabilirsiniz." }],
+      "prompt": "Dernek başkanına ne soracaksınız?",
+      "choices": [
+        { "text": "Gelir İdaresi bu konuda daha önce yazılı bir görüş verdi mi?", "delta": 15, "set": ["ozelge"],
+          "reply": [{ "who": "client", "text": "Verdi! 2024'te bir üyemiz özelge istemişti. Cevapta “ticari faaliyeti olmayan kiracının vergi kesme yükümlülüğü yoktur” yazıyor. Kopyası dosyamızda." },
+                    { "who": "narr", "text": "Özelge, idarenin bir mükellefin sorusu üzerine verdiği yazılı görüştür." }],
+          "note": "Kritik bilgi. İdarenin kendi eski görüşü, tebliğin yeni bir yükümlülük getirdiğini gösteriyor. Özelge delil çantanıza eklendi." },
+        { "text": "Tebliğ üyelerinize uygulanmaya başladı mı?", "delta": 10, "set": ["uygulama"],
+          "reply": [{ "who": "client", "text": "Başladı. Üç üyemize vergi dairesinden “beyanname vermediniz, ceza uygulanacak” yazısı geldi." }],
+          "note": "Bu yazılar tebliğin üyeler hakkında hemen sonuç doğurduğunu gösteriyor. Delil çantanıza eklendi." },
+        { "text": "Dava süresi konusunda size ne söylendi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Bir mali müşavir “vergi davası otuz gündür, süre geçmek üzere” dedi. Çok telaşlandık." }],
+          "law": "İYUK m.7",
+          "note": "Dava açma süresi Danıştay'da altmış, vergi mahkemelerinde otuz gündür (İYUK m.7). Bu dava Danıştay'da açılacağı için süre altmış gün; 15 Aralık'ta doluyor." },
+        { "text": "Derneğin kaç üyesi var?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Dört bin civarı." }],
+          "note": "Üye sayısı derneğin etkisini gösterir, ama davanın hukuki sorununa katkısı sınırlı." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Dernek yönetim kurulu dava açılmasına karar verdi. Dilekçeyi hazırlıyorsunuz." }],
+      "prompt": "Davayı nasıl açacaksınız?",
+      "choices": [
+        { "text": "Süre dolmadan Danıştay'da tebliğin 4. bölümünün iptali için dava açın; duruşma ve yürütmenin durdurulması isteyin.", "delta": 20, "set": ["durusma", "yd"],
+          "law": "2575 s.K. m.24/1, m.27; İYUK m.17, m.27",
+          "note": [
+            { "text": "Ülke çapında uygulanan düzenleyici işleme karşı dava Danıştay'da açılır; vergi uyuşmazlığına vergi dava dairelerinden biri bakar (2575 s.K. m.24/1, m.27). Duruşma isteği dava dilekçesine yazılır (İYUK m.17)." },
+            { "if": "uygulama", "text": " Üyelere gelen ceza yazıları, yürütmenin durdurulması için gereken zararı somutlaştırıyor (İYUK m.27)." }
+          ] },
+        { "text": "Vergi uyuşmazlığı olduğu için davayı vergi mahkemesinde açın.", "delta": -10, "set": ["durusma", "gecikme"],
+          "reply": [{ "who": "narr", "text": "Vergi mahkemesi görevsizlik kararı verdi. Dosya Danıştay'a gönderildi." }],
+          "note": "Ülke çapında uygulanan düzenleyici işlemlere karşı görevli mahkeme Danıştay'dır. Vergi mahkemesi görevsizlik kararı verip dosyayı gönderir; dava gecikir." },
+        { "text": "Süre otuz gün; dilekçeyi hemen ve kısa yazın, duruşma talebiyle uğraşmayın.", "delta": 0,
+          "law": "İYUK m.7, m.17",
+          "note": "Bu davada süre altmış gündür (İYUK m.7). Telaş gereksizdi. Duruşma isteği dilekçeye yazılmadığı için duruşma yapılıp yapılmaması Daire'nin takdirine kaldı (İYUK m.17)." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Duruşma isteği dilekçede yer almamıştı. Daire, konunun önemi nedeniyle kendiliğinden duruşmaya karar verdi.", "if": "!durusma" },
+        { "who": "judge", "text": "Duruşmayı açıyorum. Davacı vekili açıklamalarını yaptı. Davalı idare vekili, savunmanızı açıklayın." }
+      ],
+      "statement": { "who": "opp", "text": "Dava konusu bölüm yeni bir yükümlülük getirmemektedir. İdarenin öteden beri uygulaması bu yöndedir. Tebliğ yalnızca açıklama niteliğindedir; davaya konu olabilecek kesin ve yürütülmesi gereken bir işlem değildir." },
+      "prompt": "Bu savunmayı hangi delille çürüteceksiniz?",
+      "correct": ["ev_ozelge"],
+      "hit": { "delta": 25, "set": ["icrai"],
+        "reply": [
+          { "who": "judge", "text": "Özelge tutanağa geçti. Davalı idare vekili, bu özelgeden haberiniz var mı?" },
+          { "who": "opp", "text": "Özelge somut olaya özgüdür, Sayın Başkan." }
+        ],
+        "note": "İdare 2024'te tam tersini söylemiş. “Öteden beri uygulama” savunması kendi özelgesiyle çelişiyor. Tebliğ yeni bir yükümlülük getiren, kesin ve yürütülmesi gereken bir düzenleyici işlemdir." },
+      "responses": {
+        "ev_ihbar": { "delta": 20, "set": ["icrai"],
+          "reply": [{ "who": "judge", "text": "Vergi dairesi yazıları tutanağa geçti." }],
+          "note": "Yazılar tebliğin üyeler hakkında hemen uygulandığını gösteriyor. Ceza öngören ve uygulanan bir düzenleme, açıklama niteliğinde sayılamaz." },
+        "ev_teblig": { "delta": 10, "set": ["metinArg"], "note": "Tebliğ “zorundadır” diyor ve ceza öngörüyor; bu dil açıklama niteliğindeki bir metne ait olamaz. İdarenin “öteden beri” savunmasını ise kendi eski görüşü daha iyi çürütürdü." },
+        "law_gvk94": { "delta": 10, "set": ["metinArg"], "note": "Kanun kesinti yapacakları sayıyor ve bireysel kiracılar listede yok. Ama idare tebliğin yalnızca açıklama olduğunu savunuyor; yeni ve uygulanan bir yükümlülüğü belgeyle göstermek daha güçlü olurdu." },
+        "law_ay73": { "delta": 5, "note": "Doğru ilke. Ama savunmanın asıl iddiasına, tebliğin açıklama niteliğinde olduğuna cevap vermiyor." }
+      },
+      "pass": { "delta": -20, "note": "Savunma cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Danıştay savcısı, düşüncenizi açıklayın." },
+        { "who": "savci", "text": "Düşüncem: Kanunda sayılmayan kişilere tebliğle vergi kesintisi yükümlülüğü getirilmesi kanuni dayanaktan yoksundur. Dava konusu bölümün iptali gerektiği düşünülmektedir.", "if": "icrai || metinArg" },
+        { "who": "savci", "text": "Düşüncem: Dava konusu bölüm, mevcut mevzuatı açıklayan bir düzenlemedir. Davanın incelenmeksizin reddi gerektiği düşünülmektedir.", "if": "!icrai && !metinArg" },
+        { "who": "judge", "text": "Davacı vekili, son sözünüz?" }
+      ],
+      "prompt": "Son sözünüz ne olacak?",
+      "choices": [
+        { "text": "Vergi ve benzeri malî yükümlülükler ancak kanunla konulur. Kesinti yapacakları kanun sayar; tebliğ bu listeyi genişletemez. 4. bölümün iptalini isteriz.", "delta": 20, "set": ["ilke"],
+          "law": "Anayasa m.73/3; GVK m.94",
+          "note": "Verginin kanuniliği ilkesi, kimin vergi kesmekle yükümlü olacağını da kapsar. İdare, kanunun saymadığı kişileri tebliğle bu yükün altına sokamaz (Anayasa m.73/3)." },
+        { "text": "Tebliğin emekliler ve öğrenciler için hakkaniyete aykırı bir yük olduğunu anlatın.", "delta": -10,
+          "law": "İYUK m.2/2",
+          "note": "Daire yalnızca hukuka uygunluğu denetler. Düzenlemenin adil ya da yerinde olup olmadığı yerindelik meselesidir (İYUK m.2/2)." },
+        { "text": "Kesinti oranlarını değiştirme yetkisinin Cumhurbaşkanında olduğunu, Gelir İdaresi'nin bu yetkiyi kullanamayacağını söyleyin.", "delta": 5,
+          "law": "Anayasa m.73/4",
+          "note": "Anayasa, kanunun belirttiği sınırlar içinde oranlarda değişiklik yetkisinin Cumhurbaşkanına verilebileceğini söyler. Ama bu dava oranla ilgili olmadığından argüman asıl sorunu ıskalıyor." },
+        { "text": "Tebliğin tamamının iptalini isteriz.", "delta": -5,
+          "note": "Tebliğin diğer bölümlerine karşı hiçbir hukuka aykırılık ileri sürmediniz. Ölçüsüz bir talep heyette güven kaybettirir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "(icrai || metinArg) && ilke", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu Gelir Vergisi Genel Tebliği'nin 4. bölümünün İPTALİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay Vergi Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, kanunun saymadığı kişilere tebliğle vergi kesintisi yükümlülüğü getirilemeyeceğini kabul etti." },
+        { "if": "icrai", "text": " İdarenin “açıklama” savunması, belgeyle gösterdiğiniz yeni ve uygulanan yükümlülük karşısında çöktü." },
+        { "if": "!icrai", "text": " Özelgeyi ya da vergi dairesi yazılarını dernek başkanına sorsaydınız idarenin savunmasını kendi belgeleriyle çürütebilirdiniz." },
+        { "if": "yd && uygulama", "text": " Yürütmenin durdurulması isteğiniz sayesinde dava sürerken üyelere ceza kesilmedi." },
+        { "if": "gecikme", "text": " Vergi mahkemesinde açılan dava görevsizlik nedeniyle gecikti." }
+      ] },
+    { "if": "icrai || metinArg", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu Gelir Vergisi Genel Tebliği'nin 4. bölümünün İPTALİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay Vergi Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Savcının düşüncesi doğrultusunda tebliğ kanuni dayanaktan yoksun bulundu. Kararı belgeleriniz ve savcının düşüncesi taşıdı; son sözünüz verginin kanuniliği ilkesini hiç kurmadı." },
+        { "if": "gecikme", "text": " Vergi mahkemesinde açılan dava görevsizlik nedeniyle gecikti." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu bölümün kesin ve yürütülmesi gereken bir işlem niteliği taşımadığı sonucuna varıldığından davanın İNCELENMEKSİZİN REDDİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay Vergi Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "İdarenin “tebliğ yalnızca açıklamadır” savunması cevapsız kaldı. Heyet esasa girmedi." },
+        { "if": "!ozelge && !uygulama", "text": " İdarenin eski görüşünü ya da tebliğin üyelere uygulanıp uygulanmadığını dernek başkanına sorsaydınız, savunmayı belgeyle çürütebilirdiniz." },
+        { "if": "ozelge || uygulama", "text": " Savunmayı çürütecek belge çantanızdaydı, ama onu sunmadınız." },
+        { "if": "ilke", "text": " Verginin kanuniliği ilkesini doğru kurdunuz, ama heyet bu noktaya hiç gelmedi." }
+      ] }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "id": "danistay-ced-boru-hatti",
+  "mode": "solo",
+  "title": "Vadideki Kaynak",
+  "area": "Danıştay · ÇED olumlu kararı",
+  "court": "Danıştay 14. Daire",
+  "courtShort": "DANIŞTAY · 14. DAİRE",
+  "esas": "E.2026/3027",
+  "kararTarihi": "22.06.2027",
+  "color": "#24463a",
+  "teaser": "Üç ilden geçen bir boru hattı, köyün içme suyu kaynağının hemen yanından geçecek. Önce doğru mahkemeyi, sonra kaynağın kendisini bulmanız gerek.",
+  "sides": { "p1": { "role": "Davacılar (dernek ve köylüler) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e0b48e", "hair": "#5a5a5e", "style": "bun", "glasses": true } },
+    "opp": { "name": "Av. Orhan Kurt · Davalı idare vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#c99670", "hair": "#1e1612", "style": "short", "beard": true } },
+    "client": { "name": "Elif Demirtaş · Dernek Başkanı", "np": "civil", "look": { "kind": "civil", "skin": "#d6a57c", "hair": "#3a2418", "style": "long", "shirt": "#3e5a48", "inner": "#e6e0d2" } },
+    "savci": { "name": "Danıştay Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e8c09c", "hair": "#3a3a3a", "style": "short" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Yeşilyurt köyü. Bakanlık, üç ilden geçen bir doğal gaz boru hattı için “ÇED olumlu” kararı verdi. Güzergâh köyün yanındaki vadiden geçiyor." },
+    { "who": "client", "text": "Yeşilyurt Çevre ve Doğa Koruma Derneği'nin başkanıyım. Köyden on iki kişi de bizimle dava açmak istiyor. İş makineleri bahara geliyor." },
+    { "who": "narr", "text": "Çevre davalarında menfaat ilişkisi geniş yorumlanır. Köylüler ve amacı çevreyi korumak olan dernek iptal davası açabilir. Dilekçede duruşma isteyeceksiniz; Danıştay savcısı da düşüncesini duruşmada açıklayacak." }
+  ],
+  "docs": [
+    { "t": "ÇED olumlu kararı", "d": "Bakanlık kararı. Proje: üç ilden geçen doğal gaz boru hattı. Karar askı yoluyla ilan edildi; dava süresi henüz dolmadı." },
+    { "t": "ÇED raporu", "d": "Güzergâhın hidrojeolojik incelemesi iki sayfa. Raporda vadide su kaynağı gösterilmemiş." },
+    { "t": "Güzergâh haritası", "d": "Hat, üç ayrı idare mahkemesinin yetki alanına giren üç ilden geçiyor." },
+    { "t": "Halkın katılımı toplantısı", "d": "İl merkezinde, hafta içi sabah saatlerinde yapıldı." }
+  ],
+  "evidence": [
+    { "id": "ev_ced", "type": "belge", "title": "ÇED raporu", "desc": "Güzergâh vadisinde su kaynağı gösterilmemiş. Alternatif güzergâh değerlendirmesi yok." },
+    { "id": "ev_harita", "type": "belge", "title": "Güzergâh haritası", "desc": "Hat üç ilden ve üç idare mahkemesinin yetki alanından geçiyor." },
+    { "id": "ev_kaynak", "type": "belge", "title": "Köyün kaynak suyu kayıtları", "desc": "Muhtarlık kayıtları ve il özel idaresinin su analiz raporları: köyün tek içme suyu kaynağı güzergâha 40 metre uzaklıkta.", "if": "kaynak" },
+    { "id": "ev_bilirkisi", "type": "belge", "title": "Bilirkişi raporu", "desc": "ÇED raporundaki hidrojeolojik inceleme yetersiz bulundu. Kayıtlı bir su kaynağı tespit edilmedi; tescilsiz kaynaklar araştırılmadı.", "if": "kesif" },
+    { "id": "law_ay56", "type": "kanun", "title": "Anayasa m.56 · Çevre hakkı", "desc": "Herkes, sağlıklı ve dengeli bir çevrede yaşama hakkına sahiptir.", "law": "Anayasa m.56" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Köy kahvesinde dernek başkanı ve birkaç köylüyle oturuyorsunuz. İki soru sorabilirsiniz." }],
+      "prompt": "Ne soracaksınız?",
+      "choices": [
+        { "text": "Güzergâhın geçtiği vadide köyün kullandığı bir su kaynağı var mı?", "delta": 15, "set": ["kaynak"],
+          "reply": [{ "who": "client", "text": "Var tabii! Köyün tek içme suyu o vadideki kaynaktan gelir. Muhtarlıkta kayıtları, il özel idaresinin su analiz raporları duruyor." }],
+          "note": "Kritik bilgi. ÇED raporu bu kaynağı hiç göstermiyor. Kayıtlar delil çantanıza eklendi." },
+        { "text": "Halkın katılımı toplantısından köyün haberi oldu mu?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Olmadı. İlanı il merkezindeki bir gazeteye vermişler. Köyden kimse gidemedi." }],
+          "note": "Halkın katılımındaki eksiklik dilekçede ileri sürülebilecek bir usul sorunudur. Ama güzergâhın asıl riskini henüz bilmiyorsunuz." },
+        { "text": "Hattın geçtiği arazilerde ne ekiliyor?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Buğday, biraz da ceviz. Ama asıl derdimiz o değil." }],
+          "note": "Tarım arazileri ÇED'in bir parçasıdır, ama müvekkil asıl derdin başka olduğunu söylüyor." },
+        { "text": "Şirket irtifak bedeli olarak ne teklif etti?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Dönüm başına üç kuruş. Kimse kabul etmedi." }],
+          "note": "Bedel uyuşmazlığı adli yargıda çözülür. Bu bilgi ÇED kararının hukuka uygunluğuna bir şey katmaz." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Güzergâh haritası önünüzde. Hat üç ilden geçiyor ve üç ayrı idare mahkemesinin yetki alanına giriyor." }],
+      "prompt": "Davayı hangi mahkemede açacaksınız?",
+      "choices": [
+        { "text": "Danıştay'da; işlem birden çok idare mahkemesinin yetki alanına giriyor.", "delta": 20, "set": ["gorev"],
+          "law": "2575 s.K. m.24/1",
+          "note": "Birden çok idare ya da vergi mahkemesinin yetki alanına giren işlere karşı dava Danıştay'da ilk derece olarak açılır (2575 s.K. m.24/1). Tek bir ÇED kararı illere bölünerek dava konusu yapılmaz." },
+        { "text": "Köyün bağlı olduğu ildeki idare mahkemesinde; zarar orada doğuyor.", "delta": -10, "set": ["gecikme"],
+          "reply": [{ "who": "narr", "text": "İdare mahkemesi görevsizlik kararı verdi. Dosya üç ay sonra Danıştay'a ulaştı." }],
+          "note": "Bu işte görevli mahkeme Danıştay'dır. İdare mahkemesi görevsizlik kararı verip dosyayı gönderir; dava düşmez, ama aylar kaybolur." },
+        { "text": "Her ilin idare mahkemesinde ayrı ayrı dava açın; hangisi önce karar verirse.", "delta": -15, "set": ["gecikme"],
+          "reply": [{ "who": "narr", "text": "Üç mahkeme de görevsizlik kararı verdi. Dosyalar aylar sonra Danıştay'da bir araya geldi." }],
+          "note": "Tek bir işleme karşı birden çok mahkemede dava açmak çelişkili kararlara yol açabilir. Görevli yer Danıştay'dır; davalar görevsizlik kararlarıyla oraya gider." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Dilekçenin talep kısmına geldiniz. ÇED raporundaki hidrojeolojik inceleme yalnızca iki sayfa." },
+        { "who": "narr", "text": "Görevsizlik kararları yüzünden aylar geçti; iş makineleri şantiye alanına gelmeye başladı.", "if": "gecikme" }
+      ],
+      "prompt": "Dilekçede ne isteyeceksiniz?",
+      "choices": [
+        { "text": "Güzergâhta keşif ve bilirkişi incelemesi, yürütmenin durdurulması ve duruşma isteyin; inşaatın baharda başlayacağını belgeleyin.", "delta": 20, "set": ["kesif", "yd"],
+          "law": "İYUK m.17, m.20, m.27",
+          "reply": [{ "who": "narr", "text": "Daire keşif ve bilirkişi incelemesine karar verdi. Keşif bir bahar sabahı vadide yapıldı." }],
+          "note": "Danıştay davaya ilişkin her türlü incelemeyi kendiliğinden yapar (İYUK m.20). Teknik iddialar keşif ve bilirkişiyle denetlenir. İnşaat başlarsa kaynak zarar görebilir; yürütmenin durdurulması için bu zarar önemlidir (İYUK m.27)." },
+        { "text": "Keşif istemeyin; dosya üzerinden inceleme yeterli. Duruşma isteğini yazın.", "delta": -10,
+          "note": "ÇED raporu idarenin dayandığı belgedir. Rapordaki teknik eksiklik ancak keşif ve bilirkişiyle somut olarak ortaya konur." },
+        { "text": "Keşif yerine kendi seçtiğiniz bir uzmandan rapor alıp sunun; duruşma isteyin.", "delta": 5, "set": ["uzman"],
+          "note": "Tarafların aldığı uzman görüşü dosyaya sunulabilir. Ama Daire'nin atadığı bilirkişinin incelemesinin yerini tutmaz." },
+        { "text": "Yalnızca yürütmenin durdurulmasını isteyin; başka talepte bulunmayın.", "delta": -5,
+          "note": "Teknik bir dosyada açık hukuka aykırılık çoğu zaman ancak bilirkişi incelemesiyle görünür hâle gelir. Keşif istemeden yapılan bu talep zayıf kalır." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Bilirkişi raporu dosyaya geldi. Rapor, ÇED raporundaki hidrojeolojik incelemeyi yetersiz buldu.", "if": "kesif" },
+        { "who": "narr", "text": "Daire dosyadaki bilgileri yeterli gördü ve keşif yapmadı.", "if": "!kesif" },
+        { "who": "judge", "text": "Duruşmayı açıyorum. Davacılar vekili açıklamalarını yaptı. Davalı idare vekili, savunmanızı açıklayın." }
+      ],
+      "statement": { "who": "opp", "text": "ÇED raporu projenin bütün çevresel etkilerini değerlendirmiştir. Güzergâh üzerinde korunması gereken bir içme suyu kaynağı bulunmamaktadır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_kaynak"],
+      "hit": { "delta": 25, "set": ["kaynakArg"],
+        "reply": [{ "who": "judge", "text": "Muhtarlık kayıtları ve analiz raporları tutanağa geçti." }],
+        "law": "Anayasa m.56",
+        "note": "Köyün tek içme suyu kaynağı güzergâha 40 metre uzaklıkta. ÇED raporu bu kaynağı hiç değerlendirmemiş; karar eksik incelemeye dayanıyor." },
+      "responses": {
+        "ev_bilirkisi": { "delta": 10, "set": ["bilirkisiArg"], "note": "Rapor incelemenin yetersiz olduğunu gösteriyor. Ama kaynağın varlığını göstermediği için idarenin beyanı tam olarak çürümedi." },
+        "law_ay56": { "delta": 5, "note": "Çevre hakkı doğru bir ilke. Ama kaynağın varlığını gösteren bir belge sunmadınız." },
+        "ev_ced": { "delta": -10, "note": "ÇED raporu idarenin dayandığı belgedir; beyanı destekliyor." },
+        "ev_harita": { "delta": -5, "note": "Harita görevli mahkemeyi belirlemek için önemliydi. Kaynak sorusuna cevap vermiyor." }
+      },
+      "pass": { "delta": -15, "note": "İdarenin beyanı cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Danıştay savcısı, düşüncenizi açıklayın." },
+        { "who": "savci", "text": "Düşüncem: ÇED raporunda güzergâha yakın içme suyu kaynağının değerlendirilmediği anlaşılmaktadır. Dava konusu kararın iptali gerektiği düşünülmektedir.", "if": "kaynakArg" },
+        { "who": "savci", "text": "Düşüncem: Dosyadaki bilgiler bir bütün olarak değerlendirildiğinde ÇED sürecinin mevzuata uygun yürütüldüğü anlaşılmaktadır. Davanın reddi gerektiği düşünülmektedir.", "if": "!kaynakArg" },
+        { "who": "judge", "text": "Davacılar vekili, son açıklamanız?" }
+      ],
+      "prompt": "Son sözünüz ne olacak?",
+      "choices": [
+        { "if": "kaynakArg", "text": "Kaynağın ÇED raporunda hiç değerlendirilmediğini vurgulayın ve kararın iptalini isteyin.", "delta": 15, "set": ["sonSoz"],
+          "note": "Savcının düşüncesi de sizi destekliyor. Talebiniz dava konusuyla sınırlı ve hukuka uygunluk denetimine dayanıyor." },
+        { "if": "!kaynakArg && kesif", "text": "Bilirkişi raporuna itiraz edin; tescilsiz kaynakların da incelenmesi için ek rapor isteyin.", "delta": 15, "set": ["ekRapor"],
+          "law": "İYUK m.20",
+          "reply": [{ "who": "narr", "text": "Daire ek rapor aldı. Bilirkişiler vadiye yeniden gitti ve köyün kaynağını güzergâhın 40 metre yanında buldu." }],
+          "note": "Rapor tescilsiz kaynakları araştırmamış. Eksik bir bilirkişi raporuna karşı ek rapor istenebilir; Daire bu talebi re'sen araştırma ilkesiyle değerlendirir (İYUK m.20)." },
+        { "if": "!kaynakArg && !kesif", "text": "ÇED raporunun alternatif güzergâhları değerlendirmediğini belirtin ve kararın iptalini isteyin.", "delta": 15, "set": ["alternatif"],
+          "note": "Elinizdeki en iyi argüman bu. Ama keşif ve bilirkişi incelemesi olmadan teknik bir eksikliği somut olarak göstermek zor." },
+        { "text": "Boru hattının bölgeye ekonomik bir yararı olmadığını anlatın.", "delta": -10,
+          "law": "İYUK m.2/2",
+          "note": "Projenin gerekliliği bir yerindelik meselesidir. İdari yargı yalnızca hukuka uygunluğu denetler (İYUK m.2/2)." },
+        { "text": "Şirketin teklif ettiği irtifak bedelinin düşük olduğunu belirtin.", "delta": -10,
+          "note": "Bedel uyuşmazlığı adli yargıda çözülür. ÇED kararının hukuka uygunluğuyla ilgisi yok." },
+        { "if": "!kaynakArg", "text": "Savcının düşüncesine katılmadığınızı söyleyin; ek açıklama yapmayın.", "delta": -5,
+          "note": "Gerekçesiz bir itiraz heyeti etkilemez." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "kaynakArg", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu ÇED olumlu kararının İPTALİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Müvekkillere sorduğunuz tek soru, ÇED raporunun görmediği kaynağı ortaya çıkardı. Heyet, kararın eksik incelemeye dayandığını kabul etti." },
+        { "if": "yd", "text": " Bilirkişi raporundan sonra verilen yürütmenin durdurulması kararı, iş makinelerini kaynaktan uzak tuttu." },
+        { "if": "gecikme", "text": " Görevli mahkemeyi ilk seferde seçseydiniz aylar kaybolmazdı." }
+      ] },
+    { "if": "ekRapor", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu ÇED olumlu kararının İPTALİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Eksik bilirkişi raporuna itirazınız ek incelemeyi getirdi; bilirkişiler kaynağı güzergâhın hemen yanında buldu." },
+        { "if": "!kaynak", "text": " Kaynağı müvekkillere sorsaydınız, aynı sonuca aylar önce ulaşırdınız." },
+        { "if": "kaynak", "text": " Kaynak kayıtları çantanızdaydı; duruşmada sunsaydınız ek rapora gerek kalmazdı." },
+        { "if": "yd", "text": " Yürütmenin durdurulması kararı, inşaatın kaynağa ulaşmasını önledi." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "DAVANIN REDDİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, savcının düşüncesi doğrultusunda ÇED sürecini mevzuata uygun buldu." },
+        { "if": "!kaynak", "text": " Vadideki su kaynağını müvekkillere sorsaydınız, ÇED raporunun en büyük eksiğini gösterebilirdiniz." },
+        { "if": "kaynak", "text": " Kaynak kayıtları çantanızdaydı, ama idarenin beyanına karşı onları sunmadınız." },
+        { "if": "!kesif", "text": " Keşif ve bilirkişi incelemesi istenmediği için teknik eksiklik somut olarak hiç ortaya konmadı." }
+      ] }
+  ]
+}

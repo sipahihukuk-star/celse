@@ -11,6 +11,11 @@ import uzakAdliye from "./uzak-adliye.json";
 import yargitayDurusma from "./yargitay-durusma.json";
 import aihmBuyukDaire from "./aihm-buyuk-daire.json";
 import ucmYargilama from "./ucm-yargilama.json";
+import danistayYonetmelik from "./danistay-yonetmelik.json";
+import danistayAceleKamulastirma from "./danistay-acele-kamulastirma.json";
+import danistayCedBoruHatti from "./danistay-ced-boru-hatti.json";
+import danistayImtiyaz from "./danistay-imtiyaz.json";
+import danistayVergiTeblig from "./danistay-vergi-teblig.json";
 import aymBireyselTutukluluk from "./aym-bireysel-tutukluluk.json";
 import aymBireyselMulkiyet from "./aym-bireysel-mulkiyet.json";
 import aymBireyselGerekce from "./aym-bireysel-gerekce.json";
@@ -23,6 +28,7 @@ import sayistayTemsilAgirlama from "./sayistay-temsil-agirlama.json";
 import sayistayYargilamaninIadesi from "./sayistay-yargilamanin-iadesi.json";
 
 export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, sozluFesih, uzakAdliye, yargitayDurusma, aihmBuyukDaire, ucmYargilama,
+  danistayYonetmelik, danistayAceleKamulastirma, danistayCedBoruHatti, danistayImtiyaz, danistayVergiTeblig,
   aymBireyselTutukluluk, aymBireyselMulkiyet, aymBireyselGerekce, aymIptalSozluAciklama, aymYuceDivan,
   sayistayFazlaHakedis, sayistayFazlaMesai, sayistayDusukKira, sayistayTemsilAgirlama, sayistayYargilamaninIadesi].map(c => normalizeCase(c as unknown as CaseFile));
 export const DUEL_CASES = CASES.filter(c => c.mode === "duel");

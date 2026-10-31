@@ -1,0 +1,188 @@
+{
+  "id": "danistay-yonetmelik",
+  "mode": "solo",
+  "title": "Kanunsuz Sınır",
+  "area": "Danıştay · Yönetmeliğin iptali",
+  "court": "Danıştay 10. Daire",
+  "courtShort": "DANIŞTAY · 10. DAİRE",
+  "esas": "E.2026/1843",
+  "kararTarihi": "16.03.2027",
+  "color": "#2e3d5c",
+  "teaser": "Bir bakanlık yönetmeliği, meslek kanununun izin verdiği serbest çalışmayı yasakladı. Süre daralıyor; beş üyeli daireyi kanuni dayanak olmadığına ikna etmeniz gerek.",
+  "sides": { "p1": { "role": "Davacı Oda vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#dcae88", "hair": "#8e8e92", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Selim Karaca · Davalı idare vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#c9946c", "hair": "#2a2522", "style": "short" } },
+    "client": { "name": "Nermin Aksoy · Oda Başkanı", "np": "civil", "look": { "kind": "civil", "skin": "#e6bc98", "hair": "#5a3a28", "style": "bun", "glasses": true, "shirt": "#3f5566", "inner": "#e4dfd2" } },
+    "savci": { "name": "Danıştay Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d2a07a", "hair": "#3b2e26", "style": "short", "beard": true } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Ankara. Türkiye Akustik Ölçüm Uzmanları Odası'nın genel merkezi. Oda, gürültü ölçümü yapan uzmanların kanunla kurulmuş meslek kuruluşu." },
+    { "who": "client", "text": "Bakanlığın yeni yönetmeliği, uzmanların yalnızca Bakanlıktan yetki belgesi almış şirketlerde çalışabileceğini söylüyor. Serbest çalışan yüzlerce üyemiz bir gecede işsiz kaldı." },
+    { "who": "narr", "text": "Yönetmelik ülke çapında uygulanıyor. Bu yüzden dava Danıştay'da ilk derece olarak görülecek. Oda adına duruşma isteyeceksiniz; Danıştay savcısı da düşüncesini duruşmada sözlü olarak açıklayacak." }
+  ],
+  "docs": [
+    { "t": "Gürültü Ölçüm Hizmetleri Yönetmeliği", "d": "14 Eylül 2026'da Resmî Gazete'de yayımlandı. m.9: uzmanlar yalnızca Bakanlıktan yetki belgesi almış şirketlerde çalışabilir." },
+    { "t": "Akustik Ölçüm Uzmanlığı Kanunu", "d": "Uzmanlar serbest ya da bir kuruluşa bağlı çalışabilir (m.5). Bakanlık ölçüm standartlarını yönetmelikle belirler (m.12)." },
+    { "t": "Oda'nın görevleri", "d": "Aynı Kanun m.20: Oda, üyelerinin mesleki hak ve menfaatlerini korur." },
+    { "t": "Süre notu", "d": "Bugün 3 Kasım 2026. Yayımı izleyen günden başlayan altmış günlük süre 13 Kasım'da doluyor." }
+  ],
+  "evidence": [
+    { "id": "ev_yonetmelik", "type": "belge", "title": "Yönetmelik m.9", "desc": "Uzmanlar yalnızca yetki belgeli şirketlerde çalışabilir; serbest çalışma yasak." },
+    { "id": "ev_kanun", "type": "kanun", "title": "Meslek Kanunu m.5 ve m.12", "desc": "Uzmanlar serbest ya da bir kuruluşa bağlı çalışabilir. Bakanlık yalnızca ölçüm standartlarını yönetmelikle belirler.", "law": "Meslek Kanunu m.5, m.12" },
+    { "id": "ev_oda", "type": "kanun", "title": "Meslek Kanunu m.20 · Oda'nın görevleri", "desc": "Oda, üyelerinin mesleki hak ve menfaatlerini korur.", "law": "Meslek Kanunu m.20" },
+    { "id": "ev_komisyon", "type": "belge", "title": "TBMM komisyon raporu", "desc": "Tasarıdaki “uzmanlar yalnızca yetkili şirkette çalışır” hükmü, serbest çalışmayı ortadan kaldıracağı gerekçesiyle metinden çıkarıldı.", "if": "komisyon" },
+    { "id": "ev_fesih", "type": "belge", "title": "Üyelerin fesih bildirimleri", "desc": "Serbest çalışan 140 uzmanın hizmet sözleşmesi, yönetmelik gerekçe gösterilerek feshedildi.", "if": "zarar" },
+    { "id": "law_ay13", "type": "kanun", "title": "Anayasa m.13 · Temel hakların sınırlanması", "desc": "Temel hak ve hürriyetler ancak kanunla sınırlanabilir.", "law": "Anayasa m.13" },
+    { "id": "law_ay124", "type": "kanun", "title": "Anayasa m.124 · Yönetmelikler", "desc": "Bakanlıklar, kanunların uygulanmasını sağlamak üzere ve bunlara aykırı olmamak şartıyla yönetmelik çıkarabilir.", "law": "Anayasa m.124" },
+    { "id": "law_iyuk2", "type": "kanun", "title": "İYUK m.2/1-a · İptal davası", "desc": "İdari işlemlere karşı menfaatleri ihlal edilenlerce açılan dava.", "law": "İYUK m.2/1-a" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Dava dilekçesini yazmadan önce Oda Başkanı'yla görüşüyorsunuz. İki soru sorabilirsiniz." }],
+      "prompt": "Oda Başkanı'na ne soracaksınız?",
+      "choices": [
+        { "text": "Meslek kanunu hazırlanırken çalışma biçimine bir sınır getirilmesi tartışıldı mı?", "delta": 15, "set": ["komisyon"],
+          "reply": [{ "who": "client", "text": "Tartışıldı. Tasarıda “yalnızca yetkili şirkette çalışma” hükmü vardı. Komisyon, serbest çalışmayı bitireceği gerekçesiyle bu hükmü metinden çıkardı. Komisyon raporu bende." }],
+          "note": "Kritik bilgi. Kanun koyucu bu sınırı bilerek reddetmiş. Bakanlığın aynı sınırı yönetmelikle getirmesine karşı en güçlü belge bu; komisyon raporu delil çantanıza eklendi." },
+        { "text": "Yönetmelik yürürlüğe girdiğinden beri üyeleriniz neler yaşıyor?", "delta": 10, "set": ["zarar"],
+          "reply": [{ "who": "client", "text": "Serbest çalışan 140 üyemizin sözleşmesi feshedildi. Bildirimlerin hepsini topladık." }],
+          "note": "Yürütmenin durdurulması için zararın somut olarak gösterilmesi gerekir (İYUK m.27). Fesih bildirimleri delil çantanıza eklendi." },
+        { "text": "Yönetmelik tam olarak hangi gün yayımlandı?", "delta": 5,
+          "reply": [{ "who": "client", "text": "14 Eylül'de, Resmî Gazete'de." }],
+          "note": "İlanı gereken düzenleyici işlemlerde dava süresi ilan tarihini izleyen günden başlar (İYUK m.7/4). Altmış günlük süre 13 Kasım'da doluyor." },
+        { "text": "Bakanlıkla yaptığınız görüşmeler nasıl geçti?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Bizi dinlediler, ama hiçbir şey değişmedi." }],
+          "note": "Sınırlı soru hakkınızı davaya katkısı olmayan bir konuya harcadınız." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Dilekçe hazır. Oda yönetim kurulu dava açılmasına karar verdi, ama bazı üyeler Ocak ayındaki genel kurulu beklemek istiyor." }],
+      "prompt": "Dava dilekçesini ne zaman ve nasıl vereceksiniz?",
+      "choices": [
+        { "text": "Dilekçeyi süre dolmadan Danıştay'a verin; duruşma isteğini dilekçeye yazın.", "delta": 20, "set": ["durusma"],
+          "law": "2575 s.K. m.24/1; İYUK m.7/4, m.17/3",
+          "note": "Bakanlıkların çıkardığı ve ülke çapında uygulanan düzenleyici işlemlere karşı dava Danıştay'da ilk derece olarak açılır (2575 s.K. m.24/1). Duruşma isteği dava dilekçesinde yapılır (İYUK m.17/3)." },
+        { "text": "Ocak ayındaki genel kurulu bekleyin; dava genel kurul kararıyla açılsın.", "delta": -25,
+          "law": "İYUK m.7/4",
+          "fatal": { "label": "HÜKÜM:", "hukum": "Dava konusu düzenleyici işlemin Resmî Gazete'de yayımlandığı tarihi izleyen günden itibaren altmış günlük süre geçtikten sonra açılan davanın SÜRE AŞIMI NEDENİYLE REDDİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+                     "summary": "İlanı gereken düzenleyici işlemlerde dava süresi ilanı izleyen günden başlar (İYUK m.7/4). Genel kurul beklenirken süre doldu. Üyeler, yönetmelik kendilerine uygulandığında uygulama işlemiyle birlikte yönetmeliğe de dava açabilir; ama Oda'nın davası kaybedildi." },
+          "note": "Dava açma süresi hak düşürücüdür. Yönetim kurulu dava açılmasına zaten karar vermişti; beklemek davayı kaybettirdi." },
+        { "text": "Dilekçeyi süre içinde verin; duruşma isteğini duruşma tarihine yakın ayrı bir dilekçeyle yapın.", "delta": -5,
+          "law": "İYUK m.17/3",
+          "note": "Duruşma isteği dava dilekçesinde, cevap ya da savunmada yapılır (İYUK m.17/3). Sonradan yapılan istek Daire'yi bağlamaz." },
+        { "text": "Önce Bakanlığa başvurup yönetmeliğin değiştirilmesini isteyin; cevabı bekleyin.", "delta": -5, "set": ["gecikme", "durusma"],
+          "law": "İYUK m.11",
+          "reply": [{ "who": "narr", "text": "Bakanlık altmış gün boyunca cevap vermedi. Kalan süre içinde dava açtınız ve duruşma isteğini dilekçeye yazdınız." }],
+          "note": "Bu başvuru işleyen dava süresini durdurur. Altmış gün içinde cevap verilmezse istek reddedilmiş sayılır. Hak kaybı olmaz, ama dava aylarca gecikir ve üyelerin zararı büyür." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Dilekçenin son bölümüne geldiniz. Üyelerin sözleşmeleri her gün biraz daha feshediliyor." },
+        { "who": "narr", "text": "Bakanlığa yapılan başvuru yüzünden iki ay geçti.", "if": "gecikme" }
+      ],
+      "prompt": "Yürütmenin durdurulması isteğini nasıl kuracaksınız?",
+      "choices": [
+        { "if": "zarar", "text": "Kanuni dayanak yokluğunu ve fesih bildirimlerini birlikte sunun; iki şartın da gerçekleştiğini gösterin.", "delta": 20, "set": ["yd"],
+          "law": "İYUK m.27",
+          "reply": [{ "who": "narr", "text": "Bakanlığın savunması alındı. Daire, Yönetmeliğin 9. maddesinin yürütmesini durdurdu." }],
+          "note": "İşlemin açıkça hukuka aykırı olması ve uygulanması hâlinde telafisi güç ya da imkânsız zarar doğması birlikte aranır (İYUK m.27). Fesih bildirimleri zararı somut olarak gösteriyor." },
+        { "if": "!zarar", "text": "Kanuni dayanak yokluğunu açıklayın; üyelerin işlerini kaybettiğini genel olarak anlatın.", "delta": 15, "set": ["ydIstek"],
+          "law": "İYUK m.27",
+          "reply": [{ "who": "narr", "text": "Bakanlığın savunması alındı. Daire, zarar somut olarak gösterilmediği için yürütmenin durdurulması isteğini reddetti." }],
+          "note": "İki şart birlikte aranır (İYUK m.27). Elinizdeki en iyi yol buydu; ama fesih bildirimleri olsaydı zarar somutlaşırdı." },
+        { "text": "Yalnızca yönetmeliğin hukuka aykırı olduğunu yazın; zarara hiç değinmeyin.", "delta": -10,
+          "law": "İYUK m.27",
+          "note": "İki şart birlikte aranır. Zararı göstermeyen bir istek, hukuka aykırılık açık olsa bile reddedilir." },
+        { "text": "Yürütmenin durdurulmasını istemeyin; iptal kararı nasılsa geriye etkili olur.", "delta": -10,
+          "note": "İptal kararı geriye etkilidir, ama dava sürerken feshedilen sözleşmeler geri gelmez. Yürütmenin durdurulması bu zararı önlemek için vardır." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Duruşma isteği süresinde yapılmamıştı. Daire, dosyanın önemi nedeniyle kendiliğinden duruşma yapılmasına karar verdi.", "if": "!durusma" },
+        { "who": "judge", "text": "Duruşmayı açıyorum. Davacı vekili açıklamalarını yaptı. Davalı idare vekili, savunmanızı dinleyelim." }
+      ],
+      "statement": { "who": "opp", "text": "Davacı Oda'nın dava açma ehliyeti yoktur. Yönetmelik tek tek uzmanları ilgilendirir; Oda'yı doğrudan etkilemez. Dava ancak hakkı etkilenen bir uzman tarafından açılabilir." },
+      "prompt": "Ehliyet itirazını hangi delille karşılayacaksınız?",
+      "correct": ["ev_oda"],
+      "hit": { "delta": 20, "set": ["ehliyet"],
+        "reply": [{ "who": "judge", "text": "Ehliyet itirazı ve cevabı tutanağa geçti. Esasa geçiyoruz." }],
+        "law": "İYUK m.2/1-a",
+        "note": "İptal davası menfaati ihlal edilenlerce açılır (İYUK m.2/1-a). Kanun Oda'ya üyelerinin mesleki hak ve menfaatlerini koruma görevi veriyor. Üyelerin çalışma biçimini sınırlayan bir yönetmelik Oda'nın menfaatini doğrudan etkiler." },
+      "responses": {
+        "law_iyuk2": { "delta": 10, "set": ["ehliyet"], "note": "Doğru dayanak. Ama Oda'nın kendi görevini gösteren kanun hükmünü sunsaydınız itiraz tamamen çökerdi." },
+        "ev_fesih": { "delta": 5, "set": ["ehliyet"], "note": "Üyelerin doğrudan etkilendiğini gösterdiniz. Oda'nın görev hükmü bu bağlantıyı daha açık kurardı." },
+        "ev_komisyon": { "delta": -5, "note": "Bu belge esas için çok değerli, ama ehliyet itirazına cevap vermiyor. Doğru anı beklemek gerekirdi." },
+        "law_ay13": { "delta": -5, "note": "Esasa ilişkin bir ilke. Ehliyet sorusuna cevap vermiyor." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge ehliyet itirazına cevap vermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz cevapsız kaldı. Heyet, Oda'nın ehliyetini kendisi değerlendirecek." }
+    },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Danıştay savcısı, düşüncenizi açıklayın." }],
+      "statement": { "who": "savci", "text": "Düşüncem şudur: Kanun, ölçüm hizmetlerinin düzenlenmesi konusunda Bakanlığa genel bir yetki vermiştir. Yönetmeliğin 9. maddesi bu yetkinin kullanımıdır. Davanın reddi gerektiği düşünülmektedir." },
+      "prompt": "Savcının düşüncesine hangi delille cevap vereceksiniz?",
+      "correct": ["ev_komisyon"],
+      "hit": { "delta": 25, "set": ["dayanakArg"],
+        "reply": [{ "who": "judge", "text": "Komisyon raporu tutanağa geçti. Taraflara son sözlerini soracağım." }],
+        "law": "Anayasa m.13, m.124",
+        "note": "Kanun koyucu bu sınırı bilerek metinden çıkarmış. Yönetmelik ancak kanunu uygulamak için ve ona aykırı olmamak şartıyla çıkarılır (Anayasa m.124). Temel haklar ancak kanunla sınırlanabilir (Anayasa m.13)." },
+      "responses": {
+        "ev_kanun": { "delta": 10, "set": ["ilkeArg"], "note": "Kanun Bakanlığa yalnızca standart belirleme yetkisi veriyor. Doğru bir okuma; ama savcı “genel yetki” diyor ve kanun koyucunun bu sınırı reddettiğini gösteren belge daha güçlü olurdu." },
+        "law_ay13": { "delta": 10, "set": ["ilkeArg"], "note": "Doğru ilke. Ama yönetmeliğin kanunun öngörmediği bir sınır getirdiğini belgeyle göstermediniz." },
+        "law_ay124": { "delta": 10, "set": ["ilkeArg"], "note": "Yönetmeliğin kanuna bağlılığını doğru hatırlattınız. Ama kanunun bu sınırı içermediğini gösteren somut bir belge sunmadınız." },
+        "ev_yonetmelik": { "delta": -10, "note": "Yönetmeliğin metni savcının düşüncesini çürütmüyor." },
+        "ev_fesih": { "delta": -5, "note": "Üyelerin zararı, Bakanlığın yetkisi sorusuna cevap vermiyor." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge savcının düşüncesine cevap vermiyor." },
+      "pass": { "delta": -20, "note": "Savcının düşüncesi cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Davacı vekili, son sözünüz?" }],
+      "prompt": "Son sözünüz ne olacak?",
+      "choices": [
+        { "text": "Çalışma özgürlüğü ancak kanunla sınırlanabilir. Kanunun getirmediği bir sınırı yönetmelik getiremez. 9. maddenin iptalini isteriz.", "delta": 15, "set": ["sonSoz"],
+          "law": "Anayasa m.13, m.48, m.124",
+          "note": "Talep dava konusuyla sınırlı ve hukuka uygunluk denetimine dayanıyor. Herkes dilediği alanda çalışma hürriyetine sahiptir (Anayasa m.48); bu hak ancak kanunla sınırlanabilir (Anayasa m.13)." },
+        { "text": "Yönetmeliğin tamamının iptalini isteriz.", "delta": -5,
+          "note": "Diğer maddelere karşı hiçbir hukuka aykırılık ileri sürmediniz. Ölçüsüz bir talep heyette güven kaybettirir." },
+        { "text": "Yönetmeliğin piyasaya zarar veren yanlış bir politika olduğunu anlatın.", "delta": -10,
+          "law": "İYUK m.2/2",
+          "note": "İdari yargı yetkisi hukuka uygunluk denetimiyle sınırlıdır; yerindelik denetimi yapılamaz (İYUK m.2/2)." },
+        { "text": "Bakanlığın Oda'ya karşı kötü niyetle davrandığını vurgulayın.", "delta": -10,
+          "note": "Kanıtsız bir kötü niyet iddiası davaya bir şey katmaz. Heyetin dikkati asıl meseleden uzaklaşır." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "dayanakArg", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu Gürültü Ölçüm Hizmetleri Yönetmeliği'nin 9. maddesinin İPTALİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Komisyon raporu, kanun koyucunun bu sınırı bilerek reddettiğini gösterdi. Heyet, yönetmeliğin kanunun öngörmediği bir sınır getirdiğini kabul etti." },
+        { "if": "yd", "text": " Yürütmenin durdurulması kararı sayesinde üyeler dava boyunca çalışmayı sürdürdü." },
+        { "if": "ydIstek", "text": " Yürütmenin durdurulması isteği zarar somutlaşmadığı için reddedilmişti; bazı üyeler dava sürerken işini kaybetti." },
+        { "if": "gecikme", "text": " Bakanlığa başvuru süreyi korudu, ama dava iki ay gecikti." },
+        { "if": "!ehliyet", "text": " Ehliyet itirazına cevap veremediniz; heyet Oda'nın ehliyetini kendisi kabul etti." }
+      ] },
+    { "if": "ilkeArg && sonSoz", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "Dava konusu Gürültü Ölçüm Hizmetleri Yönetmeliği'nin 9. maddesinin İPTALİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, Anayasa m.13 ve m.124'e dayanan hukuki değerlendirmenizi kabul etti." },
+        { "if": "!komisyon", "text": " Kanunun hazırlık sürecini Oda Başkanı'na sorsaydınız, elinizde bu sınırın reddedildiğini gösteren komisyon raporu olurdu." },
+        { "if": "komisyon", "text": " Komisyon raporu çantanızdaydı; savcıya karşı onu sunsaydınız dosya çok daha güçlü olurdu." },
+        { "if": "yd", "text": " Yürütmenin durdurulması kararı sayesinde üyeler dava boyunca çalışmayı sürdürdü." },
+        { "if": "gecikme", "text": " Bakanlığa başvuru süreyi korudu, ama dava iki ay gecikti." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
+      "hukum": "DAVANIN REDDİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Heyet, savcının düşüncesi doğrultusunda Bakanlığın düzenleme yetkisini yeterli gördü." },
+        { "if": "!komisyon", "text": " Kanunun hazırlık sürecini Oda Başkanı'na sorsaydınız, elinizde bu sınırın reddedildiğini gösteren komisyon raporu olurdu." },
+        { "if": "komisyon", "text": " Komisyon raporu çantanızdaydı, ama savcının düşüncesine karşı onu sunmadınız." },
+        { "if": "ilkeArg && !sonSoz", "text": " Hukuki ilkeyi doğru kurdunuz, ama son sözünüz dava konusundan uzaklaştı." },
+        { "if": "yd", "text": " Daha önce verilen yürütmenin durdurulması kararı da bu kararla birlikte hükümsüz kaldı." }
+      ] }
+  ]
+}
