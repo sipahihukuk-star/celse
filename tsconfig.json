@@ -6,6 +6,7 @@
   "exclude": [
     "tools",
     "node_modules",
-    "dist"
+    "dist",
+    "supabase"
   ]
 }

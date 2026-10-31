@@ -1,6 +1,6 @@
 // Duruşma akışı: satırlar → belgeler → (sıra değişimi) → seçenekler → cevap satırları → geri bildirim → ... → karar.
 import { useEffect, useState } from "react";
-import { aiPick, applyChoice, choicesOf, createGame, findNextStep, GameState, kindOf, linesOf, shuffle, textOf } from "../engine/engine";
+import { aiPick, applyChoice, bandFor, choicesOf, createGame, findNextStep, GameState, kindOf, linesOf, shuffle, textOf } from "../engine/engine";
 import { CaseFile, Line, Player, Scene, Side } from "../engine/types";
 
 type After = { k: "docs" } | { k: "turn"; step: number } | { k: "feedback"; step: number } | { k: "next" };
@@ -76,6 +76,17 @@ export function useCourt(c: CaseFile, players: Record<Side, Player>, onFinish: (
     return toLines({ ...cur, game }, ch.reply ? linesOf(ch.reply, game.flags) : [], after);
   });
 
+  /** Serbest cevap: değerlendirme puanına düşen sonuç uygulanır, oyuncunun cümlesi ve geri bildirim kayda geçer. */
+  const chooseFree = (answer: string, score: number, feedback: string) => setF(cur => {
+    const p = cur.phase;
+    if (p.k !== "choices") return cur;
+    const st = c.steps[p.step];
+    const idx = bandFor(st, score);
+    const ch = choicesOf(c, cur.game, p.step)[idx];
+    const game = applyChoice(c, cur.game, p.step, idx, "✎", { answer, feedback, score });
+    return toLines({ ...cur, game }, ch.reply ? linesOf(ch.reply, game.flags) : [], { k: "feedback", step: p.step });
+  });
+
   // Bilgisayar rakibin hamlesi: düşünür, seçeneği işaretler, sonra oynar.
   const p = f.phase;
   const aiTurn = p.k === "choices" && players[c.steps[p.step].side].ai;
@@ -94,5 +105,5 @@ export function useCourt(c: CaseFile, players: Record<Side, Player>, onFinish: (
 
   useEffect(() => { if (p.k === "done") onFinish(f.game); }, [p.k]);
 
-  return { ...f, next, choose, aiTurn };
+  return { ...f, next, choose, chooseFree, aiTurn };
 }

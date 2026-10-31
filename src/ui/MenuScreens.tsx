@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { CaseFile, Player, Side } from "../engine/types";
+import { Account } from "../data/account";
 import { DIFFICULTY } from "../data/career";
 import { Btn, Scale } from "./kit";
 import { loadResults, SavedResult } from "./storage";
 import { C, F } from "./theme";
 
 /* ---------- Giriş ---------- */
-export function TitleScreen({ onCareer, onDuel, onSolo, onAdmin, duelCount, soloCount, rankName, started, won, total }: { onCareer: () => void; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; duelCount: number; soloCount: number; rankName: string; won: number; total: number }) {
+export function TitleScreen({ onCareer, onDuel, onSolo, onAdmin, onAccount, onSignOut, account, server, duelCount, soloCount, rankName, started, won, total }: { onCareer: () => void; onAccount: () => void; onSignOut: () => void; account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; duelCount: number; soloCount: number; rankName: string; won: number; total: number }) {
   const { width } = useWindowDimensions();
   const [tilt, setTilt] = useState(-4);
   useEffect(() => { const t = setInterval(() => setTilt(a => -a), 3000); return () => clearInterval(t); }, []);
@@ -18,6 +19,17 @@ export function TitleScreen({ onCareer, onDuel, onSolo, onAdmin, duelCount, solo
         <Scale angle={tilt} size={wide ? 340 : 180} left={C.p1} right={C.p2} />
       </View>
       <View style={[{ gap: 6 }, wide && { flex: 1.2 }]}>
+        <View style={styles.accRow}>
+          {account ? (
+            <>
+              <Text style={styles.accHello}>Av. {account.adSoyad}</Text>
+              <Pressable accessibilityRole="button" onPress={onAccount}><Text style={styles.accLink}>{server ? "Hesap" : "Oyuncu değiştir"}</Text></Pressable>
+              <Pressable accessibilityRole="button" onPress={onSignOut}><Text style={styles.accLink}>Çıkış</Text></Pressable>
+            </>
+          ) : (
+            <Pressable accessibilityRole="button" onPress={onAccount}><Text style={styles.accLink}>{server ? "Üye ol / Giriş yap ›" : "Oyuncu oluştur / seç ›"}</Text></Pressable>
+          )}
+        </View>
         <Text style={styles.eyebrow}>BİR AVUKATLIK OYUNU</Text>
         <Text style={[styles.logo, { fontSize: wide ? 128 : 84, lineHeight: wide ? 120 : 82 }]}>Celse</Text>
         <Text style={styles.lede}>Genç bir avukat olarak sulh ve asliye mahkemelerinde başlayın; davaları kazandıkça Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne ve Strazburg'a yükselin.</Text>
@@ -28,10 +40,10 @@ export function TitleScreen({ onCareer, onDuel, onSolo, onAdmin, duelCount, solo
         </View>
         <Pressable accessibilityRole="button" onPress={onCareer} style={({ pressed }) => [styles.careerCard, pressed && { opacity: 0.85 }]}>
           <View style={{ flex: 1 }}>
-            <Text style={styles.careerK}>KARİYER · {won}/{total} DAVA KAZANILDI</Text>
-            <Text style={styles.careerRank}>{rankName}</Text>
+            <Text style={styles.careerK}>{account ? `KARİYER · ${won}/${total} DAVA KAZANILDI` : "KARİYER"}</Text>
+            <Text style={styles.careerRank}>{account ? rankName : "Kayıt olun, başlayın"}</Text>
           </View>
-          <Text style={styles.careerGo}>{started ? "Devam et ›" : "Başla ›"}</Text>
+          <Text style={styles.careerGo}>{!account ? "Üye ol ›" : started ? "Devam et ›" : "Başla ›"}</Text>
         </Pressable>
         <View style={styles.cta}>
           <Btn kind="secondary" label="Karşılıklı duruşma" onPress={onDuel} />
@@ -161,6 +173,9 @@ const styles = StyleSheet.create({
   factB: { fontFamily: F.monoBold, color: C.text },
   adminLink: { alignSelf: "flex-start", paddingVertical: 8, marginTop: 6 },
   adminLinkText: { fontFamily: F.mono, fontSize: 12, letterSpacing: 1, color: C.muted },
+  accRow: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 14, marginBottom: 6 },
+  accHello: { fontFamily: F.bodyMed, fontSize: 15, color: C.textSoft },
+  accLink: { fontFamily: F.mono, fontSize: 12, letterSpacing: 1, color: C.brass },
   careerCard: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: C.brass, borderRadius: 10, paddingHorizontal: 18, paddingVertical: 14, marginBottom: 12, maxWidth: 480 },
   careerK: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.brassInk, opacity: 0.8 },
   careerRank: { fontFamily: F.display, fontSize: 26, color: C.brassInk },

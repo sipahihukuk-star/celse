@@ -11,6 +11,8 @@ export interface LogEntry {
   delta: number;
   note: string;
   law?: string;
+  /** serbest cevap: puan, uygulanan sonuç ve örnek cevap */
+  free?: { score: number; band: string; model?: string };
 }
 
 export interface GameState {
@@ -129,10 +131,23 @@ export function choicesOf(c: CaseFile, state: GameState, stepIdx: number): Resol
     out.push({ text: "Görüşmeyi bitir", delta: 0, finish: true });
     return out;
   }
+  if (kind === "free") return freeBands(st);
   return st.choices.filter(ch => test(ch.if, f));
 }
 
-export function applyChoice(c: CaseFile, state: GameState, stepIdx: number, choiceIdx: number, letter: string): GameState {
+/** Serbest cevap sonuçları, alt puan sınırına göre yüksekten düşüğe. */
+export function freeBands(st: Step): Resolved[] {
+  return [...st.choices].sort((a, b) => (b.min ?? 0) - (a.min ?? 0));
+}
+
+/** Puana göre uygulanacak serbest cevap sonucunun indeksi (choicesOf sırasına göre). */
+export function bandFor(st: Step, score: number): number {
+  const bands = freeBands(st);
+  const i = bands.findIndex(b => score >= (b.min ?? 0));
+  return i === -1 ? bands.length - 1 : i;
+}
+
+export function applyChoice(c: CaseFile, state: GameState, stepIdx: number, choiceIdx: number, letter: string, free?: { answer: string; feedback?: string; score: number }): GameState {
   const step = c.steps[stepIdx];
   const ch = choicesOf(c, state, stepIdx)[choiceIdx];
   const flags = { ...state.flags };
@@ -149,8 +164,9 @@ export function applyChoice(c: CaseFile, state: GameState, stepIdx: number, choi
     else asked[stepIdx] = [...(asked[stepIdx] || []), ch.q!];
   }
   const entry: LogEntry = {
-    side, ai: state.players[side].ai, prompt: step.prompt, text: ch.text, letter, delta: ch.delta,
-    note: textOf(ch.note, flags), law: ch.law
+    side, ai: state.players[side].ai, prompt: step.prompt, text: free ? `“${free.answer}”` : ch.text, letter, delta: ch.delta,
+    note: free?.feedback ? `${free.feedback}${textOf(ch.note, flags) ? " " + textOf(ch.note, flags) : ""}` : textOf(ch.note, flags), law: ch.law,
+    ...(free ? { free: { score: free.score, band: ch.text, model: step.model } } : {})
   };
   return {
     ...state, stepIdx, flags, pts, score, asked, closed, log: ch.finish ? state.log : [...state.log, entry],
@@ -239,6 +255,11 @@ export function validateCase(c: CaseFile): string[] {
     checkLines(s.lines, `${w}.lines`);
     if (kind === "choice" && (s.choices.length < 2 || s.choices.length > 6)) errs.push(`${w}: 2–6 seçenek olmalı`);
     if (kind === "interview" && !s.choices.length) errs.push(`${w}: görüşmede en az bir soru olmalı`);
+    if (kind === "free") {
+      if (s.choices.length < 2) errs.push(`${w}: serbest cevapta en az iki sonuç (iyi / zayıf) olmalı`);
+      if (!s.choices.some(ch => !ch.min)) errs.push(`${w}: serbest cevapta alt sınırı 0 olan bir sonuç olmalı (her cevap bir sonuca düşmeli)`);
+      if (!s.rubric && !s.keywords?.length) errs.push(`${w}: serbest cevapta değerlendirme ölçütü (rubric) ya da anahtar kavramlar olmalı`);
+    }
     if (kind === "evidence") {
       if (!c.evidence?.length) errs.push(`${w}: delil adımı var ama davada delil çantası yok`);
       if (!s.correct?.length || !s.hit) errs.push(`${w}: delil adımında "correct" ve "hit" gerekli`);

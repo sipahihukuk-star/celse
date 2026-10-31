@@ -1,0 +1,185 @@
+// Üyelik ekranı: üye ol / giriş yap (sunucu) ya da bu cihazdaki oyuncular (sunucu ayarlı değilken).
+import React, { useEffect, useState } from "react";
+import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Account, deleteLocal, localProfiles, resetPassword, signIn, signUp, supabase, switchLocal, useAccount } from "../data/account";
+import { KVKK_BASLIK, KVKK_METNI } from "../legal/kvkk";
+import { Btn } from "./kit";
+import { C, F } from "./theme";
+
+type Tab = "kayit" | "giris" | "liste";
+
+export default function AccountScreen({ onBack, onDone }: { onBack: () => void; onDone: () => void }) {
+  const server = !!supabase();
+  const { account } = useAccount();
+  const [tab, setTab] = useState<Tab>(server ? "kayit" : "liste");
+  const [profiles, setProfiles] = useState<Account[]>([]);
+  useEffect(() => { if (!server) localProfiles().then(ps => { setProfiles(ps); if (!ps.length) setTab("kayit"); }); }, [account]);
+
+  return (
+    <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
+      <View style={s.head}>
+        <Btn kind="ghost" label="‹ Giriş" onPress={onBack} />
+        <View style={{ flex: 1, minWidth: 200 }}>
+          <Text style={s.eyebrow}>{server ? "ÜYELİK" : "BU CİHAZDAKİ OYUNCULAR"}</Text>
+          <Text style={s.title}>{tab === "giris" ? "Giriş yap" : tab === "kayit" ? "Üye ol" : "Oyuncunuzu seçin"}</Text>
+          <Text style={s.sub}>{server ? "Kariyeriniz hesabınıza kaydedilir; her cihazda kaldığınız yerden devam edersiniz." : "Her oyuncunun kariyeri ayrı tutulur. Sunucu bağlandığında gerçek üyelik açılacak."}</Text>
+        </View>
+      </View>
+
+      <View style={s.tabs}>
+        {(server ? [["kayit", "Üye ol"], ["giris", "Giriş yap"]] : [["liste", "Oyuncular"], ["kayit", "Yeni oyuncu"]]).map(([k, l]) => (
+          <Pressable key={k} accessibilityRole="tab" accessibilityState={{ selected: tab === k }} onPress={() => setTab(k as Tab)} style={[s.tab, tab === k && s.tabOn]}>
+            <Text style={[s.tabText, tab === k && s.tabTextOn]}>{l}</Text>
+          </Pressable>
+        ))}
+      </View>
+
+      {tab === "liste" && (
+        <View style={{ gap: 10 }}>
+          {profiles.map(p => (
+            <View key={p.id} style={[s.card, account?.id === p.id && s.cardOn]}>
+              <View style={{ flex: 1, minWidth: 0 }}>
+                <Text style={s.cardName}>{p.adSoyad}</Text>
+                <Text style={s.cardSub} numberOfLines={1}>{p.eposta} · {p.telefon}</Text>
+              </View>
+              <Btn label={account?.id === p.id ? "Devam et" : "Bu oyuncuyla oyna"} onPress={async () => { await switchLocal(p.id); onDone(); }} />
+              <ConfirmDelete onConfirm={async () => { await deleteLocal(p.id); setProfiles(await localProfiles()); }} />
+            </View>
+          ))}
+          {!profiles.length && <Text style={s.sub}>Bu cihazda henüz oyuncu yok. "Yeni oyuncu" sekmesinden ekleyin.</Text>}
+        </View>
+      )}
+      {tab === "kayit" && <SignUpForm server={server} onDone={onDone} />}
+      {tab === "giris" && <SignInForm onDone={onDone} />}
+    </ScrollView>
+  );
+}
+
+function ConfirmDelete({ onConfirm }: { onConfirm: () => void }) {
+  const [ask, setAsk] = useState(false);
+  return ask ? (
+    <View style={{ flexDirection: "row", gap: 6 }}>
+      <Btn kind="ghost" label="Vazgeç" onPress={() => setAsk(false)} />
+      <Btn kind="ghost" label="Oyuncuyu ve kariyerini sil" onPress={onConfirm} />
+    </View>
+  ) : <Btn kind="ghost" label="Sil" onPress={() => setAsk(true)} />;
+}
+
+function Input(props: { label: string; value: string; onChange: (v: string) => void; type?: "email" | "phone" | "password" | "name"; placeholder?: string }) {
+  const t = props.type;
+  return (
+    <View style={{ gap: 4 }}>
+      <Text style={s.label}>{props.label}</Text>
+      <TextInput value={props.value} onChangeText={props.onChange} placeholder={props.placeholder} placeholderTextColor={C.muted} style={s.input}
+        secureTextEntry={t === "password"} autoCapitalize={t === "name" ? "words" : "none"} autoCorrect={false}
+        keyboardType={t === "email" ? "email-address" : t === "phone" ? "phone-pad" : "default"}
+        autoComplete={t === "email" ? "email" : t === "phone" ? "tel" : t === "password" ? "password" : t === "name" ? "name" : "off"}
+        textContentType={t === "email" ? "emailAddress" : t === "phone" ? "telephoneNumber" : t === "password" ? "password" : t === "name" ? "name" : "none"} />
+    </View>
+  );
+}
+
+function SignUpForm({ server, onDone }: { server: boolean; onDone: () => void }) {
+  const [v, setV] = useState({ adSoyad: "", telefon: "", eposta: "", sifre: "", kvkk: false });
+  const [msg, setMsg] = useState<{ t: string; ok?: boolean } | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [showKvkk, setShowKvkk] = useState(false);
+  const up = (k: keyof typeof v) => (x: any) => setV(o => ({ ...o, [k]: x }));
+  const submit = async () => {
+    setBusy(true); setMsg(null);
+    const r = await signUp(v);
+    setBusy(false);
+    if (r.error) return setMsg({ t: r.error });
+    if (r.needsConfirm) return setMsg({ t: "Hesabınız oluşturuldu. E-posta adresinize gönderilen bağlantıyla doğrulayıp giriş yapın.", ok: true });
+    onDone();
+  };
+  return (
+    <View style={s.form}>
+      <Input label="Ad soyad" value={v.adSoyad} onChange={up("adSoyad")} type="name" placeholder="Ad Soyad" />
+      <Input label="Telefon" value={v.telefon} onChange={up("telefon")} type="phone" placeholder="05xx xxx xx xx" />
+      <Input label="E-posta" value={v.eposta} onChange={up("eposta")} type="email" placeholder="ornek@eposta.com" />
+      {server && <Input label="Şifre (en az 8 karakter)" value={v.sifre} onChange={up("sifre")} type="password" />}
+      <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: v.kvkk }} onPress={() => up("kvkk")(!v.kvkk)} style={s.check}>
+        <View style={[s.box, v.kvkk && s.boxOn]}>{v.kvkk && <Text style={s.tick}>✓</Text>}</View>
+        <Text style={s.checkText}>
+          <Text style={s.link} onPress={() => setShowKvkk(true)}>Aydınlatma metnini</Text> okudum; kişisel verilerimin bu metinde belirtilen amaçlarla işlenmesi hakkında bilgilendirildim.
+        </Text>
+      </Pressable>
+      {!!msg && <Text style={[s.msg, msg.ok && { color: C.good }]}>{msg.t}</Text>}
+      <Btn label={busy ? "Kaydediliyor…" : server ? "Üye ol" : "Oyuncuyu oluştur"} onPress={submit} disabled={busy} />
+      <KvkkModal visible={showKvkk} onClose={() => setShowKvkk(false)} />
+    </View>
+  );
+}
+
+function SignInForm({ onDone }: { onDone: () => void }) {
+  const [e, setE] = useState(""), [p, setP] = useState("");
+  const [msg, setMsg] = useState<{ t: string; ok?: boolean } | null>(null);
+  const [busy, setBusy] = useState(false);
+  return (
+    <View style={s.form}>
+      <Input label="E-posta" value={e} onChange={setE} type="email" />
+      <Input label="Şifre" value={p} onChange={setP} type="password" />
+      {!!msg && <Text style={[s.msg, msg.ok && { color: C.good }]}>{msg.t}</Text>}
+      <Btn label={busy ? "Giriş yapılıyor…" : "Giriş yap"} disabled={busy} onPress={async () => {
+        setBusy(true); const r = await signIn(e, p); setBusy(false);
+        if (r.error) setMsg({ t: r.error }); else onDone();
+      }} />
+      <Pressable accessibilityRole="button" onPress={async () => {
+        if (!e.trim()) return setMsg({ t: "Önce e-posta adresinizi yazın." });
+        const r = await resetPassword(e);
+        setMsg(r.error ? { t: r.error } : { t: "Şifre yenileme bağlantısı e-posta adresinize gönderildi.", ok: true });
+      }}>
+        <Text style={s.linkSmall}>Şifremi unuttum</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+export function KvkkModal({ visible, onClose }: { visible: boolean; onClose: () => void }) {
+  return (
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+      <Pressable style={s.overlay} onPress={onClose}>
+        <Pressable style={s.sheet} onPress={() => {}}>
+          <Text style={s.sheetTitle}>{KVKK_BASLIK}</Text>
+          <ScrollView style={{ maxHeight: 440 }}>
+            {KVKK_METNI.map((p, i) => <Text key={i} style={s.sheetP}>{p}</Text>)}
+          </ScrollView>
+          <View style={{ flexDirection: "row", justifyContent: "flex-end", marginTop: 12 }}><Btn kind="ghostInk" label="Kapat" onPress={onClose} /></View>
+        </Pressable>
+      </Pressable>
+    </Modal>
+  );
+}
+
+const s = StyleSheet.create({
+  wrap: { width: "100%", maxWidth: 640, alignSelf: "center", paddingHorizontal: 16, paddingVertical: 20, gap: 16 },
+  head: { flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start", gap: 14 },
+  eyebrow: { fontFamily: F.mono, fontSize: 12, letterSpacing: 2.5, color: C.muted },
+  title: { fontFamily: F.display, fontSize: 32, color: C.brass },
+  sub: { fontFamily: F.body, fontSize: 15, color: C.textSoft, marginTop: 2 },
+  tabs: { flexDirection: "row", gap: 8 },
+  tab: { borderWidth: 1, borderColor: C.line, borderRadius: 999, paddingHorizontal: 16, paddingVertical: 8, backgroundColor: C.panel },
+  tabOn: { backgroundColor: C.brass, borderColor: C.brass },
+  tabText: { fontFamily: F.bodyMed, fontSize: 15, color: C.text },
+  tabTextOn: { color: C.brassInk, fontFamily: F.bodyBold },
+  form: { gap: 12, backgroundColor: C.panel, borderWidth: 1, borderColor: C.line, borderRadius: 12, padding: 16 },
+  label: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1, color: C.muted, textTransform: "uppercase" },
+  input: { fontFamily: F.body, fontSize: 17, color: C.text, backgroundColor: C.panel2, borderWidth: 1, borderColor: C.line, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10 },
+  check: { flexDirection: "row", gap: 10, alignItems: "flex-start" },
+  box: { width: 22, height: 22, borderRadius: 4, borderWidth: 1, borderColor: C.brassDim, alignItems: "center", justifyContent: "center", marginTop: 2 },
+  boxOn: { backgroundColor: C.brass, borderColor: C.brass },
+  tick: { color: C.brassInk, fontFamily: F.bodyBold, fontSize: 14 },
+  checkText: { flex: 1, fontFamily: F.body, fontSize: 15, color: C.textSoft },
+  link: { color: C.brass, textDecorationLine: "underline" },
+  linkSmall: { fontFamily: F.body, fontSize: 14, color: C.brass, textDecorationLine: "underline", alignSelf: "flex-start" },
+  msg: { fontFamily: F.bodyMed, fontSize: 15, color: C.bad },
+  card: { flexDirection: "row", alignItems: "center", flexWrap: "wrap", gap: 10, backgroundColor: C.panel, borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 14 },
+  cardOn: { borderColor: C.brass },
+  cardName: { fontFamily: F.displayMed, fontSize: 20, color: C.text },
+  cardSub: { fontFamily: F.body, fontSize: 14, color: C.muted },
+  overlay: { flex: 1, backgroundColor: "rgba(5,8,10,0.72)", alignItems: "center", justifyContent: "center", padding: 16 },
+  sheet: { backgroundColor: C.paper, borderRadius: 4, padding: 22, width: "100%", maxWidth: 620 },
+  sheetTitle: { fontFamily: F.display, fontSize: 22, color: C.ink, marginBottom: 10 },
+  sheetP: { fontFamily: F.body, fontSize: 15, lineHeight: 22, color: C.ink, marginBottom: 10 }
+});

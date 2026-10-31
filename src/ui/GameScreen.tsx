@@ -6,6 +6,8 @@ import { Btn, Chip, Scale } from "./kit";
 import Stage from "./Stage";
 import { C, F, sideColor, toneColor } from "./theme";
 import { LETTERS, useCourt } from "./useCourt";
+import { speakLine, stopSpeaking, useVoiceEnabled } from "./voice";
+import FreeAnswer from "./FreeAnswer";
 
 interface Props { c: CaseFile; players: Record<Side, Player>; onExit: () => void; onFinish: (g: GameState) => void }
 
@@ -51,6 +53,16 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
 
   const tapLine = () => (tw.done ? court.next() : tw.finish());
 
+  // Seslendirme: her yeni satır, soru ve geri bildirim okunur.
+  const [voiceOn, setVoiceOn] = useVoiceEnabled();
+  useEffect(() => {
+    if (!voiceOn) return;
+    if (phase.k === "lines" && line) speakLine(line.text, line.who);
+    else if (phase.k === "choices" && !court.aiTurn) { const pr = c.steps[phase.step].prompt; if (pr) speakLine(pr, "narr"); }
+    else if (phase.k === "feedback" && last) speakLine(last.note || "", "narr");
+  }, [phase, voiceOn]);
+  useEffect(() => () => { stopSpeaking(); }, []);
+
   return (
     <View style={styles.root}>
       <View style={styles.top}>
@@ -59,6 +71,7 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
           <Text style={styles.court} numberOfLines={1}>{c.court}</Text>
           <Text style={styles.esas} numberOfLines={1}>{duel ? `${c.esas} · ${c.sides.p1.short} ⇄ ${c.sides.p2.short}` : `${c.esas} · ${c.sides.p1.role}`}</Text>
         </View>
+        <Btn kind="ghost" label={voiceOn ? "🔊" : "🔇"} onPress={() => setVoiceOn(!voiceOn)} />
         <Btn kind="ghost" label="Dosya" onPress={() => setDocs(true)} />
         <View style={styles.scaleBox}>
           <Scale angle={angle} size={width < 480 ? 56 : 80} left={duel ? C.p1 : C.brass} right={duel ? C.p2 : C.brass} />
@@ -132,7 +145,8 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
                 <Text style={styles.prompt}>{st.prompt}</Text>
 
                 {kind === "evidence" && <Text style={styles.bagTitle}>DELİL ÇANTASI</Text>}
-                <View style={[styles.choices, wide && kind !== "interview" && styles.twoCol]}>
+                {kind === "free" && !isAI && <FreeAnswer key={phase.step} c={c} step={st} onResult={court.chooseFree} />}
+                {kind !== "free" && <View style={[styles.choices, wide && kind !== "interview" && styles.twoCol]}>
                   {phase.order.map((ci, pos) => {
                     const ch = list[ci];
                     if (!ch) return null;
@@ -160,8 +174,8 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
                       </Pressable>
                     );
                   })}
-                </View>
-                {kind !== "choice" && (() => {
+                </View>}
+                {kind !== "choice" && kind !== "free" && (() => {
                   const ci = list.findIndex(ch => (kind === "evidence" && !ch.evidence) || ch.finish);
                   if (ci < 0) return null;
                   return (
@@ -184,8 +198,14 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
                   <Chip label={`${g.label} · ${last.delta > 0 ? "+" : ""}${last.delta} ${duel ? "puan" : "ikna"}`} color={toneColor(g.tone)} />
                   {!!last.law && <Chip label={last.law} color={C.brass} />}
                 </View>
-                <Text style={styles.fbChoice}>Seçim ({last.letter}): {last.text}</Text>
+                {last.free ? (
+                  <>
+                    <Chip label={`DEĞERLENDİRME: ${last.free.score}/100 · ${last.free.band}`.toLocaleUpperCase("tr")} color={toneColor(g.tone)} style={{ alignSelf: "flex-start", marginBottom: 8 }} />
+                    <Text style={styles.fbChoice}>Cevabınız: {last.text}</Text>
+                  </>
+                ) : <Text style={styles.fbChoice}>Seçim ({last.letter}): {last.text}</Text>}
                 <Text style={styles.fbNote}>{last.note}</Text>
+                {!!last.free?.model && <Text style={[styles.fbNote, { marginTop: 8, fontStyle: "italic" }]}>Örnek cevap: {last.free.model}</Text>}
                 <View style={styles.rowEnd}><Btn kind="next" label={game.fatal || game.flags.end ? "Sonucu gör ▸" : "Devam ▸"} onPress={court.next} /></View>
               </View>
             );

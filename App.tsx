@@ -12,6 +12,8 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import AdminScreen from "./src/admin/AdminScreen";
+import { signOut, supabase, useAccount } from "./src/data/account";
+import AccountScreen from "./src/ui/AccountScreen";
 import { buildCareer, levelOf, openIds, Progress, recordResult, resetProgress, useProgress, CHAPTERS } from "./src/data/career";
 import { useCases } from "./src/data/useCases";
 import { GameState, verdict } from "./src/engine/engine";
@@ -29,6 +31,7 @@ type Route =
   | { k: "list"; mode: "duel" | "solo" }
   | { k: "admin" }
   | { k: "career" }
+  | { k: "account"; then?: "career" }
   | { k: "game"; c: CaseFile; players: Record<Side, Player>; run: number; from: From }
   | { k: "verdict"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From; notice?: string };
 
@@ -45,6 +48,7 @@ export default function App() {
   const [run, setRun] = useState(0);
   const cases = useCases();
   const progress = useProgress();
+  const { account } = useAccount();
 
   // Yazı tipleri yüklenemezse (ör. ağ engeli) sistem yazı tipiyle devam edilir.
   if (!loaded && !error) return <View style={styles.root} />;
@@ -80,7 +84,12 @@ export default function App() {
       <SafeAreaView style={styles.root} edges={["top", "bottom", "left", "right"]}>
         <StatusBar style="light" />
         {route.k === "title" && <TitleScreen duelCount={cases.duel.length} soloCount={cases.solo.length} rankName={career.rank} started={Object.keys(progress).length > 0} won={career.won} total={career.total}
-          onCareer={() => setRoute({ k: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })} />}
+          account={account} server={!!supabase()}
+          onAccount={() => setRoute({ k: "account" })} onSignOut={() => signOut()}
+          onCareer={() => setRoute(account ? { k: "career" } : { k: "account", then: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })} />}
+        {route.k === "account" && (
+          <AccountScreen onBack={() => setRoute({ k: "title" })} onDone={() => setRoute(route.then === "career" ? { k: "career" } : { k: "title" })} />
+        )}
         {route.k === "career" && (
           <CareerScreen view={career} onBack={() => setRoute({ k: "title" })} onPick={c => startGame(c, SOLO_PLAYERS, "career")} onReset={() => resetProgress()} />
         )}

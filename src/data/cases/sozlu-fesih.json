@@ -1,7 +1,10 @@
 {
   "id": "sozlu-fesih",
   "mode": "solo",
-  "career": { "level": 1, "order": 1 },
+  "career": {
+    "level": 1,
+    "order": 1
+  },
   "difficulty": "basit",
   "title": "Sözlü Fesih",
   "area": "İş Hukuku · İşe iade",
@@ -224,45 +227,78 @@
           "text": "Davacı vekili?"
         }
       ],
-      "prompt": "Fesih usulü hakkında ne söyleyeceksiniz?",
+      "prompt": "Fesih usulü hakkında mahkemeye ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
         {
-          "text": "Fesih bildirimi yazılı olmalı ve sebebi açık, kesin gösterilmelidir. Verim gerekçesiyle fesihte işçinin savunması da alınmalıdır. İkisi de yapılmadı.",
+          "text": "Güçlü savunma",
+          "min": 70,
           "delta": 25,
           "set": [
             "usul"
           ],
-          "law": "İş K. m.19/1, m.19/2",
-          "note": "İşveren fesih bildirimini yazılı yapmak ve fesih sebebini açık ve kesin olarak belirtmek zorundadır (m.19/1). İşçinin davranışı veya verimi nedeniyle fesihte önce savunması alınmalıdır (m.19/2).",
-          "reply": [
-            {
-              "who": "judge",
-              "text": "Beyan tutanağa geçirildi."
-            }
-          ]
+          "law": "İş K. m.19",
+          "note": "Hem yazılı şekil ve açık sebep şartını (m.19/1) hem de savunma alınmamasını (m.19/2) gösterdiniz. Bu iki eksiklik feshi tek başına geçersiz kılar."
         },
         {
-          "text": "Savunma alınmadan verim gerekçesiyle fesih yapılamaz.",
-          "delta": 15,
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 12,
           "set": [
             "usul"
           ],
-          "law": "İş K. m.19/2",
-          "note": "Doğru (m.19/2), ama yazılılık şartını (m.19/1) da söylemeliydiniz. Sözlü fesih tek başına güçlü bir argümandı."
+          "law": "İş K. m.19",
+          "note": "Fesih usulündeki eksikliklerden birini gösterdiniz; mahkeme bunu yeterli buldu. Tam savunma, yazılı şekil ve açık sebep şartı (m.19/1) ile savunma alınmaması (m.19/2) birlikte gösterilerek yapılır."
         },
         {
-          "text": "Sözlü fesih geçerli, ama ihbar süresine uyulmadı.",
+          "text": "Zayıf savunma",
           "delta": -15,
           "law": "İş K. m.19",
-          "note": "Sözlü fesih bildirimi m.19'a aykırıdır. Bunu kabul ederek elinizdeki en güçlü usul argümanını bıraktınız."
-        },
-        {
-          "text": "Fesih şeklini tartışmaya gerek yok, esasa geçelim.",
-          "delta": -15,
-          "law": "İş K. m.19",
-          "note": "Fesih usulündeki eksiklik, esastan bağımsız olarak feshin geçersizliği sonucunu doğurabilir. Bu fırsatı kaçırdınız."
+          "note": "Fesih usulündeki eksiklikleri mahkemeye gösteremediniz. Sözlü fesih yazılı şekil ve açık sebep şartına (m.19/1) uymaz; verimle ilgili fesihte savunma da alınmalıdır (m.19/2)."
         }
-      ]
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) İş Kanunu m.19/1 uyarınca fesih bildirimi yazılı yapılmalı ve fesih sebebi açık ve kesin gösterilmelidir; müvekkile yapılan sözlü fesih bu şekil şartına uymaz. (2) İşçinin verimi veya davranışıyla ilgili nedenlerle fesihte, önceden savunması alınmalıdır (m.19/2); müvekkilin savunması alınmamıştır. (3) Bu nedenlerle fesih geçersizdir. Madde numarası vermek ve iki eksikliği birlikte göstermek tam puan için gerekir; yalnız birini söylemek orta puan alır. Sözlü feshin geçerli olduğunu kabul eden ya da tartışmayı esasa kaydıran cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "yazılı"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "savunma"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "m.19",
+            "m. 19",
+            "madde 19",
+            "19. madde",
+            "md. 19",
+            "md.19"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "açık ve kesin",
+            "açıkça",
+            "sebebi gösteril",
+            "sebep gösteril"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "sözlü"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Hâkim, İş Kanunu m.19/1 uyarınca fesih bildirimi yazılı yapılmalı ve fesih sebebi açık ve kesin gösterilmelidir. Müvekkile yalnızca sözlü olarak 'yarından itibaren gelme' denmiştir. Ayrıca verimle ilgili bir nedenle fesihte işçinin savunması alınmadan sözleşme feshedilemez (m.19/2); müvekkilin savunması hiç alınmamıştır. Fesih bu iki nedenle de geçersizdir."
     },
     {
       "side": "p1",

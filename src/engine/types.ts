@@ -59,7 +59,12 @@ export interface Choice {
   reply?: Line[];
   /** davayı hemen bitiren hamle; seçen taraf kaybeder */
   fatal?: Fatal;
+  /** serbest cevap adımında bu sonucun alt puan sınırı (0–100). Sonuçlar yüksekten düşüğe denenir. */
+  min?: number;
 }
+
+/** Serbest cevapta çevrimdışı puanlama için kavram grubu: terimlerden biri geçerse ağırlık kadar puan. */
+export interface KeywordGroup { terms: string[]; weight?: number }
 
 /** Delil çantasındaki belge, kanun maddesi ya da beyan. */
 export interface EvidenceItem {
@@ -82,8 +87,15 @@ export interface EvidenceResponse {
 }
 
 export interface Step {
-  /** choice: klasik seçenekler (varsayılan) · evidence: çantadan delil sunma · interview: müvekkil görüşmesi */
-  kind?: "choice" | "evidence" | "interview";
+  /** choice: klasik seçenekler (varsayılan) · evidence: çantadan delil sunma · interview: müvekkil görüşmesi
+   *  · free: oyuncu cevabını kendisi yazar ya da söyler; puanına göre `choices` içindeki sonuçlardan biri uygulanır */
+  kind?: "choice" | "evidence" | "interview" | "free";
+  /** free: iyi bir cevabın içermesi gerekenler (yapay zekâ değerlendiricisine verilir) */
+  rubric?: string;
+  /** free: yapay zekâ yokken kullanılan kavram grupları */
+  keywords?: KeywordGroup[];
+  /** free: örnek iyi cevap (geri bildirimde gösterilir) */
+  model?: string;
   side: Side;
   scene: Scene;
   if?: Expr;

@@ -84,6 +84,26 @@ Oyuncu genç avukat olarak tek hâkimli yerel mahkemelerde başlar ve kazandık�
 - **Serbest liste:** "Tek kişilik dosyalar" listesinde kariyerde henüz açılmamış davalar kilitli görünür.
 - **Davanın yeri:** Dava dosyasında `"career": { "level": 3, "order": 2 }`. `level` yazılmazsa mahkemeden çıkarılır; `"off": true` davayı kariyer dışında tutar. Yönetim panelinde Genel sekmesindeki "Kariyer" bölümünden ayarlanır.
 
+## Üyelik ve kariyer kaydı
+
+- **Sunucu (Supabase):** `src/config.ts` içine proje adresi ve anon anahtar yazılınca gerçek üyelik açılır: ad soyad, telefon, e-posta, şifre ve KVKK onayı. Profiller `profiller`, kariyer `kariyer` tablosunda tutulur; herkes yalnızca kendi satırlarını görür (RLS). Şema: `supabase/schema.sql`.
+- **Cihaz modu:** Sunucu ayarlı değilken aynı cihazda birden çok oyuncu oluşturulabilir; her birinin kariyeri ayrı anahtarda tutulur.
+- **KVKK:** Aydınlatma metni taslağı `src/legal/kvkk.ts` içindedir; veri sorumlusu bilgileri yayından önce doldurulmalıdır.
+
+## Seslendirme
+
+Oyun ekranındaki 🔊 düğmesiyle açılır. Satırlar, sorular ve geri bildirimler cihazın Türkçe sesiyle okunur (`expo-speech`; web'de tarayıcı sesi). Konuşana göre ton değişir (hâkim daha tok). Kod: `src/ui/voice.ts`.
+
+## Serbest cevap (yazılı / sesli)
+
+`"kind": "free"` adımında oyuncu cevabını kendisi yazar ya da mikrofona söyler (web'de tarayıcının konuşma tanıması, telefonda klavye dikte).
+- **`rubric`:** İyi bir cevabın içermesi gerekenler. Supabase'deki `degerlendir` fonksiyonu cevabı bu ölçütle Claude'a gönderir; 0–100 puan ve kısa geri bildirim döner.
+- **`keywords`:** Sunucu yokken ya da cevap gelmezse kullanılan kavram grupları (`{ "terms": ["yazılı"], "weight": 2 }`).
+- **`model`:** Geri bildirimde gösterilen örnek cevap.
+- **`choices`:** Puan bantları; her birinde `min` (alt sınır), `delta`, `set`, `note`. En az birinin `min` değeri 0 olmalı.
+
+Örnek: Sözlü Fesih davasının "fesih usulü" adımı.
+
 ## Yeni dava ekleme (kod yoluyla)
 
 1. `src/data/cases/` içine yeni bir JSON dosyası koyun (en kolayı mevcut bir davayı kopyalamak).

@@ -3,6 +3,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { CaseFile } from "../engine/types";
+import { currentAccount, onAccountChange, supabase } from "./account";
 
 export interface Chapter {
   level: number;
@@ -45,27 +46,55 @@ export const winsNeeded = (n: number) => Math.min(4, Math.max(1, Math.ceil(n * 0
 
 export interface CaseRecord { played: number; won: boolean; best: number }
 export type Progress = Record<string, CaseRecord>;
-const KEY = "celse-kariyer-v1";
 const listeners = new Set<() => void>();
+const emit = () => listeners.forEach(f => f());
+onAccountChange(emit);
 
+/** Her oyuncunun kariyeri ayrı anahtarda tutulur; oturum yoksa "misafir". */
+const keyFor = () => `celse-kariyer-v1:${currentAccount()?.id || "misafir"}`;
+
+async function loadLocal(): Promise<Progress> {
+  try { return JSON.parse((await AsyncStorage.getItem(keyFor())) || "{}"); } catch { return {}; }
+}
+
+/** Sunucudaki kayıtlarla yereli birleştirir (her dava için en iyi değer). */
 export async function loadProgress(): Promise<Progress> {
-  try { return JSON.parse((await AsyncStorage.getItem(KEY)) || "{}"); } catch { return {}; }
+  const local = await loadLocal();
+  const acc = currentAccount(), sb = supabase();
+  if (acc?.mode !== "server" || !sb) return local;
+  try {
+    const { data } = await sb.from("kariyer").select("dava_id, oynama, kazandi, en_iyi").eq("kullanici_id", acc.id);
+    const merged: Progress = { ...local };
+    (data || []).forEach(r => {
+      const l = merged[r.dava_id];
+      merged[r.dava_id] = { played: Math.max(l?.played || 0, r.oynama), won: !!(l?.won || r.kazandi), best: Math.max(l?.best || 0, r.en_iyi) };
+    });
+    await AsyncStorage.setItem(keyFor(), JSON.stringify(merged));
+    return merged;
+  } catch { return local; }
 }
 
 /** Tek kişilik bir davanın sonucunu kaydeder. En iyi puan ve "en az bir kez kazandı" bilgisi korunur. */
 export async function recordResult(id: string, won: boolean, score: number) {
   try {
-    const all = await loadProgress();
+    const all = await loadLocal();
     const prev = all[id] || { played: 0, won: false, best: 0 };
-    all[id] = { played: prev.played + 1, won: prev.won || won, best: won ? Math.max(prev.best, score) : prev.best };
-    await AsyncStorage.setItem(KEY, JSON.stringify(all));
-  } catch { /* depolama yoksa sessizce geç */ }
-  listeners.forEach(f => f());
+    const rec = { played: prev.played + 1, won: prev.won || won, best: won ? Math.max(prev.best, score) : prev.best };
+    all[id] = rec;
+    await AsyncStorage.setItem(keyFor(), JSON.stringify(all));
+    const acc = currentAccount(), sb = supabase();
+    if (acc?.mode === "server" && sb) {
+      await sb.from("kariyer").upsert({ kullanici_id: acc.id, dava_id: id, oynama: rec.played, kazandi: rec.won, en_iyi: rec.best, guncelleme: new Date().toISOString() });
+    }
+  } catch { /* depolama ya da ağ yoksa sessizce geç; yerel kayıt kalır */ }
+  emit();
 }
 
 export async function resetProgress() {
-  try { await AsyncStorage.removeItem(KEY); } catch { /* yok say */ }
-  listeners.forEach(f => f());
+  try { await AsyncStorage.removeItem(keyFor()); } catch { /* yok say */ }
+  const acc = currentAccount(), sb = supabase();
+  if (acc?.mode === "server" && sb) { try { await sb.from("kariyer").delete().eq("kullanici_id", acc.id); } catch { /* yok say */ } }
+  emit();
 }
 
 export function useProgress(): Progress {

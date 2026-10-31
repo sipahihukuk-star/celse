@@ -342,7 +342,7 @@ function StepEditor({ step, up, c }: { step: Step; up: (s: Step) => void; c: Cas
   const bag = c.evidence || [];
   return (
     <>
-      <Seg label="Adım türü" value={kind} onChange={v => up({ ...step, kind: v, choices: step.choices || [] })} options={[{ v: "choice", label: "Seçenekli" }, { v: "interview", label: "Müvekkil görüşmesi" }, { v: "evidence", label: "Delil çantası / itiraz" }]} />
+      <Seg label="Adım türü" value={kind} onChange={v => up({ ...step, kind: v, choices: step.choices || [] })} options={[{ v: "choice", label: "Seçenekli" }, { v: "interview", label: "Müvekkil görüşmesi" }, { v: "evidence", label: "Delil çantası / itiraz" }, { v: "free", label: "Serbest cevap (yazılı / sesli)" }]} />
       <Row>
         {c.mode === "duel" && <Seg label="Sıra kimde" value={step.side} onChange={v => up({ ...step, side: v })} options={[{ v: "p1", label: c.sides.p1.role }, { v: "p2", label: c.sides.p2.role }]} />}
         <Seg label="Sahne" value={step.scene} onChange={v => up({ ...step, scene: v })} options={[{ v: "office", label: "Büro" }, { v: "court", label: "Duruşma salonu" }]} />
@@ -363,6 +363,22 @@ function StepEditor({ step, up, c }: { step: Step; up: (s: Step) => void; c: Cas
           make={() => ({ text: "", delta: 0, note: "" })} title={ch => `${ch.delta > 0 ? "+" : ""}${ch.delta}  ${ch.text}`}
           render={(ch, u) => <ChoiceEditor ch={ch} up={u} c={c} />} />
       )}
+      {kind === "free" && (<>
+        <Area label="Değerlendirme ölçütü (yapay zekâya verilir)" value={step.rubric} onChange={v => up({ ...step, rubric: v || undefined })} rows={4}
+          hint="İyi bir cevabın içermesi gerekenleri madde numaralarıyla yazın; tam ve orta puanın ne zaman verileceğini belirtin." />
+        <Area label="Anahtar kavramlar (sunucu yokken puanlama)" rows={3} mono
+          value={(step.keywords || []).map(g => `${g.weight ?? 1}: ${g.terms.join(" | ")}`).join("\n")}
+          onChange={v => up({ ...step, keywords: v.split("\n").map(l => l.trim()).filter(Boolean).map(l => { const m = l.match(/^(\d+)\s*:\s*(.*)$/); return { weight: m ? parseInt(m[1]) : 1, terms: (m ? m[2] : l).split("|").map(t => t.trim()).filter(Boolean) }; }) })}
+          hint="Her satır bir kavram: “ağırlık: terim | eş anlamlı | …”. Örnek: “2: yazılı | yazılı bildirim”." />
+        <Area label="Örnek iyi cevap (geri bildirimde gösterilir)" value={step.model} onChange={v => up({ ...step, model: v || undefined })} rows={3} />
+        <Text style={st.label}>SONUÇLAR (PUANA GÖRE)</Text>
+        <ListEditor items={step.choices} onChange={v => up({ ...step, choices: v })} addLabel="Sonuç ekle" collapsedTitle
+          make={() => ({ text: "", min: 0, delta: 0, note: "" })} title={ch => `${ch.min ?? 0}+ puan → ${ch.delta > 0 ? "+" : ""}${ch.delta}  ${ch.text}`}
+          render={(ch, u) => (<>
+            <Field label="Alt puan sınırı (0–100)" value={ch.min ?? 0} numeric width={200} onChange={v => u({ ...ch, min: Math.max(0, Math.min(100, parseInt(v) || 0)) })} hint="Cevap bu puana ulaşırsa bu sonuç uygulanır; en az biri 0 olmalı." />
+            <ChoiceEditor ch={ch} up={u} c={c} />
+          </>)} />
+      </>)}
       {kind === "interview" && (<>
         <Field label="Sorulabilecek soru sayısı" value={step.limit ?? step.choices.length} numeric onChange={v => up({ ...step, limit: Math.max(1, parseInt(v) || 1) })} width={220} />
         <ListEditor items={step.choices} onChange={v => up({ ...step, choices: v })} addLabel="Soru ekle" collapsedTitle
@@ -408,7 +424,7 @@ function StepEditor({ step, up, c }: { step: Step; up: (s: Step) => void; c: Cas
 }
 
 function StepsTab({ c, set }: TabProps) {
-  const kindLabel = (s: Step) => (s.kind === "interview" ? "Görüşme" : s.kind === "evidence" ? "Delil" : "Seçenekli");
+  const kindLabel = (s: Step) => (s.kind === "interview" ? "Görüşme" : s.kind === "evidence" ? "Delil" : s.kind === "free" ? "Serbest cevap" : "Seçenekli");
   return (
     <Section title="Adımlar" hint="Adımlar sırayla oynanır. Koşulu tutmayan adım atlanır.">
       <FlagHelp c={c} />
