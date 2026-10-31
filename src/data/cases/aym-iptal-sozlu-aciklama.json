@@ -1,0 +1,163 @@
+{
+  "id": "aym-iptal-sozlu-aciklama",
+  "mode": "solo",
+  "title": "Beşte Bir",
+  "area": "Anayasa Mahkemesi · İptal davası (sözlü açıklama)",
+  "court": "Anayasa Mahkemesi · Genel Kurul",
+  "courtShort": "ANAYASA MAHKEMESİ · GENEL KURUL",
+  "esas": "E.2026/57",
+  "kararTarihi": "11.02.2027",
+  "color": "#5a1f24",
+  "teaser": "Yüz otuz iki milletvekili adına on beş üyenin önündesiniz. Ceza veren bir kanun hükmü, neye ve ne kadar ceza verileceğini söylemiyor.",
+  "sides": { "p1": { "role": "Davacılar vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 15, "title": "Genel Kurul" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Mahkeme Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e2b892", "hair": "#9a9a9e", "style": "short", "glasses": true } },
+    "opp": { "name": "Bakanlık temsilcisi", "np": "green", "look": { "kind": "civil", "skin": "#c08b62", "hair": "#151515", "style": "short", "beard": true, "shirt": "#22252c", "inner": "#e9e4d8" } },
+    "client": { "name": "Defne Uysal · Davacı milletvekillerinden", "np": "civil", "look": { "kind": "civil", "skin": "#edc6a2", "hair": "#5a3a28", "style": "bun", "shirt": "#5b3a4f", "inner": "#e9e4d8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Mikro Hareketlilik Araçları Hizmetleri Kanunu 10 Mart 2026'da Resmî Gazete'de yayımlandı. Kanun, kiralık elektrikli scooter ve bisiklet işletmecilerini düzenliyor." },
+    { "who": "narr", "text": "Kanunun 11. maddesinin (1) numaralı fıkrası şöyle: “Bakanlıkça çıkarılacak yönetmelikte belirlenen yükümlülüklere aykırı davranan işletmecilere, yönetmelikte belirlenecek miktarda idari para cezası verilir.”" },
+    { "who": "client", "text": "TBMM üye tamsayısının beşte birinden fazlası, yüz otuz iki milletvekili olarak iptal davası açtık. Bu hüküm ceza veriyor, ama neye ve ne kadar ceza verileceğini tamamen bakanlığa bırakıyor." },
+    { "who": "narr", "text": "Anayasa Mahkemesi iptal davalarını kural olarak dosya üzerinden inceler. Mahkeme gerekli gördüğü hâllerde sözlü açıklama dinleyebilir. Bu dosyada davacıları ve kuralı uygulayan bakanlığı sözlü açıklamaya çağırdı." }
+  ],
+  "docs": [
+    { "t": "Dava konusu kural", "d": "Kanun m.11/1: yükümlülükler de ceza miktarı da yönetmelikle belirlenir. Kanunda fiil tanımı, alt sınır ya da üst sınır yok." },
+    { "t": "Dava dilekçesi", "d": "132 milletvekili tarafından 5 Mayıs 2026'da verildi. Kuralın iptali ve yürürlüğünün durdurulması istendi. Dayanak: Anayasa m.2, m.13 ve m.38." },
+    { "t": "İlk inceleme kararı", "d": "Dosyada eksiklik bulunmadığına, yürürlüğün durdurulması talebinin esas inceleme aşamasında karara bağlanmasına karar verildi." },
+    { "t": "Bakanlık görüşü", "d": "Sektörün hızla değiştiği ve esnek düzenleme ihtiyacı bulunduğu belirtiliyor." }
+  ],
+  "evidence": [
+    { "id": "ev_kural", "type": "belge", "title": "Kanun m.11/1 metni", "desc": "“Bakanlıkça çıkarılacak yönetmelikte belirlenen yükümlülüklere aykırı davranan işletmecilere, yönetmelikte belirlenecek miktarda idari para cezası verilir.” Fiil tanımı, alt sınır ve üst sınır yok." },
+    { "id": "ev_gerekce", "type": "belge", "title": "Kanun gerekçesi", "desc": "Trafik güvenliği ve yaya güvenliği amacı belirtiliyor. Ceza miktarlarının neden kanunda yer almadığı açıklanmamış." },
+    { "id": "ev_yonetmelik", "type": "belge", "title": "Yönetmelik ve üç değişikliği", "desc": "On dört ayda ceza gerektiren fiil sayısı 6'dan 19'a çıktı. Yaya yoluna park etmenin cezası 2.000 TL'den 250.000 TL'ye yükseltildi. Değişikliklerin hiçbiri kanundaki bir sınıra dayanmıyor.", "if": "yonetmelik" },
+    { "id": "ev_tutanak", "type": "belge", "title": "Komisyon görüşme tutanağı", "desc": "Bakanlık bürokratı: “Fiilleri ve cezaları sektörün ihtiyacına göre yönetmelikle esnek biçimde belirleyeceğiz.” Alt ve üst sınır getiren önerge reddedildi.", "if": "tutanak" },
+    { "id": "law_38", "type": "kanun", "title": "Anayasa m.38 · Suç ve cezalarda kanunilik", "desc": "Ceza ve ceza yerine geçen güvenlik tedbirleri ancak kanunla konulur. Anayasa Mahkemesi bu güvenceyi idari para cezalarına da uygular.", "law": "Anayasa m.38" },
+    { "id": "law_2", "type": "kanun", "title": "Anayasa m.2 · Hukuk devleti", "desc": "Hukuk devleti ilkesi, kuralların açık, anlaşılır ve öngörülebilir olmasını gerektirir (belirlilik).", "law": "Anayasa m.2" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "TBMM'de, davacı milletvekillerinden Defne Uysal'ın odasındasınız. Sözlü açıklama yarın. İki soru sorabilirsiniz." }],
+      "prompt": "Milletvekiline ne soracaksınız?",
+      "choices": [
+        { "text": "Kanundan sonra yönetmelik çıktı mı? Cezalar uygulamada nasıl belirlendi?", "delta": 15, "set": ["yonetmelik"],
+          "reply": [{ "who": "client", "text": "Çıktı, on dört ayda üç kez değişti. Yaya yoluna park cezası 2.000 TL'den 250.000 TL'ye çıktı. Yeni fiiller de eklendi. Hepsinin dökümü bende." },
+                    { "who": "narr", "text": "Dava konusu yönetmelik olmadığı için Mahkeme onu denetlemez. Ama yönetmelikteki değişiklikler, kanunun idareye bıraktığı yetkinin genişliğini somut olarak gösteriyor." }],
+          "note": "Kanunda sınır olmadığı için idarenin cezaları nasıl belirlediğini gösteren veri, belirlilik tartışmasında güçlü bir dayanak. Yönetmelik dökümü delil çantanıza eklendi." },
+        { "text": "Komisyon görüşmelerinde ceza miktarlarının neden kanuna yazılmadığı soruldu mu?", "delta": 10, "set": ["tutanak"],
+          "reply": [{ "who": "client", "text": "Sorduk. Bakanlık bürokratı fiilleri ve cezaları yönetmelikle esnek belirleyeceklerini söyledi. Alt ve üst sınır önergemiz reddedildi." }],
+          "note": "Tutanak, temel unsurların bilinçli olarak idareye bırakıldığını gösteriyor. Komisyon tutanağı delil çantanıza eklendi." },
+        { "text": "Kanun Resmî Gazete'de ne zaman yayımlandı, dava ne zaman açıldı?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Kanun 10 Mart'ta yayımlandı. Dilekçeyi 5 Mayıs'ta verdik." }],
+          "note": "Dava, kanunun Resmî Gazete'de yayımlanmasından başlayarak altmış gün içinde açılmış (Anayasa m.151)." },
+        { "text": "Bu kanuna siyasi olarak neden karşısınız?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Bu kanun büyük şirketlerin işine yarıyor, küçük işletmeleri bitirecek." }],
+          "note": "Kuralın siyasi değerlendirmesi Mahkemeyi ilgilendirmez. Mahkeme yalnızca Anayasa'ya uygunluğu inceler." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Sözlü açıklama istisnai bir imkân. Genel Kurul dava dilekçesini zaten inceledi; size ayrılan süre kısa." }],
+      "prompt": "Açıklamanızı nasıl kuracaksınız?",
+      "choices": [
+        { "text": "Kuralın Anayasa m.38 ve m.2 bakımından kanunilik ve belirlilik sorununa odaklanın, ardından ölçülülüğe geçin. Üyelerin sorularına hazırlıklı olun.", "delta": 20, "set": ["anayasal"],
+          "law": "Anayasa m.2, m.13, m.38",
+          "note": "İptal davasında Mahkeme kuralın Anayasa'ya uygunluğunu denetler. Açıklama, dilekçede ileri sürülen anayasal sorunları netleştirmeye ayrılmalı." },
+        { "text": "Kanunun büyük şirketleri kayırdığını ve iktidarın gerçek amacının başka olduğunu anlatın.", "delta": -15, "set": ["siyasi"],
+          "note": "Anayasa Mahkemesi kanunun siyasi yerindeliğini denetlemez. Siyasi bir konuşma Genel Kurulda güven kaybettirir." },
+        { "text": "Dava dilekçesini baştan sona okuyun; hiçbir noktayı atlamayın.", "delta": -5,
+          "note": "Dilekçe zaten dosyada. Sözlü açıklama, belirsiz kalan noktaları açıklamak ve soruları cevaplamak için kullanılır." },
+        { "text": "Bir işletmecinin aldığı yüksek cezayı ve uğradığı zararı ayrıntılı anlatın.", "delta": -10,
+          "note": "İptal davası soyut norm denetimidir. Mahkeme yalnızca kuralın Anayasa'ya uygunluğunu inceler. Belirli bir işletmecinin zararı bu incelemenin konusu olmaz." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sözlü açıklama toplantısını açıyorum. Önce davacılar vekilini, sonra bakanlık temsilcisini dinleyeceğiz. Açıklamaların dava konusu kuralla sınırlı olmasını rica ederim." },
+        { "who": "narr", "text": "Açıklamanızı yaptınız. Söz bakanlık temsilcisinde." }
+      ],
+      "statement": { "who": "opp", "text": "Kural idareye sınırsız bir yetki vermemektedir. Ceza miktarları uygulamada istikrarlı ve öngörülebilir biçimde belirlenmiştir. Belirsizlik iddiası yerinde değildir." },
+      "prompt": "Bu beyanı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_yonetmelik"],
+      "hit": { "delta": 25, "set": ["kanunilik", "somut"],
+        "reply": [{ "who": "judge", "text": "Yönetmelik değişikliklerine ilişkin döküm dosyaya alındı." }],
+        "law": "Anayasa m.2, m.38",
+        "note": "On dört ayda aynı fiilin cezası yüz yirmi beş katına çıktı ve yeni fiiller eklendi. Bunların tamamı idarenin kararıyla oldu. Kanunda sınır olmadığı için işletmeci hangi fiilin ne kadar ceza gerektireceğini kanundan öngöremiyor." },
+      "responses": {
+        "ev_kural": { "delta": 10, "set": ["kanunilik"], "note": "Kural metninde fiil tanımı ve ceza sınırı olmadığını gösterdiniz; kanunilik tartışmasının temeli bu. Ama temsilci uygulamanın istikrarlı olduğunu söyledi. Bunu çürüten somut veri daha ikna edici olurdu." },
+        "ev_tutanak": { "delta": 10, "set": ["kanunilik"], "note": "Kanun koyucunun fiilleri ve cezaları bilinçli olarak idareye bıraktığını gösterdiniz. Uygulamanın istikrarlı olduğu iddiasını ise doğrudan çürütmediniz." },
+        "law_38": { "delta": 5, "note": "Doğru dayanak. Ama temsilcinin uygulamaya ilişkin iddiasını çürüten bir belge sunmadınız." },
+        "law_2": { "delta": 5, "note": "Doğru ilke. Ama belirsizliği somut olarak gösteren bir belge sunmadınız." },
+        "ev_gerekce": { "delta": -5, "note": "Gerekçe kuralın amacını gösteriyor. Temsilcinin tezine yarar." }
+      },
+      "pass": { "delta": -20, "note": "Temsilcinin beyanı cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Genel Kuruldan bir üye söz aldı. Başkan soruyu size yöneltiyor." },
+        { "who": "judge", "text": "Kanun koyucu, teknik ve hızla değişen bir alanda ayrıntıyı yönetmeliğe bırakamaz mı?" }
+      ],
+      "prompt": "Ne cevap vereceksiniz?",
+      "choices": [
+        { "text": "Bırakabilir. Ama yasaklanan fiilin ne olduğu ve cezanın türü ile sınırları kanunda gösterilmelidir. Kural bunların ikisini de idareye bırakıyor; bu, cezanın ancak kanunla konulabileceği ilkesine aykırıdır.", "delta": 20, "set": ["cekirdek"],
+          "law": "Anayasa m.38, m.2",
+          "note": "Kanunilik ilkesi teknik ayrıntıların yönetmelikle düzenlenmesini yasaklamaz. Ama suçun ve cezanın temel unsurları kanunda belirlenmelidir. Cevabınız bu ayrımı doğru kurdu." },
+        { "text": "Bırakamaz. İdare hiçbir ayrıntıyı düzenleyemez; her şey kanunda yazmalıdır.", "delta": -5,
+          "note": "Fazla katı bir cevap. Teknik ayrıntıların yönetmeliğe bırakılması kabul edilir. Sorun, temel unsurların da kanunda olmaması." },
+        { "text": "Bırakabilir. Biz yalnızca ceza miktarlarının yüksek olmasından şikâyetçiyiz.", "delta": -5,
+          "note": "Bu cevap kanunilik itirazından vazgeçmek anlamına gelir. Geriye yalnızca miktarın yüksekliği kalır. Bu da kuralın temel sorununu ortaya koymaz." },
+        { "text": "Bu teknik bir tartışma. Asıl mesele, bakanlığın sektördeki büyük şirketleri kayırması.", "delta": -15, "set": ["siyasi"],
+          "note": "Üyenin anayasal sorusuna siyasi bir cevap verdiniz. Mahkeme kanunun siyasi yerindeliğini denetlemez." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Kural iptal edilirse bu alanda hiçbir ceza kalmaz ve yaya güvenliği tehlikeye girer. İptal talebinin reddi gerekir." },
+        { "who": "judge", "text": "Davacılar vekili, son sözünüz?" }
+      ],
+      "prompt": "Ne söyleyeceksiniz?",
+      "choices": [
+        { "text": "Boşluk endişesi Anayasa'ya aykırı bir kuralı ayakta tutmaz. Mahkeme gerekli görürse, iptal hükmünün yürürlüğe gireceği tarihi kararın yayımlanmasından başlayarak bir yılı geçmemek üzere erteleyebilir. Kanun koyucu bu sürede yeni düzenleme yapar.", "delta": 15, "set": ["erteleme"],
+          "law": "Anayasa m.153/3",
+          "note": "İptal edilen kural kural olarak kararın Resmî Gazete'de yayımlandığı gün yürürlükten kalkar. Mahkeme, iptal hükmünün yürürlüğe gireceği tarihi ayrıca belirleyebilir; bu süre bir yılı geçemez (Anayasa m.153/3)." },
+        { "text": "İptal yerine yürürlüğün durdurulmasıyla yetinilmesini isteriz.", "delta": -10, "set": ["ydKarisik"],
+          "note": "Yürürlüğün durdurulması, dava sürerken verilebilen geçici bir tedbirdir. Esas hakkındaki karar iptal ya da rettir. Yürürlüğün durdurulması iptalin yerine geçmez." },
+        { "text": "Mahkeme kurala bir alt ve üst sınır yazarak kuralı düzeltsin.", "delta": -15,
+          "law": "Anayasa m.153/2",
+          "note": "Anayasa Mahkemesi kanun koyucu gibi hareket ederek yeni bir uygulamaya yol açacak biçimde hüküm kuramaz (Anayasa m.153/2)." },
+        { "text": "Boşluk bizim sorunumuz değil; kanun koyucu düşünsün.", "delta": -5,
+          "note": "Sonuç olarak doğru bir noktaya dokundunuz. Ama Mahkemenin elindeki aracı, iptal hükmünün yürürlük tarihini erteleme imkânını göstermediniz." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "kanunilik && cekirdek", "winner": "p1", "label": "KARAR:", "noCourt": true,
+      "hukum": [
+        { "text": "Mikro Hareketlilik Araçları Hizmetleri Kanunu'nun 11. maddesinin (1) numaralı fıkrasında yer alan “…yönetmelikte belirlenen yükümlülüklere…” ve “…yönetmelikte belirlenecek miktarda…” ibarelerinin Anayasa'ya aykırı olduğuna ve İPTALİNE," },
+        { "if": "erteleme", "text": " iptal hükmünün kararın Resmî Gazete'de yayımlanmasından başlayarak dokuz ay sonra yürürlüğe girmesine," },
+        { "text": " konusu kalmayan yürürlüğün durdurulması talebi hakkında KARAR VERİLMESİNE YER OLMADIĞINA," }
+      ],
+      "summary": [
+        { "text": "Kanunun ne yasaklanan fiili ne de cezanın sınırlarını gösterdiğini ortaya koydunuz. Temel unsurların kanunda olması gerektiği ayrımını da doğru kurdunuz." },
+        { "if": "somut", "text": " Yönetmelik değişiklikleri, idarenin sınırsız takdirini somut olarak gösterdi." },
+        { "if": "erteleme", "text": " Boşluk itirazına iptalin yürürlüğünün ertelenmesiyle cevap verdiniz; Mahkeme kanun koyucuya dokuz ay süre tanıdı." },
+        { "if": "ydKarisik", "text": " İptal yerine yürürlüğün durdurulmasını önermeniz yerinde değildi; esas hakkında karar verilince bu talebin konusu kalmadı." },
+        { "if": "siyasi", "text": " Siyasi değerlendirmeleriniz ise Mahkemenin dikkatini dağıttı." }
+      ] },
+    { "if": "kanunilik", "winner": "p1", "label": "KARAR:", "noCourt": true,
+      "hukum": [
+        { "text": "Mikro Hareketlilik Araçları Hizmetleri Kanunu'nun 11. maddesinin (1) numaralı fıkrasında yer alan “…yönetmelikte belirlenecek miktarda…” ibaresinin Anayasa'ya aykırı olduğuna ve İPTALİNE," },
+        { "if": "erteleme", "text": " iptal hükmünün kararın Resmî Gazete'de yayımlanmasından başlayarak dokuz ay sonra yürürlüğe girmesine," },
+        { "text": " aynı fıkradaki “…yönetmelikte belirlenen yükümlülüklere…” ibaresinin Anayasa'ya aykırı olmadığına ve İPTAL TALEBİNİN REDDİNE, iptal edilen ibareye ilişkin yürürlüğün durdurulması talebi hakkında KARAR VERİLMESİNE YER OLMADIĞINA, diğer ibareye ilişkin yürürlüğün durdurulması talebinin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Ceza miktarının sınırsız biçimde idareye bırakıldığını gösterdiniz ve bu ibare iptal edildi. Ama üyenin sorusuna yasaklanan fiilin de kanunda tanımlanması gerektiği cevabını vermediniz. Çoğunluk, yükümlülüklerin yönetmelikle belirlenmesini kabul edilebilir buldu." },
+        { "if": "siyasi", "text": " Siyasi değerlendirmeleriniz de Mahkemenin dikkatini dağıttı." }
+      ] },
+    { "winner": "p2", "label": "KARAR:", "noCourt": true,
+      "hukum": "Mikro Hareketlilik Araçları Hizmetleri Kanunu'nun 11. maddesinin (1) numaralı fıkrasının Anayasa'ya aykırı olmadığına ve İPTAL TALEBİNİN REDDİNE, yürürlüğün durdurulması talebinin REDDİNE,",
+      "summary": [
+        { "text": "Temsilcinin, cezaların uygulamada istikrarlı ve öngörülebilir olduğu beyanı cevapsız kaldı. Kuralın fiil ve ceza sınırı içermediğini somut olarak göstermeniz gerekiyordu." },
+        { "if": "siyasi", "text": " Siyasi değerlendirmeler anayasal tartışmanın önüne geçti." }
+      ] }
+  ]
+}

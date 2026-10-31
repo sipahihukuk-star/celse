@@ -1,0 +1,149 @@
+{
+  "id": "aym-bireysel-tutukluluk",
+  "mode": "solo",
+  "title": "Otuz Gün",
+  "area": "Anayasa Mahkemesi · Bireysel başvuru (tutukluluk)",
+  "court": "Anayasa Mahkemesi · Birinci Bölüm",
+  "courtShort": "ANAYASA MAHKEMESİ · BİRİNCİ BÖLÜM",
+  "esas": "Başvuru No: 2026/31275",
+  "kararTarihi": "16.06.2027",
+  "color": "#3d2f4f",
+  "teaser": "Yedi ay tutuklu kalan bir muhasebeci için Anayasa Mahkemesinin duruşma salonundasınız. Bakanlık, başvurunun süresinde yapılmadığını söylüyor.",
+  "sides": { "p1": { "role": "Başvurucu vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Bölüm: başkanvekili ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Bölüm Başkanvekili", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e6bd98", "hair": "#8a8a8e", "style": "short", "glasses": true } },
+    "opp": { "name": "Adalet Bakanlığı temsilcisi", "np": "green", "look": { "kind": "civil", "skin": "#e0b48e", "hair": "#2a2220", "style": "bun", "shirt": "#2f3540", "inner": "#e9e4d8" } },
+    "client": { "name": "Tuncay Erdem · Başvurucu", "np": "civil", "look": { "kind": "civil", "skin": "#c99670", "hair": "#1e1612", "style": "short", "beard": true, "shirt": "#55606e", "inner": "#d9d4c8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Tuncay Erdem bir muhasebeci. Nitelikli dolandırıcılık şüphesiyle 14 Temmuz 2026'da tutuklandı. Yedi ay sonra adli kontrolle tahliye edildi." },
+    { "who": "client", "text": "Tutuklama kararında yalnızca “suçun vasıf ve mahiyeti” yazıyordu. Kaçacağımı gösteren tek bir olgu yoktu. Adli kontrolün neden yetmeyeceği de tartışılmadı." },
+    { "who": "narr", "text": "Anayasa Mahkemesi bireysel başvuruları kural olarak dosya üzerinden inceler. Bu dosyada Bölüm, istisnai olarak duruşma yapılmasına karar verdi (6216 s.K. m.49/4)." },
+    { "who": "narr", "text": "Başvuru Adalet Bakanlığına bildirildi, Bakanlık yazılı görüşünü sundu. Bakanlık temsilcisi duruşmada da görüşünü açıklayacak." }
+  ],
+  "docs": [
+    { "t": "Tutuklama kararı", "d": "Kuzeykent 2. Sulh Ceza Hâkimliği, 14.07.2026. Gerekçe: “suçun vasıf ve mahiyeti, mevcut delil durumu”." },
+    { "t": "İtirazın reddi kararı", "d": "Kuzeykent 3. Sulh Ceza Hâkimliği, 21.07.2026. Başvurucunun cezaevinden yaptığı itiraz kesin olarak reddedildi." },
+    { "t": "Bireysel başvuru formu", "d": "04.09.2026'da sunuldu. Şikâyet: tutuklama kararının Anayasa m.19/3'e aykırı olması." },
+    { "t": "Adalet Bakanlığı görüşü", "d": "Başvurunun süre aşımı nedeniyle kabul edilemez olduğu, sonraki tutukluluk kararlarına itiraz edilmediği ve tutuklamanın yerinde olduğu ileri sürülüyor." }
+  ],
+  "evidence": [
+    { "id": "ev_karar", "type": "belge", "title": "Tutuklama kararı", "desc": "Tek gerekçe: “suçun vasıf ve mahiyeti, mevcut delil durumu”. Kaçma şüphesini gösteren bir olgu yok. Adli kontrolün neden yetersiz kalacağı yazılmamış." },
+    { "id": "ev_ret", "type": "belge", "title": "İtirazın reddi kararı", "desc": "Kuzeykent 3. Sulh Ceza Hâkimliği, 21.07.2026. İtiraz kesin olarak reddedildi." },
+    { "id": "ev_teblig", "type": "belge", "title": "Tebliğ mazbatası", "desc": "İtirazın reddi kararı başvurucuya 12.08.2026'da Kuzeykent Ceza İnfaz Kurumunda tebliğ edildi. Başvuru 04.09.2026'da yapıldı.", "if": "teblig" },
+    { "id": "ev_bag", "type": "belge", "title": "İkamet ve iş belgeleri", "desc": "Başvurucu yirmi yıldır aynı adreste oturuyor, kendi bürosu var. Hiç pasaport almamış, yurt dışı çıkış kaydı yok.", "if": "bag" },
+    { "id": "law_47", "type": "kanun", "title": "6216 s.K. m.47/5 · Başvuru süresi", "desc": "Başvuru, başvuru yollarının tüketildiği tarihten, başvuru yolu öngörülmemişse ihlalin öğrenildiği tarihten itibaren otuz gün içinde yapılır.", "law": "6216 s.K. m.47/5" },
+    { "id": "law_19", "type": "kanun", "title": "Anayasa m.19/3 · Tutuklama", "desc": "Suçluluğu hakkında kuvvetli belirti bulunan kişiler, kaçmalarını ya da delillerin yok edilmesini veya değiştirilmesini önlemek amacıyla ya da kanunda gösterilen benzeri hâllerde hâkim kararıyla tutuklanabilir.", "law": "Anayasa m.19/3" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Duruşmadan önceki gün müvekkil büronuza geldi. Toplantınız var; iki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "İtirazın reddi kararı size hangi tarihte ve nasıl tebliğ edildi? Belgesi duruyor mu?", "delta": 15, "set": ["teblig"],
+          "reply": [{ "who": "client", "text": "Karar 21 Temmuz tarihli, ama bana cezaevinde 12 Ağustos'ta tebliğ edildi. O zaman avukatım yoktu. Tebliğ mazbatası bende." }],
+          "note": "Süre, başvuru yolunu tüketen kararın öğrenildiği tarihle ilgilidir. Bakanlık kararın tarihini esas alıyor. Tebliğ mazbatası delil çantanıza eklendi." },
+        { "text": "Kaçma şüphesini çürütecek bağlarınız neler? Pasaportunuz, yurt dışı bağlantınız var mı?", "delta": 10, "set": ["bag"],
+          "reply": [{ "who": "client", "text": "Yirmi yıldır aynı evdeyim, büromu ben kurdum. Hayatımda pasaport almadım. Belgelerini getirdim." }],
+          "note": "Tutuklama, kaçma şüphesi gibi bir tutuklama nedenini somut olgulara dayandırmalıdır. Bu belgeler delil çantanıza eklendi." },
+        { "text": "Tutuklama kararına kim itiraz etti?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Ben, cezaevinden dilekçeyle. Ret kararı bana cezaevinde tebliğ edildi." }],
+          "note": "Yararlı bir teyit: tutuklama kararına karşı öngörülen itiraz yolu kullanılmış. Ama tebliğin tarihini ve belgesini sormadınız." },
+        { "text": "Size yöneltilen suçlamayı kabul ediyor musunuz?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Hayır. Ortağımın yaptığı işlerden haberim yoktu." }],
+          "note": "Anayasa Mahkemesi ceza davasını görmez. Suçluluk sorusu bu başvurunun konusu değildir." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "Bakanlık görüşünde, tutukluluğun devamına ilişkin sonraki kararlara itiraz etmediğim yazıyor. Bu başvurumuzu düşürür mü?" }
+      ],
+      "prompt": "Müvekkile ne cevap vereceksiniz?",
+      "choices": [
+        { "text": "Başvurumuz ilk tutuklama kararına ilişkin. O karara karşı kanunda öngörülen yol sulh ceza hâkimliğine itirazdı ve bu yol tüketildi. Sonraki kararlar başvurunun konusu değil.", "delta": 15, "set": ["tuketme"],
+          "law": "6216 s.K. m.45/2; CMK m.267 ve 268",
+          "note": "Başvuru yollarının tüketilmesi, şikâyet konusu karar için öngörülen yolun kullanılmasını arar (6216 s.K. m.45/2). Sulh ceza hâkimliğinin tutuklama kararına karşı yol, sıradaki sulh ceza hâkimliğine itirazdır. Bu yol kullanılmış." },
+        { "text": "Bireysel başvuruda başvuru yollarının tüketilmesi aranmaz. Bu itirazın önemi yok.", "delta": -10,
+          "law": "6216 s.K. m.45/2",
+          "note": "Yanlış. Bireysel başvuru için bütün yargısal başvuru yollarının önceden tüketilmiş olması gerekir (6216 s.K. m.45/2). Bakanlığın itirazı ciddiye alınmalı." },
+        { "text": "Başvurudan feragat edelim. Önce o kararlara itiraz eder, sonra yeniden başvururuz.", "delta": -25,
+          "fatal": { "label": "KARAR:", "hukum": "Başvurucunun feragati nedeniyle başvurunun DÜŞÜRÜLMESİNE,",
+                     "summary": "Tüketme kuralı, başvuruya konu edilen karar için öngörülen yolun kullanılmasını arar. Tutuklama kararına itiraz edilmişti ve sonraki kararlar başvurunun konusu değildi. Feragat gereksiz bir hak kaybına yol açtı; otuz günlük süre de çoktan geçmişti." },
+          "note": "Tüketme kuralı şikâyet konusu kararla ilgilidir. Feragat, yerinde bir başvuruyu sona erdirir." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Önce kabul edilebilirlik itirazlarını dinleyeceğiz. Adalet Bakanlığı temsilcisi, buyurun." }
+      ],
+      "statement": { "who": "opp", "text": "İtirazın reddi kararı 21 Temmuz 2026 tarihlidir. Başvuru 4 Eylül 2026'da yapılmıştır. Otuz günlük süre geçmiştir; başvuru süre aşımı nedeniyle kabul edilemez bulunmalıdır." },
+      "prompt": "Süre itirazını hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_teblig"],
+      "hit": { "delta": 20, "set": ["sure"],
+        "reply": [{ "who": "judge", "text": "Tebliğ mazbatası tutanağa geçirildi. Esasa geçiyoruz." }],
+        "law": "6216 s.K. m.47/5",
+        "note": "Karar başvurucuya 12 Ağustos'ta tebliğ edildi. Başvuru 23 gün sonra, otuz gün dolmadan yapıldı. Süre, yolu tüketen kararın başvurucu tarafından öğrenildiği tarihten işler; kararın verildiği tarih esas alınmaz." },
+      "responses": {
+        "law_47": { "delta": 5, "note": "Doğru madde. Ama itirazı çürüten şey, kararın ne zaman öğrenildiğini gösteren belgeydi." },
+        "ev_ret": { "delta": -5, "note": "Bakanlığın dayandığı tarih bu kararın tarihi. Süreyi başlatan, kararın öğrenilmesidir; bunu gösteren belgeyi sunmadınız." },
+        "ev_karar": { "delta": -5, "note": "Tutuklama kararı esas için önemli, ama süre sorusuna cevap vermiyor." }
+      },
+      "pass": { "delta": -20, "note": "Süre itirazına karşılık vermediniz. Başvuru kabul edilemez bulunabilir." }
+    },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, esasa ilişkin görüşünüz?" }
+      ],
+      "statement": { "who": "opp", "text": "Tutuklama kararında suçun vasıf ve mahiyeti ile mevcut delil durumu gösterilmiştir. Başvurucunun kaçma şüphesi açıktır; tutuklama ölçülüdür." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_karar"],
+      "hit": { "delta": 20, "set": ["esas"],
+        "law": "Anayasa m.19/3; CMK m.100 ve 101",
+        "note": "Karar yalnızca kalıp bir ifade içeriyor. Kuvvetli suç şüphesi, kaçma şüphesi ve adli kontrolün neden yetersiz kalacağı somut olgularla gösterilmemiş. Anayasa Mahkemesi, tutuklama kararının bu gerekçeyi taşıyıp taşımadığını denetler." },
+      "responses": {
+        "ev_bag": { "delta": 10, "set": ["esas"], "note": "Kaçma şüphesinin dosyada hiçbir olguya dayanmadığını gösterdiniz. Kararın kendisini sunmak daha güçlü olurdu: Bölüm önce kararın gerekçesine bakar." },
+        "law_19": { "delta": 5, "note": "Doğru dayanak. Ama gerekçenin eksik olduğunu gösteren belge tutuklama kararının kendisiydi." },
+        "ev_ret": { "delta": -5, "note": "İtiraz merci de aynı kalıp gerekçeyle yetinmiş. Bu belge esas tartışmasında tek başına yeterli değil." },
+        "ev_teblig": { "delta": -5, "note": "Tebliğ belgesi süreyle ilgiliydi; esasa ilişkin bir şey göstermiyor." }
+      },
+      "pass": { "delta": -15, "note": "Bakanlığın esasa ilişkin görüşü cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Başvurucu vekili, Bölümden talebiniz nedir?" }],
+      "prompt": "Ne isteyeceksiniz?",
+      "choices": [
+        { "text": "Kişi özgürlüğü ve güvenliği hakkının ihlal edildiğinin tespitini ve manevi tazminat isteriz. Başvurucu tahliye edildiği için yeniden incelemede hukuki yarar kalmadı.", "delta": 15, "set": ["talep"],
+          "law": "6216 s.K. m.50",
+          "note": "İhlal tutuklama kararından kaynaklanıyor. Başvurucu artık tutuklu olmadığından yeniden inceleme ihlali gideremez. Yeniden yargılamada hukuki yarar bulunmayan hâllerde tazminata hükmedilebilir (6216 s.K. m.50/2)." },
+        { "text": "Dosyanın yeniden inceleme için sulh ceza hâkimliğine gönderilmesini isteriz.", "delta": 0,
+          "law": "6216 s.K. m.50/2",
+          "note": "Yeniden yargılama, ihlali giderebildiği durumlar içindir. Başvurucu tahliye edildiği için tutuklama kararının yeniden incelenmesi bir şey değiştirmez." },
+        { "text": "Kovuşturmanın durdurulmasını ve başvurucunun suçsuz olduğunun tespitini isteriz.", "delta": -10,
+          "note": "Anayasa Mahkemesi ceza davasını görmez, suçluluk hakkında karar vermez. İnceleme, tutuklamanın Anayasa m.19/3'e uygunluğuyla sınırlıdır." },
+        { "text": "Tutuklamaya karar veren hâkim hakkında disiplin soruşturması açılmasına karar verilmesini isteriz.", "delta": -5,
+          "law": "6216 s.K. m.50/1",
+          "note": "Mahkeme ihlalin giderilmesi için gerekenlere hükmeder, ama idari eylem ve işlem niteliğinde karar veremez (6216 s.K. m.50/1)." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "!sure", "winner": "p2", "label": "KARAR:", "noCourt": true,
+      "hukum": "Başvurunun süre aşımı nedeniyle KABUL EDİLEMEZ OLDUĞUNA,",
+      "summary": "Bakanlığın süre itirazı karşılıksız kaldı. Müvekkile itirazın reddi kararının ne zaman tebliğ edildiğini sorsaydınız, sürenin işlemeye başladığı tarihi belgeyle gösterebilirdiniz." },
+    { "if": "esas", "winner": "p1", "label": "KARAR:", "noCourt": true,
+      "hukum": [
+        { "text": "Kişi özgürlüğü ve güvenliği hakkının ihlal edildiğine ilişkin iddianın KABUL EDİLEBİLİR OLDUĞUNA, Anayasa'nın 19. maddesinin üçüncü fıkrasında güvence altına alınan kişi özgürlüğü ve güvenliği hakkının İHLAL EDİLDİĞİNE," },
+        { "if": "talep", "text": " başvurucuya net 90.000 TL manevi tazminat ÖDENMESİNE, diğer taleplerin REDDİNE," },
+        { "if": "!talep", "text": " kararın bir örneğinin bilgi için Kuzeykent 2. Sulh Ceza Hâkimliğine GÖNDERİLMESİNE," }
+      ],
+      "summary": [
+        { "text": "Tebliğ mazbatasıyla süre itirazını aştınız. Esasta, tutuklama kararının kaçma şüphesini ve adli kontrolün yetersizliğini somut olgularla göstermediğini ortaya koydunuz." },
+        { "if": "!tuketme", "text": " Bakanlığın tüketme itirazına doğru cevabı hazırlamamıştınız; Bölüm bu itirazı dosyadan kendisi değerlendirdi." },
+        { "if": "!talep", "text": " Başvurucu tahliye edilmişti; manevi tazminat istemediğiniz için ihlal tespitiyle yetinildi." }
+      ] },
+    { "winner": "p2", "label": "KARAR:", "noCourt": true,
+      "hukum": "Kişi özgürlüğü ve güvenliği hakkının ihlal edildiğine ilişkin iddianın KABUL EDİLEBİLİR OLDUĞUNA, Anayasa'nın 19. maddesinin üçüncü fıkrasında güvence altına alınan kişi özgürlüğü ve güvenliği hakkının İHLAL EDİLMEDİĞİNE,",
+      "summary": "Süre engelini aştınız, ama Bakanlığın esasa ilişkin görüşü cevapsız kaldı. Tutuklama kararının kalıp gerekçesini gösterseydiniz Bölüm ihlal sonucuna varabilirdi." }
+  ]
+}

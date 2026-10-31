@@ -1,0 +1,498 @@
+{
+  "id": "aym-yuce-divan",
+  "mode": "solo",
+  "title": "Kararsız Dinleme",
+  "area": "Anayasa Mahkemesi · Yüce Divan (ihaleye fesat)",
+  "court": "Anayasa Mahkemesi · Yüce Divan",
+  "courtShort": "YÜCE DİVAN",
+  "esas": "Yüce Divan E.2027/1",
+  "kararTarihi": "28.12.2027",
+  "color": "#2a2f3f",
+  "teaser": "Eski bir bakanı on beş üyenin önünde savunuyorsunuz. İddianın kalbinde bir telefon kaydı var; o kaydın hangi kararla alındığını kimse söylemiyor.",
+  "sides": {
+    "p1": {
+      "role": "Sanık müdafii",
+      "short": "Siz"
+    },
+    "p2": {
+      "role": "Karşı taraf",
+      "short": "Karşı taraf"
+    }
+  },
+  "bench": {
+    "judges": 15,
+    "title": "Genel Kurul"
+  },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": {
+      "name": "Yüce Divan Başkanı",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#c99670",
+        "hair": "#9a9a9e",
+        "style": "bald",
+        "glasses": true
+      }
+    },
+    "opp": {
+      "name": "Yargıtay Cumhuriyet Başsavcısı",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#e0b48e",
+        "hair": "#3a2a20",
+        "style": "short"
+      }
+    },
+    "client": {
+      "name": "Necati Ergüven · Sanık (eski bakan)",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#d6a57c",
+        "hair": "#b0b0b4",
+        "style": "short",
+        "glasses": true,
+        "shirt": "#1f2a3a",
+        "inner": "#e9e4d8"
+      }
+    }
+  },
+  "courtCast": [
+    "judge",
+    "you",
+    "opp"
+  ],
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Necati Ergüven dört yıl Kentsel Hizmetler Bakanı olarak görev yaptı. Görevden ayrıldıktan sonra, bakanlığın güvenlik hizmeti alımı ihalesine fesat karıştırdığı iddiasıyla TBMM kararıyla Yüce Divana sevk edildi."
+    },
+    {
+      "who": "client",
+      "text": "İhaleyi kazanan şirketin sahibiyle bir telefon görüşmem var. Başsavcılık bütün iddiayı o kayda dayandırıyor. Ama o kaydın nasıl alındığını kimse açıklamadı."
+    },
+    {
+      "who": "narr",
+      "text": "Bakanlar görevleriyle ilgili suçlardan Yüce Divanda yargılanır. Yargılamayı Anayasa Mahkemesi Genel Kurulu Yüce Divan sıfatıyla yapar. İddia makamında Yargıtay Cumhuriyet Başsavcısı var."
+    }
+  ],
+  "docs": [
+    {
+      "t": "TBMM sevk kararı",
+      "d": "İsnat: bakanlığın 2025 yılı güvenlik hizmeti alımı ihalesine fesat karıştırma (TCK m.235). Fiilin bakanlık göreviyle ilgili olduğu belirtiliyor."
+    },
+    {
+      "t": "Telefon görüşmesi dökümü",
+      "d": "Sanık ile yüklenici şirketin sahibi arasında. Sanık: “Dosyanızı hızlandıracağız.” Kaydın hangi kararla alındığı yazılı değil."
+    },
+    {
+      "t": "Bakanlık oluru",
+      "d": "Sanığın imzasıyla: “İhale sürecinin mevzuata uygun ve süresinde tamamlanması.”"
+    },
+    {
+      "t": "Yüklenicinin ifadesi",
+      "d": "Şartnamedeki özel yeterlik şartının bakanın isteğiyle eklendiğini duyduğunu söylüyor. Kimden duyduğunu hatırlamıyor."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_kayit",
+      "type": "belge",
+      "title": "Telefon görüşmesi kaydı ve dökümü",
+      "desc": "Sanık: “Dosyanızı hızlandıracağız.” Kaydın hangi kararla alındığı dökümde yazılı değil."
+    },
+    {
+      "id": "ev_yazi",
+      "type": "belge",
+      "title": "Sulh ceza hâkimliği cevap yazısı",
+      "desc": "Kayıt tarihinde sanık ya da yüklenici hakkında verilmiş bir iletişimin denetlenmesi kararı veya Cumhuriyet savcısı kararına verilmiş bir onay bulunmadığı bildiriliyor.",
+      "if": "karar"
+    },
+    {
+      "id": "ev_olur",
+      "type": "belge",
+      "title": "Bakanlık oluru",
+      "desc": "Sanığın imzası. İçerik: ihalenin mevzuata uygun ve süresinde tamamlanması. Şartnameye ilişkin bir talimat yok."
+    },
+    {
+      "id": "ev_komisyon",
+      "type": "belge",
+      "title": "Şartname taslağı ve teknik birim yazısı",
+      "desc": "Özel yeterlik şartı, sanığın olurundan iki ay önce teknik birimce taslağa eklenmiş. Yazıda sanığın adı geçmiyor.",
+      "if": "komisyon"
+    },
+    {
+      "id": "ev_ifade",
+      "type": "beyan",
+      "title": "Yüklenicinin ifadesi",
+      "desc": "Şartın bakanın isteğiyle eklendiğini “duyduğunu” söylüyor; kimden duyduğunu hatırlamıyor."
+    },
+    {
+      "id": "law_135",
+      "type": "kanun",
+      "title": "CMK m.135 · İletişimin denetlenmesi",
+      "desc": "İletişimin dinlenmesi ve kayda alınması hâkim kararıyla, gecikmesinde sakınca bulunan hâllerde Cumhuriyet savcısının kararıyla yapılabilir. Savcı kararını derhâl hâkimin onayına sunar; hâkim en geç yirmi dört saat içinde karar verir.",
+      "law": "CMK m.135"
+    },
+    {
+      "id": "law_217",
+      "type": "kanun",
+      "title": "CMK m.217/2 · Hukuka uygun delil",
+      "desc": "Yüklenen suç, hukuka uygun bir şekilde elde edilmiş her türlü delille ispat edilebilir.",
+      "law": "CMK m.217/2"
+    },
+    {
+      "id": "law_38",
+      "type": "kanun",
+      "title": "Anayasa m.38/6 · Delil yasağı",
+      "desc": "Kanuna aykırı olarak elde edilmiş bulgular delil olarak kabul edilemez.",
+      "law": "Anayasa m.38/6"
+    }
+  ],
+  "steps": [
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Duruşmaya bir hafta var. Müvekkil büronuzda. İki soru sorabilirsiniz."
+        }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Telefon kaydı hangi kararla alınmış? Dosyada bir hâkim kararı ya da onayı var mı?",
+          "delta": 15,
+          "set": [
+            "karar"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Önceki avukatım dosyayı taradı, karar bulamadı. Sulh ceza hâkimliğine yazı yazdık. Cevap geldi: o tarihte ne benim ne de şirket sahibinin hattı için bir karar var."
+            }
+          ],
+          "note": "İletişimin denetlenmesi hâkim kararı ya da onayı olmadan yapılamaz (CMK m.135). Hâkimliğin cevap yazısı delil çantanıza eklendi."
+        },
+        {
+          "text": "Şartnamedeki özel yeterlik şartı ne zaman ve kim tarafından eklendi?",
+          "delta": 15,
+          "set": [
+            "komisyon"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Teknik birim taslağı hazırladı. Benim olurum ondan iki ay sonra. Taslak ve birimin yazısı arşivde duruyor; kopyalarını aldım."
+            }
+          ],
+          "note": "Şartın sanığın olurundan önce teknik birimce eklendiğini gösteren belgeler delil çantanıza eklendi."
+        },
+        {
+          "text": "Şirket sahibini nereden tanıyorsunuz?",
+          "delta": 0,
+          "reply": [
+            {
+              "who": "client",
+              "text": "Aynı ildeniz. Yıllardır tanırım, ama hiçbir iş ilişkim olmadı."
+            }
+          ],
+          "note": "Tanışıklık tek başına suç değildir. Bu bilgi savunmanın merkezini oluşturmaz."
+        },
+        {
+          "text": "Bu dava siyasi bir hesaplaşma mı?",
+          "delta": -5,
+          "reply": [
+            {
+              "who": "client",
+              "text": "Elbette. Görevdeyken çok düşman edindim."
+            }
+          ],
+          "note": "Yüce Divan bir ceza mahkemesidir. Savunma, isnat edilen fiilin hukuki değerlendirmesi üzerine kurulur."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "client",
+          "text": "Ben artık bakan değilim. Yüce Divan beni nasıl yargılayabilir? Bunu ilk iş olarak ileri sürmeliyiz."
+        }
+      ],
+      "prompt": "Görev konusunda hangi tutumu alacaksınız?",
+      "choices": [
+        {
+          "text": "Yüce Divanın görevini tartışmayın. İsnat, bakanlık sırasında işlendiği ileri sürülen ve görevle ilgili bir fiile dayanıyor. Savunmayı delillerin hukuka uygunluğuna ve esasa yoğunlaştırın.",
+          "delta": 15,
+          "set": [
+            "gorev"
+          ],
+          "law": "Anayasa m.148",
+          "note": "Bakanlar görevleriyle ilgili suçlardan Yüce Divanda yargılanır (Anayasa m.148). Belirleyici olan, fiilin görev sırasında ve görevle bağlantılı işlenmiş olmasıdır. Görevin sonradan sona ermesi bu bağı koparmaz."
+        },
+        {
+          "text": "Müvekkil artık bakan olmadığı için Yüce Divanın görevsiz olduğunu ve dosyanın ağır ceza mahkemesine gönderilmesi gerektiğini ileri sürün.",
+          "delta": -15,
+          "law": "Anayasa m.148",
+          "note": "Yüce Divanın görevi, fiilin görevle ilgili olmasına bağlıdır. Bu itiraz reddedilir ve savunmanın güvenilirliğini zedeler."
+        },
+        {
+          "text": "TBMM'nin sevk kararının siyasi olduğunu ve yerinde olmadığını savunun.",
+          "delta": -10,
+          "note": "Yüce Divan bir ceza yargılaması yapar. Sevk kararının siyasi yerindeliği burada tartışılmaz. Savunma isnadın hukuki değerlendirmesine odaklanmalı."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Duruşmayı açıyorum. Delillerin tartışılmasına geçiyoruz. Söz Yargıtay Cumhuriyet Başsavcısında."
+        }
+      ],
+      "statement": {
+        "who": "opp",
+        "text": "Sanık ile yüklenici arasındaki telefon görüşmesi, ihalenin önceden belirlendiğini açıkça göstermektedir. Kaydın hükme esas alınmasını talep ediyoruz."
+      },
+      "prompt": "Bu talebe hangi delille itiraz edeceksiniz?",
+      "correct": [
+        "ev_yazi"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "dislandi"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Hâkimlik yazısı okundu. Heyet, kaydın delil değeri hakkındaki değerlendirmesini hükümle birlikte açıklayacak."
+          }
+        ],
+        "law": "CMK m.135, m.217/2; Anayasa m.38/6",
+        "note": "Kayıt tarihinde iletişimin denetlenmesine ilişkin bir hâkim kararı ya da onayı yok (CMK m.135). Kanuna aykırı olarak elde edilen bulgular delil olarak kabul edilemez (Anayasa m.38/6). Hüküm ancak hukuka uygun delillere dayanabilir (CMK m.217/2)."
+      },
+      "responses": {
+        "law_135": {
+          "delta": 10,
+          "note": "Doğru dayanak. Ama kararın yokluğunu gösteren hâkimlik yazısını sunmadan itiraz soyut kaldı."
+        },
+        "law_38": {
+          "delta": 10,
+          "note": "Doğru ilke. Ama kaydın kanuna aykırı alındığını gösteren belgeyi sunmadınız."
+        },
+        "law_217": {
+          "delta": 5,
+          "note": "Doğru ilke. Ama kaydın hukuka aykırı olduğunu somut olarak göstermediniz."
+        },
+        "ev_kayit": {
+          "delta": -10,
+          "note": "Bu, Başsavcılığın dayandığı delilin kendisi."
+        },
+        "ev_olur": {
+          "delta": 0,
+          "note": "Olur, kaydın nasıl elde edildiği sorusuna cevap vermiyor."
+        },
+        "ev_komisyon": {
+          "delta": 0,
+          "note": "Esas için önemli bir belge. Ama Başsavcının talebi kaydın delil olarak kullanılmasıyla ilgili."
+        },
+        "ev_ifade": {
+          "delta": -5,
+          "note": "Bu beyan Başsavcılığın tezini destekliyor."
+        }
+      },
+      "pass": {
+        "delta": -20,
+        "note": "İtiraz etmediniz. Kayıt dosyada delil olarak kaldı."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "opp",
+          "text": "Ayrıca sanığın bakanlıktan önce ortağı olduğu inşaat şirketinin 2018 yılı vergi kayıtlarındaki usulsüzlüklerin de bu yargılamada değerlendirilmesini talep ediyoruz."
+        },
+        {
+          "who": "judge",
+          "text": "Sanık müdafii, bu talep hakkında beyanınız?"
+        }
+      ],
+      "prompt": "Ne cevap vereceksiniz?",
+      "choices": [
+        {
+          "text": "Bu iddia bakanlık görevinden önceki bir döneme ve görevle ilgisi olmayan bir fiile ilişkin. Sevk kararında da yer almıyor. Yüce Divan yalnızca görevle ilgili suçlara bakar; talebin reddi gerekir.",
+          "delta": 20,
+          "set": [
+            "kapsam"
+          ],
+          "law": "Anayasa m.148; CMK m.4",
+          "note": "Yüce Divanın görevi görevle ilgili suçlarla sınırlıdır (Anayasa m.148). Görevle ilgisi olmayan bir fiil genel hükümlere göre yetkili mahkemede yargılanır. Yargılama, sevk kararındaki isnatla da sınırlıdır."
+        },
+        {
+          "text": "Müvekkilin saklayacak bir şeyi yok. Bu iddianın da burada incelenmesini kabul ediyoruz.",
+          "delta": -15,
+          "set": [
+            "genis"
+          ],
+          "law": "CMK m.4",
+          "note": "Görev, yargılamanın her aşamasında kendiliğinden gözetilir ve tarafların kabulüyle genişlemez (CMK m.4). Bu kabul, müvekkili görevle ilgisi olmayan bir iddiaya karşı hazırlıksız savunma yapmaya zorlar."
+        },
+        {
+          "text": "Bu iddia zamanaşımına uğramıştır.",
+          "delta": -5,
+          "note": "Asıl sorun, Yüce Divanın bu iddiayı incelemeye görevli olmaması. Bunu ileri sürmeden zamanaşımına geçmek, iddianın burada incelenebileceğini kabul etmek gibi okunur."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Başsavcı, esasa ilişkin mütalaanızı alalım."
+        }
+      ],
+      "statement": {
+        "who": "opp",
+        "text": "Kayıt bir yana bırakılsa bile, şartnameye rekabeti daraltan özel yeterlik şartının sanığın isteğiyle eklendiği yüklenicinin ifadesiyle sabittir. Sanığın ihaleye fesat karıştırmaktan cezalandırılmasını talep ediyoruz."
+      },
+      "prompt": "Bu mütalaayı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_komisyon"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "beraatArg"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Şartname taslağı ve teknik birim yazısı dosyaya alındı. Son sözler alındıktan sonra heyet müzakereye çekilecek."
+          }
+        ],
+        "note": "Şart, sanığın olurundan iki ay önce teknik birimce eklenmiş ve yazıda sanığın adı yok. Yüklenicinin “duydum” diyen beyanı bu belgeler karşısında sanığın katkısını göstermiyor. Mahkûmiyet, şüpheye yer bırakmayan bir ispat ister."
+      },
+      "responses": {
+        "ev_olur": {
+          "delta": 5,
+          "note": "Olur yalnızca ihalenin süresinde tamamlanmasını istiyor. Ama şartın ne zaman ve kim tarafından eklendiği sorusuna cevap vermiyor."
+        },
+        "ev_ifade": {
+          "delta": -10,
+          "note": "Bu, Başsavcının dayandığı beyan."
+        },
+        "ev_kayit": {
+          "delta": -15,
+          "note": "Hukuka aykırı olduğunu ileri sürdüğünüz kayda kendiniz dayanmış oldunuz."
+        },
+        "ev_yazi": {
+          "delta": 0,
+          "note": "Yazı kaydın hukuka aykırılığını gösteriyor. Şartname iddiasına cevap vermiyor."
+        },
+        "law_217": {
+          "delta": 0,
+          "note": "Yüklenicinin ifadesi hukuka aykırı bir delil değil. İfadenin içeriğini çürüten bir belge gerekiyordu."
+        },
+        "law_135": {
+          "delta": -5,
+          "note": "Bu madde dinlemeyle ilgili. Başsavcı artık yüklenicinin ifadesine dayanıyor."
+        },
+        "law_38": {
+          "delta": -5,
+          "note": "Yüklenicinin ifadesi kanuna aykırı elde edilmiş bir bulgu değil. İçeriğini çürüten belge gerekiyordu."
+        }
+      },
+      "pass": {
+        "delta": -15,
+        "note": "Başsavcının mütalaası cevapsız kaldı."
+      }
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "!dislandi",
+      "winner": "p2",
+      "noCourt": true,
+      "hukum": "Sanık Necati Ergüven'in ihaleye fesat karıştırma suçundan TCK m.235 uyarınca 4 yıl 2 ay hapis cezası ile CEZALANDIRILMASINA,",
+      "summary": [
+        {
+          "text": "Telefon kaydı hükme esas alındı. Kaydın hâkim kararı olmadan alındığı gösterilemedi."
+        },
+        {
+          "if": "!karar",
+          "text": " Müvekkile kaydın hangi kararla alındığını sorsaydınız, hâkimlik yazısı çantanızda olacaktı."
+        },
+        {
+          "if": "karar",
+          "text": " Hâkimlik yazısı elinizdeydi, ama Başsavcının talebine karşı onu sunmadınız."
+        },
+        {
+          "text": " Yüce Divan kararına karşı Genel Kurula yeniden inceleme başvurusu yapılabilir; bu başvuru üzerine verilen karar kesindir (Anayasa m.148)."
+        }
+      ]
+    },
+    {
+      "if": "beraatArg",
+      "winner": "p1",
+      "noCourt": true,
+      "hukum": "Sanık Necati Ergüven'in üzerine atılı ihaleye fesat karıştırma suçunu işlediği sabit olmadığından CMK m.223/2-e uyarınca BERAATİNE,",
+      "summary": [
+        {
+          "text": "Hâkim kararı olmadan alınan telefon kaydı delil olarak değerlendirilmedi. Şartname belgeleri de özel yeterlik şartının sanıktan önce ve onun katkısı olmadan eklendiğini gösterdi."
+        },
+        {
+          "if": "kapsam",
+          "text": " Görevle ilgisi olmayan vergi iddiasını da yargılamanın dışında tuttunuz."
+        },
+        {
+          "if": "genis",
+          "text": " Vergi iddiasının burada incelenmesini kabul etmeniz büyük bir hataydı. Yüce Divan görevini kendiliğinden gözeterek bu iddiayı incelemedi."
+        },
+        {
+          "if": "!gorev",
+          "text": " Hazırlık aşamasındaki ön itiraz tercihiniz ise isabetsizdi. Fiil görevle ilgili olduğu sürece görevin sona ermesi Yüce Divanın görevini etkilemez; sevk kararının siyasi yerindeliği de burada tartışılmaz."
+        },
+        {
+          "text": " Yüce Divan kararına karşı Genel Kurula yeniden inceleme başvurusu yapılabilir; bu başvuru üzerine verilen karar kesindir (Anayasa m.148)."
+        }
+      ]
+    },
+    {
+      "winner": "p2",
+      "noCourt": true,
+      "hukum": "Sanık Necati Ergüven'in ihaleye fesat karıştırma suçundan TCK m.235 uyarınca 3 yıl 4 ay hapis cezası ile CEZALANDIRILMASINA,",
+      "summary": [
+        {
+          "text": "Telefon kaydı dışlandı, ama şartın sanığın isteğiyle eklendiği iddiası çürütülemedi. Heyet çoğunluğu yüklenicinin ifadesini ve bakanlık olurunu yeterli buldu."
+        },
+        {
+          "if": "!komisyon",
+          "text": " Müvekkile şartın ne zaman ve kim tarafından eklendiğini sorsaydınız, teknik birimin yazısı çantanızda olacaktı."
+        },
+        {
+          "text": " Yüce Divan kararına karşı Genel Kurula yeniden inceleme başvurusu yapılabilir; bu başvuru üzerine verilen karar kesindir (Anayasa m.148)."
+        }
+      ]
+    }
+  ]
+}

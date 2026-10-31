@@ -1,0 +1,142 @@
+{
+  "id": "aym-bireysel-gerekce",
+  "mode": "solo",
+  "title": "Cevapsız Savunma",
+  "area": "Anayasa Mahkemesi · Bireysel başvuru (gerekçeli karar hakkı)",
+  "court": "Anayasa Mahkemesi · Birinci Bölüm",
+  "courtShort": "ANAYASA MAHKEMESİ · BİRİNCİ BÖLÜM",
+  "esas": "Başvuru No: 2026/22617",
+  "kararTarihi": "03.11.2027",
+  "color": "#2f4a45",
+  "teaser": "Müvekkiliniz on iki yıllık faturalar için borçlu bulundu. Zamanaşımı savunması iki kararda da tek kelimeyle bile anılmadı.",
+  "sides": { "p1": { "role": "Başvurucu vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Bölüm: başkanvekili ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Bölüm Başkanvekili", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#b88560", "hair": "#151515", "style": "short", "beard": true } },
+    "opp": { "name": "Adalet Bakanlığı temsilcisi", "np": "green", "look": { "kind": "civil", "skin": "#edc6a2", "hair": "#4a3020", "style": "long", "glasses": true, "shirt": "#2f3540", "inner": "#e9e4d8" } },
+    "client": { "name": "Lale Tunç · Başvurucu", "np": "civil", "look": { "kind": "civil", "skin": "#dcae86", "hair": "#2a2220", "style": "curly", "shirt": "#4f6b5b", "inner": "#e9e4d8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Lale Tunç Ilgınova'da küçük bir matbaa işletiyor. Bir kâğıt tedarikçisi 2025'te ona 2013 tarihli faturalar için alacak davası açtı." },
+    { "who": "client", "text": "Eski avukatım cevap dilekçesinde zamanaşımı savunmasında bulundu. Mahkeme kararda bundan hiç söz etmedi, davayı kabul etti. Bölge adliye mahkemesi de “usul ve yasaya uygun” deyip geçti." },
+    { "who": "narr", "text": "Miktar temyiz sınırının altında kaldığı için bölge adliye mahkemesi kararı kesindi. Bireysel başvuru yapıldı. Bölüm, istisnai olarak duruşma yapılmasına karar verdi (6216 s.K. m.49/4)." },
+    { "who": "narr", "text": "Anayasa Mahkemesi bir kanun yolu merci gibi çalışmaz. Davanın doğru sonuçlanıp sonuçlanmadığını incelemez. Yargılamanın Anayasa'daki güvencelere uygun yürütülüp yürütülmediğine bakar." }
+  ],
+  "docs": [
+    { "t": "Dava dilekçesi", "d": "Davacı tedarikçi, 2013 tarihli faturalara dayanarak alacak istedi. Dava 2025'te açıldı." },
+    { "t": "İlk derece kararı", "d": "Ilgınova 2. Asliye Ticaret Mahkemesi: davanın kabulü. Gerekçe faturalar ile ticari defterlerin uyumuna dayanıyor. Zamanaşımından söz yok." },
+    { "t": "Bölge adliye mahkemesi kararı", "d": "İstinaf başvurusunun esastan reddi. Gerekçe tek cümle: “ilk derece kararı usul ve yasaya uygundur”. Karar kesin." },
+    { "t": "Adalet Bakanlığı görüşü", "d": "Başvurunun kanun yolu şikâyeti niteliğinde olduğu, ayrıca zamanaşımı def'inin süresinde ileri sürülmediği belirtiliyor." }
+  ],
+  "evidence": [
+    { "id": "ev_karar", "type": "belge", "title": "İlk derece kararı", "desc": "Davanın kabulü. Faturalar ve ticari defterler tartışılmış; zamanaşımından hiç söz edilmemiş." },
+    { "id": "ev_bam", "type": "belge", "title": "Bölge adliye mahkemesi kararı", "desc": "İstinaf başvurusunun esastan reddi. Tek cümlelik gerekçe." },
+    { "id": "ev_cevap", "type": "belge", "title": "Cevap dilekçesi", "desc": "Süresinde verilmiş. İkinci sayfada: “Faturalar 2013 tarihlidir; on yıllık zamanaşımı süresi dolmuştur, zamanaşımı def'inde bulunuyoruz.”", "if": "cevap" },
+    { "id": "ev_istinaf", "type": "belge", "title": "İstinaf dilekçesi", "desc": "İlk başlık: “İlk derece mahkemesi zamanaşımı def'imizi hiç incelememiştir.”", "if": "istinaf" },
+    { "id": "law_36", "type": "kanun", "title": "Anayasa m.36 · Hak arama hürriyeti", "desc": "Herkes, meşru vasıta ve yollardan faydalanmak suretiyle yargı mercileri önünde davacı veya davalı olarak iddia ve savunma ile adil yargılanma hakkına sahiptir.", "law": "Anayasa m.36" },
+    { "id": "law_141", "type": "kanun", "title": "Anayasa m.141/3 · Gerekçe", "desc": "Bütün mahkemelerin her türlü kararları gerekçeli olarak yazılır.", "law": "Anayasa m.141/3" },
+    { "id": "law_161", "type": "kanun", "title": "TBK m.161 · Zamanaşımının ileri sürülmesi", "desc": "Hâkim, zamanaşımını kendiliğinden göz önüne alamaz.", "law": "TBK m.161" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Duruşmadan önce başvurucuyla matbaasında görüşüyorsunuz. Makineler çalışıyor; iki soruya vaktiniz var." }],
+      "prompt": "Başvurucuya ne soracaksınız?",
+      "choices": [
+        { "text": "Zamanaşımı savunması tam olarak hangi dilekçede ve ne zaman ileri sürüldü?", "delta": 15, "set": ["cevap"],
+          "reply": [{ "who": "client", "text": "Eski avukatım cevap dilekçesinde yazmış, dilekçeyi de süresinde vermiş. Bir kopyası bende." }],
+          "note": "Zamanaşımını hâkim kendiliğinden gözetemez; taraf ileri sürmelidir (TBK m.161). Savunmanın süresinde yapıldığını gösteren dilekçe delil çantanıza eklendi." },
+        { "text": "İstinafta, mahkemenin zamanaşımını incelemediğini ayrıca ileri sürdünüz mü?", "delta": 10, "set": ["istinaf"],
+          "reply": [{ "who": "client", "text": "Evet, istinaf dilekçesinin ilk başlığı buydu." }],
+          "note": "Şikâyetin özünün kanun yolunda dile getirilmiş olması, başvuru yollarının tüketilmesi bakımından önemlidir. İstinaf dilekçesi delil çantanıza eklendi." },
+        { "text": "Bölge adliye mahkemesi kararı size ne zaman tebliğ edildi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "8 Mayıs 2026'da. Başvuruyu 2 Haziran'da yaptık." }],
+          "note": "Başvuru otuz günlük süre içinde yapılmış (6216 s.K. m.47/5)." },
+        { "text": "Bu borcu gerçekten ödemiş miydiniz?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Bir kısmını elden ödediğimi sanıyorum, ama makbuzum yok." }],
+          "note": "Borcun ödenip ödenmediği derece mahkemelerinin değerlendireceği bir vakıadır. Anayasa Mahkemesi bunu incelemez." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Duruşmada hangi hak üzerinden konuşacağınızı belirlemeniz gerekiyor." }],
+      "prompt": "Konuşmanızı hangi çerçevede kuracaksınız?",
+      "choices": [
+        { "text": "Adil yargılanma hakkı kapsamında gerekçeli karar hakkı: mahkemeler sonuca etkili bir savunmayı hiç cevaplamadı.", "delta": 15, "set": ["hak"],
+          "law": "Anayasa m.36, m.141/3",
+          "note": "Gerekçeli karar hakkı adil yargılanma hakkının bir parçasıdır. Anayasa m.141/3 de bütün mahkeme kararlarının gerekçeli yazılmasını ister." },
+        { "text": "Mülkiyet hakkı: müvekkil haksız yere para ödemeye mahkûm edildi.", "delta": -5,
+          "note": "Şikâyetin özü, yargılamada bir savunmanın cevapsız bırakılmasıdır. Bu adil yargılanma hakkının konusudur. Kararın sonucuna itiraz, tek başına mülkiyet hakkı şikâyeti olmaz." },
+        { "text": "Zamanaşımının gerçekten dolduğunu gösteren ayrıntılı bir süre hesabı hazırlayın.", "delta": -10, "set": ["dorduncu"],
+          "note": "Sürenin dolup dolmadığına derece mahkemeleri karar verir. Anayasa Mahkemesi bu hesabı yapmaz. Böyle bir sunum kanun yolu şikâyeti izlenimi verir." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Adalet Bakanlığı temsilcisi, görüşünüzü özetleyin." },
+        { "who": "opp", "text": "Başvurucu, derece mahkemelerinin delilleri değerlendirmesinden ve hukuku yorumlamasından şikâyet etmektedir. Anayasa Mahkemesi bir kanun yolu merci değildir. Başvuru açıkça dayanaktan yoksundur." },
+        { "who": "judge", "text": "Başvurucu vekili, cevabınız?" }
+      ],
+      "prompt": "Ne cevap vereceksiniz?",
+      "choices": [
+        { "text": "Zamanaşımının dolup dolmadığını Mahkemenize sormuyoruz. Şikâyetimiz şu: sonuca doğrudan etkili bir savunma ileri sürüldü ve iki karar da onu hiç cevaplamadı. Gerekçeli karar hakkı bunu güvence altına alır.", "delta": 20, "set": ["gerekce"],
+          "law": "Anayasa m.36, m.141/3",
+          "note": "Mahkemeler her iddiaya ayrıntılı cevap vermek zorunda değildir. Ama davanın sonucunu değiştirebilecek esaslı bir savunmayı cevapsız bırakamazlar. Anayasa Mahkemesi delil değerlendirmesini denetlemez; bu güvencenin sağlanıp sağlanmadığını denetler." },
+        { "text": "Zamanaşımı açıkça dolmuştur. Mahkemeniz bunu tespit edip alacağın reddine karar vermelidir.", "delta": -15, "set": ["dorduncu"],
+          "note": "Bu, Mahkemeyi bir üst derece mahkemesi gibi çalışmaya çağırmaktır. Anayasa Mahkemesi uyuşmazlığın esasına karar vermez." },
+        { "text": "Bölge adliye mahkemesinin tek cümlelik gerekçesi her durumda yetersizdir.", "delta": 0,
+          "note": "Kanun yolu merci, ilk derece kararını yeterli bulduğunda kısa bir gerekçeyle yetinebilir. Asıl sorun, ilk derece kararının da esaslı savunmayı hiç tartışmamış olmasıydı." },
+        { "text": "Tedarikçinin ticari defterleri güvenilir değildi; mahkeme onlara itibar etmemeliydi.", "delta": -10, "set": ["dorduncu"],
+          "note": "Delillerin değerlendirilmesi derece mahkemelerinin işidir. Bu, Bakanlığın kanun yolu şikâyeti iddiasını doğrular." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Bakanlık temsilcisi, eklemek istediğiniz bir husus var mı?" }],
+      "statement": { "who": "opp", "text": "Kaldı ki zamanaşımı def'i ilk derece yargılamasında süresinde ileri sürülmemiştir. Mahkemenin dile getirilmemiş bir savunmayı tartışma yükümlülüğü yoktur." },
+      "prompt": "Bu beyanı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_cevap"],
+      "hit": { "delta": 20, "set": ["savunma"],
+        "reply": [{ "who": "judge", "text": "Cevap dilekçesinin ikinci sayfası tutanağa geçirildi." }],
+        "law": "Anayasa m.36, m.141/3",
+        "note": "Cevap dilekçesi, def'in süresinde ve açıkça ileri sürüldüğünü gösteriyor. Savunma sonuca doğrudan etkiliydi ve iki karar da onu cevapsız bıraktı." },
+      "responses": {
+        "ev_istinaf": { "delta": 5, "note": "Savunmanın istinafta tekrarlandığını gösterdiniz. Ama Bakanlık ilk derecede süresinde ileri sürülmediğini söylüyor; cevap dilekçesi gerekiyordu." },
+        "ev_karar": { "delta": 0, "note": "Kararda zamanaşımından söz edilmediğini gösteriyor. Savunmanın ileri sürüldüğünü göstermiyor." },
+        "ev_bam": { "delta": -5, "note": "Bu karar da savunmanın ileri sürüldüğünü göstermiyor." },
+        "law_161": { "delta": -5, "note": "Bu madde zamanaşımının taraflarca ileri sürülmesi gerektiğini söyler. İleri sürüldüğünü göstermez; Bakanlığın tezine yarar." },
+        "law_141": { "delta": 5, "note": "Doğru ilke. Ama Bakanlığın olgusal iddiasını çürüten bir belge sunmadınız." },
+        "law_36": { "delta": 5, "note": "Doğru dayanak. Ama savunmanın süresinde yapıldığını gösteren belge gerekiyordu." }
+      },
+      "pass": { "delta": -20, "note": "Savunmanın süresinde ileri sürülmediği iddiası cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Başvurucu vekili, Bölümden talebiniz nedir?" }],
+      "prompt": "Ne isteyeceksiniz?",
+      "choices": [
+        { "text": "Gerekçeli karar hakkının ihlal edildiğinin tespitini ve yeniden yargılama yapılmak üzere dosyanın ilk derece mahkemesine gönderilmesini isteriz.", "delta": 15, "set": ["yeniden"],
+          "law": "6216 s.K. m.50/2",
+          "note": "İhlal mahkeme kararından kaynaklanıyor. İhlali gidermenin yolu yeniden yargılamadır. Yeniden yargılamada mahkeme zamanaşımı savunmasını inceleyip gerekçesiyle karar verecek." },
+        { "text": "Mahkemeniz zamanaşımını kabul ederek davanın reddine karar versin.", "delta": -15, "set": ["dorduncuTalep"],
+          "note": "Anayasa Mahkemesi ihlali tespit eder ve giderilmesi için gerekenlere hükmeder. Davanın esası hakkında karar veremez, yeniden yargılamanın sonucunu da belirleyemez." },
+        { "text": "Yalnızca ödenen alacak tutarı kadar tazminat isteriz.", "delta": -5,
+          "law": "6216 s.K. m.50/2",
+          "note": "Yeniden yargılama ihlali giderebilecekken tazminatla yetinmek doğru talep değil. Tazminat, yeniden yargılamada hukuki yarar bulunmayan hâller içindir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "gerekce && savunma", "winner": "p1", "label": "KARAR:", "noCourt": true,
+      "hukum": "Gerekçeli karar hakkının ihlal edildiğine ilişkin iddianın KABUL EDİLEBİLİR OLDUĞUNA, Anayasa'nın 36. maddesinde güvence altına alınan adil yargılanma hakkı kapsamındaki gerekçeli karar hakkının İHLAL EDİLDİĞİNE, kararın bir örneğinin ihlalin sonuçlarının giderilmesi için yeniden yargılama yapılmak üzere Ilgınova 2. Asliye Ticaret Mahkemesine GÖNDERİLMESİNE, yargılama giderlerinin başvurucuya ÖDENMESİNE,",
+      "summary": [
+        { "text": "Şikâyeti delil değerlendirmesinden ayırdınız ve cevap dilekçesiyle savunmanın süresinde yapıldığını gösterdiniz. Bölüm, esaslı bir savunmanın cevapsız bırakıldığını tespit etti." },
+        { "if": "dorduncuTalep", "text": " Son talebiniz yerinde değildi: Mahkeme davanın esasına karar veremez. Zamanaşımı savunmasını yeniden yargılamayı yapacak mahkeme inceleyecek." },
+        { "if": "dorduncu", "text": " Bir ara delil değerlendirmesine girmeniz Bakanlığın kanun yolu şikâyeti iddiasına malzeme verdi." }
+      ] },
+    { "if": "dorduncu && !gerekce", "winner": "p2", "label": "KARAR:", "noCourt": true,
+      "hukum": "Başvurunun açıkça dayanaktan yoksun olması nedeniyle KABUL EDİLEMEZ OLDUĞUNA,",
+      "summary": "Mahkemeden zamanaşımının dolup dolmadığına ya da delillerin değerine karar vermesini istediniz. Bölüm bunu bir kanun yolu şikâyeti olarak gördü. Şikâyetin gerekçeli karar hakkına ilişkin olduğunu ortaya koysaydınız esasa girilebilirdi." },
+    { "winner": "p2", "label": "KARAR:", "noCourt": true,
+      "hukum": "Başvurunun açıkça dayanaktan yoksun olması nedeniyle KABUL EDİLEMEZ OLDUĞUNA,",
+      "summary": [
+        { "if": "!savunma", "text": "Zamanaşımı savunmasının süresinde ileri sürüldüğü gösterilemedi. Dile getirilmemiş bir savunmayı tartışmamak gerekçe eksikliği sayılmaz. Müvekkile savunmanın hangi dilekçede yapıldığını sorsaydınız cevap dilekçesi çantanızda olacaktı." },
+        { "if": "savunma", "text": "Savunmanın süresinde yapıldığını gösterdiniz, ama Bakanlığın kanun yolu şikâyeti iddiasını karşılayamadınız. Şikâyetin cevapsız kalan esaslı savunmayla ilgili olduğunu açıkça ortaya koymanız gerekiyordu." }
+      ] }
+  ]
+}

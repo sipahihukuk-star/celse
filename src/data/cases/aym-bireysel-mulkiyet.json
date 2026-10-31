@@ -1,0 +1,141 @@
+{
+  "id": "aym-bireysel-mulkiyet",
+  "mode": "solo",
+  "title": "Su Deposu",
+  "area": "Anayasa Mahkemesi · Bireysel başvuru (mülkiyet hakkı)",
+  "court": "Anayasa Mahkemesi · İkinci Bölüm",
+  "courtShort": "ANAYASA MAHKEMESİ · İKİNCİ BÖLÜM",
+  "esas": "Başvuru No: 2026/9418",
+  "kararTarihi": "22.09.2027",
+  "color": "#4a3b22",
+  "teaser": "Belediye tarlanıza su deposu kurdu, mahkeme bedel talebinizi reddetti. Beş üyeli Bölüm sizi duruşmada dinleyecek.",
+  "sides": { "p1": { "role": "Başvurucu vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Bölüm: başkanvekili ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Bölüm Başkanvekili", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e0b48e", "hair": "#2b1d17", "style": "bun" } },
+    "opp": { "name": "Adalet Bakanlığı temsilcisi", "np": "green", "look": { "kind": "civil", "skin": "#d6a57c", "hair": "#3a3a3a", "style": "short", "glasses": true, "shirt": "#3a3f4a", "inner": "#e9e4d8" } },
+    "client": { "name": "Hatice Yalçın · Başvurucu", "np": "civil", "look": { "kind": "civil", "skin": "#e8c09c", "hair": "#6b6b70", "style": "long", "shirt": "#6b4f3f", "inner": "#e9e4d8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Hatice Yalçın'ın Yazıova'da 4.200 metrekarelik bir tarlası var. Yazıova Belediyesi 2019'da tarlanın 1.200 metrekaresine beton bir su deposu kurdu. Kamulaştırma yapılmadı, bedel ödenmedi." },
+    { "who": "client", "text": "Bedel için dava açtık. Mahkeme, kamulaştırmanın belediyenin programına bağlı olduğunu, bütçe oluşmadan bedel istenemeyeceğini söyledi. Depo yerinde duruyor, toprağım elimden gitti." },
+    { "who": "narr", "text": "Ret kararı istinaf ve temyizden geçerek kesinleşti. Bireysel başvuru yapıldı. Bölüm, istisnai olarak duruşma yapılmasına karar verdi (6216 s.K. m.49/4)." }
+  ],
+  "docs": [
+    { "t": "Tapu kaydı", "d": "Taşınmaz başvurucu adına kayıtlı. Üzerinde şerh yok." },
+    { "t": "Keşif ve bilirkişi raporu", "d": "Tarlanın 1.200 m²'sinde beton su deposu ve çevre duvarı var. Yapım yılı 2019." },
+    { "t": "Asliye hukuk mahkemesi kararı", "d": "Taşınmazın imar planında teknik altyapı alanı olarak ayrıldığı, kamulaştırmanın belediyenin programına bağlı olduğu gerekçesiyle davanın reddi. Karar kanun yollarından geçerek kesinleşti." },
+    { "t": "Adalet Bakanlığı görüşü", "d": "Müdahalenin dayanağının imar planı olduğu, kamu yararı amacı taşıdığı ve başvurunun kanun yolu şikâyeti niteliğinde olduğu ileri sürülüyor." }
+  ],
+  "evidence": [
+    { "id": "ev_tapu", "type": "belge", "title": "Tapu kaydı", "desc": "Taşınmaz başvurucu adına kayıtlı." },
+    { "id": "ev_kesif", "type": "belge", "title": "Keşif ve bilirkişi raporu", "desc": "1.200 m² üzerinde beton su deposu ve çevre duvarı. Yapım yılı 2019." },
+    { "id": "ev_karar", "type": "belge", "title": "Asliye hukuk mahkemesi kararı", "desc": "Kamulaştırma belediyenin programına bağlı olduğundan bütçe imkânı oluşmadan bedel istenemeyeceği gerekçesiyle ret." },
+    { "id": "ev_cevap", "type": "belge", "title": "Belediyenin cevap dilekçesi", "desc": "Belediye “taşınmaz hakkında kamulaştırma kararı alınmamıştır, bütçe imkânı oluştuğunda programa alınacaktır” diye yazmış. Deponun 2019'dan beri kullanıldığını kabul ediyor.", "if": "kamulastirmaYok" },
+    { "id": "law_35", "type": "kanun", "title": "Anayasa m.35 · Mülkiyet hakkı", "desc": "Herkes mülkiyet hakkına sahiptir. Bu hak, kamu yararı amacıyla ve kanunla sınırlanabilir.", "law": "Anayasa m.35" },
+    { "id": "law_46", "type": "kanun", "title": "Anayasa m.46 · Kamulaştırma", "desc": "Devlet ve kamu tüzel kişileri, kamu yararının gerektirdiği hâllerde, gerçek karşılığını kural olarak peşin ödemek şartıyla ve kanunda gösterilen esas ve usullere göre özel mülkiyetteki taşınmazları kamulaştırabilir.", "law": "Anayasa m.46" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Duruşmadan bir hafta önce başvurucu büronuza geldi. İki soru sorabilirsiniz." }],
+      "prompt": "Başvurucuya ne soracaksınız?",
+      "choices": [
+        { "text": "Belediye depoyu kurmadan önce size kamulaştırma kararı, tebligat ya da bedel teklifi gönderdi mi?", "delta": 15, "set": ["kamulastirmaYok"],
+          "reply": [{ "who": "client", "text": "Hiçbir şey gelmedi. Belediye mahkemeye verdiği cevapta bunu kendisi yazdı: kamulaştırma kararı alınmamış. Dilekçenin kopyası bende." }],
+          "note": "Kamulaştırma usulü hiç işletilmemiş. Bunu belediyenin kendi beyanıyla gösterebilirsiniz. Cevap dilekçesi delil çantanıza eklendi." },
+        { "text": "Yargıtay kararı size hangi tarihte tebliğ edildi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "3 Mart 2026'da. Başvuruyu 25 Mart'ta yaptık." }],
+          "note": "Başvuru otuz günlük süre içinde yapılmış (6216 s.K. m.47/5). Bakanlık da süre itirazında bulunmamış." },
+        { "text": "Tarlanın bugünkü piyasa değeri ne kadar?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Komşu tarlalar metrekaresi 3.000 TL'den satıldı." }],
+          "note": "Bedel, ihlal bulunursa yeniden yargılamada mahkemece belirlenir. Anayasa Mahkemesi değer tespiti yapmaz." },
+        { "text": "Belediye başkanıyla aranızda bir husumet var mı?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Seçimde karşı tarafı destekledik, o kadar." }],
+          "note": "Kanıtı olmayan bir husumet iddiası davaya bir şey katmaz." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Bakanlık yazılı görüşünde başvurunun bir kanun yolu şikâyeti olduğunu, derece mahkemelerinin kararını yeniden tartışmaya yöneldiğini ileri sürüyor. Görüşe cevabınızı yazıyorsunuz." }],
+      "prompt": "Cevabınızın merkezine ne koyacaksınız?",
+      "choices": [
+        { "text": "Şikâyetin, taşınmaza kamulaştırma yapılmadan el atılmasına ve bedelin süresiz olarak ödenmemesine ilişkin olduğunu yazın. Bu, mülkiyet hakkına doğrudan bir müdahaledir.", "delta": 15, "set": ["hak"],
+          "law": "Anayasa m.35",
+          "note": "Anayasa Mahkemesi derece mahkemelerinin hukuku yorumlamasını kural olarak denetlemez. Ama sonuç mülkiyet hakkına ölçüsüz bir müdahaleyse, bu hakkın güvencelerini denetler. Şikâyeti doğru çerçevede kurdunuz." },
+        { "text": "Bilirkişi raporundaki alan hesabının hatalı olduğunu ve mahkemenin raporu yanlış değerlendirdiğini ayrıntılı anlatın.", "delta": -10, "set": ["dorduncu"],
+          "note": "Delillerin değerlendirilmesi derece mahkemelerinin işidir. Bu yöndeki şikâyet kanun yolu şikâyeti sayılır ve kabul edilemez bulunur." },
+        { "text": "Görüşe cevap vermeyin; her şeyi duruşmada anlatırsınız.", "delta": -5,
+          "note": "Bakanlık görüşüne cevap verme imkânını kullanmadınız. Kanun yolu şikâyeti iddiası yazılı aşamada cevapsız kaldı." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Duruşmayı açıyorum. Adalet Bakanlığı temsilcisi, görüşünüzü özetleyin." }],
+      "statement": { "who": "opp", "text": "Taşınmaz imar planında teknik altyapı alanı olarak ayrılmıştır. Müdahale bu plana ve kamulaştırma mevzuatına dayanır. Kanunilik şartı sağlanmıştır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_cevap"],
+      "hit": { "delta": 20, "set": ["kanunsuz"],
+        "reply": [{ "who": "judge", "text": "Belediyenin cevap dilekçesi tutanağa geçirildi." }],
+        "law": "Anayasa m.46",
+        "note": "Belediye kamulaştırma kararı alınmadığını kendi dilekçesinde kabul ediyor. İmar planında bir alanın ayrılması, kamulaştırma yapılmadan taşınmaza fiilen el atılmasına yetki vermez. Anayasa m.46'daki usul hiç işletilmemiş." },
+      "responses": {
+        "law_46": { "delta": 5, "note": "Doğru dayanak. Ama usulün işletilmediğini gösteren belgeyi sunmadınız." },
+        "ev_kesif": { "delta": 0, "note": "Rapor el atmayı gösteriyor. Kamulaştırma yapılıp yapılmadığı sorusuna cevap vermiyor." },
+        "ev_tapu": { "delta": 0, "note": "Tapu mülkiyeti gösteriyor. Tartışılan bu değil." },
+        "ev_karar": { "delta": -5, "note": "Mahkeme kararı Bakanlığın tezini destekliyor." }
+      },
+      "pass": { "delta": -15, "note": "Bakanlığın kanunilik savunması cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Kaldı ki müdahale kamu yararına bir su deposu içindir. Bölge halkının içme suyu buradan sağlanmaktadır." },
+        { "who": "judge", "text": "Başvurucu vekili, kamu yararı varsa müdahale neden ölçüsüz olsun?" }
+      ],
+      "prompt": "Ne cevap vereceksiniz?",
+      "choices": [
+        { "text": "Kamu yararını tartışmıyoruz. Ama bedel ödenmeden mülkten yoksun bırakmak, başvurucuya tek başına katlanamayacağı bir yük yükler. Mahkeme bedeli bütçe programına bağlayarak bu yoksunluğu süresiz hâle getirdi.", "delta": 20, "set": ["olcu"],
+          "law": "Anayasa m.13, m.35, m.46",
+          "note": "Kamu yararı müdahaleyi meşru kılabilir. Ölçülülük ise kamu yararı ile bireyin hakkı arasında adil bir denge arar. Mülkten yoksun bırakmada bu denge kural olarak makul bir bedelin ödenmesiyle kurulur." },
+        { "text": "Depo gereksizdi. Belediye onu başka bir yere kurmalıydı.", "delta": -10,
+          "note": "Kamu hizmetinin nerede kurulacağı bir yerindelik sorusudur. Anayasa Mahkemesi idarenin bu tercihini denetlemez." },
+        { "text": "Belediye başkanı müvekkilime husumetle hareket etti.", "delta": -10,
+          "note": "Dosyada buna dair bir kanıt yok. Ölçülülük, müdahalenin bireye yüklediği yük üzerinden değerlendirilir." },
+        { "text": "Mahkeme bilirkişi raporunu yanlış değerlendirdi.", "delta": -5, "set": ["dorduncu"],
+          "note": "Anayasa Mahkemesi delil değerlendirmesini yeniden yapmaz. Bu cevap Bakanlığın kanun yolu şikâyeti iddiasını güçlendirir." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Başvurucu vekili, son olarak talebiniz nedir?" }],
+      "prompt": "Ne isteyeceksiniz?",
+      "choices": [
+        { "text": "Mülkiyet hakkının ihlal edildiğinin tespitini ve yeniden yargılama yapılmak üzere dosyanın asliye hukuk mahkemesine gönderilmesini isteriz.", "delta": 15, "set": ["yeniden"],
+          "law": "6216 s.K. m.50/2",
+          "note": "İhlal, bedel talebini reddeden mahkeme kararından kaynaklanıyor. Bu durumda kural, ihlali gidermek için yeniden yargılamadır. Bedeli yeniden yargılamayı yapacak mahkeme belirler." },
+        { "text": "Taşınmazın bedelini Mahkemenizin belirlemesini ve tazminat olarak ödetmesini isteriz.", "delta": -5, "set": ["tazminatIstek"],
+          "law": "6216 s.K. m.50/2",
+          "note": "Tazminat, yeniden yargılamada hukuki yarar bulunmayan hâller içindir. Burada yeniden yargılama ihlali giderebilir. Bedelin tespiti de derece mahkemesinin işidir." },
+        { "text": "Deponun kaldırılmasına ve taşınmazın başvurucuya iadesine karar verilmesini isteriz.", "delta": -10,
+          "law": "6216 s.K. m.50/1",
+          "note": "Anayasa Mahkemesi idari eylem ve işlem niteliğinde karar veremez (6216 s.K. m.50/1)." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "dorduncu && !kanunsuz && !olcu", "winner": "p2", "label": "KARAR:", "noCourt": true,
+      "hukum": "Başvurunun açıkça dayanaktan yoksun olması nedeniyle KABUL EDİLEMEZ OLDUĞUNA,",
+      "summary": "Şikâyetiniz delil değerlendirmesine yöneldi. Bölüm başvuruyu bir kanun yolu şikâyeti olarak gördü. Bedelsiz el atmayı ve yoksunluğun yükünü merkeze koysaydınız esasa girilebilirdi." },
+    { "if": "!kanunsuz && !olcu", "winner": "p2", "label": "KARAR:", "noCourt": true,
+      "hukum": "Mülkiyet hakkının ihlal edildiğine ilişkin iddianın KABUL EDİLEBİLİR OLDUĞUNA, Anayasa'nın 35. maddesinde güvence altına alınan mülkiyet hakkının İHLAL EDİLMEDİĞİNE,",
+      "summary": "Bakanlığın kanunilik ve kamu yararı savunması cevapsız kaldı. Belediyenin kamulaştırma yapılmadığını kabul eden dilekçesini ya da bedelsiz yoksunluğun yükünü gösterseydiniz sonuç değişebilirdi." },
+    { "winner": "p1", "label": "KARAR:", "noCourt": true,
+      "hukum": [
+        { "text": "Mülkiyet hakkının ihlal edildiğine ilişkin iddianın KABUL EDİLEBİLİR OLDUĞUNA, Anayasa'nın 35. maddesinde güvence altına alınan mülkiyet hakkının İHLAL EDİLDİĞİNE, kararın bir örneğinin ihlalin sonuçlarının giderilmesi için yeniden yargılama yapılmak üzere Yazıova 1. Asliye Hukuk Mahkemesine GÖNDERİLMESİNE, yargılama giderlerinin başvurucuya ÖDENMESİNE," },
+        { "if": "tazminatIstek", "text": " maddi tazminat talebinin REDDİNE," }
+      ],
+      "summary": [
+        { "if": "kanunsuz", "text": "Belediyenin kendi dilekçesiyle kamulaştırma usulünün hiç işletilmediğini gösterdiniz." },
+        { "if": "kanunsuz && olcu", "text": " " },
+        { "if": "olcu", "text": "Bedel ödenmeden süresiz yoksun bırakmanın başvurucuya aşırı bir yük yüklediğini anlattınız." },
+        { "if": "yeniden", "text": " İhlal mahkeme kararından kaynaklandığı için doğru talep yeniden yargılamaydı; bedeli yerel mahkeme belirleyecek." },
+        { "if": "tazminatIstek", "text": " Bedelin Anayasa Mahkemesince belirlenmesini istemeniz yerinde değildi. Yeniden yargılama ihlali giderebileceği için tazminat talebi reddedildi." },
+        { "if": "!yeniden && !tazminatIstek", "text": " Talebiniz yerinde değildi, ama Bölüm ihlalin doğal sonucu olan yeniden yargılamaya kendiliğinden hükmetti." }
+      ] }
+  ]
+}
