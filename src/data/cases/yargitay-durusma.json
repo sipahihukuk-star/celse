@@ -52,13 +52,13 @@
           "note": "Yargıtay vakıaları yeniden değerlendirmez. Bu bilgi temyizde sınırlı işe yarar." },
         { "text": "Bölge adliye mahkemesi kararı size ne zaman tebliğ edildi?", "delta": 5,
           "reply": [{ "who": "client", "text": "Dün getirdiler." }],
-          "note": "Süre kontrolü yerinde: temyiz süresi on beş gündür (CMK m.291)." },
+          "note": "Süre kontrolü yerinde: temyiz süresi gerekçeli hükmün tebliğinden itibaren iki haftadır (CMK m.291, 7499 s.K. ile)." },
         { "text": "Cezaevindeki koşullarınız nasıl?", "delta": -5,
           "reply": [{ "who": "client", "text": "Koğuş kalabalık, ama idare ediyorum." }],
           "note": "İnsani bir soru, ama sınırlı görüş süresinde davaya bir şey katmadı." }
       ] },
     { "side": "p1", "scene": "office",
-      "lines": [{ "who": "narr", "text": "Temyiz dilekçesini yazıyorsunuz. Hüküm 12 yıl hapis; sanık istediği için Yargıtay incelemeyi duruşmalı yapacak (CMK m.299)." }],
+      "lines": [{ "who": "narr", "text": "Temyiz dilekçesini yazıyorsunuz. Hüküm 12 yıl hapis; sanık duruşma istedi ve Daire duruşmalı incelemeyi uygun gördü (CMK m.299)." }],
       "prompt": "Dilekçenin merkezine neyi koyacaksınız?",
       "choices": [
         { "if": "mudafi", "text": "Birinci celsenin zorunlu müdafi olmadan yapıldığını mutlak bozma nedeni olarak göster; duruşmalı inceleme iste.", "delta": 20, "set": ["aykirilik"],

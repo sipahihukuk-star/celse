@@ -1,0 +1,152 @@
+{
+  "id": "yargitay-ek-savunma",
+  "mode": "solo",
+  "career": { "level": 3 },
+  "difficulty": "zor",
+  "title": "Söylenmeyen Madde",
+  "area": "Yargıtay · Ek savunma hakkı ve aleyhe bozma yasağı",
+  "court": "Yargıtay 1. Ceza Dairesi",
+  "courtShort": "YARGITAY · 1. CEZA DAİRESİ",
+  "esas": "2027/2876 Esas",
+  "kararTarihi": "15.06.2027",
+  "color": "#2f3550",
+  "teaser": "İddianame de savcının mütalaası da basit teşebbüs diyordu. Mahkeme hükmü tasarlamadan kurdu ve kimse sanığa sormadı. Süre iki gün sonra doluyor; müvekkil de temyizden korkuyor.",
+  "sides": { "p1": { "role": "Sanık müdafii", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Yargıtay Cumhuriyet Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e2b995", "hair": "#58585c", "style": "short", "beard": true } },
+    "client": { "name": "Oğuz Yalın · Müvekkil (sanık)", "np": "civil", "look": { "kind": "civil", "skin": "#e0b08a", "hair": "#1c1714", "style": "curly", "shirt": "#3d4b5c", "inner": "#d8d3c6" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Samsun. Oğuz Yalın, iş ortağı Levent Aras'ı bir tartışmanın ardından bıçakla ağır yaraladı. Levent Aras kurtuldu. İddianame: kasten öldürmeye teşebbüs (TCK m.81/1, m.35)." },
+    { "who": "narr", "text": "Ağır ceza mahkemesi hükmü tasarlayarak öldürmeye teşebbüsten (TCK m.82/1-a, m.35/2) kurdu: 24 yıl hapis. İstinafa yalnızca sanık başvurdu; bölge adliye mahkemesi esastan reddetti. Önceki müdafi istifa etti. Dosyayı siz aldınız." },
+    { "who": "narr", "text": "Bölge adliye kararı gerekçesiyle birlikte on iki gün önce tebliğ edilmiş. Temyiz için iki gününüz var." }
+  ],
+  "docs": [
+    { "t": "İddianame", "d": "Kasten öldürmeye teşebbüs: TCK m.81/1, m.35. Tasarlamadan söz edilmiyor." },
+    { "t": "İlk derece hükmü", "d": "Samsun 3. Ağır Ceza Mahkemesi: TCK m.82/1-a, m.35/2 uyarınca 24 yıl hapis. Gerekçe: sanık bıçağı olay sabahı satın almıştır." },
+    { "t": "Bölge adliye mahkemesi kararı", "d": "Samsun BAM 1. Ceza Dairesi: istinaf başvurusunun esastan reddi. Gerekçesiyle birlikte on iki gün önce tebliğ edildi." },
+    { "t": "Tutukluluk", "d": "Sanık tutuklu; Yargıtay duruşmasına katılamaz (CMK m.299/2)." }
+  ],
+  "evidence": [
+    { "id": "ev_iddianame", "type": "belge", "title": "İddianame", "desc": "Sevk maddeleri: TCK m.81/1, m.35. Tasarlama yok." },
+    { "id": "ev_tutanak", "type": "belge", "title": "Son celse tutanağı", "desc": "Savcının esas hakkındaki mütalaası: TCK m.81/1 ve m.35. Müdafi yalnızca haksız tahrik ve ceza miktarı üzerinde durmuş. “Ek savunma” kaydı yok. Hüküm aynı celsede TCK m.82/1-a'dan açıklanmış.", "if": "tutanak" },
+    { "id": "ev_fatura", "type": "belge", "title": "Hırdavat faturası", "desc": "Olay sabahı 09.12'de satın alınmış bir bıçak. Mahkeme tasarlamayı buna dayandırdı." },
+    { "id": "ev_bam", "type": "belge", "title": "Bölge adliye mahkemesi kararı", "desc": "“Delillerin takdirinde ve suçun nitelendirilmesinde isabetsizlik görülmemiştir.”" },
+    { "id": "law_226", "type": "kanun", "title": "CMK m.226 · Suçun hukuki niteliğinin değişmesi", "desc": "Sanık, hukuki niteliği değişmiş bir suçtan, bu değişiklik hakkında önceden bilgilendirilip savunmasını yapma olanağı tanınmadan mahkûm edilemez. Cezayı artıran ve iddianamede belirtilmeyen özel hâller duruşmada ortaya çıkarsa da aynı kural uygulanır.", "law": "CMK m.226" },
+    { "id": "law_307", "type": "kanun", "title": "CMK m.307/4 · Aleyhe bozma yasağı", "desc": "Hüküm yalnız sanık veya onun lehine başvuranlarca temyiz edilmişse, yeniden verilen hüküm önceki hükümle tayin edilen cezadan daha ağır olamaz.", "law": "CMK m.307/4" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Ceza infaz kurumu, avukat görüş odası. Vaktiniz dar. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Duruşmalarda size ya da avukatınıza “tasarlama” veya TCK'nın 82. maddesinden söz edildi mi?", "delta": 15, "set": ["tutanak"],
+          "reply": [{ "who": "client", "text": "Hiç. Savcı da “81 ve teşebbüs” dedi. Tasarlama kelimesini kararı okurken ilk kez duydum. Avukatım da şaşırmıştı." }],
+          "note": "Kritik bilgi. Cezayı ağırlaştıran nitelikli hâl iddianamede ve mütalaada yoksa, sanığa ek savunma hakkı tanınmadan bu hâlden hüküm kurulamaz (CMK m.226). Son celse tutanağı çantanıza eklendi." },
+        { "text": "İstinafa sizden başka başvuran oldu mu?", "delta": 10, "set": ["yalnizSanik"],
+          "reply": [{ "who": "client", "text": "Hayır, yalnızca biz başvurduk. Savcı da Levent'in avukatı da “ceza yeter” dedi." }],
+          "note": "Önemli. Kanun yoluna yalnız sanık başvurduysa, bozmadan sonra verilecek ceza öncekinden ağır olamaz (CMK m.307/4). Müvekkilin korkusunu bununla gidereceksiniz." },
+        { "text": "Bıçağı ne zaman ve neden aldınız?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Sabah, hırdavatçıdan. Atölyede ambalaj kesmek için. Akşam tartışma çıkacağını nereden bilecektim?" }],
+          "note": "Tasarlamanın hukuki ölçütleri (kararın önceden alınması, kararda sebat, plan) tartışılabilir. Ama bu dosyada asıl sorun usulde: sanığa bu konuda hiç savunma hakkı tanınmamış." },
+        { "text": "Levent Bey'le uzlaşma ihtimali var mı?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Belki konuşur… Ailesi çok kızgın." }],
+          "note": "Kasten öldürmeye teşebbüs uzlaşmaya tabi değildir. Sınırlı sürenizi temyize katkısı olmayan bir konuya harcadınız." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Büronuzdasınız. Temyiz süresinin dolmasına iki gün var. Fiziki dosya henüz elinize ulaşmadı, ama vekâletnamenizle UYAP'tan dosyaya erişebiliyorsunuz." }],
+      "prompt": "Temyiz başvurusunu nasıl yapacaksınız?",
+      "choices": [
+        { "if": "tutanak", "text": "Süre dolmadan gerekçeli bir temyiz dilekçesi verin: iddianame ve mütalaa TCK m.81/1-35 iken ek savunma alınmadan TCK m.82/1-a'dan hüküm kurulduğunu olaylarıyla yazın; duruşmalı inceleme isteyin.", "delta": 20, "set": ["dilekce226"],
+          "law": "CMK m.226, m.291/1, m.299/1, m.301",
+          "note": "Doğru. Temyiz süresi hükmün gerekçesiyle birlikte tebliğinden itibaren iki haftadır (CMK m.291/1). Usule ilişkin aykırılıklar, dilekçede bunları gösteren olaylar belirtilerek ileri sürülmelidir (CMK m.301)." },
+        { "if": "!tutanak", "text": "Bugün UYAP'tan son celse tutanağını gerekçeli hükümle karşılaştırın; bulduğunuz hukuka aykırılığı olaylarıyla dilekçeye yazıp süre dolmadan verin; duruşmalı inceleme isteyin.", "delta": 15, "set": ["tutanak", "dilekce226"],
+          "reply": [{ "who": "narr", "text": "Tutanakta tasarlama hiç geçmiyor. Mütalaa TCK m.81/1 ve m.35; ek savunma kaydı yok. Son celse tutanağı çantanıza eklendi." }],
+          "law": "CMK m.226, m.291/1, m.301",
+          "note": "İyi bir çalışma. Müvekkile sormadınız, ama dosyayı okuyarak ihlali kendiniz buldunuz ve süreyi de korudunuz." },
+        { "text": "Bugün tek cümlelik bir dilekçe verin (“hüküm usul ve kanuna aykırıdır”); gerekçeyi bir hafta içinde ek dilekçeyle tamamlayın.", "delta": -10, "set": ["kisa"],
+          "law": "CMK m.301",
+          "note": "Eski uygulama. Temyiz süresi artık gerekçeli kararın tebliğinden başladığı için ayrı ek gerekçe süresi 7499 sayılı Kanunla kaldırıldı. Usule ilişkin aykırılıklar dilekçede olaylarıyla gösterilmezse Yargıtay bunları inceleme dışında bırakabilir (CMK m.301)." },
+        { "text": "Yeni müdafi olduğunuz için süre, dosyayı teslim aldığınız gün yeniden başlar; acele etmeyin.", "delta": -25,
+          "law": "CMK m.291/1",
+          "fatal": { "label": "SONUÇ:", "hukum": "Sanık müdafiinin temyiz isteminin süre yönünden REDDİNE karar verildi; 24 yıl hapis cezasına ilişkin hüküm kesinleşti.",
+                     "summary": "Temyiz süresi hükmün gerekçesiyle birlikte tebliğinden itibaren işler (CMK m.291/1). Müdafi değişikliği süreyi yeniden başlatmaz. Ek savunma ihlali hiç tartışılamadı." },
+          "note": "Müdafi değişikliği süreyi yeniden başlatmaz." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Dilekçeyi verdiniz. Akşam müvekkil cezaevinden aradı." }, { "who": "client", "text": "Eski avukatım “Yargıtay bozarsa müebbet de gelebilir” dedi. Belki temyizden vazgeçmeliyim. 24 yıl yeter." }],
+      "prompt": "Müvekkile ne söyleyeceksiniz?",
+      "choices": [
+        { "if": "yalnizSanik", "text": "“Hayır. İstinafa da temyize de yalnız siz başvurdunuz. Bozmadan sonra verilecek ceza 24 yılı geçemez.”", "delta": 15, "set": ["aleyhe"],
+          "law": "CMK m.307/4",
+          "note": "Doğru. Yalnız sanık lehine başvurulan hâllerde yeniden verilecek hüküm önceki cezadan ağır olamaz (CMK m.307/4). Bu, sanık için kazanılmış haktır." },
+        { "if": "!yalnizSanik", "text": "“Önce kimlerin kanun yoluna başvurduğunu dosyadan kontrol edeyim. Yalnız siz başvurduysanız yeni ceza öncekinden ağır olamaz.”", "delta": 10, "set": ["aleyhe"],
+          "law": "CMK m.307/4",
+          "reply": [{ "who": "narr", "text": "Dosyaya baktınız: savcı ve katılan istinafa başvurmamış, temyiz de yalnız sizden." }],
+          "note": "Doğru yaklaşım. Aleyhe bozma yasağı, kanun yoluna kimlerin başvurduğuna bağlıdır (CMK m.307/4). Kontrol ettiniz ve müvekkili rahatlattınız." },
+        { "text": "“Risk gerçekten büyük. Temyizden vazgeçelim.”", "delta": -25,
+          "law": "CMK m.266, m.307/4",
+          "fatal": { "label": "SONUÇ:", "hukum": "Sanığın temyiz isteminden vazgeçmesi üzerine temyiz incelemesine yer olmadığına karar verildi; 24 yıl hapis cezasına ilişkin hüküm kesinleşti.",
+                     "summary": "Yalnız sanık başvurduğu için bozmadan sonra verilecek ceza 24 yılı geçemezdi (CMK m.307/4). Müvekkil olmayan bir risk yüzünden güçlü bir bozma sebebinden vazgeçti." },
+          "note": "Aleyhe bozma yasağını bilmeden müvekkili vazgeçmeye yönlendirdiniz." },
+        { "text": "“Bilemem; duruşmada heyete sorarız.”", "delta": -5,
+          "note": "Müvekkil sizden açık bir cevap bekliyordu. Aleyhe bozma yasağı (CMK m.307/4) müdafinin bilmesi gereken temel bir kuraldır." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Ankara, Yargıtay. Hüküm on yıldan fazla hapis cezası içerdiğinden Daire duruşmalı incelemeyi uygun gördü (CMK m.299/1). Müvekkil tutuklu olduğu için getirilmedi." },
+        { "who": "judge", "text": "Duruşmayı açıyorum. Temyiz nedenlerini dinledik. Söz tebliğname yönünden Cumhuriyet savcısında." },
+        { "who": "judge", "text": "Not edelim: temyiz dilekçesinde usule ilişkin olaylar ayrıntılı gösterilmemiş.", "if": "kisa" }
+      ],
+      "statement": { "who": "opp", "text": "Sanığa ek savunma hakkı tanınmamış ise de, müdafi esas hakkındaki savunmasında suçun niteliğini tartışmış, tasarlama hâline karşı da beyanda bulunmuştur. Savunma hakkı kısıtlanmamıştır; hükmün onanması gerekir." },
+      "prompt": "Hangi delille karşılık vereceksiniz?",
+      "correct": ["ev_tutanak"],
+      "hit": { "delta": 25, "set": ["savunmaArg"],
+        "reply": [{ "who": "judge", "text": "Tutanağa göre mütalaa TCK m.81/1 ve m.35 yönünden. Müdafi tasarlamaya hiç değinmemiş. Not alındı." }],
+        "law": "CMK m.226",
+        "note": "Tutanak, tebliğnamedeki tespitin dosyayla çeliştiğini gösteriyor: mütalaa tasarlamayı içermiyor, müdafi tasarlamaya karşı savunma yapmamış, ek savunma hakkı da tanınmamış. Sanık, hakkında hüküm kurulan nitelikli hâle karşı hiç savunma yapamadı." },
+      "responses": {
+        "law_226": { "delta": 10, "set": ["savunmaWeak"], "note": "Doğru madde. Ama savcı ihlali değil, savunmanın fiilen yapıldığını ileri sürüyordu; bunu çürüten tutanağı sunmadınız." },
+        "ev_iddianame": { "delta": 10, "set": ["savunmaWeak"], "note": "İddianamede tasarlama olmadığını gösterdiniz. Ama savcının tezi, müdafinin esas hakkındaki savunmada tasarlamaya cevap verdiğiydi; bunu tutanak çürütürdü." },
+        "law_307": { "delta": -5, "note": "Aleyhe bozma yasağı bozmadan sonraki aşamayla ilgilidir; ihlalin varlığını göstermez." },
+        "ev_fatura": { "delta": -10, "note": "Fatura, mahkemenin tasarlama gerekçesini destekliyor; müvekkilinizin aleyhine." },
+        "ev_bam": { "delta": -5, "note": "Bölge adliye kararı savcının tezini destekliyor." }
+      },
+      "pass": { "delta": -15, "note": "Tebliğnamedeki görüş cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Sanık müdafii, son talebiniz?" }],
+      "prompt": "Heyetten ne isteyeceksiniz?",
+      "choices": [
+        { "text": "Ek savunma hakkı tanınmadan TCK m.82/1-a'dan hüküm kurulması nedeniyle hükmün bozulmasını; yeniden yargılamada CMK m.307/4'ün gözetilmesini isteriz.", "delta": 10, "set": ["talepDogru"],
+          "law": "CMK m.226, m.302/2, m.307/4",
+          "note": "Doğru talep. Savunma hakkının kısıtlanmasının sonucu bozmadır. Yeniden yargılamada sanığa ek savunma hakkı tanınır; yeni ceza 24 yılı geçemez." },
+        { "text": "Daire, hükmü TCK m.81/1 üzerinden kendisi düzelterek onasın.", "delta": -5,
+          "law": "CMK m.303",
+          "note": "Suçun niteliğinin ve cezanın yeniden belirlenmesi delillerin değerlendirilmesini ve takdiri gerektirir. Bu, Yargıtay'ın hükmü düzelterek onama yetkisinin dışında kalır." },
+        { "text": "Tasarlamaya karşı ek savunmamızı şimdi burada yapalım.", "delta": -10,
+          "note": "Yargıtay'da ek savunma alınmaz. Savunma hakkı yargılamayı yapan mahkemede tanınmalıdır; eksiklik ancak bozma ve yeniden yargılamayla giderilir." },
+        { "text": "Sanığın beraatine karar verilmesini isteriz.", "delta": -10,
+          "note": "Sanık yaralamayı inkâr etmiyor. Beraat talebi temyiz sebebinizle çelişir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "savunmaArg && dilekce226", "winner": "p1", "noCourt": true,
+      "hukum": "Sanık hakkında kurulan hükme yönelik istinaf başvurusunun esastan reddine dair Samsun Bölge Adliye Mahkemesi 1. Ceza Dairesi kararının, iddianamede ve esas hakkındaki mütalaada yer almayan tasarlama nitelikli hâlinden (TCK m.82/1-a) sanığa CMK m.226 uyarınca ek savunma hakkı tanınmadan hüküm kurulması suretiyle savunma hakkının kısıtlanması nedeniyle CMK m.302/2 uyarınca BOZULMASINA, yeniden kurulacak hükümde CMK m.307/4'ün gözetilmesine, dosyanın CMK m.304/2-a uyarınca kararı veren ilk derece mahkemesine, kararın bir örneğinin bölge adliye mahkemesine gönderilmesine, kesin olarak oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Usul ihlalini süresinde, olaylarıyla dilekçeye yazdınız ve tebliğnamedeki tespiti tutanakla çürüttünüz. Yeniden yargılamada müvekkil tasarlamaya karşı ilk kez savunma yapabilecek; ceza da 24 yılı geçemeyecek." },
+        { "if": "!talepDogru", "text": " Son talebiniz isabetsizdi, ama heyet bozmanın sonucunu kanuna göre kendisi belirledi." }
+      ] },
+    { "if": "savunmaArg || savunmaWeak || dilekce226", "winner": "p1", "noCourt": true,
+      "hukum": "Sanığa CMK m.226 uyarınca ek savunma hakkı tanınmadan TCK m.82/1-a'dan hüküm kurulması nedeniyle hükmün CMK m.302/2 uyarınca BOZULMASINA, yeniden kurulacak hükümde CMK m.307/4'ün gözetilmesine, dosyanın kararı veren ilk derece mahkemesine gönderilmesine, kesin olarak oyçokluğuyla karar verildi.",
+      "summary": "Hüküm bozuldu, ama iki üye karşı oy yazdı: onlara göre müdafinin esas hakkındaki savunması yeterliydi. İhlali ya dilekçede olaylarıyla göstermediniz ya da duruşmada tebliğnameyi tutanakla çürütmediniz." },
+    { "winner": "p2", "noCourt": true,
+      "hukum": "Sanık müdafiinin temyiz itirazlarının reddiyle, temyiz isteminin CMK m.302/1 uyarınca ESASTAN REDDİNE ve hükmün ONANMASINA, kesin olarak oyçokluğuyla karar verildi.",
+      "summary": "Ek savunma ihlali dilekçede olaylarıyla gösterilmedi, duruşmada da tebliğnamedeki tespit çürütülmedi. Heyetin çoğunluğu savunma hakkının fiilen kısıtlanmadığı sonucuna vardı." }
+  ]
+}

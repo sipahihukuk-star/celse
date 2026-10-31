@@ -1,0 +1,156 @@
+{
+  "id": "yargitay-bilincli-taksir",
+  "mode": "solo",
+  "career": { "level": 3 },
+  "difficulty": "zor",
+  "title": "Çekilirler",
+  "area": "Yargıtay · Trafikte olası kast ve bilinçli taksir",
+  "court": "Yargıtay 12. Ceza Dairesi",
+  "courtShort": "YARGITAY · 12. CEZA DAİRESİ",
+  "esas": "2027/4190 Esas",
+  "kararTarihi": "22.09.2027",
+  "color": "#4b2b3a",
+  "teaser": "Alkollü, saatte 128 kilometreyle, kırmızı ışıkta yaya geçidine girdi. Yanındaki yolcu uyardığında “Çekilirler” dedi. Mahkeme bilinçli taksir dedi. Ölen gencin annesi adına Yargıtay'dasınız.",
+  "sides": { "p1": { "role": "Katılan vekili", "short": "Siz" }, "p2": { "role": "Sanık müdafii", "short": "Sanık" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Selim Ateş · Sanık müdafii", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#a8754f", "hair": "#141110", "style": "short", "beard": true } },
+    "savci": { "name": "Yargıtay Cumhuriyet Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e6c09e", "hair": "#8a6a4e", "style": "bun", "glasses": true } },
+    "client": { "name": "Sevim Arıkan · Müvekkil (katılan anne)", "np": "civil", "look": { "kind": "civil", "skin": "#d8a982", "hair": "#7a7a7e", "style": "short", "shirt": "#2f2f36", "inner": "#cfc9bd" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Antalya, Konyaaltı. Gece yarısı. Barış Tekin, 1,42 promil alkollü, hız sınırı 50 olan caddede saatte 128 kilometreyle kırmızı ışıkta yaya geçidine girdi. Deniz Arıkan (23) hayatını kaybetti, arkadaşı Selin Uçar ağır yaralandı. Sürücü durmadı; iki kilometre sonra yakalandı." },
+    { "who": "narr", "text": "İddianame olası kastla öldürme ve yaralama diyordu (TCK m.81/1, m.86, m.21/2). Ağır ceza mahkemesi, sanığa ek savunma hakkı tanıdıktan sonra suçu bilinçli taksirle öldürme ve yaralama olarak nitelendirdi (TCK m.85/2, m.22/3): 10 yıl 6 ay hapis. Bölge adliye mahkemesi istinafı esastan reddetti." },
+    { "who": "client", "text": "“Öngörmüş ama istememiş” diyorlar. Kırmızıda, o hızla, yayaların üstüne… Kızım için ne yapabiliriz?" }
+  ],
+  "docs": [
+    { "t": "İlk derece gerekçesi", "d": "Sanık neticeyi öngörmüş, ancak istememiştir. Kendi hayatını da tehlikeye atan bir sürücünün ölümü kabullendiği söylenemez. TCK m.85/2 ve m.22/3 uygulanmıştır." },
+    { "t": "Bölge adliye mahkemesi kararı", "d": "Antalya BAM 3. Ceza Dairesi: istinaf başvurularının esastan reddi. Gerekçeli karar katılan vekiline dün tebliğ edildi. Sanık temyiz etmedi." },
+    { "t": "Kusur ve hız raporu", "d": "Sanık tam kusurlu. Hız 128 km/s, alkol 1,42 promil, kırmızı ışık ihlali." },
+    { "t": "Katılma kararı", "d": "Sevim Arıkan ilk derece mahkemesinde katılan sıfatını aldı." }
+  ],
+  "evidence": [
+    { "id": "ev_rapor", "type": "belge", "title": "Kusur ve hız raporu", "desc": "Hız 128 km/s (sınır 50), alkol 1,42 promil, kırmızı ışıkta yaya geçidine giriş. Sanık tam kusurlu." },
+    { "id": "ev_kerem", "type": "beyan", "title": "Yolcu tanık Kerem Avcı'nın beyanı", "desc": "“Abi yavaşla, kırmızı yanıyor, yayalar var dedim. ‘Çekilirler’ dedi ve gaza bastı.” Mahkeme bu beyanı gerekçesinde aynen kabul etmiş.", "if": "kerem" },
+    { "id": "ev_fren", "type": "belge", "title": "Bilirkişi raporu · fren izi ve kamera", "desc": "Çarpma öncesinde fren izi yok; kavşak kamerasında araç yaya geçidine kadar hızlanıyor, stop lambaları hiç yanmıyor.", "if": "fren" },
+    { "id": "ev_kacis", "type": "belge", "title": "Yakalama tutanağı", "desc": "Sanık olay yerinde durmamış; iki kilometre sonra polis tarafından durdurulmuş." },
+    { "id": "law_21", "type": "kanun", "title": "TCK m.21/2 · Olası kast", "desc": "Kişinin, suçun kanuni tanımındaki unsurların gerçekleşebileceğini öngörmesine rağmen fiili işlemesi hâlinde olası kast vardır.", "law": "TCK m.21/2" },
+    { "id": "law_22", "type": "kanun", "title": "TCK m.22/3 · Bilinçli taksir", "desc": "Kişinin öngördüğü neticeyi istememesine karşın neticenin meydana gelmesi hâlinde bilinçli taksir vardır; ceza üçte birden yarısına kadar artırılır.", "law": "TCK m.22/3" }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Bölge adliye kararı dün tebliğ edildi. Sanık temyiz etmedi. Stajyeriniz soruyor: “Sanık başvurmadıysa biz de katılma yoluyla temyize cevap veririz, değil mi?”" }],
+      "prompt": "Nasıl ilerleyeceksiniz?",
+      "choices": [
+        { "text": "Gerekçeli kararın tebliğinden itibaren iki hafta içinde katılan olarak temyiz edin; dilekçede duruşmalı inceleme isteyin.", "delta": 10, "set": ["durusmaTalep"],
+          "law": "CMK m.260/1, m.291/1, m.299/1",
+          "note": "Doğru. Katılan, hükme karşı kendi adına kanun yoluna başvurabilir (CMK m.260/1). Süre gerekçeli kararın tebliğinden itibaren iki haftadır (CMK m.291/1). On yıl ve daha fazla hapis cezalarında Daire uygun görürse duruşmalı inceleme yapar (CMK m.299/1)." },
+        { "text": "Stajyeri haklı bulun: sanık başvurursa katılma yoluyla temyiz ederiz; şimdilik bekleyin.", "delta": -25,
+          "fatal": { "label": "SONUÇ:", "hukum": "Süresi içinde temyiz edilmeyen bölge adliye mahkemesi kararı katılan yönünden KESİNLEŞTİ; bilinçli taksirle öldürme ve yaralamadan verilen 10 yıl 6 ay hapis cezası infaza verildi.",
+                     "summary": "Katılma yoluyla kanun yolu Hukuk Muhakemeleri Kanunu'na özgüdür; Ceza Muhakemesi Kanunu'nda böyle bir yol yoktur. Katılan kendi temyizini iki haftalık süre içinde yapmalıydı (CMK m.291/1). Olası kast tartışması hiç Yargıtay'a gidemedi." },
+          "note": "Ceza muhakemesinde katılma yoluyla temyiz yoktur." },
+        { "text": "Süresinde temyiz edin, ama duruşma istemeyin; dosya üzerinden incelensin.", "delta": -5, "set": ["talepYok"],
+          "reply": [{ "who": "narr", "text": "Daire, cezanın on yılı aşmasını ve suç niteliğine ilişkin tartışmayı gözeterek kendiliğinden duruşma açtı." }],
+          "law": "CMK m.299/1",
+          "note": "Süre korundu. Ama nitelendirme gibi tartışmalı bir hukuki sorunda heyete sözlü olarak anlatma imkânını kendiniz istemediniz." }
+      ] },
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Sevim Arıkan bütün duruşmaları izlemiş. Dilekçeden önce iki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Duruşmalarda arabadaki yolcunun anlattıklarından aklınızda kalan bir cümle var mı?", "delta": 15, "set": ["kerem"],
+          "reply": [{ "who": "client", "text": "Kerem, “Abi yavaşla, kırmızı yanıyor, yayalar var” dediğini anlattı. Barış da “Çekilirler” deyip gaza basmış. Mahkeme bunu kararına yazmış, ama yine de “istememiş” demiş." }],
+          "note": "Kritik bilgi. Uyarıya rağmen “Çekilirler” deyip hızlanmak, öngörülen sonuca karşı kayıtsızlığı, yani kabullenmeyi gösterebilir. Mahkeme bu beyanı vakıa olarak kabul etmiş. Tanık beyanı çantanıza eklendi." },
+        { "text": "Bilirkişi, sanığın çarpmadan önce fren yapıp yapmadığından söz etti mi?", "delta": 10, "set": ["fren"],
+          "reply": [{ "who": "client", "text": "“Fren izi yok” dedi. Kamerada da arabanın arka lambaları hiç yanmıyor, hiç yavaşlamamış." }],
+          "note": "Önemli. Neticeden kaçınmaya yönelik hiçbir çabanın bulunmaması, “istememiş” tespitini zayıflatır. Bilirkişi raporu çantanıza eklendi." },
+        { "text": "Kazadan sonra ne oldu?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Durmadı, kaçtı. İki kilometre sonra polis yakaladı." }],
+          "note": "Dosyada zaten var. Kaçış fiilden sonraki bir davranıştır; tek başına, çarpma anındaki iradeyi göstermez." },
+        { "text": "Selin'in sağlık durumu nasıl?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Hâlâ fizik tedavide. Yürümeye yeni başladı." }],
+          "note": "İnsani bir soru, ama yaralanmanın ağırlığı dosyada belli; temyize yeni bir şey katmadı." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Temyiz dilekçesini yazıyorsunuz." }],
+      "prompt": "Dilekçenin merkezine neyi koyacaksınız?",
+      "choices": [
+        { "text": "Mahkemenin kendi kabul ettiği vakıalar (hız, alkol, kırmızı ışık, uyarıya “Çekilirler” cevabı, frensiz hızlanma) olası kastı gösteriyor; nitelendirme hukuki bir sorundur ve yanlış yapılmıştır.", "delta": 20, "set": ["hukukArg"],
+          "law": "CMK m.288; TCK m.21/2, m.22/3",
+          "note": "Doğru çerçeve. Olası kastta da bilinçli taksirde de netice öngörülür; fark, failin neticeyi kabullenip kabullenmediğidir. Sabit vakıalardan hangi kast biçiminin çıktığı hukuki değerlendirmedir ve Yargıtay'ın denetimindedir (CMK m.288/2)." },
+        { "text": "Cezanın az olduğunu, TCK m.85/2'nin üst sınırından uygulanması gerektiğini yazın.", "delta": -5,
+          "note": "Temel cezanın belirlenmesi takdire dayanır ve kanuni sınırlar içinde kalmış. Asıl sorun cezanın miktarı değil, suçun niteliği." },
+        { "text": "Yeni bir bilirkişi heyetinden hız raporu alınmasını ve yolcunun yeniden dinlenmesini isteyin.", "delta": -10,
+          "note": "Yargıtay delil toplamaz, tanık dinlemez. Üstelik vakıalar zaten sabit; tartışılacak olan onların hukuki nitelendirmesi." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Ankara, Yargıtay. Sevim Arıkan dinleyici sırasında. Sanık tutuklu olduğu için getirilmedi; müdafii hazır." },
+        { "who": "judge", "text": "Duruşmayı açıyorum. Katılan vekili temyiz nedenlerini açıkladı. Söz tebliğname yönünden Cumhuriyet savcısında." }
+      ],
+      "statement": { "who": "savci", "text": "Sanığın ağır kural ihlalleri yaptığı açıktır; ancak sonucu istemediği anlaşılmaktadır. Kendi hayatını da tehlikeye atan bir sürücünün ölümü kabullendiği söylenemez. Bilinçli taksir nitelendirmesi isabetlidir; hükmün onanması gerekir." },
+      "prompt": "Hangi delille karşılık vereceksiniz?",
+      "correct": ["ev_kerem"],
+      "hit": { "delta": 25, "set": ["kastArg"],
+        "reply": [{ "who": "judge", "text": "Yolcunun uyarısı ve sanığın cevabı gerekçede vakıa olarak kabul edilmiş. Not alındı." }],
+        "law": "TCK m.21/2",
+        "note": "Sanık neticeyi yalnızca öngörmemiş; uyarıldığı anda “Çekilirler” diyerek hızlanmış. Bu, neticeye karşı kayıtsızlığı ve kabullenmeyi gösterir. Ağır bir arazi aracıyla yayaların üzerine giden sürücü için kendi hayatına yönelik risk de sınırlıdır." },
+      "responses": {
+        "ev_fren": { "delta": 15, "set": ["kastArg"], "note": "Güçlü: neticeden kaçınmaya yönelik hiçbir çaba yok. Kabullenmeyi en açık gösteren ise sanığın uyarıya verdiği cevaptı." },
+        "ev_rapor": { "delta": 5, "set": ["kastWeak"], "note": "İhlallerin ağırlığını gösterdiniz. Ama savcı ihlalleri zaten kabul ediyor; tartışma kabullenme üzerinde. Bunu gösteren delil gerekiyordu." },
+        "law_21": { "delta": 5, "set": ["kastWeak"], "note": "Doğru tanım. Ama savcı da tanımı tartışmıyor; kabullenmeyi gösteren somut vakıayı sunmadınız." },
+        "ev_kacis": { "delta": 0, "note": "Kaçış, fiilden sonraki bir davranıştır; çarpma anındaki iradeyi tek başına göstermez." },
+        "law_22": { "delta": -10, "note": "Bu madde sanığın lehine olan nitelendirme; savcının tezini destekliyor." }
+      },
+      "pass": { "delta": -15, "note": "Tebliğnamedeki görüş cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Sayın Başkan, katılan taraf yasını intikama çeviriyor. Bu bir trafik kazasıdır, cinayet değil." },
+        { "who": "narr", "text": "Arkanızda Sevim Arıkan ayağa kalkıyor." },
+        { "who": "client", "text": "Kızımı öldürdü! Kaza değil bu!" },
+        { "who": "judge", "text": "Salonda düzeni bozan dinleyiciyi dışarı çıkartırım. Katılan vekili?" }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        { "text": "Başkandan kısa bir an isteyin, müvekkilinizi sakinleştirip oturtun; sonra sakin bir sesle hukuki noktaya dönün: “Mesele yas değil, TCK m.21/2'nin sabit vakıalara uygulanmasıdır.”", "delta": 10, "set": ["sakin"],
+          "law": "CMK m.203",
+          "note": "Mesleki soğukkanlılık. Duruşma düzenini başkan sağlar (CMK m.203); vekilin işi müvekkilini korumak ve tartışmayı hukuka geri çekmektir. Karşı müdafinin sözüne aynı tonla cevap vermediniz." },
+        { "text": "Müdafiye dönüp sert bir cevap verin: “Müvekkiliniz bir katildir!”", "delta": -10,
+          "note": "Tahrike kapıldınız. Hükümle sabit olmayan bir sıfatı kullanmak meslek kurallarına aykırıdır ve heyetin gözünde tezinizi zayıflatır." },
+        { "text": "Hiçbir şey yapmayın; başkan halletsin.", "delta": -5,
+          "reply": [{ "who": "judge", "text": "Katılan, lütfen salonu terk edin." }],
+          "note": "Müvekkilinizi korumadınız; Sevim Arıkan kızının davasının karar duruşmasını dışarıda bekledi." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Katılan vekili, son talebiniz?" }],
+      "prompt": "Heyetten ne isteyeceksiniz?",
+      "choices": [
+        { "text": "Sanığın olası kastla hareket ettiği gözetilmeden suç vasfında yanılgıya düşüldüğünden hükmün bozulmasını isteriz.", "delta": 10, "set": ["talepDogru"],
+          "law": "CMK m.302/2; TCK m.21/2",
+          "note": "Doğru talep. Nitelendirme hatasının sonucu bozmadır; yeniden yargılama ilk derece mahkemesinde yapılır. Kanun yoluna katılan da başvurduğu için aleyhe bozma yasağı (CMK m.307/4) sanığı korumaz." },
+        { "text": "Daire, sanığı doğrudan olası kastla öldürmeden mahkûm etsin ve cezasını belirlesin.", "delta": -10,
+          "note": "Yargıtay bu durumda yeni bir mahkûmiyet hükmü kurup ceza tayin etmez; hükmü bozar. Ceza ilk derece mahkemesince belirlenir." },
+        { "text": "Cezanın TCK m.22/3 uyarınca en üst oranda artırılmasını isteriz.", "delta": -5,
+          "note": "Bu talep bilinçli taksir nitelendirmesini kabul etmek anlamına gelir; temyiz sebebinizle çelişir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "hukukArg && kastArg", "winner": "p1", "noCourt": true,
+      "hukum": "Sanık hakkında bilinçli taksirle öldürme ve yaralama suçundan (TCK m.85/2, m.22/3) kurulan hükme yönelik istinaf başvurusunun esastan reddine dair Antalya Bölge Adliye Mahkemesi 3. Ceza Dairesi kararının; sanığın yolcunun uyarısına “Çekilirler” diyerek hızlanması, çarpma öncesinde hiç fren yapmaması, yerleşim yerinde alkollü ve yüksek hızla kırmızı ışıkta yaya geçidine girmesi birlikte değerlendirildiğinde öngördüğü neticeyi kabullendiği ve olası kastla (TCK m.21/2) hareket ettiği gözetilmeden suç vasfında yanılgıya düşülerek hüküm kurulması nedeniyle, katılan vekilinin temyiz itirazları yerinde görüldüğünden CMK m.302/2 uyarınca BOZULMASINA, dosyanın CMK m.304/2-a uyarınca kararı veren ilk derece mahkemesine, kararın bir örneğinin bölge adliye mahkemesine gönderilmesine, kesin olarak oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Vakıaları yeniden tartışmadınız; mahkemenin kendi kabul ettiği vakıalardan neticenin kabullenildiğini gösterdiniz. Olası kast ile bilinçli taksir arasındaki çizgi, öngörüde değil kabullenmede çizildi." },
+        { "if": "sakin", "text": " Duruşmadaki gergin anı da müvekkilinizi koruyarak ve tartışmayı hukuka çekerek atlattınız." }
+      ] },
+    { "if": "kastArg || (hukukArg && kastWeak)", "winner": "p1", "noCourt": true,
+      "hukum": "Sanığın eyleminin olası kastla öldürme ve yaralama suçlarını oluşturup oluşturmadığı, mahkemece kabul edilen vakıalar ışığında yeterince tartışılmadan bilinçli taksir nitelendirmesiyle hüküm kurulması nedeniyle hükmün CMK m.302/2 uyarınca BOZULMASINA, dosyanın kararı veren ilk derece mahkemesine gönderilmesine, kesin olarak oyçokluğuyla karar verildi.",
+      "summary": "Hüküm bozuldu, ama iki üye karşı oy yazdı: onlara göre sanık neticeyi istememişti. Ya temyiz dilekçeniz nitelendirmeyi hukuki bir sorun olarak kuramadı ya da kabullenmeyi gösteren somut vakıayı duruşmada öne çıkarmadınız." },
+    { "winner": "p2", "noCourt": true,
+      "hukum": "Katılan vekilinin temyiz itirazlarının reddiyle, temyiz isteminin CMK m.302/1 uyarınca ESASTAN REDDİNE ve hükmün ONANMASINA, kesin olarak oybirliğiyle karar verildi.",
+      "summary": "Heyet, kuralların ağır biçimde ihlal edildiğini kabul etti, ama kabullenmeyi gösteren bir vakıa önüne gelmedi. Yolcunun uyarısı ve sanığın “Çekilirler” cevabı dosyada duruyordu; tartışmanın merkezine konmadı." }
+  ]
+}

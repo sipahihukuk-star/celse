@@ -1,0 +1,141 @@
+{
+  "id": "yargitay-muris-muvazaasi",
+  "mode": "solo",
+  "career": { "level": 3 },
+  "difficulty": "orta",
+  "title": "Babanın Evi",
+  "area": "Yargıtay · Muris muvazaası, tapu iptali ve tescil",
+  "court": "Yargıtay 1. Hukuk Dairesi",
+  "courtShort": "YARGITAY · 1. HUKUK DAİRESİ",
+  "esas": "2027/3318 Esas",
+  "kararTarihi": "27.04.2027",
+  "color": "#3d4a36",
+  "teaser": "Baba, evini “satış” diyerek en küçük oğluna devretti, ölene kadar da orada oturdu. İki mahkeme tapudaki bedele inandı. Yargıtay'da delilleri yeniden tartıştırmadan hukuki hatayı göstermeniz gerekiyor.",
+  "sides": { "p1": { "role": "Davacı mirasçılar vekili", "short": "Siz" }, "p2": { "role": "Davalı vekili", "short": "Davalı" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Tarık Önal · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e3b892", "hair": "#2b2420", "style": "short", "glasses": true } },
+    "client": { "name": "Gülay Toprak · Müvekkil (davacı)", "np": "civil", "look": { "kind": "civil", "skin": "#cf9d76", "hair": "#6a3e26", "style": "bun", "shirt": "#6b4a5a", "inner": "#e2dccf" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Bursa. Rıza Toprak 2022'de Nilüfer'deki dairesini tapuda 400.000 TL bedelle en küçük oğlu Kaan'a “sattı”. Dairenin o tarihteki değeri bilirkişiye göre 3.600.000 TL. Rıza Toprak 2025'te öldü; ölene kadar o dairede oturdu." },
+    { "who": "client", "text": "Biz üç kardeşiz, Kaan dördüncüsü. Babam “ötekilere bir şey kalmasın” diye evi ona verdi. Asliye hukuk “bedel tapuda yazılı, muvazaa ispatlanamadı” dedi, bölge adliye de istinafımızı reddetti." },
+    { "who": "narr", "text": "Muris muvazaasına dayanan tapu iptali ve tescil davası. Yargıtay tanık dinlemez, vakıaları yeniden kurmaz. Ama mahkemenin içtihadı birleştirme kararındaki ölçütleri uygulayıp uygulamadığını ve dosyadaki delilleri değerlendirip değerlendirmediğini denetler." }
+  ],
+  "docs": [
+    { "t": "Tapu kaydı", "d": "2022: satış, bedel 400.000 TL. Alıcı Kaan Toprak." },
+    { "t": "Keşif ve bilirkişi raporu", "d": "Dairenin devir tarihindeki değeri 3.600.000 TL." },
+    { "t": "İlk derece kararı", "d": "Davanın reddi: “Satış bedeli tapuda gösterilmiştir. Davalının babasına baktığı anlaşılmaktadır. Mirasçılardan mal kaçırma amacı ispatlanamamıştır.”" },
+    { "t": "Bölge adliye mahkemesi kararı", "d": "İstinaf başvurusunun esastan reddi (HMK m.353/1-b-1). Gerekçeli karar beş gün önce tebliğ edildi." }
+  ],
+  "evidence": [
+    { "id": "ev_tapu", "type": "belge", "title": "Tapu satış senedi", "desc": "Resmî senet: satış, bedel 400.000 TL." },
+    { "id": "ev_tanik", "type": "beyan", "title": "Tanık beyanları", "desc": "Komşular: Rıza Toprak devirden sonra da evde yaşadı, kira ödemedi. Davalı tanığı: “Babam diğer kardeşlerime bir şey kalmasın istiyordu.”" },
+    { "id": "ev_banka", "type": "belge", "title": "Davalının 2022 banka hesap dökümü", "desc": "Devir tarihinde Kaan işsizlik ödeneği alıyor; hesabında 400.000 TL'ye yakın bir para hiç yok. Babanın hesabına da para girişi yok. Mahkeme dökümü getirtmiş, gerekçede hiç değinmemiş.", "if": "banka" },
+    { "id": "ev_mektup", "type": "belge", "title": "Babanın el yazısı mektubu", "desc": "“Evi Kaan'a verdim, ötekilere kalmasın.” Bölge adliye kararından sonra bulundu; dosyada yok.", "if": "mektup" },
+    { "id": "law_ibk", "type": "kanun", "title": "1.4.1974 tarihli, 1/2 sayılı İçtihadı Birleştirme Kararı", "desc": "Miras bırakanın mirasçılarından mal kaçırmak amacıyla bağışı satış gibi göstermesi muvazaalıdır; mirasçılar muvazaayı her türlü delille ispat edebilir.", "law": "YİBK 1.4.1974, 1/2" },
+    { "id": "law_hmk200", "type": "kanun", "title": "HMK m.200 · Senetle ispat zorunluluğu", "desc": "Belirli değeri aşan hukuki işlemlerin senetle ispatı.", "law": "HMK m.200" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Temyiz dilekçesinden önce Gülay Toprak'la görüşüyorsunuz. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Kaan, babanıza 400.000 TL ödeyecek parayı nereden buldu?", "delta": 15, "set": ["banka"],
+          "reply": [{ "who": "client", "text": "O yıl işsizdi! İşsizlik maaşı alıyordu. İlk avukatımız istemişti, mahkeme bankadan hesap dökümlerini getirtti; dosyada duruyor, ama kararda tek kelime yok." }],
+          "note": "Kritik bilgi. Alıcının ödeme gücünün bulunmaması, muvazaanın en güçlü göstergelerinden biridir. Delil süresinde gösterilmiş ve dosyaya girmiş; değerlendirilmemesi temyiz sebebi olabilir. Banka dökümü çantanıza eklendi." },
+        { "text": "Babanız diğer çocuklarına da mal verdi mi?", "delta": 10,
+          "reply": [{ "who": "client", "text": "Hayır, kimseye bir şey vermedi. Geriye eski bir araba kaldı, o kadar." }],
+          "note": "Önemli bir ölçüt. Miras bırakan malını çocukları arasında denkleştirerek paylaştırmışsa mal kaçırma amacından söz edilmez; burada öyle bir paylaştırma yok." },
+        { "text": "Babanızın elinden çıkmış, bu devirden söz eden bir yazı var mı?", "delta": 5, "set": ["mektup"],
+          "reply": [{ "who": "client", "text": "Geçen hafta evi boşaltırken bir mektup bulduk: “Evi Kaan'a verdim, ötekilere kalmasın.” Hemen Yargıtay'a gönderelim!" }],
+          "note": "Önemli bir belge, ama bölge adliye kararından sonra bulundu ve dosyada yok. Temyiz incelemesinde yeni delil ileri sürülemez. Mektup çantanıza eklendi; nasıl kullanacağınıza dikkat edin." },
+        { "text": "Kaan'la aranız nasıl?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Cenazeden beri konuşmuyoruz." }],
+          "note": "Anlaşılır bir merak, ama temyize katkısı yok." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Bölge adliye mahkemesinin gerekçeli kararı beş gün önce tebliğ edildi. Taşınmazın değeri duruşma sınırının çok üzerinde." }],
+      "prompt": "Temyiz başvurusunu nasıl yapacaksınız?",
+      "choices": [
+        { "text": "Tebliğden itibaren iki hafta dolmadan temyiz dilekçesini verin; duruşma talebini dilekçenin içine yazın.", "delta": 10, "set": ["durusmaTalep"],
+          "law": "HMK m.361, m.369",
+          "note": "Temyiz süresi kararın tebliğinden itibaren iki haftadır (HMK m.361). Miktar veya değeri kanundaki duruşma sınırını aşan davalarda duruşma talebi temyiz ya da cevap dilekçesinde yapılır (HMK m.369). Sınır her yıl yeniden değerleme oranında güncellenir." },
+        { "text": "Temyiz dilekçesini süresinde verin; duruşma talebini, Daire'den duruşma günü gelince ayrı bir dilekçeyle yapın.", "delta": -5, "set": ["talepGec"],
+          "reply": [{ "who": "narr", "text": "Sizin sonraki talebiniz dikkate alınmadı. Ama davalı vekili cevap dilekçesinde duruşma istemişti; Daire bu talep üzerine duruşma açtı." }],
+          "law": "HMK m.369",
+          "note": "Duruşma talebi temyiz ya da cevap dilekçesinde yapılır. Sonradan yapılan talep Daire'yi bağlamaz. Duruşma bu kez karşı tarafın talebiyle açıldı." },
+        { "text": "Temyiz süresi bir aydır; mektubu da ekleyip ay sonunda verin.", "delta": -25,
+          "law": "HMK m.361",
+          "fatal": { "label": "SONUÇ:", "hukum": "Süresinden sonra verilen temyiz dilekçesinin bölge adliye mahkemesince süre yönünden REDDİNE karar verildi; karar kesinleşti.",
+                     "summary": "Hukuk davalarında temyiz süresi kararın tebliğinden itibaren iki haftadır (HMK m.361). Süre geçtiği için Yargıtay incelemesi hiç yapılamadı; mektup da hiçbir işe yaramadı." },
+          "note": "Temyiz süresi bir ay değil, iki haftadır." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Ankara, Yargıtay. Beş üyeli heyet. İlk kez Yargıtay'da söz alıyorsunuz. Tanık beyanlarını okumaya başladınız." },
+        { "who": "judge", "text": "Sayın vekil, tanıkların doğru söyleyip söylemediğini tartışacaksanız, bu istinafın işiydi. Hukuka aykırılık nerede?" }
+      ],
+      "prompt": "Başkanın sert sorusuna nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "text": "“Haklısınız Sayın Başkan. Tanıkların inandırıcılığını değil, mahkemenin içtihadı birleştirme kararındaki ölçütleri uygulamadığını ve dosyadaki delili hiç değerlendirmediğini tartışıyorum.”", "delta": 10, "set": ["sakin"],
+          "law": "HMK m.371",
+          "note": "Soğukkanlı ve doğru. Yargıtay delilleri yeniden tartmaz; ama hukuken yanlış ölçüt uygulanmasını ve delillerin değerlendirilmemesini denetler. Sert soruyu hukuki çerçeveye çevirdiniz." },
+        { "text": "“Sayın Başkan, Yargıtay dosyanın tamamını incelemek zorundadır; lütfen sözümü kesmeyin.”", "delta": -10,
+          "note": "Duruşmayı başkan yönetir. Savunmacı ve sert bir cevap heyeti size karşı çevirir; üstelik sorunun hukuki özüne cevap vermediniz." },
+        { "text": "“Özür dilerim.” deyip sözü davalı vekiline bırakın.", "delta": -5,
+          "note": "Paniğe kapıldınız. Söz hakkınızı kullanmadan bıraktınız; asıl hukuki sebebinizi heyete anlatamadınız." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, buyurun." },
+        { "who": "opp", "text": "Sayın Başkan, satış resmî senetle tapu memuru önünde yapılmıştır. Resmî senet aksi ispat edilinceye kadar geçerlidir. Muvazaa iddiası ancak senetle ispat edilebilir; davacıların tanıklarına hiç itibar edilmemeliydi." }
+      ],
+      "prompt": "Bu itiraza nasıl cevap vereceksiniz?",
+      "choices": [
+        { "text": "Mirasçılar muris muvazaasında kendi haklarına dayanır; 1974 tarihli içtihadı birleştirme kararına göre muvazaayı tanık dahil her türlü delille ispat edebilirler.", "delta": 15, "set": ["ibk"],
+          "law": "YİBK 1.4.1974, 1/2",
+          "note": "Doğru. Mirasçılar muvazaalı işlemin tarafı değildir; saklı paylarını ve miras haklarını korumak için kendi haklarına dayanırlar. Bu nedenle senetle ispat kuralıyla bağlı değildirler." },
+        { "text": "Haklısınız; ama tapudaki bedel düşük olduğu için en azından tenkis istiyoruz.", "delta": -15, "set": ["tenkisKabul"],
+          "note": "Hem yanlış bir kabul hem yeni bir talep. Tenkis davada ileri sürülmediyse temyizde ilk kez istenemez; muvazaa iddiasından da kendi sözünüzle geri adım attınız." },
+        { "text": "Tapu memuru bedelin ödendiğini görmemiştir; resmî senedin bu kısmı bağlayıcı değildir.", "delta": 5,
+          "note": "Kısmen doğru bir gözlem: resmî senet, memurun bizzat gözlemlemediği beyanları ispat etmez. Ama asıl cevap, mirasçıların muvazaayı her türlü delille ispat edebilmesidir." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "opp", "text": "Kaldı ki ortada gerçek bir satış vardır." }],
+      "statement": { "who": "opp", "text": "Müvekkilim bedeli ödemiştir. Babasına yıllarca bakmıştır; devir, bakımın karşılığıdır. Mirasçılardan mal kaçırma amacı yoktur; iki mahkeme de bunu tespit etmiştir." },
+      "prompt": "Hangi delille karşılık vereceksiniz?",
+      "correct": ["ev_banka"],
+      "hit": { "delta": 25, "set": ["bankaArg"],
+        "reply": [{ "who": "judge", "text": "Banka dökümü dosyada mevcut. Gerekçede neden değerlendirilmediğini not ediyoruz." }],
+        "law": "YİBK 1.4.1974, 1/2; HMK m.371",
+        "note": "Mahkemenin getirttiği döküm, alıcının bedeli ödeyecek gücü olmadığını ve murisin hesabına para girmediğini gösteriyor. Dosyadaki bu delilin hiç tartışılmaması, eksik inceleme ve hatalı hukuki değerlendirmedir; Yargıtay bunu denetler." },
+      "responses": {
+        "ev_tanik": { "delta": 10, "set": ["tanikArg"], "note": "Güçlü bir gösterge: baba devirden sonra evde oturmaya devam etti, davalının kendi tanığı mal kaçırma amacını anlattı. Ama heyet, tanıkların takdirine girmek istemez; dosyadaki belgenin değerlendirilmemesi daha net bir hukuka aykırılıktı." },
+        "law_ibk": { "delta": 5, "note": "Doğru ölçüt, ama davalının “bedel ödendi” iddiasını somut olarak çürüten belgeyi sunmadınız." },
+        "ev_mektup": { "delta": -10, "set": ["mektupSundu"], "note": "Mektup bölge adliye kararından sonra bulundu; temyizde yeni delil ileri sürülemez. Heyet belgeyi değerlendirmeye almadı ve bu hamle güvenilirliğinizi zedeledi." },
+        "ev_tapu": { "delta": -10, "note": "Tapu senedi davalının tezini destekliyor." },
+        "law_hmk200": { "delta": -15, "note": "Bu madde davalının işine yarar; üstelik mirasçılar muris muvazaasında senetle ispat kuralıyla bağlı değildir." }
+      },
+      "pass": { "delta": -15, "note": "Davalının “gerçek satış” savunması cevapsız kaldı." }
+    }
+  ],
+  "outcomes": [
+    { "if": "bankaArg && ibk", "winner": "p1", "noCourt": true,
+      "hukum": "Davacılar vekilinin temyiz itirazlarının kabulüyle, Bursa Bölge Adliye Mahkemesi 2. Hukuk Dairesinin istinaf başvurusunun esastan reddine dair kararının KALDIRILMASINA, ilk derece mahkemesi kararının, 1.4.1974 tarihli ve 1/2 sayılı İçtihadı Birleştirme Kararındaki ölçütler gözetilerek dosyadaki tüm deliller birlikte değerlendirilmeden hüküm kurulması nedeniyle BOZULMASINA, dosyanın HMK m.373/1 uyarınca ilk derece mahkemesine, kararın bir örneğinin bölge adliye mahkemesine gönderilmesine, duruşmada vekille temsil olunan davacılar yararına Avukatlık Asgari Ücret Tarifesi uyarınca belirlenen duruşma vekâlet ücretinin davalıdan alınmasına, kesin olarak oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Delillerin inandırıcılığını değil, mahkemenin doğru ölçütü uygulamadığını ve getirttiği banka dökümünü hiç değerlendirmediğini gösterdiniz. Senetle ispat itirazını da içtihadı birleştirme kararıyla karşıladınız." },
+        { "if": "mektupSundu", "text": " Yeni bulunan mektubu sunmanız ise heyetin dikkate almadığı bir hamle oldu." }
+      ] },
+    { "if": "bankaArg || (ibk && tanikArg)", "winner": "p1", "noCourt": true,
+      "hukum": "Davacılar vekilinin temyiz itirazlarının kabulüyle, bölge adliye mahkemesinin esastan ret kararının KALDIRILMASINA, ilk derece mahkemesi kararının muvazaa iddiası yönünden eksik inceleme ve değerlendirme nedeniyle BOZULMASINA, dosyanın ilk derece mahkemesine, kararın bir örneğinin bölge adliye mahkemesine gönderilmesine, kesin olarak oyçokluğuyla karar verildi.",
+      "summary": "Karar bozuldu, ama bir üye karşı oy yazdı. Ya senetle ispat itirazına ya da “gerçek satış” savunmasına tam cevap veremediniz. Banka dökümü ile içtihadı birleştirme kararı bir arada sunulsaydı karar oybirliğiyle çıkardı." },
+    { "winner": "p2", "noCourt": true,
+      "hukum": "Davacılar vekilinin temyiz itirazlarının reddiyle, usul ve kanuna uygun bulunan bölge adliye mahkemesi kararının HMK m.370/1 uyarınca ONANMASINA, duruşma vekâlet ücretinin davacılardan alınarak davalıya verilmesine, kesin olarak oybirliğiyle karar verildi.",
+      "summary": "Temyiz, tanıkların ve delillerin yeniden tartışılmasında kaldı ya da davalının savunmaları cevapsız kaldı. Murisin gerçek amacını gösteren en güçlü delil, dosyada duran ve hiç değerlendirilmemiş banka dökümüydü." }
+  ]
+}

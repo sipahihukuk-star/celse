@@ -1,0 +1,142 @@
+{
+  "id": "yargitay-haksiz-tahrik",
+  "mode": "solo",
+  "career": { "level": 3 },
+  "difficulty": "orta",
+  "title": "Yirmi Bir Dakika",
+  "area": "Yargıtay · Kasten öldürme ve haksız tahrik",
+  "court": "Yargıtay 1. Ceza Dairesi",
+  "courtShort": "YARGITAY · 1. CEZA DAİRESİ",
+  "esas": "2027/1462 Esas",
+  "kararTarihi": "09.03.2027",
+  "color": "#4a2f2a",
+  "teaser": "Mahkeme, maktulün sanığın annesini yere ittiğini kendisi kabul etti, ama haksız tahriki uygulamadı. Beş üyeli heyete vakıaları değil, hukuku tartıştırmanız gerekiyor.",
+  "sides": { "p1": { "role": "Sanık müdafii", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Yargıtay Cumhuriyet Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#c48f68", "hair": "#2a201b", "style": "long" } },
+    "client": { "name": "Halil Durmaz · Müvekkil (sanık)", "np": "civil", "look": { "kind": "civil", "skin": "#b98260", "hair": "#4a4a4e", "style": "short", "beard": true, "shirt": "#5a4e44", "inner": "#d6d0c4" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Kayseri, ceza infaz kurumu, avukat görüş odası. Halil Durmaz komşusu Sinan Koç'u bahçe kapısının önünde bıçakla öldürdü. Ağır ceza mahkemesi kasten öldürmeden müebbet hapis cezası verdi, takdiri indirimle (TCK m.62) cezayı 25 yıla indirdi. Haksız tahrik uygulanmadı." },
+    { "who": "client", "text": "Annem yetmiş sekiz yaşında. O adam annemi yere itti, tokat attı, kolunu kırdı. Mahkeme bunu kabul etti, ama yine de “tahrik yok” dedi. Bölge adliye de onadı. Dosyayı siz aldınız; Yargıtay'da ne yapabiliriz?" },
+    { "who": "narr", "text": "Temyiz incelemesi hukuka aykırılık denetimidir (CMK m.288). Kimin doğru söylediğini değil, mahkemenin kendi kabul ettiği vakıalara hukuku doğru uygulayıp uygulamadığını tartışacaksınız." }
+  ],
+  "docs": [
+    { "t": "İlk derece hükmü", "d": "Kayseri 2. Ağır Ceza Mahkemesi: TCK m.81/1 uyarınca müebbet hapis, TCK m.62 ile 25 yıl hapis. Haksız tahrik talebi reddedildi." },
+    { "t": "Bölge adliye mahkemesi kararı", "d": "Kayseri BAM 2. Ceza Dairesi: istinaf başvurusunun esastan reddi (CMK m.280/1-a). Duruşmasız verildi; gerekçeli karar dün tebliğ edildi." },
+    { "t": "Gerekçe", "d": "Maktulün sanığın annesini itip tokatladığı tanık beyanı ve kamera kaydıyla sabit. Ancak eylem sanığa yönelmediğinden ve sanık olay yerine sonradan geldiğinden haksız tahrik koşulları oluşmamış." },
+    { "t": "Tutukluluk", "d": "Sanık tutuklu. İstinafa yalnızca sanık müdafii başvurmuştu." }
+  ],
+  "evidence": [
+    { "id": "ev_gerekce", "type": "belge", "title": "İlk derece gerekçesi", "desc": "“Maktulün sanığın annesini itip tokatladığı sabittir. Ancak eylem sanığa yönelmemiş, sanık olay yerine sonradan gelmiştir.”" },
+    { "id": "ev_rapor", "type": "belge", "title": "Fadime Durmaz'ın adli raporu", "desc": "Sol önkolda kırık; basit tıbbi müdahaleyle giderilebilecek nitelikte değil." },
+    { "id": "ev_kamera", "type": "belge", "title": "Kamera inceleme tutanağı", "desc": "14.05 maktul yaşlı kadını iter ve tokatlar. 14.26 sanık gelir. 14.27 maktul “Sıra sende” diye bağırarak sanığa yürür. 14.28 bıçaklama.", "if": "kamera" },
+    { "id": "ev_sikayet", "type": "belge", "title": "İki ay önceki şikâyet tutanağı", "desc": "Fadime Durmaz, Sinan Koç'un kendisini “evini başına yıkmakla” tehdit ettiğini bildirmiş.", "if": "sikayet" },
+    { "id": "ev_kardes", "type": "beyan", "title": "Maktulün kardeşi Erol Koç'un beyanı", "desc": "“Halil arabadan iner inmez saldırdı; ağabeyim konuşmuyordu bile.” Mahkeme, kamera kaydıyla çeliştiği için bu beyana itibar etmedi." },
+    { "id": "law_29", "type": "kanun", "title": "TCK m.29 · Haksız tahrik", "desc": "Haksız bir fiilin meydana getirdiği hiddet veya şiddetli elemin etkisi altında suç işleyene, müebbet hapis yerine on iki yıldan on sekiz yıla kadar hapis cezası verilir.", "law": "TCK m.29" },
+    { "id": "law_288", "type": "kanun", "title": "CMK m.288 · Temyiz nedeni", "desc": "Temyiz ancak hukuka aykırılığa dayanabilir. Bir hukuk kuralının uygulanmaması veya yanlış uygulanması hukuka aykırılıktır.", "law": "CMK m.288" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Görüş süresi kısa. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Kamera kaydında saatler görünüyor mu? Annenizin itilmesiyle sizin gelişiniz arasında ne kadar zaman var?", "delta": 15, "set": ["kamera"],
+          "reply": [{ "who": "client", "text": "Komşunun kamerası. Annem 14.05'te yere düşüyor, ben 14.26'da geliyorum. Sinan hâlâ kapının önündeydi; beni görünce “Sıra sende” diye üstüme yürüdü. Tutanakta dakika dakika yazıyor, ama kararda yalnızca “sonradan geldi” deniyor." }],
+          "note": "Kritik bilgi. Haksız fiille suç arasında yalnızca yirmi bir dakika var ve maktul tehdide devam ediyor. Hiddetin etkisinin sürüp sürmediği bu tutanakla tartışılır. Kamera inceleme tutanağı çantanıza eklendi." },
+        { "text": "Sinan Koç'la daha önce yaşanan olaylar için resmî bir şikâyet var mı?", "delta": 10, "set": ["sikayet"],
+          "reply": [{ "who": "client", "text": "İki ay önce annemi tehdit etti, karakola gittik. O şikâyet tutanağı bizim dosyaya da girmişti." }],
+          "note": "Faydalı. Maktulün önceki haksız davranışları, olay günkü eylemiyle birlikte değerlendirilebilir. Şikâyet tutanağı çantanıza eklendi." },
+        { "text": "Bıçak nereden çıktı?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Bahçedeki tezgâhta duruyordu. Annem meyve soyuyordu." }],
+          "note": "Önceden hazırlık olmadığını gösteren bir ayrıntı. Ama iddianamede tasarlama zaten yok; temyizin merkezi bu değil." },
+        { "text": "Pişman mısınız?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Her gün." }],
+          "note": "İnsani bir soru. Ama takdiri indirim (TCK m.62) zaten uygulandı; sınırlı görüş süresinde temyize bir şey katmadı." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Büronuzdasınız. Bölge adliye mahkemesinin gerekçeli kararı dün tebliğ edildi. Stajyeriniz “ceza davalarında temyiz süresi bir ay değil mi?” diye soruyor." }],
+      "prompt": "Temyiz başvurusunu nasıl yapacaksınız?",
+      "choices": [
+        { "text": "Gerekçeli kararın tebliğinden itibaren iki hafta içinde, kararı veren bölge adliye mahkemesine dilekçe verin; dilekçede duruşmalı inceleme isteyin.", "delta": 10, "set": ["durusmaTalep"],
+          "law": "CMK m.291/1, m.299/1",
+          "note": "Temyiz süresi, hükmün gerekçesiyle birlikte tebliğinden itibaren iki haftadır ve dilekçe hükmü veren mahkemeye verilir (CMK m.291/1). On yıl ve daha fazla hapis cezalarında Yargıtay uygun görürse duruşmalı inceleme yapabilir (CMK m.299/1); talebi dilekçede gerekçelendirmek heyetin bu kararını kolaylaştırır." },
+        { "text": "İki hafta içinde başvurun, ama duruşma istemeyin; Yargıtay zaten dosya üzerinden bakar.", "delta": -5, "set": ["talepYok"],
+          "reply": [{ "who": "narr", "text": "Daire, cezanın ağırlığını gözeterek kendiliğinden duruşma açmaya karar verdi." }],
+          "law": "CMK m.299/1",
+          "note": "Süre doğru, ama duruşmalı inceleme imkânını kendiniz istemediniz. Bu kez Daire duruşma açtı; her zaman böyle olmayabilir." },
+        { "text": "Ceza davalarında temyiz süresi bir aydır; dilekçeyi ay sonuna doğru verin.", "delta": -25,
+          "law": "CMK m.291/1",
+          "fatal": { "label": "SONUÇ:", "hukum": "Sanık müdafiinin temyiz isteminin süre yönünden REDDİNE karar verildi; hüküm kesinleşti.",
+                     "summary": "Temyiz süresi, hükmün gerekçesiyle birlikte tebliğinden itibaren iki haftadır (CMK m.291/1). Süresinden sonra yapılan temyiz istemi reddedilir (CMK m.298). Haksız tahrik tartışması hiç yapılamadı." },
+          "note": "Temyiz süresi bir ay değil, iki haftadır." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Dilekçeyi yazıyorsunuz. Önceki müdafi istinafta hem meşru savunma hem haksız tahrik ileri sürmüş, tanıkları uzun uzun tartışmış." }],
+      "prompt": "Temyiz dilekçesinin merkezine neyi koyacaksınız?",
+      "choices": [
+        { "text": "Mahkemenin kendi kabul ettiği vakıaları esas alın: maktulün sanığın annesini darp ettiği sabit. Bu vakıalara rağmen TCK m.29'un uygulanmaması hukuka aykırılıktır; haksız fiilin sanığın yakınına yönelmesi tahriki engellemez.", "delta": 20, "set": ["hukukArg"],
+          "law": "CMK m.288; TCK m.29",
+          "note": "Doğru çerçeve. Vakıaları yeniden tartışmıyor, sabit kabul edilen vakıalara kanunun yanlış uygulandığını gösteriyorsunuz (CMK m.288/2). TCK m.29, haksız fiilin bizzat faile yönelmesini aramaz; haksız fiil maktulden gelmeli ve fail onun yarattığı hiddetin etkisi altında hareket etmiş olmalıdır." },
+        { "text": "Erol Koç'un yalan söylediğini, maktulün önce saldırdığını anlatın; meşru savunma nedeniyle beraat isteyin.", "delta": -15,
+          "law": "TCK m.25",
+          "note": "Yargıtay tanık beyanlarının inandırıcılığını yeniden tartmaz. Üstelik meşru savunma, saldırının o an mevcut olmasını ve savunmanın orantılı olmasını gerektirir; bıçakla öldürme bu koşulları karşılamaz." },
+        { "text": "İstinaf dilekçesini aynen kopyalayın; meşru savunma, tahrik, tanıklar, hepsi dursun.", "delta": 0,
+          "note": "Kabul edilebilir ama zayıf. Güçlü hukuki sebep, vakıa tartışmalarının arasında kayboluyor. Heyet, odaklı bir temyiz dilekçesini daha ciddiye alır." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Ankara, Yargıtay. Müvekkil tutuklu olduğu için duruşmaya getirilmedi (CMK m.299/2); onu siz temsil ediyorsunuz.", "if": "!talepYok" },
+        { "who": "narr", "text": "Ankara, Yargıtay. Daire kendiliğinden duruşma açtı. Müvekkil tutuklu olduğu için getirilmedi (CMK m.299/2).", "if": "talepYok" },
+        { "who": "judge", "text": "Duruşmayı açıyorum. Sanık müdafii temyiz nedenlerini açıkladı. Söz tebliğname yönünden Cumhuriyet savcısında." }
+      ],
+      "statement": { "who": "opp", "text": "Maktulün eylemi sanığa değil, annesine yöneliktir. Sanık olay yerine sonradan gelmiştir; aradan geçen sürede hiddet etkisi sona ermiştir. Haksız tahrik koşulları oluşmamıştır; hükmün onanması gerekir." },
+      "prompt": "Hangi delille karşılık vereceksiniz?",
+      "correct": ["ev_kamera"],
+      "hit": { "delta": 25, "set": ["tahrikArg"],
+        "reply": [{ "who": "judge", "text": "Tutanağa göre maktul, sanık geldiğinde de tehdide devam ediyor. Not alındı." }],
+        "law": "TCK m.29",
+        "note": "Tutanak, darp ile olay arasında yalnızca yirmi bir dakika geçtiğini ve maktulün sanığa da yürüdüğünü gösteriyor. “Hiddet sona ermişti” tezi, mahkemenin kendi dayandığı kayıtla çelişiyor." },
+      "responses": {
+        "law_29": { "delta": 10, "set": ["kanunArg"], "note": "Doğru dayanak: m.29 haksız fiilin faile yönelmesini aramaz. Ama savcının asıl tezi zaman aşımıydı; onu çürüten kayıt kamera tutanağıydı." },
+        "ev_gerekce": { "delta": 10, "set": ["kanunArg"], "note": "İyi bir hamle: haksız fiilin varlığını mahkemenin kendisi kabul ediyor. Ama “hiddet sona erdi” tezine bu gerekçe cevap vermiyor." },
+        "ev_sikayet": { "delta": 10, "set": ["kanunArg"], "note": "Önceki tehditler, olay günkü eylemle birlikte hiddetin yoğunluğunu açıklar. Zamana ilişkin tez ise kamera tutanağıyla çürütülürdü." },
+        "ev_rapor": { "delta": 5, "set": ["kanunArg"], "note": "Haksız fiilin ağırlığını gösteriyor. Ama savcının tezi, haksız fiilin etkisinin sona erdiğiydi." },
+        "ev_kardes": { "delta": -10, "note": "Bu beyan sanığın aleyhine; mahkeme de buna itibar etmemişti. Kendi müvekkilinizin aleyhine bir delili öne çıkardınız." },
+        "law_288": { "delta": -5, "note": "Doğru ilke, ama savcının beyanını çürütmüyor." }
+      },
+      "pass": { "delta": -15, "note": "Tebliğnamedeki görüş cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Sanık müdafii, son talebiniz?" }],
+      "prompt": "Heyetten ne isteyeceksiniz?",
+      "choices": [
+        { "text": "Haksız tahrik hükümlerinin uygulanmaması nedeniyle hükmün bozulmasını; tahrikin derecesinin ve cezanın ilk derece mahkemesince belirlenmesini isteriz.", "delta": 10, "set": ["talepDogru"],
+          "law": "CMK m.302/2, m.307/4",
+          "note": "Doğru talep. Tahrikin varlığı kabul edilse bile cezanın on iki ile on sekiz yıl arasında nerede belirleneceği takdir gerektirir; bunu bozmadan sonra ilk derece mahkemesi yapar. Yalnız sanık tarafı temyiz ettiği için yeni ceza öncekinden ağır olamaz (CMK m.307/4)." },
+        { "text": "Yargıtay'ın haksız tahrik uygulayarak cezayı on iki yıl olarak kendisinin belirlemesini isteriz.", "delta": -5,
+          "note": "Tahrik indiriminin miktarı takdire dayanır; Daire bunu kendisi belirlemez, bozar." },
+        { "text": "Sanığın beraatine karar verilmesini isteriz.", "delta": -10,
+          "note": "Beraat talebi vakıaların yeniden değerlendirilmesini gerektirir ve dilekçenizin hukuki çerçevesiyle çelişir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "hukukArg && tahrikArg", "winner": "p1", "noCourt": true,
+      "hukum": "Sanık hakkında kasten öldürme suçundan kurulan hükme yönelik istinaf başvurusunun esastan reddine dair Kayseri Bölge Adliye Mahkemesi 2. Ceza Dairesi kararının, mahkemece de kabul edilen maktulün sanığın annesine yönelik haksız eylemi ve bunun etkisinin olay anında sürdüğü gözetilmeden sanık hakkında TCK m.29'un uygulanmaması nedeniyle CMK m.302/2 uyarınca BOZULMASINA, sanığın CMK m.307/4 uyarınca kazanılmış hakkının gözetilmesine, dosyanın CMK m.304/2-a uyarınca kararı veren ilk derece mahkemesine, kararın bir örneğinin bölge adliye mahkemesine gönderilmesine, kesin olarak oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Temyizi doğru yere oturttunuz: mahkemenin kendi kabul ettiği vakıalara kanunun yanlış uygulandığını gösterdiniz, savcının “hiddet sona erdi” tezini de kamera tutanağıyla çürüttünüz." },
+        { "if": "!talepDogru", "text": " Son talebiniz yerinde değildi, ama heyet bozmanın sonucunu kanuna göre kendisi belirledi." }
+      ] },
+    { "if": "hukukArg || tahrikArg || kanunArg", "winner": "p1", "noCourt": true,
+      "hukum": "Sanık hakkında kurulan hükme yönelik istinaf başvurusunun esastan reddine dair bölge adliye mahkemesi kararının, sanık hakkında TCK m.29'un uygulanması gerekip gerekmediği yeterince tartışılmadan hüküm kurulması nedeniyle CMK m.302/2 uyarınca BOZULMASINA, sanığın kazanılmış hakkının gözetilmesine, dosyanın kararı veren ilk derece mahkemesine gönderilmesine, kesin olarak oyçokluğuyla karar verildi.",
+      "summary": "Hüküm bozuldu, ama iki üye karşı oy yazdı. Kanunun yanlış uygulandığını ya da tahrikin etkisinin sürdüğünü gösterdiniz, ikisini birlikte değil. Kamera tutanağının dakikaları ile hukuki çerçeve bir arada olsaydı heyet oybirliğiyle karar verirdi." },
+    { "winner": "p2", "noCourt": true,
+      "hukum": "Sanık müdafiinin temyiz itirazlarının reddiyle, usul ve kanuna uygun bulunan bölge adliye mahkemesi kararına yönelik temyiz isteminin CMK m.302/1 uyarınca ESASTAN REDDİNE ve hükmün ONANMASINA, kesin olarak oybirliğiyle karar verildi.",
+      "summary": "Temyiz vakıa tartışmasında kaldı; tebliğnamedeki görüş cevapsız kaldı. Mahkemenin kendi kabul ettiği darp ve aradaki yirmi bir dakika, hukuki bir sebep olarak heyetin önüne hiç gelmedi." }
+  ]
+}

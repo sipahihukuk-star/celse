@@ -1,0 +1,147 @@
+{
+  "id": "yargitay-destekten-yoksun",
+  "mode": "solo",
+  "career": { "level": 3 },
+  "difficulty": "zor",
+  "title": "Peşin Sermaye",
+  "area": "Yargıtay · Destekten yoksun kalma tazminatı ve SGK mahsubu",
+  "court": "Yargıtay 4. Hukuk Dairesi",
+  "courtShort": "YARGITAY · 4. HUKUK DAİRESİ",
+  "esas": "2027/5124 Esas",
+  "kararTarihi": "12.05.2027",
+  "color": "#3a4652",
+  "teaser": "Bir şoför iş başında, kırmızı ışıkta geçen bir çekicinin altında öldü. Mahkeme, SGK'nın bağladığı gelirin tamamını tazminattan düştü. Sigortacı da hesap yönteminin değişmesini istiyor.",
+  "sides": { "p1": { "role": "Davacılar (eş ve çocuklar) vekili", "short": "Siz" }, "p2": { "role": "Davalı sigortacı vekili", "short": "Davalı" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Ebru Kalkan · Davalı sigortacı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e8c4a2", "hair": "#3b2a1e", "style": "long", "glasses": true } },
+    "client": { "name": "Hatice Yurt · Müvekkil (davacı eş)", "np": "civil", "look": { "kind": "civil", "skin": "#c28d66", "hair": "#2a1d17", "style": "bun", "shirt": "#4f5a48", "inner": "#dcd6c8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Konya. Ramazan Yurt, inşaat şirketinin kamyonetiyle şantiyeye malzeme götürürken kavşakta kırmızı ışıkta geçen bir çekicinin çarpmasıyla öldü. 41 yaşındaydı. Geride eşi Hatice, üniversitedeki kızı ve ortaokuldaki oğlu kaldı." },
+    { "who": "narr", "text": "Bilirkişi kusuru çekici sürücüsüne yüzde 75, Ramazan Yurt'a hız nedeniyle yüzde 25 olarak paylaştırdı. SGK olayı iş kazası saydı ve hak sahiplerine gelir bağladı. Dava, çekicinin işleteni, sürücüsü ve zorunlu mali sorumluluk (trafik) sigortacısına karşı açıldı." },
+    { "who": "client", "text": "Mahkeme “SGK size maaş bağladı” deyip tazminatı yarıdan fazla kesti. Bölge adliye de istinafımızı reddetti. Sigorta şirketi de temyiz etmiş; daha da azaltmak istiyorlar." }
+  ],
+  "docs": [
+    { "t": "Aktüerya raporu", "d": "TRH-2010 yaşam tablosu ve progresif rant yöntemiyle toplam destek zararı 5.000.000 TL. Yüzde 75 kusur karşılığı 3.750.000 TL." },
+    { "t": "İlk derece kararı", "d": "SGK'nın bağladığı gelirin ilk peşin sermaye değeri olan 2.400.000 TL'nin tamamı düşüldü; 1.350.000 TL'ye hükmedildi. Sigortacı yönünden poliçedeki kişi başı ölüm teminatıyla sınırlı." },
+    { "t": "Bölge adliye mahkemesi kararı", "d": "Konya BAM 3. Hukuk Dairesi: tarafların istinaf başvurularının esastan reddi. Gerekçeli karar dün tebliğ edildi." },
+    { "t": "Sigortacının istinaf ve temyiz sebebi", "d": "Hesap, poliçe tarihindeki Zorunlu Mali Sorumluluk Sigortası Genel Şartlarındaki teknik faiz yöntemiyle yapılmalıydı (KTK m.90)." }
+  ],
+  "evidence": [
+    { "id": "ev_aktuerya", "type": "belge", "title": "Aktüerya raporu", "desc": "Toplam destek zararı 5.000.000 TL; yüzde 75 kusur karşılığı 3.750.000 TL. SGK mahsubunun yöntemi mahkemenin takdirine bırakılmış." },
+    { "id": "ev_sgk", "type": "belge", "title": "SGK gelir ve rücu yazısı", "desc": "Gelir 5510 s.K. m.13 kapsamında iş kazası nedeniyle bağlandı; ilk peşin sermaye değeri 2.400.000 TL. Kurum, bu değerin yarısının üçüncü kişinin yüzde 75 kusuruna isabet eden 900.000 TL'si için davalılara rücu edecek. İlk derece dosyasında, 4. klasörde.", "if": "sgk" },
+    { "id": "ev_makbuz", "type": "belge", "title": "Hafta sonu nakliye makbuzları", "desc": "Müteveffanın bordro dışı ek gelirini gösteren el yazısı makbuzlar. Bölge adliye kararından sonra bulundu; dosyada yok.", "if": "makbuz" },
+    { "id": "law_tbk55", "type": "kanun", "title": "TBK m.55/1 · Bedensel zarar ve destek zararının hesabı", "desc": "Kısmen veya tamamen rücu edilemeyen sosyal güvenlik ödemeleri, bu zararların belirlenmesinde göz önünde tutulamaz; zarar veya tazminattan indirilemez.", "law": "TBK m.55/1" },
+    { "id": "law_5510", "type": "kanun", "title": "5510 s.K. m.21/4 · Üçüncü kişilere rücu", "desc": "İş kazası üçüncü kişinin kusuruyla meydana gelmişse, Kurum, bağlanan gelirin ilk peşin sermaye değerinin yarısını kusurlu üçüncü kişilere rücu eder.", "law": "5510 s.K. m.21/4" },
+    { "id": "law_ktk90", "type": "kanun", "title": "KTK m.90 · Tazminatın belirlenmesi", "desc": "Zorunlu mali sorumluluk sigortası kapsamındaki tazminatların belirlenmesi. Maddedeki genel şartlara yapılan atıf Anayasa Mahkemesince iptal edildi.", "law": "KTK m.90" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Temyiz dilekçesinden önce Hatice Yurt'la görüşüyorsunuz. Dosya kalabalık; iki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "SGK size bağladığı gelirle ilgili bir yazı gönderdi mi?", "delta": 15, "set": ["sgk"],
+          "reply": [{ "who": "client", "text": "Gönderdi: “iş kazası nedeniyle gelir bağlandı” diyor. Bir de “Kurum, kusurlu üçüncü kişilere rücu edecektir” diye bir yazı vardı, içinde 900.000 TL yazıyordu. İlk avukatımız ikisini de dosyaya koymuştu." }],
+          "note": "Kritik bilgi. Tazminattan ancak SGK'nın rücu edebileceği kısım düşülebilir. Yazı, rücuya tabi kısmın 900.000 TL olduğunu gösteriyor ve dosyada duruyor. Çantanıza eklendi." },
+        { "text": "Eşinizin bordro dışında bir geliri var mıydı?", "delta": 0, "set": ["makbuz"],
+          "reply": [{ "who": "client", "text": "Hafta sonları nakliye yapardı. Evde makbuzlarını buldum, geçen ay. Bunlar da hesaba girsin!" }],
+          "note": "Değerli bir bilgi, ama geç kaldı. Müteveffanın geliri ilk derecede tespit edildi; makbuzlar dosyada yok ve temyiz incelemesinde yeni delil ileri sürülemez. Makbuzlar çantanıza eklendi; nasıl kullanacağınıza dikkat edin." },
+        { "text": "Bilirkişinin eşinize yüzde 25 kusur vermesine itiraz edilmiş miydi?", "delta": 5, "set": ["kusurBilgi"],
+          "reply": [{ "who": "client", "text": "Bilmiyorum… Galiba ilk avukatımız rapora itiraz etmedi. İstinafta da bundan bahsedilmedi." }],
+          "note": "Önemli bir sınır. Rapora süresinde itiraz edilmemiş (HMK m.281) ve istinafta ileri sürülmemiş. Kusur oranını Yargıtay'da ilk kez tartışmaya açmak sonuç vermez." },
+        { "text": "Sigorta şirketine dava açmadan önce başvurdunuz mu?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Başvurduk. On beş gün bekledik, cevap gelmedi." }],
+          "note": "Dava şartı yerine gelmiş: zarar gören, dava açmadan önce sigortacıya yazılı olarak başvurmak zorundadır (KTK m.97). Ama bu dosyada tartışmalı bir konu değil." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Bölge adliye mahkemesinin gerekçeli kararı dün tebliğ edildi. Meslektaşınız Av. Cem Aydın uğradı: “Bölge adliyeye karar düzeltme verelim, daha hızlı sonuç alırız.”" }],
+      "prompt": "Hangi yola başvuracaksınız?",
+      "choices": [
+        { "text": "Tebliğden itibaren iki hafta içinde temyiz yoluna başvurun; değer duruşma sınırını aştığı için duruşma talebini temyiz dilekçesine yazın.", "delta": 10, "set": ["durusmaTalep"],
+          "law": "HMK m.361, m.369",
+          "note": "Doğru. Bölge adliye mahkemesinin esastan ret kararına karşı yol temyizdir; süre tebliğden itibaren iki haftadır (HMK m.361). Duruşma sınırını aşan davalarda duruşma talebi temyiz ya da cevap dilekçesinde yapılır (HMK m.369)." },
+        { "text": "Meslektaşınızı dinleyin: bölge adliye mahkemesine karar düzeltme dilekçesi verin.", "delta": -25,
+          "fatal": { "label": "SONUÇ:", "hukum": "Kanunda öngörülmeyen bir yola başvurulduğundan dilekçenin REDDİNE karar verildi; temyiz süresi geçtiğinden bölge adliye mahkemesi kararı davacılar yönünden kesinleşti.",
+                     "summary": "Hukuk Muhakemeleri Kanunu'nda bölge adliye kararlarına karşı karar düzeltme yolu yoktur; yol temyizdir ve süre iki haftadır (HMK m.361). Yanlış yola başvurulurken temyiz süresi doldu. SGK mahsubundaki hata düzeltilemedi." },
+          "note": "Karar düzeltme, istinaf sisteminde hukuk yargılaması için öngörülmüş bir kanun yolu değildir." },
+        { "text": "Süresinde temyiz edin, ama dilekçeye yalnızca “karar usul ve kanuna aykırıdır” yazın; ayrıntıyı duruşmada anlatırsınız.", "delta": -5, "set": ["kisa"],
+          "reply": [{ "who": "narr", "text": "Duruşma talebi davalı sigortacının cevap dilekçesinde de vardı; Daire duruşma açtı." }],
+          "law": "HMK m.369",
+          "note": "Temyiz süresi korundu, ama dilekçede temyiz sebepleri gösterilmedi ve duruşma da talep edilmedi. Heyetin önüne gerekçesiz bir dilekçe gitti." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "if": "!kisa",
+      "lines": [{ "who": "narr", "text": "Temyiz dilekçesini yazıyorsunuz. Müvekkil, “her şeyi yazın” diyor." }],
+      "prompt": "Dilekçenin merkezine neyi koyacaksınız?",
+      "choices": [
+        { "text": "SGK gelirinin tamamının değil, yalnızca rücuya tabi kısmının düşülmesi gerektiğini: ilk peşin sermaye değerinin yarısının davalı tarafın yüzde 75 kusuruna isabet eden kısmı.", "delta": 20, "set": ["hukukArg"],
+          "law": "TBK m.55/1; 5510 s.K. m.21/4",
+          "note": "Doğru. Rücu edilemeyen sosyal güvenlik ödemeleri tazminattan indirilemez (TBK m.55/1). SGK üçüncü kişiye ilk peşin sermaye değerinin yarısını, onun kusuru oranında rücu edebildiğinden, düşülecek kısım 2.400.000 × ½ × %75 = 900.000 TL'dir. Doğru hesapla tazminat 3.750.000 − 900.000 = 2.850.000 TL olur." },
+        { "text": "Müteveffanın yüzde 25 kusurunu kabul etmediğinizi yazın; yeni bir kusur raporu alınmasını isteyin.", "delta": -10, "set": ["kusurArg"],
+          "law": "HMK m.281",
+          "note": "Kusur raporuna süresinde itiraz edilmemiş ve istinafta ileri sürülmemiş. Kusurun tespiti delillerin değerlendirilmesine ilişkin bir konudur; Yargıtay yeni bilirkişi raporu almaz." },
+        { "if": "makbuz", "text": "Hafta sonu nakliye makbuzlarını ekleyin; destek gelirinin yeniden hesaplanmasını isteyin.", "delta": -10, "set": ["makbuzSundu"],
+          "note": "Temyiz incelemesinde yeni delil ileri sürülemez. Ek gelir ilk derecede ileri sürülüp ispatlanmalıydı." },
+        { "text": "SGK gelirinin tazminattan hiç düşülmemesi gerektiğini savunun.", "delta": -5,
+          "law": "TBK m.55/1",
+          "note": "Aşırıya kaçtınız. Rücuya tabi kısmın düşülmesi, aynı zararın iki kez tazmin edilmesini önler; tamamen düşülmemesi de hatalıdır. Doğru tez, yalnızca rücuya tabi kısmın düşülmesidir." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Ankara, Yargıtay. Heyet, iki tarafın temyizini birlikte inceliyor. Hatice Yurt dinleyici sırasında." },
+        { "who": "judge", "text": "Duruşmayı açıyorum. Davacılar vekili temyiz nedenlerini açıkladı. Davalı sigortacı vekili, buyurun." }
+      ],
+      "statement": { "who": "opp", "text": "SGK'nın bağladığı gelirin peşin sermaye değerinin tamamı tazminattan düşülmelidir. Aksi hâlde davacılar aynı zarar için iki kez ödeme alır ve sebepsiz zenginleşir. İlk derece mahkemesi doğru hesaplamıştır." },
+      "prompt": "Hangi delille karşılık vereceksiniz?",
+      "correct": ["ev_sgk"],
+      "hit": { "delta": 25, "set": ["mahsupArg"],
+        "reply": [{ "who": "judge", "text": "SGK yazısı dosyada. Rücuya tabi kısım 900.000 TL olarak hesaplanmış. Not edildi." }],
+        "law": "TBK m.55/1; 5510 s.K. m.21/4",
+        "note": "Mükerrer ödeme yalnızca SGK'nın davalılardan geri alabileceği kısım için söz konusudur. Kurumun kendi yazısı bu kısmı 900.000 TL olarak gösteriyor. Geri kalan 1.500.000 TL rücu edilemez; tazminattan düşülmesi, zararı davalılar yerine sosyal güvenlik sistemine ödetmek demektir." },
+      "responses": {
+        "law_5510": { "delta": 15, "set": ["mahsupArg"], "note": "Doğru dayanak: SGK üçüncü kişiye yalnızca ilk peşin sermaye değerinin yarısını, onun kusuru oranında rücu edebilir. Dosyadaki SGK yazısı aynı hesabı somut olarak gösterirdi." },
+        "law_tbk55": { "delta": 15, "set": ["mahsupArg"], "note": "Doğru dayanak: rücu edilemeyen sosyal güvenlik ödemeleri tazminattan indirilemez. Rücuya tabi kısmın tutarını dosyadaki SGK yazısı gösterirdi." },
+        "ev_aktuerya": { "delta": -5, "note": "Rapor toplam zararı gösteriyor, ama mahsubun nasıl yapılacağı konusunda bir şey söylemiyor." },
+        "ev_makbuz": { "delta": -10, "set": ["makbuzSundu"], "note": "Temyizde yeni delil sunulamaz; heyet makbuzları değerlendirmeye almadı. Sigortacının beyanına da cevap vermediniz." },
+        "law_ktk90": { "delta": -10, "note": "Bu madde sigortacının diğer temyiz sebebiyle ilgili; mahsup tartışmasına cevap vermiyor." }
+      },
+      "pass": { "delta": -15, "note": "Sigortacının mahsup tezi cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "opp", "text": "Kaldı ki tazminat, poliçe tarihindeki Genel Şartlarda öngörülen teknik faiz yöntemiyle hesaplanmalıydı. KTK m.90 bunu emreder; bilirkişinin progresif rant yöntemi hatalıdır." }],
+      "prompt": "Sigortacının hesap yöntemine ilişkin temyiz sebebine nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "text": "Anayasa Mahkemesi, KTK m.90'daki genel şartlara yapılan atfı iptal etti. Destek zararı TBK ve sorumluluk hukuku ilkelerine göre hesaplanır; Yargıtay'ın yerleşik uygulaması TRH-2010 tablosu ve progresif rant yöntemidir.", "delta": 15, "set": ["gsArg"],
+          "law": "AYM 17.7.2020, E.2019/40, K.2020/40; TBK m.55",
+          "note": "Doğru. İptal kararından sonra genel şartlardaki hesap yöntemi zarar göreni bağlamaz; gerçek zarar sorumluluk hukuku ilkelerine göre belirlenir. Yerleşik uygulama TRH-2010 yaşam tablosu ile progresif rant yöntemidir." },
+        { "text": "Genel şartlar, sigortacıyla sigortalı arasındaki sözleşmenin parçasıdır; zarar görene karşı ileri sürülemez.", "delta": 5,
+          "law": "KTK m.95",
+          "note": "Kısmen doğru bir sezgi: sözleşmeden doğan ve sigortacının yükümlülüğünü azaltan hususlar zarar görene karşı ileri sürülemez (KTK m.95). Ama tartışmanın asıl dayanağı, Anayasa Mahkemesinin KTK m.90'daki atfı iptal etmesidir." },
+        { "text": "Fark küçükse genel şartlara göre hesaplanmasına itirazımız yok.", "delta": -15, "set": ["gsKabul"],
+          "note": "Müvekkillerin aleyhine gereksiz bir kabul. Genel şartlardaki teknik faiz yöntemi, progresif ranta göre belirgin ölçüde düşük sonuç verir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "mahsupArg && gsArg", "winner": "p1", "noCourt": true,
+      "hukum": "Davalı sigortacı vekilinin temyiz itirazlarının reddine; davacılar vekilinin temyiz itirazlarının kabulüyle Konya Bölge Adliye Mahkemesi 3. Hukuk Dairesinin esastan ret kararının KALDIRILMASINA, ilk derece mahkemesi kararının, SGK tarafından bağlanan gelirin ilk peşin sermaye değerinin tamamı yerine yalnızca rücuya tabi kısmının (TBK m.55/1, 5510 s.K. m.21/4) tazminattan indirilmesi gerektiği gözetilmeden hüküm kurulması nedeniyle davacılar yararına BOZULMASINA, dosyanın HMK m.373/1 uyarınca ilk derece mahkemesine, kararın bir örneğinin bölge adliye mahkemesine gönderilmesine, duruşma vekâlet ücretinin davalı sigortacıdan alınarak davacılara verilmesine, kesin olarak oybirliğiyle karar verildi.",
+      "summary": [
+        { "text": "Mahsubun yalnızca SGK'nın rücu edebileceği kısımla sınırlı olduğunu kurumun kendi yazısıyla gösterdiniz; sigortacının genel şartlar itirazını da iptal kararıyla karşıladınız. Yeniden hesapta tazminat 1.350.000 TL'den 2.850.000 TL'ye çıkacak; sigortacı poliçe limitiyle sınırlı olmak üzere sorumlu." },
+        { "if": "kusurArg || makbuzSundu", "text": " Kusur oranını ya da yeni makbuzları tartışmaya açmanız ise sonuca bir şey katmadı." }
+      ] },
+    { "if": "mahsupArg || hukukArg", "winner": "p1", "noCourt": true,
+      "hukum": "Davalı sigortacı vekilinin temyiz itirazlarının reddine; davacılar vekilinin temyiz itirazlarının kabulüyle bölge adliye mahkemesinin esastan ret kararının KALDIRILMASINA, ilk derece mahkemesi kararının SGK mahsubu yönünden davacılar yararına BOZULMASINA, dosyanın ilk derece mahkemesine, kararın bir örneğinin bölge adliye mahkemesine gönderilmesine, kesin olarak oyçokluğuyla karar verildi.",
+      "summary": [
+        { "text": "Mahsup hatası bozma sebebi yapıldı, ama bir üye karşı oy yazdı." },
+        { "if": "gsKabul", "text": " Duruşmadaki kabulünüz, sigortacının hesap yöntemi tezine gereksiz bir destek oldu; heyet yerleşik uygulamayı yine de korudu." },
+        { "if": "!gsKabul", "text": " Ya mahsubun yöntemini dosyadaki belgeyle göstermediniz ya da sigortacının genel şartlar tezine tam karşılık vermediniz." }
+      ] },
+    { "winner": "p2", "noCourt": true,
+      "hukum": "Tarafların temyiz itirazlarının reddiyle, bölge adliye mahkemesi kararının HMK m.370/1 uyarınca ONANMASINA, kesin olarak oybirliğiyle karar verildi.",
+      "summary": "Mahsup hatası heyetin önüne açık bir temyiz sebebi olarak gelmedi. SGK gelirinin tamamının düşülmesiyle verilen 1.350.000 TL'lik hüküm kesinleşti. Rücuya tabi kısım 900.000 TL'ydi; aradaki 1.500.000 TL müvekkillerin kaybı oldu." }
+  ]
+}
