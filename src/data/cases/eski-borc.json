@@ -1,0 +1,337 @@
+{
+  "id": "eski-borc",
+  "mode": "solo",
+  "title": "Eski Borç",
+  "area": "Borçlar Hukuku · Zamanaşımı",
+  "court": "İzmir 3. Asliye Hukuk Mahkemesi",
+  "courtShort": "3. ASLİYE HUKUK",
+  "esas": "2026/418 Esas",
+  "kararTarihi": "24.11.2026",
+  "color": "#36536b",
+  "teaser": "On iki yıllık bir borç, imzası inkâr edilemeyen bir sözleşme. Tek şansınız süre.",
+  "sides": {
+    "p1": {
+      "role": "Davalı vekili",
+      "short": "Siz"
+    },
+    "p2": {
+      "role": "Karşı taraf",
+      "short": "Karşı taraf"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#d9a982",
+        "hair": "#9a9a9e",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "opp": {
+      "name": "Av. Serap Uysal · Davacı vekili",
+      "np": "green",
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#e6bd98",
+        "hair": "#2b1d17",
+        "style": "long"
+      }
+    },
+    "client": {
+      "name": "Murat Ekin · Müvekkil",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#c99670",
+        "hair": "#4a3020",
+        "style": "short",
+        "beard": true,
+        "shirt": "#55657a",
+        "inner": "#d9d4c8"
+      }
+    }
+  },
+  "courtCast": [
+    "judge",
+    "you",
+    "opp"
+  ],
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Büronuzdasınız. Karşınızda müvekkiliniz Murat Ekin, elinde bir tebligat zarfı."
+    },
+    {
+      "who": "client",
+      "text": "Nail Toprak'tan 2014'te 200.000 lira borç aldım. Yazılı sözleşme yaptık, 15 Mart 2014'te ödeyecektim."
+    },
+    {
+      "who": "client",
+      "text": "İşlerim battı, ödeyemedim. 2022'de noterden bir ihtarname gönderdi, sonra ses çıkmadı."
+    },
+    {
+      "who": "client",
+      "text": "Şimdi, 2 Nisan 2026'da dava açmış. İmza benim, inkâr edecek değilim. Ama bunca yıl sonra hâlâ isteyebilir mi?"
+    }
+  ],
+  "docs": [
+    {
+      "t": "Ödünç sözleşmesi",
+      "d": "10.01.2014 tarihli. Tutar 200.000 TL, ödeme günü 15.03.2014. İmza müvekkile ait."
+    },
+    {
+      "t": "Noter ihtarnamesi",
+      "d": "08.06.2022 tarihli. Davacı borcun ödenmesini istiyor. Başka bir işlem yapılmamış."
+    },
+    {
+      "t": "Dava dilekçesi",
+      "d": "Dava tarihi 02.04.2026. 200.000 TL'nin faiziyle tahsili isteniyor."
+    },
+    {
+      "t": "Tebligat",
+      "d": "Dava dilekçesi 20.04.2026'da tebliğ edildi. Cevap süresi iki hafta (HMK m.127)."
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Cevap dilekçesini yazmak için masaya oturuyorsunuz. Burada ne yazarsanız, savunmanızın sınırı o olacak."
+        }
+      ],
+      "prompt": "Cevap dilekçesinin merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "text": "Zamanaşımı def'i: Borç 15.03.2014'te muaccel oldu, on yıllık süre 15.03.2024'te doldu.",
+          "delta": 20,
+          "set": [
+            "zaman"
+          ],
+          "law": "TBK m.146, m.161",
+          "note": "Genel zamanaşımı süresi on yıldır (TBK m.146). Hâkim zamanaşımını kendiliğinden dikkate alamaz (TBK m.161), bu yüzden def'iyi sizin ileri sürmeniz gerekir. Doğru yerde, doğru zamanda kullandınız."
+        },
+        {
+          "text": "İmzanın müvekkile ait olmadığını, sözleşmenin sahte olduğunu ileri sür.",
+          "delta": -20,
+          "law": "Avukatlık meslek kuralları",
+          "note": "Müvekkil imzanın kendisine ait olduğunu söyledi. Bilerek gerçeğe aykırı savunma avukatın doğruluk yükümlülüğüyle bağdaşmaz. İmza incelemesi de aleyhinize sonuçlanır."
+        },
+        {
+          "text": "Borcu genel olarak inkâr et, ayrıntıya girme.",
+          "delta": -10,
+          "law": "TBK m.161",
+          "note": "Genel inkâr zamanaşımı def'ini kapsamaz. Hâkim zamanaşımını kendiliğinden dikkate almaz; def'iyi açıkça ileri sürmeniz gerekirdi."
+        },
+        {
+          "text": "Görev itirazı: Davaya sulh hukuk mahkemesi bakmalı.",
+          "delta": -10,
+          "law": "HMK m.2, m.4",
+          "note": "Para alacağı davalarında genel görevli mahkeme asliye hukuk mahkemesidir (HMK m.2). Sulh hukuk mahkemesinin görevi dava değerine göre değil, kanunda sayılan işlere göre belirlenir (HMK m.4)."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "!zaman",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Ön inceleme duruşmasını açıyorum. Taraf vekilleri hazır."
+        },
+        {
+          "who": "narr",
+          "text": "Dosyayı yeniden okurken fark ediyorsunuz: Alacağın vadesi 2014. Cevap dilekçesinde zamanaşımından hiç söz edilmemiş."
+        }
+      ],
+      "prompt": "Zamanaşımını şimdi nasıl gündeme getireceksiniz?",
+      "choices": [
+        {
+          "text": "Duruşmada sözlü olarak zamanaşımı def'inde bulun.",
+          "delta": -10,
+          "law": "HMK m.141",
+          "note": "Dilekçeler aşaması bittikten sonra savunma, karşı tarafın açık muvafakati olmadan genişletilemez (HMK m.141). Davacı vekili muvafakat etmedi.",
+          "reply": [
+            {
+              "who": "opp",
+              "text": "Savunmanın genişletilmesine açıkça muvafakat etmiyoruz."
+            },
+            {
+              "who": "judge",
+              "text": "Davacı vekili muvafakat etmediğinden beyan dikkate alınmamıştır."
+            }
+          ]
+        },
+        {
+          "text": "Islah dilekçesi ver; savunmayı genişlet ve zamanaşımı def'ini ileri sür.",
+          "delta": 15,
+          "set": [
+            "zaman",
+            "islah"
+          ],
+          "law": "HMK m.176–180",
+          "note": "Islahla savunma, tahkikat bitene kadar bir kez genişletilebilir (HMK m.176–177). Yargıtay uygulamasına göre zamanaşımı def'i ıslahla da ileri sürülebilir. Bedeli var: Islah yapan taraf, ıslah yüzünden karşı tarafın yaptığı giderleri ve uğradığı zararı öder (HMK m.180).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Islah talebi tutanağa geçti. Davalı vekiline ıslah gideri için süre verildi."
+            }
+          ]
+        },
+        {
+          "text": "Hâkimden zamanaşımını kendiliğinden incelemesini iste.",
+          "delta": -10,
+          "law": "TBK m.161",
+          "note": "Hâkim zamanaşımını kendiliğinden dikkate alamaz (TBK m.161). Def'iyi taraf ileri sürmelidir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Zamanaşımı bir def'idir. Mahkeme bunu kendiliğinden dikkate alamaz."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "zaman",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Ön inceleme duruşmasını açıyorum. Taraf vekilleri hazır.",
+          "if": "!islah"
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, zamanaşımı def'ine karşı beyanınız?"
+        },
+        {
+          "who": "opp",
+          "text": "Müvekkilim 8 Haziran 2022'de noter ihtarnamesi göndermiştir. İhtarname zamanaşımını kesmiştir, süre yeniden başlamıştır."
+        },
+        {
+          "who": "judge",
+          "text": "Davalı vekili?"
+        }
+      ],
+      "prompt": "İhtarname iddiasına cevabınız?",
+      "choices": [
+        {
+          "text": "Noter ihtarnamesi TBK m.154'te sayılan kesme sebeplerinden değildir; zamanaşımını kesmez.",
+          "delta": 20,
+          "set": [
+            "ihtar"
+          ],
+          "law": "TBK m.154",
+          "note": "Zamanaşımını kesen sebepler TBK m.154'te sayılmıştır: borçlunun borcu ikrarı (faiz ya da kısmi ödeme, rehin veya kefil gösterme dahil) ile alacaklının dava açması, def'i ileri sürmesi, icra takibi yapması gibi işlemler. Noter ihtarnamesi bunlardan biri değildir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi."
+            }
+          ]
+        },
+        {
+          "text": "İhtarnamenin müvekkile tebliğ edilmediğini ileri sür.",
+          "delta": -5,
+          "law": "TBK m.154",
+          "note": "Tebliğ edilmiş olsa bile ihtarname zamanaşımını kesmez. İspatı zor bir iddiaya yöneldiniz, asıl hukuki argümanı söylemediniz."
+        },
+        {
+          "text": "İhtarname zamanaşımını keser ama yeni süre bir yıldır, o da doldu.",
+          "delta": -15,
+          "law": "TBK m.154, m.156",
+          "note": "Hatalı. İhtarname zamanaşımını kesmez. Kesme olsaydı yeni bir zamanaşımı süresi işlemeye başlardı (TBK m.156); bir yıllık özel bir süre yoktur. Davacının kesme iddiasını da kabul etmiş oldunuz."
+        },
+        {
+          "text": "Zamanaşımı itirazından vazgeç, faiz oranına itiraz et.",
+          "delta": -20,
+          "note": "Elinizdeki en güçlü savunmayı bıraktınız. Faiz itirazı ancak asıl alacak ayakta kalırsa anlam taşır."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "zaman",
+      "lines": [
+        {
+          "who": "opp",
+          "text": "Ayrıca müvekkilim, borcun ödenmeyeceğini ancak 2018'de anlamıştır. Zamanaşımı o tarihte başlar ve dolmamıştır."
+        },
+        {
+          "who": "judge",
+          "text": "Davalı vekili, son beyanınız?"
+        }
+      ],
+      "prompt": "Sürenin başlangıcı için ne söylersiniz?",
+      "choices": [
+        {
+          "text": "Zamanaşımı alacağın muaccel olduğu andan, yani 15.03.2014'ten işlemeye başlar.",
+          "delta": 20,
+          "set": [
+            "baslangic"
+          ],
+          "law": "TBK m.149",
+          "note": "Zamanaşımı alacağın muaccel olmasıyla işlemeye başlar (TBK m.149/1). Alacaklının ödeme yapılmayacağını ne zaman “anladığı” önemli değildir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Tahkikatın sona erdiğini bildiriyorum. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Süre dava tarihinden geriye doğru hesaplanır, sonuç değişmez.",
+          "delta": -10,
+          "law": "TBK m.149",
+          "note": "Süre geriye doğru değil, muacceliyetten ileriye doğru hesaplanır. Doğru dayanağı (TBK m.149) söylemediniz."
+        },
+        {
+          "text": "Davacının dürüstlük kuralına aykırı davrandığını ileri sür.",
+          "delta": -5,
+          "law": "TMK m.2, TBK m.149",
+          "note": "Genel dürüstlük kuralı burada asıl soruyu cevaplamaz. Sürenin başlangıcı kanunda açıkça düzenlenmiştir."
+        },
+        {
+          "text": "Süre 2018'den başlasa bile dolmuştur.",
+          "delta": -10,
+          "law": "TBK m.146, m.149",
+          "note": "2018'den hesaplanırsa on yıllık süre 2028'de dolar. Davacının tezini kabul etmiş ve hesabı da yanlış yapmış oldunuz."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "!zaman",
+      "winner": "p2",
+      "hukum": "Davanın KABULÜ ile 200.000 TL'nin dava tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": "Zamanaşımı def'i hiç işletilemedi. Hâkim bu def'iyi kendiliğinden dikkate alamadığı için (TBK m.161) on iki yıllık alacak müvekkilinizden tahsil edilecek."
+    },
+    {
+      "winner": "p1",
+      "hukum": "Davalının zamanaşımı def'inin kabulü ile davanın REDDİNE,",
+      "summary": [
+        {
+          "if": "islah",
+          "text": "Davayı kazandınız, ama ıslah nedeniyle oluşan giderler müvekkilinize yüklendi (HMK m.180). Def'i cevap dilekçesinde ileri sürülseydi bu masraf olmayacaktı."
+        },
+        {
+          "if": "!islah",
+          "text": "Zamanaşımı def'i süresinde ileri sürüldü. Borç 15.03.2014'te muaccel olmuş, on yıllık süre 15.03.2024'te dolmuştu; ihtarname süreyi kesmedi."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "id": "ucm-yargilama",
+  "mode": "solo",
+  "title": "Lahey",
+  "area": "Uluslararası Ceza Mahkemesi · Delil yasağı",
+  "court": "Uluslararası Ceza Mahkemesi · Yargılama Dairesi",
+  "courtShort": "UCM · YARGILAMA DAİRESİ",
+  "esas": "ICC-02/26-01/27",
+  "kararTarihi": "14.03.2028",
+  "color": "#3b3f5c",
+  "teaser": "Üç yargıçlı daire, savcılığın en güçlü delili: sanığın kendi ifadesi. Ama o ifade nasıl alındı?",
+  "sides": { "p1": { "role": "Savunma avukatı", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 3, "title": "Başkan yargıç ve iki yargıç" },
+  "room": "uluslararasi",
+  "inscription": null,
+  "cast": {
+    "judge": { "name": "Başkan Yargıç", "np": "red", "look": { "kind": "robe", "skin": "#b88560", "hair": "#151515", "style": "short", "robe": "#1f2b45", "collarColor": "#e8e4da" } },
+    "opp": { "name": "Savcılık temsilcisi", "np": "green", "look": { "kind": "robe", "skin": "#e6bd98", "hair": "#5a4a3c", "style": "bun", "robe": "#1d1f26", "collarColor": "#e8e4da" } },
+    "client": { "name": "Marek Dorn · Müvekkil (sanık)", "np": "civil", "look": { "kind": "civil", "skin": "#e0b48e", "hair": "#6b6b70", "style": "short", "beard": true, "shirt": "#3e4a3a", "inner": "#c9c4b8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Lahey, tutukevi görüşme odası. Kurgusal Kordavia'daki iç çatışmada bir milis komutanı olan Marek Dorn, savaş suçu iddiasıyla yargılanıyor." },
+    { "who": "narr", "text": "Türkiye Roma Statüsü'ne taraf değil; ama UCM'nin avukat listesine kayıtlı bir avukat olarak savunmayı üstlendiniz." },
+    { "who": "client", "text": "Savcılık, gözaltındayken verdiğim ifadeyi delil olarak kullanmak istiyor. O ifadede emri benim verdiğimi söylemişim. Ama o gün olanları kimse sormadı." }
+  ],
+  "docs": [
+    { "t": "Suçlama belgesi", "d": "Roma Statüsü m.8 kapsamında savaş suçu: sivil yerleşime saldırı emri vermek." },
+    { "t": "Soruşturma ifadesi", "d": "Sanığın emri verdiğini kabul ettiği ifade. Savcılık bunu delil olarak sunmak istiyor." },
+    { "t": "Savunma tanık listesi", "d": "Emrin başka bir komutandan geldiğini söyleyen iki tanık." }
+  ],
+  "evidence": [
+    { "id": "ev_ifade", "type": "belge", "title": "Soruşturma ifadesi tutanağı", "desc": "Savcılığın sunduğu, sanığın emri verdiğini kabul ettiği ifade." },
+    { "id": "ev_sorgu", "type": "belge", "title": "Sorgunun video kaydı", "desc": "Dokuz saat süren sorguda odada avukat ve tercüman yok; susma hakkı hatırlatılmamış.", "if": "haklar" },
+    { "id": "ev_tanik", "type": "beyan", "title": "Savunma tanıkları", "desc": "Emrin başka bir komutandan geldiğini söyleyen iki tanık." },
+    { "id": "law_69", "type": "kanun", "title": "Roma Statüsü m.69/7", "desc": "Statü'ye ya da uluslararası insan haklarına aykırı yöntemlerle elde edilen delilin kabul edilmemesi.", "law": "Roma Statüsü m.69/7" },
+    { "id": "law_55", "type": "kanun", "title": "Roma Statüsü m.55/2", "desc": "Sorgulanacak kişinin susma, avukat yardımı ve tercüman haklarının hatırlatılması.", "law": "Roma Statüsü m.55/2" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Duruşmaya bir saat var. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Sorgulanırken yanınızda avukat ve tercüman var mıydı? Haklarınız hatırlatıldı mı?", "delta": 15, "set": ["haklar"],
+          "reply": [{ "who": "client", "text": "Hayır. Dokuz saat sorguladılar, tercüman yoktu, kimse susabileceğimi söylemedi. Kamera çalışıyordu, kayıt dosyada olmalı." }],
+          "note": "Roma Statüsü m.55/2, sorgulanacak kişiye susma hakkının, avukat yardımının ve gerektiğinde tercümanın hatırlatılmasını öngörür. Sorgu kaydı delil çantanıza eklendi." },
+        { "text": "Saldırı emrini fiilen kim verdi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Bölge komutanı. Benim birliğim o gün başka bir yerdeydi." }],
+          "note": "Esas savunma için önemli; ama bugünkü duruşmanın konusu ifadenin delil olarak kabul edilip edilmeyeceği." },
+        { "text": "Tutukevindeki koşullarınız nasıl?", "delta": -5,
+          "reply": [{ "who": "client", "text": "İyi sayılır. Ailemi görmek istiyorum." }],
+          "note": "İnsani bir soru, ama duruşmaya bir saat kala davaya bir şey katmadı." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Oturumu açıyorum. Savcılık, delil talebinizi sunun." }],
+      "statement": { "who": "opp", "text": "Sayın Daire, sanığın soruşturma aşamasındaki ifadesinin delil olarak kabul edilmesini talep ediyoruz. Sanık bu ifadede emri kendisinin verdiğini kabul etmiştir." },
+      "prompt": "Bu talebe hangi delille itiraz edeceksiniz?",
+      "correct": ["ev_sorgu"],
+      "hit": { "delta": 25, "set": ["dislandi"],
+        "reply": [{ "who": "judge", "text": "Kayıt izlendi. Daire, savunmanın itirazını değerlendirmek üzere ara veriyor." }],
+        "law": "Roma Statüsü m.69/7",
+        "note": "Kayıt, avukat ve tercüman haklarının tanınmadığını gösteriyor. Statü'ye aykırı elde edilen delil, güvenilirliğini ciddi biçimde şüpheye düşürüyorsa ya da kabulü yargılamanın dürüstlüğünü zedeleyecekse kabul edilmez (Roma Statüsü m.69/7)." },
+      "responses": {
+        "law_69": { "delta": 10, "note": "Doğru dayanak, ama ihlali gösteren kaydı sunmadan itiraz soyut kaldı." },
+        "law_55": { "delta": 5, "note": "Hangi hakların hatırlatılması gerektiğini gösterdiniz, ama hatırlatılmadığını gösteren kaydı sunmadınız." },
+        "ev_ifade": { "delta": -5, "note": "Bu, savcılığın sunmak istediği delilin kendisi." },
+        "ev_tanik": { "delta": -5, "note": "Tanıklar esas için önemli, ama ifadenin nasıl alındığı sorusuna cevap vermiyor." }
+      },
+      "pass": { "delta": -20, "note": "İtiraz etmediniz; sanığın kendi ifadesi delil olarak dosyaya girdi." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Savunma, Daire'den talebiniz nedir?" }],
+      "prompt": "Ne isteyeceksiniz?",
+      "choices": [
+        { "text": "İfadenin delil olarak kabul edilmemesine ve yargılamanın bu ifade olmadan sürdürülmesine karar verilmesini.", "delta": 10,
+          "note": "Talep, itirazın doğal sonucuyla sınırlı ve yerinde." },
+        { "text": "Sanığın derhâl serbest bırakılmasını.", "delta": -5,
+          "note": "Bir delilin dışlanması tek başına tahliye sonucunu doğurmaz; yargılama diğer delillerle sürer." },
+        { "text": "Davanın düşürülmesini.", "delta": -10,
+          "note": "Bir delil yasağı davayı düşürmez; dayanaksız bir talep Daire'de güven kaybettirir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "dislandi", "winner": "p1", "label": "ARA KARAR:", "noCourt": true,
+      "hukum": "Sanığın soruşturma aşamasındaki ifadesinin Roma Statüsü m.69/7 uyarınca DELİL OLARAK KABUL EDİLMEMESİNE,",
+      "summary": "Müvekkile sorgunun koşullarını sordunuz ve kaydı buldunuz. Savcılığın en güçlü delili dosya dışında kaldı." },
+    { "winner": "p2", "label": "ARA KARAR:", "noCourt": true,
+      "hukum": "Sanığın soruşturma aşamasındaki ifadesinin DELİL OLARAK KABULÜNE,",
+      "summary": "İfadenin hukuka aykırı biçimde alındığı gösterilemedi. Sorgunun koşulları müvekkile sorulsaydı, video kaydı itirazı kazandırabilirdi." }
+  ]
+}

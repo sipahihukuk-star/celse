@@ -1,0 +1,711 @@
+{
+  "id": "d-eski-borc",
+  "mode": "duel",
+  "title": "Eski Borç",
+  "area": "Borçlar Hukuku · Zamanaşımı",
+  "court": "İzmir 3. Asliye Hukuk Mahkemesi",
+  "courtShort": "3. ASLİYE HUKUK",
+  "esas": "2026/418 Esas",
+  "kararTarihi": "24.11.2026",
+  "color": "#36536b",
+  "teaser": "Davacı on iki yıllık alacağının, davalı zamanaşımının peşinde. 2017'deki bir havale her şeyi değiştirebilir.",
+  "sides": {
+    "p1": {
+      "role": "Davacı vekili",
+      "short": "Davacı"
+    },
+    "p2": {
+      "role": "Davalı vekili",
+      "short": "Davalı"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#d9a982",
+        "hair": "#9a9a9e",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#dcae86",
+        "hair": "#3a2a20",
+        "style": "short",
+        "beard": true
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#e6bd98",
+        "hair": "#2b1d17",
+        "style": "long"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Bu dosyada iki vekil karşı karşıya. Nail Toprak eski bir ödünç alacağını istiyor; Murat Ekin ödememek için zamanaşımına güveniyor."
+    },
+    {
+      "who": "narr",
+      "text": "10.01.2014'te 200.000 TL ödünç verildi, vade 15.03.2014. 20.05.2017'de Murat 10.000 TL gönderdi; dekontta “Ocak 2014 borcuna kısmi ödeme” yazıyor."
+    },
+    {
+      "who": "narr",
+      "text": "08.06.2022'de noter ihtarnamesi çekildi. Dava 02.04.2026'da açılacak. Önce dilekçeler aşaması, sonra ön inceleme duruşması."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Ödünç sözleşmesi",
+      "d": "10.01.2014. Tutar 200.000 TL, ödeme günü 15.03.2014. İmza davalıya ait; davalı bunu inkâr etmiyor."
+    },
+    {
+      "t": "Banka dekontu",
+      "d": "20.05.2017. Davalıdan davacıya 10.000 TL. Açıklama: “Ocak 2014 borcuna kısmi ödeme”."
+    },
+    {
+      "t": "Noter ihtarnamesi",
+      "d": "08.06.2022. Davacı kalan borcun ödenmesini istiyor. Başka bir işlem yapılmamış."
+    },
+    {
+      "t": "Dava",
+      "d": "02.04.2026'da açılacak. Taraflar arasında başka bir borç ilişkisi yok."
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "DAVA DİLEKÇESİ · Bu dilekçede getirdiğiniz vakıalar, ileride neyi tartışabileceğinizi belirler."
+        }
+      ],
+      "prompt": "Dava dilekçenizde neyi, nasıl isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Kalan 190.000 TL'yi iste. 20.05.2017'deki 10.000 TL kısmi ödemeyi dilekçede açıkça anlat, dekontu ve sözleşmeyi delil göster.",
+          "delta": 15,
+          "set": [
+            "dekont"
+          ],
+          "law": "HMK m.119 · TBK m.117",
+          "note": "Talep doğru ve eksiksiz: ödenen kısım düşülmüş, kısmi ödeme vakıası baştan dosyaya girmiş. Ödeme günü kararlaştırıldığı için borçlu bu günün geçmesiyle temerrüde düştü (TBK m.117/2). Bu vakıa zamanaşımı tartışmasında elinizi güçlendirecek."
+        },
+        {
+          "text": "200.000 TL'nin tamamını iste, kısmi ödemeden hiç söz etme.",
+          "delta": -10,
+          "set": [
+            "fazla"
+          ],
+          "law": "HMK m.326",
+          "note": "10.000 TL ödenmişti. Fazla istenen kısım reddedilir ve yargılama giderleri haklılık oranına göre paylaştırılır (HMK m.326). Zamanaşımını kesen ödemeyi de dosyaya getirmediniz."
+        },
+        {
+          "text": "Kalan 190.000 TL'yi iste; 2017 ödemesini şimdilik anlatma, zamanaşımı itirazı gelirse kullanırsın.",
+          "delta": 5,
+          "law": "HMK m.141",
+          "note": "Talep doğru. Ödemeyi saklamak taktik gibi görünebilir, ama dilekçeler aşaması biterse bu vakıayı ancak karşı tarafın açık muvafakatiyle ya da ıslahla getirebilirsiniz (HMK m.141)."
+        },
+        {
+          "text": "Kalan 190.000 TL için davayı sulh hukuk mahkemesinde aç.",
+          "delta": -15,
+          "law": "HMK m.2, m.4",
+          "note": "Para alacağı davalarında genel görevli mahkeme asliye hukuk mahkemesidir (HMK m.2). Sulh hukukun görevi dava değerine göre değil, kanunda sayılan işlere göre belirlenir (HMK m.4).",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Sulh hukuk mahkemesi görevsizlik kararı verdi. Dosya asliye hukuk mahkemesine gönderildi; aylar kaybedildi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "CEVAP DİLEKÇESİ · Dava dilekçesi davalıya tebliğ edildi. İki haftalık cevap süresi işliyor (HMK m.127)."
+        }
+      ],
+      "prompt": "Cevap dilekçenizin merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "text": "Zamanaşımı def'i: Borç 15.03.2014'te muaccel oldu, on yıllık süre 15.03.2024'te doldu.",
+          "delta": 15,
+          "set": [
+            "zaman"
+          ],
+          "law": "TBK m.146, m.161",
+          "note": "Genel zamanaşımı süresi on yıldır (TBK m.146). Hâkim zamanaşımını kendiliğinden dikkate alamaz (TBK m.161); def'iyi doğru yerde, cevap dilekçesinde ileri sürdünüz."
+        },
+        {
+          "text": "İmzanın müvekkile ait olmadığını, sözleşmenin sahte olduğunu ileri sür.",
+          "delta": -20,
+          "law": "HMK m.329",
+          "note": "Müvekkiliniz imzanın kendisine ait olduğunu kabul ediyor. İmza incelemesinde gerçek ortaya çıkar; kötüniyetli davranan taraf ve vekili HMK m.329 uyarınca yaptırımla karşılaşabilir."
+        },
+        {
+          "text": "Borcun 2017'deki ödemeyle tamamen kapandığını ileri sür.",
+          "delta": -15,
+          "law": "HMK m.190",
+          "note": "Dekontta “kısmi ödeme” yazıyor. Borcun tamamen ödendiğini ispat yükü sizdedir (HMK m.190) ve bunu gösterecek belge yok. Üstelik borcun varlığını kabul etmiş oldunuz."
+        },
+        {
+          "text": "Görev itirazı: Davaya sulh hukuk mahkemesi bakmalı.",
+          "delta": -10,
+          "law": "HMK m.2",
+          "note": "Para alacağı davalarında asliye hukuk mahkemesi görevlidir (HMK m.2). Zamanaşımını ise hiç ileri sürmediniz."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "if": "zaman",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "CEVABA CEVAP DİLEKÇESİ · Davalı zamanaşımı def'inde bulundu: “Vade 15.03.2014, on yıllık süre 15.03.2024'te doldu.”"
+        }
+      ],
+      "prompt": "Cevaba cevap dilekçenizde ne yazacaksınız?",
+      "choices": [
+        {
+          "text": "20.05.2017'deki kısmi ödeme borcun ikrarıdır. Zamanaşımı kesildi; yeni on yıllık süre 20.05.2027'de dolar.",
+          "delta": 20,
+          "set": [
+            "kesme"
+          ],
+          "law": "TBK m.154, m.156 · HMK m.141",
+          "note": [
+            {
+              "text": "Borçlunun kısmi ödemesi borcu ikrar ettiğini gösterir ve zamanaşımını keser (TBK m.154/1). Kesmeyle yeni bir süre işlemeye başlar (TBK m.156); dava 20.05.2027'ye kadar açılabilirdi."
+            },
+            {
+              "if": "!dekont",
+              "text": " Ödemeyi dava dilekçesinde anlatmamıştınız; cevaba cevap dilekçesinde iddia serbestçe genişletilebildiği için şimdi getirebildiniz (HMK m.141)."
+            }
+          ]
+        },
+        {
+          "text": "08.06.2022 tarihli noter ihtarnamesi zamanaşımını kesti.",
+          "delta": -10,
+          "law": "TBK m.154",
+          "note": "Noter ihtarnamesi TBK m.154'te sayılan kesme sebeplerinden değildir. Elinizdeki gerçek kesme sebebini, 2017 kısmi ödemesini kullanmadınız."
+        },
+        {
+          "text": "Zamanaşımı, müvekkilin borcun ödenmeyeceğini anladığı 2018'de başladı.",
+          "delta": -10,
+          "law": "TBK m.149",
+          "note": "Zamanaşımı alacağın muaccel olmasıyla işlemeye başlar (TBK m.149/1). Alacaklının ne zaman “anladığı” önemli değildir."
+        },
+        {
+          "text": "Hâkimin zamanaşımını kendiliğinden dikkate alamayacağını hatırlat.",
+          "delta": -10,
+          "law": "TBK m.161",
+          "note": "Bu kural ancak def'i ileri sürülmemişse işe yarar. Davalı def'iyi zaten ileri sürdü."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "if": "!zaman",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "CEVABA CEVAP DİLEKÇESİ · Davalı cevap dilekçesinde zamanaşımından hiç söz etmedi."
+        }
+      ],
+      "prompt": "Cevaba cevap dilekçenizde ne yaparsınız?",
+      "choices": [
+        {
+          "text": "Alacağın yazılı sözleşmeyle sabit olduğunu, davalının savunmasının dayanaksız kaldığını yaz. Zamanaşımı konusunu açma.",
+          "delta": 10,
+          "law": "HMK m.141",
+          "note": "Zamanaşımından söz etmeyerek karşı tarafa fikir vermediniz. Ancak davalı bu def'iyi ikinci cevap dilekçesinde hâlâ ileri sürebilir (HMK m.141)."
+        },
+        {
+          "text": "Zamanaşımının dolmadığını, 2017 ödemesiyle kesildiğini şimdiden yaz.",
+          "delta": 5,
+          "set": [
+            "kesme"
+          ],
+          "law": "TBK m.154",
+          "note": "Hukuken doğru ve ileride işinize yarar. Ama davalının aklına gelmemiş bir savunmayı ona hatırlatmış oldunuz."
+        },
+        {
+          "text": "Mahkemeden, davalının zamanaşımı def'inde bulunmadığının tespitini iste.",
+          "delta": -5,
+          "law": "TBK m.161",
+          "note": "Gereksiz bir talep. Hâkim zamanaşımını zaten kendiliğinden dikkate alamaz (TBK m.161); bu talep yalnızca karşı tarafa fikir verir."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "if": "zaman && kesme",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "İKİNCİ CEVAP DİLEKÇESİ · Davacı, 20.05.2017 kısmi ödemesiyle zamanaşımının kesildiğini ileri sürdü."
+        }
+      ],
+      "prompt": "İkinci cevap dilekçenizde ne yaparsınız?",
+      "choices": [
+        {
+          "text": "Kısmi ödemenin zamanaşımını kestiğini kabul et. Müvekkille görüşüp ön incelemede taksitli ödeme için sulh teklif et.",
+          "delta": 10,
+          "set": [
+            "sulhTeklif"
+          ],
+          "law": "TBK m.154 · HMK m.313",
+          "note": "Kısmi ödeme borcun ikrarıdır (TBK m.154/1); bu noktada zamanaşımı savunması tutmaz. Kaybedilecek bir def'ide ısrar etmek yerine sulh (HMK m.313) müvekkilin faiz ve yargılama gideri yükünü sınırlayabilir."
+        },
+        {
+          "text": "Kısmi ödeme ikrar sayılmaz, zamanaşımını kesmez.",
+          "delta": -15,
+          "law": "TBK m.154",
+          "note": "TBK m.154/1, kısmi ödemeyi borcun ikrarına örnek olarak açıkça sayar."
+        },
+        {
+          "text": "Kesme olsa bile yeni süre bir yıldır; 2018'de doldu.",
+          "delta": -15,
+          "law": "TBK m.156",
+          "note": "Kesmeyle başlayan yeni süre kural olarak ilk süreyle aynıdır (TBK m.156). Burada on yıl, yani 20.05.2027."
+        },
+        {
+          "text": "Ödemenin taraflar arasındaki başka bir borca ait olduğunu ileri sür.",
+          "delta": -10,
+          "law": "HMK m.190",
+          "note": "Dekontta “Ocak 2014 borcuna kısmi ödeme” yazıyor ve taraflar arasında başka bir borç ilişkisi yok. Belgeyle çelişen bir savunma ispat edilemez."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "if": "zaman && !kesme",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "İKİNCİ CEVAP DİLEKÇESİ · Davacı, zamanaşımına karşı geçerli bir kesme sebebi göstermedi."
+        }
+      ],
+      "prompt": "İkinci cevap dilekçenizde ne yaparsınız?",
+      "choices": [
+        {
+          "text": "Davacının cevabının süreyi kesmediğini açıkla: TBK m.154'teki sebeplerden hiçbiri gösterilmedi, süre 15.03.2024'te doldu.",
+          "delta": 15,
+          "law": "TBK m.146, m.154",
+          "note": "Karşı tarafın argümanını hukuki dayanağıyla cevapladınız. Def'iniz sağlam duruyor."
+        },
+        {
+          "text": "Zamanaşımı def'inde ısrar et, başka bir şey ekleme.",
+          "delta": 5,
+          "law": "TBK m.146",
+          "note": "Yeterli olabilir, ama davacının argümanını cevapsız bıraktınız."
+        },
+        {
+          "text": "Def'iden vazgeç, borcu kabul et.",
+          "delta": -25,
+          "set": [
+            "kabul"
+          ],
+          "law": "HMK m.308",
+          "note": "Kabul, davayı sona erdiren bir taraf işlemidir (HMK m.308). Kazanmak üzere olduğunuz bir savunmayı bıraktınız."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "if": "!zaman",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "İKİNCİ CEVAP DİLEKÇESİ · Cevap dilekçenizde zamanaşımından söz etmediniz. Bu dilekçe, savunmayı serbestçe genişletebileceğiniz son fırsat."
+        },
+        {
+          "who": "narr",
+          "text": "Davacı ise cevaba cevap dilekçesinde, zamanaşımının 2017 ödemesiyle kesildiğini şimdiden yazdı.",
+          "if": "kesme"
+        }
+      ],
+      "prompt": "İkinci cevap dilekçenizde ne yaparsınız?",
+      "choices": [
+        {
+          "text": "Zamanaşımı def'ini bu dilekçede ileri sür.",
+          "delta": 15,
+          "set": [
+            "zaman"
+          ],
+          "law": "HMK m.141 · TBK m.146",
+          "note": "Cevaba cevap ve ikinci cevap dilekçelerinde savunma serbestçe genişletilebilir (HMK m.141). Def'iyi son anda ama süresinde getirdiniz."
+        },
+        {
+          "text": "Ön inceleme duruşmasını bekle, def'iyi orada sözlü söyle.",
+          "delta": -10,
+          "set": [
+            "sozluP2"
+          ],
+          "law": "HMK m.141",
+          "note": "Dilekçeler aşaması bitince savunma ancak karşı tarafın açık muvafakatiyle genişletilebilir (HMK m.141). Kararı rakibinize bıraktınız."
+        },
+        {
+          "text": "Yasal faizin fahiş olduğunu ileri sür.",
+          "delta": -5,
+          "note": "Dava yasal faizle açıldı; fahiş faiz itirazının dayanağı yok. Asıl savunmanızı yine getirmediniz."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "sozluP2",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Ön inceleme duruşmasını açıyorum. Taraf vekilleri hazır."
+        },
+        {
+          "who": "p2",
+          "text": "Sayın Hâkim, zamanaşımı def'inde bulunuyoruz. Borç 2014'te muaccel olmuştur."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, savunmanın genişletilmesine muvafakat ediyor musunuz?"
+        }
+      ],
+      "prompt": "Muvafakat sorusuna cevabınız?",
+      "choices": [
+        {
+          "text": "Açıkça muvafakat etmiyoruz.",
+          "delta": 15,
+          "law": "HMK m.141",
+          "note": "Dilekçeler aşamasından sonra savunma ancak karşı tarafın açık muvafakatiyle genişletilebilir. Muvafakat etmeyerek def'iyi dosya dışında bıraktınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Davacı vekili muvafakat etmediğinden zamanaşımı beyanı dikkate alınmamıştır."
+            }
+          ]
+        },
+        {
+          "text": "Muvafakat ediyoruz.",
+          "delta": -20,
+          "set": [
+            "zaman"
+          ],
+          "law": "HMK m.141",
+          "note": "Rakibinize, kendi başına yapamayacağı bir şeyi yapma imkânı verdiniz.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Muvafakat tutanağa geçti. Zamanaşımı def'i incelenecektir."
+            }
+          ]
+        },
+        {
+          "text": "Beyanımız yok.",
+          "delta": 5,
+          "law": "HMK m.141",
+          "note": "Susmak muvafakat sayılmaz; kanun açık muvafakat arar (HMK m.141). Sonuç lehinize oldu, ama açıkça itiraz etmek daha güvenliydi.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Açık muvafakat bulunmadığından beyan dikkate alınmamıştır."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "zaman && !kesme && !kabul && dekont",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Ön inceleme duruşmasını açıyorum. Taraf vekilleri hazır.",
+          "if": "!sozluP2"
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, zamanaşımı def'ine karşı beyanınız?"
+        }
+      ],
+      "prompt": "Zamanaşımı def'i dosyada. Ne söylersiniz?",
+      "choices": [
+        {
+          "text": "2017 kısmi ödemesi dava dilekçesinde anlatıldı ve dekont dosyada. Bu ödeme zamanaşımını kesmiştir; hukuki nitelendirme mahkemeye aittir.",
+          "delta": 15,
+          "set": [
+            "kesme"
+          ],
+          "law": "HMK m.33 · TBK m.154",
+          "note": "Ödeme vakıasını dava dilekçesinde getirdiğiniz için genişletme yasağına takılmadınız. Bu vakıanın zamanaşımını kestiği bir hukuki değerlendirmedir ve hâkim hukuku kendiliğinden uygular (HMK m.33).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi."
+            }
+          ]
+        },
+        {
+          "text": "Islah dilekçesi ver; kısmi ödemeyle zamanaşımının kesildiğini ileri sür.",
+          "delta": 5,
+          "set": [
+            "kesme",
+            "islahD"
+          ],
+          "law": "HMK m.177, m.180",
+          "note": "Islah sonuç verir ama gereksizdi: vakıa zaten dosyadaydı. Islah yapan taraf, ıslah nedeniyle karşı tarafın yaptığı giderleri öder (HMK m.180)."
+        },
+        {
+          "text": "Zamanaşımı itirazının haksız olduğunu söyle, gerekçe gösterme.",
+          "delta": -10,
+          "note": "Gerekçesiz itiraz hâkimi ikna etmez. Dosyadaki kısmi ödemeyi göstermeniz yeterliydi."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "zaman && !kesme && !kabul && !dekont",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Ön inceleme duruşmasını açıyorum. Taraf vekilleri hazır.",
+          "if": "!sozluP2"
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, zamanaşımı def'ine karşı beyanınız?"
+        }
+      ],
+      "prompt": "Zamanaşımı def'i dosyada; 2017 ödemesi ise henüz dosyada yok. Ne yaparsınız?",
+      "choices": [
+        {
+          "text": "Islah dilekçesi ver; 2017 kısmi ödemesiyle zamanaşımının kesildiğini ileri sür.",
+          "delta": 10,
+          "set": [
+            "kesme",
+            "islahD"
+          ],
+          "law": "HMK m.176–180 · TBK m.154",
+          "note": "Dilekçeler aşaması bittiği için yeni vakıayı ancak ıslahla getirebilirdiniz (HMK m.176–177). Doğru hamle, ama bedeli var: ıslah yapan taraf, ıslah nedeniyle karşı tarafın yaptığı giderleri öder (HMK m.180).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Islah talebi tutanağa geçti. Davacı vekiline ıslah gideri için süre verildi."
+            }
+          ]
+        },
+        {
+          "text": "Duruşmada sözlü olarak 2017 ödemesini ileri sür.",
+          "delta": 0,
+          "set": [
+            "sozluP1"
+          ],
+          "law": "HMK m.141",
+          "note": "Bu yeni bir vakıa. Dilekçeler aşaması bittiği için ancak karşı tarafın açık muvafakatiyle dinlenebilir (HMK m.141). Karar artık davalı vekilinde."
+        },
+        {
+          "text": "Hâkimden dosyayı kendiliğinden incelemesini ve zamanaşımının dolmadığını tespit etmesini iste.",
+          "delta": -10,
+          "law": "HMK m.25",
+          "note": "Hâkim taraflarca ileri sürülmeyen vakıaları kendiliğinden dikkate alamaz (HMK m.25). 2017 ödemesi dosyada yok."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "sozluP1",
+      "lines": [
+        {
+          "who": "p1",
+          "text": "Sayın Hâkim, davalı 20.05.2017'de 10.000 TL kısmi ödeme yapmıştır; zamanaşımı kesilmiştir."
+        },
+        {
+          "who": "judge",
+          "text": "Davalı vekili, iddianın genişletilmesine muvafakat ediyor musunuz?"
+        }
+      ],
+      "prompt": "Muvafakat sorusuna cevabınız?",
+      "choices": [
+        {
+          "text": "Açıkça muvafakat etmiyoruz.",
+          "delta": 15,
+          "law": "HMK m.141",
+          "note": "Davacı yeni vakıayı ancak sizin açık muvafakatinizle getirebilirdi. Kapıyı kapattınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Davalı vekili muvafakat etmediğinden beyan dikkate alınmamıştır."
+            }
+          ]
+        },
+        {
+          "text": "Muvafakat ediyoruz.",
+          "delta": -20,
+          "set": [
+            "kesme"
+          ],
+          "law": "HMK m.141",
+          "note": "Davacının kendi başına getiremeyeceği, davayı kazandıran vakıaya kapı açtınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Muvafakat tutanağa geçti. Kısmi ödeme iddiası incelenecektir."
+            }
+          ]
+        },
+        {
+          "text": "Beyanımız yok.",
+          "delta": 5,
+          "law": "HMK m.141",
+          "note": "Susmak muvafakat sayılmaz (HMK m.141). Sonuç lehinize, ama açıkça itiraz etmek daha güvenliydi.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Açık muvafakat bulunmadığından beyan dikkate alınmamıştır."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "sulhTeklif",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Ön inceleme duruşmasını açıyorum. Taraf vekilleri hazır."
+        },
+        {
+          "who": "p2",
+          "text": "Sayın Hâkim, müvekkilim borcu kabul ediyor ve 190.000 TL'nin on iki eşit taksitle ödenmesini teklif ediyor."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, teklif hakkında beyanınız?"
+        }
+      ],
+      "prompt": "Sulh teklifine ne diyorsunuz?",
+      "choices": [
+        {
+          "text": "Müvekkilin onayını al; bir taksit ödenmezse kalan borcun tamamının muaccel olacağını yazdırarak sulhü kabul et.",
+          "delta": 15,
+          "set": [
+            "sulh"
+          ],
+          "law": "HMK m.74, m.313",
+          "note": "Müvekkilin onayını aldınız ve tahsili güvenceye alan muacceliyet şartını eklediniz. Avukatın sulh olabilmesi için vekâletnamede özel yetki bulunmalıdır (HMK m.74).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Sulh tutanağa geçirildi; taraflar tutanağı imzaladı."
+            }
+          ]
+        },
+        {
+          "text": "Teklifi reddet; kararla alacağın tamamını faiziyle iste.",
+          "delta": 5,
+          "note": "Savunulabilir bir tercih: davayı büyük ihtimalle kazanırsınız. Ancak hüküm ve tahsil süreci uzayabilir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Sulh sağlanamadı. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Teklifi müvekkile sormadan hemen kabul et.",
+          "delta": -15,
+          "law": "HMK m.74",
+          "note": "Sulh, vekâletnamede özel yetki gerektiren işlemlerdendir (HMK m.74). Müvekkilin iradesini de almadınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Vekâletnamenizde sulh yetkisi bulunmuyor. Beyanınız sulh olarak kabul edilmemiştir."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "sulh",
+      "winner": "draw",
+      "stamp": "SULH",
+      "label": "SONUÇ:",
+      "noCourt": true,
+      "hukum": "Taraflar, 190.000 TL'nin on iki eşit taksitle ödenmesi ve bir taksit ödenmezse kalan borcun tamamının muaccel olması şartıyla sulh oldu. Sulh tutanağa geçirildi.",
+      "summary": "Davalı vekili kaybedilecek bir def'ide ısrar etmedi; davacı vekili tahsili güvenceye alan şartlarla uzlaştı. İki taraf da riskini sınırladı."
+    },
+    {
+      "if": "kabul",
+      "winner": "p1",
+      "hukum": "Davalının kabulü nedeniyle davanın KABULÜ ile 190.000 TL'nin yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": "Davalı vekili, kazanmak üzere olduğu zamanaşımı savunmasını bırakıp davayı kabul etti (HMK m.308)."
+    },
+    {
+      "if": "zaman && !kesme",
+      "winner": "p2",
+      "hukum": "Davalının zamanaşımı def'inin kabulü ile davanın REDDİNE,",
+      "summary": "Davalı vekili zamanaşımı def'ini süresinde ileri sürdü. Davacı vekili, 2017 kısmi ödemesinin süreyi kestiğini mahkemeye geçerli biçimde getiremedi. On yıllık süre 15.03.2024'te dolmuştu (TBK m.146)."
+    },
+    {
+      "winner": "p1",
+      "hukum": [
+        {
+          "if": "fazla",
+          "text": "Davanın KISMEN KABULÜ ile 190.000 TL'nin yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, ödenmiş olan 10.000 TL yönünden davanın REDDİNE,"
+        },
+        {
+          "if": "!fazla",
+          "text": "Davanın KABULÜ ile 190.000 TL'nin yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine,"
+        }
+      ],
+      "summary": [
+        {
+          "if": "zaman",
+          "text": "Davalı zamanaşımı def'inde bulundu, ama 2017 kısmi ödemesi süreyi kesmişti (TBK m.154/1). Yeni on yıllık süre dava tarihinde dolmamıştı."
+        },
+        {
+          "if": "!zaman",
+          "text": "Davalı zamanaşımı def'ini geçerli biçimde ileri sürmedi. Hâkim bunu kendiliğinden dikkate alamadığından (TBK m.161) alacak hüküm altına alındı."
+        },
+        {
+          "if": "islahD",
+          "text": " Islah giderleri davacıya yüklendi (HMK m.180)."
+        },
+        {
+          "if": "fazla",
+          "text": " Ödenmiş 10.000 TL de istendiği için yargılama giderleri haklılık oranına göre paylaştırıldı (HMK m.326)."
+        }
+      ]
+    }
+  ]
+}

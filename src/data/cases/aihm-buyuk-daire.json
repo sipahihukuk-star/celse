@@ -1,0 +1,117 @@
+{
+  "id": "aihm-buyuk-daire",
+  "mode": "solo",
+  "title": "Strazburg",
+  "area": "AİHM · İfade özgürlüğü (m.10)",
+  "court": "Avrupa İnsan Hakları Mahkemesi · Büyük Daire",
+  "courtShort": "AİHM · BÜYÜK DAİRE",
+  "esas": "Başvuru no. 18452/24",
+  "kararTarihi": "09.11.2027",
+  "color": "#2c4a6e",
+  "teaser": "On yedi yargıcın önünde, bir gazetecinin haberi için verilen cezayı savunuyorsunuz. Önce başvurunun kabul edilebilir olduğunu göstermeniz gerek.",
+  "sides": { "p1": { "role": "Başvurucu vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 17, "title": "Büyük Daire: Başkan ve on altı yargıç" },
+  "room": "uluslararasi",
+  "inscription": null,
+  "cast": {
+    "judge": { "name": "Mahkeme Başkanı", "np": "red", "look": { "kind": "robe", "skin": "#e8c09c", "hair": "#6b6b70", "style": "short", "glasses": true, "robe": "#1b1d24", "collarColor": "#3a6fb0" } },
+    "opp": { "name": "Hükûmet temsilcisi", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#c99670", "hair": "#2a2220", "style": "short", "robe": "#22252c", "collarColor": "#55606e" } },
+    "client": { "name": "Selin Ateş · Başvurucu", "np": "civil", "look": { "kind": "civil", "skin": "#edc6a2", "hair": "#4a3020", "style": "long", "glasses": true, "shirt": "#6b3f4f", "inner": "#e9e4d8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Selin Ateş bir gazeteci. Bir belediyenin ihale kayıtlarına dayanan haberi nedeniyle cezalandırıldı; hükmün açıklanması geri bırakıldı." },
+    { "who": "client", "text": "Anayasa Mahkemesi başvurumu açıkça dayanaktan yoksun buldu. Sonra Strazburg'a gittik. Daire dosyayı Büyük Daire'ye gönderdi; duruşma yapılacak." },
+    { "who": "narr", "text": "Hükûmet önce başvurunun kabul edilemez olduğunu savunacak. Esasa geçebilmek için kabul edilebilirlik koşullarını ispatlamanız gerekiyor." }
+  ],
+  "docs": [
+    { "t": "Ceza mahkemesi kararı", "d": "Haber nedeniyle mahkûmiyet; hükmün açıklanması geri bırakıldı, denetim süresi beş yıl." },
+    { "t": "Anayasa Mahkemesi kararı", "d": "Bireysel başvuru açıkça dayanaktan yoksun bulunarak kabul edilemez ilan edildi." },
+    { "t": "AİHM başvuru formu", "d": "2 Mayıs 2024'te sunuldu. Şikâyet: Sözleşme m.10 (ifade özgürlüğü)." },
+    { "t": "Haber metni", "d": "Belediye ihale kayıtlarına dayanan, belgeli bir araştırma haberi." }
+  ],
+  "evidence": [
+    { "id": "ev_aym", "type": "belge", "title": "Anayasa Mahkemesi kararı", "desc": "Bireysel başvurunun açıkça dayanaktan yoksun bulunduğu karar." },
+    { "id": "ev_teblig", "type": "belge", "title": "AYM kararının tebliğ belgesi", "desc": "Karar başvurucuya 10 Ocak 2024'te tebliğ edildi. AİHM başvurusu 2 Mayıs 2024'te yapıldı.", "if": "teblig" },
+    { "id": "ev_form", "type": "belge", "title": "AYM bireysel başvuru formu", "desc": "Anayasa m.26 ve Sözleşme m.10 kapsamındaki ifade özgürlüğü şikâyeti açıkça yazılı.", "if": "ozunde" },
+    { "id": "ev_haber", "type": "belge", "title": "Haber metni", "desc": "İhale kayıtlarına dayanan araştırma haberi." },
+    { "id": "law_35", "type": "kanun", "title": "Sözleşme m.35/1 · Kabul edilebilirlik koşulları", "desc": "İç hukuk yollarının tüketilmesi ve kesin karardan itibaren dört aylık süre.", "law": "Sözleşme m.35/1" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Duruşmadan önceki akşam, otel lobisinde başvurucuyla son kez görüşüyorsunuz. İki soru sorabilirsiniz." }],
+      "prompt": "Başvurucuya ne soracaksınız?",
+      "choices": [
+        { "text": "Anayasa Mahkemesi kararı size hangi tarihte tebliğ edildi? Belgesi yanınızda mı?", "delta": 15, "set": ["teblig"],
+          "reply": [{ "who": "client", "text": "10 Ocak 2024'te tebliğ edildi. Tebliğ mazbatası çantamda." }],
+          "note": "Dört aylık başvuru süresi kesin karardan itibaren işler (Sözleşme m.35/1). Tebliğ belgesi, süre itirazına karşı en güçlü kanıt. Delil çantanıza eklendi." },
+        { "text": "Anayasa Mahkemesi'ne başvururken ifade özgürlüğü ihlalini açıkça ileri sürdünüz mü?", "delta": 15, "set": ["ozunde"],
+          "reply": [{ "who": "client", "text": "Evet. Başvuru formunda Anayasa'nın 26. maddesi ve Sözleşme'nin 10. maddesi açıkça yazılı. Formun bir kopyası bende." }],
+          "note": "İç hukuk yollarının tüketilmesi, şikâyetin özünün ulusal makamlar önünde ileri sürülmüş olmasını da gerektirir. Başvuru formu delil çantanıza eklendi." },
+        { "text": "Haberinizin kaynağı kimdi?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Bunu kimseye söyleyemem; size de." }],
+          "note": "Gazetecinin kaynağını koruma hakkı vardır. Bu soru davaya bir şey katmaz." },
+        { "text": "Hükmün açıklanmasının geri bırakılması hayatınızı nasıl etkiledi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Beş yıl boyunca her yazımı iki kez düşünüyorum. Yeni bir dava açılırsa eski ceza da açıklanacak." }],
+          "note": "Ceza ertelense bile caydırıcı etki yaratabilir. Esas tartışmasında işinize yarar, ama Hükûmetin ilk itirazı kabul edilebilirlik üzerine olacak." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşma açılmıştır. Hükûmet temsilcisi, ön itirazlarınızı sunun." }
+      ],
+      "statement": { "who": "opp", "text": "Başvuru, kesin karardan itibaren dört aylık süre geçtikten sonra yapılmıştır. Süre aşımı nedeniyle kabul edilemez ilan edilmelidir." },
+      "prompt": "Süre itirazını hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_teblig"],
+      "hit": { "delta": 20, "set": ["sureOk"],
+        "note": "Kesin karar 10 Ocak 2024'te tebliğ edildi, başvuru 2 Mayıs 2024'te yapıldı. Dört aylık süre içinde kalındığını belgeyle gösterdiniz." },
+      "responses": {
+        "law_35": { "delta": 5, "note": "Doğru madde, ama itirazı çürüten şey tarihleri gösteren belgeydi." },
+        "ev_aym": { "delta": 0, "note": "Kararın verildiği tarih belli, ama süreyi başlatan kararın öğrenildiği (tebliğ edildiği) tarihtir." }
+      },
+      "pass": { "delta": -15, "note": "Süre itirazına karşılık vermediniz." }
+    },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Hükûmet temsilcisi, ikinci itirazınız?" }],
+      "statement": { "who": "opp", "text": "Başvurucu, ifade özgürlüğü şikâyetini Anayasa Mahkemesi önünde hiç ileri sürmemiştir. İç hukuk yolları tüketilmemiştir." },
+      "prompt": "Bu itirazı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_form"],
+      "hit": { "delta": 20, "set": ["tuketmeOk"],
+        "note": "Başvuru formu, ifade özgürlüğü şikâyetinin Anayasa Mahkemesi önünde açıkça ileri sürüldüğünü gösteriyor. Şikâyetin özü ulusal makamlara sunulmuş." },
+      "responses": {
+        "ev_aym": { "delta": 5, "note": "AYM kararı başvurunun incelendiğini gösteriyor; ama hangi hakkın ileri sürüldüğünü gösteren belge başvuru formudur." },
+        "law_35": { "delta": 5, "note": "Doğru madde, ama itirazı çürüten belgeyi sunmadınız." }
+      },
+      "pass": { "delta": -15, "note": "İç hukuk yollarının tüketilmediği itirazına karşılık vermediniz." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Esasa gelince: müdahale kanunla öngörülmüştür, kamu düzeninin korunması amacını taşır ve gereklidir." },
+        { "who": "judge", "text": "Başvurucu vekili, esasa ilişkin cevabınız?" }
+      ],
+      "prompt": "Esasa ilişkin savunmanızın merkezine ne koyacaksınız?",
+      "choices": [
+        { "text": "Haberin kamu yararına ve belgeli olduğunu, cezanın ertelense bile caydırıcı etki yarattığını, müdahalenin demokratik toplumda gerekli olmadığını açıklayın.", "delta": 20, "set": ["orantili"],
+          "law": "Sözleşme m.10/2",
+          "note": "Mahkeme müdahalenin kanunla öngörülüp öngörülmediğini, meşru bir amaç taşıyıp taşımadığını ve demokratik toplumda gerekli olup olmadığını denetler. Kamu yararına haber ve caydırıcı etki bu denetimin merkezindedir." },
+        { "text": "Türk mahkemelerinin delilleri yanlış değerlendirdiğini anlatın.", "delta": -10,
+          "note": "AİHM “dördüncü derece” bir mahkeme değildir; ulusal mahkemelerin delil değerlendirmesini yeniden yapmaz." },
+        { "text": "Yalnızca adil tazmin talebinizi açıklayın.", "delta": -5,
+          "law": "Sözleşme m.41",
+          "note": "Tazmin, ihlal tespit edilirse gündeme gelir. Önce ihlali ortaya koymalıydınız." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "!teblig", "winner": "p2",
+      "hukum": "Başvurunun Sözleşme m.35/1 uyarınca süre aşımı nedeniyle KABUL EDİLEMEZ OLDUĞUNA,",
+      "summary": "Kesin kararın tebliğ tarihi gösterilemedi; Hükûmetin süre itirazı karşılıksız kaldı. Başvurucuya tebliğ tarihini sorsaydınız belge çantanızda olacaktı." },
+    { "if": "!ozunde", "winner": "p2",
+      "hukum": "Başvurunun iç hukuk yollarının tüketilmemesi nedeniyle KABUL EDİLEMEZ OLDUĞUNA,",
+      "summary": "İfade özgürlüğü şikâyetinin Anayasa Mahkemesi önünde ileri sürüldüğü gösterilemedi. Başvuru formunu bulsaydınız bu itiraz çürütülebilirdi." },
+    { "if": "orantili", "winner": "p1",
+      "hukum": "Başvurunun kabul edilebilir olduğuna, Sözleşme'nin 10. maddesinin İHLAL EDİLDİĞİNE ve davalı Devletin başvurucuya Sözleşme m.41 uyarınca manevi tazminat ödemesine,",
+      "summary": "Kabul edilebilirlik itirazlarını belgeyle çürüttünüz; esasta da müdahalenin demokratik toplumda gerekli olmadığını gösterdiniz." },
+    { "winner": "p2",
+      "hukum": "Başvurunun kabul edilebilir olduğuna, ancak Sözleşme'nin 10. maddesinin İHLAL EDİLMEDİĞİNE,",
+      "summary": "Kabul edilebilirlik aşamasını geçtiniz, ama esasa ilişkin savunma müdahalenin gerekliliği üzerine kurulmadı." }
+  ]
+}

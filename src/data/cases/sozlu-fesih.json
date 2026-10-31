@@ -1,0 +1,341 @@
+{
+  "id": "sozlu-fesih",
+  "mode": "solo",
+  "title": "Sözlü Fesih",
+  "area": "İş Hukuku · İşe iade",
+  "court": "İzmir 4. İş Mahkemesi",
+  "courtShort": "4. İŞ MAHKEMESİ",
+  "esas": "2026/566 Esas",
+  "kararTarihi": "11.03.2027",
+  "color": "#2c5a47",
+  "teaser": "Sözlü bir fesih, işini kaybeden bir muhasebe uzmanı. Takvim aleyhinize işliyor.",
+  "sides": {
+    "p1": {
+      "role": "Davacı (işçi) vekili",
+      "short": "Siz"
+    },
+    "p2": {
+      "role": "Karşı taraf",
+      "short": "Karşı taraf"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#c08b62",
+        "hair": "#151515",
+        "style": "short"
+      }
+    },
+    "opp": {
+      "name": "Av. Tarık Benli · Davalı vekili",
+      "np": "green",
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#e0b48e",
+        "hair": "#5a4a3c",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "client": {
+      "name": "Elif Sarı · Müvekkil",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#edc6a2",
+        "hair": "#7a3b1f",
+        "style": "long",
+        "shirt": "#2f6f73",
+        "inner": "#e9e4d8"
+      }
+    }
+  },
+  "courtCast": [
+    "judge",
+    "you",
+    "opp"
+  ],
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Büronuzdasınız. Elif Sarı bir lojistik şirketinde muhasebe uzmanı olarak çalışıyordu."
+    },
+    {
+      "who": "client",
+      "text": "Dört yıldır aynı şirketteydim, belirsiz süreli sözleşmem var. Şirkette 45 kişi çalışıyoruz."
+    },
+    {
+      "who": "client",
+      "text": "2 Eylül'de müdür beni odasına çağırdı. “Performansın düşük, yarından itibaren gelme” dedi. Elime hiçbir yazı vermedi, savunmamı da istemedi."
+    },
+    {
+      "who": "client",
+      "text": "Son iki yılın değerlendirmelerinde “beklentiyi karşılıyor” yazıyor. Bugün 23 Eylül. Nereden başlamalıyım?"
+    }
+  ],
+  "docs": [
+    {
+      "t": "İş sözleşmesi",
+      "d": "Belirsiz süreli, 2022'den beri. Görev: muhasebe uzmanı."
+    },
+    {
+      "t": "SGK hizmet dökümü",
+      "d": "İşten çıkış 02.09.2026. İşyerinde 45 sigortalı çalışıyor."
+    },
+    {
+      "t": "Performans değerlendirmeleri",
+      "d": "2024 ve 2025: “beklentiyi karşılıyor”. Uyarı ya da savunma yazısı yok."
+    },
+    {
+      "t": "Fesih bildirimi",
+      "d": "Yok. Fesih sözlü olarak yapılmış."
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Fesih 2 Eylül 2026'da yapıldı. Bugün 23 Eylül 2026."
+        }
+      ],
+      "prompt": "İlk adımınız ne olacak?",
+      "choices": [
+        {
+          "text": "Hemen iş mahkemesinde işe iade davası aç.",
+          "delta": -30,
+          "law": "7036 s. İş Mahkemeleri K. m.3",
+          "note": "İşe iade talebiyle dava açmadan önce arabulucuya başvurmak zorunludur. Bu şart yerine getirilmeden açılan dava usulden reddedilir.",
+          "fatal": {
+            "hukum": "Davanın dava şartı yokluğu nedeniyle usulden REDDİNE,",
+            "summary": "İşe iade davasında arabulucuya başvuru dava şartıdır. Başvurulmadan açılan dava hiçbir işlem yapılmadan usulden reddedilir (7036 s.K. m.3). Ret kararı geldiğinde fesihten itibaren bir aylık hak düşürücü süre de dolmuştu (İş K. m.20/1)."
+          }
+        },
+        {
+          "text": "Fesihten itibaren bir ay dolmadan arabulucuya başvur.",
+          "delta": 20,
+          "set": [
+            "arabulucu"
+          ],
+          "law": "İş K. m.20/1 · 7036 s.K. m.3",
+          "note": "İşe iade için önce arabulucuya başvurulur. Süre fesih bildiriminden itibaren bir aydır; son gün 2 Ekim. Anlaşma olmazsa son tutanaktan itibaren iki hafta içinde dava açılır (İş K. m.20/1).",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Ertesi gün arabuluculuk bürosuna başvurdunuz. İşveren uzlaşmaya yanaşmadı; son tutanak 14 Ekim'de düzenlendi. Dava, iki haftalık süre dolmadan 20 Ekim'de açıldı."
+            }
+          ]
+        },
+        {
+          "text": "Önce işverene noter ihtarnamesi çek, bir ay cevap bekle.",
+          "delta": -25,
+          "law": "İş K. m.20/1",
+          "note": "Bir aylık süre hak düşürücüdür. İhtarname bu süreyi durdurmaz; beklerken müvekkilin işe iade hakkı ortadan kalktı.",
+          "fatal": {
+            "label": "SONUÇ:",
+            "hukum": "Dava açılamadı. İşe iade hakkı süre geçtiği için kullanılamaz hâle geldi.",
+            "summary": "İşverenin cevabını beklerken fesihten itibaren bir aylık arabulucuya başvuru süresi doldu. Bu süre hak düşürücüdür (İş K. m.20/1)."
+          }
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Duruşmayı açıyorum. Davalı vekili, savunmanızı özetleyin."
+        },
+        {
+          "who": "opp",
+          "text": "Davacının performansı düşüktü. Fesih geçerli nedene dayanıyor. Davacı aksini ispat edemedi."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili?"
+        }
+      ],
+      "prompt": "Nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "Feshin geçerli nedene dayandığını ispat yükü işverendedir. Dosyada tek bir performans belgesi yok; son iki değerlendirme “beklentiyi karşılıyor”.",
+          "delta": 20,
+          "set": [
+            "ispat"
+          ],
+          "law": "İş K. m.20/2",
+          "note": "Feshin geçerli bir nedene dayandığını ispat yükü işverene aittir (İş K. m.20/2). Dosyadaki değerlendirmeler işverenin iddiasıyla çelişiyor.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Davalı vekili, performans düşüklüğüne ilişkin belgelerinizi sunmanız için süre veriyorum."
+            },
+            {
+              "who": "opp",
+              "text": "Sayın Hâkim… yazılı bir değerlendirme bulunmuyor. Tanıklarımızı dinletmek istiyoruz."
+            }
+          ]
+        },
+        {
+          "text": "Tanıklarımızla davacının iyi çalıştığını ispatlayacağız.",
+          "delta": -5,
+          "law": "İş K. m.20/2",
+          "note": "Yanlış değil, ama ispat yükünü gereksiz yere üstlendiniz. Yükün işverende olduğunu söylemeliydiniz."
+        },
+        {
+          "text": "Düşük performans hiçbir koşulda fesih sebebi olamaz.",
+          "delta": -10,
+          "law": "İş K. m.18/1",
+          "note": "Hatalı. İşçinin yeterliliğinden veya davranışlarından kaynaklanan sebepler geçerli neden olabilir (İş K. m.18/1). Sorun, bunun ispatlanmamış olması."
+        },
+        {
+          "text": "İşyerinde 30'dan az işçi olduğunu kabul et, tazminat iste.",
+          "delta": -20,
+          "law": "İş K. m.18",
+          "note": "Hem gerçeğe aykırı hem müvekkilin aleyhine. 45 işçili işyeri iş güvencesi kapsamındadır; bu kabul işe iade hakkını ortadan kaldırırdı."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Fesih davacıya nasıl bildirildi?"
+        },
+        {
+          "who": "opp",
+          "text": "Müdür sözlü olarak bildirdi. Yazılı bildirime gerek yoktu."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili?"
+        }
+      ],
+      "prompt": "Fesih usulü hakkında ne söyleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Fesih bildirimi yazılı olmalı ve sebebi açık, kesin gösterilmelidir. Verim gerekçesiyle fesihte işçinin savunması da alınmalıdır. İkisi de yapılmadı.",
+          "delta": 25,
+          "set": [
+            "usul"
+          ],
+          "law": "İş K. m.19/1, m.19/2",
+          "note": "İşveren fesih bildirimini yazılı yapmak ve fesih sebebini açık ve kesin olarak belirtmek zorundadır (m.19/1). İşçinin davranışı veya verimi nedeniyle fesihte önce savunması alınmalıdır (m.19/2).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi."
+            }
+          ]
+        },
+        {
+          "text": "Savunma alınmadan verim gerekçesiyle fesih yapılamaz.",
+          "delta": 15,
+          "set": [
+            "usul"
+          ],
+          "law": "İş K. m.19/2",
+          "note": "Doğru (m.19/2), ama yazılılık şartını (m.19/1) da söylemeliydiniz. Sözlü fesih tek başına güçlü bir argümandı."
+        },
+        {
+          "text": "Sözlü fesih geçerli, ama ihbar süresine uyulmadı.",
+          "delta": -15,
+          "law": "İş K. m.19",
+          "note": "Sözlü fesih bildirimi m.19'a aykırıdır. Bunu kabul ederek elinizdeki en güçlü usul argümanını bıraktınız."
+        },
+        {
+          "text": "Fesih şeklini tartışmaya gerek yok, esasa geçelim.",
+          "delta": -15,
+          "law": "İş K. m.19",
+          "note": "Fesih usulündeki eksiklik, esastan bağımsız olarak feshin geçersizliği sonucunu doğurabilir. Bu fırsatı kaçırdınız."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Tahkikat tamamlandı. Davacı vekili, talep sonucunuzu açıklayın."
+        }
+      ],
+      "prompt": "Hüküm için talebiniz?",
+      "choices": [
+        {
+          "text": "Feshin geçersizliği ve işe iade; işe başlatılmazsa 4–8 aylık ücret arasında işe başlatmama tazminatı ve en çok 4 aylık boşta geçen süre ücreti.",
+          "delta": 20,
+          "law": "İş K. m.21",
+          "note": "İşe başlatmama tazminatı en az dört, en çok sekiz aylık ücret tutarındadır (m.21/1). Kesinleşmeye kadar çalıştırılmadığı süre için en çok dört aya kadar ücret ve diğer haklar ödenir (m.21/3).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Taraflara son sözleri soruldu. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Yalnızca feshin geçersizliğinin tespiti ve işe iade.",
+          "delta": 5,
+          "law": "İş K. m.21",
+          "note": "Yeterli sayılır: Mahkeme tazminatı ve boşta geçen süre ücretini kendiliğinden belirler (m.21). Yine de talebi eksiksiz yazmak iyi uygulamadır.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Taraflara son sözleri soruldu. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "İşe iade ile birlikte kötüniyet tazminatı talep et.",
+          "delta": -10,
+          "law": "İş K. m.17/6",
+          "note": "İş güvencesi kapsamındaki işçi kötüniyet tazminatı isteyemez (İş K. m.17/6)."
+        },
+        {
+          "text": "12 aylık ücret tutarında işe başlatmama tazminatı talep et.",
+          "delta": -10,
+          "law": "İş K. m.21/1",
+          "note": "Kanuni aralık en az 4, en çok 8 aylık ücrettir. Sınırı aşan talep hâkimde güven kaybına yol açar."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "ispat || usul",
+      "winner": "p1",
+      "hukum": "Feshin GEÇERSİZLİĞİNE ve davacının İŞE İADESİNE; davacı süresinde başvurduğu hâlde işe başlatılmazsa 5 aylık brüt ücreti tutarında işe başlatmama tazminatı ile 4 aya kadar boşta geçen süre ücreti ve diğer haklarının davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        {
+          "if": "ispat && usul",
+          "text": "Fesih hem esastan hem usulden sakattı ve ikisini de mahkemeye gösterdiniz. Müvekkil, kesinleşmeden itibaren 10 iş günü içinde işe başlamak için başvurmalı (İş K. m.21/5)."
+        },
+        {
+          "if": "ispat && !usul",
+          "text": "Kazandınız. İşveren geçerli nedeni ispat edemedi; ama sözlü fesih ve alınmayan savunma gibi usul eksikliklerini de vurgulamalıydınız."
+        },
+        {
+          "if": "!ispat && usul",
+          "text": "Kazandınız. Fesih usulden sakattı; ama ispat yükünün işverende olduğunu da vurgulamalıydınız."
+        }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "İşverenin geçerli neden savunmasına ve fesih usulüne etkili itiraz edilmedi. Mahkeme tanık beyanlarıyla feshi geçerli kabul etti."
+    }
+  ]
+}

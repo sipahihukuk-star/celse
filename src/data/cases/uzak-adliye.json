@@ -1,0 +1,140 @@
+{
+  "id": "uzak-adliye",
+  "mode": "solo",
+  "title": "Uzak Adliye",
+  "area": "İş Hukuku · Elden ücretin ispatı",
+  "court": "Trabzon 2. İş Mahkemesi",
+  "courtShort": "2. İŞ MAHKEMESİ",
+  "esas": "2026/1288 Esas",
+  "kararTarihi": "12.02.2027",
+  "color": "#46506b",
+  "teaser": "Müvekkil Trabzon'da, siz İzmir'desiniz. Elden ödenen ücretin izini sürün ve duruşmaya nasıl gireceğinize karar verin.",
+  "sides": { "p1": { "role": "Davacı (işçi) vekili", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e0b48e", "hair": "#2b1d17", "style": "short" } },
+    "opp": { "name": "Av. Kenan Yazıcı · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#c99670", "hair": "#3a3a3a", "style": "short", "glasses": true } },
+    "client": { "name": "Dursun Aydın · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#c08b62", "hair": "#2a2220", "style": "short", "beard": true, "shirt": "#5b6b4e", "inner": "#d9d4c8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Büronuz İzmir'de. Ekranda Trabzon'dan bir müvekkil var: Dursun Aydın, liman lojistiğinde altı yıl forklift operatörü olarak çalışmış." },
+    { "who": "client", "text": "Bankaya asgari ücret yatırıyorlardı, her ay elden 30.000 TL daha veriyorlardı. İşten çıkarınca kıdem tazminatımı asgari ücretten hesapladılar." },
+    { "who": "narr", "text": "Arabuluculukta anlaşma sağlanamadı. Kıdem ve ihbar tazminatı farkı ile fark ücret alacakları için dava Trabzon'da açıldı. Duruşma üç gün sonra." }
+  ],
+  "docs": [
+    { "t": "Arabuluculuk son tutanağı", "d": "Anlaşma sağlanamadı. Dava şartı yerine getirildi (7036 s.K. m.3)." },
+    { "t": "SGK hizmet dökümü", "d": "Altı yıl boyunca asgari ücret üzerinden prim bildirimi." },
+    { "t": "Banka hesap dökümü", "d": "Her ay yalnızca asgari ücret yatırılmış." },
+    { "t": "Dava dilekçesi", "d": "Gerçek ücretin asgari ücret artı aylık 30.000 TL olduğu ileri sürüldü. Tanık olarak iki iş arkadaşı gösterildi." }
+  ],
+  "evidence": [
+    { "id": "ev_sgk", "type": "belge", "title": "SGK hizmet dökümü", "desc": "Altı yıl boyunca asgari ücretten prim bildirimi." },
+    { "id": "ev_banka", "type": "belge", "title": "Banka hesap dökümü", "desc": "Her ay yalnızca asgari ücret yatırılmış." },
+    { "id": "ev_tanik", "type": "beyan", "title": "Tanık listesi", "desc": "Aynı işyerinde çalışan iki forklift operatörü; dava dilekçesinde gösterildi." },
+    { "id": "ev_makbuz", "type": "belge", "title": "Elden ödeme makbuzları", "desc": "Muhasebe kaşeli, davacının imzasını taşıyan aylık 30.000 TL tutarlı makbuzlar (2023–2026).", "if": "makbuz" },
+    { "id": "law_hmk200", "type": "kanun", "title": "HMK m.200 · Senetle ispat zorunluluğu", "desc": "Belirli değeri aşan hukuki işlemlerin senetle ispatı.", "law": "HMK m.200" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Duruşmadan önce müvekkille son bir görüşme yapıyorsunuz. Yalnızca iki soru sorabilecek kadar vaktiniz var." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Elden ödemeyi gösteren bir makbuz, mesaj ya da belge var mı?", "delta": 15, "set": ["makbuz"],
+          "reply": [{ "who": "client", "text": "Aklıma gelmemişti… Her ay muhasebede bir kâğıt imzalıyordum, bir kısmı evde duruyor. Hepsi kaşeli." }],
+          "note": "Doğru soru. İddiayı ayakta tutacak yazılı delil, müvekkilin aklına gelmeyen bir yerde duruyordu. Makbuzlar delil çantanıza eklendi." },
+        { "text": "Aynı şekilde elden ödeme alan iş arkadaşlarınız var mı?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Forklift ekibinin hepsi böyle alıyordu. İkisi tanıklık eder." }],
+          "note": "Faydalı bir teyit. Tanıklar dava dilekçesinde zaten gösterilmişti." },
+        { "text": "Kıdem tazminatınız olarak ne kadar ödendi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Asgari ücretten hesaplayıp 150.000 TL kadar yatırdılar." }],
+          "note": "Fark alacağının hesabı için gerekli bir bilgi. Ama asıl sorun, elden ödemenin nasıl ispat edileceği." },
+        { "text": "Şirkette başka bir sorun yaşadınız mı?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Yemekler kötüydü, servis hep geç kalırdı." }],
+          "note": "Sınırlı soru hakkınızı davayla ilgisiz bir konuya harcadınız." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Duruşma Trabzon'da, siz İzmir'desiniz. Aradaki mesafe 1.250 kilometre." }],
+      "prompt": "Duruşmaya nasıl katılacaksınız?",
+      "choices": [
+        { "text": "UYAP üzerinden e-duruşma talebinde bulun; ses ve görüntü nakliyle büronuzdan katılın.", "delta": 10, "set": ["edurusma"],
+          "reply": [{ "who": "narr", "text": "Mahkeme talebi kabul etti. Duruşma günü büronuzdan bağlanacaksınız." }],
+          "law": "HMK m.149",
+          "note": "HMK m.149, duruşmaya ses ve görüntü nakliyle katılmaya imkân verir. Talebin kabulü mahkemenin takdirindedir; zamanında yapılan talep yol masrafını ve zaman kaybını önler." },
+        { "text": "Trabzon'a bizzat gidin.", "delta": 5, "set": ["bizzat"],
+          "note": "Her zaman geçerli bir seçim; ama yol ve konaklama masrafı müvekkile yansır, büronuzdaki başka işler aksayabilir." },
+        { "text": "Trabzon Barosu'ndan bir meslektaşa yetki belgesiyle tevkil verin.", "delta": 5, "set": ["tevkil"],
+          "law": "Av.K. m.56",
+          "note": "Avukat, sorumluluğu kendisinde kalmak üzere başka bir avukata yetki belgesiyle tevkil verebilir. Ancak duruşmadaki her hamle artık vereceğiniz talimata bağlı." },
+        { "text": "Duruşmaya katılmayın; mahkeme dosya üzerinden karar versin.", "delta": -20,
+          "law": "HMK m.150",
+          "fatal": { "label": "SONUÇ:", "hukum": "Davacı tarafı duruşmaya gelmediğinden, davalı vekilinin talebiyle dosyanın İŞLEMDEN KALDIRILMASINA karar verildi.",
+                     "summary": "Taraflardan biri gelmezse gelen taraf yargılamaya devam edilmesini ya da dosyanın işlemden kaldırılmasını isteyebilir. İşlemden kaldırılan dosya üç ay içinde yenilenmezse dava açılmamış sayılır (HMK m.150)." },
+          "note": "Duruşmaya katılmamak dosyayı karşı tarafın tercihine bırakır (HMK m.150)." }
+      ] },
+    { "side": "p1", "scene": "office", "if": "tevkil",
+      "lines": [{ "who": "narr", "text": "Meslektaşınız yetki belgesini aldı. Duruşmada yalnızca sizin talimatınıza göre hareket edecek." }],
+      "prompt": "Talimatınız ne olacak?",
+      "choices": [
+        { "if": "makbuz", "text": "Makbuzları dosyaya sunun; elden ödeme inkâr edilirse bunlara dayanın ve tanıkların dinlenmesini isteyin.", "delta": 20, "set": ["talimat"],
+          "note": "Meslektaşınız ne sunacağını ve inkâra nasıl karşılık vereceğini biliyor. Talimat eksiksiz." },
+        { "if": "!makbuz", "text": "Tanıkların dinlenmesini ve emsal ücret araştırması yapılmasını isteyin.", "delta": 10, "set": ["talimat"],
+          "note": "Elinizdeki en iyi yol bu. İş yargılamasında ücretin miktarı tanık beyanları ve emsal ücret araştırmasıyla da belirlenebilir; ama yazılı delil daha güçlü olurdu." },
+        { "text": "Karşı tarafın asgari ücret savunmasını kabul edip kıdemi ona göre hesaplatın.", "delta": -25, "set": ["ikrar"],
+          "note": "Talimat, müvekkilin aleyhine bir kabul içeriyor. Meslektaşınız talimatınızla bağlıdır; bu beyan tutanağa geçti." },
+        { "text": "Ayrıntı vermeyin; “gereği yapılsın” yazın.", "delta": -10,
+          "note": "Dosyaya hâkim olmayan bir meslektaşı talimatsız duruşmaya göndermek, hak kaybı riskini size bırakır." }
+      ] },
+    { "side": "p1", "scene": "court", "if": "bizzat",
+      "lines": [{ "who": "narr", "text": "Trabzon Adliyesi. Mübaşir dosyayı çağırdı, salona girdiniz." }],
+      "prompt": "Davacı vekili olarak nereye geçeceksiniz?",
+      "choices": [
+        { "text": "Hâkime göre sağdaki sıraya.", "delta": 5,
+          "note": "Uygulamada hukuk davalarında davacı tarafı hâkime göre sağda, davalı tarafı solda yer alır. Bu bir teamüldür; HMK'da düzenlenmiş değildir." },
+        { "text": "Hâkime göre soldaki sıraya.", "delta": -5,
+          "reply": [{ "who": "judge", "text": "Avukat Bey, davalı tarafı o sırada oturuyor. Lütfen yerinize geçin." }],
+          "note": "Uygulamada davacı tarafı hâkime göre sağda oturur. Küçük bir hata, ama duruşmaya eksi bir izlenimle başladınız." },
+        { "text": "Dinleyici sıralarına.", "delta": -5,
+          "reply": [{ "who": "judge", "text": "Davacı vekili? Taraf vekilleri yerlerine buyursun." }],
+          "note": "Vekil, taraf sırasında yerini alır." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court", "if": "!tevkil",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Davalı vekili, cevabınızı özetleyin.", "if": "!bizzat" },
+        { "who": "judge", "text": "Taraf vekilleri hazır. Davalı vekili, cevabınızı özetleyin.", "if": "bizzat" }
+      ],
+      "statement": { "who": "opp", "text": "Sayın Hâkim, davacıya yalnızca bankaya yatırılan asgari ücret ödenmiştir. Şirketimizde elden ödeme yapılmaz; iddia asılsızdır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_makbuz"],
+      "hit": { "delta": 25, "set": ["itiraz"],
+        "reply": [{ "who": "judge", "text": "Makbuz asıllarının ibrazı için süre veriyorum. İşyeri muhasebe kayıtlarının incelenmesine karar verildi." }],
+        "note": "İmzalı ve kaşeli makbuzlar ödemenin varlığını yazılı olarak gösteriyor. Karşı tarafın inkârı belgeyle çelişti." },
+      "responses": {
+        "ev_tanik": { "delta": 5, "set": ["tanikItiraz"],
+          "reply": [{ "who": "judge", "text": "Davacı tanıklarının dinlenmesine ve emsal ücret araştırması yapılmasına karar verildi." }],
+          "note": "Tanıklar dinlenebilir; iş yargılamasında ücretin miktarı tanık beyanları ve emsal ücret araştırmasıyla da belirlenebilir. Ama yazılı belge çok daha güçlü olurdu." },
+        "ev_sgk": { "delta": -10, "note": "SGK kaydı karşı tarafın tezini destekliyor: prim asgari ücretten bildirilmiş." },
+        "ev_banka": { "delta": -10, "note": "Banka dökümü yalnızca asgari ücretin yatırıldığını gösteriyor; karşı tarafın işine yarar." },
+        "law_hmk200": { "delta": -10, "note": "Bu madde karşı tarafın lehine okunabilir: belirli değeri aşan hukuki işlemlerin senetle ispatını arar. Elinizde imzalı belge varsa madde değil belge sunulur." }
+      },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; karşı tarafın inkârı cevapsız kaldı." }
+    }
+  ],
+  "outcomes": [
+    { "if": "ikrar", "winner": "p2",
+      "hukum": "Fark alacakları yönünden davanın REDDİNE,",
+      "summary": "Tevkil talimatıyla asgari ücret savunması kabul edildi. Vekilin talimatla yaptığı beyan müvekkili bağlar; elden ödeme iddiası kendi beyanınızla düştü." },
+    { "if": "itiraz || (tevkil && talimat && makbuz)", "winner": "p1",
+      "hukum": "Davanın KABULÜ ile davacının gerçek ücretinin elden ödenen kısım dahil belirlenmesine ve buna göre hesaplanan kıdem ve ihbar tazminatı farkı ile fark ücret alacaklarının davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        { "text": "Müvekkil görüşmesinde ortaya çıkan imzalı makbuzlar, elden ödemeyi yazılı olarak ispatladı." },
+        { "if": "tevkil", "text": " Tevkil verdiğiniz meslektaş, eksiksiz talimatınız sayesinde makbuzları doğru anda sundu." },
+        { "if": "edurusma", "text": " e-Duruşma ile yol masrafı ve zaman kaybı da yaşanmadı." }
+      ] },
+    { "if": "tanikItiraz || (tevkil && talimat)", "winner": "p1",
+      "hukum": "Davanın KISMEN KABULÜ ile tanık beyanları ve emsal ücret araştırmasıyla belirlenen ücret üzerinden hesaplanan alacakların davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Mahkeme gerçek ücreti tanık beyanları ve emsal ücret araştırmasıyla belirledi, ama talep edilen tutarın tamamını kabul etmedi. Müvekkile makbuz sorulsaydı ödeme yazılı olarak ispatlanabilirdi." },
+    { "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Elden ödeme iddiası ispatlanamadı; SGK ve banka kayıtlarındaki asgari ücret esas alındı." }
+  ]
+}

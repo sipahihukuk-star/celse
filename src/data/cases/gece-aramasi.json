@@ -1,0 +1,294 @@
+{
+  "id": "gece-aramasi",
+  "mode": "solo",
+  "title": "Gece Araması",
+  "area": "Ceza Muhakemesi · Delil yasakları",
+  "court": "İzmir 12. Asliye Ceza Mahkemesi",
+  "courtShort": "12. ASLİYE CEZA",
+  "esas": "2026/731 Esas",
+  "kararTarihi": "05.11.2026",
+  "color": "#6e2b2e",
+  "teaser": "Kararsız yapılan bir arama, avukatsız alınmış bir ifade. Deliller gerçekten delil mi?",
+  "sides": {
+    "p1": {
+      "role": "Sanık müdafii",
+      "short": "Siz"
+    },
+    "p2": {
+      "role": "Karşı taraf",
+      "short": "Karşı taraf"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#e2b892",
+        "hair": "#1f1a18",
+        "style": "bun"
+      }
+    },
+    "pros": {
+      "name": "Cumhuriyet Savcısı",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#b88560",
+        "hair": "#2a2a2a",
+        "style": "bald",
+        "beard": true
+      }
+    },
+    "client": {
+      "name": "Deniz Kaya · Müvekkil (sanık)",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#d6a57c",
+        "hair": "#1e1612",
+        "style": "curly",
+        "shirt": "#7d6430",
+        "inner": "#353535"
+      }
+    }
+  },
+  "courtCast": [
+    "judge",
+    "pros",
+    "you",
+    "client"
+  ],
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Büronuzdasınız. Deniz Kaya 24 yaşında bir üniversite öğrencisi. Hakkında hırsızlıktan iddianame düzenlenmiş."
+    },
+    {
+      "who": "client",
+      "text": "Alsancak'ta bir kafede birinin telefonu çalınmış. O akşam ben de oradaydım. Kamerada görünüyorum ama sadece masamda oturuyorum."
+    },
+    {
+      "who": "client",
+      "text": "Üç gün sonra gece 01.30'da polis eve geldi. Hiçbir karar göstermediler, “ihbar var” deyip içeri girdiler. Çekmecede bir telefon buldular. Ev arkadaşım da o evde kalıyor."
+    },
+    {
+      "who": "client",
+      "text": "Karakolda avukat istedim, “gerek yok, imzala çık” dediler. Korktum, “aldım” yazan ifadeyi imzaladım. Ben almadım."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Kolluk ifade tutanağı",
+      "d": "Müdafi: yok. Şüpheli suçu kabul ediyor. Hâkim önünde tekrarlanmamış."
+    },
+    {
+      "t": "Arama ve el koyma tutanağı",
+      "d": "Saat 01.30, sanığın konutu. Dayanak: “ihbar”. Hâkim kararı ya da savcının yazılı emri yok."
+    },
+    {
+      "t": "Kamera kaydı tutanağı",
+      "d": "Sanık kafede bir masada oturuyor. Telefonun alındığı an kör noktada kalmış."
+    },
+    {
+      "t": "İddianame",
+      "d": "TCK m.141/1, hırsızlık. Deliller: kolluk ifadesi ve konutta ele geçen telefon."
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Duruşmayı açıyorum. İddianame okundu. Sanık, savunmanızı alalım."
+        },
+        {
+          "who": "client",
+          "text": "Suçlamayı kabul etmiyorum. Karakoldaki ifadeyi korkarak imzaladım. Telefonu ben almadım."
+        },
+        {
+          "who": "pros",
+          "text": "Sayın Hâkim, sanık kollukta suçu açıkça ikrar etmiştir. Bu ikrar hükme esas alınmalıdır."
+        },
+        {
+          "who": "judge",
+          "text": "Müdafi, beyanınız?"
+        }
+      ],
+      "prompt": "Kolluk ifadesine ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Müdafi olmadan kollukta alınan ifade, sanık hâkim önünde doğrulamadıkça hükme esas alınamaz. Sanık doğrulamıyor.",
+          "delta": 20,
+          "set": [
+            "ifade"
+          ],
+          "law": "CMK m.148/4",
+          "note": "Kolluk tarafından müdafi bulunmaksızın alınan ifade, hâkim veya mahkeme huzurunda doğrulanmadıkça hükme esas alınamaz (CMK m.148/4). Sanık duruşmada ifadeyi reddetti.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi."
+            }
+          ]
+        },
+        {
+          "text": "Sanığın susma hakkını kullanacağını bildir, başka beyanda bulunma.",
+          "delta": -5,
+          "law": "CMK m.147",
+          "note": "Susma hakkı vardır (CMK m.147), ama ikrarın neden hükme esas alınamayacağını söylemediniz. Sanık zaten konuşmuş ve ifadeyi reddetmişti."
+        },
+        {
+          "text": "İfadenin işkenceyle alındığını ileri sür.",
+          "delta": -10,
+          "law": "CMK m.148",
+          "note": "Müvekkil işkence anlatmadı. Dayanaksız, ağır bir iddia güvenilirliğinizi zedeler. Doğru dayanak, müdafisiz alınan ifadenin doğrulanmamasıydı."
+        },
+        {
+          "text": "Müvekkile etkin pişmanlıktan yararlanmasını öner.",
+          "delta": -20,
+          "law": "TCK m.168",
+          "note": "Müvekkil suçu inkâr ediyor. Etkin pişmanlık suçun işlendiğini kabul etmeyi gerektirir; müvekkilin iradesine aykırı bir yol önerdiniz."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "pros",
+          "text": "Kaldı ki çalınan telefon sanığın evinde ele geçirilmiştir. IMEI numarası mağdurun telefonuyla aynıdır."
+        },
+        {
+          "who": "judge",
+          "text": "Müdafi, arama tutanağı hakkında diyeceğiniz?"
+        }
+      ],
+      "prompt": "Telefon delilini nasıl karşılayacaksınız?",
+      "choices": [
+        {
+          "text": "Konutta arama hâkim kararı ya da gecikmesinde sakınca varsa savcının yazılı emriyle yapılabilir. İkisi de yok; delil hukuka aykırıdır, hükme esas alınamaz.",
+          "delta": 20,
+          "set": [
+            "arama"
+          ],
+          "law": "CMK m.119, m.217/2 · AY m.38/6",
+          "note": "Konutta arama ancak hâkim kararı veya gecikmesinde sakınca bulunan hâllerde Cumhuriyet savcısının yazılı emriyle yapılabilir (CMK m.119). Kanuna aykırı elde edilen bulgular delil olarak kabul edilemez (AY m.38/6, CMK m.217/2).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Arama tutanağının dayanağı soruldu; dosyada karar ya da yazılı emir bulunmadığı anlaşıldı."
+            }
+          ]
+        },
+        {
+          "text": "Arama gece yapılmıştır; konutta gece araması yasaktır.",
+          "delta": 10,
+          "set": [
+            "arama"
+          ],
+          "law": "CMK m.118",
+          "note": "Doğru bir tespit: Konutta geceleyin arama kural olarak yapılamaz (CMK m.118). Ama daha güçlü sorunu atladınız: Aramanın ne hâkim kararı ne de savcı emri var (CMK m.119)."
+        },
+        {
+          "text": "Telefonun IMEI numarasının farklı olduğunu ileri sür.",
+          "delta": -10,
+          "note": "Dosyadaki tutanak aksini gösteriyor. Belgeyle çelişen bir itiraz güven kaybettirir."
+        },
+        {
+          "text": "Telefonun ev arkadaşına ait olabileceğini söyle.",
+          "delta": 0,
+          "note": "Makul bir şüphe yaratır, ama aramanın hukuka aykırılığını ileri sürmediğiniz için telefon dosyada delil olarak kaldı."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Tahkikat tamamlandı. Cumhuriyet savcısı, esas hakkındaki mütalaanız?"
+        },
+        {
+          "who": "pros",
+          "text": "Sanığın TCK m.141/1 uyarınca cezalandırılmasını talep ederim."
+        },
+        {
+          "who": "judge",
+          "text": "Müdafi, esas hakkındaki savunmanız?"
+        }
+      ],
+      "prompt": "Talebiniz ne olacak?",
+      "choices": [
+        {
+          "text": "Hukuka uygun delil yoktur, kamera kaydı yalnızca sanığın kafede oturduğunu gösteriyor. Suçun sanık tarafından işlendiği sabit olmadığından beraat talep ederiz.",
+          "delta": 20,
+          "set": [
+            "talep"
+          ],
+          "law": "CMK m.223/2-e",
+          "note": "Yüklenen suçun sanık tarafından işlendiğinin sabit olmaması bir beraat sebebidir (CMK m.223/2-e). Delil durumuyla uyumlu, doğru talep.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Sanığa son sözü soruldu. Karar için ara veriyorum."
+            }
+          ]
+        },
+        {
+          "text": "Yalnızca hükmün açıklanmasının geri bırakılmasını talep et.",
+          "delta": -10,
+          "law": "CMK m.231",
+          "note": "HAGB bir mahkûmiyet hükmünün sonucudur (CMK m.231). Asıl talebiniz beraat olmalıydı; HAGB ancak ikincil talep olarak ve sanığın onayıyla dile getirilebilir."
+        },
+        {
+          "text": "Davanın düşmesine karar verilmesini talep et.",
+          "delta": -15,
+          "law": "CMK m.223",
+          "note": "Düşme kararı sanığın ölümü, şikâyetten vazgeçme, zamanaşımı gibi hâllerde verilir. Bu dosyada düşme sebebi yok."
+        },
+        {
+          "text": "Cezanın alt sınırdan verilmesini talep et.",
+          "delta": -10,
+          "note": "Bu talep suçun işlendiğini kabul eder gibi okunur. Delil durumu beraat için elverişliydi."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "ifade && arama",
+      "winner": "p1",
+      "hukum": "Sanığın üzerine atılı hırsızlık suçunu işlediği sabit olmadığından CMK m.223/2-e uyarınca BERAATİNE,",
+      "summary": "Müdafisiz alınan kolluk ifadesi ve kararsız aramayla ele geçen telefon hükme esas alınmadı. Geriye sanığı suçla bağlayan delil kalmadı."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Sanığın TCK m.141/1 uyarınca 1 yıl hapis cezası ile CEZALANDIRILMASINA,",
+      "summary": [
+        {
+          "if": "!ifade && !arama",
+          "text": "İki delil yasağı da ileri sürülmedi."
+        },
+        {
+          "if": "!ifade && arama",
+          "text": "Telefon delil dışı kaldı, ama müdafisiz alınan ikrara etkili itiraz edilmedi (CMK m.148/4)."
+        },
+        {
+          "if": "ifade && !arama",
+          "text": "Kolluk ifadesi dışlandı, ama kararsız aramayla ele geçen telefona itiraz edilmedi (CMK m.119)."
+        },
+        {
+          "text": " Bu hüküm istinafta bozulmaya açık, ama ilk derece mahkemesinde kaybettiniz."
+        }
+      ]
+    }
+  ]
+}

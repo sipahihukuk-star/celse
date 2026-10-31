@@ -1,0 +1,111 @@
+{
+  "id": "yargitay-durusma",
+  "mode": "solo",
+  "title": "Eksik Müdafi",
+  "area": "Yargıtay · Duruşmalı temyiz",
+  "court": "Yargıtay Ceza Dairesi",
+  "courtShort": "YARGITAY · CEZA DAİRESİ",
+  "esas": "2027/2114 Esas",
+  "kararTarihi": "18.05.2027",
+  "color": "#5a2a31",
+  "teaser": "On iki yıl hapis cezası, istinafta onandı. Beş üyeli heyetin karşısında, dosyada gözden kaçan bir duruşmanın peşindesiniz.",
+  "sides": { "p1": { "role": "Sanık müdafii", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 5, "title": "Daire Başkanı ve dört üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#9a9a9e", "style": "short", "glasses": true } },
+    "opp": { "name": "Yargıtay Cumhuriyet Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e0b48e", "hair": "#3a2a20", "style": "bun" } },
+    "client": { "name": "Emre Kılıç · Müvekkil (sanık)", "np": "civil", "look": { "kind": "civil", "skin": "#d6a57c", "hair": "#1e1612", "style": "short", "shirt": "#4a4f57", "inner": "#c9c4b8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Ceza infaz kurumu, avukat görüş odası. Emre Kılıç nitelikli yağma suçundan 12 yıl hapis cezası aldı. Bölge adliye mahkemesi istinaf başvurusunu esastan reddetti." },
+    { "who": "client", "text": "Dosyayı yeni avukat olarak siz aldınız. Ben o gece orada değildim, ama kimse inanmadı. Temyizde bir şansımız var mı?" },
+    { "who": "narr", "text": "Yargıtay'da temyiz, hukuka aykırılık denetimidir. Vakıalar yeniden tartışılmaz; aradığınız şey yargılamadaki bir hukuka aykırılık." }
+  ],
+  "docs": [
+    { "t": "İlk derece hükmü", "d": "Ağır ceza mahkemesi: nitelikli yağma (TCK m.149), 12 yıl hapis." },
+    { "t": "Bölge adliye mahkemesi kararı", "d": "İstinaf başvurusunun esastan reddi. Karar sanığa dün tebliğ edildi." },
+    { "t": "Duruşma tutanakları", "d": "Üç celse. Birinci celsede iddianame okunmuş ve sanığın sorgusu yapılmış." },
+    { "t": "Tanık beyanları", "d": "İki tanık sanığı olay yerine yakın gördüğünü söylüyor; biri karanlık nedeniyle emin değil." }
+  ],
+  "evidence": [
+    { "id": "ev_tutanak", "type": "belge", "title": "Birinci celse tutanağı", "desc": "İddianame okunmuş, sanığın sorgusu yapılmış. “Hazır olanlar” kısmında müdafi yok." },
+    { "id": "ev_tanik", "type": "beyan", "title": "Tanık beyanları", "desc": "Tanıklardan biri karanlık nedeniyle sanığı net göremediğini söylüyor." },
+    { "id": "ev_bam", "type": "belge", "title": "Bölge adliye mahkemesi kararı", "desc": "İstinaf başvurusunun esastan reddi; gerekçe tanık beyanlarına dayanıyor." },
+    { "id": "law_150", "type": "kanun", "title": "CMK m.150/3 · Zorunlu müdafilik", "desc": "Alt sınırı beş yıldan fazla hapis cezasını gerektiren suçlarda müdafi görevlendirilir.", "law": "CMK m.150/3" },
+    { "id": "law_289", "type": "kanun", "title": "CMK m.289/1-e · Mutlak bozma nedeni", "desc": "Kanunun mutlaka müdafi bulunmasını öngördüğü hâlde müdafi olmadan duruşma yapılması.", "law": "CMK m.289/1-e" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Görüş süresi kısa. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Yargılama boyunca her duruşmada yanınızda avukat var mıydı?", "delta": 15, "set": ["mudafi"],
+          "reply": [{ "who": "client", "text": "İlk duruşmada yoktu. Hâkim “baro bir avukat görevlendirecek” dedi, ama o gün iddianame okundu, ben de ifademi verdim. Avukat ikinci duruşmada geldi." }],
+          "note": "Kritik bilgi. Alt sınırı beş yıldan fazla hapis cezasını gerektiren suçlarda müdafi zorunludur (CMK m.150/3). Birinci celse tutanağına bakmanız gerekiyor." },
+        { "text": "Olay gecesi neredeydiniz?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Arkadaşlarımlaydım. Mahkeme onları dinledi ama inanmadı." }],
+          "note": "Yargıtay vakıaları yeniden değerlendirmez. Bu bilgi temyizde sınırlı işe yarar." },
+        { "text": "Bölge adliye mahkemesi kararı size ne zaman tebliğ edildi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Dün getirdiler." }],
+          "note": "Süre kontrolü yerinde: temyiz süresi on beş gündür (CMK m.291)." },
+        { "text": "Cezaevindeki koşullarınız nasıl?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Koğuş kalabalık, ama idare ediyorum." }],
+          "note": "İnsani bir soru, ama sınırlı görüş süresinde davaya bir şey katmadı." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Temyiz dilekçesini yazıyorsunuz. Hüküm 12 yıl hapis; sanık istediği için Yargıtay incelemeyi duruşmalı yapacak (CMK m.299)." }],
+      "prompt": "Dilekçenin merkezine neyi koyacaksınız?",
+      "choices": [
+        { "if": "mudafi", "text": "Birinci celsenin zorunlu müdafi olmadan yapıldığını mutlak bozma nedeni olarak göster; duruşmalı inceleme iste.", "delta": 20, "set": ["aykirilik"],
+          "law": "CMK m.288, m.289, m.299",
+          "note": "Temyiz ancak hukuka aykırılığa dayanabilir (CMK m.288). Kanunun mutlaka müdafi bulunmasını öngördüğü hâlde müdafi olmadan duruşma yapılması mutlak bozma nedenidir (CMK m.289/1-e)." },
+        { "text": "Tanıkların yeniden dinlenmesini ve delillerin baştan değerlendirilmesini iste; duruşmalı inceleme iste.", "delta": -10,
+          "law": "CMK m.288",
+          "note": "Yargıtay bir hukuk denetimi merciidir; tanık dinlemez, vakıaları yeniden değerlendirmez. Temyiz hukuka aykırılığa dayanmalı (CMK m.288)." },
+        { "text": "Cezanın ağır olduğunu yaz; duruşmalı inceleme iste.", "delta": -5,
+          "note": "Somut bir hukuka aykırılık göstermeyen bir temyiz dilekçesi heyeti ikna etmez." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Sanık müdafii, temyiz nedenlerinizi açıklayın. Ardından Cumhuriyet savcısını dinleyeceğiz." },
+        { "who": "narr", "text": "Temyiz nedenlerinizi özetlediniz. Söz Yargıtay Cumhuriyet savcısında." }
+      ],
+      "statement": { "who": "opp", "text": "Sanığın suçu işlediği tanık beyanlarıyla sabittir. Bölge adliye mahkemesi kararı usul ve yasaya uygundur; temyiz isteminin esastan reddi gerekir." },
+      "prompt": "Hangi belgeyle karşılık vereceksiniz?",
+      "correct": ["ev_tutanak"],
+      "hit": { "delta": 25, "set": ["bozmaArg"],
+        "reply": [{ "who": "judge", "text": "Birinci celse tutanağı okundu. Heyet müzakereye çekiliyor." }],
+        "law": "CMK m.289/1-e",
+        "note": "Tutanak, iddianamenin okunduğu ve sanığın sorgusunun yapıldığı celsede müdafinin bulunmadığını gösteriyor. Bu, mutlak bozma nedenidir (CMK m.289/1-e)." },
+      "responses": {
+        "law_289": { "delta": 10, "set": ["bozmaArg"], "note": "Doğru dayanak. Ama heyet, ihlali gösteren belgeyi görmek ister; tutanağı göstermeniz daha güçlü olurdu." },
+        "law_150": { "delta": 5, "note": "Müdafinin neden zorunlu olduğunu gösterdiniz, ama ihlalin kendisini ortaya koyan tutanağı sunmadınız." },
+        "ev_tanik": { "delta": -10, "note": "Tanık beyanlarını tartışmak vakıa tartışmasıdır; Yargıtay bunu yeniden değerlendirmez." },
+        "ev_bam": { "delta": -5, "note": "Bölge adliye mahkemesi kararı savcının tezini destekliyor." }
+      },
+      "pass": { "delta": -15, "note": "Savcının beyanına karşılık vermediniz." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Sanık müdafii, son talebiniz?" }],
+      "prompt": "Heyetten ne isteyeceksiniz?",
+      "choices": [
+        { "text": "Hükmün bozulmasını ve yargılamanın yenilenmesini isteriz.", "delta": 10,
+          "note": "Mutlak bozma nedeninin doğal sonucu, hükmün bozulması ve yargılamanın yenilenmesidir." },
+        { "text": "Sanığın doğrudan beraatine karar verilmesini isteriz.", "delta": -5,
+          "note": "Beraat talebi vakıaların yeniden değerlendirilmesini gerektirir. Usul ihlalinin doğal sonucu yargılamanın yenilenmesidir." },
+        { "text": "Cezada indirim yapılmasını isteriz.", "delta": -5,
+          "note": "Bu talep, hükmün özüne itiraz etmediğiniz izlenimini verir." }
+      ] }
+  ],
+  "outcomes": [
+    { "winner": "p1",
+      "hukum": "Sanık hakkında kurulan hükmün, kanunun mutlaka müdafi bulunmasını öngördüğü hâlde müdafi olmadan duruşma yapılması nedeniyle (CMK m.289/1-e) BOZULMASINA,",
+      "summary": [
+        { "if": "bozmaArg || aykirilik", "text": "Müvekkil görüşmesinde ortaya çıkan eksik müdafi, temyizin kilidi oldu. Heyet ihlali sizin gösterdiğiniz şekilde tespit etti." },
+        { "if": "!bozmaArg && !aykirilik", "text": "Hüküm bozuldu, ama sizin sayenizde değil: heyet müdafisiz yapılan celseyi dosya incelemesinde kendisi tespit etti. Temyiz dilekçeniz ve duruşmadaki savunmanız bu sonuca katkı sağlamadı." }
+      ] }
+  ]
+}
