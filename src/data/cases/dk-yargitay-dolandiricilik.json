@@ -1,0 +1,612 @@
+{
+  "id": "dk-yargitay-dolandiricilik",
+  "mode": "duel",
+  "difficulty": "zor",
+  "title": "Antrepodaki Minibüsler",
+  "area": "Ceza Hukuku · Nitelikli dolandırıcılık ve temyiz",
+  "court": "Yargıtay Ceza Dairesi",
+  "courtShort": "YARGITAY · CEZA DAİRESİ",
+  "esas": "2027/3318 Esas",
+  "kararTarihi": "25.05.2027",
+  "color": "#4a2a3a",
+  "teaser": "Beş minibüs için on milyon lira ödendi, ikisi geldi. Katılan “sahte antrepo belgesi” diyor, sanık “ifa edemediğim bir sözleşme”. Yargıtay'da vakıa değil, hukuk konuşulur.",
+  "bench": {
+    "judges": 5,
+    "title": "Daire Başkanı ve dört üye"
+  },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "sides": {
+    "p1": {
+      "role": "Katılan vekili",
+      "short": "Katılan"
+    },
+    "p2": {
+      "role": "Sanık müdafii",
+      "short": "Sanık"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Daire Başkanı",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#d9a982",
+        "hair": "#6b6b70",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#dcae86",
+        "hair": "#3a2a20",
+        "style": "short",
+        "beard": true,
+        "glasses": true
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#b88560",
+        "hair": "#151515",
+        "style": "bun"
+      }
+    },
+    "pros": {
+      "name": "Yargıtay Cumhuriyet Savcısı",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#e8c09c",
+        "hair": "#2b1d17",
+        "style": "short"
+      }
+    },
+    "client": {
+      "name": "Ozan Kaplan · Sanık (tutuklu)",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#c99670",
+        "hair": "#2a2220",
+        "style": "short",
+        "beard": true,
+        "shirt": "#4a4f57",
+        "inner": "#c9c4b8"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Ozan Kaplan, Ankara'da ithal ticari araç satan Kaplan Otomotiv Ltd. Şti.'nin müdürü. Turizm işletmecisi Bülent Sezer, Şubat 2024'te şirketten beş ithal minibüs aldı; 15.02, 20.03 ve 10.05.2024'te üç taksitte toplam on milyon lira ödedi."
+    },
+    {
+      "who": "narr",
+      "text": "İlk ödemeden üç gün önce Bülent Bey'in telefonuna, araçların Mersin'de bir antrepoda beklediğini gösteren bir antrepo teslim belgesi ve konşimento görüntüsü geldi. Gümrük kayıtlarında böyle araçlar hiç yok. Haziran 2024'te iki minibüs teslim edildi; diğer üçü hiç gelmedi."
+    },
+    {
+      "who": "narr",
+      "text": "Ankara 9. Asliye Ceza Mahkemesi, Ozan Kaplan'ı ticari faaliyet sırasında nitelikli dolandırıcılıktan zincirleme suç hükümleriyle on yıl hapis ve adli para cezasına mahkûm etti (TCK m.158/1-h, m.43). Bölge adliye mahkemesi istinaf başvurusunu esastan reddetti. Sanık tutuklu."
+    },
+    {
+      "who": "narr",
+      "text": "Katılan hükmü temyiz etmedi. Bölge adliye mahkemesinin gerekçeli kararı sanık müdafiine 01.03.2027'de tebliğ edildi. Bugün 03.03.2027."
+    }
+  ],
+  "docs": [
+    {
+      "t": "İlk derece hükmü",
+      "d": "Ankara 9. Asliye Ceza Mahkemesi. TCK m.158/1-h ve m.43 uyarınca on yıl hapis ve adli para cezası; TCK m.62 uygulanmamış (“pişmanlık göstermemesi”)."
+    },
+    {
+      "t": "Bölge adliye mahkemesi kararı",
+      "d": "İstinaf başvurusunun esastan reddi. Gerekçede: “Sanık, katılandan aldığı paraların hiçbir kısmını iade etmemiştir.” Gerekçeli karar müdafie 01.03.2027'de tebliğ edildi."
+    },
+    {
+      "t": "Katılanın durumu",
+      "d": "Katılan hükmü temyiz etmedi. Temyiz yalnızca sanık lehine yapılabilecek."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_bilisim",
+      "type": "belge",
+      "title": "Adli bilişim raporu",
+      "desc": "Hükme esas alınan rapor: antrepo belgesi ve konşimento görüntüsü 12.02.2024 saat 21.14'te sanığın kendi cep telefonundan, ilk ödemeden üç gün önce katılana gönderilmiş."
+    },
+    {
+      "id": "ev_gumruk",
+      "type": "belge",
+      "title": "Mersin Gümrük Müdürlüğü yazısı",
+      "desc": "Belgede adı geçen antrepoda o tarihlerde böyle bir araç kaydı hiç yok."
+    },
+    {
+      "id": "ev_icra",
+      "type": "belge",
+      "title": "İcra takip dökümü",
+      "desc": "Ocak 2024 itibarıyla şirket hakkında on dört derdest icra takibi."
+    },
+    {
+      "id": "ev_teslim",
+      "type": "belge",
+      "title": "Teslim tutanakları",
+      "desc": "Haziran 2024'te iki minibüsün katılana teslimi."
+    },
+    {
+      "id": "ev_iade",
+      "type": "belge",
+      "title": "Banka dekontu",
+      "desc": "18.09.2024 tarihli, şirket hesabından katılana 600.000 TL. İlk derece dosyasının 3. klasöründe; bölge adliye mahkemesi gerekçesinde hiç tartışılmamış.",
+      "if": "iade"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Bölge adliye mahkemesi kararı on yıl hapis cezasına ilişkin; temyiz yolu açık. Gerekçeli karar iki gün önce tebliğ edildi."
+        }
+      ],
+      "prompt": "Temyiz dilekçesini nasıl hazırlayacaksınız?",
+      "choices": [
+        {
+          "text": "En geç 15.03.2027'de temyiz et. Sebepleri hukuka aykırılık olarak göster: hileli davranışın yoğunluğu tartışılmadan hukuki uyuşmazlığın suç sayılması ve dosyadaki teslim ile iadeyle çelişen eksik gerekçe.",
+          "delta": 20,
+          "set": [
+            "temyiz"
+          ],
+          "law": "CMK m.288, m.291, m.294, m.230 · TCK m.157–158",
+          "note": "Temyiz süresi, 7499 s.K. ile yapılan değişiklikten sonra gerekçeli hükmün tebliğinden itibaren iki haftadır (CMK m.291). Temyiz yalnızca hukuka aykırılık sebebine dayanır (CMK m.288); suçun nitelendirilmesi ve gerekçenin dosya kapsamına uygunluğu hukukilik denetimine girer."
+        },
+        {
+          "text": "İki hafta içinde temyiz et; tanıkların yalan söylediğini ve müvekkilin samimi olduğunu ayrıntılı anlat.",
+          "delta": -10,
+          "set": [
+            "temyiz",
+            "vakia"
+          ],
+          "law": "CMK m.288, m.294",
+          "note": "Temyiz bir hukukilik denetimidir (CMK m.288). Tanıkların inandırıcılığı gibi vakıa değerlendirmeleri Yargıtay'ın yeniden tartışacağı konular değildir; dilekçede hukuka aykırılığı göstermeniz gerekirdi."
+        },
+        {
+          "text": "Temyiz süresi bir aydır; dosyayı baştan inceleyip dilekçeyi ayın sonunda ver.",
+          "delta": -30,
+          "law": "CMK m.291, m.296",
+          "note": "Ceza muhakemesinde temyiz süresi gerekçeli hükmün tebliğinden itibaren iki haftadır (CMK m.291). Süresinde yapılmayan temyiz istemi reddedilir (CMK m.296).",
+          "fatal": {
+            "label": "SONUÇ:",
+            "hukum": "Sanık müdafiinin temyiz isteminin, CMK m.291 uyarınca süresinde yapılmadığından CMK m.296 uyarınca REDDİNE karar verildi. Hüküm kesinleşti.",
+            "summary": "Gerekçeli karar 01.03.2027'de tebliğ edilmişti; iki haftalık temyiz süresi 15.03.2027'de doldu. Bölge adliye mahkemesi geç verilen temyiz dilekçesini reddetti. Yargıtay'da duruşma hiç yapılmadı; on yıllık hüküm infaz aşamasına geçti."
+          }
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "TEBLİĞNAME · Yargıtay Cumhuriyet Başsavcılığının tebliğnamesi katılana tebliğ edildi."
+        },
+        {
+          "who": "pros",
+          "text": "“Sanığın iki aracı teslim ettiği, kısmi iade yaptığı ve belgelerin sanık tarafından düzenlendiğine dair kesin delil bulunmadığı gözetilmeden, eylemin hukuki uyuşmazlık niteliğinde olup olmadığı tartışılmaksızın eksik gerekçeyle hüküm kurulması: BOZMA.”"
+        },
+        {
+          "who": "narr",
+          "text": "Tebliğname katılan aleyhine bir görüş içerdiği için size tebliğ edildi; iki hafta içinde yazılı cevap verebilirsiniz (CMK m.297). Daire, CMK m.299 uyarınca duruşmalı inceleme yapmaya karar verdi."
+        }
+      ],
+      "prompt": "Tebliğnameye nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "İki hafta içinde yazılı cevap ver: sahte antrepo belgesi ilk ödemeden üç gün önce sanığın kendi telefonundan gönderildi; araçlar gümrükte hiç yok. Hile, katılanın denetim imkânını ortadan kaldıracak yoğunlukta. Teslim edilen iki araç güven kazanmaya yönelikti; iade suç tamamlandıktan sonra yapıldı.",
+          "delta": 20,
+          "set": [
+            "cevap"
+          ],
+          "law": "CMK m.297 · TCK m.157–158",
+          "note": "Dolandırıcılığı hukuki uyuşmazlıktan ayıran, hileli davranışın karşı tarafın denetim imkânını ortadan kaldıracak ağırlıkta olmasıdır. Sahte bir resmî görünümlü belge ve ödemeden önceki zamanlama bu yoğunluğu gösterir. Tebliğnamedeki eksikliği bölge adliye mahkemesinin vakıa tespitleriyle cevapladınız."
+        },
+        {
+          "text": "Cevapta TCK m.62 indiriminin zaten yapılmadığını hatırlat ve cezanın üst sınıra yakın artırılmasını iste.",
+          "delta": -15,
+          "set": [
+            "aleyhe"
+          ],
+          "law": "CMK m.307/4",
+          "note": "Hüküm yalnızca sanık lehine temyiz edildi; katılan temyiz etmedi. Bu durumda bozma sonrası verilecek hüküm önceki cezadan daha ağır olamaz (CMK m.307/4). Talebiniz hukuken karşılıksız ve Daire'nin gözünde güvenilirliğinizi zedeler."
+        },
+        {
+          "text": "Yazılı cevap verme; her şeyi duruşmada sözlü anlatırsın.",
+          "delta": -5,
+          "set": [
+            "cevapsiz"
+          ],
+          "law": "CMK m.297",
+          "note": "Duruşmada söz hakkınızı kaybetmezsiniz, ama heyet dosyaya Başsavcılığın bozma görüşüyle ve cevapsız olarak hazırlanır. Yazılı cevap, üyelerin raporu okurken önünde olur."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Sanık tutuklu; duruşmaya katılmak isteminde bulunamaz (CMK m.299/2). Duruşmadan önce cezaevinde görüşüyorsunuz. Görüş süresi kısa; iki soru sorabilirsiniz."
+        }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Katılana para iadesi yaptın mı? Dosyada var mı?",
+          "delta": 10,
+          "set": [
+            "iade"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Eylül 2024'te şirket hesabından 600 bin lira yatırdım. Dekontu ilk derecedeki avukatım verdi; üçüncü klasörde olmalı. İstinaf kararında “hiç iade etmemiş” yazıyor, okuyunca inanamadım."
+            }
+          ],
+          "note": "Kritik bilgi. Bölge adliye mahkemesinin gerekçesi dosyadaki bir belgeyle çelişiyor. Gerekçenin dosya kapsamına aykırı olması bir hukuka aykırılıktır."
+        },
+        {
+          "text": "Antrepo belgesini kim hazırladı, sen mi gönderdin?",
+          "delta": 0,
+          "set": [
+            "tedarikci"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Alman tedarikçi gönderdi, ben Bülent Bey'e ilettim. Yazışmalar şirketin bilgisayarında; hiçbir mahkemeye verilmedi."
+            }
+          ],
+          "note": "Bu, dosyaya hiç girmemiş yeni bir vakıa ve delil. Yargıtay yeni delil değerlendirmez; böyle bir delil ancak koşulları varsa yargılamanın yenilenmesi yolunda işe yarayabilir (CMK m.311)."
+        },
+        {
+          "text": "Şirketin o tarihlerde mali durumu nasıldı?",
+          "delta": 0,
+          "set": [
+            "icraBilgi"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "İcra takipleri vardı, ama işler dönüyordu. Ödemeleri başka borçlara kullandım, sonra toparlarım sandım."
+            }
+          ],
+          "note": "Aleyhe bir bilgi: parayı başka borçlara kullandığını söylüyor. Duruşmada şirketin mali durumunun sağlam olduğunu ileri sürmekten kaçınmanız gerektiğini öğrendiniz."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Duruşmalı inceleme başladı. Raportör üyenin raporu okundu. Temyiz eden sanık müdafii, buyurun."
+        },
+        {
+          "who": "narr",
+          "text": "Üç cümle sonra Daire Başkanı sözünüzü kesiyor."
+        },
+        {
+          "who": "judge",
+          "text": "Sayın müdafi, Daire tanıkları yeniden dinlemeyecek. Vakıaları baştan anlatmayın; hukuka aykırılık neyse onu söyleyin. Beş dakikanız var."
+        }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Kısa bir “Haklısınız Sayın Başkan” de; notlarını iki başlığa indir: hileli davranışın yoğunluğu tartışılmadan hukuki uyuşmazlığın suç sayılması ve dosya kapsamıyla çelişen eksik gerekçe.",
+          "delta": 10,
+          "set": [
+            "hukuki"
+          ],
+          "law": "CMK m.288, m.289/1-g · TCK m.157",
+          "note": "Doğru tavır. Sert bir uyarıya savunmayı daraltarak ve hukukilik denetiminin diline geçerek cevap verdiniz. Yargıtay'da iyi bir konuşma, Daire'nin sorusuna cevap veren konuşmadır."
+        },
+        {
+          "text": "Savunma hakkınızın kısıtlandığını tutanağa geçirtmek iste ve tanık beyanlarını anlatmaya devam et.",
+          "delta": -10,
+          "set": [
+            "vakiaDurusma"
+          ],
+          "law": "CMK m.288",
+          "note": "Süre sınırı ve vakıa tartışmasının dışarıda tutulması savunma hakkının ihlali değildir; temyiz bir hukukilik denetimidir. Heyetin dikkatini kaybettiniz."
+        },
+        {
+          "text": "Alman tedarikçiyle yazışmaları sun: belgeyi müvekkil hazırlamadı.",
+          "delta": -10,
+          "if": "tedarikci",
+          "set": [
+            "yeniDelil"
+          ],
+          "law": "CMK m.288 · CMK m.311",
+          "note": "Yargıtay temyiz incelemesinde yeni delil toplamaz ve değerlendirmez. Bu yazışmalar, koşulları varsa yargılamanın yenilenmesi talebinin konusu olabilir (CMK m.311)."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Katılan vekili, temyiz sebeplerine karşı beyanınız? Önce müdafiin şu beyanına cevap verin."
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Müvekkilim katılanı hiçbir belgeyle yanıltmadı. Antrepo belgesinin müvekkilim tarafından gönderildiğine dair dosyada tek delil yok. Bu, ifa edilemeyen bir ticari sözleşmedir."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_bilisim"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "hileGosterildi"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Adli bilişim raporu ilk derecede hükme esas alınmış; belge sanığın telefonundan, ilk ödemeden üç gün önce gönderilmiş. Not edildi."
+          }
+        ],
+        "note": "Beyan dosya kapsamıyla çürüdü. Bu yeni bir delil değil, bölge adliye mahkemesinin de dayandığı bir vakıa tespiti: Yargıtay bunu yeniden değerlendirmez, ama gerekçenin dosyaya uygun olup olmadığını denetler."
+      },
+      "responses": {
+        "ev_gumruk": {
+          "delta": 10,
+          "set": [
+            "gumruk"
+          ],
+          "note": "Belgenin sahte olduğunu gösterdiniz. Ama müdafiin beyanı belgeyi müvekkilinin göndermediği yönündeydi; bunu adli bilişim raporu çürütürdü."
+        },
+        "ev_icra": {
+          "delta": 5,
+          "note": "Sanığın ödeme gücünden yoksun olduğunu bildiğine işaret ediyor; dolandırma kastı yönünden anlamlı. Ama müdafiin “hiçbir belgeyle yanıltmadı” beyanını çürütmüyor."
+        },
+        "ev_teslim": {
+          "delta": -10,
+          "note": "Teslim tutanakları sanığın lehine okunur: ifaya başlandığını gösterir."
+        },
+        "ev_iade": {
+          "delta": -10,
+          "note": "Bu dekont sanığın lehine: kısmi iadeyi gösteriyor."
+        }
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz. Müdafiin beyanı heyetin önünde cevapsız kaldı."
+      }
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "pros",
+          "text": "Tebliğnamedeki bozma görüşümüzü tekrar ediyoruz.",
+          "if": "!hileGosterildi"
+        },
+        {
+          "who": "pros",
+          "text": "Duruşmada ortaya konan adli bilişim raporu karşısında, hukuki uyuşmazlık yönündeki görüşümüzü sürdürmüyoruz.",
+          "if": "hileGosterildi"
+        },
+        {
+          "who": "judge",
+          "text": "Sanık müdafii, son olarak bölge adliye mahkemesi gerekçesinin şu cümlesine ne diyorsunuz?"
+        }
+      ],
+      "statement": {
+        "who": "judge",
+        "text": "Bölge adliye mahkemesi gerekçesi: “Sanık, katılandan aldığı paraların hiçbir kısmını iade etmemiş, pişmanlık göstermemiştir.”"
+      },
+      "prompt": "Bu tespite hangi delille itiraz edeceksiniz?",
+      "correct": [
+        "ev_iade"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "gerekce"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Dekont ilk derece dosyasının üçüncü klasöründe. Gerekçede tartışılmamış. Not edildi."
+          }
+        ],
+        "note": "Gerekçe dosyadaki bir belgeyle çelişiyor. Hükmün dosya kapsamına aykırı gerekçeye dayanması hukuka aykırılıktır (CMK m.230, m.289/1-g). Üstelik TCK m.62 indirimi “pişmanlık göstermemesi” gerekçesiyle reddedilmişti."
+      },
+      "responses": {
+        "ev_teslim": {
+          "delta": 10,
+          "set": [
+            "teslim"
+          ],
+          "note": "İfaya başlandığını gösterdiniz; hukuki uyuşmazlık tezini destekler. Ama gerekçedeki “hiç iade yok” tespitini çürütmez."
+        },
+        "ev_bilisim": {
+          "delta": -15,
+          "note": "Bu rapor sanığın aleyhine: belge sanığın telefonundan gönderilmiş."
+        },
+        "ev_gumruk": {
+          "delta": -10,
+          "note": "Bu yazı belgenin sahte olduğunu gösteriyor; sanığın aleyhine."
+        },
+        "ev_icra": {
+          "delta": -10,
+          "note": "İcra takipleri sanığın ödeme gücünden yoksun olduğunu gösteriyor; aleyhe bir delil."
+        }
+      },
+      "pass": {
+        "delta": -10,
+        "note": "İtiraz etmediniz. Gerekçedeki tespit cevapsız kaldı."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Katılan vekili, son beyanınız?"
+        }
+      ],
+      "prompt": "Son beyanınız ne olacak?",
+      "choices": [
+        {
+          "text": "Onama iste: hile yoğun ve ödemeden önce; vakıa tespitleri dosya kapsamına uygun. Kısmi iade suç tamamlandıktan sonra ve katılanın rızası olmadan yapıldığı için etkin pişmanlık uygulanamaz.",
+          "delta": 15,
+          "set": [
+            "onamaArg"
+          ],
+          "law": "CMK m.302/1 · TCK m.157–158, m.168",
+          "note": [
+            {
+              "text": "Hukukilik denetiminin dilinde kaldınız. Kısmen geri verme ya da tazminde etkin pişmanlık için mağdurun rızası aranır (TCK m.168)."
+            },
+            {
+              "if": "gerekce",
+              "text": " Ancak gerekçedeki “hiç iade yok” cümlesi dosyayla çelişiyor; bunu TCK m.62 yönünden savunmak güç."
+            }
+          ]
+        },
+        {
+          "text": "Sanığın cezasının artırılmasını ve TCK m.62'nin hiçbir şekilde uygulanmamasını iste.",
+          "delta": -15,
+          "set": [
+            "aleyhe"
+          ],
+          "law": "CMK m.307/4",
+          "note": "Hüküm yalnızca sanık lehine temyiz edildi. Bozma hâlinde bile yeni ceza önceki cezadan ağır olamaz (CMK m.307/4). Katılan temyiz etmediği için bu talep incelenemez."
+        },
+        {
+          "text": "Katılanın on milyon liralık zararının hükümde sanıktan tahsiline karar verilmesini iste.",
+          "delta": -10,
+          "note": "Ceza davasında katılanın malvarlığı zararı için hüküm kurulmaz; bunun yolu hukuk mahkemesinde tazminat davasıdır. Temyiz incelemesinde ise hiç gündeme gelemez."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "hileGosterildi && gerekce",
+      "winner": "draw",
+      "stamp": "KISMEN BOZMA",
+      "noCourt": true,
+      "hukum": "Sanık hakkında kurulan hükümde suçun sübutu ve nitelendirmesi yerinde görülmekle birlikte, bölge adliye mahkemesi gerekçesinin dosyadaki 600.000 TL'lik kısmi iadeyle çeliştiği ve bu iadenin TCK m.62 yönünden tartışılmadığı anlaşıldığından, sanık müdafiinin temyiz itirazının bu yönden kabulüyle hükmün CMK m.302/2 uyarınca BOZULMASINA, ceza süresi yönünden CMK m.307/4 uyarınca sanığın kazanılmış hakkının gözetilmesine, dosyanın ilk derece mahkemesine, kararın bir örneğinin bölge adliye mahkemesine gönderilmesine oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "Katılan vekili hilenin ödemeden önce, sanığın kendi telefonundan gönderilen sahte bir belgeyle yapıldığını dosyadan gösterdi; Daire eylemi dolandırıcılık saydı. Sanık müdafii ise gerekçenin dosyadaki iade dekontuyla çeliştiğini yakaladı: “pişmanlık göstermemiştir” gerekçesiyle reddedilen TCK m.62 yeniden değerlendirilecek. Ceza on yılı geçemez."
+        },
+        {
+          "if": "aleyhe",
+          "text": " Katılan vekilinin ceza artırımı talebi, katılan temyiz etmediği için incelenmedi (CMK m.307/4)."
+        }
+      ]
+    },
+    {
+      "if": "hileGosterildi",
+      "winner": "p1",
+      "noCourt": true,
+      "hukum": "Sanık müdafiinin temyiz isteminin ESASTAN REDDİYLE, bölge adliye mahkemesi kararının CMK m.302/1 uyarınca ONANMASINA, dosyanın bölge adliye mahkemesine gönderilmesine oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "Sahte antrepo belgesi ilk ödemeden üç gün önce sanığın kendi telefonundan gönderilmişti. Hile, katılanın denetim imkânını ortadan kaldıracak yoğunluktaydı; uyuşmazlık hukuki değil cezaiydi. Bölge adliye mahkemesinin vakıa tespitleri dosya kapsamına uygundu."
+        },
+        {
+          "if": "vakia || vakiaDurusma",
+          "text": " Sanık müdafiinin tanık beyanlarına yönelik itirazları vakıa değerlendirmesine ilişkindi; temyiz incelemesinin konusu olmadı."
+        },
+        {
+          "if": "aleyhe",
+          "text": " Katılan vekilinin ceza artırımı talebi, katılan temyiz etmediği için incelenmedi (CMK m.307/4)."
+        }
+      ]
+    },
+    {
+      "if": "gerekce || (hukuki && !cevap)",
+      "winner": "p2",
+      "noCourt": true,
+      "hukum": "Sanığın eyleminin hileli davranışın yoğunluğu yönünden tartışılmadan nitelikli dolandırıcılık sayılması ve gerekçenin dosya kapsamıyla çelişmesi nedeniyle hükmün CMK m.302/2 uyarınca BOZULMASINA, CMK m.307/4 uyarınca sanığın kazanılmış hakkının gözetilmesine, dosyanın ilk derece mahkemesine, kararın bir örneğinin bölge adliye mahkemesine gönderilmesine oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "if": "gerekce",
+          "text": "Bölge adliye mahkemesi “hiç iade yok” diyerek dosyadaki 600.000 TL'lik dekontu görmezden gelmişti. Teslim edilen iki araç ve kısmi iade karşısında hileli davranışın yoğunluğu ve eylemin hukuki uyuşmazlık niteliği tartışılmadan kurulan hüküm eksik gerekçeliydi (CMK m.230, m.289/1-g)."
+        },
+        {
+          "if": "!gerekce",
+          "text": "Sanık müdafii, hileli davranışın yoğunluğunun tartışılmadığını hukukilik denetiminin diliyle ortaya koydu; katılan vekili Başsavcılığın bozma görüşüne yazılı cevap vermedi. Daire tebliğname doğrultusunda bozdu."
+        },
+        {
+          "text": " Katılan vekili, belgeyi sanığın gönderdiğini gösteren adli bilişim raporunu duruşmada öne çıkarmadı."
+        },
+        {
+          "if": "aleyhe",
+          "text": " Katılan vekilinin ceza artırımı talebi incelenmedi; katılan temyiz etmemişti (CMK m.307/4)."
+        }
+      ]
+    },
+    {
+      "if": "cevap",
+      "winner": "p1",
+      "noCourt": true,
+      "hukum": "Sanık müdafiinin temyiz isteminin ESASTAN REDDİYLE, bölge adliye mahkemesi kararının CMK m.302/1 uyarınca ONANMASINA, dosyanın bölge adliye mahkemesine gönderilmesine oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "Katılan vekilinin tebliğnameye verdiği yazılı cevap, bölge adliye mahkemesinin vakıa tespitlerini hile yoğunluğu ölçütüne bağladı. Sanık müdafii hukuka aykırılık sebebini somutlaştıramadı; Daire, Başsavcılığın bozma görüşüne katılmadı."
+        },
+        {
+          "if": "vakia || vakiaDurusma",
+          "text": " Müdafiin tanık beyanlarına ilişkin itirazları vakıa değerlendirmesiydi; temyiz incelemesinin konusu olmadı."
+        },
+        {
+          "if": "yeniDelil",
+          "text": " Duruşmada sunulmak istenen tedarikçi yazışmaları yeni delil olduğu için değerlendirilmedi."
+        }
+      ]
+    },
+    {
+      "winner": "p2",
+      "noCourt": true,
+      "hukum": "Sanığın eyleminin hileli davranışın yoğunluğu yönünden tartışılmadan nitelikli dolandırıcılık sayılması nedeniyle hükmün CMK m.302/2 uyarınca BOZULMASINA, CMK m.307/4 uyarınca sanığın kazanılmış hakkının gözetilmesine, dosyanın ilk derece mahkemesine, kararın bir örneğinin bölge adliye mahkemesine gönderilmesine oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "Katılan vekili Başsavcılığın bozma görüşüne yazılı cevap vermedi ve duruşmada belgeyi sanığın gönderdiğini gösteren adli bilişim raporunu öne çıkarmadı. Daire tebliğname doğrultusunda, hukuki uyuşmazlık ihtimalinin tartışılmadığı gerekçesiyle bozdu."
+        },
+        {
+          "if": "vakia || vakiaDurusma",
+          "text": " Müdafiin vakıalara yönelik itirazları ise incelenmedi."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,622 @@
+{
+  "id": "dk-memur-atama",
+  "mode": "duel",
+  "difficulty": "basit",
+  "title": "Hizmet Gereği",
+  "area": "İdare Hukuku · Memurun yer değiştirmesi",
+  "court": "Eskişehir 1. İdare Mahkemesi",
+  "courtShort": "1. İDARE MAHKEMESİ",
+  "esas": "2026/1187 Esas",
+  "kararTarihi": "14.10.2026",
+  "color": "#3f5a3a",
+  "teaser": "On iki yıldır Eskişehir'de görev yapan mühendis, eşi ve kızı orada kalırken bir onayla Şırnak'a atandı. İdare “hizmet gereği” diyor.",
+  "bench": {
+    "judges": 3,
+    "title": "Mahkeme Başkanı ve iki üye"
+  },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "sides": {
+    "p1": {
+      "role": "Davacı (memur) vekili",
+      "short": "Davacı"
+    },
+    "p2": {
+      "role": "Davalı idare vekili",
+      "short": "İdare"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Mahkeme Başkanı",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#d9a982",
+        "hair": "#6b6b70",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#c99670",
+        "hair": "#2a1d17",
+        "style": "bun"
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#e6bd98",
+        "hair": "#4a4a4f",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "client": {
+      "name": "Hande Özkan · Davacı",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#d6a57c",
+        "hair": "#3a2418",
+        "style": "long",
+        "shirt": "#5b6b7a",
+        "inner": "#e3ddd0"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Hande Özkan, Tarım ve Orman Bakanlığı Eskişehir İl Müdürlüğü'nde on iki yıldır ziraat mühendisi. Eşi Murat Özkan Eskişehir'de bir devlet ortaokulunda öğretmen; yedi yaşında bir kızları var. Eşinin memur olduğu özlük dosyasındaki aile durum bildiriminde yazılı."
+    },
+    {
+      "who": "narr",
+      "text": "Hande, Mayıs 2026'da il müdürlüğündeki bir arazi tahsisine ilişkin CİMER'e şikâyette bulundu. 18.06.2026 tarihli Bakanlık onayıyla “hizmet gereği” Şırnak İl Müdürlüğü'ne atandı. Onay 22.06.2026'da tebliğ edildi."
+    },
+    {
+      "who": "narr",
+      "text": "Onaydaki gerekçe tek cümle: “Şırnak İl Müdürlüğü'nün ziraat mühendisi ihtiyacı.” Bugün 03.07.2026. Hande, ertesi hafta Şırnak'ta göreve başlamak zorunda."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Atama onayı",
+      "d": "18.06.2026 tarihli Bakanlık onayı; tebliğ 22.06.2026. Gerekçe: “Şırnak İl Müdürlüğü'nün ziraat mühendisi ihtiyacı.”"
+    },
+    {
+      "t": "Özlük dosyası",
+      "d": "On iki yıllık hizmet; disiplin cezası yok. Aile durum bildiriminde eşin Eskişehir'de öğretmen olduğu yazılı."
+    },
+    {
+      "t": "CİMER başvurusu",
+      "d": "Mayıs 2026; il müdürlüğündeki bir arazi tahsisine ilişkin şikâyet. Atamadan altı hafta önce."
+    },
+    {
+      "t": "Şırnak için isteğe bağlı yer değiştirme talepleri",
+      "d": "Mart 2026'da iki ziraat mühendisinin (Van ve Mardin il müdürlüklerinden) Şırnak'a atanma talepleri. İkisi de cevapsız kalmış."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_norm",
+      "type": "belge",
+      "title": "Norm kadro cetvelleri",
+      "desc": "İdarenin sunduğu cetvel: Eskişehir'de 12 norm kadroya karşılık 14 ziraat mühendisi, Şırnak'ta 6 norm kadroya karşılık 2 mühendis."
+    },
+    {
+      "id": "ev_es",
+      "type": "belge",
+      "title": "Eşin görev yeri belgesi",
+      "desc": "Murat Özkan'ın Eskişehir'de devlet ortaokulunda öğretmen olduğunu gösteren belge ve nüfus kayıt örneği.",
+      "law": "657 s.K. m.72/2 · Anayasa m.41"
+    },
+    {
+      "id": "ev_gonullu",
+      "type": "belge",
+      "title": "Gönüllü yer değiştirme talepleri",
+      "desc": "Mart 2026'da Van ve Mardin il müdürlüklerinden iki ziraat mühendisinin Şırnak'a atanma dilekçeleri ve Bakanlığa giriş kayıtları. Cevap verilmemiş."
+    },
+    {
+      "id": "ev_cimer",
+      "type": "belge",
+      "title": "CİMER başvurusu",
+      "desc": "Davacının Mayıs 2026'da il müdürlüğündeki arazi tahsisine ilişkin şikâyeti."
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "client",
+          "text": "Kızım ikinci sınıfa başlayacak, eşim burada öğretmen. On iki yıldır tek bir disiplin cezam yok. Şikâyetimden altı hafta sonra bu onay geldi."
+        },
+        {
+          "who": "narr",
+          "text": "Dava açma süresi tebliğden itibaren altmış gün (İYUK m.7). Süre sorun değil; asıl soru ne isteyeceğiniz."
+        }
+      ],
+      "prompt": "Dava dilekçesinde neyi isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Atama işleminin iptalini ve yürütmenin durdurulmasını iste. Somut hizmet gereğinin gösterilmediğini, eş durumunun gözetilmediğini ve Şırnak'a gönüllü başvuranlar bulunduğunu yaz; aile birliğinin bozulmasını telafisi güç zarar olarak açıkla.",
+          "delta": 20,
+          "set": [
+            "yd"
+          ],
+          "law": "İYUK m.2/1-a, m.27/2 · 657 s.K. m.72/2 · Anayasa m.41",
+          "note": "Atama bir idari işlemdir; yetki, şekil, sebep, konu ve amaç yönünden iptal davasıyla denetlenir. Dava açmak işlemi kendiliğinden durdurmaz (İYUK m.27/1); bu yüzden yürütmenin durdurulmasını istemek gerekir. Bunun için işlemin açıkça hukuka aykırı olması ve uygulanmasıyla telafisi güç ya da imkânsız zarar doğması birlikte aranır (İYUK m.27/2)."
+        },
+        {
+          "text": "Yalnızca iptal iste; yürütmenin durdurulmasına gerek yok, karar nasılsa çıkar.",
+          "delta": 5,
+          "set": [
+            "ydYok"
+          ],
+          "law": "İYUK m.27/1",
+          "note": "İptal istemi doğru, ama dava açılması işlemin uygulanmasını durdurmaz (İYUK m.27/1). Yürütmenin durdurulması istenmezse müvekkil karar çıkana kadar Şırnak'ta görev yapar; aile birliği tam da korunmak istenen dönemde bozulur."
+        },
+        {
+          "text": "İptal davası aç ve müvekkile, karar çıkana kadar Şırnak'ta göreve başlamamasını söyle.",
+          "delta": -15,
+          "set": [
+            "ydYok"
+          ],
+          "law": "İYUK m.27/1 · 657 s.K. m.94",
+          "note": "Dava açmak atamayı durdurmaz (İYUK m.27/1). Mazeretsiz olarak kesintisiz on gün göreve başlamayan memur çekilmiş sayılabilir (657 s.K. m.94). Bu tavsiye müvekkilin memuriyetini tehlikeye atar.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Kıdemli meslektaşınız dilekçeyi okuyunca araya girdi: “Dava işlemi durdurmaz. Müvekkil göreve başlasın.” Hande ertesi hafta Şırnak'ta göreve başladı. Yürütmenin durdurulması da istenmedi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "SAVUNMA · Dava dilekçesi Bakanlığa tebliğ edildi.",
+          "if": "!yd"
+        },
+        {
+          "who": "narr",
+          "text": "SAVUNMA · Mahkeme, yürütmenin durdurulması talebi hakkında karar vermeden önce Bakanlığın savunmasını istedi.",
+          "if": "yd"
+        },
+        {
+          "who": "narr",
+          "text": "Personel dairesi elinizdekileri gönderdi: norm kadro cetvelleri ve Bakanlığın yer değiştirme ölçütlerini düzenleyen iç yönergesi (kurgusal). Yönergeye göre zorunlu yer değiştirmede, norm fazlası olan ilde aynı yerde en uzun süre çalışan personel önce değerlendiriliyor."
+        }
+      ],
+      "prompt": "Savunmanın merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "text": "Hizmet gereğini somut olarak göster: Eskişehir'de 12 norm kadroya karşılık 14 mühendis, Şırnak'ta 6 norm kadroya karşılık 2 mühendis var. Davacı, yönergedeki nesnel ölçüte göre Eskişehir'de en uzun süre görev yapan mühendis.",
+          "delta": 20,
+          "set": [
+            "somut"
+          ],
+          "law": "657 s.K. m.76 · İYUK m.20",
+          "note": "İdare atama işleminde takdir yetkisine sahiptir, ama bu yetki kamu yararı ve hizmet gereğiyle sınırlıdır. Bunu ancak somut verilerle ortaya koyan bir savunma işlemi ayakta tutar. Norm kadro durumunu ve nesnel seçim ölçütünü gösterdiniz."
+        },
+        {
+          "text": "Atama idarenin takdir yetkisindedir; mahkeme yerindelik denetimi yapamaz.",
+          "delta": -10,
+          "set": [
+            "takdir"
+          ],
+          "law": "İYUK m.2/2",
+          "note": "Yargı yetkisi idari işlemin hukuka uygunluğunun denetimiyle sınırlıdır ve yerindelik denetimine dönüşemez (İYUK m.2/2). Ama takdir yetkisi sınırsız değildir: kamu yararı ve hizmet gereği somut olarak gösterilmeli. Bunu yapmadınız."
+        },
+        {
+          "text": "Davacının CİMER şikâyetleri ve il müdürüyle uyumsuzluğu nedeniyle hizmetin aksamaması için atandığını açıkça yaz.",
+          "delta": -20,
+          "set": [
+            "cimer"
+          ],
+          "law": "657 s.K. m.125 vd. · Anayasa m.74",
+          "note": "Bu bir itiraftır. Şikâyet hakkını kullanan memuru başka ile göndermek, disiplin usulü işletilmeden verilmiş örtülü bir yaptırımdır. İşlemin amaç unsuru kamu yararı değil, cezalandırma olur ve işlem iptal edilir. Uyumsuzluk iddiası varsa bunun yolu disiplin soruşturmasıdır (657 s.K. m.125 vd.)."
+        },
+        {
+          "text": "Memur göreve girerken yurdun her yerinde çalışmayı kabul eder; eşinin ve çocuğunun durumu davacının kendi sorunudur.",
+          "delta": -10,
+          "set": [
+            "aile"
+          ],
+          "law": "657 s.K. m.72/2 · Anayasa m.41",
+          "note": "Kanun, eşlerden biri memursa aile birliğinin korunması için kurumlar arasında koordinasyonu öngörür (657 s.K. m.72/2). Anayasa da devlete aileyi koruma ödevi yükler (m.41). Danıştay da hizmet gereği atamalarda eş durumunun gözetilmesini arar. Bu savunma işlemi zayıflatır."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "somut",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı tarafın istemi üzerine duruşmayı açıyorum. İdare vekili, savunmanızı özetleyin."
+        },
+        {
+          "who": "judge",
+          "text": "Yürütmenin durdurulması talebini duruşmadan sonra karara bağlayacağız.",
+          "if": "yd"
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Sayın Başkan, Şırnak'taki mühendis açığı başka hiçbir yoldan kapatılamazdı. Atama zorunluydu ve seçim nesnel ölçüte göre yapıldı."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_gonullu"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "gonullu"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Mart 2026 tarihli iki dilekçe dosyaya alındı. İdare vekili, bunlar neden değerlendirilmedi?"
+          }
+        ],
+        "note": "“Başka yol yoktu” beyanı çürüdü. Şırnak'a kendi isteğiyle gitmek isteyen iki mühendis varken, ailesi Eskişehir'de olan bir memurun zorunlu atanması hizmet gereğiyle açıklanamaz."
+      },
+      "responses": {
+        "ev_es": {
+          "delta": 5,
+          "set": [
+            "esDurumu"
+          ],
+          "note": "Eşin Eskişehir'de memur olduğunu gösterdiniz (657 s.K. m.72/2). Önemli, ama “başka yoldan kapatılamazdı” beyanını doğrudan çürütmüyor. Gönüllü talepler bu beyanı yıkardı."
+        },
+        "ev_cimer": {
+          "delta": 5,
+          "set": [
+            "cimerIddia"
+          ],
+          "note": "Zamanlama dikkat çekici ve tutanağa geçti. Ama yalnızca zamanlama, işlemin amacının cezalandırma olduğunu ispatlamaz; idare norm kadro verisiyle cevap verdi."
+        },
+        "ev_norm": {
+          "delta": -10,
+          "note": "Bu cetveli idare sundu ve idarenin tezini destekliyor: Eskişehir'de norm fazlası, Şırnak'ta açık var."
+        }
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz. İdarenin “atama zorunluydu” beyanı cevapsız kaldı."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "!somut",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı tarafın istemi üzerine duruşmayı açıyorum."
+        },
+        {
+          "who": "p2",
+          "text": "Sayın Başkan, atama idarenin takdir yetkisindedir. Mahkemeniz yerindelik denetimi yapamaz.",
+          "if": "takdir"
+        },
+        {
+          "who": "p2",
+          "text": "Sayın Başkan, davacı şikâyetleriyle il müdürlüğünde huzursuzluk yaratıyordu. Hizmetin aksamaması için atandı.",
+          "if": "cimer"
+        },
+        {
+          "who": "p2",
+          "text": "Sayın Başkan, memur yurdun her yerinde görev yapmayı kabul ederek göreve girer. Aile durumu davacının sorunudur.",
+          "if": "aile"
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili?"
+        }
+      ],
+      "prompt": "Savunmaya cevabınız?",
+      "choices": [
+        {
+          "text": "İdare somut bir hizmet gereği göstermedi. Şırnak'a gönüllü başvuran iki mühendisin dilekçeleri dosyada; eşin Eskişehir'de memur olduğu da özlük dosyasında. Takdir yetkisi kamu yararı ve hizmet gereğiyle sınırlıdır.",
+          "delta": 20,
+          "set": [
+            "gonullu"
+          ],
+          "law": "İYUK m.2 · 657 s.K. m.72/2 · Anayasa m.41",
+          "note": [
+            {
+              "if": "takdir",
+              "text": "Yerindelik yasağı (İYUK m.2/2) takdir yetkisinin hukuka uygunluk denetimini engellemez. "
+            },
+            {
+              "if": "cimer",
+              "text": "İdare atamanın gerçek sebebini kendisi söyledi. Şikâyet hakkını kullanan memuru başka ile göndermek örtülü bir yaptırımdır; işlemin amaç unsuru sakattır. "
+            },
+            {
+              "if": "aile",
+              "text": "Eşlerden biri memursa aile birliğinin korunması kanunun açık hükmüdür (657 s.K. m.72/2). "
+            },
+            {
+              "text": "Gönüllü talepler, hizmet gereğinin aile birliği bozulmadan karşılanabileceğini gösteriyor."
+            }
+          ]
+        },
+        {
+          "text": "Müvekkil Şırnak'a gitmek istemiyor; isteği dışındaki her atama hukuka aykırıdır.",
+          "delta": -10,
+          "law": "657 s.K. m.76",
+          "note": "Memurun rızası atamanın şartı değildir; idare hizmet gereği atama yapabilir. Hukuka aykırılık rızasızlıktan değil, somut gerekçenin ve eş durumunun gözetilmemesinden doğar."
+        },
+        {
+          "text": "Müvekkil on iki yıllık kıdemli bir mühendis; kıdemli memur zorunlu yer değiştirmeye tabi tutulamaz.",
+          "delta": -10,
+          "note": "Böyle bir kural yok. Kıdem, ölçütlerden biri olabilir ama atamayı tek başına engellemez."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "gonullu",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "İdare vekili, Şırnak'a kendi isteğiyle gitmek isteyen iki mühendisin talebi neden değerlendirilmedi? Davacının eşinin Eskişehir'de memur olduğu da özlük dosyasında yazılı."
+        }
+      ],
+      "prompt": "Heyete ne cevap vereceksiniz?",
+      "choices": [
+        {
+          "text": "Kısa süre iste; Bakanlıktan talimat alarak atamanın geri alınacağını ve Şırnak'a gönüllü mühendislerden birinin atanacağını bildir.",
+          "delta": 15,
+          "set": [
+            "geriAlma"
+          ],
+          "law": "İYUK m.2 · 657 s.K. m.72/2",
+          "note": "İdare hukuka aykırılığı fark ettiği işlemini geri alabilir. Hizmet ihtiyacı gönüllüyle karşılanır, idare iptal kararından kurtulur, dava konusuz kalır.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Bakanlığın geri alma onayını bir hafta içinde dosyaya sunun. Davacı vekili, beyanınız?"
+            }
+          ]
+        },
+        {
+          "text": "Gönüllü talepler, yönergedeki Nisan dönemi dışında yapıldığı için değerlendirilmedi; davacı nesnel ölçüte göre seçildi.",
+          "delta": 5,
+          "if": "somut",
+          "set": [
+            "donemSavunma"
+          ],
+          "note": "Savunulabilir ama zayıf. İç yönergedeki başvuru dönemi, aile birliğini bozan zorunlu bir atamayı haklı kılmaz; idare, aynı ihtiyacı gönüllüyle karşılayabilecekken bunu araştırmadı."
+        },
+        {
+          "text": "Davacı, eşinin memur olduğunu idareye hiç bildirmemişti.",
+          "delta": -10,
+          "note": "Gerçeğe aykırı. Aile durum bildirimi özlük dosyasında; idare bunu biliyordu."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "!gonullu",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "İdare vekili, davacının eşinin de Eskişehir'de memur olduğu dosyada. Aile birliği yönünden ne yapıldı?"
+        }
+      ],
+      "prompt": "Son beyanınız ne olacak?",
+      "choices": [
+        {
+          "text": "Eşin isteği hâlinde Şırnak'ta atanabileceği okullar olduğunu ve koordinasyon için Millî Eğitim Bakanlığına yazı yazıldığını belgesiyle sun.",
+          "delta": 15,
+          "if": "somut",
+          "set": [
+            "koordinasyon"
+          ],
+          "law": "657 s.K. m.72/2",
+          "note": "Kanun, aile birliğinin korunması için kurumlar arasında koordinasyonu ve memur olan diğer eşin isteği hâlinde atanmasını öngörür (657 s.K. m.72/2). Somut hizmet gereğiyle birlikte bu koordinasyon, atamayı ayakta tutar."
+        },
+        {
+          "text": "Aile birliği ilkesi idareyi bağlamaz; takdir yetkisi esastır.",
+          "delta": -10,
+          "law": "657 s.K. m.72/2 · Anayasa m.41",
+          "note": "Bağlar. Kanun aile birimini korumayı açıkça öngörür (657 s.K. m.72/2); Anayasa da devlete aileyi koruma ödevi yükler (m.41)."
+        },
+        {
+          "text": "Bakanlıktan talimat alarak atamanın geri alınacağını bildir.",
+          "delta": 5,
+          "set": [
+            "geriAlma"
+          ],
+          "note": "Güvenli bir çıkış. İdare iptal kararından kurtulur, ama savunmasını somut verilerle kurabilseydi atama belki ayakta kalabilirdi.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Bakanlığın geri alma onayını bir hafta içinde dosyaya sunun. Davacı vekili, beyanınız?"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "geriAlma",
+      "lines": [
+        {
+          "who": "client",
+          "text": "Geri alacaklar mı? Ama bir karar çıksın istiyorum; bir daha yapmasınlar."
+        }
+      ],
+      "prompt": "Geri alma beyanına ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "İşlem geri alınınca davanın konusuz kalacağını kabul et; davanın açılmasına idarenin sebep olduğunu, yargılama giderleri ve vekâlet ücretinin idareye yüklenmesini iste.",
+          "delta": 15,
+          "set": [
+            "giderTalebi"
+          ],
+          "law": "İYUK m.31 · HMK m.331",
+          "note": "Geri alınan işlem hukuk âleminden kalkar; mahkeme konusu kalmayan dava hakkında karar verilmesine yer olmadığına hükmeder. Davaya sebep olan idare olduğu için giderlerin ona yüklenmesini istemek doğru talep."
+        },
+        {
+          "text": "Geri almaya rağmen mahkemeden iptal kararı vermesini ısrarla iste.",
+          "delta": -5,
+          "note": "Ortadan kalkan bir işlem iptal edilemez; dava konusuz kalır. Müvekkilin “bir karar çıksın” isteğini anlamak gerekir, ama bunu ona açıklamak da sizin işiniz."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "!geriAlma",
+      "lines": [
+        {
+          "who": "client",
+          "text": "Benim kızım ne olacak? Siz hiç düşündünüz mü bunu?"
+        },
+        {
+          "who": "narr",
+          "text": "Hande ayağa kalkmış, idare vekiline dönmüş; sesi titriyor. Salondaki herkes susmuş."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, müvekkilinizi uyarın lütfen. Son beyanınızı alacağım."
+        }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Müvekkili sakin bir sesle oturt, heyetten kısa bir özürle söz al ve son beyanını hukuki çerçevede yap: eş durumu, aile birliği ve somut hizmet gereği.",
+          "delta": 10,
+          "law": "Avukatlık Kanunu m.34",
+          "note": "Doğru tavır. Müvekkilin duygusu anlaşılır, ama salonda duruşma düzenini korumak ve heyetin dikkatini yeniden hukuki meseleye çekmek avukatın işidir."
+        },
+        {
+          "text": "Müvekkiline hak ver ve idare vekiline “Bu atama insafsızlıktır” de.",
+          "delta": -10,
+          "law": "Avukatlık Kanunu m.34",
+          "note": "Karşı vekili hedef almak heyetin gözünde davanıza bir şey katmaz; duruşma düzenini bozar. Avukat, mesleğin gerektirdiği saygı ve ölçüyle davranmakla yükümlüdür."
+        },
+        {
+          "text": "Hiçbir şey söyleme; heyet zaten durumu görüyor.",
+          "delta": -5,
+          "note": "Son beyan hakkını kullanmadınız. Müvekkilin çıkışı yanıtsız ve hukuki karşılıksız kaldı."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "geriAlma",
+      "winner": "draw",
+      "stamp": "GERİ ALINDI",
+      "noCourt": true,
+      "hukum": "Dava konusu atama işlemi davalı idarece geri alındığından konusu kalmayan dava hakkında KARAR VERİLMESİNE YER OLMADIĞINA, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "İdare, Şırnak'a gönüllü başvuranlar varken aile birliğini bozan atamayı savunamayacağını görüp işlemi geri aldı. Hande Eskişehir'de kaldı; idare de iptal kararından kurtuldu."
+        },
+        {
+          "if": "giderTalebi",
+          "text": " Davacı vekili, davaya idarenin sebep olduğunu göstererek giderleri ve vekâlet ücretini idareye yükletti."
+        },
+        {
+          "if": "!giderTalebi",
+          "text": " Davacı vekili konusuz kalan davada iptal kararında ısrar etti; mahkeme yine de giderleri davaya sebep olan idareye yükledi."
+        }
+      ]
+    },
+    {
+      "if": "cimer",
+      "winner": "p1",
+      "noCourt": true,
+      "hukum": "Dava konusu atama işleminin İPTALİNE, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "İdare, savunmasında atamanın gerçek sebebinin davacının CİMER şikâyeti olduğunu kendisi söyledi. Şikâyet hakkını kullanan memuru başka ile göndermek disiplin usulü işletilmeden verilmiş örtülü bir yaptırımdır; işlemin amaç unsuru kamu yararı değildir."
+        },
+        {
+          "if": "ydYok",
+          "text": " Yürütmenin durdurulması istenmediği için Hande yargılama boyunca Şırnak'ta görev yaptı."
+        }
+      ]
+    },
+    {
+      "if": "gonullu || !somut",
+      "winner": "p1",
+      "noCourt": true,
+      "hukum": "Dava konusu atama işleminin İPTALİNE, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "if": "gonullu",
+          "text": "Şırnak'taki ihtiyaç, kendi isteğiyle gitmek isteyen iki mühendisle karşılanabilecekken eşi Eskişehir'de memur olan davacının zorunlu atanması kamu yararı ve hizmet gereğiyle açıklanamadı; aile birliği gözetilmedi (657 s.K. m.72/2, Anayasa m.41)."
+        },
+        {
+          "if": "!gonullu",
+          "text": "İdare, atamanın dayandığı somut hizmet gereğini ortaya koyamadı. Takdir yetkisi kamu yararı ve hizmet gereğiyle sınırlıdır; tek cümlelik gerekçe işlemi taşımadı."
+        },
+        {
+          "if": "ydYok",
+          "text": " Yürütmenin durdurulması istenmediği için Hande yargılama boyunca Şırnak'ta görev yaptı."
+        }
+      ]
+    },
+    {
+      "if": "koordinasyon",
+      "winner": "p2",
+      "noCourt": true,
+      "hukum": "DAVANIN REDDİNE, yargılama giderlerinin davacı üzerinde bırakılmasına, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": "İdare norm kadro verisiyle somut hizmet gereğini, iç yönergedeki nesnel ölçütle seçimin dayanağını ortaya koydu ve eşin Şırnak'a atanabilmesi için kurumlar arası koordinasyonu başlattı (657 s.K. m.72/2). Davacı vekili, ihtiyacın başka yoldan karşılanabileceğini gösteremedi."
+    },
+    {
+      "if": "esDurumu",
+      "winner": "p1",
+      "noCourt": true,
+      "hukum": "Dava konusu atama işleminin İPTALİNE, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "İdare hizmet gereğini norm kadro verisiyle gösterdi, ama eşi Eskişehir'de memur olan davacı için aile birliğini korumaya yönelik hiçbir değerlendirme ya da koordinasyon yapmadı (657 s.K. m.72/2, Anayasa m.41). Hizmet gereği, aile birliği gözetilmeden yapılan atamayı tek başına taşımadı."
+        },
+        {
+          "if": "ydYok",
+          "text": " Yürütmenin durdurulması istenmediği için Hande yargılama boyunca Şırnak'ta görev yaptı."
+        }
+      ]
+    },
+    {
+      "winner": "p2",
+      "noCourt": true,
+      "hukum": "DAVANIN REDDİNE, yargılama giderlerinin davacı üzerinde bırakılmasına, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "İdare norm kadro verisi ve nesnel seçim ölçütüyle hizmet gereğini somut olarak ortaya koydu. Davacı vekili, idarenin “atama zorunluydu” beyanını dosyadaki gönüllü taleplerle çürütmedi."
+        },
+        {
+          "if": "cimerIddia",
+          "text": " CİMER şikâyetinin zamanlaması tutanağa geçti, ama işlemin cezalandırma amacıyla yapıldığını tek başına ispatlamadı."
+        }
+      ]
+    }
+  ]
+}

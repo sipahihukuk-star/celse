@@ -1,0 +1,799 @@
+{
+  "id": "dk-vergi-ziyai",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Emsal Fiyat",
+  "area": "Vergi Hukuku · Transfer fiyatlandırması yoluyla örtülü kazanç",
+  "court": "Denizli 1. Vergi Mahkemesi",
+  "courtShort": "1. VERGİ MAHKEMESİ",
+  "esas": "2027/214 Esas",
+  "kararTarihi": "08.06.2027",
+  "color": "#5b4a2e",
+  "teaser": "Traverten ihracatçısı, Almanya'daki iştirakine ilişkisiz alıcılardan %22 ucuza satmış. Müfettiş “örtülü kazanç” diyor; şirket “aynı mal, aynı koşul değil” diyor.",
+  "bench": {
+    "judges": 3,
+    "title": "Mahkeme Başkanı ve iki üye"
+  },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "sides": {
+    "p1": {
+      "role": "Davacı (mükellef) vekili",
+      "short": "Mükellef"
+    },
+    "p2": {
+      "role": "Davalı vergi dairesi vekili",
+      "short": "Vergi dairesi"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Mahkeme Başkanı",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#d9a982",
+        "hair": "#6b6b70",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#b88560",
+        "hair": "#151515",
+        "style": "short",
+        "beard": true
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#edc6a2",
+        "hair": "#7a4a2a",
+        "style": "long"
+      }
+    },
+    "client": {
+      "name": "Serpil Aktaş · Mali işler müdürü",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#e0b48e",
+        "hair": "#2b1d17",
+        "style": "bun",
+        "glasses": true,
+        "shirt": "#3d4a5c",
+        "inner": "#e8e4da"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Pamukdere Traverten A.Ş. Denizli'de blok ve plaka traverten üretip ihraç ediyor. Almanya'daki Pamukdere Stone GmbH'nin tamamı şirkete ait; yani ilişkili kişi."
+    },
+    {
+      "who": "narr",
+      "text": "2025 hesap döneminde şirket, GmbH'ye ilişkisiz Avrupa alıcılarına sattığından ton başına ortalama %22 daha düşük fiyatla traverten sattı. Vergi müfettişi, karşılaştırılabilir fiyat yöntemini uygulayarak farkı transfer fiyatlandırması yoluyla örtülü kazanç saydı."
+    },
+    {
+      "who": "narr",
+      "text": "İnceleme raporuna dayanılarak kurumlar vergisi farkı ve bir kat vergi ziyaı cezası tarh edildi. Rapor ihbarnameye eklenmiş; ihbarname 12.01.2027'de tebliğ edildi. Bugün 18.01.2027."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Vergi/ceza ihbarnamesi",
+      "d": "Tebliğ 12.01.2027. 2025 dönemi kurumlar vergisi farkı ve bir kat vergi ziyaı cezası (VUK m.344/1)."
+    },
+    {
+      "t": "Vergi inceleme raporu",
+      "d": "Karşılaştırılabilir fiyat yöntemi; iç emsal olarak şirketin 2025'te ilişkisiz alıcılara yaptığı satışlar alınmış. Teslim şekli, kalite ya da vade için hiçbir düzeltme yapılmamış."
+    },
+    {
+      "t": "Yıllık transfer fiyatlandırması raporu",
+      "d": "Şirketin kendi raporu. GmbH'ye uygulanan fiyatların “piyasa koşullarına uygun” olduğunu söylüyor, ama hesap ve karşılaştırma içermiyor."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_rapor",
+      "type": "belge",
+      "title": "Vergi inceleme raporu",
+      "desc": "İç emsal: ilişkisiz alıcılara yapılan satışların ortalama ton fiyatı. Hiçbir karşılaştırılabilirlik düzeltmesi yok."
+    },
+    {
+      "id": "ev_tfr",
+      "type": "belge",
+      "title": "Yıllık transfer fiyatlandırması raporu",
+      "desc": "Şirketin raporu; fiyatların piyasaya uygun olduğunu genel ifadelerle söylüyor, hesap içermiyor."
+    },
+    {
+      "id": "ev_konsimento",
+      "type": "belge",
+      "title": "Satış faturaları ve konşimentolar",
+      "desc": "GmbH'ye satışlar FOB Aliağa: navlun ve sigorta alıcıya ait. İlişkisiz alıcılara satışlar CIF Hamburg/Rotterdam: navlun ve sigorta şirkete ait. Navlun ve sigorta, CIF fiyatın yaklaşık %16'sı.",
+      "if": "teslim"
+    },
+    {
+      "id": "ev_kalite",
+      "type": "belge",
+      "title": "Bağımsız gözetim kalite sertifikaları",
+      "desc": "Her sevkiyat için bağımsız gözetim şirketinin sınıflandırması: GmbH'ye “ticari sınıf”, ilişkisiz alıcılara “birinci sınıf” blok gönderilmiş.",
+      "if": "kalite"
+    },
+    {
+      "id": "ev_tutanak",
+      "type": "belge",
+      "title": "İnceleme tutanağı",
+      "desc": "14.10.2026 tarihli, müfettiş ve şirket yetkilisinin imzaladığı tutanak. Şirket teslim şekli ve kalite farkını açıklamış; rapor bu açıklamayı tartışmamış.",
+      "if": "tutanak || tamDosya || eksikDosya || araKararGec"
+    },
+    {
+      "id": "law_vuk3",
+      "type": "kanun",
+      "title": "VUK m.3/B · İspat",
+      "desc": "İktisadi, ticari ve teknik icaplara uymayan veya olayın özelliğine göre normal ve mutad olmayan bir durumu iddia eden taraf ispat eder.",
+      "law": "VUK m.3/B"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "client",
+          "text": "Müfettişe her şeyi anlattık, dinlemedi. Bu ceza şirketi batırır. Hemen dava açalım mı, önce uzlaşma mı deneyelim?"
+        },
+        {
+          "who": "narr",
+          "text": "İhbarname 12.01.2027'de tebliğ edildi."
+        }
+      ],
+      "prompt": "Nasıl ilerleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Tebliğden itibaren otuz gün içinde, en geç 11.02.2027'de vergi mahkemesinde vergi ve cezanın kaldırılması davası aç. Raporun hiçbir karşılaştırılabilirlik düzeltmesi yapmadığını ve tutanaktaki açıklamaları tartışmadığını ileri sür.",
+          "delta": 20,
+          "set": [
+            "sure"
+          ],
+          "law": "İYUK m.7/1 · KVK m.13",
+          "note": "Vergi mahkemelerinde dava açma süresi otuz gündür (İYUK m.7/1); idare ve Danıştay davalarındaki altmış günlük süreyle karıştırılmamalı. Emsallere uygunluk ilkesi, karşılaştırılabilir işlemlerin gerçekten karşılaştırılabilir olmasını gerektirir (KVK m.13).",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Dava 05.02.2027'de, süresinde açıldı."
+            }
+          ]
+        },
+        {
+          "text": "Önce tarhiyat sonrası uzlaşma talep et; uzlaşma sağlanamazsa kalan süre içinde dava aç.",
+          "delta": 10,
+          "set": [
+            "sure",
+            "uzlasma"
+          ],
+          "law": "VUK ek m.1 vd.",
+          "note": "Meşru bir yol. Uzlaşma talebi dava açma süresinin işlemesini durdurur; uzlaşma sağlanamazsa kalan süre içinde (kalan süre on beş günden azsa on beş gün içinde) dava açılabilir. Ama müfettişin dinlemediği bir meselede komisyonun esastan geri adım atması zor; zaman kaybettiniz.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Uzlaşma komisyonu yalnızca cezada küçük bir indirim önerdi; şirket kabul etmedi. Uzlaşma tutanağının tebliğinden sonra dava kalan süre içinde, 03.03.2027'de açıldı."
+            }
+          ]
+        },
+        {
+          "text": "İdari yargıda dava açma süresi altmış gündür. Bağımsız bir uzman görüşü alıp dilekçeyi altmışıncı gün ver.",
+          "delta": -25,
+          "set": [
+            "gec"
+          ],
+          "law": "İYUK m.7/1",
+          "note": "Yanlış. Altmış gün, Danıştay ve idare mahkemelerindeki süredir; vergi mahkemelerinde süre otuz gündür (İYUK m.7/1). Süre hak düşürücüdür ve mahkemece re'sen incelenir.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Altmışıncı gün cumartesiye denk geldi; dava 15.03.2027 pazartesi günü açıldı."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "if": "gec",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "SAVUNMA · Dava dilekçesi vergi dairesine tebliğ edildi. İhbarnamenin tebliğ tarihi 12.01.2027, davanın açıldığı tarih 15.03.2027."
+        }
+      ],
+      "prompt": "Savunmayı nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Önce süre itirazı: vergi mahkemelerinde dava açma süresi otuz gündür; dava süre aşımı nedeniyle reddedilmeli. Esasa ilişkin savunmayı da ikinci olarak ekle.",
+          "delta": 20,
+          "set": [
+            "sureItiraz",
+            "end"
+          ],
+          "law": "İYUK m.7/1, m.14/3-e, m.15/1-b",
+          "note": "Dava, otuz günlük süre 11.02.2027'de dolduktan sonra açılmış. Süre aşımı dava dilekçesinin ilk incelemesinde bakılan konulardandır ve davanın reddi sonucunu doğurur.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Dava dilekçesi ilk incelemeye alındı. Süre yönünden karar verilecek."
+            }
+          ]
+        },
+        {
+          "text": "Süreye değinmeden yalnızca raporu esastan savun.",
+          "delta": 0,
+          "set": [
+            "end"
+          ],
+          "law": "İYUK m.14/3-e, m.15/1-b",
+          "note": "Süreyi kaçırdınız, ama mahkeme dava açma süresini ilk incelemede re'sen inceler. Sonuç değişmeyecek; yine de idare vekili olarak süre itirazını öne çıkarmalıydınız.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Dava dilekçesi ilk incelemeye alındı. Mahkeme süreyi re'sen inceleyecek."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "if": "!gec",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "SAVUNMA · Dava dilekçesi vergi dairesine tebliğ edildi. Savunma süresi otuz gün (İYUK m.16)."
+        },
+        {
+          "who": "narr",
+          "text": "Davacı, iç emsalin karşılaştırılabilir olmadığını, raporun hiçbir düzeltme yapmadığını ileri sürüyor."
+        }
+      ],
+      "prompt": "Savunmanın merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "text": "Raporu savun: aynı ürün, aynı yıl, aynı satıcı. İç emsal karşılaştırılabilir fiyat yönteminin en güvenilir verisidir; %22 fark örtülü kazançtır.",
+          "delta": 15,
+          "set": [
+            "icEmsal"
+          ],
+          "law": "KVK m.13",
+          "note": "Güçlü bir savunma. Aynı satıcının aynı dönemde ilişkisiz kişilere yaptığı satışlar iyi bir emsaldir. Ama karşılaştırılabilirlik yalnızca ürünün adıyla değil, teslim şekli, kalite ve koşullarla da ölçülür; davacı bu farkları belgelerse savunma zayıflar."
+        },
+        {
+          "text": "Teslim şekli farkını kendiliğinden kabul et: GmbH satışları FOB, diğerleri CIF. Navlun ve sigorta düzeltmesinden sonra kalan %6'lık fark için tarhiyatı savun.",
+          "delta": 10,
+          "set": [
+            "duzeltme"
+          ],
+          "law": "KVK m.13",
+          "note": "Dürüst ve güven veren bir savunma: belgeyle sabit bir farkı inkâr etmediniz. Ama kalan fark için de ürünün aynı olduğunu göstermeniz gerekecek; tarhiyatın bir kısmından da baştan vazgeçmiş oldunuz."
+        },
+        {
+          "text": "Süre itirazı: davanın süre aşımı nedeniyle reddini iste.",
+          "delta": -10,
+          "law": "İYUK m.7/1",
+          "note": "Dava otuz günlük süre içinde açılmış. Dayanaksız bir süre itirazı savunmanın ciddiyetini zedeler.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Mahkeme ilk incelemede davanın süresinde açıldığını tespit etti."
+            }
+          ]
+        },
+        {
+          "text": "Mükellef ilişkili kişi işlemlerini yeterince belgelendirmemiş; bu yüzden örtülü kazanç karinesi var ve aksini mükellef ispat etmeli.",
+          "delta": -10,
+          "set": [
+            "karine"
+          ],
+          "law": "VUK m.3/B · KVK m.13",
+          "note": "Belgelendirme yükümlülüğünün ihlali ayrı bir usulsüzlük yaptırımına bağlanır; tek başına örtülü kazanç karinesi doğurmaz. Fiyatın emsallere aykırı, yani olağan dışı olduğunu iddia eden idaredir; ispat da ona düşer (VUK m.3/B)."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "if": "!gec",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Duruşmadan önce mali işler müdürü Serpil Aktaş'la görüşüyorsunuz. Vakti kısıtlı; iki soru sorabilirsiniz."
+        }
+      ],
+      "prompt": "Ne soracaksınız?",
+      "choices": [
+        {
+          "text": "GmbH'ye ve ilişkisiz alıcılara satışlarda teslim şekli neydi? Navlunu ve sigortayı kim ödedi?",
+          "delta": 10,
+          "set": [
+            "teslim"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "GmbH malı Aliağa'da gemiye yüklenmiş olarak alıyor, FOB. Diğerlerine Hamburg'a, Rotterdam'a kadar biz taşıyoruz, CIF. Navlun bloklarda çok tutuyor; faturalar ve konşimentolar muhasebede."
+            }
+          ],
+          "note": "Kritik bilgi. Teslim şekli fiyatı doğrudan etkiler; FOB fiyat ile CIF fiyat düzeltme yapılmadan karşılaştırılamaz."
+        },
+        {
+          "text": "Gönderilen blokların kalitesi aynı mıydı?",
+          "delta": 10,
+          "set": [
+            "kalite"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Hayır. Birinci sınıf blokları Avrupa'daki alıcılara satıyoruz. GmbH ticari sınıfı alıp Almanya'da plaka olarak işliyor. Her sevkiyatın bağımsız gözetim sertifikası var."
+            }
+          ],
+          "note": "Kritik bilgi. Ürünün fiziksel özellikleri karşılaştırılabilirliğin temel unsurudur; farklı kalite sınıfları aynı ürün sayılamaz."
+        },
+        {
+          "text": "Bu farkları inceleme sırasında müfettişe anlattınız mı?",
+          "delta": 5,
+          "set": [
+            "tutanak"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Anlattık. 14 Ekim'de tutanağa da geçti, imzaladık. Ama raporda tek satır yok."
+            }
+          ],
+          "note": "Yararlı. Raporun mükellefin açıklamalarını tartışmaması eksik incelemeye işaret eder; ama farkın kendisini ispatlamaz."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "if": "!gec",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "ARA KARARI · Mahkeme, vergi incelemesine ilişkin dosyanın tamamının, inceleme sırasında düzenlenen tutanaklar dahil otuz gün içinde gönderilmesini istedi (İYUK m.20)."
+        },
+        {
+          "who": "narr",
+          "text": "Vergi dairesindeki dosyada, 14.10.2026 tarihli bir tutanak var: şirket yetkilisi teslim şekli ve kalite farkını müfettişe açıklamış. Raporda bu açıklama tartışılmamış."
+        }
+      ],
+      "prompt": "Ara kararına nasıl cevap vereceksiniz?",
+      "choices": [
+        {
+          "text": "Dosyanın tamamını, tutanak dahil süresinde gönder.",
+          "delta": 15,
+          "set": [
+            "tamDosya"
+          ],
+          "law": "İYUK m.20",
+          "note": "Doğru ve zorunlu olan bu. İdare, mahkemenin istediği belgeleri süresinde göndermekle yükümlüdür (İYUK m.20). Tutanak davacının işine yarayabilir, ama eksik gönderme hem idarenin güvenilirliğini hem savunmayı zedelerdi."
+        },
+        {
+          "text": "Yalnızca raporu ve ihbarnameyi gönder; tutanak raporun eki değil.",
+          "delta": -15,
+          "set": [
+            "eksikDosya"
+          ],
+          "law": "İYUK m.20",
+          "note": "Ara kararı dosyanın tamamını istiyordu. Elde bulunan bir belgeyi bilerek göndermemek ara kararına aykırıdır; mahkeme bunu idare aleyhine değerlendirebilir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Ara kararının eksik yerine getirildiği anlaşılmıştır. İdareye tutanakların gönderilmesi için yeniden süre verildi."
+            }
+          ]
+        },
+        {
+          "text": "Ara kararına cevap verme; dosyayı duruşmaya getirirsin.",
+          "delta": -5,
+          "law": "İYUK m.20",
+          "note": "Ara kararı süresinde yerine getirilmelidir. Bekletmek yargılamayı uzatır ve mahkemenin gözünde idarenin tutumunu zayıflatır.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Ara kararı süresinde cevaplanmadı. İdareye son kez süre verildi."
+            }
+          ],
+          "set": [
+            "araKararGec"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "!gec && !duzeltme",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı tarafın istemi üzerine duruşmayı açıyorum. Davalı idare vekili, savunmanızı özetleyin."
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Sayın Başkan, müfettiş aynı ürünü, aynı yıl, aynı şirketin ilişkisiz alıcılara sattığı fiyatla karşılaştırdı. Koşullar aynıdır; aradaki %22 fark örtülü kazançtır."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_konsimento"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "teslimGosterildi"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Faturalar ve konşimentolar dosyaya alındı. Bir satış FOB, diğerleri CIF; navlun ve sigorta düzeltmesi raporda yok."
+          }
+        ],
+        "note": "“Koşullar aynı” beyanı çürüdü. FOB fiyat navlun ve sigortayı içermez; CIF fiyatla doğrudan karşılaştırılamaz. Farkın yaklaşık %16'sı bu düzeltmeyle açıklanıyor."
+      },
+      "responses": {
+        "ev_kalite": {
+          "delta": 20,
+          "set": [
+            "kaliteGosterildi"
+          ],
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Gözetim sertifikaları dosyaya alındı. Satılan bloklar farklı kalite sınıfında."
+            }
+          ],
+          "note": "“Aynı ürün” beyanı çürüdü: ticari sınıf ile birinci sınıf blok aynı ürün değildir. Farkın bir kısmı kaliteyle açıklanıyor. Teslim şekli farkı da belgelenseydi farkın tamamı açıklanabilirdi."
+        },
+        "ev_tutanak": {
+          "delta": 5,
+          "set": [
+            "tutanakSunuldu"
+          ],
+          "note": "Raporun mükellefin açıklamalarını tartışmadığını gösterdiniz. Bu eksik incelemeye işaret eder, ama farkı belgeleyen faturalar ya da sertifikalar olmadan beyanı çürütmez."
+        },
+        "ev_tfr": {
+          "delta": -5,
+          "note": "Şirketin kendi raporu hesap içermiyor. Genel bir “piyasaya uygundur” ifadesi idarenin somut iç emsaline karşı yetersiz."
+        },
+        "ev_rapor": {
+          "delta": -10,
+          "note": "Bu, idarenin delili ve onun tezini destekliyor."
+        },
+        "law_vuk3": {
+          "delta": 5,
+          "note": "İspat yükünün idarede olduğunu hatırlattınız (VUK m.3/B). Doğru, ama idare iç emsalle bir ispat ortaya koydu; onu çürütecek olan belgedir, madde değil."
+        }
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz. “Koşullar aynı” beyanı cevapsız kaldı."
+      }
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "!gec && duzeltme",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı tarafın istemi üzerine duruşmayı açıyorum. Davalı idare vekili, savunmanızı özetleyin."
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Sayın Başkan, idare navlun ve sigorta farkını kendisi düzeltti. Geriye kalan %6'lık fark için ürün aynıdır; bu kısım örtülü kazançtır."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_kalite"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "kaliteGosterildi"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Gözetim sertifikaları dosyaya alındı. Satılan bloklar farklı kalite sınıfında."
+          }
+        ],
+        "note": "“Ürün aynı” beyanı çürüdü. Ticari sınıf ile birinci sınıf blok aynı ürün değildir; kalan fark kaliteyle açıklanıyor."
+      },
+      "responses": {
+        "ev_konsimento": {
+          "delta": 0,
+          "note": "İdare teslim şekli farkını zaten kabul edip düzeltti. Bu belge kalan farkı açıklamıyor."
+        },
+        "ev_tutanak": {
+          "delta": 5,
+          "set": [
+            "tutanakSunuldu"
+          ],
+          "note": "Raporun mükellefin açıklamalarını tartışmadığını gösterdiniz. Ama kalan farkı belgeleyen sertifikalar olmadan beyan çürümez."
+        },
+        "ev_tfr": {
+          "delta": -5,
+          "note": "Şirketin kendi raporu hesap içermiyor; kalan farkı açıklamıyor."
+        },
+        "ev_rapor": {
+          "delta": -10,
+          "note": "Bu, idarenin delili ve onun tezini destekliyor."
+        },
+        "law_vuk3": {
+          "delta": 5,
+          "note": "İspat yükü idarede (VUK m.3/B). Doğru, ama kalan fark için ürünün farklı olduğunu belgeyle göstermek gerekiyordu."
+        }
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz. Kalan fark için idarenin beyanı cevapsız kaldı."
+      }
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "!gec",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "İdare vekili, davacı hem teslim şekli hem kalite farkını belgeledi. Raporda bunlar neden değerlendirilmedi?",
+          "if": "kaliteGosterildi && (teslimGosterildi || duzeltme)"
+        },
+        {
+          "who": "judge",
+          "text": "İdare vekili, davacı belgelerle bir karşılaştırılabilirlik farkı ortaya koydu. Son beyanınız?",
+          "if": "!(kaliteGosterildi && (teslimGosterildi || duzeltme)) && (kaliteGosterildi || teslimGosterildi || duzeltme)"
+        },
+        {
+          "who": "judge",
+          "text": "İdare vekili, son beyanınız?",
+          "if": "!kaliteGosterildi && !teslimGosterildi && !duzeltme"
+        }
+      ],
+      "prompt": "Son beyanınız ne olacak?",
+      "choices": [
+        {
+          "text": "Belgelenen farkın düzeltilmesini kabul et; düzeltme sonrası kalan fark yönünden tarhiyatın ve cezanın onanmasını iste.",
+          "delta": 15,
+          "if": "!(kaliteGosterildi && (teslimGosterildi || duzeltme)) && (kaliteGosterildi || teslimGosterildi || duzeltme)",
+          "set": [
+            "kismiKabul"
+          ],
+          "law": "KVK m.13",
+          "note": "Doğru strateji: belgeyle sabit bir farkı inkâr etmek yerine tartışmayı açıklanamayan kısma daralttınız. İdare iç emsalle ispat yükünü bu kısım için taşıyor."
+        },
+        {
+          "text": "Davacı, raporda belirtilen iç emsalin karşılaştırılamaz olduğunu belgeyle göstermedi. Tarhiyatın ve cezanın tamamen onanmasını iste.",
+          "delta": 15,
+          "if": "!kaliteGosterildi && !teslimGosterildi && !duzeltme",
+          "set": [
+            "raporSavunma"
+          ],
+          "law": "KVK m.13 · VUK m.3/B",
+          "note": "Yerinde. İdare iç emsalle emsallere aykırılığı ortaya koydu; davacı bunu çürütecek bir belge sunmadı."
+        },
+        {
+          "text": "Karşılaştırılabilirlik düzeltmesinin hesaplanması için bilirkişi incelemesi iste.",
+          "delta": 5,
+          "set": [
+            "bilirkisi"
+          ],
+          "law": "İYUK m.31 · HMK m.266",
+          "note": "Riskli. Teknik bir hesap için bilirkişi istenebilir, ama düzeltmeleri vergi incelemesinde yapmak idarenin işiydi. Bilirkişi şirketin bütün sevkiyat kayıtlarını inceleyecek; davacının henüz belgelemediği farklar da ortaya çıkabilir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Bilirkişi incelemesine karar verildi."
+            }
+          ]
+        },
+        {
+          "text": "Fiyatın normal olduğunu iddia eden mükelleftir; VUK m.3/B gereği ispat yükü ondadır, belgeler yetersizdir.",
+          "delta": -10,
+          "law": "VUK m.3/B",
+          "note": "Ters okuma. Olağan ve mutad olmayan bir durumu, yani fiyatın emsale aykırı olduğunu iddia eden idaredir; ispat yükü ona düşer."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "!gec",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı vekili, idarenin beyanına karşı son sözünüz?"
+        }
+      ],
+      "prompt": "Son beyanınız ne olacak?",
+      "choices": [
+        {
+          "text": "Satış faturalarını ve konşimentoları da sun: GmbH satışları FOB Aliağa, diğerleri CIF. Navlun ve sigorta düzeltmesi yapılmadan fiyatlar karşılaştırılamaz.",
+          "delta": 20,
+          "if": "teslim && !teslimGosterildi && !duzeltme",
+          "set": [
+            "teslimGosterildi"
+          ],
+          "law": "KVK m.13",
+          "note": "Elinizdeki ikinci farkı da dosyaya koydunuz. Teslim şekli farkı, fiyat farkının büyük bölümünü açıklıyor."
+        },
+        {
+          "text": "Bağımsız gözetim sertifikalarını da sun: GmbH'ye ticari sınıf, diğer alıcılara birinci sınıf blok gönderildi.",
+          "delta": 20,
+          "if": "kalite && !kaliteGosterildi",
+          "set": [
+            "kaliteGosterildi"
+          ],
+          "law": "KVK m.13",
+          "note": "Elinizdeki ikinci farkı da dosyaya koydunuz. Farklı kalite sınıfındaki ürünler aynı ürün sayılamaz."
+        },
+        {
+          "text": "Şirketin bütün sevkiyat kayıtları üzerinde teslim şekli ve kalite düzeltmesinin hesaplanması için bilirkişi incelemesi iste.",
+          "delta": 10,
+          "if": "!bilirkisi && !(kaliteGosterildi && (teslimGosterildi || duzeltme))",
+          "set": [
+            "bilirkisi"
+          ],
+          "law": "İYUK m.20, m.31 · HMK m.266",
+          "note": "Yerinde. İdari yargıda mahkeme gerekli gördüğü her türlü incelemeyi re'sen yapabilir (İYUK m.20); teknik bir düzeltme hesabı için bilirkişi uygun yoldur. Bilirkişi şirket kayıtlarındaki bütün farkları ortaya çıkarabilir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Bilirkişi incelemesine karar verildi."
+            }
+          ]
+        },
+        {
+          "text": "Raporun, tutanağa geçen açıklamaları hiç tartışmadığını ve incelemenin eksik yapıldığını vurgula.",
+          "delta": 5,
+          "law": "VUK m.3/B",
+          "note": "Doğru bir tespit, ama belgesiz kalırsa yalnızca eksik incelemeye işaret eder; farkın kendisini açıklamaz."
+        },
+        {
+          "text": "GmbH Almanya'da zor bir dönemden geçiyordu; fiyatlar iştiraki ayakta tutmak için düşük tutuldu. Bu ticari bir tercihtir.",
+          "delta": -20,
+          "set": [
+            "itiraf"
+          ],
+          "law": "KVK m.13",
+          "note": "Bu bir itiraftır. Fiyatı ilişkili kişiyi desteklemek için emsalin altında belirlemek, transfer fiyatlandırması yoluyla örtülü kazanç dağıtımının ta kendisidir (KVK m.13). Karşılaştırılabilirlik savunmanızı kendiniz yıktınız."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "gec",
+      "winner": "p2",
+      "noCourt": true,
+      "hukum": "Davanın SÜRE AŞIMI NEDENİYLE REDDİNE, yargılama giderlerinin davacı üzerinde bırakılmasına, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "Vergi mahkemelerinde dava açma süresi otuz gündür (İYUK m.7/1). İhbarname 12.01.2027'de tebliğ edildiği için süre 11.02.2027'de doldu; dava 15.03.2027'de açıldı. Esasa hiç girilmedi."
+        },
+        {
+          "if": "sureItiraz",
+          "text": " İdare vekili süre itirazını savunmanın başına koydu."
+        },
+        {
+          "if": "!sureItiraz",
+          "text": " İdare vekili süreye değinmedi; mahkeme süreyi re'sen inceledi."
+        }
+      ]
+    },
+    {
+      "if": "itiraf",
+      "winner": "p2",
+      "noCourt": true,
+      "hukum": "DAVANIN REDDİNE, yargılama giderlerinin davacı üzerinde bırakılmasına, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": "Davacı vekili, GmbH'ye uygulanan fiyatların iştiraki desteklemek için düşük tutulduğunu duruşmada kendisi söyledi. Fiyatın emsalin altında, ilişkili kişi lehine bilerek belirlendiği kabul edilince karşılaştırılabilirlik farkları önemini yitirdi; kazanç transfer fiyatlandırması yoluyla örtülü olarak dağıtılmış sayıldı (KVK m.13)."
+    },
+    {
+      "if": "kaliteGosterildi && (teslimGosterildi || duzeltme)",
+      "winner": "p1",
+      "noCourt": true,
+      "hukum": "Dava konusu kurumlar vergisi ile bir kat vergi ziyaı cezasının KALDIRILMASINA, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "İç emsal, teslim şekli (FOB'a karşı CIF) ve kalite sınıfı yönünden karşılaştırılabilir değildi. Bu iki fark belgelendiğinde %22'lik fark açıklandı; emsallere aykırılık ve dolayısıyla örtülü kazanç kalmadı (KVK m.13). Rapor mükellefin açıklamalarını tartışmadan, düzeltme yapmadan hazırlanmıştı."
+        },
+        {
+          "if": "duzeltme",
+          "text": " İdare vekili teslim şekli farkını savunmasında kendisi kabul etmişti."
+        }
+      ]
+    },
+    {
+      "if": "bilirkisi && (teslimGosterildi || kaliteGosterildi || duzeltme || tutanakSunuldu)",
+      "winner": "p1",
+      "noCourt": true,
+      "hukum": "Dava konusu kurumlar vergisi ile bir kat vergi ziyaı cezasının KALDIRILMASINA, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": "Bilirkişi, şirketin sevkiyat kayıtları ve tutanakta açıklanan farklar üzerinden teslim şekli (FOB'a karşı CIF) ve kalite sınıfı düzeltmelerini hesapladı; %22'lik farkın tamamı açıklandı. İç emsal düzeltme yapılmadan kullanıldığı için emsallere aykırılık ispatlanamadı (KVK m.13). Bu düzeltmeleri vergi incelemesinde yapmak idarenin işiydi."
+    },
+    {
+      "if": "kaliteGosterildi || teslimGosterildi || duzeltme || bilirkisi",
+      "winner": "draw",
+      "stamp": "KISMEN KABUL",
+      "noCourt": true,
+      "hukum": [
+        {
+          "if": "teslimGosterildi || duzeltme || bilirkisi",
+          "text": "Dava konusu kurumlar vergisi ile bir kat vergi ziyaı cezasının teslim şekli farkına isabet eden kısmının KALDIRILMASINA, kalite farkı belgelenmeyen kalan kısım yönünden davanın REDDİNE, "
+        },
+        {
+          "if": "!teslimGosterildi && !duzeltme && !bilirkisi",
+          "text": "Dava konusu kurumlar vergisi ile bir kat vergi ziyaı cezasının kalite farkına isabet eden kısmının KALDIRILMASINA, teslim şekli farkı belgelenmeyen kalan kısım yönünden davanın REDDİNE, "
+        },
+        {
+          "text": "yargılama giderlerinin kabul ve ret oranına göre taraflar arasında paylaştırılmasına, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi."
+        }
+      ],
+      "summary": [
+        {
+          "text": "İç emsalle yapılan karşılaştırma, belgelenen fark kadar düzeltildi; açıklanamayan kısım örtülü kazanç sayıldı (KVK m.13)."
+        },
+        {
+          "if": "teslimGosterildi || duzeltme",
+          "text": " Teslim şekli farkı düzeltildi, ama kalite farkı dosyaya hiç girmedi."
+        },
+        {
+          "if": "!teslimGosterildi && !duzeltme && !bilirkisi",
+          "text": " Kalite farkı belgelendi, ama FOB/CIF farkı dosyaya hiç girmedi."
+        },
+        {
+          "if": "bilirkisi && !teslimGosterildi && !duzeltme",
+          "text": " Bilirkişi faturalardan teslim şekli farkını hesapladı; kalite farkı davada hiç ileri sürülmediği ve belgelenmediği için incelenmedi."
+        },
+        {
+          "if": "kismiKabul",
+          "text": " İdare vekili tartışmayı açıklanamayan kısma daraltarak tarhiyatın bir bölümünü ayakta tuttu."
+        }
+      ]
+    },
+    {
+      "winner": "p2",
+      "noCourt": true,
+      "hukum": "DAVANIN REDDİNE, yargılama giderlerinin davacı üzerinde bırakılmasına, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "İdare, aynı satıcının aynı dönemde ilişkisiz alıcılara yaptığı satışları iç emsal alarak %22'lik farkı ortaya koydu. Davacı vekili, emsalin karşılaştırılamaz olduğunu belgeyle göstermedi; genel ifadeli transfer fiyatlandırması raporu yetmedi."
+        },
+        {
+          "if": "tutanakSunuldu",
+          "text": " Raporun mükellefin açıklamalarını tartışmadığı tutanağa geçti, ama açıklamaları doğrulayan faturalar ve sertifikalar dosyaya girmedi."
+        },
+        {
+          "if": "eksikDosya",
+          "text": " İdarenin ara kararını eksik yerine getirmesi kararı değiştirmedi, ama tutanakların ancak ikinci kez istenince gönderildiği kayda geçti."
+        }
+      ]
+    }
+  ]
+}

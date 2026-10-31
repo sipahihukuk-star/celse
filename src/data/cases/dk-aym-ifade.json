@@ -1,0 +1,672 @@
+{
+  "id": "dk-aym-ifade",
+  "mode": "duel",
+  "difficulty": "zor",
+  "title": "Soğuk Sınıf",
+  "area": "Anayasa Hukuku · Bireysel başvuru, kamu görevlisinin ifade özgürlüğü",
+  "court": "Anayasa Mahkemesi · Birinci Bölüm",
+  "courtShort": "ANAYASA MAHKEMESİ · BİRİNCİ BÖLÜM",
+  "esas": "Başvuru No: 2027/4812",
+  "kararTarihi": "16.11.2027",
+  "color": "#3a3f63",
+  "teaser": "Kaloriferi üç haftadır yanmayan okulun fotoğraflarını paylaşan öğretmene aylıktan kesme cezası verildi. Dava yerel yargıda bitti; şimdi söz Anayasa Mahkemesinde, çoğu yazılı.",
+  "bench": {
+    "judges": 5,
+    "title": "Bölüm: başkanvekili ve dört üye"
+  },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "sides": {
+    "p1": {
+      "role": "Başvurucu vekili",
+      "short": "Başvurucu"
+    },
+    "p2": {
+      "role": "Adalet Bakanlığı temsilcisi (görüş)",
+      "short": "Bakanlık"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Bölüm Başkanı",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#d9a982",
+        "hair": "#6b6b70",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#edc6a2",
+        "hair": "#1c1c1c",
+        "style": "long"
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "civil",
+        "skin": "#c99670",
+        "hair": "#6b6b70",
+        "style": "short",
+        "glasses": true,
+        "shirt": "#2c3340",
+        "inner": "#dcd6c8"
+      }
+    },
+    "client": {
+      "name": "Derya Kılıç · Başvurucu",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#e0b48e",
+        "hair": "#7a4a2a",
+        "style": "curly",
+        "shirt": "#6b5a3a",
+        "inner": "#ece6d8"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Derya Kılıç, Samsun Atakum'da bir devlet ortaokulunda matematik öğretmeni. 18.01.2025 cumartesi akşamı kişisel sosyal medya hesabında okulun kalorifer sisteminin üç haftadır çalışmadığını yazdı; montlu öğrencilerin sınıfta ders yaptığı iki fotoğraf paylaştı."
+    },
+    {
+      "who": "narr",
+      "text": "Metnin son cümlesi: “İl Millî Eğitim Müdürlüğü üç haftadır duymazdan geliyor. Bu çocuklar bu soğukta mı ders çalışacak? Yetkililer utanmalı.” Okul müdürü telefon edince Derya Hanım paylaşımı üç saat sonra sildi."
+    },
+    {
+      "who": "narr",
+      "text": "Mart 2025'te 657 sayılı Kanun m.125/C uyarınca aylıktan kesme cezası verildi. Samsun 1. İdare Mahkemesi davayı “kamu görevlisinin sadakat yükümlülüğü ve kurumun itibarı” gerekçesiyle reddetti; Bölge İdare Mahkemesi istinaf başvurusunu kesin olarak reddetti. Bu karar 05.01.2027'de tebliğ edildi. Bugün 08.01.2027."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Paylaşım metni ve fotoğraflar",
+      "d": "18.01.2025, kişisel hesap, hafta sonu akşamı. Üç saat sonra silindi."
+    },
+    {
+      "t": "Disiplin cezası",
+      "d": "Aylıktan kesme (657 s.K. m.125/C). Gerekçe: kurumu kamuoyu önünde küçük düşürücü paylaşım."
+    },
+    {
+      "t": "Derece mahkemesi kararları",
+      "d": "Samsun 1. İdare Mahkemesi: ret (“sadakat yükümlülüğü, kurumun itibarı”). Bölge İdare Mahkemesi: istinaf başvurusunun reddi, kesin. Tebliğ 05.01.2027."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_paylasim",
+      "type": "belge",
+      "title": "Paylaşımın ekran görüntüsü",
+      "desc": "Metin ve iki fotoğraf. Son cümle: “Yetkililer utanmalı.”"
+    },
+    {
+      "id": "ev_karar",
+      "type": "belge",
+      "title": "İdare mahkemesi gerekçesi",
+      "desc": "“Davacının kamu görevlisi olarak sadakat yükümlülüğüne aykırı davrandığı, kurumun itibarını zedelediği” sonucuna varıyor. Paylaşımın konusu, bağlamı ve kamu yararı tartışılmamış."
+    },
+    {
+      "id": "ev_dilekce",
+      "type": "belge",
+      "title": "Okul müdürlüğüne verilen iki dilekçe",
+      "desc": "22.12.2024 ve 06.01.2025 tarihli, evrak kayıt numaralı; kaloriferin onarılması talebi. Cevap verilmemiş.",
+      "if": "dilekce"
+    },
+    {
+      "id": "ev_foto",
+      "type": "belge",
+      "title": "Fotoğrafların asılları",
+      "desc": "Sınıfın arkasından çekilmiş; yalnızca montlu öğrencilerin sırtları görünüyor, hiçbir öğrencinin yüzü seçilmiyor.",
+      "if": "yuzYok"
+    },
+    {
+      "id": "law_26",
+      "type": "kanun",
+      "title": "Anayasa m.26 ve m.13",
+      "desc": "Düşünceyi açıklama ve yayma hürriyeti; sınırlamaların kanunla, meşru amaçla ve ölçülülük ilkesine uygun yapılması.",
+      "law": "Anayasa m.26, m.13"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "client",
+          "text": "Bölge mahkemesi “kesin” demiş. Danıştay'a gidebilir miyiz? Yoksa doğrudan Anayasa Mahkemesine mi?"
+        },
+        {
+          "who": "narr",
+          "text": "Bölge idare mahkemesi kararı 05.01.2027'de tebliğ edildi."
+        }
+      ],
+      "prompt": "Nasıl ilerleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Kesin kararın tebliğinden itibaren otuz gün içinde, en geç 04.02.2027'de bireysel başvuru yap. İfade özgürlüğüne müdahaleyi, derece mahkemelerinin paylaşımın konusunu ve kamu yararını hiç tartışmadığını anlat; yeniden yargılama ve manevi tazminat iste.",
+          "delta": 20,
+          "set": [
+            "basvuru"
+          ],
+          "law": "6216 s.K. m.45, m.47/5 · Anayasa m.26, m.148/3",
+          "note": "Kanunda öngörülen idari ve yargısal yollar tüketildi; bireysel başvuru, başvuru yollarının tüketildiği tarihten itibaren otuz gün içinde yapılır (6216 s.K. m.47/5). Başvuruda ihlal edilen hakkı ve ihlalin gerekçesini somut olarak göstermek gerekir."
+        },
+        {
+          "text": "Önce Danıştay'a temyiz başvurusu yap; Danıştay kararını bekledikten sonra Anayasa Mahkemesine git.",
+          "delta": -30,
+          "law": "6216 s.K. m.45/2, m.47/5 · İYUK m.45, m.46",
+          "note": "Aylıktan kesme cezasına ilişkin bölge idare mahkemesi kararı kesindir; Danıştay'a temyiz yolu öngörülmemiştir. Kanunda öngörülmeyen bir yola başvurmak otuz günlük bireysel başvuru süresini durdurmaz.",
+          "fatal": {
+            "label": "HÜKÜM:",
+            "hukum": "Başvurunun süre aşımı nedeniyle KABUL EDİLEMEZ OLDUĞUNA oybirliğiyle karar verildi.",
+            "summary": "Kesin karara karşı yapılan temyiz başvurusu reddedildi. Bireysel başvuru süresi, son başvuru yolunu oluşturan kesin kararın 05.01.2027'deki tebliğinden itibaren işlemişti; kanunda öngörülmeyen bir yola başvurmak bu süreyi durdurmadı (6216 s.K. m.47/5). Başvuru esastan hiç incelenmedi."
+          }
+        },
+        {
+          "text": "Otuz gün içinde başvur; derece mahkemelerinin delilleri yanlış değerlendirdiğini ve paylaşımın disiplin suçu oluşturmadığını ayrıntılı anlat.",
+          "delta": -10,
+          "set": [
+            "basvuru",
+            "kanunYolu"
+          ],
+          "law": "6216 s.K. m.49/6",
+          "note": "Süre doğru, ama başvuru bir temyiz dilekçesi gibi yazıldı. Bireysel başvuruda kanun yolunda gözetilmesi gereken hususlar incelenemez (6216 s.K. m.49/6). Ölçüt, derece mahkemelerinin ifade özgürlüğüne müdahaleyi ilgili ve yeterli gerekçeyle haklı kılıp kılmadığıdır."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Başvuru Adalet Bakanlığına ulaştı. Görüş hazırlamadan önce Millî Eğitim Bakanlığından bilgi ve belge isteyebilirsiniz."
+        }
+      ],
+      "prompt": "Ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Disiplin dosyasının tamamını ve okulun paylaşımdan önceki evrak kayıtlarını iste.",
+          "delta": 15,
+          "set": [
+            "dosyaTam"
+          ],
+          "note": "Yerinde. Görüşü dosyanın tamamını bilerek yazmak, sonradan çürütülebilecek bir iddiada bulunma riskini ortadan kaldırır.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Gelen dosyada başvurucunun 22.12.2024 ve 06.01.2025 tarihli, kaloriferin onarılmasını isteyen iki dilekçesi de var. İkisi de cevapsız kalmış."
+            }
+          ]
+        },
+        {
+          "text": "Yalnızca disiplin cezası kararını ve savunma tutanağını iste.",
+          "delta": 0,
+          "set": [
+            "dosyaDar"
+          ],
+          "note": "Yetebilir, ama görüşünüzü dosyanın bir kısmına dayandırıyorsunuz. Başvurucunun elinde sizin görmediğiniz bir belge olabilir."
+        },
+        {
+          "text": "Bilgi isteme; derece mahkemesi kararları yeterli.",
+          "delta": -5,
+          "note": "Derece mahkemesi kararları, başvurucunun şikâyet ettiği eksikliği, yani olayın bağlamının tartışılmamasını zaten içinde taşıyor. Bağlamı öğrenmeden görüş yazmak risklidir."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Bölüm Başkanı başvurunun kabul edilebilirlik ve esas incelemesinin birlikte yapılmasına karar verdi. Başvurunun bir örneği Adalet Bakanlığına gönderildi; Bakanlık gerekli görürse otuz gün içinde yazılı görüş bildirebilir (6216 s.K. m.49/2, İçtüzük m.71)."
+        },
+        {
+          "who": "narr",
+          "text": "Başvuru formu ağırlıklı olarak delillerin yanlış değerlendirildiği iddiasına dayanıyor.",
+          "if": "kanunYolu"
+        }
+      ],
+      "prompt": "Bakanlık görüşünü nasıl yazacaksınız?",
+      "choices": [
+        {
+          "text": "Müdahaleyi kabul et; kanuni dayanak (657 s.K. m.125) ve meşru amaç (kamu hizmetinin düzgün işleyişi, eğitim kurumunun itibarı) üzerinde dur. Ölçülülükte: “yetkililer utanmalı” ifadesi kurumu hedef aldı, iç başvuru yolları denenmeden doğrudan kamuoyuna gidildi, yaptırım hafif.",
+          "delta": 20,
+          "set": [
+            "icYol"
+          ],
+          "law": "Anayasa m.13, m.26 · 657 s.K. m.125",
+          "note": "Anayasa Mahkemesinin yöntemine uygun bir görüş: müdahale, kanunilik, meşru amaç ve ölçülülük. Kamu görevlisinin sadakat ve ölçülü davranma yükümlülüğü, ölçülülük değerlendirmesinde ağırlığı olan bir unsurdur.",
+          "if": "!dosyaTam"
+        },
+        {
+          "text": "Müdahaleyi, kanuni dayanağı (657 s.K. m.125) ve meşru amacı ortaya koy. Ölçülülükte dilekçelerin cevapsız kaldığını kabul et; ama “yetkililer utanmalı” üslubunun ve kurumu kamuoyu önünde hedef almanın ölçülü davranma yükümlülüğüyle bağdaşmadığını ve yaptırımın hafif olduğunu savun.",
+          "delta": 20,
+          "if": "dosyaTam",
+          "set": [
+            "uslup",
+            "dilekceKabul"
+          ],
+          "law": "Anayasa m.13, m.26 · 657 s.K. m.125",
+          "note": "Dürüst ve Mahkemenin yöntemine uygun bir görüş. Belgeyle sabit bir olguyu inkâr etmediniz; tartışmayı ifadenin üslubuna ve yaptırımın ağırlığına taşıdınız. Bakanlığın en güçlü noktası budur."
+        },
+        {
+          "text": "Kamu görevlileri sadakat yükümlülüğü altındadır; idareyi kamuoyu önünde eleştiren bir memur ifade özgürlüğüne dayanamaz.",
+          "delta": -15,
+          "set": [
+            "mutlak"
+          ],
+          "law": "Anayasa m.26",
+          "note": "Kamu görevlileri de ifade özgürlüğünden yararlanır. Sadakat yükümlülüğü müdahaleyi kendiliğinden haklı kılmaz; ölçülülük değerlendirmesinde tartılan bir unsurdur. Bu görüş Bölümü ikna etmez."
+        },
+        {
+          "text": "Başvurunun kabul edilemez olduğunu ileri sür: başvurucu derece mahkemelerinin delil değerlendirmesine itiraz ediyor; Anayasa Mahkemesi bir üst kanun yolu değildir.",
+          "delta": 5,
+          "if": "kanunYolu",
+          "set": [
+            "dorduncu"
+          ],
+          "law": "6216 s.K. m.49/6",
+          "note": "Başvuru formunun yazılışı bu itirazı haklı gösteriyor. Ama Mahkeme, olayların hukuki nitelendirmesini kendisi yapar; başvurunun özü bir ifade özgürlüğü şikâyetidir. Esasa ilişkin görüş de vermeliydiniz."
+        },
+        {
+          "text": "Başvurunun kabul edilemez olduğunu ileri sür: Anayasa Mahkemesi bir üst kanun yolu değildir.",
+          "delta": -5,
+          "if": "!kanunYolu",
+          "set": [
+            "dorduncu"
+          ],
+          "law": "6216 s.K. m.49/6",
+          "note": "Başvurucu delillerin değerlendirilmesine değil, ifade özgürlüğüne yapılan müdahalenin ölçülülüğüne itiraz ediyor. Bu, Mahkemenin doğrudan denetlediği bir meseledir; itiraz karşılıksız kaldı."
+        },
+        {
+          "text": "Görüş bildirme; Bakanlık görüş vermek zorunda değil.",
+          "delta": -5,
+          "set": [
+            "gorusYok"
+          ],
+          "law": "6216 s.K. m.49/2 · İçtüzük m.71/2",
+          "note": "Doğru, görüş bildirmek zorunlu değildir; Mahkeme dosyadaki bilgi ve belgelere göre karar verir. Ama devletin müdahaleyi haklı kılan gerekçelerini anlatma fırsatını kullanmadınız."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Bakanlık görüşüne karşı beyan hazırlamadan önce Derya Hanım'la görüntülü görüşüyorsunuz. İki soru sorabilirsiniz.",
+          "if": "!gorusYok"
+        },
+        {
+          "who": "narr",
+          "text": "Bakanlık görüş bildirmedi. Ek beyan hazırlamadan önce Derya Hanım'la görüntülü görüşüyorsunuz. İki soru sorabilirsiniz.",
+          "if": "gorusYok"
+        }
+      ],
+      "prompt": "Ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Paylaşımdan önce sorunu okul idaresine ya da Millî Eğitim'e yazılı bildirdiniz mi?",
+          "delta": 10,
+          "set": [
+            "dilekce"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "İki kez dilekçe verdim, 22 Aralık ve 6 Ocak'ta; evrak kayıt numaraları bende. Hiç cevap gelmedi. Mahkemede kimse sormadı, ben de önemli sanmadım."
+            }
+          ],
+          "note": "Kritik bilgi. İç yollar denenmiş ve sonuçsuz kalmış; paylaşım son çare olarak yapılmış. Ölçülülük değerlendirmesinde ağırlığı büyük."
+        },
+        {
+          "text": "Fotoğraflarda öğrencilerin yüzleri görünüyor muydu?",
+          "delta": 5,
+          "set": [
+            "yuzYok"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Hayır. Sınıfın arkasından çektim; yalnızca sırtlar ve montlar görünüyor. Çocukları göstermek istemedim."
+            }
+          ],
+          "note": "Yararlı. Paylaşım öğrencilerin özel hayatını ihlal etmiyor; amaç bir kamusal sorunu göstermek."
+        },
+        {
+          "text": "Paylaşımı neden sildiniz?",
+          "delta": 0,
+          "reply": [
+            {
+              "who": "client",
+              "text": "Müdür aradı, “sil” dedi, sildim. Üç saat açık kaldı."
+            }
+          ],
+          "note": "Hızlı silme ölçülülük değerlendirmesinde başvurucunun lehine okunabilir, ama zaten dosyada biliniyordu."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "office",
+      "if": "icYol",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Bakanlık görüşü başvurucuya tebliğ edildi. Karşı beyan süresi on beş gün (İçtüzük m.71/3)."
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Başvurucu, sorunu yetkili makamlara iletmeden doğrudan sosyal medyaya başvurmuş, kurumunu kamuoyu önünde hedef almıştır. İç başvuru yollarını hiç denememiştir."
+      },
+      "prompt": "Karşı beyanda bu iddiayı hangi belgeyle çürüteceksiniz?",
+      "correct": [
+        "ev_dilekce"
+      ],
+      "hit": {
+        "delta": 25,
+        "set": [
+          "dilekceGosterildi"
+        ],
+        "note": "İddia çürüdü. Başvurucu sorunu iki kez yazılı olarak bildirmiş, cevap alamamış. Paylaşım, kamu yararına ilişkin bir sorunun son çare olarak kamuoyuyla paylaşılmasıdır; derece mahkemeleri bunu hiç tartışmadı."
+      },
+      "responses": {
+        "ev_foto": {
+          "delta": 5,
+          "set": [
+            "fotoGosterildi"
+          ],
+          "note": "Fotoğrafların öğrencilerin kimliğini göstermediğini ortaya koydunuz; paylaşımın amacı kamusal bir sorundu. Ama “iç yollar denenmedi” iddiasını çürütmüyor."
+        },
+        "ev_karar": {
+          "delta": 10,
+          "set": [
+            "gerekceArg"
+          ],
+          "note": "Derece mahkemesinin paylaşımın konusunu, bağlamını ve kamu yararını hiç tartışmadığını gösterdiniz; ilgili ve yeterli gerekçe yok. Güçlü bir nokta, ama Bakanlığın iddiasını belgeyle çürütmek daha etkili olurdu."
+        },
+        "ev_paylasim": {
+          "delta": -5,
+          "note": "Paylaşımın kendisi “yetkililer utanmalı” cümlesiyle Bakanlığın üslup itirazını besliyor; iç yollara ilişkin iddiayı çürütmüyor."
+        },
+        "law_26": {
+          "delta": 0,
+          "note": "Ölçütü doğru hatırlattınız, ama iddia bir vakıaya ilişkindi; onu ancak belge çürütür."
+        }
+      },
+      "pass": {
+        "delta": -15,
+        "note": "Karşı beyanda bulunmadınız. Bakanlığın iddiası cevapsız kaldı."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "if": "!icYol",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Bakanlık görüşü başvurucuya tebliğ edildi. Karşı beyan süresi on beş gün (İçtüzük m.71/3).",
+          "if": "!gorusYok"
+        },
+        {
+          "who": "p2",
+          "text": "“Başvurucunun dilekçeleri cevapsız kalmış olsa da ‘yetkililer utanmalı’ üslubu ve kurumu kamuoyu önünde hedef alması, kamu görevlisinin ölçülü davranma yükümlülüğüyle bağdaşmaz.”",
+          "if": "dilekceKabul"
+        },
+        {
+          "who": "p2",
+          "text": "“Kamu görevlisi, sadakat yükümlülüğü gereği idaresini kamuoyu önünde eleştiremez.”",
+          "if": "mutlak"
+        },
+        {
+          "who": "p2",
+          "text": "“Başvurucu, derece mahkemelerinin delil değerlendirmesine itiraz etmektedir; başvuru kabul edilemez.”",
+          "if": "dorduncu"
+        },
+        {
+          "who": "narr",
+          "text": "Bakanlık görüş bildirmedi. Bölüm dosyadaki bilgi ve belgelere göre karar verecek; ek beyan sunabilirsiniz.",
+          "if": "gorusYok"
+        }
+      ],
+      "prompt": "Beyanınızda neyi öne çıkaracaksınız?",
+      "choices": [
+        {
+          "text": "Ölçülülük testine odaklan: kamusal bir sorun, olgulara dayanan içerik, kişisel hesap ve mesai dışı, öğrenci yüzleri yok, hızlı silme. Derece mahkemeleri bunların hiçbirini tartışmadı; ilgili ve yeterli gerekçe yok.",
+          "delta": 20,
+          "set": [
+            "olcuArg"
+          ],
+          "law": "Anayasa m.13, m.26",
+          "note": [
+            {
+              "if": "mutlak",
+              "text": "Kamu görevlileri de ifade özgürlüğünden yararlanır; sadakat yükümlülüğü yalnızca tartılacak unsurlardan biridir. "
+            },
+            {
+              "if": "dorduncu",
+              "text": "Şikâyetinizi delil değerlendirmesinden ifade özgürlüğüne yapılan müdahalenin ölçülülüğüne taşıdınız. "
+            },
+            {
+              "text": "Anayasa Mahkemesi, derece mahkemelerinin çatışan menfaatleri ilgili ve yeterli gerekçeyle dengeleyip dengelemediğini denetler."
+            }
+          ]
+        },
+        {
+          "text": "Okula iki kez verilen dilekçeleri de ekle: paylaşım son çareydi.",
+          "delta": 15,
+          "if": "dilekce",
+          "set": [
+            "dilekceGosterildi"
+          ],
+          "law": "Anayasa m.26",
+          "note": "İç yolların denenip sonuçsuz kaldığını gösterdiniz; paylaşımın son çare olduğu ölçülülük değerlendirmesinde ağır basar."
+        },
+        {
+          "text": "Beyana gerek yok; başvuru formu yeterli.",
+          "delta": -5,
+          "note": "Başvuru formu, Bakanlığın ya da Mahkemenin dikkat çektiği noktalara cevap vermiyor. Fırsatı kullanmadınız."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Bölüm, Bakanlıktan ek görüş istedi: “Başvurucunun paylaşımdan önce yaptığı yazılı başvurular, derece mahkemelerince değerlendirilmiş midir?”",
+          "if": "dilekceGosterildi"
+        },
+        {
+          "who": "narr",
+          "text": "Bölüm, Bakanlığa son kez ek görüş bildirme imkânı tanıdı.",
+          "if": "!dilekceGosterildi"
+        }
+      ],
+      "prompt": "Ek görüşte ne yazacaksınız?",
+      "choices": [
+        {
+          "text": "Dilekçelerin varlığını kabul et; ama “yetkililer utanmalı” üslubunun ve kurumu kamuoyu önünde hedef almanın ölçülü davranma yükümlülüğüyle bağdaşmadığını, yaptırımın hafif olduğunu savun.",
+          "delta": 15,
+          "if": "dilekceGosterildi",
+          "set": [
+            "uslup"
+          ],
+          "law": "Anayasa m.13, m.26 · 657 s.K. m.125",
+          "note": "Dürüst ve tutarlı: belgeyle sabit bir olguyu inkâr etmediniz, tartışmayı ifadenin üslubuna ve yaptırımın ağırlığına taşıdınız."
+        },
+        {
+          "text": "Dilekçelerin sonradan düzenlenmiş olabileceğini ileri sür.",
+          "delta": -15,
+          "if": "dilekceGosterildi && !dilekceKabul",
+          "note": "Evrak kayıt numaralı resmî dilekçelere dayanaksız bir şüphe yöneltmek Bakanlığın güvenilirliğini zedeler."
+        },
+        {
+          "text": "Paylaşımın üslubu (“yetkililer utanmalı”), kurumu hedef alması ve yaptırımın hafifliği karşısında derece mahkemelerinin gerekçesinin ilgili ve yeterli olduğunu savun.",
+          "delta": 15,
+          "if": "!dilekceGosterildi",
+          "set": [
+            "uslup"
+          ],
+          "law": "Anayasa m.13, m.26",
+          "note": "Ölçülülük değerlendirmesinde Bakanlığın en güçlü noktası: ifadenin üslubu ve yaptırımın ağırlığı."
+        },
+        {
+          "text": "Bölümden duruşma yapılmasını talep et.",
+          "delta": -5,
+          "law": "İçtüzük m.74",
+          "note": "Bölümler başvuruları dosya üzerinden inceler; duruşma ancak gerekli görülürse yapılır (İçtüzük m.74). Yazılı görüşle verilebilecek bir cevabı duruşmaya ertelemek yeni bir şey katmaz.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Bölüm, dosyanın duruşma yapılmasını gerektirmediği kanaatine vardı. İnceleme dosya üzerinden sürecek."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Son olarak giderim taleplerinizi netleştirmeniz isteniyor."
+        }
+      ],
+      "prompt": "Ne talep edeceksiniz?",
+      "choices": [
+        {
+          "text": "İhlal tespiti; ihlalin sonuçlarının giderilmesi için yeniden yargılama yapılmak üzere kararın idare mahkemesine gönderilmesi; manevi tazminat.",
+          "delta": 15,
+          "set": [
+            "giderim"
+          ],
+          "law": "6216 s.K. m.50/1–2",
+          "note": "Doğru giderim talebi. İhlal bir mahkeme kararından kaynaklanıyorsa Anayasa Mahkemesi yeniden yargılama için dosyayı ilgili mahkemeye gönderir; tazminata da hükmedebilir (6216 s.K. m.50/2)."
+        },
+        {
+          "text": "Anayasa Mahkemesinin disiplin cezasını doğrudan kaldırmasını iste.",
+          "delta": -10,
+          "set": [
+            "dogrudan"
+          ],
+          "law": "6216 s.K. m.50/1",
+          "note": "Anayasa Mahkemesi idari işlemi iptal etmez; ihlali tespit eder ve ihlalin giderilmesi için yeniden yargılama yapılmak üzere dosyayı ilgili mahkemeye gönderir. İdari eylem ve işlem niteliğinde karar veremez (6216 s.K. m.50/1)."
+        },
+        {
+          "text": "Yalnızca kesilen aylık tutarı kadar maddi tazminat iste.",
+          "delta": 0,
+          "set": [
+            "maddi"
+          ],
+          "law": "6216 s.K. m.50/2",
+          "note": "Maddi tazminat için ihlal ile zarar arasında illiyet bağı gösterilmelidir. Kesilen aylık, yeniden yargılamada cezanın kaldırılmasıyla zaten geri alınabilir; asıl giderim yeniden yargılamadır."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "mutlak || (dilekceGosterildi && !dilekceKabul) || ((dilekceGosterildi || olcuArg || gerekceArg) && !uslup)",
+      "winner": "p1",
+      "noCourt": true,
+      "hukum": [
+        {
+          "text": "Anayasa'nın 26. maddesinde güvence altına alınan ifade özgürlüğünün İHLAL EDİLDİĞİNE, kararın bir örneğinin ihlalin sonuçlarının giderilmesi için yeniden yargılama yapılmak üzere Samsun 1. İdare Mahkemesine GÖNDERİLMESİNE, "
+        },
+        {
+          "if": "giderim",
+          "text": "başvurucuya net 30.000 TL manevi tazminat ÖDENMESİNE, "
+        },
+        {
+          "if": "!giderim",
+          "text": "tazminat taleplerinin REDDİNE, "
+        },
+        {
+          "text": "yargılama giderlerinin başvurucuya ÖDENMESİNE oybirliğiyle karar verildi."
+        }
+      ],
+      "summary": [
+        {
+          "if": "dilekceGosterildi",
+          "text": "Başvurucu sorunu iki kez yazılı bildirmiş, cevap alamamıştı; paylaşım kamu yararına ilişkin bir sorunun son çare olarak kamuoyuna duyurulmasıydı. "
+        },
+        {
+          "if": "mutlak",
+          "text": "Bakanlığın “kamu görevlisi idaresini eleştiremez” görüşü, kamu görevlilerinin de ifade özgürlüğünden yararlandığı ilkesiyle bağdaşmadı. "
+        },
+        {
+          "text": "Derece mahkemeleri, paylaşımın konusunu, olgulara dayanmasını, mesai dışında kişisel hesaptan yapılmasını ve hızla silinmesini tartışmadan yalnızca sadakat yükümlülüğüne dayandı; müdahale ilgili ve yeterli gerekçeyle haklı kılınmadı (Anayasa m.13, m.26)."
+        },
+        {
+          "if": "dogrudan",
+          "text": " Disiplin cezasının doğrudan kaldırılması talebi, Mahkemenin idari işlem niteliğinde karar verememesi nedeniyle karşılanmadı (6216 s.K. m.50/1)."
+        },
+        {
+          "if": "maddi",
+          "text": " Maddi tazminat talebi reddedildi: kesilen aylık yeniden yargılamada giderilebilecekti."
+        }
+      ]
+    },
+    {
+      "if": "dilekceGosterildi || olcuArg || gerekceArg || fotoGosterildi",
+      "winner": "draw",
+      "stamp": "KISMEN KABUL",
+      "noCourt": true,
+      "hukum": "Anayasa'nın 26. maddesinde güvence altına alınan ifade özgürlüğünün İHLAL EDİLDİĞİNE, kararın bir örneğinin ihlalin sonuçlarının giderilmesi için yeniden yargılama yapılmak üzere Samsun 1. İdare Mahkemesine GÖNDERİLMESİNE, ihlal tespiti ve yeniden yargılama yeterli giderim sağladığından tazminat taleplerinin REDDİNE, yargılama giderlerinin başvurucuya ÖDENMESİNE oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "Derece mahkemeleri paylaşımın konusunu ve kamu yararını tartışmadığı için ihlal tespit edildi. Ancak Bakanlığın üslup (“yetkililer utanmalı”) ve yaptırımın hafifliğine ilişkin görüşü karşısında Bölüm, ihlal tespitini ve yeniden yargılamayı yeterli giderim saydı; tazminata hükmetmedi."
+        },
+        {
+          "if": "dilekceKabul",
+          "text": " Bakanlık dilekçelerin cevapsız kaldığını baştan kabul etmiş, tartışmayı üsluba taşımıştı."
+        },
+        {
+          "if": "dilekce && !dilekceGosterildi",
+          "text": " Başvurucu vekili iç yolların denendiğini gösteren dilekçeleri öğrenmişti, ama Bakanlığın iddiasına karşı dosyaya koymadı."
+        }
+      ]
+    },
+    {
+      "if": "dorduncu && kanunYolu",
+      "winner": "p2",
+      "noCourt": true,
+      "hukum": "Başvurunun açıkça dayanaktan yoksun olması nedeniyle KABUL EDİLEMEZ OLDUĞUNA oybirliğiyle karar verildi.",
+      "summary": "Başvuru, derece mahkemelerinin delil değerlendirmesine yönelik bir temyiz dilekçesi gibi yazılmıştı; başvurucu vekili ifade özgürlüğüne müdahalenin ölçüsüzlüğünü hiçbir aşamada somutlaştırmadı. Bakanlığın itirazı üzerine Bölüm, başvuruyu kanun yolu şikâyeti niteliğinde gördü (6216 s.K. m.49/6)."
+    },
+    {
+      "winner": "p2",
+      "noCourt": true,
+      "hukum": "Anayasa'nın 26. maddesinde güvence altına alınan ifade özgürlüğünün İHLAL EDİLMEDİĞİNE oybirliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "Paylaşım kurumu kamuoyu önünde “utanmalı” diyerek hedef alıyordu; başvurucu vekili iç yolların denendiğini ya da derece mahkemelerinin ölçülülük değerlendirmesini hiç yapmadığını somut olarak göstermedi. Yaptırımın hafifliği de gözetilince müdahale ölçülü bulundu."
+        },
+        {
+          "if": "dilekce",
+          "text": " Başvurucu vekili iç yolların denendiğini gösteren dilekçeleri öğrenmişti, ama dosyaya koymadı."
+        }
+      ]
+    }
+  ]
+}
