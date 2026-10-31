@@ -1,0 +1,402 @@
+{
+  "id": "tuketici-cayma-hakki",
+  "mode": "solo",
+  "career": {
+    "level": 1
+  },
+  "difficulty": "basit",
+  "title": "Açılmış Kutu",
+  "area": "Tüketici Hukuku · Mesafeli satışta cayma hakkı",
+  "court": "İstanbul Anadolu 4. Tüketici Mahkemesi",
+  "courtShort": "4. TÜKETİCİ",
+  "esas": "2027/517 Esas",
+  "kararTarihi": "06.10.2027",
+  "color": "#6b3a5a",
+  "teaser": "İnternetten alınan televizyon on bir gün sonra iade edildi. Satıcı “kutusu açıldı, süre geçti” diyor ve parayı vermiyor.",
+  "sides": {
+    "p1": {
+      "role": "Davacı (tüketici) vekili",
+      "short": "Siz"
+    },
+    "p2": {
+      "role": "Davalı (satıcı) vekili",
+      "short": "Karşı taraf"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#edc6a2",
+        "hair": "#6b6b70",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "opp": {
+      "name": "Av. Onur Keskin · Davalı vekili",
+      "np": "green",
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#d9a982",
+        "hair": "#3a3a3a",
+        "style": "short"
+      }
+    },
+    "client": {
+      "name": "Derya Kılıç · Müvekkil",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#8d5a3b",
+        "hair": "#151515",
+        "style": "curly",
+        "shirt": "#b5523b",
+        "inner": "#efe8dc"
+      }
+    }
+  },
+  "courtCast": [
+    "judge",
+    "you",
+    "opp"
+  ],
+  "intro": [
+    {
+      "who": "narr",
+      "text": "İstanbul, Kadıköy. Derya Kılıç, Pikselpazar Elektronik Ltd. Şti.'nin internet sitesinden büyük ekran bir televizyon sipariş etti. Sipariş 05.02.2027'de verildi, ürün 11.02.2027'de teslim edildi."
+    },
+    {
+      "who": "client",
+      "text": "Kutuyu açtım, ayağını taktım, üç gün izledim. Salona göre fazla büyük geldi, görüntüsünü de beğenmedim. 22 Şubat'ta sitedeki formla ve e-postayla caydığımı bildirdim."
+    },
+    {
+      "who": "client",
+      "text": "Satıcının anlaşmalı kargosuyla geri gönderdim, teslim aldılar. Şimdi “süre siparişten itibaren 14 gün, geçti; kutusu da açılmış, kurulmuş, kullanılmış” diyorlar. Paramı vermiyorlar."
+    },
+    {
+      "who": "narr",
+      "text": "Bedel, tüketici hakem heyeti parasal sınırının üzerinde. Arabuluculukta anlaşma sağlanamadı; dava tüketici mahkemesinde açılacak."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Sipariş özeti ve fatura",
+      "d": "Sipariş 05.02.2027. Ürün: televizyon. Ödeme kredi kartıyla, tek çekim."
+    },
+    {
+      "t": "Kargo teslim belgesi",
+      "d": "Ürün 11.02.2027'de alıcıya teslim edildi."
+    },
+    {
+      "t": "Ön bilgilendirme formu",
+      "d": "Satıcının sitesinde onaylanan form: “Tüketici, ürünü teslim aldığı günden itibaren 14 gün içinde cayma hakkına sahiptir.” Bu ürün için istisna belirtilmemiş."
+    },
+    {
+      "t": "Cayma bildirimi ve iade kargosu",
+      "d": "22.02.2027'de site formu ve e-postayla cayma bildirildi. Ürün 24.02.2027'de satıcının anlaşmalı kargosuna verildi, 26.02.2027'de satıcıya ulaştı."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_fatura",
+      "type": "belge",
+      "title": "Fatura",
+      "desc": "Satış bedeli ve sipariş tarihi: 05.02.2027."
+    },
+    {
+      "id": "ev_kargo",
+      "type": "belge",
+      "title": "İade kargo belgesi",
+      "desc": "Ürün 24.02.2027'de satıcının anlaşmalı kargosuna verildi, 26.02.2027'de satıcıya ulaştı."
+    },
+    {
+      "id": "ev_onbilgi",
+      "type": "belge",
+      "title": "Ön bilgilendirme formu",
+      "desc": "Satıcının kendi formu: “Tüketici, ürünü teslim aldığı günden itibaren 14 gün içinde cayma hakkına sahiptir.” Ürün için istisna yazılmamış."
+    },
+    {
+      "id": "law_istisna",
+      "type": "kanun",
+      "title": "Mesafeli Sözleşmeler Yönetmeliği · Cayma hakkının istisnaları",
+      "desc": "Sınırlı sayıda istisna: ör. kişiye özel üretilen, çabuk bozulan, koruyucu ambalajı açılıp iadesi sağlık ve hijyen açısından uygun olmayan mallar; ambalajı açılmış kitap, maddi ortamdaki dijital içerik ve bilgisayar sarf malzemeleri; elektronik ortamda anında teslim edilen gayrimaddi mallar.",
+      "law": "Mesafeli Sözleşmeler Yönetmeliği"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "client",
+          "text": "Siparişten itibaren saydıklarında 17 gün oluyor. Gerçekten süreyi kaçırdım mı?"
+        }
+      ],
+      "prompt": "Cayma süresini nasıl değerlendiriyorsunuz?",
+      "choices": [
+        {
+          "text": "Mal satışında 14 günlük cayma süresi malın tüketiciye teslim edildiği gün başlar. Teslim 11 Şubat, bildirim 22 Şubat: süre içindesiniz.",
+          "delta": 20,
+          "set": [
+            "sure"
+          ],
+          "law": "6502 s.K. m.48 · Mesafeli Sözleşmeler Yönetmeliği",
+          "note": "Mesafeli sözleşmelerde tüketici on dört gün içinde gerekçe göstermeksizin ve cezai şart ödemeksizin cayabilir. Mal satışında süre, malın tüketiciye ya da gösterdiği üçüncü kişiye teslim edildiği gün başlar. Satıcının kendi ön bilgilendirme formu da bunu yazıyor.",
+          "reply": [
+            {
+              "who": "client",
+              "text": "Demek ki siparişten değil, teslimden sayılıyor. Sitedeki formda da öyle yazıyormuş, hiç okumamışım."
+            }
+          ]
+        },
+        {
+          "text": "Süre siparişten işler, kaçmış. Cayma yerine ayıplı mal davası açalım; görüntü kalitesi kötü diyelim.",
+          "delta": -15,
+          "set": [
+            "ayipYolu"
+          ],
+          "law": "6502 s.K. m.48 · m.11",
+          "note": "Hatalı. Süre teslimden başlar; cayma süresi içinde kullanılmıştı. Üstelik müvekkilin anlattığı bir ayıp değil, beğenmeme. Ayıp iddiası ispatlanamaz."
+        },
+        {
+          "text": "Mesafeli satışta cayma süresi otuz gündür; 17 gün sorun değil.",
+          "delta": -5,
+          "set": [
+            "sure",
+            "sureZayif"
+          ],
+          "law": "6502 s.K. m.48",
+          "note": "Sonuç doğru, gerekçe yanlış. Cayma süresi on dört gündür ve mal satışında teslimden başlar. Mahkemede yanlış süreyle tartışmak güvenilirliğinizi zedeler."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, savunmanızı özetleyin."
+        },
+        {
+          "who": "opp",
+          "text": "Ürünün kutusu açılmış, ayakları takılmış, üç gün kullanılmıştır. Açılmış ve kullanılmış ürün ikinci el sayılır. Cayma hakkı kullanılamaz."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili?"
+        }
+      ],
+      "prompt": "“Kutusu açıldı” savunmasına ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Tüketici, malı işleyişine, teknik özelliklerine ve kullanım talimatına uygun kullanmasından doğan değişiklik ve bozulmalardan sorumlu değildir. Ambalajın açılması yalnızca iadesi sağlık ve hijyen açısından uygun olmayan mallarda cayma hakkını engeller; televizyon bunlardan değildir.",
+          "delta": 20,
+          "set": [
+            "kutu"
+          ],
+          "law": "Mesafeli Sözleşmeler Yönetmeliği",
+          "note": "Doğru. Cayma hakkı, tüketicinin ürünü görüp denemesi için vardır. Kutuyu açmak ve kurulum talimatına uygun denemek bu hakkın doğal parçasıdır. Ambalaj istisnası iki şart arar: koruyucu unsur açılmış olmalı ve iadesi sağlık ya da hijyen açısından uygun olmamalı.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi."
+            }
+          ]
+        },
+        {
+          "text": "Tüketici ürünü istediği kadar, istediği gibi kullanabilir; hiçbir değer kaybından sorumlu tutulamaz.",
+          "delta": -5,
+          "set": [
+            "abarti"
+          ],
+          "law": "Mesafeli Sözleşmeler Yönetmeliği",
+          "note": "Fazla geniş. Tüketici, işleyişe ve kullanım talimatına uygun kullanımdan doğan değişiklikten sorumlu değildir; bu sınırı aşan kullanımdan doğan değer kaybından sorumlu tutulabilir. Doğru tez, üç günlük denemenin olağan kullanım olduğuydu.",
+          "reply": [
+            {
+              "who": "opp",
+              "text": "Davacı vekili sınırsız kullanım hakkından söz ediyor. Değer kaybının bilirkişiyle belirlenmesini talep ediyoruz."
+            }
+          ]
+        },
+        {
+          "text": "Kutunun açılmasından doğan zararı karşılamak için bedelden ambalaj ve kurulum bedeli düşülmesini kabul ediyoruz.",
+          "delta": -10,
+          "set": [
+            "teklif"
+          ],
+          "note": "Gereksiz bir kabul. Talimata uygun denemeden doğan değişiklikten tüketici sorumlu değildi. Kabul ettiğiniz kesinti alacaktan düşülecek."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "!ayipYolu",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, başka bir savunmanız var mı?"
+        }
+      ],
+      "statement": {
+        "who": "opp",
+        "text": "Televizyon işletim sistemi ve yazılım içeren bir üründür. Yazılım ve dijital içeriklerde cayma hakkı yoktur; ürün bu istisnaya girer."
+      },
+      "prompt": "Bu savunmayı neyle çürüteceksiniz?",
+      "correct": [
+        "law_istisna",
+        "ev_onbilgi"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "istisnaOK"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "İstisnalar sınırlı sayılmış. Televizyon maddi ortamda sunulan bir dijital içerik değil, dayanıklı bir tüketim malı. Satıcının kendi ön bilgilendirme formunda da istisna gösterilmemiş."
+          }
+        ],
+        "note": "Cayma hakkının istisnaları Mesafeli Sözleşmeler Yönetmeliği'nde sınırlı olarak sayılmıştır ve dar yorumlanır. İçinde yazılım çalışan bir cihaz “dijital içerik” istisnasına girmez. Satıcı istisnayı ön bilgilendirmede de bildirmek zorundadır; kendi formunda 14 günlük cayma hakkı yazıyor."
+      },
+      "responses": {
+        "ev_kargo": {
+          "delta": 0,
+          "note": "Kargo belgesi ürünün süresinde geri gönderildiğini gösterir; işinize yarar ama “yazılım istisnası” savunmasını çürütmez."
+        },
+        "ev_fatura": {
+          "delta": -5,
+          "note": "Fatura sipariş tarihini gösterir; bu beyanla ilgisi yok."
+        }
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz; yazılım istisnası savunması cevapsız kaldı."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "!ayipYolu",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Tahkikat tamamlandı. Davacı vekili, talep sonucunuzu açıklayın."
+        }
+      ],
+      "prompt": "Ne talep edeceksiniz?",
+      "choices": [
+        {
+          "text": "Bedelin tamamının, satıcının iade süresinin bittiği tarihten itibaren yasal faiziyle iadesi. Ürün satıcının anlaşmalı kargosuyla gönderildiği için iade masrafı tüketiciye yüklenemez.",
+          "delta": 15,
+          "set": [
+            "tam"
+          ],
+          "law": "Mesafeli Sözleşmeler Yönetmeliği",
+          "note": "Satıcı cayma üzerine bedeli kanuni süre içinde, tüketiciye masraf yüklemeden ve tek seferde iade etmekle yükümlüdür. Satıcının belirttiği taşıyıcıyla yapılan iadede kargo ücreti tüketiciden istenemez."
+        },
+        {
+          "text": "Kullanım bedeli düşülerek bedelin yüzde sekseninin iadesi.",
+          "delta": -10,
+          "set": [
+            "eksikTalep"
+          ],
+          "note": "Olağan denemeden doğan değişiklikten tüketici sorumlu değildi; kesinti kabul etmenize gerek yoktu. Mahkeme talepten fazlasına hükmedemez (HMK m.26)."
+        },
+        {
+          "text": "Bedelin iadesi ve satıcıya ayrıca bedelin iki katı cezai şart.",
+          "delta": -10,
+          "set": [
+            "ceza"
+          ],
+          "note": "Kanunda tüketiciye böyle bir cezai şart hakkı tanınmamıştır. Dayanaksız talep reddedilir; ret kısmı için karşı taraf lehine vekâlet ücretine de hükmedilebilir."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "ayipYolu",
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Ayıp iddiası ispatlanamadı: müvekkil ürünü yalnızca beğenmemişti. Oysa cayma hakkı süresinde kullanılmıştı; mal satışında on dört günlük süre teslimden başlar."
+    },
+    {
+      "if": "sure && kutu && tam && !ceza",
+      "winner": "p1",
+      "hukum": "Davanın KABULÜ ile televizyon bedelinin yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        {
+          "text": "Cayma süresinde kullanılmıştı; kutunun açılması ve talimata uygun deneme cayma hakkını engellemedi. Bedelin tamamı faiziyle iade edilecek."
+        },
+        {
+          "if": "!istisnaOK",
+          "text": " Yazılım istisnası savunmasına itiraz etmediniz; mahkeme istisnaların sınırlı sayıldığını kendiliğinden uyguladı (HMK m.33). Bu kez sonuç değişmedi, ama itirazı siz yapmalıydınız."
+        },
+        {
+          "if": "sureZayif",
+          "text": " Cayma süresini yanlış söylediğiniz için hâkim kanun metnini kendisi açıklamak zorunda kaldı."
+        }
+      ]
+    },
+    {
+      "if": "sure && kutu",
+      "winner": "p1",
+      "stamp": "KISMEN KAZANDINIZ",
+      "hukum": [
+        {
+          "if": "eksikTalep",
+          "text": "Davanın KABULÜ ile talep edilen tutarın davalıdan alınarak davacıya verilmesine,"
+        },
+        {
+          "if": "!eksikTalep",
+          "text": "Davanın KISMEN KABULÜ ile televizyon bedelinin yasal faiziyle davalıdan alınarak davacıya verilmesine, cezai şart talebinin REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "if": "eksikTalep",
+          "text": "Cayma geçerli sayıldı, ama bedelin yalnızca bir kısmını istediniz. Mahkeme talepten fazlasına hükmedemez (HMK m.26); müvekkil parasının bir bölümünü kendi vekilinin talebi yüzünden kaybetti."
+        },
+        {
+          "if": "!eksikTalep",
+          "text": "Cayma geçerli sayıldı ve bedel iade edilecek. Ama dayanaksız cezai şart talebi reddedildi; reddedilen kısım için karşı taraf lehine vekâlet ücretine hükmedildi."
+        }
+      ]
+    },
+    {
+      "if": "sure && istisnaOK",
+      "winner": "p1",
+      "stamp": "KISMEN KAZANDINIZ",
+      "hukum": "Davanın KISMEN KABULÜ ile bilirkişice belirlenen değer kaybı düşülerek kalan bedelin davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        {
+          "text": "Cayma geçerli sayıldı, ama bedelden kesinti yapıldı."
+        },
+        {
+          "if": "teklif",
+          "text": " Ambalaj ve kurulum kesintisini kendiniz kabul etmiştiniz."
+        },
+        {
+          "if": "abarti",
+          "text": " “Sınırsız kullanım” tezi karşı tarafa değer kaybı bilirkişisi istetti. Doğru tez, talimata uygun denemeden tüketicinin sorumlu olmadığıydı."
+        }
+      ]
+    },
+    {
+      "winner": "p2",
+      "stamp": "KAYBETTİNİZ",
+      "hukum": "Davanın KISMEN KABULÜ ile bilirkişice belirlenen değer kaybı ve kesintiler düşülerek kalan bedelin davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Cayma geçerli sayıldı, ama satıcının “açılmış ve kullanılmış ürün” savunmasına etkili itiraz edilmediği için bedelin önemli bir kısmı kesildi. Talimata uygun denemeden tüketicinin sorumlu olmadığı ve istisnaların sınırlı sayıldığı ileri sürülmeliydi."
+    }
+  ]
+}

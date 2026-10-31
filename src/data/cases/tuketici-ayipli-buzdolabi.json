@@ -1,0 +1,140 @@
+{
+  "id": "tuketici-ayipli-buzdolabi",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "basit",
+  "title": "Soğutmayan Dolap",
+  "area": "Tüketici Hukuku · Ayıplı mal ve seçimlik haklar",
+  "court": "Ankara 2. Tüketici Mahkemesi",
+  "courtShort": "2. TÜKETİCİ",
+  "esas": "2027/233 Esas",
+  "kararTarihi": "21.09.2027",
+  "color": "#3a6b7a",
+  "teaser": "Yeni buzdolabı dört ayda üç kez bozuldu. Satıcı “üreticiye gidin” diyor, üretici servisi “tamir ederiz” diyor. Müvekkil artık parasını istiyor.",
+  "sides": { "p1": { "role": "Davacı (tüketici) vekili", "short": "Siz" }, "p2": { "role": "Davalı (satıcı) vekili", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#c08b62", "hair": "#2a2220", "style": "short", "beard": true } },
+    "opp": { "name": "Av. Nesrin Taşkın · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e0b48e", "hair": "#a0522d", "style": "long", "glasses": true } },
+    "client": { "name": "Kemal Bozkurt · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#d9a982", "hair": "#9a9a9a", "style": "short", "glasses": true, "shirt": "#5b4a3a", "inner": "#e6e0d2" } },
+    "mentor": { "name": "Av. Ayten Uslu · Kıdemli meslektaş", "np": "civil", "look": { "kind": "civil", "skin": "#a8774f", "hair": "#151515", "style": "bun", "shirt": "#2f4a6b", "inner": "#e9e4d8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Ankara, Çankaya. Emekli öğretmen Kemal Bozkurt, Ekinci Beyaz Eşya Ltd. Şti.'nden gardırop tipi bir buzdolabı aldı. Cihaz 12.01.2027'de teslim edildi. Üreticisi Soğukay Ev Aletleri A.Ş." },
+    { "who": "client", "text": "Mart'ta soğutmayı bıraktı. Servis gaz kaçağı dedi, tamir etti. Nisan'da yine bozuldu, yine tamir. Mayıs sonunda üçüncü kez. Bütün yiyecekler çöpe gitti." },
+    { "who": "client", "text": "Mağazaya gittim, “biz sattık, gerisi üreticinin işi; garanti belgesi onların” dediler. Ben bu dolabı istemiyorum artık." },
+    { "who": "narr", "text": "Büroda kıdemli meslektaşınız Av. Ayten Uslu ile dosyayı konuşuyorsunuz." }
+  ],
+  "docs": [
+    { "t": "Fatura", "d": "10.01.2027, Ekinci Beyaz Eşya Ltd. Şti. Bedel, o yılın tüketici hakem heyeti parasal sınırının üzerinde." },
+    { "t": "Garanti belgesi", "d": "Üretici Soğukay Ev Aletleri A.Ş. adına düzenlenmiş; iki yıllık garanti." },
+    { "t": "Servis formları", "d": "28.03.2027 ve 02.05.2027: “Soğutma sisteminde gaz kaçağı. Üretim kaynaklı. Garanti kapsamında onarıldı.” 30.05.2027: aynı arıza yeniden bildirildi." },
+    { "t": "Satıcıya ihtarname", "d": "05.06.2027. Tüketici sözleşmeden döndüğünü bildirip bedelin iadesini istedi. Satıcı “muhatap üreticidir” diye cevap verdi." }
+  ],
+  "evidence": [
+    { "id": "ev_fatura", "type": "belge", "title": "Fatura", "desc": "10.01.2027 tarihli satış faturası; satıcı Ekinci Beyaz Eşya Ltd. Şti." },
+    { "id": "ev_garanti", "type": "belge", "title": "Garanti belgesi", "desc": "Üretici adına düzenlenmiş, iki yıllık garanti belgesi." },
+    { "id": "ev_servis", "type": "belge", "title": "Yetkili servis formları", "desc": "İki onarım: “Gaz kaçağı. Üretim kaynaklı. Garanti kapsamında.” Üçüncü kez aynı arıza bildirimi." },
+    { "id": "law_karine", "type": "kanun", "title": "6502 s.K. m.10 · Altı ay karinesi", "desc": "Teslimden itibaren altı ay içinde ortaya çıkan ayıpların teslim tarihinde var olduğu kabul edilir; malın ayıplı olmadığını satıcı ispat eder.", "law": "6502 s.K. m.10" }
+  ],
+  "steps": [
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "mentor", "text": "Bedel bu yılın hakem heyeti sınırının üstünde. Tüketici uyuşmazlığı, ama karşı taraf da şirket. Nereye gidiyoruz?" }
+      ],
+      "prompt": "Hangi yolu seçeceksiniz?",
+      "choices": [
+        { "text": "Sınırın üstündeki uyuşmazlıkta hakem heyetine başvurulamaz. Önce arabulucuya, anlaşma olmazsa tüketici mahkemesine.", "delta": 10, "set": ["gorev"],
+          "law": "6502 s.K. m.68 · m.73 · m.73/A",
+          "note": "Parasal sınırın altındaki uyuşmazlıklarda hakem heyetine başvuru zorunludur; sınırın üzerindekiler için hakem heyetine başvurulamaz (6502 s.K. m.68). Tüketici işlemlerinden doğan davalara tüketici mahkemesi bakar (m.73). Tüketici mahkemesinde dava açmadan önce arabulucuya başvurmak dava şartıdır.",
+          "reply": [{ "who": "mentor", "text": "Doğru. Arabuluculukta satıcı yine “üreticiye gidin” derse dilekçeyi hazırlarız." }, { "who": "narr", "text": "Arabuluculukta anlaşma sağlanamadı. Dava, satıcı şirkete karşı tüketici mahkemesinde açıldı." }] },
+        { "text": "Tüketici hakem heyetine başvuralım; hem ücretsiz hem hızlı.", "delta": -5,
+          "law": "6502 s.K. m.68",
+          "note": "Hakem heyeti yalnızca parasal sınırın altındaki uyuşmazlıklara bakar; sınırın üzerindeki uyuşmazlık için hakem heyetine başvurulamaz (m.68).",
+          "reply": [{ "who": "mentor", "text": "Bedel sınırın üstünde, hakem heyeti dosyayı almaz. Arabulucuya, sonra tüketici mahkemesine gidelim." }, { "who": "narr", "text": "Arabuluculukta anlaşma sağlanamadı. Dava tüketici mahkemesinde açıldı." }] },
+        { "text": "Satıcı tacir; asliye ticaret mahkemesinde dava açalım.", "delta": -10,
+          "law": "6502 s.K. m.3 · m.73",
+          "note": "Bir taraf tüketici, diğer taraf satıcıysa işlem tüketici işlemidir; karşı tarafın tacir olması görevi değiştirmez. Görevli mahkeme tüketici mahkemesidir (m.73).",
+          "reply": [{ "who": "mentor", "text": "Müvekkil malı kişisel ihtiyacı için aldı; bu bir tüketici işlemi. Tüketici mahkemesi görevli." }, { "who": "narr", "text": "Arabuluculuk tamamlandı, anlaşma olmadı. Dava tüketici mahkemesinde açıldı." }] }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "Bir daha tamir istemiyorum. Ne isteyebiliriz?" }
+      ],
+      "prompt": "Hangi seçimlik hakkı kullanacaksınız?",
+      "choices": [
+        { "text": "Sözleşmeden dönme: buzdolabını geri vermeye hazır olduğumuzu bildirip bedelin iadesini istemek.", "delta": 20, "set": ["donme"],
+          "law": "6502 s.K. m.11/1-a",
+          "note": "Ayıplı malda tüketici dört hakkından birini seçer: sözleşmeden dönme, bedelden indirim, ücretsiz onarım ya da ayıpsız misliyle değiştirme (m.11/1). Satıcı tüketicinin seçtiği talebi yerine getirmekle yükümlüdür. Ücretsiz onarımdan sonra arıza tekrarlandığında tüketici diğer seçimlik haklarını da kullanabilir (Garanti Belgesi Yönetmeliği)." },
+        { "text": "Ayıpsız misliyle değiştirme: aynı model sıfır bir buzdolabı.", "delta": 10, "set": ["degisim"],
+          "law": "6502 s.K. m.11/1-ç",
+          "note": "Geçerli bir seçimlik hak (m.11/1-ç). Ama müvekkil “bu dolabı istemiyorum” dedi; aynı modelin aynı arızayı göstermesi riski de var. Bedel iadesi onun isteğine daha uygundu." },
+        { "text": "Ayıp oranında bedelden indirim.", "delta": 5, "set": ["indirim"],
+          "law": "6502 s.K. m.11/1-b",
+          "note": "Kanunen mümkün (m.11/1-b), ama müvekkil soğutmayan bir dolapla kalacak. Müvekkilin amacına uygun değil." },
+        { "text": "Bir kez daha ücretsiz onarım isteyelim; belki bu sefer düzelir.", "delta": -10, "set": ["onarim"],
+          "law": "6502 s.K. m.11/1-c",
+          "note": "Müvekkil açıkça başka bir çözüm istiyordu. Aynı arıza iki onarımdan sonra üçüncü kez çıkmışken onarımda ısrar etmek müvekkilin zararını büyütür." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, cevabınızı özetleyin." },
+        { "who": "opp", "text": "Sayın Hâkim, müvekkilim yalnızca satıcıdır. Cihazı üretmemiştir, garanti belgesi de üreticiye aittir. Ayıptan üretici sorumludur; müvekkilim yönünden husumet yokluğundan davanın reddini istiyoruz." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "Husumet itirazına ne diyeceksiniz?",
+      "choices": [
+        { "text": "Seçimlik hakların muhatabı sözleşmenin tarafı olan satıcıdır. Ücretsiz onarım ve değiştirme hakları üreticiye karşı da kullanılabilir; bu haklarda satıcı, üretici ve ithalatçı müteselsilen sorumludur. Satıcı tüketiciyi üreticiye gönderemez.", "delta": 20, "set": ["husumet"],
+          "law": "6502 s.K. m.11",
+          "note": "Doğru. Seçimlik hakların hepsi satıcıya karşı kullanılabilir. Üreticinin ve ithalatçının sorumluluğu, onarım ve değiştirmede satıcının sorumluluğuna eklenir; onun yerine geçmez (m.11). Garanti belgesi tüketiciye ek bir güvence verir, satıcının kanuni sorumluluğunu kaldırmaz.",
+          "reply": [{ "who": "judge", "text": "Husumet itirazının esasla birlikte değerlendirilmesine karar verildi." }] },
+        { "text": "Satıcı da garanti belgesini kaşelediği için sorumludur.", "delta": 5, "set": ["husumet"],
+          "law": "6502 s.K. m.11 · m.56",
+          "note": "Sonuç doğru, gerekçe zayıf. Satıcının sorumluluğu garanti belgesinden değil, satış sözleşmesinden ve kanundan doğar (m.11)." },
+        { "text": "Haklısınız; davayı üreticiye yöneltmek için süre isteyelim.", "delta": -15, "set": ["husumetKabul"],
+          "law": "6502 s.K. m.11",
+          "note": "Hatalı. Satıcı ayıptan sorumludur; sözleşmeden dönme ve bedel iadesi talebinin asıl muhatabı odur. Bu kabulle davanın temelini kendiniz yıktınız." }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court", "if": "!husumetKabul",
+      "lines": [{ "who": "judge", "text": "Davalı vekili, ayıp konusundaki savunmanız?" }],
+      "statement": { "who": "opp", "text": "Arıza davacının hatalı kullanımından kaynaklanmıştır. Kapılar uzun süre açık bırakılmış, cihaz duvara dayalı kurulmuştur. Malda ayıp yoktur." },
+      "prompt": "Bu savunmayı hangi delille çürüteceksiniz?",
+      "correct": ["ev_servis", "law_karine"],
+      "hit": { "delta": 20, "set": ["ayipIspat"],
+        "reply": [{ "who": "judge", "text": "Yetkili servis iki kez “üretim kaynaklı” tespit yapmış. Arıza teslimden itibaren altı ay içinde ortaya çıkmış. Davalı tarafın hatalı kullanım iddiası için bir delili var mı?" }, { "who": "opp", "text": "…Şu an için sunacağımız bir belge yok, Sayın Hâkim." }],
+        "note": "Teslimden itibaren altı ay içinde ortaya çıkan ayıplar teslim tarihinde var sayılır; malın ayıplı olmadığını satıcı ispat etmelidir (6502 s.K. m.10). Üreticinin kendi yetkili servisinin “üretim kaynaklı” raporu da bunu doğruluyor." },
+      "responses": {
+        "ev_garanti": { "delta": -5, "note": "Garanti belgesi cihazın garanti süresinde olduğunu gösterir; arızanın nedenini göstermez. Hatalı kullanım iddiası cevapsız kaldı." },
+        "ev_fatura": { "delta": -5, "note": "Fatura satışı ve tarihi gösterir; arızanın kullanıcı hatası olmadığını göstermez." }
+      },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz. Hatalı kullanım savunması bilirkişi incelemesine kaldı." }
+    }
+  ],
+  "outcomes": [
+    { "if": "husumetKabul", "winner": "p2",
+      "hukum": "Davanın davalı yönünden REDDİNE,",
+      "summary": "Satıcının husumet itirazını kabul ettiniz. Oysa ayıplı maldan doğan seçimlik hakların muhatabı satıcıdır (6502 s.K. m.11); üretici onarım ve değiştirmede satıcının yanında müteselsilen sorumludur, onun yerine geçmez." },
+    { "if": "donme && husumet && ayipIspat", "winner": "p1",
+      "hukum": "Davanın KABULÜ ile davacının sözleşmeden DÖNMESİ nedeniyle buzdolabı bedelinin davalıdan alınarak davacıya verilmesine, buzdolabının davalıya iadesine,",
+      "summary": "Satıcı tüketiciyi üreticiye gönderemedi; altı ay karinesi ve servis raporları ayıbı ispatladı. Müvekkil istediği gibi parasını geri aldı, dolap satıcıya döndü." },
+    { "if": "degisim && husumet && ayipIspat", "winner": "p1",
+      "hukum": "Davanın KABULÜ ile buzdolabının ayıpsız misliyle DEĞİŞTİRİLMESİNE,",
+      "summary": "Ayıp ispatlandı, satıcı sorumlu tutuldu. Müvekkile aynı model sıfır bir cihaz verilecek; ama o paranın iadesini istiyordu." },
+    { "if": "(indirim || onarim) && husumet && ayipIspat", "winner": "p1", "stamp": "KISMEN KAZANDINIZ",
+      "hukum": [
+        { "if": "indirim", "text": "Davanın KABULÜ ile bilirkişice belirlenen ayıp oranında bedelden İNDİRİM yapılarak bu tutarın davalıdan alınıp davacıya verilmesine," },
+        { "if": "onarim", "text": "Davanın KABULÜ ile buzdolabının davalı tarafından ücretsiz ONARIMINA," }
+      ],
+      "summary": "Davayı kazandınız, ama müvekkilin istediği sonucu alamadınız: soğutmayan dolapla kalmak istemiyordu. Doğru seçimlik hak sözleşmeden dönmeydi (6502 s.K. m.11/1-a)." },
+    { "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Satıcının hatalı kullanım savunmasına etkili itiraz edilmedi. Teslimden itibaren altı ay içinde çıkan ayıbın teslimde var sayıldığı (6502 s.K. m.10) ve servis raporları ileri sürülmeliydi." }
+  ]
+}

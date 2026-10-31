@@ -1,0 +1,548 @@
+{
+  "id": "kira-bedel-tespiti",
+  "mode": "solo",
+  "career": {
+    "level": 1
+  },
+  "difficulty": "orta",
+  "title": "Beşinci Yılın Sonu",
+  "area": "Kira Hukuku · Kira bedelinin tespiti",
+  "court": "Antalya 2. Sulh Hukuk Mahkemesi",
+  "courtShort": "2. SULH HUKUK",
+  "esas": "2027/688 Esas",
+  "kararTarihi": "09.11.2027",
+  "color": "#7a5a2a",
+  "teaser": "Beş yıldır TÜFE oranında artan kira, emsallerin yarısında kaldı. Yeni dönem kapıda; takvim ve arabuluculuk sizi bekletmeyecek.",
+  "sides": {
+    "p1": {
+      "role": "Davacı (kiraya veren) vekili",
+      "short": "Siz"
+    },
+    "p2": {
+      "role": "Davalı (kiracı) vekili",
+      "short": "Karşı taraf"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#c99670",
+        "hair": "#2b1d17",
+        "style": "long"
+      }
+    },
+    "opp": {
+      "name": "Av. Gülay Demirtaş · Davalı vekili",
+      "np": "green",
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#edc6a2",
+        "hair": "#d8c08a",
+        "style": "bun",
+        "glasses": true
+      }
+    },
+    "client": {
+      "name": "Hüseyin Aksoy · Müvekkil",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#c08b62",
+        "hair": "#9a9a9a",
+        "style": "bald",
+        "beard": true,
+        "shirt": "#3e5a4a",
+        "inner": "#e6e0d2"
+      }
+    }
+  },
+  "courtCast": [
+    "judge",
+    "you",
+    "opp"
+  ],
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Antalya, Muratpaşa. Hüseyin Aksoy'un 3+1 dairesi 01.06.2022'den beri aynı kiracıda. Sözleşme bir yıllık, her yıl kendiliğinden yenileniyor; sözleşmede kira artışına ilişkin bir hüküm yok."
+    },
+    {
+      "who": "client",
+      "text": "Her yıl kirayı TÜFE oranında artırdık, şimdi 21.000 TL. Aynı sokakta benzer daireler 40.000 TL'nin üstünde. 1 Haziran'da altıncı kira yılı başlıyor."
+    },
+    {
+      "who": "narr",
+      "text": "Bugün 12.04.2027. Yeni kira dönemi 01.06.2027'de başlıyor."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Kira sözleşmesi",
+      "d": "01.06.2022 başlangıçlı, bir yıllık konut kirası. İlk kira 9.500 TL. Kira artışına ilişkin hüküm yok."
+    },
+    {
+      "t": "Ödeme dekontları",
+      "d": "Kira her yıl TÜFE oranında, sözlü anlaşmayla artırılmış. Güncel kira 21.000 TL. Ödemeler düzenli."
+    },
+    {
+      "t": "Takvim",
+      "d": "Beş yıllık süre 01.06.2027'de doluyor. Yeni kira dönemi: 01.06.2027 – 01.06.2028."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_sozlesme",
+      "type": "belge",
+      "title": "Kira sözleşmesi",
+      "desc": "01.06.2022 başlangıçlı; kira artışına ilişkin hüküm yok."
+    },
+    {
+      "id": "ev_arabulucu",
+      "type": "belge",
+      "title": "Arabuluculuk son tutanağı",
+      "desc": "Anlaşma sağlanamadı. Tutanak tarihi yeni dönemin başlangıcına otuz günden az kala.",
+      "if": "arabulucu"
+    },
+    {
+      "id": "ev_ihtar",
+      "type": "belge",
+      "title": "Noter ihtarnamesi ve tebliğ şerhi",
+      "desc": "Kiracıya 16.04.2027'de tebliğ edildi: “01.06.2027'den başlayan yeni kira döneminde kira bedeli artırılacaktır.”",
+      "if": "ihtar"
+    },
+    {
+      "id": "ev_emsal",
+      "type": "belge",
+      "title": "Aynı binadaki emsal sözleşme",
+      "desc": "Aynı binada, aynı cephede, aynı tipteki daire 01.01.2027'de aylık 43.000 TL'ye kiralanmış.",
+      "if": "emsal"
+    },
+    {
+      "id": "ev_tadilat",
+      "type": "belge",
+      "title": "Yenileme faturaları",
+      "desc": "2025'te dairenin mutfağı, banyosu ve tesisatı yenilenmiş; faturalar ve fotoğraflar.",
+      "if": "tadilat"
+    }
+  ],
+  "steps": [
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Müvekkil bir toplantıya yetişecek. İki soru sorabilecek kadar vaktiniz var."
+        }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Aynı binada ya da sokakta yakın zamanda kiralanmış benzer bir daire var mı?",
+          "delta": 15,
+          "set": [
+            "emsal"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "Var! Üst kattaki komşumun dairesi bizimkinin aynısı. Ocak'ta 43.000 TL'ye kiraladı. Sözleşmenin bir örneğini bana verdi."
+            }
+          ],
+          "note": "Doğru soru. Beş yıllık tespitte hâkim emsal kira bedellerini göz önünde tutar. Aynı binadaki aynı tip daire en güçlü emsaldir. Delil çantanıza eklendi."
+        },
+        {
+          "text": "Son yıllarda dairede yenileme ya da tadilat yaptınız mı?",
+          "delta": 15,
+          "set": [
+            "tadilat"
+          ],
+          "reply": [
+            {
+              "who": "client",
+              "text": "2025'te mutfağı, banyoyu ve tesisatı baştan yaptırdım. Faturaların hepsi duruyor, fotoğrafları da var."
+            }
+          ],
+          "note": "Doğru soru. Kiralananın durumu tespitte gözetilen ölçütlerdendir. Faturalar delil çantanıza eklendi."
+        },
+        {
+          "text": "Kiracı kirayı hiç geciktirdi mi?",
+          "delta": -5,
+          "reply": [
+            {
+              "who": "client",
+              "text": "Hayır, hep zamanında öder. Ondan şikâyetim yok."
+            }
+          ],
+          "note": "Kira bedelinin tespiti kiracının temerrüdüne bağlı değildir. Sınırlı soru hakkınızın birini davayla ilgisi zayıf bir konuya harcadınız."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "client",
+          "text": "Ne yapalım? Bir avukat arkadaşım “dava her zaman açılır, acele etme” dedi."
+        },
+        {
+          "who": "narr",
+          "text": "Kira uyuşmazlıklarında 01.09.2023'ten beri dava açmadan önce arabulucuya başvurmak dava şartı. Yeni dönem 01.06.2027'de başlıyor."
+        }
+      ],
+      "prompt": "Nasıl ilerleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Hemen noter kanalıyla kiracıya yeni dönemde kiranın artırılacağını yazılı bildir. Ardından arabulucuya başvur; anlaşma olmazsa davayı yeni dönem bitmeden aç.",
+          "delta": 20,
+          "set": [
+            "ihtar",
+            "arabulucu"
+          ],
+          "law": "TBK m.345/2 · HUAK m.18/B",
+          "note": "Dava, yeni dönemin başlangıcından en geç otuz gün önce açılır ya da kiraya veren bu süre içinde kiracıya artışı yazılı olarak bildirir ve dava o yeni dönemin sonuna kadar açılırsa, mahkemenin belirleyeceği kira yeni dönemin başından itibaren kiracıyı bağlar (TBK m.345/2). Arabuluculuk haftalar sürebilir; yazılı bildirim süreyi güvenceye alır.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "İhtarname 16.04.2027'de kiracıya tebliğ edildi. Arabuluculukta anlaşma sağlanamadı; dava 17.05.2027'de açıldı."
+            }
+          ]
+        },
+        {
+          "text": "Vakit kaybetmeyelim: bugün doğrudan sulh hukuk mahkemesinde tespit davası açalım.",
+          "delta": -25,
+          "law": "HUAK m.18/B · m.18/A",
+          "note": "Kira ilişkisinden doğan uyuşmazlıklarda, ilamsız icra yoluyla tahliye hariç, dava açmadan önce arabulucuya başvurmak dava şartıdır. Başvurmadan açılan dava hiçbir işlem yapılmadan usulden reddedilir.",
+          "fatal": {
+            "hukum": "Davanın dava şartı yokluğu nedeniyle usulden REDDİNE,",
+            "summary": "Kira uyuşmazlıklarında dava açmadan önce arabulucuya başvurmak dava şartıdır (HUAK m.18/B). Ret kararı geldiğinde yeni dönemden otuz gün öncesi çoktan geçmişti ve kiracıya yazılı bildirim de yapılmamıştı. Yeni açılacak davada belirlenecek kira ancak bir sonraki kira yılından itibaren uygulanabilecek (TBK m.345/2)."
+          }
+        },
+        {
+          "text": "Acele yok; dava her zaman açılabilir. Haziran'da arabulucuya gideriz, sonra davayı açarız.",
+          "delta": -15,
+          "set": [
+            "arabulucu",
+            "gec"
+          ],
+          "law": "TBK m.345/1-2",
+          "note": "Dava her zaman açılabilir (m.345/1); ama otuz günlük sınırdan önce ne dava açılmış ne yazılı bildirim yapılmışsa belirlenecek kira yeni dönemden değil, bir sonraki kira yılından itibaren uygulanır. Müvekkil bir yıllık farkı kaybedebilir.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Haziran'da arabulucuya başvuruldu, anlaşma olmadı. Dava Temmuz'da açıldı."
+            }
+          ]
+        },
+        {
+          "text": "Kiracıyı telefonla arayıp kiranın artacağını söyleyin; yeter.",
+          "delta": -10,
+          "set": [
+            "arabulucu",
+            "gec"
+          ],
+          "law": "TBK m.345/2",
+          "note": "Kanun, kiracıya yazılı bildirim arar. Sözlü bildirim, belirlenecek kiranın yeni dönemden itibaren uygulanmasını sağlamaz.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Kiracı telefonda “düşünürüz” dedi. Mayıs'ta arabulucuya başvuruldu, anlaşma olmadı; dava Haziran'da açıldı."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı vekili, kira bedelinin hangi ölçütlere göre belirlenmesini istiyorsunuz?"
+        }
+      ],
+      "prompt": "Talebinizin hukuki dayanağı?",
+      "choices": [
+        {
+          "text": "Kira beş yılı doldurdu. Bu durumda yeni dönemin kirası TÜFE ile sınırlı değildir; hâkim TÜFE'deki değişimi, kiralananın durumunu ve emsal kiraları göz önünde tutarak hakkaniyete göre belirler.",
+          "delta": 20,
+          "set": [
+            "hukuk"
+          ],
+          "law": "TBK m.344/3",
+          "note": "Beş yıldan uzun süren ya da beş yıldan sonra yenilenen kiralarda ve sonraki her beş yılın sonunda yeni dönemin kirası, TÜFE'deki on iki aylık ortalama değişim, kiralananın durumu ve emsal kiralar dikkate alınarak hakkaniyete göre belirlenir (TBK m.344/3). TÜFE burada üst sınır değil, ölçütlerden biridir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Emsal araştırması ve keşif için bilirkişi incelemesine karar verildi."
+            }
+          ]
+        },
+        {
+          "text": "Kiranın emsal rayiç bedelin tamamına, 43.000 TL'ye çıkarılmasını istiyoruz.",
+          "delta": 5,
+          "set": [
+            "hukuk"
+          ],
+          "law": "TBK m.344/3",
+          "note": "Dayanak doğru, ama beklenti yüksek. Uygulamada mevcut kiracı yönünden rayiç bedelden hakkaniyet indirimi yapılır; mahkeme bedeli emsalin altında belirler."
+        },
+        {
+          "text": "Yeni dönemde kiranın TÜFE oranında artırılmasını istiyoruz.",
+          "delta": -15,
+          "set": [
+            "tufe"
+          ],
+          "law": "TBK m.344/1-2 · m.344/3",
+          "note": "Beş yıl dolduktan sonra TÜFE sınırıyla bağlı değildiniz. TÜFE oranındaki artış, ilk beş yılın kuralıdır (m.344/1-2). Mahkeme talepten fazlasına hükmedemeyeceği için (HMK m.26) müvekkil emsal düzeyine yaklaşma imkânını kaybetti."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "!tufe",
+      "lines": [
+        {
+          "who": "opp",
+          "text": "Sayın Hâkim, davacı enflasyonu fırsat bilip beş yıldır evinde oturan bir aileyi sokağa atmak istiyor. Bu davanın adı kira tespiti değil, açgözlülük!"
+        },
+        {
+          "who": "client",
+          "text": "(fısıldayarak) Bunu böyle mi bırakacağız?"
+        }
+      ],
+      "prompt": "Nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "Sakin kalın: “Sayın Hâkim, müvekkile yönelik bu nitelendirmenin tutanağa geçirilmesini ve tartışmanın dava konusuyla sınırlı tutulmasını istiyoruz. Dava tahliye değil, bedel tespitidir.”",
+          "delta": 5,
+          "set": [
+            "soguk"
+          ],
+          "law": "HMK m.151",
+          "note": "Duruşmanın düzenini sağlamak hâkime aittir (HMK m.151). Kişiselleşen bir sözü tutanağa geçirtip konuya dönmek, meslek kurallarına uygun ve etkili bir cevaptır.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi. Taraf vekillerinden dava konusuyla sınırlı açıklama yapmalarını istiyorum."
+            }
+          ]
+        },
+        {
+          "text": "Sertçe karşılık verin: “Asıl açgözlülük, emsalin yarısına oturmaktır!”",
+          "delta": -10,
+          "law": "HMK m.151",
+          "note": "Tahrike kapıldınız. Taraflar arasında kişisel bir atışma hâkimin gözünde iki vekili de küçültür; hâkim duruşma düzeni için uyarı yapmak zorunda kaldı.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Vekiller! Duruşmanın düzenine uyulmasını ihtar ediyorum. Devam ediyoruz."
+            }
+          ]
+        },
+        {
+          "text": "Hiçbir şey söylemeyin, bilirkişi raporunu bekleyin.",
+          "delta": 0,
+          "note": "Hata değil; tahrike cevap vermemek de bir tercihtir. Ama sözün tutanağa geçirilmesini istemek, hem müvekkili korur hem duruşmayı konuya döndürür."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "!tufe && ihtar",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, kira bedelinin hangi tarihten itibaren uygulanacağı konusundaki itirazınız?"
+        }
+      ],
+      "statement": {
+        "who": "opp",
+        "text": "Yeni dönemin başlangıcından en az otuz gün önce ne dava açılmıştır ne de kiracıya yazılı bildirimde bulunulmuştur. Belirlenecek kira ancak 01.06.2028'den itibaren uygulanabilir."
+      },
+      "prompt": "Bu itirazı hangi delille karşılayacaksınız?",
+      "correct": [
+        "ev_ihtar"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "ihtarOK"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "İhtarname yeni dönemden otuz günden fazla önce, 16.04.2027'de tebliğ edilmiş; dava da yeni dönem içinde açılmış. İtiraz yerinde görülmedi."
+          }
+        ],
+        "note": "Kiraya veren yeni dönemden en geç otuz gün önce artışı kiracıya yazılı bildirmiş ve dava o yeni dönemin sonuna kadar açılmışsa, belirlenen kira yeni dönemin başından itibaren kiracıyı bağlar (TBK m.345/2). Noter tebliğ şerhi bunu ispatladı."
+      },
+      "responses": {
+        "ev_arabulucu": {
+          "delta": -5,
+          "note": "Tutanak, yeni dönemden otuz günden az bir süre kala düzenlenmiş; ayrıca arabuluculuk tutanağı kiracıya yöneltilmiş bir artış bildirimi değildir. TBK m.345/2'nin aradığı, süresinde yapılmış yazılı bildirim ya da süresinde açılmış davadır."
+        },
+        "ev_sozlesme": {
+          "delta": -5,
+          "note": "Sözleşmede kira artışına ilişkin bir hüküm yok. Böyle bir hüküm olsaydı, yeni dönem sonuna kadar açılan davada belirlenen kira yeni dönemin başından geçerli olurdu (TBK m.345/3). Ama yok; çantanızdaki ihtarname bu iş için vardı."
+        },
+        "ev_emsal": {
+          "delta": -5,
+          "note": "Emsal sözleşme bedelin miktarıyla ilgilidir; hangi tarihten uygulanacağı sorusunu cevaplamaz."
+        },
+        "ev_tadilat": {
+          "delta": -5,
+          "note": "Yenileme faturaları kiralananın durumunu gösterir; bildirim süresiyle ilgisi yok."
+        }
+      },
+      "pass": {
+        "delta": -10,
+        "note": "İtiraz etmediniz, oysa çantanızda süresinde tebliğ edilmiş ihtarname vardı. Belirlenecek kiranın yeni dönemden itibaren uygulanmasını sağlayan belge buydu (TBK m.345/2)."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "!tufe && !ihtar",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, kira bedelinin hangi tarihten itibaren uygulanacağı konusundaki itirazınız?"
+        },
+        {
+          "who": "opp",
+          "text": "Yeni dönemin başlangıcından en az otuz gün önce ne dava açılmıştır ne de kiracıya yazılı bildirimde bulunulmuştur. Belirlenecek kira ancak 01.06.2028'den itibaren uygulanabilir."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili?"
+        }
+      ],
+      "prompt": "Bu itiraza ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Süre konusunda dosyada aksini gösteren bir belge yok. Bedelin hakkaniyete uygun belirlenmesine odaklanıyoruz.",
+          "delta": 0,
+          "law": "TBK m.345/2",
+          "note": "Dürüst ve doğru bir tutum. Süresinde yazılı bildirim yapılmadığı için belirlenecek kira bir sonraki kira yılından itibaren uygulanacak (TBK m.345/2). Bu kaybı ofiste, ihtarname çekmeyerek yaşadınız."
+        },
+        {
+          "text": "Arabuluculuk başvurusu kiracıya yapılmış bir bildirimdir; süre korunmuştur.",
+          "delta": -10,
+          "law": "TBK m.345/2",
+          "note": "Arabulucuya başvuru da otuz günlük sınırdan sonra yapılmıştı; üstelik TBK m.345/2 kiraya verenin kiracıya artışı yazılı bildirmesini arar. Dayanaksız bir savunmayla vakit kaybettiniz."
+        },
+        {
+          "text": "Dava her zaman açılabilir; belirlenen kira her hâlde yeni dönemin başından uygulanır.",
+          "delta": -10,
+          "law": "TBK m.345/1-2",
+          "note": "Yarısı doğru: dava her zaman açılabilir (m.345/1). Ama belirlenen kiranın yeni dönemin başından uygulanması, süresinde dava ya da yazılı bildirim şartına bağlıdır (m.345/2)."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "!tufe",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Bilirkişi raporu dosyaya geldi. Davalı vekili, rapora itirazınız?"
+        }
+      ],
+      "statement": {
+        "who": "opp",
+        "text": "Dava konusu daire eski bir binadadır ve bakımsızdır. Bilirkişinin esas aldığı emsaller lüks sitelerdeki yeni dairelerdir; dava konusu taşınmazla aynı nitelikte değildir."
+      },
+      "prompt": "Bu itirazı hangi delille karşılayacaksınız?",
+      "correct": [
+        "ev_emsal",
+        "ev_tadilat"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "durumOK"
+        ],
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Aynı binada, aynı tipte bir daire üç ay önce 43.000 TL'ye kiralanmış. Dairenin 2025'te yenilendiği de faturalarla sabit. Bilirkişiden ek rapor alınmasına gerek görülmedi."
+          }
+        ],
+        "note": "Hâkim beş yıllık tespitte kiralananın durumunu ve emsal kiraları gözetir (TBK m.344/3). Aynı binadaki aynı tip daire ve belgelenmiş yenileme, “bakımsız daire, uygunsuz emsal” itirazını çürüttü."
+      },
+      "responses": {
+        "ev_ihtar": {
+          "delta": -5,
+          "note": "İhtarname bildirim süresini ispatlar; dairenin durumu ve emsallerle ilgili değildir."
+        },
+        "ev_sozlesme": {
+          "delta": -5,
+          "note": "Sözleşme dairenin bugünkü durumunu ve emsalleri göstermez."
+        },
+        "ev_arabulucu": {
+          "delta": -5,
+          "note": "Arabuluculuk tutanağı dava şartının yerine getirildiğini gösterir; bu itirazla ilgisi yok."
+        }
+      },
+      "pass": {
+        "delta": -10,
+        "note": "İtiraz etmediniz. Mahkeme, davalının itirazı üzerine bilirkişiden ek rapor aldı; emsaller daha düşük belirlendi."
+      }
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "tufe",
+      "winner": "p2",
+      "hukum": "Davanın KABULÜ ile kira bedelinin 01.06.2027 tarihinden itibaren önceki kiranın TÜFE oranında artırılmış hâli olarak TESPİTİNE,",
+      "summary": "Mahkeme talebinizle bağlı kaldı (HMK m.26). Beş yıl dolduğu için TÜFE sınırıyla bağlı değildiniz (TBK m.344/3); kira emsallerin yarısında kalmaya devam ediyor. Davayı kâğıt üzerinde kazandınız, müvekkil kaybetti."
+    },
+    {
+      "if": "hukuk && ihtarOK && durumOK",
+      "winner": "p1",
+      "hukum": "Davanın KABULÜ ile dava konusu taşınmazın aylık kira bedelinin 01.06.2027 tarihinden itibaren 37.000 TL olarak TESPİTİNE,",
+      "summary": [
+        {
+          "text": "Süresinde yapılan yazılı bildirim sayesinde yeni kira, yeni dönemin başından itibaren uygulanacak. Aynı binadaki emsal ve yenileme faturaları, bilirkişinin rayiç tespitini ayakta tuttu; mahkeme hakkaniyet indirimiyle 37.000 TL'ye hükmetti."
+        },
+        {
+          "if": "soguk",
+          "text": " Duruşmadaki tahrike soğukkanlı cevabınız tutanağa da yansıdı."
+        }
+      ]
+    },
+    {
+      "if": "hukuk && ihtarOK",
+      "winner": "p1",
+      "stamp": "KISMEN KAZANDINIZ",
+      "hukum": "Davanın KISMEN KABULÜ ile dava konusu taşınmazın aylık kira bedelinin 01.06.2027 tarihinden itibaren 31.000 TL olarak TESPİTİNE, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Yeni kira yeni dönemin başından itibaren uygulanacak; ama dairenin durumu ve emsaller yönünden itiraz karşılanamadığından ek bilirkişi raporu daha düşük bir bedel buldu. Müvekkilin elindeki emsal sözleşme ve yenileme faturaları sorulsaydı sonuç farklı olurdu."
+    },
+    {
+      "if": "hukuk && durumOK",
+      "winner": "p1",
+      "stamp": "KISMEN KAZANDINIZ",
+      "hukum": "Davanın KISMEN KABULÜ ile dava konusu taşınmazın aylık kira bedelinin 01.06.2028 tarihinden itibaren 37.000 TL olarak TESPİTİNE, 01.06.2027 – 01.06.2028 dönemi için talebin REDDİNE,",
+      "summary": "Bedel doğru belirlendi, ama bir yıl gecikmeyle. Yeni dönemden en az otuz gün önce ne dava açılmış ne yazılı bildirim yapılmıştı; belirlenen kira ancak bir sonraki kira yılından itibaren uygulanabilir (TBK m.345/2). Bir noter ihtarnamesi müvekkile bir yıllık farkı kazandırırdı."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Davanın KISMEN KABULÜ ile dava konusu taşınmazın aylık kira bedelinin 01.06.2028 tarihinden itibaren 31.000 TL olarak TESPİTİNE, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Kira hem geç hem düşük belirlendi. Süresinde yazılı bildirim yapılmadığı için yeni bedel yeni dönemden değil bir sonraki yıldan başlıyor (TBK m.345/2); emsal ve dairenin durumu yönünden itiraz da karşılanamadı."
+    }
+  ]
+}

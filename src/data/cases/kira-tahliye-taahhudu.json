@@ -1,0 +1,207 @@
+{
+  "id": "kira-tahliye-taahhudu",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "zor",
+  "title": "Boş Tarihli Taahhüt",
+  "area": "Kira Hukuku · Yazılı tahliye taahhüdü",
+  "court": "Eskişehir 1. Sulh Hukuk Mahkemesi",
+  "courtShort": "1. SULH HUKUK",
+  "esas": "2027/905 Esas",
+  "kararTarihi": "20.10.2027",
+  "color": "#5a2a3a",
+  "teaser": "Kiracının kapısına tahliye emri geldi. Dayanak, sözleşme günü emlak ofisinde imzalatılan, tarihleri sonradan doldurulmuş bir taahhütname. İtiraz için iki gün kaldı.",
+  "sides": { "p1": { "role": "Davalı (kiracı) vekili", "short": "Siz" }, "p2": { "role": "Davacı (kiraya veren) vekili", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e0b48e", "hair": "#3a3a3a", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Tuncay Erdem · Davacı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#a8774f", "hair": "#1c1c1c", "style": "short", "beard": true } },
+    "client": { "name": "Sevgi Koç · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#e8c09c", "hair": "#7a3b1f", "style": "long", "glasses": true, "shirt": "#3b5b7a", "inner": "#efe8dc" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Eskişehir, Tepebaşı. Sevgi Koç bir yıldır kiracı. Kira sözleşmesi 01.03.2026'da Yıldız Emlak'ın ofisinde imzalandı." },
+    { "who": "client", "text": "Dün kapıya tebligat geldi: icra dairesinden “tahliye emri”. On beş gün içinde evi boşaltmam gerekiyormuş. Dayanak benim imzaladığım bir tahliye taahhütnamesi." },
+    { "who": "client", "text": "Sözleşme günü emlakçı bir yığın kâğıt önüme koydu, hepsini imzaladım. Taahhütnamede şimdi “düzenleme tarihi 10.03.2026, boşaltma tarihi 01.03.2027” yazıyor. O gün tarih yerleri boştu, eminim." },
+    { "who": "narr", "text": "Bugün 29.03.2027. Tahliye emri 24.03.2027'de tebliğ edilmiş. Takip, kiraya veren Necdet Ağaoğlu tarafından 18.03.2027'de başlatılmış." }
+  ],
+  "docs": [
+    { "t": "Tahliye emri", "d": "Eskişehir 3. İcra Dairesi. Tahliye taahhüdüne dayalı ilamsız tahliye takibi. Tebliğ: 24.03.2027." },
+    { "t": "Kira sözleşmesi", "d": "01.03.2026 tarihli, bir yıllık konut kirası. Yıldız Emlak aracılığıyla düzenlenmiş." },
+    { "t": "Tahliye taahhütnamesi (sureti)", "d": "Matbu form. Düzenleme tarihi: 10.03.2026. Boşaltma tarihi: 01.03.2027. İmza kiracıya ait; tarihler başka bir el yazısıyla doldurulmuş." },
+    { "t": "Anahtar teslim tutanağı", "d": "05.03.2026. Kiralanan bu tarihte kiracıya teslim edilmiş." }
+  ],
+  "evidence": [
+    { "id": "ev_sozlesme", "type": "belge", "title": "Kira sözleşmesi", "desc": "01.03.2026 tarihli; Yıldız Emlak aracılığıyla düzenlenmiş." },
+    { "id": "ev_taahhut", "type": "belge", "title": "Tahliye taahhütnamesi", "desc": "Düzenleme tarihi 10.03.2026, boşaltma tarihi 01.03.2027. Tarihler sonradan, başka bir el yazısıyla doldurulmuş görünüyor." },
+    { "id": "ev_teslim", "type": "belge", "title": "Anahtar teslim tutanağı", "desc": "Kiralanan 05.03.2026'da kiracıya teslim edilmiş." },
+    { "id": "ev_eposta", "type": "belge", "title": "Emlak ofisinin e-postası", "desc": "01.03.2026, 18:40. Yıldız Emlak'tan kiracıya: “İmzalı sözleşmenizin ve tahliye taahhüdünüzün taramaları ektedir. Anahtar teslimi 5 Mart.” Ekteki taramada taahhüdün tarih alanları boş.", "if": "eposta && delilE" },
+    { "id": "ev_eposta_gec", "type": "belge", "title": "Emlak ofisinin e-postası (bildirilmedi)", "desc": "01.03.2026 tarihli e-posta ve ekindeki, tarih alanları boş taahhüt taraması. Cevap dilekçesinde delil olarak gösterilmedi.", "if": "eposta && !delilE" },
+    { "id": "ev_tanik", "type": "beyan", "title": "Emlak ofisi çalışanı tanık", "desc": "Sözleşme günü ofiste bulunan sekreter; taahhüdün o gün, tarihleri boş imzalatıldığını anlatacak.", "if": "tanik" }
+  ],
+  "steps": [
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "On beş gün içinde çıkmazsam zorla mı çıkaracaklar? Ne yapabiliriz?" },
+        { "who": "narr", "text": "Tahliye emri 24 Mart'ta tebliğ edildi." }
+      ],
+      "prompt": "İlk hamleniz ne olacak?",
+      "choices": [
+        { "text": "Yedi günlük süre dolmadan, 31 Mart'a kadar icra dairesine itiraz edin. İmzaya değil, taahhüdün geçerliliğine ve tarihlerine itiraz ettiğinizi açıkça yazın.", "delta": 20, "set": ["itiraz"],
+          "law": "İİK m.272 · m.274 · TBK m.352/1",
+          "note": "Tahliye taahhüdüne dayalı ilamsız tahliye takibinde kiracı, tahliye emrinin tebliğinden itibaren yedi gün içinde icra dairesine itiraz eder; süresinde itiraz takibi durdurur (İİK m.274). İmza müvekkilinizin; dürüstlük kuralı ve doğruyu söyleme yükümlülüğü gereği imzayı inkâr etmiyorsunuz (HMK m.29).",
+          "reply": [{ "who": "narr", "text": "İtiraz 30.03.2027'de icra dairesine verildi; takip durdu. Kiraya veren arabulucuya başvurdu, anlaşma sağlanamadı. Ardından Sulh Hukuk Mahkemesinde itirazın iptali ve tahliye davası açtı. Dava dilekçesi 17.05.2027'de size tebliğ edildi." }] },
+        { "text": "İcra dairesine itiraz edin; garantiye almak için imzanın da müvekkile ait olmadığını yazın.", "delta": -15, "set": ["itiraz", "inkar"],
+          "law": "İİK m.274 · HMK m.29",
+          "note": "Süresinde itiraz takibi durdurdu; ama imza müvekkilinizin. Gerçeğe aykırı imza inkârı dürüstlük kuralına ve doğruyu söyleme yükümlülüğüne aykırıdır (HMK m.29), meslek kurallarıyla da bağdaşmaz. İmza incelemesi bunu ortaya çıkaracak ve asıl savunmanızın inandırıcılığını zedeleyecek.",
+          "reply": [{ "who": "narr", "text": "İtiraz 30.03.2027'de verildi; takip durdu. Kiraya veren arabuluculuktan sonra Sulh Hukuk Mahkemesinde itirazın iptali ve tahliye davası açtı. Dava dilekçesi 17.05.2027'de tebliğ edildi." }] },
+        { "text": "Önce kiraya verenle arabulucuya gidelim; anlaşamazsak itiraz ederiz.", "delta": -25,
+          "law": "İİK m.274 · HUAK m.18/B",
+          "note": "İlamsız icra yoluyla tahliye zaten arabuluculuk dava şartının dışındadır (HUAK m.18/B). Asıl sorun, yedi günlük itiraz süresinin beklemekle geçmesi.",
+          "fatal": { "label": "SONUÇ:", "hukum": "Tahliye emrine süresinde itiraz edilmedi. Takip kesinleşti; kiralanan icra yoluyla tahliye edildi.",
+                     "summary": "Tahliye emrine tebliğden itibaren yedi gün içinde icra dairesine itiraz edilmezse takip devam eder ve kiracı icra yoluyla tahliye edilir (İİK m.274). Taahhüdün tesliminden önce alındığı savunması hiç ileri sürülemedi." } },
+        { "text": "İcrayla uğraşmayalım; Sulh Hukuk Mahkemesinde taahhüdün geçersizliğinin tespiti için dava açalım.", "delta": -25,
+          "law": "İİK m.274",
+          "note": "Dava açmak takibi kendiliğinden durdurmaz. Takibi durduran, süresinde icra dairesine yapılan itirazdır.",
+          "fatal": { "label": "SONUÇ:", "hukum": "Tahliye emrine süresinde itiraz edilmedi. Takip devam etti; kiralanan dava sonuçlanmadan icra yoluyla tahliye edildi.",
+                     "summary": "Takibi durduran şey, tahliye emrinin tebliğinden itibaren yedi gün içinde icra dairesine yapılan itirazdır (İİK m.274). Açtığınız tespit davası takibi durdurmadı; müvekkil davanın sonucunu evinin dışında bekleyecek." } }
+      ]
+    },
+    {
+      "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Cevap dilekçesi için müvekkille görüşüyorsunuz. Sevgi Hanım işten izin alarak geldi; iki soruya vaktiniz var." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Sözleşme gününden size kalan yazılı bir şey var mı? Mesaj, e-posta, belge?", "delta": 20, "set": ["eposta"],
+          "reply": [{ "who": "client", "text": "Emlakçı o akşam bir e-posta atmıştı… Buldum: 1 Mart, 18:40. “İmzalı sözleşmenizin ve tahliye taahhüdünüzün taramaları ektedir. Anahtar teslimi 5 Mart.” Ekteki taahhütte tarihler boş!" }],
+          "note": "Kilit soru. E-posta, taahhüdün 1 Mart'ta, kiralanan teslim edilmeden önce ve tarihleri boşken imzalandığını gösteriyor. Ama bu delilin cevap dilekçesinde gösterilmesi gerekiyor." },
+        { "text": "Taahhütnamedeki tarihleri kim doldurdu?", "delta": 10, "set": ["bosTarih"],
+          "reply": [{ "who": "client", "text": "Ben yalnızca imza attım. Tarih yerleri boştu; emlakçı “onları sonra biz doldururuz, formalite” dedi." }],
+          "note": "Yararlı, ama tek başına yetmez. Yargıtay uygulamasına göre tarihi boş bırakılarak imzalanan taahhütte kiracı, tarihin kiraya verence doldurulmasına izin vermiş sayılır; aksini yazılı delille ispat etmesi gerekir." },
+        { "text": "O gün ofiste başka kim vardı?", "delta": 5, "set": ["sekreter"],
+          "reply": [{ "who": "client", "text": "Ofisin sekreteri vardı, Gizem Hanım. Kâğıtları o fotokopiye götürdü." }],
+          "note": "Bir tanık bulunabilir; ama yazılı bir belgeye karşı tek başına tanık dinletilemez. Önce bir yazılı delil aramalısınız." },
+        { "text": "Kirayı düzenli ödediniz mi?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Bir gün bile geciktirmedim." }],
+          "note": "Takip kira borcuna değil, tahliye taahhüdüne dayanıyor. Ödeme düzeni bu davanın sonucunu değiştirmez." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Dava dilekçesi 17.05.2027'de tebliğ edildi. Sulh hukuk mahkemesindeki davalar basit yargılama usulüne tabidir." }
+      ],
+      "prompt": "Savunmayı nasıl kuracaksınız?",
+      "choices": [
+        { "if": "eposta", "text": "İki haftalık süre içinde cevap dilekçesi verin: taahhüt kiralanan teslim edilmeden, sözleşmeyle birlikte imzalatıldı. Emlak ofisinin e-postasını, ekindeki taramayı ve teslim tutanağını delil olarak gösterin; e-postayla birlikte ofis çalışanının tanık olarak dinlenmesini isteyin.", "delta": 25, "set": ["cevap", "delilE"],
+          "law": "HMK m.317 · m.318 · m.202 · TBK m.352/1",
+          "note": "Basit yargılamada cevap süresi tebliğden itibaren iki haftadır (HMK m.317) ve bütün deliller dilekçede, hangi vakıanın delili olduğu belirtilerek gösterilmelidir (m.318). Savunmanın genişletilmesi yasağı cevap dilekçesiyle başlar (m.319). Kiraya verenin aracısından gelen e-posta, yazılı delil başlangıcı olarak tanıkla tamamlanabilir (m.202)." },
+        { "text": "İki haftalık süre içinde cevap verin; taahhüdün teslimden önce alındığını ileri sürün ve delil olarak yalnızca emlak ofisi çalışanını tanık gösterin.", "delta": -5, "set": ["cevap", "tanik"],
+          "law": "HMK m.201",
+          "note": "Süre doğru, delil zayıf. Senede karşı ileri sürülen ve onun hükmünü ortadan kaldıracak iddialar tanıkla ispat edilemez (HMK m.201). Tanık ancak bir yazılı delil başlangıcıyla birlikte dinlenebilirdi." },
+        { "text": "Dilekçeyle uğraşmayın; ön inceleme duruşmasında savunmayı sözlü yaparsınız.", "delta": -20, "set": ["cevapsiz"],
+          "law": "HMK m.128 · m.317 · m.319",
+          "note": "Süresinde cevap vermeyen davalı, davacının iddialarını inkâr etmiş sayılır (HMK m.128); ama taahhüdün teslimden önce alındığı gibi yeni bir vakıayı, karşı taraf açıkça muvafakat etmedikçe sonradan ileri süremez. Deliller de dilekçede gösterilmemiş olur." },
+        { "text": "Cevap dilekçesinde imzanın müvekkile ait olmadığını ileri sürün; asıl dayanak bu olsun.", "delta": -20, "set": ["inkar", "imzaSavunma"],
+          "law": "HMK m.29",
+          "note": "İmza müvekkilinizin. Gerçeğe aykırı inkâr dürüstlük kuralına ve doğruyu söyleme yükümlülüğüne aykırıdır (HMK m.29). İmza incelemesi inkârı çürütecek; teslimden önce alınma savunması da dilekçede yer almadığı için sonradan ileri sürülemeyecek." }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Ön inceleme tamamlandı, tahkikata geçiyoruz. Davacı vekili, taahhüdün geçerliliği konusundaki beyanınız?" }
+      ],
+      "statement": { "who": "opp", "text": "Taahhütname 10.03.2026 tarihlidir; kiralanan 05.03.2026'da teslim edilmiştir. Taahhüt teslimden sonra, kiracının serbest iradesiyle verilmiştir; geçerlidir." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_eposta"],
+      "hit": { "delta": 25, "set": ["itirazHit"],
+        "reply": [
+          { "who": "judge", "text": "E-postanın gönderim kaydı ve ekindeki tarama için bilirkişi incelemesine, emlak ofisi çalışanının tanık olarak dinlenmesine karar verildi." },
+          { "who": "narr", "text": "Bilirkişi, e-postanın 01.03.2026 18:40'ta gönderildiğini ve ekteki taramanın dosyadaki taahhütnameyle aynı belge olduğunu, ancak tarih alanlarının o sırada boş olduğunu tespit etti. Tanık da taahhüdün sözleşme günü imzalatıldığını anlattı." }
+        ],
+        "note": "Tahliye taahhüdü ancak kiralanan teslim edildikten sonra verilmişse geçerlidir (TBK m.352/1). Sözleşmeyle birlikte, teslimden önce alınan taahhüt geçersizdir. Üzerindeki “10.03.2026” tarihi, belgenin 1 Mart'ta tarihleri boşken imzalandığını gösteren yazılı delille çürütüldü." },
+      "responses": {
+        "ev_eposta_gec": { "delta": -10, "set": ["gecDelil"],
+          "reply": [{ "who": "opp", "text": "Sayın Hâkim, bu belge cevap dilekçesinde gösterilmemiştir. Savunmanın genişletilmesine açıkça muvafakat etmiyoruz." }, { "who": "judge", "text": "İtiraz yerinde görüldü. Belge dosyaya alınmadı." }],
+          "note": [
+            { "text": "Doğru delil, yanlış zaman. Basit yargılamada deliller cevap dilekçesinde gösterilmeli (HMK m.318); savunmanın genişletilmesi yasağı cevap dilekçesiyle başlar (m.319)." },
+            { "if": "cevapsiz", "text": " Hiç cevap dilekçesi vermediğiniz için yalnızca inkâr etmiş sayıldınız (HMK m.128)." },
+            { "if": "tanik", "text": " Cevap dilekçesinde yalnızca tanık gösterdiniz; e-postayı da bildirmeliydiniz." },
+            { "if": "imzaSavunma", "text": " Dilekçede imza inkârına dayandınız; teslimden önce alınma vakıası hiç ileri sürülmedi." }
+          ] },
+        "ev_tanik": { "delta": -10,
+          "reply": [{ "who": "opp", "text": "Senede karşı tanık dinletilmesine muvafakat etmiyoruz." }, { "who": "judge", "text": "Tanık dinletme talebi reddedildi." }],
+          "note": "Senede karşı ileri sürülen ve onun hükmünü ortadan kaldıracak iddialar tanıkla ispat edilemez (HMK m.201). Yazılı delil başlangıcı olmadan tanık dinletilemedi." },
+        "ev_teslim": { "delta": -5, "note": "Teslim tutanağı karşı tarafın tezini destekliyor: teslim 5 Mart, taahhüt üzerinde yazan tarih 10 Mart. Taahhüdün aslında 1 Mart'ta imzalandığını gösteren bir delil gerekiyordu." },
+        "ev_sozlesme": { "delta": 0, "note": "Sözleşmenin 1 Mart tarihli olduğu doğru; ama taahhüt üzerinde 10 Mart yazıyor. Taahhüdün de 1 Mart'ta imzalandığını gösteren yazılı bir delil gerekiyordu." },
+        "ev_taahhut": { "delta": -5, "note": "Tarihlerin başka bir el yazısıyla doldurulmuş olması tek başına yetmez. Tarihi boş imzalanan taahhütte kiracı, tarihin sonradan doldurulmasına izin vermiş sayılır; aksi yazılı delille ispat edilmelidir." }
+      },
+      "pass": { "delta": -20, "note": "İtiraz etmediniz. Taahhüt, üzerindeki tarihle geçerli kabul edildi." }
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, kiraya verenin takip ve dava açma süreleri yönünden bir itirazınız var mı?" }
+      ],
+      "prompt": "Süre konusunda ne diyeceksiniz?",
+      "choices": [
+        { "text": "Bir aylık süre taahhüt edilen boşaltma tarihinden, 01.03.2027'den başlar; takip 18.03.2027'de süresinde başlatılmıştır. Süre yönünden itirazımız yoktur; itirazımız taahhüdün geçerliliğinedir.", "delta": 15, "set": ["sureDogru"],
+          "law": "TBK m.352/1 · İİK m.272",
+          "note": "Doğru. Kiraya veren, taahhüt edilen boşaltma tarihinden başlayarak bir ay içinde icraya başvurarak ya da dava açarak sözleşmeyi sona erdirebilir (TBK m.352/1). Süre hak düşürücüdür ve kendiliğinden gözetilir; burada korunmuş. Dayanaksız bir süre itirazı yerine asıl savunmaya odaklandınız." },
+        { "text": "Bir aylık süre taahhütnamenin düzenleme tarihinden, 10.03.2026'dan işler; takip bir yıl sonra yapılmıştır, süre geçmiştir.", "delta": -15,
+          "law": "TBK m.352/1",
+          "note": "Hatalı. Süre, taahhüt edilen boşaltma tarihinden başlar. Dayanaksız bir itiraz, asıl savunmanızın da ciddiyetini zedeler.",
+          "reply": [{ "who": "judge", "text": "Süre, kanun gereği boşaltma tarihinden başlar. İtiraz yerinde görülmedi." }] },
+        { "text": "İtirazımız yok; ama dava reddedilse bile kiraya veren yeniden icra takibi yapabilir mi, mahkemenin takdirine bırakıyoruz.", "delta": -5,
+          "law": "TBK m.352/1",
+          "note": "Gereksiz ve müvekkilin aleyhine bir belirsizlik yarattınız. Taahhüde dayanan bir aylık süre geçtikten sonra aynı taahhüde dayanarak yeniden takip yapılamaz; süre icra yolu için de dava yolu için de aynıdır (TBK m.352/1)." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Sayın Hâkim, sulh yolunu açık tutmak isteriz. Davalı davayı kabul eder ve altı ay içinde evi boşaltırsa, müvekkilim yargılama giderlerini talep etmeyecektir." },
+        { "who": "client", "text": "(fısıldayarak) Belki kabul etsek mi? Bu iş artık bitsin…" }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        { "text": "Kısa bir ara isteyip müvekkile sonuçları anlatın: kabul, tahliye ilamı demektir; dosyadaki delillerle taahhüt geçersiz görünüyor. Talimatı üzerine teklifi reddedip davanın reddini isteyin.", "delta": 15, "set": ["red"],
+          "law": "HMK m.308 · m.74",
+          "note": "Davayı kabul, hükmün kesinleşmiş bir hüküm gibi sonuç doğurmasına yol açar (HMK m.308) ve vekilin bunu yapabilmesi için vekâletnamede özel yetki bulunmalıdır (m.74). Böyle bir kararı müvekkil, sonuçlarını bilerek verir; vekil onu aydınlatır.",
+          "reply": [{ "who": "client", "text": "Haklısınız. Bir yıl önce hiçbir şey bilmeden imzaladığım bir kâğıt yüzünden evimi bırakmayacağım." }, { "who": "judge", "text": "Davalı vekili teklifi kabul etmediklerini beyan etti. Karar için ara veriyorum." }] },
+        { "text": "Müvekkil yoruldu; davayı kabul edip altı aylık tahliye süresi isteyin.", "delta": -25,
+          "law": "HMK m.308",
+          "note": "Elinizde taahhüdün geçersiz olduğunu gösteren deliller varken davayı kabul ettiniz.",
+          "fatal": { "hukum": "Davalının davayı KABULÜ nedeniyle itirazın İPTALİNE ve kiralananın TAHLİYESİNE,",
+                     "summary": "Davayı kabul, kesin hüküm gibi sonuç doğurur ve mahkeme kabule göre karar verir (HMK m.308). Taahhüdün kiralananın tesliminden önce alındığı savunması, kabulle birlikte anlamını yitirdi. Davayı kabul için vekâletnamede özel yetki de aranır (HMK m.74)." } },
+        { "text": "Müvekkile danışmadan teklifi reddedin.", "delta": 0, "set": ["red"],
+          "note": "Sonuç bu dosyada doğru olabilir, ama sulh ya da kabul gibi davayı bitiren kararlar müvekkilindir. Vekil, müvekkili sonuçlar hakkında aydınlatmalı ve onun talimatıyla hareket etmelidir." }
+      ]
+    }
+  ],
+  "outcomes": [
+    { "if": "itirazHit && !inkar", "winner": "p1",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        { "text": "Tahliye taahhüdü kiralananın tesliminden önce, sözleşmeyle birlikte ve tarihleri boşken imzalatılmıştı; geçersiz sayıldı (TBK m.352/1). Yedi gün içinde yapılan itiraz takibi durdurdu, süresinde verilen cevap dilekçesindeki e-posta da savunmayı ispatladı." },
+        { "if": "!sureDogru", "text": " Süre konusundaki gereksiz tartışma ise dosyaya bir şey katmadı." }
+      ] },
+    { "if": "itirazHit && inkar", "winner": "p1",
+      "hukum": "Davanın REDDİNE,",
+      "summary": "Taahhüt teslimden önce alındığı için geçersiz sayıldı ve dava reddedildi. Ama icra dairesine yaptığınız itirazda imzayı inkâr etmiş, cevap dilekçesinde ise imzayı kabul edip taahhüdün teslimden önce alındığını savunmuştunuz. Bu çelişki hâkimin güvenini sarstı; gerçeğe aykırı inkâr dürüstlük kuralına ve doğruyu söyleme yükümlülüğüne aykırıdır (HMK m.29)." },
+    { "if": "gecDelil", "winner": "p2",
+      "hukum": "Davanın KABULÜ ile itirazın İPTALİNE ve kiralananın TAHLİYESİNE,",
+      "summary": "Taahhüdün teslimden önce alındığını gösteren e-posta elinizdeydi, ama cevap dilekçesinde delil olarak gösterilmediği için dosyaya alınmadı (HMK m.318, m.319). Usul, haklı bir savunmayı ispatsız bıraktı." },
+    { "if": "tanik", "winner": "p2",
+      "hukum": "Davanın KABULÜ ile itirazın İPTALİNE ve kiralananın TAHLİYESİNE,",
+      "summary": "Senede karşı yalnızca tanık gösterildi; tanık dinletilemedi (HMK m.201). Müvekkile sözleşme gününden kalan yazılı bir belge sorulsaydı, e-posta yazılı delil başlangıcı olur ve tanıkla tamamlanabilirdi." },
+    { "winner": "p2",
+      "hukum": "Davanın KABULÜ ile itirazın İPTALİNE ve kiralananın TAHLİYESİNE,",
+      "summary": [
+        { "text": "Taahhüt, üzerindeki tarihle teslimden sonra verilmiş sayıldı. Tarihi boş bırakılarak imzalanan taahhütte tarihin sonradan doldurulduğu ancak yazılı delille ispat edilebilirdi." },
+        { "if": "imzaSavunma", "text": " İmza inkârına dayandınız; imza incelemesi imzanın müvekkile ait olduğunu gösterdi." },
+        { "if": "cevapsiz", "text": " Süresinde cevap dilekçesi verilmediği için yeni savunma ve delil de ileri sürülemedi (HMK m.128, m.319)." }
+      ] }
+  ]
+}
