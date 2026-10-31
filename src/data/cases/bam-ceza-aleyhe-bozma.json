@@ -1,0 +1,145 @@
+{
+  "id": "bam-ceza-aleyhe-bozma",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "orta",
+  "title": "Tek Taraflı İstinaf",
+  "area": "Bölge Adliye · Ceza istinafı ve aleyhe değiştirme yasağı",
+  "court": "Samsun Bölge Adliye Mahkemesi 3. Ceza Dairesi",
+  "courtShort": "BAM · 3. CEZA DAİRESİ",
+  "esas": "2027/905 Esas",
+  "kararTarihi": "15.06.2027",
+  "color": "#5a2f3a",
+  "teaser": "Hükmü yalnız siz istinaf ettiniz. Savcı ise daha ağır bir ceza istiyor. Müvekkilin aklında tek bir cümle var: “Ben kendi paramı aldım.”",
+  "sides": { "p1": { "role": "Sanık müdafii", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 3, "title": "Daire Başkanı ve iki üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Cumhuriyet Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d8a77f", "hair": "#2b2420", "style": "long" } },
+    "client": { "name": "Tolga Erdem · Müvekkil (sanık)", "np": "civil", "look": { "kind": "civil", "skin": "#a8744f", "hair": "#141210", "style": "curly", "shirt": "#3d4a3a", "inner": "#cfc9bc" } }
+  },
+  "courtCast": ["judge", "you", "opp", "client"],
+  "intro": [
+    { "who": "narr", "text": "Samsun. 12 Ocak 2026 gecesi, saat 23.30. Tolga Erdem, Cengiz Yalın'ı iş yerinin önünde yakasından tutup itti, yere düşürdü ve cebindeki 40.000 TL'yi aldı. Mağdurun dizinde basit tıbbi müdahaleyle giderilebilen bir sıyrık oluştu." },
+    { "who": "narr", "text": "Samsun 2. Ağır Ceza Mahkemesi, yağma suçundan (TCK m.148/1) 7 yıl 6 ay hapis cezası verdi. Hükmü yalnızca siz, sanık müdafii olarak istinaf ettiniz; Cumhuriyet savcısı ve katılan istinaf etmedi." },
+    { "who": "client", "text": "Ben hırsız değilim, avukat bey. O para benimdi." }
+  ],
+  "docs": [
+    { "t": "İlk derece hükmü", "d": "Yağma (TCK m.148/1): 7 yıl 6 ay hapis. Gerekçede olay saati 23.30 olarak belirtilmiş; gece vakti ağırlaştırıcı hâli tartışılmamış." },
+    { "t": "İstinaf kayıtları", "d": "Hükmü yalnızca sanık müdafii istinaf etti. Cumhuriyet savcısı ve katılan başvurmadı." },
+    { "t": "Mağdurun ifadesi", "d": "“Yakamdan tutup itti, cebimdeki 40.000 TL'yi aldı. Aramızda hiçbir husumet ya da alacak-verecek yoktu.”" },
+    { "t": "Adli tıp raporu", "d": "Sağ dizde sıyrık; basit tıbbi müdahaleyle giderilebilir." }
+  ],
+  "evidence": [
+    { "id": "ev_hukum", "type": "belge", "title": "İlk derece hükmü", "desc": "Yağma (TCK m.148/1), 7 yıl 6 ay hapis. Olay saati 23.30." },
+    { "id": "ev_istinaf", "type": "belge", "title": "İstinaf kayıtları", "desc": "Hükmü yalnızca sanık müdafii istinaf etti. Cumhuriyet savcısı ve katılan istinaf etmedi." },
+    { "id": "ev_ifade", "type": "beyan", "title": "Mağdurun ifadesi", "desc": "“Aramızda hiçbir husumet ya da alacak-verecek yoktu.”" },
+    { "id": "ev_dekont", "type": "belge", "title": "Havale dekontu", "desc": "10.11.2025: Tolga Erdem'den Cengiz Yalın'a 40.000 TL; açıklama: “borç”.", "if": "borc" },
+    { "id": "ev_mesaj", "type": "belge", "title": "Mesaj kayıtları", "desc": "Mağdurdan sanığa, 02.01.2026: “Ayın 15'inde paranı öderim abi, sıkma canımı.”", "if": "borc" },
+    { "id": "law_283", "type": "kanun", "title": "CMK m.283 · Sanık lehine başvuruda hüküm", "desc": "İstinaf yoluna yalnız sanık lehine başvurulmuşsa yeniden verilen hüküm, önceki hükümle belirlenen cezadan daha ağır olamaz.", "law": "CMK m.283" },
+    { "id": "law_150", "type": "kanun", "title": "TCK m.150/1 · Hukuki ilişkiye dayanan alacak", "desc": "Hukuki bir ilişkiye dayanan alacağın tahsili amacıyla tehdit veya cebir kullanılırsa kişi, ancak kullandığı tehdit veya cebir nedeniyle cezalandırılır.", "law": "TCK m.150/1" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Ceza infaz kurumu, avukat görüş odası. Daire duruşma açmayı değerlendiriyor. Görüş süreniz kısa; iki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "“O para benimdi” ne demek? Mağdurla aranızda daha önce bir para ilişkisi var mıydı?", "delta": 15, "set": ["borc"],
+          "reply": [{ "who": "client", "text": "İki ay önce ona 40.000 TL borç verdim, bankadan havale ettim. “Ayın 15'inde öderim” diye mesaj attı, ödemedi. O gece istedim, vermeyince kafam attı. Ama yalnızca kendi paramı aldım. Dekont da mesajlar da telefonumda." }],
+          "note": "Kilit soru. Hukuki bir ilişkiye dayanan alacağın tahsili için cebir kullanılırsa yağma oluşmaz; fail yalnızca kullandığı cebirden sorumludur (TCK m.150/1). Dekont ve mesajlar delil çantanıza eklendi." },
+        { "text": "Bunları ilk derecede neden anlatmadınız?", "if": "borc", "delta": 5,
+          "reply": [{ "who": "client", "text": "Önceki avukatım “borç dersen kasıtlı gittiğini düşünürler” dedi." }],
+          "note": "Ceza istinafında, hukuk istinafındaki gibi bir yeni delil yasağı yoktur; Daire duruşma açarak yeni delilleri toplayıp değerlendirebilir." },
+        { "text": "Olay sırasında elinizde bir şey var mıydı, bıçak ya da sopa?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Hayır, hiçbir şey yoktu. Mahkeme de öyle kabul etti." }],
+          "note": "Silah iddiası dosyada yok; bu bir sorun değil. Asıl tehlike başka: olay gece vakti işlenmiş." },
+        { "text": "Cezaevinde koşullarınız nasıl?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Koğuş kalabalık. İdare ediyorum." }],
+          "note": "İnsani bir soru; ama kısıtlı görüş süresinde savunmaya bir şey katmadı." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Daire'ye duruşmadan önce bir ek beyan dilekçesi sunabilirsiniz. Ceza istinafında Daire, gerekirse davanın yeniden görülmesine karar vererek duruşma açar, delilleri toplar ve yeniden değerlendirir (CMK m.280)." }],
+      "prompt": "Ek beyan dilekçesinde ne isteyeceksiniz?",
+      "choices": [
+        { "if": "borc", "text": "Dekont ve mesajları sunun; banka kayıtlarının getirtilmesini ve duruşma açılmasını isteyin; TCK m.150/1'e dayanın.", "delta": 20, "set": ["delil"],
+          "law": "CMK m.280; TCK m.150/1",
+          "note": "Doğru. Alacağın varlığı ve tahsil amacı, banka kaydı ve mağdurun kendi mesajıyla ispatlanabilir. Daire bu delilleri duruşmada değerlendirebilir." },
+        { "text": "Mağdurun yeniden dinlenmesini isteyin; ifadesindeki çelişkileri ortaya koyun.", "delta": 5,
+          "note": "Makul bir talep. Ama mağdurun yeniden dinlenmesi, eylemin hukuki niteliğini tek başına değiştirmez." },
+        { "text": "Duruşmaya gerek yok; yalnızca TCK m.62 uyarınca takdiri indirim isteyin.", "delta": -5,
+          "note": "Eylemin niteliğine itiraz etmeden yalnızca indirim istemek, en güçlü savunmayı masada bırakır." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Daire, davanın yeniden görülmesine karar vererek duruşma açtı. Tutuklu sanık salonda." },
+        { "who": "narr", "if": "delil", "text": "Banka cevabı geldi: havale doğrulandı. Mağdur yeniden dinlendi; mesajı kendisinin attığını kabul etti." },
+        { "who": "judge", "text": "Deliller okundu. Cumhuriyet savcısı, esas hakkındaki mütalaanız?" }
+      ],
+      "statement": { "who": "opp", "text": "Olay saat 23.30'da, gece vakti gerçekleşmiştir. İlk derece mahkemesi TCK m.149/1-h'yi gözden kaçırmıştır. Sanığın nitelikli yağmadan on yıldan az olmamak üzere cezalandırılmasını talep ediyorum." },
+      "prompt": "Savcının ceza talebine neyle karşılık vereceksiniz?",
+      "correct": ["law_283", "ev_istinaf"],
+      "hit": { "delta": 20, "set": ["aleyhe"],
+        "reply": [{ "who": "judge", "text": "Hükmün yalnızca sanık lehine istinaf edildiği tespit edildi. Tutanağa geçirildi." }],
+        "law": "CMK m.283",
+        "note": "Hükmü yalnızca sanık lehine istinaf ettiniz. Yeniden verilecek hüküm, önceki hükümle belirlenen cezadan ağır olamaz (CMK m.283). Yasak, suçun hukuki nitelendirmesine değil cezaya ilişkindir: Daire eylemi nitelikli yağma sayabilir, ama 7 yıl 6 aydan fazla ceza veremez." },
+      "responses": {
+        "law_150": { "delta": 5, "note": "Savunmanızın özü bu olabilir; ama savcının talebi ceza miktarına ilişkin. Önce aleyhe değiştirme yasağıyla cezanın ağırlaşamayacağını göstermeliydiniz." },
+        "ev_dekont": { "delta": 5, "note": "Doğru delil, yanlış an. Savcının ağır ceza talebine karşı ilk kalkanınız CMK m.283'tür." },
+        "ev_mesaj": { "delta": 5, "note": "Doğru delil, yanlış an. Savcının ağır ceza talebine karşı ilk kalkanınız CMK m.283'tür." },
+        "ev_hukum": { "delta": 0, "note": "Önceki cezayı gösterdiniz, ama asıl mesele hükmü kimin istinaf ettiği. Savcı ve katılanın başvurmadığını gösteren kayıt ya da CMK m.283 daha isabetli olurdu." },
+        "ev_ifade": { "delta": -10, "note": "Mağdurun ifadesi savcının tezini destekliyor." }
+      },
+      "pass": { "delta": -15, "note": "Ağırlaştırılmış ceza talebi cevapsız kaldı. Daire aleyhe değiştirme yasağını kendiliğinden gözetecek, ama müdafi olarak bunu sizin söylemeniz gerekirdi." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "client", "text": "On yıl mı? Bu mu adalet! Ben kendi paramı aldım, o adam yalancı!" },
+        { "who": "judge", "text": "Sanık, sesinizi alçaltın. Düzeni bozmaya devam ederseniz salondan çıkarılacaksınız." }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        { "text": "Söz isteyip müvekkili sakinleştirin; beyanlarını son sözünde usulüne uygun yapacağını belirtin.", "delta": 5,
+          "law": "CMK m.203, m.216",
+          "note": "Duruşma düzenini bozanlara ilişkin yaptırımlar CMK m.203'te düzenlenir. Son söz sanığındır (CMK m.216); müvekkil söyleyeceğini orada, usulüne uygun biçimde söyleyebilir. Soğukkanlılık müvekkili korur." },
+        { "text": "Müvekkile hak verin: “Bu talep vicdansızca!”", "delta": -10,
+          "note": "Savcının mütalaası bir görüştür; ona salonda tepki göstermek savunmayı güçlendirmez, gerginliği büyütür." },
+        { "text": "Hiç müdahale etmeyin; başkan halletsin.", "delta": -5,
+          "note": "Düzeni bozmayı sürdüren sanık duruşmadan çıkarılabilir; savunmanın en kritik anında müvekkilinizi kaybetme riskini aldınız." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Müdafi, esas hakkındaki savunmanız ve talebiniz?" }],
+      "prompt": "Daire'den ne isteyeceksiniz?",
+      "choices": [
+        { "if": "borc", "text": "Eylem TCK m.150/1 kapsamında: alacak tahsili amacıyla cebir kullanılmıştır, sanık yalnız kasten yaralamadan cezalandırılmalıdır. Her hâlde ceza, CMK m.283 gereği 7 yıl 6 aydan ağır olamaz.", "delta": 20, "set": ["talep150"],
+          "law": "TCK m.150/1, m.86/2; CMK m.283",
+          "note": "Asıl savunma ve yedek kalkan birlikte. Mağdurun yaralanması basit tıbbi müdahaleyle giderilebilir düzeyde olduğundan TCK m.86/2 gündeme gelir; bu suç şikâyete bağlıdır ve mağdur şikâyetçidir." },
+        { "text": "Sanığın beraatini isteriz.", "delta": -5,
+          "note": "Cebir kullanıldığı ve paranın alındığı tartışmasız. Beraat yerine eylemin hukuki nitelendirmesine itiraz edilmeliydi." },
+        { "text": "TCK m.62 uyarınca takdiri indirim isteriz.", "delta": 5,
+          "law": "TCK m.62, m.149/1-h; CMK m.283",
+          "note": "Yedek talep olarak makul. Ama Daire eylemi gece vakti nitelikli yağma sayarsa, alt sınırdan indirimle bulunan ceza bile (10 yıldan 8 yıl 4 aya) önceki cezayı aşar; yine 7 yıl 6 ay verilir. İndirim fiilen sonucu değiştirmez." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "borc && delil", "winner": "p1", "label": "HÜKÜM:",
+      "noCourt": true,
+      "hukum": "Sanık müdafiinin istinaf başvurusunun KABULÜ ile ilk derece mahkemesi hükmünün CMK m.280/2 uyarınca BOZULMASINA; Dairemizce yapılan duruşma sonunda yeniden hüküm kurularak, sanığın eyleminin hukuki ilişkiye dayanan alacağın tahsili amacıyla gerçekleştirildiği ve TCK m.150/1 kapsamında kaldığı anlaşıldığından yağma suçundan değil, kullandığı cebir nedeniyle kasten yaralama suçundan (TCK m.86/2) 6 ay hapis cezasıyla cezalandırılmasına; sanığın başka bir suçtan tutuklu ya da hükümlü değilse derhal TAHLİYESİNE; kanuni koşulları bulunduğu takdirde tefhimden itibaren on beş gün içinde Yargıtay'a temyiz yolu açık olmak üzere oy birliğiyle karar verildi.",
+      "summary": [
+        { "text": "Müvekkil görüşmesinde ortaya çıkan borç ilişkisi davanın seyrini değiştirdi. Dekont ve mağdurun kendi mesajı, alacağın tahsili amacını ispatladı; yağma yerine yalnızca kullanılan cebir cezalandırıldı (TCK m.150/1)." },
+        { "if": "aleyhe", "text": " Savcının ağırlaştırılmış ceza talebini de aleyhe değiştirme yasağıyla (CMK m.283) baştan karşıladınız." },
+        { "if": "!talep150", "text": " Son talebinizde bu savunmayı açıkça dile getirmediniz; Daire delilleri kendisi değerlendirdi." }
+      ] },
+    { "winner": "p2", "label": "HÜKÜM:",
+      "noCourt": true,
+      "hukum": "Sanık hakkında kurulan hükümde, eylemin gece vakti işlendiği gözetilmeden TCK m.148/1 uygulanması hukuka aykırı ise de hüküm yalnızca sanık lehine istinaf edildiğinden (CMK m.283) bu husus bozma nedeni yapılmamış; sanık müdafiinin istinaf başvurusunun ESASTAN REDDİNE; tefhimden itibaren on beş gün içinde Yargıtay'a temyiz yolu açık olmak üzere oy birliğiyle karar verildi.",
+      "summary": [
+        { "text": "Daire eylemi gece vakti nitelikli yağma olarak gördü; ama hükmü yalnızca sanık lehine istinaf ettiğiniz için ceza ağırlaştırılamadı ve 7 yıl 6 ay olarak kaldı." },
+        { "if": "aleyhe", "text": " Aleyhe değiştirme yasağını savcının talebine karşı siz ileri sürdünüz." },
+        { "if": "!aleyhe", "text": " Aleyhe değiştirme yasağını Daire kendiliğinden gözetti; savcının talebine siz karşılık veremediniz." },
+        { "if": "borc", "text": " Borç ilişkisini öğrendiniz, ama dekont ve mesajları Daire'nin önüne getirmediniz. TCK m.150/1 savunması ispatsız kaldı." },
+        { "if": "!borc", "text": " Müvekkilin “o para benimdi” sözünün arkasındaki borç ilişkisi hiç sorulmadı; yağmayı ortadan kaldırabilecek TCK m.150/1 savunması kullanılmadı." }
+      ] }
+  ]
+}

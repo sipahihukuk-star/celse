@@ -1,0 +1,163 @@
+{
+  "id": "bam-islah-istinafta",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "orta",
+  "title": "Bir Defaya Mahsus",
+  "area": "Bölge Adliye · Kısmi davada talep artırımı ve istinafta ıslah yasağı",
+  "court": "Gaziantep Bölge Adliye Mahkemesi 9. Hukuk Dairesi",
+  "courtShort": "BAM · 9. HUKUK DAİRESİ",
+  "esas": "2027/1432 Esas",
+  "kararTarihi": "23.11.2027",
+  "color": "#4a4f6b",
+  "teaser": "40.000 TL'lik kısmi dava, tek bir artırımla 1.350.000 TL'ye çıktı. Şimdi karşı taraf artırımı, müvekkil ise yeni bir artırımı istiyor. İkisinin de cevabı aynı maddede.",
+  "sides": { "p1": { "role": "Davacı (işçi) vekili", "short": "Siz" }, "p2": { "role": "Davalı işveren vekili (istinaf eden)", "short": "Karşı taraf" } },
+  "bench": { "judges": 3, "title": "Daire Başkanı ve iki üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Melike Ateş · Davalı şirket vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#f0c9a6", "hair": "#3b2418", "style": "long", "glasses": true } },
+    "client": { "name": "Mustafa Aslan · Müvekkil (işçi)", "np": "civil", "look": { "kind": "civil", "skin": "#c58c5f", "hair": "#2a2a2a", "style": "short", "beard": true, "shirt": "#6b5a43", "inner": "#d8d2c4" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Gaziantep. Mustafa Aslan, Kalecik Dokuma Sanayi A.Ş.'de yedi yıl dokuma ustası olarak çalıştı; iş sözleşmesi 30 Haziran 2026'da sona erdi. Arabuluculukta anlaşma sağlanamadı." },
+    { "who": "narr", "text": "Belirsiz alacak davası 31 Temmuz 2026'da kaldırılmıştı (7589 s.K.). Siz 24 Ağustos 2026'da fazla çalışma alacağı için 40.000 TL'lik kısmi dava açtınız, fazlaya ilişkin hakları saklı tuttunuz. Bilirkişi alacağı 1.350.000 TL hesapladı." },
+    { "who": "narr", "text": "18 Mart 2027 celsesinde, tahkikatın sona erdiğine dair ara karardan önce talebi 1.350.000 TL'ye artırdınız. Mahkeme davayı kabul etti. Davalı istinaf etti; Daire duruşma açtı." }
+  ],
+  "docs": [
+    { "t": "Gaziantep 4. İş Mahkemesi kararı", "d": "1.350.000 TL fazla çalışma alacağının kabulü; 40.000 TL'ye dava tarihinden, 1.310.000 TL'ye artırım tarihinden faiz." },
+    { "t": "18.03.2027 duruşma tutanağı", "d": "Sırasıyla: davacı vekilinin talep artırım dilekçesi ve harcı; davalı vekilinin artırılan kısma karşı zamanaşımı def'i; “tahkikatın sona erdiğine” ara kararı." },
+    { "t": "Davalının istinaf dilekçesi", "d": "Artırım ıslah niteliğindedir; zamanaşımı artırılan kısım için artırım tarihinde kesilmiştir; 24.08.2021–18.03.2022 dönemine ait yaklaşık 210.000 TL zamanaşımına uğramıştır." },
+    { "t": "Bilirkişi raporu", "d": "24.08.2021 sonrası için fazla çalışma alacağı 1.350.000 TL. Ulusal bayram ve genel tatil çalışması talep edilmediği için hesaplanmadı." }
+  ],
+  "evidence": [
+    { "id": "ev_tutanak", "type": "belge", "title": "18.03.2027 duruşma tutanağı", "desc": "Artırım dilekçesi ve harcı, tahkikatın sona erdiğine dair ara karardan önce dosyaya alındı." },
+    { "id": "ev_banka", "type": "belge", "title": "Ücret hesabı dökümü", "desc": "İlk derecede getirtildi; Mart 2019–Haziran 2026 dönemini kapsıyor." },
+    { "id": "ev_kopya", "type": "belge", "title": "Müvekkilin elindeki ibraname nüshası", "desc": "Aynı metin; ama tarih ve tutar boş, müvekkilin imzası var. Arkasında insan kaynaklarının notu: “Son gün imzalatıldı, 30.06.2026.”", "if": "ibra" },
+    { "id": "law_420", "type": "kanun", "title": "TBK m.420 · İşçinin ibrası", "desc": "İbra yazılı olmalı; sözleşmenin sona ermesinden itibaren en az bir ay geçmiş olmalı; alacağın türü ve miktarı açıkça yazılmalı; ödeme hak edilenin tamamını içermeli ve banka aracılığıyla yapılmalı. Aksi hâlde kesin hükümsüz; gerçek tutarı göstermeyen belge ancak içerdiği miktar kadar makbuz hükmündedir.", "law": "TBK m.420" },
+    { "id": "law_357", "type": "kanun", "title": "HMK m.357 · İstinafta yapılamayacak işlemler", "desc": "İstinafta ıslah yapılamaz; ilk derecede ileri sürülmeyen iddia ve savunmalar dinlenmez, yeni delile dayanılamaz. Mücbir sebeple gösterilemeyen deliller incelenebilir.", "law": "HMK m.357" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Duruşmadan iki gün önce müvekkil büroya geldi. Kısa bir görüşme; iki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "İşten ayrılırken şirket size herhangi bir kâğıt imzalattı mı?", "delta": 15, "set": ["ibra"],
+          "reply": [{ "who": "client", "text": "Son gün insan kaynakları bir kâğıt imzalattı; tarihi de parası da boştu, “formalite” dediler. Bir nüshasını çantama koymuşum, işte. Bana kimse 350.000 TL falan ödemedi." }],
+          "note": "Kilit bilgi. İşçiye boş imzalatılan bir “ibraname”, ileride işverenin elinde bir koz olarak ortaya çıkabilir. Nüsha delil çantanıza eklendi." },
+        { "text": "Bayram ve genel tatil günlerinde de çalıştınız mı?", "delta": 0, "set": ["bayram"],
+          "reply": [{ "who": "client", "text": "Her bayram! Bilirkişi onları hesaba katmadı. Şimdi onları da isteyelim, değil mi?" }],
+          "note": "Bu alacak ilk derecede hiç talep edilmedi. İstinafta ne yapılabileceğine dikkat edin." },
+        { "text": "Arabuluculuk son tutanağı hangi tarihte düzenlendi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "10 Ağustos'ta. Başvuruyu 15 Temmuz'da yapmıştık." }],
+          "note": "Arabulucuya başvurudan son tutanağa kadar zamanaşımı durur (7036 s.K. m.3). Yararlı bir ayrıntı; ama bu davada asıl güvence HMK m.109/4'te." },
+        { "text": "Fabrikadan başka dava açan işçi var mı?", "delta": 0,
+          "reply": [{ "who": "client", "text": "İki arkadaşım daha açtı, onların davası sürüyor." }],
+          "note": "Emsal açısından ilginç, ama bu istinafın sonucuna etkisi yok." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "if": "bayram", "text": "Bayram mesailerini de şimdi ekleyelim. Daire nasılsa dosyaya baştan bakıyor." },
+        { "who": "client", "if": "!bayram", "text": "Avukat bey, madem dava istinafta, talebi biraz daha artırsak? Bilirkişi bazı ayları eksik saymış olabilir." }
+      ],
+      "prompt": "Müvekkile ne söyleyeceksiniz?",
+      "choices": [
+        { "text": "Olmaz: istinafta ıslah ve talep artırımı yapılamaz; artırım hakkını da tahkikat sona ermeden bir kez kullandık. Kalan alacak için ayrı bir dava ve zamanaşımı durumu ayrıca değerlendirilmeli.", "delta": 15,
+          "law": "HMK m.357/1, m.109/4, m.177/1",
+          "note": "Doğru. Kısmi davada talep, aynı davada bir defaya mahsus ve tahkikat sona erinceye kadar artırılabilir (HMK m.109/4); ıslah da ancak tahkikat sona erinceye kadar yapılabilir (HMK m.177/1). Bölge adliye mahkemesinde ıslah yapılamaz (HMK m.357/1)." },
+        { "text": "Duruşmada bir ıslah dilekçesi verip bayram alacağını da ekleriz.", "delta": -15, "set": ["islahDeneme"],
+          "law": "HMK m.357/1",
+          "note": "Bölge adliye mahkemesinde davanın ıslahı yapılamaz (HMK m.357/1). Dilekçe dikkate alınmayacak; harcını da boşuna yatırırsınız." },
+        { "text": "Bu davadan feragat edip bayram alacağıyla birlikte tam bir dava açalım.", "delta": -25,
+          "law": "HMK m.310, m.311",
+          "fatal": { "label": "SONUÇ:", "hukum": "Davacı vekilinin feragati nedeniyle davanın REDDİNE karar verildi.",
+            "summary": "Feragat, hüküm kesinleşinceye kadar yapılabilir ve kesin hüküm gibi sonuç doğurur (HMK m.310, m.311). Kazanılmış 1.350.000 TL'lik alacak bir dilekçeyle kaybedildi; aynı alacak için yeniden dava açılamaz." },
+          "note": "Feragat, kesin hüküm gibi sonuç doğurur (HMK m.311). Kazanılmış bir hükmü yeni bir dava umuduyla elden çıkardınız." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Davalı vekilinin istinaf sebeplerini okuduk." },
+        { "who": "opp", "text": "Sayın Başkan, davacının artırımı gerçekte bir ıslahtır. Islah zamanaşımını ancak ıslah tarihinde keser. 18 Mart 2022'den önceki dönem, yaklaşık 210.000 TL, zamanaşımına uğramıştır." },
+        { "who": "judge", "text": "Davacı vekili, cevabınız?" }
+      ],
+      "prompt": "Zamanaşımı itirazına nasıl cevap vereceksiniz?",
+      "choices": [
+        { "text": "Bu bir kısmi davada HMK m.109/4 uyarınca yapılmış tek artırımdır ve tahkikat bitmeden yapılmıştır. Kanun açık: zamanaşımı artırılan kısım bakımından da dava tarihinden itibaren kesilmiş sayılır.", "delta": 20, "set": ["zaman"],
+          "law": "HMK m.109/4",
+          "note": "Doğru. 7589 sayılı Kanunla eklenen HMK m.109/4'e göre kısmi davada talep, aynı davada bir defaya mahsus olmak üzere tahkikatın sona ermesine kadar artırılabilir ve zamanaşımı artırılan kısım için de dava tarihinden kesilmiş sayılır. Artırımın tahkikat bitmeden yapıldığı tutanakta." },
+        { "text": "Bu dava aslında belirsiz alacak davasıdır; belirsiz alacakta zamanaşımı alacağın tamamı için kesilir.", "delta": -10,
+          "law": "HMK m.109/4; 7589 s.K.",
+          "note": "Belirsiz alacak davası 31 Temmuz 2026'da kaldırıldı; o tarihten önce açılan davalarda eski m.107 uygulanmaya devam eder. Bu dava 24 Ağustos 2026'da kısmi dava olarak açıldı. Doğru dayanak HMK m.109/4." },
+        { "text": "Uzlaşmacı olalım: tartışmalı 210.000 TL'lik kısımdan feragat edelim, gerisi kesinleşsin.", "delta": -10, "set": ["feragatKismi"],
+          "law": "HMK m.310, m.311",
+          "note": "Hukuken haklı olduğunuz bir kısmı feragatle elden çıkardınız. Feragat geri alınamaz ve kesin hüküm gibi sonuç doğurur (HMK m.311)." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "opp", "text": "Meslektaşım, müvekkilinin hayal ürünü mesai iddialarını Dairenize satmaya çalışıyor. Bu dosya baştan sona şişirilmiş bir hesaptır." }],
+      "prompt": "Bu söze nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "text": "Sakin kalın: “Meslektaşımın bu ifadesinin tutanağa geçirilmesini rica ediyorum. Hesap, dosyadaki bilirkişi raporuna dayanıyor.”", "delta": 5,
+          "law": "HMK m.151",
+          "note": "Soğukkanlı ve usule bağlı bir cevap. Duruşmanın düzenini sağlamak başkana aittir (HMK m.151); meslektaşa saygı meslek kurallarının da gereğidir. Tartışmayı dosyaya geri çektiniz." },
+        { "text": "Aynı tonla karşılık verin: “Asıl şişirilmiş olan, şirketinizin kârı!”", "delta": -10,
+          "note": "Tahrike kapıldınız. Heyetin gözünde tartışma hukuktan çıkıp kişiselleşti." },
+        { "text": "Hiçbir şey söylemeyin.", "delta": 0,
+          "note": "Tahrike kapılmamak doğru; ama ifadenin tutanağa geçirilmesini istemek daha iyi olurdu." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Davalı vekili, ek beyanınız olduğunu söylemiştiniz." }],
+      "statement": { "who": "opp", "text": "Sayın Başkan, 05.08.2026 tarihli ibranameyi sunuyoruz. İbraname, işyerimizdeki yangında arşivle birlikte kaybolmuştu; sureti ancak geçen ay bulunabildi. Mücbir sebep vardır, HMK m.357/3 gereği incelenmelidir. Davacı 350.000 TL'yi almış ve tüm alacaklarından müvekkili ibra etmiştir." },
+      "prompt": "Bu ibranameye neyle karşılık vereceksiniz?",
+      "correct": ["ev_kopya"],
+      "hit": { "delta": 25, "set": ["ibraRed"],
+        "reply": [{ "who": "judge", "text": "İbranamenin tarih ve tutarı boş bir nüshası, son iş günü imzalatıldığına dair notla birlikte sunuldu. Tutanağa geçirildi." }],
+        "law": "TBK m.420",
+        "note": "Belge, iş sözleşmesinin sona erdiği gün boş olarak imzalatılmış; tarih ve tutar sonradan doldurulmuş. Sona ermeden itibaren bir ay geçmeden yapılan ve tam ödemeyi banka yoluyla içermeyen ibra kesin hükümsüzdür; ödeme hiç yapılmadığı için makbuz hükmü de doğmaz (TBK m.420)." },
+      "responses": {
+        "law_420": { "delta": 10,
+          "note": "Doğru dayanak: 350.000 TL hak edilenin tamamı olmadığı için ibra geçersizdir. Ama belge, banka yoluyla ödeme yapıldığını iddia ettiği ölçüde makbuz hükmünde kalabilir (TBK m.420). Ödemenin hiç yapılmadığını gösteren bir delil gerekiyordu." },
+        "law_357": { "delta": 5,
+          "note": "Yeni delil yasağını hatırlatmak yerinde; ama karşı taraf mücbir sebebe dayanıyor (HMK m.357/3). Belgenin kendisini çürütmeden yalnızca usule dayanmak riskli." },
+        "ev_banka": { "delta": 0,
+          "note": "Döküm Haziran 2026'da bitiyor; Ağustos'ta yapıldığı iddia edilen ödemeyi kapsamıyor." },
+        "ev_tutanak": { "delta": -5,
+          "note": "Tutanak artırımın zamanını gösteriyor; ibraname tartışmasıyla ilgisi yok." }
+      },
+      "pass": { "delta": -15,
+        "note": "İbraname cevapsız kaldı. Daire, ibranın geçersizliğini kendiliğinden görse bile belgeyi 350.000 TL için makbuz sayabilir." }
+    }
+  ],
+  "outcomes": [
+    { "if": "ibraRed && !feragatKismi", "winner": "p1", "label": "KARAR:",
+      "noCourt": true,
+      "hukum": [
+        { "text": "Davalı vekilinin istinaf başvurusunun ESASTAN REDDİNE; " },
+        { "if": "islahDeneme", "text": "davacı vekilinin istinaf aşamasında yaptığı ıslah talebi hakkında HMK m.357/1 uyarınca KARAR VERİLMESİNE YER OLMADIĞINA; " },
+        { "text": "kararın tebliğinden itibaren iki hafta içinde Yargıtay'a temyiz yolu açık olmak üzere oy birliğiyle karar verildi." }
+      ],
+      "summary": [
+        { "text": "1.350.000 TL'lik hüküm korundu. Müvekkilin çantasındaki boş imzalı nüsha, istinafta ortaya çıkan ibranameyi çürüttü." },
+        { "if": "zaman", "text": " Zamanaşımı itirazını, kısmi davada artırılan kısım için zamanaşımının dava tarihinden kesilmiş sayılacağını gösteren HMK m.109/4 ile karşıladınız." },
+        { "if": "!zaman", "text": " Zamanaşımı itirazına doğru dayanakla cevap veremediniz; Daire HMK m.109/4'ü kendiliğinden uyguladı." },
+        { "if": "islahDeneme", "text": " İstinafta denediğiniz ıslah ise dinlenmedi (HMK m.357/1)." }
+      ] },
+    { "if": "ibraRed && feragatKismi", "winner": "draw", "stamp": "KISMEN", "label": "KARAR:",
+      "noCourt": true,
+      "hukum": "Davacı vekilinin 210.000 TL'lik kısımdan feragati nedeniyle ilk derece mahkemesi kararının KALDIRILMASINA, Dairemizce yeniden esas hakkında hüküm kurularak 1.140.000 TL fazla çalışma alacağının davalıdan alınarak davacıya verilmesine, feragat edilen 210.000 TL yönünden davanın REDDİNE; kararın tebliğinden itibaren iki hafta içinde Yargıtay'a temyiz yolu açık olmak üzere oy birliğiyle karar verildi.",
+      "summary": "İbranameyi çürüttünüz, ama hukuken haklı olduğunuz 210.000 TL'den feragat ettiniz. Kısmi davada artırılan kısım için zamanaşımı dava tarihinden kesilmiş sayılıyordu (HMK m.109/4); feragat ise geri alınamaz (HMK m.311)." },
+    { "if": "!feragatKismi", "winner": "draw", "stamp": "KISMEN", "label": "KARAR:",
+      "noCourt": true,
+      "hukum": "Davalı vekilinin istinaf başvurusunun KISMEN KABULÜ ile ilk derece mahkemesi kararının KALDIRILMASINA, Dairemizce yeniden esas hakkında hüküm kurularak ibra niteliği bulunmayan belgenin TBK m.420 uyarınca 350.000 TL için makbuz hükmünde sayılmasına, bu tutar mahsup edilerek 1.000.000 TL fazla çalışma alacağının davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE; kararın tebliğinden itibaren iki hafta içinde Yargıtay'a temyiz yolu açık olmak üzere oy birliğiyle karar verildi.",
+      "summary": [
+        { "text": "Daire mücbir sebep iddiasını kabul edip ibranameyi inceledi. Tam ödemeyi içermediği için ibra geçersizdi, ama belge 350.000 TL için makbuz sayıldı. Ödemenin hiç yapılmadığını gösteren delil Daire'nin önüne gelmedi." },
+        { "if": "ibra", "text": " Oysa müvekkilin elindeki boş imzalı nüsha bunu gösterebilirdi." },
+        { "if": "!ibra", "text": " Müvekkile işten ayrılırken ne imzaladığı sorulmadı." }
+      ] },
+    { "winner": "p2", "label": "KARAR:",
+      "noCourt": true,
+      "hukum": "Davalı vekilinin istinaf başvurusunun KISMEN KABULÜ ile ilk derece mahkemesi kararının KALDIRILMASINA, Dairemizce yeniden esas hakkında hüküm kurularak davacının 210.000 TL'lik kısımdan feragati ve 350.000 TL'nin makbuz hükmündeki belge uyarınca mahsubu ile 790.000 TL fazla çalışma alacağının davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE; kararın tebliğinden itibaren iki hafta içinde Yargıtay'a temyiz yolu açık olmak üzere oy birliğiyle karar verildi.",
+      "summary": "Kazanılmış bir hükmün 560.000 TL'si kaybedildi: 210.000 TL kendi feragatinizle, 350.000 TL çürütülemeyen ibranamenin makbuz sayılmasıyla. Kısmi davada artırılan kısım için zamanaşımı dava tarihinden kesilmiş sayılıyordu (HMK m.109/4)." }
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "id": "bam-katilma-yoluyla-istinaf",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "orta",
+  "title": "Geç Kalan Taraf",
+  "area": "Bölge Adliye · Katılma yoluyla istinaf",
+  "court": "Konya Bölge Adliye Mahkemesi 4. Hukuk Dairesi",
+  "courtShort": "BAM · 4. HUKUK DAİRESİ",
+  "esas": "2027/611 Esas",
+  "kararTarihi": "26.10.2027",
+  "color": "#5b4a36",
+  "teaser": "Müvekkilin istinaf süresi çoktan doldu. Ama karşı taraf istinaf etti ve kapı yeniden aralandı. Elinizde on gün var.",
+  "sides": { "p1": { "role": "Davacı vekili", "short": "Siz" }, "p2": { "role": "Davalı vekili (istinaf eden)", "short": "Karşı taraf" } },
+  "bench": { "judges": 3, "title": "Daire Başkanı ve iki üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Gökhan Sever · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#b9835c", "hair": "#1c1a19", "style": "short", "beard": true } },
+    "client": { "name": "Ayten Özbek · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#e2b48c", "hair": "#7a7a7e", "style": "bun", "shirt": "#5b4a6e", "inner": "#e4ded2" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Konya, Meram. Ayten Özbek'in iki katlı binasının yanında Kervan Yapı İnşaat Ltd. Şti. 6 Nisan 2026'da derin bir temel kazısına başladı. Birkaç hafta içinde duvarlarda çatlaklar belirdi, belediye zemin kattaki dükkânı kullanıma kapattı, kiracı sözleşmeyi feshetti." },
+    { "who": "client", "text": "Mahkeme onarım parasını verdi ama kira kaybımı “dolaylı zarar” diye reddetti. Faizi de dava tarihinden başlattı. Avukatım o sırada vekâletten çekilmişti; karar bana geldi, ne yapacağımı bilemedim." },
+    { "who": "narr", "text": "Şimdi de davalının istinaf dilekçesi gelmiş. Müvekkil, bugün, 5 Şubat 2027'de büronuzda." }
+  ],
+  "docs": [
+    { "t": "Konya 4. Asliye Hukuk Mahkemesi kararı", "d": "Onarım bedeli 1.600.000 TL'nin dava tarihinden işleyecek yasal faiziyle davalıdan tahsiline; 900.000 TL kira kaybı talebinin reddine; olay tarihinden faiz talebinin reddine." },
+    { "t": "Davalının istinaf dilekçesi", "d": "Çatlakların binanın eskiliğinden kaynaklandığı, inşaatın ruhsatlı olduğu, illiyet bağının kurulamadığı ileri sürülüyor. Müvekkile 01.02.2027'de tebliğ edildi." },
+    { "t": "Bilirkişi raporu (ilk derece)", "d": "Kazıda iksa yapılmamış; çatlaklar kazıdan kaynaklanıyor. Onarım bedeli 1.600.000 TL, kira kaybı 900.000 TL." },
+    { "t": "Vekâletten çekilme dilekçesi", "d": "Önceki vekil, karardan önce vekâletten çekildi. Gerekçeli karar 04.01.2027'de davacının kendisine tebliğ edildi." }
+  ],
+  "evidence": [
+    { "id": "ev_teblig", "type": "belge", "title": "İstinaf dilekçesinin tebliğ mazbatası", "desc": "Davalının istinaf dilekçesi 01.02.2027'de davacıya tebliğ edildi. Katılma yoluyla istinaf dilekçesi 12.02.2027'de verildi.", "if": "katilma" },
+    { "id": "ev_bilirkisi", "type": "belge", "title": "İlk derece bilirkişi raporu", "desc": "Kazıda iksa yapılmamış; çatlaklar kazıdan kaynaklanıyor. Onarım 1.600.000 TL, kira kaybı 900.000 TL." },
+    { "id": "ev_ruhsat", "type": "belge", "title": "Davalının yapı ruhsatı", "desc": "Belediyeden alınmış yapı ruhsatı ve kazı izni." },
+    { "id": "ev_tespit", "type": "belge", "title": "Delil tespiti raporu (kazıdan önce)", "desc": "Konya Sulh Hukuk Mahkemesi, 2 Nisan 2026: binada taşıyıcı sistemde ve duvarlarda çatlak bulunmadığı fotoğraflarla tespit edildi. Rapor dava dilekçesine ekli.", "if": "tespit" },
+    { "id": "ev_fesih", "type": "belge", "title": "Kiracının fesih ihtarnamesi", "desc": "Fesih nedeni: duvarlardaki çatlaklar ve belediyenin dükkânı kullanıma kapatması. Dosyada mevcut.", "if": "kira" },
+    { "id": "law_348", "type": "kanun", "title": "HMK m.348 · Katılma yoluyla istinaf", "desc": "İstinaf dilekçesi kendisine tebliğ edilen taraf, başvuru süresini geçirmiş olsa bile, cevap dilekçesiyle istinaf yoluna başvurabilir.", "law": "HMK m.348" },
+    { "id": "law_345", "type": "kanun", "title": "HMK m.345 · İstinaf süresi", "desc": "İstinaf süresi iki haftadır; kararın usulen tebliğiyle işlemeye başlar.", "law": "HMK m.345" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Müvekkil yorgun ve kaygılı. İki soruyla dosyanın eksik parçalarını bulmanız gerekiyor." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Kazı başlamadan önce binanın durumu herhangi bir şekilde tespit edildi mi?", "delta": 15, "set": ["tespit"],
+          "reply": [{ "who": "client", "text": "Önceki avukatım, kazıdan dört gün önce sulh hukuktan delil tespiti yaptırmıştı. Rapor dava dilekçesine ekliydi, ama kararda hiç geçmiyor." }],
+          "note": "Kilit soru. Dosyada zaten bulunan bir delil; istinafta yeni delil sayılmaz. Delil çantanıza eklendi." },
+        { "text": "Kiracınız sözleşmeyi neden feshetti?", "delta": 5, "set": ["kira"],
+          "reply": [{ "who": "client", "text": "İhtarnamesinde yazdı: duvarlardaki çatlaklar ve belediyenin dükkânı kapatması. O da dosyada." }],
+          "note": "Kira kaybıyla kazı arasındaki bağı gösteren bir belge. Delil çantanıza eklendi." },
+        { "text": "Gerekçeli karar size ne zaman tebliğ edildi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "4 Ocak'ta. Avukatım çekilmişti, kimseye danışamadım." }],
+          "note": "Kendi istinaf süreniz 18 Ocak'ta dolmuş (HMK m.345). Bağımsız istinaf yolu kapandı; ama katılma yolu açık olabilir." },
+        { "text": "Davalı şirket sizinle hiç uzlaşma görüşmesi yaptı mı?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Bir kere aradılar, 500.000 TL teklif ettiler. Kabul etmedim." }],
+          "note": "Bilgi edindiniz, ama istinaf stratejisine katkısı sınırlı." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Takvime bakıyorsunuz. Davalının istinaf dilekçesi müvekkile 1 Şubat Pazartesi günü tebliğ edilmiş. Bugün 5 Şubat." }],
+      "prompt": "Kararın müvekkil aleyhine olan kısımları için ne yapacaksınız?",
+      "choices": [
+        { "text": "Cevap dilekçesini 15 Şubat'tan önce verin ve aynı dilekçeyle katılma yoluyla istinafa başvurun.", "delta": 20, "set": ["katilma"],
+          "law": "HMK m.347/2, m.348/1",
+          "note": "Doğru. İstinaf dilekçesi kendisine tebliğ edilen taraf, başvuru süresini geçirmiş olsa bile cevap dilekçesiyle istinaf yoluna başvurabilir (HMK m.348/1). Cevap süresi tebliğden itibaren iki haftadır (HMK m.347/2). Bir uyarı: asıl istinaftan feragat edilirse ya da asıl istinaf esasa girilmeden reddedilirse katılma başvurusu da reddedilir (HMK m.348/2)." },
+        { "text": "Bağımsız bir istinaf dilekçesi verin; önceki avukatın çekilmesini mazeret olarak gösterin.", "delta": -10,
+          "law": "HMK m.345",
+          "note": "İstinaf süresi kararın usulen tebliğiyle işlemeye başlar ve iki haftadır (HMK m.345); 18 Ocak'ta doldu. Vekilin çekilmesi, tebliğin müvekkile usulüne uygun yapılmasına engel değildir. Bu dilekçe süre yönünden reddedilir; oysa katılma yolu açıktı." },
+        { "text": "Yalnızca cevap verin; aleyhe kısımları duruşmada sözlü olarak isteriz.", "delta": -15,
+          "law": "HMK m.348",
+          "note": "Daire, karşı tarafın istinafı üzerine kararı sizin lehinize değiştiremez; aleyhe kısımlar için sizin de başvurmanız gerekir. Katılma yoluyla istinaf ancak cevap dilekçesiyle yapılır; duruşmadaki sözlü talep bunun yerini tutmaz." },
+        { "text": "Hiçbir şey yapmayın; karar zaten büyük ölçüde lehimize.", "delta": -10,
+          "note": "Davalının istinafı kabul edilirse kazandığınız 1.600.000 TL de tehlikeye girer. Reddedilen 900.000 TL ve faiz farkı için tek yolunuz katılma yoluyla istinaftı." }
+      ] },
+    { "side": "p1", "scene": "office", "if": "katilma",
+      "lines": [{ "who": "narr", "text": "Kararın müvekkil aleyhine iki kısmı var: 900.000 TL kira kaybının “dolaylı zarar” gerekçesiyle reddi ve faizin olay tarihi yerine dava tarihinden başlatılması." }],
+      "prompt": "Katılma yoluyla istinaf dilekçesine hangi talepleri yazacaksınız?",
+      "choices": [
+        { "text": "Kira kaybının reddini ve faizin dava tarihinden başlatılmasını; ikisi de aleyhe olan kısımlar.", "delta": 20, "set": ["kapsam"],
+          "law": "TBK m.49; HMK m.348",
+          "note": "Doğru. Katılma yoluyla istinaf, kararın size aleyhe kısımlarına yöneltilir. Kazı yüzünden kapanan dükkânın kira kaybı, illiyet bağı kurulduğu ölçüde tazmin edilecek fiilî bir zarardır (TBK m.49). Haksız fiilde temerrüt fiil tarihinde gerçekleştiği kabul edildiğinden faiz o tarihten işletilir." },
+        { "text": "Bunlara ek olarak ilk kez manevi tazminat da isteyin.", "delta": -5, "set": ["kapsam", "yeniTalep"],
+          "law": "HMK m.357/1",
+          "note": "Kira kaybı ve faiz doğru. Ama manevi tazminat ilk derecede hiç istenmedi. İstinafta yeni talep ileri sürülemez, ıslah da yapılamaz (HMK m.357/1); bu kısım incelenmeyecek." },
+        { "text": "Yalnızca faiz başlangıcını isteyin; kira kaybı tartışmalı.", "delta": 5, "set": ["faizOnly"],
+          "note": "Faiz talebi yerinde. Ama kira kaybı, bilirkişi raporu ve kiracının fesih ihtarnamesiyle desteklenen güçlü bir kalemdi. Katılma dilekçesinde göstermediğiniz kısım incelenmez (HMK m.355)." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court", "if": "katilma",
+      "lines": [
+        { "who": "narr", "text": "Daire, iki tarafın başvurusunu birlikte incelemek için duruşma açtı." },
+        { "who": "judge", "text": "Duruşmayı açıyorum. Önce usule ilişkin itirazı dinleyelim. Davalı vekili?" }
+      ],
+      "statement": { "who": "opp", "text": "Sayın Başkan, davacı kararı istinaf etmemiştir; süresi 18 Ocak'ta dolmuştur. Sözde katılma dilekçesi, süresinden sonra verilmiş bir istinaftır; reddi gerekir." },
+      "prompt": "Bu itiraza neyle karşılık vereceksiniz?",
+      "correct": ["law_348", "ev_teblig"],
+      "hit": { "delta": 15, "set": ["sureOk"],
+        "reply": [{ "who": "judge", "text": "Katılma yoluyla başvuru, istinaf dilekçesinin tebliğinden itibaren iki haftalık cevap süresi içinde yapılmış. İtiraz yerinde görülmedi." }],
+        "law": "HMK m.347/2, m.348/1",
+        "note": "Asıl istinaf süresini kaçırmak, katılma yolunu kapatmaz. Ölçü, karşı tarafın istinaf dilekçesinin tebliğinden itibaren işleyen iki haftalık cevap süresidir: 1 Şubat tebliğine göre dilekçe 12 Şubat'ta, süresinde verildi." },
+      "responses": {
+        "law_345": { "delta": -10, "note": "Bu madde karşı tarafın dayanağı: asıl istinaf süresi. Sizin dayanağınız katılma yolu (HMK m.348)." },
+        "ev_tespit": { "delta": -5, "note": "Doğru belge, yanlış an. Usule ilişkin süre itirazı esasla karıştırılmaz." }
+      },
+      "miss": { "delta": -5, "note": "Bu belge süre itirazını karşılamıyor." },
+      "pass": { "delta": -10, "note": "Daire süreyi kendisi denetleyecek; ama itiraz karşısında sessiz kalmak iyi bir izlenim bırakmadı." }
+    },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "if": "!katilma", "text": "Daire, davalının istinafını incelemek üzere duruşma açtı." },
+        { "who": "judge", "text": "Esasa geçiyoruz. Davalı vekili, istinaf sebeplerinizi açıklayın." }
+      ],
+      "statement": { "who": "opp", "text": "Çatlaklar binanın kırk yıllık olmasından kaynaklanıyor; müvekkilimin kazısıyla ilgisi yok. İnşaat ruhsatlıdır. Zararın kazıdan doğduğu ispatlanamamıştır." },
+      "prompt": "Hangi delille karşılık vereceksiniz?",
+      "correct": ["ev_tespit"],
+      "hit": { "delta": 25, "set": ["itirazTespit"],
+        "reply": [{ "who": "judge", "text": "Kazıdan dört gün önce yapılmış delil tespitine göre binada çatlak yokmuş. Tutanağa geçirildi." }],
+        "law": "HMK m.400",
+        "note": "Kazıdan önce yapılan delil tespiti, binanın önceki durumunu tarafsız biçimde ortaya koyuyor ve illiyet bağını kuruyor. Rapor dava dilekçesine ekli olduğundan istinafta yeni delil de değil." },
+      "responses": {
+        "ev_bilirkisi": { "delta": 5, "note": "Bilirkişi raporu illiyeti kabul ediyor; ama karşı taraf zaten bu rapora itiraz ediyor. Kazıdan önceki durumu gösteren bir belge tartışmayı bitirirdi." },
+        "ev_ruhsat": { "delta": -10, "note": "Ruhsat davalının lehine bir belge gibi görünse de sorumluluğu kaldırmaz: ruhsatlı bir inşaat da komşuya verdiği zarardan sorumludur." },
+        "ev_fesih": { "delta": 0, "note": "Kira kaybının sebebini gösteriyor, ama çatlakların kazıdan önce olmadığını göstermiyor." },
+        "law_348": { "delta": -5, "note": "Katılma yolu bu tartışmanın konusu değil; itiraz esasa ilişkin." }
+      },
+      "pass": { "delta": -15, "note": "Esasa ilişkin itiraz cevapsız kaldı." }
+    }
+  ],
+  "outcomes": [
+    { "if": "katilma && kapsam && itirazTespit", "winner": "p1", "label": "KARAR:",
+      "noCourt": true,
+      "hukum": [
+        { "text": "Davalı vekilinin istinaf başvurusunun ESASTAN REDDİNE; davacı vekilinin katılma yoluyla istinaf başvurusunun KABULÜ ile ilk derece mahkemesi kararının KALDIRILMASINA, Dairemizce yeniden esas hakkında hüküm kurularak 1.600.000 TL onarım bedeli ve 900.000 TL kira kaybı olmak üzere toplam 2.500.000 TL'nin 06.04.2026 olay tarihinden itibaren işleyecek yasal faiziyle davalıdan alınarak davacıya verilmesine; " },
+        { "if": "yeniTalep", "text": "istinafta ilk kez ileri sürülen manevi tazminat talebi hakkında HMK m.357/1 uyarınca KARAR VERİLMESİNE YER OLMADIĞINA; " },
+        { "text": "kararın tebliğinden itibaren iki hafta içinde Yargıtay'a temyiz yolu açık olmak üzere oy birliğiyle karar verildi." }
+      ],
+      "summary": [
+        { "text": "Asıl istinaf süresi dolmuştu; ama karşı tarafın istinafı, cevap dilekçesiyle katılma yoluna kapı açtı (HMK m.348). Kazıdan önceki delil tespiti illiyet tartışmasını bitirdi; kira kaybı ve olay tarihinden faiz de kazanıldı." },
+        { "if": "yeniTalep", "text": " İstinafta ilk kez istenen manevi tazminat ise dinlenmedi." }
+      ] },
+    { "if": "katilma && faizOnly && itirazTespit", "winner": "p1", "stamp": "KISMİ BAŞARI", "label": "KARAR:",
+      "noCourt": true,
+      "hukum": "Davalı vekilinin istinaf başvurusunun ESASTAN REDDİNE; davacı vekilinin katılma yoluyla istinaf başvurusunun KABULÜ ile ilk derece mahkemesi kararının faiz yönünden KALDIRILMASINA, 1.600.000 TL onarım bedelinin 06.04.2026 olay tarihinden itibaren işleyecek yasal faiziyle davalıdan alınarak davacıya verilmesine; kararın tebliğinden itibaren iki hafta içinde Yargıtay'a temyiz yolu açık olmak üzere oy birliğiyle karar verildi.",
+      "summary": "Katılma yoluyla istinafla faiz başlangıcını düzelttiniz ve davalının istinafını delil tespitiyle çürüttünüz. Ama kira kaybını katılma dilekçesine yazmadığınız için 900.000 TL'lik ret kesinleşti." },
+    { "if": "itirazTespit", "winner": "draw", "stamp": "KISMEN", "label": "KARAR:",
+      "noCourt": true,
+      "hukum": "Davalı vekilinin istinaf başvurusunun ESASTAN REDDİNE; kararın tebliğinden itibaren iki hafta içinde Yargıtay'a temyiz yolu açık olmak üzere oy birliğiyle karar verildi.",
+      "summary": "Davalının istinafını delil tespitiyle çürüttünüz; 1.600.000 TL korundu. Ama aleyhe kısımlar için başvurmadığınız için kira kaybının reddi ve dava tarihinden faiz olduğu gibi kaldı. Süresi geçmiş olsa bile, cevap dilekçesiyle katılma yoluna başvurabilirdiniz (HMK m.348)." },
+    { "if": "katilma && kapsam", "winner": "draw", "stamp": "KISMEN", "label": "KARAR:",
+      "noCourt": true,
+      "hukum": "Her iki tarafın istinaf başvurusunun KISMEN KABULÜ ile ilk derece mahkemesi kararının KALDIRILMASINA, Dairemizce aldırılan bilirkişi raporu doğrultusunda yeniden esas hakkında hüküm kurularak 1.100.000 TL onarım bedeli ve 900.000 TL kira kaybı olmak üzere toplam 2.000.000 TL'nin 06.04.2026 olay tarihinden itibaren işleyecek yasal faiziyle davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE; kararın tebliğinden itibaren iki hafta içinde Yargıtay'a temyiz yolu açık olmak üzere oy birliğiyle karar verildi.",
+      "summary": "Katılma yoluyla istinaf kira kaybını ve faizi kurtardı. Ama kazıdan önceki durumu gösteren bir belge sunulmayınca Daire yeni bilirkişi incelemesi yaptırdı; çatlakların bir kısmı binanın yaşına bağlandı ve onarım bedeli düştü. Dosyadaki delil tespiti bu tartışmayı baştan bitirirdi." },
+    { "winner": "p2", "label": "KARAR:",
+      "noCourt": true,
+      "hukum": [
+        { "text": "Davalı vekilinin istinaf başvurusunun KISMEN KABULÜ ile ilk derece mahkemesi kararının KALDIRILMASINA, Dairemizce aldırılan bilirkişi raporu doğrultusunda yeniden esas hakkında hüküm kurularak 1.100.000 TL onarım bedelinin " },
+        { "if": "katilma && faizOnly", "text": "06.04.2026 olay tarihinden " },
+        { "if": "!(katilma && faizOnly)", "text": "dava tarihinden " },
+        { "text": "itibaren işleyecek yasal faiziyle davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE; kararın tebliğinden itibaren iki hafta içinde Yargıtay'a temyiz yolu açık olmak üzere oy birliğiyle karar verildi." }
+      ],
+      "summary": [
+        { "text": "Kazıdan önceki durumu gösteren belge Daire'nin önüne gelmedi; yeni bilirkişi çatlakların bir kısmını binanın yaşına bağladı ve onarım bedeli 1.100.000 TL'ye düştü." },
+        { "if": "!katilma", "text": " Kira kaybı ve faiz farkı için de başvurulmadı. İstinaf süresi geçmiş olsa bile, cevap dilekçesiyle katılma yoluna başvurulabilirdi (HMK m.348)." },
+        { "if": "katilma && faizOnly", "text": " Katılma dilekçesine yalnızca faizi yazdığınız için kira kaybı incelenmedi." }
+      ] }
+  ]
+}

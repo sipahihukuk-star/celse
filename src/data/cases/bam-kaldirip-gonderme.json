@@ -1,0 +1,173 @@
+{
+  "id": "bam-kaldirip-gonderme",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "zor",
+  "title": "Eksik Mirasçı",
+  "area": "Bölge Adliye · Kaldırıp gönderme ve taraf teşkili",
+  "court": "Kayseri Bölge Adliye Mahkemesi 3. Hukuk Dairesi",
+  "courtShort": "BAM · 3. HUKUK DAİRESİ",
+  "esas": "2027/774 Esas",
+  "kararTarihi": "12.07.2027",
+  "color": "#4b3b5a",
+  "teaser": "Tapu iptali kararı, avukatsız savunma yapan iki kardeşin aleyhine çıktı. Esasta neredeyse hiçbir kozunuz yok. Ama davada birisi eksik ve süre işliyor.",
+  "sides": { "p1": { "role": "Davalılar vekili (istinaf eden)", "short": "Siz" }, "p2": { "role": "Davacı vekili", "short": "Karşı taraf" } },
+  "bench": { "judges": 3, "title": "Daire Başkanı ve iki üye" },
+  "room": "yuksek",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Levent Baysal · Davacı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#d2a079", "hair": "#4a4a4a", "style": "short", "glasses": true } },
+    "client": { "name": "Fadime Er · Müvekkil (davalı)", "np": "civil", "look": { "kind": "civil", "skin": "#cf9f78", "hair": "#2e1f18", "style": "long", "shirt": "#7a5a3a", "inner": "#e0d8c8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Kayseri, Talas. Rıza Kocabaş 2013'te 4.200 metrekarelik tarlasını noterde yapılan bir satış vaadi sözleşmesiyle Hasan Uçar'a vaat etti. Bedel ödendi, tarla teslim edildi; Hasan Uçar oraya bir depo yaptı. Tapu ise hiç devredilmedi." },
+    { "who": "narr", "text": "Rıza Kocabaş 2025'te öldü. Hasan Uçar, mirasçılar olarak Fadime Er ve Kemal Kocabaş aleyhine tapu iptali ve tescil davası açtı. Kardeşler avukatsız savunma yaptı, zamanaşımı dediler. Mahkeme davayı kabul etti." },
+    { "who": "client", "text": "Kararı bize tebliğ ettiler. Babamızın tarlası elimizden gidiyor. Bir şey yapabilir misiniz?" }
+  ],
+  "docs": [
+    { "t": "Kayseri 2. Asliye Hukuk Mahkemesi kararı", "d": "Tapunun iptaliyle davacı adına tesciline. Zamanaşımı def'i reddedildi: taşınmaz alıcıya teslim edilmiş, def'i dürüstlük kuralına aykırı (TMK m.2). Taşınmazın değeri 4.800.000 TL." },
+    { "t": "Satış vaadi sözleşmesi", "d": "Kayseri'de bir noterlikte 2013'te düzenleme şeklinde yapılmış; bedelin tamamı ödendi." },
+    { "t": "Dava dilekçesi", "d": "“Davalılar, murisin yasal mirasçılarıdır.” Mirasçılık belgesi sunulmamış, mahkemece de getirtilmemiş." },
+    { "t": "Bugünün tarihi", "d": "28 Nisan 2027, Çarşamba." }
+  ],
+  "evidence": [
+    { "id": "ev_sozlesme", "type": "belge", "title": "Satış vaadi sözleşmesi", "desc": "2013, noterde düzenleme şeklinde; bedel ödendi, taşınmaz teslim edildi." },
+    { "id": "ev_karar", "type": "belge", "title": "İlk derece kararı", "desc": "Tapunun iptali ve davacı adına tescili; zamanaşımı def'inin reddi." },
+    { "id": "ev_mirascilik", "type": "belge", "title": "Mirasçılık belgesi", "desc": "2025 tarihli, noterden alınmış: murisin mirasçıları Orhan Kocabaş, Fadime Er ve Kemal Kocabaş.", "if": "mirasci" },
+    { "id": "law_59", "type": "kanun", "title": "HMK m.59 · Mecburi dava arkadaşlığı", "desc": "Maddi hukuka göre birden çok kişiye karşı birlikte dava açılması zorunluysa, bunlar davada birlikte yer almalıdır.", "law": "HMK m.59" },
+    { "id": "law_357", "type": "kanun", "title": "HMK m.357 · İstinafta yapılamayacak işlemler", "desc": "İstinafta davaya müdahale ve ıslah yapılamaz; ilk derecede ileri sürülmeyen iddia ve savunmalar dinlenmez, yeni delile dayanılamaz. Kendiliğinden göz önünde tutulacak hususlar bu yasağın dışındadır.", "law": "HMK m.357" },
+    { "id": "law_353", "type": "kanun", "title": "HMK m.353 · Duruşma yapılmadan verilecek kararlar", "desc": "(a) Esası incelemeden kaldırıp gönderme: yasaklı ya da reddedilen hâkim, görev ve yetki, diğer dava şartları, önemli delillerin toplanmaması gibi hâllerde, kesin olarak. (b) Esastan ret, düzelterek esastan ret ya da yeniden esas hakkında karar.", "law": "HMK m.353" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Fadime Er, kardeşi adına da konuşuyor. Kemal işte; ancak kısa bir görüşmeye vakit var. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Babanızın sizden başka mirasçısı var mı?", "delta": 20, "set": ["mirasci"],
+          "reply": [{ "who": "client", "text": "Ağabeyimiz Orhan var, babamın ilk evliliğinden. Otuz yıldır Almanya'da. Babam ölünce noterden mirasçılık belgesi almıştık; üçümüzün de adı yazıyor. Mahkemede kimse sormadı." }],
+          "note": "Kilit bilgi. Terekedeki taşınmaz, mirasçılara elbirliğiyle aittir (TMK m.640). Tescil davası mirasçıların hepsine karşı birlikte açılmalıdır; mirasçılar zorunlu dava arkadaşıdır (HMK m.59). Mirasçılık belgesi çantanıza eklendi." },
+        { "text": "Kararı tam olarak hangi gün aldınız?", "delta": 5,
+          "reply": [{ "who": "client", "text": "19 Nisan Pazartesi, postacı getirdi." }],
+          "note": "İstinaf süresi kararın tebliğinden itibaren iki haftadır (HMK m.345). Son gün 3 Mayıs Pazartesi." },
+        { "text": "Sözleşme noterde mi yapıldı?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Evet, noterde. Babam imzaladı, ben de yanındaydım." }],
+          "note": "Kötü haber: taşınmaz satış vaadi resmî şekilde, noterde düzenleme şeklinde yapılmış. Şekle dayanan bir savunma yok." },
+        { "text": "Hasan Uçar tarlayı ne zamandan beri kullanıyor?", "delta": 0,
+          "reply": [{ "who": "client", "text": "2013'ten beri. Deposunu da hemen yaptı." }],
+          "note": "Satış vaadine dayanan tescil talebi on yıllık zamanaşımına tabidir; ama taşınmaz alıcıya teslim edilmişse, Yargıtay uygulamasında zamanaşımı def'i dürüstlük kuralına aykırı sayılır (TMK m.2). Zamanaşımı savunması zayıf." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "Orhan ağabeyi aradık. Mayıs sonunda Kayseri'ye gelecek. Onu bekleyelim, üçümüz birlikte karar verelim." },
+        { "who": "narr", "text": "Bugün 28 Nisan Çarşamba. Karar 19 Nisan'da tebliğ edildi." }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        { "text": "Beklemeyin: istinaf dilekçesini süre dolmadan, en geç 3 Mayıs'ta kararı veren mahkemeye verin.", "delta": 15,
+          "law": "HMK m.345",
+          "note": "Doğru. İstinaf süresi kararın tebliğinden itibaren iki haftadır (HMK m.345); 19 Nisan tebliğine göre son gün 3 Mayıs. Aile toplantısı süreyi durdurmaz." },
+        { "text": "Orhan'ı bekleyin; ay sonunda birlikte istinaf edersiniz.", "delta": -25,
+          "law": "HMK m.345, m.346",
+          "fatal": { "label": "SONUÇ:", "hukum": "İstinaf dilekçesinin süresinde verilmediğinden, kararı veren mahkemece REDDİNE karar verildi.",
+            "summary": "İstinaf süresi kararın tebliğinden itibaren iki haftadır (HMK m.345). Süresinden sonra verilen dilekçe, kararı veren ilk derece mahkemesince reddedilir (HMK m.346). Taraf teşkilindeki eksikliği ileri sürme fırsatı süreyle birlikte kayboldu; tapu iptali ve tescil kararı kesinleşti." },
+          "note": "Süre kaçtı. Hiçbir aile toplantısı istinaf süresini uzatmaz." },
+        { "text": "Daha üst bir mahkeme daha iyidir: doğrudan Yargıtay'a temyiz dilekçesi verin.", "delta": -10,
+          "law": "HMK m.341, m.361",
+          "note": "İlk derece mahkemesi kararlarına karşı yol istinaftır; temyiz, bölge adliye mahkemesi kararlarına karşı açılır (HMK m.341, m.361). Uygulamada yanlış adlandırılan dilekçe içeriğine göre istinaf sayılabilir; ama bu, bir avukatın yapmaması gereken bir hatadır." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "İstinaf dilekçesini yazıyorsunuz. Esasta elinizde fazla bir şey yok: sözleşme noterde yapılmış, taşınmaz on dört yıldır alıcıda." }],
+      "prompt": "Dilekçenin merkezine neyi koyacaksınız?",
+      "choices": [
+        { "if": "mirasci", "text": "Taraf teşkili: zorunlu dava arkadaşı Orhan Kocabaş davada yer almadı. Mirasçılık belgesini ekleyin; kararın esası incelenmeden kaldırılmasını ve dosyanın ilk derece mahkemesine gönderilmesini isteyin.", "delta": 25, "set": ["teskil", "kaldirTalep"],
+          "law": "HMK m.59, m.353/1-a; TMK m.640",
+          "note": "Doğru sorun, doğru çare. Taraf teşkili sağlanmadan esas hakkında karar verilemez ve bu husus yargılamanın her aşamasında kendiliğinden gözetilir. Eksik mirasçı istinafta davaya sokulamayacağı için çare, kararın kaldırılıp dosyanın geri gönderilmesidir." },
+        { "if": "mirasci", "text": "Taraf teşkili eksikliğini yazın; Daire'den Orhan'ı davaya dahil ederek esas hakkında karar vermesini isteyin.", "delta": 5, "set": ["teskil"],
+          "law": "HMK m.357/1",
+          "note": "Doğru sorunu buldunuz, yanlış çareyi istediniz. Bölge adliye mahkemesinde davaya müdahale ve ıslah yapılamaz (HMK m.357/1). Eksik mirasçı istinaf aşamasında davaya sokulamaz; ilk derece yargılamasındaki savunma ve delil haklarından da yoksun bırakılamaz." },
+        { "text": "Zamanaşımı: satış vaadinden bu yana on yıldan fazla geçti; tescil talebi zamanaşımına uğradı.", "delta": -5, "set": ["zaman"],
+          "law": "TBK m.146; TMK m.2",
+          "note": "On yıllık süre geçmiş olsa da taşınmaz 2013'ten beri alıcının zilyetliğinde. Yargıtay uygulamasında, satış vaadi uyarınca taşınmazı teslim etmiş tarafın zamanaşımı def'i dürüstlük kuralına aykırı sayılır. İlk derece de bu gerekçeyle reddetmişti." },
+        { "text": "Satış vaadi geçersizdir; tapu dışında yapılan satışlar hükümsüzdür.", "delta": -10,
+          "law": "TBK m.29, m.237",
+          "note": "Tapu dışı adi yazılı satışla karıştırdınız. Sözleşme noterde düzenleme şeklinde yapılmış bir satış vaadidir ve resmî şekle uygundur; tescil davasına dayanak olabilir." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "office", "if": "teskil",
+      "lines": [{ "who": "narr", "text": "Davacı vekili, istinaf dilekçenize iki hafta içinde cevap verdi (HMK m.347). Daire'ye bir beyan dilekçesiyle karşılık vereceksiniz." }],
+      "statement": { "who": "opp", "text": "Üçüncü bir mirasçı bulunduğu iddiası ilk derecede hiç ileri sürülmemiştir. Bu, istinafta ileri sürülen yeni bir vakıa, mirasçılık belgesi de yeni bir delildir. HMK m.357 gereği dinlenemez." },
+      "prompt": "Bu itiraza neyle karşılık vereceksiniz?",
+      "correct": ["law_357", "ev_mirascilik"],
+      "hit": { "delta": 20, "set": ["itiraz"],
+        "law": "HMK m.357/1",
+        "note": "Yeni vakıa ve delil yasağı, kendiliğinden göz önünde tutulacak hususlara uygulanmaz. Taraf teşkili yargılamanın her aşamasında kendiliğinden gözetilir; mirasçılık belgesi de yalnızca bu eksikliği gösteren belgedir." },
+      "responses": {
+        "law_59": { "delta": 10, "set": ["itiraz"],
+          "note": "Eksik mirasçının zorunlu dava arkadaşı olduğunu gösterdiniz. Ama karşı tarafın itirazı “yeni vakıa” üzerine; asıl cevap, HMK m.357'nin kendiliğinden gözetilecek hususları yasak dışında tutmasıdır." },
+        "law_353": { "delta": 0,
+          "note": "Hangi kararın verileceği sonraki mesele. Önce “yeni vakıa” itirazını karşılamanız gerekiyordu." },
+        "ev_sozlesme": { "delta": -10, "note": "Sözleşme davacının tezini destekliyor; itirazla da ilgisi yok." },
+        "ev_karar": { "delta": -5, "note": "İlk derece kararı itiraza cevap vermiyor." }
+      },
+      "pass": { "delta": -15,
+        "note": "Daire taraf teşkilini kendiliğinden gözetecektir; ama itirazı cevapsız bırakmak, Daire'nin önüne yalnızca karşı tarafın görüşünü koydu." }
+    },
+    { "side": "p1", "scene": "office", "if": "teskil",
+      "lines": [
+        { "who": "opp", "text": "Usul ekonomisi gereği Daire, Orhan Kocabaş'ı davaya dahil ederek ya da onun muvafakatini alarak esas hakkında karar vermelidir. Dosyanın geri gönderilmesi yıllar sürer." },
+        { "who": "narr", "text": "Davacının cevabındaki bu öneriye de beyan dilekçenizde karşılık vereceksiniz." }
+      ],
+      "prompt": "Daire'nin hangi kararı vermesi gerektiğini savunacaksınız?",
+      "choices": [
+        { "text": "Kaldırma ve gönderme: taraf teşkili istinafta tamamlanamaz; Daire esası incelemeden kararı kaldırıp dosyayı ilk derece mahkemesine göndermelidir.", "delta": 20, "set": ["kaldir"],
+          "law": "HMK m.353/1-a, m.357/1",
+          "note": "Doğru. Taraf teşkili sağlanmadan esasa girilemez; eksik mirasçı istinafta davaya sokulamaz. Bu durumda bölge adliye mahkemesi esası incelemeden, duruşma yapmadan kararı kaldırıp dosyayı geri gönderir (HMK m.353/1-a)." },
+        { "text": "Düzelterek yeniden esas hakkında karar: Daire, zamanaşımı nedeniyle davayı kendisi reddetsin.", "delta": -10,
+          "law": "HMK m.353/1-b-2",
+          "note": "Düzelterek ya da yeniden esas hakkında karar, yargılamada eksiklik bulunmadığı ve yeniden yargılamaya ihtiyaç olmadığı hâllere özgüdür (HMK m.353/1-b-2). Burada eksiklik var: taraf teşkili. Üstelik zamanaşımı savunması zayıf." },
+        { "text": "Usul ekonomisine katılın: Daire, Orhan'ı davaya dahil ederek karar versin.", "delta": -15,
+          "law": "HMK m.357/1",
+          "note": "İstinafta davaya müdahale ve ıslah yapılamaz (HMK m.357/1). Orhan ilk derece yargılamasındaki haklarından yoksun kalır. Müvekkillerinizin lehine olan bir usul sonucunu kendi dilekçenizle zayıflattınız." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "if": "teskil", "text": "Daire dosyayı duruşma yapmadan inceledi. Karar UYAP'a düştü: ilk derece kararı kaldırıldı, dosya geri gönderildi." },
+        { "who": "narr", "if": "!teskil", "text": "Daire dosyayı duruşma yapmadan inceledi. Karar UYAP'a düştü: istinaf başvurusu esastan reddedildi." },
+        { "who": "client", "text": "Şimdi ne olacak? Bu iş bitti mi?" }
+      ],
+      "prompt": "Müvekkile kanun yolunu nasıl anlatacaksınız?",
+      "choices": [
+        { "if": "teskil", "text": "Bu kaldırma kararı kesindir, davacı temyiz edemez. Yeniden yargılamada Orhan da davada yer alacak; savunmayı şimdiden birlikte hazırlayalım.", "delta": 10,
+          "law": "HMK m.353/1-a, m.362/1-g",
+          "note": "Doğru. HMK m.353/1-a uyarınca verilen kaldırma kararları kesindir (HMK m.362/1-g). Dava ilk derecede yeniden görülecek; tapu iptali ve tescil kararı artık ortada yok." },
+        { "if": "teskil", "text": "Davacı bu kararı iki hafta içinde Yargıtay'a temyiz edecektir; sonucu bekleyelim.", "delta": -10,
+          "law": "HMK m.362/1-g",
+          "note": "Yanlış. HMK m.353/1-a uyarınca verilen kararlar kesindir ve temyiz edilemez (HMK m.362/1-g)." },
+        { "if": "!teskil", "text": "Karar, tebliğden itibaren iki hafta içinde temyiz edilebilir; ama temyizde yalnız hukuka aykırılık incelenir, şansımızı dürüstçe değerlendirelim.", "delta": 5,
+          "law": "HMK m.361",
+          "note": "Doğru. Taşınmazın değeri temyiz sınırının üzerinde; esastan ret kararı tebliğden itibaren iki hafta içinde temyiz edilebilir (HMK m.361)." },
+        { "if": "!teskil", "text": "Karar kesindir; yapılacak bir şey kalmadı.", "delta": -10,
+          "law": "HMK m.361",
+          "note": "Yanlış. Esastan ret kararı kesin değildir; değeri temyiz sınırını aşan bu davada temyiz yolu açıktır." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "teskil", "winner": "p1", "label": "KARAR:",
+      "noCourt": true,
+      "hukum": "Davalılar vekilinin istinaf başvurusunun KABULÜ ile, zorunlu dava arkadaşı olan mirasçı Orhan Kocabaş davada yer almadan ve taraf teşkili sağlanmadan esas hakkında karar verildiği anlaşıldığından, ilk derece mahkemesi kararının HMK m.353/1-a uyarınca esası incelenmeksizin KALDIRILMASINA, taraf teşkili sağlanarak yeniden yargılama yapılmak üzere dosyanın Kayseri 2. Asliye Hukuk Mahkemesine GÖNDERİLMESİNE, dosya üzerinde yapılan inceleme sonunda HMK m.353/1-a ve m.362/1-g uyarınca KESİN olmak üzere oy birliğiyle karar verildi.",
+      "summary": [
+        { "text": "Esasta neredeyse hiçbir kozunuz yoktu; davayı usul çevirdi. Müvekkil görüşmesinde ortaya çıkan üçüncü mirasçı, taraf teşkili eksikliğini gösterdi. Tapu iptali ve tescil kararı ortadan kalktı; dava, Orhan Kocabaş da davada yer alarak ilk derecede yeniden görülecek." },
+        { "if": "itiraz", "text": " “Yeni vakıa” itirazını, kendiliğinden gözetilecek hususların yasak dışında kaldığını göstererek karşıladınız." },
+        { "if": "!kaldirTalep && !kaldir", "text": " Ancak doğru çareyi siz istemediniz; Daire kaldırma kararını kendiliğinden verdi." }
+      ] },
+    { "winner": "p2", "label": "KARAR:",
+      "noCourt": true,
+      "hukum": "Davalılar vekilinin istinaf başvurusunun HMK m.353/1-b-1 uyarınca ESASTAN REDDİNE; kararın tebliğinden itibaren iki hafta içinde Yargıtay'a temyiz yolu açık olmak üzere dosya üzerinden oy birliğiyle karar verildi.",
+      "summary": [
+        { "text": "Daire, satış vaadinin geçerli olduğunu ve teslim edilmiş taşınmazda zamanaşımı def'inin dürüstlük kuralına aykırı düştüğünü kabul etti." },
+        { "if": "mirasci", "text": " Üçüncü mirasçıyı öğrenmiştiniz, ama dilekçenin merkezine koymadınız. Taraf teşkili eksikliği, davayı yeniden ilk dereceye taşıyabilecek tek kozdu." },
+        { "if": "!mirasci", "text": " Müvekkile murisin başka mirasçısı olup olmadığı sorulmadı. Almanya'daki ağabey davada hiç yer almamıştı; taraf teşkili eksikliği, davayı yeniden ilk dereceye taşıyabilecek tek kozdu." }
+      ] }
+  ]
+}
