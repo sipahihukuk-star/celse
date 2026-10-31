@@ -6,12 +6,12 @@ import { Btn, Chip } from "./kit";
 import { saveResult } from "./storage";
 import { C, F, sideColor, sideInk, toneColor } from "./theme";
 
-interface Props { c: CaseFile; game: GameState; onRetry: () => void; onBack: () => void }
+interface Props { c: CaseFile; game: GameState; onRetry: () => void; onBack: () => void; backLabel?: string }
 
 const TAIL = " istinaf yolu açık olmak üzere verilen karar açıkça okunup usulen anlatıldı.";
 const cap = (s: string) => { const l = s.toLocaleLowerCase("tr"); return l.charAt(0).toLocaleUpperCase("tr") + l.slice(1); };
 
-export default function VerdictScreen({ c, game, onRetry, onBack }: Props) {
+export default function VerdictScreen({ c, game, onRetry, onBack, backLabel }: Props) {
   const v = useMemo(() => verdict(c, game), [c, game]);
   const duel = c.mode === "duel";
   const P = game.players;
@@ -65,7 +65,7 @@ export default function VerdictScreen({ c, game, onRetry, onBack }: Props) {
 
       <View style={styles.actions}>
         <Btn label="Davayı yeniden oyna" onPress={onRetry} />
-        <Btn kind="ghost" label="Dosya dolabına dön" onPress={onBack} />
+        <Btn kind="ghost" label={backLabel || "Dosya dolabına dön"} onPress={onBack} />
       </View>
 
       <View style={styles.log}>

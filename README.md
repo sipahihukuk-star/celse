@@ -43,13 +43,35 @@ src/engine/                  oyun kuralları — arayüzden bağımsız
   types.ts                   dava dosyası şeması
   expr.ts                    koşul dili ("zaman && !kesme")
   engine.ts                  akış, puan, karar, bilgisayar rakip, doğrulama
+  simulate.ts                bütün yolları oynatan denetim (test ve yönetim paneli)
+src/data/useCases.ts         uygulamayla gelen + yönetimden yayımlanan davaları birleştirir
+src/admin/                   yönetim paneli
+  AdminScreen.tsx            PIN, dava listesi, yeni dava sihirbazı, JSON içe aktarma
+  CaseEditor.tsx             sekmeli dava düzenleyici ve denetim
+  presets.ts                 mahkeme şablonları (heyet, salon, kürsü yazısı)
+  store.ts                   içerik deposu (şimdilik cihazda; Supabase'e taşınacak)
+docs/yuksek-mahkemeler.md    yüksek mahkeme usulleri ve kaynakları
 src/ui/                      ekranlar ve çizimler
   useCourt.ts                duruşma akışı (satır → seçenek → geri bildirim)
   GameScreen.tsx  Stage.tsx  Character.tsx  VerdictScreen.tsx  MenuScreens.tsx
 tools/simulate.ts            tüm yolları oynatan test
 ```
 
-## Yeni dava ekleme
+## Yönetim paneli
+
+Ana ekrandaki **Yönetim paneli ›** bağlantısıyla açılır. İlk girişte bir PIN belirlenir; PIN cihazda saklanır ve oturum boyunca bir kez sorulur.
+
+- **Dava listesi:** Uygulamayla gelen ve panelden eklenen bütün davalar. Başlık, mahkeme ya da alana göre arama; mod (tek kişilik / karşılıklı) ve durum (yayında / taslak / uygulamayla gelen) süzgeçleri.
+- **Yeni dava:** Mod ve mahkeme şablonu seçilir (17 şablon: asliye, iş, ağır ceza, idare, BAM, Yargıtay, Danıştay, Sayıştay, AYM Bölüm ve Genel Kurul, Yüce Divan, AİHM Komite/Daire/Büyük Daire, UCM Yargılama/Temyiz). Şablon heyet sayısını, salonu, kürsü yazısını ve başkanın cübbesini kendisi ayarlar.
+- **Düzenleyici sekmeleri:** Genel, Karakterler (canlı önizlemeli), Açılış ve belgeler, Delil çantası, Adımlar (seçenekli / müvekkil görüşmesi / delil çantası), Kararlar, Denetim, JSON.
+- **Denetim:** Davanın bütün yollarını oynatır; hangi kararın kaç yolla verildiğini, hiç ulaşılamayan adımları ve hataları gösterir. Hatalı dava yayımlanamaz.
+- **Oyna (önizleme):** Davayı kaydetmeden oynatır; karar ekranından panele dönülür.
+- **Taslak / Yayınla:** Taslak oyuncuya görünmez. Yayımlanan dava oyunun listesine girer; uygulamayla gelen bir davayla aynı kimliği taşıyorsa onun yerine geçer ("Değişiklikleri geri al" ile asıl hâline dönülür).
+- **Çoğalt, Sil, JSON içe aktar:** Tek dava ya da dava dizisi JSON olarak yapıştırılabilir; içe aktarılanlar taslak olarak kaydedilir.
+
+Şimdilik içerik cihazda (AsyncStorage) tutulur. Sunucuya taşımak için `src/admin/store.ts` içindeki `ContentStore` arayüzünü uygulayan bir Supabase deposu yazmak yeterlidir; ekranlar değişmez.
+
+## Yeni dava ekleme (kod yoluyla)
 
 1. `src/data/cases/` içine yeni bir JSON dosyası koyun (en kolayı mevcut bir davayı kopyalamak).
 2. `src/data/cases/index.ts` içindeki listeye ekleyin.

@@ -6,7 +6,7 @@ import { loadResults, SavedResult } from "./storage";
 import { C, F } from "./theme";
 
 /* ---------- Giriş ---------- */
-export function TitleScreen({ onDuel, onSolo, duelCount, soloCount }: { onDuel: () => void; onSolo: () => void; duelCount: number; soloCount: number }) {
+export function TitleScreen({ onDuel, onSolo, onAdmin, duelCount, soloCount }: { onDuel: () => void; onSolo: () => void; onAdmin: () => void; duelCount: number; soloCount: number }) {
   const { width } = useWindowDimensions();
   const [tilt, setTilt] = useState(-4);
   useEffect(() => { const t = setInterval(() => setTilt(a => -a), 3000); return () => clearInterval(t); }, []);
@@ -29,6 +29,9 @@ export function TitleScreen({ onDuel, onSolo, duelCount, soloCount }: { onDuel: 
           <Btn label="Karşılıklı duruşma" onPress={onDuel} />
           <Btn kind="secondary" label="Tek kişilik dosyalar" onPress={onSolo} />
         </View>
+        <Pressable accessibilityRole="button" onPress={onAdmin} style={styles.adminLink}>
+          <Text style={styles.adminLinkText}>Yönetim paneli ›</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );
@@ -146,6 +149,8 @@ const styles = StyleSheet.create({
   facts: { flexDirection: "row", flexWrap: "wrap", columnGap: 18, rowGap: 4, marginVertical: 14 },
   fact: { fontFamily: F.body, fontSize: 15, color: C.muted },
   factB: { fontFamily: F.monoBold, color: C.text },
+  adminLink: { alignSelf: "flex-start", paddingVertical: 8, marginTop: 6 },
+  adminLinkText: { fontFamily: F.mono, fontSize: 12, letterSpacing: 1, color: C.muted },
   cta: { flexDirection: "row", flexWrap: "wrap", gap: 12 },
   listWrap: { width: "100%", maxWidth: 1080, alignSelf: "center", paddingHorizontal: 16, paddingVertical: 20 },
   listHead: { flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start", gap: 14, marginBottom: 24 },
