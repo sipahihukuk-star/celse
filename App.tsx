@@ -32,6 +32,8 @@ import GameScreen from "./src/ui/GameScreen";
 import { CaseListScreen, SetupModal, TitleScreen } from "./src/ui/MenuScreens";
 import { C } from "./src/ui/theme";
 import VerdictScreen from "./src/ui/VerdictScreen";
+import ClosingScreen from "./src/ui/ClosingScreen";
+import { AiVerdict } from "./src/engine/judge";
 
 /** from: oyun bitince nereye dönüleceği (dosya dolabı ya da yönetim paneli önizlemesi) */
 type From = "list" | "admin" | "career" | "desk";
@@ -45,7 +47,8 @@ type Route =
   | { k: "account"; then?: "career" }
   | { k: "paywall"; back: "career" | "list" | "title"; mode?: "duel" | "solo" }
   | { k: "game"; c: CaseFile; players: Record<Side, Player>; run: number; from: From }
-  | { k: "verdict"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From; notice?: string };
+  | { k: "closing"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From }
+  | { k: "verdict"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From; notice?: string; ai?: AiVerdict };
 
 const SOLO_PLAYERS: Record<Side, Player> = { p1: { name: "Siz", ai: false }, p2: { name: "Karşı taraf", ai: false } };
 
@@ -100,6 +103,8 @@ export default function App() {
         settleCase(c, won, game.score);
       }
     }
+    // Karşılıklı duruşmada kararı yapay zekâ hâkim verir: önce tarafların son sözü alınır.
+    if (c.mode === "duel" && !game.fatal) { setRoute({ k: "closing", c, players, game, from }); return; }
     setRoute({ k: "verdict", c, players, game, from, notice });
   };
   // Önizlemede karşılıklı dava, iki kişilik olarak aynı cihazda açılır.
@@ -145,8 +150,12 @@ export default function App() {
             onExit={() => back(route.c, route.from)}
             onFinish={game => finish(route.c, route.players, game, route.from)} />
         )}
+        {route.k === "closing" && (
+          <ClosingScreen c={route.c} game={route.game} players={route.players}
+            onDone={ai => setRoute({ k: "verdict", c: route.c, players: route.players, game: route.game, from: route.from, ai })} />
+        )}
         {route.k === "verdict" && (
-          <VerdictScreen c={route.c} game={route.game} notice={route.notice}
+          <VerdictScreen c={route.c} game={route.game} notice={route.notice} ai={route.ai}
             backLabel={route.from === "admin" ? "Yönetim paneline dön" : route.from === "career" ? "Kariyere dön" : route.from === "desk" ? "Büro masasına dön" : undefined}
             onRetry={() => startGame(route.c, route.players, route.from === "desk" ? "list" : route.from)}
             onBack={() => back(route.c, route.from)} />

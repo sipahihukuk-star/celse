@@ -36,16 +36,16 @@ export function keywordScore(answer: string, groups: KeywordGroup[] = []): Evalu
   return { score, feedback, by: "kavram" };
 }
 
-export async function evaluateFree(c: CaseFile, st: Step, answer: string, server?: { url: string; key: string; token?: string }): Promise<Evaluation> {
+export async function evaluateFree(c: CaseFile, st: Step, answer: string, server?: { url: string; key: string; token?: string; fn?: string }): Promise<Evaluation> {
   const offline = () => keywordScore(answer, st.keywords);
   if (!server?.url || !answer.trim()) return offline();
   try {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 20000);
-    const res = await fetch(`${server.url}/functions/v1/degerlendir`, {
+    const res = await fetch(`${server.url}/functions/v1/${server.fn || "degerlendir"}`, {
       method: "POST", signal: ctrl.signal,
       headers: { "Content-Type": "application/json", apikey: server.key, Authorization: `Bearer ${server.token || server.key}` },
-      body: JSON.stringify({ dava: c.title, alan: c.area, mahkeme: c.court, rol: c.sides[st.side].role, soru: st.prompt, olcut: st.rubric || "", ornek: st.model || "", cevap: answer.slice(0, 2000) })
+      body: JSON.stringify({ mode: "puan", dava: c.title, alan: c.area, mahkeme: c.court, rol: c.sides[st.side].role, soru: st.prompt, olcut: st.rubric || "", ornek: st.model || "", cevap: answer.slice(0, 2000) })
     });
     clearTimeout(t);
     if (!res.ok) return offline();

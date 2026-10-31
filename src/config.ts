@@ -11,6 +11,9 @@ export const serverReady = () => reachable && !!SUPABASE_URL && !!SUPABASE_ANON_
 /** Supabase'deki seslendirme fonksiyonunun adresi (panelden kurulurken verilen ad). */
 export const TTS_FUNCTION = "bright-action";
 
+/** Yapay zekâ hâkim fonksiyonunun adresi (serbest cevap puanı ve karşılıklı duruşma kararı). */
+export const AI_FUNCTION = "yz";
+
 /** Bulut seslendirme (Google Cloud Text-to-Speech) için karakter sesleri. Supabase "seslendir" fonksiyonu
  *  GOOGLE_TTS_KEY ile kurulunca kullanılır; ses adı bulunamazsa fonksiyon WaveNet sesine düşer. */
 export const CLOUD_VOICES = {

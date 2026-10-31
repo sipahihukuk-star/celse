@@ -1,7 +1,7 @@
 // Serbest cevap: oyuncu savunmasını kendisi yazar ya da söyler; cevap değerlendirilip puanına göre sonuç uygulanır.
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import { serverReady, SUPABASE_ANON_KEY, SUPABASE_URL } from "../config";
+import { AI_FUNCTION, serverReady, SUPABASE_ANON_KEY, SUPABASE_URL } from "../config";
 import { getAccessToken } from "../data/account";
 import { evaluateFree } from "../engine/evaluate";
 import { CaseFile, Step } from "../engine/types";
@@ -46,7 +46,7 @@ export default function FreeAnswer({ c, step, onResult }: { c: CaseFile; step: S
     try { rec.current?.stop(); } catch { /* yok say */ }
     setBusy(true);
     const token = await getAccessToken();
-    const ev = await evaluateFree(c, step, answer, serverReady() ? { url: SUPABASE_URL, key: SUPABASE_ANON_KEY, token } : undefined);
+    const ev = await evaluateFree(c, step, answer, serverReady() ? { url: SUPABASE_URL, key: SUPABASE_ANON_KEY, token, fn: AI_FUNCTION } : undefined);
     setBusy(false);
     onResult(answer, ev.score, ev.feedback);
   };

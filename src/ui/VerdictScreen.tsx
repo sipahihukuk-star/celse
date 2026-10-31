@@ -2,17 +2,25 @@ import React, { useEffect, useMemo } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { GameState, grade, rank, verdict } from "../engine/engine";
 import { CaseFile } from "../engine/types";
+import { AiVerdict } from "../engine/judge";
 import { Btn, Chip } from "./kit";
 import { saveResult } from "./storage";
 import { C, F, sideColor, sideInk, toneColor } from "./theme";
 
-interface Props { c: CaseFile; game: GameState; onRetry: () => void; onBack: () => void; backLabel?: string; notice?: string }
+interface Props { c: CaseFile; game: GameState; onRetry: () => void; onBack: () => void; backLabel?: string; notice?: string; ai?: AiVerdict }
 
 const TAIL = " istinaf yolu açık olmak üzere verilen karar açıkça okunup usulen anlatıldı.";
 const cap = (s: string) => { const l = s.toLocaleLowerCase("tr"); return l.charAt(0).toLocaleUpperCase("tr") + l.slice(1); };
 
-export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, notice }: Props) {
-  const v = useMemo(() => verdict(c, game), [c, game]);
+export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, notice, ai }: Props) {
+  const v = useMemo(() => {
+    const base = verdict(c, game);
+    if (!ai) return base;
+    // Yapay zekâ hâkimin kararı (karşılıklı duruşma): kazanan, hüküm ve gerekçe ondan gelir.
+    const winner = ai.winner === "sulh" ? "draw" as const : ai.winner;
+    return { ...base, winner, label: "HÜKÜM:", hukum: ai.hukum || base.hukum, summary: ai.gerekce || base.summary,
+      stamp: winner === "draw" ? "SULH" : `${c.sides[winner].short.toLocaleUpperCase("tr")} KAZANDI` };
+  }, [c, game, ai]);
   const duel = c.mode === "duel";
   const P = game.players;
   const stampColor = v.winner === "draw" ? C.draw : duel || v.winner === "p1" ? C.win : C.lose;
@@ -40,13 +48,14 @@ export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, not
         <Text style={styles.hukum}><Text style={styles.label}>{v.label} </Text>{v.hukum}{v.noCourt ? "" : TAIL}</Text>
         <View style={[styles.stamp, { borderColor: stampColor }]}><Text style={[styles.stampText, { color: stampColor }]}>{v.stamp}</Text></View>
         {duel && <Text style={styles.galip}>{v.winner === "draw" ? "Taraflar uzlaştı." : `Davayı kazanan: ${P[v.winner].name} · ${c.sides[v.winner].role}`}</Text>}
+        {ai && <Text style={styles.label}>{ai.by === "ai" ? "YAPAY ZEKÂ HÂKİMİN GEREKÇESİ" : "GEREKÇE"}</Text>}
         <Text style={styles.summary}>{v.summary}</Text>
 
         <View style={styles.scores}>
           {duel ? (["p1", "p2"] as const).map(s => (
             <View key={s} style={styles.scoreCell}>
               <Text style={styles.metaK}>{c.sides[s].role}</Text>
-              <Text style={[styles.scoreBig, { color: sideInk(s) }]}>{game.pts[s]} puan</Text>
+              <Text style={[styles.scoreBig, { color: sideInk(s) }]}>{ai ? `${ai[s]}/100` : `${game.pts[s]} puan`}</Text>
               <Text style={styles.metaV}>{P[s].name}</Text>
             </View>
           )) : (
@@ -58,7 +67,8 @@ export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, not
         </View>
         {duel && (
           <Text style={styles.lead}>
-            {leader ? `Hamle puanında önde: ${P[leader].name}. Puan hamlelerin hukuki isabetini ölçer; davanın sonucu kilit hamlelere bağlıdır.` : "Hamle puanları eşit."}
+            {ai ? `Duruşmadaki hamle puanları: ${P.p1.name} ${game.pts.p1}, ${P.p2.name} ${game.pts.p2}. ${ai.by === "ai" ? "Hâkim hamleleri ve son sözleri birlikte değerlendirdi." : ""}`
+              : leader ? `Hamle puanında önde: ${P[leader].name}. Puan hamlelerin hukuki isabetini ölçer; davanın sonucu kilit hamlelere bağlıdır.` : "Hamle puanları eşit."}
           </Text>
         )}
       </View>
