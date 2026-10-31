@@ -1,0 +1,136 @@
+{
+  "id": "miras-red",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "basit",
+  "title": "Borçlu Miras",
+  "area": "Miras Hukuku · Mirasın reddi",
+  "court": "Bursa 4. Sulh Hukuk Mahkemesi",
+  "courtShort": "4. SULH HUKUK",
+  "esas": "2026/1630 Esas",
+  "kararTarihi": "20.10.2026",
+  "color": "#6b5a3a",
+  "teaser": "Babadan kalan bir araba ve milyonlarca liralık borç. Süre işliyor; yanlış bir adım ret hakkını yakabilir.",
+  "sides": { "p1": { "role": "Mirasçı vekili", "short": "Siz" }, "p2": { "role": "Alacaklı banka", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#2a2220", "style": "long" } },
+    "opp": { "name": "Av. Hakan Sezgin · Alacaklı banka vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#e8c09c", "hair": "#3a3a3a", "style": "short" } },
+    "client": { "name": "Zeynep Arslan · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#8d5a3b", "hair": "#151515", "style": "curly", "shirt": "#2f6f73", "inner": "#e9e4d8" } },
+    "senior": { "name": "Av. Metin Karaca · Kıdemli ortak", "np": "green", "look": { "kind": "civil", "skin": "#c99670", "hair": "#6b6b70", "style": "short", "beard": true, "glasses": true, "shirt": "#3a3f4a", "inner": "#d9d4c8" } }
+  },
+  "courtCast": ["judge", "you"],
+  "intro": [
+    { "who": "narr", "text": "Büronuz Bursa'da. Zeynep Arslan Antalya'dan gelmiş; babası Halil Arslan Bursa'da vefat etmiş." },
+    { "who": "client", "text": "Babamla yıllardır görüşmüyorduk. Vefatını Temmuz sonunda bir kuzenimin mesajından öğrendim; cenazeye bile yetişemedim." },
+    { "who": "client", "text": "Şimdi bankalardan yazılar geliyor: kredi, kredi kartı, bir de kefil olduğu bir borç. Toplam iki buçuk milyonu buluyor. Geride eski bir araba ve hesabında birkaç bin lira var." },
+    { "who": "narr", "text": "Bugün 13 Ekim 2026." }
+  ],
+  "docs": [
+    { "t": "Ölüm kaydı", "d": "Halil Arslan, ölüm tarihi 18.06.2026, son yerleşim yeri Bursa / Nilüfer." },
+    { "t": "Kuzenin mesajı", "d": "28.07.2026 tarihli mesaj: “Zeynep, baban geçen ay vefat etmiş, haberin var mı?”" },
+    { "t": "Banka bildirimleri", "d": "Yeşilova Bankası A.Ş. ve iki finans şirketinden toplam yaklaşık 2.500.000 TL alacak bildirimi." },
+    { "t": "Tereke", "d": "2011 model otomobil (yaklaşık 250.000 TL), bankada 6.000 TL." }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "client", "text": "Ölüm 18 Haziran'da olmuş. Üç ay geçti değil mi? Yoksa artık bu borçlar benim mi?" }],
+      "prompt": "Ret süresi hakkında ne söyleyeceksiniz?",
+      "choices": [
+        { "text": "Yasal mirasçı için üç aylık süre ölümü öğrendiğiniz günden başlar. 28 Temmuz'da öğrendiniz; son gün 28 Ekim. Hemen sulh hukuk mahkemesine ret beyanında bulunalım, mesajı da delil olarak sunalım.", "delta": 20, "set": ["sure"],
+          "law": "TMK m.605, m.606",
+          "note": "Yasal ve atanmış mirasçılar mirası reddedebilir (TMK m.605). Ret süresi üç aydır; yasal mirasçılar için mirasbırakanın ölümünü öğrendikleri tarihten başlar (m.606). Öğrenme tarihinin belgelenmesi, ileride çıkabilecek bir uyuşmazlıkta belirleyici olur." },
+        { "text": "Süre ölüm tarihinden başlar, 18 Eylül'de doldu. Ret artık mümkün değil; borçlarla ilgili ödeme planı konuşalım.", "delta": -15,
+          "law": "TMK m.606",
+          "reply": [{ "who": "senior", "text": "Bir dakika. Yasal mirasçı için süre ölümü öğrenmeden başlar. Mesaj 28 Temmuz tarihli; daha iki haftamız var. Ret beyanını hemen hazırla." }],
+          "note": "Hatalı. Yasal mirasçı için süre, ölümün öğrenildiği tarihten işler (TMK m.606). Müvekkili hak kaybına uğratacaktınız." },
+        { "text": "Ret için bir yıl süre var; önce terekenin tam dökümünü çıkaralım, sonra karar verelim.", "delta": -10,
+          "law": "TMK m.606",
+          "reply": [{ "who": "senior", "text": "Bir yıl değil, üç ay. Öğrenme 28 Temmuz; son gün 28 Ekim. Tereke dökümü beklenemez, ret beyanı hemen verilmeli." }],
+          "note": "Ret süresi üç aydır (TMK m.606). Bu hata, süreyi kaçırmanıza yol açabilirdi." },
+        { "text": "Süre dolmuş olabilir; sulh hâkiminden önemli sebeple yeni süre isteyelim.", "delta": 5, "set": ["sure"],
+          "law": "TMK m.615",
+          "note": "Sulh hâkimi önemli sebeplerle süreyi uzatabilir ya da yeni süre verebilir (TMK m.615). Ama burada buna gerek yok: süre öğrenmeden işliyor ve henüz dolmadı. Asıl yapılacak iş, ret beyanını hemen vermek." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "Bir şey daha var. Babamın arabası otoparkta duruyor, ücret birikiyor. Kuzenim arabayı satıp parayı bankaya yatıralım, iyi niyetimizi görsünler diyor." },
+        { "who": "narr", "text": "Telefon çalıyor. Arayan, Yeşilova Bankası'nın avukatı." },
+        { "who": "opp", "text": "Zeynep Hanım, mirasçı sıfatıyla şu ödeme taahhütnamesini imzalarsanız faizi dondurabiliriz. Bugün size e-postayla gönderiyorum." }
+      ],
+      "prompt": "Müvekkile ne tavsiye edeceksiniz?",
+      "choices": [
+        { "text": "Arabaya, hesaba ve eşyalara dokunmayın, taahhütname imzalamayın. Korunması gereken bir şey varsa sulh hâkiminden terekenin korunmasını isteriz.", "delta": 20, "set": ["koru"],
+          "law": "TMK m.610/2",
+          "note": "Ret süresi içinde terekeye ait işlemlerin olağan yönetimi dışına çıkan, terekeyi gizleyen ya da kendine mal eden mirasçı mirası reddedemez (TMK m.610/2). Terekeyi olduğu gibi bırakmak ret hakkını korur." },
+        { "text": "Arabayı satın, parayı bankaya yatırın; iyi niyetinizi gösterir.", "delta": -20, "set": ["elatma"],
+          "law": "TMK m.610/2",
+          "note": "Hatalı. Tereke malını satıp parasıyla borç ödemek olağan yönetimi aşan bir tasarruftur. Bu işlem ret hakkını düşürür ve müvekkil bütün borçlardan sorumlu hâle gelebilir." },
+        { "text": "Arabayı şimdilik siz kullanın; durdukça değer kaybediyor.", "delta": -15, "set": ["elatma"],
+          "law": "TMK m.610/2",
+          "note": "Tereke malını kendine mal etmek ret hakkını düşüren davranışlardandır (TMK m.610/2)." },
+        { "text": "Taahhütnameyi imzalayın; nasılsa sonra reddedersiniz.", "delta": -20, "set": ["taahhut"],
+          "note": "Hatalı. Kendi imzanızla verdiğiniz ödeme taahhüdü yeni bir borç ikrarıdır. Mirası reddetseniz bile banka bu belgeye dayanarak sizden isteyebilir; terekeye karışma olarak da yorumlanabilir." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "20 Ekim 2026. Bursa 4. Sulh Hukuk Mahkemesi. Müvekkil yanınızda." },
+        { "who": "judge", "text": "Mirasbırakanın ölüm tarihi 18 Haziran. Bugün 20 Ekim. Üç ay geçmiş görünüyor. Sayın vekil?" }
+      ],
+      "prompt": "Ne cevap vereceksiniz?",
+      "choices": [
+        { "text": "Yasal mirasçı için süre ölümün öğrenildiği tarihten başlar. Müvekkil ölümü 28 Temmuz'da öğrendi; kuzeninin mesajını sunuyoruz. Öğrenme tarihinin tutanağa geçirilmesini istiyoruz.", "delta": 20, "set": ["ogrenme"],
+          "law": "TMK m.606",
+          "reply": [{ "who": "judge", "text": "Mesaj dosyaya alındı. Mirasçının beyanına göre öğrenme tarihi 28.07.2026 olarak tutanağa geçirildi." }],
+          "note": "Doğru. Sulh hâkimi ret beyanını kayda alır; reddin geçerliliği ileride bir alacaklıyla çıkacak davada tartışılır. Öğrenme tarihini ve delilini bugünden kayda geçirmek, o davada elinizi güçlendirir." },
+        { "text": "Süre geçmiş olsa bile mahkeme beyanı almak zorunda; tarih önemli değil.", "delta": -5,
+          "reply": [{ "who": "judge", "text": "Beyanı alırım, ama sürenin önemsiz olduğunu söylemeyin. Geçerliliği ileride tartışılacak." }],
+          "note": "Sulh mahkemesi beyanı kayda alır, ama süre önemsiz değildir: alacaklı ileride reddin süresinde olmadığını ileri sürebilir. Öğrenme tarihini kayda geçirme fırsatını kaçırdınız." },
+        { "text": "Haklısınız Sayın Hâkim; o hâlde beyanımızı geri alıyoruz.", "delta": -20, "set": ["geri"],
+          "law": "TMK m.606, m.610/1",
+          "note": "Süre öğrenmeden başlıyordu ve dolmamıştı. Beyanı geri alınca süre sonunda miras kayıtsız şartsız kazanılmış sayılacak (TMK m.610/1)." }
+      ] },
+    { "side": "p1", "scene": "court", "if": "!geri",
+      "lines": [{ "who": "judge", "text": "Mirasçı Zeynep Arslan, beyanınızı alıyorum." }],
+      "prompt": "Müvekkil ret beyanını nasıl verecek?",
+      "choices": [
+        { "text": "“Babam Halil Arslan'dan kalan mirası kayıtsız ve şartsız reddediyorum.”", "delta": 20, "set": ["ret"],
+          "law": "TMK m.609",
+          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }],
+          "note": "Ret, sulh mahkemesine sözlü ya da yazılı beyanla yapılır ve kayıtsız şartsız olmalıdır (TMK m.609). Ret mirasın bütününü kapsar." },
+        { "text": "“Borçları reddediyorum, arabayı kabul ediyorum.”", "delta": -15, "set": ["ret"],
+          "law": "TMK m.609",
+          "reply": [
+            { "who": "judge", "text": "Mirasın bir kısmı reddedilip bir kısmı kabul edilemez. Ret kayıtsız ve şartsız olur. Beyanınızı düzeltmek ister misiniz?" },
+            { "who": "client", "text": "Evet… Babamdan kalan mirası kayıtsız ve şartsız reddediyorum." }
+          ],
+          "note": "Kısmi ret olmaz. Hâkim uyardı ve beyan düzeltildi, ama müvekkile beyanın nasıl verileceğini önceden anlatmalıydınız." },
+        { "text": "“Bankaya olan borçlar silinmezse mirası reddediyorum.”", "delta": -15, "set": ["ret"],
+          "law": "TMK m.609",
+          "reply": [
+            { "who": "judge", "text": "Şartlı ret beyanı geçerli değildir. Kayıtsız şartsız bir beyan vermeniz gerekiyor." },
+            { "who": "client", "text": "Peki. Babamdan kalan mirası kayıtsız ve şartsız reddediyorum." }
+          ],
+          "note": "Ret beyanı şarta bağlanamaz (TMK m.609). Hâkim uyarmasaydı beyan geçersiz kalabilirdi." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "geri", "winner": "p2", "label": "SONUÇ:", "noCourt": true,
+      "hukum": "Ret beyanı alınmadı. 28 Ekim 2026'da süre doldu ve miras kayıtsız şartsız kazanılmış sayıldı.",
+      "summary": "Süre ölümün öğrenildiği 28 Temmuz'dan başlıyordu (TMK m.606). Beyan geri alınınca süre geçti; müvekkil artık mirasbırakanın borçlarından mirasçı olarak sorumlu (TMK m.610/1)." },
+    { "if": "elatma", "winner": "p2",
+      "hukum": "Mirasçı Zeynep Arslan'ın, mirasbırakan Halil Arslan'dan kalan mirası reddettiğine dair beyanının TESCİLİNE,",
+      "summary": "Ret beyanı kayda geçti, ama bu kayıt reddin geçerli olduğunu kesinleştirmez. Banka sonradan açtığı davada müvekkilin aracı ret süresi içinde elden çıkardığını ya da kullandığını ispatladı. Olağan yönetimi aşan bu davranış ret hakkını düşürdü (TMK m.610/2); müvekkil borçlardan sorumlu tutuldu." },
+    { "if": "taahhut", "winner": "p2",
+      "hukum": "Mirasçı Zeynep Arslan'ın, mirasbırakan Halil Arslan'dan kalan mirası reddettiğine dair beyanının TESCİLİNE,",
+      "summary": "Ret tescil edildi, ama müvekkilin imzaladığı ödeme taahhütnamesi kendi adına yeni bir borç ikrarıydı. Banka, ret kararına rağmen bu belgeye dayanarak müvekkil aleyhine takip başlattı." },
+    { "if": "ret && ogrenme", "winner": "p1",
+      "hukum": "Mirasçı Zeynep Arslan'ın, mirasbırakan Halil Arslan'dan kalan mirası kayıtsız ve şartsız reddettiğine dair beyanının TESCİLİNE,",
+      "summary": [
+        { "text": "Ret süresi içinde, kayıtsız şartsız yapıldı; tereke hiç kullanılmadı. Öğrenme tarihi ve delili tutanakta. Müvekkil, babasının borçlarından mirasçı olarak sorumlu değil." },
+        { "if": "!sure", "text": " Kıdemli ortağınız süreyi düzeltmeseydi bu sonuç alınamayabilirdi." }
+      ] },
+    { "winner": "draw", "stamp": "KISMİ BAŞARI",
+      "hukum": "Mirasçı Zeynep Arslan'ın, mirasbırakan Halil Arslan'dan kalan mirası reddettiğine dair beyanının TESCİLİNE,",
+      "summary": "Ret tescil edildi, ama öğrenme tarihi ve delili tutanağa geçirilmedi. Banka, reddin süresinde yapılmadığını ileri sürerek dava açtı; müvekkil öğrenme tarihini yeniden ispatlamak zorunda kalacak." }
+  ]
+}

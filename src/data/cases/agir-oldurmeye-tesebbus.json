@@ -1,0 +1,176 @@
+{
+  "id": "agir-oldurmeye-tesebbus",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "orta",
+  "title": "Tek Darbe",
+  "area": "Ceza Hukuku · Öldürmeye teşebbüs mü, yaralama mı",
+  "court": "Kayseri 1. Ağır Ceza Mahkemesi",
+  "courtShort": "1. AĞIR CEZA",
+  "esas": "2026/198 Esas",
+  "kararTarihi": "25.01.2027",
+  "color": "#6b3b2e",
+  "teaser": "Oto sanayide alacak kavgası, tezgâhtaki döşeme bıçağıyla tek bir darbe. Katılan vekiline göre hayati tehlike öldürme kastını gösteriyor. Yargıtay'ın ölçütleriyle heyeti ikna edin.",
+  "sides": { "p1": { "role": "Sanık müdafii", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 3, "title": "Mahkeme Başkanı ve iki üye" },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Mahkeme Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "pros": { "name": "Cumhuriyet Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#c79a74", "hair": "#1d1a19", "style": "long" } },
+    "opp": { "name": "Av. Serdar Kılıç · Katılan vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#dcb08a", "hair": "#5a5550", "style": "short", "glasses": true } },
+    "client": { "name": "Hakan Er · Müvekkil (sanık)", "np": "civil", "look": { "kind": "civil", "skin": "#b07c52", "hair": "#2a1f18", "style": "short", "beard": true, "shirt": "#5e4a3a", "inner": "#d4cebf" } }
+  },
+  "courtCast": ["judge", "pros", "you", "client", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Kayseri, oto sanayi sitesi. Döşemeci Hakan Er ile müşterisi Tarık Şahin arasında ödenmeyen döşeme ücreti yüzünden tartışma çıkıyor." },
+    { "who": "client", "text": "Tarık bağırdı, ağza alınmayacak laflar etti, yakama yapıştı. Tezgâhtaki döşeme bıçağı elimdeydi. Bir kere vurdum, bacağına geldi. Yere düşünce bıraktım." },
+    { "who": "narr", "text": "Tarık ameliyatla kurtuldu. İddianame kasten öldürmeye teşebbüsten (TCK m.81/1, m.35) düzenlendi. Tarık davaya katıldı. Hakan tutuksuz yargılanıyor." }
+  ],
+  "docs": [
+    { "t": "İddianame", "d": "Kasten öldürmeye teşebbüs (TCK m.81/1, m.35). Mağdurun hayati tehlike geçirmesi öldürme kastının göstergesi sayıldı." },
+    { "t": "Adli Tıp raporu", "d": "Sol uyluk dış yüzde tek kesi; damar yaralanması nedeniyle hayati tehlike geçirmiş. Başka yara yok." },
+    { "t": "Olay yeri tutanağı", "d": "Döşeme bıçağı tezgâhın üzerinde bulundu. Bıçak dükkânın iş aleti." },
+    { "t": "Sanığın ifadesi", "d": "Müdafi huzurunda: tartışmayı ve tek darbeyi kabul ediyor; öldürmek istemediğini söylüyor." }
+  ],
+  "evidence": [
+    { "id": "ev_atk", "type": "belge", "title": "Adli Tıp raporu", "desc": "Sol uyluk dış yüzde tek kesi. Damar yaralanması nedeniyle hayati tehlike. Başka darbe izi yok." },
+    { "id": "ev_bicak", "type": "belge", "title": "Olay yeri tutanağı", "desc": "Döşeme bıçağı dükkânın iş aleti; tezgâhın üzerinde bulundu." },
+    { "id": "ev_112", "type": "belge", "title": "112 çağrı kaydı", "desc": "Olaydan bir dakika sonra sanığın hattından arama: “Bacağına bıçak geldi, kan duruyor, çabuk gelin.” Ekip sanığı kemerle bacağı sıkarken buldu.", "if": "yardim" },
+    { "id": "ev_kamera", "type": "belge", "title": "Komşu dükkânın kamera kaydı", "desc": "Mağdur sanığın yakasına yapışıyor ve yüzüne tokat atıyor; sanık ardından tezgâhtaki bıçakla tek kez vuruyor, sonra geri çekiliyor.", "if": "tahrik" },
+    { "id": "law_tck29", "type": "kanun", "title": "TCK m.29 · Haksız tahrik", "desc": "Haksız bir fiilin meydana getirdiği hiddet veya şiddetli elemin etkisi altında suç işleyene cezada indirim yapılır.", "law": "TCK m.29" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Duruşmadan önce Hakan'la görüşüyorsunuz. İki soru sorabilecek kadar vaktiniz var." }],
+      "prompt": "Hakan'a ne soracaksınız?",
+      "choices": [
+        { "text": "Tarık yere düştükten sonra ne yaptınız? Ambulansı kim çağırdı?", "delta": 15, "set": ["yardim"],
+          "reply": [{ "who": "client", "text": "Ben aradım, hemen. Sonra kemerimi çıkarıp bacağını sıktım, ambulans gelene kadar başında bekledim." }],
+          "note": "Kritik soru. Failin fiilden sonraki davranışı, Yargıtay'ın öldürme kastını belirlerken baktığı ölçütlerden biridir. Yardım çağıran ve kanamayı durdurmaya çalışan biri, öldürmek isteyen biri gibi davranmaz. 112 çağrı kaydı delil çantanıza eklendi." },
+        { "text": "Kavgayı kim başlattı? Olay yerinde kamera var mıydı?", "delta": 15, "set": ["tahrik"],
+          "reply": [{ "who": "client", "text": "Tarık başlattı; yakama yapıştı, tokat attı. Yan dükkânın kamerası bizim tezgâhı görüyor, Cemal Usta kaydı saklamış." }],
+          "note": "Önemli bir soru. Haksız tahrik, ancak ispatlanırsa cezada indirim sağlar. Komşu dükkânın kamera kaydı delil çantanıza eklendi." },
+        { "text": "Tarık'la daha önce bir sorununuz olmuş muydu?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Hayır. Yıllardır müşterimdi. Sadece bu ödeme meselesi vardı." }],
+          "note": "Önceden bir husumet bulunmaması da Yargıtay'ın ölçütlerinden biri. Ama bunu gösteren bir belge yok; bilgi olarak işe yarar." },
+        { "text": "Dükkân sizin mi, kirada mı?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Kirada. Ev sahibi iyi adamdır." }],
+          "note": "Davayla ilgisiz bir soruya sınırlı hakkınızı harcadınız." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Sanığın savunması alındı. Katılan vekili, beyanınız?" }
+      ],
+      "statement": { "who": "opp", "text": "Müvekkilim hayati tehlike geçirmiştir. Bu yaralanma, sanığın öldürme kastıyla hareket ettiğini kendiliğinden gösterir. Eylem kasten öldürmeye teşebbüstür." },
+      "prompt": "Katılan vekilinin beyanını hangi delille karşılayacaksınız?",
+      "correct": ["ev_atk"],
+      "hit": { "delta": 25, "set": ["atkHit"],
+        "reply": [
+          { "who": "judge", "text": "Adli Tıp raporundaki darbenin sayısı ve yeri tutanağa geçti." }
+        ],
+        "note": "Hayati tehlike, öldürme kastını tek başına göstermez; kastı belirleyen fiilin kendisidir. Rapor tek bir darbeyi ve hayati organların bulunmadığı bir bölgeyi gösteriyor. Yargıtay; kullanılan aracı, hedef alınan bölgeyi, darbe sayısını ve şiddetini, fiile devam imkânı olup olmadığını, failin sonraki davranışını ve önceki husumeti birlikte değerlendirir." },
+      "responses": {
+        "ev_112": { "delta": 15, "set": ["yardimArg"],
+          "reply": [{ "who": "judge", "text": "112 çağrı kaydı dosyaya alındı." }],
+          "note": "Güçlü bir delil: sanık devam edebilecekken durdu, yardım çağırdı, kanamayı durdurmaya çalıştı. Fiilden sonraki davranış öldürme kastı aleyhine önemli bir ölçüttür. Ama katılan vekili yaralanmanın kendisinden söz etti; darbenin yeri ve sayısını gösteren rapor doğrudan cevap olurdu." },
+        "ev_bicak": { "delta": 5,
+          "note": "Bıçağın önceden hazırlanmamış bir iş aleti olması lehinize bir ayrıntı. Ama yaralanmanın niteliği sorusuna rapor cevap verirdi." },
+        "ev_kamera": { "delta": 0,
+          "note": "Kamera kaydı haksız tahrik için çok değerli, ama şu an tartışılan kast meselesi. Doğru anı beklemek gerekirdi." },
+        "law_tck29": { "delta": -5,
+          "note": "Haksız tahrik bir indirim nedenidir; suçun öldürmeye teşebbüs mü yaralama mı olduğu sorusuna cevap vermez." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil kast meselesine cevap vermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; “hayati tehlike öldürme kastını gösterir” iddiası cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Dinleyici sıraları dolu. Tarık'ın ağabeyi ayağa kalkıp bağırıyor: “Katil! Burada konuşamazsın!”" },
+        { "who": "client", "text": "Ben katil değilim! Kardeşin önce…" },
+        { "who": "narr", "text": "Hakan sanık kürsüsünde dinleyicilere doğru dönmüş. Heyetin gözü sizde." }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        { "text": "Hakan'ın yanına geçip sakinleşmesini ve kürsüye dönmesini sağlayın; Başkan'dan duruşma düzeninin sağlanmasını ve olayın tutanağa geçirilmesini isteyin.", "delta": 5,
+          "law": "CMK m.203",
+          "reply": [{ "who": "judge", "text": "Dinleyiciler uyarıldı; bir daha tekrarlanırsa salondan çıkarılacaklar. Olay tutanağa geçti. Devam ediyoruz." }],
+          "note": "Duruşmanın düzenini sağlamak başkana aittir (CMK m.203). Müdafinin işi müvekkilini korumak ve düzenin sağlanmasını istemektir. Sakin bir müdafi, heyetin önünde müvekkilinin de sakin olmasını sağlar." },
+        { "text": "Dinleyicilere dönüp sert bir karşılık verin.", "delta": -10,
+          "reply": [{ "who": "judge", "text": "Müdafi, dinleyicilerle tartışamazsınız. Lütfen yerinize geçin." }],
+          "note": "Salondaki gerginliğe katıldınız. Düzeni sağlamak başkanın işidir; müdafinin bu tartışmaya girmesi mesleki ağırbaşlılıkla bağdaşmaz ve heyetin gözünde müvekkilinize zarar verir." },
+        { "text": "Hakan'a “Anlat, ne olduğunu herkes duysun” deyin.", "delta": -10,
+          "note": "Öfkeli bir sanığın salona konuşması savunmayı dağıtır ve heyetin gözünde saldırgan bir izlenim bırakır." },
+        { "text": "Duruşmanın ertelenmesini isteyin.", "delta": -5,
+          "note": "Orantısız bir talep. Başkanın uyarısı ve gerekirse kısa bir ara yeterli; dosya gereksiz yere uzar." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "pros", "text": "Esas hakkındaki mütalaam: sanığın kasten öldürmeye teşebbüs suçundan TCK m.81/1 ve m.35 uyarınca cezalandırılmasını talep ediyorum." },
+        { "who": "judge", "text": "Müdafi, suçun niteliğine ilişkin savunmanız?" }
+      ],
+      "prompt": "Suçun niteliği hakkında ne diyeceksiniz?",
+      "choices": [
+        { "if": "yardim", "text": "Araç önceden hazırlanmamış bir iş aleti, darbe tek, hedef bacak, devam imkânı varken durdu, önceden husumet yok; üstelik yardım çağırdı ve kanamayı durdurmaya çalıştı. Eylem kasten yaralamadır.", "delta": 25, "set": ["vasif", "yardimArg"],
+          "law": "TCK m.81, m.86, m.87/1-d",
+          "note": "Yargıtay ölçütlerinin tamamını kullandınız. Öldürme kastı yoksa, hayati tehlikeye yol açan bıçakla yaralama TCK m.86/1, m.86/3-e ve m.87/1-d kapsamında değerlendirilir. 112 kaydı, fiilden sonraki davranışı belgeliyor." },
+        { "text": "Araç önceden hazırlanmamış bir iş aleti, darbe tek, hedef bacak, devam imkânı varken durdu, önceden husumet yok. Eylem kasten yaralamadır.", "delta": 20, "set": ["vasif"],
+          "law": "TCK m.81, m.86, m.87/1-d",
+          "note": "Doğru ölçütler. Öldürme kastı yoksa, hayati tehlikeye yol açan bıçakla yaralama TCK m.86/1, m.86/3-e ve m.87/1-d kapsamında değerlendirilir." },
+        { "text": "Kasten yaralama, ama TCK m.87/1-d uygulanmamalı; mağdur hayati tehlike geçirmemiştir.", "delta": -10,
+          "law": "TCK m.87/1-d",
+          "note": "Adli Tıp raporuyla çelişen bir iddia. Hayati tehlike raporla sabit. Doğru çizgi, hayati tehlikeyi inkâr etmek değil, bunun tek başına öldürme kastını göstermediğini ortaya koymaktı." },
+        { "text": "Eylem taksirle yaralamadır; bıçak kazara bacağına geldi.", "delta": -10,
+          "law": "TCK m.89",
+          "note": "Hakan bıçakla vurduğunu kabul ediyor, kamera da bunu gösteriyor. Kastın bulunmadığını ileri sürmek inandırıcı değil; tartışma kastın türü üzerindedir." },
+        { "text": "Öldürmeye teşebbüsü kabul edin; yalnızca alt sınırdan ceza isteyin.", "delta": -20,
+          "law": "TCK m.35/2",
+          "note": "Savunmanın en güçlü kısmını terk ettiniz. Öldürmeye teşebbüsün cezası, kasten yaralamanın çok üzerindedir." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Cezayı etkileyecek başka bir beyanınız var mı?" }],
+      "prompt": "Cezanın belirlenmesine ilişkin talebiniz?",
+      "choices": [
+        { "if": "tahrik", "text": "Komşu dükkânın kamerası, mağdurun önce yakaya yapışıp tokat attığını gösteriyor. Haksız tahrik indirimi uygulanmalıdır.", "delta": 15, "set": ["tahrikArg"],
+          "law": "TCK m.29",
+          "note": "Haksız bir fiilin meydana getirdiği hiddetin etkisi altında suç işleyene cezada indirim yapılır (TCK m.29). Tahrik, sanığın beyanıyla değil, kamera kaydıyla ispatlandı." },
+        { "if": "!tahrik", "text": "Mağdur önce hakaret edip yakaya yapıştı. Haksız tahrik indirimi uygulanmalıdır.", "delta": 5, "set": ["tahrikBeyan"],
+          "law": "TCK m.29",
+          "note": "Doğru kurum, ama elinizde yalnızca sanığın beyanı var; mağdur bunu inkâr ediyor. Olay yerinde kamera olup olmadığını sorsaydınız tahrik belgeyle ispatlanabilirdi." },
+        { "text": "Ağır tahrik nedeniyle ceza verilmesine yer olmadığına karar verilmesini isteyin.", "delta": -10,
+          "law": "TCK m.29",
+          "note": "Haksız tahrik cezayı kaldırmaz, yalnızca indirir (TCK m.29)." },
+        { "text": "Meşru müdafaa: mağdur saldırdı, sanık kendini savundu.", "delta": -10,
+          "law": "TCK m.25/1",
+          "note": "Meşru müdafaa, saldırıyla orantılı bir savunmayı gerektirir (TCK m.25/1). Bir tokata bıçakla karşılık vermek orantılı değildir. Doğru kurum haksız tahriktir." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "vasif && (atkHit || yardimArg)", "winner": "p1",
+      "hukum": [
+        { "text": "İddianamede kasten öldürmeye teşebbüs olarak nitelendirilen eylemin silahla ve mağdurun yaşamını tehlikeye sokacak biçimde kasten yaralama suçunu oluşturduğu anlaşıldığından, sanığın TCK m.86/1, m.86/3-e, m.87/1-d" },
+        { "if": "tahrikArg || tahrikBeyan", "text": ", m.29" },
+        { "text": " ve m.62 uyarınca belirlenen hapis cezasıyla cezalandırılmasına," }
+      ],
+      "summary": [
+        { "text": "Heyet öldürme kastının bulunmadığını kabul etti: tek darbe, hayati organ bulunmayan bir bölge, önceden hazırlanmamış bir iş aleti ve devam imkânı varken durma." },
+        { "if": "yardimArg", "text": " 112 kaydı, sanığın fiilden hemen sonra yardım çağırdığını belgeledi." },
+        { "if": "tahrikArg", "text": " Kamera kaydıyla ispatlanan haksız tahrik cezayı ayrıca indirdi." },
+        { "if": "tahrikBeyan", "text": " Haksız tahrik yalnızca sanığın beyanına dayanıyordu; heyet en alt oranda indirim yaptı." },
+        { "if": "!tahrikArg && !tahrikBeyan", "text": " Haksız tahrik indirimi istenmedi." },
+        { "text": " Ceza, öldürmeye teşebbüs için öngörülen dokuz yıllık alt sınırın çok altında kaldı." }
+      ] },
+    { "winner": "p2",
+      "hukum": [
+        { "text": "Sanığın kasten öldürmeye teşebbüs suçundan TCK m.81/1, m.35/2" },
+        { "if": "tahrikArg || tahrikBeyan", "text": ", m.29" },
+        { "text": " ve m.62 uyarınca belirlenen hapis cezasıyla cezalandırılmasına," }
+      ],
+      "summary": [
+        { "text": "Heyet, katılan vekilinin “hayati tehlike öldürme kastını gösterir” tezini kabul etti." },
+        { "if": "!vasif", "text": " Suçun kasten yaralama olduğunu Yargıtay ölçütleriyle savunmadınız." },
+        { "if": "vasif", "text": " Ölçütleri doğru saydınız, ama hiçbirini dosyadaki bir delille desteklemediniz. Adli Tıp raporu darbenin sayısını ve yerini gösteriyordu." },
+        { "if": "!yardim", "text": " Müvekkile olaydan sonra ne yaptığını sorsaydınız, yardım çağırdığını gösteren 112 kaydı elinizde olurdu." }
+      ] }
+  ]
+}

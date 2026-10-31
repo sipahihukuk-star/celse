@@ -1,0 +1,182 @@
+{
+  "id": "agir-uyusturucu-ticaret",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "orta",
+  "title": "Hassas Terazi",
+  "area": "Ceza Hukuku · Uyuşturucu ticareti mi, kullanma mı",
+  "court": "Antalya 2. Ağır Ceza Mahkemesi",
+  "courtShort": "2. AĞIR CEZA",
+  "esas": "2026/287 Esas",
+  "kararTarihi": "09.03.2027",
+  "color": "#3d5a4a",
+  "teaser": "On dokuz gram esrar, mutfakta bir hassas terazi, cepte 6.500 TL ve kollukta “ondan aldım” diyen bir tanık. Ticaret mi, kullanma mı? Savcının son dakika talebine de hazırlıklı olun.",
+  "sides": { "p1": { "role": "Sanık müdafii", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 3, "title": "Mahkeme Başkanı ve iki üye" },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Mahkeme Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "pros": { "name": "Cumhuriyet Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#b98a64", "hair": "#2a2320", "style": "short", "beard": true } },
+    "client": { "name": "Derya Koç · Müvekkil (sanık)", "np": "civil", "look": { "kind": "civil", "skin": "#e8c3a0", "hair": "#7a4a2a", "style": "long", "shirt": "#6b4e6e", "inner": "#e2ddd0" } },
+    "witness": { "name": "Selçuk Arı · Tanık", "np": "civil", "look": { "kind": "civil", "skin": "#a8794f", "hair": "#141110", "style": "curly", "shirt": "#52603f", "inner": "#cfc9bb" } }
+  },
+  "courtCast": ["judge", "pros", "you", "client"],
+  "intro": [
+    { "who": "narr", "text": "Antalya, Muratpaşa. Derya Koç 26 yaşında, bir otelde resepsiyon görevlisi. Ev arkadaşıyla oturduğu dairede yapılan aramada odasında 18,4 gram esrar ve 0,9 gram başka bir madde bulundu." },
+    { "who": "narr", "text": "Mutfakta bir hassas terazi ele geçirildi; Derya'nın üzerinden 6.500 TL nakit çıktı. Bir hafta önce parkta 1 gramla yakalanan Selçuk Arı, kollukta “Derya'dan 500 TL'ye aldım” demişti." },
+    { "who": "client", "text": "Ben içiyorum, evet. Ama kimseye satmadım. Selçuk'u parkta birkaç kez gördüm, o kadar." },
+    { "who": "narr", "text": "İddianame uyuşturucu madde ticaretinden (TCK m.188/3) düzenlendi. Derya tutuksuz yargılanıyor." }
+  ],
+  "docs": [
+    { "t": "İddianame", "d": "TCK m.188/3: satışa hazır bulundurma. Dayanak: miktar, hassas terazi, nakit para ve tanık Selçuk Arı'nın kolluk ifadesi." },
+    { "t": "Kriminal rapor", "d": "18,4 gram esrar, tek parça hâlinde ve paketlenmemiş. 0,9 gram ayrı bir parça için ek inceleme istendi." },
+    { "t": "İdrar testi", "d": "Sanığın idrar örneğinde esrar etken maddesi tespit edildi." },
+    { "t": "Arama tutanağı", "d": "Esrar sanığın odasında, hassas terazi mutfak dolabında bulundu. Satış paketi, kilitli poşet ya da müşteri listesi yok." }
+  ],
+  "evidence": [
+    { "id": "ev_rapor", "type": "belge", "title": "Kriminal rapor", "desc": "18,4 gram esrar, tek parça hâlinde, paketlenmemiş. Satışa uygun bölünmüş poşet yok." },
+    { "id": "ev_idrar", "type": "belge", "title": "İdrar testi", "desc": "Sanığın idrarında esrar etken maddesi tespit edildi." },
+    { "id": "ev_tanik", "type": "beyan", "title": "Tanık Selçuk Arı'nın kolluk ifadesi", "desc": "“Derya'dan 500 TL'ye aldım.” Müdafi yok; sanıkla yüzleştirme yapılmamış." },
+    { "id": "ev_fatura", "type": "belge", "title": "Terazinin faturası", "desc": "Hassas terazi, ev arkadaşı Pınar Ateş adına bir e-ticaret sitesinden “pastacılık mutfak terazisi” olarak alınmış. Pınar evde ev yapımı pasta satıyor.", "if": "terazi" },
+    { "id": "ev_dekont", "type": "belge", "title": "Maaş bordrosu ve ATM dekontu", "desc": "Gözaltından iki saat önce, maaş gününde Derya'nın kendi hesabından ATM'den 6.500 TL çekilmiş; kira ödemesi için.", "if": "maas" },
+    { "id": "law_191", "type": "kanun", "title": "TCK m.191 · Kullanmak için bulundurma", "desc": "Kullanmak için uyuşturucu satın alan, kabul eden veya bulunduran kişi cezalandırılır; ticaret davasında eylem bu maddeye girerse özel hükümler uygulanır.", "law": "TCK m.191" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Duruşmadan önce Derya'yla büronuzda görüşüyorsunuz. Vaktiniz iki soruya yetiyor." }],
+      "prompt": "Derya'ya ne soracaksınız?",
+      "choices": [
+        { "text": "Mutfaktaki hassas terazi kimin, ne için kullanılıyor?", "delta": 15, "set": ["terazi"],
+          "reply": [{ "who": "client", "text": "Benim değil ki! Pınar evde pasta yapıp satıyor, unu şekeri onunla tartıyor. Faturası Pınar'ın e-postasında duruyor." }],
+          "note": "Kritik soru. Hassas terazi ticaretin en güçlü göstergelerinden biri sayılır; kime ait olduğu ve ne için kullanıldığı belgeyle gösterilirse iddianamenin dayanaklarından biri düşer. Fatura delil çantanıza eklendi." },
+        { "text": "Üzerinizden çıkan 6.500 TL nereden geldi?", "delta": 15, "set": ["maas"],
+          "reply": [{ "who": "client", "text": "O gün maaş günüydü. Kirayı elden veriyorum, ATM'den çekmiştim. Dekont telefonumda, bordro da işyerinde." }],
+          "note": "Önemli bir soru. Nakit para, kaynağı açıklanmadıkça satış geliri gibi okunur. Maaş bordrosu ve ATM dekontu delil çantanıza eklendi." },
+        { "text": "Ne zamandır kullanıyorsunuz? Tedavi gördünüz mü?", "delta": 5,
+          "reply": [{ "who": "client", "text": "İki yıldır, haftada birkaç kez. Tedavi görmedim ama görmek istiyorum." }],
+          "note": "Kullanıcılık, idrar testiyle zaten dosyada. Tedavi isteği yargılamanın sonunda işe yarayabilir, ama ticaret göstergelerini çürütmez." },
+        { "text": "Sizi kim ihbar etti sizce?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Bilmiyorum. Belki Selçuk, belki komşular." }],
+          "note": "İhbarcının kim olduğu savunmaya bir şey katmaz. Sınırlı sorunuzu ticaret göstergelerine harcamalıydınız." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Sanığın savunması alındı. Cumhuriyet Savcısı, ticaret kastına ilişkin değerlendirmeniz?" }
+      ],
+      "statement": { "who": "pros", "text": "Evde hassas terazi ele geçirilmiş, sanığın üzerinden 6.500 TL nakit çıkmıştır. Kullanıcının terazisi ve cebinde satış geliri olmaz; bunlar ticaretin açık göstergeleridir." },
+      "prompt": "Savcının beyanını hangi delille çürüteceksiniz?",
+      "correct": ["ev_fatura", "ev_dekont"],
+      "hit": { "delta": 25, "set": ["gosterge"],
+        "reply": [
+          { "who": "judge", "text": "Belge dosyaya alındı, aslının ibrazı için süre verildi. Ev arkadaşı Pınar Ateş'in tanık olarak dinlenmesine karar verildi." }
+        ],
+        "note": "Savcının iki göstergesinden biri belgeyle çöktü. Ticaret kastı, miktar, paketleme, terazi, para, alıcı ve iletişim kayıtları gibi göstergelerin birlikte değerlendirilmesiyle belirlenir. Bir göstergenin açıklanması bütün tabloyu değiştirir." },
+      "responses": {
+        "ev_rapor": { "delta": 10, "set": ["paketArg"],
+          "reply": [{ "who": "judge", "text": "Maddenin tek parça ve paketlenmemiş olduğu tutanağa geçti." }],
+          "note": "Doğru bir gösterge: tek parça, bölünmemiş, poşetlenmemiş madde satış hazırlığını göstermez. Ama savcı terazi ve paradan söz etti; bunlara doğrudan cevap veren belge daha güçlü olurdu." },
+        "ev_idrar": { "delta": 5,
+          "note": "Kullanıcı olduğunu gösterir, ama kullanıcı da satıcı olabilir. Terazi ve para sorusuna cevap vermiyor." },
+        "law_191": { "delta": -5,
+          "note": "Hangi maddenin uygulanacağı sonradan tartışılır. Savcı olgulardan söz ediyor; olguya olguyla cevap verilir." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil terazi ve para iddiasına cevap vermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; terazi ve para, ticaret göstergesi olarak cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Tanık Selçuk Arı, sanığı tanıyor musunuz? Ondan uyuşturucu aldınız mı?" },
+        { "who": "witness", "text": "Parkta birkaç kez gördüm, adını bilirim. Ondan bir şey almadım. Kollukta korktum, ne dediklerini imzaladım." },
+        { "who": "pros", "text": "Tanığın kolluk ifadesinin okunmasını ve hükme esas alınmasını talep ediyorum. Tanık orada açıkça “Derya'dan aldım” demiştir." }
+      ],
+      "prompt": "Tanık beyanları konusunda ne diyeceksiniz?",
+      "choices": [
+        { "text": "Çelişki nedeniyle önceki ifade okunabilir; ama hüküm duruşmada ortaya konan delillere dayanır. Tanığın duruşmada doğrulamadığı, hiçbir belgeyle desteklenmeyen kolluk beyanı tek başına satışı ispatlamaz.", "delta": 20, "set": ["tanik"],
+          "law": "CMK m.210, m.212, m.217",
+          "note": "Doğru çizgi. Tanığın dinlenmesi önceki tutanağın okunmasıyla yetinilerek yapılamaz (CMK m.210). Çelişki varsa önceki ifadenin ilgili bölümü okunabilir (CMK m.212), ama hâkim kanaatini duruşmada ortaya konan ve tartışılan delillerle oluşturur (CMK m.217). Para transferi, mesaj ya da kamera gibi destekleyici delil yok." },
+        { "text": "Kolluk ifadesinin okunmasına itiraz edin; tanık ifadesinin okunması yasaktır.", "delta": -5,
+          "law": "CMK m.212",
+          "note": "Önceki ifade ile duruşmadaki ifade arasında çelişki varsa, önceki ifadenin ilgili bölümü okunabilir (CMK m.212). Okunmayı engellemeye çalışmak yerine, okunan beyanın neden hükme yetmediğini göstermelisiniz." },
+        { "text": "Tanık hakkında yalan tanıklıktan suç duyurusunda bulunulmasını isteyin.", "delta": -5,
+          "note": "Tanık şu an sizin lehinize konuşuyor. Onu baskı altına almak, duruşmadaki beyanının güvenilirliğini tartışmaya açar ve savcının işine yarar." },
+        { "text": "Tanığın bir kez aldığını kabul edin; bunun para karşılığı satış değil, arkadaşlar arasında paylaşım olduğunu söyleyin.", "delta": -20, "set": ["paylasim"],
+          "law": "TCK m.188/3",
+          "note": "Ağır bir hata. Uyuşturucuyu başkasına bedelsiz vermek de TCK m.188/3 kapsamındadır; “paylaşım” savunması ticaret suçunu kabul etmek demek. Üstelik tanık bunu söylemiyordu bile." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Bir sonraki duruşmada 0,9 gramlık parçaya ilişkin ek kriminal rapor gelmiştir: madde sentetik kannabinoid." },
+        { "who": "pros", "text": "Esas hakkındaki mütalaam: sanığın TCK m.188/3 uyarınca cezalandırılmasını; ek rapor karşısında cezanın TCK m.188/4-a uyarınca yarı oranında artırılmasını talep ediyorum." },
+        { "who": "judge", "text": "Müdafi, esas hakkındaki savunmanızı yapın." }
+      ],
+      "prompt": "Savcının yeni artırım talebi karşısında ne yapacaksınız?",
+      "choices": [
+        { "text": "İddianamede yer almayan, cezayı artıran bir hâl ilk kez duruşmada ortaya çıktı. Sanığa ek savunma hakkı tanınmasını ve hazırlanmak için süre verilmesini isteyin.", "delta": 20, "set": ["eksavunma"],
+          "law": "CMK m.226/2-3",
+          "reply": [{ "who": "judge", "text": "Talep yerinde. Sanığa TCK m.188/4-a yönünden ek savunma hakkı hatırlatıldı; ek savunma için süre verildi." }],
+          "note": "Doğru usul hamlesi. Cezanın artırılmasını gerektiren hâllerin ilk kez duruşmada ortaya çıkması hâlinde sanık, bildirim yapılmadan ve savunması alınmadan bu hükümle mahkûm edilemez; ek savunma için süre isteyebilir (CMK m.226). Bu hak kullandırılmadan kurulan hüküm kanun yolunda bozulur." },
+        { "text": "Suç vasfı değişecekse dosyanın asliye ceza mahkemesine gönderilmesi için görevsizlik kararı verilmesini isteyin.", "delta": -15,
+          "law": "CMK m.6",
+          "reply": [{ "who": "judge", "text": "Duruşmada suçun hukuki niteliğinin değiştiğinden bahisle görevsizlik kararı verilemez. Talep reddedildi." }],
+          "note": "Duruşmada suçun hukuki niteliğinin değiştiğinden bahisle görevsizlik kararı verilerek dosya alt dereceli mahkemeye gönderilemez (CMK m.6). Eylem TCK m.191 kapsamında kalsa bile hükmü ağır ceza mahkemesi kurar. Artırım talebine de hiç cevap vermediniz." },
+        { "text": "Artırım talebine değinmeden hemen esas hakkındaki savunmaya geçin.", "delta": -10,
+          "law": "CMK m.226",
+          "note": "Ek savunma hakkı kullandırılmadan artırımlı bir hüküm kurulabilir. Bu, kanun yolunda bozma nedenidir; ama hakkı duruşmada isteyip tutanağa geçirmek müdafinin işidir." },
+        { "text": "Mütalaanın tutanaktan çıkarılmasını isteyin.", "delta": -5,
+          "note": "Savcının mütalaası tutanağa geçer; içeriğine katılmamanız onu tutanaktan çıkarmaz. Doğru cevap, yeni artırım nedeni için ek savunma hakkını istemekti." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Ek savunma alındı. Müdafi, esas hakkındaki son talebiniz?", "if": "eksavunma" },
+        { "who": "judge", "text": "Müdafi, esas hakkındaki son talebiniz?", "if": "!eksavunma" }
+      ],
+      "prompt": "Talebiniz ne olacak?",
+      "choices": [
+        { "text": "Ticaret kastı ispatlanamamıştır. Eylem kullanmak için bulundurmadır; TCK m.191/1 uyarınca hüküm kurulmasını ve TCK m.191/8 uyarınca hükmün açıklanmasının geri bırakılmasını isteriz.", "delta": 20, "set": ["talep"],
+          "law": "TCK m.191/1, m.191/8",
+          "note": "Doğru talep. Ticaret suçundan açılan davada eylemin yalnızca TCK m.191 kapsamında kaldığı anlaşılırsa, mahkeme bu maddeye göre hükmün açıklanmasının geri bırakılmasına karar verir (TCK m.191/8). Ağır ceza mahkemesi görevsizlik vermeden hükmü kendisi kurar." },
+        { "text": "Sanığın beraatine karar verilmesini isteriz; madde kişisel kullanım içindir.", "delta": -10,
+          "law": "TCK m.191/1",
+          "note": "Kullanmak için bulundurma da suçtur (TCK m.191/1). Derya kullanıcı olduğunu kabul ediyor, idrar testi de pozitif. Beraat talebi gerçekçi değil; doğru talep suç vasfının değişmesidir." },
+        { "text": "TCK m.188/3'ten alt sınırdan ceza ve TCK m.62 indirimi isteriz.", "delta": -15,
+          "note": "Ticaret nitelendirmesini kabul ettiniz. Göstergeler çürütülmüşken alt sınır talebi, on yıllık bir cezayı baştan kabul etmek demek." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "paylasim", "winner": "p2",
+      "hukum": [
+        { "text": "Sanığın uyuşturucu madde ticareti suçundan TCK m.188/3 uyarınca 10 yıl hapis ve adli para cezasıyla cezalandırılmasına" },
+        { "if": "eksavunma", "text": ", ek savunma alınarak TCK m.188/4-a uyarınca cezanın yarı oranında artırılmasına" },
+        { "text": "," }
+      ],
+      "summary": "“Arkadaşlar arası paylaşım” savunması, uyuşturucuyu başkasına vermeyi kabul etmek demekti. Bedelsiz vermek de TCK m.188/3 kapsamındadır; heyet ticaret suçunu sizin beyanınızla sabit gördü." },
+    { "if": "talep && tanik && (gosterge || paketArg)", "winner": "p1",
+      "hukum": "İddianamede TCK m.188/3 olarak nitelendirilen eylemin kullanmak için uyuşturucu madde bulundurma suçunu oluşturduğu anlaşıldığından, sanığın TCK m.191/1 uyarınca 2 yıl hapis cezasıyla cezalandırılmasına, TCK m.191/8 uyarınca HÜKMÜN AÇIKLANMASININ GERİ BIRAKILMASINA, sanığın beş yıl denetim süresine tabi tutulmasına,",
+      "summary": [
+        { "text": "Ticaret göstergeleri birer birer çöktü: madde tek parça ve paketlenmemişti, tanık duruşmada satışı doğrulamadı." },
+        { "if": "gosterge", "text": " Müvekkil görüşmesinde ortaya çıkan belge, savcının terazi ya da para göstergesini açıkladı." },
+        { "if": "eksavunma", "text": " Ek savunma hakkını isteyerek hükmü usul yönünden de sağlam kıldınız." },
+        { "if": "!eksavunma", "text": " Savcının artırım talebinde ek savunma hakkını istemediniz; suç vasfı değiştiği için bu kez sonuca etki etmedi, ama bir dahaki sefere hükmü kaybettirebilir." },
+        { "text": " On yıllık ticaret cezası yerine, açıklanmayan bir hüküm ve denetimli serbestlik." }
+      ] },
+    { "if": "eksavunma", "winner": "p2",
+      "hukum": "Sanığın uyuşturucu madde ticareti suçundan TCK m.188/3 ve m.188/4-a uyarınca 15 yıl hapis ve adli para cezasıyla cezalandırılmasına,",
+      "summary": [
+        { "text": "Heyet ticaret kastını sabit gördü." },
+        { "if": "!gosterge && !paketArg", "text": " Terazi ve para göstergelerine etkili bir cevap verilmedi." },
+        { "if": "!tanik", "text": " Tanığın duruşmada doğrulamadığı kolluk beyanının neden hükme yetmeyeceğini ortaya koymadınız." },
+        { "if": "!talep", "text": " Son talebinizde suç vasfının TCK m.191'e değişmesini istemediniz." },
+        { "text": " Ek savunma hakkı kullandırıldığı için hüküm usul yönünden sağlam; istinafta yalnızca esas tartışılabilecek." }
+      ] },
+    { "winner": "p2",
+      "hukum": "Sanığın uyuşturucu madde ticareti suçundan TCK m.188/3 ve m.188/4-a uyarınca 15 yıl hapis ve adli para cezasıyla cezalandırılmasına,",
+      "summary": [
+        { "text": "Heyet ticaret kastını sabit gördü ve savcının son duruşmada istediği artırımı uyguladı." },
+        { "if": "!gosterge && !paketArg", "text": " Terazi ve para göstergelerine etkili bir cevap verilmedi." },
+        { "if": "!tanik", "text": " Tanığın duruşmada doğrulamadığı kolluk beyanının neden hükme yetmeyeceğini ortaya koymadınız." },
+        { "if": "!talep", "text": " Son talebinizde suç vasfının TCK m.191'e değişmesini istemediniz." },
+        { "text": " Artırım için ek savunma hakkı kullandırılmadı (CMK m.226/2). Bu istinafta bozma nedenidir; ama hakkı duruşmada sizin istemeniz gerekirdi." }
+      ] }
+  ]
+}

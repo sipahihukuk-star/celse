@@ -1,0 +1,190 @@
+{
+  "id": "agir-bilisim-dolandiricilik",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "orta",
+  "title": "Durakta Bulunan Kart",
+  "area": "Ceza Hukuku · Bilişim dolandırıcılığı ve kart kötüye kullanma",
+  "court": "Eskişehir 3. Ağır Ceza Mahkemesi",
+  "courtShort": "3. AĞIR CEZA",
+  "esas": "2026/356 Esas",
+  "kararTarihi": "14.04.2027",
+  "color": "#2f4f6b",
+  "teaser": "Gece gasp edilen bir kredi kartı, ertesi sabah bir üniversite öğrencisinin elinde temassız ödemede. İddianame hem yağma hem nitelikli dolandırıcılık diyor. Kayıtlar silinmeden doğru delili isteyin.",
+  "sides": { "p1": { "role": "Sanık müdafii", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 3, "title": "Mahkeme Başkanı ve iki üye" },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Mahkeme Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "pros": { "name": "Cumhuriyet Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e2b48c", "hair": "#8a8a8e", "style": "short" } },
+    "client": { "name": "Melis Aydın · Müvekkil (sanık)", "np": "civil", "look": { "kind": "civil", "skin": "#9c6b45", "hair": "#16110f", "style": "curly", "glasses": true, "shirt": "#2f5d62", "inner": "#e6e0d3" } }
+  },
+  "courtCast": ["judge", "pros", "you", "client"],
+  "intro": [
+    { "who": "narr", "text": "Eskişehir. 14 Mart 2026 gecesi saat 23.10'da Odunpazarı'nda iki kişi Kemal Özdoğan'ın cüzdanını zorla aldı. Kemal, faillerden birinin kapüşonlu genç bir kadın olduğunu söyledi." },
+    { "who": "narr", "text": "Ertesi sabah Kemal'in kredi kartıyla Tepebaşı'nda altı temassız harcama yapıldı: toplam 9.850 TL. Market kameraları kartı kullananın Melis Aydın olduğunu gösterdi." },
+    { "who": "client", "text": "Kartı sabah durakta yerde buldum. Kullanmamam gerekiyordu, biliyorum. Ama o gece kimsenin cüzdanını almadım; evdeydim." },
+    { "who": "narr", "text": "İddianame, nitelikli yağma (TCK m.149/1-c, h) ile bilişim sistemlerinin ve bankaların araç olarak kullanılması suretiyle nitelikli dolandırıcılıktan (TCK m.158/1-f) düzenlendi. Nitelikli dolandırıcılık 2025 sonundaki değişiklikle asliye cezanın görevine geçti; dava yağma suçlaması nedeniyle ağır cezada görülüyor." }
+  ],
+  "docs": [
+    { "t": "İddianame", "d": "Nitelikli yağma (TCK m.149/1-c, h) ve nitelikli dolandırıcılık (TCK m.158/1-f). Savcılığa göre sanık, yağmayla ele geçirilen kartı bankanın bilişim sistemi üzerinden kullanarak haksız yarar sağladı." },
+    { "t": "Banka işlem dökümü", "d": "15 Mart 2026, 08.05–11.40 arası, Tepebaşı'nda altı temassız POS harcaması. Toplam 9.850 TL." },
+    { "t": "Market kamera kayıtları", "d": "Kartı kullanan kişi sanık. Yüzü açık, yalnız." },
+    { "t": "Mağdur ifadesi", "d": "Kemal Özdoğan: “Biri erkekti, diğeri kapüşonlu genç bir kadındı. Yüzünü tam göremedim.”" }
+  ],
+  "evidence": [
+    { "id": "ev_banka", "type": "belge", "title": "Banka işlem dökümü", "desc": "15 Mart sabahı, Tepebaşı'nda altı temassız POS harcaması; toplam 9.850 TL." },
+    { "id": "ev_marketkamera", "type": "belge", "title": "Market kamera kayıtları", "desc": "Kartı kullanan sanık; yüzü açık, yalnız." },
+    { "id": "ev_magdur", "type": "beyan", "title": "Mağdur ifadesi", "desc": "“Biri erkekti, diğeri kapüşonlu genç bir kadındı. Yüzünü tam göremedim.”" },
+    { "id": "ev_oturum", "type": "belge", "title": "Çevrim içi ders platformu oturum dökümü", "desc": "Sanığın kendi ekran çıktısı: 14 Mart 22.30–00.20 arası canlı ders kaydını izlemiş; oturum IP adresi görünüyor. Resmî bir kayıtla doğrulanmamış.", "if": "oturum" },
+    { "id": "ev_dekont", "type": "belge", "title": "Havale dekontu", "desc": "Sanık, iddianame kabul edilmeden önce, soruşturma aşamasında 9.850 TL'nin tamamını kart sahibine havale etmiş. Açıklama: “Kart harcamalarının iadesi.”", "if": "odeme" },
+    { "id": "ev_hts", "type": "belge", "title": "HTS, baz ve IP kayıtları", "desc": "Mahkemenin yazısıyla gelen kayıtlar: 14 Mart 22.15–00.40 arası sanığın hattı yalnızca Tepebaşı'ndaki ev adresini kapsayan baz istasyonundan sinyal vermiş. Ders platformuna bağlanan IP adresi, sanığın evindeki internet aboneliğine ait.", "if": "hts" },
+    { "id": "law_245", "type": "kanun", "title": "TCK m.245/1 · Banka veya kredi kartlarının kötüye kullanılması", "desc": "Başkasına ait kartı her ne suretle olursa olsun eline geçirip rızası olmadan kullanarak yarar sağlayan kişi cezalandırılır.", "law": "TCK m.245/1" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "İlk duruşmadan önce Melis'le görüşüyorsunuz. İki soru sorabilirsiniz." }],
+      "prompt": "Melis'e ne soracaksınız?",
+      "choices": [
+        { "text": "14 Mart gecesi 22.00 ile 01.00 arasında tam olarak ne yaptınız? Telefonunuz yanınızda mıydı?", "delta": 15, "set": ["oturum"],
+          "reply": [{ "who": "client", "text": "Evdeydim, finale hazırlanıyordum. Bilgisayardan canlı ders kaydı izledim, telefon da yanımdaydı. Platformdaki oturum geçmişinin ekran görüntüsünü aldım." }],
+          "note": "Doğru soru. Yağma suçlamasının karşısına çıkacak şey, olay saatinde başka bir yerde olduğunuzu gösteren nesnel kayıtlar. Ekran çıktısı delil çantanıza eklendi; ama özel bir ekran görüntüsü resmî bir kayıtla doğrulanmadıkça zayıf kalır." },
+        { "text": "Kart sahibinin zararını giderdiniz mi?", "delta": 15, "set": ["odeme"],
+          "reply": [{ "who": "client", "text": "Karakoldan çıktıktan iki hafta sonra, harcadığım 9.850 TL'nin hepsini Kemal Bey'in hesabına havale ettim. Dekont bende." }],
+          "note": "Önemli soru. Zararın giderildiği aşama, etkin pişmanlık indiriminin oranını belirler. Ödeme iddianame kabul edilmeden, yani kovuşturma başlamadan önce yapılmış. Dekont delil çantanıza eklendi." },
+        { "text": "Kartı bulduğunuzda neden karakola götürmediniz?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Bilmiyorum… Sınav haftasıydı, param yoktu. Çok utanıyorum." }],
+          "note": "Anlaşılır bir merak, ama cevabı savunmaya bir şey katmıyor. Kartı rızasız kullandığı zaten tartışmasız." },
+        { "text": "Kemal Özdoğan'ı tanıyor musunuz?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Hayır, ilk kez iddianamede gördüm adını." }],
+          "note": "Yakınlık olsaydı şahsi cezasızlık tartışılabilirdi, ama burada bir ilişki yok. Sınırlı sorunuzu daha kritik bir noktaya harcayabilirdiniz." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Sanığın savunması alındı. Müdafi, delillere ilişkin talepleriniz?" }
+      ],
+      "prompt": "Yağma suçlamasına karşı delil talebiniz ne olacak?",
+      "choices": [
+        { "text": "Sanığın hattına ait olay saatini kapsayan HTS ve baz kayıtlarının BTK'dan, ev internet aboneliğine ait IP kayıtlarının erişim sağlayıcıdan getirtilmesine bugün karar verilmesini isteyin; kayıtların saklama süresi sınırlıdır.", "delta": 20, "set": ["hts"],
+          "law": "CMK m.206",
+          "reply": [{ "who": "judge", "text": "Talep yerinde görüldü. İlgili kurumlara yazı yazılmasına karar verildi." }],
+          "note": "Doğru ve zamanında bir talep. Trafik ve konum bilgileri kişisel verilerdir; müdafiye değil, yargı merciine verilir. Sanık ve müdafi delil toplanmasını mahkemeden isteyebilir; delil ikamesi talebi ancak kanunda sayılan sebeplerle reddedilebilir (CMK m.206). Bu kayıtlar sınırlı süre saklandığından, talep ilk fırsatta yapılmalıdır." },
+        { "if": "oturum", "text": "Ders platformu oturum dökümünün ekran çıktısını sunmakla yetinin.", "delta": 5, "set": ["ekran"],
+          "note": "Ekran çıktısı bir başlangıç, ama değiştirilebilir bir belge olduğu için heyet ona resmî bir kayıt kadar güvenmez. Aynı bilginin erişim sağlayıcıdan ve operatörden mahkeme kanalıyla doğrulanması gerekirdi." },
+        { "text": "Operatöre avukat olarak yazı yazıp baz kayıtlarını kendiniz alın ve dosyaya sunun.", "delta": -10,
+          "note": "Operatörler konum içeren trafik kayıtlarını avukat yazısıyla vermez; bu bilgiler ancak yargı merciinin kararıyla istenebilir. Zaman kaybettiniz." },
+        { "text": "Kayıtları şimdi değil, karar duruşmasından önce isteriz.", "delta": -10,
+          "note": "Trafik ve konum kayıtlarının saklama süresi sınırlıdır; geciken talep, kaydın silinmesi ya da talebin geciktirme amaçlı görülmesi riskini doğurur. Delil talebi ilk fırsatta yapılır." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "İki ay sonra, ikinci duruşma.", "if": "hts" },
+        { "who": "narr", "text": "İki ay sonra, ikinci duruşma. Operatörün kayıtları dosyada yok.", "if": "!hts" },
+        { "who": "judge", "text": "Cumhuriyet Savcısı, yağma suçlamasına ilişkin değerlendirmeniz?" }
+      ],
+      "statement": { "who": "pros", "text": "Mağdur, faillerden birinin genç bir kadın olduğunu söylemiştir. Gece zorla alınan kart, birkaç saat sonra sanığın elindedir. Kartın bu kadar kısa sürede sanığa ulaşması, onun yağmanın faillerinden biri olduğunu gösterir." },
+      "prompt": "Savcının beyanını hangi delille çürüteceksiniz?",
+      "correct": ["ev_hts"],
+      "hit": { "delta": 25, "set": ["yagmaBeraat"],
+        "reply": [
+          { "who": "judge", "text": "HTS, baz ve IP kayıtları okundu. Sanığın hattının olay saatinde olay yerinden uzaktaki ev adresinde sinyal verdiği tutanağa geçti." }
+        ],
+        "note": "Nesnel ve resmî kayıtlar, olay saatinde sanığın başka bir ilçede, evinde olduğunu gösteriyor. Kartın sonradan sanığın elinde olması, yağmaya katıldığını ispatlamaz; ceza mahkûmiyeti şüpheye dayanamaz." },
+      "responses": {
+        "ev_oturum": { "delta": 10, "set": ["kismi"],
+          "reply": [{ "who": "pros", "text": "Ekran çıktısı sanığın kendi hazırladığı bir belgedir; doğruluğu bilinmiyor." }],
+          "note": "Doğru yöndesiniz, ama savcının itirazı yerinde: ekran çıktısı resmî kayıtla doğrulanmadı. Heyet yine de mağdurun teşhisinin belirsizliğiyle birlikte değerlendirebilir." },
+        "ev_magdur": { "delta": 5, "set": ["kismi"],
+          "note": "Mağdurun yüzü göremediğini söylemesi teşhisin zayıflığını gösterir. Ama sanığın olay saatinde nerede olduğunu gösteren bir kayıt çok daha güçlü olurdu." },
+        "ev_marketkamera": { "delta": -10,
+          "note": "Kamera, sanığın ertesi sabah kartı kullandığını gösteriyor; savcının tezini destekler." },
+        "ev_dekont": { "delta": -5,
+          "note": "Zararın giderilmesi kart harcamaları için önemli, ama yağmaya katılıp katılmadığı sorusuna cevap vermiyor." },
+        "law_245": { "delta": -5,
+          "note": "Kartın nasıl kullanıldığı sonra tartışılacak. Şu an soru, sanığın gece yağmanın failleri arasında olup olmadığı." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil savcının yağma iddiasına cevap vermiyor." },
+      "pass": { "delta": -20, "note": "İtiraz etmediniz; savcının çıkarımı cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "pros", "text": "Kart harcamaları yönünden mütalaam: sanık bankanın bilişim sistemlerini kullanarak kasiyerleri kart sahibi olduğuna inandırmıştır. Eylem TCK m.158/1-f kapsamında nitelikli dolandırıcılıktır." },
+        { "who": "judge", "text": "Müdafi, kart harcamalarının hukuki niteliği hakkında ne diyorsunuz?" }
+      ],
+      "prompt": "Kart harcamalarının hukuki niteliği hakkında ne diyeceksiniz?",
+      "choices": [
+        { "text": "Sanık bulduğu kartı rızası olmadan kendisi kullandı; kimse aldatılarak malvarlığı üzerinde tasarrufa yöneltilmedi. Eylem, özel hüküm olan TCK m.245/1 kapsamında banka veya kredi kartının kötüye kullanılmasıdır.", "delta": 20, "set": ["vasif"],
+          "law": "TCK m.245/1, m.158/1-f",
+          "note": "Doğru ayrım. Dolandırıcılıkta fail hileli davranışla birini aldatır ve aldatılan kişi malvarlığı üzerinde tasarrufta bulunur. Başkasına ait kartı her ne suretle olursa olsun ele geçirip rızasız kullanmak ise TCK m.245/1'de ayrıca düzenlenmiştir. Temassız ödemede kasiyer aldatılmıyor; kart, sahibinin rızası olmadan kullanılıyor." },
+        { "text": "Eylem bilişim sistemlerinin kullanılması suretiyle hırsızlıktır.", "delta": -10,
+          "law": "TCK m.142/2-e",
+          "note": "Kartın kendisinin rızasız kullanılması, kanunun özel olarak düzenlediği TCK m.245/1 kapsamındadır. Hırsızlık nitelendirmesi müvekkilin durumunu iyileştirmez." },
+        { "text": "Suç vasfı değişecekse dosyanın görevsizlikle asliye ceza mahkemesine gönderilmesini isteyin.", "delta": -10,
+          "law": "CMK m.6",
+          "reply": [{ "who": "judge", "text": "Duruşmada suçun hukuki niteliğinin değiştiğinden bahisle görevsizlik kararı verilemez." }],
+          "note": "Duruşmada suçun hukuki niteliğinin değiştiğinden bahisle görevsizlik kararı verilerek dosya alt dereceli mahkemeye gönderilemez (CMK m.6). Hükmü ağır ceza mahkemesi kurar; siz nitelendirmeye ilişkin bir savunma yapmadınız." },
+        { "text": "Nitelikli dolandırıcılık nitelendirmesini kabul edin; yalnızca alt sınırdan ceza isteyin.", "delta": -15,
+          "law": "TCK m.158/1-f",
+          "note": "Yanlış nitelendirmeyi kabul ettiniz. Kartın rızasız kullanılması özel olarak TCK m.245/1'de düzenlenmiştir." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Cezanın belirlenmesine ilişkin beyanınız?" }],
+      "prompt": "Zararın giderilmesi konusunda ne diyeceksiniz?",
+      "choices": [
+        { "if": "odeme", "text": "Zarar, iddianame kabul edilmeden önce tamamen giderilmiştir. TCK m.245/5 yollamasıyla TCK m.168/1 uyarınca etkin pişmanlık indirimi uygulanmalıdır.", "delta": 20, "set": ["ep"],
+          "law": "TCK m.245/5, m.168/1",
+          "note": "Kart kötüye kullanmada etkin pişmanlık hükümleri uygulanır (TCK m.245/5). Kovuşturma başlamadan önce zararın tamamen giderilmesi hâlinde cezanın üçte ikisine kadarı indirilir (TCK m.168/1). Kovuşturma iddianamenin kabulüyle başlar; dekont bundan önceki tarihi taşıyor." },
+        { "if": "!odeme", "text": "Sanık zararın tamamını bugün, hükümden önce ödemeye hazırdır. Ödeme tutanağa geçirilsin ve TCK m.168/2 uyarınca etkin pişmanlık indirimi uygulansın.", "delta": 10, "set": ["ep2"],
+          "law": "TCK m.245/5, m.168/2",
+          "reply": [{ "who": "judge", "text": "Ödemenin yapıldığına ilişkin dekont dosyaya sunuldu, tutanağa geçti." }],
+          "note": "Kovuşturma başladıktan sonra, ama hüküm verilmeden önce gösterilen etkin pişmanlıkta cezanın yarısına kadarı indirilir (TCK m.168/2). Müvekkile zararı ödeyip ödemediğini sorsaydınız, daha önceki bir ödemeyle daha yüksek oranda indirim alabilirdiniz." },
+        { "text": "Kart sahibi şikâyetinden vazgeçerse davanın düşmesine karar verilmesini isteyin.", "delta": -10,
+          "note": "TCK m.245/1 şikâyete bağlı bir suç değildir; kendiliğinden kovuşturulur. Şikâyetten vazgeçme davayı düşürmez." },
+        { "text": "Zarar giderildiğine göre ceza verilmesine yer olmadığına karar verilmesini isteyin.", "delta": -10,
+          "law": "TCK m.168",
+          "note": "Bu suçta etkin pişmanlık cezayı kaldırmaz, indirir (TCK m.168). Ceza verilmesine yer olmadığı talebi heyetin karşısında hukuki bir hata olarak kalır." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "(yagmaBeraat || kismi) && vasif", "winner": "p1",
+      "hukum": [
+        { "if": "yagmaBeraat", "text": "Sanığın nitelikli yağma suçundan, suçun sanık tarafından işlenmediği sabit olduğundan CMK m.223/2-b uyarınca BERAATİNE; " },
+        { "if": "!yagmaBeraat", "text": "Sanığın nitelikli yağma suçundan, suçun sanık tarafından işlendiği sabit olmadığından CMK m.223/2-e uyarınca BERAATİNE; " },
+        { "text": "iddianamede TCK m.158/1-f olarak nitelendirilen kart harcamalarının banka veya kredi kartlarının kötüye kullanılması suçunu oluşturduğu anlaşıldığından, sanığın TCK m.245/1" },
+        { "if": "ep", "text": " ve TCK m.245/5 yollamasıyla m.168/1" },
+        { "if": "ep2", "text": " ve TCK m.245/5 yollamasıyla m.168/2" },
+        { "text": " uyarınca belirlenen hapis ve adli para cezasıyla cezalandırılmasına," }
+      ],
+      "summary": [
+        { "if": "yagmaBeraat", "text": "Zamanında istenen HTS, baz ve IP kayıtları, sanığın yağma saatinde evinde olduğunu resmî olarak gösterdi; beraat, suçun işlenmediğinin sabit olmasına dayandı." },
+        { "if": "!yagmaBeraat", "text": "Yağma suçlaması şüpheden sanık yararlanır ilkesiyle düştü. Resmî kayıtları zamanında isteseydiniz, beraat çok daha sağlam bir gerekçeye dayanırdı." },
+        { "text": " Kart harcamaları, nitelikli dolandırıcılık yerine özel hüküm olan TCK m.245/1 kapsamında değerlendirildi." },
+        { "if": "ep", "text": " Kovuşturmadan önce zararın tamamen giderilmesi en yüksek oranda indirim sağladı." },
+        { "if": "ep2", "text": " Duruşmada yapılan ödeme cezayı indirdi, ama kovuşturmadan önceki bir ödeme daha yüksek oranda indirim sağlardı." },
+        { "if": "!ep && !ep2", "text": " Zararın giderilmesine dayanan etkin pişmanlık indirimi istenmedi." }
+      ] },
+    { "if": "yagmaBeraat || kismi", "winner": "p2",
+      "hukum": [
+        { "if": "yagmaBeraat", "text": "Sanığın nitelikli yağma suçundan CMK m.223/2-b uyarınca BERAATİNE; " },
+        { "if": "!yagmaBeraat", "text": "Sanığın nitelikli yağma suçundan CMK m.223/2-e uyarınca BERAATİNE; " },
+        { "text": "sanığın nitelikli dolandırıcılık suçundan TCK m.158/1-f" },
+        { "if": "ep", "text": " ve m.168/1" },
+        { "if": "ep2", "text": " ve m.168/2" },
+        { "text": " uyarınca belirlenen hapis ve adli para cezasıyla cezalandırılmasına," }
+      ],
+      "summary": "Yağma suçlaması düştü, ama heyet kart harcamalarını nitelikli dolandırıcılık olarak cezalandırdı. Kartın rızasız kullanılmasının özel olarak TCK m.245/1'de düzenlendiğini savunsaydınız ceza belirgin biçimde daha hafif olurdu." },
+    { "winner": "p2",
+      "hukum": [
+        { "text": "Sanığın nitelikli yağma suçundan TCK m.149/1-c, h uyarınca hapis cezasıyla; kart harcamaları yönünden " },
+        { "if": "vasif", "text": "TCK m.245/1" },
+        { "if": "!vasif", "text": "TCK m.158/1-f" },
+        { "text": " uyarınca ayrıca hapis ve adli para cezasıyla cezalandırılmasına," }
+      ],
+      "summary": [
+        { "text": "Heyet, kartın birkaç saat içinde sanığın elinde olmasını ve mağdurun belirsiz tarifini yağmaya katılımın kanıtı saydı." },
+        { "if": "!hts", "text": " Olay saatindeki konumu gösteren HTS, baz ve IP kayıtları zamanında istenmedi; nesnel bir karşı delil dosyaya girmedi." },
+        { "if": "hts", "text": " Kayıtlar dosyadaydı, ama savcının çıkarımına karşı onları sunmadınız." }
+      ] }
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "id": "ceza-hakaret-hagb",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "zor",
+  "title": "Site Toplantısı",
+  "area": "Ceza Hukuku · Karşılıklı hakaret ve HAGB",
+  "court": "Bursa 9. Asliye Ceza Mahkemesi",
+  "courtShort": "9. ASLİYE CEZA",
+  "esas": "2026/1388 Esas",
+  "kararTarihi": "26.01.2027",
+  "color": "#2e4a6e",
+  "teaser": "Kat malikleri toplantısında karşılıklı sözler. Müvekkil karşı şikâyet, ispat ve itiraz istiyor; ama süreler ve kanun değişmiş.",
+  "sides": {
+    "p1": { "role": "Sanık müdafii", "short": "Siz" },
+    "p2": { "role": "Karşı taraf", "short": "Karşı taraf" }
+  },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#cf9d74", "hair": "#2a1d16", "style": "short", "beard": true } },
+    "pros": { "name": "Cumhuriyet Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e8c19c", "hair": "#1a1410", "style": "long" } },
+    "opp": { "name": "Av. Pelin Karaca · Katılan vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#f2d2b2", "hair": "#b5835a", "style": "bun", "glasses": true } },
+    "client": { "name": "Hülya Demirtaş · Müvekkil (sanık)", "np": "civil", "look": { "kind": "civil", "skin": "#b8835a", "hair": "#1e1814", "style": "curly", "shirt": "#7a4a2a", "inner": "#efe9de" } },
+    "katilan": { "name": "Orhan Başaran · Katılan", "np": "civil", "look": { "kind": "civil", "skin": "#dcae86", "hair": "#cfcfcf", "style": "bald", "glasses": true, "shirt": "#3b4a5a", "inner": "#f0ebe0" } }
+  },
+  "courtCast": ["judge", "pros", "you", "client", "opp"],
+  "evidence": [
+    { "id": "ev_denetim", "type": "belge", "title": "Denetim kurulu raporu (2025 yılı)", "desc": "Site aidat hesapları incelenmiş; usulsüzlük tespit edilmemiştir." },
+    { "id": "ev_tutanak", "type": "belge", "title": "Kat malikleri kurulu toplantı tutanağı (12.03.2026)", "desc": "Divan başkanı ve katibin imzası var. “Yönetici Orhan Başaran, söz alan Hülya Demirtaş'a ‘cahil kadın, sen bu sitenin belasısın’ dedi. Hülya Demirtaş da ‘aidatları cebe indiren hırsız, şerefsiz’ diye karşılık verdi.”", "if": "tutanak" },
+    { "id": "ev_tanik", "type": "beyan", "title": "Tanık: Divan başkanı Ayten Kurt", "desc": "Toplantıyı yöneten kat maliki. Sözlerin sırasını baştan sona duydu.", "if": "tanik" },
+    { "id": "law_tck129", "type": "kanun", "title": "TCK m.129 · Haksız fiil nedeniyle veya karşılıklı hakaret", "desc": "Haksız fiile tepki olarak ya da karşılıklı işlenen hakarette ceza indirilebilir ya da ceza vermekten vazgeçilebilir.", "law": "TCK m.129" },
+    { "id": "law_tck127", "type": "kanun", "title": "TCK m.127 · İsnadın ispatı", "desc": "İsnat edilen ve suç oluşturan fiilin ispatı hâlinde ceza verilmez; ispat istemi kamu yararına ya da şikâyetçinin rızasına bağlıdır.", "law": "TCK m.127" }
+  ],
+  "intro": [
+    { "who": "narr", "text": "Aralık 2026. Büronuza Hülya Demirtaş geliyor. Bursa Nilüfer'de bir sitede oturan 41 yaşında bir lise öğretmeni." },
+    { "who": "client", "text": "Mart'taki kat malikleri toplantısında aidat harcamalarını sordum. Yönetici Orhan Bey herkesin önünde bana “cahil kadın, sen bu sitenin belasısın” dedi. Ben de “aidatları cebe indiren hırsız, şerefsiz” dedim." },
+    { "who": "client", "text": "Bir hafta sonra beni şikâyet etmiş, şimdi sanığım. Ben de onu şikâyet edeceğim. Ceza alırsam okulda başım yanar mı?" }
+  ],
+  "docs": [
+    { "t": "Şikâyet dilekçesi", "d": "Orhan Başaran, 18.03.2026. Olay tarihi: 12.03.2026, kat malikleri kurulu toplantısı." },
+    { "t": "Soruşturma evresi", "d": "Uzlaştırma girişimi sonuçsuz kaldı; katılan kabul etmedi." },
+    { "t": "İddianame", "d": "TCK m.125/1 (hakaret). İddianame 10.07.2026'da kabul edildi. Sanık hakkında başka kayıt yok." },
+    { "t": "Denetim kurulu raporu (2025)", "d": "Aidat hesaplarında usulsüzlük tespit edilmemiş." }
+  ],
+  "steps": [
+    {
+      "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Müvekkil derse yetişmek zorunda. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Toplantıda kimin ne dediği yazılı bir yere geçti mi?", "delta": 15, "set": ["tutanak"],
+          "reply": [{ "who": "client", "text": "Divan katibi her şeyi tutanağa yazdı. Orhan Bey'in sözleri de benimkiler de var. İmzalı bir örneği bende." }],
+          "note": "Sözlerin sırasını gösteren imzalı bir belge. Delil çantanıza eklendi." },
+        { "text": "Sözleri baştan duyan, tarafsız biri var mı?", "delta": 10, "set": ["tanik"],
+          "reply": [{ "who": "client", "text": "Toplantıyı divan başkanı Ayten Hanım yönetiyordu. Her şeyi duydu; Orhan Bey'le de benimle de arası iyidir." }],
+          "note": "Tarafsız bir tanık. Delil çantanıza eklendi." },
+        { "text": "Orhan Bey'in aidatları aldığına dair elinizde ne var?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Somut bir şey yok, herkes öyle konuşuyor. Denetim raporu da temiz çıktı zaten." }],
+          "note": "Önemli bir bilgi: isnadı ispatlayacak bir şey yok. Savunmayı ispat hakkına dayandırmamak gerekiyor." },
+        { "text": "Orhan Bey'le başka bir husumetiniz var mı?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Geçen yıl otopark yüzünden de tartışmıştık…" }],
+          "note": "Bu bilgi savunmaya katkı sağlamıyor; aksine eski bir husumeti ortaya çıkarıyor." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "Ben de onu şikâyet edeyim, iki dosya birleşsin. Bir de aidatları çaldığını mahkemede ispat edeceğim; o zaman ceza alamam, değil mi?" }
+      ],
+      "prompt": "Müvekkile ne söyleyeceksiniz?",
+      "choices": [
+        { "text": "Şikâyet süresi fiil ve failin öğrenilmesinden itibaren altı aydır; 12 Eylül'de doldu. Ama karşılıklı hakarette ceza verilmemesi için onun da yargılanması gerekmez. İspata da dayanmayalım: “şerefsiz” sövmedir, ispat edilemez; “hırsız” isnadının ispatı için de kamu yararı ya da Orhan Bey'in rızası gerekir.", "delta": 20, "set": ["strateji"],
+          "law": "TCK m.73/1 · m.127/1 · m.129/3",
+          "note": "Doğru. Müvekkilin şikâyet hakkı süre geçtiği için düştü (TCK m.73/1). TCK m.129/3 için karşı tarafın da sanık olması gerekmez. İspat hakkı yalnızca somut, suç oluşturan fiil isnadında söz konusudur ve kural olarak kamu yararı ya da şikâyetçinin rızasına bağlıdır (TCK m.127/1). Sövmenin ispatı olmaz." },
+        { "text": "Hemen savcılığa şikâyet dilekçesi verelim, dosyaların birleştirilmesini isteriz.", "delta": -10,
+          "law": "TCK m.73/1",
+          "note": "Şikâyet hakkı altı ay içinde kullanılmadığı için düştü; dilekçe sonuç doğurmaz. Asıl yararlı olan, karşılıklılığı kendi dosyanızda ileri sürmek." },
+        { "text": "İspat hakkını kullanalım; aidat hırsızlığını tanıklarla ispat edersek ceza almazsınız.", "delta": -15, "set": ["ispat"],
+          "law": "TCK m.127/1",
+          "note": "Elinizde ispat edecek bir şey yok, denetim raporu da aksini gösteriyor. Üstelik “şerefsiz” sövmesi için ispat hiç mümkün değil ve ispat istemi kamu yararına ya da şikâyetçinin rızasına bağlı." },
+        { "text": "Duruşmada sözleri tamamen inkâr edin: “Öyle bir şey demedim.”", "delta": -15, "set": ["inkar"],
+          "note": "Müvekkile gerçeğe aykırı beyan önermek meslek kurallarıyla bağdaşmaz. Sözler tutanakta ve tanık önünde söylendi; inkâr güvenilirliği yıkar, karşılıklılık savunmasını da zayıflatır." }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. İddianame okundu. Sanık, savunmanızı alalım." },
+        { "who": "client", "text": "Ben öyle bir şey söylemedim.", "if": "inkar" },
+        { "who": "client", "text": "Söyledim, inkâr etmiyorum. Ama önce o bana herkesin önünde “cahil kadın” dedi.", "if": "!inkar" },
+        { "who": "judge", "text": "Katılan vekili?" }
+      ],
+      "statement": { "who": "opp", "text": "Sayın Hâkim, müvekkilim toplantıda sanığa tek bir kötü söz söylememiştir. Sanık durup dururken müvekkilimi aşağılamıştır. TCK m.129'un uygulanma imkânı yoktur." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_tutanak"],
+      "hit": { "delta": 25, "set": ["tutanakItiraz"],
+        "reply": [
+          { "who": "judge", "text": "Tutanak okundu; katılanın sözlerinin sanıktan önce söylendiği görülüyor. Tutanağı imzalayan divan başkanının tanık olarak dinlenmesine karar verildi." },
+          { "who": "katilan", "text": "Ben… o an sinirlenmiştim." }
+        ],
+        "note": [
+          { "text": "İmzalı tutanak hem karşılıklılığı hem sözlerin sırasını gösteriyor: katılanın hakareti önce geldi." },
+          { "if": "inkar", "text": " Ama aynı tutanak müvekkilinizin biraz önceki inkârını da yalanladı; hâkimin gözünde güvenilirliği zedelendi." }
+        ] },
+      "responses": {
+        "ev_tanik": { "delta": 15, "set": ["tanikItiraz"],
+          "reply": [{ "who": "judge", "text": "Tanık Ayten Kurt'un bir sonraki celsede dinlenmesine karar verildi." },
+                    { "who": "narr", "text": "Bir sonraki celse. Tanık, katılanın önce “cahil kadın, belasın” dediğini anlattı." }],
+          "note": "Tarafsız tanık karşılıklılığı doğruladı. Yazılı tutanak elinizde olsaydı dosya bir celse uzamazdı." },
+        "ev_denetim": { "delta": -10,
+          "note": "Denetim raporu aidat hesaplarının temiz olduğunu gösteriyor; müvekkilin “hırsız” isnadının dayanaksız olduğunu siz ispatladınız." },
+        "law_tck129": { "delta": 0,
+          "note": "Madde doğru, ama katılan vekili vakıaya itiraz ediyor: müvekkilinin bir şey söylemediğini iddia ediyor. Karşılıklılık kanun maddesiyle değil, delille gösterilir." },
+        "law_tck127": { "delta": -10,
+          "note": "İspat hakkı katılanın sözlerini değil, müvekkilin isnadını ilgilendirir; burada işe yaramaz. Konu, sözlerin karşılıklı olup olmadığı." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil katılan vekilinin beyanını çürütmüyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; katılanın hiçbir şey söylemediği anlatımı cevapsız kaldı." }
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Sayın Hâkim, sanık hükmün açıklanmasının geri bırakılmasını kabul ettiğini beyan etmemiştir. Üstelik suçu da ikrar etmemiştir. Bu koşullarda HAGB kararı verilemez." },
+        { "who": "judge", "text": "Müdafi, bu konudaki beyanınız?" }
+      ],
+      "prompt": "Ne diyeceksiniz?",
+      "choices": [
+        { "text": "Asıl talebimiz TCK m.129 uyarınca ceza verilmemesidir. İkincil olarak: 1 Haziran 2024'ten sonra verilen kararlarda HAGB için sanığın kabul beyanı aranmıyor; ikrar hiçbir zaman şart olmadı. Sanık sabıkasızdır; koşullar oluşmuştur.", "delta": 20, "set": ["hagbBilgi"],
+          "law": "CMK m.231/5-6 (7499 s.K. ile değişik)",
+          "note": "Doğru. 7499 sayılı Kanunla CMK m.231/6'daki “sanığın kabul etmemesi hâlinde HAGB verilmez” kuralı kaldırıldı; 1 Haziran 2024 ve sonrasında verilen kararlarda kabul şartı aranmaz. HAGB için suçun ikrarı da gerekmez." },
+        { "text": "Sanık HAGB'yi kabul etmiyor; HAGB suçu kabul etmek demektir.", "delta": -15, "set": ["hagbRet"],
+          "law": "CMK m.231",
+          "note": "İki hata. HAGB suç ikrarı değildir. Ayrıca 2024 değişikliğinden sonra sanığın kabulü aranmıyor; ret beyanınız mahkemeyi bağlamaz, yalnızca güven kaybettirir." },
+        { "text": "Sanık HAGB'yi kabul ediyor. Başka talebimiz yoktur.", "delta": -5, "set": ["hagbYalniz"],
+          "law": "CMK m.231/6",
+          "note": "Kabul beyanı artık şart değil; üstelik asıl talebiniz olan TCK m.129'u bırakmış gibi oldunuz. HAGB ancak ikincil talep olmalıydı." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Cumhuriyet savcısı, esas hakkındaki mütalaanız?" },
+        { "who": "pros", "text": "Sanığın TCK m.125/1 uyarınca cezalandırılmasını, hakaretin karşılıklı işlendiği anlaşıldığından TCK m.129/3 uyarınca indirim yapılmasını talep ederim.", "if": "tutanakItiraz || tanikItiraz" },
+        { "who": "pros", "text": "Sanığın TCK m.125/1 uyarınca cezalandırılmasını talep ederim.", "if": "!tutanakItiraz && !tanikItiraz" },
+        { "who": "judge", "text": "Müdafi, esas hakkındaki savunmanız?" }
+      ],
+      "prompt": "Savunmanızı nasıl kuracaksınız?",
+      "choices": [
+        { "text": "Hakaret karşılıklıdır ve sanığın sözleri katılanın önceki hakaretine anlık bir tepkidir. TCK m.129/3 uyarınca ceza vermekten vazgeçilmesini ve ceza verilmesine yer olmadığına karar verilmesini talep ederiz.", "delta": 25, "set": ["esas129"],
+          "law": "TCK m.129/1, m.129/3 · CMK m.223/4-c",
+          "note": "Doğru. Karşılıklı hakarette mahkeme taraflardan birine ya da ikisine ceza vermekten vazgeçebilir (TCK m.129/3); haksız bir fiile tepki olarak işlenen hakarette de aynı imkân var (m.129/1). Karar türü, ceza verilmesine yer olmadığıdır (CMK m.223/4-c)." },
+        { "text": "İsnat doğrudur; TCK m.127 uyarınca beraat talep ederiz.", "delta": -15,
+          "law": "TCK m.127/1",
+          "note": "Dosyada isnadı doğrulayan bir delil yok, denetim raporu tam tersini söylüyor. “Şerefsiz” sövmesi için ispat zaten mümkün değil." },
+        { "text": "Katılan sanığa saldırdığı için TCK m.129/2 uyarınca ceza verilmemelidir.", "delta": -10,
+          "law": "TCK m.129/2",
+          "note": "m.129/2, kasten yaralamaya tepki olarak işlenen hakaret içindir. Olayda yaralama yok; doğru fıkra m.129/3 (ve m.129/1)." },
+        { "text": "Haksız tahrik nedeniyle TCK m.29 uyarınca indirim yapılmasını talep ederiz.", "delta": -5,
+          "law": "TCK m.29 · m.129",
+          "note": "Hakarette haksız fiile tepki ve karşılıklılık TCK m.129'da özel olarak düzenlenmiştir; genel hüküm olan m.29 yerine m.129 uygulanır. Üstelik m.129 cezasızlık imkânı da tanır." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "if": "!(esas129 && (tutanakItiraz || tanikItiraz))",
+      "lines": [
+        { "who": "narr", "text": "Mahkeme kısa kararı açıkladı: mahkûmiyet ve hükmün açıklanmasının geri bırakılması. Ertesi gün müvekkil büroda." },
+        { "who": "client", "text": "Ceza vermemeleri gerekiyordu, değil mi? Şimdi ne yapacağız? Birisi bana “HAGB'ye yedi gün içinde itiraz edilir” dedi." }
+      ],
+      "prompt": "Kanun yolu hakkında ne yapacaksınız?",
+      "choices": [
+        { "text": "Gerekçeli karar tebliğ edildikten sonra iki hafta içinde istinaf başvurusu yapacağız. 2024 değişikliğinden sonra HAGB kararlarına karşı yol itiraz değil, istinaftır.", "delta": 20, "set": ["istinaf"],
+          "law": "CMK m.231/12 · m.273/1",
+          "note": "Doğru. 7499 sayılı Kanunla HAGB kararları istinafa tabi kılındı (CMK m.231/12); 1 Haziran 2024 ve sonrasında verilen kararlarda itiraz yolu uygulanmaz. İstinaf süresi, hükmün gerekçesiyle birlikte tebliğinden itibaren iki haftadır (CMK m.273/1)." },
+        { "text": "Yedi gün içinde mahkemeye itiraz dilekçesi verelim.", "delta": 5, "set": ["istinaf", "eskiYol"],
+          "law": "CMK m.264",
+          "note": "Eski sisteme göre davrandınız: 2024'ten bu yana HAGB kararlarına karşı yol istinaf. Şansınız, kanun yolunun adlandırılmasındaki yanılmanın hak kaybettirmemesi (CMK m.264); dilekçeniz süre içinde olduğu için istinaf başvurusu sayıldı." },
+        { "text": "HAGB sicile işlemez; kanun yoluna gitmeye gerek yok.", "delta": -10, "set": ["kabullenme"],
+          "note": "Müvekkil karşılıklılık nedeniyle cezasızlık bekliyordu. HAGB beş yıllık denetim süresi demek; bu sürede kasıtlı yeni bir suç işlenirse hüküm açıklanır. İstinafta TCK m.129 değerlendirmesini isteyebilirdiniz." },
+        { "text": "Beş yıllık denetim süresi bitsin; o zaman itiraz eder, her şeyi birlikte tartışırız.", "delta": -25,
+          "law": "CMK m.273/1",
+          "fatal": { "label": "SONUÇ:", "hukum": "Kanun yoluna süresinde başvurulmadığından hükmün açıklanmasının geri bırakılması kararı KESİNLEŞTİ. Sanık beş yıllık denetim süresine tabidir.",
+                     "summary": "HAGB kararına karşı istinaf süresi, gerekçeli kararın tebliğinden itibaren iki haftadır (CMK m.231/12, m.273/1). Beş yıl beklemek bu süreyi kaçırmak demekti; TCK m.129 ve ceza verilmesine yer olmadığı talebi bir daha hiçbir merci önüne gelmeyecek." },
+          "note": "Kanun yolu süresi kararın tebliğinden itibaren işler; denetim süresinin sonunu beklemez." }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "esas129 && (tutanakItiraz || tanikItiraz)", "winner": "p1",
+      "hukum": "Sanığın eylemini katılanın önceki hakaretine tepki olarak ve karşılıklı olarak gerçekleştirdiği anlaşıldığından, TCK m.129/3 uyarınca ceza vermekten vazgeçilerek CMK m.223/4-c uyarınca sanık hakkında CEZA VERİLMESİNE YER OLMADIĞINA,",
+      "summary": [
+        { "text": "Karşılıklılığı delille gösterdiniz ve doğru fıkraya dayandınız. Müvekkilin süresi geçmiş karşı şikâyeti ve dayanaksız ispat isteği yerine, kendi dosyasındaki cezasızlık imkânını kullandınız." },
+        { "if": "tanikItiraz && !tutanakItiraz", "text": " Tanık dinlendiği için dosya bir celse uzadı; imzalı tutanak bunu önleyebilirdi." },
+        { "if": "inkar", "text": " Müvekkilin duruşmadaki inkârı hâkimin gözünde güvenilirliğini zedeledi; sonucu ise delil kurtardı." },
+        { "if": "hagbBilgi", "text": " İkincil talep olarak HAGB'nin güncel koşullarını da doğru anlattınız." }
+      ]
+    },
+    {
+      "if": "istinaf", "winner": "draw", "stamp": "KANUN YOLUNDA",
+      "hukum": [
+        { "text": "Sanığın TCK m.125/1 uyarınca 3 ay hapis cezası ile cezalandırılmasına," },
+        { "if": "tutanakItiraz || tanikItiraz", "text": " hakaret karşılıklı işlendiğinden TCK m.129/3 uyarınca 1/3 oranında indirim yapılarak 2 ay hapis cezasına, TCK m.62 uyarınca 1 ay 20 gün hapis cezasına;" },
+        { "if": "!tutanakItiraz && !tanikItiraz", "text": " TCK m.62 uyarınca 2 ay 15 gün hapis cezasına;" },
+        { "text": " CMK m.231 uyarınca HÜKMÜN AÇIKLANMASININ GERİ BIRAKILMASINA ve sanığın 5 yıl denetim süresine tabi tutulmasına," }
+      ],
+      "summary": [
+        { "if": "!(tutanakItiraz || tanikItiraz)", "text": "Karşılıklılığı delille gösteremediniz; mahkeme TCK m.129'u uygulamadı." },
+        { "if": "(tutanakItiraz || tanikItiraz) && !esas129", "text": "Karşılıklılık ispatlandı ama ceza vermekten vazgeçilmesini istemediniz; mahkeme yalnızca indirim yaptı." },
+        { "if": "!eskiYol", "text": " İstinaf başvurusu süresinde ve doğru yola yapıldı; Bölge Adliye Mahkemesi TCK m.129 değerlendirmesini yeniden inceleyecek." },
+        { "if": "eskiYol", "text": " Kanun yoluna “itiraz” adıyla gittiniz; CMK m.264 sayesinde dilekçeniz istinaf sayıldı. 2024'ten bu yana HAGB kararlarına karşı yol istinaftır." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": [
+        { "text": "Sanığın TCK m.125/1 uyarınca 3 ay hapis cezası ile cezalandırılmasına," },
+        { "if": "tutanakItiraz || tanikItiraz", "text": " hakaret karşılıklı işlendiğinden TCK m.129/3 uyarınca 1/3 oranında indirim yapılarak 2 ay hapis cezasına, TCK m.62 uyarınca 1 ay 20 gün hapis cezasına;" },
+        { "if": "!tutanakItiraz && !tanikItiraz", "text": " TCK m.62 uyarınca 2 ay 15 gün hapis cezasına;" },
+        { "text": " CMK m.231 uyarınca HÜKMÜN AÇIKLANMASININ GERİ BIRAKILMASINA ve sanığın 5 yıl denetim süresine tabi tutulmasına," }
+      ],
+      "summary": [
+        { "if": "!(tutanakItiraz || tanikItiraz)", "text": "Katılanın önce hakaret ettiğini delille gösteremediniz." },
+        { "if": "(tutanakItiraz || tanikItiraz) && !esas129", "text": "Karşılıklılık ispatlandı, ama ceza vermekten vazgeçilmesini istemediniz." },
+        { "text": " Kanun yoluna da başvurmadınız; HAGB kararı kesinleşti ve müvekkil beş yıl denetim süresine tabi." }
+      ]
+    }
+  ]
+}

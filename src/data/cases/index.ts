@@ -46,6 +46,21 @@ import tuketiciAyipliBuzdolabi from "./tuketici-ayipli-buzdolabi.json";
 import tuketiciCaymaHakki from "./tuketici-cayma-hakki.json";
 import kiraBedelTespiti from "./kira-bedel-tespiti.json";
 import kiraTahliyeTaahhudu from "./kira-tahliye-taahhudu.json";
+import agirYagmaGonulluVazgecme from "./agir-yagma-gonullu-vazgecme.json";
+import agirUyusturucuTicaret from "./agir-uyusturucu-ticaret.json";
+import agirOldurmeyeTesebbus from "./agir-oldurmeye-tesebbus.json";
+import agirBilisimDolandiricilik from "./agir-bilisim-dolandiricilik.json";
+import agirMudafisizIfade from "./agir-mudafisiz-ifade.json";
+import cezaBasitYaralamaSikayet from "./ceza-basit-yaralama-sikayet.json";
+import cezaHirsizlikEtkinPismanlik from "./ceza-hirsizlik-etkin-pismanlik.json";
+import icraHaczedilmezlik from "./icra-haczedilmezlik.json";
+import cezaMesruMudafaa from "./ceza-mesru-mudafaa.json";
+import cezaHakaretHagb from "./ceza-hakaret-hagb.json";
+import aileAnlasmaliBosanma from "./aile-anlasmali-bosanma.json";
+import aileNafakaArtirim from "./aile-nafaka-artirim.json";
+import mirasRed from "./miras-red.json";
+import aileMalRejimi from "./aile-mal-rejimi.json";
+import mirasTenkis from "./miras-tenkis.json";
 
 export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, sozluFesih, uzakAdliye, yargitayDurusma, aihmBuyukDaire, ucmYargilama,
   danistayYonetmelik, danistayAceleKamulastirma, danistayCedBoruHatti, danistayImtiyaz, danistayVergiTeblig,
@@ -70,7 +85,22 @@ export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, soz
   tuketiciAyipliBuzdolabi,
   tuketiciCaymaHakki,
   kiraBedelTespiti,
-  kiraTahliyeTaahhudu].map(c => normalizeCase(c as unknown as CaseFile));
+  kiraTahliyeTaahhudu,
+  agirYagmaGonulluVazgecme,
+  agirUyusturucuTicaret,
+  agirOldurmeyeTesebbus,
+  agirBilisimDolandiricilik,
+  agirMudafisizIfade,
+  cezaBasitYaralamaSikayet,
+  cezaHirsizlikEtkinPismanlik,
+  icraHaczedilmezlik,
+  cezaMesruMudafaa,
+  cezaHakaretHagb,
+  aileAnlasmaliBosanma,
+  aileNafakaArtirim,
+  mirasRed,
+  aileMalRejimi,
+  mirasTenkis].map(c => normalizeCase(c as unknown as CaseFile));
 export const DUEL_CASES = CASES.filter(c => c.mode === "duel");
 export const SOLO_CASES = CASES.filter(c => c.mode === "solo");
 export const caseById = (id: string) => CASES.find(c => c.id === id)!;

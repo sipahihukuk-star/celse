@@ -1,0 +1,180 @@
+{
+  "id": "aile-mal-rejimi",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "orta",
+  "title": "Evin Yarısı",
+  "area": "Aile Hukuku · Katılma alacağı",
+  "court": "Antalya 3. Aile Mahkemesi",
+  "courtShort": "3. AİLE MAHKEMESİ",
+  "esas": "2026/2104 Esas",
+  "kararTarihi": "22.06.2027",
+  "color": "#7a4f3a",
+  "teaser": "Evlilikte alınan bir ev, peşinatı eşin mirasından. Neyin kime ait olduğunu ayırın, değeri doğru tarihte ve doğru usulle isteyin.",
+  "sides": { "p1": { "role": "Davacı eş vekili", "short": "Siz" }, "p2": { "role": "Davalı eş", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e0b48e", "hair": "#5a4a3c", "style": "short", "glasses": true } },
+    "opp": { "name": "Av. Kaan Erdem · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#c08b62", "hair": "#151515", "style": "short", "beard": true } },
+    "client": { "name": "Aylin Kurt · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#f1c9a5", "hair": "#a0522d", "style": "long", "shirt": "#4f6b3a", "inner": "#ece6da" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Antalya. Aylin Kurt, 2012'de Serkan Kurt'la evlenmiş; boşanma kararı Haziran 2026'da kesinleşmiş." },
+    { "who": "client", "text": "Konyaaltı'ndaki evi 2018'de aldık, tapu Serkan'ın adına. Şimdi “ev benim babamın mirasıyla alındı, sana bir şey düşmez” diyor." },
+    { "who": "client", "text": "Ev o zaman iki milyondu, şimdi on milyon ediyor. Ben ne isteyebilirim?" },
+    { "who": "narr", "text": "Bugün 2 Ekim 2026. Taraflar arasında mal rejimi sözleşmesi yok; yasal rejim olan edinilmiş mallara katılma geçerli." }
+  ],
+  "docs": [
+    { "t": "Boşanma ilamı", "d": "Boşanma davası 14.03.2025'te açıldı; karar 09.06.2026'da kesinleşti. Mal rejimi tasfiyesi hakkında hüküm yok." },
+    { "t": "Tapu kaydı", "d": "Konyaaltı'nda daire; 05.04.2018'de 2.000.000 TL bedelle Serkan Kurt adına tescil." },
+    { "t": "Veraset ilamı ve banka kaydı", "d": "Serkan Kurt'un babasından 2017'de kalan 600.000 TL, konutun peşinatı olarak ödenmiş." },
+    { "t": "Konut kredisi sözleşmesi", "d": "1.400.000 TL, 120 ay vadeli; borçlu Serkan Kurt." }
+  ],
+  "evidence": [
+    { "id": "ev_tapu", "type": "belge", "title": "Tapu kaydı", "desc": "Daire 05.04.2018'de, evlilik içinde, davalı adına edinilmiş." },
+    { "id": "ev_miras", "type": "belge", "title": "Veraset ilamı ve peşinat kaydı", "desc": "Davalının babasından kalan 600.000 TL peşinat olarak ödenmiş." },
+    { "id": "ev_kredi", "type": "belge", "title": "Kredi ödeme dökümü", "desc": "Taksitler 2018'den 14.03.2025'e kadar her ay davalının maaş hesabından otomatik tahsil edilmiş. Erken kapama yok; dava tarihinde kalan anapara 280.000 TL.", "if": "kredi" },
+    { "id": "law_tmk222", "type": "kanun", "title": "TMK m.222/3 · Edinilmiş mal karinesi", "desc": "Eşlerden birinin bütün malları, aksi ispat edilinceye kadar edinilmiş mal sayılır.", "law": "TMK m.222/3" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Dava dilekçesini yazmadan önce müvekkille konuşuyorsunuz. İki sorunuza vakit var." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Kredi taksitleri hangi hesaptan ödendi? Kredi erken kapatıldı mı?", "delta": 15, "set": ["kredi"],
+          "reply": [{ "who": "client", "text": "Serkan'ın maaş hesabından her ay otomatik çekiliyordu. Erken kapama olmadı. Ben internet bankacılığından ödeme dökümünü almıştım, bende duruyor." }],
+          "note": "Doğru soru. Evlilik içinde maaşla ödenen taksitler edinilmiş mallardan yapılmış ödemelerdir. Kredi ödeme dökümü delil çantanıza eklendi." },
+        { "text": "Peşinatın tamamı gerçekten miras parasından mı ödendi?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Evet, babasından kalan 600.000 lira peşinata gitti. Bunu inkâr etmem doğru olmaz." }],
+          "note": "Yararlı. Peşinat kişisel maldır (TMK m.220); bunu inkâr etmek yerine payını doğru hesaplatmak gerekir." },
+        { "text": "Eşinizin evlilik içinde edindiği başka bir mal var mı?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Yok. Maaşı dışında bir şeyi yoktu, hesabı da hep boştu." }],
+          "note": "Artık değerin hesabı için gerekli bir kontrol; bu dosyada başka mal çıkmadı." },
+        { "text": "Evliliğe katkınız ne oldu, çalıştınız mı?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Çocuklar küçükken yıllarca evdeydim. Son dört yılda yarı zamanlı çalıştım." }],
+          "note": "Katılma alacağı katkı şartına bağlı değildir; her eş diğerinin artık değerinin yarısını alır (TMK m.236). Soru davanın sonucunu değiştirmez." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Evin bugünkü değeri ve kişisel mal payının oranı ancak bilirkişi incelemesiyle kesinleşecek." },
+        { "who": "client", "text": "Ev on milyon, yarısı beş milyon; beş milyonluk dava açalım, olmaz mı?" }
+      ],
+      "prompt": "Davayı nasıl açacaksınız?",
+      "choices": [
+        { "text": "Belirsiz alacak davası olarak, şimdilik 100.000 TL üzerinden açalım; bilirkişi değeri belirleyince talebi artırırız.", "delta": 20, "set": ["belirsiz"],
+          "law": "HMK m.107",
+          "note": "Alacağın miktarı dava açılırken tam ve kesin olarak belirlenemiyorsa, davacı asgari bir miktar göstererek belirsiz alacak davası açabilir; tahkikat sonucunda miktar belirlenince talebini artırabilir (HMK m.107)." },
+        { "text": "Kısmi dava olarak 100.000 TL ile açalım, fazlaya ilişkin hakları saklı tutalım; sonra ıslahla artırırız.", "delta": 10, "set": ["kismi"],
+          "law": "HMK m.109, m.176",
+          "note": "Kabul edilebilir. Kısmi davada talep ıslahla artırılabilir; ancak ıslah aynı davada yalnızca bir kez ve tahkikat sona erene kadar yapılabilir (HMK m.177). Belirsiz alacak davası bu dosyaya daha uygun." },
+        { "text": "Müvekkilin dediği gibi 5.000.000 TL üzerinden, harcını peşin yatırarak açalım.", "delta": -10, "set": ["tam"],
+          "note": "Değer henüz belli değilken tahmini tam değerle dava açmak ağır bir peşin harç yükü doğurur. Üstelik bu tahmin kişisel mal payını ve kalan kredi borcunu hiç hesaba katmıyor; fazla çıkan kısım reddedilir ve karşı tarafa vekâlet ücreti ödenir." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Ön inceleme tamamlandı. Davalı vekili, kısaca beyanınız?" },
+        { "who": "opp", "text": "Sayın Hâkim, davacı on üç yıl evde oturdu. Bu eve bir çivi çakmadı, şimdi yarısını istiyor." }
+      ],
+      "prompt": "Nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "text": "Sakin bir sesle: “Kişisel nitelikteki bu sözlerin tutanağa geçirilmesini istiyorum. Ayrıca katılma alacağı katkı şartına bağlı değildir; her eş diğerinin artık değerinin yarısını alır.”", "delta": 10, "set": ["sakin"],
+          "law": "TMK m.236, HMK m.151",
+          "reply": [{ "who": "judge", "text": "Beyanlar tutanağa geçti. Taraf vekillerinden duruşma düzenine uymalarını rica ediyorum." }],
+          "note": "Tahrike kapılmadınız, duruşma düzenini hâkime bıraktınız ve yanlış hukuki iddiayı bir cümleyle düzelttiniz (TMK m.236/1)." },
+        { "text": "“Meslektaşım da bu davaya bir çivi çakmadı anlaşılan!”", "delta": -10,
+          "reply": [{ "who": "judge", "text": "Vekiller birbirine değil mahkemeye hitap etsin. Bir daha tekrarlanmasın." }],
+          "note": "Karşılık vermek meslek kurallarına aykırıdır ve hâkimin gözünde iki vekili aynı yere koyar. Asıl cevap hukuki olmalıydı: katılma alacağı katkıya bağlı değildir." },
+        { "text": "Cevap vermeden geçin.", "delta": 5,
+          "note": "Tahrike kapılmadınız, bu iyi. Ama yanlış bir hukuki iddia tutanakta cevapsız kaldı: katılma alacağı katkıya bağlı değildir (TMK m.236)." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Davalı vekili, taşınmazın niteliğine ilişkin savunmanızı açıklayın." }],
+      "statement": { "who": "opp", "text": "Evin peşinatı mirasla ödendi; kredi de 2023'te miras parasının kalanıyla erken kapatıldı. Taşınmaz tamamen müvekkilin kişisel malıdır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_kredi"],
+      "hit": { "delta": 25, "set": ["itiraz"],
+        "reply": [
+          { "who": "judge", "text": "Döküme göre taksitler 14.03.2025'e kadar her ay maaş hesabından ödenmiş, erken kapama yok. Bankaya müzekkere yazılmasına karar verildi." },
+          { "who": "opp", "text": "Sayın Hâkim… peşinatın mirasla ödendiği tartışmasız." }
+        ],
+        "note": "Döküm, kredinin maaşla ödendiğini ve erken kapanmadığını gösteriyor. Kişisel mal yalnızca peşinatla sınırlı kaldı." },
+      "responses": {
+        "law_tmk222": { "delta": 5, "set": ["karine"],
+          "note": "Doğru madde: aksi ispatlanana kadar mallar edinilmiş sayılır ve ispat yükü davalıdadır. Ama davalı bir iddia ortaya attı; elinizdeki ödeme dökümü bu iddiayı doğrudan çürütürdü." },
+        "ev_tapu": { "delta": 0, "note": "Tapu, evin evlilik içinde alındığını gösterir; ama tartışma ödemenin hangi paradan yapıldığı üzerinde." },
+        "ev_miras": { "delta": -10, "note": "Bu belge peşinatın mirasla ödendiğini gösteriyor; karşı tarafın tezini destekler." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge karşı tarafın iddiasını çürütmüyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; kredinin mirasla kapatıldığı iddiası cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Bilirkişi incelemesine karar veriyorum. Davacı vekili, bilirkişiye hangi esasları vermemi istersiniz?" }],
+      "prompt": "Ne talep edeceksiniz?",
+      "choices": [
+        { "text": "Malların ve borçların tespiti mal rejiminin sona erdiği boşanma dava tarihine (14.03.2025) göre; değerleme karara en yakın tarihteki sürüm değerine göre yapılsın. Peşinattaki kişisel mal ve dava tarihinden sonra ödenecek kredi kısmı, edinme bedeline oranlanarak düşülsün.", "delta": 25, "set": ["tarih"],
+          "law": "TMK m.225/2, m.228, m.230/3, m.235",
+          "reply": [{ "who": "judge", "text": "Bu esaslarla bilirkişiye görev verilmesine karar verildi." }],
+          "note": "Boşanmada mal rejimi dava tarihinden geçerli olmak üzere sona erer (TMK m.225/2); mallar o andaki durumuna göre ayrılır (m.228), ama tasfiye anındaki sürüm değeriyle hesaba katılır (m.235). Kişisel malın katkısı, katkı oranında ve malın tasfiye anındaki değeri üzerinden denkleştirilir (m.230/3)." },
+        { "text": "Boşanma kararının kesinleştiği tarih (09.06.2026) esas alınsın.", "delta": -15,
+          "law": "TMK m.225/2",
+          "reply": [{ "who": "judge", "text": "Mal rejimi boşanmada dava tarihinden geçerli olarak sona erer. Bilirkişiye dava tarihini esas almasını ben söyleyeceğim." }],
+          "note": "Hatalı. Sona erme anı kesinleşme değil, boşanma davasının açıldığı tarihtir (TMK m.225/2). Hâkim hukuku kendiliğinden uyguladı, ama yanlış tarih talebi güveninizi zedeledi." },
+        { "text": "Evin alındığı 2018 bedeli, yani 2.000.000 TL esas alınsın.", "delta": -15,
+          "law": "TMK m.235",
+          "note": "Hatalı ve müvekkilin aleyhine. Mallar tasfiye anındaki sürüm değeriyle hesaba katılır (TMK m.235/1). Alım bedeli yalnızca katkı oranlarını bulmaya yarar." },
+        { "text": "600.000 TL'lik peşinat olduğu gibi düşülsün, kalan değer yarı yarıya paylaştırılsın.", "delta": -10,
+          "law": "TMK m.230/3",
+          "reply": [{ "who": "judge", "text": "Kişisel mal katkısı oranla hesaplanır, Sayın vekil. Bilirkişi buna göre çalışacak." }],
+          "note": "Kişisel malın katkısı, nominal tutarla değil, edinme bedeline oranı ve malın tasfiye anındaki değeri üzerinden denkleştirilir (TMK m.230/3)." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Bilirkişi raporu geldi: Evin bugünkü değeri 10.000.000 TL. Kişisel mal payı yüzde 30, dava tarihinden sonraki kredi kısmı yüzde 14. Edinilmiş mal payı 5.600.000 TL; katılma alacağı 2.800.000 TL." },
+        { "who": "judge", "text": "Taraflar rapora karşı beyanlarını sunsun. Davacı vekili?" }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        { "if": "belirsiz", "text": "Talep artırım dilekçesiyle talebi 2.800.000 TL'ye çıkarın ve eksik harcı tamamlayın.", "delta": 20, "set": ["artirim"],
+          "law": "HMK m.107/2",
+          "note": "Belirsiz alacak davasında tahkikat sonucunda alacak belirlenebildiği anda davacı, iddianın genişletilmesi yasağına takılmadan talebini artırabilir (HMK m.107/2)." },
+        { "if": "kismi", "text": "Islah dilekçesiyle talebi 2.800.000 TL'ye çıkarın, ıslah harcını yatırın.", "delta": 15, "set": ["artirim"],
+          "law": "HMK m.176, m.177",
+          "note": "Islah, tahkikat sona erene kadar yapılabilir ve aynı davada yalnızca bir kez kullanılabilir (HMK m.177). Zamanında yapıldı." },
+        { "if": "!tam", "text": "Bir şey yapmaya gerek yok; hâkim rapordaki miktara kendiliğinden hükmeder.", "delta": -20,
+          "law": "HMK m.26",
+          "note": "Hatalı. Hâkim taleple bağlıdır, talep sonucundan fazlasına karar veremez (HMK m.26). Talebi artırmadığınız için mahkeme 100.000 TL ile sınırlı kalacak." },
+        { "if": "tam", "text": "Rapora karşı süresinde beyanda bulunun; rapordaki hesabı kabul ettiğinizi bildirin.", "delta": 5,
+          "law": "HMK m.281",
+          "note": "Rapora karşı iki hafta içinde beyan verilebilir (HMK m.281). Ama 5.000.000 TL'lik talebin 2.200.000 TL'si artık reddedilecek; bunun yargılama gideri ve vekâlet ücreti müvekkile yansıyacak." },
+        { "text": "Rapora itiraz edin; evin değeri daha yüksek, kişisel mal payı hiç düşülmesin deyin.", "delta": -5,
+          "note": "Dayanaksız bir itiraz. Peşinatın kişisel mal olduğu tartışmasız ve değer emsallere göre belirlendi. Dosya yalnızca uzar." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "itiraz && artirim", "winner": "p1",
+      "hukum": "Davanın KABULÜ ile 2.800.000 TL katılma alacağının karar tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": [
+        { "text": "Ödeme dökümüyle kredinin maaştan ödendiğini gösterdiniz; kişisel mal yalnızca peşinatla sınırlı kaldı. Değeri belirsiz alacağı doğru usulle isteyip rapordan sonra talebi artırdınız." },
+        { "if": "!tarih", "text": " Bilirkişiye esasları hâkim kendisi belirledi; talebiniz yanlış tarihe dayanıyordu." }
+      ] },
+    { "if": "itiraz && tam", "winner": "draw", "stamp": "KISMİ BAŞARI",
+      "hukum": "Davanın KISMEN KABULÜ ile 2.800.000 TL katılma alacağının karar tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin 2.200.000 TL yönünden davanın REDDİNE,",
+      "summary": "Esasta haklı çıktınız, ama tahmini 5.000.000 TL ile dava açtığınız için 2.200.000 TL reddedildi. Peşin yatırılan harcın bir kısmı boşa gitti; reddedilen kısım için karşı tarafa vekâlet ücreti ödenecek." },
+    { "if": "itiraz", "winner": "draw", "stamp": "KISMİ BAŞARI",
+      "hukum": "Davanın KABULÜ ile 100.000 TL katılma alacağının karar tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
+      "summary": "Rapor 2.800.000 TL'lik bir alacak ortaya koydu, ama talep artırılmadı. Hâkim talepten fazlasına hükmedemedi (HMK m.26). Kalan kısım için yeni bir dava, yeni harç ve yeni yıllar gerekecek." },
+    { "if": "karine && artirim", "winner": "draw", "stamp": "KISMİ BAŞARI",
+      "hukum": "Davanın KISMEN KABULÜ ile 2.100.000 TL katılma alacağının karar tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Edinilmiş mal karinesini hatırlattınız; ama davalının kısmi erken ödeme iddiası belgeyle çürütülmedi. Mahkeme kişisel mal payını daha yüksek kabul etti. Müvekkile kredinin nasıl ödendiğini sorsaydınız döküm elinizde olacaktı." },
+    { "winner": "p2",
+      "hukum": [
+        { "if": "artirim || tam", "text": "Davanın KISMEN KABULÜ ile 600.000 TL katılma alacağının karar tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "!artirim && !tam", "text": "Davanın KABULÜ ile 100.000 TL katılma alacağının karar tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan alınarak davacıya verilmesine," }
+      ],
+      "summary": [
+        { "text": "Kredinin mirasla kapatıldığı iddiası cevapsız kaldı. Mahkeme evin büyük bölümünü davalının kişisel malı saydı; müvekkil on milyonluk evden ancak küçük bir pay alabildi." },
+        { "if": "!artirim && !tam", "text": " Üstelik talep rapordan sonra artırılmadığı için hâkim 100.000 TL ile bağlı kaldı (HMK m.26)." },
+        { "if": "!kredi", "text": " Müvekkile kredinin hangi hesaptan ödendiğini sorsaydınız ödeme dökümü elinizde olacaktı." }
+      ] }
+  ]
+}

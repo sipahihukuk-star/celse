@@ -1,0 +1,145 @@
+{
+  "id": "aile-anlasmali-bosanma",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "basit",
+  "title": "Ortak Karar",
+  "area": "Aile Hukuku · Anlaşmalı boşanma",
+  "court": "Eskişehir 2. Aile Mahkemesi",
+  "courtShort": "2. AİLE MAHKEMESİ",
+  "esas": "2026/1412 Esas",
+  "kararTarihi": "18.01.2027",
+  "color": "#5b4a6b",
+  "teaser": "İki eş kavgasız ayrılmak istiyor. Protokolü sağlam kurun, hâkimin önüne eksiksiz çıkın.",
+  "sides": { "p1": { "role": "Davacı eş vekili", "short": "Siz" }, "p2": { "role": "Davalı eş", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e8c3a0", "hair": "#4a3226", "style": "bun", "glasses": true } },
+    "opp": { "name": "Av. Selin Duman · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#d9a982", "hair": "#1e1612", "style": "long" } },
+    "client": { "name": "Onur Ceylan · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#c99670", "hair": "#2b1d17", "style": "short", "beard": true, "shirt": "#3f5a73", "inner": "#e6e1d6" } },
+    "senior": { "name": "Av. Nermin Özkök · Kıdemli ortak", "np": "green", "look": { "kind": "civil", "skin": "#f0caa6", "hair": "#8a8a8f", "style": "bun", "glasses": true, "shirt": "#5a3f4f", "inner": "#efe9df" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Büronuz Eskişehir'de. Karşınızda Onur Ceylan var: 41 yaşında, bir makine fabrikasında planlama şefi." },
+    { "who": "client", "text": "Seda'yla Eylül 2022'de evlendik, beş yaşında bir kızımız var. Bir süredir ayrı evlerde yaşıyoruz. İkimiz de boşanmak istiyoruz, ama kavga etmeden." },
+    { "who": "client", "text": "Seda'nın avukatı bir protokol taslağı gönderdi. Kızımız annesinde kalsın, buna itirazım yok. Ama onu düzenli görmek istiyorum." },
+    { "who": "narr", "text": "Bugün 9 Ekim 2026. Kıdemli ortağınız Av. Nermin Özkök dosyayı size bıraktı; takıldığınız yerde yardım edeceğini söyledi." }
+  ],
+  "docs": [
+    { "t": "Nüfus kayıt örneği", "d": "Evlenme tarihi 17.09.2022. Ortak çocuk: Ela Ceylan (2021 doğumlu)." },
+    { "t": "Protokol taslağı (davalı vekilinden)", "d": "Velayet anneye. Yoksulluk nafakası ve maddi-manevi tazminat talebi yok. Çocukla kişisel ilişki ve iştirak nafakası düzenlenmemiş. Ortak araç babada, ev eşyası annede kalacak." },
+    { "t": "Maaş bordrosu", "d": "Müvekkilin aylık net geliri 85.000 TL." }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "client", "text": "Mahkemeyle hiç uğraşmadan noterde imza atıp bitiremez miyiz? Bir an önce bitsin istiyorum." }
+      ],
+      "prompt": "Müvekkile hangi yolu önereceksiniz?",
+      "choices": [
+        { "text": "Evlilik bir yılı doldurduğu için anlaşmalı boşanma: protokolü hazırlayalım, dava açalım; eşiniz davayı kabul etsin ya da birlikte başvuralım.", "delta": 20, "set": ["yol"],
+          "law": "TMK m.166/3",
+          "note": "Evlilik en az bir yıl sürmüşse, eşlerin birlikte başvurması ya da birinin diğerinin davasını kabul etmesi hâlinde evlilik birliği temelinden sarsılmış sayılır (TMK m.166/3). Kusur ve olay ispatı gerekmez; dosya genellikle tek duruşmada biter." },
+        { "text": "Noterde bir boşanma protokolü düzenleyin; imzalar atılınca boşanma gerçekleşir.", "delta": -15,
+          "law": "TMK m.166",
+          "reply": [{ "who": "senior", "text": "Dur bakalım. Bizde boşanma ancak mahkeme kararıyla olur. Protokol noterde de yazılabilir ama hâkim onaylamadıkça kimse boşanmış sayılmaz. Anlaşmalı boşanma davası açacağız." }],
+          "note": "Türk hukukunda boşanma ancak mahkeme kararıyla gerçekleşir. Protokol hazırlık belgesidir; hâkim uygun bulmadıkça hüküm doğurmaz." },
+        { "text": "Çekişmeli boşanma davası açalım; eşinizin kusurlarını tanıklarla ispat edelim.", "delta": -10,
+          "law": "TMK m.166/1",
+          "reply": [{ "who": "senior", "text": "İki taraf da anlaşmışken neden kusur ispatına girelim? Bu, yıllar süren bir dava demek. Evlilik bir yılı geçmiş; anlaşmalı yoldan gideceğiz." }],
+          "note": "Taraflar anlaşmışken çekişmeli dava gereksiz yere uzun ve masraflıdır. Evlilik bir yılı doldurduğu için TMK m.166/3 yolu açıktı." },
+        { "text": "Önce bir yıl ayrı yaşayın; sonra fiilî ayrılık nedeniyle dava açarız.", "delta": -10,
+          "law": "TMK m.166/4",
+          "reply": [{ "who": "senior", "text": "Fiilî ayrılık sebebi böyle işlemez. Önce açılmış bir boşanma davasının reddedilip kesinleşmesi, sonra üç yıl ayrı yaşanması gerekir. Bizim yolumuz anlaşmalı boşanma." }],
+          "note": "TMK m.166/4, reddedilen bir boşanma davasının kesinleşmesinden sonra üç yıl ortak hayatın yeniden kurulamamasını arar. Bu dosyada anlaşmalı boşanma varken uygulanmaz." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Karşı tarafın protokol taslağı önünüzde. Velayet anneye bırakılmış; çocukla kişisel ilişki ve iştirak nafakası hiç yazılmamış." },
+        { "who": "client", "text": "Nafaka yazılmamış, bu benim işime gelir, değil mi?" }
+      ],
+      "prompt": "Protokolü nasıl düzenleyeceksiniz?",
+      "choices": [
+        { "text": "Babanın çocukla kişisel ilişkisini gün gün yazın; müvekkilin önerdiği aylık 5.000 TL iştirak nafakasını ekleyin; mal paylaşımını ve tazminat taleplerinden karşılıklı vazgeçmeyi açıkça yazın.", "delta": 20, "set": ["protokol"],
+          "law": "TMK m.166/3, m.182, m.323",
+          "note": "Hâkim, boşanmanın mali sonuçları ve çocuğun durumu hakkındaki düzenlemeyi uygun bulmadıkça anlaşmalı boşanmaya karar veremez (TMK m.166/3). Velayeti almayan ana ya da baba çocuğun giderlerine gücü oranında katılır (m.182/2) ve çocukla kişisel ilişki kurma hakkına sahiptir (m.323). Eksiksiz protokol, müvekkilin kendi hakkını da güvenceye alır." },
+        { "text": "Mal paylaşımını protokole yazmayın, ileride ayrıca konuşulur. Kişisel ilişkiyi ve aylık 5.000 TL iştirak nafakasını ekleyin.", "delta": 5, "set": ["protokol", "malYok"],
+          "law": "TMK m.166/3, m.182",
+          "note": "Kabul edilebilir. Çocuğa ilişkin düzenleme tamam. Mal rejiminin tasfiyesi protokolde düzenlenmezse ayrı bir davada istenebilir. Ama anlaşma varken bunu açık bırakmak, ileride yeni bir uyuşmazlığa kapı aralar." },
+        { "text": "Taslağı olduğu gibi imzalayın. Nafakanın yazılmaması müvekkilin lehine.", "delta": -15, "set": ["eksik"],
+          "law": "TMK m.166/3, m.182/2",
+          "note": "Hatalı. Hâkim çocuğun yararını kendiliğinden gözetir; iştirak nafakası ve kişisel ilişki düzenlenmemiş bir protokolü bu hâliyle uygun bulmaz. Üstelik müvekkilin kızını görme hakkı hiçbir güvenceye bağlanmamış olur." },
+        { "text": "Protokole yalnızca “taraflar anlaşarak boşanmak istiyor” yazın; velayet ve nafakayı sonra konuşursunuz.", "delta": -15, "set": ["eksik"],
+          "law": "TMK m.166/3",
+          "note": "Anlaşmalı boşanmanın özü, mali sonuçlar ve çocuğun durumu hakkında taraflarca kabul edilmiş bir düzenlemedir. Bu konular boş bırakılırsa TMK m.166/3'ün koşulu eksik kalır." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Dava açıldı, davalı vekili davayı kabul eden bir cevap verdi. Duruşma 12 Kasım'da." },
+        { "who": "client", "text": "O gün fabrikada denetim var. Vekaletnamen var ya, benim yerime sen gitsen olmaz mı?" }
+      ],
+      "prompt": "Ne söyleyeceksiniz?",
+      "choices": [
+        { "text": "Gelmeniz şart. Hâkim, iradenizi serbestçe açıkladığınıza bizzat sizi dinleyerek kanaat getirmeli; bu beyanı vekil veremez.", "delta": 20, "set": ["bizzat"],
+          "law": "TMK m.166/3",
+          "note": "TMK m.166/3, hâkimin tarafları bizzat dinlemesini arar. Vekilin beyanı asilin yerine geçmez; taraf duruşmada hazır değilse anlaşmalı boşanmaya karar verilemez." },
+        { "text": "Gerek yok, vekaletnamemde boşanma için özel yetki var; ben beyanda bulunurum.", "delta": -15, "set": ["gelmedi"],
+          "law": "TMK m.166/3",
+          "note": "Özel yetki, hâkimin tarafı bizzat dinleme zorunluluğunu ortadan kaldırmaz. Müvekkil gelmezse duruşma ertelenir." },
+        { "text": "Bir dilekçe imzalayın, “boşanmayı kabul ediyorum” yazın; ben dosyaya sunarım.", "delta": -10, "set": ["gelmedi"],
+          "law": "TMK m.166/3",
+          "note": "Yazılı beyan, hâkimin tarafı bizzat dinlemesinin yerini tutmaz." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı asil hazır değil. Anlaşmalı boşanmada tarafları bizzat dinlemem gerekir; vekil beyanı yetmez. Asilin hazır edilmesi için duruşmayı erteliyorum.", "if": "gelmedi" },
+        { "who": "narr", "text": "Altı hafta sonra ikinci duruşma. Onur Ceylan bu kez salonda.", "if": "gelmedi" },
+        { "who": "judge", "text": "Taraflar, boşanmayı serbest iradenizle istediğinizi ve protokolü kabul ettiğinizi beyan ettiniz. Beyanlarınız tutanağa geçti." },
+        { "who": "judge", "text": "Protokolde ortak çocuğa ilişkin düzenleme eksik. Çocuğun yararı gereği velayetin anneye bırakılmasını, babanın her ayın ikinci ve dördüncü hafta sonu, dinî bayramların ikinci günü ve yaz tatilinde on beş gün çocukla kişisel ilişki kurmasını, aylık 7.000 TL iştirak nafakası ödemesini uygun görüyorum.", "if": "eksik" },
+        { "who": "judge", "text": "Protokoldeki aylık 5.000 TL iştirak nafakası, çocuğun okul öncesi eğitim giderleri ve babanın geliri karşısında düşük kalıyor. Nafakayı aylık 7.000 TL olarak değiştirmeyi uygun görüyorum.", "if": "!eksik" },
+        { "who": "opp", "text": "Davalı asil ve vekili olarak değişikliği kabul ediyoruz." },
+        { "who": "judge", "text": "Davacı taraf bu değişikliği kabul ediyor mu?" }
+      ],
+      "prompt": "Nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "text": "Müvekkille kısa bir görüşme için izin isteyin; ardından müvekkil değişikliği bizzat kabul ettiğini beyan etsin ve boşanmaya karar verilmesini talep edin.", "delta": 20, "set": ["kabul"],
+          "law": "TMK m.166/3",
+          "reply": [
+            { "who": "judge", "text": "Beş dakika ara veriyorum." },
+            { "who": "client", "text": "Sayın Hâkim, değişikliği kabul ediyorum." }
+          ],
+          "note": "Hâkim, tarafların ve çocuğun menfaatini gözeterek protokolde değişiklik yapabilir; değişiklik taraflarca kabul edilirse boşanmaya hükmedilir (TMK m.166/3). Kabul beyanını asilin kendisinin vermesi en sağlam yoldur." },
+        { "text": "Ben vekil olarak kabul ediyorum; müvekkile ayrıca sormaya gerek yok.", "delta": -5, "set": ["kabul"],
+          "law": "TMK m.166/3",
+          "reply": [
+            { "who": "judge", "text": "Asilin beyanını ayrıca alacağım. Bay Ceylan?" },
+            { "who": "client", "text": "Kabul ediyorum, Sayın Hâkim." }
+          ],
+          "note": "Anlaşmalı boşanmada hâkim iradeyi asilden duymak ister. Sonuç değişmedi, ama müvekkili atlayarak beyan vermek doğru bir alışkanlık değil." },
+        { "text": "Protokol tarafların sözleşmesidir; hâkim değiştiremez. İtiraz ediyoruz.", "delta": -20, "set": ["itiraz"],
+          "law": "TMK m.166/3",
+          "note": "Hatalı. Kanun hâkime protokolde gerekli gördüğü değişiklikleri yapma yetkisi verir. Bu tür düzenlemelerde tarafların ikrarı hâkimi bağlamaz." },
+        { "text": "Değişikliği kabul etmeyelim; dava çekişmeli olarak sürsün.", "delta": -10, "set": ["itiraz"],
+          "law": "TMK m.166/1, m.166/3",
+          "note": "Çocuğun yararına yapılan bir değişiklik yüzünden anlaşmalı boşanmayı bozdunuz. Dosya artık kusur ve ispat tartışmasına dönecek." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "itiraz", "winner": "p2", "label": "ARA KARAR:", "noCourt": true,
+      "hukum": "Davacı taraf mahkemece önerilen değişikliği kabul etmediğinden TMK m.166/3 koşulları oluşmadığına, yargılamaya çekişmeli boşanma davası olarak devam olunmasına, taraflara delillerini bildirmeleri için süre verilmesine karar verildi.",
+      "summary": "Hâkim, tarafların ve çocuğun menfaatini gözeterek protokolü değiştirebilir; değişiklik kabul edilirse boşanmaya hükmedilir (TMK m.166/3). Değişikliği reddedince dosya çekişmeli boşanmaya döndü. Evlilik birliğinin temelinden sarsıldığı artık delillerle ispatlanacak; yargılama aylarca sürecek." },
+    { "winner": "p1",
+      "hukum": [
+        { "text": "Davanın KABULÜ ile tarafların TMK m.166/3 uyarınca BOŞANMALARINA; ortak çocuk Ela'nın velayetinin anneye verilmesine, baba ile çocuk arasında hükümde gösterilen şekilde kişisel ilişki kurulmasına; kararın kesinleşmesinden itibaren aylık 7.000 TL iştirak nafakasının davacıdan alınarak çocuğa velayeten anneye verilmesine; tarafların maddi ve manevi tazminat ile yoksulluk nafakası talebinde bulunmadıklarının tespitine," },
+        { "if": "!malYok && !eksik", "text": " protokoldeki mal paylaşımına ilişkin düzenlemenin onaylanmasına," },
+        { "if": "malYok", "text": " mal rejiminin tasfiyesi hakkında taraflarca bir düzenleme yapılmadığından bu konuda karar verilmesine yer olmadığına," }
+      ],
+      "summary": [
+        { "text": "Hâkim, tarafları bizzat dinledi ve değiştirilmiş protokolü uygun buldu. Müvekkilin kızıyla kişisel ilişkisi artık bir mahkeme kararına bağlı." },
+        { "if": "gelmedi", "text": " İlk duruşmaya müvekkil gelmediği için dosya altı hafta gecikti." },
+        { "if": "eksik", "text": " İlk protokol çocukla ilgili hiçbir düzenleme içermiyordu; eksiği hâkim kendisi tamamladı." },
+        { "if": "malYok", "text": " Mal rejiminin tasfiyesi açık kaldı; ileride ayrı bir dava gündeme gelebilir." },
+        { "if": "!yol", "text": " Kıdemli ortağınız doğru yolu göstermeseydi müvekkil gereksiz bir yargılamaya sürüklenecekti." }
+      ] }
+  ]
+}

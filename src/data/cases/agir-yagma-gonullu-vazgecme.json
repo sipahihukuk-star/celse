@@ -1,0 +1,141 @@
+{
+  "id": "agir-yagma-gonullu-vazgecme",
+  "mode": "solo",
+  "career": { "level": 2 },
+  "difficulty": "basit",
+  "title": "Boş Kasa",
+  "area": "Ceza Hukuku · Gönüllü vazgeçme",
+  "court": "Bursa 4. Ağır Ceza Mahkemesi",
+  "courtShort": "4. AĞIR CEZA",
+  "esas": "2026/412 Esas",
+  "kararTarihi": "18.02.2027",
+  "color": "#5b3a4a",
+  "teaser": "Maket bıçağıyla büfeye giren genç, kasayı açtırmadan bıçağı bırakıp çıktı. Savcı nitelikli yağmaya teşebbüsten on yıl istiyor; siz gönüllü vazgeçmeyi savunacaksınız.",
+  "sides": { "p1": { "role": "Sanık müdafii", "short": "Siz" }, "p2": { "role": "Karşı taraf", "short": "Karşı taraf" } },
+  "bench": { "judges": 3, "title": "Mahkeme Başkanı ve iki üye" },
+  "room": "yerel",
+  "inscription": "ADALET MÜLKÜN TEMELİDİR",
+  "cast": {
+    "judge": { "name": "Mahkeme Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true } },
+    "pros": { "name": "Cumhuriyet Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e6bf9c", "hair": "#4a2e1f", "style": "bun" } },
+    "client": { "name": "Emre Yalçın · Müvekkil (sanık)", "np": "civil", "look": { "kind": "civil", "skin": "#c89468", "hair": "#1c1714", "style": "short", "shirt": "#3e4c5e", "inner": "#d8d2c4" } }
+  },
+  "courtCast": ["judge", "pros", "you", "client"],
+  "intro": [
+    { "who": "narr", "text": "Bursa, Osmangazi. Emre Yalçın 23 yaşında, işsiz ve borçlu. Bir gece saat 23.40'ta yüzünü atkıyla kapatıp elinde maket bıçağıyla bir büfeye giriyor." },
+    { "who": "client", "text": "“Kasayı aç” dedim. Teyze ağlamaya başladı, “oğlum, torunum yaşındasın” dedi. Elim titredi. Bıçağı tezgâha bıraktım, “özür dilerim” deyip çıktım. Hiçbir şey almadım." },
+    { "who": "narr", "text": "Emre ertesi sabah karakola gidip kendisi anlattı. İddianame, silahla yağmaya teşebbüsten (TCK m.149/1-a, m.35) düzenlendi. Tutuksuz yargılanıyor. Siz müdafisiniz." }
+  ],
+  "docs": [
+    { "t": "İddianame", "d": "Silahla nitelikli yağmaya teşebbüs (TCK m.149/1-a, m.35). Savcılığa göre sanık, büfe sahibinin bağırması üzerine yakalanmaktan korkarak kaçtı." },
+    { "t": "Büfe kamerası çözüm tutanağı", "d": "23.41–23.43 arası: sanık bıçağı tezgâha bırakıyor, yürüyerek çıkıyor. Bu sürede büfeye kimse girmiyor; sokak boş." },
+    { "t": "Mağdur ifadesi", "d": "Nermin Uçar (71): “Bağırmadım, ağladım. ‘Oğlum yapma’ dedim. Bıçağı bırakıp özür diledi, gitti.”" },
+    { "t": "Sanığın ifadesi", "d": "Müdafi huzurunda: olayı kabul ediyor, vazgeçtiğini ve kendiliğinden karakola geldiğini anlatıyor." }
+  ],
+  "evidence": [
+    { "id": "ev_kamera", "type": "belge", "title": "Büfe kamerası çözüm tutanağı", "desc": "Sanık bıçağı tezgâha bırakıp yürüyerek çıkıyor. Bu sırada büfeye kimse girmiyor, sokakta kimse görünmüyor." },
+    { "id": "ev_magdur", "type": "beyan", "title": "Mağdurun ifadesi", "desc": "“Bağırmadım, ağladım. ‘Oğlum yapma’ dedim. Bıçağı bırakıp özür diledi, gitti.”" },
+    { "id": "ev_teslim", "type": "belge", "title": "Karakol tutanağı", "desc": "Sanık ertesi sabah 09.15'te kendiliğinden karakola gelip olayı anlattı." },
+    { "id": "law_tck36", "type": "kanun", "title": "TCK m.36 · Gönüllü vazgeçme", "desc": "Fail icra hareketlerinden gönüllü vazgeçerse teşebbüsten cezalandırılmaz; tamamlanan kısım ayrı bir suçsa yalnızca o suçun cezası verilir.", "law": "TCK m.36" },
+    { "id": "law_tck106", "type": "kanun", "title": "TCK m.106/2-a · Silahla tehdit", "desc": "Tehdidin silahla işlenmesi nitelikli hâldir.", "law": "TCK m.106/2-a" }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Büronuzdasınız. Emre dosyayı inceleyen sizi bekliyor." },
+        { "who": "client", "text": "Avukatım, ben gerçekten vazgeçtim. Ama savcı “kaçtı” diyor. On yıl mı yatacağım?" }
+      ],
+      "prompt": "Savunmanın temelini neye kuracaksınız?",
+      "choices": [
+        { "text": "Gönüllü vazgeçme: Emre icra hareketleri sürerken, önünde hiçbir engel yokken kendi iradesiyle bıraktı.", "delta": 20, "set": ["tez"],
+          "law": "TCK m.36",
+          "note": "Doğru temel. Fail suçun icra hareketlerinden gönüllü olarak vazgeçerse teşebbüsten cezalandırılmaz (TCK m.36). Burada icra hareketleri henüz bitmemişti; vazgeçmek için hareketleri sürdürmemek yeterliydi. Bitmiş teşebbüste ise failin neticeyi kendi çabasıyla önlemesi gerekir." },
+        { "text": "Etkin pişmanlık: Emre pişman oldu, ertesi gün karakola gitti.", "delta": -10,
+          "law": "TCK m.168",
+          "note": "Etkin pişmanlık, tamamlanmış suçtan sonra zararın giderilmesiyle cezada indirim sağlar. Burada suç tamamlanmadı, alınan bir şey de yok. Doğru kurum gönüllü vazgeçmedir; o da indirim değil, teşebbüsten cezasızlık sağlar." },
+        { "text": "Kamerada görünen kişinin Emre olduğu ispatlanamaz; yüzü kapalıydı.", "delta": -10,
+          "note": "Müvekkil olayı müdafi huzurunda kabul etmiş, karakola kendisi gitmiş. Dosyayla çelişen bir savunma heyetin güvenini kaybettirir ve elinizdeki en güçlü argümanı, gönüllü vazgeçmeyi çöpe atar." },
+        { "text": "Zorunluluk hâli: borçları yüzünden çaresizdi.", "delta": -10,
+          "law": "TCK m.25/2",
+          "note": "Zorunluluk hâli, ağır ve muhakkak bir tehlikeden korunmak için başka yol bulunmamasını gerektirir. Borç sıkıntısı bu şartları karşılamaz." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. Sanığın savunması alındı. Cumhuriyet Savcısı, gönüllü vazgeçme savunmasına karşı beyanınız?" }
+      ],
+      "statement": { "who": "pros", "text": "Sayın Başkan, sanık vazgeçmemiştir. Mağdurun bağırması ve dışarıdan gelebilecek yardım ihtimali karşısında yakalanmaktan korkup kaçmıştır. Dış bir engel nedeniyle yarım kalan hareket gönüllü vazgeçme değildir." },
+      "prompt": "Savcının beyanını hangi delille çürüteceksiniz?",
+      "correct": ["ev_kamera"],
+      "hit": { "delta": 25, "set": ["vazgecme"],
+        "reply": [
+          { "who": "judge", "text": "Kamera çözüm tutanağı okundu. Büfeye kimsenin girmediği, sokakta kimsenin bulunmadığı tutanağa geçti." }
+        ],
+        "law": "TCK m.36",
+        "note": "Kamera, savcının ileri sürdüğü dış engelin olmadığını gösteriyor: kimse gelmedi, sanık yakalanma tehlikesiyle karşılaşmadı, bıçağı bırakıp yürüyerek çıktı. Vazgeçmenin nedeni acıma ya da vicdan olabilir; önemli olan, failin devam edebilecekken kendi iradesiyle durmasıdır." },
+      "responses": {
+        "ev_magdur": { "delta": 10, "set": ["vazgecme"],
+          "reply": [{ "who": "judge", "text": "Mağdurun bağırmadığına ilişkin ifadesi tutanağa geçti." }],
+          "note": "İyi bir delil: mağdur bağırmadığını söylüyor. Ama savcı dışarıdan yardım gelme ihtimalinden de söz etti; kimsenin gelmediğini ve sokağın boş olduğunu nesnel olarak kamera gösteriyordu." },
+        "ev_teslim": { "delta": 0,
+          "note": "Ertesi gün karakola gitmek iyi hâl göstergesidir, ama olay anında neden durduğunu açıklamaz. Savcının iddiası olay anına ilişkin." },
+        "law_tck36": { "delta": 5,
+          "note": "Madde doğru, ama tartışma maddenin ne dediği değil, olayda dış bir engel bulunup bulunmadığı. Bunu bir olguyla, delille göstermeniz gerekiyordu." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil savcının “dış engel” iddiasına cevap vermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; savcının “korkup kaçtı” iddiası cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "pros", "text": "Gönüllü vazgeçme kabul edilse bile sanık, yaşlı bir kadını maket bıçağıyla korkutmuştur. Bu eylem cezasız mı kalacak?" },
+        { "who": "judge", "text": "Sayın müdafi, heyet tamamlanan kısım hakkında da görüşünüzü bekliyor." }
+      ],
+      "prompt": "Tamamlanan kısım hakkında ne diyeceksiniz?",
+      "choices": [
+        { "text": "Teşebbüsten ceza verilemez; tamamlanan kısım ayrı bir suç oluşturuyorsa, o da en fazla silahla tehdittir. Müvekkil yalnızca bundan sorumlu tutulabilir.", "delta": 20, "set": ["tamam"],
+          "law": "TCK m.36, m.106/2-a, m.6/1-f",
+          "note": "Doğru ve dürüst bir çizgi. TCK m.36 tamamlanan kısmın esasen suç oluşturması hâlinde yalnızca o suçun cezasını öngörür. Maket bıçağı, saldırıda kullanılmaya elverişli olduğundan silah sayılır (TCK m.6/1-f). Kalan eylem silahla tehdittir. Görev yönünden de sorun yok: ağır ceza mahkemesi bu suç hakkında da hüküm kurar." },
+        { "text": "Vazgeçme olduğuna göre hiçbir suç oluşmamıştır; tam beraat isteriz.", "delta": -10,
+          "law": "TCK m.36",
+          "note": "TCK m.36'nın son cümlesini atladınız. Tamamlanan kısım ayrı bir suçsa ondan sorumluluk sürer. Gerçekçi olmayan bir talep heyetin güvenini sarsar." },
+        { "text": "Eylem yağmaya teşebbüstür, ama cezanın alt sınırdan verilmesini isteriz.", "delta": -15,
+          "note": "Kendi savunmanızı terk ettiniz. Gönüllü vazgeçme varsa teşebbüsten ceza verilmez; alt sınır tartışması gereksiz yere savcının nitelendirmesini kabul etmek demek." },
+        { "text": "Tamamlanan kısım kasten yaralamadır.", "delta": -5,
+          "note": "Mağdura dokunulmadı; yaralama yok. Kalan eylem, bıçakla korkutmadan, yani silahla tehditten ibaret." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "pros", "text": "Esas hakkındaki mütalaamı tekrar ediyorum: sanığın TCK m.149/1-a ve m.35 uyarınca cezalandırılmasını talep ediyorum." },
+        { "who": "judge", "text": "Sayın müdafi, esas hakkındaki savunmanız ve talebiniz?" }
+      ],
+      "prompt": "Talebiniz ne olacak?",
+      "choices": [
+        { "text": "Yağmaya teşebbüs yönünden TCK m.36 uyarınca ceza verilmesine yer olmadığına; silahla tehdit yönünden alt sınırdan ceza, TCK m.62 indirimi ve hükmün açıklanmasının geri bırakılmasına karar verilmesini isteriz.", "delta": 20, "set": ["talep"],
+          "law": "TCK m.36, m.62; CMK m.223/4, m.231",
+          "note": "Eksiksiz bir talep. Gönüllü vazgeçme kişisel bir cezasızlık sebebidir; fiil teşebbüs aşamasında kalmış bir suç olduğundan hüküm “ceza verilmesine yer olmadığı” biçiminde kurulur. Kalan suçta sabıkasız, kendiliğinden karakola gelen bir sanık için TCK m.62 ve hükmün açıklanmasının geri bırakılması talep edilebilir." },
+        { "text": "Yağmaya teşebbüs suçundan beraatine, tehdit yönünden takdirin heyete bırakılmasına karar verilmesini isteriz.", "delta": 5, "set": ["talepZayif"],
+          "law": "CMK m.223/4",
+          "note": "Sonuç benzer, ama doğru hüküm kurumu beraat değil, “ceza verilmesine yer olmadığı” kararıdır. Ayrıca kalan suç için hiçbir lehe talepte bulunmadınız." },
+        { "text": "Cezanın alt sınırdan verilmesini ve ertelenmesini isteriz.", "delta": -15,
+          "note": "Hangi suç için? Bu talep, savcının yağmaya teşebbüs nitelendirmesini kabul ediyor. Üstelik yağmaya teşebbüsün cezası ertelemenin sınırını aşar." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "tez && vazgecme && tamam && talep", "winner": "p1",
+      "hukum": "Sanığın silahla yağmaya teşebbüs suçundan, TCK m.36 uyarınca gönüllü vazgeçme nedeniyle CMK m.223/4 gereğince CEZA VERİLMESİNE YER OLMADIĞINA; tamamlanan kısım yönünden silahla tehdit suçundan TCK m.106/2-a ve m.62 uyarınca 1 yıl 8 ay hapis cezasıyla cezalandırılmasına, CMK m.231 uyarınca HÜKMÜN AÇIKLANMASININ GERİ BIRAKILMASINA ve beş yıl denetim süresine tabi tutulmasına,",
+      "summary": "Kamera kaydı, savcının ileri sürdüğü dış engelin olmadığını gösterdi; heyet sanığın devam edebilecekken kendi iradesiyle durduğunu kabul etti. Teşebbüsten ceza verilmedi; yalnızca tamamlanan kısım olan silahla tehditten hüküm kuruldu ve hükmün açıklanması geri bırakıldı. On yıllık talep, açıklanmayan bir hükme dönüştü." },
+    { "if": "tez && vazgecme", "winner": "p1",
+      "hukum": "Sanığın silahla yağmaya teşebbüs suçundan, TCK m.36 uyarınca gönüllü vazgeçme nedeniyle CMK m.223/4 gereğince CEZA VERİLMESİNE YER OLMADIĞINA; tamamlanan kısım yönünden silahla tehdit suçundan TCK m.106/2-a ve m.62 uyarınca 1 yıl 8 ay hapis cezasıyla cezalandırılmasına,",
+      "summary": [
+        { "text": "Heyet gönüllü vazgeçmeyi kabul etti; teşebbüsten ceza verilmedi." },
+        { "if": "!tamam", "text": " Ama tamamlanan kısım hakkında doğru bir çizgi çizmediniz; heyet silahla tehdit nitelendirmesini kendisi yaptı." },
+        { "if": "!talep", "text": " Kalan suç için hükmün açıklanmasının geri bırakılmasını talep etmediğinizden, sabıkasız müvekkiliniz bu imkândan yararlanamadı." }
+      ] },
+    { "winner": "p2",
+      "hukum": "Sanığın silahla yağmaya teşebbüs suçundan TCK m.149/1-a, m.35/2 ve m.62 uyarınca 4 yıl 2 ay hapis cezasıyla cezalandırılmasına,",
+      "summary": [
+        { "text": "Heyet, sanığın dış bir engel nedeniyle durduğu yönündeki iddianame kabulünü benimsedi." },
+        { "if": "!tez", "text": " Savunmayı gönüllü vazgeçme üzerine kurmadınız; dosyadaki en güçlü argüman kullanılmadı." },
+        { "if": "tez && !vazgecme", "text": " Gönüllü vazgeçmeyi savundunuz, ama vazgeçmenin dış bir engelden kaynaklanmadığını delille göstermediniz. Kamera kaydı dosyadaydı." }
+      ] }
+  ]
+}

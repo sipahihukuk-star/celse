@@ -1,0 +1,207 @@
+{
+  "id": "ceza-mesru-mudafaa",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "orta",
+  "title": "Kırık Şişe",
+  "area": "Ceza Hukuku · Meşru savunma",
+  "court": "Samsun 5. Asliye Ceza Mahkemesi",
+  "courtShort": "5. ASLİYE CEZA",
+  "esas": "2026/1043 Esas",
+  "kararTarihi": "21.01.2027",
+  "color": "#7a3b2e",
+  "teaser": "Gece yarısı sahilde kırık bir şişe ve tek bir yumruk. Gerçeği gösteren kamera kaydı on dört gün sonra silinecek.",
+  "sides": {
+    "p1": { "role": "Sanık müdafii", "short": "Siz" },
+    "p2": { "role": "Karşı taraf", "short": "Karşı taraf" }
+  },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#e3b98f", "hair": "#4a3426", "style": "short" } },
+    "pros": { "name": "Cumhuriyet Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#b47e55", "hair": "#141414", "style": "bun", "glasses": true } },
+    "opp": { "name": "Av. Murat Ekinci · Katılan vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#d4a47a", "hair": "#2c2c2c", "style": "short", "beard": true } },
+    "client": { "name": "Yusuf Demirel · Müvekkil (sanık)", "np": "civil", "look": { "kind": "civil", "skin": "#c28a5c", "hair": "#1d1510", "style": "short", "shirt": "#2f4a3a", "inner": "#e6e0d4" } },
+    "witness": { "name": "Nurcan Polat · Tanık (taksi şoförü)", "np": "civil", "look": { "kind": "civil", "skin": "#edc7a3", "hair": "#6e3a22", "style": "long", "shirt": "#c29a3a", "inner": "#f2ede2" } }
+  },
+  "courtCast": ["judge", "pros", "you", "client", "opp"],
+  "evidence": [
+    { "id": "ev_katilan_rapor", "type": "belge", "title": "Katılanın adli raporu", "desc": "Sol kaşta dört dikiş gerektiren yarık, sağ omuzda ezik. Yaralanma basit bir tıbbi müdahaleyle giderilemez." },
+    { "id": "ev_kamera", "type": "belge", "title": "Büfe kamerası kaydı ve izleme tutanağı", "desc": "01.04: Katılan kırık şişeyle sanığa yürüyor. 01.05: Sanık tek yumruk atıyor, katılan düşüyor, şişe elinden kayıyor. 01.05: Katılan yerden şişeye uzanırken sanık bir kez tekmeliyor ve uzaklaşıyor.", "if": "celp" },
+    { "id": "ev_tanik", "type": "beyan", "title": "Tanık Nurcan Polat'ın soruşturma ifadesi", "desc": "“Adam elinde kırık şişeyle bağırarak üstüne yürüdü. Genç adam bir yumruk attı, adam düştü. Sonra bir tekme attı ve gitti.”", "if": "tanik && istem" },
+    { "id": "ev_rapor", "type": "belge", "title": "Sanığın adli muayene raporu", "desc": "Sol önkolda 5 cm'lik yüzeysel kesi; kesici bir cisimle oluşmaya uygun.", "if": "rapor && istem" },
+    { "id": "law_tck25", "type": "kanun", "title": "TCK m.25/1 · Meşru savunma", "desc": "Haksız ve gerçekleşen, gerçekleşmesi ya da tekrarı muhakkak saldırıyı o anki hâl ve koşullara göre orantılı biçimde defetmek zorunluluğuyla işlenen fiilden dolayı ceza verilmez.", "law": "TCK m.25/1" }
+  ],
+  "intro": [
+    { "who": "narr", "text": "24 Haziran 2026. Büronuza Yusuf Demirel geliyor. 34 yaşında, Atakum'da bir restoranda aşçı. Sağ eli sargılı." },
+    { "who": "client", "text": "Dört gün önce gece birde sahilde yürüyordum. Sarhoş bir adam omzuma çarptı, küfretti. Elindeki şişeyi duvara vurup kırdı ve üstüme yürüdü." },
+    { "who": "client", "text": "Bir yumruk attım, düştü. Sonra yerden şişeye uzandı, ben de bir tekme atıp kaçtım. Karakolda ifademi aldılar; şimdi beni yaralamakla suçluyorlar." }
+  ],
+  "docs": [
+    { "t": "Şüpheli ifadesi (20.06.2026)", "d": "Yusuf Demirel: “Kendimi korudum. Adam elinde kırık şişeyle üstüme geldi.”" },
+    { "t": "Müşteki ifadesi (20.06.2026)", "d": "Cengiz Yalçın: “Elimde su şişesi vardı. Sanık durduk yere saldırdı.”" },
+    { "t": "Katılanın adli raporu", "d": "Sol kaşta dikiş gerektiren yarık, omuzda ezik. Basit bir tıbbi müdahaleyle giderilemez." },
+    { "t": "Sonraki gelişmeler", "d": "Soruşturmada uzlaşma sağlanamadı. İddianame: TCK m.86/1. Kabul: 15.09.2026. Duruşma: Kasım 2026." }
+  ],
+  "steps": [
+    {
+      "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Soruşturma sürüyor. Müvekkil bir saat sonra işe dönmek zorunda; iki soruya vaktiniz var." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Olay yerini gören bir kamera var mıydı?", "delta": 15, "set": ["kamera"],
+          "reply": [{ "who": "client", "text": "Köşedeki büfenin kamerası sahile bakıyor. Büfeci kayıtların iki haftada bir silindiğini söyledi." }],
+          "note": "Olayı baştan sona gösterebilecek bir delil var; ama 4 Temmuz'da silinecek." },
+        { "text": "Olayı gören biri oldu mu?", "delta": 10, "set": ["tanik"],
+          "reply": [{ "who": "client", "text": "Durakta bir taksici kadın vardı, Nurcan Hanım. Polise “adam şişeyle geldi” dedi ama ifadesi alınmadı galiba. Numarası bende." }],
+          "note": "Tarafsız bir görgü tanığı. İfadesi dosyada yok." },
+        { "text": "Elinizdeki yara nasıl oldu? Doktora gittiniz mi?", "delta": 10, "set": ["rapor"],
+          "reply": [{ "who": "client", "text": "Şişe kolumu kesti. Karakolda doktora götürmediler, kendim sardım." }],
+          "note": "Sanığın kendi yarası saldırının varlığını destekler; ama raporla belgelenmesi gerekiyor." },
+        { "text": "Katılanı daha önce tanıyor muydunuz?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Hayır, ilk kez gördüm." }],
+          "note": "Husumet yokluğu dosyadan da anlaşılıyor. Sınırlı vaktinizi delillere ayırmalıydınız." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Dosya henüz savcılıkta. İddianame düzenlenmedi; duruşmanın aylar sonra olacağı belli." }
+      ],
+      "prompt": "Deliller için ne yapacaksınız?",
+      "choices": [
+        { "if": "kamera", "text": "Bugün savcılığa dilekçe verin: büfe kamerası kaydının silinmeden alınması, taksici tanığın ifadesinin alınması ve müvekkilin adli muayenesi.", "delta": 25, "set": ["celp", "istem"],
+          "law": "CMK m.147/1-f · m.160/2",
+          "note": "Doğru ve zamanında. Şüpheli, şüpheden kurtulmak için somut delillerin toplanmasını isteyebilir (CMK m.147/1-f); savcı lehe delilleri de toplamakla yükümlüdür (CMK m.160/2). Kayıt silinmeden alındı.",
+          "reply": [{ "who": "narr", "text": "Savcılık ertesi gün büfeye yazı yazdı. Kayıt kopyalanıp dosyaya kondu." }] },
+        { "if": "!kamera", "text": "Bugün savcılığa dilekçe verin: olay yeri çevresindeki kameraların araştırılması, görgü tanıklarının tespiti ve müvekkilin adli muayenesi.", "delta": 15, "set": ["istem"],
+          "law": "CMK m.147/1-f · m.160/2",
+          "note": "Doğru refleks; ama hangi kameranın olayı gördüğünü bilmediğiniz için savcılık yalnızca belediye kameralarını istedi. Olay yeri onların kör noktasındaydı. Büfe kaydı iki hafta sonra silindi.",
+          "reply": [{ "who": "narr", "text": "Belediye kameralarından olay yerini gösteren bir görüntü çıkmadı." }] },
+        { "if": "kamera", "text": "Büfeciden kaydın bir kopyasını kendiniz alın; duruşmada sürpriz delil olarak sunmak için saklayın.", "delta": 5, "set": ["celp", "kopya"],
+          "note": "Kaydı korudunuz, bu iyi. Ama savcılığa bildirmeyip saklamak riskli: kaydın kaynağı ve bütünlüğü tartışılır, bilirkişi incelemesi gerekir. Üstelik soruşturmada kovuşturmaya yer olmadığı kararı alma şansını da kullanmadınız." },
+        { "text": "Delilleri duruşmada isteriz. Şimdi savcılığı uğraştırmayalım.", "delta": -20, "set": ["gec"],
+          "law": "CMK m.160/2",
+          "note": "Usul tuzağı. Delil istemi her aşamada yapılabilir; ama bazı deliller beklemez. Büfe kaydı 14 günde silindi; kovuşturmada istendiğinde yerinde yoktu." }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Kasım 2026. İlk duruşma." },
+        { "who": "narr", "text": "Mahkemenin büfeye yazdığı yazıya cevap geldi: kayıtlar on dört günde bir silindiği için olay gecesine ait görüntü bulunmuyor.", "if": "kamera && !celp" },
+        { "who": "judge", "text": "İddianame okundu, sanığın savunması alındı. Katılan vekili, beyanınız?" }
+      ],
+      "statement": { "who": "opp", "text": "Sayın Hâkim, müvekkilimin elinde yalnızca bir su şişesi vardı. Sanığa hiçbir saldırıda bulunmamıştır. Sanık durduk yere saldırmış, müvekkilimi yaralamıştır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_kamera"],
+      "hit": { "delta": 25, "set": ["kameraItiraz"],
+        "reply": [
+          { "who": "judge", "text": "Kayıt duruşmada izlendi. Katılanın elinde kırık şişeyle sanığa yürüdüğü, sanığın tek yumrukla karşılık verdiği, katılanın yerden şişeye uzandığı anda sanığın bir kez tekmeleyip uzaklaştığı görüldü. Tutanağa geçirildi." }
+        ],
+        "note": [
+          { "text": "Kayıt saldırının haksızlığını, gerçekleştiğini ve sanığın tepkisinin ölçüsünü tek başına gösteriyor." },
+          { "if": "kopya", "text": " Kaydı kendiniz sakladığınız için mahkeme bütünlüğünü bilirkişiye inceletti; duruşma bir celse uzadı." }
+        ] },
+      "responses": {
+        "ev_tanik": { "delta": 15, "set": ["tanikItiraz"],
+          "reply": [{ "who": "judge", "text": "Tanığın soruşturma ifadesi okundu. Tanığın duruşmada dinlenmesine karar verildi." }],
+          "note": "Tarafsız bir tanık şişe saldırısını doğruluyor. Ama tanık tekmeden önceki anı, katılanın şişeye uzanmasını görmemiş." },
+        "ev_rapor": { "delta": 10, "set": ["raporItiraz"],
+          "note": "Sanığın önkolundaki kesi, kesici bir cisimle saldırıya uğradığını destekliyor. Saldırıyı tek başına kanıtlamaz, ama katılanın “su şişesi” anlatımını zayıflatır." },
+        "ev_katilan_rapor": { "delta": -10,
+          "note": "Bu rapor katılanın yaralandığını gösteriyor; iddianameyi destekler, sizi değil." },
+        "law_tck25": { "delta": 0,
+          "note": "Madde doğru, ama katılan vakıaya itiraz ediyor: saldırı olmadığını söylüyor. Vakıa kanun maddesiyle değil, delille çürütülür." }
+      },
+      "miss": { "delta": -10, "note": "Bu delil katılanın beyanını çürütmüyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; saldırı olmadığı anlatımı cevapsız kaldı." }
+    },
+    {
+      "side": "p1", "scene": "court", "if": "tanik",
+      "lines": [
+        { "who": "narr", "text": "Tanık Nurcan Polat salona alındı. Dinleyici sıralarında katılanın yakınları oturuyor. Biri yüksek sesle söyleniyor: “Dikkatli konuş!”" },
+        { "who": "witness", "text": "Ben… Şey… O gece…" },
+        { "who": "narr", "text": "Tanık susup yere bakıyor." }
+      ],
+      "prompt": "Ne yaparsınız?",
+      "choices": [
+        { "text": "Ayağa kalkın: “Sayın Hâkim, dinleyici sıralarından tanığa yöneltilen sözün tutanağa geçirilmesini ve duruşma düzeninin sağlanmasını talep ediyorum.”", "delta": 10, "set": ["tanikBeyan"],
+          "law": "CMK m.203",
+          "note": "Doğru. Duruşmanın düzenini sağlamak hâkime aittir; düzeni bozan dinleyici salondan çıkarılabilir (CMK m.203). Sakin bir talep, tanığın konuşabileceği ortamı geri getirdi.",
+          "reply": [
+            { "who": "judge", "text": "Söz tutanağa geçirildi. O sözü söyleyen beyefendi salonu terk etsin. Tanık hanım, rahat olun, sizi dinliyoruz." },
+            { "who": "witness", "text": "Adam elinde kırık şişeyle bağırarak üstüne yürüdü. Genç adam bir yumruk attı, adam düştü. Sonra bir tekme attı, gitti." }
+          ] },
+        { "text": "Tanığa dönün: “Korkmayın, onlar size bir şey yapamaz!”", "delta": -5, "set": ["tanikBeyan"],
+          "note": "İyi niyetli, ama tanığı yönlendiriyormuş gibi görünürsünüz ve düzeni sağlama yetkisi hâkimde. Hâkimden bunu istemeliydiniz.",
+          "reply": [
+            { "who": "judge", "text": "Müdafi, tanığa ben hitap ederim. Dinleyiciler sessiz olsun." },
+            { "who": "witness", "text": "Adam kırık şişeyle üstüne yürüdü… Genç adam vurdu, sonra bir tekme attı." }
+          ] },
+        { "text": "Dinleyicilere dönüp sert çıkışın: “Burada tanık mı tehdit ediyorsunuz?”", "delta": -10,
+          "note": "Tahrike kapıldınız. Salonu siz değil hâkim yönetir. Gerginlik arttı, tanık iyice kapandı.",
+          "reply": [
+            { "who": "judge", "text": "Müdafi, oturun lütfen! Salonun düzenini ben sağlarım." },
+            { "who": "witness", "text": "Tam göremedim… Karanlıktı." }
+          ] }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Tahkikat tamamlandı. Cumhuriyet savcısı, esas hakkındaki mütalaanız?" },
+        { "who": "pros", "text": "Kayıt karşısında sanığın haksız bir saldırıyı defetmek için hareket ettiği anlaşılmaktadır. Takdiri mahkemenize bırakıyorum.", "if": "kameraItiraz" },
+        { "who": "pros", "text": "Sanığın TCK m.86/1 uyarınca cezalandırılmasını, lehine haksız tahrik hükümlerinin uygulanmasını talep ederim.", "if": "!kameraItiraz" },
+        { "who": "judge", "text": "Müdafi, esas hakkındaki savunmanız?" }
+      ],
+      "prompt": "Savunmanızı nasıl kuracaksınız?",
+      "choices": [
+        { "text": "Kırık şişeyle saldırı haksız ve gerçekleşen bir saldırıdır; tek yumruk orantılıdır. Katılan yerden şişeye uzandığında saldırının tekrarı muhakkaktı. Meşru savunma nedeniyle beraat talep ederiz. Tekme sınırı aştı denirse bile, bu aşma mazur görülebilecek korku ve telaştan kaynaklanmıştır; ceza verilmemelidir.", "delta": 25, "set": ["savunma"],
+          "law": "TCK m.25/1, m.27/2 · CMK m.223/2-d, m.223/3-c",
+          "note": "Doğru kurgu. Meşru savunma bir hukuka uygunluk sebebidir ve beraat gerektirir (CMK m.223/2-d). Sınırın mazur görülebilecek heyecan, korku veya telaşla aşılmasında faile ceza verilmez (TCK m.27/2); bu durumda karar, kusur yokluğundan ceza verilmesine yer olmadığıdır (CMK m.223/3-c)." },
+        { "text": "Sanık haksız tahrik altında hareket etmiştir; cezadan indirim yapılmasını talep ederiz.", "delta": -5, "set": ["tahrik"],
+          "law": "TCK m.29",
+          "note": "Haksız tahrik suçun işlendiğini kabul eder, yalnızca cezayı indirir. Delil durumu meşru savunmaya elverişliyken mahkûmiyete razı oldunuz." },
+        { "text": "Katılan sarhoştu; sarhoş birine karşı her türlü savunma meşrudur.", "delta": -10,
+          "law": "TCK m.25/1",
+          "note": "Meşru savunmanın ölçüsü saldıranın sarhoş olması değil; saldırının haksızlığı, gerçekleşmesi ve tepkinin orantılılığıdır." },
+        { "text": "Saldırı sona ermişti ama sanık çok öfkeliydi; cezanın alt sınırdan verilmesini talep ederiz.", "delta": -15,
+          "note": "Hem müvekkilin anlatımıyla hem delillerle çelişen bir kabul. Savunmanın en güçlü dayanağını kendiniz bıraktınız." }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "savunma && kameraItiraz", "winner": "p1",
+      "hukum": "Sanığın eylemini kendisine yönelen haksız ve gerçekleşen, tekrarı muhakkak bir saldırıyı o anki hâl ve koşullara göre orantılı biçimde defetmek zorunluluğuyla gerçekleştirdiği anlaşıldığından TCK m.25/1 ve CMK m.223/2-d uyarınca BERAATİNE,",
+      "summary": [
+        { "text": "Kamera kaydını silinmeden dosyaya kazandırdınız. Kayıt, katılanın yerden şişeye uzandığını da gösterdi; tekme bile tekrarı muhakkak saldırıya karşı orantılı bir savunma sayıldı." },
+        { "if": "kopya", "text": " Kaydı savcılığa vermek yerine sakladığınız için bütünlüğü bilirkişiyle doğrulandı; dosya bir celse uzadı." }
+      ]
+    },
+    {
+      "if": "savunma && (tanikItiraz || tanikBeyan || raporItiraz)", "winner": "p1",
+      "hukum": "Sanığın ilk müdahalesinin meşru savunma kapsamında kaldığı, katılan yere düştükten sonraki tekmeyle meşru savunmada sınırın mazur görülebilecek korku ve telaşla aşıldığı anlaşıldığından TCK m.27/2 ve CMK m.223/3-c uyarınca kusurunun bulunmaması nedeniyle CEZA VERİLMESİNE YER OLMADIĞINA,",
+      "summary": [
+        { "text": "Kazandınız; ama beraat yerine ceza verilmesine yer olmadığı kararı çıktı." },
+        { "if": "!celp", "text": " Olayı gören büfe kamerasının kaydı zamanında istenmediği için silindi. Katılanın şişeye uzandığı anı gösterecek tek delil oydu; o olmadan tekme sınırın aşılması olarak değerlendirildi." },
+        { "if": "celp", "text": " Kamera kaydı elinizdeydi ama katılanın beyanına karşı onu sunmadınız." }
+      ]
+    },
+    {
+      "if": "tahrik && (kameraItiraz || tanikItiraz || tanikBeyan || raporItiraz)", "winner": "draw", "stamp": "KISMEN KAZANDINIZ",
+      "hukum": "Sanığın TCK m.86/1 uyarınca 1 yıl hapis cezası ile cezalandırılmasına, haksız tahrik nedeniyle TCK m.29 uyarınca 1/2 oranında indirim yapılarak 6 ay hapis cezasına, TCK m.62 uyarınca 5 ay hapis cezasına; CMK m.231 uyarınca HÜKMÜN AÇIKLANMASININ GERİ BIRAKILMASINA,",
+      "summary": "Şişe saldırısını ispatladınız, ama savunmayı haksız tahrike indirdiniz. Elinizdeki delillerle meşru savunma ileri sürülebilir, mahkûmiyet hiç kurulmayabilirdi."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Sanığın TCK m.86/1 uyarınca 1 yıl hapis cezası ile cezalandırılmasına, TCK m.62 uyarınca 1/6 oranında indirim yapılarak 10 ay hapis cezası ile CEZALANDIRILMASINA,",
+      "summary": [
+        { "if": "savunma", "text": "Meşru savunmayı doğru kurdunuz, ama dayanacak delil yoktu." },
+        { "if": "!savunma", "text": "Savunmayı meşru savunma üzerine kurmadınız." },
+        { "if": "gec && kamera", "text": " Kamera kaydı duruşmayı bekleyemedi: on dört gün sonra silindi." },
+        { "if": "!kamera", "text": " Müvekkile olay yerinde kamera olup olmadığını sormadınız; köşedeki büfenin kaydı on dört gün sonra silindi." },
+        { "text": " Katılanın “elimde su şişesi vardı” anlatımı çürütülemedi." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+{
+  "id": "miras-tenkis",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "zor",
+  "title": "Saklı Pay",
+  "area": "Miras Hukuku · Muris muvazaası ve tenkis",
+  "court": "Samsun 3. Asliye Hukuk Mahkemesi",
+  "courtShort": "3. ASLİYE HUKUK",
+  "esas": "2026/1187 Esas",
+  "kararTarihi": "09.12.2027",
+  "color": "#3a4f6b",
+  "teaser": "Babanın iki taşınmazı ölümünden önce kız kardeşe geçmiş: biri “satış”, biri açık bağış. Takvim üç hafta gösteriyor; hangi dava, hangi sırayla?",
+  "sides": { "p1": { "role": "Davacı mirasçı vekili", "short": "Siz" }, "p2": { "role": "Davalı mirasçı", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#b88560", "hair": "#2a2220", "style": "bun" } },
+    "opp": { "name": "Av. Pelin Aksoy · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#edc6a2", "hair": "#c9a227", "style": "long", "glasses": true } },
+    "client": { "name": "Kaan Yıldırım · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#d6a57c", "hair": "#3a2a20", "style": "curly", "shirt": "#6b3a3a", "inner": "#e6e1d6" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Samsun. Kaan Yıldırım'ın babası Kemal Yıldırım 15 Kasım 2025'te vefat etti. Annesi 2019'da ölmüş; mirasçılar Kaan ve kız kardeşi Derya." },
+    { "who": "client", "text": "Babam 2023'te Atakum'daki daireyi Derya'ya tapuda “satış” göstererek devretti. 2025 başında da İlkadım'daki dükkanı ona bağışladı. Geriye bankada iki yüz bin lira kaldı." },
+    { "who": "client", "text": "Babamın her şeyi ona bırakmasını dert etmiyorum desem yalan olur. Ama kavga da istemiyorum. Ne hakkım var?" },
+    { "who": "narr", "text": "Bugün 27 Ekim 2026." }
+  ],
+  "docs": [
+    { "t": "Mirasçılık belgesi", "d": "Kemal Yıldırım'ın mirasçıları: oğlu Kaan ve kızı Derya, 1/2'şer pay." },
+    { "t": "Daire tapu kaydı", "d": "Atakum'da daire; 12.05.2023'te resmî senette 350.000 TL bedelle “satış” olarak Derya Yıldırım Koç adına tescil." },
+    { "t": "Dükkan tapu kaydı", "d": "İlkadım'da dükkan; 03.03.2025'te “bağış” olarak Derya Yıldırım Koç adına tescil." },
+    { "t": "Tereke", "d": "Bankada 200.000 TL. Başka mal yok." }
+  ],
+  "evidence": [
+    { "id": "ev_daire_tapu", "type": "belge", "title": "Daire satış resmî senedi", "desc": "12.05.2023; satış bedeli 350.000 TL olarak gösterilmiş." },
+    { "id": "ev_dukkan_tapu", "type": "belge", "title": "Dükkan bağış resmî senedi", "desc": "03.03.2025; tapuda açıkça “bağış”." },
+    { "id": "ev_rayic", "type": "belge", "title": "Emsal değer araştırması", "desc": "Dairenin 2023'teki piyasa değeri yaklaşık 3.500.000 TL; tapuda gösterilen bedelin on katı." },
+    { "id": "ev_mesaj", "type": "belge", "title": "Derya'nın 2023 tarihli mesajı", "desc": "“Babam daireyi üstüme yaptı, tapuda satış gösterdik, para mara vermedim. Kimseye söyleme.”", "if": "mesaj" },
+    { "id": "ev_tanik", "type": "beyan", "title": "Tanık Saadet Ertürk", "desc": "Alt kat komşusu: mirasbırakan ona “Kaan'ın payı olmasın, her şey Derya'nın olsun” demiş.", "if": "tanik" },
+    { "id": "law_ibk", "type": "kanun", "title": "01.04.1974 tarihli 1/2 sayılı YİBK", "desc": "Mirasbırakanın mirasçılarından mal kaçırmak amacıyla satış gibi gösterdiği bağışlar; mirasçılar muvazaayı her türlü delille ispatlayabilir." },
+    { "id": "law_hmk200", "type": "kanun", "title": "HMK m.200 · Senetle ispat zorunluluğu", "desc": "Belirli değeri aşan hukuki işlemlerin senetle ispatı.", "law": "HMK m.200" }
+  ],
+  "steps": [
+    { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Müvekkilin bir saat sonra uçağı var. İki soru sorabilirsiniz." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Derya'nın 2023'te daireyi alacak parası var mıydı? Bu konuda konuştunuz mu?", "delta": 15, "set": ["mesaj"],
+          "reply": [{ "who": "client", "text": "O yıl işsizdi. Hatta bana yazmıştı: “Babam daireyi üstüme yaptı, tapuda satış gösterdik, para vermedim.” Mesaj hâlâ telefonumda." }],
+          "note": "Doğru soru. Görünüşteki satışın arkasında bir bağış olduğunu davalının kendi mesajı gösteriyor. Mesaj delil çantanıza eklendi." },
+        { "text": "Babanız devirlerden kimseye söz etti mi?", "delta": 10, "set": ["tanik"],
+          "reply": [{ "who": "client", "text": "Alt kattaki Saadet Hanım'a “Kaan'ın payı olmasın, her şey Derya'nın olsun” demiş. Saadet Hanım tanıklık eder." }],
+          "note": "Mal kaçırma amacını gösteren önemli bir tanık. Tanık delil çantanıza eklendi." },
+        { "text": "Devirleri ne zaman öğrendiniz?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Daireyi 2023'te, dükkanı 2025 başında biliyordum. Babam sağken bir şey diyemedim." }],
+          "note": "Önemli bir bilgi: devirler ölümden önce biliniyordu. Tenkis için bir yıllık süre mirasın açılmasından önce işlemeye başlamaz; son gün 15 Kasım 2026." },
+        { "text": "Kardeşinizle uzlaşma ihtimali var mı?", "delta": 0,
+          "reply": [{ "who": "client", "text": "Konuşmuyoruz. Avukatı “dava açarsanız görürsünüz” dedi." }],
+          "note": "Uzlaşma ihtimali zayıf; bu bilgi stratejiyi değiştirmiyor." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Ölümün üzerinden neredeyse bir yıl geçti. Daire tapuda “satış”, dükkan tapuda açık “bağış”." }],
+      "prompt": "Hangi davayı, ne zaman açacaksınız?",
+      "choices": [
+        { "text": "Bu hafta tek dava: daire için asıl talep muris muvazaası nedeniyle tapu iptali ve tescil; bu talep kabul edilmezse terditli olarak daire ve dükkan yönünden tenkis. Dava ile birlikte iki taşınmaza ihtiyati tedbir isteyin.", "delta": 25, "set": ["terdit"],
+          "law": "HMK m.111, TMK m.571, HMK m.389",
+          "reply": [{ "who": "narr", "text": "Dava 30 Ekim 2026'da açıldı. İki taşınmazın tapu kaydına ihtiyati tedbir şerhi konuldu." }],
+          "note": "Muvazaa iddiası süreye bağlı değildir, ama ispatı belirsizdir; tenkis ise bir yıllık hak düşürücü süreye tabidir (TMK m.571). Terditli dava (HMK m.111) ikisini aynı anda, süre kaçmadan güvenceye alır. Açık bağışla devredilen dükkan için muvazaa ileri sürülemez; onun tek yolu tenkis." },
+        { "text": "Daire için yalnızca muris muvazaası davası açalım; süreye bağlı değil. Tenkisi muvazaa davasının sonucuna göre sonra düşünürüz.", "delta": -10, "set": ["yalnizMuvazaa"],
+          "reply": [{ "who": "narr", "text": "Dava 30 Ekim 2026'da yalnızca daire için açıldı. Dükkan dava dışında kaldı." }],
+          "note": "Riskli. Muvazaa davası yıllar sürebilir; ispatlanamazsa tenkis için bir yıllık süre çoktan dolmuş olur. Dükkan ise hiç korunmadı." },
+        { "text": "İki taşınmaz için de yalnızca tenkis davası açalım.", "delta": 5, "set": ["yalnizTenkis"],
+          "law": "TMK m.571",
+          "reply": [{ "who": "narr", "text": "Dava 30 Ekim 2026'da tenkis davası olarak açıldı." }],
+          "note": "Süre korundu. Ama tenkis yalnızca saklı payı tamamlar; muvazaa ispatlanabilseydi müvekkil dairede yasal miras payı oranında, yani daha fazla hak alacaktı." },
+        { "text": "Önce kardeşinize noter ihtarnamesi çekelim, uzlaşmayı deneyelim. Tenkis için on yıl süre var; dava Ocak'ta açılır.", "delta": -30,
+          "law": "TMK m.571",
+          "fatal": { "label": "SONUÇ:", "hukum": "Bir yıllık hak düşürücü süre 15 Kasım 2026'da doldu. Dükkan yönünden tenkis hakkı ortadan kalktı.",
+                     "summary": "Tenkis davası, saklı payın zedelendiğinin öğrenilmesinden başlayarak bir yıl ve her hâlde on yıl içinde açılmalıdır (TMK m.571); hangisi önce dolarsa. Devirler önceden bilindiği için süre ölümle başlamıştı. Açık bağışla devredilen dükkanın tek yolu tenkisti ve kapandı. Daire için muvazaa davası hâlâ açılabilir; ama ispat edilemezse müvekkilin saklı payı için hiçbir güvence kalmadı." },
+          "note": "On yıl üst sınırdır; asıl süre öğrenmeden itibaren bir yıldır ve ikisinden hangisi önce dolarsa dava hakkı düşer." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Ön inceleme duruşması, 18 Şubat 2027." },
+        { "who": "judge", "text": "Davalı vekili, ilk itirazlarınız?" },
+        { "who": "opp", "text": "Davacı devirleri babası hayattayken, 2023 ve 2025'te öğrenmişti. Öğrenmeden itibaren bir yıl çoktan geçti; tenkis talebi hak düşürücü süre nedeniyle reddedilmelidir.", "if": "!yalnizMuvazaa" },
+        { "who": "opp", "text": "Davacı daireye ilişkin satışı 2023'ten beri biliyordu. Üç yılı aşkın bir süre sonra açılan bu dava süresinde değildir.", "if": "yalnizMuvazaa" },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "Süre itirazına ne cevap vereceksiniz?",
+      "choices": [
+        { "if": "terdit", "text": "Saklı pay mirasın açılmasıyla doğar; tenkis için bir yıllık süre ölümden önce işlemez. Ölüm 15.11.2025, dava 30.10.2026: süre içinde. Muvazaaya dayanan asıl talep ise hiçbir süreye bağlı değildir.", "delta": 25, "set": ["sureOk"],
+          "law": "TMK m.571",
+          "reply": [{ "who": "judge", "text": "Hak düşürücü süreyi zaten kendiliğinden incelerim. Dava, ölümden itibaren bir yıl dolmadan açılmış. İtiraz yerinde görülmedi." }],
+          "note": "Doğru. Mirasbırakan hayattayken saklı pay zedelenmiş olamaz; süre en erken ölümle başlar. Muris muvazaasına dayalı iptal davası ise süreye bağlı değildir." },
+        { "if": "yalnizTenkis", "text": "Saklı pay mirasın açılmasıyla doğar; bir yıllık süre ölümden önce işlemez. Ölüm 15.11.2025, dava 30.10.2026: süre içinde.", "delta": 25, "set": ["sureOk"],
+          "law": "TMK m.571",
+          "reply": [{ "who": "judge", "text": "Dava ölümden itibaren bir yıl dolmadan açılmış. İtiraz yerinde görülmedi." }],
+          "note": "Doğru. Mirasbırakan hayattayken saklı pay zedelenmiş olamaz; süre en erken ölümle başlar." },
+        { "if": "yalnizMuvazaa", "text": "Muris muvazaasına dayanan tapu iptali davası hak düşürücü süreye ya da zamanaşımına bağlı değildir; görünüşteki satış geçersizdir.", "delta": 20, "set": ["sureOk"],
+          "law": "01.04.1974 t. 1/2 s. YİBK",
+          "reply": [{ "who": "judge", "text": "İtiraz yerinde görülmedi." }],
+          "note": "Doğru. Ama aynı itiraz tenkis için yapılsaydı haklı olurdu: 15 Kasım 2026 geçti ve dosyada tenkis talebi yok." },
+        { "text": "Tenkis için süre on yıldır; bir yıllık süre burada uygulanmaz.", "delta": -15,
+          "law": "TMK m.571",
+          "reply": [{ "who": "judge", "text": "İki süre birlikte işler, Sayın vekil. Hangisi önce dolarsa." }],
+          "note": "Hatalı. On yıl üst sınırdır; asıl süre öğrenmeden itibaren bir yıldır. Doğru cevap, sürenin ölümden önce başlamadığıydı." },
+        { "text": "Süre itirazı cevap dilekçesinde yapılmadı; artık dinlenmemeli.", "delta": -10,
+          "reply": [{ "who": "judge", "text": "Hak düşürücü süre itiraza bağlı değildir, mahkeme kendiliğinden gözetir." }],
+          "note": "Hak düşürücü süreler mahkemece kendiliğinden gözetilir; taraf ileri sürmese de incelenir." },
+        { "if": "terdit", "text": "Tartışmaya gerek yok; tenkis talebinden feragat ediyoruz, muvazaa talebimiz yeter.", "delta": -25, "set": ["feragat"],
+          "law": "HMK m.307, m.311",
+          "reply": [{ "who": "judge", "text": "Tenkis talebinden feragat beyanı tutanağa geçti." }],
+          "note": "Ağır hata. Feragat kesin hüküm gibi sonuç doğurur; tenkis talebi bir daha ileri sürülemez. Muvazaa ispatlanamazsa müvekkilin elinde hiçbir şey kalmaz." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court", "if": "!yalnizTenkis",
+      "lines": [{ "who": "judge", "text": "Tahkikata geçiyoruz. Davalı vekili, daireye ilişkin savunmanız?" }],
+      "statement": { "who": "opp", "text": "Daire 350.000 TL bedelle satıldı, bedel elden ödendi. Resmî senetteki satışa karşı iddia ancak yazılı delille ispat edilebilir; tanık dinlenemez." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_mesaj"],
+      "hit": { "delta": 25, "set": ["muvazaa"],
+        "reply": [
+          { "who": "judge", "text": "Davalının 2023 tarihli mesajı dosyaya alındı. Mirasçılar muvazaayı her türlü delille ispatlayabilir; davacı tanıklarının da dinlenmesine karar verildi." },
+          { "who": "opp", "text": "Sayın Hâkim… müvekkilim o mesajı şaka olarak yazmıştı." }
+        ],
+        "note": "Mesaj, satışın görünüşte kaldığını ve bedel ödenmediğini davalının kendi sözleriyle gösteriyor. Mirasçılar muris muvazaasını tanık dahil her türlü delille ispatlayabilir (01.04.1974 t. 1/2 s. YİBK); HMK m.200 itirazı da düştü." },
+      "responses": {
+        "ev_tanik": { "delta": 10, "set": ["tanikItiraz"],
+          "reply": [{ "who": "judge", "text": "Mirasçılar muvazaayı tanıkla da ispatlayabilir. Tanık Saadet Ertürk'ün dinlenmesine karar verildi." }],
+          "note": "Doğru yön: mirasçılar muvazaayı tanıkla ispatlayabilir. Tanık mal kaçırma amacını gösteriyor; ama davalının kendi mesajı, bedelin hiç ödenmediğini çok daha güçlü kanıtlardı." },
+        "ev_rayic": { "delta": 5, "set": ["rayic"],
+          "note": "Bedel ile gerçek değer arasındaki büyük fark muvazaanın bir işaretidir. Ama tapuda düşük bedel göstermek yaygın bir uygulama; bu fark tek başına muvazaayı ispatlamaya yetmez." },
+        "law_ibk": { "delta": 5,
+          "note": "Doğru içtihat: mirasçılar muvazaayı her türlü delille ispatlayabilir. Ama ispat için bir delil sunmanız gerekiyordu; içtihat delilin yerini tutmaz." },
+        "law_hmk200": { "delta": -15,
+          "note": "Bu madde karşı tarafın tezine hizmet eder. Üstelik muris muvazaasında mirasçılar senetle ispat kuralıyla bağlı değildir." },
+        "ev_dukkan_tapu": { "delta": -10,
+          "note": "Dükkanın bağış senedi daireyle ilgili tartışmayı etkilemez." },
+        "ev_daire_tapu": { "delta": -10,
+          "note": "Bu senet karşı tarafın dayandığı belgedir: satışı ve bedeli gösteriyor." }
+      },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; satışın gerçek olduğu ve tanık dinlenemeyeceği savunması cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Bilirkişi raporu: daire bugün 6.000.000 TL, dükkan 4.000.000 TL; terekede 200.000 TL nakit." },
+        { "who": "judge", "text": "Davacı vekili, talep sonucunuzu açıklayın." }
+      ],
+      "prompt": "Talebiniz ne olacak?",
+      "choices": [
+        { "if": "terdit", "text": "Asıl talep: dairenin tapusunun iptali ile davacının yasal miras payı olan 1/2 oranında adına tescili. Bu talep kabul edilmezse terditli olarak: saklı payın tamamlanması için tenkis; tenkise en yeni kazandırma olan dükkandan başlanması.", "delta": 20,
+          "law": "HMK m.111, TMK m.506, m.570",
+          "note": "Muvazaada geçersiz satış terekeye döner ve mirasçı yasal miras payını alır. Tenkiste ise yalnızca saklı pay (altsoy için yasal payın yarısı) tamamlanır (TMK m.506/1). Sağlararası kazandırmalarda tenkise en yenisinden başlanır (m.570)." },
+        { "if": "yalnizMuvazaa", "text": "Dairenin tapusunun iptali ile davacının yasal miras payı olan 1/2 oranında adına tescili.", "delta": 20,
+          "law": "01.04.1974 t. 1/2 s. YİBK",
+          "note": "Doğru. Muvazaa sabit olursa görünüşteki satış geçersizdir ve davacı yasal miras payı oranında tescil ister." },
+        { "if": "yalnizTenkis", "text": "Saklı payın tamamlanması için tenkis; tenkise en yeni kazandırma olan dükkandan başlanması.", "delta": 20,
+          "law": "TMK m.506, m.570",
+          "note": "Doğru. Altsoyun saklı payı yasal payının yarısıdır (TMK m.506/1); sağlararası kazandırmalarda tenkise en yenisinden başlanır (m.570)." },
+        { "text": "Dairenin tamamının davacı adına tescili.", "delta": -15, "set": ["fazla"],
+          "note": "Davacı yalnızca kendi miras payı oranında iptal ve tescil isteyebilir. Fazlası reddedilir ve karşı tarafa vekâlet ücreti doğar." },
+        { "text": "Daire için de yalnızca saklı pay oranında, yani 1/4 oranında iptal ve tescil.", "delta": -10, "set": ["az"],
+          "note": "Muvazaa ile tenkisi karıştırdınız. Muvazaada ölçü saklı pay değil, yasal miras payıdır. Hâkim taleple bağlı olduğundan 1/4 ile sınırlı kalır." },
+        { "text": "Tenkise en eski kazandırmadan, yani daireden başlansın.", "delta": -10,
+          "law": "TMK m.570",
+          "note": "Hatalı. Sağlararası kazandırmalarda tenkise en yenisinden başlanarak geriye gidilir (TMK m.570). Hâkim sırayı kanuna göre kendisi uygular." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "(muvazaa || tanikItiraz) && !az && !fazla", "winner": "p1",
+      "hukum": [
+        { "text": "Asıl talebin KABULÜ ile Atakum'daki dairenin davalı adına olan tapu kaydının davacının miras payı oranında (1/2) İPTALİ ile davacı adına TESCİLİNE," },
+        { "if": "terdit", "text": " asıl talep kabul edildiğinden terditli tenkis talebi hakkında KARAR VERİLMESİNE YER OLMADIĞINA," }
+      ],
+      "summary": [
+        { "text": "Muvazaa ispatlandı: görünüşteki satış geçersiz sayıldı ve daire terekeye döndü. Müvekkil dairenin yarısını aldı; bu, saklı payını zaten aştığı için dükkan yönünden tenkise gerek kalmadı." },
+        { "if": "tanikItiraz && !muvazaa", "text": " Sonuç tanık beyanına dayandı; davalının kendi mesajı elinizde olsaydı ispat çok daha sağlam olurdu." },
+        { "if": "yalnizMuvazaa", "text": " Şanslıydınız: muvazaa ispatlanamasaydı tenkis için süre çoktan dolmuştu." },
+        { "if": "feragat", "text": " Tenkis talebinden feragat etmeniz büyük bir riskti; muvazaa ispatlanmasaydı elinizde hiçbir şey kalmayacaktı." }
+      ] },
+    { "if": "(muvazaa || tanikItiraz) && az", "winner": "draw", "stamp": "KISMİ BAŞARI",
+      "hukum": "Asıl talebin KABULÜ ile Atakum'daki dairenin davalı adına olan tapu kaydının 1/4 oranında İPTALİ ile davacı adına TESCİLİNE,",
+      "summary": "Muvazaa ispatlandı, ama talebi saklı pay oranında sınırladınız. Davacı yasal miras payı olan 1/2'yi isteyebilirdi; hâkim taleple bağlı kaldı (HMK m.26)." },
+    { "if": "muvazaa || tanikItiraz", "winner": "draw", "stamp": "KISMİ BAŞARI",
+      "hukum": "Asıl talebin KISMEN KABULÜ ile Atakum'daki dairenin davalı adına olan tapu kaydının davacının miras payı oranında (1/2) İPTALİ ile davacı adına TESCİLİNE, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Muvazaa ispatlandı ve davacı payını aldı. Ama dairenin tamamını istediğiniz için talebin yarısı reddedildi; reddedilen kısım için karşı tarafa vekâlet ücreti ödenecek." },
+    { "if": "feragat", "winner": "p2",
+      "hukum": "Muvazaa iddiası ispatlanamadığından asıl talebin REDDİNE, tenkis talebi yönünden feragat nedeniyle davanın REDDİNE,",
+      "summary": "Süre itirazı haksızdı: tenkis süresi ölümden önce işlemez ve dava bir yıl dolmadan açılmıştı. Ama tenkis talebinden feragat ettiniz. Muvazaa ispatlanamayınca müvekkil saklı payını bile alamadı." },
+    { "if": "terdit || yalnizTenkis", "winner": "draw", "stamp": "KISMİ BAŞARI",
+      "hukum": [
+        { "if": "terdit", "text": "Muvazaa iddiası ispatlanamadığından asıl talebin REDDİNE; terditli talebin KABULÜ ile" },
+        { "if": "yalnizTenkis", "text": "Davanın KABULÜ ile" },
+        { "text": " davacının saklı payının 2.450.000 TL tutarında zedelendiğinin tespitine, tenkisin en yeni kazandırma olan İlkadım'daki dükkandan yapılarak dükkanın 49/80 payının davalı adına olan tapu kaydının İPTALİ ile davacı adına TESCİLİNE," }
+      ],
+      "summary": [
+        { "text": "Tenkise esas değer 10.200.000 TL; davacının yasal payı 1/2, saklı payı bunun yarısı, yani 2.550.000 TL. Terekeden 100.000 TL aldığı için 2.450.000 TL'lik eksik, en yeni kazandırma olan dükkandan tamamlandı." },
+        { "if": "terdit", "text": " Muvazaa ispatlanamadı, ama terditli talep süresi içinde açıldığı için müvekkil saklı payını kurtardı. Davalının 2023 mesajı elinizde olsaydı dairenin yarısını alabilirdiniz." },
+        { "if": "yalnizTenkis", "text": " Süre korundu; ama muvazaa hiç ileri sürülmedi. Dairenin yarısını alma şansı denenmeden bırakıldı." }
+      ] },
+    { "winner": "p2",
+      "hukum": "Muvazaa iddiası ispatlanamadığından davanın REDDİNE,",
+      "summary": "Muvazaa ispatlanamadı. Tenkis talebi hiç ileri sürülmediği için mahkeme saklı payı da inceleyemedi; tenkis için bir yıllık süre 15 Kasım 2026'da dolmuştu (TMK m.571). Dükkan zaten davanın dışındaydı." }
+  ]
+}

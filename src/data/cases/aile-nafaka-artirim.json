@@ -1,0 +1,155 @@
+{
+  "id": "aile-nafaka-artirim",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "basit",
+  "title": "Büyüyen İhtiyaç",
+  "area": "Aile Hukuku · İştirak nafakasının artırılması",
+  "court": "Kayseri 2. Aile Mahkemesi",
+  "courtShort": "2. AİLE MAHKEMESİ",
+  "esas": "2026/887 Esas",
+  "kararTarihi": "24.02.2027",
+  "color": "#3f6a5c",
+  "teaser": "Dört yıl önce belirlenen nafaka artık bir servis ücretini bile karşılamıyor. Değişen şartları mahkemeye gösterin.",
+  "sides": { "p1": { "role": "Davacı (velayet sahibi anne) vekili", "short": "Siz" }, "p2": { "role": "Davalı baba", "short": "Karşı taraf" } },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#c08b62", "hair": "#151515", "style": "short", "beard": true } },
+    "opp": { "name": "Av. Cem Ural · Davalı vekili", "np": "green", "look": { "kind": "robe", "collar": "avukat", "skin": "#f0caa6", "hair": "#7a5a3c", "style": "short", "glasses": true } },
+    "client": { "name": "Gülşen Aktaş · Müvekkil", "np": "civil", "look": { "kind": "civil", "skin": "#e0b48e", "hair": "#3a2418", "style": "long", "glasses": true, "shirt": "#7a4a5a", "inner": "#ece6da" } },
+    "senior": { "name": "Av. Rıza Tekin · Kıdemli meslektaş", "np": "green", "look": { "kind": "civil", "skin": "#b07a52", "hair": "#9a9a9e", "style": "bald", "glasses": true, "shirt": "#4a4f57", "inner": "#d9d4c8" } }
+  },
+  "courtCast": ["judge", "you", "opp"],
+  "intro": [
+    { "who": "narr", "text": "Kayseri. Gülşen Aktaş ortaokul öğretmeni; 2022'de boşandı, oğlunun velayeti onda." },
+    { "who": "client", "text": "Boşanırken oğlum yedi yaşındaydı; aylık 3.000 TL iştirak nafakası bağlandı. Şimdi on bir yaşında, ortaokula başladı. Servis, kurs, diş teli… 3.000 TL servisi bile karşılamıyor." },
+    { "who": "client", "text": "Eski eşim o zaman teknisyendi. Geçen yıl bölge müdürü oldu, maaşı katlandı. Ben de çalışıyorum ama yetiştiremiyorum." },
+    { "who": "narr", "text": "Bugün 14 Eylül 2026. Boşanma kararında nafakanın sonraki yıllarda artırılmasına dair bir hüküm yok." }
+  ],
+  "docs": [
+    { "t": "Boşanma ilamı (2022)", "d": "Kayseri 1. Aile Mahkemesi. Velayet anneye; aylık 3.000 TL iştirak nafakası. Babanın o tarihteki mesleği: bakım teknisyeni. Gelecek yıllar için artış hükmü yok. Kesinleşti." },
+    { "t": "Okul ve gider belgeleri", "d": "Okul servisi aylık 3.400 TL; yabancı dil kursu; ortodonti tedavi planı (taksitli)." },
+    { "t": "Müvekkilin maaş bordrosu", "d": "Öğretmen maaşı; kira ödüyor." }
+  ],
+  "evidence": [
+    { "id": "ev_ilam", "type": "belge", "title": "Boşanma ilamı (2022)", "desc": "Aylık 3.000 TL iştirak nafakası; babanın mesleği bakım teknisyeni." },
+    { "id": "ev_maas", "type": "belge", "title": "İşveren müzekkere cevabı", "desc": "Davalı 01.03.2025'ten beri bölge müdürü. Aylık net ücreti 2022'deki ücretinin yaklaşık dört katı; ayrıca yıllık prim." },
+    { "id": "ev_gider", "type": "belge", "title": "Çocuğun gider belgeleri", "desc": "Servis, kurs ve ortodonti giderleri; aylık toplam yaklaşık 9.000 TL." },
+    { "id": "ev_sed", "type": "belge", "title": "Sosyal ve ekonomik durum araştırması", "desc": "Davacı öğretmen, kirada oturuyor. Davalı yeniden evlenmiş, eşi çalışmıyor; bir yaşında bir çocuğu var." },
+    { "id": "law_tmk331", "type": "kanun", "title": "TMK m.331 · Durumun değişmesi", "desc": "Durumun değişmesi hâlinde hâkim, istem üzerine nafakayı yeniden belirler veya kaldırır.", "law": "TMK m.331" }
+  ],
+  "steps": [
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "client", "text": "Ne yapabiliriz? Kararı bir üst mahkemeye mi götürmek gerekiyor?" }],
+      "prompt": "Hangi yolu izleyeceksiniz?",
+      "choices": [
+        { "text": "Aile mahkemesinde iştirak nafakasının artırılması davası açalım: babanın geliri ve çocuğun ihtiyaçları kararın verildiği tarihe göre esaslı biçimde değişti.", "delta": 20, "set": ["yol"],
+          "law": "TMK m.331, m.330",
+          "note": "Durumun değişmesi hâlinde hâkim, istem üzerine nafakayı yeniden belirler (TMK m.331). Nafakanın miktarı çocuğun ihtiyaçlarına, ana ve babanın hayat koşullarına ve ödeme güçlerine göre belirlenir (m.330/1)." },
+        { "text": "Boşanma kararını istinaf edelim; nafaka baştan düşük belirlenmiş.", "delta": -15,
+          "reply": [{ "who": "senior", "text": "Karar 2022'de kesinleşti, kanun yolu çoktan kapandı. Yeni durum için yeni dava açılır: nafakanın artırılması davası." }],
+          "note": "Kesinleşmiş bir karara karşı kanun yoluna gidilemez. Sonradan değişen koşullar, ayrı bir artırım davasıyla ileri sürülür." },
+        { "text": "Eski eş aleyhine icra takibi başlatıp nafakayı fiilen artırmasını isteyelim.", "delta": -15,
+          "reply": [{ "who": "senior", "text": "İcra dairesi ilamda yazanı tahsil eder, fazlasını değil. Önce mahkemeden yeni bir miktar almak gerekiyor." }],
+          "note": "İlamlı takip yalnızca ilamda hükmedilen miktar için yapılabilir; nafakanın miktarını icra dairesi değiştiremez." },
+        { "text": "Velayetin değiştirilmesi davası açalım; o zaman nafaka da yeniden konuşulur.", "delta": -10,
+          "reply": [{ "who": "senior", "text": "Velayet zaten annede ve sorun da bu değil. Konu nafakanın miktarı; doğrudan artırım davası açılır." }],
+          "note": "Velayet davası bu uyuşmazlığın konusu değil. Talep, doğrudan nafakanın yeniden belirlenmesine yöneltilmelidir." }
+      ] },
+    { "side": "p1", "scene": "office",
+      "lines": [{ "who": "narr", "text": "Dava dilekçesini hazırlıyorsunuz. Çocuğun aylık giderleri yaklaşık 9.000 TL; müvekkil aylık 15.000 TL talep etmek istiyor." }],
+      "prompt": "Dilekçede neler olacak?",
+      "choices": [
+        { "text": "Nafakanın dava tarihinden itibaren aylık 15.000 TL'ye artırılmasını ve sonraki yıllarda da her yıl artırılmasını isteyin. Babanın işverenine ve SGK'ya müzekkere yazılmasını, sosyal ve ekonomik durum araştırması yapılmasını isteyin, gider belgelerini ekleyin.", "delta": 20, "set": ["dilekce", "ufe"],
+          "law": "TMK m.330/3, m.331",
+          "note": "Talep somut, deliller eksiksiz. Hâkim istem hâlinde nafakanın gelecek yıllarda ne miktarda ödeneceğini tarafların sosyal ve ekonomik durumlarına göre belirleyebilir (TMK m.330/3). Bu istem dilekçede yoksa gelecek yıllar için artışa hükmedilmez." },
+        { "text": "Nafakanın aylık 15.000 TL'ye artırılmasını isteyin; müzekkere ve araştırma taleplerini ekleyin. Sonraki yıllar için ayrıca bir şey istemeyin.", "delta": 10, "set": ["dilekce"],
+          "law": "TMK m.330/3",
+          "note": "Kabul edilebilir. Ama gelecek yıllara ilişkin artış istenmediği için birkaç yıl sonra aynı davayı yeniden açmanız gerekebilir (TMK m.330/3)." },
+        { "text": "Tutar yazmayın; “nafakanın hakkaniyete uygun miktarda artırılmasına” deyin, gerisini hâkim takdir etsin.", "delta": -5, "set": ["belirsiz"],
+          "law": "HMK m.26",
+          "note": "Talep sonucu açık ve belirli olmalıdır. Hâkim taleple bağlıdır; neyi ne kadar istediğinizi siz söylemelisiniz." },
+        { "text": "Eski eşin yeni arabasının sosyal medyadaki fotoğraflarını ekleyin; başka delile gerek yok.", "delta": -10,
+          "note": "Fotoğraf ipucu olabilir, ama geliri gösteren asıl delil işveren ve SGK kayıtlarıdır. Bunların celbini istemediniz." }
+      ] },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "İlk duruşma. Salon dolu, sizden önce beş dosya görülmüş; hâkim saatine bakıyor." },
+        { "who": "judge", "text": "Davacı vekili, dilekçenizi okudum. Baştan anlatmayın. Tek cümleyle: nafakayı neden artırayım?" }
+      ],
+      "prompt": "Nasıl cevap vereceksiniz?",
+      "choices": [
+        { "text": "Sakin ve kısa: “Babanın geliri dört katına çıktı, çocuk ortaokulda ve giderleri üç kat arttı; talebimiz aylık 15.000 TL.”", "delta": 10, "set": ["ozet"],
+          "law": "HMK m.151",
+          "note": "Doğru. Duruşmayı hâkim yönetir; sabırsız bir soruya kısa ve somut cevap, dosyanın özünü en iyi anlatan cevaptır." },
+        { "text": "“Sayın Hâkim, izin verirseniz dilekçemizi baştan özetlemek istiyorum.”", "delta": -5,
+          "reply": [{ "who": "judge", "text": "Okudum dedim, Sayın vekil. Somut olarak söyleyin." }],
+          "note": "Hâkim ne istediğini açıkça söyledi. Uzun bir özet, sabrı daha da azaltır." },
+        { "text": "“Sözümü kesmeyin lütfen, müvekkilimin hakkını savunuyorum.”", "delta": -10,
+          "law": "HMK m.151",
+          "note": "Duruşmanın düzenini hâkim sağlar. Sert çıkış, meslek kurallarına da uymaz ve müvekkile hiçbir şey kazandırmaz." }
+      ] },
+    { "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [{ "who": "judge", "text": "Müzekkere cevapları ve araştırma raporu geldi. Davalı vekili, beyanınız?" }],
+      "statement": { "who": "opp", "text": "Müvekkilimin geliri boşanmadan bu yana değişmedi. Aynı şirkette aynı işi yapıyor; durumda bir değişiklik yok." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_maas"],
+      "hit": { "delta": 25, "set": ["itiraz"],
+        "reply": [{ "who": "judge", "text": "İşveren yazısına göre davalı 2025'ten beri bölge müdürü. Beyan tutanağa geçti." }],
+        "note": "İşverenin resmî yazısı, terfiyi ve ücretin katlandığını gösteriyor. “Durum değişmedi” savunması belgeyle çöktü." },
+      "responses": {
+        "ev_gider": { "delta": 5, "set": ["giderItiraz"],
+          "note": "Çocuğun ihtiyaçlarının arttığı doğru ve önemli; ama karşı tarafın iddiası babanın gelirine ilişkindi. Onu çürüten belge işveren yazısıydı." },
+        "ev_ilam": { "delta": -5, "note": "İlam eski durumu gösterir; bugünkü geliri ispatlamaz." },
+        "ev_sed": { "delta": -10, "note": "Bu rapor davalının yeni evliliğini ve davacının da çalıştığını gösteriyor; karşı tarafın işine yarar." },
+        "law_tmk331": { "delta": -5, "note": "Madde doğru, ama tartışma bir olgu üzerinde: gelir değişti mi? Olgu, madde ile değil belgeyle ispatlanır." }
+      },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; gelirin değişmediği savunması cevapsız kaldı." }
+    },
+    { "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "opp", "text": "Müvekkilim yeniden evlendi, bir yaşında bir çocuğu var, eşi çalışmıyor. Yükümlülükleri arttı. Ayrıca davacı da çalışıyor." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "Nasıl karşılık vereceksiniz?",
+      "choices": [
+        { "text": "Yeni yükümlülükler hakkaniyet değerlendirmesinde gözetilir; ama babanın gelir artışı bunları fazlasıyla karşılıyor. Annenin de katkısı hesaba katıldığında talep ettiğimiz miktar çocuğun ihtiyaçlarıyla orantılı ve hakkaniyete uygun.", "delta": 20, "set": ["hakkaniyet"],
+          "law": "TMK m.330/1, m.4",
+          "note": "Nafaka, çocuğun ihtiyaçları ile ana ve babanın hayat koşulları ve ödeme güçleri birlikte tartılarak belirlenir. Karşı tarafın yükümlülüklerini inkâr etmeden, gelir artışının bunları aştığını gösterdiniz." },
+        { "text": "Yeni evlilik babanın kendi tercihi; mahkeme bunu hiç dikkate alamaz.", "delta": -10,
+          "law": "TMK m.330/1",
+          "note": "Hatalı. Babanın hayat koşulları ve ödeme gücü, yeni ailesine karşı yükümlülükleri de dahil olmak üzere değerlendirilir." },
+        { "text": "Müvekkilimin hiçbir geliri yok; çocuğun bütün yükünü baba taşımalı.", "delta": -15,
+          "note": "Gerçeğe aykırı: araştırma raporu müvekkilin öğretmen olduğunu gösteriyor. Avukatın mahkemeye doğruyu söyleme yükümlülüğü vardır; güven kaybı dosyaya da zarar verir." },
+        { "text": "Haklısınız; talebimizi aylık 4.000 TL ile sınırlıyoruz.", "delta": -15, "set": ["indir"],
+          "note": "Gelir artışını belgeyle ispatlamışken talebi neredeyse eski seviyeye indirdiniz. Hâkim taleple bağlıdır; bu sınırın üstüne çıkamaz." }
+      ] }
+  ],
+  "outcomes": [
+    { "if": "indir", "winner": "p2",
+      "hukum": "Davanın KABULÜ ile iştirak nafakasının dava tarihinden itibaren aylık 4.000 TL'ye artırılmasına,",
+      "summary": "Talebi kendiniz 4.000 TL ile sınırladınız; hâkim talepten fazlasına hükmedemedi (HMK m.26). Babanın gelirindeki dört kat artış ispatlanmışken çocuğun ihtiyaçları yine karşılanmadı." },
+    { "if": "itiraz && hakkaniyet && !belirsiz", "winner": "p1",
+      "hukum": [
+        { "text": "Davanın KABULÜ ile iştirak nafakasının dava tarihinden itibaren aylık 3.000 TL'den 15.000 TL'ye artırılmasına," },
+        { "if": "ufe", "text": " artırılan nafakanın her yıl TÜİK tarafından açıklanan yıllık üretici fiyat endeksi (ÜFE) oranında artırılmasına," }
+      ],
+      "summary": [
+        { "text": "Babanın gelirindeki artışı işveren yazısıyla ispatladınız, yeni yükümlülüklerini de inkâr etmeden tarttınız. Mahkeme talebi tamamen kabul etti." },
+        { "if": "ufe", "text": " Gelecek yıllar için artış da istendiği için müvekkil her yıl yeni dava açmak zorunda kalmayacak." },
+        { "if": "!ufe", "text": " Gelecek yıllar için artış istenmediğinden, birkaç yıl sonra yeni bir artırım davası gerekebilir." }
+      ] },
+    { "if": "itiraz", "winner": "draw", "stamp": "KISMİ BAŞARI",
+      "hukum": "Davanın KISMEN KABULÜ ile iştirak nafakasının dava tarihinden itibaren aylık 10.000 TL'ye artırılmasına, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Gelir artışı ispatlandı; ama mahkeme hakkaniyet değerlendirmesinde talebin tamamını uygun bulmadı." },
+        { "if": "belirsiz", "text": " Dilekçedeki belirsiz talep de ilk duruşmada açıklattırıldı ve zaman kaybettirdi." },
+        { "if": "!hakkaniyet", "text": " Babanın yeni yükümlülüklerine verdiğiniz cevap ikna edici değildi." }
+      ] },
+    { "if": "giderItiraz", "winner": "draw", "stamp": "KISMİ BAŞARI",
+      "hukum": "Davanın KISMEN KABULÜ ile iştirak nafakasının dava tarihinden itibaren aylık 8.000 TL'ye artırılmasına, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Çocuğun artan ihtiyaçları ispatlandı, ama babanın gelir artışı tartışmada öne çıkarılmadı. İşveren yazısını sunsaydınız artış çok daha yüksek olurdu." },
+    { "winner": "p2",
+      "hukum": "Davanın KISMEN KABULÜ ile iştirak nafakasının dava tarihinden itibaren aylık 5.000 TL'ye artırılmasına, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Mahkeme yalnızca aradan geçen süreyi ve çocuğun yaşını dikkate alarak sınırlı bir artış yaptı. Babanın gelirindeki değişiklik belgeyle gösterilmedi." }
+  ]
+}

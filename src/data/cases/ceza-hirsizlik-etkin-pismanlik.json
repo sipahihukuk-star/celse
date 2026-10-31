@@ -1,0 +1,180 @@
+{
+  "id": "ceza-hirsizlik-etkin-pismanlik",
+  "mode": "solo",
+  "career": { "level": 1 },
+  "difficulty": "basit",
+  "title": "Terminaldeki Valiz",
+  "area": "Ceza Hukuku · Hırsızlıkta etkin pişmanlık",
+  "court": "Kayseri 3. Asliye Ceza Mahkemesi",
+  "courtShort": "3. ASLİYE CEZA",
+  "esas": "2026/652 Esas",
+  "kararTarihi": "09.12.2026",
+  "color": "#3d5a6b",
+  "teaser": "Suç sabit, müvekkil pişman, zarar ödenmiş. Ama ödeme hangi gün yapıldı? İndirimin oranı bir tarihe bağlı.",
+  "sides": {
+    "p1": { "role": "Sanık müdafii", "short": "Siz" },
+    "p2": { "role": "Karşı taraf", "short": "Karşı taraf" }
+  },
+  "cast": {
+    "judge": { "name": "Hâkim", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#c4916a", "hair": "#2a2a2a", "style": "short", "beard": true } },
+    "pros": { "name": "Cumhuriyet Savcısı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#f0cfae", "hair": "#4a2c1a", "style": "bun" } },
+    "opp": { "name": "Fatma Yücel · Mağdur", "np": "civil", "look": { "kind": "civil", "skin": "#d8a982", "hair": "#2b1b12", "style": "long", "shirt": "#7a3348", "inner": "#efe6da" } },
+    "client": { "name": "Onur Kılıç · Müvekkil (sanık)", "np": "civil", "look": { "kind": "civil", "skin": "#e8c09b", "hair": "#a0703f", "style": "curly", "shirt": "#3e6b4f", "inner": "#2d2d2d" } }
+  },
+  "courtCast": ["judge", "pros", "you", "client", "opp"],
+  "evidence": [
+    { "id": "ev_teslim", "type": "belge", "title": "Teslim tutanağı (05.04.2026)", "desc": "Sanık valizi giysilerle birlikte karakola kendisi getirdi; valiz mağdura teslim edildi. Tablet valizde yok." },
+    { "id": "ev_dekont", "type": "belge", "title": "Banka dekontu (20.05.2026)", "desc": "Onur Kılıç'tan Fatma Yücel'e 18.000 TL havale. Açıklama: “Tablet bedeli.”", "if": "dekont" },
+    { "id": "ev_ibra", "type": "belge", "title": "Mağdurun imzalı beyanı (20.05.2026)", "desc": "“Valizim ve eşyalarım geri verildi, tabletimin bedeli ödendi. Zararım tamamen giderilmiştir, başkaca talebim yoktur.” İmza: Fatma Yücel.", "if": "ibra" },
+    { "id": "law_tck168", "type": "kanun", "title": "TCK m.168 · Etkin pişmanlık", "desc": "Kovuşturma başlamadan önce zararın aynen geri verme veya tazmin yoluyla tamamen giderilmesi: cezanın üçte ikisine kadarı indirilir. Kısmi giderimde mağdurun rızası aranır.", "law": "TCK m.168" }
+  ],
+  "intro": [
+    { "who": "narr", "text": "Büronuzdasınız. Onur Kılıç 22 yaşında, motorlu kurye. Mart sonunda Kayseri otogarının bekleme salonunda bir yolcunun valizini alıp gitmiş." },
+    { "who": "client", "text": "Ne düşündüğümü bilmiyorum. Valizi eve götürdüm, içindeki tableti sattım. Kameradan beni buldular, karakolda her şeyi anlattım." },
+    { "who": "client", "text": "Sonra çok utandım. Valizi kendim götürüp teslim ettim, tabletin parasını da ödedim. Bunun bir faydası olur mu?" }
+  ],
+  "docs": [
+    { "t": "Olay tutanağı (28.03.2026)", "d": "Kayseri otogarı bekleme salonu. Mağdur Fatma Yücel'in valizi (giysiler ve bir tablet) alınmış. Kamera kaydıyla sanık tespit edildi." },
+    { "t": "Şüpheli ifadesi (02.04.2026)", "d": "Onur Kılıç müdafi huzurunda suçu kabul ediyor; zararı gidermek istediğini söylüyor." },
+    { "t": "Teslim tutanağı (05.04.2026)", "d": "Valiz ve giysiler sanık tarafından kolluğa getirildi, mağdura teslim edildi. Tablet satılmış." },
+    { "t": "İddianame", "d": "TCK m.142/1-c (halkın yararlanmasına sunulmuş ulaşım aracının varış veya kalkış yerinde bulunan eşya hakkında hırsızlık). Düzenlenme: 12.05.2026. Mahkemeye verildi: 13.05.2026." },
+    { "t": "Tensip zaptı", "d": "İddianamenin kabulü: 27.05.2026." }
+  ],
+  "steps": [
+    {
+      "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
+      "lines": [{ "who": "narr", "text": "Duruşma yarın. Müvekkille son görüşmeyi yapıyorsunuz; iki soru sorabilecek kadar vaktiniz var." }],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        { "text": "Tablet bedelini ne zaman, nasıl ödediniz? Belgesi var mı?", "delta": 15, "set": ["dekont"],
+          "reply": [{ "who": "client", "text": "20 Mayıs'ta banka havalesiyle 18.000 TL gönderdim. Dekontu telefonumda, çıktısını da aldım." }],
+          "note": "Ödemenin tarihi bu dosyada her şey. Dekont delil çantanıza eklendi." },
+        { "text": "Fatma Hanım'la ödemeden sonra görüştünüz mü? Size bir şey imzaladı mı?", "delta": 15, "set": ["ibra"],
+          "reply": [{ "who": "client", "text": "Parayı gönderdiğim gün buluştuk. “Zararım tamamen giderildi” diye bir kâğıt yazıp imzaladı. Bende duruyor." }],
+          "note": "Zararın tamamen giderildiğini mağdurun kendi imzasıyla gösteren belge. Delil çantanıza eklendi." },
+        { "text": "Valizi kendiniz mi teslim ettiniz, yoksa polis mi buldu?", "delta": 5,
+          "reply": [{ "who": "client", "text": "Kendim götürdüm. Karakolda tutanak tuttular." }],
+          "note": "Etkin pişmanlık için zararın failin kendisi tarafından giderilmesi gerekir; bu önemli. Ama teslim tutanağı dosyada zaten var." },
+        { "text": "Tableti kime sattınız?", "delta": -5,
+          "reply": [{ "who": "client", "text": "Sanayide bir telefoncuya… Adını bilmiyorum." }],
+          "note": "Savunmaya katkısı olmayan bir soru. Sınırlı vaktinizi zararın giderilmesini ispatlayacak belgelere ayırmalıydınız." }
+      ]
+    },
+    {
+      "kind": "evidence", "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmayı açıyorum. İddianame okundu. Sanık, savunmanızı alalım." },
+        { "who": "client", "text": "Suçlamayı kabul ediyorum, çok pişmanım. Valizi kendim getirdim, tabletin parasını ödedim." },
+        { "who": "judge", "text": "Cumhuriyet savcısı?" }
+      ],
+      "statement": { "who": "pros", "text": "Sayın Hâkim, mağdurun valizindeki kulaklık ve tablet kılıfı iade edilmemiştir. Zarar tamamen giderilmemiş, mağdurun rızası da alınmamıştır. Etkin pişmanlık hükümleri uygulanamaz." },
+      "prompt": "Bu beyanı hangi delille karşılayacaksınız?",
+      "correct": ["ev_ibra"],
+      "hit": { "delta": 25, "set": ["tam"],
+        "reply": [
+          { "who": "judge", "text": "Mağdur hanım, bu imza size mi ait?" },
+          { "who": "opp", "text": "Evet, benim. Parayı aldım, başka bir zararım kalmadı." },
+          { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+        ],
+        "note": "Mağdurun imzalı beyanı zararın tamamen giderildiğini gösteriyor. Kısmi giderim olsaydı bile mağdurun rızası ortada (TCK m.168/4)." },
+      "responses": {
+        "ev_dekont": { "delta": 5, "set": ["odeme"],
+          "note": "Dekont tablet bedelinin ödendiğini ve tarihini gösteriyor. Ama kulaklık ve kılıf iddiasını karşılamıyor; zararın tamamen giderildiği ya da mağdurun rızası hâlâ tartışmalı." },
+        "ev_teslim": { "delta": -5,
+          "note": "Tutanak yalnızca valizin ve giysilerin iadesini gösteriyor. Savcının itirazı tabletle ve diğer eşyalarla ilgili." },
+        "law_tck168": { "delta": 0,
+          "note": "Madde doğru, ama savcı bir vakıa ileri sürdü: zarar tamamen giderilmedi. Bunu kanun maddesiyle değil, belgeyle karşılamak gerekir." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge savcının iddiasını karşılamıyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; zararın tamamen giderilmediği iddiası cevapsız kaldı." }
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Mağdur hanım, söylemek istedikleriniz?" },
+        { "who": "opp", "text": "Ben artık şikâyetçi değilim. Çocuk hatasını anladı. Davanın düşmesini istiyorum." },
+        { "who": "judge", "text": "Müdafi?" }
+      ],
+      "prompt": "Mağdurun beyanını nasıl değerlendireceksiniz?",
+      "choices": [
+        { "text": "Hırsızlık şikâyete bağlı değildir; bu beyan davayı düşürmez. Ama zararın giderildiğini ve mağdurun rızasını gösterir; etkin pişmanlık değerlendirmesinde dikkate alınmalıdır.", "delta": 20, "set": ["riza"],
+          "law": "TCK m.168/4 · m.73",
+          "note": "Doğru. Hırsızlık kendiliğinden kovuşturulur; şikâyetten vazgeçme davayı düşürmez. Ama mağdurun bu beyanı, kısmi giderim tartışmasında aranan rızayı da gösterir (TCK m.168/4).",
+          "reply": [{ "who": "judge", "text": "Mağdurun zararının giderildiğine ve başkaca talebi olmadığına ilişkin beyanı tutanağa geçirildi." }] },
+        { "text": "Mağdur şikâyetinden vazgeçtiğine göre davanın düşmesini talep ederiz.", "delta": -15,
+          "law": "TCK m.73/4",
+          "note": "Hatalı. Vazgeçme yalnızca şikâyete bağlı suçlarda davayı düşürür. Hırsızlık (TCK m.142) kendiliğinden kovuşturulur." },
+        { "text": "Dosyanın uzlaştırma bürosuna gönderilmesini talep ederiz.", "delta": -10,
+          "law": "CMK m.253",
+          "note": "Nitelikli hırsızlık (TCK m.142) uzlaştırma kapsamında değildir; uzlaştırma basit hırsızlık (m.141) için öngörülmüştür. Mağdurun beyanını etkin pişmanlığa bağlamalıydınız." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "pros", "text": "Sayın Hâkim, zararın tamamı ancak 20 Mayıs'ta giderilmiştir. İddianame 12 Mayıs'ta düzenlenmişti; kovuşturma başlamıştı. Olsa olsa TCK m.168/2 uyarınca yarıya kadar indirim yapılabilir." },
+        { "who": "judge", "text": "Müdafi, indirim oranı konusunda beyanınız?" }
+      ],
+      "prompt": "Savcının tarih hesabına ne diyeceksiniz?",
+      "choices": [
+        { "text": "Kovuşturma evresi iddianamenin düzenlenmesiyle değil, kabulüyle başlar. İddianame 27 Mayıs'ta kabul edildi; ödeme 20 Mayıs'ta yapıldı. Zarar kovuşturmadan önce giderilmiştir: TCK m.168/1 uyarınca üçte ikiye kadar indirim uygulanmalıdır.", "delta": 25, "set": ["zaman"],
+          "law": "CMK m.2/1-e, f · TCK m.168/1",
+          "note": "Doğru. Soruşturma evresi iddianamenin kabulüne kadar sürer; kovuşturma iddianamenin kabulüyle başlar (CMK m.2/1-e, f). 20 Mayıs'ta dosya hâlâ soruşturma evresindeydi.",
+          "reply": [{ "who": "judge", "text": "Tensip zaptına göre iddianame 27 Mayıs'ta kabul edilmiş. Beyan tutanağa geçirildi." }] },
+        { "text": "Sayın Savcıma katılıyoruz; ancak yarı oranında, en üst sınırdan indirim yapılsın.", "delta": -5,
+          "law": "TCK m.168/2",
+          "note": "Yanlış tarih hesabını kabul ettiniz. İddianamenin düzenlenmesi kovuşturmayı başlatmaz; müvekkil daha yüksek indirime hak kazanmıştı." },
+        { "text": "Etkin pişmanlıkta indirim zorunlu ve sabittir; mahkeme üçte iki indirim yapmak zorundadır.", "delta": -5,
+          "law": "TCK m.168/1",
+          "note": "Kanun “üçte ikisine kadarı” der; oran mahkemenin takdirindedir. Asıl tartışma da oran değil, ödemenin kovuşturmadan önce mi sonra mı yapıldığıydı." },
+        { "text": "Sanık suçu ilk ifadesinde ikrar ettiği için zaten etkin pişmanlık göstermiştir.", "delta": -10,
+          "law": "TCK m.168",
+          "note": "Malvarlığına karşı suçlarda etkin pişmanlık ikrara değil, zararın aynen geri verme veya tazmin yoluyla giderilmesine bağlıdır." }
+      ]
+    },
+    {
+      "side": "p1", "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Esas hakkındaki son talepleriniz?" }
+      ],
+      "prompt": "Son talebiniz ne olacak?",
+      "choices": [
+        { "text": "Temel cezanın alt sınırdan belirlenmesini, etkin pişmanlık indiriminin en üst oranda yapılmasını, TCK m.62 uyarınca takdiri indirim uygulanmasını talep ederiz. Sanık sabıkasızdır, zarar giderilmiştir; hükmün açıklanmasının geri bırakılması koşulları oluşmuştur.", "delta": 15, "set": ["talep"],
+          "law": "TCK m.61, m.62, m.168 · CMK m.231",
+          "note": "Eksiksiz bir talep. Temel ceza belirlenir, etkin pişmanlık indirimi uygulanır, takdiri indirim en sona kalır. Sabıkasızlık ve zararın giderilmesi HAGB için de aranan koşullardır (CMK m.231/6).",
+          "reply": [{ "who": "judge", "text": "Sanığa son sözü soruldu. Karar için ara veriyorum." }] },
+        { "text": "Sanığın beraatini talep ederiz.", "delta": -15,
+          "law": "CMK m.223/2",
+          "note": "Sanık suçu kabul ediyor, kamera kaydı da var. Beraat talebi gerçekçi değil ve etkin pişmanlık savunmasıyla çelişir." },
+        { "text": "Cezanın ertelenmesini talep ederiz; indirim tartışmasına gerek yok.", "delta": -5,
+          "law": "TCK m.51",
+          "note": "Erteleme, cezanın miktarı belirlendikten sonra gelir. Önce indirimlerle cezayı düşürmeden ertelemeyi istemek sırayı ters çevirir." }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "zaman && (tam || riza)", "winner": "p1",
+      "hukum": "Sanığın TCK m.142/1-c uyarınca 3 yıl hapis cezası ile cezalandırılmasına, zarar kovuşturma başlamadan önce giderildiğinden TCK m.168/1 uyarınca cezasından 2/3 oranında indirim yapılarak 1 yıl hapis cezasına, TCK m.62 uyarınca 1/6 oranında indirim yapılarak 10 ay hapis cezasına; sanığın sabıkasız olması ve zararın giderilmiş bulunması gözetilerek CMK m.231 uyarınca HÜKMÜN AÇIKLANMASININ GERİ BIRAKILMASINA ve sanığın 5 yıl denetim süresine tabi tutulmasına,",
+      "summary": [
+        { "text": "Kovuşturmanın iddianamenin kabulüyle başladığını gösterdiniz; ödeme ondan bir hafta önce yapılmıştı. Etkin pişmanlık en yüksek oranda uygulandı." },
+        { "if": "tam", "text": " Mağdurun imzalı beyanı, zararın tamamen giderildiğini ispatladı." },
+        { "if": "!tam && riza", "text": " Zararın tamamen giderildiği tartışmalı kaldı, ama mağdurun duruşmadaki beyanı rızayı gösterdi." }
+      ]
+    },
+    {
+      "if": "tam || riza", "winner": "draw", "stamp": "KISMEN KAZANDINIZ",
+      "hukum": "Sanığın TCK m.142/1-c uyarınca 3 yıl hapis cezası ile cezalandırılmasına, TCK m.168/2 uyarınca cezasından 1/2 oranında indirim yapılarak 1 yıl 6 ay hapis cezasına, TCK m.62 uyarınca 1/6 oranında indirim yapılarak 1 yıl 3 ay hapis cezasına; CMK m.231 uyarınca HÜKMÜN AÇIKLANMASININ GERİ BIRAKILMASINA,",
+      "summary": "Etkin pişmanlık uygulandı, ama mahkeme savcının tarih hesabını esas aldı. İddianame 12 Mayıs'ta düzenlenmiş, 27 Mayıs'ta kabul edilmişti; kovuşturma kabulle başlar. Ödeme 20 Mayıs'ta yapıldığı için TCK m.168/1'deki üçte ikiye kadar indirimi isteyebilirdiniz."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Sanığın TCK m.142/1-c uyarınca 3 yıl hapis cezası ile cezalandırılmasına, TCK m.62 uyarınca 1/6 oranında indirim yapılarak 2 yıl 6 ay hapis cezası ile CEZALANDIRILMASINA,",
+      "summary": [
+        { "if": "zaman", "text": "Tarih hesabında haklıydınız, ama zararın tamamen giderildiğini ya da mağdurun rızasını gösteremediniz; etkin pişmanlık uygulanmadı." },
+        { "if": "!zaman", "text": "Zararın tamamen giderildiğini ve ödemenin kovuşturmadan önce yapıldığını gösteremediniz; etkin pişmanlık uygulanmadı." },
+        { "text": " Ceza iki yılı aştığı için hükmün açıklanmasının geri bırakılması da mümkün olmadı." }
+      ]
+    }
+  ]
+}
