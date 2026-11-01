@@ -1,0 +1,433 @@
+{
+  "id": "th-ihtk-gorev-disi-sure",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "ihtk",
+  "difficulty": "zor",
+  "title": "Yanlış Kapı, Geç Saat",
+  "area": "Tahkim · İnsan Hakları Tazminat Komisyonu · Görev alanı ve süre itirazı",
+  "court": "İnsan Hakları Tazminat Komisyonu (Adalet Bakanlığı) · Müracaat No. 2027/40552",
+  "courtShort": "TAZMİNAT KOMİSYONU",
+  "esas": "Müracaat No. 2027/40552",
+  "kararTarihi": "26.11.2027",
+  "color": "#4b4360",
+  "teaser": "Başvuran, hastaneden çıkınca Komisyona kendisi gitti: uzun yargılama, sorgulayamadığı tanık, gerekçesiz mahkûmiyet. Bakanlık iki itirazla karşılıyor: süre geçti, şikâyetlerin çoğu Komisyonun işi değil. Ve Anayasa Mahkemesinin süresi iki gün sonra doluyor.",
+  "bench": { "judges": 3, "title": "Komisyon heyeti: başkan ve iki üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Başvuran vekili", "short": "Başvuran" },
+    "p2": { "role": "Adalet Bakanlığı temsilcisi (görüş sunan)", "short": "Bakanlık" }
+  },
+  "cast": {
+    "judge": { "name": "Komisyon Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#efc8a4", "hair": "#6e6e72", "style": "bun", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#d29d76", "hair": "#1f1c1a", "style": "short", "shirt": "#23262d", "inner": "#dcd6cc" } },
+    "p2": { "look": { "kind": "civil", "skin": "#e0b28c", "hair": "#5a3a26", "style": "long", "shirt": "#2e3540", "inner": "#e9e3d8" } },
+    "client": { "name": "Murat Esen · Başvuran", "np": "civil", "look": { "kind": "civil", "skin": "#c8946c", "hair": "#3a322c", "style": "short", "shirt": "#4e5a66", "inner": "#e2ddd2" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Murat Esen hakkında nitelikli dolandırıcılık soruşturması 12.01.2020'de, gözaltı ve şüpheli ifadesiyle başladı. Ağır ceza mahkemesi 2023'te mahkûmiyet kararı verdi; istinaf ve temyiz reddedildi. Hüküm 15.02.2027'de kesinleşti; Murat bunu 03.03.2027'de eski müdafiinden öğrendi." },
+    { "who": "narr", "text": "İki gün sonra, 05.03.2027'de ağır bir trafik kazası geçirdi. Önce yoğun bakımda, sonra serviste yattı; 07.04.2027'de taburcu oldu. 19.04.2027'de Komisyona kendisi müracaat etti: yargılama yedi yıl sürdü; aleyhine beyanda bulunan tanığı hiç sorgulayamadı; mahkûmiyet gerekçesizdi. 500.000 TL manevi tazminat ve yeniden yargılama istedi." },
+    { "who": "client", "text": "Dilekçeyi hastane çıkışı kendim yazdım. Ne varsa hepsini yazdım. Şimdi siz takip edin." },
+    { "who": "narr", "text": "Bugün 20.04.2027; vekâletnameyi bu sabah aldınız. Komisyon dosya üzerinden karar verir; yazılı görüşler burada karşılıklı tartışılıyor." }
+  ],
+  "docs": [
+    { "t": "6384 sayılı Kanun m.2/3", "d": "Komisyon; ceza, hukuk ve idari yargılamaların makul sürede sonuçlandırılmadığı iddiasıyla manevi tazminat müracaatlarını ve CMK m.141'de sayılan bazı koruma tedbirlerinden doğan tazminat müracaatlarını inceler." },
+    { "t": "6384 sayılı Kanun m.5/A ve m.6", "d": "Makul süre müracaatı yargılama sürerken ya da en geç kesin kararın öğrenilmesinden itibaren bir ay içinde yapılır. Mazeret hâlinde, mazeretin sona ermesinden itibaren on beş gün içinde ve belgesiyle. Süresinde yapılmayan ya da Kanun kapsamı dışında kalan müracaatlar reddedilir." },
+    { "t": "6216 sayılı Kanun m.47/5", "d": "Bireysel başvuru, başvuru yollarının tüketildiği ya da bunun öğrenildiği tarihten itibaren otuz gün içinde yapılır. Haklı bir mazeret nedeniyle süresinde başvuramayanlar, mazeretin kalktığı tarihten itibaren on beş gün içinde ve mazeretlerini belgeleyen delillerle başvurabilir." },
+    { "t": "Yargılama süreci (özet)", "d": "12.01.2020 gözaltı ve şüpheli ifadesi · 2020 iddianame · 2021'de adres değişikliği bildirilmediği için üç tebligat iade, yaklaşık sekiz ay gecikme · 2023 mahkûmiyet · 2024 istinaf · 15.02.2027 Yargıtay onaması, kesinleşme." },
+    { "t": "Müracaat dilekçesi (başvuranın kendi yazdığı)", "d": "Uzun yargılama; tanığın sorgulanamaması (AİHS m.6/3-d); gerekçesiz mahkûmiyet. Talep: 500.000 TL manevi tazminat ve yeniden yargılama." }
+  ],
+  "evidence": [
+    { "id": "ev_epikriz", "type": "belge", "title": "Hastane epikrizi", "desc": "05.03.2027 trafik kazası; 05.03–19.03.2027 yoğun bakım, 19.03–07.04.2027 servis; 07.04.2027 taburcu." },
+    { "id": "ev_uyap", "type": "belge", "title": "Müdafiin bilgilendirme mesajı", "desc": "03.03.2027: 'Murat Bey, Yargıtay onadı, karar 15 Şubat'ta kesinleşmiş.'" },
+    { "id": "ev_vekalet", "type": "belge", "title": "Vekâletname", "desc": "20.04.2027 tarihli." },
+    { "id": "ev_dilekce", "type": "belge", "title": "Müracaat dilekçesi", "desc": "19.04.2027; uzun yargılama, tanık ve gerekçe şikâyetleri; 500.000 TL ve yeniden yargılama talebi." },
+    { "id": "law_5a", "type": "kanun", "title": "6384 s.K. m.5/A · Mazeret", "desc": "Mazeretin sona ermesinden itibaren on beş gün içinde, belgesiyle müracaat.", "law": "6384 s.K. m.5/A" },
+    { "id": "law_47", "type": "kanun", "title": "6216 s.K. m.47/5", "desc": "Bireysel başvuruda otuz günlük süre ve on beş günlük mazeret süresi.", "law": "6216 s.K. m.47/5" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "DOSYAYI DEVRALDINIZ · Müracaatta üç ayrı şikâyet var ve bunların hepsi aynı yolun konusu değil. Takvime bakın: taburcu tarihi 07.04.2027." }
+      ],
+      "prompt": "Bugün ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Tanık ve gerekçe şikâyetleri için 22.04.2027'ye kadar epikrizle AYM'ye başvur; Komisyonda müracaatı makul süreye indir.",
+          "delta": 20,
+          "set": ["p1_aym"],
+          "law": "6216 s.K. m.47/5 · 6384 s.K. m.2/3-a",
+          "note": "Doğru. Komisyon yalnızca makul süre şikâyetine bakar. Tanığın sorgulanamaması ve gerekçe yokluğu Anayasa Mahkemesinin konusudur; otuz günlük süre geçmiş olsa da mazeretin kalktığı 07.04.2027'den itibaren on beş gün, yani 22.04.2027'ye kadar başvurulabilir.",
+          "reply": [{ "who": "narr", "text": "Bireysel başvuru formu epikrizle birlikte 21.04.2027'de verildi. Komisyona da müracaatı makul süreyle sınırlayan bir ek dilekçe sundunuz." }]
+        },
+        {
+          "text": "Komisyonun bütün şikâyetleri incelemesini bekle; görev dışı kısmı reddederse o karardan itibaren otuz gün içinde AYM'ye git.",
+          "delta": -15,
+          "set": ["p1_bekle"],
+          "law": "6216 s.K. m.47/5",
+          "note": "Ağır hata. Görev alanı dışındaki bir mercie başvurmak bireysel başvuru süresini durdurmaz; Komisyonun ret kararı yeni bir süre başlatmaz. Tanık ve gerekçe şikâyetleri için Anayasa Mahkemesi yolu 22.04.2027'de kapandı.",
+          "reply": [{ "who": "narr", "text": "Komisyon toplantısını beklemeye karar verdiniz." }]
+        },
+        {
+          "text": "Komisyon müracaatını geri çek; makul süre dahil bütün şikâyetleri tek bir bireysel başvuruyla Anayasa Mahkemesine taşı.",
+          "delta": -10,
+          "set": ["p1_hepsi"],
+          "law": "6384 s.K. m.2/3-a · 6216 s.K. m.45/2",
+          "note": "Makul süre şikâyetinde Anayasa Mahkemesi, Komisyon yolunun tüketilmesini arar. Komisyondan vazgeçmek bu şikâyeti kabul edilemez kılar.",
+          "reply": [{ "who": "narr", "text": "Geri çekme dilekçesini yazarken bir meslektaşınız uyardı; Komisyon müracaatına dokunmadınız. Ama o gün bireysel başvuru da yapılmadı ve süre 22.04.2027'de doldu." }]
+        },
+        {
+          "text": "Tanık ve gerekçe şikâyetleri için önce yargılamanın yenilenmesini iste; Komisyon müracaatına ise dokunma, olduğu gibi kalsın.",
+          "delta": -10,
+          "set": ["p1_yenileme"],
+          "law": "CMK m.311 · 6216 s.K. m.47/5",
+          "note": "Yargılamanın yenilenmesi kanunda sayılı sebeplere bağlıdır; burada bir dayanağı yok. Üstelik bu talep bireysel başvuru süresini durdurmaz; Anayasa Mahkemesi yolu 22.04.2027'de kapandı.",
+          "reply": [{ "who": "narr", "text": "Yenileme talebini hazırlarken 22 Nisan geçti." }]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAKANLIK GÖRÜŞÜ · Komisyon görüş istedi. Müracaat dilekçesi önünüzde." }
+      ],
+      "prompt": "Görüşünüzü nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Süre aşımını ileri sür, mazeret varsa belgelenmesini iste; tanık ve gerekçe şikâyetlerinin görev dışı kaldığını da belirt.",
+          "delta": 15,
+          "set": ["p2_ikili"],
+          "law": "6384 s.K. m.2/3-a, m.5/A, m.6",
+          "note": "Doğru. İki itiraz birbirinden bağımsızdır: süre itirazı mazeret karşısında düşebilir, görev itirazı ise her durumda geçerlidir."
+        },
+        {
+          "text": "Yalnızca süre aşımını ileri sür; müracaat süreden reddedilirse görev alanı tartışmasına girmeye hiç gerek kalmaz.",
+          "delta": 5,
+          "set": ["p2_sure"],
+          "law": "6384 s.K. m.5/A",
+          "note": "Eksik. Süre itirazı belgeli bir mazeret karşısında düşebilir; o zaman görev itirazını hiç yapmamış olursunuz."
+        },
+        {
+          "text": "Mahkûmiyet kesinleştiğine göre makul süre şikâyetinin hukuki yarardan yoksun kaldığını ileri sür, müracaatın tümden reddini iste.",
+          "delta": -15,
+          "law": "6384 s.K. m.5/A",
+          "note": "Yanlış. Kanun müracaatı tam da kesin kararın öğrenilmesinden sonraki bir ay için öngörüyor; mahkûmiyet uzunluk ihlalini ortadan kaldırmaz."
+        },
+        {
+          "text": "Görev alanı dışındaki şikâyetlerin Anayasa Mahkemesine gönderilmesini, makul süre kısmının ise süreden reddini iste.",
+          "delta": -10,
+          "set": ["p2_gonder"],
+          "law": "6384 s.K. m.6",
+          "note": "Komisyon görev alanı dışındaki müracaatı başka bir mercie göndermez, reddeder (m.6). Gönderme talebi Kanunda karşılığı olmayan bir talep."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlığın süre itirazı var. Başvuran vekili, cevabınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Başvuran kesin kararı 03.03.2027'de öğrenmiştir. Bir aylık süre Nisan başında dolmuş, müracaat 19.04.2027'de, süre geçtikten sonra yapılmıştır." },
+      "prompt": "Bu itirazı hangi belgeyle karşılayacaksınız?",
+      "correct": ["ev_epikriz"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_mazeret"],
+        "law": "6384 s.K. m.5/A",
+        "note": "Epikriz, başvuranın öğrenmeden iki gün sonra yoğun bakıma girdiğini ve 07.04.2027'ye kadar hastanede kaldığını gösteriyor. Mazeretin sona ermesinden itibaren on beş gün 22.04.2027'de dolar; 19.04.2027'deki müracaat süresindedir.",
+        "reply": [{ "who": "judge", "text": "Epikriz dosyaya alındı. Mazeretin belgelendiği anlaşılıyor." }]
+      },
+      "responses": {
+        "law_5a": { "delta": 0, "note": "Doğru madde, ama mazeret belgeyle ispatlanır (m.5/A). Maddeyi değil, epikrizi sunmalıydınız." },
+        "ev_uyap": { "delta": -5, "note": "Bu mesaj öğrenme tarihinin 03.03.2027 olduğunu doğruluyor; Bakanlığın iddiasını güçlendirdiniz." },
+        "law_47": { "delta": -5, "note": "Bu madde Anayasa Mahkemesine bireysel başvuru süresi içindir; Komisyon müracaatının süresini 6384 s.K. m.5/A belirler." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge mazereti göstermiyor." },
+      "pass": { "delta": -15, "note": "Mazeret belgelenmedi. Kanun mazeretin belgeyle gösterilmesini ister; müracaat süre aşımı tehlikesiyle karşı karşıya." }
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "p1_mazeret",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, epikriz karşısında süre itirazınızı sürdürüyor musunuz?" }
+      ],
+      "prompt": "Ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Mazeret taburcu tarihinde değil, başvuranın vekil tutabildiği anda biter; yoğun bakımdan çıktığı gün vekâlet verebilirdi.",
+          "delta": -10,
+          "law": "6384 s.K. m.5/A",
+          "note": "Ağır bir kaza sonrası serviste geçen dönem de başvuruyu engelleyen bir durumdur; mazeretin taburculukla sona erdiğini kabul etmek ölçülüdür. Bu ayrım Komisyonu ikna etmez."
+        },
+        {
+          "text": "Mazeret belgeli, müracaat on beş günlük süre içinde yapılmış; süre itirazından vazgeç, görev alanı itirazını sürdür.",
+          "delta": 15,
+          "set": ["p2_gorev"],
+          "law": "6384 s.K. m.5/A, m.2/3-a, m.6",
+          "note": "İsabetli. Belgeli mazereti kabul etmek inandırıcılığınızı korur; asıl güçlü itirazınız görev alanıdır."
+        },
+        {
+          "text": "Hastalık bir mücbir sebep değildir; Kanundaki mazeret yalnızca doğal afet ve savaş gibi olağanüstü hâlleri kapsar.",
+          "delta": -10,
+          "law": "6384 s.K. m.5/A",
+          "note": "Kanun 'mazeret' der, mücbir sebeple sınırlamaz; belgeli ağır bir hastalık tipik bir mazerettir."
+        },
+        {
+          "text": "Bir aylık süre hak düşürücüdür ve hiçbir sebeple uzatılamaz; mazeret ileri sürülmüş olması sonucu hiç değiştirmez.",
+          "delta": -15,
+          "law": "6384 s.K. m.5/A",
+          "note": "Kanun mazeret hâlinde on beş günlük ek süreyi açıkça tanır (m.5/A)."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "!p1_mazeret",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, mazeret belgelenmedi. Son görüşünüz?" }
+      ],
+      "prompt": "Ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Süre aşımına rağmen makul süre kısmının esastan incelenmesine itiraz etmiyoruz; yalnızca tazminat tutarını tartışalım.",
+          "delta": -10,
+          "law": "6384 s.K. m.5/A, m.6",
+          "note": "Süre bir müracaat şartıdır ve Komisyonca kendiliğinden gözetilir; Bakanlığın 'itiraz etmemesi' süresiz bir müracaatı esastan incelenebilir kılmaz."
+        },
+        {
+          "text": "Mazeret belgelenmediğinden süre aşımında ısrar ediyoruz; görev alanı dışındaki şikâyetler de ayrıca reddedilmelidir.",
+          "delta": 15,
+          "set": ["p2_israr"],
+          "law": "6384 s.K. m.5/A, m.6",
+          "note": "Doğru. Mazeret belgeyle gösterilmedi; müracaat süre aşımından reddedilir. Görev itirazı da ayrıca geçerlidir."
+        },
+        {
+          "text": "Görev alanı dışındaki şikâyetlerin Anayasa Mahkemesine gönderilmesini, makul süre kısmının süreden reddini istiyoruz.",
+          "delta": -10,
+          "set": ["p2_gonder"],
+          "law": "6384 s.K. m.6",
+          "note": "Komisyon görev alanı dışındaki müracaatı başka bir mercie göndermez, reddeder."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, Bakanlığın görev alanı itirazına cevabınız?" }
+      ],
+      "prompt": "Komisyonun hangi şikâyetleri inceleyip hangilerini inceleyemeyeceğini ve görev dışı şikâyetlerin yolunu kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p1_olcut"], "law": "6384 s.K. m.2/3-a, m.6 · 6216 s.K. m.45, m.47/5", "note": "Güçlü bir görüş: görev itirazının haklı kısmını kabul ettiniz, müracaatı makul süreye indirdiniz, görev dışı şikâyetlerin yolunu ve süresini doğru gösterdiniz, makul süre kısmının esastan incelenmesini istediniz." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p1_olcut"], "law": "6384 s.K. m.2/3-a", "note": "Komisyonun yalnızca makul süreye bakacağını söylediniz. Eksik kalan: tanık ve gerekçe şikâyetlerinin Anayasa Mahkemesine bireysel başvurunun konusu olduğu ve mazeretli on beş günlük sürenin, yeniden yargılamanın Komisyondan istenemeyeceği, makul süre kısmında sürenin 12.01.2020'de başladığı." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "6384 s.K. m.2/3-a, m.6", "note": "Bütün şikâyetlerde ısrar etmek görev itirazını haklı çıkarır. Komisyon yalnızca makul süre şikâyetini inceler; tanık ve gerekçe şikâyetlerinin yeri Anayasa Mahkemesidir." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Komisyonun görev alanı kanunla sınırlıdır: makul süre şikâyetleri ve bazı koruma tedbirleri (6384 s.K. m.2/3). Tanığın sorgulanamaması (AİHS m.6/3-d) ve gerekçe yokluğu adil yargılanma hakkının başka yönleridir; Komisyonun görev alanı dışındadır ve bu kısım reddedilir (m.6). Yeniden yargılama da Komisyondan istenemez. (2) Bu şikâyetlerin yolu Anayasa Mahkemesine bireysel başvurudur; otuz günlük süre mazeret nedeniyle mazeretin kalktığı tarihten itibaren on beş gün içinde kullanılabilir (6216 s.K. m.47/5). (3) Makul süre kısmı esastan incelenmelidir: süre 12.01.2020'deki gözaltı ve şüpheli ifadesiyle başlar, 15.02.2027'deki kesinleşmeyle biter; yaklaşık yedi yıl. Görev itirazının haklı kısmını kabul edip makul süreye odaklanmak ve diğer şikâyetlerin yolunu göstermek tam puan için gerekir; bütün şikâyetlerde ısrar eden cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["makul süre", "m.2/3", "görev alanı"], "weight": 2 },
+        { "terms": ["tanık", "gerekçe", "m.6/3", "adil yargılanma"], "weight": 1 },
+        { "terms": ["Anayasa Mahkemesi", "AYM", "bireysel başvuru"], "weight": 2 },
+        { "terms": ["on beş gün", "15 gün", "mazeret", "m.47"], "weight": 1 },
+        { "terms": ["yeniden yargılama", "yargılamanın yenilenmesi"], "weight": 1 },
+        { "terms": ["2020", "yedi yıl", "7 yıl", "gözaltı"], "weight": 1 }
+      ],
+      "model": "Görev itirazının bir kısmı haklıdır: Komisyon yalnızca makul süre şikâyetini inceler (6384 s.K. m.2/3-a); tanığın sorgulanamaması ve gerekçe yokluğu adil yargılanma hakkının başka yönleridir, yeniden yargılama da Komisyondan istenemez. Bu şikâyetler için Anayasa Mahkemesine, mazeretin kalktığı tarihten itibaren on beş gün içinde bireysel başvuru yolu açıktır (6216 s.K. m.47/5). Makul süre kısmının ise esastan incelenmesini istiyoruz: yargılama 12.01.2020'deki gözaltıyla başlayıp 15.02.2027'de kesinleşti, yedi yıl sürdü."
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, görev alanı ve tutar hakkında görüşünüzü toparlayın." }
+      ],
+      "prompt": "Komisyonun hangi şikâyetleri inceleyebileceğini ve makul süre kısmı esastan incelenirse tutarın nasıl belirlenmesi gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p2_miktar"], "law": "6384 s.K. m.2/3-a, m.6, m.7", "note": "Ölçülü ve kapsamlı bir görüş: görev sınırını, ret sonucunu, başvurana yüklenebilecek süreyi ve tutarın emsallere bağlılığını birlikte ortaya koydunuz." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p2_miktar"], "law": "6384 s.K. m.2/3-a, m.6", "note": "Görev sınırını söylediniz. Eksik kalan: görev dışı kısmın gönderilmeyip reddedileceği, başvuranın adres bildirmemesinden doğan sekiz aylık gecikme ve tutarın emsallere göre, yalnızca manevi olarak belirlenmesi." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "6384 s.K. m.2/3-a", "note": "Görüşünüz görev sınırını ve tutarın ölçütlerini kurmadı." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Komisyon yalnızca makul süre şikâyetini inceleyebilir (6384 s.K. m.2/3-a); tanık ve gerekçe şikâyetleri ile yeniden yargılama talebi görev alanı dışındadır ve reddedilir (m.6); Komisyon bunları başka bir mercie göndermez. (2) Makul süre kısmı esastan incelenirse: yaklaşık yedi yıllık sürenin içinde, başvuranın adres değişikliğini bildirmemesi nedeniyle üç tebligatın iade olmasından doğan yaklaşık sekiz aylık gecikme başvurana yüklenmelidir. (3) Tutar talebe göre değil, Anayasa Mahkemesi ve AİHM emsallerine göre ve yalnızca manevi tazminat olarak belirlenir; 500.000 TL fahiştir. Görev sınırı, ret sonucu, başvuranın tutumu ve emsal ölçütü birlikte tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["makul süre", "m.2/3", "görev alanı dışı", "görev dışı"], "weight": 2 },
+        { "terms": ["ret", "reddedil", "m.6", "gönderilmez"], "weight": 1 },
+        { "terms": ["adres", "tebligat", "sekiz ay", "8 ay"], "weight": 2 },
+        { "terms": ["emsal", "AİHM", "Anayasa Mahkemesi", "m.7"], "weight": 2 },
+        { "terms": ["500.000", "fahiş", "manevi"], "weight": 1 }
+      ],
+      "model": "Komisyon yalnızca makul süre şikâyetini inceleyebilir (6384 s.K. m.2/3-a); tanık ve gerekçe şikâyetleri ile yeniden yargılama talebi görev alanı dışında kaldığından reddedilmelidir (m.6). Makul süre kısmında, başvuranın adres değişikliğini bildirmemesi yüzünden üç tebligatın iade olması yaklaşık sekiz ay gecikmeye yol açmıştır; bu süre başvurana yüklenmelidir. Tutar talebe göre değil, AYM ve AİHM emsallerine göre ve yalnızca manevi olarak belirlenmeli; 500.000 TL fahiştir."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "p1_mazeret",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, Bakanlık sekiz aylık tebligat gecikmesini başvurana yüklüyor. Tutar hakkında ne diyorsunuz?" }
+      ],
+      "prompt": "Tutar tartışmasında tutumunuz ne olacak?",
+      "choices": [
+        {
+          "text": "Tebligat sorunları bütünüyle mahkemenin sorunudur; başvuran adresini bildirmek zorunda değildi, gecikme ona yüklenemez.",
+          "delta": -10,
+          "law": "AİHS m.6/1",
+          "note": "Adres değişikliğini bildirmemek başvuranın kendi tutumudur; bunun yol açtığı gecikme ona yüklenir. İnkâr etmek inandırıcılığınızı zedeler."
+        },
+        {
+          "text": "500.000 TL talebinde ısrar et; Komisyon talepten bağımsız karar verdiğinden gerekirse daha yüksek bir tutara da hükmedebilir.",
+          "delta": -10,
+          "law": "6384 s.K. m.7",
+          "note": "Komisyon tutarı emsallere göre belirler; talebi şişirmek tutarı artırmaz, görüşünüzü zayıflatır."
+        },
+        {
+          "text": "Adres bildirmemekten doğan sekiz aylık gecikmeyi kabul et; o süre düşülse de kalan altı yılı aşan süre yine ihlaldir.",
+          "delta": 15,
+          "set": ["p1_kabul"],
+          "law": "AİHS m.6/1 · 6384 s.K. m.7",
+          "note": "İsabetli. Kabul edilmesi gerekeni kabul ettiniz; geriye kalan altı yılı aşkın süre bir ceza yargılaması için yine de makul değildir."
+        },
+        {
+          "text": "Talebi AİHM'nin avro cinsinden verdiği tutarlara çevir; Komisyon kararı avro olarak versin, kur farkı başvuranın aleyhine olmasın.",
+          "delta": -5,
+          "law": "6384 s.K. m.7",
+          "note": "Komisyon emsallere bakar ama Türk lirası üzerinden hükmeder; döviz cinsinden talebin dayanağı yok."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "if": "!p1_mazeret",
+      "lines": [
+        { "who": "narr", "text": "Toplantıdan çıktınız. Mazeret belgelenmedi; Komisyonun süre aşımından ret kararı vermesi bekleniyor. Epikriz ise müvekkilin çantasında." }
+      ],
+      "prompt": "Ret kararı tebliğ edilirse hangi yolu izleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Kararın tebliğinden itibaren altmış gün içinde Ankara'da idare mahkemesinde Komisyon kararının iptali için dava aç.",
+          "delta": -10,
+          "law": "6384 s.K. m.7",
+          "note": "Komisyon kararlarına karşı iptal davası değil, Kanunda özel olarak düzenlenen itiraz yolu vardır."
+        },
+        {
+          "text": "Kararın tebliğinden itibaren on beş gün içinde Komisyon aracılığıyla Ankara Bölge İdare Mahkemesine itiraz et; epikrizi ekle.",
+          "delta": 15,
+          "set": ["p1_itiraz"],
+          "law": "6384 s.K. m.7",
+          "note": "Doğru yol. İtiraz tebliğden itibaren on beş gün içinde Komisyon aracılığıyla yapılır; Bölge İdare Mahkemesi itirazı yerinde bulursa işin esası hakkında karar verir. Kararı kesindir."
+        },
+        {
+          "text": "Komisyon kararının tebliğinden itibaren otuz gün içinde, itiraza gerek olmadan doğrudan Anayasa Mahkemesine bireysel başvuruda bulun.",
+          "delta": -10,
+          "law": "6384 s.K. m.7 · 6216 s.K. m.45/2",
+          "note": "Önce Komisyon kararına karşı itiraz yolu tüketilmelidir; Anayasa Mahkemesi ancak Bölge İdare Mahkemesinin kesin kararından sonra gelir."
+        },
+        {
+          "text": "Kararın tebliğinden itibaren otuz gün içinde Danıştay'a temyiz başvurusunda bulun; Komisyon kararları temyize tabidir.",
+          "delta": -10,
+          "law": "6384 s.K. m.7",
+          "note": "Komisyon kararları temyize değil, Ankara Bölge İdare Mahkemesine itiraza tabidir; itiraz üzerine verilen karar kesindir."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "p1_mazeret",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, son görüşünüz?" }
+      ],
+      "prompt": "Komisyondan ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Müracaatın bir kısmı görev alanı dışında kaldığından, müracaatın bütünüyle ve tek bir kararla görev yönünden reddine karar verilmesini istiyoruz.",
+          "delta": -15,
+          "law": "6384 s.K. m.2/3-a, m.6",
+          "note": "Görev dışı şikâyetler, görev içindeki makul süre şikâyetini de düşürmez; Komisyon müracaatı kısımlara ayırarak inceler."
+        },
+        {
+          "text": "Görev dışı şikâyetlerin reddini, makul süre kısmında başvurana yüklenebilir süre düşülerek ölçülü tazminata hükmedilmesini istiyoruz.",
+          "delta": 15,
+          "set": ["p2_takdir"],
+          "law": "6384 s.K. m.2/3-a, m.6, m.7",
+          "note": "Ölçülü ve isabetli bir son görüş."
+        },
+        {
+          "text": "Görev alanı dışındaki şikâyetler hakkında dosyanın Anayasa Mahkemesine gönderilmesine karar verilmesini istiyoruz.",
+          "delta": -10,
+          "set": ["p2_gonder"],
+          "law": "6384 s.K. m.6",
+          "note": "Komisyon görev alanı dışındaki müracaatı reddeder; başka bir mercie göndermez."
+        },
+        {
+          "text": "Komisyon dokuz ay içinde karar vermezse müracaatın reddedilmiş sayılacağını hatırlatıyor, talebin reddini istiyoruz.",
+          "delta": -10,
+          "law": "6384 s.K. m.7",
+          "note": "Dokuz aylık süre Komisyonun karar verme yükümlülüğüdür; Kanunda bir 'zımni ret' sonucu yoktur."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "!p1_mazeret",
+      "winner": "p2",
+      "hukum": "Müracaatın, kesin kararın öğrenilmesinden itibaren bir aylık süre geçtikten sonra yapıldığından ve mazeret belgelenmediğinden 6384 sayılı Kanun m.5/A ve m.6 uyarınca SÜRE AŞIMI NEDENİYLE REDDİNE,",
+      "summary": [
+        { "text": "Bakanlığın süre itirazı karşısında başvuran vekili mazereti belgeyle göstermedi; Kanun mazeretin belgeyle ispatını arar. Esasa girilmedi." },
+        { "if": "p1_itiraz", "text": " Başvuran vekili kararın tebliğinden itibaren on beş gün içinde Ankara Bölge İdare Mahkemesine itiraz yolunu doğru belirledi; epikriz itiraz aşamasında değerlendirilebilecek." },
+        { "if": "p1_aym", "text": " Tanık ve gerekçe şikâyetleri ise süresinde Anayasa Mahkemesine taşınmıştı." },
+        { "if": "!p1_aym", "text": " Tanık ve gerekçe şikâyetleri için Anayasa Mahkemesi süresi de 22.04.2027'de kaçırıldı." }
+      ]
+    },
+    {
+      "if": "p1_olcut && p1_kabul && !p2_miktar",
+      "winner": "p1",
+      "hukum": "Müracaatın, yargılamanın makul sürede sonuçlandırılmadığı iddiasına ilişkin kısmının KABULÜ ile başvurana 70.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE; diğer şikâyetler ile yeniden yargılama talebinin Komisyonun görev alanı dışında kaldığından REDDİNE,",
+      "summary": [
+        { "text": "Başvuran vekili mazereti epikrizle belgeledi, müracaatı makul süreye indirdi ve başvurana yüklenebilecek sekiz aylık gecikmeyi kabul ederek inandırıcı bir talep kurdu. Bakanlık tutarı emsallere bağlayan ölçülü bir görüş sunamadı." },
+        { "if": "p1_aym", "text": " Tanık ve gerekçe şikâyetleri süresinde Anayasa Mahkemesine taşındı." },
+        { "if": "!p1_aym", "text": " Ama tanık ve gerekçe şikâyetleri için Anayasa Mahkemesi süresi 22.04.2027'de kaçırıldı; bu şikâyetlerin incelenme imkânı kalmadı." }
+      ]
+    },
+    {
+      "if": "p2_miktar && !p1_olcut",
+      "winner": "p2",
+      "hukum": "Müracaatın, yargılamanın makul sürede sonuçlandırılmadığı iddiasına ilişkin kısmının KISMEN KABULÜ ile başvurana 30.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE; diğer şikâyetler ile yeniden yargılama talebinin Komisyonun görev alanı dışında kaldığından REDDİNE,",
+      "summary": [
+        { "text": "Mazeret belgelendiği için süre itirazı düştü; ama Bakanlık görev sınırını ve başvuranın adres bildirmemesinden doğan gecikmeyi doğru ortaya koydu. Başvuran vekili görev dışı şikâyetleri ayıramadı; tutar alt sınıra yakın belirlendi." },
+        { "if": "!p1_aym", "text": " Tanık ve gerekçe şikâyetleri için Anayasa Mahkemesi süresi de kaçırıldı." }
+      ]
+    },
+    {
+      "if": "(p1_olcut || p1_kabul) && (p2_miktar || p2_takdir || p2_gorev)",
+      "winner": "draw",
+      "hukum": "Müracaatın, yargılamanın makul sürede sonuçlandırılmadığı iddiasına ilişkin kısmının KISMEN KABULÜ ile başvurana 50.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE; diğer şikâyetler ile yeniden yargılama talebinin Komisyonun görev alanı dışında kaldığından REDDİNE,",
+      "summary": [
+        { "text": "İki taraf da işini yaptı. Başvuran vekili mazereti belgeleyip makul süre kısmını kurtardı; Bakanlık da görev sınırını ve başvurana yüklenebilecek gecikmeyi doğru gösterdi. Komisyon makul süre ihlalini tespit etti, diğer şikâyetleri reddetti." },
+        { "if": "p1_aym", "text": " Tanık ve gerekçe şikâyetleri süresinde Anayasa Mahkemesine taşındı." },
+        { "if": "!p1_aym", "text": " Tanık ve gerekçe şikâyetleri için Anayasa Mahkemesi süresi ise kaçırıldı." }
+      ]
+    },
+    {
+      "if": "p1_olcut || p1_kabul",
+      "winner": "p1",
+      "hukum": "Müracaatın, yargılamanın makul sürede sonuçlandırılmadığı iddiasına ilişkin kısmının KABULÜ ile başvurana 60.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE; diğer şikâyetler ile yeniden yargılama talebinin Komisyonun görev alanı dışında kaldığından REDDİNE,",
+      "summary": [
+        { "text": "Başvuran vekili mazereti belgeledi ve makul süre kısmını doğru kurdu; Bakanlık görev ve tutar konusunda ölçülü bir görüş sunamadı." },
+        { "if": "!p1_aym", "text": " Tanık ve gerekçe şikâyetleri için Anayasa Mahkemesi süresi kaçırıldı." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Müracaatın, yargılamanın makul sürede sonuçlandırılmadığı iddiasına ilişkin kısmının KISMEN KABULÜ ile başvurana 30.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE; diğer şikâyetler ile yeniden yargılama talebinin Komisyonun görev alanı dışında kaldığından REDDİNE,",
+      "summary": "Mazeret belgelendiği için süre itirazı düştü. Ama başvuran vekili ne görev dışı şikâyetleri ayırdı ne de makul süre kısmını ölçütlere bağladı; başvuranın kendi yol açtığı gecikme de düşülünce tutar alt sınırda kaldı."
+    }
+  ]
+}

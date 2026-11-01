@@ -1,0 +1,464 @@
+{
+  "id": "th-sigorta-trafik-destek",
+  "mode": "duel",
+  "difficulty": "zor",
+  "title": "Sağ Arka Koltuk",
+  "area": "Tahkim · Sigorta tahkimi · Trafik sigortası (destekten yoksun kalma)",
+  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakem Heyeti",
+  "courtShort": "SİGORTA TAHKİM",
+  "esas": "2026/55019 Başvuru",
+  "kararTarihi": "29.03.2027",
+  "color": "#5b3a3a",
+  "room": "tahkim",
+  "forum": "sigorta",
+  "inscription": null,
+  "bench": { "judges": 3, "title": "Üç sigorta hakeminden oluşan uyuşmazlık hakem heyeti" },
+  "teaser": "Ücretsiz taşınan yolcu, takılmamış bir emniyet kemeri ve eski formülle yapılmış bir hesap. Şirket ödedi; aile eksik ödendiğini söylüyor.",
+  "sides": {
+    "p1": { "role": "Başvuranlar vekili", "short": "Başvuran" },
+    "p2": { "role": "Sigorta şirketi vekili", "short": "Sigorta şirketi" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#d9a882", "hair": "#8a8a90", "style": "short", "beard": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e6bc96", "hair": "#2b1d17", "style": "bun", "shirt": "#232b36", "inner": "#ece6dc" } },
+    "p2": { "look": { "kind": "civil", "skin": "#c08b62", "hair": "#3a2c22", "style": "short", "shirt": "#2a2a30", "inner": "#e6e2da" } },
+    "elif": { "name": "Elif Kılıç · Başvuran (eş)", "np": "civil", "look": { "kind": "civil", "skin": "#e3b996", "hair": "#2a2220", "style": "long", "shirt": "#3e3a4a", "inner": "#e9e2d8" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "14.08.2026 sabahı Manisa–Turgutlu yolunda Okan Er'in kullandığı otomobile, kavşağa kontrolsüz giren bir hafriyat kamyonu sağ yandan çarptı. Sağ arka koltukta oturan iş arkadaşı Murat Kılıç (41) olay yerinde hayatını kaybetti." },
+    { "who": "narr", "text": "Kusur raporuna göre Okan %70, kamyon sürücüsü %30 kusurlu. Murat her sabah Okan'ın arabasıyla ücretsiz olarak şantiyeye gidiyordu. Tutanağa “sağ arka yolcu emniyet kemeri takılı değil” yazılmış." },
+    { "who": "narr", "text": "Okan'ın aracının trafik sigortacısı Lodos Sigorta A.Ş., eş Elif ile çocuklar Ece (12) ve Can (8) için toplam 1.300.000 TL ödedi. Hesapta Genel Şartlar'ın eski Ek-3 yöntemini kullandı; %70 kusur oranı, %20 hatır taşıması ve %25 emniyet kemeri indirimi uyguladı." },
+    { "who": "elif", "text": "Murat evin tek geliriydi. Şirket sanki kazanın üçte birinden hiç sorumlu değilmiş gibi ödeme yaptı." },
+    { "who": "narr", "text": "Bugün 02.11.2026. Aile bakiye için Komisyona başvurmak istiyor." }
+  ],
+  "docs": [
+    { "t": "Kusur raporu", "d": "Okan Er (otomobil sürücüsü) %70, hafriyat kamyonu sürücüsü %30 kusurlu. Yolcu Murat Kılıç'ın kazanın oluşumunda kusuru yok." },
+    { "t": "Kaza tespit tutanağı", "d": "14.08.2026, Manisa–Turgutlu yolu. Kamyon otomobilin sağ yanına çarpmış; sağ arka kapı içe göçmüş. “Sağ arka yolcu emniyet kemeri takılı değil.”" },
+    { "t": "Şirketin ödeme yazısı", "d": "Lodos Sigorta A.Ş., 08.10.2026: Destek zararı Genel Şartlar Ek-3 esaslarına göre (TRH 2010, %1,8 teknik faiz) hesaplanmış; %70 kusur, %20 hatır taşıması, %25 emniyet kemeri indirimi uygulanmış. Toplam 1.300.000 TL ödendi; bakiye talepler reddedildi." },
+    { "t": "Hukuki durum", "d": "AYM 17.07.2020, E.2019/40, K.2020/40: KTK m.90'daki Genel Şartlar atıfları ve m.92/i iptal. AYM 29.12.2022, E.2021/82, K.2022/167: 7327 s.K. ile eklenen hüküm iptal. Danıştay 8. D. 14.05.2025: Ek-1, Ek-2, Ek-3 iptal. RG 12.06.2026 değişikliğiyle 01.07.2026'dan itibaren Ek-3 kaldırıldı; destek zararı TBK'nın haksız fiil hükümlerine göre belirlenir." },
+    { "t": "Sigorta tahkiminde parasal sınırlar (22.01.2026'dan)", "d": "35.000 TL'nin altındaki uyuşmazlıklarda karar kesin; 35.000 TL ve üzerinde 10 gün içinde itiraz. 122.000 TL ve üzerindeki uyuşmazlıklarda en az üç hakemli heyet zorunlu. 383.000 TL'yi aşan uyuşmazlıklarda itiraz kararına karşı temyiz." }
+  ],
+  "evidence": [
+    { "id": "ev_tutanak", "type": "belge", "title": "Kaza tespit tutanağı", "desc": "Sağ arka kapı içe göçmüş. “Sağ arka yolcu emniyet kemeri takılı değil.”" },
+    { "id": "ev_kusur", "type": "belge", "title": "Kusur raporu", "desc": "Otomobil sürücüsü %70, kamyon sürücüsü %30 kusurlu; yolcunun kusuru yok." },
+    { "id": "ev_odeme", "type": "belge", "title": "Şirketin ödeme yazısı", "desc": "Ek-3 yöntemi; %70 kusur, %20 hatır, %25 kemer indirimi; 1.300.000 TL ödendi." },
+    { "id": "ev_bordro", "type": "belge", "title": "Bordrolar", "desc": "Murat Kılıç: net 58.000 TL aylık ücret, yılda iki ikramiye.", "if": "p1_bordro" },
+    { "id": "ev_atk", "type": "belge", "title": "Adli Tıp raporu", "desc": "Ölüm nedeni: sağ yan darbeye bağlı kafa ve göğüs travması, içe göçen kapıyla ezilme. “Emniyet kemeri takılı olsaydı da yan darbenin niteliği nedeniyle ölümün büyük olasılıkla önlenemeyeceği” belirtilmiş.", "if": "p1_otopsi" },
+    { "id": "law_tbk52", "type": "kanun", "title": "TBK m.52", "desc": "Zarar gören, zarar doğuran fiile razı olmuş ya da zararın doğmasında veya artmasında etkili olmuşsa hâkim tazminatı indirebilir.", "law": "TBK m.52" },
+    { "id": "law_ktk88", "type": "kanun", "title": "KTK m.88", "desc": "Bir zarara birden çok motorlu araç sebep olmuşsa, işletenler ve bağlı oldukları teşebbüs sahipleri zarar görenlere karşı müteselsilen sorumludur.", "law": "KTK m.88" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAŞVURU · Şirket kısmi ödeme yaptı ve bakiyeyi reddetti; ön başvuru şartı gerçekleşti. Destek zararının gerçek miktarı ancak aktüerya hesabıyla belli olacak." }
+      ],
+      "prompt": "Başvuruyu nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Belirsiz alacak olarak başvur: şimdilik 300.000 TL iste, zararın tamamı bilirkişi hesabıyla belli olunca talebi artır.",
+          "delta": 20,
+          "set": ["p1_belirsiz"],
+          "law": "HMK m.107 · 5684 s.K. m.30/23",
+          "note": "Destek zararının miktarı ancak aktüerya hesabıyla belli olur. Belirsiz alacak olarak başvurup bilirkişi raporundan sonra talebi artırabilirsiniz (HMK m.107); sigorta tahkiminde HMK hükümleri kıyasen uygulanır. 300.000 TL'lik uyuşmazlık 122.000 TL'yi aştığı için üç hakemli heyet kurulacak.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 04.11.2026'da belirsiz alacak olarak, şimdilik 300.000 TL üzerinden yapıldı. Üç hakemli heyet oluşturuldu." }
+          ]
+        },
+        {
+          "text": "Hesabı kendin yap: 2.400.000 TL'lik toplam zarardan ödenen 1.300.000 TL'yi düşüp bakiye 1.100.000 TL'yi kesin rakamla iste.",
+          "delta": -10,
+          "set": ["p1_kesin"],
+          "law": "HMK m.107, m.326",
+          "note": "Kendi hesabınız bilirkişi hesabıyla örtüşmezse fazlası reddedilir ve reddedilen kısım için aleyhinize vekâlet ücreti doğar. Miktarı baştan bilinemeyen destek zararında belirsiz alacak yolu daha güvenliydi.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 04.11.2026'da 1.100.000 TL üzerinden yapıldı. Üç hakemli heyet oluşturuldu." }
+          ]
+        },
+        {
+          "text": "Önce şirketin yaptığı 1.300.000 TL'lik ödemeyi iade et; ödeme kabul edilmiş sayılırsa ailenin bakiye için talep hakkı tamamen düşebilir.",
+          "delta": -10,
+          "set": ["p1_kesin"],
+          "law": "KTK m.97 · HMK m.107",
+          "note": "Kısmi ödemeyi almak bakiye talep hakkını düşürmez; ödenen tutar yalnız hesaptan mahsup edilir. Parayı iade etmek aileyi gereksiz yere mağdur ederdi. Aile ödemeyi iade etmedi; büro başvuruyu kesin rakamla yaptı.",
+          "reply": [
+            { "who": "narr", "text": "Ödeme iade edilmedi. Başvuru 04.11.2026'da kesin rakamla 1.100.000 TL üzerinden yapıldı. Üç hakemli heyet oluşturuldu." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Başvuru Lodos Sigorta'ya tebliğ edildi. Cevap dilekçesinin ana hattını belirlemelisiniz." }
+      ],
+      "prompt": "Savunmanızı neye dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "Sürücümüz yalnız %70 kusurlu; şirket zararın da yalnız %70'inden sorumludur. Kalan %30 için aile kamyonun sigortacısına gitmeli.",
+          "delta": -15,
+          "set": ["p2_oran"],
+          "law": "KTK m.88",
+          "note": "Bir zarara birden çok motorlu araç sebep olmuşsa işletenler zarar görenlere karşı müteselsilen sorumludur (KTK m.88). Yolcu, zararın tamamını limit içinde Lodos'tan isteyebilir; kusur oranları ancak işletenler ve sigortacılar arasındaki rücu ilişkisinde önem taşır."
+        },
+        {
+          "text": "Zararın tamamından limit içinde sorumluyuz; ama hatır taşıması ve emniyet kemeri nedeniyle TBK m.51-52 uyarınca indirim yapılmalı.",
+          "delta": 20,
+          "set": ["p2_indirim"],
+          "law": "KTK m.88 · TBK m.51, m.52",
+          "note": "Doğru. Yolcuya karşı müteselsil sorumluluk tartışılamaz (KTK m.88); ödediğiniz tutarın %30'u için kamyonun sigortacısına rücu hakkınız saklı. Savunmayı Yargıtay'ın kabul ettiği indirim sebeplerine, hatır taşımasına ve desteğin müterafik kusuruna dayandırdınız."
+        },
+        {
+          "text": "Ücretsiz taşınan yolcu için işleten sorumlu değildir; hatır taşımasında KTK m.85 uygulanmaz, bu yüzden şirketin hiçbir sorumluluğu doğmaz ve ödenen tutar da iadeye tabidir.",
+          "delta": -15,
+          "set": ["p2_hatirRet"],
+          "law": "KTK m.85 · TBK m.51",
+          "note": "Hatır taşıması işletenin sorumluluğunu ortadan kaldırmaz; yalnızca hakkaniyet indirimi sebebi olabilir (TBK m.51). Şirket zaten ödeme yapmışken sorumluluğu tümden reddetmek savunmanızı inandırıcılıktan çıkardı."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "MÜVEKKİL GÖRÜŞMESİ · Şirketin cevabı geldi. Elif Kılıç'la görüşüyorsunuz; iki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Otopsi ya da adli tıp raporunda emniyet kemeri hakkında ne yazıyor?",
+          "delta": 15,
+          "set": ["p1_otopsi"],
+          "reply": [
+            { "who": "elif", "text": "Adli Tıp raporu bende. Kamyon tam Murat'ın oturduğu kapıya çarpmış; doktor, kemer takılı olsa da kurtulmasının çok zor olduğunu yazmış." }
+          ],
+          "note": "Kilit soru. Rapor, ölümün yan darbedeki ezilmeden kaynaklandığını ve kemerin sonucu büyük olasılıkla değiştirmeyeceğini söylüyor. Çantanıza eklendi."
+        },
+        {
+          "text": "Murat'ın geliri belgeli miydi?",
+          "delta": 10,
+          "set": ["p1_bordro"],
+          "reply": [
+            { "who": "elif", "text": "Bordrolu çalışıyordu; net 58.000 lira, yılda iki de ikramiye. Bordroların hepsi bende." }
+          ],
+          "note": "Yararlı. Destek zararının hesabında gelirin belgeyle gösterilmesi gerekir. Bordrolar çantanıza eklendi."
+        },
+        {
+          "text": "Murat, Okan'a yol parası veriyor muydu?",
+          "delta": -5,
+          "reply": [
+            { "who": "elif", "text": "Hayır. Aynı şantiyedeydiler; Okan hiç para almazdı." }
+          ],
+          "note": "Bu cevap hatır taşımasını doğruladı; şirketin indirim savunmasına yarar."
+        },
+        {
+          "text": "Çocuklar ne okuyor, eğitim durumları nasıl?",
+          "delta": 5,
+          "reply": [
+            { "who": "elif", "text": "Ece ortaokulda, çok çalışkan; üniversiteyi istiyor. Can ilkokulda." }
+          ],
+          "note": "Çocukların destek süresinde eğitim durumları gözetilir; küçük ama yerinde bir ayrıntı."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "SÖZLÜ AÇIKLAMA · Heyet, aktüerya bilirkişisine gitmeden önce tarafları dinlemeye karar verdi." },
+        { "who": "judge", "text": "Şirket vekili, tazminatın hesap yöntemine ilişkin beyanınız?" }
+      ],
+      "prompt": "Hesap yöntemi hakkında ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Hesap Genel Şartlar Ek-3'e göre yapılmalı: TRH 2010 tablosu ve %1,8 teknik faiz. Şirketin ödemesi bu yöntemle doğrudur.",
+          "delta": -15,
+          "set": ["p2_ek3"],
+          "law": "KTK m.90 · ZMMS Genel Şartları A.5",
+          "note": "Ek-3'ün dayanağı olan KTK m.90 hükümleri Anayasa Mahkemesince iptal edildi; Danıştay Ek-3'ü iptal etti ve 01.07.2026'dan beri Genel Şartlar destek zararını TBK'nın haksız fiil hükümlerine bırakıyor. %1,8 teknik faizin dayanağı kalmadı.",
+          "reply": [
+            { "who": "judge", "text": "Heyet, hesabın TBK hükümlerine göre yapılacağını belirtti." }
+          ]
+        },
+        {
+          "text": "Hesap TBK'ya göre yapılsın: aktüer TRH 2010 tablosu ve progresif rantla hesaplasın, hatır ve kemer indirimini ayrıca uygulasın.",
+          "delta": 15,
+          "set": ["p2_tbk"],
+          "law": "TBK m.53 · TBK m.51, m.52",
+          "note": "Doğru. Yargıtay, Anayasa Mahkemesi kararlarından sonra destek zararını TBK m.53 ve gerçek zarar ilkesine göre, TRH 2010 yaşam tablosu ve progresif rant yöntemiyle hesaplatıyor. İndirim savunmalarınızı bu hesabın üstüne kurdunuz.",
+          "reply": [
+            { "who": "judge", "text": "Aktüerya bilirkişisine bu çerçevede görev verilecek." }
+          ]
+        },
+        {
+          "text": "Desteğin gelirinin en fazla %20'si ailesine kalırdı; geri kalanı kendi harcamasıdır, destek payları da buna göre ve çok düşük belirlenmeli.",
+          "delta": -5,
+          "law": "TBK m.53",
+          "note": "Yargıtay uygulamasında gelir, desteğe iki, eşe iki, her çocuğa bir pay verilerek paylaştırılır; çocuklar destek süresi bitince paylarını bırakır. Ailenin payını %20'ye indirmenin dayanağı yok.",
+          "reply": [
+            { "who": "judge", "text": "Destek payları Yargıtay uygulamasına göre belirlenecek." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuranlar vekili, emniyet kemeri indirimine karşı beyanınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Heyet, müteveffa emniyet kemeri takmamıştı. Ölüm bu ihmalin doğrudan sonucudur; tazminattan en az %25 müterafik kusur indirimi yapılmalıdır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_atk"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_kemer"],
+        "law": "TBK m.52",
+        "note": "Adli Tıp raporu, ölümün kamyonun çarptığı sağ arka kapıdaki ezilmeden kaynaklandığını ve kemer takılı olsaydı da sonucun büyük olasılıkla değişmeyeceğini söylüyor. Kemer takmamak, ancak zararın doğmasında ya da artmasında etkili olmuşsa indirim sebebidir (TBK m.52); burada bu etki yok.",
+        "reply": [
+          { "who": "judge", "text": "Rapor dosyaya alındı; aktüere kemer indirimi uygulanmadan da hesap yaptırılacak." }
+        ]
+      },
+      "responses": {
+        "ev_tutanak": {
+          "delta": -10,
+          "note": "Tutanak kemerin takılı olmadığını yazıyor; şirketin beyanını güçlendirdiniz."
+        },
+        "law_tbk52": {
+          "delta": -5,
+          "note": "Doğru madde: indirim için kemerin zararın doğmasında ya da artmasında etkili olması gerekir. Ama bu etkinin olmadığını gösteren tıbbi belgeyi sunmalıydınız."
+        },
+        "ev_kusur": {
+          "delta": -5,
+          "note": "Kusur raporu sürücüler arasındaki kusuru gösteriyor; yolcunun kemer durumunu ve bunun ölüme etkisini değil."
+        },
+        "law_ktk88": {
+          "delta": -5,
+          "note": "Müteselsil sorumluluk ayrı bir tartışma; kemer indirimine cevap vermiyor."
+        }
+      },
+      "miss": { "delta": -5, "note": "Bu belge kemerin ölüme etkisi hakkında bir şey söylemiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; %25 kemer indirimi tartışmasız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Şirket vekili, indirim sebeplerine ilişkin esas savunmanızı alalım." }
+      ],
+      "prompt": "Hatır taşıması ve emniyet kemeri nedeniyle tazminattan neden indirim yapılması gerektiğini açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p2_hatir"],
+          "law": "TBK m.51, m.52",
+          "note": "İki indirim sebebini ayrı ayrı ve dayanaklarıyla kurdunuz: karşılıksız taşımada TBK m.51'e göre hakkaniyet indirimi; kemer takmamada TBK m.52'ye göre, zarara etkisi oranında müterafik kusur indirimi."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_hatir"],
+          "law": "TBK m.51, m.52",
+          "note": "İndirim sebeplerini saydınız. Tam savunma, hatır taşımasını TBK m.51'deki hakkaniyet indirimine, kemeri TBK m.52'ye bağlar ve kemer indiriminin ancak kemerin zarara etkisi varsa yapılabileceğini, bunun tıbbi bilirkişiyle belirlenmesi gerektiğini söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "TBK m.51, m.52",
+          "note": "İki ayrı indirim sebebi vardı: karşılıksız taşımada hakkaniyet indirimi (TBK m.51) ve kemer takmamada, zarara etkisi oranında müterafik kusur indirimi (TBK m.52). Bunları dayanaklarıyla kurmadınız."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Murat, Okan'ın aracında karşılıksız ve iş arkadaşlığı ilişkisiyle taşınıyordu; bu hatır taşımasıdır. Yargıtay hatır taşımasında işletenin sorumluluğundan TBK m.51 uyarınca hakkaniyet indirimi yapar; sigortacı da bu indirimden yararlanır. (2) Emniyet kemeri takmamak desteğin müterafik kusurudur; zararın doğmasına ya da artmasına etkisi varsa TBK m.52 uyarınca indirim yapılır ve desteğin kusuru destekten yoksun kalanlara karşı da ileri sürülebilir. (3) Kemerin ölüme etkisi ve indirimin oranı tıbbi bilirkişiyle belirlenmelidir. Hatır indirimini ve kemerin zarara etkisini dayanaklarıyla birlikte söylemek tam puan için gerekir; sorumluluğu tümden reddeden ya da kusur oranıyla sınırlayan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["hatır", "hatır taşıması", "karşılıksız", "ücretsiz"], "weight": 3 },
+        { "terms": ["m.51", "m. 51", "madde 51", "hakkaniyet"], "weight": 2 },
+        { "terms": ["kemer", "emniyet kemeri"], "weight": 2 },
+        { "terms": ["müterafik", "m.52", "m. 52", "birlikte kusur", "ortak kusur"], "weight": 2 },
+        { "terms": ["etkisi", "artmasına", "illiyet", "bilirkişi"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, Murat, Okan'ın aracında karşılıksız ve iş arkadaşlığı ilişkisiyle taşınıyordu; bu bir hatır taşımasıdır ve Yargıtay bu durumda TBK m.51 uyarınca hakkaniyet indirimi uygular. Ayrıca emniyet kemeri takmamak desteğin müterafik kusurudur; zararın doğmasına ya da artmasına etkisi oranında TBK m.52'ye göre indirim yapılmalıdır. Bu etkinin adli tıp bilirkişisiyle belirlenmesini istiyoruz."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuranlar vekili, tazminatın hesabına ilişkin esas beyanınız?" }
+      ],
+      "prompt": "Anayasa Mahkemesi kararlarından sonra destek zararının nasıl hesaplanacağını ve şirketin neden zararın tamamından sorumlu olduğunu açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p1_hesap"],
+          "law": "TBK m.53 · KTK m.88, m.90",
+          "note": "Hesabın hukuki zeminini eksiksiz kurdunuz: iptal kararları, TBK m.53'e göre gerçek zarar hesabı, TRH 2010 ve progresif rant, KTK m.88'deki müteselsil sorumluluk ve ödenen tutarın mahsubu."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "law": "TBK m.53 · KTK m.88, m.90",
+          "note": "Ana hatlar doğru. Tam savunma; Anayasa Mahkemesi ve Danıştay iptallerini, TBK m.53'e göre TRH 2010 ve progresif rantla hesabı ve yolcuya karşı müteselsil sorumluluğu (KTK m.88) birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "TBK m.53 · KTK m.88, m.90",
+          "note": "Hesabın dayanağını kurmadınız: Genel Şartlar'daki hesap yöntemi iptal edildi ve kaldırıldı; zarar TBK m.53'e göre, TRH 2010 ve progresif rantla hesaplanır. Şirket de yolcuya karşı zararın tamamından müteselsilen sorumludur (KTK m.88)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Anayasa Mahkemesi 17.07.2020 tarihli, E.2019/40, K.2020/40 sayılı kararıyla KTK m.90'daki Genel Şartlar atıflarını ve m.92/i'yi; 29.12.2022 tarihli, E.2021/82, K.2022/167 sayılı kararıyla 7327 s.K. ile eklenen hükmü iptal etti. Danıştay Ek-3'ü iptal etti; 01.07.2026'dan beri Genel Şartlar destek zararını TBK'nın haksız fiil hükümlerine bırakıyor. (2) Hesap TBK m.53 ve gerçek zarar ilkesine göre, TRH 2010 tablosu ve progresif rant yöntemiyle yapılır; %1,8 teknik faiz uygulanmaz. Gelir bordroyla belirlenir; eşe ve çocuklara pay ayrılır. (3) Yolcu, kazaya karışan araçların işletenlerine ve sigortacılarına karşı müteselsilen alacaklıdır (KTK m.88); sigortacı kendi sürücüsünün %70 kusuruyla sınırlı ödeme yapamaz, zararın tamamından limit içinde sorumludur. (4) Ödenen 1.300.000 TL mahsup edilir. İptal kararlarını, TBK'ya göre hesap yöntemini ve müteselsil sorumluluğu birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["Anayasa Mahkemesi", "AYM", "iptal"], "weight": 2 },
+        { "terms": ["TBK", "haksız fiil", "gerçek zarar", "m.53"], "weight": 2 },
+        { "terms": ["progresif rant", "TRH 2010", "teknik faiz", "1,8", "1.8"], "weight": 2 },
+        { "terms": ["müteselsil", "m.88", "birlikte sorumlu", "tamamından"], "weight": 3 },
+        { "terms": ["Ek-3", "genel şart"], "weight": 1 },
+        { "terms": ["mahsup", "1.300.000", "ödenen"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, Anayasa Mahkemesi KTK m.90'daki Genel Şartlar atıflarını 2020'de, 7327 sayılı Kanunla eklenen hükmü de 2022'de iptal etti; Danıştay Ek-3'ü iptal etti ve 01.07.2026'dan beri Genel Şartlar destek zararını TBK'ya bırakıyor. Zarar TBK m.53'e göre, TRH 2010 tablosu ve progresif rantla, %1,8 teknik faiz uygulanmadan hesaplanmalıdır. Yolcu, iki aracın işletenine ve sigortacısına karşı müteselsilen alacaklı olduğundan şirket zararın tamamından limit içinde sorumludur (KTK m.88); ödenen 1.300.000 TL bu hesaptan düşülmelidir."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "if": "p1_kemer", "text": "BİLİRKİŞİ RAPORU · Aktüer, TBK'ya göre TRH 2010 ve progresif rantla toplam destek zararını 2.500.000 TL buldu. Hatır taşıması için %20 indirimle 2.000.000 TL; Adli Tıp raporu nedeniyle kemer indirimi uygulanmadı. Ödenen 1.300.000 TL düşülünce bakiye 700.000 TL." },
+        { "who": "narr", "if": "!p1_kemer", "text": "BİLİRKİŞİ RAPORU · Aktüer, TBK'ya göre TRH 2010 ve progresif rantla toplam destek zararını 2.500.000 TL buldu. Hatır taşıması için %20, emniyet kemeri için %25 indirimle 1.500.000 TL. Ödenen 1.300.000 TL düşülünce bakiye 200.000 TL." },
+        { "who": "judge", "text": "Rapor taraflara tebliğ edildi. Heyet, rapora karşı beyan için taraflara üç günlük kesin süre veriyor." }
+      ],
+      "prompt": "Verilen süre karşısında ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Üç günlük kesin süreye karşı çık: rapora itiraz için HMK m.281'deki iki haftalık süre kısaltılamaz; süre içinde ayrıntılı itiraz sun.",
+          "delta": 15,
+          "set": ["p2_sure"],
+          "law": "HMK m.281 · 5684 s.K. m.30/23",
+          "note": "Doğru. Bilirkişi raporuna itiraz için tebliğden itibaren iki haftalık süre kanundan doğar (HMK m.281); sigorta tahkiminde HMK kıyasen uygulanır. Yargıtay, bu süre yerine kısa bir kesin süre verilmesini usule aykırı buluyor.",
+          "reply": [
+            { "who": "judge", "text": "Haklısınız. Taraflara HMK m.281 uyarınca iki haftalık süre verildi." }
+          ]
+        },
+        {
+          "text": "Üç gün içinde kısa bir dilekçe ver; ayrıntılı itirazları heyetin kararına karşı itiraz hakem heyetine yapılacak başvuruya sakla.",
+          "delta": -5,
+          "law": "HMK m.281",
+          "note": "Raporu ilk incelemede çürütme fırsatını harcadınız; kısa kesin sürenin HMK m.281'e aykırı olduğunu da söylemediniz. Rapora karşı süresinde ileri sürülmeyen itirazlar sonraki aşamada zayıf kalır.",
+          "reply": [
+            { "who": "judge", "text": "Kısa beyan dilekçesi dosyaya alındı." }
+          ]
+        },
+        {
+          "text": "Süreye hiç uyma; rapor usulsüz bir süreyle tebliğ edildiği için, karar tutarı ne olursa olsun Yargıtay'a temyiz yolu her hâlükârda açılır.",
+          "delta": -10,
+          "law": "5684 s.K. m.30/12",
+          "note": "Temyiz yolunun her hâlükârda açık olduğu hâller sayılıdır: tahkim süresinin dolmasından sonra karar verilmesi, talep edilmeyen bir konuda ya da yetki dışında karar verilmesi, iddiaların karara bağlanmaması (5684 s.K. m.30/12). Kısa süre verilmesi bunlardan biri değil.",
+          "reply": [
+            { "who": "judge", "text": "Süresinde beyan verilmediği tutanağa geçirildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "p1_belirsiz && p1_kemer",
+      "lines": [
+        { "who": "judge", "text": "Başvuranlar vekili, bilirkişi raporu karşısında talebiniz?" }
+      ],
+      "prompt": "Rapordaki 700.000 TL'lik bakiye karşısında ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Karardan önce bedel artırım dilekçesi ver: talebi 700.000 TL'ye yükselt ve aradaki başvuru ücreti farkını yatır.",
+          "delta": 15,
+          "set": ["p1_artir"],
+          "law": "HMK m.107/2 · HMK m.26",
+          "note": "Belirsiz alacak olarak başvurduğunuz için alacak belli olunca talebinizi artırabilirsiniz (HMK m.107/2). Artırım karardan önce yapılmalı; hakem talepten fazlasına hükmedemez (HMK m.26).",
+          "reply": [
+            { "who": "judge", "text": "Bedel artırım dilekçesi ve ücret farkı dosyaya alındı. Dosya karara kaldı." }
+          ]
+        },
+        {
+          "text": "Bir şey yapmaya gerek yok; heyet rapordaki 700.000 TL'ye kendiliğinden hükmeder, belirsiz alacakta başvurudaki rakam bağlayıcı değildir.",
+          "delta": -10,
+          "law": "HMK m.26, m.107",
+          "note": "Belirsiz alacakta da hakem, talep artırılmadıkça başvurudaki 300.000 TL ile bağlıdır (HMK m.26). Raporun 400.000 TL'lik kısmını masada bıraktınız.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi. Dosya karara kaldı." }
+          ]
+        },
+        {
+          "text": "Artırımı karara karşı itiraz aşamasında yap; itiraz hakem heyeti dosyayı yeniden incelediği için yeni talebi de değerlendirir.",
+          "delta": -10,
+          "law": "HMK m.107 · 5684 s.K. m.30/12",
+          "note": "İtiraz hakem heyeti, uyuşmazlık hakem heyetinin kararını denetler; talep artırımı ilk incelemede, karardan önce yapılmalıydı. 400.000 TL'lik kısım hükme girmedi.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi. Dosya karara kaldı." }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_kemer && p1_belirsiz && p1_artir",
+      "winner": "p1",
+      "hukum": "Başvurunun KABULÜ ile 700.000 TL bakiye destekten yoksun kalma tazminatının temerrüt tarihinden itibaren işleyecek yasal faiziyle birlikte sigorta şirketinden alınarak başvuranlara bilirkişi raporundaki payları oranında ödenmesine,",
+      "summary": [
+        { "text": "Destek zararı TBK'ya göre, TRH 2010 ve progresif rantla 2.500.000 TL hesaplandı; hatır taşıması nedeniyle %20 hakkaniyet indirimi yapıldı (TBK m.51). Adli Tıp raporu kemerin ölüme etkisi olmadığını gösterdiğinden müterafik kusur indirimi uygulanmadı. Başvuranlar vekili belirsiz alacak olarak başvurup talebi rapora göre artırdı." },
+        { "if": "p2_oran", "text": " Şirket vekilinin %70 kusur oranıyla sınırlı sorumluluk savunması, yolcuya karşı müteselsil sorumluluk nedeniyle reddedildi (KTK m.88)." },
+        { "if": "p2_ek3", "text": " Şirketin dayandığı Ek-3 yöntemi iptal edilmiş ve Genel Şartlar'dan kaldırılmıştı." },
+        { "if": "p2_hatirRet", "text": " Şirket vekili hatır taşımasında işletenin hiç sorumlu olmadığını savundu; bu görüş kabul görmedi." }
+      ]
+    },
+    {
+      "if": "p1_kemer && p1_belirsiz",
+      "winner": "p1",
+      "hukum": "Başvurunun KABULÜ ile 300.000 TL bakiye destekten yoksun kalma tazminatının temerrüt tarihinden itibaren işleyecek yasal faiziyle birlikte sigorta şirketinden alınarak başvuranlara bilirkişi raporundaki payları oranında ödenmesine,",
+      "summary": [
+        { "text": "Adli Tıp raporu kemer indirimini düşürdü; hatır taşıması için %20 indirimle bakiye 700.000 TL hesaplandı. Ama başvuranlar vekili talebi artırmadığı için heyet başvurudaki 300.000 TL ile bağlı kaldı (HMK m.26); 400.000 TL hükme girmedi." },
+        { "if": "p2_oran", "text": " Şirketin kusur oranıyla sınırlı sorumluluk savunması KTK m.88 karşısında reddedildi." },
+        { "if": "p2_ek3", "text": " Şirketin dayandığı Ek-3 yöntemi Genel Şartlar'dan kaldırılmıştı." }
+      ]
+    },
+    {
+      "if": "p1_kemer",
+      "winner": "p1",
+      "hukum": "Başvurunun KISMEN KABULÜ ile 700.000 TL bakiye destekten yoksun kalma tazminatının temerrüt tarihinden itibaren işleyecek yasal faiziyle birlikte sigorta şirketinden alınarak başvuranlara bilirkişi raporundaki payları oranında ödenmesine, fazlaya ilişkin 400.000 TL'lik talebin REDDİNE,",
+      "summary": [
+        { "text": "Adli Tıp raporu kemer indirimini düşürdü; hatır taşıması için %20 indirimle bakiye 700.000 TL hesaplandı. Başvuranlar vekili kesin rakamla 1.100.000 TL istediği için 400.000 TL reddedildi ve bu kısım için şirket lehine vekâlet ücretine hükmedildi." },
+        { "if": "p2_oran", "text": " Şirketin kusur oranıyla sınırlı sorumluluk savunması KTK m.88 karşısında reddedildi." },
+        { "if": "p2_ek3", "text": " Şirketin dayandığı Ek-3 yöntemi Genel Şartlar'dan kaldırılmıştı." }
+      ]
+    },
+    {
+      "if": "p1_belirsiz",
+      "winner": "p2",
+      "hukum": "Başvurunun KISMEN KABULÜ ile 200.000 TL bakiye destekten yoksun kalma tazminatının temerrüt tarihinden itibaren işleyecek yasal faiziyle birlikte sigorta şirketinden alınarak başvuranlara bilirkişi raporundaki payları oranında ödenmesine, fazlaya ilişkin 100.000 TL'lik talebin REDDİNE,",
+      "summary": [
+        { "text": "Kemer takmamanın ölüme etkisi çürütülemedi; hatır taşıması için %20 ve müterafik kusur için %25 indirim yapıldı (TBK m.51, m.52). Şirketin ödemesi gerçek zarara çok yaklaştığından bakiye 200.000 TL'de kaldı." },
+        { "if": "p1_hesap", "text": " Başvuranlar vekili hesap yöntemini ve müteselsil sorumluluğu doğru savundu; ama indirimin önünü kesemedi." },
+        { "if": "p2_oran", "text": " Şirketin kusur oranıyla sınırlı sorumluluk savunması ise KTK m.88 karşısında reddedildi." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Başvurunun KISMEN KABULÜ ile 200.000 TL bakiye destekten yoksun kalma tazminatının temerrüt tarihinden itibaren işleyecek yasal faiziyle birlikte sigorta şirketinden alınarak başvuranlara bilirkişi raporundaki payları oranında ödenmesine, fazlaya ilişkin 900.000 TL'lik talebin REDDİNE,",
+      "summary": [
+        { "text": "Kemer takmamanın ölüme etkisi çürütülemedi; hatır taşıması için %20 ve müterafik kusur için %25 indirim yapıldı (TBK m.51, m.52). Bakiye 200.000 TL'de kaldı; kesin rakamla istenen 1.100.000 TL'nin 900.000 TL'si reddedildi ve bu kısım için şirket lehine vekâlet ücretine hükmedildi." },
+        { "if": "p1_hesap", "text": " Başvuranlar vekili hesap yöntemini ve müteselsil sorumluluğu doğru savundu; ama indirimin önünü kesemedi." },
+        { "if": "p2_oran", "text": " Şirketin kusur oranıyla sınırlı sorumluluk savunması ise KTK m.88 karşısında reddedildi." }
+      ]
+    }
+  ]
+}

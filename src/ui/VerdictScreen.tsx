@@ -5,6 +5,7 @@ import { CaseFile } from "../engine/types";
 import { AiVerdict } from "../engine/judge";
 import { Btn, Chip } from "./kit";
 import { saveResult } from "./storage";
+import { stateCourt } from "./PhotoStage";
 import { C, F, sideColor, sideInk, toneColor } from "./theme";
 import { locale, t } from "../i18n";
 
@@ -39,7 +40,7 @@ export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, not
       stamp: winner === "draw" ? t("SULH") : t("{taraf} KAZANDI", { taraf: c.sides[winner].short.toLocaleUpperCase(locale()) }) };
   }, [c, game, ai]);
   const duel = c.mode === "duel";
-  const arb = c.room === "tahkim";
+  const arb = c.room === "tahkim" && !stateCourt(c);
   const P = game.players;
   const stampColor = v.winner === "draw" ? C.draw : duel || v.winner === "p1" ? C.win : C.lose;
 
@@ -53,9 +54,10 @@ export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, not
   return (
     <ScrollView contentContainerStyle={styles.wrap}>
       <View style={styles.karar}>
-        <Text style={styles.head}>T.C.</Text>
+        {/* Tahkim kararlarında "T.C." başlığı yok; Türkiye'deki kurul ve komisyonlarda vardır. */}
+        {(!arb || c.forum === "tff" || c.forum === "ihtk" || c.forum === "sigorta") && <Text style={styles.head}>T.C.</Text>}
         <Text style={styles.courtName}>{c.court.toLocaleUpperCase(locale())}</Text>
-        <Text style={styles.sub}>{t("KISA KARAR")}</Text>
+        <Text style={styles.sub}>{arb ? t(c.forum === "ihtk" ? "KOMİSYON KARARI" : c.forum === "tff" ? "TAHKİM KURULU KARARI" : "HAKEM KARARI") : t("KISA KARAR")}</Text>
 
         <View style={styles.meta}>
           <Meta k={t("Esas No")} v={c.esas} />
@@ -63,7 +65,7 @@ export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, not
           {duel ? (<><Meta k={c.sides.p1.role} v={P.p1.name} /><Meta k={c.sides.p2.role} v={P.p2.name} /></>) : <Meta k={t("Rolünüz")} v={c.sides.p1.role} />}
         </View>
 
-        <Text style={styles.hukum}><Text style={styles.label}>{v.label} </Text>{v.hukum}{v.noCourt ? "" : t(TAIL)}</Text>
+        <Text style={styles.hukum}><Text style={styles.label}>{v.label} </Text>{v.hukum}{v.noCourt || arb ? "" : t(TAIL)}</Text>
         <View style={[styles.stamp, { borderColor: stampColor }]}><Text style={[styles.stampText, { color: stampColor }]}>{v.stamp}</Text></View>
         {duel && <Text style={styles.galip}>{v.winner === "draw" ? t("Taraflar uzlaştı.") : t("Davayı kazanan: {ad} · {rol}", { ad: P[v.winner].name, rol: c.sides[v.winner].role })}</Text>}
         {ai && <Text style={styles.label}>{ai.by === "ai" ? (arb ? t("YAPAY ZEKÂ HAKEMİN GEREKÇESİ") : t("YAPAY ZEKÂ HÂKİMİN GEREKÇESİ")) : t("GEREKÇE")}</Text>}

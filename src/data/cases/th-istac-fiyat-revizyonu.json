@@ -1,0 +1,789 @@
+{
+  "id": "th-istac-fiyat-revizyonu",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "istac",
+  "difficulty": "basit",
+  "title": "Petrole Bağlı Gaz",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Enerji tedarik sözleşmesinde fiyat revizyonu",
+  "court": "İstanbul Tahkim Merkezi (İSTAC) · Dava No. 2026/118 (Tahkim yeri: İstanbul)",
+  "courtShort": "İSTAC",
+  "esas": "İSTAC Dava No. 2026/118",
+  "kararTarihi": "26.05.2027",
+  "color": "#5c3b24",
+  "teaser": "Santral, gazı petrol fiyatına bağlı formülle alıyor; elektrik ise rüzgâr ve güneş yüzünden ucuzladı. Sözleşmedeki fiyat revizyonu kapısı üç yılda bir, yalnız üç ay açık.",
+  "bench": {
+    "judges": 3,
+    "title": "Başhakem ve iki hakem"
+  },
+  "inscription": null,
+  "sides": {
+    "p1": {
+      "role": "Davacı (Alıcı) vekili",
+      "short": "Alıcı"
+    },
+    "p2": {
+      "role": "Davalı (Tedarikçi) vekili",
+      "short": "Tedarikçi"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Başhakem",
+      "np": "red",
+      "look": {
+        "kind": "civil",
+        "skin": "#dcae88",
+        "hair": "#2a2522",
+        "style": "bun",
+        "shirt": "#2b2f36",
+        "inner": "#e8e4dc"
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "civil",
+        "skin": "#cc9772",
+        "hair": "#1a1512",
+        "style": "short",
+        "beard": true,
+        "shirt": "#222a36",
+        "inner": "#e8e4dc"
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "civil",
+        "skin": "#f1d3b8",
+        "hair": "#a07b4f",
+        "style": "long",
+        "glasses": true,
+        "shirt": "#2e2e35",
+        "inner": "#ede9e1"
+      }
+    },
+    "ticari": {
+      "name": "Nadia Rahimova · Tedarikçinin ticari direktörü",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#e4bd99",
+        "hair": "#2c2220",
+        "style": "bun",
+        "shirt": "#3e4654",
+        "inner": "#ebe7df"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Aliağa'daki doğal gaz santralini işleten Ege Elektrik Üretim A.Ş., 2020'den beri gazını Cenevre merkezli Caspian Gas Trading S.A.'dan 15 yıllık bir sözleşmeyle alıyor. Fiyat, dokuz ay gecikmeli Brent petrol ortalamasına bağlı."
+    },
+    {
+      "who": "narr",
+      "text": "2025'ten bu yana yenilenebilir enerji payı arttı; Türkiye elektrik piyasasında ortalama piyasa takas fiyatı (PTF) bir yılda yaklaşık %35 düştü. Petrole bağlı gaz fiyatı ise neredeyse yerinde saydı. Santral her megavatsaatte zarar ediyor."
+    },
+    {
+      "who": "narr",
+      "text": "Sözleşmede üç yılda bir fiyat revizyonu imkânı var; 2026 bir revizyon yılı. Tahkim yeri İstanbul, İSTAC Kuralları, Türk hukuku. Bugün 10.02.2026. Alıcı vekili ilk hamleyi yapacak."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Sözleşme m.11 · Fiyat revizyonu",
+      "d": "11.1: Taraflardan her biri, revizyon yılının 1 Ocak–31 Mart tarihleri arasında yazılı bildirimle fiyat revizyonu isteyebilir. 11.2: Bildirim, alıcının nihai satış pazarında tarafların kontrolü dışında önemli bir ekonomik değişiklik olduğunu ve sözleşme fiyatının artık bu pazardaki gaz değerini yansıtmadığını gerekçeleriyle gösterir ve yeni fiyat önerisini içerir. 11.3: Taraflar 90 gün iyi niyetle müzakere eder. 11.4: Anlaşılamazsa taraflardan biri uyuşmazlığı m.25'e göre tahkime götürebilir; hakem kurulu yeni fiyatı belirler. 11.5: Yeni fiyat, bildirim tarihinden itibaren uygulanır."
+    },
+    {
+      "t": "Sözleşme m.25 · Tahkim",
+      "d": "Bu sözleşmeden doğan veya bununla bağlantılı uyuşmazlıklar İSTAC Tahkim Kurallarına göre üç hakemle çözülür. Tahkim yeri İstanbul, dili İngilizce. Sözleşmeye Türk hukuku uygulanır."
+    },
+    {
+      "t": "PTF verileri (2024–2026)",
+      "d": "Yıllık ortalama PTF 2024'ten 2025'e yaklaşık %35 düştü; yenilenebilir kaynakların üretimdeki payı belirgin biçimde arttı."
+    },
+    {
+      "t": "Fiyat karşılaştırması",
+      "d": "Ocak 2026: sözleşme fiyatı (Brent'e bağlı) Avrupa gaz merkezlerindeki fiyatın yaklaşık %30 üzerinde."
+    },
+    {
+      "t": "Ödeme kayıtları",
+      "d": "Alıcı, 2025 boyunca bütün faturaları çekince koymadan ödedi."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_ptf",
+      "type": "belge",
+      "title": "PTF verileri (2024–2026)",
+      "desc": "Yıllık ortalama PTF'de yaklaşık %35 düşüş; yenilenebilir payında artış."
+    },
+    {
+      "id": "ev_fiyat",
+      "type": "belge",
+      "title": "Fiyat karşılaştırması",
+      "desc": "Sözleşme fiyatı Avrupa gaz merkezlerindeki fiyatın yaklaşık %30 üzerinde."
+    },
+    {
+      "id": "ev_odeme",
+      "type": "belge",
+      "title": "Ödeme kayıtları",
+      "desc": "Alıcı 2025 faturalarını çekincesiz ödedi."
+    },
+    {
+      "id": "ev_satis",
+      "type": "belge",
+      "title": "Alıcının gaz yeniden satış faturaları",
+      "desc": "Alıcı, 2025'te santralde kullanmadığı gazın %20'sini sanayi tüketicilerine sözleşme fiyatının üzerinde bir fiyatla yeniden satmış.",
+      "if": "p2_satis"
+    },
+    {
+      "id": "law_tbk138",
+      "type": "kanun",
+      "title": "TBK m.138 · Aşırı ifa güçlüğü",
+      "desc": "Öngörülemeyen olağanüstü bir durumla edimler arasındaki denge borçlu aleyhine aşırı bozulursa, borçlu uyarlama, bu mümkün değilse dönme ya da fesih isteyebilir.",
+      "law": "TBK m.138"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Revizyon penceresi 31.03.2026'da kapanıyor. Yönetim ‘ya bu fiyattan kurtulacağız ya sözleşmeyi bırakacağız’ diyor."
+        }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Mart sonundan önce m.11.2'ye uygun yazılı bildirim gönder: pazardaki değişikliği, gerekçeleri ve yeni fiyat önerisini yaz.",
+          "delta": 20,
+          "set": [
+            "p1_bildirim"
+          ],
+          "law": "Sözleşme m.11.1–11.2",
+          "note": "Revizyon hakkı, sözleşmedeki süre ve içerik şartlarına bağlı. Bildirim 16.02.2026'da, pencere içinde ve gerekçeli olarak gitti; öneri: fiyatın yarısı Brent'e, yarısı Avrupa gaz merkezi fiyatına bağlansın.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Bildirim 16.02.2026'da tebliğ edildi. 90 günlük müzakere süresi başladı."
+            }
+          ]
+        },
+        {
+          "text": "Hemen İSTAC'a tahkim talebi ver; müzakere zaten sonuç vermez, hakem kurulu yeni fiyatı belirlesin.",
+          "delta": -10,
+          "set": [
+            "p1_erken",
+            "p1_bildirim"
+          ],
+          "law": "Sözleşme m.11.3–11.4",
+          "note": "Sözleşme, tahkimden önce 90 günlük iyi niyetli müzakere öngörüyor. Bu bir yetki değil, dinlenebilirlik sorunudur: hakem kurulu yargılamayı müzakere süresi dolana kadar durdurdu. Talep 16.02.2026'da, pencere içinde tebliğ edildiği için revizyon hakkı korundu, ama vakit ve masraf kaybettiniz.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Hakem kurulu, 90 günlük müzakere süresi dolana kadar yargılamayı durdurdu. Müzakere sonuçsuz kaldı; yargılama Haziran 2026'da yeniden başladı."
+            }
+          ]
+        },
+        {
+          "text": "Bildirim gönderme; nisandan itibaren faturaların yalnız Avrupa gaz merkezi fiyatına göre hesaplanan kısmını öde.",
+          "delta": -15,
+          "set": [
+            "p1_tek",
+            "p1_bildirim"
+          ],
+          "law": "TBK m.112 · Sözleşme m.11",
+          "note": "Sözleşme fiyatı ancak sözleşmedeki usulle değişir; tek taraflı eksik ödeme temerrüt ve sözleşmeye aykırılıktır (TBK m.112). Yönetim son anda ikna oldu ve 30.03.2026'da revizyon bildirimi de gönderildi; ama eksik ödemeler tedarikçiye karşı talep hakkı verdi.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Tedarikçi eksik ödemeler için ihtar çekti. Revizyon bildirimi 30.03.2026'da, pencerenin son günlerinde gönderildi."
+            }
+          ]
+        },
+        {
+          "text": "Bu yıl bekle; PTF'deki düşüşün kalıcı olduğu bir yıl daha verilerle görülsün, revizyonu güçlü bir dosyayla iste.",
+          "delta": -20,
+          "set": [
+            "p1_bekle"
+          ],
+          "law": "Sözleşme m.11.1",
+          "note": "Revizyon yalnız revizyon yılında, 1 Ocak–31 Mart arasında istenebilir. Pencere kapandı; bir sonraki revizyon yılı 2029.",
+          "fatal": {
+            "label": "SÜRE KAÇTI:",
+            "hukum": "Fiyat revizyonu için sözleşme m.11.1'deki süre içinde bildirimde bulunulmadığından, 2026 revizyon dönemi için revizyon hakkının DÜŞTÜĞÜNE,",
+            "summary": "Alıcı vekili revizyon bildirimini sözleşmedeki üç aylık pencere içinde göndermedi. Sözleşmedeki süre, revizyon hakkının kullanılma şartıdır; alıcı üç yıl daha petrole bağlı fiyatla gaz almak zorunda."
+          }
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Alıcının revizyon bildirimi geldi. Tedarikçinin yönetimi ‘fiyat formülünü yıllar önce imzaladılar; risk onların’ diyor."
+        }
+      ],
+      "prompt": "Bildirime nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "90 gün iyi niyetle müzakereye katıl; revizyon şartlarının gerçekleşmediği görüşünü yazılı olarak sakla.",
+          "delta": 15,
+          "set": [
+            "p2_muzakere"
+          ],
+          "law": "Sözleşme m.11.3 · TBK m.2",
+          "note": "Sözleşme iyi niyetli müzakereyi bir yükümlülük olarak öngörüyor; katılmamak, hakem kurulunun gözünde aleyhinize olurdu. Hukuki görüşünüzü saklı tutarak masaya oturdunuz."
+        },
+        {
+          "text": "Müzakereyi reddet: revizyon maddesi yalnız fiyat artışı için yazılmıştır, alıcı fiyat indirimi isteyemez.",
+          "delta": -10,
+          "set": [
+            "p2_yalniz"
+          ],
+          "law": "Sözleşme m.11.1",
+          "note": "m.11.1 ‘taraflardan her biri’ diyor; revizyon iki yönlüdür. Sözleşmenin açık lafzına aykırı bir yorumla müzakere yükümlülüğünü de ihlal ettiniz."
+        },
+        {
+          "text": "Müzakereye girme; alıcıya karşı hemen İSTAC'ta revizyon şartlarının bulunmadığının tespitini iste.",
+          "delta": -5,
+          "set": [
+            "p2_tespit"
+          ],
+          "law": "Sözleşme m.11.3–11.4",
+          "note": "Sözleşme tahkimden önce 90 günlük müzakere istiyor; bu kural size de uygulanır. Hakem kurulu yargılamayı müzakere süresinin sonuna kadar durdurdu."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "if": "!p1_erken",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "90 günlük müzakere sonuç vermeden doldu."
+        }
+      ],
+      "prompt": "Şimdi hangi yolu izleyeceksiniz?",
+      "choices": [
+        {
+          "text": "İSTAC'a tahkim talebi ver; m.11.4 uyarınca hakem kurulundan yeni fiyatı belirlemesini iste, hakemini göster.",
+          "delta": 15,
+          "set": [
+            "p1_talep"
+          ],
+          "law": "Sözleşme m.11.4, m.25",
+          "note": "Sözleşme, anlaşılamazsa yeni fiyatın tahkimde belirleneceğini açıkça söylüyor; hakem kurulunun fiyatı belirleme yetkisi tarafların iradesine dayanıyor."
+        },
+        {
+          "text": "İzmir asliye ticaret mahkemesinde TBK m.138'e dayanarak sözleşmenin uyarlanması davası aç.",
+          "delta": -15,
+          "set": [
+            "p1_mahkeme"
+          ],
+          "law": "HMK m.413 · MTK m.5",
+          "note": "Uyuşmazlık tahkim şartının kapsamında; tedarikçi tahkim itirazında bulundu, dava usulden reddedildi. Tahkim talebini iki ay gecikmeyle verdiniz."
+        },
+        {
+          "text": "Enerji Piyasası Düzenleme Kurumuna başvur; ikili sözleşmedeki fiyatın piyasa koşullarına göre belirlenmesini iste.",
+          "delta": -10,
+          "set": [
+            "p1_epdk"
+          ],
+          "law": "Sözleşme m.11.4",
+          "note": "Taraflar arasındaki serbest ikili sözleşmenin fiyatı tarafların ve sözleşmedeki usulün konusu; düzenleyici kurum bu fiyatı belirlemez. Başvuru sonuçsuz kaldı, tahkim talebi gecikti."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Tahkim talebi geldi. Cevaptan önce tedarikçinin ticari direktörü Nadia Rahimova'yla görüşüyorsunuz. İki soru soracak vaktiniz var."
+        }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Alıcı, bizden aldığı gazın tamamını santralde mi kullanıyor?",
+          "delta": 15,
+          "set": [
+            "p2_satis"
+          ],
+          "reply": [
+            {
+              "who": "ticari",
+              "text": "Hayır. Teslim noktasındaki ölçümlere göre 2025'te gazın beşte birini sanayi müşterilerine satmış; hem de bizim fiyatımızın üzerinde. Faturaların kopyaları bir dağıtım şirketinden elimize geçti."
+            }
+          ],
+          "note": "Çok değerli bir bilgi. Revizyon ölçütü ‘alıcının nihai satış pazarı’; alıcının gazı kârla yeniden satabildiği bir pazar da bu pazarın parçası. Faturalar çantanıza eklendi."
+        },
+        {
+          "text": "Alıcı 2025 faturalarını çekince koyarak mı ödedi?",
+          "delta": 5,
+          "set": [
+            "p2_cekince"
+          ],
+          "reply": [
+            {
+              "who": "ticari",
+              "text": "Hiç çekince koymadan, gününde ödedi."
+            }
+          ],
+          "note": "TBK m.138'e dayanılsaydı önemli olurdu: borçlu ya henüz ifa etmemiş ya da haklarını saklı tutarak ifa etmiş olmalıdır. Ama alıcı sözleşmedeki revizyon maddesine dayanıyor; o maddede böyle bir şart yok."
+        },
+        {
+          "text": "Petrol fiyatlarının önümüzdeki yıl için beklentisi nedir?",
+          "delta": -5,
+          "reply": [
+            {
+              "who": "ticari",
+              "text": "Analistlerimiz hafif bir yükseliş bekliyor. Bu da fiyatımızı yükseltir tabii."
+            }
+          ],
+          "note": "Revizyon, bildirim tarihindeki pazar koşullarına göre yapılır; gelecek tahmini savunmanıza yaramaz, üstelik fiyat farkının açılacağını ima ediyor."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı vekili, revizyon şartlarının neden gerçekleştiğini açıklayın."
+        }
+      ],
+      "prompt": "Hakem kuruluna, m.11'deki revizyon şartlarının gerçekleştiğini ve nasıl bir yeni fiyat istediğinizi kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü açıklama",
+          "min": 70,
+          "delta": 20,
+          "set": [
+            "p1_guclu"
+          ],
+          "law": "Sözleşme m.11.2, m.11.5 · MTK m.12/C",
+          "note": "Şartları sözleşmenin lafzına bağlayarak kurdunuz: nihai satış pazarında tarafların kontrolü dışında önemli değişiklik, sözleşme fiyatının pazardaki gaz değerini yansıtmaması, somut ve ölçülü bir yeni formül ve uygulama başlangıcı."
+        },
+        {
+          "text": "Yeterli açıklama",
+          "min": 40,
+          "delta": 8,
+          "set": [
+            "p1_yeterli"
+          ],
+          "law": "Sözleşme m.11.2",
+          "note": "Pazardaki değişikliği anlattınız. Güçlü açıklama, değişikliğin tarafların kontrolü dışında olduğunu, sözleşme fiyatının pazardaki gaz değerinden koptuğunu ve yeni formülün neden bu değeri yansıttığını da gösterir."
+        },
+        {
+          "text": "Zayıf açıklama",
+          "delta": -10,
+          "law": "Sözleşme m.11.2 · TBK m.138",
+          "note": "Talebi santralin zarar etmesine ya da yalnız TBK m.138'e dayandırdınız. Revizyon maddesi bir kurtarma mekanizması değil; pazardaki değişikliği ve gaz değerini göstermek gerekiyordu."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sözleşme m.11.2'deki ölçüt: alıcının nihai satış pazarında (Türkiye elektrik piyasası) tarafların kontrolü dışında önemli bir ekonomik değişiklik. Yenilenebilir payının artmasıyla PTF bir yılda yaklaşık %35 düştü; bu, tarafların kontrolü dışında. (2) Sözleşme fiyatı artık bu pazardaki gaz değerini yansıtmıyor: Avrupa gaz merkezi fiyatının yaklaşık %30 üzerinde. (3) Yeni fiyat önerisi somut: yarısı Brent'e, yarısı gaz merkezi fiyatına bağlı karma formül. (4) Yeni fiyat m.11.5 uyarınca bildirim tarihinden (16.02.2026) itibaren uygulanır. (5) Dayanak sözleşmedeki revizyon maddesidir; tarafların seçtiği Türk hukuku uygulanır (MTK m.12/C) ve TBK m.138'in ayrıca aranmasına gerek yoktur. Ölçütü, gaz değerini ve somut formülü birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        {
+          "terms": [
+            "nihai satış pazar",
+            "nihai pazar",
+            "elektrik piyasası",
+            "end-user market",
+            "PTF"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "kontrolü dışında",
+            "kontrol dışı",
+            "yenilenebilir"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "gaz değeri",
+            "piyasa değeri",
+            "market value",
+            "%30",
+            "gaz merkezi",
+            "hub"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "formül",
+            "karma",
+            "yarısı",
+            "Brent",
+            "%50"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "m.11.5",
+            "bildirim tarihi",
+            "16.02.2026",
+            "11.5"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Başhakem, m.11.2'deki ölçüt alıcının nihai satış pazarındaki değişikliktir. Yenilenebilir payının artmasıyla PTF bir yılda yaklaşık %35 düştü; bu tarafların kontrolü dışındadır. Sözleşme fiyatı ise Avrupa gaz merkezi fiyatının yaklaşık %30 üzerinde kaldı; pazardaki gaz değerini yansıtmıyor. Fiyatın yarısının Brent'e, yarısının gaz merkezi fiyatına bağlanmasını ve bunun m.11.5 uyarınca 16.02.2026'dan itibaren uygulanmasını istiyoruz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, talebe karşı esas savunmanız?"
+        }
+      ],
+      "prompt": "Savunmanın çerçevesini nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Şartlar gerçekleşmedi; olsa bile revizyon ancak 16.02.2026'dan itibaren ve pazar değerini aşmayacak ölçüde yapılabilir.",
+          "delta": 15,
+          "set": [
+            "p2_tarih"
+          ],
+          "law": "Sözleşme m.11.2, m.11.5",
+          "note": "Esas savunmanızı korurken ikinci savunma hattını da kurdunuz: m.11.5 yeni fiyatın bildirim tarihinden uygulanacağını söylüyor; revizyonun amacı da alıcıyı kâra geçirmek değil, fiyatı pazardaki gaz değerine yaklaştırmak."
+        },
+        {
+          "text": "Fiyatı belirlemek hakemin değil bilirkişinin işidir; hakem kurulunun yetkisine şimdi itiraz et.",
+          "delta": -10,
+          "set": [
+            "p2_yetki"
+          ],
+          "law": "MTK m.7/H · Sözleşme m.11.4",
+          "note": "m.11.4, anlaşılamazsa yeni fiyatı hakem kurulunun belirleyeceğini açıkça söylüyor. Üstelik yetki itirazı en geç ilk cevap dilekçesinde yapılmalıydı (MTK m.7/H); duruşmada yapılan itiraz süresinde değil."
+        },
+        {
+          "text": "TBK m.138'in şartları yok: değişiklik öngörülebilirdi ve alıcı faturaları çekincesiz ödedi; talep reddedilmeli.",
+          "delta": 5,
+          "set": [
+            "p2_138"
+          ],
+          "law": "TBK m.138",
+          "note": "Aşırı ifa güçlüğü bakımından doğru tespitler. Ama alıcı sözleşmedeki revizyon maddesine dayanıyor; tarafların kendi uyarlama mekanizması varken tartışma o maddenin şartları üzerinden yürür. Savunmanızın ağırlık merkezi kaydı."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, davacının pazar koşullarına ilişkin beyanına karşı diyeceğiniz?"
+        }
+      ],
+      "statement": {
+        "who": "p1",
+        "text": "Sayın Başhakem, alıcının satış pazarında bu gazı sözleşme fiyatıyla değerlendirmek artık imkânsızdır. Gazın her metreküpü zararına kullanılıyor."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_satis"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "p2_kar"
+        ],
+        "law": "Sözleşme m.11.2",
+        "note": "Yeniden satış faturaları, alıcının 2025'te gazın beşte birini sanayi tüketicilerine sözleşme fiyatının üzerinde sattığını gösteriyor. Alıcının nihai satış pazarı yalnız elektrik değil; gazın o pazardaki değeri davacının anlattığı kadar düşmemiş.",
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Davacı vekili, müvekkilinizin bu satışları yaptığı doğru mu?"
+          },
+          {
+            "who": "p1",
+            "text": "Doğru, Sayın Başhakem; ama hacim sınırlı."
+          }
+        ]
+      },
+      "responses": {
+        "ev_odeme": {
+          "delta": 0,
+          "note": "Çekincesiz ödeme TBK m.138 tartışmasında önemli olurdu; ama davacının ‘gaz zararına kullanılıyor’ beyanını çürütmez."
+        },
+        "law_tbk138": {
+          "delta": -5,
+          "note": "Davacı sözleşmedeki revizyon maddesine dayanıyor; m.138 bu beyana cevap değil."
+        },
+        "ev_ptf": {
+          "delta": -10,
+          "note": "PTF verileri elektrik fiyatlarının düştüğünü gösteriyor; davacının tezini destekler."
+        },
+        "ev_fiyat": {
+          "delta": -10,
+          "note": "Fiyat karşılaştırması, sözleşme fiyatının gaz merkezi fiyatının üzerinde olduğunu gösteriyor; davacının işine yarar."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu belge alıcının gazı değerlendirebildiğini göstermiyor."
+      },
+      "pass": {
+        "delta": -10,
+        "note": "İtiraz etmediniz; davacının ‘gaz zararına kullanılıyor’ beyanı cevapsız kaldı."
+      }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı vekili, talep sonucunuzu kesinleştirin."
+        }
+      ],
+      "prompt": "Talep sonucunu nasıl yazacaksınız?",
+      "choices": [
+        {
+          "text": "Karma formül 16.02.2026'dan itibaren uygulansın; o tarihten beri fazla ödenen tutarlar faiziyle iade edilsin.",
+          "delta": 15,
+          "set": [
+            "p1_sonuc"
+          ],
+          "law": "Sözleşme m.11.4–11.5",
+          "note": "Talep, sözleşmedeki uygulama tarihine ve hakem kurulunun m.11.4'teki yetkisine uygun. Bildirim tarihinden sonra ödenen fark, yeni fiyata göre hesaplanıp iade edilir."
+        },
+        {
+          "text": "Yeni fiyat, PTF'nin düşmeye başladığı 01.01.2025'ten itibaren geriye doğru uygulansın; bütün fark iade edilsin.",
+          "delta": -10,
+          "set": [
+            "p1_geriye"
+          ],
+          "law": "Sözleşme m.11.5",
+          "note": "m.11.5 yeni fiyatın bildirim tarihinden itibaren uygulanacağını söylüyor; 2025 faturaları da çekincesiz ödenmişti. Bu kısım reddedilecek."
+        },
+        {
+          "text": "Fiyat revizyonu yerine, TBK m.138 uyarınca sözleşmenin feshine ve santralin gaz alım yükümlülüğünün sona ermesine karar verilsin.",
+          "delta": -10,
+          "set": [
+            "p1_fesih"
+          ],
+          "law": "TBK m.138",
+          "note": "Fesih, ancak uyarlama mümkün değilse gündeme gelir; sözleşme zaten bir uyarlama mekanizması öngörüyor. Üstelik bu, tahkim talebinde olmayan yeni ve farklı bir talep."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, son beyanınızı alayım."
+        }
+      ],
+      "prompt": "Hakem kuruluna, fiyatın neden revize edilmemesi ya da neden sınırlı ölçüde revize edilmesi gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": [
+            "p2_guclu"
+          ],
+          "law": "Sözleşme m.11.2, m.11.5",
+          "note": "Savunmayı revizyon maddesinin amacına oturttunuz: revizyon fiyatı pazar değerine yaklaştırır, alıcının kârını garanti etmez; petrol endekslemesi bilinçli bir risk paylaşımıydı; alıcının yeniden satışları pazardaki gaz değerinin tümüyle düşmediğini gösteriyor; revizyon olacaksa bildirim tarihinden ve sınırlı ölçüde."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": [
+            "p2_yeterli"
+          ],
+          "law": "Sözleşme m.11.2",
+          "note": "Şartların gerçekleşmediğini söylediniz. Güçlü savunma, revizyonun amacını, alıcının yeniden satışlarını ve ikinci savunma hattı olarak sınırlı revizyonu da gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "Sözleşme m.11",
+          "note": "‘Ahde vefa; imzaladılar, ödesinler’ demekle yetindiniz. Sözleşme revizyonu açıkça öngörüyor; tartışma onun şartları üzerinden yapılmalıydı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Revizyon maddesi bir kurtarma ya da kâr garantisi mekanizması değildir; amacı sözleşme fiyatını alıcının nihai pazarındaki gaz değerine yaklaştırmaktır. (2) Petrol endekslemesi taraflarca bilinçli seçilmiş bir risk paylaşımıdır; olağan fiyat dalgalanmaları ‘önemli değişiklik’ sayılmaz. (3) Alıcının nihai satış pazarı yalnız elektrik değildir; gazın bir kısmını sözleşme fiyatının üzerinde yeniden satmaktadır. (4) Revizyon yapılacaksa m.11.5 uyarınca ancak bildirim tarihinden (16.02.2026) itibaren ve pazar değerini aşmayacak ölçüde yapılmalıdır. Amaç, yeniden satışlar ve sınırlı revizyon birlikte söylenirse tam puan alınır; yalnızca ‘ahde vefa’ demek düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "kâr garantisi",
+            "kar garantisi",
+            "kurtarma",
+            "amacı",
+            "pazar değerine"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "risk paylaşımı",
+            "risk dağılımı",
+            "bilinçli",
+            "petrol endeks"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "yeniden sat",
+            "sanayi",
+            "beşte bir",
+            "%20"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "m.11.5",
+            "bildirim tarihi",
+            "16.02.2026",
+            "geriye"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "sınırlı",
+            "kısmi",
+            "ölçülü"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Başhakem, revizyon maddesi alıcıya kâr garantisi vermez; amacı fiyatı alıcının nihai pazarındaki gaz değerine yaklaştırmaktır. Petrol endekslemesini taraflar bilerek seçti. Alıcı gazın beşte birini sanayiye sözleşme fiyatının üzerinde satıyor; pazarındaki gaz değeri çökmüş değil. Revizyon yapılacaksa bile m.11.5 uyarınca 16.02.2026'dan itibaren ve pazar değerini aşmayacak ölçüde yapılmalıdır."
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p2_kar && p2_guclu && !p1_guclu",
+      "winner": "p2",
+      "hukum": "Fiyat revizyonu talebinin REDDİNE,",
+      "summary": [
+        {
+          "text": "Alıcı, nihai satış pazarındaki değişikliğin sözleşme fiyatını pazardaki gaz değerinden kopardığını ispatlayamadı. Tedarikçi vekili, alıcının gazın beşte birini sözleşme fiyatının üzerinde yeniden sattığını faturalarla gösterdi."
+        },
+        {
+          "text": " Revizyon maddesi alıcıya kâr garantisi vermez; petrol endekslemesi tarafların bilinçli risk paylaşımıydı."
+        },
+        {
+          "if": "p1_tek",
+          "text": " Alıcının tek taraflı eksik ödemeleri temerrüt sayıldı; tedarikçinin farkı faiziyle talep hakkı saklıdır."
+        }
+      ]
+    },
+    {
+      "if": "(p1_guclu || p1_yeterli) && (p2_kar || p2_guclu || p1_tek)",
+      "winner": "draw",
+      "hukum": [
+        {
+          "text": "Talebin KISMEN KABULÜ ile sözleşme fiyatının %75'inin Brent'e, %25'inin Avrupa gaz merkezi fiyatına bağlanmasına ve yeni formülün "
+        },
+        {
+          "if": "p1_tek",
+          "text": "30.03.2026"
+        },
+        {
+          "if": "!p1_tek",
+          "text": "16.02.2026"
+        },
+        {
+          "text": "'dan itibaren uygulanmasına; fazlaya ilişkin talebin REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Alıcı, elektrik piyasasındaki yapısal düşüşün tarafların kontrolü dışında olduğunu ve sözleşme fiyatının pazardaki gaz değerinden koptuğunu gösterdi; revizyon şartları gerçekleşti (m.11.2)."
+        },
+        {
+          "if": "p2_kar",
+          "text": " Ancak alıcının gazın bir kısmını kârla yeniden sattığı ortaya çıktı; hakem kurulu revizyonu istenenden sınırlı tuttu."
+        },
+        {
+          "if": "p2_guclu && !p2_kar",
+          "text": " Tedarikçi vekili, revizyonun kâr garantisi olmadığını ve sınırlı tutulması gerektiğini güçlü biçimde savundu."
+        },
+        {
+          "if": "p1_tek",
+          "text": " Alıcının nisandan itibaren tek taraflı eksik ödemeleri sözleşmeye aykırıydı; yeni fiyatla eski fiyat arasındaki fark bakımından tedarikçinin faiz alacağı saklı tutuldu."
+        },
+        {
+          "if": "p1_geriye",
+          "text": " 2025'e uzanan geriye dönük revizyon talebi m.11.5 karşısında reddedildi."
+        },
+        {
+          "if": "p1_fesih",
+          "text": " Fesih talebi, sözleşmedeki uyarlama mekanizması karşısında reddedildi."
+        }
+      ]
+    },
+    {
+      "if": "p1_guclu || p1_yeterli",
+      "winner": "p1",
+      "hukum": "Talebin KABULÜ ile sözleşme fiyatının yarısının Brent'e, yarısının Avrupa gaz merkezi fiyatına bağlanmasına, yeni formülün 16.02.2026'dan itibaren uygulanmasına ve o tarihten sonra fazla ödenen tutarların faiziyle davacıya iadesine,",
+      "summary": [
+        {
+          "text": "Alıcının nihai satış pazarında tarafların kontrolü dışında önemli bir değişiklik oldu: yenilenebilir payının artmasıyla PTF yaklaşık %35 düştü. Petrole bağlı sözleşme fiyatı pazardaki gaz değerinin yaklaşık %30 üzerinde kaldı."
+        },
+        {
+          "text": " Revizyon bildirimi süresinde ve gerekçeli yapıldığından hakem kurulu m.11.4'teki yetkisiyle yeni fiyatı belirledi."
+        },
+        {
+          "if": "p2_tarih",
+          "text": " Tedarikçinin uygulama tarihine ilişkin savunması kabul edildi; yeni fiyat bildirim tarihinden işler."
+        },
+        {
+          "if": "p2_yetki",
+          "text": " Tedarikçinin yetki itirazı süresinde yapılmadığı gibi m.11.4'ün açık lafzına da aykırıydı."
+        },
+        {
+          "if": "p1_geriye",
+          "text": " 2025'e uzanan geriye dönük revizyon talebi m.11.5 karşısında reddedildi."
+        }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Fiyat revizyonu talebinin REDDİNE,",
+      "summary": [
+        {
+          "text": "Alıcı vekili, m.11.2'deki şartları, yani nihai satış pazarındaki önemli değişikliği ve sözleşme fiyatının pazardaki gaz değerinden koptuğunu, hakem kuruluna somut olarak gösteremedi."
+        },
+        {
+          "if": "p2_kar",
+          "text": " Alıcının gazı kârla yeniden sattığı da ortaya çıktı."
+        },
+        {
+          "if": "p1_tek",
+          "text": " Alıcının tek taraflı eksik ödemeleri sözleşmeye aykırıydı."
+        }
+      ]
+    }
+  ]
+}

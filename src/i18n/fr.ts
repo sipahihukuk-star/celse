@@ -356,6 +356,10 @@ const dict: Record<string, string> = {
   "Sigortalı, lehtar ya da zarar gören ile Komisyona üye sigorta kuruluşu arasındaki uyuşmazlıklar: kasko, trafik sigortası (değer kaybı, destekten yoksun kalma), konut ve yangın, sağlık, hayat ve kredi hayat, nakliyat, mesleki sorumluluk, DASK, tarım sigortası.": "Litiges entre l'assuré, le bénéficiaire ou la victime et un assureur membre de la Commission : assurance auto tous risques (kasko), responsabilité civile automobile (dépréciation, perte de soutien), habitation et incendie, santé, vie et assurance emprunteur, transport, responsabilité professionnelle, assurance obligatoire contre les tremblements de terre (DASK), assurance agricole.",
   "Tazminatın reddi, eksik ödenmesi, istisna ve muafiyet tartışmaları, beyan yükümlülüğünün ihlali.": "Refus ou paiement partiel de l'indemnité, contestations sur les exclusions et franchises, manquement à l'obligation de déclaration.",
   "Önce sigorta kuruluşuna yazılı başvuru yapılır; şirket reddederse ya da 15 gün içinde cevap vermezse Komisyona başvurulur (5684 s.K. m.30).": "Une demande écrite est d'abord adressée à l'assureur ; s'il refuse ou ne répond pas dans les 15 jours, la Commission peut être saisie (loi n° 5684, art. 30).",
-  "Uyuşmazlık hakem heyeti dosyayı inceler, gerekirse bilirkişi raporu alır; HMK hükümleri uygulanır. Karar başvurudan itibaren dört ay içinde verilir.": "Le collège arbitral examine le dossier et ordonne au besoin une expertise ; le Code de procédure civile (HMK) s'applique. La décision est rendue dans les quatre mois suivant la saisine."
+  "Uyuşmazlık hakem heyeti dosyayı inceler, gerekirse bilirkişi raporu alır; HMK hükümleri uygulanır. Karar başvurudan itibaren dört ay içinde verilir.": "Le collège arbitral examine le dossier et ordonne au besoin une expertise ; le Code de procédure civile (HMK) s'applique. La décision est rendue dans les quatre mois suivant la saisine.",
+  "KOMİSYON KARARI": "DÉCISION DE LA COMMISSION",
+  "TAHKİM KURULU KARARI": "DÉCISION DU CONSEIL D'ARBITRAGE",
+  "HAKEM KARARI": "SENTENCE ARBITRALE",
+  "Telefon numarasını 05xx xxx xx xx biçiminde (yurt dışı için +ülke kodu ile) yazın.": "Saisissez votre numéro au format 05xx xxx xx xx (hors de Turquie, avec + et l'indicatif du pays).",
 };
 export default dict;

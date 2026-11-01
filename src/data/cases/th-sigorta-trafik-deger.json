@@ -1,0 +1,457 @@
+{
+  "id": "th-sigorta-trafik-deger",
+  "mode": "duel",
+  "difficulty": "basit",
+  "title": "Arka Tampon",
+  "area": "Tahkim · Sigorta tahkimi · Trafik sigortası (değer kaybı)",
+  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakem Heyeti",
+  "courtShort": "SİGORTA TAHKİM",
+  "esas": "2026/53302 Başvuru",
+  "kararTarihi": "22.02.2027",
+  "color": "#4a5d3a",
+  "room": "tahkim",
+  "forum": "sigorta",
+  "inscription": null,
+  "bench": { "judges": 1, "title": "Tek hakem" },
+  "teaser": "Kırmızı ışıkta arkadan çarpılan otomobil. Şirket 21.000 TL değer kaybı ödedi, kiralık arabayı reddetti; üstelik Komisyona üye bile değil.",
+  "sides": {
+    "p1": { "role": "Başvuran vekili", "short": "Başvuran" },
+    "p2": { "role": "Sigorta şirketi vekili", "short": "Sigorta şirketi" }
+  },
+  "cast": {
+    "judge": { "name": "Tek Hakem", "np": "red", "look": { "kind": "civil", "skin": "#e8c09c", "hair": "#2e2420", "style": "bun", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e9c3a0", "hair": "#4a2f22", "style": "long", "shirt": "#24303c", "inner": "#ece8e0" } },
+    "p2": { "look": { "kind": "civil", "skin": "#c8946a", "hair": "#1c1a18", "style": "short", "glasses": true, "shirt": "#2a2d33", "inner": "#e6e2da" } },
+    "selin": { "name": "Selin Ateş · Araç sahibi", "np": "civil", "look": { "kind": "civil", "skin": "#efc9a8", "hair": "#7a4a2c", "style": "long", "shirt": "#6a4a5a", "inner": "#efe7dd" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Selin Ateş'in 2022 model otomobili 06.09.2026'da İzmir Bornova'da kırmızı ışıkta beklerken arkadan bir kamyonetin çarpmasıyla hasar gördü. Kaza tespit tutanağına göre kamyonet sürücüsü tam kusurlu." },
+    { "who": "narr", "text": "Kamyonetin zorunlu trafik sigortası Ilgaz Sigorta A.Ş.'de. Şirket onarım bedelini doğrudan servise ödedi. Selin'in 20.10.2026'daki yazılı başvurusu üzerine 27.10.2026'da 21.000 TL değer kaybı ödedi; bakiye değer kaybını ve 27.000 TL'lik kiralık araç bedelini reddetti." },
+    { "who": "selin", "text": "Arabam 78.000 kilometrede. Bagaj kapağı da sol arka çamurluk da değişti. Bu araba artık eskisi gibi satılmaz; 21.000 lira ne ki?" },
+    { "who": "narr", "text": "Selin'in yaptırdığı ekspertiz değer kaybını 64.000 TL hesapladı. Ilgaz Sigorta, Sigorta Tahkim Komisyonuna üye değil. Bugün 02.11.2026." }
+  ],
+  "docs": [
+    { "t": "Kaza tespit tutanağı", "d": "06.09.2026, Bornova. Kamyonet sürücüsü kırmızı ışıkta duran araca arkadan çarpmış; kusur tamamen kamyonet sürücüsünde." },
+    { "t": "Servis faturası", "d": "Bagaj kapağı ve sol arka çamurluk yeni parçayla değişti; arka tampon onarılıp boyandı. Onarım bedeli Ilgaz Sigorta tarafından servise ödendi." },
+    { "t": "Şirketin cevabı", "d": "27.10.2026: “Değer kaybı, aracın aynı bölgedeki önceki hasar kaydı dikkate alınarak 21.000 TL olarak hesaplanmış ve ödenmiştir. Bakiye talebiniz ile ikame araç bedeli talebiniz reddedilmiştir; ikame araç bedeli zorunlu trafik sigortası teminatı dışındadır.”" },
+    { "t": "Özel ekspertiz raporu", "d": "Kaza öncesi hasarsız ikinci el değer 1.420.000 TL, onarım sonrası değer 1.356.000 TL; değer kaybı 64.000 TL. Rapor önceki hasar kaydını değerlendirmiyor." },
+    { "t": "Kiralık araç faturası", "d": "07.09.2026–24.09.2026: 18 gün × 1.500 TL = 27.000 TL." },
+    { "t": "Sigorta tahkiminde parasal sınırlar (22.01.2026'dan)", "d": "35.000 TL'nin altındaki uyuşmazlıklarda karar kesin; 35.000 TL ve üzerinde karara bildirimden itibaren 10 gün içinde bir kez itiraz. 122.000 TL ve üzerindeki uyuşmazlıklarda en az üç hakemli heyet zorunlu; altında tek hakem atanabilir. 383.000 TL'yi aşan uyuşmazlıklarda itiraz kararına karşı temyiz." }
+  ],
+  "evidence": [
+    { "id": "ev_tutanak", "type": "belge", "title": "Kaza tespit tutanağı", "desc": "Kamyonet sürücüsü kırmızı ışıkta duran araca arkadan çarpmış; tam kusurlu." },
+    { "id": "ev_servis", "type": "belge", "title": "Servis faturası", "desc": "Bagaj kapağı ve sol arka çamurluk değişti; arka tampon onarılıp boyandı." },
+    { "id": "ev_uzman", "type": "belge", "title": "Özel ekspertiz raporu", "desc": "Değer kaybı 64.000 TL. Önceki hasar kaydı değerlendirilmemiş." },
+    { "id": "ev_cevap", "type": "belge", "title": "Şirketin cevabı", "desc": "21.000 TL ödendi; bakiye değer kaybı ve ikame araç reddedildi." },
+    { "id": "ev_eski", "type": "belge", "title": "2024 hasar kaydı", "desc": "03.04.2024, otoparkta sürtme: yalnız arka tampon boyası, 6.500 TL. Parça değişimi yok.", "if": "p1_eski" },
+    { "id": "law_gs", "type": "kanun", "title": "Genel Şartlar değişikliği (RG 12.06.2026)", "desc": "01.07.2026'dan itibaren Ek-1 yürürlükten kaldırıldı. Değer kaybı; marka, model, yaş, kullanılmışlık, hasarlı kısımlar, geçmiş hasar durumu ve kaza öncesi ile onarım sonrası ikinci el değerleri arasındaki fark gözetilerek belirlenir.", "law": "ZMMS Genel Şartları A.5" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAŞVURU · Şirket talebinizi kısmen ödedi, kalanını reddetti. Komisyona hangi taleple başvuracağınıza karar vermelisiniz." }
+      ],
+      "prompt": "Başvuruyu nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Komisyona 43.000 TL değer kaybı farkıyla başvur; kiralık araç bedelini kamyonetin işleteni ve sürücüsünden mahkemede iste.",
+          "delta": 20,
+          "set": ["p1_dk"],
+          "law": "5684 s.K. m.30/13 · KTK m.85",
+          "note": "Kısmi ret, Komisyona başvurmak için yeterlidir (5684 s.K. m.30/13). İkame araç bedeli (araç mahrumiyeti), Genel Şartlar'ın teminat dışı bıraktığı dolaylı zararlardandır; Yargıtay uygulamasında trafik sigortacısından değil, işleten ve sürücüden istenir (KTK m.85). Komisyonda karşı taraf yalnız sigorta kuruluşu olabildiği için bu kalemi doğru biçimde mahkemeye ayırdınız. 43.000 TL'lik uyuşmazlık tek hakemle görülecek; 35.000 TL'yi aştığından karara itiraz da mümkün.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 03.11.2026'da 43.000 TL üzerinden yapıldı; tek hakem atandı." }
+          ]
+        },
+        {
+          "text": "Komisyona 43.000 TL değer kaybı farkı ile 27.000 TL kiralık araç bedelini birlikte, toplam 70.000 TL üzerinden talep ederek başvur.",
+          "delta": 5,
+          "set": ["p1_ikame"],
+          "law": "5684 s.K. m.30/13",
+          "note": "Değer kaybı kalemi yerinde; ama ikame araç bedeli trafik sigortasının teminatına girmez. Bu kısım reddedilecek ve aleyhinize vekâlet ücretine hükmedilecek. O kalemi işleten ve sürücüye karşı mahkemede istemeliydiniz.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 03.11.2026'da 70.000 TL üzerinden yapıldı; tek hakem atandı." }
+          ]
+        },
+        {
+          "text": "Komisyona Ilgaz Sigorta ile birlikte kamyonetin işleteni Doruk Lojistik'i ve sürücüyü de karşı taraf göstererek 70.000 TL ile başvur.",
+          "delta": -10,
+          "set": ["p1_ikame"],
+          "law": "5684 s.K. m.30",
+          "note": "Sigorta Tahkim Komisyonu, sigorta kuruluşları ile sigortalı ya da hak sahipleri arasındaki uyuşmazlıklara bakar; işleten ve sürücü tahkime zorlanamaz. Raportör bu kısmı ayıkladı; kiralık araç talebi de Ilgaz Sigorta'ya karşı, teminat dışı bir kalem olarak kaldı.",
+          "reply": [
+            { "who": "narr", "text": "Raportör, işleten ve sürücüye yönelik başvuruyu ayıkladı. Dosya 70.000 TL üzerinden Ilgaz Sigorta'ya karşı yürüyecek; tek hakem atandı." }
+          ]
+        },
+        {
+          "text": "Şirkete yeniden yaz ve 15 iş günü bekle; kısmi ödeme yapıldığı için ön başvuru şartı henüz tamamlanmadı.",
+          "delta": -5,
+          "set": ["p1_bekle"],
+          "law": "5684 s.K. m.30/13",
+          "note": "Şirket talebi kısmen reddetmişti; kısmi ret de Komisyona başvurmak için yeterlidir (5684 s.K. m.30/13). Üç hafta gereksiz yere beklediniz.",
+          "reply": [
+            { "who": "narr", "text": "Şirket aynı cevabı yineledi. Başvuru 25.11.2026'da 43.000 TL değer kaybı farkı üzerinden yapıldı; tek hakem atandı." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Başvuru Ilgaz Sigorta'ya tebliğ edildi. Şirket Komisyona üye değil ve sigortalılarıyla bir tahkim anlaşması da yapmamış." }
+      ],
+      "prompt": "Cevabınızı neye dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "Şirket Komisyona üye değil ve başvuranla tahkim anlaşması yapmadık; başvurunun usulden reddini iste, uyuşmazlık mahkemede görülsün.",
+          "delta": -15,
+          "set": ["p2_uyelik"],
+          "law": "5684 s.K. m.30",
+          "note": "Komisyona üyelik ihtiyaridir; ama zorunlu sigortalardan doğan uyuşmazlıklarda hak sahipleri, üye olmayan sigorta kuruluşuna karşı da Komisyona başvurabilir. Trafik sigortası zorunlu sigortadır; itirazınız reddedildi.",
+          "reply": [
+            { "who": "narr", "text": "Hakem, zorunlu sigortaya ilişkin olduğu için üyelik itirazını reddetti." }
+          ]
+        },
+        {
+          "text": "Esasa cevap ver: araçta aynı bölgede 2024'ten kalma bir hasar kaydı var; değer kaybı ödenen 21.000 TL'yi aşmaz, bilirkişi incelemesi iste.",
+          "delta": 20,
+          "set": ["p2_onceki"],
+          "law": "ZMMS Genel Şartları A.5",
+          "note": "Doğru zemin. Zorunlu sigortada üyelik itirazının bir karşılığı yok; esasa odaklandınız. Önceki hasar kaydı aracın kaza öncesi piyasa değerini düşürür ve değer kaybının tutarını doğrudan etkiler."
+        },
+        {
+          "text": "Değer kaybını Genel Şartlar Ek-1'deki formülle hesapladık; hakem bu formülle bağlıdır, başka bir yöntemle hesap yapılamaz.",
+          "delta": -10,
+          "set": ["p2_ek1"],
+          "law": "KTK m.90 · ZMMS Genel Şartları",
+          "note": "Ek-1'in dayanağı olan KTK m.90 hükümleri Anayasa Mahkemesince iptal edildi (17.07.2020, E.2019/40, K.2020/40; 29.12.2022, E.2021/82, K.2022/167). Danıştay Sekizinci Dairesi 2025'te Ek-1'i iptal etti; 01.07.2026'da yürürlüğe giren Genel Şartlar değişikliğiyle Ek-1 tamamen kaldırıldı. 06.09.2026'daki kazada bu formül uygulanamaz."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "MÜVEKKİL GÖRÜŞMESİ · Şirketin “aynı bölgede önceki hasar” savunması geldi. Selin Ateş'le görüşüyorsunuz; iki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "2024'teki hasar kaydında tam olarak ne yapıldı?",
+          "delta": 15,
+          "set": ["p1_eski"],
+          "reply": [
+            { "who": "selin", "text": "Otoparkta biri arka tampona sürtmüştü. Sadece tampon boyandı, hiçbir parça değişmedi. Servis faturası da sigorta kaydı da bende." }
+          ],
+          "note": "Kilit soru. Önceki hasar yalnız tampon boyası; bagaj kapağı ve çamurluk ilk kez değişti. Kayıt delil çantanıza eklendi."
+        },
+        {
+          "text": "Aracı satmayı düşünüyor musunuz?",
+          "delta": -5,
+          "reply": [
+            { "who": "selin", "text": "Hayır, kullanmaya devam edeceğim." }
+          ],
+          "note": "Değer kaybı aracın satılmasına bağlı değildir; kaza anında doğan bir zarardır. Sorunuz dosyaya bir şey katmadı."
+        },
+        {
+          "text": "Kiralık aracı neden 18 gün kullandınız?",
+          "delta": 0,
+          "reply": [
+            { "who": "selin", "text": "Servis parça bekledi; arabamı 24 Eylül'de teslim aldım." }
+          ],
+          "note": "Kiralık araç bedeli trafik sigortasının teminatı dışında; bu ayrıntı tahkim dosyasında işe yaramaz."
+        },
+        {
+          "text": "Kazadan sonra aracın kilometresi ne kadar arttı?",
+          "delta": 0,
+          "reply": [
+            { "who": "selin", "text": "Pek değişmedi, 79.000 civarında." }
+          ],
+          "note": "Kilometre değer kaybını etkileyen etkenlerden biri, ama ekspertiz raporunda zaten var."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "SÖZLÜ AÇIKLAMA · Tek hakem, kural olarak dosya üzerinden karar verse de bu dosyada tarafları dinlemeye karar verdi." },
+        { "who": "judge", "text": "Şirket vekili, değer kaybının belirlenmesi için talebiniz nedir?" }
+      ],
+      "prompt": "Değer kaybının nasıl belirlenmesini isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Bilirkişi, önceki hasar kaydını da gözeterek aracın kaza öncesi ve onarım sonrası ikinci el değerini emsal satışlarla karşılaştırsın.",
+          "delta": 15,
+          "set": ["p2_bilirkisi"],
+          "law": "ZMMS Genel Şartları A.5 · Tahkim Yönetmeliği m.16/12",
+          "note": "Yargıtay'ın benimsediği yöntem bu: aracın marka, model, yaş, kilometre ve hasar geçmişi gözetilerek kaza öncesi ve onarım sonrası ikinci el piyasa değerleri arasındaki fark. 01.07.2026'dan beri Genel Şartlar da aynı ölçütleri sayıyor.",
+          "reply": [
+            { "who": "judge", "text": "Bilirkişi incelemesine karar verildi." }
+          ]
+        },
+        {
+          "text": "Aynı bölgede önceki hasar varsa yeni bir değer kaybı doğmaz; talep bilirkişiye gitmeden doğrudan reddedilmeli, çünkü hasar gören bölge aynıdır.",
+          "delta": -10,
+          "law": "TBK m.49 · ZMMS Genel Şartları A.5",
+          "note": "Bazı bölge adliye mahkemesi kararları bu yönde olsa da gerçek zarar ilkesinde önceki hasar değer kaybını kendiliğinden ortadan kaldırmaz; kaza öncesi değeri düşüren bir etkendir. Hangi parçalarda hangi işlemlerin yapıldığı karşılaştırılmadan talep reddedilemez.",
+          "reply": [
+            { "who": "judge", "text": "Önceki hasarın etkisi bilirkişi incelemesiyle belirlenecek." }
+          ]
+        },
+        {
+          "text": "Hesap aracın kasko değeri üzerinden yüzdeyle yapılsın; onarım bedelinin kasko değerine oranı, değer kaybının oranıdır.",
+          "delta": -5,
+          "law": "ZMMS Genel Şartları A.5",
+          "note": "Yargıtay, sigorta değerine yüzde uygulayan hesapları denetime elverişsiz buluyor. Ölçü, ikinci el piyasa değerleri arasındaki farktır.",
+          "reply": [
+            { "who": "judge", "text": "Değer kaybı, ikinci el piyasa değerleri karşılaştırılarak belirlenecek." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, şirketin önceki hasar savunmasına karşı beyanınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Hakem, bu araç 2024'te de arka bölgesinden hasar almıştır. İkinci el piyasası onu zaten hasarlı araç olarak görür; bu kazada ayrıca bir değer kaybı doğmamıştır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_eski"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_eskiHit"],
+        "law": "ZMMS Genel Şartları A.5 · TBK m.49",
+        "note": "Kayıt, 2024'teki olayın yalnız arka tampon boyasından ibaret olduğunu gösteriyor. Bu kazada ise bagaj kapağı ve sol arka çamurluk ilk kez değişti. Değer kaybını doğuran işlemler öncekiyle örtüşmüyor; önceki hasar ancak kaza öncesi değeri biraz düşüren bir etken.",
+        "reply": [
+          { "who": "judge", "text": "Kayıt dosyaya alındı. Bilirkişi önceki ve sonraki işlemleri parça düzeyinde karşılaştıracak." }
+        ]
+      },
+      "responses": {
+        "ev_servis": {
+          "delta": 8,
+          "set": ["p1_parca"],
+          "note": "Fatura bu kazada değişen parçaları gösteriyor; ama 2024 hasarının kapsamını göstermiyor. Önceki kaydın kendisini sunsaydınız savunma tümüyle çökerdi."
+        },
+        "law_gs": {
+          "delta": 5,
+          "note": "Yeni Genel Şartlar geçmiş hasar durumunun gözetileceğini söylüyor. Ama önceki hasarın neyden ibaret olduğunu belgeyle göstermeniz gerekiyordu."
+        },
+        "ev_uzman": {
+          "delta": 0,
+          "note": "Kendi ekspertiz raporunuz önceki hasarı hiç tartışmıyor; şirketin beyanını çürütmedi."
+        },
+        "ev_tutanak": {
+          "delta": -5,
+          "note": "Tutanak bu kazadaki kusuru gösteriyor; önceki hasarla ilgisi yok."
+        }
+      },
+      "miss": { "delta": -5, "note": "Bu belge önceki hasarın kapsamını göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; önceki hasarın neyden ibaret olduğu belirsiz kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Şirket vekili, değer kaybının tutarına ilişkin esas savunmanız?" }
+      ],
+      "prompt": "Değer kaybının neden ödenen 21.000 TL'yi aşmadığını kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p2_tutar"],
+          "law": "ZMMS Genel Şartları A.5 · TBK m.49",
+          "note": "Doğru yöntemi kabul edip savunmanızı onun içine yerleştirdiniz: ikinci el piyasa değerleri arasındaki fark, aracın yaşı, kilometresi ve 2024 kaydı; ödenen tutarın mahsubu."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "law": "ZMMS Genel Şartları A.5 · TBK m.49",
+          "note": "Önceki hasarı öne çıkardınız. Tam savunma, hesabın ikinci el piyasa değerleri arasındaki farkla yapılacağını kabul eder; aracın yaşı, kilometresi ve hasar geçmişini bu yönteme bağlar, ödenen 21.000 TL'nin mahsubunu ister."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "ZMMS Genel Şartları A.5",
+          "note": "Ek-1 formülü ya da “aynı bölgede hasar varsa değer kaybı yoktur” kuralı artık savunma olamaz. Güçlü savunma, ikinci el piyasa değerleri arasındaki farkı kabul edip aracın yaşı, kilometresi, 2024 kaydı ve ödenen 21.000 TL'nin mahsubuyla bu farkı daraltır."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Ek-1 formülü artık uygulanamaz; değer kaybı gerçek zarar ilkesine göre, aracın kaza öncesi ve onarım sonrası ikinci el piyasa değerleri arasındaki farkla belirlenir. (2) Aracın dört yaşında ve 78.000 kilometrede olması ve aynı bölgede 2024 tarihli bir hasar kaydı bulunması kaza öncesi değeri zaten düşürür; bu etkenler değer kaybını azaltır. (3) Ödenen 21.000 TL mahsup edilmelidir; başvuranın uzmanı önceki hasarı hiç değerlendirmemiştir, daha fazla zararı ispat yükü başvurandadır. Doğru hesap yöntemini kabul edip önceki hasarı ve mahsubu bu yönteme bağlamak tam puan için gerekir; Ek-1'de ya da 'aynı bölgede hasar varsa değer kaybı yoktur' kuralında ısrar eden cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["ikinci el", "piyasa değeri", "rayiç", "emsal"], "weight": 3 },
+        { "terms": ["önceki hasar", "hasar kaydı", "2024", "aynı bölge"], "weight": 2 },
+        { "terms": ["mahsup", "ödenen", "21.000", "yirmi bir bin"], "weight": 2 },
+        { "terms": ["kilometre", "yaş", "model"], "weight": 1 },
+        { "terms": ["ispat", "gerçek zarar"], "weight": 1 }
+      ],
+      "model": "Sayın Hakem, değer kaybı artık Ek-1'le değil, aracın kaza öncesi ve onarım sonrası ikinci el piyasa değerleri arasındaki farkla belirlenir. Dört yaşında, 78.000 kilometredeki ve 2024'te aynı bölgeden hasar kaydı bulunan bir aracın kaza öncesi değeri zaten düşüktür; başvuranın uzmanı bunu hiç hesaba katmamıştır. Gerçek fark ödenen 21.000 TL'yi aşmıyor; aşsa bile ödenen tutar mahsup edilmelidir."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, değer kaybına ilişkin esas beyanınızı alalım." }
+      ],
+      "prompt": "Değer kaybının nasıl hesaplanacağını ve önceki hasarın neden talebi ortadan kaldırmadığını açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p1_hesap"],
+          "law": "TBK m.49 · ZMMS Genel Şartları A.5",
+          "note": "Hesabın hukuki zeminini ve somut farkı birlikte kurdunuz: Ek-1 artık yok, ölçü ikinci el piyasa değerleri arasındaki fark; 2024'teki tampon boyasıyla bu kazadaki parça değişimleri örtüşmüyor."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "law": "TBK m.49 · ZMMS Genel Şartları A.5",
+          "note": "Doğru yöndesiniz. Tam savunma; Ek-1'in iptal edilip kaldırıldığını, ikinci el piyasa değerleri arasındaki fark yöntemini ve önceki hasarın yalnız tampon boyası olduğunu, bu kazada ise bagaj kapağı ile çamurluğun değiştiğini birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "TBK m.49 · ZMMS Genel Şartları A.5",
+          "note": "Değer kaybı, gerçek zarar ilkesine göre kaza öncesi ve onarım sonrası ikinci el piyasa değerleri arasındaki farktır. Önceki hasarın yalnız tampon boyası olduğunu, bu kazada ise bagaj kapağı ve çamurluğun ilk kez değiştiğini göstermek savunmanın merkezi olmalıydı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Anayasa Mahkemesi KTK m.90'daki Genel Şartlar atıflarını (17.07.2020, E.2019/40, K.2020/40) ve 7327 s.K. ile eklenen hükmü (29.12.2022, E.2021/82, K.2022/167) iptal etti; Danıştay Ek-1'i iptal etti ve 01.07.2026'dan beri Ek-1 Genel Şartlar'da yok. (2) Değer kaybı, TBK'nın haksız fiil hükümleri ve gerçek zarar ilkesine göre, kaza öncesi hasarsız ikinci el değeri ile onarım sonrası değer arasındaki farktır; marka, model, yaş, kilometre ve hasarın niteliği gözetilir. (3) 2024 kaydı yalnız arka tampon boyasıdır; bu kazada bagaj kapağı ve çamurluk değişti, yani değer kaybını doğuran işlemler yenidir. Önceki hasar yalnızca kaza öncesi değeri düşüren bir etkendir. (4) Ödenen 21.000 TL düşülerek fark istenir. Hesap yöntemini, önceki hasarın parça düzeyinde farklı olduğunu ve mahsubu birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["ikinci el", "piyasa değeri", "rayiç"], "weight": 2 },
+        { "terms": ["Anayasa Mahkemesi", "AYM", "iptal", "Danıştay", "Ek-1"], "weight": 2 },
+        { "terms": ["bagaj kapağı", "çamurluk", "parça", "değişim", "değişen"], "weight": 3 },
+        { "terms": ["tampon", "boya", "2024"], "weight": 1 },
+        { "terms": ["gerçek zarar", "haksız fiil", "TBK"], "weight": 1 },
+        { "terms": ["mahsup", "21.000", "fark"], "weight": 1 }
+      ],
+      "model": "Sayın Hakem, Ek-1 formülünün dayanağı Anayasa Mahkemesince iptal edildi, Danıştay da Ek-1'i iptal etti ve 01.07.2026'dan beri Genel Şartlar'da yok. Değer kaybı, gerçek zarar ilkesine göre aracın kaza öncesi hasarsız ikinci el değeri ile onarım sonrası değeri arasındaki farktır. 2024'teki olay yalnız tampon boyasıdır; bu kazada bagaj kapağı ve çamurluk ilk kez değişti. Ödenen 21.000 TL düşülerek kalan farkın ödenmesini istiyoruz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "p1_ikame",
+      "lines": [
+        { "who": "judge", "text": "Şirket vekili, kiralık araç bedeli talebine cevabınız?" }
+      ],
+      "prompt": "Kiralık araç talebine ne diyorsunuz?",
+      "choices": [
+        {
+          "text": "Araç mahrumiyeti dolaylı zarardır, trafik sigortasının teminatına girmez; bu talep işleten ve sürücüye karşı mahkemede ileri sürülebilir.",
+          "delta": 15,
+          "set": ["p2_ikame"],
+          "law": "KTK m.85, m.91 · ZMMS Genel Şartları A.6",
+          "note": "Doğru. Trafik sigortası Genel Şartları gelir kaybı, kâr kaybı, iş durması gibi dolaylı zararları teminat dışında tutar; Yargıtay uygulamasında da araç mahrumiyeti bedeli trafik sigortacısından istenemez. Bu zarar kazaya sebep olan işleten ve sürücüden istenir (KTK m.85; TBK m.49).",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "Kiralık araç bedeli yalnız ticari araçlarda, çalışamamaktan doğan kazanç kaybı olarak istenebilir; Selin Hanım'ın aracı hususi olduğundan böyle bir talep hakkı hiç doğmaz.",
+          "delta": -10,
+          "law": "TBK m.49",
+          "note": "Araç mahrumiyeti hususi araç sahibi için de doğabilen bir zarardır. Sorun aracın türü değil, bu kalemin trafik sigortasının teminatına girmemesi.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "Günlük 1.500 TL fahiş; o tarihte bu sınıf bir aracın piyasa kirası 900 TL'ydi, talep bu tutara indirilmeli.",
+          "delta": -5,
+          "law": "KTK m.91",
+          "note": "Tutara itiraz ederek kalemin teminat içinde olduğunu örtülü biçimde kabul ettiniz. Asıl savunmanız teminat dışılık olmalıydı.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "if": "p1_eskiHit || p1_parca || p1_hesap", "text": "BİLİRKİŞİ RAPORU · 2024 kaydı yalnız tampon boyası. Bagaj kapağı ve çamurluk değişimi gözetildiğinde değer kaybı 52.000 TL; ödenen 21.000 TL düşülünce bakiye 31.000 TL." },
+        { "who": "narr", "if": "!p1_eskiHit && !p1_parca && !p1_hesap", "text": "BİLİRKİŞİ RAPORU · Aynı bölgedeki önceki hasarın kapsamı dosyadan anlaşılamadı; araç hasarlı kabul edilerek değer kaybı 24.000 TL bulundu. Ödenen 21.000 TL düşülünce bakiye 3.000 TL." },
+        { "who": "judge", "text": "Başvuran vekili, faiz talebinizi açıklayın." }
+      ],
+      "prompt": "Faizi hangi tarihten ve hangi türden isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Şirkete belgelerle başvurulan 20.10.2026'yı izleyen sekiz iş gününün dolduğu günden itibaren yasal faiz iste.",
+          "delta": 15,
+          "set": ["p1_faiz"],
+          "law": "ZMMS Genel Şartları B.2 · KTK m.97",
+          "note": "Trafik sigortacısı, hak sahibinin gerekli belgeleri ilettiği tarihten itibaren sekiz iş günü içinde ödemekle yükümlüdür; bu süre dolunca temerrüde düşer. Hususi araç için yasal faiz istenir.",
+          "reply": [
+            { "who": "judge", "text": "Talep tutanağa geçirildi. Dosya karara kaldı." }
+          ]
+        },
+        {
+          "text": "Kaza tarihi olan 06.09.2026'dan itibaren avans faizi iste; haksız fiilde faiz olay gününden işlemeye başlar.",
+          "delta": -10,
+          "law": "KTK m.97",
+          "note": "Olay gününden işleyen faiz, işleten ve sürücü için geçerlidir. Sigortacı ise kendisine başvurulup ödeme süresi geçtiğinde temerrüde düşer. Hususi araçta avans faizi değil, yasal faiz istenir.",
+          "reply": [
+            { "who": "judge", "text": "Talep tutanağa geçirildi. Dosya karara kaldı." }
+          ]
+        },
+        {
+          "text": "Faiz isteme; zaten kısmi ödeme yapıldı, tutar küçük ve faiz talebi hakemi karşı tarafa yakınlaştırır, karar gecikir.",
+          "delta": -5,
+          "law": "HMK m.26",
+          "note": "Faiz bir haktır; istenmezse hükmedilmez (HMK m.26). Gereksiz bir vazgeçiş.",
+          "reply": [
+            { "who": "judge", "text": "Talep tutanağa geçirildi. Dosya karara kaldı." }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_eskiHit || p1_parca || p1_hesap",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Başvurunun KISMEN KABULÜ ile 31.000 TL bakiye değer kaybının" },
+        { "if": "p1_faiz", "text": " temerrüt tarihinden itibaren işleyecek yasal faiziyle birlikte" },
+        { "text": " sigorta şirketinden alınarak başvurana ödenmesine," },
+        { "if": "!p1_ikame", "text": " fazlaya ilişkin değer kaybı talebinin REDDİNE," },
+        { "if": "p1_ikame", "text": " fazlaya ilişkin değer kaybı talebi ile 27.000 TL kiralık araç bedeli talebinin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Bilirkişi, 2024 kaydının yalnız tampon boyası olduğunu, bagaj kapağı ile çamurluğun bu kazada ilk kez değiştiğini gözeterek değer kaybını 52.000 TL buldu; ödenen 21.000 TL düşüldü." },
+        { "if": "p2_ek1", "text": " Şirket vekilinin dayandığı Ek-1 formülü, kaza tarihinde Genel Şartlar'dan kaldırılmıştı." },
+        { "if": "p2_uyelik", "text": " Zorunlu sigortada şirketin Komisyona üye olmaması başvuruya engel değildi." },
+        { "if": "p1_ikame", "text": " Kiralık araç bedeli trafik sigortasının teminatı dışında kaldığından reddedildi; bu kalem işleten ve sürücüden istenebilir." },
+        { "if": "p1_dk", "text": " Başvuran vekili kiralık araç bedelini doğru biçimde işleten ve sürücüye karşı mahkemeye ayırmıştı." },
+        { "if": "!p1_faiz", "text": " Faiz istenmediği için faize hükmedilmedi." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": [
+        { "text": "Başvurunun KISMEN KABULÜ ile 3.000 TL bakiye değer kaybının sigorta şirketinden alınarak başvurana ödenmesine," },
+        { "if": "!p1_ikame", "text": " fazlaya ilişkin değer kaybı talebinin REDDİNE," },
+        { "if": "p1_ikame", "text": " fazlaya ilişkin değer kaybı talebi ile 27.000 TL kiralık araç bedeli talebinin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Önceki hasar kaydının neyden ibaret olduğu ortaya konmadı; bilirkişi aracı aynı bölgeden hasarlı kabul ederek değer kaybını 24.000 TL buldu. Ödenen 21.000 TL düşülünce talebin çok küçük bir kısmı kabul edildi." },
+        { "if": "p2_onceki", "text": " Şirket vekili önceki hasar kaydını öne çıkararak talebin büyük kısmını savuşturdu." },
+        { "if": "p1_ikame", "text": " Kiralık araç bedeli ise trafik sigortasının teminatı dışındaydı." },
+        { "if": "p2_uyelik", "text": " Şirketin üyelik itirazı, zorunlu sigorta olduğu için baştan reddedilmişti." }
+      ]
+    }
+  ]
+}

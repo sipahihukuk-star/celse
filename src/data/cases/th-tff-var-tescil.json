@@ -1,0 +1,352 @@
+{
+  "id": "th-tff-var-tescil",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "tff",
+  "difficulty": "zor",
+  "title": "Gösterilmeyen Kırmızı",
+  "area": "Tahkim · Spor tahkimi · Maçın tescili itirazı (oyun kuralı – hukuk kuralı)",
+  "court": "TFF Tahkim Kurulu",
+  "courtShort": "TFF TAHKİM KURULU",
+  "esas": "E.2027/187",
+  "kararTarihi": "16.04.2027",
+  "color": "#5a4a1e",
+  "teaser": "Hakem ikinci sarı kartı gösterdi, kırmızıyı unuttu; oyuncu sahada kaldı. Galibiyet golü uzatmada VAR'lı bir penaltıdan geldi. Yönetim Kurulu maçın tekrarına karar verdi; kazanan takım itiraz ediyor.",
+  "bench": { "judges": 7, "title": "Kurul Başkanı ve altı üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Kuzeyliman SK vekili (tekrar kararını savunan kulüp)", "short": "Kuzeyliman" },
+    "p2": { "role": "Anadolu Demirspor vekili (itiraz eden kulüp)", "short": "Anadolu" }
+  },
+  "cast": {
+    "judge": { "name": "Kurul Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#c4916b", "hair": "#9a9a9e", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e3b996", "hair": "#4a3a30", "style": "bun", "shirt": "#252a31", "inner": "#ece6dc" } },
+    "p2": { "look": { "kind": "civil", "skin": "#b07a52", "hair": "#151515", "style": "short", "beard": true, "shirt": "#2f2b29", "inner": "#e3ddd1" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "21.03.2027, Süper Lig 27. hafta: Anadolu Demirspor – Kuzeyliman SK. 71. dakikada skor 1-1 iken hakem, Anadolu'nun 6 numarası Mert Kaya'ya maçtaki ikinci sarı kartını gösterdi, ama kırmızı kartı göstermedi. Oyuncu sahada kaldı." },
+    { "who": "narr", "text": "90+4'te VAR incelemesi sonucu Anadolu lehine elle oynamadan penaltı verildi: 2-1. Kuzeyliman, 72 saat içinde harç makbuzuyla TFF Başkanlığına yazılı itiraz etti: hem ikinci sarıya rağmen sahada kalan oyuncu hem VAR'lı penaltı." },
+    { "who": "narr", "text": "Merkez Hakem Kurulu kural hatası tespit etti. TFF Yönetim Kurulu 02.04.2027'de maçın tekrarına karar verdi, penaltıya ilişkin itirazı ise “hakemin oyunla ilgili kararı” diyerek reddetti. Anadolu tekrar kararına karşı Tahkim Kurulu'na başvurdu. Kuzeyliman vekili ilk hamleyi yapacak." }
+  ],
+  "docs": [
+    { "t": "Hakem raporu (özet)", "d": "“71. dakikada 6 numaralı Mert Kaya'ya ikinci sarı kartı gösterdim; kırmızı kartı göstermeyi unuttum, oyuncu oyuna devam etti. Durumu maç sonunda dördüncü hakemin notlarından fark ettim.”" },
+    { "t": "TFF Yönetim Kurulu kararı (02.04.2027)", "d": "MHK'nın kural hatası tavsiyesi doğrultusunda müsabakanın tekrarına; VAR incelemesiyle verilen penaltıya ilişkin itirazın, hakemin oyunla ilgili takdirine ilişkin olduğundan reddine." },
+    { "t": "Futbol Müsabaka Talimatı m.28/2, m.30", "d": "m.28/2: Hakemlerin müsabakaların teknik sonuçları hakkındaki kararları kesindir. m.30: Kural ihlaline dayalı itiraz, profesyonel müsabakalarda müsabaka bitiminden itibaren 72 saat içinde, harç makbuzuyla TFF Başkanlığına yapılır; MHK inceler, Yönetim Kurulu karar verir; karara karşı 7 gün içinde Tahkim Kurulu'na başvurulur." },
+    { "t": "IFAB Oyun Kuralları ve VAR protokolü", "d": "Kural 5: Hakemin oyunla ilgili olgulara ilişkin kararları kesindir. Kural 12: Aynı maçta ikinci ihtarı alan oyuncu oyundan ihraç edilir. VAR protokolü: VAR teknolojisindeki arıza, VAR'la ilgili hatalı kararlar, bir pozisyonun incelenmemesi ya da incelenemeyecek bir pozisyonun incelenmesi maçı geçersiz kılmaz." }
+  ],
+  "evidence": [
+    { "id": "ev_rapor", "type": "belge", "title": "Hakem raporu", "desc": "“71. dakikada 6 numaralı Mert Kaya'ya ikinci sarı kartı gösterdim; kırmızı kartı göstermeyi unuttum, oyuncu oyuna devam etti.”" },
+    { "id": "ev_dorduncu", "type": "belge", "title": "Dördüncü hakemin kart notları", "desc": "“71' — Anadolu 6 (Mert Kaya), 2. sarı.”" },
+    { "id": "ev_video", "type": "belge", "title": "Yayın görüntüsü (71. dakika)", "desc": "Hakem sarı kartı 6 numaraya doğru kaldırıyor; yakınında 8 numara da var." },
+    { "id": "ev_var", "type": "belge", "title": "VAR iletişim kaydı (90+3'–90+5')", "desc": "Elle oynama incelemesi; VAR hakemi pozisyonu sahadaki hakeme izletiyor, penaltı veriliyor." },
+    { "id": "ev_itiraz", "type": "belge", "title": "Kuzeyliman'ın itiraz dilekçesi ve harç makbuzu", "desc": "TFF Başkanlığına 23.03.2027, 16.00'da verildi; maçın bitişinden yaklaşık 45 saat sonra." },
+    { "id": "law_k12", "type": "kanun", "title": "IFAB Kural 12", "desc": "Aynı maçta ikinci ihtarı alan oyuncu oyundan ihraç edilir.", "law": "IFAB Oyun Kuralları, Kural 12" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "STRATEJİ · Yönetim Kurulu kararı 02.04.2027'de tebliğ edildi. Anadolu tekrar kararına itiraz etti; Kuzeyliman'ın da 7 günlük süresi işliyor." }
+      ],
+      "prompt": "Kuzeyliman Tahkim Kurulu önünde ne isteyecek?",
+      "choices": [
+        {
+          "text": "Penaltı kararına da itiraz et: VAR protokolüne aykırı verilen gol iptal edilsin ve maç 1-1 tescil edilsin, olmazsa tekrar edilsin.",
+          "delta": -10,
+          "set": ["p1_skor"],
+          "law": "IFAB Kural 5 · VAR protokolü",
+          "note": "Tahkim Kurulu sahadaki pozisyonu yeniden yönetemez; skor hakemin oyunla ilgili kararlarıyla belirlenir ve VAR'la ilgili bir hata maçı geçersiz kılmaz (IFAB VAR protokolü). Kurul'un önüne zayıf bir talep koydunuz.",
+          "reply": [
+            { "who": "narr", "text": "Kuzeyliman 08.04.2027'de penaltıya ilişkin kısım için ayrıca Tahkim Kurulu'na başvurdu; dosyalar birleştirildi." }
+          ]
+        },
+        {
+          "text": "VAR'lı penaltıya itiraz etme; Kurul'da yalnız Yönetim Kurulu'nun tekrar kararını savun, gücünü kural hatasına ver.",
+          "delta": 15,
+          "set": ["p1_odak"],
+          "law": "IFAB Kural 5 · FMT m.28/2 · VAR protokolü",
+          "note": "Doğru. Hakemin oyunla ilgili kararları kesindir (IFAB Kural 5; FMT m.28/2); VAR protokolüne göre VAR'la ilgili hatalı kararlar maçı geçersiz kılmaz. Gücünüzü, hakemin kendi raporunda kabul ettiği kural hatasına vermelisiniz."
+        },
+        {
+          "text": "Tekrar yetmez: Anadolu, kural dışı sahada kalan oyuncuyla oynadığı için 3-0 hükmen mağlup sayılsın diye ayrıca itiraz et.",
+          "delta": -10,
+          "set": ["p1_hukmen"],
+          "law": "FMT m.23",
+          "note": "Hükmen mağlubiyet, takımın kendi aykırılığını (ör. oynama hakkı olmayan futbolcu oynatmak) yaptırıma bağlar (FMT m.23). Burada hata hakemindir; oyuncu sahada kalmayı kendisi seçmedi. Kural hatasının çaresi maçın tekrarıdır.",
+          "reply": [
+            { "who": "narr", "text": "Kuzeyliman 08.04.2027'de hükmen galibiyet için ayrıca Tahkim Kurulu'na başvurdu; dosyalar birleştirildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "ANADOLU'NUN İTİRAZI · Kulüp yönetimi, tekrar kararına karşı en güçlü itirazın ne olduğunu soruyor." }
+      ],
+      "prompt": "Anadolu'nun itirazını hangi eksene oturtacaksınız?",
+      "choices": [
+        {
+          "text": "Kuzeyliman'ın itirazı geç kaldı: 72 saat maçın bitişinden değil, ikinci sarı kartın gösterildiği andan itibaren işlemeye başlar.",
+          "delta": -10,
+          "set": ["p2_sure"],
+          "law": "FMT m.30",
+          "note": "Süre müsabakanın bitiminden işler (FMT m.30). Kuzeyliman itirazını maçın bitişinden yaklaşık 45 saat sonra, harç makbuzuyla vermişti; süre itirazı dayanaksız."
+        },
+        {
+          "text": "Kart, hakemin saha kararıdır; hakem raporunu sonradan düzelterek sonucu değiştiremez, Kural 5 gereği bu karar kesindir.",
+          "delta": -10,
+          "set": ["p2_saha"],
+          "law": "IFAB Kural 5, Kural 12 · FMT m.30",
+          "note": "Kart göstermek bir saha kararıdır; ama ikinci sarının kırmızıya dönüşmesi takdir değil, kuralın zorunlu sonucudur (IFAB Kural 12). Hakemin bunu uygulamaması Kural 5'in koruduğu takdir alanında değil, kural hatasıdır; FMT m.30 bu hataya karşı itiraz yolunu açar."
+        },
+        {
+          "text": "Tekrar ancak sonucu etkileyen kural hatasında verilir: 6 numara ikinci sarıdan sonra hiçbir gol pozisyonunda yer almadı.",
+          "delta": 15,
+          "set": ["p2_etki"],
+          "law": "FMT m.30",
+          "note": "Doğru eksen. Kural hatası tek başına tekrara yetmez; hatanın maçın sonucunu etkilemiş olması da aranır. Kuzeyliman'ın asıl yükü, on bir kişiyle geçen dakikaların sonucu nasıl değiştirdiğini göstermek olacak."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kurul duruşma yapıyor. Anadolu vekili, itirazınızı özetleyin." }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Kurul, hakem 71. dakikada kartı 6 numaraya değil, yanındaki 8 numaraya göstermek istemiştir. Ortada bir kural hatası değil, şahıs hatası vardır; bunun yolu da beş gün içinde disiplin kuruluna başvurmaktı." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_rapor"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_rapor"],
+        "law": "IFAB Kural 12 · FMT m.30",
+        "note": "Hakem raporunda kartı 6 numaraya, ikinci sarı olarak gösterdiğini ve kırmızıyı göstermeyi unuttuğunu açıkça yazıyor. Hakem raporu aksi ispatlanana kadar doğru kabul edilir. Şahıs hatası yok; hakemin kuralı uygulamadığını kendisi kabul ediyor.",
+        "reply": [
+          { "who": "judge", "text": "Hakem raporu tutanağa geçirildi. Kartın 6 numaraya ikinci sarı olarak gösterildiği anlaşılıyor." }
+        ]
+      },
+      "responses": {
+        "ev_dorduncu": { "delta": 5, "note": "Dördüncü hakemin notu destekleyici, ama asıl belirleyici olan hakemin kendi raporudur: kartı kime ve neden gösterdiğini hakem yazar ve rapor aksi ispatlanana kadar doğru sayılır." },
+        "ev_video": { "delta": 0, "note": "Görüntü kartın 6 numaraya kaldırıldığını düşündürüyor, ama yakında 8 numara da var. Hakemin iradesini kesin olarak gösteren belge, hakem raporuydu." },
+        "law_k12": { "delta": -5, "note": "Doğru kural, ama önce kartın 6 numaraya ikinci sarı olarak gösterildiğini ispatlamalıydınız; bunun belgesi hakem raporuydu." },
+        "ev_var": { "delta": -10, "note": "VAR kaydı uzatmadaki penaltıyla ilgili; 71. dakikadaki kartla ilgisi yok." },
+        "ev_itiraz": { "delta": -10, "note": "İtiraz dilekçesi sürenin korunduğunu gösterir; kartın kime gösterildiğini göstermez." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge kartın kime gösterildiğini göstermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; şahıs hatası iddiası dosyada çürütülmeden kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Anadolu vekili, itirazınızın esasını açıklayın." }
+      ],
+      "prompt": "Kurul'a, maçın neden sahadaki 2-1 sonuçla tescil edilmesi gerektiğini kendi cümlelerinizle anlatın.",
+      "choices": [
+        {
+          "text": "Güçlü itiraz",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_guclu", "p2_orta"],
+          "law": "IFAB Kural 5 · FMT m.28/2 · VAR protokolü",
+          "note": "Tekrarın istisna olduğunu, hatanın sonucu etkilemiş olmasının aranacağını ve somut olarak neden etkilemediğini kurdunuz; penaltının VAR'la ilgili bir tartışma olarak tekrarı destekleyemeyeceğini de gösterdiniz."
+        },
+        {
+          "text": "Yeterli itiraz",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_orta"],
+          "law": "FMT m.28/2",
+          "note": "Ana fikir doğru ama eksik. Tam bir itiraz; hakem kararlarının kural olarak kesin olduğunu (Kural 5; FMT m.28/2), tekrarın ancak sonucu etkileyen kural hatasında verileceğini, 6 numaranın gol pozisyonlarında yer almadığını ve VAR'lı penaltının maçı geçersiz kılamayacağını birlikte söyler."
+        },
+        {
+          "text": "Zayıf itiraz",
+          "delta": -5,
+          "law": "FMT m.28/2, m.30",
+          "note": "Kurul'a tutunacağı bir dayanak vermediniz. En güçlü itiraz, kural hatasının sonucu etkilemediğiydi: 6 numara ikinci sarıdan sonra gol pozisyonlarında yer almadı; galibiyet golü VAR'lı bir penaltıdan geldi ve VAR'la ilgili hata maçı geçersiz kılmaz."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Hakemin oyunla ilgili kararları kesindir (IFAB Kural 5; FMT m.28/2); maçın tekrarı istisnadır. (2) Tekrar ancak kural hatası maçın sonucunu etkilemişse verilir; 6 numara ikinci sarıdan sonra hiçbir gol pozisyonunda yer almadı, penaltı pozisyonunda bulunmadı; Kuzeyliman'ın on bir kişiye karşı oynasa kazanacağı bir varsayımdır. (3) Galibiyet golü VAR'la verilen bir penaltıdan geldi; VAR protokolüne göre VAR'la ilgili hatalı karar maçı geçersiz kılmaz, dolayısıyla penaltı tekrarı destekleyemez. (4) Talep: Yönetim Kurulu kararının kaldırılması ve maçın 2-1 tescili. Hakemin kart kararını tümüyle takdir alanında sayan ya da şahıs hatasında ısrar eden cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["Kural 5", "kesin", "saha kararı", "28/2", "takdir"], "weight": 1 },
+        { "terms": ["sonucu etkile", "sonuca etki", "etkilemedi", "sonucu değiştir"], "weight": 3 },
+        { "terms": ["6 numara", "Mert", "pozisyon", "gol pozisyonu"], "weight": 1 },
+        { "terms": ["VAR protokol", "geçersiz kılmaz", "VAR"], "weight": 2 },
+        { "terms": ["tescil", "2-1", "kaldırıl"], "weight": 1 }
+      ],
+      "model": "Sayın Kurul, hakemin oyunla ilgili kararları kesindir; tekrar istisnadır ve ancak kural hatası sonucu etkilemişse verilir (IFAB Kural 5; FMT m.28/2). Mert Kaya ikinci sarıdan sonra hiçbir gol pozisyonunda yer almadı, penaltı pozisyonunda da yoktu. Galibiyet golü VAR'lı bir penaltıdan geldi ve VAR protokolüne göre VAR'la ilgili bir hata maçı geçersiz kılmaz. Yönetim Kurulu kararının kaldırılmasını ve maçın 2-1 tescilini istiyoruz."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kuzeyliman vekili, tekrar kararının neden yerinde olduğunu açıklayın." }
+      ],
+      "prompt": "Kurul'a, bunun neden hakemin takdiri değil bir kural hatası olduğunu ve neden maçın tekrarını gerektirdiğini kendi cümlelerinizle anlatın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_guclu", "p1_orta"],
+          "law": "IFAB Kural 5, Kural 12 · FMT m.30",
+          "note": "Takdir hatası ile kural hatası ayrımını, hakemin kendi kabulünü, itirazın süresinde yapıldığını ve hatanın sonuca etkisini birlikte kurdunuz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_orta"],
+          "law": "IFAB Kural 12 · FMT m.30",
+          "note": "Kural hatasını doğru adlandırdınız ama eksik. Tam savunma, ikinci ihtarın oyundan ihracı zorunlu kıldığını (Kural 12), hakemin bunu raporunda kabul ettiğini, itirazın 72 saat içinde yapıldığını ve Anadolu'nun 23 dakika fazladan bir oyuncuyla oynayıp galibiyet golünü bu sürede bulduğunu birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "IFAB Kural 5, Kural 12 · FMT m.30",
+          "note": "Kurul'a tutunacağı bir ayrım vermediniz. Kart göstermek takdirdir, ama ikinci ihtarın oyundan ihraca dönüşmesi kuralın zorunlu sonucudur (Kural 12); hakemin bunu uygulamaması kural hatasıdır. Anadolu galibiyet golünü, on kişi kalması gereken 23 dakikada buldu."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Takdir hatası ile kural hatası ayrımı: kartın 6 numaraya ikinci sarı olarak gösterildiği hakem raporuyla sabit; ikinci ihtar oyundan ihracı zorunlu kılar (IFAB Kural 12). Hakem kuralı uygulamadı ve raporunda bunu kabul etti; bu, Kural 5'in koruduğu takdir değil, kural hatasıdır. (2) İtiraz FMT m.30 uyarınca 72 saat içinde, harç makbuzuyla yapıldı; MHK kural hatası tespit etti, Yönetim Kurulu tekrar kararı verdi. (3) Sonuca etki: Anadolu 71. dakikadan sonra 23 dakika on kişi yerine on bir kişiyle oynadı; galibiyet golü bu sürede geldi; sayısal üstünlük oyunun bütününü değiştirir. (4) Talep: Yönetim Kurulu kararının onanması ve maçın tekrarı; VAR'lı penaltıya dayanmak gerekmez. Yalnızca 'hakem hata yaptı' diyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["kural hatası", "teknik hata", "hukuk kuralı", "kuralı uygulama"], "weight": 3 },
+        { "terms": ["ikinci sarı", "kırmızı", "ihraç", "Kural 12"], "weight": 2 },
+        { "terms": ["rapor", "kabul etti", "unuttu"], "weight": 1 },
+        { "terms": ["72 saat", "m.30", "madde 30", "süresinde"], "weight": 1 },
+        { "terms": ["sonuca", "23 dakika", "on bir kişi", "11 kişi", "sayısal"], "weight": 2 }
+      ],
+      "model": "Sayın Kurul, kart göstermek hakemin takdiridir; ama ikinci ihtar oyundan ihracı zorunlu kılar (IFAB Kural 12). Hakem 6 numaraya ikinci sarıyı gösterdiğini ve kırmızıyı unuttuğunu raporunda kabul ediyor; bu Kural 5'in koruduğu takdir değil, kural hatasıdır. İtirazımızı FMT m.30 uyarınca 72 saat içinde, harcıyla yaptık. Anadolu on kişi kalması gereken 23 dakikada galibiyet golünü buldu; hata sonucu etkiledi. Tekrar kararının onanmasını istiyoruz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "if": "p1_skor", "text": "Kuzeyliman, penaltının VAR protokolüne aykırı verildiğini ve golün iptalini de istiyor. Anadolu vekili?" },
+        { "who": "judge", "if": "!p1_skor", "text": "Kuzeyliman, Yönetim Kurulu önünde penaltının VAR protokolüne aykırı verildiğini de ileri sürmüştü. Anadolu vekili, bu konudaki görüşünüz?" }
+      ],
+      "prompt": "VAR'lı penaltı hakkında ne söyleyeceksiniz?",
+      "choices": [
+        {
+          "text": "VAR görüntüleri Kurul'da izlensin; Kurul pozisyonun gerçekten penaltı olduğunu görecek ve bu tartışma kesin olarak kapanacak.",
+          "delta": -10,
+          "set": ["p2_izle"],
+          "law": "IFAB Kural 5 · VAR protokolü",
+          "note": "Kurul'u sahadaki pozisyonu yeniden yönetmeye davet ettiniz. Tahkim Kurulu hakemin oyunla ilgili kararını yeniden değerlendirmez; kapıyı Kuzeyliman'a siz açtınız."
+        },
+        {
+          "text": "VAR'la ilgili hatalı karar, bir pozisyonun incelenmemesi ya da incelenmesi maçı geçersiz kılmaz; penaltı bir saha kararıdır.",
+          "delta": 15,
+          "set": ["p2_var"],
+          "law": "IFAB VAR protokolü · FMT m.28/2",
+          "note": "Doğru. VAR protokolüne göre VAR teknolojisindeki arıza, VAR'la ilgili hatalı kararlar, bir pozisyonun incelenmemesi ya da incelenemeyecek bir pozisyonun incelenmesi maçı geçersiz kılmaz. Penaltı, hakemin oyunla ilgili kesin kararıdır (FMT m.28/2)."
+        },
+        {
+          "text": "Penaltı itirazı süresinde yapılmadı; Kuzeyliman bu kısmı 72 saat içinde ayrıca, ayrı bir dilekçe ve harçla bildirmemişti.",
+          "delta": -5,
+          "law": "FMT m.30",
+          "note": "Kuzeyliman 72 saat içinde verdiği tek dilekçede iki itirazı birlikte bildirmişti; ayrı dilekçe şartı yok. Asıl cevap, VAR'la ilgili bir hatanın maçı geçersiz kılmayacağıydı."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kuzeyliman vekili, talebinizi son kez netleştirin." }
+      ],
+      "prompt": "Kurul'dan tam olarak ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Maç 71. dakikadan, skor 1-1 ve Anadolu on kişiyken devam ettirilsin; yarıda kalan maçlardaki usul kıyasen uygulansın.",
+          "delta": -10,
+          "set": ["p1_devam"],
+          "law": "FMT m.20",
+          "note": "Kalınan andan devam, yarıda kalan müsabakalar için öngörülmüştür (FMT m.20). Tamamlanmış bir maçta, sonucu etkileyen kural hatası ancak maçın tekrarıyla giderilir."
+        },
+        {
+          "text": "Yönetim Kurulu'nun maçın tekrarına ilişkin kararı onansın; penaltıya ilişkin itiraz bu talebin dayanağı değildir.",
+          "delta": 15,
+          "set": ["p1_tekrar"],
+          "law": "FMT m.30 · Tahkim Kurulu Talimatı m.13",
+          "note": "Doğru. Sonucu etkileyen kural hatasının olağan çaresi maçın tekrarıdır. Talebi hakemin kabul ettiği kural hatasına dayandırdınız; Kurul'un takdir alanına giren penaltıyı talebin dışında tuttunuz."
+        },
+        {
+          "text": "Anadolu 3-0 hükmen mağlup sayılsın; kural dışı biçimde sahada kalan oyuncunun bedelini kulübü ödemelidir.",
+          "delta": -10,
+          "set": ["p1_hukmen2"],
+          "law": "FMT m.23",
+          "note": "Hükmen mağlubiyet, takımın kendi aykırılığını yaptırıma bağlar (FMT m.23). Oyuncu hakemin hatası yüzünden sahada kaldı; Anadolu'nun bir kusuru yok. Çare maçın tekrarıdır."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Anadolu vekili, son sözünüz?" }
+      ],
+      "prompt": "Kurul'un vereceği kararın niteliği hakkında müvekkilinize ve Kurul'a ne söyleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Aleyhe kararda 21 gün içinde Spor Tahkim Mahkemesine (CAS) başvururuz; R57 uyarınca CAS maçı baştan değerlendirir.",
+          "delta": -10,
+          "law": "CAS Kuralları R47 · Anayasa m.59/3",
+          "note": "Ulusal bir lig maçının tescili için TFF mevzuatı CAS yolunu öngörmez; CAS'a temyiz, federasyon kuralları öngörmedikçe ya da özel bir tahkim anlaşması olmadıkça mümkün değildir (R47). Tahkim Kurulu kararı kesindir."
+        },
+        {
+          "text": "Aleyhe kararda bir ay içinde İstanbul Bölge Adliye Mahkemesinde HMK m.439 uyarınca iptal davası açar, kararı denetlettiririz.",
+          "delta": -10,
+          "law": "5894 s.K. m.6/6 · Anayasa m.59/3",
+          "note": "Maçın tescili futbol faaliyetlerinin yönetimine ilişkindir; bu alandaki Tahkim Kurulu kararları kesindir ve iptal davasına konu olamaz (5894 s.K. m.6/6; Anayasa m.59/3)."
+        },
+        {
+          "text": "Maçın tescili futbolun yönetimine ilişkindir; Kurul kararı kesindir (Anayasa m.59/3), kulübümüz kararı uygulayacaktır.",
+          "delta": 10,
+          "set": ["p2_kesin"],
+          "law": "Anayasa m.59/3 · 5894 s.K. m.6/6",
+          "note": "Doğru. Federasyonların spor faaliyetlerinin yönetimine ilişkin kararlarına karşı ancak zorunlu tahkim yoluna gidilir; Tahkim Kurulu kararları kesindir ve bunlara karşı hiçbir yargı merciine başvurulamaz (Anayasa m.59/3; 5894 s.K. m.6/6)."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_rapor && (p1_guclu || (p1_orta && !p2_guclu))",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Anadolu Demirspor'un itirazının REDDİ ile TFF Yönetim Kurulu'nun 02.04.2027 tarihli, müsabakanın TEKRARINA ilişkin kararının ONANMASINA," },
+        { "if": "p1_skor", "text": " Kuzeyliman SK'nın penaltıya ilişkin başvurusunun REDDİNE," },
+        { "if": "p1_hukmen || p1_hukmen2", "text": " Kuzeyliman SK'nın hükmen galibiyet talebinin REDDİNE," },
+        { "text": " kararın kesin olarak verildiğine," }
+      ],
+      "summary": [
+        { "text": "Hakem, 6 numaraya ikinci sarı kartı gösterdiğini ve kırmızıyı göstermeyi unuttuğunu raporunda kabul etti. İkinci ihtar oyundan ihracı zorunlu kılar (IFAB Kural 12); hakemin bunu uygulamaması takdir değil, kural hatasıdır. Anadolu, on kişi kalması gereken 23 dakikada galibiyet golünü buldu; hata sonucu etkiledi." },
+        { "if": "p2_var", "text": " Anadolu vekili VAR'lı penaltının maçı geçersiz kılamayacağını doğru gösterdi; ama tekrar kararı penaltıya değil, kural hatasına dayanıyordu." },
+        { "if": "p2_izle", "text": " Anadolu vekilinin VAR görüntülerinin Kurul'da izlenmesi talebi, Kurul'un hakem kararını yeniden değerlendirmeyeceği gerekçesiyle reddedildi." },
+        { "if": "p2_saha", "text": " Kartın tümüyle hakemin takdirinde olduğu savunması, ikinci sarının zorunlu sonucu karşısında kabul görmedi." },
+        { "if": "p1_devam", "text": " Kuzeyliman'ın maçın 71. dakikadan devamı talebi ise yarıda kalan maçlara özgü bir usul olduğundan karşılık bulmadı." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": [
+        { "text": "Anadolu Demirspor'un itirazının KABULÜ ile TFF Yönetim Kurulu'nun 02.04.2027 tarihli kararının KALDIRILMASINA, müsabakanın sahada alınan 2-1 sonuçla TESCİLİNE," },
+        { "if": "p1_skor", "text": " Kuzeyliman SK'nın penaltıya ilişkin başvurusunun REDDİNE," },
+        { "text": " kararın kesin olarak verildiğine," }
+      ],
+      "summary": [
+        { "if": "!p1_rapor", "text": "Kuzeyliman vekili, kartın 6 numaraya ikinci sarı olarak gösterildiğini hakem raporuyla ortaya koymadı; şahıs hatası iddiası çürütülemedi ve kural hatası tartışmalı kaldı." },
+        { "if": "p1_rapor", "text": "Kural hatası hakem raporuyla sabitti, ama Kuzeyliman vekili hatanın maçın sonucunu nasıl etkilediğini ikna edici biçimde kuramadı." },
+        { "if": "p2_guclu", "text": " Anadolu vekili tekrarın istisna olduğunu ve hatanın sonuca etkisinin aranacağını güçlü biçimde savundu." },
+        { "if": "p1_skor", "text": " Penaltıya ilişkin başvuru, VAR'la ilgili bir hatanın maçı geçersiz kılmayacağı gerekçesiyle reddedildi (IFAB VAR protokolü)." }
+      ]
+    }
+  ]
+}

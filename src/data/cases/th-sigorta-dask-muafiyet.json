@@ -4,7 +4,7 @@
   "difficulty": "orta",
   "title": "Kırk Saat Sonra",
   "area": "Tahkim · Sigorta tahkimi · Zorunlu deprem sigortası ve ek deprem teminatı (muafiyet)",
-  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakemi",
+  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakem Heyeti",
   "courtShort": "SİGORTA TAHKİM",
   "esas": "Başvuru No. 2026/62145",
   "kararTarihi": "28.09.2026",
@@ -12,14 +12,14 @@
   "room": "tahkim",
   "forum": "sigorta",
   "inscription": null,
-  "bench": { "judges": 1, "title": "Tek hakem" },
+  "bench": { "judges": 3, "title": "Hakem heyeti: başhakem ve iki hakem" },
   "teaser": "Deprem ve kırk saat sonraki artçı aynı daireyi vurdu. DASK ödedi; ek deprem teminatını veren şirket ise iki ayrı muafiyet kesti, üstüne binayı arsa payıyla değerleyip eksik sigorta uyguladı.",
   "sides": {
     "p1": { "role": "Başvuran (sigortalı) vekili", "short": "Başvuran" },
     "p2": { "role": "Sigorta şirketi vekili", "short": "Sigorta şirketi" }
   },
   "cast": {
-    "judge": { "name": "Hakem", "np": "red", "look": { "kind": "civil", "skin": "#d8a982", "hair": "#5a4434", "style": "short", "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#d8a982", "hair": "#5a4434", "style": "short", "shirt": "#2b2f36", "inner": "#e8e4dc" } },
     "p1": { "look": { "kind": "civil", "skin": "#eec6a0", "hair": "#2a201b", "style": "long", "glasses": true, "shirt": "#262a31", "inner": "#efe9e0" } },
     "p2": { "look": { "kind": "civil", "skin": "#c38e68", "hair": "#2c2522", "style": "short", "beard": true, "shirt": "#1f2934", "inner": "#e6e3dd" } },
     "client": { "name": "Ayten Korkmaz · Daire maliki", "np": "civil", "look": { "kind": "civil", "skin": "#e4b994", "hair": "#8b8580", "style": "bun", "shirt": "#6a4b5a", "inner": "#efe6dc" } }
@@ -27,20 +27,20 @@
   "intro": [
     { "who": "narr", "text": "14.03.2026 gecesi saat 03.12'de Ege'deki bir ilçede 5,8 büyüklüğünde deprem oldu; 15.03.2026 akşamı 19.40'ta 5,1 büyüklüğünde bir artçı geldi. Ayten Korkmaz'ın Lale Apartmanı'ndaki dairesi iki sarsıntıda da hasar gördü." },
     { "who": "narr", "text": "Dairenin Zorunlu Deprem Sigortası (DASK) bedeli 1.050.000 TL. Ayrıca Meltem Sigorta A.Ş.'den bina bedeli 3.000.000 TL olan bir konut paket poliçesi var; deprem ek teminatı DASK teminatını aşan kısım için verilmiş. Meltem, Sigorta Tahkim Komisyonuna üye." },
-    { "who": "narr", "text": "Eksper toplam bina hasarını 1.520.000 TL buldu. DASK, sigorta bedelinden %2 muafiyeti düşerek 1.029.000 TL ödedi. Meltem ise DASK'ı aşan 470.000 TL'ye iki ayrı muafiyet uyguladı, binanın değerini 3.750.000 TL kabul ederek eksik sigorta oranı da işletti ve yalnızca 224.000 TL ödedi." },
-    { "who": "narr", "text": "Meltem'e yapılan yazılı itiraz reddedildi (5684 s.K. m.30/13). Dosya Komisyonda; tutar 122.000 TL'nin altında kaldığı için tek hakem görevlendirildi." }
+    { "who": "narr", "text": "Eksper toplam bina hasarını 1.650.000 TL buldu. DASK, sigorta bedelinden %2 muafiyeti düşerek 1.029.000 TL ödedi. Meltem ise DASK'ı aşan 600.000 TL'ye iki ayrı muafiyet uyguladı, binanın değerini 3.750.000 TL kabul ederek eksik sigorta oranı da işletti ve yalnızca 307.200 TL ödedi." },
+    { "who": "narr", "text": "Meltem'e yapılan yazılı itiraz reddedildi (5684 s.K. m.30/13). Dosya Komisyonda; uyuşmazlık 122.000 TL'yi aştığı için üç kişilik hakem heyeti kuruldu." }
   ],
   "docs": [
     { "t": "Konut paket poliçesi · Deprem ek teminatı", "d": "“Deprem teminatı Zorunlu Deprem Sigortası teminatını aşan kısım için verilmiştir. Her hasarda bina sigorta bedelinin %2'si tenzili muafiyet uygulanır; sigortalı, muafiyet sonrası hasarın %20'sine iştirak eder. 72 saat içinde meydana gelen depremler ve bunların sonucu olan hasarlar tek bir hasar sayılır.” Bina sigorta bedeli 3.000.000 TL." },
-    { "t": "DASK ödeme yazısı", "d": "Hasar 1.520.000 TL; sigorta bedeli 1.050.000 TL; tenzili muafiyet (%2) 21.000 TL; ödenen 1.029.000 TL." },
-    { "t": "Meltem'in hesabı", "d": "DASK'ı aşan hasar 470.000 TL. “İki ayrı deprem”: 2 × 60.000 TL muafiyet → 350.000 TL. Müşterek sigorta %20 → 280.000 TL. Eksik sigorta oranı 3.000.000 / 3.750.000 = 0,80 → 224.000 TL. Ödendi: 08.05.2026." },
-    { "t": "Eksper raporu (20.04.2026)", "d": "Ana şok hasarı 1.280.000 TL, artçının ek hasarı 240.000 TL. Bina değeri: 3.750.000 TL." },
+    { "t": "DASK ödeme yazısı", "d": "Hasar 1.650.000 TL; sigorta bedeli 1.050.000 TL; tenzili muafiyet (%2) 21.000 TL; ödenen 1.029.000 TL." },
+    { "t": "Meltem'in hesabı", "d": "DASK'ı aşan hasar 600.000 TL. “İki ayrı deprem”: 2 × 60.000 TL muafiyet → 480.000 TL. Müşterek sigorta %20 → 384.000 TL. Eksik sigorta oranı 3.000.000 / 3.750.000 = 0,80 → 307.200 TL. Ödendi: 08.05.2026." },
+    { "t": "Eksper raporu (20.04.2026)", "d": "Ana şok hasarı 1.380.000 TL, artçının ek hasarı 270.000 TL. Bina değeri: 3.750.000 TL." },
     { "t": "TTK hükümleri", "d": "m.1462: sigorta bedeli sigorta değerinden azsa, aksi kararlaştırılmadıkça tazminat bedelin değere oranına göre ödenir. m.1427: tazminat, ihbardan 45 gün sonra muaccel olur; muacceliyetle birlikte ihtara gerek kalmadan temerrüt gerçekleşir." }
   ],
   "evidence": [
     { "id": "ev_police", "type": "belge", "title": "Deprem ek teminatı şartı", "desc": "DASK'ı aşan kısım; her hasarda bina bedelinin %2'si muafiyet; %20 müşterek sigorta; 72 saat içindeki depremler tek hasar." },
     { "id": "ev_dask", "type": "belge", "title": "DASK ödeme yazısı", "desc": "1.050.000 TL bedel; 21.000 TL muafiyet; 1.029.000 TL ödeme." },
-    { "id": "ev_eksper", "type": "belge", "title": "Eksper raporu", "desc": "Toplam hasar 1.520.000 TL; bina değeri 3.750.000 TL." },
+    { "id": "ev_eksper", "type": "belge", "title": "Eksper raporu", "desc": "Toplam hasar 1.650.000 TL; bina değeri 3.750.000 TL." },
     { "id": "ev_degerleme", "type": "belge", "title": "Eksper raporu eki · Değerleme tablosu", "desc": "Yeniden yapım maliyeti (inşaat alanı × birim maliyet): 2.950.000 TL. Arsa payı değeri: 800.000 TL. Toplam: 3.750.000 TL.", "if": "p1_arsa" },
     { "id": "ev_afad", "type": "belge", "title": "Deprem kayıtları", "desc": "Ana şok 14.03.2026 03.12; artçı 15.03.2026 19.40. Aradaki süre 40 saat 28 dakika.", "if": "p1_saat" },
     { "id": "law_1462", "type": "kanun", "title": "TTK m.1462 · Eksik sigorta", "desc": "Sigorta bedeli sigorta değerinden azsa tazminat bedelin değere oranına göre ödenir.", "law": "TTK m.1462" }
@@ -56,21 +56,21 @@
       "prompt": "Başvuruyu nasıl kuracaksınız?",
       "choices": [
         {
-          "text": "Yalnız Meltem'e başvur: tek muafiyetle ve oran uygulanmadan hesaplanan 328.000 TL'den ödenen 224.000 TL'yi düş, 104.000 TL ile faizini iste.",
+          "text": "Yalnızca Meltem'e başvur: tek muafiyetle ve oran uygulanmadan hesaplanan 432.000 TL'den ödenen 307.200 TL'yi düş, 124.800 TL ile faizini iste.",
           "delta": 20,
           "set": ["p1_hesap"],
           "law": "Poliçe deprem şartı · TTK m.1462",
-          "note": "Doğru hesap: DASK'ı aşan 470.000 TL'den tek muafiyet (60.000 TL) düşülür, kalan 410.000 TL'nin %80'i 328.000 TL eder; ödenen 224.000 TL mahsup edilince 104.000 TL kalır. DASK'ın muafiyeti DASK katmanında kalır; ek teminat yalnız DASK'ı aşan kısmı karşılar."
+          "note": "Doğru hesap: DASK'ı aşan 600.000 TL'den tek muafiyet (60.000 TL) düşülür, kalan 540.000 TL'nin %80'i 432.000 TL eder; ödenen 307.200 TL mahsup edilince 124.800 TL kalır. DASK'ın muafiyeti DASK katmanında kalır; ek teminat yalnız DASK'ı aşan kısmı karşılar."
         },
         {
-          "text": "DASK'ı ve Meltem'i birlikte karşı taraf göster; DASK'ın kestiği 21.000 TL muafiyeti de ek teminat ödesin, toplam 125.000 TL ve faizini iste.",
+          "text": "DASK'ı ve Meltem'i birlikte karşı taraf göster; DASK'ın kestiği 21.000 TL muafiyeti de ek teminat ödesin, toplam 145.800 TL ve faizini iste.",
           "delta": -10,
           "set": ["p1_dask"],
           "law": "Poliçe deprem şartı",
           "note": "DASK kendi poliçesini doğru uyguladı: muafiyet sigorta bedelinin %2'sidir. Ek teminat ise yalnız DASK teminatını aşan kısmı karşılar; DASK katmanındaki muafiyeti üstlenmez. Başvuru bu kısımlarda reddedilecek."
         },
         {
-          "text": "Meltem'den, muafiyet ve müşterek sigorta payı hiç uygulanmadan DASK'ı aşan 470.000 TL'nin tamamını iste; ödenen 224.000 TL'yi düşerek 246.000 TL.",
+          "text": "Meltem'den, muafiyet ve müşterek sigorta payı hiç uygulanmadan DASK'ı aşan 600.000 TL'nin tamamını iste; ödenen 307.200 TL'yi düşerek 292.800 TL.",
           "delta": -10,
           "set": ["p1_brut"],
           "law": "Poliçe deprem şartı",
@@ -87,14 +87,14 @@
       "prompt": "Cevabın omurgası ne olacak?",
       "choices": [
         {
-          "text": "Muafiyet ve %20 müşterek sigorta payı poliçede açıkça yazılı; bunların her hâlde uygulanacağını ve ek teminatın yalnız DASK'ı aşan kısmı karşıladığını vurgula.",
+          "text": "Muafiyet ve %20 müşterek sigorta payı poliçede açıkça yazılı, her hâlde uygulanır. Ek teminatın yalnız DASK'ı aşan kısmı karşıladığını vurgula.",
           "delta": 15,
           "set": ["p2_koas"],
           "law": "Poliçe deprem şartı",
           "note": "Sağlam bir zemin. Hangi hesap kabul edilirse edilsin muafiyet ve müşterek sigorta payı sigortalıda kalır; DASK katmanı da ek teminatın dışındadır."
         },
         {
-          "text": "Ana şok ile artçı ayrı depremler; poliçe “her hasarda” muafiyet dediği için iki ayrı muafiyet uygulanır, şirketin hesabı doğrudur.",
+          "text": "Ana şok ile artçı iki ayrı depremdir; poliçe “her hasarda” muafiyet dediği için iki ayrı muafiyet uygulanır, şirketin hesabı bu yüzden doğrudur.",
           "delta": -10,
           "set": ["p2_ikiolay"],
           "law": "Poliçe deprem şartı",
@@ -115,7 +115,7 @@
       "scene": "office",
       "limit": 2,
       "lines": [
-        { "who": "narr", "text": "Cevap dilekçesi geldi. Hakemle yapılacak sözlü açıklama toplantısından önce Ayten Korkmaz'la görüşüyorsunuz. İki soru soracak vaktiniz var." }
+        { "who": "narr", "text": "Cevap dilekçesi geldi. Heyetle yapılacak sözlü açıklama toplantısından önce Ayten Korkmaz'la görüşüyorsunuz. İki soru soracak vaktiniz var." }
       ],
       "prompt": "Müvekkile ne soracaksınız?",
       "choices": [
@@ -201,7 +201,7 @@
       "lines": [
         { "who": "judge", "text": "Başvuran vekili, eksik sigorta hakkında karşı tarafı dinleyin." }
       ],
-      "statement": { "who": "p2", "text": "Sayın Hakem, binanın sigorta değeri 3.750.000 TL'dir; sigortalı binayı 3.000.000 TL'ye sigortalatmıştır. Eksik sigorta nedeniyle oransal ödeme zorunludur." },
+      "statement": { "who": "p2", "text": "Sayın Heyet, binanın sigorta değeri 3.750.000 TL'dir; sigortalı binayı 3.000.000 TL'ye sigortalatmıştır. Eksik sigorta nedeniyle oransal ödeme zorunludur." },
       "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
       "correct": ["ev_degerleme"],
       "hit": {
@@ -274,7 +274,7 @@
         { "terms": ["müşterek sigorta", "%20", "yüzde yirmi", "iştirak"], "weight": 2 },
         { "terms": ["muafiyetten sonra", "muafiyet sonrası", "sırasıyla"], "weight": 1 }
       ],
-      "model": "Sayın Hakem, ek teminat yalnız Zorunlu Deprem Sigortası teminatını aşan kısmı karşılar; DASK katmanı ve DASK'ın uyguladığı 21.000 TL muafiyet sigortalıda kalır. Ek teminattaki muafiyet 3.000.000 TL'lik bina bedelinin %2'si, yani 60.000 TL'dir; %20 müşterek sigorta payı muafiyetten sonra uygulanır. Bu kalemleri kaldırmaya yönelik talepler reddedilmelidir."
+      "model": "Sayın Heyet, ek teminat yalnız Zorunlu Deprem Sigortası teminatını aşan kısmı karşılar; DASK katmanı ve DASK'ın uyguladığı 21.000 TL muafiyet sigortalıda kalır. Ek teminattaki muafiyet 3.000.000 TL'lik bina bedelinin %2'si, yani 60.000 TL'dir; %20 müşterek sigorta payı muafiyetten sonra uygulanır. Bu kalemleri kaldırmaya yönelik talepler reddedilmelidir."
     },
     {
       "kind": "free",
@@ -291,7 +291,7 @@
           "delta": 20,
           "set": ["p1_hesap2"],
           "law": "Poliçe deprem şartı · TTK m.1462 · m.1427",
-          "note": "Hesabı eksiksiz kurdunuz: 72 saat içindeki iki sarsıntı tek hasar, tek muafiyet; sigorta değeri arsa hariç yeniden yapım maliyeti olduğundan eksik sigorta yok. 470.000 − 60.000 = 410.000; %80'i 328.000; ödenen 224.000 düşülünce 104.000 TL. Faiz, ihbardan 45 gün sonra muaccel olan tarihten işler (TTK m.1427)."
+          "note": "Hesabı eksiksiz kurdunuz: 72 saat içindeki iki sarsıntı tek hasar, tek muafiyet; sigorta değeri arsa hariç yeniden yapım maliyeti olduğundan eksik sigorta yok. 600.000 − 60.000 = 540.000; %80'i 432.000; ödenen 307.200 düşülünce 124.800 TL. Faiz, ihbardan 45 gün sonra muaccel olan tarihten işler (TTK m.1427)."
         },
         {
           "text": "Yeterli beyan",
@@ -299,7 +299,7 @@
           "delta": 8,
           "set": ["p1_hesap2"],
           "law": "Poliçe deprem şartı · TTK m.1462",
-          "note": "Hatalardan en az birini doğru gösterdiniz. Tam beyan; tek muafiyeti (72 saat şartı), eksik sigortanın yokluğunu (arsa payı sigorta değerine girmez, TTK m.1462) ve 104.000 TL'lik sonucu birlikte ortaya koyar."
+          "note": "Hatalardan en az birini doğru gösterdiniz. Tam beyan; tek muafiyeti (72 saat şartı), eksik sigortanın yokluğunu (arsa payı sigorta değerine girmez, TTK m.1462) ve 124.800 TL'lik sonucu birlikte ortaya koyar."
         },
         {
           "text": "Zayıf beyan",
@@ -308,15 +308,15 @@
           "note": "Şirketin iki hatasını da açıkça gösteremediniz: 72 saat içindeki depremler tek hasar sayılır; sigorta değeri arsa payı hariç yeniden yapım maliyetidir."
         }
       ],
-      "rubric": "İyi bir cevap şunları söyler: (1) Poliçe 72 saat içinde meydana gelen depremleri ve hasarlarını tek hasar sayar; artçı ana şoktan 40 saat sonra geldiğinden yalnız bir muafiyet (60.000 TL) uygulanır. (2) Bina sigortasında sigorta değeri binanın yeniden yapım maliyetidir; arsa payı sigortalı menfaat değildir. Yeniden yapım maliyeti 2.950.000 TL, bina bedeli 3.000.000 TL olduğundan eksik sigorta yoktur (TTK m.1462). (3) Doğru hesap: 1.520.000 − 1.050.000 = 470.000; − 60.000 = 410.000; %80'i = 328.000; − 224.000 = 104.000 TL. (4) Faiz, ihbardan 45 gün sonra, 30.04.2026'dan itibaren işler (TTK m.1427). Üç hatayı ve sonucu söyleyen cevap tam puan alır.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Poliçe 72 saat içinde meydana gelen depremleri ve hasarlarını tek hasar sayar; artçı ana şoktan 40 saat sonra geldiğinden yalnız bir muafiyet (60.000 TL) uygulanır. (2) Bina sigortasında sigorta değeri binanın yeniden yapım maliyetidir; arsa payı sigortalı menfaat değildir. Yeniden yapım maliyeti 2.950.000 TL, bina bedeli 3.000.000 TL olduğundan eksik sigorta yoktur (TTK m.1462). (3) Doğru hesap: 1.650.000 − 1.050.000 = 600.000; − 60.000 = 540.000; %80'i = 432.000; − 307.200 = 124.800 TL. (4) Faiz, ihbardan 45 gün sonra, 30.04.2026'dan itibaren işler (TTK m.1427). Üç hatayı ve sonucu söyleyen cevap tam puan alır.",
       "keywords": [
         { "terms": ["72 saat", "yetmiş iki saat", "tek hasar", "tek muafiyet"], "weight": 2 },
         { "terms": ["arsa", "yeniden yapım", "yeniden inşa"], "weight": 2 },
         { "terms": ["eksik sigorta", "1462", "oransal"], "weight": 1 },
-        { "terms": ["328.000", "104.000"], "weight": 2 },
+        { "terms": ["432.000", "124.800"], "weight": 2 },
         { "terms": ["faiz", "45 gün", "1427", "30.04.2026"], "weight": 1 }
       ],
-      "model": "Sayın Hakem, poliçe 72 saat içindeki depremleri tek hasar sayar; artçı 40 saat sonra geldiğinden tek muafiyet uygulanır. Bina sigortasında sigorta değeri yeniden yapım maliyetidir; arsa payı hariç 2.950.000 TL, 3.000.000 TL'lik bedelin altında olduğundan eksik sigorta yoktur (TTK m.1462). 470.000 TL'den 60.000 TL muafiyet düşülür, kalanın %80'i 328.000 TL eder; ödenen 224.000 TL mahsup edilince 104.000 TL kalır. Faiz, ihbardan 45 gün sonra, 30.04.2026'dan işler (TTK m.1427)."
+      "model": "Sayın Heyet, poliçe 72 saat içindeki depremleri tek hasar sayar; artçı 40 saat sonra geldiğinden tek muafiyet uygulanır. Bina sigortasında sigorta değeri yeniden yapım maliyetidir; arsa payı hariç 2.950.000 TL, 3.000.000 TL'lik bedelin altında olduğundan eksik sigorta yoktur (TTK m.1462). 600.000 TL'den 60.000 TL muafiyet düşülür, kalanın %80'i 432.000 TL eder; ödenen 307.200 TL mahsup edilince 124.800 TL kalır. Faiz, ihbardan 45 gün sonra, 30.04.2026'dan işler (TTK m.1427)."
     },
     {
       "side": "p2",
@@ -334,16 +334,16 @@
           "note": "Doğru sınır. Tazminat ihbardan 45 gün sonra muaccel olur ve temerrüt ihtarsız gerçekleşir (TTK m.1427); konut sigortasında taraflar arasındaki ilişki ticari iş niteliğinde olmadığından yasal faiz uygulanır."
         },
         {
-          "text": "Sigortalı 224.000 TL'yi çekince koymadan hesabına almıştır; bu kabul ibra niteliğindedir ve kalan bütün talepleri sona erdirmiştir, başvuru reddedilsin.",
+          "text": "Sigortalı 307.200 TL'yi çekince koymadan hesabına almıştır; bu kabul ibra niteliğindedir ve kalan bütün talepleri sona erdirmiştir, başvuru reddedilsin.",
           "delta": -10,
           "law": "TBK m.132",
           "note": "Kısmi bir ödemenin kabulü, kalan alacaktan vazgeçme anlamına gelmez. İbra, borcu sona erdirme yönünde açık bir irade ister; hesaba yatan paranın alınması bunu göstermez."
         },
         {
-          "text": "Uyuşmazlık 122.000 TL'nin altında; ancak heyet kurulmadan tek hakemle verilecek karar itiraza açık olmayacağından heyet kurulmasını iste.",
+          "text": "Uyuşmazlık 383.000 TL'nin altında kaldığı için heyetin vereceği karara itiraz edilemez; karar verildiği anda kesinleşir. Bunu tutanağa geçirt.",
           "delta": -15,
-          "law": "5684 s.K. m.30",
-          "note": "Heyet, 2026'da 122.000 TL ve üzerindeki uyuşmazlıklarda zorunludur; altında tek hakem görevlendirilir. Kararın itiraza açıklığı ise 35.000 TL sınırına bağlıdır; 104.000 TL'lik bu uyuşmazlıkta tek hakem kararına da itiraz edilebilir."
+          "law": "5684 s.K. m.30/12",
+          "note": "İki sınırı karıştırdınız. 2026'da 35.000 TL ve üzerindeki uyuşmazlıklarda hakem kararına bir defaya mahsus itiraz edilebilir; 383.000 TL sınırı, itiraz hakem heyeti kararına karşı temyiz yolunun sınırıdır. Bu dosyada itiraz yolu açık, itiraz kararı ise kesin olacak."
         }
       ]
     }
@@ -353,11 +353,11 @@
       "if": "(p1_saat || p1_hesap2 || p2_kabul) && p1_deger",
       "winner": "p1",
       "hukum": [
-        { "if": "p1_hesap", "text": "Başvurunun KABULÜ ile 104.000 TL'nin 30.04.2026'dan itibaren işleyecek yasal faiziyle birlikte sigorta şirketinden alınarak başvurana ödenmesine," },
-        { "if": "!p1_hesap", "text": "Başvurunun KISMEN KABULÜ ile 104.000 TL'nin 30.04.2026'dan itibaren işleyecek yasal faiziyle birlikte sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE," }
+        { "if": "p1_hesap", "text": "Başvurunun KABULÜ ile 124.800 TL'nin 30.04.2026'dan itibaren işleyecek yasal faiziyle birlikte sigorta şirketinden alınarak başvurana ödenmesine," },
+        { "if": "!p1_hesap", "text": "Başvurunun KISMEN KABULÜ ile 124.800 TL'nin 30.04.2026'dan itibaren işleyecek yasal faiziyle birlikte sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE," }
       ],
       "summary": [
-        { "text": "Poliçe 72 saat içindeki depremleri tek hasar saydığından yalnız bir muafiyet uygulandı. Bina değerine arsa payı katılmıştı; arsa hariç yeniden yapım maliyeti 2.950.000 TL olduğundan eksik sigorta yoktu (TTK m.1462). Doğru tazminat 328.000 TL; ödenen 224.000 TL düşüldü." },
+        { "text": "Poliçe 72 saat içindeki depremleri tek hasar saydığından yalnız bir muafiyet uygulandı. Bina değerine arsa payı katılmıştı; arsa hariç yeniden yapım maliyeti 2.950.000 TL olduğundan eksik sigorta yoktu (TTK m.1462). Doğru tazminat 432.000 TL; ödenen 307.200 TL düşüldü." },
         { "if": "p1_dask", "text": " DASK muafiyetinin ek teminattan istenmesi ve DASK'a yöneltilen talep reddedildi: ek teminat yalnız DASK'ı aşan kısmı karşılar." },
         { "if": "p1_brut", "text": " Muafiyet ve müşterek sigorta payının hiç uygulanmaması talebi reddedildi." },
         { "if": "p2_koas || p2_hesap", "text": " Sigorta şirketi vekili, muafiyet ve müşterek sigorta payının sınırlarını doğru korudu." }
@@ -367,12 +367,12 @@
       "if": "p1_saat || p1_hesap2 || p2_kabul || p1_deger",
       "winner": "draw",
       "hukum": [
-        { "if": "p1_deger", "text": "Başvurunun KISMEN KABULÜ ile 56.000 TL'nin 30.04.2026'dan itibaren işleyecek yasal faiziyle birlikte sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "p1_deger", "text": "Başvurunun KISMEN KABULÜ ile 76.800 TL'nin 30.04.2026'dan itibaren işleyecek yasal faiziyle birlikte sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE," },
         { "if": "!p1_deger", "text": "Başvurunun KISMEN KABULÜ ile 38.400 TL'nin 30.04.2026'dan itibaren işleyecek yasal faiziyle birlikte sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE," }
       ],
       "summary": [
-        { "if": "!p1_deger", "text": "Tek muafiyet uygulanması gerektiği kabul edildi; ama başvuran tarafı eksper raporundaki bina değerinin arsa payını içerdiğini gösteremedi. Eksik sigorta oranı (0,80) uygulandı: 410.000 × %80 × 0,80 = 262.400 TL; ödenen 224.000 TL düşüldü." },
-        { "if": "p1_deger", "text": "Bina değerinin arsa payını içerdiği gösterildi ve eksik sigorta oranı kaldırıldı; ama artçının 72 saat içinde geldiği ispatlanmadığından iki muafiyet yerinde kaldı: 350.000 × %80 = 280.000 TL; ödenen 224.000 TL düşüldü." },
+        { "if": "!p1_deger", "text": "Tek muafiyet uygulanması gerektiği kabul edildi; ama başvuran tarafı eksper raporundaki bina değerinin arsa payını içerdiğini gösteremedi. Eksik sigorta oranı (0,80) uygulandı: 540.000 × %80 × 0,80 = 345.600 TL; ödenen 307.200 TL düşüldü." },
+        { "if": "p1_deger", "text": "Bina değerinin arsa payını içerdiği gösterildi ve eksik sigorta oranı kaldırıldı; ama artçının 72 saat içinde geldiği ispatlanmadığından iki muafiyet yerinde kaldı: 480.000 × %80 = 384.000 TL; ödenen 307.200 TL düşüldü." },
         { "if": "p2_koas || p2_hesap", "text": " Muafiyet ve müşterek sigorta payı sözleşmeye uygun olarak uygulandı." }
       ]
     },
@@ -380,7 +380,7 @@
       "winner": "p2",
       "hukum": "Başvurunun REDDİNE,",
       "summary": [
-        { "text": "Başvuran tarafı, artçının 72 saat içinde geldiğini de, eksper raporundaki bina değerinin arsa payını içerdiğini de ispatlayamadı. Şirketin hesabı dosyadaki delillerle çürütülemedi; ödenen 224.000 TL dışında alacak kalmadı." },
+        { "text": "Başvuran tarafı, artçının 72 saat içinde geldiğini de, eksper raporundaki bina değerinin arsa payını içerdiğini de ispatlayamadı. Şirketin hesabı dosyadaki delillerle çürütülemedi; ödenen 307.200 TL dışında alacak kalmadı." },
         { "if": "p2_ikiolay || p2_ikiolay2", "text": " Şirket vekilinin iki ayrı muafiyet tezi poliçe metniyle zayıf kalsa da başvuran bu noktayı delillendiremedi." }
       ]
     }

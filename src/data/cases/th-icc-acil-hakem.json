@@ -1,0 +1,438 @@
+{
+  "id": "th-icc-acil-hakem",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Üç Kasım",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Acil durum hakemi ve teminat mektubu",
+  "court": "ICC Uluslararası Tahkim Divanı · Dava No. 29011/EAR (Tahkim yeri: Paris)",
+  "courtShort": "ICC · PARİS",
+  "esas": "ICC 29011/EAR",
+  "kararTarihi": "12.11.2026",
+  "color": "#7a3b1f",
+  "room": "tahkim",
+  "forum": "icc",
+  "bench": { "judges": 1, "title": "Acil durum hakemi" },
+  "inscription": null,
+  "teaser": "Türbinler çekincesiz teslim alındı, teminat mektubu iade edilecekti. İşveren ise başka bir projede indirim istiyor; vermezseniz 3 Kasım'da 1,2 milyon avroluk mektubu paraya çevirecek. Kurul oluşmasına aylar var.",
+  "sides": {
+    "p1": { "role": "Başvuran (Yüklenici) vekili", "short": "Başvuran" },
+    "p2": { "role": "Karşı taraf (İşveren) vekili", "short": "Karşı taraf" }
+  },
+  "cast": {
+    "judge": { "name": "Hakem", "np": "red", "look": { "kind": "civil", "skin": "#e8c4a2", "hair": "#5a4030", "style": "bun", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#c99670", "hair": "#2a201c", "style": "short", "shirt": "#22262e", "inner": "#e9e5dd" } },
+    "p2": { "look": { "kind": "civil", "skin": "#efd0b0", "hair": "#6b6b70", "style": "short", "glasses": true, "shirt": "#1f2530", "inner": "#efe9e0" } },
+    "proje": { "name": "Mihai Popescu · İşverenin proje direktörü", "np": "civil", "look": { "kind": "civil", "skin": "#e6c09c", "hair": "#2a2220", "style": "short", "beard": true, "shirt": "#4a5a4a", "inner": "#e2ddd2" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Ege Türbin Enerji A.Ş., Romanya'daki Danubia Power S.R.L. için iki gaz türbini tedarik edip monte etti. Sözleşme 05.06.2023 tarihli; Türk hukuku uygulanıyor, uyuşmazlıklar ICC Kurallarına göre Paris'te üç hakemle çözülecek." },
+    { "who": "narr", "text": "Yüklenici, Bükreş'teki Banca Carpatica'dan 1.200.000 EUR'luk, ilk yazılı talepte ödenecek bir performans teminat mektubu verdi. İşveren türbinleri 15.09.2026'da çekincesiz teslim aldı; sözleşmeye göre mektup 28 gün içinde iade edilmeliydi." },
+    { "who": "narr", "text": "Mektup iade edilmedi. İşveren 20.10.2026'da montaj kusuru iddia etti ve 03.11.2026'da mektubu nakde çevireceğini bildirdi. Bugün 28.10.2026; üç kişilik kurulun oluşması aylar sürer." }
+  ],
+  "docs": [
+    { "t": "Sözleşme m.12.3 · Teminatın iadesi", "d": "Performans teminatı, Geçici Kabul Belgesinin düzenlenmesinden itibaren 28 gün içinde yükleniciye iade edilir." },
+    { "t": "Sözleşme m.25 · Uyuşmazlık çözümü", "d": "m.25.1: Taraflar uyuşmazlığı önce 30 gün dostane müzakereyle çözmeye çalışır. m.25.2: Çözülemezse ICC Tahkim Kurallarına göre üç hakemle kesin çözüm; tahkim yeri Paris. Sözleşmede acil durum hakemi hükümlerini dışlayan bir ifade yok." },
+    { "t": "Teminat mektubu (Banca Carpatica)", "d": "1.200.000 EUR. İşverenin, yüklenicinin sözleşmeyi ihlal ettiğini belirten ilk yazılı talebi üzerine, itiraza bakılmaksızın ödenir. Geçerlilik: 31.12.2026." },
+    { "t": "Geçici Kabul Belgesi (15.09.2026)", "d": "İki türbin teslim alındı. Çekince bölümü boş; işverenin proje direktörünün imzası var." },
+    { "t": "İşverenin ihtarı (20.10.2026)", "d": "“Türbin 2'nin montajında kusur tespit edilmiştir. Performans teminatı 03.11.2026'da tazmin edilecektir.”" }
+  ],
+  "evidence": [
+    { "id": "ev_kabul", "type": "belge", "title": "Geçici Kabul Belgesi (15.09.2026)", "desc": "İki türbin çekincesiz teslim alındı; mektup 28 gün içinde iade edilmeliydi (m.12.3)." },
+    { "id": "ev_ihtar", "type": "belge", "title": "İşverenin ihtarı (20.10.2026)", "desc": "Türbin 2'nin montajında kusur iddiası; tazmin tarihi 03.11.2026." },
+    { "id": "ev_eposta", "type": "belge", "title": "İşverenin genel müdürünün e-postası (19.10.2026)", "desc": "Yükleniciye: “Köstence projesinde 900.000 EUR indirimi kabul ederseniz mektubu hemen iade ederiz. Etmezseniz bir gerekçe buluruz.”" },
+    { "id": "ev_olcum", "type": "belge", "title": "Titreşim ölçüm raporu (Ekim 2026)", "desc": "İşverenin yaptırdığı ölçüm: Türbin 2'de titreşim, üretici sınırının %12 üstünde. Montajla ilişki kurulmamış.", "if": "p2_olcum" },
+    { "id": "law_tmk2", "type": "kanun", "title": "TMK m.2/2", "desc": "Bir hakkın açıkça kötüye kullanılmasını hukuk düzeni korumaz.", "law": "TMK m.2/2" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "ACİL BAŞVURU · Altı gününüz var. Başvuruyla birlikte 40.000 USD masraf ödenecek (ICC Kuralları Ek V m.7/1). Müvekkil, mektubun nakde çevrilmesinin kredi limitlerini tıkayacağını söylüyor." }
+      ],
+      "prompt": "Ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "ICC m.29 ve Ek V uyarınca acil durum hakemine başvur; işverenin mektubu nakde çevirmesinin yasaklanmasını iste.",
+          "delta": 20,
+          "set": ["p1_eh"],
+          "law": "ICC Kuralları m.29, Ek V",
+          "note": "Kurulun oluşmasını bekleyemeyecek acil geçici önlemler için acil durum hakemine başvurulur (m.29/1). Acil hakem yalnız tahkim anlaşmasının taraflarını bağlar (m.29/5); bu yüzden talebi bankaya değil, mektubun lehtarı olan işverene yönelttiniz. Ayrıca yetkili bir devlet mahkemesinden tedbir istemek de mümkündür (m.29/7).",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 29.10.2026'da Sekretaryaya ulaştı. Divan Başkanı ertesi gün acil durum hakemini atadı (Ek V m.2/1)." }
+          ]
+        },
+        {
+          "text": "Acil durum hakemine başvur; asıl tehlike ödeme olduğu için Banca Carpatica'nın mektup bedelini ödemekten men edilmesini iste.",
+          "delta": -15,
+          "set": ["p1_banka"],
+          "law": "ICC Kuralları m.29/5",
+          "note": "Acil durum hakemi yalnız tahkim anlaşmasının taraflarını ya da onların haleflerini bağlayabilir (m.29/5). Banka tahkimin tarafı değil; ona emir verilemez. Talebi mektubun lehtarı olan işverene yöneltmeliydiniz.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 29.10.2026'da Sekretaryaya ulaştı. Divan Başkanı ertesi gün acil durum hakemini atadı." }
+          ]
+        },
+        {
+          "text": "Acil hakemden işverenin teminattan hiçbir alacağı olmadığının kesin tespitini iste.",
+          "delta": -10,
+          "set": ["p1_esasistem"],
+          "law": "ICC Kuralları m.29/1, m.29/3",
+          "note": "Acil durum hakemi yalnız acil geçici ya da koruma önlemlerine karar verir (m.29/1); alacağın olup olmadığına ilişkin kesin tespit esas kurulun işidir. Kararı da esas kurulu bağlamaz (m.29/3). İstediğiniz şey acil hakemin yetkisi dışındaydı.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 29.10.2026'da Sekretaryaya ulaştı. Divan Başkanı ertesi gün acil durum hakemini atadı." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Acil durum hakemi tarafları iki gün içinde yazılı beyana ve 04.11.2026'daki video duruşmasına çağırdı. İşveren, 03.11.2026'da mektubu nakde çevirmeyeceğini, duruşmayı bekleyeceğini taahhüt etti." }
+      ],
+      "prompt": "Yazılı beyanınızın eksenini ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Acil hakemin yetkisine takılma, esasa yüklen: mektup soyut ve bağımsızdır, nakde çevirmeyi ancak açık bir hakkın kötüye kullanılması engeller.",
+          "delta": 15,
+          "set": ["p2_soyut"],
+          "law": "TBK m.128 · TMK m.2/2",
+          "note": "Doğru eksen. İlk talepte ödenecek teminat, temel sözleşmeden bağımsız bir garanti taahhüdüdür; lehtarın talebini engellemek için temel ilişkideki tartışma yetmez, hakkın açıkça kötüye kullanıldığının açık delillerle gösterilmesi gerekir (TMK m.2/2)."
+        },
+        {
+          "text": "Acil hakem yolunun kapalı olduğunu savun: m.25.1'deki 30 günlük müzakere şartı, m.29/6-c anlamında başka bir tahkim öncesi usuldür.",
+          "delta": -10,
+          "set": ["p2_kademeli"],
+          "law": "ICC Kuralları m.29/6-c",
+          "note": "m.29/6-c, ancak koruma, geçici ya da benzeri önlemler verilmesini öngören başka bir tahkim öncesi usul kararlaştırılmışsa acil hakem yolunu kapatır. Dostane müzakere şartı böyle bir usul değildir; itiraz reddedildi."
+        },
+        {
+          "text": "Acil hakem yolunun kapalı olduğunu savun: taraflar ICC'nin acil hakem kurallarını sözleşmede açıkça seçmedi, bu kurallar yalnız açık seçimle uygulanır.",
+          "delta": -10,
+          "set": ["p2_secim"],
+          "law": "ICC Kuralları m.29/6",
+          "note": "Sistem tersine işler: 01.01.2012'den sonra yapılmış ICC tahkim anlaşmalarında acil hakem hükümleri, taraflar açıkça dışlamadıkça uygulanır (m.29/6-a, b). 2023 tarihli sözleşme bunları dışlamıyor."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Başvuru Sekretaryaya 29.10.2026'da ulaştı. Müvekkil, acil hakemin kararını görmeden üç hakemli tahkimin masrafına girmek istemiyor." }
+      ],
+      "prompt": "Tahkim talebini ne zaman sunacaksınız?",
+      "choices": [
+        {
+          "text": "Başvurunun Sekretaryaya ulaşmasından itibaren 10 gün içinde tahkim talebini sun; yoksa acil hakem yargılaması sona erdirilebilir.",
+          "delta": 15,
+          "set": ["p1_talep"],
+          "law": "ICC Kuralları Ek V m.1/6",
+          "note": "Başvurudan sonra 10 gün içinde tahkim talebi Sekretaryaya ulaşmazsa Divan Başkanı acil hakem yargılamasını sona erdirir; acil hakem daha uzun bir süreyi gerekli görmedikçe (Ek V m.1/6). Talep 06.11.2026'da sunuldu.",
+          "reply": [
+            { "who": "narr", "text": "Tahkim talebi 06.11.2026'da Sekretaryaya ulaştı." }
+          ]
+        },
+        {
+          "text": "Tahkim talebini acil hakemin kararını gördükten sonra sun; karar olumsuz çıkarsa tahkime hiç gitmeyip üç hakemin masrafından kaçınırız.",
+          "delta": -15,
+          "set": ["p1_gec"],
+          "law": "ICC Kuralları Ek V m.1/6, m.6/6",
+          "note": "Acil hakem yargılaması asıl tahkime bağlı bir köprüdür. Başvurudan sonra 10 gün içinde tahkim talebi sunulmazsa Divan Başkanı yargılamayı sona erdirir (Ek V m.1/6) ve verilmiş bir karar varsa bağlayıcılığı da sona erer (m.6/6-a)."
+        },
+        {
+          "text": "Tahkim talebine gerek yok: acil hakemin kararı başlı başına kesin bir hakem kararıdır, New York Sözleşmesiyle her yerde tenfiz edilir.",
+          "delta": -10,
+          "set": ["p1_gereksiz"],
+          "law": "ICC Kuralları m.29/2, m.29/3, Ek V m.1/6",
+          "note": "Acil hakemin kararı bir “karar” (order) biçimindedir, nihai hakem kararı değildir (m.29/2) ve esas kurulu bağlamaz (m.29/3). Talep 10 gün içinde sunulmazsa yargılama sona erdirilir. Neyse ki müvekkil sizi dinlemedi ve talebi kendi başka avukatlarıyla zamanında sundu.",
+          "reply": [
+            { "who": "narr", "text": "Müvekkilin Paris'teki avukatları tahkim talebini 07.11.2026'da sundu." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Duruşmadan önce işverenin proje direktörü Mihai Popescu'yla görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Proje direktörüne ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Montaj kusurunu gösteren teknik bir belgemiz var mı?",
+          "delta": 15,
+          "set": ["p2_olcum"],
+          "reply": [
+            { "who": "proje", "text": "Ekim'de bağımsız bir firmaya ölçüm yaptırdık. Türbin 2'de titreşim üretici sınırının yüzde on iki üstünde. Rapor elimde." }
+          ],
+          "note": "Doğru soru. Kötüye kullanma iddiasına karşı, talebin dayanaksız olmadığını gösteren somut bir teknik belge en güçlü savunmadır. Rapor delil çantanıza eklendi."
+        },
+        {
+          "text": "Geçici kabul belgesine bir çekince yazdınız mı?",
+          "delta": 0,
+          "set": ["p2_cekincesiz"],
+          "reply": [
+            { "who": "proje", "text": "Hayır. O gün her şey yolunda görünüyordu; çekince bölümü boş kaldı." }
+          ],
+          "note": "Kendi zaafınızı öğrendiniz: çekincesiz kabul, m.12.3'teki iade borcunu doğurdu. Bunu savunmanızda hesaba katmalısınız."
+        },
+        {
+          "text": "Genel müdürümüz yükleniciye indirim konusunda bir şey yazdı mı?",
+          "delta": 5,
+          "set": ["p2_eposta"],
+          "reply": [
+            { "who": "proje", "text": "Yazdı. Köstence projesinde indirim verirlerse mektubu iade edeceğimizi söyledi. Açıkçası pek iyi bir e-posta değildi." }
+          ],
+          "note": "Tehlikeli bir belgenin varlığını öğrendiniz; e-posta yüklenicinin elinde. Hazırlıksız yakalanmamak için yararlı, ama size delil kazandırmadı."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, karşı tarafın yazılı beyanına cevabınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Hakem, yüklenici Türbin 2'yi kusurlu monte etti. İşveren, mektubu sözleşmeye uygun olarak ve gerçek bir alacağı için nakde çevirecektir; ortada bir kötüye kullanma yoktur." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_eposta"],
+      "hit": {
+        "delta": 25,
+        "set": ["p1_kotu"],
+        "law": "TMK m.2/2",
+        "note": "Genel müdürün e-postası, mektubun bu sözleşmeden doğan bir alacak için değil, başka bir projede indirim koparmak için kullanıldığını gösteriyor: “Etmezseniz bir gerekçe buluruz.” Teminatın amacı dışında, baskı aracı olarak kullanılması hakkın açıkça kötüye kullanılmasıdır (TMK m.2/2).",
+        "reply": [
+          { "who": "judge", "text": "E-posta dosyaya alındı. Karşı taraf vekili bu yazının varlığını tartışmıyor." }
+        ]
+      },
+      "responses": {
+        "ev_kabul": {
+          "delta": 10,
+          "set": ["p1_kabul"],
+          "law": "Sözleşme m.12.3",
+          "note": "Güçlü bir belge: çekincesiz kabul, mektubun 28 gün içinde iade edilmesini gerektiriyordu. Ama mektup temel ilişkiden bağımsızdır; lehtarın elinde tutması tek başına açık bir kötüye kullanmayı göstermez. Asıl çürütücü belge, mektubu indirim pazarlığına bağlayan e-postaydı."
+        },
+        "law_tmk2": {
+          "delta": -5,
+          "note": "Doğru madde, ama acil hakem kötüye kullanmayı gösteren açık bir delil arar. Genel müdürün e-postası çantanızdaydı."
+        },
+        "ev_ihtar": {
+          "delta": -10,
+          "note": "Bu, işverenin kendi iddiası; beyanı destekler."
+        },
+        "ev_olcum": {
+          "delta": -10,
+          "note": "Ölçüm raporu işverenin tezini destekler."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge kötüye kullanmayı göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; işverenin gerçek bir alacak için hareket ettiği beyanı cevapsız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Karşı taraf vekili, geçici önlem talebine karşı son beyanınızı alalım." }
+      ],
+      "prompt": "Acil hakemin neden tedbir kararı vermemesi gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_bagimsiz"],
+          "law": "TBK m.128 · TMK m.2/2 · ICC Kuralları m.29",
+          "note": "İlk talepte ödenecek teminat temel ilişkiden bağımsızdır; nakde çevrilmesini ancak açık delillerle gösterilen bir kötüye kullanma engeller. Geçici önlem için ayrıca ilk bakışta haklılık, aciliyet ve telafisi güç zarar gerekir; para alacağı sonradan geri alınabilir, işveren ödeme gücü olan bir şirkettir. Ölçüm raporu talebin dayanaksız olmadığını gösteriyor. Tedbir verilecekse başvurandan teminat istenmelidir."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_bagimsiz"],
+          "law": "TBK m.128 · TMK m.2/2",
+          "note": "Teminatın bağımsızlığını öne çıkardınız. Tam savunma, geçici önlemin şartlarını (ilk bakışta haklılık, aciliyet, telafisi güç zarar, menfaatler dengesi) tek tek tartışır, para zararının sonradan giderilebileceğini söyler ve en azından başvurandan teminat istenmesini talep eder."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "TBK m.128 · TMK m.2/2",
+          "note": "Savunmanız teminatın bağımsızlığını ve geçici önlemin şartlarını kurmadı. Lehtarın talebini engellemek için temel ilişkideki tartışma yetmez; açık bir kötüye kullanma gerekir. Para zararının sonradan giderilebileceği de söylenmeliydi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) İlk yazılı talepte ödenecek teminat mektubu temel sözleşmeden bağımsız bir garanti taahhüdüdür (TBK m.128); temel ilişkideki uyuşmazlık nakde çevirmeyi engellemez. (2) İstisna, hakkın açıkça kötüye kullanılmasıdır (TMK m.2/2) ve bunun açık, hemen anlaşılabilir delillerle gösterilmesi gerekir; ölçüm raporu işverenin talebinin dayanaksız olmadığını gösterir. (3) Geçici önlem için ilk bakışta haklılık, aciliyet ve telafisi güç zarar aranır; para zararı sonradan tahsil edilebilir, işveren ödeme gücü olan bir şirkettir. (4) Menfaatler dengesi işverenden yanadır; tedbir verilecekse başvurandan uygun bir teminat istenmelidir. Bağımsızlık ilkesini, geçici önlem şartlarını ve teminat talebini birlikte kuran cevap tam puan alır.",
+      "keywords": [
+        { "terms": ["bağımsız", "soyut", "temel ilişki", "temel sözleşme"], "weight": 2 },
+        { "terms": ["açıkça kötüye", "kötüye kullan", "TMK m.2", "m.2/2"], "weight": 2 },
+        { "terms": ["telafi", "geri alınabilir", "para zararı", "irreparable"], "weight": 2 },
+        { "terms": ["aciliyet", "ilk bakışta", "prima facie", "menfaatler dengesi"], "weight": 1 },
+        { "terms": ["teminat göster", "güvence", "teminat istenmeli", "teminat yatır"], "weight": 1 },
+        { "terms": ["ölçüm", "titreşim", "rapor"], "weight": 1 }
+      ],
+      "model": "Sayın Hakem, ilk talepte ödenecek bu mektup temel sözleşmeden bağımsızdır; montaj tartışması nakde çevirmeyi engellemez. İstisna ancak açık delillerle gösterilen bir kötüye kullanmadır; ölçüm raporu Türbin 2'de titreşimin sınırın yüzde on iki üstünde olduğunu gösteriyor, talep dayanaksız değil. Ayrıca para zararı sonradan tahsil edilebilir, telafisi güç bir zarar yok. Kurulun tedbire karar vermesi hâlinde başvurandan uygun bir teminat istenmesini talep ediyoruz."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, talebinizi neden kurulun oluşmasını bekleyemeyeceğinizi de söyleyerek özetleyin." }
+      ],
+      "prompt": "Geçici önlemin şartlarının neden gerçekleştiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_tedbir"],
+          "law": "ICC Kuralları m.29/1 · Sözleşme m.12.3 · TMK m.2/2",
+          "note": "Talep kurulun oluşmasını bekleyemez: işveren mektubu derhâl nakde çevirebilir (m.29/1). İlk bakışta haklısınız: türbinler çekincesiz teslim alındı ve mektup 28 gün içinde iade edilmeliydi (m.12.3). E-posta mektubun başka bir projede baskı aracı yapıldığını gösteriyor; bu açık kötüye kullanmadır (TMK m.2/2). Zarar telafisi güçtür: kredi limitleri tıkanır, para Romanya'dan uzun bir yargılamayla geri alınır. Tedbir işverene zarar vermez; mektup geçerliliğini korur."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_tedbir"],
+          "law": "ICC Kuralları m.29/1 · TMK m.2/2",
+          "note": "Talebin dayanağını gösterdiniz. Tam beyan şartları tek tek kurar: aciliyet (kurul bekleyemez), ilk bakışta haklılık (çekincesiz kabul, m.12.3), açık kötüye kullanma (e-posta), telafisi güç zarar (kredi limitleri) ve menfaatler dengesi (mektup geçerli kalır)."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "ICC Kuralları m.29/1",
+          "note": "Geçici önlemin şartlarını kuramadınız. Aciliyet, ilk bakışta haklılık, açık kötüye kullanma, telafisi güç zarar ve menfaatler dengesi somut olaylara bağlanarak gösterilmeliydi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Aciliyet: işveren mektubu derhâl nakde çevirebilir; üç kişilik kurulun oluşması aylar sürer, talep onu bekleyemez (ICC m.29/1). (2) İlk bakışta haklılık: türbinler 15.09.2026'da çekincesiz teslim alındı; sözleşmenin m.12.3 hükmü mektubun 28 gün içinde iadesini gerektiriyor. (3) Açık kötüye kullanma: genel müdürün e-postası mektubu başka bir projedeki 900.000 EUR indirime bağlıyor; teminat amacı dışında baskı aracı yapılmış (TMK m.2/2). (4) Telafisi güç zarar: kredi limitleri tıkanır, para yabancı ülkede uzun bir yargılamayla geri alınır. (5) Menfaatler dengesi: mektup geçerliliğini korur, işveren bir şey kaybetmez. Şartları somut olaylarla birlikte kuran cevap tam puan alır.",
+      "keywords": [
+        { "terms": ["acil", "aciliyet", "bekleyemez", "kurul oluş"], "weight": 2 },
+        { "terms": ["çekincesiz", "geçici kabul", "m.12.3", "iade"], "weight": 2 },
+        { "terms": ["kötüye kullan", "TMK m.2", "baskı", "indirim", "e-posta"], "weight": 2 },
+        { "terms": ["telafi", "kredi", "geri almak", "irreparable"], "weight": 1 },
+        { "terms": ["menfaatler dengesi", "geçerli kal", "işverene zarar"], "weight": 1 }
+      ],
+      "model": "Sayın Hakem, kurulun oluşması aylar sürer, işveren ise mektubu her an nakde çevirebilir; talep beklemeye elverişli değildir. Türbinler 15.09.2026'da çekincesiz teslim alındı ve m.12.3 uyarınca mektup 28 gün içinde iade edilmeliydi. Genel müdürün e-postası, mektubun başka bir projede indirim koparmak için baskı aracı yapıldığını gösteriyor; bu açık bir kötüye kullanmadır (TMK m.2/2). Nakde çevirme müvekkilin kredi limitlerini tıkar ve para Romanya'da uzun bir yargılamayla ancak geri alınır. Mektup geçerliliğini koruyacağı için tedbir işverene zarar vermez."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "p1_kotu && (p1_tedbir || !p2_bagimsiz) && !p1_gec && !p1_banka && !p1_esasistem",
+      "lines": [
+        { "who": "judge", "text": "Acil durum hakemi, işverenin mektubu esas kurul aksine karar verinceye kadar nakde çevirmesini yasaklayan kararını 12.11.2026'da verdi." },
+        { "who": "narr", "text": "İşverenin genel müdürü, kararın “yalnızca bir tavsiye” olduğunu ve mektubu yine de nakde çevirmek istediğini söylüyor." }
+      ],
+      "prompt": "Müvekkile ne tavsiye edeceksiniz?",
+      "choices": [
+        {
+          "text": "Karara uy; esas kurul oluşunca kararın değiştirilmesini iste (m.29/3), ölçüm raporunu orada sun.",
+          "delta": 15,
+          "set": ["p2_uy"],
+          "law": "ICC Kuralları m.29/2, m.29/3",
+          "note": "Taraflar acil hakemin kararına uymayı üstlenmiştir (m.29/2). Esas kurul kararı değiştirebilir, sona erdirebilir ya da kaldırabilir (m.29/3); doğru yol budur."
+        },
+        {
+          "text": "Mektubu yine de nakde çevir: karar bir hakem kararı değil, cebren icra edilemez; banka ilk talepte ödemek zorunda.",
+          "delta": -20,
+          "set": ["p2_ihlal"],
+          "law": "ICC Kuralları m.29/2, m.29/4",
+          "note": "Banka ödese bile taraflar acil hakemin kararına uymayı üstlenmiştir (m.29/2). Esas kurul, karara uyulmamasından doğan talepleri de karara bağlar (m.29/4); ihlal, tazminat ve masraf olarak önünüze gelecek, güvenilirliğinizi de yitirdiniz."
+        },
+        {
+          "text": "Karara karşı Paris mahkemesinde iptal davası aç; o arada mektubu nakde çevirme.",
+          "delta": -5,
+          "set": ["p2_iptalparis"],
+          "law": "ICC Kuralları m.29/2, m.29/3",
+          "note": "Acil hakemin kararı nihai bir hakem kararı değil, bir “karar”dır (m.29/2); onu gözden geçirecek yer esas kuruldur (m.29/3). Mahkemede iptal yolu belirsiz ve masraflıdır."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "ESAS TAHKİM · Üç hakemli kurul Şubat 2027'de oluştu. Talep dilekçenizi tamamlıyorsunuz." }
+      ],
+      "prompt": "Esas tahkimde ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Mektubun iadesini (m.12.3) ve acil hakem masraflarını iste; kurul o yargılamaya ilişkin talepleri de karara bağlar (m.29/4).",
+          "delta": 15,
+          "set": ["p1_esas"],
+          "law": "ICC Kuralları m.29/4 · Sözleşme m.12.3",
+          "note": "Acil hakemin kararı esas kurulu bağlamaz ve nihai kararla bağlayıcılığı sona erer (m.29/3, Ek V m.6/6). Kalıcı sonuç için mektubun iadesini esas talep olarak getirmek ve acil hakem masraflarını burada istemek gerekir (m.29/4)."
+        },
+        {
+          "text": "Esas talebe gerek yok: acil hakemin kararı alındığına göre tedbir kendiliğinden kesinleşir; tahkimi yalnız masraf için sürdür.",
+          "delta": -10,
+          "set": ["p1_esasyok"],
+          "law": "ICC Kuralları m.29/3, Ek V m.6/6",
+          "note": "Acil hakemin kararı esas kurulu bağlamaz ve en geç nihai kararla bağlayıcılığını yitirir (m.29/3, Ek V m.6/6-c). Mektubun iadesini esas talep olarak getirmezseniz nihai kararda koruma kalmaz."
+        },
+        {
+          "text": "Acil hakemin kararını Romanya'da New York Sözleşmesine göre tenfiz ettir; işveren ancak öyle durur, esas talep sonra gelir.",
+          "delta": -5,
+          "set": ["p1_tenfiz"],
+          "law": "New York Sözleşmesi m.I, m.V · ICC Kuralları m.29/2",
+          "note": "New York Sözleşmesi hakem kararları içindir; geçici nitelikteki acil hakem “kararının” bu Sözleşmeyle tenfiz edilip edilemeyeceği tartışmalıdır. Kesin koruma, esas kuruldan alınacak nihai karardadır."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_gec",
+      "winner": "p2",
+      "hukum": "Başvuranın, başvurudan itibaren 10 gün içinde tahkim talebi sunmaması nedeniyle acil durum hakemi yargılamasının ICC Divanı Başkanınca SONA ERDİRİLMESİNE, başvurunun incelenmeksizin düşmesine,",
+      "summary": [
+        { "text": "Acil hakem yargılaması esas tahkime bağlı bir köprüdür; başvurudan sonra 10 gün içinde tahkim talebi sunulmadığı için yargılama sona erdirildi (Ek V m.1/6). Mektup korumasız kaldı." },
+        { "if": "p1_kotu", "text": " Oysa başvuran vekili, mektubun indirim pazarlığına alet edildiğini gösteren e-postayı sunmuştu." }
+      ]
+    },
+    {
+      "if": "p1_banka || p1_esasistem",
+      "winner": "p2",
+      "hukum": "Başvurunun REDDİNE, başvuru masraflarının başvuranda bırakılmasına,",
+      "summary": [
+        { "if": "p1_banka", "text": "Başvuran, tahkimin tarafı olmayan bankanın ödemeden men edilmesini istedi. Acil durum hakemi yalnız tahkim anlaşmasının taraflarını bağlayabilir (m.29/5); işverene yönelik bir talep yoktu." },
+        { "if": "p1_esasistem", "text": "Başvuran, işverenin alacağının olmadığının kesin tespitini istedi. Acil durum hakemi yalnız acil geçici önlemlere karar verir (m.29/1); kesin tespit esas kurulun işidir." },
+        { "if": "p1_kotu", "text": " Kötüye kullanmayı gösteren e-posta güçlüydü, ama hakem talep edilmeyen bir önleme karar veremezdi." }
+      ]
+    },
+    {
+      "if": "p1_kotu && (p1_tedbir || !p2_bagimsiz)",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Karşı tarafın, Banca Carpatica'nın düzenlediği 1.200.000 EUR'luk performans teminat mektubunu esas kurul aksine karar verinceye kadar nakde çevirmekten MEN EDİLMESİNE" },
+        { "if": "p2_bagimsiz", "text": ", bu kararın başvuranın 15 gün içinde 120.000 EUR teminat göstermesi koşuluyla geçerli olmasına" },
+        { "text": ", masrafların esas kurulca belirlenmesine," }
+      ],
+      "summary": [
+        { "text": "Kurulun oluşmasını beklemek mümkün değildi. Türbinler çekincesiz teslim alınmış, mektup iade edilmeliydi; genel müdürün e-postası ise mektubun başka bir projede indirim koparmak için kullanıldığını gösterdi. Bu, hakkın açıkça kötüye kullanılmasıydı (TMK m.2/2)." },
+        { "if": "p2_bagimsiz", "text": " Karşı taraf vekilinin teminatın bağımsızlığına ve para zararının giderilebilirliğine dayanan savunması tedbiri önleyemedi, ama başvurandan teminat istenmesini sağladı." },
+        { "if": "p2_ihlal", "text": " İşveren karara rağmen mektubu nakde çevirdi; esas kurul bu ihlalden doğan zararı ve masrafları ayrıca karara bağlayacak (m.29/4)." },
+        { "if": "p1_esasyok || p1_tenfiz", "text": " Başvuran vekili esas tahkimde mektubun iadesini istemedi; acil hakemin kararı nihai kararla sona erecek (Ek V m.6/6)." }
+      ]
+    },
+    {
+      "if": "p1_kabul && p1_tedbir",
+      "winner": "draw",
+      "hukum": "Karşı tarafın teminat mektubunu 30 gün süreyle nakde çevirmemesine; bu sürede esas kurulun oluşturulması için gerekli işlemlerin tamamlanmasına; fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Çekincesiz kabul, mektubun iade edilmesi gerektiğini ilk bakışta gösterdi; ama mektup temel ilişkiden bağımsızdır ve kötüye kullanmayı açıkça gösteren bir delil sunulmadı. Acil durum hakemi yalnız kısa süreli bir durum korumasına karar verdi."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Başvurunun REDDİNE, başvuru masraflarının esas kurulca belirlenmesine,",
+      "summary": [
+        { "text": "İlk talepte ödenecek teminat mektubu temel sözleşmeden bağımsızdır; nakde çevrilmesini ancak açık delillerle gösterilen bir kötüye kullanma engelleyebilir." },
+        { "if": "!p1_kotu", "text": " Başvuran vekili, mektubu indirim pazarlığına bağlayan e-postayı doğru anda sunmadı." },
+        { "if": "p1_kotu", "text": " E-posta sunuldu, ama başvuran vekili aciliyeti ve telafisi güç zararı kuramadı; karşı taraf vekili para zararının sonradan giderilebileceğini gösterdi." },
+        { "if": "p2_olcum", "text": " İşverenin ölçüm raporu da talebinin dayanaksız olmadığını gösterdi." }
+      ]
+    }
+  ]
+}

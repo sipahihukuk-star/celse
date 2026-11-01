@@ -356,6 +356,10 @@ const dict: Record<string, string> = {
   "Sigortalı, lehtar ya da zarar gören ile Komisyona üye sigorta kuruluşu arasındaki uyuşmazlıklar: kasko, trafik sigortası (değer kaybı, destekten yoksun kalma), konut ve yangın, sağlık, hayat ve kredi hayat, nakliyat, mesleki sorumluluk, DASK, tarım sigortası.": "Disputes between the insured, a beneficiary or an injured party and an insurer that is a member of the Commission: comprehensive motor (kasko), compulsory motor liability (diminished value, loss of support), home and fire, health, life and credit life, cargo, professional liability, compulsory earthquake insurance (DASK), agricultural insurance.",
   "Tazminatın reddi, eksik ödenmesi, istisna ve muafiyet tartışmaları, beyan yükümlülüğünün ihlali.": "Rejected or underpaid claims, disputes over exclusions and deductibles, breach of the duty of disclosure.",
   "Önce sigorta kuruluşuna yazılı başvuru yapılır; şirket reddederse ya da 15 gün içinde cevap vermezse Komisyona başvurulur (5684 s.K. m.30).": "A written claim is first made to the insurer; if it refuses or does not reply within 15 days, the Commission can be seised (Law No. 5684, Art. 30).",
-  "Uyuşmazlık hakem heyeti dosyayı inceler, gerekirse bilirkişi raporu alır; HMK hükümleri uygulanır. Karar başvurudan itibaren dört ay içinde verilir.": "The arbitral panel examines the file and obtains an expert report if needed; the Code of Civil Procedure (HMK) applies. The decision is issued within four months of the application."
+  "Uyuşmazlık hakem heyeti dosyayı inceler, gerekirse bilirkişi raporu alır; HMK hükümleri uygulanır. Karar başvurudan itibaren dört ay içinde verilir.": "The arbitral panel examines the file and obtains an expert report if needed; the Code of Civil Procedure (HMK) applies. The decision is issued within four months of the application.",
+  "KOMİSYON KARARI": "COMMISSION DECISION",
+  "TAHKİM KURULU KARARI": "ARBITRATION BOARD DECISION",
+  "HAKEM KARARI": "ARBITRAL AWARD",
+  "Telefon numarasını 05xx xxx xx xx biçiminde (yurt dışı için +ülke kodu ile) yazın.": "Enter your phone number as 05xx xxx xx xx (outside Turkey, with + and country code).",
 };
 export default dict;

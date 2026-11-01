@@ -98,7 +98,7 @@ function SignUpForm({ server, onDone }: { server: boolean; onDone: () => void })
   return (
     <View style={s.form}>
       <Input label={t("Ad soyad")} value={v.adSoyad} onChange={up("adSoyad")} type="name" placeholder={t("Ad Soyad")} />
-      <Input label={t("Telefon")} value={v.telefon} onChange={up("telefon")} type="phone" placeholder="05xx xxx xx xx" />
+      <Input label={t("Telefon")} value={v.telefon} onChange={up("telefon")} type="phone" placeholder={t("05xx xxx xx xx · +49 …")} />
       <Input label={t("E-posta")} value={v.eposta} onChange={up("eposta")} type="email" placeholder={t("ornek@eposta.com")} />
       {server && <Input label={t("Şifre (en az 8 karakter)")} value={v.sifre} onChange={up("sifre")} type="password" />}
       <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: v.kvkk }} onPress={() => up("kvkk")(!v.kvkk)} style={s.check}>

@@ -35,6 +35,8 @@ export const currentAccount = () => current;
 
 /* ---------- doğrulama ---------- */
 export function normalizePhone(t: string): string {
+  // Yabancı numara: + ile başlıyorsa uluslararası biçimde saklanır.
+  if (t.trim().startsWith("+") && !t.trim().startsWith("+90")) return "+" + t.replace(/\D/g, "");
   const d = t.replace(/\D/g, "");
   if (d.length === 12 && d.startsWith("90")) return "0" + d.slice(2);
   if (d.length === 10 && d.startsWith("5")) return "0" + d;
@@ -42,7 +44,8 @@ export function normalizePhone(t: string): string {
 }
 export function checkSignUp(v: SignUpInput, needPassword: boolean): string | null {
   if (v.adSoyad.trim().split(/\s+/).length < 2) return "Adınızı ve soyadınızı yazın.";
-  if (!/^05\d{9}$/.test(normalizePhone(v.telefon))) return "Telefon numarasını 05xx xxx xx xx biçiminde yazın.";
+  const ph = normalizePhone(v.telefon);
+  if (!/^05\d{9}$/.test(ph) && !/^\+\d{8,15}$/.test(ph)) return "Telefon numarasını 05xx xxx xx xx biçiminde (yurt dışı için +ülke kodu ile) yazın.";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.eposta.trim())) return "Geçerli bir e-posta adresi yazın.";
   if (needPassword && (v.sifre || "").length < 8) return "Şifre en az 8 karakter olmalı.";
   if (!v.kvkk) return "Devam etmek için aydınlatma metnini okuduğunuzu onaylayın.";

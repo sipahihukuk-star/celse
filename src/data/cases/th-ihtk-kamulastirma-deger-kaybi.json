@@ -32,7 +32,7 @@
     { "who": "narr", "text": "Bugün 12.05.2014. Komisyon dosya üzerinden karar verir ve ilgili idareden bilgi ister; idarenin yazılı görüşü burada başvuranın görüşüyle karşılıklı tartışılıyor. (Tutarlar bugünkü Türk lirası karşılığıyla gösterilmiştir.)" }
   ],
   "docs": [
-    { "t": "2014/5917 sayılı Bakanlar Kurulu Kararı (RG 16.03.2014)", "d": "6384 sayılı Kanun m.2 uyarınca Komisyonun görev alanı genişletildi: 2942 sayılı Kanun kapsamındaki kamulaştırmalarda uzun yargılama ve enflasyon nedeniyle bedelin değer kaybı; 4675 sayılı Kanun kapsamında disiplin cezalarına itirazlarda savunma hakkının kısıtlanması; hükümlü ve tutukluların Türkçe dışındaki dillerde mektuplarının gönderilmemesi ve yayınlara erişimin kısıtlanması. AİHM'de bekleyen başvurular için Komisyona müracaat süresi Kararın yayımından itibaren altı ay; AİHM'nin kabul edilemezlik kararının tebliğinden itibaren bir ay." },
+    { "t": "2014/5917 sayılı Bakanlar Kurulu Kararı (RG 16.03.2014)", "d": "6384 sayılı Kanun m.2 uyarınca Komisyonun görev alanı genişletildi: 2942 sayılı Kanun kapsamındaki kamulaştırmalarda uzun yargılama ve enflasyon nedeniyle bedelin değer kaybı; 4675 sayılı Kanun kapsamında disiplin cezalarına itirazlarda savunma hakkının kısıtlanması; hükümlü ve tutukluların Türkçe dışındaki dillerde mektuplarının gönderilmemesi ve yayınlara erişimin kısıtlanması. AİHM'de bekleyen başvurular ile AİHM'e 23.03.2013'ten önce yapılmış uzun yargılama başvuruları için Komisyona müracaat süresi Kararın yayımından itibaren altı ay; AİHM'nin kabul edilemezlik kararının tebliğinden itibaren bir ay." },
     { "t": "Anayasa m.46/1 · 1 No.lu Protokol m.1", "d": "Kamulaştırma, gerçek karşılığın peşin ödenmesi şartıyla yapılır. Herkesin mülkiyetine saygı gösterilmesini isteme hakkı vardır." },
     { "t": "Yargılama ve ödeme özeti", "d": "05.2004 acele el koyma ve bedel tespiti davası · 2007 ve 2010'da Yargıtay bozmaları · 15.12.2011 kesinleşme · 02.2012 ek bedel 300.000 TL ve faizi 34.000 TL ödendi · 05.06.2012 AİHM başvurusu." },
     { "t": "Bilirkişi hesap raporu", "d": "Bedelin 2004 değeri, ödeme tarihine enflasyonla güncellendiğinde 520.000 TL eder. Ödenen ek bedel 300.000 TL, faiz 34.000 TL." },
@@ -59,7 +59,7 @@
           "delta": 20,
           "set": ["p1_bkk"],
           "law": "6384 s.K. m.2 · BKK 2014/5917",
-          "note": "Doğru. Genişletilen görev alanına giren ve AİHM'de bekleyen başvurular için Komisyona müracaat süresi Kararın yayımından itibaren altı aydır. Başvuru 23.09.2012'den önce yapıldığından uzun yargılama şikâyeti de Kanunun asıl kapsamındadır.",
+          "note": "Doğru. Genişletilen görev alanına giren ve AİHM'de bekleyen başvurular için Komisyona müracaat süresi Kararın yayımından itibaren altı aydır. Karar, AİHM'e 23.03.2013'ten önce yapılmış uzun yargılama başvuruları için de aynı altı aylık süreyi açtığından, yargılamanın uzunluğu da aynı müracaatta ileri sürülebilir.",
           "reply": [{ "who": "narr", "text": "Müracaat 30.05.2014'te yapıldı; AİHM'e de Komisyona müracaat edildiği bildirildi." }]
         },
         {

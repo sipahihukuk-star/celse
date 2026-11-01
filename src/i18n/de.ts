@@ -356,6 +356,10 @@ const dict: Record<string, string> = {
   "Sigortalı, lehtar ya da zarar gören ile Komisyona üye sigorta kuruluşu arasındaki uyuşmazlıklar: kasko, trafik sigortası (değer kaybı, destekten yoksun kalma), konut ve yangın, sağlık, hayat ve kredi hayat, nakliyat, mesleki sorumluluk, DASK, tarım sigortası.": "Streitigkeiten zwischen Versicherten, Begünstigten oder Geschädigten und einem der Kommission angeschlossenen Versicherer: Kaskoversicherung, Kfz-Haftpflicht (Wertminderung, Unterhaltsschaden), Wohngebäude und Feuer, Kranken-, Lebens- und Restschuldversicherung, Transport, Berufshaftpflicht, Erdbebenpflichtversicherung (DASK), Agrarversicherung.",
   "Tazminatın reddi, eksik ödenmesi, istisna ve muafiyet tartışmaları, beyan yükümlülüğünün ihlali.": "Ablehnung oder Teilzahlung der Leistung, Streit über Ausschlüsse und Selbstbehalte, Verletzung der Anzeigepflicht.",
   "Önce sigorta kuruluşuna yazılı başvuru yapılır; şirket reddederse ya da 15 gün içinde cevap vermezse Komisyona başvurulur (5684 s.K. m.30).": "Zunächst ist ein schriftlicher Antrag an den Versicherer zu richten; lehnt er ab oder antwortet er nicht binnen 15 Tagen, kann die Kommission angerufen werden (Gesetz Nr. 5684, Art. 30).",
-  "Uyuşmazlık hakem heyeti dosyayı inceler, gerekirse bilirkişi raporu alır; HMK hükümleri uygulanır. Karar başvurudan itibaren dört ay içinde verilir.": "Das Schiedsgremium prüft die Akte und holt bei Bedarf ein Sachverständigengutachten ein; es gilt die Zivilprozessordnung (HMK). Die Entscheidung ergeht binnen vier Monaten nach Antragstellung."
+  "Uyuşmazlık hakem heyeti dosyayı inceler, gerekirse bilirkişi raporu alır; HMK hükümleri uygulanır. Karar başvurudan itibaren dört ay içinde verilir.": "Das Schiedsgremium prüft die Akte und holt bei Bedarf ein Sachverständigengutachten ein; es gilt die Zivilprozessordnung (HMK). Die Entscheidung ergeht binnen vier Monaten nach Antragstellung.",
+  "KOMİSYON KARARI": "ENTSCHEIDUNG DER KOMMISSION",
+  "TAHKİM KURULU KARARI": "ENTSCHEIDUNG DES SCHIEDSAUSSCHUSSES",
+  "HAKEM KARARI": "SCHIEDSSPRUCH",
+  "Telefon numarasını 05xx xxx xx xx biçiminde (yurt dışı için +ülke kodu ile) yazın.": "Geben Sie Ihre Telefonnummer als 05xx xxx xx xx ein (außerhalb der Türkei mit + und Ländervorwahl).",
 };
 export default dict;
