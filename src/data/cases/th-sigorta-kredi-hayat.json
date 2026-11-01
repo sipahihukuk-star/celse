@@ -1,0 +1,441 @@
+{
+  "id": "th-sigorta-kredi-hayat",
+  "mode": "duel",
+  "difficulty": "zor",
+  "title": "Matbu Beyan",
+  "area": "Tahkim · Sigorta tahkimi · Kredi hayat sigortası",
+  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakem Heyeti",
+  "courtShort": "SİGORTA TAHKİM",
+  "esas": "2026/56120 Başvuru",
+  "kararTarihi": "12.04.2027",
+  "color": "#4b3b5c",
+  "room": "tahkim",
+  "forum": "sigorta",
+  "inscription": null,
+  "bench": { "judges": 3, "title": "Üç sigorta hakeminden oluşan uyuşmazlık hakem heyeti" },
+  "teaser": "Bankadaki sağlık formunda “Hayır” işaretlendi; oysa üç yıl önce stent takılmıştı. Ölüm sebebi ise kalp değil, beyin kanaması.",
+  "sides": {
+    "p1": { "role": "Başvuranlar (mirasçılar) vekili", "short": "Başvuran" },
+    "p2": { "role": "Sigorta şirketi vekili", "short": "Sigorta şirketi" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#efc9a8", "hair": "#5a3a2a", "style": "bun", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#d9a982", "hair": "#6b6b70", "style": "short", "glasses": true, "shirt": "#1f2a36", "inner": "#e9e6df" } },
+    "p2": { "look": { "kind": "civil", "skin": "#e3b996", "hair": "#2a2220", "style": "long", "shirt": "#2e2a33", "inner": "#efe9e0" } },
+    "gul": { "name": "Gül Yurt · Başvuran (eş)", "np": "civil", "look": { "kind": "civil", "skin": "#e6bf9c", "hair": "#4a2f22", "style": "bun", "shirt": "#5a4a3a", "inner": "#ece4d8" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Hakan Yurt (47), 15.01.2026'da Yarımada Bankası A.Ş.'den 1.800.000 TL konut kredisi kullandı. Banka şubesinde, kredi evrakıyla birlikte Selvi Hayat ve Emeklilik A.Ş.'nin kredi hayat sigortası da düzenlendi; tek sayfalık matbu sağlık beyanı formu imzalatıldı." },
+    { "who": "narr", "text": "Formdaki “Son beş yıl içinde kalp ve damar hastalığı nedeniyle tedavi gördünüz mü, ameliyat oldunuz mu?” sorusunda “Hayır” işaretli. Oysa Hakan'a Mart 2023'te koroner arter hastalığı nedeniyle stent takılmıştı. Formda tansiyona ilişkin bir soru yok." },
+    { "who": "narr", "text": "Hakan 02.09.2026'da beyin kanaması (hemorajik inme) nedeniyle öldü. Ölüm tarihindeki kredi bakiyesi 1.640.000 TL. Şirket 05.10.2026'da, stentin bildirilmediğini söyleyerek ödemeyi reddetti. Kredi taksitleri hâlâ mirasçılardan tahsil ediliyor." },
+    { "who": "gul", "text": "Formu Hakan doldurmadı ki. Memur sordu, cevabı beklemeden işaretledi, imzalattı. Şimdi koca bir borç bize kaldı." },
+    { "who": "narr", "text": "Bugün 02.11.2026. Eş Gül Yurt ve oğul Arda Yurt mirasçı. Selvi Hayat, Sigorta Tahkim Komisyonuna üye." }
+  ],
+  "docs": [
+    { "t": "Kredi hayat poliçesi", "d": "Selvi Hayat ve Emeklilik A.Ş. Başlangıç 15.01.2026. Sigorta bedeli: ölüm tarihindeki kredi bakiyesi (azalan bedelli). Dain-i mürtehin lehtar: Yarımada Bankası A.Ş. Prim 24.000 TL, peşin." },
+    { "t": "Sağlık beyanı formu", "d": "Banka şubesinde kredi evrakıyla birlikte imzalanmış tek sayfalık matbu form. Soru 3, kalp ve damar hastalığı: “Hayır”. Formda tansiyon sorusu yok. Hakan'ın imzası var." },
+    { "t": "Hastane kayıtları", "d": "Mart 2023: koroner arter hastalığı, stent takıldı; düzenli ilaç kullanımı. 2024–2026: hipertansiyon takibi." },
+    { "t": "Ölüm belgesi ve epikriz", "d": "02.09.2026. Ölüm nedeni: hemorajik inme (beyin kanaması)." },
+    { "t": "Şirketin red yazısı", "d": "05.10.2026: “Sigortalının 2023'teki koroner stent işlemi sözleşme öncesinde beyan edilmemiştir; TTK m.1439 uyarınca tazminat ödenmeyecektir.”" },
+    { "t": "Sigorta tahkiminde parasal sınırlar (22.01.2026'dan)", "d": "35.000 TL'nin altındaki uyuşmazlıklarda karar kesin; 35.000 TL ve üzerinde karara bildirimden itibaren 10 gün içinde bir kez itiraz. 122.000 TL ve üzerindeki uyuşmazlıklarda en az üç hakemli heyet zorunlu. 383.000 TL'yi aşan uyuşmazlıklarda itiraz kararına karşı temyiz." }
+  ],
+  "evidence": [
+    { "id": "ev_police", "type": "belge", "title": "Kredi hayat poliçesi", "desc": "Bedel: ölüm tarihindeki kredi bakiyesi. Lehtar: Yarımada Bankası. Prim 24.000 TL." },
+    { "id": "ev_form", "type": "belge", "title": "Sağlık beyanı formu", "desc": "Matbu form. Kalp ve damar sorusunda “Hayır”; tansiyon sorusu yok; Hakan'ın imzası var." },
+    { "id": "ev_hastane", "type": "belge", "title": "Hastane kayıtları", "desc": "2023'te stent; düzenli ilaç; 2024–2026 hipertansiyon takibi." },
+    { "id": "ev_epikriz", "type": "belge", "title": "Ölüm belgesi ve epikriz", "desc": "Ölüm nedeni hemorajik inme." },
+    { "id": "ev_imza", "type": "belge", "title": "Formun aslı ve şube parafları", "desc": "Formdaki bütün işaretlerin ve el yazısının yanında şube personelinin parafı var; Hakan'a ait olan yalnız imza. Şubenin kredi kontrol listesinde “sağlık beyanı şubece doldurulur” notu.", "if": "p1_memur" },
+    { "id": "law_ttk1436", "type": "kanun", "title": "TTK m.1436", "desc": "Sigortacı yazılı bir soru listesi vermişse, sigorta ettiren listede yer almayan hususlardan, kötüniyetle saklamadıkça sorumlu tutulamaz.", "law": "TTK m.1436" },
+    { "id": "law_ttk1439", "type": "kanun", "title": "TTK m.1439/2", "desc": "Riziko gerçekleşmişse: kasıt ve illiyet varsa sigortacının borcu düşer; kasıt var ama illiyet yoksa ödenen primin olması gereken prime oranında ödenir; ihmalde, ihlal rizikoyu ya da tazminatı etkileyebilecek nitelikteyse ihmalin derecesine göre indirim yapılır.", "law": "TTK m.1439/2" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAŞVURU · Şirket talebi yazılı olarak reddetti; ön şart gerçekleşti. Kimin adına ve ne isteyerek başvuracağınıza karar vermelisiniz." }
+      ],
+      "prompt": "Başvuruyu nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Mirasçılar adına başvur; ölüm tarihindeki 1.640.000 TL kredi bakiyesinin lehtar bankaya ödenerek borcun kapatılmasını iste.",
+          "delta": 20,
+          "set": ["p1_banka"],
+          "law": "5684 s.K. m.30/13 · TTK m.1487",
+          "note": "Kredi hayat sigortasında lehtar banka; ama ölümle kredi borcu mirasçılara geçtiği için mirasçılar da tazminatın bankaya ödenerek borcun kapatılmasını isteyebilir. 1.640.000 TL'lik uyuşmazlık üç hakemli heyette görülecek; itiraz kararına karşı temyiz de açık olacak.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 03.11.2026'da yapıldı; üç hakemli heyet oluşturuldu." }
+          ]
+        },
+        {
+          "text": "Mirasçılar adına başvur; tazminatın doğrudan mirasçılara ödenmesini iste, kredi borcunu sonra aile kendisi kapatsın, banka bekleyebilir.",
+          "delta": -10,
+          "set": ["p1_kendine"],
+          "law": "TTK m.1487",
+          "note": "Poliçede lehtar (dain-i mürtehin) banka. Ölüm tarihindeki kredi bakiyesi kadar tazminat bankaya ödenir; mirasçılar bu tutarın kendilerine ödenmesini isteyemez, ancak bankaya ödenmesini isteyebilir. Heyet talebi açıklatmak zorunda kaldı.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 03.11.2026'da yapıldı. Heyet, talebin bankaya ödeme olarak düzeltilmesi için süre verdi; üç hakemli heyet oluşturuldu." }
+          ]
+        },
+        {
+          "text": "Başvuruyu banka yapmalı; mirasçıların kendi adına başvurma hakkı yok. Bankaya noterden ihtar çekip başvurmasını iste.",
+          "delta": -5,
+          "set": ["p1_gec"],
+          "law": "TTK m.1487",
+          "note": "Banka alacağını kredi borcundan zaten tahsil edebildiği için başvurmak zorunda hissetmez; borç mirasçılara kaldı. Mirasçılar tazminatın bankaya ödenmesini kendileri isteyebilir. İki ay kaybettiniz.",
+          "reply": [
+            { "who": "narr", "text": "Banka başvurmadı. Başvuru mirasçılar adına 05.01.2027'de yapıldı; üç hakemli heyet oluşturuldu." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Başvuru Selvi Hayat'a tebliğ edildi. Beyan yükümlülüğünün ihlalini nasıl kuracağınızı seçmelisiniz." }
+      ],
+      "prompt": "Savunmanızı neye dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "Sigortalı stent geçmişini gizledi; beyan yükümlülüğü ihlal edildiğinden sözleşme baştan geçersizdir, hiçbir ödeme yapılmaz.",
+          "delta": -10,
+          "set": ["p2_mutlak"],
+          "law": "TTK m.1435, m.1439",
+          "note": "TTK, beyan yükümlülüğünün ihlalini kendiliğinden geçersizlik saymaz. Riziko gerçekleşmişse sonuç, kusurun derecesine ve ihlal ile riziko arasındaki illiyete göre belirlenir (TTK m.1439/2). Savunmanızı ölüm sebebiyle hiç ilişkilendirmediniz."
+        },
+        {
+          "text": "Stent kasten gizlendi: kast ve ölümle illiyet varsa borç düşer; illiyet yoksa ödenen primin olması gereken prime oranında öderiz, fazlasını değil.",
+          "delta": 20,
+          "set": ["p2_1439"],
+          "law": "TTK m.1435, m.1439/2",
+          "note": "Doğru kurgu (TTK m.1439/2). Kastı ve illiyeti ispat yükü sizde. Ölüm sebebi beyin kanaması olduğundan illiyet zor görünüyor; bu yüzden prim oranı savunmasını da hazırladınız."
+        },
+        {
+          "text": "Hipertansiyon da bildirilmedi; formda ayrıca sorulmasa bile bu önemli bir husustu, ihlal ağırdır ve ölümle doğrudan bağlantılıdır.",
+          "delta": -10,
+          "set": ["p2_tansiyon"],
+          "law": "TTK m.1436",
+          "note": "Sigortacı yazılı soru listesi verdiyse, sigorta ettiren listede olmayan hususlardan kötüniyetle saklamadıkça sorumlu değildir (TTK m.1436). Formda tansiyon sorusu yoktu; kötüniyeti de ispat etmeniz gerekirdi."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "MÜVEKKİL GÖRÜŞMESİ · Şirketin cevabı geldi. Gül Yurt'la görüşüyorsunuz; iki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Sağlık formunu kim doldurdu, elinizde bir sureti var mı?",
+          "delta": 15,
+          "set": ["p1_memur"],
+          "reply": [
+            { "who": "gul", "text": "Şubedeki memur doldurdu. Hakan'a “Sağlık sorununuz yok değil mi?” dedi, cevabını beklemeden işaretledi, imzalattı. Formun bir sureti bizde; işaretlerin yanında memurun parafı var." }
+          ],
+          "note": "Kilit soru. Form aslındaki paraflar, işaretlerin şube personelince konduğunu gösteriyor. Çantanıza eklendi."
+        },
+        {
+          "text": "Hakan stentini şubede söyledi mi?",
+          "delta": 5,
+          "reply": [
+            { "who": "gul", "text": "İlaç kutuları çantasındaydı. Memurla konuşurken “Kalp ilacımı içmem lazım” dedi; ben yanındaydım." }
+          ],
+          "note": "Önemli bir ayrıntı: şube personeli hastalıktan haberdar olmuş olabilir. Ama yakınlık nedeniyle bu beyan tek başına zayıf kalır."
+        },
+        {
+          "text": "Hakan'ın ölüm sebebi hakkında doktor ne dedi?",
+          "delta": 10,
+          "reply": [
+            { "who": "gul", "text": "Beyin kanaması dediler. Nöroloji uzmanı “Tansiyonla ilgili, kalbiyle bağlantısı yok” dedi." }
+          ],
+          "note": "Yararlı. İlliyet tartışmasında Adli Tıp incelemesinin çerçevesini çizer."
+        },
+        {
+          "text": "Kredi çekilirken sigorta zorunlu tutuldu mu?",
+          "delta": 0,
+          "reply": [
+            { "who": "gul", "text": "Banka “Kredi hayat sigortası olmadan olmaz” dedi." }
+          ],
+          "note": "Sigortanın kredi şartı yapılması bu uyuşmazlığın sonucunu değiştirmez; asıl mesele beyan yükümlülüğü."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "SÖZLÜ AÇIKLAMA · Heyet, kural olarak dosya üzerinden karar verse de bu dosyada tarafları dinlemeye karar verdi." },
+        { "who": "judge", "text": "Şirket vekili, bilirkişi incelemesine ilişkin talebiniz nedir?" }
+      ],
+      "prompt": "Hangi incelemeyi isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Adli tıp uzmanı stent ve tansiyonun ölüme etkisini incelesin; aktüer de stent baştan bilinseydi alınacak primi ayrıca hesaplasın.",
+          "delta": 15,
+          "set": ["p2_aktuer"],
+          "law": "TTK m.1439/2 · Tahkim Yönetmeliği m.16/12",
+          "note": "Doğru. TTK m.1439/2'nin iki sorusu var: ihlal ile ölüm arasında illiyet var mı, yoksa olması gereken prim neydi? İkisini birden bilirkişiye götürdünüz.",
+          "reply": [
+            { "who": "judge", "text": "Adli Tıp ve aktüerya incelemesine karar verildi." }
+          ]
+        },
+        {
+          "text": "Bilirkişiye gerek yok: imzalı form ve hastane kayıtları ihlali açıkça gösteriyor, heyet dosya üzerinden doğrudan ret kararı verebilir.",
+          "delta": -10,
+          "law": "TTK m.1439/2",
+          "note": "İhlalin varlığı sonucu belirlemeye yetmez; kast, illiyet ve prim oranı ayrı ayrı araştırılmalı. Heyet incelemeye kendiliğinden karar verdi.",
+          "reply": [
+            { "who": "judge", "text": "Heyet, Adli Tıp ve aktüerya incelemesine kendiliğinden karar verdi." }
+          ]
+        },
+        {
+          "text": "Yalnız aktüer bilirkişi atansın; olması gereken prim belli olursa prim oranında ödeme yapılabilir, illiyet zaten tartışmasız.",
+          "delta": 5,
+          "set": ["p2_aktuer"],
+          "law": "TTK m.1439/2",
+          "note": "Prim hesabı yerinde, ama illiyet tartışmasız değil; ölüm sebebiyle stent arasındaki bağı adli tıp uzmanı aydınlatmalı. Heyet bunu da ekledi.",
+          "reply": [
+            { "who": "judge", "text": "Aktüerya incelemesine ek olarak Adli Tıp görüşü de alınacak." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuranlar vekili, kast iddiasına karşı beyanınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Heyet, sigortalı formdaki kalp ve damar sorusuna “Hayır” demiş, altına imzasını atmıştır. 2023'teki stent ameliyatını bilmemesi mümkün değil; bu açık bir kasttır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_imza"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_kastyok"],
+        "law": "TTK m.1435, m.1439/2",
+        "note": "Form aslındaki paraflar, işaretlerin şube personelince konduğunu, Hakan'ın yalnız imza attığını gösteriyor; şubenin kontrol listesi de bunun bir uygulama olduğunu ortaya koyuyor. Kredi hayat sigortasını pazarlayan banka burada sigortacının aracısıdır. Personelin doldurup imzalattığı matbu bir form, sigortalının bilerek ve isteyerek yanlış beyanda bulunduğunu, yani kastı ispat etmez.",
+        "reply": [
+          { "who": "judge", "text": "Form aslı ve kontrol listesi dosyaya alındı." }
+        ]
+      },
+      "responses": {
+        "law_ttk1436": {
+          "delta": 5,
+          "note": "Doğru madde: formda sorulmayan tansiyondan sigortalı sorumlu değil. Ama stent sorusu formda vardı; kast iddiasını ancak formun nasıl doldurulduğunu gösteren belge çürütür."
+        },
+        "ev_epikriz": {
+          "delta": 5,
+          "note": "Ölüm sebebinin beyin kanaması olması illiyet tartışmasında işe yarar; ama kast iddiasını çürütmez."
+        },
+        "ev_hastane": {
+          "delta": -10,
+          "note": "Hastane kayıtları stentin varlığını doğruluyor; şirketin beyanını güçlendirdiniz."
+        },
+        "ev_form": {
+          "delta": -5,
+          "note": "Formun bu sureti yalnız “Hayır” işaretini gösteriyor. İşaretin kimin elinden çıktığı, form aslındaki paraflarla anlaşılır."
+        }
+      },
+      "miss": { "delta": -5, "note": "Bu belge formun nasıl doldurulduğunu göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; kast iddiası karşılıksız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Şirket vekili, beyan yükümlülüğünün ihlaline ilişkin esas savunmanızı alalım." }
+      ],
+      "prompt": "Sigortalının stenti kasten bildirmediğini ve bunun tazminata etkisini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p2_kast"],
+          "law": "TTK m.1435, m.1439/2",
+          "note": "Savunmayı kanunun sistemine oturttunuz: açıkça sorulan bir husus önemli sayılır; üç yıl önceki stent ve düzenli ilaç kullanımı bilinmeyecek bir şey değildir; kast varsa ve illiyet yoksa ödeme prim oranıyla sınırlanır."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_kast"],
+          "law": "TTK m.1435, m.1439/2",
+          "note": "Kastı öne çıkardınız. Tam savunma, sorulan hususun önemli sayıldığını (TTK m.1435), sigortalının stenti ve ilaçlarını bilmemesinin mümkün olmadığını ve illiyet yoksa ödemenin prim oranıyla sınırlanacağını (TTK m.1439/2) birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "TTK m.1435, m.1439/2",
+          "note": "Kastı kanunun aradığı biçimde kurmadınız. Formda açıkça sorulan bir husus önemli sayılır (TTK m.1435); üç yıl önceki stent ve düzenli ilaç kullanımı bilinmeyecek bir şey değildir. İlliyet yoksa da kast, ödemeyi prim oranıyla sınırlar (TTK m.1439/2)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sigortacının yazılı olarak sorduğu hususlar, aksi ispat edilinceye kadar önemli sayılır (TTK m.1435); formda kalp ve damar hastalığı açıkça soruldu. (2) Üç yıl önce stent takılan ve düzenli ilaç kullanan bir kişinin bunu bilmemesi mümkün değildir; formu imzalayan sigortalı içeriği benimsemiştir. Bu, ihmal değil kasıttır. (3) TTK m.1439/2'ye göre riziko gerçekleşmişse, kasıt ve illiyet varsa sigortacının borcu düşer; kasıt var ama illiyet yoksa ödenen primin olması gereken prime oranında ödeme yapılır. Stent bilinseydi prim 60.000 TL olacaktı; ödenen 24.000 TL, yani %40 oranında, en fazla 656.000 TL ödenmelidir. Önemli husus, kast ve prim oranı sonucunu birlikte söylemek tam puan için gerekir; sözleşmenin kendiliğinden geçersiz olduğunu söyleyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["kasıt", "kast", "kasten", "bilerek"], "weight": 3 },
+        { "terms": ["1439", "prim oranı", "olması gereken prim", "oranında"], "weight": 3 },
+        { "terms": ["1435", "önemli husus", "soruldu", "sorulan"], "weight": 2 },
+        { "terms": ["stent", "ilaç", "2023"], "weight": 1 },
+        { "terms": ["656.000", "%40", "yüzde kırk", "60.000"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, formda kalp ve damar hastalığı açıkça sorulmuştu; sorulan hususlar önemli sayılır (TTK m.1435). Üç yıl önce stent takılan ve düzenli ilaç kullanan bir kişinin bunu bilmemesi mümkün değildir; “Hayır” cevabını imzasıyla benimseyen sigortalı kasten yanlış beyanda bulunmuştur. İlliyet bulunmasa bile TTK m.1439/2 uyarınca ödeme, ödenen 24.000 TL primin olması gereken 60.000 TL'ye oranıyla, yani en fazla 656.000 TL ile sınırlıdır."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuranlar vekili, esas beyanınızı alalım." }
+      ],
+      "prompt": "Şirketin neden bedelin tamamını ödemesi gerektiğini TTK'nın beyan yükümlülüğü hükümleri çerçevesinde açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p1_savunma"],
+          "law": "TTK m.1436, m.1439/2 · TTK m.1409/2",
+          "note": "Hükümleri tek tek ve doğru sırayla kullandınız: tansiyon sorulmadı (m.1436), kast ispat edilemedi, illiyet yok; ihmal hâlinde bile rizikoyu etkilemeyen bir ihlal indirime yol açmaz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "law": "TTK m.1436, m.1439/2",
+          "note": "Doğru yöndesiniz. Tam savunma; tansiyonun sorulmadığını (TTK m.1436), kastı ispat yükünün şirkette olduğunu ve formun şubece doldurulduğunu, stent ile beyin kanaması arasında illiyet bulunmadığını ve bu durumda TTK m.1439/2'nin ihmal hükmüyle bile indirim yapılamayacağını birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "TTK m.1436, m.1439/2",
+          "note": "Beyan yükümlülüğünün ihlali tek başına ödemeyi düşürmez; sonuç kasta ve illiyete göre belirlenir (TTK m.1439/2). Tansiyonun formda sorulmadığını (TTK m.1436), formun şubece doldurulduğunu ve ölüm sebebinin stentle ilgisi olmadığını kurmadınız."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Formda tansiyon sorusu yoktu; sigortacı yazılı soru listesi verdiğinde, listede olmayan hususlardan sigorta ettiren kötüniyetle saklamadıkça sorumlu değildir (TTK m.1436). (2) Kalp sorusundaki 'Hayır' işaretini şube personeli koydu, Hakan yalnız imza attı; matbu formun personelce doldurulması kastı göstermez. Kastı ispat yükü sigortacıdadır. (3) Ölüm sebebi hemorajik inmedir; koroner arter hastalığı ve stent ile ölüm arasında illiyet yoktur. (4) TTK m.1439/2'ye göre kast ispatlanamadığında ihmal hükmü uygulanır; ihlal rizikoyu ya da tazminatı etkileyebilecek nitelikte olmadığından indirim de yapılamaz. Bu yüzden ölüm tarihindeki 1.640.000 TL bakiyenin tamamı bankaya ödenmelidir. Soru listesi kuralını, kastın ispat edilemediğini ve illiyetin yokluğunu birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["1436", "sorulmadı", "soru listesi", "formda yok"], "weight": 2 },
+        { "terms": ["kast", "kasıt", "ispat yükü", "memur", "personel", "şube"], "weight": 3 },
+        { "terms": ["illiyet", "nedensellik", "beyin kanaması", "inme"], "weight": 3 },
+        { "terms": ["1439", "ihmal", "indirim"], "weight": 1 },
+        { "terms": ["1.640.000", "bakiye", "banka"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, formda tansiyon sorusu yoktu; sorulmayan hususlardan sigortalı, kötüniyetle saklamadıkça sorumlu değildir (TTK m.1436). Kalp sorusundaki işareti şube personeli koydu; Hakan yalnız imza attı, kast ispatlanamaz. Ölüm sebebi beyin kanamasıdır, stentle illiyeti yoktur; TTK m.1439/2'ye göre rizikoyu etkilemeyen bir ihlal indirime de yol açmaz. Ölüm tarihindeki 1.640.000 TL bakiyenin tamamı bankaya ödenmelidir."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "BİLİRKİŞİ RAPORLARI · Adli Tıp: ölüm nedeni hemorajik inme; en önemli risk etkeni hipertansiyon. Koroner arter hastalığı ve stent ile ölüm arasında illiyet kurulamadı. Aktüer: stent bilinseydi %150 ek primle prim 60.000 TL olurdu." },
+        { "who": "judge", "text": "Şirket vekili, raporlar karşısında son savunmanız?" }
+      ],
+      "prompt": "Raporlar karşısında ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Koroner hastalık ile tansiyon tek bir damar hastalığının parçalarıdır; ihlal ile ölüm arasında bağ vardır, ödeme yapılmamalıdır.",
+          "delta": -5,
+          "law": "TTK m.1436, m.1439/2",
+          "note": "Rapor bunun tersini söylüyor; tansiyon da formda sorulmamıştı (TTK m.1436). Bilimsel dayanağı olmayan bir itiraz.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "İlliyet yoksa bile kast var; ödenen 24.000 TL primin olması gereken 60.000 TL'ye oranıyla, %40 üzerinden 656.000 TL ödenmesi gerekir.",
+          "delta": 15,
+          "set": ["p2_oran"],
+          "law": "TTK m.1439/2",
+          "note": "TTK m.1439/2'ye göre kasıt var ama ihlal ile riziko arasında illiyet yoksa sigortacı, ödenen primin olması gereken prime oranında öder: 1.640.000 × 24.000 / 60.000 = 656.000 TL. Bu sonuç kastın ispatına bağlı.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "Rapora itiraz et; heyet raporu benimserse karar kesinleşmeden önce, itiraz aşamasını hiç beklemeden doğrudan Yargıtay'a temyiz edilir.",
+          "delta": -10,
+          "law": "5684 s.K. m.30/12",
+          "note": "Uyuşmazlık hakem heyetinin kararına karşı önce itiraz hakem heyetine gidilir; temyiz ancak itiraz üzerine verilen karara karşı ve 383.000 TL'yi aşan uyuşmazlıklarda mümkündür (5684 s.K. m.30/12).",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuranlar vekili, son talepleriniz?" }
+      ],
+      "prompt": "Talep sonucunu nasıl bağlayacaksınız?",
+      "choices": [
+        {
+          "text": "Ölüm tarihindeki 1.640.000 TL bakiyenin, şirketin talebi reddettiği 05.10.2026'dan itibaren yasal faiziyle bankaya ödenmesini iste.",
+          "delta": 15,
+          "set": ["p1_faiz"],
+          "law": "TTK m.1487 · TBK m.117",
+          "note": "Azalan bedelli kredi hayat sigortasında bedel, ölüm tarihindeki kredi bakiyesidir; lehtar banka. Şirket ödemeyi açıkça reddettiğinde temerrüde düştü; tüketici sigortalı için yasal faiz istenir.",
+          "reply": [
+            { "who": "judge", "text": "Talepler tutanağa geçirildi. Heyet karar için çekiliyor." }
+          ]
+        },
+        {
+          "text": "Sigorta bedeli olarak kredinin ilk tutarı 1.800.000 TL'nin, ölüm tarihinden itibaren avans faiziyle doğrudan mirasçılara ödenmesini iste.",
+          "delta": -10,
+          "law": "TTK m.1487",
+          "note": "Azalan bedelli kredi hayat sigortasında bedel, ilk kredi tutarı değil, ölüm tarihindeki bakiyedir; lehtar da banka. Tüketici sigortalı için avans faizi değil yasal faiz istenir; sigortacı da ölüm günü değil, ödemeyi reddettiğinde temerrüde düşer.",
+          "reply": [
+            { "who": "judge", "text": "Talepler tutanağa geçirildi. Heyet karar için çekiliyor." }
+          ]
+        },
+        {
+          "text": "Bakiyenin bankaya ödenmesinin yanında mirasçılar için ayrıca manevi tazminat iste; şirketin haksız reddi aileyi derinden sarstı.",
+          "delta": -10,
+          "law": "HMK m.26 · TBK m.58",
+          "note": "Sözleşmeye dayalı bir tazminat talebinde şirketin reddi tek başına manevi tazminat sebebi değildir; başvuruda da böyle bir talep yoktu (HMK m.26).",
+          "reply": [
+            { "who": "judge", "text": "Başvuruda bulunmayan talep incelenmeyecek. Heyet karar için çekiliyor." }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "(p2_oran || p2_kast) && !p1_kastyok && !p1_savunma",
+      "winner": "p2",
+      "hukum": [
+        { "text": "Başvurunun KISMEN KABULÜ ile 656.000 TL'nin" },
+        { "if": "p1_faiz", "text": " 05.10.2026 tarihinden itibaren işleyecek yasal faiziyle birlikte" },
+        { "text": " sigorta şirketinden alınarak dain-i mürtehin Yarımada Bankası A.Ş.'ye ödenmesine, fazlaya ilişkin talebin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Sigortalının formda açıkça sorulan stent geçmişini kasten bildirmediği kabul edildi. Adli Tıp raporu stent ile beyin kanaması arasında illiyet bulunmadığını gösterdiğinden şirket borcundan tümüyle kurtulmadı; TTK m.1439/2 uyarınca ödenen primin olması gereken prime oranında, %40 ile 656.000 TL ödenmesine karar verildi." },
+        { "if": "p2_tansiyon", "text": " Şirketin tansiyona dayanan savunması, formda bu soru bulunmadığından reddedildi (TTK m.1436)." },
+        { "if": "p1_kendine", "text": " Başvuranlar vekilinin tazminatın mirasçılara ödenmesi talebi, lehtar banka olduğu için düzeltilmek zorunda kalındı." }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": [
+        { "text": "Başvurunun KABULÜ ile ölüm tarihindeki 1.640.000 TL kredi bakiyesinin" },
+        { "if": "p1_faiz", "text": " 05.10.2026 tarihinden itibaren işleyecek yasal faiziyle birlikte" },
+        { "text": " sigorta şirketinden alınarak dain-i mürtehin Yarımada Bankası A.Ş.'ye ödenmesine," }
+      ],
+      "summary": [
+        { "text": "Şirket, sigortalının stenti kasten bildirmediğini ispat edemedi. Ölüm sebebi olan beyin kanaması ile stent arasında illiyet de yoktu; ihlal rizikoyu etkileyecek nitelikte olmadığından TTK m.1439/2 uyarınca indirim yapılmadı." },
+        { "if": "p1_kastyok", "text": " Başvuranlar vekili, form işaretlerinin şube personelince konduğunu form aslındaki paraflarla gösterdi." },
+        { "if": "p1_savunma", "text": " Soru listesi kuralını (TTK m.1436), kastın ispat yükünü ve illiyetin yokluğunu birlikte doğru kurdu." },
+        { "if": "p2_mutlak", "text": " Şirket vekilinin sözleşmenin baştan geçersiz olduğu savunması TTK'nın sistemine uymadı." },
+        { "if": "p2_tansiyon", "text": " Formda sorulmayan tansiyona dayanan savunma da reddedildi (TTK m.1436)." },
+        { "if": "!p1_faiz", "text": " Faiz istenmediği için faize hükmedilmedi." }
+      ]
+    }
+  ]
+}

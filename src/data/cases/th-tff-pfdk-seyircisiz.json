@@ -33,7 +33,7 @@
     { "t": "PFDK kararı (11.03.2027)", "d": "FDT m.52 uyarınca Karadere Spor A.Ş.'ye 3 resmî maç seyircisiz oynama ve 1.500.000 TL para cezası. Gerekçe: yardımcı hakeme isabet eden cisim, oyunun dokuz dakika durması, piroteknik kullanımı." },
     { "t": "Hakem raporu", "d": "63. dakikada Doğu Tribünü yönünden atılan bir çakmak 2 numaralı yardımcı hakemin başına isabet etti. Sağlık ekibinin müdahalesinden sonra görevine devam etti. Oyun 63.10 ile 72.05 arasında durdu." },
     { "t": "Gözlemci raporu", "d": "Ev sahibi kulübün güvenlik görevlileri olaya iki dakika içinde müdahale etti. Olay Doğu Tribünü C bloğuyla sınırlı kaldı; misafir tribünde olay yaşanmadı." },
-    { "t": "Tahkim Kurulu Talimatı (ilgili hükümler)", "d": "m.7: Başvuru, kararın yazılı bildiriminden itibaren 7 gün içinde yapılır; harç bu süre içinde yatırılıp makbuzu sunulur. m.20: Başvuru infazı kendiliğinden durdurmaz; Kurul, açık hukuka aykırılık ve telafisi imkânsız zarar birlikte varsa durdurabilir. m.13: Kurul itirazı kabul, kısmen kabul ya da ret eder; kararı değiştirerek de karar verebilir." },
+    { "t": "Tahkim Kurulu Talimatı (ilgili hükümler)", "d": "m.7: Başvuru, kararın yazılı bildiriminden itibaren 7 gün içinde yapılır; harç bu süre içinde yatırılıp makbuzu sunulur. m.20: Başvuru infazı kendiliğinden durdurmaz; Kurul, açık hukuka aykırılık ve telafisi imkânsız zarar birlikte varsa durdurabilir. m.15: Kurul itirazı kabul, kısmen kabul ya da ret eder; kararı değiştirerek de karar verebilir." },
     { "t": "Anayasa m.59/3", "d": "Spor federasyonlarının spor faaliyetlerinin yönetimine ve disiplinine ilişkin kararlarına karşı ancak zorunlu tahkim yoluna gidilebilir. Tahkim kurulu kararları kesin olup bu kararlara karşı hiçbir yargı merciine başvurulamaz." }
   ],
   "evidence": [
@@ -220,33 +220,33 @@
           "min": 70,
           "delta": 20,
           "set": ["p1_olcu", "p1_guclu"],
-          "law": "FDT m.52 · Tahkim Kurulu Talimatı m.13",
-          "note": "Kulübün sorumluluğunu kabul edip tartışmayı cezanın ölçüsüne taşıdınız. Somut olguları (tek blok, iki dakikada müdahale, faillerin teslimi) ve açık bir talebi (seyircisiz oynama yerine olay bloğunun kapatılması) birlikte sundunuz. Kurul kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.13)."
+          "law": "FDT m.52 · Tahkim Kurulu Talimatı m.15",
+          "note": "Kulübün sorumluluğunu kabul edip tartışmayı cezanın ölçüsüne taşıdınız. Somut olguları (tek blok, iki dakikada müdahale, faillerin teslimi) ve açık bir talebi (seyircisiz oynama yerine olay bloğunun kapatılması) birlikte sundunuz. Kurul kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.15)."
         },
         {
           "text": "Yeterli itiraz",
           "min": 40,
           "delta": 8,
           "set": ["p1_olcu"],
-          "law": "Tahkim Kurulu Talimatı m.13",
-          "note": "Ölçülülük itirazını getirdiniz ama eksik. Tam bir itiraz, kulübün sorumluluğunu tartışmadan olayın tek bir blokla sınırlı kaldığını, güvenliğin iki dakikada müdahale ettiğini ve faillerin emniyete teslim edildiğini gösterir; Kurul'dan da kararı değiştirerek daha hafif ve hedefli bir yaptırım (olay bloğunun kapatılması) vermesini açıkça ister (m.13)."
+          "law": "Tahkim Kurulu Talimatı m.15",
+          "note": "Ölçülülük itirazını getirdiniz ama eksik. Tam bir itiraz, kulübün sorumluluğunu tartışmadan olayın tek bir blokla sınırlı kaldığını, güvenliğin iki dakikada müdahale ettiğini ve faillerin emniyete teslim edildiğini gösterir; Kurul'dan da kararı değiştirerek daha hafif ve hedefli bir yaptırım (olay bloğunun kapatılması) vermesini açıkça ister (m.15)."
         },
         {
           "text": "Zayıf itiraz",
           "delta": -5,
-          "law": "FDT m.52 · Tahkim Kurulu Talimatı m.13",
-          "note": "Kurul'a tutunacağı bir dayanak vermediniz. Kulübün taraftar olaylarından sorumluluğu kusura bağlı değildir; itirazın gücü cezanın ölçüsündedir: olay tek blokla sınırlı kaldı, güvenlik iki dakikada müdahale etti, failler teslim edildi. Bütün stadyumu kapatmak yerine olay bloğuna yönelik bir yaptırım istenebilirdi (Tahkim Kurulu Talimatı m.13)."
+          "law": "FDT m.52 · Tahkim Kurulu Talimatı m.15",
+          "note": "Kurul'a tutunacağı bir dayanak vermediniz. Kulübün taraftar olaylarından sorumluluğu kusura bağlı değildir; itirazın gücü cezanın ölçüsündedir: olay tek blokla sınırlı kaldı, güvenlik iki dakikada müdahale etti, failler teslim edildi. Bütün stadyumu kapatmak yerine olay bloğuna yönelik bir yaptırım istenebilirdi (Tahkim Kurulu Talimatı m.15)."
         }
       ],
-      "rubric": "İyi bir cevap şunları söyler: (1) Kulübün taraftar olaylarından kusura bağlı olmayan sorumluluğu tartışılmaz; itiraz cezanın türüne ve ölçüsüne yöneliktir (FDT m.52). (2) Olay Doğu Tribünü C bloğuyla sınırlı kaldı; güvenlik iki dakikada müdahale etti (gözlemci raporu); failler kamerayla tespit edilip emniyete teslim edildi. (3) Bütün stadyumu üç maç seyircisiz bırakmak ölçüsüzdür; aynı amaca olay bloğunun kapatılması ya da kart blokesi gibi daha hafif, hedefli bir yaptırımla ulaşılır. (4) Kurul kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.13); talep: seyircisiz oynama cezasının kaldırılması, yerine C bloğunun kapatılması ya da maç sayısının indirilmesi. Ölçülülük, somut olgular ve açık talep birlikte tam puan için gerekir. Sorumluluğu tümden reddeden ya da yalnızca 'ceza ağır' diyen cevap düşük puan alır.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Kulübün taraftar olaylarından kusura bağlı olmayan sorumluluğu tartışılmaz; itiraz cezanın türüne ve ölçüsüne yöneliktir (FDT m.52). (2) Olay Doğu Tribünü C bloğuyla sınırlı kaldı; güvenlik iki dakikada müdahale etti (gözlemci raporu); failler kamerayla tespit edilip emniyete teslim edildi. (3) Bütün stadyumu üç maç seyircisiz bırakmak ölçüsüzdür; aynı amaca olay bloğunun kapatılması ya da kart blokesi gibi daha hafif, hedefli bir yaptırımla ulaşılır. (4) Kurul kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.15); talep: seyircisiz oynama cezasının kaldırılması, yerine C bloğunun kapatılması ya da maç sayısının indirilmesi. Ölçülülük, somut olgular ve açık talep birlikte tam puan için gerekir. Sorumluluğu tümden reddeden ya da yalnızca 'ceza ağır' diyen cevap düşük puan alır.",
       "keywords": [
         { "terms": ["ölçülü", "ölçüsüz", "orantılı", "orantısız", "ölçülülük", "orantılılık"], "weight": 2 },
         { "terms": ["tespit", "teslim", "kamera", "fail"], "weight": 2 },
         { "terms": ["C bloğu", "blok", "tribün kapatma", "kapatılması", "bloke"], "weight": 2 },
         { "terms": ["değiştir", "indiril", "hafiflet", "kaldırıl"], "weight": 1 },
-        { "terms": ["m.13", "m. 13", "madde 13", "13. madde", "md. 13", "gözlemci"], "weight": 1 }
+        { "terms": ["m.15", "m. 15", "madde 15", "15. madde", "md. 15", "gözlemci"], "weight": 1 }
       ],
-      "model": "Sayın Kurul, kulübümüz taraftarının eyleminden kusura bakılmaksızın sorumludur; bunu tartışmıyoruz. Ama olay yalnızca Doğu Tribünü C bloğunda çıktı, güvenlik iki dakikada müdahale etti ve üç fail kamerayla bulunup emniyete teslim edildi. Bütün stadyumu üç maç seyircisiz bırakmak ölçüsüzdür. Talimatın 13. maddesi uyarınca kararın değiştirilerek seyircisiz oynama cezasının kaldırılmasını, yerine C bloğunun kapatılmasını istiyoruz."
+      "model": "Sayın Kurul, kulübümüz taraftarının eyleminden kusura bakılmaksızın sorumludur; bunu tartışmıyoruz. Ama olay yalnızca Doğu Tribünü C bloğunda çıktı, güvenlik iki dakikada müdahale etti ve üç fail kamerayla bulunup emniyete teslim edildi. Bütün stadyumu üç maç seyircisiz bırakmak ölçüsüzdür. Talimatın 15. maddesi uyarınca kararın değiştirilerek seyircisiz oynama cezasının kaldırılmasını, yerine C bloğunun kapatılmasını istiyoruz."
     },
     {
       "kind": "evidence",
@@ -297,9 +297,9 @@
           "text": "Ceza olayın çıktığı bloğa yöneltilsin: C bloğunun kapatılması caydırıcıdır, olaya karışmayan otuz bin seyirciyi cezalandırmak gerekmez.",
           "delta": 15,
           "set": ["p1_talep"],
-          "law": "Tahkim Kurulu Talimatı m.13",
+          "law": "Tahkim Kurulu Talimatı m.15",
           "note": [
-            { "text": "Doğru talep: ölçülülük ilkesine uygun, somut ve uygulanabilir. Kurul itiraz edilen kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.13)." },
+            { "text": "Doğru talep: ölçülülük ilkesine uygun, somut ve uygulanabilir. Kurul itiraz edilen kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.15)." },
             { "if": "p2_sicil", "text": " Sicil kaydı karşısında da tutarlı: hafif yaptırımların yetmediği, olay bloğuna yönelik daha ağır bir yaptırımı haklı kılar; bütün stadyumu kapatmayı değil." }
           ]
         },
@@ -361,7 +361,7 @@
       "winner": "p1",
       "hukum": "İtirazın KISMEN KABULÜ ile PFDK'nın 11.03.2027 tarihli kararındaki 3 resmî maç seyircisiz oynama cezasının, infaz edilen 17.03.2027 tarihli maçla sınırlı tutularak KALDIRILMASINA, kalan kısım yerine Doğu Tribünü C bloğunun 2 resmî maç seyirciye KAPATILMASINA, para cezasının ONANMASINA, kararın kesin olarak verildiğine,",
       "summary": [
-        { "text": "Kulüp vekili sorumluluğu tartışmadı, itirazı cezanın ölçüsüne taşıdı: olay tek blokla sınırlı kaldı, güvenlik iki dakikada müdahale etti, failler emniyete teslim edildi. Kurul, kararı değiştirerek hedefli bir yaptırım verdi (Tahkim Kurulu Talimatı m.13)." },
+        { "text": "Kulüp vekili sorumluluğu tartışmadı, itirazı cezanın ölçüsüne taşıdı: olay tek blokla sınırlı kaldı, güvenlik iki dakikada müdahale etti, failler emniyete teslim edildi. Kurul, kararı değiştirerek hedefli bir yaptırım verdi (Tahkim Kurulu Talimatı m.15)." },
         { "if": "p2_sicil", "text": " Federasyon vekili sicil kaydını sundu, ama bütün stadyumu kapatmanın neden gerekli olduğunu yeterince kuramadı." },
         { "if": "!p2_sicil", "text": " Federasyon vekili, kulübün aynı sezondaki önceki cezalarını dosyaya getirmedi; kademeli artış gerekçesi kurulamadı." },
         { "if": "p2_kasit", "text": " Kulübe kanıtsız kasıt yüklemesi de Federasyonun savunmasını zayıflattı." },

@@ -376,22 +376,22 @@
           "text": "Oyuncu tescil edilsin ve ret kararı yüzünden oynayamadığımız maçların tekrarına da karar verilsin; kulübün kaybı telafi edilsin.",
           "delta": -10,
           "set": ["p1_tekrar"],
-          "law": "Tahkim Kurulu Talimatı m.13",
+          "law": "Tahkim Kurulu Talimatı m.15",
           "note": "Tescil uyuşmazlığında Kurul, oynanmış maçların tekrarına karar veremez; maçlar sahada tamamlanmış ve tescil edilmiştir. Talebinizin bu kısmı karşılıksız kaldı."
         },
         {
           "text": "Kurul ret kararını kaldırıp dosyayı Federasyona iade etsin; Federasyon tescil talebini baştan yeniden değerlendirsin.",
           "delta": -5,
           "set": ["p1_iade"],
-          "law": "Tahkim Kurulu Talimatı m.13",
-          "note": "Kurul dosyayı merciine iade edebilir (m.13), ama lig sürerken bu yeni bir gecikme demektir. Kurul'dan doğrudan tescile karar vermesini istemeliydiniz."
+          "law": "Tahkim Kurulu Talimatı m.15",
+          "note": "Kurul dosyayı merciine iade edebilir (m.15), ama lig sürerken bu yeni bir gecikme demektir. Kurul'dan doğrudan tescile karar vermesini istemeliydiniz."
         },
         {
           "text": "Ret kararı kaldırılsın; oyuncu, 05.02.2027'deki ITC talebi esas alınarak tescil edilsin ve lisansı çıkarılsın.",
           "delta": 15,
           "set": ["p1_talep"],
-          "law": "PFSTT m.13/1 · Tahkim Kurulu Talimatı m.13",
-          "note": "Doğru. Kurul itiraz edilen kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.13); tescilin dayanağı, dönem içindeki ITC talebidir (PFSTT m.13/1)."
+          "law": "PFSTT m.13/1 · Tahkim Kurulu Talimatı m.15",
+          "note": "Doğru. Kurul itiraz edilen kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.15); tescilin dayanağı, dönem içindeki ITC talebidir (PFSTT m.13/1)."
         }
       ]
     }

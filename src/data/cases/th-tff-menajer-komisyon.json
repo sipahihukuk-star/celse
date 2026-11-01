@@ -1,0 +1,372 @@
+{
+  "id": "th-tff-menajer-komisyon",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "tff",
+  "difficulty": "basit",
+  "title": "Noter Yok, Komisyon Yok",
+  "area": "Tahkim · Spor tahkimi · Menajer ücreti uyuşmazlığı",
+  "court": "TFF Tahkim Kurulu",
+  "courtShort": "TFF TAHKİM KURULU",
+  "esas": "E.2027/052",
+  "kararTarihi": "03.03.2027",
+  "color": "#6a3a5a",
+  "teaser": "Menajer, genç futbolcunun transferini bitirdi ve yüzde on komisyon istedi. UÇK talebi aynen kabul etti. Ama sözleşme noterde yapılmamış, süresi üç yıl; üstelik menajerin kulüpten de para aldığı konuşuluyor.",
+  "bench": { "judges": 7, "title": "Kurul Başkanı ve altı üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Futbolcu (Berk Ateş) vekili", "short": "Futbolcu" },
+    "p2": { "role": "Menajer (Ozan Kılınç) vekili", "short": "Menajer" }
+  },
+  "cast": {
+    "judge": { "name": "Kurul Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#edc6a2", "hair": "#6b6b70", "style": "short", "beard": true, "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#d8a67e", "hair": "#1f1a17", "style": "short", "shirt": "#232a35", "inner": "#e6e2da" } },
+    "p2": { "look": { "kind": "civil", "skin": "#e6bf9c", "hair": "#7a4b2e", "style": "long", "shirt": "#2e2a2c", "inner": "#efe9df" } },
+    "berk": { "name": "Berk Ateş · Futbolcu", "np": "civil", "look": { "kind": "civil", "skin": "#c4916b", "hair": "#151515", "style": "curly", "shirt": "#2f5a7a", "inner": "#e2ddd2" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Berk Ateş (22), 10.06.2026'da lisanslı futbol menajeri Ozan Kılınç'la adi yazılı bir “Menajerlik ve Temsil Sözleşmesi” imzaladı: süre üç yıl, münhasır; ücret, futbolcunun yapacağı her profesyonel sözleşmenin toplam garanti brüt gelirinin yüzde onu. Sözleşme noterde düzenlenmedi." },
+    { "who": "narr", "text": "Ozan, Berk'in Gökova Spor A.Ş.'ye transferini görüştü: üç sezonluk sözleşme, toplam garanti brüt gelir 9.000.000 TL. Berk hiçbir ödeme yapmadı. Ozan, sözleşmedeki yetki şartına dayanarak Uyuşmazlık Çözüm Kurulu'na (UÇK) başvurdu ve 900.000 TL istedi." },
+    { "who": "narr", "text": "UÇK 18.01.2027'de talebi aynen kabul etti: “Sözleşme imzalı, hizmet ifa edilmiştir.” Karar 20.01.2027'de tebliğ edildi. Futbolcu vekili Tahkim Kurulu'na itiraz dilekçesini hazırlıyor; ilk hamle onun." }
+  ],
+  "docs": [
+    { "t": "Menajerlik ve Temsil Sözleşmesi (10.06.2026)", "d": "Adi yazılı, iki tarafın imzası var; noter onayı ya da düzenlemesi yok. Süre: 10.06.2026–09.06.2029. Ücret: toplam garanti brüt gelirin %10'u. m.9: “Uyuşmazlıklarda TFF Uyuşmazlık Çözüm Kurulu ve Tahkim Kurulu yetkilidir.”" },
+    { "t": "Gökova Spor A.Ş. sözleşmesi", "d": "15.07.2026; üç sezon; toplam garanti brüt gelir 9.000.000 TL. Menajer ücretine ve ödeme koşullarına ilişkin bir hüküm yok." },
+    { "t": "5894 s.K. ek m.2 (özet)", "d": "(2) Futbolcuyla yapılacak menajerlik sözleşmesi noterde düzenleme şeklinde yapılmak zorundadır; süresi iki yılı geçemez. (5) Menajer ücreti ve ödeme koşulları kulüp ile futbolcu arasındaki sözleşmede yer alır; sözleşme süresince garanti edilen brüt gelir 2.000.000 TL'nin altındaysa ücret en fazla %10, üzerindeyse en fazla %5'tir. (8) Sözleşme dışında taraflara ya da üçüncü kişilere doğrudan veya dolaylı menfaat sağlayan bir işlem tespit edilirse menajerin faaliyeti sona erer." },
+    { "t": "UÇK kararı (18.01.2027)", "d": "“Taraflar sözleşmeyi imzalamış, menajer hizmeti ifa etmiştir.” 900.000 TL'nin faiziyle futbolcudan tahsiline." }
+  ],
+  "evidence": [
+    { "id": "ev_sozlesme", "type": "belge", "title": "Menajerlik sözleşmesi", "desc": "Adi yazılı; üç yıl süreli; %10 ücret; noter düzenlemesi yok." },
+    { "id": "ev_gokova", "type": "belge", "title": "Gökova sözleşmesi", "desc": "Toplam garanti brüt gelir 9.000.000 TL; menajer ücretine ilişkin hüküm yok." },
+    { "id": "ev_whatsapp", "type": "belge", "title": "WhatsApp yazışması", "desc": "16.07.2026, Berk: “Abi sağ ol, komisyonunu ödeyeceğim, kulüp ilk parayı yatırsın.”" },
+    { "id": "ev_fatura", "type": "belge", "title": "Gökova'nın Ozan Kılınç'a ödemesi", "desc": "20.07.2026 tarihli 600.000 TL “danışmanlık hizmeti” faturası ve banka dekontu; açıklama: “Berk Ateş transferi”.", "if": "p1_cift" },
+    { "id": "law_ek2", "type": "kanun", "title": "5894 s.K. ek m.2/2", "desc": "Futbolcuyla menajerlik sözleşmesi noterde düzenleme şeklinde yapılır; süresi en fazla iki yıldır.", "law": "5894 s.K. ek m.2/2" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İTİRAZ · UÇK kararı 20.01.2027'de tebliğ edildi; itiraz süresi 27.01.2027'de doluyor." }
+      ],
+      "prompt": "İtirazın merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "text": "UÇK yetkisizdi: sözleşme geçersizse içindeki yetki şartı da geçersizdir; karar bu nedenle baştan kaldırılmalıdır.",
+          "delta": -10,
+          "set": ["p1_yetki"],
+          "law": "HMK m.422/1, m.412",
+          "note": "Tahkim şartı asıl sözleşmeden bağımsızdır; asıl sözleşmenin hükümsüzlüğü tahkim şartını kendiliğinden geçersiz kılmaz (HMK m.422/1). Yazılı tahkim şartı için noter şekli de aranmaz (HMK m.412). Üstelik futbolcu bu itirazı UÇK'daki cevabında ileri sürmemişti (HMK m.422/2)."
+        },
+        {
+          "text": "Ücret fahiş: garanti gelir iki milyon lirayı aştığından kanuni sınır %5'tir; talep 450.000 TL'ye indirilmelidir.",
+          "delta": 5,
+          "set": ["p1_oran"],
+          "law": "5894 s.K. ek m.2/5",
+          "note": "Doğru bir tespit: garanti gelir 2.000.000 TL'yi aştığından üst sınır %5'tir (5894 s.K. ek m.2/5). Ama sözleşmenin geçerliliğini kabul etmiş oldunuz; daha güçlü itiraz, şekle aykırı sözleşmenin hiç hüküm doğurmamasıydı."
+        },
+        {
+          "text": "Sözleşme noterde düzenlenmedi (5894 s.K. ek m.2/2); kanuni şekle aykırı sözleşme hüküm doğurmaz (TBK m.12/2).",
+          "delta": 20,
+          "set": ["p1_sekil"],
+          "law": "5894 s.K. ek m.2/2 · TBK m.12/2",
+          "note": "Doğru. Futbolcuyla yapılan menajerlik sözleşmesi noterde düzenleme şeklinde yapılmak zorundadır ve süresi iki yılı geçemez (5894 s.K. ek m.2/2). Kanunda sözleşmeler için öngörülen şekil kural olarak geçerlilik şeklidir; şekle uyulmadan kurulan sözleşme hüküm doğurmaz (TBK m.12/2)."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Futbolcu itiraz etti. Menajer Ozan Kılınç, cevabın neye dayanacağını soruyor." }
+      ],
+      "prompt": "Cevabınızın merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "text": "Noter şartı bir ispat şeklidir; imzalar inkâr edilmediğine göre sözleşme geçerli ve bağlayıcıdır, ücret aynen ödenmelidir.",
+          "delta": -10,
+          "set": ["p2_ispat"],
+          "law": "TBK m.12/2 · 5894 s.K. ek m.2/2",
+          "note": "Kanun “noterde düzenleme şeklinde yapılmak zorundadır” diyor; kanunda öngörülen şekil kural olarak geçerlilik şeklidir (TBK m.12/2). İmzaların inkâr edilmemesi şekil eksikliğini gidermez."
+        },
+        {
+          "text": "Sözleşme sonradan noterde düzenlenebilir; Kurul taraflara bunun için süre versin, şekil eksikliği böylece giderilmiş olur.",
+          "delta": -10,
+          "set": ["p2_tamam"],
+          "law": "TBK m.12/2",
+          "note": "Şekle aykırı sözleşme baştan hüküm doğurmaz; futbolcunun katılımı olmadan sonradan “tamamlanamaz”. Yeni bir noter sözleşmesi olsa bile ancak ileriye etkili olurdu."
+        },
+        {
+          "text": "Futbolcu sözleşmeyi imzalayıp hizmetten yararlandı; şimdi şekle sığınması hakkın kötüye kullanılmasıdır (TMK m.2).",
+          "delta": 15,
+          "set": ["p2_tmk2"],
+          "law": "TMK m.2",
+          "note": "Menajer için en iyi dayanak bu. Yargıtay, şekle aykırılığı ileri sürmenin istisnai durumlarda hakkın kötüye kullanılması sayılabileceğini kabul eder: taraf sözleşmenin sonuçlarından bilerek yararlanmış ve ifayı kabul etmişse. Ama istisna dar yorumlanır; menajerin kendi dürüstlüğü de sınanacak."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Duruşmadan önce Berk Ateş'le görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Berk'e ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Ozan bu transferde Gökova'dan da para aldı mı?",
+          "delta": 15,
+          "set": ["p1_cift"],
+          "reply": [
+            { "who": "berk", "text": "Gökova'nın muhasebesindeki bir arkadaş, Ozan'a 600.000 TL “danışmanlık” ödemesi yapıldığını söyledi. Fatura ve dekontun fotoğrafını gönderdi; açıklamada benim adım yazıyor." }
+          ],
+          "note": "Belirleyici soru. Menajerin, temsil ettiği futbolcunun karşı tarafından gizlice para alması hem sadakat borcuna aykırıdır hem de kanundaki gizli menfaat yasağına girer. Fatura çantanıza eklendi."
+        },
+        {
+          "text": "Ozan'a ödeme sözü verdiğin bir mesaj ya da yazışma var mı?",
+          "delta": 10,
+          "set": ["p1_mesaj"],
+          "reply": [
+            { "who": "berk", "text": "Transferden bir gün sonra WhatsApp'tan “komisyonunu ödeyeceğim” yazdım. Sonra kulüpten de para aldığını duyunca ondan soğudum." }
+          ],
+          "note": "Kötü haber, ama önceden bilmek iyi: karşı taraf bu mesajı kullanacak. Mesaj noter şeklinin yerini tutmaz; ama hakkın kötüye kullanılması savunmasına malzeme olur."
+        },
+        {
+          "text": "Gökova sözleşmende menajer ücretiyle ilgili bir madde var mı?",
+          "delta": 5,
+          "reply": [
+            { "who": "berk", "text": "Hayır, menajer ücretiyle ilgili tek satır yok." }
+          ],
+          "note": "Yararlı bir teyit: kanun menajer ücretinin kulüp-futbolcu sözleşmesinde yer almasını ister (5894 s.K. ek m.2/5). Ama bu bilgi sözleşmeden zaten görülüyor."
+        },
+        {
+          "text": "Ozan'la ilk nasıl tanıştınız?",
+          "delta": -5,
+          "reply": [
+            { "who": "berk", "text": "Altyapıdaki hocam tanıştırdı. Başta çok ilgiliydi." }
+          ],
+          "note": "Uyuşmazlığın çözümüne katkısı olmayan bir soruya vakit ayırdınız."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kurul, Başkanlığın kararıyla duruşma yapıyor; futbolcu da dinlenecek. Berk Ateş, söyleyeceklerinizi alalım." }
+      ],
+      "statement": { "who": "berk", "text": "Ben Ozan Bey'e hiçbir zaman, hiçbir yerde komisyon ödeyeceğimi yazmadım." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_whatsapp"],
+      "hit": {
+        "delta": 15,
+        "set": ["p2_mesaj"],
+        "law": "TMK m.2",
+        "note": "Futbolcunun 16.07.2026 tarihli mesajı, ücreti ödemeyi bizzat kabul ettiğini gösteriyor. Bu mesaj noter şeklini tamamlamaz, ama futbolcunun şimdi şekle sığınmasının dürüstlük kurallarıyla bağdaşıp bağdaşmadığı tartışmasında menajerin elini güçlendirir (TMK m.2).",
+        "reply": [
+          { "who": "judge", "text": "Yazışma dosyaya alındı. Futbolcunun beyanıyla çeliştiği tutanağa geçirildi." }
+        ]
+      },
+      "responses": {
+        "ev_sozlesme": { "delta": -5, "note": "Sözleşme ücret kaydını içeriyor, ama futbolcunun “hiçbir yerde yazmadım” beyanını çürüten belge, kendi mesajıydı." },
+        "ev_gokova": { "delta": -10, "note": "Gökova sözleşmesinde menajer ücretine dair hüküm yok; bu belge futbolcunun lehine." },
+        "ev_fatura": { "delta": -15, "note": "Bu belge menajerin aleyhine: kulüpten gizlice para aldığını gösteriyor." },
+        "law_ek2": { "delta": -10, "note": "Bu hüküm futbolcunun dayandığı noter şeklidir; menajerin lehine değil." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge futbolcunun beyanını çürütmüyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; futbolcunun beyanı dosyada çürütülmeden kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Futbolcu vekili, itirazınızın esasını açıklayın." }
+      ],
+      "prompt": "Kurul'a, menajerin neden ücret isteyemeyeceğini kendi cümlelerinizle anlatın.",
+      "choices": [
+        {
+          "text": "Güçlü itiraz",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_guclu", "p1_orta"],
+          "law": "5894 s.K. ek m.2/2, m.2/5 · TBK m.12/2",
+          "note": "Şekil şartını, geçersizliğin sonucunu, iki yıllık azami süreyi ve ücretin kulüp sözleşmesinde yer alması gerektiğini birlikte kurdunuz; mesajın şekil eksikliğini gidermeyeceğini de gösterdiniz."
+        },
+        {
+          "text": "Yeterli itiraz",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_orta"],
+          "law": "5894 s.K. ek m.2/2 · TBK m.12/2",
+          "note": "Ana dayanak doğru ama eksik. Tam itiraz; sözleşmenin noterde düzenlenmediğini ve iki yılı aştığını (ek m.2/2), şekle aykırı sözleşmenin hüküm doğurmadığını (TBK m.12/2), ücretin Gökova sözleşmesinde yer almadığını (ek m.2/5) ve yazışmanın şekil eksikliğini gidermediğini birlikte söyler."
+        },
+        {
+          "text": "Zayıf itiraz",
+          "delta": -5,
+          "law": "5894 s.K. ek m.2/2 · TBK m.12/2",
+          "note": "Kurul'a tutunacağı bir dayanak vermediniz. Futbolcuyla menajerlik sözleşmesi noterde düzenleme şeklinde yapılmalıdır ve iki yılı geçemez (ek m.2/2); kanuni şekle uyulmayan sözleşme hüküm doğurmaz (TBK m.12/2)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Futbolcuyla yapılan menajerlik sözleşmesi noterde düzenleme şeklinde yapılmak zorundadır ve süresi iki yılı geçemez (5894 s.K. ek m.2/2); bu sözleşme adi yazılıdır ve üç yıllıktır. (2) Kanunda öngörülen şekil geçerlilik şeklidir; şekle uyulmadan kurulan sözleşme hüküm doğurmaz, ücret istenemez (TBK m.12/2). WhatsApp mesajı noter şeklinin yerini tutmaz. (3) Kanun menajer ücretinin ve ödeme koşullarının kulüp-futbolcu sözleşmesinde yer almasını ister; Gökova sözleşmesinde böyle bir hüküm yok; garanti gelir 2 milyon TL'yi aştığından üst sınır zaten %5'tir (ek m.2/5). (4) Varsa: menajer aynı transferde kulüpten gizlice para aldı (ek m.2/8). Talep: UÇK kararının kaldırılması, talebin reddi. Yalnızca 'ücret fazla' diyen cevap orta puan alır.",
+      "keywords": [
+        { "terms": ["noter", "düzenleme şekli", "resmi şekil"], "weight": 3 },
+        { "terms": ["ek madde 2", "ek m.2", "ek 2", "5894"], "weight": 1 },
+        { "terms": ["TBK m.12", "12/2", "geçersiz", "hüküm doğurmaz", "geçerlilik şekli"], "weight": 2 },
+        { "terms": ["iki yıl", "2 yıl"], "weight": 1 },
+        { "terms": ["%5", "yüzde beş", "2 milyon", "iki milyon", "kulüp sözleşmesi", "Gökova"], "weight": 1 }
+      ],
+      "model": "Sayın Kurul, futbolcuyla yapılan menajerlik sözleşmesi noterde düzenleme şeklinde yapılmak zorundadır ve süresi iki yılı geçemez (5894 s.K. ek m.2/2). Bu sözleşme adi yazılıdır ve üç yıllıktır. Kanuni şekle uyulmadan kurulan sözleşme hüküm doğurmaz (TBK m.12/2); bir WhatsApp mesajı noter şeklinin yerini tutmaz. Ücret Gökova sözleşmesinde de yer almıyor; olsaydı bile üst sınır %5'ti (ek m.2/5). UÇK kararının kaldırılmasını ve talebin reddini istiyoruz."
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Menajer vekili, cevabınız?" }
+      ],
+      "prompt": "Sözleşmenin noterde yapılmadığı tartışmasız. Kurul'a, menajerin yine de neden bir bedel alması gerektiğini kendi cümlelerinizle anlatın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_guclu", "p2_orta"],
+          "law": "TMK m.2 · TBK m.77 · 5894 s.K. ek m.2/5",
+          "note": "Hakkın kötüye kullanılması savunmasını somut olgulara (imza, ifanın kabulü, ödeme sözü) dayandırdınız, terditli olarak sebepsiz zenginleşmeye geçtiniz ve talebi kanuni sınıra çekerek Kurul'a makul bir çıkış yolu gösterdiniz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_orta"],
+          "law": "TMK m.2 · TBK m.77",
+          "note": "Doğru yöndesiniz ama eksik. Tam savunma; futbolcunun sözleşmeyi imzalayıp hizmetten bilerek yararlandığını ve ödeme sözü verdiğini (TMK m.2), en azından sebepsiz zenginleşme hükümlerine göre bir bedel doğduğunu (TBK m.77) ve talebin kanuni %5 sınırına çekilebileceğini birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "TMK m.2 · TBK m.77",
+          "note": "Kurul'a tutunacağı bir dayanak vermediniz. Şekil eksikliği karşısında menajerin dayanakları, şekle sığınmanın hakkın kötüye kullanılması olduğu (TMK m.2) ve terditli olarak verilen hizmetin sebepsiz zenginleşme hükümlerine göre karşılığıydı (TBK m.77); talep de kanuni %5 sınırına çekilebilirdi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Şekle aykırılığı ileri sürmek bu olayda hakkın kötüye kullanılmasıdır (TMK m.2): futbolcu sözleşmeyi imzaladı, menajerin hizmetinden bilerek yararlandı, transferden sonra yazılı olarak ödeme sözü verdi. (2) Terditli olarak: sözleşme geçersiz sayılsa bile futbolcu menajerin emeğiyle zenginleşmiştir; bedel sebepsiz zenginleşme (TBK m.77) ya da vekâletsiz iş görme hükümlerine göre istenebilir. (3) Talep kanuni sınıra çekilebilir: garanti gelir 2 milyon TL'yi aştığından en fazla %5, yani 450.000 TL (5894 s.K. ek m.2/5). (4) Tahkim şartı asıl sözleşmeden bağımsızdır; Kurul'un yetkisi sürer (HMK m.422/1). Noter şartını ispat şekli sayan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["hakkın kötüye", "TMK m.2", "dürüstlük", "çelişkili davranış"], "weight": 3 },
+        { "terms": ["sebepsiz zenginleşme", "TBK m.77", "vekâletsiz iş", "vekaletsiz iş"], "weight": 2 },
+        { "terms": ["ödeme sözü", "WhatsApp", "mesaj", "ödeyeceğim"], "weight": 1 },
+        { "terms": ["%5", "yüzde beş", "450.000"], "weight": 1 },
+        { "terms": ["yararlandı", "hizmet", "imzaladı"], "weight": 1 }
+      ],
+      "model": "Sayın Kurul, futbolcu sözleşmeyi imzaladı, müvekkilin hizmetinden bilerek yararlandı ve transferden sonra yazılı olarak ödeme sözü verdi; şimdi noter şekline sığınması hakkın kötüye kullanılmasıdır (TMK m.2). Sözleşme geçersiz sayılsa bile futbolcu müvekkilin emeğiyle zenginleşmiştir; bedel sebepsiz zenginleşme hükümlerine göre istenebilir (TBK m.77). Talebimizi kanuni %5 sınırına, 450.000 TL'ye çekiyoruz."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Futbolcu vekili, menajerin hakkın kötüye kullanılması ve sebepsiz zenginleşme savunmasına cevabınız?" }
+      ],
+      "prompt": "Menajerin savunmasına nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "WhatsApp mesajı hukuka aykırı delildir; özel yazışma rıza olmadan dosyaya konamaz (HMK m.189/2), dikkate alınmamalıdır.",
+          "delta": -10,
+          "law": "HMK m.189/2",
+          "note": "Futbolcunun menajere bizzat gönderdiği bir mesajı alıcının sunması hukuka aykırı delil değildir. Mesaja değil, onun şekil eksikliğini gidermediğine ve menajerin kendi dürüstlüğüne odaklanmalıydınız."
+        },
+        {
+          "text": "Geçersiz sözleşmeye sebepsiz zenginleşme yoluyla bedel biçmek, noter şeklinin futbolcuyu koruma amacını dolanmak olur.",
+          "delta": 15,
+          "set": ["p1_amac"],
+          "law": "5894 s.K. ek m.2/2 · TBK m.12/2",
+          "note": "Güçlü bir cevap. Noter şekli, genç futbolcuyu uzun süreli ve ağır ücretli bağlardan korumak içindir. Geçersiz sözleşmenin ücretini başka bir yoldan istemek bu amacı boşa çıkarır; şekle aykırı simsarlıkta da ücret istenemez."
+        },
+        {
+          "if": "p1_cift",
+          "text": "Menajer aynı transferde kulüpten de 600.000 TL “danışmanlık” aldı; bu gizli menfaat menajerliği sona erdirir, ücret istenemez.",
+          "delta": 20,
+          "set": ["p1_menfaat"],
+          "law": "5894 s.K. ek m.2/8 · TBK m.523",
+          "note": "Belirleyici. Sözleşme dışında taraflara ya da üçüncü kişilere doğrudan veya dolaylı menfaat sağlayan işlem tespit edilirse menajerin faaliyeti sona erer (5894 s.K. ek m.2/8). Temsil ettiği kişinin karşı tarafının yararına hareket eden ya da ondan da ücret alan aracı ücret hakkını kaybeder (TBK m.523'teki ilke). Hakkın kötüye kullanılması savunması da tersine döner: dürüst davranmayan menajerdir.",
+          "reply": [
+            { "who": "judge", "text": "Fatura ve dekont dosyaya alındı. Menajer vekili, bu ödemeyle ilgili söyleyeceğiniz var mı?" },
+            { "who": "p2", "text": "Sayın Kurul… Bu konuda müvekkilden bilgi almam gerekiyor." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Menajer vekili, son sözünüz?" }
+      ],
+      "prompt": "Kurul kararının niteliği ve sonrası hakkında ne söyleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Karar Anayasa m.59/3 uyarınca kesindir; aleyhe kararda müvekkil artık yalnızca Anayasa Mahkemesine bireysel başvuru yapabilir.",
+          "delta": -10,
+          "law": "Anayasa m.59/3 · 5894 s.K. m.6/6",
+          "note": "Menajer ücreti uyuşmazlığı sözleşmeden doğar; futbolun yönetimi ya da disiplini değildir ve Anayasa m.59/3'ün dışında kalır. Tahkim Kurulu'nun bu tür kararlarına karşı bir ay içinde HMK m.439 uyarınca iptal davası açılabilir (5894 s.K. m.6/6)."
+        },
+        {
+          "text": "Aleyhe kararda dosyayı FIFA'nın menajer uyuşmazlıklarına bakan dairesine taşırız; menajer işlerinde son söz FIFA'nındır.",
+          "delta": -10,
+          "law": "Futbol Menajerleri Talimatı m.12",
+          "note": "Bu, uluslararası boyutu olmayan bir iç uyuşmazlıktır; taraflar UÇK'nın yetkisini kabul etmiş, karar Tahkim Kurulu'nda verilecektir. FIFA organları yalnızca uluslararası boyutlu uyuşmazlıklara bakar (Futbol Menajerleri Talimatı m.12)."
+        },
+        {
+          "text": "Bu bir sözleşme uyuşmazlığıdır; aleyhe kararda tebliğden itibaren bir ay içinde HMK m.439 uyarınca iptal davası açabiliriz.",
+          "delta": 10,
+          "set": ["p2_yol"],
+          "law": "5894 s.K. m.6/6 · HMK m.439",
+          "note": "Doğru. Tahkim Kurulu'nun futbolun yönetimi ve disiplini dışındaki kararlarına karşı tebliğden itibaren bir ay içinde HMK m.439 uyarınca iptal davası açılabilir (5894 s.K. m.6/6). Ama iptal davası esası yeniden incelemez; yalnızca kanundaki sınırlı iptal sebeplerine bakılır."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_menfaat || (p1_amac && !p2_guclu) || (p1_guclu && !p2_mesaj)",
+      "winner": "p1",
+      "hukum": "Futbolcunun itirazının KABULÜ ile UÇK'nın 18.01.2027 tarihli kararının KALDIRILMASINA, menajer Ozan Kılınç'ın 900.000 TL'lik talebinin REDDİNE,",
+      "summary": [
+        { "text": "Futbolcuyla yapılan menajerlik sözleşmesi noterde düzenlenmemişti ve iki yıllık azami süreyi aşıyordu (5894 s.K. ek m.2/2); kanuni şekle uyulmayan sözleşme hüküm doğurmaz (TBK m.12/2)." },
+        { "if": "p1_menfaat", "text": " Üstelik menajer aynı transferde kulüpten gizlice 600.000 TL almıştı; gizli menfaat menajerin faaliyetini sona erdirir (ek m.2/8). Hakkın kötüye kullanılması savunması tersine döndü." },
+        { "if": "p1_amac && !p1_menfaat", "text": " Geçersiz sözleşmenin ücretinin sebepsiz zenginleşme yoluyla istenmesi, şeklin futbolcuyu koruma amacını dolanmak sayıldı." },
+        { "if": "p2_mesaj && !p1_menfaat", "text": " Futbolcunun ödeme sözü veren mesajı, noter şeklinin yerini tutmadı." },
+        { "if": "p1_yetki", "text": " Futbolcu vekilinin yetki itirazı ise, tahkim şartının asıl sözleşmeden bağımsızlığı nedeniyle reddedildi (HMK m.422/1)." }
+      ]
+    },
+    {
+      "if": "p2_guclu && p2_mesaj",
+      "winner": "p2",
+      "hukum": "Futbolcunun itirazının KISMEN KABULÜ ile UÇK kararının DEĞİŞTİRİLEREK; 450.000 TL'nin faiziyle birlikte futbolcudan alınarak menajer Ozan Kılınç'a ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Sözleşme noter şekline uymuyordu; ama futbolcu sözleşmeyi imzalamış, hizmetten bilerek yararlanmış ve transferden sonra yazılı olarak ödeme sözü vermişti. Kurul, bu olayda şekle sığınmayı hakkın kötüye kullanılması saydı (TMK m.2) ve ücreti kanuni %5 sınırıyla hüküm altına aldı (5894 s.K. ek m.2/5)." },
+        { "text": " Futbolcunun “hiçbir yerde yazmadım” beyanının kendi mesajıyla çürütülmesi Kurul'un kanaatini belirledi." }
+      ]
+    },
+    {
+      "if": "p2_orta",
+      "winner": "draw",
+      "hukum": "Futbolcunun itirazının KISMEN KABULÜ ile UÇK kararının DEĞİŞTİRİLEREK; sözleşmenin geçersizliği nedeniyle ücret talebinin REDDİNE, menajerin fiilen verdiği hizmetin karşılığı olarak sebepsiz zenginleşme hükümlerine göre 200.000 TL'nin futbolcudan alınarak menajere ödenmesine,",
+      "summary": [
+        { "text": "Sözleşme noter şekline uymadığından ücret istenemezdi (5894 s.K. ek m.2/2; TBK m.12/2)." },
+        { "text": " Ancak menajer vekili, futbolcunun menajerin emeğinden yararlandığını terditli talepte ikna edici biçimde gösterdi; Kurul hizmetin makul karşılığına sebepsiz zenginleşme hükümlerine göre hükmetti (TBK m.77)." }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": "Futbolcunun itirazının KABULÜ ile UÇK'nın 18.01.2027 tarihli kararının KALDIRILMASINA, menajer Ozan Kılınç'ın 900.000 TL'lik talebinin REDDİNE,",
+      "summary": [
+        { "text": "Kanuni şekil kural olarak geçerlilik şeklidir ve Kurul bunu kendiliğinden gözetir: noterde düzenlenmeyen menajerlik sözleşmesi hüküm doğurmaz (5894 s.K. ek m.2/2; TBK m.12/2). Menajer vekili, şekle sığınmanın neden hakkın kötüye kullanılması olduğunu kuramadı." },
+        { "if": "p1_oran && !p1_sekil", "text": " Futbolcu vekili yalnızca ücretin %5 sınırına indirilmesini istemişti; Kurul geçersizliği kendiliğinden gözetti." },
+        { "if": "p1_yetki", "text": " Yetki itirazı ise, tahkim şartının asıl sözleşmeden bağımsızlığı nedeniyle reddedildi (HMK m.422/1)." }
+      ]
+    }
+  ]
+}

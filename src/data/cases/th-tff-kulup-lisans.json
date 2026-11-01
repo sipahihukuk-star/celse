@@ -33,7 +33,7 @@
     { "t": "Kulüp Lisans Kurulu kararı (14.05.2027)", "d": "UEFA lisansı reddi. Gerekçe: 31.03.2027 itibarıyla (1) eski futbolcu Emre Yaman'a 3.200.000 TL, (2) SGK'ya 18.000.000 TL vadesi geçmiş borç. Kulübün sunduğu 12.04.2027 tarihli SGK yazısı borcun ödendiğini göstermiyor." },
     { "t": "Vadesi geçmiş borç ölçütü (Kulüp Lisans ve Finansal Sürdürülebilirlik Talimatı, UEFA kurallarına uyumlu)", "d": "Lisans başvurucusu, lisans sezonundan önceki 31 Mart itibarıyla futbol kulüplerine, çalışanlarına ve sosyal güvenlik ile vergi makamlarına vadesi geçmiş borcu olmadığını kanıtlar. Borç; tamamen ödenmişse, alacaklıyla yazılı olarak ertelenmişse ya da açıkça dayanaksız olmayan bir uyuşmazlık süresinde yetkili mercie taşınmışsa vadesi geçmiş sayılmaz." },
     { "t": "5894 s.K. m.5/3, m.6/6", "d": "İlk derece hukuk kurullarının kararlarına karşı tebliğden itibaren 7 gün içinde Tahkim Kurulu'na itiraz edilir; süresinde itiraz edilmeyen karar kesinleşir. Tahkim Kurulu'nun futbolun yönetimi ve disiplinine ilişkin kararları kesindir." },
-    { "t": "Tahkim Kurulu Talimatı (ilgili hükümler)", "d": "m.6: Deliller ve belgeler başvuru dilekçesine eklenir. m.8: Başkan, önemine göre bir uyuşmazlığın öncelikle incelenmesine karar verebilir. m.11: Kurul gerekli gördüğünde bilgi ve belge isteyebilir. m.13: Kurul kararı değiştirerek karar verebilir ya da dosyayı merciine iade edebilir." }
+    { "t": "Tahkim Kurulu Talimatı (ilgili hükümler)", "d": "m.6: Deliller ve belgeler başvuru dilekçesine eklenir. m.8: Başkan, önemine göre bir uyuşmazlığın öncelikle incelenmesine karar verebilir. m.11: Kurul gerekli gördüğünde bilgi ve belge isteyebilir. m.15: Kurul kararı değiştirerek karar verebilir ya da dosyayı merciine iade edebilir." }
   ],
   "evidence": [
     { "id": "ev_karar", "type": "belge", "title": "Kulüp Lisans Kurulu kararı", "desc": "31.03.2027 itibarıyla futbolcu Emre Yaman'a ve SGK'ya vadesi geçmiş borç gerekçesiyle UEFA lisansı reddi." },
@@ -354,15 +354,15 @@
           "text": "Lisans Kurulu kararı kaldırılsın ve UEFA lisansının verilmesine Kurul'ca karar verilsin; dosyanın geri gönderilmesi takvimi kaçırtır.",
           "delta": 15,
           "set": ["p1_talep"],
-          "law": "Tahkim Kurulu Talimatı m.13",
-          "note": "Doğru. Kurul itiraz edilen kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.13). UEFA'ya bildirim tarihi yaklaşırken dosyanın iadesi kulübü telafisiz bir risk altına sokardı."
+          "law": "Tahkim Kurulu Talimatı m.15",
+          "note": "Doğru. Kurul itiraz edilen kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.15). UEFA'ya bildirim tarihi yaklaşırken dosyanın iadesi kulübü telafisiz bir risk altına sokardı."
         },
         {
           "text": "Kararın kaldırılmasını ve dosyanın yeniden değerlendirilmek üzere Kulüp Lisans Kurulu'na iadesini iste; o kurul ivedi karar versin.",
           "delta": -5,
           "set": ["p1_iade"],
-          "law": "Tahkim Kurulu Talimatı m.13",
-          "note": "Kurul dosyayı merciine iade edebilir (m.13), ama UEFA'ya lisans listesinin bildirileceği tarih yaklaşırken bu, kararın geç çıkması riskini doğurur. Değiştirerek karar istenmeliydi."
+          "law": "Tahkim Kurulu Talimatı m.15",
+          "note": "Kurul dosyayı merciine iade edebilir (m.15), ama UEFA'ya lisans listesinin bildirileceği tarih yaklaşırken bu, kararın geç çıkması riskini doğurur. Değiştirerek karar istenmeliydi."
         }
       ]
     }

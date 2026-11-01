@@ -274,7 +274,7 @@
           "text": "Yönetim Kurulu'nun maçın tekrarına ilişkin kararı onansın; penaltıya ilişkin itiraz bu talebin dayanağı değildir.",
           "delta": 15,
           "set": ["p1_tekrar"],
-          "law": "FMT m.30 · Tahkim Kurulu Talimatı m.13",
+          "law": "FMT m.30 · Tahkim Kurulu Talimatı m.15",
           "note": "Doğru. Sonucu etkileyen kural hatasının olağan çaresi maçın tekrarıdır. Talebi hakemin kabul ettiği kural hatasına dayandırdınız; Kurul'un takdir alanına giren penaltıyı talebin dışında tuttunuz."
         },
         {
