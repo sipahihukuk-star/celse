@@ -69,7 +69,9 @@ export default function App() {
     AlegreyaSans_400Regular, AlegreyaSans_400Regular_Italic, AlegreyaSans_500Medium, AlegreyaSans_700Bold,
     IBMPlexMono_500Medium, IBMPlexMono_600SemiBold
   });
-  const [route, setRoute] = useState<Route>({ k: "title" });
+  // Doğrudan yönetim paneli: adresin sonuna ?yonetim yazılınca panel açılır (PIN yine sorulur).
+  const [route, setRoute] = useState<Route>(() =>
+    typeof window !== "undefined" && /[?&#]yonetim\b/i.test((window.location?.search || "") + (window.location?.hash || "")) ? { k: "admin" } : { k: "title" });
   const [setup, setSetup] = useState<{ c: CaseFile; from: From; side?: Side; career?: boolean } | null>(null);
   /** kariyer dosyası internet üzerinden oynanıyorsa: maç bitince sonuç büroya işlenir */
   const [careerOnline, setCareerOnline] = useState<{ matchId: string; caseId: string; side: Side; from: From } | null>(null);
