@@ -120,14 +120,14 @@
       "prompt": "Bu itiraza nasıl karşılık vereceksiniz?",
       "choices": [
         {
-          "text": "m.8.2 görüşme sayısı değil, 30 günlük süre öngörür; teklif 36. günde verildi. Nordwind'in genel müdürü 09.04'te müzakereyi kendisi kesti.",
+          "text": "m.8.2 görüşme sayısı değil 30 günlük süre arar; teklif 36. günde geldi, Nordwind de 09.04'te müzakereyi kesti.",
           "delta": 15,
           "set": ["p1_30gun"],
           "law": "PSS m.8.2 · TMK m.2",
           "note": "Hüküm, çıkmaz bildiriminden sonra 30 günlük bir müzakere süresi öngörüyor; süre geçmişti. Müzakereyi kendisi reddeden tarafın, müzakerenin yetersizliğine dayanması dürüstlük kuralıyla bağdaşmaz (TMK m.2)."
         },
         {
-          "text": "Müzakere şartı yalnız bir nezaket kuralıdır; uyulmamasının hukuki bir sonucu yoktur, teklif her durumda geçerlidir.",
+          "text": "Müzakere şartı bir nezaket kuralıdır; uyulmamasının sonucu yok, teklif geçerlidir.",
           "delta": -10,
           "set": ["p1_onemsiz"],
           "law": "PSS m.8.2",
@@ -319,17 +319,17 @@
       "prompt": "İkincil talebiniz ne olacak?",
       "choices": [
         {
-          "text": "Devre hükmedilirse bedelin pay senetlerinin teslimiyle aynı anda ödenmesi ve Nordwind'in şirketten alacaklarının kapatılması koşul olsun.",
+          "text": "Devre hükmedilirse bedel teslimle aynı anda ödensin, Nordwind'in şirketten alacakları da kapatılsın.",
           "delta": 15,
           "set": ["p2_es"],
           "law": "TBK m.97 · PSS m.8.6",
           "note": "Karşılıklı borçlarda taraflardan biri kendi borcunu ifa etmedikçe ötekinin ifasını isteyemez (TBK m.97). Hükmün aynı anda ifa düzenine bağlanmasını ve ortaklık alacaklarınızın kapatılmasını sağladınız; müvekkilin çıkışını güvenceye aldınız."
         },
         {
-          "text": "Fiyat düşük: bağımsız değerleme 55.000.000 EUR diyor. Kurul devre hükmedecekse bedeli de bu değere çıkarsın.",
+          "text": "Fiyat düşük: değerleme 55.000.000 EUR diyor; kurul bedeli bu değere çıkarsın.",
           "delta": -10,
           "set": ["p2_fiyat"],
-          "law": "PSS m.8.5 · HMK m.26",
+          "law": "PSS m.8.3, m.8.5",
           "note": "“Ya al ya sat” düzeneğinde fiyatı teklif veren belirler; muhatap aynı fiyattan almayı seçerek kendini korur. Kurul sözleşmedeki fiyatı yeniden yazamaz; karşı talep olarak getirilmemiş bir artış da istenemez."
         },
         {
@@ -350,7 +350,7 @@
       "prompt": "Kararın yerine getirilmesi için ne yapacaksınız?",
       "choices": [
         {
-          "text": "İptal süresi geçince ya da iptal davası reddedilince mahkemeden icra edilebilirlik şerhi al ve icraya koy; Türkiye'de verilen karara tenfiz gerekmez.",
+          "text": "İptal süresi geçince ya da iptal davası reddedilince icra edilebilirlik şerhi al, icraya koy; tenfiz gerekmez.",
           "delta": 15,
           "set": ["p1_icra"],
           "law": "MTK m.15/B",
@@ -364,7 +364,7 @@
           "note": "Kararın yabancılığı tarafların uyruğuna değil, tahkim yerine bakılarak belirlenir. Tahkim yeri İstanbul; karar Türk hakem kararıdır ve tenfize gerek olmadan, iptal süresi sonunda icra edilebilir (MTK m.15/B)."
         },
         {
-          "text": "Karar tebliğ edilir edilmez, iptal davasını beklemeden icraya koy; hakem kararı kesindir, iptal davası icrayı durdurmaz.",
+          "text": "Karar tebliğ edilir edilmez icraya koy; iptal davası icrayı durdurmaz.",
           "delta": -5,
           "set": ["p1_hemen"],
           "law": "MTK m.15/B",

@@ -1,0 +1,477 @@
+{
+  "id": "th-sigorta-konut-su",
+  "mode": "duel",
+  "difficulty": "basit",
+  "title": "Tıkalı Oluk",
+  "area": "Tahkim · Sigorta tahkimi · Konut sigortası",
+  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakem Heyeti",
+  "courtShort": "SİGORTA TAHKİM",
+  "esas": "2026/54410 Başvuru",
+  "kararTarihi": "15.03.2027",
+  "color": "#3d5a73",
+  "room": "tahkim",
+  "forum": "sigorta",
+  "inscription": null,
+  "bench": { "judges": 1, "title": "Tek hakem" },
+  "teaser": "Sağanak gecesi su tavandan salona aktı. Şirket “sel ve su baskını” diyor; poliçede o teminat yok. Ama poliçede dahili su var.",
+  "sides": {
+    "p1": { "role": "Başvuran vekili", "short": "Başvuran" },
+    "p2": { "role": "Sigorta şirketi vekili", "short": "Sigorta şirketi" }
+  },
+  "cast": {
+    "judge": { "name": "Tek Hakem", "np": "red", "look": { "kind": "civil", "skin": "#d2a27a", "hair": "#4a3a30", "style": "short", "beard": true, "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#c4916b", "hair": "#1e1a18", "style": "curly", "shirt": "#1f2a36", "inner": "#e9e6df" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f0caa6", "hair": "#8a5a3a", "style": "bun", "shirt": "#33303a", "inner": "#efe9e0" } },
+    "ayten": { "name": "Ayten Korkmaz · Sigortalı", "np": "civil", "look": { "kind": "civil", "skin": "#e6bf9c", "hair": "#a8a8ae", "style": "bun", "glasses": true, "shirt": "#5a4a6a", "inner": "#efe6dc" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Ayten Korkmaz, İzmir Karşıyaka'da beş katlı bir apartmanın en üst katında oturuyor. 03.10.2026 gecesi şiddetli sağanakta salonun tavanındaki lamba yuvasından su akmaya başladı; alçıpan tavan çöktü, laminat parke kabardı, halı ve kanepe takımı ıslandı." },
+    { "who": "narr", "text": "Dairenin konut paket sigortası Erguvan Sigorta A.Ş.'de. Poliçede bina, eşya ve dahili su teminatları var; sel ve su baskını teminatı alınmamış." },
+    { "who": "narr", "text": "Şirket 20.10.2026 tarihli yazıyla, hasarın sağanak yağmurla dışarıdan gelen sudan kaynaklandığını, bunun sel ve su baskını olduğunu söyleyerek ödemeyi reddetti. Ayten'in usta teklifleriyle talebi 96.000 TL." },
+    { "who": "ayten", "text": "Kırk yıldır bu evdeyim, tavandan bir damla su gelmedi. Bir gecede salonum gitti, şirket de “sel” diyor. Sokakta su bile birikmedi." },
+    { "who": "narr", "text": "Bugün 02.11.2026. Başvuran vekili ilk hamleyi yapacak." }
+  ],
+  "docs": [
+    { "t": "Konut paket poliçesi", "d": "Erguvan Sigorta A.Ş., 01.04.2026–01.04.2027. Bina (bağımsız bölüm) 2.000.000 TL, eşya 600.000 TL. Ek teminatlar: dahili su, hırsızlık, cam kırılması. Sel ve su baskını: alınmamış. Eşyada rizikonun gerçekleştiği andaki gerçek değer esas alınır. Dahili su muafiyeti: her hasarda hasarın %2'si, en az 2.500 TL." },
+    { "t": "Dahili su klozu (poliçe eki)", "d": "“Binanın su depoları, sıhhi tesisat, kalorifer ve klima tesisatı ile yağmur olukları ve iniş borularının taşması, sızması, akması, donması ya da patlaması sonucu oluşan zararlar teminat altındadır. Binanın bakımsızlığı nedeniyle uzun süre devam eden sızıntı, rutubet ve küf zararları teminat dışıdır.”" },
+    { "t": "Sel ve su baskını klozu (alınmamış)", "d": "“Deniz, göl, nehir ve derelerin taşması; sel ve yağmur sularının zemin ya da dış duvarlar yoluyla bina içine girmesi sonucu oluşan zararlar.”" },
+    { "t": "Şirketin eksper raporu", "d": "Hasar tavandan su akması sonucu oluşmuş; suyun kaynağı tespit edilememiş. Zarar 90.000 TL olarak tahmin edilmiş, “teminat değerlendirmesi şirkete aittir” notu düşülmüş." },
+    { "t": "Red yazısı", "d": "20.10.2026: “Hasar, sağanak yağmur sonucu dışarıdan gelen suyla meydana gelmiştir. Poliçenizde sel ve su baskını teminatı bulunmadığından ödeme yapılamamaktadır.”" },
+    { "t": "Sigorta tahkiminde parasal sınırlar (22.01.2026'dan)", "d": "35.000 TL'nin altındaki uyuşmazlıklarda karar kesin; 35.000 TL ve üzerinde karara bildirimden itibaren 10 gün içinde bir kez itiraz. 122.000 TL'nin altındaki uyuşmazlıklarda tek hakem atanabilir; 122.000 TL ve üzerinde en az üç hakemli heyet zorunlu." }
+  ],
+  "evidence": [
+    { "id": "ev_police", "type": "belge", "title": "Konut paket poliçesi", "desc": "Dahili su teminatı var, sel ve su baskını yok. Muafiyet: her hasarda %2, en az 2.500 TL." },
+    { "id": "ev_kloz", "type": "belge", "title": "Dahili su klozu", "desc": "Yağmur olukları ve iniş borularının taşması sonucu oluşan zararlar teminat altında; uzun süreli sızıntı, rutubet, küf dışarıda." },
+    { "id": "ev_eksper", "type": "belge", "title": "Şirketin eksper raporu", "desc": "Hasar tavandan su akmasıyla oluşmuş; kaynak tespit edilememiş. Zarar tahmini 90.000 TL." },
+    { "id": "ev_red", "type": "belge", "title": "Red yazısı", "desc": "Hasar sel ve su baskını sayılmış; teminat yok denmiş." },
+    { "id": "ev_yonetici", "type": "belge", "title": "Yönetici tutanağı ve fotoğraflar", "desc": "03.10.2026, 02.10: “Çatıya çıkıldı. Salon üstündeki yağmur oluğunun yaprak ve kuş yuvasıyla tıkandığı, suyun oluğun arka kenarından taşarak çatı arasına aktığı görüldü.” Altı fotoğraf.", "if": "p1_oluk" },
+    { "id": "ev_boya", "type": "belge", "title": "Tavan boya faturası", "desc": "Mayıs 2024: salon tavanı alçı onarımı ve boya. O tarihten beri leke ya da sızıntı kaydı yok.", "if": "p1_ani" },
+    { "id": "law_ttk1409", "type": "kanun", "title": "TTK m.1409/2", "desc": "Rizikonun sözleşmedeki bir istisna kapsamında gerçekleştiğini ispat yükü sigortacıya aittir.", "law": "TTK m.1409/2" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAŞVURU · Şirket talebi yazılı olarak reddetti. Komisyona başvurmadan önce talebi ve karşı tarafı belirlemelisiniz." }
+      ],
+      "prompt": "Başvuruyu nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Red yazısıyla Komisyona başvur, 96.000 TL iste; tutar 35.000 TL'yi aştığı için karara itiraz yolu da açık kalacak.",
+          "delta": 15,
+          "set": ["p1_basvuru"],
+          "law": "5684 s.K. m.30/12, m.30/13",
+          "note": "Ön şart tamam: şirkete yazılı başvuru yapılmış ve talep reddedilmiş (5684 s.K. m.30/13). 96.000 TL'lik uyuşmazlık 122.000 TL'nin altında; tek hakem atanabilir. 35.000 TL'yi aştığı için karara itiraz da mümkün (m.30/12).",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 03.11.2026'da 96.000 TL üzerinden yapıldı; tek hakem atandı." }
+          ]
+        },
+        {
+          "text": "Başvuruda tutarı 34.000 TL göster; kesinlik sınırının altında kalırsa şirket karara itiraz edemez ve dosya hızla kesinleşir.",
+          "delta": -10,
+          "set": ["p1_kucuk"],
+          "law": "5684 s.K. m.30/12 · HMK m.26",
+          "note": "Kesinlik iki taraf için de işler; üstelik hakem talebinizle bağlıdır (HMK m.26). 96.000 TL'lik zararın 62.000 TL'sinden kendi elinizle vazgeçtiniz.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 03.11.2026'da 34.000 TL üzerinden yapıldı; tek hakem atandı." }
+          ]
+        },
+        {
+          "text": "Apartman yönetimini de karşı taraf göster: oluk ortak alandır, temizlenmemesinden yönetim sorumludur; şirketle birlikte ödesinler.",
+          "delta": -10,
+          "set": ["p1_basvuru"],
+          "law": "5684 s.K. m.30",
+          "note": "Komisyonda karşı taraf yalnız sigorta kuruluşu olabilir. Yönetime ya da kat maliklerine karşı bir talep varsa mahkemede ileri sürülür. Raportör bu kısmı ayıkladı.",
+          "reply": [
+            { "who": "narr", "text": "Raportör yönetime yönelik kısmı ayıkladı. Dosya 96.000 TL üzerinden Erguvan Sigorta'ya karşı yürüyecek; tek hakem atandı." }
+          ]
+        },
+        {
+          "text": "Önce SEDDK'ya şikâyet dilekçesi ver; Komisyon, Kurumun şirket hakkındaki görüşünü almadan başvuruyu incelemez.",
+          "delta": -5,
+          "set": ["p1_basvuru", "p1_seddk"],
+          "law": "5684 s.K. m.30/13",
+          "note": "Komisyona başvurunun ön şartı yalnız sigorta kuruluşuna yazılı başvuru ve ret ya da 15 iş günü içinde cevap verilmemesidir. Kurum şikâyeti zorunlu bir aşama değil; bir ay kaybettiniz.",
+          "reply": [
+            { "who": "narr", "text": "Kurum şikâyeti uyuşmazlığı çözmedi. Başvuru 04.12.2026'da 96.000 TL üzerinden yapıldı; tek hakem atandı." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Başvuru Erguvan Sigorta'ya tebliğ edildi. Red gerekçesini cevap dilekçesinde nasıl savunacağınızı seçmelisiniz." }
+      ],
+      "prompt": "Savunmanızı neye dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "Su dışarıdan, sağanak yağmurla bina içine girdi; bu sel ve su baskınıdır ve poliçede o teminat hiç alınmamış, primi de ödenmemiş.",
+          "delta": 15,
+          "set": ["p2_sel"],
+          "law": "Poliçe · Sel ve su baskını klozu",
+          "note": "Şirketin en güçlü dayanağı bu: alınmamış bir teminat. Ama klozun tarifine dikkat: sel ve su baskını, suyun zemin ya da dış duvarlar yoluyla girmesini anlatıyor. Suyun yolunu ispat etmeniz gerekecek; istisnayı ileri süren sizsiniz (TTK m.1409/2)."
+        },
+        {
+          "text": "Parke ve tavan bina sayılır; konut poliçesi yalnız ev eşyasını kapsar, bina hasarı için apartman yöneticisinin yaptırdığı bina sigortasına gidilmeli.",
+          "delta": -10,
+          "law": "Poliçe teminat tablosu",
+          "note": "Poliçe bağımsız bölümü (bina) ve eşyayı birlikte teminat altına alıyor; tavan ve parke bina teminatına girer. Poliçeyi okumadan savunma kurdunuz."
+        },
+        {
+          "text": "Oluk yıllardır temizlenmemiş; dahili su klozu bakımsızlık zararlarını dışarıda bırakır, hasar bu yüzden teminat dışıdır.",
+          "delta": 5,
+          "set": ["p2_bakim"],
+          "law": "Dahili su klozu · TTK m.1409/2",
+          "note": "Kloz, bakımsızlık nedeniyle uzun süre devam eden sızıntı, rutubet ve küf zararlarını dışarıda bırakıyor. Bir gecelik ani taşmaya uygulamak zor; üstelik bu savunmayla suyun oluktan, yani dahili su teminatının saydığı kaynaktan geldiğini örtülü olarak kabul ettiniz."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "MÜVEKKİL GÖRÜŞMESİ · Şirketin cevabı geldi. Ayten Korkmaz'la görüşüyorsunuz; iki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Su tam olarak nereden girdi, o gece bunu kim gördü?",
+          "delta": 15,
+          "set": ["p1_oluk"],
+          "reply": [
+            { "who": "ayten", "text": "Lambanın yuvasından şarıl şarıl aktı. Yönetici Hasan Bey o gece çatıya çıktı; oluk yaprakla, kuş yuvasıyla tıkanmış, su oluğun arkasından çatı arasına taşmış. Fotoğraf çekip tutanak tuttu." }
+          ],
+          "note": "Kilit soru. Yönetici tutanağı ve fotoğraflar, suyun yağmur oluğundan taştığını gösteriyor. Çantanıza eklendi."
+        },
+        {
+          "text": "Tavanda daha önce leke ya da sızıntı oldu mu?",
+          "delta": 10,
+          "set": ["p1_ani"],
+          "reply": [
+            { "who": "ayten", "text": "Hiç olmadı. İki yıl önce tavanı onarıp boyattım, faturası duruyor." }
+          ],
+          "note": "Yararlı. Uzun süreli bir sızıntı olmadığını, zararın ani olduğunu gösteriyor; bakımsızlık savunmasına karşı işe yarar. Fatura çantanıza eklendi."
+        },
+        {
+          "text": "Sokakta su birikti mi, alt katlarda zarar var mı?",
+          "delta": 5,
+          "reply": [
+            { "who": "ayten", "text": "Sokakta birikinti bile olmadı. Alt katlarda hiçbir şey yok; sadece bizim daire." }
+          ],
+          "note": "Suyun zeminden ya da dış duvardan girmediğini destekliyor. Ama bunu belgeyle göstermeniz gerekecek."
+        },
+        {
+          "text": "Kanepe takımının faturası var mı?",
+          "delta": 0,
+          "reply": [
+            { "who": "ayten", "text": "2025'te aldım, faturası var." }
+          ],
+          "note": "Tutar için yararlı olabilir; ama asıl tartışma teminatın kapsamı."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "SÖZLÜ AÇIKLAMA · Tek hakem, kural olarak dosya üzerinden karar verse de bu dosyada tarafları dinlemeye karar verdi." },
+        { "who": "judge", "text": "Şirket vekili, bilirkişi incelemesine ilişkin talebiniz nedir?" }
+      ],
+      "prompt": "Hangi incelemeyi isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "İnşaat mühendisi bilirkişi suyun bina içine giriş yolunu ve bakımsızlık süresini, hasar uzmanı da zararın tutarını belirlesin.",
+          "delta": 15,
+          "set": ["p2_bilirkisi"],
+          "law": "Tahkim Yönetmeliği m.16/12 · TTK m.1409/2",
+          "note": "Doğru. Uyuşmazlığın kalbi suyun yolu: zemin ya da dış duvar mı, yoksa oluk mu? İstisnayı ispat yükü sizde olduğundan bu incelemeyi siz istemelisiniz.",
+          "reply": [
+            { "who": "judge", "text": "Bilirkişi incelemesine karar verildi." }
+          ]
+        },
+        {
+          "text": "Meteoroloji kayıtları getirtilsin; o gece metrekareye düşen yağış sel tanımına giriyorsa hasar kendiliğinden teminat dışıdır, başka incelemeye gerek kalmaz.",
+          "delta": -5,
+          "law": "Sel ve su baskını klozu",
+          "note": "Yağışın şiddeti suyun bina içine nasıl girdiğini göstermez. Kloz, suyun dışarıdan, zemin ya da dış duvarlar yoluyla girmesini anlatıyor; mesele suyun yolu.",
+          "reply": [
+            { "who": "judge", "text": "Heyet, suyun giriş yolunun belirlenmesi için bilirkişiye kendiliğinden başvurdu." }
+          ]
+        },
+        {
+          "text": "Bilirkişiye gerek yok; şirketin eksper raporu hem hasarın kaynağını hem tutarını belirledi, hakem bununla yetinsin.",
+          "delta": -5,
+          "law": "Tahkim Yönetmeliği m.16/12",
+          "note": "Eksper raporu suyun kaynağını tespit edemediğini açıkça yazıyor; teminat tartışmasını çözmeye yetmez.",
+          "reply": [
+            { "who": "judge", "text": "Heyet, suyun giriş yolunun belirlenmesi için bilirkişiye kendiliğinden başvurdu." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, şirket vekilinin beyanına karşı diyeceğiniz?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Hakem, o gece İzmir'de sağanak vardı. Su dışarıdan, yağmurla eve girdi. Bu sel ve su baskınıdır; poliçede bu teminat yok." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_yonetici"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_hit"],
+        "law": "Dahili su klozu · TTK m.1409/2",
+        "note": "Tutanak ve fotoğraflar suyun tıkalı yağmur oluğundan taşıp çatı arasından tavana aktığını gösteriyor. Poliçenin dahili su klozu yağmur oluklarının taşmasını açıkça sayıyor; su zeminden ya da dış duvardan girmedi.",
+        "reply": [
+          { "who": "judge", "text": "Tutanak ve fotoğraflar dosyaya alındı ve bilirkişiye gönderilecek." }
+        ]
+      },
+      "responses": {
+        "ev_kloz": {
+          "delta": 5,
+          "note": "Doğru kloz: yağmur oluklarının taşması teminat içinde. Ama suyun oluktan taştığını gösteren belgeyi sunmalıydınız; olgu ispatlanmadan kloz tek başına yetmez."
+        },
+        "ev_boya": {
+          "delta": 5,
+          "note": "Fatura uzun süreli bir sızıntı olmadığını gösteriyor; bakımsızlık savunmasına karşı yararlı. Ama suyun nereden girdiği sorusunu yanıtlamıyor."
+        },
+        "ev_eksper": {
+          "delta": -5,
+          "note": "Eksper raporu suyun kaynağının tespit edilemediğini yazıyor; şirketin tezini zayıflatmıyor."
+        },
+        "ev_red": {
+          "delta": -10,
+          "note": "Red yazısı şirketin tezini tekrar ediyor."
+        }
+      },
+      "miss": { "delta": -5, "note": "Bu belge suyun nereden girdiğini göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; suyun dışarıdan geldiği beyanı karşılıksız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Şirket vekili, teminat tartışmasının yanında tazminatın tutarı hakkında ne diyorsunuz?" }
+      ],
+      "prompt": "Kabul hâlinde tazminatın nasıl belirlenmesi gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p2_tutar"],
+          "law": "Poliçe · TTK tazminat ilkesi",
+          "note": "Tutarı sağlam çerçevelediniz: usta teklifleri değil, bilirkişinin belirleyeceği gerçek zarar; eşyada gerçek değer ve eskime payı; poliçedeki muafiyet."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "law": "Poliçe · TTK tazminat ilkesi",
+          "note": "Doğru noktalara değindiniz. Tam savunma; gerçek zarar ilkesini, eşyada gerçek değer ve eskime payını ve poliçedeki muafiyetin (her hasarda %2, en az 2.500 TL) düşülmesini birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "Poliçe · TTK tazminat ilkesi",
+          "note": "Tutar savunmasını kurmadınız: sigorta zenginleşme aracı değildir, tazminat gerçek zarar üzerinden belirlenir. Eşyada poliçe gerçek değeri esas alıyor, eskime payı düşülür; dahili su muafiyeti de (her hasarda %2, en az 2.500 TL) uygulanır."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Tazminat usta tekliflerine göre değil, bilirkişinin piyasa fiyatlarıyla belirleyeceği gerçek zarar üzerinden hesaplanır; sigorta, sigortalı için zenginleşme aracı değildir (tazminat ilkesi). (2) Poliçe eşyada rizikonun gerçekleştiği andaki gerçek değeri esas alıyor; kanepe, halı gibi eşyada eskime payı düşülmelidir. (3) Dahili su teminatında muafiyet her hasarda hasarın %2'si, en az 2.500 TL'dir ve tazminattan düşülür. (4) Bakımsızlık istisnasının şartları varsa bunu şirket ispat eder. Gerçek zarar ilkesini, eskime payını ve muafiyeti birlikte söylemek tam puan için gerekir; yalnızca 'talep fahiş' demek düşük puan alır.",
+      "keywords": [
+        { "terms": ["muafiyet", "tenzili muafiyet", "2.500", "%2", "yüzde iki"], "weight": 3 },
+        { "terms": ["gerçek zarar", "tazminat ilkesi", "zenginleşme"], "weight": 2 },
+        { "terms": ["eskime", "gerçek değer", "yıpranma", "amortisman"], "weight": 2 },
+        { "terms": ["bilirkişi", "piyasa", "teklif"], "weight": 1 },
+        { "terms": ["bakımsızlık", "sızıntı"], "weight": 1 }
+      ],
+      "model": "Sayın Hakem, tazminat usta tekliflerine göre değil, bilirkişinin piyasa fiyatlarıyla belirleyeceği gerçek zarar üzerinden hesaplanır; sigorta zenginleşme aracı değildir. Poliçe eşyada gerçek değeri esas alıyor; kanepe ve halıda eskime payı düşülmelidir. Ayrıca dahili su teminatında her hasarda %2, en az 2.500 TL muafiyet vardır ve tazminattan indirilmelidir."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, teminata ilişkin esas beyanınızı alalım." }
+      ],
+      "prompt": "Bu hasarın neden sel ve su baskını değil, dahili su teminatı kapsamında olduğunu açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p1_dahili"],
+          "law": "Dahili su klozu · TTK m.1409/2 · TBK m.23",
+          "note": "Teminatı klozun kendi sözcükleriyle kurdunuz: yağmur oluğunun taşması dahili su klozunda açıkça sayılıyor; sel ve su baskını ise zemin ya da dış duvarlardan giren suyu anlatıyor. İstisnayı ispat yükünü de doğru yere, şirkete koydunuz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "law": "Dahili su klozu · TTK m.1409/2",
+          "note": "Doğru yöndesiniz. Tam savunma, dahili su klozunun yağmur oluklarının taşmasını açıkça saydığını, sel ve su baskını klozunun zemin ve dış duvarlardan giren suyu anlattığını, istisnayı şirketin ispat edeceğini ve bakımsızlık istisnasının ani taşmaya uygulanmayacağını birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "Dahili su klozu · TTK m.1409/2",
+          "note": "Poliçenin kendi metnini kullanmadınız: dahili su klozu yağmur oluklarının taşmasını açıkça sayıyor; sel ve su baskını ise suyun zemin ya da dış duvarlardan girmesini anlatıyor. İstisnayı ispat yükü de şirkette (TTK m.1409/2)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Poliçenin dahili su klozu yağmur olukları ve iniş borularının taşmasından doğan zararları açıkça teminat altına alıyor. (2) Su, tıkanan yağmur oluğundan taşıp çatı arasından tavana aktı; sel ve su baskını klozunun anlattığı gibi zemin ya da dış duvarlar yoluyla girmedi; sokakta ve alt katlarda su yoktu. (3) İstisnayı ispat yükü sigortacıdadır (TTK m.1409/2); poliçedeki belirsizlik düzenleyen şirket aleyhine yorumlanır (TBK m.23). (4) Bakımsızlık istisnası uzun süre devam eden sızıntı, rutubet ve küfe ilişkindir; bir gecelik ani taşmaya uygulanmaz. Dahili su klozunu, suyun yolunu ve ispat yükünü birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["dahili su"], "weight": 3 },
+        { "terms": ["oluk", "yağmur oluğu", "iniş borusu", "taşma", "taştı"], "weight": 3 },
+        { "terms": ["zemin", "dış duvar", "dışarıdan", "sel"], "weight": 1 },
+        { "terms": ["ispat yükü", "1409", "istisna"], "weight": 2 },
+        { "terms": ["TBK m.23", "aleyhine yorum", "belirsizlik", "bakımsızlık", "uzun süre"], "weight": 1 }
+      ],
+      "model": "Sayın Hakem, poliçenin dahili su klozu yağmur olukları ve iniş borularının taşmasından doğan zararları açıkça teminat altına alıyor. Su, tıkanan oluktan taşıp çatı arasından tavana aktı; sel ve su baskını klozunun anlattığı gibi zeminden ya da dış duvardan girmedi. İstisnayı ispat yükü şirkettedir (TTK m.1409/2); bakımsızlık istisnası da uzun süreli sızıntıya ilişkindir, bir gecelik ani taşmaya uygulanmaz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "if": "p1_hit || p1_dahili", "text": "BİLİRKİŞİ RAPORU · Su, tıkanan yağmur oluğundan taşarak çatı arasından tavana akmış; zemin ya da dış duvar yoluyla giriş yok, uzun süreli sızıntı izi yok. Eşyada eskime payı düşülerek zarar 90.000 TL." },
+        { "who": "narr", "if": "!p1_hit && !p1_dahili", "text": "BİLİRKİŞİ RAPORU · Suyun bina içine hangi yoldan girdiği kesin olarak belirlenemedi; o geceki şiddetli yağış dikkate alındığında dış cepheden girmiş olabilir. Eşyada eskime payı düşülerek zarar 90.000 TL." },
+        { "who": "judge", "text": "Şirket vekili, teminatın kabulü hâlinde tazminatın tutarına ilişkin beyanınız?" }
+      ],
+      "prompt": "Poliçedeki muafiyet uygulanınca tazminat ne olur?",
+      "choices": [
+        {
+          "text": "90.000 TL'nin %2'si 1.800 TL eder, ama muafiyet en az 2.500 TL; bu düşülünce tazminat 87.500 TL olur.",
+          "delta": 15,
+          "set": ["p2_muaf"],
+          "law": "Poliçe · Dahili su muafiyeti",
+          "note": "Doğru. Muafiyet her hasarda hasarın %2'si, ama en az 2.500 TL. Yüzde iki 1.800 TL'de kaldığından alt sınır uygulanır: 90.000 − 2.500 = 87.500 TL.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "90.000 TL'nin %2'si olan 1.800 TL düşülür ve tazminat 88.200 TL olur; poliçedeki en az tutar ayrıca uygulanmaz.",
+          "delta": -5,
+          "law": "Poliçe · Dahili su muafiyeti",
+          "note": "Muafiyetin alt sınırını atladınız. Yüzde iki 1.800 TL'de kaldığında poliçedeki en az 2.500 TL uygulanır: tazminat 87.500 TL.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "Hem %2 hem de 2.500 TL düşülür: 90.000 − 1.800 − 2.500 = 85.700 TL.",
+          "delta": -5,
+          "law": "Poliçe · Dahili su muafiyeti",
+          "note": "İkisi birlikte değil, hangisi yüksekse o düşülür; “en az 2.500 TL” bir alt sınırdır. Tazminat 87.500 TL.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "Muafiyet talep edilen 96.000 TL'ye uygulanır: %2'si 1.920 TL, en az 2.500 TL düşülünce tazminat 93.500 TL olur.",
+          "delta": -10,
+          "law": "Poliçe · Dahili su muafiyeti",
+          "note": "Muafiyet talep edilen tutara değil, belirlenen gerçek zarara uygulanır. Bilirkişi zararı 90.000 TL buldu; tazminat 87.500 TL. Şirket vekili olarak başvuranın lehine hesap yaptınız.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Taraflar karardan önce uzlaşmak ister mi? Şirket vekili, teklifinizi söyleyin." },
+        { "who": "p2", "text": "Dosyayı kapatmak için 60.000 TL ödemeye hazırız." }
+      ],
+      "prompt": "Teklife ne diyorsunuz?",
+      "choices": [
+        {
+          "if": "p1_hit || p1_dahili",
+          "text": "Teklifi reddet; deliller hasarın dahili su teminatına girdiğini gösteriyor, hakemin karar vermesini iste.",
+          "delta": 15,
+          "law": "Dahili su klozu",
+          "note": "Doğru değerlendirme. Elinizdeki delillerle muafiyet düşülmüş tutarın tamamını alma olasılığınız yüksekti; 60.000 TL bunun çok altında.",
+          "reply": [
+            { "who": "judge", "text": "Teklif kabul edilmedi. Dosya karara kaldı." }
+          ]
+        },
+        {
+          "if": "!p1_hit && !p1_dahili",
+          "text": "Teklifi reddet; deliller hasarın dahili su teminatına girdiğini gösteriyor, hakemin karar vermesini iste.",
+          "delta": -5,
+          "law": "Dahili su klozu",
+          "note": "Riskli bir ret. Suyun oluktan taştığını gösteremediniz; bilirkişi de suyun yolunu belirleyemedi. 60.000 TL makul bir teklifti.",
+          "reply": [
+            { "who": "judge", "text": "Teklif kabul edilmedi. Dosya karara kaldı." }
+          ]
+        },
+        {
+          "if": "p1_hit || p1_dahili",
+          "text": "Teklifi kabul et; karar beklemek aylar sürer, müvekkil bir an önce evini onartmak istiyor.",
+          "delta": -5,
+          "set": ["p1_sulh", "end"],
+          "law": "HMK m.313",
+          "note": "Kazanmak üzere olduğunuz bir dosyada 27.500 TL'den vazgeçtiniz.",
+          "reply": [
+            { "who": "judge", "text": "Taraflar 60.000 TL üzerinden anlaştı; sulh tutanağa geçirildi." }
+          ]
+        },
+        {
+          "if": "!p1_hit && !p1_dahili",
+          "text": "Teklifi kabul et; karar beklemek aylar sürer, müvekkil bir an önce evini onartmak istiyor.",
+          "delta": 10,
+          "set": ["p1_sulh", "end"],
+          "law": "HMK m.313",
+          "note": "Yerinde bir karar. Dosyanız zayıftı; sulh, müvekkilin riskini kapattı.",
+          "reply": [
+            { "who": "judge", "text": "Taraflar 60.000 TL üzerinden anlaştı; sulh tutanağa geçirildi." }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_sulh",
+      "winner": "draw",
+      "label": "SONUÇ:",
+      "noCourt": true,
+      "hukum": "Taraflar, 60.000 TL'nin 15 gün içinde başvurana ödenmesi karşılığında sulh oldu; başvuran fazlaya ilişkin talebinden feragat etti. Sulh tutanağa geçirildi.",
+      "summary": [
+        { "if": "p1_hit || p1_dahili", "text": "Başvuran vekili suyun oluktan taştığını ortaya koymuştu; karar beklense muafiyet düşülerek 87.500 TL alınabilirdi. Müvekkil hızlı ödemeyi tercih etti." },
+        { "if": "!p1_hit && !p1_dahili", "text": "Suyun bina içine hangi yoldan girdiği belirsiz kalmıştı; ret riski karşısında başvuran 60.000 TL'lik teklifi kabul ederek riskini kapattı." }
+      ]
+    },
+    {
+      "if": "p1_hit || p1_dahili",
+      "winner": "p1",
+      "hukum": [
+        { "if": "!p1_kucuk", "text": "Başvurunun KISMEN KABULÜ ile poliçedeki muafiyet düşülerek 87.500 TL tazminatın sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "p1_kucuk", "text": "Başvurunun KABULÜ ile 34.000 TL tazminatın sigorta şirketinden alınarak başvurana ödenmesine," }
+      ],
+      "summary": [
+        { "text": "Su, tıkanan yağmur oluğundan taşıp çatı arasından tavana aktı; poliçenin dahili su klozu bu durumu açıkça kapsıyor. Sel ve su baskını klozunun anlattığı zemin ya da dış duvar yoluyla giriş yoktu; şirket istisnayı ispat edemedi (TTK m.1409/2)." },
+        { "if": "p2_bakim", "text": " Bakımsızlık savunması, uzun süreli sızıntıya ilişkin istisnanın bir gecelik ani taşmaya uygulanamaması nedeniyle reddedildi." },
+        { "if": "!p1_kucuk", "text": " Bilirkişinin belirlediği 90.000 TL'den 2.500 TL muafiyet düşüldü." },
+        { "if": "p1_kucuk", "text": " Ama başvuran vekili talebi 34.000 TL ile sınırladığı için hakem bu tutarla bağlı kaldı (HMK m.26); 53.500 TL masada kaldı." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Başvurunun REDDİNE,",
+      "summary": [
+        { "text": "Suyun bina içine hangi yoldan girdiği ortaya konamadı; bilirkişi suyun dış cepheden girmiş olabileceğini belirtti. Başvuran, hasarın dahili su teminatının saydığı bir kaynaktan doğduğunu ispat edemedi; poliçede sel ve su baskını teminatı da yoktu." },
+        { "if": "p2_sel", "text": " Şirket vekili savunmayı alınmamış teminata dayandırarak doğru zemini kurdu." }
+      ]
+    }
+  ]
+}
