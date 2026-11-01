@@ -110,6 +110,56 @@ import icraIstihkak from "./icra-istihkak.json";
 import icraIhaleninFeshi from "./icra-ihalenin-feshi.json";
 import icraMenfiTespit from "./icra-menfi-tespit.json";
 import icraIlamliTakip from "./icra-ilamli-takip.json";
+import thCasAntrenor from "./th-cas-antrenor.json";
+import thCasDopingTakviye from "./th-cas-doping-takviye.json";
+import thCasHakliSebep from "./th-cas-hakli-sebep.json";
+import thCasOlimpiyatUyruk from "./th-cas-olimpiyat-uyruk.json";
+import thCasSikeUefa from "./th-cas-sike-uefa.json";
+import thCasYetistirme from "./th-cas-yetistirme.json";
+import thIccAcilHakem from "./th-icc-acil-hakem.json";
+import thIccBelgeIbrazi from "./th-icc-belge-ibrazi.json";
+import thIccCisgAyip from "./th-icc-cisg-ayip.json";
+import thIccCokluTaraf from "./th-icc-coklu-taraf.json";
+import thIccFaizDoviz from "./th-icc-faiz-doviz.json";
+import thIccFidicGecikme from "./th-icc-fidic-gecikme.json";
+import thIccMucbirSebep from "./th-icc-mucbir-sebep.json";
+import thIhtkCezaMakulSure from "./th-ihtk-ceza-makul-sure.json";
+import thIhtkDisiplinSavunma from "./th-ihtk-disiplin-savunma.json";
+import thIhtkEksikIcra from "./th-ihtk-eksik-icra.json";
+import thIhtkGecIcra from "./th-ihtk-gec-icra.json";
+import thIhtkGorevDisiSure from "./th-ihtk-gorev-disi-sure.json";
+import thIhtkIdariMakulSure from "./th-ihtk-idari-makul-sure.json";
+import thIhtkIscilikMakulSure from "./th-ihtk-iscilik-makul-sure.json";
+import thIhtkKamulastirmaDegerKaybi from "./th-ihtk-kamulastirma-deger-kaybi.json";
+import thIstacDistributorPortfoy from "./th-istac-distributor-portfoy.json";
+import thIstacFiyatRevizyonu from "./th-istac-fiyat-revizyonu.json";
+import thIstacIptalEkRapor from "./th-istac-iptal-ek-rapor.json";
+import thIstacJvCikmaz from "./th-istac-jv-cikmaz.json";
+import thIstacKompetenz from "./th-istac-kompetenz.json";
+import thLciaDemuraj from "./th-lcia-demuraj.json";
+import thLciaHakemReddi from "./th-lcia-hakem-reddi.json";
+import thSigortaDaskMuafiyet from "./th-sigorta-dask-muafiyet.json";
+import thSigortaIsverenIsKazasi from "./th-sigorta-isveren-is-kazasi.json";
+import thSigortaItirazKesinlik from "./th-sigorta-itiraz-kesinlik.json";
+import thSigortaKaskoAlkol from "./th-sigorta-kasko-alkol.json";
+import thSigortaKonutSu from "./th-sigorta-konut-su.json";
+import thSigortaKrediHayat from "./th-sigorta-kredi-hayat.json";
+import thSigortaMeslekiTalepEsasli from "./th-sigorta-mesleki-talep-esasli.json";
+import thSigortaNakliyatAmbalaj from "./th-sigorta-nakliyat-ambalaj.json";
+import thSigortaRucuKusur from "./th-sigorta-rucu-kusur.json";
+import thSigortaSaglikMenisku from "./th-sigorta-saglik-menisku.json";
+import thSigortaTarimDolu from "./th-sigorta-tarim-dolu.json";
+import thSigortaTrafikDeger from "./th-sigorta-trafik-deger.json";
+import thSigortaTrafikDestek from "./th-sigorta-trafik-destek.json";
+import thSigortaYanginEksik from "./th-sigorta-yangin-eksik.json";
+import thTffKulupLisans from "./th-tff-kulup-lisans.json";
+import thTffMenajerKomisyon from "./th-tff-menajer-komisyon.json";
+import thTffPfdkSeyircisiz from "./th-tff-pfdk-seyircisiz.json";
+import thTffTescilItc from "./th-tff-tescil-itc.json";
+import thTffUckHakliFesih from "./th-tff-uck-hakli-fesih.json";
+import thTffVarTescil from "./th-tff-var-tescil.json";
+import thUncitralKnowHow from "./th-uncitral-know-how.json";
+import thUncitralTenfizViyana from "./th-uncitral-tenfiz-viyana.json";
 
 export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, sozluFesih, uzakAdliye, yargitayDurusma, aihmBuyukDaire, ucmYargilama,
   danistayYonetmelik, danistayAceleKamulastirma, danistayCedBoruHatti, danistayImtiyaz, danistayVergiTeblig,
@@ -198,7 +248,57 @@ export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, soz
   icraIstihkak,
   icraIhaleninFeshi,
   icraMenfiTespit,
-  icraIlamliTakip].map(c => normalizeCase(c as unknown as CaseFile));
+  icraIlamliTakip,
+  thCasAntrenor,
+  thCasDopingTakviye,
+  thCasHakliSebep,
+  thCasOlimpiyatUyruk,
+  thCasSikeUefa,
+  thCasYetistirme,
+  thIccAcilHakem,
+  thIccBelgeIbrazi,
+  thIccCisgAyip,
+  thIccCokluTaraf,
+  thIccFaizDoviz,
+  thIccFidicGecikme,
+  thIccMucbirSebep,
+  thIhtkCezaMakulSure,
+  thIhtkDisiplinSavunma,
+  thIhtkEksikIcra,
+  thIhtkGecIcra,
+  thIhtkGorevDisiSure,
+  thIhtkIdariMakulSure,
+  thIhtkIscilikMakulSure,
+  thIhtkKamulastirmaDegerKaybi,
+  thIstacDistributorPortfoy,
+  thIstacFiyatRevizyonu,
+  thIstacIptalEkRapor,
+  thIstacJvCikmaz,
+  thIstacKompetenz,
+  thLciaDemuraj,
+  thLciaHakemReddi,
+  thSigortaDaskMuafiyet,
+  thSigortaIsverenIsKazasi,
+  thSigortaItirazKesinlik,
+  thSigortaKaskoAlkol,
+  thSigortaKonutSu,
+  thSigortaKrediHayat,
+  thSigortaMeslekiTalepEsasli,
+  thSigortaNakliyatAmbalaj,
+  thSigortaRucuKusur,
+  thSigortaSaglikMenisku,
+  thSigortaTarimDolu,
+  thSigortaTrafikDeger,
+  thSigortaTrafikDestek,
+  thSigortaYanginEksik,
+  thTffKulupLisans,
+  thTffMenajerKomisyon,
+  thTffPfdkSeyircisiz,
+  thTffTescilItc,
+  thTffUckHakliFesih,
+  thTffVarTescil,
+  thUncitralKnowHow,
+  thUncitralTenfizViyana].map(c => normalizeCase(c as unknown as CaseFile));
 export const DUEL_CASES = CASES.filter(c => c.mode === "duel");
 export const SOLO_CASES = CASES.filter(c => c.mode === "solo");
 export const caseById = (id: string) => CASES.find(c => c.id === id)!;
