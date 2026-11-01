@@ -386,5 +386,11 @@ const dict: Record<string, string> = {
   "büronuza gelen taraf": "die von Ihrer Kanzlei vertretene Seite",
   "05xx xxx xx xx · +49 …": "05xx xxx xx xx · +49 …",
   "Kariyerde ulaştığınız mahkemelerin dosyaları açıktır; üst mahkemeler kariyerde dava kazandıkça açılır.": "Akten der Gerichte, die Sie in Ihrer Karriere erreicht haben, sind offen; höhere Gerichte werden freigeschaltet, wenn Sie in der Karriere Fälle gewinnen.",
+  "Siliniyor…": "Wird gelöscht…",
+  "Üyeliğiniz, kariyeriniz, büronuz ve kayıtlı sonuçlarınız kalıcı olarak silinir; bu işlem geri alınamaz.": "Ihr Konto, Ihre Karriere, Ihre Kanzlei und Ihre gespeicherten Ergebnisse werden endgültig gelöscht; dies kann nicht rückgängig gemacht werden.",
+  "Hesabımı sil": "Mein Konto löschen",
+  "Çıkış yap": "Abmelden",
+  "Evet, hesabımı ve kariyerimi kalıcı olarak sil": "Ja, mein Konto und meine Karriere endgültig löschen",
+  "Oturum açık: {ad}": "Angemeldet: {ad}",
 };
 export default dict;

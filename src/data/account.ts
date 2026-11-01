@@ -144,9 +144,23 @@ export async function switchLocal(id: string) {
 
 export async function deleteLocal(id: string) {
   await saveLocal((await localProfiles()).filter(p => p.id !== id));
-  try { await AsyncStorage.removeItem(`celse-kariyer-v1:${id}`); } catch { /* yok say */ }
+  for (const k of [`celse-kariyer-v1:${id}`, `celse-buro-v1:${id}`, `celse-dosya-v1:${id}`]) { try { await AsyncStorage.removeItem(k); } catch { /* yok say */ } }
   if (current?.id === id) { current = null; try { await AsyncStorage.removeItem(LOCAL_CURRENT); } catch { /* yok say */ } }
   emit();
+}
+
+/** Oturumdaki üyeliği sunucudan kalıcı olarak siler (profil, kariyer, abonelik ve eşleşmeler birlikte gider) ve cihazdaki kayıtları temizler. */
+export async function deleteServerAccount(): Promise<{ error?: string }> {
+  const sb = supabase();
+  const id = current?.id;
+  if (!sb || !id) return { error: "Önce giriş yapın." };
+  const { error } = await sb.rpc("hesabimi_sil");
+  if (error) return { error: "Hesap silinemedi: " + error.message };
+  for (const k of [`celse-kariyer-v1:${id}`, `celse-buro-v1:${id}`, `celse-dosya-v1:${id}`]) { try { await AsyncStorage.removeItem(k); } catch { /* yok say */ } }
+  try { await sb.auth.signOut(); } catch { /* oturum zaten düştü */ }
+  current = null;
+  emit();
+  return {};
 }
 
 export async function signOut() {

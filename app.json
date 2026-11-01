@@ -3,22 +3,30 @@
     "name": "Celse",
     "slug": "celse",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
+    "scheme": "celse",
     "userInterfaceStyle": "dark",
+    "backgroundColor": "#1c0a0f",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "io.github.mehmetsafabakir.celse"
+      "bundleIdentifier": "com.themiscode.celse",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleDevelopmentRegion": "tr",
+        "CFBundleLocalizations": ["tr", "en", "es", "fr", "de"]
+      }
     },
     "android": {
+      "package": "com.themiscode.celse",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#5a0f1c",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "io.github.mehmetsafabakir.celse"
+      "blockedPermissions": ["android.permission.RECORD_AUDIO"]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -27,6 +35,9 @@
       "backgroundColor": "#1c0a0f",
       "themeColor": "#161c22"
     },
-    "backgroundColor": "#1c0a0f"
+    "plugins": [
+      ["expo-audio", { "microphonePermission": false, "recordAudioAndroid": false, "enableBackgroundPlayback": false }],
+      ["expo-splash-screen", { "image": "./assets/splash-icon.png", "imageWidth": 220, "resizeMode": "contain", "backgroundColor": "#1c0a0f" }]
+    ]
   }
 }

@@ -1,7 +1,7 @@
 // Üyelik ekranı: üye ol / giriş yap (sunucu) ya da bu cihazdaki oyuncular (sunucu ayarlı değilken).
 import React, { useEffect, useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { Account, deleteLocal, localProfiles, resetPassword, signIn, signUp, supabase, switchLocal, useAccount } from "../data/account";
+import { Account, deleteLocal, deleteServerAccount, localProfiles, resetPassword, signIn, signOut, signUp, supabase, switchLocal, useAccount } from "../data/account";
 import { KVKK_BASLIK, KVKK_METNI } from "../legal/kvkk";
 import { Btn } from "./kit";
 import { C, F } from "./theme";
@@ -27,6 +27,8 @@ export default function AccountScreen({ onBack, onDone, initial }: { onBack: () 
           <Text style={s.sub}>{server ? t("Kariyeriniz hesabınıza kaydedilir; her cihazda kaldığınız yerden devam edersiniz.") : t("Her oyuncunun kariyeri ayrı tutulur. Sunucu bağlandığında gerçek üyelik açılacak.")}</Text>
         </View>
       </View>
+
+      {server && account && <SignedIn account={account} onBack={onBack} />}
 
       <View style={s.tabs}>
         {(server ? [["giris", t("Giriş yap")], ["kayit", t("Üye ol")]] : [["liste", t("Oyuncular")], ["kayit", t("Yeni oyuncu")]]).map(([k, l]) => (
@@ -54,6 +56,35 @@ export default function AccountScreen({ onBack, onDone, initial }: { onBack: () 
       {tab === "kayit" && <SignUpForm server={server} onDone={onDone} />}
       {tab === "giris" && <SignInForm onDone={onDone} />}
     </ScrollView>
+  );
+}
+
+/** Oturum açıkken: kim olduğu, çıkış ve hesabı kalıcı silme (mağazaların istediği hesap silme imkânı). */
+function SignedIn({ account, onBack }: { account: Account; onBack: () => void }) {
+  const [ask, setAsk] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  return (
+    <View style={[s.card, s.cardOn, { flexDirection: "column", alignItems: "stretch" }]}>
+      <Text style={s.cardName}>{t("Oturum açık: {ad}", { ad: account.adSoyad })}</Text>
+      <Text style={s.cardSub}>{account.eposta}</Text>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 6 }}>
+        <Btn kind="ghost" label={t("Çıkış yap")} onPress={async () => { await signOut(); onBack(); }} />
+        {!ask ? <Btn kind="ghost" label={t("Hesabımı sil")} onPress={() => setAsk(true)} /> : (
+          <>
+            <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setAsk(false)} />
+            <Btn label={busy ? t("Siliniyor…") : t("Evet, hesabımı ve kariyerimi kalıcı olarak sil")} disabled={busy} onPress={async () => {
+              setBusy(true); setErr("");
+              const r = await deleteServerAccount();
+              setBusy(false);
+              if (r.error) setErr(t(r.error)); else onBack();
+            }} />
+          </>
+        )}
+      </View>
+      {ask && <Text style={s.cardSub}>{t("Üyeliğiniz, kariyeriniz, büronuz ve kayıtlı sonuçlarınız kalıcı olarak silinir; bu işlem geri alınamaz.")}</Text>}
+      {!!err && <Text style={[s.cardSub, { color: C.bad }]}>{err}</Text>}
+    </View>
   );
 }
 

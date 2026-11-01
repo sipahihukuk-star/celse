@@ -14,6 +14,7 @@
     "expo-font": "~58.0.9",
     "expo-linear-gradient": "~58.0.3",
     "expo-speech": "~58.0.3",
+    "expo-splash-screen": "~58.0.11",
     "expo-status-bar": "~58.0.4",
     "react": "19.3.0",
     "react-dom": "^19.3.0",
