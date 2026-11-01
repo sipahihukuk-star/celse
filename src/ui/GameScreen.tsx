@@ -50,6 +50,8 @@ export default function GameScreen({ c, players, onExit, onFinish, online }: Pro
     if (who === "mubasir") return { name: t("Mübaşir"), dot: C.muted };
     if (who === "p1" || who === "p2") return { name: `${players[who].name} · ${c.sides[who].role}`, dot: sideColor(who) };
     const m = c.cast[who];
+    if (!m && who === "karsi") return { name: t("Karşı taraf"), dot: C.brass };
+    if (!m && (who === "party_p1" || who === "party_p2")) return { name: c.sides[who === "party_p1" ? "p1" : "p2"].short, dot: C.brass };
     return { name: m?.name || who, dot: m?.np === "red" ? "#c2343c" : m?.np === "green" ? "#2f9a66" : C.brass };
   };
 

@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Image, LayoutChangeEvent, Platform, StyleSheet, Text, View } from "react-native";
 import { Avatar, useOffice } from "../data/office";
 import { MOUTHS } from "./mouths";
-import { firstName, FEMALE, isFemale, robeOf } from "./people";
+import { firstName, FEMALE, isFemale, partiesOf, robeOf } from "./people";
 import { currentAccount } from "../data/account";
 import { CaseFile, Look, Scene } from "../engine/types";
 import { PhotoKey, PHOTOS } from "./photos";
@@ -111,6 +111,12 @@ export function cast(c: CaseFile, avatar?: Avatar | null) {
     map.p1 = mine;
     used.add(mine);
   }
+  // Taraf teşkili: kadroda karşılığı olmayan taraf (ör. karşı tarafın kendisi) için de bir yüz seçilir.
+  const pr = partiesOf(c);
+  // Şirket ya da kulüp tarafı takım elbiseli bir yetkiliyle temsil edilir.
+  const corp = (k: string) => k.startsWith("party_") && /şirket|sigorta|a\.ş|kulüp|üretici|tedarikçi|satıcı|alıcı|işveren|yüklenici|armatör|kiracı \(|distribütör|lisans|havuz/i.test(c.sides[k === "party_p1" ? "p1" : "p2"].role);
+  const SUIT: Pool = { f: ["ks-kadin-38", "mv-kadin-45"].filter(k => k in PHOTOS) as PhotoKey[], m: ["mv-erkek-is", "ks-erkek-40", "mv-erkek-55"].filter(k => k in PHOTOS) as PhotoKey[] };
+  for (const k of [pr.left, pr.right]) if (k && !map[k]) map[k] = pick(corp(k) ? SUIT : CIVIL, hash(c.id + k) % 2 === 0, k);
   // Mübaşir ve kâtip dosyanın mahkemesine göre seçilir: aynı mahkemede hep aynı kişiler, başka mahkemede başkaları.
   const pool = <T extends readonly string[]>(arr: T) => arr.filter(k => k in PHOTOS) as unknown as PhotoKey[];
   const mubs = pool(MUBASIR), kats = pool(KATIP);
@@ -166,6 +172,7 @@ export default function PhotoStage({ c, scene, focus, talking, say }: Props) {
   const duel = c.mode === "duel";
   const faces = useMemo(() => cast(c, office?.avatar), [c.id, office?.avatar]);
   const room = roomOf(c);
+  const parties = useMemo(() => partiesOf(c), [c.id]);
   // Büro görüşmesi: avukatın koltuğundan bakış; müvekkil masanın karşısındaki koltukta oturur.
   const bg = scene === "office" ? PHOTOS["bg-gorusme"] : PHOTOS[room.bg];
 
@@ -214,10 +221,18 @@ export default function PhotoStage({ c, scene, focus, talking, say }: Props) {
     if (!duel && n === 1 && c.courtCast?.includes("pros") && room.pros && faces.pros) {
       figs.push({ key: "pros", photo: faces.pros, x: X(room.pros.x), bottom: H - Y(room.pros.y), h: room.pros.h * s, z: 1 });
     }
-    if (!duel && c.courtCast?.includes("client") && faces.client) figs.push({ key: "client", photo: faces.client, x: W * 0.5, bottom: below(H * 0.5), h: H * 0.5, z: 3, front: true });
-    if (faces.p1 || duel) figs.push({ key: "p1", photo: faces.p1 || "av-erkek-38", x: W * 0.17, bottom: 0, h: H * 0.66, z: 4, front: true });
+    // Taraf teşkili: her taraf kendi avukatının yanında, avukatın biraz gerisinde durur (kâtibin altında kalacak boyda).
+    // Dar (telefon) sahnede avukatlar kenara açılır, taraflar biraz küçülüp ortaya yaklaşır; yüzleri görünür kalır.
+    const t = Math.max(0, Math.min(1, (W / H - 1) / 0.8)), lerp = (a: number, b: number) => a + (b - a) * t;
+    const LX = lerp(0.1, 0.17), PX = lerp(0.41, 0.36), ph = H * lerp(0.44, 0.52);
+    if (parties.left && faces[parties.left]) figs.push({ key: parties.left, photo: faces[parties.left], x: W * PX, bottom: below(ph), h: ph, z: 3, front: true });
+    if (parties.right && faces[parties.right]) figs.push({ key: parties.right, photo: faces[parties.right], flip: true, x: W * (1 - PX), bottom: below(ph), h: ph, z: 3, front: true });
+    if (faces.p1 || duel) figs.push({ key: "p1", photo: faces.p1 || "av-erkek-38", x: W * LX, bottom: 0, h: H * 0.66, z: 4, front: true });
     const oppKey = duel ? "p2" : "opp";
-    if ((duel || c.courtCast?.includes("opp")) && faces[oppKey]) figs.push({ key: oppKey, photo: faces[oppKey], flip: true, x: W * 0.83, bottom: 0, h: H * 0.66, z: 4, front: true });
+    if ((duel || c.courtCast?.includes("opp")) && faces[oppKey]) figs.push({ key: oppKey, photo: faces[oppKey], flip: true, x: W * (1 - LX), bottom: 0, h: H * 0.66, z: 4, front: true });
+    // Salonda yeri olmayan biri (tanık, bilirkişi, uzman) konuşurken ortaya, kürsünün önüne çıkar.
+    if (focus && faces[focus] && !figs.some(f => f.key === focus) && !/^(judge|mubasir|katip|narr)/.test(focus))
+      figs.push({ key: focus, photo: faces[focus], x: W * 0.5, bottom: below(H * 0.58), h: H * 0.58, z: 6, front: true });
   } else if (W) {
     if (duel) {
       figs.push({ key: "p1", photo: faces.p1 || "av-erkek-38", x: W * 0.25, bottom: 0, h: H * 0.72, z: 4, front: true });
