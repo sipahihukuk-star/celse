@@ -14,7 +14,13 @@
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleDevelopmentRegion": "tr",
-        "CFBundleLocalizations": ["tr", "en", "es", "fr", "de"]
+        "CFBundleLocalizations": [
+          "tr",
+          "en",
+          "es",
+          "fr",
+          "de"
+        ]
       }
     },
     "android": {
@@ -26,7 +32,9 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "blockedPermissions": ["android.permission.RECORD_AUDIO"]
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -36,8 +44,29 @@
       "themeColor": "#161c22"
     },
     "plugins": [
-      ["expo-audio", { "microphonePermission": false, "recordAudioAndroid": false, "enableBackgroundPlayback": false }],
-      ["expo-splash-screen", { "image": "./assets/splash-icon.png", "imageWidth": 220, "resizeMode": "contain", "backgroundColor": "#1c0a0f" }]
-    ]
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false,
+          "recordAudioAndroid": false,
+          "enableBackgroundPlayback": false
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 220,
+          "resizeMode": "contain",
+          "backgroundColor": "#1c0a0f"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "0f43df6e-12d0-4f8c-b779-77f503add543"
+      }
+    },
+    "owner": "themiscodecelse"
   }
 }
