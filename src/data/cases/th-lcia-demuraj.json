@@ -1,0 +1,395 @@
+{
+  "id": "th-lcia-demuraj",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "lcia",
+  "difficulty": "orta",
+  "title": "Aliağa Demir Yeri",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Deniz ticareti: çarter partide demuraj",
+  "court": "LCIA Uluslararası Tahkim Divanı · Dava No. 265977 (Tahkim yeri: Londra) · Tek hakem",
+  "courtShort": "LCIA · LONDRA",
+  "esas": "LCIA Dava No. 265977",
+  "kararTarihi": "19.03.2027",
+  "color": "#24445c",
+  "teaser": "Tanker Aliağa açıklarında beş gün yanaşma sırası bekledi. Armatör 110 bin Dolar demuraj istiyor; kiracı ise kaptanın ihbarı gemi daha demirlemeden verdiğini söylüyor.",
+  "bench": { "judges": 1, "title": "Tek hakem" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Davacı (Armatör) vekili", "short": "Armatör" },
+    "p2": { "role": "Davalı (Kiracı) vekili", "short": "Kiracı" }
+  },
+  "cast": {
+    "judge": { "name": "Tek Hakem", "np": "red", "look": { "kind": "civil", "skin": "#f0d0b4", "hair": "#a8a8ad", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e0b38e", "hair": "#2a1f19", "style": "short", "shirt": "#1e2a38", "inner": "#e9e5dd" } },
+    "p2": { "look": { "kind": "civil", "skin": "#c38e68", "hair": "#16120f", "style": "long", "shirt": "#2c2f36", "inner": "#ece8e0" } },
+    "terminal": { "name": "Kaan Sevinç · Kiracının terminal müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#cf9a73", "hair": "#3a3029", "style": "short", "beard": true, "shirt": "#4a5562", "inner": "#e6e2da" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "M/T Selene Star, Aegis Tanker Management Ltd'nin işlettiği bir ürün tankeri. Marmara Petrokimya A.Ş. gemiyi, İtalya'nın Augusta limanından Aliağa'ya 30.000 ton nafta taşımak için sefer çarteriyle kiraladı." },
+    { "who": "narr", "text": "Gemi 03.02.2026 sabahı Aliağa'ya geldi; terminal doluydu, beş gün demir yerinde bekledi. Tahliye 10.02.2026 saat 18.00'de bitti. Starya 72 saat; demuraj günlüğü 28.000 ABD Doları." },
+    { "who": "narr", "text": "Çarter partiye İngiliz hukuku uygulanıyor; uyuşmazlıklar LCIA Kurallarına göre, Londra'da, tek hakemle çözülecek. Bugün 20.04.2026. Armatör vekili ilk hamleyi yapacak." }
+  ],
+  "docs": [
+    { "t": "Çarter parti · Hazır olma ihbarı (NOR) ve starya", "d": "NOR, gemi limanın olağan bekleme yerine varıp her bakımdan tahliyeye hazır olduğunda verilir. Starya, NOR'dan 6 saat sonra ya da tahliyenin başlamasıyla, hangisi önceyse, başlar. Yanaşmak için demir yerinden rıhtıma kayma süresi sayılmaz." },
+    { "t": "Çarter parti · Grev ve pompalama", "d": "Kiracının kontrolü dışındaki bir grev nedeniyle kaybedilen süre, starya süresi olarak yarı oranda sayılır. Gemi, terminal kısıtlamadıkça yükü 24 saatte boşaltmayı ya da manifoldda 100 psi basıncı korumayı garanti eder; aşan süre, terminal kısıtlamasından kaynaklanmıyorsa starya ve demurajdan düşülür." },
+    { "t": "Çarter parti · Demuraj talebinin süresi", "d": "Armatörün demuraj talebi, tahliyenin bitiminden itibaren 90 gün içinde, NOR, olgular çizelgesi (SOF), pompa kayıtları ve starya hesabıyla birlikte yazılı olarak kiracıya bildirilmezse, kiracı bu talepten tümüyle kurtulur." },
+    { "t": "Çarter parti · Hukuk ve tahkim", "d": "Bu çarter parti İngiliz hukukuna tabidir. Bundan doğan veya bununla bağlantılı uyuşmazlıklar LCIA Kurallarına göre tek hakemle çözülür; tahkim yeri Londra'dır." },
+    { "t": "Olgular çizelgesi (SOF) özeti", "d": "03.02 06.30 NOR verildi · 09.30 demirlendi · 08.02 07.00–10.00 rıhtıma kayma · 11.00 hortumlar bağlandı · 07.02 00.00–24.00 römorkör grevi · 10.02 18.00 hortumlar söküldü." }
+  ],
+  "evidence": [
+    { "id": "ev_nor1", "type": "belge", "title": "İlk NOR (03.02.2026, 06.30)", "desc": "Kaptanın, gemi demir yerine varmadan verdiği ihbar." },
+    { "id": "ev_nor2", "type": "belge", "title": "İkinci NOR (03.02.2026, 10.00)", "desc": "Kaptanın demirledikten sonra ‘ilk ihbara halel gelmeksizin’ yeniden verdiği ihbar; kiracının acentesi 10.05'te çekincesiz aldı." },
+    { "id": "ev_sof", "type": "belge", "title": "Olgular çizelgesi (SOF)", "desc": "Varış, demirleme, kayma, grev ve tahliye saatleri; kaptan ve acente imzalı." },
+    { "id": "ev_pompa", "type": "belge", "title": "Gemi pompa kayıtları", "desc": "Tahliye boyunca manifold basıncı 55–65 psi; tahliye 55 saat sürdü." },
+    { "id": "ev_hesap", "type": "belge", "title": "Armatörün starya hesabı", "desc": "Starya 03.02 16.00'da başlıyor, 06.02 16.00'da bitiyor; 95 saat demuraj: 110.833 ABD Doları." }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Tahliye 10.02.2026'da bitti; 90 günlük süre 11.05.2026'da doluyor. Kaptanlık pompa kayıtlarını ve SOF'u size iki gün içinde gönderebilir." }
+      ],
+      "prompt": "Demuraj talebini nasıl bildireceksiniz?",
+      "choices": [
+        {
+          "text": "Hemen gönder: demuraj faturası, iki NOR, imzalı SOF, pompa kayıtları ve starya hesabı aynı yazının ekinde olsun.",
+          "delta": 20,
+          "set": ["p1_tam"],
+          "law": "Çarter parti · talep süresi",
+          "note": "İngiliz mahkemeleri bu tür süre şartlarını sıkı uygular: sayılan belgelerin her biri süresinde gönderilmezse talep, ya da belgesiz kalan kısmı, düşer. Talep 22.04.2026'da, eksiksiz bildirildi.",
+          "reply": [ { "who": "narr", "text": "Talep 22.04.2026'da bildirildi. Kiracı ödemedi; armatör 01.07.2026'da LCIA'ya tahkim talebinde bulundu." } ]
+        },
+        {
+          "text": "Faturayı ve starya hesabını hemen gönder; SOF ve pompa kayıtlarını kiracı isterse sonra iletmek üzere hazır tut.",
+          "delta": -15,
+          "set": ["p1_eksik"],
+          "law": "Çarter parti · talep süresi",
+          "note": "Süre şartı, talebin sayılan bütün belgelerle birlikte bildirilmesini istiyor. SOF ve pompa kayıtları 90 gün içinde gönderilmedi; kiracı, talepten kurtulduğunu ileri sürebilir.",
+          "reply": [ { "who": "narr", "text": "Kiracı belge istemedi, ödeme de yapmadı. Armatör 01.07.2026'da LCIA'ya tahkim talebinde bulundu; SOF ve pompa kayıtları tahkim talebinin ekinde gitti." } ]
+        },
+        {
+          "text": "Önce kiracının terminaliyle saatler üzerinde mutabakat ara; ortak bir SOF çıkınca bütün belgeleri tek seferde gönder.",
+          "delta": -20,
+          "set": ["p1_gec"],
+          "law": "Çarter parti · talep süresi",
+          "note": "Mutabakat görüşmeleri süreyi durdurmaz. Görüşmeler uzadı; belgeler 20.05.2026'da, 90 günlük süre dolduktan dokuz gün sonra gönderildi.",
+          "reply": [ { "who": "narr", "text": "Mutabakat sağlanamadı. Talep 20.05.2026'da bildirildi; armatör 01.07.2026'da LCIA'ya tahkim talebinde bulundu." } ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "LCIA'dan tahkim talebi geldi. Müvekkilin yönetimi ‘Londra'da dava mı? İzmir'de hallederiz’ diyor." }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "LCIA'ya 28 gün içinde cevap ver; hakemin kim olacağına ilişkin görüşü ve savunmaları saklı tutarak usule katıl.",
+          "delta": 15,
+          "set": ["p2_cevap"],
+          "law": "LCIA Kuralları m.2.1",
+          "note": "Davalı, başlangıç tarihinden itibaren 28 gün içinde cevabını LCIA'ya verir (m.2.1). Taraflar Londra'da tahkimi kararlaştırmıştı; usule katılmak savunma haklarınızı korur."
+        },
+        {
+          "text": "İzmir'de asliye ticaret mahkemesinde, demuraj borcu olmadığının tespiti için dava aç; tahkimi oyala.",
+          "delta": -15,
+          "set": ["p2_tespit"],
+          "law": "HMK m.413 · NYS m.II(3)",
+          "note": "Geçerli bir tahkim anlaşması varken açılan davada karşı taraf tahkim itirazında bulunur; mahkeme davayı usulden reddeder ve tarafları tahkime yönlendirir (HMK m.413; New York Sözleşmesi m.II(3)). Masrafa ve gecikmeye yol açtınız."
+        },
+        {
+          "text": "Hiç cevap verme; kiracı katılmazsa LCIA yargılamayı yürütemez, armatör de Türkiye'de dava açmak zorunda kalır.",
+          "delta": -15,
+          "set": ["p2_sessiz"],
+          "law": "LCIA Kuralları m.15.8",
+          "note": "Bir taraf savunma vermese de hakem yargılamayı yürütür ve karar verir (m.15.8). Katılmamak, savunmalarınızı ileri sürme fırsatını kaybettirir; karar Türkiye'de New York Sözleşmesiyle tenfiz edilebilir.",
+          "reply": [ { "who": "narr", "text": "LCIA tek hakemi atadı. Hakem, kiracıya savunma için yeni bir süre verdi; kiracı son anda yargılamaya katıldı." } ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Savunmayı hazırlamadan önce müvekkilin terminal müdürü Kaan Sevinç'le görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Armatörün demuraj talebiyle birlikte hangi belgeler, ne zaman geldi?",
+          "delta": 10,
+          "set": ["p2_belge"],
+          "reply": [
+            { "who": "terminal", "text": "22.04'te hepsi geldi: iki NOR, imzalı SOF, pompa kayıtları, starya hesabı.", "if": "p1_tam" },
+            { "who": "terminal", "text": "Fatura ve starya hesabı geldi, o kadar. SOF ve pompa kayıtları ancak tahkim talebinin ekinde, temmuzda geldi.", "if": "p1_eksik" },
+            { "who": "terminal", "text": "Belgeler tamdı ama 20.05'te geldi. Doksan gün galiba 11 Mayıs'ta dolmuştu.", "if": "p1_gec" }
+          ],
+          "note": "Her demuraj savunmasında ilk bakılacak yer: talep süresinde ve sayılan bütün belgelerle bildirildi mi? Sıkı uygulanan bir süre şartı, talebi bütünüyle düşürebilir."
+        },
+        {
+          "text": "Kaptan ilk ihbarı verdiğinde gemi tam olarak neredeydi?",
+          "delta": 10,
+          "set": ["p2_nor"],
+          "reply": [ { "who": "terminal", "text": "Acente kayıtlarına göre 06.30'da gemi demir yerine dört mil uzaktaydı; 09.30'da demirledi. Kaptan erken davranmış." } ],
+          "note": "Önemli bir bilgi. Gemi olağan bekleme yerine varmadan verilen NOR geçersizdir ve kendiliğinden geçerlilik kazanmaz. Ama kaptanın sonradan yeni bir NOR verip vermediğine de bakmak gerekir."
+        },
+        {
+          "text": "Tahliye sırasında terminal gemiye bir basınç kısıtlaması koydu mu?",
+          "delta": 10,
+          "set": ["p2_pompa"],
+          "reply": [ { "who": "terminal", "text": "Hiç koymadık; kayıtlarımız ortada. Gemi manifoldda 60 psi'yi geçemedi, 24 saatlik tahliye 55 saat sürdü." } ],
+          "note": "Yerinde soru. Pompalama garantisine göre, terminal kısıtlaması yoksa 24 saati aşan tahliye süresi demurajdan düşülür. Kesinti savunmanın sağlam bir dayanağı."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Armatör vekili, kiracı 07.02.2026'daki römorkör grevinin yarı oranda sayılmasını istiyor. Görüşünüz?" }
+      ],
+      "prompt": "Tek hakeme, grev süresinin neden tam sayılması gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü cevap",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_guclu"],
+          "law": "İngiliz hukuku · ‘bir kez demurajda, her zaman demurajda’",
+          "note": "Kuralı doğru uyguladınız: starya 06.02 16.00'da bitti, grev 07.02'de; gemi demurajdaydı. İstisna kayıtları, demurajı da açıkça kapsamadıkça demuraj süresine uygulanmaz; buradaki grev kaydı yalnız ‘starya süresinden’ söz ediyor."
+        },
+        {
+          "text": "Yeterli cevap",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_yeterli"],
+          "law": "İngiliz hukuku · ‘bir kez demurajda, her zaman demurajda’",
+          "note": "Gemi demurajdayken grev olduğunu söylediniz. Tam cevap, starya bitiş saatini, istisna kaydının yalnız ‘starya süresinden’ söz ettiğini ve istisnaların demuraja ancak açık hükümle uygulanabileceğini birlikte gösterir."
+        },
+        {
+          "text": "Zayıf cevap",
+          "delta": -10,
+          "law": "İngiliz hukuku · ‘bir kez demurajda, her zaman demurajda’",
+          "note": "Grevin kiracının kontrolünde olduğunu ya da römorkörlerin önemsiz olduğunu savundunuz. Asıl kural, gemi demurajdayken laytime istisnalarının uygulanmamasıydı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Starya, ikinci NOR'dan 6 saat sonra, 03.02 16.00'da başladı ve 72 saat sonra, 06.02 16.00'da bitti. (2) Grev 07.02'de, gemi demurajdayken oldu. (3) İngiliz hukukunda ‘bir kez demurajda, her zaman demurajda’ ilkesi geçerlidir: starya istisnaları, demuraj süresine ancak açık ve kesin bir hükümle uygulanabilir. (4) Çarter partideki grev kaydı yalnız ‘starya süresi olarak’ yarı oranda sayılmadan söz eder; demurajı kapsamaz. (5) Demuraj, geminin alıkonmasının götürü tazminatıdır; grev süresi tam sayılır. İlkeyi, starya bitiş saatini ve kaydın lafzını birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["bir kez demurajda", "once on demurrage", "her zaman demurajda", "always on demurrage"], "weight": 3 },
+        { "terms": ["06.02", "6 Şubat", "starya bitti", "starya sona erdi", "72 saat"], "weight": 1 },
+        { "terms": ["açık", "açıkça", "clear words", "kesin hüküm"], "weight": 1 },
+        { "terms": ["starya süresi", "laytime", "yalnız starya"], "weight": 2 },
+        { "terms": ["götürü tazminat", "liquidated damages", "tam sayılır"], "weight": 1 }
+      ],
+      "model": "Sayın Hakem, starya ikinci NOR'dan 6 saat sonra, 03.02 16.00'da başladı ve 06.02 16.00'da bitti. Grev 07.02'de, gemi demurajdayken oldu. İngiliz hukukunda ‘bir kez demurajda, her zaman demurajda’ ilkesi gereği starya istisnaları demuraja ancak açık bir hükümle uygulanır. Çarter partideki grev kaydı yalnız ‘starya süresi olarak’ yarı sayımdan söz ediyor; demurajı kapsamıyor. Grev süresi tam sayılmalıdır."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kiracı vekili, savunmanızın ana dayanağı nedir?" }
+      ],
+      "prompt": "Savunmanın merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "if": "(p1_eksik || p1_gec) && p2_belge",
+          "text": "Talep, 90 gün içinde sayılan bütün belgelerle bildirilmedi; süre şartı gereği kiracı talepten tümüyle kurtuldu.",
+          "delta": 20,
+          "set": ["p2_dusme"],
+          "law": "Çarter parti · talep süresi",
+          "note": "İngiliz hukukunda bu tür süre şartları sıkı uygulanır: talep sayılan belgelerle süresinde bildirilmezse kiracının sorumluluğu sona erer. Belgelerin tahkim aşamasında ya da süreden sonra gelmesi eksikliği gidermez."
+        },
+        {
+          "text": "Süre şartını tartışmaya açma; savunmayı pompalama garantisi kesintisine ve SOF'taki saatlere yoğunlaştır.",
+          "delta": 15,
+          "set": ["p2_odak"],
+          "law": "Çarter parti · pompalama",
+          "note": [
+            { "text": "Somut ve sağlam bir savunma hattı: terminal kısıtlaması olmadan 24 saati aşan tahliye süresi demurajdan düşülür." },
+            { "if": "p1_eksik || p1_gec", "text": " Ama armatörün talebi süre şartını karşılamamıştı; belgelerin ne zaman geldiğini kontrol etseydiniz talebi bütünüyle düşürebilirdiniz." }
+          ]
+        },
+        {
+          "text": "Demuraj bir ceza koşuludur; İngiliz hukukunda ceza koşulları uygulanmaz, talep tümüyle reddedilmeli.",
+          "delta": -10,
+          "set": ["p2_ceza"],
+          "law": "İngiliz hukuku · götürü tazminat",
+          "note": "Demuraj, geminin kararlaştırılan süreden fazla alıkonmasının önceden belirlenmiş götürü tazminatıdır; ticari olarak makul bir oran ceza koşulu sayılmaz. Savunma inandırıcılığını kaybetti."
+        },
+        {
+          "text": "Liman sıkışıklığı armatörün riskidir; demir yerindeki beş günlük bekleme starya ve demurajda hiç sayılmamalı.",
+          "delta": -10,
+          "set": ["p2_sikisik"],
+          "law": "İngiliz hukuku · ‘varmış gemi’",
+          "note": "Liman çarterinde gemi, limanın olağan bekleme yerine varıp kiracının emrine hazır olduğunda ‘varmış gemi’ sayılır; bundan sonra yanaşma sırası beklemenin riski, aksi kararlaştırılmadıkça kiracıdadır."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "p2_nor",
+      "lines": [
+        { "who": "judge", "text": "Armatör vekili, kiracının NOR'a ilişkin beyanına cevabınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Hakem, kaptan NOR'u 06.30'da, gemi demir yerine dört mil uzaktayken verdi. Geçersiz bir ihbar starya başlatmaz; demir yerindeki bekleme hiç sayılmamalıdır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_nor2"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_nor2"],
+        "law": "Çarter parti · NOR ve starya",
+        "note": "Kaptan, demirledikten hemen sonra 10.00'da ‘ilk ihbara halel gelmeksizin’ yeni bir NOR verdi; kiracının acentesi 10.05'te çekincesiz aldı. İlk ihbar geçersiz olsa da starya ikinci ihbardan 6 saat sonra, 03.02 16.00'da başladı. Kaybedilen yalnız birkaç saat.",
+        "reply": [ { "who": "judge", "text": "İkinci NOR dosyaya alındı. Kiracı vekili, acentenizin bu ihbarı aldığına itirazınız var mı?" }, { "who": "p2", "text": "Yok, Sayın Hakem." } ]
+      },
+      "responses": {
+        "ev_sof": { "delta": 0, "note": "SOF demirleme saatini gösterir, ama yeni bir ihbar verildiğini göstermez. Starya geçerli bir NOR ile başlar; ikinci NOR'u sunmanız gerekiyordu." },
+        "ev_hesap": { "delta": -5, "note": "Starya hesabınız ikinci NOR'a dayanıyor; ama hesap bir iddiadır, delil değil. İkinci NOR'un kendisini sunmalıydınız." },
+        "ev_nor1": { "delta": -10, "note": "İlk NOR, kiracının tezini doğruluyor: gemi demir yerine varmadan verilmiş." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge geçerli bir NOR verildiğini göstermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz. Geçerli bir NOR gösterilemeyince starya ancak tahliyenin başlamasıyla, 08.02 11.00'de başladı; demir yerindeki bekleme sayılmadı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kiracı vekili, tahliyenin 55 saat sürmesi hakkında beyanınız?" }
+      ],
+      "prompt": "Tek hakeme, demurajdan hangi sürenin neden düşülmesi gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_guclu"],
+          "law": "Çarter parti · pompalama garantisi",
+          "note": "Kesintiyi eksiksiz kurdunuz: geminin 24 saat ya da 100 psi garantisi, gemi kayıtlarındaki 55–65 psi, terminal kısıtlaması olmaması ve aşan 31 saatin demurajdan düşülmesi."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_yeterli"],
+          "law": "Çarter parti · pompalama garantisi",
+          "note": "Tahliyenin uzun sürdüğünü söylediniz. Tam savunma, garantinin iki ölçütünü, geminin kendi pompa kayıtlarını, terminal kısıtlaması olmadığını ve düşülecek süreyi somut olarak gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "Çarter parti · pompalama garantisi",
+          "note": "Kesintiyi somutlaştırmadınız ya da tahliye süresini terminalin yoğunluğuna bağladınız; bu, savunmanızı çürüttü. Kesinti, geminin garantiyi karşılamadığını ve terminalin kısıtlama koymadığını göstermeye dayanır."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Çarter partide gemi, terminal kısıtlamadıkça yükü 24 saatte boşaltmayı ya da manifoldda 100 psi basıncı korumayı garanti etmiştir. (2) Geminin kendi pompa kayıtları tahliye boyunca 55–65 psi gösteriyor; tahliye 55 saat sürdü. (3) Terminal hiçbir basınç kısıtlaması koymamıştır (terminal kayıtları). (4) Bu nedenle 24 saati aşan 31 saat starya ve demurajdan düşülmelidir. Garantiyi, kayıtları, kısıtlama yokluğunu ve düşülecek süreyi birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["100 psi", "psi", "basınç", "manifold"], "weight": 2 },
+        { "terms": ["24 saat", "yirmi dört saat", "pompalama garanti", "pumping warranty"], "weight": 2 },
+        { "terms": ["kısıtlama", "terminal kısıt", "shore restriction"], "weight": 2 },
+        { "terms": ["pompa kayıt", "pumping log", "gemi kayıt"], "weight": 1 },
+        { "terms": ["31 saat", "düşül", "kesinti", "deduct"], "weight": 1 }
+      ],
+      "model": "Sayın Hakem, gemi terminal kısıtlamadıkça yükü 24 saatte boşaltmayı ya da manifoldda 100 psi basıncı korumayı garanti etmişti. Geminin kendi pompa kayıtları tahliye boyunca 55–65 psi gösteriyor ve tahliye 55 saat sürdü. Terminal hiçbir kısıtlama koymadı. Bu nedenle 24 saati aşan 31 saat starya ve demurajdan düşülmelidir."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Armatör vekili, faize ilişkin talebinizi açıklayın." }
+      ],
+      "prompt": "Faiz talebini nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Demurajın muaccel olduğu tarihten, hakemin takdir edeceği ticari oranda faiz iste (1996 Kanunu m.49).",
+          "delta": 10,
+          "set": ["p1_faiz"],
+          "law": "1996 Tahkim Kanunu m.49",
+          "note": "Tahkim yeri Londra; taraflar aksini kararlaştırmadıkça hakem, uygun gördüğü tarihlerden ve oranlarda basit ya da bileşik faize hükmedebilir (m.49). Talebi bu yetkiye dayandırdınız."
+        },
+        {
+          "text": "Kiracı Türk şirketi olduğundan 3095 sayılı Kanun uyarınca Türk ticari temerrüt faizini iste.",
+          "delta": -5,
+          "set": ["p1_turkfaiz"],
+          "law": "1996 Tahkim Kanunu m.49",
+          "note": "Taraflar İngiliz hukukunu ve Londra'yı seçti; faiz, hakemin m.49'daki yetkisiyle belirlenir. Kiracının uyruğu uygulanacak hukuku değiştirmez."
+        },
+        {
+          "text": "Hem temerrüt faizi hem de ödemedeki gecikme için günlük demuraj oranında ayrı bir ‘gecikme cezası’ iste.",
+          "delta": -10,
+          "set": ["p1_ceza"],
+          "law": "İngiliz hukuku · götürü tazminat",
+          "note": "Demuraj zaten geminin alıkonmasının götürü tazminatıdır; ödemenin gecikmesi için faiz istenir. Aynı zararın ikinci kez, ceza adıyla istenmesi kabul görmez."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p2_dusme",
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        { "if": "p1_eksik", "text": "Armatör, demuraj talebini 90 gün içinde bildirdi ama SOF ve pompa kayıtlarını eklemedi; bu belgeler ancak tahkim talebiyle geldi." },
+        { "if": "p1_gec", "text": "Armatörün talebi ve belgeleri 90 günlük süre dolduktan sonra, 20.05.2026'da geldi." },
+        { "text": " Çarter partideki süre şartı İngiliz hukukunda sıkı uygulanır; kiracı talepten tümüyle kurtuldu. Kiracı vekili bunu belgeleri kontrol ederek tespit etti ve savunmanın merkezine koydu." }
+      ]
+    },
+    {
+      "if": "p2_nor && !p1_nor2",
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        { "text": "Kaptanın ilk NOR'u gemi demir yerine varmadan verilmişti; geçersizdi. Armatör vekili sonradan verilen geçerli bir ihbarı gösteremedi." },
+        { "text": " Starya ancak tahliyenin başlamasıyla, 08.02 11.00'de başladı; 72 saatlik starya tahliye bitmeden dolmadı ve demuraj doğmadı." }
+      ]
+    },
+    {
+      "if": "(p2_guclu || p2_yeterli) && !(p1_guclu || p1_yeterli)",
+      "winner": "draw",
+      "hukum": "Davanın KISMEN KABULÜ ile davalının davacıya 60.667 ABD Doları demuraj ve faizini ödemesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Starya ikinci NOR'dan 6 saat sonra başladı; demir yerindeki bekleme kiracının riskindeydi." },
+        { "text": " Ancak kiracı, terminal kısıtlaması olmadığı hâlde geminin pompalama garantisini karşılamadığını gösterdi; aşan 31 saat düşüldü. Armatör vekili de grev süresinin neden tam sayılması gerektiğini ortaya koyamadı; grev günü yarı oranda sayıldı." }
+      ]
+    },
+    {
+      "if": "p2_guclu || p2_yeterli",
+      "winner": "p1",
+      "hukum": "Davanın KISMEN KABULÜ ile davalının davacıya 74.667 ABD Doları demuraj ve faizini ödemesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Starya ikinci NOR'dan 6 saat sonra başladı; gemi 06.02 16.00'dan itibaren demurajdaydı. Grev demuraj sırasında olduğundan tam sayıldı (‘bir kez demurajda, her zaman demurajda’)." },
+        { "text": " Kiracı ise pompalama garantisinin ihlal edildiğini gösterdi; terminal kısıtlaması olmadan 24 saati aşan 31 saat demurajdan düşüldü." },
+        { "if": "p1_faiz", "text": " Faize hakemin m.49'daki yetkisiyle hükmedildi." }
+      ]
+    },
+    {
+      "if": "!(p1_guclu || p1_yeterli)",
+      "winner": "p1",
+      "hukum": "Davanın KISMEN KABULÜ ile davalının davacıya 96.833 ABD Doları demuraj ve faizini ödemesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Starya ikinci NOR'dan 6 saat sonra başladı; demir yerindeki bekleme kiracının riskindeydi." },
+        { "text": " Armatör vekili grev süresinin neden tam sayılması gerektiğini ortaya koyamadı; grev günü yarı oranda sayıldı. Kiracı pompalama kesintisini ispatlayamadı." }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": "Davanın KABULÜ ile davalının davacıya 110.833 ABD Doları demuraj ve faizini ödemesine,",
+      "summary": [
+        { "text": "Armatör talebini süresinde ve bütün belgeleriyle bildirdi. Starya ikinci NOR'dan 6 saat sonra, 03.02 16.00'da başladı ve 06.02 16.00'da bitti; 95 saat demuraj doğdu." },
+        { "text": " Grev, gemi demurajdayken olduğundan tam sayıldı; kiracı pompalama kesintisini ispatlayamadı." },
+        { "if": "p2_ceza", "text": " Kiracının ‘demuraj ceza koşuludur’ savunması reddedildi; demuraj götürü tazminattır." },
+        { "if": "p2_sikisik", "text": " Liman sıkışıklığının armatörün riski olduğu savunması da kabul görmedi; varmış gemide bekleme riski kiracıdadır." },
+        { "if": "p2_tespit", "text": " Kiracının İzmir'de açtığı tespit davası tahkim itirazı üzerine usulden reddedilmişti." },
+        { "if": "p1_faiz", "text": " Faize hakemin m.49'daki yetkisiyle hükmedildi." }
+      ]
+    }
+  ]
+}

@@ -390,7 +390,7 @@
           ]
         },
         {
-          "text": "Kulübe borç ödenene kadar yeni oyuncu ve antrenör kayıt yasağı verilmesini ve FIFA Disiplin Kurulu'na bildirilmesini iste.",
+          "text": "Borç ödenene kadar kulübe oyuncu kayıt yasağı verilsin ve dosya FIFA Disiplin Kurulu'na gönderilsin.",
           "delta": -10,
           "set": ["p2_yasak"],
           "law": "CAS Kodu R47, R57",

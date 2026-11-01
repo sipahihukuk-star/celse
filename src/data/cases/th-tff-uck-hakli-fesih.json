@@ -1,0 +1,422 @@
+{
+  "id": "th-tff-uck-hakli-fesih",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "tff",
+  "difficulty": "orta",
+  "title": "Ödenmeyen Maaşlar",
+  "area": "Tahkim · Spor tahkimi · UÇK kararına itiraz (haklı fesih ve alacak)",
+  "court": "TFF Tahkim Kurulu",
+  "courtShort": "TFF TAHKİM KURULU",
+  "esas": "E.2027/164",
+  "kararTarihi": "07.04.2027",
+  "color": "#2f5a4a",
+  "teaser": "Üç aylık maaşı ödenmeyen futbolcu noter ihtarından sonra sözleşmesini feshetti. UÇK feshi haklı buldu ama tazminatı reddetti: “Yeni kulüple sözleşme imzaladı, zararı yok.” Kulüp ise feshin geç yapıldığını söylüyor.",
+  "bench": { "judges": 7, "title": "Kurul Başkanı ve altı üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Futbolcu (Kaan Deliorman) vekili", "short": "Futbolcu" },
+    "p2": { "role": "Kulüp (Toroslar Spor A.Ş.) vekili", "short": "Kulüp" }
+  },
+  "cast": {
+    "judge": { "name": "Kurul Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#d9a982", "hair": "#4a4040", "style": "short", "beard": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#edc6a2", "hair": "#a0522d", "style": "long", "shirt": "#262b33", "inner": "#ece6dc" } },
+    "p2": { "look": { "kind": "civil", "skin": "#c4916b", "hair": "#1e1a18", "style": "short", "glasses": true, "shirt": "#30302e", "inner": "#e4dfd5" } },
+    "sekreter": { "name": "Levent Sarı · Kulüp genel sekreteri", "np": "civil", "look": { "kind": "civil", "skin": "#e3b996", "hair": "#6b6b70", "style": "short", "glasses": true, "shirt": "#4a3f5a", "inner": "#e9e3d8" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Kaan Deliorman (26), Toroslar Spor A.Ş. ile 01.07.2025–30.06.2028 dönemi için profesyonel futbolcu sözleşmesi imzaladı: aylık net 1.000.000 TL. Kulüp Eylül, Ekim ve Kasım 2026 ücretlerini ödemedi." },
+    { "who": "narr", "text": "Futbolcu noter ihtarıyla 30 gün süre verdi; ihtar kulübe 09.12.2026'da tebliğ edildi, sureti TFF'ye gönderildi. Kulüp 05.01.2027'de yalnız Eylül ücretini ödedi. Futbolcu 12.01.2027'de noter ihbarnamesiyle sözleşmeyi feshetti, 01.02.2027'de Bozkır FK ile anlaştı." },
+    { "who": "narr", "text": "Uyuşmazlık Çözüm Kurulu (UÇK) 15.02.2027'de feshi haklı buldu, ödenmemiş 3.000.000 TL ücreti kabul etti, ama kalan sözleşme süresi için istenen tazminatı “yeni sözleşme imzalandığından zarar yok” diyerek reddetti. Karar 17.02.2027'de taraflara tebliğ edildi. Futbolcu vekili ilk hamleyi yapacak." }
+  ],
+  "docs": [
+    { "t": "Profesyonel futbolcu sözleşmesi", "d": "01.07.2025–30.06.2028; aylık net 1.000.000 TL, bir önceki ayın ücreti her ayın 10'una kadar ödenir. m.12: “Taraflar, bu sözleşmeden doğan uyuşmazlıklarda TFF Uyuşmazlık Çözüm Kurulu ve Tahkim Kurulu'nun yetkisini kabul eder.” Ek protokol m.7: kulüp içi disiplin cezaları." },
+    { "t": "UÇK kararı (15.02.2027)", "d": "Fesih haklı. Ödenmemiş Ekim, Kasım ve Aralık 2026 ücretleri (3.000.000 TL) kabul. Kalan süre tazminatı reddedildi: “Futbolcu 01.02.2027'de yeni sözleşme imzaladığından zararı yoktur.” Kulübün cevabında UÇK'nın yetkisine itiraz yok." },
+    { "t": "PFSTT m.28 (özet)", "d": "Ücreti ödenmeyen futbolcu, noter ihtarıyla kulübe 30 gün süre verir; süre sonunda ödeme yapılmazsa 7 gün içinde sözleşmeyi feshedebilir. TFF ihtarı kulübe en geç 7 gün içinde bildirir; süreler, TFF bildirimi ile noter ihtarından kulübe hangisi önce tebliğ edildiyse o tarihten işler." },
+    { "t": "UÇK Talimatı m.12 ve 5894 s.K. m.6/6", "d": "UÇK kararına karşı tebliğden itibaren 7 gün içinde Tahkim Kurulu'na itiraz edilir. Tahkim Kurulu'nun futbolun yönetimi ve disiplinine ilişkin kararları kesindir; diğer kararlarına karşı tebliğden itibaren bir ay içinde HMK m.439 uyarınca iptal davası açılabilir." }
+  ],
+  "evidence": [
+    { "id": "ev_sozlesme", "type": "belge", "title": "Profesyonel futbolcu sözleşmesi", "desc": "Aylık net 1.000.000 TL; m.12'de UÇK ve Tahkim Kurulu'nun yetkisi yazılı olarak kabul edilmiş." },
+    { "id": "ev_noter", "type": "belge", "title": "Noter ihtarnamesi ve tebliğ şerhi", "desc": "Eylül, Ekim, Kasım 2026 ücretleri için 30 gün süre. Kulübe tebliğ: 09.12.2026." },
+    { "id": "ev_tffyazi", "type": "belge", "title": "TFF'nin kulübe bildirim yazısı", "desc": "“Futbolcunun 04.12.2026 tarihinde Federasyonumuza ulaşan ihtarname sureti ekte bilgilerinize sunulur.” Kulübe tebliğ: 14.12.2026." },
+    { "id": "ev_ihbar", "type": "belge", "title": "Fesih ihbarnamesi", "desc": "12.01.2027 tarihli noter ihbarnamesi; sureti aynı gün TFF'ye gönderilmiş." },
+    { "id": "ev_ceza", "type": "belge", "title": "Kulüp içi para cezası dosyası", "desc": "Antrenmana üç kez geç kalma. Savunma 17.11.2026'da yazılı alındı; ek protokol m.7 uyarınca 500.000 TL ceza 21.11.2026'da tebliğ edildi; futbolcu itiraz etmedi.", "if": "p2_savunma" },
+    { "id": "ev_yeni", "type": "belge", "title": "Bozkır FK sözleşmesinin tescil kaydı", "desc": "01.02.2027–30.06.2028; aylık net 400.000 TL, ayrıca 600.000 TL imza ücreti.", "if": "p2_yeni" },
+    { "id": "law_pfstt28", "type": "kanun", "title": "PFSTT m.28/1, m.28/5", "desc": "30 günlük mehil ve 7 günlük fesih süresi; süreler kulübe ilk yapılan tebliğden işler.", "law": "PFSTT m.28" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İTİRAZ · UÇK kararı 17.02.2027'de tebliğ edildi. Kulübün de karara itiraz edeceği biliniyor." }
+      ],
+      "prompt": "UÇK kararına karşı nasıl bir yol izleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Kararın tamamına itiraz et; feshin haklılığı dahil her şey yeniden incelensin, böylece kulübün itirazı da önceden karşılanmış olur.",
+          "delta": -10,
+          "set": ["p1_itiraz", "p1_hepsi"],
+          "law": "Tahkim Kurulu Talimatı m.8, m.9",
+          "note": "Feshin haklı bulunduğu kısma itiraz etmekte hukuki yararınız yok; Kurul ilk incelemede menfaat yönünden de bakar (Tahkim Kurulu Talimatı m.8). Lehinize olan kısmı tartışmaya açtınız. Kulübün itirazına cevabı zaten cevap dilekçesinde verecektiniz (m.9).",
+          "reply": [
+            { "who": "narr", "text": "İtiraz 23.02.2027'de verildi. Kulüp de aynı gün UÇK kararına itiraz etti." }
+          ]
+        },
+        {
+          "text": "UÇK bir tahkim merciidir; kararına karşı tebliğden itibaren bir ay içinde İstanbul Bölge Adliye Mahkemesinde HMK m.439 uyarınca iptal davası aç.",
+          "delta": -25,
+          "law": "UÇK Talimatı m.12 · 5894 s.K. m.5/3, m.6/6",
+          "note": "UÇK kararına karşı yol, 7 gün içinde Tahkim Kurulu'na itirazdır. İptal davası ancak Tahkim Kurulu'nun kararına karşı açılabilir.",
+          "fatal": {
+            "label": "UÇK KARARI KESİNLEŞTİ",
+            "hukum": "İstanbul Bölge Adliye Mahkemesi: Tahkim Kurulu'na itiraz yolu tüketilmeden UÇK kararına karşı açılan iptal davasının dava şartı yokluğundan USULDEN REDDİNE,",
+            "summary": "UÇK kararlarına karşı tebliğden itibaren 7 gün içinde Tahkim Kurulu'na itiraz edilir (UÇK Talimatı m.12; 5894 s.K. m.5/3). HMK m.439 iptal davası yalnızca Tahkim Kurulu'nun futbolun yönetimi ve disiplini dışındaki kararlarına karşı açılır (5894 s.K. m.6/6). Futbolcu yönünden süre geçti; tazminat talebinin reddi kesinleşti."
+          }
+        },
+        {
+          "text": "24.02.2027'ye kadar Tahkim Kurulu'na itiraz et: fesih haklı bulunduğu için yalnız tazminat talebinin reddi kaldırılsın; harç makbuzunu ekle.",
+          "delta": 15,
+          "set": ["p1_itiraz"],
+          "law": "UÇK Talimatı m.12 · Tahkim Kurulu Talimatı m.7",
+          "note": "Doğru. UÇK kararına karşı tebliğden itibaren 7 gün içinde Tahkim Kurulu'na itiraz edilir (UÇK Talimatı m.12); harç da bu sürede yatırılıp makbuzu sunulur (Tahkim Kurulu Talimatı m.7). Lehinize olan fesih kısmını tartışmaya açmadan itirazı aleyhinize olan tazminat reddine yönelttiniz.",
+          "reply": [
+            { "who": "narr", "text": "İtiraz 23.02.2027'de verildi. Kulüp de aynı gün UÇK kararına itiraz etti." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "KULÜBÜN İTİRAZI · Kulüp yönetimi, itirazın neye dayanacağını soruyor." }
+      ],
+      "prompt": "Kulübün itirazını hangi eksene oturtacaksınız?",
+      "choices": [
+        {
+          "text": "UÇK yetkisizdi: Anayasa Mahkemesinin 2018'deki iptalinden sonra UÇK ancak yazılı yetki kabulüyle görevlidir; bunu Tahkim'de ileri sür.",
+          "delta": -15,
+          "set": ["p2_yetki"],
+          "law": "UÇK Talimatı m.2 · HMK m.422/2",
+          "note": "Sözleşmenin 12. maddesi tam da aranan yazılı yetki kabulüdür (UÇK Talimatı m.2). Üstelik kulüp yetkiye UÇK'daki cevabında itiraz etmedi; hakem kurulunun yetkisizliği en geç cevap dilekçesinde ileri sürülür (HMK m.422/2; UÇK Talimatı m.15 yollamasıyla)."
+        },
+        {
+          "text": "Fesih haksız: kulüp 05.01.2027'de Eylül ücretini ödedi; kısmi ödemeyle temerrüt sona erdi ve futbolcunun fesih hakkı düştü.",
+          "delta": -10,
+          "set": ["p2_kismi"],
+          "law": "PFSTT m.28/1",
+          "note": "İhtar Eylül, Ekim ve Kasım ücretlerini kapsıyordu. Yalnız Eylül'ün ödenmesi ihtarın gereğini yerine getirmez; süre sonunda ödenmemiş ücret kaldıkça fesih hakkı doğar (PFSTT m.28/1)."
+        },
+        {
+          "text": "Fesih haklı sayılsa bile tutar hatalı: savunması alınarak verilen 500.000 TL kulüp içi para cezası Kasım ücretinden mahsup edilmeli.",
+          "delta": 15,
+          "set": ["p2_mahsup"],
+          "law": "TBK m.139",
+          "note": "Doğru odak. Sözleşmeye dayanan, savunma alınarak verilen, futbolcuya bildirilen ve ölçülü bir kulüp içi para cezası, uygulamada ücret alacağından mahsup edilebiliyor (takas: TBK m.139). Feshin haklılığını değiştirmez, ama hüküm altına alınacak tutarı düşürür."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "p2_yetki",
+      "lines": [
+        { "who": "judge", "text": "Kulüp vekili, UÇK'nın yetkisiz olduğunu ileri sürüyor. Futbolcu vekili?" }
+      ],
+      "prompt": "Yetki itirazına ne cevap vereceksiniz?",
+      "choices": [
+        {
+          "text": "Anayasa m.59/3 futbol uyuşmazlıklarında zorunlu tahkimi öngörür; UÇK her durumda yetkilidir, ayrıca bir yetki kabulü aranmaz.",
+          "delta": -10,
+          "law": "Anayasa m.59/3 · UÇK Talimatı m.2",
+          "note": "Anayasa m.59/3 yalnızca federasyonların sporun yönetimi ve disipline ilişkin kararlarını kapsar. Sözleşmeden doğan alacak uyuşmazlıklarında UÇK'nın görevi, AYM'nin 2018/7 sayılı kararından beri tarafların yazılı yetki kabulüne bağlıdır (UÇK Talimatı m.2). Doğru cevap sözleşmenin 12. maddesiydi.",
+          "reply": [
+            { "who": "judge", "text": "Kurul, sözleşmenin 12. maddesindeki yazılı yetki kabulü ve itirazın geç ileri sürülmesi nedeniyle yetki itirazını reddetti." }
+          ]
+        },
+        {
+          "text": "Sözleşmenin 12. maddesi yazılı yetki kabulüdür; kulüp yetkiye UÇK'daki cevabında itiraz etmedi, Tahkim'de ilk kez ileri süremez.",
+          "delta": 20,
+          "set": ["p1_yetkicevap"],
+          "law": "UÇK Talimatı m.2 · HMK m.422/2",
+          "note": "Doğru. Yazılı yetki kabulü sözleşmede var (UÇK Talimatı m.2); hakem kurulunun yetkisizliği en geç cevap dilekçesinde ileri sürülür (HMK m.422/2). Kulübün itirazı hem esastan hem süre yönünden dayanaksız.",
+          "reply": [
+            { "who": "judge", "text": "Kurul, yetki itirazını reddetti." }
+          ]
+        },
+        {
+          "text": "Yetki itirazı haklı olsa bile Kurul esastan karar vermelidir; kulüp bu itirazı ancak sonradan açacağı iptal davasında ileri sürebilir.",
+          "delta": -5,
+          "law": "HMK m.422",
+          "note": "Yetki itirazı önce ve ön sorun olarak incelenir (HMK m.422/5). Kurul'u esasa geçmeye ikna etmek yerine itirazın neden dayanaksız olduğunu göstermeliydiniz: sözleşmenin 12. maddesi ve itirazın geç ileri sürülmesi.",
+          "reply": [
+            { "who": "judge", "text": "Kurul, sözleşmenin 12. maddesi karşısında yetki itirazını reddetti." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Duruşmadan önce kulübün genel sekreteri Levent Sarı'yla görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Genel sekretere ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Kulüp içi para cezası nasıl verildi, futbolcunun savunması alındı mı?",
+          "delta": 15,
+          "set": ["p2_savunma"],
+          "reply": [
+            { "who": "sekreter", "text": "Ek protokolün 7. maddesine göre verdik. Kaan'ın yazılı savunmasını 17 Kasım'da aldık, ceza 21 Kasım'da tebliğ edildi. İtiraz etmedi." }
+          ],
+          "note": "Doğru soru. Savunma alınmadan verilen bir kulüp içi ceza mahsuba dayanak olamazdı. Ceza dosyası çantanıza eklendi."
+        },
+        {
+          "text": "Kaan'ın yeni kulüple yaptığı sözleşmenin şartlarını biliyor musunuz?",
+          "delta": 10,
+          "set": ["p2_yeni"],
+          "reply": [
+            { "who": "sekreter", "text": "Bozkır FK'yla 30 Haziran 2028'e kadar imzaladı: aylık 400.000 TL, ayrıca 600.000 TL imza ücreti. TFF'deki tescil kaydında görünüyor." }
+          ],
+          "note": "Yararlı. Tazminat tartışmasında yeni sözleşmenin bütün gelirleri, imza ücreti dahil, zarardan düşülecek. Tescil kaydı çantanıza eklendi."
+        },
+        {
+          "text": "Ücretler neden ödenmedi?",
+          "delta": -5,
+          "reply": [
+            { "who": "sekreter", "text": "Yayın gelirleri gecikti, bütçe sıkıştı. Kaan'a da anlatmıştık." }
+          ],
+          "note": "Mali sıkıntı ücretin ödenmemesini haklı kılmaz; savunmaya katkısı yok."
+        },
+        {
+          "text": "İhtarname kulübe ne zaman ulaştı?",
+          "delta": 0,
+          "reply": [
+            { "who": "sekreter", "text": "Noterden 9 Aralık'ta geldi. FYS'de 4 Aralık tarihli bir kayıt da var; TFF'nin bildirimi sanırım o gün geldi." }
+          ],
+          "note": "Dikkat: 4 Aralık, futbolcunun gönderdiği suretin Federasyona ulaştığı gün olabilir; kulübe bildirim tarihi olmayabilir. Bu iddiayı belgesiz ileri sürmek risklidir."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kurul, Talimatın 11. maddesi uyarınca duruşma yapıyor. Kulüp vekili, feshe ilişkin itirazınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Kurul, Federasyon futbolcunun ihtarını kulübe 04.12.2026'da bildirmiştir. Süre ilk tebliğden işler: 30 günlük mehil 03.01.2027'de, yedi günlük fesih süresi 10.01.2027'de dolmuştur. 12.01.2027 tarihli fesih geçtir." },
+      "prompt": "Bu beyanı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_tffyazi"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_sure"],
+        "law": "PFSTT m.28/1, m.28/5",
+        "note": "TFF'nin bildirim yazısı kulübe 14.12.2026'da tebliğ edilmiş; 04.12.2026 yalnızca suretin Federasyona ulaştığı gün. Kulübe ilk tebliğ 09.12.2026'daki noter tebliğidir: mehil 08.01.2027'de, fesih süresi 15.01.2027'de doluyordu. 12.01.2027 tarihli fesih süresindedir (PFSTT m.28/1, m.28/5).",
+        "reply": [
+          { "who": "judge", "text": "Tarihler tutanağa geçirildi. Feshin süresinde yapıldığı anlaşılıyor." }
+        ]
+      },
+      "responses": {
+        "ev_noter": { "delta": 5, "note": "Noter tebliğ tarihi (09.12.2026) doğru veri, ama kulüp TFF bildiriminin daha önce geldiğini söylüyor. Bu iddiayı çürüten belge, TFF bildiriminin 14.12.2026 tebliğ tarihli yazısıydı." },
+        "ev_ihbar": { "delta": -5, "note": "Fesih ihbarnamesi yalnızca feshin tarihini gösterir; sürenin hangi gün işlemeye başladığını göstermez." },
+        "law_pfstt28": { "delta": -5, "note": "Doğru madde; ama hangi tebliğin önce yapıldığını belgeyle göstermeniz gerekiyordu. TFF bildirim yazısı çantanızdaydı." },
+        "ev_ceza": { "delta": -10, "note": "Kulüp içi ceza dosyası sürelerle ilgili değil; kulübün mahsup savunmasını destekler." },
+        "ev_yeni": { "delta": -10, "note": "Yeni sözleşme sürelerle ilgili değil; tazminat tartışmasında kulübün işine yarar." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge sürenin hangi tarihten işlediğini göstermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; kulübün tarih hesabı dosyada çürütülmeden kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Futbolcu vekili, tazminata ilişkin itirazınızı açıklayın." }
+      ],
+      "prompt": "UÇK tazminatı “yeni sözleşme imzalandığından zarar yok” diyerek reddetti. Bunun neden yanlış olduğunu, tazminatın nasıl hesaplanacağını ve ne istediğinizi kendi cümlelerinizle anlatın.",
+      "choices": [
+        {
+          "text": "Güçlü itiraz",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_tazminat", "p1_guclu"],
+          "law": "TBK m.437/1 · UÇK Talimatı m.16",
+          "note": "Tazminatın dayanağını (TBK m.437/1), hesap yöntemini (kalan süre ücretlerinden yeni sözleşmenin aynı dönemdeki gelirinin düşülmesi) ve açık bir talebi birlikte kurdunuz. Yeni sözleşme zararı ortadan kaldırmaz, azaltır."
+        },
+        {
+          "text": "Yeterli itiraz",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_tazminat"],
+          "law": "TBK m.437/1",
+          "note": "Ana fikir doğru ama eksik. Tam bir itiraz; sözleşmeye uymayan kulübün zararı tamamen gidermekle yükümlü olduğunu (TBK m.437/1), zararın kalan süre ücretleri eksi yeni sözleşmenin aynı dönemdeki geliri olduğunu ve aradaki farkın tazminini açıkça ister."
+        },
+        {
+          "text": "Zayıf itiraz",
+          "delta": -5,
+          "law": "TBK m.437/1",
+          "note": "Kurul'a hesaplanabilir bir talep sunmadınız. Haklı fesih kulübün sözleşmeye aykırılığından doğduğu için kulüp zararı tamamen gidermelidir (TBK m.437/1). Zarar, 30.06.2028'e kadarki ücretlerden Bozkır FK'dan aynı dönemde elde edilecek gelirin düşülmesiyle bulunur; yeni sözleşme zararı ortadan kaldırmaz, yalnızca azaltır."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Fesih kulübün ücret borcunu ödememesinden doğdu; sözleşmeye uymayan taraf, sözleşmenin bu yüzden sona ermesinden doğan zararı tamamen gidermekle yükümlüdür (TBK m.437/1; UÇK Talimatı m.16 uyarınca Türk maddi hukuku uygulanır). (2) Zarar, kalan sözleşme süresinin (13.01.2027–30.06.2028) ücretleridir; futbolcunun aynı dönemde yeni kulüpten elde edeceği gelir (Bozkır FK: aylık 400.000 TL ve imza ücreti) bundan düşülür. (3) Yeni sözleşme zararı ortadan kaldırmaz, yalnızca azaltır; UÇK'nın tazminatı tümden reddetmesi hatalıdır. (4) Talep: ödenmemiş ücretlere ek olarak aradaki farkın (yaklaşık 10,2 milyon TL) faiziyle tazmini. Yalnızca 'kalan bütün ücretler ödensin' deyip mahsubu yok sayan cevap orta puan alır; dayanağı ve hesabı olmayan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["437", "zararı tamamen", "tamamen gider"], "weight": 2 },
+        { "terms": ["kalan süre", "sözleşme sonuna", "30.06.2028", "kalan ücret", "Haziran 2028"], "weight": 2 },
+        { "terms": ["yeni sözleşme", "Bozkır", "yeni kulüp"], "weight": 1 },
+        { "terms": ["düşül", "mahsup", "indiril", "fark", "denkleştir"], "weight": 2 },
+        { "terms": ["tazminat", "zarar"], "weight": 1 }
+      ],
+      "model": "Sayın Kurul, fesih kulübün ücretleri ödememesinden doğdu; sözleşmeye uymayan kulüp, sözleşmenin bu yüzden sona ermesinden doğan zararı tamamen gidermek zorundadır (TBK m.437/1). Zarar 30.06.2028'e kadarki kalan ücretlerdir; Bozkır FK'dan aynı dönemde alınacak ücret ve imza ücreti bundan düşülür. Yeni sözleşme zararı ortadan kaldırmaz, yalnızca azaltır. Aradaki farkın, yaklaşık 10,2 milyon TL'nin, faiziyle tazminini istiyoruz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kulüp vekili, tazminat talebine cevabınız?" }
+      ],
+      "prompt": "Tazminat talebine nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "Kulübün mali durumu ağır; Kurul tazminattan hakkaniyet indirimi yapsın (TBK m.52/2), aksi hâlde kulüp gelecek sezon lisans alamaz.",
+          "delta": -10,
+          "set": ["p2_hakkaniyet"],
+          "law": "TBK m.52/2, m.114/2",
+          "note": "TBK m.52/2'deki indirim, zararın hafif kusurla verildiği ve tazminatın yükümlüyü yoksulluğa düşüreceği durumlar içindir. Aylarca ücret ödemeyen kulübün kusuru hafif değildir; mali sıkıntı tazminatı azaltmaz."
+        },
+        {
+          "text": "Fark hesabında yeni sözleşmenin 600.000 TL imza ücreti de düşülmeli; tazminat yalnız yeni gelirle karşılanmayan kısım için doğar.",
+          "delta": 15,
+          "set": ["p2_indirim"],
+          "law": "TBK m.437/1",
+          "note": "Doğru. Zarar, kalan süre ücretlerinden futbolcunun aynı dönemde yeni kulüpten elde edeceği bütün gelirin düşülmesiyle bulunur; imza ücreti de bu gelire dahildir."
+        },
+        {
+          "text": "Futbolcu yeni kulüple sözleşme yaptığına göre ortada bir zarar yoktur; UÇK doğru karar verdi, tazminat istenemez.",
+          "delta": -10,
+          "law": "TBK m.437/1",
+          "note": "Yeni sözleşme zararı ortadan kaldırmaz, azaltır. Yeni ücret eskisinden düşük olduğu için aradaki fark kadar zarar vardır (TBK m.437/1)."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kulüp vekili, son beyanınız?" }
+      ],
+      "prompt": "Feshin haklı sayılması ihtimaline karşı, hüküm altına alınacak tutarın neden düşürülmesi gerektiğini kendi cümlelerinizle anlatın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_guclu", "p2_orta"],
+          "law": "TBK m.139 · TBK m.437/1",
+          "note": "Mahsubun dayanağını (sözleşmeye dayanan, savunma alınarak verilen, tebliğ edilip itiraz edilmeyen ceza) ve tazminattan yapılacak indirimleri (yeni sözleşmenin ücretleri ve imza ücreti) birlikte kurdunuz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_orta"],
+          "law": "TBK m.139",
+          "note": "Doğru yöndesiniz ama eksik. Tam savunma, kulüp içi cezanın sözleşmenin ek protokolüne dayandığını, savunmanın alındığını ve cezanın itiraz edilmeden kesinleştiğini; tazminattan yeni sözleşmenin bütün gelirinin düşüleceğini birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "TBK m.139 · TBK m.437/1",
+          "note": "Tutarı düşürecek somut bir dayanak sunmadınız. Savunması alınarak verilen ve itiraz edilmeyen 500.000 TL'lik kulüp içi ceza ücretten mahsup edilebilirdi (TBK m.139); tazminattan da yeni sözleşmenin ücretleri ve imza ücreti düşülmeliydi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) 500.000 TL'lik kulüp içi para cezası sözleşmenin ek protokolündeki disiplin maddesine (m.7) dayanır; futbolcunun yazılı savunması alındı, ceza tebliğ edildi ve itiraz edilmedi; bu nedenle ücret alacağından mahsup edilmelidir (takas: TBK m.139). (2) Tazminat ancak fark üzerinden olabilir: kalan süre ücretlerinden yeni sözleşmenin aynı dönemdeki aylık ücretleri ve 600.000 TL imza ücreti düşülür (TBK m.437/1). (3) Faiz, tazminat için ancak fesih tarihinden sonra işleyebilir. (4) Talep: hüküm altına alınacak tutarın bu kalemlerle indirilmesi. Kulübün mali sıkıntısına dayanan ya da feshin kısmi ödemeyle haksızlaştığını söyleyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["mahsup", "takas", "139"], "weight": 2 },
+        { "terms": ["savunma"], "weight": 2 },
+        { "terms": ["ek protokol", "disiplin maddesi", "itiraz etmedi", "kesinleş"], "weight": 1 },
+        { "terms": ["imza ücreti", "yeni sözleşme", "Bozkır"], "weight": 2 },
+        { "terms": ["fark", "indiril", "düşül"], "weight": 1 }
+      ],
+      "model": "Sayın Kurul, 500.000 TL'lik kulüp içi ceza ek protokolün 7. maddesine dayanıyor; futbolcunun yazılı savunması alındı, ceza tebliğ edildi ve itiraz edilmedi. Bu tutar ücret alacağından mahsup edilmelidir (TBK m.139). Tazminat da ancak fark üzerinden doğar: kalan ücretlerden Bozkır FK'nın aylık ücretleri ve 600.000 TL imza ücreti düşülmelidir. Hüküm altına alınacak tutarın bu kalemlerle indirilmesini istiyoruz."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Futbolcu vekili, son sözünüz?" }
+      ],
+      "prompt": "Kurul kararı lehinize çıkarsa alacağı nasıl güvenceye alacaksınız?",
+      "choices": [
+        {
+          "text": "Kurul kararı Anayasa m.59/3 uyarınca kesindir; kulüp hiçbir yargı merciine gidemez, karar da derhal ilam gibi icra edilir.",
+          "delta": -10,
+          "set": ["p1_kesin"],
+          "law": "Anayasa m.59/3 · 5894 s.K. m.6/6",
+          "note": "Alacak uyuşmazlığı futbolun yönetimi ya da disiplini değildir; Anayasa m.59/3'ün dışında kalır. Tahkim Kurulu'nun bu tür kararlarına karşı tebliğden itibaren bir ay içinde HMK m.439 uyarınca iptal davası açılabilir (5894 s.K. m.6/6). Yargıtay da sözleşmeden doğan alacak uyuşmazlıklarında yargı yolunun açık olduğunu kabul etmiştir (Yargıtay 3. HD, 30.09.2020, E.2020/3283, K.2020/5165)."
+        },
+        {
+          "text": "Karar beklenmeden kulüp hakkında ilamsız icra takibi başlatalım; ödeme gelmezse itirazın iptali davasıyla ilerleriz.",
+          "delta": -10,
+          "set": ["p1_icra"],
+          "law": "PFSTT m.12/5",
+          "note": "Alacaklı aynı alacak için icra takibi yapar ve takipten feragat etmezse, bu alacak kulüp hakkında transfer yasağına yol açmaz (PFSTT m.12/5). En etkili baskı aracını kendi elinizle kapattınız; ilamsız takip de bir itirazla durur."
+        },
+        {
+          "text": "Kesinleşen karar ödenmezse, alacaklı olarak TFF'den kulüp hakkında tescil yasağı uygulanmasını yazılı olarak isteyeceğiz.",
+          "delta": 15,
+          "set": ["p1_yol"],
+          "law": "PFSTT m.12/1, m.12/3",
+          "note": "Doğru. Alacaklının yazılı talebiyle, TFF hukuk kurulu kararına dayanan borcunu ödemeyen kulüp, yeni futbolcu tescil ettirmek için borcun ödendiğini ya da alacaklının muvafakatini belgelemek zorundadır (PFSTT m.12/1, m.12/3). Kulübü ödemeye zorlayan en etkili araç budur."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_sure && p1_tazminat && !(p2_mahsup && p2_savunma && p2_guclu)",
+      "winner": "p1",
+      "hukum": "Futbolcunun itirazının KABULÜ, kulübün itirazının REDDİ ile UÇK'nın 15.02.2027 tarihli kararının DEĞİŞTİRİLEREK; 3.000.000 TL ödenmemiş ücret ile 10.200.000 TL tazminatın yasal faiziyle birlikte Toroslar Spor A.Ş.'den alınarak futbolcuya ödenmesine,",
+      "summary": [
+        { "text": "Fesih süresinde yapıldı: kulübe ilk tebliğ 09.12.2026'daki noter tebliğiydi, TFF bildirimi 14.12.2026'da geldi (PFSTT m.28/5). Futbolcu vekili tazminatın dayanağını ve hesabını kurdu: kalan süre ücretlerinden yeni sözleşmenin aynı dönemdeki geliri düşüldü (TBK m.437/1)." },
+        { "if": "p2_mahsup && !p2_savunma", "text": " Kulüp içi para cezasının mahsubu istendi, ama futbolcunun savunmasının alındığı gösterilmedi." },
+        { "if": "p2_mahsup && p2_savunma", "text": " Kulüp vekili mahsubu istedi, ama dayanağını yeterince kuramadı." },
+        { "if": "p2_yetki", "text": " Kulübün yetki itirazı, sözleşmedeki yazılı yetki kabulü ve itirazın geç ileri sürülmesi nedeniyle reddedildi." },
+        { "if": "p2_kismi", "text": " Kısmi ödemenin feshi haksızlaştırdığı savunması kabul görmedi." },
+        { "if": "p1_icra", "text": " Futbolcu vekilinin icra takibi tercihi ise alacağın transfer yasağı yoluyla güvenceye alınmasını zorlaştıracak." }
+      ]
+    },
+    {
+      "if": "p1_sure && p1_tazminat",
+      "winner": "draw",
+      "hukum": "Futbolcunun itirazının KABULÜ, kulübün itirazının KISMEN KABULÜ ile UÇK kararının DEĞİŞTİRİLEREK; 500.000 TL kulüp içi para cezası mahsup edilerek 2.500.000 TL ödenmemiş ücret ile 10.200.000 TL tazminatın yasal faiziyle birlikte kulüpten alınarak futbolcuya ödenmesine,",
+      "summary": [
+        { "text": "Fesih süresinde ve haklıydı; tazminat kalan süre ücretlerinden yeni sözleşmenin geliri düşülerek hesaplandı (TBK m.437/1)." },
+        { "text": " Kulüp vekili ise savunması alınarak verilen ve itiraz edilmeyen kulüp içi para cezasının mahsubunu ispatladı; ödenmemiş ücret 500.000 TL azaldı." }
+      ]
+    },
+    {
+      "if": "p1_sure",
+      "winner": "draw",
+      "hukum": "Her iki itirazın REDDİ ile UÇK'nın 15.02.2027 tarihli kararının ONANMASINA,",
+      "summary": [
+        { "text": "Fesih süresinde yapıldı ve haklıydı; kulübün itirazı reddedildi." },
+        { "text": " Futbolcu vekili ise tazminatın dayanağını ve hesabını kuramadı; tazminat talebinin reddi de onandı." },
+        { "if": "p1_hepsi", "text": " Kararın tamamına itiraz edilmesi, lehine olan kısımda hukuki yarar bulunmadığından ayrıca sonuç doğurmadı." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Kulübün itirazının KABULÜ ile feshin süresinde yapılmadığından haklı nedene dayanmadığına; futbolcunun tazminat talebinin REDDİNE, ödenmemiş ücretler yönünden UÇK kararının ONANMASINA,",
+      "summary": [
+        { "text": "Kulüp vekili, sürenin ilk tebliğden işlediğini ve feshin yedi günlük süre dolduktan sonra yapıldığını ileri sürdü; futbolcu vekili TFF bildiriminin gerçek tebliğ tarihini (14.12.2026) gösteren yazıyı sunmadı. Kurul, feshin süresinde yapıldığını kabul etmedi (PFSTT m.28/1, m.28/5)." },
+        { "if": "p1_tazminat", "text": " Tazminat hesabı doğru kurulmuştu, ama haklı fesih ispatlanamayınca dayanağı kalmadı." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,389 @@
+{
+  "id": "th-sigorta-mesleki-talep-esasli",
+  "mode": "duel",
+  "difficulty": "zor",
+  "title": "Otuz Gün",
+  "area": "Tahkim · Sigorta tahkimi · Mesleki sorumluluk sigortası (talep esaslı poliçe)",
+  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakem Heyeti",
+  "courtShort": "SİGORTA TAHKİM",
+  "esas": "Başvuru No. 2026/58316",
+  "kararTarihi": "20.10.2026",
+  "color": "#4b3f6b",
+  "room": "tahkim",
+  "forum": "sigorta",
+  "inscription": null,
+  "bench": { "judges": 3, "title": "Hakem heyeti: başhakem ve iki hakem" },
+  "teaser": "Bir avukat istinaf süresini kaçırdı, müvekkili tazminat istedi. Talep poliçe süresi içinde geldi, ama sigortacıya otuz günlük ek sürenin bitiminden on altı gün sonra bildirildi. Talep esaslı poliçe, bu kapıyı kapatır mı?",
+  "sides": {
+    "p1": { "role": "Başvuran (sigortalı avukat) vekili", "short": "Başvuran" },
+    "p2": { "role": "Sigorta şirketi vekili", "short": "Sigorta şirketi" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#e9c4a0", "hair": "#3a2c24", "style": "bun", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#c88f66", "hair": "#191514", "style": "short", "shirt": "#22262d", "inner": "#efeae2" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f2cfae", "hair": "#9a6b45", "style": "long", "shirt": "#1f2934", "inner": "#ebe7e1" } },
+    "client": { "name": "Av. Deniz Arslan · Sigortalı", "np": "civil", "look": { "kind": "civil", "skin": "#e2b791", "hair": "#4f3a2c", "style": "short", "beard": true, "shirt": "#3e4650", "inner": "#e7e2d9" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Av. Deniz Arslan, 2021'den beri her yıl Lodos Sigorta A.Ş.'den Avukat Mesleki Sorumluluk Sigortası yaptırıyor. Poliçe talep esaslı; geriye dönük tarih 01.01.2021. Lodos, Sigorta Tahkim Komisyonuna üye." },
+    { "who": "narr", "text": "Av. Arslan, 2025'te müvekkili Tarla Gıda Ltd. Şti. aleyhine verilen bir kararda iki haftalık istinaf süresini kaçırdı (HMK m.345). Müvekkil 18.12.2025'te noter ihtarıyla 380.000 TL tazminat istedi." },
+    { "who": "narr", "text": "2025 poliçesinin süresi 01.01.2026'da doldu. Poliçeye göre talep, sona ermeden itibaren en geç 30 gün içinde, yani 31.01.2026'ya kadar sigortacıya yazılı bildirilmeliydi. Av. Arslan hasar bildirimini 16.02.2026'da yaptı." },
+    { "who": "narr", "text": "Lodos, 20.04.2026'da “teminata ilişkin itirazlarımız saklı kalmak kaydıyla” 420.000 TL'lik sulha onay verdi. Avukat parayı ödedi; şirket ise ödemeyi reddetti. Yazılı başvuru reddedildi; dosya Komisyonda." }
+  ],
+  "docs": [
+    { "t": "2025 poliçesi · Teminat şartı", "d": "Dönem 01.01.2025–01.01.2026. “Bu poliçe, geriye dönük tarihten sonra yapılan mesleki faaliyetler nedeniyle sigorta süresi içinde sigortalıya karşı ilk kez yazılı olarak ileri sürülen ve sigorta süresi içinde ya da bitiminden itibaren en geç 30 gün içinde sigortacıya yazılı olarak bildirilen talepleri karşılar.” Limit talep başına 2.000.000 TL; muafiyet her talepte 20.000 TL." },
+    { "t": "2026 poliçesi · Bilinen talep istisnası", "d": "Dönem 01.01.2026–01.01.2027. “Sigorta başlangıcından önce sigortalıya yöneltilmiş ya da sigortalının bildiği talepler teminat dışıdır.”" },
+    { "t": "Tarla Gıda'nın ihtarnamesi (18.12.2025)", "d": "İstinaf süresinin kaçırılması nedeniyle 380.000 TL tazminat talebi." },
+    { "t": "Sulh onayı (20.04.2026)", "d": "“Sigortalımızın Tarla Gıda Ltd. Şti. ile 420.000 TL bedelle sulh olmasına onay veriyoruz. Teminata ilişkin itirazlarımız saklıdır.”" },
+    { "t": "Şirketin ret yazısı (26.05.2026)", "d": "“Talep, poliçedeki 30 günlük ek bildirim süresi geçtikten sonra, 16.02.2026'da bildirilmiştir. Talep esaslı poliçede bu süre teminatın koşuludur; teminat yoktur.”" },
+    { "t": "TTK hükümleri", "d": "m.1473: sorumluluk sigortası sigorta süresi içinde gerçekleşen olaydan doğan sorumluluğu karşılar. m.1475: sigortalı kendisine yöneltilen istemi, aksi kararlaştırılmamışsa derhâl bildirir; ihlalde m.1446/2-3 kıyasen uygulanır. m.1446/2: ihlal tazminatı artırmışsa kusurun ağırlığına göre indirim; m.1446/3: sigortacı rizikoyu fiilen öğrenmişse indirimden yararlanamaz. m.1452: m.1446 sigortalı aleyhine değiştirilemez." }
+  ],
+  "evidence": [
+    { "id": "ev_police", "type": "belge", "title": "2025 poliçesi · Teminat şartı", "desc": "Talep sigorta süresi içinde ileri sürülmeli ve süre içinde ya da bitiminden itibaren 30 gün içinde sigortacıya yazılı bildirilmeli." },
+    { "id": "ev_ihtar", "type": "belge", "title": "İhtarname (18.12.2025)", "desc": "Tarla Gıda'nın 380.000 TL'lik tazminat talebi." },
+    { "id": "ev_bildirim", "type": "belge", "title": "Hasar bildirim formu (16.02.2026)", "desc": "Av. Arslan'ın Lodos hasar birimine yaptığı resmî bildirim." },
+    { "id": "ev_onay", "type": "belge", "title": "Sulh onayı (20.04.2026)", "desc": "Lodos 420.000 TL'lik sulha onay veriyor; teminat itirazlarını saklı tutuyor.", "if": "p1_onay" },
+    { "id": "ev_teklif", "type": "belge", "title": "2026 yenileme teklif formu (29.12.2025)", "desc": "Lodos'a gönderilen imzalı form: “Size yöneltilmiş bir talep var mı?” sorusuna “Evet, Tarla Gıda Ltd. Şti.'nin 18.12.2025 tarihli ihtarnamesi, ektedir.” cevabı; ihtarname ekli, Lodos'un alındı kaşesi var.", "if": "p1_teklif" },
+    { "id": "law_1446", "type": "kanun", "title": "TTK m.1475/3 ve m.1446/2-3", "desc": "Bildirim ihlali, tazminatı artırmışsa kusura göre indirim sebebidir; sigortacı rizikoyu fiilen öğrenmişse indirimden yararlanamaz.", "law": "TTK m.1475/3, m.1446" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAŞVURU · Av. Arslan'ın elinde iki poliçe var: talebin geldiği 2025 dönemi ve bildirimin yapıldığı 2026 dönemi." },
+        { "who": "client", "text": "Hangi poliçeden isteyeceğiz? Şirket ikisinde de bir gerekçe bulacak gibi." }
+      ],
+      "prompt": "Başvuruyu hangi poliçeye dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "2025 poliçesine: talep 18.12.2025'te, o poliçenin süresi içinde ileri sürüldü. 2026 poliçesindeki bilinen talep istisnası bu dosyayı ilgilendirmez.",
+          "delta": 20,
+          "set": ["p1_2025"],
+          "law": "TTK m.1458 · Poliçe teminat şartı",
+          "note": "Talep esaslı poliçede teminatı, talebin ilk kez ileri sürüldüğü dönemin poliçesi verir. 2026 poliçesi ise başlangıçtan önce bilinen talepleri açıkça dışarıda bırakıyor; sözleşme sırasında bilinen bir riziko için kurulan koruma da sigortacıyı bağlamaz (TTK m.1458)."
+        },
+        {
+          "text": "2026 poliçesine: talep şirkete 16.02.2026'da bildirildi ve bildirim tarihinde yürürlükte olan tek poliçe 2026 poliçesi; teminat oradan istenir.",
+          "delta": -10,
+          "set": ["p1_2026"],
+          "law": "TTK m.1458 · 2026 poliçesi",
+          "note": "Talep 2026 poliçesi başlamadan önce yöneltilmişti ve sigortalı bunu biliyordu. 2026 poliçesindeki bilinen talep istisnası tam olarak bu durumu dışarıda bırakır (ayrıca TTK m.1458). Teminatın kaynağı 2025 poliçesiydi."
+        },
+        {
+          "text": "İki poliçeye birden dayan ve limitleri topla: aynı hata iki dönemi de etkilediğinden müvekkil iki ayrı limitten de yararlanabilir, toplam 4.000.000 TL.",
+          "delta": -15,
+          "set": ["p1_2025", "p1_ikisi"],
+          "law": "Poliçe teminat şartı",
+          "note": "Tek bir talep tek bir poliçe dönemine bağlanır; limitler toplanmaz. 2025 poliçesine dayanmanız doğru, ama limit toplama talebi tutarsız ve başvuruyu gereksiz yere zayıflattı."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Uyuşmazlık 122.000 TL'yi aştığı için üç kişilik heyet kuruldu. Şirket adına cevap yazıyorsunuz." }
+      ],
+      "prompt": "Savunmanın ana dayanağı ne olacak?",
+      "choices": [
+        {
+          "text": "Poliçe talep ve bildirim esaslı: süresinde bildirim teminatın tanımına ait bir koşul, yükümlülük değil. 31.01.2026'da teminat sona erdi.",
+          "delta": 15,
+          "set": ["p2_kosul"],
+          "law": "TTK m.1473 · Poliçe teminat şartı",
+          "note": "Şirketin en güçlü tezi bu. TTK m.1473 olay esaslı modeli öngörür, ama koruyucu hükümler arasında sayılmaz (m.1452); talep esaslı teminat kararlaştırılabilir. Şirket, bildirim süresini teminatın sınırı olarak sunuyor; tartışma bu nitelendirme üzerinde dönecek."
+        },
+        {
+          "text": "Hatalı işlem 2025'te yapıldı, ama zarar 2025'te doğmadı; talep esaslı poliçede zararın da sigorta süresi içinde doğmuş olması gerekir.",
+          "delta": -10,
+          "set": ["p2_olay"],
+          "law": "Poliçe teminat şartı",
+          "note": "Talep esaslı poliçede ölçüt, talebin ileri sürüldüğü tarihtir; işlem geriye dönük tarihten sonra yapılmış olmalıdır. Zararın ne zaman doğduğu teminatı belirlemez (TTK m.1473 de “zarar sonradan doğsa bile” der)."
+        },
+        {
+          "text": "Sulh bedeli fahiş; istinaf yapılsa da dava kaybedilecekti, avukatın sorumluluğu yoktur. Sulh tutarını Komisyonda baştan tartışalım, bilirkişi isteyelim.",
+          "delta": -10,
+          "set": ["p2_sulh"],
+          "law": "Sulh onayı",
+          "note": "Şirket 420.000 TL'lik sulha onay verdi ve yalnızca teminat itirazlarını saklı tuttu. Sorumluluğun varlığı ve tutarı onayla kesinleşti; çekince teminatla sınırlıdır."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Şirketin cevabı geldi. Sözlü açıklama toplantısından önce Av. Arslan'la görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "2026 yenilemesi için doldurduğunuz teklif formunda bu ihtarnameden söz ettiniz mi?",
+          "delta": 15,
+          "set": ["p1_teklif"],
+          "reply": [
+            { "who": "client", "text": "Ettim tabii. 29.12.2025'te formu imzalayıp Lodos'a gönderdim; “talep var mı” sorusuna evet yazdım, ihtarnameyi de ekledim. Alındı kaşeli bir kopyası bende." }
+          ],
+          "note": "Kilit soru. Talep, 31.01.2026'dan önce, yazılı olarak ve ihtarnamenin kendisiyle birlikte sigortacıya ulaşmış. Teklif formu çantanıza eklendi."
+        },
+        {
+          "text": "Şirketin sulh onayı yazısında tam olarak ne yazıyor?",
+          "delta": 10,
+          "set": ["p1_onay"],
+          "reply": [
+            { "who": "client", "text": "“420.000 TL'lik sulha onay veriyoruz, teminata ilişkin itirazlarımız saklıdır.” Başka bir çekince yok." }
+          ],
+          "note": "Yararlı. Çekince yalnızca teminatla sınırlı; şirket sorumluluğu ve tutarı yeniden tartışamaz. Onay yazısı çantanıza eklendi."
+        },
+        {
+          "text": "Hasar bildirimini neden 16.02.2026'ya kadar beklettiniz?",
+          "delta": 0,
+          "reply": [
+            { "who": "client", "text": "Müvekkille anlaşırım sandım, şirketi işin içine katmak istemedim. Hata ettim." }
+          ],
+          "note": "Dürüst bir cevap, ama gecikmeyi açıklamak savunmaya bir şey katmıyor; üstelik kusuru da teyit ediyor."
+        },
+        {
+          "text": "Meslek hayatınızda daha önce size yöneltilmiş başka bir talep oldu mu?",
+          "delta": -5,
+          "reply": [
+            { "who": "client", "text": "Yıllar önce bir ücret uyuşmazlığı olmuştu, o kadar. Bununla ilgisi var mı?" }
+          ],
+          "note": "Bu dosyanın sonucunu etkilemeyen bir konuya sınırlı vaktinizi harcadınız."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sigorta şirketi vekili, otuz günlük ek sürenin kaçırılmasının hukuki sonucu sizce nedir?" }
+      ],
+      "prompt": "Bildirim süresini nasıl nitelendireceksiniz?",
+      "choices": [
+        {
+          "text": "Süre teminatın sınırını çizer: TTK m.1473 koruyucu hükümlerden değil, talep esaslı teminat geçerli; süre dışında bildirilen talep hiç teminata girmez.",
+          "delta": 15,
+          "set": ["p2_tanim"],
+          "law": "TTK m.1473 · m.1452",
+          "note": "Tutarlı bir tez. Şirket, sürenin bir bildirim yükümlülüğü değil teminatın kapsamı olduğunu, bu nedenle m.1446/2'deki indirim rejiminin uygulanmayacağını söylüyor.",
+          "reply": [
+            { "who": "judge", "text": "Not edildi. Başvuran tarafın sürenin niteliğine ilişkin beyanını da alacağız." }
+          ]
+        },
+        {
+          "text": "Sigortalı bildirim yükümlülüğünü ihlal etti; TTK m.1475 böyle bir ihlalde sigortacıyı ödeme borcundan bütünüyle kurtarır, indirim tartışmasına gerek yoktur.",
+          "delta": -10,
+          "set": ["p2_ihlal"],
+          "law": "TTK m.1475/3 · m.1446/2",
+          "note": "m.1475/3, ihlalde m.1446/2-3'ü kıyasen uygular: sonuç tazminattan kusura göre indirimdir, ödemeden bütünüyle kurtulma değil. Sürenin bir yükümlülük olduğunu kabul edip bu sonuca varmak kendi tezinizle çelişiyor.",
+          "reply": [
+            { "who": "judge", "text": "m.1475/3'ün yolladığı m.1446/2 indirim öngörüyor. Not edildi." }
+          ]
+        },
+        {
+          "text": "Süreyi kaçıran sigortalı en azından muafiyete katlanmalı; poliçedeki muafiyet bu durumda sulh bedelinin yarısı olarak yorumlanmalıdır.",
+          "delta": -5,
+          "set": ["p2_yari"],
+          "law": "Poliçe muafiyet şartı",
+          "note": "Poliçedeki muafiyet her talepte 20.000 TL'dir. Bildirim gecikmesi muafiyeti büyütmez; sözleşme metninde dayanağı olmayan bir yorum.",
+          "reply": [
+            { "who": "judge", "text": "Muafiyet poliçede 20.000 TL olarak yazılı. Not edildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, karşı tarafın beyanına karşı bir deliliniz var mı?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Heyet, sigortalı bu talebi 31.01.2026'ya kadar şirketimize hiçbir biçimde yazılı olarak bildirmemiştir. İlk bildirim 16.02.2026 tarihlidir." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_teklif"],
+      "hit": {
+        "delta": 25,
+        "set": ["p1_yazili"],
+        "law": "Poliçe teminat şartı · TTK m.1446/3",
+        "note": "Alındı kaşeli teklif formu, talebin ihtarnamenin kendisiyle birlikte 29.12.2025'te, yani ek süre dolmadan önce sigortacıya yazılı olarak ulaştığını gösteriyor. Poliçe belirli bir form aramıyor, “sigortacıya yazılı bildirim” arıyor. En azından sigortacı rizikoyu fiilen öğrenmişti (TTK m.1446/3).",
+        "reply": [
+          { "who": "judge", "text": "Teklif formu ve eki dosyaya alındı. Şirketin alındı kaşesi görülüyor." }
+        ]
+      },
+      "responses": {
+        "law_1446": {
+          "delta": 5,
+          "note": "Doğru kurala dayandınız, ama beyanı çürütecek olan bir belge: şirketin talebi süre içinde öğrendiğini gösteren yazılı kayıt. Müvekkile 2026 yenilemesini sorsaydınız teklif formu ortaya çıkacaktı."
+        },
+        "ev_onay": {
+          "delta": 0,
+          "note": "Sulh onayı tutarın kesinleştiğini gösterir; talebin süresinde bildirilip bildirilmediğini değil."
+        },
+        "ev_ihtar": {
+          "delta": -5,
+          "note": "İhtarname talebin ne zaman ileri sürüldüğünü gösterir; sigortacıya ne zaman bildirildiğini değil."
+        },
+        "ev_bildirim": {
+          "delta": -10,
+          "note": "Bu form, karşı tarafın beyanını doğruluyor: resmî bildirim 16.02.2026'da yapılmış."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge talebin süresinde bildirildiğini göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; “süre içinde hiçbir bildirim yok” beyanı cevapsız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "if": "p1_yazili", "text": "Sigorta şirketi vekili, başvuran 29.12.2025 tarihli, şirketinizin kaşesini taşıyan teklif formunu sundu. Bu belge karşısında beyanınız?" },
+        { "who": "judge", "if": "!p1_yazili", "text": "Sigorta şirketi vekili, başvuran gecikmenin tazminatı artırmadığını ve ancak indirim yapılabileceğini söylüyor. Beyanınız?" }
+      ],
+      "prompt": "Talep esaslı poliçede bildirim süresinin niteliğini ve somut olaydaki sonucunu kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_tanim2"],
+          "law": "TTK m.1473 · m.1435 · m.1452",
+          "note": "Savunmayı tutarlı kurdunuz: talep esaslı teminat, emredici olmayan m.1473'ten sapan geçerli bir sözleşme kurgusudur; bildirim süresi teminatın sınırıdır, m.1446/2'nin indirim rejimi bu sınırı ortadan kaldırmaz. Teklif formunun 2026 sözleşmesi için yapılmış bir risk beyanı olduğunu (m.1435), 2025 poliçesine hasar bildirimi sayılamayacağını da gösterdiniz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_tanim2"],
+          "law": "TTK m.1473 · m.1452",
+          "note": "Talep esaslı teminatın geçerliliğine dayandınız. Tam savunma; sürenin bir yükümlülük değil teminatın sınırı olduğunu, bu yüzden m.1446/2'nin uygulanmayacağını ve teklif formunun başka bir sözleşme için yapılmış risk beyanı olduğunu (m.1435) birlikte ortaya koyar."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "TTK m.1473 · m.1475/3",
+          "note": "Şirketin tezini kuramadınız. Bildirim süresini teminatın sınırı olarak nitelendirmeden, yalnızca “süre geçti” demek, tartışmayı m.1475/3 ve m.1446/2'nin indirim rejimine bırakır."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) TTK m.1473 olay esaslı modeli öngörür, ama m.1452'de koruyucu hükümler arasında sayılmaz; ihtiyari mesleki sorumluluk sigortasında talep esaslı teminat kararlaştırılabilir. (2) Poliçede talebin sigorta süresi içinde ileri sürülmesi ve en geç 30 gün içinde bildirilmesi teminatın tanımıdır; bu bir bildirim yükümlülüğü olmadığı için m.1475/3 ve m.1446/2'deki indirim rejimi uygulanmaz. (3) 29.12.2025 tarihli teklif formu, 2026 sözleşmesinin yapılması için verilen bir risk beyanıdır (TTK m.1435); 2025 poliçesi kapsamında yapılmış bir hasar bildirimi değildir, zaten şirket bu talebi 2026 poliçesinde teminat dışı bırakmıştır. Teminat sınırı ile yükümlülük ayrımını yapan ve teklif formunu nitelendiren cevap tam puan alır; yalnızca 'süre geçti' diyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["talep esaslı", "claims made", "claims-made"], "weight": 2 },
+        { "terms": ["teminatın sınırı", "teminatın tanımı", "teminatın kapsamı", "koşul"], "weight": 2 },
+        { "terms": ["1473", "1452"], "weight": 1 },
+        { "terms": ["teklif formu", "risk beyanı", "1435", "yenileme"], "weight": 2 },
+        { "terms": ["1446", "indirim", "uygulanmaz"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, TTK m.1473 olay esaslı modeli öngörür, ama koruyucu hükümler arasında sayılmaz (m.1452); ihtiyari mesleki sorumluluk sigortasında talep esaslı teminat geçerlidir. Talebin 30 gün içinde bildirilmesi bir yükümlülük değil, teminatın tanımıdır; bu yüzden m.1446/2'nin indirim rejimi uygulanmaz. 29.12.2025 tarihli form, 2026 sözleşmesi için verilmiş bir risk beyanıdır (TTK m.1435); 2025 poliçesine hasar bildirimi değildir."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, son olarak sizi dinliyoruz: bildirim süresi meselesinde neden teminat bulunduğunu açıklayın." }
+      ],
+      "prompt": "Bildirim süresinin geçirilmesine rağmen teminatın neden bulunduğunu kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü beyan",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_cevap"],
+          "law": "TTK m.1475/3 · m.1446/2-3 · m.1452",
+          "note": [
+            { "text": "Beyanınız iki katmanlıydı ve ikisi de yerindeydi: poliçenin aradığı yazılı bildirim süre içinde gerçekleşmişti; öyle sayılmasa bile bildirim gecikmesinin yaptırımı, sigortalı aleyhine değiştirilemeyen m.1446/2-3'e göre belirlenir ve sigortacı rizikoyu fiilen öğrenmişse indirimden bile yararlanamaz." },
+            { "if": "!p1_yazili", "text": " Yalnız, şirketin talebi süre içinde öğrendiğini gösteren belgeyi dosyaya koyamadığınız için ilk katman havada kaldı." }
+          ]
+        },
+        {
+          "text": "Yeterli beyan",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_cevap"],
+          "law": "TTK m.1475/3 · m.1446/2-3",
+          "note": "Gecikmenin ancak indirime yol açabileceğini gösterdiniz. Tam beyan; teklif formunun süre içinde yapılmış yazılı bildirim olduğunu, sigortacının rizikoyu fiilen öğrendiğini (m.1446/3) ve m.1446'nın sigortalı aleyhine değiştirilemeyeceğini (m.1452) birlikte söyler."
+        },
+        {
+          "text": "Zayıf beyan",
+          "delta": -10,
+          "law": "TTK m.1475/3 · m.1446/2-3",
+          "note": "Teminatı kurtaracak iki dayanağı da kullanamadınız: süre içinde şirkete ulaşan yazılı bilgi ve sigortacı rizikoyu fiilen öğrenmişse bildirim gecikmesine dayanamayacağı kuralı (TTK m.1446/3)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Talep 18.12.2025'te, 2025 poliçesinin süresi içinde ileri sürülmüştür. (2) Poliçe belirli bir form değil, sigortacıya yazılı bildirim arar; ihtarnamenin eklendiği 29.12.2025 tarihli imzalı form, 31.01.2026'dan önce şirkete ulaşmıştır. (3) Bu kabul edilmese bile süre, talebin bildirilmesine ilişkin bir yükümlülüktür; TTK m.1475/3 ihlalde m.1446/2-3'ü uygular: indirim ancak ihlal tazminatı artırmışsa ve kusura göre yapılır; sigortacı rizikoyu fiilen öğrenmişse indirimden de yararlanamaz. (4) m.1446, m.1452 uyarınca sigortalı aleyhine değiştirilemez; bildirim gecikmesini teminatın bütünüyle kaybına bağlayan şart bu korumayı dolanamaz. (5) Sorumluluk ve tutar, şirketin sulh onayıyla kesinleşmiştir. Süre içindeki yazılı bildirimi, fiilen öğrenmeyi ve m.1452'yi birlikte söyleyen cevap tam puan alır.",
+      "keywords": [
+        { "terms": ["teklif formu", "29.12.2025", "yenileme", "alındı kaşe"], "weight": 2 },
+        { "terms": ["fiilen öğren", "öğrenmiş", "haberdar"], "weight": 2 },
+        { "terms": ["1446", "1475"], "weight": 1 },
+        { "terms": ["1452", "aleyhine değiştirilemez", "nispi emredici"], "weight": 2 },
+        { "terms": ["indirim", "artmadı", "artış"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, talep 18.12.2025'te, 2025 poliçesinin süresi içinde ileri sürüldü. Poliçe belirli bir form değil yazılı bildirim arar; ihtarnameyi eklediğimiz 29.12.2025 tarihli imzalı form, ek süre dolmadan şirkete ulaştı. Bu kabul edilmese bile, bildirim gecikmesinin yaptırımı TTK m.1475/3 yollamasıyla m.1446/2-3'tür: indirim ancak ihlal tazminatı artırmışsa yapılır, sigortacı rizikoyu fiilen öğrenmişse indirim de yapılamaz. m.1446 sigortalı aleyhine değiştirilemez (m.1452). Sorumluluk ve tutar şirketin sulh onayıyla kesinleşmiştir."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sigorta şirketi vekili, heyetin teminatı kabul etmesi ihtimaline karşı tutara ilişkin son beyanınız?" }
+      ],
+      "prompt": "Tutar hakkında ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Poliçedeki 20.000 TL muafiyetin düşülmesini ve sulh bedelinin ihtarnamedeki 380.000 TL'yi aşan kısmında gecikmenin etkisinin incelenmesini iste.",
+          "delta": 15,
+          "set": ["p2_artis"],
+          "law": "Poliçe muafiyet şartı · TTK m.1446/2",
+          "note": "Muafiyet her durumda sigortalıda kalır. Talep 380.000 TL'den 420.000 TL'ye bildirimsiz geçen aylarda çıktı; heyet teminatı yükümlülük ihlali çerçevesinde değerlendirirse, artışın gecikmeden kaynaklanıp kaynaklanmadığı m.1446/2'ye göre tartışılabilir."
+        },
+        {
+          "text": "Sigortalı talebi geç bildirdiği için kendi kusurlu davranışı oranında, en az yarı yarıya müterafik kusur indirimi uygulanmasını iste (TBK m.52).",
+          "delta": -10,
+          "law": "TBK m.52 · TTK m.1446/2",
+          "note": "TBK m.52'deki indirim, zarar görenin zarara katılmasına ilişkindir. Bildirim gecikmesinin sigorta sözleşmesindeki sonucu ise m.1475/3 yollamasıyla m.1446/2'de, ihlalin tazminatı artırdığı ölçüyle sınırlı olarak düzenlenmiştir."
+        },
+        {
+          "text": "Av. Arslan 2026 teklif formunda talebi açıkladığı için, 2025 poliçesindeki teminattan da örtülü olarak feragat etmiş sayılmalı; başvurunun reddini iste.",
+          "delta": -15,
+          "law": "Poliçe teminat şartı",
+          "note": "Yeni sözleşme için doğru beyan vermek, önceki poliçedeki haktan feragat anlamına gelmez. Feragat açık ve kesin bir irade ister."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_2025 && p1_yazili && (p1_cevap || !p2_tanim2)",
+      "winner": "p1",
+      "hukum": "Başvurunun KABULÜ ile, poliçedeki 20.000 TL muafiyet düşülerek 400.000 TL'nin sigorta şirketinden alınarak başvurana ödenmesine,",
+      "summary": [
+        { "text": "Talep, 2025 poliçesinin süresi içinde ileri sürülmüştü. Sigortalı, ihtarnameyi eklediği 29.12.2025 tarihli imzalı formla talebi ek süre dolmadan şirkete yazılı olarak ulaştırmıştı; poliçe belirli bir form aramıyordu. Şirket rizikoyu fiilen öğrenmişti (TTK m.1446/3)." },
+        { "if": "p1_ikisi", "text": " İki poliçenin limitlerinin toplanması talebi ise reddedildi." },
+        { "if": "p2_sulh", "text": " Şirketin sulh tutarını yeniden tartışma girişimi, kendi onay yazısı karşısında sonuçsuz kaldı." },
+        { "if": "p2_tanim2", "text": " Şirket vekili talep esaslı teminatın sınırını güçlü biçimde savundu; ama sınır bu dosyada aşılmamıştı." }
+      ]
+    },
+    {
+      "if": "p1_2025 && (p1_yazili || p1_cevap)",
+      "winner": "draw",
+      "hukum": "Başvurunun KISMEN KABULÜ ile 360.000 TL'nin sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Heyet, bildirim süresinin sigortalıyı teminattan bütünüyle yoksun bırakacak bir koşul olarak işletilemeyeceğini, gecikmenin sonucunun sigortalı aleyhine değiştirilemeyen TTK m.1475/3 yollamasıyla m.1446/2'ye göre belirleneceğini kabul etti." },
+        { "text": " Talep, bildirimsiz geçen aylarda 380.000 TL'den 420.000 TL'ye çıkmıştı; heyet bu 40.000 TL'lik artışı gecikmeye bağlayarak indirdi. Muafiyetle birlikte ödenecek tutar 360.000 TL oldu." },
+        { "if": "!p1_yazili", "text": " Başvuran tarafı, şirketin talebi süre içinde öğrendiğini gösteren yazılı bir belge sunamadı." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Başvurunun REDDİNE,",
+      "summary": [
+        { "if": "p1_2026", "text": "Başvuru 2026 poliçesine dayandırıldı; oysa talep o poliçe başlamadan önce yöneltilmişti ve 2026 poliçesindeki bilinen talep istisnasına giriyordu (ayrıca TTK m.1458). Heyet talepten bağımsız olarak 2025 poliçesine göre karar veremedi." },
+        { "if": "!p1_2026", "text": "Talep esaslı poliçede talebin süre içinde sigortacıya yazılı olarak bildirilmesi teminatın sınırıydı. Sigortalı süre içinde yapılmış bir bildirimi ya da şirketin talebi fiilen öğrendiğini gösteremedi." },
+        { "if": "p2_tanim || p2_tanim2", "text": " Şirket vekili, sürenin teminatın tanımına ait olduğunu tutarlı biçimde savundu." }
+      ]
+    }
+  ]
+}

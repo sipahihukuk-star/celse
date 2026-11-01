@@ -1,0 +1,458 @@
+{
+  "id": "th-sigorta-kasko-alkol",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "İşaretsiz Çukur",
+  "area": "Tahkim · Sigorta tahkimi · Kasko",
+  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakem Heyeti",
+  "courtShort": "SİGORTA TAHKİM",
+  "esas": "2026/51874 Başvuru",
+  "kararTarihi": "08.03.2027",
+  "color": "#33536b",
+  "room": "tahkim",
+  "forum": "sigorta",
+  "inscription": null,
+  "bench": { "judges": 3, "title": "Üç sigorta hakeminden oluşan uyuşmazlık hakem heyeti" },
+  "teaser": "Sürücü 0,62 promil alkollü; yolda da ne levha vardı ne ışık. Sigorta şirketi hasarı da değer kaybını da reddetti.",
+  "sides": {
+    "p1": { "role": "Başvuran vekili", "short": "Başvuran" },
+    "p2": { "role": "Sigorta şirketi vekili", "short": "Sigorta şirketi" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#e0b48f", "hair": "#5b4a3f", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#d6a47c", "hair": "#2a2220", "style": "short", "beard": true, "shirt": "#1f2a36", "inner": "#e9e6df" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f0c8a4", "hair": "#6a4630", "style": "long", "shirt": "#2e2a33", "inner": "#efe9e0" } },
+    "levent": { "name": "Levent Arıkan · Sigortalı", "np": "civil", "look": { "kind": "civil", "skin": "#c99a72", "hair": "#3a2c22", "style": "short", "shirt": "#5a6470", "inner": "#e4dfd5" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Levent Arıkan'ın 2023 model cipi, 21.09.2026 gecesi saat 23.40'ta Bursa Nilüfer'de belediyenin altyapı çalışması için açılmış bir kazı çukuruna girdi ve yol kenarındaki bariyere çarptı. Kimse yaralanmadı." },
+    { "who": "narr", "text": "Trafik polisinin ölçümünde Levent'in alkol değeri 0,62 promil çıktı; hususi araç sürücüleri için sınır 0,50 promil. Aracın kaskosu Çınaraltı Sigorta A.Ş.'de." },
+    { "who": "narr", "text": "Eksper onarım bedelini 412.000 TL buldu. Şirket 09.10.2026 tarihli yazıyla hasarı alkol istisnası gerekçesiyle reddetti; 58.000 TL'lik değer kaybı talebini de poliçenin özel şartına dayanarak geri çevirdi." },
+    { "who": "levent", "text": "Akşam yemekte iki kadeh şarap içtim, doğru. Ama o çukura kim olsa girerdi; ne levha vardı ne ışık. Önümdeki araç da son anda direksiyonu kırdı." },
+    { "who": "narr", "text": "Bugün 02.11.2026. Başvuran vekili ilk hamleyi yapacak." }
+  ],
+  "docs": [
+    { "t": "Kasko poliçesi", "d": "Çınaraltı Sigorta A.Ş., 15.03.2026–15.03.2027. Kara Taşıtları Kasko Sigortası Genel Şartları uygulanır. Özel şart 7: “Araçta meydana gelecek değer kaybı teminat dışıdır.” Bu şartı içeren bilgilendirme formu sözleşmeden önce sigortalıya imzalatılmış." },
+    { "t": "Kaza tespit tutanağı", "d": "21.09.2026, 23.40, Nilüfer. Tek taraflı kaza. Yol üzerinde yaklaşık 1,5 m genişliğinde altyapı kazı çukuru. Zemin ıslak. Sürücünün alkol ölçümü 0,62 promil." },
+    { "t": "Eksper raporu", "d": "Ön düzen, sağ ön süspansiyon ve sağ ön jant hasarlı. Onarım bedeli 412.000 TL (KDV dahil)." },
+    { "t": "Şirketin red yazısı", "d": "09.10.2026: “Sürücünün yasal sınırın üzerinde alkollü olduğu tespit edildiğinden hasar Kasko Genel Şartları A.5.5 uyarınca teminat dışıdır. Değer kaybı talebiniz poliçe özel şartı 7 gereği karşılanamamaktadır.”" },
+    { "t": "Sigorta tahkiminde parasal sınırlar (22.01.2026'dan)", "d": "35.000 TL'nin altındaki uyuşmazlıklarda karar kesin; 35.000 TL ve üzerinde karara bildirimden itibaren 10 gün içinde bir kez itiraz. 122.000 TL ve üzerindeki uyuşmazlıklarda en az üç hakemli heyet zorunlu. 383.000 TL'yi aşan uyuşmazlıklarda itiraz üzerine verilen karara karşı temyiz. Başvuru tarihindeki sınır esas alınır." }
+  ],
+  "evidence": [
+    { "id": "ev_police", "type": "belge", "title": "Kasko poliçesi", "desc": "Özel şart 7: değer kaybı teminat dışı. Bilgilendirme formu sigortalının imzasını taşıyor." },
+    { "id": "ev_tutanak", "type": "belge", "title": "Kaza tespit tutanağı", "desc": "Tek taraflı kaza; yolda 1,5 m genişliğinde kazı çukuru, zemin ıslak; sürücü 0,62 promil." },
+    { "id": "ev_alkol", "type": "belge", "title": "Alkol ölçüm fişi", "desc": "22.09.2026, 00.15. Sonuç: 0,62 promil." },
+    { "id": "ev_eksper", "type": "belge", "title": "Eksper raporu", "desc": "Onarım bedeli 412.000 TL. Hasarın oluş biçimi: aracın sağ ön tekerleğinin çukura girmesi ve bariyere çarpma." },
+    { "id": "ev_kamera", "type": "belge", "title": "Araç kamerası kaydı", "desc": "Levent'in arkasındaki aracın kamerası: Levent yaklaşık 45 km/saat hızla gidiyor (hız sınırı 50). Önündeki araç çukuru son anda fark edip sola kırıyor. Çukurun çevresinde levha, şerit ya da ışık yok.", "if": "p1_kamera" },
+    { "id": "ev_zabita", "type": "belge", "title": "Zabıta tespit tutanağı", "desc": "22.09.2026, 08.30: “Altyapı kazısının çevresinde uyarı levhası, ikaz lambası ve emniyet şeridi bulunmadığı görüldü.” Yükleniciye idari para cezası uygulanmış.", "if": "p1_zabita" },
+    { "id": "law_a55", "type": "kanun", "title": "Kasko Genel Şartları A.5.5", "desc": "Aracın, mevzuatta belirlenen seviyenin üzerinde alkollü içki almış ya da uyuşturucu etkisindeki kişilerce kullanılması sırasında meydana gelen zararlar teminat dışıdır.", "law": "Kasko GŞ A.5.5" },
+    { "id": "law_ttk1409", "type": "kanun", "title": "TTK m.1409/2", "desc": "Rizikonun sözleşmedeki bir istisna kapsamında gerçekleştiğini ispat yükü sigortacıya aittir.", "law": "TTK m.1409/2" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAŞVURU · Şirket talebi yazılı olarak reddetti. Komisyona başvurmadan önce dosyanın çerçevesini çizmelisiniz." }
+      ],
+      "prompt": "Başvuruyu nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Red yazısını ekleyip Komisyona başvur; talep 412.000 TL onarım bedeli ve 58.000 TL değer kaybı, toplam 470.000 TL.",
+          "delta": 20,
+          "set": ["p1_basvuru"],
+          "law": "5684 s.K. m.30/13 · Tahkim Yönetmeliği m.16",
+          "note": "Sigorta kuruluşuna yazılı başvuru yapılmış ve talep reddedilmişti; Komisyona başvurunun ön şartı gerçekleşti (5684 s.K. m.30/13). 470.000 TL'lik uyuşmazlık 122.000 TL'yi aştığından en az üç hakemli heyet kurulacak; 383.000 TL'yi de aştığı için itiraz üzerine verilecek karara karşı temyiz yolu açık olacak.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 02.11.2026'da yapıldı. Raportörün ön incelemesinden sonra üç hakemli uyuşmazlık hakem heyeti oluşturuldu." }
+          ]
+        },
+        {
+          "text": "Şirkete yeniden yaz ve 15 iş günü cevap bekle; ön başvuru şartı ancak bu sürenin dolmasıyla tamamlanır.",
+          "delta": -5,
+          "set": ["p1_bekle"],
+          "law": "5684 s.K. m.30/13",
+          "note": "Gereksiz bir tur. 15 iş günlük bekleme, şirketin hiç cevap vermediği durum içindir. Şirket talebi 09.10.2026'da yazılı olarak reddetmişti; red, Komisyona başvurmak için yeterlidir (5684 s.K. m.30/13). Üç hafta kaybettiniz.",
+          "reply": [
+            { "who": "narr", "text": "Şirket ikinci yazıya da aynı cevabı verdi. Başvuru 25.11.2026'da yapıldı; üç hakemli heyet oluşturuldu." }
+          ]
+        },
+        {
+          "text": "Şimdilik yalnız 412.000 TL onarım bedeli için başvur; değer kaybını ayrı bir başvuruyla iste ki iki dosya da sade kalsın.",
+          "delta": -5,
+          "set": ["p1_bol"],
+          "law": "Tahkim Yönetmeliği m.16",
+          "note": "Aynı kazadan doğan iki kalemi bölmek, iki başvuru ücreti, iki bilirkişi incelemesi ve birbiriyle çelişen kararlar riski demek. Değer kaybı bu dosyada tartışılabilecekti; ikinci başvuruyu sonra yapmamaya karar verdiniz.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 02.11.2026'da yalnız onarım bedeli için yapıldı; uyuşmazlık 122.000 TL'yi aştığından üç hakemli heyet oluşturuldu." }
+          ]
+        },
+        {
+          "text": "Asliye ticaret mahkemesinde dava aç, aynı gün Komisyona da başvur; hangi merci önce karar verirse onunla yola devam et.",
+          "delta": -25,
+          "law": "Tahkim Yönetmeliği m.16/2",
+          "note": "Aynı uyuşmazlık için mahkemede dava açılmışsa Komisyona yapılan başvuru ön incelemeden geçemez (Tahkim Yönetmeliği m.16/2). Tahkim yolunu kendi elinizle kapattınız.",
+          "fatal": {
+            "hukum": "Raportörün ön incelemesi sonucunda, aynı uyuşmazlık hakkında mahkemede dava açılmış olduğu anlaşıldığından başvurunun KABUL EDİLMEMESİNE, başvuru ücretinin yarısının başvurana iadesine,",
+            "summary": "Başvuran vekili aynı uyuşmazlığı hem mahkemeye hem Komisyona taşıdı. Sigorta tahkiminde başvurunun ön şartlarından biri, uyuşmazlığın mahkemeye, icraya, başka bir tahkim yoluna ya da tüketici hakem heyetine götürülmemiş olmasıdır. Dosya esasa girilmeden kapandı; uyuşmazlık mahkemede görülecek."
+          }
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Başvuru Çınaraltı Sigorta'ya tebliğ edildi. Cevap dilekçesinde alkol istisnasını nasıl kuracağınıza karar vermelisiniz." }
+      ],
+      "prompt": "Hasarın reddini neye dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "0,62 promil yasal sınırın üstünde; A.5.5 kendiliğinden uygulanır, alkolün kazaya etkisini ayrıca ispat etmemiz gerekmez.",
+          "delta": -10,
+          "set": ["p2_salt"],
+          "law": "Kasko GŞ A.5.5 · TTK m.1409/2",
+          "note": "Yargıtay uygulamasında kasko alkol istisnası yasal sınırın aşılmasıyla kendiliğinden işlemez; kazanın münhasıran alkolün etkisiyle meydana geldiği aranır. İstisnanın şartlarını ispat yükü de sigortacıdadır (TTK m.1409/2). Savunmanızı en zayıf noktasından kurdunuz."
+        },
+        {
+          "text": "Alkol istisnası ve illiyet: kazanın alkol etkisiyle meydana geldiğini bilirkişiyle ispatla; değer kaybına özel şart 7'yi göster.",
+          "delta": 20,
+          "set": ["p2_illiyet"],
+          "law": "Kasko GŞ A.5.5 · TTK m.1409/2",
+          "note": "Doğru kurgu. Alkol istisnası için Yargıtay, kazanın münhasıran alkolün etkisiyle meydana geldiğinin gösterilmesini arar; ispat yükü sizde (TTK m.1409/2). Değer kaybını ise poliçe açıkça teminat dışında bırakıyor."
+        },
+        {
+          "text": "Alkollü kişi kanunen araç kullanamaz; bu yüzden olay ehliyetsiz kullanım sayılır ve A.5.4'teki sürücü belgesi istisnası da devreye girer, iki istisna birlikte uygulanır.",
+          "delta": -15,
+          "set": ["p2_ehliyet"],
+          "law": "Kasko GŞ A.5.4",
+          "note": "A.5.4, gerekli sürücü belgesine sahip olmayan kişilerin aracı kullanmasına ilişkindir. Levent'in geçerli B sınıfı ehliyeti var; alkollü olması onu ehliyetsiz yapmaz. İki ayrı istisnayı birbirine karıştırdınız."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "MÜVEKKİL GÖRÜŞMESİ · Şirketin cevabı geldi. Delil listesini vermeden önce Levent Arıkan'la görüşüyorsunuz; iki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Kazayı gösteren bir görüntü var mı, sizden başka gören oldu mu?",
+          "delta": 15,
+          "set": ["p1_kamera"],
+          "reply": [
+            { "who": "levent", "text": "Arkamdaki araçtaki adam durdu, numarasını aldım. Araç kamerası her şeyi kaydetmiş; kaydı bana WhatsApp'tan gönderdi." }
+          ],
+          "note": "Doğru soru. Kayıt, hızınızı ve çukurun hiçbir uyarı olmadan bırakıldığını gösteriyor. Delil çantanıza eklendi."
+        },
+        {
+          "text": "Çukurun çevresinde uyarı var mıydı, kazayı belediyeye bildirdiniz mi?",
+          "delta": 10,
+          "set": ["p1_zabita"],
+          "reply": [
+            { "who": "levent", "text": "Hiçbir şey yoktu. Ertesi sabah belediyeye dilekçe verdim; zabıta gelip tutanak tuttu, yükleniciye ceza yazmışlar." }
+          ],
+          "note": "Yararlı. Zabıta tutanağı, kazının uyarısız bırakıldığını resmî bir belgeyle gösteriyor. Çantanıza eklendi."
+        },
+        {
+          "text": "Ne kadar içtiniz, son kadehi saat kaçta bitirdiniz?",
+          "delta": 0,
+          "reply": [
+            { "who": "levent", "text": "Saat sekizle on arasında iki kadeh şarap. Yemeği uzun tuttuk." }
+          ],
+          "note": "Dürüst bir cevap, ama alkolün varlığı zaten belli. Asıl mesele, kazanın alkolden mi yoksa başka bir etkenden mi kaynaklandığı."
+        },
+        {
+          "text": "Ehliyetinizin sınıfı ve süresi uygun mu?",
+          "delta": 0,
+          "reply": [
+            { "who": "levent", "text": "B sınıfı, 2019'da yeniledim. Ceza puanım da yok." }
+          ],
+          "note": "Ehliyet tartışması çıkmayacak; bu soru dosyaya bir şey katmadı."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "SÖZLÜ AÇIKLAMA · Hakem heyeti kural olarak dosya üzerinden karar verir; bu dosyada tarafları dinlemeye karar verdi." },
+        { "who": "judge", "text": "Taraf vekilleri hazır. Şirket vekili, bilirkişi incelemesine ilişkin talebiniz nedir?" }
+      ],
+      "prompt": "Hangi incelemeyi isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Trafik bilirkişisi ile adli tıp uzmanı, 0,62 promilin tepki süresine etkisini ve kazanın asıl sebebini birlikte inceleyip rapor versin.",
+          "delta": 15,
+          "set": ["p2_bilirkisi"],
+          "law": "Tahkim Yönetmeliği m.16/12 · TTK m.1409/2",
+          "note": "Alkol istisnasında ispat yükü sizde; kazanın alkolden kaynaklandığını gösterecek teknik incelemeyi siz istemelisiniz. Hakem heyeti özel ve teknik bilgi gerektiren konularda bilirkişiye başvurabilir (Tahkim Yönetmeliği m.16/12).",
+          "reply": [
+            { "who": "judge", "text": "Talep yerinde görüldü. Trafik ve adli tıp bilirkişilerinden rapor alınacak." }
+          ]
+        },
+        {
+          "text": "Bilirkişiye gerek yok; alkol ölçüm fişi resmî bir belgedir, yasal sınırın aşıldığını tek başına ispat eder ve heyeti bağlar.",
+          "delta": -10,
+          "law": "TTK m.1409/2",
+          "note": "Fiş alkolün varlığını gösterir, kazanın alkolden kaynaklandığını değil. İlliyeti ispat edecek bir inceleme istemediniz; heyet bilirkişiye kendiliğinden başvurdu.",
+          "reply": [
+            { "who": "judge", "text": "Heyet, illiyetin aydınlatılması için trafik bilirkişisinden rapor alınmasına kendiliğinden karar verdi." }
+          ]
+        },
+        {
+          "text": "Yalnız hasar bilirkişisi atansın; eksperin 412.000 TL'lik onarım bedeli şişirilmiş, yedek parça ve işçilik fiyatları piyasanın çok üstünde.",
+          "delta": -5,
+          "law": "Tahkim Yönetmeliği m.16/12",
+          "note": "Tutara itiraz etmek meşru ama ikincil. Asıl savunmanız alkol istisnası; onu destekleyecek teknik incelemeyi istemediniz.",
+          "reply": [
+            { "who": "judge", "text": "Hasar tutarı da incelenecek; heyet ayrıca trafik bilirkişisini görevlendirdi." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, şirket vekilinin beyanına karşı diyeceğiniz?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Heyet, kaza tam da alkolün etkisiyle meydana gelmiştir. Ayık bir sürücü o çukuru görür, yavaşlar ve kaçardı. Yolun durumu kazada belirleyici değildir." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_kamera"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_cukur"],
+        "law": "Kasko GŞ A.5.5 · TTK m.1409/2",
+        "note": "Kayıt, Levent'in hız sınırının altında gittiğini, önündeki aracın da çukuru ancak son anda fark ettiğini ve ortada hiçbir uyarı bulunmadığını gösteriyor. Ayık bir sürücünün de aynı çukura girebileceği ortaya çıktı; kazanın münhasıran alkolden kaynaklandığı iddiası sarsıldı.",
+        "reply": [
+          { "who": "judge", "text": "Kayıt dosyaya alındı ve bilirkişiye gönderilecek." }
+        ]
+      },
+      "responses": {
+        "ev_zabita": {
+          "delta": 18,
+          "set": ["p1_cukur"],
+          "law": "Kasko GŞ A.5.5 · TTK m.1409/2",
+          "note": "Zabıta tutanağı, kazının uyarı levhası, ikaz lambası ve şerit olmadan bırakıldığını resmî olarak kayda geçiriyor. Gece, ıslak zeminde işaretsiz bir çukur, ayık bir sürücü için de tehlikedir; münhasır illiyet iddiası zayıfladı.",
+          "reply": [
+            { "who": "judge", "text": "Tutanak dosyaya alındı ve bilirkişiye gönderilecek." }
+          ]
+        },
+        "ev_tutanak": {
+          "delta": 5,
+          "note": "Tutanak çukuru kaydediyor, ama çukurun uyarısız olduğunu ve hızınızı göstermiyor. Şirketin “ayık sürücü kaçardı” beyanını çürütmeye yetmedi."
+        },
+        "ev_alkol": {
+          "delta": -15,
+          "note": "Alkol fişi şirketin dayanağı; kendi aleyhinize delil sundunuz."
+        },
+        "law_a55": {
+          "delta": -10,
+          "note": "İstisna maddesini okumak şirketin işine yarar. Sunmanız gereken, kazanın alkolden başka bir sebeple oluştuğunu gösteren delildi."
+        },
+        "law_ttk1409": {
+          "delta": 3,
+          "note": "Doğru ilke: istisnayı şirket ispat eder. Ama şirket bir iddia ortaya koyduğunda, onu çürütecek olguyu belgeyle göstermeniz gerekiyordu."
+        }
+      },
+      "miss": { "delta": -5, "note": "Bu belge kazanın başka bir sebepten kaynaklandığını göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; kazanın alkolden kaynaklandığı beyanı karşılıksız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Şirket vekili, değer kaybı talebine ilişkin savunmanızı açıklayın." }
+      ],
+      "prompt": "Değer kaybının neden ödenmeyeceğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p2_dk"],
+          "law": "TTK m.1423 · Poliçe özel şart 7",
+          "note": "Değer kaybı savunmasını sağlam kurdunuz: kasko ihtiyari bir sigortadır, teminatın sınırlarını poliçe çizer. Özel şart 7 değer kaybını açıkça dışarıda bırakıyor ve sözleşmeden önce imzalı bilgilendirme formuyla bildirilmiş (TTK m.1423)."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_dk"],
+          "law": "TTK m.1423 · Poliçe özel şart 7",
+          "note": "Özel şarta dayandınız. Tam savunma, şartın sözleşmeden önce imzalı bilgilendirme formuyla bildirildiğini (TTK m.1423) ve değer kaybının kazadan sorumlu olandan istenebileceğini de söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "TTK m.1423 · Poliçe özel şart 7",
+          "note": "Elinizdeki en güçlü dayanağı kullanmadınız: poliçenin 7 numaralı özel şartı değer kaybını açıkça teminat dışında bırakıyor ve sigortalı bu şartı içeren bilgilendirme formunu imzalamış (TTK m.1423)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kasko ihtiyari bir sigortadır; teminatın kapsamını poliçe belirler ve taraflar teminatı sınırlayabilir. (2) Poliçenin 7 numaralı özel şartı değer kaybını açıkça teminat dışında bırakıyor; şart, sigortalının imzaladığı bilgilendirme formuyla sözleşmeden önce yazılı olarak bildirilmiş (TTK m.1423). (3) Değer kaybı, kazaya sebep olan kişiden ya da onun sorumluluk sigortasından istenebilecek bir zarar kalemidir; bu tek taraflı kazada sorumlu olabilecek olan, yolu işaretsiz bırakan idare ya da yüklenicidir. Özel şartı ve bildirildiğini birlikte söylemek tam puan için gerekir; yalnızca 'kasko değer kaybını ödemez' demek orta puan alır. Alkol istisnasını değer kaybına da uygulamaya çalışan ama özel şarttan söz etmeyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["özel şart", "özel şartı", "şart 7", "7 numaralı", "7. madde"], "weight": 3 },
+        { "terms": ["teminat dışı", "kapsam dışı", "teminat kapsamında değil", "teminata girmez"], "weight": 2 },
+        { "terms": ["bilgilendirme", "imzala", "1423", "aydınlatma"], "weight": 2 },
+        { "terms": ["ihtiyari", "isteğe bağlı", "sözleşme serbestisi", "taraflar belirler"], "weight": 1 },
+        { "terms": ["belediye", "yüklenici", "idare", "sorumlu olan", "kusurlu"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, kasko ihtiyari bir sigortadır ve teminatın sınırlarını poliçe çizer. Poliçenin 7 numaralı özel şartı değer kaybını açıkça teminat dışında bırakıyor; sigortalı bu şartı içeren bilgilendirme formunu sözleşmeden önce imzalamıştır (TTK m.1423). Değer kaybı ancak kazadan sorumlu olandan, bu olayda yolu işaretsiz bırakan idare ya da yükleniciden istenebilir."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, alkol istisnasına karşı esas beyanınızı alalım." }
+      ],
+      "prompt": "Alkol istisnasının bu kazada neden uygulanamayacağını kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p1_munhasir"],
+          "law": "Kasko GŞ A.5.5 · TTK m.1409/2",
+          "note": "İstisnanın sınırını doğru çizdiniz: yasal sınırın aşılması yetmez, kazanın münhasıran alkolün etkisiyle meydana gelmesi gerekir ve bunu sigortacı ispat eder (TTK m.1409/2). Kazanın asıl sebebini, uyarısız bırakılan çukuru da öne çıkardınız."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "law": "Kasko GŞ A.5.5 · TTK m.1409/2",
+          "note": "Doğru yöndesiniz. Tam savunma üç şeyi birlikte söyler: Yargıtay'ın aradığı münhasır illiyet, ispat yükünün sigortacıda olması (TTK m.1409/2) ve bu kazadaki başka etken, yani uyarısız kazı çukuru."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "Kasko GŞ A.5.5 · TTK m.1409/2",
+          "note": "Alkol istisnası yasal sınırın aşılmasıyla kendiliğinden işlemez; Yargıtay kazanın münhasıran alkolün etkisiyle meydana gelmesini arar ve bunu sigortacı ispat eder (TTK m.1409/2). Promilin düşüklüğünü ya da müvekkilin dikkatini savunmak bu ilkenin yerini tutmaz."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kasko Genel Şartları A.5.5'teki alkol istisnası için yasal sınırın aşılması tek başına yetmez; Yargıtay, kazanın münhasıran alkolün etkisiyle meydana gelmesini arar. (2) İstisnanın şartlarını ispat yükü sigortacıdadır (TTK m.1409/2). (3) Somut olayda kazanın asıl sebebi uyarı levhası ve ışık olmadan bırakılmış kazı çukurudur; sürücü hız sınırının altında gidiyordu, önündeki araç da çukuru ancak son anda fark etti. Bu nedenle alkol ile kaza arasında münhasır illiyet kurulamaz. Münhasır illiyeti, ispat yükünü ve olaydaki başka etkeni birlikte söylemek tam puan için gerekir; yalnızca 'promil düşüktü' ya da 'müvekkil dikkatliydi' demek düşük puan alır.",
+      "keywords": [
+        { "terms": ["münhasır", "münhasıran", "yalnızca alkol", "tek sebep", "sadece alkol"], "weight": 3 },
+        { "terms": ["illiyet", "nedensellik", "sebep sonuç", "causation"], "weight": 2 },
+        { "terms": ["ispat yükü", "1409", "sigortacı ispat", "şirket ispat"], "weight": 2 },
+        { "terms": ["çukur", "kazı", "levha", "işaretsiz", "uyarı"], "weight": 2 },
+        { "terms": ["A.5.5", "alkol istisnası", "genel şart"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, Kasko Genel Şartları A.5.5'teki alkol istisnası yasal sınırın aşılmasıyla kendiliğinden uygulanmaz; Yargıtay kazanın münhasıran alkolün etkisiyle meydana gelmesini arar ve bunu ispat yükü sigortacıdadır (TTK m.1409/2). Bu kazanın asıl sebebi, uyarı levhası ve ışık olmadan bırakılan kazı çukurudur; müvekkil hız sınırının altında gidiyordu. Münhasır illiyet kurulamadığından istisna uygulanamaz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "if": "p1_cukur || p1_munhasir", "text": "BİLİRKİŞİ RAPORU · Kazanın asli sebebi uyarısız bırakılan kazı çukuru. 0,62 promilin tepki süresini sınırlı ölçüde uzatmış olabileceği, ancak kazanın münhasıran alkolden kaynaklandığının söylenemeyeceği belirtildi." },
+        { "who": "narr", "if": "!p1_cukur && !p1_munhasir", "text": "BİLİRKİŞİ RAPORU · Gece, ıslak zeminde ve 0,62 promil alkolle sürücünün çukuru zamanında algılayamadığı, kazada alkolün belirleyici olduğu belirtildi. Çukurun uyarısız olup olmadığı dosyadan tespit edilemedi." },
+        { "who": "judge", "text": "Rapor taraflara tebliğ edildi. Şirket vekili, rapora karşı tutumunuz?" }
+      ],
+      "prompt": "Rapor karşısında ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Süresi içinde rapora itiraz edip ek rapor iste: rapor, 0,62 promilin tepki süresine etkisini sayısal olarak hiç incelememiş, yalnız sonuç bildirmiş.",
+          "delta": 15,
+          "set": ["p2_ekrapor"],
+          "law": "HMK m.281 · 5684 s.K. m.30/23",
+          "note": "Doğru. Bilirkişi raporuna tebliğden itibaren iki hafta içinde itiraz edilebilir ve eksik noktalar için ek rapor istenebilir (HMK m.281); sigorta tahkiminde HMK hükümleri kıyasen uygulanır. Raporu ilk derecede sınamak, itiraz aşamasında da elinizi güçlendirir.",
+          "reply": [
+            { "who": "judge", "text": "İtiraz dosyaya alındı. Bilirkişiden ek rapor istenecek." }
+          ]
+        },
+        {
+          "text": "Rapora itiraz etme; heyet aleyhimize karar verirse bu kararı itiraz aşamasını beklemeden doğrudan Yargıtay'a temyiz ederiz.",
+          "delta": -10,
+          "law": "5684 s.K. m.30/12",
+          "note": "Uyuşmazlık hakem heyetinin kararına karşı önce itiraz hakem heyetine gidilir. Temyiz, ancak itiraz üzerine verilen karara karşı ve parasal sınırı aşan uyuşmazlıklarda açılır (5684 s.K. m.30/12). Raporu sınama fırsatını da harcadınız.",
+          "reply": [
+            { "who": "judge", "text": "Rapora itiraz edilmediği tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "Raporu hazırlayan bilirkişiyi reddet: Komisyonun listesinden seçildiği için tarafsızlığından şüphe edilmesini gerektiren bir durum var.",
+          "delta": -10,
+          "law": "HMK m.272 · Tahkim Yönetmeliği m.16/12",
+          "note": "Bilirkişilerin Komisyonun listesinden seçilmesi yönetmeliğin öngördüğü usuldür; ret sebebi değildir. Bilirkişi, ancak hâkimin reddi sebeplerine benzer somut bir durum varsa reddedilebilir (HMK m.272). Dayanaksız bir ret talebiyle raporun içeriğini tartışmayı kaçırdınız.",
+          "reply": [
+            { "who": "judge", "text": "Ret talebi yerinde görülmedi." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, son talepleriniz?" }
+      ],
+      "prompt": "Talep sonucunu nasıl bağlayacaksınız?",
+      "choices": [
+        {
+          "text": "Onarım bedeline red tarihi 09.10.2026'dan itibaren yasal faiz iste; vekâlet ücreti AAÜT ücretinin beşte biri olacak.",
+          "delta": 15,
+          "set": ["p1_talep"],
+          "law": "5684 s.K. m.30/17 · Tahkim Yönetmeliği m.16/13",
+          "note": "Sigortacı talebi açıkça reddettiği tarihte temerrüde düştü. Hususi aracın sahibi tüketici sigortalı için yasal faiz istenir. Sigorta tahkiminde vekâlet ücreti, AAÜT'ye göre hesaplanan ücretin beşte biridir ve iki taraf için de aynı kural uygulanır (5684 s.K. m.30/17; Tahkim Yönetmeliği m.16/13).",
+          "reply": [
+            { "who": "judge", "text": "Talepler tutanağa geçirildi. Heyet karar için çekiliyor." }
+          ]
+        },
+        {
+          "text": "Kaza tarihinden itibaren avans faizi iste; vekâlet ücreti de asliye ticaret mahkemesinde olduğu gibi AAÜT'nin tamamı üzerinden hesaplanmalı.",
+          "delta": -10,
+          "law": "5684 s.K. m.30/17",
+          "note": "Sigortacı kaza anında değil, borç muaccel olup ödemeyi reddettiğinde temerrüde düşer. Hususi aracın sahibi tüketicidir; avans faizi değil yasal faiz istenir. Tahkimde vekâlet ücreti de AAÜT ücretinin beşte biridir (5684 s.K. m.30/17).",
+          "reply": [
+            { "who": "judge", "text": "Talepler tutanağa geçirildi. Heyet karar için çekiliyor." }
+          ]
+        },
+        {
+          "text": "Değer kaybı reddedilse bile yargılama giderlerinin tamamının şirkete yüklenmesini, kısmi ret yapılmamasını iste.",
+          "delta": -5,
+          "law": "HMK m.326",
+          "note": "Yargılama giderleri tarafların haklılık oranına göre paylaştırılır (HMK m.326). Değer kaybı reddedilirse o kısım için şirket lehine de vekâlet ücretine hükmedilir; bunu bir taleple değiştiremezsiniz.",
+          "reply": [
+            { "who": "judge", "text": "Talepler tutanağa geçirildi. Heyet karar için çekiliyor." }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_cukur || p1_munhasir || !p2_illiyet",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Başvurunun KISMEN KABULÜ ile 412.000 TL onarım bedelinin 09.10.2026 tarihinden itibaren işleyecek yasal faiziyle birlikte sigorta şirketinden alınarak başvurana ödenmesine," },
+        { "if": "!p1_bol", "text": " 58.000 TL değer kaybı talebinin REDDİNE," },
+        { "text": " yargılama giderlerinin haklılık oranına göre paylaştırılmasına," }
+      ],
+      "summary": [
+        { "text": "Kazanın asli sebebi uyarısız bırakılan kazı çukuruydu; şirket, kazanın münhasıran alkolün etkisiyle meydana geldiğini ispat edemedi (TTK m.1409/2). Alkol istisnası uygulanmadı." },
+        { "if": "p1_cukur", "text": " Başvuran vekili, çukurun işaretsiz olduğunu ve sürücünün hız sınırının altında gittiğini belgeyle gösterdi." },
+        { "if": "p1_munhasir", "text": " Alkol istisnasının ancak münhasır illiyet varsa uygulanacağını ve ispat yükünün sigortacıda olduğunu doğru savundu." },
+        { "if": "p2_salt", "text": " Şirket vekili istisnayı yalnız promil değerine dayandırdı; illiyeti ispat etmeye hiç girişmedi." },
+        { "if": "p2_ehliyet", "text": " Şirket vekili alkollü sürücüyü ehliyetsiz sayarak A.5.4'e dayandı; oysa sürücünün geçerli ehliyeti vardı." },
+        { "if": "!p1_bol", "text": " Değer kaybı ise poliçenin açık özel şartıyla teminat dışında kaldığından reddedildi; bu kalem kazadan sorumlu olandan istenebilir." },
+        { "if": "p1_bol", "text": " Değer kaybı bu başvuruya konu edilmedi." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Başvurunun REDDİNE, yargılama giderlerinin başvuran üzerinde bırakılmasına,",
+      "summary": [
+        { "text": "Şirket vekili, kazanın alkolün etkisiyle meydana geldiğini bilirkişi incelemesiyle gösterdi; başvuran vekili kazayı başka bir etkene bağlayacak delil sunamadı. Alkol istisnası uygulandı (Kasko GŞ A.5.5)." },
+        { "if": "!p1_bol", "text": " Değer kaybı da poliçenin özel şartıyla zaten teminat dışındaydı." },
+        { "if": "p1_bekle", "text": " Başvuran vekili gereksiz bir ikinci ön başvuruyla zaman da kaybetti." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,405 @@
+{
+  "id": "th-tff-kulup-lisans",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "tff",
+  "difficulty": "zor",
+  "title": "Otuz Bir Mart",
+  "area": "Tahkim · Spor tahkimi · Kulüp lisansı reddine itiraz (mali kriterler)",
+  "court": "TFF Tahkim Kurulu",
+  "courtShort": "TFF TAHKİM KURULU",
+  "esas": "E.2027/231",
+  "kararTarihi": "28.05.2027",
+  "color": "#3a4a6a",
+  "teaser": "Avrupa kupasına katılma hakkı kazanan kulübün UEFA lisansı, 31 Mart itibarıyla vadesi geçmiş borçları olduğu gerekçesiyle reddedildi. Kulüp borçların ertelendiğini söylüyor; ama bunu gösteren belgeler lisans dosyasında yok.",
+  "bench": { "judges": 7, "title": "Kurul Başkanı ve altı üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "İtiraz eden kulüp (Ege Yıldızı Spor A.Ş.) vekili", "short": "Kulüp" },
+    "p2": { "role": "Türkiye Futbol Federasyonu vekili", "short": "Federasyon" }
+  },
+  "cast": {
+    "judge": { "name": "Kurul Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#e6bf9c", "hair": "#7a7a80", "style": "bun", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#d8a67e", "hair": "#2a2220", "style": "short", "shirt": "#1f2633", "inner": "#e2ddd2" } },
+    "p2": { "look": { "kind": "civil", "skin": "#c08b62", "hair": "#2b1d17", "style": "short", "beard": true, "glasses": true, "shirt": "#2c2c30", "inner": "#ebe5da" } },
+    "mali": { "name": "Selin Ova · Kulübün mali işler direktörü", "np": "civil", "look": { "kind": "civil", "skin": "#f0caa6", "hair": "#8a5a3a", "style": "long", "shirt": "#5a3a4a", "inner": "#efe6dc" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Ege Yıldızı Spor A.Ş., Süper Lig'i dördüncü bitirerek 2027-2028 UEFA Konferans Ligi eleme turuna katılma hakkı kazandı. Avrupa kupalarında oynamak için UEFA lisansı gerekiyor." },
+    { "who": "narr", "text": "Kulüp Lisans Kurulu 14.05.2027'de lisansı reddetti: 31.03.2027 itibarıyla iki vadesi geçmiş borç var. Eski futbolcu Emre Yaman'ın UÇK kararıyla kesinleşen 3.200.000 TL alacağı (vade 15.02.2027, ödeme 28.04.2027) ve 18.000.000 TL SGK prim borcu. Kulüp, lisans dosyasında bu iki kalem için açıklama sunmamıştı." },
+    { "who": "narr", "text": "Karar 15.05.2027'de tebliğ edildi. UEFA'ya lisans listesinin bildirileceği tarih yaklaşıyor. Kulüp vekili ilk hamleyi yapacak." }
+  ],
+  "docs": [
+    { "t": "Kulüp Lisans Kurulu kararı (14.05.2027)", "d": "UEFA lisansı reddi. Gerekçe: 31.03.2027 itibarıyla (1) eski futbolcu Emre Yaman'a 3.200.000 TL, (2) SGK'ya 18.000.000 TL vadesi geçmiş borç. Kulübün sunduğu 12.04.2027 tarihli SGK yazısı borcun ödendiğini göstermiyor." },
+    { "t": "Vadesi geçmiş borç ölçütü (Kulüp Lisans ve Finansal Sürdürülebilirlik Talimatı, UEFA kurallarına uyumlu)", "d": "Lisans başvurucusu, lisans sezonundan önceki 31 Mart itibarıyla futbol kulüplerine, çalışanlarına ve sosyal güvenlik ile vergi makamlarına vadesi geçmiş borcu olmadığını kanıtlar. Borç; tamamen ödenmişse, alacaklıyla yazılı olarak ertelenmişse ya da açıkça dayanaksız olmayan bir uyuşmazlık süresinde yetkili mercie taşınmışsa vadesi geçmiş sayılmaz." },
+    { "t": "5894 s.K. m.5/3, m.6/6", "d": "İlk derece hukuk kurullarının kararlarına karşı tebliğden itibaren 7 gün içinde Tahkim Kurulu'na itiraz edilir; süresinde itiraz edilmeyen karar kesinleşir. Tahkim Kurulu'nun futbolun yönetimi ve disiplinine ilişkin kararları kesindir." },
+    { "t": "Tahkim Kurulu Talimatı (ilgili hükümler)", "d": "m.6: Deliller ve belgeler başvuru dilekçesine eklenir. m.8: Başkan, önemine göre bir uyuşmazlığın öncelikle incelenmesine karar verebilir. m.11: Kurul gerekli gördüğünde bilgi ve belge isteyebilir. m.13: Kurul kararı değiştirerek karar verebilir ya da dosyayı merciine iade edebilir." }
+  ],
+  "evidence": [
+    { "id": "ev_karar", "type": "belge", "title": "Kulüp Lisans Kurulu kararı", "desc": "31.03.2027 itibarıyla futbolcu Emre Yaman'a ve SGK'ya vadesi geçmiş borç gerekçesiyle UEFA lisansı reddi." },
+    { "id": "ev_sgkyazi", "type": "belge", "title": "SGK yazısı (12.04.2027)", "desc": "“Kulübün 18.000.000 TL tutarındaki prim borcu yapılandırılmış borç olarak izlenmektedir.” Yapılandırmanın tarihi yazıda yok." },
+    { "id": "ev_odeme", "type": "belge", "title": "Emre Yaman'a ödeme dekontu", "desc": "28.04.2027: 3.200.000 TL." },
+    { "id": "ev_protokol", "type": "belge", "title": "Emre Yaman ile ödeme protokolü", "desc": "25.03.2027 tarihli, kulüp ve futbolcunun ıslak imzalı: 3.200.000 TL'nin vadesi 30.04.2027'ye ertelendi. Futbolcunun aynı gün gönderdiği onay e-postası ekli.", "if": "p1_protokol" },
+    { "id": "ev_sgkonay", "type": "belge", "title": "SGK taksitlendirme onayı ve ilk taksit dekontu", "desc": "SGK İl Müdürlüğünün 27.03.2027 tarihli taksitlendirme onay yazısı; ilk taksit 29.03.2027'de ödenmiş.", "if": "p1_sgk" },
+    { "id": "law_olcut", "type": "kanun", "title": "Vadesi geçmiş borç ölçütü", "desc": "31 Mart itibarıyla ödenmemiş, yazılı olarak ertelenmemiş ya da yetkili mercie taşınmamış borç vadesi geçmiş sayılır.", "law": "Kulüp Lisans ve Finansal Sürdürülebilirlik Talimatı" }
+  ],
+  "steps": [
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "İtiraz dilekçesini yazmadan önce kulübün mali işler direktörü Selin Ova'yla görüşüyorsunuz. Dört sorunuz var, ama ancak ikisine vakit kalacak." }
+      ],
+      "prompt": "Mali işler direktörüne ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Emre Yaman'la borç için 31 Mart'tan önce yazılı bir anlaşma yaptınız mı?",
+          "delta": 15,
+          "set": ["p1_protokol"],
+          "reply": [
+            { "who": "mali", "text": "25 Mart'ta ıslak imzalı bir ödeme protokolü yaptık; vade 30 Nisan'a ertelendi. Emre de aynı gün e-postayla onayladı. Lisans dosyasına koymayı unutmuşuz." }
+          ],
+          "note": "Doğru soru. Kritik tarihten önce alacaklıyla yazılı olarak yapılan erteleme, borcu vadesi geçmiş olmaktan çıkarır. Protokol çantanıza eklendi."
+        },
+        {
+          "text": "SGK yapılandırması tam olarak hangi tarihte onaylandı?",
+          "delta": 15,
+          "set": ["p1_sgk"],
+          "reply": [
+            { "who": "mali", "text": "Taksitlendirme 27 Mart'ta onaylandı, ilk taksiti 29 Mart'ta ödedik. Lisans Kurulu'na yalnızca 12 Nisan tarihli yazıyı vermiştik, onda tarih yok." }
+          ],
+          "note": "Doğru soru. Yetkili makamla 31 Mart'tan önce yapılan yazılı yapılandırma borcu vadesi geçmiş olmaktan çıkarır; tarihini gösteren belge şart. Onay yazısı ve dekont çantanıza eklendi."
+        },
+        {
+          "text": "Emre Yaman'a ödemeyi ne zaman yaptınız?",
+          "delta": 0,
+          "reply": [
+            { "who": "mali", "text": "28 Nisan'da tamamını ödedik. Dekont dosyada var." }
+          ],
+          "note": "Bu bilgi zaten dosyada. Ödeme 31 Mart'tan sonra yapıldığı için tek başına kulübü kurtarmaz."
+        },
+        {
+          "text": "Kulübün bu sezonki genel mali durumu nasıl?",
+          "delta": -5,
+          "reply": [
+            { "who": "mali", "text": "Yayın gelirleri arttı, sponsorluklar yenilendi. Sezonu kârla kapatacağız." }
+          ],
+          "note": "Genel mali tablo, belirli borçların 31 Mart itibarıyla vadesi geçmiş olup olmadığını değiştirmez. Sınırlı vaktinizi buna harcadınız."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İTİRAZ · Karar 15.05.2027'de tebliğ edildi." }
+      ],
+      "prompt": "Lisans reddine karşı nasıl bir yol izleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Lisans ölçütleri UEFA'nındır; karara karşı 21 gün içinde doğrudan Spor Tahkim Mahkemesine (CAS) temyiz başvurusunda bulun.",
+          "delta": -25,
+          "law": "5894 s.K. m.5/3 · CAS Kuralları R47",
+          "note": "Ulusal lisans kararına karşı yol, 7 gün içinde Tahkim Kurulu'na itirazdır. CAS'a temyiz ancak federasyon kuralları öngörüyorsa ya da özel bir tahkim anlaşması varsa mümkündür (R47).",
+          "fatal": {
+            "label": "CAS YOLU YOK",
+            "hukum": "CAS Ofisi: Kulüp Lisans Kurulu kararına karşı CAS'a başvuruyu öngören bir tahkim anlaşması açıkça bulunmadığından tahkimin BAŞLATILMAMASINA (CAS Kuralları R52),",
+            "summary": "Kulüp lisansı kararı ulusal bir hukuk kurulunun kararıdır; buna karşı 5894 sayılı Kanun 7 gün içinde Tahkim Kurulu'na itirazı öngörür (m.5/3). CAS'a başvuru için federasyon kurallarında ya da taraflar arasında açık bir tahkim anlaşması gerekir (R47). CAS'a gidilirken Tahkim Kurulu'na itiraz süresi doldu; lisans reddi kesinleşti, kulüp Avrupa'da oynayamayacak."
+          }
+        },
+        {
+          "text": "22.05.2027'ye kadar Tahkim Kurulu'na itiraz et; borçların karar tarihinden önce ödendiğini ya da yapılandırıldığını, eksiklik kalmadığını savun.",
+          "delta": -10,
+          "set": ["p1_odeme"],
+          "law": "Kulüp Lisans ve Finansal Sürdürülebilirlik Talimatı",
+          "note": "Yol ve süre doğru, ama ölçüt yanlış: vadesi geçmiş borç 31 Mart itibarıyla değerlendirilir; sonradan yapılan ödeme eksikliği gidermez. İtirazı kritik tarihten önce var olan erteleme belgelerine dayandırmalıydınız.",
+          "reply": [
+            { "who": "narr", "text": "İtiraz 20.05.2027'de verildi." }
+          ]
+        },
+        {
+          "text": "22.05.2027'ye kadar Tahkim Kurulu'na itiraz et, belgeleri dilekçeye ekle; UEFA takvimi nedeniyle Başkan'dan öncelikli inceleme iste.",
+          "delta": 15,
+          "set": ["p1_dilekce"],
+          "law": "5894 s.K. m.5/3 · Tahkim Kurulu Talimatı m.6, m.8",
+          "note": "Doğru. İlk derece hukuk kurulunun kararına karşı 7 gün içinde Tahkim Kurulu'na itiraz edilir (5894 s.K. m.5/3); deliller dilekçeye eklenir (Tahkim Kurulu Talimatı m.6) ve Başkan önemine göre öncelikli inceleme kararı verebilir (m.8).",
+          "reply": [
+            { "who": "narr", "text": "İtiraz 17.05.2027'de verildi. Başkan dosyanın öncelikle incelenmesine karar verdi." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Federasyon, kulübün itirazına yazılı cevap verecek." }
+      ],
+      "prompt": "Cevabınızın merkezine hangi ölçütü koyacaksınız?",
+      "choices": [
+        {
+          "text": "Kulübün lisans kararına kadar yaptığı her ödeme dikkate alınır; ama SGK borcu bugün de taksitler hâlinde duruyor, eksiklik giderilmedi.",
+          "delta": -10,
+          "set": ["p2_kararTarihi"],
+          "law": "Kulüp Lisans ve Finansal Sürdürülebilirlik Talimatı",
+          "note": "Değerlendirme tarihi 31 Mart'tır, lisans kararının tarihi değil. Üstelik yapılandırılmış ve taksitleri ödenen borç vadesi geçmiş sayılmaz; yanlış ölçütle kulübe hem kapı açtınız hem de zayıf bir iddiaya dayandınız."
+        },
+        {
+          "text": "Lisans kararı idari bir işlemdir; Kurul yalnızca yetki ve şekil yönünden denetim yapar, borçların değerlendirmesine giremez.",
+          "delta": -10,
+          "law": "5894 s.K. m.6/5",
+          "note": "Tahkim Kurulu ilk derece hukuk kurullarının kararlarını itiraz üzerine tam olarak inceler ve nihai olarak karara bağlar (5894 s.K. m.6/5). Denetimi şekle indirgemek savunulamaz."
+        },
+        {
+          "text": "Ölçüt 31 Mart'tır: o tarihte ödenmemiş, alacaklıyla yazılı ertelenmemiş ya da yetkili mercie taşınmamış borç vadesi geçmiştir.",
+          "delta": 15,
+          "set": ["p2_tarih"],
+          "law": "Kulüp Lisans ve Finansal Sürdürülebilirlik Talimatı",
+          "note": "Doğru. Vadesi geçmiş borç ölçütü 31 Mart itibarıyla uygulanır; sonradan yapılan ödeme eksikliği gidermez. Borcu bu durumdan çıkaran üç hâl tamamen ödeme, alacaklıyla yazılı erteleme ve yetkili mercie süresinde taşınmış, açıkça dayanaksız olmayan uyuşmazlıktır."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "if": "p1_protokol || p1_sgk", "text": "YENİ BELGELER · Kulüp itiraz dilekçesine, Lisans Kurulu'na sunmadığı belgeler eklemiş." },
+        { "who": "narr", "if": "!p1_protokol && !p1_sgk", "text": "YENİ BELGELER · Kurul Başkanı, kulübün duruşmada yeni belge sunabileceğini bildirdi." }
+      ],
+      "prompt": "İlk derecede sunulmayan belgeler karşısında tavrınız ne olacak?",
+      "choices": [
+        {
+          "text": "İlk derecede sunulmayan hiçbir belge Tahkim'de dikkate alınamaz; Kurul dosyayı Lisans Kurulu'ndaki hâliyle incelemelidir.",
+          "delta": -10,
+          "set": ["p2_yasak"],
+          "law": "Tahkim Kurulu Talimatı m.6, m.11",
+          "note": "Talimat delillerin itiraz dilekçesine eklenmesine izin verir (m.6); Kurul ayrıca bilgi ve belge isteyebilir (m.11). Kritik tarihten önce var olan bir belgeyi tümden dışlamak savunulamaz; doğru savunma, belgenin tarihinin ve gerçekliğinin sınanmasıdır."
+        },
+        {
+          "text": "Belgelere kapı kapatılamaz, ama tarihleri kanıtlanmalı: protokol için alacaklının teyidi, SGK için onay yazısı ve dekont aranmalı.",
+          "delta": 15,
+          "set": ["p2_teyit"],
+          "law": "Tahkim Kurulu Talimatı m.6, m.11",
+          "note": "Doğru ve dengeli. Tahkim Kurulu itirazı tam olarak inceler; deliller dilekçeye eklenir (m.6) ve Kurul gerekirse bilgi ve belge ister (m.11). Asıl mesele, borcun 31 Mart itibarıyla ertelenmiş olduğunun güvenilir belgelerle ispatıdır."
+        },
+        {
+          "text": "Belgeler sunulduysa ispat yükü tümüyle kulüptedir; Kurul SGK'dan ya da alacaklıdan kendiliğinden bilgi ve belge isteyemez, sunulanla yetinir.",
+          "delta": -5,
+          "law": "Tahkim Kurulu Talimatı m.11",
+          "note": "Kurul gerekli gördüğünde bilgi ve belge isteyebilir (Tahkim Kurulu Talimatı m.11). İspat yükünün kulüpte olduğu doğru, ama Kurul'un yetkisini daraltmak savunmanıza bir şey katmadı."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kurul, Başkanlığın kararıyla duruşma yapıyor. Federasyon vekili, SGK borcu hakkında?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Kurul, 31 Mart 2027 itibarıyla kulübün SGK'ya 18 milyon TL vadesi geçmiş prim borcu vardı. Kulübün kendi sunduğu 12 Nisan tarihli yazı da borcun ödenmediğini gösteriyor." },
+      "prompt": "Bu beyanı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_sgkonay"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_sgkok"],
+        "law": "Kulüp Lisans ve Finansal Sürdürülebilirlik Talimatı",
+        "note": "SGK taksitlendirmesi 27.03.2027'de onaylanmış, ilk taksit 29.03.2027'de ödenmiş. Yetkili makamla kritik tarihten önce yapılan yazılı yapılandırma borcu vadesi geçmiş olmaktan çıkarır; 12 Nisan yazısındaki “yapılandırılmış borç” ibaresi de bunu teyit ediyor.",
+        "reply": [
+          { "who": "judge", "text": "Onay yazısı ve dekont dosyaya alındı. SGK borcunun 31 Mart itibarıyla yapılandırılmış olduğu anlaşılıyor." }
+        ]
+      },
+      "responses": {
+        "ev_sgkyazi": { "delta": 5, "note": "Yazı borcun yapılandırıldığını gösteriyor, ama ne zaman yapılandırıldığını göstermiyor. Kritik olan onayın 31 Mart'tan önce verildiğiydi." },
+        "ev_protokol": { "delta": -5, "note": "Bu belge futbolcu borcuyla ilgili; SGK iddiasını çürütmez." },
+        "ev_odeme": { "delta": -10, "note": "Bu dekont futbolcuya yapılan ödemeyi gösteriyor, SGK borcunu değil." },
+        "ev_karar": { "delta": -10, "note": "Lisans Kurulu kararı Federasyonun iddiasını tekrarlıyor; çürütmüyor." },
+        "law_olcut": { "delta": -5, "note": "Ölçüt doğru, ama yapılandırmanın 31 Mart'tan önce yapıldığını gösteren belgeyi sunmanız gerekiyordu." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge SGK borcunun 31 Mart itibarıyla durumunu göstermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; SGK borcu 31 Mart itibarıyla vadesi geçmiş borç olarak kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Federasyon vekili, futbolcu Emre Yaman'a olan borç hakkında beyanınız?" }
+      ],
+      "prompt": "Emre Yaman'a olan 3.200.000 TL'lik borç 15.02.2027'de muaccel oldu, 28.04.2027'de ödendi. Bu borcun neden 31 Mart itibarıyla vadesi geçmiş sayılması gerektiğini, kulübün ileri sürebileceği bir erteleme savunmasını da karşılayarak anlatın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_guclu", "p2_orta"],
+          "law": "Kulüp Lisans ve Finansal Sürdürülebilirlik Talimatı",
+          "note": "Kritik tarihi, sonradan yapılan ödemenin eksikliği gidermeyeceğini ve bir erteleme belgesinin taşıması gereken şartları (yazılı, alacaklının iradesini içeren, 31 Mart'tan önce yapıldığı güvenilir biçimde ispatlanan) birlikte kurdunuz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_orta"],
+          "law": "Kulüp Lisans ve Finansal Sürdürülebilirlik Talimatı",
+          "note": "Kritik tarihi doğru koydunuz ama erteleme savunmasını yeterince karşılamadınız. Bir erteleme ancak yazılıysa, alacaklının iradesini içeriyorsa ve 31 Mart'tan önce yapıldığı güvenilir biçimde ispatlanırsa borcu vadesi geçmiş olmaktan çıkarır."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "Kulüp Lisans ve Finansal Sürdürülebilirlik Talimatı",
+          "note": "Kurul'a tutunacağı bir ölçüt vermediniz. Borç 31 Mart'ta ödenmemişti; 28 Nisan'daki ödeme eksikliği gidermez. Kulüp bir erteleme ileri sürerse, belgenin yazılı olması, alacaklının iradesini içermesi ve 31 Mart'tan önce yapıldığının ispatı aranır."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kritik tarih 31 Mart 2027'dir; borç o tarihte ödenmemişti, 28 Nisan'daki ödeme eksikliği gidermez. (2) Borç ancak kritik tarihten önce alacaklıyla yazılı olarak ertelenmişse ya da açıkça dayanaksız olmayan bir uyuşmazlık süresinde yetkili mercie taşınmışsa vadesi geçmiş sayılmaz. (3) Kulüp bir erteleme ileri sürerse: belge lisans sürecinde sunulmadı; yazılı olmalı, alacaklının iradesini içermeli ve 31 Mart'tan önce yapıldığı güvenilir biçimde ispatlanmalıdır (alacaklının teyidi, tarihli yazışma). (4) Talep: itirazın reddi ve lisans reddinin onanması. Yalnızca 'borç geç ödendi' diyen cevap orta puan alır; kritik tarihi karıştıran cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["31 Mart", "31.03", "kritik tarih"], "weight": 2 },
+        { "terms": ["yazılı", "ertele", "alacaklının onayı", "alacaklının rızası", "erteleme"], "weight": 2 },
+        { "terms": ["28 Nisan", "28.04", "sonradan ödeme", "sonraki ödeme", "geç ödeme"], "weight": 1 },
+        { "terms": ["teyit", "ispat", "tarihi", "gerçekliği"], "weight": 1 },
+        { "terms": ["vadesi geçmiş", "overdue"], "weight": 1 }
+      ],
+      "model": "Sayın Kurul, ölçüt 31 Mart 2027'dir. Emre Yaman'ın alacağı o tarihte ödenmemişti; 28 Nisan'daki ödeme eksikliği gidermez. Borç ancak alacaklıyla 31 Mart'tan önce yazılı olarak ertelenmişse vadesi geçmiş sayılmaz. Kulüp böyle bir belgeye dayanıyorsa, belge lisans sürecinde sunulmadığı için tarihi ve alacaklının iradesi güvenilir biçimde ispatlanmalıdır. İtirazın reddini istiyoruz."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kulüp vekili, Emre Yaman borcu hakkında?" }
+      ],
+      "prompt": "Kurul'u, Emre Yaman'a olan borcun 31 Mart itibarıyla vadesi geçmiş sayılmayacağına kendi cümlelerinizle ikna edin.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_savunma", "p1_guclu"],
+          "law": "Kulüp Lisans ve Finansal Sürdürülebilirlik Talimatı · Tahkim Kurulu Talimatı m.6",
+          "note": "Kritik tarihi kabul edip borcun o tarihten önce yazılı olarak ertelendiğini, alacaklının teyidini ve belgenin itiraz dilekçesine süresinde eklendiğini birlikte gösterdiniz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_savunma"],
+          "law": "Kulüp Lisans ve Finansal Sürdürülebilirlik Talimatı",
+          "note": "Erteleme savunmasını getirdiniz ama eksik. Tam savunma; 25.03.2027 tarihli protokolün iki tarafça imzalandığını, futbolcunun aynı gün e-postayla teyit ettiğini, belgenin kritik tarihten önce var olduğunu ve itiraz dilekçesine eklendiğini birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "Kulüp Lisans ve Finansal Sürdürülebilirlik Talimatı",
+          "note": "Borcun sonradan ödenmesi kulübü kurtarmaz; ölçüt 31 Mart'tır. Kulübü kurtaracak olan, o tarihten önce alacaklıyla yapılmış yazılı bir ertelemeydi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kritik tarih 31 Mart 2027'dir; kulüp bunu tartışmaz. (2) 25.03.2027 tarihli, kulüp ve alacaklı futbolcunun ıslak imzalı yazılı protokolüyle borcun vadesi 30.04.2027'ye ertelendi; futbolcu aynı gün e-postayla teyit etti. Alacaklıyla yazılı olarak ertelenen borç vadesi geçmiş sayılmaz. (3) Belge kritik tarihten önce vardı; itiraz dilekçesine eklendi (Tahkim Kurulu Talimatı m.6); ilk derecede sunulmamış olması onu yok saymaya yetmez. (4) Borç yeni vadesinden önce, 28.04.2027'de tamamen ödendi. Yalnızca 'borç ödendi' diyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["protokol", "ertele", "erteleme"], "weight": 3 },
+        { "terms": ["25 Mart", "25.03"], "weight": 2 },
+        { "terms": ["e-posta", "teyit", "onay", "imza"], "weight": 1 },
+        { "terms": ["30 Nisan", "30.04", "yeni vade"], "weight": 1 },
+        { "terms": ["31 Mart", "31.03", "kritik"], "weight": 1 }
+      ],
+      "model": "Sayın Kurul, ölçütün 31 Mart olduğunu kabul ediyoruz. Emre Yaman borcu 25.03.2027'de iki tarafın ıslak imzasını taşıyan yazılı bir protokolle 30.04.2027'ye ertelendi; futbolcu aynı gün e-postayla onayladı. Alacaklıyla yazılı olarak ertelenen borç vadesi geçmiş sayılmaz. Belge kritik tarihten önce vardı ve itiraz dilekçemize eklendi. Borç yeni vadesinden önce, 28 Nisan'da tamamen ödendi."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "p1", "text": "Sayın Kurul, aleyhe bir karar müvekkilim için telafisi imkânsız olur. Gerekirse Anayasa Mahkemesine de başvurulacaktır." },
+        { "who": "judge", "text": "Federasyon vekili?" }
+      ],
+      "prompt": "Kurul kararının niteliği hakkında ne söyleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Kurul kararına karşı bir ay içinde HMK m.439 uyarınca iptal davası açılabilir; Kurul bu yüzden aceleye gerek duymadan incelemeli.",
+          "delta": -10,
+          "law": "5894 s.K. m.6/6",
+          "note": "Lisans kararı futbol faaliyetlerinin yönetimine ilişkindir; bu alandaki Kurul kararları kesindir (5894 s.K. m.6/6). İptal davası yalnızca bunun dışındaki kararlar için öngörülmüştür. Üstelik UEFA takvimi ivedilik gerektiriyor."
+        },
+        {
+          "text": "Lisans kararı futbolun yönetimine ilişkindir; Kurul kararı kesindir ve AYM bu tür başvuruları konu bakımından kabul edilemez buluyor.",
+          "delta": 15,
+          "set": ["p2_kesin"],
+          "law": "Anayasa m.59/3 · 5894 s.K. m.6/6 · 6216 s.K. m.45/3",
+          "note": "Doğru. Federasyonların spor faaliyetlerinin yönetimine ilişkin kararlarına karşı ancak zorunlu tahkim yoluna gidilir ve tahkim kurulu kararları kesindir (Anayasa m.59/3; 5894 s.K. m.6/6). Anayasa Mahkemesi bu kararlara karşı bireysel başvuruları konu bakımından yetkisizlik nedeniyle kabul edilemez buluyor (6216 s.K. m.45/3; Abdurrahman Akyüz, B. No: 2012/620)."
+        },
+        {
+          "text": "Lisans kararlarında son söz UEFA Kulüp Finansal Kontrol Kurulu'nundur; kulüp Kurul kararını oraya taşıyabilir, bu yüzden acele gerekmez.",
+          "delta": -10,
+          "law": "5894 s.K. m.6/6",
+          "note": "UEFA'nın kulüp finansal denetim organı ulusal lisans kararları için bir itiraz mercii değildir. Ulusal lisans sürecinde son karar Tahkim Kurulu'nundur ve kesindir (5894 s.K. m.6/6)."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kulüp vekili, talebinizi son kez netleştirin." }
+      ],
+      "prompt": "Kurul'dan tam olarak ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Kurul şimdilik ihtiyati tedbir yoluyla lisans versin; esas hakkındaki kararını sezon sonunda, bütün belgeleri inceleyerek versin.",
+          "delta": -15,
+          "set": ["p1_tedbir"],
+          "law": "Tahkim Kurulu Talimatı m.20",
+          "note": "Talimattaki tedbir, bir kararın infazını durdurur (m.20); ret kararının durdurulması kulübe lisans vermez. Lisans ancak ölçütlerin karşılandığına dair esastan bir kararla verilir."
+        },
+        {
+          "text": "Lisans Kurulu kararı kaldırılsın ve UEFA lisansının verilmesine Kurul'ca karar verilsin; dosyanın geri gönderilmesi takvimi kaçırtır.",
+          "delta": 15,
+          "set": ["p1_talep"],
+          "law": "Tahkim Kurulu Talimatı m.13",
+          "note": "Doğru. Kurul itiraz edilen kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.13). UEFA'ya bildirim tarihi yaklaşırken dosyanın iadesi kulübü telafisiz bir risk altına sokardı."
+        },
+        {
+          "text": "Kararın kaldırılmasını ve dosyanın yeniden değerlendirilmek üzere Kulüp Lisans Kurulu'na iadesini iste; o kurul ivedi karar versin.",
+          "delta": -5,
+          "set": ["p1_iade"],
+          "law": "Tahkim Kurulu Talimatı m.13",
+          "note": "Kurul dosyayı merciine iade edebilir (m.13), ama UEFA'ya lisans listesinin bildirileceği tarih yaklaşırken bu, kararın geç çıkması riskini doğurur. Değiştirerek karar istenmeliydi."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_protokol && p1_sgkok && p1_savunma && p1_iade && (p1_guclu || !p2_guclu)",
+      "winner": "draw",
+      "hukum": "İtirazın KABULÜ ile Kulüp Lisans Kurulu'nun 14.05.2027 tarihli kararının KALDIRILMASINA, dosyanın ivedilikle yeniden değerlendirilmek üzere Kulüp Lisans Kurulu'na İADESİNE,",
+      "summary": [
+        { "text": "Kulüp vekili, SGK borcunun 27.03.2027'de yapılandırıldığını ve Emre Yaman borcunun 25.03.2027'de yazılı olarak ertelendiğini ispatladı; 31 Mart itibarıyla vadesi geçmiş borç yoktu." },
+        { "text": " Ama Kurul'dan lisansın verilmesini değil, dosyanın iadesini istedi. Lisans Kurulu yeniden karar verecek; UEFA takviminin kaçması riski sürüyor." }
+      ]
+    },
+    {
+      "if": "p1_protokol && p1_sgkok && p1_savunma && (p1_guclu || !p2_guclu)",
+      "winner": "p1",
+      "hukum": "İtirazın KABULÜ ile Kulüp Lisans Kurulu'nun 14.05.2027 tarihli kararının KALDIRILMASINA, Ege Yıldızı Spor A.Ş.'ye 2027-2028 sezonu için UEFA lisansı VERİLMESİNE, kararın kesin olarak verildiğine,",
+      "summary": [
+        { "text": "Kulüp vekili kritik tarihi kabul etti ve iki borcun da 31 Mart'tan önce vadesi geçmiş olmaktan çıktığını ispatladı: SGK taksitlendirmesi 27.03.2027'de onaylanmış, ilk taksit 29.03.2027'de ödenmişti; Emre Yaman borcu 25.03.2027'de alacaklının imzası ve teyidiyle yazılı olarak ertelenmişti." },
+        { "if": "p2_teyit", "text": " Federasyon vekili belgelerin tarihlerinin sınanmasını doğru biçimde istedi; teyit e-postası ve SGK onay yazısı bu sınamadan geçti." },
+        { "if": "p2_yasak", "text": " Federasyonun yeni belgelerin tümden dışlanması talebi, Talimatın 6. ve 11. maddeleri karşısında kabul görmedi." },
+        { "if": "p1_odeme", "text": " Kulüp vekilinin itiraz dilekçesinde sonradan yapılan ödemelere dayanması ise yanlış ölçüttü; sonucu kurtaran, kritik tarihten önceki belgeler oldu." },
+        { "if": "p1_tedbir", "text": " Tedbirle lisans talebi ayrıca reddedildi." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "İtirazın REDDİNE, Kulüp Lisans Kurulu'nun 14.05.2027 tarihli kararının ONANMASINA, kararın kesin olarak verildiğine,",
+      "summary": [
+        { "text": "Vadesi geçmiş borç ölçütü 31 Mart itibarıyla uygulanır; sonradan yapılan ödeme eksikliği gidermez." },
+        { "if": "!p1_protokol", "text": " Kulüp vekili Emre Yaman borcu için 31 Mart'tan önce yapılmış yazılı bir ertelemeyi ortaya çıkarmadı; 28 Nisan'daki ödeme kulübü kurtarmadı." },
+        { "if": "p1_protokol && !p1_savunma", "text": " Elindeki erteleme protokolünü Kurul'a ikna edici biçimde sunamadı." },
+        { "if": "p1_protokol && p1_savunma && p2_guclu", "text": " Federasyon vekili, lisans sürecinde sunulmamış protokolün tarihini ve alacaklının iradesini güçlü biçimde sorguladı; Kurul ertelemenin 31 Mart'tan önce yapıldığına kanaat getirmedi." },
+        { "if": "!p1_sgkok", "text": " SGK yapılandırmasının 31 Mart'tan önce onaylandığı da belgeyle gösterilemedi." },
+        { "if": "p2_kesin", "text": " Federasyon vekilinin hatırlattığı gibi Kurul kararı kesindir (Anayasa m.59/3)." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,356 @@
+{
+  "id": "th-ihtk-disiplin-savunma",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "ihtk",
+  "difficulty": "orta",
+  "title": "Gösterilmeyen Tutanak",
+  "area": "Tahkim · İnsan Hakları Tazminat Komisyonu · Disiplin cezası itirazında savunma hakkı",
+  "court": "İnsan Hakları Tazminat Komisyonu (Adalet Bakanlığı) · Müracaat No. 2014/4471",
+  "courtShort": "TAZMİNAT KOMİSYONU",
+  "esas": "Müracaat No. 2014/4471",
+  "kararTarihi": "29.10.2014",
+  "color": "#5a3f3f",
+  "teaser": "Hükümlüye üç ay ziyaret yasağı verildi. Aleyhindeki tutanak gösterilmedi, kamera kaydı talebi cevapsız kaldı; şikâyeti ve itirazı duruşmasız reddedildi. Bakanlık, yazılı savunmanın alındığını söylüyor.",
+  "bench": { "judges": 5, "title": "Komisyon Başkanı ve dört üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Başvuran vekili", "short": "Başvuran" },
+    "p2": { "role": "Adalet Bakanlığı temsilcisi (görüş sunan)", "short": "Bakanlık" }
+  },
+  "cast": {
+    "judge": { "name": "Komisyon Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#d8a67e", "hair": "#5b5b60", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#f0caa6", "hair": "#2a2220", "style": "long", "shirt": "#262a31", "inner": "#e4ddd2" } },
+    "p2": { "look": { "kind": "civil", "skin": "#c99872", "hair": "#3b2b22", "style": "short", "beard": true, "shirt": "#30343c", "inner": "#dcd6cc" } },
+    "client": { "name": "Cemal Aksoy · Başvuran", "np": "civil", "look": { "kind": "civil", "skin": "#c4916b", "hair": "#2e2a28", "style": "short", "beard": true, "shirt": "#6b6b5e", "inner": "#e2ddd2" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Cemal Aksoy, kapalı bir ceza infaz kurumunda hükümlü. 14.02.2012'de kurum disiplin kurulu, bir görevliye hakaret ettiği gerekçesiyle ona üç ay ziyaretçi kabulünden yoksun bırakma cezası verdi. Aleyhindeki tutanak ve görevli beyanları kendisine gösterilmedi." },
+    { "who": "narr", "text": "Cemal kamera kaydının incelenmesini ve koğuş arkadaşının dinlenmesini istedi; cevap alamadı. İnfaz hâkimliği şikâyetini dosya üzerinden reddetti; ağır ceza mahkemesi de itirazı duruşma yapmadan 08.06.2012'de kesin olarak reddetti. Cemal 20.11.2012'de AİHM'e başvurdu; başvuru bekliyor." },
+    { "who": "narr", "text": "2014/5917 sayılı Bakanlar Kurulu Kararı 16.03.2014'te yayımlandı. 4675 sayılı Kanun kapsamında disiplin cezalarına yapılan itirazlarda savunma hakkının kısıtlandığı şikâyetleri artık Komisyonun görev alanında." },
+    { "who": "client", "text": "Annem o üç ay hastanedeydi, göremedim. Ne söylediğimi kimse dinlemedi. Bunun bir karşılığı yok mu?" },
+    { "who": "narr", "text": "Bugün 07.04.2014. Komisyon dosya üzerinden karar verir; Bakanlığın yazılı görüşü burada başvuranın görüşüyle karşılıklı tartışılıyor." }
+  ],
+  "docs": [
+    { "t": "2014/5917 sayılı Bakanlar Kurulu Kararı (RG 16.03.2014)", "d": "Komisyonun görev alanı; 4675 sayılı Kanun kapsamında disiplin cezalarına yapılan itirazlarda savunma hakkının kısıtlanması, Türkçe dışındaki dillerde mektupların gönderilmemesi, yayınlara erişimin kısıtlanması ve kamulaştırma bedellerindeki değer kaybı şikâyetlerini içerecek biçimde genişletildi. AİHM'de bekleyen başvurular için müracaat süresi Kararın yayımından itibaren altı ay; AİHM'nin kabul edilemezlik kararının tebliğinden itibaren bir ay." },
+    { "t": "4675 sayılı İnfaz Hâkimliği Kanunu", "d": "Disiplin cezalarına karşı infaz hâkimliğine şikâyet yolu ve infaz hâkimliği kararlarına karşı ağır ceza mahkemesine itiraz. Başvuranın şikâyeti dosya üzerinden, itirazı duruşmasız incelendi." },
+    { "t": "Disiplin süreci (özet)", "d": "13.02.2012 yazılı savunma istendi ve alındı · 14.02.2012 disiplin kurulu kararı: üç ay ziyaretçi kabulünden yoksun bırakma · 16.02.2012 başvuranın kamera kaydı ve tanık dilekçesi · 05.03.2012 infaz hâkimliği, şikâyetin reddi · 08.06.2012 ağır ceza, itirazın kesin reddi." },
+    { "t": "AİHM başvurusu", "d": "20.11.2012 tarihli; adil yargılanma (m.6) ve aile hayatına saygı (m.8). Derdest." },
+    { "t": "Müracaat talebi", "d": "Savunma hakkının kısıtlanması nedeniyle 15.000 TL manevi tazminat; disiplin cezasının kaldırılması." }
+  ],
+  "evidence": [
+    { "id": "ev_savunma", "type": "belge", "title": "Yazılı savunma tutanağı", "desc": "13.02.2012; başvurandan yazılı savunma istenmiş, aynı gün alınmış. Tutanakta aleyhe delillerin gösterildiğine dair kayıt yok." },
+    { "id": "ev_kurul", "type": "belge", "title": "Disiplin kurulu kararı", "desc": "14.02.2012; görevli tutanağına ve iki görevlinin beyanına dayanıyor; üç ay ziyaretçi kabulünden yoksun bırakma." },
+    { "id": "ev_karar", "type": "belge", "title": "İnfaz hâkimliği ve ağır ceza kararları", "desc": "Şikâyet dosya üzerinden, itiraz duruşmasız incelendi; başvuran dinlenmedi, kamera ve tanık talebi hakkında bir değerlendirme yok." },
+    { "id": "ev_dilekce", "type": "belge", "title": "Kamera ve tanık dilekçesi", "desc": "16.02.2012 tarihli, kurum evrak kayıt numaralı; olay anına ait kamera kaydının incelenmesi ve koğuş arkadaşının dinlenmesi isteniyor.", "if": "p1_kamera" },
+    { "id": "ev_rapor", "type": "belge", "title": "Annenin hastane kayıtları", "desc": "Mart–Nisan 2012 arasında yatarak tedavi.", "if": "p1_anne" },
+    { "id": "law_bkk", "type": "kanun", "title": "2014/5917 sayılı BKK", "desc": "Disiplin cezası itirazlarında savunma hakkının kısıtlanması şikâyetleri Komisyonun görev alanında.", "law": "6384 s.K. m.2 · BKK 2014/5917" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "MÜRACAAT · Bakanlar Kurulu Kararı üç hafta önce yayımlandı. AİHM'deki başvuru bekliyor." }
+      ],
+      "prompt": "Cemal Aksoy için ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Kararın yayımından itibaren altı ay içinde, 16.09.2014'e kadar Komisyona müracaat et; AİHM başvurusunu ve infaz dosyasını ekle.",
+          "delta": 20,
+          "set": ["p1_bkk"],
+          "law": "6384 s.K. m.2 · BKK 2014/5917",
+          "note": "Doğru. Genişletilen görev alanına giren ve AİHM'de bekleyen başvurular için süre, Kararın yayımından itibaren altı aydır.",
+          "reply": [{ "who": "narr", "text": "Müracaat 18.04.2014'te yapıldı." }]
+        },
+        {
+          "text": "AİHM'nin kabul edilemezlik kararını bekle; tebliğinden itibaren bir ay içinde Komisyona müracaat et, böylece iki yol çakışmaz.",
+          "delta": 5,
+          "set": ["p1_bekle"],
+          "law": "BKK 2014/5917",
+          "note": "Kararın tanıdığı bir süre bu, ama beklemenin bir kazancı yok: iki yol zaten çakışmaz, Komisyon tam da AİHM'deki başvuruları iç hukukta çözmek için kuruldu. Altı ay içinde hemen müracaat daha güvenliydi.",
+          "reply": [{ "who": "client", "text": "Ne kadar bekleyeceğiz? Şimdi başvuralım." }, { "who": "narr", "text": "Müvekkilin ısrarıyla müracaat 18.04.2014'te yapıldı." }]
+        },
+        {
+          "text": "Anayasa Mahkemesine bireysel başvuru yap; savunma hakkı şikâyetleri Anayasa m.36 kapsamında doğrudan orada incelenir.",
+          "delta": -15,
+          "law": "6216 s.K. geçici m.1/8",
+          "note": "Anayasa Mahkemesi yalnızca 23.09.2012'den sonra kesinleşen işlem ve kararlara karşı başvuruları inceler. İtiraz 08.06.2012'de kesin olarak reddedildiğinden bu yol zaman bakımından kapalı.",
+          "reply": [{ "who": "narr", "text": "Bir meslektaşınız zaman bakımından yetki sorununu hatırlattı. Komisyona müracaat 18.04.2014'te yapıldı." }]
+        },
+        {
+          "text": "İnfaz hâkimliğine yeniden şikâyette bulun; ceza kaldırılırsa AİHM başvurusu da konusuz kalır ve sorun kendiliğinden çözülür.",
+          "delta": -10,
+          "law": "4675 s.K.",
+          "note": "Şikâyet ve itiraz yolu tüketildi, karar kesinleşti; ceza da infaz edildi. Aynı işleme yeniden şikâyet bir sonuç doğurmaz.",
+          "reply": [{ "who": "narr", "text": "Şikâyet dilekçesini yazarken vazgeçtiniz; Komisyona müracaat 18.04.2014'te yapıldı." }]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAKANLIK GÖRÜŞÜ · Komisyon, Ceza ve Tevkifevleri Genel Müdürlüğünden dosyayı ve görüş istedi." }
+      ],
+      "prompt": "Bakanlık görüşünün dayanağı ne olacak?",
+      "choices": [
+        {
+          "text": "Disiplin cezası idari bir yaptırımdır; adil yargılanma güvenceleri burada uygulanmaz, bu nedenle Komisyon da görevsizdir.",
+          "delta": -15,
+          "set": ["p2_idari"],
+          "law": "6384 s.K. m.2 · BKK 2014/5917",
+          "note": "Yanlış. Bakanlar Kurulu Kararı tam da bu şikâyetleri Komisyonun görev alanına aldı. AİHM de Türkiye hakkında, disiplin cezasına itirazın hükümlü dinlenmeden ve duruşmasız incelenmesini adil yargılanma hakkına aykırı bulmuştur (ör. Gülmez/Türkiye, 2008)."
+        },
+        {
+          "text": "Ceza hafiftir ve infazı tamamlanmıştır; başvuranın artık hukuki yararı kalmadığından müracaatın reddini iste.",
+          "delta": -10,
+          "set": ["p2_yarar"],
+          "law": "6384 s.K.",
+          "note": "Cezanın infaz edilmiş olması, infaz sürecinde savunma hakkının kısıtlanmasından doğan ihlali ortadan kaldırmaz; tazminat talebi bu yüzden vardır."
+        },
+        {
+          "text": "Yazılı savunmanın alındığını belgeyle göster; ihlal bulunursa manevi tazminatın emsallere göre düşük tutulmasını iste.",
+          "delta": 15,
+          "set": ["p2_savunma"],
+          "law": "BKK 2014/5917",
+          "note": "Doğru strateji. Savunmanın alındığı belgeli bir olgudur; başvuranın 'hiç savunma alınmadı' gibi bir iddiası olursa çürütür. Asıl tartışma ise delillere erişim ve duruşmasız inceleme olacak."
+        },
+        {
+          "text": "Başvuranın şikâyetten önce kurum müdürlüğüne dilekçe vermediğini, iç yolları usulüne uygun tüketmediğini ileri sür.",
+          "delta": -10,
+          "set": ["p2_yol"],
+          "law": "4675 s.K.",
+          "note": "Disiplin cezasına karşı yol infaz hâkimliğine şikâyet ve ağır ceza mahkemesine itirazdır; başvuran ikisini de kullandı."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Kurumda Cemal'le görüşüyorsunuz. İki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Disiplin kurulunda size hangi belgeler gösterildi?",
+          "delta": 15,
+          "set": ["p1_kamera"],
+          "reply": [{ "who": "client", "text": "Hiçbiri. Savunmamı aynı gün yazdım, neyle suçlandığımı tam bilmeden. İki gün sonra kamera kaydının incelenmesini ve koğuş arkadaşımın dinlenmesini dilekçeyle istedim; cevap gelmedi. Kayıt numarası bende." },
+            { "who": "narr", "text": "Dilekçenin kayıtlı örneği delil çantanıza eklendi." }],
+          "note": "Kilit soru. Savunma hakkı yalnızca savunma yazmak değil; aleyhe delilleri bilmek ve lehe delil gösterebilmektir. Cevapsız kalan kayıtlı dilekçe bunun kanıtı."
+        },
+        {
+          "text": "Ziyaret yasağı size neye mal oldu?",
+          "delta": 10,
+          "set": ["p1_anne"],
+          "reply": [{ "who": "client", "text": "Annem o üç ay hastanede yattı; onu bir kez bile göremedim. Hastane kayıtları kardeşimde." }],
+          "note": "Yerinde. Cezanın başvuran üzerindeki etkisi manevi zararın ölçüsünü belirler. Hastane kayıtları çantanıza eklendi."
+        },
+        {
+          "text": "Olay günü gerçekten ne oldu, görevliye hakaret ettiniz mi?",
+          "delta": -5,
+          "reply": [{ "who": "client", "text": "Sesimi yükselttim, hakaret etmedim." }],
+          "note": "Komisyon disiplin olayının esasını yeniden yargılamaz; usul güvencelerinin sağlanıp sağlanmadığına bakar. Sınırlı vaktinizi esasa harcadınız."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, başvuran vekilinin beyanına cevabınız?" }
+      ],
+      "statement": { "who": "p1", "text": "Başvurana savunma hakkı hiç tanınmamış, disiplin cezası savunması dahi alınmadan verilmiştir." },
+      "prompt": "Bu beyanı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_savunma"],
+      "hit": {
+        "delta": 15,
+        "set": ["p2_yazili"],
+        "law": "BKK 2014/5917",
+        "note": "Yazılı savunma 13.02.2012'de alınmış; beyanın 'savunması dahi alınmadan' kısmı çürüdü. Ama tutanakta aleyhe delillerin gösterildiğine dair bir kayıt yok; asıl şikâyet ayakta.",
+        "reply": [{ "who": "judge", "text": "Savunma tutanağı dosyaya alındı. Yazılı savunmanın alındığı anlaşılıyor." }]
+      },
+      "responses": {
+        "ev_kurul": { "delta": 0, "note": "Kurul kararı cezanın dayanağını gösteriyor, savunmanın alındığını değil." },
+        "ev_karar": { "delta": -5, "note": "Bu kararlar şikâyet ve itirazın duruşmasız incelendiğini gösteriyor; Bakanlığın aleyhine." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge beyana karşılık vermiyor." },
+      "pass": { "delta": -10, "note": "Beyan cevapsız kaldı; savunmanın alındığı dosyadan gösterilmedi." }
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, yazılı savunmanın alındığı anlaşılıyor. İhlal iddianızın özü nedir?" }
+      ],
+      "prompt": "Yazılı savunma alınmış olsa bile savunma hakkının neden kısıtlandığını ve neyi talep ettiğinizi kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p1_olcut"], "law": "AİHS m.6/1 · 4675 s.K. · BKK 2014/5917", "note": "Güçlü bir görüş: yazılı savunmanın yetmediğini, delillere erişimin ve lehe delil gösterme imkânının bulunmadığını, şikâyet ve itirazın dinlenmeden incelendiğini ve cezanın etkisini birlikte ortaya koydunuz." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p1_olcut"], "law": "AİHS m.6/1 · 4675 s.K.", "note": "Savunma hakkının kısıtlandığını söylediniz. Eksik kalan: aleyhe tutanağın gösterilmemesi, kayıtlı kamera ve tanık dilekçesinin cevapsız kalması, şikâyet ve itirazın duruşmasız incelenmesi ve ziyaret yasağının aile hayatına etkisi." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "AİHS m.6/1", "note": "Görüşünüz yazılı savunmanın neden yetmediğini göstermedi. Delillere erişim, lehe delil talebi ve dinlenme hakkı iddianın özüydü." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Yazılı savunmanın alınması tek başına yeterli değildir: başvurana aleyhindeki tutanak ve görevli beyanları gösterilmemiş, neyle suçlandığını tam bilmeden savunma yapmıştır. (2) Kayıtlı dilekçeyle istenen kamera kaydı ve tanık hiç değerlendirilmemiş; lehe delil gösterme imkânı tanınmamıştır. (3) İnfaz hâkimliği şikâyeti dosya üzerinden, ağır ceza mahkemesi itirazı duruşmasız ve başvuranı dinlemeden incelemiştir (4675 s.K.); AİHM bu durumu Türkiye hakkında adil yargılanma hakkına aykırı bulmuştur (ör. Gülmez/Türkiye, 2008). (4) Bu şikâyetler 2014/5917 sayılı Bakanlar Kurulu Kararıyla Komisyonun görev alanındadır. (5) Üç aylık ziyaret yasağı, annesi hastanedeyken aile bağını kesmiştir; manevi tazminat bu ağırlık gözetilerek emsallere göre belirlenmelidir. Delillere erişim, duruşmasız inceleme ve cezanın etkisi birlikte tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["tutanak", "aleyhe delil", "deliller gösterilmedi", "delillere erişim"], "weight": 2 },
+        { "terms": ["kamera", "tanık", "dilekçe"], "weight": 2 },
+        { "terms": ["duruşmasız", "dinlenmeden", "dosya üzerinden", "4675"], "weight": 2 },
+        { "terms": ["Gülmez", "AİHM", "m.6", "adil yargılanma"], "weight": 1 },
+        { "terms": ["anne", "ziyaret", "aile"], "weight": 1 },
+        { "terms": ["manevi", "emsal"], "weight": 1 }
+      ],
+      "model": "Yazılı savunma alınmış olması yetmez: müvekkile aleyhindeki tutanak ve görevli beyanları gösterilmedi, neyle suçlandığını tam bilmeden savunma yaptı. Kayıtlı dilekçeyle istediği kamera kaydı ve tanık hiç değerlendirilmedi. İnfaz hâkimliği şikâyeti dosya üzerinden, ağır ceza mahkemesi de itirazı duruşmasız ve onu dinlemeden reddetti; AİHM bu durumu Türkiye hakkında adil yargılanma hakkına aykırı bulmuştur. Annesi hastanedeyken verilen üç aylık ziyaret yasağının ağırlığı gözetilerek emsallere göre manevi tazminat istiyoruz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, kamera kaydı ve tanık talebinin cevapsız kalmasına ne diyorsunuz?" }
+      ],
+      "prompt": "Bu noktada Bakanlığın tutumu ne olacak?",
+      "choices": [
+        {
+          "text": "Kamera kayıtları kurum güvenliği gereği hükümlüye hiçbir koşulda gösterilemez; bu kısıtlama mutlaktır ve ihlal oluşturmaz.",
+          "delta": -10,
+          "law": "AİHS m.6/1",
+          "note": "Güvenlik gerekçesi kaydın hükümlüye nasıl gösterileceğini sınırlayabilir; ama kaydın hiç incelenmemesini ve talebin cevapsız bırakılmasını haklı kılmaz."
+        },
+        {
+          "text": "Başvuranın kamera kaydı ya da tanık dinlenmesi yönünde yazılı bir talebi yoktur; bu iddia dosyadaki belgelerle desteklenmiyor.",
+          "delta": -15,
+          "law": "AİHS m.6/1",
+          "note": "Kurum evrak kaydında olan bir dilekçeyi inkâr etmek Bakanlığın inandırıcılığını yıkar."
+        },
+        {
+          "text": "Talebin cevapsız kaldığını kabul et; ancak yasağın üç ayla sınırlı olduğunu, sonrasında görüş hakkının kullanıldığını göster.",
+          "delta": 15,
+          "set": ["p2_kabul"],
+          "law": "BKK 2014/5917",
+          "note": "İnandırıcı bir tutum. İnkâr edilemeyeni kabul ettiniz; tartışmayı ihlalin ağırlığına ve manevi tutarın ölçüsüne taşıdınız."
+        },
+        {
+          "text": "Kayıt incelenseydi de sonuç değişmezdi; sonuca etkili olmayan bir usul eksikliği adil yargılanma hakkını ihlal etmez.",
+          "delta": -10,
+          "law": "AİHS m.6/1",
+          "note": "Sonucun değişip değişmeyeceği, delil incelenmeden bilinemez. Usul güvencesinin yokluğu, sonuçtan bağımsız olarak ihlal oluşturabilir."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, tazminat tutarı hakkında görüşünüz?" }
+      ],
+      "prompt": "Komisyonun manevi tazminatı nasıl belirlemesi gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p2_miktar"], "law": "BKK 2014/5917 · 6384 s.K.", "note": "Ölçülü bir görüş: ihlalin usul güvencesiyle sınırlı olduğunu, Komisyonun cezanın esasını yeniden yargılamadığını, cezanın süresini ve tutarın emsallere bağlanacağını gösterdiniz." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p2_miktar"], "law": "BKK 2014/5917", "note": "Tutarın düşük tutulması gerektiğini söylediniz. Eksik kalan: ihlalin usule ilişkin olduğu ve cezanın haksız olduğu anlamına gelmediği, yasağın süresi ve tutarın AİHM emsallerine göre belirlenmesi." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "BKK 2014/5917", "note": "Görüşünüz tutarı neye göre sınırlayacağınızı göstermedi. İhlali inkâr etmek artık mümkün değil; tartışılacak olan ölçüdür." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Bulunacak ihlal usule ilişkindir: savunma hakkının kısıtlanması, cezanın haksız olduğu anlamına gelmez; Komisyon disiplin olayının esasını yeniden yargılamaz. (2) Yazılı savunma alınmıştır; kısıtlama delillere erişim ve dinlenme hakkıyla sınırlıdır. (3) Ceza üç aylık bir ziyaret yasağıdır ve infazı tamamlanmıştır; başvuran sonrasında görüş hakkını kullanmıştır. (4) Manevi tazminat AİHM'nin benzer dosyalardaki emsal tutarlarına göre ölçülü belirlenmelidir. Usul ihlali ile esas ayrımı, cezanın süresi ve emsal ölçütü birlikte tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["usul", "esas", "yeniden yargılamaz"], "weight": 2 },
+        { "terms": ["yazılı savunma", "savunma alındı", "savunması alındı"], "weight": 1 },
+        { "terms": ["üç ay", "3 ay", "infaz edildi", "tamamlandı"], "weight": 2 },
+        { "terms": ["emsal", "AİHM"], "weight": 2 },
+        { "terms": ["ölçülü", "düşük", "sınırlı"], "weight": 1 }
+      ],
+      "model": "Bulunacak ihlal usule ilişkindir; savunma hakkının kısıtlanması cezanın haksız olduğu anlamına gelmez ve Komisyon disiplin olayının esasını yeniden yargılamaz. Yazılı savunma alınmış, kısıtlama delillere erişim ve dinlenme hakkıyla sınırlı kalmıştır. Ceza üç aylık bir ziyaret yasağıdır, infazı tamamlanmış ve başvuran sonrasında görüş hakkını kullanmıştır. Manevi tazminat AİHM'nin benzer dosyalardaki emsal tutarlarına göre ölçülü belirlenmelidir."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "client", "text": "Komisyon bu cezayı sicilimden silsin. İyi hâl değerlendirmesinde aleyhime sayılmasın." },
+        { "who": "judge", "text": "Başvuran vekili, talebinizi netleştirin." }
+      ],
+      "prompt": "Talebinizi nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Komisyondan disiplin cezasının kaldırılmasını ve kurum kayıtlarından silinmesini, ayrıca manevi tazminat ödenmesini istiyoruz.",
+          "delta": -10,
+          "set": ["p1_iptal"],
+          "law": "6384 s.K. · BKK 2014/5917",
+          "note": "Komisyon bir yargı merci değildir; kesinleşmiş disiplin cezasını kaldıramaz. Görevi ihlali tespit edip tazminata hükmetmektir."
+        },
+        {
+          "text": "Komisyon disiplin cezasını kaldıramaz; talebimizi savunma hakkı ihlalinin tespiti ve manevi tazminatla sınırlıyoruz.",
+          "delta": 15,
+          "set": ["p1_talep"],
+          "law": "6384 s.K. · BKK 2014/5917",
+          "note": "Doğru. Komisyonun yetkisi ihlalin tespiti ve tazminattır; talebi buna göre kurmak kısmi ret riskini ortadan kaldırır."
+        },
+        {
+          "text": "Komisyondan, dosyanın yeniden incelenmek üzere ağır ceza mahkemesine gönderilmesini ve bu kez duruşma açılmasını istiyoruz.",
+          "delta": -10,
+          "law": "6384 s.K.",
+          "note": "Komisyon bir dosyayı yeniden incelenmek üzere mahkemeye gönderemez; kesinleşmiş yargısal kararlar üzerinde böyle bir yetkisi yoktur."
+        },
+        {
+          "text": "Annesini göremeyen başvuran için ailesinin yol ve konaklama giderleri kadar maddi tazminat da ödenmesini istiyoruz.",
+          "delta": -5,
+          "law": "6384 s.K.",
+          "note": "Ziyaret yapılamadığı için böyle bir gider doğmadı; ortada kanıtlanabilir bir maddi zarar yok. Zarar manevidir."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_kamera && p1_olcut && !p2_miktar",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Müracaatın KABULÜ ile disiplin cezasına itiraz sürecinde savunma hakkının kısıtlandığının TESPİTİNE, başvurana 4.500 TL manevi tazminat ödenmesine," },
+        { "if": "p1_iptal", "text": " disiplin cezasının kaldırılması talebinin Komisyonun görev alanı dışında kaldığından REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Başvuran vekili yazılı savunmanın neden yetmediğini gösterdi: aleyhe tutanak gösterilmemiş, kayıtlı kamera ve tanık dilekçesi cevapsız kalmış, şikâyet ve itiraz başvuran dinlenmeden incelenmişti." },
+        { "if": "p1_anne", "text": " Annesi hastanedeyken verilen ziyaret yasağının ağırlığı tutara yansıdı." },
+        { "if": "p2_idari", "text": " Bakanlığın görev itirazı Bakanlar Kurulu Kararı karşısında tutmadı." },
+        { "text": " Bakanlık tutarı emsallere bağlayan ölçülü bir görüş sunamadı." }
+      ]
+    },
+    {
+      "if": "p2_miktar && (p2_yazili || p2_savunma) && !p1_kamera",
+      "winner": "p2",
+      "hukum": [
+        { "text": "Müracaatın KISMEN KABULÜ ile disiplin cezasına itiraz sürecinde savunma hakkının kısıtlandığının TESPİTİNE, başvurana 1.800 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "p1_iptal", "text": " disiplin cezasının kaldırılması talebinin Komisyonun görev alanı dışında kaldığından REDDİNE," }
+      ],
+      "summary": "Şikâyetin ve itirazın duruşmasız incelendiği dosyadan anlaşıldığı için ihlal tespit edildi. Ama Bakanlık yazılı savunmanın alındığını gösterdi ve ihlalin usule ilişkin, sınırlı bir ihlal olduğunu ikna edici biçimde ortaya koydu. Başvuran vekili kamera ve tanık talebinin cevapsız kaldığını belgeleyemediği için tutar alt sınırda kaldı."
+    },
+    {
+      "if": "(p1_kamera || p1_olcut) && (p2_miktar || p2_kabul)",
+      "winner": "draw",
+      "hukum": [
+        { "text": "Müracaatın KISMEN KABULÜ ile disiplin cezasına itiraz sürecinde savunma hakkının kısıtlandığının TESPİTİNE, başvurana 3.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "p1_iptal", "text": " disiplin cezasının kaldırılması talebinin Komisyonun görev alanı dışında kaldığından REDDİNE," }
+      ],
+      "summary": [
+        { "text": "İki taraf da işini yaptı. Başvuran vekili delillere erişimin ve dinlenme hakkının kısıtlandığını gösterdi; Bakanlık da yazılı savunmanın alındığını ve cezanın sınırlı süresini ortaya koydu. Komisyon ihlali tespit edip orta düzeyde tazminata hükmetti." },
+        { "if": "p1_talep", "text": " Talebin ihlal tespiti ve tazminatla sınırlanması isabetliydi." }
+      ]
+    },
+    {
+      "if": "p1_kamera || p1_olcut",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Müracaatın KABULÜ ile disiplin cezasına itiraz sürecinde savunma hakkının kısıtlandığının TESPİTİNE, başvurana 4.000 TL manevi tazminat ödenmesine," },
+        { "if": "p1_iptal", "text": " disiplin cezasının kaldırılması talebinin Komisyonun görev alanı dışında kaldığından REDDİNE," }
+      ],
+      "summary": "Başvuran vekili savunma hakkının kısıtlandığını gösterdi; Bakanlık ne ihlalin kapsamını daraltabildi ne de tutar için ölçülü bir görüş sundu."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Müracaatın KISMEN KABULÜ ile disiplin cezasına itiraz sürecinde savunma hakkının kısıtlandığının TESPİTİNE, başvurana 1.800 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Şikâyetin ve itirazın duruşmasız incelendiği dosyadan anlaşıldı; ihlal bu yüzden tespit edildi. Ama başvuran vekili ne delillere erişimin kısıtlandığını belgeledi ne de cezanın başvuran üzerindeki etkisini gösterdi; tutar alt sınırda kaldı."
+    }
+  ]
+}

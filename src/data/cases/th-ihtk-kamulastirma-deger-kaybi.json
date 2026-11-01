@@ -1,0 +1,340 @@
+{
+  "id": "th-ihtk-kamulastirma-deger-kaybi",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "ihtk",
+  "difficulty": "zor",
+  "title": "Baraj Gölünün Bedeli",
+  "area": "Tahkim · İnsan Hakları Tazminat Komisyonu · Kamulaştırma bedelinde değer kaybı",
+  "court": "İnsan Hakları Tazminat Komisyonu (Adalet Bakanlığı) · Müracaat No. 2014/9216",
+  "courtShort": "TAZMİNAT KOMİSYONU",
+  "esas": "Müracaat No. 2014/9216",
+  "kararTarihi": "17.12.2014",
+  "color": "#2f5a5a",
+  "teaser": "Acele el konulan tarlanın bedeli yedi buçuk yıl süren davada 2004 değeriyle belirlendi ve yıllar sonra ödendi. 2014'te Bakanlar Kurulu Komisyonun görev alanını genişletti. İdare, ödenen faizin kaybı zaten karşıladığını söylüyor.",
+  "bench": { "judges": 5, "title": "Komisyon Başkanı ve dört üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Başvuran vekili", "short": "Başvuran" },
+    "p2": { "role": "İdare (DSİ) temsilcisi (görüş sunan)", "short": "İdare" }
+  },
+  "cast": {
+    "judge": { "name": "Komisyon Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#e2b894", "hair": "#7a7a80", "style": "short", "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#c99268", "hair": "#2a201b", "style": "short", "glasses": true, "shirt": "#23262d", "inner": "#dcd6cc" } },
+    "p2": { "look": { "kind": "civil", "skin": "#efc8a4", "hair": "#5a3a26", "style": "bun", "shirt": "#2e3540", "inner": "#e9e3d8" } },
+    "client": { "name": "Halil Karataş · Başvuran", "np": "civil", "look": { "kind": "civil", "skin": "#bf8a62", "hair": "#a8a8ac", "style": "short", "beard": true, "shirt": "#6a5a44", "inner": "#e2ddd2" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Halil Karataş'ın Adana'daki tarlası, bir baraj projesi için verilen acele kamulaştırma kararıyla Mayıs 2004'te el konuldu. Bedel tespiti davası aynı yıl açıldı; dosya iki kez Yargıtay'dan bozularak döndü ve 15.12.2011'de kesinleşti." },
+    { "who": "narr", "text": "Mahkeme bedeli 2004 dava tarihindeki değere göre belirledi. Ek bedel ve faizi Şubat 2012'de ödendi. Halil, 05.06.2012'de AİHM'e başvurdu: mülkiyet hakkı ve uzun yargılama. Başvuru hâlâ Strazburg'da bekliyor." },
+    { "who": "narr", "text": "10.02.2014 tarihli ve 2014/5917 sayılı Bakanlar Kurulu Kararı 16.03.2014'te Resmî Gazete'de yayımlandı: Komisyonun görev alanı, kamulaştırma bedellerinin uzun yargılama ve enflasyon nedeniyle uğradığı değer kaybını da kapsayacak biçimde genişletildi." },
+    { "who": "client", "text": "Tarlamı aldılar, parasını sekiz yıl sonra verdiler. O parayla aynı büyüklükte bir tarlanın yarısını bile alamadım." },
+    { "who": "narr", "text": "Bugün 12.05.2014. Komisyon dosya üzerinden karar verir ve ilgili idareden bilgi ister; idarenin yazılı görüşü burada başvuranın görüşüyle karşılıklı tartışılıyor. (Tutarlar bugünkü Türk lirası karşılığıyla gösterilmiştir.)" }
+  ],
+  "docs": [
+    { "t": "2014/5917 sayılı Bakanlar Kurulu Kararı (RG 16.03.2014)", "d": "6384 sayılı Kanun m.2 uyarınca Komisyonun görev alanı genişletildi: 2942 sayılı Kanun kapsamındaki kamulaştırmalarda uzun yargılama ve enflasyon nedeniyle bedelin değer kaybı; 4675 sayılı Kanun kapsamında disiplin cezalarına itirazlarda savunma hakkının kısıtlanması; hükümlü ve tutukluların Türkçe dışındaki dillerde mektuplarının gönderilmemesi ve yayınlara erişimin kısıtlanması. AİHM'de bekleyen başvurular için Komisyona müracaat süresi Kararın yayımından itibaren altı ay; AİHM'nin kabul edilemezlik kararının tebliğinden itibaren bir ay." },
+    { "t": "Anayasa m.46/1 · 1 No.lu Protokol m.1", "d": "Kamulaştırma, gerçek karşılığın peşin ödenmesi şartıyla yapılır. Herkesin mülkiyetine saygı gösterilmesini isteme hakkı vardır." },
+    { "t": "Yargılama ve ödeme özeti", "d": "05.2004 acele el koyma ve bedel tespiti davası · 2007 ve 2010'da Yargıtay bozmaları · 15.12.2011 kesinleşme · 02.2012 ek bedel 300.000 TL ve faizi 34.000 TL ödendi · 05.06.2012 AİHM başvurusu." },
+    { "t": "Bilirkişi hesap raporu", "d": "Bedelin 2004 değeri, ödeme tarihine enflasyonla güncellendiğinde 520.000 TL eder. Ödenen ek bedel 300.000 TL, faiz 34.000 TL." },
+    { "t": "Müracaat talebi", "d": "Değer kaybı için 220.000 TL maddi tazminat; uzun yargılama için 30.000 TL manevi tazminat." }
+  ],
+  "evidence": [
+    { "id": "ev_odeme", "type": "belge", "title": "Ödeme dekontu", "desc": "Şubat 2012: ek bedel 300.000 TL ve karar tarihinden itibaren işletilen faiz 34.000 TL.", "if": "p1_odeme" },
+    { "id": "ev_tutanak", "type": "belge", "title": "Duruşma tutanakları ve bozma ilamları", "desc": "Başvuran yalnızca 2005'teki ilk bilirkişi raporuna itiraz etti. Yargıtay 2007 ve 2010'da, emsal satışların araştırılmadığı gerekçesiyle bozdu.", "if": "p1_bozma" },
+    { "id": "ev_bilirkisi", "type": "belge", "title": "Bilirkişi hesap raporu", "desc": "2004 değeri ödeme tarihine güncellendiğinde 520.000 TL; ödenen toplam 334.000 TL." },
+    { "id": "ev_bkk", "type": "kanun", "title": "2014/5917 sayılı BKK", "desc": "Kamulaştırma bedelinin uzun yargılama ve enflasyon nedeniyle değer kaybı Komisyonun görev alanında.", "law": "6384 s.K. m.2 · BKK 2014/5917" },
+    { "id": "ev_aihm", "type": "belge", "title": "AİHM başvuru kayıt yazısı", "desc": "05.06.2012 tarihli başvuru; derdest." }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "MÜRACAAT · Bakanlar Kurulu Kararı iki ay önce yayımlandı. AİHM'deki başvuru bekliyor." }
+      ],
+      "prompt": "Halil Karataş için ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Kararın yayımlandığı 16.03.2014'ten itibaren altı ay içinde Komisyona müracaat et; değer kaybını ve uzun yargılamayı birlikte ileri sür.",
+          "delta": 20,
+          "set": ["p1_bkk"],
+          "law": "6384 s.K. m.2 · BKK 2014/5917",
+          "note": "Doğru. Genişletilen görev alanına giren ve AİHM'de bekleyen başvurular için Komisyona müracaat süresi Kararın yayımından itibaren altı aydır. Başvuru 23.09.2012'den önce yapıldığından uzun yargılama şikâyeti de Kanunun asıl kapsamındadır.",
+          "reply": [{ "who": "narr", "text": "Müracaat 30.05.2014'te yapıldı; AİHM'e de Komisyona müracaat edildiği bildirildi." }]
+        },
+        {
+          "text": "AİHM'nin başvuruyu Komisyona yönlendiren kabul edilemezlik kararını bekle; kararın tebliğinden itibaren bir ay içinde müracaat et.",
+          "delta": 5,
+          "set": ["p1_bekle"],
+          "law": "BKK 2014/5917",
+          "note": "Bu da Kararın tanıdığı bir süre, ama beklemenin bir kazancı yok: AİHM'nin ne zaman karar vereceği belli değil, bir aylık süre de kısa. Altı aylık süre içinde hemen müracaat etmek daha güvenliydi.",
+          "reply": [{ "who": "client", "text": "Bir yıl daha mı bekleyeceğim? Hayır." }, { "who": "narr", "text": "Müvekkilin ısrarıyla müracaat 30.05.2014'te yapıldı." }]
+        },
+        {
+          "text": "Anayasa Mahkemesine bireysel başvuru yap; mülkiyet hakkı şikâyetinin asıl yeri orasıdır, AİHM'deki başvuru da bunu engellemez.",
+          "delta": -15,
+          "law": "6216 s.K. geçici m.1/8",
+          "note": "Anayasa Mahkemesi yalnızca 23.09.2012'den sonra kesinleşen işlem ve kararlara karşı başvuruları inceler. Karar 15.12.2011'de kesinleştiğinden bu yol zaman bakımından kapalı.",
+          "reply": [{ "who": "narr", "text": "Bir meslektaşınız zaman bakımından yetki sorununu hatırlattı. Komisyona müracaat 30.05.2014'te yapıldı." }]
+        },
+        {
+          "text": "Asliye hukuk mahkemesinde idareye karşı değer kaybı için yeni bir dava aç; kesin hüküm bedeli kapsar ama değer kaybını kapsamaz.",
+          "delta": -10,
+          "law": "BKK 2014/5917",
+          "note": "Bedel kesin hükümle belirlendi; aynı taşınmaz için yeniden bedel ya da ek bedel davası kesin hükme takılır. Değer kaybının iç hukuktaki yolu, Bakanlar Kurulu Kararıyla Komisyona açıldı.",
+          "reply": [{ "who": "narr", "text": "Dilekçeyi hazırlarken vazgeçtiniz; Komisyona müracaat 30.05.2014'te yapıldı." }]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İDARE GÖRÜŞÜ · Komisyon, kamulaştırmayı yapan idareden dosyayı ve görüşünü istedi." }
+      ],
+      "prompt": "Görüşünüzün dayanağı ne olacak?",
+      "choices": [
+        {
+          "text": "Değer kaybı Komisyonun görev alanı dışındadır; Kanun yalnızca uzun yargılama ile kararların geç ya da eksik icrasını kapsar.",
+          "delta": -15,
+          "set": ["p2_gorev"],
+          "law": "6384 s.K. m.2 · BKK 2014/5917",
+          "note": "Eksik bilgi. Kanun, Bakanlar Kurulunu görev alanını genişletmeye yetkili kılıyor; 2014/5917 sayılı Kararla kamulaştırma bedelindeki değer kaybı açıkça görev alanına girdi."
+        },
+        {
+          "text": "Bedel kesinleşmiş mahkeme kararıyla belirlendi; Komisyon kesin hükümle belirlenen bedeli yeniden değerlendiremez, müracaat reddedilmeli.",
+          "delta": -10,
+          "set": ["p2_kesin"],
+          "law": "BKK 2014/5917",
+          "note": "Komisyon bedeli yeniden belirlemez; kesin hükümle belirlenen bedelin, ödenene kadar geçen sürede uğradığı değer kaybını tazmin eder. İkisi farklı şeylerdir."
+        },
+        {
+          "text": "Ödenen kanuni faizin değer kaybının bir kısmını karşıladığını belgele; bilirkişi hesabında bu faizin düşülmesini iste.",
+          "delta": 15,
+          "set": ["p2_faiz"],
+          "law": "BKK 2014/5917",
+          "note": "Doğru. Değer kaybı, ödenen bütün tutar dikkate alınarak hesaplanır. Ödenen 34.000 TL faiz düşülmezse aynı zarar kısmen iki kez karşılanır."
+        },
+        {
+          "text": "Uzun yargılamanın başvuranın bilirkişi raporlarına itirazlarından doğduğunu, değer kaybının da bu yüzden ona yüklenmesini savun.",
+          "delta": -10,
+          "set": ["p2_itiraz"],
+          "law": "AİHS m.6/1",
+          "note": "Bilirkişi raporuna itiraz bir haktır; tek bir itirazın yedi buçuk yılı açıklaması da beklenmez. Bu iddia belgeyle sınanacak."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "İdarenin görüşü dosyaya girdi. Halil Bey'le görüşüyorsunuz; iki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Ek bedel ne zaman, hangi faizle ödendi?",
+          "delta": 15,
+          "set": ["p1_odeme"],
+          "reply": [{ "who": "client", "text": "Şubat 2012'de bankaya yattı: 300.000 TL bedel, 34.000 TL faiz. Faiz yalnızca mahkemenin karar tarihinden itibaren işletilmiş. Dekont bende." }],
+          "note": "Kilit soru. Değer kaybı hesabı ödenen bütün tutarla yapılır; dekont hesabın temelidir. Çantanıza eklendi."
+        },
+        {
+          "text": "Bilirkişi raporlarına kaç kez itiraz ettiniz, dava neden bu kadar uzadı?",
+          "delta": 10,
+          "set": ["p1_bozma"],
+          "reply": [{ "who": "client", "text": "Bir kez, ilk raporda. Yargıtay iki kez bozdu, ikisinde de emsal satışlar araştırılmamış diye. Tutanaklar ve bozma kararları bende." }],
+          "note": "Yerinde. İdare gecikmeyi müvekkile yüklemeye çalışacak; bozma sebepleri gecikmenin mahkemeden kaynaklandığını gösterir. Belgeler çantanıza eklendi."
+        },
+        {
+          "text": "Arazinin bugünkü piyasa değeri ne kadar?",
+          "delta": -5,
+          "reply": [{ "who": "client", "text": "Baraj gölünün kıyısı oldu; şimdi beş katı eder." }],
+          "note": "Bugünkü piyasa değeri ölçüt değildir. Değer kaybı, kesin hükümle belirlenen bedelin el koymadan ödemeye kadar geçen sürede uğradığı reel erimedir."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "İdare temsilcisi, değer kaybı nasıl hesaplanmalı?" }
+      ],
+      "prompt": "Hesap yöntemi hakkında ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Değer kaybının yalnızca kesinleşmeden sonraki gecikme için hesaplanmasını iste; yargılama süresince bedelin sabit kalması olağandır.",
+          "delta": -10,
+          "law": "BKK 2014/5917",
+          "note": "Kararın konusu tam da uzun yargılama süresince bedelin erimesidir; kesinleşmeden önceki dönemi dışarıda bırakmak şikâyetin özünü dışarıda bırakmaktır."
+        },
+        {
+          "text": "Bedelin dava tarihindeki değerini ödeme tarihine güncelle, ödenen bedeli ve faizi düş; değer kaybı bu fark olarak hesaplansın.",
+          "delta": 15,
+          "set": ["p2_yontem"],
+          "law": "BKK 2014/5917 · 1 No.lu Protokol m.1",
+          "note": "Doğru yöntem: değer kaybı, bedelin güncellenmiş değeri ile fiilen ödenen tutar arasındaki farktır. Bu hesapla kayıp 520.000 − 334.000 = 186.000 TL'dir; başvuranın istediği 220.000 TL faizi hiç düşmüyor."
+        },
+        {
+          "text": "Enflasyon değil kanuni faiz esas alınsın; faiz kanunla belirlenip ödendiği için ortada hiçbir değer kaybı kalmamıştır.",
+          "delta": -10,
+          "law": "1 No.lu Protokol m.1",
+          "note": "Faiz yalnızca karar tarihinden itibaren işletildi ve kaybın küçük bir kısmını karşıladı. Ödenmiş olması, kalan reel kaybı ortadan kaldırmaz."
+        },
+        {
+          "text": "Kaybı, başvuranın bedeli el koyma tarihinde alıp bankada tutsaydı kazanacağı mevduat faiziyle sınırla; reel değer ölçüt olamaz.",
+          "delta": -5,
+          "law": "BKK 2014/5917",
+          "note": "Varsayıma dayalı bir hesap. Değer kaybı bedelin reel değerindeki erimeyle ölçülür; başvuranın parayı nasıl değerlendireceği bilinemez."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, idarenin yargılama süresine ilişkin görüşüne cevabınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Yargılamanın uzamasının sebebi başvuranın bilirkişi raporlarına yaptığı itirazlardır. Gecikmenin ve değer kaybının sorumlusu kendisidir." },
+      "prompt": "Bu beyanı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_tutanak"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_tutanak"],
+        "law": "AİHS m.6/1",
+        "note": "Başvuran yalnızca bir kez itiraz etmiş; iki bozma da mahkemenin emsal satışları araştırmamasından. Gecikme yargı mercilerine aittir.",
+        "reply": [{ "who": "judge", "text": "Tutanaklar ve bozma ilamları dosyaya alındı. Gecikmenin başvurandan kaynaklandığı söylenemez." }]
+      },
+      "responses": {
+        "ev_odeme": { "delta": -5, "note": "Dekont ödeme tutarını gösteriyor, yargılamanın neden uzadığını değil." },
+        "ev_bilirkisi": { "delta": 0, "note": "Hesap raporu değer kaybını gösteriyor; itiraz iddiasına cevap vermiyor." },
+        "ev_aihm": { "delta": 0, "note": "AİHM kaydı müracaatın süresinde olduğunu destekler; itiraz iddiasıyla ilgili değil." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge gecikmenin sebebini göstermiyor." },
+      "pass": { "delta": -10, "note": "İddia cevapsız kaldı; gecikmenin bir kısmı başvurana yüklenebilir." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "İdare temsilcisi, tazminat talepleri hakkında görüşünüz?" }
+      ],
+      "prompt": "Değer kaybı ve uzun yargılama talepleri hakkında idarenin görüşünü kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p2_miktar"], "law": "BKK 2014/5917 · 6384 s.K.", "note": "Ölçülü ve teknik bir görüş: görev alanını kabul ettiniz, değer kaybını ödenen faizi düşen doğru yöntemle sınırladınız, manevi tutarı emsallere bağladınız." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p2_miktar"], "law": "BKK 2014/5917", "note": "Tutarın sınırlanması gerektiğini söylediniz. Eksik kalan: değer kaybı hesabında ödenen 34.000 TL faizin düşülmesi, bunun 220.000 TL'lik talebi 186.000 TL'ye indirmesi ve manevi tutarın emsallere göre belirlenmesi." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "BKK 2014/5917", "note": "Görüşünüz tutarı neye göre sınırlayacağınızı göstermedi. Görev alanını inkâr etmek ya da kaybı yok saymak Komisyon önünde savunulamaz." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) 2014/5917 sayılı Bakanlar Kurulu Kararıyla değer kaybı Komisyonun görev alanına girmiştir; görev itirazı yapılmaz. (2) Değer kaybı, bedelin dava tarihindeki değerinin ödeme tarihine güncellenmiş tutarı (520.000 TL) ile fiilen ödenen toplam tutar (300.000 TL bedel + 34.000 TL faiz) arasındaki farktır: 186.000 TL. Başvuranın 220.000 TL'lik talebi ödenen faizi düşmediği için fazladır. (3) Gecikmenin başvurana yüklenebilecek bir bölümü varsa ayrıca değerlendirilmelidir. (4) Uzun yargılama için manevi tazminat AİHM emsallerine göre ölçülü belirlenmelidir. Görev alanının kabulü, faizin düşüldüğü hesap ve emsal ölçütü birlikte tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["2014/5917", "Bakanlar Kurulu", "görev alanı"], "weight": 1 },
+        { "terms": ["faiz", "34.000"], "weight": 2 },
+        { "terms": ["güncel", "enflasyon", "520.000", "186.000"], "weight": 2 },
+        { "terms": ["220.000", "fazla", "çifte", "iki kez"], "weight": 1 },
+        { "terms": ["emsal", "AİHM", "manevi"], "weight": 2 }
+      ],
+      "model": "Bakanlar Kurulu Kararıyla değer kaybı Komisyonun görev alanına girdi; bunu tartışmıyoruz. Ancak kayıp, bedelin 2004 değerinin ödeme tarihine güncellenmiş tutarı olan 520.000 TL ile fiilen ödenen 300.000 TL bedel ve 34.000 TL faizin toplamı arasındaki farktır: 186.000 TL. Başvuranın 220.000 TL'lik talebi ödenen faizi düşmediği için fazladır. Uzun yargılama için manevi tazminat da AİHM emsallerine göre ölçülü belirlenmelidir."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, talebinizi hukuki dayanaklarıyla özetleyin." }
+      ],
+      "prompt": "Değer kaybı ve uzun yargılama taleplerinizi hukuki dayanaklarıyla kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p1_olcut"], "law": "Anayasa m.46/1 · 1 No.lu Protokol m.1 · AİHS m.6/1 · BKK 2014/5917", "note": "Güçlü bir görüş: görev alanını ve süreyi, mülkiyet hakkını, gerçek karşılık ilkesini, doğru hesap yöntemini ve yargılamanın uzunluğunu birlikte kurdunuz." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p1_olcut"], "law": "1 No.lu Protokol m.1 · BKK 2014/5917", "note": "Değer kaybını ve mülkiyet hakkını söylediniz. Eksik kalan: Bakanlar Kurulu Kararının görev alanını ve altı aylık süreyi açtığı, kaybın güncellenmiş değer ile ödenen tutar farkı olarak hesaplanacağı ve uzun yargılamanın ayrı bir manevi zarar olduğu." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "BKK 2014/5917", "note": "Görüşünüz talebin hukuki dayanağını ve hesabını kurmadı. Kamulaştırmada gerçek karşılık ilkesi ve mülkiyet hakkı, değer kaybı talebinin omurgasıydı." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Müracaat, 2014/5917 sayılı Bakanlar Kurulu Kararıyla genişletilen görev alanına girer ve AİHM'de bekleyen başvuru için Kararın yayımından (16.03.2014) itibaren altı ay içinde yapılmıştır. (2) Kamulaştırma gerçek karşılığın ödenmesi şartıyla yapılır (Anayasa m.46/1); bedelin yıllarca 2004 değeriyle kalıp enflasyon karşısında erimesi mülkiyet hakkına aykırıdır (1 No.lu Protokol m.1; AİHM'nin kamulaştırma bedelinin geç ödenmesine ilişkin içtihadı, ör. Aka/Türkiye, 1998). (3) Kayıp, 2004 değerinin ödeme tarihine güncellenmiş tutarı ile fiilen ödenen tutar arasındaki farktır. (4) Yedi buçuk yıllık yargılama ayrıca makul süreyi aşmıştır; gecikme iki bozmaya yol açan mahkeme hatalarından kaynaklanır; bunun için manevi tazminat istenir. Görev alanı ve süre, mülkiyet hakkı ve hesap yöntemi birlikte tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["2014/5917", "Bakanlar Kurulu", "altı ay", "6 ay"], "weight": 2 },
+        { "terms": ["gerçek karşılık", "m.46", "Anayasa 46"], "weight": 2 },
+        { "terms": ["mülkiyet", "1 No.lu Protokol", "Protokol"], "weight": 2 },
+        { "terms": ["enflasyon", "güncel", "değer kaybı"], "weight": 1 },
+        { "terms": ["yedi buçuk yıl", "7,5 yıl", "bozma", "makul süre"], "weight": 1 },
+        { "terms": ["manevi"], "weight": 1 }
+      ],
+      "model": "Müracaatımız 2014/5917 sayılı Bakanlar Kurulu Kararıyla genişletilen görev alanına girer ve AİHM'de bekleyen başvuru için Kararın yayımından itibaren altı ay içinde yapılmıştır. Kamulaştırma gerçek karşılığın ödenmesi şartıyla yapılır (Anayasa m.46/1); bedelin yedi buçuk yıl 2004 değeriyle kalıp enflasyon karşısında erimesi mülkiyet hakkını ihlal eder (1 No.lu Protokol m.1). Kayıp, güncellenmiş değer ile fiilen ödenen tutar arasındaki farktır. Yargılama da iki bozmaya yol açan mahkeme hataları yüzünden makul süreyi aştı; bunun için ayrıca manevi tazminat istiyoruz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "İdare temsilcisi, son görüşünüz?" }
+      ],
+      "prompt": "Komisyondan ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Değer kaybının ödenen faiz düşülerek hesaplanmasını, manevi tazminatın AİHM emsallerine göre ve ölçülü belirlenmesini istiyoruz.",
+          "delta": 15,
+          "set": ["p2_takdir"],
+          "law": "BKK 2014/5917",
+          "note": "Ölçülü ve isabetli bir son görüş."
+        },
+        {
+          "text": "AİHM'deki başvuru hâlâ derdest olduğundan, Komisyonun AİHM kararı verilinceye kadar müracaatın incelenmesini bekletmesini istiyoruz.",
+          "delta": -10,
+          "law": "BKK 2014/5917",
+          "note": "Komisyon yolunun amacı tam da AİHM'de bekleyen başvuruları iç hukukta çözmektir; AİHM'i beklemek bu amacı boşa çıkarır."
+        },
+        {
+          "text": "Kamulaştırma bedeli kamu yararı karşılığında ödenir; tam değerin ödenmesi gerekmediğinden değer kaybı talebinin reddini istiyoruz.",
+          "delta": -10,
+          "law": "Anayasa m.46/1",
+          "note": "Anayasa açıkça 'gerçek karşılık' ister (m.46/1); kamu yararı, bedelin reel değerinin eritilmesini haklı kılmaz."
+        },
+        {
+          "text": "Değer kaybının, başvuranın baraj kıyısında kalan arazisinde oluşan değer artışından mahsup edilerek hesaplanmasını istiyoruz.",
+          "delta": -10,
+          "law": "BKK 2014/5917",
+          "note": "Kalan arazideki değer artışı, bedel tespitinde değerlendirilecek bir husustu ve kesin hükümle sonuçlandı; Komisyon önünde yeniden mahsup konusu yapılamaz."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_tutanak && p1_olcut && !p2_miktar",
+      "winner": "p1",
+      "hukum": "Müracaatın KISMEN KABULÜ ile başvurana kamulaştırma bedelindeki değer kaybı için 186.000 TL maddi tazminat ve yargılamanın uzunluğu nedeniyle 12.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Başvuran vekili görev alanını ve süreyi doğru kurdu, mülkiyet hakkını ve gerçek karşılık ilkesini öne çıkardı, gecikmenin mahkeme hatalarından kaynaklandığını belgeyle gösterdi. Komisyon değer kaybını, ödenen faizi düşerek kendisi hesapladı: 186.000 TL. İdare manevi tutar hakkında ölçülü bir görüş sunamadı; manevi tazminat emsallerin üst bandında belirlendi." },
+        { "if": "p2_gorev", "text": " İdarenin görev itirazı Bakanlar Kurulu Kararı karşısında tutmadı." },
+        { "if": "p2_kesin", "text": " Kesin hüküm itirazı reddedildi: Komisyon bedeli değil, bedelin erimesini tazmin etti." }
+      ]
+    },
+    {
+      "if": "p2_miktar && (p2_yontem || p2_faiz) && !p1_tutanak",
+      "winner": "p2",
+      "hukum": "Müracaatın KISMEN KABULÜ ile başvurana kamulaştırma bedelindeki değer kaybı için 158.000 TL maddi tazminat ve yargılamanın uzunluğu nedeniyle 5.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "İdare doğru hesap yöntemini ve ödenen faizin düşülmesi gerektiğini gösterdi; başvuranın 220.000 TL'lik talebi bu hesapla aşağı çekildi. Başvuran vekili gecikmenin sebebini belgeleyemediği için yargılama süresinin bir bölümü başvurana yüklendi; değer kaybı o dönem için hesaplanmadı, manevi tutar da düşük kaldı."
+    },
+    {
+      "if": "(p1_tutanak || p1_olcut) && (p2_miktar || p2_yontem)",
+      "winner": "draw",
+      "hukum": "Müracaatın KISMEN KABULÜ ile başvurana kamulaştırma bedelindeki değer kaybı için 186.000 TL maddi tazminat ve yargılamanın uzunluğu nedeniyle 8.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "İki taraf da işini yaptı. Başvuran vekili değer kaybının ve uzun yargılamanın hukuki dayanağını kurdu; idare de ödenen faizin hesaptan düşülmesi gerektiğini doğru biçimde gösterdi. Değer kaybı 186.000 TL olarak karşılandı, manevi tutar orta düzeyde belirlendi." },
+        { "if": "p1_bkk", "text": " Müracaatın Bakanlar Kurulu Kararının yayımından hemen sonra yapılması, AİHM'deki başvurunun da iç hukukta çözümünü sağladı." }
+      ]
+    },
+    {
+      "if": "p1_tutanak || p1_olcut",
+      "winner": "p1",
+      "hukum": "Müracaatın KISMEN KABULÜ ile başvurana kamulaştırma bedelindeki değer kaybı için 186.000 TL maddi tazminat ve yargılamanın uzunluğu nedeniyle 10.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Başvuran vekili değer kaybını ve uzun yargılamayı hukuki dayanağıyla ortaya koydu. İdare ne hesap yöntemini ne de tutarın ölçüsünü inandırıcı biçimde tartışabildi; Komisyon kaybı ödenen faizi düşerek kendisi hesapladı."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Müracaatın KISMEN KABULÜ ile başvurana kamulaştırma bedelindeki değer kaybı için 158.000 TL maddi tazminat ve yargılamanın uzunluğu nedeniyle 5.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Değer kaybının varlığı dosyadan anlaşıldı. Ama başvuran vekili ne gecikmenin sebebini belgeledi ne de talebini hukuki dayanaklarına bağladı; yargılama süresinin bir bölümü başvurana yüklendi ve tazminat alt sınırda kaldı."
+    }
+  ]
+}

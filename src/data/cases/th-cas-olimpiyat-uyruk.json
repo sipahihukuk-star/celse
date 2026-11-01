@@ -1,0 +1,412 @@
+{
+  "id": "th-cas-olimpiyat-uyruk",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "cas",
+  "difficulty": "orta",
+  "title": "Yeni Bayrak",
+  "area": "Tahkim · Spor tahkimi · Olimpiyat uygunluğu ve uyruk değişikliği (Ad Hoc Bölüm)",
+  "court": "Spor Tahkim Mahkemesi (CAS) Ad Hoc Bölümü · CAS OG 28/07 (Los Angeles 2028; Tahkim yeri: Lozan)",
+  "courtShort": "CAS AD HOC",
+  "esas": "CAS OG 28/07",
+  "kararTarihi": "09.07.2028",
+  "color": "#7a5a1e",
+  "bench": { "judges": 3, "title": "Panel Başkanı ve iki hakem" },
+  "inscription": null,
+  "teaser": "Türkiye adına olimpiyat kotası kazanan güreşçinin eski ülkesi muvafakat vermiyor; IOC kapıyı kapattı. Açılışa yedi gün var, panelin 24 saati.",
+  "sides": {
+    "p1": { "role": "Başvuran sporcu (Lina Morel) vekili", "short": "Sporcu" },
+    "p2": { "role": "Uluslararası Olimpiyat Komitesi (IOC) vekili", "short": "IOC" }
+  },
+  "cast": {
+    "judge": { "name": "Panel Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#c48d63", "hair": "#1d1b1b", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e9c1a0", "hair": "#2a1d16", "style": "bun", "shirt": "#1f2430", "inner": "#e9e6df" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f2d6bd", "hair": "#8c8c92", "style": "short", "beard": true, "shirt": "#262a33", "inner": "#efe9e0" } },
+    "sporcu": { "name": "Lina Morel · Sporcu", "np": "civil", "look": { "kind": "civil", "skin": "#efcfb2", "hair": "#a8743e", "style": "long", "shirt": "#7a1f2a", "inner": "#efe6dc" } },
+    "hukukcu": { "name": "Sophie Laurent · IOC Hukuk Direktörlüğü", "np": "civil", "look": { "kind": "civil", "skin": "#f1d2b8", "hair": "#3a2a22", "style": "bun", "glasses": true, "shirt": "#3b4656", "inner": "#ece6da" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Güreşçi Lina Morel, doğduğu ülkeyi (dosyada “A Ülkesi”) en son 15.09.2025'teki Dünya Şampiyonası'nda temsil etti. Mart 2026'da Türk vatandaşı oldu ve 2028'de Türkiye adına kıta eleme turnuvasında olimpiyat kotası kazandı." },
+    { "who": "narr", "text": "Olimpiyat Şartı'na göre uyruk değiştiren sporcu, eski ülkesini son temsilinden üç yıl geçmeden yeni ülkesini temsil edemez; süre, ilgili millî olimpiyat komitelerinin ve uluslararası federasyonun muvafakatiyle IOC Yürütme Kurulu tarafından kısaltılabilir. Üç yıl 15.09.2028'de doluyor; Oyunlar Temmuz–Ağustos 2028'de." },
+    { "who": "narr", "text": "Dünya Güreş Konfederasyonu (WWC) ve Türkiye MOK muvafakat etti; A Ülkesi MOK etmedi. IOC Yürütme Kurulu 06.07.2028'de, muvafakat eksik olduğundan süreyi kısaltamayacağına karar verdi. Açılış töreni 14.07.2028'de." },
+    { "who": "narr", "text": "Bugün 07.07.2028. İlk hamle sporcu vekilinin." }
+  ],
+  "docs": [
+    { "t": "Olimpiyat Şartı Kural 41 ve uygulama hükmü (Bye-law)", "d": "Bir ülkeyi Olimpiyat Oyunları'nda, kıta ya da bölge oyunlarında veya federasyonca tanınan dünya ya da bölge şampiyonalarında temsil etmiş sporcu, uyruk değiştirirse, eski ülkesini son temsilinden itibaren en az üç yıl geçmişse yeni ülkesini temsil edebilir. Bu süre, ilgili MOK'ların ve uluslararası federasyonun muvafakatiyle IOC Yürütme Kurulu tarafından, her olayın koşulları dikkate alınarak kısaltılabilir ya da kaldırılabilir." },
+    { "t": "Olimpiyat Şartı Kural 61", "d": "Olimpiyat Oyunları vesilesiyle ya da onlarla bağlantılı olarak doğan her uyuşmazlık yalnızca CAS'a götürülür." },
+    { "t": "CAS Olimpiyat Oyunları Tahkim Kuralları (özet)", "d": "m.1: Ad hoc bölüm, Oyunlar sırasında ya da açılış töreninden önceki on gün içinde doğan uyuşmazlıklara bakar; başvurudan önce ilgili spor kuruluşunun iç yolları tüketilmelidir (iç yolları tüketmek başvuruyu etkisiz kılacaksa bu şart aranmaz). m.14: Geçici tedbir. m.17: Panel Olimpiyat Şartı'nı, uygulanacak kuralları, hukukun genel ilkelerini ve uygun gördüğü hukuk kurallarını uygular. m.18: Karar, kural olarak başvurudan itibaren 24 saat içinde verilir." },
+    { "t": "A Ülkesi MOK'un resmî ret yazısı (12.05.2028)", "d": "“Sporcunun yetiştirilmesine yıllarca kamu kaynağı ayrılmış ve sporcu olimpiyat döngüsünün ortasında ayrılmıştır. Muvafakat verilmemesine karar verilmiştir.”" },
+    { "t": "IOC Yürütme Kurulu kararı (06.07.2028)", "d": "“Olimpiyat Şartı'nın aradığı muvafakatlerden biri bulunmadığından Yürütme Kurulu bekleme süresini kısaltma yetkisine sahip değildir. Başvuru reddedilmiştir.”" }
+  ],
+  "evidence": [
+    { "id": "ev_ret", "type": "belge", "title": "A Ülkesi MOK'un resmî ret yazısı", "desc": "Gerekçe: yetiştirmeye ayrılan kamu kaynağı ve olimpiyat döngüsünün ortasında ayrılma." },
+    { "id": "ev_eposta", "type": "belge", "title": "A Ülkesi MOK Genel Sekreterinin e-postası", "desc": "02.05.2028, Türkiye Güreş Federasyonuna: “Ödenecek 200.000 € karşılığında muvafakat yazısı aynı gün hazırlanır. Ödeme olmazsa ret kararı çıkacaktır.” Federasyon 50.000 € teklif etti; teklif cevapsız kaldı." },
+    { "id": "ev_wwc", "type": "belge", "title": "WWC muvafakat yazısı", "desc": "WWC, sporcunun Türkiye'yi temsil etmesine muvafakat ediyor ve bekleme süresinin kaldırılmasını destekliyor." },
+    { "id": "ev_tutanak", "type": "belge", "title": "IOC Yürütme Kurulu toplantı tutanağı", "desc": "“A Ülkesi MOK'un muvafakati bulunmadığından olayın diğer koşulları değerlendirilmemiştir.”", "if": "p2_tutanak" },
+    { "id": "law_41", "type": "kanun", "title": "Olimpiyat Şartı Kural 41 uygulama hükmü", "desc": "Üç yıllık bekleme süresi; MOK'ların ve federasyonun muvafakatiyle IOC Yürütme Kurulunca kısaltma.", "law": "Olimpiyat Şartı Kural 41" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAŞVURU · IOC Yürütme Kurulu kararı 06.07.2028'de bildirildi. Açılışa yedi gün var; güreş müsabakaları Oyunların ikinci haftasında." },
+        { "who": "sporcu", "text": "Bu benim tek şansım. Dört yıl sonra otuz bir yaşında olacağım." }
+      ],
+      "prompt": "Karara karşı nereye ve nasıl başvuracaksınız?",
+      "choices": [
+        {
+          "text": "Bugün CAS Ad Hoc Bölümü'ne başvur: uyuşmazlık açılıştan önceki on gün içinde doğdu, IOC kararı kesin. Karar 24 saat içinde çıkar.",
+          "delta": 20,
+          "set": ["p1_adhoc"],
+          "law": "Olimpiyat Şartı Kural 61 · CAS Olimpiyat Tahkim Kuralları m.1, m.18",
+          "note": "Olimpiyat Oyunları'yla bağlantılı uyuşmazlıklar yalnızca CAS'a götürülür (Kural 61). Ad hoc bölüm, açılıştan önceki on gün içinde ya da Oyunlar sırasında doğan uyuşmazlıklara bakar ve kural olarak 24 saat içinde karar verir. IOC Yürütme Kurulunun kararına karşı IOC içinde başka bir yol olmadığından iç yollar tükenmiştir.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 07.07.2028 saat 10.40'ta yapıldı. Panel aynı akşam duruşma yapacak." }
+          ]
+        },
+        {
+          "text": "CAS Kodu R49'a göre 21 günlük temyiz süresi var: olağan temyiz usulünde, ayrıntılı bir gerekçe ve tanık listesiyle 27.07.2028'e kadar başvur.",
+          "delta": -25,
+          "law": "CAS Olimpiyat Tahkim Kuralları m.1 · CAS Kodu R49",
+          "note": "Süre içinde olsa da olağan temyiz usulü Oyunlar bitmeden sonuç vermez. Oyunlarla bağlantılı acil uyuşmazlıklar için öngörülen yol, 24 saat içinde karar veren ad hoc bölümdür.",
+          "fatal": {
+            "label": "OYUNLAR KAÇTI",
+            "hukum": "Olimpiyat Oyunları sona erdiğinden başvurunun konusuz kaldığına, karar verilmesine yer olmadığına,",
+            "summary": "Sporcu vekili ad hoc bölüm yerine olağan temyiz yolunu seçti. Başvuru 27.07.2028'de yapıldığında güreş müsabakaları yaklaşıyordu; olağan usulde karar Oyunlardan sonra çıkabilirdi. IOC kararı Oyunlar boyunca uygulandı ve sporcu Los Angeles'ta yarışamadı."
+          }
+        },
+        {
+          "text": "Önce Türkiye'de TMOK nezdinde itiraz ve Türk mahkemesinden ihtiyati tedbir iste; sonuç alınamazsa ad hoc bölüme o zaman başvur.",
+          "delta": -10,
+          "set": ["p1_adhoc", "p1_ulusal"],
+          "law": "Olimpiyat Şartı Kural 61",
+          "note": "Oyunlarla bağlantılı uyuşmazlıklar yalnızca CAS'a götürülür (Kural 61); TMOK'un IOC kararı üzerinde yetkisi yoktur, Türk mahkemesinin tedbiri de IOC'yi bağlamaz. İki gününüzü kaybettiniz.",
+          "reply": [
+            { "who": "narr", "text": "TMOK ve mahkeme talebi incelemeye almadı. Başvuru 09.07.2028'de ad hoc bölüme yapıldı." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "IOC vekili olarak Hukuk Direktörlüğünden Sophie Laurent'le duruşmaya hazırlanıyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Laurent'e ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Yürütme Kurulu bu başvuruda olayın koşullarını gerçekten değerlendirdi mi, tutanakta ne yazıyor?",
+          "delta": 10,
+          "set": ["p2_tutanak"],
+          "reply": [
+            { "who": "hukukcu", "text": "Tutanağa göre Kurul, muvafakat eksik olduğu için diğer koşullara hiç girmedi. Tek cümle: ‘diğer koşullar değerlendirilmemiştir.’" }
+          ],
+          "note": "Rahatsız edici ama gerekli bilgi: karşı tarafın en güçlü argümanı, Kurulun takdir yetkisini hiç kullanmadığı olacak. Tutanağı saklamak yerine savunmanızı ‘muvafakat bir ön şarttır’ zeminine kurmalısınız. Tutanak dosyaya girdi."
+        },
+        {
+          "text": "A Ülkesi MOK'un reddinin arkasında parasal bir talep olduğuna dair bir bilgi var mı?",
+          "delta": 10,
+          "set": ["p2_para"],
+          "reply": [
+            { "who": "hukukcu", "text": "Türkiye Güreş Federasyonu'nun bir e-postadan söz ettiğini duyduk; A Ülkesi MOK 200.000 € istemiş. Resmî ret yazısında bunun lafı yok." }
+          ],
+          "note": "Yararlı. Sporcunun bu e-postayı sunacağını öngördünüz; cevabınızı resmî ret yazısındaki meşru gerekçelere ve muvafakatin ön şart niteliğine dayandırabilirsiniz."
+        },
+        {
+          "text": "Sporcunun Türk vatandaşlığı ne zaman kazanıldı, pasaportu geçerli mi?",
+          "delta": 0,
+          "reply": [
+            { "who": "hukukcu", "text": "Mart 2026'da. Pasaport geçerli; vatandaşlık tartışmalı değil." }
+          ],
+          "note": "Dosyada tartışmasız bir konu; yeni bir şey öğrenmediniz."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "IOC vekili, ad hoc bölümün yetkisine ya da başvurunun kabul edilebilirliğine bir itirazınız var mı?" }
+      ],
+      "prompt": "Yetki ve kabul edilebilirlik konusunda ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Yetkiye itirazımız yok: uyuşmazlık 06.07.2028'deki Kurul kararıyla doğdu ve IOC içinde başka bir yol yok. Esasa odaklanalım.",
+          "delta": 15,
+          "set": ["p2_esas"],
+          "law": "CAS Olimpiyat Tahkim Kuralları m.1",
+          "note": "Temyiz edilen işlem açılıştan sekiz gün önce verilen Yürütme Kurulu kararıdır; yetki ve iç yolların tüketilmesi şartları gerçekleşmiştir. Zayıf bir itirazla panelin güvenini kaybetmek yerine esasa odaklandınız.",
+          "reply": [
+            { "who": "judge", "text": "Teşekkürler. Esasa geçiyoruz." }
+          ]
+        },
+        {
+          "text": "Ad hoc bölüm yetkisiz: uyuşmazlık A Ülkesi MOK'un 12.05.2028'deki ret yazısıyla doğdu ve açılıştan önceki on günlük süre dışında kalıyor.",
+          "delta": -5,
+          "set": ["p2_yetki"],
+          "law": "CAS Olimpiyat Tahkim Kuralları m.1",
+          "note": "Sporcunun CAS önüne getirebileceği karar, Yürütme Kurulunun 06.07.2028 tarihli kararıdır; MOK'un yazısı tek başına IOC'nin bir kararı değildi. Panel itirazı büyük olasılıkla reddeder; siz de zaman ve güven kaybedersiniz.",
+          "reply": [
+            { "who": "judge", "text": "İtiraz reddedildi. Başvuru konusu karar 06.07.2028 tarihlidir." }
+          ]
+        },
+        {
+          "text": "Sporcu önce WWC'nin itiraz kuruluna gitmeliydi; iç yollar tüketilmediğinden başvuru kabul edilemez ve usulden reddedilmelidir.",
+          "delta": -10,
+          "set": ["p2_tuketme"],
+          "law": "CAS Olimpiyat Tahkim Kuralları m.1",
+          "note": "Karar WWC'nin değil IOC Yürütme Kurulunun kararıdır; WWC zaten muvafakat etmiş. Tüketilmesi gereken yollar kararı veren kuruluşun iç yollarıdır ve IOC içinde başka yol yoktur.",
+          "reply": [
+            { "who": "judge", "text": "İtiraz reddedildi. WWC'nin bu dosyada verdiği bir aleyhe karar yok." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sporcu vekili, başvurunuzun hukuki dayanağı nedir?" }
+      ],
+      "prompt": "Başvuruyu hangi hukuki zemine oturtacaksınız?",
+      "choices": [
+        {
+          "text": "Üç yıl dolmadı; ama A Ülkesi muvafakati parasal şarta bağlayarak hakkını kötüye kullandı. Kurul bu reddi esas almadan olayı değerlendirmeliydi.",
+          "delta": 20,
+          "set": ["p1_kotuye"],
+          "law": "Olimpiyat Şartı Kural 41 · CAS Olimpiyat Tahkim Kuralları m.17 · İsviçre MK m.2",
+          "note": "Muvafakat şartı metinde açık; onu yok saymak mümkün değil. Ama panel hukukun genel ilkelerini de uygular (m.17): hakkın açıkça kötüye kullanılması korunmaz (İsviçre MK m.2/2). Sporcunun en güçlü zemini, reddin sporla ilgisiz bir bedele bağlandığı ve Kurulun koşulları hiç değerlendirmediğidir.",
+          "reply": [
+            { "who": "judge", "text": "Bu iddiayı somut delille göstermeniz gerekecek." }
+          ]
+        },
+        {
+          "text": "Sporcu Türkiye ile birlikte A Ülkesi vatandaşlığını da hâlâ taşıyor; çifte vatandaş olarak uygulama hükmü uyarınca temsil edeceği ülkeyi dilediği gibi seçer.",
+          "delta": -10,
+          "set": ["p1_cifte"],
+          "law": "Olimpiyat Şartı Kural 41",
+          "note": "Çifte vatandaş dilediği ülkeyi seçebilir, ama bir ülkeyi dünya şampiyonası gibi bir yarışmada temsil ettikten sonra başka bir ülkeyi temsil etmek için üç yıllık süre şartı ona da uygulanır.",
+          "reply": [
+            { "who": "judge", "text": "Sporcu A Ülkesi'ni 2025 Dünya Şampiyonası'nda temsil etmiş; bekleme süresi ona da uygulanır." }
+          ]
+        },
+        {
+          "text": "MOK'ların muvafakati yalnızca istişari bir görüştür; IOC Yürütme Kurulu süreyi kendi takdiriyle her durumda kısaltabilirdi.",
+          "delta": -10,
+          "set": ["p1_istisari"],
+          "law": "Olimpiyat Şartı Kural 41",
+          "note": "Metin, kısaltmanın MOK'ların ve federasyonun muvafakatiyle yapılacağını açıkça söylüyor. Muvafakati istişari saymak metinle bağdaşmaz; asıl tartışılabilecek olan, reddin kötüye kullanılıp kullanılmadığıdır.",
+          "reply": [
+            { "who": "judge", "text": "Metin ‘muvafakatiyle’ diyor, sayın vekil." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "IOC vekili, Yürütme Kurulunun kararını neden doğru buluyorsunuz?" }
+      ],
+      "prompt": "IOC Yürütme Kurulunun kararını kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_onkosul"],
+          "law": "Olimpiyat Şartı Kural 41",
+          "note": "Bekleme süresinin hesabını, muvafakatin metindeki ön şart niteliğini ve resmî ret yazısındaki meşru gerekçeleri birlikte kurdunuz. Panelin, açık bir metin şartını genel ilkelerle bertaraf etmekte isteksiz olacağını iyi kullandınız."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": ["p2_onkosulKismen"],
+          "law": "Olimpiyat Şartı Kural 41",
+          "note": "Muvafakatin gerektiğini söylediniz. Tam savunma, bekleme süresinin hesabını (15.09.2025 → 15.09.2028), muvafakatin metinde açık bir ön şart olduğunu ve resmî ret yazısının sporla ilgili meşru gerekçelere dayandığını birlikte anlatır."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "Olimpiyat Şartı Kural 41",
+          "note": "Kararın dayanağını kuramadınız. Savunmanın merkezinde, kısaltmanın ‘MOK'ların ve federasyonun muvafakatiyle’ yapılabileceğini söyleyen açık metin olmalıydı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sporcu A Ülkesi'ni en son 15.09.2025'teki Dünya Şampiyonası'nda temsil etti; bu, Kural 41 uygulama hükmünün saydığı yarışmalardandır ve üç yıllık süre 15.09.2028'de dolar. (2) Sürenin kısaltılması, metne göre ilgili MOK'ların ve uluslararası federasyonun muvafakatiyle mümkündür; muvafakat bir ön şarttır, Yürütme Kurulu onsuz kısaltma yetkisine sahip değildir. (3) A Ülkesi MOK'un resmî ret yazısı sporla ilgili meşru gerekçelere dayanır: yetiştirmeye ayrılan kamu kaynağı ve olimpiyat döngüsünün ortasında ayrılma. (4) Panel, açık bir metin şartını genel ilkelerle bertaraf etmemeli ve Yürütme Kurulunun yerine kendi takdirini koymamalıdır; uyruk değişikliği kuralları, ülkeler arası sporcu ticaretini önleme amacı taşır. Süre hesabını, muvafakatin ön şart niteliğini ve meşru gerekçeleri birlikte söyleyen cevap tam puan alır; yalnızca 'muvafakat yok' diyen cevap orta puan alır.",
+      "keywords": [
+        { "terms": ["üç yıl", "3 yıl", "15.09.2028", "bekleme süresi"], "weight": 2 },
+        { "terms": ["muvafakat", "agreement", "onay", "rıza"], "weight": 2 },
+        { "terms": ["ön şart", "şart", "yetkisi yok", "yetkisine sahip değil"], "weight": 2 },
+        { "terms": ["Kural 41", "Rule 41", "uygulama hükmü", "bye-law"], "weight": 1 },
+        { "terms": ["kamu kaynağı", "yetiştir", "olimpiyat döngüsü", "meşru"], "weight": 1 }
+      ],
+      "model": "Sayın Panel, sporcu A Ülkesi'ni en son 15.09.2025 Dünya Şampiyonası'nda temsil etti; Kural 41 uygulama hükmüne göre üç yıllık süre 15.09.2028'de dolar. Metin, sürenin ancak ilgili MOK'ların ve federasyonun muvafakatiyle kısaltılabileceğini söyler; muvafakat bir ön şarttır ve Kurul onsuz kısaltma yapamaz. A Ülkesi MOK'un resmî reddi yetiştirmeye ayrılan kamu kaynağına ve döngünün ortasında ayrılmaya dayanıyor; bu meşru bir gerekçedir. Panel açık bir metin şartını genel ilkelerle bertaraf etmemelidir."
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sporcu vekili, IOC vekilinin ret gerekçelerine ilişkin beyanına cevabınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Panel, A Ülkesi MOK'un reddi yalnızca sportif ve meşru gerekçelere dayanıyor. Ortada herhangi bir parasal talep yoktur." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_eposta"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_para"],
+        "law": "İsviçre MK m.2/2 · CAS Olimpiyat Tahkim Kuralları m.17",
+        "note": "Genel Sekreterin e-postası, muvafakatin 200.000 € karşılığında “aynı gün” verileceğini, ödeme olmazsa ret çıkacağını söylüyor. Resmî ret yazısındaki gerekçeler, gerçek sebebin üzerini örtüyor; ret, sporla ilgisiz bir bedele bağlanmış.",
+        "reply": [
+          { "who": "judge", "text": "IOC vekili, bu e-postadan Yürütme Kurulunun haberi var mıydı?" },
+          { "who": "p2", "text": "Kurula sunulmamıştı, Sayın Başkan." }
+        ]
+      },
+      "responses": {
+        "ev_tutanak": {
+          "delta": 10,
+          "set": ["p1_takdir"],
+          "note": "Tutanak, Kurulun olayın koşullarını hiç değerlendirmediğini gösteriyor; bu önemli bir nokta. Ama IOC vekilinin “parasal talep yok” beyanını doğrudan çürüten belge, A Ülkesi MOK Genel Sekreterinin e-postasıydı."
+        },
+        "ev_wwc": {
+          "delta": -5,
+          "note": "Federasyonun muvafakati tartışmasız; beyanın konusu A Ülkesi MOK'un reddinin gerçek sebebi."
+        },
+        "ev_ret": {
+          "delta": -10,
+          "note": "Resmî ret yazısı yalnızca meşru görünen gerekçeleri içeriyor; IOC'nin tezini destekler."
+        },
+        "law_41": {
+          "delta": -5,
+          "note": "Kural, muvafakatin gerektiğini söyler; reddin kötüye kullanıldığını göstermez."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge reddin gerçek sebebini göstermiyor." },
+      "pass": { "delta": -10, "note": "Beyana itiraz etmediniz; reddin meşru gerekçelere dayandığı tezi karşılıksız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sporcu vekili, muvafakat metinde açıkça aranıyorken panel neden sizin lehinize karar vermeli?" }
+      ],
+      "prompt": "Muvafakatin yokluğuna rağmen sporcunun neden Türkiye'yi temsil edebilmesi gerektiğini kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_serbest"],
+          "law": "Olimpiyat Şartı Kural 41 · CAS Olimpiyat Tahkim Kuralları m.17 · İsviçre MK m.2/2",
+          "note": "Muvafakat şartını inkâr etmeden, şartın kötüye kullanılamayacağını ve Kurulun metnin aradığı ‘her olayın koşullarını dikkate alma’ yükümlülüğünü yerine getirmediğini gösterdiniz. Talebinizi de 24 saatlik usule uygun, somut bir hükme bağladınız."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": ["p1_serbestKismen"],
+          "law": "CAS Olimpiyat Tahkim Kuralları m.17 · İsviçre MK m.2/2",
+          "note": "Reddin haksız olduğunu söylediniz. Tam savunma, hakkın kötüye kullanılması yasağının panelin uyguladığı genel ilkelerden olduğunu (m.17), Kurulun koşulları hiç değerlendirmediğini ve panelden ne istendiğini (kararın kaldırılması ve uygunluğun tespiti) birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "Olimpiyat Şartı Kural 41",
+          "note": "Muvafakatin yokluğunu aşacak bir hukuki dayanak gösteremediniz. Dayanak, hakkın açıkça kötüye kullanılmasının korunmaması (İsviçre MK m.2/2) ve Kurulun koşulları değerlendirme yükümlülüğüydü."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kural 41 uygulama hükmü muvafakat arar; ama ad hoc panel Olimpiyat Şartı'nın yanında hukukun genel ilkelerini de uygular (CAS Olimpiyat Tahkim Kuralları m.17) ve hakkın açıkça kötüye kullanılması korunmaz (İsviçre MK m.2/2). (2) A Ülkesi MOK, muvafakati sporla ilgisiz 200.000 €'luk bir bedele bağladı (Genel Sekreterin 02.05.2028 tarihli e-postası); resmî ret yazısındaki gerekçeler bunu örtüyor. Böyle bir ret, uyruk kurallarının sporcu ticaretini önleme amacına da aykırıdır. (3) Metin Yürütme Kurulundan 'her olayın koşullarını dikkate almasını' ister; tutanağa göre Kurul koşulları hiç değerlendirmedi. (4) Diğer koşullar sporcunun lehine: WWC ve Türkiye MOK muvafakat etti, sporcu Mart 2026'dan beri Türk vatandaşı, kotayı Türkiye adına kazandı, bir sonraki Oyunlarda 31 yaşında olacak. (5) Talep: Kurul kararının kaldırılması ve sporcunun Türkiye'yi temsil etmeye uygun olduğunun tespiti; karar 24 saat içinde verilir (m.18). Kötüye kullanmayı, Kurulun takdir eksikliğini ve somut talebi birlikte söyleyen cevap tam puan alır; yalnızca 'ret haksız' diyen cevap orta puan alır. Muvafakat şartını yok sayan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["kötüye kullan", "abuse", "MK m.2", "m.2/2", "dürüstlük"], "weight": 3 },
+        { "terms": ["200.000", "para", "bedel", "e-posta"], "weight": 2 },
+        { "terms": ["koşullar", "takdir", "değerlendirmedi", "circumstances"], "weight": 2 },
+        { "terms": ["genel ilke", "m.17", "general principles"], "weight": 1 },
+        { "terms": ["kaldırıl", "uygun olduğunun", "tespit", "24 saat"], "weight": 1 }
+      ],
+      "model": "Sayın Panel, muvafakat şartını inkâr etmiyoruz; ama panel m.17 uyarınca hukukun genel ilkelerini de uygular ve hakkın açıkça kötüye kullanılması korunmaz (İsviçre MK m.2/2). A Ülkesi MOK, muvafakati 200.000 €'luk bir bedele bağladı; bu, sporla ilgisiz ve uyruk kurallarının sporcu ticaretini önleme amacına aykırı bir kullanımdır. Kurul da metnin istediği gibi olayın koşullarını hiç değerlendirmedi: WWC ve Türkiye MOK muvafakat etti, sporcu kotayı Türkiye adına kazandı. Kurul kararının kaldırılmasını ve sporcunun Türkiye'yi temsil etmeye uygun olduğunun tespitini istiyoruz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "IOC vekili, panel kötüye kullanma iddiasını ciddi bulursa, sizce ne yapmalı?" }
+      ],
+      "prompt": "Son talebinizi nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Başvuru reddedilsin; panel aksi kanaatteyse uygunluğa kendisi karar vermesin, dosyayı yeniden değerlendirme için 24 saatliğine Kurula göndersin.",
+          "delta": 15,
+          "set": ["p2_iade"],
+          "law": "Olimpiyat Şartı Kural 41 · CAS Olimpiyat Tahkim Kuralları m.17",
+          "note": "Kademeli ve gerçekçi bir talep. Takdir yetkisi Yürütme Kurulundadır; panelin kendi takdirini onun yerine koyması yerine kararı, koşulları değerlendirmesi için kısa bir süreyle geri göndermesini istediniz. Bu, IOC'nin kurumsal yetkisini korur.",
+          "reply": [
+            { "who": "judge", "text": "Kademeli talep not edildi." }
+          ]
+        },
+        {
+          "text": "Panel kararı 24 saatte veremeyecekse dosyayı Kod'a göre olağan CAS usulüne göndersin; bu ciddi bir hukuki mesele, acele edilmemeli.",
+          "delta": -5,
+          "set": ["p2_olagan"],
+          "law": "CAS Olimpiyat Tahkim Kuralları m.18, m.20",
+          "note": "Kurallar istisnai durumlarda dosyanın olağan usule gönderilmesine izin verir; ama dosya basit ve acildir. Talep, sporcunun Oyunları kaçırmasını hedefleyen bir oyalama gibi göründü ve panel tarafından ciddiye alınmadı.",
+          "reply": [
+            { "who": "judge", "text": "Panel kararını süresinde verecek." }
+          ]
+        },
+        {
+          "text": "Sporcu ve federasyonu muvafakati parayla satın almaya kalkıştı; panel sporcunun bu Oyunlara katılımını her durumda yasaklamalı ve bunu karara yazmalıdır.",
+          "delta": -15,
+          "set": ["p2_yasak"],
+          "law": "CAS Olimpiyat Tahkim Kuralları m.17",
+          "note": "Pazarlık teklifini yapan sporcu değil, A Ülkesi MOK'tu; Türkiye federasyonu yalnızca bir karşı teklif sundu. Ayrıca IOC'nin ayrı bir başvurusu olmadan panel sporcu aleyhine yeni bir yaptırım koyamaz.",
+          "reply": [
+            { "who": "judge", "text": "Bu talep dosyanın konusunu aşıyor." }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_kotuye && p1_para && (p1_serbest || p1_serbestKismen) && !p2_onkosul && !p2_iade",
+      "winner": "p1",
+      "hukum": "Başvurunun KABULÜ ile IOC Yürütme Kurulunun 06.07.2028 tarihli kararının KALDIRILMASINA; Lina Morel'in Los Angeles 2028 Olimpiyat Oyunları'nda Türkiye'yi temsil etmeye UYGUN olduğunun tespitine,",
+      "summary": [
+        { "text": "Sporcu vekili, A Ülkesi MOK'un muvafakati 200.000 €'luk bir bedele bağladığını Genel Sekreterin e-postasıyla gösterdi. Panel, hukukun genel ilkelerini uygulayarak (m.17) açıkça kötüye kullanılan bir reddin korunamayacağına karar verdi (İsviçre MK m.2/2)." },
+        { "if": "p2_tutanak || p1_takdir", "text": " Yürütme Kurulunun olayın koşullarını hiç değerlendirmediği de tutanaktan anlaşıldı." },
+        { "text": " IOC vekili açık metin şartını bu olaya karşı yeterince savunamadı; WWC ve Türkiye MOK'un muvafakatiyle birlikte koşulların tamamı sporcunun lehineydi." },
+        { "if": "p1_ulusal", "text": " Ulusal yollarda kaybedilen iki gün sonucu değiştirmedi." }
+      ]
+    },
+    {
+      "if": "p1_kotuye && (p1_para || p1_serbest || p1_takdir)",
+      "winner": "draw",
+      "hukum": "Başvurunun KISMEN KABULÜ ile IOC Yürütme Kurulunun 06.07.2028 tarihli kararının KALDIRILMASINA; A Ülkesi MOK'un parasal şarta bağlı reddi dikkate alınmaksızın, olayın bütün koşulları değerlendirilerek 24 saat içinde yeniden karar verilmek üzere dosyanın Yürütme Kuruluna GERİ GÖNDERİLMESİNE,",
+      "summary": [
+        { "text": "Panel, Yürütme Kurulunun olayın koşullarını değerlendirmeden karar verdiğini kabul etti." },
+        { "if": "p1_para", "text": " A Ülkesi MOK'un muvafakati bir bedele bağladığı e-postayla ortaya kondu." },
+        { "if": "p2_onkosul", "text": " Ama IOC vekili muvafakatin metinde açık bir ön şart olduğunu güçlü biçimde savundu;" },
+        { "if": "p2_iade", "text": " IOC vekilinin kademeli talebi doğrultusunda" },
+        { "text": " panel uygunluğa kendisi karar vermedi; takdiri Yürütme Kuruluna bıraktı ve kararı kısa bir süreyle geri gönderdi." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Başvurunun REDDİNE, IOC Yürütme Kurulunun 06.07.2028 tarihli kararının ONANMASINA,",
+      "summary": [
+        { "text": "Sporcu A Ülkesi'ni 15.09.2025'te Dünya Şampiyonası'nda temsil etmişti; üç yıllık süre Oyunlardan sonra doluyor ve metin, kısaltmayı ilgili MOK'ların muvafakatine bağlıyor (Olimpiyat Şartı Kural 41)." },
+        { "if": "p1_cifte", "text": " Sporcu vekilinin çifte vatandaşlık tezi bekleme süresini ortadan kaldırmadı." },
+        { "if": "p1_istisari", "text": " Muvafakatin istişari sayılması metinle bağdaşmadı." },
+        { "if": "p1_kotuye && !p1_para && !p1_serbest && !p1_takdir", "text": " Kötüye kullanma iddiası somut delille desteklenemedi." },
+        { "if": "p2_yetki || p2_tuketme", "text": " IOC vekilinin usule ilişkin itirazı reddedildi, ama esas IOC lehine sonuçlandı." }
+      ]
+    }
+  ]
+}

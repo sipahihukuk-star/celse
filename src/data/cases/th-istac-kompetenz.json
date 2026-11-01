@@ -1,0 +1,426 @@
+{
+  "id": "th-istac-kompetenz",
+  "mode": "duel",
+  "difficulty": "zor",
+  "title": "Ayrılmaz Parça",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Tahkim şartının kapsamı ve yetki itirazı",
+  "court": "İstanbul Tahkim Merkezi (ISTAC) · Dosya No. 2026/577 (Tahkim yeri: İstanbul)",
+  "courtShort": "ISTAC · İSTANBUL",
+  "esas": "ISTAC 2026/577",
+  "kararTarihi": "03.11.2027",
+  "color": "#6b2f3a",
+  "room": "tahkim",
+  "forum": "istac",
+  "bench": { "judges": 3, "title": "Başhakem ve iki hakem" },
+  "inscription": null,
+  "teaser": "Tedarik sözleşmesinde ISTAC şartı var, bakım sözleşmesinde yok. Bakım sözleşmesi kendini tedarik sözleşmesinin “ayrılmaz parçası” sayıyor; ama ekindeki genel koşulların son sayfasını kimse okumamış.",
+  "sides": {
+    "p1": { "role": "Davacı (Alıcı) vekili", "short": "Davacı" },
+    "p2": { "role": "Davalı (Satıcı) vekili", "short": "Davalı" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#dcb38e", "hair": "#2a2220", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e6bf9c", "hair": "#4a3020", "style": "bun", "shirt": "#1f2530", "inner": "#efe9e0" } },
+    "p2": { "look": { "kind": "civil", "skin": "#e9c3a0", "hair": "#3a3a3e", "style": "short", "beard": true, "shirt": "#22262e", "inner": "#e9e5dd" } },
+    "musavir": { "name": "Giulia Ferri · Satıcının hukuk müşaviri", "np": "civil", "look": { "kind": "civil", "skin": "#efcfae", "hair": "#2a1d17", "style": "long", "glasses": true, "shirt": "#5a3a4a", "inner": "#ece6da" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Marmara Kimya A.Ş. (Kocaeli), 12.04.2025 tarihli tedarik sözleşmesiyle Milanolu Valtellina Macchine S.p.A.'dan 6.200.000 EUR'luk bir reaktör hattı aldı. Sözleşmede ISTAC tahkim şartı var; Türk hukuku uygulanıyor." },
+    { "who": "narr", "text": "01.02.2026'da taraflar beş yıllık bir bakım sözleşmesi imzaladı. Mayıs 2026'daki periyodik bakımda yanlış takılan bir conta hattı üç hafta durdurdu; alıcı 1.500.000 EUR üretim kaybı yaşadı. Ayrıca garanti kapsamındaki valf arızaları için 300.000 EUR onarım masrafı yaptı." },
+    { "who": "narr", "text": "Alıcı tedarik sözleşmesini 12.09.2026'da feshetti ve son taksit olan 620.000 EUR'yu ödemedi. Satıcı, bakım uyuşmazlığının tahkime gidemeyeceğini söylüyor." }
+  ],
+  "docs": [
+    { "t": "Tedarik sözleşmesi m.15 ve m.22", "d": "m.15: Satıcı 24 aylık garanti süresince ayıpları ücretsiz giderir. m.22: “Bu sözleşmeden doğan veya bununla bağlantılı bütün uyuşmazlıklar ISTAC Tahkim Kurallarına göre İstanbul'da üç hakemle kesin olarak çözülür.”" },
+    { "t": "Bakım sözleşmesi m.1 ve m.9", "d": "m.1: “Bu sözleşme, 12.04.2025 tarihli Tedarik Sözleşmesinin eki ve ayrılmaz parçasıdır.” m.9: “Ek-3'teki Genel Hizmet Koşulları bu sözleşmenin parçasıdır.” Uyuşmazlık çözümüne ilişkin ayrı bir madde yok." },
+    { "t": "Fesih bildirimi (12.09.2026)", "d": "Alıcı, tekrarlayan garanti arızaları nedeniyle tedarik sözleşmesini feshetti." },
+    { "t": "Bilirkişi ön raporu", "d": "Mayıs 2026'daki periyodik bakımda conta yanlış takılmış; hattın üç hafta durmasının sebebi bu. Valf arızaları üretim ayıbı." }
+  ],
+  "evidence": [
+    { "id": "ev_bakim1", "type": "belge", "title": "Bakım sözleşmesi m.1", "desc": "“Bu sözleşme, Tedarik Sözleşmesinin eki ve ayrılmaz parçasıdır.”" },
+    { "id": "ev_tahkim", "type": "belge", "title": "Tedarik sözleşmesi m.22", "desc": "Sözleşmeden doğan veya bununla bağlantılı bütün uyuşmazlıklar ISTAC tahkimiyle çözülür." },
+    { "id": "ev_fesih", "type": "belge", "title": "Fesih bildirimi (12.09.2026)", "desc": "Alıcı tedarik sözleşmesini feshetti." },
+    { "id": "ev_ghk", "type": "belge", "title": "Ek-3 Genel Hizmet Koşulları m.11", "desc": "“Bakım hizmetlerinden doğan bütün uyuşmazlıklarda, başka herhangi bir anlaşmaya bakılmaksızın, münhasıran Milano mahkemeleri yetkilidir.” Her sayfada alıcının parafı var.", "if": "p2_ghk" },
+    { "id": "law_mtk7h", "type": "kanun", "title": "MTK m.7/H", "desc": "Hakem kurulu kendi yetkisine karar verir; tahkim şartı sözleşmenin diğer şartlarından bağımsızdır. Yetkisizlik itirazı en geç cevap dilekçesiyle ileri sürülür.", "law": "MTK m.7/H" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "TAHKİM TALEBİ · Alıcı, bakımdan doğan 1.500.000 EUR ile garantiden doğan 300.000 EUR'yu aynı yargılamada istemek istiyor." }
+      ],
+      "prompt": "Tahkim talebini nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "İki talebi de ISTAC'a getir: bakım sözleşmesi kendini tedarik sözleşmesinin ayrılmaz parçası sayıyor, m.22 “bağlantılı” uyuşmazlıkları da kapsıyor.",
+          "delta": 15,
+          "set": ["p1_ek"],
+          "law": "MTK m.4 · Tedarik sözleşmesi m.22",
+          "note": "Tahkim şartının kapsamı tarafların iradesine göre yorumlanır. “Bağlantılı bütün uyuşmazlıklar” geniş bir ifadedir ve bakım sözleşmesinin m.1 hükmü onu tedarik sözleşmesine bağlıyor. Talebi en güçlü dayanağıyla kurdunuz."
+        },
+        {
+          "text": "İki talebi ISTAC'a getir ve satıcının Türk bağlı ortaklığını da davalı göster: bakım ekibi onun personeliydi, tahkim şartı grup şirketlerini de bağlar.",
+          "delta": -10,
+          "set": ["p1_ucuncu"],
+          "law": "MTK m.4",
+          "note": "Tahkim anlaşması yazılıdır ve kural olarak yalnız taraflarını bağlar (MTK m.4). Bağlı ortaklık şartı imzalamadı ve tahkime rızası gösterilmedi; ona karşı yöneltilen talep yetkisizlikten reddedilecek."
+        },
+        {
+          "text": "Bakım ve garanti talepleriyle birlikte, 2024'teki bir numune satışından kalan 18.000 EUR'luk alacağı da ekle; “bağlantılı” ifadesi bunu da kapsar.",
+          "delta": -10,
+          "set": ["p1_tumu"],
+          "law": "MTK m.4 · Tedarik sözleşmesi m.22",
+          "note": "2024'teki numune satışı tedarik sözleşmesinden bir yıl önce yapılmış ayrı bir işlem; m.22 “bu sözleşmeden doğan veya bununla bağlantılı” uyuşmazlıkları kapsar. Kurul bu talep için yetkisiz olacak ve ana talepleriniz de gereksiz bir itiraza açıldı."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Talep dilekçesi tebliğ edildi. Satıcı, bakım uyuşmazlığının ISTAC'ta görülmesini istemiyor. Ayrıca alıcının sözleşmeyi feshettiğini hatırlatıyor." }
+      ],
+      "prompt": "Cevap dilekçesinde yetki konusunda ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Cevapla birlikte yetki itirazı: bakım sözleşmesinin koşulları ayrı bir yargı yeri gösteriyor, kurul bakım için yetkisiz.",
+          "delta": 15,
+          "set": ["p2_itiraz"],
+          "law": "MTK m.7/H",
+          "note": "Yetkisizlik itirazı en geç cevap dilekçesiyle ileri sürülür (MTK m.7/H). İtirazı süresinde ve doğru eksende, kapsam üzerinden yaptınız. Şimdi dayanağını belgeyle göstermeniz gerekecek."
+        },
+        {
+          "text": "Bütün talepler için yetki itirazı: alıcı tedarik sözleşmesini 12.09.2026'da feshetti, tahkim şartı da sözleşmeyle birlikte sona erdi.",
+          "delta": -10,
+          "set": ["p2_fesih"],
+          "law": "MTK m.7/H",
+          "note": "Tahkim şartı, içinde yer aldığı sözleşmenin diğer şartlarından bağımsız bir anlaşmadır (MTK m.7/H). Sözleşmenin feshi, fesihten doğan uyuşmazlıkların tahkimde çözülmesini engellemez; tam tersine onları kapsar. Kapsam itirazınızı da bu yanlış dayanak yüzünden kurmadınız."
+        },
+        {
+          "text": "Önce esasa cevap ver; yetki itirazını, bakım konusu tanıklarla tartışılınca kapsam aşımı olarak getir.",
+          "delta": -10,
+          "set": ["p2_sonra"],
+          "law": "MTK m.7/H",
+          "note": "Bakım talepleri baştan talep dilekçesindeydi; bu bir yetkisizlik itirazıdır ve en geç cevap dilekçesiyle ileri sürülmelidir (MTK m.7/H). Kapsam aşımı itirazı, yargılama sırasında ortaya çıkan yeni bir konu için geçerlidir."
+        },
+        {
+          "text": "Tahkime cevap verme; Milano'da, şartın bakımı kapsamadığının tespiti davasını aç. Kurul yetkisini o karara göre belirlemek zorunda kalır.",
+          "delta": -10,
+          "set": ["p2_milano"],
+          "law": "MTK m.7/H",
+          "note": "Hakem kurulu kendi yetkisine kendisi karar verir (MTK m.7/H); başka bir ülkedeki tespit davası yargılamayı durdurmaz. Cevap vermeyerek yetki itirazı hakkınızı da kaybettiniz."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Satıcının hukuk müşaviri Giulia Ferri Milano'dan bağlandı. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Hukuk müşavirine ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Bakım sözleşmesine eklenen genel koşullarda ne yazıyor?",
+          "delta": 15,
+          "set": ["p2_ghk"],
+          "reply": [
+            { "who": "musavir", "text": "Ek-3, bizim standart Genel Hizmet Koşullarımız. m.11'de, başka bir anlaşmaya bakılmaksızın bakım uyuşmazlıklarında yalnız Milano mahkemelerinin yetkili olduğu yazıyor. Alıcı her sayfayı paraflamıştı." }
+          ],
+          "note": "Doğru soru. Bakım sözleşmesi Ek-3'ü kendisinin parçası yapıyor (m.9); oradaki münhasır yetki şartı, tarafların bakım uyuşmazlıkları için ayrı bir yargı yeri istediğini gösterir. Belge delil çantanıza eklendi."
+        },
+        {
+          "text": "Fesih bildirimi bize nasıl ve ne zaman ulaştı?",
+          "delta": 0,
+          "set": ["p2_fesihbilgi"],
+          "reply": [
+            { "who": "musavir", "text": "12 Eylül'de noter kanalıyla geldi. Sözleşme bittiyse tahkim şartı da bitmedi mi?" }
+          ],
+          "note": "Bu bilgi yetki tartışmasında işe yaramaz. Tahkim şartı ana sözleşmeden bağımsızdır; fesih, fesihten doğan uyuşmazlıkları tahkimin dışına çıkarmaz (MTK m.7/H)."
+        },
+        {
+          "text": "Bakım ekibimiz hangi sözleşmeye göre çalıştı?",
+          "delta": 10,
+          "set": ["p2_ayrim"],
+          "reply": [
+            { "who": "musavir", "text": "Valf arızaları garanti kapsamındaydı, onları tedarik sözleşmesinin m.15'ine göre giderdik. Conta değişimi ise ücretli periyodik bakımdı, bakım sözleşmesine göre yapıldı." }
+          ],
+          "note": "Yararlı bir ayrım: garanti talebi tartışmasız biçimde tedarik sözleşmesinden, conta zararı ise bakım sözleşmesinden doğuyor. İtirazınızın yalnız 1.500.000 EUR'luk kısma yönelmesi inandırıcılığını artırır."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "if": "p2_itiraz", "who": "judge", "text": "Davalı, bakım talepleri bakımından kurulun yetkisiz olduğunu ileri sürüyor." },
+        { "if": "p2_fesih", "who": "judge", "text": "Davalı, tedarik sözleşmesinin feshiyle tahkim şartının da sona erdiğini ve kurulun bütünüyle yetkisiz olduğunu ileri sürüyor." },
+        { "if": "p2_sonra", "who": "judge", "text": "Davalı cevap dilekçesinde yetkiye itiraz etmedi, ama bakım taleplerine ilişkin çekincesini sözlü olarak bildirdi." },
+        { "if": "p2_milano", "who": "judge", "text": "Davalı cevap vermedi; Milano'da bir tespit davası açtığını bildirdi." },
+        { "who": "judge", "text": "Davacı vekili, kurulun yetkisi hakkında beyanınızı alalım." }
+      ],
+      "prompt": "Kurulun bakım talepleri dahil yetkili olduğunu kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_yetki"],
+          "law": "MTK m.7/H · Tedarik sözleşmesi m.22",
+          "note": "Kurul kendi yetkisine kendisi karar verir; tahkim şartı ana sözleşmeden bağımsızdır, fesih onu sona erdirmez (MTK m.7/H). “Bağlantılı bütün uyuşmazlıklar” ifadesi ve bakım sözleşmesinin kendini tedarik sözleşmesinin ayrılmaz parçası sayması, bakım uyuşmazlığını kapsama alır. Yetkisizlik itirazı en geç cevapla yapılmalıdır; başka bir ülkedeki dava kurulu bağlamaz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_yetki"],
+          "law": "MTK m.7/H",
+          "note": "Kurulun yetkisini doğru yönden savundunuz. Tam savunma; yetki-yetkisi ilkesini, tahkim şartının bağımsızlığını, m.22'deki “bağlantılı” ifadesini, bakım sözleşmesinin m.1 hükmünü ve itirazın süresini birlikte gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "MTK m.7/H",
+          "note": "Kurulun yetkisini kuramadınız. Elinizde yetki-yetkisi ilkesi ve tahkim şartının bağımsızlığı (MTK m.7/H), m.22'nin geniş ifadesi ve bakım sözleşmesinin m.1 hükmü vardı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Yetki-yetkisi: hakem kurulu, tahkim anlaşmasının varlığı ve geçerliliği dahil kendi yetkisine kendisi karar verir (MTK m.7/H); yabancı bir mahkemedeki tespit davası kurulu bağlamaz ve yargılamayı durdurmaz. (2) Bağımsızlık (ayrılabilirlik): tahkim şartı ana sözleşmenin diğer şartlarından bağımsızdır; tedarik sözleşmesinin feshi şartı sona erdirmez, fesihten doğan uyuşmazlıklar da kapsamdadır. (3) Kapsam: m.22 ‘bu sözleşmeden doğan veya bununla bağlantılı bütün uyuşmazlıkları’ kapsar; bakım sözleşmesi m.1'de kendini tedarik sözleşmesinin eki ve ayrılmaz parçası sayar. (4) Süre: yetkisizlik itirazı en geç cevap dilekçesiyle ileri sürülür (MTK m.7/H); süresinde yapılmayan itiraz dinlenmez. Yetki-yetkisi, bağımsızlık ve kapsamı birlikte, somut maddelerle kuran cevap tam puan alır.",
+      "keywords": [
+        { "terms": ["MTK m.7/H", "7/H", "yetki-yetkisi", "yetkisine kendisi", "kompetenz"], "weight": 2 },
+        { "terms": ["bağımsız", "ayrılabilir", "separability", "ayrı bir anlaşma"], "weight": 2 },
+        { "terms": ["bağlantılı", "m.22", "geniş"], "weight": 2 },
+        { "terms": ["ayrılmaz parça", "m.1", "eki"], "weight": 2 },
+        { "terms": ["cevap dilekçesi", "süresinde", "geç", "en geç"], "weight": 1 },
+        { "terms": ["Milano", "tespit davası", "durdurmaz", "bağlamaz"], "weight": 1 }
+      ],
+      "model": "Sayın Başhakem, MTK m.7/H uyarınca kurul kendi yetkisine kendisi karar verir; Milano'daki bir dava kurulu bağlamaz. Tahkim şartı ana sözleşmeden bağımsızdır, tedarik sözleşmesinin feshi onu sona erdirmez. m.22 ‘bu sözleşmeden doğan veya bununla bağlantılı bütün uyuşmazlıkları’ kapsar ve bakım sözleşmesi m.1'de kendini tedarik sözleşmesinin eki ve ayrılmaz parçası sayar. Bakım uyuşmazlığı bu nedenle kurulun yetkisi içindedir; yetkisizlik itirazı da en geç cevap dilekçesiyle yapılmalıydı."
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, kapsam meselesinde son beyanınız?" }
+      ],
+      "statement": { "who": "p1", "text": "Sayın Başhakem, bakım sözleşmesi kendisini tedarik sözleşmesinin eki ve ayrılmaz parçası sayıyor. Taraflar bakım için ayrı bir yargı yeri öngörmedi; ISTAC şartı bakım uyuşmazlıklarını da kapsar." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_ghk"],
+      "hit": {
+        "delta": 25,
+        "set": ["p2_kapsamdisi"],
+        "law": "MTK m.4, m.7/H",
+        "note": "Bakım sözleşmesi Ek-3'ü kendisinin parçası yapıyor (m.9) ve Ek-3'ün m.11 hükmü, “başka herhangi bir anlaşmaya bakılmaksızın” bakım uyuşmazlıklarında münhasıran Milano mahkemelerini yetkili kılıyor. Taraflar bakım için ayrı bir yargı yeri istemiş; sonraki ve özel bu irade, tedarik sözleşmesindeki genel “bağlantılı” ifadesinin önüne geçer.",
+        "reply": [
+          { "who": "judge", "text": "Belge dosyaya alındı. Alıcının her sayfadaki parafı da tutanağa geçirildi." }
+        ]
+      },
+      "responses": {
+        "law_mtk7h": {
+          "delta": -5,
+          "note": [
+            { "if": "p2_ghk", "text": "Madde kurulun kendi yetkisine karar vereceğini söylüyor; kurulun nasıl karar vermesi gerektiğini değil. Ek-3'teki münhasır yetki şartı çantanızdaydı." },
+            { "if": "!p2_ghk", "text": "Madde kurulun kendi yetkisine karar vereceğini söylüyor; kurulun nasıl karar vermesi gerektiğini değil. Tarafların bakım için ayrı bir yargı yeri istediğini gösteren bir belge gerekirdi; hukuk müşavirine genel koşullar sorulabilirdi." }
+          ]
+        },
+        "ev_fesih": {
+          "delta": -10,
+          "note": "Fesih, tahkim şartının kapsamını daraltmaz; şart ana sözleşmeden bağımsızdır (MTK m.7/H)."
+        },
+        "ev_bakim1": {
+          "delta": -10,
+          "note": "Bu, alıcının dayandığı maddenin kendisi; beyanı destekler."
+        },
+        "ev_tahkim": {
+          "delta": -10,
+          "note": "m.22'nin geniş ifadesi alıcının tezini destekler."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge bakım için ayrı bir yargı yeri kararlaştırıldığını göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; alıcının kapsam yorumu cevapsız kaldı." }
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "PARALEL DAVA · Satıcı, ödenmeyen son taksit 620.000 EUR için alıcıya karşı İstanbul Asliye Ticaret Mahkemesinde alacak davası açtı. Dava dilekçesi tebliğ edildi; cevap süresi işliyor." }
+      ],
+      "prompt": "Mahkemedeki davaya nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "Cevap dilekçesinde ilk itiraz olarak tahkim itirazı: taksit uyuşmazlığı tedarik sözleşmesinden doğuyor, ISTAC şartının içinde.",
+          "delta": 20,
+          "set": ["p1_tahkimitiraz"],
+          "law": "MTK m.5 · HMK m.116, m.413",
+          "note": "Tahkim anlaşmasının konusunu oluşturan uyuşmazlıkta dava açılırsa, karşı taraf ilk itiraz olarak tahkim itirazında bulunabilir; kabul edilirse dava usulden reddedilir (MTK m.5, HMK m.413). Mahkeme bunu kendiliğinden gözetmez. Satıcı 620.000 EUR'yu ancak tahkimde, alıcının alacaklarıyla takas edilebilecek biçimde isteyebilir.",
+          "reply": [
+            { "who": "narr", "text": "Mahkeme tahkim itirazını kabul edip davayı usulden reddetti. Satıcı taksidi ISTAC'ta karşı talep olarak getirdi." }
+          ]
+        },
+        {
+          "text": "Esasa cevap ver: taksit, garanti arızaları nedeniyle haklı olarak ödenmedi. İtiraza gerek yok; nasılsa hakemler aynı olayları inceliyor.",
+          "delta": -10,
+          "set": ["p1_esascevap"],
+          "law": "MTK m.5 · HMK m.116",
+          "note": "Tahkim itirazı ilk itirazdır ve süresinde yapılmazsa mahkeme davaya bakmaya devam eder. Taksit uyuşmazlığı artık mahkemede; aynı olaylar iki ayrı yargı yerinde, çelişkili kararlar riskiyle görülecek ve 620.000 EUR tahkimde takasa konu olamayacak."
+        },
+        {
+          "text": "Mahkemeye hiç cevap verme: tahkim kararı nasılsa önce çıkar, mahkeme de hakem kararını görünce davayı kendiliğinden reddeder.",
+          "delta": -15,
+          "set": ["p1_bekle"],
+          "law": "MTK m.5 · HMK m.116",
+          "note": "Tahkim itirazı kendiliğinden gözetilmez; ilk itiraz olarak cevap dilekçesinde ileri sürülmezse bu hak kaybedilir. Mahkeme davaya devam etti ve savunmasız kalan alıcı aleyhine yargılama yürüdü."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "if": "p2_itiraz && (p2_kapsamdisi || !p1_yetki)", "who": "judge", "text": "Kurul ön sorun olarak verdiği ara kararla, bakım talepleri bakımından yetkisiz, tedarik sözleşmesinden doğan talepler bakımından yetkili olduğuna karar vermiştir." },
+        { "if": "!(p2_itiraz && (p2_kapsamdisi || !p1_yetki))", "who": "judge", "text": "Kurul ön sorun olarak verdiği ara kararla, bakım talepleri dahil bütün talepler bakımından yetkili olduğuna karar vermiştir." },
+        { "who": "judge", "text": "Davalı vekili, yargılamanın devamı hakkında tutumunuz?" }
+      ],
+      "prompt": "Kurulun yetki kararı karşısında ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Çekinceni tutanağa geçir, esasa katıl; yetki sorununu hakem kararına karşı iptal davasında ileri sür (MTK m.15/A-1-d).",
+          "delta": 15,
+          "set": ["p2_sakli"],
+          "law": "MTK m.7/H, m.15/A-1-d",
+          "note": "İtirazı süresinde yapıp çekinceyi koruyan taraf, kurulun hukuka aykırı olarak yetkili olduğuna karar vermesini iptal sebebi olarak ileri sürebilir (MTK m.15/A-1-d). Bu arada esasa ilişkin savunmalarınızı da kaybetmediniz."
+        },
+        {
+          "text": "Yargılamadan çekil, savunma verme: kurulun bu kararı yok hükmündedir, verilecek hakem kararı hiçbir yerde tenfiz edilemez.",
+          "delta": -15,
+          "set": ["p2_cekil"],
+          "law": "MTK m.7/H",
+          "note": "Kurul yetkisine karar vermişti ve yargılama sizin yokluğunuzda da sürer. Çekilerek esasa ilişkin bütün savunmalarınızı ve karşı talebinizi kendi elinizle bıraktınız; “yok hüküm” beklentisi de dayanaksızdı."
+        },
+        {
+          "text": "İstanbul Asliye Ticaret Mahkemesinden tahkimi durduran bir ihtiyati tedbir kararı iste.",
+          "delta": -5,
+          "set": ["p2_tedbir"],
+          "law": "MTK m.3, m.7/H",
+          "note": "MTK kapsamındaki konularda mahkemeler ancak Kanunun öngördüğü hâllerde görev yapar (MTK m.3). Yetki sorununu önce kurul çözer; mahkeme denetimi iptal davasıyla yapılır. Talep reddedildi, zaman ve masraf kaybettiniz."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Duruşmalar bitti, karar bekleniyor. Müvekkil, kararın aleyhine çıkması hâlinde ne yapılabileceğini soruyor." }
+      ],
+      "prompt": "Hakem kararına karşı başvuru yolunu, süresini, dayanabileceğiniz iptal sebeplerini ve davanın icraya etkisini kendi cümlelerinizle anlatın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p2_iptal"],
+          "law": "MTK m.15/A, m.15/B",
+          "note": "Milletlerarası tahkimde Türkiye'de verilen hakem kararına karşı tek yol iptal davasıdır. Süre, kararın bildiriminden itibaren 30 gündür (MTK m.15/B). Yetki ve kapsam sorunları m.15/A-1-d ve e'de sayılır; itirazın süresinde yapılmış olması bu sebeplere dayanmayı kolaylaştırır. MTK'da iptal davasının açılması kararın icrasını kendiliğinden durdurur."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 6,
+          "set": ["p2_iptal"],
+          "law": "MTK m.15/A, m.15/B",
+          "note": "Doğru başvuru yolunu gösterdiniz. Tam cevap 30 günlük süreyi (m.15/B), yetki ve kapsamla ilgili iptal sebeplerini (m.15/A-1-d, e) ve MTK'da iptal davasının icrayı kendiliğinden durdurduğunu birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "MTK m.15/A, m.15/B",
+          "note": "Başvuru yolunu doğru kuramadınız. Türkiye'de verilen milletlerarası hakem kararına karşı istinaf ya da temyiz yolu yoktur; tek yol 30 gün içinde açılacak iptal davasıdır (MTK m.15). Sebepler sınırlıdır ve esasın yeniden incelenmesi istenemez."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Tahkim yeri Türkiye olan milletlerarası tahkimde hakem kararına karşı tek başvuru yolu iptal davasıdır (MTK m.15); istinaf, temyiz ya da esasın yeniden incelenmesi yoktur. (2) Süre, hakem kararının (ya da tavzih, düzeltme, tamamlama kararının) taraflara bildiriminden itibaren 30 gündür (MTK m.15/B). (3) Yetki ve kapsamla ilgili iptal sebepleri: kurulun hukuka aykırı olarak yetkili olduğuna karar vermesi (m.15/A-1-d) ve tahkim anlaşmasının kapsamı dışındaki bir konuda karar vermesi ya da yetkisini aşması (m.15/A-1-e); tahkime elverişlilik ve kamu düzeni mahkemece kendiliğinden gözetilir. (4) MTK'da iptal davasının açılması kararın icrasını kendiliğinden durdurur. İptal davasını, 30 günü, yetki/kapsam sebeplerini ve icraya etkisini birlikte söyleyen cevap tam puan alır; istinaf ya da temyiz yolunu gösteren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["iptal davası", "iptal"], "weight": 3 },
+        { "terms": ["30 gün", "otuz gün"], "weight": 2 },
+        { "terms": ["m.15", "madde 15", "15/A", "15. madde"], "weight": 1 },
+        { "terms": ["yetkili olduğuna", "yetkisiz", "kapsam dışı", "kapsamı dışında", "yetkisini aş"], "weight": 2 },
+        { "terms": ["icrayı durdur", "icrasını durdur", "kendiliğinden durdur"], "weight": 1 }
+      ],
+      "model": "Türkiye'de verilen bu milletlerarası hakem kararına karşı tek yol iptal davasıdır; istinaf ya da temyiz yoktur ve esas yeniden incelenmez (MTK m.15). Dava, kararın bize bildiriminden itibaren 30 gün içinde açılmalıdır. Kurulun hukuka aykırı olarak yetkili olduğuna karar vermesi ve tahkim anlaşmasının kapsamı dışındaki bakım uyuşmazlığına karar vermesi iptal sebepleridir (m.15/A-1-d, e); itirazımızı süresinde yaptığımız için bunlara dayanabiliriz. MTK'da iptal davasının açılması kararın icrasını kendiliğinden durdurur."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, son olarak yargılama giderleri hakkında talebiniz?" }
+      ],
+      "prompt": "Giderler konusunda ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Giderler haklılık oranına göre paylaştırılsın; yersiz itiraz ve paralel davaların ek masrafı davalıya yüklensin.",
+          "delta": 15,
+          "set": ["p1_gider"],
+          "law": "ISTAC Tahkim Kuralları (masraflar)",
+          "note": "Kurumsal tahkim kurallarında kurul giderleri hakem kararında paylaştırır; tarafların haklılık oranı yanında yargılamayı uzatan ya da masrafı artıran davranışları da hesaba katılır. Talebi gerekçesiyle ve dengeli kurdunuz."
+        },
+        {
+          "text": "Her taraf kendi giderini üstlensin; iki ticari ortak arasındaki ilişkiyi germeye gerek yok.",
+          "delta": -5,
+          "set": ["p1_kendi"],
+          "law": "ISTAC Tahkim Kuralları (masraflar)",
+          "note": "Ticari bir tercih olabilir, ama satıcının yersiz itirazları ve paralel davalarının müvekkile çıkardığı masrafı karşılatma imkânını kendiliğinizden bıraktınız."
+        },
+        {
+          "text": "Gider talebi şimdi yapılmasın; hakem kararı verildikten sonra vekâlet ücreti ve masraflar için mahkemeye ayrıca başvurulur.",
+          "delta": -10,
+          "set": ["p1_sonragider"],
+          "law": "ISTAC Tahkim Kuralları (masraflar)",
+          "note": "Tahkim giderleri ve vekâlet ücreti hakem kurulunca nihai kararda belirlenir; sonradan mahkemeden istenemez. Talep etmediğiniz gider için kurul hüküm kurmadı."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p2_itiraz && (p2_kapsamdisi || !p1_yetki)",
+      "winner": "p2",
+      "hukum": [
+        { "text": "Bakım sözleşmesinden doğan 1.500.000 EUR'luk talep bakımından kurulun YETKİSİZLİĞİNE; tedarik sözleşmesinden doğan talebin KABULÜ ile 300.000 EUR garanti onarım bedelinin" },
+        { "if": "p1_tahkimitiraz", "text": ", davalının 620.000 EUR taksit alacağıyla takası sonucunda davacının davalıya 320.000 EUR ödemesine" },
+        { "if": "!p1_tahkimitiraz", "text": " davalıdan alınarak davacıya ödenmesine" },
+        { "if": "p1_ucuncu", "text": ", davalının bağlı ortaklığına yöneltilen talepler bakımından yetkisizliğe" },
+        { "if": "p1_tumu", "text": ", 2024 numune satışından doğan talep bakımından yetkisizliğe" },
+        { "text": "," }
+      ],
+      "summary": [
+        { "if": "p2_kapsamdisi", "text": "Bakım sözleşmesine eklenen Genel Hizmet Koşullarının m.11 hükmü, bakım uyuşmazlıklarında başka bir anlaşmaya bakılmaksızın Milano mahkemelerini münhasıran yetkili kılıyordu. Taraflar bakım için ayrı bir yargı yeri istemişti; m.22'deki “bağlantılı” ifadesi bu özel iradenin önüne geçemedi." },
+        { "if": "!p2_kapsamdisi", "text": "Alıcı vekili bakım uyuşmazlığının tahkim şartının kapsamına neden girdiğini kuramadı; kurul satıcının süresinde yaptığı kapsam itirazını kabul etti." },
+        { "text": " Satıcı vekili itirazını cevapla birlikte, süresinde yaptı (MTK m.7/H). Alıcı 1.500.000 EUR'yu Milano'da dava etmek zorunda." },
+        { "if": "p1_tahkimitiraz", "text": " Alıcı vekili İstanbul'daki davada süresinde tahkim itirazında bulunduğu için taksit alacağı tahkimde takasla çözüldü." },
+        { "if": "p1_esascevap || p1_bekle", "text": " Taksit alacağı ise tahkim itirazı yapılmadığı için İstanbul'daki mahkemede ayrıca görülüyor." }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": [
+        { "text": "Davanın KABULÜ ile bakım sözleşmesinden doğan 1.500.000 EUR ve tedarik sözleşmesinden doğan 300.000 EUR olmak üzere toplam 1.800.000 EUR'nun" },
+        { "if": "p1_tahkimitiraz", "text": ", davalının 620.000 EUR taksit alacağıyla takası sonucunda kalan 1.180.000 EUR'nun" },
+        { "text": " davalıdan alınarak davacıya ödenmesine" },
+        { "if": "p1_ucuncu", "text": ", davalının bağlı ortaklığına yöneltilen talepler bakımından yetkisizliğe" },
+        { "if": "p1_tumu", "text": ", 2024 numune satışından doğan talep bakımından yetkisizliğe" },
+        { "text": "," }
+      ],
+      "summary": [
+        { "if": "p2_fesih", "text": "Tahkim şartı ana sözleşmeden bağımsızdır; tedarik sözleşmesinin feshi şartı sona erdirmedi (MTK m.7/H). Satıcı vekili kapsam itirazını da bu yanlış dayanak yüzünden kurmadı." },
+        { "if": "p2_sonra || p2_milano", "text": "Satıcı vekili yetkisizlik itirazını cevap dilekçesiyle birlikte yapmadı (MTK m.7/H); Milano'daki ya da sonradan yapılan girişimler kurulu bağlamadı." },
+        { "if": "p2_itiraz", "text": "Satıcının kapsam itirazı süresindeydi, ama kurul m.22'deki “bağlantılı” ifadesi ile bakım sözleşmesinin kendini tedarik sözleşmesinin ayrılmaz parçası sayan m.1 hükmünü belirleyici buldu." },
+        { "text": " Bilirkişi, hattın üç hafta durmasını yanlış takılan contaya, valf arızalarını üretim ayıbına bağladı." },
+        { "if": "p1_tahkimitiraz", "text": " Satıcının taksit alacağı, alıcının süresinde yaptığı tahkim itirazı sayesinde tahkimde takasla çözüldü." },
+        { "if": "p1_esascevap || p1_bekle", "text": " Taksit alacağı ise tahkim itirazı yapılmadığı için İstanbul'daki mahkemede ayrıca görülüyor." },
+        { "if": "p2_cekil", "text": " Satıcı yargılamadan çekildiği için esasa ilişkin savunması da dinlenmedi." }
+      ]
+    }
+  ]
+}
