@@ -30,7 +30,7 @@ async function synth(text: string, name: string) {
   const r = await fetch("https://texttospeech.googleapis.com/v1/text:synthesize?key=" + Deno.env.get("GOOGLE_TTS_KEY"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ input: { text }, voice: { languageCode: "tr-TR", name }, audioConfig: { audioEncoding: "MP3", sampleRateHertz: 24000 } })
+    body: JSON.stringify({ input: { text }, voice: { languageCode: name.slice(0, 5), name }, audioConfig: { audioEncoding: "MP3", sampleRateHertz: 24000 } })
   });
   const j = await r.json().catch(() => ({}));
   if (!r.ok || !j.audioContent) {
@@ -48,7 +48,7 @@ Deno.serve(async req => {
     const b = await req.json();
     const text = String(b.text || "").trim().slice(0, 900);
     const voice = String(b.voice || "");
-    if (!text || !/^tr-TR-[A-Za-z0-9-]+$/.test(voice)) return json({ error: "geçersiz istek" }, 400);
+    if (!text || !/^(tr-TR|en-US|es-ES|fr-FR|de-DE)-[A-Za-z0-9-]+$/.test(voice)) return json({ error: "geçersiz istek" }, 400);
 
     const sb = createClient(Deno.env.get("SUPABASE_URL")!, serviceKey());
     const path = voice + "/" + (await sha(voice + "|" + text)) + ".mp3";
@@ -56,7 +56,8 @@ Deno.serve(async req => {
     const head = await fetch(url, { method: "HEAD" });
     if (head.ok) return json({ url });
 
-    const audio = (await synth(text, voice)) || (await synth(text, MALE.test(voice) ? FALLBACK_M : FALLBACK_F));
+    // Yedek ses yalnız Türkçe için; diğer dillerde aynı adlı Chirp3 sesi kullanılır.
+    const audio = (await synth(text, voice)) || (voice.startsWith("tr-TR") ? await synth(text, MALE.test(voice) ? FALLBACK_M : FALLBACK_F) : null);
     if (!audio) return json({ error: "seslendirilemedi", google: lastError }, 502);
     const up = await sb.storage.from("ses").upload(path, audio, { contentType: "audio/mpeg", upsert: true });
     if (up.error) return json({ error: up.error.message }, 500);

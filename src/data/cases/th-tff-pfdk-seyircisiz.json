@@ -1,0 +1,394 @@
+{
+  "id": "th-tff-pfdk-seyircisiz",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "tff",
+  "difficulty": "basit",
+  "title": "Boş Tribün",
+  "area": "Tahkim · Spor tahkimi · PFDK cezasına itiraz (saha olayları)",
+  "court": "TFF Tahkim Kurulu",
+  "courtShort": "TFF TAHKİM KURULU",
+  "esas": "E.2027/118",
+  "kararTarihi": "24.03.2027",
+  "color": "#8a3a2a",
+  "teaser": "Tribünden atılan bir çakmak yardımcı hakemin başına isabet etti. PFDK kulübe üç maç seyircisiz oynama cezası verdi; kulüp, olayın tek bir bloktan çıktığını ve faillerin teslim edildiğini söylüyor.",
+  "bench": { "judges": 7, "title": "Kurul Başkanı ve altı üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "İtiraz eden kulüp (Karadere Spor A.Ş.) vekili", "short": "Kulüp" },
+    "p2": { "role": "Türkiye Futbol Federasyonu vekili", "short": "Federasyon" }
+  },
+  "cast": {
+    "judge": { "name": "Kurul Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#e0b48f", "hair": "#8c8c90", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#c99a72", "hair": "#1f1a17", "style": "short", "beard": true, "shirt": "#232a35", "inner": "#e6e2da" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f0caa6", "hair": "#5a3a28", "style": "bun", "shirt": "#2e2a2c", "inner": "#efe9df" } },
+    "guvenlik": { "name": "Cengiz Arı · Kulüp güvenlik müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#b98560", "hair": "#2a2522", "style": "bald", "beard": true, "shirt": "#3f4a3a", "inner": "#dcd6c8" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "07.03.2027, Süper Lig 25. hafta: Karadere Spor A.Ş. – Yeşilvadi FK. 63. dakikada ev sahibinin Doğu Tribünü C bloğundan sahaya çakmak ve madeni paralar atıldı; bir çakmak 2 numaralı yardımcı hakemin başına isabet etti. Hakem oyunu dokuz dakika durdurdu, tribünde meşaleler yakıldı." },
+    { "who": "narr", "text": "Profesyonel Futbol Disiplin Kurulu (PFDK), Futbol Disiplin Talimatı'nın (FDT) saha olaylarına ilişkin 52. maddesi uyarınca Karadere'ye 3 resmî maç seyircisiz oynama ve 1.500.000 TL para cezası verdi. Karar 11.03.2027'de kulübe yazıyla bildirildi." },
+    { "who": "narr", "text": "Bugün 13.03.2027. Karadere'nin sıradaki iç saha maçı 17.03.2027'de. Kulüp vekili ilk hamleyi yapacak; karşısında Federasyonu temsil eden TFF vekili var." }
+  ],
+  "docs": [
+    { "t": "PFDK kararı (11.03.2027)", "d": "FDT m.52 uyarınca Karadere Spor A.Ş.'ye 3 resmî maç seyircisiz oynama ve 1.500.000 TL para cezası. Gerekçe: yardımcı hakeme isabet eden cisim, oyunun dokuz dakika durması, piroteknik kullanımı." },
+    { "t": "Hakem raporu", "d": "63. dakikada Doğu Tribünü yönünden atılan bir çakmak 2 numaralı yardımcı hakemin başına isabet etti. Sağlık ekibinin müdahalesinden sonra görevine devam etti. Oyun 63.10 ile 72.05 arasında durdu." },
+    { "t": "Gözlemci raporu", "d": "Ev sahibi kulübün güvenlik görevlileri olaya iki dakika içinde müdahale etti. Olay Doğu Tribünü C bloğuyla sınırlı kaldı; misafir tribünde olay yaşanmadı." },
+    { "t": "Tahkim Kurulu Talimatı (ilgili hükümler)", "d": "m.7: Başvuru, kararın yazılı bildiriminden itibaren 7 gün içinde yapılır; harç bu süre içinde yatırılıp makbuzu sunulur. m.20: Başvuru infazı kendiliğinden durdurmaz; Kurul, açık hukuka aykırılık ve telafisi imkânsız zarar birlikte varsa durdurabilir. m.13: Kurul itirazı kabul, kısmen kabul ya da ret eder; kararı değiştirerek de karar verebilir." },
+    { "t": "Anayasa m.59/3", "d": "Spor federasyonlarının spor faaliyetlerinin yönetimine ve disiplinine ilişkin kararlarına karşı ancak zorunlu tahkim yoluna gidilebilir. Tahkim kurulu kararları kesin olup bu kararlara karşı hiçbir yargı merciine başvurulamaz." }
+  ],
+  "evidence": [
+    { "id": "ev_hakem", "type": "belge", "title": "Hakem raporu", "desc": "Doğu Tribünü yönünden atılan çakmak yardımcı hakemin başına isabet etti; oyun dokuz dakika durdu." },
+    { "id": "ev_gozlemci", "type": "belge", "title": "Gözlemci raporu", "desc": "Güvenlik görevlileri iki dakika içinde müdahale etti; olay C bloğuyla sınırlı kaldı." },
+    { "id": "ev_sicil", "type": "belge", "title": "Kulübün 2026-2027 disiplin sicili", "desc": "18.10.2026: saha olayları (sahaya yabancı madde atılması) nedeniyle para cezası. 24.01.2027: saha olayları nedeniyle C bloğu elektronik kartlarının bir maç için bloke edilmesi." },
+    { "id": "ev_kamera", "type": "belge", "title": "Kulübün kamera tespit raporu", "desc": "Çakmak ve paraları atan üç kişi C bloğunda görüntülendi; elektronik bilet kayıtları çıkarıldı, üçü de maç bitmeden emniyete teslim edildi (tutanak 07.03.2027, 21.40).", "if": "p1_tespit" },
+    { "id": "ev_plan", "type": "belge", "title": "Onaylı güvenlik planı", "desc": "420 özel güvenlik görevlisi; C bloğu girişinde turnike araması; il spor güvenlik kurulunun onayı.", "if": "p1_plan" },
+    { "id": "law_m59", "type": "kanun", "title": "Anayasa m.59/3", "desc": "Spor federasyonlarının yönetim ve disiplin kararlarına karşı ancak zorunlu tahkim yoluna gidilebilir; tahkim kurulu kararları kesindir.", "law": "Anayasa m.59/3" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İTİRAZ · PFDK kararı 11.03.2027'de yazıyla bildirildi. Sıradaki iç saha maçı 17.03.2027'de." }
+      ],
+      "prompt": "PFDK kararına karşı hangi yolu, hangi sürede izleyeceksiniz?",
+      "choices": [
+        {
+          "text": "18.03.2027'ye kadar Tahkim Kurulu'na itiraz et, harç makbuzunu ekle; 17 Mart maçı için infazın durdurulmasını ayrıca iste.",
+          "delta": 20,
+          "set": ["p1_sure"],
+          "law": "Anayasa m.59/3 · 5894 s.K. m.6/5 · Tahkim Kurulu Talimatı m.7, m.20",
+          "note": "Spor federasyonlarının disiplin kararlarına karşı yol zorunlu tahkimdir (Anayasa m.59/3). PFDK kararına karşı Tahkim Kurulu'na yazılı bildirimden itibaren 7 gün içinde başvurulur; harç da aynı sürede yatırılıp makbuzu sunulur (5894 s.K. m.6/5; Tahkim Kurulu Talimatı m.7). Başvuru infazı kendiliğinden durdurmadığından 17 Mart maçı için ayrıca durdurma talebi gerekiyordu (m.20).",
+          "reply": [
+            { "who": "narr", "text": "İtiraz 14.03.2027'de harç makbuzuyla birlikte verildi; dilekçede infazın durdurulması da istendi." }
+          ]
+        },
+        {
+          "text": "PFDK kararı Federasyonun idari işlemidir; tebliğden itibaren 60 gün içinde idare mahkemesinde iptal ve yürütmenin durdurulması davası aç.",
+          "delta": -25,
+          "law": "Anayasa m.59/3",
+          "note": "Federasyonun disiplin kararlarına karşı yargı yolu kapalıdır; tek yol Tahkim Kurulu'dur (Anayasa m.59/3). Dava açarken 7 günlük itiraz süresi geçti.",
+          "fatal": {
+            "label": "YARGI YOLU KAPALI",
+            "hukum": "İdare Mahkemesi: Dava konusu işleme karşı Anayasa'nın 59. maddesinin üçüncü fıkrası uyarınca yargı yolu kapalı olduğundan davanın İNCELENMEKSİZİN REDDİNE,",
+            "summary": "Kulüp vekili PFDK kararına karşı idare mahkemesine gitti. Spor federasyonlarının yönetim ve disiplin kararlarına karşı ancak zorunlu tahkim yoluna gidilebilir (Anayasa m.59/3). Tahkim Kurulu'na 7 gün içinde itiraz edilmediğinden PFDK kararı kesinleşti; Karadere üç maçı seyircisiz oynayacak."
+          }
+        },
+        {
+          "text": "18.03.2027'ye kadar Tahkim Kurulu'na itiraz et; itiraz cezanın infazını kendiliğinden durdurur, ayrıca bir talebe gerek yok.",
+          "delta": 5,
+          "set": ["p1_sure", "p1_tedbiryok"],
+          "law": "Tahkim Kurulu Talimatı m.7, m.20",
+          "note": "Yol ve süre doğru. Ama Tahkim Kurulu'na başvuru, aksine bir hüküm yoksa kararın infazını durdurmaz (Tahkim Kurulu Talimatı m.20). Durdurma istemediğiniz için 17 Mart maçı seyircisiz oynanacak.",
+          "reply": [
+            { "who": "narr", "text": "İtiraz 14.03.2027'de harç makbuzuyla birlikte verildi. 17.03.2027'deki maç seyircisiz oynandı." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "if": "!p1_tedbiryok",
+      "lines": [
+        { "who": "narr", "text": "İNFAZIN DURDURULMASI · Kurul Başkanı, kulübün durdurma talebi hakkında Federasyondan 24 saat içinde görüş istedi." }
+      ],
+      "prompt": "Durdurma talebine ne cevap vereceksiniz?",
+      "choices": [
+        {
+          "text": "Talep reddedilmeli: kulübün bilet gelirindeki kayıp paradır, itiraz kabul edilirse sonradan karşılanabilir; telafisi imkânsız bir zarar yok.",
+          "delta": 5,
+          "set": ["p2_tedbirzayif"],
+          "law": "Tahkim Kurulu Talimatı m.20",
+          "note": "Sonuç doğru, gerekçe zayıf. Seyircisiz oynanan maç sonradan geri alınamaz; zararın telafisi gerçekten güç. Ağırlığı, kararın açıkça hukuka aykırı olmadığına vermeliydiniz: Talimat iki şartı birlikte arar (m.20).",
+          "reply": [
+            { "who": "judge", "text": "Kurul, şartları oluşmadığından infazın durdurulması talebini reddetti. 17 Mart maçı seyircisiz oynanacak." }
+          ]
+        },
+        {
+          "text": "Tahkim Kurulu esası inceleyen bir itiraz merciidir; kararın infazını durdurma yetkisi yoktur, talep incelenmeden reddedilmeli.",
+          "delta": -10,
+          "law": "Tahkim Kurulu Talimatı m.20",
+          "note": "Kurul'un durdurma yetkisi Talimatın 20. maddesinde açıkça düzenlenmiştir. Talebin reddi için şartların yokluğunu göstermeliydiniz.",
+          "reply": [
+            { "who": "judge", "text": "Kurul'un durdurma yetkisi vardır. Ancak kararın açıkça hukuka aykırı olduğu görülmediğinden talep reddedildi. 17 Mart maçı seyircisiz oynanacak." }
+          ]
+        },
+        {
+          "text": "İki şart birlikte aranır: seyircisiz maç geri alınamasa da kararın açıkça hukuka aykırı olduğu gösterilmedi.",
+          "delta": 15,
+          "set": ["p2_tedbirred"],
+          "law": "Tahkim Kurulu Talimatı m.20",
+          "note": "Doğru. Durdurma için kararın açıkça hukuka aykırı olması ve telafisi imkânsız zararın kuvvetle muhtemel olması birlikte aranır (Tahkim Kurulu Talimatı m.20). Seyircisiz oynanan maç geri alınamaz; bu yüzden asıl dayanak birinci şartın yokluğudur.",
+          "reply": [
+            { "who": "judge", "text": "Kurul, kararın açıkça hukuka aykırı olduğu görülmediğinden infazın durdurulması talebini reddetti. 17 Mart maçı seyircisiz oynanacak." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kurul, Talimatın 11. maddesi uyarınca duruşma yapmaya karar verdi. Kulüp vekili, itirazınızı özetleyin." },
+        { "who": "p1", "text": "Sayın Kurul, kulübümüz bütün güvenlik önlemlerini almıştır. Bir taraftarın eylemi yüzünden kulübe ceza verilemez; kulübün kusuru yoktur." },
+        { "who": "judge", "text": "Federasyon vekili?" }
+      ],
+      "prompt": "Kulübün sorumluluğunu hangi esasa dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "Kulüp, güvenlik görevlilerinin ihmalinden adam çalıştıran olarak sorumludur (TBK m.66); özen gösterdiğini de ispatlayamadı.",
+          "delta": -10,
+          "law": "TBK m.66 · FDT m.52",
+          "note": "Disiplin sorumluluğu Borçlar Kanunu'ndaki adam çalıştıranın sorumluluğuna dayanmaz. Üstelik bu esas kulübe “gereken özeni gösterdim” diyerek kurtulma kapısı açar (TBK m.66/2). Oysa kulübün taraftar olaylarından disiplin sorumluluğu kusura dayanmaz."
+        },
+        {
+          "text": "Kulüp yönetimi maçtan önce tribün liderleriyle bir araya gelmiştir; olayları bizzat kulüp kışkırtmıştır, ceza bu yüzden yerindedir.",
+          "delta": -15,
+          "set": ["p2_kasit"],
+          "note": "Dosyada böyle bir görüşmeye dair tek bir delil yok. İspatlayamayacağınız bir kasıt iddiası Federasyonun inandırıcılığını zedeledi; kulübün sorumluluğu zaten kusura bağlı değildi."
+        },
+        {
+          "text": "Kulüp, taraftarının saha olayından kusuru aranmaksızın sorumludur; önlemler sorumluluğu kaldırmaz, cezanın ölçüsünde tartılır.",
+          "delta": 20,
+          "set": ["p2_kusursuz"],
+          "law": "FDT m.52",
+          "note": "Doğru. FDT'nin saha olaylarına ilişkin 52. maddesi kulübü, taraftarlarının eylemleri nedeniyle cezalandırır ve bu sorumluluk kusura bağlı değildir; FIFA ve UEFA disiplin kurallarındaki ilke de aynıdır. Kulübün önlemleri ve faillerin tespiti sorumluluğu ortadan kaldırmaz, cezanın türü ve ölçüsü belirlenirken değerlendirilir.",
+          "reply": [
+            { "who": "judge", "text": "Kulübün sorumluluğunun niteliği tutanağa geçirildi. Duruşmaya yarım saat ara veriyorum." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Ara verildi. Kulübün güvenlik müdürü Cengiz Arı'yla konuşuyorsunuz; iki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Güvenlik müdürüne ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Çakmağı atanlar tespit edildi mi, onlar için ne yaptınız?",
+          "delta": 15,
+          "set": ["p1_tespit"],
+          "reply": [
+            { "who": "guvenlik", "text": "Kamera kayıtlarından üç kişiyi bulduk, elektronik bilet kayıtlarını çıkardık ve maç bitmeden emniyete teslim ettik. Tutanak elimde." }
+          ],
+          "note": "Doğru soru. Faillerin tespiti ve teslimi, cezanın ölçüsü bakımından kulüp lehine en güçlü veri. Tespit raporu çantanıza eklendi."
+        },
+        {
+          "text": "Stadyumda kaç güvenlik görevlisi vardı, güvenlik planı onaylı mıydı?",
+          "delta": 10,
+          "set": ["p1_plan"],
+          "reply": [
+            { "who": "guvenlik", "text": "420 özel güvenlik görevlisi vardı; plan il spor güvenlik kurulunca onaylandı. C bloğu girişinde turnike araması da yapıldı." }
+          ],
+          "note": "Yararlı: kulübün önlem aldığını gösterir. Ama önlemler sorumluluğu kaldırmaz, yalnızca cezanın ölçüsünde tartılır. Güvenlik planı çantanıza eklendi."
+        },
+        {
+          "text": "Çakmak başka bir tribünden gelmiş olabilir mi? Hakem raporunu çürütebilir miyiz?",
+          "delta": -5,
+          "reply": [
+            { "who": "guvenlik", "text": "Ne yazık ki hayır. Bizim görüntüler de çakmağın C bloğundan atıldığını gösteriyor." }
+          ],
+          "note": "Hakem ve gözlemci raporları aksi ispatlanana kadar doğru kabul edilir. Çürütecek bir delil yokken bu yola sapmak vakit kaybıydı."
+        },
+        {
+          "text": "Misafir taraftarlar da sahaya bir şey attı mı?",
+          "delta": -5,
+          "reply": [
+            { "who": "guvenlik", "text": "Hayır, misafir tribün maç boyunca sakindi." }
+          ],
+          "note": "Sınırlı vaktinizi kulübün durumunu değiştirmeyecek bir soruya harcadınız."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmaya devam ediyoruz. Kulüp vekili, itirazınızın esası ve talebiniz nedir?" }
+      ],
+      "prompt": "Kulübün sorumluluğu tartışmasız görünüyor. Kurul'a cezanın neden değiştirilmesi gerektiğini ve tam olarak ne istediğinizi kendi cümlelerinizle anlatın.",
+      "choices": [
+        {
+          "text": "Güçlü itiraz",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_olcu", "p1_guclu"],
+          "law": "FDT m.52 · Tahkim Kurulu Talimatı m.13",
+          "note": "Kulübün sorumluluğunu kabul edip tartışmayı cezanın ölçüsüne taşıdınız. Somut olguları (tek blok, iki dakikada müdahale, faillerin teslimi) ve açık bir talebi (seyircisiz oynama yerine olay bloğunun kapatılması) birlikte sundunuz. Kurul kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.13)."
+        },
+        {
+          "text": "Yeterli itiraz",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_olcu"],
+          "law": "Tahkim Kurulu Talimatı m.13",
+          "note": "Ölçülülük itirazını getirdiniz ama eksik. Tam bir itiraz, kulübün sorumluluğunu tartışmadan olayın tek bir blokla sınırlı kaldığını, güvenliğin iki dakikada müdahale ettiğini ve faillerin emniyete teslim edildiğini gösterir; Kurul'dan da kararı değiştirerek daha hafif ve hedefli bir yaptırım (olay bloğunun kapatılması) vermesini açıkça ister (m.13)."
+        },
+        {
+          "text": "Zayıf itiraz",
+          "delta": -5,
+          "law": "FDT m.52 · Tahkim Kurulu Talimatı m.13",
+          "note": "Kurul'a tutunacağı bir dayanak vermediniz. Kulübün taraftar olaylarından sorumluluğu kusura bağlı değildir; itirazın gücü cezanın ölçüsündedir: olay tek blokla sınırlı kaldı, güvenlik iki dakikada müdahale etti, failler teslim edildi. Bütün stadyumu kapatmak yerine olay bloğuna yönelik bir yaptırım istenebilirdi (Tahkim Kurulu Talimatı m.13)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kulübün taraftar olaylarından kusura bağlı olmayan sorumluluğu tartışılmaz; itiraz cezanın türüne ve ölçüsüne yöneliktir (FDT m.52). (2) Olay Doğu Tribünü C bloğuyla sınırlı kaldı; güvenlik iki dakikada müdahale etti (gözlemci raporu); failler kamerayla tespit edilip emniyete teslim edildi. (3) Bütün stadyumu üç maç seyircisiz bırakmak ölçüsüzdür; aynı amaca olay bloğunun kapatılması ya da kart blokesi gibi daha hafif, hedefli bir yaptırımla ulaşılır. (4) Kurul kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.13); talep: seyircisiz oynama cezasının kaldırılması, yerine C bloğunun kapatılması ya da maç sayısının indirilmesi. Ölçülülük, somut olgular ve açık talep birlikte tam puan için gerekir. Sorumluluğu tümden reddeden ya da yalnızca 'ceza ağır' diyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["ölçülü", "ölçüsüz", "orantılı", "orantısız", "ölçülülük", "orantılılık"], "weight": 2 },
+        { "terms": ["tespit", "teslim", "kamera", "fail"], "weight": 2 },
+        { "terms": ["C bloğu", "blok", "tribün kapatma", "kapatılması", "bloke"], "weight": 2 },
+        { "terms": ["değiştir", "indiril", "hafiflet", "kaldırıl"], "weight": 1 },
+        { "terms": ["m.13", "m. 13", "madde 13", "13. madde", "md. 13", "gözlemci"], "weight": 1 }
+      ],
+      "model": "Sayın Kurul, kulübümüz taraftarının eyleminden kusura bakılmaksızın sorumludur; bunu tartışmıyoruz. Ama olay yalnızca Doğu Tribünü C bloğunda çıktı, güvenlik iki dakikada müdahale etti ve üç fail kamerayla bulunup emniyete teslim edildi. Bütün stadyumu üç maç seyircisiz bırakmak ölçüsüzdür. Talimatın 13. maddesi uyarınca kararın değiştirilerek seyircisiz oynama cezasının kaldırılmasını, yerine C bloğunun kapatılmasını istiyoruz."
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Federasyon vekili, kulübün beyanına karşı diyeceğiniz var mı?" }
+      ],
+      "statement": { "who": "p1", "text": "Sayın Kurul, kulübümüz bu sezon saha olayları nedeniyle hiçbir ceza almamıştır; 7 Mart olayı bir istisnadır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_sicil"],
+      "hit": {
+        "delta": 20,
+        "set": ["p2_sicil"],
+        "law": "FDT m.52",
+        "note": "Kulübün aynı sezonda iki kez daha saha olayları nedeniyle cezalandırıldığı sicille sabit. Daha hafif yaptırımlar (para cezası, kart blokesi) olayları önlemedi; bu, cezanın ağırlaşmasını haklı kılan en güçlü veri.",
+        "reply": [
+          { "who": "judge", "text": "Sicil kaydı dosyaya alındı." }
+        ]
+      },
+      "responses": {
+        "ev_hakem": { "delta": -5, "note": "Hakem raporu olayı ispatlar, ama kulübün “ilk ihlal” beyanını çürütmez. Bunun için sicil kaydı gerekiyordu." },
+        "ev_gozlemci": { "delta": -10, "note": "Gözlemci raporu güvenliğin iki dakikada müdahale ettiğini gösteriyor; kulübün lehine bir belge sundunuz." },
+        "ev_kamera": { "delta": -10, "note": "Bu tespit raporu kulübün lehine: failler bulunup emniyete teslim edilmiş." },
+        "ev_plan": { "delta": -10, "note": "Onaylı güvenlik planı kulübün önlem aldığını gösteriyor; kulübün lehine bir belge sundunuz." },
+        "law_m59": { "delta": -10, "note": "Anayasa m.59/3 Kurul kararının kesinliğiyle ilgilidir; kulübün geçmiş cezalarını ispatlamaz." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge kulübün geçmiş cezalarını göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; kulübün “ilk ihlal” beyanı dosyada çürütülmeden kaldı." }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "if": "p2_sicil", "text": "Kulüp vekili, sicil kaydı karşısında talebinizi nasıl kuruyorsunuz?" },
+        { "who": "judge", "if": "!p2_sicil", "text": "Kulüp vekili, talebinizi son kez netleştirin." }
+      ],
+      "prompt": "Kurul'a son olarak ne söyleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Kurul cezayı onarsa Anayasa Mahkemesine bireysel başvuru yapacağımızı tutanağa geçirsin; bu ihtimal gözetilerek ceza askıya alınsın.",
+          "delta": -10,
+          "set": ["p1_aym"],
+          "law": "Anayasa m.59/3 · 6216 s.K. m.45/3",
+          "note": "Anayasa Mahkemesi, spor federasyonlarının yönetim ve disiplin kararlarına ilişkin tahkim kurulu kararlarına karşı bireysel başvuruları Anayasa m.59/3 ve 6216 sayılı Kanun m.45/3 uyarınca konu bakımından yetkisizlik nedeniyle kabul edilemez buluyor (Abdurrahman Akyüz, B. No: 2012/620). Kurul kararı kesindir; bu ihtimal cezayı askıya almanın sebebi olamaz."
+        },
+        {
+          "text": "Ceza olayın çıktığı bloğa yöneltilsin: C bloğunun kapatılması caydırıcıdır, olaya karışmayan otuz bin seyirciyi cezalandırmak gerekmez.",
+          "delta": 15,
+          "set": ["p1_talep"],
+          "law": "Tahkim Kurulu Talimatı m.13",
+          "note": [
+            { "text": "Doğru talep: ölçülülük ilkesine uygun, somut ve uygulanabilir. Kurul itiraz edilen kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.13)." },
+            { "if": "p2_sicil", "text": " Sicil kaydı karşısında da tutarlı: hafif yaptırımların yetmediği, olay bloğuna yönelik daha ağır bir yaptırımı haklı kılar; bütün stadyumu kapatmayı değil." }
+          ]
+        },
+        {
+          "text": "Kararın tümden kaldırılmasını isteriz: çakmağı tek bir kişi attı ve teslim edildi; kulübe hiçbir disiplin cezası verilemez.",
+          "delta": -10,
+          "set": ["p1_hepsi"],
+          "law": "FDT m.52",
+          "note": "Kulübün taraftar olaylarından sorumluluğu kusura bağlı değildir; faillerin teslimi cezayı ortadan kaldırmaz, olsa olsa hafifletir. Sorumluluğu reddetmek ölçülülük itirazınızın inandırıcılığını da zayıflattı."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Federasyon vekili, son beyanınız?" }
+      ],
+      "prompt": "Kurul'a, PFDK kararının neden aynen onanması gerektiğini kendi cümlelerinizle anlatın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_guclu", "p2_orta"],
+          "law": "FDT m.52 · Anayasa m.59/3",
+          "note": "Kulübün kusura bağlı olmayan sorumluluğunu, olayın ağırlığını (görevliye isabet, dokuz dakikalık durma) ve aynı sezonda tekrarlanan olayları birlikte kurdunuz. Kademeli artış gerekçesi seyircisiz oynamayı savunmanın en güçlü yoludur."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_orta"],
+          "law": "FDT m.52",
+          "note": "Savunmanın ana hattı doğru ama eksik. Tam savunma; kulübün sorumluluğunun kusura bağlı olmadığını, çakmağın yardımcı hakemin başına isabet ettiğini ve oyunun dokuz dakika durduğunu, hafif yaptırımların aynı sezonda iki kez denenip sonuç vermediğini birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "FDT m.52",
+          "note": "Kurul'a cezanın ölçüsünü savunacak bir dayanak vermediniz. Kulübün sorumluluğu kusura bağlı değildir; olay görevliye isabetle ve oyunun dokuz dakika durmasıyla ağırdır; kulüp aynı sezonda iki kez daha saha olayları nedeniyle cezalandırılmıştır. Bunları birlikte söylemeliydiniz."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kulüp, taraftarlarının saha olaylarından kusuru aranmaksızın sorumludur (FDT m.52); faillerin teslimi zaten yapılması gerekeni yapmaktır, sorumluluğu kaldırmaz. (2) Olayın ağırlığı: atılan çakmak yardımcı hakemin başına isabet etti, oyun dokuz dakika durdu, piroteknik kullanıldı; hakem ve gözlemci raporları aksi ispatlanana kadar doğru kabul edilir. (3) Kulüp aynı sezonda iki kez saha olayları nedeniyle para cezası ve kart blokesi aldı; hafif yaptırımlar caydırmadı, kademeli artış seyircisiz oynamayı haklı kılar. (4) Talep: itirazın reddi ve PFDK kararının onanması; Kurul kararı kesindir (Anayasa m.59/3). Yalnızca 'karar yerindedir' diyen ya da kulübe kanıtsız kasıt yükleyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["kusur aranmaksızın", "kusursuz", "objektif", "kusura bağlı değil", "kusura bakılmaksızın"], "weight": 2 },
+        { "terms": ["isabet", "yardımcı hakem", "başına"], "weight": 2 },
+        { "terms": ["dokuz dakika", "9 dakika", "durdu", "piroteknik", "meşale"], "weight": 1 },
+        { "terms": ["sicil", "aynı sezon", "tekrar", "kademeli", "iki kez"], "weight": 2 },
+        { "terms": ["onan", "reddi", "59", "kesin"], "weight": 1 }
+      ],
+      "model": "Sayın Kurul, kulüp taraftarının saha olayından kusuru aranmaksızın sorumludur; faillerin teslimi bu sorumluluğu kaldırmaz. Atılan çakmak yardımcı hakemin başına isabet etti ve oyun dokuz dakika durdu. Kulüp bu sezon iki kez daha saha olayları nedeniyle para cezası ve kart blokesi aldı; hafif yaptırımlar caydırmadı. İtirazın reddiyle PFDK kararının onanmasını istiyoruz."
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_guclu && p1_talep && !(p2_sicil && p2_guclu)",
+      "winner": "p1",
+      "hukum": "İtirazın KISMEN KABULÜ ile PFDK'nın 11.03.2027 tarihli kararındaki 3 resmî maç seyircisiz oynama cezasının, infaz edilen 17.03.2027 tarihli maçla sınırlı tutularak KALDIRILMASINA, kalan kısım yerine Doğu Tribünü C bloğunun 2 resmî maç seyirciye KAPATILMASINA, para cezasının ONANMASINA, kararın kesin olarak verildiğine,",
+      "summary": [
+        { "text": "Kulüp vekili sorumluluğu tartışmadı, itirazı cezanın ölçüsüne taşıdı: olay tek blokla sınırlı kaldı, güvenlik iki dakikada müdahale etti, failler emniyete teslim edildi. Kurul, kararı değiştirerek hedefli bir yaptırım verdi (Tahkim Kurulu Talimatı m.13)." },
+        { "if": "p2_sicil", "text": " Federasyon vekili sicil kaydını sundu, ama bütün stadyumu kapatmanın neden gerekli olduğunu yeterince kuramadı." },
+        { "if": "!p2_sicil", "text": " Federasyon vekili, kulübün aynı sezondaki önceki cezalarını dosyaya getirmedi; kademeli artış gerekçesi kurulamadı." },
+        { "if": "p2_kasit", "text": " Kulübe kanıtsız kasıt yüklemesi de Federasyonun savunmasını zayıflattı." },
+        { "if": "p1_tedbiryok", "text": " Kulüp vekili infazın durdurulmasını istemediğinden 17 Mart maçı seyircisiz oynandı." }
+      ]
+    },
+    {
+      "if": "p1_olcu && p1_talep",
+      "winner": "draw",
+      "hukum": "İtirazın KISMEN KABULÜ ile PFDK'nın 11.03.2027 tarihli kararındaki 3 resmî maç seyircisiz oynama cezasının 2 resmî maça İNDİRİLMESİNE, para cezasının ONANMASINA, kararın kesin olarak verildiğine,",
+      "summary": [
+        { "text": "Kulüp vekili ölçülülük itirazını ve hedefli bir yaptırım talebini getirdi; Kurul cezayı bir maç indirdi." },
+        { "if": "p2_sicil", "text": " Ancak Federasyon vekilinin sunduğu sicil kaydı, aynı sezonda hafif yaptırımların iki kez sonuç vermediğini gösterdi; Kurul seyircisiz oynamayı tümden kaldırmadı." },
+        { "if": "!p2_sicil", "text": " Federasyon vekili kulübün kusura bağlı olmayan sorumluluğunu ve olayın ağırlığını savundu; Kurul seyircisiz oynamayı tümden kaldırmadı." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "İtirazın REDDİNE, PFDK'nın 11.03.2027 tarihli kararının ONANMASINA, kararın kesin olarak verildiğine,",
+      "summary": [
+        { "text": "Kulübün taraftar olaylarından sorumluluğu kusura bağlı değildir (FDT m.52); çakmak yardımcı hakemin başına isabet etmiş, oyun dokuz dakika durmuştu." },
+        { "if": "p1_hepsi", "text": " Kulüp vekili sorumluluğu tümden reddetti; bu tutum ölçülülük itirazını da zayıflattı." },
+        { "if": "p1_aym", "text": " Anayasa Mahkemesine bireysel başvuru ihtimali cezayı askıya almanın sebebi sayılmadı; Kurul kararı kesindir (Anayasa m.59/3)." },
+        { "if": "!p1_olcu", "text": " Kulüp vekili cezanın neden ölçüsüz olduğunu somut olgularla kuramadı." },
+        { "if": "p1_olcu && !p1_talep", "text": " Kulüp vekili ölçülülükten söz etti ama son beyanında uygulanabilir, hedefli bir talep kurmadı." },
+        { "if": "p2_sicil", "text": " Federasyon vekilinin sunduğu sicil, aynı sezonda hafif yaptırımların sonuç vermediğini gösterdi." }
+      ]
+    }
+  ]
+}

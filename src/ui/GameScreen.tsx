@@ -8,11 +8,16 @@ import { useOffice } from "../data/office";
 import Stage from "./Stage";
 import { useViewMode } from "./viewMode";
 import { C, F, sideColor, toneColor } from "./theme";
-import { LETTERS, useCourt } from "./useCourt";
+import { LETTERS, OnlineLink, useCourt } from "./useCourt";
 import { prefetchLines, Speaker, speakLine, stopSpeaking, useSpeaking, useVoiceEnabled } from "./voice";
 import FreeAnswer from "./FreeAnswer";
+import { locale, t } from "../i18n";
 
-interface Props { c: CaseFile; players: Record<Side, Player>; onExit: () => void; onFinish: (g: GameState) => void }
+interface Props { c: CaseFile; players: Record<Side, Player>; onExit: () => void; onFinish: (g: GameState) => void; online?: OnlineLink }
+
+/** Motorun hamle değerlendirme etiketi (Türkçe) seçili dile çevrilir. */
+const gradeLabel = (l: string) =>
+  l === "Yerinde hamle" ? t("Yerinde hamle") : l === "Kabul edilebilir" ? t("Kabul edilebilir") : l === "Etkisiz hamle" ? t("Etkisiz hamle") : l === "Hatalı hamle" ? t("Hatalı hamle") : l;
 
 /** Metni harf harf yazar; dokunulunca tamamlar. */
 function useTypewriter(text: string) {
@@ -25,8 +30,8 @@ function useTypewriter(text: string) {
   return { shown: text.slice(0, n), done: n >= text.length, finish: () => setN(text.length) };
 }
 
-export default function GameScreen({ c, players, onExit, onFinish }: Props) {
-  const court = useCourt(c, players, onFinish);
+export default function GameScreen({ c, players, onExit, onFinish, online }: Props) {
+  const court = useCourt(c, players, onFinish, online);
   const { game, phase, scene } = court;
   const { width } = useWindowDimensions();
   const [docs, setDocs] = useState(false);
@@ -41,8 +46,8 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
   const tw = useTypewriter(line ? line.text : "");
 
   const speakerName = (who: string) => {
-    if (who === "narr") return { name: "Dosya notu", dot: C.muted };
-    if (who === "mubasir") return { name: "Mübaşir", dot: C.muted };
+    if (who === "narr") return { name: t("Dosya notu"), dot: C.muted };
+    if (who === "mubasir") return { name: t("Mübaşir"), dot: C.muted };
     if (who === "p1" || who === "p2") return { name: `${players[who].name} · ${c.sides[who].role}`, dot: sideColor(who) };
     const m = c.cast[who];
     return { name: m?.name || who, dot: m?.np === "red" ? "#c2343c" : m?.np === "green" ? "#2f9a66" : C.brass };
@@ -96,54 +101,55 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
   return (
     <View style={styles.root}>
       <View style={styles.top}>
-        <Btn kind="ghost" label="‹ Dosyalar" onPress={onExit} />
+        <Btn kind="ghost" label={t("‹ Dosyalar")} onPress={onExit} />
         <View style={styles.topCase}>
           <Text style={styles.court} numberOfLines={1}>{c.court}</Text>
           <Text style={styles.esas} numberOfLines={1}>{duel ? `${c.esas} · ${c.sides.p1.short} ⇄ ${c.sides.p2.short}` : `${c.esas} · ${c.sides.p1.role}`}</Text>
         </View>
         <Btn kind="ghost" label={voiceOn ? "🔊" : "🔇"} onPress={() => setVoiceOn(!voiceOn)} />
-        <Btn kind="ghost" label="Dosya" onPress={() => setDocs(true)} />
+        <Btn kind="ghost" label={t("Dosya")} onPress={() => setDocs(true)} />
         <View style={styles.scaleBox}>
           <Scale angle={angle} size={width < 480 ? 56 : 80} left={duel ? C.p1 : C.brass} right={duel ? C.p2 : C.brass} />
           {duel ? (
             <Text style={styles.score}><Text style={{ color: C.p1 }}>{game.pts.p1}</Text><Text style={{ color: C.muted }}>:</Text><Text style={{ color: C.p2 }}>{game.pts.p2}</Text></Text>
           ) : (
-            <View><Text style={styles.scoreLabel}>İKNA</Text><Text style={styles.score}>{game.score}</Text></View>
+            <View><Text style={styles.scoreLabel}>{t("İKNA")}</Text><Text style={styles.score}>{game.score}</Text></View>
           )}
         </View>
       </View>
 
       <View style={[styles.stageWrap, { flex: wide ? 1.5 : 1 }]}>
         {viewMode === "gercek"
-          ? <PhotoStage c={c} scene={scene} focus={focus} talking={!!line && (!tw.done || (voiceOn && speaking))} />
+          ? <PhotoStage c={c} scene={scene} focus={focus} talking={!!line && (voiceOn ? speaking || !tw.done : true)}
+              say={line && phase.k === "lines" ? { id: `${game.log.length}-${phase.i}-${line.text.length}`, text: line.text, voice: voiceOn } : undefined} />
           : <Stage c={c} scene={scene} focus={focus} talking={!!line && !tw.done} />}
       </View>
 
       <View style={[styles.panel, { flex: wide ? 0.85 : 1 }]}>
         <ScrollView ref={scroller} contentContainerStyle={styles.panelInner}>
           {phase.k === "lines" && line && (
-            <Pressable onPress={tapLine} accessibilityRole="button" accessibilityLabel="Devam">
+            <Pressable onPress={tapLine} accessibilityRole="button" accessibilityLabel={t("Devam")}>
               <View style={styles.np}><View style={[styles.dot, { backgroundColor: speakerName(line.who).dot }]} /><Text style={line.who === "narr" ? styles.npNarr : styles.npText}>{speakerName(line.who).name}</Text></View>
               <Text style={[styles.dlg, line.who === "narr" && styles.dlgNarr]}>{tw.shown}</Text>
               <View style={styles.rowBetween}>
                 <View style={{ flexDirection: "row", gap: 8 }}>
-                  <Btn kind="ghost" label="‹ Geri" onPress={court.prev} disabled={phase.i === 0} />
-                  <Btn kind="ghost" label="Tutanak" onPress={() => setRecord(true)} disabled={history.length < 2} />
+                  <Btn kind="ghost" label={t("‹ Geri")} onPress={court.prev} disabled={phase.i === 0} />
+                  <Btn kind="ghost" label={t("Tutanak")} onPress={() => setRecord(true)} disabled={history.length < 2} />
                 </View>
-                <Btn kind="next" label="Devam ▸" onPress={tapLine} />
+                <Btn kind="next" label={t("Devam ▸")} onPress={tapLine} />
               </View>
             </Pressable>
           )}
 
           {phase.k === "docs" && (
             <View>
-              <Text style={styles.npNarr}>DOSYADAKİ BELGELER</Text>
+              <Text style={styles.npNarr}>{t("DOSYADAKİ BELGELER")}</Text>
               <View style={[styles.docGrid, wide && styles.twoCol]}>
                 {c.docs.map(d => (
                   <View key={d.t} style={[styles.doc, wide && styles.half]}><Text style={styles.docT}>{d.t}</Text><Text style={styles.docD}>{d.d}</Text></View>
                 ))}
               </View>
-              <View style={styles.rowEnd}><Btn kind="next" label="Devam ▸" onPress={court.next} /></View>
+              <View style={styles.rowEnd}><Btn kind="next" label={t("Devam ▸")} onPress={court.next} /></View>
             </View>
           )}
 
@@ -151,11 +157,11 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
             const side = c.steps[phase.step].side;
             return (
               <View style={styles.pass}>
-                <Chip label="SIRA DEĞİŞİYOR" color={sideColor(side)} />
+                <Chip label={t("SIRA DEĞİŞİYOR")} color={sideColor(side)} />
                 <Text style={[styles.passName, { color: sideColor(side) }]}>{players[side].name}</Text>
                 <Text style={styles.muted}>{c.sides[side].role}</Text>
-                <Text style={styles.muted}>Cihazı bu oyuncuya verin.</Text>
-                <Btn kind="next" label="Hazırım ▸" onPress={court.next} style={{ marginTop: 8 }} />
+                <Text style={styles.muted}>{t("Cihazı bu oyuncuya verin.")}</Text>
+                <Btn kind="next" label={t("Hazırım ▸")} onPress={court.next} style={{ marginTop: 8 }} />
               </View>
             );
           })()}
@@ -171,7 +177,7 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
             const limit = st.limit ?? st.choices.length;
             return (
               <View>
-                {duel && <Chip label={`SIRA: ${players[st.side].name} · ${c.sides[st.side].role}`.toLocaleUpperCase("tr")} color={sideColor(st.side)} style={{ alignSelf: "flex-start", marginBottom: 8 }} />}
+                {duel && <Chip label={t("SIRA: {ad} · {rol}", { ad: players[st.side].name, rol: c.sides[st.side].role }).toLocaleUpperCase(locale())} color={sideColor(st.side)} style={{ alignSelf: "flex-start", marginBottom: 8 }} />}
 
                 {kind === "evidence" && st.statement && (
                   <View style={styles.statement}>
@@ -179,10 +185,10 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
                     <Text style={styles.statementText}>“{st.statement.text}”</Text>
                   </View>
                 )}
-                {kind === "interview" && <Chip label={`SORU HAKKI: ${limit - asked} / ${limit}`} color={C.brass} style={{ alignSelf: "flex-start", marginBottom: 8 }} />}
+                {kind === "interview" && <Chip label={t("SORU HAKKI: {kalan} / {limit}", { kalan: limit - asked, limit })} color={C.brass} style={{ alignSelf: "flex-start", marginBottom: 8 }} />}
                 <Text style={styles.prompt}>{st.prompt}</Text>
 
-                {kind === "evidence" && <Text style={styles.bagTitle}>DELİL ÇANTASI</Text>}
+                {kind === "evidence" && <Text style={styles.bagTitle}>{t("DELİL ÇANTASI")}</Text>}
                 {kind === "free" && !isAI && <FreeAnswer key={phase.step} c={c} step={st} onResult={court.chooseFree} />}
                 {kind !== "free" && <View style={[styles.choices, wide && kind !== "interview" && styles.twoCol]}>
                   {phase.order.map((ci, pos) => {
@@ -193,10 +199,10 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
                     if (kind === "evidence" && ch.evidence) {
                       const ev = ch.evidence;
                       return (
-                        <Pressable key={ci} accessibilityRole="button" accessibilityLabel={`Delil sun: ${ev.title}`} disabled={isAI} onPress={() => pick(ci, pos)}
+                        <Pressable key={ci} accessibilityRole="button" accessibilityLabel={t("Delil sun: {delil}", { delil: ev.title })} disabled={isAI} onPress={() => pick(ci, pos)}
                           style={({ pressed }) => [styles.evCard, wide && styles.half, pressed && styles.evPressed, phase.aiPick === ci && styles.evPicked, isAI && phase.aiPick !== ci && { opacity: 0.6 }]}>
                           <View style={styles.evHead}>
-                            <Text style={styles.evType}>{ev.type === "kanun" ? "KANUN" : ev.type === "beyan" ? "BEYAN" : "BELGE"}</Text>
+                            <Text style={styles.evType}>{ev.type === "kanun" ? t("KANUN") : ev.type === "beyan" ? t("BEYAN") : t("BELGE")}</Text>
                             {!!ev.law && <Text style={styles.evLaw}>{ev.law}</Text>}
                           </View>
                           <Text style={styles.evTitle}>{ev.title}</Text>
@@ -218,14 +224,14 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
                   if (ci < 0) return null;
                   return (
                     <View style={styles.rowStart}>
-                      <Btn kind="ghost" label={kind === "evidence" ? "İtiraz etmeden geç" : "Görüşmeyi bitir"} onPress={() => pick(ci, phase.order.indexOf(ci))} disabled={isAI} />
+                      <Btn kind="ghost" label={kind === "evidence" ? t("İtiraz etmeden geç") : t("Görüşmeyi bitir")} onPress={() => pick(ci, phase.order.indexOf(ci))} disabled={isAI} />
                     </View>
                   );
                 })()}
                 {!isAI && history.length > 0 && (
-                  <View style={styles.rowStart}><Btn kind="ghost" label="‹ Önceki konuşmaları oku" onPress={() => setRecord(true)} /></View>
+                  <View style={styles.rowStart}><Btn kind="ghost" label={t("‹ Önceki konuşmaları oku")} onPress={() => setRecord(true)} /></View>
                 )}
-                {isAI && <Text style={styles.thinking}>{players[st.side].name} düşünüyor…</Text>}
+                {isAI && <Text style={styles.thinking}>{court.remoteTurn ? t("{ad} hamlesini düşünüyor (internet üzerinden)…", { ad: players[st.side].name }) : t("{ad} düşünüyor…", { ad: players[st.side].name })}</Text>}
               </View>
             );
           })()}
@@ -235,19 +241,19 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
             return (
               <View>
                 <View style={styles.fbHead}>
-                  {duel && <Chip label={c.sides[last.side].role + (last.ai ? " · Bilgisayar" : "")} color={sideColor(last.side)} />}
-                  <Chip label={`${g.label} · ${last.delta > 0 ? "+" : ""}${last.delta} ${duel ? "puan" : "ikna"}`} color={toneColor(g.tone)} />
+                  {duel && <Chip label={c.sides[last.side].role + (last.ai ? " · " + t("Bilgisayar") : "")} color={sideColor(last.side)} />}
+                  <Chip label={`${gradeLabel(g.label)} · ${last.delta > 0 ? "+" : ""}${last.delta} ${duel ? t("puan") : t("ikna")}`} color={toneColor(g.tone)} />
                   {!!last.law && <Chip label={last.law} color={C.brass} />}
                 </View>
                 {last.free ? (
                   <>
-                    <Chip label={`DEĞERLENDİRME: ${last.free.score}/100 · ${last.free.band}`.toLocaleUpperCase("tr")} color={toneColor(g.tone)} style={{ alignSelf: "flex-start", marginBottom: 8 }} />
-                    <Text style={styles.fbChoice}>Cevabınız: {last.text}</Text>
+                    <Chip label={t("DEĞERLENDİRME: {puan}/100 · {sonuc}", { puan: last.free.score, sonuc: last.free.band }).toLocaleUpperCase(locale())} color={toneColor(g.tone)} style={{ alignSelf: "flex-start", marginBottom: 8 }} />
+                    <Text style={styles.fbChoice}>{t("Cevabınız: {cevap}", { cevap: last.text })}</Text>
                   </>
-                ) : <Text style={styles.fbChoice}>Seçim ({last.letter}): {last.text}</Text>}
-                <Text style={styles.fbNote}>{last.note}</Text>
-                {!!last.free?.model && <Text style={[styles.fbNote, { marginTop: 8, fontStyle: "italic" }]}>Örnek cevap: {last.free.model}</Text>}
-                <View style={styles.rowEnd}><Btn kind="next" label={game.fatal || game.flags.end ? "Sonucu gör ▸" : "Devam ▸"} onPress={court.next} /></View>
+                ) : <Text style={styles.fbChoice}>{t("Seçim ({harf}): {secim}", { harf: last.letter, secim: t(last.text) })}</Text>}
+                <Text style={styles.fbNote}>{last.note ? t(last.note) : ""}</Text>
+                {!!last.free?.model && <Text style={[styles.fbNote, { marginTop: 8, fontStyle: "italic" }]}>{t("Örnek cevap: {cevap}", { cevap: last.free.model })}</Text>}
+                <View style={styles.rowEnd}><Btn kind="next" label={game.fatal || game.flags.end ? t("Sonucu gör ▸") : t("Devam ▸")} onPress={court.next} /></View>
               </View>
             );
           })()}
@@ -257,17 +263,17 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
       <Modal visible={record} transparent animationType="fade" onRequestClose={() => setRecord(false)}>
         <Pressable style={styles.overlay} onPress={() => setRecord(false)}>
           <Pressable style={styles.sheet} onPress={() => {}}>
-            <Text style={styles.sheetTitle}>Duruşma tutanağı</Text>
+            <Text style={styles.sheetTitle}>{t("Duruşma tutanağı")}</Text>
             <Text style={styles.sheetSub}>{c.court} · {c.esas}</Text>
             <ScrollView style={{ maxHeight: 460 }} ref={r => { setTimeout(() => r?.scrollToEnd?.({ animated: false }), 0); }}>
               {history.map((h, i) => (
                 <View key={i} style={[styles.sheetItem, h.karar && styles.recKarar]}>
-                  <Text style={styles.sheetT}>{h.karar ? "KARAR" : speakerName(h.who).name}</Text>
+                  <Text style={styles.sheetT}>{h.karar ? t("KARAR") : speakerName(h.who).name}</Text>
                   <Text style={styles.sheetD}>{h.text}</Text>
                 </View>
               ))}
             </ScrollView>
-            <Btn kind="ghostInk" label="Kapat" onPress={() => setRecord(false)} style={{ alignSelf: "flex-start", marginTop: 14 }} />
+            <Btn kind="ghostInk" label={t("Kapat")} onPress={() => setRecord(false)} style={{ alignSelf: "flex-start", marginTop: 14 }} />
           </Pressable>
         </Pressable>
       </Modal>
@@ -275,7 +281,7 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
       <Modal visible={docs} transparent animationType="fade" onRequestClose={() => setDocs(false)}>
         <Pressable style={styles.overlay} onPress={() => setDocs(false)}>
           <Pressable style={styles.sheet} onPress={() => {}}>
-            <Text style={styles.sheetTitle}>Dosya</Text>
+            <Text style={styles.sheetTitle}>{t("Dosya")}</Text>
             <Text style={styles.sheetSub}>{c.court} · {c.esas}</Text>
             <ScrollView style={{ maxHeight: 420 }}>
               {c.docs.map(d => (
@@ -283,7 +289,7 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
               ))}
               {bagOf(c, game.flags).length > 0 && (
                 <>
-                  <Text style={styles.sheetSection}>DELİL ÇANTASI</Text>
+                  <Text style={styles.sheetSection}>{t("DELİL ÇANTASI")}</Text>
                   {bagOf(c, game.flags).map(e => (
                     <View key={e.id} style={styles.sheetItem}>
                       <Text style={styles.sheetT}>{e.title}{e.law ? `  ·  ${e.law}` : ""}</Text>
@@ -293,7 +299,7 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
                 </>
               )}
             </ScrollView>
-            <Btn kind="ghostInk" label="Kapat" onPress={() => setDocs(false)} style={{ alignSelf: "flex-start", marginTop: 14 }} />
+            <Btn kind="ghostInk" label={t("Kapat")} onPress={() => setDocs(false)} style={{ alignSelf: "flex-start", marginTop: 14 }} />
           </Pressable>
         </Pressable>
       </Modal>

@@ -1,0 +1,436 @@
+{
+  "id": "th-icc-mucbir-sebep",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Çip Ambargosu",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Mücbir sebep ve aşırı ifa güçlüğü",
+  "court": "ICC Uluslararası Tahkim Divanı · Dava No. 28655/RLS (Tahkim yeri: Cenevre)",
+  "courtShort": "ICC · CENEVRE",
+  "esas": "ICC 28655/RLS",
+  "kararTarihi": "09.06.2027",
+  "color": "#4b3f6b",
+  "room": "tahkim",
+  "forum": "icc",
+  "bench": { "judges": 3, "title": "Başhakem ve iki hakem" },
+  "inscription": null,
+  "teaser": "Bir ambargo, bir salgın, beş ay teslimatsız kalan bir fabrika. Satıcı mücbir sebep diyor ve fiyatın uyarlanmasını istiyor; alıcı ise o çipin başka yerden de bulunabildiğini biliyor.",
+  "sides": {
+    "p1": { "role": "Davacı (Alıcı) vekili", "short": "Davacı" },
+    "p2": { "role": "Davalı (Satıcı) vekili", "short": "Davalı" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#e9c6a6", "hair": "#b0b0b5", "style": "short", "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#f0d0b2", "hair": "#7a5a3a", "style": "long", "glasses": true, "shirt": "#1f2530", "inner": "#efe9e0" } },
+    "p2": { "look": { "kind": "civil", "skin": "#c8946c", "hair": "#2a2220", "style": "short", "beard": true, "shirt": "#22262e", "inner": "#e9e5dd" } },
+    "satinalma": { "name": "Inge de Vries · Alıcının satın alma direktörü", "np": "civil", "look": { "kind": "civil", "skin": "#f3d8bf", "hair": "#d8b67a", "style": "long", "shirt": "#5a4a6e", "inner": "#ece7de" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Ankara Elektronik Sistemler A.Ş., 01.02.2025 tarihli üç yıllık sözleşmeyle Rotterdam'daki Polder Automation B.V.'ye ayda 2.500 kontrol ünitesi satıyor. Birim fiyat sabit: 180 EUR. Ünitedeki ana çip tek bir yabancı tedarikçiden geliyor." },
+    { "who": "narr", "text": "Çipin üretildiği ülke 10.03.2026'da bu sınıf yarı iletkenlere ihracat yasağı koydu. Nisan'da bir solunum yolu salgını nedeniyle Ankara'daki fabrika idari kararla 30 gün kapatıldı. Mart'tan Temmuz sonuna kadar hiç teslimat yapılmadı: 12.500 ünite." },
+    { "who": "narr", "text": "Alıcı ikame üniteleri piyasadan 260 EUR'dan aldı ve 1.000.000 EUR fark istiyor. Satıcı Ağustos'ta teslimata başka bir üreticinin çipiyle döndü, ama fiyatın 230 EUR'ya uyarlanmasını istiyor. Sözleşme ICC'nin 2020 tarihli Mücbir Sebep ve Aşırı İfa Güçlüğü şartlarını içeriyor." }
+  ],
+  "docs": [
+    { "t": "Tedarik sözleşmesi m.3, m.5, m.18", "d": "m.3: Birim fiyat 180 EUR, sözleşme süresince sabit. m.5: Aylık 2.500 ünite. m.18: ICC Mücbir Sebep Şartı 2020 (uzun metin) ile ICC Aşırı İfa Güçlüğü Şartı 2020'nin 3B seçeneği (hâkim ya da hakemin uyarlaması veya sona erdirmesi) sözleşmenin parçasıdır." },
+    { "t": "Sözleşme m.20, m.21", "d": "m.20: Türk hukuku uygulanır. m.21: ICC Tahkim Kuralları, üç hakem, tahkim yeri Cenevre." },
+    { "t": "ICC Mücbir Sebep Şartı 2020 (özet)", "d": "Para. 1: Engel (a) makul denetim dışında, (b) sözleşme anında makul olarak öngörülemez ve (c) etkileri makul olarak önlenemez ya da aşılamaz olmalı. Para. 3: Ambargo, idari kararlar ve salgın, (a) ile (b)'nin varsayıldığı olaylardandır. Para. 4: Bildirim gecikmeksizin yapılır. Para. 5: Bildirim gecikirse muafiyet bildirimin ulaştığı andan başlar." },
+    { "t": "ICC Aşırı İfa Güçlüğü Şartı 2020 (özet)", "d": "Para. 1: İfa daha zor hâle gelse de borç sürer. Para. 2: İfa, makul denetim dışındaki ve sözleşme anında hesaba katılması makul olarak beklenemeyen bir olay nedeniyle aşırı ölçüde zorlaşmışsa taraflar yeniden müzakere eder. 3B: Anlaşılamazsa taraflardan biri hâkim ya da hakemden uyarlama ya da sona erdirme isteyebilir." },
+    { "t": "Satıcının mücbir sebep bildirimi", "d": "04.04.2026: “10.03.2026 tarihli ihracat yasağı nedeniyle çip tedarik edilememektedir. ICC Mücbir Sebep Şartı uyarınca teslim borcumuz askıya alınmıştır.”" },
+    { "t": "Uyarlama talebi ve ret (Temmuz 2026)", "d": "Satıcı 15.07.2026'da birim fiyatın Ağustos'tan itibaren 230 EUR'ya çıkarılmasını istedi. Alıcı 20.07.2026'da reddetti: “Sabit fiyat konusunda anlaşmıştık.”" }
+  ],
+  "evidence": [
+    { "id": "ev_bildirim", "type": "belge", "title": "Mücbir sebep bildirimi (04.04.2026)", "desc": "İhracat yasağı nedeniyle teslim borcunun askıya alındığı bildirimi; yasaktan 25 gün sonra." },
+    { "id": "ev_kapanma", "type": "belge", "title": "Fabrikanın kapatılma kararı", "desc": "Nisan 2026, salgın önlemi olarak 30 günlük idari kapatma." },
+    { "id": "ev_fatura", "type": "belge", "title": "İkame alım faturaları", "desc": "Mart–Temmuz 2026: 12.500 ünite, birim 260 EUR." },
+    { "id": "ev_teklif", "type": "belge", "title": "Satıcının 15.07.2026 yazısının eki", "desc": "“Haziran başından beri başka bir üreticinin uyumlu çipi temin edilebilmektedir; birim maliyet dört katına çıkmaktadır. Teslimata 230 EUR'dan devam edebiliriz.”", "if": "p1_alternatif" },
+    { "id": "ev_tutanak", "type": "belge", "title": "Aralık 2024 müzakere tutanağı", "desc": "Alıcı fiyat ayarlama maddesi önerdi. Satıcının genel müdürü: “Çip ihracatına kısıtlama gelebileceğini biliyoruz; bu riski fiyata kattık, sabit fiyatta ısrar ediyoruz.”", "if": "p1_muzakere" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "TAHKİM TALEBİ · Alıcı sözleşmeyi sürdürmek istiyor; yalnız teslim edilmeyen 12.500 ünitenin zararını talep edecek. Satıcının mücbir sebebe dayanacağı belli." }
+      ],
+      "prompt": "Tazminat talebini neye dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "CISG m.45/1-b ve m.74: ikame alım farkı (1.000.000 EUR). Muafiyete karşı ICC şartının üçüncü koşulu öne çıksın: engelin etkisi aşılabilir miydi?",
+          "delta": 15,
+          "set": ["p1_cisg"],
+          "law": "CISG m.1/1-a, m.6, m.45, m.74 · ICC Mücbir Sebep Şartı para. 1",
+          "note": "Türkiye ve Hollanda CISG'ye taraf; Türk hukuku seçimi CISG'yi de kapsar (m.1/1-a). Taraflar ICC Mücbir Sebep Şartını seçerek CISG m.79'u bu şartla düzenlemiş oldu (m.6). Ambargo ve salgında ilk iki koşul varsayılır (para. 3); tartışma, etkinin makul olarak aşılıp aşılamayacağında (para. 1-c) düğümlenir."
+        },
+        {
+          "text": "Satıcı teslim borcunu beş ay boyunca ihlal etti; sözleşmeyi CISG m.49 uyarınca bütünüyle feshet ve kalan bütün sözleşme süresinin kâr kaybını da iste.",
+          "delta": -5,
+          "set": ["p1_fesih"],
+          "law": "CISG m.25, m.49, m.73",
+          "note": "Alıcı tedarikin sürmesini istiyordu; satıcı Ağustos'ta teslimata döndü. Taksitli teslimde ihlal ancak gelecek taksitler için de esaslı ihlal beklentisi doğuruyorsa bütün sözleşme feshedilebilir (m.73). Kurul, müvekkilin gerçek çıkarına aykırı ve dayanağı zayıf bu talebi kabul etmedi."
+        },
+        {
+          "text": "Türk borçlar hukukuna dayan: satıcı kusursuzluğunu ispat edemezse tazminat öder (TBK m.112); mücbir sebep TBK m.136'daki imkânsızlık kurallarına göre değerlendirilir.",
+          "delta": -10,
+          "set": ["p1_tbk"],
+          "law": "CISG m.1/1-a, m.6",
+          "note": "Milletlerarası mal satımına Türk hukukunun parçası olan CISG uygulanır; muafiyet de tarafların sözleşmeye kattığı ICC Mücbir Sebep Şartına tabidir. TBK m.112 ve m.136 burada ikinci plandadır."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Talep dilekçesi 02.10.2026'da tebliğ edildi. Cevap süresi 30 gün (ICC m.5/1). Satıcı, Ağustos'tan beri her üniteyi zararına teslim ettiğini söylüyor." }
+      ],
+      "prompt": "Cevap dilekçesinde nasıl bir tutum alacaksınız?",
+      "choices": [
+        {
+          "text": "Mücbir sebebi savun ve aynı dilekçede karşı dava aç: Aşırı İfa Güçlüğü Şartı 3B uyarınca birim fiyatın Ağustos 2026'dan itibaren uyarlanması.",
+          "delta": 15,
+          "set": ["p2_karsi"],
+          "law": "ICC m.5/5 · ICC Aşırı İfa Güçlüğü Şartı 3B",
+          "note": "Karşı dava cevapla birlikte sunulur (ICC m.5/5). Uyarlama yetkisini sözleşmedeki 3B seçeneği kurula veriyor; talebi doğru yerde ve zamanda getirdiniz."
+        },
+        {
+          "text": "Mücbir sebebi savun. Uyarlama talebini, çip fiyatları netleşince ya Görev Tutanağından sonra ek talep olarak ya da ayrı bir tahkimde getir.",
+          "delta": -10,
+          "set": ["p2_sonra"],
+          "law": "ICC m.5/5, m.23/4",
+          "note": "Karşı dava cevapla birlikte sunulmalıdır (ICC m.5/5). Görev Tutanağından sonra Tutanağın dışında kalan yeni talep ancak kurulun izniyle getirilebilir (m.23/4); kurul izin vermedi."
+        },
+        {
+          "text": "Yalnız mücbir sebep savunması yap; uyarlama için karşı dava açma, fiyat artışını ilişkiyi germeden alıcıyla ticari pazarlıkla çöz.",
+          "delta": 5,
+          "set": ["p2_yalniz"],
+          "law": "ICC Aşırı İfa Güçlüğü Şartı para. 2, 3B",
+          "note": "Alıcı 20.07.2026'da müzakereyi zaten reddetmişti. 3B, anlaşılamadığında hakemden uyarlama istemeyi açıyor; bu yolu kullanmadınız ve her üniteyi zararına teslim etmeye devam ediyorsunuz."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Tanık beyanlarından önce alıcının satın alma direktörü Inge de Vries'le görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Satın alma direktörüne ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Ambargodan sonra o çip başka bir yerden bulunabiliyor muydu?",
+          "delta": 15,
+          "set": ["p1_alternatif"],
+          "reply": [
+            { "who": "satinalma", "text": "Bulunabiliyordu. Satıcının 15 Temmuz yazısının ekinde kendileri yazmış: Haziran başından beri başka bir üreticinin uyumlu çipi var, yalnız dört kat pahalı." }
+          ],
+          "note": "Doğru soru. Engelin etkisi Haziran'dan itibaren daha yüksek maliyetle aşılabiliyordu; pahalılaşma mücbir sebep değil, olsa olsa aşırı ifa güçlüğüdür. Yazının eki delil çantanıza eklendi."
+        },
+        {
+          "text": "Sözleşme müzakere edilirken fiyat riski konuşuldu mu?",
+          "delta": 15,
+          "set": ["p1_muzakere"],
+          "reply": [
+            { "who": "satinalma", "text": "Aralık 2024'te fiyat ayarlama maddesi önerdik. Satıcının genel müdürü, çip ihracatına kısıtlama gelebileceğini bildiklerini, riski fiyata kattıklarını söyleyip sabit fiyatta ısrar etti. Tutanağı var." }
+          ],
+          "note": "Doğru soru. Aşırı ifa güçlüğü, sözleşme anında hesaba katılması makul olarak beklenemeyen bir olay arar (para. 2). Riski bilip sabit fiyatı seçen satıcı bu şartı karşılamakta zorlanır. Tutanak delil çantanıza eklendi."
+        },
+        {
+          "text": "İkame üniteleri hangi koşullarda aldınız?",
+          "delta": 5,
+          "set": ["p1_ikame"],
+          "reply": [
+            { "who": "satinalma", "text": "Üç tedarikçiden teklif aldık, en ucuzu 260 EUR'ydu. Faturalar dosyada." }
+          ],
+          "note": "Zararın makul bir ikame alımıyla doğduğunu göstermek için yararlı; ama faturalar zaten dosyadaydı."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "p1", "text": "Sayın Başhakem, ambargo 10 Mart'ta ilan edildi; satıcı ancak 4 Nisan'da bildirimde bulundu. Bildirim gecikmeksizin yapılmamıştır." },
+        { "who": "judge", "text": "Davalı vekili, bildirimin zamanı hakkında ne diyorsunuz?" }
+      ],
+      "prompt": "Bildirim gecikmesine nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "Gecikmeyi kabul et, sonucunu sınırla: para. 5'e göre muafiyet bildirimin ulaştığı 04.04.2026'dan başlar; o tarihten sonrası korunur.",
+          "delta": 15,
+          "set": ["p2_kismi"],
+          "law": "ICC Mücbir Sebep Şartı para. 4, 5",
+          "note": "İnandırıcı bir geri çekilme. Şart gecikmeli bildirimi muafiyetin kaybıyla değil, başlangıcının ertelenmesiyle cezalandırır (para. 5). Savunmanın asıl gövdesini korudunuz."
+        },
+        {
+          "text": "Ambargo dünya basınında yer aldı, herkes biliyordu; ayrıca bildirim gerekmezdi. Muafiyet 10.03.2026'dan itibaren bütün dönemi kapsar.",
+          "delta": -10,
+          "set": ["p2_herkes"],
+          "law": "ICC Mücbir Sebep Şartı para. 4, 5",
+          "note": "Şart, olayın kamuya açık olmasına bakmaz; etkilenen taraf olayı ve ifaya etkisini gecikmeksizin bildirmelidir (para. 4). Bildirimsiz dönem için muafiyet istenemez (para. 5); kurul bu tezi reddetti."
+        },
+        {
+          "text": "Yirmi beş gün makul bir süredir; “gecikmeksizin” ifadesi makul süre anlamına gelir. Muafiyet 10.03.2026'dan itibaren işlemelidir.",
+          "delta": -5,
+          "set": ["p2_makul"],
+          "law": "ICC Mücbir Sebep Şartı para. 4",
+          "note": "Ambargonun teslimatı durduracağı ilk günden belliydi; çeyrek ayı aşan sessizlik “gecikmeksizin” sayılmadı. Muafiyet bildirimin ulaştığı tarihten başladı (para. 5)."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, engelin etkisinin aşılıp aşılamayacağı konusunda beyanınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Başhakem, ambargo süresince bu çipi başka hiçbir yerden bulmak mümkün değildi. Beş ay boyunca ifa imkânsızdı; muafiyet Temmuz sonuna kadar bütün dönemi kapsar." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_teklif"],
+      "hit": {
+        "delta": 25,
+        "set": ["p1_asilabilir"],
+        "law": "ICC Mücbir Sebep Şartı para. 1-c, para. 6",
+        "note": "Satıcının kendi yazısı, Haziran başından itibaren uyumlu çipin daha pahalıya da olsa bulunabildiğini gösteriyor. Engelin etkisi o tarihten sonra makul olarak aşılabiliyordu (para. 1-c); muafiyet engelin ifayı fiilen önlediği süreyle sınırlıdır (para. 6). Maliyet artışı mücbir sebep değil, aşırı ifa güçlüğü meselesidir.",
+        "reply": [
+          { "who": "judge", "text": "Kurul, Haziran başından itibaren engelin aşılabilir olduğu kanaatindedir." }
+        ]
+      },
+      "responses": {
+        "ev_tutanak": {
+          "delta": -5,
+          "note": "Müzakere tutanağı riskin öngörüldüğünü gösteriyor; uyarlama tartışmasında çok değerli. Ama bu beyan, engelin etkisinin aşılıp aşılamayacağıyla ilgili."
+        },
+        "ev_fatura": {
+          "delta": -5,
+          "note": "Faturalar alıcının ikame aldığını gösteriyor; satıcının kendi çip tedarikini değil."
+        },
+        "ev_bildirim": {
+          "delta": -5,
+          "note": "Bildirimin gecikmesi ayrı bir mesele; muafiyetin ne zaman bittiğini göstermez."
+        },
+        "ev_kapanma": {
+          "delta": -10,
+          "note": "Kapatma kararı satıcının tezini destekler: Nisan'da 30 gün üretim gerçekten durmuştu."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge çipin başka yerden bulunabildiğini göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; kurul muafiyeti Temmuz sonuna kadar uzattı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, fiyatın uyarlanması talebinize geçelim. Şartların gerçekleştiğini nasıl gösteriyorsunuz?" }
+      ],
+      "prompt": "Aşırı ifa güçlüğüne dayanan uyarlama talebinizi kendi cümlelerinizle kurun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_uyarlama"],
+          "law": "ICC Aşırı İfa Güçlüğü Şartı para. 2, 3B · TBK m.138",
+          "note": "Ambargo satıcının denetimi dışında; çip maliyeti dört katına çıktı ve birim maliyet satış fiyatını aştı, ifa aşırı ölçüde zorlaştı (para. 2-a). Satıcı yeniden müzakere istedi, alıcı reddetti; 3B seçeneği hakeme uyarlama yetkisi veriyor. Türk hukuku da aşırı ifa güçlüğünde uyarlamayı tanır (TBK m.138)."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_uyarlama"],
+          "law": "ICC Aşırı İfa Güçlüğü Şartı para. 2, 3B",
+          "note": "Uyarlamanın dayanağını gösterdiniz. Tam savunma; maliyet artışını rakamla (birim maliyetin satış fiyatını aşması), müzakere talebini ve alıcının reddini, 3B'nin hakeme verdiği yetkiyi birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "ICC Aşırı İfa Güçlüğü Şartı para. 1, 2",
+          "note": "Uyarlamanın şartlarını kuramadınız. İfanın sadece pahalılaşması yetmez (para. 1); aşırı zorlaşma, olayın denetim dışında ve öngörülemez oluşu, yeniden müzakere girişimi ve 3B'nin verdiği yetki gösterilmeliydi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) ICC Aşırı İfa Güçlüğü Şartı para. 1'e göre pahalılaşma tek başına yetmez; ama para. 2'ye göre ifa, makul denetim dışındaki ve sözleşme anında hesaba katılması makul olarak beklenemeyen bir olay nedeniyle aşırı ölçüde zorlaşmışsa taraflar yeniden müzakere eder. (2) İhracat yasağı satıcının denetimi dışındadır; çip maliyeti dört katına çıkmış, birim maliyet 180 EUR'luk satış fiyatını aşmıştır. (3) Satıcı 15.07.2026'da müzakere istemiş, alıcı 20.07.2026'da reddetmiştir. (4) Sözleşmedeki 3B seçeneği hakem kuruluna uyarlama ya da sona erdirme yetkisi verir; Türk hukukunda da TBK m.138 aşırı ifa güçlüğünde uyarlamayı tanır. Para. 2 şartlarını, müzakere girişimini ve 3B yetkisini birlikte kuran cevap tam puan alır.",
+      "keywords": [
+        { "terms": ["aşırı ifa güçlüğü", "hardship", "aşırı ölçüde", "TBK m.138", "138"], "weight": 2 },
+        { "terms": ["3B", "uyarla", "adapt"], "weight": 2 },
+        { "terms": ["müzakere", "yeniden görüş", "renegotiat"], "weight": 2 },
+        { "terms": ["dört kat", "4 kat", "maliyet", "230", "180"], "weight": 1 },
+        { "terms": ["öngörülemez", "denetim dışı", "kontrol dışı", "beklenemeyen"], "weight": 1 }
+      ],
+      "model": "Sayın Başhakem, ihracat yasağı müvekkilin denetimi dışındaydı ve çip maliyetini dört katına çıkardı; birim maliyet 180 EUR'luk satış fiyatını aştı, ifa aşırı ölçüde zorlaştı. ICC Aşırı İfa Güçlüğü Şartının para. 2'si gereği 15.07.2026'da yeniden müzakere istedik; alıcı 20.07.2026'da reddetti. Sözleşmedeki 3B seçeneği kurula uyarlama yetkisi veriyor; TBK m.138 de aynı sonucu kabul eder. Birim fiyatın Ağustos 2026'dan itibaren 230 EUR'ya uyarlanmasını istiyoruz."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, uyarlama talebine cevabınız?" }
+      ],
+      "prompt": "Satıcının aşırı ifa güçlüğüne neden dayanamayacağını kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_ongordu"],
+          "law": "ICC Aşırı İfa Güçlüğü Şartı para. 1, 2",
+          "note": "Aşırı ifa güçlüğü, sözleşme anında hesaba katılması makul olarak beklenemeyen bir olay arar (para. 2). Satıcı çip ihracat kısıtlaması riskini bildiğini, riski fiyata kattığını söyleyip fiyat ayarlama maddesini reddetmişti. Tek kaynaktan tedarik de satıcının seçimiydi. Sabit fiyatla üstlenilen risk sonradan alıcıya devredilemez (para. 1)."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_ongordu"],
+          "law": "ICC Aşırı İfa Güçlüğü Şartı para. 2",
+          "note": "Riskin satıcıda olduğunu gösterdiniz. Tam savunma, para. 2'deki öngörülemezlik şartını açıkça anar ve onu Aralık 2024 müzakeresine, satıcının fiyat ayarlama maddesini reddetmesine bağlar."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "ICC Aşırı İfa Güçlüğü Şartı para. 1, 2",
+          "note": "Uyarlamaya karşı somut bir savunma kuramadınız. Kilit şart, olayın sözleşme anında hesaba katılmasının makul olarak beklenememesidir (para. 2); satıcının riski bilip sabit fiyatı seçtiği gösterilmeliydi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) ICC Aşırı İfa Güçlüğü Şartı para. 1: taraf, ifa daha zor hâle gelse de borcunu yerine getirmek zorundadır; sabit fiyat riski taşıyan taraf odur. (2) Para. 2 uyarınca uyarlama, sözleşme anında hesaba katılması makul olarak beklenemeyen bir olay arar; satıcı Aralık 2024 müzakeresinde çip ihracat kısıtlaması riskini bildiğini, riski fiyata kattığını söylemiş ve alıcının fiyat ayarlama maddesi önerisini reddetmiştir. (3) Tek kaynaktan tedarik satıcının ticari seçimidir; bu risk alıcıya yüklenemez. (4) İkincil olarak, uyarlama yapılacaksa geçici olmalı ve ambargo kalkınca sona ermelidir. Öngörülebilirliği müzakere tutanağına bağlayan cevap tam puan alır; yalnız ‘sabit fiyat kararlaştırıldı’ diyen cevap orta puan alır.",
+      "keywords": [
+        { "terms": ["öngör", "hesaba kat", "bekleneb", "foresee"], "weight": 3 },
+        { "terms": ["müzakere", "tutanak", "Aralık 2024", "fiyat ayarlama"], "weight": 2 },
+        { "terms": ["sabit fiyat", "risk", "üstlen"], "weight": 2 },
+        { "terms": ["tek kaynak", "tek tedarikçi", "single source"], "weight": 1 },
+        { "terms": ["para. 2", "paragraf 2", "aşırı ifa güçlüğü şartı"], "weight": 1 }
+      ],
+      "model": "Sayın Başhakem, aşırı ifa güçlüğü şartı, sözleşme anında hesaba katılması makul olarak beklenemeyen bir olay arar. Satıcı Aralık 2024 müzakeresinde çip ihracatına kısıtlama gelebileceğini bildiğini ve bu riski fiyata kattığını söyleyip önerdiğimiz fiyat ayarlama maddesini reddetti. Tek kaynaktan tedarik de onun seçimiydi. Sabit fiyatla üstlenilen bu risk, olay gerçekleşti diye alıcıya devredilemez; uyarlama talebi reddedilmelidir."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, kurul muafiyetin dışında kalan dönem için zararı kabul ederse tutar hakkında ne diyorsunuz?" }
+      ],
+      "prompt": "Zararın tutarına karşı neye dayanacaksınız?",
+      "choices": [
+        {
+          "text": "Alıcı zararı azaltmadı: Temmuz'da 230 EUR'dan teslim teklifimizi reddedip 260 EUR'dan aldı. Bu fark istenemez (CISG m.77).",
+          "delta": 15,
+          "set": ["p2_azaltma"],
+          "law": "CISG m.77",
+          "note": "Zarara uğrayan taraf zararı azaltmak için makul önlemleri almalıdır; almazsa azaltılabilecek kısım tazminattan düşülür (CISG m.77). Kurul Temmuz teslimatlarında farkı 30 EUR indirdi."
+        },
+        {
+          "text": "Alıcının zararı yok: ikame üniteleri kullandığı makineleri müşterilerine daha yüksek fiyatla sattı, maliyet artışını müşterilerine tümüyle yansıttı.",
+          "delta": -10,
+          "set": ["p2_yansitma"],
+          "law": "CISG m.74",
+          "note": "Alıcının kendi müşterileriyle yaptığı fiyatlandırma, satıcının ihlalinden doğan zararı ortadan kaldırmaz. Kurul bu savunmayı reddetti; ispat da edilmemişti."
+        },
+        {
+          "text": "İkame alım farkı öngörülemeyen bir zarardır: satıcı alıcının bu kadar pahalıya alacağını bilemezdi (CISG m.74).",
+          "delta": -5,
+          "set": ["p2_ongorulemez"],
+          "law": "CISG m.74",
+          "note": "Teslim etmeyen satıcı için alıcının ikame alması ve piyasa fiyat farkı, öngörülebilir zararın tipik örneğidir (CISG m.74). Savunma tutmadı."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, kurul uyarlama talebini haklı bulursa ikincil bir talebiniz var mı?" }
+      ],
+      "prompt": "İkincil talebiniz ne olacak?",
+      "choices": [
+        {
+          "text": "Kurul uyarlarsa yeni fiyat yalnız ambargo süresince uygulansın; ambargo kalkınca 180 EUR'ya dönülsün (3B, uyarlamanın sınırı).",
+          "delta": 15,
+          "set": ["p1_sinirli"],
+          "law": "ICC Aşırı İfa Güçlüğü Şartı 3B",
+          "note": "3B, sözleşmenin dengesini yeniden kurmaya yönelik uyarlamaya izin verir; uyarlama, dengeyi bozan olayla sınırlı tutulmalıdır. İkincil talebiniz, olası bir uyarlamanın kalıcı bir fiyat artışına dönüşmesini önler."
+        },
+        {
+          "text": "Kurul uyarlama yerine sözleşmenin bütünüyle sona erdirilmesine karar versin; alıcı ihtiyacını başka tedarikçiden karşılar, satıcı da zarardan kurtulur.",
+          "delta": -5,
+          "set": ["p1_bitir"],
+          "law": "ICC Aşırı İfa Güçlüğü Şartı 3B",
+          "note": "3B sona erdirmeye de izin verir; ama müvekkil tedarikin sürmesini istiyordu ve piyasada en ucuz ikame 260 EUR'ydu. Bu ikincil talep, müvekkilin çıkarına aykırı bir sonucu kurula önerdi."
+        },
+        {
+          "text": "İkincil talepte bulunma; uyarlamaya karşı çıkmak yeter, kurul fiyatı nasılsa makul düzeyde belirler.",
+          "delta": -10,
+          "set": ["p1_yok"],
+          "law": "ICC Aşırı İfa Güçlüğü Şartı 3B",
+          "note": "Kurul uyarlamanın kapsamını tarafların talep ve beyanlarıyla belirler. Uyarlamanın geçici olması gerektiğini söylemediniz; olası bir uyarlama sözleşme sonuna kadar sürecek."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_asilabilir && !(p2_karsi && p2_uyarlama && !(p1_ongordu && p1_muzakere))",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Davacının talebinin KISMEN KABULÜ ile Mart, Haziran ve Temmuz 2026 teslimatları için " },
+        { "if": "p2_azaltma", "text": "CISG m.77 uyarınca indirilen 525.000 EUR" },
+        { "if": "!p2_azaltma", "text": "600.000 EUR" },
+        { "text": " tazminatın davalıdan alınarak davacıya ödenmesine, Nisan ve Mayıs 2026 bakımından mücbir sebep nedeniyle fazlaya ilişkin talebin REDDİNE;" },
+        { "if": "p2_karsi", "text": " karşı davanın REDDİNE," },
+        { "if": "p2_sonra", "text": " Görev Tutanağından sonra getirilen uyarlama talebinin ICC m.23/4 uyarınca incelenmesine izin verilmemesine," }
+      ],
+      "summary": [
+        { "text": "Ambargo ve salgın kapatması mücbir sebep olaylarıydı; ama satıcı 25 gün sonra bildirimde bulunduğundan muafiyet ancak 04.04.2026'da başladı (para. 5). Satıcının kendi yazısı, Haziran'dan itibaren uyumlu çipin pahalıya da olsa bulunabildiğini gösterdi; engelin etkisi aşılabilir hâle gelmişti (para. 1-c)." },
+        { "text": " Muafiyet yalnız Nisan ve Mayıs'ı kapsadı." },
+        { "if": "p2_karsi && p1_ongordu && p1_muzakere", "text": " Uyarlama talebi reddedildi: satıcı çip ihracat kısıtlaması riskini sözleşme anında bilmiş ve sabit fiyatta ısrar etmişti; olay hesaba katılamayacak nitelikte değildi." },
+        { "if": "p2_karsi && !p2_uyarlama", "text": " Satıcı vekili uyarlamanın şartlarını kuramadı." },
+        { "if": "p2_yalniz", "text": " Satıcı uyarlama için karşı dava açmadığından fiyat 180 EUR'da kaldı." }
+      ]
+    },
+    {
+      "if": "p1_asilabilir",
+      "winner": "draw",
+      "hukum": [
+        { "text": "Davacının talebinin KISMEN KABULÜ ile " },
+        { "if": "p2_azaltma", "text": "525.000 EUR" },
+        { "if": "!p2_azaltma", "text": "600.000 EUR" },
+        { "text": " tazminatın davalıdan alınarak davacıya ödenmesine; karşı davanın KABULÜ ile birim fiyatın 01.08.2026'dan itibaren 230 EUR'ya uyarlanmasına" },
+        { "if": "p1_sinirli", "text": ", bu uyarlamanın ihracat yasağının kalkmasıyla sona ermesine" },
+        { "text": "," }
+      ],
+      "summary": [
+        { "text": "Muafiyet yalnız Nisan ve Mayıs'ı kapsadı: bildirim gecikmişti (para. 5) ve Haziran'dan itibaren çip pahalıya da olsa bulunabiliyordu (para. 1-c). Kalan üç ayın zararı satıcıya yüklendi." },
+        { "text": " Öte yandan ihracat yasağı birim maliyeti satış fiyatının üstüne çıkarmıştı; satıcı müzakere istemiş, alıcı reddetmişti. Kurul 3B yetkisiyle fiyatı uyarladı." },
+        { "if": "p1_sinirli", "text": " Alıcı vekilinin ikincil talebiyle uyarlama ambargo süresiyle sınırlandı." },
+        { "if": "!p1_muzakere && p1_ongordu", "text": " Alıcı vekili riskin öngörüldüğünü savundu, ama bunu gösteren müzakere tutanağını dosyaya getirmedi." }
+      ]
+    },
+    {
+      "if": "!(p2_karsi && p2_uyarlama && !(p1_ongordu && p1_muzakere))",
+      "winner": "draw",
+      "hukum": [
+        { "text": "Davacının talebinin KISMEN KABULÜ ile Mart 2026 teslimatı için 200.000 EUR tazminatın davalıdan alınarak davacıya ödenmesine, Nisan–Temmuz 2026 bakımından mücbir sebep nedeniyle fazlaya ilişkin talebin REDDİNE;" },
+        { "if": "p2_karsi", "text": " karşı davanın REDDİNE," },
+        { "if": "p2_sonra", "text": " Görev Tutanağından sonra getirilen uyarlama talebinin incelenmesine izin verilmemesine," }
+      ],
+      "summary": [
+        { "text": "Kurul, çipin Temmuz sonuna kadar başka yerden bulunamadığı kanaatine vardı; muafiyet bildirimin ulaştığı 04.04.2026'dan Temmuz sonuna kadar sürdü. Yalnız bildirimden önceki dönemin zararı satıcıya yüklendi." },
+        { "if": "p2_karsi && p1_ongordu && p1_muzakere", "text": " Uyarlama talebi ise reddedildi: satıcı riski sözleşme anında bilmiş ve sabit fiyatta ısrar etmişti." },
+        { "if": "!p2_karsi", "text": " Satıcı uyarlamayı süresinde talep etmediğinden fiyat 180 EUR'da kaldı." },
+        { "if": "p2_karsi && !p2_uyarlama", "text": " Satıcı vekili uyarlamanın şartlarını kuramadı." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": [
+        { "text": "Davacının talebinin KISMEN KABULÜ ile Mart 2026 teslimatı için 200.000 EUR tazminatın davalıdan alınarak davacıya ödenmesine, fazlaya ilişkin talebin REDDİNE; karşı davanın KABULÜ ile birim fiyatın 01.08.2026'dan itibaren 230 EUR'ya uyarlanmasına" },
+        { "if": "p1_sinirli", "text": ", bu uyarlamanın ihracat yasağının kalkmasıyla sona ermesine" },
+        { "text": "," }
+      ],
+      "summary": [
+        { "text": "Kurul, ambargo süresince çipin başka yerden bulunamadığını kabul etti; bildirimin ulaştığı 04.04.2026'dan Temmuz sonuna kadar satıcı mücbir sebeple muaf tutuldu (para. 5)." },
+        { "text": " İhracat yasağı birim maliyeti satış fiyatının üstüne çıkardı; satıcı müzakere istemiş, alıcı reddetmişti. Kurul 3B yetkisiyle fiyatı uyarladı." },
+        { "if": "p1_ongordu && !p1_muzakere", "text": " Alıcı vekili riskin öngörüldüğünü savundu, ama bunu gösterecek müzakere tutanağını dosyaya getirmedi." },
+        { "if": "p1_muzakere && !p1_ongordu", "text": " Alıcı vekili müzakere tutanağını öğrendi, ama riskin öngörüldüğü savunmasını kuramadı." }
+      ]
+    }
+  ]
+}

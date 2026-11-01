@@ -153,7 +153,9 @@ export interface CaseFile {
   process?: boolean;
   bench?: { judges: number; title?: string };
   /** salonun görünümü */
-  room?: "yerel" | "yuksek" | "uluslararasi";
+  room?: "yerel" | "yuksek" | "uluslararasi" | "tahkim";
+  /** Tahkim ve komisyon dosyalarında yer: icc, istac, lcia, uncitral, cas, tff, ihtk, sigorta */
+  forum?: "icc" | "istac" | "lcia" | "uncitral" | "cas" | "tff" | "ihtk" | "sigorta";
   /** hâkimin arkasındaki yazı; null ise yazı yok */
   inscription?: string | null;
   /** delil çantası */
@@ -168,5 +170,7 @@ export interface CaseFile {
 export interface Player {
   name: string;
   ai: boolean;
+  /** internet üzerinden bağlı rakip (hamleleri sunucudan gelir) */
+  remote?: boolean;
   level?: "easy" | "hard";
 }

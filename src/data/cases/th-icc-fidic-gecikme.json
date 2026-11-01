@@ -1,0 +1,458 @@
+{
+  "id": "th-icc-fidic-gecikme",
+  "mode": "duel",
+  "difficulty": "zor",
+  "title": "Kuzey Parsel",
+  "area": "Tahkim · Milletlerarası ticari tahkim · FIDIC gecikme tazminatı ve süre uzatımı",
+  "court": "ICC Uluslararası Tahkim Divanı · Dava No. 28903/HBH (Tahkim yeri: İstanbul)",
+  "courtShort": "ICC · İSTANBUL",
+  "esas": "ICC 28903/HBH",
+  "kararTarihi": "18.04.2028",
+  "color": "#5a4632",
+  "room": "tahkim",
+  "forum": "icc",
+  "bench": { "judges": 3, "title": "Başhakem ve iki hakem" },
+  "inscription": null,
+  "teaser": "Bakü'deki terminal 90 gün geç bitti; işveren 2,25 milyon dolarlık gecikme tazminatını hakedişten kesti. Yüklenicinin elinde iki gecikme sebebi var: biri süresinde bildirildi, öteki 61 gün sonra.",
+  "sides": {
+    "p1": { "role": "Davacı (Yüklenici) vekili", "short": "Davacı" },
+    "p2": { "role": "Davalı (İşveren) vekili", "short": "Davalı" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#d9b08c", "hair": "#3a3a3e", "style": "short", "beard": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e8bf9a", "hair": "#3b2a20", "style": "long", "glasses": true, "shirt": "#1f2530", "inner": "#ece7de" } },
+    "p2": { "look": { "kind": "civil", "skin": "#c99670", "hair": "#1e1a18", "style": "short", "shirt": "#262a31", "inner": "#e6e1d6" } },
+    "santiye": { "name": "Kerem Aydoğdu · Yüklenicinin şantiye şefi", "np": "civil", "look": { "kind": "civil", "skin": "#c48e66", "hair": "#2a2220", "style": "short", "beard": true, "shirt": "#6b5a3a", "inner": "#e2ddd2" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Anadolu Yapı A.Ş., Bakü'deki Caspian Terminal Holdings LLC için bir lojistik terminali inşa etti. Sözleşme FIDIC Kırmızı Kitap (1999) esaslı; bedel 30.000.000 USD. Özel Şartlara göre sözleşmeye Türk hukuku uygulanıyor, tahkim yeri İstanbul." },
+    { "who": "narr", "text": "İşin bitiş tarihi 30.06.2026'ydı; Kabul Belgesi 28.09.2026'da verildi, 90 gün gecikmeyle. İşveren günlük 25.000 USD'den 2.250.000 USD gecikme tazminatını 14 No'lu hakedişten kesti." },
+    { "who": "narr", "text": "Yüklenici iki gecikme sebebine dayanıyor: kuzey parselin 50 gün geç teslimi ve kazıda çıkan öngörülemeyen kaya (40 gün). Mühendis 15.10.2026'daki tespitinde yalnız 20 gün süre uzatımı verdi; kaya talebini 28 günlük bildirim süresi kaçtığı için reddetti." },
+    { "who": "narr", "text": "Yüklenici 20.10.2026'da uyuşmazlığı bildirdi. Özel Şartlara göre tek kişilik Uyuşmazlık Hakem Kurulu (DAB) 28 gün içinde ortak kararla atanacaktı. İşveren altı haftadır aday önermiyor ve yazılara cevap vermiyor. Bugün 01.12.2026." }
+  ],
+  "docs": [
+    { "t": "Özel Şartlar · 20.2, 20.3, 20.6", "d": "20.2: Uyuşmazlık bildirildiğinde taraflar 28 gün içinde tek kişilik DAB'ı ortak kararla atar. 20.3: Anlaşılamazsa, taraflardan birinin istemiyle atama yetkilisi FIDIC Başkanı atar. 20.6: Kesin çözüm ICC Kurallarına göre üç hakemle; tahkim yeri İstanbul." },
+    { "t": "Teklif Eki", "d": "İşin bitiş süresi: 30.06.2026. Gecikme tazminatı (8.7): günlük 25.000 USD; üst sınır sözleşme bedelinin %10'u (3.000.000 USD)." },
+    { "t": "Genel Şartlar 20.1 · Yüklenicinin talepleri", "d": "Yüklenici, süre uzatımı ya da ek ödeme hakkı doğuran olayı öğrendiği ya da öğrenmesi gerektiği andan itibaren 28 gün içinde Mühendise bildirir. Bildirmezse süre uzatılmaz, ek ödeme yapılmaz ve İşveren bu talebe ilişkin sorumluluktan kurtulur." },
+    { "t": "Kuzey parsel teslim tutanağı ve bildirim", "d": "Programa göre teslim tarihi 01.09.2025; fiilî teslim 21.10.2025 (50 gün gecikme). Yüklenicinin 2.1 ve 20.1 uyarınca bildirimi: 02.11.2025." },
+    { "t": "Kaya bildirimi", "d": "Kaya 12.01.2026'da kazıda çıktı. Yüklenicinin 4.12 ve 20.1 uyarınca resmî bildirimi: 14.03.2026 (61 gün sonra)." },
+    { "t": "İşverenin 2.5 bildirimi", "d": "05.10.2026 tarihli, Mühendise gönderilmiş yazı: gecikme tazminatı alacağı, 90 gün × 25.000 USD, 8.7 ve 2.5 uyarınca talep edilir." }
+  ],
+  "evidence": [
+    { "id": "ev_kaya", "type": "belge", "title": "Kaya bildirimi (14.03.2026)", "desc": "4.12 ve 20.1 uyarınca resmî bildirim; kayanın çıkmasından 61 gün sonra." },
+    { "id": "ev_parsel", "type": "belge", "title": "Kuzey parsel teslim tutanağı", "desc": "Fiilî teslim 21.10.2025; programdaki tarihten 50 gün sonra." },
+    { "id": "ev_tespit", "type": "belge", "title": "Mühendisin 3.5 tespiti (15.10.2026)", "desc": "20 gün süre uzatımı; kaya talebi süresinde bildirilmediği için reddedildi." },
+    { "id": "ev_tutanak", "type": "belge", "title": "20.01.2026 tarihli şantiye toplantısı tutanağı", "desc": "Mühendisin temsilcisinin imzası var. “Kazıda B blok temelinde sert kaya çıktı. Yüklenici, bu nedenle süre uzatımı ve ek bedel talep edeceğini bildirdi.”", "if": "p1_tutanak" },
+    { "id": "law_tmk2", "type": "kanun", "title": "TMK m.2 · Dürüstlük kuralı", "desc": "Herkes haklarını kullanırken ve borçlarını yerine getirirken dürüstlük kurallarına uymak zorundadır.", "law": "TMK m.2" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "DAB AŞAMASI · İşveren DAB üyesi konusunda ses vermiyor. Müvekkil, 2.250.000 USD'nin bir an önce geri alınmasını istiyor." }
+      ],
+      "prompt": "Uyuşmazlığı nasıl ilerleteceksiniz?",
+      "choices": [
+        {
+          "text": "20.3 uyarınca FIDIC Başkanından DAB üyesini atamasını iste; atanınca uyuşmazlığı DAB'a götür, 84 günlük karar süresi işlesin.",
+          "delta": 20,
+          "set": ["p1_dab"],
+          "law": "FIDIC 1999 · 20.3, 20.4",
+          "note": "Sözleşme, işbirliği yapmayan tarafa karşı yolu kendisi göstermiş: atama yetkilisi (20.3). DAB kararı ve memnuniyetsizlik bildirimi olmadan tahkime gidilemez (20.4); ön şartı eksiksiz tamamladınız.",
+          "reply": [
+            { "who": "narr", "text": "FIDIC Başkanı 21.12.2026'da DAB üyesini atadı. Uyuşmazlık 28.12.2026'da DAB'a götürüldü." }
+          ]
+        },
+        {
+          "text": "İşveren DAB'ın kurulmasını engelliyor; 20.8'e dayanarak doğrudan ICC'ye git. Cevapsız kalan bütün yazışmaları tahkim talebine ekle.",
+          "delta": 5,
+          "set": ["p1_dogrudan"],
+          "law": "FIDIC 1999 · 20.3, 20.8",
+          "note": "20.8, “yerinde bir DAB bulunmaması” hâlinde doğrudan tahkimi açar; ama sözleşme, atama yapılamazsa atama yetkilisine başvurmayı (20.3) öngörmüş ve bu yol hiç denenmemişti. Talebin erken olduğu itirazına açık kaldınız.",
+          "reply": [
+            { "who": "narr", "text": "Tahkim talebi 07.12.2026'da ICC Sekretaryasına sunuldu." }
+          ]
+        },
+        {
+          "text": "DAB'ı atla, ICC'ye hemen başvur: DAB kararları yalnız tavsiye niteliğindedir, kesin çözüm tahkimde verilecek.",
+          "delta": -15,
+          "set": ["p1_atla"],
+          "law": "FIDIC 1999 · 20.4",
+          "note": "DAB kararı tavsiye değildir: taraflar onu derhâl uygulamakla yükümlüdür ve memnuniyetsizlik bildirimi verilmeden tahkime gidilemez (20.4). Sözleşmedeki ön şartı atladınız.",
+          "reply": [
+            { "who": "narr", "text": "Tahkim talebi 07.12.2026'da ICC Sekretaryasına sunuldu." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "if": "p1_dab",
+      "lines": [
+        { "who": "narr", "text": "DAB KARARI · DAB 22.03.2027'de kararını verdi: kuzey parsel için toplam 50 gün süre uzatımı; kaya talebi 20.1 uyarınca süresinde bildirilmediğinden reddedildi. İşveren, 50 güne düşen 1.250.000 USD'yi iade edecek." },
+        { "who": "narr", "text": "Yüklenici, kaya kısmına karşı süresinde memnuniyetsizlik bildirimi verdi. Sıra İşverende." }
+      ],
+      "prompt": "DAB kararına karşı ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Karardan itibaren 28 gün içinde memnuniyetsizlik bildirimi ver; karar bağlayıcı olduğundan o arada 1.250.000 USD'yi iade et (20.4).",
+          "delta": 15,
+          "set": ["p2_nod"],
+          "law": "FIDIC 1999 · 20.4, 20.5",
+          "note": "DAB kararı, uzlaşmayla ya da hakem kararıyla değiştirilene kadar bağlayıcıdır; taraflar onu derhâl uygular (20.4). Bildirimle kararın kesinleşmesini önlediniz; kuzey parsel konusunu tahkimde yeniden tartışabilirsiniz.",
+          "reply": [
+            { "who": "narr", "text": "Bildirimden 56 gün sonra (20.5) yüklenici ICC'ye başvurdu; işveren kuzey parsel konusunu karşı iddia olarak getirdi." }
+          ]
+        },
+        {
+          "text": "Bildirim verme. Kararı tanımadığını yaz ve ödemeyi yapma: DAB kararı nasılsa tahkimde baştan görülecek, süreyi kaçırmak önemsiz.",
+          "delta": -20,
+          "set": ["p2_nodyok"],
+          "law": "FIDIC 1999 · 20.4, 20.7",
+          "note": "28 gün içinde memnuniyetsizlik bildirimi verilmezse DAB kararı taraflar için kesin ve bağlayıcı olur (20.4). Kesinleşen karara uyulmaması da doğrudan tahkime götürülebilir (20.7). Kuzey parsel için 50 gün artık tartışılamaz.",
+          "reply": [
+            { "who": "narr", "text": "Yüklenici, kesinleşen kararın uygulanmaması ve kaya talebi için ICC'ye başvurdu." }
+          ]
+        },
+        {
+          "text": "28 gün içinde bildirim ver, ama 1.250.000 USD'yi ödeme: karar kesinleşmediği sürece onu uygulamak gerekmez, para tahkime kadar beklesin.",
+          "delta": 5,
+          "set": ["p2_nododeme"],
+          "law": "FIDIC 1999 · 20.4",
+          "note": "Bildirim kararın kesinleşmesini önledi; ama bildirim verilse de karar bağlayıcıdır ve derhâl uygulanmalıdır (20.4). Ödememek ayrı bir sözleşme ihlalidir; faiz ve masraf riskini üstlendiniz.",
+          "reply": [
+            { "who": "narr", "text": "Bildirimden 56 gün sonra (20.5) yüklenici ICC'ye başvurdu; DAB kararının uygulanmamasını da talebine ekledi." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "if": "!p1_dab",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · ICC tahkim talebi 10.12.2026'da müvekkile ulaştı. Cevap süresi 30 gün (ICC m.5/1). Yüklenici DAB aşamasına hiç girmeden kesin çözüm istiyor." }
+      ],
+      "prompt": "Cevap dilekçesinde nasıl bir tutum alacaksınız?",
+      "choices": [
+        {
+          "text": "Cevapta ön şart itirazı: DAB yolu tüketilmedi, 20.3'teki atama yolu açıktı. Talebin erken olduğundan reddi, olmazsa durdurma istensin.",
+          "delta": 15,
+          "set": ["p2_erken"],
+          "law": "FIDIC 1999 · 20.3, 20.4 · ICC m.6/3, m.40",
+          "note": "Ön şart itirazını ilk fırsatta, cevapla yaptınız. ICC'de yetki ve kabul edilebilirlik itirazlarını kurul inceler (m.6/3); itirazsız devam eden taraf itiraz hakkından vazgeçmiş sayılır (m.40).",
+          "reply": [
+            { "who": "judge", "text": "Kurul, ön şart itirazını esasla birlikte inceleyecektir." }
+          ]
+        },
+        {
+          "text": "Ön şart itirazı yapma, doğrudan esasa cevap ver. Bir de DAB süreciyle uğraşmayalım; uyuşmazlık ICC'de tek seferde bitsin, masraf ve zaman kaybı azalsın.",
+          "delta": -10,
+          "set": ["p2_esas"],
+          "law": "ICC m.40",
+          "note": "Sözleşmenin İşverene sağladığı en güçlü usul savunmasını bıraktınız. İtiraz etmeden yargılamaya devam eden taraf, itiraz hakkından vazgeçmiş sayılır (ICC m.40)."
+        },
+        {
+          "text": "Önce esasa cevap ver; ön şart itirazını, kurul kendiliğinden inceleyeceği için Görev Tutanağı toplantısında getir.",
+          "delta": -5,
+          "set": ["p2_gecitiraz"],
+          "law": "ICC m.40 · MTK m.7/H",
+          "note": "İtiraz cevapla birlikte yapılmalıydı. Esasa cevap verip sonra itiraz eden taraf, itiraz hakkından vazgeçmiş sayılabilir (ICC m.40); tahkim yeri İstanbul olduğundan yetki itirazları da en geç cevap dilekçesiyle ileri sürülür (MTK m.7/H). Kurul itirazı geç buldu.",
+          "reply": [
+            { "who": "judge", "text": "İtiraz süresinde yapılmamıştır; kurul esasa geçecektir." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Tanık beyanlarından önce yüklenicinin şantiye şefi Kerem Aydoğdu'yla görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Şantiye şefine ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Kaya çıktığında Mühendis'in ekibi bundan nasıl haberdar oldu?",
+          "delta": 15,
+          "set": ["p1_tutanak"],
+          "reply": [
+            { "who": "santiye", "text": "Kaya 12 Ocak'ta çıktı. 20 Ocak'taki haftalık toplantıda Mühendis'in temsilcisi yerinde gördü; “süre ve bedel talep edeceğiz” dedim, tutanağa yazdırdık. Tutanağı o da imzaladı." }
+          ],
+          "note": "Doğru soru. Kayadan sekiz gün sonra, Mühendis'in temsilcisinin imzasıyla tutulan bir tutanak, 20.1'deki 28 günlük bildirim şartını karşılayabilir. Tutanak delil çantanıza eklendi."
+        },
+        {
+          "text": "Kuzey parselin geç teslimi işleri tam olarak nasıl etkiledi?",
+          "delta": 5,
+          "set": ["p1_parsel"],
+          "reply": [
+            { "who": "santiye", "text": "Depo binaları kuzey parseldeydi. Teslim 50 gün gecikince bütün kritik yol kaydı; iş programındaki güncellemeler bunu gösteriyor." }
+          ],
+          "note": "Yararlı: gecikmenin kritik yolda olduğunu gösteren program güncellemeleri süre uzatımının dayanağıdır (8.4). Ama bu sebep zaten süresinde bildirilmişti."
+        },
+        {
+          "text": "Bizim tarafta da bir gecikme oldu mu?",
+          "delta": 5,
+          "set": ["p1_kendi"],
+          "reply": [
+            { "who": "santiye", "text": "Beton santrali on gün geç kuruldu. Ama o sırada kuzey parsel zaten teslim edilmemişti; işi o santral değil, parsel durdurdu." }
+          ],
+          "note": "Kendi zayıf noktanızı öğrenmek iyidir; işveren bu gecikmeyi “eşzamanlı gecikme” diye kullanacak. Ancak kaya bildirimi meselesini çözmeye yaramadı."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kaya talebine geçiyoruz. Davalı vekili, 28 günlük bildirim süresi hakkındaki tutumunuzu açıklayın." }
+      ],
+      "prompt": "Kaya talebine karşı neye dayanacaksınız?",
+      "choices": [
+        {
+          "text": "20.1 açık bir hak düşürücü süredir: 28 günde bildirim yoksa uzatma yok. İki tacirin serbestçe kabul ettiği bu kayıt Türk hukukunda geçerlidir.",
+          "delta": 15,
+          "set": ["p2_hakdusurucu"],
+          "law": "FIDIC 1999 · 20.1 · TBK m.26",
+          "note": "20.1, süresinde bildirim yapılmazsa süre uzatımı ve ek ödeme hakkının düşeceğini açıkça söyler. Sözleşme özgürlüğü içinde (TBK m.26) tacirler arasında kararlaştırılan bu süre geçerlidir; sınırı dürüstlük kuralıdır (TMK m.2)."
+        },
+        {
+          "text": "Kaya öngörülemez değildi: Yüklenici saha verilerini incelemekle yükümlüydü (4.10, 4.11); zemin etüdünde sert tabaka görülüyordu, uzatma hakkı hiç doğmadı.",
+          "delta": 5,
+          "set": ["p2_ongorulebilir"],
+          "law": "FIDIC 1999 · 4.10, 4.11, 4.12",
+          "note": "Savunulabilir bir esas itirazı, ama zemin etüdü üzerine uzun bir bilirkişi tartışması açar. Elinizdeki daha güçlü ve kesin silah, 28 günlük bildirim süresiydi (20.1)."
+        },
+        {
+          "text": "Gecikme tazminatı süre uzatımından bağımsızdır: 8.7 uyarınca 90 günün tamamı için ödenir, uzatma kesin hesapta istenir.",
+          "delta": -10,
+          "set": ["p2_bagimsiz"],
+          "law": "FIDIC 1999 · 8.4, 8.7",
+          "note": "Gecikme tazminatı, 8.4 uyarınca uzatılmış bitiş süresi aşıldıktan sonra işler. Süre uzatımı hakkı varsa tazminat o günler için doğmaz; ikisi birlikte değerlendirilir."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, kaya bildirimi hakkında beyanınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Başhakem, yüklenici kayayı ancak 61 gün sonra bildirdi. Bu sürede ne İşveren ne de Mühendis kayadan haberdardı; 20.1'deki bildirimin amacı hiç gerçekleşmedi." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_tutanak"],
+      "hit": {
+        "delta": 25,
+        "set": ["p1_bildirim"],
+        "law": "FIDIC 1999 · 1.3, 20.1",
+        "note": "20.1 bildirimin belirli bir başlık taşımasını aramaz; olayı tanımlayan ve Mühendise ulaşan yazılı bir bildirim yeter (1.3). Kayadan sekiz gün sonra Mühendis'in temsilcisince imzalanan tutanak, yüklenicinin süre ve bedel talep edeceğini kaydediyor. Kurul bunu 28 gün içinde yapılmış bildirim saydı.",
+        "reply": [
+          { "who": "judge", "text": "Tutanak dosyaya alındı. Kurul, kaya talebinin süresinde bildirildiği kanaatindedir." }
+        ]
+      },
+      "responses": {
+        "law_tmk2": {
+          "delta": -5,
+          "note": [
+            { "if": "p1_tutanak", "text": "Dürüstlük kuralı tek başına sözleşmedeki süreyi ortadan kaldırmaz. Asıl deliliniz, Mühendis'in temsilcisinin imzaladığı 20.01.2026 tutanağıydı." },
+            { "if": "!p1_tutanak", "text": "Dürüstlük kuralı tek başına sözleşmedeki süreyi ortadan kaldırmaz. Mühendis'in kayadan süresinde haberdar olduğunu gösteren yazılı bir belge gerekirdi; şantiye şefine sorulabilirdi." }
+          ]
+        },
+        "ev_kaya": {
+          "delta": -10,
+          "note": "Bu, işverenin dayandığı geç bildirimin ta kendisi; 61 günlük gecikmeyi doğruluyor."
+        },
+        "ev_tespit": {
+          "delta": -10,
+          "note": "Mühendisin tespiti kaya talebini zaten süre aşımından reddetmişti; işverenin tezini destekler."
+        },
+        "ev_parsel": {
+          "delta": -5,
+          "note": "Kuzey parsel ayrı bir gecikme sebebi; kaya bildiriminin süresiyle ilgisi yok."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge kayanın süresinde bildirildiğini göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; kaya talebi 20.1 uyarınca düştü." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "p1", "text": "Sayın Başhakem, günlük 25.000 USD'lik gecikme tazminatı fahiştir. TBK m.182/3 uyarınca indirilmesini talep ediyoruz." },
+        { "who": "judge", "text": "Davalı vekili, indirim talebine cevabınız?" }
+      ],
+      "prompt": "Gecikme tazminatının neden indirilemeyeceğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_ttk22"],
+          "law": "TTK m.22 · TBK m.182/3 · FIDIC 8.7",
+          "note": "8.7'deki gecikme tazminatı Türk hukukunda ceza koşulu niteliğindedir. Hâkim aşırı cezayı indirebilir (TBK m.182/3); ama tacir olan borçlu, cezanın fahiş olduğu iddiasıyla indirilmesini isteyemez (TTK m.22). Yüklenici bir anonim şirkettir. Üstelik günlük tutar sözleşme bedelinin binde birinin altındadır ve %10'luk üst sınırla bağlıdır; borçluyu ekonomik yıkıma sürüklemez."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_ttk22"],
+          "law": "TTK m.22 · TBK m.182/3",
+          "note": "Tacirin indirim isteyemeyeceğini söylediniz. Tam savunma TTK m.22'yi açıkça anar, yüklenicinin tacir olduğunu gösterir ve cezanın %10 üst sınırla bağlı, oransız olmayan bir tutar olduğunu, yüklenicinin ekonomik yıkımına yol açmadığını ekler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "TTK m.22 · TBK m.182/3",
+          "note": "İndirim talebini karşılayamadınız. Ceza koşulu niteliğindeki gecikme tazminatında tacir olan borçlu, cezanın fahiş olduğu iddiasıyla indirim isteyemez (TTK m.22). Yüklenici bir anonim şirket; üstelik tazminat sözleşmedeki %10 üst sınırla bağlı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) FIDIC 8.7'deki gecikme tazminatı Türk hukukunda ceza koşulu niteliğindedir; TBK m.182/3 hâkime aşırı cezayı indirme yetkisi verir. (2) Ancak TTK m.22 uyarınca tacir sıfatını taşıyan borçlu, ceza koşulunun fahiş olduğu iddiasıyla indirilmesini isteyemez; yüklenici bir anonim şirket, yani tacirdir. (3) Ceza günlük 25.000 USD, sözleşme bedelinin binde birinin altında ve %10'luk üst sınırla (3.000.000 USD) bağlıdır; yüklenicinin ekonomik yıkımına yol açmaz. TTK m.22'yi ve tacir sıfatını birlikte gösteren cevap tam puan alır; yalnız ‘sözleşmede kararlaştırıldı’ diyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["TTK m.22", "TTK 22", "Türk Ticaret Kanunu madde 22", "m.22", "madde 22", "22. madde"], "weight": 3 },
+        { "terms": ["tacir"], "weight": 2 },
+        { "terms": ["ceza koşulu", "cezai şart", "TBK m.182", "182"], "weight": 1 },
+        { "terms": ["üst sınır", "%10", "yüzde 10", "3.000.000", "üç milyon"], "weight": 1 },
+        { "terms": ["ekonomik yıkım", "fahiş değil", "orantılı", "binde"], "weight": 1 }
+      ],
+      "model": "Sayın Başhakem, 8.7'deki gecikme tazminatı ceza koşulu niteliğindedir. TBK m.182/3 hâkime aşırı cezayı indirme yetkisi verse de TTK m.22 uyarınca tacir olan borçlu, cezanın fahiş olduğu iddiasıyla indirilmesini isteyemez; yüklenici bir anonim şirkettir. Ayrıca günlük 25.000 USD sözleşme bedelinin binde birinin altındadır ve toplam %10'luk üst sınırla bağlıdır; yüklenicinin ekonomik yıkımı söz konusu değildir."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, kuzey parselin geç teslimi hakkında son beyanınızı alalım. Bu gecikme bitiş süresini ve gecikme tazminatını nasıl etkiler?" }
+      ],
+      "prompt": "Parselin geç tesliminin süre uzatımı ve gecikme tazminatı bakımından sonucunu açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_parsel50"],
+          "law": "FIDIC 1999 · 2.1, 8.4, 8.7, 20.1",
+          "note": "İşveren sahaya erişimi süresinde vermezse yüklenici süre uzatımına ve kâr dahil ek maliyete hak kazanır (2.1, 8.4). Bildirim 12 günde, 28 günlük süre içinde yapıldı (20.1). Gecikme tazminatı ancak uzatılmış bitiş süresinden sonra işler (8.7); işveren kendi neden olduğu gecikme için tazminat isteyemez."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_parsel50"],
+          "law": "FIDIC 1999 · 2.1, 8.4",
+          "note": "Parselin geç tesliminin süre uzatımı doğurduğunu gösterdiniz. Tam beyan, bildirimin 12 günde yapıldığını (20.1), 50 günlük gecikmenin kritik yolda olduğunu ve gecikme tazminatının ancak uzatılmış süre aşıldıktan sonra işleyeceğini (8.7) de söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "FIDIC 1999 · 2.1, 8.4, 20.1",
+          "note": "Parsel gecikmesinin sonucunu kuramadınız. 2.1 ve 8.4 uyarınca işverenin geç teslimi süre uzatımı hakkı doğurur; bildirim süresindeydi (20.1); gecikme tazminatı uzatılmış süreden sonra işler (8.7). Kurul Mühendisin verdiği 20 günle yetindi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) FIDIC 1999 Alt-Madde 2.1 uyarınca işveren sahaya erişimi ve zilyetliği süresinde vermezse, yüklenici 20.1'e tabi olarak 8.4 uyarınca süre uzatımına ve kâr dahil maliyete hak kazanır; 8.4(e) de işverenden kaynaklanan gecikmeyi sayar. (2) Bildirim 02.11.2025'te, teslimden 12 gün sonra, 28 günlük süre içinde yapıldı. (3) 50 günlük gecikme kritik yoldadır; bitiş süresi 50 gün uzar. (4) Gecikme tazminatı ancak uzatılmış bitiş süresi aşıldıktan sonra işler (8.7); işveren kendi sebep olduğu gecikmeden yararlanamaz (TMK m.2). Süre uzatımını, bildirimin süresinde olduğunu ve tazminata etkisini birlikte kuran cevap tam puan alır.",
+      "keywords": [
+        { "terms": ["2.1", "erişim", "zilyetlik", "geç teslim"], "weight": 2 },
+        { "terms": ["8.4", "süre uzatımı", "uzatma"], "weight": 2 },
+        { "terms": ["20.1", "12 gün", "28 gün", "süresinde bildir"], "weight": 2 },
+        { "terms": ["8.7", "gecikme tazminatı", "ceza"], "weight": 1 },
+        { "terms": ["50 gün", "elli gün", "kritik yol"], "weight": 1 },
+        { "terms": ["kâr", "maliyet", "TMK m.2", "dürüstlük"], "weight": 1 }
+      ],
+      "model": "Sayın Başhakem, işveren kuzey parseli programdan 50 gün geç teslim etti. Alt-Madde 2.1 uyarınca bu durumda yüklenici, 8.4 uyarınca süre uzatımına ve kâr dahil maliyete hak kazanır. Bildirimimiz teslimden 12 gün sonra, 20.1'deki 28 günlük süre içinde yapıldı ve gecikme kritik yoldaydı. Bitiş süresi 50 gün uzar; gecikme tazminatı ancak uzatılmış süre aşıldıktan sonra işler (8.7). İşveren kendi sebep olduğu gecikme için tazminat isteyemez."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "p1", "text": "Sayın Başhakem, işveren 2.250.000 USD'yi Alt-Madde 2.5'teki bildirimi yapmadan, kendiliğinden hakedişten kesti. Kesinti baştan geçersizdir." },
+        { "who": "judge", "text": "Davalı vekili?" }
+      ],
+      "prompt": "Kesintinin dayanağını nasıl savunacaksınız?",
+      "choices": [
+        {
+          "text": "8.7 tazminatı 2.5'e tabi kılar; İşveren 05.10.2026'da, Kabul Belgesinden bir hafta sonra Mühendise bildirdi; şart yerinde.",
+          "delta": 15,
+          "set": ["p2_bildirim25"],
+          "law": "FIDIC 1999 · 2.5, 8.7",
+          "note": "8.7'ye göre yüklenici gecikme tazminatını “2.5 uyarınca bildirime tabi olarak” öder; işveren de hakedişten ancak 2.5'e uygun olarak kesinti yapabilir. Bildirim, Kabul Belgesinden hemen sonra, mümkün olan en kısa sürede yapılmıştı."
+        },
+        {
+          "text": "Gecikme tazminatı 8.7 gereği kendiliğinden doğar; ne Mühendisin onayına ne ayrıca bildirime gerek vardır, İşveren dilediği hakedişten keser.",
+          "delta": -10,
+          "set": ["p2_otomatik"],
+          "law": "FIDIC 1999 · 2.5, 8.7",
+          "note": "8.7 açıkça 2.5'e atıf yapar ve 2.5 son fıkrası, işverenin hakedişten kesintiyi ancak bu Alt-Madde uyarınca yapabileceğini söyler. Elinizdeki 05.10.2026 bildirimini kullanmadınız."
+        },
+        {
+          "text": "Kesinti tartışmalı olsa da sonuç değişmez: İşveren aynı tutarı performans teminatından (4.2) alabilirdi.",
+          "delta": -5,
+          "set": ["p2_teminat"],
+          "law": "FIDIC 1999 · 4.2, 2.5",
+          "note": "Performans teminatına 4.2 uyarınca ancak sayılan hâllerde başvurulabilir (ör. üzerinde anlaşılan ya da belirlenen tutarın 42 gün içinde ödenmemesi). Tartışmalı bir tazminat için teminatı paraya çevirmek sözleşmeye aykırı olurdu; soruya da cevap vermediniz."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "(p1_dogrudan || p1_atla) && p2_erken",
+      "winner": "p2",
+      "hukum": "Davacının taleplerinin, FIDIC Genel Şartları Alt-Madde 20.4'teki DAB ön şartı yerine getirilmeden tahkime başvurulduğundan, şimdilik kabul edilemezliğine; tahkim masraflarının davacıya yükletilmesine,",
+      "summary": [
+        { "text": "Sözleşme DAB kararını ve memnuniyetsizlik bildirimini tahkimin ön şartı yapmıştı (20.4). İşveren aday önermese de 20.3'teki atama yetkilisi yolu açıktı ve hiç denenmedi; 20.8 uygulanamazdı." },
+        { "if": "p1_atla", "text": " Yüklenici vekili DAB kararını tavsiye sayarak aşamayı bütünüyle atladı." },
+        { "text": " İşveren vekili itirazını cevapla birlikte, süresinde yaptı (ICC m.6/3, m.40). Yüklenici aynı uyuşmazlığı DAB'dan geçirerek yeniden tahkime getirebilir; ama 2.250.000 USD bu sürede işverende kaldı." }
+      ]
+    },
+    {
+      "if": "(p1_parsel50 || p2_nodyok) && p1_bildirim",
+      "winner": "p1",
+      "hukum": "Davacının talebinin KABULÜ ile bitiş süresinin 90 gün uzatılmasına, gecikme tazminatı doğmadığından kesilen 2.250.000 USD'nin davalıdan alınarak davacıya ödenmesine, tahkim masraflarının davalıya yükletilmesine,",
+      "summary": [
+        { "if": "p2_nodyok", "text": "İşveren DAB kararına 28 gün içinde memnuniyetsizlik bildirimi vermediğinden kuzey parsel için 50 günlük süre uzatımı kesinleşmişti (20.4)." },
+        { "if": "!p2_nodyok", "text": "İşverenin kuzey parseli 50 gün geç teslimi süresinde bildirilmişti ve süre uzatımı doğurdu (2.1, 8.4, 20.1)." },
+        { "text": " Kaya ise sekiz gün sonra Mühendis'in temsilcisinin imzaladığı tutanağa geçmişti; kurul bunu 28 gün içinde yapılmış bildirim saydı. Toplam 90 günlük uzatmayla gecikme kalmadı; gecikme tazminatı doğmadı (8.7)." },
+        { "if": "p2_ttk22", "text": " İşveren vekili, tacirin fahiş ceza iddiasıyla indirim isteyemeyeceğini doğru savundu (TTK m.22); ama ortada işleyecek bir gecikme kalmadı." },
+        { "if": "p2_nododeme", "text": " İşveren, bağlayıcı DAB kararına rağmen 1.250.000 USD'yi ödemediği için o tutar üzerinden ayrıca faiz ödeyecek." }
+      ]
+    },
+    {
+      "if": "p1_parsel50 || p2_nodyok",
+      "winner": "draw",
+      "hukum": "Davacının talebinin KISMEN KABULÜ ile bitiş süresinin 50 gün uzatılmasına, kalan 40 günlük gecikme için 1.000.000 USD gecikme tazminatının mahsubuyla 1.250.000 USD'nin davalıdan alınarak davacıya ödenmesine, kaya nedeniyle süre uzatımı talebinin REDDİNE,",
+      "summary": [
+        { "if": "p2_nodyok", "text": "İşveren DAB kararına süresinde memnuniyetsizlik bildirimi vermediğinden kuzey parsel için 50 gün kesinleşti (20.4)." },
+        { "if": "!p2_nodyok", "text": "Kuzey parselin 50 gün geç teslimi süresinde bildirilmişti ve süre uzatımı doğurdu (2.1, 8.4, 20.1)." },
+        { "text": " Kaya ise ancak 61 gün sonra bildirildi; 20.1'deki 28 günlük süre kaçtığından o 40 gün için uzatma verilmedi. Kalan 40 gün için günlük 25.000 USD'den gecikme tazminatı işledi." },
+        { "if": "p2_ttk22", "text": " Yüklenicinin indirim talebi, tacir olduğu için reddedildi (TTK m.22)." },
+        { "if": "p2_nododeme", "text": " İşveren bağlayıcı DAB kararını uygulamadığı için 1.250.000 USD'ye faiz de işletildi." }
+      ]
+    },
+    {
+      "if": "p1_bildirim",
+      "winner": "draw",
+      "hukum": "Davacının talebinin KISMEN KABULÜ ile bitiş süresinin 60 gün uzatılmasına, kalan 30 günlük gecikme için 750.000 USD gecikme tazminatının mahsubuyla 1.500.000 USD'nin davalıdan alınarak davacıya ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Kaya, sekiz gün sonra Mühendis'in temsilcisinin imzaladığı tutanağa geçtiği için süresinde bildirilmiş sayıldı; 40 gün uzatma verildi." },
+        { "text": " Kuzey parsel için ise yüklenici vekili gecikmenin kritik yoldaki etkisini ve süreye sonucunu kuramadı; kurul Mühendisin verdiği 20 günle yetindi." },
+        { "if": "p2_ttk22", "text": " Yüklenicinin indirim talebi, tacir olduğu için reddedildi (TTK m.22)." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Davacının talebinin KISMEN KABULÜ ile Mühendisin tespit ettiği 20 günlük süre uzatımına isabet eden 500.000 USD'nin davalıdan alınarak davacıya ödenmesine, fazlaya ilişkin talebin ve gecikme tazminatının indirilmesi talebinin REDDİNE,",
+      "summary": [
+        { "text": "Kaya 61 gün sonra bildirildi ve Mühendisin süresinde haberdar olduğu gösterilemedi; 20.1 uyarınca uzatma hakkı düştü." },
+        { "if": "p2_hakdusurucu", "text": " İşveren vekili, tacirler arasında kararlaştırılan bu hak düşürücü sürenin geçerliliğini doğru savundu." },
+        { "text": " Kuzey parsel için de yüklenici vekili Mühendisin verdiği 20 günü aşan bir uzatmayı kuramadı. Kalan 70 gün için gecikme tazminatı (1.750.000 USD) işverende kaldı." },
+        { "if": "p2_ttk22", "text": " Tacir olan yüklenicinin fahiş ceza iddiasıyla indirim talebi reddedildi (TTK m.22)." },
+        { "if": "p2_bildirim25", "text": " Kesinti, 2.5 uyarınca yapılan 05.10.2026 bildirimine dayandığı için geçerli sayıldı." }
+      ]
+    }
+  ]
+}

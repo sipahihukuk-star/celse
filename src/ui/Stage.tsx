@@ -21,7 +21,8 @@ interface Slot { role: string; look: Look; cx: number; bottom: number; h: number
 const ROOMS = {
   yerel: { wall: [C.wallHi, C.wall, C.wallDeep], panel: C.wood, panelTop: C.woodHi, plank: C.woodDeep, floor: ["#24170f", "#120c08"], bench: C.wood, benchTop: C.woodHi, plaque: "#a98535", inscr: C.brass },
   yuksek: { wall: ["#3a2f35", "#2a2228", "#151114"], panel: "#4a2a22", panelTop: "#6e3f2e", plank: "#2e1913", floor: ["#1f130e", "#0e0806"], bench: "#4f2c22", benchTop: "#7a4632", plaque: "#b8954a", inscr: "#d8b25c" },
-  uluslararasi: { wall: ["#4a5d72", "#36475a", "#1d2733"], panel: "#5a6878", panelTop: "#8796a6", plank: "#46525f", floor: ["#2a3038", "#161a1f"], bench: "#8a7457", benchTop: "#b39c7c", plaque: "#d9d2c3", inscr: "#c9d3de" }
+  uluslararasi: { wall: ["#4a5d72", "#36475a", "#1d2733"], panel: "#5a6878", panelTop: "#8796a6", plank: "#46525f", floor: ["#2a3038", "#161a1f"], bench: "#8a7457", benchTop: "#b39c7c", plaque: "#d9d2c3", inscr: "#c9d3de" },
+  tahkim: { wall: ["#e6e1d8", "#cfc8bb", "#9c9384"], panel: "#3d3a36", panelTop: "#6b665e", plank: "#4a4540", floor: ["#3a3530", "#1f1c19"], bench: "#5b4632", benchTop: "#8a6d4f", plaque: "#d9d2c3", inscr: "#5a544b" }
 } as const;
 
 const SKINS = ["#e2b48c", "#c99670", "#f0c9a4", "#b88560", "#d9a982", "#a9744f", "#e8c09c"];

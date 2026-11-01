@@ -11,7 +11,9 @@ import { CaseFile, Look, Scene } from "../engine/types";
 import { PhotoKey, PHOTOS } from "./photos";
 import { C, F } from "./theme";
 
-interface Props { c: CaseFile; scene: Scene; focus: string | null; talking: boolean }
+/** Konuşulan satır: ağız kareleri metindeki seslere göre sıralanır. voice: satır seslendiriliyor mu. */
+export interface Say { id: string; text: string; voice: boolean }
+interface Props { c: CaseFile; scene: Scene; focus: string | null; talking: boolean; say?: Say }
 
 type Pool = { f: PhotoKey[]; m: PhotoKey[] };
 const JUDGE: Pool = { f: ["hk-kadin-55", "hk-kadin-45", "hk-kadin-32"], m: ["hk-erkek-58", "hk-erkek-42", "hk-erkek-65"] };
@@ -19,6 +21,11 @@ const PROS: Pool = { f: ["sv-kadin"], m: ["sv-erkek"] };
 const LAWYER: Pool = { f: ["av-kadin-32", "av-kadin-52", "av-kadin-25", "av-kadin-basortulu", "av-kadin-41", "av-kadin-28", "av-kadin-61", "av-kadin-35"], m: ["av-erkek-38", "av-erkek-58", "av-erkek-25", "av-erkek-46", "av-erkek-32", "av-erkek-66", "av-erkek-27"] };
 const CIVIL: Pool = { f: ["mv-kadin-45", "mv-kadin-25", "mv-kadin-62", "mv-kadin-72"], m: ["mv-erkek-55", "mv-erkek-22", "mv-erkek-is", "mv-erkek-isci"] };
 const AIHM: Pool = { f: ["ul-kadin-aihm", "ul-kadin-aihm2"], m: ["ul-erkek-aihm", "ul-erkek-aihm2", "ul-erkek-aihm3"] };
+/** Tahkimde avukatlar cübbe giymez: takım elbiseli vekiller. */
+const COUNSEL: Pool = { f: ["ks-kadin-38"], m: ["ks-erkek-40", "mv-erkek-is"] };
+/** Hakemler (takım elbiseli): milletlerarası ve Türk. */
+const ARB_INTL: Pool = { f: ["ar-kadin-50"], m: ["ar-erkek-62", "ar-erkek-48"] };
+const ARB_TR: Pool = { f: ["ar-tr-kadin-44"], m: ["ar-tr-erkek-56"] };
 const UCM: Pool = { f: ["ul-kadin-ucm", "ul-kadin-ucm2"], m: ["ul-erkek-ucm", "ul-erkek-ucm2"] };
 
 const isOld = (look?: Look) => !!look?.hair && /^#(6b6b|9a9a|a0a0|8a8a|b0b0|c0c0|7a7a)/i.test(look.hair);
@@ -31,10 +38,18 @@ const ROOM: Record<string, { bg: PhotoKey; bench: Bench; pros?: { x: number; y: 
   yerel: { bg: "bg-yerel", bench: { seats: [520, 640, 760], y: 338, h: 165 }, pros: { x: 965, y: 362, h: 150 } },
   yuksek: { bg: "bg-yuksek", bench: { seats: [345, 485, 627, 787, 930], y: 372, h: 210 } },
   aym: { bg: "bg-aym", bench: { seats: [152, 210, 268, 326, 384, 442, 500, 558, 638, 716, 774, 832, 890, 948, 1006, 1064, 1124], y: 372, h: 118 } },
+  tahkim: { bg: "bg-tahkim", bench: { seats: [490, 642, 795], y: 347, h: 150 } },
+  komisyon: { bg: "bg-komisyon", bench: { seats: [485, 645, 805], y: 305, h: 140 } },
   uluslararasi: { bg: "bg-uluslararasi", bench: { seats: [90, 143, 196, 250, 303, 356, 410, 463, 527, 580, 634, 687, 741, 794, 847, 901, 940], y: 300, h: 100 } }
 };
 
+/** Türkiye'deki kurullar ve komisyonlar (TFF Tahkim Kurulu, İHTK, Sigorta Tahkim) Ankara'daki toplantı salonunda görülür. */
+const domesticForum = (c: CaseFile) => c.forum === "tff" || c.forum === "ihtk" || c.forum === "sigorta";
+/** Tahkim bölümündeki bazı dosyalar devlet mahkemesinde görülür (iptal davası, tanıma-tenfiz): onlar adliye salonunda. */
+export const stateCourt = (c: CaseFile) => c.room === "tahkim" && /Asliye|Bölge Adliye|Yargıtay|Hukuk Dairesi|Ticaret Mahkemesi|Bölge İdare|İdare Mahkemesi/.test(c.court) && !/Tahkim|Komisyon|Kurul/.test(c.court);
 function roomOf(c: CaseFile) {
+  if (stateCourt(c)) return /Bölge|Yargıtay|Dairesi/.test(c.court) ? ROOM.yuksek : ROOM.yerel;
+  if (c.room === "tahkim") return domesticForum(c) ? ROOM.komisyon : ROOM.tahkim;
   if (c.room === "uluslararasi" || /İnsan Hakları|Uluslararası/.test(c.court)) return ROOM.uluslararasi;
   if (/Anayasa|Yüce Divan/.test(c.court)) return ROOM.aym;
   if (c.room === "yuksek") return ROOM.yuksek;
@@ -73,8 +88,9 @@ export function cast(c: CaseFile, avatar?: Avatar | null) {
     }
     return list[start % list.length];
   };
-  const intl = c.room === "uluslararasi" || /İnsan Hakları|Uluslararası/.test(c.court);
-  const judgePool = intl ? (/Ceza Mahkemesi/.test(c.court) ? UCM : AIHM) : JUDGE;
+  const tahkim = c.room === "tahkim" && !stateCourt(c);
+  const intl = !tahkim && (c.room === "uluslararasi" || /İnsan Hakları|Uluslararası/.test(c.court));
+  const judgePool = tahkim ? (domesticForum(c) || c.forum === "istac" ? ARB_TR : ARB_INTL) : intl ? (/Ceza Mahkemesi/.test(c.court) ? UCM : AIHM) : JUDGE;
   const j = c.cast.judge;
   const map: Record<string, PhotoKey> = {};
   map.judge = tintJudge(pick(judgePool, isFemale(j?.look, j?.name), "judge", isOld(j?.look)), robeOf(c));
@@ -82,11 +98,12 @@ export function cast(c: CaseFile, avatar?: Avatar | null) {
     if (role === "judge") continue;
     const robe = m.look?.kind !== "civil";
     const red = m.np === "red" || role === "pros" || role === "savci";
-    const pool = !robe ? CIVIL : red ? (intl ? judgePool : PROS) : LAWYER;
+    const counsel = tahkim && (role === "p1" || role === "p2" || role === "opp");
+    const pool = counsel ? { f: COUNSEL.f.filter(k => k in PHOTOS), m: COUNSEL.m.filter(k => k in PHOTOS) } as Pool : !robe ? CIVIL : red ? (intl ? judgePool : PROS) : LAWYER;
     map[role] = pick(pool, isFemale(m.look, m.name), role, isOld(m.look));
   }
   // Oyuncunun kendisi: büroda seçtiği karakter; seçmemişse hesaptaki ada göre bir avukat.
-  if (avatar || c.mode === "solo") {
+  if (!tahkim && (avatar || c.mode === "solo")) {
     const f = FEMALE.has(firstName(currentAccount()?.adSoyad));
     const mine: PhotoKey = avatar || (f ? "av-kadin-32" : "av-erkek-38");
     // Karşı tarafın avukatı oyuncunun yüzünü taşıyorsa ona başka bir yüz ver.
@@ -102,25 +119,44 @@ export function cast(c: CaseFile, avatar?: Avatar | null) {
   return map;
 }
 
-/** Konuşan karakterin ağzı: kapalı → yarı açık → açık kareleri düzensiz aralıklarla değişir. */
-function useMouthFrame(on: boolean) {
+/** Ağız kareleri: 0 kapalı, 1 açık ("a"), 2 yuvarlak ("o, u"), 3 yayvan ("e, i"), 4 yarı açık (ünsüzler). */
+export function visemes(text: string): number[] {
+  const out: number[] = [];
+  for (const ch of text.toLocaleLowerCase("tr")) {
+    if ("aâı".includes(ch)) out.push(1);
+    else if ("oöuüû".includes(ch)) out.push(2);
+    else if ("eiîé".includes(ch)) out.push(3);
+    else if ("mbpv".includes(ch)) out.push(0);
+    else if (/[.,;:!?…]/.test(ch)) out.push(0, 0, 0);
+    else if (/\s/.test(ch)) out.push(0);
+    else if (/[a-zçğşıöü0-9]/.test(ch)) out.push(4);
+  }
+  return out;
+}
+
+/** Konuşma süresine orantılı ağız hareketi: satırın harfleri konuşma hızında sırayla kareye dönüşür.
+ *  Seslendirme açıkken ses sürdükçe (gerekirse başa dönerek), kapalıyken metnin okunma süresince oynar. */
+function useMouthFrame(on: boolean, say?: Say) {
   const [f, setF] = useState(0);
   useEffect(() => {
-    if (!on) { setF(0); return; }
-    let alive = true, t: ReturnType<typeof setTimeout>;
-    // 0: kapalı, 1: açık, 2: yuvarlak — hece ritmine yakın, düzensiz bir dizi.
-    const seq = [1, 0, 2, 1, 0, 1, 2, 0, 0, 1, 2, 1, 0, 2, 0, 1];
-    let i = 0;
-    const step = () => { if (!alive) return; setF(seq[i++ % seq.length]); t = setTimeout(step, 110 + Math.random() * 90); };
-    step();
-    return () => { alive = false; clearTimeout(t); };
-  }, [on]);
+    if (!on || !say) { setF(0); return; }
+    const seq = visemes(say.text);
+    if (!seq.length) { setF(0); return; }
+    const per = say.voice ? 66 : 58;
+    const t0 = Date.now();
+    const t = setInterval(() => {
+      let i = Math.floor((Date.now() - t0) / per);
+      if (i >= seq.length) { if (!say.voice) { setF(0); clearInterval(t); return; } i = i % seq.length; }
+      setF(seq[i]);
+    }, 40);
+    return () => clearInterval(t);
+  }, [on, say?.id, say?.voice]);
   return f;
 }
 
-export default function PhotoStage({ c, scene, focus, talking }: Props) {
+export default function PhotoStage({ c, scene, focus, talking, say }: Props) {
   const { office } = useOffice();
-  const mouth = useMouthFrame(talking && focus !== null && focus !== "narr");
+  const mouth = useMouthFrame(talking && focus !== null && focus !== "narr", say);
   const [box, setBox] = useState({ w: 0, h: 0 });
   const onLayout = (e: LayoutChangeEvent) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height });
   // Geniş ve basık ekranlarda (bilgisayar) sahne en fazla 2,1:1 oranında çizilir ve ortalanır; yoksa arka plan
@@ -146,6 +182,7 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
     // Ortadaki n koltuk; koltuk sayısından fazla hâkim varsa eşit aralıkla yayılır.
     let xs: number[];
     if (room === ROOM.yerel && n === 1) xs = [640];
+    else if ((room === ROOM.tahkim || room === ROOM.komisyon) && n === 1) xs = [room.bench.seats[1]];
     else if (n <= seats.length) { const st = Math.floor((seats.length - n) / 2); xs = seats.slice(st, st + n); }
     else xs = Array.from({ length: n }, (_, i) => seats[0] + (seats[seats.length - 1] - seats[0]) * (i / (n - 1)));
     let sx = xs.map(X);
@@ -153,7 +190,8 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
     if (sx[0] < lo || sx[sx.length - 1] > hi) sx = xs.map((_, i) => (n === 1 ? W / 2 : lo + (hi - lo) * (i / (n - 1))));
     const pres = Math.floor(n / 2);
     const intlPool = /Ceza Mahkemesi/.test(c.court) ? UCM : AIHM;
-    const judgePool: PhotoKey[] = /uluslararasi/.test(room.bg) ? [...intlPool.m, ...intlPool.f]
+    const arbPool: string[] = domesticForum(c) ? ["ar-tr-erkek-56", "ar-tr-kadin-44", "ar-tr-erkek-40", "ar-erkek-62"] : c.forum === "istac" ? ["ar-tr-erkek-56", "ar-kadin-50", "ar-erkek-48", "ar-tr-kadin-44"] : ["ar-erkek-62", "ar-kadin-50", "ar-erkek-48", "ar-tr-erkek-56"];
+    const judgePool: PhotoKey[] = c.room === "tahkim" && !stateCourt(c) ? (arbPool.filter(k => k in PHOTOS) as PhotoKey[]) : /uluslararasi/.test(room.bg) ? [...intlPool.m, ...intlPool.f]
       : (["hk-erkek-58", "hk-kadin-45", "hk-erkek-42", "hk-kadin-32", "hk-erkek-65", "hk-kadin-55"] as PhotoKey[]).map(k => tintJudge(k, robeOf(c)));
     const others = judgePool.filter(k => k !== faces.judge);
     const crowd = n > 7 ? 0.82 : 1;
@@ -202,10 +240,13 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
       <View key={f.key} pointerEvents="none" style={[{ position: "absolute", left: f.x - w / 2, bottom: f.bottom, width: w, height: h, zIndex: f.z + (speaking ? 1 : 0) }, f.flip && { transform: [{ scaleX: -1 }] }]}>
         <Image source={p.src} resizeMode="contain" accessibilityIgnoresInvertColors
           style={[{ width: w, height: h }, !lit && f.front && styles.dim]} />
-        {m && (mouth === 1 ? m.a || m.o : m.o || m.a) && (
-          <Image source={mouth === 1 ? m.a || m.o : m.o || m.a} resizeMode="stretch"
-            style={[{ position: "absolute", left: m.x * w, top: m.y * h, width: m.w * w, height: m.h * h }, !lit && f.front && styles.dim]} />
-        )}
+        {m && (m.a || m.o) && (() => {
+          // 1: açık, 2: yuvarlak, 3: yayvan (açık kare dikeyde basık), 4: yarı açık (açık kare yarı saydam).
+          const src = mouth === 2 ? m.o || m.a : m.a || m.o;
+          const extra = mouth === 3 ? { transform: [{ scaleY: 0.62 }, { scaleX: 1.06 }] } : mouth === 4 ? { opacity: 0.55 } : null;
+          return <Image source={src} resizeMode="stretch"
+            style={[{ position: "absolute", left: m.x * w, top: m.y * h, width: m.w * w, height: m.h * h }, extra, !lit && f.front && styles.dim]} />;
+        })()}
       </View>
     );
   };

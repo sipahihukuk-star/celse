@@ -1,0 +1,370 @@
+{
+  "id": "th-ihtk-gec-icra",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "ihtk",
+  "difficulty": "basit",
+  "title": "Otuz Gün Yerine Yirmi İki Ay",
+  "area": "Tahkim · İnsan Hakları Tazminat Komisyonu · Kararın geç icrası",
+  "court": "İnsan Hakları Tazminat Komisyonu (Adalet Bakanlığı) · Müracaat No. 2026/AYM-7714",
+  "courtShort": "TAZMİNAT KOMİSYONU",
+  "esas": "Müracaat No. 2026/AYM-7714",
+  "kararTarihi": "18.01.2028",
+  "color": "#5b4a6a",
+  "teaser": "İdare mahkemesi ruhsat reddini iptal etti; belediye ruhsatı ancak yirmi iki ay sonra verdi. Anayasa Mahkemesi dosyayı Komisyona yönlendirdi. Belediye, gecikmenin bir kısmını başvuranın eksik belgesine bağlıyor.",
+  "bench": { "judges": 3, "title": "Komisyon heyeti: başkan ve iki üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Başvuran vekili", "short": "Başvuran" },
+    "p2": { "role": "İdare (Belediye) temsilcisi (görüş sunan)", "short": "İdare" }
+  },
+  "cast": {
+    "judge": { "name": "Komisyon Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#e6bf9c", "hair": "#4a3a30", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#c4916b", "hair": "#1e1a18", "style": "short", "shirt": "#23262d", "inner": "#dcd6cc" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f0caa6", "hair": "#8a5a3a", "style": "long", "shirt": "#2e3540", "inner": "#e9e3d8" } },
+    "client": { "name": "Aysun Kocabey · Başvuran", "np": "civil", "look": { "kind": "civil", "skin": "#e3b996", "hair": "#3b2b22", "style": "long", "shirt": "#6a4f5a", "inner": "#efe6dc" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Aysun Kocabey, Manisa'daki arsasına ev yapmak için yapı ruhsatı istedi. Belediye 'imar planı değişikliği hazırlığı' gerekçesiyle reddetti. İdare mahkemesi ret işlemini iptal etti; karar 12.10.2021'de kesinleşip belediyeye tebliğ edildi." },
+    { "who": "narr", "text": "Belediye ruhsatı ancak 16.08.2023'te verdi. Aysun bu arada, 14.09.2022'de Anayasa Mahkemesine bireysel başvuruda bulunmuştu. Başvuru 9 Mart 2023'te derdest olduğundan Mahkeme onu Komisyon yoluna yönlendirdi ve başvuru yollarının tüketilmemesi nedeniyle kabul edilemez buldu. Karar 14.09.2026'da tebliğ edildi." },
+    { "who": "client", "text": "Yirmi iki ay kirada oturdum, evimi yaptıramadım. Mahkeme bana hak verdi ama belediye umursamadı. Şimdi de 'Komisyona gidin' diyorlar." },
+    { "who": "narr", "text": "Bugün 21.09.2026. Komisyon dosya üzerinden karar verir ve gerekli bilgileri ilgili idareden ister; belediyenin yazılı görüşü burada başvuranın görüşüyle karşılıklı tartışılıyor." }
+  ],
+  "docs": [
+    { "t": "6384 sayılı Kanun geçici m.2", "d": "9 Mart 2023 itibarıyla Anayasa Mahkemesinde derdest olan; yargılamanın uzun sürmesi ya da mahkeme kararlarının geç, eksik veya hiç icra edilmemesi şikâyetli bireysel başvurular, kabul edilemezlik kararının tebliğinden itibaren üç ay içinde yapılacak müracaat üzerine Komisyonca incelenir. Bu müracaatlarda Komisyonun karar süresi on altı aydır." },
+    { "t": "2577 sayılı İYUK m.28/1", "d": "İdare, mahkeme kararlarına göre gecikmeksizin işlem tesis etmek ya da eylemde bulunmak zorundadır; bu süre kararın idareye tebliğinden itibaren otuz günü geçemez." },
+    { "t": "Anayasa m.138/4", "d": "Yasama ve yürütme organları ile idare, mahkeme kararlarına uymak zorundadır; bu organlar ve idare mahkeme kararlarını hiçbir suretle değiştiremez ve bunların yerine getirilmesini geciktiremez." },
+    { "t": "Yazışma özeti", "d": "12.10.2021 kesinleşme ve tebliğ · 15.11.2021 belediye 'güncel aplikasyon krokisi' istedi · 01.03.2022 başvuran krokiyi teslim etti · 14.09.2022 AYM başvurusu · 16.08.2023 ruhsat verildi." },
+    { "t": "Müracaat talebi", "d": "Yirmi iki aylık kira gideri için maddi tazminat ve manevi tazminat." }
+  ],
+  "evidence": [
+    { "id": "ev_karar", "type": "belge", "title": "İdare mahkemesi kararı", "desc": "Ruhsat başvurusunun reddine ilişkin işlemin iptali; 12.10.2021'de kesinleşti ve belediyeye tebliğ edildi." },
+    { "id": "ev_eksik", "type": "belge", "title": "Eksik belge yazısı ve teslim kaydı", "desc": "Belediyenin 15.11.2021 tarihli 'güncel aplikasyon krokisi' isteği ve başvuranın krokiyi 01.03.2022'de teslim ettiğini gösteren evrak kaydı." },
+    { "id": "ev_ruhsat", "type": "belge", "title": "Yapı ruhsatı", "desc": "16.08.2023 tarihli." },
+    { "id": "ev_kadastro", "type": "belge", "title": "Kadastro müdürlüğü yazışması", "desc": "Başvuranın 22.11.2021 tarihli kroki talebi ve müdürlüğün krokiyi 24.02.2022'de verdiğini gösteren üst yazı.", "if": "p1_kadastro" },
+    { "id": "ev_kira", "type": "belge", "title": "Kira sözleşmesi ve dekontlar", "desc": "Kasım 2021–Ağustos 2023 arası, aylık 9.500 TL; yirmi iki ayın dekontları.", "if": "p1_kira" },
+    { "id": "law_28", "type": "kanun", "title": "İYUK m.28/1 · Otuz gün", "desc": "İdare kesin kararı gecikmeksizin, tebliğden itibaren en geç otuz gün içinde uygular.", "law": "2577 s.K. m.28/1" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "MÜRACAAT · Anayasa Mahkemesinin kabul edilemezlik kararı bir hafta önce tebliğ edildi." }
+      ],
+      "prompt": "Şimdi ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Kararın tebliğinden itibaren üç ay içinde, 14.12.2026'ya kadar Komisyona müracaat et; geç icrayı ve zararı belgele.",
+          "delta": 20,
+          "set": ["p1_sure"],
+          "law": "6384 s.K. geçici m.2",
+          "note": "Doğru yol ve süre. Anayasa Mahkemesinde 9 Mart 2023'te derdest olan geç icra başvuruları, kabul edilemezlik kararının tebliğinden itibaren üç ay içinde Komisyona taşınır (geçici m.2).",
+          "reply": [{ "who": "narr", "text": "Müracaat 05.10.2026'da Komisyona ulaştı." }]
+        },
+        {
+          "text": "Makul süre müracaatlarındaki bir aylık süreye uy; 14.10.2026'ya kadar Komisyona doğrudan makul süre müracaatı yap.",
+          "delta": 5,
+          "set": ["p1_biray"],
+          "law": "6384 s.K. geçici m.2, m.5/A",
+          "note": "Erken davranmanın zararı yok, ama dayanak yanlış: geç icra şikâyeti doğrudan makul süre yolunun değil, geçici m.2'nin konusudur ve süresi üç aydır. Komisyon müracaatı ekindeki AYM kararına bakarak geçici m.2 kapsamında inceledi.",
+          "reply": [{ "who": "narr", "text": "Müracaat 05.10.2026'da Komisyona ulaştı." }]
+        },
+        {
+          "text": "Kabul edilemezlik kararına rağmen Anayasa Mahkemesine yeniden başvur; ihlal ortada, Komisyon yolu yalnızca makul süre içindir.",
+          "delta": -25,
+          "law": "6384 s.K. geçici m.2",
+          "note": "Anayasa Mahkemesinin kabul edilemezlik kararları kesindir; aynı şikâyetle yeniden başvuru bir sonuç vermez. Geçici m.2 geç icra şikâyetlerini de açıkça kapsar.",
+          "fatal": {
+            "label": "KARAR:",
+            "hukum": "Müracaatın, kabul edilemezlik kararının tebliğinden itibaren üç aylık süre geçtikten sonra yapıldığından 6384 sayılı Kanun geçici m.2 ve m.6 uyarınca SÜRE AŞIMI NEDENİYLE REDDİNE,",
+            "summary": "İkinci bireysel başvuru aynı gerekçeyle kabul edilemez bulundu. Bu arada Komisyon için öngörülen üç aylık süre 14.12.2026'da doldu; müracaat Ocak 2027'de yapıldığında esasa girilmedi."
+          }
+        },
+        {
+          "text": "Dört ay içinde AİHM'e başvur; Anayasa Mahkemesi esasa girmediğine göre iç hukuk yollarının tükendiği kabul edilir.",
+          "delta": -15,
+          "law": "AİHS m.35/1 · 6384 s.K. geçici m.2",
+          "note": "Yanlış. Anayasa Mahkemesi başvuruyu tam da açık bir iç hukuk yolu bulunduğu için reddetti. Komisyon yolu tüketilmeden yapılan AİHM başvurusu da aynı gerekçeyle kabul edilemez olur.",
+          "reply": [{ "who": "narr", "text": "Başvuru formunu hazırlarken bir meslektaşınız geçici m.2'yi hatırlattı; Komisyon müracaatı 05.10.2026'da yapıldı." }]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İDARE GÖRÜŞÜ · Komisyon belediyeden dosyayı ve görüşünü istedi." }
+      ],
+      "prompt": "Belediye görüşünü neye dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "Yeni imar planı çalışmasının sürdüğünü, plan değişikliği hazırlığının kesin kararın uygulanmasını erteleme imkânı verdiğini savun.",
+          "delta": -15,
+          "set": ["p2_plan"],
+          "law": "Anayasa m.138/4 · 2577 s.K. m.28/1",
+          "note": "Yanlış. İdare mahkeme kararlarını hiçbir suretle değiştiremez ve yerine getirilmesini geciktiremez (Anayasa m.138/4); uygulama süresi otuz gündür (İYUK m.28/1). Plan hazırlığı, iptal edilen ret gerekçesinin ta kendisiydi."
+        },
+        {
+          "text": "Gecikmeyi kabul et; başvuranın eksik belgeyi üç buçuk ay sonra tamamladığını yazışmalarla göster, o dönemin düşülmesini iste.",
+          "delta": 15,
+          "set": ["p2_belge"],
+          "law": "2577 s.K. m.28/1",
+          "note": "İnandırıcı ve ölçülü. Gecikme inkâr edilemez; ama belgeyle ayrılabilen bir dönem varsa, idarenin sorumluluğu o kadar daralır."
+        },
+        {
+          "text": "Ruhsat sonunda verildiğine göre kararın uygulandığını, başvuranın mağdur sıfatı kalmadığını ileri sür ve müracaatın reddini iste.",
+          "delta": -10,
+          "set": ["p2_sifat"],
+          "law": "6384 s.K. geçici m.2",
+          "note": "Kararın sonunda uygulanması, yirmi iki aylık gecikmeyi gidermez; şikâyetin konusu tam da bu gecikmedir."
+        },
+        {
+          "text": "Geç icra şikâyetlerinin yalnızca AİHM'ye yapılmış başvurularda Komisyona gelebileceğini, Komisyonun görevsiz olduğunu savun.",
+          "delta": -10,
+          "set": ["p2_gorev"],
+          "law": "6384 s.K. m.2/1, geçici m.2",
+          "note": "Eksik bilgi. Geçici m.2, Anayasa Mahkemesinde derdest olan geç icra başvurularını da Komisyona getirdi."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Belediyenin görüşü dosyaya girdi. Aysun Hanım'la görüşüyorsunuz; iki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Belediyenin istediği krokiyi neden üç buçuk ayda verebildiniz?",
+          "delta": 15,
+          "set": ["p1_kadastro"],
+          "reply": [{ "who": "client", "text": "Krokiyi kadastro müdürlüğünden 22 Kasım'da istedim; ancak 24 Şubat'ta verdiler. Ertesi hafta belediyeye götürdüm. Yazıları duruyor." }],
+          "note": "Kilit soru. Belgenin gecikmesi başka bir kamu biriminden kaynaklanıyorsa, o dönem de başvurana yüklenemez. Yazışma delil çantanıza eklendi."
+        },
+        {
+          "text": "Gecikme size neye mal oldu?",
+          "delta": 10,
+          "set": ["p1_kira"],
+          "reply": [{ "who": "client", "text": "Evimi yaptıramadım; yirmi iki ay kirada oturdum, ayda 9.500 TL. Kira sözleşmesi ve dekontlar bende." }],
+          "note": "Yerinde. Maddi tazminat ancak belgelenen ve gecikmeyle illiyeti kurulan zarar için verilir. Kira belgeleri çantanıza eklendi."
+        },
+        {
+          "text": "Komşu parsel sahipleri de belediyeye karşı dava açtı mı?",
+          "delta": -5,
+          "reply": [{ "who": "client", "text": "Bilmiyorum. İkisi ruhsat almış galiba." }],
+          "note": "Başkalarının durumu bu müracaatın sonucunu belirlemez; vaktinizi müvekkilin zararına ve gecikmenin kaynağına ayırmalıydınız."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "İdare temsilcisi, başvuran vekilinin beyanına cevabınız?" }
+      ],
+      "statement": { "who": "p1", "text": "Belediye, kesinleşen karardan sonra başvurandan tek bir belge istemeden yirmi iki ay boyunca dosyayı bekletmiştir." },
+      "prompt": "Bu beyana hangi belgeyle karşı çıkacaksınız?",
+      "correct": ["ev_eksik"],
+      "hit": {
+        "delta": 15,
+        "set": ["p2_eksik"],
+        "law": "2577 s.K. m.28/1",
+        "note": "Belediye 15.11.2021'de belge istemiş, başvuran 01.03.2022'de teslim etmiş. Beyanın 'tek bir belge istemeden' kısmı çürüdü. Ama teslimden ruhsata kadar geçen on yedi buçuk ay hâlâ açıklanmış değil.",
+        "reply": [{ "who": "judge", "text": "Yazı dosyaya alındı. Belge isteği ile teslim arasında üç buçuk ay geçtiği anlaşılıyor." }]
+      },
+      "responses": {
+        "ev_ruhsat": { "delta": -5, "note": "Ruhsatın tarihi gecikmeyi doğruluyor; belediyenin aleyhine bir belge." },
+        "ev_karar": { "delta": -5, "note": "Kesinleşme ve tebliğ tarihi otuz günlük sürenin ne zaman dolduğunu gösterir; belediyenin aleyhinedir." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge beyana karşılık vermiyor." },
+      "pass": { "delta": -10, "note": "Beyan cevapsız kaldı; gecikmenin tamamı belediyeye yazılabilir." }
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, ihlal ve tazminat talebiniz hakkında yazılı görüşünüzü özetleyin." }
+      ],
+      "prompt": "Geç icranın neden bir ihlal olduğunu ve neyi, hangi gerekçeyle talep ettiğinizi kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p1_olcut"], "law": "Anayasa m.138/4 · 2577 s.K. m.28/1 · 6384 s.K. geçici m.2", "note": "Güçlü bir görüş: otuz günlük süreyi, Anayasa m.138/4'ü, gecikmenin kaynağını ve belgelenen zararı birlikte ortaya koydunuz." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p1_olcut"], "law": "Anayasa m.138/4 · 2577 s.K. m.28/1", "note": "İhlali söylediniz. Eksik kalan: otuz günlük sürenin ne zaman dolduğu, eksik belge döneminin de bir kamu biriminden kaynaklandığı ve maddi zararın belgeyle kurulması." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "2577 s.K. m.28/1", "note": "Görüşünüz ihlalin hukuki dayanağını ve zararı göstermedi. İdarenin otuz günlük uygulama yükümlülüğü ve belgelenen kira gideri talebin omurgasıydı." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) İdare kesin kararı gecikmeksizin ve en geç tebliğden itibaren otuz gün içinde uygulamak zorundadır (İYUK m.28/1); mahkeme kararlarının yerine getirilmesini geciktiremez (Anayasa m.138/4). Kararın icrası yargılamanın ayrılmaz parçasıdır. (2) Karar 12.10.2021'de tebliğ edildi; ruhsat ancak 16.08.2023'te, yaklaşık yirmi iki ay sonra verildi. (3) Eksik belge dönemi bile başvurana yüklenemez: kroki kadastro müdürlüğünden geç verildi; başvuran belgeyi aldıktan hemen sonra teslim etti. Teslimden sonraki on yedi buçuk ay tümüyle idareye aittir. (4) Talep: belgelenen yirmi iki aylık kira gideri için maddi tazminat ve emsallere göre manevi tazminat; müracaat geçici m.2 kapsamında süresindedir. Otuz günlük süre, gecikmenin kaynağı ve belgelenen zarar birlikte tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["otuz gün", "30 gün", "m.28", "madde 28", "gecikmeksizin"], "weight": 2 },
+        { "terms": ["138", "geciktiremez", "uymak zorunda"], "weight": 2 },
+        { "terms": ["yirmi iki ay", "22 ay", "16.08.2023"], "weight": 1 },
+        { "terms": ["kadastro", "kroki", "eksik belge"], "weight": 2 },
+        { "terms": ["kira", "maddi tazminat", "dekont"], "weight": 1 },
+        { "terms": ["manevi", "emsal"], "weight": 1 }
+      ],
+      "model": "İdare kesin kararı gecikmeksizin, en geç tebliğden itibaren otuz gün içinde uygulamak zorundadır (İYUK m.28/1) ve mahkeme kararlarının yerine getirilmesini geciktiremez (Anayasa m.138/4). Karar 12.10.2021'de tebliğ edildi, ruhsat ise yirmi iki ay sonra verildi. Belediyenin istediği kroki kadastro müdürlüğünce geç verildi; müvekkil onu aldıktan hemen sonra teslim etti, sonraki on yedi buçuk ay tümüyle idareye aittir. Belgelenen yirmi iki aylık kira gideri için maddi, emsallere göre de manevi tazminat istiyoruz."
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "İdare temsilcisi, tazminat talepleri hakkında görüşünüz?" }
+      ],
+      "prompt": "Maddi ve manevi tazminat talepleri hakkında idarenin görüşünü kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p2_miktar"], "law": "6384 s.K. geçici m.2, m.7", "note": "Ölçülü bir görüş: gecikmeyi inkâr etmeden, maddi zararı belge ve illiyetle sınırladınız, manevi tutarı emsallere bağladınız." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p2_miktar"], "law": "6384 s.K. m.7", "note": "Tutarın sınırlanması gerektiğini söylediniz. Eksik kalan: maddi zararın yalnızca belgelenen ve gecikmeyle illiyeti kurulan kısmının karşılanacağı, eksik belge döneminin ayrılması ve manevi tutarın emsallere göre belirlenmesi." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "6384 s.K. m.7", "note": "Görüşünüz tutarı neye göre sınırlayacağınızı göstermedi. Gecikmeyi tümden inkâr etmek Komisyon önünde inandırıcı değildir." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Gecikme inkâr edilmez; ama belediyenin belge istediği 15.11.2021 ile teslim edilen 01.03.2022 arasındaki dönemin idareye yüklenip yüklenmeyeceği ayrıca değerlendirilmelidir. (2) Maddi tazminat ancak belgelenen ve gecikmeyle illiyet bağı kurulan zarar için verilir; kira giderinin yalnızca gecikme dönemine düşen kısmı hesaba katılabilir. (3) Manevi tazminat Anayasa Mahkemesi ve AİHM emsallerine göre ölçülü belirlenmelidir (6384 s.K. m.7). (4) Ruhsatın verilmesiyle ihlal sona ermiştir; değerlendirilecek dönem bununla sınırlıdır. İnkâra dayanan ya da kamu yararını mahkeme kararının önüne koyan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["eksik belge", "15.11.2021", "01.03.2022", "üç buçuk ay"], "weight": 2 },
+        { "terms": ["illiyet", "nedensellik", "belgelenen", "ispat"], "weight": 2 },
+        { "terms": ["kira"], "weight": 1 },
+        { "terms": ["emsal", "AİHM", "Anayasa Mahkemesi", "m.7"], "weight": 2 },
+        { "terms": ["ölçülü", "sınırlı", "16.08.2023", "ruhsat verildi"], "weight": 1 }
+      ],
+      "model": "Gecikmeyi inkâr etmiyoruz; ancak belediyenin 15.11.2021'de istediği belge 01.03.2022'de teslim edildiğinden bu dönemin ayrıca değerlendirilmesi gerekir. Maddi tazminat yalnızca belgelenen ve gecikmeyle illiyet bağı kurulan kira gideri için, gecikme dönemiyle sınırlı olarak verilebilir. Manevi tazminat ise Anayasa Mahkemesi ve AİHM emsallerine göre ölçülü belirlenmeli; ruhsatın 16.08.2023'te verilmesiyle ihlal sona ermiştir."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "p2", "text": "Başvuran, kararın uygulanmamasından doğan zararı için İYUK m.28/2 uyarınca idare mahkemesinde tazminat davası açabilirdi. Açmadığına göre Komisyon bu talebi incelememelidir." },
+        { "who": "judge", "text": "Başvuran vekili, cevabınız?" }
+      ],
+      "prompt": "Bu itiraza ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "İYUK m.28/2 davası yalnızca kararı uygulamayan kamu görevlisine karşı açılabilir; bu yüzden müvekkil için tek yol Komisyondur.",
+          "delta": -5,
+          "law": "2577 s.K. m.28",
+          "note": "Yanlış dayanak. İYUK m.28 idare aleyhine de tazminat davasına imkân tanır; kamu görevlisine karşı dava ayrı bir fıkradadır. Doğru cevap, geçici m.2'nin başka bir dava şartı aramamasıydı."
+        },
+        {
+          "text": "Geçici m.2 uyarınca Anayasa Mahkemesinin yönlendirdiği müracaatı Komisyon inceler; ayrıca dava açma şartı aranmaz.",
+          "delta": 15,
+          "set": ["p1_yol"],
+          "law": "6384 s.K. geçici m.2",
+          "note": "Doğru. Anayasa Mahkemesi başvuruyu tam da Komisyon yolunu göstererek kabul edilemez buldu; geçici m.2 bu müracaatlar için başka bir yolun tüketilmesini aramaz."
+        },
+        {
+          "text": "Komisyon idare mahkemesinin görevini de üstlenir; İYUK m.28/2 kapsamındaki bütün zararlar da burada incelenir, dava gereksizdir.",
+          "delta": -10,
+          "law": "6384 s.K. geçici m.2",
+          "note": "Komisyon bir mahkeme değildir ve idare mahkemesinin görevini üstlenmez; yalnızca kanunla verilen ihlal müracaatlarını inceler."
+        },
+        {
+          "text": "İYUK m.28/2 davasını şimdi açacağız; Komisyon, o dava sonuçlanıncaya kadar müracaatın incelenmesini bekletsin.",
+          "delta": -10,
+          "law": "6384 s.K. geçici m.2",
+          "note": "Bekletme diye bir yol yok; Komisyon on altı aylık süre içinde karar vermek zorundadır. Aynı zarar için ikinci bir dava da çifte tazmin tartışması doğurur."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "İdare temsilcisi, son görüşünüz?" }
+      ],
+      "prompt": "Komisyondan ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Ruhsat verildiğinden müracaatın konusuz kaldığını, bu nedenle esas hakkında karar verilmesine yer olmadığına hükmedilmesini istiyoruz.",
+          "delta": -15,
+          "law": "6384 s.K. geçici m.2",
+          "note": "Şikâyetin konusu gecikmenin kendisidir; ruhsatın sonunda verilmesi müracaatı konusuz bırakmaz."
+        },
+        {
+          "text": "Eksik belge döneminin düşülmesini, maddi talebin belgelenen kira gideriyle sınırlanmasını, manevi tutarın emsallere bağlanmasını istiyoruz.",
+          "delta": 15,
+          "set": ["p2_takdir"],
+          "law": "6384 s.K. m.7",
+          "note": "Ölçülü ve isabetli bir son görüş."
+        },
+        {
+          "text": "Gecikmenin imar planı çalışmasından doğduğunu, kamu yararının başvuranın bireysel menfaatinden üstün tutulmasını istiyoruz.",
+          "delta": -10,
+          "law": "Anayasa m.138/4",
+          "note": "Kamu yararı gerekçesi kesin bir mahkeme kararının uygulanmasını geciktirmeyi haklı kılmaz (Anayasa m.138/4)."
+        },
+        {
+          "text": "Başvuranın kesinleşmeden sonra yeniden ruhsat başvurusu yapmadığını, gecikmenin bu yüzden tümüyle ona yüklenmesini istiyoruz.",
+          "delta": -10,
+          "law": "2577 s.K. m.28/1",
+          "note": "İptal kararını uygulamak idarenin kendiliğinden yerine getireceği bir yükümlülüktür; yeni başvuru şartı yoktur."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_olcut && p1_kadastro && !p2_miktar",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Müracaatın KABULÜ ile kesinleşmiş mahkeme kararının geç icra edildiğinin TESPİTİNE," },
+        { "if": "p1_kira", "text": " başvurana 209.000 TL maddi tazminat ödenmesine," },
+        { "if": "!p1_kira", "text": " maddi tazminat talebinin ispatlanamadığından REDDİNE," },
+        { "text": " başvurana 60.000 TL manevi tazminat ödenmesine," }
+      ],
+      "summary": [
+        { "text": "Başvuran vekili otuz günlük uygulama süresini ve Anayasa m.138/4'ü öne çıkardı; eksik belge döneminin de kadastro müdürlüğünden kaynaklandığını belgeyle gösterdi. Gecikmenin tamamı idareye yüklendi." },
+        { "if": "p1_kira", "text": " Yirmi iki aylık kira gideri belgelendiği için tümüyle karşılandı." },
+        { "if": "p2_plan", "text": " İmar planı hazırlığının uygulamayı erteleyebileceği savunması reddedildi." },
+        { "if": "p2_gorev", "text": " Görev itirazı geçici m.2 karşısında tutmadı." }
+      ]
+    },
+    {
+      "if": "p2_miktar && (p2_eksik || p2_belge) && !p1_kadastro",
+      "winner": "p2",
+      "hukum": [
+        { "text": "Müracaatın KISMEN KABULÜ ile kesinleşmiş mahkeme kararının geç icra edildiğinin TESPİTİNE," },
+        { "if": "p1_kira", "text": " eksik belge dönemi düşülerek başvurana 175.750 TL maddi tazminat ödenmesine," },
+        { "if": "!p1_kira", "text": " maddi tazminat talebinin ispatlanamadığından REDDİNE," },
+        { "text": " başvurana 30.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE," }
+      ],
+      "summary": "Gecikme tespit edildi; ama belediye, belge isteği ile teslim arasındaki üç buçuk ayı belgeyle ayırdı ve tutarın emsallere göre sınırlanması gerektiğini ikna edici biçimde gösterdi. Başvuran vekili belgenin neden geç teslim edildiğini açıklayamadığından o dönem başvurana yüklendi."
+    },
+    {
+      "if": "(p1_olcut || p1_kadastro) && (p2_miktar || p2_eksik)",
+      "winner": "draw",
+      "hukum": [
+        { "text": "Müracaatın KISMEN KABULÜ ile kesinleşmiş mahkeme kararının geç icra edildiğinin TESPİTİNE," },
+        { "if": "p1_kira", "text": " başvurana 190.000 TL maddi tazminat ödenmesine," },
+        { "if": "!p1_kira", "text": " maddi tazminat talebinin ispatlanamadığından REDDİNE," },
+        { "text": " başvurana 45.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "İki taraf da işini yaptı. Başvuran vekili gecikmenin büyük bölümünün idareden kaynaklandığını gösterdi; belediye de belge sürecini ve tutarın ölçütlerini ortaya koydu. Komisyon tazminatı orta düzeyde belirledi." },
+        { "if": "p1_yol", "text": " İYUK m.28/2 itirazı, geçici m.2 karşısında kabul görmedi." }
+      ]
+    },
+    {
+      "if": "p1_olcut || p1_kadastro",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Müracaatın KABULÜ ile kesinleşmiş mahkeme kararının geç icra edildiğinin TESPİTİNE," },
+        { "if": "p1_kira", "text": " başvurana 209.000 TL maddi tazminat ödenmesine," },
+        { "if": "!p1_kira", "text": " maddi tazminat talebinin ispatlanamadığından REDDİNE," },
+        { "text": " başvurana 50.000 TL manevi tazminat ödenmesine," }
+      ],
+      "summary": "Başvuran vekili gecikmenin idareden kaynaklandığını gösterdi; belediye tutarı sınırlayacak ölçülü bir görüş sunamadı."
+    },
+    {
+      "winner": "p2",
+      "hukum": [
+        { "text": "Müracaatın KISMEN KABULÜ ile kesinleşmiş mahkeme kararının geç icra edildiğinin TESPİTİNE," },
+        { "if": "p1_kira", "text": " eksik belge dönemi düşülerek başvurana 175.750 TL maddi tazminat ödenmesine," },
+        { "if": "!p1_kira", "text": " maddi tazminat talebinin ispatlanamadığından REDDİNE," },
+        { "text": " başvurana 30.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE," }
+      ],
+      "summary": "Yirmi iki aylık gecikme ihlalin tespitine yetti. Ama başvuran vekili ne gecikmenin kaynağını ne de belge sürecini açıklayabildi; Komisyon eksik belge dönemini başvurana yükledi ve tutarı alt sınıra yakın belirledi."
+    }
+  ]
+}

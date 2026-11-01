@@ -1,27 +1,45 @@
 import React, { useEffect, useMemo } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { GameState, grade, rank, verdict } from "../engine/engine";
+import { GameState, grade, rank, verdict, Verdict } from "../engine/engine";
 import { CaseFile } from "../engine/types";
 import { AiVerdict } from "../engine/judge";
 import { Btn, Chip } from "./kit";
 import { saveResult } from "./storage";
 import { C, F, sideColor, sideInk, toneColor } from "./theme";
+import { locale, t } from "../i18n";
 
-interface Props { c: CaseFile; game: GameState; onRetry: () => void; onBack: () => void; backLabel?: string; notice?: string; ai?: AiVerdict }
+interface Props { c: CaseFile; game: GameState; onRetry?: () => void; onBack: () => void; backLabel?: string; notice?: string; ai?: AiVerdict }
 
 const TAIL = " istinaf yolu açık olmak üzere verilen karar açıkça okunup usulen anlatıldı.";
-const cap = (s: string) => { const l = s.toLocaleLowerCase("tr"); return l.charAt(0).toLocaleUpperCase("tr") + l.slice(1); };
+const cap = (s: string) => { const l = s.toLocaleLowerCase(locale()); return l.charAt(0).toLocaleUpperCase(locale()) + l.slice(1); };
+
+/** Motorun ürettiği damga ve başlık (Türkçe) ekranda seçili dile çevrilir; davaya özgü damgalar olduğu gibi kalır. */
+function localStamp(c: CaseFile, v: Verdict): string {
+  if (v.stamp === "KAZANDINIZ") return t("KAZANDINIZ");
+  if (v.stamp === "KAYBETTİNİZ") return t("KAYBETTİNİZ");
+  if (v.stamp === "SULH") return t("SULH");
+  if (v.winner !== "draw" && v.stamp === `${c.sides[v.winner].short.toLocaleUpperCase("tr")} KAZANDI`)
+    return t("{taraf} KAZANDI", { taraf: c.sides[v.winner].short.toLocaleUpperCase(locale()) });
+  return v.stamp;
+}
+const localLabel = (l: string) => (l === "HÜKÜM:" ? t("HÜKÜM:") : l);
+const rankLabel = (score: number) => {
+  const r = rank(score);
+  return r === "Kıdemli avukat" ? t("Kıdemli avukat") : r === "Deneyimli avukat" ? t("Deneyimli avukat") : r === "Genç avukat" ? t("Genç avukat") : r === "Stajyer avukat" ? t("Stajyer avukat") : r;
+};
 
 export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, notice, ai }: Props) {
   const v = useMemo(() => {
-    const base = verdict(c, game);
+    const v0 = verdict(c, game);
+    const base = { ...v0, stamp: localStamp(c, v0), label: localLabel(v0.label) };
     if (!ai) return base;
     // Yapay zekâ hâkimin kararı (karşılıklı duruşma): kazanan, hüküm ve gerekçe ondan gelir.
     const winner = ai.winner === "sulh" ? "draw" as const : ai.winner;
-    return { ...base, winner, label: "HÜKÜM:", hukum: ai.hukum || base.hukum, summary: ai.gerekce || base.summary,
-      stamp: winner === "draw" ? "SULH" : `${c.sides[winner].short.toLocaleUpperCase("tr")} KAZANDI` };
+    return { ...base, winner, label: t("HÜKÜM:"), hukum: ai.hukum || base.hukum, summary: ai.gerekce || base.summary,
+      stamp: winner === "draw" ? t("SULH") : t("{taraf} KAZANDI", { taraf: c.sides[winner].short.toLocaleUpperCase(locale()) }) };
   }, [c, game, ai]);
   const duel = c.mode === "duel";
+  const arb = c.room === "tahkim";
   const P = game.players;
   const stampColor = v.winner === "draw" ? C.draw : duel || v.winner === "p1" ? C.win : C.lose;
 
@@ -36,70 +54,71 @@ export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, not
     <ScrollView contentContainerStyle={styles.wrap}>
       <View style={styles.karar}>
         <Text style={styles.head}>T.C.</Text>
-        <Text style={styles.courtName}>{c.court.toLocaleUpperCase("tr")}</Text>
-        <Text style={styles.sub}>KISA KARAR</Text>
+        <Text style={styles.courtName}>{c.court.toLocaleUpperCase(locale())}</Text>
+        <Text style={styles.sub}>{t("KISA KARAR")}</Text>
 
         <View style={styles.meta}>
-          <Meta k="Esas No" v={c.esas} />
-          <Meta k="Karar Tarihi" v={c.kararTarihi} />
-          {duel ? (<><Meta k={c.sides.p1.role} v={P.p1.name} /><Meta k={c.sides.p2.role} v={P.p2.name} /></>) : <Meta k="Rolünüz" v={c.sides.p1.role} />}
+          <Meta k={t("Esas No")} v={c.esas} />
+          <Meta k={t("Karar Tarihi")} v={c.kararTarihi} />
+          {duel ? (<><Meta k={c.sides.p1.role} v={P.p1.name} /><Meta k={c.sides.p2.role} v={P.p2.name} /></>) : <Meta k={t("Rolünüz")} v={c.sides.p1.role} />}
         </View>
 
-        <Text style={styles.hukum}><Text style={styles.label}>{v.label} </Text>{v.hukum}{v.noCourt ? "" : TAIL}</Text>
+        <Text style={styles.hukum}><Text style={styles.label}>{v.label} </Text>{v.hukum}{v.noCourt ? "" : t(TAIL)}</Text>
         <View style={[styles.stamp, { borderColor: stampColor }]}><Text style={[styles.stampText, { color: stampColor }]}>{v.stamp}</Text></View>
-        {duel && <Text style={styles.galip}>{v.winner === "draw" ? "Taraflar uzlaştı." : `Davayı kazanan: ${P[v.winner].name} · ${c.sides[v.winner].role}`}</Text>}
-        {ai && <Text style={styles.label}>{ai.by === "ai" ? "YAPAY ZEKÂ HÂKİMİN GEREKÇESİ" : "GEREKÇE"}</Text>}
+        {duel && <Text style={styles.galip}>{v.winner === "draw" ? t("Taraflar uzlaştı.") : t("Davayı kazanan: {ad} · {rol}", { ad: P[v.winner].name, rol: c.sides[v.winner].role })}</Text>}
+        {ai && <Text style={styles.label}>{ai.by === "ai" ? (arb ? t("YAPAY ZEKÂ HAKEMİN GEREKÇESİ") : t("YAPAY ZEKÂ HÂKİMİN GEREKÇESİ")) : t("GEREKÇE")}</Text>}
         <Text style={styles.summary}>{v.summary}</Text>
 
         <View style={styles.scores}>
           {duel ? (["p1", "p2"] as const).map(s => (
             <View key={s} style={styles.scoreCell}>
               <Text style={styles.metaK}>{c.sides[s].role}</Text>
-              <Text style={[styles.scoreBig, { color: sideInk(s) }]}>{ai ? `${ai[s]}/100` : `${game.pts[s]} puan`}</Text>
+              <Text style={[styles.scoreBig, { color: sideInk(s) }]}>{ai ? `${ai[s]}/100` : t("{n} puan", { n: game.pts[s] })}</Text>
               <Text style={styles.metaV}>{P[s].name}</Text>
             </View>
           )) : (
             <>
-              <View style={styles.scoreCell}><Text style={styles.metaK}>Mahkemedeki ikna</Text><Text style={styles.scoreBig}>{game.score}/100</Text></View>
-              <View style={styles.scoreCell}><Text style={styles.metaK}>Değerlendirme</Text><Text style={styles.scoreBig}>{rank(game.score)}</Text></View>
+              <View style={styles.scoreCell}><Text style={styles.metaK}>{t("Mahkemedeki ikna")}</Text><Text style={styles.scoreBig}>{game.score}/100</Text></View>
+              <View style={styles.scoreCell}><Text style={styles.metaK}>{t("Değerlendirme")}</Text><Text style={styles.scoreBig}>{rankLabel(game.score)}</Text></View>
             </>
           )}
         </View>
         {duel && (
           <Text style={styles.lead}>
-            {ai ? `Duruşmadaki hamle puanları: ${P.p1.name} ${game.pts.p1}, ${P.p2.name} ${game.pts.p2}. ${ai.by === "ai" ? "Hâkim hamleleri ve son sözleri birlikte değerlendirdi." : ""}`
-              : leader ? `Hamle puanında önde: ${P[leader].name}. Puan hamlelerin hukuki isabetini ölçer; davanın sonucu kilit hamlelere bağlıdır.` : "Hamle puanları eşit."}
+            {ai ? t("Duruşmadaki hamle puanları: {ad1} {p1}, {ad2} {p2}.", { ad1: P.p1.name, p1: game.pts.p1, ad2: P.p2.name, p2: game.pts.p2 })
+                + (ai.by === "ai" ? " " + (arb ? t("Hakem hamleleri ve son sözleri birlikte değerlendirdi.") : t("Hâkim hamleleri ve son sözleri birlikte değerlendirdi.")) : "")
+              : leader ? t("Hamle puanında önde: {ad}. Puan hamlelerin hukuki isabetini ölçer; davanın sonucu kilit hamlelere bağlıdır.", { ad: P[leader].name }) : t("Hamle puanları eşit.")}
           </Text>
         )}
       </View>
 
       {!!notice && (
         <View style={styles.notice} accessibilityRole="alert">
-          <Text style={styles.noticeK}>KARİYER</Text>
+          <Text style={styles.noticeK}>{t("KARİYER")}</Text>
           <Text style={styles.noticeText}>{notice}</Text>
         </View>
       )}
 
       <View style={styles.actions}>
-        <Btn label="Davayı yeniden oyna" onPress={onRetry} />
-        <Btn kind="ghost" label={backLabel || "Dosya dolabına dön"} onPress={onBack} />
+        {onRetry && <Btn label={t("Davayı yeniden oyna")} onPress={onRetry} />}
+        <Btn kind="ghost" label={backLabel || t("Dosya dolabına dön")} onPress={onBack} />
       </View>
 
       <View style={styles.log}>
-        <Text style={styles.logTitle}>Duruşma kaydı</Text>
+        <Text style={styles.logTitle}>{t("Duruşma kaydı")}</Text>
         {game.log.map((l, i) => {
           const g = grade(l.delta);
           return (
             <View key={i} style={styles.lg}>
               <View style={styles.lgTop}>
-                {duel && <Chip label={c.sides[l.side].role + (l.ai ? " · Bilgisayar" : "")} color={sideColor(l.side)} />}
+                {duel && <Chip label={c.sides[l.side].role + (l.ai ? " · " + t("Bilgisayar") : "")} color={sideColor(l.side)} />}
                 <Text style={styles.lgQ}>{l.prompt}</Text>
               </View>
               <View style={styles.lgA}>
                 <Text style={[styles.lgD, { color: toneColor(g.tone) }]}>{l.delta > 0 ? "+" : ""}{l.delta}</Text>
-                <Text style={styles.lgText}>{l.letter}) {l.text}</Text>
+                <Text style={styles.lgText}>{l.letter}) {t(l.text)}</Text>
               </View>
-              {!!l.note && <Text style={styles.lgNote}>{l.note}{l.law ? <Text style={{ fontFamily: F.bodyBold }}> ({l.law})</Text> : null}</Text>}
+              {!!l.note && <Text style={styles.lgNote}>{t(l.note)}{l.law ? <Text style={{ fontFamily: F.bodyBold }}> ({l.law})</Text> : null}</Text>}
             </View>
           );
         })}

@@ -1,0 +1,389 @@
+{
+  "id": "th-icc-belge-ibrazi",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "icc",
+  "difficulty": "orta",
+  "title": "Lotus Dosyası",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Belge ibrazı (IBA Delil Kuralları, Redfern çizelgesi)",
+  "court": "ICC Uluslararası Tahkim Divanı · Dava No. 28417/MKT (Tahkim yeri: Zürih)",
+  "courtShort": "ICC · ZÜRİH",
+  "esas": "ICC Dava No. 28417/MKT",
+  "kararTarihi": "14.07.2027",
+  "color": "#5a4a2f",
+  "teaser": "Alman otomotiv üreticisi, Bursalı tedarikçiyi ‘kalite sorunları’ gerekçesiyle sözleşmeden çıkardı. Tedarikçi, gerçek sebebin daha ucuz bir tedarikçiyle yürütülen ‘Lotus’ projesi olduğunu düşünüyor. İspatı karşı tarafın e-posta kutularında.",
+  "bench": { "judges": 3, "title": "Başhakem ve iki hakem" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Davacı (Tedarikçi) vekili", "short": "Davacı" },
+    "p2": { "role": "Davalı (Üretici) vekili", "short": "Davalı" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#e7c2a0", "hair": "#4b3b30", "style": "bun", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#d2a07a", "hair": "#191512", "style": "long", "shirt": "#232a35", "inner": "#ebe7df" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f0cfb2", "hair": "#7a6a5a", "style": "short", "glasses": true, "shirt": "#2c2c33", "inner": "#e5e1d9" } },
+    "hukukcu": { "name": "Dr. Matthias Brandl · Davalının hukuk müşaviri", "np": "civil", "look": { "kind": "civil", "skin": "#efd0b6", "hair": "#5e4a38", "style": "short", "beard": true, "shirt": "#353a44", "inner": "#ecebe6" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Bursa Otomotiv Yan Sanayi A.Ş., 2021'den beri Alman Kessler Fahrzeugwerke AG'ye fren kaliperi üretiyordu. Kessler, 30.06.2026'da sözleşmeyi ‘ret oranının üç ay üst üste sınırı aşması’ gerekçesiyle feshetti." },
+    { "who": "narr", "text": "Tedarikçi, ret oranı verilerinin şişirildiğini ve fesih kararının, Kessler'in daha ucuz bir Asyalı tedarikçiyle yürüttüğü ‘Lotus’ adlı bir proje için önceden verildiğini ileri sürüyor. 42 milyon Avro tazminat istiyor." },
+    { "who": "narr", "text": "ICC tahkimi Zürih'te, üç hakemle görülüyor; sözleşmeye İsviçre hukuku uygulanıyor. Görev Belgesi imzalandı. 1 No.lu Usul Kararına göre belge ibrazında IBA Delil Kuralları (2020) yol gösterici olacak. Bugün 08.09.2026; belge talepleri 15.09.2026'ya kadar verilecek." }
+  ],
+  "docs": [
+    { "t": "Tedarik sözleşmesi m.19 · Fesih", "d": "Ret oranı (ppm) üç ay üst üste 250 ppm'i aşarsa alıcı sözleşmeyi 30 gün önceden bildirimle feshedebilir." },
+    { "t": "Tedarik sözleşmesi m.27 · Tahkim şartı", "d": "Uyuşmazlıklar ICC Tahkim Kurallarına göre üç hakemle çözülür. Tahkim yeri Zürih, dili İngilizce. Sözleşmeye İsviçre hukuku uygulanır." },
+    { "t": "1 No.lu Usul Kararı §8 · Belge ibrazı", "d": "IBA Delil Kuralları (2020) yol göstericidir. Talepler Redfern çizelgesiyle: 15.09.2026; itirazlar: 29.09.2026; itirazlara cevap: 06.10.2026; hakem kurulunun kararı: 20.10.2026. Üretim kararından sonra belgeler 21 gün içinde verilir." },
+    { "t": "Fesih bildirimi (30.06.2026)", "d": "Nisan, Mayıs ve Haziran 2026'da ret oranı sırasıyla 310, 295 ve 340 ppm. Sözleşme m.19 uyarınca fesih." },
+    { "t": "Davacının elindeki bilgi", "d": "Kessler'in satın alma kurulunda Ocak–Haziran 2026'da ‘Lotus’ kod adlı bir alternatif tedarikçi projesinin konuşulduğunu, eski bir Kessler çalışanı davacının satış müdürüne söylemiş. Davacının elinde bu konuda hiçbir belge yok." }
+  ],
+  "evidence": [
+    { "id": "ev_ppm", "type": "belge", "title": "Davalının ret oranı tabloları", "desc": "Nisan–Haziran 2026 ret oranları: 310, 295, 340 ppm. Kaynak: davalının kendi kalite sistemi." },
+    { "id": "ev_basin", "type": "belge", "title": "Asyalı tedarikçinin basın bülteni (02.05.2026)", "desc": "‘Avrupalı bir binek araç üreticisiyle fren kaliperi için çok yıllık tedarik anlaşması imzaladık.’ Üreticinin adı verilmiyor." },
+    { "id": "ev_lotus", "type": "belge", "title": "Kessler satın alma direktörünün e-postası (14.03.2026)", "desc": "‘Lotus onaylandı. Bursa'yı haziran sonunda m.19'la çıkarıyoruz; kalite ekibi ppm raporlarını buna göre hazırlasın.’ Belge üretimiyle dosyaya girdi.", "if": "(p1_dar || p1_yarim) && (p2_log || p2_seffaf)" },
+    { "id": "ev_redfern", "type": "belge", "title": "Redfern çizelgesi ve 4 No.lu Usul Kararı", "desc": "Hakem kurulu, ‘Lotus’ kategorisindeki belgelerin üretilmesine karar vermişti.", "if": "p1_dar || p1_yarim" },
+    { "id": "law_iba96", "type": "kanun", "title": "IBA Delil Kuralları m.9.6", "desc": "Bir taraf, üretilmesine karar verilen bir belgeyi tatmin edici bir açıklama yapmadan üretmezse hakem kurulu bu belgenin o tarafın aleyhine olduğu sonucuna varabilir.", "law": "IBA Kuralları m.9.6" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "REDFERN ÇİZELGESİ · Her talep satırında: istenen belge ya da kategori, davayla ilgisi ve sonuca etkisi, belgenin sizde olmadığı ve karşı tarafta olduğu." }
+      ],
+      "prompt": "‘Lotus’ yazışmaları için talebi nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Ocak–Haziran 2026'da satın alma kurulunun adı sayılan beş üyesi arasında ‘Lotus’ ya da ‘Bursa’ geçen e-postalar ve kurul tutanakları.",
+          "delta": 20,
+          "set": ["p1_dar"],
+          "law": "IBA Kuralları m.3.3(a)(ii), m.3.3(b), m.3.3(c)",
+          "note": "Dar ve belirli bir kategori: dönem, kişiler ve arama terimleri belli (m.3.3(a)(ii)). İlgi ve sonuca etki sütununda fesih sebebinin bahane olduğu iddiasına (dava dilekçesi §§45–52) bağladınız (m.3.3(b)); belgelerin sizde olmadığını ve neden davalıda olduğunu da yazdınız (m.3.3(c))."
+        },
+        {
+          "text": "Davalının sözleşmenin feshiyle ve alternatif tedarikçi arayışıyla ilgili, her tarih ve her kişiden bütün belge ve yazışmaları.",
+          "delta": -10,
+          "set": ["p1_genis"],
+          "law": "IBA Kuralları m.3.3(a)",
+          "note": "Bu, belirsiz ve sınırsız bir ‘balık avı’ talebidir. IBA Kuralları, belgenin tanımlanmasını ya da dar ve belirli bir kategori gösterilmesini ister. Hakem kurulu talebi reddetti."
+        },
+        {
+          "text": "Kessler satın alma direktörünün ve kalite müdürünün yeminli ifadesi (deposition) alınsın; e-postaları onlara sorarız.",
+          "delta": -15,
+          "set": ["p1_ifade"],
+          "law": "IBA Kuralları m.3, m.4",
+          "note": "Duruşma öncesi yeminli sorgu (deposition) Amerikan usulüne özgüdür; IBA Kuralları ve milletlerarası tahkim pratiği bunu tanımaz. Tanıklar yazılı beyanla ve duruşmada dinlenir (m.4). Belge talebi yapmadınız."
+        },
+        {
+          "text": "‘Lotus’ projesine ilişkin bütün e-postalar; fesih sebebinin bahane olduğunu göstermek için gerekli, belgeler bizde yok.",
+          "delta": 5,
+          "set": ["p1_yarim"],
+          "law": "IBA Kuralları m.3.3",
+          "note": "İlgi ve elde bulunmama şartlarını karşıladınız, ama dönem ve kişi sınırı koymadınız. Hakem kurulu talebi Ocak–Haziran 2026 ve satın alma kuruluyla daraltarak kabul etti; daralttığı kategoriye bazı önemli yazışmalar girmedi."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Davacının Redfern çizelgesi geldi. İtirazlar için son gün 29.09.2026." },
+        { "who": "narr", "text": "Davalının hukuk müşaviri Dr. Matthias Brandl'la görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "‘Lotus’ yazışmalarının içinde hukuk müşavirliğiyle yapılanlar var mı?",
+          "delta": 10,
+          "set": ["p2_imtiyaz"],
+          "reply": [ { "who": "hukukcu", "text": "Dört e-posta var. Satın alma direktörü bana feshin hukuki riskini sormuş, ben de görüş vermişim. Gerisi iş yazışması." } ],
+          "note": "Yerinde soru. Hukuki görüş içeren yazışmalar imtiyaz kapsamında olabilir (m.9.2(b)); ama yalnızca onlar. İş yazışmaları hukuk müşavirine ‘bilgi’ diye gönderildi diye imtiyazlı olmaz."
+        },
+        {
+          "text": "İstenen dönemden silinmiş ya da kaybolmuş e-posta var mı?",
+          "delta": 15,
+          "set": ["p2_silme"],
+          "reply": [ { "who": "hukukcu", "text": "Satın alma direktörünün Şubat 2026 öncesi e-postaları on iki aylık rutin saklama politikasıyla otomatik silindi. Uyuşmazlık haziranda çıktı; ondan sonra saklama talimatı verdik." } ],
+          "note": "Çok değerli bir bilgi. Belgenin üretilmemesi, ‘tatmin edici bir açıklama’ yapılmazsa olumsuz çıkarıma yol açabilir (m.9.6). Silinmenin uyuşmazlıktan önce, rutin bir politikayla olduğunu baştan ve belgeleriyle açıklamak gerekir."
+        },
+        {
+          "text": "Davacının kalite sorunları 8D raporlarıyla belgelenmiş mi?",
+          "delta": 0,
+          "reply": [ { "who": "hukukcu", "text": "Hepsi var; üç ayın 8D raporları kalite sisteminde duruyor." } ],
+          "note": "Esas için önemli bir bilgi, ama şu anki iş belge taleplerine itiraz. Bu raporlar sizin kendi sunacağınız belgeler; belge üretimi aşamasında öncelik değil."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İTİRAZLAR · Redfern çizelgesinin ‘itiraz’ sütununu dolduruyorsunuz." }
+      ],
+      "prompt": "‘Lotus’ kategorisine ne cevap vereceksiniz?",
+      "choices": [
+        {
+          "text": "Hukuki görüş içeren e-postalara imtiyaz, fiyat verilerine ticari gizlilik itirazı; gizlilik düzenlemesi öner, kalana itiraz etme.",
+          "delta": 15,
+          "set": ["p2_ozenli"],
+          "law": "IBA Kuralları m.9.2(b), m.9.2(e), m.9.5",
+          "note": "İtirazları belge bazında ve gerekçeli yaptınız. İmtiyaz yalnızca hukuki görüş içeren yazışmaları korur (m.9.2(b)); ticari gizlilik kaygısı ise çoğu zaman üretimi engellemez, gizlilik düzenlemesiyle karşılanır (m.9.2(e), m.9.5). Hakem kurulunun güvenini kazandınız."
+        },
+        {
+          "text": "Bütün kategoriye toptan itiraz: belgeler ticari sırdır, Alman ve AB veri koruma kuralları açıklanmalarını yasaklar.",
+          "delta": -10,
+          "set": ["p2_toptan"],
+          "law": "IBA Kuralları m.9.2, m.9.5",
+          "note": "Genel ve gerekçesiz bir itiraz. Veri koruma kuralları kişisel verilerin karartılması ya da gizlilik düzenlemesiyle çoğu zaman karşılanır; ticari gizlilik de üretimi kendiliğinden engellemez (m.9.5). Hakem kurulu itirazı reddetti."
+        },
+        {
+          "text": "İtiraz süresini sessiz geçir; belgeleri vermeyi düşünmüyoruz, hakem kurulunun bizi zorlayacak bir gücü yok.",
+          "delta": -15,
+          "set": ["p2_sessiz"],
+          "law": "IBA Kuralları m.3.5, m.9.6",
+          "note": "Süresinde itiraz etmeyen taraf, itiraz hakkını kaybeder ve istenen belgeleri üretmek zorundadır. Üretmezse, hakem kurulu o belgelerin kendi aleyhine olduğu sonucuna varabilir (m.9.6). Hakem kurulunun zorlama gücü yok ama çıkarım gücü var."
+        },
+        {
+          "text": "Talep sonuca etkisiz: fesih ölçülen ret oranına dayanıyor, alternatif tedarikçi arayışı bunu değiştirmez (m.9.2(a)).",
+          "delta": -5,
+          "set": ["p2_ilgisiz"],
+          "law": "IBA Kuralları m.3.3(b), m.9.2(a)",
+          "note": "Davacının iddiası, ret oranı verilerinin feshe bahane olarak hazırlandığı. Bu iddia altında ‘Lotus’ yazışmaları ilgili ve sonuca etkili olabilir. Hakem kurulu itirazı reddetti."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İTİRAZLARA CEVAP · 2020 IBA Kuralları, talepte bulunan tarafa itirazlara cevap verme imkânı tanıyor (m.3.5). Redfern çizelgesinin son sütununu yazıyorsunuz." },
+        { "who": "p2", "text": "‘Lotus’ yazışmaları ticari sırdır, ilgisizdir ve bir kısmı hukuki imtiyaz kapsamındadır.", "if": "!p2_sessiz" }
+      ],
+      "prompt": "Hakem kuruluna, ‘Lotus’ belgelerinin neden üretilmesi gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü cevap",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_guclu"],
+          "law": "IBA Kuralları m.3.3, m.3.5, m.9.2, m.9.5",
+          "note": "Talebin üç şartını (belirlilik, ilgi ve sonuca etki, elde bulunmama) savundunuz. İmtiyazın yalnızca hukuki görüş içeren yazışmalarla sınırlı olduğunu ve ticari gizliliğin gizlilik düzenlemesiyle karşılanabileceğini gösterdiniz."
+        },
+        {
+          "text": "Yeterli cevap",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_yeterli"],
+          "law": "IBA Kuralları m.3.3",
+          "note": "Belgelerin ilgili olduğunu söylediniz. Güçlü cevap, ayrıca imtiyaz ve gizlilik itirazlarına somut çözüm (imtiyaz listesi, gizlilik düzenlemesi) önerir ve talebin dar ve belirli olduğunu gösterir."
+        },
+        {
+          "text": "Zayıf cevap",
+          "delta": -10,
+          "law": "IBA Kuralları m.3.3",
+          "note": "Belgelerin ‘davayı kazandıracağını’ söylemekle yetindiniz ya da itirazları cevapsız bıraktınız. Hakem kurulu, ilgi ve sonuca etkinin dava dilekçesindeki iddialara bağlanmasını ve itirazlara somut cevap bekler."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Talep dar ve belirli bir kategoriye ilişkindir: dönem (Ocak–Haziran 2026), kişiler (satın alma kurulu) ve arama terimleri belirlidir (IBA m.3.3(a)(ii)). (2) Belgeler ilgili ve sonuca etkilidir: davacı fesih sebebinin bahane olduğunu, kararın ‘Lotus’ projesi için önceden verildiğini ileri sürmektedir (m.3.3(b)). (3) Belgeler davacıda değil, davalının sistemlerindedir (m.3.3(c)). (4) İmtiyaz yalnızca hukuki görüş içeren yazışmaları korur; bunlar imtiyaz listesiyle ayrılabilir (m.9.2(b)). (5) Ticari gizlilik gizlilik düzenlemesiyle (yalnız vekillerin göreceği belge rejimi) karşılanır (m.9.2(e), m.9.5). Üç şartı ve itirazlara somut çözümü birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["dar ve belirli", "belirli kategori", "narrow and specific", "dönem", "Ocak–Haziran", "Ocak-Haziran"], "weight": 2 },
+        { "terms": ["ilgili", "sonuca etki", "relevant", "material", "bahane"], "weight": 2 },
+        { "terms": ["bizde değil", "elimizde değil", "davalının elinde", "possession", "kontrolünde"], "weight": 1 },
+        { "terms": ["imtiyaz listesi", "privilege log", "hukuki görüş", "imtiyaz"], "weight": 2 },
+        { "terms": ["gizlilik düzenlemesi", "gizlilik rejimi", "confidentiality", "vekillerin göreceği", "karartma", "redaction"], "weight": 1 }
+      ],
+      "model": "Talep dar ve belirlidir: Ocak–Haziran 2026, satın alma kurulunun beş üyesi ve ‘Lotus’ ile ‘Bursa’ terimleri (m.3.3(a)(ii)). Belgeler, fesih sebebinin bahane olduğu iddiamız bakımından ilgili ve sonuca etkilidir (dava dilekçesi §§45–52; m.3.3(b)); bizde değil, davalının sistemlerindedir. İmtiyaz yalnızca hukuki görüş içeren e-postaları korur; bunlar imtiyaz listesiyle ayrılsın (m.9.2(b)). Ticari gizlilik ise yalnız vekillerin göreceği bir gizlilik düzenlemesiyle karşılansın (m.9.5)."
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "if": "p1_dar || p1_yarim",
+      "lines": [
+        { "who": "narr", "text": "4 No.lu Usul Kararı (20.10.2026): ‘Lotus’ kategorisindeki belgeler, yalnız vekillerin görebileceği bir gizlilik rejimi altında 21 gün içinde üretilecek. Hukuki görüş içeren yazışmalar imtiyaz listesine yazılabilir." }
+      ],
+      "prompt": "Usul kararına nasıl uyacaksınız?",
+      "choices": [
+        {
+          "text": "Kategori belgelerini gizlilik rejimi içinde üret; hukuki görüş içeren dört e-postayı imtiyaz listesine yaz.",
+          "delta": 15,
+          "set": ["p2_log"],
+          "law": "IBA Kuralları m.3.7, m.9.2(b)",
+          "note": "Usul kararına tam uydunuz. İmtiyaz listesi, hangi belgenin neden üretilmediğini gösterir ve hakem kurulunun güvenini korur. Ama dosyaya giren yazışmalar arasında müvekkil için çok zor bir e-posta var."
+        },
+        {
+          "if": "p2_silme",
+          "text": "Belgeleri üret, imtiyaz listesini ver; Şubat öncesi e-postaların rutin politikayla silindiğini BT raporuyla açıkla.",
+          "delta": 20,
+          "set": ["p2_seffaf"],
+          "law": "IBA Kuralları m.3.7, m.9.6",
+          "note": "Örnek bir tutum. Silinmenin uyuşmazlıktan önce, rutin bir saklama politikasıyla olduğunu belgeleyerek baştan açıkladınız; m.9.6'daki ‘tatmin edici açıklama’ verilmiş oldu. Kayıp e-postalar için olumsuz çıkarım riski kapandı."
+        },
+        {
+          "text": "Yalnızca kalite sorunlarını konuşan e-postaları üret; Lotus projesini anlatanları ‘ilgisiz’ diye ayır, listeye yazma.",
+          "delta": -15,
+          "set": ["p2_secici"],
+          "law": "IBA Kuralları m.9.6",
+          "note": "Usul kararına aykırı, seçici bir üretim. Kararla üretilmesi istenen belgeyi tatmin edici bir açıklama olmadan üretmeyen taraf aleyhine, hakem kurulu o belgenin kendisi aleyhine olduğu sonucuna varabilir (m.9.6)."
+        },
+        {
+          "text": "Kararı tanıma; AB veri koruma gerekçesiyle üretimi reddet ve usul kararının iptali için İsviçre Federal Mahkemesine başvur.",
+          "delta": -10,
+          "set": ["p2_red"],
+          "law": "IBA Kuralları m.9.6",
+          "note": "Belge üretimine ilişkin bir usul kararı hakem kararı (award) değildir; ona karşı iptal yolu kural olarak açık değildir. Veri koruma kaygısı zaten gizlilik rejimiyle karşılanmıştı. Üretmemeniz olumsuz çıkarım riskini doğurdu (m.9.6)."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "Duruşma Zürih'te. Davalının satın alma direktörü tanık olarak dinlendi." },
+        { "who": "judge", "text": "Davacı vekili, tanığın beyanına karşı diyeceğiniz?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Başhakem, alternatif tedarikçi arayışı ancak fesihten sonra, Temmuz 2026'da başlamıştır. Fesih yalnızca ölçülen ret oranlarına dayanır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_lotus"],
+      "hit": {
+        "delta": 25,
+        "set": ["p1_lotus"],
+        "law": "IBA Kuralları m.3.7",
+        "note": "Belge üretimiyle gelen 14.03.2026 tarihli e-posta, fesih kararının ‘Lotus’ için üç ay önceden verildiğini ve ret oranı raporlarının ‘buna göre’ hazırlanmasının istendiğini gösteriyor. Tanığın beyanı çöktü; ppm verilerinin güvenilirliği de sarsıldı.",
+        "reply": [ { "who": "judge", "text": "Tanık, 14.03.2026 tarihli bu e-postayı siz mi yazdınız?" }, { "who": "narr", "text": "Tanık uzun bir sessizlikten sonra e-postayı kendisinin yazdığını kabul etti." } ]
+      },
+      "responses": {
+        "ev_basin": { "delta": 10, "set": ["p1_basin"], "note": "Basın bülteni, Asyalı tedarikçinin 02.05.2026'da, fesihten önce, ‘Avrupalı bir üreticiyle’ anlaşma imzaladığını gösteriyor. Tanığın ‘temmuzda başladı’ beyanını zayıflatır, ama üreticinin adı geçmediği için tek başına kesin değil." },
+        "ev_redfern": { "delta": 5, "note": "Usul kararı belgelerin üretilmesine karar verildiğini gösterir. Davalı belgeleri üretmediyse asıl yapılacak şey, hakem kurulundan olumsuz çıkarım istemektir (m.9.6); tanığın beyanını doğrudan çürütmez." },
+        "law_iba96": { "delta": 0, "note": "Doğru kural, ama tanığın beyanını çürütmez; çıkarım talebi ayrı bir talep olarak yapılır." },
+        "ev_ppm": { "delta": -10, "note": "Ret oranı tabloları davalının fesih gerekçesini destekler; tanığın tezini güçlendirdiniz." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge alternatif tedarikçi arayışının ne zaman başladığını göstermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; tanığın ‘arayış fesihten sonra başladı’ beyanı cevapsız kaldı." }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, belge üretimi aşamasının sonucuna ilişkin bir talebiniz var mı?" }
+      ],
+      "prompt": "Hakem kurulundan ne isteyeceksiniz?",
+      "choices": [
+        {
+          "if": "p2_secici || p2_red || p2_sessiz",
+          "text": "Üretilmeyen ‘Lotus’ yazışmalarının davalı aleyhine olduğu sonucuna varılmasını iste (m.9.6, 4 No.lu Usul Kararı).",
+          "delta": 20,
+          "set": ["p1_cikarim"],
+          "law": "IBA Kuralları m.9.6",
+          "note": "Davalı, üretilmesine karar verilen belgeleri tatmin edici bir açıklama yapmadan üretmedi. Hakem kurulu bu belgelerin davalı aleyhine olduğu sonucuna varabilir (m.9.6). Talebinizi usul kararına ve Redfern çizelgesine dayandırdınız."
+        },
+        {
+          "if": "p2_log || p2_seffaf",
+          "text": "İmtiyaz listesindeki dört e-postanın imtiyazlı olup olmadığını bağımsız bir uzmanın incelemesini iste.",
+          "delta": 15,
+          "set": ["p1_uzman"],
+          "law": "IBA Kuralları m.3.8",
+          "note": "İmtiyaz itirazının yerinde olup olmadığı ancak belgenin incelenmesiyle anlaşılabiliyorsa, hakem kurulu belgeyi kendisi görmeden, gizlilik yükümlülüğü altındaki bağımsız bir uzmana inceletebilir (m.3.8). Uzman dört e-postanın hukuki görüş içerdiğini doğruladı; ama talebiniz ölçülü ve yerindeydi."
+        },
+        {
+          "text": "Davalının belge üretimindeki tutumu nedeniyle hükmedilecek tazminata ceza niteliğinde ek bir tutar eklenmesini iste.",
+          "delta": -15,
+          "set": ["p1_ceza"],
+          "law": "IBA Kuralları m.9.8",
+          "note": "Cezalandırıcı tazminat İsviçre hukukuna yabancıdır. Hakem kurulu bir tarafın iyi niyete aykırı usul tutumunu yargılama giderlerinin dağıtımında dikkate alabilir (m.9.8), ama asıl alacağa ceza ekleyemez."
+        },
+        {
+          "text": "Duruşmayı ertele ve yeni bir belge talebi turu açılmasını iste; bu kez davalının bütün e-posta sunucusu incelensin.",
+          "delta": -5,
+          "set": ["p1_tur"],
+          "law": "IBA Kuralları m.3.3",
+          "note": "Duruşmadan sonra sınırsız bir ‘sunucu incelemesi’ talebi, hem usul takvimine hem m.3.3'teki belirlilik şartına aykırı. Hakem kurulu talebi reddetti."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, son beyanınızı alalım: fesih neden geçerlidir ve belge üretimi aşaması karara nasıl yansımalıdır?" }
+      ],
+      "prompt": "Hakem kuruluna, feshin neden geçerli olduğunu ve belge üretimi aşamasının neden davacının lehine sonuç doğurmaması gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_guclu"],
+          "law": "İsviçre MK m.8 · IBA Kuralları m.9.6",
+          "note": "Savunmanın iki ayağını kurdunuz: m.19'daki ölçülebilir fesih şartı ve 8D raporlarıyla belgelenen kalite sorunları; alternatif tedarikçi planlamasının tek başına feshi bahane yapmayacağı. Belge üretiminde de olumsuz çıkarımın takdirî olduğunu, tatmin edici açıklama varsa yapılamayacağını ve ispat yükünün davacıda kaldığını gösterdiniz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_yeterli"],
+          "law": "İsviçre MK m.8",
+          "note": "Fesih şartının gerçekleştiğini söylediniz. Tam savunma, alternatif tedarikçi planlamasının neden tek başına bahane sayılamayacağını ve belge üretimine ilişkin çıkarım talebine cevabı da içerir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "İsviçre MK m.8",
+          "note": "Ya belge üretimindeki sorunları yok saydınız ya da ‘ticari sırlarımızı vermek zorunda değildik’ diyerek usul kararına aykırı tutumu savundunuz. Savunma, m.19'un nesnel şartı ve çıkarımın sınırları üzerine kurulmalıydı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sözleşme m.19 nesnel bir fesih şartı koyar: ret oranı Nisan–Haziran 2026'da üç ay üst üste 250 ppm'i aşmıştır; 8D raporları kalite sorunlarını belgeler. (2) Alternatif tedarikçi aramak meşru bir risk yönetimidir; fesih şartı gerçekleşmişse, feshin ayrıca başka bir ticari amaca hizmet etmesi onu geçersiz kılmaz. (3) İddia eden ispat eder (İsviçre MK m.8): feshin bahane olduğunu ve ppm verilerinin şişirildiğini davacı ispatlamalıdır. (4) IBA m.9.6'daki olumsuz çıkarım takdirîdir; tatmin edici açıklama (ör. uyuşmazlıktan önce rutin silme) varsa yapılamaz ve ispatın yerini tümüyle tutmaz. Fesih şartını, ispat yükünü ve çıkarımın sınırlarını birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["m.19", "madde 19", "250 ppm", "ret oranı", "ppm"], "weight": 2 },
+        { "terms": ["8D", "kalite rapor", "kalite sorun"], "weight": 1 },
+        { "terms": ["ispat yükü", "m.8", "MK m.8", "ZGB", "iddia eden ispat"], "weight": 2 },
+        { "terms": ["m.9.6", "olumsuz çıkarım", "adverse inference", "takdir", "tatmin edici açıklama"], "weight": 2 },
+        { "terms": ["risk yönetimi", "alternatif tedarikçi", "meşru", "bahane değil"], "weight": 1 }
+      ],
+      "model": "Sayın Başhakem, sözleşme m.19 nesnel bir fesih şartı koyar ve ret oranı üç ay üst üste 250 ppm'in üzerindeydi; 8D raporları bunu belgeler. Alternatif tedarikçi aramak meşru bir risk yönetimidir ve gerçekleşmiş bir fesih şartını bahaneye dönüştürmez. Feshin bahane olduğunu İsviçre MK m.8 uyarınca davacı ispat etmelidir. IBA m.9.6'daki olumsuz çıkarım takdirîdir ve ispatın yerini tutmaz. Davanın reddini istiyoruz."
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "(p1_lotus || p1_cikarim) && p2_guclu",
+      "winner": "draw",
+      "hukum": "Davanın KISMEN KABULÜ ile sözleşmenin 30.06.2026 tarihli feshinin haksız olduğunun TESPİTİNE; davacının kendi kalite sorunlarındaki payı gözetilerek davalının davacıya 21.000.000 Avro tazminat ödemesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "if": "p1_lotus", "text": "Belge üretimiyle gelen 14.03.2026 tarihli e-posta, fesih kararının ‘Lotus’ projesi için önceden verildiğini gösterdi." },
+        { "if": "p1_cikarim && !p1_lotus", "text": "Davalı, üretilmesine karar verilen ‘Lotus’ yazışmalarını üretmedi; hakem kurulu bu belgelerin davalı aleyhine olduğu sonucuna vardı (IBA m.9.6)." },
+        { "text": " Davalı vekili ise kalite sorunlarının 8D raporlarıyla belgeli ve gerçek olduğunu güçlü biçimde savundu; hakem kurulu tazminatı davacının kendi payını gözeterek indirdi." }
+      ]
+    },
+    {
+      "if": "p1_lotus || p1_cikarim",
+      "winner": "p1",
+      "hukum": "Davanın KABULÜ ile sözleşmenin 30.06.2026 tarihli feshinin haksız olduğunun TESPİTİNE; davalının davacıya 42.000.000 Avro tazminat ve faizini ödemesine,",
+      "summary": [
+        { "if": "p1_lotus", "text": "Davacı vekili, dar ve belirli bir belge talebiyle ‘Lotus’ yazışmalarını dosyaya getirdi. 14.03.2026 tarihli e-posta, fesih kararının üç ay önceden verildiğini ve ret oranı raporlarının ‘buna göre’ hazırlandığını gösterdi." },
+        { "if": "p1_cikarim && !p1_lotus", "text": "Davalı, üretilmesine karar verilen ‘Lotus’ yazışmalarını tatmin edici bir açıklama yapmadan üretmedi; hakem kurulu bu belgelerin davalı aleyhine olduğu sonucuna vardı (IBA m.9.6)." },
+        { "if": "p2_secici", "text": " Davalının seçici belge üretimi hakem kurulunun güvenini sarstı." },
+        { "if": "p2_toptan", "text": " Davalının toptan gizlilik itirazı, gizlilik rejimi varken dayanaksız kaldı." },
+        { "text": " Fesih, m.19'daki şartın gerçekleşmesine değil, önceden verilmiş bir ticari karara dayanıyordu; iyi niyete aykırıydı." }
+      ]
+    },
+    {
+      "if": "p1_basin && !p2_guclu",
+      "winner": "draw",
+      "hukum": "Davanın KISMEN KABULÜ ile davalının, fesih bildirim süresine uyulmamasından doğan 4.500.000 Avro zararı davacıya ödemesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Asyalı tedarikçinin basın bülteni, alternatif tedarikçi arayışının fesihten önce başladığını düşündürdü; ama üreticinin adı geçmediği ve ‘Lotus’ yazışmaları dosyaya girmediği için feshin bahane olduğu tam ispatlanamadı. Hakem kurulu yalnız bildirim süresine ilişkin zararı hüküm altına aldı."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        { "if": "p1_genis", "text": "Davacı vekilinin belge talebi belirsiz ve sınırsızdı; hakem kurulu reddetti ve ‘Lotus’ yazışmaları dosyaya hiç girmedi. " },
+        { "if": "p1_ifade", "text": "Davacı vekili belge talebi yerine IBA Kurallarının tanımadığı bir yeminli sorgu usulü istedi; ‘Lotus’ yazışmaları dosyaya girmedi. " },
+        { "if": "p2_seffaf", "text": "Davalı vekili silinen e-postaları baştan ve belgeleriyle açıkladı; olumsuz çıkarım için zemin kalmadı. " },
+        { "text": "Feshin bahane olduğu ispatlanamadı; ret oranları üç ay üst üste sözleşmedeki sınırı aşmıştı ve fesih m.19'a uygundu." }
+      ]
+    }
+  ]
+}

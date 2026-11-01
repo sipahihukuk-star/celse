@@ -1,0 +1,444 @@
+{
+  "id": "th-sigorta-nakliyat-ambalaj",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Köşe Koruyucu",
+  "area": "Tahkim · Sigorta tahkimi · Nakliyat (emtia) sigortası ve ambalaj istisnası",
+  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakem Heyeti",
+  "courtShort": "SİGORTA TAHKİM",
+  "esas": "Başvuru No. 2026/41873",
+  "kararTarihi": "01.09.2026",
+  "color": "#2f5d6b",
+  "room": "tahkim",
+  "forum": "sigorta",
+  "inscription": null,
+  "bench": { "judges": 3, "title": "Hakem heyeti: başhakem ve iki hakem" },
+  "teaser": "Manisa'dan Ankara'ya giden tırda 22 lamine cam panel kırıldı. Sigortacı “ambalaj kusuru” diyor; sigortalı, yolda yapılan ani manevrayı ve kopan spanzeti gösteriyor.",
+  "sides": {
+    "p1": { "role": "Başvuran (sigortalı) vekili", "short": "Başvuran" },
+    "p2": { "role": "Sigorta şirketi vekili", "short": "Sigorta şirketi" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#e0b48f", "hair": "#6e6a66", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#d9a982", "hair": "#2a1f1a", "style": "long", "shirt": "#23272e", "inner": "#f1ede6" } },
+    "p2": { "look": { "kind": "civil", "skin": "#efc9a4", "hair": "#4a3426", "style": "short", "beard": true, "shirt": "#1f2a36", "inner": "#e9e6e0" } },
+    "client": { "name": "Serkan Uçar · Sevkiyat müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#c99872", "hair": "#1c1816", "style": "short", "shirt": "#4d5d6b", "inner": "#e6e1d8" } },
+    "expert": { "name": "Bilirkişi · Yük güvenliği", "np": "civil", "look": { "kind": "civil", "skin": "#e8c09c", "hair": "#8a8580", "style": "bun", "glasses": true, "shirt": "#5a4a3e", "inner": "#efe8dc" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Ege Cam Mimari Sistemleri Ltd. Şti., Manisa'daki fabrikasında ürettiği 40 lamine cam paneli 03.03.2026'da Ankara'daki bir şantiyeye gönderdi. Taşımayı bağımsız bir nakliye firmasının tırı yaptı." },
+    { "who": "narr", "text": "Mal, Anafor Sigorta A.Ş.'ye Emtia Nakliyat Sigortası ile sigortalıydı; poliçeye Enstitü Yük Klozları (A) 1/1/2009 eklenmişti. Sigorta bedeli 1.150.000 TL. Anafor, Sigorta Tahkim Komisyonuna üye; riziko üyelikten sonra gerçekleşti." },
+    { "who": "narr", "text": "Teslimde 22 panelin kırık olduğu görüldü. Eksper hasarı 580.000 TL olarak hesapladı, ama raporuna “A-sehpada köşe koruyucu yok; ambalaj yetersiz” notunu düştü ve şirketin ödeme yapmayacağını sözlü olarak söyledi." },
+    { "who": "narr", "text": "Bugün 16.03.2026. Şirketten henüz yazılı bir cevap yok. Sigortalı vekili ilk hamleyi yapacak." }
+  ],
+  "docs": [
+    { "t": "Poliçe ve Enstitü Yük Klozları (A)", "d": "Tüm riskler teminatı. Madde 4.3 istisnası: sigortalı ya da çalışanları tarafından veya bu sigorta başlamadan önce yapılan ambalajın, sigortalı yolculuğun olağan olaylarına dayanmaya yetersiz olmasından doğan zarar. Konteynere istifleme ambalaj sayılır; bağımsız yükleniciler çalışan sayılmaz. Madde 8.1: sigorta, mal taşıma aracına hemen yüklenmek için depoda ilk kez hareket ettirildiğinde başlar. Tenzili muafiyet: her hasarda hasarın %1'i." },
+    { "t": "Eksper raporu (09.03.2026)", "d": "40 panelden 22'si kırık. Hasar 580.000 TL; kırık camların hurda (sovtaj) değeri 4.200 TL. Panellerin A-sehpaya yerleştirilmesi fabrikada sigortalının işçilerince yapılmış; sehpa köşelerinde koruyucu yok. Arka sıradaki spanzetlerden biri kopmuş. Eksper notu: ambalaj yetersiz." },
+    { "t": "Şoför beyanı (eksper raporu eki)", "d": "“Afyon çıkışında önüme bir araç kırdı, sert fren yapıp sağa kaçtım. Arkadan çatırtı geldi.” Yükleme ve spanzetle bağlamayı şoför ile nakliye firmasının ekibi yapmış." },
+    { "t": "Üreticinin sevkiyat talimatı", "d": "Tek sıra A-sehpa sevkiyatında panel arası keçe ve sehpa başına en az dört spanzet yeterlidir; köşe koruyucu üst üste istiflenen paletli sevkiyatlarda zorunludur." },
+    { "t": "5684 s.K. m.30 ve Komisyon uygulaması", "d": "Önce sigorta kuruluşuna yazılı başvuru (m.30/13): talep reddedilirse ya da 15 iş günü içinde yazılı cevap verilmezse Komisyona başvurulur. Mahkemeye intikal etmiş uyuşmazlıkta başvuru işleme alınmaz. 2026'da 122.000 TL ve üzeri uyuşmazlıkta heyet zorunlu; 35.000 TL ve üzeri kararlara itiraz, 383.000 TL üzerinde itiraz kararına temyiz yolu açık." }
+  ],
+  "evidence": [
+    { "id": "ev_police", "type": "belge", "title": "Poliçe · Enstitü Yük Klozları (A) m.4.3", "desc": "Ambalaj istisnası yalnızca sigortalının ya da çalışanlarının yaptığı ya da sigorta başlamadan önce yapılan ambalaj için; bağımsız yükleniciler çalışan sayılmaz." },
+    { "id": "ev_eksper", "type": "belge", "title": "Eksper raporu", "desc": "22 panel kırık; sehpa köşelerinde koruyucu yok; arka sıradaki spanzetlerden biri kopmuş." },
+    { "id": "ev_sofor", "type": "beyan", "title": "Şoför beyanı", "desc": "Afyon çıkışında önüne kıran araç yüzünden sert fren yapıp sağa kaçtığını söylüyor." },
+    { "id": "ev_takograf", "type": "belge", "title": "Takograf kaydı", "desc": "04.03.2026, 14.06: hız dört saniyede 82 km/s'ten 18 km/s'e düşüyor; aynı anda sert yanal ivme kaydı.", "if": "p1_takograf" },
+    { "id": "ev_irsaliye", "type": "belge", "title": "Çekinceli sevk irsaliyesi", "desc": "Şantiye şefinin el yazısı: “22 panel kırık, çekinceli teslim alındı.” Şoförün imzası var.", "if": "p1_cekince" },
+    { "id": "ev_talimat", "type": "belge", "title": "Üreticinin sevkiyat talimatı", "desc": "Tek sıra A-sehpa sevkiyatında köşe koruyucu zorunlu değil; panel arası keçe ve en az dört spanzet yeterli." }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAŞVURU ÖNCESİ · Müvekkil acele ediyor: şantiye camları bekliyor, yeni üretimin parası lazım." },
+        { "who": "client", "text": "Eksper açık açık “ödenmez” dedi. Bir an önce bir yere başvuralım." }
+      ],
+      "prompt": "İlk hamleniz ne olacak?",
+      "choices": [
+        {
+          "text": "Sigorta şirketine bütün hasar belgeleriyle yazılı başvuru yap; ret yazısı gelince ya da 15 iş günü cevapsız geçince Komisyona başvur.",
+          "delta": 20,
+          "set": ["p1_onbasvuru"],
+          "law": "5684 s.K. m.30/13",
+          "note": "Komisyona gidebilmek için önce sigorta kuruluşuna başvurulmuş ve talebin kısmen ya da tamamen reddedilmiş olması, ya da şirketin 15 iş günü içinde yazılı cevap vermemesi gerekir (5684 s.K. m.30/13). Eksperin sözlü beyanı şirketin cevabı değildir.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 17.03.2026'da yapıldı. Şirket 02.04.2026'da ICC (A) 4.3'e dayanarak talebi reddetti. Komisyona 14.04.2026'da başvuruldu; uyuşmazlık 122.000 TL'yi aştığı için üç kişilik hakem heyeti kuruldu." }
+          ]
+        },
+        {
+          "text": "Eksper ret gerekçesini zaten sözlü söyledi; zaman kaybetmeden eksper raporu ve faturalarla hemen Komisyona başvur.",
+          "delta": -10,
+          "set": ["p1_dogrudan"],
+          "law": "5684 s.K. m.30/13",
+          "note": "Raportör ön incelemede şirkete yazılı başvuru yapılıp yapılmadığına bakar. Eksperin sözlü değerlendirmesi şirketin ret cevabı sayılmaz; başvuru işleme alınmadı, ücretin yarısı iade edildi. Önce şirkete yazılı başvurmak gerekiyordu (m.30/13).",
+          "reply": [
+            { "who": "narr", "text": "Raportör başvuruyu işleme almadı. Şirkete 27.03.2026'da yazılı başvuru yapıldı, ret 10.04.2026'da geldi; Komisyona 20.04.2026'da yeniden başvuruldu. Bir ay kaybedildi." }
+          ]
+        },
+        {
+          "text": "Asliye ticaret mahkemesinde dava aç, aynı gün Komisyona da başvur; hangisi önce ilerlerse onunla devam et, ötekini sonra geri çek.",
+          "delta": -25,
+          "law": "Sigortacılıkta Tahkime İlişkin Yönetmelik m.16/2",
+          "note": "Raportör, uyuşmazlığın mahkemeye, icraya ya da tüketici hakem heyetine intikal edip etmediğini inceler. Aynı uyuşmazlık mahkemedeyken Komisyon başvurusu işleme alınmaz; iki yolu birlikte açmak tahkim yolunu kapattı.",
+          "fatal": {
+            "label": "RAPORTÖR KARARI:",
+            "hukum": "Uyuşmazlık aynı konuda mahkemeye intikal etmiş olduğundan başvurunun İŞLEME ALINMAMASINA, başvuru ücretinin yarısının başvurana iadesine,",
+            "summary": "Sigortalı vekili aynı uyuşmazlık için hem asliye ticaret mahkemesinde dava açtı hem de Komisyona başvurdu. Mahkemeye intikal etmiş uyuşmazlıkta tahkim başvurusu işleme alınmaz; dosya Komisyonda esastan görülmeden kapandı."
+          }
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "ŞİRKETİN CEVABI · Başvuru dosyası hasar birimine geldi. Ret yazısının ve tahkimdeki savunmanın omurgasını kuracaksınız." }
+      ],
+      "prompt": "Savunmanızı neye dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "Klozun 4.3 maddesine: sehpa hazırlığını sigortalının işçileri sigorta başlamadan yaptı. İstisnayı eksper fotoğraflarıyla biz ispat ederiz.",
+          "delta": 20,
+          "set": ["p2_istisna"],
+          "law": "ICC (A) 2009 m.4.3 · TMK m.6",
+          "note": "Tüm riskler teminatında sigortalı, zararın sigortalı yolculuk sırasında doğduğunu gösterir; bir istisnaya dayanan sigortacı, istisnanın koşullarını ve zararın o sebepten doğduğunu ispatlar (TMK m.6). 4.3, ambalajı sigortalının ya da çalışanlarının yapmasını ya da sigorta başlamadan yapılmasını arar; fabrikadaki sehpa hazırlığı bu kapsama girebilir."
+        },
+        {
+          "text": "Ret yazısında istisnayı anmak yeter; kırılmanın ambalajdan doğmadığını ispat yükü sigortalıdadır, ayrıca delil sunmamıza gerek yoktur.",
+          "delta": -10,
+          "set": ["p2_yuk"],
+          "law": "TMK m.6",
+          "note": "İspat yükünü ters kurdunuz. Sigortalı rizikonun gerçekleştiğini gösterdikten sonra, istisnadan yararlanmak isteyen sigortacı istisnanın koşullarını ve illiyeti ispatlamak zorundadır (TMK m.6)."
+        },
+        {
+          "text": "Sigortalı tacir ve uyuşmazlık ticari dava: Komisyonun görevsizliğini, asliye ticaret mahkemesinin görevli olduğunu ve önce arabulucuya gidilmesi gerektiğini ileri sür.",
+          "delta": -15,
+          "set": ["p2_gorev"],
+          "law": "5684 s.K. m.30",
+          "note": "Sigorta tahkimi tüketicilerle sınırlı değildir; Komisyona üye bir sigortacıyla uyuşmazlığa düşen tacir sigortalı da başvurabilir. Tahkim yolunda dava şartı arabuluculuk aranmaz."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Şirketin ret yazısı ICC (A) 4.3'e dayanıyor. İlk oturumdan önce sevkiyat müdürü Serkan Uçar'la görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Yolda ne olduğunu gösteren bir kayıt var mı? Tırın takografı ya da araç takip verisi?",
+          "delta": 15,
+          "set": ["p1_takograf"],
+          "reply": [
+            { "who": "client", "text": "Nakliye firması takograf dökümünü gönderdi. Afyon çıkışında hız birkaç saniyede 82'den 18'e düşmüş, yanal savrulma da kayıtlı." }
+          ],
+          "note": "Doğru soru. Zararın sebebi tartışmanın merkezinde; olağanüstü bir yol olayını gösteren nesnel bir kayıt, şoförün beyanından çok daha güçlüdür. Takograf kaydı çantanıza eklendi."
+        },
+        {
+          "text": "Teslimde şantiyede irsaliyeye ya da taşıma belgesine bir şey yazıldı mı?",
+          "delta": 15,
+          "set": ["p1_cekince"],
+          "reply": [
+            { "who": "client", "text": "Şantiye şefi irsaliyeye “22 panel kırık, çekinceli teslim alındı” yazdı, şoföre de imzalattı." }
+          ],
+          "note": "Önemli soru. Sigortalı, taşıyıcıya karşı hakların korunmasını sağlamakla yükümlüdür; sigortacıya geçecek rücu hakkını bozarsa bundan sorumlu olur (TTK m.1472/2; Klozların 16. maddesi). Çekinceli irsaliye çantanıza eklendi."
+        },
+        {
+          "text": "Camları tıra kim yükledi ve spanzetle kim bağladı?",
+          "delta": 5,
+          "set": ["p1_spanzet"],
+          "reply": [
+            { "who": "client", "text": "Sehpaya dizmeyi fabrikada bizim işçiler yaptı. Sehpayı tıra forkliftle koyan ve spanzetleri bağlayan nakliyecinin ekibiydi." }
+          ],
+          "note": "Yararlı ayrıntı, ama aynı bilgi şoför beyanında zaten var. Sınırlı sürede asıl eksik olan, yolda ne olduğunu nesnel olarak gösterecek kayıttı."
+        },
+        {
+          "text": "Daha önceki sevkiyatlarınızda da kırılma yaşandı mı?",
+          "delta": -5,
+          "reply": [
+            { "who": "client", "text": "Geçen yıl bir kez olmuştu, o sefer sigorta yaptırmamıştık. Bunu söylememiz gerekir mi?" }
+          ],
+          "note": "Sınırlı vaktinizi, karşı tarafın işine yarayabilecek ve bu hasarın sebebini aydınlatmayan bir konuya harcadınız."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Heyet olarak taraf vekillerini sözlü açıklama için dinleyeceğiz. Sigorta şirketi vekili, istisnanın bu olaya neden uygulandığını açıklayın." }
+      ],
+      "prompt": "Ana tezinizi nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Sehpaya dizme ve köşe korumasını fabrikada sigortalının işçileri yaptı; bu hazırlık 4.3 anlamında ambalajdır ve olağan yolculuğa dayanmadı.",
+          "delta": 15,
+          "set": ["p2_ambalaj"],
+          "law": "ICC (A) 2009 m.4.3",
+          "note": "İstisnanın unsurlarını doğru gösterdiniz: hazırlığı sigortalının çalışanları yaptı ve bu, sigorta başlamadan, fabrikada yapıldı. Kalan soru, zararın gerçekten bu hazırlıktan mı doğduğudur.",
+          "reply": [
+            { "who": "judge", "text": "Not edildi. Zararın sebebi bakımından tarafların delillerini dinleyeceğiz." }
+          ]
+        },
+        {
+          "text": "Tıra yükleme ve spanzetle bağlama da ambalaj sayılır; şoför sigortalının talimatıyla bağladığı için istisna bu bölümü de kapsar, sorumluluğumuz kalmaz.",
+          "delta": -10,
+          "set": ["p2_spanzet"],
+          "law": "ICC (A) 2009 m.4.3",
+          "note": "Klozlar yalnızca konteynere istiflemeyi ambalaj sayar ve bağımsız yüklenicileri çalışan saymaz. Açık kasa tıra bağımsız taşıyıcının yaptığı bağlama, 4.3'ün kapsamına girmez.",
+          "reply": [
+            { "who": "judge", "text": "Taşıyıcı bağımsız bir firma; Klozlar bağımsız yüklenicileri çalışan saymıyor. Not edildi." }
+          ]
+        },
+        {
+          "text": "Yolda kaza olmadı; camların toplu kırılması ambalajın yetersiz olduğunu kendiliğinden gösterir, ayrıca ispata gerek yoktur.",
+          "delta": -5,
+          "set": ["p2_olay"],
+          "law": "TMK m.6",
+          "note": "Zararın gerçekleşmesi, sebebin ambalaj olduğunu göstermez. İstisnaya dayanan taraf olarak illiyeti siz ispatlamalısınız.",
+          "reply": [
+            { "who": "judge", "text": "Kırılmanın olması, sebebini göstermez. Not edildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, karşı tarafın beyanına karşı sunacağınız bir delil var mı?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Heyet, yolculuk boyunca olağanüstü hiçbir olay yaşanmamıştır. Panellerin kırılmasının tek açıklaması fabrikadaki yetersiz ambalajdır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_takograf"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_sebep"],
+        "note": "Takograf kaydı, hasarın meydana geldiği anda dört saniyelik sert fren ve yanal savrulma olduğunu nesnel olarak gösteriyor. “Olağanüstü olay yok” beyanı çürüdü; zararın başka bir etkin sebebi ortaya çıktı.",
+        "reply": [
+          { "who": "judge", "text": "Takograf kaydı dosyaya alındı. Heyet, kırılmanın etkin sebebi için yük güvenliği alanında bilirkişi incelemesi yaptıracak." }
+        ]
+      },
+      "responses": {
+        "ev_sofor": {
+          "delta": 5,
+          "note": "Doğru yöndesiniz, ama bu beyan taşıyıcının kendi şoförüne ait; taşıyıcının da sorumluluktan kaçmakta çıkarı var. Nesnel bir kayıt (takograf, araç takip verisi) çok daha güçlü olurdu.",
+          "reply": [
+            { "who": "judge", "text": "Şoför beyanı not edildi; heyet, kırılmanın sebebi için bilirkişi incelemesi yaptıracak." }
+          ]
+        },
+        "ev_talimat": {
+          "delta": 0,
+          "note": "Talimat ambalajın yeterliliği tartışmasında işe yarar, ama “yolda olağanüstü olay yok” beyanını çürütmez.",
+          "reply": [
+            { "who": "judge", "text": "Talimat dosyaya alındı. Heyet bilirkişi incelemesi yaptıracak." }
+          ]
+        },
+        "ev_irsaliye": {
+          "delta": 0,
+          "note": "Çekinceli irsaliye, taşıyıcıya karşı rücu hakkının korunduğunu gösterir; yolda ne olduğunu göstermez.",
+          "reply": [
+            { "who": "judge", "text": "İrsaliye dosyaya alındı. Heyet bilirkişi incelemesi yaptıracak." }
+          ]
+        },
+        "ev_eksper": {
+          "delta": -5,
+          "note": "Eksper raporu kopan spanzeti gösteriyor, ama “ambalaj yetersiz” notu da taşıyor; karşı tarafın tezine dayanak olan belgeyi öne çıkardınız.",
+          "reply": [
+            { "who": "judge", "text": "Eksper raporu zaten dosyada. Heyet bilirkişi incelemesi yaptıracak." }
+          ]
+        }
+      },
+      "miss": { "delta": -5, "note": "Bu belge yolculuk sırasında ne olduğunu göstermiyor.", "reply": [ { "who": "judge", "text": "Heyet bilirkişi incelemesi yaptıracak." } ] },
+      "pass": { "delta": -10, "note": "Beyana itiraz etmediniz; “yolda olağanüstü olay yok” tespiti dosyada cevapsız kaldı.", "reply": [ { "who": "judge", "text": "Heyet bilirkişi incelemesi yaptıracak." } ] }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bilirkişiye soruları yöneltmeden önce sigorta şirketi vekilini dinliyoruz." },
+        { "who": "judge", "if": "p1_sebep", "text": "Takograf, sert fren ve savrulma gösteriyor. Buna rağmen istisna neden uygulanmalı?" },
+        { "who": "judge", "if": "!p1_sebep", "text": "Başvuran, panelleri tıra bağımsız taşıyıcının bağladığını söylüyor. Buna rağmen istisna neden uygulanmalı?" }
+      ],
+      "prompt": "İstisnanın neden uygulanması gerektiğini ve bilirkişiye neyin sorulmasını istediğinizi kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_bilirkisi"],
+          "law": "ICC (A) 2009 m.4.3 · HMK m.266",
+          "note": "Savunmayı doğru kurdunuz: sert fren ve ani manevra karayolu taşımasının olağan olaylarındandır ve ambalaj buna dayanacak biçimde yapılmalıdır. Sehpa hazırlığı sigortalının işçilerince ve sigorta başlamadan yapıldı. Bilirkişiye, uygun hazırlık yapılsaydı kırılmanın önlenip önlenemeyeceğini sordurdunuz.",
+          "reply": [
+            { "who": "judge", "text": "Bu soru da bilirkişiye yöneltilecek." }
+          ]
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_bilirkisi"],
+          "law": "ICC (A) 2009 m.4.3 · HMK m.266",
+          "note": "İstisnanın unsurlarından bir kısmını gösterdiniz ve bilirkişi incelemesi istediniz. Tam savunma, ani frenin karayolu taşımasında olağan bir olay olduğunu, sehpa hazırlığının sigortalının işçilerince ve sigorta başlamadan yapıldığını ve bilirkişiye sorulacak illiyet sorusunu birlikte ortaya koyar.",
+          "reply": [
+            { "who": "judge", "text": "Talebiniz not edildi; soru bilirkişiye yöneltilecek." }
+          ]
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "ICC (A) 2009 m.4.3 · TMK m.6",
+          "note": "İstisnaya dayanan sigortacı, istisnanın koşullarını ve zararın o sebepten doğduğunu ispatlamalıdır. Ani frenin karayolu taşımasının olağan bir olayı olduğunu, sehpa hazırlığının sigortalının işçilerince ve sigorta başlamadan yapıldığını göstermediniz; bilirkişiden illiyet sorusunu da istemediniz."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sert fren ve ani manevra, karayolu taşımasında olağan karşılanması gereken olaylardır; ICC (A) 4.3, ambalajın 'sigortalı yolculuğun olağan olaylarına' dayanmasını arar. (2) Panellerin A-sehpaya dizilmesi ve köşe koruması fabrikada, sigortalının kendi işçilerince ve sigorta (m.8.1) başlamadan önce yapılmıştır; bu nedenle 4.3'ün kişi ve zaman koşulları bu hazırlık bakımından gerçekleşmiştir. (3) İspat yükü istisnaya dayanan sigortacıdadır; bu nedenle bilirkişiye, uygun hazırlık yapılsaydı kırılmanın önlenip önlenemeyeceği sorulmalıdır (HMK m.266). Bağımsız taşıyıcının spanzetlemesini de ambalaj sayan ya da ispat yükünü sigortalıya yükleyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["olağan", "ordinary incidents", "öngörülebilir", "sıradan"], "weight": 2 },
+        { "terms": ["işçi", "çalışan", "employees", "fabrikada"], "weight": 2 },
+        { "terms": ["sigorta başlamadan", "başlamadan önce", "8.1", "prior to the attachment"], "weight": 1 },
+        { "terms": ["bilirkişi", "uzman incelemesi", "m.266", "HMK 266"], "weight": 2 },
+        { "terms": ["önlen", "uygun ambalaj", "kırılmazdı", "illiyet", "nedensellik"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, sert fren ve ani manevra karayolu taşımasının olağan olaylarındandır; ICC (A) 4.3, ambalajın bu olaylara dayanmasını arar. Panellerin sehpaya dizilmesi ve köşe koruması fabrikada, sigortalının kendi işçilerince ve sigorta başlamadan önce yapılmıştır. İstisnayı ispat yükümüzün farkındayız; bilirkişiye, uygun hazırlık yapılsaydı kırılmanın önlenip önlenemeyeceğinin sorulmasını talep ediyoruz."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "BİLİRKİŞİ RAPORU · Heyetin atadığı yük güvenliği bilirkişisinin raporu dosyaya girdi." },
+        { "who": "expert", "text": "Kırılmanın etkin sebebi, sert fren ve yanal savrulma sırasında arka sıradaki spanzetin kopması ve sehpanın kaymasıdır. Sehpa yerleşimi üreticinin tek sıra sevkiyat talimatına uygundur." },
+        { "who": "expert", "if": "p2_bilirkisi", "text": "Köşe koruyucu bulunsaydı kırık panel sayısı bir ölçüde azalabilirdi; ancak spanzet koptuktan sonra kırılmanın önlenmesi beklenemezdi." },
+        { "who": "judge", "text": "Başvuran vekili, rapor karşısında istisna hakkındaki beyanınız?" }
+      ],
+      "prompt": "Ambalaj istisnasının bu olayda neden uygulanamayacağını kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü beyan",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_rapor"],
+          "law": "ICC (A) 2009 m.4.3 · TMK m.6 · TBK m.23",
+          "note": "Beyanınız istisnayı dar yorumlanması gereken bir kayıt olarak doğru konumlandırdı: 4.3 yalnızca zarar ambalaj yetersizliğinden doğduğunda uygulanır, bağımsız taşıyıcının bağlaması ambalaj değildir, etkin sebep kopan spanzettir. “Azalabilirdi” ihtimali sigortacının ispat yükünü karşılamaz."
+        },
+        {
+          "text": "Yeterli beyan",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_rapor"],
+          "law": "ICC (A) 2009 m.4.3 · TMK m.6",
+          "note": "Raporun etkin sebep tespitine dayandınız. Tam beyan; bağımsız taşıyıcının spanzetlemesinin 4.3 kapsamında olmadığını, ispat yükünün sigortacıda olduğunu ve istisnaların, şüphede düzenleyen aleyhine dar yorumlandığını (TBK m.23) birlikte gösterir."
+        },
+        {
+          "text": "Zayıf beyan",
+          "delta": -10,
+          "law": "ICC (A) 2009 m.4.3",
+          "note": "Rapordaki en güçlü tespiti, etkin sebebin kopan spanzet olduğunu, kullanamadınız. Bağımsız taşıyıcının bağlaması 4.3 anlamında ambalaj değildir; istisnayı ispat yükü sigortacıdadır."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Poliçe tüm riskler (ICC A) teminatıdır; sigortalı zararın sigortalı yolculuk sırasında doğduğunu göstermiştir, istisnayı ve illiyeti ispat yükü sigortacıdadır (TMK m.6). (2) 4.3 yalnızca sigortalının ya da çalışanlarının yaptığı ya da sigorta başlamadan yapılan ambalajı kapsar; tırı yükleyip spanzetleyen taşıyıcı bağımsız yüklenicidir, çalışan sayılmaz. (3) Bilirkişiye göre etkin sebep sert fren sırasında kopan spanzettir; sehpa yerleşimi üretici talimatına uygundur. Köşe koruyucuyla kırılmanın 'azalabileceği' ihtimali, zararın ambalajdan doğduğunu ispatlamaz. (4) İstisnalar dar yorumlanır; genel işlem koşulundaki belirsizlik düzenleyen aleyhine yorumlanır (TBK m.23). Sonuç olarak tazminatın tamamı istenir. Bunlardan üçünü madde numarasıyla söylemek tam puan alır.",
+      "keywords": [
+        { "terms": ["ispat", "ispat yükü", "kanıtlama"], "weight": 2 },
+        { "terms": ["bağımsız", "taşıyıcı", "independent contractor", "nakliyeci"], "weight": 2 },
+        { "terms": ["etkin sebep", "yakın sebep", "illiyet", "nedensellik", "proximate cause"], "weight": 2 },
+        { "terms": ["spanzet", "bağlama", "kopma", "koptu"], "weight": 1 },
+        { "terms": ["dar yorum", "aleyhine yorum", "TBK m.23", "contra proferentem"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, ICC (A) tüm riskler teminatıdır; istisnayı ve illiyeti ispat yükü sigortacıdadır. 4.3 yalnızca sigortalının ya da çalışanlarının yaptığı ambalajı kapsar; tırı yükleyip spanzetleyen taşıyıcı bağımsız yüklenicidir. Bilirkişiye göre etkin sebep sert fren sırasında kopan spanzettir ve sehpa yerleşimi üretici talimatına uygundur; kırık sayısının 'azalabileceği' ihtimali istisnayı ispatlamaz. İstisnalar dar ve düzenleyen aleyhine yorumlanır (TBK m.23). Tazminatın tamamını talep ediyoruz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sigorta şirketi vekili, karar öncesi son talepleriniz?" }
+      ],
+      "prompt": "Son beyanınızda ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Poliçedeki %1 tenzili muafiyetin ve kırık camların hurda (sovtaj) değerinin tazminattan düşülmesini iste.",
+          "delta": 15,
+          "set": ["p2_mahsup"],
+          "law": "Poliçe muafiyet şartı · TTK m.1472",
+          "note": "Zarar karşılansa bile muafiyet sözleşme gereği sigortalıda kalır; sigortalının elinde kalan hurda değeri de tazminattan düşülür. Hesap: 580.000 − 5.800 − 4.200 = 570.000 TL."
+        },
+        {
+          "if": "!p1_cekince",
+          "text": "Teslimde taşıyıcıya hiçbir çekince konmadı; sigortalı rücu hakkımızı bozdu, tazminattan bu ölçüde indirim yapılmasını iste.",
+          "delta": 15,
+          "set": ["p2_rucu"],
+          "law": "TTK m.1472/2",
+          "note": "Sigortalı, sigortacıya geçecek hakları ihlal edici şekilde davranırsa sigortacıya karşı sorumlu olur (TTK m.1472/2). Kırık mal çekincesiz teslim alındığı için taşıyıcıya rücu zorlaştı; heyet bunu indirim sebebi saydı."
+        },
+        {
+          "if": "p1_cekince",
+          "text": "Sigortalı taşıyıcıya karşı kendisi dava açmadı; rücu hakkımızı korumadı, tazminattan bu ölçüde indirim yapılmasını iste.",
+          "delta": -10,
+          "law": "TTK m.1472/2",
+          "note": "Sigortalının yükümlülüğü, hakların korunmasını sağlamaktır; irsaliyeye çekince konarak bu yapıldı. Taşıyıcıya dava açmak, tazminatı ödedikten sonra halef olan sigortacının işidir (TTK m.1472/1)."
+        },
+        {
+          "text": "Başvuru riziko tarihinden aylar sonra yapıldı; sigorta tazminatı istemi zamanaşımına uğradı, başvurunun reddine karar verilmesini iste.",
+          "delta": -15,
+          "set": ["p2_zaman"],
+          "law": "TTK m.1420",
+          "note": "Sigorta tazminatı istemleri rizikonun gerçekleştiği tarihten itibaren altı yılda zamanaşımına uğrar (TTK m.1420). Bir buçuk aylık gecikme zamanaşımı değildir."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_sebep && p1_rapor && !p2_rucu",
+      "winner": "p1",
+      "hukum": [
+        { "if": "p2_mahsup", "text": "Başvurunun KABULÜ ile, tenzili muafiyet ve sovtaj değeri düşüldükten sonra kalan 570.000 TL tazminatın sigorta şirketinden alınarak başvurana ödenmesine," },
+        { "if": "!p2_mahsup", "text": "Başvurunun KABULÜ ile, poliçedeki tenzili muafiyet düşüldükten sonra kalan 574.200 TL tazminatın sigorta şirketinden alınarak başvurana ödenmesine," }
+      ],
+      "summary": [
+        { "text": "Takograf kaydı ve bilirkişi raporu, kırılmanın etkin sebebinin sert fren sırasında kopan spanzet olduğunu gösterdi. Tırı bağımsız taşıyıcı yükleyip bağlamıştı; Klozlar bağımsız yüklenicileri çalışan saymaz. Sigortacı, zararın ambalajdan doğduğunu ispatlayamadı (ICC A m.4.3)." },
+        { "if": "p2_spanzet", "text": " Sigorta şirketi vekilinin spanzetlemeyi de ambalaj sayan tezi Kloz metnine aykırıydı." },
+        { "if": "p2_mahsup", "text": " Sigorta şirketi vekili, muafiyet ve sovtaj mahsubunu doğru istedi." },
+        { "if": "p1_dogrudan", "text": " Başvuran tarafı ilk başvurusunu şirkete yazılı başvuru yapmadan yaptığı için bir ay kaybetti." }
+      ]
+    },
+    {
+      "if": "(p1_sebep || p1_rapor) && !p2_ambalaj && !p2_bilirkisi && !p2_rucu",
+      "winner": "p1",
+      "hukum": "Başvurunun KABULÜ ile, poliçedeki tenzili muafiyet düşüldükten sonra kalan 574.200 TL tazminatın sigorta şirketinden alınarak başvurana ödenmesine,",
+      "summary": [
+        { "text": "Sigorta şirketi, ambalaj istisnasının unsurlarını ve zararın ambalajdan doğduğunu ispatlayamadı (TMK m.6; ICC A m.4.3)." },
+        { "if": "p2_yuk", "text": " Şirket ispat yükünü baştan sigortalıya yüklemeye çalıştı." },
+        { "if": "p2_gorev", "text": " Komisyonun görevsizliği itirazı, tahkimin tacir sigortalılara da açık olması nedeniyle reddedildi." },
+        { "text": " Başvuran tarafı, zararın sigortalı yolculuk sırasında doğduğunu gösterdi." }
+      ]
+    },
+    {
+      "if": "p1_sebep || p1_rapor",
+      "winner": "draw",
+      "hukum": "Başvurunun KISMEN KABULÜ ile 456.000 TL tazminatın sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Heyet, kırılmanın ağırlıklı sebebinin kopan spanzet olduğunu kabul etti; bu nedenle ambalaj istisnası tazminatı bütünüyle ortadan kaldırmadı." },
+        { "if": "p2_rucu", "text": " Ancak kırık mal taşıyıcıdan çekincesiz teslim alındığı için sigortacının rücu hakkı zayıfladı; bu durum indirim sebebi sayıldı (TTK m.1472/2)." },
+        { "if": "!p2_rucu", "text": " Ancak fabrikada sigortalının işçilerince yapılan hazırlığın zarara katkısı tam olarak bertaraf edilemedi; heyet hakkaniyete uygun bir indirim yaptı." },
+        { "text": " Sonuç, muafiyet ve sovtaj sonrası tutardan %20 indirimle 456.000 TL oldu." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Başvurunun REDDİNE,",
+      "summary": [
+        { "text": "Başvuran tarafı, takograf ya da başka bir nesnel delille yolda olağanüstü bir olay yaşandığını gösteremedi; bilirkişi raporunu da istisna aleyhine kullanamadı." },
+        { "if": "p2_ambalaj", "text": " Sigorta şirketi, sehpa hazırlığının fabrikada sigortalının işçilerince ve sigorta başlamadan yapıldığını gösterdi (ICC A m.4.3)." },
+        { "if": "p2_bilirkisi", "text": " Bilirkişi, köşe koruyucunun kırık sayısını azaltabileceğini tespit etti." },
+        { "text": " Heyet, zararın sigortalı tarafından yapılan yetersiz hazırlıktan doğduğu sonucuna vardı." }
+      ]
+    }
+  ]
+}

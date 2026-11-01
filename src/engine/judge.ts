@@ -1,5 +1,6 @@
 // Karşılıklı duruşmada yapay zekâ hâkim: iki tarafın hamlelerini ve son sözlerini sunucudaki modele gönderir.
 // Sunucu ya da model yoksa karar hamle puanlarına ve son sözlerdeki hukuki kavramlara göre çevrimdışı verilir.
+import { getLang } from "../i18n";
 import { canon } from "./evaluate";
 import { GameState } from "./engine";
 import { CaseFile, Side } from "./types";
@@ -41,7 +42,7 @@ export async function judgeDuel(c: CaseFile, g: GameState, s1: string, s2: strin
       method: "POST", signal: ctrl.signal,
       headers: { "Content-Type": "application/json", apikey: server.key, Authorization: `Bearer ${server.token || server.key}` },
       body: JSON.stringify({
-        mode: "karar", dava: c.title, alan: c.area, mahkeme: c.court, olay: c.teaser,
+        mode: "karar", dil: getLang(), dava: c.title, alan: c.area, mahkeme: c.court, olay: c.teaser,
         belgeler: c.docs.map(d => `- ${d.t}: ${d.d}`).join("\n"),
         rol1: c.sides.p1.role, rol2: c.sides.p2.role, hamleler: movesText(c, g), son1: s1.slice(0, 2500), son2: s2.slice(0, 2500)
       })

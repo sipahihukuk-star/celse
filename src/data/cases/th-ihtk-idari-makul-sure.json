@@ -1,0 +1,343 @@
+{
+  "id": "th-ihtk-idari-makul-sure",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "ihtk",
+  "difficulty": "orta",
+  "title": "Bekleyen Rapor",
+  "area": "Tahkim · İnsan Hakları Tazminat Komisyonu · Makul süre (idari yargılama)",
+  "court": "İnsan Hakları Tazminat Komisyonu (Adalet Bakanlığı) · Müracaat No. 2026/58217",
+  "courtShort": "TAZMİNAT KOMİSYONU",
+  "esas": "Müracaat No. 2026/58217",
+  "kararTarihi": "21.07.2027",
+  "color": "#4a5a52",
+  "teaser": "Hastanede ölen eşi için açtığı tam yargı davası sekiz yıldır bitmedi; dosya şimdi Danıştay'da. Bakanlık, bilirkişinin üç yıllık gecikmesinin devlete yüklenemeyeceğini söylüyor.",
+  "bench": { "judges": 3, "title": "Komisyon heyeti: başkan ve iki üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Başvuran vekili", "short": "Başvuran" },
+    "p2": { "role": "Adalet Bakanlığı temsilcisi (görüş sunan)", "short": "Bakanlık" }
+  },
+  "cast": {
+    "judge": { "name": "Komisyon Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#d9ab86", "hair": "#2e2a28", "style": "bun", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#f0c9a8", "hair": "#3a2a22", "style": "long", "shirt": "#262a31", "inner": "#e4ddd2" } },
+    "p2": { "look": { "kind": "civil", "skin": "#c8946c", "hair": "#1f1c1a", "style": "short", "glasses": true, "shirt": "#30343c", "inner": "#dcd6cc" } },
+    "client": { "name": "Nermin Toprakçı · Başvuran", "np": "civil", "look": { "kind": "civil", "skin": "#e0b28c", "hair": "#8a8a90", "style": "bun", "shirt": "#5b4a4e", "inner": "#efe6dc" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Nermin Toprakçı'nın eşi, 2018'de bir devlet hastanesinde geçirdiği ameliyattan sonra hayatını kaybetti. Nermin, tam yargı davası açmadan önce kanun gereği 10.01.2019'da Sağlık Bakanlığına başvurdu; başvuru reddedildi ve dava 10.05.2019'da Ankara'da açıldı." },
+    { "who": "narr", "text": "Mahkeme Eylül 2019'da Adli Tıp Kurumundan rapor istedi; rapor Kasım 2022'de geldi. Dava Mayıs 2023'te kısmen kabul edildi, istinaf Haziran 2024'te sonuçlandı. Temyiz dilekçeleri Temmuz 2024'te Danıştay'a ulaştı; dosya hâlâ orada." },
+    { "who": "client", "text": "Eşimi kaybedeli sekiz yıl oluyor; dava hâlâ bitmedi. Her duruşmada yeniden yaşadım. Danıştay'ın kararını mı bekleyeceğiz?" },
+    { "who": "narr", "text": "Bugün 07.12.2026. Makul süre şikâyetleri 12.03.2024'ten beri Adalet Bakanlığı bünyesindeki Komisyona yapılıyor. Komisyon dosya üzerinden karar verir; burada yazılı görüşler karşılıklı tartışılıyor." }
+  ],
+  "docs": [
+    { "t": "6384 sayılı Kanun m.2/3-a ve m.5/A", "d": "Hukuk ve idari yargılamaların makul sürede sonuçlandırılmadığı iddiasıyla manevi tazminat müracaatları Komisyonca incelenir. Müracaat, yargılama sürerken ya da en geç kesin kararın öğrenilmesinden itibaren bir ay içinde yapılır." },
+    { "t": "6384 sayılı Kanun m.7 ve m.8", "d": "Komisyon dokuz ay içinde, AYM ve AİHM emsallerini gözeterek gerekçeli karar verir. Kesinleşen karar ilgili yargı ya da idari merciine bildirilir; yargılama sürüyorsa bu merci dosyayı ivedilikle sonuçlandırır. Karara tebliğden itibaren on beş gün içinde Ankara Bölge İdare Mahkemesine itiraz edilebilir." },
+    { "t": "2577 sayılı İYUK m.13", "d": "İdari eylemlerden hakları ihlal edilenler, tam yargı davası açmadan önce ilgili idareye başvurarak haklarının yerine getirilmesini ister; istek reddedilirse dava açılır." },
+    { "t": "Yargılama süreci (özet)", "d": "10.01.2019 idareye başvuru · 10.05.2019 dava · 09.2019–11.2022 Adli Tıp raporu (38 ay) · 05.2023 kısmen kabul · 06.2024 istinaf · 07.2024'ten beri Danıştay'da temyiz incelemesi." },
+    { "t": "Bakanlığın ön görüşü (özet)", "d": "Tıbbi uygulama hatası iddiası karmaşıktır. Raporun gecikmesi bağımsız bilirkişi kurumundan kaynaklanmıştır. Yargılama sürmektedir." }
+  ],
+  "evidence": [
+    { "id": "ev_uyap", "type": "belge", "title": "UYAP aşama dökümü", "desc": "Her aşamanın tarihleri. Mahkeme Adli Tıp Kurumuna 38 ay içinde dört kez hatırlatma yazısı gönderdi. Başvuran ve vekili bütün duruşmalarda hazır.", "if": "p1_uyap" },
+    { "id": "ev_talep", "type": "belge", "title": "Hızlandırma dilekçeleri", "desc": "Başvuranın Adli Tıp Kurumuna 2020 ve 2021'de, Danıştay'a 2025'te verdiği 'dosyanın öncelikle incelenmesi' dilekçeleri ve alındı kayıtları.", "if": "p1_talep" },
+    { "id": "ev_atk", "type": "belge", "title": "Adli Tıp yazışmaları", "desc": "Mahkemenin Eylül 2019 tarihli rapor isteği ile Kurumun 'iş yoğunluğu nedeniyle sıra beklenmektedir' cevapları." },
+    { "id": "ev_karar", "type": "belge", "title": "İdare mahkemesi kararı", "desc": "Mayıs 2023; hizmet kusuru kabul edildi, manevi tazminat talebi kısmen kabul edildi." },
+    { "id": "law_13", "type": "kanun", "title": "İYUK m.13 · Önce idareye başvuru", "desc": "Tam yargı davasından önce ilgili idareye başvuru zorunludur.", "law": "2577 s.K. m.13" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "MÜRACAAT · Yargılama Danıştay'da sürüyor. Müvekkil ne zaman Komisyona gidebileceğini soruyor." }
+      ],
+      "prompt": "Müracaatı ne zaman yapacaksınız?",
+      "choices": [
+        {
+          "text": "Danıştay kararını beklemeden şimdi müracaat et; Kanun makul süre müracaatını yargılama sürerken de mümkün kılıyor.",
+          "delta": 20,
+          "set": ["p1_derdest"],
+          "law": "6384 s.K. m.5/A, m.8",
+          "note": "Doğru. Müracaat yargılama sürerken de yapılabilir (m.5/A). Kesinleşen Komisyon kararı Danıştay'a bildirilir ve dosyanın ivedilikle sonuçlandırılmasına yol açar (m.8); beklemek bu etkiyi boşa harcar.",
+          "reply": [{ "who": "narr", "text": "Müracaat dilekçesi 21.12.2026'da Komisyona ulaştı." }]
+        },
+        {
+          "text": "Danıştay kararını bekle; karar kesinleşip öğrenildikten sonra bir ay içinde tek seferde müracaat et, ihlal bütünüyle görünsün.",
+          "delta": 5,
+          "set": ["p1_bekle"],
+          "law": "6384 s.K. m.5/A, m.8",
+          "note": "Hukuken mümkün, ama stratejik olarak zayıf. Beklemek süreyi uzatır; oysa şimdi verilecek bir karar Danıştay'a bildirilir ve dosyanın hızlanmasını sağlar (m.8).",
+          "reply": [{ "who": "client", "text": "Bir yıl daha mı bekleyeceğim? Hayır, şimdi başvuralım." }, { "who": "narr", "text": "Müvekkilin ısrarıyla müracaat 21.12.2026'da yapıldı." }]
+        },
+        {
+          "text": "Yargılama sürerken Komisyon müracaatı kabul etmez; ihlal devam ettiği için doğrudan Anayasa Mahkemesine bireysel başvuru yap.",
+          "delta": -15,
+          "law": "6384 s.K. m.5/A · 6216 s.K. m.45/2",
+          "note": "İki hata birden: Komisyon yargılama sürerken de müracaat kabul eder; Anayasa Mahkemesi de Komisyon yolu tüketilmeden yapılan makul süre başvurularını kabul edilemez bulur.",
+          "reply": [{ "who": "narr", "text": "Bir meslektaşınız 5/A maddesini hatırlattı. Müracaat 21.12.2026'da Komisyona yapıldı." }]
+        },
+        {
+          "text": "Danıştay'a hızlandırma dilekçesi ver; ayrıca uzayan yargılama için Sağlık Bakanlığına karşı ikinci bir tam yargı davası aç.",
+          "delta": -10,
+          "law": "6384 s.K. m.2/3-a",
+          "note": "Hızlandırma dilekçesi zararsızdır ama çözüm değildir. Yargılamanın uzunluğundan doğan zarar Sağlık Bakanlığının eylemi değildir; bunun için Kanun Komisyon yolunu öngörür.",
+          "reply": [{ "who": "narr", "text": "Dilekçeyi verdiniz; ikinci dava fikrinden vazgeçip 21.12.2026'da Komisyona müracaat ettiniz." }]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAKANLIK GÖRÜŞÜ · Komisyon görüş istedi. Önce sürenin başlangıcını belirlemelisiniz." }
+      ],
+      "prompt": "Makul süre hangi tarihten başlar?",
+      "choices": [
+        {
+          "text": "Süreyi davanın açıldığı 10.05.2019'dan başlat; idari yargılama, dava dilekçesi idare mahkemesine verilince başlar.",
+          "delta": -10,
+          "set": ["p2_dava"],
+          "law": "AİHS m.6/1 · 2577 s.K. m.13",
+          "note": "Eksik. Tam yargı davasından önce idareye başvuru zorunluysa (İYUK m.13), AİHM süreyi bu başvurudan başlatır (König/Almanya, 1978). Dört aylık farkı tartışmak Bakanlığa bir şey kazandırmaz."
+        },
+        {
+          "text": "Tam yargıdan önce idareye başvuru zorunlu olduğundan süreyi 10.01.2019'dan başlat; asıl tartışmayı karmaşıklığa taşı.",
+          "delta": 15,
+          "set": ["p2_onbasvuru"],
+          "law": "AİHS m.6/1 · 2577 s.K. m.13",
+          "note": "Doğru. Zorunlu idari başvuru, uyuşmazlığın başladığı andır; süre 10.01.2019'da başlar. Bakanlığın güçlü alanı başlangıç değil, tıbbi uyuşmazlığın karmaşıklığıdır."
+        },
+        {
+          "text": "Süreyi Adli Tıp raporunun geldiği Kasım 2022'den başlat; o tarihe kadar dosya yargı mercilerinin değil, bilirkişinin elindeydi.",
+          "delta": -15,
+          "set": ["p2_rapor"],
+          "law": "AİHS m.6/1",
+          "note": "Yanlış. Bilirkişi incelemesi yargılamanın parçasıdır; mahkemenin atadığı bilirkişinin gecikmesi de yargılama süresine dahildir ve devlete yüklenir."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Yazılı görüşünüzü hazırlamadan önce Nermin Hanım'la görüşüyorsunuz. İki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Dosyanın her aşamada ne kadar beklediğini gösteren bir belge var mı?",
+          "delta": 15,
+          "set": ["p1_uyap"],
+          "reply": [{ "who": "client", "text": "Eski avukatım UYAP'tan döküm çıkarmıştı. Adli Tıp'a gidiş, hatırlatma yazıları, raporun gelişi, istinaf, temyiz; hepsi tarihli." }],
+          "note": "Yerinde soru. Makul sürede her aşamanın kimden kaynaklandığını göstermek gerekir. Döküm delil çantanıza eklendi."
+        },
+        {
+          "text": "Yargılamayı hızlandırmak için kendiniz bir girişimde bulundunuz mu?",
+          "delta": 10,
+          "set": ["p1_talep"],
+          "reply": [{ "who": "client", "text": "Adli Tıp'a iki kez, Danıştay'a da geçen yıl 'dosyam öncelikle incelensin' diye dilekçe verdim. Kopyaları bende." }],
+          "note": "İyi soru. Başvuranın özenli tutumu, gecikmenin ona yüklenemeyeceğini gösterir. Dilekçeler delil çantanıza eklendi."
+        },
+        {
+          "text": "Hastanedeki doktorlar hakkında ceza soruşturması açıldı mı?",
+          "delta": -5,
+          "reply": [{ "who": "client", "text": "Açıldı; kovuşturmaya yer olmadığına karar verildi." }],
+          "note": "Komisyonun konusu tam yargı davasının uzunluğu; ceza soruşturmasının sonucu bu müracaatı etkilemez."
+        },
+        {
+          "text": "Ne kadar tazminat istiyorsunuz?",
+          "delta": 0,
+          "reply": [{ "who": "client", "text": "Eşimin hayatının karşılığı olmaz. Ne isterseniz." }],
+          "note": "Tutarı müvekkilin beklentisi değil, Komisyonun gözettiği emsal kararlar belirler (m.7)."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, Adli Tıp raporunun otuz sekiz aylık gecikmesi hakkında ne diyorsunuz?" }
+      ],
+      "prompt": "Bilirkişi gecikmesini nasıl değerlendireceksiniz?",
+      "choices": [
+        {
+          "text": "Adli Tıp Kurumu bağımsız bir bilirkişi kurumudur; raporun gecikmesi mahkemeye değil bilirkişiye ait olduğundan bu süre devlete yüklenemez.",
+          "delta": -15,
+          "set": ["p2_bilirkisi"],
+          "law": "AİHS m.6/1",
+          "note": "Yanlış. Mahkemenin atadığı bilirkişinin, hele bir kamu kurumunun gecikmesi devlete yüklenir; mahkeme bu süreyi denetlemekle yükümlüdür. Adli Tıp'ın 'sıra bekleniyor' cevapları da yapısal bir sorunu gösterir."
+        },
+        {
+          "text": "Tıbbi hata iddiası karmaşıktır; rapor gecikmesinin devlete ait olduğunu kabul et, ama karmaşıklığın tutara yansımasını iste.",
+          "delta": 15,
+          "set": ["p2_karmasik"],
+          "law": "AİHS m.6/1",
+          "note": "İsabetli. Kabul edilmesi gereken kabul edildi; karmaşıklık ise makul sürenin meşru bir ölçütü. Tıbbi bilirkişi incelemesi gerektiren bir dosyada belli bir süre olağandır."
+        },
+        {
+          "text": "Başvuran istinafa ve temyize gittiği için uzayan süre ona yüklenir; kanun yoluna başvurmayan taraf bu süreyi hiç beklemezdi.",
+          "delta": -15,
+          "set": ["p2_kanunyolu"],
+          "law": "AİHS m.6/1",
+          "note": "Yanlış. Kanun yollarına başvurmak bir haktır; bu hakkı kullanan başvuran kusurlu sayılmaz. Kanun yolu aşamaları toplam süreye dahildir."
+        },
+        {
+          "text": "Yargılama Danıştay'da sürdüğüne göre müracaat erkendir; ihlal ancak kesin kararla belli olur, bu yüzden reddedilmelidir.",
+          "delta": -20,
+          "law": "6384 s.K. m.5/A",
+          "note": "Kanun açıkça yargılama sürerken müracaata izin veriyor (m.5/A). Bu görüş Komisyon önünde savunulamaz."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, Bakanlığın başvuranın tutumuna ilişkin görüşüne cevabınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Başvuran dosyasını takip etmemiş, yargılamayı hızlandırmak için hiçbir girişimde bulunmamıştır." },
+      "prompt": "Bu beyanı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_talep"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_ozen"],
+        "law": "AİHS m.6/1",
+        "note": "Başvuran, Adli Tıp'a iki kez ve Danıştay'a bir kez hızlandırma dilekçesi vermiş. Özenli bir taraf; gecikme ona yüklenemez.",
+        "reply": [{ "who": "judge", "text": "Dilekçeler dosyaya alındı. Başvuranın tutumunda bir kusur görünmüyor." }]
+      },
+      "responses": {
+        "ev_uyap": { "delta": 5, "set": ["p1_ozen"], "note": "Döküm başvuranın bütün duruşmalarda hazır bulunduğunu gösteriyor; işe yarar. Ama 'hiçbir girişimde bulunmadı' iddiasını doğrudan çürüten belge hızlandırma dilekçeleriydi." },
+        "ev_atk": { "delta": 0, "note": "Yazışmalar Adli Tıp'ın gecikmesini gösteriyor, başvuranın tutumunu değil." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge başvuranın tutumunu göstermiyor." },
+      "pass": { "delta": -10, "note": "İddia cevapsız kaldı; Komisyon başvuranın özenini dosyadan göremedi." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, yargılama sürerken verilecek tazminatın kapsamı ve tutarı hakkında görüşünüz?" }
+      ],
+      "prompt": "Komisyonun tutarı belirlerken neyi esas alması gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p2_miktar"], "law": "6384 s.K. m.2/3-a, m.7", "note": "Ölçülü bir görüş: incelenecek süreyi bugüne kadarla sınırladınız, karmaşıklığı ve emsalleri öne çıkardınız, yolun yalnızca manevi tazminata açık olduğunu hatırlattınız." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p2_miktar"], "law": "6384 s.K. m.7", "note": "Emsal ölçütünü söylediniz. Eksik kalan: değerlendirmenin müracaat tarihine kadarki süreyle sınırlı olduğu, tıbbi uyuşmazlığın karmaşıklığı ve bu yolda yalnızca manevi tazminata hükmedilebileceği (m.2/3-a)." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "6384 s.K. m.7", "note": "Görüşünüz tutarın neye göre belirleneceğini göstermedi. Komisyon AYM ve AİHM emsallerine bakar; ihlali reddetmek ya da yalnızca 'yüksek' demek tutarı etkilemez." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Yargılama sürdüğünden Komisyon, 10.01.2019'dan müracaat tarihine kadar geçen yaklaşık sekiz yıllık süreyi değerlendirir; ileride geçecek süre bu kararın konusu değildir. (2) Dosya tıbbi uygulama hatası iddiası nedeniyle karmaşıktır; bilirkişi incelemesi zorunludur ve belli bir süre olağandır. (3) Tutar Anayasa Mahkemesi ve AİHM'nin emsal kararları gözetilerek belirlenir (6384 s.K. m.7); bu yolda yalnızca manevi tazminata hükmedilir (m.2/3-a). (4) İhlali inkâr etmeyen, karmaşıklığa ve emsale dayanan ölçülü bir görüş daha inandırıcıdır. Süre sınırı, karmaşıklık ve emsal birlikte tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["emsal", "AİHM", "Anayasa Mahkemesi", "AYM", "m.7"], "weight": 3 },
+        { "terms": ["karmaşık", "tıbbi", "bilirkişi"], "weight": 2 },
+        { "terms": ["müracaat tarihine kadar", "bugüne kadar", "sürüyor", "devam eden", "derdest"], "weight": 2 },
+        { "terms": ["manevi", "m.2/3"], "weight": 1 },
+        { "terms": ["ölçülü", "fahiş", "hakkaniyet"], "weight": 1 }
+      ],
+      "model": "Yargılama sürdüğünden Komisyon, 10.01.2019'dan müracaat tarihine kadar geçen yaklaşık sekiz yılı değerlendirmelidir. Tıbbi uygulama hatası iddiası bilirkişi incelemesini zorunlu kılan karmaşık bir uyuşmazlıktır; bu sürenin bir bölümü olağandır. Tutar, Anayasa Mahkemesi ve AİHM'nin benzer dosyalardaki emsal kararları gözetilerek ve yalnızca manevi tazminat olarak belirlenmelidir (6384 s.K. m.2/3-a, m.7)."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, Komisyondan tam olarak ne istiyorsunuz?" }
+      ],
+      "prompt": "İhlali, tazminat talebinizi ve Komisyon kararının sürmekte olan yargılamaya etkisini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p1_olcut"], "law": "6384 s.K. m.7, m.8 · AİHS m.6/1", "note": "Tam bir talep: süreyi zorunlu idari başvurudan başlattınız, gecikmeyi Adli Tıp ve Danıştay'a bağladınız, müvekkilin özenini ve davanın önemini gösterdiniz, kararın Danıştay'a bildirileceğini de istediniz." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p1_olcut"], "law": "6384 s.K. m.7, m.8", "note": "İhlali ve tazminat talebini söylediniz. Eksik kalan: sürenin 10.01.2019 idari başvurusuyla başladığı, Adli Tıp gecikmesinin devlete ait olduğu ve kesinleşen kararın Danıştay'a bildirilerek dosyanın ivedilikle sonuçlandırılacağı (m.8)." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "6384 s.K. m.7, m.8", "note": "Talebiniz ölçütlere dayanmadı. Başlangıç tarihi, gecikmenin kaynağı ve başvuranın tutumu gösterilmeliydi. Komisyon kararının Danıştay'a bildirilmesi (m.8), yargılama sürerken müracaatın asıl kazancıdır." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Süre, İYUK m.13 uyarınca zorunlu olan 10.01.2019 idari başvurusuyla başlar; yargılama sürdüğü için bugüne kadar yaklaşık sekiz yıl geçmiştir. (2) Gecikmenin asıl kaynağı devlete yüklenir: Adli Tıp raporunun 38 ay gecikmesi ve dosyanın 2024'ten beri Danıştay'da beklemesi. (3) Başvuran özenlidir (hızlandırma dilekçeleri, bütün duruşmalarda hazır); dava eşinin ölümüyle ilgili olduğundan onun için önemlidir. (4) Komisyon, AYM ve AİHM emsallerini gözeterek manevi tazminata hükmetmeli (m.7); kesinleşen karar Danıştay'a bildirilir ve dosya ivedilikle sonuçlandırılır (m.8). Başlangıç tarihi, gecikmenin kaynağı ve m.8 etkisi birlikte tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["10.01.2019", "idareye başvuru", "m.13", "2019"], "weight": 2 },
+        { "terms": ["Adli Tıp", "bilirkişi", "38 ay"], "weight": 2 },
+        { "terms": ["Danıştay"], "weight": 1 },
+        { "terms": ["özen", "hızlandırma", "dilekçe", "başvuranın tutumu"], "weight": 1 },
+        { "terms": ["bildiril", "m.8", "ivedi", "öncelikle"], "weight": 2 },
+        { "terms": ["emsal", "manevi tazminat", "m.7"], "weight": 1 }
+      ],
+      "model": "Süre, İYUK m.13 uyarınca zorunlu olan 10.01.2019 tarihli idari başvuruyla başlar ve yargılama hâlâ sürdüğünden bugüne kadar sekiz yıla yaklaşmıştır. Gecikmenin asıl kaynağı Adli Tıp raporunun 38 ay gecikmesi ve dosyanın 2024'ten beri Danıştay'da beklemesidir; müvekkil ise hızlandırma dilekçeleri vermiş, her duruşmada hazır bulunmuştur. Eşinin ölümüne ilişkin bu dava onun için yaşamsal önemdedir. Emsallere göre manevi tazminata hükmedilmesini ve kesinleşen kararın Danıştay'a bildirilerek dosyanın ivedilikle sonuçlandırılmasını istiyoruz (6384 s.K. m.7, m.8)."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, son görüşünüz?" }
+      ],
+      "prompt": "Komisyondan ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Danıştay kararı verilinceye kadar müracaatın incelenmesinin bekletilmesini istiyoruz; aksi hâlde aynı süre için iki kez tazminat ödenebilir.",
+          "delta": -10,
+          "law": "6384 s.K. m.5/A, m.7",
+          "note": "Kanunda bekletme diye bir yol yok; Komisyon dokuz ay içinde karar vermek zorundadır (m.7). Değerlendirme müracaat tarihine kadarki süreyle sınırlı olduğundan çifte ödeme de söz konusu değildir."
+        },
+        {
+          "text": "Komisyonun Danıştay'a, dosyayı belirli bir tarihe kadar karara bağlaması için talimat vermesini istiyoruz; yargıyı hızlandırmanın yolu budur.",
+          "delta": -10,
+          "law": "6384 s.K. m.8 · Anayasa m.138",
+          "note": "Komisyon bir yargı merciine talimat veremez; Kanun yalnızca kesinleşen kararın bildirilmesini ve merciin dosyayı ivedilikle sonuçlandırmasını öngörür (m.8)."
+        },
+        {
+          "text": "Tutarın emsallere ve karmaşıklığa göre belirlenmesini, kesinleşen kararın Danıştay'a bildirilerek dosyanın öncelikle incelenmesini öneriyoruz.",
+          "delta": 15,
+          "set": ["p2_takdir"],
+          "law": "6384 s.K. m.7, m.8",
+          "note": "Ölçülü ve Kanuna uygun bir son görüş. Bakanlık inkâr yerine tutarı ve m.8'in etkisini tartışmaya açtı."
+        },
+        {
+          "text": "Tam yargı davası henüz kesinleşmediğinden başvuranın mağdur sıfatının bulunmadığını, müracaatın hukuki yarar yokluğundan reddini istiyoruz.",
+          "delta": -15,
+          "law": "6384 s.K. m.5/A, m.6",
+          "note": "Yargılama sürerken müracaat Kanunun açık imkânıdır; uzunluktan doğan mağduriyet davanın sonucunu beklemez."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_ozen && p1_olcut && !p2_miktar",
+      "winner": "p1",
+      "hukum": "Müracaatın KABULÜ ile idari yargılamanın makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 110.000 TL manevi tazminat ödenmesine, kesinleşen kararın Danıştay ilgili Dairesine BİLDİRİLMESİNE,",
+      "summary": [
+        { "text": "Başvuran vekili süreyi zorunlu idari başvurudan başlattı, Adli Tıp ve Danıştay gecikmesini devlete bağladı ve müvekkilin özenini belgeledi. Bakanlık tutarı emsallere bağlayan bir görüş sunamadı." },
+        { "if": "p2_bilirkisi", "text": " Bilirkişi gecikmesinin devlete yüklenemeyeceği savunması reddedildi." },
+        { "if": "p2_kanunyolu", "text": " Kanun yollarına başvurmak başvurana kusur olarak yüklenmedi." },
+        { "if": "p2_rapor || p2_dava", "text": " Bakanlığın süreyi geç başlatan görüşü kabul edilmedi." }
+      ]
+    },
+    {
+      "if": "p2_miktar && p2_karmasik && !p1_ozen && !p1_olcut",
+      "winner": "p2",
+      "hukum": "Müracaatın KISMEN KABULÜ ile idari yargılamanın makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 40.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE, kesinleşen kararın Danıştay ilgili Dairesine BİLDİRİLMESİNE,",
+      "summary": "İhlal tespit edildi, ama Bakanlık tıbbi uyuşmazlığın karmaşıklığını ve emsal ölçütünü ikna edici biçimde ortaya koydu. Başvuran vekili ne müvekkilin özenini belgeledi ne de talebini ölçütlere bağladı; tutar alt sınıra yakın kaldı."
+    },
+    {
+      "if": "(p1_ozen || p1_olcut) && (p2_miktar || p2_karmasik)",
+      "winner": "draw",
+      "hukum": "Müracaatın KISMEN KABULÜ ile idari yargılamanın makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 75.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE, kesinleşen kararın Danıştay ilgili Dairesine BİLDİRİLMESİNE,",
+      "summary": [
+        { "text": "İki taraf da sağlam görüş sundu. Başvuran vekili gecikmenin devletten kaynaklandığını gösterdi; Bakanlık da tıbbi uyuşmazlığın karmaşıklığını ve emsal ölçütünü öne çıkardı. Komisyon ihlali tespit edip orta düzeyde tazminata hükmetti; karar Danıştay'a bildirilecek." },
+        { "if": "p1_derdest", "text": " Yargılama sürerken müracaat etmek, dosyanın hızlanmasını da sağladı." }
+      ]
+    },
+    {
+      "if": "p1_ozen || p1_olcut",
+      "winner": "p1",
+      "hukum": "Müracaatın KABULÜ ile idari yargılamanın makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 90.000 TL manevi tazminat ödenmesine, kesinleşen kararın Danıştay ilgili Dairesine BİLDİRİLMESİNE,",
+      "summary": [
+        { "text": "Başvuran vekili ihlali ölçütlerle gösterdi; Bakanlık karmaşıklık ve emsal ölçütünü ortaya koyamadı." },
+        { "if": "p2_bilirkisi", "text": " Adli Tıp gecikmesi devlete yüklendi." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Müracaatın KISMEN KABULÜ ile idari yargılamanın makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 40.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE, kesinleşen kararın Danıştay ilgili Dairesine BİLDİRİLMESİNE,",
+      "summary": "Sekiz yıla yaklaşan süre ihlal tespitine yetti. Ancak başvuran vekili ne gecikmenin kaynağını ne de müvekkilin özenini belgeledi; Komisyon tutarı emsallerin alt sınırına yakın belirledi."
+    }
+  ]
+}

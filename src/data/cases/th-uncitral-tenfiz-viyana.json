@@ -1,0 +1,767 @@
+{
+  "id": "th-uncitral-tenfiz-viyana",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "uncitral",
+  "difficulty": "orta",
+  "title": "Viyana'dan Gelen Karar",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Yabancı hakem kararının tanınması ve tenfizi",
+  "court": "İzmir 5. Asliye Ticaret Mahkemesi · UNCITRAL ad hoc hakem kararının tenfizi (Tahkim yeri: Viyana)",
+  "courtShort": "İZMİR 5. ASLİYE TİCARET",
+  "esas": "2026/731 Esas",
+  "kararTarihi": "11.03.2027",
+  "color": "#4b3a5a",
+  "teaser": "Türk alıcı Viyana'daki tahkime hiç katılmadı; tek hakem 3,1 milyon Dolara hükmetti. Şimdi alıcı, tahkimden haberi olmadığını söylüyor ve Viyana'da iptal davası açtı.",
+  "bench": {
+    "judges": 1,
+    "title": "Hâkim"
+  },
+  "inscription": null,
+  "sides": {
+    "p1": {
+      "role": "Davacı (Tenfiz isteyen satıcı) vekili",
+      "short": "Satıcı"
+    },
+    "p2": {
+      "role": "Davalı (Alıcı) vekili",
+      "short": "Alıcı"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Hâkim",
+      "np": "red",
+      "look": {
+        "kind": "robe",
+        "collar": "hakim",
+        "skin": "#e0b48f",
+        "hair": "#3a2a22",
+        "style": "bun"
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#d7a47c",
+        "hair": "#141110",
+        "style": "short",
+        "glasses": true
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "robe",
+        "collar": "avukat",
+        "skin": "#efc9a6",
+        "hair": "#6e4a2e",
+        "style": "long"
+      }
+    },
+    "mudur": {
+      "name": "Selim Arıkan · Alıcının mali işler müdürü",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#c7936b",
+        "hair": "#2e2622",
+        "style": "bald",
+        "beard": true,
+        "shirt": "#283240",
+        "inner": "#e7e3da"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Viyanalı Danubia Agrar Handels GmbH, 2025'te İzmir Torbalı'daki Ege Rafineri Yağ San. A.Ş.'ye 5.000 ton ham ayçiçek yağı sattı. Fiyatlar düşünce alıcı malı teslim almadı; satıcı yağı zararına başkasına sattı."
+    },
+    {
+      "who": "narr",
+      "text": "Sözleşmeye göre uyuşmazlık UNCITRAL Tahkim Kurallarına göre, Viyana'da, tek hakemle çözülecekti. Alıcı yargılamaya hiç katılmadı. Tek hakem 14.04.2026 tarihli kararla alıcıyı 3.100.000 ABD Doları tazminat ve faiz ödemeye mahkûm etti."
+    },
+    {
+      "who": "narr",
+      "text": "Alıcının Türkiye dışında malvarlığı yok. Satıcı, kararın Türkiye'de tenfizi için alıcının yerleşim yerindeki İzmir asliye ticaret mahkemesine başvuracak. Bugün 25.08.2026."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Satış sözleşmesi m.17 · Tahkim şartı",
+      "d": "Bu sözleşmeden doğan uyuşmazlıklar UNCITRAL Tahkim Kurallarına göre tek hakemle çözülür. Tahkim yeri Viyana, dili İngilizce. Sözleşmeye Avusturya hukuku uygulanır."
+    },
+    {
+      "t": "Satış sözleşmesi m.18 · Bildirimler",
+      "d": "Bu sözleşmeye ve ondan doğacak uyuşmazlıklara ilişkin bildirimler alıcıya procurement@egerafineri.example adresine e-postayla yapılır."
+    },
+    {
+      "t": "Hakem kararı (14.04.2026)",
+      "d": "Tek hakem: Davalı, tahkim bildirimine ve sonraki bütün yazışmalara rağmen yargılamaya katılmamıştır. Davalının 3.100.000 ABD Doları ve faiz ödemesine. Karar alıcıya 20.04.2026'da kuryeyle ve e-postayla iletildi."
+    },
+    {
+      "t": "Ticaret sicili kaydı",
+      "d": "Alıcı şirketin merkezi 03.2025'te Manisa'dan İzmir Torbalı'ya taşındı. Tahkim bildiriminin kurye nüshası eski Manisa adresine gönderilmiş."
+    },
+    {
+      "t": "Türkiye'nin New York Sözleşmesi çekinceleri",
+      "d": "Türkiye Sözleşmeyi karşılıklılık ve ticari nitelik çekinceleriyle onayladı: yalnızca başka bir akit devlette verilen ve Türk hukukuna göre ticari sayılan uyuşmazlıklara ilişkin kararlara uygulanır. Avusturya da Sözleşmeye taraftır."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_m18",
+      "type": "belge",
+      "title": "Sözleşme m.18 · Bildirim adresi",
+      "desc": "Uyuşmazlıklara ilişkin bildirimler alıcıya procurement@egerafineri.example adresine e-postayla yapılır."
+    },
+    {
+      "id": "ev_cevap",
+      "type": "belge",
+      "title": "Alıcının 06.11.2025 tarihli e-postası",
+      "desc": "Alıcının satın alma müdürü, tahkim bildirimine aynı adresten cevap vermiş: ‘Bildiriminiz alındı, yönetimimize iletilmiştir.’"
+    },
+    {
+      "id": "ev_kurye",
+      "type": "belge",
+      "title": "Kurye teslim kaydı",
+      "desc": "Tahkim bildiriminin basılı nüshası 05.11.2025'te eski Manisa adresine bırakılmış; teslim alan bina görevlisi."
+    },
+    {
+      "id": "ev_karar",
+      "type": "belge",
+      "title": "Hakem kararının apostilli aslı ve onaylı Türkçe tercümesi",
+      "desc": "Tek hakemin 14.04.2026 tarihli kararı."
+    },
+    {
+      "id": "ev_ogh",
+      "type": "belge",
+      "title": "Avusturya Yüksek Mahkemesindeki iptal davası",
+      "desc": "Alıcının 10.07.2026'da hakem kararının iptali için Avusturya Yüksek Mahkemesine (OGH) açtığı dava; dava sürüyor.",
+      "if": "p2_ogh"
+    },
+    {
+      "id": "law_unc2",
+      "type": "kanun",
+      "title": "UNCITRAL Tahkim Kuralları m.2",
+      "desc": "Bir taraf belirli bir adresi bildirimler için göstermişse bildirim o adrese yapılır ve yapılmakla alınmış sayılır; e-postayla bildirim ancak bu amaçla gösterilen adrese yapılabilir.",
+      "law": "UNCITRAL Kuralları m.2"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "TENFİZ DİLEKÇESİ · Karar yabancı bir ülkede verildi. Türkiye'de icra edilebilmesi için önce tenfiz kararı gerekiyor."
+        }
+      ],
+      "prompt": "Tenfiz dilekçesini neye dayandıracak, ekine ne koyacaksınız?",
+      "choices": [
+        {
+          "text": "New York Sözleşmesine dayan; kararın ve tahkim şartının aslını ya da onaylı örneğini, onaylı tercümeleriyle ekle.",
+          "delta": 20,
+          "set": [
+            "p1_belge"
+          ],
+          "law": "NYS m.IV · MÖHUK m.1/2, m.61",
+          "note": "Usulüne göre yürürlüğe konmuş milletlerarası andlaşmalar kanun hükmündedir (Anayasa m.90/5); MÖHUK da Türkiye'nin taraf olduğu sözleşmeleri saklı tutar (m.1/2). Tenfiz isteyen, kararın ve tahkim anlaşmasının aslını ya da onaylı örneğini ve onaylı tercümelerini sunar (NYS m.IV, MÖHUK m.61)."
+        },
+        {
+          "text": "Önce Viyana mahkemesinden kararın Avusturya'da icra edilebilir olduğuna dair bir tenfiz kararı al, Türkiye'de ikisini birlikte sun.",
+          "delta": -10,
+          "set": [
+            "p1_cifte"
+          ],
+          "law": "NYS m.V(1)(e)",
+          "note": "New York Sözleşmesi ‘çifte tenfizi’ kaldırmıştır: kararın verildiği ülkede ayrıca tenfiz ya da onay kararı alınması gerekmez. Kararın bağlayıcı olması yeterlidir. Aylarınızı gereksiz bir işe harcadınız; dava ancak 2027 başında açılabildi."
+        },
+        {
+          "text": "Hakem kararıyla doğrudan ilamlı icra takibi başlat; alıcı itiraz ederse o zaman tenfiz davası aç, zaman kaybetme.",
+          "delta": -15,
+          "set": [
+            "p1_icra"
+          ],
+          "law": "MÖHUK m.60 · NYS m.III",
+          "note": "Yabancı hakem kararı, Türk mahkemesince tenfiz edilmeden Türkiye'de ilam gibi icra edilemez (MÖHUK m.60). İcra müdürlüğü takip talebini reddetti; tenfiz davasını yine açmanız gerekti."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Tenfiz dilekçesi tebliğ edildi. Cevaptan önce alıcının mali işler müdürü Selim Arıkan'la görüşüyorsunuz. İki soru soracak vaktiniz var."
+        }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Kararın verildiği ülkede karara karşı bir başvuru yaptınız mı?",
+          "delta": 15,
+          "set": [
+            "p2_ogh"
+          ],
+          "reply": [
+            {
+              "who": "mudur",
+              "text": "Viyana'daki avukatlarımız 10.07.2026'da Avusturya Yüksek Mahkemesinde iptal davası açtı. Dava sürüyor; dilekçenin kopyası bende."
+            }
+          ],
+          "note": "Doğru soru. Kararın verildiği yerde iptal davası görülüyor olması, New York Sözleşmesi m.VI uyarınca tenfiz davasının ertelenmesi talebine dayanak olabilir. Dilekçe çantanıza eklendi."
+        },
+        {
+          "text": "Tahkim bildirimi şirkete hangi yolla ulaştı?",
+          "delta": 10,
+          "set": [
+            "p2_eposta"
+          ],
+          "reply": [
+            {
+              "who": "mudur",
+              "text": "Kuryesi eski Manisa adresine gitmiş. Ama… satın alma müdürümüz e-postayla almış, ‘yönetime ilettim’ diye cevap da yazmış. Sözleşmedeki bildirim adresi oydu zaten."
+            }
+          ],
+          "note": "Hoş olmayan ama değerli bir bilgi: sözleşmede gösterilen adrese yapılan e-posta bildirimi ve alıcının cevabı, ‘tahkimden haberimiz yoktu’ savunmasını büyük ölçüde çürütür. Savunmanızı buna dayandırmamak için öğrenmeniz gerekiyordu."
+        },
+        {
+          "text": "Satıcı yağı kime, hangi fiyata sattı?",
+          "delta": -5,
+          "reply": [
+            {
+              "who": "mudur",
+              "text": "Mısırlı bir alıcıya, ton başına yüz elli dolar aşağıya. Bence daha iyi fiyat bulabilirdi."
+            }
+          ],
+          "note": "Tazminat hesabı uyuşmazlığın esasına ilişkin; tenfiz hâkimi kararın esasını yeniden inceleyemez. Sınırlı vaktinizi tenfizi etkileyecek bir konuya harcamalıydınız."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Hâkim ön inceleme tutanağına şu soruyu yazdırdı: ‘Türkiye New York Sözleşmesine çekincelerle taraftır. Davacı, Sözleşmenin bu karara uygulanma şartlarını açıklasın.’"
+        }
+      ],
+      "prompt": "Yazılı beyanınızda ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Karar akit devlet Avusturya'da verildi; ham yağ satımı Türk hukukuna göre ticari. İki çekince de karşılanıyor.",
+          "delta": 15,
+          "set": [
+            "p1_cekince"
+          ],
+          "law": "NYS m.I(3)",
+          "note": "Karşılıklılık çekincesi, kararın başka bir akit devlette verilmiş olmasını arar; bakılan tarafların uyruğu değil, kararın verildiği yerdir. Ticari nitelik, tenfiz devletinin, yani Türk hukukunun ölçütüyle belirlenir. İki şart da karşılanıyor."
+        },
+        {
+          "text": "Karşılıklılık için Avusturya mahkemelerinin Türk hakem kararlarını fiilen tenfiz ettiğini gösteren örnek kararlar sun.",
+          "delta": -5,
+          "set": [
+            "p1_fiili"
+          ],
+          "law": "NYS m.I(3)",
+          "note": "Sözleşmedeki karşılıklılık çekincesi fiilî bir uygulama ispatı istemez: kararın başka bir akit devlette verilmiş olması yeterlidir. Mahkeme gereksiz bir araştırmaya yöneldi, dosya bir celse uzadı."
+        },
+        {
+          "text": "Taraflar farklı devletlerin uyruğunda olduğundan Sözleşme kendiliğinden uygulanır; çekincelerin bu karara bir etkisi yok.",
+          "delta": -10,
+          "set": [
+            "p1_uyruk"
+          ],
+          "law": "NYS m.I(1), m.I(3)",
+          "note": "Sözleşmenin uygulanması tarafların uyruğuna değil, kararın verildiği yere bağlıdır; Türkiye'nin çekinceleri de her kararda gözetilir. Hâkimin sorusunu cevapsız bıraktınız."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "CEVAP · Tenfiz hâkimi kararın esasını incelemez. Sözleşmenin m.V(1) sebepleri ancak aleyhine tenfiz istenen taraf ileri sürer ve ispatlarsa dikkate alınır."
+        }
+      ],
+      "prompt": "Cevabınızın merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "if": "p2_ogh",
+          "text": "Karar Viyana'da iptal davasına konu: NYS m.VI uyarınca davanın bekletilmesini iste, m.V(1)(e) savunmasını sakla.",
+          "delta": 20,
+          "set": [
+            "p2_erteleme"
+          ],
+          "law": "NYS m.V(1)(e), m.VI",
+          "note": "Kararın verildiği ülkede iptali istenmişse tenfiz mahkemesi, uygun görürse, tenfiz hakkındaki kararını erteleyebilir (m.VI). Karar iptal edilirse m.V(1)(e) uyarınca tenfiz reddedilir. Elinizdeki en güçlü kart buydu."
+        },
+        {
+          "text": "Tahkim bildirimi eski Manisa adresine gitti; müvekkil yargılamadan haberdar edilmedi, savunma yapamadı (m.V(1)(b)).",
+          "delta": -10,
+          "set": [
+            "p2_bildirim"
+          ],
+          "law": "NYS m.V(1)(b)",
+          "note": [
+            {
+              "text": "Usulüne uygun bildirim yapılmaması güçlü bir ret sebebi olabilir; ama ispat yükü sizdedir ve sözleşmede bildirimler için bir e-posta adresi gösterilmişti."
+            },
+            {
+              "if": "p2_eposta",
+              "text": " Üstelik müvekkilin bildirimi e-postayla aldığını ve cevap verdiğini biliyordunuz."
+            }
+          ]
+        },
+        {
+          "text": "Tek hakem tazminatı fahiş hesapladı, Avusturya hukukunu yanlış uyguladı; tenfiz hâkimi kararın esasını denetlesin.",
+          "delta": -15,
+          "set": [
+            "p2_esas"
+          ],
+          "law": "NYS m.V · MÖHUK m.62",
+          "note": "Tenfiz hâkimi kararın esasını yeniden inceleyemez (révision au fond yasağı). Hukukun yanlış uygulanması m.V'teki sebeplerden biri değildir."
+        },
+        {
+          "text": "Tenfiz davasına asliye ticaret değil asliye hukuk mahkemesi bakmalı; görev itirazında bulun, dosya gönderilsin.",
+          "delta": -10,
+          "set": [
+            "p2_gorev"
+          ],
+          "law": "TTK m.4, m.5",
+          "note": "İki tarafın da ticari işletmesiyle ilgili satım uyuşmazlığından doğan karar için açılan tenfiz davası ticari davadır; asliye ticaret mahkemesi görevlidir (TTK m.4, m.5). Görev itirazınız reddedildi."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "p2_bildirim",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı vekili, davalının usulüne uygun bildirim yapılmadığı savunmasına karşı beyanınız?"
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Sayın Hâkim, tahkim bildirimi müvekkilin yıllar önce taşındığı Manisa adresine bırakılmıştır. Müvekkil yargılamadan habersiz kalmış, savunma hakkı elinden alınmıştır."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_cevap",
+        "ev_m18"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "p1_eposta"
+        ],
+        "law": "NYS m.V(1)(b) · UNCITRAL Kuralları m.2",
+        "note": "Sözleşme m.18 bildirimler için bir e-posta adresi göstermişti; UNCITRAL Kuralları m.2 uyarınca o adrese yapılan bildirim alınmış sayılır. Alıcının 06.11.2025 tarihli cevabı da bildirimin fiilen alındığını gösteriyor. Alıcı yargılamadan haberdardı ve katılmamayı seçti.",
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Sözleşmenin 18. maddesi ve 06.11.2025 tarihli e-posta tutanağa geçirildi. Davalı vekili, bu e-postanın müvekkilinizin adresinden gönderildiğine itirazınız var mı?"
+          },
+          {
+            "who": "p2",
+            "text": "Yok, Sayın Hâkim."
+          }
+        ]
+      },
+      "responses": {
+        "law_unc2": {
+          "delta": 5,
+          "note": "Doğru kural: gösterilen adrese yapılan bildirim alınmış sayılır. Ama kuralı değil, o adresi gösteren sözleşme maddesini ya da alıcının cevabını sunmalıydınız."
+        },
+        "ev_kurye": {
+          "delta": -10,
+          "note": "Kurye kaydı bildirimin eski adrese bırakıldığını gösteriyor; davalının tezini doğrular."
+        },
+        "ev_karar": {
+          "delta": -5,
+          "note": "Hakemin ‘davalı bildirimlere rağmen katılmadı’ tespiti tek başına yetmez; tenfiz hâkimi bildirimin usulüne uygunluğunu kendisi değerlendirir. Doğrudan delil sözleşme m.18 ve alıcının cevabıydı."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu belge alıcının usulüne uygun biçimde haberdar edildiğini göstermiyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz; davalının ‘tahkimden habersizdik’ savunması cevapsız kaldı."
+      }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Dosyaya, kararın iptali için Avusturya Yüksek Mahkemesinde dava açıldığı bilgisi geldi. Davalı vekili, bu davanın tenfiz davasına etkisi hakkında beyanınız?"
+        }
+      ],
+      "prompt": "Mahkemeye, Viyana'daki iptal davası nedeniyle tenfiz davası hakkında ne istediğinizi ve hangi hükme dayandığınızı kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": [
+            "p2_guclu"
+          ],
+          "law": "NYS m.V(1)(e), m.VI",
+          "note": "Talebi doğru kurdunuz: kararın verildiği ülkenin yetkili makamında iptal istendiğinden mahkeme, uygun görürse, tenfiz hakkındaki kararını ertelemelidir (m.VI). Karar iptal edilirse tenfiz m.V(1)(e) uyarınca reddedilir; çelişkili kararlar riski ancak bekletmeyle önlenir."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": [
+            "p2_yeterli"
+          ],
+          "law": "NYS m.VI",
+          "note": "Bekletme istediniz. Tam savunma, dayanağı açıkça (NYS m.VI ve m.V(1)(e)), iptal davasının ciddi gerekçesini ve iptal hâlinde tenfizin reddedileceğini birlikte gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "NYS m.VI",
+          "note": "İptal davasının açılmasını tenfizin kendiliğinden reddi sebebi gibi sundunuz ya da dayanak göstermediniz. Bekleyen bir iptal davası kararın bağlayıcılığını tek başına ortadan kaldırmaz; mahkemeye m.VI'daki erteleme yetkisini kullanmasını gerekçeleriyle istemeniz gerekiyordu."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Hakem kararının iptali, kararın verildiği ülkenin yetkili makamından (Avusturya Yüksek Mahkemesi) istenmiştir. (2) New York Sözleşmesi m.VI uyarınca tenfiz mahkemesi, uygun görürse, tenfiz hakkındaki kararını erteleyebilir; tenfiz davasının bekletilmesi istenir. (3) Karar iptal edilirse tenfiz m.V(1)(e) uyarınca reddedilir; bekletme çelişkili kararları önler. (4) İptal davası ciddi bir dayanağa sahiptir ve oyalama amaçlı değildir. Dayanağı (m.VI, m.V(1)(e)) ve bekletme talebini birlikte söylemek tam puan için gerekir; iptal davası açıldı diye tenfizin kendiliğinden reddedilmesi gerektiğini söylemek düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "m.VI",
+            "m. VI",
+            "madde VI",
+            "VI. madde",
+            "Article VI",
+            "6. madde"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "ertele",
+            "bekletil",
+            "bekletme",
+            "adjourn"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "V(1)(e)",
+            "V/1-e",
+            "iptal edilirse",
+            "iptal edilmesi hâlinde",
+            "iptal edilmesi halinde",
+            "set aside"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "Avusturya",
+            "Viyana",
+            "Yüksek Mahkeme",
+            "OGH",
+            "kararın verildiği"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "çelişkili",
+            "çelişen",
+            "usul ekonomisi"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Hâkim, hakem kararının iptali, kararın verildiği ülkenin yetkili makamı olan Avusturya Yüksek Mahkemesinden 10.07.2026'da istenmiştir. New York Sözleşmesi m.VI uyarınca Mahkemeniz tenfiz hakkındaki kararını erteleyebilir. Karar Viyana'da iptal edilirse m.V(1)(e) uyarınca tenfiz zaten reddedilecektir; çelişkili kararları önlemek için davanın Viyana'daki iptal davasının sonucuna kadar bekletilmesini istiyoruz."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "p2_erteleme || p2_guclu || p2_yeterli",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı vekili, Mahkeme bekletme talebini değerlendirecek. Diyeceğiniz?"
+        }
+      ],
+      "prompt": "Bekletme talebine nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "Erteleme uygun görülürse, davalının hükmedilen tutar kadar uygun teminat göstermesine karar verilmesini iste.",
+          "delta": 15,
+          "set": [
+            "p1_teminat"
+          ],
+          "law": "NYS m.VI",
+          "note": "Erteleme hâlinde mahkeme, tenfiz isteyen tarafın talebiyle karşı tarafın uygun teminat göstermesine karar verebilir (m.VI). Bekletme müvekkilin alacağını riske atmıyor; teminat verilmezse bekletmenin dayanağı zayıflar."
+        },
+        {
+          "text": "Karar tarafları bağlıyor; Sözleşme bekleyen bir iptal davası yüzünden tenfiz davasının ertelenmesine izin vermez.",
+          "delta": -5,
+          "set": [
+            "p1_ret"
+          ],
+          "law": "NYS m.VI",
+          "note": "Sözleşme m.VI tam tersine, kararın verildiği ülkede iptal istenmişse tenfiz mahkemesine erteleme yetkisi tanır. Asıl yapmanız gereken, erteleme hâlinde teminat istemekti."
+        },
+        {
+          "text": "Bekletmeye karşı çıkma; Viyana'daki dava kısa sürede biter, Mahkemenin takdirine bırakıyoruz de ve beklemeye geç.",
+          "delta": -10,
+          "set": [
+            "p1_kabul"
+          ],
+          "law": "NYS m.VI",
+          "note": "Talep olmadan mahkeme teminat istemez. Alıcının malvarlığı tümüyle Türkiye'de ve bekleme süresince güvence olmadan elden çıkarılabilir."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "p1_teminat",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, davacının teminat talebine beyanınız?"
+        }
+      ],
+      "prompt": "Teminat talebine ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Teminata karşı çıkma; tutarın asıl alacakla sınırlı tutulmasını ve banka teminat mektubu verilebilmesini iste.",
+          "delta": 10,
+          "set": [
+            "p2_mektup"
+          ],
+          "law": "NYS m.VI",
+          "note": "Gerçekçi bir tutum: m.VI'daki teminat ertelemenin bedeli. Tutarı sınırlamak ve nakit yerine teminat mektubu vermek müvekkilin işletmesini korur; bekletme kararı da korunur."
+        },
+        {
+          "text": "Teminat istenemez: Sözleşme m.VI yalnızca davalıyı korumak için bekletmeyi düzenler, davacıya güvence vermez.",
+          "delta": -10,
+          "set": [
+            "p2_teminatsiz"
+          ],
+          "law": "NYS m.VI",
+          "note": "Yanlış. m.VI, tenfiz isteyen tarafın talebi üzerine karşı tarafın uygun teminat göstermesine karar verilebileceğini açıkça söyler."
+        },
+        {
+          "text": "Teminat verilemese de bekletme sürsün; Viyana'daki davanın sonucunu teminatsız beklemek müvekkilin en doğal hakkıdır.",
+          "delta": -5,
+          "set": [
+            "p2_bekle"
+          ],
+          "law": "NYS m.VI",
+          "note": "Bekletme ve teminat mahkemenin takdirindedir; teminat yükümlülüğünü yerine getirmeyen tarafın bekletmeden yararlanmaya devam etmesi beklenemez."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı vekili, esas hakkındaki son beyanınızı alayım."
+        }
+      ],
+      "prompt": "Mahkemeye, kararın neden tenfiz edilmesi gerektiğini ve davalının savunmalarının neden sonuç doğurmayacağını kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": [
+            "p1_guclu"
+          ],
+          "law": "NYS m.IV, m.V · MÖHUK m.60 vd.",
+          "note": "Tenfizin bütün şartlarını sıraladınız: Sözleşmenin uygulanması ve çekinceler, m.IV belgeleri, m.V(1) sebeplerinde ispat yükünün davalıda olması, bildirimin sözleşmede gösterilen adrese yapılması ve esas incelemesi yasağı."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": [
+            "p1_yeterli"
+          ],
+          "law": "NYS m.V",
+          "note": "Tenfiz talebini savundunuz. Tam savunma, m.V(1) sebeplerinin ispat yükünün davalıda olduğunu, bildirimin sözleşme m.18'deki adrese yapıldığını ve tenfiz hâkiminin esası inceleyemeyeceğini birlikte gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "NYS m.V",
+          "note": "Savunmayı tazminatın esastan doğru olduğu üzerine kurdunuz ya da şartları göstermediniz. Tenfiz hâkimi esasa girmez; sizin göstermeniz gereken, Sözleşmenin şartlarının karşılandığı ve m.V sebeplerinin ispatlanmadığıydı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Karar akit devlet Avusturya'da verildi, uyuşmazlık ticari; New York Sözleşmesi uygulanır (Anayasa m.90/5, MÖHUK m.1/2). (2) Kararın ve tahkim şartının aslı ya da onaylı örneği ve onaylı tercümeleri sunuldu (m.IV, MÖHUK m.61). (3) m.V(1) sebeplerini davalı ileri sürer ve ispatlar; tahkim bildirimi sözleşme m.18'de gösterilen e-posta adresine yapıldı ve alıcı cevap verdi, savunma hakkı ihlali yoktur. (4) Tenfiz hâkimi kararın esasını inceleyemez; kamu düzeni dar yorumlanır. (5) Viyana'daki iptal davası tek başına kararın bağlayıcılığını ortadan kaldırmaz; bekletilecekse teminat istenir. Şartları ve ispat yükünü birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        {
+          "terms": [
+            "New York",
+            "NYS",
+            "Sözleşme m.V",
+            "m.V",
+            "Article V"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "ispat yükü",
+            "davalı ispat",
+            "davalıya ait",
+            "burden"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "m.18",
+            "e-posta",
+            "eposta",
+            "bildirim adresi",
+            "cevap verdi"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "esas incelemesi",
+            "esasa giril",
+            "révision au fond",
+            "esasını inceleyemez",
+            "esasını denetle"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "m.IV",
+            "onaylı tercüme",
+            "apostil",
+            "aslı"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "teminat",
+            "bağlayıcı"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Hâkim, karar akit devlet Avusturya'da verildi ve uyuşmazlık ticaridir; New York Sözleşmesi uygulanır. Kararın ve tahkim şartının onaylı örnekleri tercümeleriyle sunuldu (m.IV). m.V(1) sebeplerini ispat yükü davalıdadır; tahkim bildirimi sözleşme m.18'de gösterilen e-posta adresine yapıldı ve alıcı ‘alındı’ diye cevap verdi. Tenfiz hâkimi kararın esasını inceleyemez. Viyana'daki iptal davası kararın bağlayıcılığını kaldırmaz; bekletilecekse davalının teminat göstermesi gerekir. Kararın tenfizini istiyoruz."
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p2_bildirim && !p1_eposta",
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE; Viyana'da verilen 14.04.2026 tarihli hakem kararının tenfiz isteminin New York Sözleşmesi m.V(1)(b) uyarınca REDDİNE,",
+      "summary": [
+        {
+          "text": "Alıcı vekili, tahkim bildiriminin eski Manisa adresine bırakıldığını ileri sürdü. Satıcı vekili, sözleşmede gösterilen bildirim adresini ve alıcının e-posta cevabını mahkemeye sunmadı; usulüne uygun bildirim yapıldığı gösterilemedi."
+        },
+        {
+          "text": " Alıcının yargılamadan haberdar edildiği kanıtlanamayınca savunma hakkı ihlali savunması kabul edildi."
+        }
+      ]
+    },
+    {
+      "if": "(p2_erteleme || p2_guclu) && p1_teminat",
+      "winner": "draw",
+      "hukum": "Tenfiz davasının, Avusturya Yüksek Mahkemesindeki iptal davasının sonuçlanmasına kadar New York Sözleşmesi m.VI uyarınca BEKLETİLMESİNE; davalının bu süre içinde hükmedilen 3.100.000 ABD Doları karşılığı teminat göstermesine,",
+      "summary": [
+        {
+          "text": "Alıcı vekili, kararın verildiği yerde açılan iptal davasına dayanarak bekletme istedi (m.VI). Satıcı vekili de bekletmenin bedelini, uygun teminatı, doğru biçimde talep etti."
+        },
+        {
+          "if": "p2_mektup",
+          "text": " Teminatın banka teminat mektubuyla verilmesine izin verildi."
+        },
+        {
+          "if": "p2_teminatsiz",
+          "text": " Alıcı vekilinin ‘teminat istenemez’ itirazı m.VI'nın açık metni karşısında reddedildi."
+        },
+        {
+          "if": "p2_bekle",
+          "text": " Alıcı vekili teminatsız bekleme istedi; mahkeme bekletmeyi teminata bağladı."
+        },
+        {
+          "if": "p1_eposta",
+          "text": " Bildirim savunması ise sözleşmedeki e-posta adresi ve alıcının cevabı karşısında baştan çöktü."
+        },
+        {
+          "text": " Viyana'daki dava reddedilirse karar tenfiz edilecek; kabul edilirse m.V(1)(e) uyarınca tenfiz reddedilecek."
+        }
+      ]
+    },
+    {
+      "if": "p2_erteleme || p2_guclu",
+      "winner": "p2",
+      "hukum": "Tenfiz davasının, Avusturya Yüksek Mahkemesindeki iptal davasının sonuçlanmasına kadar New York Sözleşmesi m.VI uyarınca BEKLETİLMESİNE,",
+      "summary": [
+        {
+          "text": "Alıcı vekili, Viyana'daki iptal davasına dayanarak tenfiz davasının bekletilmesini sağladı (m.VI)."
+        },
+        {
+          "if": "!p1_teminat",
+          "text": " Satıcı vekili erteleme hâlinde teminat istemedi; alıcı bekleme süresince hiçbir güvence göstermeyecek."
+        }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": "Davanın KABULÜ ile Viyana'da UNCITRAL Tahkim Kurallarına göre verilen 14.04.2026 tarihli hakem kararının TENFİZİNE,",
+      "summary": [
+        {
+          "text": "Karar New York Sözleşmesine taraf Avusturya'da verilmişti ve ticari bir uyuşmazlığa ilişkindi; tenfiz şartları karşılandı."
+        },
+        {
+          "if": "p1_eposta",
+          "text": " Alıcının ‘tahkimden habersizdik’ savunması, sözleşmede gösterilen e-posta adresi ve alıcının kendi cevabı karşısında çöktü."
+        },
+        {
+          "if": "p2_esas",
+          "text": " Alıcı vekilinin tazminat hesabına ilişkin itirazları esasa yönelikti; tenfiz hâkimi kararın esasını inceleyemez."
+        },
+        {
+          "if": "p2_gorev",
+          "text": " Görev itirazı reddedildi; ticari davaya asliye ticaret mahkemesi bakar."
+        },
+        {
+          "if": "p2_yeterli && !p2_erteleme",
+          "text": " Viyana'daki iptal davası tek başına kararın bağlayıcılığını ortadan kaldırmadı; bekletme talebi yeterli gerekçeyle desteklenmedi."
+        },
+        {
+          "if": "p1_cifte",
+          "text": " Satıcı vekilinin Viyana'da aldırdığı ek onay gereksizdi ve davayı geciktirdi."
+        }
+      ]
+    }
+  ]
+}

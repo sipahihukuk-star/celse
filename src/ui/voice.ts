@@ -11,6 +11,11 @@ import { useEffect, useState } from "react";
 import { CLOUD_VOICES, serverReady, SUPABASE_ANON_KEY, SUPABASE_URL, TTS_FUNCTION } from "../config";
 import { getAccessToken } from "../data/account";
 import { expandForSpeech } from "../engine/speechText";
+import { getLang } from "../i18n";
+
+/** Seçili dile göre bulut sesi bölgesi; Türkçe kısaltma açımı yalnız Türkçede yapılır. */
+const REGION: Record<string, string> = { tr: "tr-TR", en: "en-US", es: "es-ES", fr: "fr-FR", de: "de-DE" };
+const spoken = (text: string) => (getLang() === "tr" ? expandForSpeech(text) : text);
 export { expandForSpeech };
 
 const KEY = "celse-seslendirme";
@@ -61,9 +66,9 @@ function deviceVoice(s: Speaker) {
 
 /** Bulut sesi: kadın ve erkek ses listesinden karaktere sabit bir ses; anlatıcının sesi ayrıdır. */
 function cloudVoice(s: Speaker) {
-  if (s.role === "narr") return CLOUD_VOICES.narr;
   const list = s.female ? CLOUD_VOICES.f : CLOUD_VOICES.m;
-  return list[hash(s.id) % list.length];
+  const v = s.role === "narr" ? CLOUD_VOICES.narr : list[hash(s.id) % list.length];
+  return v.replace(/^tr-TR/, REGION[getLang()] || "tr-TR");
 }
 
 /* ---------- Çalma ---------- */
@@ -106,7 +111,7 @@ function cloudUrl(text: string, voice: string): Promise<string | null> {
 /** Sıradaki satırları arka planda hazırlar (oyuncu okurken seslendirilir, geçince beklemeden çalar). */
 export function prefetchLines(lines: { text: string; speaker: Speaker }[]) {
   if (!enabled) return;
-  for (const l of lines) if (l.text) cloudUrl(expandForSpeech(l.text), cloudVoice(l.speaker));
+  for (const l of lines) if (l.text) cloudUrl(spoken(l.text), cloudVoice(l.speaker));
 }
 
 function stopAll() {
@@ -121,9 +126,9 @@ export async function speakLine(text: string, speaker: Speaker | string = "narr"
   stopAll();
   const my = token;
   const s: Speaker = typeof speaker === "string" ? { id: speaker, role: speaker, female: false } : speaker;
-  const spoken = expandForSpeech(text);
+  const say = spoken(text);
   setSpeaking(true);
-  const url = await cloudUrl(spoken, cloudVoice(s));
+  const url = await cloudUrl(say, cloudVoice(s));
   if (my !== token) return;
   if (url) {
     try {
@@ -137,8 +142,8 @@ export async function speakLine(text: string, speaker: Speaker | string = "narr"
     } catch { /* cihaz sesine geç */ }
   }
   const v = deviceVoice(s);
-  Speech.speak(spoken, {
-    language: "tr-TR", voice: v.voice, pitch: v.pitch, rate: v.rate,
+  Speech.speak(say, {
+    language: REGION[getLang()] || "tr-TR", voice: getLang() === "tr" ? v.voice : undefined, pitch: v.pitch, rate: v.rate,
     onDone: () => { if (my === token) setSpeaking(false); },
     onStopped: () => { if (my === token) setSpeaking(false); },
     onError: () => { if (my === token) setSpeaking(false); }

@@ -1,0 +1,375 @@
+{
+  "id": "th-istac-iptal-ek-rapor",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "istac",
+  "difficulty": "zor",
+  "title": "Ek Rapor",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Hakem kararının iptali (savunma hakkı)",
+  "court": "İstanbul Bölge Adliye Mahkemesi Hukuk Dairesi · İSTAC hakem kararına karşı iptal davası (Tahkim yeri: İstanbul)",
+  "courtShort": "İSTANBUL BAM",
+  "esas": "2026/2214 Esas",
+  "kararTarihi": "18.02.2027",
+  "color": "#3f4a5c",
+  "teaser": "Hakem kurulu, yargılamayı kapatmadan üç gün önce gelen bir ek bilirkişi raporuna dayanarak alıcıyı 2,4 milyon Avro ödemeye mahkûm etti. Alıcı rapora tek satır cevap verememiş.",
+  "bench": { "judges": 3, "title": "Daire Başkanı ve iki üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Davacı (Alıcı) vekili", "short": "Alıcı" },
+    "p2": { "role": "Davalı (Satıcı) vekili", "short": "Satıcı" }
+  },
+  "cast": {
+    "judge": { "name": "Daire Başkanı", "np": "red", "look": { "kind": "robe", "collar": "hakim", "skin": "#d9ab86", "hair": "#5a5a60", "style": "short", "glasses": true } },
+    "p1": { "look": { "kind": "robe", "collar": "avukat", "skin": "#e8bf98", "hair": "#2b201a", "style": "long" } },
+    "p2": { "look": { "kind": "robe", "collar": "avukat", "skin": "#c99470", "hair": "#1c1714", "style": "short", "beard": true } },
+    "hukukcu": { "name": "Dr. Lena Hartwig · Satıcının hukuk müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#f1d2b6", "hair": "#b88a4a", "style": "bun", "glasses": true, "shirt": "#2f3a48", "inner": "#ecebe6" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Denizli'deki Menderes Boya ve Apre San. A.Ş., Alman Rheinwald Färbetechnik GmbH'den 2024'te altı adet kumaş boyama makinesi aldı. Makinelerin dördünde bir yıl içinde korozyon çıktı; alıcı bakiye bedeli ödemedi ve ayıp nedeniyle karşı talepte bulundu." },
+    { "who": "narr", "text": "Sözleşmedeki tahkim şartı uyarınca dava İSTAC'ta görüldü: tahkim yeri İstanbul, üç hakem, Türk hukuku. Hakem kurulunun atadığı bilirkişi 10.04.2026'da ana raporunu verdi; 06.05.2026'daki duruşmada taraflar bilirkişiyi sorguladı." },
+    { "who": "narr", "text": "12.06.2026'da bilirkişiden bir ek rapor geldi. Hakem kurulu 15.06.2026'da tahkikatı kapattı; alıcının 16.06.2026'daki beyan ve duruşma talebini 19.06.2026'da reddetti. 25.09.2026 tarihli kararla alıcı, 2.400.000 Avro bakiye bedeli faiziyle ödemeye mahkûm edildi; karşı talep reddedildi." },
+    { "who": "narr", "text": "Karar alıcıya 02.10.2026'da bildirildi. Bugün 20.10.2026. Alıcı vekili ilk hamleyi yapacak." }
+  ],
+  "docs": [
+    { "t": "Satış sözleşmesi m.21 · Tahkim şartı", "d": "Bu sözleşmeden doğan bütün uyuşmazlıklar İSTAC Tahkim Kurallarına göre üç hakemle çözülür. Tahkim yeri İstanbul, dili İngilizcedir. Sözleşmeye Türk hukuku uygulanır." },
+    { "t": "1 No.lu Usul Kararı · §14", "d": "Hakem kurulunca atanan bilirkişinin her raporuna taraflar, rapor kendilerine iletildikten sonra 14 gün içinde yazılı beyanda bulunabilir. Bilirkişi, raporundan sonra tarafların soru sorabileceği bir duruşmaya çağrılır (MTK m.12/A)." },
+    { "t": "Ana bilirkişi raporu (10.04.2026) · §6.3", "d": "Korozyonun kaynağı malzeme mi, yoksa işletmedeki su kalitesi mi? Su numunelerinin laboratuvar analizi yapılmadan bu konuda kesin bir sonuca varılamaz." },
+    { "t": "Ek bilirkişi raporu (12.06.2026) · Ek-3", "d": "28.05.2026'da alınan su numunelerinin laboratuvar sonuçları: klorür değeri sınırın üç katı. Sonuç: korozyonun ana nedeni, alıcının su arıtma sistemindeki bakım eksikliğidir." },
+    { "t": "Yazışma (16.06 ve 19.06.2026)", "d": "Alıcı vekili: ‘Ek rapor yeni laboratuvar verileri içeriyor. Usul Kararı §14 uyarınca 14 günlük beyan süresi ve bilirkişinin sorgulanacağı bir duruşma talep ediyoruz.’ Hakem kurulu: ‘Tahkikat 15.06.2026'da kapanmıştır. Talep reddedilmiştir.’" },
+    { "t": "Hakem kararı (25.09.2026) · §§87–95", "d": "§§87–94: Ek rapordaki su analizi, korozyonun alıcının bakım eksikliğinden kaynaklandığını göstermektedir. §95: Ana rapor ve alıcının bakım kayıtları da bu sonucu destekler niteliktedir. Karar alıcıya 02.10.2026'da bildirildi." }
+  ],
+  "evidence": [
+    { "id": "ev_uk14", "type": "belge", "title": "1 No.lu Usul Kararı §14", "desc": "Bilirkişi raporlarına 14 gün içinde yazılı beyan hakkı; rapordan sonra bilirkişinin sorgulanacağı duruşma." },
+    { "id": "ev_anarapor", "type": "belge", "title": "Ana bilirkişi raporu §6.3", "desc": "‘Su numunelerinin laboratuvar analizi yapılmadan korozyonun kaynağı konusunda kesin bir sonuca varılamaz.’" },
+    { "id": "ev_ek3", "type": "belge", "title": "Ek rapor · Ek-3 laboratuvar sonuçları", "desc": "28.05.2026'da alınan su numunelerinin ilk kez dosyaya giren analiz sonuçları; ek raporun vardığı sonucun tek dayanağı." },
+    { "id": "ev_yazisma", "type": "belge", "title": "16.06 ve 19.06.2026 yazışması", "desc": "Alıcının beyan süresi ve duruşma talebi; hakem kurulunun ‘tahkikat kapanmıştır’ gerekçesiyle reddi." },
+    { "id": "ev_tutanak", "type": "belge", "title": "06.05.2026 duruşma tutanağı s.112", "desc": "Alıcı vekili bilirkişiye ‘korozyonda işletme hatasının payı olabilir mi’ diye sormuş; bilirkişi ‘su analizi olmadan söyleyemem’ demiş.", "if": "p2_tutanak" },
+    { "id": "ev_bakim", "type": "belge", "title": "Alıcının bakım kayıtları", "desc": "2025 yılında su arıtma filtrelerinin iki kez geç değiştirildiğini gösteren kayıtlar; tahkimde alıcının kendisi sunmuş.", "if": "p2_bakim" },
+    { "id": "law_mtk12a", "type": "kanun", "title": "MTK m.12/A · Bilirkişi", "desc": "Bilirkişi, raporunu verdikten sonra, aksi kararlaştırılmadıkça, tarafların soru sorabileceği ve kendi uzmanlarını dinletebileceği bir duruşmaya çağrılır.", "law": "MTK m.12/A" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Karar 02.10.2026'da bildirildi. Taraflardan biri Almanya'da yerleşik, tahkim yeri İstanbul: uyuşmazlık yabancılık unsuru taşıyor." }
+      ],
+      "prompt": "Karara karşı hangi yola, nerede ve hangi süre içinde başvuracaksınız?",
+      "choices": [
+        {
+          "text": "İstanbul Bölge Adliye Mahkemesinde iptal davası; karar bildiriminden itibaren 30 gün içinde, MTK m.15'e göre.",
+          "delta": 20,
+          "set": ["p1_mtk"],
+          "law": "MTK m.1, m.2, m.15/A",
+          "note": "Tahkim yeri Türkiye olan ve yabancılık unsuru taşıyan uyuşmazlıkta MTK uygulanır (m.1, m.2). Hakem kararına karşı tek yol iptal davasıdır; dava, kararın bildiriminden itibaren 30 gün içinde, MTK m.3'e göre yetkili asliye mahkemesinin bulunduğu yerdeki bölge adliye mahkemesinde açılır (m.15/A). Dava 28.10.2026'da açıldı.",
+          "reply": [ { "who": "narr", "text": "Dava 28.10.2026'da açıldı. İptal davasının açılmasıyla hakem kararının icrası kendiliğinden durdu (MTK m.15/B)." } ]
+        },
+        {
+          "text": "Bölge adliye mahkemesine istinaf; iki hafta içinde, hem usul hem esas yönünden karara itiraz ederek yeniden inceleme iste.",
+          "delta": -10,
+          "set": ["p1_istinaf"],
+          "law": "MTK m.15/A",
+          "note": "Hakem kararlarına karşı istinaf yolu yoktur; tek yol iptal davasıdır ve inceleme m.15'teki sebeplerle sınırlıdır. Mahkeme dilekçeyi iptal davası olarak nitelendirdi, ama esasa ilişkin itirazlarınız baştan incelenmeyecek.",
+          "reply": [ { "who": "narr", "text": "Daire, dilekçeyi MTK m.15 kapsamında iptal davası olarak nitelendirdi ve esasa ilişkin itirazların incelenemeyeceğini ara kararla bildirdi." } ]
+        },
+        {
+          "text": "Şimdi dava açma; satıcı kararı Türkiye'de tenfiz ettirmek istediğinde tenfiz davasında New York Sözleşmesi m.V'e dayan.",
+          "delta": -25,
+          "set": ["p1_bekle"],
+          "law": "MTK m.15/A, m.15/B",
+          "note": "Türkiye'de MTK'ya göre verilen karar yabancı hakem kararı değildir; tenfiz davası açılmaz. İptal davası süresi geçince karar kesinleşir ve icra edilebilirlik şerhiyle doğrudan icra edilir.",
+          "fatal": {
+            "label": "SÜRE KAÇTI:",
+            "hukum": "İptal davası süresinde açılmadığından 25.09.2026 tarihli hakem kararı KESİNLEŞMİŞTİR; karara icra edilebilirlik şerhi verilmesine,",
+            "summary": "Alıcı vekili 30 günlük iptal davası süresini (MTK m.15/A) geçirdi. İstanbul'da MTK'ya göre verilen karar ‘yabancı’ olmadığından tenfiz aşaması da yoktur; karar kesinleşti ve satıcı doğrudan icraya başladı."
+          }
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Dava dilekçesi tebliğ edildi. Alıcı, kararın savunma hakkı ihlali nedeniyle iptalini istiyor." },
+        { "who": "narr", "text": "Cevaptan önce satıcının hukuk müdürü Dr. Lena Hartwig'le görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Alıcı vekili, bilirkişiyi duruşmada işletme hatası konusunda hiç sorguladı mı?",
+          "delta": 10,
+          "set": ["p2_tutanak"],
+          "reply": [ { "who": "hukukcu", "text": "Sorguladı. 06.05.2026 tutanağının 112. sayfasında ‘işletme hatasının payı olabilir mi’ diye soruyor. Ama bilirkişi ‘su analizi olmadan söyleyemem’ demişti." } ],
+          "note": "Yararlı ama iki yönlü bir belge: alıcının konuya yabancı olmadığını gösteriyor, aynı zamanda bilirkişinin o tarihte kesin bir şey söylemediğini de. Tutanak çantanıza eklendi."
+        },
+        {
+          "text": "Kararda ek rapordan bağımsız, alıcının kendi sunduğu bir dayanak var mı?",
+          "delta": 15,
+          "set": ["p2_bakim"],
+          "reply": [ { "who": "hukukcu", "text": "Var. Alıcı kendi bakım kayıtlarını sunmuştu: 2025'te su arıtma filtrelerini iki kez geç değiştirmişler. Karar §95'te buna da dayanıyor." } ],
+          "note": "Doğru soru. İptal davasında usul ihlalinin esasa etkili olup olmadığı tartışılacak; alıcının kendi sunduğu ve hakkında beyanda bulunduğu kayıtlar, kararın bağımsız dayanağı olarak savunmanızın merkezine girebilir. Kayıtlar çantanıza eklendi."
+        },
+        {
+          "text": "Hakem kurulu tahkikatı neden ek raporun gelmesinden yalnızca üç gün sonra kapattı?",
+          "delta": -5,
+          "reply": [ { "who": "hukukcu", "text": "Başhakemin yaz takvimi doluydu galiba. Karar taslağını temmuzda yazmak istiyorlardı." } ],
+          "note": "Bu cevap savunmanıza yaramaz; tersine, alıcının ‘süre tanınmadı’ iddiasını güçlendirir. Sınırlı vaktinizi kendi tezinizi kuracak bilgiye harcamalıydınız."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "DAVA DİLEKÇESİ · MTK m.15/A-1'deki sebepler ancak davacı ileri sürer ve ispat ederse incelenir; mahkeme yalnız tahkime elverişlilik ve kamu düzenini kendiliğinden gözetir." }
+      ],
+      "prompt": "Dilekçenizin merkezine hangi iptal sebebini koyacaksınız?",
+      "choices": [
+        {
+          "text": "Ek rapora beyan ve sorgu imkânı verilmedi: tarafların eşitliği ilkesi ve esasa etkili usul aykırılığı (MTK m.15/A-1(f), (g)).",
+          "delta": 20,
+          "set": ["p1_savunma"],
+          "law": "MTK m.8/B, m.12/A, m.15/A-1(f)-(g)",
+          "note": "Doğru sebep. Taraflara iddia ve savunmalarını ileri sürme olanağı tanınmalıdır (m.8/B). Bilirkişi raporundan sonra beyan ve sorgu hakkı hem Usul Kararı §14'te hem MTK m.12/A'da var. Usulün taraf anlaşmasına aykırı yürütülmesi esasa etkiliyse (f), eşitlik ilkesine uyulmaması ise doğrudan (g) bendi kapsamında iptal sebebidir."
+        },
+        {
+          "text": "Karar kamu düzenine aykırı: 2,4 milyon Avroya yıllık %9 faiz, Türk hukukundaki bileşik faiz yasağını dolanıyor (m.15/A-2(b)).",
+          "delta": -10,
+          "set": ["p1_kamu"],
+          "law": "MTK m.15/A-2(b)",
+          "note": "Kamu düzeni dar yorumlanır: yalnızca Türk hukukunun temel ilkelerine açıkça aykırı sonuçlar iptal sebebidir. Kararlaştırılan bir faiz oranının yüksekliği tek başına bunu karşılamaz; kararda bileşik faiz de yok. Asıl güçlü sebebi, savunma hakkı ihlalini dilekçeye koymadınız."
+        },
+        {
+          "text": "Hakem kurulu ayıp ihbarının süresinde yapıldığını kabul etmeliydi; TBK m.223'ü yanlış uyguladı, karar esastan hatalı.",
+          "delta": -15,
+          "set": ["p1_esas"],
+          "law": "MTK m.15/A",
+          "note": "İptal davası bir esas denetimi değildir: hakem kurulunun maddi hukuku yanlış uyguladığı iddiası m.15'teki sebeplerin hiçbirine girmez. Daire, hakem kararının isabetini inceleyemez. Asıl güçlü sebebi, savunma hakkı ihlalini dilekçeye koymadınız."
+        },
+        {
+          "text": "Hakem kurulu, taraflar istemeden bilirkişiden ek rapor isteyerek yetkisini aştı; karar yetki aşımıyla verildi (m.15/A-1(e)).",
+          "delta": -5,
+          "set": ["p1_yetki"],
+          "law": "MTK m.12/A, m.15/A-1(e)",
+          "note": "Hakem kurulu bilirkişiyi kendisi atayabilir ve ondan rapor isteyebilir (m.12/A); ek rapor istemek yetki aşımı değildir. Sorun ek raporun istenmesinde değil, alıcıya bu rapor hakkında beyan ve sorgu imkânı tanınmamasındadır."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Satıcı, alacağını güvenceye almak istiyor. Alıcının Denizli'deki fabrikası ve banka hesapları biliniyor." },
+        { "who": "hukukcu", "text": "Karar elimizde. İptal davası bitene kadar bekleyecek miyiz? Bu arada mallarını kaçırabilirler." }
+      ],
+      "prompt": "Müvekkile hangi yolu önereceksiniz?",
+      "choices": [
+        {
+          "text": "Hakem kararına dayanarak hemen ilamlı icra takibi başlat; fabrika ve banka hesapları üzerine haciz konulmasını iste.",
+          "delta": -10,
+          "set": ["p2_icra"],
+          "law": "MTK m.15/B",
+          "note": "MTK'da iptal davasının açılması hakem kararının icrasını kendiliğinden durdurur (m.15/B). İcra müdürlüğü takibi bu aşamada ilerletmez. İç tahkimdeki HMK m.439 kuralı farklıdır; orada dava icrayı kendiliğinden durdurmaz."
+        },
+        {
+          "text": "Asliye ticaret mahkemesinden, kararı yaklaşık ispat aracı olarak sunup alıcının mallarına ihtiyati haciz iste.",
+          "delta": 15,
+          "set": ["p2_haciz"],
+          "law": "MTK m.6 · İİK m.257",
+          "note": "Yerinde hamle. İcra durmuş olsa da para alacağı muaccel ve rehinle güvence altında değil; ihtiyati haciz istenebilir (İİK m.257). Mahkemeden geçici hukuki koruma istenmesi tahkim anlaşmasına aykırılık oluşturmaz (MTK m.6). Hakem kararı, alacağın yaklaşık ispatı için güçlü bir belgedir."
+        },
+        {
+          "text": "Daireden, alıcının kararla hükmedilen tutar kadar teminat yatırmasını, aksi hâlde icranın sürdürülmesini iste.",
+          "delta": -5,
+          "set": ["p2_teminat"],
+          "law": "MTK m.15/B · HMK m.439",
+          "note": "Teminat karşılığında icranın durdurulması iç tahkime ilişkin HMK m.439'daki bir kurumdur. MTK'da iptal davası icrayı kendiliğinden ve teminatsız durdurur (m.15/B); dairenin böyle bir teminata bağlama yetkisi yoktur."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Taraf vekilleri hazır. Davacı vekili iptal sebeplerini dilekçede açıkladı. Davalı vekili, cevabınızı sözlü olarak özetleyin." }
+      ],
+      "prompt": "Daireye, hakem kararının neden iptal edilmemesi gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_guclu"],
+          "law": "MTK m.15/A",
+          "note": "İptal davasının sınırlarını doğru çizdiniz: daire kararın isabetini incelemez; A-1 sebeplerini davacı ispat eder ve usul aykırılığı esasa etkili olmalıdır. Kararın ek rapordan bağımsız dayanaklarını (alıcının kendi bakım kayıtları, §95) ve alıcının 16.06.2026 yazısıyla görüşünü bildirdiğini öne çıkardınız."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_yeterli"],
+          "law": "MTK m.15/A",
+          "note": "İptal davasının esas incelemesi olmadığını söylediniz. Tam savunma ayrıca usul aykırılığının esasa etkili olmadığını, kararın §95'teki bağımsız dayanaklarını ve alıcının 06.05.2026 duruşmasında bilirkişiyi sorgulamış olmasını gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "MTK m.15/A",
+          "note": "Savunmayı kararın esastan doğru olduğu üzerine kurdunuz; bu, dairenin inceleyemeyeceği bir alan. Güçlü savunma iptal davasının sınırlarını, m.15/A-1(f) bendindeki ‘esasa etkili olma’ şartını ve kararın bağımsız dayanaklarını gösterir."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) İptal davası istinaf ya da esas denetimi değildir; daire hakem kararının isabetini inceleyemez, yalnız MTK m.15'teki sebeplere bakar. (2) m.15/A-1 sebeplerini davacı ileri sürer ve ispat eder; (f) bendindeki usul aykırılığı ancak esasa etkiliyse iptal sebebidir. (3) Kararın ek rapordan bağımsız dayanakları vardır: alıcının kendi sunduğu bakım kayıtları ve §95. (4) Alıcı 06.05.2026 duruşmasında bilirkişiyi işletme hatası konusunda sorgulamış, 16.06.2026 yazısıyla da görüşünü bildirmiştir. Esasa etki şartını ve bağımsız dayanağı birlikte söylemek tam puan için gerekir; yalnızca ‘karar doğrudur’ demek düşük puan alır.",
+      "keywords": [
+        { "terms": ["esas incelemesi", "esasa giril", "isabet", "révision au fond", "istinaf değil", "esastan incelen"], "weight": 2 },
+        { "terms": ["esasa etkili", "esasa etki", "sonucu değiştir", "etkisi yok"], "weight": 2 },
+        { "terms": ["bakım kayıt", "§95", "95. paragraf", "paragraf 95", "bağımsız dayanak"], "weight": 2 },
+        { "terms": ["06.05.2026", "6 Mayıs", "sorguladı", "soru sordu", "tutanak"], "weight": 1 },
+        { "terms": ["m.15", "m. 15", "madde 15", "15/A", "MTK"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, iptal davası bir esas denetimi değildir; Daire hakem kararının isabetini inceleyemez (MTK m.15). Davacının dayandığı (f) bendi, usul aykırılığının esasa etkili olmasını arar; oysa karar §95'te alıcının kendi sunduğu bakım kayıtlarına da dayanmaktadır. Alıcı vekili 06.05.2026 duruşmasında bilirkişiyi işletme hatası konusunda sorgulamış, 16.06.2026 yazısıyla görüşünü de bildirmiştir. İptal şartları oluşmamıştır."
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, davalının ‘bağımsız dayanak’ savunmasına karşı diyeceğiniz?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Başkan, ek rapor yeni bir şey söylemiyor. Bilirkişi işletme hatasını ana raporda da tartışmıştı; karar ek rapor olmasa da aynı sonuca varırdı." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_anarapor", "ev_ek3"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_ekveri"],
+        "law": "MTK m.12/A, m.15/A-1(f)",
+        "note": "Ana rapor §6.3, su analizi yapılmadan korozyonun kaynağı konusunda kesin sonuca varılamayacağını söylüyordu; analiz sonuçları dosyaya ilk kez ek raporun Ek-3'üyle girdi. Kararın §§87–94'teki belirleyici tespiti, alıcının hiç beyanda bulunamadığı yeni bir veriye dayanıyor. Usul aykırılığının esasa etkisi böylece ortaya çıktı.",
+        "reply": [ { "who": "judge", "text": "Ana raporun §6.3 paragrafı ile ek raporun Ek-3'ü tutanağa geçirildi. Davalı vekili, su analizinin ana raporda yer almadığı doğru mu?" }, { "who": "p2", "text": "Analiz sonuçları ek raporla geldi, Sayın Başkan." } ]
+      },
+      "responses": {
+        "ev_uk14": { "delta": 5, "note": "Usul Kararı §14, 14 günlük beyan hakkının ve sorgu duruşmasının kararlaştırıldığını gösterir; usulün taraf anlaşmasına aykırı yürütüldüğü ortaya çıkar. Ama davalının iddiası ek raporun yeni bir şey söylemediğiydi; buna ana rapor §6.3 ya da Ek-3'teki yeni laboratuvar verisiyle cevap verilir." },
+        "ev_yazisma": { "delta": 0, "note": "Yazışma, beyan ve duruşma talebinizin reddedildiğini gösterir; ama davalının ‘ek rapor yeni bir şey söylemiyor’ iddiasına cevap değildir. Yeni olanı gösteren belge Ek-3 ya da ana rapor §6.3'tü." },
+        "law_mtk12a": { "delta": 0, "note": "Doğru madde, ama tartışma maddenin ne dediği değil, ek raporun yeni bir veri getirip getirmediği. Bunu ana rapor §6.3 ya da Ek-3 gösterirdi." },
+        "ev_tutanak": { "delta": -5, "note": "Tutanakta bilirkişi ‘su analizi olmadan söyleyemem’ diyor; bu dolaylı olarak işinize yarar, ama alıcı vekilinin konuyu sorguladığını da gösterdiği için davalının tezini besler. Doğrudan cevap ana rapor §6.3 ya da Ek-3'tü." },
+        "ev_bakim": { "delta": -10, "note": "Bakım kayıtları davalının ‘bağımsız dayanak’ tezinin belgesidir; sunmanız davalının işine yaradı." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge ek raporun yeni bir veri getirdiğini göstermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz. Davalının ‘karar ek rapor olmasa da aynı sonuca varırdı’ beyanı cevapsız kaldı; usul aykırılığının esasa etkisi gösterilemedi." }
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, iptal sebebinizi son kez ve kısaca özetleyin." }
+      ],
+      "prompt": "Daireye iptal sebebini, dayandığınız maddeleri ve ihlalin karara etkisini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_guclu"],
+          "law": "MTK m.8/B, m.12/A, m.15/A-1(f)-(g)",
+          "note": "İptal sebebini eksiksiz kurdunuz: kararlaştırılan usul (Usul Kararı §14) ve MTK m.12/A'daki beyan ve sorgu hakkı tanınmadı; eşitlik ilkesi çiğnendi (m.8/B); ek rapordaki yeni laboratuvar verisi kararın belirleyici dayanağı oldu. Esasa girmeden, yalnız m.15 sebepleri içinde kaldınız."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_yeterli"],
+          "law": "MTK m.15/A-1(f)-(g)",
+          "note": "Savunma hakkı ihlalini söylediniz. Tam savunma; Usul Kararı §14'ü ve MTK m.12/A'yı, ek raporun yeni bir veri getirdiğini ve kararın §§87–94'te bu veriye dayandığını, yani ihlalin esasa etkisini de birlikte gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "MTK m.15/A-1(f)-(g)",
+          "note": "İptal sebebini somutlaştıramadınız ya da tartışmayı esasa, makinelerin gerçekten ayıplı olup olmadığına kaydırdınız. Daire kararın isabetini incelemez; göstermeniz gereken, ek rapora beyan ve sorgu imkânı verilmemesi ve bunun karara etkisiydi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) İptal sebebi MTK m.15/A-1(g) (tarafların eşitliği ilkesine uyulmaması) ve (f) (usulün taraf anlaşmasına ya da Kanuna aykırı yürütülmesi ve bunun esasa etkili olması). (2) 1 No.lu Usul Kararı §14 ve MTK m.12/A, bilirkişi raporundan sonra yazılı beyan ve bilirkişinin sorgulanacağı duruşma hakkı tanır; m.8/B taraflara iddia ve savunma olanağı verir. (3) Ek rapor 12.06.2026'da geldi, tahkikat üç gün sonra kapatıldı, 16.06.2026 talebi reddedildi. (4) Ek-3'teki su analizi dosyaya ilk kez girdi ve kararın §§87–94'teki belirleyici dayanağı oldu; ihlal esasa etkilidir. (5) Daireden esas incelemesi istenmiyor. Madde ve bentleri, Usul Kararını ve esasa etkiyi birlikte söylemek tam puan için gerekir; makinelerin ayıplı olduğunu tartışmak düşük puan alır.",
+      "keywords": [
+        { "terms": ["eşitlik", "savunma hakkı", "hukuki dinlenilme", "iddia ve savunma", "right to be heard", "beyan imkânı", "beyan imkanı"], "weight": 2 },
+        { "terms": ["15/A-1", "m.15", "m. 15", "(g) bendi", "(f) bendi", "madde 15"], "weight": 1 },
+        { "terms": ["Usul Kararı", "§14", "14 gün", "m.12/A", "12/A"], "weight": 2 },
+        { "terms": ["Ek-3", "laboratuvar", "su analizi", "yeni veri", "ilk kez"], "weight": 2 },
+        { "terms": ["esasa etkili", "esasa etki", "belirleyici", "§87", "87-94", "87–94"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, 1 No.lu Usul Kararı §14 ve MTK m.12/A uyarınca alıcının ek rapora 14 gün içinde beyanda bulunma ve bilirkişiyi duruşmada sorgulama hakkı vardı. Ek rapor 12.06.2026'da geldi, tahkikat üç gün sonra kapatıldı ve 16.06.2026 talebimiz reddedildi. Ek-3'teki su analizi dosyaya ilk kez bu raporla girdi ve karar §§87–94'te ona dayandı. Bu, tarafların eşitliği ilkesinin çiğnenmesidir ve esasa etkilidir; MTK m.15/A-1(f) ve (g) uyarınca kararın iptalini istiyoruz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, Daire iptal sebebini yerinde bulursa ne olacağı hakkında bir talebiniz var mı?" },
+        { "who": "narr", "text": "Kararın 2.400.000 Avroluk hükmünün 310.000 Avroluk kısmı, alıcının hiç itiraz etmediği yedek parça faturalarına ilişkin. Korozyon tartışması bu kısma dokunmuyor." }
+      ],
+      "prompt": "İhtiyati talebiniz ne olacak?",
+      "choices": [
+        {
+          "text": "İptal edilecekse, korozyona dokunmayan 310.000 Avroluk yedek parça bedelini ayırın; kararın o kısmı ayakta kalsın.",
+          "delta": 15,
+          "set": ["p2_kismi"],
+          "law": "MTK m.15/A",
+          "note": "Kararın iptal sebebinden etkilenmeyen ve ayrılabilen kısmı ayakta kalabilir (MTK m.15/A, kısmi iptal). Yedek parça faturaları ek rapordan ve korozyon tartışmasından bağımsız."
+        },
+        {
+          "text": "İptal edilecekse Daire uyuşmazlığın esasına kendisi girsin ve korozyonun nedenini yeni bir bilirkişiyle incelesin.",
+          "delta": -10,
+          "set": ["p2_esas"],
+          "law": "MTK m.15/A",
+          "note": "İptal davasına bakan daire uyuşmazlığın esası hakkında karar veremez; iptalden sonra uyuşmazlık, taraflar aksini kararlaştırmadıkça yeniden tahkimde çözülür."
+        },
+        {
+          "text": "İptal yerine, Daire dosyayı aynı hakem kuruluna geri göndersin; kurul alıcının ek rapora beyanını alıp kararı yenilesin.",
+          "delta": -5,
+          "set": ["p2_iade"],
+          "law": "MTK m.15/A",
+          "note": "UNCITRAL Model Kanunu m.34/4'teki ‘hakem kuruluna iade’ imkânı MTK'ya alınmamıştır. Daire ya iptal eder ya davayı reddeder; ancak ayrılabilen kısım için kısmi iptal mümkündür."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_savunma && p1_ekveri && (p1_guclu || p1_yeterli || !p2_guclu) && p2_kismi",
+      "winner": "draw",
+      "hukum": "Davanın KISMEN KABULÜ ile İSTAC nezdinde verilen 25.09.2026 tarihli hakem kararının ayıp sorumluluğuna, karşı talebin reddine ve bunlara bağlı faize ilişkin hüküm fıkralarının MTK m.15/A-1(g) uyarınca İPTALİNE; 310.000 Avro yedek parça bedeline ilişkin hüküm fıkrası yönünden davanın REDDİNE,",
+      "summary": [
+        { "text": "Alıcı vekili, ek rapora beyan ve sorgu imkânı tanınmadığını ve Ek-3'teki yeni su analizinin kararın belirleyici dayanağı olduğunu gösterdi (MTK m.8/B, m.12/A, m.15/A-1(f)-(g))." },
+        { "text": " Satıcı vekili ise korozyon tartışmasından bağımsız yedek parça bedelinin ayrılmasını doğru biçimde istedi; kararın bu kısmı ayakta kaldı." },
+        { "if": "p2_haciz", "text": " Satıcının aldığı ihtiyati haciz, ayakta kalan alacak için güvence oldu." }
+      ]
+    },
+    {
+      "if": "p1_savunma && p1_ekveri && (p1_guclu || p1_yeterli || !p2_guclu)",
+      "winner": "p1",
+      "hukum": "Davanın KABULÜ ile İSTAC nezdinde verilen 25.09.2026 tarihli hakem kararının MTK m.15/A-1(g) uyarınca İPTALİNE,",
+      "summary": [
+        { "text": "Alıcıya, kararlaştırılan usule ve MTK m.12/A'ya rağmen ek bilirkişi raporuna beyan ve sorgu imkânı verilmedi; tarafların eşitliği ilkesi çiğnendi." },
+        { "text": " Ek-3'teki su analizi dosyaya ilk kez bu raporla girmişti ve karar ona dayanıyordu; ihlalin esasa etkisi açıktı." },
+        { "if": "p2_esas", "text": " Satıcı vekilinin, Dairenin esasa girmesi talebi iptal davasının niteliğiyle bağdaşmadı." },
+        { "if": "p2_iade", "text": " MTK'da dosyanın hakem kuruluna iadesi imkânı bulunmadığından satıcının bu talebi de karşılık bulmadı." },
+        { "if": "p2_icra", "text": " Satıcının başlattığı icra takibi, iptal davası nedeniyle zaten durmuştu (MTK m.15/B)." },
+        { "text": " Uyuşmazlık, taraflar aksini kararlaştırmadıkça yeniden tahkimde çözülecek." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        { "if": "p1_kamu", "text": "Alıcı vekili davayı faiz oranının kamu düzenine aykırılığına dayandırdı; kamu düzeni dar yorumlanır ve yüksek bir faiz oranı tek başına bu eşiği aşmaz. " },
+        { "if": "p1_esas", "text": "Alıcı vekili hakem kurulunun TBK m.223'ü yanlış uyguladığını ileri sürdü; iptal davasında kararın isabeti incelenemez. " },
+        { "if": "p1_yetki", "text": "Hakem kurulunun ek rapor istemesi yetki aşımı sayılmadı; bilirkişiden rapor istemek kurulun yetkisindedir (MTK m.12/A). " },
+        { "if": "p1_savunma && !p1_ekveri", "text": "Alıcı vekili savunma hakkı ihlalini ileri sürdü, ama ek raporun yeni bir veri getirdiğini ve kararın ona dayandığını gösteremedi; ihlalin esasa etkisi kanıtlanamadı. " },
+        { "if": "p1_savunma && p1_ekveri", "text": "Ek rapora beyan imkânı verilmemesi tartışmalıydı; ancak satıcı vekili kararın bağımsız dayanaklarını ve iptal davasının sınırlarını güçlü biçimde ortaya koydu, alıcı vekili ise iptal sebebini sözlü olarak somutlaştıramadı. " },
+        { "if": "p1_istinaf", "text": "Hakem kararına karşı istinaf yolu bulunmadığından esasa ilişkin itirazlar baştan incelenemedi. " },
+        { "text": "MTK m.15'teki iptal sebeplerinden hiçbiri ispatlanamadığından karar ayakta kaldı." },
+        { "if": "p2_haciz", "text": " Satıcının ihtiyati haciz kararı, kesinleşmeyle birlikte icraya dönüşecek." }
+      ]
+    }
+  ]
+}

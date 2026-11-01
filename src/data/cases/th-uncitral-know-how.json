@@ -1,0 +1,752 @@
+{
+  "id": "th-uncitral-know-how",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "uncitral",
+  "difficulty": "basit",
+  "title": "Sır Formülü",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Know-how lisansında gizlilik ihlali",
+  "court": "UNCITRAL Tahkim Kurallarına göre ad hoc hakem kurulu · Dava No. 2026/04 (Tahkim yeri: İstanbul)",
+  "courtShort": "UNCITRAL · İSTANBUL",
+  "esas": "Ad hoc Dava No. 2026/04",
+  "kararTarihi": "30.04.2027",
+  "color": "#2f5a4a",
+  "teaser": "Sözleşme bitti ama sırlar bitmedi: Türk lisans alan, İtalyan sır formüllerini yeni ortağının fabrikasına taşıdı. Kendisi, bilgilerin zaten bir patent yayınında herkese açık olduğunu söylüyor.",
+  "bench": {
+    "judges": 3,
+    "title": "Başhakem ve iki hakem"
+  },
+  "inscription": null,
+  "sides": {
+    "p1": {
+      "role": "Davacı (Lisans veren) vekili",
+      "short": "Lisans veren"
+    },
+    "p2": {
+      "role": "Davalı (Lisans alan) vekili",
+      "short": "Lisans alan"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Başhakem",
+      "np": "red",
+      "look": {
+        "kind": "civil",
+        "skin": "#d8a982",
+        "hair": "#2e2a28",
+        "style": "short",
+        "beard": true,
+        "glasses": true,
+        "shirt": "#2b2f36",
+        "inner": "#e8e4dc"
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "civil",
+        "skin": "#efcaa8",
+        "hair": "#3b2b20",
+        "style": "bun",
+        "shirt": "#262c38",
+        "inner": "#ece8e0"
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "civil",
+        "skin": "#c8956e",
+        "hair": "#18130f",
+        "style": "short",
+        "shirt": "#2d3036",
+        "inner": "#e4e0d8"
+      }
+    },
+    "teknik": {
+      "name": "Erdem Yalın · Davalının üretim müdürü",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#d39f78",
+        "hair": "#4a3e36",
+        "style": "curly",
+        "shirt": "#46505c",
+        "inner": "#e9e5dd"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "İtalyan Officine Brenta S.p.A., 2020'de Kütahyalı Anadolu Sır ve Seramik A.Ş.'ye seramik sırları için reçete, pişirme eğrisi ve katkı oranlarından oluşan know-how'ını lisansladı. Sözleşme 31.12.2025'te sona erdi."
+    },
+    {
+      "who": "narr",
+      "text": "Sözleşmeye göre gizlilik yükümlülüğü sona ermeden sonra beş yıl sürüyor. Mayıs 2026'da lisans veren, eski lisans alanın Uşak'taki yeni ortağı Uşak Karo Ltd. Şti.'ye bütün teknik dosyayı verdiğini öğrendi. Uşak Karo altı hafta sonra üretime başlayacak."
+    },
+    {
+      "who": "narr",
+      "text": "Tahkim şartı: UNCITRAL Tahkim Kuralları, ad hoc, üç hakem, tahkim yeri İstanbul. Taraflardan biri İtalyan; uyuşmazlığa MTK uygulanacak. Bugün 12.05.2026."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Lisans sözleşmesi m.12 · Gizlilik",
+      "d": "12.1: Lisans alan, know-how'ı gizli tutar ve yalnız sözleşme amacıyla kullanır. 12.2: Yükümlülük sözleşmenin sona ermesinden sonra beş yıl sürer. 12.3: Kamuya açık olan ya da lisans alanın bağımsız olarak geliştirdiği bilgiler gizli bilgi sayılmaz."
+    },
+    {
+      "t": "Lisans sözleşmesi m.14 · Cezai şart",
+      "d": "Gizlilik yükümlülüğünün her ihlalinde lisans alan 500.000 Avro cezai şart öder; lisans verenin daha fazla zararını isteme hakkı saklıdır."
+    },
+    {
+      "t": "Lisans sözleşmesi m.20 · Tahkim ve hukuk seçimi",
+      "d": "Bu sözleşmeden doğan veya bununla bağlantılı bütün uyuşmazlıklar UNCITRAL Tahkim Kurallarına göre üç hakemle çözülür. Tahkim yeri İstanbul, dili İngilizce. Sözleşmeye İsviçre hukuku uygulanır."
+    },
+    {
+      "t": "Uşak Karo'nun eski bir çalışanının e-postası (08.05.2026)",
+      "d": "‘Anadolu Sır'dan gelen teknik dosyada Brenta'nın 14 sır reçetesi, pişirme eğrileri ve katkı oranları var. Haziran sonunda deneme üretimine başlıyoruz.’"
+    },
+    {
+      "t": "Avrupa patent yayını (2019)",
+      "d": "Brenta'nın 2019'da yayımlanan bir patent başvurusu, sır bazı için temel oksit bileşimlerini açıklıyor. Pişirme eğrileri ve katkı oranları yayında yok."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_patent",
+      "type": "belge",
+      "title": "Avrupa patent yayını (2019)",
+      "desc": "Sır bazı için temel oksit bileşimleri. Pişirme eğrisi ve katkı oranı yok."
+    },
+    {
+      "id": "ev_karsilastirma",
+      "type": "belge",
+      "title": "Bilirkişi karşılaştırma raporu",
+      "desc": "Uşak Karo'nun deneme üretim talimatlarındaki 14 reçetenin 11'inde, patent yayınında bulunmayan pişirme eğrileri ve katkı oranları Brenta'nın teknik dosyasıyla birebir aynı."
+    },
+    {
+      "id": "ev_eposta",
+      "type": "belge",
+      "title": "Uşak Karo çalışanının e-postası",
+      "desc": "Teknik dosyada Brenta'nın 14 reçetesi, pişirme eğrileri ve katkı oranları olduğu yazıyor."
+    },
+    {
+      "id": "ev_m12",
+      "type": "belge",
+      "title": "Sözleşme m.12",
+      "desc": "Gizlilik; beş yıllık süre; kamuya açık bilgiler istisnası."
+    },
+    {
+      "id": "ev_ar",
+      "type": "beyan",
+      "title": "Davalının Ar-Ge kayıtları",
+      "desc": "2024'te iki yeni sır için kendi pişirme denemelerini gösteren laboratuvar defteri; diğer 12 reçete için kayıt yok.",
+      "if": "p2_arge"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Ad hoc tahkimde hakem kurulunu kurmak haftalar alacak; UNCITRAL Kurallarında acil durum hakemi yok. Uşak Karo tahkim şartına taraf değil."
+        }
+      ],
+      "prompt": "Altı hafta içinde ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Tahkim bildirimini gönder; Uşak Karo için asliye ticaret mahkemesinden tedbir iste, iki hafta içinde ona haksız rekabet davası aç.",
+          "delta": 20,
+          "set": [
+            "p1_ikili"
+          ],
+          "law": "MTK m.6 · HMK m.389, m.397 · TTK m.55",
+          "note": "Hakem kurulu kurulmadan ve tahkim şartına taraf olmayan üçüncü kişi hakkında hakemlerden tedbir alınamaz (MTK m.6). Mahkemeden tedbir istemek tahkim anlaşmasına aykırı değildir. Dava açılmadan alınan tedbirde, esas hakkındaki dava iki hafta içinde açılmalıdır (HMK m.397); Uşak Karo'ya karşı bu dava, tahkimde değil, mahkemede haksız rekabet davasıdır (TTK m.55).",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "İstanbul asliye ticaret mahkemesi, teminat karşılığında Uşak Karo'nun Brenta reçeteleriyle üretim yapmasını tedbiren yasakladı. Tahkim bildirimi 15.05.2026'da tebliğ edildi."
+            }
+          ]
+        },
+        {
+          "text": "Tahkim bildirimini gönder; hakem kurulu kurulur kurulmaz Uşak Karo'nun da üretimi durdurmasına karar vermesini iste.",
+          "delta": -10,
+          "set": [
+            "p1_hakem"
+          ],
+          "law": "MTK m.6",
+          "note": "Hakem kurulu, üçüncü kişileri bağlayan ihtiyati tedbir kararı veremez (MTK m.6); Uşak Karo tahkim şartına taraf da değil. Kurul kurulana kadar Uşak Karo üretime başladı.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Hakem kurulu 25.07.2026'da kuruldu. Uşak Karo 30.06.2026'da deneme üretimine başlamıştı."
+            }
+          ]
+        },
+        {
+          "text": "Lisans alana karşı İstanbul asliye ticaret mahkemesinde tazminat ve men davası aç; tahkim yavaş, mahkeme daha hızlı karar verir.",
+          "delta": -15,
+          "set": [
+            "p1_dava"
+          ],
+          "law": "HMK m.413 · MTK m.5",
+          "note": "Tahkim şartına konu bir uyuşmazlıkta dava açılırsa, davalı tahkim itirazında bulunur ve dava usulden reddedilir. Lisans alan itirazını ilk itiraz olarak yaptı; dört ay kaybettiniz.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Mahkeme, tahkim itirazı üzerine davayı usulden reddetti. Tahkim bildirimi ancak Eylül 2026'da gönderilebildi."
+            }
+          ]
+        },
+        {
+          "text": "Önce lisans alana noter ihtarı çek; yazılı cevabını ve Uşak Karo'nun deneme üretimini bekle, delil oluşunca tahkime başvur.",
+          "delta": -5,
+          "set": [
+            "p1_bekle"
+          ],
+          "law": "MTK m.6",
+          "note": "İhtar yararlı ama acil durumda tek başına yetmez. Zarar, bilginin yayılmasıyla geri dönülmez hâle gelir; tedbir yolunu kullanmadınız.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Lisans alan ihtara ‘bilgiler kamuya açık’ diye cevap verdi. Uşak Karo 30.06.2026'da deneme üretimine başladı."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Tahkim bildirimi geldi. Cevap bildirimi için 30 gün var (UNCITRAL Kuralları m.4)."
+        },
+        {
+          "who": "narr",
+          "text": "Müvekkilin üretim müdürü Erdem Yalın'la görüşüyorsunuz. İki soru soracak vaktiniz var."
+        }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Uşak Karo'ya verdiğiniz bilgilerin hangisini kendiniz geliştirdiniz?",
+          "delta": 15,
+          "set": [
+            "p2_arge"
+          ],
+          "reply": [
+            {
+              "who": "teknik",
+              "text": "İki sırı 2024'te kendi laboratuvarımızda baştan geliştirdik, defterleri var. Diğer on ikisi Brenta'nın reçeteleri; pişirme eğrileri de onların."
+            }
+          ],
+          "note": "Doğru soru. Sözleşme m.12.3, lisans alanın bağımsız geliştirdiği bilgileri gizli bilgi saymıyor. İki reçete için savunma kuruldu; ama diğerleri için tablo karanlık. Ar-Ge kayıtları çantanıza eklendi."
+        },
+        {
+          "text": "Patent yayınında olmayan bilgiler de Uşak Karo'ya verildi mi?",
+          "delta": 10,
+          "set": [
+            "p2_bilgi"
+          ],
+          "reply": [
+            {
+              "who": "teknik",
+              "text": "Verildi. Patentte yalnız oksit bileşimleri var; pişirme eğrileri ve katkı oranları bizim teknik dosyadandı."
+            }
+          ],
+          "note": "Acı ama gerekli bir bilgi: ‘her şey zaten patentte’ savunması tümüyle doğru değil. Savunmayı abartılı bir iddia üzerine kurmamak için bilmeniz gerekiyordu."
+        },
+        {
+          "text": "Uşak Karo ortaklığından ne kadar kâr bekliyorsunuz?",
+          "delta": -5,
+          "reply": [
+            {
+              "who": "teknik",
+              "text": "İlk yıl iki milyon Avro civarı. Ama yönetim daha iyimser."
+            }
+          ],
+          "note": "Bu bilgi davacının tazminat hesabında işine yarar, sizin savunmanıza değil. Sınırlı vaktinizi gizlilik istisnalarına harcamalıydınız."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "CEVAP BİLDİRİMİ · Yetki itirazı, MTK m.7/H uyarınca en geç ilk cevap dilekçesinde yapılmalı."
+        }
+      ],
+      "prompt": "Cevabın merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "text": "Yetkiye itiraz etme; sözleşme m.12.3'e dayan: kamuya açık ya da kendi geliştirdiğimiz bilgiler gizli bilgi değildir.",
+          "delta": 15,
+          "set": [
+            "p2_istisna"
+          ],
+          "law": "Sözleşme m.12.3 · MTK m.7/H",
+          "note": "Şart ‘bu sözleşmeden doğan veya bununla bağlantılı’ bütün uyuşmazlıkları kapsıyor; sözleşmeye bağlı gizlilik ve haksız rekabet talepleri de kapsamda. Yetki itirazı yerine savunmayı sözleşmenin kendi istisnasına dayandırdınız."
+        },
+        {
+          "text": "Haksız rekabete dayanan talepler sözleşmeden doğmuyor; o kısım için hakem kurulunun yetkisine itiraz et.",
+          "delta": -5,
+          "set": [
+            "p2_yetki"
+          ],
+          "law": "MTK m.7/H",
+          "note": "‘Bununla bağlantılı’ ibaresi, sözleşmeden kaynaklanan gizli bilginin kullanılmasına dayanan sözleşme dışı talepleri de kapsar. Hakem kurulu itirazı ön sorun olarak reddetti; vakit kaybettiniz."
+        },
+        {
+          "text": "Hakem kurulu, uygulanacak hukuku MÖHUK'a göre yeniden belirlesin; İsviçre hukukunun kanunlar ihtilafı kuralları da gözetilsin.",
+          "delta": -10,
+          "set": [
+            "p2_mohuk"
+          ],
+          "law": "MTK m.12/C",
+          "note": "Tarafların seçtiği hukuk uygulanır; bir devletin hukukunun seçilmesi, aksi kararlaştırılmadıkça, o devletin kanunlar ihtilafı kurallarını değil maddi hukukunu ifade eder (MTK m.12/C). Taraflar İsviçre hukukunu seçmişti."
+        },
+        {
+          "text": "Know-how fikrî mülkiyet hakkıdır ve tahkime elverişli değildir; uyuşmazlık Türk fikrî haklar mahkemesinde görülmeli.",
+          "delta": -10,
+          "set": [
+            "p2_elverisli"
+          ],
+          "law": "MTK m.1/4 · HMK m.408",
+          "note": "Tescilli olmayan know-how'ın kullanımına ilişkin sözleşmesel ve tazminat talepleri, tarafların serbestçe tasarruf edebildiği uyuşmazlıklardır ve tahkime elverişlidir. İtirazınız reddedildi."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Hakem kurulu 25.07.2026'da kuruldu. Lisans veren, lisans alan hakkında geçici önlem istiyor."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, geçici önlem talebinizin dayanağını ve şartlarını açıklayın."
+        }
+      ],
+      "prompt": "Hakem kuruluna, lisans alana karşı hangi geçici önlemi istediğinizi ve şartlarının neden gerçekleştiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü talep",
+          "min": 70,
+          "delta": 20,
+          "set": [
+            "p1_guclu"
+          ],
+          "law": "UNCITRAL Kuralları m.26 · MTK m.6",
+          "note": "Talebi doğru kurdunuz: somut önlem (kullanma ve ifşa yasağı, belgelerin iadesi), tazminatla giderilemeyecek zarar ve zararlar dengesi (m.26(3)(a)), esasta makul başarı ihtimali (m.26(3)(b)) ve teminat önerisi (m.26(6))."
+        },
+        {
+          "text": "Yeterli talep",
+          "min": 40,
+          "delta": 8,
+          "set": [
+            "p1_yeterli"
+          ],
+          "law": "UNCITRAL Kuralları m.26",
+          "note": "Önlemi istediniz ve zararı anlattınız. Güçlü talep, m.26(3)'teki iki şartı ayrı ayrı gösterir, zararlar dengesini kurar ve teminat önerir."
+        },
+        {
+          "text": "Zayıf talep",
+          "delta": -10,
+          "law": "UNCITRAL Kuralları m.26",
+          "note": "Önlemin şartlarını göstermediniz ya da Uşak Karo hakkında da karar istediniz. Hakem kurulu yalnız taraflar hakkında, m.26(3)'teki şartlar gerçekleşirse geçici önlem verebilir."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) İstenen önlem somuttur: lisans alanın know-how'ı kullanmasının ve üçüncü kişilere açıklamasının yasaklanması, teknik dosyanın iadesi (UNCITRAL m.26(2)(a)-(b)). (2) Tazminatla yeterince giderilemeyecek zarar: gizlilik bir kez kaybolursa geri gelmez, pazar payı kaybı ölçülemez; bu zarar, önlemin lisans alana vereceği zarardan belirgin biçimde ağırdır (m.26(3)(a)). (3) Esasta makul başarı ihtimali: gizlilik yükümlülüğü sona ermeden sonra beş yıl sürer (sözleşme m.12.2), ifşa e-postayla belgelidir (m.26(3)(b)). (4) Davacı uygun teminat göstermeye hazırdır (m.26(6)). (5) Hakem kurulu yalnız taraflar hakkında karar verir; Uşak Karo için mahkeme yolu kullanılır (MTK m.6). İki şartı ve teminatı birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        {
+          "terms": [
+            "m.26",
+            "madde 26",
+            "Article 26",
+            "geçici önlem",
+            "interim measure"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "telafi edilemez",
+            "giderilemez",
+            "tazminatla gider",
+            "irreparable",
+            "geri dönülmez",
+            "geri gelmez"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "zararlar dengesi",
+            "ağır basar",
+            "daha ağır",
+            "outweighs",
+            "denge"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "başarı ihtimali",
+            "makul ihtimal",
+            "haklı görünme",
+            "reasonable possibility",
+            "m.12.2",
+            "beş yıl"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "teminat",
+            "security"
+          ],
+          "weight": 2
+        }
+      ],
+      "model": "Sayın Başhakem, UNCITRAL Kuralları m.26 uyarınca lisans alanın Brenta know-how'ını kullanmasının ve üçüncü kişilere açıklamasının yasaklanmasını ve teknik dosyanın iadesini istiyoruz. Gizlilik bir kez kaybolursa tazminatla giderilemez ve bu zarar, yasağın lisans alana vereceği zarardan çok ağırdır. Gizlilik yükümlülüğü sona ermeden sonra beş yıl sürüyor ve ifşa belgeli; esasta makul başarı ihtimalimiz açık. Kurulun belirleyeceği teminatı göstermeye hazırız."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, geçici önlem talebine cevabınız?"
+        }
+      ],
+      "prompt": "Talebe nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "İki bağımsız sır dışında karara kadar ifşa etmeme taahhüdü ver; önlem verilirse davacıdan teminat istensin.",
+          "delta": 15,
+          "set": [
+            "p2_taahhut"
+          ],
+          "law": "UNCITRAL Kuralları m.26(6), m.26(8)",
+          "note": "Ölçülü bir savunma: önlemin kapsamını kendi geliştirdiğiniz bilgilerin dışına çektiniz, teminatı istediniz. Önlem sonradan haksız çıkarsa davacı doğan zarardan sorumlu tutulabilir (m.26(8))."
+        },
+        {
+          "text": "Türk hukukunda geçici önlemi yalnız mahkeme verebilir; hakem kurulunun böyle bir yetkisi yoktur, talep reddedilsin.",
+          "delta": -10,
+          "set": [
+            "p2_yetkisiz"
+          ],
+          "law": "MTK m.6",
+          "note": "MTK m.6, taraflar aksini kararlaştırmadıkça hakem kurulunun taraflardan birinin istemi üzerine ihtiyati tedbire karar verebileceğini açıkça söyler. Sınır yalnızca cebrî icra gerektiren, resmî makamları ya da üçüncü kişileri bağlayan kararlardır."
+        },
+        {
+          "text": "Hakem kurulunun tedbiri icra yoluyla uygulanamaz; vereceği karar kâğıt üzerinde kalır, talep bu yüzden anlamsız.",
+          "delta": -5,
+          "set": [
+            "p2_anlamsiz"
+          ],
+          "law": "MTK m.6",
+          "note": "Hakem tedbirine uyulmazsa karşı taraf mahkemenin yardımını isteyebilir (MTK m.6). Ayrıca tedbire aykırılık, esas kararda ve yargılama giderlerinde aleyhinize değerlendirilir."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Esas hakkındaki duruşma. Davalı, gizlilik istisnasına dayanıyor."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, davalının beyanına karşı diyeceğiniz?"
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Sayın Başhakem, Uşak Karo'ya verilen bilgiler 2019'dan beri Brenta'nın kendi patent yayınında herkesin erişimine açıktır. Kamuya açık bilgi, sözleşme m.12.3 gereği gizli bilgi değildir."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_karsilastirma"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "p1_fark"
+        ],
+        "law": "Sözleşme m.12.1, m.12.3",
+        "note": "Bilirkişi karşılaştırması, Uşak Karo'nun talimatlarındaki 14 reçetenin 11'inde patent yayınında bulunmayan pişirme eğrileri ve katkı oranlarının Brenta'nın dosyasıyla birebir aynı olduğunu gösteriyor. Patent yalnız oksit bileşimlerini açıklıyordu; know-how'ın değeri tam da yayında olmayan kısımdaydı.",
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Davalı vekili, pişirme eğrilerinin patent yayınında yer aldığını gösterebilir misiniz?"
+          },
+          {
+            "who": "p2",
+            "text": "Yayında yalnız bileşimler var, Sayın Başhakem."
+          }
+        ]
+      },
+      "responses": {
+        "ev_eposta": {
+          "delta": 5,
+          "note": "E-posta teknik dosyada pişirme eğrileri ve katkı oranları olduğunu söylüyor; ama bunların patentte olmadığını ve Uşak Karo'nun gerçekten kullandığını gösteren belge bilirkişi karşılaştırmasıydı."
+        },
+        "ev_m12": {
+          "delta": 0,
+          "note": "Sözleşme hükmü tartışmasız; tartışılan, bilgilerin gerçekten kamuya açık olup olmadığı. Bunu bilirkişi karşılaştırması gösterirdi."
+        },
+        "ev_patent": {
+          "delta": -5,
+          "note": "Patent yayınını sunmak davalının tezine yardım etti; yayında olmayanı göstermek için karşılaştırma raporu gerekiyordu."
+        },
+        "ev_ar": {
+          "delta": -10,
+          "note": "Davalının Ar-Ge kayıtları, iki reçetenin bağımsız geliştirildiğini gösterir; davalının işine yaradı."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu belge bilgilerin patent yayınında olmadığını göstermiyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz; ‘bilgiler kamuya açık’ savunması cevapsız kaldı."
+      }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalı vekili, esasa ilişkin son beyanınız?"
+        }
+      ],
+      "prompt": "Hakem kuruluna, müvekkilin sorumluluğunun neden olmadığını ya da sınırlı kalması gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": [
+            "p2_guclu"
+          ],
+          "law": "Sözleşme m.12.3, m.14 · İsviçre BK m.161",
+          "note": "Savunmayı gerçekçi kurdunuz: bağımsız geliştirilen iki reçeteyi ve patentte açıklanan oksit bileşimlerini gizli bilgi kapsamından çıkardınız; cezai şartın ihlal başına uygulanmasını sınırlamaya, cezai şartı aşan zarar için davacının kusur ve zarar ispatına dikkat çektiniz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": [
+            "p2_yeterli"
+          ],
+          "law": "Sözleşme m.12.3",
+          "note": "İstisnaya dayandınız. Güçlü savunma, istisnayı reçete bazında somutlaştırır ve sorumluluk kabul edilirse tazminatın sınırlarını da gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "Sözleşme m.12",
+          "note": "‘Her şey kamuya açıktı’ iddiasında ısrar ettiniz; bilirkişi raporu ve kendi üretim müdürünüzün bilgisi karşısında bu iddia güvenilirliğinizi zedeledi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sözleşme m.12.3 uyarınca kamuya açık ve lisans alanın bağımsız geliştirdiği bilgiler gizli bilgi değildir: iki reçete 2024'te bağımsız geliştirilmiştir (Ar-Ge kayıtları), oksit bileşimleri 2019 patent yayınında açıktır. (2) İhlal ancak geri kalan, yayında olmayan bilgiler için tartışılabilir; savunma reçete bazında yapılır. (3) Cezai şart (m.14) ihlal başına öngörülmüştür; tek bir dosya teslimi tek ihlaldir. (4) İsviçre BK m.161/2 uyarınca cezai şartı aşan zarar, ancak lisans veren zararını ve lisans alanın kusurunu ispatlarsa istenebilir. Abartılı ‘her şey kamuya açık’ iddiası yerine istisnayı somutlaştırmak ve tazminatın sınırlarını göstermek tam puan için gerekir.",
+      "keywords": [
+        {
+          "terms": [
+            "m.12.3",
+            "12.3",
+            "istisna",
+            "kamuya açık",
+            "public domain"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "bağımsız geliştir",
+            "kendimiz geliştir",
+            "Ar-Ge",
+            "laboratuvar defter",
+            "iki reçete",
+            "iki sır"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "cezai şart",
+            "m.14",
+            "500.000",
+            "ihlal başına",
+            "tek ihlal"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "m.161",
+            "161",
+            "aşan zarar",
+            "kusur",
+            "zararını ispat"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "patent",
+            "oksit"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Başhakem, sözleşme m.12.3 kamuya açık ve bağımsız geliştirilen bilgileri gizli bilgi saymaz. İki reçeteyi müvekkil 2024'te kendi laboratuvarında geliştirmiştir; oksit bileşimleri de 2019'dan beri patent yayınındadır. Cezai şart ihlal başına öngörülmüştür ve tek bir dosya teslimi tek ihlaldir. Cezai şartı aşan zarar ise İsviçre BK m.161/2 uyarınca ancak davacı zararını ve müvekkilin kusurunu ispatlarsa istenebilir."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı vekili, nihai talebinizi açıklayın."
+        }
+      ],
+      "prompt": "Nihai talebinizi nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Beş yıl kullanma ve ifşa yasağı, dosyanın iadesi, 500.000 Avro cezai şart ve kusurlu ihlalden doğan aşan zarar.",
+          "delta": 15,
+          "set": [
+            "p1_talep"
+          ],
+          "law": "Sözleşme m.12.2, m.14 · İsviçre BK m.161",
+          "note": "Talebi sözleşmeye ve seçilen hukuka uygun kurdunuz: yasak, gizlilik süresiyle sınırlı; cezai şart sözleşmede kararlaştırılmış; cezai şartı aşan zarar için kusur ve zararı ispat yükünü üstlendiniz (BK m.161/2)."
+        },
+        {
+          "text": "Uşak Karo'nun da lisans alanla birlikte, müteselsilen tazminat ödemesine ve üretimini durdurmasına karar verilsin.",
+          "delta": -10,
+          "set": [
+            "p1_ucuncu"
+          ],
+          "law": "MTK m.4 · UNCITRAL Kuralları m.17(5)",
+          "note": "Uşak Karo tahkim anlaşmasına taraf değil; üçüncü kişi ancak tahkim anlaşmasına tarafsa yargılamaya katılabilir (UNCITRAL m.17(5)). Hakem kurulu onun hakkında karar veremez; ona karşı yol, mahkemedeki haksız rekabet davasıdır."
+        },
+        {
+          "text": "Yasak talebinden vazgeç; yalnız beş yıllık lisans ücreti tutarında tazminat iste, karar hızlı çıksın.",
+          "delta": -5,
+          "set": [
+            "p1_vazgec"
+          ],
+          "law": "Sözleşme m.12.2",
+          "note": "Yasaktan vazgeçmek, lisans alanın know-how'ı kullanmaya devam etmesine kapı açar; geçmişe dönük tazminat gelecekteki ifşayı önlemez."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_fark && p2_guclu",
+      "winner": "draw",
+      "hukum": [
+        {
+          "text": "Davanın KISMEN KABULÜ ile "
+        },
+        {
+          "if": "!p1_vazgec",
+          "text": "davalının, bağımsız geliştirdiği iki reçete dışında Brenta know-how'ını 31.12.2030'a kadar kullanmasının ve açıklamasının YASAKLANMASINA, teknik dosyanın iadesine, "
+        },
+        {
+          "text": "500.000 Avro cezai şartın davalıdan alınarak davacıya ödenmesine; cezai şartı aşan zarar talebinin REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Lisans veren vekili, Uşak Karo'ya verilen pişirme eğrileri ve katkı oranlarının patent yayınında olmadığını bilirkişi karşılaştırmasıyla gösterdi; gizlilik yükümlülüğü ihlal edilmişti."
+        },
+        {
+          "text": " Lisans alan vekili ise iki reçetenin bağımsız geliştirildiğini ve cezai şartı aşan zararın ispatlanmadığını doğru biçimde savundu (İsviçre BK m.161/2)."
+        }
+      ]
+    },
+    {
+      "if": "p1_fark",
+      "winner": "p1",
+      "hukum": [
+        {
+          "text": "Davanın KABULÜ ile "
+        },
+        {
+          "if": "!p1_vazgec",
+          "text": "davalının Brenta know-how'ını 31.12.2030'a kadar kullanmasının ve açıklamasının YASAKLANMASINA, teknik dosyanın iadesine, "
+        },
+        {
+          "text": "500.000 Avro cezai şart ile 1.400.000 Avro aşan zararın davalıdan alınarak davacıya ödenmesine,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "Lisans alan, sözleşme sona erdikten sonra da süren gizlilik yükümlülüğüne (m.12.2) aykırı olarak, patent yayınında bulunmayan pişirme eğrilerini ve katkı oranlarını Uşak Karo'ya verdi."
+        },
+        {
+          "if": "p1_ikili",
+          "text": " Lisans veren vekili, Uşak Karo hakkında mahkemeden aldığı tedbirle üretimi baştan durdurdu; hakem kurulunun yapamayacağını mahkemeye yaptırdı (MTK m.6)."
+        },
+        {
+          "if": "p1_hakem || p1_bekle || p1_dava",
+          "text": " Ancak tedbir zamanında istenmediği için Uşak Karo deneme üretimine başlayabildi; zarar büyüdü."
+        },
+        {
+          "if": "p1_vazgec",
+          "text": " Lisans veren vekili yasak talebinden vazgeçtiği için kurul yalnız para ödenmesine hükmetti; lisans alanın know-how'ı ileride kullanmasının önü kapanmadı."
+        },
+        {
+          "if": "p2_mohuk",
+          "text": " Lisans alanın hukuk seçimine itirazı, MTK m.12/C karşısında sonuç vermedi."
+        },
+        {
+          "if": "p2_elverisli",
+          "text": " Tahkime elverişlilik itirazı da reddedildi; know-how'a ilişkin sözleşme talepleri tahkime elverişlidir."
+        }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE,",
+      "summary": [
+        {
+          "text": "Lisans veren vekili, Uşak Karo'ya verilen bilgilerin patent yayınında bulunmayan, gizli nitelikteki bilgiler olduğunu gösteremedi."
+        },
+        {
+          "if": "p2_arge",
+          "text": " Lisans alan, iki reçeteyi kendisinin geliştirdiğini laboratuvar kayıtlarıyla ortaya koydu."
+        },
+        {
+          "text": " Sözleşme m.12.3 uyarınca kamuya açık bilgiler gizli bilgi sayılmadığından ihlal ispatlanamadı."
+        },
+        {
+          "if": "p1_ucuncu",
+          "text": " Tahkime taraf olmayan Uşak Karo hakkındaki talepler de incelenemedi."
+        }
+      ]
+    }
+  ]
+}

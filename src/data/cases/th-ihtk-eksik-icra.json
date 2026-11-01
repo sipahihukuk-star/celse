@@ -1,0 +1,365 @@
+{
+  "id": "th-ihtk-eksik-icra",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "ihtk",
+  "difficulty": "orta",
+  "title": "Faizsiz İade",
+  "area": "Tahkim · İnsan Hakları Tazminat Komisyonu · Kararın eksik icrası",
+  "court": "İnsan Hakları Tazminat Komisyonu (Adalet Bakanlığı) · Müracaat No. 2026/AYM-5208",
+  "courtShort": "TAZMİNAT KOMİSYONU",
+  "esas": "Müracaat No. 2026/AYM-5208",
+  "kararTarihi": "09.09.2027",
+  "color": "#3f5d6e",
+  "teaser": "İdare mahkemesi görevden almayı iptal etti; yoksun kalınan aylıkların yasal faiziyle ödenmesine hükmetti. Belediye memuru göreve iade etti, aylıkları ödedi, faizi hiç ödemedi. Kararın 'tam olarak uygulandığını' söylüyor.",
+  "bench": { "judges": 3, "title": "Komisyon heyeti: başkan ve iki üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Başvuran vekili", "short": "Başvuran" },
+    "p2": { "role": "İdare (Belediye) temsilcisi (görüş sunan)", "short": "İdare" }
+  },
+  "cast": {
+    "judge": { "name": "Komisyon Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#d8a67e", "hair": "#2a2220", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e6bf9c", "hair": "#7a5a40", "style": "bun", "shirt": "#262a31", "inner": "#e6dfd4" } },
+    "p2": { "look": { "kind": "civil", "skin": "#c4916b", "hair": "#3a3230", "style": "short", "beard": true, "shirt": "#30343c", "inner": "#dcd6cc" } },
+    "client": { "name": "Kadir Önal · Başvuran", "np": "civil", "look": { "kind": "civil", "skin": "#d29d76", "hair": "#5b5b60", "style": "short", "shirt": "#4f5a6a", "inner": "#e2ddd2" } },
+    "mudur": { "name": "Mali Hizmetler Müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#efc8a4", "hair": "#4a3a30", "style": "long", "glasses": true, "shirt": "#5a5048", "inner": "#efe6dc" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Kadir Önal, 03.02.2020'de bir büyükşehir belediyesindeki müdürlük görevinden alındı. İdare mahkemesi işlemi iptal etti ve 'yoksun kalınan parasal hakların, işlem tarihinden itibaren işletilecek yasal faiziyle birlikte davacıya ödenmesine' hükmetti. Karar 11.03.2022'de kesinleşti." },
+    { "who": "narr", "text": "Belediye Kadir'i 06.04.2022'de göreve iade etti, yoksun kaldığı 412.000 TL'yi 19.07.2022'de ödedi; faiz hiç ödenmedi. Kadir 10.11.2022'de Anayasa Mahkemesine başvurdu. Başvuru 9 Mart 2023'te derdest olduğundan Mahkeme onu Komisyon yoluna yönlendirdi ve kabul edilemez buldu; karar 02.06.2026'da tebliğ edildi." },
+    { "who": "client", "text": "Göreve döndüm, aylıklarımı aldım; ama mahkemenin yazdığı faizi dört yıldır bekliyorum. Belediye 'karar uygulandı' diyor." },
+    { "who": "narr", "text": "Bugün 15.06.2026. Komisyon dosya üzerinden karar verir ve gerekli bilgileri ilgili idareden ister; belediyenin yazılı görüşü burada başvuranın görüşüyle karşılıklı tartışılıyor." }
+  ],
+  "docs": [
+    { "t": "6384 sayılı Kanun geçici m.2", "d": "9 Mart 2023 itibarıyla Anayasa Mahkemesinde derdest olan; mahkeme kararlarının geç, eksik veya hiç icra edilmemesi şikâyetli bireysel başvurular, kabul edilemezlik kararının tebliğinden itibaren üç ay içinde yapılacak müracaat üzerine Komisyonca incelenir. Komisyonun karar süresi bu müracaatlarda on altı aydır." },
+    { "t": "Anayasa m.138/4 · İYUK m.28/1", "d": "İdare mahkeme kararlarına uymak zorundadır; bunları değiştiremez, yerine getirilmesini geciktiremez. Kararın gereği gecikmeksizin, en geç tebliğden itibaren otuz gün içinde yerine getirilir." },
+    { "t": "Hüküm fıkrası", "d": "Dava konusu işlemin İPTALİNE; yoksun kalınan parasal hakların işlem tarihinden (03.02.2020) itibaren işletilecek yasal faiziyle birlikte davacıya ÖDENMESİNE." },
+    { "t": "Ödeme özeti", "d": "06.04.2022 göreve iade · 19.07.2022 yoksun kalınan aylık farkları 412.000 TL · faiz ödemesi yok." },
+    { "t": "Hesap raporu", "d": "Başvuranın yaptırdığı hesaba göre, 03.02.2020'den 19.07.2022'ye kadar işleyen yasal faiz 96.300 TL." }
+  ],
+  "evidence": [
+    { "id": "ev_karar", "type": "belge", "title": "İdare mahkemesi kararı", "desc": "Hüküm fıkrası: parasal haklar işlem tarihinden itibaren yasal faiziyle ödenecek. Kesinleşme 11.03.2022." },
+    { "id": "ev_dekont", "type": "belge", "title": "Ödeme dekontu ve bordro", "desc": "19.07.2022; açıklama 'yoksun kalınan aylık farkları', 412.000 TL. Bordroda faiz kalemi yok; sonraki tarihlerde başka ödeme yok." },
+    { "id": "ev_iade", "type": "belge", "title": "Göreve iade yazısı", "desc": "06.04.2022 tarihli; başvuran eski görevine iade edildi." },
+    { "id": "ev_hesap", "type": "belge", "title": "Faiz hesap raporu", "desc": "03.02.2020–19.07.2022 arası yasal faiz 96.300 TL." },
+    { "id": "ev_yazisma", "type": "belge", "title": "Belediye iç yazışması", "desc": "Mali Hizmetler Müdürlüğü, 2022: 'Faiz kalemi için ödenek bulunmadığından ödeme 2023 bütçesine bırakılmıştır.' Hukuk Müşavirliğine faiz hesabına ilişkin soru yazısı.", "if": "p2_yazisma" },
+    { "id": "law_138", "type": "kanun", "title": "Anayasa m.138/4", "desc": "İdare mahkeme kararlarının yerine getirilmesini geciktiremez.", "law": "Anayasa m.138/4" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "MÜRACAAT · Anayasa Mahkemesinin kararı iki hafta önce tebliğ edildi." }
+      ],
+      "prompt": "Müvekkilin şikâyetini hangi yoldan ve nasıl ileri süreceksiniz?",
+      "choices": [
+        {
+          "text": "Faizin hiç ödenmemesi kararın eksik icrasıdır; 02.09.2026'ya kadar Komisyona müracaat et, faizi ve manevi zararı iste.",
+          "delta": 20,
+          "set": ["p1_dogru"],
+          "law": "6384 s.K. geçici m.2",
+          "note": "Doğru. Hüküm fıkrasının bir kısmının uygulanmaması eksik icradır; geçici m.2 kapsamında, kabul edilemezlik kararının tebliğinden itibaren üç ay içinde Komisyona gidilir.",
+          "reply": [{ "who": "narr", "text": "Müracaat 01.07.2026'da Komisyona ulaştı." }]
+        },
+        {
+          "text": "Ödenmeyen faiz için idare mahkemesinde yeni bir tam yargı davası aç; Komisyon yalnızca hiç uygulanmayan kararlara bakar.",
+          "delta": -10,
+          "law": "6384 s.K. geçici m.2",
+          "note": "Faiz zaten kesin hükümle verildi; aynı alacak için yeni dava açılmaz. Geçici m.2 'eksik icra'yı da açıkça kapsar.",
+          "reply": [{ "who": "narr", "text": "Dava dilekçesini yazarken vazgeçtiniz; müracaat 25.08.2026'da, süre dolmadan Komisyona yapıldı." }]
+        },
+        {
+          "text": "Dört ay içinde AİHM'e başvur; Anayasa Mahkemesi esasa girmediğine göre iç hukukta etkili bir yol kalmamış demektir.",
+          "delta": -15,
+          "law": "AİHS m.35/1 · 6384 s.K. geçici m.2",
+          "note": "Anayasa Mahkemesi başvuruyu, etkili bir iç hukuk yolu olan Komisyonu göstererek reddetti. Bu yol tüketilmeden yapılan AİHM başvurusu da kabul edilemez olur.",
+          "reply": [{ "who": "narr", "text": "Bir meslektaşınızın uyarısıyla müracaat 25.08.2026'da Komisyona yapıldı." }]
+        },
+        {
+          "text": "Kesin kararın öğrenilmesinden itibaren bir ay içinde doğrudan makul süre müracaatı yap; eksik icra da sürenin uzaması sayılır.",
+          "delta": -10,
+          "law": "6384 s.K. m.5/A, geçici m.2",
+          "note": "Yanlış dayanak. Kesin karar 2022'de öğrenildiğinden bir aylık süre çoktan geçti; eksik icra şikâyetinin yolu geçici m.2'dir. Komisyon müracaatı ekindeki AYM kararına bakarak geçici m.2 kapsamında inceledi.",
+          "reply": [{ "who": "narr", "text": "Müracaat 01.07.2026'da Komisyona ulaştı." }]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İDARE GÖRÜŞÜ · Komisyon belediyeden dosyayı ve görüşünü istedi." }
+      ],
+      "prompt": "Belediye görüşünün dayanağı ne olacak?",
+      "choices": [
+        {
+          "text": "Başvuranın ilamlı icra takibi başlatmadığını, kendisine açık olan bu yolu hiç kullanmadığını ileri sür ve müracaatın reddini iste.",
+          "delta": -15,
+          "set": ["p2_ilam"],
+          "law": "Anayasa m.138/4 · AİHS m.6/1",
+          "note": "Yanlış. Devlet aleyhine kesin karar elde eden kişiden, kararın uygulanması için ayrıca icra takibi yapması beklenmez; kararı kendiliğinden uygulamak idarenin yükümlülüğüdür (İYUK m.28/1). AİHM'nin yerleşik içtihadı da bu yöndedir (ör. Burdov/Rusya (No. 2), 2009)."
+        },
+        {
+          "text": "Göreve iadenin ve anapara ödemesinin yapıldığını belgele; ihlalin yalnızca ödenmeyen faiz kısmıyla sınırlı kaldığını göster.",
+          "delta": 15,
+          "set": ["p2_anapara"],
+          "law": "6384 s.K. geçici m.2",
+          "note": "Doğru strateji. İnkâr edilemeyeni inkâr etmeden, ihlalin kapsamını daraltıyorsunuz: göreve iade otuz gün içinde yapıldı, anapara ödendi, eksik kalan faizdir."
+        },
+        {
+          "text": "Faiz için bütçede ödenek bulunmadığını, ödenek yokluğunun kararın o kısmının uygulanmasını ertelemeye yettiğini savun.",
+          "delta": -15,
+          "set": ["p2_odenek"],
+          "law": "Anayasa m.138/4",
+          "note": "Ödenek yokluğu, kesin bir kararın uygulanmamasını haklı kılmaz; idare kararları hiçbir suretle geciktiremez (Anayasa m.138/4). Bu savunma ihlali ikrar etmektir."
+        },
+        {
+          "text": "Başvuranın faizi ayrıca yazılı olarak talep etmediğini, talep olmadan idarenin faizi ödemekle yükümlü olmadığını savun.",
+          "delta": -10,
+          "set": ["p2_talep"],
+          "law": "2577 s.K. m.28/1",
+          "note": "Faiz hüküm fıkrasında açıkça yazılı; idare kararı kendiliğinden ve bütünüyle uygular. Ayrı bir talep şartı yoktur."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, idarenin görüşüne cevabınız?" }
+      ],
+      "statement": { "who": "p2", "text": "İdare kararı tam olarak uygulamış; başvuranı göreve iade etmiş ve bütün parasal haklarını ödemiştir." },
+      "prompt": "Bu beyanı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_dekont"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_dekont"],
+        "law": "6384 s.K. geçici m.2",
+        "note": "Dekont ve bordro, yapılan tek ödemenin 'aylık farkları' olduğunu, faiz kaleminin hiç ödenmediğini gösteriyor. 'Bütün parasal haklar ödendi' beyanı çürüdü.",
+        "reply": [{ "who": "judge", "text": "Dekont dosyaya alındı. Faiz kaleminin ödenmediği anlaşılıyor." }]
+      },
+      "responses": {
+        "ev_karar": { "delta": 5, "note": "Hüküm fıkrası faizin ödenmesi gerektiğini gösteriyor; ama ödenmediğini gösteren belge dekont ve bordroydu." },
+        "ev_hesap": { "delta": 5, "note": "Hesap raporu faiz tutarını gösteriyor, ödenmediğini değil." },
+        "ev_iade": { "delta": -5, "note": "Göreve iade yazısı idarenin lehine; kararın uygulanan kısmını gösteriyor." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge ödemenin eksik olduğunu göstermiyor." },
+      "pass": { "delta": -10, "note": "Beyan cevapsız kaldı; eksik icra belgeyle gösterilmedi." }
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Görüşünüzü tamamlamadan önce belediyenin Mali Hizmetler Müdürüyle görüşüyorsunuz. İki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müdüre ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Faiz neden ödenmedi?",
+          "delta": 10,
+          "set": ["p2_yazisma"],
+          "reply": [{ "who": "mudur", "text": "2022'de ödenek yoktu, 2023 bütçesine bıraktık. Hukuk Müşavirliğine faiz hesabını da sormuştuk. Sonra yönetim değişti, dosya unutuldu. Yazışmalar duruyor." }],
+          "note": "Gerçeği öğrenmek iyi: kasıt yok ama ödenek gerekçesi Komisyon önünde savunulamaz. Bu bilgiyle inkâr yerine ölçülü bir görüşe yönelebilirsiniz. Yazışma çantanıza eklendi."
+        },
+        {
+          "text": "Faiz bugün ödenebilir mi, ne kadar sürede?",
+          "delta": 15,
+          "set": ["p2_teklif"],
+          "reply": [{ "who": "mudur", "text": "Hesap hazır: 96.300 TL. Encümen onayıyla bir ay içinde öderiz." }],
+          "note": "Yerinde. Kararın eksik kısmını hemen tamamlama iradesi, idarenin iyiniyetini gösterir ve manevi tutara yansıyabilir."
+        },
+        {
+          "text": "Başvuran göreve döndükten sonra nasıl çalışıyor?",
+          "delta": -5,
+          "reply": [{ "who": "mudur", "text": "Disiplinli biri, bir sorun yok." }],
+          "note": "Başvuranın iş performansı eksik icra müracaatıyla ilgili değil."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, ihlal ve talebiniz hakkında yazılı görüşünüzü özetleyin." }
+      ],
+      "prompt": "Faizin ödenmemesinin neden bir ihlal olduğunu ve neyi talep ettiğinizi kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p1_olcut"], "law": "Anayasa m.138/4 · 2577 s.K. m.28/1 · 6384 s.K. geçici m.2", "note": "Güçlü bir görüş: hüküm fıkrasını, idarenin kendiliğinden uygulama yükümlülüğünü, icra takibi beklenemeyeceğini ve talebin iki kalemini birlikte ortaya koydunuz." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p1_olcut"], "law": "Anayasa m.138/4 · 2577 s.K. m.28/1", "note": "Eksik icrayı söylediniz. Eksik kalan: hüküm fıkrasının faizi açıkça içerdiği, idareden kararı kendiliğinden uygulamasının beklendiği, ödenek yokluğunun mazeret olmadığı ve maddi ile manevi kalemlerin ayrı ayrı istenmesi." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "Anayasa m.138/4", "note": "Görüşünüz ihlalin dayanağını ve talebi açık kurmadı. Kesin hükümle verilen faizin ödenmemesi, kararın eksik icrasıdır; talep de buna göre kurulmalıydı." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Hüküm fıkrası parasal hakların işlem tarihinden itibaren yasal faiziyle ödenmesini açıkça emreder; faizin ödenmemesi kararın eksik icrasıdır. (2) İdare kesin kararı gecikmeksizin ve en geç otuz gün içinde, kendiliğinden ve bütünüyle uygulamak zorundadır (Anayasa m.138/4, İYUK m.28/1); ödenek yokluğu mazeret değildir. Kararın icrası adil yargılanma hakkının parçasıdır. (3) Devlet aleyhine kesin karar alan kişiden ayrıca icra takibi yapması beklenmez. (4) Talep: ödenmeyen 96.300 TL faiz için maddi tazminat ve dört yıllık bekleyiş için emsallere göre manevi tazminat; müracaat geçici m.2 kapsamında süresindedir. Hüküm fıkrası, idarenin yükümlülüğü ve iki kalemli talep birlikte tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["hüküm fıkrası", "yasal faiz", "faiz"], "weight": 2 },
+        { "terms": ["138", "m.28", "otuz gün", "30 gün", "gecikmeksizin"], "weight": 2 },
+        { "terms": ["eksik icra", "eksik uygula", "kısmen uygula"], "weight": 2 },
+        { "terms": ["icra takibi", "ilamlı", "ödenek"], "weight": 1 },
+        { "terms": ["96.300", "maddi tazminat"], "weight": 1 },
+        { "terms": ["manevi", "emsal"], "weight": 1 }
+      ],
+      "model": "Hüküm fıkrası yoksun kalınan hakların işlem tarihinden itibaren yasal faiziyle ödenmesini açıkça emrediyor; idare aylıkları ödeyip faizi hiç ödemedi, bu kararın eksik icrasıdır. İdare kesin kararı gecikmeksizin, kendiliğinden ve bütünüyle uygulamak zorundadır (Anayasa m.138/4, İYUK m.28/1); ödenek yokluğu mazeret değildir, müvekkilden ayrıca icra takibi yapması da beklenemez. Ödenmeyen 96.300 TL faiz için maddi, dört yıllık bekleyiş için emsallere göre manevi tazminat istiyoruz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "İdare temsilcisi, faiz kaleminin ödenmediği anlaşılıyor. Görüşünüz?" }
+      ],
+      "prompt": "Bu noktada idarenin tutumu ne olacak?",
+      "choices": [
+        {
+          "text": "Faizin şimdi ödenmesiyle ihlalin bütünüyle giderileceğini, başvuranın mağdur sıfatını yitireceğini ileri sür, müracaatın reddini iste.",
+          "delta": -10,
+          "set": ["p2_sifat"],
+          "law": "6384 s.K. geçici m.2",
+          "note": "Dört yıl sonra yapılacak bir ödeme, o dört yılın gecikmesini gidermez. Ödeme maddi kalemi karşılar, manevi zararı ortadan kaldırmaz."
+        },
+        {
+          "text": "Ödenmeyen faizi kabul et, bir ay içinde ödeme taahhüdü ver; anapara ödendiği için ihlalin sınırlı kaldığını vurgula.",
+          "delta": 15,
+          "set": ["p2_iyiniyet"],
+          "law": "6384 s.K. geçici m.2, m.7",
+          "note": "İnandırıcı bir tutum. İdare ihlalin varlığını kabul etti, eksik kısmı tamamlama iradesini gösterdi; tartışma artık manevi tutarın ölçüsüne taşındı."
+        },
+        {
+          "text": "Faiz başlangıcı konusundaki hukuki tereddüt giderilmeden idarenin ödemeye zorlanamayacağını, o dönemde ihlal bulunmadığını savun.",
+          "delta": -10,
+          "law": "2577 s.K. m.28/1",
+          "note": "Hüküm faizin başlangıcını açıkça 03.02.2020 olarak belirtiyor; tereddüt idarenin iç yazışmasından ibaret. Dört yıl bekletmeyi açıklamaz."
+        },
+        {
+          "text": "Göreve iadenin kararın özü olduğunu, parasal kısmın ikincil kaldığını ve iadenin tek başına yeterli bir giderim sağladığını savun.",
+          "delta": -10,
+          "law": "Anayasa m.138/4",
+          "note": "Kararın hiçbir kısmı ikincil değildir; idare hükmün bütününü uygulamak zorundadır."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "İdare temsilcisi, tazminat tutarı hakkında görüşünüz?" }
+      ],
+      "prompt": "Maddi ve manevi tazminatın nasıl belirlenmesi gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p2_miktar"], "law": "6384 s.K. geçici m.2, m.7", "note": "Ölçülü bir görüş: ihlalin faizle sınırlı kaldığını, maddi zararın hüküm fıkrasındaki faizle ölçüleceğini, çifte ödemeyi önlemek için mahsup gerektiğini ve manevi tutarın emsallere bağlanacağını gösterdiniz." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p2_miktar"], "law": "6384 s.K. m.7", "note": "Tutarın sınırlanması gerektiğini söylediniz. Eksik kalan: anaparanın ödendiği, maddi zararın hüküm fıkrasındaki faizle sınırlı olduğu, ödeme yapılırsa mahsup gerektiği ve manevi tutarın emsallere göre belirlenmesi." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "6384 s.K. m.7", "note": "Görüşünüz tutarı neye göre sınırlayacağınızı göstermedi. İhlali inkâr etmek artık mümkün değil; tartışılacak olan ölçüdür." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Göreve iade otuz gün içinde yapıldı ve 412.000 TL anapara ödendi; ihlal yalnızca faiz kısmıyla sınırlıdır. (2) Maddi zarar, hüküm fıkrasındaki yasal faizin 03.02.2020–19.07.2022 dönemi için hesaplanan tutarıdır; anaparanın enflasyonla yeniden güncellenmesi gibi hüküm dışı kalemler istenemez. (3) İdare faizi öderse, aynı zararın iki kez karşılanmaması için mahsup edilmelidir. (4) Manevi tazminat Anayasa Mahkemesi ve AİHM emsallerine göre ölçülü belirlenmeli; kasıt bulunmadığı, ihmalin kısmi icrayla sınırlı kaldığı gözetilmelidir (6384 s.K. m.7). İhlali inkâr eden ya da ödenek yokluğunu mazeret gösteren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["anapara", "412.000", "göreve iade"], "weight": 2 },
+        { "terms": ["faiz", "96.300", "hüküm fıkrası"], "weight": 2 },
+        { "terms": ["mahsup", "çifte", "iki kez"], "weight": 2 },
+        { "terms": ["emsal", "AİHM", "Anayasa Mahkemesi", "m.7"], "weight": 2 },
+        { "terms": ["ölçülü", "kısmi", "sınırlı"], "weight": 1 }
+      ],
+      "model": "Göreve iade otuz gün içinde yapıldı, 412.000 TL anapara ödendi; ihlal faiz kısmıyla sınırlıdır. Maddi zarar, hüküm fıkrasındaki yasal faizin 03.02.2020–19.07.2022 dönemi için hesaplanan tutarıdır; idare bu tutarı öderse aynı zarar iki kez karşılanmamalı, mahsup edilmelidir. Manevi tazminat ise Anayasa Mahkemesi ve AİHM emsallerine göre, kısmi icra ve kastın bulunmaması gözetilerek ölçülü belirlenmelidir (6384 s.K. m.7)."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, maddi talebinizi nasıl hesaplıyorsunuz?" }
+      ],
+      "prompt": "Maddi tazminatı nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Faiz yerine, anaparanın TÜFE ile güncellenmiş bugünkü değerini, ödenen 412.000 TL'yi hiç düşmeden bütünüyle yeniden iste.",
+          "delta": -10,
+          "set": ["p1_tufe"],
+          "law": "6384 s.K. geçici m.2",
+          "note": "Anapara ödendi; aynı alacağı yeniden istemek çifte tazmin olur. Zarar, hükmün uygulanmayan kısmı olan yasal faizle ölçülür."
+        },
+        {
+          "text": "Hüküm fıkrasındaki yasal faizin 03.02.2020'den anaparanın ödendiği 19.07.2022'ye kadar işleyen 96.300 TL'lik tutarını iste.",
+          "delta": 15,
+          "set": ["p1_hesap"],
+          "law": "6384 s.K. geçici m.2",
+          "note": "Doğru. Maddi zarar, kararın uygulanmayan kısmıdır: hüküm fıkrasındaki faizin, faizin işlediği dönem için hesaplanan tutarı."
+        },
+        {
+          "text": "Maddi talebi bırak; Komisyon eksik icra müracaatlarında da yalnızca manevi tazminata hükmedebilir, talebi onunla sınırla.",
+          "delta": -10,
+          "set": ["p1_vazgec"],
+          "law": "6384 s.K. m.2/3-a, geçici m.2",
+          "note": "Yanlış. Yalnızca manevi tazminat sınırı doğrudan makul süre müracaatları içindir (m.2/3-a). Eksik icrada, ihlalle illiyet içindeki maddi zarar da karşılanabilir; en somut zarar kalemini bıraktınız."
+        },
+        {
+          "text": "Komisyondan, belediyeye faizi otuz gün içinde ödemesi için talimat vermesini ve görevliler hakkında suç duyurusu yapmasını iste.",
+          "delta": -10,
+          "law": "6384 s.K. m.7",
+          "note": "Komisyon idareye talimat vermez, suç duyurusu makamı da değildir; ihlali tespit eder ve tazminata hükmeder. Tazminatı Adalet Bakanlığı öder."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_dekont && p1_olcut && !p2_miktar",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Müracaatın KABULÜ ile kesinleşmiş mahkeme kararının eksik icra edildiğinin TESPİTİNE," },
+        { "if": "!p1_vazgec", "text": " başvurana 96.300 TL maddi tazminat ödenmesine," },
+        { "if": "p1_tufe", "text": " fazlaya ilişkin maddi talebin REDDİNE," },
+        { "text": " başvurana 45.000 TL manevi tazminat ödenmesine," }
+      ],
+      "summary": [
+        { "text": "Başvuran vekili dekont ve bordroyla faizin hiç ödenmediğini gösterdi ve ihlali Anayasa m.138/4 ile İYUK m.28/1'e dayandırdı. Belediye tutarı sınırlayacak ölçülü bir görüş sunamadı." },
+        { "if": "p2_ilam", "text": " İcra takibi yapılmadığı savunması reddedildi: devlet aleyhine kesin karar alan kişiden takip beklenmez." },
+        { "if": "p2_odenek", "text": " Ödenek yokluğu mazeret sayılmadı." },
+        { "if": "p1_vazgec", "text": " Başvuran vekili maddi talepten vazgeçtiği için faiz kalemine hükmedilmedi." }
+      ]
+    },
+    {
+      "if": "p2_miktar && p2_anapara && !p1_dekont",
+      "winner": "p2",
+      "hukum": [
+        { "text": "Müracaatın KISMEN KABULÜ ile kesinleşmiş mahkeme kararının eksik icra edildiğinin TESPİTİNE," },
+        { "if": "!p1_vazgec", "text": " başvurana 96.300 TL maddi tazminat ödenmesine, idarece yapılacak faiz ödemesinin bu tutardan MAHSUBUNA," },
+        { "text": " başvurana 15.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE," }
+      ],
+      "summary": "Eksik icra tespit edildi; ama belediye göreve iadeyi ve anapara ödemesini belgeleyip ihlalin faizle sınırlı kaldığını gösterdi, tutarı da emsallere ve mahsuba bağladı. Başvuran vekili eksik ödemeyi belgeyle göstermediği için manevi tutar düşük kaldı."
+    },
+    {
+      "if": "(p1_dekont || p1_olcut) && (p2_miktar || p2_iyiniyet)",
+      "winner": "draw",
+      "hukum": [
+        { "text": "Müracaatın KISMEN KABULÜ ile kesinleşmiş mahkeme kararının eksik icra edildiğinin TESPİTİNE," },
+        { "if": "!p1_vazgec", "text": " başvurana 96.300 TL maddi tazminat ödenmesine, idarece yapılacak faiz ödemesinin bu tutardan MAHSUBUNA," },
+        { "text": " başvurana 30.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "İki taraf da işini yaptı. Başvuran vekili eksik icrayı gösterdi; belediye de ihlalin faizle sınırlı kaldığını kabul edip ölçülü bir tutum aldı. Komisyon faiz kalemini karşıladı, manevi tutarı orta düzeyde belirledi." },
+        { "if": "p2_iyiniyet", "text": " İdarenin ödeme taahhüdü manevi tutarın sınırlanmasında etkili oldu." }
+      ]
+    },
+    {
+      "if": "p1_dekont || p1_olcut",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Müracaatın KABULÜ ile kesinleşmiş mahkeme kararının eksik icra edildiğinin TESPİTİNE," },
+        { "if": "!p1_vazgec", "text": " başvurana 96.300 TL maddi tazminat ödenmesine," },
+        { "text": " başvurana 40.000 TL manevi tazminat ödenmesine," }
+      ],
+      "summary": "Başvuran vekili eksik icrayı gösterdi; belediye ne ihlalin kapsamını daraltabildi ne de tutar için ölçülü bir görüş sundu."
+    },
+    {
+      "winner": "p2",
+      "hukum": [
+        { "text": "Müracaatın KISMEN KABULÜ ile kesinleşmiş mahkeme kararının eksik icra edildiğinin TESPİTİNE," },
+        { "if": "!p1_vazgec", "text": " başvurana 96.300 TL maddi tazminat ödenmesine," },
+        { "text": " başvurana 15.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE," }
+      ],
+      "summary": "Faizin ödenmediği dosyadan anlaşıldı ve maddi kalem karşılandı. Ama başvuran vekili eksik icrayı belgeyle ortaya koymadı, talebini de hukuki dayanağına bağlamadı; manevi tutar alt sınırda kaldı."
+    }
+  ]
+}

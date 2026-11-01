@@ -1,0 +1,419 @@
+{
+  "id": "th-cas-sike-uefa",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "cas",
+  "difficulty": "zor",
+  "title": "Seksen Yedinci Dakika",
+  "area": "Tahkim · Spor tahkimi · Şike (UEFA Disiplin Talimatı)",
+  "court": "Spor Tahkim Mahkemesi (CAS) · CAS 2026/A/11958 (Tahkim yeri: Lozan)",
+  "courtShort": "CAS · LOZAN",
+  "esas": "CAS 2026/A/11958",
+  "kararTarihi": "15.12.2026",
+  "color": "#5a2f3a",
+  "bench": { "judges": 3, "title": "Panel Başkanı ve iki hakem" },
+  "inscription": null,
+  "teaser": "Son altı dakikada iki kaleci hatası, aynı dakikalarda Asya'da patlayan canlı bahisler ve kaleci eşinin hesabına yatan 40.000 €. UEFA on yıl verdi; şimdi her şey ispat ölçüsüne bağlı.",
+  "sides": {
+    "p1": { "role": "Temyiz eden oyuncu (Burak Erdem) vekili", "short": "Oyuncu" },
+    "p2": { "role": "UEFA vekili", "short": "UEFA" }
+  },
+  "cast": {
+    "judge": { "name": "Panel Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#d9ad8a", "hair": "#2b2522", "style": "short", "beard": true, "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e0b28c", "hair": "#3a2a20", "style": "short", "shirt": "#1f2430", "inner": "#e9e6df" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f1d3b8", "hair": "#1c1a1a", "style": "bun", "shirt": "#262a33", "inner": "#efe9e0" } },
+    "uzman": { "name": "Tarık Ilgaz · Kaleci antrenörü, uzman tanık", "np": "civil", "look": { "kind": "civil", "skin": "#c99569", "hair": "#5a5a60", "style": "short", "shirt": "#3e4a3e", "inner": "#dedad0" } },
+    "analist": { "name": "Dr. Hanna Vik · Bahis analisti, uzman tanık", "np": "civil", "look": { "kind": "civil", "skin": "#f2d9c4", "hair": "#d6b37a", "style": "long", "glasses": true, "shirt": "#46405a", "inner": "#ece6da" } },
+    "yetkili": { "name": "Marc Duval · UEFA Dürüstlük birimi", "np": "civil", "look": { "kind": "civil", "skin": "#e8c3a2", "hair": "#4a3c30", "style": "bald", "shirt": "#2e3a4e", "inner": "#e2ddd2" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "23.07.2026, UEFA Konferans Ligi 2. ön eleme turu ilk maçı: Marmara Spor 1–3 FC Nordvik. Skor 80. dakikada 1–1 iken Marmara Spor'un kalecisi Burak Erdem'in hatalarıyla 84. ve 87. dakikalarda iki gol geldi." },
+    { "who": "narr", "text": "UEFA'nın bahis izleme sistemi (BFDS), 80. dakikadan sonra Asya pazarlarında “3,5 üst” canlı bahislerinde olağan dışı yığılma bildirdi. Türkiye'deki bir ceza soruşturmasından gelen yazışmalarda kalecinin eniştesi Serkan Oral'ın bir bahis şebekesi üyesiyle konuştuğu görülüyor. Maçtan üç gün sonra kalecinin eşinin hesabına 40.000 € yatırıldı." },
+    { "who": "narr", "text": "UEFA Kontrol, Etik ve Disiplin Kurulu (CEDB), kaleciyi hem maçın sonucunu etkilemekten (UEFA DR m.12/2-a) hem de kendisine yapılan yaklaşımı bildirmemekten (m.12/2-d) sorumlu tuttu ve on yıl futbolla ilgili her türlü faaliyetten men etti. UEFA Temyiz Kurulu kararı onadı; gerekçeli karar 02.10.2026'da tebliğ edildi." },
+    { "who": "narr", "text": "Kaleci suçlamaları reddediyor. İlk hamle oyuncu vekilinin." }
+  ],
+  "docs": [
+    { "t": "UEFA Statüsü m.62", "d": "UEFA organlarının kararlarına karşı yalnızca CAS'a başvurulabilir. CAS'a temyiz süresi kararın tebliğinden itibaren on gündür (m.62/3)." },
+    { "t": "UEFA Disiplin Talimatı m.12/2 ve m.24", "d": "m.12/2-a: Maçın gidişatını ya da sonucunu hukuka aykırı biçimde etkilemeye yönelik davranış. m.12/2-d: Maçı etkileme amacıyla yapılan yaklaşımı gecikmeksizin ve kendiliğinden UEFA'ya bildirmeme. m.24: Delilleri değerlendirmede tam takdir; ispat ölçüsü yetkili disiplin organının makul tatminidir (comfortable satisfaction)." },
+    { "t": "BFDS raporu (özet)", "d": "80. dakikadan sonra iki Asya bahis şirketinde “3,5 üst” canlı bahislerinde yaklaşık 1,8 milyon €'luk olağan dışı hacim. Rapor bahisleri kimin oynadığını ve oyunculardan kimin dahil olduğunu göstermiyor." },
+    { "t": "Ceza soruşturması yazışmaları (özet)", "d": "Serkan Oral (kalecinin eniştesi), 19.07.2026: “Burak'la konuştum, düşünecek.” 22.07.2026: “Tamam dedi. Son on dakika.” Kaleciyle şebeke arasında doğrudan bir yazışma yok." },
+    { "t": "Banka kaydı", "d": "26.07.2026: Kalecinin eşi Elif Erdem'in hesabına 40.000 € nakit dışı havale. Gönderen hanesi dosyada henüz incelenmedi." },
+    { "t": "UEFA Temyiz Kurulu kararı (özet)", "d": "Bahis anomalisi, yazışmalar ve para transferi birlikte değerlendirildiğinde m.12/2-a ve m.12/2-d ihlalleri makul tatmin ölçüsünde ispatlanmıştır; on yıl men cezası orantılıdır." }
+  ],
+  "evidence": [
+    { "id": "ev_bfds", "type": "belge", "title": "BFDS bahis raporu", "desc": "80. dakikadan sonra “3,5 üst” canlı bahislerinde olağan dışı hacim; bahisçilerin ve dahil olan oyuncuların kimliği yok." },
+    { "id": "ev_video", "type": "belge", "title": "Maç görüntüleri", "desc": "84. dakika: Kaleci yerden gelen şutu sektiriyor, dönen topu rakip forvet atıyor. 87. dakika: Kaleci kornerde öne çıkıyor, topa dokunamıyor." },
+    { "id": "ev_yazisma", "type": "belge", "title": "Eniştenin yazışmaları", "desc": "“Burak'la konuştum, düşünecek.” (19.07.2026) · “Tamam dedi. Son on dakika.” (22.07.2026)" },
+    { "id": "ev_dekont", "type": "belge", "title": "Havale dekontu (ayrıntılı)", "desc": "26.07.2026 tarihli 40.000 € havalenin göndereni: Dalyan Turizm Ltd. Şirketin tek ortağı, yazışmalarda eniştenin konuştuğu şebeke üyesi Cem Akpınar.", "if": "p2_para" },
+    { "id": "ev_aile", "type": "beyan", "title": "Kalecinin eşinin beyanı", "desc": "“Para, eniştemin bize olan eski borcunun geri ödemesiydi.”" },
+    { "id": "law_12", "type": "kanun", "title": "UEFA DR m.12/2", "desc": "Maçın sonucunu hukuka aykırı biçimde etkileme (a) ve maçı etkileme amaçlı yaklaşımı bildirmeme (d).", "law": "UEFA DR m.12/2" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "TEMYİZ · UEFA Temyiz Kurulu'nun gerekçeli kararı 02.10.2026'da tebliğ edildi. Kaleci on yıllık meni CAS'a taşımak istiyor." }
+      ],
+      "prompt": "CAS'a ne zamana kadar ve nasıl başvuracaksınız?",
+      "choices": [
+        {
+          "text": "UEFA Statüsü'ne göre süre on gün: 12.10.2026'ya kadar temyiz başvurusunu yap, gerekçeyi on gün içinde ver; menin icrasının durdurulmasını da iste.",
+          "delta": 20,
+          "set": ["p1_sure"],
+          "law": "UEFA Statüsü m.62/3 · CAS Kodu R37, R49, R51",
+          "note": "R49'daki 21 günlük süre, federasyonun statüsünde ya da talimatında bir süre yoksa uygulanır. UEFA Statüsü CAS'a temyiz için on günlük özel bir süre öngörür (m.62/3). İcranın durdurulması geçici tedbir olarak istenebilir (R37); şike suçlamasında bu talebin kabulü zordur, ama süreyi korumak için başvuru zamanında yapılmalıdır.",
+          "reply": [
+            { "who": "narr", "text": "Temyiz başvurusu 09.10.2026'da yapıldı. İcranın durdurulması talebi reddedildi; men sürüyor." }
+          ]
+        },
+        {
+          "text": "CAS Kodu R49'a göre süre 21 gün: 23.10.2026'ya kadar temyiz başvurusunu yap; gerekçeyi de süre bitince on gün içinde ayrıca sun, tedbiri sonra iste.",
+          "delta": -25,
+          "law": "UEFA Statüsü m.62/3 · CAS Kodu R49",
+          "note": "R49'un 21 günü yalnızca federasyon kuralında süre yoksa uygulanır. UEFA Statüsü on günlük süre öngörür; süre 12.10.2026'da doldu.",
+          "fatal": {
+            "label": "TEMYİZ SÜRESİ KAÇIRILDI",
+            "hukum": "Burak Erdem'in temyiz başvurusunun süre aşımı nedeniyle KABUL EDİLEMEZLİĞİNE (inadmissible), UEFA Temyiz Kurulu kararının kesinleştiğinin tespitine,",
+            "summary": "Oyuncu vekili temyizi 21 gün içinde yaptı; ama UEFA Statüsü m.62/3, UEFA kararlarına karşı CAS'a temyiz için on günlük özel süre öngörür ve R49'a göre federasyonun kendi süresi önce gelir. Süre 12.10.2026'da dolmuştu; on yıllık men esası tartışılmadan kesinleşti."
+          }
+        },
+        {
+          "text": "On gün içinde temyize git, ama ihlale itiraz etme; kalecinin on iki yıllık temiz sicilini öne sürüp yalnızca men süresinin indirilmesini iste.",
+          "delta": -5,
+          "set": ["p1_sure", "p1_sinirli"],
+          "law": "UEFA Statüsü m.62/3 · UEFA DR m.12, m.26",
+          "note": "Süreyi doğru hesapladınız, ama ihlali tartışmaktan baştan vazgeçtiniz. Şikede disiplin cezaları ertelenemez (m.26) ve on yıllık men, maç sonucunu etkileyen bir oyuncu için CAS içtihadında orantısız sayılmaz. İspat ölçüsü tartışması, oyuncunun en güçlü kartıydı.",
+          "reply": [
+            { "who": "narr", "text": "Temyiz başvurusu 09.10.2026'da yapıldı; talep yalnızca men süresinin indirilmesiyle sınırlı." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "UEFA vekili olarak Dürüstlük biriminden Marc Duval'le cevap dilekçesini hazırlıyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Duval'e ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Kalecinin eşinin hesabına yatan 40.000 €'nun göndereni araştırıldı mı?",
+          "delta": 15,
+          "set": ["p2_para"],
+          "reply": [
+            { "who": "yetkili", "text": "Ceza dosyasından gelen ayrıntılı dekont geçen hafta elimize ulaştı. Gönderen Dalyan Turizm; tek ortağı, yazışmalardaki şebeke üyesi Cem Akpınar." }
+          ],
+          "note": "Doğru soru. Paranın şebekeyle bağlantılı bir şirketten gelmesi, bahis anomalisini ve yazışmaları kalecinin kendisine bağlayan halka olabilir. Dekont delil çantanıza eklendi."
+        },
+        {
+          "text": "Kaleci kendisine yapılan bir yaklaşımı UEFA'ya ya da kulübüne hiç bildirdi mi?",
+          "delta": 10,
+          "set": ["p2_bildirim"],
+          "reply": [
+            { "who": "yetkili", "text": "Hayır. Ne bize ne kulübün dürüstlük sorumlusuna bir bildirim var. Kendisi de soruşturmada eniştesiyle maç hakkında konuştuğunu kabul etti; ama ‘teklifi geri çevirdim’ diyor." }
+          ],
+          "note": "Yararlı. Kalecinin yaklaşımı kabul edip bildirmemesi, maç sonucunu etkileme ispatlanamasa bile m.12/2-d ihlalini ayakta tutar."
+        },
+        {
+          "text": "Bahis anomalisinde hangi bahis şirketleri vardı?",
+          "delta": 0,
+          "reply": [
+            { "who": "yetkili", "text": "İkisi de Asya'da lisanslı, Avrupa'da faaliyet göstermiyor. Hesap sahiplerinin kimliğine ulaşamadık." }
+          ],
+          "note": "Bilgi doğru, ama bahis anomalisini kaleciye bağlamaya yardım etmiyor."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Oyuncu vekili, ceza soruşturmasından gelen yazışmalar hakkında usule ilişkin bir talebiniz var mı?" }
+      ],
+      "prompt": "Ceza dosyasından gelen deliller karşısında panelden ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Delillerin ağırlığını tartışacağız: kaleci antrenörü ve bahis analistinin uzman tanık olarak dinlenmesini, UEFA analistinin de çapraz sorgusunu isteyelim.",
+          "delta": 15,
+          "set": ["p1_bilirkisi"],
+          "law": "CAS Kodu R44.2, R57 · UEFA DR m.24",
+          "note": "Disiplin yargılaması ceza yargılamasından bağımsızdır; deliller kural olarak kullanılabilir ve panel bunları serbestçe değerlendirir. Etkili savunma, delillerin dışlanmasını değil ağırlığının zayıflatılmasını hedefler: uzman tanıklar ve çapraz sorgu bunun yoludur.",
+          "reply": [
+            { "who": "judge", "text": "Uzman tanıklar duruşmada dinlenecek." }
+          ]
+        },
+        {
+          "text": "Ceza davası sürüyor ve kaleci için masumiyet karinesi geçerli; Türkiye'deki ceza yargılaması kesin hükümle bitene kadar tahkim yargılamasının durdurulmasını iste.",
+          "delta": -10,
+          "set": ["p1_bekle"],
+          "law": "UEFA DR m.24 · CAS Kodu R57",
+          "note": "Spor disiplin yargılaması ceza yargılamasından bağımsızdır; disiplin organı ceza davasının sonucunu beklemek zorunda değildir ve ispat ölçüsü de farklıdır (makul tatmin). Bekletme talebi reddedilir, siz de zaman kaybedersiniz.",
+          "reply": [
+            { "who": "judge", "text": "Talep reddedildi. Disiplin yargılaması ceza yargılamasından bağımsızdır." }
+          ]
+        },
+        {
+          "text": "Yazışmalar yabancı bir ceza soruşturmasında elde edildi; tarafımızca denetlenemediği için hepsinin tümüyle dosyadan çıkarılmasını iste.",
+          "delta": -5,
+          "set": ["p1_dislama"],
+          "law": "UEFA DR m.44 · İsviçre hukuku",
+          "note": "UEFA DR m.44'e göre insan onuruna aykırı olmamak şartıyla her türlü delil kullanılabilir. Savcılığın hukuka uygun biçimde elde ettiği bir delil yalnızca yabancı bir soruşturmadan geldiği için dışlanmaz; panel onu değerlendirmede serbesttir.",
+          "reply": [
+            { "who": "judge", "text": "Talep reddedildi; yazışmaların ağırlığını panel değerlendirecek." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "UEFA vekili, para transferine ilişkin beyana cevabınız?" }
+      ],
+      "statement": { "who": "p1", "text": "Sayın Panel, 40.000 € kalecinin eniştesinin aileye olan eski borcunun geri ödemesidir. Maçla ya da bahisle hiçbir ilgisi yoktur." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_dekont"],
+      "hit": {
+        "delta": 20,
+        "set": ["p2_baglanti"],
+        "law": "UEFA DR m.24",
+        "note": "Para eniştenin değil, şebeke üyesi Cem Akpınar'ın tek ortağı olduğu şirketin hesabından geldi. “Eski borç” açıklaması çöküyor; bahis anomalisi, yazışmalar ve para birlikte kaleciyi doğrudan bağlayan bir zincir oluşturuyor.",
+        "reply": [
+          { "who": "judge", "text": "Oyuncu vekili, havalenin bir turizm şirketinden gelmesini nasıl açıklıyorsunuz?" },
+          { "who": "p1", "text": "Sayın Panel… müvekkilim bu şirketi tanımıyor." }
+        ]
+      },
+      "responses": {
+        "ev_yazisma": {
+          "delta": 5,
+          "note": "Yazışmalar yaklaşımı gösteriyor, ama paranın kaynağını değil. Beyanı doğrudan çürütecek olan, havalenin göndereninin kim olduğuydu."
+        },
+        "ev_bfds": {
+          "delta": -5,
+          "note": "Bahis anomalisi olağan dışı bahisleri gösterir; ama paranın bir borç ödemesi olmadığını göstermez."
+        },
+        "ev_video": {
+          "delta": -10,
+          "note": "Görüntüler kalecinin hatalarını gösteriyor; para transferinin niteliği hakkında bir şey söylemiyor."
+        },
+        "ev_aile": {
+          "delta": -10,
+          "note": "Bu, oyuncunun tezini destekleyen beyan."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu delil paranın kaynağını göstermiyor." },
+      "pass": { "delta": -10, "note": "Beyana itiraz etmediniz; “eski borç” açıklaması karşılıksız kaldı." }
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "court",
+      "limit": 2,
+      "lines": [
+        { "who": "judge", "text": "Oyuncu vekili, uzman tanıklarınızı sorgulayabilirsiniz. İki soru hakkınız var." }
+      ],
+      "prompt": "Uzman tanıklara ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Kaleci antrenörüne: 84. ve 87. dakikadaki hatalar teknik olarak açıklanabilir mi?",
+          "delta": 15,
+          "set": ["p1_teknik"],
+          "reply": [
+            { "who": "uzman", "text": "Zemin yağmurdan ağırdı; 84'teki şut önünde bir savunmacıya çarpıp yön değiştiriyor. 87'deki çıkış riskli ama bu seviyede kalecilerin her sezon yaptığı türden. İkisi de tek başına kasıt göstermez." }
+          ],
+          "note": "Yerinde soru. Hataların teknik olarak açıklanabilmesi, olağan dışı davranış iddiasını zayıflatır."
+        },
+        {
+          "text": "Bahis analistine: Bir bahis anomalisi tek başına hangi oyuncunun işin içinde olduğunu gösterir mi?",
+          "delta": 15,
+          "set": ["p1_bahis"],
+          "reply": [
+            { "who": "analist", "text": "Hayır. Anomali, birilerinin maçta olağan dışı bir şey beklediğini gösterir. Kimin dahil olduğunu göstermez; bunun için başka deliller gerekir." }
+          ],
+          "note": "Yerinde soru. Bahis analizi CAS'ta değerli bir dolaylı delildir, ama tek başına belirli bir oyuncuyu sorumlu tutmaya yetmez."
+        },
+        {
+          "text": "Kaleci antrenörüne: Burak Erdem genel olarak iyi bir kaleci midir?",
+          "delta": -5,
+          "reply": [
+            { "who": "uzman", "text": "Ligin iyi kalecilerinden biri. Zaten o yüzden bu iki hata herkesi şaşırttı." }
+          ],
+          "note": "Bu soru geri tepti: iyi bir kalecinin üst üste iki hata yapması, UEFA'nın “olağan dışı performans” tezine yarıyor."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "UEFA vekili, sizce maçın sonucunu etkileme ihlali hangi ölçüye göre ve nasıl ispatlandı?" }
+      ],
+      "prompt": "İspat ölçüsünü ve delillerin bu ölçüyü nasıl karşıladığını kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_ispat"],
+          "law": "UEFA DR m.12/2-a, m.24",
+          "note": "Makul tatmin ölçüsünü doğru tanımladınız ve tek tek zayıf görünen delilleri bir zincir hâlinde bağladınız. CAS, şike dosyalarında doğrudan delilin nadir olduğunu, dolaylı delillerin birlikte değerlendirilebileceğini kabul eder; ölçü, suçlamanın ağırlığı göz önünde tutularak uygulanır (ör. CAS 2009/A/1920, FK Pobeda)."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": ["p2_ispatKismen"],
+          "law": "UEFA DR m.24",
+          "note": "Delilleri sıraladınız. Tam savunma, makul tatmin ölçüsünü (ihtimaller dengesinden yüksek, makul şüphenin ötesinden düşük) tanımlar ve bahis anomalisi, yazışmalar, para transferi ve hataların zamanlamasını birbirine bağlayan zinciri gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "UEFA DR m.24",
+          "note": "İspat ölçüsünü ve delil zincirini kuramadınız. Ölçü makul tatmindir; UEFA'nın görevi, tek başına yetersiz kalan dolaylı delillerin birlikte değerlendirildiğinde bu ölçüyü nasıl karşıladığını göstermekti."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) İspat ölçüsü UEFA DR m.24'e göre disiplin organının makul tatminidir (comfortable satisfaction): ihtimaller dengesinden yüksek, makul şüphenin ötesinden düşüktür ve suçlamanın ağırlığı göz önüne alınır. (2) Şike dosyalarında doğrudan delil nadirdir; dolaylı deliller birlikte değerlendirilir (UEFA DR m.44 her türlü delile izin verir). (3) Zincir: eniştenin 19.07 ve 22.07 tarihli mesajları ('Burak'la konuştum', 'Tamam dedi. Son on dakika.'); 80. dakikadan sonraki bahis anomalisi; 84. ve 87. dakikadaki hatalar; maçtan üç gün sonra şebeke üyesinin şirketinden kalecinin eşine gelen 40.000 €. (4) Bu deliller birlikte değerlendirildiğinde panel m.12/2-a ihlalinden makul tatmin duyabilir; en azından m.12/2-d (yaklaşımı bildirmeme) ihlali kesindir. Ölçüyü doğru tanımlayıp en az üç halkayı birbirine bağlayan cevap tam puan alır; yalnızca delilleri sayan cevap orta puan alır. Ölçüyü 'makul şüphenin ötesinde' ya da 'ihtimaller dengesi' diye tanımlayan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["makul tatmin", "comfortable satisfaction", "m.24"], "weight": 3 },
+        { "terms": ["dolaylı delil", "zincir", "birlikte değerlendir", "bütün olarak"], "weight": 2 },
+        { "terms": ["bahis", "BFDS", "anomali"], "weight": 1 },
+        { "terms": ["40.000", "havale", "şirket", "Dalyan", "para"], "weight": 1 },
+        { "terms": ["Tamam dedi", "son on dakika", "enişte", "yazışma", "mesaj"], "weight": 1 },
+        { "terms": ["12/2", "bildirme", "yaklaşım"], "weight": 1 }
+      ],
+      "model": "Sayın Panel, UEFA DR m.24'e göre ölçü makul tatmindir: ihtimaller dengesinden yüksek, makul şüphenin ötesinden düşük. Şikede doğrudan delil nadirdir; dolaylı deliller birlikte değerlendirilir. Enişte 22.07'de ‘Tamam dedi, son on dakika’ yazıyor; 80. dakikadan sonra Asya'da ‘3,5 üst’ bahisleri patlıyor; 84 ve 87'de iki kaleci hatası geliyor; üç gün sonra şebeke üyesinin şirketinden kalecinin eşine 40.000 € yatıyor. Bu zincir m.12/2-a ihlalini makul tatmin ölçüsünde ispatlar; yaklaşımı bildirmeme (m.12/2-d) ise tartışmasızdır."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Oyuncu vekili, kapanış öncesinde ispat ölçüsü hakkında söyleyeceklerinizi dinleyelim." }
+      ],
+      "prompt": "Makul tatmin ölçüsünün neden karşılanmadığını kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_ispat"],
+          "law": "UEFA DR m.12/2-a, m.24",
+          "note": "İspat yükünün UEFA'da olduğunu, ölçünün suçlamanın ağırlığıyla birlikte yükseldiğini ve her halkanın neden kaleciye ulaşmadığını gösterdiniz. Eniştenin mesajları kalecinin kendi sözü değildir; bahis anomalisi failin kimliğini göstermez; hatalar teknik olarak açıklanabilir."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": ["p1_ispatKismen"],
+          "law": "UEFA DR m.24",
+          "note": "Delillerin zayıflığına değindiniz. Tam savunma, ispat yükünün UEFA'da olduğunu ve şike gibi ağır bir suçlamada makul tatminin daha güçlü delil gerektirdiğini söyler, sonra her halkayı ayrı ayrı çözer."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "UEFA DR m.24",
+          "note": "Ölçüyü ve delil zincirinin zayıf halkalarını gösteremediniz. Savunmanın merkezinde ispat yükü ve makul tatmin ölçüsü olmalıydı: üçüncü kişinin mesajı, kimliksiz bahis anomalisi ve teknik olarak açıklanabilen hatalar."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) İspat yükü UEFA'dadır; ölçü UEFA DR m.24'teki makul tatmindir ve şike gibi ağır bir suçlamada panelin daha güçlü delil araması gerekir. (2) Eniştenin mesajları üçüncü kişinin beyanıdır; kalecinin kendisiyle şebeke arasında doğrudan bir iletişim yoktur ve enişte kendi çıkarı için abartmış olabilir. (3) Bahis anomalisi birilerinin maçta olağan dışı bir şey beklediğini gösterir, ama dahil olan oyuncunun kimliğini göstermez. (4) Hatalar teknik olarak açıklanabilir: ağır zemin, sapan şut, olağan bir çıkış hatası. (5) Para transferi (gönderen şirket ortaya çıktıysa) eniştenin ilişkisini gösterebilir, ama kalecinin maçı etkilediğini göstermez; en fazla m.12/2-d tartışılabilir. Ölçüyü ve en az üç halkanın zayıflığını birlikte gösteren cevap tam puan alır. Yalnızca 'kaleci masumdur' diyen cevap düşük puan alır. Ölçüyü 'makul şüphenin ötesinde' diye tanımlayan cevap orta puanı geçemez.",
+      "keywords": [
+        { "terms": ["ispat yükü", "UEFA ispat", "burden"], "weight": 2 },
+        { "terms": ["makul tatmin", "comfortable satisfaction", "ağırlığı", "ağır suçlama"], "weight": 2 },
+        { "terms": ["enişte", "üçüncü kişi", "doğrudan", "kendi sözü"], "weight": 1 },
+        { "terms": ["bahis", "anomali", "kimlik"], "weight": 1 },
+        { "terms": ["teknik", "zemin", "sapan", "çarp", "hata"], "weight": 1 },
+        { "terms": ["12/2-d", "bildirme", "en fazla"], "weight": 1 }
+      ],
+      "model": "Sayın Panel, ispat yükü UEFA'dadır ve şike gibi ağır bir suçlamada makul tatmin ölçüsü güçlü delil ister. Mesajlar eniştenin kendi sözleridir; kaleciyle şebeke arasında tek bir doğrudan iletişim yok. Bahis anomalisi birilerinin bir şey beklediğini gösterir, kimin dahil olduğunu göstermez. Uzman tanığın anlattığı gibi 84'teki şut sapıyor, 87'deki çıkış olağan bir hata. Bu halkalar kaleciye ulaşmıyor; m.12/2-a ihlali makul tatmin ölçüsünde ispatlanmamıştır."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "UEFA vekili, yaptırım konusundaki son taleplerinizi belirtin." }
+      ],
+      "prompt": "Yaptırım konusunda panelden ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Temyizin reddiyle on yıllık menin onanmasını; panel m.12/2-a'dan tatmin olmazsa m.12/2-d ihlali için orantılı bir men verilmesini iste.",
+          "delta": 15,
+          "set": ["p2_yedek"],
+          "law": "UEFA DR m.12/2-a, m.12/2-d · CAS Kodu R57",
+          "note": "Kurullar kaleciyi iki ayrı ihlalden sorumlu tuttu; panel esası yeniden incelediğinden (R57), birincisi ispatlanmasa bile ikincisi için kararı ayakta tutabilir. Talebi temyizin reddi çerçevesinde ve kademeli kurdunuz.",
+          "reply": [
+            { "who": "judge", "text": "Kademeli talep not edildi." }
+          ]
+        },
+        {
+          "text": "On yıl yetmez; şikenin ağırlığı karşısında panelin men cezasını futboldan ömür boyu menle değiştirmesini ve kararı buna göre düzeltmesini iste.",
+          "delta": -10,
+          "set": ["p2_artir"],
+          "law": "CAS Kodu R55, R57",
+          "note": "UEFA kararı kendisi temyiz etmedi. Temyiz usulünde cevap veren taraf yalnızca temyizin reddini isteyebilir; ayrı bir temyiz olmadan oyuncunun aleyhine ağırlaştırma istenemez.",
+          "reply": [
+            { "who": "judge", "text": "UEFA bu kararı temyiz etmedi; ağırlaştırma talebi incelenemez." }
+          ]
+        },
+        {
+          "text": "Panel delillerden tereddüt ederse esasa girmeden kararı kaldırıp yeniden inceleme için dosyayı UEFA Temyiz Kurulu'na geri göndersin.",
+          "delta": -5,
+          "set": ["p2_iade"],
+          "law": "CAS Kodu R57",
+          "note": "R57 panele geri gönderme imkânı tanır, ama tereddüt hâlinde bu yol izlenmez: ispat yükü UEFA'dadır ve tereddüt suçlanan lehine sonuç doğurur. Geri gönderme talebi, kendi delillerinize güvenmediğiniz izlenimini verdi.",
+          "reply": [
+            { "who": "judge", "text": "Not edildi. Panel delilleri kendisi değerlendirecek." }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_sinirli",
+      "winner": "p2",
+      "hukum": "Burak Erdem'in temyizinin REDDİNE, UEFA Temyiz Kurulu'nun on yıllık men kararının ONANMASINA,",
+      "summary": "Oyuncu vekili ihlali tartışmadan yalnızca men süresinin indirilmesini istedi. Şikede disiplin cezaları ertelenemez ve maç sonucunu etkileyen bir oyuncu için on yıllık men orantısız değildir. İspat ölçüsü tartışılmadığından kararın dayanağı ayakta kaldı."
+    },
+    {
+      "if": "p2_baglanti && (p2_ispat || p2_ispatKismen) && !(p1_ispat && p1_teknik && p1_bahis)",
+      "winner": "p2",
+      "hukum": "Burak Erdem'in temyizinin REDDİNE, UEFA Temyiz Kurulu kararının ONANMASINA; oyuncunun on yıl süreyle futbolla ilgili her türlü faaliyetten MENİNE,",
+      "summary": [
+        { "text": "UEFA vekili, şebeke üyesinin şirketinden kalecinin eşine gelen 40.000 €'yu ortaya koyarak “eski borç” açıklamasını çürüttü. Mesajlar, bahis anomalisi, hataların zamanlaması ve para birlikte değerlendirildiğinde panel m.12/2-a ihlalinden makul tatmin duydu (UEFA DR m.24)." },
+        { "if": "p1_bekle", "text": " Oyuncu vekilinin ceza davasını bekleme talebi, disiplin yargılamasının bağımsızlığı nedeniyle reddedilmişti." },
+        { "if": "p1_dislama", "text": " Ceza dosyasından gelen delillerin dışlanması talebi de reddedildi (UEFA DR m.44)." },
+        { "if": "p1_teknik || p1_bahis", "text": " Uzman tanıklar bazı halkaları zayıflattı, ama zinciri koparamadı." }
+      ]
+    },
+    {
+      "if": "p2_yedek && (p2_bildirim || p2_baglanti || p2_ispat)",
+      "winner": "draw",
+      "hukum": "Burak Erdem'in temyizinin KISMEN KABULÜ ile UEFA DR m.12/2-a ihlalinin ispatlanamadığına; m.12/2-d uyarınca yaklaşımı bildirmeme ihlalinin sabit olduğuna ve men süresinin iki yıla İNDİRİLMESİNE,",
+      "summary": [
+        { "text": "Panel, maçın sonucunun etkilendiğinden makul tatmin duymadı:" },
+        { "if": "p1_bahis", "text": " bahis anomalisi dahil olan oyuncunun kimliğini göstermiyordu;" },
+        { "if": "p1_teknik", "text": " hatalar teknik olarak açıklanabiliyordu;" },
+        { "text": " eniştenin mesajları kalecinin kendi sözü değildi. Ama kaleci kendisine maçı etkilemek için yaklaşıldığını bildi ve bunu UEFA'ya bildirmedi (m.12/2-d). UEFA vekilinin kademeli talebi sayesinde bu ihlal için orantılı bir men verildi." }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": "Burak Erdem'in temyizinin KABULÜ ile UEFA Temyiz Kurulu kararının KALDIRILMASINA, oyuncu hakkındaki men cezasının KALDIRILMASINA,",
+      "summary": [
+        { "text": "İspat yükü UEFA'daydı ve ölçü makul tatmindi (UEFA DR m.24)." },
+        { "if": "!p2_baglanti", "text": " Para transferinin şebekeyle bağlantısı ortaya konamadı; “eski borç” açıklaması çürütülemedi." },
+        { "if": "p1_ispat && p1_teknik && p1_bahis", "text": " Oyuncu vekili uzman tanıklarla zincirin her halkasını zayıflattı: bahis anomalisi kimliği göstermiyor, hatalar teknik olarak açıklanabiliyor, mesajlar üçüncü kişiye ait." },
+        { "if": "!p2_yedek", "text": " UEFA vekili yaklaşımı bildirmeme ihlali için kademeli bir talepte bulunmadı." },
+        { "if": "p2_artir", "text": " Ağırlaştırma talebi ise ayrı bir temyiz olmadığından incelenemedi." },
+        { "text": " Panel şike suçlamasından makul tatmin duymadı ve men kaldırıldı." }
+      ]
+    }
+  ]
+}

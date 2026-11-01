@@ -9,6 +9,7 @@ import { aiClosing, AiVerdict, judgeDuel } from "../engine/judge";
 import { CaseFile, Player, Side } from "../engine/types";
 import { Btn } from "./kit";
 import { C, F, sideColor } from "./theme";
+import { locale, t } from "../i18n";
 
 function getRecognizer(): any {
   if (Platform.OS !== "web" || typeof window === "undefined") return null;
@@ -45,7 +46,7 @@ export default function ClosingScreen({ c, game, players, onDone }: { c: CaseFil
   const toggleMic = () => {
     if (listening) { try { rec.current?.stop(); } catch { /* yok say */ } return; }
     const r = getRecognizer(); if (!r) return;
-    r.lang = "tr-TR"; r.interimResults = false; r.continuous = true;
+    r.lang = locale(); r.interimResults = false; r.continuous = true;
     const base = text ? text.trimEnd() + " " : ""; let got = "";
     r.onresult = (e: any) => { for (let i = e.resultIndex; i < e.results.length; i++) if (e.results[i].isFinal) got += e.results[i][0].transcript + " "; setText(base + got.trim()); };
     r.onend = () => setListening(false); r.onerror = () => setListening(false);
@@ -58,12 +59,14 @@ export default function ClosingScreen({ c, game, players, onDone }: { c: CaseFil
     setText(""); setReady(false); setTurn(t => t + 1);
   };
 
+  // Tahkim dosyalarında kararı hâkim değil hakem (heyeti) verir.
+  const arb = c.room === "tahkim";
   if (turn >= 2 || busy) {
     return (
       <View style={s.center}>
         <ActivityIndicator color={C.brass} size="large" />
-        <Text style={s.title}>Hâkim karar için çekildi</Text>
-        <Text style={s.sub}>Duruşma tutanağı ve son sözler değerlendiriliyor…</Text>
+        <Text style={s.title}>{arb ? t("Hakem karar için çekildi") : t("Hâkim karar için çekildi")}</Text>
+        <Text style={s.sub}>{t("Duruşma tutanağı ve son sözler değerlendiriliyor…")}</Text>
       </View>
     );
   }
@@ -72,25 +75,26 @@ export default function ClosingScreen({ c, game, players, onDone }: { c: CaseFil
 
   return (
     <ScrollView contentContainerStyle={s.wrap}>
-      <Text style={s.eyebrow}>{c.court.toLocaleUpperCase("tr")} · SON SÖZ</Text>
+      <Text style={s.eyebrow}>{c.court.toLocaleUpperCase(locale())} · {t("SON SÖZ")}</Text>
       <Text style={[s.title, { color: sideColor(side) }]}>{players[side].name} · {c.sides[side].role}</Text>
       {twoHumans && !ready ? (
         <View style={{ gap: 12 }}>
-          <Text style={s.sub}>{turn === 0 ? "Hâkim taraflara son sözlerini soruyor. Önce" : "Şimdi sıra"} {players[side].name}. {turn === 1 ? "Cihazı karşı tarafa verin; önceki tarafın yazdığı gizli kalacak." : "Karşı taraf ekrana bakmasın."}</Text>
-          <Btn label="Hazırım ▸" onPress={() => setReady(true)} />
+          <Text style={s.sub}>{turn === 0 ? (arb ? t("Hakem taraflara son sözlerini soruyor. Önce {ad}.", { ad: players[side].name }) : t("Hâkim taraflara son sözlerini soruyor. Önce {ad}.", { ad: players[side].name })) : t("Şimdi sıra {ad}.", { ad: players[side].name })} {turn === 1 ? t("Cihazı karşı tarafa verin; önceki tarafın yazdığı gizli kalacak.") : t("Karşı taraf ekrana bakmasın.")}</Text>
+          <Btn label={t("Hazırım ▸")} onPress={() => setReady(true)} />
         </View>
       ) : (
         <View style={{ gap: 10 }}>
-          <Text style={s.sub}>Davanın özünü, dayandığınız kanun maddelerini ve karşı tarafın zayıf noktasını birkaç cümlede söyleyin. Kararı yapay zekâ hâkim verecek: duruşmadaki hamleleriniz ve bu son söz birlikte değerlendirilir.</Text>
-          <TextInput value={text} onChangeText={setText} multiline placeholder="Sayın Mahkeme, …" placeholderTextColor={C.muted} style={s.input} maxLength={2500} accessibilityLabel="Son söz" />
+          <Text style={s.sub}>{arb ? t("Davanın özünü, dayandığınız kuralları ve karşı tarafın zayıf noktasını birkaç cümlede söyleyin. Kararı yapay zekâ hakem verecek: duruşmadaki hamleleriniz ve bu son söz birlikte değerlendirilir.")
+            : t("Davanın özünü, dayandığınız kanun maddelerini ve karşı tarafın zayıf noktasını birkaç cümlede söyleyin. Kararı yapay zekâ hâkim verecek: duruşmadaki hamleleriniz ve bu son söz birlikte değerlendirilir.")}</Text>
+          <TextInput value={text} onChangeText={setText} multiline placeholder={arb ? t("Sayın Hakem Heyeti, …") : t("Sayın Mahkeme, …")} placeholderTextColor={C.muted} style={s.input} maxLength={2500} accessibilityLabel={t("Son söz")} />
           <View style={s.row}>
             {canListen && (
               <Pressable accessibilityRole="button" onPress={toggleMic} style={[s.mic, listening && s.micOn]}>
-                <Text style={[s.micText, listening && { color: C.brassInk }]}>{listening ? "■ Dinliyorum… durdur" : "🎤 Söyle"}</Text>
+                <Text style={[s.micText, listening && { color: C.brassInk }]}>{listening ? t("■ Dinliyorum… durdur") : t("🎤 Söyle")}</Text>
               </Pressable>
             )}
             <View style={{ flex: 1 }} />
-            <Btn label="Son sözü sun ▸" onPress={submit} disabled={!text.trim()} style={!text.trim() && { opacity: 0.5 }} />
+            <Btn label={t("Son sözü sun ▸")} onPress={submit} disabled={!text.trim()} style={!text.trim() && { opacity: 0.5 }} />
           </View>
         </View>
       )}

@@ -1,0 +1,453 @@
+{
+  "id": "th-cas-hakli-sebep",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "cas",
+  "difficulty": "basit",
+  "title": "U19 Sürgünü",
+  "area": "Tahkim · Spor tahkimi · Haklı sebep olmadan fesih (RSTP m.17)",
+  "court": "Spor Tahkim Mahkemesi (CAS) · CAS 2026/A/11873 ve 11874 (Tahkim yeri: Lozan)",
+  "courtShort": "CAS · LOZAN",
+  "esas": "CAS 2026/A/11873 ve 11874",
+  "kararTarihi": "18.11.2026",
+  "color": "#24506b",
+  "bench": { "judges": 3, "title": "Panel Başkanı ve iki hakem" },
+  "inscription": null,
+  "teaser": "Forvet tek aylık ücreti gecikince sözleşmeyi feshetti ve üç gün sonra Uruguay'da imza attı. FIFA ona 620.000 € tazminat yükledi; şimdi iki taraf da Lozan'da.",
+  "sides": {
+    "p1": { "role": "Temyiz eden kulüp (Karadeniz Gücü SK) vekili", "short": "Kulüp" },
+    "p2": { "role": "Oyuncu (Mateo Ferraz) vekili", "short": "Oyuncu" }
+  },
+  "cast": {
+    "judge": { "name": "Panel Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#e9c3a0", "hair": "#8d8d92", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#d2a07a", "hair": "#1d1a18", "style": "short", "beard": true, "shirt": "#1f2430", "inner": "#e9e6df" } },
+    "p2": { "look": { "kind": "civil", "skin": "#efc9a6", "hair": "#6a3f26", "style": "long", "shirt": "#262a33", "inner": "#efe9e0" } },
+    "oyuncu": { "name": "Mateo Ferraz · Oyuncu", "np": "civil", "look": { "kind": "civil", "skin": "#b98458", "hair": "#141212", "style": "curly", "shirt": "#2f4a5e", "inner": "#e6e1d6" } },
+    "direktor": { "name": "Selçuk Arıkan · Sportif direktör", "np": "civil", "look": { "kind": "civil", "skin": "#dcae88", "hair": "#4a4038", "style": "bald", "shirt": "#3a3a40", "inner": "#dcd6cb" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Uruguaylı forvet Mateo Ferraz, Temmuz 2024'te 26 yaşındayken Karadeniz Gücü SK ile üç yıllık sözleşme imzaladı: 01.07.2024–30.06.2027, aylık net 80.000 €. Kulüp transfer için önceki kulübüne 1.200.000 € bonservis ödedi." },
+    { "who": "narr", "text": "Aralık 2025 ücreti ödenmedi. 08.01.2026'da oyuncu A takımdan alınıp U19 grubuyla çalıştırılmaya başlandı. 20.01.2026'da kulübe ihtar çekti, 10 gün süre verdi; 02.02.2026'da sözleşmeyi haklı sebeple feshettiğini bildirdi. 05.02.2026'da Uruguay'da Club Atlético Puerto Sur'la aylık 25.000 €'ya imza attı." },
+    { "who": "narr", "text": "FIFA Uyuşmazlık Çözüm Dairesi (DRC) feshin haklı sebebe dayanmadığına karar verdi: oyuncu kulübe 620.000 € tazminat ödeyecek ve koruma süresi içindeki fesih nedeniyle dört ay resmî maça çıkamayacak. Yeni kulübün müteselsil sorumluluğu reddedildi. Karar gerekçesiyle 14.04.2026'da tebliğ edildi." },
+    { "who": "narr", "text": "Kulüp tazminatı az, yeni kulübü de sorumlu buluyor; oyuncu ise feshin haklı olduğunu söylüyor. Önce kulüp vekili hamle yapacak." }
+  ],
+  "docs": [
+    { "t": "Oyuncu sözleşmesi (md. 4 ve 12)", "d": "Md. 4: Aylık net 80.000 €, her ayın son gününe kadar ödenir. Md. 12: Uyuşmazlıklarda FIFA'nın yetkili organları ve Spor Tahkim Mahkemesi (CAS) yetkilidir." },
+    { "t": "Oyuncunun ihtarı (20.01.2026)", "d": "“Aralık 2025 ücretim olan 80.000 € ödenmemiştir. 10 gün içinde ödenmezse sözleşmeyi haklı sebeple feshedeceğim.” Ocak 2026 ücretinin vadesi henüz gelmemişti." },
+    { "t": "Fesih bildirimi (02.02.2026)", "d": "“Aralık ücretinin ödenmemesi ve 08.01.2026'dan beri A takım antrenmanlarından dışlanmam nedeniyle sözleşmeyi haklı sebeple feshediyorum.”" },
+    { "t": "Antrenman programı", "d": "08.01.2026–02.02.2026 arasında oyuncu U19 grubuyla, ayrı saatte çalıştırılmış. Kulüp kaydına göre gerekçe: “teknik heyet kararı”." },
+    { "t": "FIFA DRC kararı (özet)", "d": "Fesih haklı sebebe dayanmıyor; RSTP m.14bis'in şartları (en az iki aylık ücret, en az 15 günlük süre) gerçekleşmemiş. Oyuncu 620.000 € tazminat öder; dört ay resmî maç yasağı. Yeni kulübün oyuncuyu sözleşmeyi bozmaya teşvik ettiği ispatlanmadığından müteselsil sorumluluk talebi reddedildi." },
+    { "t": "Uygulanacak kurallar", "d": "FIFA Oyuncu Statüsü ve Transferleri Talimatı (RSTP), uyuşmazlığın FIFA'ya getirildiği tarihte yürürlükte olan baskısıyla (2024 sonunda kabul edilen geçici düzenlemeyle birlikte); ikincil olarak İsviçre hukuku (CAS Kodu R58)." }
+  ],
+  "evidence": [
+    { "id": "ev_sozlesme", "type": "belge", "title": "Oyuncu sözleşmesi", "desc": "Aylık net 80.000 €, her ayın son gününe kadar ödenir. Sözleşmede oyuncunun genç takıma gönderilmesine ilişkin bir hüküm yok." },
+    { "id": "ev_ihtar", "type": "belge", "title": "Oyuncunun ihtarı", "desc": "20.01.2026 tarihli; yalnızca Aralık 2025 ücreti için 10 gün süre veriyor." },
+    { "id": "ev_program", "type": "belge", "title": "Antrenman programı", "desc": "Oyuncu 08.01.2026'dan fesih tarihine kadar U19 grubuyla ayrı saatte çalıştırılmış; gerekçe hanesinde yalnızca “teknik heyet kararı” yazıyor." },
+    { "id": "ev_mesaj", "type": "belge", "title": "Sportif direktörün WhatsApp mesajı", "desc": "09.01.2026, 23.14. Selçuk Arıkan: “Mateo, bu iş böyle gitmez. Sözleşmeni feshet git; yoksa sezon sonuna kadar U19'da çürürsün.”", "if": "p2_baski" },
+    { "id": "ev_eposta", "type": "belge", "title": "Menajerin toplu e-postası", "desc": "21.01.2026: Oyuncunun menajeri, Mateo Ferraz'ı “Şubat'tan itibaren serbest kalabilir” notuyla 20 kulübe birden önermiş. Puerto Sur'un 22.01.2026 tarihli cevabı bu e-postaya yazılmış.", "if": "p2_tesvikYok" },
+    { "id": "law_14_2", "type": "kanun", "title": "RSTP m.14/2 · Kötüye kullanma", "desc": "Karşı tarafı sözleşmeyi feshetmeye ya da şartlarını değiştirmeye zorlamaya yönelik kötüye kullanma niteliğindeki davranış, karşı tarafa haklı sebeple fesih hakkı verir.", "law": "RSTP m.14/2" },
+    { "id": "law_14bis", "type": "kanun", "title": "RSTP m.14bis · Ödenmeyen ücretler", "desc": "Kulüp en az iki aylık ücreti vadesinde ödemezse, oyuncu yazılı ihtarla en az 15 gün süre vermiş olmak şartıyla haklı sebeple feshedebilir.", "law": "RSTP m.14bis" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "TEMYİZ · FIFA DRC kararının gerekçesi 14.04.2026'da kulübe tebliğ edildi. Kulüp hem tazminatın artırılmasını hem de Puerto Sur'un müteselsil sorumluluğunu istiyor." }
+      ],
+      "prompt": "FIFA kararına karşı nereye, ne zamana kadar ve nasıl başvuracaksınız?",
+      "choices": [
+        {
+          "text": "Gerekçenin tebliğinden itibaren 21 gün içinde, 05.05.2026'ya kadar CAS'a temyiz başvurusu yap; temyiz gerekçesini süre bitince 10 gün içinde sun.",
+          "delta": 20,
+          "set": ["p1_sure"],
+          "law": "FIFA Statüsü (CAS'a temyiz) · CAS Kodu R48, R49, R51",
+          "note": "FIFA'nın hukuki organlarının nihai kararlarına karşı CAS'a temyiz süresi, kararın (gerekçesiyle) tebliğinden itibaren 21 gündür; FIFA Statüsü bu süreyi açıkça öngörür, R49 da federasyon kuralında süre yoksa 21 günü uygular. Temyiz başvurusundan (statement of appeal, R48) sonra temyiz gerekçesi (appeal brief) temyiz süresinin bitiminden itibaren 10 gün içinde verilir; verilmezse temyiz geri alınmış sayılır (R51).",
+          "reply": [
+            { "who": "narr", "text": "Temyiz başvurusu 30.04.2026'da, gerekçe 14.05.2026'da verildi. Dosya CAS 2026/A/11873 numarasını aldı." }
+          ]
+        },
+        {
+          "text": "Kararın tebliğinden itibaren 30 gün içinde, 14.05.2026'ya kadar temyiz başvurusunu ve gerekçesini tek dilekçede birlikte CAS'a sun.",
+          "delta": -25,
+          "law": "FIFA Statüsü (CAS'a temyiz) · CAS Kodu R49",
+          "note": "Otuz günlük süre İsviçre Federal Mahkemesi'ne iptal başvurusu içindir. FIFA kararlarına karşı CAS'a temyiz süresi 21 gündür ve 05.05.2026'da doldu.",
+          "fatal": {
+            "label": "TEMYİZ SÜRESİ KAÇIRILDI",
+            "hukum": "Karadeniz Gücü SK'nın temyiz başvurusunun süre aşımı nedeniyle KABUL EDİLEMEZLİĞİNE (inadmissible), FIFA DRC kararının kulüp yönünden kesinleştiğinin tespitine,",
+            "summary": "Kulüp vekili temyiz başvurusunu 21 günlük süre (05.05.2026) geçtikten sonra yaptı. CAS'ta temyiz süresi kesindir; süresinden sonra yapılan başvuru esasa girilmeden kabul edilemez bulunur. Kulüp ne tazminat artışını ne de yeni kulübün sorumluluğunu tartışabildi."
+          }
+        },
+        {
+          "text": "Süresi içinde temyize git, ama yalnızca yeni kulübün müteselsil sorumluluğunu iste; tazminat artışını sonra ayrı bir taleple dile getirirsin.",
+          "delta": -10,
+          "set": ["p1_sure", "p1_dar"],
+          "law": "CAS Kodu R48, R57",
+          "note": "CAS esası yeniden inceler (R57), ama tarafların talepleriyle bağlıdır. Temyiz başvurusunda ve gerekçesinde istenmeyen tazminat artışı, süre geçtikten sonra ayrı bir taleple getirilemez.",
+          "reply": [
+            { "who": "narr", "text": "Temyiz süresinde yapıldı; ama talep yalnızca Puerto Sur'un müteselsil sorumluluğuyla sınırlı kaldı." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Kulübün temyiz başvurusu 30.04.2026'da oyuncuya bildirildi. Mateo Ferraz, kendisine yüklenen 620.000 € tazminatı ve dört aylık yasağı kabul etmiyor. Bugün 02.05.2026." }
+      ],
+      "prompt": "Oyuncunun FIFA kararındaki aleyhe kısımlarını kaldırtmak için ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Kulübün dosyasını beklemeden 05.05.2026'ya kadar oyuncu adına ayrı bir temyiz başvurusu yap; iki dosyanın aynı panelde birleşmesini iste.",
+          "delta": 20,
+          "set": ["p2_temyiz"],
+          "law": "CAS Kodu R49, R50, R55",
+          "note": "Temyiz usulünde karşı temyiz (cross-appeal) ya da karşı dava yoktur: cevap dilekçesinde ancak temyizin reddi istenebilir (R55). Kararın oyuncu aleyhine kısmını değiştirmek isteyen oyuncunun kendi temyizini 21 gün içinde açması gerekir. Aynı karara karşı iki temyiz aynı panele verilip birleştirilebilir.",
+          "reply": [
+            { "who": "narr", "text": "Oyuncunun temyizi 04.05.2026'da yapıldı (CAS 2026/A/11874). İki dosya aynı panelde birleştirildi." }
+          ]
+        },
+        {
+          "text": "Ayrı temyize gerek yok: kulübün temyizine vereceğin cevapta karşı talep olarak FIFA kararının kaldırılmasını ve dört aylık yasağın iptalini iste.",
+          "delta": -15,
+          "set": ["p2_capraz"],
+          "law": "CAS Kodu R55",
+          "note": "CAS temyiz usulünde cevap dilekçesiyle karşı talep ileri sürülemez; cevap veren taraf yalnızca temyizin reddini isteyebilir. Kararın oyuncu aleyhine kısmı, oyuncu kendi temyizini açmadığı için kesinleşti.",
+          "reply": [
+            { "who": "narr", "text": "Oyuncu kendi temyizini açmadı; 05.05.2026'da süre doldu." }
+          ]
+        },
+        {
+          "text": "Temyiz yerine İsviçre Federal Mahkemesi'ne FIFA kararının iptali için başvur; CAS'taki dosyanın o karar çıkana kadar durdurulmasını iste.",
+          "delta": -15,
+          "set": ["p2_capraz"],
+          "law": "İsviçre MÖHK m.190 · CAS Kodu R47",
+          "note": "İsviçre Federal Mahkemesi'ne iptal başvurusu CAS hakem kararlarına karşıdır; FIFA kararı bir hakem kararı değildir ve ona karşı yol CAS'a temyizdir. Oyuncu temyiz süresini kaçırdı.",
+          "reply": [
+            { "who": "narr", "text": "Federal Mahkeme başvuruyu incelemeye almadı. Oyuncunun CAS'a temyiz süresi 05.05.2026'da doldu." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Cevap ve temyiz gerekçesi hazırlanırken Mateo Ferraz'la görüntülü görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Oyuncuya ne soracaksınız?",
+      "choices": [
+        {
+          "text": "U19'a gönderildiğinizde size bunun nedeni hakkında yazılı ya da sözlü bir şey söylendi mi?",
+          "delta": 15,
+          "set": ["p2_baski"],
+          "reply": [
+            { "who": "oyuncu", "text": "Sportif direktör Selçuk Bey gece WhatsApp'tan yazdı: “Sözleşmeni feshet git, yoksa sezon sonuna kadar U19'da çürürsün.” Mesaj telefonumda duruyor." }
+          ],
+          "note": "Doğru soru. Bu mesaj, dışlamanın sportif değil, oyuncuyu feshe zorlamaya yönelik olduğunu gösterebilir (RSTP m.14/2). Mesaj delil çantanıza eklendi."
+        },
+        {
+          "text": "Puerto Sur'la ilk temas nasıl ve ne zaman başladı?",
+          "delta": 10,
+          "set": ["p2_tesvikYok"],
+          "reply": [
+            { "who": "oyuncu", "text": "Menajerim 21 Ocak'ta beni yirmi kulübe birden önermiş. Puerto Sur'un 22 Ocak'taki e-postası o listeye cevapmış; ben kulüple ilk kez fesihten sonra, 3 Şubat'ta konuştum." }
+          ],
+          "note": "Yararlı. Yeni kulübün müteselsil sorumluluğu için teşvikin ispatı gerekir; temasın oyuncu tarafından başlatıldığını gösteren toplu e-posta, teşvik iddiasını zayıflatır. E-posta çantanıza eklendi."
+        },
+        {
+          "text": "Puerto Sur'daki sözleşmenizde imza parası var mı?",
+          "delta": 0,
+          "reply": [
+            { "who": "oyuncu", "text": "Yok. Aylık 25.000 €, o kadar. Uruguay'da maaşlar burası gibi değil." }
+          ],
+          "note": "Yeni sözleşmenin değeri dosyada zaten var; bu soru yeni bir delil getirmedi."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kulüp vekili, Puerto Sur'un müteselsil sorumluluğunu neye dayandırıyorsunuz?" }
+      ],
+      "prompt": "Yeni kulübün sorumluluğu için panelden ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Teşvikin ispatı bize düşüyor; Puerto Sur'un Ocak 2026'daki yazışmalarının panelce ibraz ettirilmesini isteyelim, teşviki bu belgelerle gösterelim.",
+          "delta": 15,
+          "set": ["p1_tesvik"],
+          "law": "RSTP m.17 (geçici düzenleme) · CAS Kodu R44.3, R57",
+          "note": "Diarra kararından (ABAD, 04.10.2024, C-650/22) sonra FIFA'nın kabul ettiği geçici düzenlemeyle yeni kulübün kendiliğinden müteselsil sorumluluğu ve teşvik karinesi kaldırıldı; yeni kulüp ancak oyuncuyu sözleşmeyi bozmaya teşvik ettiği ispatlanırsa sorumlu olur ve ispat yükü eski kulüptedir. Panel, R57 yollamasıyla R44.3'e göre belge ibrazı isteyebilir.",
+          "reply": [
+            { "who": "judge", "text": "Belge ibrazı talebi kabul edildi." },
+            { "who": "narr", "text": "Puerto Sur'un sportif direktörünün 22.01.2026'da oyuncunun menajerine yazdığı e-posta dosyaya girdi: “Mateo serbest kalırsa Şubat'ta şartları konuşalım.”" }
+          ]
+        },
+        {
+          "text": "Puerto Sur, oyuncuyu sözleşmesini bozduktan sonra transfer ettiği için RSTP m.17 gereği kendiliğinden müteselsil sorumludur; ayrıca ispat gerekmez.",
+          "delta": -10,
+          "set": ["p1_otomatik"],
+          "law": "RSTP m.17 (geçici düzenleme)",
+          "note": "Bu, eski metnin kuralıydı. 2024 sonunda kabul edilen geçici düzenlemeyle yeni kulübün kendiliğinden müteselsil sorumluluğu kaldırıldı; sorumluluk için yeni kulübün teşviki ispatlanmalıdır.",
+          "reply": [
+            { "who": "judge", "text": "Uygulanacak metin bu kuralı içermiyor. Teşvike ilişkin bir deliliniz var mı?" }
+          ]
+        },
+        {
+          "text": "Oyuncu fesihten üç gün sonra Puerto Sur'la imzaladı; bu kadar kısa sürede imza teşvik karinesi doğurur, aksini ispat yükü yeni kulüpte.",
+          "delta": -10,
+          "set": ["p1_karine"],
+          "law": "RSTP m.17 (geçici düzenleme)",
+          "note": "Uyuşmazlığa uygulanan metinde teşvik karinesi yok; geçici düzenleme onu kaldırdı. Kırk beş gün içinde imzayı teşvik karinesi sayan kural FIFA'nın 2027'de yürürlüğe giren yeni talimatındadır ve bu uyuşmazlığa uygulanmaz.",
+          "reply": [
+            { "who": "judge", "text": "Uygulanacak metinde böyle bir karine bulunmuyor. Teşviki siz ispat edeceksiniz." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Oyuncu vekili, kulübün oyuncuyu A takımdan dışlamasına ilişkin beyanına cevabınız?" }
+      ],
+      "statement": { "who": "p1", "text": "Sayın Panel, oyuncunun U19 grubuna alınması teknik heyetin tamamen sportif bir kararıdır. Kulüp oyuncuyu sözleşmeyi feshetmeye hiçbir şekilde zorlamamıştır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_mesaj"],
+      "hit": {
+        "delta": 20,
+        "set": ["p2_kotu"],
+        "law": "RSTP m.14/2",
+        "note": "Sportif direktörün “sözleşmeni feshet git, yoksa U19'da çürürsün” mesajı, dışlamanın amacının oyuncuyu feshe zorlamak olduğunu gösteriyor. Bu, RSTP m.14/2'deki kötüye kullanma niteliğinde davranıştır ve karşı tarafa haklı sebeple fesih hakkı verir.",
+        "reply": [
+          { "who": "direktor", "text": "O mesajı… sinirle yazdım. Teknik direktör de onu kadroda istemiyordu." },
+          { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+        ]
+      },
+      "responses": {
+        "ev_program": {
+          "delta": 5,
+          "set": ["p2_dislama"],
+          "note": "Program dışlamanın süresini (yaklaşık dört hafta) ve ayrı saatte çalıştırmayı gösteriyor, ama amacını göstermiyor. Dışlamanın oyuncuyu feshe zorlamak için yapıldığını ortaya koyan bir delil daha güçlü olurdu (RSTP m.14/2)."
+        },
+        "law_14_2": {
+          "delta": -5,
+          "note": [
+            { "if": "p2_baski", "text": "Doğru madde, ama maddeyi değil, kötüye kullanmayı gösteren belgeyi sunmalıydınız: sportif direktörün mesajı çantanızdaydı." },
+            { "if": "!p2_baski", "text": "Doğru madde, ama kulübün amacını gösteren bir deliliniz yok. Oyuncuya U19 kararının nasıl bildirildiği sorulsaydı bu kapı açılabilirdi." }
+          ]
+        },
+        "ev_ihtar": {
+          "delta": -10,
+          "note": "İhtar yalnızca tek aylık ücret için 10 gün süre veriyor; RSTP m.14bis'in şartlarının gerçekleşmediğini, yani kulübün tezini destekler."
+        },
+        "law_14bis": {
+          "delta": -10,
+          "note": "m.14bis en az iki aylık ücretin ödenmemesini ve en az 15 günlük süreyi arar; ikisi de yok. Bu madde oyuncunun aleyhine işler."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge dışlamanın amacını göstermiyor." },
+      "pass": { "delta": -10, "note": "Kulübün beyanına itiraz etmediniz; dışlamanın sportif bir karar olduğu tezi karşılıksız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kulüp vekili, feshin haklı sebebe dayanmadığını ve tazminatın neden artırılması gerektiğini açıklayın." }
+      ],
+      "prompt": "Feshin neden haklı sebebe dayanmadığını ve tazminatın nasıl hesaplanması gerektiğini kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_hesap"],
+          "law": "RSTP m.14bis, m.17 · İsviçre MK m.8",
+          "note": "m.14bis'in iki şartının da (en az iki aylık ücret, en az 15 günlük süre) gerçekleşmediğini gösterdiniz ve tazminatı somut zarar kalemleriyle kurdunuz: bonservisin sözleşmenin kalan 17 ayına düşen ve itfa edilmemiş kısmı (yaklaşık 566.667 €), yerine alınan oyuncunun maliyeti ve oyuncunun hizmetinin kaybı. Geçici düzenlemeden sonra tazminat, somut olayın koşullarına göre ve uğranılan zarar üzerinden (pozitif menfaat) hesaplanır; zararı ispat yükü kulüptedir (İsviçre MK m.8)."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": ["p1_hesapKismen"],
+          "law": "RSTP m.14bis, m.17",
+          "note": "Feshin m.14bis şartlarını taşımadığını gösterdiniz, ama tazminat artışını somut zarar kalemleriyle yeterince desteklemediniz. Bonservisin itfa edilmemiş kısmı, yerine alınan oyuncunun maliyeti ve pozitif menfaat ilkesi birlikte anlatılmalıydı."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "RSTP m.14bis, m.17",
+          "note": "Feshin neden haklı sebebe dayanmadığını ve zararın nasıl hesaplanacağını gösteremediniz. m.14bis en az iki aylık ücretin ödenmemesini ve en az 15 günlük süre verilmesini arar; tazminat da somut zarar üzerinden (pozitif menfaat) ve kulübün ispatıyla belirlenir."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) RSTP m.14bis'e göre haklı fesih için en az iki aylık ücretin vadesinde ödenmemiş olması ve oyuncunun yazılı ihtarla en az 15 gün süre vermesi gerekir; 20.01.2026'daki ihtarda yalnızca bir aylık ücret (Aralık 2025) vardı ve süre 10 gündü. (2) Tek aylık gecikme m.14/1 anlamında genel bir haklı sebep de oluşturmaz; fesih son çare olmalıdır. (3) Tazminat RSTP m.17'ye göre, geçici düzenlemeden sonra somut olayın koşullarına ve uğranılan zarara göre (pozitif menfaat) hesaplanır: bonservisin itfa edilmemiş kısmı (1.200.000 €'nun kalan 17/36'sı, yaklaşık 566.667 €), yerine oyuncu alma maliyeti, oyuncunun hizmetinin değeri. (4) Zararı ispat yükü kulüptedir. m.14bis şartlarını ve en az iki zarar kalemini birlikte anlatan cevap tam puan alır; yalnızca feshin haksız olduğunu söyleyen cevap orta puan alır. Otomatik müteselsil sorumluluk ya da teşvik karinesine dayanan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["14bis", "14 bis", "iki aylık", "iki ay", "two monthly"], "weight": 2 },
+        { "terms": ["15 gün", "on beş gün", "onbeş gün", "15 days"], "weight": 2 },
+        { "terms": ["bonservis", "transfer bedeli", "itfa", "amorti", "transfer fee"], "weight": 2 },
+        { "terms": ["pozitif menfaat", "positive interest", "uğranılan zarar", "somut zarar", "gerçek zarar"], "weight": 2 },
+        { "terms": ["yerine", "yeni oyuncu", "replacement"], "weight": 1 },
+        { "terms": ["ispat yükü", "ispat", "m.8", "burden"], "weight": 1 }
+      ],
+      "model": "Sayın Panel, RSTP m.14bis'e göre oyuncu en az iki aylık ücret ödenmemişken yazılı ihtarla en az 15 gün süre vermelidir; 20.01.2026'daki ihtarda yalnızca Aralık ücreti vardı ve süre 10 gündü. Fesih haklı sebebe dayanmaz. Tazminat, geçici düzenlemeye göre kulübün somut zararı üzerinden (pozitif menfaat) hesaplanmalıdır: 1.200.000 € bonservisin kalan 17 aya düşen yaklaşık 566.667 €'luk kısmı ve yerine alınan oyuncunun maliyeti. Bu kalemleri belgeleriyle ispat ediyoruz."
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Oyuncu vekili, sizce fesih neden haklı sebebe dayanıyor?" }
+      ],
+      "prompt": "Feshin haklı sebebe dayandığını kendi cümlelerinizle savunun; m.14bis'in şartları gerçekleşmediyse oyuncu hangi hükme dayanabilir?",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_hakli"],
+          "law": "RSTP m.14/1, m.14/2",
+          "note": "m.14bis'in tek yol olmadığını, oyuncunun genel haklı sebep hükmüne (m.14/1) ve kötüye kullanma hükmüne (m.14/2) dayanabileceğini gösterdiniz. Dört haftalık dışlama ve feshe zorlayan mesaj, ödenmeyen ücretle birlikte oyuncudan sözleşmeye devam etmesinin beklenemeyeceğini ortaya koyuyor."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": ["p2_hakliKismen"],
+          "law": "RSTP m.14/1, m.14/2",
+          "note": "Dışlamanın haklı sebep oluşturduğunu söylediniz. Tam savunma, m.14bis şartları gerçekleşmese bile m.14/2'deki kötüye kullanma hükmünün ve m.14/1'deki genel haklı sebebin ayrıca uygulanabileceğini, dışlamanın süresini ve amacını birlikte göstermelidir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "RSTP m.14, m.14bis",
+          "note": "Feshi yalnızca ödenmeyen ücrete dayandırdınız; oysa m.14bis'in şartları gerçekleşmemişti. Oyuncu, A takımdan dışlanmasına ve feshe zorlanmasına dayanarak m.14/2'deki kötüye kullanma hükmünü ileri sürebilirdi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) RSTP m.14bis haklı sebebin özel bir hâlidir; şartları gerçekleşmese de oyuncu genel haklı sebep hükmüne (m.14/1) dayanabilir. (2) RSTP m.14/2'ye göre karşı tarafı feshe zorlamaya yönelik kötüye kullanma niteliğindeki davranış haklı sebep oluşturur; oyuncunun 08.01.2026'dan itibaren yaklaşık dört hafta A takımdan dışlanıp U19 ile ayrı saatte çalıştırılması ve sportif direktörün feshe zorlayan mesajı bu niteliktedir. (3) Ödenmeyen Aralık ücreti ile birlikte değerlendirildiğinde oyuncudan sözleşmeye devam etmesi beklenemez. m.14/2'yi ve dışlamanın amacını birlikte anlatan cevap tam puan alır; yalnızca dışlamadan söz eden cevap orta puan alır. Feshi yalnızca m.14bis'e dayandıran cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["14/2", "14.2", "m.14", "madde 14", "kötüye kullanma", "abusive"], "weight": 2 },
+        { "terms": ["U19", "dışla", "A takım", "ayrı antrenman", "genç takım"], "weight": 2 },
+        { "terms": ["zorla", "feshe zorla", "baskı", "mesaj", "çürürsün"], "weight": 2 },
+        { "terms": ["haklı sebep", "just cause", "beklenemez"], "weight": 1 },
+        { "terms": ["Aralık", "ödenmeyen", "ücret"], "weight": 1 }
+      ],
+      "model": "Sayın Panel, m.14bis'in şartları gerçekleşmemiş olsa da oyuncu genel haklı sebep hükmüne ve RSTP m.14/2'ye dayanabilir. Oyuncu 08.01.2026'dan fesih tarihine kadar dört hafta A takımdan dışlandı; sportif direktör ona açıkça ‘sözleşmeni feshet git, yoksa U19'da çürürsün’ diye yazdı. Bu, oyuncuyu feshe zorlamaya yönelik kötüye kullanmadır; ödenmeyen Aralık ücretiyle birlikte oyuncudan sözleşmeye devam etmesi beklenemezdi."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kulüp vekili, son taleplerinizi açıkça belirtin." }
+      ],
+      "prompt": "Son beyanınızda panelden ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Fesih haksız: tazminatın ispatladığımız zarar kalemleri kadar artırılmasını, teşvik ispatlandıysa Puerto Sur'un da müteselsil sorumluluğunu iste.",
+          "delta": 15,
+          "law": "RSTP m.17 · CAS Kodu R57",
+          "note": "Talepleri temyiz başvurusundaki çerçevede ve ispatladığınız ölçüde kurdunuz. Panel esası yeniden inceler, ama talep dışına çıkmaz.",
+          "reply": [
+            { "who": "judge", "text": "Talepler tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "Tazminata ek olarak, kötüye kullanma niteliğindeki davranışı nedeniyle oyuncunun altı aylık ücreti tutarında ayrıca ceza ödemesine karar verilsin.",
+          "delta": -10,
+          "set": ["p1_ceza"],
+          "law": "RSTP (2027 baskısı) · CAS Kodu R58",
+          "note": "Kötüye kullanmaya altı aylık ücrete kadar ek yaptırım bağlayan kural FIFA'nın 1 Ocak 2027'de yürürlüğe giren yeni talimatındadır; 2026'daki fesihten doğan bu uyuşmazlığa uygulanmaz. Bu talep temyiz başvurusunda da yoktu.",
+          "reply": [
+            { "who": "judge", "text": "Bu talep temyiz başvurusunda yer almıyor ve uygulanacak metinde dayanağı yok." }
+          ]
+        },
+        {
+          "text": "Puerto Sur'a iki transfer dönemi kayıt yasağı verilsin; oyuncu koruma süresinde feshettiği için yasak kendiliğinden uygulanır.",
+          "delta": -10,
+          "set": ["p1_yasak"],
+          "law": "RSTP m.17 (geçici düzenleme)",
+          "note": "Geçici düzenlemeyle yeni kulübe kayıt yasağı da ancak teşvikin ispatına bağlandı; kendiliğinden uygulanmaz. Ayrıca disiplin yaptırımı kulübün bu tahkimdeki talep hakkına bırakılmış bir şey değildir.",
+          "reply": [
+            { "who": "judge", "text": "Kayıt yasağı bu dosyada talep konusu yapılamaz. Başka bir talebiniz var mı?" }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p2_temyiz && (p2_kotu && (p2_hakli || p2_hakliKismen) || p2_dislama && p2_hakli)",
+      "winner": "p2",
+      "hukum": "Oyuncunun temyizinin (CAS 2026/A/11874) KABULÜ ile FIFA DRC kararının KALDIRILMASINA; sözleşmenin 02.02.2026'da oyuncu tarafından haklı sebeple feshedildiğinin tespitine; dört aylık resmî maç yasağının KALDIRILMASINA; kulübün temyizinin (CAS 2026/A/11873) REDDİNE; Karadeniz Gücü SK'nın oyuncuya ödenmeyen Aralık 2025 ücreti 80.000 € ile, yeni sözleşmesinden elde edeceği gelir mahsup edilerek hesaplanan 935.000 € tazminatı faiziyle ödemesine,",
+      "summary": [
+        { "text": "Oyuncu vekili m.14bis'in şartları gerçekleşmese bile oyuncunun RSTP m.14/2'ye dayanabileceğini gösterdi: dört haftalık dışlama, oyuncuyu feshe zorlamaya yönelikti." },
+        { "if": "p2_kotu", "text": " Sportif direktörün “sözleşmeni feshet git” mesajı belirleyici oldu." },
+        { "text": " Oyuncu kendi temyizini süresinde açtığı için panel FIFA kararını oyuncu lehine değiştirebildi. Kulüp ise kötüye kullanma niteliğindeki davranışın sonuçlarına katlandı; tazminat artışı ve yeni kulübün sorumluluğu talepleri reddedildi." }
+      ]
+    },
+    {
+      "if": "p2_kotu && (p2_hakli || p2_hakliKismen) || p2_dislama && p2_hakli",
+      "winner": "draw",
+      "hukum": "Kulübün temyizinin REDDİNE, FIFA DRC kararının ONANMASINA; oyuncunun cevap dilekçesindeki kararın kaldırılması talebinin, ayrı bir temyiz bulunmadığından incelenmesine yer olmadığına,",
+      "summary": "Oyuncu vekili, dışlamanın oyuncuyu feshe zorlamaya yönelik olduğunu gösterdi (RSTP m.14/2); bu yüzden kulübün tazminat artışı ve yeni kulübün sorumluluğu talepleri reddedildi. Ama oyuncu kendi temyizini açmadığından, cevap dilekçesiyle FIFA kararının kaldırılması istenemedi (R55): 620.000 € tazminat ve dört aylık yasak oyuncu yönünden kesinleşti."
+    },
+    {
+      "if": "!p1_dar && (p1_hesap || p1_hesapKismen && p1_tesvik) && p1_tesvik && !p2_tesvikYok",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Kulübün temyizinin KABULÜ ile oyuncunun kulübe ödeyeceği tazminatın 1.050.000 €'ya YÜKSELTİLMESİNE ve Club Atlético Puerto Sur'un bu tutardan oyuncuyla birlikte MÜTESELSİLEN sorumlu olmasına;" },
+        { "if": "p2_temyiz", "text": " oyuncunun temyizinin REDDİNE;" },
+        { "text": " dört aylık resmî maç yasağının ONANMASINA," }
+      ],
+      "summary": [
+        { "text": "Kulüp vekili feshin RSTP m.14bis'in şartlarını taşımadığını gösterdi ve tazminatı somut zarar kalemleriyle ispatladı: bonservisin itfa edilmemiş kısmı ve yerine alınan oyuncunun maliyeti. Belge ibrazıyla Puerto Sur'un fesihten önceki e-postası dosyaya girdi; teşvik ispatlandı." },
+        { "if": "p2_dislama", "text": " Oyuncu vekili dışlamanın süresini gösterdi, ama amacının oyuncuyu feshe zorlamak olduğunu ortaya koyamadı." },
+        { "if": "p2_capraz", "text": " Oyuncu kendi temyizini açmadığı için FIFA kararının oyuncu aleyhine kısmı zaten kesinleşmişti." }
+      ]
+    },
+    {
+      "if": "!p1_dar && (p1_hesap || p1_hesapKismen && p1_tesvik)",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Kulübün temyizinin KISMEN KABULÜ ile oyuncunun kulübe ödeyeceği tazminatın 1.050.000 €'ya YÜKSELTİLMESİNE; Club Atlético Puerto Sur'un müteselsil sorumluluğu talebinin REDDİNE;" },
+        { "if": "p2_temyiz", "text": " oyuncunun temyizinin REDDİNE;" },
+        { "text": " dört aylık resmî maç yasağının ONANMASINA," }
+      ],
+      "summary": [
+        { "text": "Kulüp vekili feshin haklı sebebe dayanmadığını ve zararını somut kalemlerle ispatladı; tazminat artırıldı." },
+        { "if": "p2_tesvikYok", "text": " Ama oyuncu vekili, Puerto Sur'la temasın menajerin toplu e-postasıyla başladığını gösterdi; teşvik ispatlanamadı." },
+        { "if": "!p1_tesvik && !p2_tesvikYok", "text": " Yeni kulübün oyuncuyu teşvik ettiği ise ispatlanamadı; geçici düzenlemeden sonra müteselsil sorumluluk kendiliğinden doğmuyor." },
+        { "if": "p1_tesvik && !p2_tesvikYok && !p1_hesap", "text": " Teşvike ilişkin e-posta tek başına yeni kulübü sorumlu tutmaya yetmedi." }
+      ]
+    },
+    {
+      "if": "p1_dar && p1_tesvik && !p2_tesvikYok",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Kulübün temyizinin KABULÜ ile Club Atlético Puerto Sur'un, FIFA DRC kararıyla oyuncuya yüklenen 620.000 € tazminattan oyuncuyla birlikte MÜTESELSİLEN sorumlu olmasına;" },
+        { "if": "p2_temyiz", "text": " oyuncunun temyizinin REDDİNE;" },
+        { "text": " kararın diğer kısımlarının ONANMASINA," }
+      ],
+      "summary": "Kulüp vekili temyizini yalnızca yeni kulübün sorumluluğuyla sınırlamıştı; tazminat artışı istenemedi. Ama belge ibrazıyla Puerto Sur'un fesihten önce yazdığı e-posta dosyaya girdi ve teşvik ispatlandı: yeni kulüp 620.000 €'dan müteselsilen sorumlu tutuldu. Oyuncu ise dışlamanın feshe zorlamak için yapıldığını ortaya koyamadı."
+    },
+    {
+      "winner": "draw",
+      "hukum": [
+        { "if": "p2_temyiz", "text": "Her iki temyizin de REDDİNE, FIFA DRC kararının ONANMASINA," },
+        { "if": "!p2_temyiz", "text": "Kulübün temyizinin REDDİNE, FIFA DRC kararının ONANMASINA," }
+      ],
+      "summary": [
+        { "text": "Panel FIFA kararını olduğu gibi bıraktı: fesih haklı sebebe dayanmıyor, oyuncu 620.000 € tazminat ödeyecek ve dört ay oynayamayacak." },
+        { "if": "p1_dar", "text": " Kulüp temyizini yalnızca yeni kulübün sorumluluğuyla sınırladığı için tazminat artışı istenemedi." },
+        { "if": "!p1_dar", "text": " Kulüp tazminat artışını somut zarar kalemleriyle ispatlayamadı." },
+        { "if": "p1_otomatik || p1_karine", "text": " Yeni kulübün sorumluluğu, artık uygulanmayan kendiliğinden sorumluluk ya da teşvik karinesi kurallarına dayandırıldı." },
+        { "if": "p2_temyiz", "text": " Oyuncu da dışlamanın feshe zorlamak amacıyla yapıldığını ortaya koyamadı; temyizi reddedildi." }
+      ]
+    }
+  ]
+}

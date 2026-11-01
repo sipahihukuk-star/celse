@@ -1,0 +1,380 @@
+{
+  "id": "th-lcia-hakem-reddi",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "lcia",
+  "difficulty": "orta",
+  "title": "Beyan Edilmeyen Atamalar",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Hakemin bağımsızlığı ve reddi",
+  "court": "LCIA Uluslararası Tahkim Divanı (LCIA Court) · Dava No. 265814 (Tahkim yeri: Londra)",
+  "courtShort": "LCIA DİVANI",
+  "esas": "LCIA Dava No. 265814",
+  "kararTarihi": "29.05.2026",
+  "color": "#2f4b4b",
+  "teaser": "Davalının seçtiği hakem, beyannamesinde aynı hukuk bürosundan tek bir atama bildirdi. Kendi internet sitesindeki özgeçmişinde ise başka şeyler yazıyor.",
+  "bench": { "judges": 3, "title": "LCIA Divanı heyeti (Division)" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Davacı (Distribütör) vekili · Ret talebinde bulunan", "short": "Davacı" },
+    "p2": { "role": "Davalı (Üretici) vekili", "short": "Davalı" }
+  },
+  "cast": {
+    "judge": { "name": "Panel Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#e9c4a2", "hair": "#8d8d92", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#cf9d76", "hair": "#1f1915", "style": "short", "beard": true, "shirt": "#1f2733", "inner": "#e6e2da" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f2d0b4", "hair": "#c49a62", "style": "long", "shirt": "#2a2a30", "inner": "#efece6" } },
+    "muvekkil": { "name": "Burak Toprak · Davacının genel müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#c38d66", "hair": "#2b2420", "style": "short", "shirt": "#3c4652", "inner": "#e9e5dd" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Ankaralı Anadolu İş Makineleri A.Ş., on yıl boyunca İngiliz Thamesford Machinery Ltd'nin Türkiye distribütörüydü. Üretici sözleşmeyi 2025 sonunda feshetti; distribütör 18 milyon Sterlinlik tazminat için LCIA'da tahkim başlattı. Tahkim yeri Londra, üç hakem, İngiliz hukuku." },
+    { "who": "narr", "text": "Davalı, Prof. Edward Lanyon'u hakem olarak gösterdi. Lanyon'un LCIA'ya verdiği bağımsızlık beyannamesinde tek bir açıklama var: 2024'te davalının vekili Harcourt Vale LLP'nin bir müvekkili tarafından hakem olarak atanmış. Hakem kurulu 02.03.2026'da oluştu." },
+    { "who": "narr", "text": "08.04.2026'da davacının genel müdürü, Lanyon'un kendi internet sitesindeki özgeçmişi okudu. Bugün 15.04.2026." }
+  ],
+  "docs": [
+    { "t": "Distribütörlük sözleşmesi m.24 · Tahkim şartı", "d": "Bu sözleşmeden doğan bütün uyuşmazlıklar LCIA Tahkim Kurallarına göre üç hakemle çözülür. Tahkim yeri Londra, dili İngilizce. Sözleşmeye İngiliz hukuku uygulanır." },
+    { "t": "Lanyon'un bağımsızlık beyannamesi (LCIA Kuralları m.5.4)", "d": "‘Taraflardan herhangi biriyle ilişkim yoktur. 2024'te Harcourt Vale LLP'nin temsil ettiği bir şirket tarafından ilgisiz bir uyuşmazlıkta hakem olarak atandım.’" },
+    { "t": "Lanyon'un özgeçmişi (internet sitesi, 08.04.2026)", "d": "‘Seçilmiş hakemlikler: 2023 ve 2025 · Thamesford Holdings plc adına atanan hakem (iki ayrı LCIA davası). 2023–2026 · Harcourt Vale LLP'nin temsil ettiği taraflarca dört atama.’" },
+    { "t": "Thamesford grubu yapısı", "d": "Thamesford Holdings plc, davalı Thamesford Machinery Ltd'nin %100 hissedarı ana şirket." },
+    { "t": "IBA Çıkar Çatışması Rehberi (2024) · Turuncu Liste", "d": "3.1.3: Hakem son üç yılda taraflardan biri ya da onun bağlı şirketi tarafından iki ya da daha fazla kez hakem olarak atanmıştır. 3.2.8: Hakem son üç yılda aynı vekil ya da aynı hukuk bürosu tarafından üçten fazla kez hakem olarak atanmıştır." }
+  ],
+  "evidence": [
+    { "id": "ev_beyan", "type": "belge", "title": "Lanyon'un bağımsızlık beyannamesi", "desc": "Yalnızca 2024'te Harcourt Vale LLP'nin bir müvekkilince yapılan bir atama açıklanmış." },
+    { "id": "ev_cv", "type": "belge", "title": "Lanyon'un internet sitesindeki özgeçmiş", "desc": "2023 ve 2025'te Thamesford Holdings plc adına iki atama; 2023–2026'da Harcourt Vale LLP'nin temsil ettiği taraflarca dört atama." },
+    { "id": "ev_grup", "type": "belge", "title": "Thamesford grubu yapısı", "desc": "Thamesford Holdings plc, davalının %100 hissedarı." },
+    { "id": "ev_sozlesme", "type": "belge", "title": "Sözleşme m.24", "desc": "LCIA, Londra, üç hakem, İngiliz hukuku." },
+    { "id": "law_iba313", "type": "kanun", "title": "IBA Rehberi Turuncu Liste 3.1.3", "desc": "Son üç yılda taraflardan biri ya da bağlı şirketince iki ya da daha fazla hakem ataması.", "law": "IBA Rehberi 3.1.3" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "muvekkil", "text": "Bu hakem davalının ana şirketinden iki kez atama almış, söylememiş. Ne yapabiliriz? Biraz daha araştırsak mı, başka ne saklamış?" }
+      ],
+      "prompt": "Hakemi nasıl ve ne zaman reddedeceksiniz?",
+      "choices": [
+        {
+          "text": "Öğrendiğimiz günden itibaren 14 gün içinde, gerekçeli yazılı ret dilekçesini LCIA Divanına ver; kurula ve davalıya ilet.",
+          "delta": 20,
+          "set": ["p1_sure"],
+          "law": "LCIA Kuralları m.10.1, m.10.3",
+          "note": "LCIA Kuralları m.10.3: ret, hakem kurulunun oluşmasından ya da ret sebebinin öğrenilmesinden itibaren 14 gün içinde, gerekçeli yazılı beyanla LCIA Divanına yapılır; beyan hakem kuruluna ve diğer taraflara da iletilir. Son gün 22.04.2026'ydı; dilekçe 20.04.2026'da verildi.",
+          "reply": [ { "who": "narr", "text": "Ret dilekçesi 20.04.2026'da verildi. Davalı itirazı kabul etmedi, Lanyon çekilmedi; karar LCIA Divanına kaldı (m.10.5)." } ]
+        },
+        {
+          "text": "IBA Rehberi itiraz için 30 gün tanıyor; iki hafta daha araştır, bütün atamaları bulup tek ve kapsamlı bir ret dilekçesi ver.",
+          "delta": -25,
+          "set": ["p1_gec"],
+          "law": "LCIA Kuralları m.10.3 · IBA Rehberi GS 4(a)",
+          "note": "IBA Rehberi bağlayıcı olmayan bir rehberdir; tarafların seçtiği kurumsal kurallar önce gelir. LCIA Kuralları m.10.3'teki süre 14 gündür.",
+          "fatal": {
+            "label": "SÜRE KAÇTI:",
+            "hukum": "Ret talebinin LCIA Kuralları m.10.3'teki 14 günlük süre geçtikten sonra yapıldığından REDDİNE,",
+            "summary": "Davacı vekili, ret sebebini 08.04.2026'da öğrendiği hâlde dilekçeyi ancak 06.05.2026'da verdi. IBA Rehberindeki 30 günlük süre, tarafların seçtiği LCIA Kurallarındaki 14 günlük sürenin yerine geçmez. Süresinde ileri sürülmeyen ret sebebinden vazgeçilmiş sayıldı."
+          }
+        },
+        {
+          "text": "LCIA'yı beklemeden doğrudan Londra'da High Court'a başvur; mahkemeden hakemin görevden alınmasını iste (1996 Kanunu m.24).",
+          "delta": -10,
+          "set": ["p1_mahkeme"],
+          "law": "1996 Tahkim Kanunu m.24(2)",
+          "note": "Mahkeme, hakemi görevden alma yetkisine sahip bir tahkim kurumu varsa, başvurandan önce o yolu tüketmesini ister (m.24(2)). High Court başvuruyu bekletti; siz de 14 gün dolmadan LCIA'ya dilekçe vermek zorunda kaldınız.",
+          "reply": [ { "who": "narr", "text": "Ret dilekçesi son gün, 22.04.2026'da LCIA Divanına verildi. Davalı itirazı kabul etmedi, Lanyon çekilmedi." } ]
+        },
+        {
+          "text": "Önce Lanyon'a, kurulun öbür üyelerini ve davalıyı bilgiye koyarak bir yazı gönder; açıklama iste, çekilmesini öner.",
+          "delta": 0,
+          "set": ["p1_yazi"],
+          "law": "LCIA Kuralları m.10.3, m.10.5",
+          "note": "Açıklama istemek yasak değil, ama 14 günlük süreyi durdurmaz. Lanyon'un cevabı 21.04.2026'da geldi; ret dilekçesini son gün, apar topar verdiniz.",
+          "reply": [ { "who": "narr", "text": "Lanyon kısa bir yazıyla ‘bağımsızlığımdan şüphe yok’ dedi. Ret dilekçesi 22.04.2026'da verildi." } ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Ret dilekçesi geldi. LCIA Divanı davalıya ve hakeme görüş bildirmeleri için süre verdi." },
+        { "who": "narr", "text": "Müvekkilin yönetimi ‘Lanyon iyi bir hakem, onu kaybetmeyelim’ diyor." }
+      ],
+      "prompt": "Ret talebine nasıl yaklaşacaksınız?",
+      "choices": [
+        {
+          "text": "Lanyon'u telefonla ara, iddiaları birlikte gözden geçirin; cevabımızı onun açıklamalarına göre kurup Divana sun.",
+          "delta": -20,
+          "set": ["p2_temas"],
+          "law": "LCIA Kuralları · Taraf temsilcilerine ilişkin Genel İlkeler",
+          "note": "Hakem kurulu oluştuktan sonra bir tarafın hakemle, diğer tarafın yokluğunda davaya ilişkin tek taraflı görüşmesi yasaktır. Bu görüşme öğrenildiğinde, ret sebebine ek olarak hakemin tarafsızlığı hakkında yeni ve ağır bir şüphe doğdu.",
+          "reply": [ { "who": "narr", "text": "Lanyon, Divana verdiği görüşte davalı vekiliyle konuştuğunu açıkça yazdı. Davacı bu görüşmeyi ret dilekçesine ek olarak bildirdi." } ]
+        },
+        {
+          "text": "Süresi içinde yazılı görüş sun: atamalar ilgisiz davalarda, ücretler önemsiz, makul üçüncü kişide şüphe doğmuyor.",
+          "delta": 15,
+          "set": ["p2_gorus"],
+          "law": "LCIA Kuralları m.10.5 · IBA Rehberi GS 2",
+          "note": "Doğru yol. Hakemin reddi için ölçüt, olayları bilen makul ve bilgili bir üçüncü kişinin gözünde haklı şüphe doğup doğmadığıdır (IBA GS 2; LCIA m.10.1). Turuncu Listedeki durumlar açıklama gerektirir, ama kendiliğinden ret sebebi değildir."
+        },
+        {
+          "text": "Uzamasın diye ret talebine yazılı olarak katıl; Lanyon'un görevine son verilsin, yerine yeni bir hakem gösterelim.",
+          "delta": 5,
+          "set": ["p2_kabul", "end"],
+          "law": "LCIA Kuralları m.10.4, m.11",
+          "note": "Diğer taraf ret talebine yazılı olarak katılırsa LCIA Divanı hakemin atamasını gerekçe göstermeden iptal etmek zorundadır (m.10.4). Yerine kimin, hangi usulle atanacağına Divan karar verir (m.11). Savunulabilir bir tercih: masraf ve gecikme riski kapandı, ama müvekkilin istediği hakem gitti."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Ret dilekçesinin gerekçe bölümünü yazıyorsunuz. LCIA Divanı, hakemin bağımsızlığını değerlendirirken IBA Rehberini sık sık yol gösterici olarak kullanıyor." }
+      ],
+      "prompt": "Olayları IBA Rehberinde nereye yerleştireceksiniz?",
+      "choices": [
+        {
+          "text": "Turuncu Liste 3.1.3 ve 3.2.8 birlikte gerçekleşti ve beyan edilmedi; birlikte bakıldığında haklı şüphe doğar.",
+          "delta": 20,
+          "set": ["p1_turuncu"],
+          "law": "IBA Rehberi 3.1.3, 3.2.8, GS 3",
+          "note": "Ana şirketten son üç yılda iki atama (3.1.3, ‘bağlı şirket’ dahil) ve aynı bürodan üçten fazla atama (3.2.8) Turuncu Listededir. Tek tek ret sebebi olmayabilirler; birden fazla Turuncu durumun birikmesi ve hiçbirinin açıklanmaması haklı şüpheyi güçlendirir."
+        },
+        {
+          "text": "Hakem davalı grubundan düzenli gelir elde ediyor; bu, feragat edilemez Kırmızı Listedeki ‘önemli mali çıkar’ hâlidir.",
+          "delta": -10,
+          "set": ["p1_kirmizi"],
+          "law": "IBA Rehberi Kırmızı Liste 1.3",
+          "note": "Feragat edilemez Kırmızı Liste, hakemin taraflardan birinde ya da davanın sonucunda önemli bir mali çıkarı olması gibi ağır durumlardır. Başka davalardaki hakemlik ücretleri bu kapsamda değildir; olaylar Turuncu Listeye girer. Abartılı nitelendirme talebinizi zayıflattı."
+        },
+        {
+          "text": "Hakemin açıklama yükümlülüğünü ihlal etmesi tek başına yeter; beyan edilmeyen her atama otomatik ret sebebidir.",
+          "delta": -5,
+          "set": ["p1_otomatik"],
+          "law": "IBA Rehberi GS 3",
+          "note": "2024 Rehberi, açıklama yapılmamasının kendiliğinden çıkar çatışması anlamına gelmediğini açıkça belirtir. Açıklamama önemli bir unsurdur, ama asıl soru gizlenen olayların makul bir üçüncü kişide haklı şüphe uyandırıp uyandırmadığıdır."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "if": "!p2_temas",
+      "lines": [
+        { "who": "narr", "text": "Divan heyeti, yazılı beyanlardan sonra tarafları kısa bir çevrim içi toplantıda dinlemeye karar verdi." },
+        { "who": "judge", "text": "Davalı vekili, Prof. Lanyon'un bağımsızlığına ilişkin görüşünüzü özetleyin." }
+      ],
+      "prompt": "Heyete, ret talebinin neden reddedilmesi gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_guclu"],
+          "law": "LCIA Kuralları m.10.1 · IBA Rehberi GS 2, GS 3",
+          "note": "Ölçütü doğru koydunuz: ret, makul ve bilgili bir üçüncü kişinin gözünde haklı şüphe gerektirir. Turuncu Liste kendiliğinden ret sebebi değildir; açıklamama tek başına çatışma anlamına gelmez. Atamaların ilgisiz davalarda olduğunu ve ücretlerin hakemin gelirine oranla önemsizliğini gösterdiniz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_yeterli"],
+          "law": "IBA Rehberi GS 2",
+          "note": "Turuncu Listenin otomatik ret sebebi olmadığını söylediniz. Tam savunma; nesnel ‘makul üçüncü kişi’ ölçütünü, açıklamamanın tek başına çatışma doğurmadığını ve somut olayda bağımlılık yaratacak bir ilişki bulunmadığını birlikte gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "IBA Rehberi GS 2",
+          "note": "Hakemin itibarına ve deneyimine dayandınız ya da ret talebini taktik bir geciktirme olarak nitelemekle yetindiniz. Ölçüt kişisel güven değil, nesnel haklı şüphedir; savunma bu ölçüt üzerinden kurulmalıydı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Ret ölçütü nesneldir: olayları bilen makul ve bilgili bir üçüncü kişinin gözünde hakemin tarafsızlığı ya da bağımsızlığı hakkında haklı şüphe doğmalıdır (LCIA m.10.1, IBA GS 2). (2) Turuncu Liste, açıklama gerektiren durumları sayar; kendiliğinden ret sebebi değildir. (3) 2024 Rehberine göre açıklama yapılmaması tek başına çıkar çatışması anlamına gelmez. (4) Atamalar ilgisiz uyuşmazlıklarda yapılmış, elde edilen ücretler hakemin toplam gelirine oranla önemsizdir; hakemi davalı grubuna bağımlı kılacak bir ilişki yoktur. Ölçütü ve Turuncu Listenin niteliğini birlikte söylemek tam puan için gerekir; yalnızca hakemin saygınlığına dayanmak düşük puan alır.",
+      "keywords": [
+        { "terms": ["makul üçüncü kişi", "makul ve bilgili", "reasonable third person", "nesnel", "objektif"], "weight": 2 },
+        { "terms": ["haklı şüphe", "justifiable doubts", "haklı kuşku"], "weight": 2 },
+        { "terms": ["Turuncu", "Orange", "otomatik değil", "kendiliğinden ret"], "weight": 2 },
+        { "terms": ["açıklamama", "beyan etmeme", "non-disclosure", "açıklama yapılmaması"], "weight": 1 },
+        { "terms": ["ilgisiz", "farklı dava", "ücret", "gelir"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, ret ölçütü nesneldir: olayları bilen makul bir üçüncü kişinin gözünde Prof. Lanyon'un tarafsızlığı hakkında haklı şüphe doğmalıdır (LCIA m.10.1, IBA GS 2). Turuncu Liste açıklama gerektiren durumları sayar, kendiliğinden ret sebebi değildir; 2024 Rehberi de açıklamamanın tek başına çatışma anlamına gelmediğini söyler. Atamalar ilgisiz davalarda yapılmış, ücretler hakemin gelirine oranla önemsizdir. Ret talebinin reddini istiyoruz."
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "!p2_temas",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, davalının beyanına karşı diyeceğiniz?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Başkan, Prof. Lanyon'un davalı grubuyla hiçbir ilişkisi yoktur. Harcourt Vale'den tek bir ataması vardır ve onu da beyannamesinde açıklamıştır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_cv"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_cv"],
+        "law": "IBA Rehberi 3.1.3, 3.2.8",
+        "note": "Hakemin kendi özgeçmişi, davalının ana şirketi Thamesford Holdings plc adına 2023 ve 2025'te iki atamayı ve Harcourt Vale'in temsil ettiği taraflarca son üç yılda dört atamayı gösteriyor. Davalının ‘grupla ilişki yok, tek atama var’ beyanı çöktü.",
+        "reply": [ { "who": "judge", "text": "Özgeçmiş dosyaya alındı. Davalı vekili, Thamesford Holdings plc'nin müvekkilinizin ana şirketi olduğu doğru mu?" }, { "who": "p2", "text": "Doğru, Sayın Başkan." } ]
+      },
+      "responses": {
+        "ev_grup": { "delta": 5, "note": "Grup yapısı, Thamesford Holdings plc'nin ‘bağlı şirket’ olduğunu gösterir; ama atamaların kendisini değil. Önce hakemin bu şirketten atama aldığını gösteren özgeçmişi sunmalıydınız." },
+        "law_iba313": { "delta": 0, "note": "Doğru kural, ama tartışılan olay: davalı atamaların varlığını inkâr ediyor. Bunu hakemin kendi özgeçmişi çürütürdü." },
+        "ev_beyan": { "delta": -10, "note": "Beyanname yalnızca tek bir atamayı gösteriyor; davalının tezini doğrular." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge hakemin davalı grubuyla ilişkisini göstermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; davalının ‘grupla ilişki yok’ beyanı cevapsız kaldı." }
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "!p2_temas",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, ret talebiyle ilgili usule ilişkin bir talebiniz var mı?" }
+      ],
+      "prompt": "Hangi usul talebinde bulunacaksınız?",
+      "choices": [
+        {
+          "text": "Ret talebi reddedilirse, ret sürecinin masraflarının davacıya yüklenmesine de Divan karar versin.",
+          "delta": 10,
+          "set": ["p2_masraf"],
+          "law": "LCIA Kuralları m.10.7",
+          "note": "LCIA Divanı ret talebi hakkında karar verirken, ret sürecinin masraflarının kime yükleneceğine de karar verebilir (m.10.7). Ölçülü ve yerinde bir talep."
+        },
+        {
+          "text": "Ret talebi hakkında LCIA Divanı değil, Prof. Lanyon dahil hakem kurulunun kendisi karar versin.",
+          "delta": -10,
+          "set": ["p2_kurul"],
+          "law": "LCIA Kuralları m.10.5, m.10.6",
+          "note": "LCIA Kurallarında ret talebine, taraflar anlaşmadıkça ya da hakem çekilmedikçe, LCIA Divanı gerekçeli kararla karar verir (m.10.5, m.10.6). Reddedilen hakemin kendi reddine karar vermesi düşünülemez."
+        },
+        {
+          "text": "Talep yargılamayı geciktirme taktiği; High Court'tan ret sürecinin ihtiyati tedbirle durdurulmasını iste.",
+          "delta": -15,
+          "set": ["p2_tedbir"],
+          "law": "1996 Tahkim Kanunu m.1(c)",
+          "note": "İngiliz tahkim hukuku, mahkemelerin tahkim sürecine ancak Kanunun öngördüğü hâllerde müdahalesini öngörür (m.1(c)). Kurumsal ret sürecinin mahkeme kararıyla durdurulması bu hâllerden biri değildir. Talebiniz heyette kötü bir izlenim bıraktı."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, ret talebinizi son kez özetleyin.", "if": "!p2_temas" },
+        { "who": "narr", "text": "Prof. Lanyon, Divana verdiği görüşte davalı vekiliyle telefonda konuştuğunu yazdı. Divan heyeti tarafları çevrim içi toplantıda dinliyor.", "if": "p2_temas" },
+        { "who": "judge", "text": "Davacı vekili, ret talebinizi ve sonradan öğrenilen görüşme hakkındaki beyanınızı özetleyin.", "if": "p2_temas" }
+      ],
+      "prompt": "Heyete, hakemin neden görevden alınması gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_guclu"],
+          "law": "LCIA Kuralları m.5.4–5.5, m.10.1 · IBA Rehberi 3.1.3, 3.2.8",
+          "note": "Ret talebini eksiksiz kurdunuz: nesnel ölçüt, iki ayrı Turuncu Liste durumunun birlikte gerçekleşmesi, hakemin süregelen açıklama yükümlülüğünü ihlal etmesi ve bu atamaların bir taraftan, kendi özgeçmişinden öğrenilmesi."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_yeterli"],
+          "law": "LCIA Kuralları m.10.1",
+          "note": "Haklı şüphe olduğunu söylediniz. Tam savunma; LCIA m.5.4–5.5'teki açıklama yükümlülüğünü, 3.1.3 ve 3.2.8'in birlikte gerçekleştiğini ve açıklamamanın makul üçüncü kişinin gözündeki etkisini birlikte gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "LCIA Kuralları m.10.1",
+          "note": "Hakemin kişiliğine ya da davalının tutumuna yüklendiniz, ama somut olayları ölçüte bağlamadınız. Göstermeniz gereken, beyan edilmeyen atamaların makul üçüncü kişide haklı şüphe uyandırdığıydı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) LCIA m.10.1 uyarınca hakemin tarafsızlığı ya da bağımsızlığı hakkında haklı şüphe doğuran durumlar varsa atama iptal edilir; ölçüt makul ve bilgili üçüncü kişidir. (2) Hakem son üç yılda davalının ana şirketinden iki kez (IBA 3.1.3, bağlı şirket dahil) ve davalı vekilinin bürosundan dört kez (3.2.8, üçten fazla) atanmıştır. (3) Hakemin, beyannamede ve sonrasında süregelen açıklama yükümlülüğü vardır (LCIA m.5.4, m.5.5); bu atamalar açıklanmamış, davacı onları hakemin kendi özgeçmişinden öğrenmiştir. (4) Birden fazla Turuncu durumun birikmesi ve gizlenmesi birlikte değerlendirildiğinde haklı şüphe doğar. Varsa davalı vekiliyle tek taraflı görüşme de bu şüpheyi ağırlaştırır. Ölçütü, iki Turuncu durumu ve açıklama yükümlülüğünü birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["haklı şüphe", "justifiable doubts", "haklı kuşku", "m.10.1", "10.1"], "weight": 2 },
+        { "terms": ["3.1.3", "ana şirket", "bağlı şirket", "Holdings", "iki kez"], "weight": 2 },
+        { "terms": ["3.2.8", "dört", "üçten fazla", "Harcourt", "aynı büro"], "weight": 2 },
+        { "terms": ["açıklama yükümlülüğü", "açıklamadı", "beyan etmedi", "disclosure", "m.5.4", "m.5.5"], "weight": 2 },
+        { "terms": ["Turuncu", "Orange", "birlikte", "birikmesi"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, Prof. Lanyon son üç yılda davalının ana şirketinden iki kez (IBA 3.1.3) ve davalı vekilinin bürosundan dört kez (3.2.8) hakem olarak atanmıştır. LCIA m.5.4 ve 5.5 uyarınca bunları açıklamak zorundaydı; açıklamadı, biz kendi özgeçmişinden öğrendik. İki Turuncu durum ve gizlenmeleri birlikte değerlendirildiğinde, makul bir üçüncü kişinin gözünde haklı şüphe doğar. LCIA m.10.1 uyarınca atamanın iptalini istiyoruz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "!p2_temas",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, Divan ret talebini kabul ederse yeni hakemin atanmasına ilişkin bir beyanınız olacak mı?" }
+      ],
+      "prompt": "İhtiyati beyanınız ne olacak?",
+      "choices": [
+        {
+          "text": "Yeni hakemi de asıl atama usulünde olduğu gibi davalının göstermesine Divanın izin vermesini iste.",
+          "delta": 10,
+          "set": ["p2_yeni"],
+          "law": "LCIA Kuralları m.11",
+          "note": "Bir hakemin yerine yenisi atanacaksa LCIA Divanı, asıl atama usulünün izlenip izlenmeyeceğine takdiren karar verir (m.11). Müvekkilin hakem gösterme hakkını korumak için yerinde bir talep."
+        },
+        {
+          "text": "Kabul hâlinde yargılama, kalan iki hakemle ‘eksik kurul’ olarak sürsün; yeni hakem atanmasın, takvim kaymasın.",
+          "delta": -10,
+          "set": ["p2_eksik"],
+          "law": "LCIA Kuralları m.11, m.12",
+          "note": "Eksik kurulla devam, bir hakemin katılmayı reddettiği ya da katılmadığı istisnai hâller içindir (m.12). Ataması iptal edilen hakemin yerine yenisi atanır (m.11)."
+        },
+        {
+          "text": "Kabul hâlinde Lanyon'un katıldığı bütün usul kararları geçersiz sayılsın; yargılama en baştan yeniden başlasın.",
+          "delta": -5,
+          "set": ["p2_bastan"],
+          "law": "LCIA Kuralları m.11",
+          "note": "Hakemin değişmesi önceki usul işlemlerini kendiliğinden geçersiz kılmaz; yeniden kurulan hakem kurulu önceki aşamaların tekrarlanıp tekrarlanmayacağına takdiren karar verir. Bu talep müvekkilin de aleyhine olan bir gecikme yaratır."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p2_kabul",
+      "winner": "draw",
+      "label": "SONUÇ:",
+      "hukum": "Davalının ret talebine yazılı olarak katılması üzerine Prof. Edward Lanyon'un hakemlik atamasının LCIA Kuralları m.10.4 uyarınca İPTALİNE; yeni hakemin atanma usulünün LCIA Divanınca belirlenmesine,",
+      "summary": "Davalı vekili ret talebine katıldı; LCIA Divanı atamayı gerekçesiz iptal etti (m.10.4). Davacı istediğini aldı; davalı ise uzun ve masraflı bir ret sürecinden, hakemin bağımsızlığı hakkında kayda geçecek bir karardan kaçındı."
+    },
+    {
+      "if": "p2_temas",
+      "winner": "p1",
+      "hukum": "Ret talebinin KABULÜ ile Prof. Edward Lanyon'un hakemlik atamasının LCIA Kuralları m.10.1 uyarınca İPTALİNE; ret sürecinin masraflarının davalıya yüklenmesine,",
+      "summary": [
+        { "text": "Davalı vekili, ret süreci sırasında hakemle davaya ilişkin tek taraflı görüşme yaptı. Bu görüşme, beyan edilmeyen atamalara eklenince hakemin tarafsızlığı hakkında haklı şüphe kaçınılmaz oldu." },
+        { "if": "p1_turuncu", "text": " Davacı vekili, ana şirketten iki ve aynı bürodan dört atamanın Turuncu Liste 3.1.3 ve 3.2.8'e girdiğini doğru biçimde göstermişti." }
+      ]
+    },
+    {
+      "if": "p1_turuncu && p1_cv && (p1_guclu || p1_yeterli || !p2_guclu)",
+      "winner": "p1",
+      "hukum": "Ret talebinin KABULÜ ile Prof. Edward Lanyon'un hakemlik atamasının LCIA Kuralları m.10.1 uyarınca İPTALİNE,",
+      "summary": [
+        { "text": "Hakem, son üç yılda davalının ana şirketinden iki kez ve davalı vekilinin bürosundan dört kez atanmış, bunları beyannamesinde açıklamamıştı (LCIA m.5.4–5.5)." },
+        { "text": " İki Turuncu Liste durumunun birikmesi ve gizlenmesi, makul bir üçüncü kişinin gözünde haklı şüphe doğurdu." },
+        { "if": "p2_guclu", "text": " Davalı vekili Turuncu Listenin otomatik ret sebebi olmadığını doğru biçimde savundu; ancak somut olayda olayların ağırlığı ve gizlenmesi belirleyici oldu." },
+        { "if": "p2_yeni", "text": " Yeni hakemin de davalı tarafından gösterilmesine izin verildi." },
+        { "if": "p2_eksik", "text": " Davalının eksik kurulla devam önerisi kabul görmedi; yeni hakem atanacak." },
+        { "if": "p2_kurul", "text": " Ret talebine hakem kurulunun karar vermesi önerisi LCIA Kurallarıyla bağdaşmadı." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Ret talebinin REDDİNE,",
+      "summary": [
+        { "if": "p1_kirmizi", "text": "Davacı vekili olayları feragat edilemez Kırmızı Listeye yerleştirmeye çalıştı; başka davalardaki hakemlik ücretleri bu kapsamda değildi. " },
+        { "if": "p1_otomatik", "text": "Davacı vekili açıklamamayı otomatik ret sebebi olarak sundu; 2024 Rehberi açıklamamanın tek başına çatışma anlamına gelmediğini söyler. " },
+        { "if": "!p1_cv", "text": "Davacı vekili, hakemin davalı grubundan aldığı atamaları gösteren özgeçmişi heyete sunmadı; davalının ‘grupla ilişki yok’ beyanı cevapsız kaldı. " },
+        { "if": "p1_cv && p1_turuncu", "text": "Beyan edilmeyen atamalar ortaya çıktı, ama davalı vekili nesnel ölçütü güçlü biçimde savundu ve davacı vekili ret talebini sözlü olarak somutlaştıramadı. " },
+        { "text": "Makul ve bilgili bir üçüncü kişinin gözünde hakemin tarafsızlığı ve bağımsızlığı hakkında haklı şüphe doğduğu gösterilemedi." },
+        { "if": "p2_masraf", "text": " Ret sürecinin masrafları davacıya yüklendi (m.10.7)." },
+        { "if": "p1_mahkeme", "text": " Davacının High Court başvurusu da, kurumsal yol tüketilmeden yapıldığından sonuç vermedi (1996 Kanunu m.24(2))." }
+      ]
+    }
+  ]
+}

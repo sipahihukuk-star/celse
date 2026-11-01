@@ -1,0 +1,491 @@
+{
+  "id": "th-icc-cisg-ayip",
+  "mode": "duel",
+  "difficulty": "basit",
+  "title": "Renk Akması",
+  "area": "Tahkim · Milletlerarası ticari tahkim · CISG ayıp ihbarı",
+  "court": "ICC Uluslararası Tahkim Divanı · Dava No. 28417/AZO (Tahkim yeri: Viyana)",
+  "courtShort": "ICC · VİYANA",
+  "esas": "ICC 28417/AZO",
+  "kararTarihi": "14.09.2027",
+  "color": "#2f4a6b",
+  "room": "tahkim",
+  "forum": "icc",
+  "bench": { "judges": 3, "title": "Başhakem ve iki hakem" },
+  "inscription": null,
+  "teaser": "Denizli'den Köln'e 60.000 metre boyalı kumaş. Gömlekler satıldıktan sonra renk aktı; ihbar üç buçuk ay sonra geldi. Satıcının laboratuvarında ise kimsenin görmediği bir rapor duruyor.",
+  "sides": {
+    "p1": { "role": "Davacı (Satıcı) vekili", "short": "Davacı" },
+    "p2": { "role": "Davalı (Alıcı) vekili", "short": "Davalı" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#e6c3a2", "hair": "#8d8d92", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#d7a67f", "hair": "#2a201c", "style": "short", "beard": true, "shirt": "#22262e", "inner": "#e9e5dd" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f0cfb0", "hair": "#6a4a32", "style": "long", "shirt": "#1f2530", "inner": "#efe9e0" } },
+    "kalite": { "name": "Anna Becker · Alıcının kalite müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#f2d4b8", "hair": "#c9a36a", "style": "bun", "glasses": true, "shirt": "#4f5f6e", "inner": "#eae6dc" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Pamukova Dokuma A.Ş. (Denizli), 10.01.2026 tarihli sözleşmeyle Köln'deki Rheintal Mode GmbH'ye 60.000 metre boyalı pamuklu kumaş sattı. Bedel 540.000 EUR; yarısı peşin ödendi, kalan 270.000 EUR teslimden 60 gün sonra, 02.05.2026'da ödenecekti." },
+    { "who": "narr", "text": "Kumaş 03.03.2026'da Köln'deki depoya teslim edildi. Alıcı rastgele birkaç topa gözle baktı, kumaşı kesip 18.000 gömlek dikti ve sattı. Haziran'da tüketiciler yıkamada renk aktığından yakındı; alıcı 22.06.2026'da satıcıya ayıp ihbarında bulundu." },
+    { "who": "narr", "text": "Satıcı ihbarı süresinde bulmadı ve kalan bedeli ICC tahkimiyle istiyor. Alıcı ödemeyi durdurdu; zararının 410.000 EUR olduğunu söylüyor. Tahkim yeri Viyana, kurul üç hakemli." }
+  ],
+  "docs": [
+    { "t": "Satış sözleşmesi m.4 · Teknik şartname", "d": "m.4/1: Kumaşın yıkama renk haslığı ISO 105-C06'ya göre en az 4 olacaktır. m.4/3: Satıcı her sevkiyattan önce renk haslığı testi yaptırır ve raporu alıcıya gönderir." },
+    { "t": "Sözleşme m.15 ve m.16 · Hukuk ve tahkim", "d": "m.15: Sözleşmeye Türk hukuku uygulanır. m.16: Sözleşmeden doğan bütün uyuşmazlıklar ICC Tahkim Kurallarına göre üç hakemle çözülür; tahkim yeri Viyana, dili İngilizcedir." },
+    { "t": "Teslim belgesi", "d": "03.03.2026, Köln. 60.000 metre, 400 top. Alıcının notu: “Görsel kontrol yapıldı, hasar yok.”" },
+    { "t": "Ayıp ihbarı (e-posta, 22.06.2026)", "d": "“Teslim ettiğiniz kumaşlarda yıkamada ağır renk akması var. Bağımsız laboratuvarın ISO 105-C06 testinde haslık 2 çıktı. Bütün haklarımızı saklı tutuyoruz.”" },
+    { "t": "Satıcının cevabı (25.06.2026)", "d": "“Mallar 03.03.2026'da teslim edildi; üç buçuk ay sonra, kumaş kesilip satıldıktan sonra yapılan ihbarı kabul etmiyoruz. 270.000 EUR'nun derhal ödenmesini bekliyoruz.”" }
+  ],
+  "evidence": [
+    { "id": "ev_sozlesme", "type": "belge", "title": "Satış sözleşmesi m.4", "desc": "Haslık en az 4 olacak; satıcı her sevkiyattan önce test yaptırıp raporu alıcıya gönderecek." },
+    { "id": "ev_ihbar", "type": "belge", "title": "Ayıp ihbarı (22.06.2026)", "desc": "Ağır renk akması; bağımsız laboratuvarda haslık 2." },
+    { "id": "ev_teslim", "type": "belge", "title": "Teslim belgesi (03.03.2026)", "desc": "Görsel kontrol yapıldı, hasar yok." },
+    { "id": "ev_rapor", "type": "belge", "title": "Satıcının laboratuvar raporu (26.02.2026)", "desc": "Satıcının kendi laboratuvarı, bu sevkiyatın numuneleri: yıkama renk haslığı 2–3. Laboratuvar şefinin notu: “Şartnamenin altında. Sevkiyat öncesi yeniden boyama önerilir.” Rapor alıcıya gönderilmemiş.", "if": "(p2_belge && !p1_red) || p1_hepsi" },
+    { "id": "ev_po3", "type": "belge", "title": "Usul Kararı No. 3 ve davacının ibraz etmeme beyanı", "desc": "Kurul test raporlarının ibrazına karar verdi; davacı “ticari sır” diyerek belgeleri sunmadı.", "if": "p1_red" },
+    { "id": "law_cisg40", "type": "kanun", "title": "CISG m.40", "desc": "Satıcı, bildiği ya da bilmemesi mümkün olmayan ve alıcıya açıklamadığı aykırılıklarda m.38 ve m.39'a dayanamaz.", "law": "CISG m.40" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "TAHKİM TALEBİ · Satıcı vekili olarak ICC Sekretaryasına sunacağınız talep dilekçesini hazırlıyorsunuz. Satıcı Türkiye'de, alıcı Almanya'da; sözleşme Türk hukukunu seçmiş." }
+      ],
+      "prompt": "Talebi hangi hukuka dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "Viyana Satım Sözleşmesi (CISG): iki taraf da akit devlette, Türk hukuku seçimi CISG'yi dışlamıyor. Bedel m.53 ve m.62'ye, faiz m.78'e dayanır.",
+          "delta": 15,
+          "set": ["p1_cisg"],
+          "law": "CISG m.1/1-a, m.6, m.62",
+          "note": "Türkiye ve Almanya CISG'ye taraftır; işyerleri farklı akit devletlerde bulunan taraflar arasındaki mal satımına CISG doğrudan uygulanır (m.1/1-a). CISG Türk hukukunun parçasıdır; “Türk hukuku uygulanır” demek onu dışlamaz, dışlamak için açık irade gerekir (m.6). Bedel talebi m.53 ve m.62'ye dayanır."
+        },
+        {
+          "text": "Türk ticari satım hükümleri: alıcı açık ayıbı iki, gizli ayıbı sekiz gün içinde ihbar etmeliydi (TTK m.23/1-c). Süre çoktan kaçtı; bedel tamamen muaccel oldu.",
+          "delta": -10,
+          "set": ["p1_ttk"],
+          "law": "CISG m.1/1-a, m.6 · TTK m.23",
+          "note": "Sözleşme Türk hukukunu seçmiş olsa da Türk hukukunun parçası olan CISG, milletlerarası mal satımında TBK ve TTK'nın satım hükümlerinin önüne geçer (m.1/1-a, m.6). TTK m.23'teki iki ve sekiz günlük süreler burada uygulanmaz; muayene ve ihbar CISG m.38 ve m.39'a tabidir."
+        },
+        {
+          "text": "Alman Ticaret Kanunu (HGB §377): mal Köln'de teslim edilip incelendi; muayene ve ihbar teslim yerinin hukukuna tabidir.",
+          "delta": -10,
+          "set": ["p1_hgb"],
+          "law": "CISG m.1/1-a, m.38, m.39",
+          "note": "Teslim yerinin hukukunu uygulatan bir kural yok. Taraflar Türk hukukunu seçti ve iki devlet de CISG'ye taraf; muayene ve ihbar CISG m.38 ve m.39'a göre değerlendirilir."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Talep dilekçesi 12.10.2026'da müvekkile ulaştı. ICC Kurallarına göre cevap 30 gün içinde verilir (m.5/1). Alıcı, ödemediği 270.000 EUR'nun çok üstünde zarara uğradığını söylüyor." }
+      ],
+      "prompt": "Cevap dilekçesinde zararı nasıl ileri süreceksiniz?",
+      "choices": [
+        {
+          "text": "Cevabı 30 gün içinde ver, karşı davayı aynı dilekçeye koy: ayıp nedeniyle 410.000 EUR tazminat (CISG m.74), ikinci kademede bedel indirimi (m.50).",
+          "delta": 15,
+          "set": ["p2_karsi"],
+          "law": "ICC Kuralları m.5/1, m.5/5 · CISG m.74",
+          "note": "Karşı dava cevapla birlikte sunulur (ICC m.5/5). Görev Tutanağı imzalandıktan sonra yeni talep ancak kurulun izniyle getirilebilir (m.23/4); zamanında davrandınız."
+        },
+        {
+          "text": "Cevapta yalnız esasa itiraz et; tazminatı, zarar kesinleşince Görev Tutanağından sonra yeni bir talep olarak getir.",
+          "delta": -10,
+          "set": ["p2_gec"],
+          "law": "ICC Kuralları m.5/5, m.23/4",
+          "note": "Karşı dava cevapla birlikte sunulmalıdır (ICC m.5/5). Görev Tutanağından sonra Tutanağın sınırları dışında kalan yeni talep ancak kurulun izniyle getirilebilir (m.23/4); kurul yargılamanın geldiği aşamaya bakarak izin vermeyebilir."
+        },
+        {
+          "text": "Karşı dava açma. 410.000 EUR'luk tazminat alacağını yalnız savunma olarak, satıcının 270.000 EUR'luk bedel alacağına karşı takas def'i olarak ileri sür.",
+          "delta": 5,
+          "set": ["p2_takas"],
+          "law": "ICC Kuralları m.5/5",
+          "note": "Takas def'i bedel talebini düşürebilir, ama 270.000 EUR'yu aşan 140.000 EUR'luk zarar için hüküm alamazsınız. Fazlası için karşı dava gerekirdi (ICC m.5/5)."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Görev Tutanağı imzalandı. Davalı, ayıp ihbarının süresinde yapıldığını savunuyor. Davacı vekili, sizin görüşünüz nedir?" }
+      ],
+      "prompt": "CISG'ye göre ihbarın neden geç kaldığını ve bunun sonucunu kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_ihbar"],
+          "law": "CISG m.38, m.39/1",
+          "note": "Alıcı malı koşulların elverdiği en kısa sürede muayene etmelidir (m.38/1). Boyalı kumaşta standart bir yıkama testi, kesimden önce yapılması beklenen olağan muayenedir. Aykırılığın niteliğini belirten ihbar, öğrenildiği ya da öğrenilmesi gerektiği andan itibaren makul sürede yapılmazsa alıcı aykırılığa dayanamaz (m.39/1)."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_ihbar"],
+          "law": "CISG m.38, m.39/1",
+          "note": "İhbarın geç kaldığını gösterdiniz. Tam savunma, süreyi m.38'deki muayene yükümlülüğüne bağlar (bir yıkama testiyle teslimde anlaşılabilirdi) ve sonucunu söyler: alıcı aykırılığa hiç dayanamaz, tazminat ve bedel indirimi istemleri düşer (m.39/1)."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "CISG m.38, m.39/1",
+          "note": "İhbarın neden geç olduğunu gösteremediniz. Süre, perakendecinin şikâyetinden değil, alıcının makul bir muayeneyle ayıbı öğrenmesi gereken andan işler (m.38/1, m.39/1). Teslimden üç buçuk ay sonra, kumaş kesilip satıldıktan sonra yapılan ihbar makul sürede değildir."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) CISG m.38/1 uyarınca alıcı malı koşulların elverdiği en kısa sürede muayene etmelidir; boyalı kumaşta yıkama haslığı testi, kesim ve dikimden önce yapılması beklenen olağan muayenedir. (2) CISG m.39/1 uyarınca aykırılığın niteliğini belirten ihbar, aykırılığın öğrenildiği ya da öğrenilmesi gerektiği andan itibaren makul sürede yapılmalıdır; 03.03.2026'da teslim edilen ve kesilip satılan kumaş için 22.06.2026'daki ihbar makul sürede değildir. (3) Sonuç: alıcı aykırılığa dayanma hakkını kaybeder; tazminat ve bedel indirimi isteyemez, bedel borcu (m.53, m.62) sürer. m.38 ve m.39'u birlikte, süreyi öğrenilmesi gereken andan hesaplayarak ve hak kaybını söyleyerek kuran cevap tam puan alır; yalnız ‘ihbar geç’ diyen cevap orta puan alır. TTK m.23'teki sekiz günlük süreye dayanan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["m.38", "m. 38", "madde 38", "38. madde", "md. 38", "muayene", "inceleme"], "weight": 2 },
+        { "terms": ["m.39", "m. 39", "madde 39", "39. madde", "md. 39"], "weight": 2 },
+        { "terms": ["makul süre", "makul bir süre", "reasonable time", "en kısa sürede"], "weight": 2 },
+        { "terms": ["dayanamaz", "hakkını kaybeder", "hak kaybı", "ileri süremez", "hakkını yitirir"], "weight": 2 },
+        { "terms": ["yıkama testi", "haslık testi", "test", "kesim", "kesmeden"], "weight": 1 },
+        { "terms": ["üç buçuk ay", "3,5 ay", "22.06.2026", "Haziran", "03.03.2026"], "weight": 1 }
+      ],
+      "model": "Sayın Başhakem, CISG m.38/1 uyarınca alıcı malı koşulların elverdiği en kısa sürede muayene etmeliydi; boyalı kumaşta bu, kesimden önce yapılacak basit bir yıkama haslığı testidir. Ayıp teslimde anlaşılabilirdi; m.39/1'e göre makul süre o andan işler. 03.03.2026'da teslim alınan kumaş kesilip satıldıktan sonra, 22.06.2026'da yapılan ihbar makul sürede değildir. Alıcı aykırılığa dayanma hakkını kaybetmiştir; 270.000 EUR'luk bedel borcu bütünüyle sürmektedir."
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Belge ibrazı aşamasından önce alıcının kalite müdürü Anna Becker'le görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Kalite müdürüne ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Kumaşı teslimde nasıl incelediniz?",
+          "delta": 5,
+          "set": ["p2_muayene"],
+          "reply": [
+            { "who": "kalite", "text": "Rastgele yirmi topa gözle baktık. Yıkama testi yapmadık, çünkü sözleşmeye göre satıcı her sevkiyattan önce test raporu gönderecekti." }
+          ],
+          "note": "Yararlı bir ayrıntı: sözleşmenin m.4/3 hükmü test borcunu satıcıya yüklüyor. Ama kendi muayenenizin yetersizliği de ortaya çıktı."
+        },
+        {
+          "text": "Sevkiyat öncesi test raporu size ulaştı mı?",
+          "delta": 15,
+          "set": ["p2_rapor"],
+          "reply": [
+            { "who": "kalite", "text": "Hayır. Satıcının temsilcisi 27 Şubat'ta telefonda “son partinin test sonucu biraz gecikti, rapor arkadan gelir” dedi. Hiç gelmedi. Görüşmeyi aynı gün müdürüme e-postayla bildirmiştim." }
+          ],
+          "note": "Doğru soru. Satıcı test yaptırmış ama raporu göndermemiş olabilir. Bu, satıcının bildiği aykırılıkları açıklamadığını göstermek (CISG m.40) için belge talebine somut bir dayanak veriyor."
+        },
+        {
+          "text": "Perakendecinin şikâyeti size ne zaman ulaştı?",
+          "delta": 5,
+          "set": ["p2_hizli"],
+          "reply": [
+            { "who": "kalite", "text": "10 Haziran'da. On iki gün içinde bağımsız laboratuvarda test yaptırıp 22 Haziran'da satıcıya yazdık." }
+          ],
+          "note": "Şikâyetten sonra hızlı davranmışsınız. Ancak m.39/1'deki makul süre, ayıbın makul bir muayeneyle öğrenilmesi gereken andan işler; bu cevap tek başına sizi kurtarmaz."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BELGE İBRAZI · Kurul, IBA Delil Kurallarını yol gösterici olarak uygulayacağını Usul Kararı No. 1'de bildirdi. Belge ibraz talepleri Redfern çizelgesiyle yapılacak." }
+      ],
+      "prompt": "Satıcıdan ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Dar ve belirli talep: bu sevkiyat için 15–28.02.2026'da yapılan renk haslığı testlerinin raporları ve iç yazışmalar; m.40 bakımından sonuca etkili.",
+          "delta": 20,
+          "set": ["p2_belge"],
+          "law": "IBA Kuralları m.3/3 · CISG m.40",
+          "note": [
+            { "text": "Talep, var olduğu makul olarak düşünülen dar ve belirli bir belge kategorisini, ilgisini ve sonuca etkisini gösteriyor (IBA m.3/3-a, m.3/3-b). Satıcının ayıbı bildiği ispatlanırsa, ihbar gecikmesine dayanamaz (CISG m.40)." },
+            { "if": "p2_rapor", "text": " Kalite müdürünün anlattığı 27 Şubat telefonu ve iç e-posta, talebin dayanağını somutlaştırdı." }
+          ],
+          "reply": [
+            { "who": "judge", "text": "Talep kabul edildi. Davacı, belgeleri on dört gün içinde ibraz edecek." }
+          ]
+        },
+        {
+          "text": "Kapsamlı talep: satıcının 2025–2026'da bu kumaş türünün üretimi, boyanması ve kalite kontrolüyle ilgili bütün belge, e-posta ve kayıtları ibraz edilsin.",
+          "delta": -10,
+          "set": ["p2_genis"],
+          "law": "IBA Kuralları m.3/3-a, m.9/2-a",
+          "note": "IBA Kuralları, “bütün belgeler” biçimindeki balık avı taleplerini kabul etmez. Talep dar ve belirli bir belge kategorisini göstermeli, ilgisini ve sonuca etkisini açıklamalıdır (m.3/3-a, m.3/3-b)."
+        },
+        {
+          "text": "Belge isteme. Kuruldan, depoda kalan 4.000 metre kumaşı inceleyip renk haslığını ISO 105-C06'ya göre ölçecek bağımsız bir bilirkişi atamasını iste; ayıp kesinleşsin.",
+          "delta": 5,
+          "set": ["p2_bilirkisi"],
+          "law": "IBA Kuralları m.6",
+          "note": "Bilirkişi ayıbın varlığını gösterir; ama asıl sorun ayıp değil, ihbarın gecikmesi. Satıcının ayıbı bildiğini gösterecek belgeyi istemediniz (CISG m.40)."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "if": "p2_belge",
+      "lines": [
+        { "who": "narr", "text": "Müvekkilin dosyasında 26.02.2026 tarihli bir laboratuvar raporu var: bu sevkiyatın numunelerinde haslık 2–3. Laboratuvar şefi yeniden boyamayı önermiş; rapor alıcıya hiç gönderilmemiş." }
+      ],
+      "prompt": "Usul Kararı No. 3'e nasıl uyacaksınız?",
+      "choices": [
+        {
+          "text": "Raporu eksiksiz ibraz et ve savunmayı tutara kaydır: alıcı şikâyetten sonra da satışı sürdürdü (CISG m.77), öngörülemeyen zarar istenemez.",
+          "delta": 15,
+          "set": ["p1_ibraz"],
+          "law": "IBA Kuralları m.9/6 · CISG m.74, m.77",
+          "note": "Kurul kararına uymak zorundasınız; ibraz edilmeyen belge aleyhinize yorumlanabilir (IBA m.9/6). Kaybedilmesi muhtemel noktada direnmek yerine zararın kapsamını daralttınız: alıcı, zararı azaltmak için makul önlemleri almalıdır (CISG m.77)."
+        },
+        {
+          "text": "Raporu ibraz etme: iç laboratuvar verisi ticari sırdır; IBA m.9/2-e'deki gizlilik itirazında ısrar et.",
+          "delta": -20,
+          "set": ["p1_red"],
+          "law": "IBA Kuralları m.9/2-e, m.9/5, m.9/6",
+          "note": "Gizlilik ancak kurulun zorlayıcı bulduğu durumlarda ibrazı engeller; kurul gizlilik önlemleriyle ibraz kararı vermişti (m.9/5). Kurulun ibraz kararına uyulmazsa kurul, belgenin o tarafın aleyhine olduğu sonucunu çıkarabilir (m.9/6)."
+        },
+        {
+          "text": "Raporu ibraz et, ama ölçüm değerlerini ve şefin yorumunu gizlilik gerekçesiyle karart. Yalnız tarih ve imza sayfası görünsün; gerisi tartışılsın.",
+          "delta": -10,
+          "set": ["p1_karart"],
+          "law": "IBA Kuralları m.9/6 · ICC Kuralları m.22/4",
+          "note": "Karartılan bölüm belgenin özüdür. Kurul karartmasız suretin ibrazını emretti; güvenilirliğinizi yitirdiniz ve rapor yine dosyaya girdi.",
+          "reply": [
+            { "who": "judge", "text": "Kurul, karartılmamış suretin üç gün içinde sunulmasına karar verdi." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "if": "!p2_belge",
+      "lines": [
+        { "who": "narr", "text": "Davalının talebi Redfern çizelgesiyle size bildirildi. Müvekkilin dosyasında, alıcıya gönderilmemiş 26.02.2026 tarihli bir laboratuvar raporu da var." }
+      ],
+      "prompt": "Davalının talebine nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "if": "p2_genis",
+          "text": "İtiraz et: talep dar ve belirli bir belge kategorisi göstermiyor, ilgisi ve sonuca etkisi açıklanmamış (IBA m.3/3-a, m.9/2-a). Reddi istenir.",
+          "delta": 15,
+          "set": ["p1_dar"],
+          "law": "IBA Kuralları m.3/3-a, m.9/2-a",
+          "note": "Yerinde itiraz. Kurul, iki yıllık üretim kayıtlarının tamamını isteyen talebi reddetti; davalı belirli bir belgeyi göstermemişti.",
+          "reply": [
+            { "who": "judge", "text": "Talep, dar ve belirli olmadığından reddedilmiştir." }
+          ]
+        },
+        {
+          "if": "p2_genis",
+          "text": "İtiraz etme. Şeffaflık için bütün üretim ve kalite kayıtlarını, iç laboratuvar raporları da dahil, toplu hâlde ibraz et; kurulun güvenini kazanırsın.",
+          "delta": -10,
+          "set": ["p1_hepsi"],
+          "law": "IBA Kuralları m.3/5",
+          "note": "İtiraz hakkınızı kullanmadınız ve 26.02.2026 tarihli raporu karşı tarafa kendi elinizle verdiniz. Alıcı vekili bu raporu bulmakta gecikmeyecek."
+        },
+        {
+          "if": "p2_bilirkisi",
+          "text": "Bilirkişiye karşı çıkma; görevine şu soruyu ekletsin: renk akması, teslim sırasında standart bir yıkama testiyle anlaşılabilir miydi?",
+          "delta": 15,
+          "set": ["p1_tespit"],
+          "law": "IBA Kuralları m.6/1 · CISG m.38",
+          "note": "Bilirkişi incelemesini kendi lehinize çevirdiniz: ayıbın teslimde basit bir testle anlaşılabildiği ortaya çıkarsa, ihbar süresi o andan işler (CISG m.38/1, m.39/1).",
+          "reply": [
+            { "who": "judge", "text": "Bilirkişi raporu: “Renk akması, teslimde yapılacak standart bir ISO 105-C06 testiyle bir gün içinde saptanabilirdi.”" }
+          ]
+        },
+        {
+          "if": "p2_bilirkisi",
+          "text": "Bilirkişi atanmasına karşı çık: kumaşın teslimden beri alıcının deposunda nasıl saklandığı bilinmiyor; ölçüm sonuçları güvenilir olamaz.",
+          "delta": -5,
+          "law": "IBA Kuralları m.6/1",
+          "note": "Kurul itirazı reddetti ve bilirkişiyi atadı. Muhalefet etmek yerine bilirkişinin görev sorularını şekillendirseydiniz, incelemeden ihbar gecikmesi lehine bir tespit çıkarabilirdiniz."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Duruşmaya geçiyoruz. Davalı vekili, ihbarın teslimden yaklaşık üç buçuk ay sonra yapıldığı tartışmasız. Müvekkiliniz ayıba yine de nasıl dayanabilir?" }
+      ],
+      "prompt": "İhbar geç kalmış olsa bile alıcının haklarını neden kaybetmediğini CISG hükümleriyle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_m40"],
+          "law": "CISG m.40, m.39/2, m.44",
+          "note": "Satıcı, bildiği ya da bilmemesi mümkün olmayan ve alıcıya açıklamadığı aykırılıklarda m.38 ve m.39'a dayanamaz (m.40). Test raporunu gönderme borcunu (sözleşme m.4/3) yerine getirmeyen satıcının bilgisi burada belirleyicidir. İhbar ayrıca aykırılığın niteliğini belirtiyor ve m.39/2'deki iki yıllık süre içinde."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_m40"],
+          "law": "CISG m.40, m.44",
+          "note": "Doğru yöne gittiniz. Tam savunma m.40'ı açıkça anar ve satıcının bilgisini sözleşmedeki test raporu borcuna bağlar. Ayrıca makul bir mazeret varsa alıcı en azından bedel indirimi ya da kâr kaybı dışındaki zararı isteyebilir (m.44)."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "CISG m.39/1, m.40",
+          "note": "Gecikmeyi savunamadınız. Perakendecinin şikâyetinden sonra hızlı davranmak yetmez; süre makul muayene anından işler. Kurtuluş yolu, satıcının bildiği ve açıklamadığı aykırılıkta m.38 ve m.39'a dayanamamasıydı (CISG m.40)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) CISG m.40 uyarınca satıcı, bildiği ya da bilmemesi mümkün olmayan ve alıcıya açıklamadığı aykırılıklarda m.38 ve m.39'a dayanamaz. (2) Satıcı sözleşmenin m.4/3 hükmü uyarınca sevkiyattan önce renk haslığı testi yaptırmak ve raporu göndermekle yükümlüydü; test yaptırıp raporu göndermemesi bilgisinin göstergesidir. (3) İhbar aykırılığın niteliğini belirtiyor (renk akması, ISO 105-C06'da 2) ve m.39/2'deki iki yıllık mutlak süre içinde. (4) İkinci kademede m.44: makul mazeret varsa alıcı bedel indirimi ya da kâr kaybı dışındaki zararı isteyebilir. m.40'ı satıcının bilgisine bağlayan cevap tam puan alır; yalnız m.44'e ya da perakendecinin şikâyetinden sonraki hızlı davranışa dayanan cevap orta ya da düşük puan alır.",
+      "keywords": [
+        { "terms": ["m.40", "m. 40", "madde 40", "40. madde", "md. 40"], "weight": 3 },
+        { "terms": ["biliyordu", "bilmemesi mümkün", "bilmesi gerek", "açıklamadı", "gizledi", "knew"], "weight": 2 },
+        { "terms": ["test raporu", "laboratuvar", "m.4/3", "sevkiyat öncesi"], "weight": 2 },
+        { "terms": ["m.44", "m. 44", "makul mazeret", "reasonable excuse"], "weight": 1 },
+        { "terms": ["iki yıl", "2 yıl", "m.39/2", "niteliğini"], "weight": 1 }
+      ],
+      "model": "Sayın Başhakem, CISG m.40 uyarınca satıcı, bildiği ya da bilmemesi mümkün olmayan ve alıcıya açıklamadığı aykırılıklarda m.38 ve m.39'a dayanamaz. Satıcı, sözleşmenin m.4/3 hükmü gereği sevkiyattan önce haslık testi yaptırmak ve raporu göndermekle yükümlüydü; test yaptırdığı hâlde raporu göndermedi. İhbarımız aykırılığın niteliğini açıkça belirtiyor ve m.39/2'deki iki yıllık süre içinde. Kurul aksi kanaatteyse, alıcının makul mazereti nedeniyle en azından m.44'e göre bedel indirimi istiyoruz."
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, satıcının bu aykırılığı bildiğine dair bir deliliniz var mı?" }
+      ],
+      "statement": { "who": "p1", "text": "Sayın Başhakem, müvekkilim sevkiyattan önce renk haslığında bir sorun olduğunu bilmiyordu. Renk akması, ancak tüketicinin evinde birkaç yıkamadan sonra ortaya çıkan gizli bir ayıptır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_rapor", "ev_po3"],
+      "hit": {
+        "delta": 25,
+        "set": ["p2_bildi"],
+        "law": "CISG m.40 · IBA Kuralları m.9/6",
+        "note": [
+          { "if": "!p1_red", "text": "Satıcının kendi laboratuvarı, sevkiyattan beş gün önce haslığı şartnamenin altında ölçmüş ve yeniden boyama önermişti; rapor alıcıya gönderilmedi. Satıcı aykırılığı biliyordu ve açıklamadı; ihbar gecikmesine dayanamaz (CISG m.40)." },
+          { "if": "p1_red", "text": "Davacı, kurulun ibraz kararına rağmen test raporlarını sunmadı. Kurul, belgelerin davacının aleyhine olduğu sonucunu çıkardı (IBA m.9/6); satıcının aykırılığı bildiği kabul edildi (CISG m.40)." }
+        ],
+        "reply": [
+          { "who": "judge", "text": "Kurul, satıcının sevkiyattan önce aykırılığı bildiği kanaatine varmıştır." }
+        ]
+      },
+      "responses": {
+        "law_cisg40": {
+          "delta": -5,
+          "note": [
+            { "if": "(p2_belge && !p1_red) || p1_hepsi", "text": "Doğru madde, ama maddeyi değil, satıcının bildiğini gösteren belgeyi sunmalıydınız: 26.02.2026 tarihli laboratuvar raporu çantanızdaydı." },
+            { "if": "p1_red", "text": "Doğru madde, ama kurulun ibraz kararı ve davacının belgeyi sunmaması çantanızdaydı; aleyhe sonuç çıkarılmasını bu belgeyle istemeliydiniz (IBA m.9/6)." },
+            { "if": "!(p2_belge && !p1_red) && !p1_hepsi && !p1_red", "text": "Doğru madde, ama satıcının bildiğini gösterecek bir belgeniz yok. Dar ve belirli bir belge talebiyle laboratuvar raporları istenebilirdi." }
+          ]
+        },
+        "ev_sozlesme": {
+          "delta": -5,
+          "note": "Sözleşme satıcıya test raporu gönderme borcu yüklüyor; ama raporun gönderilmemesi, satıcının ayıbı bildiğini tek başına ispatlamaz."
+        },
+        "ev_ihbar": {
+          "delta": -5,
+          "note": "İhbar e-postası aykırılığın niteliğini gösteriyor, satıcının sevkiyattan önceki bilgisini değil."
+        },
+        "ev_teslim": {
+          "delta": -10,
+          "note": "Teslim belgesindeki “görsel kontrol yapıldı, hasar yok” notu, alıcının yetersiz muayenesini gösterir; satıcının tezini destekler."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge satıcının ayıbı bildiğini göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; satıcının ayıbı bilmediği beyanı cevapsız kaldı." }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, son olarak faiz talebiniz: dayanağı ve oranı nedir?" }
+      ],
+      "prompt": "Faiz talebini nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Faiz hakkı CISG m.78'den, oranı Türk hukukundan doğar: 3095 sayılı Kanun m.4/a'daki Euro mevduat oranı, vadeyi izleyen 03.05.2026'dan.",
+          "delta": 15,
+          "set": ["p1_faiz"],
+          "law": "CISG m.59, m.78 · 3095 s. K. m.4/a",
+          "note": "CISG m.78 faiz hakkını tanır ama oranı belirlemez; oran, sözleşmeye uygulanacak ulusal hukuktan bulunur. Türk hukukunda yabancı para borcuna, sözleşmede daha yüksek oran yoksa, devlet bankalarının o para birimindeki bir yıl vadeli mevduata ödediği en yüksek faiz uygulanır (3095 s. K. m.4/a). Bedel vadede, ayrıca istem gerekmeksizin ödenmeliydi (CISG m.59)."
+        },
+        {
+          "text": "Ticari işlerde uygulanan avans faizi istenir (3095 s. K. m.2/2): 270.000 EUR, TL'ye çevrilmeden bu oranla 03.05.2026'dan işletilsin.",
+          "delta": -10,
+          "set": ["p1_avans"],
+          "law": "3095 s. K. m.2/2, m.4/a",
+          "note": "Avans faizi Türk lirası borçları içindir. Yabancı para borcunda, sözleşmede daha yüksek oran yoksa, Euro mevduatına uygulanan en yüksek faiz istenebilir (3095 s. K. m.4/a). Kurul oranı kendisi düzeltti."
+        },
+        {
+          "text": "Alıcı Alman şirketi olduğundan faize Alman hukuku uygulanır: Avrupa Merkez Bankası temel faizinin dokuz puan üstü (BGB §288/2), 03.05.2026'dan.",
+          "delta": -10,
+          "set": ["p1_bgb"],
+          "law": "CISG m.78 · 3095 s. K. m.4/a",
+          "note": "Taraflar sözleşmeye Türk hukukunu uygulatmayı seçti; faiz oranı da bu hukuktan bulunur. Alıcının merkezinin Almanya'da olması Alman faiz hükmünü uygulatmaz. Kurul oranı 3095 s. K. m.4/a'ya göre düzeltti."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p2_bildi && p2_karsi",
+      "winner": "p2",
+      "hukum": [
+        { "text": "Davacının 270.000 EUR satış bedeli talebinin, karşı dava alacağıyla takas edildiğinden REDDİNE; karşı davanın KABULÜ ile " },
+        { "if": "p1_ibraz", "text": "CISG m.77 uyarınca 350.000 EUR'ya indirilen tazminattan takas sonrası kalan 80.000 EUR'nun" },
+        { "if": "!p1_ibraz", "text": "410.000 EUR tazminattan takas sonrası kalan 140.000 EUR'nun" },
+        { "text": " davacıdan alınarak davalıya ödenmesine, tahkim masraflarının davacıya yükletilmesine," }
+      ],
+      "summary": [
+        { "if": "!p1_red", "text": "Satıcının kendi laboratuvar raporu, sevkiyattan önce haslığın şartnamenin altında olduğunu gösterdi; rapor alıcıya gönderilmemişti." },
+        { "if": "p1_red", "text": "Satıcı, kurulun ibraz kararına rağmen test raporlarını sunmadı; kurul belgelerin satıcı aleyhine olduğu sonucunu çıkardı (IBA m.9/6)." },
+        { "text": " Bildiği ve açıklamadığı aykırılıkta satıcı ihbar gecikmesine dayanamaz (CISG m.40). Alıcı vekili zararını süresinde karşı davayla istediği için (ICC m.5/5) bedeli aşan zarar da hüküm altına alındı." },
+        { "if": "p1_ibraz", "text": " Satıcı vekilinin zararı azaltma külfetine dayanan savunması (CISG m.77) tazminatı 60.000 EUR azalttı." },
+        { "if": "p1_ttk || p1_hgb", "text": " Satıcı vekili talebi baştan yanlış hukuka dayandırmıştı; kurul CISG'yi uyguladı." }
+      ]
+    },
+    {
+      "if": "p2_bildi && p2_takas",
+      "winner": "p2",
+      "hukum": "Davacının 270.000 EUR satış bedeli talebinin, davalının takas def'i yerinde görüldüğünden REDDİNE,",
+      "summary": [
+        { "text": "Satıcının sevkiyattan önce aykırılığı bildiği ortaya çıktı; ihbar gecikmesine dayanamadı (CISG m.40). Alıcının tazminat alacağı bedel alacağını takasla sona erdirdi." },
+        { "text": " Ancak alıcı vekili karşı dava açmadığından (ICC m.5/5), bedeli aşan 140.000 EUR'luk zarar için hüküm kurulamadı." }
+      ]
+    },
+    {
+      "if": "p2_bildi",
+      "winner": "draw",
+      "hukum": "Davacının 270.000 EUR satış bedeli talebinin, CISG m.50 uyarınca indirilen bedel peşin ödenen kısmı aşmadığından REDDİNE; Görev Tutanağından sonra getirilen tazminat talebinin ICC Kuralları m.23/4 uyarınca incelenmesine izin verilmemesine,",
+      "summary": "Satıcının aykırılığı bildiği ortaya çıktı (CISG m.40); alıcı bedel indirimine dayanarak kalan bedeli ödemekten kurtuldu. Ama tazminat talebi cevapla birlikte değil, Görev Tutanağından sonra getirildiği için kurul izin vermedi (ICC m.5/5, m.23/4); 410.000 EUR'luk zarar karşılıksız kaldı."
+    },
+    {
+      "if": "p1_ihbar || p1_tespit",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Davacının talebinin KABULÜ ile 270.000 EUR satış bedelinin" },
+        { "if": "p1_faiz", "text": " 03.05.2026'dan itibaren 3095 sayılı Kanun m.4/a uyarınca Euro mevduat faiziyle birlikte" },
+        { "if": "!p1_faiz", "text": ", kurulca 3095 sayılı Kanun m.4/a'ya göre düzeltilen faiziyle birlikte" },
+        { "text": " davalıdan alınarak davacıya ödenmesine;" },
+        { "if": "p2_takas", "text": " takas def'inin REDDİNE," },
+        { "if": "!p2_takas", "text": " karşı davanın REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Alıcı, boyalı kumaşı kesmeden önce basit bir yıkama testiyle muayene etmedi; teslimden üç buçuk ay sonra yapılan ihbar makul sürede değildi (CISG m.38, m.39/1)." },
+        { "if": "p1_tespit", "text": " Bilirkişi de renk akmasının teslimde bir günlük testle anlaşılabileceğini doğruladı." },
+        { "text": " Satıcının ayıbı bildiği ispatlanamadığından alıcı m.40'a dayanamadı; aykırılığa dayanma hakkını kaybetti." },
+        { "if": "p2_genis", "text": " Alıcı vekilinin belge talebi dar ve belirli olmadığı için reddedilmişti (IBA m.3/3)." },
+        { "if": "p2_bilirkisi", "text": " Alıcı vekili satıcının bilgisini gösterecek belgeleri hiç istemedi." }
+      ]
+    },
+    {
+      "winner": "draw",
+      "hukum": "Davacının talebinin KISMEN KABULÜ ile satış bedelinin CISG m.50 uyarınca 450.000 EUR'ya indirilmesine, peşin ödemeden sonra kalan 180.000 EUR'nun davalıdan alınarak davacıya ödenmesine, karşı davanın ve fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Satıcı vekili ihbarın neden geç kaldığını muayene yükümlülüğüne bağlayarak gösteremedi; alıcı vekili de satıcının ayıbı bildiğini ispatlayamadı. Kurul ayıbın varlığını kabul etti, bedeli indirdi ama alıcının tazminat istemini reddetti."
+    }
+  ]
+}

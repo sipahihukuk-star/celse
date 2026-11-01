@@ -1,3 +1,4 @@
+import { getLang } from "../i18n";
 // Serbest cevap değerlendirmesi. Sunucu varsa yapay zekâ (Supabase Edge Function → Claude) puanlar;
 // yoksa ya da cevap gelmezse adımdaki anahtar kavramlarla çevrimdışı puanlanır.
 import { expandForSpeech } from "./speechText";
@@ -45,7 +46,7 @@ export async function evaluateFree(c: CaseFile, st: Step, answer: string, server
     const res = await fetch(`${server.url}/functions/v1/${server.fn || "degerlendir"}`, {
       method: "POST", signal: ctrl.signal,
       headers: { "Content-Type": "application/json", apikey: server.key, Authorization: `Bearer ${server.token || server.key}` },
-      body: JSON.stringify({ mode: "puan", dava: c.title, alan: c.area, mahkeme: c.court, rol: c.sides[st.side].role, soru: st.prompt, olcut: st.rubric || "", ornek: st.model || "", cevap: answer.slice(0, 2000) })
+      body: JSON.stringify({ mode: "puan", dil: getLang(), dava: c.title, alan: c.area, mahkeme: c.court, rol: c.sides[st.side].role, soru: st.prompt, olcut: st.rubric || "", ornek: st.model || "", cevap: answer.slice(0, 2000) })
     });
     clearTimeout(t);
     if (!res.ok) return offline();

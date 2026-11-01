@@ -1,0 +1,431 @@
+{
+  "id": "th-istac-distributor-portfoy",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Klinik Listesi",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Distribütörlüğün haksız feshi ve portföy tazminatı",
+  "court": "İstanbul Tahkim Merkezi (ISTAC) · Dosya No. 2026/418 (Tahkim yeri: İstanbul)",
+  "courtShort": "ISTAC · İSTANBUL",
+  "esas": "ISTAC 2026/418",
+  "kararTarihi": "22.10.2027",
+  "color": "#2e5a57",
+  "room": "tahkim",
+  "forum": "istac",
+  "bench": { "judges": 3, "title": "Başhakem ve iki hakem" },
+  "inscription": null,
+  "teaser": "Yedi yıllık münhasır distribütörlük tek bir yazıyla bitti. İki hafta sonra İsviçreli üretici kendi şirketini kurdu; distribütörün 340 kliniğinin 290'ı şimdi oradan alıyor.",
+  "sides": {
+    "p1": { "role": "Davacı (Distribütör) vekili", "short": "Davacı" },
+    "p2": { "role": "Davalı (Üretici) vekili", "short": "Davalı" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#efcaa8", "hair": "#4a3a30", "style": "bun", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#cf9d76", "hair": "#1e1a18", "style": "short", "shirt": "#22262e", "inner": "#e9e5dd" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f2d2b6", "hair": "#a08a6a", "style": "short", "glasses": true, "shirt": "#1f2530", "inner": "#efe9e0" } },
+    "gm": { "name": "Serkan Uçar · Distribütörün genel müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#d3a07a", "hair": "#2a2220", "style": "short", "beard": true, "shirt": "#3a4e5e", "inner": "#e6e1d6" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Karadeniz Medikal Ltd. Şti., 01.03.2019'dan beri İsviçreli Helvetia Dental AG'nin diş implantlarının Türkiye'deki münhasır distribütörü. Sözleşme belirsiz süreli; altı ay önceden bildirimle sona erdirilebiliyor." },
+    { "who": "narr", "text": "Üretici 15.07.2026'da sözleşmeyi derhâl feshetti: distribütör iki yıl üst üste yıllık alım hedefinin %80'ine ulaşamamıştı. İki hafta sonra Helvetia Dental Türkiye A.Ş. kuruldu ve eski müşterilere doğrudan satışa başladı." },
+    { "who": "narr", "text": "Distribütör feshin haksız olduğunu söylüyor; bildirim süresine ait kâr kaybı ile portföy (denkleştirme) tazminatı istiyor. Sözleşmeye Türk hukuku uygulanıyor; uyuşmazlıklar ISTAC Tahkim Kurallarına göre İstanbul'da üç hakemle çözülecek." }
+  ],
+  "docs": [
+    { "t": "Distribütörlük sözleşmesi (01.03.2019)", "d": "m.2: Türkiye için münhasır distribütörlük. m.14/1: Belirsiz süreli; altı ay önceden yazılı bildirimle sona erdirilebilir. m.14/2: Distribütör iki yıl üst üste yıllık hedefin %80'ine ulaşamazsa üretici derhâl feshedebilir. m.17: Sona ermede distribütör müşteri ve alt bayi listesini üreticiye teslim eder." },
+    { "t": "Sözleşme m.16, m.19, m.20", "d": "m.16: “Sözleşme hangi sebeple sona ererse ersin distribütör portföy, denkleştirme ya da başka bir ad altında tazminat isteyemez.” m.19: Türk hukuku uygulanır. m.20: ISTAC Tahkim Kuralları, üç hakem, tahkim yeri İstanbul." },
+    { "t": "Fesih bildirimi (15.07.2026)", "d": "“2024 ve 2025 yıllarında hedefin %80'ine ulaşılamamıştır. Sözleşme m.14/2 uyarınca derhâl feshedilmiştir.”" },
+    { "t": "Satış tablosu", "d": "Yıllık hedef 4.000.000 EUR. Distribütörün kayıtları: 2024'te 3.400.000 EUR (%85), 2025'te 3.000.000 EUR (%75). Üretici 2024 için iadeleri düşerek 3.100.000 EUR (%77,5) hesaplıyor." },
+    { "t": "Distribütörün mali özeti (2021–2025)", "d": "Yıllık ortalama ciro 3.500.000 EUR; alış-satış farkından doğan yıllık ortalama net kazanç 420.000 EUR." },
+    { "t": "Müşteri listesi teslim tutanağı (20.07.2026)", "d": "m.17 uyarınca 340 klinik ve 28 alt bayinin iletişim ve sipariş bilgileri üreticiye teslim edildi." }
+  ],
+  "evidence": [
+    { "id": "ev_fesih", "type": "belge", "title": "Fesih bildirimi (15.07.2026)", "desc": "2024 ve 2025'te hedefin %80'ine ulaşılamadığı gerekçesiyle derhâl fesih." },
+    { "id": "ev_tablo", "type": "belge", "title": "Satış tablosu", "desc": "Distribütöre göre 2024'te %85; üreticiye göre iadeler düşülünce %77,5." },
+    { "id": "ev_liste", "type": "belge", "title": "Müşteri listesi teslim tutanağı", "desc": "340 klinik ve 28 alt bayi bilgisi üreticiye teslim edildi." },
+    { "id": "ev_teyit", "type": "belge", "title": "Üreticinin 14.01.2025 tarihli yazısı", "desc": "Helvetia bölge müdürü: “2024 hedef gerçekleşmeniz iadeler dahil değerlendirilerek %85 olarak kesinleşmiştir. Tebrikler; 2024 performans primi hesabınıza aktarılacaktır.” Prim ödenmiş.", "if": "p1_teyit" },
+    { "id": "ev_tedarik", "type": "belge", "title": "Tedarik gecikmesi e-postaları (2025)", "desc": "Üretici Mart–Haziran 2025'te fabrikadaki sorun nedeniyle implant teslimlerini durdurduğunu bildiriyor; siparişlerin %30'u dört ay gecikmiş.", "if": "p1_tedarik" },
+    { "id": "law_ttk122", "type": "kanun", "title": "TTK m.122/3", "desc": "Acentenin kusuru sebebiyle haklı fesihte ya da acentenin haklı sebep olmadan feshinde denkleştirme istenemez.", "law": "TTK m.122/3" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "FESİHTEN SONRA · Fesih bildirimi 15.07.2026'da geldi. Müvekkil, üreticinin yeni şirketinin müşterileri ne kadar hızlı devraldığını görmeden harekete geçmek istemiyor." }
+      ],
+      "prompt": "İlk olarak ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Feshin haksızlığını ve denkleştirme istemini üreticiye yazılı bildir, bir yıllık süre dolmadan ISTAC'a başvur (TTK m.122/4).",
+          "delta": 15,
+          "set": ["p1_ihtar"],
+          "law": "TTK m.122/4, m.122/5",
+          "note": "Denkleştirme istemi sözleşmenin sona ermesinden itibaren bir yıl içinde ileri sürülmelidir (TTK m.122/4); bu süre hak düşürücüdür. Tahkim talebi 30.09.2026'da, süre içinde sunuldu.",
+          "reply": [
+            { "who": "narr", "text": "Tahkim talebi 30.09.2026'da ISTAC Sekretaryasına sunuldu." }
+          ]
+        },
+        {
+          "text": "Tazminat davasını İstanbul Asliye Ticaret Mahkemesinde aç: portföy tazminatı kanundan doğan bir hak, sözleşmedeki tahkim şartının kapsamı dışındadır.",
+          "delta": -10,
+          "set": ["p1_mahkeme"],
+          "law": "MTK m.5 · TTK m.122",
+          "note": "Denkleştirme istemi sözleşmenin sona ermesinden doğar; “sözleşmeden doğan uyuşmazlıklar” için kararlaştırılan tahkim şartının kapsamındadır. Üretici süresinde tahkim itirazında bulundu, dava usulden reddedildi (MTK m.5). Aylar ve masraf kaybettiniz.",
+          "reply": [
+            { "who": "narr", "text": "Mahkeme tahkim itirazını kabul etti. Tahkim talebi ancak 05.07.2027'de, bir yıllık sürenin son günlerinde sunulabildi." }
+          ]
+        },
+        {
+          "text": "Önce zararı netleştir: müşteri kaybı belli olsun, bir buçuk yıl sonra bütün talepleri tek dilekçeyle getir.",
+          "delta": -15,
+          "set": ["p1_gec"],
+          "law": "TTK m.122/4",
+          "note": "Denkleştirme istemi sözleşmenin sona ermesinden itibaren bir yıl içinde ileri sürülmelidir; süre hak düşürücüdür ve kendiliğinden gözetilir (TTK m.122/4). Bir buçuk yıl beklemek, portföy tazminatını baştan kaybettirdi.",
+          "reply": [
+            { "who": "narr", "text": "Tahkim talebi 10.01.2028'de sunuldu." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Talep dilekçesi tebliğ edildi. Üretici, sözleşmenin m.16 hükmüne güveniyor: “Bunun için imza aldık.”" }
+      ],
+      "prompt": "Cevap dilekçesinin merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "text": "Feshin haklılığı: m.14/2'deki hedef şartı gerçekleşti. Distribütörün kusuruyla haklı fesihte denkleştirme istenemez (TTK m.122/3).",
+          "delta": 15,
+          "set": ["p2_hakli"],
+          "law": "TTK m.122/3",
+          "note": "Doğru eksen. Denkleştirme, acentenin kusuru sebebiyle haklı olarak feshedilen sözleşmede istenemez (TTK m.122/3). Ancak bunu ispat yükü feshi yapan üreticidedir."
+        },
+        {
+          "text": "Sözleşmenin m.16 hükmü: distribütör her türlü portföy tazminatından önceden ve açıkça feragat etti; tacirler arasındaki bu kayıt bağlayıcıdır, başka savunmaya gerek yok.",
+          "delta": -10,
+          "set": ["p2_feragat"],
+          "law": "TTK m.122/4",
+          "note": "Denkleştirme isteminden önceden vazgeçilemez (TTK m.122/4). Sözleşme sona ermeden imzalanan m.16, bu hakkı ortadan kaldıramaz; asıl savunmanızı kurmadınız."
+        },
+        {
+          "text": "Feshin haklılığını ikinci plana it, savunmayı tutara yönelt: tazminat son beş yılın ortalamasını aşamaz, ciro değil kazanç esas alınır (TTK m.122/2).",
+          "delta": 5,
+          "set": ["p2_sinir"],
+          "law": "TTK m.122/2",
+          "note": "Tutar savunması gerekli, ama tek başına yetmez. Fesih distribütörün kusuruyla haklıysa denkleştirme hiç doğmaz (TTK m.122/3); en güçlü savunmanızı geri plana ittiniz."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Tanık beyanlarından önce distribütörün genel müdürü Serkan Uçar'la görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Genel müdüre ne soracaksınız?",
+      "choices": [
+        {
+          "text": "2024 hedefi için üretici o dönem ne demişti?",
+          "delta": 15,
+          "set": ["p1_teyit"],
+          "reply": [
+            { "who": "gm", "text": "Ocak 2025'te bölge müdürleri yazdı: iadeler dahil %85, tebrikler, prim hesabınıza geçecek. Primi de aldık." }
+          ],
+          "note": "Doğru soru. Üreticinin 2024 için %85'i kendisi kesinleştirdiği yazı, “iki yıl üst üste” şartını çürütebilir. Yazı delil çantanıza eklendi."
+        },
+        {
+          "text": "2025'te satışlar neden düştü?",
+          "delta": 10,
+          "set": ["p1_tedarik"],
+          "reply": [
+            { "who": "gm", "text": "Fabrikada sorun çıktı; Mart'tan Haziran'a kadar implant gönderemediler. Siparişlerin üçte biri dört ay gecikti. E-postaları sakladım." }
+          ],
+          "note": "Yararlı: 2025 düşüşünün sebebi üreticinin tedarik sorunuysa, hedefin tutturulamaması distribütörün kusuru sayılmaz. E-postalar delil çantanıza eklendi."
+        },
+        {
+          "text": "Fesihten sonra müşterilere ne oldu?",
+          "delta": 5,
+          "set": ["p1_musteri"],
+          "reply": [
+            { "who": "gm", "text": "Listeyi sözleşme gereği biz teslim ettik. 340 kliniğin 290'ı şimdi Helvetia Türkiye'den alıyor; çoğunu biz kazandırmıştık." }
+          ],
+          "note": "Denkleştirmenin ilk şartı için önemli: üretici, distribütörün kazandırdığı müşterilerden sona ermeden sonra da önemli menfaat sağlıyor (TTK m.122/1-a). Ama bu, teslim tutanağından zaten görülüyordu."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı, Redfern çizelgesinde davalıdan Helvetia Türkiye'nin 15.07.2026 sonrası eski müşterilere yaptığı satışların kayıtlarını istiyor. Davalı vekili, beyanınız?" }
+      ],
+      "prompt": "Belge talebine nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "Gizlilik itirazı: müşteri bazında fiyat verilmesin; müşteri sayısı ve toplam satış, yalnız avukatların göreceği kayıtla sunulsun.",
+          "delta": 15,
+          "set": ["p2_gizlilik"],
+          "law": "IBA Kuralları m.9/2-e, m.9/5",
+          "note": "Dengeli ve inandırıcı bir tutum. Kurul ticari gizliliği gerekçeli bulduğunda ibrazı sınırlayabilir ya da gizlilik önlemleri alabilir (IBA m.9/2-e, m.9/5). Kurul toplu verinin bu kayıtla sunulmasına karar verdi."
+        },
+        {
+          "text": "Talebe itiraz etme, ama belgeleri de sunma: Helvetia Türkiye tahkime taraf değil, kurul üçüncü kişinin kayıtlarını zorla aldıramaz.",
+          "delta": -15,
+          "set": ["p2_ibrazyok"],
+          "law": "IBA Kuralları m.9/6",
+          "note": "Süresinde itiraz edilmeyen ve ibraz edilmeyen belge, o tarafın aleyhine yorumlanabilir (IBA m.9/6). Kurul, eski müşterilerin büyük kısmının yeni şirkete geçtiği sonucunu çıkardı."
+        },
+        {
+          "text": "İtiraz: kayıtlar ayrı tüzel kişi olan Helvetia Türkiye'de; davalının elinde olmayan belge istenemez, talep doğrudan reddedilsin (IBA m.3/3-c).",
+          "delta": 5,
+          "set": ["p2_ucuncu"],
+          "law": "IBA Kuralları m.3/3-c",
+          "note": "Talep, belgenin karşı tarafın zilyetliğinde, elinde ya da denetiminde olmasını arar. Yüzde yüz bağlı ortaklığın kayıtları ana şirketin denetimindedir; kurul itirazı reddetti ve toplu verinin ibrazına karar verdi."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Feshin haklılığına geçiyoruz. Davacı vekili, davalının hedef hesabına karşı ne diyorsunuz?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Başhakem, iadeler düşüldüğünde distribütör 2024'te hedefin yalnızca %77,5'ine ulaştı; 2025'te ise %75'te kaldı. İki yıl üst üste eşik aşılamadı, m.14/2'deki fesih hakkı doğdu." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_teyit"],
+      "hit": {
+        "delta": 25,
+        "set": ["p1_haksiz"],
+        "law": "TMK m.2 · Sözleşme m.14/2",
+        "note": "Üretici 2024 gerçekleşmesini iadeler dahil %85 olarak kendisi kesinleştirmiş ve primi ödemişti. Aynı yılı fesihte farklı hesaplaması çelişkili davranış yasağına aykırıdır (TMK m.2). “İki yıl üst üste” şartı gerçekleşmedi; derhâl fesih haksızdır.",
+        "reply": [
+          { "who": "judge", "text": "Kurul, 2024 hedefinin gerçekleştiği kanaatindedir." }
+        ]
+      },
+      "responses": {
+        "ev_tedarik": {
+          "delta": 10,
+          "set": ["p1_tedarikgoster"],
+          "note": "Yararlı ama yetersiz: tedarik gecikmesi 2025 düşüşünün distribütörün kusuru olmadığını gösteriyor; bu, TTK m.122/3 bakımından önemlidir. Fakat “iki yıl üst üste” iddiasını asıl çürütecek belge, üreticinin 2024 için %85'i kesinleştiren yazısıydı.",
+          "law": "TTK m.122/3"
+        },
+        "ev_tablo": {
+          "delta": -5,
+          "note": "Tablo iki tarafın farklı hesabını yan yana koyuyor; hangisinin doğru olduğunu göstermiyor."
+        },
+        "ev_fesih": {
+          "delta": -10,
+          "note": "Fesih bildirimi üreticinin iddiasının kendisi; beyanı çürütmez."
+        },
+        "law_ttk122": {
+          "delta": -5,
+          "note": "Madde, feshin haklı olduğu durumda denkleştirmenin ne zaman düşeceğini söyler; feshin haklı olmadığını göstermez."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge 2024 hedefinin tutturulduğunu göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; kurul hedef şartının iki yıl üst üste gerçekleşmediğini kabul etti." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, denkleştirme talebine karşı savunmanızı alalım. Kurulun hangi ölçütlere bakmasını istiyorsunuz?" }
+      ],
+      "prompt": "Portföy (denkleştirme) talebine karşı savunmanızı kendi cümlelerinizle kurun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_hakkaniyet"],
+          "law": "TTK m.122/1-c, m.122/2, m.122/5",
+          "note": "TTK m.122 distribütöre ancak “hakkaniyete aykırı düşmedikçe” uygulanır (m.122/5) ve ödemenin hakkaniyete uygun olması ayrıca şarttır (m.122/1-c). Müşterileri büyük ölçüde markanın çekim gücü getirdiyse tazminat azalır. Üst sınır son beş yılın yıllık ortalama kazancıdır (m.122/2); ciro değil, distribütörün net kazancı esas alınır. m.16'ya dayanılamayacağını kabul edip savunmayı bunlara kurdunuz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_hakkaniyet"],
+          "law": "TTK m.122/2, m.122/5",
+          "note": "Tutar ya da hakkaniyet yönünden bir savunma kurdunuz. Tam savunma, m.122/5'teki “hakkaniyete aykırı düşmedikçe” kaydını, marka çekim gücünü ve m.122/2'deki tavanın ciro değil net kazanç üzerinden hesaplanacağını birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "TTK m.122/4",
+          "note": "Savunma kurulamadı. m.16'daki önceden feragat geçersizdir (TTK m.122/4). Tutunacağınız yer hakkaniyet (m.122/1-c, m.122/5), marka çekim gücü ve m.122/2'deki tavanın net kazanç üzerinden hesaplanmasıydı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sözleşmenin m.16 hükmüne dayanılamaz; denkleştirmeden önceden vazgeçilemez (TTK m.122/4), savunma başka yere kurulmalıdır. (2) TTK m.122, tek satıcılık sözleşmelerine ancak ‘hakkaniyete aykırı düşmedikçe’ uygulanır (m.122/5); ödemenin hakkaniyete uygunluğu da ayrı şarttır (m.122/1-c). Müşteriler büyük ölçüde markanın bilinirliği ve ürün kalitesiyle geldiyse tazminat azaltılmalıdır. (3) Tutar son beş yılın yıllık ortalama kazancını aşamaz (m.122/2); ciro değil, distribütörün alış-satış farkından doğan net kazancı esas alınır. (4) Bildirim süresi için ayrıca kâr kaybı isteniyorsa aynı zarar iki kez karşılanmamalıdır. Hakkaniyet kaydını, marka etkisini ve net kazanç tavanını birlikte kuran cevap tam puan alır; m.16'daki feragate dayanan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["hakkaniyet", "hakkaniyete aykırı", "m.122/5", "122/5"], "weight": 3 },
+        { "terms": ["marka", "çekim gücü", "bilinirlik", "ürün kalitesi"], "weight": 2 },
+        { "terms": ["beş yıl", "5 yıl", "m.122/2", "122/2", "ortalama", "tavan", "üst sınır"], "weight": 2 },
+        { "terms": ["net kazanç", "net kâr", "ciro değil", "alış-satış farkı"], "weight": 2 },
+        { "terms": ["önceden vazgeçilemez", "122/4", "m.16 geçersiz", "feragat geçersiz"], "weight": 1 }
+      ],
+      "model": "Sayın Başhakem, sözleşmenin m.16 hükmüne dayanmıyoruz; denkleştirmeden önceden vazgeçilemeyeceğini biliyoruz (TTK m.122/4). Ancak m.122 distribütörlere ‘hakkaniyete aykırı düşmedikçe’ uygulanır (m.122/5) ve ödemenin hakkaniyete uygun olması ayrıca şarttır. Kliniklerin büyük kısmı markanın bilinirliği ve ürün kalitesi nedeniyle bu implantları tercih ediyor; tazminat buna göre azaltılmalıdır. Tavan son beş yılın yıllık ortalamasıdır (m.122/2) ve ciro değil, distribütörün net kazancı esas alınmalıdır."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, denkleştirme talebinizin dayanağını ve şartlarını özetleyin." }
+      ],
+      "prompt": "Distribütörün denkleştirme hakkını şartlarıyla birlikte kendi cümlelerinizle kurun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_portfoy"],
+          "law": "TTK m.122/1, m.122/4, m.122/5",
+          "note": "TTK m.122, tekel hakkı veren tek satıcılık ilişkilerine de uygulanır (m.122/5). Üretici, distribütörün kazandırdığı müşterilerden sona ermeden sonra da önemli menfaat sağlıyor (m.122/1-a): 340 kliniğin 290'ı şimdi yeni şirketten alıyor ve liste m.17 uyarınca teslim edildi. Distribütör bu müşterilerden elde edeceği kazancı kaybediyor (m.122/1-b) ve ödeme hakkaniyete uygun (m.122/1-c). m.16'daki önceden feragat geçersizdir (m.122/4)."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_portfoy"],
+          "law": "TTK m.122/1, m.122/5",
+          "note": "Dayanağı doğru kurdunuz. Tam beyan üç şartı ayrı ayrı gösterir (müşteri menfaati, kazanç kaybı, hakkaniyet; m.122/1), müşteri listesinin m.17 uyarınca teslimini ve 290 kliniğin geçişini somut olarak anar, m.16'nın önceden feragat olarak geçersizliğini (m.122/4) ekler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "TTK m.122/1, m.122/5",
+          "note": "Denkleştirmenin şartlarını kuramadınız. TTK m.122/5 kıyasen uygulamayı açar; m.122/1'deki üç şart (üreticinin müşterilerden menfaati, distribütörün kazanç kaybı, hakkaniyet) somut olaylarla gösterilmeliydi. Müşteri listesi teslimi ve 290 kliniğin yeni şirkete geçişi elinizdeydi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) TTK m.122, hakkaniyete aykırı düşmedikçe tek satıcılık ve benzeri tekel hakkı veren sürekli sözleşmelerde de uygulanır (m.122/5); münhasır distribütörlük bu kapsamdadır. (2) m.122/1'deki üç şart: (a) üretici, distribütörün kazandırdığı müşterilerden sona ermeden sonra da önemli menfaat sağlıyor (liste m.17 uyarınca teslim edildi; 340 kliniğin 290'ı yeni şirketten alıyor); (b) distribütör bu müşterilerden elde edeceği kazancı kaybediyor; (c) ödeme hakkaniyete uygun. (3) Sözleşmenin m.16 hükmü önceden feragattir ve geçersizdir (m.122/4); istem bir yıl içinde ileri sürüldü. (4) Tutar son beş yılın yıllık ortalama kazancıyla sınırlıdır (m.122/2). m.122/5'i, üç şartı somut olaylarla ve m.16'nın geçersizliğini birlikte kuran cevap tam puan alır.",
+      "keywords": [
+        { "terms": ["m.122/5", "122/5", "tek satıcılık", "tekel hakkı", "kıyasen"], "weight": 2 },
+        { "terms": ["müşteri", "290", "340", "klinik", "portföy"], "weight": 2 },
+        { "terms": ["menfaat", "yararlan", "kazanç kaybı", "kaybediyor"], "weight": 2 },
+        { "terms": ["hakkaniyet"], "weight": 1 },
+        { "terms": ["önceden vazgeçilemez", "122/4", "m.16", "feragat geçersiz", "bir yıl"], "weight": 2 },
+        { "terms": ["m.17", "liste", "teslim"], "weight": 1 }
+      ],
+      "model": "Sayın Başhakem, TTK m.122 hakkaniyete aykırı düşmedikçe münhasır distribütörlüğe de uygulanır (m.122/5). Müvekkil müşteri ve alt bayi listesini m.17 uyarınca teslim etti; 340 kliniğin 290'ı şimdi üreticinin yeni şirketinden alıyor. Üretici bu müşterilerden önemli menfaat sağlarken müvekkil o kazancı kaybediyor ve ödeme hakkaniyete uygun (m.122/1). Sözleşmenin m.16 hükmü önceden feragattir ve geçersizdir (m.122/4); istem bir yıl içinde ileri sürüldü."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, kurul feshi haklı bulmazsa bildirim süresine ilişkin kâr kaybı talebi hakkında ne diyorsunuz?" }
+      ],
+      "prompt": "Kâr kaybı talebine karşı hangi tutumu alacaksınız?",
+      "choices": [
+        {
+          "text": "Haksız derhâl fesih de sözleşmeyi sona erdirir; zarar, kesilen altı aylık bildirim süresinde elde edilecek kazançla sınırlıdır.",
+          "delta": 15,
+          "set": ["p2_ihbar"],
+          "law": "Sözleşme m.14/1 · TBK m.112",
+          "note": "Belirsiz süreli sözleşmede haklı sebep olmadan yapılan fesih de sözleşmeyi sona erdirir; karşı taraf ancak sözleşmeye uygun bildirim süresinde elde edeceği kazancı isteyebilir. Zararı altı aylık süreyle sınırlandırdınız."
+        },
+        {
+          "text": "Fesih geçersizse sözleşme sürmektedir: distribütör tazminat değil, sözleşmenin ifasını ve münhasırlığın korunmasını istemeli; bu talep reddedilmelidir.",
+          "delta": -10,
+          "set": ["p2_devam"],
+          "law": "Sözleşme m.14/1",
+          "note": "Fesih bozucu yenilik doğuran bir haktır; haklı sebep olmasa da sözleşmeyi sona erdirir, sonucu tazminattır. Ortada sürdürülecek bir sözleşme kalmadı; savunma kurulca reddedildi."
+        },
+        {
+          "text": "Sözleşme belirsiz süreli olduğundan kâr kaybı hiç istenemez; distribütöre olsa olsa elindeki stokların bedeli iade edilir.",
+          "delta": -5,
+          "set": ["p2_stok"],
+          "law": "Sözleşme m.14/1 · TBK m.112",
+          "note": "Belirsiz süreli sözleşmede de haksız fesih, bildirim süresine ait kazanç kaybını doğurur. Stok iadesi ayrı bir konudur; kâr kaybını bütünüyle reddetmek inandırıcı olmadı."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, son olarak talep sonucunuzu ve tutarları netleştirin." }
+      ],
+      "prompt": "Talep sonucunu nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Denkleştirme için yıllık ortalama net kazanç olan 420.000 EUR'yu, ayrıca altı aylık bildirim süresinin 210.000 EUR kâr kaybını iste.",
+          "delta": 15,
+          "set": ["p1_tavan"],
+          "law": "TTK m.122/2 · TBK m.112",
+          "note": "Tavanı doğru hesapladınız: son beş yılın yıllık ortalaması, ciro değil distribütörün net kazancı üzerinden (TTK m.122/2). Bildirim süresinin kâr kaybı ayrı bir zarardır ve ayrıca istenebilir."
+        },
+        {
+          "text": "Denkleştirmeyi son beş yılın yıllık ortalama cirosu olan 3.500.000 EUR üzerinden iste; kanundaki tavan distribütörün satış hacmine göre belirlenir.",
+          "delta": -10,
+          "set": ["p1_ciro"],
+          "law": "TTK m.122/2",
+          "note": "Tavan, acentenin aldığı ücret ve ödemeler üzerinden kurulur; distribütörde karşılığı ciro değil, alış-satış farkından doğan kazançtır (TTK m.122/2). Fazlası reddedilecek."
+        },
+        {
+          "text": "Denkleştirmeye ek olarak aynı portföy için sebepsiz zenginleşme ve haksız rekabet tazminatı da iste.",
+          "delta": -5,
+          "set": ["p1_cifte"],
+          "law": "TTK m.122 · TBK m.77",
+          "note": "Aynı müşteri portföyünün değeri için üç ayrı başlıkla tazminat istemek, aynı zararı birden fazla kez karşılatmaya yöneliktir. Denkleştirme bu menfaati karşılayan özel düzenlemedir; ek talepler reddedildi."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_haksiz && p1_portfoy && !p1_gec",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Davanın KABULÜ ile " },
+        { "if": "p2_hakkaniyet", "text": "hakkaniyet indirimiyle 320.000 EUR" },
+        { "if": "!p2_hakkaniyet", "text": "420.000 EUR" },
+        { "text": " denkleştirme tazminatı ile 210.000 EUR bildirim süresi kâr kaybının davalıdan alınarak davacıya ödenmesine," },
+        { "if": "p1_ciro || p1_cifte", "text": " fazlaya ilişkin talebin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Üretici 2024 hedefini %85 olarak kendisi kesinleştirmiş ve primi ödemişti; “iki yıl üst üste” şartı gerçekleşmedi, derhâl fesih haksızdı. Distribütör altı aylık bildirim süresinin kazancını aldı." },
+        { "text": " TTK m.122 münhasır distribütörlüğe uygulandı (m.122/5): müşteri listesi teslim edilmiş, 340 kliniğin 290'ı üreticinin yeni şirketine geçmişti. m.16'daki önceden feragat geçersizdi (m.122/4)." },
+        { "if": "p2_hakkaniyet", "text": " Üretici vekilinin marka çekim gücüne dayanan hakkaniyet savunması tazminatı 100.000 EUR azalttı." },
+        { "if": "p2_feragat", "text": " Üretici vekili savunmayı geçersiz bir feragat kaydına dayandırmıştı." },
+        { "if": "p2_ibrazyok", "text": " Üretici yeni şirketin satış kayıtlarını sunmadığı için kurul aleyhe sonuç çıkardı (IBA m.9/6)." }
+      ]
+    },
+    {
+      "if": "p1_haksiz",
+      "winner": "draw",
+      "hukum": "Davanın KISMEN KABULÜ ile 210.000 EUR bildirim süresi kâr kaybının davalıdan alınarak davacıya ödenmesine, denkleştirme tazminatı talebinin REDDİNE,",
+      "summary": [
+        { "text": "Derhâl fesih haksızdı: üretici 2024 hedefini %85 olarak kendisi kesinleştirmişti. Distribütör bildirim süresinin kazancını aldı." },
+        { "if": "p1_gec", "text": " Ama denkleştirme istemi sözleşmenin sona ermesinden bir buçuk yıl sonra ileri sürüldü; bir yıllık hak düşürücü süre geçmişti (TTK m.122/4)." },
+        { "if": "!p1_gec", "text": " Ama distribütör vekili denkleştirmenin şartlarını (TTK m.122/1) somut olaylarla kuramadı." }
+      ]
+    },
+    {
+      "if": "p1_tedarikgoster && p1_portfoy && !p1_gec",
+      "winner": "draw",
+      "hukum": [
+        { "text": "Davanın KISMEN KABULÜ ile " },
+        { "if": "p2_hakkaniyet", "text": "hakkaniyet indirimiyle 320.000 EUR" },
+        { "if": "!p2_hakkaniyet", "text": "420.000 EUR" },
+        { "text": " denkleştirme tazminatının davalıdan alınarak davacıya ödenmesine, bildirim süresi kâr kaybı talebinin REDDİNE," }
+      ],
+      "summary": "Kurul, hedef şartının sözleşmeye göre gerçekleştiğini kabul etti; fesih m.14/2 uyarınca geçerliydi ve bildirim süresi kazancı istenemedi. Ama 2025 düşüşü üreticinin tedarik sorunundan kaynaklanıyordu; fesih distribütörün kusuruna dayanmadığından denkleştirme düşmedi (TTK m.122/3). Müşteri portföyünün yeni şirkete geçişi de ispatlandı."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE, tahkim masraflarının davacıya yükletilmesine,",
+      "summary": [
+        { "text": "Kurul, hedef şartının iki yıl üst üste gerçekleşmediği yönündeki hesabı kabul etti; derhâl fesih m.14/2 uyarınca haklıydı ve hedefin tutturulamaması distribütöre yüklendi." },
+        { "text": " Distribütörün kusuruyla haklı olarak feshedilen sözleşmede denkleştirme istenemez (TTK m.122/3); bildirim süresi kazancı da doğmadı." },
+        { "if": "p1_gec", "text": " Denkleştirme istemi ayrıca bir yıllık süre geçtikten sonra ileri sürülmüştü (TTK m.122/4)." },
+        { "if": "p1_teyit || p1_tedarik", "text": " Distribütör vekili elindeki yazışmaları doğru anda sunamadı." }
+      ]
+    }
+  ]
+}

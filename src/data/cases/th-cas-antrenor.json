@@ -1,0 +1,432 @@
+{
+  "id": "th-cas-antrenor",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "cas",
+  "difficulty": "orta",
+  "title": "Dört Mağlubiyet",
+  "area": "Tahkim · Spor tahkimi · Antrenör alacağı ve FIFA kararına karşı temyiz",
+  "court": "Spor Tahkim Mahkemesi (CAS) · CAS 2026/A/11811 (Tahkim yeri: Lozan)",
+  "courtShort": "CAS · LOZAN",
+  "esas": "CAS 2026/A/11811",
+  "kararTarihi": "24.11.2026",
+  "color": "#4a3b6b",
+  "bench": { "judges": 3, "title": "Panel Başkanı ve iki hakem" },
+  "inscription": null,
+  "teaser": "Dört maç üst üste kaybeden Portekizli teknik direktör kapı dışarı edildi. FIFA ona 680.000 € verdi; kulübün elinde Yunanistan'dan gelen bir imza parası belgesi var.",
+  "sides": {
+    "p1": { "role": "Temyiz eden kulüp (Kapadokya FK) vekili", "short": "Kulüp" },
+    "p2": { "role": "Antrenör (Nuno Serrador) vekili", "short": "Antrenör" }
+  },
+  "cast": {
+    "judge": { "name": "Panel Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#e3b996", "hair": "#3a3a3e", "style": "short", "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#cf9a72", "hair": "#1a1716", "style": "short", "glasses": true, "shirt": "#1f2430", "inner": "#e9e6df" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f0cdb0", "hair": "#7a4a2a", "style": "long", "shirt": "#262a33", "inner": "#efe9e0" } },
+    "antrenor": { "name": "Nuno Serrador · Teknik direktör", "np": "civil", "look": { "kind": "civil", "skin": "#d8a682", "hair": "#6e6e72", "style": "short", "beard": true, "shirt": "#2e3a4e", "inner": "#e2ddd2" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Portekizli teknik direktör Nuno Serrador, Kapadokya FK ile 01.07.2025–30.06.2027 süreli sözleşme imzaladı: aylık net 50.000 €. Sözleşmede uygulanacak hukuk seçilmemiş; uyuşmazlıklarda FIFA ve CAS yetkili." },
+    { "who": "narr", "text": "Dört maçlık mağlubiyet serisinin ardından kulüp 30.11.2025'te “başarısız sonuçlar” gerekçesiyle sözleşmeyi derhâl feshetti. Kasım 2025 ücreti ödenmemişti. Antrenör 01.03.2026'da Yunanistan'da Athlitikos Thermaikos ile aylık 20.000 €'ya, 30.06.2027'ye kadar sözleşme imzaladı." },
+    { "who": "narr", "text": "FIFA Oyuncu Statüsü Dairesi (Players' Status Chamber) feshi haklı sebepsiz buldu: kulüp 50.000 € ödenmemiş ücret ile kalan değer olan 950.000 €'dan yeni sözleşmenin 320.000 €'su düşülerek 630.000 € tazminat ödeyecek. Kararın hüküm kısmı gerekçesiz olarak 15.06.2026'da tebliğ edildi." },
+    { "who": "narr", "text": "Kulüp kararı kabul etmiyor. İlk hamle kulüp vekilinin." }
+  ],
+  "docs": [
+    { "t": "Antrenör sözleşmesi", "d": "01.07.2025–30.06.2027; aylık net 50.000 €. Md. 3: “Sportif hedef: ligi ilk 8 içinde bitirmek.” Sözleşmede hedefe ya da sonuçlara bağlı bir fesih hakkı yok. Uygulanacak hukuk seçilmemiş." },
+    { "t": "Fesih bildirimi (30.11.2025)", "d": "“Takımın son dört maçtaki başarısız sonuçları nedeniyle sözleşmeniz bugün itibarıyla feshedilmiştir.” Başka bir gerekçe yok. Takım 13 haftada 9. sırada, 8. sıranın bir puan gerisinde." },
+    { "t": "FIFA Oyuncu Statüsü Dairesi kararı (hüküm kısmı)", "d": "Kulüp antrenöre 50.000 € ödenmemiş ücret ile 630.000 € tazminatı faiziyle öder. Yargılama giderine hükmedilmedi; antrenörün taraf olduğu yargılama ücretsizdir." },
+    { "t": "FIFA Football Tribunal Usul Kuralları m.15", "d": "Yargılama giderine hükmedilmeyen kararlarda taraf, hüküm kısmının tebliğinden itibaren on gün içinde gerekçe isteyebilir. İstemezse karar kesinleşir ve taraf temyiz hakkından vazgeçmiş sayılır." },
+    { "t": "Yunan basınında röportaj (Ağustos 2026)", "d": "Thermaikos başkanı: “Serrador'a imzada 100.000 € ödedik.” Antrenör bu imza parasını FIFA yargılamasında bildirmemişti." }
+  ],
+  "evidence": [
+    { "id": "ev_sozlesme", "type": "belge", "title": "Antrenör sözleşmesi", "desc": "Md. 3: “Sportif hedef: ligi ilk 8 içinde bitirmek.” Hedefe ya da sonuçlara bağlı fesih hakkı yok; hedef sezon sonuna ilişkin." },
+    { "id": "ev_fesih", "type": "belge", "title": "Fesih bildirimi", "desc": "Tek gerekçe: son dört maçtaki başarısız sonuçlar." },
+    { "id": "ev_puan", "type": "belge", "title": "Puan durumu (13. hafta)", "desc": "Kapadokya FK 9. sırada, 8. sıranın bir puan gerisinde; sezonda 25 hafta daha var." },
+    { "id": "ev_fesihYunan", "type": "belge", "title": "Thermaikos ile karşılıklı fesih protokolü", "desc": "15.09.2026: Kulübün küme düşmesi üzerine sözleşme karşılıklı olarak sona erdirildi; antrenöre ayrıca bir ödeme yapılmadı.", "if": "p2_yeniIs" },
+    { "id": "law_337", "type": "kanun", "title": "İsviçre Borçlar Kanunu m.337c", "desc": "Haklı sebep olmadan derhâl fesihte işçi, sözleşme sürmüş olsaydı kazanacağını ister (f.1); bundan işçinin tasarruf ettiği, başka işten kazandığı ya da kasten kazanmaktan kaçındığı düşülür (f.2). Hâkim ayrıca altı aylık ücrete kadar tazminata hükmedebilir (f.3).", "law": "İsviçre BK m.337c" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "TEBLİĞ · FIFA kararının yalnızca hüküm kısmı 15.06.2026'da kulübe ulaştı; gerekçe yok. Kulüp başkanı “hemen CAS'a gidelim” diyor." }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "On gün içinde, 25.06.2026'ya kadar FIFA'dan gerekçeli kararı iste; gerekçe tebliğ edilince 21 gün içinde CAS'a temyiz başvurusunu yap.",
+          "delta": 20,
+          "set": ["p1_gerekce"],
+          "law": "FIFA Football Tribunal Usul Kuralları m.15 · FIFA Statüsü (CAS'a temyiz) · CAS Kodu R49",
+          "note": "Yargılama giderine hükmedilmeyen kararlarda gerekçe on gün içinde istenmezse karar kesinleşir ve taraf temyiz hakkından vazgeçmiş sayılır. CAS'a temyiz süresi de gerekçeli kararın tebliğinden itibaren 21 gündür.",
+          "reply": [
+            { "who": "narr", "text": "Gerekçe 22.06.2026'da istendi ve 06.07.2026'da tebliğ edildi. Temyiz başvurusu 24.07.2026'da, süre dolmadan yapıldı." }
+          ]
+        },
+        {
+          "text": "Gerekçeyi beklemek vakit kaybı: hüküm kısmının tebliğinden itibaren 21 gün içinde, 06.07.2026'ya kadar doğrudan CAS'a temyiz başvurusu yap.",
+          "delta": -25,
+          "law": "FIFA Football Tribunal Usul Kuralları m.15",
+          "note": "Gerekçe istenmediği için karar on günün sonunda kesinleşti ve kulüp temyiz hakkından vazgeçmiş sayıldı. CAS, gerekçe istenmeden hüküm kısmına karşı yapılan temyizi kabul edilemez bulur.",
+          "fatal": {
+            "label": "TEMYİZ KABUL EDİLEMEZ",
+            "hukum": "Kapadokya FK'nın temyiz başvurusunun KABUL EDİLEMEZLİĞİNE (inadmissible), FIFA Oyuncu Statüsü Dairesi kararının kesinleştiğinin tespitine,",
+            "summary": "Kulüp vekili FIFA'dan on gün içinde gerekçe istemedi. FIFA usul kurallarına göre gerekçe istenmeyen karar kesinleşir ve taraf temyiz hakkından vazgeçmiş sayılır. Gerekçesiz hükme karşı yapılan temyiz esasa girilmeden kabul edilemez bulundu; kulüp 680.000 €'yu faiziyle ödeyecek."
+          }
+        },
+        {
+          "text": "Gerekçeyi on gün içinde iste; ayrıca FIFA'dan kararın yeniden incelenmesini talep et, CAS'a ancak bu talep reddedilirse başvur.",
+          "delta": -5,
+          "set": ["p1_gerekce", "p1_revizyon"],
+          "law": "FIFA Football Tribunal Usul Kuralları · CAS Kodu R47",
+          "note": "Gerekçeyi istediniz, bu doğru. Ama Football Tribunal kararlarına karşı FIFA içinde bir yeniden inceleme yolu yok; tek yol CAS'tır. Gereksiz talep size bir şey kazandırmadı, neyse ki CAS'a temyiz süresini de kaçırmadınız.",
+          "reply": [
+            { "who": "narr", "text": "FIFA, kararlarına karşı yolun CAS'a temyiz olduğunu bildirdi. Gerekçe 06.07.2026'da tebliğ edildi; temyiz 24.07.2026'da yapıldı." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Kulübün temyiz gerekçesi geldi. Cevap dilekçesinden önce Nuno Serrador'la görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Antrenöre ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Thermaikos'taki sözleşmeniz hâlâ devam ediyor mu?",
+          "delta": 15,
+          "set": ["p2_yeniIs"],
+          "reply": [
+            { "who": "antrenor", "text": "Hayır. Kulüp küme düştü, 15 Eylül'de karşılıklı feshettik. Ayrıca bir şey almadım. O tarihten beri işsizim." }
+          ],
+          "note": "Doğru soru. FIFA kararından sonra ortaya çıkan bu yeni olgu, mahsup edilecek gelirin sanıldığından az olduğunu gösteriyor: düşülecek olan fiilen kazanılandır (İsviçre BK m.337c/2). Protokol çantanıza eklendi."
+        },
+        {
+          "text": "Yunan basınındaki imza parası haberi doğru mu? FIFA'da neden bildirmediniz?",
+          "delta": 10,
+          "set": ["p2_imza"],
+          "reply": [
+            { "who": "antrenor", "text": "Doğru, 100.000 € aldım. Kimse sormadı, ben de maaş sanılmasın diye yazmadım." }
+          ],
+          "note": "Rahatsız edici ama gerekli bilgi. İmza parası da yeni işten elde edilen gelirdir; inkâr etmek yerine nasıl savunacağınızı şimdi planlayabilirsiniz."
+        },
+        {
+          "text": "Kulüp başkanıyla aranızda kişisel bir sorun var mıydı?",
+          "delta": 0,
+          "reply": [
+            { "who": "antrenor", "text": "Başkan kadroya sürekli karışırdı. Ama fesih bildiriminde bunun lafı bile yok." }
+          ],
+          "note": "Dosyada belirleyici değil: fesih yalnızca sonuçlara dayandırılmış."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kulüp vekili, temyizin dayanağını özetleyin." }
+      ],
+      "prompt": "Temyizi hangi ana dayanağa oturtacaksınız?",
+      "choices": [
+        {
+          "text": "Fesih haklıydı: dört maçlık mağlubiyet serisi ve 9. sıra, sözleşmedeki ilk 8 hedefinin tutturulamayacağını gösteriyordu.",
+          "delta": -15,
+          "set": ["p1_sonuc"],
+          "law": "İsviçre BK m.337 · CAS içtihadı",
+          "note": "CAS içtihadında başarısız sonuçlar tek başına antrenör için haklı sebep sayılmaz; sözleşmede sonuca bağlı açık bir fesih hakkı yoksa fesih haklı sebebe dayanmaz. Üstelik hedef sezon sonuna ilişkindi ve takım 8. sıranın bir puan gerisindeydi.",
+          "reply": [
+            { "who": "judge", "text": "Antrenör vekili buna cevap verecek." }
+          ]
+        },
+        {
+          "text": "Tazminatın hesabı hatalı: imza parasını gösteren yeni belgeyi gerekçeye ekledik, neden FIFA'da sunulamadığını da açıkladık; mahsup edilsin.",
+          "delta": 15,
+          "set": ["p1_mitigasyon"],
+          "law": "CAS Kodu R57 · İsviçre BK m.337c/2",
+          "note": "Panel olayları ve hukuku yeniden inceler (R57); önceki aşamada mevcut olan ya da makul çabayla bulunabilecek delilleri dışlama takdiri vardır (R57/3). Belge FIFA kararından sonra, Ağustos 2026'daki röportajla ortaya çıktı ve antrenör gelirini bildirmemişti; bunu açıklamak doğru yoldur.",
+          "reply": [
+            { "who": "judge", "text": "Belgeyi R57 çerçevesinde değerlendireceğiz. Antrenör vekili cevap verecek." }
+          ]
+        },
+        {
+          "text": "Fesih haksız olsa bile tazminat İsviçre BK m.337c/3 uyarınca en fazla altı aylık ücrete, yani 300.000 €'ya indirilmelidir.",
+          "delta": -10,
+          "set": ["p1_337"],
+          "law": "İsviçre BK m.337c",
+          "note": "m.337c/3 bir üst sınır değil, hâkimin işçi lehine ayrıca hükmedebileceği ek tazminattır. Asıl alacak m.337c/1'e göre sözleşme sürseydi kazanılacak olandır.",
+          "reply": [
+            { "who": "judge", "text": "Antrenör vekili buna cevap verecek." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Antrenör vekili, kulübün temyiz gerekçesine cevabınız?" }
+      ],
+      "prompt": "Kulübün dayanağına nasıl cevap vereceksiniz?",
+      "choices": [
+        {
+          "if": "p1_sonuc",
+          "text": "Başarısız sonuç haklı sebep değildir; sözleşmede sonuca bağlı fesih hakkı yok, ilk 8 hedefi de sezon sonu içindi.",
+          "delta": 15,
+          "set": ["p2_hakli"],
+          "law": "İsviçre BK m.337 · CAS içtihadı",
+          "note": "Doğru. Sportif başarısızlık, sözleşmede açıkça fesih sebebi olarak düzenlenmedikçe antrenör sözleşmesinin derhâl feshi için haklı sebep oluşturmaz. Hedefin sezon sonuna ilişkin olduğunu da gösterdiniz.",
+          "reply": [
+            { "who": "judge", "text": "Not edildi." }
+          ]
+        },
+        {
+          "if": "p1_mitigasyon && p2_yeniIs",
+          "text": "İmza parası düşülsün; ama Yunan sözleşmesi Eylül 2026'da bitti, mahsup fiilen kazanılanla sınırlı ve tutar FIFA'nınkini aşıyor.",
+          "delta": 15,
+          "set": ["p2_mahsup"],
+          "law": "İsviçre BK m.337c/2 · CAS Kodu R57",
+          "note": "Dürüst ve güçlü cevap. Mahsup, işçinin fiilen kazandığıyla sınırlıdır. Antrenör Mart–Eylül 2026'da yaklaşık 130.000 € ücret ve 100.000 € imza parası aldı: 950.000 − 230.000 = 720.000 €. Bu, FIFA'nın hükmettiği 630.000 €'dan fazladır; kulübün temyizi tazminatı düşürmez.",
+          "reply": [
+            { "who": "judge", "text": "Yeni olguyu da R57 çerçevesinde değerlendireceğiz." }
+          ]
+        },
+        {
+          "if": "p1_mitigasyon && !p2_yeniIs",
+          "text": "Belge FIFA aşamasında da TMS kaydından istenebilirdi; R57/3 uyarınca dışlansın, alınırsa yalnızca imza parası düşülsün.",
+          "delta": 5,
+          "set": ["p2_dislama"],
+          "law": "CAS Kodu R57/3",
+          "note": "Dışlama talebi panelin takdirine kalmış bir yol; antrenör geliri kendisi bildirmediği için kabulü zor. Müvekkilinize yeni işinin hâlâ sürüp sürmediğini sorsaydınız, mahsubu fiilen kazanılanla sınırlayan çok daha güçlü bir cevabınız olurdu.",
+          "reply": [
+            { "who": "judge", "text": "Belgenin kabulüne ilişkin kararımızı sonra vereceğiz." }
+          ]
+        },
+        {
+          "if": "p1_337",
+          "text": "m.337c/3 üst sınır değil, işçi lehine ek tazminattır; asıl alacak m.337c/1'e göre kalan sözleşme değeridir.",
+          "delta": 15,
+          "set": ["p2_337"],
+          "law": "İsviçre BK m.337c",
+          "note": "Doğru. f.3 ayrı ve ek bir tazminattır; işçinin alacağını sınırlamaz.",
+          "reply": [
+            { "who": "judge", "text": "Not edildi." }
+          ]
+        },
+        {
+          "text": "FIFA kararı kesindir; CAS esası yeniden inceleyemez, yalnızca usul hatası olup olmadığına bakabilir. Temyiz bu yüzden reddedilmeli.",
+          "delta": -15,
+          "set": ["p2_denetim"],
+          "law": "CAS Kodu R57",
+          "note": "Yanlış. R57 panele olayları ve hukuku tam olarak yeniden inceleme yetkisi verir (de novo); panel kararı kaldırıp yeni bir karar verebilir.",
+          "reply": [
+            { "who": "judge", "text": "Panel, R57 uyarınca esası yeniden inceleme yetkisine sahiptir, sayın vekil." }
+          ]
+        },
+        {
+          "text": "Antrenörün yeni işi tazminatı etkilemez: kalan sözleşme değerinin tamamı olan 950.000 € ödenmeli, hiçbir gelir düşülmemeli.",
+          "delta": -10,
+          "set": ["p2_tam"],
+          "law": "İsviçre BK m.337c/2",
+          "note": "İsviçre hukukunda işçinin başka işten kazandığı mahsup edilir (m.337c/2). Ayrıca antrenör FIFA kararını temyiz etmediği için 630.000 €'nun üzerine çıkılamaz.",
+          "reply": [
+            { "who": "judge", "text": "Bu, İsviçre hukukundaki mahsup kuralıyla bağdaşmıyor." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kulüp vekili, tazminatın hangi hukuka göre ve nasıl hesaplanması gerektiğini, yeni belgenin neden dikkate alınması gerektiğini açıklayın." }
+      ],
+      "prompt": "Uygulanacak hukuku, R57'deki yeni delil kuralını ve tazminatın doğru hesabını kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_hesap"],
+          "law": "CAS Kodu R57, R58 · İsviçre BK m.337c/2",
+          "note": "Uygulanacak hukuku (FIFA kuralları, ikincil olarak İsviçre hukuku), R57'nin yeni delil kuralını ve mahsup yöntemini birlikte kurdunuz. İmza parası yeni işten elde edilen gelirdir ve antrenör bunu FIFA'da bildirmemişti."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": ["p1_hesapKismen"],
+          "law": "CAS Kodu R57 · İsviçre BK m.337c/2",
+          "note": "Mahsup gerektiğini söylediniz. Tam savunma, uygulanacak hukukun R58'e göre İsviçre hukuku olduğunu, belgenin FIFA kararından sonra ortaya çıktığını ve gizlendiğini (R57/3), doğru tutarı da (630.000 − 100.000 = 530.000 €) birlikte gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "CAS Kodu R57, R58",
+          "note": "Hesabı ve yeni delilin kabul edilebilirliğini kuramadınız. Panel esası yeniden inceler (R57); hukuk seçilmediğinden İsviçre hukuku ikincil olarak uygulanır (R58) ve işçinin başka işten kazandığı tazminattan düşülür (İsviçre BK m.337c/2)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sözleşmede hukuk seçilmediğinden panel FIFA kurallarını, ikincil olarak FIFA'nın merkezinin bulunduğu İsviçre'nin hukukunu uygular (CAS Kodu R58). (2) Panel olayları ve hukuku yeniden inceler (R57); önceki aşamada mevcut olan ya da makul çabayla bulunabilecek delilleri dışlama takdiri vardır, ama 100.000 €'luk imza parası FIFA kararından sonra, Ağustos 2026'daki röportajla ortaya çıktı ve antrenör bunu FIFA'da bildirmemişti; dışlanması için sebep yoktur. (3) İsviçre BK m.337c/2'ye göre işçinin başka işten kazandığı tazminattan düşülür; imza parası da bu gelire dahildir. (4) Doğru tutar 630.000 − 100.000 = 530.000 € tazminat ile 50.000 € ödenmemiş ücrettir. R58, R57 ve m.337c/2'yi tutarla birlikte söyleyen cevap tam puan alır; yalnızca 'imza parası düşülsün' diyen cevap orta puan alır. Başarısız sonuçların haklı sebep olduğunu savunan ya da m.337c/3'ü üst sınır sayan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["R57", "de novo", "yeniden incele"], "weight": 2 },
+        { "terms": ["R58", "İsviçre hukuk", "Swiss law", "uygulanacak hukuk"], "weight": 2 },
+        { "terms": ["337c", "mahsup", "mitigation", "başka işten"], "weight": 2 },
+        { "terms": ["imza parası", "100.000", "signing"], "weight": 1 },
+        { "terms": ["530.000", "beş yüz otuz"], "weight": 1 },
+        { "terms": ["bildirmedi", "gizle", "sonradan ortaya", "röportaj"], "weight": 1 }
+      ],
+      "model": "Sayın Panel, sözleşmede hukuk seçilmediğinden R58 uyarınca FIFA kuralları ve ikincil olarak İsviçre hukuku uygulanır. Panel esası R57'ye göre yeniden inceler; 100.000 € imza parası FIFA kararından sonra, Ağustos 2026'daki röportajla ortaya çıktı ve antrenör bunu FIFA'da bildirmemişti, dışlanması için sebep yok. İsviçre BK m.337c/2'ye göre başka işten kazanılan düşülür: tazminat 630.000 − 100.000 = 530.000 € olmalıdır."
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Antrenör vekili, feshin niteliği ve tazminat hakkında son değerlendirmenizi alalım." }
+      ],
+      "prompt": "Feshin neden haklı sebebe dayanmadığını ve FIFA'nın hükmettiği tazminatın neden korunması gerektiğini kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_hesap"],
+          "law": "İsviçre BK m.337, m.337c · CAS Kodu R55, R57",
+          "note": "Feshin haklı sebebe dayanmadığını, alacağın dayanağını ve mahsubun fiilen kazanılanla sınırlı olduğunu birlikte gösterdiniz. Antrenörün kendi temyizi olmadığından talebinizi doğru biçimde temyizin reddiyle sınırladınız."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": ["p2_hesapKismen"],
+          "law": "İsviçre BK m.337c",
+          "note": "Feshin haksız olduğunu gösterdiniz. Tam savunma, mahsubun yalnızca fiilen kazanılanla sınırlı olduğunu ve yeni hesapla tutarın FIFA'nın hükmettiği tutarın altına düşmediğini de anlatır."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "İsviçre BK m.337c",
+          "note": "Feshin niteliğini ve tazminatın dayanağını kuramadınız. Başarısız sonuç haklı sebep değildir; işçi sözleşme sürseydi kazanacağını ister, bundan yalnızca fiilen kazandığı düşülür (m.337c/1-2)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Başarısız sonuçlar, sözleşmede açık bir fesih hakkı olarak düzenlenmedikçe antrenör sözleşmesinin derhâl feshi için haklı sebep değildir (İsviçre BK m.337; CAS içtihadı); fesih bildiriminde başka gerekçe yok. (2) Antrenör, sözleşme sürseydi kazanacağı kalan değeri (Aralık 2025–Haziran 2027, 950.000 €) ve ödenmeyen Kasım 2025 ücretini (50.000 €) ister (m.337c/1). (3) Mahsup yalnızca fiilen kazanılanla sınırlıdır (m.337c/2): Yunan sözleşmesi 15.09.2026'da sona erdi; fiilî gelir yaklaşık 130.000 € ücret ve 100.000 € imza parasıdır, kalan alacak 720.000 €'dur ve FIFA'nın hükmettiği 630.000 €'dan azdır değil fazladır. (4) Antrenör kendi temyizini açmadığından panel 630.000 €'nun üzerine çıkamaz; talep temyizin reddidir. Feshin haksızlığını, m.337c/2'nin sınırını ve talebin temyizin reddiyle sınırlı olduğunu birlikte söyleyen cevap tam puan alır; yalnızca 'fesih haksızdı' diyen cevap orta puan alır. İmza parasını inkâr eden ya da 950.000 €'nun tamamını isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["haklı sebep", "başarısız sonuç", "kötü sonuç", "poor results"], "weight": 2 },
+        { "terms": ["337c", "kalan değer", "sözleşme sürseydi", "residual"], "weight": 2 },
+        { "terms": ["fiilen", "Eylül", "sona erdi", "işsiz"], "weight": 2 },
+        { "terms": ["720.000", "630.000"], "weight": 1 },
+        { "terms": ["temyizin reddi", "onanması", "kendi temyizi", "R55"], "weight": 1 }
+      ],
+      "model": "Sayın Panel, başarısız sonuçlar, sözleşmede fesih sebebi olarak düzenlenmedikçe haklı sebep değildir; fesih bildiriminde başka gerekçe yok. Antrenör sözleşme sürseydi kazanacağını ister (İsviçre BK m.337c/1). Mahsup yalnızca fiilen kazanılanla sınırlıdır: Yunan sözleşmesi Eylül 2026'da bitti; 130.000 € ücret ve 100.000 € imza parası düşülünce alacak 720.000 €'dur, FIFA'nın hükmettiği 630.000 €'dan fazladır. Müvekkilim temyiz etmediği için yalnızca temyizin reddini ve kararın onanmasını istiyoruz."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kulüp vekili, sözleşmede hukuk seçilmemiş. Sizce panel hangi hukuku uygulamalı?" }
+      ],
+      "prompt": "Uygulanacak hukuk hakkında ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Kulüp ve iş yeri Türkiye'de olduğuna göre Türk Borçlar Kanunu ve İş Kanunu uygulanmalı; FIFA kuralları ancak boşluk doldurur.",
+          "delta": -10,
+          "set": ["p1_hukuk"],
+          "law": "CAS Kodu R58",
+          "note": "Temyiz usulünde panel önce uygulanacak spor kurallarını, sonra tarafların seçtiği hukuku, seçim yoksa kararı veren federasyonun merkezinin bulunduğu ülkenin hukukunu uygular (R58). Taraflar hukuk seçmediğinden ikincil hukuk İsviçre hukukudur.",
+          "reply": [
+            { "who": "judge", "text": "Sözleşmede Türk hukuku seçilmemiş, sayın vekil." }
+          ]
+        },
+        {
+          "text": "Önce FIFA kuralları, onlarda hüküm yoksa FIFA'nın merkezi İsviçre'de olduğundan İsviçre hukuku uygulanır.",
+          "delta": 15,
+          "law": "CAS Kodu R58 · FIFA Statüsü",
+          "note": "Doğru. R58'e göre panel uygulanacak spor kurallarını esas alır; taraflar hukuk seçmemişse kararı veren federasyonun merkezinin bulunduğu ülkenin hukuku ikincil olarak uygulanır. FIFA Statüsü de CAS'ın FIFA kurallarını ve ikincil olarak İsviçre hukukunu uygulayacağını söyler.",
+          "reply": [
+            { "who": "judge", "text": "Panel de bu görüşte." }
+          ]
+        },
+        {
+          "text": "Antrenör Portekizli ve sözleşmeyi Lizbon'daki menajeri üzerinden imzaladı; en sıkı ilişkili hukuk olarak Portekiz hukuku uygulanmalı.",
+          "delta": -10,
+          "set": ["p1_hukuk"],
+          "law": "CAS Kodu R58",
+          "note": "R58 en sıkı ilişki ölçütünü değil, seçim yoksa federasyonun merkezinin bulunduğu ülkenin hukukunu öngörür. Bu dosyada ikincil hukuk İsviçre hukukudur.",
+          "reply": [
+            { "who": "judge", "text": "R58 bu ölçütü öngörmüyor." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Antrenör vekili, son taleplerinizi belirtin." }
+      ],
+      "prompt": "Panelden ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Temyizin reddiyle FIFA kararının onanmasını; 680.000 €'nun vade tarihlerinden itibaren yıllık %5 faiziyle ödenmesini iste.",
+          "delta": 15,
+          "law": "CAS Kodu R55, R57 · İsviçre BK m.104",
+          "note": "Talebinizi doğru çerçevede tuttunuz: antrenör temyiz etmediği için temyizin reddini isteyebilirsiniz. İsviçre hukukunda kanuni temerrüt faizi yıllık %5'tir (m.104).",
+          "reply": [
+            { "who": "judge", "text": "Talepler tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "Kulüp antrenörü itibarsızlaştırdı; tazminata ek olarak altı aylık ücret tutarında, 300.000 € ek tazminata da hükmedilsin.",
+          "delta": -10,
+          "set": ["p2_ek"],
+          "law": "CAS Kodu R55 · İsviçre BK m.337c/3",
+          "note": "m.337c/3'teki ek tazminat istenebilecek bir kalemdir, ama antrenör FIFA kararını temyiz etmedi. Cevap veren taraf temyiz usulünde yalnızca temyizin reddini isteyebilir; karşı talep ileri süremez.",
+          "reply": [
+            { "who": "judge", "text": "Antrenör kendi temyizini açmadı; bu talep incelenemez." }
+          ]
+        },
+        {
+          "text": "Kulübe borç ödenene kadar yeni oyuncu ve antrenör kayıt yasağı verilmesini ve FIFA Disiplin Kurulu'na bildirilmesini iste.",
+          "delta": -10,
+          "set": ["p2_yasak"],
+          "law": "CAS Kodu R47, R57",
+          "note": "Ödememenin sonuçları FIFA kuralları ve disiplin organları tarafından uygulanır; bu temyizde panelin önündeki konu tazminat hükmüdür. Talep incelenmedi.",
+          "reply": [
+            { "who": "judge", "text": "Bu, panelin önündeki temyizin konusu değil." }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_mitigasyon && !p2_mahsup && (p1_hesap || p1_hesapKismen && !p2_dislama)",
+      "winner": "p1",
+      "hukum": "Kapadokya FK'nın temyizinin KISMEN KABULÜ ile FIFA Oyuncu Statüsü Dairesi kararının değiştirilerek kulübün antrenöre 50.000 € ödenmemiş ücret ile 530.000 € tazminatı yıllık %5 faiziyle ödemesine,",
+      "summary": [
+        { "text": "Fesih haklı sebebe dayanmıyordu; ama kulüp vekili antrenörün FIFA'da bildirmediği 100.000 €'luk imza parasını ortaya koydu. Belge FIFA kararından sonra ortaya çıktığı ve gizlendiği için panel onu dikkate aldı (R57) ve İsviçre BK m.337c/2 uyarınca tazminattan düştü." },
+        { "if": "p2_tam", "text": " Antrenör vekilinin hiçbir gelirin düşülmemesi gerektiği tezi İsviçre hukukuyla bağdaşmadı." },
+        { "if": "p2_denetim", "text": " Antrenör vekilinin CAS'ın esası inceleyemeyeceği iddiası da R57 karşısında dayanaksızdı." },
+        { "if": "p2_dislama", "text": " Belgenin dışlanması talebi reddedildi." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Kapadokya FK'nın temyizinin REDDİNE, FIFA Oyuncu Statüsü Dairesi kararının ONANMASINA; kulübün antrenöre 50.000 € ödenmemiş ücret ile 630.000 € tazminatı yıllık %5 faiziyle ödemesine,",
+      "summary": [
+        { "text": "Başarısız sonuçlar haklı sebep değildir; fesih haklı sebebe dayanmıyordu." },
+        { "if": "p1_sonuc", "text": " Kulüp vekili temyizi bu zayıf zemine oturttu; sözleşmede sonuca bağlı fesih hakkı yoktu." },
+        { "if": "p1_337", "text": " Kulüp vekilinin İsviçre BK m.337c/3'ü üst sınır sayması yanlıştı." },
+        { "if": "p2_mahsup", "text": " İmza parası düşüldü, ama antrenör vekili Yunan sözleşmesinin Eylül 2026'da sona erdiğini gösterdi; fiilen kazanılan düşülünce alacak FIFA'nın hükmettiği tutarın altına inmedi." },
+        { "if": "p1_mitigasyon && !p2_mahsup && !p1_hesap && p2_dislama", "text": " İmza parasına ilişkin belge, kabulü yeterince gerekçelendirilmediğinden dikkate alınmadı." },
+        { "if": "p1_mitigasyon && !p2_mahsup && !p1_hesap && !p1_hesapKismen", "text": " Kulüp vekili mahsubun dayanağını ve tutarını panele kuramadı." },
+        { "if": "p1_hukuk", "text": " Kulüp vekilinin uygulanacak hukuka ilişkin tezi de R58 karşısında kabul görmedi." },
+        { "if": "p2_ek", "text": " Antrenör vekilinin ek tazminat talebi, ayrı bir temyiz olmadığından incelenemedi." }
+      ]
+    }
+  ]
+}

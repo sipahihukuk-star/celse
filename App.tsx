@@ -34,12 +34,21 @@ import { C } from "./src/ui/theme";
 import VerdictScreen from "./src/ui/VerdictScreen";
 import ClosingScreen from "./src/ui/ClosingScreen";
 import { AiVerdict } from "./src/engine/judge";
+import { createMatch } from "./src/data/online";
+import { localizeCase } from "./src/i18n/cases";
+import { t, useLang } from "./src/i18n";
+import { OnlineGame, OnlineLobby, OnlineWait } from "./src/ui/OnlineScreen";
+import { TahkimScreen } from "./src/ui/TahkimScreen";
 
 /** from: oyun bitince nereye dönüleceği (dosya dolabı ya da yönetim paneli önizlemesi) */
-type From = "list" | "admin" | "career" | "desk";
+type From = "list" | "admin" | "career" | "desk" | "tahkim" | "online";
 type Route =
   | { k: "title" }
   | { k: "list"; mode: "duel" | "solo" }
+  | { k: "tahkim" }
+  | { k: "online" }
+  | { k: "onlineWait"; id: string; c: CaseFile }
+  | { k: "onlineGame"; id: string; c: CaseFile }
   | { k: "admin" }
   | { k: "career" }
   | { k: "office" }
@@ -66,13 +75,22 @@ export default function App() {
   const { account } = useAccount();
   const { premium, admin } = usePremium();
   const { office } = useOffice();
+  // Dil değişince bütün ekran yeniden çizilir.
+  const [lang] = useLang();
 
   // Yazı tipleri yüklenemezse (ör. ağ engeli) sistem yazı tipiyle devam edilir.
   if (!loaded && !error) return <View style={styles.root} />;
 
-  const startGame = (c: CaseFile, players: Record<Side, Player>, from: From = "list") => { setRun(r => r + 1); setRoute({ k: "game", c, players, run: run + 1, from }); };
+  // Tahkim dosyaları seçili dilde açılır (çevirisi varsa).
+  const startGame = async (c0: CaseFile, players: Record<Side, Player>, from: From = "list") => {
+    const c = await localizeCase(c0);
+    setRun(r => r + 1); setRoute({ k: "game", c, players, run: run + 1, from });
+  };
   const toList = (mode: "duel" | "solo") => setRoute({ k: "list", mode });
-  const back = (c: CaseFile, from: From) => (from === "admin" ? setRoute({ k: "admin" }) : from === "career" ? setRoute({ k: "career" }) : from === "desk" ? setRoute({ k: "desk" }) : toList(c.mode));
+  const back = (c: CaseFile, from: From) => (from === "admin" ? setRoute({ k: "admin" }) : from === "career" ? setRoute({ k: "career" }) : from === "desk" ? setRoute({ k: "desk" })
+    : from === "tahkim" ? setRoute({ k: "tahkim" }) : from === "online" ? setRoute({ k: "online" }) : toList(c.mode));
+  const fromOf = (c: CaseFile): From => (c.room === "tahkim" ? "tahkim" : "list");
+  const findCase = (id: string) => cases.all.find(x => x.id === id);
   const career = buildCareer(cases.solo, progress, premium, FREE_CASES);
   const lockOf = new Map(career.chapters.flatMap(ch => ch.cases.map(x => [x.c.id, x.lock] as const)));
   const careerOpen = openIds(career);
@@ -114,11 +132,29 @@ export default function App() {
     <SafeAreaProvider>
       <SafeAreaView style={styles.root} edges={["top", "bottom", "left", "right"]} onTouchStart={resumeMusic}>
         <StatusBar style="light" />
+        <View key={lang} style={styles.root}>
         {route.k === "title" && <TitleScreen duelCount={cases.duel.length} soloCount={cases.solo.length} rankName={career.rank} started={Object.keys(progress).length > 0} won={career.won} total={career.total}
           account={account} server={!!supabase()}
           onAccount={() => setRoute({ k: "account" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "career" })} onSignOut={() => signOut()}
           onCareer={() => setRoute(!account ? { k: "account", then: "career" } : office ? { k: "desk" } : { k: "office" })}
-          office={office} onOffice={() => setRoute({ k: "office" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })} />}
+          office={office} onOffice={() => setRoute({ k: "office" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
+          onTahkim={() => setRoute({ k: "tahkim" })} onOnline={() => setRoute({ k: "online" })} tahkimCount={cases.all.filter(c => c.room === "tahkim").length} />}
+        {route.k === "tahkim" && (
+          <TahkimScreen cases={cases.all.filter(c => c.room === "tahkim")} locked={c => !admin && !premium}
+            onLocked={() => setRoute({ k: "paywall", back: "title" })}
+            onBack={() => setRoute({ k: "title" })} onPick={c => setSetup(c)} onOnline={() => setRoute({ k: "online" })} />
+        )}
+        {route.k === "online" && (
+          <OnlineLobby all={cases.all} onBack={() => setRoute({ k: "title" })} onLogin={() => setRoute({ k: "account" })}
+            onJoined={m => { const c = findCase(m.dava_id); if (c) setRoute({ k: "onlineGame", id: m.id, c }); }} />
+        )}
+        {route.k === "onlineWait" && (
+          <OnlineWait id={route.id} c={route.c} onCancel={() => setRoute({ k: "online" })} onStart={m => setRoute({ k: "onlineGame", id: m.id, c: route.c })} />
+        )}
+        {route.k === "onlineGame" && (
+          <OnlineGame key={route.id} id={route.id} c={route.c} onExit={() => setRoute({ k: "online" })}
+            onDone={(game, players, ai) => setRoute({ k: "verdict", c: route.c, players, game, from: "online", ai })} />
+        )}
         {route.k === "paywall" && (
           <PaywallScreen onBack={() => (route.back === "career" ? setRoute({ k: "career" }) : route.back === "list" ? toList(route.mode || "solo") : setRoute({ k: "title" }))} />
         )}
@@ -136,9 +172,9 @@ export default function App() {
         )}
         {route.k === "list" && (
           <CaseListScreen mode={route.mode} cases={route.mode === "duel" ? cases.duel : cases.solo}
-            lockedNote={c => admin ? undefined : c.mode === "duel" ? (premium ? undefined : "Abonelikle açılır")
-              : lockOf.get(c.id) === "premium" ? "Abonelikle açılır"
-              : !c.career?.off && !careerOpen.has(c.id) ? `Kariyerde açılır · ${CHAPTERS[levelOf(c) - 1].title}` : undefined}
+            lockedNote={c => admin ? undefined : c.mode === "duel" ? (premium ? undefined : t("Abonelikle açılır"))
+              : lockOf.get(c.id) === "premium" ? t("Abonelikle açılır")
+              : !c.career?.off && !careerOpen.has(c.id) ? t("Kariyerde açılır · {bolum}", { bolum: CHAPTERS[levelOf(c) - 1].title }) : undefined}
             onLocked={c => { if (c.mode === "duel" || lockOf.get(c.id) === "premium") setRoute({ k: "paywall", back: "list", mode: c.mode }); }}
             onBack={() => setRoute({ k: "title" })}
             onSwitch={() => toList(route.mode === "duel" ? "solo" : "duel")}
@@ -156,11 +192,17 @@ export default function App() {
         )}
         {route.k === "verdict" && (
           <VerdictScreen c={route.c} game={route.game} notice={route.notice} ai={route.ai}
-            backLabel={route.from === "admin" ? "Yönetim paneline dön" : route.from === "career" ? "Kariyere dön" : route.from === "desk" ? "Büro masasına dön" : undefined}
-            onRetry={() => startGame(route.c, route.players, route.from === "desk" ? "list" : route.from)}
+            backLabel={route.from === "admin" ? t("Yönetim paneline dön") : route.from === "career" ? t("Kariyere dön") : route.from === "desk" ? t("Büro masasına dön") : route.from === "tahkim" ? t("Tahkim listesine dön") : route.from === "online" ? t("Çevrim içi lobiye dön") : undefined}
+            onRetry={route.from === "online" ? undefined : () => startGame(route.c, route.players, route.from === "desk" ? "list" : route.from)}
             onBack={() => back(route.c, route.from)} />
         )}
-        <SetupModal key={setup?.id} c={setup} onClose={() => setSetup(null)} onStart={p => { const c = setup!; setSetup(null); startGame(c, p); }} />
+        <SetupModal key={setup?.id} c={setup} onClose={() => setSetup(null)} onStart={p => { const c = setup!; setSetup(null); startGame(c, p, fromOf(c)); }}
+          onOnline={async (side, open) => {
+            if (!account) { setSetup(null); setRoute({ k: "account" }); return; }
+            const c = setup!; const m = await createMatch(c.id, side, open);
+            setSetup(null); setRoute({ k: "onlineWait", id: m.id, c });
+          }} />
+        </View>
       </SafeAreaView>
     </SafeAreaProvider>
   );

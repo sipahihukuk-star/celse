@@ -9,6 +9,8 @@ import { CaseFile } from "../engine/types";
 import { Btn, Chip } from "../ui/kit";
 import { C, F } from "../ui/theme";
 import { AuditPanel, GeneratePanel } from "./AiPanels";
+import { PlayersPanel } from "./PlayersPanel";
+import { TranslatePanel } from "./TranslatePanel";
 import CaseEditor from "./CaseEditor";
 import { Field, Row, Section, Seg, SmallBtn } from "./form";
 import { blankCase, CourtPreset, PRESETS } from "./presets";
@@ -71,7 +73,7 @@ function AdminHome({ onExit, onPreview }: Props) {
   const [modeF, setModeF] = useState<"hepsi" | "solo" | "duel">("hepsi");
   const [statusF, setStatusF] = useState<"hepsi" | "yayinda" | "taslak" | "yerlesik">("hepsi");
   const [confirmDel, setConfirmDel] = useState<string | null>(null);
-  const [ai, setAi] = useState<"" | "denetim" | "uretim">("");
+  const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri">("");
   const [isServerAdmin, setServerAdmin] = useState<boolean | null>(null);
   const reload = () => store.list().then(setStored);
   useEffect(() => { reload(); serverAdmin().then(setServerAdmin); }, []);
@@ -113,6 +115,8 @@ function AdminHome({ onExit, onPreview }: Props) {
         </View>
         <View style={st.headActions}>
           <SmallBtn label="‹ Oyuna dön" onPress={onExit} />
+          <SmallBtn label="👤 Oyuncular" tone={ai === "oyuncular" ? "accent" : "plain"} onPress={() => setAi(ai === "oyuncular" ? "" : "oyuncular")} />
+          <SmallBtn label="🌐 Çeviriler" tone={ai === "ceviri" ? "accent" : "plain"} onPress={() => setAi(ai === "ceviri" ? "" : "ceviri")} />
           <SmallBtn label="🔍 Yapay zekâ denetimi" tone={ai === "denetim" ? "accent" : "plain"} onPress={() => setAi(ai === "denetim" ? "" : "denetim")} />
           <SmallBtn label="✨ Yapay zekâ ile üret" tone={ai === "uretim" ? "accent" : "plain"} onPress={() => setAi(ai === "uretim" ? "" : "uretim")} />
           <SmallBtn label="JSON içe aktar" onPress={() => setImporting(!importing)} />
@@ -126,6 +130,8 @@ function AdminHome({ onExit, onPreview }: Props) {
           : "Sunucu: bu hesap yönetici değil ya da sunucuya ulaşılamıyor. Değişiklikler yalnızca bu cihazda kalır; yapay zekâ araçları çalışmaz. (Yönetici hesabınızla “Giriş yap” ile girin.)"}
       </Text>
 
+      {ai === "oyuncular" && <PlayersPanel onClose={() => setAi("")} />}
+      {ai === "ceviri" && <TranslatePanel cases={entries.map(e => e.c)} onClose={() => setAi("")} />}
       {ai === "denetim" && <AuditPanel entries={entries} onSaved={reload} onPreview={onPreview} onClose={() => setAi("")} />}
       {ai === "uretim" && <GeneratePanel takenIds={takenIds} onSaved={reload} onPreview={onPreview} onClose={() => setAi("")}
         onEdit={c => { setAi(""); setEditing({ c, status: "taslak", isNew: false }); }} />}

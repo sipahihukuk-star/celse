@@ -101,11 +101,29 @@ Oyun ekranındaki 🔊 düğmesiyle açılır. Kod: `src/ui/voice.ts`. Sıradaki
 - **Cihaz sesi:** Sunucu yoksa `expo-speech`. Cihazdaki Türkçe seslerden cinsiyete uygun olan seçilir, her karaktere ayrı ton verilir.
 - **Kısaltmalar:** Okunmadan önce açılır: "TBK m.147" → "Türk Borçlar Kanunu madde 147", "CMK'da" → "Ceza Muhakemesi Kanununda" (ekler ünlü uyumuna göre). Kod: `src/engine/speechText.ts`, örnekler: `npx tsx tools/speech-test.ts`. Serbest cevap puanlamasında da aynı açılım kullanılır; oyuncu "Türk Borçlar Kanunu madde 147" dese de "TBK m.147" sayılır.
 
+## Tahkim ve komisyonlar
+
+Ana ekrandaki **Tahkim ve komisyonlar** bölümü: milletlerarası ticari tahkim (ICC, ISTAC, LCIA, UNCITRAL), spor tahkimi (CAS, TFF Tahkim Kurulu), İnsan Hakları Tazminat Komisyonu ve Sigorta Tahkim Komisyonu dosyaları (`src/data/cases/th-*.json`, `room: "tahkim"`, `forum`). Hepsi karşılıklıdır; kararı yapay zekâ hakem verir. Her forumun rehberi (hangi olaylarda başvurulur, süreç, karar, karara karşı yol) `src/data/forums.ts` içindedir. Milletlerarası forumlar Cenevre'deki tahkim salonunda (bg-tahkim), Türkiye'deki kurullar Ankara'daki toplantı salonunda (bg-komisyon) görülür; hakemler takım elbiselidir (`ar-*`). Tahkimde mübaşir ve kâtip yoktur.
+
+## İnternet üzerinden oyun
+
+Karşılıklı bir dava seçilip "İnternet üzerinden" denince davet kodu oluşur (`eslesmeler` tablosu, `supabase/surum3.sql`). Rakip kodla ya da açık davetler listesinden katılır. İki cihaz aynı motoru çalıştırır; yalnız hamleler (seçenek, serbest cevap puanı) sunucuya yazılır ve sırayla uygulanır (`src/data/online.ts`, `useCourt`'taki `OnlineLink`). Son sözler iki cihazda ayrı yazılır, kurucu cihaz yapay zekâ kararını ister ve satıra yazar; iki taraf aynı kararı görür. Farklı dillerdeki iki oyuncu aynı dosyayı oynayabilir (çeviriler yapıyı değiştirmez).
+
+## Yönetici: oyuncular ve ücretsiz erişim
+
+Panelde **👤 Oyuncular**: üyeler (ad, e-posta, telefon, üyelik tarihi) ve abonelik durumu; seçilen kişiye 1 ay, 1 yıl ya da süresiz ücretsiz erişim (abonelikler tablosuna `kaynak: "manuel"`), "Erişimi kaldır". Yetki sunucudadır (`yonetici_mi()`).
+
+## Diller
+
+Arayüz Türkçe, İngilizce, İspanyolca, Fransızca ve Almanca (`src/i18n`): `t("Türkçe metin")` seçili dilin sözlüğünden çevirir. Türk hukuku dosyaları Türkçe kalır; tahkim dosyalarının çevirileri `public/ceviri/<dil>/<id>.json` ya da sunucudaki `ceviriler` tablosundan yüklenir (`src/i18n/cases.ts`); yapısı asıl dosyayla aynı değilse Türkçesi açılır. Panelde **🌐 Çeviriler** yalnız metin alanlarını parça parça yapay zekâya çevirtip saklar. Seslendirme seçili dilin Chirp3 sesleriyle yapılır; yapay zekâ hakem kararı ve geri bildirimi oyuncunun dilinde yazar.
+
 ## Cübbe renkleri
 
 Avukat cübbesinde boyun çevresindeki yaka kırmızı, aşağı inen şeritler yeşildir. Hâkim cübbesinde yaka ve şeritler mahkemeye göre değişir (Hâkim ve Savcıların Resmî Kıyafet Yönetmeliği m.4): ceza mahkemeleri ve savcılar kırmızı, hukuk mahkemeleri yeşil, idari yargı gri. Yargıtay, Danıştay, Anayasa Mahkemesi ve uluslararası mahkemeler kendi görselleriyle kalır. Görseller `tools/cubbe.py` ile üretilir (`mouth2.py` her çalıştırıldığında ardından bu betik de çalıştırılmalı); seçim `src/ui/people.ts` içindeki `robeOf` ile yapılır.
 
 ## Ağız hareketi
+
+Ağız kareleri: kapalı, açık ("a"), yuvarlak ("o, u"), yayvan ("e, i": açık kare basık çizilir), yarı açık (ünsüzler: açık kare yarı saydam). Kareler konuşulan satırın harflerinden sırayla üretilir (`visemes` · PhotoStage) ve konuşma hızında oynatılır: seslendirme açıkken ses sürdükçe, kapalıyken satırın okunma süresince.
 
 Gerçekçi görünümde konuşan karakterin ağzı açılıp kapanır (kapalı → açık → yuvarlak, hece ritminde). Her karakter için Higgsfield'da (gpt_image_2_5) aynı fotoğrafın "konuşurken" iki düzenlemesi üretildi (`tools/mouth-src/<anahtar>-a.jpg` açık, `-o.jpg` yuvarlak); `tools/mouth2.py` yalnızca ağız-çene bölgesini yüz işaretleriyle (dlib 68 nokta) asıl kesit fotoğrafa hizalar, rengini eşitler ve yumuşak kenarlı yama olarak `assets/gercek/agiz/` altına yazar; konumlar `src/ui/mouths.ts`. Yeni karakter eklenince bu iki düzenleme üretilip betik yeniden çalıştırılır.
 

@@ -1,0 +1,493 @@
+{
+  "id": "th-cas-yetistirme",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "cas",
+  "difficulty": "basit",
+  "title": "Bornova'dan Porto'ya",
+  "area": "Tahkim · Spor tahkimi · Yetiştirme tazminatı ve dayanışma katkısı",
+  "court": "Spor Tahkim Mahkemesi (CAS) · CAS 2026/A/11934 (Tahkim yeri: Lozan)",
+  "courtShort": "CAS · LOZAN",
+  "esas": "CAS 2026/A/11934",
+  "kararTarihi": "03.12.2026",
+  "color": "#3f5a2a",
+  "bench": { "judges": 1, "title": "Tek Hakem" },
+  "inscription": null,
+  "teaser": "Amatör bir İzmir kulübü sekiz sezon yetiştirdiği oyuncu için 280.000 € istiyor. Portekiz kulübünün elinde bir “feragat” yazısı ve yanlış hesaplandığını söylediği bir kategori var.",
+  "sides": {
+    "p1": { "role": "Temyiz eden kulüp (SC Atlântico Norte) vekili", "short": "Yeni kulüp" },
+    "p2": { "role": "Davalı kulüp (Bornova Gençlik SK) vekili", "short": "Yetiştiren kulüp" }
+  },
+  "cast": {
+    "judge": { "name": "Tek Hakem", "np": "red", "look": { "kind": "civil", "skin": "#e6be9a", "hair": "#5a4636", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e8c2a0", "hair": "#2a2522", "style": "short", "beard": true, "shirt": "#1f2430", "inner": "#e9e6df" } },
+    "p2": { "look": { "kind": "civil", "skin": "#d6a47e", "hair": "#4a2e1e", "style": "bun", "shirt": "#262a33", "inner": "#efe9e0" } },
+    "baskan": { "name": "Hilmi Karaca · Bornova Gençlik SK Başkanı", "np": "civil", "look": { "kind": "civil", "skin": "#d0a07a", "hair": "#9a9aa0", "style": "short", "glasses": true, "shirt": "#3a4a3a", "inner": "#e2ddd2" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Emir Taşkın 14.03.2006'da doğdu. 2017/18 sezonundan 2024/25 sezonu sonuna kadar, sekiz sezon boyunca İzmir'deki amatör Bornova Gençlik SK'da lisanslı oynadı." },
+    { "who": "narr", "text": "01.08.2025'te Portekiz'deki SC Atlântico Norte ile ilk profesyonel sözleşmesini imzaladı ve oraya tescil edildi. FIFA Takas Odası (Clearing House) oyuncunun elektronik pasaportunu (EPP) çıkardı; FIFA Genel Sekreterliği, Atlântico'nun 2. kategori kulüp olduğunu esas alarak Bornova'ya 280.000 € yetiştirme tazminatı ödenmesini belirledi. Karar 08.09.2026'da tebliğ edildi." },
+    { "who": "narr", "text": "Atlântico ödemek istemiyor. Kulübün elinde, Temmuz 2025'te Bornova'dan alınmış bir yazı ve “Mayıs 2025'te küme düştük, 3. kategorideydik” itirazı var." },
+    { "who": "narr", "text": "Ocak 2026'da oyuncu 3.000.000 € bonservisle İspanya'daki Real Club Costa Brava'ya transfer oldu. İlk hamle Atlântico vekilinin." }
+  ],
+  "docs": [
+    { "t": "FIFA Genel Sekreterliği kararı (Tespit ve Dağıtım Tablosu)", "d": "Yetiştirme sezonları: 2017/18–2024/25 (12–19 yaş). 12–15 yaş sezonları 4. kategori (yıllık 10.000 €), 16–19 yaş sezonları yeni kulübün kategorisi olan 2. kategori (yıllık 60.000 €) üzerinden: 4 × 10.000 + 4 × 60.000 = 280.000 €. Karar, FIFA Takas Odası Talimatı m.10/5-b uyarınca FIFA Genel Sekreterliğinin nihai kararıdır ve CAS'a temyiz edilebilir." },
+    { "t": "Bornova'nın 20.07.2025 tarihli yazısı", "d": "Altyapı koordinatörü Ufuk Demir imzalı: “Kulübümüz, oyuncu Emir Taşkın'ın SC Atlântico Norte'ye transferine muvafakat eder.” Yazı EPP sürecinde Takas Odası sistemine yüklenmedi." },
+    { "t": "Portekiz Futbol Federasyonu yazısı", "d": "Atlântico Mayıs 2025'te üst ligden düştü. Kulübün TMS'deki kategorisi 20.08.2025'te 2'den 3'e güncellendi." },
+    { "t": "RSTP Ek 4 (özet)", "d": "Yetiştirme tazminatı, oyuncu 23 yaşını doldurduğu sezon bitmeden ilk kez profesyonel olarak tescil edildiğinde doğar (m.2/1). Yeni kulübün kategorisindeki yetiştirme maliyeti yıl sayısıyla çarpılır (m.5). 12–15 yaş sezonları 4. kategori üzerinden hesaplanır (m.5/3). AB/AEA içindeki geçişlerde özel kurallar vardır (m.6)." },
+    { "t": "Costa Brava transferi", "d": "15.01.2026: Atlântico → Real Club Costa Brava (İspanya), bonservis 3.000.000 €." }
+  ],
+  "evidence": [
+    { "id": "ev_yazi", "type": "belge", "title": "20.07.2025 tarihli yazı", "desc": "Altyapı koordinatörü imzalı: “Kulübümüz, oyuncunun SC Atlântico Norte'ye transferine muvafakat eder.” Yetiştirme tazminatından söz etmiyor." },
+    { "id": "ev_kategori", "type": "belge", "title": "Portekiz Federasyonu yazısı", "desc": "Atlântico'nun TMS'deki kategorisi 20.08.2025'te 2'den 3'e güncellendi." },
+    { "id": "ev_imza", "type": "belge", "title": "Bornova'nın imza sirküleri", "desc": "Kulübü yalnızca Başkan ile Genel Sekreter birlikte imzalayarak temsil ve ilzam eder. Altyapı koordinatörünün temsil yetkisi yok.", "if": "p2_belge" },
+    { "id": "ev_lisans", "type": "belge", "title": "TFF lisans kayıtları", "desc": "Emir Taşkın, 2017/18'den 2024/25'e kadar kesintisiz Bornova Gençlik SK'da lisanslı.", "if": "p2_lisans" },
+    { "id": "law_ek4", "type": "kanun", "title": "RSTP Ek 4 m.2/1", "desc": "Yetiştirme tazminatı, oyuncunun ilk kez profesyonel olarak tescilinde, onu daha önce kaydeden kulüplere ödenir.", "law": "RSTP Ek 4 m.2" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "TEMYİZ · FIFA Genel Sekreterliğinin kararı 08.09.2026'da Atlântico'ya tebliğ edildi. Kulüp başkanı “Bu parayı ödemeyelim, görelim ne olacak” diyor." }
+      ],
+      "prompt": "Bu karara karşı nasıl bir yol izleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Tebliğden itibaren 21 gün içinde CAS'a temyiz başvurusu yap; FIFA'yı ve Bornova'yı davalı göster. Süresinde temyiz, kararın etkisini durdurur.",
+          "delta": 15,
+          "set": ["p1_sure"],
+          "law": "FIFA Takas Odası Talimatı m.10/5 · FIFA Statüsü (CAS'a temyiz) · CAS Kodu R49",
+          "note": "Takas Odası Talimatı, EPP ve dağıtım tablosuna ilişkin bildirimi FIFA Genel Sekreterliğinin nihai kararı sayar ve CAS'a temyizi açar; süre FIFA Statüsü uyarınca 21 gündür. Kararı veren FIFA olduğundan FIFA davalı gösterilmelidir. Süresinde ve geçerli bir temyiz, EPP'nin ve dağıtım tablosunun hukuki etkilerini CAS yargılaması boyunca durdurur.",
+          "reply": [
+            { "who": "narr", "text": "Temyiz başvurusu 25.09.2026'da FIFA ve Bornova Gençlik SK'ya karşı yapıldı. FIFA cevabında kararın onanmasını istedi." }
+          ]
+        },
+        {
+          "text": "Süresinde CAS'a temyiz başvurusu yap, ama yalnızca alacaklı Bornova'yı davalı göster; FIFA'nın bu iki kulüp arasındaki para uyuşmazlığında taraf olmasına gerek yok.",
+          "delta": -15,
+          "set": ["p1_sure", "p1_husumet"],
+          "law": "CAS Kodu R48 · FIFA Takas Odası Talimatı m.10/5",
+          "note": "Temyiz edilen karar FIFA Genel Sekreterliğinin kararıdır ve tazminat Takas Odası üzerinden ödenir. FIFA'nın kendi kararını savunmada pasif husumeti (standing to be sued) vardır; FIFA davalı gösterilmeden onun kararı kaldırılamaz.",
+          "reply": [
+            { "who": "narr", "text": "Temyiz başvurusu 25.09.2026'da yalnızca Bornova'ya karşı yapıldı." }
+          ]
+        },
+        {
+          "text": "Temyize gitme: 30 günlük ödeme süresini geçir, disiplin sürecine düşünce FIFA Disiplin Kurulu önünde tutarın hatalı olduğunu ileri sür.",
+          "delta": -25,
+          "law": "FIFA Takas Odası Talimatı m.10/5, m.13, m.17",
+          "note": "Temyiz edilmeyen EPP ve dağıtım tablosu kesinleşir. Ödememe hâlinde önce yüzde 2,5 idari ek ücret ve yedi günlük ek süre gelir, sonra disiplin süreci başlar. Disiplin Kurulu kesinleşmiş tutarı yeniden incelemez; para cezası ve borç ödenene kadar kayıt yasağı verir.",
+          "fatal": {
+            "label": "KARAR KESİNLEŞTİ",
+            "hukum": "FIFA Genel Sekreterliğinin 280.000 €'luk dağıtım tablosunun KESİNLEŞTİĞİNE; SC Atlântico Norte hakkında para cezası ile borç ödenene kadar ulusal ve uluslararası oyuncu kaydı YASAĞINA,",
+            "summary": "Atlântico vekili kararı 21 gün içinde CAS'a taşımadı. EPP ve dağıtım tablosu kesinleşti; ödeme yapılmayınca disiplin süreci başladı. FIFA Disiplin Kurulu kesinleşmiş tutarı yeniden incelemedi; kulüp hem 280.000 €'yu hem de para cezasını ödemek zorunda kaldı ve kayıt yasağı aldı."
+          }
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Atlântico'nun temyiz gerekçesi geldi: kulüp hem Temmuz 2025 tarihli yazıya hem de kategorinin yanlış olduğuna dayanıyor. Bornova Başkanı Hilmi Karaca ile görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Başkana ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Temmuz 2025'teki yazıyı kim imzaladı, kulübü temsile kimler yetkili?",
+          "delta": 15,
+          "set": ["p2_belge"],
+          "reply": [
+            { "who": "baskan", "text": "Altyapı koordinatörümüz Ufuk Bey imzalamış; Portekizliler transfer için ‘muvafakat yazısı’ istemiş. Kulübü ben ve genel sekreter birlikte imzalayarak temsil ederiz, imza sirkülerimiz öyle." }
+          ],
+          "note": "Doğru soru. Feragatin geçerli olması için yetkili kişilerce verilmiş ve yetiştirme tazminatından açık ve şüpheye yer bırakmayacak biçimde vazgeçen bir beyan gerekir. İmza sirküleri çantanıza eklendi."
+        },
+        {
+          "text": "Emir hangi sezonlarda sizde lisanslıydı, arada başka bir kulübe gitti mi?",
+          "delta": 10,
+          "set": ["p2_lisans"],
+          "reply": [
+            { "who": "baskan", "text": "Sekiz sezon, kesintisiz bizdeydi. On iki yaşında geldi, on dokuzunda gitti. TFF lisans dökümünü getirdim." }
+          ],
+          "note": "Yararlı. Yetiştirme süresi ve sezon sayısı tazminatın hesabının temelidir. Lisans kayıtları çantanıza eklendi."
+        },
+        {
+          "text": "Emir'e hiç profesyonel sözleşme teklif ettiniz mi?",
+          "delta": 0,
+          "reply": [
+            { "who": "baskan", "text": "Biz amatör kulübüz, profesyonel sözleşme yapamayız ki. Teklif etmedik." }
+          ],
+          "note": "Bu bilgi bu dosyada belirleyici değil: sözleşme teklifi şartı yalnızca AB/AEA içindeki geçişlerde aranır (Ek 4 m.6/3); oyuncu Türkiye'den Portekiz'e geçti."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Atlântico vekili, tazminatın neden hiç doğmadığını ileri sürüyorsunuz?" }
+      ],
+      "prompt": "Tazminatın doğmadığı tezini neye dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "Bornova 20.07.2025 yazısıyla haklarından feragat etti; yazıyı temyiz gerekçesine ekledik ve EPP sürecinde neden yüklenmediğini açıkladık.",
+          "delta": 15,
+          "set": ["p1_feragat"],
+          "law": "CAS Kodu R51, R57 · FIFA Takas Odası Talimatı m.9/7",
+          "note": "Geçerli bir feragat yetiştirme tazminatını ortadan kaldırır; Takas Odası sürecinde feragatin belgesini yeni kulüp yükler. EPP sürecinde yüklenmemiş bir belgenin CAS'ta dikkate alınması hakemin takdirindedir (R57/3); belgeyi temyiz gerekçesiyle sunup gecikmeyi açıklamak doğru yoldur.",
+          "reply": [
+            { "who": "judge", "text": "Yazıyı R57 çerçevesinde değerlendirmeye alıyorum. Bornova vekili cevap verecek." }
+          ]
+        },
+        {
+          "text": "Bornova oyuncuya sözleşmenin bitiminden en az 60 gün önce yazılı sözleşme teklif etmedi; Ek 4 m.6/3 uyarınca hiçbir yetiştirme tazminatı istenemez.",
+          "delta": -10,
+          "set": ["p1_ab"],
+          "law": "RSTP Ek 4 m.6",
+          "note": "Ek 4 m.6, yalnızca AB/AEA içindeki iki federasyon arasındaki geçişlere uygulanır. Oyuncu Türkiye'den Portekiz'e geçti; sözleşme teklifi şartı aranmaz.",
+          "reply": [
+            { "who": "judge", "text": "Bornova vekili bu noktaya cevap verecek." }
+          ]
+        },
+        {
+          "text": "Yazıyı temyiz gerekçesine koymadık; duruşmada sürpriz olarak sunalım, Bornova'nın hazırlıksız yakalanması iddiamızın etkisini artırır.",
+          "delta": -10,
+          "set": ["p1_gec"],
+          "law": "CAS Kodu R56",
+          "note": "Temyiz gerekçesi ve cevaptan sonra taraflar, anlaşmadıkça ya da istisnai koşullar yoksa yeni delil sunamaz (R56). Duruşmada sürpriz belge bu sınıra takılır.",
+          "reply": [
+            { "who": "judge", "text": "Bornova vekili, bu belgenin kabulü hakkında ne diyorsunuz?" }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "if": "p1_feragat",
+      "lines": [
+        { "who": "judge", "text": "Bornova vekili, feragat iddiasına cevabınız?" }
+      ],
+      "statement": { "who": "p1", "text": "Sayın Hakem, Bornova 20.07.2025 tarihli yazıyla oyuncu üzerindeki bütün haklarından, yetiştirme tazminatı dahil, açıkça feragat etmiştir." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_imza"],
+      "hit": {
+        "delta": 20,
+        "set": ["p2_yetkisiz"],
+        "law": "RSTP Ek 4 · FIFA Takas Odası Talimatı m.9/7-8",
+        "note": "Yazıyı kulübü temsile yetkisi olmayan altyapı koordinatörü tek başına imzaladı. Yazının içeriği de yalnızca transfere muvafakattir; yetiştirme tazminatından açık ve şüpheye yer bırakmayacak biçimde vazgeçilmemiş. Feragat geçerli değil.",
+        "reply": [
+          { "who": "judge", "text": "Atlântico vekili, yazıda ‘yetiştirme tazminatı’ ibaresi geçiyor mu?" },
+          { "who": "p1", "text": "Geçmiyor, Sayın Hakem… ama muvafakatin bunu da kapsadığını düşünüyoruz." }
+        ]
+      },
+      "responses": {
+        "ev_yazi": {
+          "delta": 10,
+          "set": ["p2_icerik"],
+          "note": "Yazının kendisini göstererek yalnızca transfere muvafakat içerdiğini, yetiştirme tazminatından söz etmediğini ortaya koydunuz; feragatin açık olması gerektiğinden bu güçlü bir itiraz. İmzalayanın temsil yetkisi olmadığını da gösterseydiniz tartışma tamamen kapanırdı."
+        },
+        "ev_lisans": {
+          "delta": -5,
+          "note": "Lisans kayıtları yetiştirme süresini gösterir; feragat iddiasına cevap değildir."
+        },
+        "law_ek4": {
+          "delta": -5,
+          "note": "Tazminatın doğduğunu gösteren madde, ondan feragat edilip edilmediği sorusuna cevap vermez."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu delil feragatin geçersizliğini göstermiyor." },
+      "pass": { "delta": -15, "note": "Feragat iddiasına itiraz etmediniz; yazı Bornova'nın aleyhine değerlendirilecek." }
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "p1_ab",
+      "lines": [
+        { "who": "judge", "text": "Bornova vekili, sözleşme teklifi yapılmadığı iddiasına cevabınız?" }
+      ],
+      "prompt": "Ek 4 m.6 itirazına ne cevap vereceksiniz?",
+      "choices": [
+        {
+          "text": "Ek 4 m.6 yalnızca AB/AEA içindeki geçişlere uygulanır; oyuncu Türkiye'den Portekiz'e geçti, sözleşme teklifi şartı yoktur.",
+          "delta": 15,
+          "set": ["p2_ab"],
+          "law": "RSTP Ek 4 m.6",
+          "note": "Doğru. m.6, oyuncunun AB/AEA topraklarındaki bir federasyondan yine AB/AEA içindeki başka bir federasyona geçtiği durumlar içindir. Türkiye AB/AEA'da değil; genel kurallar uygulanır.",
+          "reply": [
+            { "who": "judge", "text": "Not edildi." }
+          ]
+        },
+        {
+          "text": "Bornova amatör kulüp olduğu için profesyonel sözleşme teklif edemezdi; m.6 burada da uygulanır, ama amatör kulüpler bu şarttan muaftır.",
+          "delta": -5,
+          "set": ["p2_abYanlis"],
+          "law": "RSTP Ek 4 m.6",
+          "note": "Sonuç doğru, gerekçe yanlış. Asıl cevap m.6'nın bu geçişe hiç uygulanmamasıdır: Türkiye AB/AEA dışında. m.6'nın uygulandığını kabul etmek tartışmayı gereksiz yere karşı tarafın zeminine taşır.",
+          "reply": [
+            { "who": "judge", "text": "m.6'nın bu geçişe uygulanıp uygulanmadığına ayrıca bakacağım." }
+          ]
+        },
+        {
+          "text": "Teklif şartı var, ama Bornova'nın oyuncuyla sözlü olarak görüşüp kalmasını istemesi ve bunu TFF'ye bildirmesi yeterlidir.",
+          "delta": -10,
+          "set": ["p2_abYanlis"],
+          "law": "RSTP Ek 4 m.6",
+          "note": "m.6 uygulanacak olsaydı teklif yazılı olmalıydı. Ama asıl cevap, m.6'nın Türkiye'den Portekiz'e geçişe hiç uygulanmamasıydı.",
+          "reply": [
+            { "who": "judge", "text": "Not edildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "p1_gec",
+      "lines": [
+        { "who": "judge", "text": "Bornova vekili, duruşmada sunulan yazının dosyaya alınması hakkında ne diyorsunuz?" }
+      ],
+      "prompt": "Geç sunulan belgeye ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Yazı temyiz gerekçesinden sonra, istisnai bir sebep gösterilmeden sunuldu; R56 uyarınca dosyaya alınmasın. Alınırsa içeriğine de itiraz ediyoruz.",
+          "delta": 15,
+          "set": ["p2_gec"],
+          "law": "CAS Kodu R56",
+          "note": "Temyiz gerekçesi ve cevaptan sonra yeni delil ancak tarafların anlaşması ya da istisnai koşullar varsa kabul edilir (R56). İtirazı yaptınız ve ikinci savunma hattını da korudunuz.",
+          "reply": [
+            { "who": "judge", "text": "Belge dosyaya alınmayacak." }
+          ]
+        },
+        {
+          "text": "Belgeye itirazımız yok; dosyaya alınsın, içeriğini cevaplarız. Hakem esası yeniden incelediğine göre her belgeyi görmesi gerekir.",
+          "delta": -10,
+          "set": ["p2_gecKabul"],
+          "law": "CAS Kodu R56, R57",
+          "note": "R57 esasın yeniden incelenmesini sağlar, ama yargılamanın aşamaları R56 ile sınırlıdır. Muvafakatinizle, aslında dışlanabilecek bir belgeyi dosyaya soktunuz.",
+          "reply": [
+            { "who": "judge", "text": "Tarafların muvafakatiyle belge dosyaya alındı." }
+          ]
+        },
+        {
+          "text": "Belge sahte olabilir; aslı getirilene kadar duruşmanın ertelenmesini ve imzanın grafoloji incelemesini isteyelim.",
+          "delta": -5,
+          "set": ["p2_sahte"],
+          "law": "CAS Kodu R44.3, R56",
+          "note": "Elinizde sahtelik iddiasını destekleyen bir şey yok ve asıl sorun belgenin geç sunulmasıydı (R56). Erteleme talebi yargılamayı uzattı, itirazınız ise belirsiz kaldı.",
+          "reply": [
+            { "who": "judge", "text": "Erteleme talebini reddediyorum. Belgenin kabulüne ilişkin kararımı sonra vereceğim." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Atlântico vekili, tutara ilişkin itirazınızı dinleyelim." }
+      ],
+      "prompt": "Yetiştirme tazminatının nasıl hesaplanması gerektiğini ve 280.000 €'nun neden fazla olduğunu kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_kategori"],
+          "law": "RSTP Ek 4 m.4, m.5",
+          "note": "Hesaplama yöntemini (yeni kulübün kategorisi × sezon sayısı, 12–15 yaş için 4. kategori) doğru kurdunuz ve tartışmayı kategoriye taşıdınız: kulüp Mayıs 2025'te küme düştüğüne göre 2025/26 sezonunda 3. kategoriydi; doğru tutar 4 × 10.000 + 4 × 30.000 = 160.000 €."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": ["p1_kategoriKismen"],
+          "law": "RSTP Ek 4 m.5",
+          "note": "Kategorinin yanlış olduğunu söylediniz. Tam savunma, hesaplama yöntemini (yeni kulübün kategorisindeki maliyet × sezon sayısı, 12–15 yaş sezonları için 4. kategori) gösterir ve doğru tutarı (160.000 €) hesaplar."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "RSTP Ek 4 m.5",
+          "note": "Hesaplama yöntemini kuramadınız. Tazminat yeni kulübün kategorisindeki yıllık yetiştirme maliyeti ile sezon sayısının çarpımıdır; 12–15 yaş sezonları 4. kategori üzerinden hesaplanır (m.5/3). Asıl itiraz kulübün kategorisiydi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Yetiştirme tazminatı, yeni kulübün kategorisindeki yıllık yetiştirme maliyetinin yetiştirme sezonu sayısıyla çarpılmasıyla hesaplanır (RSTP Ek 4 m.5/1-2). (2) Oyuncu 18 yaşını doldurduğu sezondan sonra tescil edildiği için 12–15 yaş sezonları (2017/18–2020/21) 4. kategori, yani yıllık 10.000 € üzerinden hesaplanır (m.5/3). (3) Atlântico Mayıs 2025'te küme düştü; 2025/26 sezonunda, tescil tarihi olan 01.08.2025'te 3. kategori kulübüydü (yıllık 30.000 €); TMS'deki güncellemenin 20.08.2025'te yapılması kulübün gerçek kategorisini değiştirmez. (4) Doğru tutar 4 × 10.000 + 4 × 30.000 = 160.000 €'dur. Yöntemi, m.5/3'ü ve kategori itirazını tutarla birlikte söyleyen cevap tam puan alır; yalnızca 'kategorimiz 3' diyen cevap orta puan alır. Ek 4 m.6'ya ya da amatör kulübün tazminat alamayacağına dayanan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["kategori", "category"], "weight": 2 },
+        { "terms": ["küme düş", "düştü", "relegat", "3. kategori", "üçüncü kategori"], "weight": 2 },
+        { "terms": ["160.000", "160 bin", "yüz altmış"], "weight": 2 },
+        { "terms": ["12–15", "12-15", "on iki", "4. kategori", "dördüncü kategori", "m.5/3"], "weight": 1 },
+        { "terms": ["sezon sayısı", "sezon", "çarp", "yıllık maliyet"], "weight": 1 }
+      ],
+      "model": "Sayın Hakem, Ek 4 m.5'e göre tazminat yeni kulübün kategorisindeki yıllık maliyetle sezon sayısının çarpımıdır; oyuncu 18 yaş sezonundan sonra tescil edildiği için 12–15 yaş sezonları 4. kategori, yani 10.000 € üzerinden hesaplanır. Atlântico Mayıs 2025'te küme düştü ve 01.08.2025'teki tescil anında 3. kategori kulübüydü; TMS'nin Ağustos sonunda güncellenmesi bunu değiştirmez. Doğru tutar 4 × 10.000 + 4 × 30.000 = 160.000 €'dur."
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bornova vekili, Bornova'nın tazminat hakkını ve 280.000 €'nun neden doğru olduğunu açıklayın." }
+      ],
+      "prompt": "Bornova'nın yetiştirme tazminatı hakkını ve tutarın doğruluğunu kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_hesap"],
+          "law": "RSTP m.20, Ek 4 m.2, m.5 · FIFA Takas Odası Talimatı m.9",
+          "note": "Hakkın doğuşunu, amatör kulübün de alacaklı olduğunu ve kategori itirazının yerini doğru gösterdiniz: tescil anındaki kategori TMS'de 2'ydi ve Atlântico bu itirazı EPP inceleme sürecinde federasyonu aracılığıyla yapabilirdi, yapmadı."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": ["p2_hesapKismen"],
+          "law": "RSTP m.20, Ek 4 m.2, m.5",
+          "note": "Tazminat hakkını doğru kurdunuz. Kategori itirazına da cevap verilmeliydi: tescil tarihinde TMS'deki kategori 2'ydi ve itiraz EPP inceleme sürecinde yapılmamıştı."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "RSTP Ek 4 m.2, m.5",
+          "note": "Hakkın dayanağını ve tutarın neden doğru olduğunu gösteremediniz. İlk profesyonel tescil, amatör kulüp dahil önceki kulüplere tazminat hakkı verir (Ek 4 m.2/1); kategori ise tescil tarihindeki kayda göre belirlenir."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Oyuncu 23 yaşını doldurduğu sezon bitmeden ilk kez profesyonel olarak tescil edildiğinden, onu 12 yaşından itibaren kaydeden kulüplere yetiştirme tazminatı doğar (RSTP m.20, Ek 4 m.2/1); amatör kulüpler de alacaklıdır. (2) Bornova sekiz sezon (2017/18–2024/25) kesintisiz yetiştirdi; 12–15 yaş sezonları 4. kategori (10.000 €), 16–19 yaş sezonları yeni kulübün kategorisi üzerinden hesaplandı (Ek 4 m.5). (3) Tescil tarihi olan 01.08.2025'te TMS'deki kategori 2'ydi (60.000 €); güncelleme ancak 20.08.2025'te yapıldı. (4) Atlântico kategori itirazını EPP inceleme sürecinde federasyonu aracılığıyla yapabilirdi, yapmadı (Takas Odası Talimatı m.9). (5) AB/AEA kuralı (Ek 4 m.6) Türkiye'den Portekiz'e geçişe uygulanmaz. Hakkın doğuşunu, hesap yöntemini ve kategori itirazına cevabı birlikte veren cevap tam puan alır; yalnızca 'Bornova sekiz yıl yetiştirdi' diyen cevap orta puan alır.",
+      "keywords": [
+        { "terms": ["ilk kez profesyonel", "ilk profesyonel", "first registration", "Ek 4 m.2", "m.2/1"], "weight": 2 },
+        { "terms": ["amatör"], "weight": 1 },
+        { "terms": ["sekiz sezon", "8 sezon", "2017/18", "2024/25"], "weight": 1 },
+        { "terms": ["tescil tarihi", "01.08.2025", "1 Ağustos", "kayıt tarihi"], "weight": 2 },
+        { "terms": ["EPP", "inceleme süreci", "review", "itiraz etmedi"], "weight": 2 },
+        { "terms": ["m.6", "AB/AEA", "Avrupa Birliği"], "weight": 1 }
+      ],
+      "model": "Sayın Hakem, oyuncu 01.08.2025'te ilk kez profesyonel olarak tescil edildi; onu 12 yaşından itibaren sekiz sezon yetiştiren Bornova, amatör olsa da Ek 4 m.2/1 uyarınca alacaklıdır. 12–15 yaş sezonları 4. kategori, sonrası yeni kulübün kategorisiyle hesaplandı. Tescil tarihinde TMS'deki kategori 2'ydi ve Atlântico bu itirazı EPP inceleme sürecinde federasyonu aracılığıyla yapmadı. AB/AEA kuralı da bu geçişe uygulanmaz; 280.000 € doğrudur."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Atlântico vekili, bir de şunu soracağım: Oyuncu Ocak 2026'da 3.000.000 €'ya Costa Brava'ya transfer oldu. Bornova bu transferden de pay alacak mı, bunun bu dosyayla ilgisi var mı?" }
+      ],
+      "prompt": "Hakemin sorusunu nasıl cevaplayacaksınız?",
+      "choices": [
+        {
+          "text": "Dayanışma katkısı ayrı bir alacak: Costa Brava bonservisin %5'ini ayırır; Bornova'nın payı %3, yani 90.000 €. Bu dosyadaki tazminattan düşülmez.",
+          "delta": 15,
+          "law": "RSTP m.21, Ek 5",
+          "note": "Dürüst ve doğru cevap. Dayanışma katkısı, sözleşme süresi içindeki transferlerde bonservisin %5'idir ve yeni kulüp tarafından ödenir. Oyuncunun 12–15 yaş sezonları için sezon başına %0,25, 16–23 yaş sezonları için sezon başına %0,5 dağıtılır: Bornova'ya 4 × 0,25 + 4 × 0,5 = %3, yani 90.000 €. Yetiştirme tazminatıyla aynı alacak değildir; mahsup edilmez.",
+          "reply": [
+            { "who": "judge", "text": "Teşekkürler; bu, dosyanın konusu dışında kalıyor ama kayda geçiyorum." }
+          ]
+        },
+        {
+          "text": "Bornova bu dosyada yetiştirme tazminatı alırsa, aynı sezonlar için ayrıca dayanışma katkısı alamaz; aksi çifte ödeme olur, biri ötekinden düşülmeli.",
+          "delta": -10,
+          "set": ["p1_mahsup"],
+          "law": "RSTP m.20, m.21",
+          "note": "Yetiştirme tazminatı ilk profesyonel tescilde ve 23 yaşına kadarki transferlerde doğar; dayanışma katkısı ise sözleşme süresi içindeki her transferde bonservisten ayrılır. İkisi ayrı dayanaklara sahip ayrı alacaklardır; biri ötekinden düşülmez.",
+          "reply": [
+            { "who": "judge", "text": "Bu iki mekanizmayı birbirinden ayırmanız gerekir, sayın vekil." }
+          ]
+        },
+        {
+          "text": "Dayanışma katkısını satan kulüp olarak Atlântico öder; bu yüzden Bornova'ya ödenecek 90.000 €'nun bu dosyadaki tazminattan mahsubunu istiyoruz.",
+          "delta": -10,
+          "set": ["p1_mahsup"],
+          "law": "RSTP Ek 5 m.2",
+          "note": "Dayanışma katkısını yeni kulüp (Costa Brava) bonservisten ayırarak öder; satan kulüp ödemez. Ayrıca bu dosyada böyle bir mahsup talebinin dayanağı yok.",
+          "reply": [
+            { "who": "judge", "text": "Dayanışma katkısının borçlusu yeni kulüptür, sayın vekil." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bornova vekili, son taleplerinizi belirtin." }
+      ],
+      "prompt": "Kapanışta hakemden ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Temyizin reddiyle 280.000 €'luk dağıtım tablosunun onanmasını iste; kategori itirazı kabul edilirse en az 160.000 €'ya hükmedilsin.",
+          "delta": 15,
+          "law": "CAS Kodu R57 · RSTP Ek 4 m.5",
+          "note": "Talebi doğru ve kademeli kurdunuz. Hakem esası yeniden inceler; kategori tartışmasını kaybetseniz bile alt tutarı güvenceye aldınız.",
+          "reply": [
+            { "who": "judge", "text": "Talepler tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "Tazminata 01.08.2025'ten itibaren yıllık %5 gecikme faizi işletilmesini ve faizin doğrudan Atlântico'dan tahsiline karar verilmesini iste.",
+          "delta": -5,
+          "set": ["p2_faiz"],
+          "law": "FIFA Takas Odası Talimatı m.13",
+          "note": "Takas Odası sisteminde geç ödemenin karşılığı gecikme faizi değil, süresinde ödenmeyen tutara eklenen yüzde 2,5 idari ek ücrettir. Ödeme de doğrudan değil Takas Odası üzerinden yapılır.",
+          "reply": [
+            { "who": "judge", "text": "Takas Odası sistemi faiz yerine kendi yaptırımını öngörüyor." }
+          ]
+        },
+        {
+          "text": "Hakem bu dosyada Costa Brava'nın da 90.000 € dayanışma katkısını Bornova'ya ödemesine karar versin; iki alacak birlikte çözülsün.",
+          "delta": -10,
+          "set": ["p2_dayanisma"],
+          "law": "CAS Kodu R47, R57 · RSTP Ek 5",
+          "note": "Costa Brava bu tahkimin tarafı değildir ve dayanışma katkısı ayrı bir EPP ve dağıtım süreciyle belirlenir. Temyiz konusu yalnızca yetiştirme tazminatına ilişkin FIFA kararıdır.",
+          "reply": [
+            { "who": "judge", "text": "Costa Brava bu yargılamanın tarafı değil; bu talep incelenemez." }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_husumet",
+      "winner": "p2",
+      "hukum": "SC Atlântico Norte'nin temyizinin REDDİNE, FIFA Genel Sekreterliğinin 280.000 €'luk yetiştirme tazminatı dağıtım tablosunun ONANMASINA,",
+      "summary": "Atlântico vekili kararı veren FIFA'yı davalı göstermedi. FIFA'nın kendi kararı üzerinde pasif husumeti vardır; FIFA'nın katılmadığı bir yargılamada onun kararı kaldırılamaz. Esas tartışmalar sonucu değiştirmedi; Bornova'nın 280.000 € alacağı kesinleşti."
+    },
+    {
+      "if": "(p1_feragat && !p2_yetkisiz && !p2_icerik) || (p1_gec && p2_gecKabul)",
+      "winner": "p1",
+      "hukum": "SC Atlântico Norte'nin temyizinin KABULÜ ile FIFA Genel Sekreterliğinin dağıtım tablosunun KALDIRILMASINA; Bornova Gençlik SK'nın yetiştirme tazminatından feragat ettiğinin tespitine,",
+      "summary": [
+        { "if": "p1_feragat", "text": "Atlântico vekili Temmuz 2025 yazısını temyiz gerekçesiyle sundu ve EPP sürecinde neden yüklenmediğini açıkladı; hakem belgeyi R57 çerçevesinde değerlendirdi." },
+        { "if": "p1_gec", "text": "Yazı duruşmada geç sunuldu, ama Bornova vekili dosyaya alınmasına muvafakat etti." },
+        { "text": " Bornova vekili yazıyı imzalayanın yetkisine ya da yazının içeriğine etkili biçimde itiraz etmedi; hakem feragati geçerli saydı ve tazminat düştü." }
+      ]
+    },
+    {
+      "if": "(p1_kategori && !p2_hesap) || (p1_kategoriKismen && !p2_hesap && !p2_hesapKismen)",
+      "winner": "draw",
+      "hukum": "SC Atlântico Norte'nin temyizinin KISMEN KABULÜ ile Bornova Gençlik SK'ya ödenecek yetiştirme tazminatının 160.000 €'ya İNDİRİLMESİNE; ödemenin FIFA Takas Odası üzerinden yapılmasına,",
+      "summary": [
+        { "if": "p2_yetkisiz || p2_icerik", "text": "Feragat yazısı geçersiz bulundu: yetkisiz kişi imzalamıştı ya da yetiştirme tazminatından açıkça vazgeçmiyordu. " },
+        { "text": "Bornova'nın tazminat hakkı doğmuştu; ama Atlântico vekili, kulübün Mayıs 2025'te küme düştüğünü ve tescil anında 3. kategori kulübü olduğunu gösterdi. 12–15 yaş sezonları 4. kategoriden, kalan dört sezon 3. kategoriden hesaplandı: 160.000 €." },
+        { "if": "p2_abYanlis", "text": " Bornova vekili AB/AEA kuralına karşı yanlış gerekçeyle cevap verdi, ama kural zaten uygulanmıyordu." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "SC Atlântico Norte'nin temyizinin REDDİNE, FIFA Genel Sekreterliğinin 280.000 €'luk yetiştirme tazminatı dağıtım tablosunun ONANMASINA; ödemenin FIFA Takas Odası üzerinden yapılmasına,",
+      "summary": [
+        { "text": "Oyuncu ilk kez profesyonel olarak tescil edildiğinde Bornova'nın yetiştirme tazminatı hakkı doğdu (RSTP Ek 4 m.2/1)." },
+        { "if": "p2_yetkisiz", "text": " Feragat yazısını kulübü temsile yetkisi olmayan altyapı koordinatörü imzalamıştı ve yazı yalnızca transfere muvafakatti." },
+        { "if": "p2_icerik && !p2_yetkisiz", "text": " Feragat yazısı yetiştirme tazminatından açıkça vazgeçmiyordu; yalnızca transfere muvafakatti." },
+        { "if": "p1_ab", "text": " AB/AEA kuralı (Ek 4 m.6) Türkiye'den Portekiz'e geçişe uygulanmaz." },
+        { "if": "p1_gec && !p2_gecKabul", "text": " Duruşmada sunulan yazı R56 nedeniyle dikkate alınmadı." },
+        { "if": "p2_hesap || p2_hesapKismen", "text": " Bornova vekili tescil tarihindeki kategorinin 2 olduğunu ve itirazın EPP sürecinde yapılmadığını gösterdi." },
+        { "if": "!p2_hesap && !p2_hesapKismen", "text": " Atlântico'nun kategori itirazı da yeterince desteklenmediğinden tutar değişmedi." }
+      ]
+    }
+  ]
+}

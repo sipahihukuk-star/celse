@@ -20,5 +20,6 @@ export function useCases() {
     return subscribe(load);
   }, []);
   const all = mergeCases(stored);
-  return { all, duel: all.filter(c => c.mode === "duel"), solo: all.filter(c => c.mode === "solo"), stored };
+  // Tahkim dosyaları kendi bölümünde listelenir; karşılıklı duruşma listesinde yer almaz.
+  return { all, duel: all.filter(c => c.mode === "duel" && c.room !== "tahkim"), solo: all.filter(c => c.mode === "solo"), tahkim: all.filter(c => c.room === "tahkim"), stored };
 }

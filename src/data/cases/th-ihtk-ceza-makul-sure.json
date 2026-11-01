@@ -1,0 +1,352 @@
+{
+  "id": "th-ihtk-ceza-makul-sure",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "ihtk",
+  "difficulty": "orta",
+  "title": "On Bir Yıllık Sanıklık",
+  "area": "Tahkim · İnsan Hakları Tazminat Komisyonu · Makul süre (ceza yargılaması)",
+  "court": "İnsan Hakları Tazminat Komisyonu (Adalet Bakanlığı) · Müracaat No. 2027/31408",
+  "courtShort": "TAZMİNAT KOMİSYONU",
+  "esas": "Müracaat No. 2027/31408",
+  "kararTarihi": "14.10.2027",
+  "color": "#3d4f63",
+  "teaser": "Gözaltından beraatin kesinleşmesine on bir yıl geçti. Başvuran beraat etti, ama tazminat istiyor. Bakanlık, gecikmenin bir kısmını sanığın kendi mazeretlerine bağlıyor.",
+  "bench": { "judges": 3, "title": "Komisyon heyeti: başkan ve iki üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Başvuran vekili", "short": "Başvuran" },
+    "p2": { "role": "Adalet Bakanlığı temsilcisi (görüş sunan)", "short": "Bakanlık" }
+  },
+  "cast": {
+    "judge": { "name": "Komisyon Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#e2b894", "hair": "#5b5b60", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#d29d76", "hair": "#2a201b", "style": "short", "beard": true, "shirt": "#23262d", "inner": "#dcd6cc" } },
+    "p2": { "look": { "kind": "civil", "skin": "#efc8a4", "hair": "#6e4a32", "style": "bun", "shirt": "#2e3540", "inner": "#e9e3d8" } },
+    "client": { "name": "Selim Karaduman · Başvuran", "np": "civil", "look": { "kind": "civil", "skin": "#c99268", "hair": "#4a4038", "style": "short", "shirt": "#55606b", "inner": "#e2ddd2" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Selim Karaduman, 14.03.2016'da bir ihaleye fesat karıştırma soruşturmasında gözaltına alındı ve şüpheli olarak ifade verdi. Dört gün sonra adli kontrolle serbest bırakıldı. İddianame ancak 02.05.2018'de düzenlendi; yedi sanıklı dava ağır ceza mahkemesinde beş yıl sürdü." },
+    { "who": "narr", "text": "Mahkûmiyet kararı istinafta onandı, Yargıtay bozdu; yeniden yargılamada Selim beraat etti. Beraat, Yargıtay'ın onamasıyla 11.02.2027'de kesinleşti. Selim bunu 18.02.2027'de UYAP'tan öğrendi." },
+    { "who": "client", "text": "Beraat ettim ama on bir yıl sanık sandalyesinde oturdum. İşimi kaybettim, adım hep o dosyayla anıldı. Bunun bir karşılığı olmalı." },
+    { "who": "narr", "text": "Bugün 22.02.2027. 12.03.2024'ten beri yargılamaların makul sürede bitmediği iddiasıyla manevi tazminat talepleri, Adalet Bakanlığı bünyesindeki Komisyona yapılıyor. Komisyon duruşma yapmaz, dosya üzerinden karar verir; burada taraflar yazılı görüşlerini karşılıklı tartışıyor." }
+  ],
+  "docs": [
+    { "t": "6384 sayılı Kanun m.2/3-a ve m.5/A", "d": "Ceza soruşturması ve kovuşturması ile hukuk ve idari yargılamaların makul sürede sonuçlandırılmadığı iddiasıyla yapılan manevi tazminat müracaatları Komisyonca incelenir. Müracaat, yargılama sürerken ya da en geç kesin kararın öğrenilmesinden itibaren bir ay içinde yapılır. Mazeret hâlinde, mazeretin sona ermesinden itibaren on beş gün içinde ve belgesiyle." },
+    { "t": "6384 sayılı Kanun m.7", "d": "Komisyon, müracaatı dokuz ay içinde gerekçeli olarak karara bağlar; Anayasa Mahkemesi ve AİHM'nin emsal kararlarını gözetir. Karara tebliğden itibaren on beş gün içinde Komisyon aracılığıyla Ankara Bölge İdare Mahkemesine itiraz edilebilir; itiraz üzerine verilen karar kesindir. Tazminat, kesinleşmeden itibaren üç ay içinde Adalet Bakanlığınca ödenir." },
+    { "t": "Yargılama süreci (UYAP özeti)", "d": "14.03.2016 gözaltı ve şüpheli ifadesi · 02.05.2018 iddianame · 2018–2023 ağır ceza, 24 duruşma, mahkûmiyet · 2023–2024 istinaf, ret · 2024–2025 Yargıtay, bozma · 2025–2026 yeniden yargılama, beraat · 11.02.2027 Yargıtay onaması, kesinleşme." },
+    { "t": "Müvekkilin talebi", "d": "1.000.000 TL manevi tazminat; ayrıca işini kaybettiği için 600.000 TL kazanç kaybı." },
+    { "t": "Bakanlığın ön görüşü (özet)", "d": "Dosya yedi sanıklı ve mali bilirkişi incelemesi gerektiren karmaşık bir dosyadır. Gecikmenin bir bölümü sanık ve müdafilerinin mazeretlerinden kaynaklanmıştır." }
+  ],
+  "evidence": [
+    { "id": "ev_uyap", "type": "belge", "title": "Duruşma tutanakları dökümü", "desc": "Ağır cezadaki 24 duruşmanın 9'u tebligat eksikliği ve bilirkişi raporunun gelmemesi, 2'si Selim'in belgeli hastalık mazereti, 1'i müdafi değişikliği nedeniyle ertelendi. Selim diğer bütün duruşmalarda hazırdı." },
+    { "id": "ev_yargitay", "type": "belge", "title": "Yargıtay aşaması kaydı", "desc": "Dosya Yargıtay'da ilk incelemede 19 ay, ikinci incelemede 11 ay bekledi." },
+    { "id": "ev_bilirkisi", "type": "belge", "title": "Mali bilirkişi raporu", "desc": "Mahkemece Mart 2019'da istendi, Haziran 2021'de dosyaya girdi; ek rapor Nisan 2022'de geldi." },
+    { "id": "ev_iddianame", "type": "belge", "title": "İddianame", "desc": "02.05.2018 tarihli; yedi şüpheli hakkında ihaleye fesat karıştırma (TCK m.235)." },
+    { "id": "law_olcut", "type": "kanun", "title": "Makul sürenin ölçütleri", "desc": "Davanın karmaşıklığı, başvuranın tutumu, yetkili makamların tutumu ve davanın başvuran için önemi (Anayasa Mahkemesi, Güher Ergun ve diğerleri, B. No: 2012/13).", "law": "Anayasa m.36, m.141/4 · AİHS m.6/1" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "MÜRACAAT · Selim kesin kararı dört gün önce öğrendi. Komisyona ne zaman ve nasıl gideceğinize karar vermelisiniz." }
+      ],
+      "prompt": "Müvekkilin makul süre şikâyeti için hangi yolu, hangi süre içinde kullanacaksınız?",
+      "choices": [
+        {
+          "text": "Kesin kararın öğrenildiği 18.02.2027'den itibaren bir ay içinde, en geç 18.03.2027'de Komisyona manevi tazminat müracaatı yap.",
+          "delta": 20,
+          "set": ["p1_sure"],
+          "law": "6384 s.K. m.2/3-a, m.5/A",
+          "note": "Doğru yol ve doğru süre. 12.03.2024'ten beri makul süre şikâyetleri önce Komisyona gelir. Yargılama bittiyse süre, kesin kararın öğrenilmesinden itibaren bir aydır (m.5/A).",
+          "reply": [{ "who": "narr", "text": "Müracaat dilekçesi ve ekleri 10.03.2027'de Komisyona ulaştı." }]
+        },
+        {
+          "text": "Onama kararının gerekçesinin tebliğini bekle; tebliğden itibaren üç ay içinde Komisyona müracaat et; süre ancak o zaman işlemeye başlar.",
+          "delta": -25,
+          "law": "6384 s.K. m.5/A",
+          "note": "Üç aylık süre, Anayasa Mahkemesinin Komisyona yönlendirdiği eski başvurular içindir (geçici m.2). Doğrudan makul süre müracaatında süre, kesin kararın öğrenilmesinden itibaren bir aydır ve tebliği beklemez.",
+          "fatal": {
+            "label": "KARAR:",
+            "hukum": "Müracaatın, kesin kararın öğrenilmesinden itibaren bir aylık süre geçtikten sonra yapıldığından 6384 sayılı Kanun m.5/A ve m.6 uyarınca SÜRE AŞIMI NEDENİYLE REDDİNE,",
+            "summary": "Selim kesin kararı 18.02.2027'de öğrenmişti; süre 18.03.2027'de doldu. Gerekçenin tebliğini beklemek için bir sebep yoktu. Müracaat Mayıs'ta yapıldı ve esasa hiç girilmedi."
+          }
+        },
+        {
+          "text": "Otuz gün içinde doğrudan Anayasa Mahkemesine bireysel başvuru yap; makul süre ihlalinin asıl inceleneceği yer orasıdır.",
+          "delta": -15,
+          "law": "6216 s.K. m.45/2 · 6384 s.K. m.5/A",
+          "note": "Anayasa Mahkemesi, Komisyon yolu tüketilmeden yapılan makul süre başvurularını başvuru yollarının tüketilmemesi nedeniyle kabul edilemez bulur. Bireysel başvuru, Komisyon ve itiraz aşamasından sonra gelir.",
+          "reply": [{ "who": "narr", "text": "Başvuru formunu doldururken kıdemli bir meslektaşınız uyardı. Komisyon müracaatını 15.03.2027'de, süre dolmadan yetiştirdiniz." }]
+        },
+        {
+          "text": "Beraat ettiği için ağır ceza mahkemesinde CMK m.141 uyarınca tazminat davası aç; uzun yargılama zararı da orada istenir.",
+          "delta": -10,
+          "law": "CMK m.141 · 6384 s.K. m.2/3-a",
+          "note": "CMK m.141, koruma tedbirlerinden (gözaltı, tutuklama vb.) doğan zararlar içindir. Yargılamanın uzunluğundan doğan manevi zarar Komisyona ait bir yoldur.",
+          "reply": [{ "who": "narr", "text": "Dava dilekçesini yazarken hatayı fark ettiniz. Komisyon müracaatı 16.03.2027'de, süre dolmadan yapıldı." }]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAKANLIK GÖRÜŞÜ · Komisyon, müracaat hakkında Bakanlığın yazılı görüşünü istedi. İlk mesele toplam süre: yargılama hangi tarihten itibaren sayılacak?" }
+      ],
+      "prompt": "Görüşünüzde makul sürenin başlangıcını nasıl belirleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Süreyi iddianamenin düzenlendiği 02.05.2018'den başlat; soruşturma evresi henüz yargılama değil, kovuşturmaya hazırlıktır.",
+          "delta": -10,
+          "set": ["p2_iddianame"],
+          "law": "AİHS m.6/1 · 6384 s.K. m.2/3-a",
+          "note": "Ceza yargılamasında süre, kişinin suç isnadıyla resmen karşılaştığı ya da bundan önemli ölçüde etkilendiği andan başlar: gözaltı, şüpheli ifadesi, arama. Kanun da soruşturmayı açıkça kapsıyor (m.2/3-a)."
+        },
+        {
+          "text": "Süre 14.03.2016'daki gözaltıyla başlar; bunu kabul et, ama başvurana yüklenebilecek ertelemeleri ayrıca hesaplat.",
+          "delta": 15,
+          "set": ["p2_baslangic"],
+          "law": "AİHS m.6/1 · 6384 s.K. m.2/3-a",
+          "note": "Doğru ve inandırıcı. Süre, suç isnadının ilk kez yöneltildiği gözaltıyla başlar. Bakanlığın asıl alanı toplam süreyi inkâr etmek değil, başvurana yüklenebilecek bölümleri ve dosyanın karmaşıklığını göstermektir."
+        },
+        {
+          "text": "Süreyi ilk duruşma tarihinden başlat; makul süre ancak bir mahkeme önünde yargılama fiilen başladığında işler.",
+          "delta": -15,
+          "set": ["p2_durusma"],
+          "law": "AİHS m.6/1",
+          "note": "Yanlış. İlk duruşma ölçüt değildir; süre suç isnadıyla başlar. Bu görüş Komisyon önünde Bakanlığın inandırıcılığını zedeler."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlığın yazılı görüşü dosyaya girdi. Başvuran vekili, cevabınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Gecikmenin asıl sorumlusu başvuranın kendisidir. Duruşmalar sanık ve müdafilerinin mazeretleri yüzünden defalarca ertelenmiştir." },
+      "prompt": "Bu beyanı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_uyap"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_tutanak"],
+        "law": "AİHS m.6/1",
+        "note": "Tutanak dökümü beyanın ölçüsünü ortaya koydu: 24 duruşmanın yalnızca üçü başvurandan kaynaklanan sebeplerle ertelendi; dokuzu tebligat ve bilirkişi gecikmesi yüzünden. Bunlar yetkili makamların tutumuna yazılır.",
+        "reply": [{ "who": "judge", "text": "Döküm dosyaya alındı. Başvurana yüklenebilecek ertelemeler üç duruşmayla sınırlı görünüyor." }]
+      },
+      "responses": {
+        "ev_yargitay": { "delta": 5, "note": "Yargıtay'daki otuz aylık bekleme makamların tutumunu gösterir; ama beyan ilk derecedeki ertelemelerle ilgiliydi. Onu doğrudan çürüten belge duruşma tutanakları dökümüydü." },
+        "ev_bilirkisi": { "delta": 5, "note": "Bilirkişi raporunun iki yılı aşan gecikmesi makamlara yüklenir, bu doğru. Ama ertelemelerin kimden kaynaklandığını gösteren belge tutanak dökümüydü." },
+        "law_olcut": { "delta": 0, "note": "Ölçütleri doğru biliyorsunuz; ancak iddiaya karşı ölçüt değil, ertelemelerin sebebini gösteren belge gerekiyordu." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge ertelemelerin sebebini göstermiyor." },
+      "pass": { "delta": -10, "note": "İddiayı cevapsız bıraktınız; Komisyon gecikmenin bir kısmını başvurana yükleyebilir." }
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, yetkili makamların tutumu hakkında ne diyorsunuz?" }
+      ],
+      "prompt": "Görüşünüzü neye dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "Yargıtay'daki otuz aylık beklemenin olağanüstü iş yükünden doğduğunu, iş yükünün yargı mercilerine kusur olarak yüklenemeyeceğini savun.",
+          "delta": -10,
+          "set": ["p2_isyuku"],
+          "law": "AİHS m.6/1",
+          "note": "Süreğen iş yükü mazeret sayılmaz: devlet, yargı sistemini davaları makul sürede bitirecek biçimde örgütlemekle yükümlüdür. Bu savunma Bakanlığın aleyhine işler."
+        },
+        {
+          "text": "Dosyanın yedi sanıklı olduğunu ve mali bilirkişi incelemesi gerektirdiğini, ilk derece süresinin bir kısmının bu karmaşıklıktan doğduğunu göster.",
+          "delta": 15,
+          "set": ["p2_karmasik"],
+          "law": "AİHS m.6/1",
+          "note": "Doğru ölçüt. Davanın karmaşıklığı makul sürenin dört ölçütünden biridir. Yedi sanık ve mali bilirkişi incelemesi, ilk derecedeki sürenin bir kısmını açıklar; ama on bir yılın tamamını açıklamaz."
+        },
+        {
+          "text": "Başvuran sonunda beraat ettiğine göre uzun yargılamadan doğan bir zararının kalmadığını, manevi tazminat şartlarının oluşmadığını savun.",
+          "delta": -15,
+          "set": ["p2_beraat"],
+          "law": "6384 s.K. m.2/3-a",
+          "note": "Beraat, yargılamanın uzunluğundan doğan ihlali ortadan kaldırmaz. Makul süre hakkı sonuçtan bağımsızdır: on bir yıl sanık olarak yaşamanın kaygısı ve belirsizliği ayrı bir manevi zarardır."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, ihlal ve tazminat talebiniz hakkında yazılı görüşünüzü özetleyin." }
+      ],
+      "prompt": "Komisyona ihlali ve istediğiniz tazminatı hangi ölçütlerle gerekçelendireceğinizi kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p1_olcut"], "law": "6384 s.K. m.7 · AİHS m.6/1", "note": "Toplam süreyi doğru başlatıp bitirdiniz ve dört ölçütü dosyadaki olgularla eşleştirdiniz. Tazminatın AYM ve AİHM emsallerine göre belirleneceğini ve beraatin ihlali ortadan kaldırmadığını da gösterdiniz." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p1_olcut"], "law": "6384 s.K. m.7 · AİHS m.6/1", "note": "Sürenin uzunluğunu ve ihlali söylediniz. Eksik kalan: sürenin 14.03.2016 gözaltısıyla başladığı, başvuranın yalnızca üç ertelemeye yol açtığı, bilirkişi ve Yargıtay gecikmesinin makamlara ait olduğu ve tazminatın emsal kararlara göre belirleneceği." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "6384 s.K. m.7", "note": "Görüşünüz ölçütlere dayanmadı. Makul süre; davanın karmaşıklığı, başvuranın tutumu, makamların tutumu ve davanın başvuran için önemiyle tartılır. Komisyon tutarı emsal kararlara göre belirler; yalnızca 'çok uzun sürdü' demek yetmez." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Süre 14.03.2016'daki gözaltı ve şüpheli ifadesiyle başlar, beraatin 11.02.2027'de kesinleşmesiyle biter: üç derece ve bir bozmayla yaklaşık on bir yıl. (2) Dört ölçüt: davanın karmaşıklığı (yedi sanık, mali bilirkişi) bu süreyi açıklamaz; başvuranın tutumu yalnızca üç ertelemeyle sınırlıdır; makamların tutumu (dokuz erteleme, iki yılı aşan bilirkişi gecikmesi, Yargıtay'da toplam otuz ay) gecikmenin asıl sebebidir; dava başvuran için önemlidir (iş kaybı, uzun süreli sanıklık). (3) Beraat ihlali ortadan kaldırmaz; Komisyon manevi tazminatı Anayasa Mahkemesi ve AİHM'nin emsal kararlarını gözeterek belirler (6384 s.K. m.7). Başlangıç tarihi, ölçütler ve emsal birlikte tam puan için gerekir; yalnızca 'yargılama çok uzun sürdü' demek düşük puan alır.",
+      "keywords": [
+        { "terms": ["2016", "gözaltı", "on bir yıl", "11 yıl", "şüpheli ifadesi"], "weight": 2 },
+        { "terms": ["karmaşık", "yedi sanık", "7 sanık"], "weight": 1 },
+        { "terms": ["başvuranın tutumu", "mazeret", "üç erteleme", "3 erteleme"], "weight": 2 },
+        { "terms": ["makamların tutumu", "Yargıtay", "bilirkişi", "tebligat"], "weight": 2 },
+        { "terms": ["emsal", "AİHM", "Anayasa Mahkemesi", "AYM", "m.7"], "weight": 2 },
+        { "terms": ["beraat", "önem", "işini kaybet", "iş kaybı"], "weight": 1 }
+      ],
+      "model": "Süre, müvekkilin 14.03.2016'da gözaltına alınıp şüpheli olarak ifade verdiği tarihte başlar ve beraatin 11.02.2027'de kesinleşmesiyle biter; üç derecede yaklaşık on bir yıl. Yedi sanıklı bir dosya olsa da bu süre karmaşıklıkla açıklanamaz: müvekkil yalnızca üç ertelemeye yol açmış, dokuz erteleme tebligat ve bilirkişi gecikmesinden, otuz ay da Yargıtay'daki beklemeden doğmuştur. Beraat ihlali ortadan kaldırmaz; manevi tazminatın Anayasa Mahkemesi ve AİHM'nin benzer dosyalardaki emsal tutarları gözetilerek belirlenmesini istiyoruz (6384 s.K. m.7)."
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, talep edilen tutar hakkında görüşünüz?" }
+      ],
+      "prompt": "Talep edilen 1.000.000 TL manevi tazminatın neden fahiş olduğunu ve Komisyonun tutarı nasıl belirlemesi gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p2_miktar"], "law": "6384 s.K. m.2/3-a, m.7", "note": "Ölçülü ve hukuka dayalı bir görüş. Tutarın talebe göre değil emsal kararlara göre belirleneceğini, karmaşıklığın ve başvurana yüklenebilecek ertelemelerin hesaba katılacağını, kazanç kaybının bu yolun dışında kaldığını gösterdiniz." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p2_miktar"], "law": "6384 s.K. m.7", "note": "Tutarın fahiş olduğunu söylediniz. Eksik kalan: Komisyonun AYM ve AİHM emsallerini gözettiği, başvurana yüklenebilecek üç ertelemenin ve dosyanın karmaşıklığının tutara yansıyacağı ve bu yolda yalnızca manevi tazminata hükmedileceği (m.2/3-a)." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "6384 s.K. m.7", "note": "Görüşünüz tutarı neye göre indireceğinizi göstermedi. Komisyon emsal kararlara bakar; ihlali tümden inkâr etmek ya da yalnızca 'çok yüksek' demek tutarı aşağı çekmez." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Komisyon tutarı talebe göre değil, Anayasa Mahkemesi ve AİHM'nin benzer sürelerdeki emsal kararlarını gözeterek belirler (6384 s.K. m.7); bir milyon TL bu emsallerin çok üstündedir. (2) Dosya yedi sanıklı ve mali bilirkişi incelemesi gerektiren karmaşık bir dosyadır; başvuranın hastalık mazereti ve müdafi değişikliğinden doğan ertelemeler hesaba katılmalıdır. (3) Bu yolda yalnızca manevi tazminata hükmedilebilir (m.2/3-a); 600.000 TL kazanç kaybı Komisyonun görev alanı dışındadır. (4) İhlali tümden inkâr etmeyen, ölçülü bir görüş daha inandırıcıdır. Emsal ölçütü, karmaşıklık ya da başvuranın tutumu ve maddi kalemin kapsam dışı olduğu birlikte tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["emsal", "AİHM", "Anayasa Mahkemesi", "AYM", "m.7"], "weight": 3 },
+        { "terms": ["karmaşık", "yedi sanık", "7 sanık", "bilirkişi"], "weight": 1 },
+        { "terms": ["mazeret", "başvuranın tutumu", "müdafi değişikliği"], "weight": 2 },
+        { "terms": ["kazanç kaybı", "maddi", "m.2/3", "yalnızca manevi", "sadece manevi"], "weight": 2 },
+        { "terms": ["fahiş", "ölçülü", "hakkaniyet"], "weight": 1 }
+      ],
+      "model": "Komisyon tutarı talebe göre değil, Anayasa Mahkemesi ve AİHM'nin benzer sürelerdeki emsal kararlarına göre belirler (6384 s.K. m.7); bir milyon TL bu emsallerin çok üstündedir. Dosya yedi sanıklı ve mali bilirkişi incelemesi gerektiren karmaşık bir dosyadır; başvuranın hastalık mazereti ve müdafi değişikliğinden doğan ertelemeler de tutara yansıtılmalıdır. Kazanç kaybı ise bu yolun dışındadır; Komisyon makul süre müracaatında yalnızca manevi tazminata hükmedebilir (m.2/3-a)."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, müracaatta 600.000 TL kazanç kaybı da istenmiş. Bu kalem hakkında ne diyorsunuz?" }
+      ],
+      "prompt": "Kazanç kaybı talebini nasıl ele alacaksınız?",
+      "choices": [
+        {
+          "text": "Kazanç kaybında ısrar ediyoruz; tam tazmin ilkesi gereği Komisyon ihlalden doğan bütün zararları gidermek zorundadır (TBK m.49).",
+          "delta": -10,
+          "set": ["p1_maddi"],
+          "law": "6384 s.K. m.2/3-a",
+          "note": "Komisyonun yetkisi kanunla sınırlıdır: makul süre müracaatında yalnızca manevi tazminata hükmedebilir (m.2/3-a). TBK'nın tam tazmin ilkesi bu sınırı genişletmez; kalem görev yönünden reddedilecek."
+        },
+        {
+          "text": "Talebimizi manevi zararla sınırlıyoruz; bu yolda Komisyon yalnızca manevi tazminata hükmeder, kazanç kaybını geri çekiyoruz.",
+          "delta": 15,
+          "set": ["p1_manevi"],
+          "law": "6384 s.K. m.2/3-a",
+          "note": "Doğru. Kanun bu yolu manevi tazminatla sınırlıyor (m.2/3-a). Kapsam dışı kalemde ısrar etmek yerine talebi manevi zarara odaklamak görüşünüzü güçlendirir."
+        },
+        {
+          "text": "Kazanç kaybı için dosyanın ağır ceza mahkemesine gönderilmesini istiyoruz; beraat eden sanığın maddi zararı orada karşılanır.",
+          "delta": -10,
+          "set": ["p1_maddi"],
+          "law": "6384 s.K. m.6 · CMK m.141",
+          "note": "Komisyon görev alanı dışındaki talebi başka bir mercie göndermez, reddeder (m.6). CMK m.141 de koruma tedbirlerinden doğan zararlar içindir; beraat tek başına bu yolu açmaz."
+        },
+        {
+          "text": "Kazanç kaybını manevi tazminata ekleyip tek kalemde 1.600.000 TL manevi tazminat olarak değerlendirilmesini istiyoruz.",
+          "delta": -5,
+          "set": ["p1_maddi"],
+          "law": "6384 s.K. m.7",
+          "note": "Maddi bir kalemi manevi tazminat adıyla sunmak sonucu değiştirmez; Komisyon tutarı emsal kararlara göre belirler. Talebi şişirmek inandırıcılığı azaltır."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, son görüşünüz?" }
+      ],
+      "prompt": "Komisyondan ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Müracaatın, yargılama bittikten sonra yapıldığından reddini istiyoruz; makul süre şikâyeti ancak yargılama sürerken ileri sürülebilir.",
+          "delta": -15,
+          "law": "6384 s.K. m.5/A",
+          "note": "Yanlış. Kanun iki imkânı birlikte tanır: yargılama sürerken ya da en geç kesin kararın öğrenilmesinden itibaren bir ay içinde (m.5/A). Müracaat süresindedir."
+        },
+        {
+          "text": "Tutarın emsallere göre belirlenmesini, başvurana yüklenebilecek ertelemeler ile dosyanın karmaşıklığının gözetilmesini istiyoruz.",
+          "delta": 15,
+          "set": ["p2_takdir"],
+          "law": "6384 s.K. m.7",
+          "note": "Ölçülü ve isabetli bir son görüş. Bakanlık ihlali inkâr etmeden tutarı emsal kararlara, başvuranın tutumuna ve karmaşıklığa bağladı."
+        },
+        {
+          "text": "Komisyonun, beraat kararına dayanak olan delilleri yeniden değerlendirip başvuranın gerçekten mağdur olup olmadığını incelemesini istiyoruz.",
+          "delta": -10,
+          "law": "6384 s.K. m.2/3-a",
+          "note": "Komisyon ceza davasının esasını yeniden incelemez; yalnızca yargılamanın uzunluğunu değerlendirir. Beraat kararı kesindir."
+        },
+        {
+          "text": "Başvuranın önce Anayasa Mahkemesine gitmesi gerektiğinden, müracaatın başvuru yollarının tüketilmemesi nedeniyle reddini istiyoruz.",
+          "delta": -10,
+          "law": "6384 s.K. m.2/3-a · 6216 s.K. m.45/2",
+          "note": "Sıra tersinedir: makul süre şikâyetinde önce Komisyon, sonra itiraz, en son Anayasa Mahkemesi gelir."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_tutanak && p1_olcut && !p2_miktar",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Müracaatın KABULÜ ile ceza yargılamasının makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 140.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "p1_maddi", "text": " kazanç kaybı talebinin Komisyonun görev alanı dışında kaldığından REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Başvuran vekili süreyi 14.03.2016 gözaltısından başlattı ve tutanak dökümüyle ertelemelerin yalnızca üçünün başvurandan kaynaklandığını gösterdi. Bilirkişi ve Yargıtay gecikmeleri makamlara yazıldı." },
+        { "if": "p2_karmasik", "text": " Bakanlığın karmaşıklık savunması ilk derecedeki sürenin bir kısmını açıkladı, ama on bir yılı açıklamadı." },
+        { "if": "p2_beraat", "text": " Beraatin zararı ortadan kaldırdığı savunması kabul görmedi: makul süre hakkı sonuçtan bağımsızdır." },
+        { "if": "p2_isyuku", "text": " Yargıtay'ın iş yükü mazeret sayılmadı." },
+        { "text": " Bakanlık tutarı emsallere bağlayan ölçülü bir görüş sunamadığından tutar başvuranın gösterdiği ölçütlere yakın belirlendi." }
+      ]
+    },
+    {
+      "if": "p2_miktar && p2_karmasik && !p1_tutanak",
+      "winner": "p2",
+      "hukum": "Müracaatın KISMEN KABULÜ ile ceza yargılamasının makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 55.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "İhlal tespit edildi; ama Bakanlık dosyanın karmaşıklığını ve tutarın emsallere göre belirlenmesi gerektiğini gösterdi. Başvuran vekili ertelemelerin sebebini belgeyle ayıramadığı için gecikmenin bir kısmı başvurana yüklendi; tutar talebin çok altında kaldı." },
+        { "if": "p2_iddianame || p2_durusma", "text": " Bakanlığın süreyi geç başlatan görüşü ise kabul edilmedi; süre gözaltıyla başladı." }
+      ]
+    },
+    {
+      "if": "(p1_tutanak || p1_olcut) && (p2_miktar || p2_karmasik)",
+      "winner": "draw",
+      "hukum": [
+        { "text": "Müracaatın KISMEN KABULÜ ile ceza yargılamasının makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 95.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "p1_maddi", "text": " kazanç kaybı talebinin Komisyonun görev alanı dışında kaldığından REDDİNE," }
+      ],
+      "summary": [
+        { "text": "İki taraf da işini yaptı. Başvuran vekili on bir yıllık sürenin büyük bölümünün makamlardan kaynaklandığını gösterdi; Bakanlık da dosyanın karmaşıklığını ve tutarın emsallere bağlı olduğunu ortaya koydu. Komisyon ihlali tespit etti, tutarı emsallere göre orta bir düzeyde belirledi." },
+        { "if": "p1_manevi", "text": " Başvuran vekilinin talebi manevi zararla sınırlaması isabetliydi." }
+      ]
+    },
+    {
+      "if": "p1_tutanak || p1_olcut",
+      "winner": "p1",
+      "hukum": "Müracaatın KABULÜ ile ceza yargılamasının makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 120.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Başvuran vekili ihlali ölçütlerle gösterdi. Bakanlık ne karmaşıklığı ne de emsal tutarları inandırıcı biçimde ortaya koydu." },
+        { "if": "p2_beraat", "text": " Beraatin zararı ortadan kaldırdığı savunması reddedildi." },
+        { "if": "p2_isyuku", "text": " İş yükü savunması kabul görmedi." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Müracaatın KISMEN KABULÜ ile ceza yargılamasının makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 45.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Toplam sürenin uzunluğu ihlalin tespitine yetti; ama başvuran vekili ertelemelerin sebebini belgelemedi, ölçütleri de dosyadaki olgulara bağlamadı. Komisyon tutarı emsallerin alt sınırına yakın belirledi; talebin büyük bölümü reddedildi."
+    }
+  ]
+}

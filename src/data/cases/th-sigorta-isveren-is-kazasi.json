@@ -1,0 +1,377 @@
+{
+  "id": "th-sigorta-isveren-is-kazasi",
+  "mode": "duel",
+  "difficulty": "basit",
+  "title": "Çift El Kumanda",
+  "area": "Tahkim · Sigorta tahkimi · İşveren mali sorumluluk sigortası ve iş kazası",
+  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakem Heyeti",
+  "courtShort": "SİGORTA TAHKİM",
+  "esas": "Başvuru No. 2026/77902",
+  "kararTarihi": "09.11.2026",
+  "color": "#6b4a2f",
+  "room": "tahkim",
+  "forum": "sigorta",
+  "inscription": null,
+  "bench": { "judges": 3, "title": "Hakem heyeti: başhakem ve iki hakem" },
+  "teaser": "Pres işçisi iki parmağını kaybetti; işveren iş mahkemesi ilamını, SGK'nın rücu alacağını ve manevi tazminatı ödedi. Sigortacı “kasıt var, manevi tazminat da teminat dışı” diyor.",
+  "sides": {
+    "p1": { "role": "Başvuran (işveren) vekili", "short": "Başvuran" },
+    "p2": { "role": "Sigorta şirketi vekili", "short": "Sigorta şirketi" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#c99670", "hair": "#2b2420", "style": "short", "beard": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#f0caa6", "hair": "#6b4a32", "style": "bun", "shirt": "#262a31", "inner": "#efe9e0" } },
+    "p2": { "look": { "kind": "civil", "skin": "#d4a37c", "hair": "#141210", "style": "short", "glasses": true, "shirt": "#1d2733", "inner": "#e6e3dd" } },
+    "client": { "name": "Nihat Kaya · Şirket müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#dcae88", "hair": "#77706a", "style": "short", "shirt": "#4a4f57", "inner": "#e9e4da" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "11.02.2024'te Gebze'deki Kaya Metal Pres A.Ş. atölyesinde hidrolik pres işçisi Emre Doğan'ın sağ elinin iki parmağı koptu. Sonradan presin çift el kumandasının, hızlı çalışmak için bir kablo köprüsüyle devre dışı bırakıldığı anlaşıldı." },
+    { "who": "narr", "text": "İş mahkemesi işvereni %70, işçiyi %30 kusurlu buldu; 640.000 TL maddi ve 300.000 TL manevi tazminata hükmetti. SGK da işçiye bağladığı gelir için 410.000 TL rücu alacağını mahkeme kararıyla aldı (5510 s.K. m.21). İşveren, 67.500 TL yargılama gideri ve vekâlet ücretiyle birlikte toplam 1.417.500 TL'yi Haziran 2026'da ödedi." },
+    { "who": "narr", "text": "Şirketin Pruva Sigorta A.Ş.'den 01.01.2024–01.01.2025 dönemi için İşveren Mali Sorumluluk Sigortası vardı. Pruva, işverenin yazılı başvurusunu 20.07.2026'da reddetti: “Kasıt istisnası; manevi tazminat teminat dışı.” Pruva, Sigorta Tahkim Komisyonuna üye." },
+    { "who": "narr", "text": "İşveren vekili Komisyona yapılacak başvurunun kapsamını belirleyecek." }
+  ],
+  "docs": [
+    { "t": "Poliçe (İşveren Mali Sorumluluk)", "d": "Dönem 01.01.2024–01.01.2025. Kişi başı bedeni zarar limiti 1.500.000 TL, kaza başı 4.000.000 TL. Sigortacı, poliçe süresi içinde meydana gelen iş kazaları için işverene yöneltilen tazminat taleplerini ve SGK'nın rücu taleplerini, dava giderleri ve avukatlık ücretleriyle birlikte karşılar." },
+    { "t": "Genel Şartlar m.2 ve m.3", "d": "m.2: Aksine sözleşme yoksa manevi tazminat talepleri teminat dışıdır. m.3: Kasıtlı olarak doğan zararlar teminat dışıdır." },
+    { "t": "İş mahkemesi ilamı", "d": "Kusur: işveren %70, işçi %30. Maddi tazminat 640.000 TL, manevi tazminat 300.000 TL. İstinaf incelemesinden geçerek kesinleşti." },
+    { "t": "SGK rücu ilamı", "d": "5510 s.K. m.21/1 uyarınca, işverenin iş güvenliği mevzuatına aykırı hareketi nedeniyle bağlanan gelirin ilk peşin sermaye değerinden işverenin kusuruna düşen 410.000 TL." },
+    { "t": "Sigortacının hasar incelemesi", "d": "İş mahkemesindeki bilirkişi raporunda bir zarar kaleminde işçinin %30 kusuru düşülmemiş; bu yüzden maddi tazminat 48.000 TL fazla hesaplanmış. Davalı işveren rapora bu yönden itiraz etmemiş." },
+    { "t": "Sigortacının ret yazısı (20.07.2026)", "d": "“Çift el kumandanın bilerek devre dışı bırakılması kasıttır (Genel Şartlar m.3). Manevi tazminat Genel Şartlar m.2 uyarınca teminat dışıdır. Ayrıca iş mahkemesindeki dava şirketimize bildirilmemiştir.”" }
+  ],
+  "evidence": [
+    { "id": "ev_police", "type": "belge", "title": "Poliçe ön yüzü", "desc": "Kişi başı bedeni zarar limiti 1.500.000 TL; SGK rücu talepleri ve dava giderleri teminat kapsamında." },
+    { "id": "ev_ozelsart", "type": "belge", "title": "Poliçe özel şartı · Manevi tazminat klozu", "desc": "“Manevi tazminat talepleri, kişi başı limit içinde ve kişi başı 250.000 TL ile sınırlı olarak teminata dahildir.” Ek prim tahsil edilmiş." },
+    { "id": "law_gs2", "type": "kanun", "title": "Genel Şartlar m.2", "desc": "Aksine sözleşme yoksa manevi tazminat talepleri teminat dışıdır.", "law": "İşveren Sorumluluk Sigortası Genel Şartları m.2" },
+    { "id": "ev_ilam", "type": "belge", "title": "İş mahkemesi ilamı", "desc": "Kusur %70 işveren, %30 işçi; 640.000 TL maddi, 300.000 TL manevi tazminat." },
+    { "id": "ev_ceza", "type": "belge", "title": "Ceza mahkemesi kararı", "desc": "Atölye şefi Hakan Er, taksirle yaralama suçundan (TCK m.89) bilinçli taksirle (TCK m.22/3) mahkûm edildi. Kararda kastın bulunmadığı açıkça belirtilmiş.", "if": "p1_ceza" },
+    { "id": "ev_eposta", "type": "belge", "title": "Hasar birimine e-posta (22.04.2024)", "desc": "İşveren, iş mahkemesindeki dava dilekçesini Pruva'nın hasar birimine göndermiş; okundu bilgisi var, cevap yok.", "if": "p1_bildirim" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAŞVURU · Şirkete yazılı başvuru yapıldı ve ret cevabı alındı (5684 s.K. m.30/13). Şimdi Komisyona ne isteyeceğinizi belirleyeceksiniz." },
+        { "who": "client", "text": "Ödediğimiz her kuruşu geri istiyoruz. Ama manevi tazminatı ve SGK'ya ödediğimizi alabilir miyiz, emin değilim." }
+      ],
+      "prompt": "Başvurunun kapsamını nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Maddi tazminatı, SGK rücu bedelini, özel şarta dayanarak manevi tazminatı ve yargılama giderlerini birlikte iste; kişi başı limiti de hesapta gözet.",
+          "delta": 20,
+          "set": ["p1_kalemler"],
+          "law": "Genel Şartlar m.1 · 5510 s.K. m.21",
+          "note": "İşveren mali sorumluluk sigortası, işçinin işverene yönelttiği tazminat taleplerini ve SGK'nın 5510 s.K. m.21'e dayanan rücu taleplerini dava giderleriyle birlikte karşılar. Manevi tazminat, Genel Şartlarda aksine sözleşme yoksa teminat dışıdır; poliçede bunu teminata alan bir özel şart varsa o da istenir."
+        },
+        {
+          "text": "Genel Şartlar manevi tazminatı teminat dışı sayıyor; yalnızca maddi tazminatı ve SGK rücu bedelini iste, manevi kısmı müvekkil kendisi üstlensin.",
+          "delta": -10,
+          "set": ["p1_manevisiz"],
+          "law": "Genel Şartlar m.2",
+          "note": "Genel Şartlar m.2 “aksine sözleşme yoksa” der. Poliçeye bakmadan manevi tazminattan vazgeçtiniz; oysa poliçede manevi tazminatı 250.000 TL'ye kadar teminata alan bir özel şart vardı."
+        },
+        {
+          "text": "SGK'ya ödenen rücu bedeli işverenin kendi mevzuat ihlalinin bedeli, poliçenin kapsamına giremez; maddi ve manevi tazminatla yargılama giderlerini iste.",
+          "delta": -10,
+          "set": ["p1_sgkyok"],
+          "law": "Genel Şartlar m.1 · 5510 s.K. m.21",
+          "note": "SGK'nın işverene rücuu, işverenin kusurlu hareketine dayanır ve bu sigortanın asıl teminatlarındandır. 410.000 TL'lik kalemi kendiliğinden başvurunun dışında bıraktınız."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Başvuru şirkete tebliğ edildi. Uyuşmazlık 122.000 TL'yi aştığı için üç kişilik hakem heyeti kuruldu. Cevabınızı yazıyorsunuz." }
+      ],
+      "prompt": "Cevabınızın ilk bölümünde neyi ileri süreceksiniz?",
+      "choices": [
+        {
+          "text": "Manevi tazminatın özel şarttaki 250.000 TL alt limitle sınırlı olduğunu belirt; fazlasını reddet, öteki kalemleri poliçe limitleriyle karşılaştır.",
+          "delta": 15,
+          "set": ["p2_limit"],
+          "law": "Poliçe özel şartı · Genel Şartlar m.1",
+          "note": "Sigortacının borcu, sözleşmedeki limitlerle sınırlıdır. Manevi tazminat 300.000 TL'ye hükmedilmiş olsa da özel şart kişi başı 250.000 TL ile sınırlı teminat veriyor; aradaki 50.000 TL işverende kalır."
+        },
+        {
+          "text": "Talep poliçe süresi bittikten sonra ileri sürüldü; teminat yalnızca sigorta süresi içinde sigortalıya yöneltilen taleplerle sınırlıdır.",
+          "delta": -10,
+          "set": ["p2_talep"],
+          "law": "Genel Şartlar m.1",
+          "note": "Bu poliçe olay esaslıdır: teminat, poliçe süresi içinde meydana gelen iş kazalarından doğan talepleri kapsar. Kaza 11.02.2024'te, poliçe döneminde oldu; talebin sonradan gelmesi teminatı ortadan kaldırmaz."
+        },
+        {
+          "text": "İş kazasından doğan bütün uyuşmazlıklar iş mahkemesinin görevindedir; Komisyon bu başvuruyu esastan inceleyemez, görevsizlik kararı verilmelidir.",
+          "delta": -15,
+          "set": ["p2_gorev"],
+          "law": "5684 s.K. m.30",
+          "note": "İşçi ile işveren arasındaki dava iş mahkemesinde görüldü. Bu uyuşmazlık ise işveren ile sigortacı arasında, sigorta sözleşmesinden doğuyor; Komisyonun görev alanındadır."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Şirketin cevabı geldi. Heyetin sözlü açıklama toplantısından önce şirket müdürü Nihat Kaya'yla görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "İş mahkemesindeki davayı sigorta şirketine hiç bildirdiniz mi?",
+          "delta": 15,
+          "set": ["p1_bildirim"],
+          "reply": [
+            { "who": "client", "text": "Kazayı ertesi gün bildirmiştik. Dava açılınca dilekçeyi de hasar birimine e-postayla yolladım; okundu bilgisi geldi, cevap gelmedi." }
+          ],
+          "note": "Doğru soru. Şirket “dava bize bildirilmedi” diyor; oysa sigortacı davayı fiilen öğrenmişse bildirim eksikliğine dayanamaz (TTK m.1475/3, m.1446/3). E-posta çantanıza eklendi."
+        },
+        {
+          "text": "Atölye şefi hakkındaki ceza davası nasıl sonuçlandı?",
+          "delta": 15,
+          "set": ["p1_ceza"],
+          "reply": [
+            { "who": "client", "text": "Hakan Bey taksirle yaralamadan mahkûm oldu. Mahkeme “bilinçli taksir” dedi; kasıt yok diye ayrıca yazmış." }
+          ],
+          "note": "Önemli soru. Kasıt istisnası için zararın bilerek ve istenerek doğurulması gerekir; ceza mahkemesinin bilinçli taksir tespiti bu iddiaya karşı güçlü bir delildir. Karar çantanıza eklendi."
+        },
+        {
+          "text": "Poliçeyi yaptırırken ek prim ödediğiniz bir teminat var mıydı?",
+          "delta": 5,
+          "reply": [
+            { "who": "client", "text": "Acente manevi tazminat için bir şey eklemişti galiba. Poliçenin arka sayfasında yazıyor olmalı." }
+          ],
+          "note": "Yerinde bir hatırlatma, ama özel şart zaten poliçenin bir parçası ve çantanızda. Asıl eksik olanlar, şirketin ret gerekçelerine karşı kullanılacak dış belgelerdi."
+        },
+        {
+          "text": "Emre Doğan'la şimdi aranız nasıl, işe döndü mü?",
+          "delta": -5,
+          "reply": [
+            { "who": "client", "text": "Depoda hafif işte çalışıyor. Aramız iyi, ama bunu niye soruyorsunuz?" }
+          ],
+          "note": "İnsani bir soru, ama sınırlı vaktinizi sigortacıyla olan uyuşmazlığı etkilemeyen bir konuya harcadınız."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sigorta şirketi vekili, ret yazınızda kasıt istisnasına dayanmışsınız. Bu konudaki beyanınız?" }
+      ],
+      "prompt": "Kasıt istisnası konusunda nasıl bir tutum alacaksınız?",
+      "choices": [
+        {
+          "text": "Kasıt istisnasından vazgeç: ceza kararı açıkça bilinçli taksir diyor. Savunmayı davanın bildirilmemesi ve poliçe limitleri üzerinde yoğunlaştır.",
+          "delta": 15,
+          "set": ["p2_kasitbirak"],
+          "law": "Genel Şartlar m.3 · TCK m.22/3",
+          "note": "Yerinde bir tercih. Kasıt istisnası, zararın bilerek ve istenerek doğurulmasını arar. Güvenlik donanımını devre dışı bırakmak ağır bir kusurdur, ama sonucun istenmediği bilinçli taksirdir; bu sigorta tam da işverenin kusurundan doğan sorumluluğu karşılar.",
+          "reply": [
+            { "who": "judge", "text": "Kasıt istisnasından vazgeçildiği tutanağa geçti." }
+          ]
+        },
+        {
+          "text": "Çift el kumandanın kabloyla bilerek iptal edilmesi kasıttır; Genel Şartların 3. maddesi gereği bu kazadan doğan hiçbir tazminat ödenmez.",
+          "delta": -15,
+          "set": ["p2_kasit"],
+          "law": "Genel Şartlar m.3",
+          "note": "Kasıt, zararın bilerek ve istenerek doğurulmasıdır. İşveren güvenlik donanımını iptal ederek ağır bir kusur işledi, ama işçinin yaralanmasını istemedi; ceza mahkemesi de bilinçli taksir dedi. Bu sigorta, SGK'nın mevzuata aykırılığa dayanan rücuunu bile kapsar.",
+          "reply": [
+            { "who": "judge", "text": "Not edildi. Heyet bu iddiayı ceza kararıyla birlikte değerlendirecek." }
+          ]
+        },
+        {
+          "text": "Kasıt tartışmasına girmeye gerek yok; ihbar edilmeyen davadaki hüküm bizi bağlamaz, zarar Komisyonda yeni bir bilirkişiyle baştan hesaplanmalıdır.",
+          "delta": -5,
+          "set": ["p2_baglamaz"],
+          "law": "TTK m.1475/3 · m.1446/2",
+          "note": "Bildirim yükümlülüğünün ihlali sigortacıya ödemeden bütünüyle kurtulma ya da zararı baştan tartışma hakkı vermez. Kanun, ihlalin tazminatı artırdığı ölçüde ve kusurun ağırlığına göre indirim öngörür (TTK m.1475/3 yollamasıyla m.1446/2).",
+          "reply": [
+            { "who": "judge", "text": "İş mahkemesinin kesinleşmiş hükmü dosyada. Not edildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "!p1_manevisiz",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, manevi tazminat kalemi hakkında karşı tarafın beyanını dinleyelim." }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Heyet, manevi tazminat Genel Şartların 2. maddesi uyarınca teminat dışıdır. Bu kalemin tamamen reddi gerekir." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_ozelsart"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_ozel"],
+        "law": "Genel Şartlar m.2 · Poliçe özel şartı",
+        "note": "Genel Şartlar m.2 manevi tazminatı ancak “aksine sözleşme yoksa” teminat dışında bırakır. Poliçedeki manevi tazminat klozu, ek prim karşılığında kişi başı 250.000 TL'ye kadar teminat veriyor; aksine sözleşme budur.",
+        "reply": [
+          { "who": "judge", "text": "Özel şart dosyaya alındı. Manevi tazminat kalemi 250.000 TL'ye kadar teminat kapsamında görünüyor." }
+        ]
+      },
+      "responses": {
+        "law_gs2": {
+          "delta": 5,
+          "note": "Maddeyi doğru okudunuz: “aksine sözleşme yoksa.” Ama aksine sözleşmenin kendisini, poliçedeki manevi tazminat klozunu sunmalıydınız; o çantanızdaydı."
+        },
+        "ev_police": {
+          "delta": 0,
+          "note": "Poliçenin ön yüzünde manevi tazminata ilişkin bir kayıt yok. Teminatı veren, ayrı bir özel şart olan manevi tazminat klozuydu."
+        },
+        "ev_ilam": {
+          "delta": -5,
+          "note": "İlam, manevi tazminatın miktarını gösterir; sigortacının bu kalemi karşılayıp karşılamayacağını değil."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge manevi tazminatın teminat kapsamında olduğunu göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; manevi tazminat kalemi teminat dışı kabul edilme tehlikesiyle karşı karşıya kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sigorta şirketi vekili, iş mahkemesindeki davanın şirketinize bildirilmemesinin sonucu sizce ne olmalı?" }
+      ],
+      "prompt": "Bildirim yükümlülüğünün ihlalinden hangi sonucu çıkardığınızı, dayanağıyla ve somut olayla kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_indirim"],
+          "law": "TTK m.1475 · m.1446/2",
+          "note": "Savunmayı doğru kurdunuz. Sigortalı, kendisine yöneltilen istemi sigortacıya bildirmekle yükümlüdür (TTK m.1475/2). İhlal tazminatı artırmışsa kusurun ağırlığına göre indirim yapılır (m.1475/3 yollamasıyla m.1446/2). Bilirkişi raporundaki 48.000 TL'lik hesap hatasına itiraz edilmediğini gösterdiniz ve indirimi bu tutarla sınırladınız."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_indirim"],
+          "law": "TTK m.1475 · m.1446/2",
+          "note": "Bildirim yükümlülüğünü ve indirim sonucunu gösterdiniz. Tam savunma, sonucun ödemenin bütünüyle reddi değil indirim olduğunu, indirimin ihlalin tazminatı artırdığı ölçüyle (itiraz edilmeyen 48.000 TL'lik hesap hatası) sınırlı kaldığını ve dayanağını (TTK m.1475/3, m.1446/2) birlikte ortaya koyar."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "TTK m.1475 · m.1446/2",
+          "note": "Bildirim yükümlülüğünün ihlali, sigortacıya ödemeyi bütünüyle reddetme hakkı vermez; tazminatı artırdığı ölçüde ve kusurun ağırlığına göre indirim yapılır (TTK m.1475/3 yollamasıyla m.1446/2). İhlalin hangi artışa yol açtığını da somutlaştırmadınız."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sorumluluk sigortasında sigortalı, sorumluluğunu gerektiren olayı on gün içinde, kendisine yöneltilen istemi de derhâl sigortacıya bildirmekle yükümlüdür (TTK m.1475/1-2). (2) Bu yükümlülüğün ihlalinin sonucu ödemenin tamamen reddi değil, ihlal tazminatı artırmışsa kusurun ağırlığına göre indirimdir (TTK m.1475/3 yollamasıyla m.1446/2). (3) Somut olayda dava bildirilmediği için iş mahkemesindeki bilirkişi raporunda işçinin %30 kusurunun bir kalemden düşülmemesinden doğan 48.000 TL'lik hesap hatasına itiraz edilememiştir; indirim bu tutar kadar istenir. Ödemenin bütünüyle reddini ya da zararın baştan hesaplanmasını isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["bildir", "ihbar"], "weight": 2 },
+        { "terms": ["indirim", "tazminattan düş", "azalt"], "weight": 2 },
+        { "terms": ["1475", "1446"], "weight": 2 },
+        { "terms": ["artır", "artış", "fazla hükmed"], "weight": 1 },
+        { "terms": ["48.000", "kırk sekiz bin", "hesap hatası", "itiraz edilmedi", "itiraz etmedi"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, sigortalı kendisine yöneltilen istemi derhâl sigortacıya bildirmekle yükümlüdür (TTK m.1475/2). Bu yükümlülüğün ihlali ödemenin reddini değil, ihlalin tazminatı artırdığı ölçüde indirimi gerektirir (m.1475/3 yollamasıyla m.1446/2). Dava bize bildirilmediği için iş mahkemesindeki bilirkişi raporunda işçinin %30 kusurunun bir kalemden düşülmemesinden doğan 48.000 TL'lik hataya itiraz edilemedi; tazminattan bu tutarda indirim yapılmasını talep ediyoruz."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "if": "p2_indirim", "text": "Başvuran vekili, şirket 48.000 TL'lik indirim istiyor. Cevabınız?" },
+        { "who": "judge", "if": "!p2_indirim", "text": "Başvuran vekili, şirket davanın kendisine bildirilmediğini söylüyor. Cevabınız?" }
+      ],
+      "prompt": "Bildirim itirazına karşı neden indirim yapılmaması gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü beyan",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_cevap"],
+          "law": "TTK m.1446/3 · m.1452/3",
+          "note": [
+            { "text": "Beyanınız yerindeydi: indirim için ihlalin tazminatı artırması ve sigortalının kusuru gerekir (TTK m.1446/2); sigortacı rizikoyu fiilen öğrenmişse bu hükümden yararlanamaz (m.1446/3). Bu kurallar sigortalı aleyhine değiştirilemez (m.1452/3)." },
+            { "if": "p1_bildirim", "text": " Dava dilekçesinin hasar birimine gönderildiğini gösteren e-posta, sigortacının davayı fiilen öğrendiğini kanıtladı." },
+            { "if": "!p1_bildirim", "text": " Ama elinizde sigortacının davayı öğrendiğini gösteren bir belge yoktu; müvekkile bildirimi sorsaydınız e-posta ortaya çıkacaktı." }
+          ]
+        },
+        {
+          "text": "Yeterli beyan",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_cevap"],
+          "law": "TTK m.1446/2-3",
+          "note": "İndirim kuralının sınırlarını gösterdiniz. Tam beyan; sigortacının davayı fiilen öğrendiğini (m.1446/3), indirimin ancak ihlalin tazminatı artırdığı ölçüde ve kusura göre yapılabileceğini (m.1446/2) ve bu kuralların sigortalı aleyhine değiştirilemeyeceğini (m.1452/3) birlikte söyler."
+        },
+        {
+          "text": "Zayıf beyan",
+          "delta": -10,
+          "law": "TTK m.1446/2-3",
+          "note": "Bildirim itirazına karşı kanunun verdiği savunmayı kullanmadınız: sigortacı rizikoyu fiilen öğrenmişse bildirim eksikliğine dayanamaz (TTK m.1446/3); indirim ancak ihlalin tazminatı artırdığı ölçüde yapılır (m.1446/2)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Bildirim yükümlülüğünün ihlali, ancak ihlal tazminatı artırmışsa ve kusurun ağırlığına göre indirim sonucunu doğurur (TTK m.1475/3 yollamasıyla m.1446/2); ödemenin reddine yol açmaz. (2) Sigortacı rizikonun gerçekleştiğini ve davayı daha önce fiilen öğrenmişse bu hükümden yararlanamaz (m.1446/3); kaza ertesi gün bildirilmiş, dava dilekçesi de hasar birimine e-postayla gönderilmiştir. (3) m.1446, sigortalı aleyhine değiştirilemeyen hükümlerdendir (m.1452/3). Fiilen öğrenme ile e-postayı ve m.1446/3'ü birlikte söyleyen cevap tam puan alır; yalnızca 'zarar artmadı' demek orta puan alır.",
+      "keywords": [
+        { "terms": ["fiilen öğren", "öğrenmiş", "haberdar", "bilgisi vardı"], "weight": 3 },
+        { "terms": ["e-posta", "eposta", "mail", "dilekçeyi gönder"], "weight": 2 },
+        { "terms": ["1446", "1475"], "weight": 1 },
+        { "terms": ["1452", "aleyhine değiştirilemez", "nispi emredici"], "weight": 1 },
+        { "terms": ["artmadı", "artış yok", "illiyet", "kusur yok"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, bildirim yükümlülüğünün ihlali ödemenin reddini değil, ancak ihlal tazminatı artırmışsa kusura göre indirimi gerektirir (TTK m.1475/3 yollamasıyla m.1446/2). Ancak sigortacı rizikoyu fiilen öğrenmişse bu hükümden yararlanamaz (m.1446/3): kaza ertesi gün bildirildi, dava dilekçesi de 22.04.2024'te hasar birimine e-postayla gönderildi ve okundu. Bu kurallar sigortalı aleyhine değiştirilemez (m.1452/3). İndirim talebinin reddini istiyoruz."
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_kalemler && p1_ozel && !(p2_indirim && !(p1_bildirim && p1_cevap))",
+      "winner": "p1",
+      "hukum": "Başvurunun KISMEN KABULÜ ile, manevi tazminat kaleminde özel şarttaki 250.000 TL sınır uygulanarak 1.367.500 TL'nin sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin 50.000 TL'nin REDDİNE,",
+      "summary": [
+        { "text": "İşveren mali sorumluluk sigortası, işçinin tazminat talebini, SGK'nın 5510 s.K. m.21'e dayanan rücu talebini ve dava giderlerini karşılar. Poliçedeki özel şart manevi tazminatı kişi başı 250.000 TL'ye kadar teminata aldı (Genel Şartlar m.2: “aksine sözleşme yoksa”)." },
+        { "if": "p2_kasit", "text": " Sigortacının kasıt itirazı reddedildi: güvenlik donanımını iptal etmek ağır kusurdur, ama yaralanma istenmemişti; ceza mahkemesi de bilinçli taksir dedi." },
+        { "if": "p2_indirim", "text": " Bildirim eksikliğine dayanan indirim talebi, sigortacının davayı e-postayla fiilen öğrenmiş olması nedeniyle reddedildi (TTK m.1446/3)." },
+        { "if": "p2_limit", "text": " Sigorta şirketi vekili manevi tazminat alt limitini doğru gösterdi." }
+      ]
+    },
+    {
+      "if": "p1_kalemler && p1_ozel",
+      "winner": "draw",
+      "hukum": "Başvurunun KISMEN KABULÜ ile 1.319.500 TL'nin sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Manevi tazminat dahil bütün kalemler teminat kapsamında bulundu; manevi tazminat özel şarttaki 250.000 TL ile sınırlandı." },
+        { "text": " Ancak iş mahkemesindeki dava sigortacıya bildirilmediği için bilirkişi raporundaki 48.000 TL'lik hesap hatasına itiraz edilemedi; heyet bu tutarda indirim yaptı (TTK m.1475/3 yollamasıyla m.1446/2)." },
+        { "if": "!p1_bildirim", "text": " Başvuran tarafı, sigortacının davayı fiilen öğrendiğini gösteren bir belge sunamadı." }
+      ]
+    },
+    {
+      "if": "p1_kalemler || p1_manevisiz",
+      "winner": "draw",
+      "hukum": [
+        { "if": "p2_indirim && !(p1_bildirim && p1_cevap)", "text": "Başvurunun KISMEN KABULÜ ile 1.069.500 TL'nin sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "!(p2_indirim && !(p1_bildirim && p1_cevap))", "text": "Başvurunun KISMEN KABULÜ ile 1.117.500 TL'nin sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Maddi tazminat, SGK rücu bedeli ve dava giderleri teminat kapsamında bulundu." },
+        { "if": "p1_manevisiz", "text": " Başvuran tarafı, poliçedeki manevi tazminat klozunu görmeden manevi tazminat kalemini başvuruya hiç koymadı." },
+        { "if": "!p1_manevisiz", "text": " Manevi tazminat kalemi ise teminatı veren özel şart sunulmadığı için Genel Şartlar m.2 uyarınca reddedildi." },
+        { "if": "p2_indirim && !(p1_bildirim && p1_cevap)", "text": " Davanın sigortacıya bildirilmemesi yüzünden itiraz edilemeyen 48.000 TL'lik hesap hatası tazminattan düşüldü." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": [
+        { "if": "p1_ozel && p2_indirim && !(p1_bildirim && p1_cevap)", "text": "Başvurunun KISMEN KABULÜ ile 909.500 TL'nin sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "p1_ozel && !(p2_indirim && !(p1_bildirim && p1_cevap))", "text": "Başvurunun KISMEN KABULÜ ile 957.500 TL'nin sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "!p1_ozel && p2_indirim && !(p1_bildirim && p1_cevap)", "text": "Başvurunun KISMEN KABULÜ ile 659.500 TL'nin sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "!p1_ozel && !(p2_indirim && !(p1_bildirim && p1_cevap))", "text": "Başvurunun KISMEN KABULÜ ile 707.500 TL'nin sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Başvuran tarafı, SGK'ya ödenen 410.000 TL'lik rücu bedelini başvuruya koymadı; oysa SGK'nın 5510 s.K. m.21'e dayanan rücuu bu sigortanın asıl teminatlarındandır. Heyet talepten fazlasına karar veremedi." },
+        { "if": "!p1_ozel", "text": " Manevi tazminat kalemi, teminatı veren özel şart sunulmadığı için reddedildi." },
+        { "if": "p2_indirim && !(p1_bildirim && p1_cevap)", "text": " Bildirim eksikliği nedeniyle 48.000 TL indirim yapıldı." }
+      ]
+    }
+  ]
+}

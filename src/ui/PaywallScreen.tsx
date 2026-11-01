@@ -4,6 +4,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { FREE_CASES, PLANS, tl, usePremium } from "../data/subscription";
 import { Btn } from "./kit";
 import { C, F } from "./theme";
+import { locale, t } from "../i18n";
 
 const BENEFITS = [
   ["Bütün kariyer", "Yerel mahkemelerden Yargıtay'a, Danıştay'a, Sayıştay'a, Anayasa Mahkemesi'ne, AİHM'e ve UCM'ye kadar bütün davalar."],
@@ -19,22 +20,22 @@ export default function PaywallScreen({ onBack }: { onBack: () => void }) {
   return (
     <ScrollView contentContainerStyle={s.wrap}>
       <View style={s.head}>
-        <Btn kind="ghost" label="‹ Geri" onPress={onBack} />
+        <Btn kind="ghost" label={t("‹ Geri")} onPress={onBack} />
       </View>
-      <Text style={s.eyebrow}>CELSE · ABONELİK</Text>
-      <Text style={s.title}>{premium ? "Aboneliğiniz etkin" : "Kürsüye devam edin"}</Text>
+      <Text style={s.eyebrow}>{t("CELSE · ABONELİK")}</Text>
+      <Text style={s.title}>{premium ? t("Aboneliğiniz etkin") : t("Kürsüye devam edin")}</Text>
       <Text style={s.sub}>
         {premium
-          ? until ? `Aboneliğiniz ${until.toLocaleDateString("tr-TR")} tarihine kadar geçerli.` : "Bu oturumda bütün içerik açık."
-          : `İlk ${FREE_CASES} dava ücretsiz. Abonelikle oyunun tamamı açılır.`}
+          ? until ? t("Aboneliğiniz {tarih} tarihine kadar geçerli.", { tarih: until.toLocaleDateString(locale()) }) : t("Bu oturumda bütün içerik açık.")
+          : t("İlk {n} dava ücretsiz. Abonelikle oyunun tamamı açılır.", { n: FREE_CASES })}
       </Text>
       <View style={s.card}>
-        {BENEFITS.map(([t, d]) => (
-          <View key={t} style={s.item}>
+        {BENEFITS.map(([h, d]) => (
+          <View key={h} style={s.item}>
             <Text style={s.tick}>✓</Text>
             <View style={{ flex: 1 }}>
-              <Text style={s.itemT}>{t}</Text>
-              <Text style={s.itemD}>{d}</Text>
+              <Text style={s.itemT}>{t(h)}</Text>
+              <Text style={s.itemD}>{t(d)}</Text>
             </View>
           </View>
         ))}
@@ -44,16 +45,16 @@ export default function PaywallScreen({ onBack }: { onBack: () => void }) {
               {PLANS.map(p => (
                 <Pressable key={p.id} accessibilityRole="radio" accessibilityState={{ checked: plan === p.id }} onPress={() => setPlan(p.id)}
                   style={[s.plan, plan === p.id && s.planOn]}>
-                  {"best" in p && p.best && <Text style={s.badge}>EN AVANTAJLI</Text>}
-                  <Text style={s.planLabel}>{p.label}</Text>
-                  <Text style={s.price}>{tl(p.price)}<Text style={s.per}> / {p.per}</Text></Text>
-                  <Text style={s.planNote}>{p.note}</Text>
+                  {"best" in p && p.best && <Text style={s.badge}>{t("EN AVANTAJLI")}</Text>}
+                  <Text style={s.planLabel}>{t(p.label)}</Text>
+                  <Text style={s.price}>{tl(p.price)}<Text style={s.per}> / {t(p.per)}</Text></Text>
+                  <Text style={s.planNote}>{t(p.note)}</Text>
                 </Pressable>
               ))}
             </View>
-            <Btn label={plan === "yillik" ? "Yıllık abone ol" : "Aylık abone ol"} onPress={() => setMsg("Ödeme sistemi kurulum aşamasında. Abonelik çok yakında açılacak.")} />
+            <Btn label={plan === "yillik" ? t("Yıllık abone ol") : t("Aylık abone ol")} onPress={() => setMsg(t("Ödeme sistemi kurulum aşamasında. Abonelik çok yakında açılacak."))} />
             {!!msg && <Text style={s.msg}>{msg}</Text>}
-            <Text style={s.fine}>Fiyatlara KDV dahildir. Telefonda App Store ya da Google Play hesabınızdan, web'de kartla ödenir. Abonelik dönem sonunda kendiliğinden yenilenir; yenilemeyi istediğiniz zaman kapatabilirsiniz. Abonelik hesabınıza bağlanır ve bütün cihazlarda geçerlidir.</Text>
+            <Text style={s.fine}>{t("Fiyatlara KDV dahildir. Telefonda App Store ya da Google Play hesabınızdan, web'de kartla ödenir. Abonelik dönem sonunda kendiliğinden yenilenir; yenilemeyi istediğiniz zaman kapatabilirsiniz. Abonelik hesabınıza bağlanır ve bütün cihazlarda geçerlidir.")}</Text>
           </>
         )}
       </View>

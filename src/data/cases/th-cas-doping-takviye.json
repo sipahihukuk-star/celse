@@ -1,0 +1,450 @@
+{
+  "id": "th-cas-doping-takviye",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "cas",
+  "difficulty": "zor",
+  "title": "Kreatin Kutusu",
+  "area": "Tahkim · Spor tahkimi · Doping",
+  "court": "Spor Tahkim Mahkemesi (CAS) · CAS 2026/A/11902 (Tahkim yeri: Lozan)",
+  "courtShort": "CAS · LOZAN",
+  "esas": "CAS 2026/A/11902",
+  "kararTarihi": "09.12.2026",
+  "color": "#2c5a4e",
+  "bench": { "judges": 3, "title": "Panel Başkanı ve iki hakem" },
+  "inscription": null,
+  "teaser": "Milli kürekçinin numunesinde eser miktarda ostarine çıktı. Federasyon dört yıl verdi; sporcu suçu kreatin kutusunda arıyor.",
+  "sides": {
+    "p1": { "role": "Temyiz eden sporcu (Ece Yalvaç) vekili", "short": "Sporcu" },
+    "p2": { "role": "Dünya Kürek Birliği (WRU) vekili", "short": "Federasyon" }
+  },
+  "cast": {
+    "judge": { "name": "Panel Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#f0cfae", "hair": "#b8b2a8", "style": "bun", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e2b48e", "hair": "#2a1f1a", "style": "long", "shirt": "#1f2430", "inner": "#e9e6df" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f2d2b6", "hair": "#c9a46a", "style": "short", "glasses": true, "shirt": "#262a33", "inner": "#efe9e0" } },
+    "sporcu": { "name": "Ece Yalvaç · Sporcu", "np": "civil", "look": { "kind": "civil", "skin": "#d9a882", "hair": "#3a2418", "style": "bun", "shirt": "#2f5a6e", "inner": "#e6e1d6" } },
+    "uzman": { "name": "Dr. Orhan Telli · Toksikolog", "np": "civil", "look": { "kind": "civil", "skin": "#cf9f78", "hair": "#77777c", "style": "short", "glasses": true, "beard": true, "shirt": "#4a4a52", "inner": "#dedad0" } },
+    "mudur": { "name": "Dr. Lena Hart · WRU Dopingle Mücadele Müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#f3d8c0", "hair": "#8a5a3a", "style": "long", "shirt": "#3b4656", "inner": "#ece6da" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Ece Yalvaç, uluslararası düzeyde yarışan milli kürekçi. 12.03.2026'daki yarışma dışı testte A numunesinde 0,08 ng/mL ostarine bulundu; B numunesi sonucu doğruladı. Ostarine, Yasaklılar Listesi'nde S1.2 (diğer anabolik ajanlar) grubunda ve belirli madde (specified substance) değil." },
+    { "who": "narr", "text": "Ece doping kontrol formuna kullandığı takviyeleri yazmıştı: VitaGüç Kreatin Monohidrat ve magnezyum. Kendi açık kutusunda yapılan analizde de ostarine çıktı. 10.04.2026'dan beri geçici olarak askıda." },
+    { "who": "narr", "text": "WRU Doping Disiplin Kurulu, kasıtsızlığın ispatlanmadığını söyleyerek dört yıl hak mahrumiyeti verdi. Karar 24.08.2026'da tebliğ edildi; sporcu süresinde CAS'a temyiz etti. Panel esası yeniden inceleyecek (R57)." },
+    { "who": "narr", "text": "Duruşma Kasım 2026'da. İlk hamle sporcu vekilinin: kaynağı nasıl ispat edecek?" }
+  ],
+  "docs": [
+    { "t": "Laboratuvar raporu (A ve B numunesi)", "d": "WADA akrediteli laboratuvar: ostarine (enobosarm), 0,08 ng/mL. Başka yasaklı madde yok." },
+    { "t": "Doping kontrol formu", "d": "“Son yedi günde kullanılan ilaç ve takviyeler: VitaGüç Kreatin Monohidrat (günde 5 g), magnezyum.”" },
+    { "t": "Ürün etiketi", "d": "VitaGüç Kreatin Monohidrat, parti no. VG-2509. İçerik: %100 kreatin monohidrat. Ostarine ya da başka bir yasaklı madde yazmıyor. Partisi bağımsız bir doping testinden geçirilmiş (batch-tested) ürünlerden değil." },
+    { "t": "WRU Doping Disiplin Kurulu kararı (özet)", "d": "Sporcunun açık kutusu sonradan kirlenmiş olabilir; kaynak ve kasıtsızlık ispatlanmadı. WADA Kodu m.10.2.1.1 uyarınca dört yıl hak mahrumiyeti, geçici askı süresi mahsup edilerek." },
+    { "t": "Uygulanacak kurallar", "d": "WRU Dopingle Mücadele Kuralları (2021 WADA Kodu'na uygun). Uluslararası düzeydeki sporcular için temyiz yeri yalnızca CAS'tır (WADA Kodu m.13.2.1). Panel olayları ve hukuku yeniden inceler (CAS Kodu R57)." }
+  ],
+  "evidence": [
+    { "id": "ev_dkf", "type": "belge", "title": "Doping kontrol formu", "desc": "Sporcu VitaGüç Kreatin Monohidrat kullandığını kendiliğinden beyan etmiş." },
+    { "id": "ev_analiz", "type": "belge", "title": "Laboratuvar raporu", "desc": "A ve B numunesi: 0,08 ng/mL ostarine." },
+    { "id": "ev_etiket", "type": "belge", "title": "Ürün etiketi", "desc": "İçerik yalnızca kreatin monohidrat; parti bağımsız doping testinden geçmemiş." },
+    { "id": "ev_uyari", "type": "belge", "title": "Ekim 2025 tarihli uyarı", "desc": "Bir Avrupa ulusal dopingle mücadele ajansının sitesinde yayımlanan ve “VitaGüç kreatin” diye aranınca ilk sayfada çıkan uyarı: Markanın “Pre-Workout Ultra” ürününün bir partisinde ostarine bulundu; sporculara markanın ürünlerinde dikkatli olmaları önerildi.", "if": "p2_uyari" },
+    { "id": "ev_egitim", "type": "belge", "title": "Dopingle mücadele eğitim sertifikası", "desc": "Sporcu Mayıs 2025'te çevrim içi eğitimi tamamlamış; “Besin takviyeleri ve kirlenme riski” modülü dâhil.", "if": "p2_egitim" },
+    { "id": "law_105", "type": "kanun", "title": "WADA Kodu m.10.5 ve yorumu", "desc": "Kusursuzluk (No Fault or Negligence) ceza süresini ortadan kaldırır; ama yorumu, kirlenmiş vitamin ya da besin takviyesinden kaynaklanan pozitif sonuçta uygulanmayacağını söyler.", "law": "WADA Kodu m.10.5" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "KAYNAK · Belirli madde olmayan bir maddede ceza dört yıldır; sporcu ihlalin kasıtlı olmadığını ispatlamadıkça bu süre indirilemez (WADA Kodu m.10.2.1.1). Disiplin kurulu, analiz edilen kutunun açık olmasını yeterli bulmadı." },
+        { "who": "sporcu", "text": "Kutuyu mahalledeki eczaneden almıştım. Aynı raflarda hâlâ o üründen var." }
+      ],
+      "prompt": "Ostarinenin kaynağını panele nasıl ispat edeceksiniz?",
+      "choices": [
+        {
+          "text": "Aynı eczaneden aynı parti numaralı mühürlü bir kutu al, notere tutanakla açtır; WRU'yu da davet ederek WADA akrediteli laboratuvarda analiz ettir.",
+          "delta": 20,
+          "set": ["p1_muhurlu"],
+          "law": "WADA Kodu m.3.1, m.10.2.1.1",
+          "note": "Sporcu kaynağı ve kasıtsızlığı ihtimaller dengesine göre ispatlar (m.3.1). Açık kutudaki sonuç sonradan kirlenme şüphesine açıktır; aynı partiden mühürlü bir kutunun, karşı tarafa katılma imkânı tanınarak ve zincirleme muhafaza (chain of custody) korunarak akrediteli laboratuvarda analizi en güçlü kaynak delilidir.",
+          "reply": [
+            { "who": "uzman", "text": "Mühürlü kutuda gram başına 1,1 mikrogram ostarine bulundu. Günde 5 gram kullanımla idrarda 0,08 ng/mL düzeyi, bu kirlenmeyle tamamen uyumlu." }
+          ]
+        },
+        {
+          "text": "Sporcunun elindeki açık kutuyu ikinci kez, bu kez daha hızlı sonuç veren özel bir gıda laboratuvarına analiz ettir; sonucu bilirkişi raporuyla destekle.",
+          "delta": -5,
+          "set": ["p1_acik"],
+          "law": "WADA Kodu m.3.1",
+          "note": "Aynı açık kutunun yeniden analizi, disiplin kurulunun “sonradan kirlenmiş olabilir” şüphesini gidermez; akrediteli olmayan bir laboratuvarın sonucu da daha az ağırlık taşır.",
+          "reply": [
+            { "who": "uzman", "text": "Özel laboratuvar açık kutuda ostarine buldu. Ama kutu aylardır açık; panel bunu soracaktır." }
+          ]
+        },
+        {
+          "text": "Analiz gereksiz: 0,08 ng/mL gibi eser bir değer kasıtlı kullanımla bağdaşmaz; düşük konsantrasyon tek başına kirlenmeyi ve kasıtsızlığı gösterir.",
+          "delta": -10,
+          "set": ["p1_dusuk"],
+          "law": "WADA Kodu m.10.2.1.1",
+          "note": "Düşük konsantrasyon kasıtsızlık lehine bir göstergedir, ama CAS içtihadında sporcunun maddenin vücuda nasıl girdiğini somut delille göstermesi kural olarak aranır. Kaynağı göstermeden yalnızca değere dayanmak çoğu zaman yetmez.",
+          "reply": [
+            { "who": "uzman", "text": "Değer düşük, evet. Ama düşük değer mikrodozlama ya da kullanımın sonundaki atılımla da açıklanabilir." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Federasyon vekili olarak WRU'nun dopingle mücadele müdürü Dr. Lena Hart'la cevap dilekçesini konuşuyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Müdüre ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Bu marka hakkında internette, bir sporcunun basit bir aramayla bulabileceği bir uyarı var mıydı?",
+          "delta": 15,
+          "set": ["p2_uyari"],
+          "reply": [
+            { "who": "mudur", "text": "Var. Ekim 2025'te bir Avrupa ajansı, aynı markanın Pre-Workout ürününde ostarine bulduğunu duyurdu. “VitaGüç kreatin” diye aratınca ilk sayfada çıkıyor." }
+          ],
+          "note": "Doğru soru. Uyarı başka bir ürünle ilgili olduğundan bu kutunun “kirlenmiş ürün” sayılmasını engellemeyebilir; ama sporcunun özen yükümlülüğünü ve kusur derecesini doğrudan etkiler. Uyarı delil çantanıza eklendi."
+        },
+        {
+          "text": "Sporcu takviyelerle ilgili bir dopingle mücadele eğitimi aldı mı?",
+          "delta": 10,
+          "set": ["p2_egitim"],
+          "reply": [
+            { "who": "mudur", "text": "Mayıs 2025'te çevrim içi eğitimi tamamladı. Takviyelerin kirlenme riski ve parti testli ürün tercihi ayrı bir modülde anlatılıyor." }
+          ],
+          "note": "Yararlı. Eğitim, sporcunun riskin farkında olduğunu gösterir ve kusur derecesinin değerlendirilmesinde işe yarar. Sertifika çantanıza eklendi."
+        },
+        {
+          "text": "Sporcunun önceki testlerinde hiç yasaklı madde çıkmış mıydı?",
+          "delta": 0,
+          "reply": [
+            { "who": "mudur", "text": "Hayır. Son iki yılda altı testi var, hepsi temiz." }
+          ],
+          "note": "Temiz geçmiş daha çok sporcunun lehine bir bilgidir; federasyonun tezine katkısı yok."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sporcu vekili, hangi hükme dayanarak ceza süresinin kaldırılmasını ya da indirilmesini istiyorsunuz?" }
+      ],
+      "prompt": "Talebinizi hangi hukuki yola dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "Önce kasıtsızlığı ispatlayıp dört yılı iki yıla indireceğiz; sonra kirlenmiş ürün ve önemli kusursuzlukla süreyi kınama ile iki yıl arasında belirletelim.",
+          "delta": 20,
+          "set": ["p1_kontamine"],
+          "law": "WADA Kodu m.10.2.2, m.10.6.1.2",
+          "note": "Kasıtsızlık ispatlanırsa temel süre iki yıldır (m.10.2.2). Madde kirlenmiş bir üründen geldiyse ve sporcu önemli bir kusuru olmadığını (No Significant Fault) gösterirse süre, kusur derecesine göre kınama ile iki yıl arasında belirlenir (m.10.6.1.2). Bunun için sporcu maddenin vücuduna nasıl girdiğini de ispatlamalıdır.",
+          "reply": [
+            { "who": "judge", "text": "Anlaşıldı. Önce kaynağı, sonra kusur derecesini tartışacağız." }
+          ]
+        },
+        {
+          "text": "Sporcu etiketi okudu ve ürünü eczaneden aldı; hiçbir kusuru yok. Kusursuzluk nedeniyle ceza süresinin tamamen kaldırılmasını isteyeceğiz.",
+          "delta": -10,
+          "set": ["p1_kusursuz"],
+          "law": "WADA Kodu m.10.5",
+          "note": "Kusursuzluk, sporcunun en büyük özeni gösterse bile maddeyi bilemeyeceği istisnai hâller içindir. m.10.5'in yorumu, kirlenmiş vitamin ya da besin takviyesinden kaynaklanan pozitif sonuçta kusursuzluğun uygulanmayacağını açıkça söyler; takviye kullanan sporcu riski üstlenir.",
+          "reply": [
+            { "who": "judge", "text": "Takviye kaynaklı bir sonuçta kusursuzluğu nasıl savunacağınızı merak ediyorum, sayın vekil." }
+          ]
+        },
+        {
+          "text": "Kesin sorumluluk İsviçre hukukundaki kusur ilkesine aykırıdır; federasyon kasıtlı kullanımı ispatlamadıkça hiçbir ceza verilemez.",
+          "delta": -15,
+          "set": ["p1_kesin"],
+          "law": "WADA Kodu m.2.1.1, m.10.2.1.1",
+          "note": "m.2.1'de ihlal için kasıt, kusur ya da bilerek kullanma ispatı gerekmez (m.2.1.1); kesin sorumluluk ilkesi CAS içtihadında yerleşik olarak uygulanır. Belirli madde olmayan bir maddede kasıtsızlığı ispat yükü de sporcudadır (m.10.2.1.1).",
+          "reply": [
+            { "who": "judge", "text": "Panel kesin sorumluluk ilkesini tartışmaya açmayacak. Kasıtsızlığı siz ispatlayacaksınız." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Federasyon vekili, sporcunun özen yükümlülüğüne ilişkin beyanına cevabınız?" }
+      ],
+      "statement": { "who": "p1", "text": "Sayın Panel, sporcum gereken bütün özeni gösterdi. Etiket temizdi, ürün eczaneden alındı ve bu marka hakkında hiçbir yerde olumsuz bir bilgi yoktu." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_uyari"],
+      "hit": {
+        "delta": 20,
+        "set": ["p2_ozen"],
+        "law": "WADA Kodu tanımlar (önemli kusursuzluk) · m.10.6.1.2",
+        "note": "“VitaGüç kreatin” aramasında ilk sayfada çıkan Ekim 2025 uyarısı, sporcunun basit bir internet araması bile yapmadığını gösteriyor. Uyarı başka bir ürünle ilgili olduğundan bu kutunun kirlenmiş ürün sayılmasını engellemez, ama kusur derecesini belirgin biçimde artırır.",
+        "reply": [
+          { "who": "sporcu", "text": "O uyarıyı… görmedim. Eczacı güvenilir bir marka olduğunu söylemişti." },
+          { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+        ]
+      },
+      "responses": {
+        "ev_egitim": {
+          "delta": 5,
+          "set": ["p2_egitimHit"],
+          "note": "Eğitim sertifikası sporcunun takviyelerdeki kirlenme riskini bildiğini gösteriyor. Yararlı, ama “hiçbir yerde olumsuz bilgi yoktu” beyanını doğrudan çürüten belge markaya ilişkin internet uyarısı olurdu."
+        },
+        "ev_dkf": {
+          "delta": -10,
+          "note": "Takviyenin doping kontrol formunda kendiliğinden beyan edilmesi, sporcunun iyi niyetinin göstergesidir; federasyonun değil sporcunun tezini destekler."
+        },
+        "ev_etiket": {
+          "delta": -10,
+          "note": "Etiketin temiz olması, ürünün “kirlenmiş ürün” tanımına girdiğini gösterir; sporcunun lehine bir belge."
+        },
+        "ev_analiz": {
+          "delta": -5,
+          "note": "Analiz raporu ihlalin varlığını gösterir; sporcunun özeni hakkında bir şey söylemez."
+        },
+        "law_105": {
+          "delta": -5,
+          "note": [
+            { "if": "p1_kusursuz", "text": "Kusursuzluk talebine karşı doğru kural; ama bu beyan özen yükümlülüğüyle ilgili ve somut bir belgeyle çürütülmeliydi." },
+            { "if": "!p1_kusursuz", "text": "Sporcu kusursuzluk istemiyor; bu kural beyanı çürütmez. Özen eksikliğini gösteren somut bir belge gerekiyordu." }
+          ]
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge sporcunun özen göstermediğini ortaya koymuyor." },
+      "pass": { "delta": -10, "note": "Beyana itiraz etmediniz; sporcunun bütün özeni gösterdiği tezi karşılıksız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sporcu vekili, ihlalin neden kasıtlı olmadığını ve kirlenmiş ürün hükmünün neden uygulanması gerektiğini açıklayın." }
+      ],
+      "prompt": "Kasıtsızlığı ve kirlenmiş ürün hükmünün şartlarını kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_kasitsiz"],
+          "law": "WADA Kodu m.3.1, m.10.2.1.1, m.10.6.1.2",
+          "note": "İspat ölçüsünü (ihtimaller dengesi), kaynağı, kasıtsızlığın göstergelerini ve kirlenmiş ürün tanımını birlikte kurdunuz. Etiketinde ve makul bir internet aramasında ostarine geçmeyen ürün, WADA Kodu'ndaki tanıma göre kirlenmiş üründür."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": ["p1_kasitsizKismen"],
+          "law": "WADA Kodu m.10.2.1.1, m.10.6.1.2",
+          "note": "Kaynağı ve kasıtsızlığı anlattınız. Tam savunma, sporcunun ihtimaller dengesine göre ispat ettiğini (m.3.1), kirlenmiş ürün tanımının (etikette ve makul internet aramasında yer almama) karşılandığını ve kusursuzluğun değil önemli kusursuzluğun istendiğini birlikte gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "WADA Kodu m.10.2.1.1",
+          "note": "Kasıtsızlığı somut delillere bağlayamadınız. Belirli madde olmayan bir maddede sporcu, maddenin vücuduna nasıl girdiğini ve kasıtsızlığı ihtimaller dengesine göre ispat etmelidir; bunun için kaynak delili, düşük konsantrasyon ve takviyenin formda beyanı birlikte anlatılmalıydı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Ostarine belirli madde olmadığından sporcu, dört yıllık süreden kurtulmak için ihlalin kasıtlı olmadığını ispatlamalıdır (WADA Kodu m.10.2.1.1); ispat ölçüsü ihtimaller dengesidir (m.3.1). (2) Kaynak gösterilmiştir: aynı partiden mühürlü kutuda akrediteli laboratuvarda ostarine bulunmuş; idrardaki 0,08 ng/mL düzeyi günde 5 gram kullanımla uyumlu; takviye doping kontrol formunda kendiliğinden beyan edilmiş. (3) Kasıtsızlık ispatlanınca temel süre iki yıldır (m.10.2.2). (4) Ürün, etiketinde ve makul bir internet aramasında ostarine geçmediği için kirlenmiş ürün tanımına girer; önemli kusursuzlukla süre kınama ile iki yıl arasında belirlenir (m.10.6.1.2). (5) Kusursuzluk (m.10.5) takviye kaynaklı sonuçlarda uygulanmaz; bu yüzden istenmez. Kaynak delilini, ispat ölçüsünü ve m.10.6.1.2'yi birlikte söyleyen cevap tam puan alır; yalnızca 'kasıt yoktu, kutu kirliydi' diyen cevap orta puan alır. Kesin sorumluluğu reddeden ya da kusursuzluk isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["kasıt", "kasıtsız", "kasıtlı değil", "intentional", "10.2.1"], "weight": 2 },
+        { "terms": ["ihtimaller dengesi", "balance of probabilit", "m.3.1", "3.1"], "weight": 1 },
+        { "terms": ["mühürlü", "aynı parti", "kapalı kutu", "sealed", "parti numarası"], "weight": 2 },
+        { "terms": ["kirlenmiş ürün", "kontamine", "contaminated", "10.6.1.2"], "weight": 2 },
+        { "terms": ["önemli kusur", "No Significant Fault", "kusur derecesi"], "weight": 1 },
+        { "terms": ["form", "beyan", "doping kontrol formu", "DCF"], "weight": 1 }
+      ],
+      "model": "Sayın Panel, ostarine belirli madde olmadığından kasıtsızlığı biz ispat ediyoruz, ölçü ihtimaller dengesidir (m.3.1, m.10.2.1.1). Aynı partiden mühürlü kutu akrediteli laboratuvarda ostarine içeriyor; idrardaki 0,08 ng/mL düzeyi günde 5 gram kullanımla uyumlu ve sporcu takviyeyi formda kendisi beyan etmiş. Etikette ve makul bir aramada ostarine geçmeyen bu ürün kirlenmiş üründür; önemli kusursuzluk nedeniyle süre m.10.6.1.2 uyarınca kınama ile iki yıl arasında belirlenmelidir."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Federasyon vekili, kaynak konusundaki tutumunuz nedir?" }
+      ],
+      "prompt": "Kaynak tartışmasında panele ne söyleyeceksiniz?",
+      "choices": [
+        {
+          "if": "p1_muhurlu",
+          "text": "Mühürlü kutu analizine itiraz etmiyoruz; tartışma kusur derecesidir: parti testli ürün seçilmedi, kimseye danışılmadı, ceza üst sınıra yakın olmalı.",
+          "delta": 15,
+          "set": ["p2_derece"],
+          "law": "WADA Kodu m.10.6.1.2",
+          "note": "Usulüne uygun yapılmış ve sizin de davet edildiğiniz mühürlü kutu analizine itiraz etmek inandırıcılığınızı zedelerdi. Kaynak ispatlandığında tartışma, kınama ile iki yıl arasındaki aralıkta sporcunun kusur derecesine kayar; doğru zemini seçtiniz.",
+          "reply": [
+            { "who": "judge", "text": "Not edildi. Kusur derecesini ayrıca dinleyeceğiz." }
+          ]
+        },
+        {
+          "if": "!p1_muhurlu",
+          "text": "Kaynak ispatlanmadı: aylardır açık duran kutu sonradan kirlenmiş olabilir. Kasıtsızlık ispatlanmadıkça süre dört yıl olmalıdır.",
+          "delta": 20,
+          "set": ["p2_kaynak"],
+          "law": "WADA Kodu m.3.1, m.10.2.1.1",
+          "note": "Açık kutunun analizi, kirlenmenin ürünün kendisinden mi yoksa sonradan mı olduğunu göstermez. Sporcu kaynağı ihtimaller dengesine göre de ispatlayamazsa kasıtsızlık kurulamaz ve dört yıllık süre uygulanır (m.10.2.1.1).",
+          "reply": [
+            { "who": "judge", "text": "Not edildi. Sporcu vekili bu noktayı kapanışta cevaplayabilir." }
+          ]
+        },
+        {
+          "text": "Kasıtsızlık iddiası makul şüphenin ötesinde ispatlanmalı; mühürlü ya da açık, hiçbir kutu analizi bu ölçüyü karşılamaya yetmez.",
+          "delta": -10,
+          "set": ["p2_standart"],
+          "law": "WADA Kodu m.3.1",
+          "note": "Sporcu için ispat ölçüsü ihtimaller dengesidir (m.3.1). Makul şüphenin ötesinde ispat dopingle mücadelede aranmaz; federasyon için bile ölçü “makul tatmin”dir (comfortable satisfaction).",
+          "reply": [
+            { "who": "judge", "text": "Panel, WADA Kodu'ndaki ispat ölçüsünü uygulayacak, sayın vekil." }
+          ]
+        },
+        {
+          "text": "Ostarine belirli madde değildir; bu yüzden ceza indirimi hiç mümkün değil, kirlenmiş ürün hükmü de yalnızca belirli maddelere uygulanır.",
+          "delta": -10,
+          "set": ["p2_indirimYok"],
+          "law": "WADA Kodu m.10.2.2, m.10.6.1.2",
+          "note": "Belirli madde olmayan bir maddede de sporcu kasıtsızlığı ispatlarsa süre iki yıla iner (m.10.2.2). Kirlenmiş ürün hükmü (m.10.6.1.2) belirli madde şartı aramaz; kötüye kullanım maddeleri dışındaki bütün yasaklı maddelere uygulanır.",
+          "reply": [
+            { "who": "judge", "text": "Bu yorum WADA Kodu'nun metniyle bağdaşmıyor." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Federasyon vekili, kirlenmiş ürün hükmü uygulansa bile sizce süre ne olmalı? Gerekçelendirin." }
+      ],
+      "prompt": "Sporcunun kusur derecesini ve buna göre talep ettiğiniz süreyi kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_kusur"],
+          "law": "WADA Kodu m.10.6.1.2, m.10.13.2",
+          "note": "Kusur derecesini somut eksikliklere bağladınız ve CAS'ın kusur kademeleri yaklaşımıyla (Cilic, CAS 2013/A/3327) aralık içinde bir süre önerdiniz. Geçici askı süresinin mahsubunu da doğru yerde tuttunuz (m.10.13.2)."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": ["p2_kusurKismen"],
+          "law": "WADA Kodu m.10.6.1.2",
+          "note": "Sporcunun özensizliğini anlattınız. Tam savunma, eksiklikleri tek tek (parti testli ürün seçmeme, internet uyarısını görmeme, alınan eğitime rağmen danışmama) sayar ve kusur kademelerine göre aralık içinde somut bir süre önerir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "WADA Kodu m.10.6.1.2",
+          "note": "Kusur derecesini somutlaştıramadınız. Kirlenmiş ürün hükmünde süre kınama ile iki yıl arasında kusura göre belirlenir; federasyonun yapması gereken, sporcunun özen eksikliklerini gösterip aralığın üst kısmını gerekçelendirmekti."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kirlenmiş ürün hükmünde (WADA Kodu m.10.6.1.2) süre, kınama ile iki yıl arasında sporcunun kusur derecesine göre belirlenir. (2) Sporcunun özen eksiklikleri: parti testli (batch-tested) bir ürün seçmemesi; markaya ilişkin Ekim 2025 internet uyarısını görmemesi ya da aramaması; Mayıs 2025'te kirlenme riskini anlatan eğitimi almış olmasına rağmen takım doktoruna ya da federasyona danışmaması. (3) CAS'ın Cilic kararında (CAS 2013/A/3327) geliştirdiği kusur kademelerine göre bu eksiklikler 'normal' ya da 'önemli' kusura işaret eder; süre aralığın üst yarısında, örneğin 16–20 ay olmalıdır. (4) Geçici askıda geçen süre mahsup edilir (m.10.13.2). Somut eksiklikleri ve aralık içinde gerekçeli bir süreyi birlikte söyleyen cevap tam puan alır; yalnızca 'sporcu dikkatsizdi' diyen cevap orta puan alır. Hâlâ dört yıl isteyen ya da kirlenmiş ürün hükmünün hiç uygulanamayacağını söyleyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["kusur derecesi", "kusur kademe", "degree of fault", "Cilic"], "weight": 2 },
+        { "terms": ["parti testli", "batch", "Informed Sport", "test edilmiş"], "weight": 2 },
+        { "terms": ["internet", "uyarı", "arama", "Ekim 2025"], "weight": 2 },
+        { "terms": ["eğitim", "modül", "danış", "doktor"], "weight": 1 },
+        { "terms": ["ay", "16", "18", "20", "üst sınır", "iki yıl"], "weight": 1 },
+        { "terms": ["mahsup", "geçici askı", "10.13"], "weight": 1 }
+      ],
+      "model": "Sayın Panel, m.10.6.1.2'de süre kınama ile iki yıl arasında kusura göre belirlenir. Sporcu parti testli bir ürün seçmedi, ‘VitaGüç kreatin’ aramasında ilk sayfada çıkan Ekim 2025 uyarısını görmedi ve kirlenme riskini anlatan eğitimi almış olmasına rağmen kimseye danışmadı. Cilic kararındaki kusur kademelerine göre bu normal kusurun üst sınırıdır; geçici askı mahsup edilmek üzere 18 ay hak mahrumiyeti talep ediyoruz."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sporcu vekili, son taleplerinizi belirtin." }
+      ],
+      "prompt": "Kapanışta panelden ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Kirlenmiş ürün hükmüyle sürenin aralığın alt ucunda belirlenmesini ve 10.04.2026'dan beri süren geçici askının mahsubunu iste.",
+          "delta": 15,
+          "law": "WADA Kodu m.10.6.1.2, m.10.13.2",
+          "note": "Talebi doğru kurdunuz. Geçici askıda geçen süre, sonunda verilecek hak mahrumiyetinden düşülür (m.10.13.2); kısa bir süre verilirse sporcu cezasını büyük ölçüde çekmiş olur.",
+          "reply": [
+            { "who": "judge", "text": "Talepler tutanağa geçirildi. Panel kararını yazılı olarak bildirecek." }
+          ]
+        },
+        {
+          "text": "Sürenin numune tarihi olan 12.03.2026'dan başlatılmasını iste; sonuç yönetimi beş ay sürdü, gecikme sporcuya yüklenemez.",
+          "delta": -5,
+          "set": ["p1_geriye"],
+          "law": "WADA Kodu m.10.13.1",
+          "note": "Sürenin numune tarihine çekilmesi, sonuç yönetiminde sporcuya yüklenemeyecek önemli gecikmeler varsa mümkündür (m.10.13.1). Numuneden kesin karara beş ay olağan bir süredir; asıl kazanımınız zaten geçici askının mahsubundan gelir.",
+          "reply": [
+            { "who": "judge", "text": "Not edildi; ancak önemli bir gecikme gösterilmedi." }
+          ]
+        },
+        {
+          "text": "Federasyonun dört yıllık hatalı kararı yüzünden sporcunun kaybettiği sezon için uğradığı gelir kaybının tazminine karar verilsin.",
+          "delta": -10,
+          "set": ["p1_tazminat"],
+          "law": "CAS Kodu R47, R57",
+          "note": "Temyiz konusu disiplin kararıdır; panel bu kararı kaldırabilir ya da değiştirebilir (R57), ama federasyona karşı ayrı bir tazminat talebi bu temyizin konusu değildir ve önceki aşamada da ileri sürülmemiştir.",
+          "reply": [
+            { "who": "judge", "text": "Bu talep temyizin konusu dışında kalıyor." }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_muhurlu && p1_kontamine && (p1_kasitsiz || p1_kasitsizKismen) && !p2_ozen && !(p2_derece && p2_kusur)",
+      "winner": "p1",
+      "hukum": "Sporcunun temyizinin KABULÜ ile WRU Doping Disiplin Kurulu kararının KALDIRILMASINA; sporcuya WADA Kodu m.10.6.1.2 uyarınca 6 ay hak mahrumiyeti verilmesine, 10.04.2026'dan itibaren geçirilen geçici askı süresinin mahsubuyla cezanın infaz edilmiş sayılmasına; 12.03.2026 tarihli numuneden sonraki yarış sonuçlarının iptaline,",
+      "summary": [
+        { "text": "Sporcu vekili aynı partiden mühürlü kutuyu akrediteli laboratuvarda analiz ettirerek kaynağı ispatladı; kasıtsızlık ihtimaller dengesine göre kuruldu (m.3.1). Ürün etiketinde ve makul bir aramada ostarine geçmediği için kirlenmiş ürün sayıldı (m.10.6.1.2)." },
+        { "text": " Federasyon sporcunun özen eksikliğini somut bir delille gösteremedi; panel kusuru hafif buldu." },
+        { "if": "p2_egitimHit", "text": " Eğitim sertifikası kusur derecesini bir miktar artırdı, ama tek başına yetmedi." }
+      ]
+    },
+    {
+      "if": "p1_muhurlu && p1_kontamine && (p1_kasitsiz || p1_kasitsizKismen)",
+      "winner": "draw",
+      "hukum": "Sporcunun temyizinin KISMEN KABULÜ ile hak mahrumiyeti süresinin WADA Kodu m.10.6.1.2 uyarınca 16 aya İNDİRİLMESİNE, 10.04.2026'dan itibaren geçirilen geçici askı süresinin mahsubuna,",
+      "summary": [
+        { "text": "Sporcu vekili mühürlü kutu analiziyle kaynağı ve kasıtsızlığı ispatladı; kirlenmiş ürün hükmü uygulandı ve dört yıl düştü." },
+        { "if": "p2_ozen", "text": " Ama federasyon vekili, markaya ilişkin ilk sayfada çıkan Ekim 2025 uyarısını sundu: sporcu basit bir internet araması bile yapmamıştı." },
+        { "if": "p2_derece && p2_kusur", "text": " Federasyon vekili kaynağa itiraz etmek yerine kusur derecesine odaklandı; parti testli ürün seçilmemesi ve danışılmaması kusuru normal kademeye taşıdı." },
+        { "text": " Süre aralığın üst yarısında belirlendi." }
+      ]
+    },
+    {
+      "if": "p1_muhurlu && (p1_kasitsiz || p1_kasitsizKismen || p1_kontamine)",
+      "winner": "draw",
+      "hukum": "Sporcunun temyizinin KISMEN KABULÜ ile ihlalin kasıtlı olmadığının tespitine, hak mahrumiyeti süresinin WADA Kodu m.10.2.2 uyarınca 2 yıla İNDİRİLMESİNE, geçici askı süresinin mahsubuna,",
+      "summary": [
+        { "text": "Mühürlü kutu analizi kaynağı ispatladı; ihlal kasıtlı sayılmadı ve süre dört yıldan iki yıla indi (m.10.2.2)." },
+        { "if": "p1_kusursuz", "text": " Ama sporcu vekili kusursuzluk istedi; takviye kaynaklı sonuçlarda kusursuzluk uygulanmaz (m.10.5 yorumu)." },
+        { "if": "p1_kesin", "text": " Sporcu vekili kesin sorumluluk ilkesine itiraz ederek zaman kaybetti." },
+        { "if": "!p1_kontamine", "text": " Kirlenmiş ürün ve önemli kusursuzluk yolu doğru kurulmadığı için daha fazla indirim yapılmadı." },
+        { "if": "p1_kontamine", "text": " Kirlenmiş ürün hükmünün şartları ise panelde yeterince savunulmadı." }
+      ]
+    },
+    {
+      "if": "p1_acik && p1_kasitsiz && !p2_kaynak",
+      "winner": "draw",
+      "hukum": "Sporcunun temyizinin KISMEN KABULÜ ile ihlalin kasıtlı olmadığının tespitine, hak mahrumiyeti süresinin WADA Kodu m.10.2.2 uyarınca 2 yıla İNDİRİLMESİNE, geçici askı süresinin mahsubuna,",
+      "summary": "Açık kutunun analizi tek başına güçlü bir kaynak delili değildi; ama federasyon vekili kaynağın ispatlanmadığını ileri sürmedi. Panel, takviyenin formda beyanı ve düşük konsantrasyonla birlikte kasıtsızlığı ihtimaller dengesine göre kabul etti ve süreyi iki yıla indirdi. Kirlenmiş ürün hükmü için kaynak yeterince kesin değildi."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Sporcunun temyizinin REDDİNE, WRU Doping Disiplin Kurulu'nun dört yıllık hak mahrumiyeti kararının ONANMASINA,",
+      "summary": [
+        { "if": "p1_acik", "text": "Sporcu vekili yalnızca aylardır açık duran kutuyu analiz ettirdi; sonradan kirlenme ihtimali giderilemedi." },
+        { "if": "p1_dusuk", "text": "Sporcu vekili kaynağı göstermeden yalnızca düşük konsantrasyona dayandı." },
+        { "if": "p1_muhurlu", "text": "Mühürlü kutu analizi yapılmıştı, ama sporcu vekili kasıtsızlığı ve kirlenmiş ürün hükmünün şartlarını panele kuramadı." },
+        { "if": "p2_kaynak", "text": " Federasyon vekili kaynağın ispatlanmadığını doğru biçimde ileri sürdü." },
+        { "text": " Belirli madde olmayan bir maddede kasıtsızlık ispatlanmadıkça süre dört yıldır (WADA Kodu m.10.2.1.1)." },
+        { "if": "p1_kesin", "text": " Kesin sorumluluk ilkesine itiraz da panelce reddedildi (m.2.1.1)." }
+      ]
+    }
+  ]
+}

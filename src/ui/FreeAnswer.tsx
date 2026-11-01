@@ -7,6 +7,7 @@ import { evaluateFree } from "../engine/evaluate";
 import { CaseFile, Step } from "../engine/types";
 import { Btn } from "./kit";
 import { C, F } from "./theme";
+import { locale, t } from "../i18n";
 
 /** Tarayıcının konuşma tanıma özelliği (Chrome, Edge, Safari). Telefonda klavyedeki mikrofonla dikte edilir. */
 function getRecognizer(): any {
@@ -27,7 +28,7 @@ export default function FreeAnswer({ c, step, onResult }: { c: CaseFile; step: S
     if (listening) { try { rec.current?.stop(); } catch { /* yok say */ } return; }
     const r = getRecognizer();
     if (!r) return;
-    r.lang = "tr-TR"; r.interimResults = false; r.continuous = true;
+    r.lang = locale(); r.interimResults = false; r.continuous = true;
     const base = text ? text.trimEnd() + " " : "";
     let said = "";
     r.onresult = (e: any) => {
@@ -53,20 +54,22 @@ export default function FreeAnswer({ c, step, onResult }: { c: CaseFile; step: S
 
   return (
     <View style={{ gap: 10 }}>
-      <Text style={s.hint}>Cevabınızı kendi cümlelerinizle yazın{canListen.current ? " ya da mikrofona söyleyin" : Platform.OS !== "web" ? " ya da klavyedeki mikrofonla söyleyin" : ""}. Madde numarası vermek puanı artırır.</Text>
-      <TextInput value={text} onChangeText={setText} multiline editable={!busy} placeholder="Sayın Hâkim, …" placeholderTextColor={C.muted}
-        style={s.input} accessibilityLabel="Serbest cevap" maxLength={2000} />
+      <Text style={s.hint}>{canListen.current ? t("Cevabınızı kendi cümlelerinizle yazın ya da mikrofona söyleyin. Madde numarası vermek puanı artırır.")
+        : Platform.OS !== "web" ? t("Cevabınızı kendi cümlelerinizle yazın ya da klavyedeki mikrofonla söyleyin. Madde numarası vermek puanı artırır.")
+        : t("Cevabınızı kendi cümlelerinizle yazın. Madde numarası vermek puanı artırır.")}</Text>
+      <TextInput value={text} onChangeText={setText} multiline editable={!busy} placeholder={c.room === "tahkim" ? t("Sayın Hakem Heyeti, …") : t("Sayın Hâkim, …")} placeholderTextColor={C.muted}
+        style={s.input} accessibilityLabel={t("Serbest cevap")} maxLength={2000} />
       <View style={s.row}>
         {canListen.current && (
           <Pressable accessibilityRole="button" onPress={toggleMic} disabled={busy} style={[s.mic, listening && s.micOn]}>
-            <Text style={[s.micText, listening && { color: C.brassInk }]}>{listening ? "■ Dinliyorum… durdur" : "🎤 Söyle"}</Text>
+            <Text style={[s.micText, listening && { color: C.brassInk }]}>{listening ? t("■ Dinliyorum… durdur") : t("🎤 Söyle")}</Text>
           </Pressable>
         )}
         <View style={{ flex: 1 }} />
         {busy ? (
-          <View style={s.busy}><ActivityIndicator color={C.brass} /><Text style={s.hint}>Mahkeme cevabınızı değerlendiriyor…</Text></View>
+          <View style={s.busy}><ActivityIndicator color={C.brass} /><Text style={s.hint}>{c.room === "tahkim" ? t("Hakem heyeti cevabınızı değerlendiriyor…") : t("Mahkeme cevabınızı değerlendiriyor…")}</Text></View>
         ) : (
-          <Btn label="Cevabı sun ▸" onPress={submit} disabled={!text.trim()} />
+          <Btn label={t("Cevabı sun ▸")} onPress={submit} disabled={!text.trim()} />
         )}
       </View>
     </View>

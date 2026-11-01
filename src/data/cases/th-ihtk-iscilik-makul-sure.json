@@ -1,0 +1,387 @@
+{
+  "id": "th-ihtk-iscilik-makul-sure",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "ihtk",
+  "difficulty": "basit",
+  "title": "Basit Yargılama, Sekiz Yıl",
+  "area": "Tahkim · İnsan Hakları Tazminat Komisyonu · Makul süre (işçilik alacağı)",
+  "court": "İnsan Hakları Tazminat Komisyonu (Adalet Bakanlığı) · Müracaat No. 2026/61093",
+  "courtShort": "TAZMİNAT KOMİSYONU",
+  "esas": "Müracaat No. 2026/61093",
+  "kararTarihi": "03.08.2027",
+  "color": "#6a5534",
+  "teaser": "Kıdem tazminatı ve fazla çalışma alacağı için açılan dava sekiz yıldan fazla sürdü. Bakanlık, gecikmenin bir kısmını işçinin geç yatırdığı söylenen bilirkişi avansına bağlıyor.",
+  "bench": { "judges": 3, "title": "Komisyon heyeti: başkan ve iki üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "Başvuran vekili", "short": "Başvuran" },
+    "p2": { "role": "Adalet Bakanlığı temsilcisi (görüş sunan)", "short": "Bakanlık" }
+  },
+  "cast": {
+    "judge": { "name": "Komisyon Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#c9946e", "hair": "#6e6e72", "style": "short", "beard": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e8bf9a", "hair": "#5a3a26", "style": "long", "shirt": "#262a31", "inner": "#e6dfd4" } },
+    "p2": { "look": { "kind": "civil", "skin": "#d7a882", "hair": "#2a2522", "style": "short", "shirt": "#2f3540", "inner": "#dcd6cc" } },
+    "client": { "name": "Erol Demirkaya · Başvuran", "np": "civil", "look": { "kind": "civil", "skin": "#bf8a62", "hair": "#3a322c", "style": "short", "beard": true, "shirt": "#5e6a4e", "inner": "#e2ddd2" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Erol Demirkaya, Denizli'deki bir tekstil fabrikasında on iki yıl çalıştıktan sonra 2018'de işten çıkarıldı. Arabuluculukta anlaşma çıkmadı; kıdem ve ihbar tazminatı ile fazla çalışma alacağı için dava 14.06.2018'de iş mahkemesinde açıldı." },
+    { "who": "narr", "text": "Üç bilirkişi raporu, salgın dönemi, istinaf ve temyiz. Yargıtay'ın onama kararı 26.10.2026'da vekile tebliğ edildi; dava sekiz yıl dört ay sonra kesinleşti." },
+    { "who": "client", "text": "Hakkımı aldım ama sekiz yıl sonra. O yıllarda iş bulamadım, borçla yaşadık. Bu kadar beklemenin hesabını kim verecek?" },
+    { "who": "narr", "text": "Bugün 02.11.2026. Makul süre şikâyetleri 12.03.2024'ten beri Adalet Bakanlığı bünyesindeki Komisyona yapılıyor. Komisyon dosya üzerinden karar verir; yazılı görüşler burada karşılıklı tartışılıyor." }
+  ],
+  "docs": [
+    { "t": "6384 sayılı Kanun m.2/3-a ve m.5/A", "d": "Hukuk yargılamalarının makul sürede sonuçlandırılmadığı iddiasıyla manevi tazminat müracaatları Komisyonca incelenir. Müracaat, yargılama sürerken ya da en geç kesin kararın öğrenilmesinden itibaren bir ay içinde yapılır." },
+    { "t": "7036 sayılı İş Mahkemeleri Kanunu m.7", "d": "İş mahkemelerinde, kanunda aksi belirtilmedikçe basit yargılama usulü uygulanır." },
+    { "t": "7226 sayılı Kanun geçici m.1", "d": "Salgın nedeniyle yargısal süreler 13.03.2020'den itibaren durduruldu; durma 15.06.2020'ye kadar uzatıldı." },
+    { "t": "Yargılama süreci (özet)", "d": "14.06.2018 dava · bilirkişi raporları 2019, 2020 (ek), 2021 (ikinci ek) · iki duruşma vekil mazeretiyle ertelendi (2019, 2021) · 18.03.2020 duruşması salgın nedeniyle düştü, sonraki duruşma 08.07.2020 · 06.2022 kısmen kabul · 2022–2024 istinaf · 2024–2026 Yargıtay, onama · tebliğ 26.10.2026." },
+    { "t": "Bakanlığın ön görüşü (özet)", "d": "Başvuran bilirkişi gider avansını süresinde yatırmamış, vekili iki kez mazeret bildirmiştir. Salgın dönemi olağanüstüdür." }
+  ],
+  "evidence": [
+    { "id": "ev_avans", "type": "belge", "title": "Gider avansı dekontu", "desc": "Mahkemenin 12.03.2020 tarihli ara kararıyla iki hafta kesin süre verilen bilirkişi avansı, 24.03.2020'de mahkeme veznesine yatırılmış.", "if": "p1_avans" },
+    { "id": "ev_sgk", "type": "belge", "title": "SGK hizmet dökümü", "desc": "2018–2022 arasında yalnızca kesintili, kısa süreli kayıtlar; iki yıl hiç prim yok.", "if": "p1_onem" },
+    { "id": "ev_tutanak", "type": "belge", "title": "Duruşma tutanakları", "desc": "18.03.2020 duruşması salgın tedbirleri nedeniyle yapılamadı; sonraki duruşma 08.07.2020'de. 2019 ve 2021'de birer duruşma davacı vekilinin mazeretiyle ertelendi." },
+    { "id": "ev_bilirkisi", "type": "belge", "title": "Bilirkişi raporları", "desc": "Asıl rapor Kasım 2019; işverenin itirazı üzerine ek rapor Ekim 2020; ikinci ek rapor Eylül 2021." },
+    { "id": "law_7036", "type": "kanun", "title": "7036 s.K. m.7 · Basit yargılama", "desc": "İş mahkemelerinde kural olarak basit yargılama usulü uygulanır.", "law": "7036 s.K. m.7" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "MÜRACAAT · Onama kararı bir hafta önce tebliğ edildi. Erol, 'enflasyonda eriyen parayı da isteyelim' diyor." }
+      ],
+      "prompt": "Müracaatı nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "26.11.2026'ya kadar Komisyona müracaat et; talebi uzun yargılamadan doğan manevi tazminatla sınırla, emsal tutarlara dayan.",
+          "delta": 20,
+          "set": ["p1_manevi"],
+          "law": "6384 s.K. m.2/3-a, m.5/A",
+          "note": "Doğru. Süre, kesin kararın öğrenilmesinden itibaren bir aydır (m.5/A). Kanun bu yolu manevi tazminatla sınırlıyor (m.2/3-a); kapsam dışı bir kalem eklemek kısmi ret demektir.",
+          "reply": [{ "who": "narr", "text": "Müracaat 18.11.2026'da Komisyona ulaştı." }]
+        },
+        {
+          "text": "26.11.2026'ya kadar Komisyona müracaat et; manevi tazminatın yanında alacağın enflasyon karşısındaki erimesini de maddi tazminat olarak iste.",
+          "delta": -5,
+          "set": ["p1_maddi"],
+          "law": "6384 s.K. m.2/3-a",
+          "note": "Süre doğru, ama maddi kalem bu yolun dışında: Komisyon makul süre müracaatında yalnızca manevi tazminata hükmeder (m.2/3-a). Bu kısım reddedilecek.",
+          "reply": [{ "who": "narr", "text": "Müracaat 18.11.2026'da Komisyona ulaştı." }]
+        },
+        {
+          "text": "Otuz gün içinde Anayasa Mahkemesine bireysel başvuru yap; makul süre şikâyetinde Komisyon isteğe bağlı, ikincil bir yoldur.",
+          "delta": -15,
+          "law": "6216 s.K. m.45/2 · 6384 s.K. m.5/A",
+          "note": "Tersi doğru: Komisyon tüketilmesi gereken bir yoldur. Anayasa Mahkemesi doğrudan yapılan makul süre başvurularını başvuru yollarının tüketilmemesi nedeniyle kabul edilemez bulur.",
+          "reply": [{ "who": "narr", "text": "Başvuru formunu hazırlarken hatayı fark ettiniz; Komisyon müracaatı 23.11.2026'da, süre dolmadan yapıldı." }]
+        },
+        {
+          "text": "Yargıtay'ın onama kararına karşı karar düzeltme yoluna git; yargılamanın uzunluğunu da karar düzeltme dilekçesinde ileri sür.",
+          "delta": -10,
+          "law": "HMK · 6384 s.K. m.5/A",
+          "note": "Hukuk Muhakemeleri Kanunu'nda karar düzeltme yolu yoktur; onama kararıyla dava kesinleşti. Uzunluk şikâyetinin yeri Komisyondur.",
+          "reply": [{ "who": "narr", "text": "Dilekçeyi yazarken vazgeçtiniz; Komisyon müracaatı 23.11.2026'da yapıldı." }]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAKANLIK GÖRÜŞÜ · Komisyon görüş istedi. Başvuranın tutumu hakkında ne yazacaksınız?" }
+      ],
+      "prompt": "Görüşünüzün odağı ne olacak?",
+      "choices": [
+        {
+          "text": "Başvuranın ıslah ve bedel artırım dilekçeleriyle yargılamayı uzattığını, uzayan sürenin tamamının başvurana yüklenmesini iste.",
+          "delta": -10,
+          "set": ["p2_islah"],
+          "law": "HMK m.107, m.176 · AİHS m.6/1",
+          "note": "Bedel artırımı ve ıslah kanuni haklardır; bu hakları kullanan taraf kusurlu sayılmaz. Bu dilekçeler dosyayı aylarca durdurmadıysa süreye etkisi de yoktur."
+        },
+        {
+          "text": "Gider avansının geç tamamlandığı ve vekil mazeretleriyle geçen süreleri belgeyle ayır; yalnızca bu bölümleri başvurana yükle.",
+          "delta": 15,
+          "set": ["p2_kusur"],
+          "law": "AİHS m.6/1",
+          "note": "Doğru yöntem: başvuranın tutumu ölçütü ancak somut, belgelenmiş gecikmelerle işler. Vekil mazeretiyle ertelenen iki duruşma gerçekten başvurana yüklenir; avans iddiası ise belgeyle sınanacak."
+        },
+        {
+          "text": "İşçilik alacağı parasal bir uyuşmazlık olduğundan uzun yargılamanın manevi zarar doğurmayacağını, müracaatın reddini savun.",
+          "delta": -15,
+          "set": ["p2_parasal"],
+          "law": "6384 s.K. m.2/3-a",
+          "note": "Yanlış. Yargılamanın uzunluğundan doğan belirsizlik ve kaygı, uyuşmazlığın konusundan bağımsız bir manevi zarardır; iş uyuşmazlıklarında AİHM ayrıca özel özen bekler."
+        },
+        {
+          "text": "Temyize gitmek başvuranın tercihi olduğundan, Yargıtay'da geçen iki yılın toplam yargılama süresinden düşülmesini iste.",
+          "delta": -10,
+          "law": "AİHS m.6/1",
+          "note": "Kanun yoluna başvurmak bir haktır; kanun yolu aşamaları toplam süreye dahildir."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Bakanlığın görüşü elinize ulaştı. Erol'la görüşüyorsunuz; iki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Bilirkişi gider avansı ne zaman istendi, ne zaman yatırdınız?",
+          "delta": 15,
+          "set": ["p1_avans"],
+          "reply": [{ "who": "client", "text": "12 Mart 2020'de iki hafta süre verildi. Salgın başladı ama ben 24 Mart'ta yatırdım. Dekontu saklıyorum." }],
+          "note": "Kilit soru. Bakanlık gecikmeyi avansa bağlıyor; dekont bu iddiayı sınar. Dekont delil çantanıza eklendi."
+        },
+        {
+          "text": "Dava sürerken nasıl geçindiniz?",
+          "delta": 10,
+          "set": ["p1_onem"],
+          "reply": [{ "who": "client", "text": "Fabrikadan sonra düzenli iş bulamadım. Gündelik işler, borçlar. O alacak ailemin tek umuduydu. SGK dökümüm ortada." }],
+          "note": "Yerinde. Davanın başvuran için önemi makul sürenin ölçütlerinden biridir; iş uyuşmazlıklarında bu önem özel özeni gerektirir. SGK dökümü çantanıza eklendi."
+        },
+        {
+          "text": "İşveren şirket hâlâ faal mi, alacağı tahsil edebildiniz mi?",
+          "delta": -5,
+          "reply": [{ "who": "client", "text": "Faal. Kararı icraya koyduk, geçen ay tahsil ettik." }],
+          "note": "Tahsil bu müracaatın konusu değil; uzunluktan doğan manevi zarar, alacağın sonunda tahsil edilmesiyle ortadan kalkmaz."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, 2020'deki dört aylık duraklama hakkında ne diyorsunuz?" }
+      ],
+      "prompt": "Salgın dönemini nasıl değerlendireceksiniz?",
+      "choices": [
+        {
+          "text": "Salgın nedeniyle 2020–2022 arasında geçen iki yılın tamamının, olağanüstü koşullar gerekçesiyle toplam süreden düşülmesini iste.",
+          "delta": -10,
+          "law": "7226 s.K. geçici m.1",
+          "note": "Aşırı. Süreler kanunla yalnızca 13.03–15.06.2020 arasında durdu; sonraki dönemde mahkemeler çalıştı. İki yılı düşmek inandırıcı değil."
+        },
+        {
+          "text": "Yargısal süreler 13.03–15.06.2020 arasında salgın nedeniyle kanunla durduruldu; bu kısa dönemi makamların kusuru sayma.",
+          "delta": 15,
+          "set": ["p2_pandemi"],
+          "law": "7226 s.K. geçici m.1",
+          "note": "İsabetli ve ölçülü. Kanunla durdurulan kısa bir dönem, öngörülemeyen olağanüstü bir durumdur; makamların kusuruna yazılması beklenmez. Ama sekiz yılın kalanını açıklamaz."
+        },
+        {
+          "text": "Her yıl 20 Temmuz–31 Ağustos arasındaki adli tatil dönemlerinin, duruşma yapılmadığı için toplam süreden düşülmesini iste.",
+          "delta": -10,
+          "law": "HMK m.102 · AİHS m.6/1",
+          "note": "Adli tatil yargı sisteminin olağan bir parçasıdır; toplam süreden düşülmez."
+        },
+        {
+          "text": "Avansı başvuran geç yatırdığı için Mart–Temmuz 2020 arasındaki bekleme süresinin tamamen başvurana yüklenmesini iste.",
+          "delta": -10,
+          "set": ["p2_avans"],
+          "law": "AİHS m.6/1",
+          "note": "Bu iddia belgeye dayanmalı. Mart–Temmuz 2020 beklemesinin asıl sebebi salgın tedbirleriyle düşen duruşmaydı."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, gider avansına ilişkin iddiaya cevabınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Başvuran bilirkişi gider avansını süresinde yatırmamış, dosya bu yüzden dört ay beklemiştir." },
+      "prompt": "Bu beyanı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_avans"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_avansok"],
+        "law": "AİHS m.6/1",
+        "note": "Dekont, avansın kesin süre içinde, 24.03.2020'de yatırıldığını gösteriyor. Dört aylık bekleme başvurana yüklenemez.",
+        "reply": [{ "who": "judge", "text": "Dekont dosyaya alındı. Avansın süresinde yatırıldığı anlaşılıyor." }]
+      },
+      "responses": {
+        "ev_tutanak": { "delta": 5, "note": "Tutanak, Mart 2020 duruşmasının salgın tedbirleriyle düştüğünü gösteriyor; işe yarar. Ama 'avans yatırılmadı' iddiasını doğrudan çürüten belge dekonttu." },
+        "ev_bilirkisi": { "delta": 0, "note": "Raporların tarihleri avansın ne zaman yatırıldığını göstermiyor." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge avansın ne zaman yatırıldığını göstermiyor." },
+      "pass": { "delta": -10, "note": "İddia cevapsız kaldı; dört aylık bekleme başvurana yazılabilir." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, tazminat tutarı hakkında görüşünüz?" }
+      ],
+      "prompt": "Komisyonun tutarı nasıl belirlemesi gerektiğini ve toplam süreden nelerin ayrılması gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p2_miktar"], "law": "6384 s.K. m.2/3-a, m.7", "note": "Ölçülü bir görüş: başvurana yüklenebilecek dönemi somut olarak ayırdınız, salgın dönemini doğru sınırladınız, emsal ölçütüne ve yolun manevi tazminatla sınırlı olduğuna dayandınız." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p2_miktar"], "law": "6384 s.K. m.7", "note": "Tutarın emsallere göre belirleneceğini söylediniz. Eksik kalan: vekil mazeretiyle ertelenen iki duruşmanın ve 13.03–15.06.2020 döneminin somut olarak ayrılması ve yolun yalnızca manevi tazminata açık olduğu." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "6384 s.K. m.7", "note": "Görüşünüz tutarı neye göre indireceğinizi göstermedi. Komisyon emsal kararlara ve belgelenmiş gecikmelere bakar." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Komisyon tutarı Anayasa Mahkemesi ve AİHM'nin emsal kararlarını gözeterek belirler (6384 s.K. m.7); yalnızca manevi tazminata hükmedilir (m.2/3-a). (2) Başvurana yüklenebilecek dönemler somut olarak ayrılmalıdır: 2019 ve 2021'de vekil mazeretiyle ertelenen iki duruşma. (3) Yargısal sürelerin kanunla durdurulduğu 13.03–15.06.2020 dönemi olağanüstüdür ve makamların kusuru sayılmamalıdır. (4) İhlali tümden inkâr etmeyen, bu ayrımlara dayanan ölçülü bir görüş daha inandırıcıdır. İki yılın tamamını salgına yüklemek ya da kanun yollarını başvuranın kusuru saymak düşük puan alır.",
+      "keywords": [
+        { "terms": ["emsal", "AİHM", "Anayasa Mahkemesi", "AYM", "m.7"], "weight": 3 },
+        { "terms": ["vekil mazeret", "mazeret", "iki duruşma", "2 duruşma"], "weight": 2 },
+        { "terms": ["salgın", "pandemi", "7226", "15.06.2020", "13.03.2020"], "weight": 2 },
+        { "terms": ["manevi", "m.2/3"], "weight": 1 },
+        { "terms": ["ölçülü", "fahiş", "hakkaniyet"], "weight": 1 }
+      ],
+      "model": "Komisyon tutarı Anayasa Mahkemesi ve AİHM'nin emsal kararlarına göre ve yalnızca manevi tazminat olarak belirlemelidir (6384 s.K. m.2/3-a, m.7). Toplam süreden, 2019 ve 2021'de davacı vekilinin mazeretiyle ertelenen iki duruşmanın yol açtığı gecikme başvurana yüklenmelidir. Yargısal sürelerin kanunla durdurulduğu 13.03–15.06.2020 dönemi de olağanüstüdür ve makamların kusuru sayılmamalıdır; tutar bu ayrımlar gözetilerek ölçülü belirlenmelidir."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, iş uyuşmazlığının niteliği ve talebiniz hakkında son görüşünüz?" }
+      ],
+      "prompt": "Bir iş davasının sekiz yılı aşmasının neden ağır bir ihlal olduğunu ve tazminat talebinizi kendi cümlelerinizle açıklayın.",
+      "choices": [
+        { "text": "Güçlü görüş", "min": 70, "delta": 20, "set": ["p1_olcut"], "law": "6384 s.K. m.7 · 7036 s.K. m.7 · AİHS m.6/1", "note": "Güçlü bir görüş: iş uyuşmazlıklarında beklenen özel özeni, basit yargılama usulünü, başvurana yüklenebilecek sürenin sınırlılığını ve müvekkil için davanın önemini emsal ölçütüyle birleştirdiniz." },
+        { "text": "Yeterli görüş", "min": 40, "delta": 10, "set": ["p1_olcut"], "law": "6384 s.K. m.7 · AİHS m.6/1", "note": "Sürenin uzunluğunu ve davanın önemini söylediniz. Eksik kalan: iş uyuşmazlıklarında özel özen beklendiği, iş mahkemelerinde basit yargılamanın kural olduğu (7036 s.K. m.7) ve başvurana yüklenebilecek sürenin iki duruşmayla sınırlı kaldığı." },
+        { "text": "Zayıf görüş", "delta": -5, "law": "6384 s.K. m.7", "note": "Görüşünüz ölçütlere dayanmadı. İş uyuşmazlığının niteliği, başvuranın tutumu ve davanın onun için önemi gösterilmeliydi." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) İş uyuşmazlıkları işçinin geçimiyle ilgili olduğundan AİHM bu davalarda yargı mercilerinden özel özen bekler; kanun koyucu da iş mahkemelerinde basit yargılama usulünü kural olarak benimsemiştir (7036 s.K. m.7). (2) 14.06.2018'den 26.10.2026'ya kadar süren dava sekiz yılı aşmıştır. (3) Başvurana yüklenebilecek süre iki vekil mazeretiyle sınırlıdır; gider avansı süresinde yatırılmıştır; salgın dönemi kısa bir duraklamadır. (4) Davanın başvuran için önemi büyüktür: dava süresince düzenli iş bulamamıştır. (5) Manevi tazminat AYM ve AİHM emsallerine göre belirlenmelidir (6384 s.K. m.7). Özel özen, sürenin hesabı ve başvuranın tutumu birlikte tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["özel özen", "iş uyuşmazlı", "işçi", "geçim"], "weight": 2 },
+        { "terms": ["basit yargılama", "7036", "m.7"], "weight": 2 },
+        { "terms": ["sekiz yıl", "8 yıl", "2018"], "weight": 1 },
+        { "terms": ["avans", "süresinde yatır", "iki duruşma", "mazeret"], "weight": 2 },
+        { "terms": ["önem", "iş bulamadı", "SGK", "işsiz"], "weight": 1 },
+        { "terms": ["emsal", "AİHM", "Anayasa Mahkemesi", "AYM"], "weight": 1 }
+      ],
+      "model": "İş uyuşmazlıkları işçinin geçimine dokunduğu için AİHM bu davalarda yargı mercilerinden özel özen bekler; kanun koyucu da iş mahkemelerinde basit yargılamayı kural olarak benimsemiştir (7036 s.K. m.7). Buna rağmen dava 14.06.2018'den 26.10.2026'ya, sekiz yılı aşkın sürdü. Müvekkile yüklenebilecek gecikme iki vekil mazeretinden ibarettir; avans süresinde yatırılmış, salgın duraklaması da birkaç ayla sınırlı kalmıştır. Dava süresince düzenli iş bulamayan müvekkil için bu davanın önemi büyüktür; emsallere uygun bir manevi tazminata hükmedilmesini istiyoruz (6384 s.K. m.7)."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "p1_maddi",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, müracaattaki maddi tazminat talebi hakkında görüşünüz?" }
+      ],
+      "prompt": "Maddi talep hakkında ne diyeceksiniz?",
+      "choices": [
+        {
+          "text": "Maddi talebin, yasal faiz yerine en yüksek mevduat faizi uygulanmak suretiyle hesaplanarak sınırlı biçimde kabul edilmesini iste.",
+          "delta": -10,
+          "law": "6384 s.K. m.2/3-a",
+          "note": "Kalem hesap yöntemiyle değil, Komisyonun yetkisiyle ilgilidir: makul süre müracaatında maddi tazminata hiç hükmedilemez."
+        },
+        {
+          "text": "Alacak yasal faiziyle tahsil edildiğinden hiçbir zarar kalmadığını, bu nedenle manevi talebin de reddedilmesi gerektiğini savun.",
+          "delta": -10,
+          "law": "6384 s.K. m.2/3-a",
+          "note": "Tahsil, uzunluktan doğan manevi zararı ortadan kaldırmaz. Maddi kalem için doğru itiraz ise görev itirazıydı."
+        },
+        {
+          "text": "Maddi talebin Komisyonun görev alanı dışında kaldığını, bu yolda yalnızca manevi tazminata hükmedilebileceğini belirt, reddini iste.",
+          "delta": 15,
+          "set": ["p2_kapsam"],
+          "law": "6384 s.K. m.2/3-a, m.6",
+          "note": "Doğru. Kanun bu yolu manevi tazminatla sınırlıyor (m.2/3-a); görev alanı dışındaki talep reddedilir (m.6)."
+        },
+        {
+          "text": "Maddi talebin incelenmesi için dosyanın, alacağın hüküm altına alındığı Denizli iş mahkemesine gönderilmesini iste.",
+          "delta": -10,
+          "law": "6384 s.K. m.6",
+          "note": "Komisyon görev alanı dışındaki talebi başka bir mercie göndermez, reddeder (m.6). Kesinleşmiş iş davası da yeniden açılmaz."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "!p1_maddi",
+      "lines": [
+        { "who": "judge", "text": "Bakanlık temsilcisi, son görüşünüz?" }
+      ],
+      "prompt": "Komisyondan ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "İş davalarının ortalama süresi istatistiklere göre beş yıl olduğundan, yalnızca bunu aşan üç yıl için tazminata hükmedilmesini istiyoruz.",
+          "delta": -10,
+          "law": "AİHS m.6/1",
+          "note": "Makul süre ortalamayla değil, somut dosyanın ölçütleriyle belirlenir; uzun bir ortalama ihlali haklı kılmaz, yapısal sorunu gösterir."
+        },
+        {
+          "text": "Tutarın emsallere göre belirlenmesini, salgın dönemi ile vekil mazeretleriyle geçen sürelerin hesaba katılmasını istiyoruz.",
+          "delta": 15,
+          "set": ["p2_takdir"],
+          "law": "6384 s.K. m.7",
+          "note": "Ölçülü ve isabetli bir son görüş."
+        },
+        {
+          "text": "Başvuran alacağını tahsil ettiğinden mağdur sıfatını yitirdiğini, müracaatın hukuki yarar yokluğundan reddini istiyoruz.",
+          "delta": -15,
+          "law": "6384 s.K. m.6",
+          "note": "Alacağın tahsili uzunluk ihlalini ne tanır ne de giderir; mağdurluk devam eder."
+        },
+        {
+          "text": "Tazminatın, başvuranın işveren şirketten tahsil ettiği tutardan mahsup edilerek ödenmesine karar verilmesini istiyoruz.",
+          "delta": -10,
+          "law": "6384 s.K. m.7",
+          "note": "İşverenin borcu ile devletin makul süre ihlalinden doğan sorumluluğu ayrıdır; mahsup edilemez. Tazminatı Adalet Bakanlığı öder (m.7)."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_avansok && p1_olcut && !p2_miktar",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Müracaatın KABULÜ ile hukuk yargılamasının makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 85.000 TL manevi tazminat ödenmesine," },
+        { "if": "p1_maddi", "text": " maddi tazminat talebinin Komisyonun görev alanı dışında kaldığından REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Başvuran vekili avansın süresinde yatırıldığını dekontla gösterdi ve iş uyuşmazlığında beklenen özel özeni öne çıkardı. Bakanlık tutarı emsallere bağlayan ölçülü bir görüş sunamadı." },
+        { "if": "p2_islah", "text": " Islah ve bedel artırımının başvurana kusur olarak yüklenmesi talebi kabul görmedi." },
+        { "if": "p2_parasal", "text": " Parasal uyuşmazlıkta manevi zarar olmayacağı savunması reddedildi." }
+      ]
+    },
+    {
+      "if": "p2_miktar && p2_pandemi && !p1_avansok",
+      "winner": "p2",
+      "hukum": [
+        { "text": "Müracaatın KISMEN KABULÜ ile hukuk yargılamasının makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 35.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "p1_maddi", "text": " maddi tazminat talebinin Komisyonun görev alanı dışında kaldığından REDDİNE," }
+      ],
+      "summary": "İhlal tespit edildi; ama Bakanlık salgın dönemini doğru sınırladı ve başvurana yüklenebilecek gecikmeleri gösterdi. Başvuran vekili avans iddiasını belgeyle çürütemediği için Mart–Temmuz 2020 beklemesi de başvuranın aleyhine değerlendirildi; tutar alt sınıra yakın kaldı."
+    },
+    {
+      "if": "(p1_avansok || p1_olcut) && (p2_miktar || p2_pandemi)",
+      "winner": "draw",
+      "hukum": [
+        { "text": "Müracaatın KISMEN KABULÜ ile hukuk yargılamasının makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 60.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE," },
+        { "if": "p1_maddi", "text": " maddi tazminat talebinin Komisyonun görev alanı dışında kaldığından REDDİNE," }
+      ],
+      "summary": [
+        { "text": "İki taraf da işini yaptı. Başvuran vekili gecikmenin büyük bölümünün makamlardan kaynaklandığını gösterdi; Bakanlık da salgın dönemini ve vekil mazeretlerini doğru ayırdı. Komisyon orta düzeyde tazminata hükmetti." },
+        { "if": "p1_manevi", "text": " Talebin baştan manevi zararla sınırlanması isabetliydi." }
+      ]
+    },
+    {
+      "if": "p1_avansok || p1_olcut",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Müracaatın KABULÜ ile hukuk yargılamasının makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 75.000 TL manevi tazminat ödenmesine," },
+        { "if": "p1_maddi", "text": " maddi tazminat talebinin Komisyonun görev alanı dışında kaldığından REDDİNE," }
+      ],
+      "summary": "Başvuran vekili ihlali ölçütlerle gösterdi; Bakanlık salgın dönemini de tutarın ölçütlerini de inandırıcı biçimde ortaya koyamadı."
+    },
+    {
+      "winner": "p2",
+      "hukum": "Müracaatın KISMEN KABULÜ ile hukuk yargılamasının makul sürede sonuçlandırılmadığının TESPİTİNE, başvurana 35.000 TL manevi tazminat ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": "Sekiz yılı aşan süre ihlal tespitine yetti. Ama başvuran vekili ne avans iddiasını çürüttü ne de iş uyuşmazlığındaki özel özeni ölçütlere bağladı; tutar emsallerin alt sınırına yakın belirlendi."
+    }
+  ]
+}
