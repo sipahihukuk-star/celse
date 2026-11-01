@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Image, LayoutChangeEvent, Platform, StyleSheet, Text, View } from "react-native";
 import { Avatar, useOffice } from "../data/office";
 import { MOUTHS } from "./mouths";
-import { firstName, FEMALE, isFemale } from "./people";
+import { firstName, FEMALE, isFemale, robeOf } from "./people";
 import { currentAccount } from "../data/account";
 import { CaseFile, Look, Scene } from "../engine/types";
 import { PhotoKey, PHOTOS } from "./photos";
@@ -16,7 +16,7 @@ interface Props { c: CaseFile; scene: Scene; focus: string | null; talking: bool
 type Pool = { f: PhotoKey[]; m: PhotoKey[] };
 const JUDGE: Pool = { f: ["hk-kadin-55", "hk-kadin-45", "hk-kadin-32"], m: ["hk-erkek-58", "hk-erkek-42", "hk-erkek-65"] };
 const PROS: Pool = { f: ["sv-kadin"], m: ["sv-erkek"] };
-const LAWYER: Pool = { f: ["av-kadin-32", "av-kadin-52", "av-kadin-25", "av-kadin-basortulu"], m: ["av-erkek-38", "av-erkek-58", "av-erkek-25"] };
+const LAWYER: Pool = { f: ["av-kadin-32", "av-kadin-52", "av-kadin-25", "av-kadin-basortulu", "av-kadin-41", "av-kadin-28", "av-kadin-61", "av-kadin-35"], m: ["av-erkek-38", "av-erkek-58", "av-erkek-25", "av-erkek-46", "av-erkek-32", "av-erkek-66", "av-erkek-27"] };
 const CIVIL: Pool = { f: ["mv-kadin-45", "mv-kadin-25", "mv-kadin-62", "mv-kadin-72"], m: ["mv-erkek-55", "mv-erkek-22", "mv-erkek-is", "mv-erkek-isci"] };
 const AIHM: Pool = { f: ["ul-kadin-aihm", "ul-kadin-aihm2"], m: ["ul-erkek-aihm", "ul-erkek-aihm2", "ul-erkek-aihm3"] };
 const UCM: Pool = { f: ["ul-kadin-ucm", "ul-kadin-ucm2"], m: ["ul-erkek-ucm", "ul-erkek-ucm2"] };
@@ -54,6 +54,11 @@ const FRONT_TOP = 418;
 const MUBASIR = ["mubasir", "mubasir-kadin", "mubasir-genc", "mubasir-yasli"] as const;
 const KATIP = ["katip", "katip-erkek", "katip-kadin-45", "katip-erkek-45"] as const;
 
+export function tintJudge(k: PhotoKey, robe: string): PhotoKey {
+  const t = `${k}${robe}`;
+  return robe && /^hk-/.test(k) && t in PHOTOS ? (t as PhotoKey) : k;
+}
+
 interface Fig { key: string; photo: PhotoKey; flip?: boolean; x: number; bottom: number; h: number; z: number; front?: boolean }
 
 /** Davanın kadrosuna fotoğraf atar. Aynı dava her açılışta aynı kişileri gösterir. */
@@ -72,7 +77,7 @@ export function cast(c: CaseFile, avatar?: Avatar | null) {
   const judgePool = intl ? (/Ceza Mahkemesi/.test(c.court) ? UCM : AIHM) : JUDGE;
   const j = c.cast.judge;
   const map: Record<string, PhotoKey> = {};
-  map.judge = pick(judgePool, isFemale(j?.look, j?.name), "judge", isOld(j?.look));
+  map.judge = tintJudge(pick(judgePool, isFemale(j?.look, j?.name), "judge", isOld(j?.look)), robeOf(c));
   for (const [role, m] of Object.entries(c.cast)) {
     if (role === "judge") continue;
     const robe = m.look?.kind !== "civil";
@@ -145,7 +150,7 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
     const pres = Math.floor(n / 2);
     const intlPool = /Ceza Mahkemesi/.test(c.court) ? UCM : AIHM;
     const judgePool: PhotoKey[] = /uluslararasi/.test(room.bg) ? [...intlPool.m, ...intlPool.f]
-      : ["hk-erkek-58", "hk-kadin-45", "hk-erkek-42", "hk-kadin-32", "hk-erkek-65", "hk-kadin-55"];
+      : (["hk-erkek-58", "hk-kadin-45", "hk-erkek-42", "hk-kadin-32", "hk-erkek-65", "hk-kadin-55"] as PhotoKey[]).map(k => tintJudge(k, robeOf(c)));
     const others = judgePool.filter(k => k !== faces.judge);
     const crowd = n > 7 ? 0.82 : 1;
     let m = 0;

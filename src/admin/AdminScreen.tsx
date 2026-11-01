@@ -8,10 +8,11 @@ import { normalizeCase, validateCase } from "../engine/engine";
 import { CaseFile } from "../engine/types";
 import { Btn, Chip } from "../ui/kit";
 import { C, F } from "../ui/theme";
+import { AuditPanel, GeneratePanel } from "./AiPanels";
 import CaseEditor from "./CaseEditor";
 import { Field, Row, Section, Seg, SmallBtn } from "./form";
 import { blankCase, CourtPreset, PRESETS } from "./presets";
-import { getPin, setPin, Status, store, StoredCase } from "./store";
+import { getPin, serverAdmin, setPin, Status, store, StoredCase } from "./store";
 
 interface Props { onExit: () => void; onPreview: (c: CaseFile) => void }
 
@@ -70,8 +71,10 @@ function AdminHome({ onExit, onPreview }: Props) {
   const [modeF, setModeF] = useState<"hepsi" | "solo" | "duel">("hepsi");
   const [statusF, setStatusF] = useState<"hepsi" | "yayinda" | "taslak" | "yerlesik">("hepsi");
   const [confirmDel, setConfirmDel] = useState<string | null>(null);
+  const [ai, setAi] = useState<"" | "denetim" | "uretim">("");
+  const [isServerAdmin, setServerAdmin] = useState<boolean | null>(null);
   const reload = () => store.list().then(setStored);
-  useEffect(() => { reload(); }, []);
+  useEffect(() => { reload(); serverAdmin().then(setServerAdmin); }, []);
 
   const entries: Entry[] = useMemo(() => {
     const byId = new Map(stored.map(s => [s.case.id, s]));
@@ -110,10 +113,22 @@ function AdminHome({ onExit, onPreview }: Props) {
         </View>
         <View style={st.headActions}>
           <SmallBtn label="‹ Oyuna dön" onPress={onExit} />
+          <SmallBtn label="🔍 Yapay zekâ denetimi" tone={ai === "denetim" ? "accent" : "plain"} onPress={() => setAi(ai === "denetim" ? "" : "denetim")} />
+          <SmallBtn label="✨ Yapay zekâ ile üret" tone={ai === "uretim" ? "accent" : "plain"} onPress={() => setAi(ai === "uretim" ? "" : "uretim")} />
           <SmallBtn label="JSON içe aktar" onPress={() => setImporting(!importing)} />
           <SmallBtn label="+ Yeni dava" tone="accent" onPress={() => setWizard(!wizard)} />
         </View>
       </View>
+
+      <Text style={[st.sub, { fontSize: 13 }, isServerAdmin === false && { color: C.bad }]}>
+        {isServerAdmin === null ? "Sunucu yetkisi denetleniyor…"
+          : isServerAdmin ? "Sunucu: yönetici ✓ · Yayınladığınız dosyalar bütün oyunculara gider; yapay zekâ araçları açık."
+          : "Sunucu: bu hesap yönetici değil ya da sunucuya ulaşılamıyor. Değişiklikler yalnızca bu cihazda kalır; yapay zekâ araçları çalışmaz. (Yönetici hesabınızla “Giriş yap” ile girin.)"}
+      </Text>
+
+      {ai === "denetim" && <AuditPanel entries={entries} onSaved={reload} onPreview={onPreview} onClose={() => setAi("")} />}
+      {ai === "uretim" && <GeneratePanel takenIds={takenIds} onSaved={reload} onPreview={onPreview} onClose={() => setAi("")}
+        onEdit={c => { setAi(""); setEditing({ c, status: "taslak", isNew: false }); }} />}
 
       {wizard && <NewCaseWizard takenIds={takenIds} onCancel={() => setWizard(false)} onCreate={c => { setWizard(false); setEditing({ c, status: "taslak", isNew: true }); }} />}
       {importing && <ImportBox takenIds={takenIds} onDone={() => { setImporting(false); reload(); }} />}
@@ -166,7 +181,9 @@ function AdminHome({ onExit, onPreview }: Props) {
         <Text style={st.help}>• <Text style={st.helpB}>Taslak:</Text> Yalnızca bu panelde görünür; “Oyna” ile denenebilir.</Text>
         <Text style={st.help}>• <Text style={st.helpB}>Yayında:</Text> Oyunun dosya dolabında görünür. Hata içeren dava yayınlanamaz.</Text>
         <Text style={st.help}>• <Text style={st.helpB}>Uygulamayla gelen:</Text> Uygulamanın içindeki davalar. Düzenleyip yayınlarsanız sizin sürümünüz geçerli olur; “Değişiklikleri geri al” ile ilk hâline döner.</Text>
-        <Text style={st.help}>• <Text style={st.helpB}>Saklama:</Text> Davalar şimdilik bu cihazda saklanır. Sunucu bağlandığında bütün oyunculara anında ulaşacak.</Text>
+        <Text style={st.help}>• <Text style={st.helpB}>Saklama:</Text> Sunucuda yönetici olarak girdiyseniz dosyalar sunucuda saklanır ve yayındakiler bütün oyunculara gider; değilse yalnızca bu cihazda kalır.</Text>
+        <Text style={st.help}>• <Text style={st.helpB}>Yapay zekâ denetimi:</Text> Dosyaları hukuki doğruluk, puanlama, tutarlılık ve yazım yönünden inceler. Bulunan sorunlar listelenir; yalnızca seçip onayladığınız düzeltmeler uygulanır, dosya motorla sınanır ve onayınızla yayınlanır.</Text>
+        <Text style={st.help}>• <Text style={st.helpB}>Yapay zekâ ile üret:</Text> Branş, mahkeme, zorluk ve konu seçerek yeni dosya yazdırırsınız. Dosya taslak olarak kaydedilir; oynayıp beğenirseniz yayınlarsınız.</Text>
       </Section>
     </ScrollView>
   );

@@ -44,7 +44,7 @@ export default function Character({ look, talking = false }: { look: Look; talki
       <Svg viewBox="0 0 160 200" width="100%" height="100%">
         <Rect x={69} y={104} width={22} height={24} fill={L.skin} />
         <Path d="M6 200 Q10 138 80 122 Q150 138 154 200 Z" fill={C.robe} />
-        <Path d="M52 130 Q80 116 108 130 L103 139 Q80 127 57 139 Z" fill={C.avukat} />
+        <Path d="M52 130 Q80 116 108 130 L103 139 Q80 127 57 139 Z" fill={C.avukatYaka} />
         <Path d="M80 142 L80 200" stroke="#0a0b0d" strokeWidth={2} />
         <Ellipse cx={50} cy={84} rx={5} ry={8} fill={L.skin} />
         <Ellipse cx={110} cy={84} rx={5} ry={8} fill={L.skin} />
@@ -53,7 +53,9 @@ export default function Character({ look, talking = false }: { look: Look; talki
     );
   }
   const robe = L.kind === "robe";
+  // Avukat cübbesi: boyun çevresindeki yaka kırmızı, aşağı inen şeritler yeşil. Hâkimde ikisi aynı renk.
   const collar = L.collarColor || (L.collar === "hakim" ? C.hakim : C.avukat);
+  const neck = L.collarColor || (L.collar === "hakim" ? C.hakim : C.avukatYaka);
   const brow = L.style === "bald" ? "#2a2523" : L.hair;
   return (
     <Svg viewBox="0 0 160 200" width="100%" height="100%">
@@ -63,9 +65,9 @@ export default function Character({ look, talking = false }: { look: Look; talki
       {robe ? (
         <G>
           <Polygon points="70,122 80,146 90,122" fill={C.shirt} />
-          <Path d="M54 130 Q80 114 106 130 L101 136 Q80 124 59 136 Z" fill={collar} />
           <Polygon points="59,134 71,124 79,200 61,200" fill={collar} />
           <Polygon points="101,134 89,124 81,200 99,200" fill={collar} />
+          <Path d="M54 130 Q80 114 106 130 L101 136 Q80 124 59 136 Z" fill={neck} />
         </G>
       ) : (
         <Polygon points="66,124 80,162 94,124" fill={L.inner || "#d9d4c8"} />

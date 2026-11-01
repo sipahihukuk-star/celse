@@ -31,7 +31,8 @@ export const CITIES: City[] = [
 ];
 
 /** Oyuncunun seçebileceği avukat karakterleri (gerçekçi görünüm fotoğrafları). */
-export const AVATARS = ["av-erkek-38", "av-kadin-32", "av-erkek-58", "av-kadin-52", "av-erkek-25", "av-kadin-25", "av-kadin-basortulu"] as const;
+export const AVATARS = ["av-erkek-38", "av-kadin-32", "av-erkek-58", "av-kadin-52", "av-erkek-25", "av-kadin-25", "av-kadin-basortulu",
+  "av-erkek-32", "av-kadin-28", "av-erkek-46", "av-kadin-41", "av-erkek-27", "av-kadin-35", "av-erkek-66", "av-kadin-61"] as const;
 export type Avatar = typeof AVATARS[number];
 
 export interface Ledger { ay: number; text: string; amount: number }

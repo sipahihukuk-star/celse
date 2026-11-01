@@ -2,6 +2,8 @@
 //  - mode "puan": serbest cevabı ölçüte göre puanlar → {score, feedback}
 //  - mode "karar": karşılıklı duruşmada iki tarafın hamlelerini ve son sözlerini okuyup kararı verir
 //    → {winner: "p1"|"p2"|"sulh", p1, p2, hukum, gerekce}
+//  - mode "yonetim": yalnızca yöneticiler (yoneticiler tablosu) kullanabilir; yönetim panelinin dosya denetimi
+//    ve dosya üretimi için modele verilen metni olduğu gibi iletir → {text, stop}
 // Gerekli gizli anahtar: ANTHROPIC_API_KEY (Supabase > Edge Functions > Secrets). Oyuncunun kişisel bilgileri gönderilmez.
 // Not: panele yapıştırılırken bozulmasın diye kodda ters tırnak (şablon dizgisi) kullanılmadı.
 
@@ -82,11 +84,44 @@ async function karar(b: Record<string, unknown>) {
   return { winner: w, p1: n(out.p1), p2: n(out.p2), hukum: cut(out.hukum, 500), gerekce: cut(out.gerekce, 1500) };
 }
 
+/** Çağıran kişi yönetici mi? Veritabanındaki yonetici_mi() işlevine, çağıranın kendi oturumuyla sorulur. */
+async function isAdmin(req: Request) {
+  const url = Deno.env.get("SUPABASE_URL") || "";
+  const auth = req.headers.get("authorization") || "";
+  const key = req.headers.get("apikey") || Deno.env.get("SUPABASE_ANON_KEY") || "";
+  if (!url || !auth || !key) return false;
+  const r = await fetch(url + "/rest/v1/rpc/yonetici_mi", {
+    method: "POST",
+    headers: { apikey: key, Authorization: auth, "Content-Type": "application/json" },
+    body: "{}"
+  });
+  if (!r.ok) return false;
+  return (await r.json()) === true;
+}
+
+async function yonetim(b: Record<string, unknown>) {
+  const model = b.model === "hizli" ? "claude-haiku-5-5" : "claude-sonnet-5-5";
+  const azami = Math.max(500, Math.min(16000, Number(b.azami) || 4000));
+  const r = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "x-api-key": KEY(), "anthropic-version": "2023-06-01", "content-type": "application/json" },
+    body: JSON.stringify({ model: model, max_tokens: azami, system: cut(b.sistem, 60000), messages: [{ role: "user", content: cut(b.istek, 200000) }] })
+  });
+  if (!r.ok) throw new Error("model " + r.status + " " + (await r.text()).slice(0, 300));
+  const data = await r.json();
+  const text = (data.content || []).map((p: { text?: string }) => p.text || "").join("");
+  return { text: text, stop: data.stop_reason || "" };
+}
+
 Deno.serve(async req => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   if (!KEY()) return json({ error: "yapay zekâ kurulmadı" }, 501);
   try {
     const b = await req.json();
+    if (b.mode === "yonetim") {
+      if (!(await isAdmin(req))) return json({ error: "yetki yok" }, 403);
+      return json(await yonetim(b));
+    }
     return json(b.mode === "karar" ? await karar(b) : await puan(b));
   } catch (e) {
     return json({ error: String(e) }, 502);

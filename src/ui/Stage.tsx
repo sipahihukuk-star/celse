@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { LayoutChangeEvent, StyleSheet, Text, View } from "react-native";
 import { CaseFile, Look, Scene } from "../engine/types";
 import Character, { BACK_LOOK } from "./Character";
+import { robeOf } from "./people";
 import { C, F } from "./theme";
 
 interface Props {
@@ -40,7 +41,14 @@ export default function Stage({ c, scene, focus, talking }: Props) {
   const onLayout = (e: LayoutChangeEvent) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height });
   const { w, h } = box;
   const duel = c.mode === "duel";
-  const look = (role: string) => (role === "p1" && !duel ? BACK_LOOK : c.cast[role].look);
+  // Çizim görünümünde de hâkim yakası mahkemeye göre: ceza kırmızı, hukuk yeşil, idari gri (dosyada özel renk yoksa).
+  const robe = robeOf(c);
+  const judgeCollar = robe === "-yesil" ? C.hakimHukuk : robe === "-gri" ? C.hakimIdari : undefined;
+  const look = (role: string): Look => {
+    if (role === "p1" && !duel) return BACK_LOOK;
+    const L = c.cast[role].look;
+    return role === "judge" && judgeCollar && !L.collarColor ? { ...L, collarColor: judgeCollar } : L;
+  };
 
   const pal = ROOMS[c.room || "yerel"];
   const judges = Math.max(1, c.bench?.judges ?? 1);

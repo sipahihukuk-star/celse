@@ -1,5 +1,5 @@
 // Kişilerin tahmini cinsiyeti (fotoğraf ve ses seçimi için): önce ada, yoksa görünüme bakılır.
-import { Look } from "../engine/types";
+import { CaseFile, Look } from "../engine/types";
 
 export const FEMALE = new Set(("ayşe fatma zeynep elif emine hatice merve selin derya esra gül nur seda özlem aslı burcu ebru pınar sevgi canan leyla melek nazlı sibel tuğba " +
   "yasemin gamze didem filiz hande ipek meltem nesrin sevim şule ülkü zehra gülay gülsüm hülya nermin sevda songül feride nilüfer dilek ayten hacer " +
@@ -12,4 +12,14 @@ export function isFemale(look?: Look, name?: string): boolean {
   if (FEMALE.has(firstName(name))) return true;
   if (look?.beard || look?.style === "bald") return false;
   return look?.style === "long" || look?.style === "bun";
+}
+
+/** Hâkim cübbesinin yaka rengi (Hâkim ve Savcıların Resmî Kıyafet Yönetmeliği m.4): ceza kırmızı, hukuk yeşil, idari yargı gri.
+ *  Yargıtay, Danıştay, Anayasa Mahkemesi ve uluslararası mahkemeler kendi cübbeleriyle (asıl görsel) kalır. */
+export function robeOf(c: CaseFile): "" | "-yesil" | "-gri" {
+  const ct = c.court;
+  if (c.room === "uluslararasi" || /Yargıtay|Danıştay|Anayasa|İnsan Hakları|Uluslararası/.test(ct)) return "";
+  if (/Ceza/.test(ct)) return "";
+  if (/İdare|Vergi|İdari/.test(ct)) return "-gri";
+  return "-yesil";
 }

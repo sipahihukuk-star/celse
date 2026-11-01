@@ -11,7 +11,7 @@ export const C = {
   bordo: "#8c1d2f", bordoHi: "#a8293d",
   good: "#4fae7c", bad: "#d65a45", mid: "#d0a64c",
   p1: "#7db3e3", p2: "#eb9a62", p1Ink: "#255f96", p2Ink: "#a44c17",
-  hakim: "#8f1d24", avukat: "#1f6b47", robe: "#15161a", shirt: "#f0eee6", mouth: "#5b2622",
+  hakim: "#8f1d24", hakimHukuk: "#1f6b47", hakimIdari: "#8a8d93", avukat: "#1f6b47", avukatYaka: "#9b1c2a", robe: "#15161a", shirt: "#f0eee6", mouth: "#5b2622",
   win: "#1f6b47", lose: "#a3241c", draw: "#7a5a12"
 };
 

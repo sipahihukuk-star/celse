@@ -70,7 +70,10 @@ Ana ekrandaki **Yönetim paneli ›** bağlantısıyla açılır. İlk girişte 
 - **Taslak / Yayınla:** Taslak oyuncuya görünmez. Yayımlanan dava oyunun listesine girer; uygulamayla gelen bir davayla aynı kimliği taşıyorsa onun yerine geçer ("Değişiklikleri geri al" ile asıl hâline dönülür).
 - **Çoğalt, Sil, JSON içe aktar:** Tek dava ya da dava dizisi JSON olarak yapıştırılabilir; içe aktarılanlar taslak olarak kaydedilir.
 
-Şimdilik içerik cihazda (AsyncStorage) tutulur. Sunucuya taşımak için `src/admin/store.ts` içindeki `ContentStore` arayüzünü uygulayan bir Supabase deposu yazmak yeterlidir; ekranlar değişmez.
+- **Saklama:** Sunucuda yönetici olarak tanımlı hesapla girilmişse dosyalar Supabase'deki `dosyalar` tablosunda tutulur; yayındakileri bütün oyuncular görür (büro masası dahil). Yönetici değilse ya da sunucu yoksa cihazda (AsyncStorage) kalır. Kurulum: `supabase/yonetim.sql` bir kez çalıştırılır, ardından yönetici e-postası `yoneticiler` tablosuna eklenir (dosyanın başındaki satır).
+- **Yapay zekâ denetimi:** Dosyalar (tek tek ya da toplu) yapay zekâya inceletilir: hukuki hata, puanlama, tutarlılık, dil ve motorun bulduğu yapısal sorunlar. Her sorun önem derecesi, yeri, açıklaması ve önerilen düzeltmeyle (şimdiki / yeni değer) listelenir. Yönetici seçtiği düzeltmeleri uygular; dosya motorla yeniden sınanır, "Onayla ve yayınla" ile yayına girer. Raporlar `denetimler` tablosunda saklanır.
+- **Yapay zekâ ile üret:** Mod, branş, mahkeme şablonu, zorluk, adım sayısı ve isteğe bağlı konu seçilir. Üretim iki aşamalıdır (iskelet + adım planı, sonra adımlar) ve motor sorun bulursa yapay zekâ en fazla iki tur onarır. Sonuç taslak olarak kaydedilir.
+- Yapay zekâ çağrıları `quick-worker` (supabase/functions/yz) fonksiyonunun `yonetim` kipinden geçer; bu kip yalnız `yonetici_mi()` doğru dönen hesaba açıktır. Komutlar ve yardımcılar: `src/admin/ai.ts`, `src/admin/aiCore.ts`, ekranlar: `src/admin/AiPanels.tsx`.
 
 ## Kariyer modu
 
@@ -97,6 +100,10 @@ Oyun ekranındaki 🔊 düğmesiyle açılır. Kod: `src/ui/voice.ts`. Sıradaki
 - **Bulut sesleri:** Supabase'de `seslendir` fonksiyonu `GOOGLE_TTS_KEY` gizli anahtarıyla kuruluysa satırlar Google Cloud Text-to-Speech ile seslendirilir. Her (ses, metin) çifti bir kez üretilip `ses` deposunda saklanır; sonraki oynayışlarda hazır dosya çalınır. Karakterlere kadın/erkek ses listesinden sabit bir ses atanır (`CLOUD_VOICES`, `src/config.ts`); oyuncunun sesi bütün davalarda aynıdır.
 - **Cihaz sesi:** Sunucu yoksa `expo-speech`. Cihazdaki Türkçe seslerden cinsiyete uygun olan seçilir, her karaktere ayrı ton verilir.
 - **Kısaltmalar:** Okunmadan önce açılır: "TBK m.147" → "Türk Borçlar Kanunu madde 147", "CMK'da" → "Ceza Muhakemesi Kanununda" (ekler ünlü uyumuna göre). Kod: `src/engine/speechText.ts`, örnekler: `npx tsx tools/speech-test.ts`. Serbest cevap puanlamasında da aynı açılım kullanılır; oyuncu "Türk Borçlar Kanunu madde 147" dese de "TBK m.147" sayılır.
+
+## Cübbe renkleri
+
+Avukat cübbesinde boyun çevresindeki yaka kırmızı, aşağı inen şeritler yeşildir. Hâkim cübbesinde yaka ve şeritler mahkemeye göre değişir (Hâkim ve Savcıların Resmî Kıyafet Yönetmeliği m.4): ceza mahkemeleri ve savcılar kırmızı, hukuk mahkemeleri yeşil, idari yargı gri. Yargıtay, Danıştay, Anayasa Mahkemesi ve uluslararası mahkemeler kendi görselleriyle kalır. Görseller `tools/cubbe.py` ile üretilir (`mouth2.py` her çalıştırıldığında ardından bu betik de çalıştırılmalı); seçim `src/ui/people.ts` içindeki `robeOf` ile yapılır.
 
 ## Ağız hareketi
 

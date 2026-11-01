@@ -11,7 +11,9 @@ import { C, F } from "./theme";
 
 const AV_LABEL: Record<Avatar, string> = {
   "av-erkek-38": "Erkek · 38", "av-kadin-32": "Kadın · 32", "av-erkek-58": "Erkek · 58", "av-kadin-52": "Kadın · 52",
-  "av-erkek-25": "Erkek · 25", "av-kadin-25": "Kadın · 25", "av-kadin-basortulu": "Kadın · 30"
+  "av-erkek-25": "Erkek · 25", "av-kadin-25": "Kadın · 25", "av-kadin-basortulu": "Kadın · 30",
+  "av-erkek-32": "Erkek · 32", "av-kadin-28": "Kadın · 28", "av-erkek-46": "Erkek · 46", "av-kadin-41": "Kadın · 41",
+  "av-erkek-27": "Erkek · 27", "av-kadin-35": "Kadın · 35", "av-erkek-66": "Erkek · 66", "av-kadin-61": "Kadın · 61"
 };
 
 export function AvatarFace({ k, size = 64 }: { k: Avatar; size?: number }) {
