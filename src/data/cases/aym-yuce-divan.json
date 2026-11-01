@@ -235,7 +235,7 @@
       "prompt": "Görev konusunda hangi tutumu alacaksınız?",
       "choices": [
         {
-          "text": "Yüce Divanın görevini tartışmayın. İsnat, bakanlık sırasında işlendiği ileri sürülen ve görevle ilgili bir fiile dayanıyor. Savunmayı delillerin hukuka uygunluğuna ve esasa yoğunlaştırın.",
+          "text": "Görevi tartışmayın: isnat, bakanlık sırasında işlendiği ileri sürülen ve görevle ilgili bir fiile dayanıyor.",
           "delta": 15,
           "set": [
             "gorev"
@@ -250,9 +250,9 @@
           "note": "Yüce Divanın görevi, fiilin görevle ilgili olmasına bağlıdır. Bu itiraz reddedilir ve savunmanın güvenilirliğini zedeler."
         },
         {
-          "text": "TBMM'nin sevk kararının siyasi olduğunu ve yerinde olmadığını savunun.",
+          "text": "TBMM sevk kararının siyasi saiklerle alındığını ve Anayasa m.148'deki koşulları taşımadığını ön mesele olarak ileri sürün.",
           "delta": -10,
-          "note": "Yüce Divan bir ceza yargılaması yapar. Sevk kararının siyasi yerindeliği burada tartışılmaz. Savunma isnadın hukuki değerlendirmesine odaklanmalı."
+          "note": "Yüce Divan bir ceza yargılaması yapar. Sevk kararının siyasi yerindeliği burada tartışılmaz; isnat görevle ilgili bir fiile dayandığı sürece m.148'in koşulları da gerçekleşmiştir. Savunma isnadın hukuki değerlendirmesine odaklanmalı."
         }
       ]
     },
@@ -324,6 +324,7 @@
       }
     },
     {
+      "kind": "free",
       "side": "p1",
       "scene": "court",
       "lines": [
@@ -336,32 +337,90 @@
           "text": "Sanık müdafii, bu talep hakkında beyanınız?"
         }
       ],
-      "prompt": "Ne cevap vereceksiniz?",
+      "prompt": "Başsavcının bu talebine karşı heyete ne söyleyeceksiniz? Kendi cümlelerinizle itiraz edin.",
       "choices": [
         {
-          "text": "Bu iddia bakanlık görevinden önceki bir döneme ve görevle ilgisi olmayan bir fiile ilişkin. Sevk kararında da yer almıyor. Yüce Divan yalnızca görevle ilgili suçlara bakar; talebin reddi gerekir.",
+          "text": "Güçlü itiraz",
+          "min": 70,
           "delta": 20,
           "set": [
             "kapsam"
           ],
           "law": "Anayasa m.148; CMK m.4",
-          "note": "Yüce Divanın görevi görevle ilgili suçlarla sınırlıdır (Anayasa m.148). Görevle ilgisi olmayan bir fiil genel hükümlere göre yetkili mahkemede yargılanır. Yargılama, sevk kararındaki isnatla da sınırlıdır."
+          "note": "Talebi doğru gerekçeyle karşıladınız. Yüce Divanın görevi bakanların görevleriyle ilgili suçlarla sınırlıdır (Anayasa m.148); bakanlıktan önceki bir döneme ve özel şirket faaliyetine ilişkin vergi iddiası bu kapsama girmez ve genel hükümlere göre yetkili mahkemede yargılanır. Yargılama sevk kararındaki isnatla da sınırlıdır."
         },
         {
-          "text": "Müvekkilin saklayacak bir şeyi yok. Bu iddianın da burada incelenmesini kabul ediyoruz.",
+          "text": "Yeterli itiraz",
+          "min": 40,
+          "delta": 10,
+          "set": [
+            "kapsam"
+          ],
+          "law": "Anayasa m.148; CMK m.4",
+          "note": "Talebin reddini istediniz ve heyet iddiayı yargılamanın dışında tuttu. Tam itiraz, iddianın bakanlıktan önceki döneme ait ve görevle ilgisiz olduğunu (Anayasa m.148), sevk kararında da yer almadığını birlikte gösterir."
+        },
+        {
+          "text": "Zayıf itiraz",
           "delta": -15,
           "set": [
             "genis"
           ],
-          "law": "CMK m.4",
-          "note": "Görev, yargılamanın her aşamasında kendiliğinden gözetilir ve tarafların kabulüyle genişlemez (CMK m.4). Bu kabul, müvekkili görevle ilgisi olmayan bir iddiaya karşı hazırlıksız savunma yapmaya zorlar."
+          "law": "Anayasa m.148; CMK m.4",
+          "note": "Asıl sorunu ileri sürmediniz: Yüce Divan bu iddiayı incelemeye görevli değildir. Görevle ilgisi olmayan fiil genel hükümlere göre yetkili mahkemede yargılanır; görev her aşamada kendiliğinden gözetilir ve tarafların kabulüyle ya da zamanaşımı tartışmasıyla genişlemez (CMK m.4)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Yüce Divanın görevi, Anayasa m.148 uyarınca bakanların görevleriyle ilgili suçlarla sınırlıdır. (2) Vergi iddiası, sanığın bakanlıktan önce ortağı olduğu şirketin 2018 yılı kayıtlarına, yani görevden önceki bir döneme ve görevle ilgisi olmayan bir fiile ilişkindir; genel hükümlere göre yetkili mahkemede yargılanır. (3) Yargılama TBMM sevk kararındaki isnatla sınırlıdır ve bu iddia sevk kararında yer almamaktadır. (4) Görev kendiliğinden gözetilir, tarafların kabulüyle genişlemez (CMK m.4); talebin reddi gerekir. Görevle ilgisizliği ve sevk kararı sınırını birlikte, madde numarasıyla göstermek tam puan için gerekir; yalnızca 'iddia görevle ilgili değil, reddedilsin' demek orta puan alır. İddianın incelenmesini kabul eden ya da doğrudan zamanaşımına geçen cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "görevle ilgili",
+            "görevle ilgisi",
+            "görevle bağlantı",
+            "göreviyle ilgili",
+            "görevi ile ilgili",
+            "görevleriyle ilgili",
+            "görevle hiçbir ilgisi",
+            "görevle ilgisiz"
+          ],
+          "weight": 3
         },
         {
-          "text": "Bu iddia zamanaşımına uğramıştır.",
-          "delta": -5,
-          "note": "Asıl sorun, Yüce Divanın bu iddiayı incelemeye görevli olmaması. Bunu ileri sürmeden zamanaşımına geçmek, iddianın burada incelenebileceğini kabul etmek gibi okunur."
+          "terms": [
+            "m.148",
+            "m. 148",
+            "madde 148",
+            "148. madde",
+            "md. 148",
+            "md.148"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "sevk karar"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "bakanlıktan önce",
+            "bakanlık öncesi",
+            "görevden önce",
+            "göreve başlamadan",
+            "2018"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "reddi",
+            "reddin",
+            "reddedil"
+          ],
+          "weight": 1
         }
-      ]
+      ],
+      "model": "Sayın Başkan, Yüce Divanın görevi Anayasa m.148 uyarınca bakanların görevleriyle ilgili suçlarla sınırlıdır. Vergi iddiası müvekkilin bakanlıktan önce ortağı olduğu şirketin 2018 kayıtlarına ilişkindir; görevle hiçbir ilgisi yoktur ve TBMM sevk kararında da yer almamaktadır. Görev kendiliğinden gözetilir ve kabulle genişlemez; talebin reddini istiyoruz."
     },
     {
       "kind": "evidence",
@@ -468,7 +527,7 @@
         },
         {
           "if": "genis",
-          "text": " Vergi iddiasının burada incelenmesini kabul etmeniz büyük bir hataydı. Yüce Divan görevini kendiliğinden gözeterek bu iddiayı incelemedi."
+          "text": " Vergi iddiasının yargılama dışında kalması gerektiğini ileri süremediniz; Yüce Divan görevini kendiliğinden gözeterek bu iddiayı incelemedi."
         },
         {
           "if": "!gorev",

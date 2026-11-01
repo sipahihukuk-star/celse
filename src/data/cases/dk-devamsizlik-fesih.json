@@ -228,7 +228,7 @@
       "prompt": "Hangi davayı, hangi dayanakla açacaksınız?",
       "choices": [
         {
-          "text": "Bir ay dolmadan arabulucuya başvur; anlaşma olmazsa işe iade davası aç. Dayanak: raporlu günler devamsızlık sayılmaz; fesih ne haklı ne geçerli nedene dayanıyor.",
+          "text": "Arabulucuya bir ay içinde başvur, sonra işe iade davası aç. Dayanak: raporlu günler devamsızlık değildir; fesih geçerli nedene dayanmıyor.",
           "delta": 20,
           "set": [
             "iade"
@@ -243,13 +243,13 @@
           ]
         },
         {
-          "text": "İşe iade yerine kıdem ve ihbar tazminatı davası aç: fesih haksız.",
+          "text": "İşe iade yerine kıdem ve ihbar tazminatı davası aç: fesih haksız, tazminat da işe iade davasından daha hızlı ve kesin sonuç verir.",
           "delta": 5,
           "set": [
             "alacak"
           ],
           "law": "1475 s.K. m.14 · İş K. m.17",
-          "note": "Hukuken mümkün: fesih haklı nedene dayanmıyorsa kıdem ve ihbar tazminatı doğar. Ama müvekkil işine dönmek istiyor ve iş güvencesi kapsamında; işe iade, işe başlatmama tazminatı ve boşta geçen süre ücretiyle daha geniş koruma sağlardı.",
+          "note": "Hukuken mümkün: fesih haklı nedene dayanmıyorsa kıdem ve ihbar tazminatı doğar. Ama müvekkil işine dönmek istiyor ve iş güvencesi kapsamında; işe iade, işe başlatmama tazminatı ve boşta geçen süre ücretiyle daha geniş koruma sağlardı. Tazminat davası da işe iade davasından hızlı değildir; işe iade davaları ivedilikle görülür.",
           "reply": [
             {
               "who": "narr",
@@ -258,7 +258,7 @@
           ]
         },
         {
-          "text": "İşe iade davası aç. Dayanak: işveren fesihten önce savunma almadı; fesih bu yüzden kendiliğinden geçersiz.",
+          "text": "İşe iade davası aç. Dayanak: işveren fesihten önce savunma almadı; İş K. m.19/2 uyarınca fesih bu yüzden kendiliğinden geçersiz.",
           "delta": 0,
           "set": [
             "iade",
@@ -287,7 +287,7 @@
       "prompt": "İşveren vekili olarak ne yapacaksınız?",
       "choices": [
         {
-          "text": "İlk toplantıya katıl; işçinin dayandığı belgeleri dinle, müvekkille değerlendirmek için ikinci bir toplantı iste.",
+          "text": "İlk toplantıya katıl; işçinin belgelerini dinle, müvekkille değerlendirmek için ikinci bir toplantı iste.",
           "delta": 10,
           "law": "7036 s.K. m.3",
           "note": "Yerinde. Toplantıya katılmak gider riskini ortadan kaldırır; karşı tarafın delillerini erkenden görmek de davaya hazırlanmanın en ucuz yoludur.",
@@ -299,7 +299,7 @@
           ]
         },
         {
-          "text": "İlk toplantıya katıl; devamsızlığın tutanakla sabit olduğunu söyle, başka bir şey konuşma.",
+          "text": "İlk toplantıya katıl; devamsızlığın tutanakla sabit olduğunu, şirketin uzlaşmayacağını söyle, başka bir şey konuşma.",
           "delta": 5,
           "law": "7036 s.K. m.3",
           "note": "Gider riskinden kurtuldunuz, ama karşı tarafın elindeki delilleri öğrenme ve uzlaşma fırsatını kullanmadınız.",
@@ -311,13 +311,13 @@
           ]
         },
         {
-          "text": "Toplantıya katılma; nasılsa dava açılacak.",
+          "text": "Toplantıya katılma; işverenin uzlaşma niyeti yok, katılmamak davanın sonucunu etkilemez, nasılsa dava açılacak.",
           "delta": -15,
           "set": [
             "yokluk"
           ],
           "law": "7036 s.K. m.3",
-          "note": "Geçerli mazeret olmadan ilk toplantıya katılmayan taraf, davada kısmen ya da tamamen haklı çıksa bile yargılama giderlerinin tamamından sorumlu tutulur ve lehine vekâlet ücretine hükmedilmez (7036 s.K. m.3).",
+          "note": "Geçerli mazeret olmadan ilk toplantıya katılmayan taraf, davada kısmen ya da tamamen haklı çıksa bile yargılama giderlerinin tamamından sorumlu tutulur ve lehine vekâlet ücretine hükmedilmez (7036 s.K. m.3). Katılmamak davanın sonucunu değil, giderlerini etkiler; ama bu yük ağırdır.",
           "reply": [
             {
               "who": "narr",
@@ -344,7 +344,7 @@
       "prompt": "Cevap dilekçenizin ana ekseni ne olacak?",
       "choices": [
         {
-          "text": "Devamsızlık tutanaklarla sabit; işçi iki gün boyunca işverene haber vermedi, rapor ancak fesihten sonra ortaya çıktı. m.25/II'ye dayanan fesihte savunma alınması gerekmez.",
+          "text": "Devamsızlık tutanakla sabit; işçi iki gün haber vermedi, rapor fesihten sonra ortaya çıktı. m.25/II'ye dayanan fesihte savunma alınması gerekmez.",
           "delta": 15,
           "set": [
             "bildirim"
@@ -361,7 +361,7 @@
           ]
         },
         {
-          "text": "Haklı neden sayılmasa bile fesih geçerli nedene dayanır: işçinin haber vermemesi bir davranış kusurudur.",
+          "text": "Haklı neden sayılmasa bile fesih geçerli nedene dayanır: işçinin iki gün boyunca haber vermemesi, İş K. m.18 anlamında işyerinin işleyişini bozan bir davranış kusurudur.",
           "delta": -10,
           "set": [
             "gecerli"
@@ -370,7 +370,7 @@
           "note": "Tehlikeli bir geri çekilme. İşçinin davranışına dayanan geçerli fesihte savunma alınması zorunludur (m.19/2) ve işveren savunma almadı. Bu savunma, işvereni kendi eksikliğine götürüyor."
         },
         {
-          "text": "Rapor hatır raporudur; işçi o günlerde başka bir işte çalışıyordu.",
+          "text": "Rapor hatır raporudur; işçi o günlerde başka bir işte çalışıyordu, sağlık merkezinin raporuna itibar edilmemeli.",
           "delta": -15,
           "set": [
             "hatir"
@@ -535,7 +535,7 @@
       "prompt": "Bu savunmaya cevabınız?",
       "choices": [
         {
-          "text": "Raporlu günler devamsızlık değildir; raporu sunuyoruz. Davranışa dayanan geçerli fesihte savunma alınması zorunludur ve işveren savunma almadı.",
+          "text": "Raporlu günler devamsızlık değildir; raporu sunuyoruz. Davranışa dayanan fesihte savunma alınması zorunluydu, işveren almadı.",
           "delta": 20,
           "set": [
             "gecersizOK"
@@ -550,23 +550,24 @@
           ]
         },
         {
-          "text": "İşveren önce haklı nedenle feshetti; şimdi geçerli nedene dayanamaz.",
+          "text": "İşveren önce haklı nedenle feshetti; fesih bildirimindeki sebep sonradan değiştirilemez, şimdi geçerli nedene dayanamaz.",
           "delta": 5,
           "law": "İş K. m.19/1",
           "note": "Kısmen doğru bir sezgi, ama tek başına yetmez. Asıl güçlü cevaplar raporlu günlerin devamsızlık sayılmaması ve savunma alınmamasıydı; ikisini de söylemediniz."
         },
         {
-          "text": "Haber vermediğimizi kabul ediyoruz; ama tazminat hakkı saklı kalsın.",
+          "text": "Haber vermediğimizi kabul ediyoruz; ama hastalık ağırdı, bu durum tazminat hakkını etkilemez, saklı kalsın.",
           "delta": -15,
           "set": [
             "kabul"
           ],
           "law": "HMK m.188",
-          "note": "Elinizde rapor varken feshin dayanağını kabul etmiş oldunuz. Mahkeme önünde yapılan ikrar ispat gerektirmez (HMK m.188)."
+          "note": "Elinizde rapor varken feshin dayanağını kabul etmiş oldunuz. Mahkeme önünde yapılan ikrar ispat gerektirmez (HMK m.188). Hastalığın ağırlığı, ancak devamsızlığın haklı sebebe dayandığı gösterilirse işe yarar."
         }
       ]
     },
     {
+      "kind": "free",
       "side": "p2",
       "scene": "court",
       "if": "bildirOK || raporOK || gecersizOK",
@@ -582,10 +583,69 @@
           "text": "İşveren vekili, istirahat raporu dosyada. Beyanınız?"
         }
       ],
-      "prompt": "Ne yapacaksınız?",
+      "prompt": "İşveren vekili olarak mahkemeye ne diyeceksiniz? Durumu değerlendirip kendi cümlelerinizle açıklayın.",
+      "rubric": "İşveren vekilinin iyi bir cevabı şunları gösterir: (1) Durumun gerçekçi değerlendirmesi: istirahat raporu fesihten önceki günleri kapsıyor ve dosyada; raporlu hastalık devamsızlığı haklı bir sebebe bağlar (İş K. m.25/II-g). Bildirim ustabaşına yapıldıysa ustabaşı işveren vekilidir (m.2/4), bildirim işverene yapılmış sayılır. (2) Risk: fesih geçersiz bulunursa işveren işe başlatmama tazminatı, dört aya kadar boşta geçen süre ücreti (İş K. m.21) ve yargılama giderleriyle karşılaşır. (3) Bu yüzden müvekkille görüşüp somut bir sulh teklif etmek (HMK m.313): işçinin belirli bir süre içinde işe başlatılması ve boşta geçen sürenin ücretinin ödenmesi. Riski gösterip somut bir sulh teklifi yapan cevap tam puan alır; sulh öneren ama teklifi somutlaştırmayan ya da gerekçelendirmeyen cevap orta puan alır. Ustabaşına bildirimi geçersiz sayan, raporu dayanaksız biçimde tartışan ya da feshin haklılığında ısrar eden cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "sulh",
+            "uzlaş",
+            "anlaşma teklif"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "işe başlat",
+            "işe iade",
+            "işe dön"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "boşta geçen",
+            "ücretini öde",
+            "ücret ödeme",
+            "iki aylık"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "rapor",
+            "mazeret",
+            "hastalık"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "müvekkille görüş",
+            "müvekkilin onay",
+            "müvekkile danış",
+            "müvekkil şirket"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "m.21",
+            "m. 21",
+            "madde 21",
+            "21. madde",
+            "md. 21",
+            "md.21",
+            "işe başlatmama tazminatı"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Hâkim, istirahat raporu devamsızlık günlerini kapsıyor; bu belge karşısında feshin haklılığında ısrar etmek müvekkili işe başlatmama tazminatı, boşta geçen süre ücreti ve yargılama giderleri riskiyle karşı karşıya bırakır. Müvekkil şirketle görüştük: davacının bir ay içinde işe başlatılmasını ve boşta geçen iki aylık ücretinin ödenmesini sulh olarak teklif ediyoruz.",
       "choices": [
         {
-          "text": "Müvekkille görüşüp sulh teklif et: İşçi bir ay içinde işe başlatılsın, boşta geçen iki aylık ücreti ödensin.",
+          "text": "Güçlü değerlendirme",
+          "min": 70,
           "delta": 15,
           "set": [
             "sulhTeklif"
@@ -597,33 +657,28 @@
               "text": "Dava kıdem ve ihbar tazminatı için açılmış olsa da işe başlatma teklifi müvekkil işçinin isteğine uyuyor. "
             },
             {
-              "text": "Belgelenmiş bir mazerete karşı ısrar etmek yerine sulh, işvereni işe başlatmama tazminatı ve yargılama gideri riskinden kurtarabilir."
+              "text": "Belgelenmiş bir mazerete karşı ısrar etmek yerine riski doğru tarttınız ve somut bir sulh teklif ettiniz. Sulh, işvereni işe başlatmama tazminatı ve yargılama gideri riskinden kurtarabilir."
             }
           ]
         },
         {
-          "text": "Ustabaşına mesaj atmak işverene bildirim değildir; insan kaynaklarına yazılı bildirim gerekirdi.",
+          "text": "Yeterli değerlendirme",
+          "min": 40,
+          "delta": 8,
+          "set": [
+            "sulhTeklif"
+          ],
+          "law": "HMK m.313 · İş K. m.21",
+          "note": "Sulh yönünü doğru gördünüz; mahkeme teklifi tutanağa geçirdi. Tam cevap, teklifin gerekçesini de verir: rapor dosyadayken fesih geçersiz sayılırsa işveren işe başlatmama tazminatı ve dört aya kadar boşta geçen süre ücretiyle karşılaşır (İş K. m.21); teklif de işe başlama tarihi ve ödeme tutarıyla somutlaşır."
+        },
+        {
+          "text": "Zayıf değerlendirme",
           "delta": -5,
           "set": [
             "israr"
           ],
-          "law": "İş K. m.2/4",
-          "note": "İşveren adına işin yönetiminde görev alan kişi işveren vekilidir (İş K. m.2/4); ona yapılan bildirim işverene yapılmış sayılır. Kanunda devamsızlık için insan kaynaklarına yazılı bildirim şartı yok."
-        },
-        {
-          "text": "Raporun gerçekliğinin araştırılması için sağlık merkezinden muayene kayıtlarının getirtilmesini iste.",
-          "delta": 5,
-          "set": [
-            "arastir"
-          ],
-          "law": "HMK m.190",
-          "note": "Usulen meşru bir talep, ama elinizde raporu şüpheli kılan somut bir olgu yok. Kayıtlar büyük ihtimalle raporu doğrulayacak.",
-          "reply": [
-            {
-              "who": "narr",
-              "text": "Sağlık merkezinin kayıtları geldi: Davacı 14.10.2026 sabahı 38,9 derece ateşle muayene edilmiş."
-            }
-          ]
+          "law": "İş K. m.2/4, m.25/II-g",
+          "note": "Belgelenmiş bir mazerete karşı ısrar ettiniz. Raporlu hastalık devamsızlığı haklı sebebe bağlar (İş K. m.25/II-g); işveren adına işin yönetiminde görev alan ustabaşı işveren vekilidir (m.2/4), ona yapılan bildirim işverene yapılmış sayılır. Kanunda devamsızlık için insan kaynaklarına yazılı bildirim şartı yok. Sulh, müvekkili büyük bir riskten kurtarabilirdi."
         }
       ]
     },
@@ -644,7 +699,7 @@
       "prompt": "Teklife cevabınız?",
       "choices": [
         {
-          "text": "Müvekkilin onayını al; işe başlama tarihini, ödeme tutarını ve kıdemin kesintisiz sayılacağını tutanağa yazdırarak kabul et.",
+          "text": "Müvekkilin onayını al; işe başlama tarihini, ödemeyi ve kıdemin kesintisiz sayılacağını tutanağa yazdırarak kabul et.",
           "delta": 15,
           "set": [
             "sulh"
@@ -659,9 +714,9 @@
           ]
         },
         {
-          "text": "Reddet; kararla işe iade ve işe başlatmama tazminatını iste.",
+          "text": "Reddet; dosya güçlü, kararla işe iadeyi, işe başlatmama tazminatını ve dört aya kadar boşta geçen süre ücretini birlikte iste.",
           "delta": 5,
-          "note": "Savunulabilir: dosya güçlü. Ama kanun yolu süreci uzayabilir ve müvekkil zaten işine dönmek istiyordu.",
+          "note": "Savunulabilir: dosya güçlü. Ama kanun yolu süreci uzayabilir ve müvekkil zaten işine dönmek istiyordu; teklif istediğini hemen veriyordu.",
           "reply": [
             {
               "who": "judge",
@@ -670,7 +725,7 @@
           ]
         },
         {
-          "text": "Teklifi müvekkile sormadan hemen kabul et.",
+          "text": "Teklifi hemen kabul et; müvekkil zaten işine dönmek istiyordu, ayrıca sormaya gerek yok.",
           "delta": -15,
           "law": "HMK m.74",
           "note": "Sulh vekâletnamede özel yetki gerektirir (HMK m.74) ve müvekkilin iradesine dayanır. Onu almadınız.",

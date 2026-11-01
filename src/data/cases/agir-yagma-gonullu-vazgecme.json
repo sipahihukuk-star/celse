@@ -47,15 +47,15 @@
       ],
       "prompt": "Savunmanın temelini neye kuracaksınız?",
       "choices": [
-        { "text": "Gönüllü vazgeçme: Emre icra hareketleri sürerken, önünde hiçbir engel yokken kendi iradesiyle bıraktı.", "delta": 20, "set": ["tez"],
+        { "text": "Gönüllü vazgeçme: Emre engel yokken icra hareketlerini kendi iradesiyle bıraktı.", "delta": 20, "set": ["tez"],
           "law": "TCK m.36",
           "note": "Doğru temel. Fail suçun icra hareketlerinden gönüllü olarak vazgeçerse teşebbüsten cezalandırılmaz (TCK m.36). Burada icra hareketleri henüz bitmemişti; vazgeçmek için hareketleri sürdürmemek yeterliydi. Bitmiş teşebbüste ise failin neticeyi kendi çabasıyla önlemesi gerekir." },
-        { "text": "Etkin pişmanlık: Emre pişman oldu, ertesi gün karakola gitti.", "delta": -10,
+        { "text": "Etkin pişmanlık: Emre pişman oldu, ertesi gün kendiliğinden karakola gidip teslim oldu.", "delta": -10,
           "law": "TCK m.168",
           "note": "Etkin pişmanlık, tamamlanmış suçtan sonra zararın giderilmesiyle cezada indirim sağlar. Burada suç tamamlanmadı, alınan bir şey de yok. Doğru kurum gönüllü vazgeçmedir; o da indirim değil, teşebbüsten cezasızlık sağlar." },
-        { "text": "Kamerada görünen kişinin Emre olduğu ispatlanamaz; yüzü kapalıydı.", "delta": -10,
+        { "text": "Kimlik itirazı: kameradaki kişinin Emre olduğu ispatlanamaz, yüzü kapalıydı.", "delta": -10,
           "note": "Müvekkil olayı müdafi huzurunda kabul etmiş, karakola kendisi gitmiş. Dosyayla çelişen bir savunma heyetin güvenini kaybettirir ve elinizdeki en güçlü argümanı, gönüllü vazgeçmeyi çöpe atar." },
-        { "text": "Zorunluluk hâli: borçları yüzünden çaresizdi.", "delta": -10,
+        { "text": "Zorunluluk hâli: ağır borçlar yüzünden başka çıkış yolu kalmamıştı.", "delta": -10,
           "law": "TCK m.25/2",
           "note": "Zorunluluk hâli, ağır ve muhakkak bir tehlikeden korunmak için başka yol bulunmamasını gerektirir. Borç sıkıntısı bu şartları karşılamaz." }
       ] },
@@ -89,18 +89,28 @@
         { "who": "pros", "text": "Gönüllü vazgeçme kabul edilse bile sanık, yaşlı bir kadını maket bıçağıyla korkutmuştur. Bu eylem cezasız mı kalacak?" },
         { "who": "judge", "text": "Sayın müdafi, heyet tamamlanan kısım hakkında da görüşünüzü bekliyor." }
       ],
-      "prompt": "Tamamlanan kısım hakkında ne diyeceksiniz?",
+      "prompt": "Tamamlanan kısım hakkında heyete ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Gönüllü vazgeçme nedeniyle yağmaya teşebbüsten ceza verilemez; ancak TCK m.36 uyarınca tamamlanan kısım esasen ayrı bir suç oluşturuyorsa fail yalnızca o suçtan sorumludur. (2) Mağdura dokunulmamış, bir şey alınmamıştır; geriye kalan eylem maket bıçağıyla korkutmadır, yani silahla tehdit (TCK m.106/2-a). (3) Maket bıçağı saldırıda kullanılmaya elverişli olduğundan silah sayılır (TCK m.6/1-f). Teşebbüsten cezasızlığı ve kalan suçun silahla tehdit olduğunu madde numarasıyla birlikte söylemek tam puan alır; yalnız birini söylemek ya da nitelendirmeyi eksik yapmak orta puan alır. Hiçbir suç oluşmadığını savunup tam beraat isteyen, kalan eylemi yaralama sayan ya da yağmaya teşebbüs nitelendirmesini kabul eden cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["tehdit"], "weight": 3 },
+        { "terms": ["tamamlanan kısım", "tamamlanmış kısım", "tamamlanan kısmı", "ayrı bir suç", "ayrı suç", "esasen suç"], "weight": 2 },
+        { "terms": ["teşebbüsten ceza", "ceza verilemez", "ceza verilmez", "cezalandırılmaz", "ceza verilmesine yer"], "weight": 2 },
+        { "terms": ["m.36", "m. 36", "madde 36", "36. madde", "md. 36", "md.36"], "weight": 1 },
+        { "terms": ["m.106", "m. 106", "madde 106", "106. madde", "md. 106", "md.106"], "weight": 1 },
+        { "terms": ["silah sayılır", "silah niteliğinde", "m.6", "m. 6/1", "madde 6", "6. madde"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, gönüllü vazgeçme nedeniyle yağmaya teşebbüsten ceza verilemez; TCK m.36 uyarınca sanık yalnızca tamamlanan kısım ayrı bir suç oluşturuyorsa ondan sorumludur. Mağdura dokunulmamış, hiçbir şey alınmamıştır; geriye kalan, maket bıçağıyla korkutmadır. Maket bıçağı TCK m.6/1-f anlamında silah sayıldığından bu eylem en fazla silahla tehdittir (m.106/2-a); müvekkil yalnızca bundan sorumlu tutulabilir.",
       "choices": [
-        { "text": "Teşebbüsten ceza verilemez; tamamlanan kısım ayrı bir suç oluşturuyorsa, o da en fazla silahla tehdittir. Müvekkil yalnızca bundan sorumlu tutulabilir.", "delta": 20, "set": ["tamam"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["tamam"],
           "law": "TCK m.36, m.106/2-a, m.6/1-f",
-          "note": "Doğru ve dürüst bir çizgi. TCK m.36 tamamlanan kısmın esasen suç oluşturması hâlinde yalnızca o suçun cezasını öngörür. Maket bıçağı, saldırıda kullanılmaya elverişli olduğundan silah sayılır (TCK m.6/1-f). Kalan eylem silahla tehdittir. Görev yönünden de sorun yok: ağır ceza mahkemesi bu suç hakkında da hüküm kurar." },
-        { "text": "Vazgeçme olduğuna göre hiçbir suç oluşmamıştır; tam beraat isteriz.", "delta": -10,
+          "note": "Doğru ve dürüst bir çizgi çizdiniz. TCK m.36 tamamlanan kısmın esasen suç oluşturması hâlinde yalnızca o suçun cezasını öngörür. Maket bıçağı, saldırıda kullanılmaya elverişli olduğundan silah sayılır (TCK m.6/1-f); kalan eylem silahla tehdittir. Görev yönünden de sorun yok: ağır ceza mahkemesi bu suç hakkında da hüküm kurar." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["tamam"],
+          "law": "TCK m.36, m.106/2-a",
+          "note": "Ana çizgiyi kurdunuz; heyet bunu yeterli buldu. Tam savunma, teşebbüsten ceza verilemeyeceğini, TCK m.36 uyarınca yalnızca tamamlanan kısımdan sorumluluk doğduğunu ve bu kısmın silahla tehdit (m.106/2-a; maket bıçağı m.6/1-f uyarınca silahtır) olduğunu birlikte gösterir." },
+        { "text": "Zayıf savunma", "delta": -10,
           "law": "TCK m.36",
-          "note": "TCK m.36'nın son cümlesini atladınız. Tamamlanan kısım ayrı bir suçsa ondan sorumluluk sürer. Gerçekçi olmayan bir talep heyetin güvenini sarsar." },
-        { "text": "Eylem yağmaya teşebbüstür, ama cezanın alt sınırdan verilmesini isteriz.", "delta": -15,
-          "note": "Kendi savunmanızı terk ettiniz. Gönüllü vazgeçme varsa teşebbüsten ceza verilmez; alt sınır tartışması gereksiz yere savcının nitelendirmesini kabul etmek demek." },
-        { "text": "Tamamlanan kısım kasten yaralamadır.", "delta": -5,
-          "note": "Mağdura dokunulmadı; yaralama yok. Kalan eylem, bıçakla korkutmadan, yani silahla tehditten ibaret." }
+          "note": "Tamamlanan kısım hakkında doğru bir çizgi çizemediniz. TCK m.36 uyarınca teşebbüsten ceza verilmez, ama tamamlanan kısım ayrı bir suçsa ondan sorumluluk sürer. Burada kalan eylem maket bıçağıyla korkutmadır, yani silahla tehdit (TCK m.106/2-a, m.6/1-f). Tam beraat istemek de yağmaya teşebbüsü kabul etmek de heyetin güvenini sarsar." }
       ] },
     { "side": "p1", "scene": "court",
       "lines": [
@@ -109,13 +119,13 @@
       ],
       "prompt": "Talebiniz ne olacak?",
       "choices": [
-        { "text": "Yağmaya teşebbüs yönünden TCK m.36 uyarınca ceza verilmesine yer olmadığına; silahla tehdit yönünden alt sınırdan ceza, TCK m.62 indirimi ve hükmün açıklanmasının geri bırakılmasına karar verilmesini isteriz.", "delta": 20, "set": ["talep"],
+        { "text": "Teşebbüs yönünden m.36 gereği ceza verilmesine yer olmadığına; silahla tehditte alt sınır, m.62 indirimi ve HAGB isteriz.", "delta": 20, "set": ["talep"],
           "law": "TCK m.36, m.62; CMK m.223/4, m.231",
           "note": "Eksiksiz bir talep. Gönüllü vazgeçme kişisel bir cezasızlık sebebidir; fiil teşebbüs aşamasında kalmış bir suç olduğundan hüküm “ceza verilmesine yer olmadığı” biçiminde kurulur. Kalan suçta sabıkasız, kendiliğinden karakola gelen bir sanık için TCK m.62 ve hükmün açıklanmasının geri bırakılması talep edilebilir." },
         { "text": "Yağmaya teşebbüs suçundan beraatine, tehdit yönünden takdirin heyete bırakılmasına karar verilmesini isteriz.", "delta": 5, "set": ["talepZayif"],
           "law": "CMK m.223/4",
           "note": "Sonuç benzer, ama doğru hüküm kurumu beraat değil, “ceza verilmesine yer olmadığı” kararıdır. Ayrıca kalan suç için hiçbir lehe talepte bulunmadınız." },
-        { "text": "Cezanın alt sınırdan verilmesini ve ertelenmesini isteriz.", "delta": -15,
+        { "text": "Sabıkasız ve kendiliğinden teslim olan sanık için cezanın alt sınırdan verilip TCK m.51 uyarınca ertelenmesini isteriz.", "delta": -15,
           "note": "Hangi suç için? Bu talep, savcının yağmaya teşebbüs nitelendirmesini kabul ediyor. Üstelik yağmaya teşebbüsün cezası ertelemenin sınırını aşar." }
       ] }
   ],

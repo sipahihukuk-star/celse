@@ -59,16 +59,16 @@
       "lines": [{ "who": "narr", "text": "Cevap dilekçesini yazıyorsunuz. Burada ileri sürmediğiniz bir vakıa için sonradan savunmayı genişletmek kolay olmayacak." }],
       "prompt": "Cevap dilekçesinin merkezine ne koyacaksınız?",
       "choices": [
-        { "if": "yazi", "text": "Senetteki el yazısını açıkça inkâr edin: azami miktar, tarih ve “müteselsil kefil” ibaresi kefilin el yazısı değildir; yazı incelemesi isteyin. Kefalet şekil şartı yokluğundan geçersizdir.", "delta": 20, "set": ["sekil"],
+        { "if": "yazi", "text": "El yazısını açıkça inkâr edin: miktar, tarih ve “müteselsil kefil” ibaresi kefilin değil; yazı incelemesi isteyin.", "delta": 20, "set": ["sekil"],
           "law": "TBK m.583/1",
           "note": "Kefalet yazılı şekilde yapılmalı, azami miktar ve tarih gösterilmeli; kefil azami miktarı, tarihi ve müteselsil kefil olduğunu kendi el yazısıyla yazmalıdır (TBK m.583/1). El yazısının kefile ait olmadığı açıkça inkâr edilmezse mahkeme bunu araştırmaz; inkârla birlikte karşılaştırma incelemesi istenir." },
-        { "text": "Kefaletin TBK m.583'teki şekle uygun yapılıp yapılmadığının incelenmesini isteyin.", "delta": 5, "set": ["sekilgenel"],
+        { "text": "Kefaletin TBK m.583'teki şekle uygun yapılıp yapılmadığının, senet aslı üzerinden resen incelenmesini isteyin.", "delta": 5, "set": ["sekilgenel"],
           "law": "TBK m.583",
           "note": "Doğru madde, ama somut bir vakıa yok. Senette azami miktar, tarih ve el yazısıyla bir ibare görünüyor; yazının kime ait olduğunu inkâr etmezseniz mahkeme senedi şekle uygun kabul eder." },
-        { "text": "İmzanın müvekkile ait olmadığını ileri sürün.", "delta": -20,
+        { "text": "İmzanın müvekkile ait olmadığını ileri sürün; imza inkâr edilince senedin gerçekliğini ispat yükü davacıya geçer.", "delta": -20,
           "law": "Av.K. m.34",
           "note": "İmza müvekkile ait. Bilerek gerçeğe aykırı savunma, avukatın meslek kurallarına uygun davranma yükümlülüğüyle bağdaşmaz (Av.K. m.34); imza incelemesi de aleyhinize sonuçlanır." },
-        { "text": "Borcu kabul edin, ama ödeme için taksit isteyin.", "delta": -20, "set": ["kabul"],
+        { "text": "Borcu kabul edin, ama taksit isteyin; davayı ilk duruşmada kabul eden davalı aleyhine icra inkâr tazminatına hükmedilmez.", "delta": -20, "set": ["kabul"],
           "note": "Geçersiz olabilecek bir kefalet için müvekkili borçlu ilan ettiniz. Bu beyan mahkemeyi bağlar ve icra inkâr tazminatına da kapı açar." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
@@ -98,21 +98,29 @@
         { "who": "opp", "text": "Davalı senedi bilerek imzaladı, parayı kuzeni aldı. Şimdi şekle sığınması hakkın açıkça kötüye kullanılmasıdır. Kaldı ki bu belge kefalet değil, bir garanti taahhüdüdür; kefaletin şekil kuralları uygulanmaz." },
         { "who": "judge", "text": "Davalı vekili?" }
       ],
-      "prompt": "Nasıl karşılık vereceksiniz?",
+      "kind": "free",
+      "prompt": "Davacı vekilinin iki iddiasına mahkemede ne cevap vereceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
-        { "text": "Kefaletin şekline ve eşin rızasına ilişkin hükümler, gerçek kişilerin verdiği kişisel güvencelere, adı ne olursa olsun uygulanır. Şekil kuralı kefili korumak için konmuştur; ona dayanmak kural olarak hakkın kötüye kullanılması değildir.", "delta": 20, "set": ["savunma"],
-          "law": "TBK m.603, TMK m.2",
-          "note": "Kefaletin şekline, kefil olma ehliyetine ve eşin rızasına ilişkin hükümler, gerçek kişilerce kişisel güvence amacıyla yapılan başka adlardaki sözleşmelere de uygulanır (TBK m.603). Koruyucu şekil kuralına dayanmak ancak çok istisnai durumlarda hakkın kötüye kullanılması sayılır." },
-        { "text": "Hakkın kötüye kullanılması iddiası yerinde değildir; şekil eksikliğini ileri sürmek kefilin hakkıdır.", "delta": 10, "set": ["savunma"],
-          "law": "TMK m.2",
-          "note": "Doğru ama eksik. “Garanti taahhüdü” nitelendirmesine cevap vermediniz; oysa TBK m.603 bu kaçış yolunu açıkça kapatıyor." },
-        { "text": "Kefalet geçerli sayılsa bile kefil, senette yazan 300.000 TL'yi aşan faizden sorumlu değildir.", "delta": 5, "set": ["azami"],
-          "law": "TBK m.589/1",
-          "note": "Doğru bir ikincil savunma: kefil her durumda sözleşmede belirtilen azami miktara kadar sorumludur (TBK m.589/1). Ama asıl tartışma kefaletin geçerliliği; önce ona cevap vermeliydiniz." },
-        { "text": "Belge garanti sözleşmesiyse müvekkil zaten kefil değildir; garanti verdiğini kabul ediyoruz.", "delta": -20, "set": ["kabul"],
-          "law": "TBK m.128, m.603",
-          "note": "Karşı tarafın nitelendirmesini kabul edip müvekkili garanti veren olarak bağladınız. Oysa gerçek kişinin verdiği kişisel güvencede şekil kuralları yine uygulanırdı (TBK m.603)." }
-      ] }
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["savunma", "azami"],
+          "law": "TBK m.603, m.589/1; TMK m.2",
+          "note": "İki iddiayı da karşıladınız. Kefaletin şekline, kefil olma ehliyetine ve eşin rızasına ilişkin hükümler, gerçek kişilerce kişisel güvence amacıyla yapılan başka adlardaki sözleşmelere de uygulanır (TBK m.603); “garanti” adı şekil kuralını devre dışı bırakmaz. Koruyucu şekil kuralına dayanmak ancak çok istisnai durumlarda hakkın kötüye kullanılması sayılır (TMK m.2). Kefil her durumda azami miktarla sınırlı sorumludur (TBK m.589/1)." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["savunma", "azami"],
+          "law": "TBK m.603, m.589/1; TMK m.2",
+          "note": "İddialardan yalnız birine tam cevap verdiniz. Şekle dayanmak kefilin hakkıdır ve kural olarak hakkın kötüye kullanılması sayılmaz (TMK m.2); “garanti” nitelendirmesine karşı da TBK m.603'ü göstermeliydiniz: kefaletin şekil ve eş rızası hükümleri, gerçek kişilerin verdiği kişisel güvencelere adı ne olursa olsun uygulanır." },
+        { "text": "Zayıf savunma", "delta": -10,
+          "law": "TBK m.603; TMK m.2",
+          "note": "Davacının iki iddiasını da karşılayamadınız. Gerçek kişilerce kişisel güvence amacıyla verilen taahhüde, adı “garanti” olsa da kefaletin şekil ve eş rızası hükümleri uygulanır (TBK m.603). Kefili korumak için konmuş şekil kuralına dayanmak da kural olarak hakkın kötüye kullanılması değildir (TMK m.2)." }
+      ],
+      "rubric": "İyi bir cevap iki iddiayı ayrı ayrı karşılar: (1) “Garanti taahhüdü” nitelendirmesine karşı: kefaletin şekline, kefil olma ehliyetine ve eşin rızasına ilişkin hükümler, gerçek kişilerin kişisel güvence amacıyla yaptığı başka adlardaki sözleşmelere de uygulanır (TBK m.603); belgenin adı sonucu değiştirmez. (2) Hakkın kötüye kullanılması iddiasına karşı: şekil kuralı kefili korumak için konmuştur; ona dayanmak kural olarak hakkın kötüye kullanılması sayılmaz (TMK m.2), ancak çok istisnai durumlarda sayılabilir. (3) İkincil olarak: kefil her durumda sözleşmedeki azami miktarla (300.000 TL) sınırlı sorumludur (TBK m.589/1). (1) ve (2)'yi madde numarasıyla birlikte veren cevap tam puan alır; iddialardan yalnız birini karşılayan ya da yalnızca azami miktar savunması yapan cevap orta puan alır. Garanti nitelendirmesini kabul eden ya da borcu kabul eden cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["m.603", "m. 603", "madde 603", "603. madde", "md. 603", "md.603"], "weight": 3 },
+        { "terms": ["kişisel güvence", "adı ne olursa olsun", "adına bakılmaksızın", "başka adla", "garanti adı"], "weight": 2 },
+        { "terms": ["kötüye kullan", "dürüstlük", "TMK m.2", "TMK m. 2", "Medeni Kanun 2"], "weight": 2 },
+        { "terms": ["korumak", "koruyucu", "koruma amacı", "kefili koru"], "weight": 1 },
+        { "terms": ["azami", "m.589", "m. 589", "589/1", "300.000"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, belgeye “garanti” denmesi sonucu değiştirmez: kefaletin şekline ve eşin rızasına ilişkin hükümler, gerçek kişilerin kişisel güvence amacıyla yaptığı başka adlardaki sözleşmelere de uygulanır (TBK m.603). Şekil kuralı kefili korumak için konmuştur; müvekkilin buna dayanması hakkın kötüye kullanılması değil, kanunun tanıdığı korumanın kullanılmasıdır (TMK m.2). Kaldı ki müvekkil her hâlde senetteki 300.000 TL azami miktarla sınırlı sorumludur (TBK m.589/1)."
+    }
   ],
   "outcomes": [
     { "if": "kabul", "winner": "p2",

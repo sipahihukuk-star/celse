@@ -62,13 +62,13 @@
       "lines": [{ "who": "narr", "text": "Sorguya yazılı savunma hazırlıyorsunuz. Savunma, raportör denetçinin hazırlayacağı rapora eklenecek." }],
       "prompt": "Duruşma konusunda ne yapacaksınız?",
       "choices": [
-        { "text": "Savunmada açıkça duruşma talep et. Belge asıllarını duruşmada sunacağınızı bildir.", "delta": 20, "set": ["durusma"],
+        { "text": "Yazılı savunmada açıkça duruşma talep et; fatura asıllarını ve katılımcı listelerini duruşmada sunacağını bildir.", "delta": 20, "set": ["durusma"],
           "law": "6085 s.K.",
           "note": "Sorumlular savunmalarında ve/veya dilekçelerinde belirterek duruşmaya katılma isteminde bulunabilir. Duruşmada belgeleri heyete doğrudan sunabilirsiniz." },
-        { "text": "Duruşma talebini raportör denetçiye telefonla bildir.", "delta": -10, "set": ["rapor"],
-          "note": "Talep savunmada ve/veya dilekçede belirtilerek yapılır. Telefonla yapılan bildirim dosyaya girmez; daire raporu esas alır." },
-        { "text": "Yazılı savunmayla yetin, duruşma isteme. Belgeleri sonra gönderirsin.", "delta": -10, "set": ["rapor"],
-          "note": "Talep yoksa duruşma yapılmaz. Daire raporu ve Başsavcılığın yazılı görüşünü esas alarak karar verir." }
+        { "text": "Duruşma talebini raportör denetçiye telefonla bildir; denetçi talebi rapora işler, ayrıca dilekçeye gerek kalmaz.", "delta": -10, "set": ["rapor"],
+          "note": "Talep savunmada ve/veya dilekçede belirtilerek yapılır. Telefonla yapılan bildirim dosyaya girmez; raportör bunu rapora işlemekle yükümlü değildir ve daire raporu esas alır." },
+        { "text": "Yazılı savunmayla yetin, duruşma isteme; belgeleri Daire kararından önce ek dilekçeyle gönderirsin, sonuç değişmez.", "delta": -10, "set": ["rapor"],
+          "note": "Talep yoksa duruşma yapılmaz. Daire raporu ve Başsavcılığın yazılı görüşünü esas alarak karar verir; sonradan gönderilen belgelerin heyetin önüne geleceğinin güvencesi yoktur." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court", "if": "durusma",
       "lines": [
@@ -95,18 +95,22 @@
         { "who": "opp", "text": "Mezuniyet yemeğinde yönergedeki kişi başı sınır aşılmıştır. Aşan 148.000 TL'den muhasebe yetkilisi de harcama yetkilisi ve gerçekleştirme görevlisiyle birlikte sorumludur." },
         { "who": "judge", "text": "Sorumlu vekili, cevabınız?" }
       ],
-      "prompt": "Nasıl karşılık vereceksiniz?",
+      "kind": "free", "prompt": "Muhasebe yetkilisinin bu tutardan sorumluluğu hakkında heyete ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
-        { "text": "Muhasebe yetkilisi imza, maddi hata ve belgelerin tamlığı yönünden kontrol yapar; sorumluluğu bu kontrollerle sınırlıdır. Harcamanın yönergedeki sınıra uygunluğu harcama yetkilisi ve gerçekleştirme görevlisinin alanıdır.", "delta": 20, "set": ["sinirli"],
-          "law": "5018 s.K. m.31–33, m.61",
-          "note": "Harcama yetkilisi, gerçekleştirme görevlisi ve muhasebe yetkilisinin sorumlulukları ayrıdır. Faturada imzalar tam, tutar doğru, belgeler eksiksiz. Müvekkilin kontrol alanında bir eksik yok." },
-        { "text": "Sınır aşılmamıştır; kişi sayısı yanlış hesaplanmıştır.", "delta": -5,
-          "note": "Somut bir belgeye dayanmayan bir sayı itirazı heyeti ikna etmez. Faturadaki kişi sayısı da raportörü doğruluyor." },
-        { "text": "Mezuniyet töreni üniversitenin itibarı için gerekliydi.", "delta": -10,
-          "note": "Yerindelik savunması mevzuata aykırılığı gidermez. Üstelik müvekkilin rolüyle de ilgisi yok." },
-        { "text": "Tutarı müvekkil ve harcama yetkilisi yarı yarıya ödesin.", "delta": -15, "set": ["kabul"],
-          "note": "Bu teklif, müvekkilin kendi kontrol alanı dışındaki bir tutardan sorumluluğunu kabul etmek anlamına gelir." }
-      ] }
+        {"text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["sinirli"], "law": "5018 s.K. m.31–33, m.61", "note": "Sorumlulukları doğru ayırdınız: muhasebe yetkilisi ödeme belgelerinde imza, maddi hata ve belgelerin tamlığı yönünden kontrol yapar (5018 s.K. m.61) ve sorumluluğu bu kontrollerle sınırlıdır. Harcamanın yönergedeki sınıra uygunluğu harcama yetkilisi ile gerçekleştirme görevlisinin alanıdır (m.31–33). Müvekkilin kontrol alanında bir eksik yok."},
+        {"text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["sinirli"], "law": "5018 s.K. m.31–33, m.61", "note": "Muhasebe yetkilisinin sorumluluğunun sınırlı olduğunu söylediniz; heyet bunu dikkate aldı. Tam savunma sınırı somut gösterir: imza, maddi hata ve belgelerin tamlığı kontrolü (5018 s.K. m.61); yönerge sınırına uygunluk ise harcama yetkilisi ile gerçekleştirme görevlisinin alanıdır (m.31–33)."},
+        {"text": "Zayıf savunma", "delta": -10, "set": ["kabul"], "law": "5018 s.K. m.31–33, m.61", "note": "Müvekkilin sorumluluk alanını ayırmadınız. Muhasebe yetkilisi imza, maddi hata ve belgelerin tamlığı yönünden kontrol yapar (5018 s.K. m.61); harcamanın yönergedeki sınıra uygunluğu harcama yetkilisi ile gerçekleştirme görevlisinin sorumluluğundadır (m.31–33). Yerindelik savunması, belgeye dayanmayan bir sayı itirazı ya da tutarın paylaşılmasını önermek bu ayrımın yerini tutmaz."}
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Harcama yetkilisi, gerçekleştirme görevlisi ve muhasebe yetkilisinin sorumlulukları ayrıdır (5018 s.K. m.31–33, m.61). (2) Muhasebe yetkilisi ödeme belgelerinde yetkililerin imzasını, maddi hatayı ve belgelerin tamlığını kontrol eder; sorumluluğu bu kontrollerle sınırlıdır. (3) Harcamanın yönergedeki kişi başı sınıra uygunluğu harcama yetkilisi ile gerçekleştirme görevlisinin alanıdır. (4) Müvekkilin kontrol alanında bir eksik yoktur (imzalar tam, tutar doğru, belgeler eksiksiz); bu nedenle aşan 148.000 TL'den sorumlu tutulamaz. Muhasebe yetkilisinin üç kontrol alanını sayıp sınır aşımının başka görevlilerin alanında olduğunu söylemek tam puan alır; yalnızca sorumluluğun sınırlı olduğunu söylemek orta puan alır. Harcamanın yerindeliğini savunan, belgeye dayanmadan sınırın aşılmadığını ileri süren ya da tutarın paylaşılmasını öneren cevap düşük puan alır.",
+      "keywords": [
+        {"terms": ["imza"], "weight": 2},
+        {"terms": ["maddi hata"], "weight": 2},
+        {"terms": ["tamlığı", "tamlık", "eksiksiz", "belgelerin tam"], "weight": 2},
+        {"terms": ["harcama yetkilisi", "gerçekleştirme görevlisi"], "weight": 2},
+        {"terms": ["sınırlı", "kontrol alanı", "sorumluluk alanı"], "weight": 1},
+        {"terms": ["m.61", "m. 61", "madde 61", "61. madde", "md. 61", "5018"], "weight": 1}
+      ],
+      "model": "Sayın Başkan, muhasebe yetkilisi ödeme belgelerinde yetkililerin imzasını, maddi hatayı ve belgelerin tamlığını kontrol eder (5018 s.K. m.61); sorumluluğu bu kontrollerle sınırlıdır. Harcamanın yönergedeki kişi başı sınıra uygunluğu ise harcama yetkilisi ile gerçekleştirme görevlisinin sorumluluğundadır. Müvekkilin kontrol alanında hiçbir eksik bulunmadığından aşan tutardan sorumlu tutulamaz." }
   ],
   "outcomes": [
     { "if": "rapor", "winner": "p2", "label": "HÜKÜM:", "noCourt": true,
@@ -122,7 +126,7 @@
       "hukum": "Doğu Anadolu Teknik Üniversitesinin 2025 yılı hesabına ilişkin ek dosyada, belgeleri ibraz edilen 312.000,00 TL yönünden kamu zararı oluşmadığından İLİŞİLECEK BİR HUSUS BULUNMADIĞINA; yönerge sınırını aşan 148.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte harcama yetkilisi, gerçekleştirme görevlisi ve muhasebe yetkilisinden TAZMİNİNE, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oy çokluğuyla karar verildi.",
       "summary": [
         { "text": "Fatura asıllarıyla birinci bulguyu düşürdünüz. Ama sınır aşımında müvekkilin sorumluluğunun imza, maddi hata ve belge tamlığı kontrolüyle sınırlı olduğunu ortaya koymadınız." },
-        { "if": "kabul", "text": " Yarı yarıya ödeme teklifi, sorumluluğu kabul gibi okundu." }
+        { "if": "kabul", "text": " Bu bulguya verdiğiniz cevap, müvekkilin aşan tutardan sorumluluğunu tartışmasız bıraktı." }
       ] },
     { "if": "sinirli", "winner": "draw", "stamp": "KISMİ BAŞARI", "label": "HÜKÜM:", "noCourt": true,
       "hukum": "Doğu Anadolu Teknik Üniversitesinin 2025 yılı hesabına ilişkin ek dosyada, belgesiz ödendiği anlaşılan 312.000,00 TL'nin hüküm tarihinden itibaren işleyecek kanuni faiziyle birlikte harcama yetkilisi, gerçekleştirme görevlisi ve muhasebe yetkilisinden TAZMİNİNE; yönerge sınırını aşan 148.000,00 TL'nin aynı şekilde harcama yetkilisi ve gerçekleştirme görevlisinden TAZMİNİNE, muhasebe yetkilisinin bu tutardan SORUMLU TUTULMAMASINA, ilamın tebliğinden itibaren altmış gün içinde Temyiz Kuruluna temyiz yolu açık olmak üzere oy çokluğuyla karar verildi.",

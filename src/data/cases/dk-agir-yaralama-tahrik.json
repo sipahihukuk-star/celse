@@ -208,7 +208,7 @@
       "prompt": "Tam kayıt hakkında ne yapacaksınız?",
       "choices": [
         {
-          "text": "Katılanın yeğenindeki tam kopyaya CMK m.123 uyarınca el konulmasını, bütünlüğünün bilirkişiye incelettirilmesini ve kaydın tamamının izlenmesini talep et.",
+          "text": "Yeğendeki tam kopyaya CMK m.123 uyarınca el konulmasını ve bütünlüğünün bilirkişiye incelettirilmesini talep et.",
           "delta": 20,
           "set": [
             "p1_tam"
@@ -223,7 +223,7 @@
           ]
         },
         {
-          "text": "35 saniyelik görüntü yeterli; başka kayıt istemiyoruz.",
+          "text": "35 saniyelik görüntü atışı açıkça gösteriyor; tam kayıt itmeyi de göstereceği için yeni bir delil istemeyin.",
           "delta": -10,
           "set": [
             "p1_kisa"
@@ -231,13 +231,13 @@
           "note": "Müvekkil tarafının elinde tam kayıt var. Kesilmiş bir parçayla yetinmek, kayıt ortaya çıkarsa katılanın bütün anlatımını şüpheli hâle getirir."
         },
         {
-          "text": "USB'yi biz mahkemeye sunarız; ayrıca bir karara gerek yok.",
+          "text": "USB'yi dilekçe ekinde biz sunalım; taraf delilini kendisi getirebilir, elkoyma kararı ve bilirkişi gereksiz uzatma olur.",
           "delta": -5,
           "set": [
             "p1_kendi"
           ],
           "law": "CMK m.123",
-          "note": "Kaydı sunmanız doğru; ama tarafın kendi seçip getirdiği bir kopya “seçilerek getirildi” itirazına açıktır. Mahkeme yine el koyup bilirkişiye inceletmek zorunda kaldı; bir duruşma kaybettiniz.",
+          "note": "Kaydı sunmanız doğru; ama tarafın kendi seçip getirdiği bir kopya “seçilerek getirildi” itirazına açıktır. Mahkeme yine el koyup bilirkişiye inceletmek zorunda kaldı; uzatma bu yüzden oldu, bir duruşma kaybettiniz.",
           "reply": [
             {
               "who": "judge",
@@ -317,7 +317,7 @@
       "choices": [
         {
           "if": "p2_usb && !p1_tam && !p1_kendi",
-          "text": "Katılan tarafında eczane kaydının tam kopyası var. CMK m.123 uyarınca el konulmasını ve bilirkişi incelemesini talep ediyoruz; 35 saniyelik görüntü kesilmiş bir parçadır.",
+          "text": "Katılan tarafında eczane kaydının tam kopyası var; CMK m.123 uyarınca el konulmasını ve bilirkişi incelemesini talep ediyoruz.",
           "delta": 20,
           "set": [
             "p2_tam"
@@ -347,13 +347,13 @@
           "note": "Kayıt artık dosyaya giriyor; savunmanın işi, ondan tahrikin başladığı anı çıkarmak."
         },
         {
-          "text": "35 saniyelik görüntü hukuka aykırı delildir; dosyadan çıkarılsın.",
+          "text": "35 saniyelik görüntü hukuka aykırı delildir: eczacının izni olmadan monitörden çekildi; dosyadan çıkarılsın.",
           "delta": -10,
           "set": [
             "p2_yasak"
           ],
           "law": "CMK m.206/2-a, m.217/2",
-          "note": "Kamuya açık bir sokağı gösteren güvenlik kamerasının monitöründen çekilmiş bir görüntüde hukuka aykırı bir elde etme yöntemi yok. Görüntünün eksik olması güvenilirlik sorunudur, delil yasağı değil.",
+          "note": "Kamuya açık bir sokağı gösteren güvenlik kamerasının monitöründen çekilmiş bir görüntüde hukuka aykırı bir elde etme yöntemi yok; eczacının izninin bulunmaması bunu değiştirmez. Görüntünün eksik olması güvenilirlik sorunudur, delil yasağı değil.",
           "reply": [
             {
               "who": "judge",
@@ -363,7 +363,7 @@
         },
         {
           "if": "!p2_usb && !p1_tam && !p1_kendi",
-          "text": "Eczanenin kayıt cihazının getirtilmesini talep ediyoruz.",
+          "text": "Eczanenin kayıt cihazının getirtilmesini ve bilirkişiye incelettirilmesini talep ediyoruz.",
           "delta": 5,
           "note": "Doğru düşünce, ama geç: cihaz kayıtların üzerine 30 günde bir yazıyor; olaydan beş ay sonra cihazda bir şey kalmadı. Kaydın başka bir kopyası olup olmadığını müvekkile sormadınız.",
           "reply": [
@@ -460,7 +460,7 @@
       "prompt": "Tahrik iddiasına cevabınız?",
       "choices": [
         {
-          "text": "Tanık Gülay Şen kollukta, sanığın önce müvekkilin annesine ağır bir küfür ettiğini söyledi. İlk haksız hareket sanıktan geldi; tanığın dinlenmesini istiyoruz.",
+          "text": "İlk haksız hareket sanıktan geldi: tanık Gülay Şen kollukta, sanığın önce müvekkilin annesine küfür ettiğini anlattı; dinlensin.",
           "delta": 15,
           "set": [
             "p1_ilk"
@@ -475,9 +475,9 @@
           ]
         },
         {
-          "text": "Müvekkil sanığa hiç dokunmadı.",
+          "text": "Müvekkil sanığa hiç dokunmadı; sanık tartışma sırasında kendi ayağı takılarak düştü, görüntüde de bir itme yok.",
           "delta": -10,
-          "note": "Katılan da kendi beyanında ittiğini kabul ediyor, tanık da itmeyi anlatıyor. Delillerle çelişen bir inkâr güveninizi sarsar.",
+          "note": "Katılan da kendi beyanında ittiğini kabul ediyor, tanık da itmeyi anlatıyor. 35 saniyelik görüntünün itmeyi göstermemesi, itmenin olmadığını değil, görüntünün eksik olduğunu gösterir. Delillerle çelişen bir inkâr güveninizi sarsar.",
           "reply": [
             {
               "who": "judge",
@@ -486,10 +486,10 @@
           ]
         },
         {
-          "text": "Haksız tahrik yalnızca öldürme suçlarında uygulanır.",
+          "text": "Haksız tahrik bu suçta uygulanamaz; TCK m.29'daki indirim yalnızca öldürme suçlarında müebbet cezalar için öngörülmüştür.",
           "delta": -15,
           "law": "TCK m.29",
-          "note": "TCK m.29 bütün suçlarda uygulanır; öldürme dışındaki hâllerde ceza dörtte birinden dörtte üçüne kadar indirilir.",
+          "note": "TCK m.29 bütün suçlarda uygulanır. Ağırlaştırılmış müebbet ve müebbet için ayrı oranlar öngörülmüştür; diğer hâllerde ceza dörtte birinden dörtte üçüne kadar indirilir.",
           "reply": [
             {
               "who": "judge",
@@ -520,10 +520,11 @@
           "text": "Katılan vekili?"
         }
       ],
-      "prompt": "Ne yapacaksınız?",
+      "prompt": "Tanık kolluk ifadesinden dönüyor, salondan ona söz atılıyor. Mahkemeye ne söyleyeceksiniz? Talebinizi kendi cümlelerinizle kurun.",
       "choices": [
         {
-          "text": "“Sayın Başkan, arka sıradan tanığa söz atıldı. Düzeni bozanların salondan çıkarılmasını, tanığın sanığın yokluğunda dinlenmesini ve tanığa baskı yapıldığı yönündeki beyanımızın tutanağa geçirilmesini talep ediyorum. Ardından kolluk ifadesiyle çelişkinin sorulmasını istiyorum.”",
+          "text": "Güçlü talep",
+          "min": 70,
           "delta": 10,
           "set": [
             "gulay_ok"
@@ -542,12 +543,33 @@
           ]
         },
         {
-          "text": "“Tanık yalan söylüyor; hakkında yalan tanıklıktan işlem yapılsın!”",
+          "text": "Yeterli talep",
+          "min": 40,
+          "delta": 5,
+          "set": [
+            "gulay_ok"
+          ],
+          "law": "CMK m.200, m.203",
+          "note": "Baskıyı mahkemeye bildirdiniz ve tanık bu kez konuştu. Tam talep şunları birlikte içerir: düzeni bozanların salondan çıkarılması (CMK m.203), tanığın sanığın yokluğunda dinlenmesi (CMK m.200), baskının tutanağa geçirilmesi ve ardından kolluk ifadesiyle çelişkinin sorulması.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Söz atan dinleyiciler salondan çıkarılsın. Sanık, tanığın dinlenmesi süresince salon dışına alınsın."
+            },
+            {
+              "who": "tanik",
+              "text": "Kapı açıktı. Volkan Bey önce Cengiz Bey'in annesine çok ağır bir küfür etti, Cengiz Bey de onu itti. Korktum, o yüzden öyle dedim."
+            }
+          ]
+        },
+        {
+          "text": "Zayıf talep",
           "delta": -10,
           "set": [
             "gulay_no"
           ],
-          "note": "Korkan bir tanığı daha da sıkıştırdınız. Önce baskıyı ortadan kaldırmalı, sonra çelişkiyi sormalıydınız.",
+          "law": "CMK m.200, m.203",
+          "note": "Korkan tanığı baskıdan kurtarmadınız. Önce baskıyı ortadan kaldırmalıydınız: düzeni bozanların salondan çıkarılması (CMK m.203), gerekirse tanığın sanığın yokluğunda dinlenmesi (CMK m.200). Çelişki ancak bundan sonra sorulur; tanığı yalan tanıklıkla suçlamak onu daha da sıkıştırır.",
           "reply": [
             {
               "who": "tanik",
@@ -555,7 +577,75 @@
             }
           ]
         }
-      ]
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Salondan tanığa söz atıldığını ve tanığın baskı altında olduğunu mahkemeye açıkça bildirir. (2) Duruşmanın düzenini bozanların salondan çıkarılmasını ister (CMK m.203). (3) Tanığın sanığın yüzüne karşı gerçeği söylemeyeceği endişesiyle sanığın dinleme sırasında salondan çıkarılmasını ister (CMK m.200). (4) Baskı yönündeki beyanın tutanağa geçirilmesini ve baskı kalktıktan sonra tanığa kolluk ifadesiyle çelişkinin sorulmasını ister. Önce baskıyı kaldıran, sonra çelişkiyi soran ve en az iki usul tedbirini isteyen cevap tam puan alır; baskıyı bildirip yalnız bir tedbir isteyen ya da yalnız çelişkinin sorulmasını isteyen cevap orta puan alır. Tanığı yalan tanıklıkla suçlayan, hakkında suç duyurusu isteyen ya da baskıyı hiç anmayan cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "salondan çıkar",
+            "dışarı çıkar",
+            "dışarı alın",
+            "salon dışına",
+            "çıkarılmasını",
+            "çıkarılsın"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "sanığın yokluğ",
+            "sanık olmadan",
+            "sanığın huzurunda olmadan",
+            "sanık salondan",
+            "sanık dışarı"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "baskı",
+            "söz atıl",
+            "tehdit",
+            "korkut",
+            "korku"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "çelişki",
+            "kolluk ifade",
+            "önceki ifade",
+            "kollukta"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "tutanağa",
+            "zapta",
+            "kayda geç"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "m.203",
+            "m. 203",
+            "madde 203",
+            "203. madde",
+            "md. 203",
+            "m.200",
+            "m. 200",
+            "madde 200",
+            "200. madde",
+            "md. 200"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Başkan, arka sıradan tanığa söz atıldı; tanık açıkça baskı altında. Duruşmanın düzenini bozanların salondan çıkarılmasını (CMK m.203), tanığın sanığın yokluğunda dinlenmesini (CMK m.200) ve baskıya ilişkin beyanımızın tutanağa geçirilmesini talep ediyorum. Ardından tanığa kolluk ifadesiyle arasındaki çelişkinin sorulmasını istiyorum."
     },
     {
       "side": "p2",
@@ -570,7 +660,7 @@
       "prompt": "Ne yapacaksınız?",
       "choices": [
         {
-          "text": "Sanık salona alındığında tanığın beyanının ona okunmasını talep ediyorum. Tanığa sorum: Küfrü duyduğunuzda eczanenin neresindeydiniz, kapıya mesafeniz neydi?",
+          "text": "Sanık salona alınınca beyan ona okunsun. Tanığa sorum: Küfrü duyduğunuzda eczanenin neresindeydiniz, kapıya mesafeniz neydi?",
           "delta": 15,
           "set": [
             "p2_soru"
@@ -585,20 +675,20 @@
           ]
         },
         {
-          "text": "Sanığın salondan çıkarılmasına itiraz ediyorum; tanık sanığın huzurunda dinlenmeliydi.",
+          "text": "Sanığın salondan çıkarılmasına itiraz ediyorum; sanığın duruşmada hazır bulunma hakkı var, tanık onun huzurunda dinlenmeliydi.",
           "delta": -5,
           "law": "CMK m.200",
-          "note": "Mahkeme, tanığın sanığın yüzüne karşı gerçeği söylemeyeceğinden endişe ederse sanığı dinleme sırasında salondan çıkarabilir. Söz atılan bir salonda bu endişe somuttu."
+          "note": "Sanığın hazır bulunma hakkı mutlak değildir. Mahkeme, tanığın sanığın yüzüne karşı gerçeği söylemeyeceğinden endişe ederse sanığı dinleme sırasında salondan çıkarabilir; sanık geri gelince yapılanlar ona bildirilir (CMK m.200). Söz atılan bir salonda bu endişe somuttu."
         },
         {
           "if": "p2_baski",
-          "text": "Tanık önceki ifadesinde katılan tarafından yönlendirilmiştir.",
+          "text": "Tanık önceki ifadesinde katılan tarafından yönlendirilmiştir; kolluktaki beyanı katılanın yakınlarının yanında alındı.",
           "delta": -15,
           "note": "Baskının hangi taraftan geldiğini biliyorsunuz. Gerçeğe aykırı bir iddia meslek kurallarına aykırıdır ve tanığa yapılan baskının yükünü savunmaya bindirir."
         },
         {
           "if": "!p2_baski",
-          "text": "Tanık önceki ifadesinde yönlendirilmiş olabilir.",
+          "text": "Tanık önceki ifadesinde yönlendirilmiş olabilir; kollukta bu kadar ayrıntı verip bugün hiçbir şey hatırlamaması bunu gösterir.",
           "delta": -5,
           "note": "Dayanaksız bir iddia. Tanığın neyi, nereden algıladığını sormak çok daha etkili olurdu."
         }
@@ -627,14 +717,14 @@
         },
         {
           "if": "p2_baski",
-          "text": "Müvekkilin yakınlarının tanıkla görüşmesi bir komşuluk ziyaretiydi; baskı yok.",
+          "text": "Müvekkilin yakınlarının tanıkla görüşmesi bir komşuluk ziyaretiydi; baskı iddiası dayanaksız, tanık özgür iradesiyle konuştu.",
           "delta": -15,
           "note": "Müvekkil size “ifadeni düzelt” dendiğini anlattı. Bildiğiniz bir gerçeğe aykırı beyan meslek kurallarına aykırıdır; tanığa baskıyı savunmuş oldunuz."
         },
         {
-          "text": "Sorum yok.",
+          "text": "Sorum yok; tanığın bugünkü beyanı zaten lehimize, üzerine gitmek gereksiz.",
           "delta": 0,
-          "note": "Tanığın geri adımı lehinize; ama bunun hukuki sonucunu mahkemeye söylemediniz."
+          "note": "Tanığın geri adımı lehinize; ama doğrulanmayan kolluk ifadesinin tek başına hükme esas alınamayacağını (CMK m.217/1) mahkemeye söylemediniz."
         }
       ]
     },

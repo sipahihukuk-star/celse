@@ -58,22 +58,32 @@
           "reply": [{ "who": "client", "text": "Pek iyi değil. Geçen yıl nöbet çizelgesi yüzünden tartışmıştık." }],
           "note": "Kişisel husumet iddiası ispatı zor ve davaya katkısı sınırlı bir konu. Sınırlı soru hakkınızı buna harcadınız." }
       ] },
-    { "side": "p1", "scene": "office",
+    { "kind": "free", "side": "p1", "scene": "office",
       "lines": [
         { "who": "narr", "text": "Müvekkil itiraz süresini kaçırdığı için endişeli. Büronun kıdemli ortağı Av. Leyla Ünsal içeri bakıp hatırlatıyor: “Disiplin kuruluna itiraz bir seçenekti, zorunlu değil. Tebliğden itibaren altmış gün içinde iptal davası açabiliriz.”" },
         { "who": "narr", "text": "Dava dilekçesinin ana dayanağını belirleyeceksiniz." }
       ],
-      "prompt": "Dilekçenin ana dayanağı ne olacak?",
+      "prompt": "Dava dilekçesinin ana dayanağını nasıl kuracaksınız? Kendi cümlelerinizle yazın.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Savunma hakkı tanınmadan disiplin cezası verilemez (Anayasa m.129/2; 657 s.K. m.130). (2) Savunma istemi yalnızca kurumsal e-postayla, imzasız ve tebellüğ şerhi olmadan gönderilmiştir; müvekkile usulüne uygun tebliğ edilmemiştir (müvekkil o tarihlerde izindeyse bu da belirtilir). (3) “Savunma hakkından vazgeçmiş sayılma” sonucu ancak usulüne uygun ulaştırılan ve en az yedi günlük süre tanınan istemde doğar; bu nedenle ceza savunma alınmadan verilmiştir ve iptali gerekir. (4) Disiplin kuruluna itiraz zorunlu değildir; tebliğden itibaren altmış gün içinde iptal davası açılabilir (İYUK m.7). Görev talimatıyla eylemin sabit olmadığının eklenmesi artıdır. Savunma hakkı ihlalini tebliğ eksikliği ve vazgeçme sonucunun doğmamasıyla birlikte kuran cevap tam puan alır; savunma hakkının ihlal edildiğini söyleyip nedenini açıklamayan cevap orta puan alır. Dilekçeyi cezanın ağırlığına, amirin kötü niyetine ya da yalnızca eylemin esasına dayandıran cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["savunma hakkı", "savunma alınmadan", "savunması alınmadan", "savunma"], "weight": 3 },
+        { "terms": ["tebliğ", "tebellüğ", "usulüne uygun", "ulaşmadı", "ulaştırılmadı"], "weight": 2 },
+        { "terms": ["vazgeç"], "weight": 2 },
+        { "terms": ["e-posta", "eposta", "izin"], "weight": 1 },
+        { "terms": ["m.129", "m. 129", "129/2", "m.130", "m. 130", "madde 130", "130. madde"], "weight": 1 },
+        { "terms": ["altmış gün", "60 gün", "İYUK m.7", "iptal davası"], "weight": 1 }
+      ],
+      "model": "Kınama cezası, müvekkilin savunması alınmadan verildiği için hukuka aykırıdır (Anayasa m.129/2; 657 s.K. m.130). Savunma istemi yalnızca kurumsal e-postaya, imzasız ve tebellüğ şerhi olmadan gönderilmiştir; usulüne uygun ulaştırılmayan bir istem nedeniyle müvekkil savunma hakkından vazgeçmiş sayılamaz. Disiplin kuruluna itiraz zorunlu olmadığından, tebliğden itibaren altmış gün içinde cezanın iptalini istiyoruz.",
       "choices": [
-        { "text": "Savunma hakkı tanınmadan ceza verildi: savunma istemi müvekkile usulüne uygun ulaştırılmadı, bu yüzden “vazgeçmiş sayılma” sonucu doğmaz.", "delta": 25, "set": ["savunma"],
+        { "text": "Güçlü dayanak", "min": 70, "delta": 25, "set": ["savunma"],
           "law": "Anayasa m.129/2; 657 s.K. m.130; İYUK m.7",
           "note": "Doğru dayanak. Savunma hakkı tanınmadıkça disiplin cezası verilemez (Anayasa m.129/2; 657 s.K. m.130). Vazgeçme sonucu ancak savunma istemi memura usulüne uygun ulaştırılmış ve en az yedi günlük süre tanınmışsa doğar. Dava süresi idare mahkemesinde altmış gündür (İYUK m.7)." },
-        { "text": "Eylem sabit değil: araç müdür yardımcısının talimatıyla görev için kullanıldı.", "delta": 10, "set": ["esas"],
-          "note": "Geçerli bir iptal sebebi, ama dosyadaki en güçlü hukuka aykırılık bu değil. Savunma hakkının ihlali, eylemin tartışılmasına gerek bırakmadan işlemi sakatlar." },
-        { "text": "Ceza ağır: dokuz yıllık temiz sicil gözetilerek uyarma verilmeliydi.", "delta": -5, "set": ["hafif"],
-          "note": "Kanun, bu fiil için kınama öngörüyor (657 s.K. m.125/B). Asıl sorun cezanın ağırlığı değil, savunma alınmadan verilmiş olması." },
-        { "text": "Şikâyet eden amirin kişisel husumeti nedeniyle işlem kötü niyetli.", "delta": -10,
-          "note": "Kanıtsız bir kötü niyet iddiası heyetin dikkatini asıl hukuka aykırılıktan uzaklaştırır." }
+        { "text": "Yeterli dayanak", "min": 40, "delta": 12, "set": ["savunma"],
+          "law": "Anayasa m.129/2; 657 s.K. m.130",
+          "note": "Dilekçeyi savunma hakkının ihlaline dayandırdınız; doğru yön. Neden ihlal olduğunu da göstermeliydiniz: savunma istemi yalnızca kurumsal e-postaya, imzasız ve tebellüğ şerhi olmadan gönderildi. Usulüne uygun ulaştırılmayan istem “vazgeçmiş sayılma” sonucunu doğurmaz." },
+        { "text": "Zayıf dayanak", "delta": -5, "set": ["hafif"],
+          "law": "Anayasa m.129/2; 657 s.K. m.130",
+          "note": "Dilekçe dosyadaki en güçlü hukuka aykırılığa dayanmadı. Cezanın ağırlığı ya da kanıtsız kötü niyet iddiası sonuç vermez; kanun bu fiil için kınama öngörüyor (657 s.K. m.125/B). Asıl sorun cezanın savunma alınmadan verilmesiydi: istem usulüne uygun ulaştırılmadığı için müvekkil savunmadan vazgeçmiş sayılamaz (Anayasa m.129/2; 657 s.K. m.130)." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "office",
       "lines": [
@@ -105,16 +115,16 @@
       "lines": [{ "who": "narr", "text": "Dilekçenin sonuç ve istem bölümüne geldiniz. Mahkeme yalnızca hukuka uygunluğu denetleyecek." }],
       "prompt": "Sonuç ve isteminizi nasıl yazacaksınız?",
       "choices": [
-        { "if": "gorev", "text": "Kınama cezasının iptalini isteyin; ek olarak görev talimatıyla eylemin sabit olmadığını da gösterin; yargılama giderleri ve vekâlet ücretinin idareye yükletilmesini isteyin.", "delta": 20, "set": ["talep", "gorevArg"],
+        { "if": "gorev", "text": "Kınamanın iptalini ve yargılama giderlerini isteyin; görev talimatıyla eylemin sabit olmadığını da gösterin.", "delta": 20, "set": ["talep", "gorevArg"],
           "law": "İYUK m.2",
           "note": "Talep iptal davasının sınırları içinde. Görev talimatı, savunma hakkı ihlaline ek olarak cezanın sebep unsurunu da çürütüyor." },
         { "text": "Kınama cezasının iptalini, yargılama giderleri ve vekâlet ücretinin idareye yükletilmesini isteyin.", "delta": 10, "set": ["talep"],
           "law": "İYUK m.2",
           "note": "Doğru talep. İptal davası işlemin hukuka uygunluğunu denetler; mahkeme işlemi iptal eder, yerine yenisini kurmaz." },
-        { "text": "Cezanın iptal edilip yerine uyarma cezası verilmesini isteyin.", "delta": -10, "set": ["cevir"],
+        { "text": "Cezanın iptal edilip dokuz yıllık temiz sicil gözetilerek yerine uyarma cezası verilmesini isteyin; bu daha gerçekçi.", "delta": -10, "set": ["cevir"],
           "law": "İYUK m.2/2",
           "note": "İdari yargı yerleri idari işlem niteliğinde ya da idarenin takdir yetkisini kaldıracak biçimde karar veremez (İYUK m.2/2). Mahkeme cezayı değiştiremez; ancak iptal edebilir." },
-        { "text": "Davayı bekletip disiplin kuruluna şimdi itiraz edin.", "delta": -10,
+        { "text": "Davayı bekletip disiplin kuruluna şimdi itiraz edin; kurul cezayı kaldırırsa davaya gerek kalmaz.", "delta": -10,
           "law": "657 s.K. m.135",
           "note": "İtiraz süresi tebliğden itibaren yedi gündü ve çoktan geçti (657 s.K. m.135). Dava zaten süresinde açıldı; bu başvuru yalnızca zaman kaybettirir." }
       ] }

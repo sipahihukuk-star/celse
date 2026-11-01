@@ -86,20 +86,20 @@
       "prompt": "Dava dilekçesinde ne isteyeceksiniz?",
       "choices": [
         {
-          "text": "Elatmanın önlenmesi, taşkın kısmın yıkımı (kal) ve ecrimisil iste; keşif ve bilirkişi incelemesi talep et.",
+          "text": "Elatmanın önlenmesi, taşkın kısmın kal'i ve ecrimisil iste; keşif ve bilirkişi talep et.",
           "delta": 20,
           "set": ["ecrimisil"],
           "law": "TMK m.683, m.995 · HMK m.266, m.288",
           "note": "Malik, malına haksız elatmanın önlenmesini isteyebilir (TMK m.683). Haksız kullanım için ecrimisil de istenir. Taşkınlık ve değerler keşif ve bilirkişiyle tespit edilecek."
         },
         {
-          "text": "Elatmanın önlenmesi ve yıkım iste; ecrimisili sonraya bırak.",
+          "text": "Elatmanın önlenmesi ve yıkım iste; ecrimisili, yıkım kesinleşince ayrı davada hesaplatırsın.",
           "delta": 10,
           "law": "TMK m.683",
           "note": "Asıl talep doğru. Ecrimisil ayrı bir davayla da istenebilir, ama aynı davada istemek zaman ve masraf kazandırırdı."
         },
         {
-          "text": "Elatmanın önlenmesi, yıkım ve ecrimisil davasını sulh hukuk mahkemesinde aç.",
+          "text": "Elatmanın önlenmesi, yıkım ve ecrimisil davasını taşınmazın bulunduğu yer sulh hukuk mahkemesinde aç.",
           "delta": -10,
           "set": ["ecrimisil", "gorev"],
           "law": "HMK m.2, m.4, m.20",
@@ -119,28 +119,28 @@
       "prompt": "Cevap dilekçenizde ne yapacaksınız?",
       "choices": [
         {
-          "text": "Cevap dilekçesiyle karşı dava aç: TMK m.725 uyarınca taşkın kısmın uygun bedelle müvekkil adına tescilini iste. İyiniyeti (ruhsat, lisanslı aplikasyon) ve değer farkını göster; keşif ve bilirkişi talep et.",
+          "text": "Cevapla birlikte karşı dava aç: m.725 uyarınca taşkın şeridin bedelle tescilini iste; iyiniyeti ve değer farkını göster.",
           "delta": 20,
           "set": ["karsi"],
           "law": "TMK m.725 · HMK m.132",
           "note": "Taşkın yapıyı iyiniyetle yapan, arazi maliki süresinde itiraz etmemişse ve durum haklı gösteriyorsa, uygun bedelle taşkın kısmın mülkiyetinin devrini ya da irtifak kurulmasını isteyebilir (TMK m.725/2). Tescil talebini karşı davayla getirdiniz (HMK m.132)."
         },
         {
-          "text": "Taşkınlık yok; aplikasyon tutanağı binanın parsel içinde kaldığını gösteriyor.",
+          "text": "Taşkınlık yok; lisanslı büronun aplikasyon tutanağı binanın parsel içinde kaldığını gösteriyor, keşifte ortaya çıkar.",
           "delta": -10,
           "set": ["inkar"],
           "law": "HMK m.266",
           "note": "Ölçüm raporu 14 m² taşmayı gösteriyor ve aplikasyonun hatalı röpere dayandığı biliniyor; keşifte bilirkişi bunu doğrulayacak. Asıl savunmanız TMK m.725 olmalıydı."
         },
         {
-          "text": "Dava zamanaşımına uğradı; davacı yıllardır arsasıyla ilgilenmiyor.",
+          "text": "Dava zamanaşımına uğradı; davacı yıllardır arsasıyla ilgilenmiyor, haklarını zamanında aramadı.",
           "delta": -15,
           "set": ["zaman"],
           "law": "TMK m.683",
           "note": "Tapuya kayıtlı taşınmazın malikinin elatmanın önlenmesi istemi zamanaşımına uğramaz; haksız elatma sürdükçe dava açılabilir. Bina üstelik birkaç ay önce bitti."
         },
         {
-          "text": "TMK m.724 uyarınca davacının arsasının tamamının uygun bedelle müvekkile devrini iste.",
+          "text": "TMK m.724 uyarınca, yapının değeri arsadan açıkça fazla olduğundan arsanın tamamının bedelle devrini iste.",
           "delta": -10,
           "set": ["yanlis724"],
           "law": "TMK m.724, m.725",
@@ -156,27 +156,39 @@
         { "who": "judge", "text": "Ön inceleme duruşmasını açıyorum. Taraf vekilleri hazır." },
         { "who": "judge", "text": "Keşif ve bilirkişi incelemesine karar verildi. Karşı davaya ilişkin değer ve iyiniyet tespiti için davalı-karşı davacıya, iki haftalık kesin süre içinde keşif ve bilirkişi avansını yatırması ihtar edildi." }
       ],
-      "prompt": "Avans ihtarına ne yapacaksınız?",
+      "prompt": "Avans ihtarı karşısında ne yapacaksınız, bilirkişiye neleri sordurmak istersiniz? Kendi cümlelerinizle açıklayın.",
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Keşif ve bilirkişi avansı, ihtar edilen iki haftalık kesin süre içinde yatırılır; karşı davadaki değer ve iyiniyet tespiti müvekkilin ikamesini istediği delildir, giderini o öder (HMK m.324). Süresinde yatırılmazsa o delilden vazgeçilmiş sayılır. (2) Bilirkişiye TMK m.725'in koşullarına göre sorular yöneltilir: yapının değeri, taşkın alanın değeri (değer farkı), taşkın şeridin ifrazının mümkün olup olmadığı ve taşkın kısım yıkılırsa binanın taşıyıcı sistemine etkisi. Avansı kesin sürede yatırıp m.725'e uygun soruları belirleyen cevap tam puan alır; avansı yatırıp soruları eksik bırakan ya da süreyi/maddeyi anmayan cevap orta puan alır. Avansı davacının yatırmasını bekleyen ya da özel uzman görüşüyle (HMK m.293) yetinip avansı yatırmayan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["avans"], "weight": 2 },
+        { "terms": ["yatıracağız", "yatırırız", "yatırıyoruz", "yatıralım", "yatırılacak", "yatırdık", "yatırmak"], "weight": 2 },
+        { "terms": ["kesin süre", "iki hafta", "2 hafta", "süresinde", "süre içinde"], "weight": 2 },
+        { "terms": ["değer", "değeri"], "weight": 2 },
+        { "terms": ["ifraz", "taşıyıcı", "yıkımın", "yıkılırsa", "kolon"], "weight": 1 },
+        { "terms": ["m.324", "m. 324", "madde 324", "324. madde", "md. 324", "m.725", "m. 725", "725. madde", "madde 725"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, karşı davamıza ilişkin değer ve iyiniyet tespiti bizim ikamesini istediğimiz delildir; avansı HMK m.324 uyarınca iki haftalık kesin süre içinde yatıracağız. Bilirkişiden TMK m.725'in koşulları yönünden yapının değerini, taşkın 14 m²'lik alanın değerini, şeridin ifrazının mümkün olup olmadığını ve taşkın kısım yıkılırsa binanın taşıyıcı sistemine etkisini belirlemesini istiyoruz.",
       "choices": [
         {
-          "text": "Avansı kesin süre içinde yatır; bilirkişiye yapının değerini, taşkın alanın değerini, ifraz imkânını ve yıkımın binaya etkisini sordur.",
+          "text": "Güçlü cevap",
+          "min": 70,
           "delta": 15,
           "law": "HMK m.324",
-          "note": "Her taraf, ikamesini istediği delilin giderini avans olarak öder (HMK m.324). Soruları da TMK m.725'in koşullarına göre doğru belirlediniz."
+          "note": "Her taraf, ikamesini istediği delilin giderini avans olarak öder (HMK m.324); avansı kesin sürede yatırdınız. Soruları da TMK m.725'in koşullarına göre doğru belirlediniz."
         },
         {
-          "text": "Avansı yatırma; keşfi davacı da istedi, masrafı o karşılasın.",
+          "text": "Yeterli cevap",
+          "min": 40,
+          "delta": 7,
+          "law": "HMK m.324",
+          "note": "Avansı kesin süre içinde yatırdınız; delil kaybı yok. Tam cevap, bilirkişiye TMK m.725'in koşullarına göre yapının ve taşkın alanın değerini, ifraz imkânını ve yıkımın binanın taşıyıcı sistemine etkisini de sordurur."
+        },
+        {
+          "text": "Zayıf cevap",
           "delta": -15,
           "set": ["avansYok"],
-          "law": "HMK m.324",
-          "note": "Davacının yatırdığı avans kendi delillerini, yani taşkınlığın tespitini karşılar. Karşı davanızdaki değer ve iyiniyet tespiti için avansı siz yatırmalıydınız; kesin sürede yatırılmayan avans, o delilden vazgeçme sonucunu doğurur (HMK m.324)."
-        },
-        {
-          "text": "Avansı yatırma; müvekkilin aldığı özel uzman raporu yeterli.",
-          "delta": -10,
-          "set": ["avansYok"],
           "law": "HMK m.293, m.324",
-          "note": "Uzman görüşü (HMK m.293) mahkemenin bilirkişi incelemesinin yerini tutmaz. Kesin süre içinde avans yatırılmadığı için bu delilden vazgeçilmiş sayıldınız (HMK m.324)."
+          "note": "Avans kesin süre içinde yatırılmadı. Davacının yatırdığı avans kendi delillerini, yani taşkınlığın tespitini karşılar; karşı davanızdaki değer ve iyiniyet tespiti için avansı siz yatırmalıydınız. Özel uzman görüşü (HMK m.293) de bilirkişi incelemesinin yerini tutmaz. Kesin sürede yatırılmayan avans, o delilden vazgeçme sonucunu doğurur (HMK m.324)."
         }
       ]
     },
@@ -221,20 +233,20 @@
       "prompt": "Ne yapacaksınız?",
       "choices": [
         {
-          "text": "Müvekkille görüşüp sulh teklif et: taşkın şeridin bilirkişi değerinin iki katı bedelle devri; tescil masrafları ve ecrimisil müvekkile ait olsun.",
+          "text": "Müvekkille görüşüp sulh teklif et: şerit değerinin iki katına devredilsin, masraflar ve ecrimisil bizden.",
           "delta": 15,
           "set": ["sulhTeklif"],
           "law": "HMK m.313",
           "note": "Süresinde itiraz edilmiş bir taşkınlıkta TMK m.725 talebi tutmaz ve taşıyıcı kolonların yıkımı ağır bir zarar olur. Sulh, müvekkilin binasını kurtarmanın en gerçekçi yolu."
         },
         {
-          "text": "Mesajın müvekkile ulaşmadığını ileri sür.",
+          "text": "Mesajın müvekkile ulaşmadığını ileri sür: yazılı uyarı tebliğ edilmedi, inşaat iyiniyetle sürdü.",
           "delta": -15,
           "law": "HMK m.29",
           "note": "Mesaja müvekkiliniz cevap vermiş; yazışma dosyada. Gerçeğe aykırı beyan, tarafların ve vekillerin doğruyu söyleme yükümlülüğüne aykırıdır (HMK m.29)."
         },
         {
-          "text": "TMK m.725'te ısrar et: yapının değeri taşkın alanın değerinden kat kat fazla.",
+          "text": "TMK m.725'te ısrar et: yapının değeri taşkın alanın değerinden kat kat fazla, kolonların yıkımı ölçüsüz olur.",
           "delta": -5,
           "law": "TMK m.725/2",
           "note": "Değer farkı tek başına yetmez. TMK m.725/2 süresinde itiraz edilmemiş olmasını ve yapıcının iyiniyetini de arar; ikisi de artık yok."
@@ -252,7 +264,7 @@
       "prompt": "Teklife ne diyorsunuz?",
       "choices": [
         {
-          "text": "Müvekkilin onayını al; bedelin tescilden önce ödenmesi şartıyla sulhü kabul et.",
+          "text": "Müvekkilin onayını al; bedelin tescilden önce ödenmesi şartıyla sulhu kabul et.",
           "delta": 15,
           "set": ["sulh"],
           "law": "HMK m.74, m.313",
@@ -262,7 +274,7 @@
           ]
         },
         {
-          "text": "Teklifi reddet; yıkım kararında ısrar et.",
+          "text": "Teklifi reddet; süresinde itiraz edildiği için m.725 tutmaz, yıkım kararında ısrar et.",
           "delta": 5,
           "note": "Hukuken güçlü bir konumdasınız; yıkım kararı büyük ihtimalle verilecek. Ama müvekkil arsasında proje yapacaksa iki kat bedel de ciddi bir teklifti.",
           "reply": [
@@ -270,7 +282,7 @@
           ]
         },
         {
-          "text": "Teklifi müvekkile sormadan hemen kabul et.",
+          "text": "Teklifi müvekkile sormadan hemen kabul et; iki kat bedel onun da işine gelir.",
           "delta": -15,
           "law": "HMK m.74",
           "note": "Sulh, vekâletnamede özel yetki gerektiren işlemlerdendir (HMK m.74). Müvekkilin iradesini de almadınız.",
@@ -292,7 +304,7 @@
       "choices": [
         {
           "if": "proje",
-          "text": "İki hafta içinde rapora itiraz et: uygun bedel yalnız 14 m²'nin değeri değildir; taşkınlık kalan arsada yapı yaklaşma mesafesini daraltıyor. Mimari projeyi sun, kalan arsadaki değer kaybının da hesaplanmasını iste.",
+          "text": "İki hafta içinde itiraz et: uygun bedel 14 m² ile sınırlı değil; projeyi sun, kalan arsadaki değer kaybını da hesaplat.",
           "delta": 20,
           "set": ["bedelArtis"],
           "law": "TMK m.725 · HMK m.281",
@@ -300,20 +312,20 @@
         },
         {
           "if": "!proje",
-          "text": "İki hafta içinde rapora itiraz et: taşkın alanın değeri bölgedeki emsal satışların altında hesaplanmış. Emsal satışları sun, ek rapor iste.",
+          "text": "İki hafta içinde rapora itiraz et: taşkın alanın değeri emsal satışların altında; emsalleri sun, ek rapor iste.",
           "delta": 10,
           "set": ["bedelArtis"],
           "law": "TMK m.725 · HMK m.281",
           "note": "Süresinde ve somut emsallerle itiraz ettiniz (HMK m.281). Bedeli yükseltebilirsiniz; ama kalan arsadaki değer kaybını gösterecek bir proje olsaydı itiraz çok daha güçlü olurdu."
         },
         {
-          "text": "Değer ne olursa olsun yıkım istiyoruz; mülkiyet hakkı mutlaktır.",
+          "text": "Değer ne olursa olsun yıkım istiyoruz; mülkiyet hakkı mutlaktır, TMK m.683 bunu güvenceye alır.",
           "delta": -10,
           "law": "TMK m.725",
           "note": "TMK m.725'in koşulları gerçekleşmişse kanun, uygun bedel karşılığında taşkın yapı sahibine şeridin devrini isteme hakkı tanır. Bedel tartışmasını hiç yapmadınız."
         },
         {
-          "text": "Raporu kabul et.",
+          "text": "Raporu kabul et; bilirkişi taşkın alanı ve değerini doğru belirlemiş.",
           "delta": 0,
           "law": "HMK m.281",
           "note": "Rapora itiraz etmediniz; uygun bedel taşkın şeridin değeriyle sınırlı kaldı."

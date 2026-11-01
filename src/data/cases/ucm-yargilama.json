@@ -72,14 +72,28 @@
     },
     { "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Savunma, Daire'den talebiniz nedir?" }],
-      "prompt": "Ne isteyeceksiniz?",
+      "prompt": "Daire'den tam olarak ne isteyeceksiniz, hangi dayanakla? Kendi cümlelerinizle söyleyin.",
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Talep, sanığın soruşturma aşamasındaki ifadesinin delil olarak kabul edilmemesi ve yargılamanın bu ifade olmadan, diğer delillerle sürdürülmesidir. (2) Dayanak Roma Statüsü m.69/7'dir: Statü'ye ya da uluslararası insan haklarına aykırı yöntemlerle elde edilen delil, ihlal güvenilirliğini ciddi biçimde şüpheye düşürüyorsa ya da kabulü yargılamanın dürüstlüğünü zedeleyecekse kabul edilmez. (3) İhlal: dokuz saatlik sorguda susma hakkı ve avukat yardımı hakkı hatırlatılmamış, avukat ve tercüman bulunmamıştır (Roma Statüsü m.55/2, tercüman için m.55/1-c); video kaydı bunu gösteriyor. Talebi delilin dışlanmasıyla sınırlayıp m.69/7 ve ihlal edilen hakları gösteren cevap tam puan alır; delilin dışlanmasını isteyip dayanağı ya da ihlali eksik anlatan cevap orta puan alır. Sanığın derhâl serbest bırakılmasını ya da davanın düşürülmesini isteyen cevap düşük puan alır; bir delil yasağı tek başına bu sonuçları doğurmaz.",
+      "keywords": [
+        { "terms": ["delil olarak kabul edilmemesi", "kabul edilmemesi", "dışlan", "delil olarak kullanılmaması", "hükme esas alınmaması", "kabul edilemez"], "weight": 3 },
+        { "terms": ["m.69", "m. 69", "madde 69", "69. madde", "md. 69", "69/7"], "weight": 2 },
+        { "terms": ["avukat", "müdafi"], "weight": 1 },
+        { "terms": ["tercüman"], "weight": 1 },
+        { "terms": ["susma"], "weight": 1 },
+        { "terms": ["m.55", "m. 55", "madde 55", "55. madde", "md. 55", "55/2"], "weight": 1 }
+      ],
+      "model": "Sayın Daire, sanığın soruşturma aşamasındaki ifadesinin delil olarak kabul edilmemesine ve yargılamanın bu ifade olmadan sürdürülmesine karar verilmesini talep ediyoruz. Video kaydı, dokuz saatlik sorguda sanığa susma hakkının hatırlatılmadığını, yanında avukat ve tercüman bulunmadığını gösteriyor; bu, Roma Statüsü m.55'teki haklara aykırıdır. Bu yolla elde edilen ifadenin kabulü yargılamanın dürüstlüğünü zedeler; m.69/7 uyarınca dışlanmalıdır.",
       "choices": [
-        { "text": "İfadenin delil olarak kabul edilmemesine ve yargılamanın bu ifade olmadan sürdürülmesine karar verilmesini.", "delta": 10,
-          "note": "Talep, itirazın doğal sonucuyla sınırlı ve yerinde." },
-        { "text": "Sanığın derhâl serbest bırakılmasını.", "delta": -5,
-          "note": "Bir delilin dışlanması tek başına tahliye sonucunu doğurmaz; yargılama diğer delillerle sürer." },
-        { "text": "Davanın düşürülmesini.", "delta": -10,
-          "note": "Bir delil yasağı davayı düşürmez; dayanaksız bir talep Daire'de güven kaybettirir." }
+        { "text": "Güçlü talep", "min": 70, "delta": 10,
+          "law": "Roma Statüsü m.69/7 · m.55/2",
+          "note": "Talep, itirazın doğal sonucuyla sınırlı ve yerinde; dayanağını ve ihlali de doğru gösterdiniz." },
+        { "text": "Yeterli talep", "min": 40, "delta": 5,
+          "law": "Roma Statüsü m.69/7",
+          "note": "Doğru sonucu istediniz: ifadenin dışlanması. Tam talep, dayanağı (Roma Statüsü m.69/7) ve ihlal edilen hakları (susma, avukat yardımı ve tercüman, m.55) da açıkça gösterir." },
+        { "text": "Zayıf talep", "delta": -5,
+          "law": "Roma Statüsü m.69/7",
+          "note": "Bir delilin dışlanması tek başına tahliye ya da düşme sonucunu doğurmaz; yargılama diğer delillerle sürer. İstenmesi gereken, ifadenin Roma Statüsü m.69/7 uyarınca delil olarak kabul edilmemesi ve yargılamanın bu ifade olmadan sürdürülmesiydi." }
       ] }
   ],
   "outcomes": [

@@ -64,15 +64,15 @@
       "lines": [{ "who": "narr", "text": "Sözlü açıklama istisnai bir imkân. Genel Kurul dava dilekçesini zaten inceledi; size ayrılan süre kısa." }],
       "prompt": "Açıklamanızı nasıl kuracaksınız?",
       "choices": [
-        { "text": "Kuralın Anayasa m.38 ve m.2 bakımından kanunilik ve belirlilik sorununa odaklanın, ardından ölçülülüğe geçin. Üyelerin sorularına hazırlıklı olun.", "delta": 20, "set": ["anayasal"],
+        { "text": "Kanunilik ve belirlilik sorununa (Anayasa m.38, m.2) odaklanın, sonra ölçülülüğe geçin; üyelerin sorularına yer bırakın.", "delta": 20, "set": ["anayasal"],
           "law": "Anayasa m.2, m.13, m.38",
           "note": "İptal davasında Mahkeme kuralın Anayasa'ya uygunluğunu denetler. Açıklama, dilekçede ileri sürülen anayasal sorunları netleştirmeye ayrılmalı." },
-        { "text": "Kanunun büyük şirketleri kayırdığını ve iktidarın gerçek amacının başka olduğunu anlatın.", "delta": -15, "set": ["siyasi"],
-          "note": "Anayasa Mahkemesi kanunun siyasi yerindeliğini denetlemez. Siyasi bir konuşma Genel Kurulda güven kaybettirir." },
-        { "text": "Dava dilekçesini baştan sona okuyun; hiçbir noktayı atlamayın.", "delta": -5,
-          "note": "Dilekçe zaten dosyada. Sözlü açıklama, belirsiz kalan noktaları açıklamak ve soruları cevaplamak için kullanılır." },
-        { "text": "Bir işletmecinin aldığı yüksek cezayı ve uğradığı zararı ayrıntılı anlatın.", "delta": -10,
-          "note": "İptal davası soyut norm denetimidir. Mahkeme yalnızca kuralın Anayasa'ya uygunluğunu inceler. Belirli bir işletmecinin zararı bu incelemenin konusu olmaz." }
+        { "text": "Kanunun büyük şirketleri kayırdığını, küçük işletmeleri piyasadan silmeyi amaçladığını anlatın; amaçtaki sapma da iptal sebebidir.", "delta": -15, "set": ["siyasi"],
+          "note": "Anayasa Mahkemesi kanunun siyasi yerindeliğini denetlemez. Kayırma iddiası somut bir anayasal soruna bağlanmadıkça siyasi bir konuşmadan öteye geçmez ve Genel Kurulda güven kaybettirir." },
+        { "text": "Dilekçedeki bütün gerekçeleri sırayla okuyun; sözlü açıklamada tekrarlanmayan aykırılık nedeni Genel Kurulca incelenmez.", "delta": -5,
+          "note": "Dilekçe zaten dosyada. Mahkeme talep ile bağlıdır ama ileri sürülen gerekçelerle bağlı değildir (6216 s.K. m.43/3); sözlü açıklamada tekrarlanmayan bir gerekçe incelemeden düşmez. Sözlü açıklama belirsiz kalan noktaları açıklamak ve soruları cevaplamak için kullanılır." },
+        { "text": "Yönetmelikle 250.000 TL ceza alan bir işletmecinin zararını ayrıntılı anlatın; somut mağduriyet kuralın ağırlığını en iyi gösterir.", "delta": -10,
+          "note": "İptal davası soyut norm denetimidir. Mahkeme yalnızca kuralın Anayasa'ya uygunluğunu inceler. Belirli bir işletmecinin zararı bu incelemenin konusu olmaz; yönetmelik verisi ancak kanunun bıraktığı yetkinin genişliğini göstermek için anlamlıdır." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
       "lines": [
@@ -100,18 +100,22 @@
         { "who": "narr", "text": "Genel Kuruldan bir üye söz aldı. Başkan soruyu size yöneltiyor." },
         { "who": "judge", "text": "Kanun koyucu, teknik ve hızla değişen bir alanda ayrıntıyı yönetmeliğe bırakamaz mı?" }
       ],
-      "prompt": "Ne cevap vereceksiniz?",
+      "kind": "free", "prompt": "Üyenin sorusuna ne cevap vereceksiniz? Kendi cümlelerinizle açıklayın.",
       "choices": [
-        { "text": "Bırakabilir. Ama yasaklanan fiilin ne olduğu ve cezanın türü ile sınırları kanunda gösterilmelidir. Kural bunların ikisini de idareye bırakıyor; bu, cezanın ancak kanunla konulabileceği ilkesine aykırıdır.", "delta": 20, "set": ["cekirdek"],
-          "law": "Anayasa m.38, m.2",
-          "note": "Kanunilik ilkesi teknik ayrıntıların yönetmelikle düzenlenmesini yasaklamaz. Ama suçun ve cezanın temel unsurları kanunda belirlenmelidir. Cevabınız bu ayrımı doğru kurdu." },
-        { "text": "Bırakamaz. İdare hiçbir ayrıntıyı düzenleyemez; her şey kanunda yazmalıdır.", "delta": -5,
-          "note": "Fazla katı bir cevap. Teknik ayrıntıların yönetmeliğe bırakılması kabul edilir. Sorun, temel unsurların da kanunda olmaması." },
-        { "text": "Bırakabilir. Biz yalnızca ceza miktarlarının yüksek olmasından şikâyetçiyiz.", "delta": -5,
-          "note": "Bu cevap kanunilik itirazından vazgeçmek anlamına gelir. Geriye yalnızca miktarın yüksekliği kalır. Bu da kuralın temel sorununu ortaya koymaz." },
-        { "text": "Bu teknik bir tartışma. Asıl mesele, bakanlığın sektördeki büyük şirketleri kayırması.", "delta": -15, "set": ["siyasi"],
-          "note": "Üyenin anayasal sorusuna siyasi bir cevap verdiniz. Mahkeme kanunun siyasi yerindeliğini denetlemez." }
-      ] },
+        {"text": "Güçlü cevap", "min": 70, "delta": 20, "set": ["cekirdek"], "law": "Anayasa m.38, m.2", "note": "Ayrımı doğru kurdunuz: kanunilik ilkesi teknik ayrıntıların yönetmeliğe bırakılmasını yasaklamaz; ama yasaklanan fiilin ve cezanın türü ile sınırlarının kanunda gösterilmesini gerektirir. Kural ikisini de idareye bırakıyor."},
+        {"text": "Yeterli cevap", "min": 40, "delta": 10, "set": ["cekirdek"], "law": "Anayasa m.38, m.2", "note": "Temel unsurların kanunda olması gerektiğini söylediniz; Genel Kurul bunu yeterli buldu. Tam cevap, teknik ayrıntının yönetmeliğe bırakılabileceğini kabul edip hem fiilin hem cezanın sınırlarının kanunda gösterilmesi gerektiğini birlikte ortaya koyar."},
+        {"text": "Zayıf cevap", "delta": -5, "law": "Anayasa m.38, m.2", "note": "Ayrımı kuramadınız. Teknik ayrıntılar yönetmeliğe bırakılabilir; ama yasaklanan fiil ile cezanın türü ve alt-üst sınırları kanunda gösterilmelidir (Anayasa m.38, m.2). Dava konusu kural ikisini de idareye bırakıyor."}
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kanunilik ilkesi (Anayasa m.38) teknik ve değişken ayrıntıların yönetmeliğe bırakılmasını yasaklamaz; bu kabul edilmelidir. (2) Ancak cezanın temel unsurları, yani yasaklanan fiilin ne olduğu ile cezanın türü ve alt-üst sınırları kanunda gösterilmelidir; hukuk devletinin belirlilik ilkesi (m.2) de bunu gerektirir. (3) Dava konusu kural hem yükümlülükleri (fiili) hem ceza miktarını tamamen yönetmeliğe bırakmaktadır. Ayrımı kurup fiil ve ceza sınırının ikisinin de kanunda olması gerektiğini söylemek tam puan alır; yalnız birini (ör. yalnız ceza miktarını) söylemek ya da ayrımı kurmadan temel unsurların kanunda olması gerektiğini söylemek orta puan alır. İdarenin hiçbir ayrıntıyı düzenleyemeyeceğini savunan, yalnızca cezanın yüksekliğinden şikâyet eden ya da soruyu siyasi bir değerlendirmeye çeviren cevap düşük puan alır.",
+      "keywords": [
+        {"terms": ["fiil", "yasaklanan", "eylem", "yükümlülük"], "weight": 2},
+        {"terms": ["sınır", "alt sınır", "üst sınır", "miktar"], "weight": 2},
+        {"terms": ["temel unsur", "esaslı unsur", "çekirdek", "kanunda gösteril", "kanunla belirlen", "kanunla konul", "kanunda belirlen"], "weight": 2},
+        {"terms": ["teknik ayrıntı", "ayrıntı", "teknik"], "weight": 1},
+        {"terms": ["m.38", "m. 38", "madde 38", "38. madde", "md. 38", "md.38"], "weight": 1},
+        {"terms": ["belirlilik", "öngörülebil", "kanunilik"], "weight": 1}
+      ],
+      "model": "Sayın Başkan, kanun koyucu teknik ayrıntıları yönetmeliğe bırakabilir; Anayasa m.38 bunu yasaklamaz. Ama yasaklanan fiilin ne olduğu ve cezanın türü ile alt ve üst sınırları kanunda gösterilmelidir. Dava konusu kural hem yükümlülükleri hem ceza miktarını tamamen yönetmeliğe bırakıyor; bu nedenle kanunilik ve belirlilik ilkelerine aykırıdır." },
     { "side": "p1", "scene": "court",
       "lines": [
         { "who": "opp", "text": "Kural iptal edilirse bu alanda hiçbir ceza kalmaz ve yaya güvenliği tehlikeye girer. İptal talebinin reddi gerekir." },
@@ -119,16 +123,16 @@
       ],
       "prompt": "Ne söyleyeceksiniz?",
       "choices": [
-        { "text": "Boşluk endişesi Anayasa'ya aykırı bir kuralı ayakta tutmaz. Mahkeme gerekli görürse, iptal hükmünün yürürlüğe gireceği tarihi kararın yayımlanmasından başlayarak bir yılı geçmemek üzere erteleyebilir. Kanun koyucu bu sürede yeni düzenleme yapar.", "delta": 15, "set": ["erteleme"],
+        { "text": "Boşluk aykırı kuralı ayakta tutmaz; Mahkeme iptalin yürürlüğünü bir yıla kadar erteleyebilir, kanun koyucu bu sürede düzenleme yapar.", "delta": 15, "set": ["erteleme"],
           "law": "Anayasa m.153/3",
           "note": "İptal edilen kural kural olarak kararın Resmî Gazete'de yayımlandığı gün yürürlükten kalkar. Mahkeme, iptal hükmünün yürürlüğe gireceği tarihi ayrıca belirleyebilir; bu süre bir yılı geçemez (Anayasa m.153/3)." },
-        { "text": "İptal yerine yürürlüğün durdurulmasıyla yetinilmesini isteriz.", "delta": -10, "set": ["ydKarisik"],
+        { "text": "Boşluk oluşmasın diye iptal yerine yürürlüğün durdurulmasıyla yetinilsin; kanun koyucu yeni düzenlemeyi yapınca dava zaten konusuz kalır.", "delta": -10, "set": ["ydKarisik"],
           "note": "Yürürlüğün durdurulması, dava sürerken verilebilen geçici bir tedbirdir. Esas hakkındaki karar iptal ya da rettir. Yürürlüğün durdurulması iptalin yerine geçmez." },
-        { "text": "Mahkeme kurala bir alt ve üst sınır yazarak kuralı düzeltsin.", "delta": -15,
+        { "text": "Boşluk doğmaması için Mahkeme, kurala yorum yoluyla bir alt ve üst sınır ekleyerek kuralı Anayasa'ya uygun hâle getirsin.", "delta": -15,
           "law": "Anayasa m.153/2",
-          "note": "Anayasa Mahkemesi kanun koyucu gibi hareket ederek yeni bir uygulamaya yol açacak biçimde hüküm kuramaz (Anayasa m.153/2)." },
-        { "text": "Boşluk bizim sorunumuz değil; kanun koyucu düşünsün.", "delta": -5,
-          "note": "Sonuç olarak doğru bir noktaya dokundunuz. Ama Mahkemenin elindeki aracı, iptal hükmünün yürürlük tarihini erteleme imkânını göstermediniz." }
+          "note": "Anayasa Mahkemesi kanun koyucu gibi hareket ederek yeni bir uygulamaya yol açacak biçimde hüküm kuramaz (Anayasa m.153/2). Kurala sınır eklemek bu yasağın tam karşılığıdır." },
+        { "text": "Boşluk endişesi iptal davasının konusu değildir; Anayasa'ya aykırı kural iptal edilir, sonrasını kanun koyucu düşünür.", "delta": -5,
+          "note": "Sonuç olarak doğru bir noktaya dokundunuz. Ama Mahkemenin elindeki aracı, iptal hükmünün yürürlük tarihini erteleme imkânını (Anayasa m.153/3) göstermediniz." }
       ] }
   ],
   "outcomes": [

@@ -47,16 +47,16 @@
       ],
       "prompt": "Ne yapacaksınız?",
       "choices": [
-        { "text": "Temyiz bildirimini tebliğden itibaren otuz gün içinde verin; gerekçeleri, Daire'nin belirleyeceği süre içinde temyiz belgesinde geliştirin.", "delta": 15, "set": ["bildirim"],
+        { "text": "Temyiz bildirimini tebliğden itibaren otuz gün içinde verin; gerekçeleri sonra temyiz belgesinde geliştirin.", "delta": 15, "set": ["bildirim"],
           "law": "Roma Statüsü m.81; Usul ve Delil Kuralları k.150/1",
           "note": "Mahkûmiyet kararına karşı temyiz, tebliğden itibaren otuz gün içinde yapılır. Bildirimde temyiz sebepleri ana hatlarıyla gösterilir; ayrıntı temyiz belgesindedir." },
         { "text": "Süre dolmadan, haklı sebep göstererek Temyiz Dairesi'nden süre uzatımı isteyin; bu arada çeviri sürecini izleyin.", "delta": 5, "set": ["bildirim"],
           "law": "Usul ve Delil Kuralları k.150/2",
           "reply": [{ "who": "narr", "text": "Temyiz Dairesi uzatmayı kısmen kabul etti. Bildirimi yeni süre içinde verdiniz." }],
           "note": "Temyiz Dairesi haklı sebeple süreyi uzatabilir; ama talep süre dolmadan yapılmalı ve kabul edileceğinin güvencesi yoktur. Bildirimi zamanında vermek daha güvenliydi." },
-        { "text": "Çeviriyi bekleyin; süre ancak çeviri tebliğ edilince başlar.", "delta": -25,
+        { "text": "Çeviriyi bekleyin; müvekkil kararı anlayamadan temyiz edilemez, süre ancak Fransızca çeviri tebliğ edilince başlar.", "delta": -25,
           "law": "Usul ve Delil Kuralları k.150",
-          "note": "Süre, kararın tebliğinden itibaren işler. Uzatma istenmeden beklemek, temyiz hakkını yitirtir.",
+          "note": "Süre, kararın tebliğinden itibaren işler. Çeviri ihtiyacı ancak süre uzatımı için haklı sebep olabilir; uzatma istenmeden beklemek temyiz hakkını yitirtir.",
           "fatal": { "label": "KARAR:",
             "hukum": "Temyiz başvurusunun süresinde yapılmadığından KABUL EDİLEMEZ OLDUĞUNA; mahkûmiyet ve ceza kararlarının KESİNLEŞTİĞİNE,",
             "summary": "Otuz günlük süre karar tebliğ edilince başladı. Uzatma istenmedi, bildirim süre geçtikten sonra verildi. Mahkûmiyet, hiçbir temyiz sebebi incelenmeden kesinleşti." } }
@@ -88,12 +88,12 @@
       ],
       "prompt": "Sözü size geçti. Nasıl başlayacaksınız?",
       "choices": [
-        { "text": "Sakin bir sesle: “Mağdurların acısına saygı duyuyoruz. Temyiz sebeplerimiz kayıtta; Daire'nin izniyle onlara geçiyorum.”", "delta": 10,
+        { "text": "Sakin: “Mağdurların acısına saygı duyuyoruz. Daire'nin izniyle temyiz sebeplerimize geçiyorum.”", "delta": 10,
           "note": "Mesleki soğukkanlılık. Tahrik edici söze karşılık vermediniz; sözü temyiz sebeplerine, yani Daire'nin incelediği konuya taşıdınız. Avukatlar için Meslek Kuralları da Mahkeme önünde saygılı ve ölçülü bir dil ister." },
-        { "text": "“Asıl Savcılık, zayıf bir kararı duygularla kurtarmaya çalışıyor!”", "delta": -10,
+        { "text": "Sert bir sesle: “Asıl Savcılık, zayıf bir kararı duygularla kurtarmaya çalışıyor; bu sözler tutanağa geçsin!”", "delta": -10,
           "reply": [{ "who": "judge", "text": "Taraflar sözlerine dikkat etsin. Müdafi, temyiz sebeplerinize geçin." }],
           "note": "Tahrike tahrikle karşılık vermek Daire'nin dikkatini hukuki sorudan uzaklaştırır ve size güven kaybettirir." },
-        { "text": "Bir süre sessiz kalıp notlarınızı karıştırın.", "delta": -5,
+        { "text": "Cevap vermeye değmez: bir süre sessiz kalıp notlarınızı karıştırın, salon sakinleşince başlayın.", "delta": -5,
           "note": "Savcılığın sözü cevapsız ve salonda asılı kaldı. Kısa ve ölçülü bir cümleyle konuya dönmek yeterliydi." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
@@ -126,20 +126,26 @@
       },
       "pass": { "delta": -15, "note": "Suçlamaların aşılmadığı iddiası cevapsız kaldı." }
     },
-    { "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Müdafi, son sorumuz: Daire'den tam olarak ne istiyorsunuz ve hangi ölçüte göre? Burada yeniden yargılama yapmadığımızı biliyorsunuz." }],
-      "prompt": "Ne cevap vereceksiniz?",
+      "prompt": "Temyiz Dairesi'ne ne istediğinizi ve hangi ölçüte dayandığınızı kendi cümlelerinizle açıklayın.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Hukuk hatası: Yargılama Dairesi, m.28/a'daki gerekli ve makul tedbirleri komutanın elindeki imkânlarla (600 kilometre uzaklık, sınırlı iletişim) değil, suçların önlenememiş olmasıyla, yani sonuçla ölçtü; soruşturma kurulları ve divanıharp gibi belgeli tedbirleri hiç tartışmadı. (2) Temyiz ölçütü: hata, kararı esaslı biçimde etkilemiş olmalıdır (Roma Statüsü m.83/2); Temyiz Dairesi yeniden yargılama yapmaz, olgu bulgularına ancak makul bir yargılama dairesinin varamayacağı bir sonuç varsa müdahale eder. (3) Bu hata olmasaydı makul bir yargılama dairesi makul şüphenin ötesinde (m.66/3) mahkûmiyete varamazdı; bu yüzden mahkûmiyetin bozulması ve beraat istenir. Bemba (2018) kararına atıf artı değerdir. Hatayı, esaslı etki ölçütünü ve istenen sonucu birlikte kuran cevap tam puan alır; hatayı doğru gösterip ölçütü ya da sonucu söylemeyen cevap orta puan alır. Müvekkilin suçları bilmediğini savunan ya da tanıkların yeniden dinlenmesini isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["esaslı", "esasen etkile", "kararı etkile", "materially"], "weight": 3 },
+        { "terms": ["gerekli ve makul", "makul tedbir", "tedbir"], "weight": 2 },
+        { "terms": ["hukuk hatası", "hukuki hata", "hata"], "weight": 1 },
+        { "terms": ["imkân", "imkan", "uzaklık", "uzak", "600 kilometre", "sonuçla", "sonuca göre"], "weight": 2 },
+        { "terms": ["makul şüphe"], "weight": 1 },
+        { "terms": ["m.83", "m. 83", "madde 83", "83. madde", "md. 83", "md.83", "bemba"], "weight": 1 }
+      ],
+      "model": "Sayın Daire, Yargılama Dairesi gerekli ve makul tedbirleri müvekkilin 600 kilometre uzaktaki imkânlarıyla değil, sonuçla ölçerek hukuk hatası yaptı; soruşturma kurulları ve divanıharp gibi belgeli tedbirleri hiç tartışmadı. Bu hata kararı esaslı biçimde etkiledi (m.83/2): doğru ölçütle bakan makul bir yargılama dairesi makul şüphenin ötesinde mahkûmiyete varamazdı. Bu nedenle mahkûmiyetin bozulmasını ve beraat kararı verilmesini istiyoruz.",
       "choices": [
-        { "text": "Yargılama Dairesi, tedbirleri komutanın uzaklığı ve elindeki imkânlarla değil sonuçla ölçerek hukuk hatası yaptı; belgeli tedbirleri hiç tartışmadı. Bu hata olmasaydı makul bir yargılama dairesi makul şüphenin ötesinde mahkûmiyete varamazdı; karar esaslı biçimde etkilendi.", "delta": 25, "set": ["olcut"],
-          "law": "Roma Statüsü m.28/a, m.66/3, m.83/2",
-          "note": [
-            { "text": "Temyizde hatayı belirlemek yetmez; kararı esaslı biçimde etkilediğini göstermek gerekir (m.83/2). Temyiz Dairesi Bemba kararında (2018) uzaktaki komutanın imkânlarını değerlendirmeden tedbirleri yetersiz saymayı hata saymış ve beraat kararı vermişti." },
-            { "if": "iletisim", "text": " İletişim kayıtları, komutanın imkânlarının sınırını somut biçimde gösteriyor." }
-          ] },
-        { "text": "Müvekkil suçları bilmiyordu; bilmeyen komutan sorumlu tutulamaz.", "delta": -10,
-          "note": "m.28/a-i askeri komutan için “bilmesi gereken” durumu da yeterli sayar. Bilmediğini söylemek tek başına savunma değildir; üstelik müvekkil haberleri aldıktan sonra tedbir aldığını söylüyor." },
-        { "text": "Daire bütün tanıkları yeniden dinlesin ve olayları baştan değerlendirsin.", "delta": -10,
-          "note": "Temyiz yeniden yargılama değildir. Temyiz Dairesi olgu bulgularına ancak makul bir yargılama dairesinin varamayacağı bir sonuç söz konusuysa müdahale eder." }
+        { "text": "Güçlü savunma", "min": 70, "delta": 25, "set": ["olcut"], "law": "Roma Statüsü m.28/a, m.66/3, m.83/2",
+          "note": [{ "text": "Hatayı, ölçütü ve sonucu birlikte kurdunuz. Temyizde hatayı belirlemek yetmez; kararı esaslı biçimde etkilediğini göstermek gerekir (m.83/2). Temyiz Dairesi Bemba kararında (2018) uzaktaki komutanın imkânlarını değerlendirmeden tedbirleri yetersiz saymayı hata saymış ve beraat kararı vermişti." }, { "if": "iletisim", "text": " İletişim kayıtları, komutanın imkânlarının sınırını somut biçimde gösteriyor." }] },
+        { "text": "Yeterli savunma", "min": 40, "delta": 12, "set": ["olcut"], "law": "Roma Statüsü m.28/a, m.83/2",
+          "note": "Hatayı doğru yerde aradınız: tedbirler komutanın imkânlarına göre değerlendirilmemişti. Tam cevap, bu hatanın kararı esaslı biçimde etkilediğini (m.83/2) ve hata olmasaydı makul şüphenin ötesinde mahkûmiyete varılamayacağını da açıkça söyler." },
+        { "text": "Zayıf savunma", "delta": -10, "law": "Roma Statüsü m.28/a, m.83/2",
+          "note": "Daire'nin sorusuna cevap vermediniz. Temyiz yeniden yargılama değildir; Daire olgu bulgularına ancak makul bir yargılama dairesinin varamayacağı bir sonuç varsa müdahale eder. m.28/a-i, askeri komutan için “bilmesi gereken” durumu da yeterli sayar. Doğru yol, tedbirlerin sonuçla ölçülmesindeki hukuk hatasını ve bunun kararı esaslı biçimde etkilediğini göstermekti (m.83/2)." }
       ] }
   ],
   "outcomes": [

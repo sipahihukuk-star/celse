@@ -92,15 +92,15 @@
       ],
       "prompt": "Tanık beyanları konusunda ne diyeceksiniz?",
       "choices": [
-        { "text": "Çelişki nedeniyle önceki ifade okunabilir; ama hüküm duruşmada ortaya konan delillere dayanır. Tanığın duruşmada doğrulamadığı, hiçbir belgeyle desteklenmeyen kolluk beyanı tek başına satışı ispatlamaz.", "delta": 20, "set": ["tanik"],
+        { "text": "Çelişki varsa önceki ifade okunabilir; ama hüküm duruşmada tartışılan delillere dayanır. Duruşmada doğrulanmayan, desteksiz kolluk beyanı satışı ispatlamaz.", "delta": 20, "set": ["tanik"],
           "law": "CMK m.210, m.212, m.217",
           "note": "Doğru çizgi. Tanığın dinlenmesi önceki tutanağın okunmasıyla yetinilerek yapılamaz (CMK m.210). Çelişki varsa önceki ifadenin ilgili bölümü okunabilir (CMK m.212), ama hâkim kanaatini duruşmada ortaya konan ve tartışılan delillerle oluşturur (CMK m.217). Para transferi, mesaj ya da kamera gibi destekleyici delil yok." },
-        { "text": "Kolluk ifadesinin okunmasına itiraz edin; tanık ifadesinin okunması yasaktır.", "delta": -5,
+        { "text": "Kolluk ifadesinin okunmasına itiraz edin: tanık duruşmada dinlendiğine göre önceki ifadesi okunamaz, CMK m.210 bunu yasaklar.", "delta": -5,
           "law": "CMK m.212",
-          "note": "Önceki ifade ile duruşmadaki ifade arasında çelişki varsa, önceki ifadenin ilgili bölümü okunabilir (CMK m.212). Okunmayı engellemeye çalışmak yerine, okunan beyanın neden hükme yetmediğini göstermelisiniz." },
-        { "text": "Tanık hakkında yalan tanıklıktan suç duyurusunda bulunulmasını isteyin.", "delta": -5,
+          "note": "CMK m.210, tanığın dinlenmesinin yerine önceki tutanağın okunmasını yasaklar; dinlenen tanığın beyanıyla önceki ifadesi arasında çelişki varsa önceki ifadenin ilgili bölümü okunabilir (CMK m.212). Okunmayı engellemeye çalışmak yerine, okunan beyanın neden hükme yetmediğini göstermelisiniz." },
+        { "text": "Tanık hakkında yalan tanıklıktan suç duyurusu isteyin; iki ifadeden biri mutlaka yalan, mahkeme bunu ortaya çıkarmalı.", "delta": -5,
           "note": "Tanık şu an sizin lehinize konuşuyor. Onu baskı altına almak, duruşmadaki beyanının güvenilirliğini tartışmaya açar ve savcının işine yarar." },
-        { "text": "Tanığın bir kez aldığını kabul edin; bunun para karşılığı satış değil, arkadaşlar arasında paylaşım olduğunu söyleyin.", "delta": -20, "set": ["paylasim"],
+        { "text": "Tanığın bir kez aldığını kabul edin; ama bunun para karşılığı satış değil, arkadaşlar arasında bedelsiz bir paylaşım olduğunu vurgulayın.", "delta": -20, "set": ["paylasim"],
           "law": "TCK m.188/3",
           "note": "Ağır bir hata. Uyuşturucuyu başkasına bedelsiz vermek de TCK m.188/3 kapsamındadır; “paylaşım” savunması ticaret suçunu kabul etmek demek. Üstelik tanık bunu söylemiyordu bile." }
       ] },
@@ -112,35 +112,42 @@
       ],
       "prompt": "Savcının yeni artırım talebi karşısında ne yapacaksınız?",
       "choices": [
-        { "text": "İddianamede yer almayan, cezayı artıran bir hâl ilk kez duruşmada ortaya çıktı. Sanığa ek savunma hakkı tanınmasını ve hazırlanmak için süre verilmesini isteyin.", "delta": 20, "set": ["eksavunma"],
+        { "text": "Cezayı artıran bu hâl iddianamede yoktu, ilk kez duruşmada çıktı. Ek savunma hakkı ve hazırlanmak için süre isteyin.", "delta": 20, "set": ["eksavunma"],
           "law": "CMK m.226/2-3",
           "reply": [{ "who": "judge", "text": "Talep yerinde. Sanığa TCK m.188/4-a yönünden ek savunma hakkı hatırlatıldı; ek savunma için süre verildi." }],
           "note": "Doğru usul hamlesi. Cezanın artırılmasını gerektiren hâllerin ilk kez duruşmada ortaya çıkması hâlinde sanık, bildirim yapılmadan ve savunması alınmadan bu hükümle mahkûm edilemez; ek savunma için süre isteyebilir (CMK m.226). Bu hak kullandırılmadan kurulan hüküm kanun yolunda bozulur." },
-        { "text": "Suç vasfı değişecekse dosyanın asliye ceza mahkemesine gönderilmesi için görevsizlik kararı verilmesini isteyin.", "delta": -15,
+        { "text": "Suç vasfı TCK m.191'e dönecekse dosyanın asliye ceza mahkemesine gönderilmesi için görevsizlik kararı verilmesini isteyin.", "delta": -15,
           "law": "CMK m.6",
           "reply": [{ "who": "judge", "text": "Duruşmada suçun hukuki niteliğinin değiştiğinden bahisle görevsizlik kararı verilemez. Talep reddedildi." }],
           "note": "Duruşmada suçun hukuki niteliğinin değiştiğinden bahisle görevsizlik kararı verilerek dosya alt dereceli mahkemeye gönderilemez (CMK m.6). Eylem TCK m.191 kapsamında kalsa bile hükmü ağır ceza mahkemesi kurar. Artırım talebine de hiç cevap vermediniz." },
-        { "text": "Artırım talebine değinmeden hemen esas hakkındaki savunmaya geçin.", "delta": -10,
+        { "text": "Artırım talebine değinmeden esas hakkındaki savunmaya geçin; ek rapor iddianamede yer almadığı için hükme esas alınamaz.", "delta": -10,
           "law": "CMK m.226",
-          "note": "Ek savunma hakkı kullandırılmadan artırımlı bir hüküm kurulabilir. Bu, kanun yolunda bozma nedenidir; ama hakkı duruşmada isteyip tutanağa geçirmek müdafinin işidir." },
-        { "text": "Mütalaanın tutanaktan çıkarılmasını isteyin.", "delta": -5,
-          "note": "Savcının mütalaası tutanağa geçer; içeriğine katılmamanız onu tutanaktan çıkarmaz. Doğru cevap, yeni artırım nedeni için ek savunma hakkını istemekti." }
+          "note": "Fiil iddianamedekiyle aynı; değişen yalnızca cezayı artıran hâldir. Mahkeme bu hâli, sanığa bildirip ek savunmasını alarak hükme esas alabilir (CMK m.226). Bu hak kullandırılmadan artırımlı hüküm kurulursa kanun yolunda bozma nedeni olur; ama hakkı duruşmada isteyip tutanağa geçirmek müdafinin işidir." },
+        { "text": "Mütalaanın tutanaktan çıkarılmasını isteyin; savcı iddianamenin dışına çıkarak yeni bir artırım isteyemez.", "delta": -5,
+          "note": "Savcı mütalaasında iddianamedeki fiilin farklı bir nitelendirmesini ya da cezayı artıran bir hâlin uygulanmasını isteyebilir; mütalaa tutanağa geçer. Doğru cevap, yeni artırım nedeni için ek savunma hakkını istemekti." }
       ] },
-    { "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [
         { "who": "judge", "text": "Ek savunma alındı. Müdafi, esas hakkındaki son talebiniz?", "if": "eksavunma" },
         { "who": "judge", "text": "Müdafi, esas hakkındaki son talebiniz?", "if": "!eksavunma" }
       ],
-      "prompt": "Talebiniz ne olacak?",
+      "prompt": "Esas hakkındaki son talebinizi mahkemeye nasıl açıklayacaksınız? Kendi cümlelerinizle savunun.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Ticaret kastı ispatlanamamıştır: satış paketi ya da müşteri listesi yok, tanık duruşmada sanıktan bir şey almadığını söylemiştir; terazinin ve nakit paranın açıklaması (pastacılık terazisi, maaştan çekilen para) da gösterilebilir. (2) Eylem kullanmak için bulundurmadır ve TCK m.191/1 uyarınca hüküm kurulmalıdır. (3) Ticaret suçundan açılan davada eylem TCK m.191 kapsamında kaldığından hükmün açıklanmasının geri bırakılmasına karar verilmelidir (TCK m.191/8). Suç vasfının m.191'e dönüştürülmesini ve hükmün açıklanmasının geri bırakılmasını birlikte, madde numarasıyla isteyen cevap tam puan alır; yalnız suç vasfının değişmesini isteyen cevap orta puan alır. Beraat isteyen (kullanmak için bulundurma da suçtur) ya da m.188/3'ten alt sınır ceza isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["m.191", "m. 191", "madde 191", "191. madde", "md. 191", "md.191"], "weight": 3 },
+        { "terms": ["kullanmak için", "kullanma amacıyla", "kişisel kullanım", "kendi kullanımı"], "weight": 2 },
+        { "terms": ["açıklanmasının geri bırakılması", "hükmün açıklanması", "hagb", "geri bırakılmasını"], "weight": 2 },
+        { "terms": ["ticaret kastı", "satış kastı", "ispatlanamadı", "ispat edilemedi", "ispatlanamamış", "satışa dair delil"], "weight": 2 },
+        { "terms": ["suç vasfı", "suçun vasfı", "nitelendirme", "vasfın değiş", "nitelik"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, ticaret kastı ispatlanamamıştır: terazi ev arkadaşının pastacılık terazisidir, para maaştan çekilmiştir, tanık da duruşmada sanıktan bir şey almadığını söylemiştir. Eylem, kullanmak için bulundurma suçunu oluşturur. Suç vasfının değiştirilerek TCK m.191/1 uyarınca hüküm kurulmasını ve m.191/8 uyarınca hükmün açıklanmasının geri bırakılmasına karar verilmesini talep ediyoruz.",
       "choices": [
-        { "text": "Ticaret kastı ispatlanamamıştır. Eylem kullanmak için bulundurmadır; TCK m.191/1 uyarınca hüküm kurulmasını ve TCK m.191/8 uyarınca hükmün açıklanmasının geri bırakılmasını isteriz.", "delta": 20, "set": ["talep"],
-          "law": "TCK m.191/1, m.191/8",
-          "note": "Doğru talep. Ticaret suçundan açılan davada eylemin yalnızca TCK m.191 kapsamında kaldığı anlaşılırsa, mahkeme bu maddeye göre hükmün açıklanmasının geri bırakılmasına karar verir (TCK m.191/8). Ağır ceza mahkemesi görevsizlik vermeden hükmü kendisi kurar." },
-        { "text": "Sanığın beraatine karar verilmesini isteriz; madde kişisel kullanım içindir.", "delta": -10,
-          "law": "TCK m.191/1",
-          "note": "Kullanmak için bulundurma da suçtur (TCK m.191/1). Derya kullanıcı olduğunu kabul ediyor, idrar testi de pozitif. Beraat talebi gerçekçi değil; doğru talep suç vasfının değişmesidir." },
-        { "text": "TCK m.188/3'ten alt sınırdan ceza ve TCK m.62 indirimi isteriz.", "delta": -15,
-          "note": "Ticaret nitelendirmesini kabul ettiniz. Göstergeler çürütülmüşken alt sınır talebi, on yıllık bir cezayı baştan kabul etmek demek." }
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["talep"], "law": "TCK m.191/1, m.191/8",
+          "note": "Ticaret göstergelerinin düştüğünü gösterip doğru talebi, doğru maddeyle kurdunuz. Ticaret suçundan açılan davada eylemin yalnızca TCK m.191 kapsamında kaldığı anlaşılırsa mahkeme bu maddeye göre hükmün açıklanmasının geri bırakılmasına karar verir (TCK m.191/8). Ağır ceza mahkemesi görevsizlik vermeden hükmü kendisi kurar." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["talep"], "law": "TCK m.191/1, m.191/8",
+          "note": "Suç vasfının kullanmak için bulundurmaya dönüşmesi gerektiğini söylediniz; mahkeme talebi bu yönüyle değerlendirdi. Tam savunma, ticaret kastının neden ispatlanamadığını göstermek ve TCK m.191/1 ile m.191/8 uyarınca hükmün açıklanmasının geri bırakılmasını açıkça istemekti." },
+        { "text": "Zayıf savunma", "delta": -10, "law": "TCK m.191/1",
+          "note": "Talebiniz dosyanın sonucunu belirleyecek noktayı ıskaladı. Kullanmak için bulundurma da suçtur; Derya kullanıcı olduğunu kabul ediyor, beraat gerçekçi değil. M.188/3'ten ceza istemek de ticaret nitelendirmesini kabul etmek olur. Doğru talep: eylemin TCK m.191/1 kapsamında kaldığının kabulü ve m.191/8 uyarınca hükmün açıklanmasının geri bırakılması." }
       ] }
   ],
   "outcomes": [

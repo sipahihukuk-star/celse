@@ -162,7 +162,7 @@
       "prompt": "Temyiz dilekçesini nasıl hazırlayacaksınız?",
       "choices": [
         {
-          "text": "En geç 15.03.2027'de temyiz et. Sebepleri hukuka aykırılık olarak göster: hileli davranışın yoğunluğu tartışılmadan hukuki uyuşmazlığın suç sayılması ve dosyadaki teslim ile iadeyle çelişen eksik gerekçe.",
+          "text": "15.03.2027'ye kadar temyiz et; hukuka aykırılığı göster: hile yoğunluğu tartışılmadan hukuki uyuşmazlık suç sayıldı, gerekçe dosyayla çelişiyor.",
           "delta": 20,
           "set": [
             "temyiz"
@@ -171,7 +171,7 @@
           "note": "Temyiz süresi, 7499 s.K. ile yapılan değişiklikten sonra gerekçeli hükmün tebliğinden itibaren iki haftadır (CMK m.291). Temyiz yalnızca hukuka aykırılık sebebine dayanır (CMK m.288); suçun nitelendirilmesi ve gerekçenin dosya kapsamına uygunluğu hukukilik denetimine girer."
         },
         {
-          "text": "İki hafta içinde temyiz et; tanıkların yalan söylediğini ve müvekkilin samimi olduğunu ayrıntılı anlat.",
+          "text": "İki hafta içinde temyiz et; tanıkların çelişkili beyanlarını ve müvekkilin samimiyetini ayrıntılı anlat, Yargıtay delilleri yeniden tartsın.",
           "delta": -10,
           "set": [
             "temyiz",
@@ -181,7 +181,7 @@
           "note": "Temyiz bir hukukilik denetimidir (CMK m.288). Tanıkların inandırıcılığı gibi vakıa değerlendirmeleri Yargıtay'ın yeniden tartışacağı konular değildir; dilekçede hukuka aykırılığı göstermeniz gerekirdi."
         },
         {
-          "text": "Temyiz süresi bir aydır; dosyayı baştan inceleyip dilekçeyi ayın sonunda ver.",
+          "text": "Temyiz süresi gerekçeli kararın tebliğinden itibaren bir aydır; dosyayı baştan inceleyip dilekçeyi ayın sonunda ver.",
           "delta": -30,
           "law": "CMK m.291, m.296",
           "note": "Ceza muhakemesinde temyiz süresi gerekçeli hükmün tebliğinden itibaren iki haftadır (CMK m.291). Süresinde yapılmayan temyiz istemi reddedilir (CMK m.296).",
@@ -213,7 +213,7 @@
       "prompt": "Tebliğnameye nasıl karşılık vereceksiniz?",
       "choices": [
         {
-          "text": "İki hafta içinde yazılı cevap ver: sahte antrepo belgesi ilk ödemeden üç gün önce sanığın kendi telefonundan gönderildi; araçlar gümrükte hiç yok. Hile, katılanın denetim imkânını ortadan kaldıracak yoğunlukta. Teslim edilen iki araç güven kazanmaya yönelikti; iade suç tamamlandıktan sonra yapıldı.",
+          "text": "Yazılı cevap ver: sahte antrepo belgesi ödemeden önce sanığın telefonundan geldi; teslim güven kazanmak içindi, iade suçtan sonra.",
           "delta": 20,
           "set": [
             "cevap"
@@ -222,7 +222,7 @@
           "note": "Dolandırıcılığı hukuki uyuşmazlıktan ayıran, hileli davranışın karşı tarafın denetim imkânını ortadan kaldıracak ağırlıkta olmasıdır. Sahte bir resmî görünümlü belge ve ödemeden önceki zamanlama bu yoğunluğu gösterir. Tebliğnamedeki eksikliği bölge adliye mahkemesinin vakıa tespitleriyle cevapladınız."
         },
         {
-          "text": "Cevapta TCK m.62 indiriminin zaten yapılmadığını hatırlat ve cezanın üst sınıra yakın artırılmasını iste.",
+          "text": "Cevapta TCK m.62 indiriminin haklı olarak yapılmadığını hatırlat; katılan lehine cezanın üst sınıra yakın artırılmasını iste.",
           "delta": -15,
           "set": [
             "aleyhe"
@@ -231,7 +231,7 @@
           "note": "Hüküm yalnızca sanık lehine temyiz edildi; katılan temyiz etmedi. Bu durumda bozma sonrası verilecek hüküm önceki cezadan daha ağır olamaz (CMK m.307/4). Talebiniz hukuken karşılıksız ve Daire'nin gözünde güvenilirliğinizi zedeler."
         },
         {
-          "text": "Yazılı cevap verme; her şeyi duruşmada sözlü anlatırsın.",
+          "text": "Yazılı cevap verme; Daire duruşmalı inceleme yapacak, her şeyi duruşmada sözlü anlatırsın, kozlarını da karşı tarafa önceden göstermezsin.",
           "delta": -5,
           "set": [
             "cevapsiz"
@@ -318,7 +318,7 @@
       "prompt": "Ne yapacaksınız?",
       "choices": [
         {
-          "text": "Kısa bir “Haklısınız Sayın Başkan” de; notlarını iki başlığa indir: hileli davranışın yoğunluğu tartışılmadan hukuki uyuşmazlığın suç sayılması ve dosya kapsamıyla çelişen eksik gerekçe.",
+          "text": "“Haklısınız Sayın Başkan” de; iki başlığa in: hile yoğunluğu tartışılmadan hukuki uyuşmazlığın suç sayılması ve eksik gerekçe.",
           "delta": 10,
           "set": [
             "hukuki"
@@ -327,7 +327,7 @@
           "note": "Doğru tavır. Sert bir uyarıya savunmayı daraltarak ve hukukilik denetiminin diline geçerek cevap verdiniz. Yargıtay'da iyi bir konuşma, Daire'nin sorusuna cevap veren konuşmadır."
         },
         {
-          "text": "Savunma hakkınızın kısıtlandığını tutanağa geçirtmek iste ve tanık beyanlarını anlatmaya devam et.",
+          "text": "Savunma hakkının kısıtlandığını tutanağa geçirt (AİHS m.6); tanık beyanlarındaki çelişkileri kaldığın yerden anlatmaya devam et.",
           "delta": -10,
           "set": [
             "vakiaDurusma"
@@ -336,7 +336,7 @@
           "note": "Süre sınırı ve vakıa tartışmasının dışarıda tutulması savunma hakkının ihlali değildir; temyiz bir hukukilik denetimidir. Heyetin dikkatini kaybettiniz."
         },
         {
-          "text": "Alman tedarikçiyle yazışmaları sun: belgeyi müvekkil hazırlamadı.",
+          "text": "Alman tedarikçiyle yazışmaları sun: belgeyi müvekkil hazırlamadı; bu yeni delil hükmün dayanağını çürütüyor.",
           "delta": -10,
           "if": "tedarikci",
           "set": [
@@ -480,10 +480,11 @@
           "text": "Katılan vekili, son beyanınız?"
         }
       ],
-      "prompt": "Son beyanınız ne olacak?",
+      "prompt": "Daire'ye son beyanınızda ne isteyecek, nasıl gerekçelendireceksiniz? Kendi cümlelerinizle söyleyin.",
       "choices": [
         {
-          "text": "Onama iste: hile yoğun ve ödemeden önce; vakıa tespitleri dosya kapsamına uygun. Kısmi iade suç tamamlandıktan sonra ve katılanın rızası olmadan yapıldığı için etkin pişmanlık uygulanamaz.",
+          "text": "Güçlü beyan",
+          "min": 70,
           "delta": 15,
           "set": [
             "onamaArg"
@@ -491,7 +492,7 @@
           "law": "CMK m.302/1 · TCK m.157–158, m.168",
           "note": [
             {
-              "text": "Hukukilik denetiminin dilinde kaldınız. Kısmen geri verme ya da tazminde etkin pişmanlık için mağdurun rızası aranır (TCK m.168)."
+              "text": "Hukukilik denetiminin dilinde kaldınız ve onama için doğru gerekçeyi kurdunuz: hile, katılanın denetim imkânını ortadan kaldıracak yoğunlukta ve ödemeden önce; vakıa tespitleri dosya kapsamına uygun. Kısmen geri verme ya da tazminde etkin pişmanlık için mağdurun rızası aranır (TCK m.168)."
             },
             {
               "if": "gerekce",
@@ -500,20 +501,88 @@
           ]
         },
         {
-          "text": "Sanığın cezasının artırılmasını ve TCK m.62'nin hiçbir şekilde uygulanmamasını iste.",
-          "delta": -15,
+          "text": "Yeterli beyan",
+          "min": 40,
+          "delta": 8,
           "set": [
-            "aleyhe"
+            "onamaArg"
           ],
-          "law": "CMK m.307/4",
-          "note": "Hüküm yalnızca sanık lehine temyiz edildi. Bozma hâlinde bile yeni ceza önceki cezadan ağır olamaz (CMK m.307/4). Katılan temyiz etmediği için bu talep incelenemez."
+          "law": "CMK m.302/1 · TCK m.157–158, m.168",
+          "note": [
+            {
+              "text": "Onama istediniz, ama gerekçeyi eksik bıraktınız. Hilenin yoğunluğunu ve ödemeden önce yapıldığını, kısmi iadenin suçu ortadan kaldırmadığını ve katılanın rızası olmadığı için etkin pişmanlık sayılamayacağını (TCK m.168/4) birlikte söylemeliydiniz."
+            },
+            {
+              "if": "gerekce",
+              "text": " Gerekçedeki “hiç iade yok” cümlesi de dosyayla çelişiyor; TCK m.62 yönünden savunmak güç."
+            }
+          ]
         },
         {
-          "text": "Katılanın on milyon liralık zararının hükümde sanıktan tahsiline karar verilmesini iste.",
+          "text": "Zayıf beyan",
           "delta": -10,
-          "note": "Ceza davasında katılanın malvarlığı zararı için hüküm kurulmaz; bunun yolu hukuk mahkemesinde tazminat davasıdır. Temyiz incelemesinde ise hiç gündeme gelemez."
+          "law": "CMK m.302/1, m.307/4",
+          "note": "Hukukilik denetiminin dışına çıktınız ya da onama için gerekçe kurmadınız. Ceza davasında katılanın malvarlığı zararı için hüküm kurulmaz; hüküm yalnız sanık lehine temyiz edildiğinden ceza artırımı da istenemez (CMK m.307/4). Doğrusu: hile yoğun ve ödemeden önce, vakıa tespitleri dosyaya uygun; kısmi iade suçu ortadan kaldırmaz, katılanın rızası olmadığından etkin pişmanlık da uygulanamaz (TCK m.168/4); hükmün onanması istenir (CMK m.302/1)."
         }
-      ]
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Hükmün onanmasını ister (CMK m.302/1). (2) Hileli davranış, katılanın denetim imkânını ortadan kaldıracak yoğunluktadır ve ödemeden önce yapılmıştır (sahte antrepo belgesi); bu nedenle eylem hukuki uyuşmazlık değil dolandırıcılıktır (TCK m.157–158). Bölge adliye mahkemesinin vakıa tespitleri dosya kapsamına uygundur. (3) Kısmi iade, suç tamamlandıktan sonra yapılmıştır ve eylemi hukuki uyuşmazlığa dönüştürmez; kısmen geri vermede etkin pişmanlık için katılanın rızası aranır, rıza bulunmadığından TCK m.168 indirimi uygulanamaz (TCK m.168/4). Üç unsuru birlikte kuran cevap tam puan alır; onama isteyip gerekçeyi (hile yoğunluğu ya da etkin pişmanlık) eksik bırakan cevap orta puan alır. Cezanın artırılmasını isteyen (katılan temyiz etmediği için CMK m.307/4 aleyhe değiştirme yasağı engeldir), katılanın zararının tahsiline hükmedilmesini isteyen ya da vakıaları yeniden tartışan cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "onama",
+            "onanması",
+            "onansın",
+            "onanmasını"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "hile",
+            "hileli",
+            "sahte",
+            "antrepo belgesi"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "denetim imkân",
+            "denetim imkan",
+            "yoğun",
+            "ödemeden önce"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "etkin pişmanlık",
+            "m.168",
+            "m. 168",
+            "madde 168",
+            "168. madde",
+            "md. 168"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "rıza",
+            "rızası"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "hukuki uyuşmazlık",
+            "dosya kapsamına uygun",
+            "hukuka uygun"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Başkan, sanık ilk ödemeden önce kendi telefonundan sahte bir antrepo belgesi göndermiştir; bu hile katılanın denetim imkânını ortadan kaldıracak yoğunluktadır ve eylem hukuki uyuşmazlık değil dolandırıcılıktır. Bölge adliye mahkemesinin vakıa tespitleri dosya kapsamına uygundur. Kısmi iade suç tamamlandıktan sonra yapılmıştır; katılanın rızası da olmadığından etkin pişmanlık hükmü uygulanamaz (TCK m.168/4). Hükmün onanmasını talep ediyoruz (CMK m.302/1)."
     }
   ],
   "outcomes": [

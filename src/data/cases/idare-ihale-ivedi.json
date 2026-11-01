@@ -46,23 +46,23 @@
       ],
       "prompt": "Davayı nasıl ve ne zaman açacaksınız?",
       "choices": [
-        { "text": "Kurul kararının iptali için Kamu İhale Kurumu'nu davalı göstererek Ankara İdare Mahkemesinde, tebliğden itibaren otuz gün içinde dava açın.", "delta": 25, "set": ["dogruYer"],
+        { "text": "Kamu İhale Kurumu'na karşı, tebliğden itibaren otuz gün içinde Ankara İdare Mahkemesinde Kurul kararının iptalini isteyin.", "delta": 25, "set": ["dogruYer"],
           "law": "İYUK m.20/A, m.32",
           "note": "İhale işlemlerinden doğan davalar ivedi yargılama usulüne tabidir; dava açma süresi otuz gündür (İYUK m.20/A). Genel yetkili mahkeme, işlemi yapan idari merciin bulunduğu yer idare mahkemesidir (İYUK m.32): Kurul kararı için Ankara." },
-        { "text": "Kızılöz Belediyesini davalı göstererek Kırşehir İdare Mahkemesinde dava açın.", "delta": -15, "set": ["yanlisYer"],
+        { "text": "İhaleyi yapan Kızılöz Belediyesini davalı göstererek, ihalenin yapıldığı yer olan Kırşehir'de idare mahkemesinde dava açın.", "delta": -15, "set": ["yanlisYer"],
           "law": "İYUK m.9, m.32",
           "reply": [{ "who": "narr", "text": "Kırşehir İdare Mahkemesi yetkisizlik kararı verip dosyayı Ankara'ya gönderdi. İlk başvuru tarihi korundu, ama ivedi bir davada üç hafta kaybettiniz." }],
-          "note": "Dava konusu işlem Kurul kararıdır; onu yapan Kurum Ankara'dadır (İYUK m.32). Yetkisiz mahkemeye başvurma tarihi yetkili mahkemeye başvurma tarihi sayılır (İYUK m.9); süre kurtuldu, ama zaman kaybedildi." },
-        { "text": "Önce Kurum'a başvurup kararın düzeltilmesini isteyin; başvuru dava süresini durdurur.", "delta": -25,
+          "note": "Dava konusu işlem Kurul kararıdır; onu yapan Kurum Ankara'dadır ve davalı da odur (İYUK m.32). İhalenin yapıldığı yer yetkiyi belirlemez. Yetkisiz mahkemeye başvurma tarihi yetkili mahkemeye başvurma tarihi sayılır (İYUK m.9); süre kurtuldu, ama zaman kaybedildi." },
+        { "text": "Önce Kurum'a başvurup kararın düzeltilmesini isteyin; İYUK m.11 uyarınca üst makama başvuru dava açma süresini durdurur.", "delta": -25,
           "law": "İYUK m.20/A, m.11",
           "fatal": { "label": "HÜKÜM:", "hukum": "Davanın SÜRE AŞIMI NEDENİYLE REDDİNE, kararın tebliğinden itibaren on beş gün içinde Danıştaya temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
                      "summary": "İvedi yargılama usulüne tabi davalarda İYUK m.11 uygulanmaz (İYUK m.20/A): idareye yapılan başvuru dava süresini durdurmaz. Otuz günlük süre 6 Mayıs'ta doldu; Kurum'un cevabını beklerken dava hakkı kaybedildi." },
-          "note": "Genel usulde süreyi durduran başvuru, ivedi yargılamada süreyi durdurmaz." },
-        { "text": "İdari davada süre altmış gündür. Açıklama dosyasını baştan derleyip dilekçeyi Mayıs sonunda verin.", "delta": -25,
+          "note": "Genel usulde süreyi durduran üst makama başvuru (İYUK m.11), ivedi yargılamada süreyi durdurmaz (İYUK m.20/A)." },
+        { "text": "İdari davada süre altmış gündür (İYUK m.7). Açıklama dosyasını baştan derleyip dilekçeyi Mayıs sonunda, süre içinde verin.", "delta": -25,
           "law": "İYUK m.20/A",
           "fatal": { "label": "HÜKÜM:", "hukum": "Davanın SÜRE AŞIMI NEDENİYLE REDDİNE, kararın tebliğinden itibaren on beş gün içinde Danıştaya temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
                      "summary": "İhale işlemlerinden doğan davalarda dava açma süresi otuz gündür (İYUK m.20/A). Altmış günlük genel süreye (İYUK m.7) güvenmek davayı kaybettirdi." },
-          "note": "İvedi yargılamada dava açma süresi otuz gündür; genel süre uygulanmaz." }
+          "note": "Altmış günlük genel süre (İYUK m.7) ivedi yargılamada uygulanmaz; ihale işlemlerine karşı dava açma süresi otuz gündür (İYUK m.20/A)." }
       ] },
     { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
       "lines": [{ "who": "narr", "text": "Dilekçeye oturmadan önce genel müdürle konuşuyorsunuz. Vakit dar; iki soru sorabilirsiniz." }],
@@ -85,29 +85,29 @@
       "lines": [{ "who": "narr", "text": "Dilekçenin yürütmenin durdurulması bölümüne geldiniz." }],
       "prompt": "Yürütmenin durdurulması konusunda ne yapacaksınız?",
       "choices": [
-        { "if": "davet", "text": "Yürütmenin durdurulmasını isteyin; Kurul kararının açıkça hukuka aykırı olduğunu ve sözleşmeye davet yazısıyla telafisi güç zararın yakın olduğunu gösterin.", "delta": 20, "set": ["yd"],
+        { "if": "davet", "text": "Yürütmenin durdurulmasını isteyin: karar açıkça hukuka aykırı, sözleşmeye davet yazısı da zararın yakın ve telafisi güç olduğunu gösteriyor.", "delta": 20, "set": ["yd"],
           "law": "İYUK m.27, m.20/A",
           "reply": [{ "who": "narr", "text": "Kurum'un savunması alındı. Mahkeme, Kurul kararının yürütmesini durdurdu; sözleşme imzalanmadı." }],
           "note": "Açık hukuka aykırılık ve telafisi güç ya da imkânsız zarar birlikte aranır (İYUK m.27). Sözleşme rakiple imzalanırsa iptal kararının pratik değeri büyük ölçüde kaybolur; davet yazısı zararı somutlaştırıyor." },
-        { "if": "!davet", "text": "Yürütmenin durdurulmasını isteyin; işin başkasına verileceğini genel olarak anlatın.", "delta": 5, "set": ["ydZayif"],
+        { "if": "!davet", "text": "Yürütmenin durdurulmasını isteyin; işin rakibe verileceğini ve müvekkilin büyük bir iş kaybedeceğini genel olarak anlatın.", "delta": 5, "set": ["ydZayif"],
           "law": "İYUK m.27",
           "reply": [{ "who": "narr", "text": "Kurum'un savunması alındı. Mahkeme, zararın somut olarak gösterilmediği gerekçesiyle yürütmenin durdurulması isteğini reddetti." }],
-          "note": "İki şart birlikte aranır. Zararın yakın ve somut olduğunu gösteren bir belge olmadan istek zayıf kalır." },
-        { "text": "Yürütmenin durdurulmasını istemeyin; ivedi yargılamada esas karar nasılsa çabuk çıkar.", "delta": -10,
-          "note": "İvedi yargılama hızlıdır ama sözleşme imzalanmasından daha hızlı değildir. Yürütmenin durdurulması, iptal kararının boşa çıkmasını önlemek içindir." }
+          "note": "İki şart birlikte aranır. Zararın yakın ve somut olduğunu gösteren bir belge olmadan, iş kaybının genel anlatımıyla istek zayıf kalır." },
+        { "text": "Yürütmenin durdurulmasını istemeyin; ivedi yargılamada esas hakkında karar zaten kısa sürede verilir, ara bir istek dosyayı yalnızca yavaşlatır.", "delta": -10,
+          "note": "İvedi yargılama hızlıdır ama sözleşme imzalanmasından daha hızlı değildir; istek de dosyayı yavaşlatmaz. Yürütmenin durdurulması, iptal kararının boşa çıkmasını önlemek içindir." }
       ] },
     { "side": "p1", "scene": "office", "if": "ydZayif",
       "lines": [{ "who": "narr", "text": "Yürütmenin durdurulması isteğinin reddi kararı tebliğ edildi. Müvekkil endişeli." }],
       "prompt": "Ne yapacaksınız?",
       "choices": [
-        { "text": "Yedi gün içinde Bölge İdare Mahkemesine itiraz edin.", "delta": -10,
+        { "text": "Yedi gün içinde bölge idare mahkemesine itiraz edin; yürütmenin durdurulması isteminin reddine karşı itiraz yolu açıktır (İYUK m.27/7).", "delta": -10,
           "law": "İYUK m.20/A",
           "reply": [{ "who": "narr", "text": "Bölge İdare Mahkemesi itirazı, kanun yolu kapalı olduğu gerekçesiyle inceleme dışı bıraktı." }],
-          "note": "İvedi yargılama usulünde yürütmenin durdurulması istemi hakkında verilen kararlara itiraz edilemez (İYUK m.20/A). Genel usuldeki itiraz yolu burada kapalı." },
-        { "text": "Ret kararını Danıştay'a temyiz edin.", "delta": -10,
+          "note": "Genel usulde yürütmenin durdurulması kararlarına itiraz yolu vardır (İYUK m.27/7); ama ivedi yargılama usulünde yürütmenin durdurulması istemi hakkında verilen kararlara itiraz edilemez (İYUK m.20/A)." },
+        { "text": "Ret kararını Danıştay'a temyiz edin; ihale uyuşmazlıklarında idare mahkemesi kararlarına karşı yol temyizdir.", "delta": -10,
           "reply": [{ "who": "narr", "text": "Danıştay, ara kararın temyiz edilemeyeceği gerekçesiyle dilekçeyi inceleme dışı bıraktı." }],
-          "note": "Yürütmenin durdurulmasına ilişkin karar nihai karar değildir; temyiz yalnızca nihai kararlara karşı açıktır." },
-        { "text": "Kanun yolu yok; esasa odaklanın. Duruşmaya açıklama dosyasını eksiksiz hazırlayın.", "delta": 5, "set": ["odak"],
+          "note": "İdare mahkemesinin esas hakkındaki kararı Danıştay'da temyiz edilebilir; ama yürütmenin durdurulmasına ilişkin karar nihai karar değildir ve temyiz edilemez." },
+        { "text": "Kanun yolu yok; esasa odaklanın ve duruşmaya açıklama dosyasını, ekleriyle birlikte eksiksiz hazırlayın.", "delta": 5, "set": ["odak"],
           "law": "İYUK m.20/A",
           "note": "Doğru değerlendirme. İvedi yargılamada mahkeme dosya tamamlandıktan sonra kısa sürede karar verir; en iyi hamle esası güçlendirmektir." }
       ] },
@@ -138,17 +138,21 @@
     },
     { "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Davacı vekili, son sözünüz ve isteminiz?" }],
-      "prompt": "Son sözünüz ne olacak?",
+      "kind": "free", "prompt": "Son sözünüz ve isteminiz ne olacak? Kendi cümlelerinizle mahkemeye söyleyin.",
       "choices": [
-        { "text": "Açıklama ekleriyle birlikte değerlendirilmeden reddedilmiştir. Kurul kararının iptalini isteriz.", "delta": 15, "set": ["sonSoz"],
-          "law": "4734 s.K. m.38; İYUK m.2",
-          "note": "Talep iptal davasının sınırları içinde ve Kurul kararının tek gerekçesine yöneliyor." },
-        { "text": "Kurul kararının iptaliyle birlikte ihalenin müvekkil üzerinde bırakılmasına karar verilmesini isteriz.", "delta": -10, "set": ["kendisiVer"],
-          "law": "İYUK m.2/2",
-          "note": "İdari yargı yerleri idari işlem niteliğinde karar veremez (İYUK m.2/2). İptal kararından sonra ne yapılacağına idare karar verir." },
-        { "text": "Rakip firmanın teklifinin de mevzuata aykırı olduğunu ileri sürüyoruz.", "delta": -10,
-          "note": "Dava konusu Kurul kararıdır. Rakip teklifine yönelik iddialar, şikâyet ve itirazen şikâyet süreleri içinde ileri sürülmeliydi; ilk kez duruşmada ileri sürülen yeni bir uyuşmazlık davaya bir şey katmaz." }
-      ] }
+        {"text": "Güçlü son söz", "min": 70, "delta": 15, "set": ["sonSoz"], "law": "4734 s.K. m.38; İYUK m.2", "note": "İsteminiz iptal davasının sınırları içinde kaldı ve Kurul kararının tek gerekçesine yöneldi: açıklama, ekindeki maliyet tespit tutanağıyla birlikte değerlendirilmeden reddedildi (4734 s.K. m.38). İhalenin kime bırakılacağına mahkeme değil, iptal kararından sonra idare karar verir (İYUK m.2/2)."},
+        {"text": "Yeterli son söz", "min": 40, "delta": 8, "set": ["sonSoz"], "law": "4734 s.K. m.38; İYUK m.2", "note": "Kurul kararının iptalini doğru istediniz. Ama kararın tek gerekçesini, yani açıklamanın ekindeki maliyet tespit tutanağıyla birlikte değerlendirilmeden reddedildiğini açıkça söylemediniz (4734 s.K. m.38)."},
+        {"text": "Zayıf son söz", "delta": -10, "set": ["kendisiVer"], "law": "İYUK m.2/2", "note": "Son sözünüz iptal davasının sınırları içinde kalmadı ya da Kurul kararının gerekçesine yönelmedi. İdari yargı yerleri idari işlem niteliğinde karar veremez; ihalenin müvekkil üzerinde bırakılmasına mahkeme karar veremez (İYUK m.2/2). Rakip teklifine ilişkin yeni iddialar da davanın konusu değildir. İstem, açıklamanın ekleriyle birlikte değerlendirilmediği gerekçesiyle Kurul kararının iptali olmalıydı."}
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kurul kararının tek gerekçesi, agrega için maliyet tespit tutanağı sunulmadığıdır; oysa açıklamanın ekinde bu tutanak vardır ve açıklama ekleriyle birlikte değerlendirilmeden reddedilmiştir (4734 s.K. m.38). (2) Bu nedenle Kamu İhale Kurulu kararının iptali istenir. (3) İstem iptal davasının sınırları içinde kalır; ihalenin müvekkile bırakılması gibi idari işlem niteliğinde bir karar istenmez (İYUK m.2/2). Kararın gerekçesini çürütüp iptal isteyen cevap tam puan alır; gerekçeye değinmeden yalnızca iptal isteyen cevap orta puan alır. İhalenin müvekkile verilmesine karar verilmesini isteyen, rakip teklifine ilişkin yeni iddialar ileri süren ya da tam yargı/tazminat talebine kayan cevap düşük puan alır.",
+      "keywords": [
+        {"terms": ["iptal"], "weight": 3},
+        {"terms": ["tutanak", "maliyet tespit", "ekleri", "ekiyle", "ekindeki", "ekinde"], "weight": 2},
+        {"terms": ["değerlendirilmeden", "değerlendirmeden", "incelenmeden", "dikkate alınmadan", "dikkate almadan"], "weight": 2},
+        {"terms": ["Kurul kararı", "Kurul'un kararı", "düzeltici işlem", "Kurul"], "weight": 1},
+        {"terms": ["m.38", "m. 38", "madde 38", "38. madde", "md. 38", "4734"], "weight": 1}
+      ],
+      "model": "Sayın Başkan, müvekkilin aşırı düşük teklif açıklaması, ekindeki maliyet tespit tutanağıyla birlikte değerlendirilmeden reddedilmiştir; Kurul kararının tek gerekçesi dosyadaki belgeyle çürümüştür (4734 s.K. m.38). Kamu İhale Kurulu kararının iptaline karar verilmesini istiyoruz." }
   ],
   "outcomes": [
     { "if": "aciklamaOk && yd", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
@@ -156,7 +160,7 @@
       "summary": [
         { "text": "Heyet, Kurul'un açıklamayı ekindeki maliyet tespit tutanağını görmeden değerlendirdiğini, kararın bu yönüyle hukuka aykırı olduğunu kabul etti. Yürütmenin durdurulması sayesinde sözleşme imzalanmamıştı; belediye ihale sürecine Kurul kararından önceki noktadan devam edecek." },
         { "if": "yanlisYer", "text": " Yanlış mahkemede açılan dava süreyi korudu, ama ivedi bir dosyada üç hafta kaybettirdi." },
-        { "if": "kendisiVer", "text": " İhalenin müvekkile verilmesi isteği ise yargı yetkisinin sınırı nedeniyle karşılıksız kaldı." }
+        { "if": "kendisiVer", "text": " Son sözünüz ise iptal davasının sınırlarına ve Kurul kararının gerekçesine odaklanmadı." }
       ] },
     { "if": "aciklamaOk", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,
       "hukum": "Dava konusu Kamu İhale Kurulu kararının İPTALİNE, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine, kararın tebliğinden itibaren on beş gün içinde Danıştaya temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",

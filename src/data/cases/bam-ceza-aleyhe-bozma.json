@@ -63,12 +63,12 @@
       "lines": [{ "who": "narr", "text": "Daire'ye duruşmadan önce bir ek beyan dilekçesi sunabilirsiniz. Ceza istinafında Daire, gerekirse davanın yeniden görülmesine karar vererek duruşma açar, delilleri toplar ve yeniden değerlendirir (CMK m.280)." }],
       "prompt": "Ek beyan dilekçesinde ne isteyeceksiniz?",
       "choices": [
-        { "if": "borc", "text": "Dekont ve mesajları sunun; banka kayıtlarının getirtilmesini ve duruşma açılmasını isteyin; TCK m.150/1'e dayanın.", "delta": 20, "set": ["delil"],
+        { "if": "borc", "text": "Dekont ve mesajları sunun; banka kaydının getirtilmesini, duruşma açılmasını isteyin; TCK m.150/1'e dayanın.", "delta": 20, "set": ["delil"],
           "law": "CMK m.280; TCK m.150/1",
           "note": "Doğru. Alacağın varlığı ve tahsil amacı, banka kaydı ve mağdurun kendi mesajıyla ispatlanabilir. Daire bu delilleri duruşmada değerlendirebilir." },
-        { "text": "Mağdurun yeniden dinlenmesini isteyin; ifadesindeki çelişkileri ortaya koyun.", "delta": 5,
+        { "text": "Mağdurun duruşmada yeniden dinlenmesini isteyin; ilk ifadesindeki çelişkileri soru soru ortaya koyun (CMK m.201).", "delta": 5,
           "note": "Makul bir talep. Ama mağdurun yeniden dinlenmesi, eylemin hukuki niteliğini tek başına değiştirmez." },
-        { "text": "Duruşmaya gerek yok; yalnızca TCK m.62 uyarınca takdiri indirim isteyin.", "delta": -5,
+        { "text": "Duruşma açtırıp süreci uzatmayalım; dosya üzerinden yalnızca TCK m.62 uyarınca takdiri indirim isteyin.", "delta": -5,
           "note": "Eylemin niteliğine itiraz etmeden yalnızca indirim istemek, en güçlü savunmayı masada bırakır." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
@@ -103,24 +103,36 @@
         { "text": "Söz isteyip müvekkili sakinleştirin; beyanlarını son sözünde usulüne uygun yapacağını belirtin.", "delta": 5,
           "law": "CMK m.203, m.216",
           "note": "Duruşma düzenini bozanlara ilişkin yaptırımlar CMK m.203'te düzenlenir. Son söz sanığındır (CMK m.216); müvekkil söyleyeceğini orada, usulüne uygun biçimde söyleyebilir. Soğukkanlılık müvekkili korur." },
-        { "text": "Müvekkile hak verin: “Bu talep vicdansızca!”", "delta": -10,
+        { "text": "Müvekkile hak verin: “Bu talep vicdansızca!” Mütalaa açıkça tarafgir; heyet bu tepkiyi de görsün.", "delta": -10,
           "note": "Savcının mütalaası bir görüştür; ona salonda tepki göstermek savunmayı güçlendirmez, gerginliği büyütür." },
-        { "text": "Hiç müdahale etmeyin; başkan halletsin.", "delta": -5,
+        { "text": "Hiç müdahale etmeyin; duruşma düzenini sağlamak başkanın işidir (CMK m.203), müdafi araya girmez.", "delta": -5,
           "note": "Düzeni bozmayı sürdüren sanık duruşmadan çıkarılabilir; savunmanın en kritik anında müvekkilinizi kaybetme riskini aldınız." }
       ] },
     { "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Müdafi, esas hakkındaki savunmanız ve talebiniz?" }],
-      "prompt": "Daire'den ne isteyeceksiniz?",
+      "kind": "free",
+      "prompt": "Daire'den ne isteyeceksiniz? Esas hakkındaki savunmanızı ve talebinizi kendi cümlelerinizle kurun.",
       "choices": [
-        { "if": "borc", "text": "Eylem TCK m.150/1 kapsamında: alacak tahsili amacıyla cebir kullanılmıştır, sanık yalnız kasten yaralamadan cezalandırılmalıdır. Her hâlde ceza, CMK m.283 gereği 7 yıl 6 aydan ağır olamaz.", "delta": 20, "set": ["talep150"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["talep150"],
           "law": "TCK m.150/1, m.86/2; CMK m.283",
-          "note": "Asıl savunma ve yedek kalkan birlikte. Mağdurun yaralanması basit tıbbi müdahaleyle giderilebilir düzeyde olduğundan TCK m.86/2 gündeme gelir; bu suç şikâyete bağlıdır ve mağdur şikâyetçidir." },
-        { "text": "Sanığın beraatini isteriz.", "delta": -5,
-          "note": "Cebir kullanıldığı ve paranın alındığı tartışmasız. Beraat yerine eylemin hukuki nitelendirmesine itiraz edilmeliydi." },
-        { "text": "TCK m.62 uyarınca takdiri indirim isteriz.", "delta": 5,
-          "law": "TCK m.62, m.149/1-h; CMK m.283",
-          "note": "Yedek talep olarak makul. Ama Daire eylemi gece vakti nitelikli yağma sayarsa, alt sınırdan indirimle bulunan ceza bile (10 yıldan 8 yıl 4 aya) önceki cezayı aşar; yine 7 yıl 6 ay verilir. İndirim fiilen sonucu değiştirmez." }
-      ] }
+          "note": "Asıl savunmayı ve yedek kalkanı birlikte kurdunuz. Hukuki ilişkiye dayanan alacağın tahsili amacıyla cebir kullanan kişi yağmadan değil, yalnızca kullandığı cebirden sorumlu olur (TCK m.150/1). Yaralanma basit tıbbi müdahaleyle giderilebilir düzeyde olduğundan TCK m.86/2 gündeme gelir; bu suç şikâyete bağlıdır ve mağdur şikâyetçidir. Her hâlde, yalnız sanık istinaf ettiği için ceza 7 yıl 6 aydan ağır olamaz (CMK m.283)." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["talep150"],
+          "law": "TCK m.150/1, m.86/2; CMK m.283",
+          "note": "Eylemin alacak tahsili amacıyla işlendiğini ve TCK m.150/1 kapsamında kaldığını söylediniz; asıl savunma bu. Ama yedek kalkanı eksik bıraktınız: hükmü yalnız sanık istinaf ettiği için, Daire başka nitelendirme yapsa bile ceza 7 yıl 6 aydan ağır olamaz (CMK m.283)." },
+        { "text": "Zayıf savunma", "delta": -5,
+          "law": "TCK m.150/1; CMK m.283",
+          "note": "Eylemin hukuki niteliğine itiraz etmediniz. Cebir kullanıldığı ve paranın alındığı tartışmasız; beraat ya da yalnızca takdiri indirim istemek sonucu değiştirmez. Asıl savunma, alacağın tahsili amacıyla cebir kullanıldığı için sanığın yağmadan değil yalnız kasten yaralamadan cezalandırılmasıydı (TCK m.150/1); yedek olarak da cezanın 7 yıl 6 aydan ağır olamayacağı (CMK m.283)." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sanığın mağdurdan alacağı vardır (dekont, mağdurun mesajı); para bu alacağın tahsili amacıyla alınmıştır. (2) Hukuki ilişkiye dayanan alacağın tahsili amacıyla cebir kullanıldığından yağma suçu oluşmaz; sanık yalnızca kullandığı cebir nedeniyle kasten yaralamadan cezalandırılmalıdır (TCK m.150/1, m.86/2). (3) Yedek olarak: hükmü yalnızca sanık istinaf ettiğinden, aleyhe değiştirme yasağı gereği ceza 7 yıl 6 aydan ağır olamaz (CMK m.283). Üç unsuru madde numaralarıyla birlikte kuran cevap tam puan alır; TCK m.150/1 nitelendirmesini kurup aleyhe değiştirme yasağını söylemeyen cevap orta puan alır. Yalnızca beraat, yalnızca takdiri indirim ya da yalnızca aleyhe değiştirme yasağı isteyip eylemin niteliğine itiraz etmeyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["m.150", "m. 150", "150/1", "madde 150", "150. madde", "md. 150", "md.150"], "weight": 3 },
+        { "terms": ["alacak", "borç", "tahsil"], "weight": 2 },
+        { "terms": ["kasten yaralama", "yaralama", "m.86", "m. 86", "86/2"], "weight": 1 },
+        { "terms": ["aleyhe değiştirme", "aleyhe bozma", "m.283", "m. 283", "madde 283", "283. madde", "md. 283", "7 yıl 6 ay"], "weight": 2 },
+        { "terms": ["yağma oluşmaz", "yağma suçu oluşmaz", "yağma değil", "yağmadan değil", "nitelendir", "vasf"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, banka kaydı ve mağdurun kendi mesajı, müvekkilin mağdurdan 40.000 TL alacağı olduğunu ve parayı bu alacağı tahsil etmek için aldığını gösteriyor. Hukuki ilişkiye dayanan alacağın tahsili amacıyla cebir kullanıldığında yağma oluşmaz; müvekkil yalnızca kullandığı cebir nedeniyle kasten yaralamadan cezalandırılmalıdır (TCK m.150/1, m.86/2). Her hâlde hükmü yalnız sanık istinaf ettiğinden, aleyhe değiştirme yasağı gereği ceza 7 yıl 6 aydan ağır olamaz (CMK m.283)."
+    }
   ],
   "outcomes": [
     { "if": "borc && delil", "winner": "p1", "label": "HÜKÜM:",

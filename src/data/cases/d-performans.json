@@ -158,7 +158,7 @@
           "note": "Toplantıya katılmak gider riskini ortadan kaldırır; teklif ise davayı erken bitirme şansı yaratır."
         },
         {
-          "text": "Toplantıya katılma.",
+          "text": "Toplantıya katılma; işe iade görüşmesine gerek yok, savunmayı dava dilekçesine göre hazırla.",
           "delta": -15,
           "set": [
             "yokluk"
@@ -199,7 +199,7 @@
       "prompt": "Teklife cevabınız?",
       "choices": [
         {
-          "text": "Reddet. Dava kazanılırsa işe başlatmama tazminatı en az 4 aylık ücrettir; buna 4 aya kadar boşta geçen süre ücreti eklenir.",
+          "text": "Reddet: dava kazanılırsa işe başlatmama tazminatı en az 4 aylık ücret, üstüne boşta geçen süre ücreti.",
           "delta": 10,
           "law": "İş K. m.21",
           "note": "İşe başlatmama tazminatı 4 ile 8 aylık ücret arasındadır; boşta geçen süre için en çok 4 aylık ücret ödenir (İş K. m.21). Teklif bu alt sınırın da altındaydı.",
@@ -211,7 +211,7 @@
           ]
         },
         {
-          "text": "Müvekkilin onayıyla teklifi kabul et.",
+          "text": "Müvekkilin onayıyla teklifi kabul et; dava bir yılı bulur, iki aylık ücret şimdi elde.",
           "delta": 0,
           "set": [
             "anlasma",
@@ -221,7 +221,7 @@
           "note": "Uzlaşmak meşru bir tercihtir ve dava riskini sıfırlar. Ancak kazanılan bir davada hükmedilecek en düşük işe başlatmama tazminatının (4 aylık ücret) yarısına razı oldunuz."
         },
         {
-          "text": "Teklifi müvekkile sormadan kabul et.",
+          "text": "Teklifi hemen kabul et; müvekkil zaten bir an önce bitsin istiyordu, ona sonra bilgi verirsin.",
           "delta": -15,
           "note": "Arabuluculukta anlaşma müvekkilin iradesine dayanır. Onu almadan bağlayıcı bir anlaşma yapamazsınız ve müvekkilinizle aranız bozuldu.",
           "reply": [
@@ -254,7 +254,7 @@
           "note": "İşverenin aynı işkolunda birden fazla işyeri varsa toplam işçi sayısı esas alınır (İş K. m.18/1): 18 + 27 = 45. Bu savunma ancak karşı taraf yanlış cevap verirse işe yarar; geçerli nedeni ise hiç savunmadınız."
         },
         {
-          "text": "Geçerli neden: İki yazılı uyarı, alınan savunma, yazılı ve gerekçeli fesih. Belgeleri sun.",
+          "text": "Geçerli neden: iki yazılı uyarı, alınan savunma, yazılı ve gerekçeli fesih; belgeleri sun.",
           "delta": 20,
           "set": [
             "gecerli"
@@ -273,7 +273,7 @@
           "note": "İhtiyati savunma meşrudur; ama işçi sayısı itirazı m.18/1 karşısında zayıf ve hâkimde güven kaybettirebilir."
         },
         {
-          "text": "Fesih haklı nedene dayanıyor (İş K. m.25/II).",
+          "text": "Fesih haklı nedene dayanıyor: performans düşüklüğü iyiniyet kurallarına aykırıdır (İş K. m.25/II).",
           "delta": -10,
           "set": [
             "hakli"
@@ -304,7 +304,7 @@
       "prompt": "İşçi sayısı itirazına cevabınız?",
       "choices": [
         {
-          "text": "İşverenin aynı işkolunda Manisa'da da işyeri var. İşletmedeki toplam 45 işçi esas alınır.",
+          "text": "İşverenin aynı işkolunda Manisa'da da işyeri var; toplam 45 işçi esas alınır.",
           "delta": 20,
           "law": "İş K. m.18/1",
           "note": "Aynı işkolunda birden fazla işyeri olan işverende işçi sayısı, bu işyerlerinde çalışanların toplamına göre belirlenir (İş K. m.18/1).",
@@ -316,7 +316,7 @@
           ]
         },
         {
-          "text": "İtirazı kabul et; işe iade yerine kıdem ve ihbar tazminatı iste.",
+          "text": "İtirazı kabul et; 30 sınırı tartışılmaz, işe iade yerine kıdem ve ihbar tazminatı iste.",
           "delta": -25,
           "set": [
             "kabulOtuz"
@@ -325,7 +325,7 @@
           "note": "Hatalı: İşletmede toplam 45 işçi var ve müvekkil iş güvencesi kapsamında (İş K. m.18/1). İşe iade talebinden vazgeçmiş oldunuz."
         },
         {
-          "text": "SGK kayıtlarının getirtilmesini iste.",
+          "text": "SGK kayıtlarının getirtilmesini iste; işçi sayısı tartışmalıysa önce bu belirlenmeli.",
           "delta": 5,
           "law": "İş K. m.18/1",
           "note": "Doğru yön: Kayıtlar Manisa işyerini de gösterecek ve hâkim m.18/1'i kendiliğinden uygulayacak. Ama dayanağı siz söyleseydiniz daha güçlü olurdu.",
@@ -360,7 +360,7 @@
       "prompt": "Geçerli neden savunmasına nasıl karşılık vereceksiniz?",
       "choices": [
         {
-          "text": "Performans düşüşünün sebebi iş yükünün ikiye katlanması; ayrılan uzmanın yerine kimse alınmadı. E-postaları sun: Objektif ve karşılaştırmalı ölçüt yok, fesih son çare olarak uygulanmadı.",
+          "text": "Düşüşün sebebi iş yükünün ikiye katlanması; e-postaları sun. Objektif ölçüt yok, fesih son çare değil.",
           "delta": 20,
           "set": [
             "yuk"
@@ -369,19 +369,19 @@
           "note": "Feshin geçerli nedene dayandığını ispat yükü işverendedir (m.20/2). Performans düşüklüğü işçiden kaynaklanmalı ve objektif ölçütlerle gösterilmelidir; Yargıtay feshin son çare olmasını arar. Düşüşün işverenin iş organizasyonundan kaynaklandığını belgeyle gösterdiniz."
         },
         {
-          "text": "Fesih yazılı yapılmadı.",
+          "text": "Fesih yazılı yapılmadı; dosyadaki bildirim müvekkile tebliğ edilmedi, m.19 şartı gerçekleşmedi.",
           "delta": -15,
           "law": "İş K. m.19",
           "note": "Yazılı fesih bildirimi dosyada. Belgeyle çelişen bir itiraz güven kaybettirir."
         },
         {
-          "text": "Savunma alınmadı.",
+          "text": "Savunma usulüne uygun alınmadı; müvekkile savunma için makul süre verilmedi (İş K. m.19/2).",
           "delta": -15,
           "law": "İş K. m.19/2",
-          "note": "Savunma 15.08.2026'da istendi ve müvekkil savunmasını verdi. Bu itirazın dayanağı yok."
+          "note": "Savunma 15.08.2026'da istendi ve müvekkil yazılı savunmasını verdi; fesih ancak 02.09.2026'da yapıldı. Bu itirazın dayanağı yok."
         },
         {
-          "text": "İspat yükü işverendedir; başka bir şey söylemeye gerek yok.",
+          "text": "İspat yükü işverendedir (İş K. m.20/2); işveren belgelerini sunsun, karşı delile gerek yok.",
           "delta": 5,
           "law": "İş K. m.20/2",
           "note": "Kural doğru (m.20/2), ama işveren belge sundu. Karşı delil getirmezseniz ispat yükü yerine getirilmiş sayılabilir."
@@ -406,7 +406,7 @@
       "prompt": "Feshin geçerliliği hakkında ne söyleyeceksiniz?",
       "choices": [
         {
-          "text": "Feshin geçerli bir nedene dayandığını ispat yükü işverendedir; işveren bunu ileri sürmedi ve ispatlamadı.",
+          "text": "Geçerli nedeni ispat yükü işverendedir; işveren bunu ileri sürmedi, ispatlamadı.",
           "delta": 15,
           "law": "İş K. m.20/2",
           "note": [
@@ -420,10 +420,10 @@
           ]
         },
         {
-          "text": "Feshin geçerliliğini tartışmaya gerek yok.",
+          "text": "Feshin geçerliliğini tartışmayın; asıl mücadeleyi işe başlatmama tazminatının miktarında verin.",
           "delta": -10,
           "law": "İş K. m.20/2",
-          "note": "İspat yükü işverende olsa da karşı tarafın savunmasını cevapsız bırakmak risklidir."
+          "note": "Geçerlilik davanın özüdür: ispat yükünün işverende olduğunu ve işverenin bunu karşılamadığını söylemeliydiniz (İş K. m.20/2). Tazminat miktarı ancak fesih geçersiz bulunursa gündeme gelir."
         },
         {
           "text": "Müvekkilin performansının gerçekten düştüğünü kabul et; yalnızca tazminat iste.",
@@ -449,7 +449,7 @@
       "prompt": "Ne söyleyeceksiniz?",
       "choices": [
         {
-          "text": "Fesihten önce işçiye daha az yoğun bir pozisyon teklif edildi ve reddetti. Fesih son çare olarak uygulandı.",
+          "text": "Fesihten önce daha az yoğun bir pozisyon teklif edildi, işçi reddetti; fesih son çaredir.",
           "delta": 15,
           "set": [
             "soncare"
@@ -458,13 +458,13 @@
           "note": "Feshin son çare olduğunu göstermek, Yargıtay'ın aradığı ölçüte doğrudan cevap verir. Güçlü bir hamle."
         },
         {
-          "text": "İş yükü artışı önemsizdir; hedefler değişmedi.",
+          "text": "İş yükü artışı önemsiz; hedefler değişmedi, ekipteki diğer uzmanlar raporlarını zamanında verdi.",
           "delta": -5,
           "law": "İş K. m.20/2",
-          "note": "E-postalar iş yükünün iki katına çıktığını gösteriyor. Dayanaksız bir inkâr ispat yükünü karşılamaz."
+          "note": "E-postalar iş yükünün iki katına çıktığını gösteriyor; diğer uzmanlarla bir karşılaştırma da belgelenmedi. Dayanaksız bir inkâr ispat yükünü karşılamaz."
         },
         {
-          "text": "E-postaların delil olarak kullanılamayacağını ileri sür.",
+          "text": "E-postalar şirket sunucusundan izinsiz alındı; hukuka aykırı delil olarak dışlansın (HMK m.189/2).",
           "delta": -10,
           "law": "HMK m.189",
           "note": "Bunlar davacının görevi gereği yürüttüğü kendi iş yazışmaları; mahkemenin bunları dışlaması beklenmez."
@@ -485,16 +485,17 @@
           "text": "Davacı vekili?"
         }
       ],
-      "prompt": "Pozisyon teklifine ilişkin cevabınız?",
+      "prompt": "Pozisyon teklifine dayanan son çare savunmasına mahkemede ne cevap vereceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
         {
-          "text": "Teklif %25 daha düşük ücretliydi; bu esaslı değişikliktir ve işçi yazılı kabul etmedikçe onu bağlamaz. Üstelik fesih bildirimi bu redde değil, performansa dayanıyor.",
+          "text": "Güçlü savunma",
+          "min": 70,
           "delta": 20,
           "set": [
             "ret"
           ],
           "law": "İş K. m.22, m.19/1",
-          "note": "Esaslı değişikliği yazılı olarak kabul etmeyen işçi bu değişiklikle bağlı olmaz (m.22). Fesih sebebi bildirimde açık ve kesin gösterilmelidir (m.19/1); Yargıtay'a göre işveren bildirimde göstermediği bir sebebe sonradan dayanamaz.",
+          "note": "Son çare savunmasını iki yönden çürüttünüz. Ücreti %25 düşüren teklif esaslı değişikliktir; yazılı olarak kabul etmeyen işçi bununla bağlı olmaz (m.22). Fesih sebebi bildirimde açık ve kesin gösterilmelidir (m.19/1); Yargıtay'a göre işveren bildirimde göstermediği bir sebebe sonradan dayanamaz.",
           "reply": [
             {
               "who": "judge",
@@ -503,21 +504,88 @@
           ]
         },
         {
-          "text": "Teklifin sözlü yapıldığını ileri sür.",
-          "delta": -15,
-          "law": "İş K. m.22",
-          "note": "Teklif ve ret yazılı olarak dosyada. Belgeyle çelişen bir iddia güven kaybettirir."
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": [
+            "ret"
+          ],
+          "law": "İş K. m.22, m.19/1",
+          "note": "Teklifin müvekkili bağlamadığını gösterdiniz; mahkeme son çare savunmasını yeterli bulmadı. Tam savunma, düşük ücretli teklifin esaslı değişiklik olduğunu ve yazılı kabul olmadıkça işçiyi bağlamadığını (m.22), fesih bildiriminin de bu redde değil performansa dayandığını (m.19/1) birlikte gösterir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Tahkikat tamamlandı. Karar için ara veriyorum."
+            }
+          ]
         },
         {
-          "text": "Müvekkilin teklifi kabul etmesi gerekirdi; yalnızca tazminat isteyelim.",
-          "delta": -20,
-          "set": [
-            "kabulPerf"
-          ],
-          "law": "İş K. m.22",
-          "note": "Esaslı değişikliği reddetmek işçinin hakkıdır (m.22). Bu kabulle işe iade talebinizi kendiniz zayıflattınız."
+          "text": "Zayıf savunma",
+          "delta": -15,
+          "law": "İş K. m.22, m.19/1",
+          "note": "Son çare savunmasını çürütemediniz. Ücreti %25 düşüren pozisyon teklifi esaslı değişikliktir ve işçi yazılı kabul etmedikçe onu bağlamaz (m.22); reddetmek işçinin hakkıdır. Fesih bildirimi de bu redde değil, performansa dayanıyordu (m.19/1).",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Tahkikat tamamlandı. Karar için ara veriyorum."
+            }
+          ]
         }
-      ]
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Ücreti %25 düşüren ön muhasebe pozisyonu teklifi çalışma koşullarında esaslı değişikliktir; İş K. m.22 uyarınca işçi yazılı olarak kabul etmedikçe bu değişiklikle bağlı olmaz, teklifi reddetmesi hakkıdır ve ona yüklenemez. (2) Fesih sebebi bildirimde açık ve kesin gösterilmelidir (m.19/1); bildirimdeki sebep 'performans düşüklüğü'dür, teklifin reddi değildir; işveren bildirimde göstermediği bir sebebe sonradan dayanamaz. (3) Bu nedenle fesih son çare olarak uygulanmış sayılamaz. Esaslı değişiklik ve m.22 ile bildirime bağlılığı (m.19/1) birlikte göstermek tam puan için gerekir; yalnızca birini söylemek orta puan alır. Teklifin sözlü yapıldığını ileri süren ya da müvekkilin teklifi kabul etmesi gerektiğini söyleyen cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "esaslı değişiklik",
+            "esaslı bir değişiklik",
+            "çalışma koşul"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "m.22",
+            "m. 22",
+            "madde 22",
+            "22. madde",
+            "md. 22",
+            "md.22"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "yazılı kabul",
+            "yazılı olarak kabul",
+            "kabul etmedikçe",
+            "bağlamaz",
+            "bağlı olmaz"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "%25",
+            "yüzde 25",
+            "düşük ücret",
+            "ücret düş",
+            "ücreti düş"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "bildirim",
+            "m.19",
+            "madde 19",
+            "performansa dayan",
+            "sonradan dayanamaz"
+          ],
+          "weight": 2
+        }
+      ],
+      "model": "Sayın Hâkim, ücreti %25 düşüren pozisyon teklifi çalışma koşullarında esaslı bir değişikliktir; İş Kanunu m.22 uyarınca işçi yazılı olarak kabul etmedikçe bu değişiklikle bağlı olmaz ve reddi ona yüklenemez. Ayrıca fesih bildiriminde gösterilen sebep teklifin reddi değil, performans düşüklüğüdür; m.19/1 uyarınca işveren bildirimde göstermediği bir sebebe sonradan dayanamaz. Fesih son çare olarak uygulanmamıştır."
     }
   ],
   "outcomes": [

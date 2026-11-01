@@ -69,17 +69,17 @@
       ],
       "prompt": "1. aşama · Ödeme emri: Ne yapacaksınız?",
       "choices": [
-        { "text": "Pazartesi, 9 Kasım'a kadar icra hukuk mahkemesine dilekçe verin: birinci senetteki imzaya ayrıca ve açıkça itiraz; ikinci senet için borcun ödendiği gerekçesiyle borca itiraz. Ayrıca takibin durdurulmasını isteyin.", "delta": 25, "set": ["imza", "borca"],
+        { "text": "9 Kasım'a kadar icra hukuk mahkemesine: birinci senet için imzaya, ikinci senet için ödeme nedeniyle borca ayrı ayrı itiraz; durdurma talebi.", "delta": 25, "set": ["imza", "borca"],
           "law": "İİK m.168 · m.169 · m.169/a · m.170",
           "note": "Doğru. Kambiyo takibinde borca itiraz ve imzaya itiraz, ödeme emrinin tebliğinden itibaren beş gün içinde icra hukuk mahkemesine yapılır. Süre ertesi günden başlar; beşinci gün 9 Kasım pazartesidir. İtirazlar, mahkeme bir durdurma kararı vermedikçe takibi kendiliğinden durdurmaz; durdurma ayrıca istenir." },
-        { "text": "Ödeme emrinde on gün yazıyor; önümüzdeki hafta icra dairesine itiraz edelim, ilamsız takipteki gibi.", "delta": -25,
+        { "text": "Ödeme emrinde on gün yazıyor; önümüzdeki hafta icra dairesine itiraz edelim, ilamsız takipteki gibi itiraz takibi kendiliğinden durdurur.", "delta": -25,
           "law": "İİK m.168",
-          "note": "On gün ödeme süresidir. Borca ve imzaya itiraz süresi beş gündür ve itiraz icra dairesine değil, icra hukuk mahkemesine yapılır.",
+          "note": "On gün ödeme süresidir. Borca ve imzaya itiraz süresi beş gündür ve itiraz icra dairesine değil, icra hukuk mahkemesine yapılır. Kambiyo takibinde itiraz, ilamsız takipten farklı olarak takibi kendiliğinden de durdurmaz.",
           "fatal": { "label": "SONUÇ:", "hukum": "Borca ve imzaya itirazın SÜRE YÖNÜNDEN REDDİNE; takibin devamına karar verildi.", "summary": "Kambiyo senetlerine özgü haciz yolunda borca ve imzaya itiraz süresi ödeme emrinin tebliğinden itibaren beş gündür (İİK m.168). Süresinde açıkça inkâr edilmeyen imza, takip bakımından borçluya ait sayılır. Müvekkilin elinde artık yalnızca genel mahkemede menfi tespit ya da istirdat davası var." } },
-        { "text": "“Borcum yoktur” diye tek cümlelik bir borca itiraz yeter; iki senedi de kapsar.", "delta": -15, "set": ["borca", "imzaKabul"],
+        { "text": "“Borcum yoktur” diye tek cümlelik bir borca itiraz yeter; iki senedi de kapsar, imza itirazı da bunun içinde sayılır.", "delta": -15, "set": ["borca", "imzaKabul"],
           "law": "İİK m.168 · m.170",
-          "note": "İmzaya itiraz ayrıca ve açıkça yapılmalıdır. Yalnızca borca itiraz eden borçlu, senetteki imzayı takip bakımından kabul etmiş sayılır. Birinci senet yönünden en güçlü savunmanızı kaybettiniz." },
-        { "text": "Senetler kambiyo senedi niteliğinde değil diye şikâyet edip takibin iptalini isteyelim.", "delta": -10,
+          "note": "İmzaya itiraz ayrıca ve açıkça yapılmalıdır; borca itiraz onu kapsamaz. Yalnızca borca itiraz eden borçlu, senetteki imzayı takip bakımından kabul etmiş sayılır. Birinci senet yönünden en güçlü savunmanızı kaybettiniz." },
+        { "text": "Senetler kambiyo senedi niteliğinde değil diye şikâyet edip takibin iptalini isteyelim; bu yol iki senedi birden düşürür.", "delta": -10,
           "law": "İİK m.170/a · TTK m.776",
           "note": "Takibin iptali, senet kambiyo senedi niteliği taşımıyorsa söz konusudur. İki bononun zorunlu unsurları eksiksiz; bu şikâyet reddedilir. Sorununuz senedin şekli değil, imzanın sahteliği ve borcun ödenmesi.",
           "reply": [{ "who": "partner", "text": "Bonolar şekil olarak eksiksiz. Sorun imzada ve ödemede. Süre pazartesi doluyor; ne yazacağız?" }] }
@@ -92,12 +92,12 @@
       ],
       "prompt": "1. aşama · Ödeme emri: Dilekçede neyi ileri süreceksiniz?",
       "choices": [
-        { "text": "Birinci senet için imzaya, ikinci senet için borca, ayrı başlıklarla ve açıkça itiraz; takibin durdurulması talebi.", "delta": 15, "set": ["imza", "borca"],
+        { "text": "İki ayrı itiraz: birinci senet için imzaya, ikinci senet için borca; takibin durdurulmasını da isteyin.", "delta": 15, "set": ["imza", "borca"],
           "law": "İİK m.168 · m.169/a · m.170",
           "note": "Doğru. İmzaya itiraz ayrıca ve açıkça yapılmalı; borca itiraz belgeyle desteklenmeli." },
-        { "text": "İki senet için tek cümle: “Borcum yoktur.”", "delta": -15, "set": ["borca", "imzaKabul"],
+        { "text": "İki senet için tek cümle yeter: “Borcum yoktur.” Bu kısa itiraz imzayı da borcu da kapsar, mahkemeyi yormaz.", "delta": -15, "set": ["borca", "imzaKabul"],
           "law": "İİK m.168 · m.170",
-          "note": "İmza ayrıca ve açıkça inkâr edilmedi; takip bakımından kabul edilmiş sayılır." }
+          "note": "İmza ayrıca ve açıkça inkâr edilmedi; borca itiraz imzaya itirazı kapsamaz. İmza takip bakımından kabul edilmiş sayılır." }
       ]
     },
     {
@@ -128,37 +128,42 @@
       ],
       "prompt": "2. aşama · İcra hukuk mahkemesi: Alacaklı makbuzdaki imzayı inkâr etti. Ne talep edeceksiniz?",
       "choices": [
-        { "text": "Makbuzdaki imza için inceleme yapılmasını talep ediyoruz. İmzanın alacaklıya ait çıkması hâlinde alacaklının, belgedeki miktarın yüzde onu oranında para cezasına mahkûm edilmesini istiyoruz.", "delta": 15, "set": ["makbuzInceleme"],
+        { "text": "Makbuzdaki imzanın incelenmesini isteyin; imza alacaklıya ait çıkarsa belgedeki miktarın yüzde onu oranında para cezasına mahkûm edilsin.", "delta": 15, "set": ["makbuzInceleme"],
           "law": "İİK m.169/a · m.68",
           "note": "Doğru. Borçlunun sunduğu belgedeki imzayı alacaklı inkâr ederse mahkeme imza incelemesi yapar; imza alacaklıya aitse alacaklı belgedeki miktarın yüzde onu oranında para cezasına mahkûm edilir.",
           "reply": [{ "who": "judge", "text": "Alacaklının imza örneklerinin getirtilmesine ve makbuz üzerinde bilirkişi incelemesi yapılmasına karar verildi." }] },
-        { "text": "Tartışma uzamasın; makbuzu dosyadan geri çekiyoruz.", "delta": -15, "set": ["makbuzGeri"],
-          "note": "Elinizdeki tek ödeme belgesini kendiniz geri çektiniz. İkinci senet yönünden itiraz belgesiz kaldı." },
-        { "text": "Ödeme sırasında dükkânda çırak da vardı; tanık olarak dinlensin.", "delta": -5,
+        { "text": "Tartışma uzamasın; makbuzu geri çekip ödemeyi genel mahkemede istirdat davasıyla ileri sürelim.", "delta": -15, "set": ["makbuzGeri"],
+          "note": "Elinizdeki tek ödeme belgesini kendiniz geri çektiniz. İkinci senet yönünden itiraz belgesiz kaldı; istirdat davası ise müvekkilin önce ödemesini, sonra geri istemesini gerektirir." },
+        { "text": "Ödeme sırasında dükkânda çırak da vardı; imza tartışmasıyla vakit kaybetmeden onun tanık olarak dinlenmesini isteyin, ödeme böylece ispatlanır.", "delta": -5,
           "note": "Kambiyo takibinde icra hukuk mahkemesi ödemeyi belgeyle inceler; tanık bu yargılamada sonuç vermez. Doğru yol makbuzdaki imzanın incelenmesini istemekti.",
           "reply": [{ "who": "judge", "text": "Tanık dinlenmesine yer olmadığına; makbuz üzerinde re'sen bilirkişi incelemesi yaptırılmasına karar verildi." }] }
       ]
     },
-    {
-      "side": "p1", "scene": "court", "if": "imza",
+    { "kind": "free", "side": "p1", "scene": "court", "if": "imza",
       "lines": [
         { "who": "narr", "text": "İki ay sonra bilirkişi raporu geldi: birinci senetteki “F. Akdoğan” imzası müvekkilin eli ürünü değil." },
         { "who": "narr", "text": "Makbuzdaki imza ise Ercan Yavuz'a ait bulundu.", "if": "odeme && !makbuzGeri" },
         { "who": "judge", "text": "Rapor taraflara tebliğ edildi. Borçlu vekili, son taleplerinizi alayım." }
       ],
-      "prompt": "3. aşama · Karar öncesi: Birinci senet için son talebiniz ne olacak?",
+      "prompt": "3. aşama · Karar öncesi: Birinci senet için son talebinizi mahkemeye nasıl açıklayacaksınız? Kendi cümlelerinizle yazın.",
+      "rubric": "İyi bir cevap şunları ister: (1) Bilirkişi raporuna göre birinci senetteki imza borçluya ait değildir; imzaya itirazın kabulü ile birinci senet yönünden takibin durdurulması (İİK m.170). (2) Senedi takibe koymakta kötü niyetli ya da ağır kusurlu olan alacaklının, kanunda öngörülen oranlarda tazminata ve para cezasına mahkûm edilmesi (İİK m.170). İmzaya itirazın kabulünü, takibin durdurulmasını ve alacaklı aleyhine tazminat ile para cezasını birlikte isteyen cevap tam puan alır; yalnız imzaya itirazın kabulünü isteyip tazminatı unutan cevap orta puan alır. Yalnız suç duyurusundan söz eden ya da icra hukuk mahkemesinden somut bir karar istemeyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["imzaya itiraz", "imza itiraz", "imzanın", "imza müvekkile ait değil", "imza borçluya ait değil"], "weight": 2 },
+        { "terms": ["kabul"], "weight": 1 },
+        { "terms": ["durdurul", "durdurma"], "weight": 2 },
+        { "terms": ["tazminat"], "weight": 3 },
+        { "terms": ["para cezası", "para cezasına"], "weight": 1 },
+        { "terms": ["m.170", "m. 170", "madde 170", "170. madde", "md. 170", "md.170", "kötü niyet", "ağır kusur"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, bilirkişi raporu birinci senetteki imzanın müvekkile ait olmadığını göstermiştir. İİK m.170 uyarınca imzaya itirazın kabulü ile birinci senet yönünden takibin durdurulmasını talep ediyoruz. Sahte imzalı senedi takibe koyan alacaklı kötü niyetli ya da en azından ağır kusurludur; kanunda öngörülen oranlarda tazminata ve para cezasına mahkûm edilmesini de istiyoruz.",
       "choices": [
-        { "text": "İmzaya itirazın kabulü ile birinci senet yönünden takibin durdurulmasına; senedi takibe koymakta kötü niyetli ya da ağır kusurlu olan alacaklının tazminat ve para cezasına mahkûm edilmesine karar verilmesini talep ediyoruz.", "delta": 15, "set": ["tazminat"],
-          "law": "İİK m.170",
-          "note": "Doğru. İmzaya itiraz kabul edilirse takip durur. Alacaklının senedi takibe koymakta kötü niyetli ya da ağır kusurlu olduğu anlaşılırsa, kanunun öngördüğü oranlarda tazminata ve para cezasına da hükmedilir." },
-        { "text": "İmzaya itirazın kabulüne karar verilmesini talep ediyoruz.", "delta": 5,
-          "law": "İİK m.170",
-          "note": "Asıl talep doğru. Ama sahte imzalı senedi takibe koyan alacaklı aleyhine kanunda öngörülen tazminatı istemediniz." },
-        { "text": "Sahte senet için alacaklı hakkında suç duyurusunda bulunuyoruz; icra dosyasında başka talebimiz yok.", "delta": 0,
-          "law": "TCK m.204 · m.210/1",
-          "note": "Bono emre yazılı kıymetli evrak olduğundan sahteciliği resmî belgede sahtecilik hükümlerine tabidir (TCK m.210/1); suç duyurusu yerinde olabilir. Ama icra hukuk mahkemesinden imzaya itirazın kabulünü istemeyi unuttunuz; mahkeme talebinizi dilekçedeki hâliyle değerlendirecek." }
-      ]
-    }
+        { "text": "Güçlü talep", "min": 70, "delta": 15, "set": ["tazminat"], "law": "İİK m.170",
+          "note": "Talebinizi eksiksiz kurdunuz. İmzaya itiraz kabul edilirse takip durur. Alacaklının senedi takibe koymakta kötü niyetli ya da ağır kusurlu olduğu anlaşılırsa, kanunun öngördüğü oranlarda tazminata ve para cezasına da hükmedilir." },
+        { "text": "Yeterli talep", "min": 40, "delta": 5, "law": "İİK m.170",
+          "note": "Asıl talep doğru: imzaya itirazın kabulü ve takibin durdurulması. Ama sahte imzalı senedi takibe koyan alacaklı aleyhine kanunda öngörülen tazminatı ve para cezasını istemediniz (İİK m.170)." },
+        { "text": "Zayıf talep", "delta": 0, "law": "İİK m.170 · TCK m.210/1",
+          "note": "İcra hukuk mahkemesinden somut bir karar istemediniz. Sahtecilik için suç duyurusu yerinde olabilir (TCK m.210/1); ama bu yargılamada istenecek olan, imzaya itirazın kabulü ile takibin durdurulması ve kötü niyetli alacaklı aleyhine tazminat ve para cezasıdır (İİK m.170)." }
+      ] }
   ],
   "outcomes": [
     {

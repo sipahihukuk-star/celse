@@ -68,19 +68,19 @@
       ],
       "prompt": "1. aşama · İcra emri: Ne yapacaksınız?",
       "choices": [
-        { "text": "Yedi gün içinde, en geç 19 Ekim'de icra hukuk mahkemesine başvurun: ilamdan sonra 250.000 TL'nin ödendiğini ileri sürüp icranın bu kısım yönünden geri bırakılmasını isteyin.", "delta": 25, "set": ["sure", "itfa"],
+        { "text": "En geç 19 Ekim'de icra hukuk mahkemesine başvurun; ilamdan sonraki 250.000 TL ödemeye dayanıp icranın o kısım için geri bırakılmasını isteyin.", "delta": 25, "set": ["sure", "itfa"],
           "law": "İİK m.33",
           "note": "Doğru. İcra emrinin tebliğinden itibaren yedi gün içinde borçlu, borcun itfa ya da imhal edildiğini veya zamanaşımına uğradığını ileri sürerek icra hukuk mahkemesinden icranın geri bırakılmasını isteyebilir. Ödeme icra emrinden önce yapıldığı için yedi günlük süreye bağlısınız." },
-        { "text": "Ne kadar çok sebep, o kadar iyi: itfa, imhal ve zamanaşımı birlikte ileri sürülsün; başvuru 19 Ekim'e kadar.", "delta": 5, "set": ["sure", "itfa", "imhal", "zaman"],
+        { "text": "19 Ekim'e kadar icra hukuk mahkemesine başvurun; itfa, imhal ve zamanaşımını birlikte ileri sürün, “acele etme” sözü de süre verildiğini gösterir.", "delta": 5, "set": ["sure", "itfa", "imhal", "zaman"],
           "law": "İİK m.33 · m.33/a",
-          "note": "Süre ve merci doğru. Ama zamanaşımı dolmadı ve imhal iddiası onaylı bir belgeye dayanmıyor; bu iki kalem reddedilecek ve dilekçenizin inandırıcılığını azaltacak." },
-        { "text": "İcra dairesine borca itiraz dilekçesi verin.", "delta": -15,
+          "note": "Süre ve merci doğru. Ama zamanaşımı dolmadı ve “acele etme” sözü imhal sayılmaz: imhal iddiası resmî ya da onaylı bir belgeye dayanmalıdır. Bu iki kalem reddedilecek ve dilekçenizin inandırıcılığını azaltacak." },
+        { "text": "Yedi gün içinde icra dairesine borca itiraz dilekçesi verin; 250.000 TL'lik ödemeyi itirazda gösterip takibi o kısım için durdurun.", "delta": -15,
           "law": "İİK m.32 · m.33",
-          "note": "İlamlı takipte ödeme emri ve itiraz yoktur; borçluya icra emri gönderilir. İcra emrine karşı yol, icra hukuk mahkemesinden icranın geri bırakılmasını istemektir.",
+          "note": "İlamlı takipte ödeme emri ve itiraz yoktur; borçluya icra emri gönderilir. İcra dairesine verilen itiraz takibi durdurmaz. İcra emrine karşı yol, icra hukuk mahkemesinden icranın geri bırakılmasını istemektir.",
           "reply": [{ "who": "partner", "text": "İlamlı takipte itiraz yok. İcra hukuk mahkemesine gideceğiz; süre 19 Ekim'de doluyor." }] },
-        { "text": "Acele yok: icranın geri bırakılması “her zaman” istenebilir. Önce alacaklıyla konuşalım.", "delta": -25,
+        { "text": "Acele yok: itfa sebebiyle icranın geri bırakılması “her zaman” istenebilir (İİK m.33). Önce alacaklıyla konuşup uzlaşmayı deneyelim.", "delta": -25,
           "law": "İİK m.33",
-          "note": "“Her zaman” kuralı, icra emrinin tebliğinden sonra gerçekleşen itfa, imhal ya da zamanaşımı içindir.",
+          "note": "“Her zaman” kuralı, icra emrinin tebliğinden sonra gerçekleşen itfa, imhal ya da zamanaşımı içindir. Ödeme icra emrinden önce yapıldığı için yedi günlük süre işliyordu.",
           "fatal": { "label": "SONUÇ:", "hukum": "İcranın geri bırakılması talebinin SÜRE YÖNÜNDEN REDDİNE karar verildi.", "summary": "Ödeme icra emrinden önce yapılmıştı; bu nedenle icra emrinin tebliğinden itibaren yedi gün içinde icra hukuk mahkemesine başvurmak gerekiyordu (İİK m.33). İcra emrinden sonra gerçekleşen sebepler için öngörülen “her zaman” kuralı burada uygulanmaz. Müvekkil, ödediği parayı yeniden ödemek zorunda kalırsa ancak istirdat davası açabilir." } }
       ]
     },
@@ -94,9 +94,9 @@
         { "text": "Bugün, ilamdan sonra yapılan 250.000 TL ödemeye dayanarak icranın kısmen geri bırakılmasını isteyin.", "delta": 10, "set": ["sure", "itfa"],
           "law": "İİK m.33",
           "note": "Doğru. Yedi günlük süre içindesiniz." },
-        { "text": "Önce alacaklıyla görüşelim; gerekirse ay sonunda başvururuz.", "delta": -25,
+        { "text": "Önce alacaklıyla görüşelim; ödeme belgeli olduğu için icranın geri bırakılmasını ay sonunda da isteyebiliriz.", "delta": -25,
           "law": "İİK m.33",
-          "note": "Yedi günlük süre kaçtı.",
+          "note": "Yedi günlük süre kaçtı. Ödemenin belgeli olması süreyi uzatmaz; ödeme icra emrinden önce yapıldığı için “her zaman” kuralı uygulanmaz.",
           "fatal": { "label": "SONUÇ:", "hukum": "İcranın geri bırakılması talebinin SÜRE YÖNÜNDEN REDDİNE karar verildi.", "summary": "İcra emrinden önce gerçekleşen itfa için süre icra emrinin tebliğinden itibaren yedi gündür (İİK m.33)." } }
       ]
     },
@@ -130,7 +130,7 @@
         { "text": "Sayın Hâkim, imhal ve zamanaşımı itirazlarımızdan vazgeçiyoruz; talebimiz ilamdan sonraki 250.000 TL ödemeyle sınırlıdır.", "delta": 5, "set": ["geri"],
           "law": "İİK m.33",
           "note": "Doğru düzeltme. İlam alacağının on yıllık zamanaşımı dolmadı; imhal de onaylı bir belgeye dayanmıyordu. Zayıf kalemleri geri çekmek güçlü talebinizi korur." },
-        { "text": "WhatsApp mesajı süre verildiğini gösteriyor; tanık da dinletebiliriz. Zamanaşımı itirazımızı da koruyoruz.", "delta": -10, "set": ["israr"],
+        { "text": "WhatsApp mesajı alacaklının süre verdiğini gösteriyor; tanık da dinletebiliriz. Zamanaşımı itirazımızı da aynen koruyoruz.", "delta": -10, "set": ["israr"],
           "law": "İİK m.33",
           "note": "İmhal iddiası resmî ya da usulüne göre onaylanmış bir belgeyle ispatlanmalıdır; ekran görüntüsü ve tanık bu nitelikte değil. Zamanaşımı ise dolmadı." }
       ]
@@ -141,18 +141,21 @@
         { "who": "opp", "text": "Ödeme varsa bile önce işlemiş faize ve giderlere mahsup edilmelidir. Asıl alacak 420.000 TL olarak duruyor." },
         { "who": "judge", "text": "Borçlu vekili, mahsup konusunda?" }
       ],
-      "prompt": "2. aşama · İcra hukuk mahkemesi: Mahsup konusunda ne diyeceksiniz?",
+      "kind": "free", "prompt": "Mahsup itirazına ne cevap vereceksiniz? Kendi cümlelerinizle açıklayın.",
       "choices": [
-        { "text": "Kısmi ödemenin önce ödeme tarihine kadar işlemiş faize ve giderlere mahsup edileceği doğru; bunu kabul ediyoruz. Ama asıl alacağın 420.000 TL olarak durduğu doğru değil: faiz ve giderler düşüldükten sonra kalan kısım anaparadan düşülmeli ve icra o ölçüde geri bırakılmalıdır.", "delta": 15, "set": ["mahsup"],
-          "law": "TBK m.100",
-          "note": "Doğru. Faiz ya da giderleri ödemede gecikmiş olan borçlu, kısmi ödemeyi anapara borcundan düşemez; ödeme önce faiz ve giderlere, kalanı anaparaya sayılır. Böylece hem doğruyu kabul ettiniz hem karşı tarafın abartısını düzelttiniz.",
-          "reply": [{ "who": "judge", "text": "Mahsup hesabı için dosyanın hesap bilirkişisine verilmesine karar verildi." }] },
-        { "text": "Hayır, ödeme tamamen anaparadan düşülmelidir.", "delta": -5,
-          "law": "TBK m.100",
-          "note": "Faiz ve giderler ödenmemişken yapılan kısmi ödeme önce bunlara mahsup edilir. Yanlış bir tezde ısrar ettiniz." },
-        { "text": "Mahsup hesabını tümüyle bilirkişiye bırakıyoruz.", "delta": 5,
-          "note": "Hesabın bilirkişiye verilmesi doğru; ama karşı tarafın “asıl alacak aynen duruyor” beyanını düzeltmediniz." }
-      ]
+        {"text": "Güçlü cevap", "min": 70, "delta": 15, "set": ["mahsup"], "law": "TBK m.100", "note": "Doğru. Faiz ya da giderleri ödemede gecikmiş olan borçlu, kısmi ödemeyi anapara borcundan düşemez (TBK m.100); ödeme önce işlemiş faiz ve giderlere, kalanı anaparaya sayılır. Doğruyu kabul edip karşı tarafın “asıl alacak aynen duruyor” abartısını düzelttiniz.", "reply": [{"who": "judge", "text": "Mahsup hesabı için dosyanın hesap bilirkişisine verilmesine karar verildi."}]},
+        {"text": "Yeterli cevap", "min": 40, "delta": 5, "law": "TBK m.100", "note": "Mahsup hesabının yapılmasını sağladınız; mahkeme dosyayı bilirkişiye verdi. Ama tam cevap, ödemenin önce faiz ve giderlere mahsup edileceğini kabul edip (TBK m.100) kalanın anaparadan düşüleceğini, yani asıl alacağın 420.000 TL olarak durmadığını da söyler.", "reply": [{"who": "judge", "text": "Mahsup hesabı için dosyanın hesap bilirkişisine verilmesine karar verildi."}]},
+        {"text": "Zayıf cevap", "delta": -5, "law": "TBK m.100", "note": "Mahsup kuralını doğru kuramadınız. Faiz ve giderler ödenmemişken yapılan kısmi ödeme önce bunlara mahsup edilir; ödemenin tamamını anaparadan düşmek mümkün değildir. Ama kalan kısım anaparadan düşülür (TBK m.100); asıl alacağın 420.000 TL olarak durduğu iddiası da bu yüzden yanlıştı."}
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Faiz ya da giderleri ödemede gecikmiş borçlu kısmi ödemeyi doğrudan anaparadan düşemez; ödeme önce ödeme tarihine kadar işlemiş faize ve giderlere mahsup edilir (TBK m.100). Bu kısım kabul edilir. (2) Ancak faiz ve giderler düşüldükten sonra kalan kısım anaparaya sayılır; asıl alacağın 420.000 TL olarak durduğu iddiası yanlıştır. (3) İcra, kalan anapara düşülerek o ölçüde geri bırakılmalıdır. Kuralı kabul edip kalanın anaparadan düşüleceğini söyleyen cevap tam puan alır; yalnızca hesabın bilirkişiye bırakılmasını isteyen ya da kuralın yalnız bir yarısını söyleyen cevap orta puan alır. Ödemenin tamamen anaparadan düşülmesi gerektiğini savunan ya da karşı tarafın iddiasını aynen kabul eden cevap düşük puan alır.",
+      "keywords": [
+        {"terms": ["faiz"], "weight": 2},
+        {"terms": ["anapara", "ana para", "asıl alacak", "anaparadan"], "weight": 2},
+        {"terms": ["kalan", "geri kalan", "artan"], "weight": 2},
+        {"terms": ["gider", "masraf"], "weight": 1},
+        {"terms": ["m.100", "m. 100", "madde 100", "100. madde", "md. 100", "md.100"], "weight": 1}
+      ],
+      "model": "Sayın Hâkim, kısmi ödemenin önce ödeme tarihine kadar işlemiş faize ve giderlere mahsup edileceğini kabul ediyoruz (TBK m.100). Ancak 250.000 TL'nin faiz ve giderleri aşan kısmı anaparadan düşülmelidir. Asıl alacağın 420.000 TL olarak durduğu iddiası doğru değildir; icra bu ölçüde geri bırakılmalıdır."
     }
   ],
   "outcomes": [

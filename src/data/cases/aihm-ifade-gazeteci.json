@@ -64,7 +64,7 @@
       ],
       "prompt": "Teklife nasıl yanıt vereceksiniz?",
       "choices": [
-        { "text": "Müvekkilin talimatıyla teklifi, Yazı İşleri'ne ayrı ve gizli bir yazıyla reddedin; teklifin içeriğini gözlemlerde ve kamuoyunda kullanmayın.", "delta": 15, "set": ["red"],
+        { "text": "Müvekkilin talimatıyla teklifi ayrı ve gizli bir yazıyla reddedin; içeriğini gözlemlerde ve basında kullanmayın.", "delta": 15, "set": ["red"],
           "law": "Sözleşme m.39/2; AİHM İçtüzüğü m.62/2",
           "reply": [{ "who": "narr", "text": "Ret yazınız Yazı İşleri'ne ulaştı. Hükûmet tek taraflı bir deklarasyon sunmadı; dosya yazılı görüşlerle esasa geçti." }],
           "note": "Dostane çözüm görüşmeleri gizlidir; burada yapılan teklif ve beyanlar çekişmeli yargılamada kullanılamaz. Ret kararı müvekkilindir; siz onun talimatıyla hareket ettiniz." },
@@ -74,7 +74,7 @@
           "fatal": { "label": "KARAR:",
             "hukum": "Dostane çözüm görüşmelerinin gizliliği ihlal edildiğinden başvurunun, başvuru hakkının kötüye kullanılması nedeniyle Sözleşme m.35/3-a ve m.35/4 uyarınca KABUL EDİLEMEZ OLDUĞUNA; Bu karar kesindir.",
             "summary": "Teklifin içeriğini kamuoyuna açıklamak ve gözlemlerde kullanmak, Sözleşme m.39/2'deki gizlilik yükümlülüğünü çiğnedi. Daire esasa hiç girmedi. Müvekkilin öfkesini meslek kurallarına çevirmek vekilin işiydi." } },
-        { "text": "Teklif makul; müvekkili ikna etmeye uğraşmadan Hükûmete kabul yazısı gönderin.", "delta": -15, "set": ["dostane", "end"],
+        { "text": "Dava yıllar sürebilir, teklif makul; müvekkilin öfkesi geçince anlar. Hükûmete kabul yazısı gönderin.", "delta": -15, "set": ["dostane", "end"],
           "note": "Dostane çözüm başvurucunun iradesine dayanır; müvekkilin açık talimatına aykırı kabul, vekilin yetkisini aşar. Dostane çözümde başvuru kayıttan düşürülür (Sözleşme m.39/3)." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "office",
@@ -92,35 +92,45 @@
       },
       "pass": { "delta": -15, "note": "Haberin olgusal dayanaktan yoksun olduğu iddiası cevapsız kaldı." }
     },
-    { "side": "p1", "scene": "office",
+    { "kind": "free", "side": "p1", "scene": "office",
       "lines": [
         { "who": "opp", "text": "Müdahale TCK m.125'te öngörülmüştür, başkalarının şöhretini korumayı amaçlar ve ceza ertelendiğinden orantılıdır." },
         { "who": "narr", "text": "Cevap dilekçenizin esasa ilişkin bölümünü yazıyorsunuz." }
       ],
-      "prompt": "Esas savunmanızın merkezine ne koyacaksınız?",
+      "prompt": "Cevap dilekçenizin esas bölümünde Daire'ye ne söyleyeceksiniz? Kendi cümlelerinizle yazın.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Müdahalenin kanunla öngörüldüğü ve meşru amaç taşıdığı tartışılabilir; asıl mesele Sözleşme m.10/2 anlamında demokratik toplumda gerekli olup olmadığıdır. (2) Belediye başkanı bir siyasetçidir; ona yönelik kabul edilebilir eleştirinin sınırı özel kişiye göre daha geniştir (Lingens/Avusturya). (3) “Yağma” ve “peşkeş” sözleri, belgelerle desteklenen olgulara (pazarlıkla satış, alıcı şirkette başkanın eniştesinin ortaklığı) dayanan değer yargılarıdır; değer yargısının doğruluğu ispat edilemez, yeterli olgusal dayanak yeterlidir. (4) Yerel mahkemeler olgu ile değer yargısını ayırmamış, ilgili ve yeterli gerekçe göstermemiştir. (5) Ertelenmiş de olsa hapis cezası basın üzerinde caydırıcı etki doğurur. Gereklilik denetimini ve bu ölçütlerden en az üçünü gösteren cevap tam puan alır; yalnızca “müdahale gerekli değildi” deyip bir iki ölçütle yetinen cevap orta puan alır. Delillerin yeniden değerlendirilmesini isteyen, kanunilik itirazına dayanan ya da başkanın şöhret hakkı olmadığını söyleyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["gerekli", "gereklilik", "demokratik toplum", "zorunlu toplumsal ihtiyaç", "orantı"], "weight": 3 },
+        { "terms": ["siyasetçi", "politikacı", "belediye başkanı", "kamu figürü", "seçilmiş"], "weight": 2 },
+        { "terms": ["değer yargı"], "weight": 2 },
+        { "terms": ["olgusal dayanak", "olgusal temel", "olgulara dayan", "olguya dayan", "olgu"], "weight": 1 },
+        { "terms": ["caydırıcı", "caydırıcılık", "hapis cezası", "ertelenmiş"], "weight": 1 },
+        { "terms": ["m.10", "m. 10", "madde 10", "10. madde", "md. 10", "md.10", "10/2"], "weight": 1 }
+      ],
+      "model": "Müdahale kanunla öngörülmüş olsa da Sözleşme m.10/2 anlamında demokratik toplumda gerekli değildir. Başvurucunun eleştirdiği kişi bir siyasetçidir; ona yönelik kabul edilebilir eleştirinin sınırı daha geniştir. “Yağma” ve “peşkeş” sözleri, encümen kararı ve sicil kaydıyla belgelenen olgulara dayanan değer yargılarıdır; yerel mahkemeler bu ayrımı yapmadan ilgili ve yeterli gerekçe göstermemiştir. Ertelenmiş de olsa hapis cezası basın üzerinde caydırıcı etki doğurur.",
       "choices": [
-        { "text": "Müdahalenin demokratik toplumda gerekli olmadığını: siyasetçiye yönelik eleştirinin sınırı daha geniştir, sözler olgusal dayanağı olan değer yargılarıdır, yerel mahkemeler bunları ayırmadan ilgili ve yeterli gerekçe göstermemiş, ertelenmiş de olsa hapis cezası caydırıcıdır.", "delta": 25, "set": ["esas"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 25, "set": ["esas"],
           "law": "Sözleşme m.10/2",
-          "note": "Mahkeme müdahalenin kanunilik, meşru amaç ve gereklilik koşullarını sırayla denetler; davaların çoğu gereklilikte belirlenir. Lingens/Avusturya (1986) kararından beri siyasetçiye yönelik kabul edilebilir eleştirinin sınırı özel kişiye göre daha geniştir; değer yargılarının ispatı istenemez." },
-        { "text": "TCK m.125 belirsizdir; müdahale kanunla öngörülmemiştir.", "delta": -5,
-          "note": "Hakaret suçu yayımlanmış ve öngörülebilir bir kanun hükmüdür; bu itirazın tutması zor. Asıl tartışma gerekliliktedir." },
-        { "text": "Yerel mahkemeler delilleri yanlış değerlendirdi; Daire yargılamayı yeniden yapsın.", "delta": -10,
-          "note": "AİHM “dördüncü derece” bir mahkeme değildir. Delilleri yeniden değerlendirmez; ulusal kararların Sözleşme ölçütlerine uygun olup olmadığını denetler." },
-        { "text": "Başkan kamu görevlisi olduğu için şöhretini koruma hakkı yoktur.", "delta": -10,
-          "note": "Siyasetçilerin de şöhretlerinin korunması hakkı vardır (m.8); yalnızca eleştiriye katlanma sınırları daha geniştir. Mesele iki hak arasındaki dengedir." }
+          "note": "Savunmayı doğru yere, gereklilik denetimine kurdunuz: siyasetçiye yönelik eleştirinin geniş sınırı, olgu ile değer yargısı ayrımı, yerel mahkemelerin gerekçe eksikliği ve cezanın caydırıcı etkisi. Lingens/Avusturya (1986) kararından beri değer yargılarının ispatı istenemez; yeterli olgusal dayanak yeterlidir." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 12, "set": ["esas"],
+          "law": "Sözleşme m.10/2",
+          "note": "Müdahalenin demokratik toplumda gerekli olmadığını savundunuz; Daire tartışmayı bu zeminde yapacak. Daha güçlü bir cevap, siyasetçiye yönelik eleştirinin geniş sınırını, olgu ile değer yargısı ayrımını ve ertelenmiş hapis cezasının caydırıcı etkisini birlikte gösterirdi." },
+        { "text": "Zayıf savunma", "delta": -10,
+          "law": "Sözleşme m.10/2",
+          "note": "Savunma gereklilik denetimine oturmadı. AİHM delilleri yeniden değerlendiren bir üst derece mahkemesi değildir; ulusal kararların m.10/2 ölçütlerine uygunluğunu denetler. Merkeze şunlar konmalıydı: siyasetçiye yönelik eleştirinin sınırı daha geniştir, sözler olgusal dayanağı olan değer yargılarıdır, yerel mahkemeler ilgili ve yeterli gerekçe göstermemiştir, hapis cezası caydırıcıdır." }
       ] },
     { "side": "p1", "scene": "office",
       "lines": [{ "who": "narr", "text": "Son olarak adil tazmin talebini yazıyorsunuz. Talep, gözlemler için verilen süre içinde sunulmalı." }],
       "prompt": "Ne talep edeceksiniz?",
       "choices": [
-        { "text": "Manevi tazminat ile iç hukuk ve Strazburg aşamalarındaki masrafları, kalem kalem ve belgeleriyle, gözlemlerle birlikte talep edin.", "delta": 15, "set": ["tazmin"],
+        { "text": "Manevi tazminatı ve iki aşamadaki masrafları, belgeleriyle, gözlemlerle birlikte isteyin.", "delta": 15, "set": ["tazmin"],
           "law": "Sözleşme m.41; AİHM İçtüzüğü m.60",
           "note": "Adil tazmin talebi belgeleriyle ve süresinde sunulmalıdır. İhlal kararı ayrıca iç hukukta yeniden yargılama sebebidir (CMK m.311/1-f); mahkûmiyetin ortadan kaldırılması o yolla istenir." },
-        { "text": "AİHM'den mahkûmiyet kararını iptal etmesini isteyin.", "delta": -10,
+        { "text": "Daire'den mahkûmiyet kararının iptalini isteyin; ihlal tespiti ancak böyle bir sonuç doğurur.", "delta": -10,
           "note": "AİHM ulusal mahkeme kararlarını iptal etmez; ihlali tespit eder ve adil tazmine hükmeder. Mahkûmiyetin ortadan kaldırılması, ihlal kararından sonra CMK m.311/1-f uyarınca yeniden yargılama yoluyla istenir." },
-        { "text": "Adil tazmin talebini Daire'nin kararından sonraya bırakın.", "delta": -10,
+        { "text": "Adil tazmin talebini ihlal kararından sonraya bırakın; ihlal belli olmadan tutar yazmak erken.", "delta": -10,
           "law": "AİHM İçtüzüğü m.60",
-          "note": "Süresinde sunulmayan adil tazmin talebi reddedilebilir." }
+          "note": "Adil tazmin talebi, gözlemler için verilen süre içinde sunulmalıdır (İçtüzük m.60); ihlal kararını beklemek gerekmez. Süresinde sunulmayan talep reddedilebilir." }
       ] }
   ],
   "outcomes": [

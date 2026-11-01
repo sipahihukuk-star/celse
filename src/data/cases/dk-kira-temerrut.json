@@ -49,7 +49,7 @@
       "prompt": "Kiracıya nasıl bir ihtar göndereceksiniz?",
       "choices": [
         {
-          "text": "Noter aracılığıyla yazılı ihtar: Mart ve Nisan kiralarını (50.000 TL) tebliğden itibaren 30 gün içinde ödemesini, ödemezse sözleşmenin feshedileceğini bildir.",
+          "text": "Noter aracılığıyla yazılı ihtar: Mart ve Nisan kiraları tebliğden itibaren 30 gün içinde ödenmezse sözleşme feshedilecek.",
           "delta": 20,
           "set": ["ihtar30"],
           "law": "TBK m.315",
@@ -129,7 +129,7 @@
       "choices": [
         {
           "if": "kisa",
-          "text": "Dava erken açıldı: konut kirasında süre en az 30 gündür ve dava bu süre dolmadan açıldı. Ayrıca kiralar 05.04.2026'da elden ödendi; bütün delilleri (yazışma, banka kaydı, tanık, yemin) bildir.",
+          "text": "Dava erken açıldı: konut kirasında ihtar süresi en az 30 gündür. Kiralar da 05.04.2026'da elden ödendi; bütün delilleri bildir.",
           "delta": 20,
           "set": ["ihtarItiraz", "odeme"],
           "law": "TBK m.315 · HMK m.318",
@@ -137,7 +137,7 @@
         },
         {
           "if": "sozlu",
-          "text": "İhtar yazılı değil: TBK m.315'in aradığı yazılı süre verme ve fesih bildirimi yok. Ayrıca kiralar 05.04.2026'da elden ödendi; bütün delilleri (yazışma, banka kaydı, tanık, yemin) bildir.",
+          "text": "İhtar yazılı değil, TBK m.315 şartı yok. Kiralar da 05.04.2026'da elden ödendi; bütün delilleri (yazışma, banka, tanık, yemin) bildir.",
           "delta": 20,
           "set": ["ihtarItiraz", "odeme"],
           "law": "TBK m.315 · HMK m.318",
@@ -154,14 +154,14 @@
           ]
         },
         {
-          "text": "Kira bedeli piyasaya göre fahiş; müvekkil ödemeyi bu yüzden durdurdu.",
+          "text": "Kira bedeli piyasaya göre fahiş; müvekkil ödemeyi bu yüzden durdurdu, önce kira tespiti yapılmalı (TBK m.344).",
           "delta": -15,
           "set": ["fahis"],
           "law": "TBK m.344",
           "note": "Kiracı, kira bedelini fahiş bulsa bile ödemeyi kendiliğinden durduramaz. Bedelin değiştirilmesi kira bedelinin tespiti davasıyla istenir (TBK m.344). Üstelik müvekkilin “ödedim” beyanını da bıraktınız."
         },
         {
-          "text": "Kiranın ödenmediğini ispat etmek kiraya verene düşer; müvekkilin bir şey ispatlaması gerekmez.",
+          "text": "Kiranın ödenmediğini ispat etmek kiraya verene düşer (TMK m.6); müvekkilin ayrıca delil bildirmesi gerekmez.",
           "delta": -10,
           "set": ["yuk"],
           "law": "TMK m.6",
@@ -181,7 +181,7 @@
       "prompt": "Tanık talebine ne diyorsunuz?",
       "choices": [
         {
-          "text": "50.000 TL'lik ödeme senetle ispat sınırının üzerinde; senetle ispat edilmelidir. Tanık dinlenmesine açıkça muvafakat etmiyoruz.",
+          "text": "50.000 TL'lik ödeme senetle ispat sınırını aşıyor; tanık dinlenmesine açıkça muvafakat etmiyoruz.",
           "delta": 20,
           "set": ["itiraz"],
           "law": "HMK m.200",
@@ -191,7 +191,7 @@
           ]
         },
         {
-          "text": "Sözleşmeye göre kira banka hesabına ödenir; elden ödeme geçersizdir.",
+          "text": "Sözleşmeye göre kira banka hesabına ödenir; elden ödeme geçersizdir, tanık dinlemeye gerek yok.",
           "delta": 5,
           "law": "HMK m.200",
           "note": "Ödeme yeri ve biçimi kararlaştırılmış olsa da alacaklının elden kabul ettiği ödeme borcu sona erdirir. Asıl itirazınız senetle ispat zorunluluğu olmalıydı (HMK m.200). Yine de açık muvafakat vermediğiniz için tanık kendiliğinden dinlenemez.",
@@ -200,7 +200,7 @@
           ]
         },
         {
-          "text": "Tanık dinlensin; çapraz sorularla gerçeği ortaya çıkarırız.",
+          "text": "Tanık dinlensin; komşunun beyanı tutarsız çıkar, çapraz sorularla gerçeği ortaya çıkarırız.",
           "delta": -15,
           "set": ["muvafakat"],
           "law": "HMK m.200",
@@ -257,38 +257,55 @@
       "pass": { "delta": -10, "note": "Yazılı delil sunmadınız; ödeme iddiası tanığa da dayanamaz hâlde kaldı." }
     },
     {
+      "kind": "free",
       "side": "p2",
       "scene": "court",
       "if": "odeme && !muvafakat && !baslangic",
       "lines": [
         { "who": "judge", "text": "Yazılı delil bulunmadığından tanık dinlenmeyecek. Kiracı vekili, başka bir deliliniz var mı?" }
       ],
-      "prompt": "Elinizde son ne kaldı?",
+      "prompt": "Tanık yolu kapandı. Ödemeyi ispat için mahkemeye hangi delile dayanacağınızı ve neden kullanabileceğinizi kendi cümlelerinizle açıklayın.",
       "choices": [
         {
-          "text": "Dilekçede bildirdiğimiz yemin deliline dayan: kiraya verene, 05.04.2026'da 50.000 TL almadığı konusunda yemin teklif et.",
+          "text": "Güçlü savunma",
+          "min": 70,
           "delta": 15,
           "set": ["yemin"],
           "law": "HMK m.225",
-          "note": "Senetle ispatı gereken bir vakıa, başka delil kalmadığında yemin deliliyle ispat edilebilir; yemin delili dilekçede bildirilmişti (HMK m.225 vd.). Kiraya veren yemin etmekten kaçındı ve zarfı aldığını söyledi.",
+          "note": "Son delili doğru kullandınız. Senetle ispatı gereken bir vakıa, başka delil kalmadığında yemin deliliyle ispat edilebilir; yemin delili cevap dilekçesinde bildirilmişti (HMK m.225 vd.). Kiraya veren yemin etmekten kaçındı ve zarfı aldığını söyledi.",
           "reply": [
             { "who": "kiraya", "text": "Ben… yemin edemem. 5 Nisan akşamı kapıda bir zarf almıştım. Hesaplarıma bakarken unutmuşum." },
             { "who": "judge", "text": "Beyan tutanağa geçirildi." }
           ]
         },
         {
-          "text": "Tanığın yine de dinlenmesinde ısrar et.",
-          "delta": -5,
-          "law": "HMK m.200",
-          "note": "Karşı tarafın açık muvafakati ya da bir delil başlangıcı olmadan senetle ispatı gereken ödeme tanıkla ispat edilemez (HMK m.200)."
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["yemin"],
+          "law": "HMK m.225",
+          "note": "Yemin deliline dayandınız ve mahkeme yemin teklif etti. Tam savunma, yemin delilinin dilekçede bildirildiğini, senetle ispatı gereken ödemenin başka delil kalmadığında yeminle ispat edilebileceğini ve yeminin konusunu (05.04.2026'da 50.000 TL'nin alınıp alınmadığı) açıkça gösterir (HMK m.225 vd.).",
+          "reply": [
+            { "who": "kiraya", "text": "Ben… yemin edemem. 5 Nisan akşamı kapıda bir zarf almıştım. Hesaplarıma bakarken unutmuşum." },
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
         },
         {
-          "text": "Müvekkil kiraları hemen şimdi öderse temerrüt ortadan kalkar; ödeme teklif et.",
-          "delta": -10,
-          "law": "TBK m.315",
-          "note": "İhtarda verilen süre geçtikten sonra yapılan ödeme, gerçekleşmiş temerrüdü ortadan kaldırmaz. Üstelik bu teklif, “daha önce ödedik” savunmanızla çelişir."
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "HMK m.200, m.225",
+          "note": "Elinizdeki son delili kullanmadınız. Açık muvafakat ya da delil başlangıcı olmadan tanık dinlenemez (HMK m.200); süre geçtikten sonra ödeme teklifi de temerrüdü ortadan kaldırmaz. Oysa cevap dilekçesinde bildirdiğiniz yemin deliline dayanıp kiraya verene, 05.04.2026'da 50.000 TL almadığı konusunda yemin teklif edebilirdiniz (HMK m.225 vd.)."
         }
-      ]
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Tanık dinlenemediği ve yazılı delil bulunmadığı hâlde, senetle ispatı gereken ödeme vakıası yemin deliliyle ispat edilebilir (HMK m.225 vd.). (2) Yemin delili cevap dilekçesinde bildirilmiştir; basit yargılamada deliller dilekçeyle bildirildiğinden bu delile şimdi dayanılabilir. (3) Kiraya verene, 05.04.2026'da kapıda 50.000 TL'yi almadığı konusunda yemin teklif edilir; yeminden kaçınırsa vakıa ispatlanmış sayılır. Yemin delilini, dilekçede bildirildiğini ve yeminin konusunu birlikte söylemek tam puan için gerekir; yalnızca 'yemin teklif ediyoruz' demek orta puan alır. Tanığın dinlenmesinde ısrar eden ya da kiraları şimdi ödemeyi teklif eden cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["yemin"], "weight": 3 },
+        { "terms": ["m.225", "m. 225", "madde 225", "225. madde", "md. 225", "md.225"], "weight": 1 },
+        { "terms": ["dilekçede bildir", "dilekçemizde bildir", "cevap dilekçesinde", "delil olarak bildir"], "weight": 2 },
+        { "terms": ["05.04.2026", "5 Nisan", "50.000", "elli bin"], "weight": 1 },
+        { "terms": ["kiraya veren", "davacı", "karşı taraf", "Nermin"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, ödeme senetle ispatı gereken bir vakıa olsa da başka delil kalmadığında yemin deliliyle ispat edilebilir (HMK m.225 vd.). Yemin delilini cevap dilekçemizde bildirmiştik. Davacı kiraya verene, 05.04.2026 akşamı kapıda 50.000 TL'yi almadığı konusunda yemin teklif ediyoruz."
     },
     {
       "side": "p1",
@@ -300,7 +317,7 @@
       "prompt": "Son beyanınızda neyi isteyeceksiniz?",
       "choices": [
         {
-          "text": "Yazılı ihtarda verilen 30 günlük sürede kiralar ödenmedi. Temerrüt nedeniyle tahliyeye ve 50.000 TL kira alacağının temerrüt faiziyle tahsiline karar verilsin.",
+          "text": "Yazılı ihtarla verilen 30 günde kiralar ödenmedi; tahliyeye ve 50.000 TL'nin temerrüt faiziyle tahsiline karar verilsin.",
           "delta": 15,
           "law": "TBK m.315",
           "note": "Talebi doğru kurdunuz: usulüne uygun yazılı ihtar, konut için 30 günlük süre ve süre içinde ödememe. Ödeme iddiası ispatlanamadı.",
@@ -318,7 +335,7 @@
           ]
         },
         {
-          "text": "Kiracının ayrıca manevi tazminat ödemesine karar verilsin.",
+          "text": "Kiracının ayrıca, aylardır süren ödememe yüzünden müvekkile manevi tazminat ödemesine karar verilsin (TBK m.58).",
           "delta": -10,
           "law": "HMK m.26 · TBK m.58",
           "note": "Dava dilekçesinde böyle bir talep yok; hâkim talepten fazlasına karar veremez (HMK m.26). Kira borcunun ödenmemesi tek başına kişilik hakkı ihlali de oluşturmaz.",
@@ -327,7 +344,7 @@
           ]
         },
         {
-          "text": "Tahliye talebinden vazgeç; yalnızca kira alacağını iste, kiracıyla ilişki sürsün.",
+          "text": "Tahliye talebinden vazgeç; yalnızca kira alacağını iste, yeni kiracı aramaktansa ilişki sürsün.",
           "delta": -10,
           "set": ["vazgec"],
           "law": "HMK m.307",

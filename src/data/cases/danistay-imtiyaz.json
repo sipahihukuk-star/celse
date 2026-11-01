@@ -64,17 +64,17 @@
       "lines": [{ "who": "narr", "text": "Fesih yazısı on gün önce tebliğ edildi. Şirketin zararı her gün büyüyor." }],
       "prompt": "Hangi davayı açacaksınız?",
       "choices": [
-        { "text": "Sözleşmeden doğan uyuşmazlık olarak Danıştay'da dava açın: feshin sözleşmeye aykırılığını ileri sürün, zararın tazminini isteyin ve duruşma talep edin.", "delta": 20, "set": ["tamYargi"],
+        { "text": "Danıştay'da sözleşmeden doğan tam yargı davası açın: feshin aykırılığı ve zarar birlikte, duruşmalı.", "delta": 20, "set": ["tamYargi"],
           "law": "İYUK m.2/1-c, m.17; 2575 s.K. m.24/1",
           "note": "İmtiyaz sözleşmesinden doğan uyuşmazlıkta feshin hukuka aykırılığı ve zarar aynı davada ileri sürülebilir (İYUK m.2/1-c). Talep edilen tutar, tam yargı davalarında duruşma için aranan sınırı aşıyor (İYUK m.17)." },
-        { "text": "Yalnızca fesih işleminin iptalini isteyin; tazminatı sonra düşünürsünüz.", "delta": -5, "set": ["iptal"],
+        { "text": "Yalnızca fesih işleminin iptalini isteyin; iptal kararı gelince tazminat davası kendiliğinden kazanılır.", "delta": -5, "set": ["iptal"],
           "note": "İptal kararı şirketin uğradığı zararı tek başına karşılamaz. Zarar için iptal kararından sonra ayrıca dava açmak gerekir; uyuşmazlık iki davaya bölünür." },
-        { "text": "Asliye ticaret mahkemesinde alacak davası açın; iki taraf da ticari faaliyette bulunuyor.", "delta": -20,
+        { "text": "Asliye ticaret mahkemesinde alacak davası açın; otobüs işletmeciliği ticari iştir, iki taraf da ticari faaliyette.", "delta": -20,
           "law": "İYUK m.2/1-c",
           "fatal": { "label": "SONUÇ:", "hukum": "Asliye ticaret mahkemesi, uyuşmazlığın çözümü idari yargının görevine girdiğinden davanın YARGI YOLU BAKIMINDAN USULDEN REDDİNE karar verdi.",
                      "summary": "Kamu hizmetinin yürütülmesi için yapılan imtiyaz sözleşmesi idari sözleşmedir; uyuşmazlık idari yargıda çözülür (İYUK m.2/1-c). Danıştay'da yeniden dava açmanız gerekecek. Hatlar bu arada belediye şirketinde kaldı." },
           "note": "İdari sözleşmeden doğan uyuşmazlık adli yargıda görülmez. Tarafların ticari faaliyette bulunması sözleşmenin idari niteliğini değiştirmez." },
-        { "text": "Uyuşmazlığı tahkime götürün.", "delta": -10, "set": ["tamYargi", "gecikme"],
+        { "text": "Uyuşmazlığı, Anayasa m.125'in imtiyaz sözleşmeleri için tanıdığı tahkim yoluyla çözün.", "delta": -10, "set": ["tamYargi", "gecikme"],
           "law": "Anayasa m.125",
           "reply": [{ "who": "narr", "text": "Sözleşmede tahkim şartı bulunmadığını gördünüz. İki hafta sonra Danıştay'da tazminat istemli dava açtınız ve duruşma istediniz." }],
           "note": "İmtiyaz sözleşmelerinden doğan uyuşmazlıklarda tahkim öngörülebilir; milletlerarası tahkim ise yalnızca yabancılık unsuru taşıyan uyuşmazlıklar için mümkündür (Anayasa m.125). Bu sözleşmede tahkim şartı yok." }
@@ -126,22 +126,31 @@
     },
     { "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Davacı vekili, son talebiniz?" }],
-      "prompt": "Heyetten ne isteyeceksiniz?",
+      "prompt": "Son talebinizi açıklayın: Daireden tam olarak neyi isteyeceksiniz? Kendi cümlelerinizle söyleyin.",
+      "kind": "free",
+      "rubric": "İyi bir cevap, açılan davanın türüne uygun ve idari yargının sınırları içinde bir talep kurar. (1) Sözleşmeden doğan tam yargı davasında: fesih sözleşmeye (m.21'deki yazılı ihtar ve otuz gün süre) ve hukuka aykırı olduğundan şirketin uğradığı zararın bilirkişi incelemesiyle belirlenmesi ve yasal faiziyle davalı idareden tahsili istenir (İYUK m.2/1-c). Yalnızca iptal davası açılmışsa talep fesih işleminin iptaliyle sınırlıdır ve zarar için İYUK m.12 uyarınca ayrıca tam yargı davası açma hakkı saklı tutulur. (2) Tazminat idareye yöneltilir; belediye başkanı kişisel olarak sorumlu tutulamaz (Anayasa m.129/5). (3) Daire idare yerine geçip hatların şirkete iadesine karar veremez (İYUK m.2/2). Zararın tazminini (ya da iptali) bilirkişi, faiz ve davalı idare unsurlarıyla açıkça isteyen cevap tam puan alır; talebi doğru kurup bilirkişi ya da faiz gibi unsurları eksik bırakan cevap orta puan alır. Hatların iadesini, belediye başkanının kişisel sorumluluğunu ya da yalnızca genel bir haklılık beyanını içeren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["zarar", "tazmin", "iptal"], "weight": 3 },
+        { "terms": ["bilirkişi"], "weight": 2 },
+        { "terms": ["faiz"], "weight": 2 },
+        { "terms": ["idare", "belediye"], "weight": 1 },
+        { "terms": ["ihtar", "otuz gün", "30 gün", "m.21", "m. 21", "21. madde", "madde 21", "sözleşmeye aykırı"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, belediye sözleşmenin 21. maddesindeki yazılı ihtar ve otuz günlük süre şartına uymadan, denetimlerde yeterli bulunan şirketin imtiyazını feshetmiştir. Fesih sözleşmeye ve hukuka aykırı olduğundan, şirketin bu yüzden uğradığı zararın bilirkişi incelemesiyle belirlenerek yasal faiziyle birlikte davalı idareden tahsiline karar verilmesini talep ederiz.",
       "choices": [
-        { "if": "tamYargi", "text": "Feshin hukuka aykırılığı nedeniyle şirketin uğradığı zararın bilirkişi incelemesiyle belirlenerek yasal faiziyle ödenmesini isteriz.", "delta": 15, "set": ["talep"],
+        { "text": "Güçlü talep", "min": 70, "delta": 15, "set": ["talep"],
+          "law": "İYUK m.2/1-c, m.12",
           "note": [
-            { "text": "Talep, sözleşme davasının doğal sonucu. Zararın miktarını Daire bilirkişiye belirletir." },
-            { "if": "zarar", "text": " Mali müşavir raporu bilirkişiye yol gösterecek." }
+            { "if": "tamYargi", "text": "Talebi doğru kurdunuz; sözleşme davasının doğal sonucu budur. Zararın miktarını Daire bilirkişiye belirletir." },
+            { "if": "tamYargi && zarar", "text": " Mali müşavir raporu bilirkişiye yol gösterecek." },
+            { "if": "iptal", "text": "İptal davasında talep fesih işleminin iptaliyle sınırlıdır; iptal kararının tebliğinden sonra zarar için ayrıca tam yargı davası açılabilir (İYUK m.12)." }
           ] },
-        { "if": "iptal", "text": "Fesih işleminin iptalini isteriz; tazminat hakkımızı saklı tutarız.", "delta": 15, "set": ["talep"],
-          "law": "İYUK m.12",
-          "note": "İptal davasında talep bununla sınırlıdır. İptal kararının tebliğinden sonra zarar için ayrıca tam yargı davası açılabilir (İYUK m.12)." },
-        { "text": "Otobüslerimizin hatlara geri dönmesine karar verilmesini isteriz.", "delta": -10,
-          "law": "İYUK m.2/2",
-          "note": "İdari yargı idari işlem niteliğinde karar veremez (İYUK m.2/2). Hatları kimin işleteceğine Daire karar vermez." },
-        { "text": "Belediye başkanının kişisel olarak tazminata mahkûm edilmesini isteriz.", "delta": -10,
-          "law": "Anayasa m.129",
-          "note": "Kamu görevlilerinin yetkilerini kullanırken işledikleri kusurlardan doğan tazminat davaları ancak idare aleyhine açılabilir (Anayasa m.129)." }
+        { "text": "Yeterli talep", "min": 40, "delta": 8, "set": ["talep"],
+          "law": "İYUK m.2/1-c, m.12",
+          "note": "Talebin özünü söylediniz; Daire bunu değerlendirmeye aldı. Tam talep, zararın bilirkişi incelemesiyle belirlenip yasal faiziyle davalı idareden tahsilini (iptal davasında ise işlemin iptalini ve İYUK m.12 uyarınca tazminat hakkının saklı tutulmasını) açıkça ister." },
+        { "text": "Zayıf talep", "delta": -10,
+          "law": "İYUK m.2/2 · Anayasa m.129",
+          "note": "Daireye karar verebileceği bir talep sunmadınız. İdari yargı idari işlem niteliğinde karar veremez, hatları kimin işleteceğini belirlemez (İYUK m.2/2); kamu görevlisinin görevi sırasındaki kusurundan doğan tazminat davası da ancak idare aleyhine açılır (Anayasa m.129). İstenmesi gereken, zararın bilirkişiyle belirlenip faiziyle idareden tahsiliydi." }
       ] }
   ],
   "outcomes": [

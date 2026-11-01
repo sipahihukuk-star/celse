@@ -156,7 +156,7 @@
       "prompt": "İşveren vekili olarak ne yapacaksınız?",
       "choices": [
         {
-          "text": "İlk toplantıya katıl; işçinin dayandığı belgeleri dinle, müvekkille değerlendirmek için ikinci bir toplantı iste.",
+          "text": "İlk toplantıya katıl; işçinin belgelerini dinle, müvekkille görüşmek için ikinci toplantı iste.",
           "delta": 10,
           "law": "7036 s.K. m.3",
           "note": "Yerinde. Toplantıya katılmak gider riskini ortadan kaldırır; karşı tarafın delillerini erkenden görmek de davaya hazırlanmanın en ucuz yoludur.",
@@ -168,7 +168,7 @@
           ]
         },
         {
-          "text": "İlk toplantıya katıl; bordroların imzalı olduğunu söyle, başka bir şey konuşma.",
+          "text": "İlk toplantıya katıl; bordroların imzalı olduğunu söyle, işçinin delillerini tartışmaya girmeden kapat.",
           "delta": 5,
           "law": "7036 s.K. m.3",
           "note": "Gider riskinden kurtuldunuz, ama karşı tarafın elindeki delilleri öğrenme ve uzlaşma fırsatını kullanmadınız.",
@@ -180,13 +180,13 @@
           ]
         },
         {
-          "text": "Toplantıya katılma; nasılsa dava açılacak.",
+          "text": "Toplantıya katılma; arabuluculuk zorunlu olsa da katılmamanın bir yaptırımı yok, dava nasılsa açılacak.",
           "delta": -15,
           "set": [
             "yokluk"
           ],
           "law": "7036 s.K. m.3",
-          "note": "Geçerli mazeret olmadan ilk toplantıya katılmayan taraf, davada kısmen ya da tamamen haklı çıksa bile yargılama giderlerinin tamamından sorumlu tutulur ve lehine vekâlet ücretine hükmedilmez (7036 s.K. m.3).",
+          "note": "Yaptırımı var. Geçerli mazeret olmadan ilk toplantıya katılmayan taraf, davada kısmen ya da tamamen haklı çıksa bile yargılama giderlerinin tamamından sorumlu tutulur ve lehine vekâlet ücretine hükmedilmez (7036 s.K. m.3).",
           "reply": [
             {
               "who": "narr",
@@ -276,7 +276,7 @@
       "prompt": "Davayı nasıl açacaksınız?",
       "choices": [
         {
-          "text": "Kısmi dava: fazlaya ilişkin hakları saklı tutarak 20.000 TL fazla çalışma ve 5.000 TL hafta tatili ücreti iste; bilirkişi raporundan sonra talebi HMK m.109/4 uyarınca artır. Delilleri ve tanık listesini dilekçeyle bildir.",
+          "text": "Kısmi dava: fazlaya ilişkin hakları saklı tutarak 20.000 TL fazla çalışma, 5.000 TL hafta tatili iste; sonra HMK m.109/4 ile artır.",
           "delta": 20,
           "set": [
             "k109"
@@ -285,7 +285,7 @@
           "note": "Doğru. Belirsiz alacak davası 7589 sayılı Kanunla kaldırıldı; artık araç kısmi davadır. Talep, tahkikat sona erinceye kadar bir defaya mahsus ve iddianın genişletilmesi yasağına takılmadan artırılabilir; artırılan kısım için zamanaşımı dava tarihinde kesilmiş sayılır (HMK m.109/4). Ücret alacaklarında zamanaşımı beş yıldır (İş K. m.32)."
         },
         {
-          "text": "Kısmi dava aç; bilirkişi raporundan sonra talebi ıslahla artır.",
+          "text": "Kısmi dava aç; fazlaya ilişkin hakları saklı tut, bilirkişi raporundan sonra talebi HMK m.176 uyarınca ıslahla artır.",
           "delta": 5,
           "set": [
             "islahYolu"
@@ -294,13 +294,13 @@
           "note": "Mümkün, ama gereksiz ve riskli. Kısmi davada talep artık ıslaha gerek olmadan bir kez artırılabilir (HMK m.109/4). Islah hakkı aynı davada yalnızca bir kez kullanılabilir; burada harcanırsa sonra bir düzeltme için elinizde kalmaz."
         },
         {
-          "text": "Tahmini tam tutarı yaz: 2.400.000 TL.",
+          "text": "Tahmini tam tutarı yaz: 2.400.000 TL; fazlası çıkarsa mahkeme nasılsa rapordaki tutara hükmeder.",
           "delta": -10,
           "set": [
             "tahmin"
           ],
           "law": "HMK m.326",
-          "note": "Bilirkişi hesabını aşan kısım reddedilir ve o kısım için davalı lehine vekâlet ücretine hükmedilir; peşin harç da bu tutar üzerinden ödenir."
+          "note": "Mahkeme rapordaki tutara hükmeder, ama bilirkişi hesabını aşan kısım reddedilir ve o kısım için davalı lehine vekâlet ücretine hükmedilir; peşin harç da bu tutar üzerinden ödenir."
         }
       ]
     },
@@ -326,7 +326,7 @@
       "prompt": "Cevap dilekçenizin ana ekseni ne olacak?",
       "choices": [
         {
-          "text": "Bordrolar imzalı; tahakkuklu aylar için ihtirazi kayıt yok. Davacı tanıklarının ikisi de müvekkile karşı dava açmış, husumetli. İhtiyaten zamanaşımı def'i: arabulucuya başvuru tarihinden geriye beş yılı aşan alacaklar.",
+          "text": "İmzalı bordrolar, husumetli tanıklar (ikisi de müvekkile dava açmış) ve ihtiyaten beş yılı aşan alacaklara zamanaşımı def'i.",
           "delta": 20,
           "set": [
             "husumet",
@@ -336,7 +336,7 @@
           "note": "Güçlü ve eksiksiz. Husumetli tanık beyanı Yargıtay uygulamasında tek başına hükme esas alınmaz, başka delillerle desteklenmesi aranır. Zamanaşımı hâkimce kendiliğinden gözetilmez; def'i süresinde ileri sürdünüz. Arabuluculuk süresince zamanaşımı durduğundan, 22.09.2021'den önceki aylara ait alacaklar zamanaşımına uğramış durumda."
         },
         {
-          "text": "Davacı hiç fazla çalışma yapmadı; ispat yükü işçidedir.",
+          "text": "Davacı hiç fazla çalışma yapmadı; HMK m.190 uyarınca ispat yükü işçidedir, imzalı bordrolar da bunu gösteriyor.",
           "delta": 5,
           "set": [
             "inkar"
@@ -345,16 +345,16 @@
           "note": "Kural doğru: Fazla çalışmayı ispat yükü işçidedir. Ama tanıkların husumetini ve zamanaşımını ileri sürmediniz; zamanaşımını hâkim kendiliğinden dikkate alamaz (TBK m.161)."
         },
         {
-          "text": "Davacı reyon sorumlusu, yani yöneticidir; fazla çalışma ücreti isteyemez.",
+          "text": "Davacı reyon sorumlusu, yani yöneticidir; İş K. m.41 uyarınca yöneticiler fazla çalışma ücreti isteyemez.",
           "delta": -10,
           "set": [
             "yonetici"
           ],
           "law": "İş K. m.41",
-          "note": "Yargıtay bu istisnayı, işyerinin tamamını yöneten ve çalışma saatlerini kendisi belirleyen üst düzey yöneticiler için uygular. Bir reyon sorumlusu bu kapsamda değildir; tanıklarınızın husumetini ve zamanaşımını da ileri sürmediniz."
+          "note": "İş K. m.41 böyle bir istisna öngörmez; yönetici istisnası Yargıtay uygulamasından gelir. Yargıtay bu istisnayı, işyerinin tamamını yöneten ve çalışma saatlerini kendisi belirleyen üst düzey yöneticiler için uygular. Bir reyon sorumlusu bu kapsamda değildir; tanıklarınızın husumetini ve zamanaşımını da ileri sürmediniz."
         },
         {
-          "text": "Kısmi dava açılamaz; alacak belirlidir.",
+          "text": "Kısmi dava açılamaz; alacak belirlidir ve HMK m.109/2 uyarınca davanın usulden reddi gerekir.",
           "delta": -10,
           "set": [
             "kismiItiraz"
@@ -548,6 +548,7 @@
       }
     },
     {
+      "kind": "free",
       "side": "p2",
       "scene": "court",
       "if": "kasaTalep",
@@ -557,36 +558,93 @@
           "text": "Mahkemenin verdiği iki haftalık süre doluyor. Şirketin bilgi işlem müdürü, kasa kayıtlarının sistemde eksiksiz durduğunu söylüyor. Kayıtlar davacının çalışma saatlerini doğruluyor."
         }
       ],
-      "prompt": "Kayıtlar konusunda ne yapacaksınız?",
+      "prompt": "Mahkemenin ibraz kararı ve kayıtlar konusunda ne yapacaksınız, neden? Kendi cümlelerinizle açıklayın.",
       "choices": [
         {
-          "text": "Kayıtları süresinde ibraz et; hesapta zamanaşımına uğrayan dönemin ve pazar çalışmalarının ayrıca gözetilmesini iste.",
+          "text": "Güçlü cevap",
+          "min": 70,
           "delta": 10,
           "set": [
             "ibraz"
           ],
           "law": "HMK m.219–220",
-          "note": "Doğru ve dürüst. Belgeyi ibraz etmemek HMK m.220 uyarınca davacının iddiasının kabulüne yol açabilirdi. İbrazla birlikte hesabın doğru yapılmasını istemek, müvekkilin elinde kalan en iyi savunma."
+          "note": "Doğru ve dürüst bir yol seçtiniz: kayıtları süresinde ibraz etmek. İbraz edilmeyen belge hakkında mahkeme karşı tarafın beyanını kabul edebilir (HMK m.220); kayıtların tutulmadığını söylemek ise gerçeğe aykırı olurdu. İbrazla birlikte zamanaşımına uğrayan dönemin ve pazar saatlerinin hesapta ayrıca gözetilmesini istemek, müvekkilin elinde kalan en iyi savunma."
         },
         {
-          "text": "“Kayıtlar tutulmuyor” diye cevap ver.",
-          "delta": -20,
+          "text": "Yeterli cevap",
+          "min": 40,
+          "delta": 5,
           "set": [
-            "ibrazYok"
+            "ibraz"
           ],
-          "law": "HMK m.220 · Avukatlık K. m.34",
-          "note": "Gerçeğe aykırı beyan. Kayıtlar sistemde duruyor; avukat görevini doğruluk içinde yapmakla yükümlüdür. İbraz edilmeyen belge hakkında mahkeme, karşı tarafın beyanını kabul edebilir (HMK m.220)."
+          "law": "HMK m.219–220",
+          "note": "Kayıtları ibraz etmeye karar verdiniz; doğru. Tam cevap, ibraz etmemenin HMK m.220'deki sonucunu, KVKK'nın engel olmadığını ve hesapta zamanaşımına uğrayan dönemle pazar saatlerinin ayrıca gözetilmesi talebini de içerir."
         },
         {
-          "text": "Kayıtlar kişisel veridir; KVKK gereği ibraz edilemez.",
+          "text": "Zayıf cevap",
           "delta": -10,
           "set": [
             "ibrazYok"
           ],
-          "law": "KVKK m.5 · HMK m.220",
-          "note": "Hakkın tesisi, kullanılması veya korunması için veri işlenmesinin zorunlu olması, açık rıza aranmayan hâllerdendir (KVKK m.5/2). Mahkemenin ibraz kararı karşısında bu itiraz tutmaz; ibraz edilmeyen belge HMK m.220 uyarınca değerlendirilir."
+          "law": "HMK m.220 · KVKK m.5 · Avukatlık K. m.34",
+          "note": "Kayıtlar ibraz edilmedi. Kişisel veri itirazı tutmaz: hakkın tesisi, kullanılması veya korunması için zorunlu veri işleme açık rıza gerektirmez (KVKK m.5/2). Kayıtların tutulmadığını söylemek de gerçeğe aykırı olurdu (Avukatlık K. m.34). İbraz edilmeyen belge hakkında mahkeme davacının beyanını esas alabilir (HMK m.220). Doğrusu: kayıtları süresinde ibraz edip hesabın doğru yapılmasını istemekti."
         }
-      ]
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kasa kayıtları mahkemenin verdiği süre içinde ibraz edilmelidir; ibraz edilmezse mahkeme belgenin içeriği hakkında karşı tarafın (davacının) beyanını kabul edebilir (HMK m.220). (2) Kayıtlar sistemde durduğu hâlde “tutulmuyor” demek gerçeğe aykırıdır; avukat görevini doğruluk içinde yapmakla yükümlüdür (Avukatlık K. m.34). (3) KVKK ibraza engel değildir; bir hakkın tesisi, kullanılması veya korunması için veri işlemenin zorunlu olması açık rıza aranmayan hâllerdendir (KVKK m.5/2). (4) İbrazla birlikte, zamanaşımına uğrayan dönemin ve pazar çalışmalarının hesapta ayrıca gözetilmesi istenmelidir. İbrazı, m.220 sonucunu ve hesapla ilgili talebi birlikte kuran cevap tam puan alır; yalnızca ibraz edeceğini söyleyen cevap orta puan alır. Kayıtların tutulmadığını söyleyen, KVKK gerekçesiyle ibrazdan kaçınan ya da süreyi geçiren cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "ibraz",
+            "sunul",
+            "sunacağız",
+            "sunuyoruz",
+            "dosyaya kazandır"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "m.220",
+            "m. 220",
+            "madde 220",
+            "220. madde",
+            "md. 220",
+            "md.220"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "süresinde",
+            "süre içinde",
+            "iki hafta"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "zamanaşımı"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "pazar",
+            "hafta tatili"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "KVKK",
+            "kişisel veri",
+            "doğruluk",
+            "gerçeğe aykırı"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Hâkim, kasa açılış-kapanış kayıtları sistemde mevcuttur; süresi içinde ibraz ediyoruz. İbraz edilmeyen belge hakkında HMK m.220 uyarınca davacının beyanı esas alınabilir; KVKK ise mahkeme kararıyla yapılan bu aktarıma engel değildir. Ancak bilirkişi hesabında, zamanaşımına uğrayan 22.09.2021 öncesi dönemin ve pazar çalışmalarının fazla çalışma toplamından ayrı gözetilmesini talep ediyoruz."
     },
     {
       "side": "p2",
@@ -605,7 +663,7 @@
       "prompt": "Rapora karşı ne yapacaksınız?",
       "choices": [
         {
-          "text": "İki hafta içinde gerekçeli itiraz: Pazar çalışması hem hafta tatili hem fazla çalışma olarak mükerrer hesaplanmış; tanık beyanına dayalı hesapta hakkaniyet indirimi yapılmalı; zamanaşımı def'i gözetilmeli.",
+          "text": "Süresinde gerekçeli itiraz: pazar saatleri mükerrer, hakkaniyet indirimi yapılmamış, zamanaşımı gözetilmemiş.",
           "delta": 20,
           "set": [
             "mukerrer"
@@ -622,13 +680,13 @@
           ]
         },
         {
-          "text": "Rapora genel itiraz: “Hesap hatalıdır.”",
+          "text": "Rapora süresinde itiraz et: “Hesap hatalıdır, tanık beyanları çelişkilidir; yeni bilirkişi incelemesi yapılsın.”",
           "delta": -5,
           "law": "HMK m.281",
-          "note": "Soyut itiraz, mahkemeyi ek rapor almaya zorlamaz. Mükerrer hesap gibi somut bir hata vardı; onu göstermediniz."
+          "note": "Soyut itiraz, mahkemeyi ek rapor almaya zorlamaz; tanık beyanlarının nerede çeliştiğini de göstermediniz. Mükerrer hesap gibi somut bir hata vardı; onu göstermediniz."
         },
         {
-          "text": "Müvekkille görüşüp sulh teklif et: rapordaki tutarın yüzde yetmişi peşin ödensin.",
+          "text": "Müvekkille görüşüp sulh teklif et: rapordaki tutarın yüzde yetmişi peşin ödensin, gider ve faiz yükü sınırlansın.",
           "delta": 10,
           "set": [
             "sulhTeklif"

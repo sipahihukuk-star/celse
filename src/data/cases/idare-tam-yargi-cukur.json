@@ -65,19 +65,19 @@
       ],
       "prompt": "Ne yapacaksınız?",
       "choices": [
-        { "text": "Önce belediyeye yazılı başvurup zararın ödenmesini isteyin. Ret ya da otuz gün içinde cevap gelmemesi üzerine, dava süresi içinde tam yargı davası açın.", "delta": 20, "set": ["basvuru"],
+        { "text": "Önce belediyeye yazılı başvurup zararı isteyin; ret ya da otuz gün cevapsızlık üzerine tam yargı davası açın.", "delta": 20, "set": ["basvuru"],
           "law": "İYUK m.13, m.7",
           "reply": [{ "who": "narr", "text": "Başvuru 20 Kasım'da yapıldı. Belediye otuz gün içinde cevap vermedi; istek reddedilmiş sayıldı. Ocak başında dava açtınız." }],
           "note": "İdari eylemden doğan zararlarda dava açmadan önce idareye başvurmak zorunludur: öğrenmeden itibaren bir yıl, her hâlde eylemden itibaren beş yıl içinde (İYUK m.13). Kazanın üzerinden on ay geçti; bir yıllık süre 9 Ocak 2027'de doluyor." },
-        { "text": "Doğrudan Samsun İdare Mahkemesinde tam yargı davası açın.", "delta": -15, "set": ["dogrudan"],
+        { "text": "Süre işliyor; vakit kaybetmeden doğrudan Samsun İdare Mahkemesinde tam yargı davası açın, ön başvuru şart değil.", "delta": -15, "set": ["dogrudan"],
           "law": "İYUK m.13",
           "reply": [{ "who": "narr", "text": "Mahkeme ilk incelemede, idareye başvuru yapılmadığını tespit edip dilekçeyi başvuru olarak değerlendirilmek üzere belediyeye gönderdi. Zımni ret beklendi, dava yeniden açıldı. Aylar kaybedildi." }],
           "note": "İdari eylemden doğan tam yargı davasında idareye ön başvuru dava şartıdır (İYUK m.13). Başvurmadan dava açmak, dosyanın idareye gönderilmesine ve ciddi zaman kaybına yol açar." },
-        { "text": "Asliye hukuk mahkemesinde belediyeye karşı tazminat davası açın.", "delta": -15, "set": ["adli"],
+        { "text": "Belediye haksız fiille zarar verdi; asliye hukuk mahkemesinde TBK m.49 uyarınca tazminat davası açın.", "delta": -15, "set": ["adli"],
           "law": "Anayasa m.125; İYUK m.2/1-b",
           "reply": [{ "who": "narr", "text": "Asliye hukuk mahkemesi, uyuşmazlığın idari yargının görev alanında olduğu gerekçesiyle görevsizlik kararı verdi. Dosya aylarca geriye gitti." }],
           "note": "Kamu hizmetinin yürütülmesinden doğan zararlar hizmet kusuru esasına göre idari yargıda tam yargı davasıyla istenir (İYUK m.2/1-b). Adli yargıda görevsizlik kararından sonra idari yargıda ön başvuru şartı aranmaz (İYUK m.13/2); ama zaman kaybı büyük." },
-        { "text": "Kalıcı maluliyet raporu kesinleşsin; başvuruyu iki üç ay sonra, tam rakamla yapın.", "delta": -25,
+        { "text": "Kalıcı maluliyet raporu kesinleşsin; başvuruyu iki üç ay sonra, tam rakamla yapın, eksik talep hak kaybettirir.", "delta": -25,
           "law": "İYUK m.13",
           "fatal": { "label": "HÜKÜM:", "hukum": "İdari eylemin öğrenildiği tarihten itibaren bir yıllık süre geçtikten sonra idareye yapılan başvuru üzerine açılan davanın SÜRE AŞIMI NEDENİYLE REDDİNE, kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi.",
                      "summary": "İdari eylemden doğan zararlarda idareye başvuru, eylemin öğrenilmesinden itibaren bir yıl içinde yapılmalıdır (İYUK m.13). Müvekkil zararı kaza gecesi öğrenmişti; süre 9 Ocak 2027'de doldu. Tazminat miktarı sonradan artırılabilirdi; beklemeye gerek yoktu." },
@@ -85,17 +85,30 @@
       ] },
     { "side": "p1", "scene": "office",
       "lines": [{ "who": "narr", "text": "Dava dilekçesinin istem bölümünü yazıyorsunuz." }],
-      "prompt": "Talepleri ve davalıyı nasıl belirleyeceksiniz?",
+      "kind": "free",
+      "prompt": "Dava dilekçesinin istem bölümünü kendi cümlelerinizle yazın: davayı kime karşı açıyor, hangi kalemleri ve nasıl istiyorsunuz?",
       "choices": [
-        { "text": "Belediyeye karşı: tedavi gideri, motosiklet onarımı ve kazanç kaybı için maddi, acı ve ıstırap için manevi tazminat; başvuru tarihinden işleyecek yasal faiziyle.", "delta": 15, "set": ["talep"],
+        { "text": "Güçlü istem", "min": 70, "delta": 15, "set": ["talep"],
+          "law": "Anayasa m.125, m.129/5; İYUK m.2/1-b",
+          "note": "İstemi eksiksiz kurdunuz. Dava hizmet kusuru nedeniyle yalnızca belediyeye karşı açılır; kamu görevlisine karşı doğrudan dava açılamaz (Anayasa m.129/5). Tedavi gideri, motosiklet onarımı ve kazanç kaybı maddi, acı ve ıstırap manevi tazminat olarak tek davada istenir; faiz başlangıcı idareye başvuru tarihidir." },
+        { "text": "Yeterli istem", "min": 40, "delta": 8, "set": ["talep"],
+          "law": "Anayasa m.125, m.129/5; İYUK m.2/1-b",
+          "note": "Temel istemi kurdunuz, ama bir kısmını eksik bıraktınız. Tam istem: yalnızca belediyeye karşı (Anayasa m.129/5); tedavi gideri, motosiklet onarımı ve kazanç kaybı için maddi, acı ve ıstırap için manevi tazminat; idareye başvuru tarihinden işleyecek yasal faiz." },
+        { "text": "Zayıf istem", "delta": -5, "set": ["dar"],
           "law": "Anayasa m.125; İYUK m.2/1-b",
-          "note": "Hizmet kusurundan doğan bütün zarar kalemleri tek davada istenebilir. Faiz başlangıcı olarak idareye başvuru tarihi gösterilir. Tam yargı davasında miktar, kanundaki şartlarla yargılama sırasında artırılabilir." },
-        { "text": "Yalnızca motosiklet onarım bedelini isteyin; diğerleri ispatı zor kalemler.", "delta": -5, "set": ["dar"],
-          "note": "Tedavi gideri ve kazanç kaybı belgeli; manevi zarar ise ağır bir yaralanmada açık. Talebi daraltmak müvekkilin hakkını kendi elinizle kısmak demek." },
-        { "text": "Belediyeyle birlikte çukuru açan ekip şefini de kişisel olarak davalı gösterin.", "delta": -10, "set": ["personel", "talep"],
-          "law": "Anayasa m.129/5",
-          "note": "Kamu görevlilerinin yetkilerini kullanırken işledikleri kusurlardan doğan tazminat davaları, kendilerine rücu edilmek kaydıyla ancak idare aleyhine açılabilir (Anayasa m.129/5). Ekip şefine yönelik talep reddedilir ve aleyhinize vekâlet ücreti doğar." }
-      ] },
+          "note": "Zarar kalemlerini eksik istediniz; mahkeme ancak istenen kalemleri hüküm altına alabilir. Tedavi gideri ve kazanç kaybı belgeli, manevi zarar ağır bir yaralanmada açık. Hizmet kusurundan doğan bütün kalemler belediyeye karşı tek davada, başvuru tarihinden işleyecek faiziyle istenmeliydi." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Davalı yalnızca belediyedir (hizmet kusuru, Anayasa m.125; İYUK m.2/1-b); çukuru açan ekip şefi ya da başka bir kamu görevlisi kişisel olarak davalı gösterilmez, çünkü bu tür tazminat davaları ancak idare aleyhine açılabilir (Anayasa m.129/5). (2) Maddi tazminat kalemleri: tedavi gideri (48.000 TL), motosiklet onarımı (62.000 TL) ve üç aylık kazanç kaybı (yaklaşık 105.000 TL). (3) Acı ve ıstırap için manevi tazminat. (4) İdareye başvuru tarihinden işleyecek yasal faiz. Dört unsuru birlikte veren cevap tam puan alır; doğru davalıya karşı maddi ve manevi tazminat isteyip kalemlerden ya da faizden birini eksik bırakan cevap orta puan alır. Yalnızca bir zarar kalemini (ör. motosiklet bedelini) isteyen, manevi tazminatı ve kazanç kaybını hiç anmayan ya da ekip şefini davalı gösteren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["belediye", "idare aleyhine", "davalı idare"], "weight": 2 },
+        { "terms": ["manevi"], "weight": 2 },
+        { "terms": ["kazanç kaybı", "kazanç", "iş göremezlik", "gelir kaybı"], "weight": 2 },
+        { "terms": ["tedavi"], "weight": 1 },
+        { "terms": ["motosiklet", "onarım", "araç hasarı"], "weight": 1 },
+        { "terms": ["faiz"], "weight": 1 }
+      ],
+      "model": "Davalı Çınarlı Belediyesine karşı, hizmet kusuru nedeniyle: tedavi gideri olarak 48.000 TL, motosiklet onarım bedeli olarak 62.000 TL ve üç aylık kazanç kaybı olarak 105.000 TL maddi tazminatın; kaza nedeniyle çekilen acı ve ıstırap karşılığı manevi tazminatın, idareye başvuru tarihinden itibaren işleyecek yasal faiziyle birlikte davalı idareden alınarak davacıya ödenmesine karar verilmesini talep ederiz. Çukuru açan görevli kişisel olarak davalı gösterilmez; dava Anayasa m.129/5 gereği idareye karşı açılır."
+    },
     { "kind": "evidence", "side": "p1", "scene": "office",
       "lines": [{ "who": "narr", "text": "Belediyenin savunması geldi. Taraflar duruşma istemedi; mahkeme dosya üzerinden inceleyecek. Cevap dilekçenizi hazırlıyorsunuz." }],
       "statement": { "who": "opp", "text": "Kazı alanı ekip şefinin tutanağıyla sabit olduğu üzere şeritle çevrilmiş ve uyarı levhası konulmuştur. Kaza, davacının gece saatinde aşırı hızla ve dikkatsiz sürmesinden kaynaklanmıştır. Belediyenin hizmet kusuru yoktur." },
@@ -125,13 +138,13 @@
       ],
       "prompt": "Rapora karşı ne yapacaksınız?",
       "choices": [
-        { "if": "kamera", "text": "Rapora itiraz edin: kamera kaydı hızın yaklaşık 38 km/s olduğunu ve hiçbir işaret bulunmadığını gösteriyor; müterafik kusur somut bir kural ihlaline dayanmalı. Ek rapor isteyin.", "delta": 15, "set": ["itirazOk"],
+        { "if": "kamera", "text": "İtiraz edin: kamera 38 km/s hızı ve işaretsizliği gösteriyor; müterafik kusur somut bir ihlale dayanmalı, ek rapor isteyin.", "delta": 15, "set": ["itirazOk"],
           "note": "Müterafik kusur, zarar görenin zararın doğmasına ya da artmasına somut bir davranışıyla katkıda bulunması hâlinde tazminatı indirir. Sınırın altında, kasklı ve işaretsiz bir çukura giren sürücüye soyut bir “dikkatsizlik” kusuru yüklenemez." },
         { "if": "!kamera", "text": "Rapora itiraz edin: müterafik kusurun hangi somut kurala aykırılığa dayandığı gösterilmemiş; ek rapor isteyin.", "delta": 5, "set": ["itirazZayif"],
           "note": "Doğru itiraz, ama elinizde hızı ve işaretsizliği gösteren bir belge olmadığı için ek raporun sonucu değişmeyebilir." },
-        { "text": "Raporu kabul edin; ama tazminatın tamamını yine de isteyin.", "delta": -5,
+        { "text": "Raporu kabul edin; itiraz süreyi uzatır. Mahkeme rapora bağlı değil, dilekçede tazminatın tamamını yine de isteyin.", "delta": -5,
           "note": "Rapora itiraz etmeyen taraf, raporun tespitlerini zımnen kabul etmiş olur. Heyet hükmü bu rapora dayandırır." },
-        { "text": "Bilirkişinin taraflı olduğunu ileri sürüp raporun tamamen dışlanmasını isteyin.", "delta": -10,
+        { "text": "Bilirkişinin belediyeyle bağlantılı ve taraflı olduğunu ileri sürüp raporun dışlanmasını, yeni heyet atanmasını isteyin.", "delta": -10,
           "note": "Somut bir ret sebebi gösterilmeden yapılan taraflılık suçlaması heyeti ikna etmez. Rapora içerik yönünden itiraz edilir." }
       ] }
   ],
@@ -140,7 +153,6 @@
       "hukum": [
         { "if": "!dar", "text": "Davanın KABULÜ ile maddi ve manevi tazminatın idareye başvuru tarihinden itibaren işleyecek yasal faiziyle birlikte davalı idareden alınarak davacıya ödenmesine," },
         { "if": "dar", "text": "Davanın KABULÜ ile motosiklet onarım bedelinin idareye başvuru tarihinden itibaren işleyecek yasal faiziyle birlikte davalı idareden alınarak davacıya ödenmesine," },
-        { "if": "personel", "text": " ekip şefine yönelik davanın husumet yönünden REDDİNE," },
         { "text": " kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi." }
       ],
       "summary": [
@@ -155,7 +167,6 @@
         { "if": "!dar", "text": " maddi ve manevi tazminatın" },
         { "if": "dar", "text": " motosiklet onarım bedelinin" },
         { "text": " idareye başvuru tarihinden itibaren işleyecek yasal faiziyle birlikte davalı idareden alınarak davacıya ödenmesine, fazlaya ilişkin istemin REDDİNE," },
-        { "if": "personel", "text": " ekip şefine yönelik davanın husumet yönünden REDDİNE," },
         { "text": " kararın tebliğinden itibaren otuz gün içinde Bölge İdare Mahkemesine istinaf yolu açık olmak üzere oybirliğiyle karar verildi." }
       ],
       "summary": [

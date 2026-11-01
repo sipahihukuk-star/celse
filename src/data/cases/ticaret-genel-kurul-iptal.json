@@ -67,16 +67,16 @@
       ],
       "prompt": "Bugün 18 Eylül. Ne yapacaksınız?",
       "choices": [
-        { "text": "Beklemeyelim. Üç aylık süre hak düşürücü ve 24 Eylül'de doluyor. Davayı şirkete karşı, şirket merkezinin bulunduğu yer olan Gebze'de asliye ticaret mahkemesinde açalım. Genel kurul kararının iptali para alacağı olmadığından arabuluculuk dava şartı değil.", "delta": 20, "set": ["sure"],
+        { "text": "Beklemeyelim; üç aylık hak düşürücü süre 24 Eylül'de doluyor. Gebze asliye ticaret mahkemesinde şirkete karşı dava açalım.", "delta": 20, "set": ["sure"],
           "law": "TTK m.445 · m.5/A",
           "note": "Doğru. İptal davası karar tarihinden itibaren üç ay içinde, şirket merkezinin bulunduğu yerdeki asliye ticaret mahkemesinde açılır (TTK m.445). Dava şartı arabuluculuk, konusu bir miktar para olan ticari davalar içindir (TTK m.5/A).",
           "reply": [ { "who": "narr", "text": "Dava 21 Eylül'de Gebze 2. Asliye Ticaret Mahkemesinde açıldı. Yönetim kurulu davayı ilan etti (TTK m.448/1)." } ] },
-        { "text": "Önce yönetim kuruluna noter ihtarı çekelim; on beş gün cevap bekleyelim.", "delta": -25,
+        { "text": "Önce yönetim kuruluna noter ihtarı çekelim; m.445'teki süre ihtarla durur, on beş gün cevap bekleyelim.", "delta": -25,
           "law": "TTK m.445",
           "note": "Üç aylık süre hak düşürücüdür; ihtar onu durdurmaz.",
           "fatal": { "label": "SONUÇ:", "hukum": "İptal davası açma süresi 24.09.2026'da doldu. Kâr dağıtmama ve huzur hakkı kararları kesinleşti.",
             "summary": "Genel kurul kararlarının iptali için üç aylık süre hak düşürücüdür (TTK m.445). İhtarnameyle geçen günlerde süre doldu. Yalnızca bilgi alma hakkını kısıtlayan karar için butlan yolu süresiz açık kaldı (m.447); ama müvekkilin asıl derdi olan kâr kararı artık tartışılamaz." } },
-        { "text": "Davayı yarın asliye hukuk mahkemesinde açalım; nasılsa şirketle bir uyuşmazlık.", "delta": -10, "set": ["sure", "gorev"],
+        { "text": "Davayı yarın Gebze asliye hukuk mahkemesinde açalım; pay sahibiyle şirket arasındaki uyuşmazlık genel mahkemede görülür.", "delta": -10, "set": ["sure", "gorev"],
           "law": "TTK m.445 · HMK m.20",
           "note": "Görevli mahkeme asliye ticaret mahkemesidir (TTK m.445). Asliye hukuk görevsizlik kararı verdi; kesinleşmesinden itibaren iki hafta içinde gönderme talep ettiğiniz için dava ilk açıldığı tarihte açılmış sayıldı (HMK m.20). Süre kurtuldu ama aylar kaybedildi.",
           "reply": [ { "who": "narr", "text": "Asliye hukuk mahkemesi görevsizlik kararı verdi. Kesinleşmeden sonra süresinde gönderme talep ettiniz; dosya beş ay sonra Gebze 2. Asliye Ticaret Mahkemesine ulaştı." } ] }
@@ -87,13 +87,13 @@
       "lines": [ { "who": "narr", "text": "Dava dilekçesinin talep kısmını yazıyorsunuz. Üç karar var; her biri aynı kurala tabi değil." } ],
       "prompt": "Hangi kararlara, hangi dayanakla saldıracaksınız?",
       "choices": [
-        { "text": "Kâr kararı için iptal: muhalefet tutanakta. Bilgi alma hakkını kısıtlayan esas sözleşme değişikliği için butlanın tespiti. Huzur hakkı kararında muhalefet tutanağa geçmediği için iptal davası açma hakkı yok; onu dava etmeyelim.", "delta": 25, "set": ["kapsam"],
+        { "text": "Kâr kararına iptal, bilgi alma hakkını kısan değişikliğe butlan tespiti; huzur hakkı kararını dava dışı bırakalım.", "delta": 25, "set": ["kapsam"],
           "law": "TTK m.445 · m.446/1-a · m.447/1-b",
           "note": "Doğru ayrım. İptal davası için toplantıda hazır bulunup olumsuz oy vermek ve muhalefeti tutanağa geçirtmek birlikte aranır; Yargıtay Hukuk Genel Kurulu bunu özel dava şartı sayar (HGK 17.11.2022, E.2020/11-662, K.2022/1551). Butlan ise süreye ve muhalefet şerhine bağlı değildir (m.447)." },
-        { "text": "Üç kararın tamamının iptalini isteyelim; ret oyu vermesi yeterli.", "delta": -10, "set": ["hepsi"],
+        { "text": "Üç kararın tamamının iptalini isteyelim; müvekkil üçünde de toplantıda ret oyu verdi, bu iptal davası için yeterli.", "delta": -10, "set": ["hepsi"],
           "law": "TTK m.446/1-a",
           "note": "Huzur hakkı kararında yalnızca ret oyu var, muhalefet tutanağa geçmemiş. Salt olumsuz oy iptal davası açma hakkı vermez; bu talep dava şartı yokluğundan usulden reddedilecek ve vekâlet ücreti doğuracak." },
-        { "text": "Yalnızca kâr kararını dava edelim. Esas sözleşme değişikliği de üç ay içinde dava edilmezse kesinleşir; zaten muhalefet yok.", "delta": -10, "set": ["dar"],
+        { "text": "Yalnızca kâr kararını dava edelim; esas sözleşme değişikliğine muhalefet yok, üç ayda kesinleşir.", "delta": -10, "set": ["dar"],
           "law": "TTK m.447/1-b",
           "note": "Bilgi alma, inceleme ve denetleme haklarını kanunun izin verdiği ölçü dışında sınırlayan karar batıldır (m.447/1-b); butlan süreye ve muhalefet şerhine bağlı değildir. Müvekkilin en güçlü talebini dilekçeye almadınız." }
       ]
@@ -107,21 +107,21 @@
       ],
       "prompt": "Dava şartı itirazına nasıl karşılık vereceksiniz?",
       "choices": [
-        { "if": "tutanak", "text": "Kâr kararına muhalefet tutanağın dördüncü sayfasında, müvekkilin imzasıyla yazılı. Esas sözleşme değişikliği ise batıldır; butlan süreye ve muhalefet şerhine bağlı değildir.", "delta": 20, "set": ["usul"],
+        { "if": "tutanak", "text": "Kâr kararına muhalefet tutanağın dördüncü sayfasında, imzalı. Esas sözleşme değişikliği batıl; şerh aranmaz.", "delta": 20, "set": ["usul"],
           "law": "TTK m.446/1-a · m.447",
           "note": "Doğru. Her kararın hangi kurala tabi olduğunu ayırdınız ve muhalefeti belgeyle gösterdiniz.",
           "reply": [
             { "who": "judge", "text": "Tutanağın dördüncü sayfası incelendi. Gündemin 5. maddesine ilişkin muhalefet tutanakta mevcut." },
             { "if": "hepsi", "who": "judge", "text": "Ancak huzur hakkı kararı yönünden muhalefet şerhi bulunmadığı tutanağa geçirildi." }
           ] },
-        { "if": "!tutanak", "text": "Tutanağın şirketten getirtilmesini istiyoruz; müvekkil kâr kararına muhalefetini yazdırmıştır. Esas sözleşme değişikliği ise batıldır, muhalefet aranmaz.", "delta": 10, "set": ["usul"],
+        { "if": "!tutanak", "text": "Tutanağın şirketten getirtilmesini istiyoruz; muhalefet yazdırıldı. Esas sözleşme değişikliği ise batıldır.", "delta": 10, "set": ["usul"],
           "law": "TTK m.446/1-a · m.447 · HMK m.220",
           "note": "Yeterli. Tutanak şirketten getirtildi ve muhalefet orada çıktı. Müvekkilin elindeki örneği sorsaydınız beklemeye gerek kalmazdı.",
           "reply": [ { "who": "judge", "text": "Tutanak aslının davalıdan getirtilmesine karar verildi." }, { "who": "narr", "text": "Bir sonraki duruşmada tutanak geldi: dördüncü sayfada müvekkilin muhalefeti yazılı." } ] },
-        { "text": "Müvekkil toplantıda üç karara da ret oyu verdi; bu yeterlidir.", "delta": -15,
+        { "text": "Müvekkil toplantıda üç karara da ret oyu verdi; TTK m.446/1-a için olumsuz oy yeterlidir.", "delta": -15,
           "law": "TTK m.446/1-a",
           "note": "Yetmez. Olumsuz oy ve muhalefetin tutanağa geçirilmesi birlikte aranır (HGK 17.11.2022, E.2020/11-662, K.2022/1551). Muhalefetin yazılı olduğu belgeyi göstermediniz, butlanı da ayırmadınız." },
-        { "text": "Muhalefet şerhi bir şekil şartıdır; dürüstlük kuralı gereği aranmamalıdır.", "delta": -10,
+        { "text": "Muhalefet şerhi salt bir şekil şartıdır; TMK m.2'deki dürüstlük kuralı gereği ret oyu verenden ayrıca aranmamalıdır.", "delta": -10,
           "note": "Hukuk Genel Kurulu'nun kararına karşı dayanaksız bir yorum. Elinizdeki olguyu, yani muhalefetin tutanakta yazılı olduğunu göstermek gerekiyordu." }
       ]
     },
@@ -131,18 +131,31 @@
         { "who": "judge", "text": "Davacı vekili, dilekçenizi heyet olarak okuduk. Lütfen tekrar etmeyin; bugün on iki dosyamız var. İki cümleyle: bu esas sözleşme değişikliği neden batıl?" },
         { "who": "narr", "text": "Başkanın sesi sabırsız. Üyelerden biri saatine baktı." }
       ],
-      "prompt": "Nasıl cevap vereceksiniz?",
+      "prompt": "Başkan iki cümle istiyor. Bu esas sözleşme değişikliği neden batıl? Kendi cümlelerinizle, kısa ve kesin cevap verin.",
+      "kind": "free",
+      "rubric": "İyi bir cevap iki üç cümleyi geçmez ve şunları söyler: (1) Pay sahibinin bilgi alma ve inceleme hakkı esas sözleşmeyle ya da şirket organlarından birinin kararıyla kaldırılamaz ve sınırlandırılamaz (TTK m.437/6). (2) Değişiklik bilgi almayı yönetim kurulunun uygun gördüğü konularla sınırlıyor ve defterleri incelemeye kapatıyor; bu, pay sahibinin bilgi alma, inceleme ve denetleme haklarını kanunun izin verdiği ölçü dışında sınırlayan karardır ve TTK m.447/1-b uyarınca batıldır. Butlan süreye ve muhalefet şerhine bağlı değildir. Kuralı ve m.447/1-b'yi kısa biçimde söyleyen cevap tam puan alır; hakkın sınırlanamayacağını söyleyip madde ya da butlan sebebini eksik bırakan cevap orta puan alır. Konuyu baştan anlatmaya kalkışan, dağınık ve uzun cevap ya da hukuki soruyu bilirkişiye bırakmak isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["bilgi alma"], "weight": 3 },
+        { "terms": ["sınırlandırılamaz", "sınırlanamaz", "kaldırılamaz", "kısıtlanamaz", "sınırlayamaz", "kaldıramaz"], "weight": 2 },
+        { "terms": ["m.447", "m. 447", "madde 447", "447. madde", "md. 447", "md.447", "447/1"], "weight": 2 },
+        { "terms": ["m.437", "m. 437", "madde 437", "437. madde", "md. 437", "md.437"], "weight": 1 },
+        { "terms": ["inceleme", "denetleme", "defter"], "weight": 1 },
+        { "terms": ["yönetim kurulunun", "yönetim kuruluna", "uygun gördüğü", "iznine"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, pay sahibinin bilgi alma ve inceleme hakkı esas sözleşmeyle ya da bir organ kararıyla kaldırılamaz ve sınırlandırılamaz (TTK m.437/6). Bu değişiklik hakkı yönetim kurulunun uygun gördüğü konulara bağlıyor ve defterleri incelemeye kapatıyor; TTK m.447/1-b uyarınca batıldır.",
       "choices": [
-        { "text": "“Bilgi alma ve inceleme hakkı esas sözleşmeyle ya da bir organ kararıyla kaldırılamaz ve sınırlandırılamaz. Bu değişiklik hakkı yönetim kurulunun iznine bağlıyor; m.447/1-b'deki butlan hâlidir.”", "delta": 10, "set": ["butlan"],
+        { "text": "Güçlü cevap", "min": 70, "delta": 10, "set": ["butlan"],
           "law": "TTK m.437 · m.447/1-b",
           "note": "Kısa, kesin ve madde numarasıyla. Sabırsız bir heyete en iyi cevap budur.",
           "reply": [ { "who": "judge", "text": "Teşekkür ederim. Devam ediyoruz." } ] },
-        { "text": "“Sayın Başkan, izin verirseniz konuyu baştan, şirketin kuruluşundan itibaren özetlemek istiyorum…”", "delta": -5,
-          "note": "Başkan tekrar istemediğini açıkça söyledi. Uzun anlatım heyetin dikkatini kaybettirdi.",
-          "reply": [ { "who": "judge", "text": "Davacı vekili, sorumu tekrar ediyorum: iki cümle." } ] },
-        { "text": "“Bunu bilirkişinin değerlendirmesini talep ediyoruz.”", "delta": -10,
-          "law": "HMK m.266",
-          "note": "Hukuki bir soru bilirkişiye bırakılamaz; hâkimlik mesleğinin gerektirdiği hukuki bilgiyle çözülebilecek konularda bilirkişiye başvurulmaz (HMK m.266)." }
+        { "text": "Yeterli cevap", "min": 40, "delta": 5, "set": ["butlan"],
+          "law": "TTK m.437 · m.447/1-b",
+          "note": "Özü söylediniz; heyet butlan sebebini anladı. En iyi cevap iki cümlede kalır: bilgi alma ve inceleme hakkı esas sözleşmeyle ya da organ kararıyla kaldırılamaz ve sınırlandırılamaz (TTK m.437); bu değişiklik m.447/1-b'deki butlan hâlidir.",
+          "reply": [ { "who": "judge", "text": "Anlaşıldı. Devam ediyoruz." } ] },
+        { "text": "Zayıf cevap", "delta": -5,
+          "law": "TTK m.437 · m.447/1-b",
+          "note": "Başkanın sorusuna kısa ve kesin bir cevap veremediniz; heyetin dikkati dağıldı. Söylenmesi gereken: bilgi alma ve inceleme hakkı esas sözleşmeyle ya da organ kararıyla kaldırılamaz ve sınırlandırılamaz (TTK m.437); hakkı yönetim kurulunun iznine bağlayan değişiklik m.447/1-b uyarınca batıldır. Hukuki bir soru bilirkişiye de bırakılamaz (HMK m.266).",
+          "reply": [ { "who": "judge", "text": "Davacı vekili, sorumu tekrar ediyorum: iki cümle." } ] }
       ]
     },
     {

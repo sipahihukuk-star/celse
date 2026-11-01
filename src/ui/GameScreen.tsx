@@ -113,7 +113,7 @@ export default function GameScreen({ c, players, onExit, onFinish }: Props) {
         </View>
       </View>
 
-      <View style={[styles.stageWrap, { flex: wide ? 1.15 : 1 }]}>
+      <View style={[styles.stageWrap, { flex: wide ? 1.5 : 1 }]}>
         {viewMode === "gercek"
           ? <PhotoStage c={c} scene={scene} focus={focus} talking={!!line && (!tw.done || (voiceOn && speaking))} />
           : <Stage c={c} scene={scene} focus={focus} talking={!!line && !tw.done} />}

@@ -65,15 +65,15 @@
       "lines": [ { "who": "client", "text": "Ne istediğimi biliyorum: bu şirketten çıkmak. Ama nasıl?" } ],
       "prompt": "Hangi davayı açacaksınız?",
       "choices": [
-        { "text": "Haklı sebeple çıkma davası ve aynı davada ayrılma akçesinin ödenmesi. Esas sözleşmede çıkma hakkı olmasa da haklı sebep varsa her ortak çıkma davası açabilir.", "delta": 20, "set": ["yol"],
+        { "text": "Haklı sebeple çıkma davası ve aynı davada ayrılma akçesi; esas sözleşmede çıkma hakkı olmasa da bu dava açılabilir.", "delta": 20, "set": ["yol"],
           "law": "TTK m.638/2 · m.641",
           "note": "Doğru. Her ortak haklı sebeplerin varlığı hâlinde şirketten çıkmasına karar verilmesi için dava açabilir (TTK m.638/2); ayrılan ortak payının gerçek değerine uyan ayrılma akçesini isteyebilir (m.641). Uygulamada iki talep birlikte ileri sürülür." },
-        { "text": "Haklı sebeple şirketin feshi davası.", "delta": 5, "set": ["fesih"],
+        { "text": "Haklı sebeple şirketin feshi davası; fesihte tasfiye payı alınır, müvekkil de böylece şirketten kurtulur.", "delta": 5, "set": ["fesih"],
           "law": "TTK m.636/3",
           "note": "Mümkün, ama ağır bir yol. Müvekkil şirketin sona ermesini değil, kendisinin çıkmasını istiyor. Mahkeme fesih yerine davacıya payının gerçek değerinin ödenmesine ya da uygun başka bir çözüme karar verebilir; ama talebi baştan doğru kurmak daha iyiydi." },
-        { "text": "Kemal ve Ferit Dağ'a karşı, Deniz'in payını gerçek değerinden satın almaya zorlanmaları davası.", "delta": -10,
+        { "text": "Kemal ve Ferit Dağ'a karşı, Deniz'in payını gerçek değerinden satın almaları için dava; devre onay vermeyen payı almalıdır.", "delta": -10,
           "note": "Böyle bir dava türü yok. Diğer ortakları payı satın almaya zorlayan bir hüküm bulunmuyor; kanunun öngördüğü yol çıkma davası ve ayrılma akçesidir." },
-        { "text": "Önce pay devri için ortaklar kuruluna bir kez daha başvuralım; reddederlerse bekleriz.", "delta": -5,
+        { "text": "Önce pay devri için ortaklar kuruluna bir kez daha başvuralım; reddederlerse ret kararının iptalini isteriz.", "delta": -5,
           "note": "Pay devri ortaklar kurulunun onayına bağlı ve onay zaten verilmiyor. Bu, müvekkili aynı çıkmazda bırakır." }
       ]
     },
@@ -82,13 +82,13 @@
       "lines": [ { "who": "narr", "text": "Dilekçenin taraf kısmına geldiniz. Müvekkil “Kemal'i ve Ferit'i davalı yazalım; bu durumu onlar yarattı” diyor." } ],
       "prompt": "Davalı olarak kimi göstereceksiniz?",
       "choices": [
-        { "text": "Yalnızca şirketi. Çıkma kararı şirketle ortaklık ilişkisini sona erdirir; ayrılma akçesi borcu da şirkete aittir.", "delta": 15, "set": ["husumet"],
+        { "text": "Yalnızca şirketi; çıkma ortaklık ilişkisini sona erdirir, ayrılma akçesi borcu da şirkete aittir.", "delta": 15, "set": ["husumet"],
           "law": "TTK m.638/2 · m.641",
           "note": "Doğru. Çıkma davası ve ayrılma akçesi talebi şirkete yöneltilir. Diğer ortaklar davanın tarafı değildir; onları davalı göstermek kendileri yönünden husumet yokluğundan ret ve vekâlet ücreti riski doğurur." },
-        { "text": "Kemal ve Ferit Dağ'ı; haklı sebebi onlar yarattı.", "delta": -20, "set": ["yanlisHusumet"],
+        { "text": "Kemal ve Ferit Dağ'ı; haklı sebebi onlar yarattı, payı fiilen kendilerine kalacağı için akçeyi de onlar öder.", "delta": -20, "set": ["yanlisHusumet"],
           "law": "HMK m.124",
           "note": "Ağır usul hatası. Davanın konusu şirketle ortaklık ilişkisinin sona ermesi ve şirketin ayrılma akçesi borcu. Ortaklar bu davada sıfatı bulunan taraf değildir; davalı şirket olmalıydı. Taraf değişikliği ancak karşı tarafın rızası ya da kabul edilebilir bir yanılgı hâlinde mümkündür (HMK m.124)." },
-        { "text": "İhtiyaten şirketi ve iki ortağı birlikte.", "delta": -5, "set": ["husumet", "fazlaDavali"],
+        { "text": "İhtiyaten şirketi ve iki ortağı birlikte; husumet itirazı gelse bile dava hiç değilse şirket yönünden yürür.", "delta": -5, "set": ["husumet", "fazlaDavali"],
           "note": "Şirket davalı olduğu için dava yürür; ama ortaklar yönünden husumet yokluğundan ret ve onlar lehine vekâlet ücreti çıkar. İhtiyat değil, masraf." }
       ]
     },
@@ -113,20 +113,32 @@
       "pass": { "delta": -15, "note": "İtiraz etmediniz; “bütün işlemler şirket yararına” savunması cevapsız kaldı." }
     },
     {
-      "side": "p1", "scene": "court", "if": "!yanlisHusumet",
+      "kind": "free", "side": "p1", "scene": "court", "if": "!yanlisHusumet",
       "lines": [
         { "who": "opp", "text": "Davacı iki yıldır ortaklar kurulu toplantılarına gelmiyor. Haklı sebep varsa onun kendi tutumundan doğmuştur." },
         { "who": "judge", "text": "Davacı vekili, heyet haklı sebep ölçütünü ve davacının kendi durumunu duymak istiyor." }
       ],
-      "prompt": "Haklı sebebi nasıl temellendireceksiniz?",
+      "prompt": "Haklı sebebi heyete nasıl temellendireceksiniz? Davalının “kendi tutumu” savunmasını da karşılayarak kendi cümlelerinizle savunun.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Haklı sebep (TTK m.638/2), ortaklığın sürdürülmesinin davacıdan beklenemeyecek hâle gelmesidir. (2) Haklı sebebi kendi kusuruyla yaratan ortak buna dayanamaz; ama davacı kusursuzdur: bilgi alma talepleri “ticari sır” denerek reddedildi (m.614), iki oya karşı tek oyla toplantıların sonucunu değiştiremeyeceğini gördü; toplantılara gelmemesi ihlallerin sonucudur. (3) Somut ihlaller: beş yıl üst üste kâr payı dağıtılmaması, müdür ücretinin iki katına çıkarılması, bilgi hakkının engellenmesi, rezervasyonların müdürün eşinin acentesine yüksek komisyonla verilmesi; bunlar birlikte çoğunluğun hakkını kötüye kullandığını gösterir (TMK m.2). Ölçütü, davacının kusursuzluğunu ve en az iki somut ihlali gösteren cevap tam puan alır; somut ihlalleri sayıp “kendi tutumu” savunmasına cevap vermeyen ya da yalnızca ölçütü anlatan cevap orta puan alır. Haklı sebebi yalnızca ortaklar arasındaki husumete dayandıran ya da toplantılara gelmemeyi önemsiz sayıp geçen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["beklenemez", "beklenemeyecek", "sürdürülemez", "çekilmez"], "weight": 2 },
+        { "terms": ["kusur"], "weight": 2 },
+        { "terms": ["kâr payı", "kâr dağıt", "kar payı", "kar dağıt", "temettü"], "weight": 2 },
+        { "terms": ["bilgi alma", "bilgi hakkı", "bilgi talep", "ticari sır", "defter"], "weight": 2 },
+        { "terms": ["hakkın kötüye", "kötüye kullan", "acente", "komisyon", "müdür ücreti", "maaş"], "weight": 1 },
+        { "terms": ["m.638", "m. 638", "638/2", "madde 638", "638. madde", "m.614"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, haklı sebep, ortaklığın sürdürülmesinin davacıdan beklenemeyecek hâle gelmesidir (TTK m.638/2). Haklı sebebi kendi kusuruyla yaratan ortak buna dayanamaz; ama müvekkil kusursuzdur: bilgi alma talepleri “ticari sır” denerek reddedildi ve iki oya karşı tek oyla toplantıların sonucunu değiştiremeyeceğini gördü. Beş yıl kâr dağıtılmaması, müdür ücretinin iki katına çıkarılması, bilgi hakkının engellenmesi ve rezervasyonların müdürün eşinin acentesine aktarılması birlikte çoğunluğun hakkını kötüye kullandığını gösteriyor.",
       "choices": [
-        { "text": "Haklı sebep, ortaklığın sürdürülmesinin davacıdan beklenemeyecek hâle gelmesidir; kusurlu ortak buna dayanamaz. Müvekkil kusursuz: bilgi talepleri reddedildikten sonra toplantıların sonucunu değiştiremeyeceğini gördü. Beş yıl kâr dağıtılmaması, bilgi hakkının engellenmesi ve işin müdürün yakınına aktarılması birlikte çoğunluğun hakkını kötüye kullandığını gösteriyor.", "delta": 20, "set": ["hakli"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["hakli"],
           "law": "TTK m.638/2 · m.614 · TMK m.2",
-          "note": "Doğru. Yargıtay, haklı sebebi kendi kusuruyla yaratan ortağın buna dayanamayacağını kabul eder; davacının kusursuzluğunu ve somut ihlalleri birlikte gösterdiniz." },
-        { "text": "Ortaklar arasında artık ciddi bir husumet var; bu tek başına haklı sebeptir.", "delta": -5,
-          "note": "Eksik. Geçimsizlik bir unsur olabilir, ama heyet somut ihlalleri ve davacının kusursuz olduğunu görmek ister." },
-        { "text": "Müvekkilin toplantılara gelmemesi önemsiz; çoğunluk zaten her kararı alıyor.", "delta": -10,
-          "note": "Karşı tarafın “kusurlu ortak” savunmasına cevap vermediniz. Davacının kendi tutumunun haklı sebebi doğurmadığını göstermek gerekiyordu." }
+          "note": "Doğru. Haklı sebep ölçütünü kurdunuz, davacının kusursuzluğunu ve somut ihlalleri birlikte gösterdiniz. Yargıtay, haklı sebebi kendi kusuruyla yaratan ortağın buna dayanamayacağını kabul eder; müvekkilin toplantılara gelmemesi ihlallerin sonucudur, sebebi değil." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["hakli"],
+          "law": "TTK m.638/2",
+          "note": "Haklı sebebi somut olgulara dayandırdınız; heyet bunu değerlendirecek. Tam savunma, ölçütü (ortaklığın sürdürülmesinin davacıdan beklenemeyecek hâle gelmesi) ve davalının “kusurlu ortak” savunmasına cevabı da içerir: müvekkil bilgi talepleri reddedildikten sonra toplantıların sonucunu değiştiremeyeceğini gördü." },
+        { "text": "Zayıf savunma", "delta": -5,
+          "law": "TTK m.638/2",
+          "note": "Eksik. Geçimsizlik bir unsur olabilir, ama heyet somut ihlalleri ve davacının kusursuz olduğunu görmek ister. Söylenmesi gereken: ortaklığın sürdürülmesi davacıdan beklenemez; beş yıl kâr dağıtılmaması, bilgi hakkının engellenmesi ve işin müdürün yakınına aktarılması çoğunluğun hakkını kötüye kullandığını gösterir; toplantılara gelmemek bu ihlallerin sonucudur." }
       ]
     },
     {
@@ -137,13 +149,13 @@
       ],
       "prompt": "Değerlemenin nasıl yapılmasını isteyeceksiniz?",
       "choices": [
-        { "text": "Ayrılma akçesi payın gerçek değeridir; itibari değer ya da defter değeri değil. Otel taşınmazının güncel piyasa değeri ve işletmenin değeri dâhil, şirketin karar tarihine en yakın tarihteki gerçek değeri esas alınmalı. Talebimizi bilirkişi raporuna göre artıracağımızı saklı tutuyoruz.", "delta": 20, "set": ["deger"],
+        { "text": "Payın gerçek değeri: otel dâhil, karar tarihine en yakın değer; talebi bilirkişi raporuna göre artıracağız.", "delta": 20, "set": ["deger"],
           "law": "TTK m.641 · HMK m.107",
           "note": "Doğru. Ayrılma akçesi esas sermaye payının gerçek değeridir (m.641). Yargıtay, değerin karar tarihine en yakın tarihe göre belirlenmesini arar. Değer bilirkişiyle ortaya çıkacağı için belirsiz alacak olarak talep edip sonradan artırmak (HMK m.107) talebe bağlılık sorununu önler." },
-        { "text": "Esas sermaye payının itibari değeri: 900.000 TL.", "delta": -15, "set": ["dusukTalep"],
+        { "text": "Esas sermaye payının itibari değeri olan 900.000 TL; kesin bir rakam talebe bağlılık sorununu önler.", "delta": -15, "set": ["dusukTalep"],
           "law": "TTK m.641 · HMK m.26",
           "note": "Büyük hata. İtibari değer gerçek değer değildir. Üstelik hâkim talepten fazlasına hükmedemez (HMK m.26); müvekkilin payı çok altında bir bedelle elinden çıkar." },
-        { "text": "Son bilançodaki öz kaynağın yüzde 30'u; davalının hesabını kabul ediyoruz.", "delta": -10, "set": ["dusukTalep"],
+        { "text": "Son bilançodaki öz kaynağın yüzde 30'u; bilanço denetimden geçtiği için davalının hesabını kabul edebiliriz.", "delta": -10, "set": ["dusukTalep"],
           "law": "TTK m.641 · HMK m.26",
           "note": "Defter değeri gerçek değer değildir; otel taşınmazı bilançoda 2009 maliyetiyle duruyor. Bu kabul talebinizi sınırladı (HMK m.26)." }
       ]

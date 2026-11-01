@@ -59,21 +59,21 @@
       "lines": [{ "who": "narr", "text": "Cevap dilekçesi önünüzde. Davalı ilk kez “çekincesiz kabul” savunmasını ileri sürdü. Cevaba cevap süresi iki hafta." }],
       "prompt": "Ne yapacaksınız?",
       "choices": [
-        { "if": "serh || wa", "text": "İki hafta içinde cevaba cevap dilekçesi verin; görüşmede öğrendiğiniz belgeleri delil olarak gösterip dilekçeye ekleyin.", "delta": 20, "set": ["sunuldu"],
+        { "if": "serh || wa", "text": "İki hafta içinde cevaba cevap dilekçesi verin; görüşmede öğrendiğiniz belgeleri delil olarak gösterip ekleyin.", "delta": 20, "set": ["sunuldu"],
           "law": "HMK m.136, m.141",
           "note": "Doğru. Davalının yeni savunmasına karşı deliller cevaba cevap dilekçesinde, süresinde gösterilmelidir (HMK m.136). Süresinden sonra gösterilen delile mahkeme ancak istisnaen izin verir (HMK m.145)." },
-        { "if": "serh || wa", "text": "Belgeleri şimdilik saklayın; tahkikatta sürpriz olarak sunarsınız.", "delta": -15, "set": ["gec"],
+        { "if": "serh || wa", "text": "Belgeleri şimdilik saklayın; tahkikatta sunarsınız, davalı onlara göre savunma kuramaz ve şantiye şefi hazırlıksız yakalanır.", "delta": -15, "set": ["gec"],
           "law": "HMK m.145",
           "note": "Usul hukukunda “sürpriz delil” yoktur. Taraflar kanundaki süreden sonra delil gösteremez; mahkeme ancak gecikme ihmalden kaynaklanmıyorsa ya da yargılamayı geciktirme amacı taşımıyorsa izin verebilir (HMK m.145). Belge elinizdeyken beklemek ihmaldir." },
-        { "text": "Cevaba cevap dilekçesi verin; savunmaya yalnızca dosyadaki mevcut delillerle karşılık verin.", "delta": 5,
+        { "text": "Cevaba cevap dilekçesi verin; savunmayı dosyadaki sözleşme ve tutanakla karşılayın, yeni belge eklemek davayı genişletir.", "delta": 5,
           "law": "HMK m.136",
           "note": [
             { "if": "serh || wa", "text": "Dilekçe süresinde verildi, ama görüşmede öğrendiğiniz belgeleri delil olarak göstermediniz. Bu belgeler artık süresi içinde dosyaya girmemiş sayılır (HMK m.145)." },
             { "if": "!serh && !wa", "text": "Süresinde bir karşı beyan verdiniz. Ama dosyadaki belgeler çekincesiz kabul savunmasını çürütmüyor; müvekkile teslim anını sormalıydınız." }
           ] },
-        { "text": "Cevaba cevap vermeyin; ön inceleme duruşmasında sözlü olarak anlatırsınız.", "delta": -10, "set": ["gec"],
+        { "text": "Cevaba cevap vermeyin; ön inceleme duruşmasında sözlü beyanda bulunup belgeleri o zaman sunarsınız, ön inceleme bunun içindir.", "delta": -10, "set": ["gec"],
           "law": "HMK m.136, m.145",
-          "note": "Cevaba cevap hakkı kullanılmadı. Davalının yeni savunmasına karşı deliller süresinde gösterilmedi; duruşmada sonradan delil göstermek mahkemenin iznine bağlı (HMK m.145)." }
+          "note": "Cevaba cevap hakkı kullanılmadı. Ön inceleme delil göstermenin değil, uyuşmazlık konularının belirlenmesinin aşamasıdır; davalının yeni savunmasına karşı deliller süresinde gösterilmedi. Sonradan delil göstermek mahkemenin iznine bağlı (HMK m.145)." }
       ] },
     { "side": "p1", "scene": "court", "if": "gec && (serh || wa)",
       "lines": [
@@ -81,19 +81,21 @@
         { "who": "opp", "text": "İtiraz ediyoruz Sayın Hâkim. Bu belgeler davacının elindeydi, süresinde gösterilmedi. Dikkate alınmamalı." },
         { "who": "judge", "text": "Davacı vekili, belgeler neden şimdi sunuluyor?" }
       ],
-      "prompt": "Nasıl karşılık vereceksiniz?",
+      "kind": "free", "prompt": "Belgelerin şimdi dosyaya girebilmesi için mahkemeye ne söyleyeceksiniz? Kendi cümlelerinizle açıklayın.",
       "choices": [
-        { "text": "Belgeler yargılamayı geciktirme amacı taşımıyor; adalete hizmet için kabulünü rica ediyoruz.", "delta": -5, "set": ["gecred"],
-          "law": "HMK m.145",
-          "reply": [{ "who": "judge", "text": "Belgeler baştan beri davacının elindeydi; gecikme ihmalden kaynaklanıyor. Sonradan delil gösterme talebi reddedildi." }],
-          "note": "HMK m.145'teki izin istisnadır: belge elinizdeyken süreyi kaçırmak ihmaldir. Mahkeme izin vermedi." },
-        { "text": "Islah yoluyla delil bildirimimizi düzeltiyoruz; ıslahın gerektirdiği gideri ve karşı tarafın ıslah nedeniyle uğradığı zararı üstleniyoruz.", "delta": 10, "set": ["islah"],
-          "law": "HMK m.176 vd.",
-          "reply": [{ "who": "judge", "text": "Islah beyanı tutanağa geçirildi. Islah nedeniyle oluşan yargılama giderleri ve karşı tarafın bu yüzden uğradığı zarar davacıya yüklenecektir. Belgeler dosyaya alındı." }],
-          "note": "Taraf, tahkikat sona erene kadar bir kez usul işlemlerini ıslahla düzeltebilir (HMK m.176-177); süresinde gösterilmeyen delil bu yolla gösterilebilir. Bedeli var: ıslahın giderleri ve karşı tarafın zararı ıslah edene yüklenir. Hakkı tek kullanımlık ve pahalı bir kurtarma." },
-        { "text": "Belgelerden vazgeçiyoruz.", "delta": -10, "set": ["gecred"],
-          "note": "Elinizdeki en güçlü delilden kendiniz vazgeçtiniz. Islah yolu hâlâ açıktı." }
-      ] },
+        {"text": "Güçlü savunma", "min": 70, "delta": 10, "set": ["islah"], "law": "HMK m.176 vd.", "note": "Doğru kurtarma yolunu buldunuz: süresinde gösterilmeyen delil, tahkikat sona erene kadar bir kez yapılabilen ıslahla gösterilebilir (HMK m.176-177). Bedelini de doğru söylediniz: ıslahın giderleri ve karşı tarafın zararı ıslah edene yüklenir (HMK m.178). Tek kullanımlık ve pahalı bir hak."},
+        {"text": "Yeterli savunma", "min": 40, "delta": 5, "set": ["islah"], "law": "HMK m.176 vd.", "note": "Islah yoluna başvurdunuz ve mahkeme belgeleri kabul etti. Ama ıslahın sınırlarını ve bedelini göstermediniz: tahkikat sona erene kadar yalnız bir kez kullanılabilir (HMK m.176-177); giderleri ve karşı tarafın zararı ıslah edene yüklenir (HMK m.178)."},
+        {"text": "Zayıf savunma", "delta": -5, "set": ["gecred"], "law": "HMK m.145", "note": "Belgelerin kabulünü hakkaniyete ya da gecikme amacı taşımadığına dayandırdınız. HMK m.145'teki izin istisnadır: belge elinizdeyken süreyi kaçırmak ihmaldir ve mahkeme izin vermedi. Açık olan yol ıslahtı (HMK m.176-178)."}
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Süresinde gösterilmeyen delil için başvurulacak yol ıslahtır; taraf delil bildirimini ıslahla düzelttiğini açıkça beyan eder (HMK m.176-177). (2) Islah, tahkikat sona erinceye kadar ve aynı davada bir kez yapılabilir; tahkikat henüz bitmediği için yol açıktır. (3) Islah eden taraf, ıslah nedeniyle yapılan yargılama giderlerini ve karşı tarafın uğradığı ya da uğrayabileceği zararı karşılamayı üstlenir (HMK m.178). Islahı süre ve bedel koşullarıyla birlikte kurmak tam puan alır; yalnızca 'ıslah ediyoruz' demek orta puan alır. Belgelerin hakkaniyet gereği ya da HMK m.145 uyarınca kabulünü istemek, gecikmeyi mazur göstermeye çalışmak ya da belgelerden vazgeçmek düşük puan alır.",
+      "keywords": [
+        {"terms": ["ıslah", "islah", "ıslâh"], "weight": 3},
+        {"terms": ["gider", "masraf", "zarar"], "weight": 2},
+        {"terms": ["bir kez", "bir defa", "tek sefer", "bir kere"], "weight": 1},
+        {"terms": ["tahkikat", "sona er"], "weight": 1},
+        {"terms": ["m.176", "m. 176", "madde 176", "176. madde", "md. 176", "m.177", "m. 177", "m.178", "m. 178"], "weight": 1}
+      ],
+      "model": "Sayın Hâkim, delil bildirimimizi ıslah yoluyla düzeltiyoruz. Tahkikat henüz sona ermediği ve bu hakkı daha önce kullanmadığımız için ıslah yolu açıktır (HMK m.176-177). Islah nedeniyle yapılan yargılama giderlerini ve karşı tarafın uğrayabileceği zararı karşılamayı kabul ediyoruz (HMK m.178); şerhli nüshanın ve mesajların delil olarak dosyaya alınmasını talep ediyoruz." },
     { "kind": "evidence", "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Davalı vekili, çekince savunmanızı açıklayın." }],
       "statement": { "who": "opp", "text": "Davacı 30 Mayıs'ta işi teslim aldı. Teslim tutanağında tek bir şerh yoktur. Çekincesiz kabul edilen ifadan sonra ceza istenemez." },
@@ -124,16 +126,16 @@
       ],
       "prompt": "İndirim talebine ne diyeceksiniz?",
       "choices": [
-        { "if": "wa && (sunuldu || islah)", "text": "Davalı bir limited şirkettir; tacir sıfatıyla borçlandığı cezanın aşırılığı iddiasıyla indirilmesini isteyemez. Gecikme de malzemeden değil, ekibin başka işe kaydırılmasından doğdu: şantiye şefinin mesajı dosyada.", "delta": 25, "set": ["ttk22"],
+        { "if": "wa && (sunuldu || islah)", "text": "Davalı limited şirkettir; tacir olarak cezanın indirilmesini isteyemez. Gecikme de malzemeden değil, ekibin Kemer'deki işe kaydırılmasından doğdu.", "delta": 25, "set": ["ttk22"],
           "law": "TTK m.22, TBK m.182/3",
           "note": "Hâkim aşırı gördüğü ceza koşulunu kendiliğinden indirir (TBK m.182/3); ama tacir sıfatıyla borçlanan taraf aşırılık iddiasıyla indirim isteyemez (TTK m.22). Yargıtay ancak cezanın tacirin ekonomik mahvına yol açacağı istisnai hâllerde müdahale eder. Mesaj da malzeme gerekçesini çürütüyor." },
         { "text": "Davalı bir limited şirkettir; tacir sıfatıyla borçlandığı cezanın aşırılığı iddiasıyla indirilmesini isteyemez.", "delta": 15, "set": ["ttk22"],
           "law": "TTK m.22",
           "note": "Doğru. Hâkimin indirim yetkisi (TBK m.182/3), tacir sıfatıyla borçlanan bakımından TTK m.22 ile sınırlanmıştır. Limited şirket tacirdir (TTK m.16). Malzeme gerekçesine de cevap verilebilirdi." },
-        { "text": "Ceza koşulunu hâkim hiçbir hâlde indiremez; sözleşmeye bağlılık esastır.", "delta": -10,
+        { "text": "Ceza koşulunu hâkim hiçbir hâlde indiremez; miktarı iki taraf serbestçe kararlaştırdı, sözleşmeye bağlılık gereği ceza aynen ödenmelidir.", "delta": -10,
           "law": "TBK m.182/3",
-          "note": "Hatalı. Genel kural, hâkimin aşırı gördüğü cezayı kendiliğinden indirmesidir (TBK m.182/3). Sonucu kurtaran şey davalının tacir olması (TTK m.22); bunu söylemeliydiniz." },
-        { "text": "Cezanın yarıya indirilmesine itirazımız yoktur.", "delta": -15, "set": ["indirimkabul"],
+          "note": "Hatalı. Taraflar cezanın miktarını serbestçe belirleyebilir (TBK m.182/1); ama genel kural, hâkimin aşırı gördüğü cezayı kendiliğinden indirmesidir (TBK m.182/3). Sonucu kurtaran şey davalının tacir olması (TTK m.22); bunu söylemeliydiniz." },
+        { "text": "Cezanın yarıya indirilmesine itirazımız yoktur; yeter ki çekincesiz kabul savunması reddedilsin ve kalan kısım dava tarihinden faiziyle hüküm altına alınsın.", "delta": -15, "set": ["indirimkabul"],
           "law": "TTK m.22",
           "note": "Tacir olan davalı indirim isteyemezdi; kendi beyanınızla müvekkilin alacağının yarısından vazgeçtiniz." }
       ] }

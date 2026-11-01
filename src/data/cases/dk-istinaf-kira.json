@@ -161,7 +161,7 @@
       "prompt": "İstinaf dilekçesini nasıl yazacaksınız?",
       "choices": [
         {
-          "text": "En geç 16.03.2027'de, somut sebeplerle başvur: bilirkişi dosyadaki beş emsalden cadde üzerindeki ikisini gerekçesiz dışladı; ara sokak emsalleri kiralananla karşılaştırılamaz; %25 indirimin gerekçesi yok. Duruşma ve dosyadaki emsallerle yeni bilirkişi incelemesi iste.",
+          "text": "16.03.2027'ye kadar somut sebeplerle başvur: iki cadde emsali gerekçesiz dışlandı, ara sokak emsalleri karşılaştırılamaz, %25 indirim gerekçesiz.",
           "delta": 20,
           "set": [
             "sebep"
@@ -170,7 +170,7 @@
           "note": "Bölge adliye mahkemesi, istinaf dilekçesinde belirtilen sebeplerle sınırlı inceleme yapar; kamu düzenine aykırılık ise re'sen gözetilir (HMK m.355). Sebepleri somut gösterdiniz ve yalnızca dosyadaki delillere dayandınız."
         },
         {
-          "text": "Süre dolmadan kısa bir dilekçe ver: “Karar usul ve yasaya aykırıdır.” Ayrıntılı gerekçeyi sonra ek dilekçeyle sun.",
+          "text": "Süre dolmadan kısa bir dilekçe ver: “Karar usul ve yasaya aykırıdır.” Ayrıntılı sebepleri duruşmalı inceleme öncesinde ek dilekçeyle sun.",
           "delta": -15,
           "set": [
             "genel"
@@ -185,14 +185,14 @@
           ]
         },
         {
-          "text": "Somut sebeplerle başvur; ayrıca müvekkilin elindeki, ilk derecede sunulmamış iki yeni cadde sözleşmesini de ekle.",
+          "text": "Somut sebeplerle başvur; müvekkilin elindeki, ilk derecede sunulmamış iki cadde sözleşmesini de ekle, emsal sayısı artsın.",
           "delta": 5,
           "set": [
             "sebep",
             "yeniP1"
           ],
           "law": "HMK m.355, m.357",
-          "note": "Sebepler yerinde, ama eklenen sözleşmeler ilk derecede sunulabilecekken sunulmamış. İstinafta re'sen göz önünde tutulacaklar dışında yeni delillere dayanılamaz (HMK m.357/1); bunlar dikkate alınmaz ve karşı tarafa itiraz fırsatı verir."
+          "note": "Sebepler yerinde, ama eklenen sözleşmeler ilk derecede sunulabilecekken sunulmamış. İstinafta re'sen göz önünde tutulacaklar dışında yeni delillere dayanılamaz (HMK m.357/1); emsal sayısı artmaz, bunlar dikkate alınmaz ve karşı tarafa itiraz fırsatı verir."
         }
       ]
     },
@@ -232,7 +232,7 @@
           "note": "Yerinde. Somut sebep gösterilmeyen bir istinafta Daire yalnızca kamu düzenine aykırılığa bakar; kira bedelinin miktarı kamu düzeniyle ilgili değildir."
         },
         {
-          "text": "Cevap ver: rapor dosyadaki delillere dayanıyor; %25 indirim on yıllık kiracılığa ve eczanenin taşınmasının zorluğuna dayanıyor. Davacının istinafa eklediği yeni sözleşmelere HMK m.357 uyarınca itiraz et.",
+          "text": "Cevap ver: rapor dosyadaki delillere, %25 indirim on yıllık kiracılığa ve taşınma zorluğuna dayanıyor; davacının eklediği yeni sözleşmelere HMK m.357 ile itiraz et.",
           "delta": 20,
           "if": "yeniP1",
           "set": [
@@ -243,7 +243,7 @@
           "note": "Hem esasa cevap verdiniz hem karşı tarafın usul hatasını yakaladınız: ilk derecede sunulabilecekken sunulmayan sözleşmelere istinafta dayanılamaz."
         },
         {
-          "text": "Cevap ver: rapor dosyadaki delillere dayanıyor; %25 indirim on yıllık kiracılığa ve eczanenin taşınmasının zorluğuna dayanıyor. Yeni sözleşme ekleme.",
+          "text": "Cevap ver: rapor dosyadaki delillere, %25 indirim on yıllık kiracılığa ve taşınma zorluğuna dayanıyor; müvekkilin bulduğu sözleşmeleri ekleme.",
           "delta": 15,
           "if": "!genel",
           "set": [
@@ -260,7 +260,7 @@
           ]
         },
         {
-          "text": "Cevap ver ve katılma yoluyla istinafa başvur: indirim %40 olmalı. Müvekkilin bulduğu üç ara sokak sözleşmesini de ekle.",
+          "text": "Cevap ver ve katılma yoluyla istinafa başvur: indirim %40 olmalı; müvekkilin bulduğu 2025 tarihli üç ara sokak sözleşmesini de ekle, emsal tablosu tamamlansın.",
           "delta": -5,
           "set": [
             "cevap",
@@ -270,10 +270,10 @@
           "note": "Katılma yoluyla istinaf cevap süresi içinde mümkündür (HMK m.348). Ama 2025 tarihli sözleşmeler ilk derecede sunulabilirdi; istinafta yeni delil olarak dikkate alınmazlar (HMK m.357/1)."
         },
         {
-          "text": "Cevap vermeye gerek yok; Daire dosyayı zaten inceler.",
+          "text": "Cevap vermeye gerek yok; cevap zorunlu değil, Daire dosyayı ve ilk derece gerekçesini zaten bütünüyle inceler.",
           "delta": -10,
           "law": "HMK m.347",
-          "note": "Cevap vermek zorunlu değildir, ama kiracının hakkaniyet indirimine ilişkin gerekçesini Daireye anlatma fırsatını kaçırdınız; karşı tarafın varsa usul hatasını da yakalamadınız."
+          "note": "Cevap vermek zorunlu değildir; ama Daire dosyayı bütünüyle değil, istinaf sebepleriyle sınırlı inceler (HMK m.355). Kiracının hakkaniyet indirimine ilişkin gerekçesini Daireye anlatma fırsatını kaçırdınız; karşı tarafın varsa usul hatasını da yakalamadınız."
         }
       ]
     },
@@ -345,7 +345,7 @@
       "prompt": "Dışlanan cadde emsalleri hakkında ne diyeceksiniz?",
       "choices": [
         {
-          "text": "Bilirkişi cadde emsallerini bilerek dışladı: onlar kiralanandan çok büyük, köşe başı dükkânlar.",
+          "text": "Bilirkişi cadde emsallerini bilerek dışladı: onlar kiralanandan çok büyük, köşe başı dükkânlar; karşılaştırılabilir emsal ara sokaktadır.",
           "delta": -5,
           "if": "!benzerBilgi",
           "set": [
@@ -355,7 +355,7 @@
           "note": "Dosyadaki sözleşmelere bakmadan bir olgu iddia ettiniz. Sözleşmeler ortadayken bu iddia kolayca çürütülebilir."
         },
         {
-          "text": "Cadde emsallerinin kiralanana benzediğini kabul et; ama bunlar bu bahar yeni kiracıya verilmiş dükkânlar. Yeni kiralama bedeli, on yıllık kiracının kirası için doğrudan ölçü olamaz; fark hakkaniyet indirimiyle karşılanmalı.",
+          "text": "Cadde emsallerinin benzerliğini kabul et; ama bunlar yeni kiracıya verilmiş dükkânlar, yeni kiralama bedeli on yıllık kiracı için doğrudan ölçü olamaz.",
           "delta": 20,
           "if": "benzerBilgi",
           "set": [
@@ -365,23 +365,23 @@
           "note": "Güçlü ve dürüst bir savunma. Benzer emsali inkâr etmediniz; tartışmayı yeni kiralama bedeli ile süregelen kira ilişkisi arasındaki farka, yani hakkaniyete taşıdınız."
         },
         {
-          "text": "Emsal seçimi bilirkişinin teknik değerlendirmesidir; ara sokak emsalleri de dosyada ve rapor buna dayanıyor.",
+          "text": "Emsal seçimi bilirkişinin teknik takdiridir; ara sokak emsalleri de dosyada, rapor bunlara dayanıyor ve Daire bu teknik takdire kendiliğinden müdahale etmemeli.",
           "delta": 5,
           "if": "!benzerBilgi",
           "set": [
             "takdirBK"
           ],
           "law": "HMK m.282",
-          "note": "Savunulabilir ama zayıf. Bilirkişi raporu hâkimi bağlamaz; mahkeme raporu serbestçe değerlendirir (HMK m.282). Dosyadaki emsallerin gerekçesiz dışlanması bu savunmayı zorlar."
+          "note": "Savunulabilir ama zayıf. Bilirkişi raporu hâkimi bağlamaz; mahkeme raporu serbestçe değerlendirir (HMK m.282) ve Daire istinaf sebebi olarak ileri sürülen emsal seçimini inceler. Dosyadaki emsallerin gerekçesiz dışlanması bu savunmayı zorlar."
         },
         {
-          "text": "Bilirkişi raporu Daireyi bağlar; rapora dayanan karar yerindedir.",
+          "text": "Bilirkişi raporu Daireyi bağlar; teknik konuda alınmış rapora dayanan karar yerindedir, yeni inceleme gereksizdir.",
           "delta": -10,
           "set": [
             "baglar"
           ],
           "law": "HMK m.282",
-          "note": "Yanlış. Hâkim bilirkişi raporunu diğer delillerle birlikte serbestçe değerlendirir; rapor bağlayıcı değildir (HMK m.282)."
+          "note": "Yanlış. Hâkim bilirkişi raporunu diğer delillerle birlikte serbestçe değerlendirir; rapor teknik konuda da bağlayıcı değildir (HMK m.282)."
         }
       ]
     },
@@ -474,7 +474,7 @@
       "prompt": "Cevabınız ne olacak?",
       "choices": [
         {
-          "text": "4 ve 5 numaralı sözleşmeleri göster: ilk derecede süresinde sunulmuş, aynı caddede, 135 ve 150 m², zemin kat. Rapor bunları neden dışladığını hiç söylemiyor; Daire dosyadaki beş emsalle yeniden değerlendirme yapmalı.",
+          "text": "4 ve 5 numaralı sözleşmeleri göster: süresinde sunuldu, aynı caddede, 135 ve 150 m² zemin kat; rapor dışlamayı gerekçelendirmiyor.",
           "delta": 20,
           "if": "sebep",
           "set": [
@@ -498,16 +498,16 @@
           ]
         },
         {
-          "text": "İstinafa eklediğiniz iki yeni cadde sözleşmesine dayan.",
+          "text": "İstinafa eklediğiniz iki yeni cadde sözleşmesine dayan; onlar dosyadaki emsallerden daha güncel ve kiralanana daha yakın.",
           "delta": -10,
           "if": "yeniP1",
           "law": "HMK m.357",
-          "note": "İlk derecede sunulabilecekken sunulmayan sözleşmelere istinafta dayanılamaz (HMK m.357/1). Dosyadaki 4 ve 5 numaralı sözleşmeler zaten elinizdeydi."
+          "note": "İlk derecede sunulabilecekken sunulmayan sözleşmelere istinafta dayanılamaz (HMK m.357/1); güncel olmaları bunu değiştirmez. Dosyadaki 4 ve 5 numaralı sözleşmeler zaten elinizdeydi."
         },
         {
-          "text": "Beyanda bulunma; Daire raporu nasılsa yeniden inceler.",
+          "text": "Beyanda bulunma; duruşmalı inceleme kararı, Dairenin raporu zaten yeniden değerlendireceğini gösteriyor, sözü uzatıp dikkati dağıtma.",
           "delta": -10,
-          "note": "Karşı tarafın beyanını cevapsız bıraktınız. Dosyadaki emsalleri Dairenin önüne koymak sizin işinizdi."
+          "note": "Karşı tarafın beyanını cevapsız bıraktınız. Duruşmalı inceleme kararı sonucu garanti etmez; dosyadaki emsalleri Dairenin önüne koymak sizin işinizdi."
         }
       ]
     },
@@ -555,7 +555,7 @@
           "note": "Beş yılı aşan kira ilişkilerinde yeni kira bedeli, TÜFE değişimi, kiralananın durumu ve emsaller gözetilerek hakkaniyete göre belirlenir (TBK m.344/3). Uzun süreli kiracılık, indirimin yerleşik gerekçesidir."
         },
         {
-          "text": "Mesafe kuralı nedeniyle eczanenin yakında taşınabileceği bir dükkân olmadığını, on yıllık kiracılıkla birlikte bunun kiralananın kiracı yönünden durumunu belirlediğini somut olarak anlat; hakkaniyet indirimi bu yüzden gerekli.",
+          "text": "Mesafe kuralı yüzünden eczanenin yakında taşınabileceği dükkân olmadığını, on yıllık kiracılıkla birlikte kiralananın durumunu bunun belirlediğini somut anlat.",
           "delta": 20,
           "if": "!yeniP2 && ruhsatP2",
           "set": [
@@ -606,7 +606,7 @@
       "prompt": "Teklife cevabınız?",
       "choices": [
         {
-          "text": "Kısa ara iste, müvekkile danış; onay alınca kabul et ve bedeli, başlangıç tarihini ve yargılama giderlerinin paylaşımını tutanağa yazdır.",
+          "text": "Kısa ara iste, müvekkile danış; onay alınca kabul et, bedeli, başlangıç tarihini ve gider paylaşımını tutanağa yazdır.",
           "delta": 10,
           "set": [
             "sulh"
@@ -621,7 +621,7 @@
           ]
         },
         {
-          "text": "Reddet; dosyadaki emsallerle kira 280.000 TL'nin altında kalmaz.",
+          "text": "Reddet; dosyadaki emsallerle kira 280.000 TL'nin altında kalmaz, 230.000 TL'lik teklif alacağın bir kısmından vazgeçmek olur.",
           "delta": 5,
           "note": "Savunulabilir bir tercih ve büyük ihtimalle haklısınız. Ama karar temyize gidebilir; sulh, müvekkile kesinlik ve zaman kazandırırdı.",
           "reply": [
@@ -632,10 +632,10 @@
           ]
         },
         {
-          "text": "Müvekkile sormadan hemen kabul et.",
+          "text": "Teklifi hemen kabul et; dava uzadıkça masraf artıyor, müvekkile duruşmadan sonra bilgi verirsin, fırsat kaçmasın.",
           "delta": -10,
           "law": "HMK m.74",
-          "note": "Sulh, vekâletnamede özel yetki gerektiren işlemlerdendir ve müvekkilin iradesi alınmadan yapılamaz (HMK m.74).",
+          "note": "Sulh, vekâletnamede özel yetki gerektiren işlemlerdendir ve müvekkilin iradesi alınmadan yapılamaz (HMK m.74). Masraf kaygısı bunu değiştirmez.",
           "reply": [
             {
               "who": "judge",
@@ -656,10 +656,11 @@
           "if": "!sulhTeklif"
         }
       ],
-      "prompt": "Son beyanınız ne olacak?",
+      "prompt": "Hakkaniyet indirimi hakkında Daireye son olarak ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
         {
-          "text": "Uzun kiracılık bir indirimi haklı kılar, ama %25 gerekçesiz ve emsallerle orantısız. İndirim, kiralananın durumuna göre ölçülü olmalı.",
+          "text": "Güçlü beyan",
+          "min": 70,
           "delta": 15,
           "set": [
             "oranArg"
@@ -667,37 +668,91 @@
           "law": "TBK m.344/3 · HMK m.355",
           "note": [
             {
-              "text": "Hakkaniyet indiriminin kendisine değil oranına ve gerekçesizliğine itiraz ettiniz; istinaf dilekçenizdeki sebebin içinde kaldınız (HMK m.355)."
+              "text": "Hakkaniyet indiriminin kendisine değil oranına ve gerekçesizliğine itiraz ettiniz; istinaf dilekçenizdeki sebebin içinde kaldınız (HMK m.355). Uzun kiracılık bir indirimi haklı kılar, ama indirim kiralananın durumuna göre ölçülü olmalıdır (TBK m.344/3)."
             },
             {
               "if": "yeniKiralama",
               "text": " Kiracı vekilinin yeni kiralama itirazını da karşıladınız: indirim bu farkı yansıtabilir, ama emsal düzeyini ortadan kaldıracak oranda olamaz."
+            },
+            {
+              "if": "yeniP2",
+              "text": " Kiracının istinaf cevabına eklediği yeni sözleşmeler ilk derecede sunulabilecekken sunulmadığından zaten dikkate alınamaz (HMK m.357/1)."
             }
           ]
         },
         {
-          "text": "Hakkaniyet indirimi uygulanamaz; kira tam emsal düzeyinde, 310.000 TL olarak belirlenmeli.",
-          "delta": -10,
-          "law": "TBK m.344/3",
-          "note": "Beş yılı aşan kira ilişkisinde kanun hakkaniyete göre belirlemeyi öngörür (TBK m.344/3); uygulamada uzun süreli kiracılık için indirim yapılır. Bu talep Daireyi ikna etmez."
-        },
-        {
-          "text": "Kiracı dükkânın arka bölümünü bir medikal firmasına vermiş; indirimi hak etmiyor.",
-          "delta": -10,
-          "law": "HMK m.357",
-          "note": "Bu ilk derecede ileri sürülmemiş yeni bir vakıa; istinafta dinlenmez (HMK m.357/1)."
-        },
-        {
-          "text": "Kiracının istinaf cevabına eklediği yeni sözleşmelerin HMK m.357 uyarınca dikkate alınmamasını iste; ardından indirimin oranına itiraz et.",
-          "delta": 15,
-          "if": "yeniP2",
+          "text": "Yeterli beyan",
+          "min": 40,
+          "delta": 8,
           "set": [
             "oranArg"
           ],
-          "law": "HMK m.357 · TBK m.344/3",
-          "note": "Karşı tarafın yeni delillerine itiraz ettiniz ve indirimin ölçüsünü tartıştınız. İlk derecede sunulabilecek delillere istinafta dayanılamaz."
+          "law": "TBK m.344/3 · HMK m.355",
+          "note": "İndirimin oranına itiraz ettiniz; Daire bunu dikkate aldı. Tam beyan, uzun kiracılığın bir indirimi haklı kıldığını kabul edip %25'in gerekçesiz ve emsallerle orantısız olduğunu, indirimin kiralananın durumuna göre ölçülü tutulması gerektiğini (TBK m.344/3) birlikte söyler."
+        },
+        {
+          "text": "Zayıf beyan",
+          "delta": -10,
+          "law": "TBK m.344/3 · HMK m.357",
+          "note": "İndirimin oranını tartışmadınız. Beş yılı aşan kira ilişkisinde yeni kira hakkaniyete göre belirlenir ve uzun kiracılık indirimi haklı kılabilir (TBK m.344/3); indirimi tümden reddetmek ya da ilk derecede ileri sürülmemiş yeni vakıalara dayanmak (HMK m.357/1) Daireyi ikna etmez. İtiraz, %25'in gerekçesiz ve orantısız olmasına yöneltilmeliydi."
         }
-      ]
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Beş yılı aşan kira ilişkisinde kira hakkaniyete göre belirlenir (TBK m.344/3); on yıllık kiracılığın bir indirimi haklı kılabileceği kabul edilir. (2) İtiraz indirimin kendisine değil, %25 oranına yöneltilir: oran gerekçesizdir ve dosyadaki cadde emsalleriyle orantısızdır. (3) İndirim kiralananın durumuna göre ölçülü olmalı, emsal düzeyini ortadan kaldırmamalıdır; bu itiraz istinaf dilekçesindeki sebebin içindedir (HMK m.355). Kiracı istinaf cevabına yeni sözleşme eklemişse bunların HMK m.357 uyarınca dikkate alınmamasını istemek artı puandır. Uzun kiracılığı kabul edip oranın gerekçesiz ve orantısız olduğunu göstermek tam puan alır; yalnızca %25'in fazla olduğunu söylemek orta puan alır. Hakkaniyet indiriminin hiç uygulanamayacağını savunan ya da ilk derecede ileri sürülmemiş yeni olgulara dayanan cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "oran",
+            "%25",
+            "yüzde 25",
+            "yüzde yirmi beş"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "gerekçesiz",
+            "gerekçe"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "orantısız",
+            "ölçülü",
+            "ölçüsüz",
+            "aşırı"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "uzun kiracılık",
+            "on yıl",
+            "uzun süre",
+            "10 yıl"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "hakkaniyet"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "m.344",
+            "m. 344",
+            "madde 344",
+            "344. madde",
+            "md. 344",
+            "md.344"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Başkan, on yıllık kiracılığın bir hakkaniyet indirimini haklı kılabileceğini kabul ediyoruz. Ancak bilirkişinin uyguladığı %25 indirim hiçbir gerekçeye dayanmıyor ve dosyadaki cadde emsalleriyle orantısız. TBK m.344/3 uyarınca indirim kiralananın durumuna göre ölçülü olmalıdır; emsal düzeyini ortadan kaldıran bir oran hakkaniyete uygun değildir."
     }
   ],
   "outcomes": [

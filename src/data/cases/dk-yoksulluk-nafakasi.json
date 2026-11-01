@@ -49,16 +49,16 @@
       ],
       "prompt": "Hangi yoldan, neyi isteyeceksiniz?",
       "choices": [
-        { "text": "Aile mahkemesinde nafakanın dava tarihinden itibaren kaldırılması davası aç; kaldırma şartları gerçekleşmezse indirilmesini de iste. Müvekkile, karar kesinleşinceye kadar ödemeye devam etmesini söyle.", "delta": 20, "set": ["dogru"],
+        { "text": "Aile mahkemesinde dava tarihinden itibaren kaldırma, olmazsa indirme davası aç; müvekkil kesinleşmeye kadar ödemeye devam etsin.", "delta": 20, "set": ["dogru"],
           "law": "TMK m.176/3–4",
           "note": "Doğru. Fiilen evliymiş gibi yaşama ya da yoksulluğun ortadan kalkması nafakayı kendiliğinden değil, ancak mahkeme kararıyla kaldırır (TMK m.176/3). Kaldırma kural olarak dava tarihinden itibaren sonuç doğurur; dava açılana kadar geçen süre kayıptır. Yargıtay'a göre kaldırma talebi indirme talebini de içerir; açıkça yazmak ise hâkimin önüne iki seçeneği birden koyar." },
-        { "text": "Kaldırma davası aç; kaldırmanın 2024'ten itibaren olmasını ve o tarihten beri ödenen nafakaların iadesini de iste.", "delta": -10, "set": ["gecmis"],
+        { "text": "Kaldırma davası aç; kaldırmanın birlikteliğin başladığı 2024'ten itibaren olmasını ve o tarihten beri ödenen nafakaların iadesini iste.", "delta": -10, "set": ["gecmis"],
           "law": "TMK m.176/3 · HMK m.326",
           "note": "Kaldırma kararı kural olarak dava tarihinden itibaren sonuç doğurur; dava tarihinden önce ödenen nafaka geri istenemez. Bu kısım reddedilecek ve reddedilen kısım için karşı taraf lehine vekâlet ücretine hükmedilecek." },
-        { "text": "Kaldırma davası aç; müvekkil dava sonuçlanana kadar ödemeyi kessin.", "delta": -15, "set": ["durdur"],
+        { "text": "Kaldırma davası aç; nafakanın sebebi ortadan kalktığından müvekkil dava sonuçlanana kadar ödemeyi kessin.", "delta": -15, "set": ["durdur"],
           "law": "TMK m.176/3 · İİK m.344",
           "note": "Dava açmak nafaka borcunu durdurmaz; karar kesinleşinceye kadar ilam yürürlükte. Ödenmeyen nafaka ilamlı takibe konu olur; icra emrine rağmen ödenmezse alacaklının şikâyeti üzerine tazyik hapsine karar verilebilir (İİK m.344)." },
-        { "text": "Dava açma; icra mahkemesine başvurup nafaka ilamının icrasının geri bırakılmasını iste.", "delta": -30,
+        { "text": "Dava açma; icra mahkemesine başvurup İİK m.33 uyarınca nafaka ilamının icrasının geri bırakılmasını iste.", "delta": -30,
           "law": "İİK m.33 · TMK m.176/3",
           "note": "Yanlış yol. İcra mahkemesi ilamın içeriğini değiştiremez; İİK m.33 yalnızca ilamdan sonra borcun itfa, imhal ya da zamanaşımı gibi hâllerinde icranın geri bırakılmasını sağlar. Nafakanın kaldırılması ancak aile mahkemesinde açılacak bir davayla mümkündür.",
           "fatal": { "label": "SONUÇ:",
@@ -74,13 +74,13 @@
       ],
       "prompt": "Hangi delillere dayanacaksınız?",
       "choices": [
-        { "text": "Hukuka uygun delilleri eksiksiz bildir: adres kayıtları, SGK hizmet dökümü için müzekkere, kolluk aracılığıyla sosyal ve ekonomik durum araştırması, adları ve ispat edecekleri vakıa belirtilmiş komşu tanıklar, kamuya açık sosyal medya paylaşımları.", "delta": 20, "set": ["delilOK"],
+        { "text": "Adres kayıtları, SGK müzekkeresi, kolluk araştırması, adı ve ispat konusu belirtilmiş komşu tanıklar, açık sosyal medya paylaşımları.", "delta": 20, "set": ["delilOK"],
           "law": "HMK m.119/1-f, m.240 · TMK m.176/3",
           "note": "Doğru. Fiilen evliymiş gibi yaşama; sürekliliği, ortak hayatı ve toplum içindeki görünümü gösteren delillerle ispatlanır. Kolluk araştırması ve komşu beyanları Yargıtay uygulamasında bu davaların temel delilleridir. Tanıkları ve vakıayı dilekçede gösterdiniz (HMK m.240/2)." },
-        { "text": "Dedektifi tut: gece pencereden çekilen fotoğrafları ve araca takılan cihazın konum kayıtlarını delil olarak sun.", "delta": -20, "set": ["dedektif"],
+        { "text": "Dedektifi tut: gece pencereden çekilen fotoğrafları ve araca takılan cihazın konum kayıtlarını sun; birliktelik başka türlü ispatlanamaz.", "delta": -20, "set": ["dedektif"],
           "law": "HMK m.189/2 · AY m.20 · TCK m.134",
           "note": "Ağır hata. Hukuka aykırı olarak elde edilmiş deliller mahkemece dikkate alınamaz (HMK m.189/2). Konutun içini gizlice görüntülemek ve gizli konum takibi, özel hayatın gizliliğini ihlal eder ve suç oluşturabilir (TCK m.134). Müvekkili ve sizi cezai sorumluluğa açtınız; delil de kullanılamayacak." },
-        { "text": "Adres kayıtları yeter: İkisi aynı adreste oturuyor. Başka delile gerek yok.", "delta": 5, "set": ["adresOnly"],
+        { "text": "Adres kayıtları yeter: ikisi aynı adreste oturuyor; tanık ve araştırma gideriyle müvekkili boşuna yormayalım.", "delta": 5, "set": ["adresOnly"],
           "law": "HMK m.190",
           "note": "Yetersiz. Adres kaydı tek başına fiilî birlikteliği ispatlamaz; üstelik kayıtlarda iki farklı daire görünüyor. Gelir için SGK müzekkeresini, birlikte yaşama için kolluk araştırması ve tanığı da bildirmeliydiniz." }
       ]
@@ -120,7 +120,7 @@
       ],
       "prompt": "Cevap dilekçenizin ana ekseni ne olacak?",
       "choices": [
-        { "if": "dedektif", "text": "Hukuka aykırı delil itirazı: Gece fotoğrafları ve konum kayıtları dosyadan çıkarılsın, suç duyurusu hakkı saklı. Esas yönünden: ayrı konut ve ayrı ekonomi, sezonluk gelir; yoksulluk sürüyor.", "delta": 20, "set": ["aykiri", "esas"],
+        { "if": "dedektif", "text": "Gece fotoğrafları ve konum kayıtları hukuka aykırı, dosyadan çıkarılsın. Esas: ayrı konut, ayrı ekonomi, sezonluk gelir.", "delta": 20, "set": ["aykiri", "esas"],
           "law": "HMK m.189/2 · AY m.20 · TMK m.176",
           "note": "Doğru. Hukuka aykırı elde edilen delil mahkemece dikkate alınamaz (HMK m.189/2); itirazı açıkça yaparak hâkimin dikkatini çektiniz. Esası da boş bırakmadınız." },
         { "text": "Esas savunması: İlişki var, ama ayrı konutlarda ve ayrı ekonomilerde yaşıyorlar; gelir sezonluk ve geçici, yoksulluk sürüyor.", "delta": 15, "set": ["esas"],
@@ -129,7 +129,7 @@
             { "text": "Yerinde. Fiilen evliymiş gibi yaşama sürekli bir ortak hayat gerektirir; sezonluk gelir de yoksulluğu tek başına ortadan kaldırmaz." },
             { "if": "dedektif", "text": " Ama dosyadaki hukuka aykırı delillere itiraz etmediniz; hâkim bunu kendiliğinden gözetse de itirazı açıkça yapmak sizin işinizdi." }
           ] },
-        { "text": "Murat Kaya'yı tanımadığını söyle; ilişkiyi tamamen inkâr et.", "delta": -15, "set": ["inkar"],
+        { "text": "Murat Kaya'yı tanımadığını söyle, ilişkiyi tamamen inkâr et; ispat yükü davacıda, hiçbir vakıayı kabul etme.", "delta": -15, "set": ["inkar"],
           "law": "HMK m.29 · Avukatlık K. m.34",
           "note": "Müvekkil ilişkiyi size açıkça anlattı. Taraflar ve vekilleri dürüstlük kuralına uymak ve gerçeğe aykırı açıklamalarda bulunmamakla yükümlüdür (HMK m.29). İnkâr, ilk tanık beyanında çöker ve bütün savunmanızın güvenilirliğini yok eder." },
         { "if": "durdur", "text": "Esas savunmasına ek olarak birikmiş nafaka için ilamlı icra takibi başlat; ödeme yapılmazsa İİK m.344 yolunu kullan.", "delta": 20, "set": ["esas", "icra"],
@@ -145,20 +145,30 @@
         { "who": "judge", "text": "Ön inceleme duruşması. Davacı tarafın bildirdiği iki tanık ile kolluk araştırması için gider avansının yatırılmasına, bunun için davacıya İKİ HAFTA KESİN SÜRE verilmesine; süresinde yatırılmazsa bu delillerden vazgeçilmiş sayılacağının ihtarına." },
         { "who": "levent", "text": "Avukat Hanım, şu sıralar sıkışığım. Bir sonraki duruşmada yatırsak olmaz mı?" }
       ],
-      "prompt": "Ne yapacaksınız?",
+      "prompt": "Kesin süre karşısında müvekkile ne söyleyecek, ne yapacaksınız? Kendi cümlelerinizle anlatın.",
+      "kind": "free",
       "choices": [
-        { "text": "Müvekkile kesin sürenin sonucunu açıkla; avansı süresinde yatır, makbuzu dosyaya sun.", "delta": 15, "set": ["avans"],
+        { "text": "Güçlü cevap", "min": 70, "delta": 15, "set": ["avans"],
           "law": "HMK m.94/3, m.324",
-          "note": "Doğru. Kesin süre içinde yapılmayan işlemi yapma hakkı ortadan kalkar (HMK m.94/3); avans yatırılmazsa delilin ikamesinden vazgeçilmiş sayılır (HMK m.324/2). Davanın bütün ispat yükü bu iki delilin üzerindeydi." },
-        { "text": "Avansı bir sonraki duruşmada yatıracağımızı tutanağa geçirt.", "delta": -20, "set": ["avansYok"],
+          "note": "Kesin sürenin sonucunu doğru kurdunuz: kesin süre içinde yapılmayan işlemi yapma hakkı ortadan kalkar (HMK m.94/3); avans yatırılmazsa delilin ikamesinden vazgeçilmiş sayılır (HMK m.324/2). Davanın bütün ispat yükü bu iki delilin üzerindeydi; avansı süresinde yatırıp makbuzu sundunuz." },
+        { "text": "Yeterli cevap", "min": 40, "delta": 8, "set": ["avans"],
           "law": "HMK m.94/3, m.324",
-          "note": "Usul tuzağı. Kesin süre geçince avans kabul edilmez; tanık ve kolluk araştırması delillerinden vazgeçilmiş sayılırsınız (HMK m.324/2). Fiilî birlikteliği ispatlayacak araçlarınızı kendi elinizle kaybettiniz.",
-          "reply": [{ "who": "narr", "text": "İki hafta doldu; avans yatırılmadı. Mahkeme tanık ve kolluk araştırması delillerinden vazgeçilmiş sayıldığına karar verdi." }] },
-        { "text": "Süre bitmeden mahkemeye dilekçe ver, gerekçe göstermeden ek süre iste.", "delta": -10, "set": ["avansYok"],
-          "law": "HMK m.94",
-          "note": "Hâkimin kesin olduğunu açıkça belirterek verdiği süre, ancak haklı bir sebep varsa gözden geçirilebilir. Gerekçesiz talep reddedilir; süre işlemeye devam eder ve avans yatırılmadığı için delillerden vazgeçilmiş sayılırsınız.",
-          "reply": [{ "who": "narr", "text": "Ek süre talebi reddedildi. Avans süresinde yatırılmadığı için tanık ve kolluk araştırması delillerinden vazgeçilmiş sayıldı." }] }
-      ]
+          "note": "Avans süresinde yatırıldı; delilleriniz korundu. Ama gerekçeyi eksik kurdunuz: süre kesin süredir, kaçırılırsa işlem hakkı düşer (HMK m.94/3) ve tanık ile kolluk araştırması delillerinden vazgeçilmiş sayılır (HMK m.324/2). Bunu müvekkile açıkça anlatmak avukatın işidir." },
+        { "text": "Zayıf cevap", "delta": -20, "set": ["avansYok"],
+          "law": "HMK m.94/3, m.324",
+          "reply": [{ "who": "narr", "text": "İki hafta doldu; avans yatırılmadı. Mahkeme tanık ve kolluk araştırması delillerinden vazgeçilmiş sayıldığına karar verdi." }],
+          "note": "Kesin sürenin sonucunu göremediniz. Kesin süre geçince avans kabul edilmez, gerekçesiz ek süre de verilmez; tanık ve kolluk araştırması delillerinden vazgeçilmiş sayılırsınız (HMK m.94/3, m.324/2). Doğrusu, sonucu müvekkile açıklayıp avansı iki hafta içinde yatırmak ve makbuzu dosyaya sunmaktı." }
+      ],
+      "rubric": "İyi bir cevap şunları içerir: (1) Mahkemenin verdiği iki haftalık süre kesin süredir; kesin süre içinde yapılmayan işlemi yapma hakkı ortadan kalkar (HMK m.94/3). (2) Gider avansı süresinde yatırılmazsa o delillerin ikamesinden vazgeçilmiş sayılır (HMK m.324/2); fiilî birlikteliği ispatlayacak tanık ve kolluk araştırması kaybedilir. (3) Bu yüzden müvekkile sonuç açıkça anlatılır, avans iki hafta içinde yatırılır ve makbuz dosyaya sunulur; ödemeyi sonraki duruşmaya bırakmak ya da gerekçesiz ek süre istemek seçenek değildir. Kesin süreyi, vazgeçilmiş sayılma sonucunu ve süresinde yatırmayı birlikte söyleyen tam puan alır; yalnızca avansın süresinde yatırılacağını söyleyip sonucunu ya da dayanağını açıklamayan cevap orta puan alır. Avansı sonraki duruşmada yatırmayı ya da gerekçesiz ek süre istemeyi öneren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["kesin süre"], "weight": 3 },
+        { "terms": ["iki hafta", "süresinde", "süre içinde", "süresi içinde"], "weight": 2 },
+        { "terms": ["vazgeçilmiş", "vazgeç", "kaybed"], "weight": 2 },
+        { "terms": ["avans"], "weight": 1 },
+        { "terms": ["makbuz", "dekont"], "weight": 1 },
+        { "terms": ["m.94", "m. 94", "madde 94", "94. madde", "m.324", "m. 324", "madde 324", "324. madde"], "weight": 1 }
+      ],
+      "model": "Levent Bey, bu süre kesin süredir; iki hafta içinde avans yatırılmazsa tanık ve kolluk araştırması delillerinden vazgeçmiş sayılırız (HMK m.94/3, m.324/2) ve fiilî birlikteliği ispatlayacak araçlarımızı kaybederiz. Avansı süresinde yatırıp makbuzu dosyaya sunacağız. Sayın Hâkim, avans yatırılmıştır, makbuzu sunuyoruz."
     },
     {
       "side": "p1",
@@ -171,15 +181,15 @@
       ],
       "prompt": "Ne yapacaksınız?",
       "choices": [
-        { "text": "Bu delillere dayanmaktan vazgeç. HMK m.145 uyarınca kolluk araştırması ve komşu tanık dinlenmesi için izin iste.", "delta": 10, "set": ["gec"],
+        { "text": "Bu delillerden vazgeç; HMK m.145 uyarınca kolluk araştırması ve komşu tanık için izin iste.", "delta": 10, "set": ["gec"],
           "law": "HMK m.189/2, m.145",
           "note": "Hasarı sınırladınız. Sonradan delil gösterilmesine, yargılamayı geciktirme amacı taşımıyorsa ve ihmalden kaynaklanmıyorsa izin verilebilir (HMK m.145). Burada ihmal açık; mahkeme ancak kısmen izin verebilir.",
           "reply": [{ "who": "judge", "text": "Hukuka aykırı elde edilen fotoğraf ve konum kayıtları dikkate alınmayacaktır. Tanık talebi HMK m.145 uyarınca reddedildi. Tarafların sosyal ve ekonomik durumunun kolluk aracılığıyla araştırılmasına karar verildi." }] },
-        { "text": "Delillerde ısrar et: Gerçeğe ulaşmak için başka yol yoktu.", "delta": -15, "set": ["israr"],
+        { "text": "Delillerde ısrar et: gerçeğe ulaşmak için başka yol yoktu, delilleri hâkim serbestçe takdir eder.", "delta": -15, "set": ["israr"],
           "law": "HMK m.189/2 · AY m.38/6",
           "note": "Hukuka aykırı yöntemlerle elde edilen bulgular delil olarak kabul edilemez (AY m.38/6, HMK m.189/2). Amaç, yöntemi hukuka uygun hâle getirmez. Israrınız hâkimin güvenini de kaybettirdi.",
           "reply": [{ "who": "judge", "text": "Hukuka aykırı elde edilen deliller dikkate alınmayacaktır. Davacının başkaca bildirdiği delil yoktur." }] },
-        { "text": "Fotoğraflar kamuya açık sokaktan çekildi; hukuka aykırılık yok.", "delta": -10, "set": ["israr"],
+        { "text": "Fotoğraflar kamuya açık sokaktan çekildi, konum da kamusal yolda kaydedildi; hukuka aykırılık yok.", "delta": -10, "set": ["israr"],
           "law": "HMK m.189/2 · TCK m.134",
           "note": "Fotoğraflar sokaktan çekilse de konutun içini, gece, gizlice görüntülüyor. Konutun içi özel hayatın en korunan alanıdır; konum cihazı da bu savunmayla açıklanamaz.",
           "reply": [{ "who": "judge", "text": "Hukuka aykırı elde edilen deliller dikkate alınmayacaktır. Davacının başkaca bildirdiği delil yoktur." }] }
@@ -198,7 +208,7 @@
           "law": "HMK m.145",
           "note": "Geç kalmış ama doğru bir hamle. İhmal açık olduğu için mahkeme talebin ancak bir kısmına izin verebilir.",
           "reply": [{ "who": "judge", "text": "Tarafların sosyal ve ekonomik durumunun kolluk aracılığıyla araştırılmasına ve SGK kayıtlarının getirtilmesine karar verildi." }] },
-        { "text": "Aynı binada oturmaları yeter; başka delile gerek yok.", "delta": -10,
+        { "text": "Aynı binada oturmaları fiilî birlikteliğin karinesidir; başka delile gerek yok.", "delta": -10,
           "law": "TMK m.176/3 · HMK m.190",
           "note": "Aynı binada ayrı dairelerde oturmak, fiilen evliymiş gibi yaşamayı tek başına ispatlamaz. İspat yükü sizde (HMK m.190)." }
       ]
@@ -241,14 +251,14 @@
       ],
       "prompt": "Ne söyleyeceksiniz?",
       "choices": [
-        { "if": "avans", "text": "Kira sözleşmesi kâğıt üzerinde: Komşu beyanları ve kolluk raporu, 4 numaranın depo olarak kullanıldığını, ortak hayatın 3 numarada sürdüğünü gösteriyor. Belirleyici olan resmî kayıt değil, yaşamın fiilî görünümüdür.", "delta": 20, "set": ["fiiliOK"],
+        { "if": "avans", "text": "Kira kâğıt üzerinde: tanıklar ve kolluk raporuna göre 4 numara depo, ortak hayat 3 numarada sürüyor.", "delta": 20, "set": ["fiiliOK"],
           "law": "TMK m.176/3",
           "note": "Doğru ve delile dayalı. Fiilen evliymiş gibi yaşamada süreklilik ve ortak hayatın fiilî görünümü aranır; tanık ve kolluk raporu bunu, ayrı kira sözleşmesinin ötesinde gösteriyor. Süresinde yatırdığınız avans burada karşılığını verdi." },
-        { "text": "Murat Kaya'yı tanık olarak dinletmek istiyoruz.", "delta": -10,
+        { "text": "Murat Kaya'yı tanık olarak dinletmek istiyoruz; yemin altında ortak hayatı inkâr edemez.", "delta": -10,
           "law": "HMK m.240/2",
           "note": "Tanık listesinde gösterilmeyen kişi dinlenemez ve ikinci bir liste verilemez (HMK m.240/2).",
           "reply": [{ "who": "judge", "text": "Tanık listesi verilmiştir; talep reddedildi." }] },
-        { "text": "Kaldırma şartları oluşmasa da davalının sezon gelirini gözeterek nafakanın indirilmesini istiyoruz.", "delta": 10, "set": ["indirim"],
+        { "text": "Kaldırma şartları oluşmasa da davalının sezon gelirini gözeterek TMK m.176/4 uyarınca nafakanın indirilmesini istiyoruz.", "delta": 10, "set": ["indirim"],
           "law": "TMK m.176/4",
           "note": [
             { "text": "Gerçekçi bir geri çekilme. Kaldırma talebi indirme talebini de içerir; malî durumlar değişmişse nafaka azaltılabilir (TMK m.176/4)." },

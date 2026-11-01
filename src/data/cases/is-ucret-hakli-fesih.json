@@ -47,9 +47,9 @@
         { "text": "Kıdem tazminatı ve ödenmeyen üç aylık ücret. İhbar tazminatı istenmez.", "delta": 20, "set": ["talep"],
           "law": "1475 s.K. m.14/1 · İş K. m.24/II-e",
           "note": "Doğru. İşçi m.24 uyarınca haklı nedenle feshederse kıdem tazminatına hak kazanır (1475 s.K. m.14/1). İhbar tazminatı ise bildirim süresine uyulmadan yapılan feshin karşılığıdır ve sözleşmeyi işçi feshettiği için işçiye ödenmez." },
-        { "text": "Kıdem tazminatı, ihbar tazminatı ve ödenmeyen ücretler.", "delta": 5, "set": ["ihbar"],
+        { "text": "Kıdem tazminatı, ihbar tazminatı ve ödenmeyen ücretler; fesih işverenin ödemezliğinden doğdu.", "delta": 5, "set": ["ihbar"],
           "law": "İş K. m.17",
-          "note": "Kıdem ve ücret doğru, ihbar yanlış. İhbar tazminatını, bildirim süresine uymadan fesheden taraf öder. Feshi müvekkil yaptığı için bu talep reddedilir, reddedilen kısım için davalı lehine vekâlet ücretine hükmedilir." },
+          "note": "Kıdem ve ücret doğru, ihbar yanlış. İhbar tazminatını, bildirim süresine uymadan fesheden taraf öder; feshe işverenin ödemezliği yol açsa da feshi müvekkil yaptı. Bu talep reddedilir, reddedilen kısım için davalı lehine vekâlet ücretine hükmedilir." },
         { "text": "Yalnızca ödenmeyen ücretler. İstifa eden işçi kıdem tazminatı alamaz.", "delta": -15, "set": ["eksik"],
           "law": "1475 s.K. m.14/1",
           "note": "Bu bir istifa değil, haklı nedenle fesihtir. Kıdem tazminatı müvekkilin en büyük alacağıydı ve istenmedi; mahkeme talep edilmeyen şeye hükmedemez (HMK m.26)." },
@@ -80,23 +80,35 @@
       "miss": { "delta": -10, "note": "Bu delil feshin haklı nedene dayandığını göstermiyor." },
       "pass": { "delta": -15, "note": "İstifa savunması cevapsız kaldı." }
     },
-    { "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [
         { "who": "opp", "text": "Kaldı ki Temmuz ücretinin ödeme günü 10 Ağustos'tu. Davacı ancak Ekim'de feshetti. İş K. m.26'daki altı iş günlük süre çoktan geçmiştir." },
         { "who": "judge", "text": "Davacı vekili?" }
       ],
-      "prompt": "Süre itirazına cevabınız?",
+      "prompt": "Hak düşürücü süre itirazına mahkemede ne cevap vereceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
-        { "text": "Ücretin ödenmemesi süregelen bir durumdur; ücret ödenmedikçe fesih hakkı devam eder. Ayrıca Eylül ücreti 10 Ekim'de muaccel oldu, fesih iki gün sonra yapıldı.", "delta": 20, "set": ["sure"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["sure"],
           "law": "İş K. m.26 · m.24/II-e",
-          "note": "Doğru. Yargıtay, ücretin ödenmemesini devam eden bir ihlal sayar; ödenmeme sürdükçe altı iş günlük süre işlemeye başlamaz. Üstelik son ödenmeyen ücretin muaccel olmasından sadece iki gün sonra feshedildi.",
+          "note": "Süre itirazını iki yönden çürüttünüz: Yargıtay ücretin ödenmemesini süregelen bir ihlal sayar, ödenmeme sürdükçe m.26'daki altı iş günlük süre işlemeye başlamaz. Üstelik Eylül ücreti 10 Ekim'de muaccel oldu; fesih iki gün sonra yapıldı.",
           "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
-        { "text": "m.26'daki süre yalnızca işverenin fesih hakkı için geçerlidir.", "delta": -10,
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["sure"],
+          "law": "İş K. m.26 · m.24/II-e",
+          "note": "Mahkeme cevabınızı yeterli buldu. Tam cevap, ücretin ödenmemesinin süregelen bir ihlal olduğunu ve son ödenmeyen Eylül ücretinin 10 Ekim'de muaccel olup feshin iki gün sonra yapıldığını birlikte söyler.",
+          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
+        { "text": "Zayıf savunma", "delta": -10,
           "law": "İş K. m.26",
-          "note": "Yanlış. m.26 hem işçi hem işveren için geçerlidir. Doğru cevap, ücretin ödenmemesinin süregelen bir durum olduğuydu." },
-        { "text": "Müvekkil işverene bir şans tanımak istedi; süre geçmiş olsa da hakkaniyet gereği dikkate alınmamalı.", "delta": -10,
-          "note": "Sürenin geçtiğini kabul eder gibi konuştunuz. Hak düşürücü süre hakkaniyetle aşılamaz; ama burada süre zaten işlememişti." }
-      ] },
+          "note": "Süre itirazı karşılanamadı. m.26'daki altı iş günlük süre hem işçi hem işveren için geçerlidir ve hakkaniyetle aşılamaz. Doğru cevap: ücretin ödenmemesi süregelen bir ihlaldir, ödenmeme sürdükçe süre işlemez; ayrıca Eylül ücreti 10 Ekim'de muaccel oldu, fesih iki gün sonra yapıldı." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Ücretin ödenmemesi süregelen (devam eden) bir ihlaldir; Yargıtay uygulamasında ücret ödenmedikçe işçinin haklı fesih hakkı devam eder ve İş K. m.26'daki altı iş günlük süre işlemeye başlamaz. (2) Ayrıca son ödenmeyen Eylül ücreti 10 Ekim'de muaccel olmuş, fesih 12 Ekim'de, yani iki gün sonra yapılmıştır; süre her hâlükârda geçmemiştir. (3) Bu nedenle fesih süresindedir ve İş K. m.24/II-e uyarınca haklıdır. Süregelen ihlali ve Eylül ücretinin muacceliyetini birlikte söyleyen cevap tam puan alır; bunlardan yalnız birini söyleyen cevap orta puan alır. m.26'nın yalnızca işveren için geçerli olduğunu söyleyen, sürenin geçtiğini kabul edip hakkaniyete sığınan ya da süre konusuna hiç değinmeyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["süregelen", "devam eden", "devam ediyor", "sürekli", "süreklilik", "her ay yenilen", "ödenmedikçe"], "weight": 3 },
+        { "terms": ["Eylül"], "weight": 2 },
+        { "terms": ["10 Ekim", "iki gün", "2 gün", "12 Ekim", "muaccel"], "weight": 2 },
+        { "terms": ["altı iş günü", "altı iş günlük", "6 iş günü", "hak düşürücü"], "weight": 1 },
+        { "terms": ["m.26", "m. 26", "madde 26", "26. madde", "md. 26", "md.26"], "weight": 1 },
+        { "terms": ["işlemez", "işlemeye başlamaz", "başlamaz", "geçmemiş", "süresinde"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, ücretin ödenmemesi süregelen bir ihlaldir; Yargıtay uygulamasına göre ücret ödenmedikçe işçinin haklı fesih hakkı devam eder ve İş K. m.26'daki altı iş günlük süre işlemeye başlamaz. Kaldı ki son ödenmeyen Eylül ücreti 10 Ekim'de muaccel olmuş, müvekkil sözleşmeyi iki gün sonra, 12 Ekim'de feshetmiştir. Fesih süresinde ve m.24/II-e uyarınca haklıdır." },
     { "side": "p1", "scene": "court",
       "lines": [
         { "who": "opp", "text": "Şirket zor günler geçiriyordu. Davacı bunu fırsat bilip yeni bir işe geçmek için bahane aramıştır." },
@@ -105,14 +117,14 @@
       ],
       "prompt": "Ne yapacaksınız?",
       "choices": [
-        { "text": "Müvekkilinizi sakinleştirip yerine oturtun, hâkimden söz alıp konuyu esasa bağlayın: işverenin ekonomik sıkıntısı ücret borcunu ortadan kaldırmaz.", "delta": 10, "set": ["sakin"],
+        { "text": "Müvekkili sakinleştirip oturtun; söz alıp esasa dönün: işverenin ekonomik sıkıntısı ücret borcunu ortadan kaldırmaz.", "delta": 10, "set": ["sakin"],
           "law": "HMK m.151",
           "note": "Doğru. Duruşmanın düzenini hâkim sağlar; düzeni bozan kişi salondan çıkarılabilir ve disiplin hapsi uygulanabilir (HMK m.151). Müvekkilin öfkesini siz hukuki bir cümleye çevirdiniz.",
           "reply": [{ "who": "client", "text": "Özür dilerim, Sayın Hâkim." }, { "who": "judge", "text": "Buyurun, devam edin." }] },
-        { "text": "Siz de sesinizi yükseltip karşı vekile cevap verin.", "delta": -10,
+        { "text": "Siz de sesinizi yükseltip karşı vekile cevap verin; “bahane” sözü müvekkile hakarettir, susarsak kabul etmiş sayılırız, hemen cevap verelim.", "delta": -10,
           "law": "HMK m.151",
-          "note": "Gerginliği büyüttünüz. Vekilin görevi, müvekkilin öfkesini salona taşımak değil, düzeni koruyarak hakkını savunmaktır." },
-        { "text": "Müvekkilin konuşmasına izin verin; salon onun haklılığını görsün.", "delta": -5,
+          "note": "Gerginliği büyüttünüz. Karşı vekilin sözüne söz alarak, sakin bir dille cevap verilir. Vekilin görevi, müvekkilin öfkesini salona taşımak değil, düzeni koruyarak hakkını savunmaktır." },
+        { "text": "Müvekkilin konuşmasına izin verin; salon onun haklılığını görsün, mağduriyet hâkimi de etkiler.", "delta": -5,
           "law": "HMK m.151",
           "note": "Hâkim uyarmışken müvekkili konuşturmak onun salondan çıkarılmasına yol açabilirdi." }
       ] },
@@ -123,15 +135,15 @@
       ],
       "prompt": "Mahsup talebine cevabınız?",
       "choices": [
-        { "text": "Haklı nedenle fesih, bildirim süresi beklenmeden yapılır. Bildirim süresine uyma yükümlülüğü yoksa ihbar tazminatı da yoktur; mahsup talebi yersizdir.", "delta": 20, "set": ["ihbarYok"],
+        { "text": "Haklı nedenle fesih bildirim süresi beklenmeden yapılır; bildirim yükümlülüğü yoksa ihbar tazminatı da yoktur.", "delta": 20, "set": ["ihbarYok"],
           "law": "İş K. m.24 · m.17",
           "note": "Doğru. m.24, işçiye sözleşmeyi “bildirim süresini beklemeksizin” feshetme hakkı verir. Haklı nedenle derhâl fesihte hiçbir taraf ihbar tazminatı ödemez." },
-        { "text": "Mahsuba itirazımız yok; asıl önemli olan kıdem tazminatı.", "delta": -15, "set": ["mahsup"],
+        { "text": "Mahsuba itirazımız yok; asıl önemli olan kıdem tazminatı, ihbar tutarı onun yanında küçük kalır.", "delta": -15, "set": ["mahsup"],
           "law": "İş K. m.24",
           "note": "Haklı fesih yapan işçi ihbar tazminatı ödemez. Bu kabul, müvekkilin kıdem tazminatından haksız bir indirim yapılmasına yol açtı." },
-        { "text": "Müvekkil de ihbar tazminatı istiyor; iki alacak birbirine mahsup edilsin.", "delta": -10, "set": ["ihbar"],
+        { "text": "Müvekkil de ihbar tazminatı istiyor; iki alacak TBK m.139 uyarınca birbirine takas ve mahsup edilsin, fark ödensin.", "delta": -10, "set": ["ihbar"],
           "law": "İş K. m.17",
-          "note": "Haklı nedenle fesihte ne işçi ne işveren ihbar tazminatı alır. Olmayan iki alacağı birbirine mahsup etmeye çalıştınız." }
+          "note": "Haklı nedenle fesihte ne işçi ne işveren ihbar tazminatı alır. Takas için karşılıklı ve muaccel iki alacak gerekir (TBK m.139); burada ikisi de yok." }
       ] }
   ],
   "outcomes": [

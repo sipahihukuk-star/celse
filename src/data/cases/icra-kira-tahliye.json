@@ -47,17 +47,17 @@
       ],
       "prompt": "1. aşama · Takip talebi: Hangi yolu seçeceksiniz?",
       "choices": [
-        { "text": "Kira alacağı ve tahliye talepli ilamsız takip başlatın. Kiracıya giden ödeme emri, otuz gün içinde kira ödenmezse tahliye istenebileceği ihtarını içerir.", "delta": 20, "set": ["takip"],
+        { "text": "Kira alacağı ve tahliye talepli ilamsız takip başlatın; ödeme emri otuz günlük tahliye ihtarı içerir.", "delta": 20, "set": ["takip"],
           "law": "İİK m.269 · TBK m.315",
           "note": "Doğru. Kira bedelini ödemeyen kiracının tahliyesi icra yoluyla istenebilir. Tahliye ihtarlı ödeme emri, TBK m.315'teki yazılı süre ve fesih ihtarının işlevini görür: konut ve çatılı işyerinde otuz gün." },
-        { "text": "Sulh hukuk mahkemesinde temerrüt nedeniyle tahliye davası açalım.", "delta": 0, "set": ["takip"],
+        { "text": "Sulh hukuk mahkemesinde temerrüt nedeniyle tahliye davası açalım; kesin hükümle kiracı daha kolay çıkar.", "delta": 0, "set": ["takip"],
           "law": "6325 s.K. m.18/B · TBK m.315",
           "note": "Mümkün, ama 2023'ten beri kira uyuşmazlıklarında dava açmadan önce arabulucuya başvurmak dava şartı. İlamsız icra yoluyla tahliye bu zorunluluğun dışında ve çoğu zaman daha hızlıdır.",
           "reply": [{ "who": "partner", "text": "Dava için önce arabulucuya gitmemiz gerekir. İcra yoluyla tahliye bu şarta bağlı değil; tahliye talepli takiple başlayalım." }] },
-        { "text": "Yalnızca birikmiş kira için genel haciz yoluyla ilamsız takip yapalım.", "delta": -5, "set": ["takip"],
+        { "text": "Yalnızca birikmiş kira için genel haciz yoluyla ilamsız takip yapalım; tahliyeyi ödemezse düşünürüz.", "delta": -5, "set": ["takip"],
           "note": "Kira alacağı tahsil edilebilir, ama tahliye istenemez. Müvekkil dükkânını da geri istiyor.",
           "reply": [{ "who": "partner", "text": "Müvekkil dükkânı da istiyor. Tahliye talepli takip yapalım." }] },
-        { "text": "Kiracı bir akşam kafeyi kapatınca çilingir çağırıp kilidi değiştirelim.", "delta": -15, "set": ["takip"],
+        { "text": "Kiracı bir akşam kafeyi kapatınca çilingir çağırıp kilidi değiştirelim; dükkân zaten Recep Bey'in.", "delta": -15, "set": ["takip"],
           "note": "Kimse hakkını kendi gücüyle alamaz. Kiracının zilyetliğine kendiliğinden son vermek müvekkili hem tazminat hem ceza sorumluluğuyla karşı karşıya bırakır; tahliye ancak icra dairesi eliyle yapılır.",
           "reply": [{ "who": "partner", "text": "Bunu duymamış olayım. Müvekkili suçlu duruma düşürürüz. Tahliye talepli takip yapalım." }] }
       ]
@@ -71,13 +71,13 @@
       ],
       "prompt": "2. aşama · Kiracının itirazı: Ne talep edeceksiniz?",
       "choices": [
-        { "text": "Kiracı kira ilişkisini ve imzayı inkâr etmedi. Miktar itirazı yazılı sözleşmeyle çürür, ödeme iddiası ancak belgeyle ispatlanır. İcra hukuk mahkemesinden itirazın kaldırılmasını ve tahliyeyi isteyin; birikmiş kiranın tamamını koruyun.", "delta": 20, "set": ["kaldirma"],
+        { "text": "Kira ilişkisi ve imza inkâr edilmedi; icra hukuk mahkemesinden itirazın kaldırılmasını ve tahliyeyi isteyin.", "delta": 20, "set": ["kaldirma"],
           "law": "İİK m.269 vd. · TBK m.315",
           "note": "Doğru. Yazılı sözleşmeye dayanan ve kira ilişkisinin inkâr edilmediği bir takipte alacaklı, icra hukuk mahkemesinden itirazın kaldırılmasını ve kiracının tahliyesini isteyebilir. Kiracının ödeme iddiası icra hukuk mahkemesinde belgeyle ispatlanmalıdır." },
-        { "text": "Çatı aktıysa kiracı haklıdır; ağustos kirasını takipten düşelim, kalanla devam edelim.", "delta": -10, "set": ["kaldirma", "agustos"],
+        { "text": "Çatı aktıysa kiracı haklıdır; ağustos kirasını takipten düşelim, kalan iki ay için itirazın kaldırılmasını isteyelim.", "delta": -10, "set": ["kaldirma", "agustos"],
           "law": "TBK m.305 vd.",
           "note": "Kiralanandaki ayıp kiracıya giderim, bedelden indirim ya da tazminat gibi haklar verir; ama kiracı bu haklarını kira bedelini kendiliğinden ödememenin gerekçesi yapamaz. Hem alacaktan vazgeçtiniz hem de kiracıya tahliyeye karşı yeni bir savunma verdiniz." },
-        { "text": "Kiracı miktara itiraz ettiği için icra hukuk mahkemesi bakamaz; sulh hukuk mahkemesine gidelim.", "delta": -10, "set": ["kaldirma"],
+        { "text": "Kiracı miktara itiraz ettiği için icra hukuk mahkemesi bakamaz; tahliye için sulh hukuk mahkemesinde dava açalım.", "delta": -10, "set": ["kaldirma"],
           "note": "Kira ilişkisi ve imza inkâr edilmedi; miktar, yazılı sözleşmeye bakılarak icra hukuk mahkemesinde belirlenir.",
           "reply": [{ "who": "partner", "text": "Sözleşme yazılı, imza inkâr edilmemiş. Bunu icra hukuk mahkemesi çözer; itirazın kaldırılması ve tahliye isteyelim." }] }
       ]
@@ -107,17 +107,30 @@
         { "who": "opp", "text": "Kaldı ki aradaki 12.000 TL'yi müvekkilim her ay elden ödemiştir; komşu esnaf buna tanıktır. Tanıklarımızın dinlenmesini talep ediyoruz." },
         { "who": "judge", "text": "Alacaklı vekili?" }
       ],
-      "prompt": "3. aşama · İcra hukuk mahkemesi: Elden ödeme iddiasına ne diyeceksiniz?",
+      "prompt": "3. aşama · İcra hukuk mahkemesi: Elden ödeme iddiasına ve tanık talebine ne diyeceksiniz? Kendi cümlelerinizle savunun.",
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) İcra yoluyla tahliye ve itirazın kaldırılması yargılamasında kiracının ödeme iddiası ancak İİK m.68'de sayılan belgelerle ispatlanabilir: noterce düzenlenmiş ya da onaylanmış belge, alacaklının ikrar ettiği imzalı belge veya resmî makbuz. Tanık dinlenemez; tanık talebinin reddi istenmelidir. (2) Takip konusu haziran, temmuz ve ağustos kiraları için hiçbir ödeme iddia edilmiyor; “farkı elden verdim” iddiası bu üç ayın temerrüdünü ortadan kaldırmaz. (3) Kira bedeli yazılı sözleşmede 42.000 TL'dir ve banka dökümü iki yıl boyunca bu tutarın ödendiğini gösteriyor. Belgeyle ispat kuralını ve tanık dinlenemeyeceğini söyleyen cevap tam puan alır; üç aylık temerrüde ya da banka dökümüne de değinmesi cevabı güçlendirir. Yalnızca elden ödemenin kanıtlanmadığını söyleyip ispat kuralını ya da tanık yasağını belirtmeyen cevap orta puan alır. Tanıkların dinlenmesine razı olan, karşı tanık getirmeyi öneren ya da tartışmayı vergi kaçırma ve suç isnadına taşıyan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["belge"], "weight": 3 },
+        { "terms": ["tanık dinlenemez", "tanık dinlenmez", "tanıkla ispat", "tanık delili", "tanıkla ispatlanamaz", "tanık talebinin reddi", "tanık beyanıyla"], "weight": 2 },
+        { "terms": ["noter", "makbuz", "ikrar", "m.68", "m. 68", "68. madde", "madde 68", "md. 68"], "weight": 2 },
+        { "terms": ["haziran", "temmuz", "ağustos", "üç ay", "3 ay", "temerrüt"], "weight": 1 },
+        { "terms": ["banka", "42.000", "42 bin", "hesap dökümü", "dekont"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, icra yoluyla tahliye yargılamasında kiracının ödeme iddiası ancak İİK m.68'de sayılan belgelerle, yani noterce düzenlenmiş ya da onaylanmış, alacaklının ikrar ettiği bir belgeyle veya resmî makbuzla ispatlanabilir; tanık dinlenemez, tanık talebinin reddini istiyoruz. Üstelik takip konusu haziran, temmuz ve ağustos kiraları için hiçbir ödeme ileri sürülmüyor. Sözleşmedeki 42.000 TL'lik kira, iki yıllık banka dökümüyle de doğrulanıyor.",
       "choices": [
-        { "text": "Kiracının ödeme iddiası icra hukuk mahkemesinde ancak noterce düzenlenmiş ya da onaylanmış, alacaklının ikrar ettiği bir belgeyle veya resmî bir makbuzla ispatlanabilir; tanık dinlenemez. Üstelik haziran, temmuz ve ağustos için hiçbir ödeme iddia edilmiyor bile.", "delta": 20, "set": ["belge"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["belge"],
           "law": "İİK m.269 vd. · m.68",
-          "note": "Doğru. İcra yoluyla tahliyede kiracı ödeme savunmasını belgeyle ispatlamak zorundadır. Ayrıca takip konusu üç aylık kira için hiçbir ödeme ileri sürülmedi; temerrüt açık.",
+          "note": "Doğru kuralı söylediniz. İcra yoluyla tahliyede kiracı ödeme savunmasını belgeyle ispatlamak zorundadır. Ayrıca takip konusu üç aylık kira için hiçbir ödeme ileri sürülmedi; temerrüt açık.",
           "reply": [{ "who": "judge", "text": "Tanık dinlenmesi talebinin reddine karar verildi." }] },
-        { "text": "Tanıklar dinlensin; Recep Bey de karşı tanık getirir.", "delta": -10,
-          "note": "Bu yargılamada ödeme belgeyle ispatlanır. Hızlı ve belgeye dayalı yolu kendi elinizle tanık tartışmasına çevirmeye razı oldunuz.",
-          "reply": [{ "who": "judge", "text": "Bu yargılamada tanık dinlenmez. Talep reddedildi." }] },
-        { "text": "Elden ödeme yapıldıysa bile vergi kaçırmak için yapılmıştır; kiracı da suça ortaktır.", "delta": -5,
-          "note": "Tartışmayı vergi hukukuna ve suç isnadına taşıdınız; icra hukuk mahkemesinin incelediği konu bu değil. Ödeme iddiasının belgeyle ispatlanması gerektiğini söylemek yeterdi." }
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["belge"],
+          "law": "İİK m.269 vd. · m.68",
+          "note": "Ödeme iddiasının ispatlanmadığını gösterdiniz; mahkeme tanık talebini reddetti. Tam savunma, bu yargılamada ödemenin ancak İİK m.68'deki belgelerle (noter onaylı ya da alacaklının ikrar ettiği belge, resmî makbuz) ispatlanabileceğini, tanık dinlenemeyeceğini ve takip konusu üç ay için hiçbir ödeme iddia edilmediğini birlikte söyler.",
+          "reply": [{ "who": "judge", "text": "Tanık dinlenmesi talebinin reddine karar verildi." }] },
+        { "text": "Zayıf savunma", "delta": -10,
+          "law": "İİK m.269 vd. · m.68",
+          "note": "Ödeme iddiasını doğru kuralla karşılayamadınız. Bu yargılamada ödeme belgeyle ispatlanır: noterce düzenlenmiş ya da onaylanmış, alacaklının ikrar ettiği belge veya resmî makbuz. Tanık tartışmasına girmek ya da konuyu vergi kaçırmaya taşımak, hızlı ve belgeye dayalı yolu kendi elinizle zayıflatır.",
+          "reply": [{ "who": "judge", "text": "Bu yargılamada tanık dinlenmez. Talep reddedildi." }] }
       ]
     },
     {
@@ -129,14 +142,14 @@
       ],
       "prompt": "3. aşama · İcra hukuk mahkemesi: Ne yaparsınız?",
       "choices": [
-        { "text": "Recep Bey'in koluna dokunup oturmasını isteyin. “Sayın Hâkim, müvekkilim adına özür dilerim. İzin verirseniz bir dakikalık kısa bir ara istiyorum.”", "delta": 5,
+        { "text": "Recep Bey'i oturtun: “Sayın Hâkim, müvekkilim adına özür diler, kısa bir ara rica ederim.”", "delta": 5,
           "law": "HMK m.151 · Avukatlık meslek kuralları",
           "note": "Mesleki soğukkanlılık. Duruşmanın düzenini sağlamak hâkimin görevidir; düzeni bozan kişi salondan çıkarılabilir. Müvekkilinizi sakinleştirip özür dilemek, hem onu hem davanızı korur.",
           "reply": [{ "who": "judge", "text": "Beş dakika ara veriyorum. Taraflar salonda sükûnetle beklesin." }] },
-        { "text": "“Müvekkilim haklı, Sayın Hâkim; kiracı gerçekten üç aydır bedavaya oturuyor.”", "delta": -10,
+        { "text": "“Müvekkilimin öfkesi anlaşılır, Sayın Hâkim; kiracı gerçekten üç aydır dükkânda bedavaya oturuyor.”", "delta": -10,
           "note": "Öfkeye ortak oldunuz. Hâkim, düzeni bozan müvekkili salondan çıkarabilir; vekilin bu çıkışa destek vermesi meslek kurallarıyla bağdaşmaz.",
           "reply": [{ "who": "judge", "text": "Bir daha olursa müvekkilinizi salondan çıkaracağım. Devam ediyoruz." }] },
-        { "text": "Hiçbir şey yapmayın; hâkim halletsin.", "delta": -5,
+        { "text": "Hiçbir şey yapmayın; duruşmanın düzeni hâkimin görevi, o halletsin.", "delta": -5,
           "note": "Düzeni sağlamak hâkimin görevi, ama müvekkilinizi sakinleştirmek sizin işiniz. Sessiz kalmak hâkimin gözünde müvekkile sahip çıkmamak gibi göründü.",
           "reply": [{ "who": "judge", "text": "Bay Kocaman, oturun. Bir daha söz almadan konuşursanız sizi salondan çıkartırım." }] }
       ]
@@ -149,12 +162,12 @@
       ],
       "prompt": "4. aşama · Tahliye: Kararın uygulanması için müvekkile ne söyleyeceksiniz?",
       "choices": [
-        { "text": "İcra hukuk mahkemesinin tahliye kararı kesinleşmeyi beklemeden uygulanabilir; ama kararın kiracıya tebliğinden sonra kanundaki on günlük süre geçmeden tahliye yapılamaz. Süre dolunca icra dairesinden tahliyeyi isteyeceğiz; kiracı istinafta teminat göstererek icranın durdurulmasını sağlarsa bekleriz.", "delta": 15, "set": ["infaz"],
+        { "text": "Kesinleşme beklenmez; tebliğden on gün sonra tahliyeyi isteriz. Kiracı teminatla icrayı durdurursa bekleriz.", "delta": 15, "set": ["infaz"],
           "law": "İİK m.269 vd. · m.36",
           "note": "Doğru. Tahliye kararının uygulanması için kesinleşme gerekmez, ama kararın kiracıya tefhim ya da tebliğinden sonra on gün geçmelidir. Kiracı istinaf yoluna başvurup teminat göstererek icranın geri bırakılması kararı alabilir (İİK m.36)." },
-        { "text": "İstinaf bitsin, karar kesinleşsin; sonra tahliye isteriz.", "delta": -5,
+        { "text": "İstinaf bitsin, karar kesinleşsin; sonra tahliye isteriz, yoksa karar kaldırılırsa müvekkil tazminat öder.", "delta": -5,
           "note": "Tahliye kararının uygulanması için kesinleşme beklenmez. Müvekkili gereksiz yere aylarca beklettiniz." },
-        { "text": "Yarın sabah icra memuruyla gidip dükkânı boşaltırız.", "delta": -5,
+        { "text": "Tahliye kesinleşmeyi beklemediğine göre yarın sabah icra memuruyla gidip dükkânı boşaltır, anahtarı müvekkile veririz.", "delta": -5,
           "note": "Kararın tebliğinden sonra kanundaki on günlük süre geçmeden tahliye yapılamaz." }
       ]
     }

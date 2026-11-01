@@ -102,7 +102,7 @@
       "prompt": "Silinen üçüncü mesajı nasıl ispatlayacaksınız?",
       "choices": [
         {
-          "text": "Müvekkilin telefonunu rızasıyla teslim ettiğini bildir; bildirim kayıtlarının bilişim bilirkişisine incelettirilmesini iste.",
+          "text": "Müvekkilin telefonunu rızasıyla teslim ettiğini bildir; bildirim kayıtlarını bilirkişiye inceletmeyi iste.",
           "delta": 20,
           "set": ["p1_bilirkisi"],
           "law": "CMK m.63",
@@ -112,13 +112,13 @@
           ]
         },
         {
-          "text": "Ekran görüntüsü yeterlidir; başka delile gerek yok.",
+          "text": "Ekran görüntüsü yeterlidir; sanık ilk iki mesajı kabul ettiğine göre üçüncüsü de sabittir, başka delile gerek yok.",
           "delta": -10,
           "set": ["p1_ekran"],
-          "note": "Ekran görüntüsü kolayca değiştirilebilen bir çıktıdır. Sanık itiraz ederse tek başına mahkûmiyete yetmeyebilir; şüpheden sanık yararlanır."
+          "note": "İlk iki mesajın kabulü üçüncüsünü ispatlamaz. Ekran görüntüsü kolayca değiştirilebilen bir çıktıdır. Sanık itiraz ederse tek başına mahkûmiyete yetmeyebilir; şüpheden sanık yararlanır."
         },
         {
-          "text": "Sanığın telefonuna el konulsun, bütün yazışmaları incelensin.",
+          "text": "Sanığın telefonuna el konulsun; silinen mesaj ve bütün yazışmaları onun cihazından incelensin.",
           "delta": -5,
           "law": "CMK m.63",
           "note": "Mesajın izi zaten müvekkilin telefonunda. Sanığın bütün yazışmalarını inceletmek bu soru için ölçüsüz bir taleptir; elinizdeki en kolay delili kullanmadınız.",
@@ -178,7 +178,7 @@
       "choices": [
         {
           "if": "p2_zabita",
-          "text": "İlk mesaj belediyeye şikâyet hakkını kullanma bildirimidir, ikinci mesaj bedduadır; ikisi de tehdit değildir. Üçüncü mesajın ise gönderildiği ispatlanmış değil.",
+          "text": "İlk mesaj belediyeye şikâyet hakkının bildirimi, ikincisi bedduadır; tehdit değildir. Üçüncü mesaj ispatlanmış değil.",
           "delta": 20,
           "set": ["p2_hukuki", "p2_ispat"],
           "law": "TCK m.106/1",
@@ -189,21 +189,21 @@
         },
         {
           "if": "!p2_zabita",
-          "text": "Mesajlar tehdit değildir; üçüncü mesajın gönderildiği de ispatlanmış değil.",
+          "text": "Mesajların hiçbiri tehdit değildir; üçüncü mesajın sanığın numarasından gönderildiği de ispatlanmış değil.",
           "delta": 5,
           "set": ["p2_ispat"],
           "law": "TCK m.106/1",
           "note": "İspat itirazı yerinde. Ama ilk mesajın neden haksız bir kötülük bildirmediğini gösteremediniz; “kapını kapattırırım” sözü bu hâliyle “sair kötülük” tehdidi sayılabilir (m.106/1 ikinci cümle)."
         },
         {
-          "text": "Müvekkil mesajı iki dakika sonra sildi; tehditten vazgeçti.",
+          "text": "Müvekkil mesajı iki dakika sonra sildi; TCK m.36 uyarınca gönüllü vazgeçtiği için cezalandırılamaz.",
           "delta": -10,
           "set": ["p2_sildi"],
           "law": "TCK m.106/1, m.36",
           "note": "Tehdit, mesaj muhataba ulaşıp okunduğu anda tamamlanır. Gönüllü vazgeçme yalnızca teşebbüste olur (m.36). Üstelik mesajın gönderildiğini kendiniz kabul etmiş oldunuz."
         },
         {
-          "text": "Dosyanın yeniden uzlaştırmaya gönderilmesini talep ediyoruz.",
+          "text": "Müvekkil artık uzlaşmaya hazır; tehdit uzlaştırma kapsamında olduğundan dosyanın yeniden uzlaştırmaya gönderilmesini talep ediyoruz.",
           "delta": -10,
           "set": ["p2_uzlTalep"],
           "law": "CMK m.253/18",
@@ -217,7 +217,7 @@
         },
         {
           "if": "p2_itiraf",
-          "text": "Müvekkil o mesajı hiç yazmadı; ekran görüntüsü sahtedir.",
+          "text": "Müvekkil o mesajı hiç yazmadı; ekran görüntüsü sahtedir, bildirim ekranı kolayca taklit edilebilir.",
           "delta": -20,
           "set": ["p2_ispat"],
           "note": "Müvekkil size mesajı yazdığını söyledi. Müdafi ispat eksikliğini savunabilir, ama bildiği bir gerçeğe aykırı vakıa ileri süremez; bu meslek kurallarına aykırıdır."
@@ -276,6 +276,7 @@
       }
     },
     {
+      "kind": "free",
       "side": "p1",
       "scene": "court",
       "if": "!p2_ispat",
@@ -283,27 +284,41 @@
         { "who": "p2", "text": "Müvekkilim mesajı iki dakika sonra silmiştir; tehditten vazgeçmiştir.", "if": "p2_sildi" },
         { "who": "judge", "text": "Katılan vekili, esasa ilişkin beyanınız?" }
       ],
-      "prompt": "Ne söyleyeceksiniz?",
+      "prompt": "Üçüncü mesaj hakkında esasa ilişkin beyanınızı mahkemeye nasıl sunacaksınız? Kendi cümlelerinizle açıklayın.",
       "choices": [
         {
-          "text": "Tehdit, mesaj okunduğu anda tamamlandı; silmek vazgeçme değildir. Üçüncü mesaj hayata ve vücut dokunulmazlığına yönelik bir saldırıyı bildiriyor: TCK m.106/1 birinci cümle.",
+          "text": "Güçlü beyan",
+          "min": 70,
           "delta": 20,
           "set": ["p1_ispat"],
           "law": "TCK m.106/1, m.36",
-          "note": "Doğru: suç tamamlanmıştır ve birinci cümle şikâyete bağlı değildir. Müdafi mesajın varlığına itiraz etmedi; ekran görüntüsü bu hâliyle hükme esas alınabilir."
+          "note": "Doğru kurdunuz: tehdit mesaj okunduğu anda tamamlandı, sonradan silmek gönüllü vazgeçme değildir (vazgeçme yalnızca teşebbüste olur, m.36). “Yere sererim” sözü vücut dokunulmazlığına yönelik saldırıyı bildirir: m.106/1 birinci cümle, şikâyete bağlı değil. Müdafi mesajın varlığına itiraz etmediği için ekran görüntüsü hükme esas alınabilir."
         },
         {
-          "text": "Mesajlar gece gönderildi; gece vakti nitelikli hâli uygulanmalı.",
-          "delta": -10,
-          "law": "TCK m.106/2",
-          "note": "Tehditte gece vakti diye bir nitelikli hâl yoktur. Nitelikli hâller m.106/2'de sayılır: silahla, kendini tanınmayacak hâle koyarak ya da imzasız mektupla, birden fazla kişiyle, suç örgütünün korkutucu gücünden yararlanarak. Bu hâllerde uzlaştırma da uygulanmaz; uzlaştırma yalnızca birinci fıkra içindir (CMK m.253/1-b)."
+          "text": "Yeterli beyan",
+          "min": 40,
+          "delta": 10,
+          "set": ["p1_ispat"],
+          "law": "TCK m.106/1, m.36",
+          "note": "Mahkeme beyanınızı yeterli buldu. Tam beyan; suçun mesaj okunduğunda tamamlandığını, silmenin vazgeçme olmadığını (m.36) ve üçüncü mesajın vücut dokunulmazlığına yönelik olduğu için m.106/1 birinci cümleye girdiğini birlikte gösterir."
         },
         {
-          "text": "Müvekkilin manevi zararının da bu davada tazminine karar verilsin.",
+          "text": "Zayıf beyan",
           "delta": -10,
-          "note": "Ceza mahkemesi tazminata hükmetmez; manevi tazminat hukuk mahkemesinde istenir."
+          "law": "TCK m.106",
+          "note": "Esasa ilişkin beyanınız asıl noktayı kaçırdı. Tehditte gece vakti diye bir nitelikli hâl yoktur (m.106/2'de sayılanlar: silah, kendini tanınmaz hâle koyma, birden fazla kişi, örgüt gücü); ceza mahkemesi manevi tazminata da hükmetmez. Söylenmesi gereken: suç mesaj okunduğunda tamamlandı, silmek vazgeçme değildir; üçüncü mesaj m.106/1 birinci cümledeki tehdittir."
         }
-      ]
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Tehdit, mesaj muhataba ulaşıp okunduğu anda tamamlanmıştır. (2) Mesajın iki dakika sonra silinmesi gönüllü vazgeçme sayılmaz; gönüllü vazgeçme yalnızca teşebbüs aşamasında mümkündür (TCK m.36); tamamlanmış suçta en fazla pişmanlık olarak cezanın belirlenmesinde dikkate alınabilir. (3) “Yarın gelip seni o kapının önünde yere sererim” sözü vücut dokunulmazlığına yönelik bir saldırıyı bildirir; bu TCK m.106/1 birinci cümledeki tehdittir ve şikâyete bağlı değildir. (4) Müdafi mesajın varlığına itiraz etmemiştir; ekran görüntüsü hükme esas alınabilir. Tamamlanmayı, vazgeçmenin olmadığını ve birinci cümleyi birlikte kuran cevap tam puan alır; bunlardan yalnız birini söyleyen cevap orta puan alır. Gece vakti nitelikli hâli isteyen (tehditte böyle bir hâl yoktur) ya da ceza mahkemesinden manevi tazminat isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["tamamlan", "okunduğu anda", "ulaştığı anda", "okudu"], "weight": 3 },
+        { "terms": ["vazgeçme değil", "gönüllü vazgeçme", "vazgeçme", "m.36", "madde 36", "36. madde", "teşebbüs"], "weight": 2 },
+        { "terms": ["birinci cümle", "1. cümle", "ilk cümle", "vücut dokunulmazlığı", "hayat", "yere sererim"], "weight": 2 },
+        { "terms": ["m.106", "m. 106", "madde 106", "106. madde", "md. 106", "md.106"], "weight": 1 },
+        { "terms": ["şikâyete bağlı değil", "şikayete bağlı değil", "resen", "re'sen", "kendiliğinden"], "weight": 1 },
+        { "terms": ["silme", "silmesi", "silinmesi", "sildi"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, üçüncü mesaj katılana ulaşıp okunduğu anda tehdit suçu tamamlanmıştır. İki dakika sonra silinmesi gönüllü vazgeçme değildir; TCK m.36'daki vazgeçme yalnızca teşebbüs aşamasında mümkündür. “Yarın gelip seni o kapının önünde yere sererim” sözü vücut dokunulmazlığına yönelik bir saldırının bildirimidir; eylem TCK m.106/1 birinci cümleye uyar ve şikâyete bağlı değildir. Sanığın cezalandırılmasını talep ederiz."
     },
     {
       "side": "p2",
@@ -317,7 +332,7 @@
       "choices": [
         {
           "if": "p1_ispat || !p2_ispat",
-          "text": "Mesaj öfkeyle yazılıp hemen silinmiştir; ilk iki mesaj suç değildir. Ceza alt sınırdan belirlensin, sanığın pişmanlığı ve sabıkasızlığı TCK m.62 kapsamında değerlendirilsin.",
+          "text": "İlk iki mesaj suç değil, üçüncüsü öfkeyle yazılıp hemen silindi; ceza alt sınırdan belirlensin, TCK m.62 uygulansın.",
           "delta": 15,
           "set": ["p2_alt"],
           "law": "TCK m.61, m.62",
@@ -325,14 +340,14 @@
         },
         {
           "if": "p1_ispat && p1_bilirkisi",
-          "text": "Bilirkişi raporu hukuka aykırı delildir; dosyadan çıkarılsın.",
+          "text": "Bilirkişi raporu, sanığın rızası olmadan alınmış hukuka aykırı delildir; CMK m.217/2 uyarınca dosyadan çıkarılsın.",
           "delta": -10,
           "law": "CMK m.217/2",
-          "note": "Katılan kendi telefonunu rızasıyla teslim etti, inceleme mahkeme kararıyla yapıldı. Hukuka aykırı bir elde etme yok."
+          "note": "İncelenen sanığın değil katılanın telefonuydu; sanığın rızası aranmaz. Katılan telefonunu rızasıyla teslim etti, inceleme mahkeme kararıyla yapıldı. Hukuka aykırı bir elde etme yok."
         },
         {
           "if": "p2_ispat && !p1_ispat",
-          "text": "Üçüncü mesaj ispatlanmadı, şüpheden sanık yararlanır. İlk mesaj hukuki yola başvuru bildirimi, ikincisi bedduadır: beraat talep ediyoruz.",
+          "text": "Üçüncü mesaj ispatlanmadı, şüpheden sanık yararlanır; ilk mesaj hukuki yol bildirimi, ikincisi beddua: beraat isteriz.",
           "delta": 15,
           "set": ["p2_beraat"],
           "law": "CMK m.223/2",
@@ -342,7 +357,7 @@
           ]
         },
         {
-          "text": "Mesaj öfke anında yazıldı; ciddi değildi, korku yaratmaya elverişli değildi.",
+          "text": "Mesaj öfke anında yazıldı ve hemen silindi; ciddi değildi, muhatapta korku yaratmaya elverişli değildi.",
           "delta": -5,
           "law": "TCK m.106/1",
           "note": "“Yere sererim” sözü vücut dokunulmazlığına yönelik bir saldırıyı bildiriyor ve korku yaratmaya elverişli. Tehditte failin sözünü gerçekleştirmeyi gerçekten istemesi aranmaz; öfkeyle söylenmesi suçu ortadan kaldırmaz."

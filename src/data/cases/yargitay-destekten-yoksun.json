@@ -62,10 +62,10 @@
       "lines": [{ "who": "narr", "text": "Bölge adliye mahkemesinin gerekçeli kararı dün tebliğ edildi. Meslektaşınız Av. Cem Aydın uğradı: “Bölge adliyeye karar düzeltme verelim, daha hızlı sonuç alırız.”" }],
       "prompt": "Hangi yola başvuracaksınız?",
       "choices": [
-        { "text": "Tebliğden itibaren iki hafta içinde temyiz yoluna başvurun; değer duruşma sınırını aştığı için duruşma talebini temyiz dilekçesine yazın.", "delta": 10, "set": ["durusmaTalep"],
+        { "text": "İki hafta içinde temyiz edin; değer duruşma sınırını aştığından duruşma talebini temyiz dilekçesine yazın.", "delta": 10, "set": ["durusmaTalep"],
           "law": "HMK m.361, m.369",
           "note": "Doğru. Bölge adliye mahkemesinin esastan ret kararına karşı yol temyizdir; süre tebliğden itibaren iki haftadır (HMK m.361). Duruşma sınırını aşan davalarda duruşma talebi temyiz ya da cevap dilekçesinde yapılır (HMK m.369)." },
-        { "text": "Meslektaşınızı dinleyin: bölge adliye mahkemesine karar düzeltme dilekçesi verin.", "delta": -25,
+        { "text": "Meslektaşınızı dinleyin: bölge adliye mahkemesine karar düzeltme dilekçesi verin; aynı daire hatasını daha hızlı düzeltir.", "delta": -25,
           "fatal": { "label": "SONUÇ:", "hukum": "Kanunda öngörülmeyen bir yola başvurulduğundan dilekçenin REDDİNE karar verildi; temyiz süresi geçtiğinden bölge adliye mahkemesi kararı davacılar yönünden kesinleşti.",
                      "summary": "Hukuk Muhakemeleri Kanunu'nda bölge adliye kararlarına karşı karar düzeltme yolu yoktur; yol temyizdir ve süre iki haftadır (HMK m.361). Yanlış yola başvurulurken temyiz süresi doldu. SGK mahsubundaki hata düzeltilemedi." },
           "note": "Karar düzeltme, istinaf sisteminde hukuk yargılaması için öngörülmüş bir kanun yolu değildir." },
@@ -79,15 +79,15 @@
       "lines": [{ "who": "narr", "text": "Temyiz dilekçesini yazıyorsunuz. Müvekkil, “her şeyi yazın” diyor." }],
       "prompt": "Dilekçenin merkezine neyi koyacaksınız?",
       "choices": [
-        { "text": "SGK gelirinin tamamının değil, yalnızca rücuya tabi kısmının düşülmesi gerektiğini: ilk peşin sermaye değerinin yarısının davalı tarafın yüzde 75 kusuruna isabet eden kısmı.", "delta": 20, "set": ["hukukArg"],
+        { "text": "Yalnızca rücuya tabi kısım düşülmeli: SGK peşin sermaye değerinin yarısını, %75 kusur oranında rücu edebilir.", "delta": 20, "set": ["hukukArg"],
           "law": "TBK m.55/1; 5510 s.K. m.21/4",
           "note": "Doğru. Rücu edilemeyen sosyal güvenlik ödemeleri tazminattan indirilemez (TBK m.55/1). SGK üçüncü kişiye ilk peşin sermaye değerinin yarısını, onun kusuru oranında rücu edebildiğinden, düşülecek kısım 2.400.000 × ½ × %75 = 900.000 TL'dir. Doğru hesapla tazminat 3.750.000 − 900.000 = 2.850.000 TL olur." },
-        { "text": "Müteveffanın yüzde 25 kusurunu kabul etmediğinizi yazın; yeni bir kusur raporu alınmasını isteyin.", "delta": -10, "set": ["kusurArg"],
+        { "text": "Müteveffanın yüzde 25 kusurunu kabul etmediğinizi yazın; rapor hatalı, yeni bir kusur raporu alınmasını isteyin.", "delta": -10, "set": ["kusurArg"],
           "law": "HMK m.281",
           "note": "Kusur raporuna süresinde itiraz edilmemiş ve istinafta ileri sürülmemiş. Kusurun tespiti delillerin değerlendirilmesine ilişkin bir konudur; Yargıtay yeni bilirkişi raporu almaz." },
-        { "if": "makbuz", "text": "Hafta sonu nakliye makbuzlarını ekleyin; destek gelirinin yeniden hesaplanmasını isteyin.", "delta": -10, "set": ["makbuzSundu"],
+        { "if": "makbuz", "text": "Hafta sonu nakliye makbuzlarını ekleyin; destek geliri eksik hesaplandı, yeniden hesaplanmasını isteyin.", "delta": -10, "set": ["makbuzSundu"],
           "note": "Temyiz incelemesinde yeni delil ileri sürülemez. Ek gelir ilk derecede ileri sürülüp ispatlanmalıydı." },
-        { "text": "SGK gelirinin tazminattan hiç düşülmemesi gerektiğini savunun.", "delta": -5,
+        { "text": "SGK gelirinin tazminattan hiç düşülmemesi gerektiğini savunun; sosyal güvenlik ödemesi tazminat değildir (TBK m.55/1).", "delta": -5,
           "law": "TBK m.55/1",
           "note": "Aşırıya kaçtınız. Rücuya tabi kısmın düşülmesi, aynı zararın iki kez tazmin edilmesini önler; tamamen düşülmemesi de hatalıdır. Doğru tez, yalnızca rücuya tabi kısmın düşülmesidir." }
       ] },
@@ -112,19 +112,29 @@
       },
       "pass": { "delta": -15, "note": "Sigortacının mahsup tezi cevapsız kaldı." }
     },
-    { "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [{ "who": "opp", "text": "Kaldı ki tazminat, poliçe tarihindeki Genel Şartlarda öngörülen teknik faiz yöntemiyle hesaplanmalıydı. KTK m.90 bunu emreder; bilirkişinin progresif rant yöntemi hatalıdır." }],
-      "prompt": "Sigortacının hesap yöntemine ilişkin temyiz sebebine nasıl karşılık vereceksiniz?",
+      "prompt": "Sigortacının hesap yöntemine ilişkin temyiz sebebine heyet önünde nasıl karşılık vereceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
-        { "text": "Anayasa Mahkemesi, KTK m.90'daki genel şartlara yapılan atfı iptal etti. Destek zararı TBK ve sorumluluk hukuku ilkelerine göre hesaplanır; Yargıtay'ın yerleşik uygulaması TRH-2010 tablosu ve progresif rant yöntemidir.", "delta": 15, "set": ["gsArg"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 15, "set": ["gsArg"],
           "law": "AYM 17.7.2020, E.2019/40, K.2020/40; TBK m.55",
-          "note": "Doğru. İptal kararından sonra genel şartlardaki hesap yöntemi zarar göreni bağlamaz; gerçek zarar sorumluluk hukuku ilkelerine göre belirlenir. Yerleşik uygulama TRH-2010 yaşam tablosu ile progresif rant yöntemidir." },
-        { "text": "Genel şartlar, sigortacıyla sigortalı arasındaki sözleşmenin parçasıdır; zarar görene karşı ileri sürülemez.", "delta": 5,
-          "law": "KTK m.95",
-          "note": "Kısmen doğru bir sezgi: sözleşmeden doğan ve sigortacının yükümlülüğünü azaltan hususlar zarar görene karşı ileri sürülemez (KTK m.95). Ama tartışmanın asıl dayanağı, Anayasa Mahkemesinin KTK m.90'daki atfı iptal etmesidir." },
-        { "text": "Fark küçükse genel şartlara göre hesaplanmasına itirazımız yok.", "delta": -15, "set": ["gsKabul"],
-          "note": "Müvekkillerin aleyhine gereksiz bir kabul. Genel şartlardaki teknik faiz yöntemi, progresif ranta göre belirgin ölçüde düşük sonuç verir." }
-      ] }
+          "note": "Tezi dayanağından çürüttünüz. Anayasa Mahkemesi KTK m.90'daki genel şartlara yapılan atfı iptal etti; genel şartlardaki hesap yöntemi zarar göreni bağlamaz, gerçek zarar sorumluluk hukuku ilkelerine göre belirlenir. Yerleşik uygulama TRH-2010 yaşam tablosu ile progresif rant yöntemidir." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 5,
+          "law": "KTK m.95; TBK m.55",
+          "note": "Genel şartların zarar göreni bağlamadığını söylediniz; heyet bunu not etti. Ama tartışmanın asıl dayanağını göstermediniz: Anayasa Mahkemesi KTK m.90'daki genel şartlara yapılan atfı iptal etti; destek zararı sorumluluk hukuku ilkelerine göre, TRH-2010 tablosu ve progresif rant yöntemiyle hesaplanır." },
+        { "text": "Zayıf savunma", "delta": -15, "set": ["gsKabul"],
+          "note": "Sigortacının tezini karşılayamadınız. Genel şartlardaki teknik faiz yöntemi progresif ranta göre belirgin ölçüde düşük sonuç verir ve müvekkillerin aleyhinedir. Anayasa Mahkemesi KTK m.90'daki genel şartlara yapılan atfı iptal etti; zarar TBK ve sorumluluk hukuku ilkelerine göre, TRH-2010 tablosu ve progresif rant yöntemiyle hesaplanır." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Anayasa Mahkemesi, KTK m.90'daki Zorunlu Mali Sorumluluk Sigortası Genel Şartlarına yapılan atfı iptal etmiştir (17.7.2020, E.2019/40, K.2020/40); genel şartlardaki teknik faiz yöntemi zarar göreni bağlamaz. (2) Destek zararı TBK m.55 ve sorumluluk hukuku ilkelerine göre gerçek zarar olarak hesaplanır; Yargıtay'ın yerleşik uygulaması TRH-2010 yaşam tablosu ve progresif rant yöntemidir, bilirkişi hesabı buna uygundur. (3) Sigortacının temyiz sebebi reddedilmelidir. İptal kararını ve yerleşik hesap yöntemini birlikte söylemek tam puan için gerekir; yalnızca 'genel şartlar sözleşmenin parçasıdır, zarar görene karşı ileri sürülemez' demek orta puan alır. Genel şartlara göre hesabı kabul eden ya da tartışmayı fark tutarına indiren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["Anayasa Mahkemesi", "AYM", "iptal"], "weight": 3 },
+        { "terms": ["progresif rant", "progresif"], "weight": 2 },
+        { "terms": ["TRH-2010", "TRH 2010", "TRH"], "weight": 1 },
+        { "terms": ["genel şart"], "weight": 1 },
+        { "terms": ["m.90", "m. 90", "madde 90", "90. madde", "md. 90", "KTK 90"], "weight": 1 },
+        { "terms": ["sorumluluk hukuku", "gerçek zarar", "m.55", "madde 55", "TBK"], "weight": 2 }
+      ],
+      "model": "Sayın Başkan, Anayasa Mahkemesi KTK m.90'daki genel şartlara yapılan atfı iptal etmiştir; Genel Şartlardaki teknik faiz yöntemi artık zarar göreni bağlamaz. Destek zararı TBK m.55 ve sorumluluk hukuku ilkelerine göre gerçek zarar olarak hesaplanır. Yargıtay'ın yerleşik uygulaması TRH-2010 yaşam tablosu ve progresif rant yöntemidir; bilirkişi hesabı buna uygundur ve sigortacının temyiz sebebi reddedilmelidir." }
   ],
   "outcomes": [
     { "if": "mahsupArg && gsArg", "winner": "p1", "noCourt": true,

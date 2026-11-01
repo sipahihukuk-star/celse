@@ -48,18 +48,18 @@
       ],
       "prompt": "İstinaf dilekçesinin ana sebebi ne olacak?",
       "choices": [
-        { "text": "Kısmi ödeme: 1.500.000 TL ödendi; banka kayıtları ilk derecede delil gösterildiği hâlde getirtilmedi.", "delta": 20, "set": ["odeme"],
+        { "text": "Kısmi ödeme: banka kayıtları ilk derecede delil gösterildiği hâlde getirtilmedi.", "delta": 20, "set": ["odeme"],
           "law": "HMK m.357/3",
           "note": "Doğru. Ödeme, borcu ödenen ölçüde sona erdirir; ödemeyi ispat yükü onu ileri süren davalıdadır. Savunma ilk derecede ileri sürülmüş, delil süresinde gösterilmiş, ama mahkeme incelemeden karar vermiş. Böyle bir delil istinafta incelenebilir (HMK m.357/3)." },
-        { "text": "İskonto: e-posta, bedelin yüzde on indirildiğini gösteriyor.", "delta": -10,
+        { "text": "İskonto: satış müdürünün e-postası bedelin yüzde on indirildiğini gösteriyor; belge yeni bulundu.", "delta": -10,
           "law": "HMK m.357/1",
-          "note": "İskonto iddiası ilk derecede hiç ileri sürülmedi, e-posta da gösterilmedi. İstinafta yeni vakıaya ve yeni delile dayanılamaz (HMK m.357/1). “Eski bilgisayarda bulamadım” mücbir sebep değildir. Ayrıca bir iskonto önerisi, kabul edilip bedel değiştirilmedikçe borcu azaltmaz." },
-        { "text": "Zamanaşımı: alacak zamanaşımına uğradı.", "delta": -10,
+          "note": "İskonto iddiası ilk derecede hiç ileri sürülmedi, e-posta da gösterilmedi. İstinafta yeni vakıaya ve yeni delile dayanılamaz (HMK m.357/1). Belgenin eski bilgisayarda kalıp sonradan bulunması mücbir sebep değildir. Ayrıca bir iskonto önerisi, kabul edilip bedel değiştirilmedikçe borcu azaltmaz." },
+        { "text": "Zamanaşımı: alacak zamanaşımına uğradı; zamanaşımı her aşamada ileri sürülebilir.", "delta": -10,
           "law": "HMK m.357/1",
-          "note": "Zamanaşımı, hâkimin kendiliğinden gözetmediği bir def'idir; ilk derecede ileri sürülmediyse istinafta ilk kez ileri sürülemez (HMK m.357/1). Üstelik 2026'da yapılan bir satışın bedeli için zamanaşımı dolmuş değil." },
-        { "text": "Ayıp: bazı kapaklar çatlaktı, bedelden indirim istenmeli.", "delta": -10,
+          "note": "Zamanaşımı her aşamada ileri sürülemez: hâkimin kendiliğinden gözetmediği bir def'idir; ilk derecede ileri sürülmediyse istinafta ilk kez ileri sürülemez (HMK m.357/1). Üstelik 2026'da yapılan bir satışın bedeli için zamanaşımı dolmuş değil." },
+        { "text": "Ayıp: bazı kapaklar çatlak teslim edildi, TBK m.227 uyarınca bedelden indirim istenmeli.", "delta": -10,
           "law": "TBK m.223; TTK m.23",
-          "note": "Alıcı, malı teslim alınca gözden geçirip ayıbı süresinde bildirmek zorundadır; ticari satışta TTK m.23'teki kısa süreler uygulanır. Bildirmeyen alıcı malı kabul etmiş sayılır (TBK m.223). Ayrıca ayıp ilk derecede hiç ileri sürülmedi; istinafta yeni savunmadır." }
+          "note": "Bedel indirimi (TBK m.227) ancak ayıp süresinde bildirildiyse istenebilir. Alıcı, malı teslim alınca gözden geçirip ayıbı süresinde bildirmek zorundadır; ticari satışta TTK m.23'teki kısa süreler uygulanır. Bildirmeyen alıcı malı kabul etmiş sayılır (TBK m.223). Ayrıca ayıp ilk derecede hiç ileri sürülmedi; istinafta yeni savunmadır." }
       ] },
     { "side": "p1", "scene": "office",
       "lines": [
@@ -69,15 +69,15 @@
       ],
       "prompt": "Dilekçeyi nasıl yazacaksınız?",
       "choices": [
-        { "if": "odeme", "text": "Somut yaz: ödeme savunmasının cevap dilekçesinde yer aldığını, banka kayıtlarının delil listesinde gösterilip getirtilmediğini belirt; bankaya yazı yazılmasını iste.", "delta": 15, "set": ["gerekce"],
+        { "if": "odeme", "text": "Somut yaz: ödeme savunmasının cevap dilekçesinde, banka kayıtlarının delil listesinde yer aldığını belirt; getirtilmesini iste.", "delta": 15, "set": ["gerekce"],
           "law": "HMK m.342, m.355, m.357/3",
           "note": "İnceleme, istinaf dilekçesinde gösterilen sebeplerle sınırlıdır; kamu düzenine aykırılık ayrıca kendiliğinden gözetilir (HMK m.355). Sebebi, dayandığı delilin ilk derecede nerede gösterildiğiyle birlikte yazmak, “yeni delil” itirazını baştan karşılar." },
         { "if": "!odeme", "text": "Uyarıyı dinle: ana sebebi kısmi ödeme yap; delil listesine atıf yaparak banka kayıtlarının getirtilmesini iste.", "delta": 10, "set": ["odeme", "gerekce"],
           "law": "HMK m.355, m.357/3",
           "note": "Meslektaşınız haklı. Sebep, ilk derecede ileri sürülmüş bir savunmaya ve süresinde gösterilmiş bir delile dayanıyor (HMK m.357/3). İlk derecede hiç ileri sürülmemiş sebepleri dilekçeden çıkardınız." },
-        { "text": "Kısa tut: “Karar usul ve yasaya aykırıdır, ayrıntılı gerekçe sonra sunulacaktır.”", "delta": -10,
+        { "text": "Kısa tut: “Karar usul ve yasaya aykırıdır, ayrıntılı gerekçe sonra sunulacaktır.” Daire dosyayı zaten baştan inceler.", "delta": -10,
           "law": "HMK m.355",
-          "note": "Ayrıntılar sonraya kalmaz. Daire, istinaf süresi içinde verilen dilekçedeki sebeplerle sınırlı inceler; somut sebep yoksa yalnızca kamu düzeni yönünden bakar (HMK m.355). Süre geçtikten sonra eklenen sebepler dikkate alınmaz." }
+          "note": "Ayrıntılar sonraya kalmaz ve Daire dosyayı baştan incelemez. Daire, istinaf süresi içinde verilen dilekçedeki sebeplerle sınırlı inceler; somut sebep yoksa yalnızca kamu düzeni yönünden bakar (HMK m.355). Süre geçtikten sonra eklenen sebepler dikkate alınmaz." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court", "if": "odeme && gerekce",
       "lines": [
@@ -104,18 +104,28 @@
       "pass": { "delta": -10,
         "note": "İtiraz cevapsız kaldı. Daire dosyayı yine de kendisi inceleyecek, ama tezinizi savunma fırsatını kaçırdınız." }
     },
-    { "side": "p1", "scene": "court", "if": "odeme && gerekce",
+    { "kind": "free", "side": "p1", "scene": "court", "if": "odeme && gerekce",
       "lines": [{ "who": "judge", "text": "Davalı vekili, son talebiniz?" }],
-      "prompt": "Daire'den ne isteyeceksiniz?",
+      "prompt": "Daire'den ne isteyeceksiniz ve neden? Talebinizi kendi cümlelerinizle açıklayın.",
       "choices": [
-        { "text": "Kararın kaldırılmasını; ödenen 1.500.000 TL yönünden davanın reddini, kalan 2.700.000 TL yönünden kabulünü isteriz.", "delta": 15, "set": ["talep"],
-          "note": "Gerçekçi ve tutarlı. Ödeme kalan borcu ortadan kaldırmaz; talebiniz ispatladığınız ölçüyle sınırlı. Daire eksik delili kendisi topladığı için yeniden esas hakkında karar verebilir." },
-        { "text": "Davanın tamamen reddini isteriz.", "delta": -5,
-          "note": "Kalan 2.700.000 TL'nin ödenmediği tartışmasız. Tam ret talebi inandırıcılığınızı zedeler." },
-        { "text": "Dosyanın yeniden görülmek üzere ilk derece mahkemesine gönderilmesini isteriz.", "delta": 0,
-          "law": "HMK m.353/1-a-6",
-          "note": "Önemli delillerin toplanmaması kaldırıp geri gönderme sebebi olabilir (HMK m.353/1-a-6). Ama Daire eksik delili kendisi topladı; dosyanın geri gönderilmesi müvekkil için yalnızca zaman kaybı olur." }
-      ] },
+        { "text": "Güçlü talep", "min": 70, "delta": 15, "set": ["talep"],
+          "law": "HMK m.353/1-b-2",
+          "note": "Gerçekçi ve tutarlı bir talep kurdunuz: kararın kaldırılması, ödenen 1.500.000 TL yönünden ret, kalan 2.700.000 TL yönünden kabul. Daire eksik delili kendisi topladığı için esas hakkında yeniden karar verebilir; geri göndermeye gerek yok." },
+        { "text": "Yeterli talep", "min": 40, "delta": 7, "set": ["talep"],
+          "law": "HMK m.353/1-b-2",
+          "note": "Talebiniz doğru yöndeydi ama eksikti. Tam talep: kararın kaldırılması, ödenen 1.500.000 TL yönünden davanın reddi, kalan 2.700.000 TL yönünden kabulü ve Daire'nin eksik delili tamamladığı için esas hakkında kendisinin karar vermesi." },
+        { "text": "Zayıf talep", "delta": -5,
+          "note": "Talebiniz ispatladığınız ölçüyle uyumlu değildi. Kalan 2.700.000 TL'nin ödenmediği tartışmasız; tam ret istemek inandırıcılığınızı zedeler, dosyanın ilk dereceye geri gönderilmesi de Daire delili kendisi topladığından yalnızca zaman kaybıdır. Doğrusu: 1.500.000 TL yönünden kısmi ret." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) İlk derece mahkemesi kararının kaldırılması istenir. (2) Ödenen 1.500.000 TL yönünden davanın reddi, kalan 2.700.000 TL yönünden kabulü istenir; ödeme yalnızca ödenen ölçüde borcu sona erdirir, talep ispat edilenle sınırlıdır. (3) Daire eksik delili (banka cevabı) kendisi topladığı için esas hakkında yeniden hüküm kurmalıdır (HMK m.353/1-b-2); dosyanın ilk dereceye geri gönderilmesi gereksiz zaman kaybıdır. Kaldırma, kısmi ret ve Daire'nin kendisinin karar vermesini birlikte isteyen cevap tam puan alır; kısmi reddi isteyip gerisini eksik bırakan cevap orta puan alır. Davanın tamamen reddini ya da yalnızca dosyanın ilk derece mahkemesine geri gönderilmesini isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["1.500.000", "1,5 milyon", "bir buçuk milyon", "1500000", "ödenen kısım", "ödenen miktar"], "weight": 3 },
+        { "terms": ["kaldırıl", "kaldırma"], "weight": 2 },
+        { "terms": ["kısmen", "kısmi ret", "kısmen ret", "kısmen kabul", "2.700.000", "2,7 milyon", "kalan"], "weight": 2 },
+        { "terms": ["esas hakkında", "yeniden hüküm", "kendisi karar", "Dairenizce", "Daireniz karar"], "weight": 2 },
+        { "terms": ["m.353", "m. 353", "madde 353", "353. madde", "md. 353", "md.353"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, ilk derece mahkemesi kararının kaldırılmasını talep ediyoruz. Banka cevabıyla 1.500.000 TL'nin ödendiği sabit olduğundan bu kısım yönünden davanın reddine, kalan 2.700.000 TL yönünden kabulüne karar verilmesini istiyoruz. Eksik delil Dairenizce tamamlandığından dosyanın geri gönderilmesine gerek yoktur; HMK m.353/1-b-2 uyarınca esas hakkında yeniden hüküm kurulmasını talep ederiz." },
     { "side": "p1", "scene": "office", "if": "!(odeme && gerekce)",
       "lines": [
         { "who": "narr", "text": "Daire dosyayı duruşma yapmadan inceledi. Karar UYAP'a düştü." },
@@ -124,10 +134,10 @@
       ],
       "prompt": "Müvekkile ne söyleyeceksiniz?",
       "choices": [
-        { "text": "Gerçeği açıkça anlat: istinaf sebebi dilekçede doğru gösterilmediği için ödeme incelenmedi. Temyiz imkânını ve sınırlarını ayrıca değerlendirin.", "delta": 5,
+        { "text": "Açıkça anlat: istinaf sebebi dilekçede doğru gösterilmediği için ödeme incelenmedi; temyizi ayrıca değerlendirin.", "delta": 5,
           "note": "Mesleki dürüstlük müvekkile karşı ilk borçtur. Temyizde de yeni sebep ileri sürülemez; asıl fırsat istinaf dilekçesindeydi." },
-        { "text": "Daire'nin dosyayı okumadığını söyle.", "delta": -5,
-          "note": "Daire kanunun çizdiği sınırda inceledi (HMK m.355, m.357). Sorumluluğu başkasına yüklemek müvekkili yanıltır." }
+        { "text": "Daire'nin dosyayı okumadan, banka kayıtlarına bakmadan başvuruyu reddettiğini söyle; temyizde bu düzelir.", "delta": -5,
+          "note": "Daire kanunun çizdiği sınırda inceledi (HMK m.355, m.357). Sorumluluğu başkasına yüklemek müvekkili yanıltır; temyizde de istinafta gösterilmeyen sebeple sonuç alınamaz." }
       ] }
   ],
   "outcomes": [

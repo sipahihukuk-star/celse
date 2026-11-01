@@ -62,13 +62,13 @@
       "lines": [{ "who": "narr", "text": "Bakanlık yazılı görüşünde başvurunun bir kanun yolu şikâyeti olduğunu, derece mahkemelerinin kararını yeniden tartışmaya yöneldiğini ileri sürüyor. Görüşe cevabınızı yazıyorsunuz." }],
       "prompt": "Cevabınızın merkezine ne koyacaksınız?",
       "choices": [
-        { "text": "Şikâyetin, taşınmaza kamulaştırma yapılmadan el atılmasına ve bedelin süresiz olarak ödenmemesine ilişkin olduğunu yazın. Bu, mülkiyet hakkına doğrudan bir müdahaledir.", "delta": 15, "set": ["hak"],
+        { "text": "Şikâyetin kamulaştırmasız el atma ve süresiz ödenmeyen bedel olduğunu, bunun mülkiyete doğrudan müdahale olduğunu yazın.", "delta": 15, "set": ["hak"],
           "law": "Anayasa m.35",
           "note": "Anayasa Mahkemesi derece mahkemelerinin hukuku yorumlamasını kural olarak denetlemez. Ama sonuç mülkiyet hakkına ölçüsüz bir müdahaleyse, bu hakkın güvencelerini denetler. Şikâyeti doğru çerçevede kurdunuz." },
         { "text": "Bilirkişi raporundaki alan hesabının hatalı olduğunu ve mahkemenin raporu yanlış değerlendirdiğini ayrıntılı anlatın.", "delta": -10, "set": ["dorduncu"],
           "note": "Delillerin değerlendirilmesi derece mahkemelerinin işidir. Bu yöndeki şikâyet kanun yolu şikâyeti sayılır ve kabul edilemez bulunur." },
-        { "text": "Görüşe cevap vermeyin; her şeyi duruşmada anlatırsınız.", "delta": -5,
-          "note": "Bakanlık görüşüne cevap verme imkânını kullanmadınız. Kanun yolu şikâyeti iddiası yazılı aşamada cevapsız kaldı." }
+        { "text": "Görüşe ayrıca cevap vermeyin; cevap zorunlu değildir, kanun yolu itirazını duruşmada sözlü olarak karşılarsınız.", "delta": -5,
+          "note": "Cevap vermek zorunlu değil, ama bu imkânı kullanmadınız. Kanun yolu şikâyeti iddiası yazılı aşamada cevapsız kaldı; Bölüm başvuruyu bu görüş ışığında değerlendirir." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Duruşmayı açıyorum. Adalet Bakanlığı temsilcisi, görüşünüzü özetleyin." }],
@@ -87,34 +87,43 @@
       },
       "pass": { "delta": -15, "note": "Bakanlığın kanunilik savunması cevapsız kaldı." }
     },
-    { "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [
         { "who": "opp", "text": "Kaldı ki müdahale kamu yararına bir su deposu içindir. Bölge halkının içme suyu buradan sağlanmaktadır." },
         { "who": "judge", "text": "Başvurucu vekili, kamu yararı varsa müdahale neden ölçüsüz olsun?" }
       ],
-      "prompt": "Ne cevap vereceksiniz?",
+      "prompt": "Kamu yararı bulunsa bile müdahalenin neden ölçüsüz olduğunu Bölüme nasıl anlatacaksınız? Kendi cümlelerinizle savunun.",
       "choices": [
-        { "text": "Kamu yararını tartışmıyoruz. Ama bedel ödenmeden mülkten yoksun bırakmak, başvurucuya tek başına katlanamayacağı bir yük yükler. Mahkeme bedeli bütçe programına bağlayarak bu yoksunluğu süresiz hâle getirdi.", "delta": 20, "set": ["olcu"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["olcu"],
           "law": "Anayasa m.13, m.35, m.46",
-          "note": "Kamu yararı müdahaleyi meşru kılabilir. Ölçülülük ise kamu yararı ile bireyin hakkı arasında adil bir denge arar. Mülkten yoksun bırakmada bu denge kural olarak makul bir bedelin ödenmesiyle kurulur." },
-        { "text": "Depo gereksizdi. Belediye onu başka bir yere kurmalıydı.", "delta": -10,
-          "note": "Kamu hizmetinin nerede kurulacağı bir yerindelik sorusudur. Anayasa Mahkemesi idarenin bu tercihini denetlemez." },
-        { "text": "Belediye başkanı müvekkilime husumetle hareket etti.", "delta": -10,
-          "note": "Dosyada buna dair bir kanıt yok. Ölçülülük, müdahalenin bireye yüklediği yük üzerinden değerlendirilir." },
-        { "text": "Mahkeme bilirkişi raporunu yanlış değerlendirdi.", "delta": -5, "set": ["dorduncu"],
-          "note": "Anayasa Mahkemesi delil değerlendirmesini yeniden yapmaz. Bu cevap Bakanlığın kanun yolu şikâyeti iddiasını güçlendirir." }
-      ] },
+          "note": "Kamu yararını tartışmadan ölçülülüğe geçtiniz: bedel ödenmeden mülkten yoksun bırakma başvurucuya katlanamayacağı bir yük yükler; mahkeme bedeli bütçe programına bağlayarak yoksunluğu süresiz hâle getirdi. Adil denge kural olarak makul bir bedelle kurulur." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["olcu"],
+          "law": "Anayasa m.13, m.35, m.46",
+          "note": "Bölüm ölçüsüzlük savunmanızı yeterli buldu. Tam cevap, kamu yararını kabul edip bedelsiz ve süresiz yoksunluğun başvurucuya aşırı bir yük yüklediğini, adil dengenin ancak bedelle kurulabileceğini birlikte gösterir." },
+        { "text": "Zayıf savunma", "delta": -10,
+          "law": "Anayasa m.13, m.35",
+          "note": "Ölçülülük gösterilemedi. Deponun yerini ya da gereğini tartışmak yerindelik denetimi istemektir; Anayasa Mahkemesi bunu yapmaz. Doğrusu: kamu yararı kabul edilse bile bedel ödenmeden ve süresiz biçimde mülkten yoksun bırakmanın adil dengeyi bozduğunu göstermekti." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kamu yararı tartışılmıyor ya da kabul ediliyor; ama kamu yararı müdahaleyi tek başına ölçülü kılmaz (Anayasa m.13, m.35). (2) Ölçülülük, kamu yararı ile bireyin mülkiyet hakkı arasında adil bir denge kurulmasını gerektirir; mülkten yoksun bırakmada bu denge kural olarak makul bir bedelin ödenmesiyle kurulur (Anayasa m.46: gerçek karşılık, kural olarak peşin). (3) Kamulaştırma yapılmadan el atılmış, bedel ödenmemiş; mahkeme bedeli belediyenin bütçe programına bağlayarak yoksunluğu süresiz hâle getirmiştir. (4) Bu, başvurucuya tek başına katlanamayacağı aşırı bir yük yükler. Adil dengeyi, bedelsizliği ve süresizliği birlikte kuran cevap tam puan alır; bunlardan yalnız birini söyleyen orta puan alır. Deponun gereksiz olduğunu ya da başka yere kurulması gerektiğini savunan (yerindelik), belediye başkanının husumetini öne süren ya da bilirkişi raporunun yanlış değerlendirildiğini anlatan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["bedel", "karşılık", "tazmin", "ödenmeden", "ödenmemiş", "ödenmedi"], "weight": 3 },
+        { "terms": ["adil denge", "denge", "ölçülü", "ölçüsüz", "orantı"], "weight": 2 },
+        { "terms": ["aşırı yük", "katlanamayacağı", "olağan dışı", "ağır yük", "yük"], "weight": 2 },
+        { "terms": ["süresiz", "belirsiz", "bütçe", "program"], "weight": 2 },
+        { "terms": ["m.35", "m. 35", "madde 35", "35. madde", "md. 35", "m.46", "m. 46", "madde 46", "46. madde", "m.13", "madde 13"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, kamu yararını tartışmıyoruz; ancak kamu yararı müdahaleyi tek başına ölçülü kılmaz. Mülkten yoksun bırakmada kamu yararı ile bireyin hakkı arasındaki adil denge, kural olarak makul bir bedelin ödenmesiyle kurulur (Anayasa m.35, m.46). Müvekkilin taşınmazına kamulaştırmasız el atılmış, mahkeme de bedeli belediyenin bütçe programına bağlayarak yoksunluğu süresiz hâle getirmiştir. Bu, başvurucuya tek başına katlanamayacağı aşırı bir yük yüklemektedir." },
     { "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Başvurucu vekili, son olarak talebiniz nedir?" }],
       "prompt": "Ne isteyeceksiniz?",
       "choices": [
-        { "text": "Mülkiyet hakkının ihlal edildiğinin tespitini ve yeniden yargılama yapılmak üzere dosyanın asliye hukuk mahkemesine gönderilmesini isteriz.", "delta": 15, "set": ["yeniden"],
+        { "text": "İhlalin tespitini ve yeniden yargılama için dosyanın asliye hukuk mahkemesine gönderilmesini isteriz.", "delta": 15, "set": ["yeniden"],
           "law": "6216 s.K. m.50/2",
           "note": "İhlal, bedel talebini reddeden mahkeme kararından kaynaklanıyor. Bu durumda kural, ihlali gidermek için yeniden yargılamadır. Bedeli yeniden yargılamayı yapacak mahkeme belirler." },
-        { "text": "Taşınmazın bedelini Mahkemenizin belirlemesini ve tazminat olarak ödetmesini isteriz.", "delta": -5, "set": ["tazminatIstek"],
+        { "text": "Taşınmazın bedelini Mahkemenizin belirlemesini ve 6216 s.K. m.50/2 uyarınca tazminat olarak ödetmesini isteriz.", "delta": -5, "set": ["tazminatIstek"],
           "law": "6216 s.K. m.50/2",
           "note": "Tazminat, yeniden yargılamada hukuki yarar bulunmayan hâller içindir. Burada yeniden yargılama ihlali giderebilir. Bedelin tespiti de derece mahkemesinin işidir." },
-        { "text": "Deponun kaldırılmasına ve taşınmazın başvurucuya iadesine karar verilmesini isteriz.", "delta": -10,
+        { "text": "Deponun kaldırılmasına ve taşınmazın başvurucuya iadesine karar verilerek ihlalin aynen giderilmesini isteriz.", "delta": -10,
           "law": "6216 s.K. m.50/1",
           "note": "Anayasa Mahkemesi idari eylem ve işlem niteliğinde karar veremez (6216 s.K. m.50/1)." }
       ] }

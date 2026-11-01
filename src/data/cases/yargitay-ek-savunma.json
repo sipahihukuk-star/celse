@@ -62,7 +62,7 @@
       "lines": [{ "who": "narr", "text": "Büronuzdasınız. Temyiz süresinin dolmasına iki gün var. Fiziki dosya henüz elinize ulaşmadı, ama vekâletnamenizle UYAP'tan dosyaya erişebiliyorsunuz." }],
       "prompt": "Temyiz başvurusunu nasıl yapacaksınız?",
       "choices": [
-        { "if": "tutanak", "text": "Süre dolmadan gerekçeli bir temyiz dilekçesi verin: iddianame ve mütalaa TCK m.81/1-35 iken ek savunma alınmadan TCK m.82/1-a'dan hüküm kurulduğunu olaylarıyla yazın; duruşmalı inceleme isteyin.", "delta": 20, "set": ["dilekce226"],
+        { "if": "tutanak", "text": "Süre dolmadan gerekçeli dilekçe verin: iddianame m.81/1-35 iken ek savunma alınmadan TCK m.82/1-a'dan hüküm kurulduğunu olaylarıyla yazın; duruşma isteyin.", "delta": 20, "set": ["dilekce226"],
           "law": "CMK m.226, m.291/1, m.299/1, m.301",
           "note": "Doğru. Temyiz süresi hükmün gerekçesiyle birlikte tebliğinden itibaren iki haftadır (CMK m.291/1). Usule ilişkin aykırılıklar, dilekçede bunları gösteren olaylar belirtilerek ileri sürülmelidir (CMK m.301)." },
         { "if": "!tutanak", "text": "Bugün UYAP'tan son celse tutanağını gerekçeli hükümle karşılaştırın; bulduğunuz hukuka aykırılığı olaylarıyla dilekçeye yazıp süre dolmadan verin; duruşmalı inceleme isteyin.", "delta": 15, "set": ["tutanak", "dilekce226"],
@@ -121,19 +121,29 @@
     },
     { "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Sanık müdafii, son talebiniz?" }],
-      "prompt": "Heyetten ne isteyeceksiniz?",
+      "prompt": "Heyetten ne isteyeceksiniz? Talebinizi ve dayanağını kendi cümlelerinizle açıklayın.",
+      "kind": "free",
       "choices": [
-        { "text": "Ek savunma hakkı tanınmadan TCK m.82/1-a'dan hüküm kurulması nedeniyle hükmün bozulmasını; yeniden yargılamada CMK m.307/4'ün gözetilmesini isteriz.", "delta": 10, "set": ["talepDogru"],
+        { "text": "Güçlü talep", "min": 70, "delta": 10, "set": ["talepDogru"],
           "law": "CMK m.226, m.302/2, m.307/4",
-          "note": "Doğru talep. Savunma hakkının kısıtlanmasının sonucu bozmadır. Yeniden yargılamada sanığa ek savunma hakkı tanınır; yeni ceza 24 yılı geçemez." },
-        { "text": "Daire, hükmü TCK m.81/1 üzerinden kendisi düzelterek onasın.", "delta": -5,
-          "law": "CMK m.303",
-          "note": "Suçun niteliğinin ve cezanın yeniden belirlenmesi delillerin değerlendirilmesini ve takdiri gerektirir. Bu, Yargıtay'ın hükmü düzelterek onama yetkisinin dışında kalır." },
-        { "text": "Tasarlamaya karşı ek savunmamızı şimdi burada yapalım.", "delta": -10,
-          "note": "Yargıtay'da ek savunma alınmaz. Savunma hakkı yargılamayı yapan mahkemede tanınmalıdır; eksiklik ancak bozma ve yeniden yargılamayla giderilir." },
-        { "text": "Sanığın beraatine karar verilmesini isteriz.", "delta": -10,
-          "note": "Sanık yaralamayı inkâr etmiyor. Beraat talebi temyiz sebebinizle çelişir." }
-      ] }
+          "note": "Doğru talep. Ek savunma hakkı tanınmadan nitelikli hâlden hüküm kurulması savunma hakkının kısıtlanmasıdır ve sonucu bozmadır (CMK m.226, m.302/2). Yeniden yargılamada sanığa ek savunma hakkı tanınır; yalnız sanık lehine başvurulduğu için yeni ceza 24 yılı geçemez (CMK m.307/4)." },
+        { "text": "Yeterli talep", "min": 40, "delta": 5, "set": ["talepDogru"],
+          "law": "CMK m.226, m.302/2, m.307/4",
+          "note": "Bozma istediniz; doğru yön. Ama talebi tam kurmadınız: bozma sebebi ek savunma hakkı tanınmadan TCK m.82/1-a'dan hüküm kurulmasıdır (CMK m.226); yeniden yargılamada aleyhe bozma yasağının (CMK m.307/4) gözetilmesini de açıkça istemek gerekiyordu." },
+        { "text": "Zayıf talep", "delta": -10,
+          "law": "CMK m.226, m.302/2, m.303",
+          "note": "Talebiniz temyiz sebebinizle örtüşmedi. Yargıtay'da ek savunma alınmaz; suç vasfının yeniden belirlenmesi de düzelterek onamanın (CMK m.303) dışında kalır; sanık yaralamayı inkâr etmediği için beraat de istenemez. Doğru talep, savunma hakkının kısıtlanması nedeniyle bozma ve CMK m.307/4'ün gözetilmesiydi." }
+      ],
+      "rubric": "İyi bir cevap şunları içerir: (1) İddianamede ve mütalaada yer almayan tasarlama nitelikli hâlinden (TCK m.82/1-a) sanığa ek savunma hakkı tanınmadan hüküm kurulması savunma hakkının kısıtlanmasıdır (CMK m.226); bu nedenle hükmün bozulması istenir (CMK m.302/2). (2) Yeniden yargılamada sanığa ek savunma hakkı tanınmalıdır. (3) Yalnız sanık lehine başvurulduğu için aleyhe bozma yasağı (CMK m.307/4) gözetilmeli; yeni ceza 24 yılı geçemez. Bozma sebebini ve m.307/4'ü birlikte söyleyen tam puan alır; yalnızca bozma isteyip sebebini ya da aleyhe bozma yasağını belirtmeyen cevap orta puan alır. Yargıtay'ın hükmü kendisinin düzeltmesini, ek savunmanın Yargıtay'da yapılmasını ya da beraati isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["bozma", "bozulma"], "weight": 2 },
+        { "terms": ["ek savunma"], "weight": 3 },
+        { "terms": ["m.307", "m. 307", "madde 307", "307. madde", "aleyhe bozma"], "weight": 2 },
+        { "terms": ["m.226", "m. 226", "madde 226", "226. madde", "md. 226"], "weight": 1 },
+        { "terms": ["24 yıl", "yirmi dört yıl", "daha ağır"], "weight": 1 },
+        { "terms": ["tasarlama", "m.82", "madde 82"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, iddianamede ve mütalaada yer almayan tasarlama nitelikli hâlinden sanığa CMK m.226 uyarınca ek savunma hakkı tanınmadan hüküm kurulmuştur; savunma hakkı kısıtlandığından hükmün bozulmasını istiyoruz. Yeniden yargılamada sanığa ek savunma hakkı tanınmalı ve yalnız sanık lehine başvurulduğu için CMK m.307/4 gözetilerek ceza 24 yılı geçmemelidir." }
   ],
   "outcomes": [
     { "if": "savunmaArg && dilekce226", "winner": "p1", "noCourt": true,

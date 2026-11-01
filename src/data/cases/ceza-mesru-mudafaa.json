@@ -68,17 +68,17 @@
       ],
       "prompt": "Deliller için ne yapacaksınız?",
       "choices": [
-        { "if": "kamera", "text": "Bugün savcılığa dilekçe verin: büfe kamerası kaydının silinmeden alınması, taksici tanığın ifadesinin alınması ve müvekkilin adli muayenesi.", "delta": 25, "set": ["celp", "istem"],
+        { "if": "kamera", "text": "Bugün savcılıktan büfe kaydının alınmasını, taksici tanığın dinlenmesini ve adli muayeneyi isteyin.", "delta": 25, "set": ["celp", "istem"],
           "law": "CMK m.147/1-f · m.160/2",
           "note": "Doğru ve zamanında. Şüpheli, şüpheden kurtulmak için somut delillerin toplanmasını isteyebilir (CMK m.147/1-f); savcı lehe delilleri de toplamakla yükümlüdür (CMK m.160/2). Kayıt silinmeden alındı.",
           "reply": [{ "who": "narr", "text": "Savcılık ertesi gün büfeye yazı yazdı. Kayıt kopyalanıp dosyaya kondu." }] },
-        { "if": "!kamera", "text": "Bugün savcılığa dilekçe verin: olay yeri çevresindeki kameraların araştırılması, görgü tanıklarının tespiti ve müvekkilin adli muayenesi.", "delta": 15, "set": ["istem"],
+        { "if": "!kamera", "text": "Bugün savcılıktan çevredeki kameraların araştırılmasını, görgü tanıklarını ve adli muayeneyi isteyin.", "delta": 15, "set": ["istem"],
           "law": "CMK m.147/1-f · m.160/2",
           "note": "Doğru refleks; ama hangi kameranın olayı gördüğünü bilmediğiniz için savcılık yalnızca belediye kameralarını istedi. Olay yeri onların kör noktasındaydı. Büfe kaydı iki hafta sonra silindi.",
           "reply": [{ "who": "narr", "text": "Belediye kameralarından olay yerini gösteren bir görüntü çıkmadı." }] },
-        { "if": "kamera", "text": "Büfeciden kaydın bir kopyasını kendiniz alın; duruşmada sürpriz delil olarak sunmak için saklayın.", "delta": 5, "set": ["celp", "kopya"],
+        { "if": "kamera", "text": "Büfeciden kaydın bir kopyasını kendiniz alıp saklayın; duruşmada sürpriz delil olarak sunmak daha etkili olur.", "delta": 5, "set": ["celp", "kopya"],
           "note": "Kaydı korudunuz, bu iyi. Ama savcılığa bildirmeyip saklamak riskli: kaydın kaynağı ve bütünlüğü tartışılır, bilirkişi incelemesi gerekir. Üstelik soruşturmada kovuşturmaya yer olmadığı kararı alma şansını da kullanmadınız." },
-        { "text": "Delilleri duruşmada isteriz. Şimdi savcılığı uğraştırmayalım.", "delta": -20, "set": ["gec"],
+        { "text": "Delil istemi her aşamada yapılabilir; delilleri duruşmada isteriz, şimdi savunmanın kartlarını açık etmeyelim.", "delta": -20, "set": ["gec"],
           "law": "CMK m.160/2",
           "note": "Usul tuzağı. Delil istemi her aşamada yapılabilir; ama bazı deliller beklemez. Büfe kaydı 14 günde silindi; kovuşturmada istendiğinde yerinde yoktu." }
       ]
@@ -124,20 +124,20 @@
       ],
       "prompt": "Ne yaparsınız?",
       "choices": [
-        { "text": "Ayağa kalkın: “Sayın Hâkim, dinleyici sıralarından tanığa yöneltilen sözün tutanağa geçirilmesini ve duruşma düzeninin sağlanmasını talep ediyorum.”", "delta": 10, "set": ["tanikBeyan"],
+        { "text": "Hâkime dönün: “Dinleyiciden tanığa yöneltilen sözün tutanağa geçirilmesini ve düzenin sağlanmasını istiyorum.”", "delta": 10, "set": ["tanikBeyan"],
           "law": "CMK m.203",
           "note": "Doğru. Duruşmanın düzenini sağlamak hâkime aittir; düzeni bozan dinleyici salondan çıkarılabilir (CMK m.203). Sakin bir talep, tanığın konuşabileceği ortamı geri getirdi.",
           "reply": [
             { "who": "judge", "text": "Söz tutanağa geçirildi. O sözü söyleyen beyefendi salonu terk etsin. Tanık hanım, rahat olun, sizi dinliyoruz." },
             { "who": "witness", "text": "Adam elinde kırık şişeyle bağırarak üstüne yürüdü. Genç adam bir yumruk attı, adam düştü. Sonra bir tekme attı, gitti." }
           ] },
-        { "text": "Tanığa dönün: “Korkmayın, onlar size bir şey yapamaz!”", "delta": -5, "set": ["tanikBeyan"],
+        { "text": "Tanığa dönün: “Korkmayın, burada kimse size bir şey yapamaz; gördüğünüzü olduğu gibi anlatın.”", "delta": -5, "set": ["tanikBeyan"],
           "note": "İyi niyetli, ama tanığı yönlendiriyormuş gibi görünürsünüz ve düzeni sağlama yetkisi hâkimde. Hâkimden bunu istemeliydiniz.",
           "reply": [
             { "who": "judge", "text": "Müdafi, tanığa ben hitap ederim. Dinleyiciler sessiz olsun." },
             { "who": "witness", "text": "Adam kırık şişeyle üstüne yürüdü… Genç adam vurdu, sonra bir tekme attı." }
           ] },
-        { "text": "Dinleyicilere dönüp sert çıkışın: “Burada tanık mı tehdit ediyorsunuz?”", "delta": -10,
+        { "text": "Dinleyicilere dönüp sert çıkışın: “Burada tanık mı tehdit ediyorsunuz? Hepiniz hakkında suç duyurusunda bulunacağım!”", "delta": -10,
           "note": "Tahrike kapıldınız. Salonu siz değil hâkim yönetir. Gerginlik arttı, tanık iyice kapandı.",
           "reply": [
             { "who": "judge", "text": "Müdafi, oturun lütfen! Salonun düzenini ben sağlarım." },
@@ -146,26 +146,34 @@
       ]
     },
     {
-      "side": "p1", "scene": "court",
+      "kind": "free", "side": "p1", "scene": "court",
       "lines": [
         { "who": "judge", "text": "Tahkikat tamamlandı. Cumhuriyet savcısı, esas hakkındaki mütalaanız?" },
         { "who": "pros", "text": "Kayıt karşısında sanığın haksız bir saldırıyı defetmek için hareket ettiği anlaşılmaktadır. Takdiri mahkemenize bırakıyorum.", "if": "kameraItiraz" },
         { "who": "pros", "text": "Sanığın TCK m.86/1 uyarınca cezalandırılmasını, lehine haksız tahrik hükümlerinin uygulanmasını talep ederim.", "if": "!kameraItiraz" },
         { "who": "judge", "text": "Müdafi, esas hakkındaki savunmanız?" }
       ],
-      "prompt": "Savunmanızı nasıl kuracaksınız?",
+      "prompt": "Esas hakkındaki savunmanızı mahkemeye nasıl kuracaksınız? Kendi cümlelerinizle savunun.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Katılanın kırık şişeyle müvekkile yürümesi haksız ve gerçekleşen bir saldırıdır. (2) Tek yumruk, o anki hâl ve koşullara göre bu saldırıyı defetmeye yönelik ve orantılıdır. (3) Katılan yere düştükten sonra şişeye uzandığında saldırının tekrarı muhakkaktı; tekme de bu tehlikeye karşıdır. (4) Bu nedenle müvekkil TCK m.25/1 uyarınca meşru savunma hâlinde hareket etmiştir ve beraati istenir (CMK m.223/2-d). (5) İhtiyaten: tekmeyle sınırın aşıldığı kabul edilse bile aşma mazur görülebilecek korku ve telaştan kaynaklanmıştır, TCK m.27/2 uyarınca ceza verilmemelidir. Meşru savunmayı unsurlarıyla kuran, beraat isteyen ve sınırın aşılmasına ihtiyaten değinen cevap tam puan alır; meşru savunma deyip beraat isteyen ama unsurları ya da m.27/2'yi göstermeyen cevap orta puan alır. Haksız tahrik indirimi, alt sınırdan ceza ya da katılanın sarhoş olmasına dayanan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["meşru savunma", "m.25", "m. 25", "25/1", "madde 25", "md. 25"], "weight": 3 },
+        { "terms": ["haksız saldırı", "haksız ve gerçekleşen", "gerçekleşen saldırı", "saldırı"], "weight": 1 },
+        { "terms": ["orantılı", "orantı"], "weight": 2 },
+        { "terms": ["tekrarı muhakkak", "tekrar", "şişeye uzan"], "weight": 1 },
+        { "terms": ["beraat"], "weight": 2 },
+        { "terms": ["sınırın aşılması", "sınırı aş", "mazur", "korku", "telaş", "m.27", "m. 27", "27/2"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, katılanın kırık şişeyle müvekkile yürümesi haksız ve gerçekleşen bir saldırıdır; tek yumruk bu saldırıyı defetmeye yönelik ve orantılıdır. Katılan yerden şişeye uzandığında saldırının tekrarı muhakkaktı. Müvekkil TCK m.25/1 uyarınca meşru savunma hâlinde hareket etmiştir, beraatini talep ederiz. Tekmeyle sınırın aşıldığı kabul edilse bile bu aşma mazur görülebilecek korku ve telaştan kaynaklanmıştır; TCK m.27/2 uyarınca ceza verilmemelidir.",
       "choices": [
-        { "text": "Kırık şişeyle saldırı haksız ve gerçekleşen bir saldırıdır; tek yumruk orantılıdır. Katılan yerden şişeye uzandığında saldırının tekrarı muhakkaktı. Meşru savunma nedeniyle beraat talep ederiz. Tekme sınırı aştı denirse bile, bu aşma mazur görülebilecek korku ve telaştan kaynaklanmıştır; ceza verilmemelidir.", "delta": 25, "set": ["savunma"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 25, "set": ["savunma"],
           "law": "TCK m.25/1, m.27/2 · CMK m.223/2-d, m.223/3-c",
-          "note": "Doğru kurgu. Meşru savunma bir hukuka uygunluk sebebidir ve beraat gerektirir (CMK m.223/2-d). Sınırın mazur görülebilecek heyecan, korku veya telaşla aşılmasında faile ceza verilmez (TCK m.27/2); bu durumda karar, kusur yokluğundan ceza verilmesine yer olmadığıdır (CMK m.223/3-c)." },
-        { "text": "Sanık haksız tahrik altında hareket etmiştir; cezadan indirim yapılmasını talep ederiz.", "delta": -5, "set": ["tahrik"],
-          "law": "TCK m.29",
-          "note": "Haksız tahrik suçun işlendiğini kabul eder, yalnızca cezayı indirir. Delil durumu meşru savunmaya elverişliyken mahkûmiyete razı oldunuz." },
-        { "text": "Katılan sarhoştu; sarhoş birine karşı her türlü savunma meşrudur.", "delta": -10,
+          "note": "Doğru kurgu. Saldırının haksız ve gerçekleşen olduğunu, tepkinin orantılı kaldığını ve katılan şişeye uzandığında saldırının tekrarının muhakkak olduğunu gösterdiniz. Meşru savunma bir hukuka uygunluk sebebidir ve beraat gerektirir (CMK m.223/2-d); sınırın mazur görülebilecek korku veya telaşla aşılmasında ceza verilmez (TCK m.27/2, CMK m.223/3-c)." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 12, "set": ["savunma"],
           "law": "TCK m.25/1",
-          "note": "Meşru savunmanın ölçüsü saldıranın sarhoş olması değil; saldırının haksızlığı, gerçekleşmesi ve tepkinin orantılılığıdır." },
-        { "text": "Saldırı sona ermişti ama sanık çok öfkeliydi; cezanın alt sınırdan verilmesini talep ederiz.", "delta": -15,
-          "note": "Hem müvekkilin anlatımıyla hem delillerle çelişen bir kabul. Savunmanın en güçlü dayanağını kendiniz bıraktınız." }
+          "note": "Savunmayı meşru savunma üzerine kurdunuz ve beraat istediniz; mahkeme bunu değerlendirecek. Tam savunma, unsurları tek tek gösterir: haksız ve gerçekleşen saldırı, orantılı tepki, katılan şişeye uzandığında tekrarı muhakkak saldırı. Ayrıca tekme için ihtiyaten TCK m.27/2'ye (mazur görülebilecek korku ve telaş) dayanılmalıydı." },
+        { "text": "Zayıf savunma", "delta": -5, "set": ["tahrik"],
+          "law": "TCK m.25/1, m.27/2 · m.29",
+          "note": "Savunma meşru savunmaya oturmadı; mahkeme en fazla haksız tahrik indirimi tartışacak. Haksız tahrik suçun işlendiğini kabul eder, yalnızca cezayı indirir (TCK m.29). Deliller şunu söylemeye elverişliydi: kırık şişeyle saldırı haksız ve gerçekleşen bir saldırıydı, tepki orantılıydı, tekrarı muhakkaktı (TCK m.25/1); sınır aşıldıysa bile mazur görülebilecek korku ve telaş vardı (TCK m.27/2)." }
       ]
     }
   ],

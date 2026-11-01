@@ -36,18 +36,18 @@
       "lines": [{ "who": "client", "text": "Ölüm 18 Haziran'da olmuş. Üç ay geçti değil mi? Yoksa artık bu borçlar benim mi?" }],
       "prompt": "Ret süresi hakkında ne söyleyeceksiniz?",
       "choices": [
-        { "text": "Yasal mirasçı için üç aylık süre ölümü öğrendiğiniz günden başlar. 28 Temmuz'da öğrendiniz; son gün 28 Ekim. Hemen sulh hukuk mahkemesine ret beyanında bulunalım, mesajı da delil olarak sunalım.", "delta": 20, "set": ["sure"],
+        { "text": "Süre, ölümü öğrendiğiniz 28 Temmuz'dan başlar; son gün 28 Ekim. Hemen sulh hukuk mahkemesinde reddedelim.", "delta": 20, "set": ["sure"],
           "law": "TMK m.605, m.606",
           "note": "Yasal ve atanmış mirasçılar mirası reddedebilir (TMK m.605). Ret süresi üç aydır; yasal mirasçılar için mirasbırakanın ölümünü öğrendikleri tarihten başlar (m.606). Öğrenme tarihinin belgelenmesi, ileride çıkabilecek bir uyuşmazlıkta belirleyici olur." },
         { "text": "Süre ölüm tarihinden başlar, 18 Eylül'de doldu. Ret artık mümkün değil; borçlarla ilgili ödeme planı konuşalım.", "delta": -15,
           "law": "TMK m.606",
           "reply": [{ "who": "senior", "text": "Bir dakika. Yasal mirasçı için süre ölümü öğrenmeden başlar. Mesaj 28 Temmuz tarihli; daha iki haftamız var. Ret beyanını hemen hazırla." }],
           "note": "Hatalı. Yasal mirasçı için süre, ölümün öğrenildiği tarihten işler (TMK m.606). Müvekkili hak kaybına uğratacaktınız." },
-        { "text": "Ret için bir yıl süre var; önce terekenin tam dökümünü çıkaralım, sonra karar verelim.", "delta": -10,
+        { "text": "Ret için bir yıl süre var; önce terekenin tam dökümünü çıkaralım, alacaklılar da belli olsun, sonra karar verelim.", "delta": -10,
           "law": "TMK m.606",
           "reply": [{ "who": "senior", "text": "Bir yıl değil, üç ay. Öğrenme 28 Temmuz; son gün 28 Ekim. Tereke dökümü beklenemez, ret beyanı hemen verilmeli." }],
           "note": "Ret süresi üç aydır (TMK m.606). Bu hata, süreyi kaçırmanıza yol açabilirdi." },
-        { "text": "Süre dolmuş olabilir; sulh hâkiminden önemli sebeple yeni süre isteyelim.", "delta": 5, "set": ["sure"],
+        { "text": "Süre ölümden itibaren dolmuş olabilir; TMK m.615 uyarınca sulh hâkiminden önemli sebeple yeni süre isteyelim.", "delta": 5, "set": ["sure"],
           "law": "TMK m.615",
           "note": "Sulh hâkimi önemli sebeplerle süreyi uzatabilir ya da yeni süre verebilir (TMK m.615). Ama burada buna gerek yok: süre öğrenmeden işliyor ve henüz dolmadı. Asıl yapılacak iş, ret beyanını hemen vermek." }
       ] },
@@ -59,16 +59,16 @@
       ],
       "prompt": "Müvekkile ne tavsiye edeceksiniz?",
       "choices": [
-        { "text": "Arabaya, hesaba ve eşyalara dokunmayın, taahhütname imzalamayın. Korunması gereken bir şey varsa sulh hâkiminden terekenin korunmasını isteriz.", "delta": 20, "set": ["koru"],
+        { "text": "Hiçbir tereke malına dokunmayın, taahhütname imzalamayın; gerekirse sulh hâkiminden koruma isteriz.", "delta": 20, "set": ["koru"],
           "law": "TMK m.610/2",
           "note": "Ret süresi içinde terekeye ait işlemlerin olağan yönetimi dışına çıkan, terekeyi gizleyen ya da kendine mal eden mirasçı mirası reddedemez (TMK m.610/2). Terekeyi olduğu gibi bırakmak ret hakkını korur." },
-        { "text": "Arabayı satın, parayı bankaya yatırın; iyi niyetinizi gösterir.", "delta": -20, "set": ["elatma"],
+        { "text": "Arabayı satın, parayı bankaya yatırın; otopark ücreti birikmez, bankaya iyi niyetinizi de gösterirsiniz.", "delta": -20, "set": ["elatma"],
           "law": "TMK m.610/2",
           "note": "Hatalı. Tereke malını satıp parasıyla borç ödemek olağan yönetimi aşan bir tasarruftur. Bu işlem ret hakkını düşürür ve müvekkil bütün borçlardan sorumlu hâle gelebilir." },
-        { "text": "Arabayı şimdilik siz kullanın; durdukça değer kaybediyor.", "delta": -15, "set": ["elatma"],
+        { "text": "Arabayı şimdilik siz kullanın; otoparkta durdukça değer kaybediyor, bu da terekeyi korumaktır.", "delta": -15, "set": ["elatma"],
           "law": "TMK m.610/2",
           "note": "Tereke malını kendine mal etmek ret hakkını düşüren davranışlardandır (TMK m.610/2)." },
-        { "text": "Taahhütnameyi imzalayın; nasılsa sonra reddedersiniz.", "delta": -20, "set": ["taahhut"],
+        { "text": "Taahhütnameyi imzalayın; faiz donar, mirası sonra reddederseniz taahhüt de kendiliğinden düşer.", "delta": -20, "set": ["taahhut"],
           "note": "Hatalı. Kendi imzanızla verdiğiniz ödeme taahhüdü yeni bir borç ikrarıdır. Mirası reddetseniz bile banka bu belgeye dayanarak sizden isteyebilir; terekeye karışma olarak da yorumlanabilir." }
       ] },
     { "side": "p1", "scene": "court",
@@ -78,40 +78,41 @@
       ],
       "prompt": "Ne cevap vereceksiniz?",
       "choices": [
-        { "text": "Yasal mirasçı için süre ölümün öğrenildiği tarihten başlar. Müvekkil ölümü 28 Temmuz'da öğrendi; kuzeninin mesajını sunuyoruz. Öğrenme tarihinin tutanağa geçirilmesini istiyoruz.", "delta": 20, "set": ["ogrenme"],
+        { "text": "Süre öğrenmeden başlar; müvekkil ölümü 28 Temmuz'da öğrendi. Mesajı sunuyor, bu tarihin tutanağa geçmesini istiyoruz.", "delta": 20, "set": ["ogrenme"],
           "law": "TMK m.606",
           "reply": [{ "who": "judge", "text": "Mesaj dosyaya alındı. Mirasçının beyanına göre öğrenme tarihi 28.07.2026 olarak tutanağa geçirildi." }],
           "note": "Doğru. Sulh hâkimi ret beyanını kayda alır; reddin geçerliliği ileride bir alacaklıyla çıkacak davada tartışılır. Öğrenme tarihini ve delilini bugünden kayda geçirmek, o davada elinizi güçlendirir." },
-        { "text": "Süre geçmiş olsa bile mahkeme beyanı almak zorunda; tarih önemli değil.", "delta": -5,
+        { "text": "Süre geçmiş olsa bile mahkeme beyanı kayda almak zorunda; reddin geçerliliği burada tartışılmaz, tarih önemli değil.", "delta": -5,
           "reply": [{ "who": "judge", "text": "Beyanı alırım, ama sürenin önemsiz olduğunu söylemeyin. Geçerliliği ileride tartışılacak." }],
           "note": "Sulh mahkemesi beyanı kayda alır, ama süre önemsiz değildir: alacaklı ileride reddin süresinde olmadığını ileri sürebilir. Öğrenme tarihini kayda geçirme fırsatını kaçırdınız." },
-        { "text": "Haklısınız Sayın Hâkim; o hâlde beyanımızı geri alıyoruz.", "delta": -20, "set": ["geri"],
+        { "text": "Haklısınız Sayın Hâkim; süre geçtiyse ret geçersiz olur, o hâlde beyanımızı geri alıyoruz.", "delta": -20, "set": ["geri"],
           "law": "TMK m.606, m.610/1",
           "note": "Süre öğrenmeden başlıyordu ve dolmamıştı. Beyanı geri alınca süre sonunda miras kayıtsız şartsız kazanılmış sayılacak (TMK m.610/1)." }
       ] },
     { "side": "p1", "scene": "court", "if": "!geri",
       "lines": [{ "who": "judge", "text": "Mirasçı Zeynep Arslan, beyanınızı alıyorum." }],
-      "prompt": "Müvekkil ret beyanını nasıl verecek?",
+      "prompt": "Müvekkil ret beyanını nasıl verecek? Beyanın metnini ve şartlarını kendi cümlelerinizle söyleyin.",
+      "kind": "free",
       "choices": [
-        { "text": "“Babam Halil Arslan'dan kalan mirası kayıtsız ve şartsız reddediyorum.”", "delta": 20, "set": ["ret"],
+        { "text": "Güçlü beyan", "min": 70, "delta": 20, "set": ["ret"],
           "law": "TMK m.609",
-          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }],
-          "note": "Ret, sulh mahkemesine sözlü ya da yazılı beyanla yapılır ve kayıtsız şartsız olmalıdır (TMK m.609). Ret mirasın bütününü kapsar." },
-        { "text": "“Borçları reddediyorum, arabayı kabul ediyorum.”", "delta": -15, "set": ["ret"],
+          "note": "Beyanı doğru kurdunuz: ret sulh mahkemesine sözlü ya da yazılı beyanla yapılır, kayıtsız şartsız olmalıdır ve mirasın bütününü kapsar (TMK m.609)." },
+        { "text": "Yeterli beyan", "min": 40, "delta": 10, "set": ["ret"],
           "law": "TMK m.609",
-          "reply": [
-            { "who": "judge", "text": "Mirasın bir kısmı reddedilip bir kısmı kabul edilemez. Ret kayıtsız ve şartsız olur. Beyanınızı düzeltmek ister misiniz?" },
-            { "who": "client", "text": "Evet… Babamdan kalan mirası kayıtsız ve şartsız reddediyorum." }
-          ],
-          "note": "Kısmi ret olmaz. Hâkim uyardı ve beyan düzeltildi, ama müvekkile beyanın nasıl verileceğini önceden anlatmalıydınız." },
-        { "text": "“Bankaya olan borçlar silinmezse mirası reddediyorum.”", "delta": -15, "set": ["ret"],
+          "note": "Ret beyanı alındı. Ama beyanın şartlarını eksik anlattınız: ret kayıtsız şartsız olmalı ve mirasın bütününü kapsamalıdır; borçları reddedip bir malı kabul etmek ya da reddi bir şarta bağlamak mümkün değildir (TMK m.609)." },
+        { "text": "Zayıf beyan", "delta": -15, "set": ["ret"],
           "law": "TMK m.609",
-          "reply": [
-            { "who": "judge", "text": "Şartlı ret beyanı geçerli değildir. Kayıtsız şartsız bir beyan vermeniz gerekiyor." },
-            { "who": "client", "text": "Peki. Babamdan kalan mirası kayıtsız ve şartsız reddediyorum." }
-          ],
-          "note": "Ret beyanı şarta bağlanamaz (TMK m.609). Hâkim uyarmasaydı beyan geçersiz kalabilirdi." }
-      ] }
+          "note": "Hâkim uyardı ve beyan düzeltildi; ama müvekkile beyanın nasıl verileceğini önceden anlatmalıydınız. Kısmi ret olmaz, ret şarta da bağlanamaz: miras bütünüyle ve kayıtsız şartsız reddedilir (TMK m.609)." }
+      ],
+      "rubric": "İyi bir cevap şunları içerir: (1) Ret, sulh hukuk mahkemesine sözlü ya da yazılı beyanla yapılır (TMK m.609). (2) Beyan kayıtsız ve şartsız olmalıdır; örneğin bankanın borcu silmesi gibi bir şarta bağlanamaz. (3) Ret mirasın bütününü kapsar; borçları reddedip arabayı kabul etmek gibi kısmi ret olmaz. İyi cevap, beyanın metnini de verir: “Babam Halil Arslan'dan kalan mirası kayıtsız ve şartsız reddediyorum.” Kayıtsız şartsızlığı ve bütünlüğü madde numarasıyla birlikte söyleyen tam puan alır; yalnızca “kayıtsız şartsız” deyip kısmi ret yasağını ya da dayanağı göstermeyen cevap orta puan alır. Mirası kısmen reddeden ya da reddi şarta bağlayan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["kayıtsız", "şartsız", "koşulsuz"], "weight": 3 },
+        { "terms": ["bütün", "tamamı", "tamamın", "tümü", "kısmi ret", "kısmen"], "weight": 2 },
+        { "terms": ["reddediyorum", "ret beyan", "reddett"], "weight": 2 },
+        { "terms": ["m.609", "m. 609", "madde 609", "609. madde", "md. 609"], "weight": 1 },
+        { "terms": ["sulh"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, müvekkil beyanını sulh hukuk mahkemenize sözlü olarak şöyle verecek: “Babam Halil Arslan'dan kalan mirası kayıtsız ve şartsız reddediyorum.” TMK m.609 uyarınca ret kayıtsız şartsız olmalı ve mirasın bütününü kapsamalıdır; borçları reddedip arabayı kabul etmek ya da reddi bir şarta bağlamak mümkün değildir." }
   ],
   "outcomes": [
     { "if": "geri", "winner": "p2", "label": "SONUÇ:", "noCourt": true,

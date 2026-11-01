@@ -186,7 +186,7 @@
       "choices": [
         {
           "if": "eski",
-          "text": "Sigortacıya yazılı başvur: onarım bedeli 185.000 TL ve değer kaybı. 2024'teki sol ön kapı hasarını açıkça bildir; değer kaybının bu önceki hasar dikkate alınarak hesaplanmasını iste.",
+          "text": "Sigortacıya yazılı başvur: onarım ve değer kaybı. 2024'teki kapı hasarını kendin bildir; değer kaybı buna göre hesaplansın.",
           "delta": 25,
           "set": [
             "basvuru",
@@ -202,7 +202,7 @@
           ]
         },
         {
-          "text": "Sigortacıya yazılı başvur: onarım bedeli 185.000 TL ve özel ekspertizdeki 120.000 TL değer kaybı. Faturayı, tutanağı, fotoğrafları ve ekspertiz raporunu ekle.",
+          "text": "Sigortacıya yazılı başvur: 185.000 TL onarım ve ekspertizdeki 120.000 TL değer kaybı; fatura, tutanak, fotoğraf ve raporu ekle.",
           "delta": 15,
           "set": [
             "basvuru"
@@ -217,7 +217,7 @@
           ]
         },
         {
-          "text": "Başvuruyla vakit kaybetme; doğrudan asliye ticaret mahkemesinde 305.000 TL'lik dava aç.",
+          "text": "Başvuruyla vakit kaybetme, sigortacı nasılsa ödemez; doğrudan asliye ticaret mahkemesinde 305.000 TL'lik dava aç.",
           "delta": -10,
           "set": [
             "basvuruYok"
@@ -246,7 +246,7 @@
       "choices": [
         {
           "if": "basvuruYok",
-          "text": "Önce dava şartı itirazı: KTK m.97 başvurusu yapılmadan dava açıldı. Esas yönünden müterafik kusur: kamera kaydına göre davacı 50 km/s'lik yolda yaklaşık 78 km/s hızla kavşağa girdi. Kaydı sun; indirim ve kusur bilirkişisi iste.",
+          "text": "Önce dava şartı itirazı: KTK m.97 başvurusu yok. Esas yönünden müterafik kusur: kamera 78 km/s gösteriyor; indirim ve kusur bilirkişisi iste.",
           "delta": 25,
           "set": [
             "mukus"
@@ -255,7 +255,7 @@
           "note": "Dava şartı eksikliğini ilk fırsatta ileri sürdünüz ve esas savunmayı ihtiyaten eklediniz. Zarar gören, zararın doğmasına ya da artmasına katkıda bulunmuşsa tazminat indirilebilir (TBK m.52)."
         },
         {
-          "text": "Müterafik kusur: kamera kaydına göre davacı 50 km/s'lik yolda yaklaşık 78 km/s hızla kavşağa girdi. Kaydı sun; TBK m.52 uyarınca indirim ve kusur bilirkişisi iste.",
+          "text": "Müterafik kusur: kamera kaydı davacının 50'lik yolda 78 km/s hızla girdiğini gösteriyor. Kaydı sun, indirim ve bilirkişi iste.",
           "delta": 20,
           "set": [
             "mukus"
@@ -272,13 +272,13 @@
           ]
         },
         {
-          "text": "Kaza tespit tutanağı mahkemeyi bağlamaz; kusur oranının bilirkişice belirlenmesini iste, başka bir şey ekleme.",
+          "text": "Kaza tespit tutanağı mahkemeyi bağlamaz; kusurun bilirkişice yeniden belirlenmesini iste, kamera kaydını şimdilik sakla.",
           "delta": 5,
           "law": "HMK m.266",
           "note": "Doğru: tutanak hâkimi bağlamaz. Ama elinizdeki kamera kaydını sunmadınız; bilirkişi kusuru yalnız tutanağa göre belirleyecek."
         },
         {
-          "text": "Değer kaybı Genel Şartlar'daki formülle hesaplanmalı; formüle göre değer kaybı 18.000 TL'dir.",
+          "text": "Değer kaybı, KTK m.90'a göre Genel Şartlar'daki formülle hesaplanmalı; formüle göre en fazla 18.000 TL'dir, fazlası reddedilsin.",
           "delta": -10,
           "law": "KTK m.90",
           "note": "Anayasa Mahkemesi, tazminatın Genel Şartlar'a göre belirlenmesini öngören KTK m.90'daki ibareyi iptal etti. Değer kaybı, aracın kaza öncesi ve onarım sonrası ikinci el piyasa değerleri karşılaştırılarak bilirkişiyle belirlenir. Kamera kaydını da kullanmadınız."
@@ -302,7 +302,7 @@
       "prompt": "Dava şartı eksikliğine ne diyorsunuz?",
       "choices": [
         {
-          "text": "Eksikliği tamamlayacağız: mahkemenin vereceği kesin süre içinde sigortacıya yazılı başvuru yapılacak, sonuç dosyaya sunulacak.",
+          "text": "Eksikliği tamamlayacağız; verilecek kesin sürede sigortacıya yazılı başvurup sonucu dosyaya sunacağız.",
           "delta": 10,
           "set": [
             "basvuru"
@@ -321,7 +321,7 @@
           ]
         },
         {
-          "text": "Başvuru şartı gereksiz bir formalite; sigortacı zaten ödemeyecekti. Esasa girilmesini istiyoruz.",
+          "text": "Başvuru şartı gereksiz bir formalite; sigortacı zaten ödemeyecekti. Usul ekonomisi gereği esasa girilsin.",
           "delta": -20,
           "set": [
             "usulRet"
@@ -406,18 +406,18 @@
       "prompt": "Ne diyeceksiniz?",
       "choices": [
         {
-          "text": "Değer kaybının, önceki hasar ile aracın yaşı ve kilometresi dikkate alınarak ikinci el piyasa değerlerine göre bilirkişiye hesaplatılmasını iste.",
+          "text": "Değer kaybı; önceki hasar, aracın yaşı ve kilometresi gözetilerek piyasa değerleriyle bilirkişiye hesaplatılsın.",
           "delta": 15,
           "law": "HMK m.266",
           "note": "Doğru ve dürüst bir tutum. Değer kaybı, aracın kaza öncesi ve onarım sonrası piyasa değerleri farkıdır; önceki hasar, yaş ve kilometre bu hesaba girer."
         },
         {
-          "text": "Önceki hasar olduğu için hiç değer kaybı ödenmemeli.",
+          "text": "Araç 2024'te aynı taraftan hasar gördüğüne göre ikinci el değeri zaten düşmüştü; değer kaybı ödenmemeli.",
           "delta": -10,
           "note": "Önceki hasar değer kaybını azaltabilir, ama tamamen ortadan kaldırmaz: sol ön çamurluk ilk kez hasar gördü."
         },
         {
-          "text": "Değer kaybı ancak araç satılınca gerçekleşir; davacı aracı satmadı.",
+          "text": "Değer kaybı ancak araç satılınca gerçekleşir; davacı aracı satmadığına göre bu zarar henüz doğmamıştır.",
           "delta": -15,
           "note": "Değer kaybı kaza anında doğan, gerçekleşmiş bir zarardır; istenebilmesi için aracın satılması gerekmez."
         }
@@ -441,7 +441,7 @@
       "choices": [
         {
           "if": "hiz",
-          "text": "Hızı inkâr etme. İki hafta içinde rapora itiraz et: kaza kamyonetin kırmızı ışıkta önüne çıkmasıyla oluştu; davacı 50 km/s ile gitseydi çarpışmayı önleyip önleyemeyeceği, yani hızın kazaya etkisi incelenmemiş. Ek rapor iste.",
+          "text": "Hızı inkâr etmeden süresinde itiraz et: kamyonet kırmızıda önüne çıktı; 50 km/s'de de çarpışma olur muydu, incelenmemiş.",
           "delta": 20,
           "set": [
             "itirazRapor"
@@ -457,7 +457,7 @@
         },
         {
           "if": "!hiz",
-          "text": "İki hafta içinde rapora itiraz et: hız aşımının çarpışmaya gerçekten etkisi olup olmadığı incelenmemiş. Ek rapor iste.",
+          "text": "Süresinde rapora itiraz et: hız aşımının çarpışmaya gerçekten etkisi olup olmadığı incelenmemiş; ek rapor iste.",
           "delta": 15,
           "set": [
             "itirazRapor"
@@ -472,13 +472,13 @@
           ]
         },
         {
-          "text": "Raporu kabul et.",
+          "text": "Raporu kabul et; %20 tali kusur makul, itirazla dosyayı uzatmaya değmez.",
           "delta": 5,
           "law": "TBK m.52",
           "note": "Raporu kabul ettiniz; tazminattan %20 indirim yapılacak. Hızın kazaya gerçekten etkisi olup olmadığı hiç sorgulanmadı."
         },
         {
-          "text": "Müvekkil hız sınırını aşmadı; kamera kaydı güvenilmezdir.",
+          "text": "Müvekkil hız sınırını aşmadı; kamera açısı yanıltıcı, kayıttan hız hesaplanamaz. Rapora itiraz edip kaydın güvenilirliğini tartış.",
           "delta": -15,
           "set": [
             "inkarHiz"
@@ -497,6 +497,7 @@
       ]
     },
     {
+      "kind": "free",
       "side": "p2",
       "scene": "court",
       "if": "!usulRet",
@@ -506,16 +507,67 @@
           "text": "Tahkikat tamamlandı. Davalı vekili, son beyanınız?"
         }
       ],
-      "prompt": "Son beyanınızda neyi vurgulayacaksınız?",
+      "prompt": "Davacı faizin kaza tarihinden işletilmesini istiyor. Son beyanınızda ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
+      "rubric": "Davalı sigortacı vekili, davacının faizi kaza tarihinden istemesine cevap veriyor. İyi bir cevap şunları söyler: (1) Trafik sigortacısı haksız fiilin faili değildir; haksız fiil sorumlusu gibi kaza tarihinden temerrüde düşmez. (2) KTK m.99 uyarınca sigortacı, gerekli belgelerin kendisine verilmesinden itibaren sekiz iş günü içinde ödemekle yükümlüdür; bu süre dolunca temerrüde düşer. (3) Bu nedenle faiz, başvurudan sekiz iş günü sonraki temerrüt tarihinden işletilmelidir; kaza tarihinden faiz talebi reddedilmelidir. Üç unsuru, sekiz iş günü süresini ve m.99'u söyleyen cevap tam puan alır; faizin kaza tarihinden değil başvuru ya da temerrüt tarihinden işlemesi gerektiğini söyleyip dayanağını göstermeyen cevap orta puan alır. Faiz konusuna değinmeyen, yalnızca teminat limitini hatırlatan ya da davacının önce kendi kaskosuna başvurması gerektiğini söyleyen cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "faiz"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "temerrüt",
+            "temerrüde",
+            "temerrüd"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "sekiz iş günü",
+            "8 iş günü",
+            "sekiz gün",
+            "8 gün"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "başvuru"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "m.99",
+            "m. 99",
+            "madde 99",
+            "99. madde",
+            "md. 99",
+            "md.99"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "kaza tarihi"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Hâkim, davacı faizi kaza tarihinden istiyor; ancak müvekkil sigortacı haksız fiilin faili değildir. KTK m.99 uyarınca sigortacı, gerekli belgelerle yapılan başvurudan itibaren sekiz iş günü içinde ödemekle yükümlüdür ve ancak bu süre dolunca temerrüde düşer. Bu nedenle faizin kaza tarihinden değil, temerrüt tarihinden işletilmesini talep ediyoruz.",
       "choices": [
         {
-          "text": "Davacı faizi kaza tarihinden istiyor. Sigortacı, belgelerle başvurudan itibaren sekiz iş günü geçince temerrüde düşer; faiz o tarihten işletilmeli.",
+          "text": "Güçlü beyan",
+          "min": 70,
           "delta": 15,
           "set": [
             "faizDuz"
           ],
           "law": "KTK m.99",
-          "note": "Sigortacı, gerekli belgelerin kendisine verilmesinden itibaren sekiz iş günü içinde ödemekle yükümlüdür (KTK m.99). Kaza tarihinden faiz, sigortacıya değil haksız fiil sorumlusuna işletilir.",
+          "note": "Doğru noktayı yakaladınız. Sigortacı, gerekli belgelerin kendisine verilmesinden itibaren sekiz iş günü içinde ödemekle yükümlüdür ve ancak bu süre dolunca temerrüde düşer (KTK m.99). Kaza tarihinden faiz, sigortacıya değil haksız fiil sorumlusuna işletilir.",
           "reply": [
             {
               "who": "judge",
@@ -524,9 +576,14 @@
           ]
         },
         {
-          "text": "Sigortacının sorumluluğunun poliçedeki araç başına maddi teminat limitiyle sınırlı olduğunu tutanağa geçirt.",
-          "delta": 5,
-          "note": "Doğru bir hatırlatma; ama talep zaten teminat limitinin altında, sonuca etkisi yok.",
+          "text": "Yeterli beyan",
+          "min": 40,
+          "delta": 7,
+          "set": [
+            "faizDuz"
+          ],
+          "law": "KTK m.99",
+          "note": "Faizin kaza tarihinden işletilemeyeceğini söylediniz; mahkeme bunu dikkate aldı. Tam beyan dayanağını da gösterirdi: sigortacı, belgelerle yapılan başvurudan itibaren sekiz iş günü geçince temerrüde düşer (KTK m.99); faiz o tarihten işler.",
           "reply": [
             {
               "who": "judge",
@@ -535,9 +592,10 @@
           ]
         },
         {
-          "text": "Davacının aracı kendi kasko sigortacısına başvurmadan bize dava açamayacağını ileri sür.",
+          "text": "Zayıf beyan",
           "delta": -15,
-          "note": "Zarar gören, kaskosu olsa bile, doğrudan sorumlunun trafik sigortacısına başvurabilir; ortada bir kasko poliçesi de yok. Bu itiraz sonuca etki etmedi, yalnız zaman kaybettirdi.",
+          "law": "KTK m.99",
+          "note": "Son beyanda davacının faiz talebine cevap vermediniz. Sigortacı haksız fiil sorumlusu gibi kaza tarihinden temerrüde düşmez; gerekli belgelerle başvurudan itibaren sekiz iş günü geçince temerrüde düşer (KTK m.99). Faizin o tarihten işletilmesini istemeliydiniz.",
           "reply": [
             {
               "who": "judge",

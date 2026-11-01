@@ -147,7 +147,7 @@
       "prompt": "Dava dilekçesinde neyi isteyeceksiniz?",
       "choices": [
         {
-          "text": "Atama işleminin iptalini ve yürütmenin durdurulmasını iste. Somut hizmet gereğinin gösterilmediğini, eş durumunun gözetilmediğini ve Şırnak'a gönüllü başvuranlar bulunduğunu yaz; aile birliğinin bozulmasını telafisi güç zarar olarak açıkla.",
+          "text": "İptal ve YD iste: hizmet gereği somut değil, eş durumu gözetilmedi, gönüllüler var; aile birliği bozulacak.",
           "delta": 20,
           "set": [
             "yd"
@@ -156,7 +156,7 @@
           "note": "Atama bir idari işlemdir; yetki, şekil, sebep, konu ve amaç yönünden iptal davasıyla denetlenir. Dava açmak işlemi kendiliğinden durdurmaz (İYUK m.27/1); bu yüzden yürütmenin durdurulmasını istemek gerekir. Bunun için işlemin açıkça hukuka aykırı olması ve uygulanmasıyla telafisi güç ya da imkânsız zarar doğması birlikte aranır (İYUK m.27/2)."
         },
         {
-          "text": "Yalnızca iptal iste; yürütmenin durdurulmasına gerek yok, karar nasılsa çıkar.",
+          "text": "Yalnızca iptal iste: hizmet gereği somut değil, eş durumu gözetilmedi. YD reddedilirse heyette olumsuz izlenim kalır.",
           "delta": 5,
           "set": [
             "ydYok"
@@ -165,7 +165,7 @@
           "note": "İptal istemi doğru, ama dava açılması işlemin uygulanmasını durdurmaz (İYUK m.27/1). Yürütmenin durdurulması istenmezse müvekkil karar çıkana kadar Şırnak'ta görev yapar; aile birliği tam da korunmak istenen dönemde bozulur."
         },
         {
-          "text": "İptal davası aç ve müvekkile, karar çıkana kadar Şırnak'ta göreve başlamamasını söyle.",
+          "text": "İptal davası aç; dava açılınca işlem askıda kalır, müvekkile karar çıkana kadar Şırnak'ta göreve başlamamasını söyle.",
           "delta": -15,
           "set": [
             "ydYok"
@@ -203,7 +203,7 @@
       "prompt": "Savunmanın merkezine ne koyacaksınız?",
       "choices": [
         {
-          "text": "Hizmet gereğini somut olarak göster: Eskişehir'de 12 norm kadroya karşılık 14 mühendis, Şırnak'ta 6 norm kadroya karşılık 2 mühendis var. Davacı, yönergedeki nesnel ölçüte göre Eskişehir'de en uzun süre görev yapan mühendis.",
+          "text": "Hizmet gereğini rakamla göster: Eskişehir'de 12 kadroya 14, Şırnak'ta 6 kadroya 2 mühendis var; davacı yönergeye göre en uzun süre çalışan.",
           "delta": 20,
           "set": [
             "somut"
@@ -212,7 +212,7 @@
           "note": "İdare atama işleminde takdir yetkisine sahiptir, ama bu yetki kamu yararı ve hizmet gereğiyle sınırlıdır. Bunu ancak somut verilerle ortaya koyan bir savunma işlemi ayakta tutar. Norm kadro durumunu ve nesnel seçim ölçütünü gösterdiniz."
         },
         {
-          "text": "Atama idarenin takdir yetkisindedir; mahkeme yerindelik denetimi yapamaz.",
+          "text": "Atama idarenin takdir yetkisindedir; İYUK m.2/2 uyarınca mahkeme yerindelik denetimi yapamaz, savunmayı bunun üzerine kur.",
           "delta": -10,
           "set": [
             "takdir"
@@ -221,7 +221,7 @@
           "note": "Yargı yetkisi idari işlemin hukuka uygunluğunun denetimiyle sınırlıdır ve yerindelik denetimine dönüşemez (İYUK m.2/2). Ama takdir yetkisi sınırsız değildir: kamu yararı ve hizmet gereği somut olarak gösterilmeli. Bunu yapmadınız."
         },
         {
-          "text": "Davacının CİMER şikâyetleri ve il müdürüyle uyumsuzluğu nedeniyle hizmetin aksamaması için atandığını açıkça yaz.",
+          "text": "Davacının CİMER şikâyetleri ve il müdürüyle uyumsuzluğu nedeniyle hizmetin aksamaması için atandığını açıkça yaz; bu da hizmet gereğidir.",
           "delta": -20,
           "set": [
             "cimer"
@@ -230,7 +230,7 @@
           "note": "Bu bir itiraftır. Şikâyet hakkını kullanan memuru başka ile göndermek, disiplin usulü işletilmeden verilmiş örtülü bir yaptırımdır. İşlemin amaç unsuru kamu yararı değil, cezalandırma olur ve işlem iptal edilir. Uyumsuzluk iddiası varsa bunun yolu disiplin soruşturmasıdır (657 s.K. m.125 vd.)."
         },
         {
-          "text": "Memur göreve girerken yurdun her yerinde çalışmayı kabul eder; eşinin ve çocuğunun durumu davacının kendi sorunudur.",
+          "text": "Memur göreve girerken yurdun her yerinde çalışmayı kabul eder (657 s.K. m.76); eşinin ve çocuğunun durumu davacının kendi sorunudur.",
           "delta": -10,
           "set": [
             "aile"
@@ -331,10 +331,11 @@
           "text": "Davacı vekili?"
         }
       ],
-      "prompt": "Savunmaya cevabınız?",
+      "prompt": "İdarenin savunmasına ne cevap vereceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
         {
-          "text": "İdare somut bir hizmet gereği göstermedi. Şırnak'a gönüllü başvuran iki mühendisin dilekçeleri dosyada; eşin Eskişehir'de memur olduğu da özlük dosyasında. Takdir yetkisi kamu yararı ve hizmet gereğiyle sınırlıdır.",
+          "text": "Güçlü savunma",
+          "min": 70,
           "delta": 20,
           "set": [
             "gonullu"
@@ -342,34 +343,96 @@
           "law": "İYUK m.2 · 657 s.K. m.72/2 · Anayasa m.41",
           "note": [
             {
+              "text": "Savunmayı doğru noktadan karşıladınız: takdir yetkisi kamu yararı ve hizmet gereğiyle sınırlıdır ve idare somut bir gerekçe göstermedi."
+            },
+            {
               "if": "takdir",
-              "text": "Yerindelik yasağı (İYUK m.2/2) takdir yetkisinin hukuka uygunluk denetimini engellemez. "
+              "text": " Yerindelik yasağı (İYUK m.2/2) takdir yetkisinin hukuka uygunluk denetimini engellemez."
             },
             {
               "if": "cimer",
-              "text": "İdare atamanın gerçek sebebini kendisi söyledi. Şikâyet hakkını kullanan memuru başka ile göndermek örtülü bir yaptırımdır; işlemin amaç unsuru sakattır. "
+              "text": " İdare atamanın gerçek sebebini kendisi söyledi: şikâyet hakkını kullanan memuru başka ile göndermek örtülü bir yaptırımdır; işlemin amaç unsuru sakattır."
             },
             {
               "if": "aile",
-              "text": "Eşlerden biri memursa aile birliğinin korunması kanunun açık hükmüdür (657 s.K. m.72/2). "
+              "text": " Eşlerden biri memursa aile birliğinin korunması kanunun açık hükmüdür (657 s.K. m.72/2)."
             },
             {
-              "text": "Gönüllü talepler, hizmet gereğinin aile birliği bozulmadan karşılanabileceğini gösteriyor."
+              "text": " Gönüllü talepler, hizmet gereğinin aile birliği bozulmadan karşılanabileceğini gösteriyor."
             }
           ]
         },
         {
-          "text": "Müvekkil Şırnak'a gitmek istemiyor; isteği dışındaki her atama hukuka aykırıdır.",
-          "delta": -10,
-          "law": "657 s.K. m.76",
-          "note": "Memurun rızası atamanın şartı değildir; idare hizmet gereği atama yapabilir. Hukuka aykırılık rızasızlıktan değil, somut gerekçenin ve eş durumunun gözetilmemesinden doğar."
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": [
+            "gonullu"
+          ],
+          "law": "İYUK m.2 · 657 s.K. m.72/2 · Anayasa m.41",
+          "note": "Doğru yöndesiniz, ama savunmayı tam karşılamadınız. Takdir yetkisinin hizmet gereğiyle sınırlı olduğunu, eşin Eskişehir'de memur olduğunu (657 s.K. m.72/2) ve Şırnak'a gönüllü başvuran iki mühendisin dilekçelerinin dosyada bulunduğunu birlikte göstermek gerekiyordu."
         },
         {
-          "text": "Müvekkil on iki yıllık kıdemli bir mühendis; kıdemli memur zorunlu yer değiştirmeye tabi tutulamaz.",
+          "text": "Zayıf savunma",
           "delta": -10,
-          "note": "Böyle bir kural yok. Kıdem, ölçütlerden biri olabilir ama atamayı tek başına engellemez."
+          "law": "657 s.K. m.72/2 · m.76",
+          "note": "Savunmanın zayıf noktasını gösteremediniz. Memurun rızası ya da kıdemi atamayı engellemez; hukuka aykırılık, somut hizmet gereğinin gösterilmemesinden, eş durumunun gözetilmemesinden (657 s.K. m.72/2) ve ihtiyacın gönüllülerle karşılanabilecekken araştırılmamasından doğar."
         }
-      ]
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları içerir: (1) İdarenin takdir yetkisi sınırsız değildir, kamu yararı ve hizmet gereğiyle sınırlıdır; idare somut bir hizmet gereği (norm kadro durumu, nesnel seçim ölçütü) göstermemiştir. Yerindelik denetimi yasağı (İYUK m.2/2) hukuka uygunluk denetimini engellemez. (2) Şırnak'a kendi isteğiyle gitmek isteyen iki mühendisin dilekçeleri dosyadadır; ihtiyaç aile birliği bozulmadan karşılanabilirdi. (3) Davacının eşi Eskişehir'de memurdur; 657 sayılı Kanun m.72/2 ve Anayasa m.41 aile birliğinin gözetilmesini gerektirir. İdare atamayı davacının şikâyetlerine bağladıysa bunun örtülü bir yaptırım olduğu ve işlemin amaç unsurunu sakatladığı da söylenmelidir. Gönüllüleri, eş durumunu ve takdir yetkisinin sınırını birlikte söyleyen tam puan alır; bunlardan biri ya da ikisi eksikse orta puan verilir. Memurun rızası olmadan atanamayacağını ya da kıdemli memurun yer değiştirilemeyeceğini ileri süren cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "gönüllü",
+            "kendi isteğiyle",
+            "kendi istekleriyle"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "hizmet gereği",
+            "somut"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "eş durumu",
+            "eşi",
+            "eşinin",
+            "aile birliği"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "takdir"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "m.72",
+            "m. 72",
+            "madde 72",
+            "72. madde",
+            "md. 72",
+            "m.41",
+            "m. 41",
+            "madde 41"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "kamu yararı"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Başkan, takdir yetkisi sınırsız değildir; kamu yararı ve hizmet gereğiyle sınırlıdır ve idare somut bir hizmet gereği göstermemiştir. Şırnak'a kendi isteğiyle gitmek isteyen iki mühendisin dilekçeleri dosyadadır; ihtiyaç aile birliği bozulmadan karşılanabilirdi. Müvekkilin eşi Eskişehir'de memurdur; 657 sayılı Kanun m.72/2 ve Anayasa m.41 aile birliğinin gözetilmesini gerektirir."
     },
     {
       "side": "p2",
@@ -384,7 +447,7 @@
       "prompt": "Heyete ne cevap vereceksiniz?",
       "choices": [
         {
-          "text": "Kısa süre iste; Bakanlıktan talimat alarak atamanın geri alınacağını ve Şırnak'a gönüllü mühendislerden birinin atanacağını bildir.",
+          "text": "Kısa süre iste; Bakanlık talimatıyla atamanın geri alınacağını, Şırnak'a gönüllülerden birinin atanacağını bildir.",
           "delta": 15,
           "set": [
             "geriAlma"
@@ -408,7 +471,7 @@
           "note": "Savunulabilir ama zayıf. İç yönergedeki başvuru dönemi, aile birliğini bozan zorunlu bir atamayı haklı kılmaz; idare, aynı ihtiyacı gönüllüyle karşılayabilecekken bunu araştırmadı."
         },
         {
-          "text": "Davacı, eşinin memur olduğunu idareye hiç bildirmemişti.",
+          "text": "Davacı, eşinin memur olduğunu idareye hiç bildirmemişti; bildirilmeyen eş durumu gözetilemez.",
           "delta": -10,
           "note": "Gerçeğe aykırı. Aile durum bildirimi özlük dosyasında; idare bunu biliyordu."
         }
@@ -427,7 +490,7 @@
       "prompt": "Son beyanınız ne olacak?",
       "choices": [
         {
-          "text": "Eşin isteği hâlinde Şırnak'ta atanabileceği okullar olduğunu ve koordinasyon için Millî Eğitim Bakanlığına yazı yazıldığını belgesiyle sun.",
+          "text": "Eşin Şırnak'ta atanabileceği okulları ve Millî Eğitim Bakanlığına yazılan koordinasyon yazısını sun.",
           "delta": 15,
           "if": "somut",
           "set": [
@@ -437,13 +500,13 @@
           "note": "Kanun, aile birliğinin korunması için kurumlar arasında koordinasyonu ve memur olan diğer eşin isteği hâlinde atanmasını öngörür (657 s.K. m.72/2). Somut hizmet gereğiyle birlikte bu koordinasyon, atamayı ayakta tutar."
         },
         {
-          "text": "Aile birliği ilkesi idareyi bağlamaz; takdir yetkisi esastır.",
+          "text": "Aile birliği ilkesi ancak eşler aynı kurumda çalışıyorsa idareyi bağlar; burada takdir yetkisi esastır.",
           "delta": -10,
           "law": "657 s.K. m.72/2 · Anayasa m.41",
           "note": "Bağlar. Kanun aile birimini korumayı açıkça öngörür (657 s.K. m.72/2); Anayasa da devlete aileyi koruma ödevi yükler (m.41)."
         },
         {
-          "text": "Bakanlıktan talimat alarak atamanın geri alınacağını bildir.",
+          "text": "Bakanlıktan talimat alarak atamanın geri alınacağını bildir; idare iptal kararı riskinden kurtulur.",
           "delta": 5,
           "set": [
             "geriAlma"
@@ -471,7 +534,7 @@
       "prompt": "Geri alma beyanına ne diyeceksiniz?",
       "choices": [
         {
-          "text": "İşlem geri alınınca davanın konusuz kalacağını kabul et; davanın açılmasına idarenin sebep olduğunu, yargılama giderleri ve vekâlet ücretinin idareye yüklenmesini iste.",
+          "text": "Konusuz kalmayı kabul et; davaya idare sebep oldu, giderler ve vekâlet ücreti idareye yüklensin.",
           "delta": 15,
           "set": [
             "giderTalebi"
@@ -480,7 +543,7 @@
           "note": "Geri alınan işlem hukuk âleminden kalkar; mahkeme konusu kalmayan dava hakkında karar verilmesine yer olmadığına hükmeder. Davaya sebep olan idare olduğu için giderlerin ona yüklenmesini istemek doğru talep."
         },
         {
-          "text": "Geri almaya rağmen mahkemeden iptal kararı vermesini ısrarla iste.",
+          "text": "Geri almaya rağmen iptal kararında ısrar et; müvekkilin hukuki yararı sürüyor, idare aynı işlemi tekrarlayabilir.",
           "delta": -5,
           "note": "Ortadan kalkan bir işlem iptal edilemez; dava konusuz kalır. Müvekkilin “bir karar çıksın” isteğini anlamak gerekir, ama bunu ona açıklamak da sizin işiniz."
         }
@@ -507,19 +570,19 @@
       "prompt": "Ne yapacaksınız?",
       "choices": [
         {
-          "text": "Müvekkili sakin bir sesle oturt, heyetten kısa bir özürle söz al ve son beyanını hukuki çerçevede yap: eş durumu, aile birliği ve somut hizmet gereği.",
+          "text": "Müvekkili sakin bir sesle oturt, heyetten özür dile; son beyanı eş durumu ve hizmet gereği üzerinden yap.",
           "delta": 10,
           "law": "Avukatlık Kanunu m.34",
           "note": "Doğru tavır. Müvekkilin duygusu anlaşılır, ama salonda duruşma düzenini korumak ve heyetin dikkatini yeniden hukuki meseleye çekmek avukatın işidir."
         },
         {
-          "text": "Müvekkiline hak ver ve idare vekiline “Bu atama insafsızlıktır” de.",
+          "text": "Müvekkiline hak ver; idare vekiline dönüp “Bu atama insafsızlıktır, on iki yıllık bir memurun ailesini dağıtıyorsunuz” de.",
           "delta": -10,
           "law": "Avukatlık Kanunu m.34",
           "note": "Karşı vekili hedef almak heyetin gözünde davanıza bir şey katmaz; duruşma düzenini bozar. Avukat, mesleğin gerektirdiği saygı ve ölçüyle davranmakla yükümlüdür."
         },
         {
-          "text": "Hiçbir şey söyleme; heyet zaten durumu görüyor.",
+          "text": "Hiçbir şey söyleme; heyet durumu görüyor, müvekkilin tepkisi kendi başına yeterince etkili.",
           "delta": -5,
           "note": "Son beyan hakkını kullanmadınız. Müvekkilin çıkışı yanıtsız ve hukuki karşılıksız kaldı."
         }

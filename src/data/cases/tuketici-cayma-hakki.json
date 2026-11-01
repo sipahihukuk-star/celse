@@ -139,7 +139,7 @@
       "prompt": "Cayma süresini nasıl değerlendiriyorsunuz?",
       "choices": [
         {
-          "text": "Mal satışında 14 günlük cayma süresi malın tüketiciye teslim edildiği gün başlar. Teslim 11 Şubat, bildirim 22 Şubat: süre içindesiniz.",
+          "text": "Mal satışında 14 günlük süre teslimle başlar: teslim 11 Şubat, bildirim 22 Şubat. Süre içindesiniz.",
           "delta": 20,
           "set": [
             "sure"
@@ -163,7 +163,7 @@
           "note": "Hatalı. Süre teslimden başlar; cayma süresi içinde kullanılmıştı. Üstelik müvekkilin anlattığı bir ayıp değil, beğenmeme. Ayıp iddiası ispatlanamaz."
         },
         {
-          "text": "Mesafeli satışta cayma süresi otuz gündür; 17 gün sorun değil.",
+          "text": "Mesafeli satışta cayma süresi otuz gündür (6502 s.K. m.48); siparişten 17 gün geçmiş, hiçbir sorun yok.",
           "delta": -5,
           "set": [
             "sure",
@@ -191,16 +191,18 @@
           "text": "Davacı vekili?"
         }
       ],
-      "prompt": "“Kutusu açıldı” savunmasına ne diyeceksiniz?",
+      "kind": "free",
+      "prompt": "“Kutusu açıldı” savunmasına ne diyeceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
         {
-          "text": "Tüketici, malı işleyişine, teknik özelliklerine ve kullanım talimatına uygun kullanmasından doğan değişiklik ve bozulmalardan sorumlu değildir. Ambalajın açılması yalnızca iadesi sağlık ve hijyen açısından uygun olmayan mallarda cayma hakkını engeller; televizyon bunlardan değildir.",
+          "text": "Güçlü savunma",
+          "min": 70,
           "delta": 20,
           "set": [
             "kutu"
           ],
           "law": "Mesafeli Sözleşmeler Yönetmeliği",
-          "note": "Doğru. Cayma hakkı, tüketicinin ürünü görüp denemesi için vardır. Kutuyu açmak ve kurulum talimatına uygun denemek bu hakkın doğal parçasıdır. Ambalaj istisnası iki şart arar: koruyucu unsur açılmış olmalı ve iadesi sağlık ya da hijyen açısından uygun olmamalı.",
+          "note": "Savunmanın iki ayağını da çürüttünüz. Tüketici, malı işleyişine, teknik özelliklerine ve kullanım talimatına uygun kullanmasından doğan değişiklik ve bozulmalardan sorumlu değildir; kutuyu açıp kurulum talimatına uygun denemek cayma hakkının doğal parçasıdır. Ambalaj istisnası yalnızca koruyucu unsuru açılmış ve iadesi sağlık ya da hijyen açısından uygun olmayan mallarda uygulanır; televizyon bunlardan değildir.",
           "reply": [
             {
               "who": "judge",
@@ -209,29 +211,85 @@
           ]
         },
         {
-          "text": "Tüketici ürünü istediği kadar, istediği gibi kullanabilir; hiçbir değer kaybından sorumlu tutulamaz.",
+          "text": "Eksik savunma",
+          "min": 40,
           "delta": -5,
           "set": [
             "abarti"
           ],
           "law": "Mesafeli Sözleşmeler Yönetmeliği",
-          "note": "Fazla geniş. Tüketici, işleyişe ve kullanım talimatına uygun kullanımdan doğan değişiklikten sorumlu değildir; bu sınırı aşan kullanımdan doğan değer kaybından sorumlu tutulabilir. Doğru tez, üç günlük denemenin olağan kullanım olduğuydu.",
+          "note": "Tüketicinin sorumlu olmadığını söylediniz, ama sınırını çizmediniz. Tüketici yalnızca işleyişe, teknik özelliklere ve kullanım talimatına uygun kullanımdan doğan değişiklikten sorumlu değildir; bu sınırı aşan kullanımdan doğan değer kaybından sorumlu tutulabilir. Ambalaj istisnasının yalnızca sağlık ve hijyen açısından iadesi uygun olmayan mallara ilişkin olduğunu da göstermeliydiniz.",
           "reply": [
             {
               "who": "opp",
-              "text": "Davacı vekili sınırsız kullanım hakkından söz ediyor. Değer kaybının bilirkişiyle belirlenmesini talep ediyoruz."
+              "text": "Davacı vekili sınırsız bir kullanım hakkından söz ediyor. Değer kaybının bilirkişiyle belirlenmesini talep ediyoruz."
             }
           ]
         },
         {
-          "text": "Kutunun açılmasından doğan zararı karşılamak için bedelden ambalaj ve kurulum bedeli düşülmesini kabul ediyoruz.",
+          "text": "Zayıf savunma",
           "delta": -10,
           "set": [
             "teklif"
           ],
-          "note": "Gereksiz bir kabul. Talimata uygun denemeden doğan değişiklikten tüketici sorumlu değildi. Kabul ettiğiniz kesinti alacaktan düşülecek."
+          "law": "Mesafeli Sözleşmeler Yönetmeliği",
+          "note": "Savunmayı karşılayamadınız. Kutuyu açmak ve talimata uygun denemek cayma hakkını ortadan kaldırmaz; tüketici bu kullanımdan doğan değişiklikten sorumlu değildir. Ambalaj istisnası yalnızca iadesi sağlık ve hijyen açısından uygun olmayan mallar içindir; televizyon bunlardan değildir. Bedelden kesinti kabul etmeye de gerek yoktu."
         }
-      ]
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Cayma hakkı, tüketicinin ürünü görüp denemesi için tanınmıştır; tüketici, malı işleyişine, teknik özelliklerine ve kullanım talimatına uygun kullanmasından doğan değişiklik ve bozulmalardan sorumlu değildir (Mesafeli Sözleşmeler Yönetmeliği). Kutuyu açıp ayakları takmak ve üç gün denemek bu kapsamdadır. (2) Ambalajı açılmış mallara ilişkin istisna yalnızca koruyucu unsuru açılmış olup iadesi sağlık ve hijyen açısından uygun olmayan mallar için geçerlidir; televizyon bu mallardan değildir. (3) “Açılmış ürün ikinci eldir” savunmasının kanuni dayanağı yoktur. İki ana unsuru, talimata uygun kullanım ve hijyen istisnasının sınırını birlikte kuran cevap tam puan alır; yalnızca tüketicinin sorumlu olmadığını söyleyip sınırını (talimata uygun kullanım) ya da hijyen istisnasını göstermeyen cevap orta puan alır. Tüketicinin her türlü kullanımdan sorumsuz olduğunu söyleyen geniş bir tez de orta puanda kalır. Bedelden kesinti kabul eden ya da savunmayı cevapsız bırakan cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "talimat",
+            "işleyiş",
+            "teknik özellik"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "hijyen",
+            "sağlık"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "sorumlu değil",
+            "sorumlu tutulamaz",
+            "sorumluluğu yok"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "dene",
+            "deneme",
+            "görüp",
+            "incele"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "ambalaj",
+            "koruyucu unsur",
+            "kutu"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "yönetmelik",
+            "Mesafeli Sözleşmeler",
+            "6502",
+            "m.48",
+            "m. 48"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Hâkim, cayma hakkı tüketicinin ürünü görüp denemesi için vardır. Mesafeli Sözleşmeler Yönetmeliği uyarınca tüketici, malı işleyişine, teknik özelliklerine ve kullanım talimatına uygun kullanmasından doğan değişikliklerden sorumlu değildir; kutuyu açıp ayakları takmak ve üç gün denemek tam olarak budur. Ambalajı açılmış mallara ilişkin istisna yalnızca iadesi sağlık ve hijyen açısından uygun olmayan mallar içindir; televizyon bunlardan değildir."
     },
     {
       "kind": "evidence",
@@ -294,7 +352,7 @@
       "prompt": "Ne talep edeceksiniz?",
       "choices": [
         {
-          "text": "Bedelin tamamının, satıcının iade süresinin bittiği tarihten itibaren yasal faiziyle iadesi. Ürün satıcının anlaşmalı kargosuyla gönderildiği için iade masrafı tüketiciye yüklenemez.",
+          "text": "Bedelin tamamının, iade süresinin bittiği tarihten yasal faiziyle iadesi; ürün satıcının kargosuyla gönderildi, masraf yüklenemez.",
           "delta": 15,
           "set": [
             "tam"
@@ -303,7 +361,7 @@
           "note": "Satıcı cayma üzerine bedeli kanuni süre içinde, tüketiciye masraf yüklemeden ve tek seferde iade etmekle yükümlüdür. Satıcının belirttiği taşıyıcıyla yapılan iadede kargo ücreti tüketiciden istenemez."
         },
         {
-          "text": "Kullanım bedeli düşülerek bedelin yüzde sekseninin iadesi.",
+          "text": "Kullanım bedeli düşülerek bedelin yüzde sekseninin iadesi; ölçülü talep mahkemeyi ikna eder, kalanı ek davayla isteriz.",
           "delta": -10,
           "set": [
             "eksikTalep"
@@ -311,7 +369,7 @@
           "note": "Olağan denemeden doğan değişiklikten tüketici sorumlu değildi; kesinti kabul etmenize gerek yoktu. Mahkeme talepten fazlasına hükmedemez (HMK m.26)."
         },
         {
-          "text": "Bedelin iadesi ve satıcıya ayrıca bedelin iki katı cezai şart.",
+          "text": "Bedelin iadesi ve iadeyi geciktiren satıcıya caydırıcı olsun diye ayrıca bedelin iki katı cezai şart (6502 s.K. m.11).",
           "delta": -10,
           "set": [
             "ceza"
@@ -382,7 +440,7 @@
         },
         {
           "if": "teklif",
-          "text": " Ambalaj ve kurulum kesintisini kendiniz kabul etmiştiniz."
+          "text": " “Kutusu açıldı” savunmasını karşılayamadınız; ambalaj ve kurulum kesintisi de bedelden düşüldü."
         },
         {
           "if": "abarti",

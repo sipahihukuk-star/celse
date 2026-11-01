@@ -159,7 +159,7 @@
       "prompt": "Nasıl ilerleyeceksiniz?",
       "choices": [
         {
-          "text": "Tebliğden itibaren otuz gün içinde, en geç 11.02.2027'de vergi mahkemesinde vergi ve cezanın kaldırılması davası aç. Raporun hiçbir karşılaştırılabilirlik düzeltmesi yapmadığını ve tutanaktaki açıklamaları tartışmadığını ileri sür.",
+          "text": "Tebliğden itibaren otuz gün içinde, en geç 11.02.2027'de vergi mahkemesinde dava aç; raporun düzeltme yapmadığını ileri sür.",
           "delta": 20,
           "set": [
             "sure"
@@ -174,7 +174,7 @@
           ]
         },
         {
-          "text": "Önce tarhiyat sonrası uzlaşma talep et; uzlaşma sağlanamazsa kalan süre içinde dava aç.",
+          "text": "Önce tarhiyat sonrası uzlaşma talep et; uzlaşma süreyi durdurur, sağlanamazsa kalan süre içinde dava açarsın.",
           "delta": 10,
           "set": [
             "sure",
@@ -190,7 +190,7 @@
           ]
         },
         {
-          "text": "İdari yargıda dava açma süresi altmış gündür. Bağımsız bir uzman görüşü alıp dilekçeyi altmışıncı gün ver.",
+          "text": "İdari yargıda dava açma süresi altmış gündür (İYUK m.7/1); bağımsız bir uzman görüşü alıp dilekçeyi altmışıncı gün ver.",
           "delta": -25,
           "set": [
             "gec"
@@ -219,7 +219,7 @@
       "prompt": "Savunmayı nasıl kuracaksınız?",
       "choices": [
         {
-          "text": "Önce süre itirazı: vergi mahkemelerinde dava açma süresi otuz gündür; dava süre aşımı nedeniyle reddedilmeli. Esasa ilişkin savunmayı da ikinci olarak ekle.",
+          "text": "Süre itirazını öne koy: vergi davasında süre otuz gün, dava süresinde açılmadı; esas savunmayı ikinci sırada ekle.",
           "delta": 20,
           "set": [
             "sureItiraz",
@@ -235,7 +235,7 @@
           ]
         },
         {
-          "text": "Süreye değinmeden yalnızca raporu esastan savun.",
+          "text": "Süreye değinmeden yalnızca raporu esastan savun; süre itirazı küçük bir usul ayrıntısı, mahkeme esasa bakmak ister.",
           "delta": 0,
           "set": [
             "end"
@@ -380,48 +380,95 @@
           "text": "Vergi dairesindeki dosyada, 14.10.2026 tarihli bir tutanak var: şirket yetkilisi teslim şekli ve kalite farkını müfettişe açıklamış. Raporda bu açıklama tartışılmamış."
         }
       ],
-      "prompt": "Ara kararına nasıl cevap vereceksiniz?",
+      "prompt": "Tutanak davacının iddiasını destekliyor. Ara kararına nasıl cevap vereceğinizi ve nedenini kendi cümlelerinizle açıklayın.",
       "choices": [
         {
-          "text": "Dosyanın tamamını, tutanak dahil süresinde gönder.",
+          "text": "Güçlü cevap",
+          "min": 70,
           "delta": 15,
           "set": [
             "tamDosya"
           ],
           "law": "İYUK m.20",
-          "note": "Doğru ve zorunlu olan bu. İdare, mahkemenin istediği belgeleri süresinde göndermekle yükümlüdür (İYUK m.20). Tutanak davacının işine yarayabilir, ama eksik gönderme hem idarenin güvenilirliğini hem savunmayı zedelerdi."
+          "note": "Doğru ve zorunlu olanı yaptınız. İdare, mahkemenin istediği bilgi ve belgeleri, aleyhine olsa bile, verilen süre içinde göndermekle yükümlüdür (İYUK m.20). Tutanak davacının işine yarayabilir; ama eksik gönderme hem idarenin güvenilirliğini hem savunmayı zedelerdi."
         },
         {
-          "text": "Yalnızca raporu ve ihbarnameyi gönder; tutanak raporun eki değil.",
+          "text": "Yeterli cevap",
+          "min": 40,
+          "delta": 8,
+          "set": [
+            "tamDosya"
+          ],
+          "law": "İYUK m.20",
+          "note": "Dosyayı gönderdiniz. Eksik kalan gerekçe: ara kararı dosyanın tamamını, tutanaklar dahil istiyor; idare bunları aleyhine olsa bile verilen otuz günlük süre içinde göndermekle yükümlüdür (İYUK m.20) ve eksik gönderme mahkemece idare aleyhine değerlendirilebilir."
+        },
+        {
+          "text": "Zayıf cevap",
           "delta": -15,
           "set": [
-            "eksikDosya"
-          ],
-          "law": "İYUK m.20",
-          "note": "Ara kararı dosyanın tamamını istiyordu. Elde bulunan bir belgeyi bilerek göndermemek ara kararına aykırıdır; mahkeme bunu idare aleyhine değerlendirebilir.",
-          "reply": [
-            {
-              "who": "judge",
-              "text": "Ara kararının eksik yerine getirildiği anlaşılmıştır. İdareye tutanakların gönderilmesi için yeniden süre verildi."
-            }
-          ]
-        },
-        {
-          "text": "Ara kararına cevap verme; dosyayı duruşmaya getirirsin.",
-          "delta": -5,
-          "law": "İYUK m.20",
-          "note": "Ara kararı süresinde yerine getirilmelidir. Bekletmek yargılamayı uzatır ve mahkemenin gözünde idarenin tutumunu zayıflatır.",
-          "reply": [
-            {
-              "who": "judge",
-              "text": "Ara kararı süresinde cevaplanmadı. İdareye son kez süre verildi."
-            }
-          ],
-          "set": [
+            "eksikDosya",
             "araKararGec"
+          ],
+          "law": "İYUK m.20",
+          "note": "Ara kararı dosyanın tamamını, tutanaklar dahil, otuz gün içinde istiyordu. Elde bulunan bir belgeyi göndermemek ya da ara kararını bekletmek İYUK m.20'ye aykırıdır; mahkeme bunu idare aleyhine değerlendirebilir ve yargılama uzar. Tutanak raporun eki olmasa da inceleme dosyasının parçasıdır.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Ara kararının gereği gibi yerine getirilmediği anlaşılmıştır. İdareye tutanakların gönderilmesi için yeniden süre verildi."
+            }
           ]
         }
-      ]
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Mahkeme ara kararıyla inceleme dosyasının tamamını, tutanaklar dahil istemiştir; idare istenen bilgi ve belgeleri verilen süre içinde göndermekle yükümlüdür (İYUK m.20). (2) 14.10.2026 tarihli tutanak inceleme dosyasının parçasıdır; idare aleyhine olması onu göndermeme gerekçesi olamaz. (3) Belgeyi saklamak ya da ara kararını bekletmek mahkemece idare aleyhine değerlendirilir, yargılamayı uzatır ve idarenin güvenilirliğini zedeler; doğru olan dosyanın tamamını süresinde gönderip savunmayı tutanaktaki açıklamaları tartışarak sürdürmektir. Dosyanın tamamını süresinde göndereceğini, İYUK m.20'deki yükümlülüğe dayanarak ve aleyhe belgeyi saklamanın sonucunu göstererek söylemek tam puan için gerekir; yalnızca 'dosyayı göndeririz' demek orta puan alır. Tutanağı göndermemeyi, yalnızca raporu göndermeyi ya da ara kararını duruşmaya kadar bekletmeyi öneren cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "tamamını",
+            "eksiksiz",
+            "bütün dosya",
+            "dosyanın tümü",
+            "tüm dosya"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "tutanak"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "süresinde",
+            "otuz gün",
+            "30 gün",
+            "süre içinde"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "m.20",
+            "m. 20",
+            "madde 20",
+            "20. madde",
+            "md. 20",
+            "md.20"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "aleyh",
+            "güvenilir",
+            "zorunlu",
+            "yükümlü"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Ara kararı inceleme dosyasının tamamını, tutanaklar dahil istiyor; İYUK m.20 uyarınca idare istenen belgeleri verilen otuz günlük süre içinde göndermekle yükümlüdür. 14.10.2026 tarihli tutanak davacının işine yarasa da dosyanın parçasıdır; onu saklamak mahkemece idare aleyhine değerlendirilir ve güvenilirliğimizi zedeler. Dosyanın tamamını süresinde gönderir, savunmayı tutanaktaki açıklamaların neden fiyat farkını açıklamadığını tartışarak sürdürürüz."
     },
     {
       "kind": "evidence",
@@ -580,7 +627,7 @@
       "prompt": "Son beyanınız ne olacak?",
       "choices": [
         {
-          "text": "Belgelenen farkın düzeltilmesini kabul et; düzeltme sonrası kalan fark yönünden tarhiyatın ve cezanın onanmasını iste.",
+          "text": "Belgelenen farkın düzeltilmesini kabul et; kalan fark yönünden tarhiyatın ve cezanın onanmasını iste.",
           "delta": 15,
           "if": "!(kaliteGosterildi && (teslimGosterildi || duzeltme)) && (kaliteGosterildi || teslimGosterildi || duzeltme)",
           "set": [
@@ -590,7 +637,7 @@
           "note": "Doğru strateji: belgeyle sabit bir farkı inkâr etmek yerine tartışmayı açıklanamayan kısma daralttınız. İdare iç emsalle ispat yükünü bu kısım için taşıyor."
         },
         {
-          "text": "Davacı, raporda belirtilen iç emsalin karşılaştırılamaz olduğunu belgeyle göstermedi. Tarhiyatın ve cezanın tamamen onanmasını iste.",
+          "text": "Davacı iç emsalin karşılaştırılamaz olduğunu belgeyle göstermedi; tarhiyatın ve cezanın tamamen onanmasını iste.",
           "delta": 15,
           "if": "!kaliteGosterildi && !teslimGosterildi && !duzeltme",
           "set": [
@@ -600,7 +647,7 @@
           "note": "Yerinde. İdare iç emsalle emsallere aykırılığı ortaya koydu; davacı bunu çürütecek bir belge sunmadı."
         },
         {
-          "text": "Karşılaştırılabilirlik düzeltmesinin hesaplanması için bilirkişi incelemesi iste.",
+          "text": "Karşılaştırılabilirlik düzeltmesinin hesaplanması için bilirkişi incelemesi iste; hesap teknik, heyet bunu kendisi yapamaz.",
           "delta": 5,
           "set": [
             "bilirkisi"
@@ -635,7 +682,7 @@
       "prompt": "Son beyanınız ne olacak?",
       "choices": [
         {
-          "text": "Satış faturalarını ve konşimentoları da sun: GmbH satışları FOB Aliağa, diğerleri CIF. Navlun ve sigorta düzeltmesi yapılmadan fiyatlar karşılaştırılamaz.",
+          "text": "Faturaları ve konşimentoları da sun: GmbH satışları FOB Aliağa, diğerleri CIF; navlun ve sigorta düzeltilmeden karşılaştırılamaz.",
           "delta": 20,
           "if": "teslim && !teslimGosterildi && !duzeltme",
           "set": [

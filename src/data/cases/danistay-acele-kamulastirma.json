@@ -62,18 +62,18 @@
       "lines": [{ "who": "narr", "text": "Asliye hukuk mahkemesinde acele el koyma dosyası açılmış. Danıştay'da açılacak iptal davası ise ayrı bir yoldur ve kendi süresine tabidir." }],
       "prompt": "Davayı nerede ve ne zaman açacaksınız?",
       "choices": [
-        { "text": "Cumhurbaşkanı kararının iptali için süre dolmadan Danıştay'da dava açın; duruşma isteğini dilekçeye yazın.", "delta": 20, "set": ["durusma"],
+        { "text": "Cumhurbaşkanı kararının iptali için süre dolmadan Danıştay'da dava açın; dilekçede duruşma isteyin.", "delta": 20, "set": ["durusma"],
           "law": "2575 s.K. m.24/1; İYUK m.7, m.17",
           "note": "Cumhurbaşkanı kararlarına karşı dava Danıştay'da ilk derece olarak açılır (2575 s.K. m.24/1). Süre altmış gündür ve en temkinli hesap yayım tarihini esas alır (İYUK m.7)." },
-        { "text": "Asliye hukuk mahkemesindeki dosyanın bitmesini bekleyin; sonra kararın iptalini isteyin.", "delta": -25,
+        { "text": "Asliye hukuk mahkemesindeki dosyanın bitmesini bekleyin; o dosya bekletici sorun, iptal süresi şimdilik işlemez.", "delta": -25,
           "law": "İYUK m.7",
           "fatal": { "label": "HÜKÜM:", "hukum": "Dava konusu Cumhurbaşkanı kararına karşı altmış günlük dava açma süresi geçtikten sonra açılan davanın SÜRE AŞIMI NEDENİYLE REDDİNE, kararın tebliğinden itibaren otuz gün içinde Danıştay İdari Dava Daireleri Kurulu'na temyiz yolu açık olmak üzere oybirliğiyle karar verildi.",
                      "summary": "Asliye hukuk mahkemesi değeri belirler ve el koymaya karar verir; Cumhurbaşkanı kararının hukuka uygunluğunu denetlemez. İptal davasının süresi beklenirken doldu (İYUK m.7). Zeytinliğe el konuldu." },
           "note": "İki yol birbirini beklemez. İptal davasının süresi asliye hukuk dosyasından bağımsız olarak işler." },
-        { "text": "Taşınmaz bölgedeki idare mahkemesinin yetki alanında; davayı orada açın.", "delta": -10, "set": ["durusma", "gorev"],
+        { "text": "Taşınmaz bölge idare mahkemesinin yetki alanında; taşınmaza ilişkin dava taşınmazın bulunduğu yerde açılır.", "delta": -10, "set": ["durusma", "gorev"],
           "reply": [{ "who": "narr", "text": "İdare mahkemesi görevsizlik kararı verdi. Dosya haftalar sonra Danıştay'a ulaştı." }],
           "note": "Cumhurbaşkanı kararlarına karşı görevli mahkeme Danıştay'dır. İdare mahkemesi görevsizlik kararı verip dosyayı gönderir; dava düşmez, ama haftalar kaybolur." },
-        { "text": "Önce Cumhurbaşkanlığına başvurup kararın geri alınmasını isteyin.", "delta": -5, "set": ["durusma", "gecikme"],
+        { "text": "Önce İYUK m.11 uyarınca Cumhurbaşkanlığına başvurup kararın geri alınmasını isteyin; süre durur.", "delta": -5, "set": ["durusma", "gecikme"],
           "law": "İYUK m.11",
           "reply": [{ "who": "narr", "text": "Başvurunuz cevapsız kaldı. Kalan süre içinde Danıştay'da dava açtınız." }],
           "note": "Bu başvuru işleyen dava süresini durdurur. Ama el koyma süreci devam eder ve yürütmenin durdurulması için değerli zaman kaybolur." }
@@ -85,15 +85,15 @@
       ],
       "prompt": "Yürütmenin durdurulması isteğini nasıl kuracaksınız?",
       "choices": [
-        { "if": "elkoyma", "text": "Kararda aceleliğin somut bir gerekçesi olmadığını ve 20 Kasım'daki keşifle el koymanın yaklaştığını birlikte gösterin.", "delta": 20, "set": ["yd"],
+        { "if": "elkoyma", "text": "Aceleliğin somut gerekçesi olmadığını ve 20 Kasım'daki keşifle el koymanın yaklaştığını birlikte gösterin.", "delta": 20, "set": ["yd"],
           "law": "İYUK m.27",
           "note": "Açık hukuka aykırılık ve telafisi güç ya da imkânsız zarar birlikte aranır (İYUK m.27). El konulursa yüzyıllık zeytin ağaçları sökülebilir; bu zarar geri döndürülemez." },
         { "if": "!elkoyma", "text": "Kararda aceleliğin somut bir gerekçesi olmadığını ve el konulursa zeytin ağaçlarının sökülebileceğini anlatın.", "delta": 15, "set": ["yd"],
           "law": "İYUK m.27",
           "note": "İki şart birlikte aranır (İYUK m.27). El koymanın ne zaman yapılacağını gösteren bir belge olsaydı istek daha güçlü olurdu." },
-        { "text": "Bedelin düşük belirleneceğini, bu yüzden müvekkilin zarar göreceğini yazın.", "delta": -10,
+        { "text": "Acele el koymada bedel düşük belirlenecek; müvekkilin uğrayacağı bu zararın telafisi güç olduğunu yazın.", "delta": -10,
           "note": "Bedel uyuşmazlığı asliye hukuk mahkemesinde çözülür. Sonradan ödenebilecek bir bedel farkı, telafisi güç zarar şartını tek başına karşılamaz." },
-        { "text": "Yürütmenin durdurulmasını istemeyin; iptal kararı nasılsa geriye etkili olur.", "delta": -10,
+        { "text": "Yürütmenin durdurulmasını istemeyin; iptal kararı geriye etkili olur, teminat masrafına da girmeyiz.", "delta": -10,
           "note": "İptal geriye etkilidir, ama sökülen ağaçlar geri gelmez. Yürütmenin durdurulması tam da bu zararı önlemek içindir." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
@@ -124,19 +124,28 @@
         { "who": "savci", "text": "Düşüncem: Dava konusu kararın kamu yararı amacıyla alındığı anlaşılmaktadır. Davanın reddi gerektiği düşünülmektedir.", "if": "!somut && !gerekce" },
         { "who": "judge", "text": "Davacı vekili, son talebiniz?" }
       ],
-      "prompt": "Heyetten ne isteyeceksiniz?",
+      "prompt": "Son talebinizi ve kapsamını heyete nasıl açıklayacaksınız? Kendi cümlelerinizle savunun.",
+      "kind": "free",
       "choices": [
-        { "text": "Kararın müvekkile ait taşınmaz yönünden iptalini isteriz.", "delta": 15, "set": ["sinirli"],
+        { "text": "Güçlü talep", "min": 70, "delta": 15, "set": ["sinirli"],
           "law": "İYUK m.2/1-a",
-          "note": "İptal davası menfaat ihlaline dayanır (İYUK m.2/1-a). Müvekkilin menfaati kendi taşınmazıyla sınırlı olduğundan talebi bu kapsamda tutmak yerinde." },
-        { "text": "Lojistik merkezinin başka bir yere taşınmasına karar verilmesini isteriz.", "delta": -10,
-          "law": "İYUK m.2/2",
-          "note": "Projenin yerini seçmek idarenin takdirindedir. Yargı yerindelik denetimi yapamaz ve idari işlem niteliğinde karar veremez (İYUK m.2/2)." },
-        { "text": "Kamulaştırma bedelinin artırılmasına karar verilmesini isteriz.", "delta": -10,
-          "note": "Bedel asliye hukuk mahkemesinde belirlenir. Danıştay bu davada bedel hakkında karar vermez." },
-        { "text": "Takdiri heyete bırakıyoruz.", "delta": -5,
-          "note": "Bir talepte bulunmamak, kurduğunuz argümanı sonuçsuz bırakır." }
-      ] }
+          "note": "Talebi doğru kurdunuz: kararın müvekkile ait taşınmaz yönünden iptali. İptal davası menfaat ihlaline dayanır (İYUK m.2/1-a); müvekkilin menfaati kendi taşınmazıyla sınırlı olduğundan talebi bu kapsamda tutmak yerinde. Projenin yeri ya da bedel bu davanın konusu değildir." },
+        { "text": "Yeterli talep", "min": 40, "delta": 8, "set": ["sinirli"],
+          "law": "İYUK m.2/1-a",
+          "note": "İptal istediniz, ama talebin kapsamını ve dayanağını net kurmadınız. İptal davası menfaat ihlaline dayandığından (İYUK m.2/1-a) talep, kararın müvekkile ait taşınmaz yönünden iptaliyle sınırlı tutulmalıydı." },
+        { "text": "Zayıf talep", "delta": -10,
+          "law": "İYUK m.2",
+          "note": "Talebiniz bu davanın sınırlarını aştı ya da sonuçsuz kaldı. Danıştay projenin yerini değiştiremez (yerindelik denetimi yasağı, İYUK m.2/2), bedel de asliye hukuk mahkemesinde belirlenir. İstenmesi gereken, kararın müvekkile ait taşınmaz yönünden iptaliydi (İYUK m.2/1-a)." }
+      ],
+      "rubric": "İyi bir cevap şunları içerir: (1) Dava konusu Cumhurbaşkanı kararının iptali istenir; talep, müvekkile ait taşınmaz yönünden iptalle sınırlı tutulur, çünkü iptal davası menfaat ihlaline dayanır (İYUK m.2/1-a). (2) Dayanak kısaca hatırlatılır: kararda aceleliği gerektiren somut bir durum ortaya konmamıştır (2942 s.K. m.27); savcının düşüncesi de bu yöndedir. (3) Projenin başka yere taşınması (yerindelik denetimi yasağı, İYUK m.2/2) ya da bedelin artırılması (asliye hukuk mahkemesinin işi) istenmez. Sınırlı iptal talebini menfaat gerekçesiyle söyleyen tam puan alır; iptal isteyip kapsamı ya da dayanağı belirtmeyen cevap orta puan alır. Yerin değiştirilmesini ya da bedel artırımını isteyen veya takdiri heyete bırakan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["iptal"], "weight": 2 },
+        { "terms": ["müvekkile ait", "müvekkilin taşınmaz", "taşınmaz yönünden", "taşınmazı yönünden", "kendi taşınmaz", "zeytinlik"], "weight": 3 },
+        { "terms": ["menfaat"], "weight": 2 },
+        { "terms": ["acele", "somut"], "weight": 1 },
+        { "terms": ["m.2", "m. 2", "madde 2", "2. madde", "md. 2"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, Sayın Üyeler; kararda aceleliği gerektiren somut bir durum ortaya konmadığından dava konusu Cumhurbaşkanı kararının müvekkile ait taşınmaz yönünden iptalini talep ediyoruz. İptal davası menfaat ihlaline dayandığından (İYUK m.2/1-a) talebimizi müvekkilin taşınmazıyla sınırlı tutuyoruz; projenin yeri ya da kamulaştırma bedeli bu davanın konusu değildir." }
   ],
   "outcomes": [
     { "if": "somut", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,

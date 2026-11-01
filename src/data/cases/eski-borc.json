@@ -113,7 +113,7 @@
       "prompt": "Cevap dilekçesinin merkezine ne koyacaksınız?",
       "choices": [
         {
-          "text": "Zamanaşımı def'i: Borç 15.03.2014'te muaccel oldu, on yıllık süre 15.03.2024'te doldu.",
+          "text": "Zamanaşımı def'i: borç 15.03.2014'te muaccel oldu, on yıllık süre 15.03.2024'te doldu.",
           "delta": 20,
           "set": [
             "zaman"
@@ -122,22 +122,22 @@
           "note": "Genel zamanaşımı süresi on yıldır (TBK m.146). Hâkim zamanaşımını kendiliğinden dikkate alamaz (TBK m.161), bu yüzden def'iyi sizin ileri sürmeniz gerekir. Doğru yerde, doğru zamanda kullandınız."
         },
         {
-          "text": "İmzanın müvekkile ait olmadığını, sözleşmenin sahte olduğunu ileri sür.",
+          "text": "İmzanın müvekkile ait olmadığını, sözleşmenin sahte olduğunu ileri sür; ispat yükü davacıya geçer.",
           "delta": -20,
           "law": "Avukatlık meslek kuralları",
           "note": "Müvekkil imzanın kendisine ait olduğunu söyledi. Bilerek gerçeğe aykırı savunma avukatın doğruluk yükümlülüğüyle bağdaşmaz. İmza incelemesi de aleyhinize sonuçlanır."
         },
         {
-          "text": "Borcu genel olarak inkâr et, ayrıntıya girme.",
+          "text": "Borcu genel olarak inkâr et; ayrıntıya girme, tahkikatta nasılsa genişletirsin.",
           "delta": -10,
           "law": "TBK m.161",
-          "note": "Genel inkâr zamanaşımı def'ini kapsamaz. Hâkim zamanaşımını kendiliğinden dikkate almaz; def'iyi açıkça ileri sürmeniz gerekirdi."
+          "note": "Genel inkâr zamanaşımı def'ini kapsamaz. Hâkim zamanaşımını kendiliğinden dikkate almaz; def'iyi açıkça ileri sürmeniz gerekirdi. Dilekçeler aşamasından sonra savunma da kural olarak genişletilemez (HMK m.141)."
         },
         {
-          "text": "Görev itirazı: Davaya sulh hukuk mahkemesi bakmalı.",
+          "text": "Görev itirazı: dava değeri düşük, para alacağına sulh hukuk mahkemesi bakmalı; dosya oraya gönderilsin.",
           "delta": -10,
           "law": "HMK m.2, m.4",
-          "note": "Para alacağı davalarında genel görevli mahkeme asliye hukuk mahkemesidir (HMK m.2). Sulh hukuk mahkemesinin görevi dava değerine göre değil, kanunda sayılan işlere göre belirlenir (HMK m.4)."
+          "note": "Para alacağı davalarında genel görevli mahkeme asliye hukuk mahkemesidir (HMK m.2). Sulh hukuk mahkemesinin görevi dava değerine göre değil, kanunda sayılan işlere göre belirlenir (HMK m.4); dava değeri düşük olsa da görev değişmez."
         }
       ]
     },
@@ -158,10 +158,10 @@
       "prompt": "Zamanaşımını şimdi nasıl gündeme getireceksiniz?",
       "choices": [
         {
-          "text": "Duruşmada sözlü olarak zamanaşımı def'inde bulun.",
+          "text": "Duruşmada sözlü olarak zamanaşımı def'inde bulun; def'i her aşamada ileri sürülebilir.",
           "delta": -10,
           "law": "HMK m.141",
-          "note": "Dilekçeler aşaması bittikten sonra savunma, karşı tarafın açık muvafakati olmadan genişletilemez (HMK m.141). Davacı vekili muvafakat etmedi.",
+          "note": "Dilekçeler aşaması bittikten sonra savunma, karşı tarafın açık muvafakati olmadan genişletilemez (HMK m.141); zamanaşımı def'i de bu yasağa tabidir. Davacı vekili muvafakat etmedi.",
           "reply": [
             {
               "who": "opp",
@@ -190,7 +190,7 @@
           ]
         },
         {
-          "text": "Hâkimden zamanaşımını kendiliğinden incelemesini iste.",
+          "text": "Hâkimden zamanaşımını kendiliğinden incelemesini iste; vade tarihi dosyada açıkça görünüyor.",
           "delta": -10,
           "law": "TBK m.161",
           "note": "Hâkim zamanaşımını kendiliğinden dikkate alamaz (TBK m.161). Def'iyi taraf ileri sürmelidir.",
@@ -204,6 +204,7 @@
       ]
     },
     {
+      "kind": "free",
       "side": "p1",
       "scene": "court",
       "if": "zaman",
@@ -226,39 +227,97 @@
           "text": "Davalı vekili?"
         }
       ],
-      "prompt": "İhtarname iddiasına cevabınız?",
+      "prompt": "Davacı vekili ihtarnamenin zamanaşımını kestiğini söylüyor. Mahkemeye ne cevap vereceksiniz? Kendi cümlelerinizle savunun.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Zamanaşımını kesen sebepler TBK m.154'te sınırlı olarak sayılmıştır: borçlunun borcu ikrarı (faiz ya da kısmi ödeme, rehin veya kefil gösterme dahil) ile alacaklının dava açması, def'i ileri sürmesi, icra takibi yapması, iflas masasına başvurması gibi işlemler. (2) Noter ihtarnamesi bu sebeplerden biri değildir; zamanaşımını kesmez. (3) Bu yüzden on yıllık süre 15.03.2024'te dolmuştur; 02.04.2026'da açılan dava zamanaşımına uğramış bir alacağa ilişkindir. TBK m.154'ü anarak ihtarnamenin kesme sebebi olmadığını ve sürenin dolduğunu söyleyen cevap tam puan alır; ihtarnamenin kesmediğini söyleyip dayanağı göstermeyen cevap orta puan alır. İhtarnamenin kestiğini kabul eden ya da yalnızca tebliğe itiraz eden cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "m.154",
+            "m. 154",
+            "madde 154",
+            "154. madde",
+            "md. 154",
+            "md.154"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "kesmez",
+            "kesme sebebi değil",
+            "kesmeyecek",
+            "kesme sebebi sayılmaz",
+            "kesme etkisi yok",
+            "kesmemiştir"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "ihtarname",
+            "ihtar"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "dava açma",
+            "icra takibi",
+            "ikrar",
+            "kısmi ödeme"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "2024",
+            "on yıl",
+            "10 yıl",
+            "doldu",
+            "dolmuştur"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Hâkim, zamanaşımını kesen sebepler TBK m.154'te sayılmıştır: borçlunun borcu ikrarı ya da alacaklının dava açması, icra takibi yapması gibi işlemler. Noter ihtarnamesi bunlardan biri değildir ve zamanaşımını kesmez. On yıllık süre 15.03.2024'te dolmuştur.",
       "choices": [
         {
-          "text": "Noter ihtarnamesi TBK m.154'te sayılan kesme sebeplerinden değildir; zamanaşımını kesmez.",
+          "text": "Güçlü savunma",
+          "min": 70,
           "delta": 20,
           "set": [
             "ihtar"
           ],
           "law": "TBK m.154",
-          "note": "Zamanaşımını kesen sebepler TBK m.154'te sayılmıştır: borçlunun borcu ikrarı (faiz ya da kısmi ödeme, rehin veya kefil gösterme dahil) ile alacaklının dava açması, def'i ileri sürmesi, icra takibi yapması gibi işlemler. Noter ihtarnamesi bunlardan biri değildir.",
           "reply": [
             {
               "who": "judge",
               "text": "Beyan tutanağa geçirildi."
             }
-          ]
+          ],
+          "note": "Davacının kesme iddiasını kanunun sınırlı listesiyle çürüttünüz. Zamanaşımını kesen sebepler TBK m.154'te sayılmıştır: borçlunun borcu ikrarı (faiz ya da kısmi ödeme, rehin veya kefil gösterme dahil) ile alacaklının dava açması, def'i ileri sürmesi, icra takibi yapması gibi işlemler. Noter ihtarnamesi bunlardan biri değildir."
         },
         {
-          "text": "İhtarnamenin müvekkile tebliğ edilmediğini ileri sür.",
-          "delta": -5,
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": [
+            "ihtar"
+          ],
           "law": "TBK m.154",
-          "note": "Tebliğ edilmiş olsa bile ihtarname zamanaşımını kesmez. İspatı zor bir iddiaya yöneldiniz, asıl hukuki argümanı söylemediniz."
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Beyan tutanağa geçirildi."
+            }
+          ],
+          "note": "İhtarnamenin zamanaşımını kesmediğini söylediniz. Tam savunma dayanağını da gösterir: kesme sebepleri TBK m.154'te sayılmıştır (borcun ikrarı, dava, def'i, icra takibi gibi) ve noter ihtarnamesi bunlar arasında yoktur."
         },
         {
-          "text": "İhtarname zamanaşımını keser ama yeni süre bir yıldır, o da doldu.",
+          "text": "Zayıf savunma",
           "delta": -15,
           "law": "TBK m.154, m.156",
-          "note": "Hatalı. İhtarname zamanaşımını kesmez. Kesme olsaydı yeni bir zamanaşımı süresi işlemeye başlardı (TBK m.156); bir yıllık özel bir süre yoktur. Davacının kesme iddiasını da kabul etmiş oldunuz."
-        },
-        {
-          "text": "Zamanaşımı itirazından vazgeç, faiz oranına itiraz et.",
-          "delta": -20,
-          "note": "Elinizdeki en güçlü savunmayı bıraktınız. Faiz itirazı ancak asıl alacak ayakta kalırsa anlam taşır."
+          "note": "Kesme iddiasını çürütemediniz. Noter ihtarnamesi TBK m.154'te sayılan kesme sebeplerinden değildir; tebliğ edilmiş olsa bile zamanaşımını kesmez. Kesme olsaydı yeni süre yine on yıl olurdu (TBK m.156); bir yıllık özel bir süre yoktur."
         }
       ]
     },
@@ -294,22 +353,22 @@
           ]
         },
         {
-          "text": "Süre dava tarihinden geriye doğru hesaplanır, sonuç değişmez.",
+          "text": "Süre dava tarihinden geriye doğru on yıl hesaplanır; 2016'dan önceki borç düşer.",
           "delta": -10,
           "law": "TBK m.149",
           "note": "Süre geriye doğru değil, muacceliyetten ileriye doğru hesaplanır. Doğru dayanağı (TBK m.149) söylemediniz."
         },
         {
-          "text": "Davacının dürüstlük kuralına aykırı davrandığını ileri sür.",
+          "text": "Davacının dürüstlük kuralına aykırı davrandığını, on iki yıl bekleyip faiz biriktirdiğini ileri sür.",
           "delta": -5,
           "law": "TMK m.2, TBK m.149",
           "note": "Genel dürüstlük kuralı burada asıl soruyu cevaplamaz. Sürenin başlangıcı kanunda açıkça düzenlenmiştir."
         },
         {
-          "text": "Süre 2018'den başlasa bile dolmuştur.",
+          "text": "Süre 2018'den başlasa bile dolmuştur; ödünçte zamanaşımı beş yıldır, 2023'te sona erdi.",
           "delta": -10,
           "law": "TBK m.146, m.149",
-          "note": "2018'den hesaplanırsa on yıllık süre 2028'de dolar. Davacının tezini kabul etmiş ve hesabı da yanlış yapmış oldunuz."
+          "note": "2018'den hesaplanırsa on yıllık süre 2028'de dolar. Ödünç alacağı TBK m.147'deki beş yıllık sürelere girmez; süre genel kuraldaki gibi on yıldır (m.146). Davacının tezini kabul etmiş ve hesabı da yanlış yapmış oldunuz."
         }
       ]
     }

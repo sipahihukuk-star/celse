@@ -43,45 +43,46 @@
       ],
       "prompt": "Savunmanın kilit noktası ne?",
       "choices": [
-        { "text": "Basit kasten yaralama şikâyete bağlıdır. Mağdur faili olay gecesi tanımış; şikâyet altı ay geçtikten sonra yapılmış. Şikâyet hakkı düşmüştür.", "delta": 20, "set": ["sure"],
+        { "text": "Suç şikâyete bağlı; mağdur faili olay gecesi tanıdı, şikâyet ise altı ay geçtikten sonra yapıldı. Şikâyet hakkı düşmüş.", "delta": 20, "set": ["sure"],
           "law": "TCK m.86/2 · m.73/1",
           "note": "Doğru. Basit tıbbi müdahaleyle giderilebilen kasten yaralama mağdurun şikâyetine bağlıdır (TCK m.86/2). Şikâyet, fiil ve failin öğrenildiği günden itibaren altı ay içinde yapılmalıdır (TCK m.73/1). Süre 3 Ağustos'ta doldu." },
-        { "text": "Dava zamanaşımı dolmuştur; düşme isteyelim.", "delta": -10,
+        { "text": "Dava zamanaşımı dolmuştur: basit yaralamada süre altı aydır, olaydan bu yana altı ay geçti; düşme isteyelim.", "delta": -10,
           "law": "TCK m.66/1-e",
-          "note": "Hatalı. Üst sınırı beş yılı geçmeyen suçlarda dava zamanaşımı sekiz yıldır (TCK m.66/1-e). Sorun zamanaşımı değil, şikâyet süresi." },
-        { "text": "Müvekkil itildiği için meşru savunma ileri sürelim.", "delta": -10,
+          "note": "Hatalı. Altı ay dava zamanaşımı değil, şikâyet süresidir (TCK m.73/1). Üst sınırı beş yılı geçmeyen suçlarda dava zamanaşımı sekiz yıldır (TCK m.66/1-e)." },
+        { "text": "Müvekkil önce itildiği için meşru savunma ileri sürelim; saldırıyı mağdur başlattı, TCK m.25/1 uyarınca cezaya hükmolunamaz.", "delta": -10,
           "law": "TCK m.25/1",
           "note": "Bir itmeye yumrukla karşılık vermek ve saldırı sona erdikten sonra vurmak meşru savunmanın orantılılık şartını zorlar. Dosyada çok daha sağlam bir dayanak var: şikâyet süresi." },
-        { "text": "Uzlaştırma bürosuna yeniden başvuralım; anlaşıp bitirelim.", "delta": 5,
+        { "text": "Uzlaştırma bürosuna yeniden başvuralım; şikâyete bağlı suçta uzlaşma en hızlı yol, anlaşıp bitirelim.", "delta": 5,
           "law": "CMK m.253",
           "note": "Şikâyete bağlı suçlar uzlaştırma kapsamındadır; ama mağdur soruşturmada uzlaşmayı reddetti. Elinizdeki en güçlü argüman şikâyetin süresinde yapılmamış olması." }
       ]
     },
-    {
-      "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [
         { "who": "judge", "text": "Duruşmayı açıyorum. İddianame okundu, sanığın savunması alındı. Müdafi, ön sorunlara ilişkin beyanınız var mı?" },
         { "who": "pros", "text": "Sayın Hâkim, şikâyet süresi kesin raporun düzenlendiği 20 Şubat'tan başlar. Mağdur yaralanmanın niteliğini o gün öğrenmiştir. 14 Ağustos'taki şikâyet süresindedir." },
         { "who": "judge", "text": "Müdafi?" }
       ],
-      "prompt": "Savcının süre hesabına ne diyeceksiniz?",
+      "prompt": "Savcının süre hesabına karşı mahkemeye ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Basit kasten yaralama şikâyete bağlıdır (TCK m.86/2) ve şikâyet, fiilin ve failin öğrenildiği günden itibaren altı ay içinde yapılmalıdır (TCK m.73/1). (2) Süre kesin raporun tarihinden değil öğrenmeden başlar: mağdur 3 Şubat gecesi kolluğa failin adını vermiştir; raporun kesinleşmesini beklemek şikâyetin şartı değildir. (3) Son gün 3 Ağustos'tur; 14 Ağustos'taki şikâyet süresinden sonradır, şikâyet hakkı düşmüştür ve dava düşmelidir. Öğrenme tarihini, 3 Şubat beyanını ve madde numarasını birlikte söyleyen cevap tam puan alır; süre hesabını doğru yapıp gerekçesini eksik bırakan cevap orta puan alır. Savcının hesabını kabul eden, sürenin iddianameyle uzadığını ya da mağdurun 'şikâyetçi değilim' demesini vazgeçme sayan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["öğren"], "weight": 2 },
+        { "terms": ["altı ay", "6 ay"], "weight": 2 },
+        { "terms": ["3 şubat", "olay gecesi", "olay günü", "failin adını", "adını verdi"], "weight": 2 },
+        { "terms": ["m.73", "m. 73", "madde 73", "73. madde", "md. 73", "md.73"], "weight": 1 },
+        { "terms": ["3 ağustos", "süre geçti", "süresinde değil", "süre dolmuş", "süre doldu", "düşmüş"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, şikâyet süresi TCK m.73/1 uyarınca fiilin ve failin öğrenildiği günden başlar, raporun tarihinden değil. Mağdur 3 Şubat gecesi kolluğa sanığın adını vermiştir; altı aylık süre 3 Ağustos'ta dolmuştur. 14 Ağustos'taki şikâyet süresinden sonra yapıldığından şikâyet hakkı düşmüştür.",
       "choices": [
-        { "text": "Süre, şikâyet hakkı olan kişinin fiili ve faili öğrendiği günden başlar. Mağdur olay gecesi kolluğa failin adını vermiştir; kesin raporun tarihi süreyi ertelemez. Son gün 3 Ağustos'tu.", "delta": 25, "set": ["baslangic"],
-          "law": "TCK m.73/1",
-          "note": "Doğru. Altı aylık süre fiilin ve failin öğrenilmesiyle işlemeye başlar. Mağdur 3 Şubat'taki beyanında Kaan Erdem'in adını vermiş. Raporun kesinleşmesini beklemek şikâyetin şartı değildir.",
-          "reply": [
-            { "who": "judge", "text": "Beyan tutanağa geçirildi. Mağdurun 3 Şubat tarihli kolluk beyanı okundu; failin adının o gün bildirildiği görüldü." }
-          ] },
-        { "text": "Şikâyet süresi iddianamenin kabulüne kadar uzar; bu yüzden önemi yoktur.", "delta": -15,
-          "law": "TCK m.73/1",
-          "note": "Böyle bir kural yok. Süre fiil ve failin öğrenilmesiyle başlar ve geçtiğinde şikâyet hakkı düşer." },
-        { "text": "Mağdur “şimdilik şikâyetçi değilim” dediğine göre şikâyetten vazgeçmiştir; artık şikâyet edemez.", "delta": -5,
-          "law": "TCK m.73",
-          "note": "Vazgeçme, yapılmış bir şikâyetten dönmektir. Şikâyet etmediğini söyleyen mağdur, süre içinde kalmak şartıyla sonradan şikâyet edebilir. Asıl dayanak sürenin geçmiş olması." },
-        { "text": "Sayın Savcıma katılıyorum, süre rapordan başlar. Ancak müvekkilim pişmandır.", "delta": -15,
-          "note": "Elinizdeki en güçlü usul itirazından kendiniz vazgeçtiniz." }
-      ]
-    },
+        { "text": "Güçlü itiraz", "min": 70, "delta": 25, "set": ["baslangic"], "law": "TCK m.73/1",
+          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi. Mağdurun 3 Şubat tarihli kolluk beyanı okundu; failin adının o gün bildirildiği görüldü." }],
+          "note": "Süre hesabının dayanağını doğru kurdunuz. Altı aylık süre fiilin ve failin öğrenilmesiyle işlemeye başlar; mağdur 3 Şubat'taki beyanında Kaan Erdem'in adını vermişti. Raporun kesinleşmesini beklemek şikâyetin şartı değildir." },
+        { "text": "Yeterli itiraz", "min": 40, "delta": 12, "set": ["baslangic"], "law": "TCK m.73/1",
+          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi. Mağdurun 3 Şubat tarihli kolluk beyanı okundu; failin adının o gün bildirildiği görüldü." }],
+          "note": "Sürenin geçtiğini söylediniz; mahkeme kolluk beyanını okuyunca itirazınızı doğruladı. Tam itiraz, sürenin öğrenmeden başladığını (TCK m.73/1), mağdurun failin adını 3 Şubat gecesi verdiğini ve son günün 3 Ağustos olduğunu birlikte gösterir." },
+        { "text": "Zayıf itiraz", "delta": -15, "law": "TCK m.73/1",
+          "note": "Savcının hesabını çürütemediniz. Şikâyet süresi rapordan değil, fiilin ve failin öğrenildiği günden başlar (TCK m.73/1). Mağdur failin adını olay gecesi verdiği için altı ay 3 Ağustos'ta dolmuştu; elinizdeki en güçlü usul itirazı kullanılmadan kaldı." }
+      ] },
     {
       "side": "p1", "scene": "court",
       "lines": [
@@ -91,20 +92,20 @@
       ],
       "prompt": "Müvekkile ne önereceksiniz?",
       "choices": [
-        { "text": "Müvekkille kısaca görüşün. “Sanık özür diliyor ve vazgeçmeyi kabul ediyor” deyin.", "delta": 20, "set": ["vazgecme"],
+        { "text": "Müvekkille kısaca görüşün; “Sanık özür diliyor ve vazgeçmeyi kabul ediyor” deyin.", "delta": 20, "set": ["vazgecme"],
           "law": "TCK m.73/4 · m.73/6",
           "note": "Doğru. Şikâyete bağlı suçta şikâyetten vazgeçme davayı düşürür (TCK m.73/4). Vazgeçme kabul etmeyen sanığı etkilemez (m.73/6); kabul beyanı bu yüzden önemlidir. Şikâyet süresi itirazınız da ayrıca düşme sonucunu doğuruyordu.",
           "reply": [
             { "who": "client", "text": "Selim Bey, o gece ikimiz de haddimizi aştık. Özür dilerim." },
             { "who": "judge", "text": "Katılanın vazgeçmesi ve sanığın kabulü tutanağa geçirildi." }
           ] },
-        { "text": "“Sanık kabul etmiyor, beraatini istiyoruz” deyin.", "delta": -5,
+        { "text": "“Sanık kabul etmiyor, beraatini istiyoruz” deyin; vazgeçmeyi kabul etmek suçu ikrar etmek sayılır.", "delta": -5,
           "law": "TCK m.73/6",
-          "note": "Vazgeçme kabul etmeyen sanığı etkilemez; yargılama sürer. Müvekkil vurduğunu kabul ediyor, beraat beklentisi gerçekçi değil. Elinizdeki kolay düşme yolunu kapattınız." },
-        { "text": "“Vazgeçme bu suçta sonuç doğurmaz, yargılamaya devam edilsin” deyin.", "delta": -15,
+          "note": "Vazgeçmeyi kabul etmek suçu ikrar etmek anlamına gelmez; yalnızca düşme kararına razı olmaktır. Vazgeçme kabul etmeyen sanığı etkilemez; yargılama sürer. Müvekkil vurduğunu kabul ediyor, beraat beklentisi gerçekçi değil. Elinizdeki kolay düşme yolunu kapattınız." },
+        { "text": "“Vazgeçme kasten yaralamada sonuç doğurmaz, yargılamaya devam edilsin” deyin; şikâyet süresi itirazımız zaten yeterli.", "delta": -15,
           "law": "TCK m.73/4",
           "note": "Hatalı. Basit kasten yaralama şikâyete bağlıdır; bu suçlarda vazgeçme davayı düşürür. Şikâyetten vazgeçmenin işe yaramadığı suçlar, kendiliğinden kovuşturulan suçlardır." },
-        { "text": "Dosyanın uzlaştırma bürosuna gönderilmesini isteyin.", "delta": -5,
+        { "text": "Dosyanın uzlaştırma bürosuna gönderilmesini isteyin; uzlaşma raporu daha sağlam bir düşme sebebidir.", "delta": -5,
           "law": "CMK m.254",
           "note": "Taraflar salonda zaten anlaşıyor. Vazgeçme ve kabul davayı hemen düşürür; uzlaştırma süreci yargılamayı boşuna uzatır." }
       ]

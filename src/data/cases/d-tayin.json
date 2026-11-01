@@ -102,7 +102,7 @@
       "prompt": "İlk adımınız ne olacak?",
       "choices": [
         {
-          "text": "Arabulucuya başvur. Anlaşma çıkmazsa kira döneminin bittiği 31.08.2026'dan itibaren bir ay içinde ihtiyaç nedeniyle tahliye davası aç.",
+          "text": "Arabulucuya başvur; anlaşma olmazsa dönem sonu olan 31.08.2026'dan itibaren bir ay içinde tahliye davası aç.",
           "delta": 20,
           "law": "TBK m.350 · 6325 s.K. m.18/B",
           "note": "Kira uyuşmazlıklarında arabulucuya başvuru dava şartıdır (6325 s.K. m.18/B). Belirli süreli sözleşmede ihtiyaç nedeniyle tahliye davası, sürenin bitiminden itibaren bir ay içinde açılır (TBK m.350/1).",
@@ -114,7 +114,7 @@
           ]
         },
         {
-          "text": "Arabulucuya gitmeden doğrudan sulh hukuk mahkemesinde tahliye davası aç.",
+          "text": "Bir aylık süre kaçmasın diye arabulucuyu atla; doğrudan sulh hukuk mahkemesinde ihtiyaç nedeniyle tahliye davası aç.",
           "delta": -30,
           "law": "6325 s.K. m.18/B · HMK m.115",
           "note": "Kira uyuşmazlıklarında arabuluculuk dava şartıdır. Bu şart yerine getirilmeden açılan dava usulden reddedilir.",
@@ -124,7 +124,7 @@
           }
         },
         {
-          "text": "Kiracıya noter ihtarı çek, ardından icra dairesinden tahliye iste.",
+          "text": "Kiracıya noter ihtarı çekip dönem sonunda boşaltmasını iste; boşaltmazsa icra dairesinden ilamsız tahliye talep et.",
           "delta": -15,
           "law": "İİK m.269, m.272 · TBK m.350",
           "note": "İcra yoluyla ilamsız tahliye yalnızca yazılı tahliye taahhüdü ya da kira borcunda temerrüt hâllerinde mümkündür (İİK m.269, m.272). İhtiyaç nedeniyle tahliye dava yoluyla istenir (TBK m.350).",
@@ -158,7 +158,7 @@
           "note": "İhtiyacın gerçek, samimi ve zorunlu olması gerekir. Kiraya verenin aynı şehirdeki başka konutu, bu davada kiracının en güçlü itiraz noktasıdır."
         },
         {
-          "text": "On yıllık uzama süresi dolmadan kiraya veren sözleşmeyi sona erdiremez.",
+          "text": "On yıllık uzama süresi dolmadan kiraya veren sözleşmeyi sona erdiremez; sözleşme 2020'de başladı (TBK m.347).",
           "delta": -10,
           "set": [
             "on"
@@ -167,7 +167,7 @@
           "note": "On yıllık uzama süresi, kiraya verenin sebep göstermeden sözleşmeyi sona erdirmesi için aranır (TBK m.347). İhtiyaç nedeniyle tahliye (TBK m.350) bu süreye bağlı değildir."
         },
         {
-          "text": "Kiracı altı yıldır kirayı hiç aksatmadı; tahliye hakkaniyete aykırıdır.",
+          "text": "Kiracı altı yıldır kirayı hiç aksatmadı; kusursuz kiracıyı çıkarmak dürüstlük kuralına aykırıdır (TMK m.2).",
           "delta": -5,
           "set": [
             "hak"
@@ -176,13 +176,13 @@
           "note": "İhtiyaç nedeniyle tahliye kiracının kusuruna dayanmaz. Kirayı düzenli ödemek bu davada savunma değildir."
         },
         {
-          "text": "Görev itirazı: Davaya asliye hukuk mahkemesi bakmalı.",
+          "text": "Görev itirazı: Dava bir taşınmazın tahliyesine ilişkin; değeri gereği asliye hukuk mahkemesi bakmalı.",
           "delta": -10,
           "set": [
             "gorev"
           ],
           "law": "HMK m.4",
-          "note": "Kira ilişkisinden doğan davalarda sulh hukuk mahkemesi görevlidir (HMK m.4/1-a)."
+          "note": "Kira ilişkisinden doğan davalarda, dava değerine bakılmaksızın sulh hukuk mahkemesi görevlidir (HMK m.4/1-a)."
         }
       ]
     },
@@ -207,7 +207,7 @@
       "prompt": "Bornova'daki daire hakkında ne söyleyeceksiniz?",
       "choices": [
         {
-          "text": "Bornova dairesi 55 m², 1+1 ve kiracılı; dört kişilik bir aile için elverişli değil. Tapuyu, nüfus kaydını ve atama yazısını birlikte değerlendirin.",
+          "text": "Bornova dairesi 55 m², 1+1 ve kiracılı; dört kişilik aileye elverişsiz. Tapu, nüfus kaydı ve atama yazısı bunu gösteriyor.",
           "delta": 20,
           "set": [
             "ispat"
@@ -216,7 +216,7 @@
           "note": "İhtiyacı karşılamaya elverişli olmayan başka bir konutun varlığı, ihtiyacı ortadan kaldırmaz. Elverişsizliği somut belgelerle gösterdiniz."
         },
         {
-          "text": "Gerekirse aile Bornova dairesine taşınabilir.",
+          "text": "Davacı ısrarcı değil; mahkeme uygun görürse aile şimdilik Bornova dairesine taşınabilir, ihtiyaç yine de sürer.",
           "delta": -20,
           "set": [
             "taviz"
@@ -225,7 +225,7 @@
           "note": "İhtiyacın başka bir konutla karşılanabileceğini kendiniz kabul ettiniz. Bu, “zorunluluk” şartını ortadan kaldırır."
         },
         {
-          "text": "Malik dilediği evinde oturur; başka konutunun olup olmaması önemsizdir.",
+          "text": "Malik dilediği evinde oturur (TMK m.683); başka konutunun bulunup bulunmaması ihtiyaç davasında önemsizdir.",
           "delta": -10,
           "law": "TBK m.350",
           "note": "İhtiyaç tahliyesi mülkiyete değil, kiralananı kullanma zorunluluğuna dayanır. Başka konutun elverişli olup olmadığı mahkemece incelenir ve bunu siz göstermeliydiniz."
@@ -261,10 +261,11 @@
           "text": "Kiraya veren vekili?"
         }
       ],
-      "prompt": "Savunmaya cevabınız?",
+      "prompt": "Davalı vekilinin savunmasına ne cevap vereceksiniz? İhtiyacı nasıl ispat edeceğinizi de kendi cümlelerinizle anlatın.",
       "choices": [
         {
-          "text": "Dava, kiracının kusuruna ya da sözleşme süresine değil, kiraya verenin zorunlu konut ihtiyacına dayanıyor. Atama yazısını, nüfus kaydını ve İzmir'de elverişli başka konut olmadığını gösteren tapuyu sun.",
+          "text": "Güçlü cevap",
+          "min": 70,
           "delta": 15,
           "set": [
             "ispat"
@@ -273,7 +274,42 @@
           "note": [
             {
               "if": "on",
-              "text": "On yıllık uzama süresi yalnızca sebep göstermeksizin fesih için aranır (TBK m.347). "
+              "text": "On yıllık uzama süresinin yalnızca sebep göstermeksizin fesih için arandığını doğru söylediniz (TBK m.347). "
+            },
+            {
+              "if": "!on && gorev",
+              "text": "Kira ilişkisinden doğan davalarda sulh hukuk mahkemesinin görevli olduğunu doğru söylediniz (HMK m.4/1-a). "
+            },
+            {
+              "if": "!on && !gorev",
+              "text": "Kiracının kusursuz olmasının ihtiyaç tahliyesine engel olmadığını doğru söylediniz. "
+            },
+            {
+              "text": "Savunmayı cevapladınız ve ihtiyacı belgelerle gösterdiniz: kalıcı atama, dört kişilik aile, elverişsiz tek konut (TBK m.350)."
+            }
+          ]
+        },
+        {
+          "text": "Yeterli cevap",
+          "min": 40,
+          "delta": 8,
+          "set": [
+            "ispat"
+          ],
+          "law": "TBK m.350",
+          "note": "İhtiyaca dayandınız, ama ya savunmayı açıkça cevaplamadınız ya da ihtiyacı belgelerle somutlaştırmadınız. Dava kiraya verenin zorunlu konut ihtiyacına dayanır (TBK m.350); kalıcı atama yazısı, nüfus kaydı ve elverişli başka konut olmadığını gösteren tapu birlikte sunulmalıydı."
+        },
+        {
+          "text": "Zayıf cevap",
+          "delta": -10,
+          "law": "TBK m.350 · HMK m.190",
+          "note": [
+            {
+              "text": "İhtiyacı ispat yükü kiraya verendedir (HMK m.190); ne savunmayı karşıladınız ne de ihtiyacı belgelerle gösterdiniz. "
+            },
+            {
+              "if": "on",
+              "text": "On yıllık uzama süresi yalnızca sebep göstermeksizin fesih için aranır (TBK m.347); ihtiyaç tahliyesi bu süreye bağlı değildir. "
             },
             {
               "if": "!on && gorev",
@@ -281,26 +317,80 @@
             },
             {
               "if": "!on && !gorev",
-              "text": "Kiracının kusursuz olması ihtiyaç tahliyesine engel değildir. "
+              "text": "İhtiyaç tahliyesi kiracının kusuruna dayanmaz; kiracının kirayı düzenli ödemesi savunma değildir. "
             },
             {
-              "text": "Savunmayı cevapladınız ve ihtiyacı belgelerle gösterdiniz: kalıcı atama, dört kişilik aile, elverişsiz tek konut."
+              "text": "Kalıcı atama, dört kişilik aile ve elverişsiz tek konut belgelerle gösterilmeliydi (TBK m.350)."
             }
           ]
-        },
-        {
-          "text": "Savunmaya cevap vermeye gerek yok; dosya zaten açık.",
-          "delta": -10,
-          "law": "HMK m.190",
-          "note": "İhtiyacı ispat yükü kiraya verendedir (HMK m.190). Belgeleri sunmadınız ve karşı tarafın savunmasını cevapsız bıraktınız."
-        },
-        {
-          "text": "Kiracının kirayı geç ödediğini ileri sür.",
-          "delta": -20,
-          "law": "HMK m.329",
-          "note": "Ödeme kayıtları aksini gösteriyor. Gerçeğe aykırı bir iddia güvenilirliğinizi zedeler; davanın sebebiyle de ilgisi yok."
         }
-      ]
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap iki şey yapar: (1) Kiracı vekilinin ileri sürdüğü savunmayı hukuken karşılar. Savunma hangisiyse: on yıllık uzama süresi yalnızca kiraya verenin sebep göstermeksizin fesih hakkı için aranır, ihtiyaç tahliyesi bu süreye bağlı değildir (TBK m.347); kira ilişkisinden doğan davalarda sulh hukuk mahkemesi görevlidir (HMK m.4/1-a); kiracının kirayı düzenli ödemesi ihtiyaç tahliyesine engel değildir, çünkü bu dava kiracının kusuruna dayanmaz. (2) Kiraya verenin konut ihtiyacının gerçek, samimi ve zorunlu olduğunu belgelerle gösterir (TBK m.350): İzmir'e kalıcı atama yazısı, dört kişilik aileyi gösteren nüfus kaydı ve İzmir'de elverişli başka konut olmadığını gösteren tapu kaydı (Bornova'daki 55 m², 1+1, kiracılı daire elverişsizdir). Her ikisini yapan cevap tam puan alır; yalnızca birini yapan cevap orta puan alır. Savunmayı cevapsız bırakan, ihtiyaçtan hiç söz etmeyen ya da kiracı aleyhine gerçeğe aykırı iddia (ör. kiranın geç ödendiği) ileri süren cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "ihtiyaç",
+            "ihtiyac"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "atama",
+            "atandı",
+            "tayin",
+            "kalıcı"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "nüfus",
+            "dört kişi",
+            "4 kişi",
+            "iki çocuk",
+            "aile"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "elverişli",
+            "elverişsiz",
+            "başka konut",
+            "Bornova",
+            "1+1",
+            "55 m"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "m.350",
+            "m. 350",
+            "madde 350",
+            "350. madde",
+            "md. 350",
+            "md.350"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "m.347",
+            "m. 347",
+            "on yıl",
+            "10 yıl",
+            "sulh hukuk",
+            "HMK m.4",
+            "kusur",
+            "düzenli ödeme"
+          ],
+          "weight": 2
+        }
+      ],
+      "model": "Sayın Hâkim, bu dava kiracının kusuruna ya da sözleşmenin süresine değil, kiraya verenin zorunlu konut ihtiyacına dayanıyor (TBK m.350); on yıllık uzama süresi yalnızca sebep göstermeksizin fesihte aranır (TBK m.347). Müvekkil İzmir'e kalıcı olarak atanmıştır, dört kişilik ailesiyle annesinin evinde geçici olarak kalmaktadır. Tapu kayıtları İzmir'deki tek diğer konutun 55 m², 1+1 ve kiracılı olduğunu, yani bu aileye elverişli olmadığını gösteriyor. Atama yazısını, nüfus kaydını ve tapuyu sunuyoruz."
     },
     {
       "side": "p2",
@@ -336,13 +426,13 @@
           ]
         },
         {
-          "text": "Atama yazısının sahte olduğunu ileri sür.",
+          "text": "Atama yazısının sahte olduğunu ileri sür; aslı getirtilsin, imza incelemesi yapılsın.",
           "delta": -20,
           "law": "HMK m.329",
           "note": "Resmî bir belgeye dayanaksız sahtelik iddiası ispat edilemez ve kötüniyetli davranış olarak yaptırıma yol açabilir (HMK m.329)."
         },
         {
-          "text": "Davacı Bornova'daki kiracısını çıkarıp oraya taşınmalı.",
+          "text": "Davacı önce Bornova'daki kendi kiracısını çıkarıp oraya taşınmalı; ihtiyaç oradan karşılanır.",
           "delta": -10,
           "law": "TBK m.350",
           "note": "Mahkeme başka konutun elverişliliğine bakar. 55 m²'lik 1+1 daire dört kişilik bir aile için elverişli görülmedi."
@@ -366,7 +456,7 @@
       "prompt": "Teklife cevabınız?",
       "choices": [
         {
-          "text": "Müvekkilin onayıyla kabul et; tahliye tarihini ve bu tarihte boşaltılmazsa tahliyenin icra yoluyla yapılabileceğini tutanağa yazdır.",
+          "text": "Müvekkilin onayıyla kabul et; tahliye tarihini ve boşaltılmazsa icra yoluyla tahliye edilebileceğini tutanağa yazdır.",
           "delta": 15,
           "set": [
             "sulh"
@@ -381,7 +471,7 @@
           ]
         },
         {
-          "text": "Teklifi reddet; aile okul döneminde hemen taşınmalı.",
+          "text": "Teklifi reddet; aile okul dönemi başlamadan taşınmalı, karar zaten lehimize çıkacak, beklemeye gerek yok.",
           "delta": 5,
           "note": "Savunulabilir bir tercih ve davayı büyük ihtimalle kazanırsınız. Ancak kanun yolu süreci tahliyeyi aylarca geciktirebilir; teklif edilen tarih bundan erken olabilirdi.",
           "reply": [
@@ -392,7 +482,7 @@
           ]
         },
         {
-          "text": "Teklifi müvekkile sormadan hemen kabul et.",
+          "text": "Genel vekâletnamem yeterli; müvekkile sormadan teklifi hemen kabul et, tarih zaten makul.",
           "delta": -15,
           "law": "HMK m.74",
           "note": "Sulh, vekâletnamede özel yetki gerektiren işlemlerdendir (HMK m.74). Müvekkilin iradesini de almadınız.",

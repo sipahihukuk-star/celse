@@ -173,6 +173,7 @@
   ],
   "steps": [
     {
+      "kind": "free",
       "side": "p1",
       "scene": "office",
       "lines": [
@@ -185,16 +186,71 @@
           "text": "Makine ajansın. O adam alıp sattı, hepsi bu."
         }
       ],
-      "prompt": "Hazırlığı nasıl yapacaksınız?",
+      "prompt": "Müdürün anlatımı karşısında dosyayı nasıl hazırlayacaksınız? Neyi, neden araştıracağınızı kendi cümlelerinizle anlatın.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Hırsızlık (TCK m.141) ile güveni kötüye kullanma (TCK m.155) arasındaki ayrım, malın zilyetliğinin sanığa devredilip devredilmediğine bağlıdır. (2) Sanık makinenin kendisine verildiğini söylüyor; müvekkilin “dolaptan aldı” anlatımı belgelerle sınanmalıdır. (3) Makinenin sanığa nasıl, ne zaman ve hangi amaçla teslim edildiğini gösteren bütün yazışmalar (e-posta, mesaj) müvekkilden istenmeli, dosya bu belgelere göre kurulmalıdır. (4) Teslim ajansın işi için yapıldıysa hizmet ilişkisi nedeniyle nitelikli hâl (m.155/2) gündeme gelir. Zilyetlik ayrımını kurup yazışmaları isteyen cevap tam puan alır; yalnızca belge ya da yazışma isteyip nedenini açıklamayan cevap orta puan alır. Müvekkilin anlatımına güvenip iddianameyi destekleyen ya da ihtarname, bedel talebi gibi ceza davasına bir şey katmayan adımlar öneren cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "zilyetlik",
+            "teslim",
+            "verildi",
+            "verdiğ",
+            "devred"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "yazışma",
+            "e-posta",
+            "eposta",
+            "mesaj",
+            "belge"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "güveni kötüye",
+            "m.155",
+            "m. 155",
+            "madde 155",
+            "155. madde",
+            "md. 155"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "hırsızlık",
+            "m.141",
+            "m. 141",
+            "madde 141",
+            "141. madde"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "amaç",
+            "ne için",
+            "hangi amaçla",
+            "nasıl verildi"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Önce müdüre makinenin sanığa nasıl, ne zaman ve hangi amaçla verildiğini sorar, bununla ilgili bütün e-posta ve mesajları isterim. Sanık makinenin kendisine verildiğini söylüyor; zilyetlik devredildiyse eylem hırsızlık (TCK m.141) değil, güveni kötüye kullanmadır (m.155). Teslim ajansın işi için yapıldıysa hizmet ilişkisi nedeniyle nitelikli hâl (m.155/2) söz konusu olur. Dosyayı müvekkilin özetine değil bu belgelere göre kurarım.",
       "choices": [
         {
-          "text": "Makinenin sanığa nasıl ve hangi amaçla verildiğine dair bütün yazışmaları iste; dosyayı belgelere göre kur.",
+          "text": "Güçlü hazırlık",
+          "min": 70,
           "delta": 15,
           "set": [
             "p1_belge"
           ],
           "law": "TCK m.141, m.155",
-          "note": "Hırsızlık ile güveni kötüye kullanmayı ayıran, zilyetliğin devredilip devredilmediğidir. Bunu ancak teslimin belgeleri gösterir. Müvekkilin özet anlatımı yetmez.",
+          "note": "Doğru yerden başladınız: hırsızlık ile güveni kötüye kullanmayı ayıran, zilyetliğin devredilip devredilmediğidir. Bunu müvekkilin özet anlatımı değil, teslimin nasıl ve hangi amaçla yapıldığını gösteren yazışmalar ortaya koyar.",
           "reply": [
             {
               "who": "mudur",
@@ -203,17 +259,29 @@
           ]
         },
         {
-          "text": "Müvekkilin “dolaptan aldı” anlatımına güven; iddianameyi destekle.",
+          "text": "Yeterli hazırlık",
+          "min": 40,
+          "delta": 7,
+          "set": [
+            "p1_belge"
+          ],
+          "law": "TCK m.141, m.155",
+          "note": "Müvekkilin anlatımını belgelerle sınamaya karar verdiniz; müdür yazışmaları getirdi. Neden önemli olduğunu da kurmalıydınız: zilyetlik sanığa devredildiyse eylem hırsızlık (m.141) değil, güveni kötüye kullanmadır (m.155); teslim iş için yapıldıysa nitelikli hâl (m.155/2) gündeme gelir.",
+          "reply": [
+            {
+              "who": "mudur",
+              "text": "Düğün için ben verdim, doğru. Ama pazartesi e-postayla “makine sende kalsın, Yıldız Mobilya çekimini sen yapacaksın” yazdım. Çekimi de yaptı."
+            }
+          ]
+        },
+        {
+          "text": "Zayıf hazırlık",
           "delta": -10,
           "set": [
             "p1_guven"
           ],
-          "note": "Müvekkilin anlatımını belgelerle sınamadınız. Sanık “makineyi bana verdi” diyor; ya doğruysa?"
-        },
-        {
-          "text": "Önce sanığa noterden ihtarname çekip makinenin bedelini iste.",
-          "delta": -5,
-          "note": "Ceza yargılaması sürerken ihtarname dosyaya bir şey katmaz; bedel talebi hukuk mahkemesinin işidir. Asıl ihtiyacınız teslimin nasıl yapıldığını gösteren belgelerdi."
+          "law": "TCK m.141, m.155",
+          "note": "Müvekkilin anlatımını belgelerle sınamadınız. Sanık “makineyi bana verdi” diyor; doğruysa hırsızlık çöker, çünkü zilyetliği devredilen mal “alınamaz”. Makinenin sanığa nasıl ve hangi amaçla verildiğini gösteren yazışmaları istemeliydiniz."
         }
       ]
     },
@@ -234,7 +302,7 @@
       "choices": [
         {
           "if": "p1_belge",
-          "text": "Makine sanığa ajansın çekimi için teslim edilmişti: eylem hırsızlık değil, hizmet ilişkisi nedeniyle güveni kötüye kullanmadır (TCK m.155/2). Sanığa ek savunma hakkı verilmesini talep ediyoruz.",
+          "text": "Makine çekim için teslim edilmişti; eylem m.155/2'dir. Sanığa ek savunma hakkı verilmesini istiyoruz.",
           "delta": 20,
           "set": [
             "p1_1552",
@@ -245,7 +313,7 @@
         },
         {
           "if": "p1_belge",
-          "text": "Eylem TCK m.155/2'dir; bu maddeden mahkûmiyet talep ediyoruz.",
+          "text": "Eylem hırsızlık değil, hizmet ilişkisi nedeniyle güveni kötüye kullanmadır (TCK m.155/2); bu maddeden mahkûmiyet istiyoruz.",
           "delta": 10,
           "set": [
             "p1_1552"
@@ -255,7 +323,7 @@
         },
         {
           "if": "p1_belge",
-          "text": "İddianamedeki hırsızlık nitelendirmesine katılıyoruz; makine dolaptan alındı.",
+          "text": "İddianamedeki hırsızlık nitelendirmesine katılıyoruz; makine ajansın dolabından, rıza dışında alındı.",
           "delta": -15,
           "set": [
             "p1_141"
@@ -265,7 +333,7 @@
         },
         {
           "if": "!p1_belge",
-          "text": "İddianamedeki hırsızlık nitelendirmesine katılıyoruz; makine dolaptan alındı.",
+          "text": "İddianamedeki hırsızlık nitelendirmesine katılıyoruz; makine ajansın dolabından, rıza dışında alındı.",
           "delta": 0,
           "set": [
             "p1_141"
@@ -274,7 +342,7 @@
           "note": "Müvekkilin anlatımı bu. Ama sanık makinenin kendisine verildiğini söylüyor ve siz bunu sınamadınız; doğruysa hırsızlık çöker."
         },
         {
-          "text": "Makinenin 145.000 TL'lik bedeline de bu davada hükmedilsin.",
+          "text": "Makinenin 145.000 TL'lik bedeline de bu davada hükmedilsin; katılan ayrıca hukuk davasıyla uğraşmasın.",
           "delta": -10,
           "note": "Ceza mahkemesi tazminata hükmetmez; bedel hukuk mahkemesinde istenir. Nitelendirme hakkında da bir şey söylemediniz."
         }
@@ -352,7 +420,7 @@
       "choices": [
         {
           "if": "p2_wp",
-          "text": "Ek savunma için süre istiyoruz. Ek savunmada makinenin kişisel olarak, düğün için ödünç verildiğini; eylemin en fazla m.155/1 olduğunu ve şikâyet süresinin geçtiğini ileri süreceğiz.",
+          "text": "Ek savunma için süre istiyoruz: teslim kişisel bir ödünçtü; eylem en çok m.155/1 olur, şikâyet süresi de geçti.",
           "delta": 20,
           "set": [
             "p2_sure",
@@ -369,7 +437,7 @@
         },
         {
           "if": "!p2_wp",
-          "text": "Ek savunma için süre istiyoruz.",
+          "text": "Ek savunma için süre istiyoruz; teslimin kişisel olduğunu ek savunmada ayrıntılı açıklayacağız.",
           "delta": 10,
           "set": [
             "p2_sure"
@@ -384,7 +452,7 @@
           ]
         },
         {
-          "text": "Mahkeme iddianamedeki nitelendirmeyle bağlıdır; m.141 dışında hüküm kurulamaz.",
+          "text": "Mahkeme iddianamedeki nitelendirmeyle bağlıdır; m.141 dışında hüküm kurulamaz, bu bildirim savunmayı da şaşırtır.",
           "delta": -15,
           "set": [
             "p2_bagli"
@@ -400,7 +468,7 @@
         },
         {
           "if": "p2_odeme",
-          "text": "Nitelendirmeyi kabul ediyoruz; bedelin tamamını hükümden önce ödeyeceğiz (TCK m.168/2).",
+          "text": "Nitelendirmeyi kabul ediyoruz; bedelin tamamını hükümden önce ödeyeceğiz, ceza indirilsin (TCK m.168/2).",
           "delta": 10,
           "set": [
             "p2_168"
@@ -424,7 +492,7 @@
       "choices": [
         {
           "if": "p2_wp",
-          "text": "Makine rızayla teslim edildi; hırsızlık oluşmaz. Eylem olsa olsa m.155/1'dir: şikâyete bağlıdır ve şikâyet süresi geçmiştir. Mesajı sunuyoruz.",
+          "text": "Rızayla teslim edilen makine “alınamaz”; eylem en çok m.155/1'dir, şikâyet süresi geçti. Mesajı sunuyoruz.",
           "delta": 20,
           "set": [
             "p2_1551"
@@ -434,7 +502,7 @@
         },
         {
           "if": "!p2_wp",
-          "text": "Makineyi müvekkile müdür verdi; hırsızlık oluşmaz.",
+          "text": "Makineyi müvekkile müdür kendi eliyle verdi; zilyetlik devredildiğine göre hırsızlık oluşmaz.",
           "delta": 5,
           "set": [
             "p2_1551",
@@ -445,16 +513,16 @@
         },
         {
           "if": "p2_prim",
-          "text": "Müvekkil makineyi ödenmeyen primine karşılık tuttu; hakkını aradı, suç kastı yok.",
+          "text": "Müvekkil makineyi ödenmeyen primine karşılık tuttu; hapis hakkını kullandı, hakkını aradı, suç kastı yok.",
           "delta": -10,
           "set": [
             "p2_primSav"
           ],
           "law": "TCK m.155/1",
-          "note": "Alacak, kendisine teslim edilen malı satmayı haklı kılmaz; satış devir amacı dışında tasarruftur. Üstelik zilyetliğin devredildiğini gösteren mesajı sunmadınız, iddianamedeki hırsızlık anlatımı ayakta kaldı."
+          "note": "Alacak, kendisine teslim edilen malı satmayı haklı kılmaz; hapis hakkı bulunsa bile malı alıkoymaya yetki verir, kendi başına satmaya değil. Satış devir amacı dışında tasarruftur. Üstelik zilyetliğin devredildiğini gösteren mesajı sunmadınız, iddianamedeki hırsızlık anlatımı ayakta kaldı."
         },
         {
-          "text": "Müvekkil makineyi hiç almadı.",
+          "text": "Müvekkil makineyi hiç almadı; ilandaki makine başkasına ait olabilir, seri numarası doğrulanmadı.",
           "delta": -20,
           "set": [
             "p2_inkar"
@@ -463,7 +531,7 @@
         },
         {
           "if": "p2_odeme",
-          "text": "Bedelin tamamını hükümden önce ödeyeceğiz; etkin pişmanlık uygulansın (TCK m.168/2).",
+          "text": "Bedelin tamamını hükümden önce ödeyeceğiz; etkin pişmanlık hükümleri uygulansın (TCK m.168/2).",
           "delta": 10,
           "set": [
             "p2_168"
@@ -577,7 +645,7 @@
       "choices": [
         {
           "if": "p2_inkar || p2_primSav",
-          "text": "Sanık sorguda makineyi aldığını ve sattığını kabul etti; ilan ve alıcının ifadesi dosyada. Satış, hangi gerekçeyle olursa olsun malın sahibine karşı bir tasarruftur.",
+          "text": "Sanık sorguda makineyi alıp sattığını kabul etti; ilan ve alıcı ifadesi dosyada. Satışı hiçbir gerekçe haklı kılmaz.",
           "delta": 15,
           "note": [
             {
@@ -619,13 +687,13 @@
         },
         {
           "if": "!p1_belge",
-          "text": "İddianamedeki hırsızlık nitelendirmesinde ısrar ediyoruz.",
+          "text": "İddianamedeki hırsızlık nitelendirmesinde ısrar ediyoruz; makinenin rıza dışında alındığı açık.",
           "delta": 0,
           "note": "Elinizde başka bir belge yok; dosyayı iddianameye bıraktınız."
         },
         {
           "if": "p2_sure && !p2_1551",
-          "text": "Ek savunmada bir belge sunulmadı; teslimin kişisel olduğu gösterilemedi.",
+          "text": "Ek savunmada tek bir belge sunulmadı; teslimin kişisel bir ödünç olduğu ispatlanamadı.",
           "delta": 5,
           "note": "Doğru bir tespit; ama kendi iddianızı da belgeyle desteklemeniz daha güçlü olurdu."
         }
@@ -649,7 +717,7 @@
       "choices": [
         {
           "if": "p2_odeme && !p2_168",
-          "text": "Bedelin tamamı bugün katılana ödendi; makbuzu sunuyoruz. TCK m.168/2 uyarınca indirim talep ediyoruz.",
+          "text": "Bedelin tamamı bugün ödendi, makbuz ekte; TCK m.168/2 uyarınca indirim istiyoruz.",
           "delta": 15,
           "set": [
             "p2_168"
@@ -658,18 +726,18 @@
           "note": "Nitelendirme aleyhinize döndükten sonra en etkili hamle bu: kovuşturma başladıktan sonra, hükümden önce zarar tamamen giderildi; ceza yarısına kadar indirilir."
         },
         {
-          "text": "E-posta yalnızca bir çekim talimatıdır; teslim düğün için yapılmıştı.",
+          "text": "E-posta yalnızca bir çekim talimatıdır; teslim düğün için yapılmıştı, nitelikli hâl uygulanamaz.",
           "delta": 0,
           "note": "Çekim talimatı ve sanığın “tamam” cevabıyla makine, düğünden sonra ajansın işi için sanıkta kaldı. Bu itiraz nitelendirmeyi değiştirmez."
         },
         {
-          "text": "E-posta sonradan düzenlenmiştir.",
+          "text": "E-posta sonradan düzenlenmiştir; sahteliğinin bilirkişiyle incelenmesini istiyoruz.",
           "delta": -15,
           "note": "Dayanaksız bir sahtelik iddiası: e-posta ajansın sunucusunda ve sanığın kendi cevabı da var."
         },
         {
           "if": "!p2_odeme || p2_168",
-          "text": "Sanığın sabıkasızlığı ve pişmanlığı gözetilerek ceza alt sınırdan belirlensin, TCK m.62 uygulansın.",
+          "text": "Sabıkasızlık ve pişmanlık gözetilerek ceza alt sınırdan belirlensin, TCK m.62 uygulansın.",
           "delta": 10,
           "set": [
             "p2_alt"

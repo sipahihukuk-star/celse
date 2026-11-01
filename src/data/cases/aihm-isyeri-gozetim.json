@@ -45,19 +45,19 @@
       "lines": [{ "who": "client", "text": "Yargıtay'a gidelim mi, yoksa artık doğrudan Avrupa'ya mı?" }],
       "prompt": "Bölge adliye mahkemesinin kesin kararından sonra ne yapacaksınız?",
       "choices": [
-        { "text": "Kararın tebliğinden itibaren otuz gün içinde Anayasa Mahkemesi'ne bireysel başvuruda bulunun; özel hayat ve haberleşme hürriyeti şikâyetini açıkça ileri sürün.", "delta": 20, "set": ["aym"],
+        { "text": "Otuz gün içinde Anayasa Mahkemesi'ne bireysel başvuru yapın; özel hayat ve haberleşme şikâyetini açıkça ileri sürün.", "delta": 20, "set": ["aym"],
           "law": "6216 s.K. m.47/5; Sözleşme m.35/1",
           "reply": [{ "who": "narr", "text": "Başvuru süresinde yapıldı. Anayasa Mahkemesi şikâyeti açıkça dayanaktan yoksun buldu. Karar tebliğinden sonra, dört aylık süre içinde, eksiksiz formla AİHM'e başvurdunuz. Başvuru Hükûmete bildirildi." }],
           "note": "Anayasa Mahkemesi'ne bireysel başvuru, AİHM'in Türkiye bakımından tüketilmesini aradığı etkili bir iç hukuk yoludur. Süre, kesin kararın öğrenilmesinden itibaren otuz gündür. AİHM'in dört aylık süresi Anayasa Mahkemesi kararından sonra işlemeye başlar." },
-        { "text": "Bölge adliye mahkemesi kararını Yargıtay'da temyiz edin.", "delta": -25,
+        { "text": "Kararı iki hafta içinde Yargıtay'da temyiz edin; Anayasa Mahkemesi'ne gitmeden önce bütün olağan kanun yolları tüketilmelidir.", "delta": -25,
           "law": "İş K. m.20; 6216 s.K. m.47/5",
-          "note": "İşe iade davasında bölge adliye mahkemesinin kararı kesindir. Açık olmayan bir kanun yoluna başvurmak süreleri durdurmaz.",
+          "note": "İşe iade davasında bölge adliye mahkemesinin kararı kesindir (İş K. m.20). Tüketilmesi gereken yollar açık olan yollardır; açık olmayan bir kanun yoluna başvurmak süreleri durdurmaz.",
           "fatal": { "label": "KARAR:",
             "hukum": "Başvurunun, iç hukuk yollarının usulüne uygun tüketilmemesi nedeniyle Sözleşme m.35/1 ve m.35/4 uyarınca KABUL EDİLEMEZ OLDUĞUNA; Bu karar kesindir.",
             "summary": "Temyiz dilekçesi karar kesin olduğu için reddedildi. Bu arada Anayasa Mahkemesi'nin otuz günlük süresi geçti; geç yapılan bireysel başvuru süre aşımından reddedildi. Süresinde yapılmayan bir başvuru, iç hukuk yolunun usulüne uygun tüketildiği anlamına gelmez." } },
-        { "text": "Anayasa Mahkemesi'ni atlayıp dört ay içinde doğrudan AİHM'e başvurun.", "delta": -25,
+        { "text": "Dört ay içinde doğrudan AİHM'e başvurun; işyeri gözetiminde Anayasa Mahkemesi'nin ihlal bulma olasılığı düşük, bu yol etkisiz sayılır.", "delta": -25,
           "law": "Sözleşme m.35/1",
-          "note": "23 Eylül 2012'den bu yana Anayasa Mahkemesi'ne bireysel başvuru, AİHM'den önce tüketilmesi gereken etkili bir yoldur.",
+          "note": "23 Eylül 2012'den bu yana Anayasa Mahkemesi'ne bireysel başvuru, AİHM'den önce tüketilmesi gereken etkili bir yoldur. Başarı olasılığının düşük görülmesi bir yolu etkisiz kılmaz.",
           "fatal": { "label": "KARAR:",
             "hukum": "Başvurunun, iç hukuk yollarının tüketilmemesi nedeniyle Sözleşme m.35/1 ve m.35/4 uyarınca KABUL EDİLEMEZ OLDUĞUNA; Bu karar kesindir.",
             "summary": "AİHM, Anayasa Mahkemesi'ne bireysel başvuruyu Türkiye bakımından etkili bir iç hukuk yolu sayıyor. Bu yol kullanılmadan yapılan başvuru incelenmedi; Anayasa Mahkemesi'nin otuz günlük süresi de geçmişti." } }
@@ -86,13 +86,13 @@
       ],
       "prompt": "Bu itiraza nasıl cevap vereceksiniz?",
       "choices": [
-        { "text": "Şikâyet Devlete yöneliktir: m.8, Devlete işçi-işveren ilişkisinde de özel hayatı ve haberleşmeyi koruma pozitif yükümlülüğü yükler. Bu yükümlülük, ulusal mahkemelerin çatışan menfaatleri gerçekten dengelemesini de kapsar.", "delta": 20, "set": ["kisi"],
+        { "text": "Şikâyet Devlete yöneliktir: m.8, işçi-işveren ilişkisinde de Devlete pozitif yükümlülük yükler; ulusal mahkemeler çatışan menfaatleri dengelemeliydi.", "delta": 20, "set": ["kisi"],
           "law": "Sözleşme m.1, m.8",
           "note": "Bărbulescu/Romanya [BD] (2017) kararında Mahkeme, özel işverenin gözetimini Devletin pozitif yükümlülükleri açısından inceledi. Sorun Devletin müdahalesi değil, ulusal mahkemelerin başvurucuyu yeterince koruyup korumadığıdır." },
-        { "text": "Şirket devlet teşviki aldığı için onun işlemleri Devlete yüklenmelidir.", "delta": -10,
-          "note": "Teşvik almak, özel bir şirketi Devlet organı yapmaz. Doğru dayanak pozitif yükümlülüktür." },
-        { "text": "Bu itiraz esasla birlikte incelenir; şimdilik cevap vermeye gerek yok.", "delta": -10,
-          "note": "Daire bir ön itirazı esasla birleştirebilir; ama cevapsız bırakılan itiraz Hükûmetin lehine işler. Her ön itiraza ayrı ayrı cevap verilmelidir." }
+        { "text": "Şirket yatırım teşviki alıyor ve kamu ihalelerine tedarik yapıyor; m.1 uyarınca işlemleri Devlete yüklenir, gözetim doğrudan Devletin müdahalesidir.", "delta": -10,
+          "note": "Teşvik almak ya da kamu ihalesi kazanmak, özel bir şirketi Devlet organı yapmaz; işlemleri Devlete yüklenmez. Doğru dayanak, Devletin m.8'den doğan pozitif yükümlülüğüdür." },
+        { "text": "Kişi bakımından bağdaşmazlık esasla iç içedir; Daireden itirazı esasla birleştirmesini isteyin, ayrıntılı cevabı esas bölümünde verin.", "delta": -10,
+          "note": "Daire bir ön itirazı esasla birleştirebilir; ama birleştirme istemek cevap yerine geçmez ve cevapsız bırakılan itiraz Hükûmetin lehine işler. Her ön itiraza ayrı ayrı cevap verilmelidir." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "office",
       "lines": [{ "who": "narr", "text": "İkinci ön itiraz:" }],
@@ -126,19 +126,22 @@
     },
     { "side": "p1", "scene": "office",
       "lines": [{ "who": "narr", "text": "Cevap dilekçenizin esasa ilişkin son bölümünü yazıyorsunuz." }],
-      "prompt": "Esas savunmanızın merkezine ne koyacaksınız?",
+      "kind": "free", "prompt": "Esas savunmanızın merkezine ne koyacaksınız? Daireye yazacağınız bölümü kendi cümlelerinizle kurun.",
       "choices": [
-        { "text": "Ulusal mahkemeler dengelemeyi hiç yapmadı: izlemenin önceden bildirilip bildirilmediğini, kapsamını ve içeriğe erişimin derecesini, işverenin meşru gerekçesini, daha hafif bir yöntemin mümkün olup olmadığını, sonuçlarını ve güvenceleri incelemediler.", "delta": 25, "set": ["esas"],
-          "law": "Sözleşme m.8",
-          "note": [
-            { "text": "Bărbulescu/Romanya [BD] kararındaki ölçütler bunlardır. Mahkeme işverenin makul denetim hakkını tanır; ama ulusal mahkemelerin bu ölçütleri gerçekten tartmasını arar. Bărbulescu'da Daire ihlal bulmamış, Büyük Daire ise ihlal tespit etmişti." },
-            { "if": "kapsam", "text": " Müvekkilin eşi ve doktoruyla yazışmalarının da okunması, müdahalenin derecesini somutlaştırıyor." }
-          ] },
-        { "text": "Döküm hukuka aykırı delil olduğu hâlde kullanıldı; bu nedenle yargılama adil değildi (m.6).", "delta": -5,
-          "note": "Sözleşme m.6 delillerin kabul edilebilirliğine ilişkin kural koymaz; bu, öncelikle ulusal hukukun işidir. Şikâyetin merkezi m.8 kapsamındaki dengelemedir." },
-        { "text": "İşveren çalışanın iş yazışmalarını hiçbir koşulda denetleyemez.", "delta": -10,
-          "note": "AİHM işverenin işyeri düzenini sağlamak için makul denetim hakkını tanır. Mesele yasak değil, ölçülülük ve güvencelerdir." }
-      ] }
+        {"text": "Güçlü savunma", "min": 70, "delta": 25, "set": ["esas"], "law": "Sözleşme m.8", "note": [{"text": "Şikâyeti doğru yere oturttunuz: ulusal mahkemeler Bărbulescu/Romanya [BD] (2017) ölçütlerini hiç tartmadı. Önceden bildirim, gözetimin kapsamı ve içeriğe erişimin derecesi, işverenin meşru gerekçesi, daha hafif bir yöntemin varlığı, sonuçlar ve güvenceler incelenmeden işverenin makul denetim hakkı ile özel hayat dengelenemez."}, {"if": "kapsam", "text": " Müvekkilin eşi ve doktoruyla yazışmalarının da okunması, müdahalenin derecesini somutlaştırıyor."}]},
+        {"text": "Yeterli savunma", "min": 40, "delta": 12, "set": ["esas"], "law": "Sözleşme m.8", "note": "Ulusal mahkemelerin dengeleme yapmadığını söylediniz; Daire bunu yeterli buldu. Ama ölçütlerin bir kısmında kaldınız. Bărbulescu ölçütleri birlikte sayılmalıdır: önceden bildirim, kapsam ve içeriğe erişim, meşru gerekçe, daha hafif yöntem, sonuçlar ve güvenceler."},
+        {"text": "Zayıf savunma", "delta": -5, "law": "Sözleşme m.8", "note": "Şikâyeti ulusal mahkemelerin dengeleme yapmamasına bağlayamadınız. AİHM işverenin makul denetim hakkını tanır; m.6 da delillerin kabul edilebilirliği için kural koymaz. Merkezde, yerel mahkemelerin Bărbulescu ölçütlerini (önceden bildirim, kapsam, meşru gerekçe, daha hafif yöntem, sonuçlar, güvenceler) tartmaması olmalıydı."}
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Şikâyet Sözleşme m.8 kapsamında Devletin pozitif yükümlülüğüne ilişkindir; işverenin denetim hakkı tanınmakla birlikte ulusal mahkemeler çatışan menfaatleri gerçekten dengelemek zorundadır. (2) Bărbulescu/Romanya [BD] ölçütleri: izlemenin olasılığı ve niteliği hakkında önceden açık bildirim, gözetimin kapsamı ve içeriğe erişimin derecesi, işverenin meşru gerekçesi, daha hafif bir yöntemin mümkün olup olmadığı, çalışan bakımından sonuçlar ve güvenceler. (3) Yerel mahkemeler bu ölçütleri hiç incelemedi; yalnızca kişisel kullanım yasağına ve feshin haklılığına dayandı. Dengeleme yapılmadığını ölçütlerin çoğunu sayarak göstermek tam puan alır; dengeleme eksikliğini söyleyip yalnız bir iki ölçüte değinmek orta puan alır. Şikâyeti m.6'ya (hukuka aykırı delil) kaydıran ya da işverenin hiçbir koşulda denetim yapamayacağını savunan cevap düşük puan alır.",
+      "keywords": [
+        {"terms": ["dengele", "denge", "tartma", "tartıl", "değerlendirmedi", "incelemedi"], "weight": 3},
+        {"terms": ["önceden bildir", "bildirim", "bildirilme", "önceden bilgi", "haber veril"], "weight": 2},
+        {"terms": ["Bărbulescu", "Barbulescu", "Barbulesku"], "weight": 1},
+        {"terms": ["kapsam", "içeriğe erişim", "derece"], "weight": 1},
+        {"terms": ["meşru gerekçe", "meşru amaç", "daha hafif", "hafif yöntem", "güvence"], "weight": 1},
+        {"terms": ["m.8", "m. 8", "madde 8", "8. madde", "md. 8", "md.8"], "weight": 1}
+      ],
+      "model": "Sayın Başkan, işverenin makul denetim hakkı tartışma konusu değildir; şikâyetimiz, ulusal mahkemelerin m.8'in gerektirdiği dengelemeyi hiç yapmamasıdır. Yerel mahkemeler izlemenin önceden bildirilip bildirilmediğini, kapsamını ve içeriğe erişimin derecesini, işverenin meşru gerekçesini, daha hafif bir yöntemin mümkün olup olmadığını, sonuçlarını ve güvenceleri incelemedi; yalnızca kişisel kullanım yasağına dayandı. Bărbulescu/Romanya [BD] kararındaki bu ölçütler tartılmadan verilen karar, Devletin pozitif yükümlülüğünü yerine getirmediğini gösterir." }
   ],
   "outcomes": [
     { "if": "!kisi", "winner": "p2", "label": "KARAR:", "noCourt": true,

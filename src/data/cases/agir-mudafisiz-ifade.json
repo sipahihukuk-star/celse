@@ -67,24 +67,24 @@
       ],
       "prompt": "Kolluk ifadesi karşısında nasıl bir tutum alacaksınız?",
       "choices": [
-        { "if": "cmk", "text": "Sanık kolluk ifadesini doğrulamıyor. Kasten öldürme suçunda müdafilik zorunludur; ifade müdafi olmadan, baroya haber verilmeden alınmıştır. Doğrulanmayan bu ifade hükme esas alınamaz; tutanağa geçirilmesini istiyoruz.", "delta": 25, "set": ["dogrulamadi", "itirazIfade"],
+        { "if": "cmk", "text": "Sanık kolluk ifadesini doğrulamıyor. Zorunlu müdafilikte ifade baroya haber verilmeden alındı; doğrulanmayan bu ifade hükme esas alınamaz.", "delta": 25, "set": ["dogrulamadi", "itirazIfade"],
           "law": "CMK m.148/4, m.150/3",
           "reply": [{ "who": "judge", "text": "Sanığın kolluk ifadesini kabul etmediği ve müdafinin beyanı tutanağa geçti." }],
           "note": "Doğru ve eksiksiz. Müdafi bulunmaksızın kollukta alınan ifade, hâkim veya mahkeme huzurunda doğrulanmadıkça hükme esas alınamaz (CMK m.148/4). Alt sınırı beş yıldan fazla hapis gerektiren suçlarda müdafi istemi aranmaksızın görevlendirilir (CMK m.150/3); “müdafi istemiyorum” kaydı bu zorunluluğu kaldırmaz. Baro kaydı, talebin ifadeden sonra yapıldığını gösteriyor." },
-        { "if": "!cmk", "text": "Sanık kolluk ifadesini doğrulamıyor. Kasten öldürme suçunda müdafilik zorunludur; ifade müdafi olmadan alınmıştır. Doğrulanmayan bu ifade hükme esas alınamaz; tutanağa geçirilmesini istiyoruz.", "delta": 20, "set": ["dogrulamadi", "itirazIfade"],
+        { "if": "!cmk", "text": "Sanık kolluk ifadesini doğrulamıyor. Zorunlu müdafilikte ifade müdafisiz alındı; doğrulanmayan bu ifade hükme esas alınamaz.", "delta": 20, "set": ["dogrulamadi", "itirazIfade"],
           "law": "CMK m.148/4, m.150/3",
           "reply": [{ "who": "judge", "text": "Sanığın kolluk ifadesini kabul etmediği ve müdafinin beyanı tutanağa geçti." }],
           "note": "Doğru çizgi. Müdafi bulunmaksızın kollukta alınan ifade, hâkim veya mahkeme huzurunda doğrulanmadıkça hükme esas alınamaz (CMK m.148/4). Zorunlu müdafilikte “müdafi istemiyorum” kaydı sonuç doğurmaz (CMK m.150/3)." },
-        { "text": "Sanık susma hakkını kullanacak; başka beyanımız yok.", "delta": 10, "set": ["dogrulamadi"],
+        { "text": "Sanık susma hakkını kullanacak. Susması aleyhine yorumlanamaz; ifadeyi doğrulamadığı da böylece ortaya çıkar.", "delta": 10, "set": ["dogrulamadi"],
           "law": "CMK m.147/1-e",
           "note": "Susma hakkı anayasal bir haktır ve aleyhe yorumlanamaz; susmak ifadeyi doğrulamak anlamına da gelmez. Ama hukuka aykırılığı tutanağa geçirmediniz. Heyete, ifadenin neden hükme esas alınamayacağını söylemek müdafinin işidir." },
-        { "text": "Cihan ifadeyi doğrulasın ve pişmanlığını dile getirsin; heyet haksız tahrik ve takdiri indirim uygulasın.", "delta": -30,
+        { "text": "Cihan ifadeyi doğrulayıp pişmanlığını dile getirsin; mağdurun önce hakaret ettiği tutanakta var, heyet tahrik (TCK m.29) ve takdiri indirim uygular.", "delta": -30,
           "law": "CMK m.148/4",
           "fatal": { "hukum": "Sanığın kasten öldürme suçundan, kollukta verdiği ve duruşmada doğruladığı ikrarı ile dosya kapsamına göre TCK m.81/1 ve m.29 uyarınca 15 yıl hapis cezasıyla cezalandırılmasına, tutukluluk hâlinin devamına,",
                      "summary": "Müdafisiz kolluk ifadesini hükme esas alınamaz kılan tek şart, sanığın onu hâkim önünde doğrulamamasıydı (CMK m.148/4). Duruşmada doğrulanan ifade artık geçerli bir delil. Dosyada başka hiçbir delil yokken müvekkilinizi kendi ikrarıyla mahkûm ettirdiniz." },
           "note": "Ölümcül hata. Müvekkil suçu inkâr ediyor ve dosyada başka delil yok. İndirim umuduyla doğrulattığınız ifade, hükmün tek dayanağı oldu." },
-        { "text": "İfadenin işkenceyle alındığını ileri sürün.", "delta": -10, "set": ["dogrulamadi"],
-          "note": "Müvekkil işkenceden söz etmiyor; dayanaksız bir iddia güvenilirliğinizi zedeler. Sanık ifadeyi doğrulamadı, ama elinizdeki çok daha sağlam kuralı, zorunlu müdafilik ve doğrulanmama kuralını tutanağa geçirmediniz." }
+        { "text": "İfadenin işkence ve kötü muamele altında alındığını ileri sürün; yasak usulle alınan ifade delil olamaz (CMK m.148/1-3).", "delta": -10, "set": ["dogrulamadi"],
+          "note": "Yasak usul kuralı doğru (CMK m.148), ama müvekkil işkenceden ya da kötü muameleden söz etmiyor; dayanaksız bir iddia güvenilirliğinizi zedeler. Sanık ifadeyi doğrulamadı, ama elinizdeki çok daha sağlam kuralı, zorunlu müdafilik ve doğrulanmama kuralını tutanağa geçirmediniz." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Cumhuriyet Savcısı, kolluk ifadesine ilişkin beyanınız?" }],
@@ -118,39 +118,55 @@
       "lines": [{ "who": "judge", "text": "Tutukluluk durumuna ilişkin beyanınız?" }],
       "prompt": "Tutuklulukla ilgili ne talep edeceksiniz?",
       "choices": [
-        { "if": "alibi", "text": "Tahliye talep ediyoruz. Hukuka uygun tek bir delil yok; düğün videosu sanığın olay saatinde başka yerde olduğunu gösteriyor. Katalog suçta da kuvvetli suç şüphesi aranır. Gerekirse adli kontrol yeterlidir.", "delta": 20, "set": ["tahliyeTalep"],
+        { "if": "alibi", "text": "Tahliye istiyoruz. Hukuka uygun delil yok, video mazereti doğruluyor; katalog suçta da kuvvetli şüphe aranır. Gerekirse adli kontrol.", "delta": 20, "set": ["tahliyeTalep"],
           "law": "CMK m.100/1, m.100/3, m.104, m.109",
           "note": "Doğru talep. Tutuklama için kuvvetli suç şüphesini gösteren olgular ve bir tutuklama nedeni birlikte aranır (CMK m.100/1). Katalog suçlarda tutuklama nedeni var sayılabilir, ama kuvvetli şüphe şartı ortadan kalkmaz (CMK m.100/3). Sanık her aşamada serbest bırakılmasını isteyebilir (CMK m.104)." },
-        { "if": "!alibi", "text": "Tahliye talep ediyoruz. Hükme esas alınamayacak ifade dışında sanığı olayla ilişkilendiren hiçbir delil yok. Katalog suçta da kuvvetli suç şüphesi aranır. Gerekirse adli kontrol yeterlidir.", "delta": 15, "set": ["tahliyeTalep"],
+        { "if": "!alibi", "text": "Tahliye istiyoruz. Hükme esas alınamayacak ifade dışında delil yok; katalog suçta da kuvvetli şüphe aranır. Gerekirse adli kontrol.", "delta": 15, "set": ["tahliyeTalep"],
           "law": "CMK m.100/1, m.100/3, m.104, m.109",
           "note": "Doğru talep. Kuvvetli suç şüphesi olmadan tutukluluk sürdürülemez (CMK m.100/1); katalog suç bu şartı kaldırmaz. Müvekkile olay saatinde nerede olduğunu sorsaydınız, elinizde çok daha güçlü bir dayanak olurdu." },
-        { "text": "Katalog suç olduğu için tutuklama nedeni var sayılır; şimdilik talepte bulunmayalım.", "delta": -10,
+        { "text": "Katalog suçta tutuklama nedeni var sayılır (CMK m.100/3); reddedileceği belli bir tahliye talebiyle heyeti şimdiden karşımıza almayalım.", "delta": -10,
           "law": "CMK m.100/3",
           "note": "Yanlış okuma. Katalog suçlarda var sayılan, tutuklama nedenidir; kuvvetli suç şüphesi yine gerekir. Dört aydır tutuklu bir müvekkil için tahliye istememek savunma görevinin ihmalidir." },
-        { "text": "Tutukluluğa karşı doğrudan Anayasa Mahkemesine bireysel başvuru yapacağımızı bildirin.", "delta": -10,
-          "note": "Bireysel başvuru için önce olağan kanun yollarının tüketilmesi gerekir. Önce mahkemeden tahliye istenir, reddedilirse kararın kendisine itiraz edilir." }
+        { "text": "Dört aylık tutukluluk kişi özgürlüğünü ihlal ediyor (Anayasa m.19); doğrudan Anayasa Mahkemesine bireysel başvuru yapacağımızı bildirin.", "delta": -10,
+          "note": "Bireysel başvuru için önce olağan kanun yollarının tüketilmesi gerekir (6216 s.K. m.45/2). Önce mahkemeden tahliye istenir, reddedilirse kararın kendisine itiraz edilir." }
       ] },
     { "side": "p1", "scene": "office",
       "lines": [
         { "who": "narr", "text": "Heyet, delillerin henüz tam olarak toplanmadığı ve suçun niteliği gerekçesiyle tutukluluğun devamına karar verdi. Bir sonraki duruşma iki ay sonra." },
         { "who": "client", "text": "İki ay daha mı? Avukatım, bir şey yapamaz mıyız?" }
       ],
-      "prompt": "Tutukluluğun devamı kararına karşı ne yapacaksınız?",
+      "kind": "free",
+      "prompt": "Tutukluluğun devamı kararına karşı hangi yola, ne kadar sürede ve nereye başvuracaksınız? Cihan'a kendi cümlelerinizle açıklayın.",
       "choices": [
-        { "text": "Kararın öğrenilmesinden itibaren yedi gün içinde, kararı veren mahkemeye verilecek dilekçeyle itiraz edin. Mahkeme düzeltmezse itirazı numara olarak kendisini izleyen ağır ceza mahkemesi inceler.", "delta": 15, "set": ["itiraz"],
+        { "text": "Güçlü cevap", "min": 70, "delta": 15, "set": ["itiraz"],
           "law": "CMK m.104/2, m.267, m.268",
           "reply": [
             { "who": "narr", "text": "İtiraz mercii, kolluk ifadesinin hükme esas alınamayacağını ve saat damgalı videoyu dikkate alarak sanığın adli kontrol şartıyla tahliyesine karar verdi.", "if": "alibi" },
             { "who": "narr", "text": "İtiraz mercii itirazı reddetti; ama gerekçede kolluk ifadesinin tek başına yetersiz olduğu notunu düştü. Cihan tutuklu kaldı.", "if": "!alibi" }
           ],
-          "note": "Tahliye talebinin reddine ve tutukluluğun devamına ilişkin kararlara itiraz edilebilir. İtiraz, kararı öğrenmeden itibaren yedi gün içinde kararı veren mahkemeye yapılır; mahkeme itirazı yerinde görmezse dosyayı itiraz merciine gönderir. Ağır ceza mahkemesinin kararına itirazı, numara olarak kendisini izleyen ağır ceza mahkemesi inceler." },
-        { "text": "Bölge adliye mahkemesine istinaf başvurusunda bulunun.", "delta": -10,
-          "note": "Tutukluluğa ilişkin kararlar hüküm değil, ara karardır; istinaf yolu hükümlere karşı açıktır. Bu karara karşı yol itirazdır." },
-        { "text": "Yargıtay'a temyiz dilekçesi verin.", "delta": -10,
-          "note": "Temyiz, bölge adliye mahkemesi kararlarına karşı başvurulan bir yoldur; ilk derece mahkemesinin tutukluluk kararı temyiz edilemez. Doğru yol itirazdır." },
-        { "text": "İtiraz etmeyin; bir sonraki duruşmada yeniden tahliye isteriz.", "delta": -5,
-          "note": "Hak kaybı yok, ama müvekkil iki ay daha bekleyecek. Tutukluluğun devamı kararına itiraz bu süreyi kısaltabilirdi." }
-      ] },
+          "note": "Yolu, süreyi ve mercii doğru gösterdiniz. Tutukluluğun devamı kararına karşı yol itirazdır (CMK m.104/2, m.267); kararı öğrenmeden itibaren yedi gün içinde kararı veren mahkemeye yapılır. Mahkeme yerinde görmezse dosyayı, numara olarak kendisini izleyen ağır ceza mahkemesine gönderir (CMK m.268)." },
+        { "text": "Yeterli cevap", "min": 40, "delta": 8, "set": ["itiraz"],
+          "law": "CMK m.104/2, m.267, m.268",
+          "reply": [
+            { "who": "narr", "text": "İtiraz mercii, kolluk ifadesinin hükme esas alınamayacağını ve saat damgalı videoyu dikkate alarak sanığın adli kontrol şartıyla tahliyesine karar verdi.", "if": "alibi" },
+            { "who": "narr", "text": "İtiraz mercii itirazı reddetti; ama gerekçede kolluk ifadesinin tek başına yetersiz olduğu notunu düştü. Cihan tutuklu kaldı.", "if": "!alibi" }
+          ],
+          "note": "Doğru yolu, itirazı seçtiniz; ama süreyi ya da mercii eksik bıraktınız. İtiraz, kararı öğrenmeden itibaren yedi gün içinde kararı veren mahkemeye yapılır; düzeltilmezse numara olarak izleyen ağır ceza mahkemesi inceler (CMK m.268)." },
+        { "text": "Zayıf cevap", "delta": -10,
+          "law": "CMK m.104/2, m.267, m.268",
+          "note": "Doğru kanun yolunu gösteremediniz. Tutukluluğa ilişkin kararlar hüküm değil ara karardır; istinaf ve temyiz yolu kapalıdır, beklemek de müvekkili iki ay daha içeride bırakır. Yol, yedi gün içinde kararı veren mahkemeye verilecek itiraz dilekçesidir; düzeltilmezse numara olarak izleyen ağır ceza mahkemesi inceler (CMK m.267, m.268)." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Tutukluluğun devamı kararı hüküm değil ara karardır; buna karşı kanun yolu itirazdır (CMK m.104/2, m.267). (2) İtiraz, kararın öğrenilmesinden itibaren yedi gün içinde yapılır (CMK m.268/1). (3) Dilekçe kararı veren ağır ceza mahkemesine verilir; mahkeme kararını düzeltmezse itirazı numara olarak kendisini izleyen ağır ceza mahkemesi inceler (CMK m.268/3). Yolu (itiraz), süreyi (yedi gün) ve mercii birlikte gösteren cevap tam puan alır; yalnızca itiraz edileceğini söyleyip süreyi ya da mercii eksik bırakan cevap orta puan alır. İstinaf, temyiz, doğrudan Anayasa Mahkemesine başvuru ya da bir sonraki duruşmayı beklemeyi öneren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["itiraz"], "weight": 3 },
+        { "terms": ["yedi gün", "7 gün", "yedi günlük", "7 günlük"], "weight": 2 },
+        { "terms": ["numara olarak", "izleyen ağır ceza", "sonraki ağır ceza", "bir sonraki numaralı"], "weight": 2 },
+        { "terms": ["kararı veren mahkeme", "kararı veren", "aynı mahkemeye"], "weight": 1 },
+        { "terms": ["m.267", "m. 267", "m.268", "m. 268", "madde 268", "268. madde", "md. 268", "m.104", "m. 104"], "weight": 1 },
+        { "terms": ["ara karar", "hüküm değil"], "weight": 1 }
+      ],
+      "model": "Cihan Bey, tutukluluğun devamı kararı bir hüküm değil, ara karardır; buna karşı istinaf ya da temyiz değil, itiraz yolu açıktır (CMK m.104/2, m.267). Kararı öğrendiğimiz günden itibaren yedi gün içinde, kararı veren ağır ceza mahkemesine itiraz dilekçesi vereceğim. Mahkeme kararını düzeltmezse itirazımızı numara olarak kendisini izleyen ağır ceza mahkemesi inceleyecek (CMK m.268)."
+    },
     { "side": "p1", "scene": "court",
       "lines": [
         { "who": "narr", "text": "Karar duruşması.", "if": "itiraz && alibi" },
@@ -160,15 +176,15 @@
       ],
       "prompt": "Esas hakkındaki savunmanız ne olacak?",
       "choices": [
-        { "text": "Kolluk ifadesi doğrulanmadığı için hükme esas alınamaz; hukuka aykırı elde edilen bulgu delil olamaz. Geriye sanığı olayla ilişkilendiren hiçbir delil kalmıyor. Sanığın beraatine karar verilmesini istiyoruz.", "delta": 20, "set": ["beraatTalep"],
+        { "text": "Doğrulanmayan kolluk ifadesi hükme esas alınamaz; hukuka aykırı bulgu delil olamaz. Geriye delil kalmıyor, beraat istiyoruz.", "delta": 20, "set": ["beraatTalep"],
           "law": "Anayasa m.38/6; CMK m.148/4, m.206/2-a, m.217/2, m.223/2-e",
           "note": "Doğru savunma. Kanuna aykırı olarak elde edilmiş bulgular delil olarak kabul edilemez (Anayasa m.38/6); yüklenen suç hukuka uygun biçimde elde edilmiş delillerle ispat edilir (CMK m.217/2). Suçun sanık tarafından işlendiği sabit olmadığında beraat kararı verilir (CMK m.223/2-e)." },
-        { "text": "Eylemin kasten öldürme değil, kasten yaralama sonucu ölüm olduğunu savunun.", "delta": -15, "set": ["kabul"],
+        { "text": "Öldürme kastı ispatlanamadı; eylemin olsa olsa kasten yaralama sonucu ölüm (TCK m.87/4) sayılmasını ve alt sınırdan ceza verilmesini isteyin.", "delta": -15, "set": ["kabul"],
           "law": "TCK m.87/4",
-          "note": "Bu savunma, sanığın mağdura bıçakla vurduğunu kabul ediyor. Müvekkil suçu inkâr ediyor ve hukuka uygun tek bir delil yokken fiili kabul etmek savunmayı çökertir." },
-        { "text": "Haksız tahrik ve takdiri indirim uygulanmasını isteyin.", "delta": -20, "set": ["kabul"],
+          "note": "Kast tartışması, sanığın mağdura bıçakla vurduğunu kabul etmek demektir. Müvekkil suçu inkâr ediyor ve hukuka uygun tek bir delil yokken fiili kabul etmek savunmayı çökertir." },
+        { "text": "Mağdurun önce hakaret ettiği dosyada sabit; haksız tahrik (TCK m.29) ve takdiri indirim (TCK m.62) uygulanmasını isteyin.", "delta": -20, "set": ["kabul"],
           "law": "TCK m.29, m.62",
-          "note": "İndirim talebi, sanığın suçu işlediğini kabul etmek demektir. Tahrik anlatısı da zaten yalnızca hükme esas alınamayacak kolluk ifadesinde geçiyordu." }
+          "note": "İndirim talebi, sanığın suçu işlediğini kabul etmek demektir. Hakaret anlatısı da dosyada sabit değil; yalnızca hükme esas alınamayacak kolluk ifadesinde geçiyordu." }
       ] }
   ],
   "outcomes": [

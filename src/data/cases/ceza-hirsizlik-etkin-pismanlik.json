@@ -97,40 +97,48 @@
       ],
       "prompt": "Mağdurun beyanını nasıl değerlendireceksiniz?",
       "choices": [
-        { "text": "Hırsızlık şikâyete bağlı değildir; bu beyan davayı düşürmez. Ama zararın giderildiğini ve mağdurun rızasını gösterir; etkin pişmanlık değerlendirmesinde dikkate alınmalıdır.", "delta": 20, "set": ["riza"],
+        { "text": "Hırsızlık şikâyete bağlı değil, beyan davayı düşürmez; ama mağdurun rızasını gösterir ve etkin pişmanlıkta gözetilmeli.", "delta": 20, "set": ["riza"],
           "law": "TCK m.168/4 · m.73",
           "note": "Doğru. Hırsızlık kendiliğinden kovuşturulur; şikâyetten vazgeçme davayı düşürmez. Ama mağdurun bu beyanı, kısmi giderim tartışmasında aranan rızayı da gösterir (TCK m.168/4).",
           "reply": [{ "who": "judge", "text": "Mağdurun zararının giderildiğine ve başkaca talebi olmadığına ilişkin beyanı tutanağa geçirildi." }] },
-        { "text": "Mağdur şikâyetinden vazgeçtiğine göre davanın düşmesini talep ederiz.", "delta": -15,
+        { "text": "Mağdur şikâyetinden vazgeçtiğine göre TCK m.73/4 uyarınca davanın düşmesine karar verilmesini talep ederiz.", "delta": -15,
           "law": "TCK m.73/4",
-          "note": "Hatalı. Vazgeçme yalnızca şikâyete bağlı suçlarda davayı düşürür. Hırsızlık (TCK m.142) kendiliğinden kovuşturulur." },
-        { "text": "Dosyanın uzlaştırma bürosuna gönderilmesini talep ederiz.", "delta": -10,
+          "note": "Hatalı. Şikâyetten vazgeçme (TCK m.73/4) yalnızca şikâyete bağlı suçlarda davayı düşürür. Hırsızlık (TCK m.142) kendiliğinden kovuşturulur." },
+        { "text": "Mağdur barışmaya hazır; nitelikli hırsızlık da uzlaşmaya tabi olduğundan dosyanın CMK m.253 uyarınca uzlaştırma bürosuna gönderilmesini isteriz.", "delta": -10,
           "law": "CMK m.253",
           "note": "Nitelikli hırsızlık (TCK m.142) uzlaştırma kapsamında değildir; uzlaştırma basit hırsızlık (m.141) için öngörülmüştür. Mağdurun beyanını etkin pişmanlığa bağlamalıydınız." }
       ]
     },
     {
+      "kind": "free",
       "side": "p1", "scene": "court",
       "lines": [
         { "who": "pros", "text": "Sayın Hâkim, zararın tamamı ancak 20 Mayıs'ta giderilmiştir. İddianame 12 Mayıs'ta düzenlenmişti; kovuşturma başlamıştı. Olsa olsa TCK m.168/2 uyarınca yarıya kadar indirim yapılabilir." },
         { "who": "judge", "text": "Müdafi, indirim oranı konusunda beyanınız?" }
       ],
-      "prompt": "Savcının tarih hesabına ne diyeceksiniz?",
+      "prompt": "Savcının tarih hesabına mahkemede ne cevap vereceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
-        { "text": "Kovuşturma evresi iddianamenin düzenlenmesiyle değil, kabulüyle başlar. İddianame 27 Mayıs'ta kabul edildi; ödeme 20 Mayıs'ta yapıldı. Zarar kovuşturmadan önce giderilmiştir: TCK m.168/1 uyarınca üçte ikiye kadar indirim uygulanmalıdır.", "delta": 25, "set": ["zaman"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 25, "set": ["zaman"],
           "law": "CMK m.2/1-e, f · TCK m.168/1",
-          "note": "Doğru. Soruşturma evresi iddianamenin kabulüne kadar sürer; kovuşturma iddianamenin kabulüyle başlar (CMK m.2/1-e, f). 20 Mayıs'ta dosya hâlâ soruşturma evresindeydi.",
+          "note": "Tarih hesabını doğru kurdunuz: kovuşturma iddianamenin düzenlenmesiyle değil, kabulüyle başlar (CMK m.2/1-e, f). İddianame 27 Mayıs'ta kabul edildi; 20 Mayıs'taki ödeme soruşturma evresinde yapıldı. TCK m.168/1'deki üçte ikiye kadar indirim uygulanmalı.",
           "reply": [{ "who": "judge", "text": "Tensip zaptına göre iddianame 27 Mayıs'ta kabul edilmiş. Beyan tutanağa geçirildi." }] },
-        { "text": "Sayın Savcıma katılıyoruz; ancak yarı oranında, en üst sınırdan indirim yapılsın.", "delta": -5,
+        { "text": "Yeterli savunma", "min": 40, "delta": 12, "set": ["zaman"],
+          "law": "CMK m.2/1-e, f · TCK m.168/1",
+          "note": "Mahkeme itirazınızı yeterli buldu. Tam cevap, kovuşturmanın iddianamenin kabulüyle başladığını (CMK m.2/1-f), kabul tarihinin 27 Mayıs, ödemenin 20 Mayıs olduğunu ve bu yüzden TCK m.168/1'in uygulanacağını birlikte söyler.",
+          "reply": [{ "who": "judge", "text": "Tensip zaptına göre iddianame 27 Mayıs'ta kabul edilmiş. Beyan tutanağa geçirildi." }] },
+        { "text": "Zayıf savunma", "delta": -5,
           "law": "TCK m.168/2",
-          "note": "Yanlış tarih hesabını kabul ettiniz. İddianamenin düzenlenmesi kovuşturmayı başlatmaz; müvekkil daha yüksek indirime hak kazanmıştı." },
-        { "text": "Etkin pişmanlıkta indirim zorunlu ve sabittir; mahkeme üçte iki indirim yapmak zorundadır.", "delta": -5,
-          "law": "TCK m.168/1",
-          "note": "Kanun “üçte ikisine kadarı” der; oran mahkemenin takdirindedir. Asıl tartışma da oran değil, ödemenin kovuşturmadan önce mi sonra mı yapıldığıydı." },
-        { "text": "Sanık suçu ilk ifadesinde ikrar ettiği için zaten etkin pişmanlık göstermiştir.", "delta": -10,
-          "law": "TCK m.168",
-          "note": "Malvarlığına karşı suçlarda etkin pişmanlık ikrara değil, zararın aynen geri verme veya tazmin yoluyla giderilmesine bağlıdır." }
-      ]
+          "note": "Savcının tarih hesabı cevapsız kaldı. İddianamenin düzenlenmesi kovuşturmayı başlatmaz; kovuşturma iddianamenin kabulüyle başlar (CMK m.2/1-f). İddianame 27 Mayıs'ta kabul edildiği için 20 Mayıs'taki ödeme kovuşturmadan önceydi; müvekkil TCK m.168/1'deki daha yüksek indirime hak kazanmıştı." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kovuşturma evresi iddianamenin düzenlenmesiyle ya da mahkemeye verilmesiyle değil, mahkemece kabulüyle başlar; soruşturma evresi iddianamenin kabulüne kadar sürer (CMK m.2/1-e, f). (2) Tensip zaptına göre iddianame 27 Mayıs 2026'da kabul edilmiştir; zarar 20 Mayıs'ta, yani soruşturma evresinde tamamen giderilmiştir. (3) Bu nedenle TCK m.168/2 değil, m.168/1 uygulanır ve cezadan üçte ikiye kadar indirim yapılmalıdır. Kabulle başlama kuralını, iki tarihi ve m.168/1 sonucunu birlikte kuran cevap tam puan alır; kuralı söyleyip tarihleri ya da sonucu eksik bırakan cevap orta puan alır. Savcının hesabını kabul edip yalnızca oran isteyen, indirimin zorunlu ve sabit olduğunu söyleyen ya da etkin pişmanlığı ikrara dayandıran cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["kabulüyle", "kabul edildi", "kabul edilmesiyle", "kabulü ile", "kabul tarihi", "tensip"], "weight": 3 },
+        { "terms": ["27 Mayıs", "27.05", "27/05"], "weight": 2 },
+        { "terms": ["soruşturma evresi", "soruşturma aşaması", "kovuşturmadan önce", "kovuşturma başlamadan", "soruşturma"], "weight": 2 },
+        { "terms": ["üçte iki", "2/3", "m.168/1", "168/1", "birinci fıkra"], "weight": 2 },
+        { "terms": ["CMK m.2", "CMK 2", "CMK madde 2", "m.2/1", "Ceza Muhakemesi Kanunu"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, kovuşturma evresi iddianamenin düzenlenmesiyle değil, mahkemece kabulüyle başlar (CMK m.2/1-e, f). Tensip zaptına göre iddianame 27 Mayıs'ta kabul edilmiştir; müvekkil zararı 20 Mayıs'ta, yani hâlâ soruşturma evresindeyken tamamen gidermiştir. Bu nedenle TCK m.168/2 değil, m.168/1 uygulanmalı ve cezadan üçte ikiye kadar indirim yapılmalıdır."
     },
     {
       "side": "p1", "scene": "court",
@@ -139,14 +147,14 @@
       ],
       "prompt": "Son talebiniz ne olacak?",
       "choices": [
-        { "text": "Temel cezanın alt sınırdan belirlenmesini, etkin pişmanlık indiriminin en üst oranda yapılmasını, TCK m.62 uyarınca takdiri indirim uygulanmasını talep ederiz. Sanık sabıkasızdır, zarar giderilmiştir; hükmün açıklanmasının geri bırakılması koşulları oluşmuştur.", "delta": 15, "set": ["talep"],
+        { "text": "Alt sınırdan temel ceza, en üst oranda m.168 indirimi, m.62 indirimi ve HAGB talep ederiz.", "delta": 15, "set": ["talep"],
           "law": "TCK m.61, m.62, m.168 · CMK m.231",
-          "note": "Eksiksiz bir talep. Temel ceza belirlenir, etkin pişmanlık indirimi uygulanır, takdiri indirim en sona kalır. Sabıkasızlık ve zararın giderilmesi HAGB için de aranan koşullardır (CMK m.231/6).",
+          "note": "Eksiksiz bir talep: sanık sabıkasız, zarar giderilmiş. Temel ceza belirlenir, etkin pişmanlık indirimi uygulanır, takdiri indirim en sona kalır. Sabıkasızlık ve zararın giderilmesi HAGB için de aranan koşullardır (CMK m.231/6).",
           "reply": [{ "who": "judge", "text": "Sanığa son sözü soruldu. Karar için ara veriyorum." }] },
-        { "text": "Sanığın beraatini talep ederiz.", "delta": -15,
+        { "text": "Zarar tamamen giderildiği, mağdur da şikâyetçi olmadığı için CMK m.223/2 uyarınca sanığın beraatini talep ederiz.", "delta": -15,
           "law": "CMK m.223/2",
-          "note": "Sanık suçu kabul ediyor, kamera kaydı da var. Beraat talebi gerçekçi değil ve etkin pişmanlık savunmasıyla çelişir." },
-        { "text": "Cezanın ertelenmesini talep ederiz; indirim tartışmasına gerek yok.", "delta": -5,
+          "note": "Zararın giderilmesi suçu ortadan kaldırmaz, yalnızca cezada indirim sebebidir. Sanık suçu kabul ediyor, kamera kaydı da var; beraat talebi gerçekçi değil ve etkin pişmanlık savunmasıyla çelişir." },
+        { "text": "Sanık sabıkasız ve pişman; indirim tartışmasına girmeden cezanın TCK m.51 uyarınca ertelenmesini talep ederiz.", "delta": -5,
           "law": "TCK m.51",
           "note": "Erteleme, cezanın miktarı belirlendikten sonra gelir. Önce indirimlerle cezayı düşürmeden ertelemeyi istemek sırayı ters çevirir." }
       ]

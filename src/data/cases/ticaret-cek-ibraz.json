@@ -45,13 +45,13 @@
       ],
       "prompt": "Davanın dayanağı ne?",
       "choices": [
-        { "text": "Çeki ödeyen ciranta, çeki geri alarak düzenleyene başvurabilir. Şart, çekin süresinde ibraz edilmesi ve karşılıksızlığın bankanın tarihli şerhiyle tespit edilmiş olması; ikisi de var.", "delta": 20, "set": ["dayanak"],
+        { "text": "Çeki ödeyen ciranta düzenleyene başvurabilir; şartlar tamam: süresinde ibraz ve bankanın tarihli karşılıksızlık şerhi.", "delta": 20, "set": ["dayanak"],
           "law": "TTK m.808 · m.814/2",
           "note": "Doğru. Süresinde ibraz edilip ödenmeyen ve bu durumu muhatabın çek üzerine yazdığı, ibraz gününü gösteren tarihli beyanla tespit edilen çekte başvurma hakları doğar (TTK m.808). Çeki ödeyen çek borçlusu da diğer çek borçlularına başvurabilir; kanun bu hakkın zamanaşımını ayrıca düzenler (m.814/2)." },
-        { "text": "Çekle ilgili hak yalnızca son hamile aittir; biz ancak mobilya satışına dayanabiliriz.", "delta": -10,
+        { "text": "Çekle ilgili hak yalnızca son hamile aittir; çeki ödeyince haklarımız sona erdi, artık ancak mobilya satışındaki temel ilişkiye dayanabiliriz.", "delta": -10,
           "law": "TTK m.814/2",
-          "note": "Yanlış. Çeki ödeyen ciranta, çek borçlusu olarak düzenleyene başvurabilir; kanun bu hakkın zamanaşımını bile ayrıca düzenlemiştir (m.814/2). Temel ilişkiye dayanmak ek bir yol olabilir, tek yol değil." },
-        { "text": "Önce noterden protesto çekmemiz gerekirdi; bankanın şerhi yetmez.", "delta": -10,
+          "note": "Yanlış. Çeki ödeyen ciranta, çeki geri alarak çek borçlusu sıfatıyla düzenleyene başvurabilir; kanun bu hakkın zamanaşımını bile ayrıca düzenlemiştir (m.814/2). Temel ilişkiye dayanmak ek bir yol olabilir, tek yol değil." },
+        { "text": "Önce noterden protesto çekmemiz gerekirdi; protesto olmadan başvurma hakkı doğmaz, bankanın şerhi yetmez.", "delta": -10,
           "law": "TTK m.808",
           "note": "Yanlış. Karşılıksızlık protestoyla, muhatabın çek üzerindeki tarihli ve ibraz gününü gösteren beyanıyla ya da takas odasının tarihli beyanıyla tespit edilebilir (m.808). Bankanın şerhi yeterli." }
       ]
@@ -75,26 +75,33 @@
           "note": "Hüküm sonrası icra için faydalı bir bilgi; ama duruşmadaki savunmalara cevap vermez." }
       ]
     },
-    {
-      "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [
         { "who": "judge", "text": "Duruşmayı açıyorum. Davalı vekili, savunmanızı özetleyin." },
         { "who": "opp", "text": "Çek on gün içinde ibraz edilmeliydi. 5 Ocak tarihli çek 22 Ocak'ta, on yedinci gün ibraz edilmiş. Başvurma hakkı düşmüştür." },
         { "who": "judge", "text": "Davacı vekili?" }
       ],
-      "prompt": "İbraz süresi itirazına cevabınız?",
+      "prompt": "İbraz süresi itirazına mahkemede ne cevap vereceksiniz? Kendi cümlelerinizle savunun.",
+      "rubric": "İyi bir cevap şunları söyler: (1) TTK m.796 uyarınca on günlük ibraz süresi yalnızca düzenlendiği yerde ödenecek çek içindir; düzenlendiği yerden başka bir yerde ödenecek çek bir ay içinde ibraz edilir. (2) Çek Malatya'da düzenlenmiş, muhatap banka şubesi Gaziantep'tedir; bu yüzden süre bir aydır. (3) Süre çekte yazılı düzenleme tarihinden (05.01.2026) itibaren işler ve 5 Şubat'ta dolar; 22 Ocak'taki ibraz süresindedir, başvurma hakkı korunmuştur. Farklı yer kuralını, iki şehri ve süre hesabını madde numarasıyla birlikte söyleyen cevap tam puan alır; bir aylık süreyi söyleyip neden uygulandığını ya da hesabı eksik bırakan cevap orta puan alır. İbraz süresinin sözleşmeyle uzatılabildiğini ileri süren ya da sürenin geçtiğini kabul eden cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["bir ay", "1 ay", "bir aylık", "otuz gün"], "weight": 3 },
+        { "terms": ["başka yer", "başka bir yer", "farklı yer", "aynı yerde değil", "başka şehir", "farklı şehir"], "weight": 2 },
+        { "terms": ["malatya"], "weight": 1 },
+        { "terms": ["gaziantep"], "weight": 1 },
+        { "terms": ["m.796", "m. 796", "madde 796", "796. madde", "md. 796", "md.796"], "weight": 2 },
+        { "terms": ["5 şubat", "süresinde", "süre içinde"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, on günlük süre çek düzenlendiği yerde ödenecekse uygulanır. Çek Malatya'da düzenlenmiş, Gaziantep'teki şubede ödenecektir; TTK m.796 uyarınca ibraz süresi bir aydır. 5 Ocak tarihli çek için süre 5 Şubat'ta dolar; 22 Ocak'taki ibraz süresindedir.",
       "choices": [
-        { "text": "On günlük süre, çek düzenlendiği yerde ödenecekse geçerlidir. Çek Malatya'da düzenlenmiş, Gaziantep'teki şubede ödenecek; süre bir aydır ve düzenleme tarihinin ertesi günü başlar. Son gün 5 Şubat; 22 Ocak'taki ibraz süresinde.", "delta": 20, "set": ["ibraz"],
-          "law": "TTK m.796",
-          "note": "Doğru. Düzenlendiği yerde ödenecek çek on gün, başka bir yerde ödenecek çek bir ay içinde ibraz edilir; süreler çekte yazılı düzenleme tarihinin ertesi günü başlar (TTK m.796).",
-          "reply": [ { "who": "judge", "text": "Çekin ön yüzündeki düzenleme yeri ve muhatap şube kaydı tutanağa geçirildi." } ] },
-        { "text": "İbraz süreleri taraflarca uzatılabilir; müvekkil ile davalı arasında böyle bir anlaşma vardı.", "delta": -15,
-          "note": "Hem gerçeğe aykırı hem yanlış. Kanuni ibraz süreleri emredicidir; Yargıtay da sözleşmeyle değiştirilemeyeceğini kabul eder." },
-        { "text": "Süre geçmiş olabilir, ama bu sadece cirantaları ilgilendirir; düzenleyen her durumda sorumludur.", "delta": -10,
-          "law": "TTK m.808",
-          "note": "Yanlış ve gereksiz bir kabul. Çek süresinde ibraz edilmezse başvurma hakkı düzenleyene karşı da kaybedilir; geriye ancak temel ilişki ya da sebepsiz zenginleşme kalır. Oysa ibraz süresindeydi." }
-      ]
-    },
+        { "text": "Güçlü cevap", "min": 70, "delta": 20, "set": ["ibraz"], "law": "TTK m.796",
+          "reply": [{ "who": "judge", "text": "Çekin ön yüzündeki düzenleme yeri ve muhatap şube kaydı tutanağa geçirildi." }],
+          "note": "İtirazı kanunun kendi ayrımıyla çürüttünüz. Düzenlendiği yerde ödenecek çek on gün, başka bir yerde ödenecek çek bir ay içinde ibraz edilir; süreler çekte yazılı düzenleme tarihinden itibaren işler (TTK m.796). Malatya'da düzenlenip Gaziantep'te ödenecek çekte son gün 5 Şubat'tı." },
+        { "text": "Yeterli cevap", "min": 40, "delta": 10, "set": ["ibraz"], "law": "TTK m.796",
+          "reply": [{ "who": "judge", "text": "Çekin ön yüzündeki düzenleme yeri ve muhatap şube kaydı tutanağa geçirildi." }],
+          "note": "Sürenin bir ay olduğunu söylediniz; mahkeme çekin ön yüzünü inceleyince itirazı yerinde görmedi. Tam cevap gerekçeyi de verir: çek Malatya'da düzenlenmiş, Gaziantep'te ödenecek; düzenlendiği yerden başka yerde ödenecek çekte süre bir aydır ve 5 Şubat'ta dolar (TTK m.796)." },
+        { "text": "Zayıf cevap", "delta": -10, "law": "TTK m.796, m.808",
+          "note": "İbraz süresi itirazını çürütemediniz. On günlük süre yalnızca düzenlendiği yerde ödenecek çek içindir; Malatya'da düzenlenip Gaziantep'te ödenecek çekte süre bir aydır (TTK m.796). Kanuni ibraz süreleri sözleşmeyle değiştirilemez; çek süresinde ibraz edilmeseydi başvurma hakkı düzenleyene karşı da kaybedilirdi (m.808)." }
+      ] },
     {
       "kind": "evidence", "side": "p1", "scene": "court",
       "lines": [ { "who": "judge", "text": "Davalı vekili, zamanaşımı def'inizi açıklayın." } ],
@@ -122,16 +129,16 @@
       ],
       "prompt": "Ayıp def'ine nasıl karşılık vereceksiniz?",
       "choices": [
-        { "if": "teslim", "text": "Lehtara karşı kişisel def'i ileri sürülebilir, doğru. Ama davalı mobilyaları “eksiksiz ve hasarsız” diye imzalayarak teslim aldı; ticari satışta kanuni sürelerde ayıp ihbarı da yapmadı. Def'iyi ileri süren ispat etmelidir.", "delta": 20, "set": ["defi"],
+        { "if": "teslim", "text": "Kişisel def'i ileri sürülebilir; ama davalı mobilyaları “eksiksiz ve hasarsız” diye imzalayıp teslim aldı, süresinde ihbar da yapmadı.", "delta": 20, "set": ["defi"],
           "law": "TTK m.23/1-c · TMK m.6",
           "note": "Doğru. Düzenleyen, doğrudan ilişki içinde olduğu lehtara kişisel def'ilerini ileri sürebilir; ama iddiasını ispat etmek ona düşer (TMK m.6). Çekincesiz teslim tutanağı ve ticari satıştaki kısa ihbar sürelerinde yapılmamış bir ihbar (TTK m.23/1-c) savunmayı çökertir.",
           "reply": [ { "who": "judge", "text": "Davalı vekili, ayıp ihbarına ilişkin bir belgeniz var mı?" }, { "who": "opp", "text": "Şu an… dosyamızda yok." } ] },
-        { "if": "!teslim", "text": "Ayıp iddiasını ispat yükü davalıdadır; mobilyaların ayıplı olduğuna ya da süresinde ihbar edildiğine dair tek bir belge sunulmadı.", "delta": 10, "set": ["defi"],
+        { "if": "!teslim", "text": "Ayıbın ve süresinde ihbarın ispat yükü davalıdadır; ikisine dair tek bir belge sunulmadı.", "delta": 10, "set": ["defi"],
           "law": "TMK m.6 · TTK m.23/1-c",
           "note": "İyi bir cevap. İspat yükü def'iyi ileri sürende. Elinizde imzalı teslim tutanağı olsaydı savunmayı doğrudan çürütebilirdiniz." },
-        { "text": "Kambiyo senedine karşı hiçbir def'i ileri sürülemez.", "delta": -10,
-          "note": "Yanlış. Def'ilerin sınırlanması iyi niyetli üçüncü hamili korur. Müvekkil çekin lehtarı ve davalıyla doğrudan ilişki içinde; düzenleyen ona karşı kişisel def'ilerini ileri sürebilir." },
-        { "text": "Ayıp iddiasını bilirkişi incelesin; sonucuna göre beyanda bulunuruz.", "delta": -5,
+        { "text": "Kambiyo senedine karşı hiçbir def'i ileri sürülemez; çek soyut bir borç doğurur, temel ilişkideki ayıp çek borcunu hiçbir şekilde etkilemez.", "delta": -10,
+          "note": "Yanlış. Çek soyut olsa da def'ilerin sınırlanması yalnızca iyi niyetli üçüncü hamili korur. Müvekkil çekin lehtarı ve davalıyla doğrudan ilişki içinde; düzenleyen ona karşı kişisel def'ilerini ileri sürebilir. Doğru cevap, ispat yükünü ve ihbar yapılmadığını göstermekti." },
+        { "text": "Ayıp iddiasını bilirkişi incelesin; mobilyalar yerinde görülmeden ayıp tartışılamaz, sonucuna göre beyanda bulunuruz.", "delta": -5,
           "note": "Savunmayı kendiniz tahkikata taşıdınız. Önce ispat yükünü ve ihbar yapılmadığını ileri sürmeliydiniz." }
       ]
     }

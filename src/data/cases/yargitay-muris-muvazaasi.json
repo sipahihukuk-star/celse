@@ -82,12 +82,12 @@
       ],
       "prompt": "Başkanın sert sorusuna nasıl karşılık vereceksiniz?",
       "choices": [
-        { "text": "“Haklısınız Sayın Başkan. Tanıkların inandırıcılığını değil, mahkemenin içtihadı birleştirme kararındaki ölçütleri uygulamadığını ve dosyadaki delili hiç değerlendirmediğini tartışıyorum.”", "delta": 10, "set": ["sakin"],
+        { "text": "“Haklısınız Sayın Başkan. Tanıkları değil, İBK ölçütlerinin uygulanmadığını ve delilin hiç değerlendirilmediğini tartışıyorum.”", "delta": 10, "set": ["sakin"],
           "law": "HMK m.371",
           "note": "Soğukkanlı ve doğru. Yargıtay delilleri yeniden tartmaz; ama hukuken yanlış ölçüt uygulanmasını ve delillerin değerlendirilmemesini denetler. Sert soruyu hukuki çerçeveye çevirdiniz." },
-        { "text": "“Sayın Başkan, Yargıtay dosyanın tamamını incelemek zorundadır; lütfen sözümü kesmeyin.”", "delta": -10,
+        { "text": "“Sayın Başkan, Yargıtay dosyanın tamamını incelemek zorundadır; tanık beyanlarını sonuna kadar okumama izin verin, sözümü kesmeyin.”", "delta": -10,
           "note": "Duruşmayı başkan yönetir. Savunmacı ve sert bir cevap heyeti size karşı çevirir; üstelik sorunun hukuki özüne cevap vermediniz." },
-        { "text": "“Özür dilerim.” deyip sözü davalı vekiline bırakın.", "delta": -5,
+        { "text": "“Özür dilerim, Sayın Başkan.” deyip tanık beyanlarını bırakın ve sözü davalı vekiline verin.", "delta": -5,
           "note": "Paniğe kapıldınız. Söz hakkınızı kullanmadan bıraktınız; asıl hukuki sebebinizi heyete anlatamadınız." }
       ] },
     { "side": "p1", "scene": "court",
@@ -95,15 +95,27 @@
         { "who": "judge", "text": "Davalı vekili, buyurun." },
         { "who": "opp", "text": "Sayın Başkan, satış resmî senetle tapu memuru önünde yapılmıştır. Resmî senet aksi ispat edilinceye kadar geçerlidir. Muvazaa iddiası ancak senetle ispat edilebilir; davacıların tanıklarına hiç itibar edilmemeliydi." }
       ],
-      "prompt": "Bu itiraza nasıl cevap vereceksiniz?",
+      "prompt": "Davalı vekilinin “muvazaa ancak senetle ispat edilir” itirazına nasıl cevap vereceksiniz? Kendi cümlelerinizle savunun.",
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Mirasçılar muris muvazaasında muvazaalı işlemin tarafı değildir; saklı paylarını ve miras haklarını korumak için kendi haklarına dayanırlar. (2) Bu nedenle senetle ispat kuralıyla bağlı değildirler; 01.04.1974 tarihli ve 1/2 sayılı içtihadı birleştirme kararı uyarınca muvazaayı tanık dahil her türlü delille ispat edebilirler. (3) Resmî senet, tapu memurunun bizzat gözlemlemediği beyanları, örneğin bedelin gerçekten ödendiğini ispat etmez. Mirasçıların kendi haklarına dayandığını ve muvazaayı her türlü delille ispat edebileceğini söyleyen cevap tam puan alır; içtihadı birleştirme kararını anması cevabı güçlendirir. Yalnızca resmî senedin bedel kısmının bağlayıcı olmadığını söyleyip mirasçıların her türlü delille ispat hakkına değinmeyen cevap orta puan alır. Davalının itirazını kabul eden, tenkis gibi davada ileri sürülmemiş yeni bir talebe geçen ya da tanıkların inandırıcılığını yeniden tartışan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["her türlü delil", "her türlü delille", "tanıkla ispat", "tanık dahil", "tanıkla da"], "weight": 3 },
+        { "terms": ["mirasçı"], "weight": 2 },
+        { "terms": ["kendi hak", "kendi haklarına", "tarafı değil", "üçüncü kişi", "saklı pay"], "weight": 2 },
+        { "terms": ["içtihadı birleştirme", "1974", "1/2", "İBK", "YİBK"], "weight": 2 },
+        { "terms": ["muvazaa"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, davacılar muvazaalı işlemin tarafı değil, murisin mirasçılarıdır; saklı paylarını ve miras haklarını korumak için kendi haklarına dayanırlar. Bu yüzden senetle ispat kuralıyla bağlı değildirler; 01.04.1974 tarihli 1/2 sayılı içtihadı birleştirme kararı uyarınca muvazaayı tanık dahil her türlü delille ispat edebilirler. Resmî senet de memurun görmediği bedel ödemesini ispat etmez.",
       "choices": [
-        { "text": "Mirasçılar muris muvazaasında kendi haklarına dayanır; 1974 tarihli içtihadı birleştirme kararına göre muvazaayı tanık dahil her türlü delille ispat edebilirler.", "delta": 15, "set": ["ibk"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 15, "set": ["ibk"],
           "law": "YİBK 1.4.1974, 1/2",
-          "note": "Doğru. Mirasçılar muvazaalı işlemin tarafı değildir; saklı paylarını ve miras haklarını korumak için kendi haklarına dayanırlar. Bu nedenle senetle ispat kuralıyla bağlı değildirler." },
-        { "text": "Haklısınız; ama tapudaki bedel düşük olduğu için en azından tenkis istiyoruz.", "delta": -15, "set": ["tenkisKabul"],
-          "note": "Hem yanlış bir kabul hem yeni bir talep. Tenkis davada ileri sürülmediyse temyizde ilk kez istenemez; muvazaa iddiasından da kendi sözünüzle geri adım attınız." },
-        { "text": "Tapu memuru bedelin ödendiğini görmemiştir; resmî senedin bu kısmı bağlayıcı değildir.", "delta": 5,
-          "note": "Kısmen doğru bir gözlem: resmî senet, memurun bizzat gözlemlemediği beyanları ispat etmez. Ama asıl cevap, mirasçıların muvazaayı her türlü delille ispat edebilmesidir." }
+          "note": "Doğru cevabı verdiniz. Mirasçılar muvazaalı işlemin tarafı değildir; saklı paylarını ve miras haklarını korumak için kendi haklarına dayanırlar. Bu nedenle senetle ispat kuralıyla bağlı değildirler." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 5,
+          "law": "YİBK 1.4.1974, 1/2",
+          "note": "Kısmen doğru bir cevap: resmî senet, memurun bizzat gözlemlemediği beyanları, örneğin bedelin ödendiğini ispat etmez. Ama asıl cevap, mirasçıların kendi haklarına dayandıkları için muvazaayı 1974 tarihli içtihadı birleştirme kararı uyarınca tanık dahil her türlü delille ispat edebilmesidir." },
+        { "text": "Zayıf savunma", "delta": -15,
+          "law": "YİBK 1.4.1974, 1/2",
+          "note": "Davalının itirazını karşılayamadınız. Mirasçılar muris muvazaasında kendi haklarına dayanır; 1974 tarihli içtihadı birleştirme kararına göre muvazaayı tanık dahil her türlü delille ispat edebilirler. İtirazı kabul etmek ya da davada ileri sürülmemiş tenkis talebine geçmek, muvazaa iddiasından geri adım atmak demekti." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
       "lines": [{ "who": "opp", "text": "Kaldı ki ortada gerçek bir satış vardır." }],

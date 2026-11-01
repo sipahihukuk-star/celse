@@ -143,24 +143,29 @@
         { "who": "opp", "text": "Her hâlde müvekkilim parayı iyiniyetle harcamıştır. Elinde yalnızca 80.000 TL kaldı. İade yükümlülüğü elde kalan kısımla sınırlıdır." },
         { "who": "judge", "text": "Davacı vekili?" }
       ],
-      "prompt": "İade kapsamına ilişkin cevabınız?",
+      "prompt": "Davalının “iade elde kalanla sınırlı” savunmasına ne cevap vereceksiniz? Kendi cümlelerinizle savunun.",
+      "kind": "free",
       "choices": [
-        { "if": "bankayazi", "text": "Banka 16 Nisan'da iade talebini davalıya bildirdi; davalı ertesi gün 300.000 TL'yi başka hesaba aktardı. Geri vermek zorunda kalacağını bilerek elden çıkardı; tamamından sorumludur.", "delta": 25, "set": ["kotu"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 25, "set": ["kotu"],
           "law": "TBK m.79/2",
-          "note": "Zenginleşen, zenginleşmeyi iyiniyetli olmaksızın ya da geri vermeyi hesaba katması gerekirken elden çıkarmışsa tamamını geri verir (TBK m.79/2). Banka bildirimi ve ertesi günkü aktarım bunu belgeyle gösteriyor." },
-        { "text": "Davalı paranın kendisine ait olmadığını biliyordu; ileri sürdüğü borç ilişkisi de yok. İyiniyetli sayılamaz; tamamını geri vermelidir.", "delta": 10, "set": ["kotugenel"],
+          "note": [{ "text": "İyiniyet savunmasını doğru dayanakla karşıladınız: zenginleşen, zenginleşmeyi iyiniyetli olmaksızın ya da geri vermeyi hesaba katması gerekirken elden çıkarmışsa tamamını geri verir (TBK m.79/2)." }, { "if": "bankayazi", "text": " Banka bildirimi ve ertesi günkü aktarım bunu belgeyle gösteriyor." }, { "if": "!bankayazi", "text": " Bankanın alıcıya gönderdiği iade talebi yazısı elinizde olsaydı, kötüniyet çıkarım değil belge olurdu." }] },
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["kotugenel"],
           "law": "TBK m.79/2",
-          "note": [
-            { "if": "yanilgi", "text": "Doğru bir çıkarım: davalının ileri sürdüğü borç ilişkisi çürütüldü; kendisine ait olmadığını bildiği parayı harcayan iyiniyetli sayılmaz (TBK m.79/2). Banka yazısı olsaydı bu, çıkarım değil belge olurdu." },
-            { "if": "!yanilgi", "text": "İddia doğru yönde, ama dayanaksız kaldı: davalının borç savunması çürütülmedi." }
-          ] },
-        { "text": "Para misli bir şeydir; harcansa bile zenginleşme her hâlde devam eder.", "delta": -5,
-          "law": "TBK m.79/1",
-          "note": "Fazla genel bir iddia. Kanun, iyiniyetle elden çıkarılan kısmı iade kapsamının dışında bırakır (TBK m.79/1). Tartışılması gereken, davalının iyiniyetli olup olmadığıydı." },
-        { "text": "Elde kalan 80.000 TL'nin iadesiyle yetinmeyi kabul ediyoruz.", "delta": -15, "set": ["kalan"],
+          "note": [{ "if": "yanilgi", "text": "Doğru yönde: kendisine ait olmadığını bildiği parayı harcayan iyiniyetli sayılmaz. Ama dayanağı tam kurmadınız; iade kapsamını TBK m.79/2'ye bağlamak ve davalının parayı ne zaman, neyi bilerek aktardığını göstermek gerekiyordu." }, { "if": "!yanilgi", "text": "İddia doğru yönde, ama dayanaksız kaldı: davalının borç savunması çürütülmedi ve iade kapsamı TBK m.79/2'ye bağlanmadı." }] },
+        { "text": "Zayıf savunma", "delta": -15, "set": ["kalan"],
           "law": "TBK m.79",
-          "note": "Müvekkilin 300.000 TL'sinden kendi beyanınızla vazgeçtiniz. Davalının iyiniyetine ilişkin iddia tartışılmaya bile açılmadı." }
-      ] }
+          "note": "Davalının iyiniyet savunması cevapsız kaldı; iade elde kalan 80.000 TL ile sınırlanabilir. Kanun yalnızca iyiniyetle elden çıkarılan kısmı iade kapsamının dışında bırakır (TBK m.79/1); geri vermeyi hesaba katması gerekirken parayı aktaran tamamını iade eder (m.79/2)." }
+      ],
+      "rubric": "İyi bir cevap şunları içerir: (1) Kural: zenginleşen, iyiniyetle elden çıkardığı kısmı geri vermez (TBK m.79/1); ama zenginleşmeyi iyiniyetli olmaksızın ya da geri vermeyi hesaba katması gerekirken elden çıkarmışsa tamamını geri verir (TBK m.79/2). (2) Davalı iyiniyetli değildir: dekont açıklaması (“Kaya Mobilya – mutfak dolabı 2. taksit”) paranın kendisine ait olmadığını gösteriyor, ileri sürdüğü borç ilişkisi yok; banka 16.04.2025'te iade talebini bildirdi, davalı ertesi gün 300.000 TL'yi başka hesaba aktardı. (3) Sonuç: davalı 380.000 TL'nin tamamından sorumludur, elde kalanla sınırlama kabul edilmez. Madde numarasıyla m.79/2'yi ve kötüniyeti gösteren somut olguyu (banka bildirimi ya da dekont açıklaması) birlikte söyleyen tam puan alır; kötüniyeti yalnızca genel olarak iddia eden cevap orta puan alır. Elde kalan 80.000 TL ile yetinen ya da yalnızca paranın misli olduğunu söyleyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["iyiniyet", "iyi niyet", "kötüniyet", "kötü niyet"], "weight": 2 },
+        { "terms": ["m.79", "m. 79", "madde 79", "79. madde", "md. 79", "md.79"], "weight": 2 },
+        { "terms": ["banka", "iade talebi", "bildiri"], "weight": 2 },
+        { "terms": ["tamamı", "tamamın", "380.000", "tümü"], "weight": 2 },
+        { "terms": ["hesaba kat", "bilerek", "biliyordu", "bildiği"], "weight": 1 },
+        { "terms": ["aktar", "elden çıkar", "harca"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, TBK m.79/2 uyarınca zenginleşmeyi iyiniyetli olmaksızın ya da geri vermeyi hesaba katması gerekirken elden çıkaran, tamamını geri vermekle yükümlüdür. Banka 16 Nisan'da iade talebini davalıya bildirmiş, davalı ertesi gün 300.000 TL'yi bilerek başka bir hesaba aktarmıştır; dekont açıklaması da paranın kendisine ait olmadığını gösteriyordu. Davalı 380.000 TL'nin tamamından sorumludur." }
   ],
   "outcomes": [
     { "if": "!yanilgi", "winner": "p2",
@@ -183,8 +188,8 @@
       ],
       "summary": [
         { "text": "Yanılgı ispatlandı; ama iade, davalının elinde kalan kısımla sınırlandı (TBK m.79/1)." },
-        { "if": "kalan", "text": " Bu sınırı kendi beyanınızla kabul ettiniz." },
-        { "if": "bankayazi && !kalan", "text": " Banka yazısı elinizdeydi: davalı iade talebini öğrendikten bir gün sonra parayı aktarmıştı (TBK m.79/2)." },
+        { "if": "kalan", "text": " Davalının iyiniyet savunmasını TBK m.79/2 ile karşılayamadınız." },
+        { "if": "bankayazi", "text": " Banka yazısı elinizdeydi: davalı iade talebini öğrendikten bir gün sonra parayı aktarmıştı (TBK m.79/2)." },
         { "if": "!bankayazi", "text": " Müvekkile bankanın alıcıya ne bildirdiği sorulsaydı, davalının kötüniyeti belgeyle ispatlanabilirdi (TBK m.79/2)." }
       ] },
     { "winner": "p1",

@@ -156,7 +156,7 @@
       "prompt": "Dava dilekçesini nasıl kuracaksınız?",
       "choices": [
         {
-          "text": "TMK m.166/1'e dayan. 2023 birikim kaybını, 15.03.2026 yemeğini ve Nisan mesajlarını tarih ve ayrıntılarıyla yaz; her vakıa için tanığını ve belgesini göster. Maddi ve manevi tazminatı tutar belirterek iste.",
+          "text": "TMK m.166/1'e dayan; birikim kaybını, 15.03.2026 yemeğini ve Nisan mesajlarını tarih, tanık ve belgesiyle yaz; tazminatları tutarıyla iste.",
           "delta": 20,
           "set": [
             "vakia",
@@ -176,7 +176,7 @@
           "note": "Somutlaştırılmamış bir iddia ispat edilemez. Vakıaların dilekçede açıkça yazılması gerekir; dilekçeler aşamasından sonra iddia ancak karşı tarafın açık muvafakatiyle ya da ıslahla genişletilebilir (HMK m.141)."
         },
         {
-          "text": "Vakıaları ayrıntılı yaz; tazminatları şimdilik isteme, boşanmadan sonra ayrı dava açarız.",
+          "text": "Vakıaları ayrıntılı yaz; tazminatları şimdilik isteme, kusur kesinleşince TMK m.178'deki bir yıllık süre içinde ayrı dava açarız.",
           "delta": 5,
           "set": [
             "vakia"
@@ -185,7 +185,7 @@
           "note": "Hukuken mümkün: Boşanmadan doğan tazminat istemleri, boşanma kararının kesinleşmesinden itibaren bir yıl içinde ayrıca ileri sürülebilir (TMK m.178). Ama kusur bu davada belirlenecek; tazminatı aynı davada istemek zaman ve gider kazandırırdı."
         },
         {
-          "text": "Anlaşmalı boşanma davası aç (TMK m.166/3); davalı nasılsa boşanmak istiyor. Olayları yazmaya gerek yok.",
+          "text": "Anlaşmalı boşanma davası aç (TMK m.166/3); davalı nasılsa boşanmak istiyor, kabul ederse dava tek celsede biter. Olayları yazmaya gerek yok.",
           "delta": -10,
           "set": [
             "genel"
@@ -316,7 +316,7 @@
       "choices": [
         {
           "if": "kardes",
-          "text": "Cevapla birlikte karşı dava aç: Davacının 2025 bayramında müvekkilin annesine söylediklerine dayan, tanık Ozan Arıkan'ı göster; boşanma ve manevi tazminat iste.",
+          "text": "Cevapla karşı dava aç: Davacının 2025 bayramında annesine söylediklerine dayan, tanık Ozan Arıkan'ı göster; boşanma ve tazminat iste.",
           "delta": 20,
           "set": [
             "karsi",
@@ -327,7 +327,7 @@
         },
         {
           "if": "!kardes",
-          "text": "Cevapla birlikte karşı dava aç: Davacı da kusurludur; boşanma ve tazminat iste.",
+          "text": "Cevapla birlikte karşı dava aç: Davacı da en az müvekkil kadar kusurludur; boşanma ve manevi tazminat iste.",
           "delta": 0,
           "set": [
             "karsi"
@@ -336,7 +336,7 @@
           "note": "Usul doğru, içerik boş. Davacıya hangi somut davranışı yüklediğinizi ve neyle ispat edeceğinizi göstermediniz."
         },
         {
-          "text": "Boşanmaya itiraz et: Davacı daha ağır kusurlu; dava açması hakkın kötüye kullanılmasıdır.",
+          "text": "Boşanmaya itiraz et: Davacı daha ağır kusurlu; bu durumda açtığı dava hakkın kötüye kullanılmasıdır ve reddedilmelidir (TMK m.166/2).",
           "delta": -10,
           "set": [
             "itiraz"
@@ -345,7 +345,7 @@
           "note": "Bu itiraz ancak davacının kusuru daha ağırsa ve evliliğin devamında korunmaya değer bir yarar kalmışsa dinlenir (TMK m.166/2). Müvekkiliniz de boşanmak istiyor; itiraz onun iradesiyle de çelişiyor."
         },
         {
-          "text": "Karşı dava açmadan cevap dilekçesinde müvekkil lehine de tazminat iste.",
+          "text": "Harç ve süre kaybı olmasın; karşı dava açmadan cevap dilekçesinde müvekkil lehine boşanma ve tazminat iste.",
           "delta": -5,
           "set": [
             "cevaptaTaz"
@@ -375,7 +375,7 @@
       "prompt": "Ne yapacaksınız?",
       "choices": [
         {
-          "text": "Müvekkilinizin yanına gidip sakinleştirin; hâkimden kısa bir ara isteyin ve karşı vekilin sözlerinin tutanağa geçirilmesini talep edin.",
+          "text": "Müvekkilinizi sakinleştirin; hâkimden kısa ara isteyin, karşı vekilin sözlerinin tutanağa geçmesini talep edin.",
           "delta": 10,
           "law": "HMK m.151",
           "note": "Doğru. Duruşmanın düzenini hâkim sağlar; kısa ara talebi müvekkilinizi korur. Karşı vekilin dosyayla ilgisiz nitelendirmesi tutanağa geçince hâkimin dikkatine girer.",
@@ -387,12 +387,12 @@
           ]
         },
         {
-          "text": "Müvekkilinizin konuşmasına izin verin; içini dökmesi davaya yarar.",
+          "text": "Müvekkilinizin konuşmasına izin verin; içini dökmesi samimiyetini gösterir, hâkim bunu da takdirde dikkate alır.",
           "delta": -5,
           "note": "Taraf ancak hâkimin izniyle söz alır. Karşı tarafa yönelen kontrolsüz bir konuşma hem müvekkilinize zarar verir hem de duruşma düzenini bozar."
         },
         {
-          "text": "Herkesin önünde müvekkilinizi sertçe uyarın: “Oturun, beni zor durumda bırakıyorsunuz.”",
+          "text": "Herkesin önünde müvekkilinizi sertçe uyarın: “Oturun, beni zor durumda bırakıyorsunuz.” Hâkim kontrolün sizde olduğunu görsün.",
           "delta": -10,
           "note": "Müvekkilinizi salonda yalnız bıraktınız. Soğukkanlılık, onu korumak ve usule başvurmaktır: kısa ara istemek."
         }
@@ -416,42 +416,84 @@
           "text": "Davacı vekili?"
         }
       ],
-      "prompt": "Tanık beyanlarını nasıl savunacaksınız?",
+      "prompt": "Davalı vekilinin tanıklara itirazına ne cevap vereceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
         {
-          "text": "Kuzen Elif Tuna 15.03.2026 yemeğinde bizzat bulundu; beyanı görgüye dayanıyor ve Nisan mesajlarıyla örtüşüyor. Akrabalık tek başına tanık beyanını değersiz kılmaz.",
+          "text": "Güçlü savunma",
+          "min": 70,
           "delta": 20,
           "set": [
             "tanikOK"
           ],
           "law": "HMK m.240, m.198 · TMK m.184",
-          "note": "Doğru. Hâkim delilleri serbestçe takdir eder (TMK m.184). Akraba tanığın beyanı yalnızca akrabalık nedeniyle reddedilmez; olayları bizzat gören tanığın beyanı, yazılı mesajlarla desteklenince güçlüdür."
+          "note": "Doğru savundunuz. Hâkim delilleri serbestçe takdir eder (TMK m.184); akraba tanığın beyanı yalnızca akrabalık nedeniyle reddedilmez. Kuzen Elif Tuna yemekte bizzat bulunmuştu; görgüye dayanan beyanı yazılı mesajlarla da desteklenince güçlüdür. Duyuma dayalı kız kardeş beyanını değil, görgü tanığını öne çıkardınız."
         },
         {
-          "text": "Kız kardeşin anlattıkları yeterli; ablası ona her şeyi o gün anlatmış.",
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 10,
+          "set": [
+            "tanikOK"
+          ],
+          "law": "HMK m.240 · TMK m.184",
+          "note": "İtirazı kısmen karşıladınız. Akrabalığın tek başına beyanı değersiz kılmadığını ya da kuzenin olayı bizzat gördüğünü söylediniz, ama ikisini ve mesajlarla örtüşmeyi birlikte kurmadınız. Hâkim delilleri serbestçe takdir eder (TMK m.184); görgü tanığının belgeyle desteklenen beyanı güçlüdür."
+        },
+        {
+          "text": "Zayıf savunma",
           "delta": -10,
-          "law": "TMK m.184",
-          "note": "Duyuma dayalı tanık beyanı, olayı gören bir tanık ya da belgeyle desteklenmedikçe kusur belirlemesinde tek başına yeterli görülmez. Elinizdeki görgü tanığını öne çıkarmadınız."
-        },
-        {
-          "text": "O hâlde yemekte bulunan bir komşuyu da yeni tanık olarak bildiriyoruz.",
-          "delta": -10,
-          "law": "HMK m.240/2",
-          "note": "Tanık listesinde gösterilmemiş kişiler tanık olarak dinlenemez ve ikinci bir liste verilemez (HMK m.240/2). Talep reddedilecek; elinizdeki görgü tanığını da savunmadınız.",
-          "reply": [
-            {
-              "who": "judge",
-              "text": "Tanık listesi verilmiştir; ikinci liste kabul edilemez. Talep reddedildi."
-            }
-          ]
-        },
-        {
-          "text": "Tanık beyanları hakkında bir diyeceğimiz yok; takdir mahkemenindir.",
-          "delta": -5,
-          "law": "TMK m.184",
-          "note": "Delilleri hâkim serbestçe takdir eder, ama karşı tarafın itirazını cevapsız bırakmak risklidir. Görgü tanığınızın beyanının neden güvenilir olduğunu göstermediniz."
+          "law": "TMK m.184 · HMK m.240/2",
+          "note": "Elinizdeki görgü tanığını öne çıkarmadınız. Duyuma dayalı kız kardeş beyanı tek başına kusur belirlemesine yetmez; listede gösterilmemiş yeni bir tanık da dinletilemez (HMK m.240/2). Doğrusu: kuzen Elif Tuna yemekte bizzat bulundu, beyanı Nisan mesajlarıyla örtüşüyor; akrabalık tek başına tanık beyanını değersiz kılmaz (TMK m.184)."
         }
-      ]
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Akrabalık tek başına tanık beyanını değersiz kılmaz; hâkim delilleri serbestçe takdir eder (TMK m.184). Aile içi olayları çoğu zaman yalnızca akrabalar görür. (2) Kuzen Elif Tuna 15.03.2026 yemeğinde bizzat bulunmuştur; beyanı duyuma değil görgüye dayanır. (3) Bu beyan Nisan 2026 mesajlarıyla (yazılı delil) örtüşür ve desteklenir. Kız kardeşin duyuma dayalı beyanını savunmak yerine görgü tanığını öne çıkarmak gerekir. Üç unsuru birlikte kuran cevap tam puan alır; yalnızca akrabalığın engel olmadığını ya da yalnızca kuzenin olayı gördüğünü söyleyen cevap orta puan alır. Kız kardeşin duyuma dayalı beyanının yeterli olduğunu savunan, listede olmayan yeni tanık bildiren ya da itirazı cevapsız bırakan cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "bizzat",
+            "görgü",
+            "gördü",
+            "tanık oldu",
+            "yemekte bulun",
+            "orada"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "akraba"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "mesaj",
+            "yazılı"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "kuzen",
+            "Elif Tuna",
+            "Elif"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "takdir",
+            "serbestçe",
+            "m.184",
+            "m. 184",
+            "madde 184",
+            "184. madde",
+            "md. 184"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Hâkim, akrabalık tek başına bir tanığın beyanını değersiz kılmaz; aile içindeki olayları çoğu zaman yalnızca akrabalar görür ve delilleri takdir yetkisi mahkemenizindir (TMK m.184). Kuzen Elif Tuna 15.03.2026 yemeğinde bizzat bulunmuş, gördüklerini anlatmıştır; beyanı duyuma değil görgüye dayanır. Üstelik bu beyan, davalının Nisan 2026'da gönderdiği yazılı mesajlarla da örtüşmektedir."
     },
     {
       "side": "p2",
@@ -470,7 +512,7 @@
       "prompt": "Ne yapacaksınız?",
       "choices": [
         {
-          "text": "Müvekkille görüşüp teklif et: Çekişmeli dava anlaşmalı boşanmaya dönüşsün; protokolde davacıya 250.000 TL toplu ödeme yapılsın, başka tazminat istenmesin.",
+          "text": "Müvekkille görüşüp teklif et: Dava anlaşmalı boşanmaya dönsün; davacıya 250.000 TL toplu ödensin, başka tazminat istenmesin.",
           "delta": 15,
           "set": [
             "sulhTeklif"
@@ -479,7 +521,7 @@
           "note": "Evlilik en az bir yıl sürmüşse ve eşler birlikte başvurur ya da biri diğerinin davasını kabul ederse, hâkim tarafları bizzat dinleyip iradelerini serbestçe açıkladıklarına kanaat getirerek ve protokolü uygun bularak anlaşmalı boşanmaya karar verebilir (TMK m.166/3). Belirsiz bir kusur kararının riskini sınırladınız."
         },
         {
-          "text": "Kusurun ağırlığını tartış: Davacının da kusurlu olduğunu, tazminat miktarlarının tarafların ekonomik durumuna göre fahiş olduğunu, sosyal ve ekonomik durum araştırmasına göre belirlenmesi gerektiğini söyle.",
+          "text": "Kusurun ağırlığını tartış: Davacı da kusurlu; istenen tutarlar tarafların ekonomik durumuna göre fahiş, araştırma yapılmalı.",
           "delta": 15,
           "set": [
             "miktar"
@@ -488,7 +530,7 @@
           "note": "Yerinde. Tazminatın miktarı tarafların sosyal ve ekonomik durumu, kusurun ağırlığı ve hakkaniyete göre belirlenir. Somut gerekçe gösterdiniz."
         },
         {
-          "text": "Davacının dava açıldıktan sonraki sosyal medya paylaşımını en ağır kusur olarak değerlendirin.",
+          "text": "Davacının dava açıldıktan sonraki sosyal medya paylaşımını ıslahla dosyaya getirip en ağır kusur olarak değerlendirin (HMK m.176).",
           "delta": -10,
           "law": "TMK m.166 · HMK m.141",
           "note": "Yargıtay uygulamasında dava tarihinden sonraki olaylar, ıslahla bile, görülmekte olan davada kusur olarak yüklenemez; ancak ayrı bir dava konusu olabilir."
@@ -512,7 +554,7 @@
       "prompt": "Teklife cevabınız?",
       "choices": [
         {
-          "text": "Müvekkille salon dışında görüş; onayını al. Protokolde ödeme tarihini ve eşyaların paylaşımını netleştir; hâkimin müvekkili bizzat dinlemesini bekle.",
+          "text": "Müvekkille salon dışında görüşüp onayını al; ödeme tarihini ve eşya paylaşımını netleştir, hâkim müvekkili bizzat dinlesin.",
           "delta": 15,
           "set": [
             "sulh"
@@ -527,7 +569,7 @@
           ]
         },
         {
-          "text": "Reddet; mahkeme davalıyı ağır kusurlu bulacak ve daha yüksek tazminata hükmedecek.",
+          "text": "Reddet; tanıklar ve mesajlar elimizde, mahkeme davalıyı ağır kusurlu bulup çok daha yüksek tazminata hükmedecek.",
           "delta": 5,
           "note": "Savunulabilir: Dosyanız güçlüyse daha yüksek tazminat alabilirsiniz. Ama kusur değerlendirmesi belirsizdir ve istinaf, temyiz süreci yılları bulabilir.",
           "reply": [
@@ -538,7 +580,7 @@
           ]
         },
         {
-          "text": "Müvekkile sormadan hemen kabul et.",
+          "text": "Vekâletnamede sulh yetkim var; müvekkile sormadan teklifi hemen kabul et, protokolü ben imzalarım.",
           "delta": -15,
           "law": "TMK m.166/3",
           "note": "Anlaşmalı boşanmada hâkim tarafların iradesini bizzat dinleyerek tespit eder. Müvekkilinize sormadan verilen kabul geçersizdir ve güveni zedeler.",

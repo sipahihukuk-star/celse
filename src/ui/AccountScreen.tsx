@@ -8,10 +8,11 @@ import { C, F } from "./theme";
 
 type Tab = "kayit" | "giris" | "liste";
 
-export default function AccountScreen({ onBack, onDone }: { onBack: () => void; onDone: () => void }) {
+export default function AccountScreen({ onBack, onDone, initial }: { onBack: () => void; onDone: () => void; initial?: "giris" | "kayit" }) {
   const server = !!supabase();
   const { account } = useAccount();
-  const [tab, setTab] = useState<Tab>(server ? "kayit" : "liste");
+  // Sunucu varken önce giriş açılır (üyeler çoğunlukta); yeni oyuncu "Üye ol" sekmesine geçer.
+  const [tab, setTab] = useState<Tab>(server ? initial || "giris" : "liste");
   const [profiles, setProfiles] = useState<Account[]>([]);
   useEffect(() => { if (!server) localProfiles().then(ps => { setProfiles(ps); if (!ps.length) setTab("kayit"); }); }, [account]);
 
@@ -27,7 +28,7 @@ export default function AccountScreen({ onBack, onDone }: { onBack: () => void; 
       </View>
 
       <View style={s.tabs}>
-        {(server ? [["kayit", "Üye ol"], ["giris", "Giriş yap"]] : [["liste", "Oyuncular"], ["kayit", "Yeni oyuncu"]]).map(([k, l]) => (
+        {(server ? [["giris", "Giriş yap"], ["kayit", "Üye ol"]] : [["liste", "Oyuncular"], ["kayit", "Yeni oyuncu"]]).map(([k, l]) => (
           <Pressable key={k} accessibilityRole="tab" accessibilityState={{ selected: tab === k }} onPress={() => setTab(k as Tab)} style={[s.tab, tab === k && s.tabOn]}>
             <Text style={[s.tabText, tab === k && s.tabTextOn]}>{l}</Text>
           </Pressable>

@@ -154,7 +154,7 @@
       "prompt": "Davayı nasıl ve nerede açacaksınız?",
       "choices": [
         {
-          "text": "Doğrudan iş mahkemesinde, işveren aleyhine maddi ve manevi tazminat davası. İş kazası tazminatında arabuluculuk dava şartı değil. Davanın SGK'ya ihbarını ve gelirin peşin sermaye değerinin SGK'dan sorulmasını isteyin.",
+          "text": "İş mahkemesinde işverene maddi ve manevi tazminat davası açın; arabuluculuk şart değil, davayı SGK'ya ihbar edin.",
           "delta": 20,
           "set": [
             "dogru",
@@ -170,7 +170,7 @@
           ]
         },
         {
-          "text": "Önce zorunlu arabulucuya başvurun, anlaşma olmazsa dava açın.",
+          "text": "Önce zorunlu arabulucuya başvurun; işçi-işveren uyuşmazlıklarında bu dava şartıdır, anlaşma olmazsa dava açın.",
           "delta": -10,
           "set": [
             "arab"
@@ -185,7 +185,7 @@
           ]
         },
         {
-          "text": "Asliye hukuk mahkemesinde haksız fiil davası açın.",
+          "text": "Asliye hukuk mahkemesinde haksız fiil davası açın; işverenin kusuruna dayanan tazminat genel hükümlere tabidir.",
           "delta": -15,
           "set": [
             "gorevsiz"
@@ -194,7 +194,7 @@
           "note": "Görevli mahkeme iş mahkemesidir. Görev dava şartıdır ve mahkeme bunu kendiliğinden inceler; görevsizlik kararı verilecek."
         },
         {
-          "text": "SGK zaten gelir bağladı; davayı SGK aleyhine açıp eksik kalan zararı isteyin.",
+          "text": "SGK zaten gelir bağladı; davayı SGK aleyhine açıp gelirle karşılanmayan eksik zararı isteyin.",
           "delta": -30,
           "law": "HMK m.114 · 5510 s.K. m.21",
           "note": "İşverenin kusurundan doğan zarar işverenden istenir. SGK'nın bağladığı gelir sosyal sigorta edimidir; SGK bu tazminat davasında davalı olamaz.",
@@ -218,7 +218,7 @@
       "prompt": "Şimdi ne yapacaksınız?",
       "choices": [
         {
-          "text": "Kesinleşmeden itibaren iki hafta içinde, kararı veren mahkemeye başvurup dosyanın görevli iş mahkemesine gönderilmesini isteyin.",
+          "text": "Kesinleşmeden itibaren iki hafta içinde başvurup dosyanın görevli iş mahkemesine gönderilmesini isteyin.",
           "delta": 10,
           "set": [
             "gonder"
@@ -233,7 +233,7 @@
           ]
         },
         {
-          "text": "Mahkeme dosyayı kendiliğinden gönderir; beklemek yeterli.",
+          "text": "Mahkeme görevsizlik kararıyla dosyayı kendiliğinden iş mahkemesine gönderir; beklemek yeterli.",
           "delta": -30,
           "law": "HMK m.20",
           "note": "Yanlış. Gönderme talep üzerine yapılır; iki haftalık süre kaçırıldı.",
@@ -385,17 +385,25 @@
           "text": "Rapor yerindedir. Davacı kendi dikkatsizliğiyle düşmüştür."
         }
       ],
-      "prompt": "Rapora karşı ne yapacaksınız?",
+      "prompt": "Kusur raporuna karşı ne yapacaksınız? İtirazınızı kendi cümlelerinizle kurun.",
       "choices": [
         {
-          "if": "foto",
-          "text": "Fotoğrafları sunun: kat kenarında korkuluk ve kemerin bağlanacağı yaşam hattı yok. Kemerin bağlanabilir olmasını sağlamak ve uygulamayı denetlemek işverenin yükümlülüğüdür. İş güvenliği uzmanı ve inşaat mühendisinden oluşan yeni bir heyetten rapor isteyin.",
+          "text": "Güçlü itiraz",
+          "min": 70,
           "delta": 25,
           "set": [
             "kusur"
           ],
           "law": "6331 s.K. m.4 · HMK m.281",
-          "note": "En güçlü itiraz. İşveren gerekli her türlü önlemi almak, araç gereci sağlamak ve önlemlere uyulup uyulmadığını denetlemekle yükümlüdür (6331 s.K. m.4). Bağlanacak yeri olmayan kemerin “takılmaması” işçiye ağır kusur olarak yüklenemez. Rapora süresinde itiraz edilmesi ve yeni heyet istenmesi HMK m.281'e uygundur.",
+          "note": [
+            {
+              "text": "En güçlü itirazı kurdunuz. İşveren gerekli her türlü önlemi almak, araç gereci sağlamak ve önlemlere uyulup uyulmadığını denetlemekle yükümlüdür (6331 s.K. m.4). Bağlanacak yeri olmayan kemerin “takılmaması” işçiye ağır kusur olarak yüklenemez. Rapora süresinde itiraz edilmesi ve yeni heyet istenmesi HMK m.281'e uygundur."
+            },
+            {
+              "if": "foto",
+              "text": " Kaza yeri fotoğrafları korkuluk ve yaşam hattı eksikliğini belgeliyor."
+            }
+          ],
           "reply": [
             {
               "who": "judge",
@@ -404,29 +412,14 @@
           ]
         },
         {
-          "if": "egitim",
-          "text": "İSG eğitim formunun kazadan sonra imzalatıldığını, işverenin eğitim yükümlülüğünü yerine getirmediğini ileri sürün; ek rapor isteyin.",
-          "delta": 15,
-          "set": [
-            "kusurKismi"
-          ],
-          "law": "6331 s.K. m.17 · HMK m.281",
-          "note": "Doğru bir itiraz: işveren çalışanlara iş sağlığı ve güvenliği eğitimi vermekle yükümlüdür. Ama formun geriye tarihli olduğu yalnızca müvekkilin beyanı; korkuluk ve yaşam hattı eksikliğini gösteren bir belge daha etkili olurdu.",
-          "reply": [
-            {
-              "who": "judge",
-              "text": "Bilirkişiden itirazlar doğrultusunda ek rapor alınmasına karar verildi."
-            }
-          ]
-        },
-        {
-          "text": "İşverenin gözetim ve denetim yükümlülüğünü hatırlatıp rapora itiraz edin; ek rapor isteyin.",
+          "text": "Yeterli itiraz",
+          "min": 40,
           "delta": 10,
           "set": [
             "kusurKismi"
           ],
           "law": "6331 s.K. m.4 · HMK m.281",
-          "note": "Doğru yönde, ama genel bir itiraz. Somut bir delil olmadan bilirkişinin tespitini sarsmak zor.",
+          "note": "Doğru yönde bir itiraz yaptınız; mahkeme ek rapor aldı. Ama bilirkişinin tespitini sarsmak için somut eksikliği göstermek gerekirdi: kat kenarında korkuluk ve kemerin bağlanacağı bir yaşam hattı yoktu. Kemerin bağlanabilir olmasını sağlamak ve uygulamayı denetlemek işverenin yükümlülüğüdür (6331 s.K. m.4); bu yüzden iş güvenliği uzmanı ve inşaat mühendisinden oluşan yeni bir heyet istenmeliydi.",
           "reply": [
             {
               "who": "judge",
@@ -435,24 +428,75 @@
           ]
         },
         {
-          "text": "Rapora itirazımız yok.",
+          "text": "Zayıf itiraz",
           "delta": -15,
           "set": [
             "kusurKabul"
           ],
-          "law": "HMK m.281 · TBK m.52",
-          "note": "Müvekkile yüklenen %40 kusur, tazminattan aynı oranda indirim yapılması demek (TBK m.52). İtiraz için elinizde süre ve gerekçe vardı."
+          "law": "HMK m.281 · TBK m.52 · 6331 s.K. m.4",
+          "note": "Rapor olduğu gibi kaldı. Müvekkile yüklenen %40 kusur, tazminattan aynı oranda indirim yapılması demek (TBK m.52). İşverenin sorumluluğu kusursuz değil, ağırlaştırılmış özen yükümlülüğüne dayanan kusur sorumluluğudur; bu yüzden kusur oranı somut olgularla tartışılmalıydı: korkuluk ve yaşam hattı yoktu, kemerin bağlanabilir olmasını sağlamak işverenin yükümlülüğüydü (6331 s.K. m.4). İtiraz için iki haftalık süre ve gerekçe vardı (HMK m.281)."
+        }
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Rapora iki haftalık süre içinde itiraz edilir (HMK m.281). (2) Kat kenarında korkuluk ve emniyet kemerinin bağlanacağı bir yaşam hattı (ankraj noktası) yoktu; bağlanacak yeri olmayan kemerin takılmaması işçiye ağır kusur olarak yüklenemez. (3) İşveren gerekli her türlü iş güvenliği önlemini almak, araç gereci sağlamak ve önlemlere uyulup uyulmadığını denetlemekle yükümlüdür (6331 s.K. m.4); kusur değerlendirmesi buna göre yapılmalıdır. (4) İş güvenliği uzmanı ve inşaat mühendisinden oluşan yeni bir bilirkişi heyetinden rapor alınması istenir; varsa kaza yeri fotoğrafları delil olarak sunulur. Korkuluk ve yaşam hattı eksikliğini işverenin m.4 yükümlülüğüne bağlayıp yeni heyet isteyen cevap tam puan alır. İşverenin genel gözetim ve denetim yükümlülüğünü hatırlatıp ek rapor isteyen ama somut eksikliği göstermeyen cevap orta puan alır. Rapora itiraz etmeyen ya da işverenin kusursuz sorumlu olduğunu, kusur oranının tartışılamayacağını ileri süren cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "korkuluk"
+          ],
+          "weight": 2
         },
         {
-          "text": "İşveren iş kazasında kusursuz sorumludur; kusur oranları tartışılamaz.",
-          "delta": -10,
-          "law": "TBK m.417 · TBK m.52",
-          "note": "Yanlış. Yargıtay uygulamasında işverenin iş kazasından sorumluluğu kusura dayanır; özen yükümlülüğü ağırlaştırılmıştır. İşçinin müterafik kusuru tazminattan indirim sebebidir (TBK m.52). Rapora somut bir itiraz getirmediniz; rapor olduğu gibi kaldı.",
-          "set": [
-            "kusurKabul"
-          ]
+          "terms": [
+            "yaşam hattı",
+            "bağlanacak",
+            "ankraj",
+            "bağlama noktası"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "denetle",
+            "denetim",
+            "gözetim",
+            "önlem"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "yeni heyet",
+            "yeni bir heyet",
+            "iş güvenliği uzmanı",
+            "yeni bilirkişi",
+            "heyetten rapor",
+            "ek rapor"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "itiraz"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "m.4",
+            "m. 4",
+            "madde 4",
+            "4. madde",
+            "md. 4",
+            "6331",
+            "m.281",
+            "m. 281",
+            "281. madde"
+          ],
+          "weight": 1
         }
-      ]
+      ],
+      "model": "Sayın Hâkim, rapora süresi içinde itiraz ediyoruz. Kat kenarında korkuluk yoktu, emniyet kemerinin bağlanacağı bir yaşam hattı da kurulmamıştı; bağlanacak yeri olmayan bir kemeri takmamak işçiye kusur olarak yüklenemez. 6331 sayılı Kanunun 4. maddesi uyarınca bu önlemleri almak ve uygulanmasını denetlemek işverenin yükümlülüğüdür. Kusurun iş güvenliği uzmanı ve inşaat mühendisinden oluşan yeni bir bilirkişi heyetince belirlenmesini talep ediyoruz."
     },
     {
       "side": "p1",
@@ -474,7 +518,7 @@
       "prompt": "Rapor ve mahsup konusunda ne söyleyeceksiniz?",
       "choices": [
         {
-          "text": "Rapora göre maddi tazminat talebimizi artırıyor, harcını yatırıyoruz. Peşin sermaye değeri yalnızca maddi tazminattan düşülür; manevi tazminattan mahsup yapılmaz.",
+          "text": "Talebi rapora göre artırıp harcını yatırıyoruz; peşin sermaye değeri manevi tazminattan düşülmez.",
           "delta": 20,
           "set": [
             "artirim"
@@ -483,7 +527,7 @@
           "note": "Doğru. SGK geliri işçinin gelir kaybını karşılar; mükerrer ödemeyi önlemek için ilk peşin sermaye değeri maddi tazminattan düşülür. Manevi tazminat ise gelir kaybını değil, acı ve elemi karşılar (TBK m.56); ondan mahsup yapılmaz. Kısmi davada talep, tahkikat sona ermeden bir defaya mahsus ve ıslaha gerek olmadan artırılır; artırılan kısım için zamanaşımı dava tarihinden kesilmiş sayılır (HMK m.109/4)."
         },
         {
-          "text": "SGK geliri müvekkilin primleriyle karşılandı; maddi tazminattan da düşülmesin. Talebimizi mahsupsuz tutar üzerinden artırıyoruz.",
+          "text": "SGK geliri müvekkilin primleriyle karşılandı; maddi tazminattan da düşülmesin. Talebi mahsupsuz tutara artırıyoruz.",
           "delta": -10,
           "set": [
             "artirim",
@@ -493,7 +537,7 @@
           "note": "Talebi artırdınız; ama mahsup itirazınız yanlış. İşçi aynı gelir kaybı için hem SGK'dan hem işverenden tam ödeme alamaz. SGK, ödediği tutarı kusurlu işverenden rücuen ister (5510 s.K. m.21). Mahsupsuz tutarın aşan kısmı reddedilecek."
         },
         {
-          "text": "Rapora itirazımız yok. Mahkeme rapordaki tutara kendiliğinden hükmeder; ayrıca dilekçe vermeye gerek yok.",
+          "text": "Rapora itirazımız yok; mahkeme rapordaki tutara kendiliğinden hükmeder, ayrıca dilekçe vermeye gerek yok.",
           "delta": -15,
           "set": [
             "artirmadi"

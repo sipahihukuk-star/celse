@@ -46,16 +46,16 @@
       ],
       "prompt": "Dilekçede neye dayanacak, ne isteyeceksiniz?",
       "choices": [
-        { "text": "Evlenme tarihinden itibaren bir yıl içinde yapılan fesih: kıdem tazminatı. İhbar tazminatı istemeyin.", "delta": 20, "set": ["dayanak"],
+        { "text": "Evlilikten itibaren bir yıl içinde fesih: yalnız kıdem tazminatı iste, ihbar isteme.", "delta": 20, "set": ["dayanak"],
           "law": "1475 s.K. m.14/1 · 4857 s.K. geçici m.6",
           "note": "Doğru. 1475 s.K. m.14/1, kadın işçinin evlendiği tarihten itibaren bir yıl içinde kendi arzusuyla sözleşmeyi sona erdirmesini kıdem tazminatı hâlleri arasında sayar. Hüküm, 4857 s.K. geçici m.6 uyarınca hâlâ yürürlüktedir. Sözleşmeyi müvekkil feshettiği için ihbar tazminatı istenemez." },
-        { "text": "Evlilik nedeniyle fesih: kıdem ve ihbar tazminatı birlikte.", "delta": 5, "set": ["dayanak", "ihbar"],
+        { "text": "Evlilik nedeniyle fesih: kıdem ve ihbar tazminatı birlikte; fazla talep zarar vermez, hâkim gerekirse indirir.", "delta": 5, "set": ["dayanak", "ihbar"],
           "law": "İş K. m.17",
           "note": "Dayanak doğru, ama ihbar tazminatı fazla. İhbar tazminatını, bildirim süresine uymadan sözleşmeyi fesheden taraf karşı tarafa öder (İş K. m.17). Sözleşmeyi müvekkil feshettiği için bu talep reddedilir ve reddedilen kısım için davalı lehine vekâlet ücretine hükmedilir." },
-        { "text": "İşveren ücreti zamanında artırmadı: haklı nedenle fesih ve kıdem tazminatı.", "delta": -15, "set": ["yanlis"],
+        { "text": "İşveren ücreti zamanında artırmadı: İş K. m.24 uyarınca haklı nedenle fesih ve kıdem tazminatı.", "delta": -15, "set": ["yanlis"],
           "law": "İş K. m.24",
           "note": "Ücret sözleşmeye uygun ödendiği sürece zam yapılmaması İş K. m.24'teki haklı nedenlerden biri değildir. Asıl dayanak evlilikti; bu vakıa dilekçede ileri sürülmeliydi." },
-        { "text": "İstifa eden işçi kıdem tazminatı alamaz; dava açmayalım.", "delta": -20, "set": ["vazgec", "end"],
+        { "text": "İstifa eden işçi kıdem tazminatı alamaz; dava açmayalım, masraf ve vekâlet ücreti riski var.", "delta": -20, "set": ["vazgec", "end"],
           "law": "1475 s.K. m.14/1",
           "note": "İstifa kural olarak kıdem hakkı doğurmaz. Ama kanun, evlenen kadın işçinin bir yıl içinde yaptığı feshi bu kuralın dışında tutar. Müvekkilin açık bir hakkını kullanmadınız." }
       ] },
@@ -65,14 +65,14 @@
       ],
       "prompt": "Hâkimin sorusuna nasıl cevap vereceksiniz?",
       "choices": [
-        { "text": "Islah dilekçesiyle vakıaları düzeltiyoruz: fesih, evlenmeden itibaren bir yıl içinde evlilik nedeniyle yapıldı.", "delta": 10, "set": ["dayanak", "islah"],
+        { "text": "Islah dilekçesiyle vakıaları düzeltiyoruz: fesih, evlenmeden itibaren bir yıl içinde yapıldı.", "delta": 10, "set": ["dayanak", "islah"],
           "law": "HMK m.176–177 · HMK m.319",
           "note": "Doğru çıkış yolu. İş mahkemesinde basit yargılama usulü uygulanır (7036 s.K. m.7); iddiayı değiştirme yasağı dava ve cevap dilekçeleriyle başlar. Bu yasak karşı tarafın açık muvafakati ya da ıslahla aşılır. Islah tahkikat sona erene kadar ve bir kez yapılabilir; ıslah eden taraf, bu yüzden boşa giden işlemlerin giderlerini öder.",
           "reply": [{ "who": "judge", "text": "Islah dilekçesi ve harcı için süre verildi. Davalı vekili, ıslah dilekçesine cevabınızı bekliyorum." }] },
-        { "text": "Haklı fesih iddiasında ısrar ediyoruz.", "delta": -10,
+        { "text": "Haklı fesih iddiasında ısrar ediyoruz; zam yapılmaması da çalışma koşullarının ağırlaşmasıdır.", "delta": -10,
           "law": "İş K. m.24",
           "note": "Zam yapılmaması haklı neden değildir. Hâkimin yol göstermesine rağmen evlilik vakıasını davaya sokmadınız." },
-        { "text": "Evlilik vakıasını şimdi sözlü olarak ekliyoruz; ıslaha gerek yok.", "delta": -5,
+        { "text": "Evlilik vakıası eklerde zaten var; şimdi sözlü olarak ekliyoruz, ıslaha gerek yok.", "delta": -5,
           "law": "HMK m.319",
           "reply": [{ "who": "opp", "text": "İddianın değiştirilmesine muvafakatimiz yoktur, Sayın Hâkim." }],
           "note": "Davalı muvafakat etmediği için iddiayı değiştirme yasağına takıldınız. Bu yasağı aşmanın yolu ıslahtı." }
@@ -83,19 +83,29 @@
         { "who": "opp", "text": "Davacı kendi isteğiyle istifa etmiştir. İstifa eden işçiye kıdem tazminatı ödenmez. Müvekkil şirketin bir borcu yoktur." },
         { "who": "judge", "text": "Davacı vekili?" }
       ],
-      "prompt": "İstifa savunmasına ne diyeceksiniz?",
+      "prompt": "İstifa savunmasına ne cevap vereceksiniz? Kendi cümlelerinizle savunun.",
+      "kind": "free",
       "choices": [
-        { "text": "Kural olarak doğru. Ama 1475 s.K. m.14/1, kadın işçinin evlendiği tarihten itibaren bir yıl içinde kendi arzusuyla yaptığı feshi açıkça kıdem tazminatı hâlleri arasında sayar. İstifa dilekçesinde evlilik gerekçesi yazılı.", "delta": 20, "set": ["istifa"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["istifa"],
           "law": "1475 s.K. m.14/1",
-          "note": "Kuralı kabul edip kanundaki istisnayı göstermek en güçlü cevaptır. Fesih bildiriminde evlilik nedeninin yazılı olması da ispatı kolaylaştırır.",
-          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
-        { "text": "Müvekkilim istifa etmedi; işten çıkarıldı.", "delta": -20,
-          "law": "HMK m.29",
-          "note": "Gerçeğe aykırı. Dosyada müvekkilin imzalı istifa dilekçesi var. Taraflar ve vekilleri doğruyu söylemekle yükümlüdür (HMK m.29); bu beyan hâkimin size güvenini sarstı." },
-        { "text": "Müvekkil işyerindeki yoğunluk yüzünden ayrıldı; bu da haklı nedendir.", "delta": -10,
-          "law": "İş K. m.24",
-          "note": "İş yoğunluğu tek başına haklı neden değildir, üstelik istifa dilekçesindeki gerekçeyle çelişir. Dayanağınız evlilikti." }
-      ] },
+          "note": "Kuralı kabul edip kanundaki istisnayı gösterdiniz: 1475 s.K. m.14/1, kadın işçinin evlendiği tarihten itibaren bir yıl içinde kendi arzusuyla yaptığı feshi kıdem tazminatı hâlleri arasında sayar. Fesih bildiriminde evlilik nedeninin yazılı olması da ispatı kolaylaştırır." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["istifa"],
+          "law": "1475 s.K. m.14/1",
+          "note": "Evlilik istisnasına dayandınız; doğru yön. Ama dayanağı tam kurmadınız: 1475 s.K. m.14/1, evlenme tarihinden itibaren bir yıl içinde yapılan feshi arar; bu sürenin içinde kalındığını ve istifa dilekçesindeki evlilik gerekçesini de göstermek gerekiyordu." },
+        { "text": "Zayıf savunma", "delta": -10,
+          "law": "1475 s.K. m.14/1",
+          "note": "İstifa savunmasını karşılayamadınız. İstifa kural olarak kıdem hakkı doğurmaz; ama kanun, kadın işçinin evlendiği tarihten itibaren bir yıl içinde kendi arzusuyla yaptığı feshi bu kuralın dışında tutar (1475 s.K. m.14/1). Dayanağınız evlilikti." }
+      ],
+      "rubric": "İyi bir cevap şunları içerir: (1) Kural olarak istifa eden işçinin kıdem tazminatı hakkı yoktur; bu kabul edilir. (2) Ancak 1475 sayılı Kanun m.14/1 (4857 s.K. geçici m.6 uyarınca yürürlükte), kadın işçinin evlendiği tarihten itibaren bir yıl içinde kendi arzusuyla sözleşmeyi sona erdirmesini açıkça kıdem tazminatı hâlleri arasında sayar. (3) Müvekkil bu bir yıllık süre içinde ayrılmıştır ve istifa dilekçesinde evlilik gerekçesi yazılıdır. İstisnayı madde numarası ve bir yıllık süreyle birlikte söyleyen tam puan alır; evlilik istisnasından söz edip madde ya da süreyi belirtmeyen cevap orta puan alır. İstifayı inkâr eden ya da iş yoğunluğu gibi başka bir haklı nedene dayanan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["evlen", "evlilik"], "weight": 2 },
+        { "terms": ["bir yıl", "1 yıl", "bir sene", "bir yıllık"], "weight": 3 },
+        { "terms": ["m.14", "m. 14", "madde 14", "14. madde", "md. 14", "1475"], "weight": 2 },
+        { "terms": ["kendi arzusu", "kendi isteği", "kendi iradesi"], "weight": 1 },
+        { "terms": ["istisna", "ayrık", "dışında"], "weight": 1 },
+        { "terms": ["istifa dilekçe", "dilekçe", "gerekçe"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, kural olarak istifa eden işçi kıdem tazminatı alamaz. Ancak 1475 sayılı Kanun m.14/1, kadın işçinin evlendiği tarihten itibaren bir yıl içinde kendi arzusuyla sözleşmeyi sona erdirmesini açıkça kıdem tazminatı hâlleri arasında sayar; bu, kuralın istisnasıdır. Müvekkil evlendikten sonra bir yıl dolmadan ayrılmış, istifa dilekçesine de evlilik gerekçesini yazmıştır." },
     { "kind": "evidence", "side": "p1", "scene": "court", "if": "dayanak",
       "lines": [
         { "who": "judge", "text": "Davalı vekili, sürenin geçtiğine ilişkin savunmanızı açıklayın." }
@@ -127,13 +137,13 @@
       ],
       "prompt": "Sonraki çalışma itirazına cevabınız?",
       "choices": [
-        { "text": "Kanun, evlenen kadın işçinin fesihten sonra çalışmamasını şart koşmuyor. Sonradan başka işte çalışmak tek başına hakkın kötüye kullanılması değildir. Davalı, önceden ayarlanmış bir işe geçiş olduğunu da ispatlamış değil.", "delta": 20, "set": ["calisma"],
+        { "text": "Kanun fesihten sonra çalışmamayı şart koşmuyor; sonraki iş tek başına hakkın kötüye kullanılması değildir.", "delta": 20, "set": ["calisma"],
           "law": "1475 s.K. m.14/1 · TMK m.2",
           "note": "Doğru. Hüküm, fesihten sonra çalışmama koşulu içermez. Yargıtay da sonraki çalışmayı tek başına hakkın kötüye kullanılması saymaz; somut olayın koşullarına bakar. Kötüye kullanmayı ileri süren işveren bunu ispatlamalıdır." },
-        { "text": "Müvekkilim şu anda çalışmıyor.", "delta": -20,
+        { "text": "Müvekkilim şu anda çalışmıyor; o işe yalnızca kısa bir deneme süresi için girmişti, çoktan ayrıldı.", "delta": -20,
           "law": "HMK m.29",
           "note": "SGK dökümü 01.03.2027'den itibaren başka işyerinde sigortalı olduğunu gösteriyor. Gerçeğe aykırı beyan, doğruyu söyleme yükümlülüğüne aykırıdır (HMK m.29) ve güvenilirliğinizi yok eder." },
-        { "text": "Bu itirazı haklı buluyoruz; kıdem tazminatının yarısına razıyız.", "delta": -15, "set": ["yari"],
+        { "text": "İtirazda haklılık payı var; uzlaşmacı olalım ve kıdem tazminatının yarısına razı olduğumuzu tutanağa geçirelim.", "delta": -15, "set": ["yari"],
           "law": "HMK m.307",
           "note": "Hukuken dayanaksız bir itirazı kabul edip talebin yarısından vazgeçtiniz. Bu beyan kısmi feragat sonucu doğurur; feragat edilen kısım yeniden istenemez." }
       ] }

@@ -72,23 +72,31 @@
           "reply": [{ "who": "narr", "text": "Üç mahkeme de görevsizlik kararı verdi. Dosyalar aylar sonra Danıştay'da bir araya geldi." }],
           "note": "Tek bir işleme karşı birden çok mahkemede dava açmak çelişkili kararlara yol açabilir. Görevli yer Danıştay'dır; davalar görevsizlik kararlarıyla oraya gider." }
       ] },
-    { "side": "p1", "scene": "office",
+    { "kind": "free", "side": "p1", "scene": "office",
       "lines": [
         { "who": "narr", "text": "Dilekçenin talep kısmına geldiniz. ÇED raporundaki hidrojeolojik inceleme yalnızca iki sayfa." },
         { "who": "narr", "text": "Görevsizlik kararları yüzünden aylar geçti; iş makineleri şantiye alanına gelmeye başladı.", "if": "gecikme" }
       ],
-      "prompt": "Dilekçede ne isteyeceksiniz?",
+      "prompt": "Dava dilekçesinin talep kısmına neleri yazacaksınız, neden? Kendi cümlelerinizle açıklayın.",
+      "rubric": "İyi bir cevap şunları ister ve gerekçelendirir: (1) Güzergâhta keşif ve bilirkişi incelemesi: ÇED raporundaki hidrojeolojik inceleme yalnızca iki sayfa ve vadideki su kaynağını göstermiyor; teknik eksiklik ancak keşif ve bilirkişiyle somut olarak ortaya konur. Danıştay davaya ilişkin her türlü incelemeyi kendiliğinden yapar (İYUK m.20). (2) Yürütmenin durdurulması: inşaat başlarsa kaynak telafisi güç ya da imkânsız biçimde zarar görür, karar da açıkça hukuka aykırıdır (İYUK m.27/2); inşaat takvimi belgelenmelidir. (3) Duruşma talebi (İYUK m.17). Keşif ve bilirkişi ile yürütmenin durdurulmasını gerekçeleriyle birlikte isteyen cevap tam puan alır; keşif ve bilirkişi isteyip yürütmenin durdurulmasını ya da zarar gerekçesini atlayan cevap orta puan alır. Keşif istemeyen, yalnız yürütmenin durdurulmasını ya da yalnız taraf uzman görüşünü yeterli gören cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["keşif", "kesif", "yerinde inceleme"], "weight": 3 },
+        { "terms": ["bilirkişi"], "weight": 2 },
+        { "terms": ["yürütmenin durdurulması", "yürütmeyi durdurma", "yd talebi", "y.d."], "weight": 2 },
+        { "terms": ["telafisi güç", "telafisi imkânsız", "telafisi imkansız", "zarar", "inşaat başla"], "weight": 1 },
+        { "terms": ["duruşma"], "weight": 1 },
+        { "terms": ["m.20", "m. 20", "madde 20", "20. madde", "md. 20", "m.27", "m. 27", "madde 27", "27. madde", "md. 27"], "weight": 1 }
+      ],
+      "model": "Sayın Daire'den, ÇED raporundaki iki sayfalık hidrojeolojik incelemenin vadideki su kaynağını göstermemesi nedeniyle güzergâhta keşif ve bilirkişi incelemesi yapılmasını istiyoruz (İYUK m.20). İnşaat baharda başlayacak; kaynak zarar görürse bu zarar telafi edilemez, bu yüzden yürütmenin durdurulmasını talep ediyoruz (İYUK m.27). Davanın duruşmalı görülmesini de istiyoruz.",
       "choices": [
-        { "text": "Güzergâhta keşif ve bilirkişi incelemesi, yürütmenin durdurulması ve duruşma isteyin; inşaatın baharda başlayacağını belgeleyin.", "delta": 20, "set": ["kesif", "yd"],
-          "law": "İYUK m.17, m.20, m.27",
+        { "text": "Güçlü dilekçe", "min": 70, "delta": 20, "set": ["kesif", "yd"], "law": "İYUK m.17, m.20, m.27",
           "reply": [{ "who": "narr", "text": "Daire keşif ve bilirkişi incelemesine karar verdi. Keşif bir bahar sabahı vadide yapıldı." }],
-          "note": "Danıştay davaya ilişkin her türlü incelemeyi kendiliğinden yapar (İYUK m.20). Teknik iddialar keşif ve bilirkişiyle denetlenir. İnşaat başlarsa kaynak zarar görebilir; yürütmenin durdurulması için bu zarar önemlidir (İYUK m.27)." },
-        { "text": "Keşif istemeyin; dosya üzerinden inceleme yeterli. Duruşma isteğini yazın.", "delta": -10,
-          "note": "ÇED raporu idarenin dayandığı belgedir. Rapordaki teknik eksiklik ancak keşif ve bilirkişiyle somut olarak ortaya konur." },
-        { "text": "Keşif yerine kendi seçtiğiniz bir uzmandan rapor alıp sunun; duruşma isteyin.", "delta": 5, "set": ["uzman"],
-          "note": "Tarafların aldığı uzman görüşü dosyaya sunulabilir. Ama Daire'nin atadığı bilirkişinin incelemesinin yerini tutmaz." },
-        { "text": "Yalnızca yürütmenin durdurulmasını isteyin; başka talepte bulunmayın.", "delta": -5,
-          "note": "Teknik bir dosyada açık hukuka aykırılık çoğu zaman ancak bilirkişi incelemesiyle görünür hâle gelir. Keşif istemeden yapılan bu talep zayıf kalır." }
+          "note": "Talepleri gerekçeleriyle kurdunuz. Danıştay davaya ilişkin her türlü incelemeyi kendiliğinden yapar (İYUK m.20); teknik iddialar keşif ve bilirkişiyle denetlenir. İnşaat başlarsa kaynak zarar görebilir; yürütmenin durdurulması için bu zarar önemlidir (İYUK m.27)." },
+        { "text": "Yeterli dilekçe", "min": 40, "delta": 10, "set": ["kesif"], "law": "İYUK m.20, m.27",
+          "reply": [{ "who": "narr", "text": "Daire keşif ve bilirkişi incelemesine karar verdi. Keşif bir bahar sabahı vadide yapıldı." }],
+          "note": "Keşif ve bilirkişi talebiniz dosyanın teknik yönünü açtı. Ama inşaat takvimini ve kaynağın göreceği telafisi güç zararı yürütmenin durdurulması talebiyle birlikte ortaya koymadınız (İYUK m.27)." },
+        { "text": "Zayıf dilekçe", "delta": -10, "law": "İYUK m.20",
+          "note": "Talepleriniz dosyanın teknik eksikliğini ortaya çıkaracak yolu açmadı. ÇED raporu idarenin dayandığı belgedir; rapordaki eksiklik ancak keşif ve bilirkişiyle somut olarak gösterilir (İYUK m.20). Taraf uzman görüşü Daire'nin atadığı bilirkişinin yerini tutmaz." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
       "lines": [
@@ -120,21 +128,21 @@
       ],
       "prompt": "Son sözünüz ne olacak?",
       "choices": [
-        { "if": "kaynakArg", "text": "Kaynağın ÇED raporunda hiç değerlendirilmediğini vurgulayın ve kararın iptalini isteyin.", "delta": 15, "set": ["sonSoz"],
+        { "if": "kaynakArg", "text": "ÇED raporunun köyün kaynağını hiç değerlendirmediğini vurgulayın; iptal isteyin.", "delta": 15, "set": ["sonSoz"],
           "note": "Savcının düşüncesi de sizi destekliyor. Talebiniz dava konusuyla sınırlı ve hukuka uygunluk denetimine dayanıyor." },
-        { "if": "!kaynakArg && kesif", "text": "Bilirkişi raporuna itiraz edin; tescilsiz kaynakların da incelenmesi için ek rapor isteyin.", "delta": 15, "set": ["ekRapor"],
+        { "if": "!kaynakArg && kesif", "text": "Bilirkişi raporuna itiraz edin; tescilsiz kaynaklar için ek rapor isteyin.", "delta": 15, "set": ["ekRapor"],
           "law": "İYUK m.20",
           "reply": [{ "who": "narr", "text": "Daire ek rapor aldı. Bilirkişiler vadiye yeniden gitti ve köyün kaynağını güzergâhın 40 metre yanında buldu." }],
           "note": "Rapor tescilsiz kaynakları araştırmamış. Eksik bir bilirkişi raporuna karşı ek rapor istenebilir; Daire bu talebi re'sen araştırma ilkesiyle değerlendirir (İYUK m.20)." },
-        { "if": "!kaynakArg && !kesif", "text": "ÇED raporunun alternatif güzergâhları değerlendirmediğini belirtin ve kararın iptalini isteyin.", "delta": 15, "set": ["alternatif"],
+        { "if": "!kaynakArg && !kesif", "text": "Raporun alternatif güzergâhları değerlendirmediğini belirtip iptal isteyin.", "delta": 15, "set": ["alternatif"],
           "note": "Elinizdeki en iyi argüman bu. Ama keşif ve bilirkişi incelemesi olmadan teknik bir eksikliği somut olarak göstermek zor." },
-        { "text": "Boru hattının bölgeye ekonomik bir yararı olmadığını anlatın.", "delta": -10,
+        { "text": "Boru hattının bölgeye ekonomik bir yarar sağlamadığını, projenin gereksiz olduğunu anlatın; iptal isteyin.", "delta": -10,
           "law": "İYUK m.2/2",
           "note": "Projenin gerekliliği bir yerindelik meselesidir. İdari yargı yalnızca hukuka uygunluğu denetler (İYUK m.2/2)." },
-        { "text": "Şirketin teklif ettiği irtifak bedelinin düşük olduğunu belirtin.", "delta": -10,
-          "note": "Bedel uyuşmazlığı adli yargıda çözülür. ÇED kararının hukuka uygunluğuyla ilgisi yok." },
-        { "if": "!kaynakArg", "text": "Savcının düşüncesine katılmadığınızı söyleyin; ek açıklama yapmayın.", "delta": -5,
-          "note": "Gerekçesiz bir itiraz heyeti etkilemez." }
+        { "text": "Şirketin teklif ettiği irtifak bedelinin düşük olduğunu, köylülerin mülkiyet hakkının zedelendiğini belirtin.", "delta": -10,
+          "note": "Bedel uyuşmazlığı adli yargıda çözülür; mülkiyet hakkına ilişkin bedel tartışması ÇED kararının hukuka uygunluğuyla ilgili değil." },
+        { "if": "!kaynakArg", "text": "Savcının düşüncesine katılmadığınızı söyleyin; ayrıntıları yazılı beyanla sunacağınızı belirtin.", "delta": -5,
+          "note": "Duruşmada son söz şimdi söylenir; gerekçesiz bir itiraz heyeti etkilemez." }
       ] }
   ],
   "outcomes": [

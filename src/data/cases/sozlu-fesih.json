@@ -172,7 +172,7 @@
       "prompt": "Nasıl karşılık vereceksiniz?",
       "choices": [
         {
-          "text": "Feshin geçerli nedene dayandığını ispat yükü işverendedir. Dosyada tek bir performans belgesi yok; son iki değerlendirme “beklentiyi karşılıyor”.",
+          "text": "İspat yükü işverendedir. Dosyada tek bir performans belgesi yok; son iki değerlendirme “beklentiyi karşılıyor”.",
           "delta": 20,
           "set": [
             "ispat"
@@ -191,19 +191,19 @@
           ]
         },
         {
-          "text": "Tanıklarımızla davacının iyi çalıştığını ispatlayacağız.",
+          "text": "Tanıklarımızla davacının iyi çalıştığını ispatlayacağız; iş arkadaşları ve müdür yardımcısı dinlensin, kayıtlar getirilsin.",
           "delta": -5,
           "law": "İş K. m.20/2",
           "note": "Yanlış değil, ama ispat yükünü gereksiz yere üstlendiniz. Yükün işverende olduğunu söylemeliydiniz."
         },
         {
-          "text": "Düşük performans hiçbir koşulda fesih sebebi olamaz.",
+          "text": "Düşük performans hiçbir koşulda fesih sebebi olamaz; kanun yalnızca ahlak ve iyiniyet ihlallerini sayar.",
           "delta": -10,
           "law": "İş K. m.18/1",
           "note": "Hatalı. İşçinin yeterliliğinden veya davranışlarından kaynaklanan sebepler geçerli neden olabilir (İş K. m.18/1). Sorun, bunun ispatlanmamış olması."
         },
         {
-          "text": "İşyerinde 30'dan az işçi olduğunu kabul et, tazminat iste.",
+          "text": "İşyerinde 30'dan az işçi olduğunu kabul et; iş güvencesine girmeden kıdem ve ihbar tazminatı iste.",
           "delta": -20,
           "law": "İş K. m.18",
           "note": "Hem gerçeğe aykırı hem müvekkilin aleyhine. 45 işçili işyeri iş güvencesi kapsamındadır; bu kabul işe iade hakkını ortadan kaldırırdı."
@@ -312,7 +312,7 @@
       "prompt": "Hüküm için talebiniz?",
       "choices": [
         {
-          "text": "Feshin geçersizliği ve işe iade; işe başlatılmazsa 4–8 aylık ücret arasında işe başlatmama tazminatı ve en çok 4 aylık boşta geçen süre ücreti.",
+          "text": "Feshin geçersizliği ve işe iade; başlatılmazsa 4–8 aylık işe başlatmama tazminatı, en çok 4 aylık boşta geçen süre ücreti.",
           "delta": 20,
           "law": "İş K. m.21",
           "note": "İşe başlatmama tazminatı en az dört, en çok sekiz aylık ücret tutarındadır (m.21/1). Kesinleşmeye kadar çalıştırılmadığı süre için en çok dört aya kadar ücret ve diğer haklar ödenir (m.21/3).",
@@ -324,7 +324,7 @@
           ]
         },
         {
-          "text": "Yalnızca feshin geçersizliğinin tespiti ve işe iade.",
+          "text": "Yalnızca feshin geçersizliğinin tespiti ve işe iade; tazminatı ve boşta süre ücretini mahkeme zaten belirler.",
           "delta": 5,
           "law": "İş K. m.21",
           "note": "Yeterli sayılır: Mahkeme tazminatı ve boşta geçen süre ücretini kendiliğinden belirler (m.21). Yine de talebi eksiksiz yazmak iyi uygulamadır.",
@@ -336,13 +336,13 @@
           ]
         },
         {
-          "text": "İşe iade ile birlikte kötüniyet tazminatı talep et.",
+          "text": "İşe iade ile birlikte, sebepsiz ve sözlü fesih nedeniyle kötüniyet tazminatı da talep et (İş K. m.17/6).",
           "delta": -10,
           "law": "İş K. m.17/6",
           "note": "İş güvencesi kapsamındaki işçi kötüniyet tazminatı isteyemez (İş K. m.17/6)."
         },
         {
-          "text": "12 aylık ücret tutarında işe başlatmama tazminatı talep et.",
+          "text": "Müvekkil dört yıllık; 12 aylık ücret tutarında işe başlatmama tazminatı ve boşta geçen süre ücreti talep et.",
           "delta": -10,
           "law": "İş K. m.21/1",
           "note": "Kanuni aralık en az 4, en çok 8 aylık ücrettir. Sınırı aşan talep hâkimde güven kaybına yol açar."

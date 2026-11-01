@@ -12,7 +12,7 @@ import { loadResults, SavedResult } from "./storage";
 import { C, F } from "./theme";
 
 /* ---------- Giriş ---------- */
-export function TitleScreen({ onCareer, onOffice, office, onDuel, onSolo, onAdmin, onAccount, onSignOut, account, server, duelCount, soloCount, rankName, started, won, total }: { onCareer: () => void; onOffice: () => void; office: Office | null; onAccount: () => void; onSignOut: () => void; account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; duelCount: number; soloCount: number; rankName: string; won: number; total: number }) {
+export function TitleScreen({ onCareer, onOffice, office, onDuel, onSolo, onAdmin, onAccount, onSignUp, onSignOut, account, server, duelCount, soloCount, rankName, started, won, total }: { onCareer: () => void; onOffice: () => void; office: Office | null; onAccount: () => void; onSignUp: () => void; onSignOut: () => void; account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; duelCount: number; soloCount: number; rankName: string; won: number; total: number }) {
   const { width } = useWindowDimensions();
   const [tilt, setTilt] = useState(-4);
   useEffect(() => { const t = setInterval(() => setTilt(a => -a), 3000); return () => clearInterval(t); }, []);
@@ -33,7 +33,7 @@ export function TitleScreen({ onCareer, onOffice, office, onDuel, onSolo, onAdmi
               <Pressable accessibilityRole="button" onPress={onSignOut}><Text style={styles.accLink}>Çıkış</Text></Pressable>
             </>
           ) : (
-            <Pressable accessibilityRole="button" onPress={onAccount}><Text style={styles.accLink}>{server ? "Üye ol / Giriş yap ›" : "Oyuncu oluştur / seç ›"}</Text></Pressable>
+            <Pressable accessibilityRole="button" onPress={onAccount}><Text style={styles.accLink}>{server ? "Giriş yap ›" : "Oyuncu oluştur / seç ›"}</Text></Pressable>
           )}
         </View>
         <Text style={styles.eyebrow}>BİR AVUKATLIK OYUNU</Text>
@@ -48,10 +48,15 @@ export function TitleScreen({ onCareer, onOffice, office, onDuel, onSolo, onAdmi
         <Pressable accessibilityRole="button" onPress={onCareer} style={({ pressed }) => [styles.careerCard, pressed && { opacity: 0.85 }]}>
           <View style={{ flex: 1 }}>
             <Text style={styles.careerK}>{account ? `KARİYER · ${won}/${total} DAVA KAZANILDI` : "KARİYER"}</Text>
-            <Text style={styles.careerRank}>{account ? rankName : "Kayıt olun, başlayın"}</Text>
+            <Text style={styles.careerRank}>{account ? rankName : server ? "Giriş yapın, devam edin" : "Oyuncu seçin, başlayın"}</Text>
           </View>
-          <Text style={styles.careerGo}>{!account ? "Üye ol ›" : started ? "Devam et ›" : "Başla ›"}</Text>
+          <Text style={styles.careerGo}>{!account ? (server ? "Giriş yap ›" : "Başla ›") : started ? "Devam et ›" : "Başla ›"}</Text>
         </Pressable>
+        {!account && server && (
+          <Pressable accessibilityRole="button" onPress={onSignUp} style={{ alignSelf: "flex-start", paddingVertical: 4 }}>
+            <Text style={styles.signUp}>Hesabınız yok mu? <Text style={styles.signUpB}>Üye olun ›</Text></Text>
+          </Pressable>
+        )}
         {account && (
           <Pressable accessibilityRole="button" onPress={onOffice} style={({ pressed }) => [styles.officeCard, pressed && { opacity: 0.85 }]}>
             {office && <AvatarFace k={office.avatar} size={44} />}
@@ -205,6 +210,8 @@ const styles = StyleSheet.create({
   officeT: { fontFamily: F.displayMed, fontSize: 19, color: C.text },
   careerK: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.brassInk, opacity: 0.8 },
   careerRank: { fontFamily: F.display, fontSize: 26, color: C.brassInk },
+  signUp: { fontFamily: F.body, fontSize: 15, color: C.muted },
+  signUpB: { fontFamily: F.bodyBold, color: C.text, textDecorationLine: "underline" },
   careerGo: { fontFamily: F.bodyBold, fontSize: 17, color: C.brassInk },
   cta: { flexDirection: "row", flexWrap: "wrap", gap: 12 },
   listWrap: { width: "100%", maxWidth: 1080, alignSelf: "center", paddingHorizontal: 16, paddingVertical: 20 },

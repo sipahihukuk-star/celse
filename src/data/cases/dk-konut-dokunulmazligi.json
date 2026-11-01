@@ -161,7 +161,7 @@
       "prompt": "Savunmayı hangi zemine oturtacaksınız?",
       "choices": [
         {
-          "text": "Daire müvekkilin tapulu malıdır; kişi kendi evine girmekle suç işlemez.",
+          "text": "Daire müvekkilin tapulu malıdır; malik kendi evine girmekle suç işlemez, anahtar da zaten kendisindeydi.",
           "delta": -15,
           "set": ["p2_mulk"],
           "law": "TCK m.116/1",
@@ -175,14 +175,14 @@
           "note": "Ağır ve muhakkak bir tehlikeden başkasının malını korumak için, orantılı biçimde yapılan bir giriş cezalandırılmaz. Savunmanın en güçlü dayanağı bu; ama orantının korunduğunu göstermeniz gerekecek."
         },
         {
-          "text": "Kiracı 13 Mart'ta “anahtarınız var, gelebilirsiniz” dedi; rızası vardı.",
+          "text": "Kiracı 13 Mart'ta “anahtarınız var, gelebilirsiniz” diye yazdı; giriş bu açık rızaya dayanıyor, suç oluşmaz.",
           "delta": 5,
           "set": ["p2_riza"],
           "law": "TCK m.116/1",
           "note": "Rıza suçun unsurunu ortadan kaldırır. Ama mesaj cuma günüyle ve tesisatçıyla sınırlı görünüyor; giriş cumartesi oldu."
         },
         {
-          "text": "Müvekkil kendi mülküne girebileceğini sanıyordu; hataya düştü.",
+          "text": "Müvekkil kendi mülküne girebileceğini sanıyordu; bu hata kastı kaldırır, TCK m.30 gereği cezalandırılamaz.",
           "delta": -5,
           "set": ["p2_hata"],
           "law": "TCK m.30/4",
@@ -258,7 +258,7 @@
       "choices": [
         {
           "if": "p1_riza",
-          "text": "Rıza yalnızca cuma günü ve tesisatçıyla verildi; aynı akşam açıkça geri alındı ve sanık mesajı okudu. Akşam mesajını sunuyoruz.",
+          "text": "Rıza yalnız cuma ve tesisatçıyla verildi; aynı akşam açıkça geri alındı, sanık mesajı okudu. Akşam mesajını sunuyoruz.",
           "delta": 20,
           "set": ["p1_rizaRet"],
           "law": "TCK m.116/1",
@@ -269,14 +269,14 @@
         },
         {
           "if": "!p1_riza",
-          "text": "Rıza yalnızca 13 Mart cuma için ve tesisatçıyla verildi; ertesi gün tek başına giriş bu rızanın dışında kalır.",
+          "text": "Rıza yalnız 13 Mart cuma için ve tesisatçıyla verildi; ertesi gün tek başına giriş rızanın dışında kalır.",
           "delta": 10,
           "set": ["p1_rizaRet"],
           "law": "TCK m.116/1",
           "note": "Doğru: rıza verildiği gün ve amaçla sınırlıdır. Müvekkile sorsaydınız rızanın aynı akşam açıkça geri alındığını da gösterebilirdiniz."
         },
         {
-          "text": "Konuta girme rızası noterden ya da yazılı verilmeliydi; mesaj geçersiz.",
+          "text": "Konuta girme rızası yazılı ve imzalı verilmeliydi; bir telefon mesajı hukuken geçerli rıza beyanı sayılmaz, rıza hiç yok.",
           "delta": -10,
           "note": "Rıza şekle bağlı değildir; sözlü ya da bir mesajla verilebilir. Asıl mesele rızanın kapsamı ve geri alınmasıydı."
         }
@@ -291,27 +291,42 @@
         { "who": "p2", "text": "Müvekkilim kendi mülküne girebileceğini sanıyordu; hataya düşmüştür.", "if": "p2_hata" },
         { "who": "judge", "text": "Katılan vekili?" }
       ],
-      "prompt": "Ne cevap vereceksiniz?",
+      "kind": "free",
+      "prompt": "Sanık müdafiinin bu savunmasına ne cevap vereceksiniz? Kendi cümlelerinizle karşılık verin.",
       "choices": [
         {
-          "text": "TCK m.116 mülkiyeti değil, konutta yaşayanın huzurunu korur. Kiralanan daire kiracının konutudur; malik de onun rızası olmadan giremez. “Girebilirim sandım” demek kaçınılmaz bir hata değildir.",
+          "text": "Güçlü cevap",
+          "min": 70,
           "delta": 20,
           "set": ["p1_konut"],
           "law": "TCK m.116/1, m.30/4",
-          "note": "Korunan hukuki değer konutta yaşayanın özel alanıdır. Kira sözleşmesiyle zilyetlik kiracıya geçmiştir; ev sahibinin hakkı, gerekirse kiracıyı mahkemeye götürmektir, kendi başına girmek değil."
+          "note": "Savunmanın zeminini çökerttiniz. TCK m.116 mülkiyeti değil, konutta fiilen yaşayanın huzurunu ve özel alanını korur. Kira sözleşmesiyle zilyetlik kiracıya geçmiştir; malik de kiracının rızası olmadan giremez. “Girebilirim sandım” demek kaçınılmaz bir haksızlık yanılgısı değildir (TCK m.30/4)."
         },
         {
-          "text": "Ev sanığın, kabul; ama kira sözleşmesindeki şart gereği önceden haber vermesi gerekirdi.",
+          "text": "Yeterli cevap",
+          "min": 40,
+          "delta": 10,
+          "set": ["p1_konut"],
+          "law": "TCK m.116/1, m.30/4",
+          "note": "Kiralanan dairenin kiracının konutu olduğunu söylediniz; bu doğru. Ama korunan hukuki değeri tam kurmadınız: TCK m.116 mülkiyeti değil, konutta yaşayanın özel alanını korur; malik de kiracının rızası olmadan giremez. Hata savunmasına da kaçınılmaz olmadığı (TCK m.30/4) cevabı verilmeliydi."
+        },
+        {
+          "text": "Zayıf cevap",
           "delta": -5,
-          "note": "Sorun sözleşmeye aykırılık değil. Konut kiracınındır ve rızası olmadan girilemez; savunmanın yanlış zeminini kabul ettiniz."
-        },
-        {
-          "text": "Sanık yedek anahtarla girdi; bu cebirdir, TCK m.116/4 uygulansın.",
-          "delta": -10,
-          "law": "TCK m.116/4",
-          "note": "Elindeki anahtarla kapıyı açmak cebir değildir. Giriş saat 11.20'de, gündüz yapıldı; nitelikli hâlin koşulları yok."
+          "law": "TCK m.116/1, m.30/4",
+          "note": "Savunmanın yanlış zeminini kabul ettiniz ya da karşılamadınız. Sorun sözleşmeye aykırılık ya da cebir değil: TCK m.116 mülkiyeti değil, konutta yaşayanın huzurunu korur; kiralanan daire kiracının konutudur ve malik de onun rızası olmadan giremez. Kiraya verilen eve izinsiz girilemeyeceğini bilmemek kaçınılmaz bir hata sayılmaz (TCK m.30/4)."
         }
-      ]
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Konut dokunulmazlığının ihlali suçu (TCK m.116/1) mülkiyeti değil, konutta fiilen yaşayan kişinin huzurunu ve özel alanını korur. (2) Kiralanan daire kiracının konutudur; kira sözleşmesiyle zilyetlik kiracıya geçmiştir; malik de kiracının rızası olmadan giremez, hakkını ancak hukuki yollarla arayabilir. (3) Hata savunması ileri sürülmüşse: kiraya verilen bir eve kiracının izni olmadan girilemeyeceğini öğrenmek zor değildir; bu yanılgı kaçınılmaz değildir ve cezayı kaldırmaz (TCK m.30/4). Korunan hukuki değeri ve kiracının konutu olduğunu madde numarasıyla birlikte kuran cevap tam puan alır; yalnızca “ev kiracının konutudur” deyip korunan hukuki değeri ya da hata savunmasını karşılamayan cevap orta puan alır. Evin sanığa ait olduğunu kabul edip sözleşmeye aykırılığa dayanan ya da anahtarla girişi cebir sayan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["mülkiyet", "tapu", "malik"], "weight": 2 },
+        { "terms": ["huzur", "özel alan", "özel hayat", "fiilen yaşayan", "oturan"], "weight": 2 },
+        { "terms": ["kiracının konutu", "kiracının evi", "kiracı", "zilyet"], "weight": 2 },
+        { "terms": ["rıza", "izin"], "weight": 1 },
+        { "terms": ["kaçınılmaz", "m.30", "m. 30", "30/4", "yanılgı"], "weight": 1 },
+        { "terms": ["m.116", "m. 116", "madde 116", "116. madde", "md. 116", "md.116"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, TCK m.116 mülkiyeti değil, konutta fiilen yaşayanın huzurunu ve özel alanını korur. Kira sözleşmesiyle daire müvekkilimin konutu olmuştur; tapu sanığa ait olsa da sanık kiracının rızası olmadan oraya giremez, hakkını ancak hukuki yollarla arayabilir. Kiraya verdiği eve izinsiz girilemeyeceğini bilmemek de kaçınılmaz bir yanılgı değildir; TCK m.30/4 sanığı korumaz."
     },
     {
       "side": "p2",
@@ -324,7 +339,7 @@
       "prompt": "Ne yapacaksınız?",
       "choices": [
         {
-          "text": "“Sayın Hâkim, beş dakikalık bir ara rica ediyorum. Müvekkilim bundan sonra sözünü benim aracılığımla söyleyecek.”",
+          "text": "“Sayın Hâkim, kısa bir ara rica ediyorum; müvekkilim bundan sonra benim aracılığımla konuşacak.”",
           "delta": 10,
           "law": "CMK m.203",
           "note": "Duruşmanın düzenini hâkim sağlar (CMK m.203). Müdafiin işi müvekkili yatıştırıp savunmayı kendisi sürdürmektir. “İzin almam” sözü savunmaya zarar verir; onu büyütmediniz.",
@@ -333,7 +348,7 @@
           ]
         },
         {
-          "text": "“Müvekkilim haklı; kendi malına giren adama ceza mı verilir?”",
+          "text": "“Müvekkilim haklı; kendi malına giren adama ceza mı verilir? Tepkisi bu haksız suçlamaya, Sayın Hâkim.”",
           "delta": -10,
           "set": ["p2_ofke"],
           "note": "Müvekkilin öfkesini salona taşıdınız ve “kimseden izin almam” sözünü savunmanın parçası yaptınız. Hâkimin sabrını da zorladınız.",
@@ -352,7 +367,7 @@
       "prompt": "Sulh konusunda ne yapacaksınız?",
       "choices": [
         {
-          "text": "Dosyanın uzlaştırma bürosuna gönderilmesini istiyoruz.",
+          "text": "Dosyanın uzlaştırma bürosuna gönderilmesini istiyoruz; suç uzlaştırma kapsamında, kovuşturmada yeniden denenebilir.",
           "delta": -10,
           "law": "CMK m.253/18",
           "note": "Konut dokunulmazlığının ihlali uzlaştırma kapsamındadır (CMK m.253/1); ama soruşturmada uzlaştırma sonuçsuz kaldı ve tekrarlanamaz (m.253/18).",
@@ -361,14 +376,14 @@
           ]
         },
         {
-          "text": "Müvekkil özür diliyor; fotoğrafları imha edecek, bir daha habersiz girmeyeceğini yazılı taahhüt ediyor. Katılanın şikâyetinden vazgeçmesini rica ediyoruz.",
+          "text": "Müvekkil özür diliyor, fotoğrafları siliyor ve yazılı taahhüt veriyor; katılan şikâyetinden vazgeçsin.",
           "delta": 10,
           "set": ["teklif"],
           "law": "TCK m.73/4",
           "note": "Suç şikâyete bağlıdır; şikâyetten vazgeçme davayı düşürür, yeter ki sanık da kabul etsin (TCK m.73/4, m.73/6). Uzlaştırmanın kapandığı yerde sulhun meşru yolu budur."
         },
         {
-          "text": "Teklifimiz yok; beraat bekliyoruz.",
+          "text": "Teklifimiz yok; zorunluluk hâli ortada, beraat bekliyoruz. Sulh, suçu kabul gibi algılanır.",
           "delta": 0,
           "note": "Meşru bir tercih; ama şikâyete bağlı bir suçta sulh kapısını kendiniz kapattınız."
         }
@@ -400,7 +415,7 @@
           ]
         },
         {
-          "text": "Müvekkile sormadan, vekil olarak şikâyetten vazgeç.",
+          "text": "Vekâletnamemde genel yetki var; müvekkile sormadan, vekil olarak şikâyetten vazgeçiyorum.",
           "delta": -15,
           "note": "Şikâyetten vazgeçme müvekkilin kararıdır ve vekâletnamede özel yetki ister. Hâkim beyanı müvekkile sordu; Derya Hanım vazgeçmediğini söyledi. Müvekkilinizin güvenini zedelediniz.",
           "reply": [
@@ -419,19 +434,19 @@
       "prompt": "Esas hakkında ne isteyeceksiniz?",
       "choices": [
         {
-          "text": "Kiralanan daire müvekkilin konutudur; girişte geçerli bir rıza yoktu, zorunluluk sınırı da aşıldı. TCK m.116/1 uyarınca mahkûmiyet talep ediyoruz.",
+          "text": "Daire müvekkilin konutudur; geçerli rıza yoktu, zorunluluk sınırı aşıldı. TCK m.116/1 uyarınca mahkûmiyet istiyoruz.",
           "delta": 15,
           "law": "TCK m.116/1",
           "note": "Beyanınız suçun unsurlarını ve savunmanın neden tutmadığını doğru özetliyor."
         },
         {
-          "text": "Sanık eve kilitli kapıyı açarak girdi; TCK m.116/4 uyarınca cezası artırılsın.",
+          "text": "Sanık kiracının yokluğunda kilitli kapıyı yedek anahtarla açarak girdi; TCK m.116/4 uyarınca cezası artırılsın.",
           "delta": -10,
           "law": "TCK m.116/4",
           "note": "Kendi anahtarıyla kapıyı açmak cebir değildir; olay gündüz oldu. Mütalaanın ötesinde, dayanaksız bir talepte bulundunuz."
         },
         {
-          "text": "Müvekkilin manevi zararının da bu davada tazminine hükmedilsin.",
+          "text": "Müvekkilin özel hayatı ihlal edildi; manevi zararının da bu davada katılan lehine tazminine hükmedilsin (TBK m.58).",
           "delta": -10,
           "note": "Ceza mahkemesi tazminata hükmetmez; manevi tazminat hukuk mahkemesinde istenir."
         }

@@ -68,7 +68,7 @@
         { "if": "!tutanak", "text": "Savunmada açıkça duruşma talep et. Metrajı ölçmenin harcama yetkilisinin görevi olmadığını yaz.", "delta": 10, "set": ["durusma"],
           "law": "6085 s.K.",
           "note": "Duruşma talebi yerinde. Ama savunmayı somut bir belgeye dayandırmadınız." },
-        { "text": "Ayrıntılı bir yazılı savunma ver, duruşma isteme. Heyet dosyayı zaten okur.", "delta": -10, "set": ["rapor"],
+        { "text": "Ayrıntılı bir yazılı savunma ver, duruşma isteme; heyet dosyayı zaten okur, sözlü açıklama bir şey katmaz.", "delta": -10, "set": ["rapor"],
           "note": "Talep yoksa duruşma yapılmaz. Daire, raporu ve Başsavcılığın yazılı görüşünü esas alarak karar verir. Heyet önünde açıklama fırsatınız olmaz." },
         { "text": "Savunma verme. İlam çıkarsa idare mahkemesinde iptal davası açarız.", "delta": -20, "set": ["rapor", "idari"],
           "law": "Anayasa m.160",
@@ -96,25 +96,37 @@
       },
       "pass": { "delta": -15, "note": "Savcının görüşüne karşılık vermediniz. İmza tek başına konuşmaya devam ediyor." }
     },
-    { "side": "p1", "scene": "court", "if": "durusma",
+    { "kind": "free", "side": "p1", "scene": "court", "if": "durusma",
       "lines": [
         { "who": "denetci", "if": "kaynak", "text": "Tutanak var, kabul ediyorum. Ancak harcama yetkilisi ödeme emrini imzalarken hakedişi incelemekle yükümlüdür." },
         { "who": "denetci", "if": "!kaynak", "text": "Harcama yetkilisi ödeme emrini imzalayarak ödemeye onay vermiştir. Fazla ödemeden doğrudan sorumludur." },
         { "who": "judge", "text": "Sorumlu vekili, sorumluluk paylaşımı konusunda ne diyorsunuz?" }
       ],
-      "prompt": "Nasıl karşılık vereceksiniz?",
+      "prompt": "Sorumluluğun kimde olduğunu heyete nasıl anlatacaksınız? Kendi cümlelerinizle savunun.",
       "choices": [
-        { "if": "kaynak", "text": "Görev ayrımını açıklayın: metrajı ölçmek ve hakedişi düzenlemek gerçekleştirme görevlilerinin işidir. Müvekkil şüphelendiğinde yazılı kontrol istedi. Kamu zararında kusur aranır.", "delta": 20, "set": ["gorev"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["gorev"],
           "law": "5018 s.K. m.31–33, m.71",
-          "note": "Harcama yetkilisi ile gerçekleştirme görevlilerinin görevleri ayrıdır. Müvekkil kendi görev alanında özen gösterdiğini belgeyle kanıtladı. Kusur, metrajı yanlış doğrulayan kontrol teşkilatında." },
-        { "if": "!kaynak", "text": "Metraj teknik bir iştir. Gerçekleştirme görevlilerinin alanıdır; harcama yetkilisi bunu ölçemez.", "delta": 5,
+          "note": [
+            { "text": "Görev ayrımını doğru kurdunuz: metrajı ölçmek ve hakedişi düzenlemek gerçekleştirme görevlilerinin işidir (5018 s.K. m.33); kamu zararı kasıt, kusur ya da ihmal arar (m.71). Müvekkil şüphelendiğinde yazılı olarak yeniden ölçüm istedi; kusur metrajı yanlış doğrulayan kontrol teşkilatında." },
+            { "if": "!kaynak", "text": " Ama müvekkilin özen gösterdiğini kanıtlayan belge dosyaya girmedi; heyet bunu görmek ister." }
+          ] },
+        { "text": "Yeterli savunma", "min": 40, "delta": 5,
           "law": "5018 s.K. m.31–33",
-          "note": "Doğru yönde bir savunma. Ama müvekkilin özen gösterdiğini kanıtlayan bir belge yok. Harcama yetkilisi yalnızca “teknik bilmem” diyerek sorumluluktan kurtulamaz." },
-        { "text": "Müvekkil imzalamak zorundaydı. Aksi hâlde ödeme gecikir, yükleniciye faiz doğardı.", "delta": -5,
-          "note": "Gecikme kaygısı, mevzuata aykırı bir ödemeyi haklı kılmaz." },
-        { "text": "Fazla ödeme yükleniciden zaten geri alınacak. Bu nedenle dosya düşmelidir.", "delta": -5,
-          "note": "Tahsil ihtimali tek başına kamu zararını ortadan kaldırmaz. Dosyada ödendiğini gösteren bir belge de yok." }
-      ] },
+          "note": "Doğru yönde bir savunma: metraj gerçekleştirme görevlilerinin alanıdır. Ama harcama yetkilisi yalnızca “teknik bilmem” diyerek sorumluluktan kurtulamaz. Tam savunma, görev ayrımını müvekkilin yazılı yeniden ölçüm talimatına ve mühendislerin “doğrudur” şerhine bağlar; kamu zararında kusur arandığını da söyler (m.71)." },
+        { "text": "Zayıf savunma", "delta": -5,
+          "law": "5018 s.K. m.31–33, m.71",
+          "note": "Sorumluluk paylaşımını kuramadınız. Ödemenin gecikeceği kaygısı mevzuata aykırı bir ödemeyi haklı kılmaz; yükleniciden tahsil ihtimali de kamu zararını tek başına ortadan kaldırmaz. Doğrusu: metrajı ölçmek ve hakedişi düzenlemek gerçekleştirme görevlilerinin işidir (m.33); müvekkil şüphelendiğinde yazılı kontrol istedi; kamu zararında kusur aranır (m.71)." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) 5018 sayılı Kanun harcama yetkilisi ile gerçekleştirme görevlilerinin görevlerini ayırır (m.31–33): metrajı ölçmek, hakedişi düzenlemek ve ödeme için gerekli belgeleri hazırlamak gerçekleştirme görevlilerinin (kontrol teşkilatının) işidir. (2) Kamu zararı, kamu görevlilerinin kasıt, kusur ya da ihmalinden kaynaklanan mevzuata aykırı işlem arar (m.71); imza tek başına kusur değildir. (3) Müvekkil demir miktarından şüphelenmiş, 4 Eylül 2025 tarihli yazıyla yerinde yeniden ölçüm istemiş; üç mühendis “metraj doğrudur” şerhiyle tutanak imzalamıştır. Harcama yetkilisi kendi görev alanında özen göstermiştir. (4) Hatalı metrajın kaynağı ve kusur kontrol teşkilatındadır; müvekkil sorumlu tutulmamalıdır. Görev ayrımını, kusur şartını ve müvekkilin yazılı kontrol talimatını birlikte kuran cevap tam puan alır; yalnızca metrajın teknik bir iş olduğunu söyleyen cevap orta puan alır. Ödemenin gecikmemesi için imzalamak zorunda olunduğunu ya da paranın yükleniciden nasılsa geri alınacağını savunan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["gerçekleştirme görevli", "kontrol teşkilatı", "mühendis"], "weight": 3 },
+        { "terms": ["görev ayrımı", "görevleri ayrı", "ayrı görev", "harcama yetkilisi"], "weight": 2 },
+        { "terms": ["kusur", "ihmal", "kasıt", "özen"], "weight": 2 },
+        { "terms": ["tutanak", "yazılı talimat", "yeniden ölç", "kontrol ettir", "talimat"], "weight": 2 },
+        { "terms": ["m.71", "m. 71", "madde 71", "71. madde", "m.33", "madde 33", "33. madde", "m.31", "5018"], "weight": 1 },
+        { "terms": ["metraj", "hakediş"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, 5018 sayılı Kanun harcama yetkilisi ile gerçekleştirme görevlilerinin görevlerini ayırmıştır; metrajı ölçmek ve hakedişi düzenlemek kontrol teşkilatındaki gerçekleştirme görevlilerinin işidir (m.33). Kamu zararı ise kasıt, kusur ya da ihmal arar (m.71). Müvekkil demir miktarından şüphelenince yazılı talimatla yerinde yeniden ölçüm istemiş, üç mühendis “metraj doğrudur” şerhiyle tutanak imzalamıştır. Kusur metrajı yanlış doğrulayanlardadır; müvekkilin sorumlu tutulmamasını talep ederiz." },
     { "side": "p1", "scene": "court", "if": "durusma",
       "lines": [
         { "who": "opp", "text": "Başsavcılık yazılı görüşünü tekrar ediyorum. Fazla ödeme gerçektir; tutarın tazmini gerekir. Kimden tazmin edileceği heyetin takdirindedir." },

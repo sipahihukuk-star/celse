@@ -45,16 +45,16 @@
       ],
       "prompt": "Talebi nasıl kuracaksınız?",
       "choices": [
-        { "text": "Kullanılmayan yıllık izin ücreti. Hak edilen: ilk beş yıl 14'er, 6. ve 7. yıl 20'şer gün, toplam 110 gün. İmzalı 34 gün düşülünce 76 gün.", "delta": 20, "set": ["hesap"],
+        { "text": "Kullanılmayan izin ücreti: beş yıl 14'er, iki yıl 20'şer gün, toplam 110; imzalı 34 gün düşülünce 76 gün.", "delta": 20, "set": ["hesap"],
           "law": "İş K. m.53 · m.59",
           "note": "Doğru. İzin ücreti, sözleşme “herhangi bir nedenle” sona erdiğinde ödenir; haklı nedenle fesih bu hakkı ortadan kaldırmaz (m.59). Beş yıldan fazla, on beş yıldan az kıdemde yıllık izin 20 gündür (m.53)." },
-        { "text": "Her yıl için 14 gün: toplam 98 gün, 34 gün düşülünce 64 gün.", "delta": 5, "set": ["eksik"],
+        { "text": "Kullanılmayan izin ücreti: yedi yılın her biri için 14 gün, toplam 98; imzalı 34 gün düşülünce 64 gün.", "delta": 5, "set": ["eksik"],
           "law": "İş K. m.53",
           "note": "Eksik. Altıncı hizmet yılından itibaren izin 20 gündür. Mahkeme talepten fazlasına hükmedemez (HMK m.26); 12 gün kendi elinizle eksik istendi." },
-        { "text": "Her yıl için 26 gün: toplam 182 gün, 34 gün düşülünce 148 gün.", "delta": -10, "set": ["fazla"],
+        { "text": "Kullanılmayan izin ücreti: yedi yılın her biri için 26 gün, toplam 182; 34 gün düşülünce 148 gün.", "delta": -10, "set": ["fazla"],
           "law": "İş K. m.53",
           "note": "26 gün, on beş yıl ve daha fazla kıdemi olan işçilerin iznidir. Fazla istenen kısım reddedilir ve bu kısım için karşı taraf lehine vekâlet ücretine hükmedilir." },
-        { "text": "Haklı nedenle çıkarılan işçi izin ücreti alamaz; dava açmayalım.", "delta": -20, "set": ["vazgec", "end"],
+        { "text": "Devamsızlıkla haklı nedenle çıkarılan işçi, kıdem tazminatı gibi izin ücretini de kaybeder; dava açmayalım.", "delta": -20, "set": ["vazgec", "end"],
           "law": "İş K. m.59",
           "note": "Yanlış. Fesih nedeni kıdem ve ihbar tazminatını etkiler, kullanılmayan izin ücretini etkilemez. Kanun “herhangi bir nedenle” sona ermeden söz eder." }
       ] },
@@ -66,13 +66,13 @@
       ],
       "prompt": "Bu savunmaya nasıl karşılık vereceksiniz?",
       "choices": [
-        { "text": "İzinlerin kullandırıldığını ispat yükü işverendedir. Bunun ölçüsü işçinin imzasını taşıyan izin defteri ya da eşdeğer bir belgedir. İmzasız liste ve tanık beyanı yetmez. İmzalı 34 günü kabul ediyoruz; kalanı için belge yok.", "delta": 20, "set": ["ispat"],
+        { "text": "İspat yükü işverende; ölçü imzalı izin defteridir, imzasız liste ve tanık yetmez. İmzalı 34 günü kabul ediyoruz.", "delta": 20, "set": ["ispat"],
           "law": "TMK m.6 · Yıllık Ücretli İzin Yönetmeliği",
           "note": "Doğru. İşveren izin kayıtlarını tutmakla yükümlüdür; Yargıtay uygulamasında iznin kullandırıldığı, işçinin imzasını taşıyan izin defteri ya da eşdeğer yazılı belgeyle ispat edilir. İşverenin kendi hazırladığı imzasız liste bu yükü karşılamaz.",
           "reply": [{ "who": "judge", "text": "Davalı vekili, davacının imzasını taşıyan başka izin kaydınız var mı?" }, { "who": "opp", "text": "Dosyadakiler dışında… bulunmuyor, Sayın Hâkim." }] },
-        { "text": "Tanıklarımızla müvekkilin izne çıkmadığını ispat edeceğiz.", "delta": -5,
+        { "text": "Müvekkilin izne çıkmadığını, aynı dönemde çalışan iki iş arkadaşını tanık olarak dinleterek ispat edeceğiz.", "delta": -5,
           "note": "Yanlış değil, ama ispat yükünü gereksiz yere üstlendiniz. İzni kullandırdığını ispat etmesi gereken işverendir." },
-        { "text": "Personel şefinin izin listesine bir itirazımız yok; ama müvekkil yine de izin ücretini istiyor.", "delta": -25, "set": ["liste"],
+        { "text": "Personel şefinin izin listesine bir itirazımız yok; ama müvekkil yine de kullanmadığını söylediği izinlerin ücretini istiyor.", "delta": -25, "set": ["liste"],
           "law": "HMK m.188",
           "note": "Ağır hata. Liste her yıl izin kullanıldığını gösteriyor; içeriğine itiraz etmemek o vakıaları kabul etmek demektir. İkrar edilen vakıa ispat gerektirmez (HMK m.188)." }
       ] },
@@ -106,30 +106,41 @@
       ],
       "prompt": "Vazgeçme iddiasına cevabınız?",
       "choices": [
-        { "text": "Yıllık ücretli izin hakkından vazgeçilemez. İzni kullandırmak işverenin yükümlülüğüdür; ikramiye izin ücretinin yerine geçmez.", "delta": 20, "set": ["vaz"],
+        { "text": "Yıllık izin hakkından vazgeçilemez; izni kullandırmak işverenin yükümlülüğü, ikramiye izin ücretinin yerine geçmez.", "delta": 20, "set": ["vaz"],
           "law": "İş K. m.53",
           "note": "Doğru. Yıllık izin, işçinin dinlenme hakkını koruyan emredici bir haktır ve bu haktan vazgeçilemez (İş K. m.53). İşçinin “istemedim” demesi işvereni yükümlülükten kurtarmaz." },
-        { "text": "Müvekkil 2023 iznini kullanmadığını ve ikramiyeyle karşılandığını kabul ediyor; o yıl düşülsün.", "delta": -15, "set": ["feragat"],
+        { "text": "Müvekkil 2023 iznini kullanmadığını ve karşılığında ikramiye aldığını kabul ediyor; dürüstlük gereği o yıl hesaptan düşülsün.", "delta": -15, "set": ["feragat"],
           "law": "İş K. m.53 · HMK m.307",
           "note": "Hukuken geçersiz bir vazgeçmeyi duruşmada kabul ettiniz. Bu beyan, 2023 yılına ait 14 günlük talepten kısmi feragat sonucu doğurur." },
-        { "text": "İkramiye çok azdı, izin ücretini karşılamaz.", "delta": -10,
+        { "text": "Bayram ikramiyesi 14 günlük izin ücretinin çok altında kaldı; aradaki farkın ödenmesi gerekir.", "delta": -10,
           "note": "Tartışmayı miktara çektiniz; bu, vazgeçmenin geçerli olduğunu zımnen kabul ediyor gibi görünür. Asıl cevap, izin hakkından vazgeçilemeyeceğiydi." }
       ] },
-    { "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [
         { "who": "judge", "text": "Hesap için dosyayı bilirkişiye göndereceğim. Davalı, her yılın kendi ücretinin esas alınmasını istiyor. Davacı vekili, hangi ücret esas alınsın?" }
       ],
-      "prompt": "Hangi ücreti istersiniz?",
+      "prompt": "Bilirkişi hesabında hangi ücret esas alınmalı? Gerekçesiyle, kendi cümlelerinizle söyleyin.",
+      "rubric": "Davalı, izin ücretinin her yılın kendi ücretiyle hesaplanmasını istiyor; davacı vekili hangi ücretin esas alınacağını söylüyor. İyi bir cevap şunları içerir: (1) İş Kanunu m.59 uyarınca kullanılmayan yıllık izin ücreti, sözleşmenin sona erdiği tarihteki ücret üzerinden ödenir. (2) Bu nedenle davalının her izin yılının kendi ücretinin esas alınması talebi kanuna aykırıdır ve reddedilmelidir. (3) Hesap, müvekkilin son brüt günlük ücreti olan 1.600 TL üzerinden yapılmalıdır. Sona erme tarihindeki ücreti m.59'a dayanarak isteyen cevap tam puan alır; son ücreti isteyip dayanağını göstermeyen cevap orta puan alır. Her yılın kendi ücretini ya da asgari ücreti kabul eden cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["sona erdiği", "sona erme", "fesih tarihi", "son ücret", "çıkış tarihi", "ayrıldığı tarih"], "weight": 3 },
+        { "terms": ["m.59", "m. 59", "madde 59", "59. madde", "md. 59", "md.59"], "weight": 2 },
+        { "terms": ["1.600", "1600"], "weight": 1 },
+        { "terms": ["brüt"], "weight": 1 },
+        { "terms": ["kanuna aykırı", "reddedil", "kabul etmiyoruz", "katılmıyoruz"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, İş Kanunu m.59 uyarınca kullanılmayan yıllık izin ücreti, sözleşmenin sona erdiği tarihteki ücret üzerinden ödenir. Davalının her izin yılının kendi ücretinin esas alınması talebi kanuna aykırıdır. Hesabın müvekkilin son brüt günlük ücreti olan 1.600 TL üzerinden yapılmasını talep ediyoruz.",
       "choices": [
-        { "text": "Sözleşmenin sona erdiği tarihteki ücret.", "delta": 15, "set": ["son"],
+        { "text": "Güçlü cevap", "min": 70, "delta": 15, "set": ["son"],
           "law": "İş K. m.59",
-          "note": "Doğru. Kullanılmayan izin ücreti, sözleşmenin sona erdiği tarihteki ücret üzerinden hesaplanır (m.59). Böylece eski yıllardaki düşük ücretler işçinin aleyhine işlemez.",
-          "reply": [{ "who": "judge", "text": "Bilirkişiye son ücret üzerinden hesap yapması için talimat verildi." }] },
-        { "text": "Her izin yılının kendi ücreti.", "delta": -10,
+          "note": "Doğru. Kullanılmayan izin ücreti, sözleşmenin sona erdiği tarihteki ücret üzerinden hesaplanır (m.59). Böylece eski yıllardaki düşük ücretler işçinin aleyhine işlemez; davalının talebi kanuna aykırı.",
+          "reply": [{"who": "judge", "text": "Bilirkişiye son ücret üzerinden hesap yapması için talimat verildi."}] },
+        { "text": "Yeterli cevap", "min": 40, "delta": 7, "set": ["son"],
           "law": "İş K. m.59",
-          "note": "Kanun açıkça sona erme tarihindeki ücreti esas alır. Davalının müvekkil aleyhine talebine katıldınız; mahkeme yine de m.59'u uygulayacak." },
-        { "text": "Asgari ücret.", "delta": -15,
-          "note": "Müvekkilin gerçek ücreti belli; asgari ücret, ücret ispatlanamadığında başvurulan bir ölçüdür." }
+          "note": "Son ücreti istediniz; mahkeme talimatı buna göre verdi. Dayanağını da söylemeliydiniz: İş Kanunu m.59 izin ücretinin sözleşmenin sona erdiği tarihteki ücret üzerinden ödeneceğini açıkça düzenler; davalının her yılın kendi ücreti talebi bu yüzden reddedilmelidir.",
+          "reply": [{"who": "judge", "text": "Bilirkişiye son ücret üzerinden hesap yapması için talimat verildi."}] },
+        { "text": "Zayıf cevap", "delta": -10,
+          "law": "İş K. m.59",
+          "note": "Davalının talebine etkili bir karşılık vermediniz. Kanun açıkça sona erme tarihindeki ücreti esas alır (m.59); her yılın kendi ücreti ya da asgari ücret müvekkilin aleyhinedir. Mahkeme yine de m.59'u uygulayacak, ama bunu sizin söylemeniz gerekirdi." }
       ] }
   ],
   "outcomes": [

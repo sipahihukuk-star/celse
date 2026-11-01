@@ -1,5 +1,6 @@
 // Yapay zekâ araçlarının saf yardımcıları (ağ ve cihaz bağımlılığı yok; komut satırında da sınanabilir).
 import { normalizeCase, validateCase } from "../engine/engine";
+import { hasFreeStep, lengthCues } from "../engine/lint";
 import { simulateCase } from "../engine/simulate";
 import { CaseFile } from "../engine/types";
 
@@ -73,6 +74,8 @@ export function engineCheck(c: CaseFile): string[] {
     const r = simulateCase(n, 20000);
     const out = [...r.problems];
     if (!r.truncated && r.unreachedSteps.length) out.push(`Hiçbir yolda ulaşılmayan adımlar: ${r.unreachedSteps.join(", ")}`);
+    out.push(...lengthCues(n).problems);
+    if (!hasFreeStep(n)) out.push("serbest cevap (yazılı / sesli, kind: free) adımı yok; en az bir adım free olmalı");
     return out;
   } catch (e) { return ["Oynatma hatası: " + (e as Error).message]; }
 }

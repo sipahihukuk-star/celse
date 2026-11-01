@@ -182,7 +182,7 @@
       "prompt": "Nasıl bir dava açacak, ne talep edeceksiniz?",
       "choices": [
         {
-          "text": "Menfi tespit davası aç. Takipten sonra açıldığı için alacağın en az %15'i oranında teminat göstererek icra veznesindeki paranın alacaklıya ödenmemesi yönünde tedbir iste. Takip haksız ve kötüniyetli olduğundan en az %20 kötüniyet tazminatı talep et.",
+          "text": "Menfi tespit aç; %15 teminatla paranın ödenmemesi tedbiri ve en az %20 kötüniyet tazminatı iste.",
           "delta": 25,
           "set": [
             "tedbir",
@@ -198,7 +198,7 @@
           ]
         },
         {
-          "text": "Menfi tespit davası aç; ihtiyati tedbirle icra takibinin durdurulmasını iste.",
+          "text": "Menfi tespit davası aç; %15 teminat göstererek ihtiyati tedbirle icra takibinin durdurulmasını iste.",
           "delta": -10,
           "set": [
             "odendi"
@@ -213,7 +213,7 @@
           ]
         },
         {
-          "text": "Önce icra mahkemesine başvur, borca itiraz et: çek teminat çekidir.",
+          "text": "Önce icra mahkemesine başvurup borca itiraz et: çek teminat çekidir, takip icra mahkemesi kararıyla durur.",
           "delta": -15,
           "set": [
             "odendi"
@@ -228,7 +228,7 @@
           ]
         },
         {
-          "text": "Menfi tespit davası aç; tedbir ya da tazminat isteme, yalnız borçlu olmadığının tespitini iste.",
+          "text": "Menfi tespit davası aç; teminat yatırma ve tazminat riskine girmeden yalnız borçlu olmadığının tespitini iste.",
           "delta": 0,
           "set": [
             "odendi"
@@ -256,7 +256,7 @@
       "prompt": "Cevap dilekçenizin merkezine ne koyacaksınız?",
       "choices": [
         {
-          "text": "Çek soyut bir kambiyo senedidir; teminat iddiasını davacı ispat etmeli ve senede karşı iddia ancak yazılı delille ispatlanabilir. Tanığa açıkça muvafakat etmiyoruz. İhtiyaten: teminat altındaki vade farkı alacağı doğdu; 38.000 TL'lik fatura süresinde itiraz edilmediği için kabul edilmiş sayılır.",
+          "text": "Teminat iddiası senede karşıdır, yazılı delil gerekir; tanığa muvafakat yok. İhtiyaten: itiraz edilmeyen 38.000 TL vade farkı faturası kabul sayılır.",
           "delta": 25,
           "set": [
             "ispatItiraz",
@@ -266,7 +266,7 @@
           "note": "İspat yükünü ve senede karşı tanıkla ispat yasağını doğru kurdunuz (HMK m.201). Faturayı alan, sekiz gün içinde itiraz etmezse içeriğini kabul etmiş sayılır (TTK m.21/2); teminat çeki, teminat altındaki bu alacak oranında kullanılabilir. Bu savunmayı dilekçeler aşamasında getirdiğiniz için genişletme yasağına da takılmayacaksınız (HMK m.141)."
         },
         {
-          "text": "İspat yükünü ve senede karşı tanık yasağını hatırlat; tanığa açıkça muvafakat etmediğini yaz. Başka savunma ekleme.",
+          "text": "İspat yükünü ve senede karşı tanık yasağını hatırlat, tanığa açıkça muvafakat etme; vade farkı faturasını şimdilik sakla, duruşmada ileri sürersin.",
           "delta": 15,
           "set": [
             "ispatItiraz"
@@ -275,13 +275,13 @@
           "note": "Temel savunma doğru. Ama vade farkı faturasını kullanmadınız; dilekçeler aşamasından sonra yeni bir savunmayı ancak karşı tarafın açık muvafakatiyle getirebilirsiniz (HMK m.141)."
         },
         {
-          "text": "Çek ödeme amacıyla verildi; son teslimatın faturasının karşılığıdır.",
+          "text": "Çek teminat değil, ödeme amacıyla verildi; son teslimatın faturasının karşılığıdır, takip bu yüzden haklıdır.",
           "delta": -10,
           "law": "HMK m.190",
           "note": "Son fatura havaleyle ödenmiş; dekontlar dosyada. Belgelerle çelişen bir savunma ispat edilemez ve güvenilirliğinizi zedeler."
         },
         {
-          "text": "Davacı, çeki elinde bulunduran hamile karşı kişisel def'ilerini ileri süremez.",
+          "text": "Çek soyut bir kambiyo senedidir; davacı, çeki elinde bulunduran hamile karşı kişisel def'ilerini ileri süremez (TTK m.687).",
           "delta": -15,
           "law": "TTK m.687, m.818",
           "note": "Müvekkiliniz çekin lehtarı, yani keşidecinin doğrudan muhatabı; çek ciro edilmedi. Kişisel def'ilerin ileri sürülememesi, senedi sonradan iktisap eden hamilleri korur (TTK m.687, çek için m.818). Lehtara karşı bu def'iler ileri sürülebilir."
@@ -310,7 +310,7 @@
       "choices": [
         {
           "if": "tutanak",
-          "text": "Protokolü ve teminat çeki teslim tutanağını sun: tutanaktaki seri numarası ve tutar takip konusu çekle aynı; tutanak davalının muhasebe şefince imzalanmış.",
+          "text": "Protokolü ve muhasebe şefince imzalı teslim tutanağını sun; tutanaktaki seri numarası ve tutar takip konusu çekle aynı.",
           "delta": 25,
           "set": [
             "ispat"
@@ -326,7 +326,7 @@
         },
         {
           "if": "tanikBilgi",
-          "text": "Protokolü delil başlangıcı olarak sun; satış müdürünün tanık olarak dinlenmesini iste.",
+          "text": "Protokolü HMK m.202 anlamında delil başlangıcı olarak sun; çeki teslim eden satış müdürünün tanık olarak dinlenmesini iste.",
           "delta": 15,
           "set": [
             "ispat",
@@ -346,7 +346,7 @@
           ]
         },
         {
-          "text": "Yalnız protokolü sun: “280.000 TL tutarlı teminat çeki” ibaresi ile çekin tutarı örtüşüyor.",
+          "text": "Yalnız protokolü sun: “280.000 TL tutarlı teminat çeki” ibaresi ile takip konusu çekin tutarı birebir örtüşüyor.",
           "delta": 10,
           "set": [
             "protokol"
@@ -361,7 +361,7 @@
           ]
         },
         {
-          "text": "Satış müdürünü tanık olarak dinlet; çekin teminat için verildiğini anlatsın.",
+          "text": "Satış müdürünü tanık olarak dinlet; çeki bizzat o teslim etti, teminat için verildiğini en iyi o anlatır.",
           "delta": -10,
           "set": [
             "tanikOnly"
@@ -445,7 +445,7 @@
       "prompt": "Protokole karşı ne diyeceksiniz?",
       "choices": [
         {
-          "text": "Protokol çeki seri numarasıyla belirlemiyor; davacı 2025'te de müvekkile aynı tutarda bir ödeme çeki vermişti. Bu belge, takip konusu çekin teminat çeki olduğunu ispatlamaz.",
+          "text": "Protokolde seri numarası yok; 2025'te aynı tutarda bir ödeme çeki de verildi. Hangi çekten söz ettiği belirsiz.",
           "delta": 15,
           "set": [
             "protokolYetersiz"
@@ -481,7 +481,7 @@
           "if": "!vade"
         },
         {
-          "text": "Protokoldeki imzanın müvekkil şirkete ait olmadığını ileri sür.",
+          "text": "Protokoldeki imzanın müvekkil şirkete ait olmadığını ileri sür; imza incelemesi yapılmadan belge delil olamaz.",
           "delta": -20,
           "set": [
             "ispat"
@@ -510,7 +510,7 @@
       "prompt": "Ne yapacaksınız?",
       "choices": [
         {
-          "text": "Teminat ilişkisini kabul et; cevap dilekçesinde ileri sürdüğün vade farkı alacağında ısrar et: 38.000 TL'lik fatura süresinde itiraz edilmediği için kabul edilmiş sayılır. Bu kısım yönünden davanın reddini iste.",
+          "text": "Teminat ilişkisini kabul et; cevap dilekçesindeki vade farkı savunmasında ısrar et: itiraz edilmeyen 38.000 TL'lik fatura kabul sayılır.",
           "delta": 20,
           "set": [
             "vade"
@@ -540,7 +540,7 @@
         },
         {
           "if": "tutanak",
-          "text": "Teslim tutanağındaki imzanın muhasebe şefine ait olmadığını ileri sür.",
+          "text": "Teslim tutanağındaki imzanın muhasebe şefine ait olmadığını ileri sür; imza inkâr edilince ispat yükü davacıya geçer.",
           "delta": -20,
           "law": "HMK m.29, m.329",
           "note": "Muhasebe şefi imzanın kendisine ait olduğunu size söylemişti. Bildiğiniz bir gerçeğe aykırı beyan doğruyu söyleme yükümlülüğüne aykırıdır (HMK m.29); imza incelemesinde ortaya çıkar ve yaptırıma yol açabilir (HMK m.329).",
@@ -627,7 +627,7 @@
       "prompt": "Teklife ne diyorsunuz?",
       "choices": [
         {
-          "text": "Müvekkilin onayını al; ödeme yapılınca çekin iadesi, takipten feragat, hacizlerin kaldırılması ve teminatın iadesi şartıyla kabul et.",
+          "text": "Müvekkilin onayıyla kabul et: ödemeyle çek iade edilsin, takipten feragat edilsin, hacizler ve teminat kalksın.",
           "delta": 15,
           "set": [
             "sulh"
@@ -642,7 +642,7 @@
           ]
         },
         {
-          "text": "Teklifi reddet; davanın tamamının kabulünü ve kötüniyet tazminatını iste.",
+          "text": "Teklifi reddet; teminat ilişkisi ispatlandı, davanın tamamının kabulünü ve en az %20 kötüniyet tazminatını iste.",
           "delta": 5,
           "note": "Savunulabilir bir tercih. Ama cevap dilekçesinde vade farkı savunması varsa davanın tamamı kabul edilmeyebilir; riski müvekkile sormadan aldınız.",
           "reply": [
@@ -658,7 +658,7 @@
           ]
         },
         {
-          "text": "Teklifi müvekkile sormadan hemen kabul et.",
+          "text": "Teklifi hemen kabul et; vekâletnamedeki genel yetki yeterli, müvekkil de davanın bir an önce bitmesini istiyor.",
           "delta": -15,
           "law": "HMK m.74",
           "note": "Sulh, vekâletnamede özel yetki gerektiren işlemlerdendir (HMK m.74). Müvekkilin iradesini de almadınız.",
@@ -693,7 +693,7 @@
       "prompt": "Vade farkı faturasına ne diyeceksiniz?",
       "choices": [
         {
-          "text": "Vade farkının protokoldeki %3 oran ve gerçek gecikme günleriyle bilirkişiye hesaplatılmasını iste; fazlası yönünden itiraz et.",
+          "text": "Vade farkının protokoldeki %3 oran ve gerçek gecikme günleriyle bilirkişiye hesaplatılmasını iste.",
           "delta": 15,
           "set": [
             "hesap"
@@ -715,14 +715,14 @@
         },
         {
           "if": "vadeBilgi",
-          "text": "Vade farkı faturası müvekkile hiç ulaşmadı.",
+          "text": "Vade farkı faturası müvekkile hiç ulaşmadı; tebliğ edilmemiş bir faturaya TTK m.21/2 karinesi işlemez.",
           "delta": -15,
           "law": "HMK m.29",
           "note": "Muhasebe müdürü faturanın geldiğini ve kenara konduğunu size söylemişti. Bildiğiniz bir gerçeğe aykırı beyan doğruyu söyleme yükümlülüğüne aykırıdır (HMK m.29); e-fatura kayıtları da teslimi gösterdi."
         },
         {
           "if": "!vadeBilgi",
-          "text": "Vade farkı faturası müvekkile hiç ulaşmadı.",
+          "text": "Vade farkı faturası müvekkile hiç ulaşmadı; tebliğ edilmemiş bir faturaya TTK m.21/2 karinesi işlemez.",
           "delta": -5,
           "law": "TTK m.21/2",
           "note": "Müvekkile sormadan bir vakıa ileri sürdünüz; e-fatura kayıtları faturanın teslim edildiğini gösterdi. Muhasebe müdürüne faturaları sorsaydınız bu sürprizle karşılaşmazdınız."
@@ -742,7 +742,7 @@
       "prompt": "Kötüniyet tazminatı talebine ne diyeceksiniz?",
       "choices": [
         {
-          "text": "Kötüniyet, alacaklının bile bile haksız takip yapmasıdır ve ispat yükü davacıdadır; tazminata ancak bu ispatlanırsa hükmedilebileceğini hatırlat.",
+          "text": "Kötüniyet, bile bile haksız takiptir; ispat yükü davacıdadır, ispatlanmadıkça tazminata hükmedilemez.",
           "delta": 5,
           "law": "İİK m.72/5",
           "note": "Kural doğru: haksızlık yetmez, kötüniyet de aranır (İİK m.72/5). Ama bütün faturaların ödendiğini bilen alacaklının teminat çekini tam bedelle takibe koyması kötüniyetin güçlü bir göstergesi; mahkeme bunu dosyadaki belgelerden çıkarabilir.",
@@ -754,7 +754,7 @@
           ]
         },
         {
-          "text": "Kötüniyet tazminatının üst sınırı alacağın %20'sidir; daha fazlası istenemez.",
+          "text": "Tazminat gerekse bile İİK m.72/5'teki üst sınır alacağın %20'sidir; daha fazlasına hükmedilemez.",
           "delta": -10,
           "law": "İİK m.72/5",
           "note": "Kanun %20'yi üst sınır değil, alt sınır olarak koyar: tazminat alacağın %20'sinden az olamaz (İİK m.72/5).",
@@ -766,7 +766,7 @@
           ]
         },
         {
-          "text": "Kötüniyet tazminatı yalnız alacaklı lehine istenebilir.",
+          "text": "Kötüniyet tazminatı yalnız alacaklı lehine istenebilir; borçlu ancak genel hükümlere göre ayrı dava açabilir.",
           "delta": -10,
           "law": "İİK m.72/4, m.72/5",
           "note": "İİK m.72 iki ayrı tazminat öngörür: dava borçlu aleyhine sonuçlanırsa alacaklı lehine (m.72/4), takip haksız ve kötüniyetli çıkarsa borçlu lehine (m.72/5).",
@@ -789,16 +789,17 @@
           "text": "Tahkikat tamamlandı. Davalı vekili, tedbir kararı nedeniyle bir talebiniz var mı?"
         }
       ],
-      "prompt": "Tedbir yüzünden müvekkilin parası aylardır vezneye bağlı. Ne isteyeceksiniz?",
+      "prompt": "Tedbir yüzünden müvekkilin parası aylardır vezneye bağlı. Mahkemeden ne isteyeceksiniz? Kendi cümlelerinizle açıklayın.",
       "choices": [
         {
-          "text": "Dava reddedilirse tedbirin kaldırılmasını ve alacağını geç almasından doğan zarar için, alacağın %20'sinden az olmamak üzere tazminata hükmedilmesini iste.",
+          "text": "Güçlü talep",
+          "min": 70,
           "delta": 15,
           "set": [
             "alacakliTaz"
           ],
           "law": "İİK m.72/4",
-          "note": "Dava borçlu aleyhine sonuçlanırsa tedbir kalkar; alacaklının geç tahsilden doğan zararı aynı davada takdir edilir ve alacağın %20'sinden aşağı olamaz (İİK m.72/4). Bu tazminatın teminattan karşılanması için talebi açıkça tutanağa geçirdiniz.",
+          "note": "Doğru kurumu doğru ölçüyle istediniz: dava borçlu aleyhine sonuçlanırsa tedbir kalkar; alacaklının geç tahsilden doğan zararı aynı davada takdir edilir ve alacağın %20'sinden aşağı olamaz (İİK m.72/4). Talebi tutanağa geçirerek teminattan karşılanmasının yolunu açtınız.",
           "reply": [
             {
               "who": "judge",
@@ -807,45 +808,83 @@
           ]
         },
         {
-          "text": "Tazminatın %20 alt sınırında kalmamasını, müvekkilin vezneye bağlı kalan parası için ödediği kredi faizlerine göre belirlenmesini iste; banka belgelerini sun.",
+          "text": "Yeterli talep",
+          "min": 40,
           "delta": 10,
           "set": [
             "alacakliTaz"
           ],
           "law": "İİK m.72/4",
-          "note": "%20 bir alt sınırdır; gerçek zarar daha yüksekse belgelenerek istenebilir (İİK m.72/4). Ama zararın ispatı size düşer ve belgeler tartışmaya açıktır; alt sınırı istemek de aynı sonucu güvenle sağlardı.",
+          "note": "Geç tahsilden doğan zararın tazminini istediniz; doğru yön. Ama talebi tam kurmadınız: dayanak İİK m.72/4'tür ve tazminat alacağın %20'sinden aşağı olamaz; bu alt sınırı istemek ayrıca zarar ispatına gerek bırakmadan güvenli sonuç verir.",
           "reply": [
             {
               "who": "judge",
-              "text": "Talep ve belgeler tutanağa geçirildi. Karar için ara veriyorum."
+              "text": "Talep tutanağa geçirildi. Karar için ara veriyorum."
             }
           ]
         },
         {
-          "text": "Davanın reddini istemek yeterli; başka talep yok.",
+          "text": "Zayıf talep",
           "delta": 0,
           "law": "İİK m.72/4",
-          "note": "Dava reddedilirse tedbir zaten kalkar. Ama geç tahsilden doğan zarar için İİK m.72/4'teki tazminatı istemediniz; müvekkilin aylarca vezneye bağlı kalan parasının karşılığı dosyada kaldı.",
-          "reply": [
-            {
-              "who": "judge",
-              "text": "Karar için ara veriyorum."
-            }
-          ]
+          "note": "Dava reddedilirse tedbir zaten kalkar; ama müvekkilin aylarca vezneye bağlı kalan parasının karşılığını istemediniz. Alacaklı lehine dayanak İİK m.72/4'tür: geç tahsilden doğan zarar için alacağın %20'sinden az olmamak üzere tazminat. Borçlu lehine olan m.72/5 kötüniyet tazminatı burada işe yaramaz."
+        }
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları içerir: (1) Davanın reddiyle birlikte tedbirin kaldırılması istenir. (2) İİK m.72/4 uyarınca, dava borçlu aleyhine sonuçlandığında tedbir kararı yüzünden alacaklının alacağını geç almasından doğan zarar aynı davada takdir edilir; bu tazminat alacağın %20'sinden aşağı olamaz. Bu tazminatın açıkça talep edilmesi gerekir. (3) Tazminatın, davacının tedbir için gösterdiği teminattan karşılanması istenebilir. Madde numarasıyla m.72/4'ü ve %20 alt sınırı birlikte söyleyen tam puan alır; geç tahsilden doğan zararın tazminini isteyip dayanağı ya da alt sınırı eksik bırakan cevap orta puan alır. Yalnız davanın reddini isteyen ya da alacaklı lehine m.72/5 kötüniyet tazminatı isteyen cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "tazminat"
+          ],
+          "weight": 2
         },
         {
-          "text": "Davacı aleyhine İİK m.72/5 uyarınca kötüniyet tazminatı iste.",
-          "delta": -10,
-          "law": "İİK m.72/5",
-          "note": "İİK m.72/5'teki kötüniyet tazminatı borçlu lehinedir; alacaklının haksız ve kötüniyetli takibine karşı öngörülür. Alacaklı için doğru dayanak m.72/4'tü.",
-          "reply": [
-            {
-              "who": "judge",
-              "text": "Talep yerinde görülmedi. Karar için ara veriyorum."
-            }
-          ]
+          "terms": [
+            "%20",
+            "yüzde 20",
+            "yüzde yirmi",
+            "% 20"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "geç al",
+            "geç tahsil",
+            "gecikme",
+            "zarar"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "m.72/4",
+            "m. 72/4",
+            "72/4",
+            "madde 72",
+            "72. madde",
+            "md. 72",
+            "m.72"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "teminat"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "tedbirin kaldırılması",
+            "tedbir kalk",
+            "tedbirin kalk"
+          ],
+          "weight": 1
         }
-      ]
+      ],
+      "model": "Sayın Hâkim, davanın reddiyle birlikte tedbirin kaldırılmasını ve İİK m.72/4 uyarınca, müvekkilin tedbir yüzünden alacağını geç almasından doğan zarar için alacağın %20'sinden az olmamak üzere tazminata hükmedilmesini talep ediyoruz. Bu tazminatın davacının gösterdiği teminattan karşılanmasını istiyoruz."
     }
   ],
   "outcomes": [

@@ -48,7 +48,7 @@ const AUDIT_SYSTEM = [
   "Sana bir dava dosyası, 'alan.yolu = değer' satırları hâlinde verilecek. Görevin dosyadaki HATALARI bulmak ve her biri için düzeltme önermek.",
   "Aranacak hatalar:",
   "1) hukuk: yanlış, eksik ya da yürürlükten kalkmış kanun maddesi; yanlış süre, zamanaşımı, hak düşürücü süre; yanlış görevli/yetkili mahkeme veya yargı yolu; yanlış usul (dava şartı arabuluculuk, ihtiyati tedbir, kanun yolu süresi vb.); yerleşik Yargıtay/Danıştay/AYM içtihadına açıkça aykırı açıklama; maddenin içeriğinin yanlış aktarılması.",
-  "2) puan: hukuken doğru hamleye eksi (delta<0) ya da yanlış hamleye artı puan; açıklama (note) ile puanın çelişmesi; 'fatal' (davayı hemen kaybettiren) hamlenin gerçekte davayı kaybettirmemesi ya da tersi; delil adımında doğru delilin 'correct' listesinde olmaması.",
+  "2) puan: hukuken doğru hamleye eksi (delta<0) ya da yanlış hamleye artı puan; açıklama (note) ile puanın çelişmesi; 'fatal' (davayı hemen kaybettiren) hamlenin gerçekte davayı kaybettirmemesi ya da tersi; delil adımında doğru delilin 'correct' listesinde olmaması; doğru seçeneğin metninin yanlışlardan belirgin biçimde uzun (ya da hep en kısa) olup cevabı ele vermesi (bu durumda yanlış seçenekleri inandırıcı gerekçelerle uzat, doğru seçeneği kısalt).",
   "3) tutarlilik: tarih, tutar, isim, mahkeme, taraf rolü bilgilerinin belgeler, konuşmalar ve karar metinleri arasında çelişmesi; karar metninin (outcomes) bayraklarla ve oynanan yolla uyuşmaması.",
   "4) dil: yazım, noktalama ve dil bilgisi hataları; anlamı bozan cümleler.",
   "5) yapi: sana ayrıca 'motor denetimi' sonuçları verilirse (oyun motorunun bulduğu yapısal hatalar), bunları da düzelt.",
@@ -110,6 +110,8 @@ const FORMAT = [
   "  'free' (oyuncu cevabı kendisi yazar): rubric: iyi cevabın içermesi gerekenler, keywords: [{terms: ['...'], weight: 30}], model: örnek iyi cevap, choices: puana göre sonuçlar, her birinde min (alt puan sınırı; biri 0 olmalı), delta, note, set.",
   "- Choice: {text (seçenek metni, harf yazma), delta (puan), set?: ['bayrak'], law?: 'TBK m.147 · HMK m.26', note (neden doğru/yanlış: madde ve açıklama), reply?: Line[] (seçimden sonraki konuşmalar), fatal?: {label?, hukum, summary} (davayı o anda kaybettiren ağır usul hatası; ör. süre kaçırma, görevsiz mahkeme), if?: koşul}.",
   "- Puanlar: tam doğru +15..+25, kısmen doğru +5..+10, etkisiz 0, hatalı -10..-25. Her adımda bir doğru seçenek olsun; yanlış seçenekler inandırıcı ve öğretici olsun (gerçek uygulamadaki yaygın hatalar).",
+  "- UZUNLUK KURALI: doğru seçeneğin metni en uzun yanlış seçenekten en fazla %15 uzun olabilir; doğru seçenek adımların ancak üçte birinde en uzun olsun. Gerekçeyi doğru seçeneğe yığma, note'a yaz; yanlış seçenekleri de kendi (yanlış) gerekçeleriyle aynı somutlukta yaz.",
+  "- Her dosyada en az bir 'free' (oyuncunun kendi cümleleriyle yazdığı/söylediği) adım olsun; tercihen duruşmada, asıl hukuki gerekçenin kurulduğu adım. Bantlar: güçlü (min 70), yeterli (min 40), zayıf (min yok); fatal kullanma.",
   "- Bayraklar: küçük harf, Türkçe karaktersiz kısa adlar ('zaman', 'tutanakOK'). Koşullarda && || ! ve parantez kullanılır. 'end' bayrağı davayı hemen karara götürür.",
   "- outcomes: yukarıdan aşağı denenen karar kuralları [{if?, winner: 'p1'|'p2'|'draw', stamp?, hukum, summary}]. Sonuncusu koşulsuz olmalı. hukum mahkeme diliyle hüküm fıkrası ('Davanın KABULÜ ile ...,'), summary oyuncuya neden kazandığını/kaybettiğini anlatır. Kısmi kazanç için stamp: 'KISMEN KAZANDINIZ'. hukum ve summary koşullu parçalardan oluşabilir: [{text}, {if, text}].",
   "- Her bayrak bir koşulda kullanılmalı; her koşuldaki bayrağı açan bir seçenek bulunmalı."
@@ -144,7 +146,7 @@ export async function generateCase(req: GenRequest, takenIds: string[], onStage:
     `Mahkeme türü: ${p.label}${p.judges > 1 ? ` · heyet ${p.judges} hâkim` : ""}. Branşa uygun somut mahkemeyi sen seç (ör. Asliye Ticaret, Sulh Hukuk, İcra Hukuk, Aile, Tüketici...).`,
     `Zorluk: ${req.difficulty}`,
     req.topic.trim() ? `Konu / istek: ${req.topic.trim()}` : "Konu: sen seç; mevcut dosyalardan farklı, uygulamada sık görülen bir uyuşmazlık olsun.",
-    `Adım sayısı: ${req.steps}${req.mode === "solo" ? " (ilk adım büroda: müvekkil görüşmesi ya da dilekçe; sonra duruşma; en az bir delil (evidence) adımı)" : ""}`
+    `Adım sayısı: ${req.steps}${req.mode === "solo" ? " (ilk adım büroda: müvekkil görüşmesi ya da dilekçe; sonra duruşma; en az bir delil (evidence) adımı ve en az bir serbest cevap (free) adımı)" : ""}`
   ].join("\n");
 
   // 1) İskelet: adımlar hariç her şey + adım planı.

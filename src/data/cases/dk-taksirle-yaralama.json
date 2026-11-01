@@ -203,7 +203,7 @@
       "prompt": "Davayı hangi zemine oturtacaksınız?",
       "choices": [
         {
-          "text": "Sanık asli kusurlu; kemik kırığı nedeniyle TCK m.89/2-b uygulanmalı. Bilinçli taksir somut bir öngörme delili ister; bu yönü mahkemenin takdirine bırakıyoruz.",
+          "text": "Sanık asli kusurlu; kemik kırığı nedeniyle TCK m.89/2-b uygulanmalı. Bilinçli taksir somut öngörme ister; takdire bırakıyoruz.",
           "delta": 15,
           "set": [
             "p1_asli"
@@ -212,22 +212,22 @@
           "note": "Davanın güçlü yanı kusur ve yaralamanın ağırlığı. Bilinçli taksir, failin neticeyi öngörüp istememesidir; telefonla konuşmak ve yavaşlamamak kusurdur ama öngörmeyi tek başına göstermez. Zayıf iddiaya yaslanmadınız."
         },
         {
-          "text": "Sanık telefonla konuşarak döndü; bu bilinçli taksirdir, ceza TCK m.22/3 uyarınca artırılmalı.",
+          "text": "Sanık telefonla konuşarak döndü; neticeyi öngörebilecek durumdaydı, bu bilinçli taksirdir. Ceza m.22/3 ile artırılmalı.",
           "delta": 0,
           "set": [
             "p1_bt"
           ],
           "law": "TCK m.22/3",
-          "note": "İddianamede de yazıyor; ama bilinçli taksir için failin neticeyi somut olarak öngörmesi gerekir. Kural ihlali tek başına bunu göstermez. Davanın ağırlığını zayıf bir iddiaya verdiniz."
+          "note": "İddianamede de yazıyor; ama bilinçli taksir için failin neticeyi somut olarak öngörmesi gerekir (TCK m.22/3). Öngörebilecek durumda olup öngörmemek, taksirin kendisidir (m.22/2). Kural ihlali tek başına öngörmeyi göstermez. Davanın ağırlığını zayıf bir iddiaya verdiniz."
         },
         {
-          "text": "Eylem olası kastla yaralamadır; dosya bu yönde değerlendirilsin.",
+          "text": "Eylem olası kastla yaralamadır; kırmızıda telefonla dönen sürücü çarpışmayı göze almıştır, TCK m.21/2 uygulanmalı.",
           "delta": -15,
           "set": [
             "p1_kast"
           ],
           "law": "TCK m.21/2",
-          "note": "Olası kast, failin neticeyi öngörüp kabullenmesidir. Kavşakta dönen bir sürücünün çarpışmayı göze aldığını gösteren hiçbir delil yok."
+          "note": "Olası kast, failin neticeyi öngörüp kabullenmesidir (TCK m.21/2). Kimin kırmızıda geçtiği de henüz tartışmalı; kavşakta dönen bir sürücünün çarpışmayı göze aldığını gösteren hiçbir delil yok."
         }
       ]
     },
@@ -289,6 +289,7 @@
       ]
     },
     {
+      "kind": "free",
       "side": "p2",
       "scene": "court",
       "lines": [
@@ -297,46 +298,101 @@
           "text": "Duruşmaya devam ediyoruz. Sanık müdafii, talepleriniz?"
         }
       ],
-      "prompt": "Uzlaştırma konusunda ne diyeceksiniz?",
+      "prompt": "Uzlaştırma konusunda mahkemeye ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
+      "rubric": "Sanık müdafiinin iyi bir cevabı şunları söyler: (1) Taksirle yaralama (TCK m.89) uzlaştırma kapsamındadır (CMK m.253/1-b); kanun bilinçli taksir için bir ayrım yapmaz. Bilinçli taksir yalnızca m.89/2 ve sonrasındaki yaralamalarda şikâyet şartını kaldırır (m.89/5), uzlaştırma kapsamından çıkarmaz. (2) Soruşturmada uzlaştırma yapılmamıştır; kamu davası açıldıktan sonra suçun uzlaştırma kapsamında olduğu anlaşılırsa dosya uzlaştırma bürosuna gönderilir (CMK m.254/1). (3) Bu nedenle dosyanın uzlaştırma bürosuna gönderilmesi talep edilir. Kapsamı, bilinçli taksirin engel olmadığını ve m.254/1 uyarınca gönderme talebini madde numarasıyla birlikte söyleyen cevap tam puan alır; yalnız uzlaştırma talep edip gerekçeyi eksik bırakan cevap orta puan alır. Bilinçli taksir nedeniyle uzlaştırmanın mümkün olmadığını kabul eden ya da uzlaştırmayı reddeden cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "uzlaştırma",
+            "uzlastirma",
+            "uzlaşma"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "bilinçli taksir"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "kapsamında",
+            "kapsamındadır",
+            "kapsamına gir"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "m.253",
+            "m. 253",
+            "madde 253",
+            "253. madde",
+            "md. 253",
+            "md.253"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "m.254",
+            "m. 254",
+            "madde 254",
+            "254. madde",
+            "md. 254",
+            "md.254",
+            "büroya gönder",
+            "bürosuna gönder"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Hâkim, taksirle yaralama CMK m.253/1-b uyarınca uzlaştırma kapsamındadır; kanun bu suçta bilinçli taksir ayrımı yapmaz. Bilinçli taksir yalnızca şikâyet şartını kaldırır (TCK m.89/5), uzlaştırmayı engellemez. Soruşturmada uzlaştırma yapılmadığından dosyanın CMK m.254/1 uyarınca uzlaştırma bürosuna gönderilmesini talep ediyoruz.",
       "choices": [
         {
-          "text": "Taksirle yaralama, bilinçli taksir iddiası olsa bile uzlaştırma kapsamındadır. Soruşturmada uzlaştırma yapılmadı; dosyanın uzlaştırma bürosuna gönderilmesini talep ediyoruz.",
+          "text": "Güçlü talep",
+          "min": 70,
           "delta": 20,
           "set": [
             "p2_uzl"
           ],
           "law": "CMK m.253/1-b, m.254/1",
-          "note": "CMK m.253/1-b, taksirle yaralamayı (m.89) bilinçli taksir ayrımı yapmadan uzlaştırma kapsamında sayar. Kamu davası açıldıktan sonra suçun uzlaştırma kapsamında olduğu anlaşılırsa dosya uzlaştırma bürosuna gönderilir (m.254/1).",
           "reply": [
             {
               "who": "judge",
               "text": "Dosyanın uzlaştırma bürosuna gönderilmesine karar verildi."
             }
-          ]
+          ],
+          "note": "Savcılığın gerekçesini doğru dayanakla çürüttünüz. CMK m.253/1-b, taksirle yaralamayı (m.89) bilinçli taksir ayrımı yapmadan uzlaştırma kapsamında sayar. Kamu davası açıldıktan sonra suçun uzlaştırma kapsamında olduğu anlaşılırsa dosya uzlaştırma bürosuna gönderilir (m.254/1)."
         },
         {
-          "text": "Bilinçli taksir iddiası olduğu için uzlaştırma mümkün değil; kusur raporuna itiraz edeceğiz.",
-          "delta": -10,
-          "law": "CMK m.253/1-b",
-          "note": "Yaygın bir yanılgı. Bilinçli taksir, m.89/2 ve sonrası yaralamalarda şikâyet şartını kaldırır (m.89/5); ama uzlaştırma kapsamından çıkarmaz. Mahkeme dosyayı yine de gönderdi.",
-          "reply": [
-            {
-              "who": "judge",
-              "text": "Taksirle yaralama uzlaştırma kapsamındadır. Dosyanın uzlaştırma bürosuna gönderilmesine karar verildi."
-            }
-          ]
-        },
-        {
-          "text": "Uzlaştırma istemiyoruz; beraat bekliyoruz.",
-          "delta": 0,
-          "law": "CMK m.254/1",
-          "note": "Uzlaşıp uzlaşmamak taraflara kalır; ama uzlaştırma kapsamındaki bir suçta dosya büroya gönderilir. Müvekkile somut bir teklif hazırlama fırsatını kullanmadınız.",
+          "text": "Yeterli talep",
+          "min": 40,
+          "delta": 10,
+          "set": [
+            "p2_uzl"
+          ],
+          "law": "CMK m.253/1-b, m.254/1",
           "reply": [
             {
               "who": "judge",
               "text": "Suç uzlaştırma kapsamında. Dosyanın uzlaştırma bürosuna gönderilmesine karar verildi."
             }
-          ]
+          ],
+          "note": "Uzlaştırmayı istediniz; mahkeme dosyayı büroya gönderdi. Tam cevap, iddianamedeki bilinçli taksir gerekçesinin uzlaştırmaya engel olmadığını da gösterir: CMK m.253/1-b taksirle yaralamada bu ayrımı yapmaz; bilinçli taksir yalnız şikâyet şartını kaldırır (TCK m.89/5)."
+        },
+        {
+          "text": "Zayıf talep",
+          "delta": -10,
+          "law": "CMK m.253/1-b",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Taksirle yaralama uzlaştırma kapsamındadır. Dosyanın uzlaştırma bürosuna gönderilmesine karar verildi."
+            }
+          ],
+          "note": "Müvekkilin lehine olan usul imkânını kendiniz kurmadınız. Bilinçli taksir, m.89/2 ve sonrası yaralamalarda şikâyet şartını kaldırır (m.89/5); ama uzlaştırma kapsamından çıkarmaz (CMK m.253/1-b). Mahkeme dosyayı kendiliğinden gönderdi; müvekkile somut bir teklif hazırlama fırsatını siz yaratmadınız."
         }
       ]
     },
@@ -407,9 +463,9 @@
           ]
         },
         {
-          "text": "Müvekkile danışmadan teklifi kabul et.",
+          "text": "Teklifi kabul et; uzlaşırsak dava düşer, müvekkil de daha fazla yıpranmaz. Ona sonra bilgi verirsin.",
           "delta": -15,
-          "note": "Uzlaşma tarafın kişisel iradesine dayanır; vekil müvekkili yerine karar veremez. Melis Hanım kabul etmediğini söyledi; uzlaşma sağlanamadı.",
+          "note": "Uzlaşma tarafın kişisel iradesine dayanır; vekil müvekkili yerine karar veremez, sonradan bilgi vermek de bunu düzeltmez. Melis Hanım kabul etmediğini söyledi; uzlaşma sağlanamadı.",
           "reply": [
             {
               "who": "katilan",
@@ -436,7 +492,7 @@
       "choices": [
         {
           "if": "p2_ok",
-          "text": "Rapor kavşağın sinyal faz planına ve kameraya hiç bakmamış. İkisinin getirtilmesini ve Adli Tıp Kurumu Trafik İhtisas Dairesinden rapor alınmasını talep ediyoruz: sola dönüş oku yanarken karşı yön kırmızıydı.",
+          "text": "Rapor faz planını ve kamerayı incelememiş; ikisi getirtilsin, Adli Tıp Trafik İhtisas Dairesinden rapor alınsın. Ok yanarken karşı yön kırmızıydı.",
           "delta": 20,
           "set": [
             "p2_atk"
@@ -452,7 +508,7 @@
         },
         {
           "if": "!p2_ok",
-          "text": "Rapor kavşak kamerasını ve sinyal faz planını incelememiş. İkisinin getirtilmesini ve Adli Tıp Kurumu Trafik İhtisas Dairesinden rapor alınmasını talep ediyoruz.",
+          "text": "Rapor kamerayı ve faz planını incelememiş; ikisi getirtilsin, Adli Tıp Trafik İhtisas Dairesinden rapor alınsın.",
           "delta": 15,
           "set": [
             "p2_atk"
@@ -467,7 +523,7 @@
           ]
         },
         {
-          "text": "Rapor tek bilirkişiden alınmış; yeni bir bilirkişi heyetinden rapor istiyoruz.",
+          "text": "Rapor tek bilirkişiden alınmış; bu ağırlıkta bir dosyada yeni bir bilirkişi heyetinden, trafik uzmanlarından oluşan kurul raporu istiyoruz.",
           "delta": 5,
           "set": [
             "p2_genel"
@@ -476,9 +532,9 @@
           "note": "Yeni rapor istemek meşru; ama raporun neyi eksik incelediğini göstermediğiniz için yeni heyet aynı verilerle aynı sonuca vardı."
         },
         {
-          "text": "Katılan kask takmıyordu; kusurludur.",
+          "text": "Katılan kask takmıyordu; kazanın ağır sonucunda kendisi de kusurludur, TCK m.22/4 gereği bu gözetilmeli.",
           "delta": -10,
-          "note": "Tutanakta katılanın kasklı olduğu yazıyor. Kask zaten kazanın oluşumunda değil, zararın ağırlaşmasında etkili olabilirdi."
+          "note": "Tutanakta katılanın kasklı olduğu yazıyor. Kask zaten kazanın oluşumunda değil, zararın ağırlaşmasında etkili olabilirdi. TCK m.22/4 failin kendi kusuruna göre ceza belirlenmesini düzenler; dayanaksız bir iddia sanığa bir şey kazandırmaz."
         },
         {
           "if": "p1_bt",
@@ -587,19 +643,19 @@
       "prompt": "Esas hakkında ne isteyeceksiniz?",
       "choices": [
         {
-          "text": "Sanık asli kusurlu; TCK m.89/1 ve m.89/2-b uyarınca, kusur durumu gözetilerek cezalandırılmasını talep ediyoruz.",
+          "text": "Sanık asli kusurlu; TCK m.89/1 ve m.89/2-b uyarınca, kusuru gözetilerek cezalandırılmasını istiyoruz.",
           "delta": 15,
           "law": "TCK m.89/1, m.89/2-b, m.22/4",
           "note": "Taksirli suçta ceza failin kusuruna göre belirlenir (m.22/4). Asli kusur ve kemik kırığı, davanın en sağlam iki dayanağı."
         },
         {
-          "text": "Bilinçli taksir uygulanmalı; sanık telefonla konuşuyordu.",
+          "text": "Bilinçli taksir uygulanmalı; sanık telefonla konuşuyordu, cezanın m.22/3 uyarınca artırılmasını istiyoruz.",
           "delta": -5,
           "law": "TCK m.22/3",
           "note": "Savcı da somut delil olmadığını söyledi. Bilinçli taksir öngörme ister; telefon görüşmesi bunu göstermez."
         },
         {
-          "text": "Mahkeme müvekkilin tedavi giderlerine ve kazanç kaybına da hükmetsin.",
+          "text": "Mahkeme müvekkilin tedavi giderlerine ve dört aylık kazanç kaybına da sanık aleyhine hükmetsin.",
           "delta": -10,
           "note": "Ceza mahkemesi tazminata hükmetmez; maddi ve manevi tazminat hukuk mahkemesinde, sigorta şirketine karşı da istenebilir."
         }

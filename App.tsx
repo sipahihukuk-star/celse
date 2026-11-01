@@ -44,7 +44,7 @@ type Route =
   | { k: "career" }
   | { k: "office" }
   | { k: "desk" }
-  | { k: "account"; then?: "career" }
+  | { k: "account"; then?: "career"; tab?: "giris" | "kayit" }
   | { k: "paywall"; back: "career" | "list" | "title"; mode?: "duel" | "solo" }
   | { k: "game"; c: CaseFile; players: Record<Side, Player>; run: number; from: From }
   | { k: "closing"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From }
@@ -116,7 +116,7 @@ export default function App() {
         <StatusBar style="light" />
         {route.k === "title" && <TitleScreen duelCount={cases.duel.length} soloCount={cases.solo.length} rankName={career.rank} started={Object.keys(progress).length > 0} won={career.won} total={career.total}
           account={account} server={!!supabase()}
-          onAccount={() => setRoute({ k: "account" })} onSignOut={() => signOut()}
+          onAccount={() => setRoute({ k: "account" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "career" })} onSignOut={() => signOut()}
           onCareer={() => setRoute(!account ? { k: "account", then: "career" } : office ? { k: "desk" } : { k: "office" })}
           office={office} onOffice={() => setRoute({ k: "office" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })} />}
         {route.k === "paywall" && (
@@ -129,7 +129,7 @@ export default function App() {
             onPaywall={() => setRoute({ k: "paywall", back: "career" })} onBack={() => setRoute({ k: "title" })} />
         )}
         {route.k === "account" && (
-          <AccountScreen onBack={() => setRoute({ k: "title" })} onDone={() => setRoute(route.then === "career" ? (office ? { k: "desk" } : { k: "office" }) : { k: "title" })} />
+          <AccountScreen initial={route.tab} onBack={() => setRoute({ k: "title" })} onDone={() => setRoute(route.then === "career" ? (office ? { k: "desk" } : { k: "office" }) : { k: "title" })} />
         )}
         {route.k === "career" && (
           <CareerScreen view={career} premium={premium} office={office} onOffice={() => setRoute({ k: "office" })} onPaywall={() => setRoute({ k: "paywall", back: "career" })} onBack={() => setRoute(office ? { k: "desk" } : { k: "title" })} onPick={c => startGame(c, SOLO_PLAYERS, "career")} onReset={() => resetProgress()} />

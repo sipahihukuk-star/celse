@@ -88,18 +88,18 @@
       ],
       "prompt": "Yürütmenin durdurulması isteğini nasıl kuracaksınız?",
       "choices": [
-        { "if": "zarar", "text": "Kanuni dayanak yokluğunu ve fesih bildirimlerini birlikte sunun; iki şartın da gerçekleştiğini gösterin.", "delta": 20, "set": ["yd"],
+        { "if": "zarar", "text": "Kanuni dayanak yokluğunu ve fesih bildirimlerini birlikte sunun; iki şartı da gösterin.", "delta": 20, "set": ["yd"],
           "law": "İYUK m.27",
           "reply": [{ "who": "narr", "text": "Bakanlığın savunması alındı. Daire, Yönetmeliğin 9. maddesinin yürütmesini durdurdu." }],
           "note": "İşlemin açıkça hukuka aykırı olması ve uygulanması hâlinde telafisi güç ya da imkânsız zarar doğması birlikte aranır (İYUK m.27). Fesih bildirimleri zararı somut olarak gösteriyor." },
-        { "if": "!zarar", "text": "Kanuni dayanak yokluğunu açıklayın; üyelerin işlerini kaybettiğini genel olarak anlatın.", "delta": 15, "set": ["ydIstek"],
+        { "if": "!zarar", "text": "Kanuni dayanak yokluğunu açıklayın; üyelerin işini kaybettiğini genel olarak anlatın.", "delta": 15, "set": ["ydIstek"],
           "law": "İYUK m.27",
           "reply": [{ "who": "narr", "text": "Bakanlığın savunması alındı. Daire, zarar somut olarak gösterilmediği için yürütmenin durdurulması isteğini reddetti." }],
           "note": "İki şart birlikte aranır (İYUK m.27). Elinizdeki en iyi yol buydu; ama fesih bildirimleri olsaydı zarar somutlaşırdı." },
-        { "text": "Yalnızca yönetmeliğin hukuka aykırı olduğunu yazın; zarara hiç değinmeyin.", "delta": -10,
+        { "text": "Yalnızca hukuka aykırılığı yazın; aykırılık bu kadar açıkken zararı ayrıca anlatmaya gerek yok.", "delta": -10,
           "law": "İYUK m.27",
           "note": "İki şart birlikte aranır. Zararı göstermeyen bir istek, hukuka aykırılık açık olsa bile reddedilir." },
-        { "text": "Yürütmenin durdurulmasını istemeyin; iptal kararı nasılsa geriye etkili olur.", "delta": -10,
+        { "text": "Yürütmenin durdurulmasını istemeyin; iptal kararı geriye yürür, üyelerin kayıpları nasılsa telafi edilir.", "delta": -10,
           "note": "İptal kararı geriye etkilidir, ama dava sürerken feshedilen sözleşmeler geri gelmez. Yürütmenin durdurulması bu zararı önlemek için vardır." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
@@ -142,20 +142,28 @@
       "miss": { "delta": -10, "note": "Bu belge savcının düşüncesine cevap vermiyor." },
       "pass": { "delta": -20, "note": "Savcının düşüncesi cevapsız kaldı." }
     },
-    { "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Davacı vekili, son sözünüz?" }],
-      "prompt": "Son sözünüz ne olacak?",
+      "prompt": "Son sözünüzde heyete ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Herkes dilediği alanda çalışma hürriyetine sahiptir (Anayasa m.48); temel haklar ancak kanunla sınırlanabilir (Anayasa m.13). (2) Bakanlık yönetmeliği kanunun uygulanmasını sağlamak üzere ve kanuna aykırı olmamak şartıyla çıkarabilir (Anayasa m.124). Meslek Kanunu m.5 uzmanların serbest çalışabileceğini söylüyor; m.12 Bakanlığa yalnızca ölçüm standartlarını belirleme yetkisi veriyor. Kanunun getirmediği bir yasağı yönetmelik getiremez. (3) Talep dava konusuyla sınırlıdır: yönetmeliğin 9. maddesinin iptali. Üç unsuru da söyleyen cevap tam puan alır; kanuni dayanak yokluğunu söyleyip iptal isteyen ama anayasal dayanağı ya da talebin kapsamını belirtmeyen cevap orta puan alır. Yönetmeliğin yanlış bir politika olduğunu, Bakanlığın kötü niyetli olduğunu söyleyen ya da yönetmeliğin tamamının iptalini isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["kanunla sınırlan", "kanuni dayanak", "yasal dayanak", "kanunun getirmediği", "kanuna aykırı", "kanunda yer almayan"], "weight": 3 },
+        { "terms": ["çalışma hürriyeti", "çalışma özgürlüğü", "çalışma hakkı", "serbest çalış"], "weight": 2 },
+        { "terms": ["m.13", "m. 13", "madde 13", "13. madde", "m.124", "m. 124", "madde 124", "124. madde", "m.48", "m. 48"], "weight": 1 },
+        { "terms": ["9. madde", "m.9", "m. 9", "madde 9", "dokuzuncu madde"], "weight": 2 },
+        { "terms": ["iptal"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan ve Üyeler, herkes dilediği alanda çalışma hürriyetine sahiptir (Anayasa m.48) ve bu hak ancak kanunla sınırlanabilir (m.13). Meslek Kanunu uzmanların serbest çalışabileceğini açıkça söylüyor; Bakanlığa yalnızca ölçüm standartlarını belirleme yetkisi veriyor. Yönetmelik kanuna aykırı olamaz (m.124); kanunun getirmediği bir yasağı getiren 9. maddenin iptalini talep ediyoruz.",
       "choices": [
-        { "text": "Çalışma özgürlüğü ancak kanunla sınırlanabilir. Kanunun getirmediği bir sınırı yönetmelik getiremez. 9. maddenin iptalini isteriz.", "delta": 15, "set": ["sonSoz"],
+        { "text": "Güçlü son söz", "min": 70, "delta": 15, "set": ["sonSoz"],
           "law": "Anayasa m.13, m.48, m.124",
-          "note": "Talep dava konusuyla sınırlı ve hukuka uygunluk denetimine dayanıyor. Herkes dilediği alanda çalışma hürriyetine sahiptir (Anayasa m.48); bu hak ancak kanunla sınırlanabilir (Anayasa m.13)." },
-        { "text": "Yönetmeliğin tamamının iptalini isteriz.", "delta": -5,
-          "note": "Diğer maddelere karşı hiçbir hukuka aykırılık ileri sürmediniz. Ölçüsüz bir talep heyette güven kaybettirir." },
-        { "text": "Yönetmeliğin piyasaya zarar veren yanlış bir politika olduğunu anlatın.", "delta": -10,
+          "note": "Son sözünüz dava konusuyla sınırlı ve hukuka uygunluk denetimine dayanıyor. Çalışma hürriyeti (Anayasa m.48) ancak kanunla sınırlanabilir (m.13); yönetmelik kanuna aykırı olamaz ve kanunun getirmediği bir sınırı getiremez (m.124)." },
+        { "text": "Yeterli son söz", "min": 40, "delta": 7, "set": ["sonSoz"],
+          "law": "Anayasa m.13, m.124",
+          "note": "Kanuni dayanak yokluğunu söyleyip iptal istediniz; heyet bunu not etti. Daha güçlü bir son söz, çalışma hürriyetinin ancak kanunla sınırlanabileceğini (Anayasa m.13, m.48), Meslek Kanunu m.5'in serbest çalışmaya izin verdiğini ve talebin yalnızca 9. maddeyle sınırlı olduğunu da söylerdi." },
+        { "text": "Zayıf son söz", "delta": -10,
           "law": "İYUK m.2/2",
-          "note": "İdari yargı yetkisi hukuka uygunluk denetimiyle sınırlıdır; yerindelik denetimi yapılamaz (İYUK m.2/2)." },
-        { "text": "Bakanlığın Oda'ya karşı kötü niyetle davrandığını vurgulayın.", "delta": -10,
-          "note": "Kanıtsız bir kötü niyet iddiası davaya bir şey katmaz. Heyetin dikkati asıl meseleden uzaklaşır." }
+          "note": "Son söz hukuka uygunluk denetimine oturmadı. İdari yargı yerindelik denetimi yapamaz (İYUK m.2/2); kanıtsız kötü niyet iddiası ya da hiçbir aykırılık ileri sürülmeyen maddelere uzanan talep heyette güven kaybettirir. Söylenmesi gereken: çalışma hürriyeti ancak kanunla sınırlanabilir (Anayasa m.13, m.48), kanunun getirmediği sınırı yönetmelik getiremez (m.124); 9. maddenin iptali istenir." }
       ] }
   ],
   "outcomes": [

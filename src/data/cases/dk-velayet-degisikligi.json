@@ -168,7 +168,7 @@
       "prompt": "Müvekkilinize ne önereceksiniz, davayı nasıl kuracaksınız?",
       "choices": [
         {
-          "text": "Çocuğu tatil bitiminde annesine teslim edin. Velayetin değiştirilmesi davası açalım: Annenin başka şehre taşınması yeni bir olgu; okul ve bakım düzenindeki değişikliği anlatalım, sosyal inceleme ve çocuğun uzman eşliğinde dinlenmesini isteyelim; terditli olarak kişisel ilişkinin genişletilmesini de talep edelim.",
+          "text": "Çocuğu tatil sonunda teslim edin. Taşınmayı yeni olgu olarak anlatıp velayetin değiştirilmesini, terditli olarak kişisel ilişkinin genişletilmesini isteyelim.",
           "delta": 20,
           "set": [
             "talep",
@@ -178,7 +178,7 @@
           "note": "Doğru. TMK m.183'e göre ana veya babanın başka bir yere gitmesi gibi yeni olgular zorunlu kılarsa hâkim, ana veya babadan birinin istemi üzerine ya da kendiliğinden gerekli önlemleri alır. Ölçüt çocuğun üstün yararıdır. Terditli talep (HMK m.111), asıl talep reddedilirse ikinci talebin incelenmesini sağlar."
         },
         {
-          "text": "Çocuğu teslim edin. Davayı yalnızca çocuğun “babamla kalmak istiyorum” sözüne dayandıralım; başka bir talebe gerek yok.",
+          "text": "Çocuğu teslim edin. Davayı çocuğun “babamla kalmak istiyorum” sözüne dayandıralım; on bir yaşındaki çocuğun açık isteği yeterli, başka talep gereksiz.",
           "delta": 0,
           "set": [
             "dar"
@@ -187,7 +187,7 @@
           "note": "İdrak çağındaki çocuğun görüşü önemlidir, ama tek başına belirleyici değildir; mahkeme çocuğun üstün yararını bütün olgularla birlikte tartar. Taşınmayı, okul ve bakım düzenini anlatmadınız; velayet reddedilirse elinizde ikinci bir talep de yok."
         },
         {
-          "text": "Önce çocuğu yanınızda tutun, yeni okuluna yazdırın; fiilî durum oluştuktan sonra dava açarız.",
+          "text": "Çocuğu yanınızda tutun ve buradaki okula yazdırın; çocuk zaten sizinle kalmak istiyor, fiilî durum oluşunca velayet davası kolaylaşır.",
           "delta": -20,
           "set": [
             "fiili"
@@ -293,7 +293,7 @@
       "prompt": "Cevap dilekçenizin ana ekseni ne olacak?",
       "choices": [
         {
-          "text": "Taşınmanın yeni bir olgu olduğunu inkâr etme. Ama çocuğun üstün yararı velayetin değişmesini gerektirmiyor: bakım düzeni ve okul uyumu sağlandı. Sosyal incelemeye ve çocuğun uzman eşliğinde dinlenmesine biz de katılıyoruz.",
+          "text": "Taşınmanın yeni olgu olduğunu kabul et; ama üstün yarar velayetin değişmesini gerektirmiyor. Sosyal incelemeye ve uzman eşliğinde dinlemeye katıl.",
           "delta": 20,
           "set": [
             "cevap"
@@ -310,7 +310,7 @@
           ]
         },
         {
-          "text": "Çocuk dinlenmesin; babası tarafından yönlendiriliyor.",
+          "text": "Çocuğun dinlenmesine karşı çık: babası tatilde onu yönlendirdi, teslimi de iki hafta geciktirdi; böyle bir beyan çocuğun özgür iradesini yansıtmaz.",
           "delta": -10,
           "set": [
             "dinlenmesin"
@@ -319,13 +319,13 @@
           "note": "Yargıtay uygulamasında idrak çağındaki çocuğun velayet konusundaki görüşünün alınması gerekir; Çocuk Hakları Sözleşmesi m.12 de çocuğa görüşünü ifade etme hakkı tanır. Yönlendirme şüphesi, çocuğu dinlememenin değil, uzman eşliğinde dinlemenin gerekçesidir."
         },
         {
-          "text": "Baba üç aydır iştirak nafakasını ödemiyor; velayet istemeye hakkı yok.",
+          "text": "Babanın üç aydır iştirak nafakasını ödemediğini öne çıkar; çocuğa karşı yükümlülüğünü yerine getirmeyen baba velayet isteyemez.",
           "delta": -10,
           "set": [
             "nafaka"
           ],
           "law": "TMK m.182, m.183",
-          "note": "Nafaka borcu icra yoluyla takip edilir; velayette ölçüt çocuğun üstün yararıdır. Ödeme düzensizliği babanın ilgisi hakkında bir veri olabilir, ama savunmanın ekseni olamaz."
+          "note": "Nafaka borcu icra yoluyla takip edilir; nafaka ödenmemesi velayet istemeye engel değildir, velayette ölçüt çocuğun üstün yararıdır. Ödeme düzensizliği babanın ilgisi hakkında bir veri olabilir, ama savunmanın ekseni olamaz."
         }
       ]
     },
@@ -347,10 +347,11 @@
           "text": "Çocuk on bir yaşında. Davacı vekili, çocuğun görüşünün alınmasına ilişkin talebiniz?"
         }
       ],
-      "prompt": "Çocuğun nasıl dinlenmesini isteyeceksiniz?",
+      "prompt": "Çocuğun görüşünün nasıl alınmasını isteyeceksiniz? Talebinizi kendi cümlelerinizle mahkemeye anlatın.",
       "choices": [
         {
-          "text": "Çocuğun, aile mahkemesi uzmanı eşliğinde, tarafların ve vekillerin bulunmadığı bir ortamda dinlenmesini; beyanının tutanağa geçirilmesini talep ediyoruz.",
+          "text": "Güçlü talep",
+          "min": 70,
           "delta": 15,
           "set": [
             "dinleme"
@@ -373,33 +374,96 @@
           ]
         },
         {
-          "text": "Çocuk duruşma salonunda, anne ve babasının önünde dinlensin; kimi seçtiğini açıkça söylesin.",
+          "text": "Yeterli talep",
+          "min": 40,
+          "delta": 8,
+          "set": [
+            "dinleme"
+          ],
+          "law": "4787 s.K. m.5 · BM Çocuk Hakları Sözleşmesi m.12",
+          "note": "Çocuğun uzman eşliğinde dinlenmesini istediniz; mahkeme bunu kabul etti. Tam talep, dinlemenin anne, baba ve vekillerin bulunmadığı, çocuğu baskı altında bırakmayan bir ortamda yapılmasını ve beyanın tutanağa geçirilmesini de içerir.",
+          "reply": [
+            {
+              "who": "judge",
+              "text": "Çocuğun uzman eşliğinde hâkim odasında dinlenmesine ve sosyal inceleme raporu alınmasına karar verildi."
+            }
+          ]
+        },
+        {
+          "text": "Zayıf talep",
           "delta": -15,
-          "law": "BM Çocuk Hakları Sözleşmesi m.12",
-          "note": "Çocuğu anne ve babası arasında seçim yapmaya zorlamak onun yararına aykırıdır. Çocuk, baskı altında kalmayacağı bir ortamda uzman eşliğinde dinlenir.",
+          "set": [
+            "video"
+          ],
+          "law": "4787 s.K. m.5 · BM Çocuk Hakları Sözleşmesi m.12",
+          "note": "Çocuğun görüşünün nasıl alınacağını doğru kuramadınız. Çocuğu anne ve babası önünde seçim yapmaya zorlamak ya da kendi elde ettiğiniz bir kayıtla yetinmek onu uyuşmazlığın içine çeker ve yönlendirme şüphesini güçlendirir. İdrak çağındaki çocuk, tarafların bulunmadığı bir ortamda aile mahkemesi uzmanı eşliğinde dinlenir.",
           "reply": [
             {
               "who": "judge",
               "text": "Talep yerinde görülmedi. Çocuğun uzman eşliğinde hâkim odasında dinlenmesine ve sosyal inceleme raporu alınmasına karar verildi."
             }
           ]
+        }
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) On bir yaşındaki çocuk idrak çağındadır; velayet konusundaki görüşünün alınması gerekir (BM Çocuk Hakları Sözleşmesi m.12). (2) Çocuk aile mahkemesi uzmanı (psikolog, pedagog ya da sosyal çalışmacı) eşliğinde dinlenmelidir (4787 s.K. m.5). (3) Dinleme, anne, baba ve vekillerin bulunmadığı, çocuğu baskı altında bırakmayan bir ortamda (ör. hâkim odasında) yapılmalı ve beyan tutanağa geçirilmelidir. (4) Karşı tarafın yönlendirme kaygısı çocuğu dinlememenin değil, uzman eşliğinde dinlemenin gerekçesidir. Uzman eşliği ile tarafsız ortamı birlikte isteyen cevap tam puan alır; yalnızca uzman eşliğinde dinlemeyi isteyen cevap orta puan alır. Çocuğun salonda anne ve babasının önünde dinlenmesini ya da seçim yapmasını isteyen, dinleme yerine bir video kaydı ya da yazılı beyan sunan cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "uzman",
+            "pedagog",
+            "psikolog",
+            "sosyal çalışmacı"
+          ],
+          "weight": 3
         },
         {
-          "text": "Dinlemeye gerek yok; çocuğun “babamla kalmak istiyorum” dediği video kaydını sunuyoruz.",
-          "delta": -15,
-          "set": [
-            "video"
+          "terms": [
+            "tarafların bulunmadığı",
+            "taraflar olmadan",
+            "anne ve babanın bulunmadığı",
+            "vekillerin bulunmadığı",
+            "hâkim odası",
+            "hakim odası",
+            "ayrı bir ortam",
+            "baskı"
           ],
-          "law": "TMK m.183",
-          "note": "Çocuğu bir kayıt için kameraya konuşturmak, onu uyuşmazlığın içine çeker ve yönlendirme şüphesini güçlendirir. Mahkeme çocuğun görüşünü kendi yöntemiyle, uzman eşliğinde alır.",
-          "reply": [
-            {
-              "who": "judge",
-              "text": "Kayıt dosyaya alınmadı. Çocuğun uzman eşliğinde hâkim odasında dinlenmesine ve sosyal inceleme raporu alınmasına karar verildi."
-            }
-          ]
+          "weight": 2
+        },
+        {
+          "terms": [
+            "idrak",
+            "üstün yarar"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "tutanağa",
+            "zapta",
+            "kayda geç"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "yönlendir"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "Çocuk Hakları",
+            "m.12",
+            "m. 12",
+            "madde 12",
+            "12. madde",
+            "4787"
+          ],
+          "weight": 1
         }
-      ]
+      ],
+      "model": "Sayın Hâkim, on bir yaşındaki Ece idrak çağındadır ve velayet konusundaki görüşünün alınması gerekir (Çocuk Hakları Sözleşmesi m.12). Çocuğun, aile mahkemesi uzmanı eşliğinde, anne ve babasının ve vekillerin bulunmadığı bir ortamda dinlenmesini ve beyanının tutanağa geçirilmesini talep ediyoruz. Karşı tarafın yönlendirme kaygısı da en iyi bu yöntemle, uzmanca değerlendirilir."
     },
     {
       "kind": "evidence",
@@ -499,7 +563,7 @@
       "prompt": "Rapora karşı ne yapacaksınız?",
       "choices": [
         {
-          "text": "Süresi içinde gerekçeli itiraz: Rapor, idrak çağındaki çocuğun açık ve istikrarlı iradesine ve annenin şehir değiştirmesinin çocuğun hayatına etkisine yeterli ağırlık vermemiş. Ek rapor ya da başka bir uzmandan inceleme isteyin.",
+          "text": "Süresinde gerekçeli itiraz edin: rapor, çocuğun açık ve istikrarlı iradesine ve taşınmanın etkisine yeterli ağırlık vermemiş; ek rapor ya da başka uzman isteyin.",
           "delta": 15,
           "set": [
             "itirazRapor"
@@ -516,13 +580,13 @@
           ]
         },
         {
-          "text": "Çocuğun isteği mahkemeyi bağlar; rapor ne derse desin velayet babaya verilmeli.",
+          "text": "Çocuğun isteği mahkemeyi bağlar; idrak çağındaki çocuğun açık iradesi karşısında rapor ne derse desin velayet babaya verilmeli.",
           "delta": -10,
           "set": [
             "bagli"
           ],
           "law": "TMK m.183",
-          "note": "Çocuğun görüşü önemlidir, ama mahkemeyi bağlamaz. Ölçüt çocuğun üstün yararıdır ve görüş bütün olgularla birlikte tartılır."
+          "note": "Çocuğun görüşü önemlidir, ama idrak çağında da olsa mahkemeyi bağlamaz. Ölçüt çocuğun üstün yararıdır ve görüş bütün olgularla birlikte tartılır."
         },
         {
           "if": "terdit",
@@ -536,7 +600,7 @@
         },
         {
           "if": "!terdit",
-          "text": "Islahla kişisel ilişkinin genişletilmesi talebini ekleyin; velayet talebini ikinci plana alın.",
+          "text": "Islahla kişisel ilişkinin genişletilmesi talebini ekleyin, velayet talebini ikinci plana alın; tahkikat bitmeden bu hâlâ mümkün.",
           "delta": 5,
           "set": [
             "genisleme",
@@ -624,7 +688,7 @@
         },
         {
           "if": "video",
-          "text": " Babanın çocuğu kamera karşısına konuşturması olumsuz değerlendirildi."
+          "text": " Davacı tarafın, çocuğu uzman güvencesi olmadan uyuşmazlığın içine çeken dinleme talebi olumsuz değerlendirildi."
         },
         {
           "if": "dar",
@@ -658,7 +722,7 @@
         },
         {
           "if": "video",
-          "text": " Babanın çocuğu kamera karşısına konuşturması da olumsuz değerlendirildi."
+          "text": " Davacı tarafın, çocuğu uzman güvencesi olmadan uyuşmazlığın içine çeken dinleme talebi de olumsuz değerlendirildi."
         },
         {
           "if": "bagli",
@@ -708,7 +772,7 @@
         },
         {
           "if": "video",
-          "text": " Babanın çocuğu kamera karşısına konuşturması da olumsuz değerlendirildi."
+          "text": " Davacı tarafın, çocuğu uzman güvencesi olmadan uyuşmazlığın içine çeken dinleme talebi de olumsuz değerlendirildi."
         }
       ]
     }

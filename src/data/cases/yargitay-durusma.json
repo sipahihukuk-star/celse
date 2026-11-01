@@ -64,10 +64,10 @@
         { "if": "mudafi", "text": "Birinci celsenin zorunlu müdafi olmadan yapıldığını mutlak bozma nedeni olarak göster; duruşmalı inceleme iste.", "delta": 20, "set": ["aykirilik"],
           "law": "CMK m.288, m.289, m.299",
           "note": "Temyiz ancak hukuka aykırılığa dayanabilir (CMK m.288). Kanunun mutlaka müdafi bulunmasını öngördüğü hâlde müdafi olmadan duruşma yapılması mutlak bozma nedenidir (CMK m.289/1-e)." },
-        { "text": "Tanıkların yeniden dinlenmesini ve delillerin baştan değerlendirilmesini iste; duruşmalı inceleme iste.", "delta": -10,
+        { "text": "Tanıkların yeniden dinlenmesini ve delillerin baştan değerlendirilmesini iste; biri karanlıkta emin değil, duruşmalı inceleme iste.", "delta": -10,
           "law": "CMK m.288",
           "note": "Yargıtay bir hukuk denetimi merciidir; tanık dinlemez, vakıaları yeniden değerlendirmez. Temyiz hukuka aykırılığa dayanmalı (CMK m.288)." },
-        { "text": "Cezanın ağır olduğunu yaz; duruşmalı inceleme iste.", "delta": -5,
+        { "text": "Cezanın müvekkil için çok ağır olduğunu, hakkaniyete aykırı düştüğünü yaz; duruşmalı inceleme iste.", "delta": -5,
           "note": "Somut bir hukuka aykırılık göstermeyen bir temyiz dilekçesi heyeti ikna etmez." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
@@ -92,15 +92,29 @@
     },
     { "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Sanık müdafii, son talebiniz?" }],
-      "prompt": "Heyetten ne isteyeceksiniz?",
+      "kind": "free",
+      "prompt": "Heyetten ne isteyeceksiniz? Talebinizi ve dayanağını kendi cümlelerinizle söyleyin.",
       "choices": [
-        { "text": "Hükmün bozulmasını ve yargılamanın yenilenmesini isteriz.", "delta": 10,
-          "note": "Mutlak bozma nedeninin doğal sonucu, hükmün bozulması ve yargılamanın yenilenmesidir." },
-        { "text": "Sanığın doğrudan beraatine karar verilmesini isteriz.", "delta": -5,
-          "note": "Beraat talebi vakıaların yeniden değerlendirilmesini gerektirir. Usul ihlalinin doğal sonucu yargılamanın yenilenmesidir." },
-        { "text": "Cezada indirim yapılmasını isteriz.", "delta": -5,
-          "note": "Bu talep, hükmün özüne itiraz etmediğiniz izlenimini verir." }
-      ] }
+        { "text": "Güçlü talep", "min": 70, "delta": 10,
+          "law": "CMK m.289/1-e, m.302, m.304",
+          "note": "Talebi doğru kurdunuz. Kanunun mutlaka müdafi bulunmasını öngördüğü hâlde müdafi olmadan duruşma yapılması mutlak bozma nedenidir (CMK m.289/1-e). Bu ihlalin doğal sonucu hükmün bozulması ve dosyanın yeniden yargılama için gönderilmesidir; Yargıtay vakıaları yeniden değerlendirip beraat kararı vermez." },
+        { "text": "Yeterli talep", "min": 40, "delta": 5,
+          "law": "CMK m.289/1-e, m.302",
+          "note": "Hükmün bozulmasını istediniz, ama dayanağını ya da sonucunu eksik bıraktınız. Bozma nedeni, zorunlu müdafilik hâlinde müdafi olmadan duruşma yapılmasıdır (CMK m.289/1-e); sonuç, dosyanın yeniden yargılama için gönderilmesidir." },
+        { "text": "Zayıf talep", "delta": -5,
+          "law": "CMK m.288, m.289/1-e",
+          "note": "Talebiniz usul ihlalinin sonucuyla örtüşmedi. Beraat talebi vakıaların yeniden değerlendirilmesini gerektirir; cezada indirim istemek ise hükmün özüne itiraz etmediğiniz izlenimini verir. Müdafisiz yapılan celse mutlak bozma nedenidir (CMK m.289/1-e); istenmesi gereken, hükmün bozulması ve yeniden yargılamadır." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Hükmün bozulması istenir. (2) Dayanak: sanığa yüklenen nitelikli yağma suçunda müdafilik zorunludur; birinci celsenin (iddianamenin okunması ve sorgu) müdafi olmadan yapılması, kanunun mutlaka müdafi bulunmasını öngördüğü hâlde müdafi olmadan duruşma yapılması demektir ve mutlak bozma nedenidir (CMK m.289/1-e). (3) Sonuç: dosyanın yeniden yargılama yapılmak üzere gönderilmesi; Yargıtay hukuk denetimi yapar, vakıaları yeniden değerlendirip doğrudan beraat kararı vermez. Üç unsuru madde numarasıyla birlikte veren cevap tam puan alır; bozma isteyip dayanağını (zorunlu müdafi, mutlak bozma nedeni) ya da sonucunu eksik bırakan cevap orta puan alır. Doğrudan beraat ya da cezada indirim isteyen, tanıkların yeniden dinlenmesini talep eden cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["bozma", "bozulması", "bozulsun", "bozulmasını"], "weight": 3 },
+        { "terms": ["müdafi", "müdafisiz", "avukatsız", "zorunlu müdafi"], "weight": 2 },
+        { "terms": ["mutlak bozma", "m.289", "m. 289", "289/1", "madde 289", "289. madde", "md. 289"], "weight": 2 },
+        { "terms": ["yeniden yargılama", "yeniden görül", "gönderilmesi", "geri gönder"], "weight": 1 },
+        { "terms": ["birinci celse", "ilk celse", "sorgu"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, nitelikli yağma suçunda müdafilik zorunludur; buna rağmen iddianamenin okunduğu ve sanığın sorgusunun yapıldığı birinci celse müdafi olmadan yapılmıştır. Bu, CMK m.289/1-e uyarınca mutlak bozma nedenidir. Hükmün bozulmasını ve dosyanın yeniden yargılama yapılmak üzere gönderilmesini talep ediyoruz."
+    }
   ],
   "outcomes": [
     { "winner": "p1",

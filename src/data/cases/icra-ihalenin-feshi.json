@@ -71,18 +71,18 @@
       ],
       "prompt": "2. aşama · Süre ve merci: Ne yapacaksınız?",
       "choices": [
-        { "text": "Bugün icra hukuk mahkemesine şikâyet yoluyla ihalenin feshini isteyin. Satış ilanı usulüne uygun tebliğ edilmediği için yedi günlük süre müvekkilin satışı öğrendiği 16 Ekim'den başlar ve 23 Ekim'de dolar; kanundaki bir yıllık üst sınır da aşılmadı.", "delta": 25, "set": ["sure"],
+        { "text": "Bugün icra hukuk mahkemesine şikâyetle başvurun; tebliğsizlikte süre öğrenmeden, 16 Ekim'den işler.", "delta": 25, "set": ["sure"],
           "law": "İİK m.134",
           "note": "Doğru. Yedi günlük süre kural olarak ihale tarihinden başlar ve ilgililerin ihaleye kadarki yolsuzlukları en geç ihale günü öğrendiği kabul edilir. Ama satış ilanı usulüne uygun tebliğ edilmemiş ilgili için süre yolsuzluğun öğrenildiği tarihten işler; her hâlde bir yıllık üst sınır vardır." },
-        { "text": "İhaleden yedi gün geçti. Yapacak bir şey yok; müvekkile tahliyeye hazırlanmasını söyleyin.", "delta": -25,
+        { "text": "İhale 8 Ekim'de, yedi günlük süre 15 Ekim'de doldu. Yapacak bir şey yok; müvekkili tahliyeye hazırlayın.", "delta": -25,
           "law": "İİK m.134",
           "note": "Süreyi yanlış hesapladınız.",
           "fatal": { "label": "SONUÇ:", "hukum": "İhalenin feshi talep edilmedi; ihale kesinleşti ve taşınmaz alıcı adına tescil edildi.", "summary": "Satış ilanı borçluya usulüne uygun tebliğ edilmediğinde ihalenin feshi süresi yolsuzluğun öğrenildiği tarihten başlar (İİK m.134; Yargıtay uygulaması). Müvekkilin 23 Ekim'e kadar süresi vardı." } },
-        { "text": "Asliye hukuk mahkemesinde ihalenin iptali davası açın.", "delta": -15, "set": ["sure"],
+        { "text": "Asliye hukuk mahkemesinde ihalenin iptali davası açın; tebligat yolsuzluğu genel mahkemede tartışılır.", "delta": -15, "set": ["sure"],
           "law": "İİK m.134",
           "note": "İhalenin feshi genel mahkemede dava yoluyla değil, icra hukuk mahkemesinden şikâyet yoluyla istenir.",
           "reply": [{ "who": "partner", "text": "Yanlış merci. İhalenin feshi icra hukuk mahkemesinden şikâyetle istenir. Dilekçeyi bugün oraya verelim; süre 23 Ekim'de doluyor." }] },
-        { "text": "Bir yıllık süremiz var; satış dosyasını baştan sona inceleyip ay sonunda başvuralım.", "delta": -25,
+        { "text": "Bir yıllık süremiz var; satış dosyasını baştan sona inceleyip eksiksiz bir dilekçeyle ay sonunda başvuralım.", "delta": -25,
           "law": "İİK m.134",
           "note": "Bir yıl, üst sınırdır; asıl süre öğrenmeden itibaren yedi gündür.",
           "fatal": { "label": "SONUÇ:", "hukum": "İhalenin feshi talebinin SÜRE YÖNÜNDEN REDDİNE karar verildi.", "summary": "Satış ilanı tebliğ edilmeyen borçlu için süre, yolsuzluğu öğrendiği tarihten itibaren yedi gündür; bir yıl yalnızca her hâlde aşılamayacak üst sınırdır (İİK m.134). Müvekkil satışı 16 Ekim'de öğrendi; süre 23 Ekim'de doldu." } }
@@ -95,38 +95,50 @@
       ],
       "prompt": "2. aşama · Fesih sebebi: Dilekçede neye dayanacaksınız?",
       "choices": [
-        { "text": "Satış ilanının borçluya tebliğ edilmemesi: eski adresten “tanınmıyor” diye dönen tebligattan sonra adres kayıt sistemindeki adrese tebligat yapılmadı. Müvekkil satıştan habersiz kaldı; borcu ödeme, satışı durdurma ya da ihaleye alıcı getirme imkânını yitirdi.", "delta": 25, "set": ["sebep", "menfaat"],
+        { "text": "Satış ilanı tebliğ edilmedi, adres kaydına tebligat denenmedi; müvekkil borcu ödeme ya da alıcı getirme imkânını yitirdi.", "delta": 25, "set": ["sebep", "menfaat"],
           "law": "İİK m.127 · m.134 · Tebligat K. m.10",
           "note": "Doğru. Satış ilanının borçluya tebliği zorunludur. Tebliğ edilmemesi, borçlunun satıştan habersiz kalmasıyla menfaatini ihlal ettiği için ihalenin feshi sebebidir. Menfaat ihlalini dilekçede somut olarak anlatmanız da önemli: fesih isteyen bunu ispatla yükümlüdür." },
-        { "text": "Kıymet takdiri düşük: dükkân en az 4,2 milyon ederken 2,15 milyona satıldı.", "delta": -15, "set": ["kiymet"],
+        { "text": "Kıymet takdiri düşük: dükkân en az 4,2 milyon ederken 2,15 milyona satıldı; bu fark tek başına fesih sebebidir.", "delta": -15, "set": ["kiymet"],
           "law": "İİK m.128/a · m.134",
           "note": "Kıymet takdiri borçluya tebliğ edildi ve yedi gün içinde itiraz edilmeden kesinleşti. Kesinleşmiş kıymet takdirine ihalenin feshi aşamasında itiraz edilemez. Bu talep esastan reddedilir ve para cezası riski doğar." },
-        { "text": "Hem satış ilanının tebliğ edilmemesine hem kıymetin düşüklüğüne dayanın; ne kadar çok sebep, o kadar iyi.", "delta": 5, "set": ["sebep", "kiymet"],
+        { "text": "Hem satış ilanının tebliğ edilmemesine hem bedelin muhammen bedelin yarısı olmasına dayanın; sebep çoğaldıkça dilekçe güçlenir.", "delta": 5, "set": ["sebep", "kiymet"],
           "law": "İİK m.127 · m.128/a · m.134",
           "note": "Birinci sebep güçlü; ikincisi kesinleşmiş kıymet takdiri yüzünden dinlenmez ve dilekçeyi zayıflatır. Menfaat ihlalini de somut olarak anlatmadınız." },
-        { "text": "İhaleye fesat karıştırıldı: tek teklif vardı, alıcı alacaklının tanıdığı olmalı.", "delta": -10, "set": ["fesat"],
+        { "text": "İhaleye fesat karıştırıldı: tek teklif verildi, bedel muhammen bedelin yarısı; alıcı alacaklının tanıdığı olmalı.", "delta": -10, "set": ["fesat"],
           "law": "İİK m.134 · TBK m.281",
           "note": "Tek teklif verilmesi başlı başına fesat değildir. İhaleye fesat karıştırıldığı iddiası somut olgu ve delil ister; elinizde yok. Bu talep esastan reddedilir ve para cezası riski doğar." }
       ]
     },
     {
-      "side": "p1", "scene": "court",
+      "kind": "free", "side": "p1", "scene": "court",
       "lines": [
         { "who": "narr", "text": "Dilekçe 19 Ekim'de verildi. Mahkeme yirmi gün içinde, 5 Kasım'a duruşma günü verdi. Koridor kalabalık; hâkim saatlerdir dosya bitiriyor." },
         { "who": "judge", "text": "Avukat Bey, ihale 8 Ekim, talep 19 Ekim. Süre geçmiş görünüyor. Kısa kesin; bugün kırk dosyam var." }
       ],
-      "prompt": "3. aşama · İcra hukuk mahkemesi: Ne yaparsınız?",
+      "prompt": "3. aşama · İcra hukuk mahkemesi: Hâkimin süre sorusuna kısaca ne cevap vereceksiniz? Kendi cümlelerinizle söyleyin.",
+      "rubric": "Hâkim, ihaleden on bir gün sonra yapılan talebin süresinde olup olmadığını soruyor ve kısa cevap istiyor. İyi bir cevap kısa, sakin ve dosyaya bağlıdır; şunları söyler: (1) Satış ilanı borçluya tebliğ edilmedi: eski adrese çıkarılan tebligat “tanınmıyor” diye iade döndü, başka adrese tebligat yapılmadı; mazbata dosyada. (2) İİK m.134 uyarınca satış ilanı usulüne uygun tebliğ edilmeyen ilgili için yedi günlük süre ihale tarihinden değil, yolsuzluğun öğrenildiği tarihten başlar; müvekkil satışı 16 Ekim'de öğrendi, talep 19 Ekim'de yapıldı. (3) Bir yıllık üst sınır da aşılmamıştır. Tebliğ eksikliğini ve sürenin öğrenme tarihinden başladığını birlikte söyleyen kısa cevap tam puan alır; yalnızca sürenin öğrenmeden başladığını söyleyip dayanağını göstermeyen cevap orta puan alır. Süre sorusunu cevaplamayan, hâkimle tartışan ya da değer düşüklüğünü anlatan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["tebliğ edilmedi", "tebliğ edilmemiş", "tebligat", "tebliğ"], "weight": 2 },
+        { "terms": ["öğrendi", "öğrenme", "öğrenil", "öğrendiğ"], "weight": 3 },
+        { "terms": ["16 Ekim", "16.10"], "weight": 1 },
+        { "terms": ["yedi gün", "7 gün"], "weight": 1 },
+        { "terms": ["mazbata", "iade"], "weight": 1 },
+        { "terms": ["m.134", "m. 134", "madde 134", "134. madde", "md. 134", "md.134"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, satış ilanı borçluya tebliğ edilmedi; eski adrese çıkarılan tebligat “tanınmıyor” diye iade döndü, mazbata dosyada. Bu durumda İİK m.134 uyarınca yedi günlük süre ihale tarihinden değil, müvekkilin satışı öğrendiği 16 Ekim'den başlar. Talebimiz 19 Ekim'de, süresinde yapıldı.",
       "choices": [
-        { "text": "Bir cümleyle: “Sayın Hâkim, satış ilanı borçluya tebliğ edilmedi; süre öğrenme tarihi olan 16 Ekim'den başlar. Tebliğ mazbatası dosyada, sayfa 41.”", "delta": 5,
+        { "text": "Güçlü cevap", "min": 70, "delta": 5,
           "law": "İİK m.134",
-          "note": "Mesleki soğukkanlılık. Sabırsız bir hâkime en iyi cevap, kısa ve dosyaya bağlı bir cümledir. Sertliğe karşılık vermediniz ama kilit noktayı da bırakmadınız.",
-          "reply": [{ "who": "judge", "text": "Sayfa kırk bir… Evet, iade dönmüş. Devam edin." }] },
-        { "text": "“Sayın Hâkim, bu tavrınızı tutanağa geçirmenizi istiyorum.”", "delta": -5,
-          "note": "Hâkimin yorgun ve sabırsız bir sorusu, tutanak tartışması gerektiren bir saldırı değildi. Gerilimi büyüttünüz; asıl sorunun cevabını hâlâ vermediniz.",
-          "reply": [{ "who": "judge", "text": "Talebiniz tutanağa geçti. Şimdi süre konusuna cevap verir misiniz?" }] },
-        { "text": "Hâkimi bekletmemek için süre konusunu geçin, değer düşüklüğünü anlatın.", "delta": -10,
-          "note": "Telaşla en güçlü noktanızı bıraktınız. Süre sorusu cevapsız kalırsa talep usulden reddedilir; hâkime kısa bir dosya göndermesi yapmak yeterdi.",
-          "reply": [{ "who": "judge", "text": "Süre konusunu dosyadan kendim inceleyeceğim. Karşı taraf?" }] }
+          "note": "Mesleki soğukkanlılık. Sabırsız bir hâkime en iyi cevap, kısa ve dosyaya bağlı bir cümledir: satış ilanı tebliğ edilmediği için yedi günlük süre öğrenme tarihinden, 16 Ekim'den işler (İİK m.134). Sertliğe karşılık vermediniz, kilit noktayı da bırakmadınız.",
+          "reply": [{"who": "judge", "text": "Sayfa kırk bir… Evet, iade dönmüş. Devam edin."}] },
+        { "text": "Yeterli cevap", "min": 40, "delta": 3,
+          "law": "İİK m.134",
+          "note": "Süre sorusunu cevapladınız; hâkim dosyaya baktı. Daha güçlü bir cevap iki şeyi birlikte söyler: satış ilanı borçluya tebliğ edilmedi (iade dönen mazbata dosyada) ve bu yüzden süre ihale tarihinden değil öğrenme tarihi olan 16 Ekim'den başlar (İİK m.134).",
+          "reply": [{"who": "judge", "text": "Mazbatayı buldum, iade dönmüş. Devam edin."}] },
+        { "text": "Zayıf cevap", "delta": -10,
+          "law": "İİK m.134",
+          "note": "Süre sorusu cevapsız kaldı; bu soru cevaplanmazsa talep usulden reddedilir. Tek cümle yeterdi: satış ilanı borçluya tebliğ edilmedi, bu yüzden yedi günlük süre öğrenme tarihi olan 16 Ekim'den başlar (İİK m.134); tebliğ mazbatası dosyada.",
+          "reply": [{"who": "judge", "text": "Süre konusunu dosyadan kendim inceleyeceğim. Karşı taraf?"}] }
       ]
     },
     {
@@ -158,14 +170,14 @@
       ],
       "prompt": "3. aşama · İcra hukuk mahkemesi: Teminat ve para cezası konusunda ne diyeceksiniz?",
       "choices": [
-        { "text": "Yüzde beşlik teminat ve nispi harç; satış isteyen alacaklı, borçlu, sicildeki ilgililer ve sınırlı ayni hak sahipleri dışında kalanlar için öngörülmüştür. Borçlu bu yükümlülüğün dışındadır. Para cezası ise ancak talep reddedilirse ve ihale bedelinin yüzde onuna kadar takdir edilir.", "delta": 20, "set": ["teminat"],
+        { "text": "Borçlu teminat ve harç yükümlülüğünün dışındadır; para cezası ise yalnızca ret hâlinde, yüzde onuna kadar verilir.", "delta": 20, "set": ["teminat"],
           "law": "İİK m.134",
           "note": "Doğru. 7343 sayılı Kanunla eklenen teminat ve harç yükümlülüğü yalnızca bu sayılan kişiler dışındakiler için geçerlidir. Ret hâlinde para cezası sabit yüzde on değil, yüzde onuna kadar takdir edilir.",
           "reply": [{ "who": "judge", "text": "Borçlunun teminat yükümlülüğü yoktur. Beyan tutanağa geçirildi." }] },
-        { "text": "Haklılar; teminatı bugün yatıralım, talep reddedilmesin.", "delta": -5, "set": ["teminatYatti"],
+        { "text": "Karşı taraf haklı; İİK m.134 teminatı herkesten arar. Yüzde beşi bugün yatıralım, talep usulden reddedilmesin.", "delta": -5, "set": ["teminatYatti"],
           "law": "İİK m.134",
           "note": "Borçlu teminat yükümlülüğünün dışındadır. Müvekkile 107.500 TL'lik gereksiz bir yük bindirdiniz ve karşı tarafın yanlış tezini kabul etmiş göründünüz." },
-        { "text": "Para cezası kesin olarak yüzde ondur; ama biz kazanacağız, önemi yok.", "delta": -5,
+        { "text": "Para cezası kanunda kesin olarak yüzde on belirlenmiş; ama talebimiz kabul edileceği için bunun bir önemi yok.", "delta": -5,
           "law": "İİK m.134",
           "note": "7343 sayılı Kanundan sonra para cezası yüzde onuna kadar takdir edilir. Teminat konusundaki yanlış iddiaya da cevap vermediniz." }
       ]
@@ -177,13 +189,13 @@
       ],
       "prompt": "3. aşama · İcra hukuk mahkemesi: Menfaat ihlalini nasıl açıklayacaksınız?",
       "choices": [
-        { "if": "teklif", "text": "Müvekkil Ağustos'ta alacaklıya yapılandırma teklif etmişti; e-postası dosyada. Satıştan haberi olsaydı borcu ödeme, satışı durdurma ya da ihaleye alıcı getirme imkânı vardı. Satış tek teklifle, muhammen bedelin yarısı civarında gerçekleşti.", "delta": 20, "set": ["menfaat"],
+        { "if": "teklif", "text": "Müvekkil Ağustos'ta yapılandırma teklif etmişti, e-postası dosyada; satışı bilse borcu öderdi. Dükkân yarı fiyata gitti.", "delta": 20, "set": ["menfaat"],
           "law": "İİK m.134",
           "note": "Doğru. Menfaat ihlalini somut olgularla ve belgeyle anlattınız." },
-        { "if": "!teklif", "text": "Satıştan haberi olsaydı borcu ödeme, satışı durdurma ya da ihaleye alıcı getirme imkânı vardı. Satış tek teklifle, muhammen bedelin yarısı civarında gerçekleşti.", "delta": 15, "set": ["menfaat"],
+        { "if": "!teklif", "text": "Satıştan haberi olsaydı borcu ödeyebilir, satışı durdurabilir ya da alıcı getirebilirdi; dükkân yarı fiyata gitti.", "delta": 15, "set": ["menfaat"],
           "law": "İİK m.134",
           "note": "Doğru. Satış ilanından habersiz kalan borçlunun bu imkânları yitirmesi menfaat ihlalidir. Elinizde bunu destekleyen bir belge olsaydı daha güçlü olurdu." },
-        { "text": "Tebliğ eksikliği tek başına yeter Sayın Hâkim; menfaat aranmaz.", "delta": -15,
+        { "text": "Tebliğ eksikliği tek başına yeter Sayın Hâkim; satış ilanının tebliği emredici bir kuraldır, ayrıca menfaat ihlali aranmaz.", "delta": -15,
           "law": "İİK m.134",
           "note": "Kanun, ihalenin feshini isteyenin yolsuzluk yüzünden kendi menfaatinin ihlal edildiğini ispat etmesini açıkça arıyor." }
       ]

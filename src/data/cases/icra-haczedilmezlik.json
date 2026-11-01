@@ -42,20 +42,20 @@
       ],
       "prompt": "Hangi yola, ne zaman başvuracaksınız?",
       "choices": [
-        { "text": "İcra hukuk mahkemesine haczedilmezlik şikâyeti. Süre, işlemin öğrenilmesinden itibaren yedi gün: maaş için 12 Ekim, ev eşyası için 13 Ekim. Dilekçeyi bugün verin.", "delta": 20, "set": ["sure"],
+        { "text": "İcra hukuk mahkemesine haczedilmezlik şikâyeti; süre öğrenmeden itibaren yedi gün. Dilekçeyi bugün verin.", "delta": 20, "set": ["sure"],
           "law": "İİK m.16/1 · m.82 · m.83",
-          "note": "Doğru yol ve doğru süre. Haczedilmezlik, icra memurunun işlemine karşı şikâyetle ileri sürülür; şikâyet süresi işlemin öğrenildiği günden itibaren yedi gündür (İİK m.16/1). Haciz sırasında hazır bulunan borçlu işlemi o gün öğrenmiş sayılır." },
-        { "text": "Asliye hukuk mahkemesinde menfi tespit davası açalım.", "delta": -10,
+          "note": "Doğru yol ve doğru süre. Haczedilmezlik, icra memurunun işlemine karşı şikâyetle ileri sürülür; şikâyet süresi işlemin öğrenildiği günden itibaren yedi gündür (İİK m.16/1). Haciz sırasında hazır bulunan borçlu işlemi o gün öğrenmiş sayılır: maaş için son gün 12 Ekim, ev eşyası için 13 Ekim." },
+        { "text": "Asliye hukuk mahkemesinde menfi tespit davası açalım; dava açılınca hacizler de İİK m.72 uyarınca tedbirle durdurulur.", "delta": -10,
           "law": "İİK m.72",
-          "note": "Menfi tespit borcun olmadığının tespiti içindir. Müvekkil borcu kabul ediyor; sorun haczin kanuna uygunluğu ve bu, icra hukuk mahkemesine şikâyetle çözülür.",
+          "note": "Menfi tespit davası takibi ve hacizleri durdurmaz; takipten sonra açılan davada tedbir yalnızca paranın alacaklıya ödenmesini engeller (İİK m.72/3). Menfi tespit, borcun olmadığının tespiti içindir. Müvekkil borcu kabul ediyor; sorun haczin kanuna uygunluğu ve bu, icra hukuk mahkemesine şikâyetle çözülür.",
           "reply": [{ "who": "partner", "text": "Borca değil, hacze itiraz ediyoruz. Haczedilmezlik şikâyeti yazalım; yedi gün dolmadan, bugün." }] },
-        { "text": "Ödeme emrine itiraz edelim, takip dursun.", "delta": -10,
+        { "text": "Ödeme emrine yedi gün içinde itiraz edelim; itirazla takip durur, hacizler de kendiliğinden kalkar.", "delta": -10,
           "law": "İİK m.62",
           "note": "Ödeme emrine itiraz süresi çoktan geçti ve takip kesinleşti. Ayrıca itiraz borca yöneliktir; haczedilmezlik ayrı bir şikâyet konusudur.",
           "reply": [{ "who": "partner", "text": "Takip kesinleşmiş. Haczedilmezlik şikâyeti yazalım; yedi gün dolmadan, bugün." }] },
-        { "text": "Önce alacaklıyla pazarlık edelim; olmazsa ay sonunda şikâyet ederiz.", "delta": -10,
+        { "text": "Önce alacaklıyla pazarlık edelim; olmazsa ay sonunda, maaş kesintisi kesinleşince şikâyet ederiz.", "delta": -10,
           "law": "İİK m.16/1",
-          "note": "Şikâyet süresi yedi gündür. Ay sonunu beklemek şikâyet hakkını kaybettirirdi. Pazarlık, şikâyetle birlikte yürüyebilir.",
+          "note": "Şikâyet süresi yedi gündür ve işlemin öğrenilmesiyle başlar; maaş kesintisi bordronun görüldüğü 5 Ekim'de öğrenildi. Ay sonunu beklemek şikâyet hakkını kaybettirirdi. Pazarlık, şikâyetle birlikte yürüyebilir.",
           "reply": [{ "who": "partner", "text": "Ay sonuna kadar beklersek süre kaçar. Şikâyeti bugün verelim, pazarlık ayrıca sürsün." }] }
       ]
     },
@@ -66,17 +66,17 @@
       ],
       "prompt": "Dilekçede hangi eşyalar için haczin kaldırılmasını isteyeceksiniz?",
       "choices": [
-        { "text": "Buzdolabı, çamaşır makinesi, iki televizyon ve bilgisayar: ailenin ortak kullanımındaki ev eşyası ya da kişisel eşya. Antika saati dilekçeye katmayın.", "delta": 20, "set": ["esya"],
+        { "text": "Buzdolabı, çamaşır makinesi, iki televizyon ve bilgisayar; ailenin ortak kullanımındaki eşya. Antika saati katmayın.", "delta": 20, "set": ["esya"],
           "law": "İİK m.82/1-3",
           "note": "Doğru. Borçlu ve aynı çatı altında yaşayan aile bireylerinin kişisel eşyası ile ailenin ortak kullanımına hizmet eden ev eşyası haczedilemez. Antika ve süs eşyası bu korumanın dışındadır." },
-        { "text": "Altı kalemin hepsi, antika saat dahil.", "delta": -5, "set": ["esya", "esyaGenis"],
+        { "text": "Altı kalemin hepsi, antika saat dahil; saat aile yadigârı, kişisel eşya sayılır.", "delta": -5, "set": ["esya", "esyaGenis"],
           "law": "İİK m.82/1-3",
-          "note": "Ev eşyası için doğru; ama antika ve süs eşyası haczedilmezlik korumasının dışındadır. Saat yönünden şikâyet reddedilecek." },
+          "note": "Ev eşyası için doğru; ama antika ve süs eşyası haczedilmezlik korumasının dışındadır; aile yadigârı olması onu kişisel eşya yapmaz. Saat yönünden şikâyet reddedilecek." },
         { "text": "Yalnızca buzdolabı ve çamaşır makinesi. Aynı işi gören eşyadan biri haczedilebilir; ikinci televizyon ve bilgisayar korunmaz.", "delta": -5, "set": ["esyaDar"],
           "law": "İİK m.82/1-3",
           "note": "Eski kural. 2023'teki değişiklikle (7445 s.K.) “lüzumlu eşya, aynı amaçla kullanılan birden fazla eşya varsa biri” ölçütü kaldırıldı. Talebinizi gereksiz yere daralttınız." },
-        { "text": "Ev eşyasını bırakın; dilekçeyi yalnızca maaş haczine odaklayın.", "delta": -10,
-          "note": "Ailenin ortak kullanımındaki eşya kanunen korunuyor. Şikâyet etmediğiniz eşya satılabilir." }
+        { "text": "Ev eşyasını bırakın; dilekçeyi yalnızca maaş haczine odaklayın, eşya zaten satışta düşük değer eder.", "delta": -10,
+          "note": "Ailenin ortak kullanımındaki eşya kanunen korunuyor; satış değerinin düşüklüğü bu korumayı ortadan kaldırmaz. Şikâyet etmediğiniz eşya satılabilir." }
       ]
     },
     {
@@ -88,13 +88,13 @@
       ],
       "prompt": "Nasıl karşılık vereceksiniz?",
       "choices": [
-        { "text": "Bu, 2023'ten önceki metindir. 7445 sayılı Kanunla İİK m.82/1-3 değişti: aile bireylerinin kişisel eşyası ile ailenin ortak kullanımına hizmet eden ev eşyası haczedilemez. “Biri bırakılır” kuralı kaldırıldı. Bilgisayar çocukların derslerinde kullanılıyor.", "delta": 20, "set": ["yeni"],
+        { "text": "Bu, 2023 öncesi metin. 7445 s.K. ile “biri bırakılır” kuralı kalktı: ailenin ortak kullanımındaki ev eşyası haczedilemez.", "delta": 20, "set": ["yeni"],
           "law": "İİK m.82/1-3 (7445 s.K. ile değişik)",
-          "note": "Doğru. 5 Nisan 2023'te yürürlüğe giren değişiklikle lüzumluluk ve “aynı amaçla kullanılan eşyadan biri” ölçütleri kaldırıldı. Haciz 2026'da yapıldığı için yeni metin uygulanır.",
+          "note": "Doğru. 5 Nisan 2023'te yürürlüğe giren değişiklikle lüzumluluk ve “aynı amaçla kullanılan eşyadan biri” ölçütleri kaldırıldı. Haciz 2026'da yapıldığı için yeni metin uygulanır; çocukların derslerinde kullandığı bilgisayar da bu korumanın içindedir.",
           "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
-        { "text": "Haklısınız; ikinci televizyon haczedilebilir, onu bırakıyoruz.", "delta": -5,
+        { "text": "Haklısınız; ikinci televizyon İİK m.82/1-3 uyarınca haczedilebilir, onu bırakıyoruz; ama bilgisayar çocukların dersi için korunmalı.", "delta": -5,
           "note": "Eski kurala dayanan bir itirazı kabul ettiniz. Yeni metinde ailenin ortak kullanımındaki ev eşyası bir bütün olarak korunuyor." },
-        { "text": "Bu eşyaların değeri düşüktür; haczetmeye değmez.", "delta": -10,
+        { "text": "Bu eşyaların değeri düşüktür; borcu karşılamaktan çok uzak oldukları için haczetmeye değmez.", "delta": -10,
           "note": "Haczedilmezlik eşyanın değerine değil, niteliğine bağlıdır. Değeri düşük ama kanunen korunmayan eşya haczedilebilir; korunan eşya değeri ne olursa olsun haczedilemez." }
       ]
     },
@@ -106,40 +106,49 @@
       ],
       "prompt": "Ne yaparsınız?",
       "choices": [
-        { "text": "Sakin bir sesle: “Sayın Hâkim, müvekkilime yöneltilen ‘dolandırıcılık’ isnadının tutanağa geçirilmesini istiyorum. Borç tartışmalı değil; konu haczin kanuna uygunluğudur.”", "delta": 5,
+        { "text": "Sakince: “Sayın Hâkim, ‘dolandırıcılık’ isnadının tutanağa geçirilmesini istiyorum; konu haczin hukuka uygunluğu.”", "delta": 5,
           "law": "HMK m.151 · Avukatlık meslek kuralları",
           "note": "Mesleki soğukkanlılık. İsnat tutanağa geçti ve tartışma yeniden hukuki zemine döndü. Duruşmanın düzenini sağlamak hâkimin görevidir; size düşen, bunu istemektir.",
           "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi. Alacaklı vekili, lütfen şikâyetin konusuyla sınırlı kalın." }] },
-        { "text": "“Asıl dolandırıcı, faize faiz işleten sizin müvekkilinizdir!”", "delta": -10,
+        { "text": "Sert karşılık verin: “Asıl dolandırıcı, faize faiz işleten sizin müvekkilinizdir! Bu sözleri geri alın.”", "delta": -10,
           "note": "Tahrike kapıldınız. Karşı tarafın dilini kullanmak hâkimin gözünde sizi de aynı yere koyar ve meslek kurallarıyla bağdaşmaz.",
           "reply": [{ "who": "judge", "text": "Taraf vekilleri! Kişisel tartışmaya izin vermeyeceğim." }] },
-        { "text": "Hiçbir şey söylemeyin, sıranızı bekleyin.", "delta": -5,
+        { "text": "Hiçbir şey söylemeyin; duruşma düzenini sağlamak hâkimin işidir, sıranız gelince hukuki savunmanıza dönersiniz.", "delta": -5,
           "note": "Sakin kalmak doğru, ama müvekkilinize yönelik ağır bir isnat cevapsız ve kayıtsız kaldı. Tutanağa geçirilmesini istemeliydiniz." }
       ]
     },
     {
+      "kind": "free",
       "side": "p1", "scene": "court",
       "lines": [
         { "who": "judge", "text": "Maaş haczine geçelim. Alacaklı vekili?" },
         { "who": "opp", "text": "Borçlu, kredi sözleşmesinde maaşının tamamına haciz konulmasına muvafakat etmiştir. Kaldı ki kanunda dörtte bir yalnızca alt sınırdır; icra müdürlüğü yarısını haczedebilir." },
         { "who": "judge", "text": "Borçlu vekili?" }
       ],
-      "prompt": "Maaş haczi için ne diyeceksiniz?",
+      "prompt": "Maaş haczine ilişkin şikâyetinizi mahkemeye nasıl savunacaksınız? Kendi cümlelerinizle açıklayın.",
       "choices": [
-        { "text": "Hacizden önce yapılan muvafakat geçersizdir. Dörtte bir alt sınırdır, doğru; ama icra memuru borçlu ve ailesinin geçimi için gereken miktarı takdir etmek zorundadır. Asgari ücretle üç çocuğa bakan borçlunun maaşının yarısının haczi bu takdiri aşar. Haciz dörtte bire indirilmelidir.", "delta": 25, "set": ["maas"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 25, "set": ["maas"],
           "law": "İİK m.83 · m.83/a",
-          "note": "Doğru. Maaş, borçlu ve ailesinin geçimi için icra memurunca takdir edilecek miktar ayrıldıktan sonra haczedilir; haczedilecek kısım dörtte birden az olamaz (İİK m.83). Haczedilmezlik hakkından önceden, sözleşmeyle yapılan feragat geçersizdir (İİK m.83/a).",
+          "note": "İki dayanağı da kurdunuz: hacizden önce sözleşmeyle verilen muvafakat geçersizdir (İİK m.83/a); maaş da ancak borçlu ve ailesinin geçimi için icra memurunca takdir edilecek miktar ayrıldıktan sonra haczedilebilir (İİK m.83). Asgari ücretle üç çocuğa bakan borçlu için yarım haciz bu takdiri aşar; haciz dörtte bire inmeli.",
           "reply": [{ "who": "judge", "text": "Borçlunun nüfus kaydı ve bordrosu dosyada. Beyan tutanağa geçirildi." }] },
-        { "text": "Maaş hiçbir şekilde haczedilemez; haczin tamamen kaldırılmasını talep ederiz.", "delta": -10,
-          "law": "İİK m.83",
-          "note": "Hatalı. Maaş haczedilebilir; kanun yalnızca borçlu ve ailesinin geçim payının korunmasını ister. Haczedilecek kısım dörtte birden az olamaz." },
-        { "text": "Haczin maaşın onda birine indirilmesini talep ederiz.", "delta": -10,
-          "law": "İİK m.83",
-          "note": "Kanun haczedilecek kısmın dörtte birden az olamayacağını söyler. Dörtte birin altına inilmesini isteyemezsiniz." },
-        { "text": "Muvafakat geçerlidir, ama müvekkil zor durumda; alacaklının insafına sığınıyoruz.", "delta": -15,
-          "law": "İİK m.83/a",
-          "note": "Önceden verilen muvafakat geçersizdir. Bunu kabul ederek elinizdeki en güçlü dayanağı bıraktınız." }
-      ]
+        { "text": "Yeterli savunma", "min": 40, "delta": 12, "set": ["maas"],
+          "law": "İİK m.83 · m.83/a",
+          "note": "Mahkeme savunmanızı yeterli buldu. Tam savunma, önceden verilen muvafakatin geçersizliğini (İİK m.83/a), geçim payının icra memurunca takdir edilmesi gerektiğini ve haczin dörtte bire indirilmesi talebini birlikte içerir.",
+          "reply": [{ "who": "judge", "text": "Borçlunun nüfus kaydı ve bordrosu dosyada. Beyan tutanağa geçirildi." }] },
+        { "text": "Zayıf savunma", "delta": -10,
+          "law": "İİK m.83 · m.83/a",
+          "note": "Maaş haczine karşı doğru dayanağı kuramadınız. Maaş haczedilebilir; ama haczedilecek kısım dörtte birden az olamaz ve geçim payı ayrılmalıdır (İİK m.83). Asıl dayanaklar: sözleşmedeki önceden muvafakat geçersizdir (İİK m.83/a); asgari ücretle üç çocuğa bakan borçlunun maaşının yarısının haczi geçim payını aşar." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kredi sözleşmesinde hacizden önce verilen muvafakat geçersizdir; haczedilmezlik hakkından önceden feragat edilemez (İİK m.83/a). (2) Maaş, borçlu ve ailesinin geçimi için icra memurunca takdir edilecek miktar ayrıldıktan sonra haczedilebilir; haczedilecek kısım dörtte birden az olamaz (İİK m.83). Dörtte bir alt sınırdır, ama yarısının haczi bu takdirin yapılmasını gerektirir. (3) Asgari ücretle çalışan ve üç çocuğuna tek başına bakan borçlunun maaşının yarısının haczi geçim payını aşar. (4) Haczin dörtte bire indirilmesi istenir. Muvafakatin geçersizliğini ve geçim payını birlikte kurup dörtte bir talebinde bulunan cevap tam puan alır; bunlardan yalnız birini söyleyen cevap orta puan alır. Maaşın hiç haczedilemeyeceğini söyleyen, dörtte birin altına inilmesini isteyen ya da muvafakatin geçerli olduğunu kabul eden cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["muvafakat", "rıza", "feragat", "önceden"], "weight": 2 },
+        { "terms": ["geçersiz", "hükümsüz", "muteber değil", "batıl"], "weight": 2 },
+        { "terms": ["geçim", "nafaka", "aile", "üç çocuk", "asgari ücret"], "weight": 2 },
+        { "terms": ["dörtte bir", "1/4", "çeyrek"], "weight": 2 },
+        { "terms": ["m.83", "m. 83", "madde 83", "83. madde", "md. 83", "md.83", "83/a"], "weight": 1 },
+        { "terms": ["takdir", "icra memuru", "icra müdürü"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, kredi sözleşmesindeki muvafakat hacizden önce verilmiştir ve İİK m.83/a uyarınca geçersizdir. Maaş ancak borçlu ve ailesinin geçimi için icra memurunca takdir edilecek miktar ayrıldıktan sonra haczedilebilir (İİK m.83); dörtte bir yalnızca alt sınırdır. Asgari ücretle üç çocuğuna tek başına bakan müvekkilin maaşının yarısının haczi bu geçim payını aşmaktadır. Haczin dörtte bire indirilmesini talep ederiz."
     }
   ],
   "outcomes": [

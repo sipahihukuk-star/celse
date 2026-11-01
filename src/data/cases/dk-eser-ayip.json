@@ -257,7 +257,7 @@
       "choices": [
         {
           "if": "donme",
-          "text": "Dönme koşulları yok: ayıplar dolapları kullanılamaz kılacak ağırlıkta değil. Davanın reddini iste; ihtiyaten geç ihbar savunmasını da ekle.",
+          "text": "Dönme şartı yok: ayıplar dolapları kullanılamaz kılmıyor. Reddi iste; ihtiyaten geç ihbarı da ekle.",
           "delta": 20,
           "set": [
             "donmeItiraz",
@@ -267,7 +267,7 @@
           "note": "İş sahibi yanlış hakkı seçti; dönme ağır ayıp ister (TBK m.475/1-1). Hâkim talepten başka bir hakka kendiliğinden hükmedemez (HMK m.26). Geç ihbar savunmasını da ihtiyaten eklediniz."
         },
         {
-          "text": "Geç ihbar: davacı şişmeyi 05.05.2026'da fark etti, ancak 28.05.2026'da noterle bildirdi; eser kabul edilmiş sayılır. İhtiyaten: şişmede Mart'taki sifon kaçağının etkisi var; bilirkişi incelemesi iste.",
+          "text": "Geç ihbar: şişme 05.05'te fark edildi, 28.05'te bildirildi; eser kabul sayılır. İhtiyaten sifon kaçağı için bilirkişi iste.",
           "delta": 20,
           "set": [
             "gec",
@@ -277,7 +277,7 @@
           "note": "Sonradan ortaya çıkan ayıp gecikmeksizin bildirilmezse eser kabul edilmiş sayılır (TBK m.477/3). İhtiyati nedensellik savunmasıyla bilirkişi incelemesini de doğru yönlendirdiniz."
         },
         {
-          "text": "Yalnızca geç ihbar savunmasına dayan: eser kabul edilmiş sayılır.",
+          "text": "Yalnızca geç ihbar savunmasına dayan: şişme 05.05'te fark edilip 28.05'te bildirildi, eser kabul edilmiş sayılır.",
           "delta": 10,
           "set": [
             "gec"
@@ -286,7 +286,7 @@
           "note": "Güçlü bir savunma (TBK m.477/3), ama tek bir dayanağa bağlandınız. İhbarın zamanında yapıldığı ispatlanırsa elinizde başka bir şey kalmaz."
         },
         {
-          "text": "Malzeme sözleşmeye uygun; dolaplarda ayıp yok.",
+          "text": "Malzeme sözleşmeye uygun, dolaplarda ayıp yok; şişme kafe mutfağının yoğun kullanımından ve nemden kaynaklanıyor.",
           "delta": -10,
           "set": [
             "inkar"
@@ -389,7 +389,7 @@
           ]
         },
         {
-          "text": "Müvekkilin tepkisini savun: “Haklı bir isyan, Sayın Hâkim.”",
+          "text": "Müvekkilin tepkisini savun: “Haklı bir isyan, Sayın Hâkim; yirmi yıllık ustaya çürük malzeme dendi.”",
           "delta": -10,
           "law": "HMK m.151",
           "note": "Duruşma düzenini bozan bir davranışı savunmak, hem müvekkilinizi salondan çıkarılma riskine sokar hem de hâkim nezdinde güvenilirliğinizi zedeler (HMK m.151).",
@@ -401,7 +401,7 @@
           ]
         },
         {
-          "text": "Hiçbir şey söyleme; duruşmaya devam et.",
+          "text": "Hiçbir şey söyleme; hâkim uyarısını zaten yaptı, duruşmaya devam et.",
           "delta": -5,
           "law": "HMK m.151",
           "note": "Hâkimin uyarısını cevapsız bıraktınız. Müvekkiliniz yeniden patlarsa salondan çıkarılabilir (HMK m.151).",
@@ -470,16 +470,17 @@
           "text": "Davacı vekili, teklif hakkında beyanınız?"
         }
       ],
-      "prompt": "Teklife ne diyorsunuz?",
+      "prompt": "Sulh teklifine ne cevap vereceksiniz? Kendi cümlelerinizle açıklayın.",
       "choices": [
         {
-          "text": "Müvekkilin onayını al; yenilemenin bir ay içinde yapılmasını, yapılmazsa dolaplar için bilirkişinin belirlediği 54.000 TL'nin ödenmesini şart koşarak kabul et.",
+          "text": "Güçlü cevap",
+          "min": 70,
           "delta": 15,
           "set": [
             "sulh"
           ],
           "law": "HMK m.74, m.313",
-          "note": "Müvekkilin iradesini aldınız ve onarım yapılmazsa ne olacağını baştan bağladınız. Sulh için vekâletnamede özel yetki gerekir (HMK m.74).",
+          "note": "Müvekkilin iradesini aldınız ve onarım yapılmazsa ne olacağını baştan bağladınız. Sulh için vekâletnamede özel yetki gerekir (HMK m.74); şartların tutanağa geçirilmesi, yenileme yapılmazsa ne olacağını tartışmasız kılar.",
           "reply": [
             {
               "who": "judge",
@@ -488,9 +489,10 @@
           ]
         },
         {
-          "text": "Teklifi reddet; bilirkişinin belirlediği indirimin tamamını iste.",
+          "text": "Yeterli cevap",
+          "min": 40,
           "delta": 5,
-          "note": "Savunulabilir bir tercih: rapor lehinize. Ama yükleniciyle ilişki tamamen koptu ve hükmün tahsili zaman alabilir.",
+          "note": "Teklif karşısında savunulabilir bir tutum aldınız ama sulhu güvenceye bağlayamadınız; sulh kurulamadı. Rapor lehinize, ancak yükleniciyle ilişki koptu ve hükmün tahsili zaman alabilir. En iyi cevap, müvekkilin onayını alıp (sulh için vekâletnamede özel yetki gerekir, HMK m.74) yenilemeyi bir aylık süreye ve yapılmazsa bilirkişinin belirlediği 54.000 TL'nin ödenmesine bağlayarak kabul etmekti.",
           "reply": [
             {
               "who": "judge",
@@ -499,10 +501,10 @@
           ]
         },
         {
-          "text": "Teklifi müvekkile sormadan hemen kabul et.",
+          "text": "Zayıf cevap",
           "delta": -15,
           "law": "HMK m.74",
-          "note": "Sulh, vekâletnamede özel yetki gerektiren işlemlerdendir (HMK m.74). Müvekkilin iradesini de almadınız.",
+          "note": "Sulh, vekâletnamede özel yetki gerektiren işlemlerdendir (HMK m.74); müvekkilin iradesi de alınmadan sulh beyanında bulunulamaz. Teklif ancak müvekkilin onayıyla ve yenileme yapılmazsa ne olacağı (bir ay içinde yenileme, aksi hâlde 54.000 TL) baştan bağlanarak kabul edilmeliydi.",
           "reply": [
             {
               "who": "judge",
@@ -510,7 +512,68 @@
             }
           ]
         }
-      ]
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Sulh müvekkilin iradesine bağlıdır; teklif müvekkile iletilip onayı alınmalı, vekâletnamede sulh için özel yetki bulunmalıdır (HMK m.74). (2) Teklif kabul edilecekse güvenceye bağlanmalıdır: yenilemenin belirli bir sürede (ör. bir ay) yapılması, yapılmazsa dolaplar için bilirkişinin belirlediği 54.000 TL'nin ödenmesi; bu şartlar sulh tutanağına geçirilmelidir. Müvekkilin onayını ya da özel yetkiyi anıp kabulü süre ve yaptırım şartına bağlayan cevap tam puan alır. Teklifi bilirkişi raporuna dayanarak gerekçeli biçimde reddedip indirimin tamamını isteyen ya da onaylı ama şartsız bir kabul öneren cevap orta puan alır. Müvekkile sormadan ya da yetkiyi hiç düşünmeden teklifi hemen kabul eden cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": [
+            "onay",
+            "müvekkilin iradesi",
+            "müvekkile sor",
+            "müvekkilime sor",
+            "müvekkille görüş",
+            "müvekkilimle görüş",
+            "müvekkile ilet",
+            "müvekkilime ilet"
+          ],
+          "weight": 3
+        },
+        {
+          "terms": [
+            "özel yetki",
+            "sulh yetkisi",
+            "vekâletname",
+            "vekaletname",
+            "m.74",
+            "m. 74",
+            "madde 74",
+            "74. madde",
+            "md. 74"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "54.000",
+            "54 bin",
+            "bilirkişinin belirlediği",
+            "yapılmazsa",
+            "yerine getirilmezse",
+            "yenilenmezse"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "bir ay",
+            "1 ay",
+            "otuz gün",
+            "30 gün",
+            "süre içinde",
+            "sürede"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "tutanağa",
+            "tutanak"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Hâkim, teklifi müvekkilime ilettim; vekâletnamemde sulh için özel yetki de bulunuyor. Müvekkilim teklifi, yenilemenin bir ay içinde yapılması ve yapılmazsa dolaplar için bilirkişinin belirlediği 54.000 TL'nin ödenmesi şartıyla kabul ediyor. Bu şartların sulh tutanağına geçirilmesini isteriz."
     },
     {
       "side": "p1",
@@ -530,7 +593,7 @@
       "choices": [
         {
           "if": "renk",
-          "text": "Tutanak montajın bittiği akşam, loş ışıkta imzalatıldı. Renk farkı ertesi sabah, 11.02.2026'da fotoğraflarla bildirildi; Şubat yazışmasını sun.",
+          "text": "Tutanak akşam loş ışıkta imzalatıldı; renk farkı ertesi sabah, 11.02.2026'da fotoğraflarla bildirildi, yazışmayı sun.",
           "delta": 20,
           "set": [
             "renkSavun"
@@ -545,7 +608,7 @@
           ]
         },
         {
-          "text": "Tutanak montajın bittiği akşam imzalatıldı; gözden geçirme için uygun süre tanınmadı.",
+          "text": "Tutanak montajın bittiği akşam, loş ışıkta imzalatıldı; gözden geçirme için uygun süre tanınmadı (TBK m.474).",
           "delta": 5,
           "law": "TBK m.474",
           "note": "Doğru bir hukuki dayanak (TBK m.474), ama bildirimin ne zaman yapıldığını gösteren bir belge sunmadınız. İlk yazılı bildirim dosyada 28.05.2026 tarihli noter ihtarı.",
@@ -557,7 +620,7 @@
           ]
         },
         {
-          "text": "Renk farkı önemsiz bir ayıptır; tartışmaya gerek yok.",
+          "text": "Renk farkı önemsiz bir ayıptır, indirim oranını pek etkilemez; bu tartışmaya girmeye gerek yok.",
           "delta": -10,
           "note": "Önemsizse indirim talebinden vazgeçmiş olursunuz; değilse itirazı cevapsız bıraktınız. Her iki durumda da kapaklara ilişkin indirim tehlikeye girdi.",
           "reply": [
@@ -587,7 +650,7 @@
       "choices": [
         {
           "if": "sizinti",
-          "text": "Sızıntıyı kabul et: Mart'ta sifon damlattı ve hemen değiştirildi. Bilirkişi, su itici MDF'nin bu sızıntıda şişmeyeceğini tespit etti; ayıbın kaynağı sözleşmeye aykırı malzemedir.",
+          "text": "Sızıntıyı kabul et: sifon Mart'ta damlattı, hemen değişti. Su itici MDF bu sızıntıda şişmezdi; kaynak sözleşmeye aykırı malzeme.",
           "delta": 20,
           "law": "TBK m.475",
           "note": "Bildiğiniz bir gerçeği saklamadınız ve tartışmayı asıl noktaya taşıdınız: evye altı gibi nemli bir yer için su itici MDF tam da bu yüzden kararlaştırılmıştı.",
@@ -612,7 +675,7 @@
           ]
         },
         {
-          "text": "Sızıntı hiç olmadı; davalı uyduruyor.",
+          "text": "Sızıntı hiç olmadı; davalı, sözleşmeye aykırı malzemeyi örtmek için olay uyduruyor.",
           "delta": -10,
           "law": "HMK m.29",
           "note": [

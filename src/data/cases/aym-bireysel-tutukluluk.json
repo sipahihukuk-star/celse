@@ -65,13 +65,13 @@
       ],
       "prompt": "Müvekkile ne cevap vereceksiniz?",
       "choices": [
-        { "text": "Başvurumuz ilk tutuklama kararına ilişkin. O karara karşı kanunda öngörülen yol sulh ceza hâkimliğine itirazdı ve bu yol tüketildi. Sonraki kararlar başvurunun konusu değil.", "delta": 15, "set": ["tuketme"],
+        { "text": "Hayır. Şikâyetimiz ilk tutuklama kararıyla ilgili; ona karşı öngörülen itiraz yolu tüketildi. Sonraki kararlar konu dışı.", "delta": 15, "set": ["tuketme"],
           "law": "6216 s.K. m.45/2; CMK m.267 ve 268",
           "note": "Başvuru yollarının tüketilmesi, şikâyet konusu karar için öngörülen yolun kullanılmasını arar (6216 s.K. m.45/2). Sulh ceza hâkimliğinin tutuklama kararına karşı yol, sıradaki sulh ceza hâkimliğine itirazdır. Bu yol kullanılmış." },
-        { "text": "Bireysel başvuruda başvuru yollarının tüketilmesi aranmaz. Bu itirazın önemi yok.", "delta": -10,
+        { "text": "Tüketme kuralı istinaf ve temyiz gibi kanun yollarını kapsar; sulh ceza kararlarına itiraz bu sayılmaz, önemi yok.", "delta": -10,
           "law": "6216 s.K. m.45/2",
-          "note": "Yanlış. Bireysel başvuru için bütün yargısal başvuru yollarının önceden tüketilmiş olması gerekir (6216 s.K. m.45/2). Bakanlığın itirazı ciddiye alınmalı." },
-        { "text": "Başvurudan feragat edelim. Önce o kararlara itiraz eder, sonra yeniden başvururuz.", "delta": -25,
+          "note": "Yanlış. Kanunda öngörülen idari ve yargısal başvuru yollarının tamamı bireysel başvurudan önce tüketilmelidir (6216 s.K. m.45/2); sulh ceza hâkimliği kararlarına itiraz da bu yollardandır. Bakanlığın itirazı ciddiye alınmalı." },
+        { "text": "Riske girmeyelim: başvurudan feragat edip önce sonraki tutukluluk kararlarına itiraz edelim, sonra yeniden başvuralım.", "delta": -25,
           "fatal": { "label": "KARAR:", "hukum": "Başvurucunun feragati nedeniyle başvurunun DÜŞÜRÜLMESİNE,",
                      "summary": "Tüketme kuralı, başvuruya konu edilen karar için öngörülen yolun kullanılmasını arar. Tutuklama kararına itiraz edilmişti ve sonraki kararlar başvurunun konusu değildi. Feragat gereksiz bir hak kaybına yol açtı; otuz günlük süre de çoktan geçmişti." },
           "note": "Tüketme kuralı şikâyet konusu kararla ilgilidir. Feragat, yerinde bir başvuruyu sona erdirir." }
@@ -112,21 +112,29 @@
       },
       "pass": { "delta": -15, "note": "Bakanlığın esasa ilişkin görüşü cevapsız kaldı." }
     },
-    { "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Başvurucu vekili, Bölümden talebiniz nedir?" }],
-      "prompt": "Ne isteyeceksiniz?",
+      "prompt": "Bölümden ne isteyeceksiniz? Talebinizi gerekçesiyle, kendi cümlelerinizle söyleyin.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Anayasa m.19/3'te güvence altına alınan kişi özgürlüğü ve güvenliği hakkının ihlal edildiğinin tespiti istenir. (2) Başvurucu tahliye edildiğinden tutuklama kararının yeniden incelenmesi ihlali gideremez; yeniden yargılamada hukuki yarar yoktur. (3) Bu nedenle ihlalin giderilmesi için manevi tazminat istenir (6216 s.K. m.50/2). Üç unsuru birlikte söyleyen cevap tam puan alır; ihlal tespiti ve tazminatı gerekçesiz isteyen cevap orta puan alır. Yalnızca dosyanın yeniden incelenmesini, kovuşturmanın durdurulmasını ya da suçsuzluk tespitini veya hâkim hakkında disiplin soruşturmasını isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["ihlal"], "weight": 2 },
+        { "terms": ["manevi tazminat", "tazminat"], "weight": 3 },
+        { "terms": ["tahliye", "serbest bırakıl", "artık tutuklu değil"], "weight": 1 },
+        { "terms": ["hukuki yarar", "yeniden yargılama", "yeniden inceleme"], "weight": 1 },
+        { "terms": ["kişi özgürlüğü", "m.19", "m. 19", "madde 19", "19. madde", "19/3"], "weight": 1 },
+        { "terms": ["m.50", "m. 50", "madde 50", "50. madde", "md. 50", "md.50"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan ve Üyeler, Anayasa m.19/3'te güvence altına alınan kişi özgürlüğü ve güvenliği hakkının ihlal edildiğinin tespitini istiyoruz. Başvurucu tahliye edildiği için tutuklama kararının yeniden incelenmesinde hukuki yarar kalmamıştır; ihlal ancak tazminatla giderilebilir. Bu nedenle 6216 sayılı Kanun m.50/2 uyarınca başvurucu lehine manevi tazminata hükmedilmesini talep ediyoruz.",
       "choices": [
-        { "text": "Kişi özgürlüğü ve güvenliği hakkının ihlal edildiğinin tespitini ve manevi tazminat isteriz. Başvurucu tahliye edildiği için yeniden incelemede hukuki yarar kalmadı.", "delta": 15, "set": ["talep"],
+        { "text": "Güçlü talep", "min": 70, "delta": 15, "set": ["talep"],
           "law": "6216 s.K. m.50",
-          "note": "İhlal tutuklama kararından kaynaklanıyor. Başvurucu artık tutuklu olmadığından yeniden inceleme ihlali gideremez. Yeniden yargılamada hukuki yarar bulunmayan hâllerde tazminata hükmedilebilir (6216 s.K. m.50/2)." },
-        { "text": "Dosyanın yeniden inceleme için sulh ceza hâkimliğine gönderilmesini isteriz.", "delta": 0,
-          "law": "6216 s.K. m.50/2",
-          "note": "Yeniden yargılama, ihlali giderebildiği durumlar içindir. Başvurucu tahliye edildiği için tutuklama kararının yeniden incelenmesi bir şey değiştirmez." },
-        { "text": "Kovuşturmanın durdurulmasını ve başvurucunun suçsuz olduğunun tespitini isteriz.", "delta": -10,
-          "note": "Anayasa Mahkemesi ceza davasını görmez, suçluluk hakkında karar vermez. İnceleme, tutuklamanın Anayasa m.19/3'e uygunluğuyla sınırlıdır." },
-        { "text": "Tutuklamaya karar veren hâkim hakkında disiplin soruşturması açılmasına karar verilmesini isteriz.", "delta": -5,
-          "law": "6216 s.K. m.50/1",
-          "note": "Mahkeme ihlalin giderilmesi için gerekenlere hükmeder, ama idari eylem ve işlem niteliğinde karar veremez (6216 s.K. m.50/1)." }
+          "note": "Talebi doğru kurdunuz: ihlal tutuklama kararından kaynaklanıyor ve başvurucu tahliye edildiği için yeniden inceleme ihlali gideremez. Yeniden yargılamada hukuki yarar bulunmayan hâllerde tazminata hükmedilebilir (6216 s.K. m.50/2)." },
+        { "text": "Yeterli talep", "min": 40, "delta": 7, "set": ["talep"],
+          "law": "6216 s.K. m.50",
+          "note": "İhlalin tespitini ve manevi tazminatı istediniz; Bölüm talebi değerlendirecek. Gerekçesini de söylemeliydiniz: başvurucu tahliye edildiğinden yeniden incelemede hukuki yarar yoktur, ihlal ancak tazminatla giderilebilir (m.50/2)." },
+        { "text": "Zayıf talep", "delta": -10,
+          "law": "6216 s.K. m.50",
+          "note": "Talep, Anayasa Mahkemesinin verebileceği kararla örtüşmedi. Mahkeme ceza davasını görmez, suçluluk hakkında ya da idari işlem niteliğinde karar vermez. Başvurucu tahliye edildiği için yeniden inceleme de ihlali gidermez. İstenmesi gereken, ihlalin tespiti ve manevi tazminattı (6216 s.K. m.50/2)." }
       ] }
   ],
   "outcomes": [

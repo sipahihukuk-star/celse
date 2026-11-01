@@ -70,22 +70,31 @@
         { "text": "Duruşma talebini personelin sendika temsilcisi yapsın; müvekkil adına talepte bulunma.", "delta": -10, "set": ["rapor"],
           "note": "Duruşma talebini sorumlular, kanuni temsilcileri ya da vekilleri yapar. Paranın ödendiği personel ahizdir ve fer'i müdahil olarak katılabilir. Müvekkil adına talep yapılmadı." }
       ] },
-    { "side": "p1", "scene": "office", "if": "durusma",
+    { "kind": "free", "side": "p1", "scene": "office", "if": "durusma",
       "lines": [
         { "who": "narr", "text": "Duruşma günü belli oldu. Sendika temsilcisi büronuza geldi." },
         { "who": "client", "text": "Personel, paranın geri istenmesinden korkuyor. Duruşmada onlar da dinlensin istiyorlar." }
       ],
-      "prompt": "Personele ne önereceksiniz?",
+      "prompt": "Personelin duruşmada yer alması için ne önereceksiniz? Yolunu kendi cümlelerinizle anlatın.",
+      "rubric": "Sendika temsilcisi, paranın ödendiği personelin duruşmada dinlenmesini istiyor. İyi bir cevap şunları söyler: (1) Personel bu hesap yargılamasında sorumlu değil, paranın ödendiği kişi (ahiz) konumundadır; bu nedenle kendilerine davetiye gönderilmez ve sorumlu sıfatıyla savunulamazlar. (2) Ödemeyi alan personel daireye dilekçeyle başvurarak yargılamaya fer'i müdahil olarak katılmak isteyebilir. (3) Başvurunun kabulü daireye aittir; kabul edilirse duruşmada yer alırlar. Ahiz sıfatını, dilekçeyle fer'i müdahale başvurusunu ve dairenin kabulünü söyleyen cevap tam puan alır; personelin başvurup katılabileceğini söyleyip usulü (fer'i müdahale, dairenin kabulü) belirtmeyen cevap orta puan alır. Personelin zaten taraf olduğunu, hiç katılamayacağını ya da sorumlu sıfatıyla savunulmasını öneren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["fer'i müdahil", "feri müdahil", "fer’i müdahil", "müdahil", "müdahale"], "weight": 3 },
+        { "terms": ["dilekçe", "başvur"], "weight": 2 },
+        { "terms": ["ahiz", "paranın ödendiği", "ödemeyi alan"], "weight": 2 },
+        { "terms": ["kabul", "daire"], "weight": 1 },
+        { "terms": ["taraf değil", "sorumlu değil", "davetiye"], "weight": 1 }
+      ],
+      "model": "Personel bu dosyada sorumlu değil, paranın ödendiği kişi yani ahiz konumundadır; bu yüzden kendilerine davetiye gönderilmez. Ödemeyi alan personel daireye dilekçeyle başvurarak yargılamaya fer'i müdahil olarak katılmak istemelidir. Daire başvuruyu kabul ederse duruşmada yer alabilirler.",
       "choices": [
-        { "text": "Ödemeyi alan personel daireye dilekçeyle başvursun ve fer'i müdahil olarak katılmak istesin. Kabul daireye aittir.", "delta": 15, "set": ["mudahil"],
+        { "text": "Güçlü öneri", "min": 70, "delta": 15, "set": ["mudahil"],
           "law": "6085 s.K.",
-          "note": "Paranın ödendiği kişiler (ahizler) dilekçeyle başvurur. Daire başvuruyu kabul ederse duruşmaya fer'i müdahil olarak katılırlar." },
-        { "text": "Personel zaten taraftır; onlara da davetiye gelir.", "delta": -5,
-          "note": "Davetiye sorumlulara ve vekillerine gönderilir. Ahizlerin katılması başvuruya ve dairenin kabulüne bağlıdır." },
-        { "text": "Personel duruşmaya hiçbir şekilde katılamaz.", "delta": -10,
-          "note": "Yanlış. Ahizler dilekçeyle başvurur, daire kabul ederse fer'i müdahil olarak katılır." },
-        { "text": "Personelden de vekâlet alın, onları da sorumlu sıfatıyla savunun.", "delta": -5,
-          "note": "Personel bu dosyada ahiz konumundadır. Katılımın yolu fer'i müdahale başvurusudur." }
+          "note": "Doğru yol. Paranın ödendiği kişiler (ahizler) sorumlu değildir, kendilerine davetiye gönderilmez; dilekçeyle başvururlar. Daire başvuruyu kabul ederse duruşmaya fer'i müdahil olarak katılırlar." },
+        { "text": "Yeterli öneri", "min": 40, "delta": 7, "set": ["mudahil"],
+          "law": "6085 s.K.",
+          "note": "Personelin başvurarak katılabileceğini söylediniz; sendika dilekçeyi verdi. Tam cevap usulü de açıklar: personel bu dosyada sorumlu değil ahizdir; daireye dilekçeyle fer'i müdahil olarak katılmak ister, kabul daireye aittir." },
+        { "text": "Zayıf öneri", "delta": -5,
+          "law": "6085 s.K.",
+          "note": "Personeli doğru yola yönlendiremediniz. Davetiye yalnızca sorumlulara ve vekillerine gönderilir; personel sorumlu sıfatıyla da savunulamaz. Ahizler daireye dilekçeyle başvurur, daire kabul ederse fer'i müdahil olarak katılır." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court", "if": "durusma",
       "lines": [
@@ -116,13 +125,13 @@
       ],
       "prompt": "Heyetten ne isteyeceksiniz?",
       "choices": [
-        { "if": "dayanak", "text": "Ödemeler yönetmelikteki istisnaya ve usulüne uygun onaya dayanıyor. Kamu zararı oluşmadığından ilişilecek bir husus bulunmadığına karar verilmesini isteriz.", "delta": 15, "set": ["talep"],
+        { "if": "dayanak", "text": "Ödemeler yönetmelikteki istisnaya ve onaya dayanıyor; kamu zararı yok, ilişilecek husus bulunmadığına karar verilsin.", "delta": 15, "set": ["talep"],
           "note": "Talep, ortaya koyduğunuz dayanağın doğal sonucu. Daire, kamu zararı yoksa “ilişilecek bir husus bulunmadığına” karar verir." },
-        { "if": "!dayanak", "text": "Fazla çalışma fiilen yapılmıştır. Karşılıksız bir ödeme yoktur.", "delta": 5,
+        { "if": "!dayanak", "text": "Fazla çalışma fiilen yapıldı, puantajlar imzalı; karşılıksız bir ödeme olmadığından kamu zararı da yoktur.", "delta": 5,
           "note": "Çalışma yapılmış olsa da, sınırı aşan ödemenin bir dayanağı gösterilmedikçe ödeme mevzuata aykırı kalır." },
-        { "text": "Personel ve müvekkil iyi niyetlidir; tazmine hükmedilmemelidir.", "delta": -5,
+        { "text": "Personel ve müvekkil sel döneminde iyi niyetle hareket etti; bu koşullarda tazmine hükmedilmemelidir.", "delta": -5,
           "note": "İyi niyet, mevzuata aykırılığı ortadan kaldırmaz. Ölçüt, ödemenin mevzuata uygunluğudur." },
-        { "text": "Tazmin tutarının taksitle ödenmesine izin verilmesini isteriz.", "delta": -10,
+        { "text": "Tazmine hükmedilirse tutarın personelden taksitle tahsiline ve müvekkilin sorumluluğunun sınırlanmasına karar verilsin.", "delta": -10,
           "note": "Bu talep, kamu zararını kabul ettiğiniz izlenimini verir." }
       ] }
   ],

@@ -85,22 +85,33 @@
       },
       "pass": { "delta": -15, "note": "İç hukuk yollarının tüketilmediği itirazına karşılık vermediniz." }
     },
-    { "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [
         { "who": "opp", "text": "Esasa gelince: müdahale kanunla öngörülmüştür, kamu düzeninin korunması amacını taşır ve gereklidir." },
         { "who": "judge", "text": "Başvurucu vekili, esasa ilişkin cevabınız?" }
       ],
-      "prompt": "Esasa ilişkin savunmanızın merkezine ne koyacaksınız?",
+      "prompt": "Müdahalenin Sözleşme'ye aykırı olduğunu Büyük Daire'ye nasıl anlatacaksınız? Kendi cümlelerinizle savunun.",
       "choices": [
-        { "text": "Haberin kamu yararına ve belgeli olduğunu, cezanın ertelense bile caydırıcı etki yarattığını, müdahalenin demokratik toplumda gerekli olmadığını açıklayın.", "delta": 20, "set": ["orantili"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["orantili"],
           "law": "Sözleşme m.10/2",
-          "note": "Mahkeme müdahalenin kanunla öngörülüp öngörülmediğini, meşru bir amaç taşıyıp taşımadığını ve demokratik toplumda gerekli olup olmadığını denetler. Kamu yararına haber ve caydırıcı etki bu denetimin merkezindedir." },
-        { "text": "Türk mahkemelerinin delilleri yanlış değerlendirdiğini anlatın.", "delta": -10,
-          "note": "AİHM “dördüncü derece” bir mahkeme değildir; ulusal mahkemelerin delil değerlendirmesini yeniden yapmaz." },
-        { "text": "Yalnızca adil tazmin talebinizi açıklayın.", "delta": -5,
-          "law": "Sözleşme m.41",
-          "note": "Tazmin, ihlal tespit edilirse gündeme gelir. Önce ihlali ortaya koymalıydınız." }
-      ] }
+          "note": "Savunmayı m.10/2'nin gereklilik ölçütüne oturttunuz: haber kamu yararına ve belgeliydi; hükmün açıklanmasının geri bırakılması bile gazeteciyi susturan caydırıcı bir etki yaratır. Müdahale demokratik toplumda gerekli değildir." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["orantili"],
+          "law": "Sözleşme m.10/2",
+          "note": "Büyük Daire savunmanızı yeterli buldu. Tam savunma; haberin kamu yararına ve belgeli olmasını, cezanın ertelense bile caydırıcı etkisini ve müdahalenin demokratik toplumda gerekli olmadığını birlikte gösterir." },
+        { "text": "Zayıf savunma", "delta": -10,
+          "law": "Sözleşme m.10/2",
+          "note": "Savunma müdahalenin gerekliliği üzerine kurulmadı. AİHM “dördüncü derece” bir mahkeme değildir; delilleri yeniden değerlendirmez, tazmin de ancak ihlal tespit edilirse gündeme gelir (m.41). Merkezde m.10/2 denetimi olmalıydı: kamu yararına belgeli haber, caydırıcı etki, orantısız müdahale." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Müdahale Sözleşme m.10/2 uyarınca denetlenir; asıl tartışma müdahalenin demokratik toplumda gerekli olup olmadığıdır (zorlayıcı toplumsal ihtiyaç, orantılılık, ulusal mahkemelerin ilgili ve yeterli gerekçesi). (2) Haber belediyenin ihale kayıtlarına dayanan, belgeli ve kamu yararına bir araştırma haberidir; basının kamu bekçisi rolü bu tür haberlerde geniş koruma gerektirir. (3) Hükmün açıklanmasının geri bırakılması ve beş yıllık denetim süresi bile gazeteci üzerinde caydırıcı etki yaratır. (4) Bu nedenle müdahale orantısızdır ve m.10 ihlal edilmiştir. Gereklilik ölçütünü, kamu yararını ve caydırıcı etkiyi birlikte kuran cevap tam puan alır; yalnız birini ya da ikisini söyleyen orta puan alır. Ulusal mahkemelerin delil değerlendirmesini yeniden yapılmasını isteyen (dördüncü derece itirazı) ya da yalnızca adil tazmin talebini anlatan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["demokratik toplumda gerekli", "gerekli değil", "gereklilik", "zorlayıcı toplumsal ihtiyaç", "toplumsal ihtiyaç"], "weight": 3 },
+        { "terms": ["caydırıcı", "caydırıcılık", "chilling", "susturucu"], "weight": 2 },
+        { "terms": ["kamu yararı", "kamu yararına", "kamuoyu", "kamu bekçisi", "bekçi köpeği", "kamusal tartışma"], "weight": 2 },
+        { "terms": ["orantılı", "orantısız", "orantılılık", "ölçülü", "ölçüsüz"], "weight": 2 },
+        { "terms": ["m.10", "m. 10", "madde 10", "10. madde", "md. 10", "md.10", "onuncu madde"], "weight": 1 },
+        { "terms": ["belgeli", "belgeye dayalı", "ihale kayıt", "doğruluğu", "gerçeğe uygun"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, sayın yargıçlar; müdahalenin kanuni dayanağı ve amacı ne olursa olsun, Sözleşme m.10/2 bakımından demokratik toplumda gerekli değildir. Haber belediyenin ihale kayıtlarına dayanan, belgeli ve açıkça kamu yararına bir araştırma haberidir. Hükmün açıklanmasının geri bırakılması ve beş yıllık denetim süresi bile başvurucunun ve tüm basının üzerinde caydırıcı bir etki yaratmaktadır. Bu orantısız müdahale m.10'u ihlal etmektedir." }
   ],
   "outcomes": [
     { "if": "!teblig", "winner": "p2",

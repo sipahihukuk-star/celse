@@ -48,18 +48,18 @@
       ],
       "prompt": "1. aşama · Haciz: Ne yapacaksınız?",
       "choices": [
-        { "text": "İcra dairesine dilekçe verip makine üzerinde mülkiyet iddiasında bulunun; fatura ve kira sözleşmesini ekleyin.", "delta": 20, "set": ["iddia"],
+        { "text": "İcra dairesine istihkak iddiasını bildirin; fatura ve kira sözleşmesini dilekçeye ekleyin.", "delta": 20, "set": ["iddia"],
           "law": "İİK m.96",
           "note": "Doğru. Haczedilen mal üzerinde mülkiyet ya da başka bir ayni hak iddia eden üçüncü kişi istihkak iddiasını icra dairesine bildirir. İcra dairesi iddiayı alacaklıya ve borçluya bildirir; üç gün içinde itiraz etmezlerse iddia kabul edilmiş sayılır." },
-        { "text": "Asliye hukuk mahkemesinde istihkak davası açalım.", "delta": -10,
+        { "text": "Asliye hukuk mahkemesinde istihkak davası açalım; mülkiyet uyuşmazlığına genel mahkeme bakar.", "delta": -10,
           "law": "İİK m.96 · m.97",
           "note": "İstihkak davası icra hukuk mahkemesinde görülür. Önce iddia icra dairesine bildirilir; dava, itiraz ve mahkemenin takibin devamı ya da talikine ilişkin kararından sonra gündeme gelir.",
           "reply": [{ "who": "partner", "text": "İstihkak davası icra hukuk mahkemesinin işi; ama önce iddiayı icra dairesine bildirmemiz gerek. Dilekçeyi bugün verelim." }] },
-        { "text": "Haciz işlemine karşı icra hukuk mahkemesine şikâyet yolu.", "delta": -10,
+        { "text": "Haczin usulsüz olduğu gerekçesiyle icra hukuk mahkemesine şikâyet edelim (İİK m.16).", "delta": -10,
           "law": "İİK m.16 · m.96",
           "note": "Şikâyet, icra memurunun usule aykırı işlemine karşıdır. Malın kime ait olduğu maddi hukuka ilişkin bir tartışmadır ve istihkak yoluyla çözülür.",
           "reply": [{ "who": "partner", "text": "Bu bir mülkiyet tartışması; şikâyetle değil istihkak yoluyla çözülür. Önce icra dairesine istihkak iddiası." }] },
-        { "text": "Makineyi bir gece atölyeden alıp kendi depomuza taşıyalım.", "delta": -15,
+        { "text": "Makineyi bir gece atölyeden alıp kendi depomuza taşıyalım; mal zaten bizim, haciz bizi bağlamaz.", "delta": -15,
           "note": "Haczedilmiş mal üzerinde tasarruf ceza sorumluluğu doğurur; yediemin olan borçlu da müvekkil de zor duruma düşer. Hak, kanunun gösterdiği yolla aranır.",
           "reply": [{ "who": "partner", "text": "Hacizli malı kaçırmak suç. İstihkak iddiasını icra dairesine bildirelim." }] }
       ]
@@ -73,18 +73,18 @@
       ],
       "prompt": "2. aşama · Takibin devamı kararı: Şimdi ne yapacaksınız?",
       "choices": [
-        { "text": "Kararın tebliğinden itibaren yedi gün içinde, en geç 13 Ekim'e kadar icra hukuk mahkemesinde alacaklıya karşı istihkak davası açın.", "delta": 25, "set": ["dava"],
+        { "text": "Tebliğden itibaren yedi gün içinde, en geç 13 Ekim'e kadar icra hukuk mahkemesinde istihkak davası açın.", "delta": 25, "set": ["dava"],
           "law": "İİK m.97",
           "note": "Doğru. Mal borçlunun elinde haczedildiği için davayı açacak olan üçüncü kişidir. İcra hukuk mahkemesinin kararının tebliğinden itibaren yedi gün içinde dava açılmazsa üçüncü kişi iddiasından vazgeçmiş sayılır." },
-        { "text": "Devam kararına karşı istinaf yoluna başvuralım.", "delta": -10,
+        { "text": "Devam kararına karşı istinaf yoluna başvuralım; karar dosya üzerinden, bizi dinlemeden verildi.", "delta": -10,
           "law": "İİK m.97",
           "note": "Takibin devamına ilişkin karar kesindir; kanun yolu yok. Bu arada yedi günlük dava açma süresi işliyor.",
           "reply": [{ "who": "partner", "text": "Devam kararı kesin. Süre işliyor; istihkak davasını hemen açalım." }], "set": ["dava"] },
-        { "text": "Satış ilanı çıkınca dava açarız; şimdilik makine yerinde duruyor.", "delta": -25,
+        { "text": "Satış ilanı çıkınca dava açarız; makine yerinde duruyor, satış talebi bile henüz yok.", "delta": -25,
           "law": "İİK m.97",
           "note": "Yedi günlük süre kaçtı.",
           "fatal": { "label": "SONUÇ:", "hukum": "Üçüncü kişi yedi günlük süre içinde istihkak davası açmadığından İDDİASINDAN VAZGEÇMİŞ SAYILDI; makinenin satışına geçildi.", "summary": "Mal borçlunun elinde haczedildiğinde istihkak davasını üçüncü kişi açmak zorundadır; süre icra hukuk mahkemesinin kararının tebliğinden itibaren yedi gündür (İİK m.97). Müvekkil artık ancak genel hükümlere göre borçluya ya da sebepsiz zenginleşenlere karşı dava yoluna gidebilir." } },
-        { "text": "Malı alacaklının ispat etmesi gerekir; alacaklıya dava açması için süre verilsin.", "delta": -10,
+        { "text": "Malı alacaklının ispat etmesi gerekir; İİK m.99 uyarınca alacaklıya dava açması için süre verilsin.", "delta": -10,
           "law": "İİK m.99",
           "note": "Alacaklıya dava açması için süre verilmesi, malın üçüncü kişinin elinde haczedildiği hâl içindir. Bu makine borçlunun atölyesinde, borçlunun elinde haczedildi; dava açma yükü müvekkilde.",
           "reply": [{ "who": "partner", "text": "Makine borçlunun elindeydi; o madde bize uygulanmaz. Davayı biz açacağız, süre 13 Ekim." }], "set": ["dava"] }
@@ -137,20 +137,31 @@
         { "who": "opp", "text": "Kaldı ki makine borçlunun atölyesindeydi, borçlunun elindeydi. Kanun gereği borçlunun malı sayılır; davacı bunun aksini ispatlayamaz." },
         { "who": "judge", "text": "Davacı vekili, ispat yükü konusunda ne diyorsunuz?" }
       ],
-      "prompt": "3. aşama · İstihkak davası: Karine ve ispat yükü konusunda ne diyeceksiniz?",
+      "prompt": "3. aşama · İstihkak davası: Karine ve ispat yükü konusunda mahkemeye ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
-        { "text": "Mal borçlunun elinde haczedildiği için karine borçlu lehinedir; ispat yükü bizdedir, bunu kabul ediyoruz. Ama karinenin aksi ispatlanabilir: makineyi müvekkilin satın aldığını ve borçlunun elinde kira sözleşmesiyle bulunduğunu faturayla, servis kayıtlarıyla ve hacizden önceki banka ödemeleriyle gösteriyoruz.", "delta": 20, "set": ["ispat"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["ispat"],
           "law": "İİK m.97/a · TMK m.985",
-          "note": "Doğru. Taşınırı elinde bulunduran malik sayılır; haczedilen mal borçlunun elinde ise borçluya ait olduğu karine olarak kabul edilir. İstihkak iddiasında bulunan, malı nasıl edindiğini ve malın hangi hukuki ilişkiyle borçlunun elinde bulunduğunu ispat etmelidir.",
+          "note": "Karineyi doğru konumlandırdınız. Taşınırı elinde bulunduran malik sayılır; haczedilen mal borçlunun elinde ise borçluya ait olduğu karine olarak kabul edilir (İİK m.97/a). İspat yükünü kabul edip aksini, malı nasıl edindiğinizi ve malın hangi hukuki ilişkiyle borçlunun elinde bulunduğunu delillerle göstereceğinizi söylediniz.",
           "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
-        { "text": "Hayır, karine müvekkilimin lehinedir; mal onundur, ispat yükü alacaklıdadır.", "delta": -15,
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["ispat"],
+          "law": "İİK m.97/a · TMK m.985",
+          "note": "Karinenin borçlu lehine olduğunu ve aksinin ispatlanabileceğini söylediniz. Tam savunma, ispat edilecek iki olguyu, yani makinenin müvekkilce satın alındığını ve borçlunun elinde kira sözleşmesiyle bulunduğunu, fatura, servis kayıtları ve hacizden önceki banka ödemeleriyle birlikte gösterir.",
+          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
+        { "text": "Zayıf savunma", "delta": -15,
           "law": "İİK m.97/a · m.99",
-          "note": "Karine, malın üçüncü kişinin elinde haczedildiği hâlde üçüncü kişi lehinedir. Burada mal borçlunun elindeydi; karine borçlu lehine, ispat yükü müvekkilde. Yanlış zeminde savunma yaptınız.",
-          "reply": [{ "who": "judge", "text": "Mal borçlunun işyerinde haczedilmiş, Avukat Hanım. Karine o yönde." }] },
-        { "text": "Karine diye bir şey yok; mülkiyet faturayla ispatlanır, fatura bizde.", "delta": -5,
-          "law": "İİK m.97/a",
-          "note": "Kanunda açık bir mülkiyet karinesi var. Fatura önemli bir delil, ama karinenin varlığını yok sayarak hâkimin gözünde güven kaybettiniz." }
-      ]
+          "note": "Yanlış zeminde savunma yaptınız. Mal borçlunun elinde haczedildiği için karine borçlu lehinedir ve ispat yükü müvekkildedir (İİK m.97/a); karine ancak mal üçüncü kişinin elinde haczedilseydi müvekkil lehine olurdu. Doğrusu, karineyi kabul edip aksini fatura, servis kayıtları ve banka ödemeleriyle ispat etmekti.",
+          "reply": [{ "who": "judge", "text": "Mal borçlunun işyerinde haczedilmiş, Avukat Hanım. Karine o yönde." }] }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Taşınırı elinde bulunduran malik sayılır (TMK m.985); mal borçlunun elinde haczedildiği için İİK m.97/a uyarınca borçluya ait olduğu karine olarak kabul edilir ve ispat yükü davacı üçüncü kişidedir. (2) Bu karine aksi ispatlanabilir bir karinedir. (3) Davacı, makineyi kendisinin satın aldığını ve makinenin borçlunun elinde kira sözleşmesiyle bulunduğunu ispat edecektir; bunun delilleri fatura, seri numaralı servis kayıtları ve hacizden önce başlayan düzenli banka kira ödemeleridir. Karineyi ve ispat yükünü kabul edip aksini delillerle ispat edeceğini, madde numarasıyla söylemek tam puan için gerekir; yalnızca 'karinenin aksini ispat edeceğiz' demek orta puan alır. Karinenin müvekkil lehine olduğunu, ispat yükünün alacaklıda olduğunu ya da karinenin hiç bulunmadığını söyleyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["karine"], "weight": 2 },
+        { "terms": ["aksi", "aksini", "çürüt"], "weight": 2 },
+        { "terms": ["m.97/a", "m. 97/a", "97/a", "madde 97", "97. madde", "md. 97"], "weight": 2 },
+        { "terms": ["ispat yükü bizde", "ispat yükünün bizde", "ispat yükü müvekkil", "ispat yükünün müvekkil", "ispat yükünü kabul", "ispat yükü davacı", "borçlu lehine"], "weight": 2 },
+        { "terms": ["fatura", "servis", "banka", "kira sözleşmesi", "kira ödeme"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, makine borçlunun atölyesinde haczedildiği için İİK m.97/a uyarınca borçluya ait olduğu karine olarak kabul edilir; ispat yükünün bizde olduğunu kabul ediyoruz. Ancak bu karinenin aksi ispatlanabilir. Makineyi müvekkilin satın aldığını faturayla ve servis kayıtlarıyla, borçlunun elinde kira sözleşmesiyle bulunduğunu da hacizden aylar önce başlayan banka kira ödemeleriyle ispat ediyoruz.",
+      "kind": "free"
     },
     {
       "side": "p1", "scene": "court",
@@ -159,13 +170,13 @@
       ],
       "prompt": "3. aşama · İstihkak davası: Hüküm öncesi son talebiniz ne olacak?",
       "choices": [
-        { "text": "Davanın kabulü ile makinenin müvekkile ait olduğunun tespitine ve üzerindeki haczin kaldırılmasına karar verilmesini talep ediyoruz.", "delta": 10, "set": ["olcu"],
+        { "text": "Davanın kabulüyle makinenin müvekkile ait olduğunun tespitine ve haczin kaldırılmasına karar verilmesini talep ediyoruz.", "delta": 10, "set": ["olcu"],
           "law": "İİK m.97",
           "note": "Doğru ve ölçülü. Alacaklının itirazında kötü niyeti ispatlanmadıkça tazminat istenemez; itiraz hakkını kullanmak tek başına kötü niyet değildir." },
         { "text": "Ayrıca alacaklının, itiraz ettiği için makine değerinin yüzde on beşi oranında tazminata mahkûm edilmesini talep ediyoruz.", "delta": -5, "set": ["fazlaTalep"],
           "law": "İİK m.97",
           "note": "Bu tazminat, istihkak iddiası kabul edilip itiraz edenin kötü niyeti sabit olduğunda verilir. İtiraz etmek tek başına kötü niyet değildir; talep reddedilecek." },
-        { "text": "Haczin kaldırılması yerine makinenin bedelinin alacaklıdan alınmasını talep ediyoruz.", "delta": -10,
+        { "text": "Makine satılabilir; haczin kaldırılması yerine makine bedelinin alacaklıdan alınmasını talep ediyoruz.", "delta": -10,
           "note": "Makine henüz satılmadı. İstihkak davasının amacı malın üçüncü kişiye ait olduğunun tespiti ve haczin kaldırılmasıdır; bedel talebi ancak mal satılmışsa gündeme gelir." }
       ]
     }

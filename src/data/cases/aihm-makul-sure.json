@@ -40,24 +40,32 @@
     { "id": "law_34", "type": "kanun", "title": "Sözleşme m.34 · Mağdur sıfatı", "desc": "Mahkemeye ancak Sözleşme'deki bir hakkın ihlalinden mağdur olan kişi başvurabilir.", "law": "Sözleşme m.34" }
   ],
   "steps": [
-    { "side": "p1", "scene": "office",
+    { "kind": "free", "side": "p1", "scene": "office",
       "lines": [{ "who": "narr", "text": "Müvekkil kesinleşme şerhli kararı masanıza bıraktı. Kesin kararı bir hafta önce öğrendi." }],
-      "prompt": "İlk adımınız ne olacak?",
+      "prompt": "Müvekkile hangi yoldan ve hangi sırayla ilerleyeceğinizi nasıl açıklayacaksınız? Kendi cümlelerinizle anlatın.",
       "choices": [
-        { "text": "Bir aylık süre dolmadan İnsan Hakları Tazminat Komisyonu'na başvurun; sonra itiraz ve Anayasa Mahkemesi yolunu tüketip Strazburg'a gidin.", "delta": 20, "set": ["komisyon"],
+        { "text": "Güçlü açıklama", "min": 70, "delta": 20, "set": ["komisyon"],
           "law": "6384 s.K.; Sözleşme m.35/1",
           "reply": [{ "who": "narr", "text": "Başvuruyu Sivas Cumhuriyet Başsavcılığı aracılığıyla, süresi içinde yaptınız." }],
-          "note": "AİHM, Ümmühan Kaplan/Türkiye (2012) pilot kararından sonra kurulan Tazminat Komisyonu'nu makul süre şikâyetleri için etkili bir iç hukuk yolu saymıştır. Bu yol tüketilmeden yapılan başvuru kabul edilemez (Sözleşme m.35/1). Komisyon'a başvuru süresi de kısadır: kesin kararın öğrenilmesinden itibaren bir ay." },
-        { "text": "Komisyon'la vakit kaybetmeyin; dört aylık süre işlemeden doğrudan AİHM'e başvurun.", "delta": -25,
-          "law": "Sözleşme m.35/1, m.35/4",
-          "note": "Dört aylık süre, tüketilmesi gereken son etkili iç hukuk yolundan itibaren işler. Komisyon yolu dururken doğrudan Strazburg'a gitmek, başvuruyu kabul edilemez kılar.",
-          "fatal": { "label": "KARAR:",
-            "hukum": "Başvurunun, iç hukuk yollarının tüketilmemesi nedeniyle Sözleşme m.35/1 ve m.35/4 uyarınca KABUL EDİLEMEZ OLDUĞUNA; Bu karar kesindir.",
-            "summary": "AİHM, Tazminat Komisyonu'nu makul süre şikâyetleri için etkili bir iç hukuk yolu sayıyor. Komisyon, itiraz ve Anayasa Mahkemesi aşamaları tüketilmeden yapılan başvuru incelenmedi. Üstelik Komisyon'a başvuru için öngörülen bir aylık süre de bu arada kaçtı." } },
-        { "text": "Doğrudan Anayasa Mahkemesi'ne bireysel başvuruda bulunun.", "delta": -10, "set": ["uyari"],
-          "reply": [{ "who": "narr", "text": "Başvuru formunu hazırlarken kıdemli bir meslektaşınız uyardı: Anayasa Mahkemesi makul süre şikâyetlerinde önce Komisyon yolunun tüketilmesini arıyor. Bir aylık süre dolmadan Komisyon'a başvurdunuz; son gün, son saatte." }],
-          "note": "Anayasa Mahkemesi, Komisyon yolu tüketilmeden yapılan makul süre başvurularını iç hukuk yollarının tüketilmemesi nedeniyle kabul edilemez buluyor. Bu sıra hatası Komisyon'a başvuru süresini neredeyse kaçırtıyordu." }
-      ] },
+          "note": "Doğru yol haritası. AİHM, Ümmühan Kaplan/Türkiye (2012) pilot kararından sonra kurulan Tazminat Komisyonu'nu makul süre şikâyetleri için etkili bir iç hukuk yolu saymıştır. Bu yol tüketilmeden yapılan başvuru kabul edilemez (Sözleşme m.35/1). Komisyon'a başvuru süresi kısadır: kesin kararın öğrenilmesinden itibaren bir ay. Ardından itiraz ve Anayasa Mahkemesi aşamaları gelir." },
+        { "text": "Yeterli açıklama", "min": 40, "delta": 10, "set": ["komisyon"],
+          "law": "6384 s.K.; Sözleşme m.35/1",
+          "reply": [{ "who": "narr", "text": "Başvuruyu Sivas Cumhuriyet Başsavcılığı aracılığıyla, süresi içinde yaptınız." }],
+          "note": "Önce Tazminat Komisyonu'na gidileceğini doğru söylediniz. Eksik kalan: Komisyon'a başvuru süresinin kesin kararın öğrenilmesinden itibaren bir ay olduğu ve sonra itiraz ile Anayasa Mahkemesi yolunun tüketilip ancak ondan sonra dört ay içinde AİHM'e gidileceği (Sözleşme m.35/1)." },
+        { "text": "Zayıf açıklama", "delta": -10, "set": ["uyari"],
+          "reply": [{ "who": "narr", "text": "Başvuru formunu hazırlarken kıdemli bir meslektaşınız uyardı: Anayasa Mahkemesi de AİHM de makul süre şikâyetlerinde önce Komisyon yolunun tüketilmesini arıyor. Bir aylık süre dolmadan Komisyon'a başvurdunuz; son gün, son saatte." }],
+          "note": "Doğru sırayı kuramadınız. Makul süre şikâyetinde ilk durak, kesin kararın öğrenilmesinden itibaren bir ay içinde İnsan Hakları Tazminat Komisyonu'dur; ardından itiraz ve Anayasa Mahkemesi gelir. Doğrudan Strazburg'a ya da Anayasa Mahkemesi'ne gitmek iç hukuk yollarının tüketilmemesi nedeniyle kabul edilemezlikle sonuçlanır (Sözleşme m.35/1)." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Makul süre şikâyetinde önce iç hukuk yolları tüketilmelidir (Sözleşme m.35/1); AİHM, 6384 sayılı Kanunla kurulan İnsan Hakları Tazminat Komisyonu'nu etkili bir iç hukuk yolu saymaktadır. (2) Komisyon'a kesin kararın öğrenilmesinden itibaren bir ay içinde başvurulmalıdır; müvekkil kararı bir hafta önce öğrendiği için süre işlemektedir. (3) Komisyon kararına itiraz, ardından Anayasa Mahkemesi'ne bireysel başvuru yapılır; AİHM'e ancak bundan sonra, son kararın tebliğinden itibaren dört ay içinde gidilir. Komisyon'u, bir aylık süreyi ve sırayı birlikte söylemek tam puan için gerekir; yalnızca 'önce Komisyon'a başvuracağız' demek orta puan alır. Doğrudan AİHM'e ya da doğrudan Anayasa Mahkemesi'ne gitmeyi öneren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["Komisyon", "Tazminat Komisyonu", "6384"], "weight": 3 },
+        { "terms": ["bir ay", "1 ay", "otuz gün", "30 gün"], "weight": 2 },
+        { "terms": ["tüket", "iç hukuk yol"], "weight": 2 },
+        { "terms": ["Anayasa Mahkemesi", "AYM", "bireysel başvuru"], "weight": 1 },
+        { "terms": ["itiraz", "Bölge İdare"], "weight": 1 },
+        { "terms": ["dört ay", "4 ay", "m.35", "madde 35", "md. 35"], "weight": 1 }
+      ],
+      "model": "Hatice Hanım, AİHM doğrudan başvuruyu kabul etmez; önce iç hukuk yollarının tüketilmesini ister (Sözleşme m.35/1). Makul süre şikâyetinde ilk yol 6384 sayılı Kanunla kurulan İnsan Hakları Tazminat Komisyonu'dur ve kararı öğrendiğiniz tarihten itibaren bir ay içinde başvurmamız gerekir. Komisyon kararına itiraz eder, sonra Anayasa Mahkemesi'ne bireysel başvuruda bulunuruz. Strazburg'a ancak bunlardan sonra, son kararın tebliğinden itibaren dört ay içinde gideriz." },
     { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
       "lines": [
         { "who": "narr", "text": "Mayıs 2027. Komisyon ihlali tespit etti, ama on iki yıl için yalnızca 24.000 TL manevi tazminata hükmetti. Ankara Bölge İdare Mahkemesi itirazı kesin olarak reddetti; Anayasa Mahkemesi de başvuruyu açıkça dayanaktan yoksun buldu." },
@@ -82,10 +90,10 @@
       "lines": [{ "who": "narr", "text": "Bugün 2 Haziran 2027. Anayasa Mahkemesi kararı 15 Şubat 2027'de tebliğ edildi." }],
       "prompt": "AİHM başvurusunu ne zaman ve nasıl yapacaksınız?",
       "choices": [
-        { "text": "Eksiksiz başvuru formunu bütün ekleriyle bu hafta gönderin; süre 15 Haziran 2027'de doluyor.", "delta": 15, "set": ["sure"],
+        { "text": "Eksiksiz formu bütün ekleriyle bu hafta gönderin; süre 15 Haziran 2027'de doluyor.", "delta": 15, "set": ["sure"],
           "law": "Sözleşme m.35/1; AİHM İçtüzüğü m.47",
           "note": "Dört aylık süre, son iç hukuk kararının başvurucuya tebliğinden itibaren işler. Süreyi ancak İçtüzük m.47'deki bütün bilgileri ve belgeleri içeren, eksiksiz bir başvuru formu keser." },
-        { "text": "Süre altı ay; Ağustos'a kadar vaktimiz var.", "delta": -25,
+        { "text": "Sözleşme m.35/1'deki süre altı aydır; Anayasa Mahkemesi kararının tebliğinden itibaren Ağustos ortasına kadar vaktimiz var.", "delta": -25,
           "law": "Sözleşme m.35/1 (15 No.lu Protokol)",
           "note": "15 No.lu Protokol 1 Şubat 2022'de yürürlüğe girdi; o tarihten sonra kesinleşen kararlar için süre dört aydır.",
           "fatal": { "label": "KARAR:",
@@ -134,17 +142,17 @@
       "lines": [{ "who": "narr", "text": "Yazı İşleri, Hükûmetin görüşlerine cevabınız ve adil tazmin talebiniz için süre verdi." }],
       "prompt": "Adil tazmin talebini nasıl sunacaksınız?",
       "choices": [
-        { "if": "masraf", "text": "Manevi tazminat ile iç hukuk ve Strazburg masraflarını, kalem kalem ve belgeleriyle, verilen süre içinde talep edin.", "delta": 20, "set": ["tazmin"],
+        { "if": "masraf", "text": "Manevi tazminatı ve bütün masrafları kalem kalem, belgeleriyle, verilen süre içinde talep edin.", "delta": 20, "set": ["tazmin"],
           "law": "Sözleşme m.41; AİHM İçtüzüğü m.60",
           "note": "Adil tazmin talebi, gözlemler için verilen süre içinde, kalem kalem ve belgeleriyle sunulmalıdır (İçtüzük m.60). Masraf belgeleri talebinizi eksiksiz kıldı." },
         { "if": "!masraf", "text": "Manevi tazminat ile masrafları verilen süre içinde talep edin; masraf belgeleri elinizde olmadığından götürü bir tutar yazın.", "delta": 5, "set": ["tazminKismi"],
           "law": "Sözleşme m.41; AİHM İçtüzüğü m.60",
           "note": "Süre içinde talep ettiniz; ama belgelenmeyen masraflar karşılanmaz. Müvekkile makbuzları sorsaydınız talep eksiksiz olurdu." },
-        { "text": "Adil tazmin talebini, Komite ihlal kararı verdikten sonra iletin.", "delta": -15,
+        { "text": "Önce ihlal kararını bekleyin; adil tazmin talebini Komite ihlali tespit ettikten sonra ayrı bir dilekçeyle iletin.", "delta": -15,
           "law": "AİHM İçtüzüğü m.60",
           "note": "Süresinde ve belgeleriyle yapılmayan adil tazmin talebi bütünüyle ya da kısmen reddedilebilir." },
-        { "text": "Tapu davasının yeniden görülmesine karar verilmesini isteyin.", "delta": -10,
-          "note": "Makul süre şikâyeti, verilen kararın doğruluğunu sorgulamaz; AİHM ulusal mahkemelerin kararlarını yeniden inceleyen bir “dördüncü derece” değildir. Üstelik müvekkil davayı kazanmıştı." }
+        { "text": "Tam giderim için Sözleşme m.46 uyarınca tapu davasının iç hukukta yeniden görülmesine karar verilmesini isteyin.", "delta": -10,
+          "note": "Makul süre şikâyeti, verilen kararın doğruluğunu sorgulamaz; AİHM ulusal mahkemelerin kararlarını yeniden inceleyen bir “dördüncü derece” değildir. Üstelik müvekkil davayı kazanmıştı; m.46 da kararların bağlayıcılığı ve icrasına ilişkindir, yeniden yargılama talebine dayanak olmaz." }
       ] }
   ],
   "outcomes": [

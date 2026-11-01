@@ -48,18 +48,18 @@
       ],
       "prompt": "1. aşama · Takip ve itiraz: Hangi yola başvuracaksınız?",
       "choices": [
-        { "text": "İtirazın iptali davası. Ticari dava olduğu için önce arabulucuya başvurun; arabuluculukta geçen sürede bir yıllık süre işlemez. Anlaşma olmazsa son tutanakla davayı açın.", "delta": 25, "set": ["arabulucu", "dava"],
+        { "text": "İtirazın iptali davası; ticari dava olduğundan önce arabulucu. Arabuluculukta bir yıllık süre işlemez, anlaşma olmazsa dava açılır.", "delta": 25, "set": ["arabulucu", "dava"],
           "law": "İİK m.67 · TTK m.5/A · 6325 s.K. m.18/A",
           "note": "Doğru. Alacaklı, itirazın tebliğinden itibaren bir yıl içinde genel mahkemede itirazın iptalini dava edebilir. İki tacir arasındaki, ticari işletmeyle ilgili bu dava ticari davadır; 7445 sayılı Kanundan sonra TTK m.5/A itirazın iptali davalarında da arabulucuya başvurulmasını dava şartı sayıyor. Arabulucuya başvurudan son tutanağa kadar hak düşürücü süreler işlemez." },
-        { "text": "Süre dar; hemen asliye ticaret mahkemesinde itirazın iptali davası açalım.", "delta": -25,
+        { "text": "Süre dar; vakit kaybetmeden asliye ticaret mahkemesinde itirazın iptali davası açalım, arabuluculuk dava içinde de denenir.", "delta": -25,
           "law": "TTK m.5/A · 6325 s.K. m.18/A",
           "note": "Ticari davalarda itirazın iptali davası açılmadan önce arabulucuya başvurulmuş olması dava şartıdır. Başvurmadan açılan dava, herhangi bir işlem yapılmaksızın usulden reddedilir.",
           "fatal": { "label": "SONUÇ:", "hukum": "Davanın, dava açılmadan önce arabulucuya başvurulmadığından dava şartı yokluğu nedeniyle USULDEN REDDİNE karar verildi.", "summary": "TTK m.5/A uyarınca ticari davalarda itirazın iptali davası açılmadan önce arabulucuya başvurulması dava şartıdır. Ret kararı kesinleştiğinde bir yıllık süre de dolmuştu; artık ancak genel hükümlere göre alacak davası açılabilir ve icra inkâr tazminatı istenemez." } },
-        { "text": "Önceki avukat haklı: icra hukuk mahkemesinden itirazın kaldırılmasını isteyelim.", "delta": -10,
+        { "text": "Önceki avukat haklı: faturalar e-imzalı belge; icra hukuk mahkemesinden itirazın kesin kaldırılmasını isteyelim (İİK m.68).", "delta": -10,
           "law": "İİK m.68",
           "note": "İki engel var. İtirazın kaldırılması, itirazın tebliğinden itibaren altı ay içinde istenebilir; o süre geçti. Üstelik bu yol için imzası ikrar edilmiş ya da noterce onaylanmış bir borç ikrarı gibi bir belge gerekir; tek taraflı faturalar bu nitelikte değildir.",
           "reply": [{ "who": "client", "text": "Altı ay geçmiş mi? Peki şimdi ne yapacağız?" }] },
-        { "text": "Bir yılı kaçırsak da olur; genel hükümlere göre alacak davası açarız.", "delta": -5,
+        { "text": "Bir yılı kaçırsak da olur; alacak zamanaşımına uğramadı, genel hükümlere göre alacak davası açarız, kayıp olmaz.", "delta": -5,
           "law": "İİK m.67",
           "note": "Alacak davası hakkı saklıdır, ama takip düşer, yeniden masraf yapılır ve icra inkâr tazminatı istenemez. Süre hâlâ işliyorken bu hakları bırakmak için bir neden yok.",
           "reply": [{ "who": "client", "text": "Takip boşa mı gidecek? Süre varsa onu kullanalım." }] }
@@ -75,7 +75,7 @@
         { "text": "Önce arabulucuya başvurun; anlaşma olmazsa son tutanakla itirazın iptali davasını açın.", "delta": 10, "set": ["arabulucu", "dava"],
           "law": "İİK m.67 · TTK m.5/A · 6325 s.K. m.18/A",
           "note": "Doğru. Ticari itirazın iptali davasında arabuluculuk dava şartıdır; arabuluculukta geçen süre bir yıllık süreye eklenmez." },
-        { "text": "Doğrudan asliye ticaret mahkemesinde itirazın iptali davası açın.", "delta": -25,
+        { "text": "Süre 10 Mart'ta doluyor; vakit kaybetmeden doğrudan asliye ticaret mahkemesinde itirazın iptali davası açın.", "delta": -25,
           "law": "TTK m.5/A · 6325 s.K. m.18/A",
           "note": "Arabuluculuk dava şartı atlandı.",
           "fatal": { "label": "SONUÇ:", "hukum": "Davanın, dava açılmadan önce arabulucuya başvurulmadığından dava şartı yokluğu nedeniyle USULDEN REDDİNE karar verildi.", "summary": "TTK m.5/A uyarınca ticari davalarda itirazın iptali davası açılmadan önce arabulucuya başvurulması dava şartıdır. Bir yıllık süre de bu arada doldu." } }
@@ -130,18 +130,31 @@
         { "who": "opp", "text": "Ayrıca alacak likit değildir. Tutarın ne olduğu ancak bilirkişi incelemesiyle anlaşılabilir; bu yüzden icra inkâr tazminatı istenemez." },
         { "who": "judge", "text": "Davacı vekili?" }
       ],
-      "prompt": "3. aşama · İtirazın iptali davası: İcra inkâr tazminatı için ne diyeceksiniz?",
+      "kind": "free",
+      "prompt": "3. aşama · İtirazın iptali davası: Davalı vekilinin likitlik itirazına ne cevap vereceksiniz? İcra inkâr tazminatı talebinizi kendi cümlelerinizle savunun.",
       "choices": [
-        { "text": "Alacak, sözleşmedeki birim fiyatlar ve faturalarla belirlidir; borçlu ne kadar borçlu olduğunu takip sırasında hesaplayabilecek durumdaydı. Bilirkişi incelemesi yapılması alacağı likit olmaktan çıkarmaz. Alacağın yüzde yirmisinden aşağı olmamak üzere icra inkâr tazminatı istiyoruz.", "delta": 20, "set": ["inkar"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["inkar"],
           "law": "İİK m.67/2",
-          "note": "Doğru. Yargıtay uygulamasında likit alacak, miktarı belli ya da borçlunun bilgisi dahilindeki verilerle belirlenebilir alacaktır; bilirkişi incelemesi gerekmesi tek başına likitliği ortadan kaldırmaz.",
+          "note": "Likitliği doğru gerekçeyle savundunuz. Yargıtay uygulamasında likit alacak, miktarı belli ya da borçlunun bilgisi dahilindeki verilerle belirlenebilir alacaktır; sözleşmedeki birim fiyatlar ve faturalar bu niteliktedir. Bilirkişi incelemesi gerekmesi tek başına likitliği ortadan kaldırmaz; alacağın yüzde yirmisinden aşağı olmamak üzere icra inkâr tazminatı istenir (İİK m.67/2).",
           "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
-        { "text": "Tazminat talebimizden vazgeçiyoruz; asıl alacak yeter.", "delta": -10,
-          "note": "Koşulları varken kanunun öngördüğü tazminattan vazgeçtiniz. Bu feragat müvekkilinize yüz binin üzerinde bir kayıp olabilir." },
-        { "text": "Tazminat için borçlunun kötü niyetini ispatlayacağız; itirazı bilerek yaptı.", "delta": -5,
-          "law": "İİK m.67/2-3",
-          "note": "İcra inkâr tazminatı için borçlunun kötü niyeti aranmaz; itirazın haksız çıkması ve alacağın likit olması yeter. Kötü niyet şartı yalnızca itiraz eden veli, vasi ya da mirasçı ise aranır. Gereksiz bir ispat yükü üstlendiniz." }
-      ]
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["inkar"],
+          "law": "İİK m.67/2",
+          "note": "Tazminat talebini sürdürdünüz, ama likitlik gerekçesini eksik kurdunuz. Alacak, sözleşmedeki birim fiyatlar ve faturalarla borçlunun bilgisi dahilinde belirlenebilir; bilirkişi incelemesi gerekmesi bunu değiştirmez (İİK m.67/2).",
+          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
+        { "text": "Zayıf savunma", "delta": -5,
+          "law": "İİK m.67/2",
+          "note": "Likitlik itirazını karşılayamadınız. İcra inkâr tazminatı için borçlunun kötü niyeti aranmaz; itirazın haksız çıkması ve alacağın likit olması yeter. Alacak, sözleşmedeki birim fiyatlar ve faturalarla belirlenebilir olduğundan likittir; bilirkişi incelemesi gerekmesi likitliği ortadan kaldırmaz (İİK m.67/2)." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Alacak likittir: miktarı, taraflar arasındaki tedarik sözleşmesindeki birim fiyat listesi ve faturalarla belirlidir; borçlu ne kadar borçlu olduğunu takip sırasında kendi bilgisi dahilindeki verilerle hesaplayabilecek durumdaydı. (2) Yargıtay uygulamasına göre bilirkişi incelemesi yapılması tek başına alacağı likit olmaktan çıkarmaz. (3) Bu nedenle, itirazın haksızlığı anlaşıldığında, alacağın yüzde yirmisinden aşağı olmamak üzere icra inkâr tazminatına hükmedilmelidir (İİK m.67/2); bunun için borçlunun kötü niyeti aranmaz. Üç unsuru madde numarasıyla birlikte veren cevap tam puan alır; tazminatı isteyip likitlik gerekçesini (birim fiyat ve faturalarla belirlenebilirlik ya da bilirkişi incelemesinin likitliği kaldırmaması) eksik bırakan cevap orta puan alır. Tazminattan vazgeçen ya da tazminatı borçlunun kötü niyetine dayandıran cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["likit"], "weight": 3 },
+        { "terms": ["birim fiyat", "fiyat listesi", "fatura", "sözleşme"], "weight": 2 },
+        { "terms": ["bilirkişi"], "weight": 1 },
+        { "terms": ["belirlenebilir", "hesaplanabilir", "hesaplayabil", "bilgisi dahilinde", "bilgisi dâhilinde", "belirli"], "weight": 1 },
+        { "terms": ["yüzde yirmi", "%20", "yüzde 20", "% 20"], "weight": 1 },
+        { "terms": ["m.67", "m. 67", "madde 67", "67. madde", "md. 67", "md.67", "67/2"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, alacak likittir: miktarı taraflar arasındaki sözleşmedeki birim fiyatlar ve bu fiyatlarla düzenlenen faturalarla belirlidir; davalı ne kadar borçlu olduğunu takip sırasında kendi bilgisi dahilindeki verilerle hesaplayabilirdi. Yargıtay uygulamasında bilirkişi incelemesi yapılması tek başına alacağı likit olmaktan çıkarmaz. Bu nedenle alacağın yüzde yirmisinden aşağı olmamak üzere icra inkâr tazminatına hükmedilmesini talep ediyoruz (İİK m.67/2)."
     }
   ],
   "outcomes": [

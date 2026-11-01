@@ -64,15 +64,15 @@
       ],
       "prompt": "Ne yapacaksınız?",
       "choices": [
-        { "text": "Tespit, men ve maddi durumun ortadan kaldırılması talepli davayı iki hafta dolmadan açın; bu talepler para alacağı olmadığı için arabuluculuğa tabi değil. Tazminat için aynı gün arabulucuya başvurun, anlaşma olmazsa açacağınız davanın bu davayla birleştirilmesini isteyin.", "delta": 20, "set": ["sure"],
+        { "text": "Tespit ve men davasını iki hafta dolmadan açın, arabuluculuğa tabi değil; tazminat için arabulucuya gidip birleştirme isteyin.", "delta": 20, "set": ["sure"],
           "law": "HMK m.397/1 · TTK m.5/A · HMK m.166",
-          "note": "Doğru. Dava açılmadan alınan tedbirde, uygulanmasının talep edildiği tarihten itibaren iki hafta içinde esas dava açılmazsa tedbir kendiliğinden kalkar (HMK m.397/1). Arabuluculuk dava şartı yalnızca para alacağı, tazminat ve benzeri talepler içindir (TTK m.5/A).",
+          "note": "Doğru. Dava açılmadan alınan tedbirde, uygulanmasının talep edildiği tarihten itibaren iki hafta içinde esas dava açılmazsa tedbir kendiliğinden kalkar (HMK m.397/1). Arabuluculuk dava şartı yalnızca para alacağı, tazminat ve benzeri talepler içindir (TTK m.5/A); tespit, men ve maddi durumun ortadan kaldırılması talepleri bu kapsamda değil. Tazminat davası sonra açılır ve bu davayla birleştirilmesi istenir (HMK m.166).",
           "reply": [ { "who": "narr", "text": "Dava 9 Mart'ta açıldı; dava açıldığını gösteren belge tedbiri uygulayan memura verildi. Tazminat için arabuluculuk sürüyor." } ] },
-        { "text": "Arabuluculuk sonuçlanınca bütün talepleri tek davada açarız.", "delta": -15, "set": ["kalkti"],
+        { "text": "Arabuluculuk sonuçlanınca bütün talepleri tek davada açarız; davayı bölmek harç ve masrafı ikiye katlar, tedbir de sürer.", "delta": -15, "set": ["kalkti"],
           "law": "HMK m.397/1",
           "note": "Usul tuzağı. Tedbir dava açılmadan alındı; uygulanmasının talep edildiği tarihten itibaren iki hafta içinde esas dava açılmadığı için tedbir kendiliğinden kalktı (HMK m.397/1). Men talebi arabuluculuğa tabi değildi, beklemek gerekmiyordu.",
           "reply": [ { "who": "narr", "text": "16 Mart'ta süre doldu ve tedbir kendiliğinden kalktı. Lavendula kutuları yeniden rafa çıktı. Dava ancak Nisan'da açılabildi." } ] },
-        { "text": "Tedbir kararı alındı; artık acele yok. Haksız rekabet davası için bir yıl var.", "delta": -15, "set": ["kalkti"],
+        { "text": "Tedbir kararı alındı; artık acele yok. TTK m.60 uyarınca haksız rekabet davası için öğrenmeden itibaren bir yıl süremiz var.", "delta": -15, "set": ["kalkti"],
           "law": "HMK m.397/1 · TTK m.60",
           "note": "İki süreyi karıştırdınız. Zamanaşımı (TTK m.60) davanın ne zamana kadar açılabileceğini gösterir; dava öncesi alınan tedbir ise iki hafta içinde esas dava açılmazsa kendiliğinden kalkar (HMK m.397/1).",
           "reply": [ { "who": "narr", "text": "Tedbir 16 Mart'ta kendiliğinden kalktı. Lavendula kutuları yeniden rafa çıktı; dava Nisan'da açıldı." } ] }
@@ -87,15 +87,15 @@
       ],
       "prompt": "Nasıl karşılık vereceksiniz?",
       "choices": [
-        { "text": "“Sayın Hâkim, meslektaşımın şahsıma yönelik ifadesinin tutanağa geçirilmesini rica ediyorum. Dosyanın esasına dönmek istiyorum.”", "delta": 5,
+        { "text": "“Sayın Hâkim, meslektaşımın şahsıma yönelik sözlerinin tutanağa geçirilmesini rica ediyor, esasa dönüyorum.”", "delta": 5,
           "law": "HMK m.151 · TBB Meslek Kuralları",
           "note": "Soğukkanlı ve usule uygun. Duruşma düzenini hâkim sağlar (HMK m.151); meslektaşa yönelik kişisel sözler meslek kurallarına aykırıdır. Tutanağa geçirmek yeter, tartışmaya girmek gerekmez.",
           "reply": [ { "who": "judge", "text": "Beyan tutanağa geçirildi. Taraf vekillerinden yalnızca dosyaya ilişkin beyan bekliyorum. Devam edin." } ] },
-        { "text": "“Haksız rekabeti asıl müvekkiliniz iyi biliyor; ondan ders almışsınız anlaşılan!”", "delta": -10,
+        { "text": "“Haksız rekabeti asıl müvekkiliniz iyi biliyor; ondan ders almışsınız anlaşılan!” deyip esasa dönün.", "delta": -10,
           "law": "HMK m.151 · TBB Meslek Kuralları",
           "note": "Tahrike kapıldınız. Hâkim iki tarafı da uyardı; duruşma esastan uzaklaştı. Meslek kuralları meslektaşlar arasında saygıyı gerektirir.",
           "reply": [ { "who": "judge", "text": "Avukat beyler, hanımlar! Kişisel tartışmaya izin vermeyeceğim. Bir daha olursa ara veririm." } ] },
-        { "text": "Hiçbir şey söylemeyin; dosyaya gömülüp sıranızı bekleyin.", "delta": -5,
+        { "text": "Hiçbir şey söylemeyin; dosyaya gömülüp sıranızı bekleyin, kişisel bir söze cevap vermek tahriki yalnızca büyütür.", "delta": -5,
           "note": "Tartışmaya girmemek doğru, ama sözü cevapsız bırakmak duruşmanın tonunu karşı tarafa verdi. Kısa bir tutanak talebi yeterdi." }
       ]
     },
@@ -119,25 +119,38 @@
       "pass": { "delta": -15, "note": "İtiraz etmediniz; “kendi istekleriyle geldiler” savunması cevapsız kaldı." }
     },
     {
+      "kind": "free",
       "side": "p1", "scene": "court",
       "lines": [
         { "who": "opp", "text": "Ambalaj tescilli bile değil. Ürünün adı Lavendula, onlarınki Porsuk. Kimse karıştırmaz." },
         { "who": "judge", "text": "Davacı vekili, karıştırılma iddianızı açıklayın." }
       ],
-      "prompt": "İltibas iddiasını nasıl savunacaksınız?",
+      "prompt": "İltibas iddiasını mahkemeye nasıl savunacaksınız? Kendi cümlelerinizle açıklayın.",
       "choices": [
-        { "if": "iade", "text": "Tescil şart değil; haksız rekabet hükümleri tescilsiz ambalajı da korur. Ölçüt, ortalama alıcıdaki genel izlenimdir: renk, çizim ve etiket aynı, ürünler aynı rafta. Üstelik fiilî karışıklık var: 37 iade kaydı.", "delta": 25, "set": ["iltibas"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 25, "set": ["iltibas"],
           "law": "TTK m.55/1-a-4",
-          "note": "Güçlü bir savunma. Başkasının malları veya iş ürünleriyle karıştırılmaya yol açan önlemler almak haksız rekabettir (TTK m.55/1-a-4). Fiilî karışıklık kayıtları genel izlenim değerlendirmesini somutlaştırdı." },
-        { "if": "!iade", "text": "Tescil şart değil; haksız rekabet hükümleri tescilsiz ambalajı da korur. Ölçüt, ortalama alıcıdaki genel izlenimdir; ambalajların bilirkişi incelemesiyle karşılaştırılmasını istiyoruz.", "delta": 15, "set": ["iltibas"],
+          "note": [
+            { "text": "Güçlü bir savunma kurdunuz: haksız rekabet hükümleri tescilsiz ambalajı da korur; ölçüt ortalama alıcıdaki genel izlenimdir ve karıştırılma ihtimali yeterlidir (TTK m.55/1-a-4). Renk, çizim ve etiket aynı, ürünler aynı rafta; isim farkı tek başına belirleyici değil." },
+            { "if": "iade", "text": " 37 iade kaydı fiilî karışıklığı gösterip genel izlenim değerlendirmesini somutlaştırdı." },
+            { "if": "!iade", "text": " Fiilî karışıklığı gösteren kayıtlarınız olsaydı daha da güçlü olurdu." }
+          ] },
+        { "text": "Yeterli savunma", "min": 40, "delta": 12, "set": ["iltibas"],
           "law": "TTK m.55/1-a-4",
-          "note": "Doğru ölçüt. Karıştırılma ihtimali yeterlidir (TTK m.55/1-a-4). Fiilî karışıklığı gösteren kayıtlarınız olsaydı daha da güçlü olurdu." },
-        { "text": "Ambalaj tescilli olmasa da marka hakkına tecavüz vardır; SMK uyarınca tecavüzün tespitini istiyoruz.", "delta": -10,
+          "note": "Mahkeme iltibas iddianızı yeterli buldu. Tam savunma; tescilin şart olmadığını, ölçütün ortalama alıcıdaki genel izlenim olduğunu ve renk, çizim, etiket benzerliğinin isim farkını aştığını birlikte gösterir (TTK m.55/1-a-4)." },
+        { "text": "Zayıf savunma", "delta": -10,
           "law": "SMK · TTK m.55",
-          "note": "Yanlış dayanak. Marka hakkına tecavüz davası tescilli markaya dayanır; tescilsiz ambalajın korunması haksız rekabet hükümleriyle sağlanır." },
-        { "text": "İsimler farklı olduğu için iltibas iddiasından vazgeçip yalnızca ayartmaya odaklanıyoruz.", "delta": -15,
-          "note": "Davanın yarısını kendiniz bıraktınız. İltibas değerlendirmesinde isim tek başına belirleyici değil; ambalajın bütünü, yani genel izlenim önemlidir." }
-      ]
+          "note": "İltibas iddiasını doğru dayanağa oturtamadınız. Marka hakkına tecavüz davası tescilli markaya dayanır; tescilsiz ambalaj haksız rekabet hükümleriyle korunur. İsim farkı da tek başına belirleyici değildir. Doğrusu: TTK m.55/1-a-4 uyarınca ortalama alıcıdaki genel izlenim ölçütüyle karıştırılma ihtimalini göstermekti." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Tescil şart değildir; tescilsiz ambalaj ve iş ürünleri haksız rekabet hükümleriyle korunur. Başkasının malları, iş ürünleri veya faaliyetleriyle karıştırılmaya yol açan önlemler almak haksız rekabettir (TTK m.55/1-a-4). (2) Ölçüt, ortalama alıcıdaki genel izlenimdir; karıştırılma ihtimali yeterlidir, fiilî karışıklık şart değildir. Ürün adının farklı olması tek başına belirleyici değildir. (3) Somut olayda aynı mor ton, aynı lavanta çizimi, etiket aynı konumda ve ürünler aynı rafta satılıyor. (4) Varsa fiilî karışıklık kayıtları (37 iade kaydı) ya da ambalajların bilirkişi incelemesiyle karşılaştırılması talebi iddiayı güçlendirir. Tescil şartının olmadığını, genel izlenim ölçütünü ve somut benzerlikleri birlikte kuran cevap tam puan alır; bunlardan yalnız birini söyleyen cevap orta puan alır. Marka hakkına tecavüze (SMK) dayanan ya da isimler farklı diye iltibastan vazgeçen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["genel izlenim", "ortalama alıcı", "ortalama tüketici", "bütünsel"], "weight": 3 },
+        { "terms": ["tescil şart değil", "tescilsiz", "tescil gerekmez", "tescile bağlı değil", "tescil aranmaz"], "weight": 2 },
+        { "terms": ["karıştırıl", "iltibas", "karışıklık"], "weight": 2 },
+        { "terms": ["mor", "renk", "çizim", "etiket", "aynı raf"], "weight": 2 },
+        { "terms": ["m.55", "m. 55", "madde 55", "55. madde", "md. 55", "md.55"], "weight": 1 },
+        { "terms": ["iade", "37", "bilirkişi"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, haksız rekabet hükümleri tescile bağlı değildir; tescilsiz ambalaj da korunur. Başkasının ürünleriyle karıştırılmaya yol açan önlemler almak TTK m.55/1-a-4 uyarınca haksız rekabettir ve ölçüt, ortalama alıcıdaki genel izlenimdir. İki kutuda aynı mor ton, aynı lavanta çizimi, aynı konumda etiket var ve ürünler aynı rafta satılıyor; isim farkı bu izlenimi ortadan kaldırmaz. Üstelik market zincirinin 37 iade kaydı fiilî karışıklığı da gösteriyor."
     }
   ],
   "outcomes": [

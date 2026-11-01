@@ -46,16 +46,16 @@
       ],
       "prompt": "Talebin hukuki dayanağı ne?",
       "choices": [
-        { "text": "Taşıyıcı, eşyayı taşımak üzere teslim aldığı andan teslim edinceye kadar ziya ve hasardan sorumludur. Kusurunu ispat etmemiz gerekmez; sorumluluktan kurtulmayı o ispat eder.", "delta": 20, "set": ["dayanak"],
+        { "text": "Taşıyıcı teslim aldığı andan teslim edinceye kadar ziya ve hasardan sorumludur (TTK m.875); kusurunu ispat etmemiz gerekmez.", "delta": 20, "set": ["dayanak"],
           "law": "TTK m.875 · m.876",
           "note": "Doğru. TTK m.875 taşıyıcıya teslim alma ile teslim arasında ziya ve hasar sorumluluğu yükler. Taşıyıcı, en yüksek özeni gösterse de kaçınamayacağı bir sebebi ya da kanundaki özel kurtulma sebeplerini ispat ederek kurtulabilir.",
           "reply": [ { "who": "senior", "text": "Güzel. Ziya ve hasar taşıyıcının elindeyken olmuşsa yük onda." } ] },
-        { "text": "Haksız fiil hükümlerine dayanırız; şoförün kusurunu ispat etmemiz gerekir.", "delta": -10,
+        { "text": "Haksız fiil hükümlerine dayanırız (TBK m.49); forklift delikleri şoförün kusurunu zaten gösterdiği için ispat sorun olmaz.", "delta": -10,
           "law": "TBK m.49 · TTK m.875",
-          "note": "Gereksiz yere ağır bir yük üstlendiniz. Taraflar arasında taşıma sözleşmesi var ve TTK'nın taşıma hükümleri taşıyıcıya özel bir sorumluluk yükler (m.875).",
+          "note": "Gereksiz yere ağır bir yük üstlendiniz. Taraflar arasında taşıma sözleşmesi var ve TTK'nın taşıma hükümleri taşıyıcıya kusur ispatı aranmayan özel bir sorumluluk yükler (m.875). Kusuru ispat yükünü kendiniz üstlenmiş oldunuz.",
           "reply": [ { "who": "senior", "text": "Sözleşme varken neden haksız fiile gidelim? TTK m.875'e bak; taşıyıcının sorumluluğu ayrıca düzenlenmiş." } ] },
-        { "text": "Alıcı otel şirketi ayıp sebebiyle bize başvurmadıkça taşıyıcıya dava açamayız.", "delta": -10,
-          "note": "Böyle bir ön şart yok. Gönderen, taşıma sözleşmesinin tarafı olarak taşıyıcıya karşı zararını isteyebilir.",
+        { "text": "Zarar alıcıya teslimden sonra ortaya çıktı; alıcı otel şirketi bize ayıp sebebiyle başvurmadıkça taşıyıcıya dava açamayız.", "delta": -10,
+          "note": "Böyle bir ön şart yok. Gönderen, taşıma sözleşmesinin tarafı olarak taşıyıcıya karşı zararını doğrudan isteyebilir; alıcıyla arasındaki satış ilişkisi bunu etkilemez.",
           "reply": [ { "who": "senior", "text": "Zararı biz karşıladık; yeni camı biz gönderdik. Sözleşmenin tarafı da biziz." } ] }
       ]
     },
@@ -66,19 +66,22 @@
         { "who": "opp", "text": "Alıcı teslim irsaliyesini çekincesiz imzaladı. Eşya sözleşmeye uygun, hasarsız teslim edilmiştir." },
         { "who": "judge", "text": "Davacı vekili?" }
       ],
-      "prompt": "Çekincesiz teslim savunmasına cevabınız?",
+      "kind": "free", "prompt": "Çekincesiz teslim savunmasına ne cevap vereceksiniz? Kendi cümlelerinizle açıklayın.",
       "choices": [
-        { "text": "Hasar dışarıdan görülemiyordu; sandıklar açılınca ortaya çıktı. Dıştan görülemeyen hasar teslimden itibaren yedi gün içinde bildirilir; dördüncü gün fotoğraflı e-postayla bildirdik.", "delta": 20, "set": ["ihbar"],
-          "law": "TTK m.889",
-          "note": "Doğru. Görülebilen hasar en geç teslimde, görülemeyen hasar teslimden itibaren yedi gün içinde bildirilir (TTK m.889). Bildirim yapılmasa bile hak düşmez; yalnızca eşyanın sözleşmeye uygun teslim edildiği karinesi doğar. Burada süresinde bildirim var.",
-          "reply": [ { "who": "judge", "text": "18.04.2026 tarihli e-postanın ve eklerinin dosyaya sunulduğu görüldü." } ] },
-        { "text": "Teslimde çekince konması diye bir şart yoktur; bildirimin önemi yok.", "delta": -10,
-          "law": "TTK m.889",
-          "note": "Yanlış. Süresinde bildirim yapılmazsa eşyanın sözleşmeye uygun teslim edildiği karinesi doğar (TTK m.889). Elinizde süresinde yapılmış bir bildirim varken onu göstermeliydiniz." },
-        { "text": "Bildirim süresi geçmiş olabilir ama zamanaşımı bir yıl olduğu için sorun yok.", "delta": -10,
-          "law": "TTK m.855 · m.889",
-          "note": "İki ayrı kurumu karıştırdınız. Bir yıllık süre zamanaşımıdır (m.855); hasar bildirimi ise ayrı bir kuraldır (m.889). Üstelik bildirim süresinde yapılmıştı; bunu kendiniz zayıflattınız." }
-      ]
+        {"text": "Güçlü cevap", "min": 70, "delta": 20, "set": ["ihbar"], "law": "TTK m.889", "note": "Doğru. Görülebilen hasar en geç teslimde, dıştan görülemeyen hasar teslimden itibaren yedi gün içinde bildirilir (TTK m.889). Bildirim yapılmasa bile hak düşmez; yalnızca eşyanın sözleşmeye uygun teslim edildiği karinesi doğar. Burada 18 Nisan'da, süresinde bildirim var."},
+        {"text": "Yeterli cevap", "min": 40, "delta": 10, "set": ["ihbar"], "law": "TTK m.889", "note": "Hasarın süresinde bildirildiğini söylediniz; mahkeme bunu yeterli buldu. Tam cevap, hasarın dıştan görülemediğini, bu tür hasarın teslimden itibaren yedi gün içinde bildirileceğini ve bildirimin dördüncü gün yapıldığını birlikte gösterir (TTK m.889)."},
+        {"text": "Zayıf cevap", "delta": -10, "law": "TTK m.889", "note": "Çekincesiz teslim savunmasını karşılayamadınız. Görülebilen hasar en geç teslimde, dıştan görülemeyen hasar teslimden itibaren yedi gün içinde bildirilir; bildirim yapılmazsa eşyanın sözleşmeye uygun teslim edildiği karinesi doğar (TTK m.889). 18 Nisan'daki fotoğraflı e-posta süresinde yapılmış bir bildirimdi; bunu göstermeliydiniz. Bir yıllık zamanaşımı (m.855) ayrı bir kurumdur."}
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Hasar dıştan görülemiyordu; sandıklar dıştan sağlamdı, kırıklar ancak montaj için açıldıklarında ortaya çıktı. (2) TTK m.889 uyarınca dıştan görülemeyen hasar teslimden itibaren yedi gün içinde bildirilir; teslimde çekince konmamış olması bu hakkı ortadan kaldırmaz. (3) Teslim 14 Nisan'da yapıldı, bildirim 18 Nisan'da fotoğraflı e-postayla, yani süresinde yapıldı; bu nedenle sözleşmeye uygun teslim karinesi doğmadı. Görülemeyen hasar, yedi günlük süre ve süresinde bildirimi birlikte göstermek tam puan alır; yalnızca süresinde bildirim yapıldığını ya da hasarın dıştan görülemediğini söylemek orta puan alır. Bildirimin önemsiz olduğunu savunan, bildirimi zamanaşımıyla karıştıran ya da süresinde yapılmış bildirimi hiç anmayan cevap düşük puan alır.",
+      "keywords": [
+        {"terms": ["yedi gün", "7 gün"], "weight": 3},
+        {"terms": ["görülemeyen", "görünmeyen", "dıştan", "dışarıdan", "gizli hasar"], "weight": 2},
+        {"terms": ["bildir", "ihbar"], "weight": 2},
+        {"terms": ["e-posta", "eposta", "fotoğraf", "18 Nisan", "dördüncü gün", "4. gün"], "weight": 1},
+        {"terms": ["karine"], "weight": 1},
+        {"terms": ["m.889", "m. 889", "madde 889", "889. madde", "md. 889", "md.889"], "weight": 1}
+      ],
+      "model": "Sayın Hâkim, hasar dıştan görülemiyordu; sandıklar sağlamdı ve kırıklar ancak montaj için açıldıklarında ortaya çıktı. TTK m.889 uyarınca dıştan görülemeyen hasar teslimden itibaren yedi gün içinde bildirilir. Teslim 14 Nisan'da yapıldı; 18 Nisan'da taşıyıcıya fotoğraflı e-postayla bildirimde bulunduk. Bildirim süresinde olduğundan sözleşmeye uygun teslim karinesi doğmamıştır."
     },
     {
       "kind": "evidence", "side": "p1", "scene": "court",
@@ -107,15 +110,15 @@
       ],
       "prompt": "Tazminatı nasıl hesaplayıp isteyeceksiniz?",
       "choices": [
-        { "text": "Camların teslim alındıkları Bursa'daki değeri olan 486.000 TL. Sınır brüt ağırlığın kilogramı başına 8,33 Özel Çekme Hakkıdır; hasarlı sandıkların ağırlığı esas alınsa bile sınır zararın üzerinde kalıyor.", "delta": 20, "set": ["hesap"],
+        { "text": "Camların Bursa'da teslim alındığı andaki değeri olan 486.000 TL; kilogram başına 8,33 Özel Çekme Hakkı sınırı zararın üstünde.", "delta": 20, "set": ["hesap"],
           "law": "TTK m.880 · m.882",
           "note": "Doğru. Ziya ve hasar tazminatı eşyanın taşınmak üzere teslim alındığı yer ve zamandaki değerine göre hesaplanır (m.880). Kanuni sınır (m.882) bu dosyada zararın üstünde kalıyor; tamamı istenebilir.",
           "reply": [ { "who": "judge", "text": "Taraflara son sözleri soruldu. Karar için ara veriyorum." } ] },
-        { "text": "Otel projesindeki satış bedeli, kaçan kâr ve alıcıya ödediğimiz gecikme cezası.", "delta": -10,
+        { "text": "Otel projesindeki satış bedeli, kaçan kâr ve alıcıya ödediğimiz gecikme cezası; taşıyıcı tam tazminatla sorumludur.", "delta": -10,
           "law": "TTK m.880",
-          "note": "Ziya ve hasar tazminatı eşyanın teslim alındığı yer ve zamandaki değeri esas alınarak hesaplanır (m.880); kâr kaybı gibi zararlar bu hesaba girmez. Bu kalemler reddedilir.",
+          "note": "Ziya ve hasar tazminatı eşyanın teslim alındığı yer ve zamandaki değeri esas alınarak hesaplanır (m.880); kâr kaybı gibi zararlar bu hesaba girmez. Tam tazminat ilkesi burada uygulanmaz; bu kalemler reddedilir.",
           "reply": [ { "who": "judge", "text": "Taraflara son sözleri soruldu. Karar için ara veriyorum." } ] },
-        { "text": "Taşıyıcı kusurlu olduğu için sorumluluk sınırı hiç uygulanmaz.", "delta": -5,
+        { "text": "486.000 TL'nin tamamı; sandıklara forklift çatalı sokulması taşıyıcının kusurunu gösterdiği için kanuni sorumluluk sınırı hiç uygulanmaz.", "delta": -5,
           "law": "TTK m.882 · m.886",
           "note": "Sınır olağan kusurla kalkmaz; kast ya da zararın meydana gelmesi ihtimalinin bilinciyle pervasızca davranış gerekir (m.886). Bu dosyada sınır zaten zararın üzerinde; tartışmayı gereksiz yere açtınız.",
           "reply": [ { "who": "judge", "text": "Taraflara son sözleri soruldu. Karar için ara veriyorum." } ] }

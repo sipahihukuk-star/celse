@@ -41,17 +41,17 @@
       ],
       "prompt": "1. aşama · Takip talebi: Hangi takip yolunu seçeceksiniz?",
       "choices": [
-        { "text": "Genel haciz yoluyla ilamsız takip başlatın; borç ikrarını takip talebine ekleyin. Borçluya örnek 7 ödeme emri gider.", "delta": 20, "set": ["ilamsiz"],
+        { "text": "Genel haciz yoluyla ilamsız takip başlatın; borç ikrarını takip talebine ekleyin.", "delta": 20, "set": ["ilamsiz"],
           "law": "İİK m.58 · m.60",
           "note": "Doğru. İlamı olmayan para alacağı için genel haciz yoluyla ilamsız takip yapılır. Belge noterde onaylanmamış olsa da takip talebine eklenir; itiraz gelirse hangi yola gidileceğini bu belge belirleyecek." },
         { "text": "Kambiyo senetlerine özgü haciz yoluyla takip yapalım; borçlu beş gün içinde itiraz etmezse iş biter.", "delta": -10, "set": ["ilamsiz"],
           "law": "İİK m.167 · TTK m.776",
           "note": "Belge kambiyo senedi değil. Bono için “bono” ya da “emre” kaydı, lehtar, düzenleme yeri ve tarihi gibi zorunlu unsurlar gerekir. Bu bir borç ikrarıdır; kambiyo takibine konamaz.",
           "reply": [{ "who": "partner", "text": "Bu kâğıt bono değil, düz bir borç ikrarı. Genel haciz yoluyla ilamsız takip yapalım." }] },
-        { "text": "Önce asliye hukuk mahkemesinde alacak davası açalım, ilamı alınca takibe geçeriz.", "delta": -5, "set": ["ilamsiz"],
+        { "text": "Önce asliye hukuk mahkemesinde alacak davası açalım; ilamı alınca ilamlı takibe geçeriz, itiraz riski de kalmaz.", "delta": -5, "set": ["ilamsiz"],
           "note": "Mümkün ama uzun ve masraflı. Borçlu itiraz etmezse ilamsız takip birkaç haftada kesinleşir; itiraz ederse de elinizdeki belgeyle hızlı bir yol açık.",
           "reply": [{ "who": "partner", "text": "Müvekkil yıllarca beklemek istemiyor. Önce ilamsız takip; itiraz gelirse belgeyle yolumuzu buluruz." }] },
-        { "text": "İlamlı takip yapalım; borç ikrarı imzalı olduğu için ilam yerine geçer.", "delta": -10, "set": ["ilamsiz"],
+        { "text": "İlamlı takip yapalım; imzalı borç ikrarı İİK m.38 anlamında ilam niteliğinde belgedir.", "delta": -10, "set": ["ilamsiz"],
           "law": "İİK m.24 vd. · m.38",
           "note": "İlamlı takip ancak mahkeme ilamı ya da kanunun ilam hükmünde saydığı belgelerle yapılabilir. Adi bir borç ikrarı ilam hükmünde değildir.",
           "reply": [{ "who": "partner", "text": "Adi bir borç ikrarı ilam yerine geçmez. Genel haciz yoluyla ilamsız takip yapalım." }] }
@@ -66,17 +66,17 @@
       ],
       "prompt": "2. aşama · Borçlunun itirazı: Takibi yeniden yürütmek için hangi yola başvuracaksınız?",
       "choices": [
-        { "text": "İcra hukuk mahkemesinden itirazın kesin kaldırılmasını isteyin. Borçlu imzayı inkâr etmedi; imzası ikrar edilmiş borç ikrarı İİK m.68'deki belgelerdendir. Altı aylık süre içindeyiz.", "delta": 25, "set": ["kesin"],
+        { "text": "İcra hukuk mahkemesinden itirazın kesin kaldırılmasını isteyin: imza inkâr edilmedi, belge İİK m.68 kapsamında; altı ay içindeyiz.", "delta": 25, "set": ["kesin"],
           "law": "İİK m.68",
           "note": "Doğru. İtirazın tebliğinden itibaren altı ay içinde, imzası ikrar edilmiş ya da noterce onaylanmış borç ikrarına dayanan alacaklı icra hukuk mahkemesinden itirazın kaldırılmasını isteyebilir. Borçlu imzaya açıkça itiraz etmediği için imza ikrar edilmiş sayılır." },
-        { "text": "İtirazın geçici kaldırılmasını isteyin; senet noterde onaylı olmadığına göre doğru yol bu.", "delta": -5, "set": ["gecici"],
+        { "text": "İcra hukuk mahkemesinden itirazın geçici kaldırılmasını isteyin; senet noterde onaylı değil, adi senede dayanıyoruz.", "delta": -5, "set": ["gecici"],
           "law": "İİK m.68/a · m.69",
           "note": "Geçici kaldırma, adi senetteki imza borçlu tarafından inkâr edildiğinde başvurulan yoldur. Burada imza inkâr edilmedi; kesin kaldırma istenebilirdi. Geçici kaldırmada borçlu yedi gün içinde borçtan kurtulma davası açarak dosyayı yeniden uzatabilir." },
-        { "text": "Bir yıl içinde asliye hukuk mahkemesinde itirazın iptali davası açalım.", "delta": 0,
+        { "text": "Bir yıl içinde asliye hukuk mahkemesinde itirazın iptali davası açalım; tam yargılamada verilen karar daha sağlam olur, tazminat da isteriz.", "delta": 0,
           "law": "İİK m.67",
           "note": "Hukuken mümkün; alacaklı itirazın iptali davası da açabilir. Ama genel mahkemede tam yargılama aylar, belki yıllar sürer. Elinizde İİK m.68 anlamında bir belge varken icra hukuk mahkemesinin hızlı yolu müvekkilin isteğine daha uygun.",
           "reply": [{ "who": "partner", "text": "Olur ama uzun sürer; müvekkil bunu istemiyor. Belge elimizdeyken icra hukuk mahkemesine gidelim." }] },
-        { "text": "Borçluya yeniden ödeme emri gönderilmesini isteyelim; ikinci kez itiraz etmez.", "delta": -10,
+        { "text": "Borçluya yeniden ödeme emri gönderilmesini isteyelim; itirazı gerekçesiz, ikinci kez itiraz etmez.", "delta": -10,
           "law": "İİK m.66",
           "note": "Süresinde yapılan itiraz takibi durdurur. İtiraz, ancak mahkeme kararıyla kaldırılır ya da iptal edilir; yeni bir ödeme emri bu sonucu doğurmaz.",
           "reply": [{ "who": "partner", "text": "İtiraz takibi durdurdu; yeni ödeme emri işe yaramaz. İtirazı mahkeme yoluyla aşmalıyız." }] }
@@ -89,10 +89,10 @@
       ],
       "prompt": "2. aşama · Borçlunun itirazı: İcra hukuk mahkemesinden ne isteyeceksiniz?",
       "choices": [
-        { "text": "İtirazın kesin kaldırılmasını: borçlu imzayı inkâr etmedi, belge imzası ikrar edilmiş borç ikrarıdır.", "delta": 15, "set": ["kesin"],
+        { "text": "İtirazın kesin kaldırılmasını: imza inkâr edilmedi, belge İİK m.68 kapsamında.", "delta": 15, "set": ["kesin"],
           "law": "İİK m.68",
           "note": "Doğru. İmzası inkâr edilmeyen borç ikrarı İİK m.68 anlamında belgedir; kesin kaldırma istenebilir." },
-        { "text": "İtirazın geçici kaldırılmasını: senet noterde onaylı değil.", "delta": -5, "set": ["gecici"],
+        { "text": "İtirazın geçici kaldırılmasını: senet noterde onaylı değil, adi senet için kanunun yolu bu.", "delta": -5, "set": ["gecici"],
           "law": "İİK m.68/a",
           "note": "Geçici kaldırma, imzanın inkâr edildiği adi senetler içindir. Burada imza inkâr edilmedi; kesin kaldırma istenebilirdi." }
       ]
@@ -107,14 +107,14 @@
       ],
       "prompt": "3. aşama · İcra hukuk mahkemesi: Ortaklık savunmasına ne cevap vereceksiniz?",
       "choices": [
-        { "text": "Borç ikrarı sebebi gösterilmese bile geçerlidir; bu belge sebebi de açıkça yazıyor: “ödünç aldım.” Borçlu aksini, yani bunun ortaklık sermayesi olduğunu, İİK m.68'de sayılan nitelikte bir belgeyle ispatlamalı. Böyle bir belge sunulmadı.", "delta": 20, "set": ["ikrar"],
+        { "text": "Belge “ödünç aldım” diyor; borç ikrarı sebepsiz bile geçerlidir. Ortaklık iddiası İİK m.68 nitelikte belge ister.", "delta": 20, "set": ["ikrar"],
           "law": "TBK m.18 · İİK m.68",
           "note": "Doğru. Borç ikrarı, borcun sebebini göstermese bile geçerlidir (TBK m.18). İtirazın kaldırılması incelemesinde borçlu itirazını ancak İİK m.68'deki nitelikte bir belgeyle haklı çıkarabilir.",
           "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
-        { "text": "Ortaklık olsa bile para iade edilmeli; ortaklığın tasfiyesini ayrıca dava ederiz.", "delta": -15, "set": ["kabul"],
+        { "text": "Ortaklık olsa bile ortak iş hiç başlamadı, sermaye iade edilmeli; tasfiyeyi ayrıca dava ederiz, şimdi itiraz kaldırılsın.", "delta": -15, "set": ["kabul"],
           "note": "Karşı tarafın ortaklık savunmasını kabul etmiş oldunuz. Ortaklık sermayesinin geri istenmesi ortaklığın tasfiyesine bağlıdır ve icra hukuk mahkemesinin incelemesine sığmaz; talebinizin ayağını kendiniz kestiniz.",
           "reply": [{ "who": "judge", "text": "Alacaklı vekilinin, paranın ortaklık sermayesi olabileceğine ilişkin beyanı tutanağa geçirildi." }] },
-        { "text": "Komşular parayı ödünç verdiğimi bilir; tanık dinletelim.", "delta": -10,
+        { "text": "Parayı ödünç verdiğini bilen komşular var; ödünç ilişkisini ispat için tanık dinletelim.", "delta": -10,
           "law": "İİK m.68",
           "note": "İtirazın kaldırılması incelemesi belgeyle yürür; tanık dinlenmez. Üstelik ispat yükü sizde değil: elinizdeki imzalı borç ikrarı zaten yeterli. Belgeye dayanmanız gerekirdi.",
           "reply": [{ "who": "judge", "text": "İtirazın kaldırılması incelemesinde tanık dinlenmez. Belgeleriniz dosyada." }] }
@@ -126,20 +126,28 @@
         { "who": "opp", "text": "Kaldı ki müvekkilim parayı geçen ekim ayında nakit olarak iade etmiştir. Eşi ve dükkândaki çalışanı tanıktır; dinlenmelerini talep ediyoruz." },
         { "who": "judge", "text": "Alacaklı vekili, tanık talebine diyeceğiniz?" }
       ],
-      "prompt": "3. aşama · İcra hukuk mahkemesi: Ödeme savunmasına nasıl karşılık vereceksiniz?",
+      "prompt": "3. aşama · İcra hukuk mahkemesi: Ödeme savunmasına ve tanık talebine ne cevap vereceksiniz? Kendi cümlelerinizle savunun.",
+      "kind": "free",
       "choices": [
-        { "text": "Ödeme iddiası, itirazın kaldırılması incelemesinde ancak İİK m.68'deki nitelikte bir belgeyle ispatlanabilir. Tanık dinlenemez. Ne makbuz ne dekont sunuldu; tanık talebinin reddini istiyoruz.", "delta": 20, "set": ["belge"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["belge"],
           "law": "İİK m.68",
-          "note": "Doğru. İcra hukuk mahkemesi burada dar yetkiyle inceleme yapar: borçlu itirazını belgeyle doğrulayamazsa itiraz kaldırılır. Tanık beyanına dayanan ödeme savunması borçlunun genel mahkemede açacağı bir menfi tespit ya da istirdat davasının konusu olabilir.",
-          "reply": [{ "who": "judge", "text": "Tanık dinlenmesi talebinin reddine karar verildi." }] },
-        { "text": "Tanıkları dinleyelim; biz de karşı tanık getiririz.", "delta": -10,
+          "note": "Doğru. İcra hukuk mahkemesi burada dar yetkiyle inceleme yapar: borçlu ödeme savunmasını İİK m.68'deki nitelikte bir belgeyle doğrulayamazsa itiraz kaldırılır; tanık dinlenmez. Tanık beyanına dayanan ödeme savunması, borçlunun genel mahkemede açacağı menfi tespit ya da istirdat davasının konusu olabilir." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["belge"],
           "law": "İİK m.68",
-          "note": "İtirazın kaldırılmasında tanık dinlenmez; bunu siz söylemeliydiniz. Kendi dar ve hızlı yolunuzu genel mahkemedeki bir yargılamaya çevirmeye razı oldunuz.",
-          "reply": [{ "who": "judge", "text": "Bu yargılamada tanık dinlenmez. Talep reddedildi." }] },
-        { "text": "Nakit ödeme TBK'ya göre makbuzsuz yapılamaz; ödeme geçersizdir.", "delta": -5,
-          "note": "Kanun makbuzsuz ödemeyi geçersiz saymaz. Sorun ödemenin geçerliği değil, icra hukuk mahkemesinde nasıl ispatlanacağıdır: belge olmadan ödeme savunması dinlenmez.",
-          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi. Tanık talebi bu yargılamada dinlenemeyeceğinden reddedildi." }] }
-      ]
+          "note": "Doğru yöndesiniz, ama savunmayı tam kurmadınız. İtirazın kaldırılmasında ödeme ancak İİK m.68'deki nitelikte bir belgeyle (makbuz, dekont gibi) ispatlanır; tanık dinlenemez. Bunu açıkça söyleyip tanık talebinin reddini istemek gerekiyordu." },
+        { "text": "Zayıf savunma", "delta": -10,
+          "law": "İİK m.68",
+          "note": "Ödeme savunmasının bu incelemedeki sınırını gösteremediniz. Sorun ödemenin geçerliği değil, ispatıdır: itirazın kaldırılmasında borçlu ödemeyi ancak İİK m.68'deki nitelikte bir belgeyle ispatlayabilir, tanık dinlenmez. Tanık talebinin reddini istemeliydiniz." }
+      ],
+      "rubric": "İyi bir cevap şunları içerir: (1) İtirazın kaldırılması incelemesinde borçlu, ödeme savunmasını ancak İİK m.68'de sayılan nitelikte bir belgeyle (imzası ikrar edilmiş ya da onaylı belge, makbuz, banka dekontu gibi) ispatlayabilir. (2) Bu dar incelemede tanık dinlenemez; tanık talebinin reddi istenir. (3) Borçlu ne makbuz ne dekont sunmuştur. Tanığa dayanan ödeme iddiası ancak genel mahkemede menfi tespit ya da istirdat davasının konusu olabilir. Belge şartını madde numarasıyla söyleyip tanık talebinin reddini isteyen tam puan alır; yalnızca tanık dinlenemeyeceğini söyleyip dayanağı ya da belge şartını açıklamayan cevap orta puan alır. Tanıkların dinlenmesine razı olan, karşı tanık getireceğini söyleyen ya da makbuzsuz ödemenin geçersiz olduğunu ileri süren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["tanık dinlenemez", "tanık dinlenmez", "tanık talebinin reddi", "tanıkla ispat", "tanık beyanı yeterli değil"], "weight": 3 },
+        { "terms": ["belge"], "weight": 2 },
+        { "terms": ["m.68", "m. 68", "madde 68", "68. madde", "md. 68", "md.68"], "weight": 2 },
+        { "terms": ["makbuz", "dekont"], "weight": 2 },
+        { "terms": ["menfi tespit", "istirdat", "genel mahkeme"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, itirazın kaldırılması incelemesinde borçlu ödeme savunmasını ancak İİK m.68'de sayılan nitelikte bir belgeyle ispatlayabilir; tanık dinlenemez. Borçlu ne makbuz ne banka dekontu sunmuştur. Tanık talebinin reddini istiyoruz; borçlunun bir iddiası varsa bu, genel mahkemede açacağı menfi tespit ya da istirdat davasının konusudur."
     },
     {
       "side": "p1", "scene": "court",
@@ -148,13 +156,13 @@
       ],
       "prompt": "3. aşama · İcra hukuk mahkemesi: Hüküm öncesi son talebiniz ne olacak?",
       "choices": [
-        { "text": "İtirazın kaldırılmasına, takibin devamına ve borçlunun alacağın yüzde yirmisinden aşağı olmamak üzere tazminata mahkûm edilmesine karar verilmesini talep ediyoruz.", "delta": 15, "set": ["tazminat"],
+        { "text": "İtirazın kaldırılmasını, takibin devamını ve borçlunun en az %20 tazminata mahkûm edilmesini talep ediyoruz.", "delta": 15, "set": ["tazminat"],
           "law": "İİK m.68 · m.68/a",
           "note": "Doğru. Talep esasa ilişkin nedenlerle kabul edilirse borçlu, alacaklının talebi üzerine alacağın yüzde yirmisinden aşağı olmamak üzere tazminata mahkûm edilir. Tazminat talebe bağlıdır; istemezseniz verilmez." },
-        { "text": "İtirazın kaldırılmasını ve takibin devamını talep ediyoruz.", "delta": 5,
+        { "text": "İtirazın kaldırılmasını ve takibin devamını talep ediyoruz; tazminata mahkeme zaten kendiliğinden hükmeder.", "delta": 5,
           "law": "İİK m.68",
           "note": "Asıl talep doğru, ama kanunun öngördüğü tazminatı istemediniz. Mahkeme bu tazminatı kendiliğinden vermez." },
-        { "text": "İtirazın kaldırılmasını ve borcunu ödemeyen borçlunun hapsini talep ediyoruz.", "delta": -10,
+        { "text": "İtirazın kaldırılmasını ve borcunu bile bile ödemeyen borçlunun tazyik hapsiyle zorlanmasını talep ediyoruz.", "delta": -10,
           "law": "Anayasa m.38",
           "note": "Hiç kimse yalnızca sözleşmeden doğan bir borcu yerine getirmediği için özgürlüğünden alıkonulamaz (Anayasa m.38). Böyle bir talep hâkimin gözünde dosyaya hâkim olmadığınızı gösterir." }
       ]
@@ -167,13 +175,13 @@
       ],
       "prompt": "4. aşama · Haciz: Hangi haciz talebinde bulunacaksınız?",
       "choices": [
-        { "text": "Borçlunun banka hesaplarına haciz ihbarnamesi; araç ve taşınmaz kayıtlarına UYAP üzerinden haciz şerhi; çalıştığı bir yer varsa maaşının kanuni oranda haczi.", "delta": 15, "set": ["haciz"],
+        { "text": "Banka hesaplarına haciz ihbarnamesi, araç ve taşınmaz kayıtlarına şerh, varsa maaşa haciz.", "delta": 15, "set": ["haciz"],
           "law": "İİK m.78 · m.83 · m.89",
           "note": "Doğru. Hesaplar için üçüncü kişiye haciz ihbarnamesi gönderilir, sicile kayıtlı mallara şerh konulur. Maaş, borçlu ve ailesinin geçim payı ayrıldıktan sonra kanunun alt sınırına uyularak haczedilir." },
-        { "text": "Borçlunun evindeki bütün eşyanın haczi.", "delta": -5,
+        { "text": "Borçlunun evindeki bütün eşyanın haczi; değerli eşya satışla alacağı hızla karşılar.", "delta": -5,
           "law": "İİK m.82",
           "note": "Borçlu ve ailesinin kişisel eşyası ile ailenin ortak kullanımındaki ev eşyası haczedilemez. Önce banka, araç ve taşınmaz kayıtlarına bakılır." },
-        { "text": "Borçlunun eşi adına kayıtlı araca haciz.", "delta": -10,
+        { "text": "Borçlunun eşi adına kayıtlı araca haciz; araç evlilik içinde alındı, onu fiilen borçlu kullanıyor.", "delta": -10,
           "note": "Takip borçlu hakkındadır. Üçüncü kişinin, eşin bile olsa, adına kayıtlı mal borçlunun malı gibi haczedilemez." }
       ]
     }

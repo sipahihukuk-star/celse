@@ -61,7 +61,7 @@
       "lines": [{ "who": "client", "text": "Bakanlık acele ediyor. Ne zaman ve nasıl itiraz edeceğiz?" }],
       "prompt": "Nasıl ilerleyeceksiniz?",
       "choices": [
-        { "text": "Belgeleri derleyip kabul edilemezlik itirazını en erken fırsatta, m.19/2-b uyarınca sunun; itiraz incelenirken teslim talebinin yerine getirilmesinin ertelendiğini m.95 uyarınca Mahkeme'ye bildirin.", "delta": 20, "set": ["zaman"],
+        { "text": "Belgeleri derleyip m.19/2-b itirazını en erken fırsatta sunun; incelenirken teslimin ertelendiğini m.95 uyarınca bildirin.", "delta": 20, "set": ["zaman"],
           "law": "Roma Statüsü m.19/2-b, m.19/5, m.95",
           "note": "Yargı yetkisi olan ve davayı soruşturan devlet itirazı en erken fırsatta yapar. Kabul edilebilirlik itirazı incelenirken talep edilen devlet, teslim talebinin yerine getirilmesini erteleyebilir (m.95)." },
         { "text": "Bugün kısa bir yazıyla itiraz edin: “Varnesya yakında kapsamlı bir soruşturma yürütecektir.” Belgeleri sonra gönderirsiniz.", "delta": -25,
@@ -70,10 +70,10 @@
           "fatal": { "label": "KARAR:",
             "hukum": "Varnesya Cumhuriyeti'nin kabul edilemezlik itirazının REDDİNE; davanın Roma Statüsü m.17 uyarınca KABUL EDİLEBİLİR OLDUĞUNA; Bu karara karşı Roma Statüsü m.82/1-a uyarınca Temyiz Dairesi'ne başvurulabilir.",
             "summary": "İtiraz yalnızca gelecekteki niyetlere dayandı; somut bir soruşturma adımı gösterilmedi. Devlet, itiraz hakkını m.19/4 uyarınca kullanmış oldu; yeni bir itiraz ancak istisnai durumlarda ve izinle mümkün." } },
-        { "text": "İtiraz etmeyin; Talvik'i teslim etmeyi reddedip yargılamayı içeride sürdürün.", "delta": -20, "set": ["isbirligi", "end"],
+        { "text": "İtiraz etmeyin; tamamlayıcılık ilkesi gereği Talvik'i teslim etmeyi reddedip yargılamayı içeride sürdürün.", "delta": -20, "set": ["isbirligi", "end"],
           "law": "Roma Statüsü m.86, m.87/7, m.89",
           "note": "Taraf devlet Mahkeme'yle işbirliği yapmak zorundadır. Tamamlayıcılığı ileri sürmenin yolu teslimden tek taraflı kaçınmak değil, m.19 itirazıdır." },
-        { "text": "Savcı'dan soruşturmayı m.18/2 uyarınca Varnesya lehine ertelemesini isteyin.", "delta": -10, "set": ["gec"],
+        { "text": "Savcı'dan soruşturmayı m.18/2 uyarınca Varnesya lehine ertelemesini isteyin; bu yol itirazdan daha hızlı sonuç verir.", "delta": -10, "set": ["gec"],
           "reply": [{ "who": "narr", "text": "Savcılık, m.18'in bu aşamada uygulanmadığını bildirdi. Haftalar sonra m.19 itirazını sundunuz; gecikme de tartışılacak." }],
           "note": "m.18 ertelemesi, soruşturmanın başında Savcı'nın bildirimini izleyen kısa süre içinde istenir. Yakalama kararı çıkmış somut bir dava için doğru yol m.19 itirazıdır." }
       ] },
@@ -114,18 +114,29 @@
     },
     { "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Devlet vekili, bir sorum var. Varnesya generali insanlığa karşı suçtan değil, kasten öldürmeden yargılıyor. Bu, Mahkememizdeki davayla aynı dava sayılır mı?" }],
-      "prompt": "Ne cevap vereceksiniz?",
+      "prompt": "Bu soruya Daire'ye ne cevap vereceksiniz? Kendi cümlelerinizle açıklayın.",
+      "kind": "free",
       "choices": [
-        { "text": "Ölçüt suçun hukuki nitelendirmesi değil, aynı kişi ve esasen aynı fiildir. Fiil esasen aynıysa, iç hukukta adi bir suç olarak kovuşturulması yeterlidir.", "delta": 20, "set": ["nitelik"],
+        { "text": "Güçlü cevap", "min": 70, "delta": 20, "set": ["nitelik"],
           "law": "Roma Statüsü m.17/1-a",
-          "note": "UCM içtihadı tamamlayıcılıkta fiilin kimliğine bakar; devletin uluslararası suç tipini aynen kullanması aranmaz. Al-Senussi davasında Ön Dava Dairesi, Temyiz Dairesi'nce de onanan kararıyla, Libya'nın kendi ceza kanunundaki suç tipleri üzerinden yürüttüğü kovuşturmayı yeterli bularak davayı kabul edilemez ilan etmişti." },
-        { "text": "Varnesya egemen bir devlettir; Mahkeme'nin bu davada yetkisi yoktur.", "delta": -15,
-          "note": "Yargı yetkisi (m.12–13) ile kabul edilebilirlik (m.17) ayrı sorulardır. Taraf devletin ülkesinde işlenen suç için yetki tartışmasızdır; itiraz kabul edilebilirliğe ilişkindir." },
-        { "text": "Varnesya iddianameyi insanlığa karşı suç olarak değiştirecektir.", "delta": -5,
-          "note": "Gelecekteki niyet kabul edilebilirliği belirlemez; üstelik nitelendirme değişikliği gerekli de değildir." },
-        { "text": "Aynı fiilden iki kez yargılanma yasağı (m.20/3) davayı engeller.", "delta": -10,
-          "note": "m.20/3 başka bir mahkemede verilmiş bir hüküm gerektirir. Talvik henüz yargılanmadı." }
-      ] }
+          "note": "Doğru ölçütü kurdunuz: tamamlayıcılıkta aranan, aynı kişi ve esasen aynı fiildir; devletin uluslararası suç tipini aynen kullanması gerekmez. Al-Senussi davasında Ön Dava Dairesi, Temyiz Dairesi'nce de onanan kararıyla, Libya'nın kendi ceza kanunundaki suç tipleri üzerinden yürüttüğü kovuşturmayı yeterli bulmuştu." },
+        { "text": "Yeterli cevap", "min": 40, "delta": 10, "set": ["nitelik"],
+          "law": "Roma Statüsü m.17/1-a",
+          "note": "Nitelendirmenin belirleyici olmadığını sezdiniz, ama ölçütü tam kurmadınız. m.17/1-a bakımından aranan, aynı kişinin esasen aynı fiil nedeniyle kovuşturulmasıdır; bu sağlanıyorsa iç hukukta adi bir suç olarak kovuşturma yeterlidir." },
+        { "text": "Zayıf cevap", "delta": -10,
+          "law": "Roma Statüsü m.17/1-a, m.20/3",
+          "note": "Soruyu doğru ölçüyle karşılayamadınız. Yetki (m.12–13) ayrı bir sorudur; ne bis in idem (m.20/3) verilmiş bir hüküm gerektirir; gelecekteki nitelendirme değişikliği de gerekmez. Ölçüt, aynı kişi ve esasen aynı fiildir (m.17/1-a)." }
+      ],
+      "rubric": "İyi bir cevap şunları içerir: (1) Roma Statüsü m.17/1-a bakımından “aynı dava” ölçütü suçun hukuki nitelendirmesi değil, aynı kişi ve esasen aynı fiildir. (2) Fiil esasen aynıysa, devletin bunu iç hukukta adi bir suç (kasten öldürme) olarak kovuşturması yeterlidir; uluslararası suç tipinin aynen kullanılması aranmaz. (3) Bu, Mahkeme içtihadıyla da sabittir: Al-Senussi davasında Ön Dava Dairesi (Temyiz Dairesi'nce onanan kararla) Libya'nın kendi ceza kanunundaki suç tipleriyle yürüttüğü kovuşturmayı yeterli bulmuştur. Aynı kişi ve esasen aynı fiil ölçütünü açıkça kuran tam puan alır; içtihat ya da madde atfı tam puanı güçlendirir. Yalnızca nitelendirmenin önemsiz olduğunu söyleyip fiil ve kişi aynılığına değinmeyen cevap orta puan alır. Mahkeme'nin yetkisizliğini, ne bis in idem kuralını (m.20/3) ya da iddianamenin ileride değiştirileceğini ileri süren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["aynı fiil", "esasen aynı", "aynı eylem", "aynı olay", "aynı davranış"], "weight": 3 },
+        { "terms": ["aynı kişi"], "weight": 2 },
+        { "terms": ["nitelendirme", "nitelik", "suç tipi", "suç vasfı"], "weight": 2 },
+        { "terms": ["Al-Senussi", "Senussi", "Libya"], "weight": 1 },
+        { "terms": ["m.17", "m. 17", "madde 17", "17. madde", "md. 17"], "weight": 1 },
+        { "terms": ["adi suç", "kasten öldürme", "iç hukuk"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, m.17/1-a bakımından ölçüt suçun hukuki nitelendirmesi değil, aynı kişi ve esasen aynı fiildir. Varnesya, Mahkeme'deki davaya konu olaylar için aynı generali kovuşturuyor; bu fiilin iç hukukta kasten öldürme olarak nitelendirilmesi yeterlidir. Al-Senussi davasında da Mahkeme, Libya'nın kendi ceza kanunundaki suç tipleriyle yürüttüğü kovuşturmayı yeterli bulmuştu." }
   ],
   "outcomes": [
     { "if": "isbirligi", "winner": "p2", "label": "KARAR:", "noCourt": true,

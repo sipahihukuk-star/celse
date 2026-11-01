@@ -46,17 +46,17 @@
       "lines": [{ "who": "narr", "text": "Bölge adliye kararı dün tebliğ edildi. Sanık temyiz etmedi. Stajyeriniz soruyor: “Sanık başvurmadıysa biz de katılma yoluyla temyize cevap veririz, değil mi?”" }],
       "prompt": "Nasıl ilerleyeceksiniz?",
       "choices": [
-        { "text": "Gerekçeli kararın tebliğinden itibaren iki hafta içinde katılan olarak temyiz edin; dilekçede duruşmalı inceleme isteyin.", "delta": 10, "set": ["durusmaTalep"],
+        { "text": "Tebliğden itibaren iki hafta içinde katılan sıfatıyla temyiz edin; dilekçede duruşmalı inceleme isteyin.", "delta": 10, "set": ["durusmaTalep"],
           "law": "CMK m.260/1, m.291/1, m.299/1",
           "note": "Doğru. Katılan, hükme karşı kendi adına kanun yoluna başvurabilir (CMK m.260/1). Süre gerekçeli kararın tebliğinden itibaren iki haftadır (CMK m.291/1). On yıl ve daha fazla hapis cezalarında Daire uygun görürse duruşmalı inceleme yapar (CMK m.299/1)." },
-        { "text": "Stajyeri haklı bulun: sanık başvurursa katılma yoluyla temyiz ederiz; şimdilik bekleyin.", "delta": -25,
+        { "text": "Stajyeri haklı bulun: hukuk yargılamasındaki gibi sanık başvurursa katılma yoluyla temyiz ederiz; şimdilik bekleyin.", "delta": -25,
           "fatal": { "label": "SONUÇ:", "hukum": "Süresi içinde temyiz edilmeyen bölge adliye mahkemesi kararı katılan yönünden KESİNLEŞTİ; bilinçli taksirle öldürme ve yaralamadan verilen 10 yıl 6 ay hapis cezası infaza verildi.",
                      "summary": "Katılma yoluyla kanun yolu Hukuk Muhakemeleri Kanunu'na özgüdür; Ceza Muhakemesi Kanunu'nda böyle bir yol yoktur. Katılan kendi temyizini iki haftalık süre içinde yapmalıydı (CMK m.291/1). Olası kast tartışması hiç Yargıtay'a gidemedi." },
-          "note": "Ceza muhakemesinde katılma yoluyla temyiz yoktur." },
-        { "text": "Süresinde temyiz edin, ama duruşma istemeyin; dosya üzerinden incelensin.", "delta": -5, "set": ["talepYok"],
+          "note": "Ceza muhakemesinde katılma yoluyla temyiz yoktur; hukuk yargılamasındaki bu kurum burada uygulanmaz. Beklerken iki haftalık temyiz süresi doldu." },
+        { "text": "İki hafta içinde temyiz edin, duruşma istemeyin; Yargıtay hukuki denetim yapar, dosya üzerinden inceleme yeterli.", "delta": -5, "set": ["talepYok"],
           "reply": [{ "who": "narr", "text": "Daire, cezanın on yılı aşmasını ve suç niteliğine ilişkin tartışmayı gözeterek kendiliğinden duruşma açtı." }],
           "law": "CMK m.299/1",
-          "note": "Süre korundu. Ama nitelendirme gibi tartışmalı bir hukuki sorunda heyete sözlü olarak anlatma imkânını kendiniz istemediniz." }
+          "note": "Süre korundu. Yargıtay hukuki denetim yapar, ama nitelendirme gibi tartışmalı bir hukuki sorunda heyete sözlü olarak anlatma imkânını kendiniz istemediniz." }
       ] },
     { "kind": "interview", "side": "p1", "scene": "office", "limit": 2,
       "lines": [{ "who": "narr", "text": "Sevim Arıkan bütün duruşmaları izlemiş. Dilekçeden önce iki soru sorabilirsiniz." }],
@@ -77,16 +77,22 @@
       ] },
     { "side": "p1", "scene": "office",
       "lines": [{ "who": "narr", "text": "Temyiz dilekçesini yazıyorsunuz." }],
-      "prompt": "Dilekçenin merkezine neyi koyacaksınız?",
+      "kind": "free", "prompt": "Temyiz dilekçesinin merkezine neyi koyacaksınız? Ana temyiz sebebinizi kendi cümlelerinizle yazın.",
       "choices": [
-        { "text": "Mahkemenin kendi kabul ettiği vakıalar (hız, alkol, kırmızı ışık, uyarıya “Çekilirler” cevabı, frensiz hızlanma) olası kastı gösteriyor; nitelendirme hukuki bir sorundur ve yanlış yapılmıştır.", "delta": 20, "set": ["hukukArg"],
-          "law": "CMK m.288; TCK m.21/2, m.22/3",
-          "note": "Doğru çerçeve. Olası kastta da bilinçli taksirde de netice öngörülür; fark, failin neticeyi kabullenip kabullenmediğidir. Sabit vakıalardan hangi kast biçiminin çıktığı hukuki değerlendirmedir ve Yargıtay'ın denetimindedir (CMK m.288/2)." },
-        { "text": "Cezanın az olduğunu, TCK m.85/2'nin üst sınırından uygulanması gerektiğini yazın.", "delta": -5,
-          "note": "Temel cezanın belirlenmesi takdire dayanır ve kanuni sınırlar içinde kalmış. Asıl sorun cezanın miktarı değil, suçun niteliği." },
-        { "text": "Yeni bir bilirkişi heyetinden hız raporu alınmasını ve yolcunun yeniden dinlenmesini isteyin.", "delta": -10,
-          "note": "Yargıtay delil toplamaz, tanık dinlemez. Üstelik vakıalar zaten sabit; tartışılacak olan onların hukuki nitelendirmesi." }
-      ] },
+        {"text": "Güçlü temyiz sebebi", "min": 70, "delta": 20, "set": ["hukukArg"], "law": "CMK m.288; TCK m.21/2, m.22/3", "note": "Doğru çerçeve. Olası kastta da bilinçli taksirde de netice öngörülür; fark, failin neticeyi kabullenip kabullenmediğidir. Mahkemenin kendi kabul ettiği vakıalardan hangi kast biçiminin çıktığı hukuki bir değerlendirmedir ve Yargıtay'ın denetimindedir (CMK m.288/2)."},
+        {"text": "Yeterli temyiz sebebi", "min": 40, "delta": 10, "set": ["hukukArg"], "law": "CMK m.288; TCK m.21/2, m.22/3", "note": "Olası kastı ileri sürdünüz; temyiz sebebi doğru. Ama ayrımı ve dayanağı tam kurmadınız: iki kurumda da netice öngörülür, olası kastta fail onu kabullenir (TCK m.21/2); sabit vakıaların nitelendirilmesi hukuki sorundur ve Yargıtay'ın denetimindedir (CMK m.288/2)."},
+        {"text": "Zayıf temyiz sebebi", "delta": -5, "law": "CMK m.288; TCK m.21/2, m.22/3", "note": "Dilekçenin merkezini kaçırdınız. Sorun cezanın miktarı ya da yeni delil değil, suçun niteliğidir. Mahkemenin kabul ettiği vakıalar (hız, alkol, kırmızı ışık) neticenin kabullenildiğini, yani olası kastı (TCK m.21/2) gösteriyor; bu nitelendirme hukuki bir sorundur ve Yargıtay delil toplamadan denetler (CMK m.288)."}
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Olası kastta da bilinçli taksirde de fail neticeyi öngörür; fark, olası kastta failin neticeyi kabullenmesi (TCK m.21/2), bilinçli taksirde ise gerçekleşmeyeceğine güvenmesidir (TCK m.22/3). (2) Mahkemenin kendisinin kabul ettiği sabit vakıalar (1,42 promil alkol, 128 km/s hız, kırmızı ışıkta yaya geçidine girme, varsa uyarıya “Çekilirler” cevabı ve frensiz hızlanma) neticenin kabullenildiğini gösterir. (3) Sabit vakıaların nitelendirilmesi hukuki bir sorundur; yanlış nitelendirme hukuka aykırılık olarak temyiz sebebidir (CMK m.288). Ayrımı kurup vakıalara bağlayan ve nitelendirmenin hukuki sorun olduğunu söyleyen cevap tam puan alır; yalnızca olası kast uygulanmalıydı diyen ya da vakıaları sayıp ayrımı kurmayan cevap orta puan alır. Cezanın miktarını tartışan, yeni bilirkişi ya da tanık isteyen ya da bilinçli taksiri kabul eden cevap düşük puan alır.",
+      "keywords": [
+        {"terms": ["olası kast", "olası kasıt", "olası kastla"], "weight": 3},
+        {"terms": ["kabullen", "göze al", "razı ol", "umursama", "aldırma"], "weight": 2},
+        {"terms": ["nitelendirme", "suç vasfı", "vasıf", "hukuki sorun", "hukuka aykırı"], "weight": 2},
+        {"terms": ["sabit", "vakıa", "olgu", "kabul ettiği"], "weight": 1},
+        {"terms": ["hız", "alkol", "promil", "kırmızı", "Çekilirler"], "weight": 1},
+        {"terms": ["m.21", "m. 21", "madde 21", "21. madde", "md. 21", "md.21"], "weight": 1}
+      ],
+      "model": "Sayın Başkan, mahkemenin kendi kabul ettiği vakıalar, yani 1,42 promil alkol, 128 km/s hız, kırmızı ışıkta yaya geçidine girme ve uyarıya “Çekilirler” cevabı, sanığın ölüm neticesini öngördüğünü ve kabullendiğini gösteriyor. Bu, TCK m.21/2 anlamında olası kasttır; bilinçli taksirde fail neticeyi öngörse de gerçekleşmeyeceğine güvenir. Sabit vakıaların nitelendirilmesi hukuki bir sorundur (CMK m.288); suç vasfında yanılgıya düşülmüştür." },
     { "kind": "evidence", "side": "p1", "scene": "court",
       "lines": [
         { "who": "narr", "text": "Ankara, Yargıtay. Sevim Arıkan dinleyici sırasında. Sanık tutuklu olduğu için getirilmedi; müdafii hazır." },
@@ -117,14 +123,14 @@
       ],
       "prompt": "Ne yapacaksınız?",
       "choices": [
-        { "text": "Başkandan kısa bir an isteyin, müvekkilinizi sakinleştirip oturtun; sonra sakin bir sesle hukuki noktaya dönün: “Mesele yas değil, TCK m.21/2'nin sabit vakıalara uygulanmasıdır.”", "delta": 10, "set": ["sakin"],
+        { "text": "Başkandan bir an isteyip müvekkili sakinleştirin, sonra hukuka dönün: “Mesele yas değil, olası kastın sabit vakıalara uygulanmasıdır.”", "delta": 10, "set": ["sakin"],
           "law": "CMK m.203",
           "note": "Mesleki soğukkanlılık. Duruşma düzenini başkan sağlar (CMK m.203); vekilin işi müvekkilini korumak ve tartışmayı hukuka geri çekmektir. Karşı müdafinin sözüne aynı tonla cevap vermediniz." },
-        { "text": "Müdafiye dönüp sert bir cevap verin: “Müvekkiliniz bir katildir!”", "delta": -10,
+        { "text": "Müdafiye dönüp sert bir cevap verin: “Müvekkiliniz bir katildir; kızını kaybetmiş bir anneyi intikamcılıkla suçlayamazsınız!”", "delta": -10,
           "note": "Tahrike kapıldınız. Hükümle sabit olmayan bir sıfatı kullanmak meslek kurallarına aykırıdır ve heyetin gözünde tezinizi zayıflatır." },
-        { "text": "Hiçbir şey yapmayın; başkan halletsin.", "delta": -5,
+        { "text": "Hiçbir şey yapmayın; salon düzeni başkanın görevidir (CMK m.203), vekilin araya girmesi heyeti rahatsız eder.", "delta": -5,
           "reply": [{ "who": "judge", "text": "Katılan, lütfen salonu terk edin." }],
-          "note": "Müvekkilinizi korumadınız; Sevim Arıkan kızının davasının karar duruşmasını dışarıda bekledi." }
+          "note": "Duruşma düzenini başkan sağlar (CMK m.203), ama müvekkilini korumak vekilin işidir. Müvekkilinizi korumadınız; Sevim Arıkan kızının davasının karar duruşmasını dışarıda bekledi." }
       ] },
     { "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Katılan vekili, son talebiniz?" }],
@@ -133,10 +139,10 @@
         { "text": "Sanığın olası kastla hareket ettiği gözetilmeden suç vasfında yanılgıya düşüldüğünden hükmün bozulmasını isteriz.", "delta": 10, "set": ["talepDogru"],
           "law": "CMK m.302/2; TCK m.21/2",
           "note": "Doğru talep. Nitelendirme hatasının sonucu bozmadır; yeniden yargılama ilk derece mahkemesinde yapılır. Kanun yoluna katılan da başvurduğu için aleyhe bozma yasağı (CMK m.307/4) sanığı korumaz." },
-        { "text": "Daire, sanığı doğrudan olası kastla öldürmeden mahkûm etsin ve cezasını belirlesin.", "delta": -10,
-          "note": "Yargıtay bu durumda yeni bir mahkûmiyet hükmü kurup ceza tayin etmez; hükmü bozar. Ceza ilk derece mahkemesince belirlenir." },
-        { "text": "Cezanın TCK m.22/3 uyarınca en üst oranda artırılmasını isteriz.", "delta": -5,
-          "note": "Bu talep bilinçli taksir nitelendirmesini kabul etmek anlamına gelir; temyiz sebebinizle çelişir." }
+        { "text": "Usul ekonomisi için Daire, sanığı doğrudan olası kastla öldürmeden mahkûm etsin ve cezasını da kendisi belirlesin.", "delta": -10,
+          "note": "Yargıtay bu durumda yeni bir mahkûmiyet hükmü kurup ceza tayin etmez; usul ekonomisi bunu değiştirmez. Hükmü bozar; ceza ilk derece mahkemesince belirlenir." },
+        { "text": "Nitelendirme kabul görmezse en azından cezanın TCK m.22/3 uyarınca en üst oranda artırılmasını isteriz.", "delta": -5,
+          "note": "Bu talep, “en azından” diye eklense de bilinçli taksir nitelendirmesini kabul etmek anlamına gelir ve temyiz sebebinizi zayıflatır." }
       ] }
   ],
   "outcomes": [

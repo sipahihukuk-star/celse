@@ -63,18 +63,18 @@
       "lines": [{ "who": "narr", "text": "Dernek yönetim kurulu dava açılmasına karar verdi. Dilekçeyi hazırlıyorsunuz." }],
       "prompt": "Davayı nasıl açacaksınız?",
       "choices": [
-        { "text": "Süre dolmadan Danıştay'da tebliğin 4. bölümünün iptali için dava açın; duruşma ve yürütmenin durdurulması isteyin.", "delta": 20, "set": ["durusma", "yd"],
+        { "text": "Danıştay'da 4. bölümün iptali için dava açın; dilekçede duruşma ve yürütmenin durdurulması isteyin.", "delta": 20, "set": ["durusma", "yd"],
           "law": "2575 s.K. m.24/1, m.27; İYUK m.17, m.27",
           "note": [
             { "text": "Ülke çapında uygulanan düzenleyici işleme karşı dava Danıştay'da açılır; vergi uyuşmazlığına vergi dava dairelerinden biri bakar (2575 s.K. m.24/1, m.27). Duruşma isteği dava dilekçesine yazılır (İYUK m.17)." },
             { "if": "uygulama", "text": " Üyelere gelen ceza yazıları, yürütmenin durdurulması için gereken zararı somutlaştırıyor (İYUK m.27)." }
           ] },
-        { "text": "Vergi uyuşmazlığı olduğu için davayı vergi mahkemesinde açın.", "delta": -10, "set": ["durusma", "gecikme"],
+        { "text": "Vergi uyuşmazlığı olduğu için davayı 2576 s.K. m.6 uyarınca İzmir vergi mahkemesinde açın.", "delta": -10, "set": ["durusma", "gecikme"],
           "reply": [{ "who": "narr", "text": "Vergi mahkemesi görevsizlik kararı verdi. Dosya Danıştay'a gönderildi." }],
-          "note": "Ülke çapında uygulanan düzenleyici işlemlere karşı görevli mahkeme Danıştay'dır. Vergi mahkemesi görevsizlik kararı verip dosyayı gönderir; dava gecikir." },
-        { "text": "Süre otuz gün; dilekçeyi hemen ve kısa yazın, duruşma talebiyle uğraşmayın.", "delta": 0,
+          "note": "Vergi mahkemeleri bireysel vergi uyuşmazlıklarına bakar (2576 s.K. m.6); ülke çapında uygulanan düzenleyici işlemlere karşı görevli mahkeme ise Danıştay'dır. Vergi mahkemesi görevsizlik kararı verip dosyayı gönderir; dava gecikir." },
+        { "text": "Süre otuz gün; dilekçeyi hemen ve kısa yazın, duruşma ve yürütmeyi durdurma talepleriyle zaman kaybetmeyin.", "delta": 0,
           "law": "İYUK m.7, m.17",
-          "note": "Bu davada süre altmış gündür (İYUK m.7). Telaş gereksizdi. Duruşma isteği dilekçeye yazılmadığı için duruşma yapılıp yapılmaması Daire'nin takdirine kaldı (İYUK m.17)." }
+          "note": "Bu davada süre altmış gündür (İYUK m.7). Telaş gereksizdi. Duruşma isteği dilekçeye yazılmadığı için duruşma yapılıp yapılmaması Daire'nin takdirine kaldı (İYUK m.17); yürütmenin durdurulması da istenmedi." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
       "lines": [
@@ -100,27 +100,35 @@
       },
       "pass": { "delta": -20, "note": "Savunma cevapsız kaldı." }
     },
-    { "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [
         { "who": "judge", "text": "Danıştay savcısı, düşüncenizi açıklayın." },
         { "who": "savci", "text": "Düşüncem: Kanunda sayılmayan kişilere tebliğle vergi kesintisi yükümlülüğü getirilmesi kanuni dayanaktan yoksundur. Dava konusu bölümün iptali gerektiği düşünülmektedir.", "if": "icrai || metinArg" },
         { "who": "savci", "text": "Düşüncem: Dava konusu bölüm, mevcut mevzuatı açıklayan bir düzenlemedir. Davanın incelenmeksizin reddi gerektiği düşünülmektedir.", "if": "!icrai && !metinArg" },
         { "who": "judge", "text": "Davacı vekili, son sözünüz?" }
       ],
-      "prompt": "Son sözünüz ne olacak?",
+      "prompt": "Son sözünüzde heyete tebliğin neden hukuka aykırı olduğunu nasıl anlatacaksınız? Kendi cümlelerinizle savunun.",
       "choices": [
-        { "text": "Vergi ve benzeri malî yükümlülükler ancak kanunla konulur. Kesinti yapacakları kanun sayar; tebliğ bu listeyi genişletemez. 4. bölümün iptalini isteriz.", "delta": 20, "set": ["ilke"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["ilke"],
           "law": "Anayasa m.73/3; GVK m.94",
-          "note": "Verginin kanuniliği ilkesi, kimin vergi kesmekle yükümlü olacağını da kapsar. İdare, kanunun saymadığı kişileri tebliğle bu yükün altına sokamaz (Anayasa m.73/3)." },
-        { "text": "Tebliğin emekliler ve öğrenciler için hakkaniyete aykırı bir yük olduğunu anlatın.", "delta": -10,
+          "note": "Son sözünüzü verginin kanuniliği ilkesine dayandırdınız: kimin vergi kesmekle yükümlü olacağını kanun sayar (GVK m.94); idare kanunun saymadığı kişileri tebliğle bu yükün altına sokamaz (Anayasa m.73/3). Talebiniz de doğru biçimde 4. bölümle sınırlıydı." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["ilke"],
+          "law": "Anayasa m.73/3; GVK m.94",
+          "note": "Verginin kanuniliğine değindiniz; heyet bunu yeterli buldu. Tam cevap, Anayasa m.73/3'ü, GVK m.94'ün kesinti yapacakları sayma yoluyla belirlediğini ve tebliğin bu listeyi genişletemeyeceğini birlikte gösterir, iptali de 4. bölümle sınırlar." },
+        { "text": "Zayıf savunma", "delta": -10,
           "law": "İYUK m.2/2",
-          "note": "Daire yalnızca hukuka uygunluğu denetler. Düzenlemenin adil ya da yerinde olup olmadığı yerindelik meselesidir (İYUK m.2/2)." },
-        { "text": "Kesinti oranlarını değiştirme yetkisinin Cumhurbaşkanında olduğunu, Gelir İdaresi'nin bu yetkiyi kullanamayacağını söyleyin.", "delta": 5,
-          "law": "Anayasa m.73/4",
-          "note": "Anayasa, kanunun belirttiği sınırlar içinde oranlarda değişiklik yetkisinin Cumhurbaşkanına verilebileceğini söyler. Ama bu dava oranla ilgili olmadığından argüman asıl sorunu ıskalıyor." },
-        { "text": "Tebliğin tamamının iptalini isteriz.", "delta": -5,
-          "note": "Tebliğin diğer bölümlerine karşı hiçbir hukuka aykırılık ileri sürmediniz. Ölçüsüz bir talep heyette güven kaybettirir." }
-      ] }
+          "note": "Son sözünüz hukuka uygunluk denetimine oturmadı. Düzenlemenin emekliler ve öğrenciler için adil olup olmadığı yerindelik meselesidir; Daire bunu denetlemez (İYUK m.2/2). Doğrusu: vergi ve benzeri malî yükümlülükler ancak kanunla konulur (Anayasa m.73/3); GVK m.94'ün saymadığı kiracılara tebliğle kesinti yükümlülüğü getirilemez." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Verginin kanuniliği ilkesi: vergi, resim, harç ve benzeri malî yükümlülükler ancak kanunla konulur (Anayasa m.73/3); bu ilke kimin vergi kesmekle ve beyanname vermekle yükümlü olacağını da kapsar. (2) GVK m.94 kesinti yapmakla yükümlü olanları sayma yoluyla belirler; ticari faaliyeti olmayan bireysel kiracılar bu listede yoktur. (3) Kanunun altındaki bir düzenleyici işlem olan tebliğ bu listeyi genişletemez; tebliğ kanuni dayanaktan yoksundur. (4) Talep, dava konusu 4. bölümün iptalidir. Kanuniliği, GVK m.94'ü ve tebliğin kanunu aşamayacağını birlikte kuran cevap tam puan alır; yalnız kanunilik ilkesini genel olarak söyleyen cevap orta puan alır. Düzenlemenin hakkaniyete aykırı ya da emekliler için ağır olduğunu anlatan (yerindelik), yalnızca Cumhurbaşkanının oran yetkisine dayanan ya da gerekçesiz olarak tebliğin tamamının iptalini isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["kanunla konulur", "kanunilik", "kanuni dayanak", "yasallık", "kanunla konul", "kanunsuz vergi olmaz"], "weight": 3 },
+        { "terms": ["m.73", "m. 73", "madde 73", "73. madde", "md. 73", "md.73"], "weight": 2 },
+        { "terms": ["m.94", "m. 94", "madde 94", "94. madde", "md. 94", "GVK", "Gelir Vergisi Kanunu"], "weight": 2 },
+        { "terms": ["sayma", "sayılmamış", "sayılmayan", "listede", "tahdidi", "sınırlı sayı"], "weight": 2 },
+        { "terms": ["genişletemez", "aşamaz", "kanunu aşan", "kanuna aykırı", "normlar hiyerarşisi"], "weight": 1 },
+        { "terms": ["4. bölüm", "dördüncü bölüm", "4. bölümün"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, vergi ve benzeri malî yükümlülükler ancak kanunla konulur (Anayasa m.73/3); kimin vergi kesmekle yükümlü olacağı da bu ilkenin kapsamındadır. GVK m.94 kesinti yapacakları tek tek saymış, ticari faaliyeti olmayan bireysel kiracıları bu listeye almamıştır. Bir tebliğ kanunun çizdiği bu listeyi genişletemez. Kanuni dayanaktan yoksun 4. bölümün iptalini talep ederiz." }
   ],
   "outcomes": [
     { "if": "(icrai || metinArg) && ilke", "winner": "p1", "label": "HÜKÜM:", "noCourt": true,

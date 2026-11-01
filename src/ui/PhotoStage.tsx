@@ -123,7 +123,10 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
   const mouth = useMouthFrame(talking && focus !== null && focus !== "narr");
   const [box, setBox] = useState({ w: 0, h: 0 });
   const onLayout = (e: LayoutChangeEvent) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height });
-  const { w: W, h: H } = box;
+  // Geniş ve basık ekranlarda (bilgisayar) sahne en fazla 2,1:1 oranında çizilir ve ortalanır; yoksa arka plan
+  // yukarıdan ve aşağıdan çok kırpılır, hâkimin başı kesilir.
+  const { w: W0, h: H } = box;
+  const W = Math.min(W0, Math.round(H * 2.1));
   const duel = c.mode === "duel";
   const faces = useMemo(() => cast(c, office?.avatar), [c.id, office?.avatar]);
   const room = roomOf(c);
@@ -132,7 +135,8 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
 
   // Arka plan "kapla" ölçeği: sahneyi doldurur, taşan kenarlar kırpılır.
   const s = W && H ? Math.max(W / bg.w, H / bg.h) : 1;
-  const ox = (W - bg.w * s) / 2, oy = (H - bg.h * s) / 2;
+  // Kırpma gerekiyorsa üstten az, alttan çok kırpılır (kürsü ve başlar görünür kalsın; alt kısım zemin).
+  const ox = (W - bg.w * s) / 2, oy = bg.h * s > H ? (H - bg.h * s) * 0.3 : (H - bg.h * s) / 2;
   const X = (x: number) => ox + x * s, Y = (y: number) => oy + y * s;
 
   const figs: Fig[] = [];
@@ -207,7 +211,8 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
   };
 
   return (
-    <View style={styles.stage} onLayout={onLayout}>
+    <View style={styles.outer} onLayout={onLayout}>
+     <View style={[styles.stage, W0 > W && { position: "absolute", top: 0, bottom: 0, left: (W0 - W) / 2, width: W }]}>
       {W > 0 && (
         <>
           <Image source={bg.src} resizeMode="cover" style={{ position: "absolute", left: ox, top: oy, width: bg.w * s, height: bg.h * s }} />
@@ -237,11 +242,13 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
           <View style={styles.vignette} pointerEvents="none" />
         </>
       )}
+     </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  outer: { flex: 1 },
   stage: { flex: 1, overflow: "hidden", backgroundColor: "#111", borderRadius: 10 },
   // Konuşmayan ön plan karakterleri saydamlaşmaz, kararır (arka plan içlerinden görünmesin).
   dim: (Platform.OS === "web" ? { filter: "brightness(0.5)" } : { filter: [{ brightness: 0.5 }] }) as any,

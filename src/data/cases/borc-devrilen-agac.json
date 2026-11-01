@@ -44,16 +44,16 @@
       "lines": [{ "who": "narr", "text": "Dava dilekçesinin hukuki sebepler bölümündesiniz. Kıdemli meslektaşınız kapıdan uzanıyor: “Hangi sorumluluk türüne dayandığını iyi düşün; ispat yükü ona göre değişir.”" }],
       "prompt": "Davayı hangi sorumluluk temeline dayandıracaksınız?",
       "choices": [
-        { "text": "Genel kusur sorumluluğu: Malik, ağacın çürüdüğünü belediye yazısıyla öğrendiği hâlde kesmedi, budatmadı. Zarar bu ihmalden doğdu.", "delta": 20, "set": ["temel"],
+        { "text": "Genel kusur sorumluluğu: Malik, belediyenin uyarısına rağmen çürük ağacı kesmedi, budatmadı.", "delta": 20, "set": ["temel"],
           "law": "TBK m.49",
           "note": "Kusurla ve hukuka aykırı bir fiille başkasına zarar veren, bu zararı gidermekle yükümlüdür (TBK m.49). Burada kusur, uyarıya rağmen bakımın yapılmamasıdır. Belediye yazısı bu ihmali doğrudan ispatlıyor." },
-        { "text": "Yapı malikinin sorumluluğu: Bakım eksikliği nedeniyle malik kusursuz sorumludur.", "delta": 5, "set": ["yapi"],
+        { "text": "Yapı malikinin sorumluluğu: Bahçedeki ağaç taşınmazın bütünleyici parçasıdır; bakım eksikliğinden malik kusursuz sorumludur.", "delta": 5, "set": ["yapi"],
           "law": "TBK m.69",
-          "note": "Cazip ama zayıf bir dayanak. TBK m.69 bina ve diğer yapı eserleri içindir; yapı eseri insan emeğiyle meydana getirilmiş, araziye bağlı bir eserdir. Kendiliğinden yetişen bir ağacın yapı eseri sayılması doktrinde kabul görmez. Hâkim hukuku kendiliğinden uygular (HMK m.33); ama siz kusuru ispata hazırlanmalısınız." },
-        { "text": "Tehlike sorumluluğu: Yaşlı bir ağaç, önemli ölçüde tehlike arz eden bir kaynaktır.", "delta": -10,
+          "note": "Cazip ama zayıf bir dayanak. TBK m.69 bina ve diğer yapı eserleri içindir; yapı eseri insan emeğiyle meydana getirilmiş, araziye bağlı bir eserdir. Kendiliğinden yetişen bir ağacın yapı eseri sayılması doktrinde kabul görmez; taşınmazın bütünleyici parçası olması onu yapı eseri yapmaz. Hâkim hukuku kendiliğinden uygular (HMK m.33); ama siz kusuru ispata hazırlanmalısınız." },
+        { "text": "Tehlike sorumluluğu: Gövdesi çürümüş yaşlı bir çınar, önemli ölçüde tehlike arz eden bir kaynaktır; malik kusursuz sorumludur.", "delta": -10,
           "law": "TBK m.71",
           "note": "TBK m.71, önemli ölçüde tehlike arz eden bir işletmenin işleteni içindir. Bir ev bahçesindeki ağaç işletme değildir. Kusuru ispatlamanız gerekiyor." },
-        { "text": "Belediyeye karşı idari yargıda tam yargı davası açın; ağacı kesmesi gerekiyordu.", "delta": -10,
+        { "text": "Belediyeye karşı idari yargıda tam yargı davası açın; çürük ağacı tespit edip kesmemesi hizmet kusurudur.", "delta": -10,
           "reply": [{ "who": "narr", "text": "Meslektaşınız başını iki yana sallıyor: “Ağaç özel mülkte, belediye malike tebliğ etmiş. Sorumlu malik; dava malike karşı burada açılır.” Dilekçe malike karşı, kusur sorumluluğuna dayanılarak verildi." }],
           "note": "Ağaç özel mülkte ve belediye, malike yazılı bildirimde bulunmuştu. Bakım yükümlülüğü malikindir; dava ona karşı adli yargıda açılır." }
       ] },
@@ -86,50 +86,59 @@
       ],
       "prompt": "Müvekkiliniz kendini kaybetti. Ne yapacaksınız?",
       "choices": [
-        { "text": "Müvekkilinizin koluna dokunup oturtun. “Sayın Hâkim, özür dileriz. Kısa bir ara rica ediyorum; bundan sonra beyanları vekil olarak ben yapacağım.”", "delta": 5,
+        { "text": "Müvekkili oturtun: “Sayın Hâkim, özür dileriz, kısa bir ara rica ediyorum. Beyanları bundan sonra ben yapacağım.”", "delta": 5,
           "reply": [{ "who": "judge", "text": "Beş dakika ara veriyorum. Taraflar salonda sükûneti korusun." }],
           "law": "HMK m.151",
           "note": "Doğru refleks. Hâkim, duruşmanın düzenini bozanı salondan çıkarabilir, gerekirse disiplin hapsi verebilir (HMK m.151). Kısa bir ara istemek müvekkili korur, dosyaya da zarar vermez." },
-        { "text": "“Müvekkilimi anlamak lazım Sayın Hâkim, davalı onu yıllardır tahrik ediyor.”", "delta": -5,
+        { "text": "“Müvekkilimi anlamak lazım Sayın Hâkim; davalı onu yıllardır tahrik ediyor, bu tepkinin de tutanağa geçmesini istiyoruz.”", "delta": -5,
           "reply": [{ "who": "judge", "text": "Davacı vekili, burada komşuluk kavgası dinlemiyorum. Müvekkilinizi uyarın." }],
           "note": "Tartışmayı büyüttünüz. Vekilin işi duygusal tepkiyi hukuka çevirmektir; düzeni korumak da onun görevidir (HMK m.151)." },
-        { "text": "Hiçbir şey yapmayın; olay kendiliğinden yatışsın.", "delta": -5,
+        { "text": "Araya girmeyin; hâkim uyarısını yaptı, müvekkilin öfkesi kendiliğinden yatışır, siz esasa devam edin.", "delta": -5,
           "reply": [{ "who": "judge", "text": "Davacının tutumu tutanağa geçirildi. Bir kez daha olursa salondan çıkarılacak." }],
           "note": "Müvekkilinizi hâkimin yaptırımıyla baş başa bıraktınız. Kısa bir ara istemek her zaman mümkündür." }
       ] },
-    { "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [
         { "who": "opp", "text": "Ara üzerine devam ediyoruz. Sayın Hâkim, davacı aracını fırtına uyarısı olan bir gecede yaşlı bir ağacın dibine park etmiştir. Tazminattan indirim yapılmalıdır." },
         { "who": "judge", "text": "Davacı vekili, müterafik kusur iddiasına ne diyorsunuz?" }
       ],
-      "prompt": "Müterafik kusur iddiasına cevabınız?",
+      "prompt": "Müterafik kusur iddiasına karşı mahkemeye ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
-        { "text": "Araç kamuya açık yolda, park yasağı olmayan bir yerde duruyordu. Belediye yazısı yalnızca malike tebliğ edildi; ağacın içinin çürük olduğunu davacının bilmesi beklenemezdi. Zararın doğmasında davacının etkisi yoktur.", "delta": 15, "set": ["muterafikred"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 15, "set": ["muterafikred"],
           "law": "TBK m.52",
-          "note": "Hâkim, zarar görenin zararın doğmasında ya da artmasında etkili olduğu hâllerde tazminatı indirebilir (TBK m.52). Burada davacı, kendisine bildirilmemiş ve dışarıdan görünmeyen bir tehlikeyi bilemezdi." },
-        { "text": "Müterafik kusur hâkimin takdirindedir; makul bir indirimi kabul ediyoruz.", "delta": -10, "set": ["indirimkabul"],
+          "note": "İndirim talebini doğru karşıladınız. Hâkim, zarar görenin zararın doğmasında ya da artmasında etkili olduğu hâllerde tazminatı indirebilir (TBK m.52). Araç park yasağı olmayan bir yerdeydi; belediye yazısı yalnızca malike tebliğ edilmişti ve davacı, kendisine bildirilmemiş, dışarıdan görünmeyen bir tehlikeyi bilemezdi." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 8, "set": ["muterafikred"],
           "law": "TBK m.52",
-          "note": "Dayanağı olmayan bir indirimi kendiniz kabul ettiniz. Müvekkilin zararının bir kısmı bu beyanla karşılıksız kaldı." },
-        { "text": "Müterafik kusur yalnızca bedensel zararlarda uygulanır, eşya zararında uygulanmaz.", "delta": -10,
+          "note": "Davacının zararın doğmasında etkisi olmadığını söylediniz; mahkeme indirimi reddetti. Tam savunma, aracın park yasağı olmayan bir yerde durduğunu ve çürüklüğün yalnızca malike bildirildiğini, dışarıdan görünmediğini de gösterir (TBK m.52)." },
+        { "text": "Zayıf savunma", "delta": -10, "set": ["indirimkabul"],
           "law": "TBK m.52",
-          "note": "Hatalı. TBK m.52 her tür zarar için uygulanır. Doğru cevap, davacının zararın doğmasında bir etkisinin bulunmadığıydı." }
-      ] },
+          "note": "İndirim talebini çürütemediniz. TBK m.52 her tür zarar için uygulanır; ama indirim, zarar görenin zararın doğmasında ya da artmasında etkili olmasını gerektirir. Araç park yasağı olmayan bir yerdeydi ve davacı, yalnızca malike bildirilen, dışarıdan görünmeyen bir tehlikeyi bilemezdi." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) TBK m.52 uyarınca tazminat ancak zarar gören zararın doğmasında ya da artmasında etkili olmuşsa indirilebilir. (2) Araç kamuya açık yolda, park yasağı olmayan bir yerde duruyordu; kuvvetli rüzgâr uyarısı olağan bir kış gecesine ilişkindi. (3) Ağacın çürük olduğunu bildiren belediye yazısı yalnızca malike tebliğ edildi; çürüklük gövdenin içindeydi ve dışarıdan görünmüyordu, davacının bunu bilmesi beklenemezdi. (4) Bu nedenle davacının müterafik kusuru yoktur, indirim yapılmamalıdır. Madde numarasıyla birlikte hem park yerinin hukuka uygunluğunu hem de tehlikenin davacıca bilinemeyeceğini göstermek tam puan için gerekir; yalnızca 'müvekkilin kusuru yok' demek orta puan alır. İndirimi kabul eden ya da m.52'nin eşya zararında uygulanmadığını ileri süren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["m.52", "m. 52", "madde 52", "52. madde", "md. 52", "md.52"], "weight": 2 },
+        { "terms": ["park yasağı", "yasak olmayan", "yasak bulunmayan", "kamuya açık", "kurallara uygun", "usulüne uygun park"], "weight": 2 },
+        { "terms": ["bilmesi", "bilemez", "bilmiyordu", "bilgisi yok", "görünmüyor", "görünmeyen", "fark edeme", "öngörem"], "weight": 2 },
+        { "terms": ["malike tebliğ", "yalnızca malike", "sadece malike", "davacıya bildirilme", "davacıya tebliğ"], "weight": 1 },
+        { "terms": ["indirim yapılma", "indirim yapılamaz", "indirime yer", "etkisi yok", "etkili olmadı", "kusuru yok", "kusuru bulunma"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, TBK m.52 uyarınca tazminat ancak zarar gören zararın doğmasında ya da artmasında etkili olmuşsa indirilebilir. Müvekkilin aracı kamuya açık yolda, park yasağı olmayan bir yerde duruyordu. Ağacın çürüdüğünü bildiren belediye yazısı yalnızca davalı malike tebliğ edilmişti ve çürüklük dışarıdan görünmüyordu; müvekkilin bu tehlikeyi bilmesi beklenemezdi. Müterafik kusur yoktur, indirim yapılmamalıdır." },
     { "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Bilirkişi raporu geldi. Davacı vekili, talep kalemlerinizi son kez açıklayın." }],
       "prompt": "Hangi zarar kalemlerini isteyeceksiniz?",
       "choices": [
-        { "text": "Onarım bedeli 145.000 TL, onarıma rağmen kalan değer kaybı 60.000 TL ve faturalı ikame araç gideri 18.000 TL; olay tarihinden itibaren yasal faiziyle.", "delta": 20, "set": ["tam"],
+        { "text": "Onarım 145.000 TL, değer kaybı 60.000 TL ve ikame araç 18.000 TL; olay tarihinden itibaren yasal faiziyle.", "delta": 20, "set": ["tam"],
           "law": "TBK m.49, m.51",
           "note": "Eksiksiz bir talep. Onarım bedeli fiilî zarardır; onarıma rağmen kalan piyasa değeri kaybı da gerçek zarardır; aracın kullanılamadığı süredeki belgeli ikame araç gideri de tazmin edilir. Haksız fiilde borçlu fiil tarihinde temerrüde düşer (TBK m.117/2)." },
-        { "text": "Aracın 900.000 TL olan piyasa değerinin tamamı.", "delta": -10, "set": ["tambedel"],
+        { "text": "Aracın 900.000 TL piyasa değerinin tamamı; onarılsa da tavanı çökmüş bir araç eski değerini bulmaz.", "delta": -10, "set": ["tambedel"],
           "law": "TBK m.49",
           "note": "Araç pert değil, onarılabilir. Tazminat gerçek zararla sınırlıdır; aracın tam değerini istemek, fazlası için reddi ve karşı taraf vekâlet ücretini müvekkile yükler." },
-        { "text": "Onarım bedeli ve değer kaybı, ayrıca yaşanan üzüntü için 100.000 TL manevi tazminat.", "delta": -10, "set": ["manevi"],
+        { "text": "Onarım bedeli ve değer kaybı; ayrıca yaşanan üzüntü ve korku için TBK m.56 uyarınca 100.000 TL manevi tazminat.", "delta": -10, "set": ["manevi"],
           "law": "TBK m.56, m.58",
           "note": "Manevi tazminat bedensel bütünlüğün ya da kişilik hakkının zedelenmesi hâlinde istenir (TBK m.56, m.58). Yalnızca bir eşyanın zarar görmesi manevi tazminat gerektirmez; bu kalem reddedilir. İkame araç gideri de unutuldu." },
-        { "text": "Yalnızca onarım bedeli 145.000 TL.", "delta": 5, "set": ["eksik"],
+        { "text": "Yalnızca onarım bedeli 145.000 TL; değer kaybı bilirkişi tahminine dayanıyor, riske girmeyelim.", "delta": 5, "set": ["eksik"],
           "law": "HMK m.26",
-          "note": "Doğru ama eksik. Hâkim talepten fazlasına karar veremez (HMK m.26). Değer kaybı ve ikame araç gideri de gerçek zarardı; müvekkil bunları kaybetti." }
+          "note": "Doğru ama eksik. Hâkim talepten fazlasına karar veremez (HMK m.26). Bilirkişi raporuyla belirlenen değer kaybı ve belgeli ikame araç gideri de gerçek zarardı; müvekkil bunları kaybetti." }
       ] }
   ],
   "outcomes": [
@@ -148,7 +157,7 @@
       "summary": [
         { "if": "kusur", "text": "Malikin ihmali belediye yazısıyla ispatlandı." },
         { "if": "!kusur", "text": "Malikin kusuru, ağacın görünür çürüklüğü ve olağan rüzgâr hızından çıkarıldı; belediye yazısı sunulsaydı ispat çok daha sağlam olurdu." },
-        { "if": "indirimkabul", "text": " Kendi kabulünüz üzerine tazminattan müterafik kusur indirimi yapıldı." },
+        { "if": "indirimkabul", "text": " Müterafik kusur iddiası etkili biçimde karşılanmadığından tazminattan indirim yapıldı." },
         { "if": "tambedel", "text": " Aracın tam değeri istendi; pert olmayan araçta gerçek zarar onarım bedeli ve değer kaybıdır. Fazlası reddedildi, reddedilen kısım için vekâlet ücreti müvekkile yüklendi." },
         { "if": "manevi", "text": " Eşya zararı için istenen manevi tazminat reddedildi; ikame araç gideri de istenmemişti." },
         { "if": "eksik", "text": " Yalnızca onarım bedeli istendiğinden değer kaybı ve ikame araç gideri hükme girmedi (HMK m.26)." }

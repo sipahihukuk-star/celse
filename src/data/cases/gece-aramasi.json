@@ -125,7 +125,7 @@
       "prompt": "Kolluk ifadesine ne diyeceksiniz?",
       "choices": [
         {
-          "text": "Müdafi olmadan kollukta alınan ifade, sanık hâkim önünde doğrulamadıkça hükme esas alınamaz. Sanık doğrulamıyor.",
+          "text": "Müdafisiz kolluk ifadesi, hâkim önünde doğrulanmadıkça hükme esas alınamaz; sanık doğrulamıyor.",
           "delta": 20,
           "set": [
             "ifade"
@@ -140,19 +140,19 @@
           ]
         },
         {
-          "text": "Sanığın susma hakkını kullanacağını bildir, başka beyanda bulunma.",
+          "text": "Sanığın susma hakkını kullanacağını bildir; kolluk ifadesi hakkında da başka beyanda bulunma.",
           "delta": -5,
           "law": "CMK m.147",
           "note": "Susma hakkı vardır (CMK m.147), ama ikrarın neden hükme esas alınamayacağını söylemediniz. Sanık zaten konuşmuş ve ifadeyi reddetmişti."
         },
         {
-          "text": "İfadenin işkenceyle alındığını ileri sür.",
+          "text": "İfadenin işkenceyle alındığını ileri sür; CMK m.148/1'deki yasak usulle alınan ifade delil olamaz.",
           "delta": -10,
           "law": "CMK m.148",
           "note": "Müvekkil işkence anlatmadı. Dayanaksız, ağır bir iddia güvenilirliğinizi zedeler. Doğru dayanak, müdafisiz alınan ifadenin doğrulanmamasıydı."
         },
         {
-          "text": "Müvekkile etkin pişmanlıktan yararlanmasını öner.",
+          "text": "Müvekkile etkin pişmanlıktan yararlanmasını öner; TCK m.168 indirimi cezayı belirgin biçimde azaltır.",
           "delta": -20,
           "law": "TCK m.168",
           "note": "Müvekkil suçu inkâr ediyor. Etkin pişmanlık suçun işlendiğini kabul etmeyi gerektirir; müvekkilin iradesine aykırı bir yol önerdiniz."
@@ -172,16 +172,17 @@
           "text": "Müdafi, arama tutanağı hakkında diyeceğiniz?"
         }
       ],
-      "prompt": "Telefon delilini nasıl karşılayacaksınız?",
+      "prompt": "Arama ve el koyma hakkında mahkemeye ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
         {
-          "text": "Konutta arama hâkim kararı ya da gecikmesinde sakınca varsa savcının yazılı emriyle yapılabilir. İkisi de yok; delil hukuka aykırıdır, hükme esas alınamaz.",
+          "text": "Güçlü itiraz",
+          "min": 70,
           "delta": 20,
           "set": [
             "arama"
           ],
           "law": "CMK m.119, m.217/2 · AY m.38/6",
-          "note": "Konutta arama ancak hâkim kararı veya gecikmesinde sakınca bulunan hâllerde Cumhuriyet savcısının yazılı emriyle yapılabilir (CMK m.119). Kanuna aykırı elde edilen bulgular delil olarak kabul edilemez (AY m.38/6, CMK m.217/2).",
+          "note": "Aramanın dayanaksızlığını ve sonucunu doğru gösterdiniz. Konutta arama ancak hâkim kararı veya gecikmesinde sakınca bulunan hâllerde Cumhuriyet savcısının yazılı emriyle yapılabilir (CMK m.119). Kanuna aykırı elde edilen bulgular delil olarak kabul edilemez (AY m.38/6, CMK m.217/2).",
           "reply": [
             {
               "who": "judge",
@@ -190,25 +191,51 @@
           ]
         },
         {
-          "text": "Arama gece yapılmıştır; konutta gece araması yasaktır.",
+          "text": "Yeterli itiraz",
+          "min": 40,
           "delta": 10,
           "set": [
             "arama"
           ],
-          "law": "CMK m.118",
-          "note": "Doğru bir tespit: Konutta geceleyin arama kural olarak yapılamaz (CMK m.118). Ama daha güçlü sorunu atladınız: Aramanın ne hâkim kararı ne de savcı emri var (CMK m.119)."
+          "law": "CMK m.118, m.119",
+          "note": "Aramanın hukuka aykırılığını ileri sürdünüz; mahkeme dayanağı sorguladı. Tam itiraz, aramanın ne hâkim kararına ne savcının yazılı emrine dayandığını (CMK m.119), gece vakti yapıldığını (m.118) ve bu yüzden telefonun hukuka aykırı delil olarak hükme esas alınamayacağını (AY m.38/6, CMK m.217/2) birlikte gösterir."
         },
         {
-          "text": "Telefonun IMEI numarasının farklı olduğunu ileri sür.",
-          "delta": -10,
-          "note": "Dosyadaki tutanak aksini gösteriyor. Belgeyle çelişen bir itiraz güven kaybettirir."
-        },
-        {
-          "text": "Telefonun ev arkadaşına ait olabileceğini söyle.",
+          "text": "Zayıf itiraz",
           "delta": 0,
-          "note": "Makul bir şüphe yaratır, ama aramanın hukuka aykırılığını ileri sürmediğiniz için telefon dosyada delil olarak kaldı."
+          "law": "CMK m.119, m.217/2",
+          "note": "Telefonun kime ait olduğunu tartışmak makul bir şüphe yaratabilir, ama aramanın hukuka aykırılığını ileri sürmediğiniz için telefon dosyada delil olarak kaldı. Konutta arama hâkim kararı ya da gecikmesinde sakınca varsa savcının yazılı emriyle yapılır (CMK m.119); ikisi de yoktu, bu yüzden delil hükme esas alınamazdı (CMK m.217/2)."
         }
-      ]
+      ],
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Konutta arama ancak hâkim kararıyla ya da gecikmesinde sakınca bulunan hâllerde Cumhuriyet savcısının yazılı emriyle yapılabilir (CMK m.119); tutanakta dayanak yalnızca “ihbar” olarak gösterilmiş, ne karar ne yazılı emir var. (2) Arama ayrıca gece 01.30'da yapılmıştır; konutta gece araması kural olarak yasaktır (CMK m.118) ve suçüstü gibi bir istisna yoktur. (3) Hukuka aykırı yolla elde edilen telefon delil olarak kullanılamaz, hükme esas alınamaz (AY m.38/6, CMK m.217/2, m.206/2-a). Kararsız/emirsiz aramayı ve delil yasağını madde numarasıyla birlikte söyleyen cevap tam puan alır; yalnız gece aramasını ya da yalnız aramanın kararsızlığını söyleyip sonucunu (delil yasağı) eksik bırakan cevap orta puan alır. Aramanın hukuka aykırılığına hiç değinmeden telefonun ev arkadaşına ait olabileceğini ya da IMEI numarasının farklı olduğunu ileri süren cevap düşük puan alır.",
+      "keywords": [
+        {
+          "terms": ["hâkim kararı", "hakim kararı", "mahkeme kararı", "karar yok", "kararsız"],
+          "weight": 2
+        },
+        {
+          "terms": ["yazılı emir", "yazılı emri", "savcı", "savcının"],
+          "weight": 2
+        },
+        {
+          "terms": ["hukuka aykırı", "kanuna aykırı", "yasak delil", "delil yasağı", "hükme esas alınamaz"],
+          "weight": 3
+        },
+        {
+          "terms": ["m.119", "m. 119", "madde 119", "119. madde", "md. 119", "md.119"],
+          "weight": 1
+        },
+        {
+          "terms": ["gece", "01.30"],
+          "weight": 1
+        },
+        {
+          "terms": ["m.217", "m. 217", "217. madde", "madde 217", "38/6", "m.206", "m. 206"],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Hâkim, konutta arama ancak hâkim kararıyla ya da gecikmesinde sakınca bulunan hâllerde Cumhuriyet savcısının yazılı emriyle yapılabilir (CMK m.119). Arama tutanağında dayanak yalnızca “ihbar” olarak yazılmış; ne karar ne yazılı emir var. Üstelik arama gece 01.30'da yapılmıştır (CMK m.118). Bu aramayla ele geçirilen telefon hukuka aykırı elde edilmiş bir delildir ve Anayasa m.38/6 ile CMK m.217/2 uyarınca hükme esas alınamaz."
     },
     {
       "side": "p1",
@@ -230,7 +257,7 @@
       "prompt": "Talebiniz ne olacak?",
       "choices": [
         {
-          "text": "Hukuka uygun delil yoktur, kamera kaydı yalnızca sanığın kafede oturduğunu gösteriyor. Suçun sanık tarafından işlendiği sabit olmadığından beraat talep ederiz.",
+          "text": "Hukuka uygun delil kalmadı; kamera yalnızca kafede oturduğunu gösteriyor. Suç sabit olmadığından beraat isteriz.",
           "delta": 20,
           "set": [
             "talep"
@@ -245,19 +272,19 @@
           ]
         },
         {
-          "text": "Yalnızca hükmün açıklanmasının geri bırakılmasını talep et.",
+          "text": "Sanık sabıkasız bir öğrenci; geleceği için yalnızca hükmün açıklanmasının geri bırakılmasını talep et.",
           "delta": -10,
           "law": "CMK m.231",
           "note": "HAGB bir mahkûmiyet hükmünün sonucudur (CMK m.231). Asıl talebiniz beraat olmalıydı; HAGB ancak ikincil talep olarak ve sanığın onayıyla dile getirilebilir."
         },
         {
-          "text": "Davanın düşmesine karar verilmesini talep et.",
+          "text": "Arama hukuka aykırı olduğundan kovuşturma şartı ortadan kalktı; CMK m.223 uyarınca davanın düşmesine karar verilmesini iste.",
           "delta": -15,
           "law": "CMK m.223",
           "note": "Düşme kararı sanığın ölümü, şikâyetten vazgeçme, zamanaşımı gibi hâllerde verilir. Bu dosyada düşme sebebi yok."
         },
         {
-          "text": "Cezanın alt sınırdan verilmesini talep et.",
+          "text": "Cezanın alt sınırdan verilmesini ve iyi hâl nedeniyle TCK m.62 indirimi uygulanmasını talep et.",
           "delta": -10,
           "note": "Bu talep suçun işlendiğini kabul eder gibi okunur. Delil durumu beraat için elverişliydi."
         }

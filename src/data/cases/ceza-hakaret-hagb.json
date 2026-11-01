@@ -68,16 +68,16 @@
       ],
       "prompt": "Müvekkile ne söyleyeceksiniz?",
       "choices": [
-        { "text": "Şikâyet süresi fiil ve failin öğrenilmesinden itibaren altı aydır; 12 Eylül'de doldu. Ama karşılıklı hakarette ceza verilmemesi için onun da yargılanması gerekmez. İspata da dayanmayalım: “şerefsiz” sövmedir, ispat edilemez; “hırsız” isnadının ispatı için de kamu yararı ya da Orhan Bey'in rızası gerekir.", "delta": 20, "set": ["strateji"],
+        { "text": "Şikâyet süreniz doldu ama gerekmez: karşılıklılık için onun yargılanması şart değil. “Şerefsiz” sövmedir; ispatı olmaz.", "delta": 20, "set": ["strateji"],
           "law": "TCK m.73/1 · m.127/1 · m.129/3",
           "note": "Doğru. Müvekkilin şikâyet hakkı süre geçtiği için düştü (TCK m.73/1). TCK m.129/3 için karşı tarafın da sanık olması gerekmez. İspat hakkı yalnızca somut, suç oluşturan fiil isnadında söz konusudur ve kural olarak kamu yararı ya da şikâyetçinin rızasına bağlıdır (TCK m.127/1). Sövmenin ispatı olmaz." },
-        { "text": "Hemen savcılığa şikâyet dilekçesi verelim, dosyaların birleştirilmesini isteriz.", "delta": -10,
+        { "text": "Hemen savcılığa şikâyet dilekçesi verelim; iki dosya birleşirse karşılıklılık kendiliğinden ortaya çıkar.", "delta": -10,
           "law": "TCK m.73/1",
           "note": "Şikâyet hakkı altı ay içinde kullanılmadığı için düştü; dilekçe sonuç doğurmaz. Asıl yararlı olan, karşılıklılığı kendi dosyanızda ileri sürmek." },
-        { "text": "İspat hakkını kullanalım; aidat hırsızlığını tanıklarla ispat edersek ceza almazsınız.", "delta": -15, "set": ["ispat"],
+        { "text": "İspat hakkını kullanalım: aidat usulsüzlüğünü site sakinlerini tanık göstererek ispat edersek TCK m.127 uyarınca ceza almazsınız.", "delta": -15, "set": ["ispat"],
           "law": "TCK m.127/1",
           "note": "Elinizde ispat edecek bir şey yok, denetim raporu da aksini gösteriyor. Üstelik “şerefsiz” sövmesi için ispat hiç mümkün değil ve ispat istemi kamu yararına ya da şikâyetçinin rızasına bağlı." },
-        { "text": "Duruşmada sözleri tamamen inkâr edin: “Öyle bir şey demedim.”", "delta": -15, "set": ["inkar"],
+        { "text": "Duruşmada sözleri inkâr edin: “Öyle bir şey demedim.” İspat yükü katılanda, şüpheden sanık yararlanır.", "delta": -15, "set": ["inkar"],
           "note": "Müvekkile gerçeğe aykırı beyan önermek meslek kurallarıyla bağdaşmaz. Sözler tutanakta ve tanık önünde söylendi; inkâr güvenilirliği yıkar, karşılıklılık savunmasını da zayıflatır." }
       ]
     },
@@ -124,13 +124,13 @@
       ],
       "prompt": "Ne diyeceksiniz?",
       "choices": [
-        { "text": "Asıl talebimiz TCK m.129 uyarınca ceza verilmemesidir. İkincil olarak: 1 Haziran 2024'ten sonra verilen kararlarda HAGB için sanığın kabul beyanı aranmıyor; ikrar hiçbir zaman şart olmadı. Sanık sabıkasızdır; koşullar oluşmuştur.", "delta": 20, "set": ["hagbBilgi"],
+        { "text": "Asıl talebimiz m.129. İkincil olarak HAGB: 2024'ten beri sanığın kabulü aranmıyor, ikrar ise hiç şart olmadı.", "delta": 20, "set": ["hagbBilgi"],
           "law": "CMK m.231/5-6 (7499 s.K. ile değişik)",
           "note": "Doğru. 7499 sayılı Kanunla CMK m.231/6'daki “sanığın kabul etmemesi hâlinde HAGB verilmez” kuralı kaldırıldı; 1 Haziran 2024 ve sonrasında verilen kararlarda kabul şartı aranmaz. HAGB için suçun ikrarı da gerekmez." },
-        { "text": "Sanık HAGB'yi kabul etmiyor; HAGB suçu kabul etmek demektir.", "delta": -15, "set": ["hagbRet"],
+        { "text": "Sanık HAGB'yi kabul etmiyor; HAGB suçu kabul etmek demektir, öğretmen olarak bunu taşıyamaz.", "delta": -15, "set": ["hagbRet"],
           "law": "CMK m.231",
           "note": "İki hata. HAGB suç ikrarı değildir. Ayrıca 2024 değişikliğinden sonra sanığın kabulü aranmıyor; ret beyanınız mahkemeyi bağlamaz, yalnızca güven kaybettirir." },
-        { "text": "Sanık HAGB'yi kabul ediyor. Başka talebimiz yoktur.", "delta": -5, "set": ["hagbYalniz"],
+        { "text": "Sanık HAGB'yi kabul ediyor; m.231/6 uyarınca bu beyanın tutanağa geçirilmesini isteriz. Başka talebimiz yoktur.", "delta": -5, "set": ["hagbYalniz"],
           "law": "CMK m.231/6",
           "note": "Kabul beyanı artık şart değil; üstelik asıl talebiniz olan TCK m.129'u bırakmış gibi oldunuz. HAGB ancak ikincil talep olmalıydı." }
       ]
@@ -143,20 +143,27 @@
         { "who": "pros", "text": "Sanığın TCK m.125/1 uyarınca cezalandırılmasını talep ederim.", "if": "!tutanakItiraz && !tanikItiraz" },
         { "who": "judge", "text": "Müdafi, esas hakkındaki savunmanız?" }
       ],
-      "prompt": "Savunmanızı nasıl kuracaksınız?",
+      "prompt": "Esas hakkındaki savunmanızda mahkemeye ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Hakaret karşılıklıdır: önce katılan sanığa herkesin önünde “cahil kadın, sen bu sitenin belasısın” demiş, sanığın sözleri buna anlık bir tepkidir; tutanak ve tanık bunu gösteriyor. (2) TCK m.129/3 uyarınca karşılıklı hakarette taraflardan birine ya da ikisine ceza vermekten vazgeçilebilir; haksız bir fiile tepki olarak işlenen hakarette de aynı imkân vardır (m.129/1). (3) Talep, yalnız indirim değil, ceza vermekten vazgeçilerek ceza verilmesine yer olmadığına karar verilmesidir (CMK m.223/4). Karşılıklılığı ve m.129/3'ü gösterip cezasızlık isteyen cevap tam puan alır; karşılıklılığı ileri sürüp yalnız indirim isteyen ya da madde ve talebi eksik bırakan cevap orta puan alır. İsnadın doğruluğuna (m.127) dayanan, kasten yaralamaya tepkiyi düzenleyen m.129/2'yi ya da genel haksız tahrik hükmünü (m.29) esas alan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["karşılıklı"], "weight": 3 },
+        { "terms": ["m.129", "m. 129", "madde 129", "129. madde", "md. 129", "md.129", "129/3"], "weight": 2 },
+        { "terms": ["ceza vermekten vazgeç", "ceza verilmesine yer olmadığı", "ceza verilmemesi", "ceza verilmesin", "cezasız"], "weight": 2 },
+        { "terms": ["tepki", "önce katılan", "önce o", "ilk hakaret", "cahil kadın"], "weight": 1 },
+        { "terms": ["tutanak", "tanık", "divan başkanı"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, toplantı tutanağı ve divan başkanının beyanı, önce katılanın müvekkile herkesin önünde “cahil kadın, sen bu sitenin belasısın” dediğini gösteriyor; müvekkilin sözleri buna anlık bir tepkidir. Hakaret karşılıklı işlendiğinden TCK m.129/3 uyarınca, haksız fiile tepki olduğundan da m.129/1 uyarınca ceza vermekten vazgeçilebilir. Müvekkil hakkında indirim değil, ceza verilmesine yer olmadığına karar verilmesini talep ederiz.",
       "choices": [
-        { "text": "Hakaret karşılıklıdır ve sanığın sözleri katılanın önceki hakaretine anlık bir tepkidir. TCK m.129/3 uyarınca ceza vermekten vazgeçilmesini ve ceza verilmesine yer olmadığına karar verilmesini talep ederiz.", "delta": 25, "set": ["esas129"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 25, "set": ["esas129"],
           "law": "TCK m.129/1, m.129/3 · CMK m.223/4-c",
-          "note": "Doğru. Karşılıklı hakarette mahkeme taraflardan birine ya da ikisine ceza vermekten vazgeçebilir (TCK m.129/3); haksız bir fiile tepki olarak işlenen hakarette de aynı imkân var (m.129/1). Karar türü, ceza verilmesine yer olmadığıdır (CMK m.223/4-c)." },
-        { "text": "İsnat doğrudur; TCK m.127 uyarınca beraat talep ederiz.", "delta": -15,
-          "law": "TCK m.127/1",
-          "note": "Dosyada isnadı doğrulayan bir delil yok, denetim raporu tam tersini söylüyor. “Şerefsiz” sövmesi için ispat zaten mümkün değil." },
-        { "text": "Katılan sanığa saldırdığı için TCK m.129/2 uyarınca ceza verilmemelidir.", "delta": -10,
-          "law": "TCK m.129/2",
-          "note": "m.129/2, kasten yaralamaya tepki olarak işlenen hakaret içindir. Olayda yaralama yok; doğru fıkra m.129/3 (ve m.129/1)." },
-        { "text": "Haksız tahrik nedeniyle TCK m.29 uyarınca indirim yapılmasını talep ederiz.", "delta": -5,
-          "law": "TCK m.29 · m.129",
-          "note": "Hakarette haksız fiile tepki ve karşılıklılık TCK m.129'da özel olarak düzenlenmiştir; genel hüküm olan m.29 yerine m.129 uygulanır. Üstelik m.129 cezasızlık imkânı da tanır." }
+          "note": "Savunmayı doğru maddeye oturttunuz. Karşılıklı hakarette mahkeme taraflardan birine ya da ikisine ceza vermekten vazgeçebilir (TCK m.129/3); haksız bir fiile tepki olarak işlenen hakarette de aynı imkân var (m.129/1). Karar türü, ceza verilmesine yer olmadığıdır (CMK m.223/4-c)." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 12, "set": ["esas129"],
+          "law": "TCK m.129/1, m.129/3",
+          "note": "Karşılıklılığı ileri sürdünüz; mahkeme bunu değerlendirmeye aldı. Tam savunma, sözlerin katılanın önceki hakaretine tepki olduğunu delille gösterir ve yalnız indirim değil, TCK m.129/3 (ve m.129/1) uyarınca ceza vermekten vazgeçilerek ceza verilmesine yer olmadığına karar verilmesini ister." },
+        { "text": "Zayıf savunma", "delta": -5,
+          "law": "TCK m.129 · m.29 · m.127",
+          "note": "Savunmayı doğru kuruma dayandıramadınız. Hakarette haksız fiile tepki ve karşılıklılık TCK m.129'da özel olarak düzenlenmiştir; genel hüküm olan m.29 yerine m.129 uygulanır ve m.129/3 cezasızlık imkânı da tanır. İsnadın ispatına (m.127) dayanmak da yararsızdı: denetim raporu aksini gösteriyor, “şerefsiz” sövmesinin ispatı da olmaz." }
       ]
     },
     {
@@ -168,13 +175,13 @@
       ],
       "prompt": "Kanun yolu hakkında ne yapacaksınız?",
       "choices": [
-        { "text": "Gerekçeli karar tebliğ edildikten sonra iki hafta içinde istinaf başvurusu yapacağız. 2024 değişikliğinden sonra HAGB kararlarına karşı yol itiraz değil, istinaftır.", "delta": 20, "set": ["istinaf"],
+        { "text": "Gerekçeli kararın tebliğinden itibaren iki hafta içinde istinafa gideceğiz; 2024'ten beri HAGB'ye karşı yol budur.", "delta": 20, "set": ["istinaf"],
           "law": "CMK m.231/12 · m.273/1",
           "note": "Doğru. 7499 sayılı Kanunla HAGB kararları istinafa tabi kılındı (CMK m.231/12); 1 Haziran 2024 ve sonrasında verilen kararlarda itiraz yolu uygulanmaz. İstinaf süresi, hükmün gerekçesiyle birlikte tebliğinden itibaren iki haftadır (CMK m.273/1)." },
-        { "text": "Yedi gün içinde mahkemeye itiraz dilekçesi verelim.", "delta": 5, "set": ["istinaf", "eskiYol"],
+        { "text": "Yedi gün içinde mahkemeye itiraz dilekçesi verelim; HAGB kararlarına karşı yol CMK m.231/12'deki itirazdır.", "delta": 5, "set": ["istinaf", "eskiYol"],
           "law": "CMK m.264",
           "note": "Eski sisteme göre davrandınız: 2024'ten bu yana HAGB kararlarına karşı yol istinaf. Şansınız, kanun yolunun adlandırılmasındaki yanılmanın hak kaybettirmemesi (CMK m.264); dilekçeniz süre içinde olduğu için istinaf başvurusu sayıldı." },
-        { "text": "HAGB sicile işlemez; kanun yoluna gitmeye gerek yok.", "delta": -10, "set": ["kabullenme"],
+        { "text": "HAGB sicile işlemez, beş yıl sonra hüküm ortadan kalkar; kanun yoluna gitmeye gerek yok.", "delta": -10, "set": ["kabullenme"],
           "note": "Müvekkil karşılıklılık nedeniyle cezasızlık bekliyordu. HAGB beş yıllık denetim süresi demek; bu sürede kasıtlı yeni bir suç işlenirse hüküm açıklanır. İstinafta TCK m.129 değerlendirmesini isteyebilirdiniz." },
         { "text": "Beş yıllık denetim süresi bitsin; o zaman itiraz eder, her şeyi birlikte tartışırız.", "delta": -25,
           "law": "CMK m.273/1",

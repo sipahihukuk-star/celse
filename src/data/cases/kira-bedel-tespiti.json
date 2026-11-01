@@ -199,7 +199,7 @@
       "prompt": "Nasıl ilerleyeceksiniz?",
       "choices": [
         {
-          "text": "Hemen noter kanalıyla kiracıya yeni dönemde kiranın artırılacağını yazılı bildir. Ardından arabulucuya başvur; anlaşma olmazsa davayı yeni dönem bitmeden aç.",
+          "text": "Hemen noterle kiracıya artışı yazılı bildir; ardından arabulucuya başvur, anlaşma olmazsa davayı yeni dönem bitmeden aç.",
           "delta": 20,
           "set": [
             "ihtar",
@@ -215,17 +215,17 @@
           ]
         },
         {
-          "text": "Vakit kaybetmeyelim: bugün doğrudan sulh hukuk mahkemesinde tespit davası açalım.",
+          "text": "Vakit kaybetmeyelim: otuz günlük sınırı kaçırmamak için bugün doğrudan sulh hukuk mahkemesinde tespit davası açalım.",
           "delta": -25,
           "law": "HUAK m.18/B · m.18/A",
-          "note": "Kira ilişkisinden doğan uyuşmazlıklarda, ilamsız icra yoluyla tahliye hariç, dava açmadan önce arabulucuya başvurmak dava şartıdır. Başvurmadan açılan dava hiçbir işlem yapılmadan usulden reddedilir.",
+          "note": "Kira ilişkisinden doğan uyuşmazlıklarda, ilamsız icra yoluyla tahliye hariç, dava açmadan önce arabulucuya başvurmak dava şartıdır. Başvurmadan açılan dava hiçbir işlem yapılmadan usulden reddedilir; acele, süreyi değil davayı kaybettirir.",
           "fatal": {
             "hukum": "Davanın dava şartı yokluğu nedeniyle usulden REDDİNE,",
             "summary": "Kira uyuşmazlıklarında dava açmadan önce arabulucuya başvurmak dava şartıdır (HUAK m.18/B). Ret kararı geldiğinde yeni dönemden otuz gün öncesi çoktan geçmişti ve kiracıya yazılı bildirim de yapılmamıştı. Yeni açılacak davada belirlenecek kira ancak bir sonraki kira yılından itibaren uygulanabilecek (TBK m.345/2)."
           }
         },
         {
-          "text": "Acele yok; dava her zaman açılabilir. Haziran'da arabulucuya gideriz, sonra davayı açarız.",
+          "text": "Acele yok; kira tespit davası her zaman açılabilir (TBK m.345/1). Haziran'da arabulucuya gideriz, anlaşma olmazsa davayı açarız.",
           "delta": -15,
           "set": [
             "arabulucu",
@@ -241,14 +241,14 @@
           ]
         },
         {
-          "text": "Kiracıyı telefonla arayıp kiranın artacağını söyleyin; yeter.",
+          "text": "Kiracıyı telefonla arayıp artışı bildirin; ilişkiniz iyi, bildirim için özel bir şekil aranmaz, ihtarname masrafına gerek yok.",
           "delta": -10,
           "set": [
             "arabulucu",
             "gec"
           ],
           "law": "TBK m.345/2",
-          "note": "Kanun, kiracıya yazılı bildirim arar. Sözlü bildirim, belirlenecek kiranın yeni dönemden itibaren uygulanmasını sağlamaz.",
+          "note": "Kanun, kiracıya yazılı bildirim arar (TBK m.345/2). Sözlü bildirim, belirlenecek kiranın yeni dönemden itibaren uygulanmasını sağlamaz.",
           "reply": [
             {
               "who": "narr",
@@ -270,7 +270,7 @@
       "prompt": "Talebinizin hukuki dayanağı?",
       "choices": [
         {
-          "text": "Kira beş yılı doldurdu. Bu durumda yeni dönemin kirası TÜFE ile sınırlı değildir; hâkim TÜFE'deki değişimi, kiralananın durumunu ve emsal kiraları göz önünde tutarak hakkaniyete göre belirler.",
+          "text": "Beş yıl doldu; kira artık TÜFE ile sınırlı değil. Hâkim TÜFE'yi, kiralananın durumunu ve emsalleri gözeterek hakkaniyete göre belirler.",
           "delta": 20,
           "set": [
             "hukuk"
@@ -285,22 +285,22 @@
           ]
         },
         {
-          "text": "Kiranın emsal rayiç bedelin tamamına, 43.000 TL'ye çıkarılmasını istiyoruz.",
+          "text": "Beş yıl dolduğu için kira emsal rayiç bedelin tamamına, 43.000 TL'ye çıkarılmalı; aynı sokaktaki benzer daireler de 40.000 TL'nin üzerinde.",
           "delta": 5,
           "set": [
             "hukuk"
           ],
           "law": "TBK m.344/3",
-          "note": "Dayanak doğru, ama beklenti yüksek. Uygulamada mevcut kiracı yönünden rayiç bedelden hakkaniyet indirimi yapılır; mahkeme bedeli emsalin altında belirler."
+          "note": "Dayanak doğru, ama beklenti yüksek. Beş yıl dolsa da kira hakkaniyete göre belirlenir; uygulamada mevcut kiracı yönünden rayiç bedelden hakkaniyet indirimi yapılır ve mahkeme bedeli emsalin altında belirler."
         },
         {
-          "text": "Yeni dönemde kiranın TÜFE oranında artırılmasını istiyoruz.",
+          "text": "Yeni dönemde kiranın TÜFE oranında artırılmasını istiyoruz; konut kirasında artış on iki aylık TÜFE ortalamasını geçemez.",
           "delta": -15,
           "set": [
             "tufe"
           ],
           "law": "TBK m.344/1-2 · m.344/3",
-          "note": "Beş yıl dolduktan sonra TÜFE sınırıyla bağlı değildiniz. TÜFE oranındaki artış, ilk beş yılın kuralıdır (m.344/1-2). Mahkeme talepten fazlasına hükmedemeyeceği için (HMK m.26) müvekkil emsal düzeyine yaklaşma imkânını kaybetti."
+          "note": "Beş yıl dolduktan sonra TÜFE sınırıyla bağlı değildiniz. TÜFE ortalamasıyla sınırlı artış, ilk beş yılın kuralıdır (m.344/1-2). Mahkeme talepten fazlasına hükmedemeyeceği için (HMK m.26) müvekkil emsal düzeyine yaklaşma imkânını kaybetti."
         }
       ]
     },
@@ -318,41 +318,21 @@
           "text": "(fısıldayarak) Bunu böyle mi bırakacağız?"
         }
       ],
-      "prompt": "Nasıl karşılık vereceksiniz?",
+      "kind": "free", "prompt": "Karşı taraf vekilinin sözlerine nasıl karşılık vereceksiniz? Mahkemeye ne söyleyeceğinizi kendi cümlelerinizle kurun.",
       "choices": [
-        {
-          "text": "Sakin kalın: “Sayın Hâkim, müvekkile yönelik bu nitelendirmenin tutanağa geçirilmesini ve tartışmanın dava konusuyla sınırlı tutulmasını istiyoruz. Dava tahliye değil, bedel tespitidir.”",
-          "delta": 5,
-          "set": [
-            "soguk"
-          ],
-          "law": "HMK m.151",
-          "note": "Duruşmanın düzenini sağlamak hâkime aittir (HMK m.151). Kişiselleşen bir sözü tutanağa geçirtip konuya dönmek, meslek kurallarına uygun ve etkili bir cevaptır.",
-          "reply": [
-            {
-              "who": "judge",
-              "text": "Beyan tutanağa geçirildi. Taraf vekillerinden dava konusuyla sınırlı açıklama yapmalarını istiyorum."
-            }
-          ]
-        },
-        {
-          "text": "Sertçe karşılık verin: “Asıl açgözlülük, emsalin yarısına oturmaktır!”",
-          "delta": -10,
-          "law": "HMK m.151",
-          "note": "Tahrike kapıldınız. Taraflar arasında kişisel bir atışma hâkimin gözünde iki vekili de küçültür; hâkim duruşma düzeni için uyarı yapmak zorunda kaldı.",
-          "reply": [
-            {
-              "who": "judge",
-              "text": "Vekiller! Duruşmanın düzenine uyulmasını ihtar ediyorum. Devam ediyoruz."
-            }
-          ]
-        },
-        {
-          "text": "Hiçbir şey söylemeyin, bilirkişi raporunu bekleyin.",
-          "delta": 0,
-          "note": "Hata değil; tahrike cevap vermemek de bir tercihtir. Ama sözün tutanağa geçirilmesini istemek, hem müvekkili korur hem duruşmayı konuya döndürür."
-        }
-      ]
+        {"text": "Güçlü cevap", "min": 70, "delta": 5, "set": ["soguk"], "law": "HMK m.151", "note": "Doğru tepki. Duruşmanın düzenini sağlamak hâkime aittir (HMK m.151). Kişiselleşen sözü tutanağa geçirtip tartışmayı dava konusuna, bedel tespitine döndürdünüz; tahrike kapılmadınız.", "reply": [{"who": "judge", "text": "Beyan tutanağa geçirildi. Taraf vekillerinden dava konusuyla sınırlı açıklama yapmalarını istiyorum."}]},
+        {"text": "Yeterli cevap", "min": 40, "delta": 3, "set": ["soguk"], "law": "HMK m.151", "note": "Tahrike kapılmadınız ve tartışmayı konuya döndürdünüz. Daha güçlü cevap, sözün tutanağa geçirilmesini ve tartışmanın dava konusuyla sınırlı tutulmasını hâkimden açıkça ister (HMK m.151); davanın tahliye değil bedel tespiti olduğunu da hatırlatır.", "reply": [{"who": "judge", "text": "Beyan tutanağa geçirildi. Taraf vekillerinden dava konusuyla sınırlı açıklama yapmalarını istiyorum."}]},
+        {"text": "Zayıf cevap", "delta": -10, "law": "HMK m.151", "note": "Ya tahrike kapıldınız ya da müvekkile yönelik nitelendirmeyi karşılıksız bıraktınız. Kişisel bir atışma hâkimin gözünde iki vekili de küçültür. Doğrusu, sözün tutanağa geçirilmesini ve tartışmanın dava konusuyla sınırlı tutulmasını istemek (HMK m.151) ve davanın tahliye değil bedel tespiti olduğunu hatırlatmaktı."}
+      ],
+      "rubric": "İyi bir cevap şunları yapar: (1) Tahrike kapılmadan, saygılı bir dille hâkime hitap eder. (2) Müvekkile yönelik kişisel nitelendirmenin tutanağa geçirilmesini ister. (3) Duruşmanın düzenini sağlama yetkisi hâkimde olduğundan (HMK m.151) tartışmanın dava konusuyla sınırlı tutulmasını ister. (4) Davanın tahliye değil, beş yılını dolduran kira ilişkisinde bedel tespiti davası olduğunu hatırlatır. Tutanak talebi ile konuya dönüşü birlikte içeren cevap tam puan alır; yalnız birini içeren ya da yalnızca davanın bedel tespiti olduğunu sakin bir dille hatırlatan cevap orta puan alır. Karşı vekile aynı üslupla karşılık veren, onu kişisel olarak suçlayan ya da hiçbir şey söylemeyen cevap düşük puan alır.",
+      "keywords": [
+        {"terms": ["tutanağa", "zapta", "kayda geç", "tutanak"], "weight": 3},
+        {"terms": ["dava konusu", "konuyla sınırlı", "konuya dön", "konu dışı", "konunun dışında"], "weight": 2},
+        {"terms": ["tahliye değil", "bedel tespiti", "kira tespiti", "tespit davası", "bedelin tespiti"], "weight": 2},
+        {"terms": ["nitelendirme", "kişisel", "hakaret", "açgözlü"], "weight": 1},
+        {"terms": ["duruşma düzeni", "duruşmanın düzeni", "m.151", "m. 151", "madde 151", "151. madde", "md. 151"], "weight": 1}
+      ],
+      "model": "Sayın Hâkim, müvekkile yönelik “açgözlülük” nitelendirmesinin tutanağa geçirilmesini ve tartışmanın dava konusuyla sınırlı tutulmasını istiyoruz (HMK m.151). Bu dava tahliye değil, beş yılını dolduran kira ilişkisinde bedel tespiti davasıdır; kimse sokağa atılmıyor."
     },
     {
       "kind": "evidence",
@@ -436,16 +416,16 @@
           "note": "Dürüst ve doğru bir tutum. Süresinde yazılı bildirim yapılmadığı için belirlenecek kira bir sonraki kira yılından itibaren uygulanacak (TBK m.345/2). Bu kaybı ofiste, ihtarname çekmeyerek yaşadınız."
         },
         {
-          "text": "Arabuluculuk başvurusu kiracıya yapılmış bir bildirimdir; süre korunmuştur.",
+          "text": "Arabuluculuk başvurusu kiracıya tebliğ edildi; bu, kanunun aradığı yazılı bildirim yerine geçer ve süre korunmuştur.",
           "delta": -10,
           "law": "TBK m.345/2",
-          "note": "Arabulucuya başvuru da otuz günlük sınırdan sonra yapılmıştı; üstelik TBK m.345/2 kiraya verenin kiracıya artışı yazılı bildirmesini arar. Dayanaksız bir savunmayla vakit kaybettiniz."
+          "note": "Arabulucuya başvuru da otuz günlük sınırdan sonra yapılmıştı; üstelik TBK m.345/2 kiraya verenin kiracıya artışı yazılı bildirmesini arar, arabuluculuk başvurusu bunun yerine geçmez. Dayanaksız bir savunmayla vakit kaybettiniz."
         },
         {
-          "text": "Dava her zaman açılabilir; belirlenen kira her hâlde yeni dönemin başından uygulanır.",
+          "text": "Dava her zaman açılabilir (TBK m.345/1); belirlenen kira her hâlde dava açılan kira yılının başından uygulanır.",
           "delta": -10,
           "law": "TBK m.345/1-2",
-          "note": "Yarısı doğru: dava her zaman açılabilir (m.345/1). Ama belirlenen kiranın yeni dönemin başından uygulanması, süresinde dava ya da yazılı bildirim şartına bağlıdır (m.345/2)."
+          "note": "Yarısı doğru: dava her zaman açılabilir (m.345/1). Ama belirlenen kiranın yeni dönemin başından uygulanması, süresinde dava ya da yazılı bildirim şartına bağlıdır (m.345/2); aksi hâlde kira bir sonraki kira yılından itibaren uygulanır."
         }
       ]
     },

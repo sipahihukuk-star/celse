@@ -63,14 +63,14 @@
       "lines": [{ "who": "narr", "text": "Büronuzdasınız. Bölge adliye mahkemesinin gerekçeli kararı dün tebliğ edildi. Stajyeriniz “ceza davalarında temyiz süresi bir ay değil mi?” diye soruyor." }],
       "prompt": "Temyiz başvurusunu nasıl yapacaksınız?",
       "choices": [
-        { "text": "Gerekçeli kararın tebliğinden itibaren iki hafta içinde, kararı veren bölge adliye mahkemesine dilekçe verin; dilekçede duruşmalı inceleme isteyin.", "delta": 10, "set": ["durusmaTalep"],
+        { "text": "İki hafta içinde, kararı veren bölge adliye mahkemesine temyiz dilekçesi verin; duruşmalı inceleme isteyin.", "delta": 10, "set": ["durusmaTalep"],
           "law": "CMK m.291/1, m.299/1",
           "note": "Temyiz süresi, hükmün gerekçesiyle birlikte tebliğinden itibaren iki haftadır ve dilekçe hükmü veren mahkemeye verilir (CMK m.291/1). On yıl ve daha fazla hapis cezalarında Yargıtay uygun görürse duruşmalı inceleme yapabilir (CMK m.299/1); talebi dilekçede gerekçelendirmek heyetin bu kararını kolaylaştırır." },
-        { "text": "İki hafta içinde başvurun, ama duruşma istemeyin; Yargıtay zaten dosya üzerinden bakar.", "delta": -5, "set": ["talepYok"],
+        { "text": "İki hafta içinde başvurun, ama duruşma istemeyin; Yargıtay zaten dosya üzerinden bakar, talep heyeti rahatsız eder.", "delta": -5, "set": ["talepYok"],
           "reply": [{ "who": "narr", "text": "Daire, cezanın ağırlığını gözeterek kendiliğinden duruşma açmaya karar verdi." }],
           "law": "CMK m.299/1",
-          "note": "Süre doğru, ama duruşmalı inceleme imkânını kendiniz istemediniz. Bu kez Daire duruşma açtı; her zaman böyle olmayabilir." },
-        { "text": "Ceza davalarında temyiz süresi bir aydır; dilekçeyi ay sonuna doğru verin.", "delta": -25,
+          "note": "Süre doğru, ama duruşmalı inceleme imkânını kendiniz istemediniz. On yıl ve daha fazla hapis cezalarında Yargıtay, istem üzerine ya da kendiliğinden duruşma açabilir (CMK m.299/1). Bu kez Daire duruşma açtı; her zaman böyle olmayabilir." },
+        { "text": "Stajyer haklı, ceza davalarında temyiz süresi bir aydır; dilekçeyi ay sonuna doğru, gerekçeyi iyice işleyerek verin.", "delta": -25,
           "law": "CMK m.291/1",
           "fatal": { "label": "SONUÇ:", "hukum": "Sanık müdafiinin temyiz isteminin süre yönünden REDDİNE karar verildi; hüküm kesinleşti.",
                      "summary": "Temyiz süresi, hükmün gerekçesiyle birlikte tebliğinden itibaren iki haftadır (CMK m.291/1). Süresinden sonra yapılan temyiz istemi reddedilir (CMK m.298). Haksız tahrik tartışması hiç yapılamadı." },
@@ -80,14 +80,14 @@
       "lines": [{ "who": "narr", "text": "Dilekçeyi yazıyorsunuz. Önceki müdafi istinafta hem meşru savunma hem haksız tahrik ileri sürmüş, tanıkları uzun uzun tartışmış." }],
       "prompt": "Temyiz dilekçesinin merkezine neyi koyacaksınız?",
       "choices": [
-        { "text": "Mahkemenin kendi kabul ettiği vakıaları esas alın: maktulün sanığın annesini darp ettiği sabit. Bu vakıalara rağmen TCK m.29'un uygulanmaması hukuka aykırılıktır; haksız fiilin sanığın yakınına yönelmesi tahriki engellemez.", "delta": 20, "set": ["hukukArg"],
+        { "text": "Sabit vakıayı esas alın: maktul sanığın annesini darp etti. Buna rağmen TCK m.29'u uygulamamak hukuka aykırıdır; fiilin yakına yönelmesi tahriki engellemez.", "delta": 20, "set": ["hukukArg"],
           "law": "CMK m.288; TCK m.29",
           "note": "Doğru çerçeve. Vakıaları yeniden tartışmıyor, sabit kabul edilen vakıalara kanunun yanlış uygulandığını gösteriyorsunuz (CMK m.288/2). TCK m.29, haksız fiilin bizzat faile yönelmesini aramaz; haksız fiil maktulden gelmeli ve fail onun yarattığı hiddetin etkisi altında hareket etmiş olmalıdır." },
-        { "text": "Erol Koç'un yalan söylediğini, maktulün önce saldırdığını anlatın; meşru savunma nedeniyle beraat isteyin.", "delta": -15,
+        { "text": "Erol Koç'un yalan söylediğini, maktulün önce saldırdığını anlatın; TCK m.25 uyarınca meşru savunmadan beraat isteyin, tahriki ikinci sırada savunun.", "delta": -15,
           "law": "TCK m.25",
           "note": "Yargıtay tanık beyanlarının inandırıcılığını yeniden tartmaz. Üstelik meşru savunma, saldırının o an mevcut olmasını ve savunmanın orantılı olmasını gerektirir; bıçakla öldürme bu koşulları karşılamaz." },
-        { "text": "İstinaf dilekçesini aynen kopyalayın; meşru savunma, tahrik, tanıklar, hepsi dursun.", "delta": 0,
-          "note": "Kabul edilebilir ama zayıf. Güçlü hukuki sebep, vakıa tartışmalarının arasında kayboluyor. Heyet, odaklı bir temyiz dilekçesini daha ciddiye alır." }
+        { "text": "İstinaf dilekçesini aynen kopyalayın; meşru savunma, tahrik, tanıklar, hepsi dursun. Ne kadar çok sebep, o kadar çok bozma ihtimali.", "delta": 0,
+          "note": "Kabul edilebilir ama zayıf. Sebeplerin sayısı bozma ihtimalini artırmaz; güçlü hukuki sebep, vakıa tartışmalarının arasında kayboluyor. Heyet, odaklı bir temyiz dilekçesini daha ciddiye alır." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
       "lines": [
@@ -112,17 +112,25 @@
       },
       "pass": { "delta": -15, "note": "Tebliğnamedeki görüş cevapsız kaldı." }
     },
-    { "side": "p1", "scene": "court",
+    { "kind": "free", "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Sanık müdafii, son talebiniz?" }],
-      "prompt": "Heyetten ne isteyeceksiniz?",
+      "prompt": "Son talebinizi heyete nasıl açıklayacaksınız? Ne istediğinizi ve neden istediğinizi kendi cümlelerinizle söyleyin.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Mahkemenin kendi kabul ettiği vakıalara rağmen haksız tahrik hükümlerinin (TCK m.29) uygulanmaması hukuka aykırıdır; bu nedenle hükmün bozulması istenir (CMK m.302/2). (2) Tahrikin derecesi ve cezanın müebbet yerine on iki ile on sekiz yıl arasında nerede belirleneceği takdir gerektirir; Yargıtay bunu kendisi belirlemez, bozmadan sonra yeniden hüküm kuracak mahkeme belirler. (3) Yalnız sanık tarafı temyiz ettiğinden yeni ceza öncekinden ağır olamaz (CMK m.307/4, aleyhe bozma yasağı). Bozma talebini, takdirin yeniden hüküm kuracak mahkemeye ait olduğunu ve aleyhe bozma yasağını madde numarasıyla birlikte söyleyen cevap tam puan alır; yalnız tahrik nedeniyle bozma isteyen cevap orta puan alır. Yargıtay'ın cezayı kendisinin belirlemesini ya da beraati isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["bozul", "bozma"], "weight": 3 },
+        { "terms": ["haksız tahrik", "tahrik"], "weight": 2 },
+        { "terms": ["m.29", "m. 29", "madde 29", "29. madde", "md. 29", "md.29"], "weight": 1 },
+        { "terms": ["takdir", "ilk derece", "yeniden hüküm", "derecesi"], "weight": 1 },
+        { "terms": ["aleyhe", "daha ağır olamaz", "ağırlaştırılamaz", "m.307", "m. 307", "madde 307", "307. madde", "md. 307"], "weight": 2 }
+      ],
+      "model": "Sayın Başkan, mahkeme maktulün sanığın annesini darp ettiğini kendisi kabul etmiştir; buna rağmen TCK m.29'un uygulanmaması hukuka aykırıdır ve hükmün bozulmasını istiyoruz. Tahrikin derecesi ve cezanın on iki ile on sekiz yıl arasında belirlenmesi takdire dayandığından bunu yeniden hüküm kuracak mahkeme yapmalıdır. Hükmü yalnız sanık tarafı temyiz ettiği için yeni ceza öncekinden ağır olamaz (CMK m.307/4).",
       "choices": [
-        { "text": "Haksız tahrik hükümlerinin uygulanmaması nedeniyle hükmün bozulmasını; tahrikin derecesinin ve cezanın ilk derece mahkemesince belirlenmesini isteriz.", "delta": 10, "set": ["talepDogru"],
-          "law": "CMK m.302/2, m.307/4",
-          "note": "Doğru talep. Tahrikin varlığı kabul edilse bile cezanın on iki ile on sekiz yıl arasında nerede belirleneceği takdir gerektirir; bunu bozmadan sonra ilk derece mahkemesi yapar. Yalnız sanık tarafı temyiz ettiği için yeni ceza öncekinden ağır olamaz (CMK m.307/4)." },
-        { "text": "Yargıtay'ın haksız tahrik uygulayarak cezayı on iki yıl olarak kendisinin belirlemesini isteriz.", "delta": -5,
-          "note": "Tahrik indiriminin miktarı takdire dayanır; Daire bunu kendisi belirlemez, bozar." },
-        { "text": "Sanığın beraatine karar verilmesini isteriz.", "delta": -10,
-          "note": "Beraat talebi vakıaların yeniden değerlendirilmesini gerektirir ve dilekçenizin hukuki çerçevesiyle çelişir." }
+        { "text": "Güçlü talep", "min": 70, "delta": 10, "set": ["talepDogru"], "law": "CMK m.302/2, m.307/4",
+          "note": "Talebinizi temyiz incelemesinin sınırları içinde kurdunuz. Tahrikin varlığı kabul edilse bile cezanın on iki ile on sekiz yıl arasında nerede belirleneceği takdir gerektirir; bunu bozmadan sonra ilk derece mahkemesi yapar. Yalnız sanık tarafı temyiz ettiği için yeni ceza öncekinden ağır olamaz (CMK m.307/4)." },
+        { "text": "Yeterli talep", "min": 40, "delta": 5, "set": ["talepDogru"], "law": "CMK m.302/2, m.307/4",
+          "note": "Haksız tahrik nedeniyle bozma istediniz; asıl talep doğru. Tam talep, tahrik indiriminin miktarının takdire dayandığını ve bozmadan sonra belirleneceğini, yalnız sanık temyiz ettiği için yeni cezanın öncekinden ağır olamayacağını da söyler (CMK m.307/4)." },
+        { "text": "Zayıf talep", "delta": -5, "law": "CMK m.302/2",
+          "note": "Talebiniz temyiz incelemesinin sınırlarını aştı ya da ıskaladı. Tahrik indiriminin miktarı takdire dayanır; Daire bunu kendisi belirlemez, bozar. Beraat talebi de vakıaların yeniden değerlendirilmesini gerektirir. Doğru talep, haksız tahrik hükümlerinin uygulanmaması nedeniyle bozmaydı." }
       ] }
   ],
   "outcomes": [

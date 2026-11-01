@@ -48,17 +48,17 @@
       ],
       "prompt": "1. aşama · Kesinleşmiş takip: Ne yapacaksınız?",
       "choices": [
-        { "text": "Menfi tespit davası açılacak. Ticari dava olduğu için önce arabulucuya başvurun. Para alacaklıya ödenmesin diye de bugün, dava açılmadan önce, icra veznesindeki paranın alacaklıya verilmemesi için ihtiyati tedbir isteyin.", "delta": 25, "set": ["arabulucu", "tedbir"],
+        { "text": "Menfi tespit için önce arabulucuya başvurun; bugün de veznedeki paranın ödenmemesi için dava öncesi ihtiyati tedbir isteyin.", "delta": 25, "set": ["arabulucu", "tedbir"],
           "law": "İİK m.72 · TTK m.5/A · 6325 s.K. m.18/A",
           "note": "Doğru. Borçlu takip sırasında da menfi tespit davası açabilir. 7445 sayılı Kanundan sonra ticari menfi tespit davalarında arabulucuya başvurmak dava şartıdır. Dava öncesi alınan tedbirde dava açma süresi son tutanağa kadar işlemez; böylece hem dava şartı tamamlanır hem para korunur." },
         { "text": "Bugün menfi tespit davası açıp tedbir isteyelim. Kambiyo senedine dayalı davalar arabuluculuğa tabi değil.", "delta": -25,
           "law": "TTK m.5/A · 6325 s.K. m.18/A",
           "note": "Kambiyo senetlerinden doğan davalar ticari davadır. Ticari menfi tespit davası açılmadan önce arabulucuya başvurulmuş olmalıdır.",
           "fatal": { "label": "SONUÇ:", "hukum": "Davanın, dava açılmadan önce arabulucuya başvurulmadığından dava şartı yokluğu nedeniyle USULDEN REDDİNE; ihtiyati tedbir kararının kaldırılmasına karar verildi.", "summary": "7445 sayılı Kanunla değişik TTK m.5/A, ticari davalardan itirazın iptali, menfi tespit ve istirdat davalarında arabulucuya başvurmayı dava şartı yaptı. Tedbir kalkınca icra veznesindeki 240.000 TL alacaklıya ödendi; müvekkil şimdi arabuluculukla yeniden başlayıp istirdat isteyecek." } },
-        { "text": "İcra hukuk mahkemesine borca itiraz edelim; bononun teminat senedi olduğunu orada anlatırız.", "delta": -15, "set": ["kayip"],
+        { "text": "İcra hukuk mahkemesine İİK m.168 uyarınca borca itiraz edelim; bononun teminat senedi olduğunu orada anlatırız.", "delta": -15, "set": ["kayip"],
           "law": "İİK m.168 · m.169/a",
           "note": "Kambiyo takibinde borca itiraz süresi ödeme emrinin tebliğinden itibaren beş gündür; çoktan geçti. Başvuru süreden reddedilecek; kaybedilen günlerde para alacaklıya ödenebilir." },
-        { "text": "İcra hukuk mahkemesine şikâyet: teminat bonosu takibe konamaz, takip iptal edilsin.", "delta": -10, "set": ["kayip"],
+        { "text": "İcra hukuk mahkemesine şikâyet: teminat bonosu kambiyo takibine konamaz, takibin İİK m.170/a uyarınca iptali ve haczin kaldırılması istensin.", "delta": -10, "set": ["kayip"],
           "law": "İİK m.16 · m.170/a",
           "note": "Bononun teminat için verilmiş olması senedin kambiyo vasfını ortadan kaldırmaz; bu, temel ilişkiye dayanan bir def'idir ve şikâyetle değil genel mahkemede ileri sürülür. Şikâyet reddedilecek; bu arada süre ve para kaybedildi." }
       ]
@@ -71,12 +71,12 @@
       ],
       "prompt": "1. aşama · Kesinleşmiş takip: Şimdi ne yapacaksınız?",
       "choices": [
-        { "text": "Önce arabulucuya başvurun; anlaşma olmazsa menfi tespit davası açın. Ödenen kısım için dava istirdat olarak yürür.", "delta": 10, "set": ["arabulucu", "paraOdendi"],
+        { "text": "Önce arabulucuya başvurun, anlaşma olmazsa dava açın; ödenen kısım için dava istirdat olarak yürür.", "delta": 10, "set": ["arabulucu", "paraOdendi"],
           "law": "İİK m.72 · TTK m.5/A",
           "note": "Doğru. Tedbir alınmadan borç ödenmişse menfi tespit davasına istirdat davası olarak devam edilir. Ticari davada arabuluculuk yine dava şartıdır." },
-        { "text": "Doğrudan menfi tespit ve istirdat davası açın.", "delta": -25,
+        { "text": "Doğrudan menfi tespit ve istirdat davası açın; para ödendiği için istirdat davası arabuluculuk şartına tabi değil.", "delta": -25,
           "law": "TTK m.5/A",
-          "note": "Arabuluculuk dava şartı atlandı.",
+          "note": "Arabuluculuk dava şartı atlandı; TTK m.5/A istirdat davalarını da kapsar.",
           "fatal": { "label": "SONUÇ:", "hukum": "Davanın dava şartı yokluğu nedeniyle USULDEN REDDİNE karar verildi.", "summary": "Ticari menfi tespit ve istirdat davalarında dava açılmadan önce arabulucuya başvurulması dava şartıdır (TTK m.5/A)." } }
       ]
     },
@@ -88,17 +88,17 @@
       ],
       "prompt": "2. aşama · Tedbir ve teminat: Müvekkile ne söyleyeceksiniz?",
       "choices": [
-        { "text": "Teminat alacağın yüzde on beşinden az olamaz. Takipten sonra alınan tedbir takibi durdurmaz, haciz kalkmaz; yalnızca icra veznesindeki para alacaklıya ödenmez. Davayı kaybedersek alacaklının gecikme zararı için en az yüzde yirmi tazminat riski var.", "delta": 20, "set": ["risk"],
+        { "text": "Teminat en az yüzde on beş; tedbir takibi durdurmaz, yalnız ödemeyi önler. Kaybedersek en az yüzde yirmi tazminat riski var.", "delta": 20, "set": ["risk"],
           "law": "İİK m.72",
           "note": "Doğru. İcra takibinden sonra açılan menfi tespit davasında tedbirle takip durdurulamaz; borçlu, alacağın yüzde on beşinden aşağı olmamak üzere teminat göstererek icra veznesindeki paranın alacaklıya verilmemesini isteyebilir. Dava alacaklı lehine biterse alacaklının zararı yüzde yirmiden aşağı olmamak üzere teminattan karşılanır.",
           "reply": [{ "who": "narr", "text": "Teminat mektubu yatırıldı; mahkeme icra veznesindeki paranın alacaklıya ödenmemesine tedbiren karar verdi." }] },
-        { "text": "Teminat yüzde onla sınırlı tutulsun; tedbir takibi de durdurur.", "delta": -10, "set": ["eksikTeminat", "paraOdendi"],
+        { "text": "Teminat yüzde onla sınırlı tutulsun; tedbir takibi de durdurur, hesaptaki haciz kalkar ve şirket rahat bir nefes alır.", "delta": -10, "set": ["eksikTeminat", "paraOdendi"],
           "law": "İİK m.72",
-          "note": "İki yanlış. Teminat alacağın yüzde on beşinden az olamaz; takipten sonra açılan davada tedbirle takip durdurulamaz.",
+          "note": "İki yanlış. Teminat alacağın yüzde on beşinden az olamaz; takipten sonra açılan davada tedbirle takip durdurulamaz, haciz de kalkmaz.",
           "reply": [{ "who": "narr", "text": "Mahkeme eksik teminatla tedbir talebini reddetti. Bir hafta sonra icra veznesindeki 240.000 TL alacaklıya ödendi." }] },
-        { "text": "Teminata gerek yok; tedbir talebinden vazgeçelim, kazanınca parayı geri alırız.", "delta": -5, "set": ["paraOdendi"],
+        { "text": "Teminata gerek yok; tedbir talebinden vazgeçelim, kazanınca parayı istirdat yoluyla faiziyle birlikte geri alırız, risk yok.", "delta": -5, "set": ["paraOdendi"],
           "law": "İİK m.72",
-          "note": "Tedbirsiz dava açılabilir ve borç ödenirse istirdata dönüşür. Ama müvekkil 240.000 TL'den dava boyunca mahrum kalacak ve sonunda alacaklının ödeme gücüne bağlı kalacak.",
+          "note": "Tedbirsiz dava açılabilir ve borç ödenirse istirdata dönüşür; ama “risk yok” demek yanlış. Bu durumda müvekkil 240.000 TL'den dava boyunca mahrum kalacak ve sonunda alacaklının ödeme gücüne bağlı kalacak.",
           "reply": [{ "who": "narr", "text": "Tedbir talebi geri alındı. Bir hafta sonra icra veznesindeki 240.000 TL alacaklıya ödendi." }] }
       ]
     },
@@ -153,41 +153,52 @@
       ],
       "prompt": "3. aşama · Menfi tespit davası: İspat yükü konusunda ne diyeceksiniz?",
       "choices": [
-        { "if": "mutabakat", "text": "Bononun teminat senedi olduğu yazılı delille ispatlandı. Artık teminat altına alınan alacağın doğduğunu ispat yükü alacaklıdadır. Kaldı ki alacaklının kendi muhasebesi 31 Mart 2026 itibarıyla bakiyeyi sıfır olarak bildirmiş; mutabakat dosyada.", "delta": 25, "set": ["yuk", "sifir"],
+        { "if": "mutabakat", "text": "Teminat senedi yazılı delille ispatlandı; artık alacağın doğduğunu alacaklı ispatlamalı. Kendi muhasebesi 31.03.2026 bakiyesini sıfır bildirmiş.", "delta": 25, "set": ["yuk", "sifir"],
           "law": "TMK m.6 · HMK m.190",
           "note": "Doğru. Teminat senedi olduğu ispatlanan bonoda, alacaklı teminat altına alınan temel ilişkiden doğan alacağını ispatlamalıdır. Alacaklının kendi düzenlediği sıfır bakiye mutabakatı bunu neredeyse imkânsız kılıyor.",
           "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi." }] },
-        { "if": "!mutabakat", "text": "Bononun teminat senedi olduğu yazılı delille ispatlandı. Artık teminat altına alınan alacağın doğduğunu ispat yükü alacaklıdadır. Tarafların ticari defterleri üzerinde bilirkişi incelemesi yapılmasını istiyoruz.", "delta": 15, "set": ["yuk"],
+        { "if": "!mutabakat", "text": "Teminat senedi yazılı delille ispatlandı; artık alacağın doğduğunu alacaklı ispatlamalı. Ticari defterler bilirkişiye incelensin.", "delta": 15, "set": ["yuk"],
           "law": "TMK m.6 · HMK m.190 · m.222",
           "note": "Doğru. Teminat senedinde alacaklı temel ilişkiden doğan alacağını ispatlamalıdır. Hesabın kapandığını gösteren bir belgeniz olsaydı çok daha güçlü olurdunuz.",
           "reply": [{ "who": "judge", "text": "Tarafların ticari defterleri üzerinde bilirkişi incelemesi yapılmasına karar verildi." }] },
-        { "text": "Haklısınız; borçsuzluğumuzu muhasebecimizin tanıklığıyla ispatlarız.", "delta": -15, "set": ["yukKabul"],
-          "note": "İspat yükünü gereksiz yere üstlendiniz ve üstüne tanığa dayandınız. Teminat senedi olduğu ispatlanan bonoda alacağın varlığını ispat yükü alacaklıdadır." }
+        { "text": "Haklısınız; menfi tespitte ispat yükü davacıdadır. Borçsuzluğumuzu muhasebecimizin tanıklığı ve kendi defterlerimizle ispatlarız.", "delta": -15, "set": ["yukKabul"],
+          "note": "Menfi tespitte ispat yükü kural olarak davacıdadır; ama teminat senedi olduğu ispatlanan bonoda alacağın varlığını ispat yükü alacaklıya geçer. Yükü gereksiz yere üstlendiniz ve üstüne tanığa dayandınız." }
       ]
     },
     {
+      "kind": "free",
       "side": "p1", "scene": "court",
       "lines": [
         { "who": "judge", "text": "Son taleplerinizi alayım. Davacı vekili?" }
       ],
-      "prompt": "3. aşama · Menfi tespit davası: Hüküm öncesi son talebiniz ne olacak?",
+      "prompt": "3. aşama · Menfi tespit davası: Hüküm öncesi son talebinizi ve dayanağını kendi cümlelerinizle açıklayın.",
       "choices": [
-        { "if": "!paraOdendi", "text": "Davanın kabulü ile müvekkilin bonodan dolayı borçlu olmadığının tespitine; takip haksız ve kötü niyetli olduğundan, alacaklının takip konusu alacağın yüzde yirmisinden aşağı olmamak üzere tazminata mahkûm edilmesine karar verilmesini talep ediyoruz. Alacaklı bononun teminat olduğunu ve hesabın kapandığını bile bile takibe koydu.", "delta": 20, "set": ["kotuniyet"],
-          "law": "İİK m.72",
-          "note": "Doğru. Menfi tespit davası borçlu lehine sonuçlanırsa takip durur. Borçluyu dava açmaya zorlayan takibin haksız ve kötü niyetli olduğu anlaşılırsa, borçlunun talebiyle alacağın yüzde yirmisinden aşağı olmamak üzere tazminata hükmedilir." },
-        { "if": "paraOdendi", "text": "Davanın kabulü ile kalan kısım yönünden borçlu olmadığımızın tespitine, alacaklıya ödenen 240.000 TL'nin istirdadına; takip haksız ve kötü niyetli olduğundan alacaklının yüzde yirmiden aşağı olmamak üzere tazminata mahkûm edilmesine karar verilmesini talep ediyoruz.", "delta": 20, "set": ["kotuniyet"],
-          "law": "İİK m.72",
-          "note": "Doğru. Tedbir alınmadan borç ödenmişse dava istirdat davası olarak sürer. Takip haksız ve kötü niyetliyse alacağın yüzde yirmisinden aşağı olmamak üzere tazminat istenebilir." },
-        { "text": "Yalnızca borçlu olmadığımızın tespitini talep ediyoruz.", "delta": 5,
+        { "text": "Güçlü talep", "min": 70, "delta": 20, "set": ["kotuniyet"],
           "law": "İİK m.72",
           "note": [
-            { "text": "Asıl talep doğru, ama kanunun kötü niyetli takip için öngördüğü tazminatı istemediniz." },
-            { "if": "paraOdendi", "text": " Ödenen 240.000 TL'nin geri verilmesini de açıkça istemediniz." }
+            { "text": "Eksiksiz bir talep kurdunuz: borçlu olmadığının tespiti ve takip haksız ve kötü niyetli olduğundan alacağın yüzde yirmisinden aşağı olmamak üzere tazminat (İİK m.72). Bu tazminat ancak borçlunun talebiyle hükmedilir." },
+            { "if": "paraOdendi", "text": " Tedbir alınmadan para ödendiği için dava istirdat davası olarak sürüyor; 240.000 TL'nin geri verilmesini istemek de gerekiyordu." }
           ] },
-        { "text": "Davalının icra inkâr tazminatına mahkûm edilmesini talep ediyoruz.", "delta": -5,
+        { "text": "Yeterli talep", "min": 40, "delta": 5,
+          "law": "İİK m.72",
+          "note": [
+            { "text": "Asıl talep doğru, ama kanunun haksız ve kötü niyetli takip için öngördüğü, alacağın yüzde yirmisinden aşağı olmayan tazminatı istemediniz (İİK m.72). Bu tazminat talep edilmeden hükmedilmez." },
+            { "if": "paraOdendi", "text": " Ödenen 240.000 TL'nin istirdadını da açıkça istemeliydiniz." }
+          ] },
+        { "text": "Zayıf talep", "delta": -5,
           "law": "İİK m.67 · m.72",
-          "note": "İcra inkâr tazminatı, itirazın iptali ya da kaldırılmasında borçlu aleyhine verilen tazminattır. Menfi tespitte alacaklı aleyhine istenebilecek olan, haksız ve kötü niyetli takip tazminatıdır." }
-      ]
+          "note": "Talebiniz davanın türüne uymadı. İcra inkâr tazminatı itirazın iptali ya da kaldırılmasında borçlu aleyhine verilir (İİK m.67). Menfi tespitte istenecek olan: borçlu olmadığının tespiti ve takip haksız ve kötü niyetliyse alacaklının, alacağın yüzde yirmisinden aşağı olmamak üzere tazminata mahkûm edilmesidir (İİK m.72)." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Davanın kabulü ile davacının 600.000 TL bedelli bonodan dolayı borçlu olmadığının tespiti istenir. (2) Takip haksız ve kötü niyetlidir: alacaklı bononun teminat olarak verildiğini ve cari hesabın kapandığını bile bile takibe koymuştur; bu nedenle alacaklının, takip konusu alacağın yüzde yirmisinden aşağı olmamak üzere tazminata mahkûm edilmesi istenir (İİK m.72). Bu tazminat ancak borçlunun talebiyle hükmedilir. (3) Para dava sırasında alacaklıya ödendiyse 240.000 TL'nin istirdadı da istenir; tedbir sayesinde ödenmediyse veznedeki paranın davacıya iadesi istenebilir. Tespit ile kötü niyet tazminatını birlikte, dayanağıyla isteyen cevap tam puan alır; yalnızca borçsuzluğun tespitini isteyen cevap orta puan alır. Menfi tespitte icra inkâr tazminatı isteyen (bu tazminat İİK m.67 uyarınca itirazın iptalinde borçlu aleyhine verilir) ya da talebi belirsiz bırakan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["borçlu olmadığ", "borçsuzluğ", "borçlu olmadığının tespiti", "menfi tespit"], "weight": 2 },
+        { "terms": ["kötü niyet", "kötüniyet", "haksız ve kötü", "haksız takip", "bile bile"], "weight": 3 },
+        { "terms": ["yüzde yirmi", "%20", "yüzde 20", "% 20"], "weight": 2 },
+        { "terms": ["tazminat"], "weight": 2 },
+        { "terms": ["m.72", "m. 72", "madde 72", "72. madde", "md. 72", "md.72"], "weight": 1 },
+        { "terms": ["istirdat", "iade", "geri veril", "teminat senedi", "mutabakat"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, davanın kabulü ile müvekkil şirketin takibe konu 600.000 TL bedelli bonodan dolayı davalıya borçlu olmadığının tespitine karar verilmesini talep ediyoruz. Davalı, bononun teminat olarak verildiğini ve cari hesabın kapandığını bile bile takip yapmıştır; takip haksız ve kötü niyetlidir. Bu nedenle İİK m.72 uyarınca davalının, takip konusu alacağın yüzde yirmisinden aşağı olmamak üzere tazminata mahkûm edilmesini; dava sırasında alacaklıya bir ödeme yapılmışsa bunun da istirdadını talep ediyoruz."
     }
   ],
   "outcomes": [

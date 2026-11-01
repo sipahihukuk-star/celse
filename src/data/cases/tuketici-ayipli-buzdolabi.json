@@ -45,15 +45,15 @@
       ],
       "prompt": "Hangi yolu seçeceksiniz?",
       "choices": [
-        { "text": "Sınırın üstündeki uyuşmazlıkta hakem heyetine başvurulamaz. Önce arabulucuya, anlaşma olmazsa tüketici mahkemesine.", "delta": 10, "set": ["gorev"],
+        { "text": "Sınırın üstünde hakem heyetine gidilemez; önce arabulucuya, anlaşma olmazsa tüketici mahkemesine.", "delta": 10, "set": ["gorev"],
           "law": "6502 s.K. m.68 · m.73 · m.73/A",
           "note": "Parasal sınırın altındaki uyuşmazlıklarda hakem heyetine başvuru zorunludur; sınırın üzerindekiler için hakem heyetine başvurulamaz (6502 s.K. m.68). Tüketici işlemlerinden doğan davalara tüketici mahkemesi bakar (m.73). Tüketici mahkemesinde dava açmadan önce arabulucuya başvurmak dava şartıdır.",
           "reply": [{ "who": "mentor", "text": "Doğru. Arabuluculukta satıcı yine “üreticiye gidin” derse dilekçeyi hazırlarız." }, { "who": "narr", "text": "Arabuluculukta anlaşma sağlanamadı. Dava, satıcı şirkete karşı tüketici mahkemesinde açıldı." }] },
-        { "text": "Tüketici hakem heyetine başvuralım; hem ücretsiz hem hızlı.", "delta": -5,
+        { "text": "Tüketici hakem heyetine başvuralım; ücretsiz ve hızlı, kararı mahkemede de güçlü bir delil olur.", "delta": -5,
           "law": "6502 s.K. m.68",
           "note": "Hakem heyeti yalnızca parasal sınırın altındaki uyuşmazlıklara bakar; sınırın üzerindeki uyuşmazlık için hakem heyetine başvurulamaz (m.68).",
           "reply": [{ "who": "mentor", "text": "Bedel sınırın üstünde, hakem heyeti dosyayı almaz. Arabulucuya, sonra tüketici mahkemesine gidelim." }, { "who": "narr", "text": "Arabuluculukta anlaşma sağlanamadı. Dava tüketici mahkemesinde açıldı." }] },
-        { "text": "Satıcı tacir; asliye ticaret mahkemesinde dava açalım.", "delta": -10,
+        { "text": "Satıcı tacir ve iş ticari; ticari davalar asliye ticaret mahkemesinin görevinde, orada dava açalım (TTK m.4).", "delta": -10,
           "law": "6502 s.K. m.3 · m.73",
           "note": "Bir taraf tüketici, diğer taraf satıcıysa işlem tüketici işlemidir; karşı tarafın tacir olması görevi değiştirmez. Görevli mahkeme tüketici mahkemesidir (m.73).",
           "reply": [{ "who": "mentor", "text": "Müvekkil malı kişisel ihtiyacı için aldı; bu bir tüketici işlemi. Tüketici mahkemesi görevli." }, { "who": "narr", "text": "Arabuluculuk tamamlandı, anlaşma olmadı. Dava tüketici mahkemesinde açıldı." }] }
@@ -66,40 +66,50 @@
       ],
       "prompt": "Hangi seçimlik hakkı kullanacaksınız?",
       "choices": [
-        { "text": "Sözleşmeden dönme: buzdolabını geri vermeye hazır olduğumuzu bildirip bedelin iadesini istemek.", "delta": 20, "set": ["donme"],
+        { "text": "Sözleşmeden dönme: dolabı geri vermeye hazır olduğumuzu bildirip bedelin iadesini isteriz.", "delta": 20, "set": ["donme"],
           "law": "6502 s.K. m.11/1-a",
           "note": "Ayıplı malda tüketici dört hakkından birini seçer: sözleşmeden dönme, bedelden indirim, ücretsiz onarım ya da ayıpsız misliyle değiştirme (m.11/1). Satıcı tüketicinin seçtiği talebi yerine getirmekle yükümlüdür. Ücretsiz onarımdan sonra arıza tekrarlandığında tüketici diğer seçimlik haklarını da kullanabilir (Garanti Belgesi Yönetmeliği)." },
-        { "text": "Ayıpsız misliyle değiştirme: aynı model sıfır bir buzdolabı.", "delta": 10, "set": ["degisim"],
+        { "text": "Ayıpsız misliyle değiştirme: aynı model sıfır bir buzdolabı; satıcı için en kolay ve hızlı çözüm.", "delta": 10, "set": ["degisim"],
           "law": "6502 s.K. m.11/1-ç",
           "note": "Geçerli bir seçimlik hak (m.11/1-ç). Ama müvekkil “bu dolabı istemiyorum” dedi; aynı modelin aynı arızayı göstermesi riski de var. Bedel iadesi onun isteğine daha uygundu." },
-        { "text": "Ayıp oranında bedelden indirim.", "delta": 5, "set": ["indirim"],
+        { "text": "Ayıp oranında bedelden indirim; dava daha kısa sürer, satıcı bunu para iadesinden kolay kabul eder.", "delta": 5, "set": ["indirim"],
           "law": "6502 s.K. m.11/1-b",
           "note": "Kanunen mümkün (m.11/1-b), ama müvekkil soğutmayan bir dolapla kalacak. Müvekkilin amacına uygun değil." },
-        { "text": "Bir kez daha ücretsiz onarım isteyelim; belki bu sefer düzelir.", "delta": -10, "set": ["onarim"],
+        { "text": "Bir kez daha ücretsiz onarım isteyelim; garanti süresi devam ediyor, servis masrafı da bizden çıkmaz.", "delta": -10, "set": ["onarim"],
           "law": "6502 s.K. m.11/1-c",
           "note": "Müvekkil açıkça başka bir çözüm istiyordu. Aynı arıza iki onarımdan sonra üçüncü kez çıkmışken onarımda ısrar etmek müvekkilin zararını büyütür." }
       ]
     },
     {
-      "side": "p1", "scene": "court",
+      "kind": "free", "side": "p1", "scene": "court",
       "lines": [
         { "who": "judge", "text": "Davalı vekili, cevabınızı özetleyin." },
         { "who": "opp", "text": "Sayın Hâkim, müvekkilim yalnızca satıcıdır. Cihazı üretmemiştir, garanti belgesi de üreticiye aittir. Ayıptan üretici sorumludur; müvekkilim yönünden husumet yokluğundan davanın reddini istiyoruz." },
         { "who": "judge", "text": "Davacı vekili?" }
       ],
-      "prompt": "Husumet itirazına ne diyeceksiniz?",
+      "prompt": "Husumet itirazına karşı mahkemeye ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
-        { "text": "Seçimlik hakların muhatabı sözleşmenin tarafı olan satıcıdır. Ücretsiz onarım ve değiştirme hakları üreticiye karşı da kullanılabilir; bu haklarda satıcı, üretici ve ithalatçı müteselsilen sorumludur. Satıcı tüketiciyi üreticiye gönderemez.", "delta": 20, "set": ["husumet"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["husumet"],
           "law": "6502 s.K. m.11",
-          "note": "Doğru. Seçimlik hakların hepsi satıcıya karşı kullanılabilir. Üreticinin ve ithalatçının sorumluluğu, onarım ve değiştirmede satıcının sorumluluğuna eklenir; onun yerine geçmez (m.11). Garanti belgesi tüketiciye ek bir güvence verir, satıcının kanuni sorumluluğunu kaldırmaz.",
+          "note": "İtirazı doğru gerekçeyle karşıladınız. Seçimlik hakların hepsi sözleşmenin tarafı olan satıcıya karşı kullanılabilir. Üreticinin ve ithalatçının sorumluluğu, onarım ve değiştirmede satıcının sorumluluğuna eklenir; onun yerine geçmez (m.11). Garanti belgesi tüketiciye ek bir güvence verir, satıcının kanuni sorumluluğunu kaldırmaz.",
           "reply": [{ "who": "judge", "text": "Husumet itirazının esasla birlikte değerlendirilmesine karar verildi." }] },
-        { "text": "Satıcı da garanti belgesini kaşelediği için sorumludur.", "delta": 5, "set": ["husumet"],
-          "law": "6502 s.K. m.11 · m.56",
-          "note": "Sonuç doğru, gerekçe zayıf. Satıcının sorumluluğu garanti belgesinden değil, satış sözleşmesinden ve kanundan doğar (m.11)." },
-        { "text": "Haklısınız; davayı üreticiye yöneltmek için süre isteyelim.", "delta": -15, "set": ["husumetKabul"],
+        { "text": "Yeterli savunma", "min": 40, "delta": 5, "set": ["husumet"],
           "law": "6502 s.K. m.11",
-          "note": "Hatalı. Satıcı ayıptan sorumludur; sözleşmeden dönme ve bedel iadesi talebinin asıl muhatabı odur. Bu kabulle davanın temelini kendiniz yıktınız." }
-      ]
+          "note": "Satıcının sorumlu olduğunu söylediniz; mahkeme itirazı esasla birlikte değerlendirmeye bıraktı. Tam savunma, satıcının sorumluluğunun garanti belgesinden değil satış sözleşmesinden ve kanundan doğduğunu, seçimlik hakların muhatabının satıcı olduğunu ve üreticinin yalnızca onarım ve değiştirmede satıcıyla birlikte müteselsilen sorumlu olduğunu (m.11) gösterir.",
+          "reply": [{ "who": "judge", "text": "Husumet itirazının esasla birlikte değerlendirilmesine karar verildi." }] },
+        { "text": "Zayıf savunma", "delta": -15, "set": ["husumetKabul"],
+          "law": "6502 s.K. m.11",
+          "note": "İtirazı çürütemediniz. Satıcı ayıptan sorumludur; sözleşmeden dönme ve bedel iadesi talebinin asıl muhatabı odur. Üretici yalnızca onarım ve değiştirmede satıcının yanında müteselsilen sorumludur, onun yerine geçmez (m.11); satıcı tüketiciyi üreticiye gönderemez." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Ayıplı maldan doğan seçimlik hakların (sözleşmeden dönme, bedelden indirim, ücretsiz onarım, misliyle değiştirme) muhatabı, sözleşmenin tarafı olan satıcıdır (6502 s.K. m.11). (2) Üretici ve ithalatçı yalnızca ücretsiz onarım ve ayıpsız misliyle değiştirme hakları bakımından satıcıyla birlikte müteselsilen sorumludur; bu sorumluluk satıcınınkine eklenir, onun yerine geçmez; müvekkilin kullandığı sözleşmeden dönme hakkı ise yalnızca satıcıya karşı ileri sürülür. (3) Garanti belgesinin üretici adına düzenlenmesi satıcının kanuni sorumluluğunu kaldırmaz; satıcı tüketiciyi üreticiye gönderemez, husumet itirazı reddedilmelidir. Satıcının muhatap olduğunu, üreticinin sorumluluğunun onarım ve değiştirmeyle sınırlı ve müteselsil olduğunu madde numarasıyla söylemek tam puan için gerekir; yalnızca 'satıcı da sorumludur' demek orta puan alır. İtirazı kabul edip davayı üreticiye yöneltmeyi öneren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["muhatab", "satıcıya karşı", "satıcı sorumlu", "satıcının sorumluluğu"], "weight": 3 },
+        { "terms": ["müteselsil"], "weight": 2 },
+        { "terms": ["m.11", "m. 11", "madde 11", "11. madde", "md. 11", "md.11"], "weight": 2 },
+        { "terms": ["garanti belgesi", "garanti"], "weight": 1 },
+        { "terms": ["sözleşmenin tarafı", "satış sözleşmesi", "sözleşmeden dönme", "seçimlik hak"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, 6502 sayılı Kanun m.11 uyarınca ayıplı maldan doğan seçimlik hakların muhatabı, sözleşmenin tarafı olan satıcıdır. Üretici yalnızca ücretsiz onarım ve misliyle değiştirme hakları bakımından satıcıyla birlikte müteselsilen sorumludur; bu sorumluluk satıcınınkini ortadan kaldırmaz. Müvekkil sözleşmeden dönmüştür ve bu hak satıcıya karşı kullanılır. Garanti belgesinin üretici adına olması satıcının kanuni sorumluluğunu kaldırmaz; husumet itirazının reddini istiyoruz."
     },
     {
       "kind": "evidence", "side": "p1", "scene": "court", "if": "!husumetKabul",
@@ -120,7 +130,7 @@
   "outcomes": [
     { "if": "husumetKabul", "winner": "p2",
       "hukum": "Davanın davalı yönünden REDDİNE,",
-      "summary": "Satıcının husumet itirazını kabul ettiniz. Oysa ayıplı maldan doğan seçimlik hakların muhatabı satıcıdır (6502 s.K. m.11); üretici onarım ve değiştirmede satıcının yanında müteselsilen sorumludur, onun yerine geçmez." },
+      "summary": "Satıcının husumet itirazı karşılanamadı; mahkeme davayı satıcı yönünden reddetti. Oysa ayıplı maldan doğan seçimlik hakların muhatabı satıcıdır (6502 s.K. m.11); üretici onarım ve değiştirmede satıcının yanında müteselsilen sorumludur, onun yerine geçmez." },
     { "if": "donme && husumet && ayipIspat", "winner": "p1",
       "hukum": "Davanın KABULÜ ile davacının sözleşmeden DÖNMESİ nedeniyle buzdolabı bedelinin davalıdan alınarak davacıya verilmesine, buzdolabının davalıya iadesine,",
       "summary": "Satıcı tüketiciyi üreticiye gönderemedi; altı ay karinesi ve servis raporları ayıbı ispatladı. Müvekkil istediği gibi parasını geri aldı, dolap satıcıya döndü." },

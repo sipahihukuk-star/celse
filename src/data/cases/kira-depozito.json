@@ -44,42 +44,53 @@
       "lines": [{ "who": "narr", "text": "Dava dilekçesini yazıyorsunuz. Talebin hukuki dayanağını ve tutarını belirlemeniz gerekiyor." }],
       "prompt": "Dilekçede neye dayanacak, ne isteyeceksiniz?",
       "choices": [
-        { "text": "Güvence üç aylık kirayı aşamaz; fazlası zaten alınamazdı. Olağan kullanımdan doğan eskimeden kiracı sorumlu değil, “iade edilmez” şartı da geçersiz. 72.000 TL'nin tamamını isteyin.", "delta": 20, "set": ["temel"],
+        { "text": "Güvence üç ay kirayı aşamaz, “iade edilmez” şartı geçersiz, olağan eskimeden kiracı sorumsuz; 72.000 TL'nin tamamını isteyin.", "delta": 20, "set": ["temel"],
           "law": "TBK m.342/1 · m.334",
           "note": "Konut kirasında güvence üç aylık kira bedelini aşamaz (TBK m.342/1). Kiracı, sözleşmeye uygun kullanmadan doğan eskime ve bozulmalardan sorumlu değildir (m.334/1). Kiracının, sözleşmeye aykırı kullanmadan doğan zararlar dışında, sözleşmenin sonunda ayrıca tazminat ödeyeceğini önceden üstlendiği anlaşmalar geçersizdir (m.334/2). Bankaya yatırma kuralı kiracıyı korur; parayı elden alan kiraya verene hak kazandırmaz.",
           "reply": [{ "who": "client", "text": "Yani elden vermem hakkımı kaybettirmiyor. İçim rahatladı." }] },
-        { "text": "Para bankaya yatırılmadığı için kiracı da kusurlu; yalnızca üç aylık kısmı, 54.000 TL'yi isteyin.", "delta": -10, "set": ["eksik"],
+        { "text": "Para bankaya yatırılmadığı için kiracı da kusurlu (TBK m.342/2); yalnızca üç aylık kısmı, 54.000 TL'yi isteyin.", "delta": -10, "set": ["eksik"],
           "law": "TBK m.342/2",
           "note": "Hatalı. Para olarak verilen güvencenin, kiraya verenin onayı olmadan çekilemeyecek bir vadeli hesaba yatırılması kuralı kiracıyı korumak içindir (m.342/2). Parayı elden alan kiraya veren bundan yararlanamaz. Üç ayı aşan kısım da iade edilmelidir. Mahkeme talepten fazlasına hükmedemez (HMK m.26)." },
-        { "text": "Sözleşmede “iade edilmez” yazıyor, imza da var. Yalnızca üç ayı aşan 18.000 TL'yi isteyin.", "delta": -15, "set": ["eksik"],
+        { "text": "Sözleşmede “iade edilmez” yazıyor, imza da var; sözleşme serbestisi gereği (TBK m.26) yalnızca üç ayı aşan 18.000 TL'yi isteyin.", "delta": -15, "set": ["eksik"],
           "law": "TBK m.334/2",
           "note": "Hatalı. Kiracının sözleşme sonunda, sözleşmeye aykırı kullanmadan doğan zararlar dışında bir bedel ödeyeceğini önceden üstlendiği kayıt geçersizdir (m.334/2). Bu şartı kabul ederek müvekkilin alacağının büyük kısmından vazgeçtiniz." },
-        { "text": "Depozito yerine, mağduriyet nedeniyle manevi tazminat isteyin.", "delta": -10,
+        { "text": "Depozito yerine, ev sahibinin kötü niyeti ve müvekkilin mağduriyeti nedeniyle manevi tazminat isteyin.", "delta": -10,
           "note": "Uyuşmazlık bir para alacağıdır; manevi tazminatın şartları yok. Güvencenin iadesi istenmeliydi.",
           "reply": [{ "who": "client", "text": "Ama ben yalnızca paramı geri istiyorum…" }, { "who": "narr", "text": "Dilekçeyi baştan yazıp depozitonun iadesini istediniz, ama zaman kaybettiniz." }],
           "set": ["temel"] }
       ]
     },
     {
+      "kind": "free",
       "side": "p1", "scene": "court",
       "lines": [
         { "who": "judge", "text": "Dosya incelendi. Davalı vekili, savunmanızı özetleyin." },
         { "who": "opp", "text": "Sayın Hâkim, kiracı daireyi boyasız, parkeleri çizik, dolap menteşeleri gevşek bıraktı. Müvekkilim bunların bedelini depozitodan mahsup etti." },
         { "who": "judge", "text": "Davacı vekili?" }
       ],
-      "prompt": "Bu savunmaya nasıl karşılık vereceksiniz?",
+      "prompt": "Mahsup savunmasına karşı mahkemeye ne söyleyeceksiniz? Kendi cümlelerinizle savunun.",
       "choices": [
-        { "text": "Bir yıllık oturumda duvar boyasının eskimesi, parkede olağan çizikler ve gevşeyen menteşeler sözleşmeye uygun kullanmanın doğal sonucudur; kiracı bunlardan sorumlu değildir.", "delta": 20, "set": ["olagan"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["olagan"],
           "law": "TBK m.334/1",
-          "note": "Doğru. Kiracı kiralananı teslim aldığı durumda geri verir; ama sözleşmeye uygun kullanma dolayısıyla oluşan eskime ve bozulmalardan sorumlu değildir (m.334/1). Boya eskimesi ve olağan yıpranma kiraya verenin yükü altındadır.",
+          "note": "Savunmayı doğru zeminde karşıladınız. Kiracı kiralananı teslim aldığı durumda geri verir; ama sözleşmeye uygun kullanma dolayısıyla oluşan eskime ve bozulmalardan sorumlu değildir (m.334/1). Bir yıllık oturumdan sonra boya eskimesi, olağan çizikler ve gevşeyen menteşeler kiraya verenin yükü altındadır.",
           "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi. Davalı vekili, olağan kullanımı aşan bir hasar iddianız var mı?" }] },
-        { "text": "Boya bedelini kabul ediyoruz, ama parke ve menteşeye itiraz ediyoruz.", "delta": -10, "set": ["boyaKabul"],
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["olagan"],
           "law": "TBK m.334/1",
-          "note": "Gereksiz bir kabul. Bir yıllık kullanımdan sonra boyanın eskimesi olağan kullanımın sonucudur; kiracıya yüklenemez. Kabul ettiğiniz bedel alacaktan düşülecek." },
-        { "text": "Kiracı, ne olursa olsun, daireye verilen hiçbir zarardan sorumlu tutulamaz.", "delta": -5,
+          "note": "Sayılan durumların olağan yıpranma olduğunu söylediniz; mahkeme mahsubu kabul etmedi. Tam savunma, kiracının sözleşmeye uygun kullanmadan doğan eskimeden sorumlu olmadığını madde numarasıyla (TBK m.334/1) ve her kalemin bir yıllık oturumun doğal sonucu olduğunu birlikte gösterir.",
+          "reply": [{ "who": "judge", "text": "Beyan tutanağa geçirildi. Davalı vekili, olağan kullanımı aşan bir hasar iddianız var mı?" }] },
+        { "text": "Zayıf savunma", "delta": -10, "set": ["boyaKabul"],
           "law": "TBK m.334",
-          "note": "Fazla geniş. Kiracı sözleşmeye aykırı kullanmadan doğan zararlardan sorumludur (m.334/2). Doğru tez, iddia edilenlerin olağan yıpranma olduğuydu." }
-      ]
+          "note": "Mahsup savunmasını çürütemediniz. Bir yıllık kullanımdan sonra boyanın eskimesi, parkedeki olağan çizikler ve gevşeyen menteşeler sözleşmeye uygun kullanmanın sonucudur; kiracı bunlardan sorumlu değildir (m.334/1). Kiracının sorumlu olduğu yalnızca sözleşmeye aykırı kullanmadan doğan zararlardır; 'hiçbir zarardan sorumlu değil' demek de bu yüzden fazla geniştir." }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kiracı, kiralananı teslim aldığı durumda geri vermekle yükümlüdür; ancak sözleşmeye uygun kullanma dolayısıyla oluşan eskime ve bozulmalardan sorumlu değildir (TBK m.334/1). (2) Bir yıllık oturumdan sonra duvar boyasının eskimesi, parkedeki olağan çizikler ve gevşeyen menteşeler bu türden olağan yıpranmadır; bedelleri kiraya verene aittir ve depozitodan mahsup edilemez. (3) Kiracı yalnızca sözleşmeye aykırı kullanmadan doğan zararlardan sorumludur; davalı böyle bir zarar ispat etmemiştir. Olağan kullanım ilkesini madde numarasıyla ve somut kalemlere uygulayarak söylemek tam puan için gerekir; yalnızca 'bunlar olağan yıpranma' demek orta puan alır. Boya bedelini kabul eden ya da kiracının hiçbir zarardan sorumlu olmadığını ileri süren cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["olağan", "doğal sonuc", "yıpranma", "eskime"], "weight": 3 },
+        { "terms": ["sözleşmeye uygun kullan", "uygun kullanım", "normal kullanım"], "weight": 2 },
+        { "terms": ["m.334", "m. 334", "madde 334", "334. madde", "md. 334", "md.334"], "weight": 2 },
+        { "terms": ["sorumlu değil", "sorumlu tutulamaz", "sorumluluğu yok", "yüklenemez"], "weight": 1 },
+        { "terms": ["mahsup edilemez", "mahsup yapılamaz", "düşülemez", "kesilemez"], "weight": 1 }
+      ],
+      "model": "Sayın Hâkim, TBK m.334/1 uyarınca kiracı, sözleşmeye uygun kullanma dolayısıyla oluşan eskime ve bozulmalardan sorumlu değildir. Bir yıllık oturumdan sonra boyanın eskimesi, parkedeki olağan çizikler ve gevşeyen menteşeler olağan yıpranmanın doğal sonucudur. Davalı sözleşmeye aykırı kullanmadan doğan bir zarar ispat etmemiştir; bu kalemler depozitodan mahsup edilemez."
     },
     {
       "kind": "evidence", "side": "p1", "scene": "court",
@@ -103,13 +114,13 @@
       "lines": [{ "who": "judge", "text": "Tahkikat tamamlandı. Davacı vekili, son talebiniz?" }],
       "prompt": "Faiz konusunda ne isteyeceksiniz?",
       "choices": [
-        { "text": "Alacağın, ihtarnamede verilen sürenin bittiği tarihten itibaren işleyecek yasal faiziyle birlikte davalıdan alınmasına karar verilmesini istiyoruz.", "delta": 10, "set": ["faiz"],
+        { "text": "Alacağın, ihtarnamedeki sürenin bittiği tarihten itibaren yasal faiziyle birlikte davalıdan alınmasını istiyoruz.", "delta": 10, "set": ["faiz"],
           "law": "TBK m.117 · m.120",
           "note": "Borçlu, alacaklının ihtarıyla temerrüde düşer (TBK m.117/1). İhtarnamede verilen süre dolmuş, para ödenmemişti; temerrüt faizi istenebilir." },
-        { "text": "Faiz istemiyoruz; asıl alacak yeterli.", "delta": 0,
+        { "text": "Faiz istemiyoruz; asıl alacak yeterli, hâkim temerrüt faizini zaten kendiliğinden ekler.", "delta": 0,
           "note": "Hata değil, ama müvekkilin hakkı olan temerrüt faizini istemediniz. Mahkeme istenmeyen faize hükmedemez (HMK m.26)." },
-        { "text": "Kiraya veren güvenceyi bankaya yatırmadığı için ayrıca güvence tutarının iki katı ceza istiyoruz.", "delta": -10,
-          "note": "Kanunda böyle bir ceza yok. Dayanaksız talepler hâkimin güvenini sarsar." }
+        { "text": "Kiraya veren güvenceyi bankaya yatırmadığı için TBK m.342 uyarınca ayrıca güvence tutarının iki katı tazminat istiyoruz.", "delta": -10,
+          "note": "Kanunda böyle bir yaptırım yok; m.342 yalnızca güvencenin tutarını ve bankaya yatırılmasını düzenler. Dayanaksız talepler hâkimin güvenini sarsar." }
       ]
     }
   ],

@@ -64,10 +64,10 @@
       "lines": [{ "who": "narr", "text": "Duruşmada hangi hak üzerinden konuşacağınızı belirlemeniz gerekiyor." }],
       "prompt": "Konuşmanızı hangi çerçevede kuracaksınız?",
       "choices": [
-        { "text": "Adil yargılanma hakkı kapsamında gerekçeli karar hakkı: mahkemeler sonuca etkili bir savunmayı hiç cevaplamadı.", "delta": 15, "set": ["hak"],
+        { "text": "Adil yargılanma hakkı içinde gerekçeli karar hakkı: esaslı savunma hiç cevaplanmadı.", "delta": 15, "set": ["hak"],
           "law": "Anayasa m.36, m.141/3",
           "note": "Gerekçeli karar hakkı adil yargılanma hakkının bir parçasıdır. Anayasa m.141/3 de bütün mahkeme kararlarının gerekçeli yazılmasını ister." },
-        { "text": "Mülkiyet hakkı: müvekkil haksız yere para ödemeye mahkûm edildi.", "delta": -5,
+        { "text": "Mülkiyet hakkı: müvekkil zamanaşımına uğramış bir borcu ödemeye mahkûm edildi, malvarlığı azaldı.", "delta": -5,
           "note": "Şikâyetin özü, yargılamada bir savunmanın cevapsız bırakılmasıdır. Bu adil yargılanma hakkının konusudur. Kararın sonucuna itiraz, tek başına mülkiyet hakkı şikâyeti olmaz." },
         { "text": "Zamanaşımının gerçekten dolduğunu gösteren ayrıntılı bir süre hesabı hazırlayın.", "delta": -10, "set": ["dorduncu"],
           "note": "Sürenin dolup dolmadığına derece mahkemeleri karar verir. Anayasa Mahkemesi bu hesabı yapmaz. Böyle bir sunum kanun yolu şikâyeti izlenimi verir." }
@@ -78,17 +78,28 @@
         { "who": "opp", "text": "Başvurucu, derece mahkemelerinin delilleri değerlendirmesinden ve hukuku yorumlamasından şikâyet etmektedir. Anayasa Mahkemesi bir kanun yolu merci değildir. Başvuru açıkça dayanaktan yoksundur." },
         { "who": "judge", "text": "Başvurucu vekili, cevabınız?" }
       ],
-      "prompt": "Ne cevap vereceksiniz?",
+      "prompt": "Bakanlığın “kanun yolu şikâyeti” itirazına ne cevap vereceksiniz? Kendi cümlelerinizle savunun.",
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları söyler: (1) Başvurucu Anayasa Mahkemesinden zamanaşımının dolup dolmadığını, delillerin nasıl değerlendirileceğini ya da davanın sonucunu incelemesini istemiyor; kanun yolu şikâyeti yapılmıyor. (2) Şikâyet, sonuca doğrudan etkili esaslı bir savunmanın (zamanaşımı def'i) ileri sürülmüş olmasına rağmen ilk derece kararında da bölge adliye mahkemesi kararında da hiç cevaplanmamasıdır. (3) Bu, adil yargılanma hakkının parçası olan gerekçeli karar hakkının ihlalidir (Anayasa m.36; kararların gerekçeli olması Anayasa m.141/3). Üç unsuru birlikte kuran cevap tam puan alır; gerekçeli karar hakkını anıp esaslı savunmanın cevapsız kaldığını ya da kanun yolu şikâyeti olmadığını eksik bırakan cevap orta puan alır. Zamanaşımının dolduğunu ispatlamaya çalışan, ticari defterlerin güvenilirliğini tartışan ya da Mahkemeden davanın reddini isteyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["gerekçeli karar", "gerekçe"], "weight": 3 },
+        { "terms": ["esaslı", "sonuca etkili", "sonucu değiştir", "sonuca doğrudan"], "weight": 2 },
+        { "terms": ["cevapsız", "cevaplanmadı", "cevaplamadı", "hiç değinmedi", "tartışılmadı", "karşılanmadı", "söz edilmedi"], "weight": 2 },
+        { "terms": ["kanun yolu", "dördüncü derece", "üst derece", "esasına girmesini", "zamanaşımının dolup dolmadığını"], "weight": 1 },
+        { "terms": ["adil yargılanma", "m.36", "m. 36", "madde 36", "36. madde", "md. 36"], "weight": 1 },
+        { "terms": ["m.141", "m. 141", "madde 141", "141. madde", "md. 141"], "weight": 1 }
+      ],
+      "model": "Sayın Başkan, Mahkemenizden zamanaşımının dolup dolmadığına karar vermesini ya da delilleri yeniden değerlendirmesini istemiyoruz; bu bir kanun yolu şikâyeti değildir. Müvekkil sonuca doğrudan etkili bir savunma olan zamanaşımı def'ini süresinde ileri sürdü; ilk derece kararı da bölge adliye mahkemesi kararı da bu savunmayı hiç cevaplamadı. Esaslı bir savunmanın cevapsız bırakılması, adil yargılanma hakkının parçası olan gerekçeli karar hakkını ihlal eder (Anayasa m.36, m.141/3).",
       "choices": [
-        { "text": "Zamanaşımının dolup dolmadığını Mahkemenize sormuyoruz. Şikâyetimiz şu: sonuca doğrudan etkili bir savunma ileri sürüldü ve iki karar da onu hiç cevaplamadı. Gerekçeli karar hakkı bunu güvence altına alır.", "delta": 20, "set": ["gerekce"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["gerekce"],
           "law": "Anayasa m.36, m.141/3",
-          "note": "Mahkemeler her iddiaya ayrıntılı cevap vermek zorunda değildir. Ama davanın sonucunu değiştirebilecek esaslı bir savunmayı cevapsız bırakamazlar. Anayasa Mahkemesi delil değerlendirmesini denetlemez; bu güvencenin sağlanıp sağlanmadığını denetler." },
-        { "text": "Zamanaşımı açıkça dolmuştur. Mahkemeniz bunu tespit edip alacağın reddine karar vermelidir.", "delta": -15, "set": ["dorduncu"],
-          "note": "Bu, Mahkemeyi bir üst derece mahkemesi gibi çalışmaya çağırmaktır. Anayasa Mahkemesi uyuşmazlığın esasına karar vermez." },
-        { "text": "Bölge adliye mahkemesinin tek cümlelik gerekçesi her durumda yetersizdir.", "delta": 0,
-          "note": "Kanun yolu merci, ilk derece kararını yeterli bulduğunda kısa bir gerekçeyle yetinebilir. Asıl sorun, ilk derece kararının da esaslı savunmayı hiç tartışmamış olmasıydı." },
-        { "text": "Tedarikçinin ticari defterleri güvenilir değildi; mahkeme onlara itibar etmemeliydi.", "delta": -10, "set": ["dorduncu"],
-          "note": "Delillerin değerlendirilmesi derece mahkemelerinin işidir. Bu, Bakanlığın kanun yolu şikâyeti iddiasını doğrular." }
+          "note": "Şikâyeti doğru yere oturttunuz. Mahkemeler her iddiaya ayrıntılı cevap vermek zorunda değildir; ama davanın sonucunu değiştirebilecek esaslı bir savunmayı cevapsız bırakamazlar. Anayasa Mahkemesi delil değerlendirmesini denetlemez; bu güvencenin sağlanıp sağlanmadığını denetler." },
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["gerekce"],
+          "law": "Anayasa m.36, m.141/3",
+          "note": "Gerekçeli karar hakkı şikâyetini kurdunuz; Bölüm bunu yeterli buldu. Tam cevap, Mahkemeden zamanaşımına karar vermesinin istenmediğini, sonuca doğrudan etkili bir savunmanın iki kararda da cevapsız kaldığını ve bunun Anayasa m.36 ile m.141/3'e aykırı olduğunu birlikte söyler." },
+        { "text": "Zayıf savunma", "delta": -15, "set": ["dorduncu"],
+          "law": "Anayasa m.36, m.148/4",
+          "note": "Bakanlığın kanun yolu şikâyeti iddiasını çürütemediniz. Anayasa Mahkemesi zamanaşımının dolup dolmadığına ya da delillerin değerlendirilmesine karar vermez (Anayasa m.148/4: kanun yolunda gözetilmesi gereken hususlarda inceleme yapılamaz). Söylenmesi gereken, sonuca etkili esaslı bir savunmanın iki kararda da cevapsız bırakıldığı ve bunun gerekçeli karar hakkını ihlal ettiğiydi." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court",
       "lines": [{ "who": "judge", "text": "Bakanlık temsilcisi, eklemek istediğiniz bir husus var mı?" }],
@@ -113,12 +124,12 @@
       "lines": [{ "who": "judge", "text": "Başvurucu vekili, Bölümden talebiniz nedir?" }],
       "prompt": "Ne isteyeceksiniz?",
       "choices": [
-        { "text": "Gerekçeli karar hakkının ihlal edildiğinin tespitini ve yeniden yargılama yapılmak üzere dosyanın ilk derece mahkemesine gönderilmesini isteriz.", "delta": 15, "set": ["yeniden"],
+        { "text": "İhlalin tespitini ve yeniden yargılama için dosyanın ilk derece mahkemesine gönderilmesini isteriz.", "delta": 15, "set": ["yeniden"],
           "law": "6216 s.K. m.50/2",
           "note": "İhlal mahkeme kararından kaynaklanıyor. İhlali gidermenin yolu yeniden yargılamadır. Yeniden yargılamada mahkeme zamanaşımı savunmasını inceleyip gerekçesiyle karar verecek." },
-        { "text": "Mahkemeniz zamanaşımını kabul ederek davanın reddine karar versin.", "delta": -15, "set": ["dorduncuTalep"],
+        { "text": "İhlali tespit eden Mahkemeniz, zamanaşımını da kabul ederek alacak davasının reddine karar versin.", "delta": -15, "set": ["dorduncuTalep"],
           "note": "Anayasa Mahkemesi ihlali tespit eder ve giderilmesi için gerekenlere hükmeder. Davanın esası hakkında karar veremez, yeniden yargılamanın sonucunu da belirleyemez." },
-        { "text": "Yalnızca ödenen alacak tutarı kadar tazminat isteriz.", "delta": -5,
+        { "text": "Yeniden yargılama yıllar süreceğinden, m.50/2 uyarınca ödenen alacak tutarı kadar tazminatla yetinilmesini isteriz.", "delta": -5,
           "law": "6216 s.K. m.50/2",
           "note": "Yeniden yargılama ihlali giderebilecekken tazminatla yetinmek doğru talep değil. Tazminat, yeniden yargılamada hukuki yarar bulunmayan hâller içindir." }
       ] }

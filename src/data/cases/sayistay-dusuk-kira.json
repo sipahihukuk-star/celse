@@ -60,19 +60,32 @@
       ] },
     { "side": "p1", "scene": "office",
       "lines": [{ "who": "narr", "text": "Sorguya yazılı savunma hazırlıyorsunuz. Savunma, raportör denetçinin hazırlayacağı rapora eklenecek." }],
-      "prompt": "Savunmayı nasıl kuracaksınız?",
+      "prompt": "Yazılı savunmanızı nasıl kuracaksınız: neyi isteyecek, neye dayanacaksınız? Kendi cümlelerinizle yazın.",
+      "kind": "free",
+      "rubric": "İyi bir cevap şunları içerir: (1) Savunmada açıkça duruşma talep edilir; talep yoksa duruşma yapılmaz, Daire raporu ve Başsavcılığın yazılı görüşünü esas alarak karar verir. (2) Kamu zararı mevzuata aykırı bir işlem arar (5018 s.K. m.71); kira bedeli ihaleden önce, o tarihteki koşullara göre (alanda yol ve elektrik yokken) tahmini bedel komisyonunca ve lisanslı değerleme raporuyla belirlenmiş, açık artırmada beş istekliyle rekabet sağlanmıştır; raportörün dayandığı marina restoranı uygun bir emsal değildir. (3) Rayicin nasıl belirlendiğini gösteren belgeler (komisyon kararı, değerleme raporu, ihale tutanağı) savunmaya eklenir. Duruşma talep edip savunmayı rayicin ihale tarihinde usulüne uygun belirlendiğine ve bunu gösteren belgelere dayandıran cevap tam puan alır. Duruşma talep edip yalnızca emsalin uygun olmadığını söyleyen ya da belge göstermeyen cevap orta puan alır. Duruşma istemeyen cevap ya da “kasadan para çıkmadı, kamu zararı yok” savunmasına dayanan cevap düşük puan alır; kamu kaynağında artışa engel olunması da kamu zararıdır.",
+      "keywords": [
+        { "terms": ["duruşma"], "weight": 3 },
+        { "terms": ["değerleme", "komisyon", "tahmini bedel", "rayiç"], "weight": 2 },
+        { "terms": ["açık artırma", "beş istekli", "5 istekli", "rekabet"], "weight": 1 },
+        { "terms": ["ihale tarihi", "o tarihte", "o tarihteki", "yapıldığı tarih", "işlem tarihi", "yol ve elektrik"], "weight": 1 },
+        { "terms": ["emsal", "marina"], "weight": 1 },
+        { "terms": ["mevzuata aykırı", "mevzuata uygun", "usulüne uygun"], "weight": 1 }
+      ],
+      "model": "Savunmamızda duruşma talep ediyoruz. Kamu zararı mevzuata aykırı bir işlem arar; kira bedeli ihaleden önce tahmini bedel komisyonunca, lisanslı bir değerleme uzmanının raporuna ve üç emsale göre, alanda henüz yol ve elektrik yokken belirlendi. Açık artırmaya beş istekli katıldı, rekabet sağlandı; marina restoranı bu alan için uygun bir emsal değildir. Komisyon kararını, değerleme raporunu ve ihale tutanağını savunmaya ekliyoruz.",
       "choices": [
-        { "if": "degerleme", "text": "Savunmada duruşma talep et. Değerleme raporunu ve komisyon kararını savunmaya ekle.", "delta": 20, "set": ["durusma"],
+        { "text": "Güçlü savunma", "min": 70, "delta": 20, "set": ["durusma"],
           "law": "6085 s.K.",
-          "note": "Sorumlular savunmalarında ve/veya dilekçelerinde belirterek duruşmaya katılma isteminde bulunabilir. Belge de dosyaya girdi." },
-        { "if": "!degerleme", "text": "Savunmada duruşma talep et. Raportörün emsalinin uygun olmadığını yaz.", "delta": 10, "set": ["durusma"],
+          "note": [
+            { "text": "Savunmayı doğru kurdunuz. Sorumlular savunmalarında ve/veya dilekçelerinde belirterek duruşmaya katılma isteminde bulunabilir." },
+            { "if": "degerleme", "text": " Değerleme raporu ve komisyon kararı da dosyaya girdi." },
+            { "if": "!degerleme", "text": " Rayicin nasıl belirlendiğini gösteren belgeyi ise henüz bulmadınız; müvekkile sorulsaydı ihale klasöründen çıkabilirdi." }
+          ] },
+        { "text": "Yeterli savunma", "min": 40, "delta": 10, "set": ["durusma"],
           "law": "6085 s.K.",
-          "note": "Duruşma talebi yerinde. Ama savunmayı rayicin nasıl belirlendiğini gösteren bir belgeye dayandırmadınız." },
-        { "text": "Savunmada duruşma talep et. Kira gelirinin bütçeye girdiğini, kamu kaynağında azalma olmadığını yaz.", "delta": -5, "set": ["durusma", "yanlisTez"],
-          "law": "5018 s.K. m.71",
-          "note": "Duruşma talebi yerinde, ama tez yanlış. Kamu zararı, kamu kaynağında artışa engel olunmasını da kapsar (5018 s.K. m.71)." },
-        { "text": "Yazılı savunmayla yetin, duruşma isteme.", "delta": -10, "set": ["rapor"],
-          "note": "Talep yoksa duruşma yapılmaz. Daire raporu ve Başsavcılığın yazılı görüşünü esas alarak karar verir." }
+          "note": "Duruşma talebi yerinde. Ama savunmayı rayicin ihale tarihinde nasıl belirlendiğini gösteren belgelere (komisyon kararı, değerleme raporu, ihale tutanağı) ve işlemin o tarihteki mevzuata uygunluğuna yeterince dayandırmadınız." },
+        { "text": "Zayıf savunma", "delta": -10, "set": ["rapor"],
+          "law": "6085 s.K. · 5018 s.K. m.71",
+          "note": "Savunmada duruşma talep edilmedi. Talep yoksa duruşma yapılmaz; Daire raporu ve Başsavcılığın yazılı görüşünü esas alarak karar verir. “Kasadan para çıkmadı” savunması da işe yaramazdı: kamu zararı, kamu kaynağında artışa engel olunmasını da kapsar (5018 s.K. m.71)." }
       ] },
     { "kind": "evidence", "side": "p1", "scene": "court", "if": "durusma",
       "lines": [
@@ -101,15 +114,15 @@
       ],
       "prompt": "Nasıl karşılık vereceksiniz?",
       "choices": [
-        { "if": "rayic", "text": "Kamu zararı mevzuata aykırı bir işlem arar. Bedel ihale tarihinde usulüne uygun belirlendi, açık artırmayla rekabet sağlandı. Sözleşme süresince bedel, sözleşmedeki TÜFE artış hükmüne göre işler.", "delta": 20, "set": ["tarih"],
+        { "if": "rayic", "text": "Kamu zararı mevzuata aykırılık arar; bedel ihale tarihinde açık artırmayla belirlendi, sonra TÜFE'yle işler.", "delta": 20, "set": ["tarih"],
           "law": "5018 s.K. m.71",
           "note": "İşlemin mevzuata uygunluğu, yapıldığı tarihteki koşullara göre değerlendirilir. Usulüne uygun belirlenen ve sözleşmeye bağlanan bedel, sonradan artan rayiç nedeniyle mevzuata aykırı hâle gelmez." },
         { "if": "!rayic", "text": "Raportörün emsali uygun değil. Tutarın uygun emsallerle, gerekirse bilirkişi incelemesiyle yeniden hesaplanmasını isteriz.", "delta": 10, "set": ["bilirkisi"],
           "note": "Rayicin doğru emsale göre belirlenmesi, tazmin tutarını doğrudan etkiler. Elinizdeki en iyi yol bu." },
-        { "text": "Kira geliri bütçeye girdiğine göre kamu kaynağında azalma yoktur.", "delta": -15, "set": ["yanlisTez"],
+        { "text": "Kira geliri her ay eksiksiz bütçeye girdiğine göre kamu kaynağında azalma yoktur; kamu zararı da oluşmaz.", "delta": -15, "set": ["yanlisTez"],
           "law": "5018 s.K. m.71",
           "note": "Kamu zararı, kamu kaynağında artışa engel olunmasını da kapsar (5018 s.K. m.71). Bu savunma heyetin gözünde tezinizi zayıflattı." },
-        { "text": "Kiracı iyi niyetlidir; sözleşmeye dokunulmamalıdır.", "delta": -5,
+        { "text": "Kiracı iyi niyetlidir, kirasını bir gün bile aksatmadı; ahde vefa gereği sözleşmeye dokunulmamalıdır.", "delta": -5,
           "note": "Kiracının iyi niyeti, sorumluların işleminin mevzuata uygun olup olmadığı sorusunu cevaplamaz." }
       ] }
   ],
