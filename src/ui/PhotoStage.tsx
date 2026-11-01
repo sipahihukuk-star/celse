@@ -44,7 +44,11 @@ function roomOf(c: CaseFile) {
 /** Görüşme odası (bg-gorusme, 1280×716): masanın uzak kenarı ve müvekkilin yeri. */
 const DESK = { edge: 467, clientX: 632, clientBottom: 520, clientH: 430 };
 /** Yerel salonda zabıt kâtibinin masası (hâkimin önündeki bilgisayarlı masa, bg-yerel 1280×716). */
-const KATIP_DESK = { x0: 470, x1: 800, top: 413, bottom: 492, sitX: 742, sitBottom: 462, h: 168 };
+const KATIP_DESK = { x0: 470, x1: 800, top: 413, bottom: 492, sitX: 640, top0: 318, h: 150 };
+/** Kâtibin önündeki ekran (arkası bize dönük); başı ekranın üstünden görünür. */
+const SCREEN = { x0: 606, x1: 674, top: 376, bottom: 410, standW: 12, baseW: 46 };
+/** Ön plandaki tek kişi (sanık, tanık, müvekkil, mübaşir) kâtibin yüzünü örtmesin: başı bu çizginin altında kalır. */
+const FRONT_TOP = 418;
 
 /** Mahkemeye göre değişen mübaşir ve kâtip yüzleri. */
 const MUBASIR = ["mubasir", "mubasir-kadin", "mubasir-genc", "mubasir-yasli"] as const;
@@ -151,16 +155,19 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
       const k = isP ? faces.judge : others[mi % others.length];
       figs.push({ key: isP ? "judge" : `judge_${i}`, photo: k, flip: !isP && Math.floor(mi / others.length) % 2 === 1, x, bottom: H - Y(room.bench.y) - room.bench.h * s * 0.06, h: room.bench.h * s * (isP ? 1.06 : crowd), z: 1 });
     });
-    // Zabıt kâtibi: hâkimin önündeki bilgisayarlı masada oturur (masanın önü ayrıca üstüne çizilir).
+    // Zabıt kâtibi: hâkimin tam altında, bize dönük oturur; başı ekranın üstünden görünür. Hâkim kürsüsünün önünde olduğu için
+    // hâkimin üstüne çizilir; masanın önü ve ekran ayrıca kâtibin üstüne çizilir.
     if (room === ROOM.yerel && faces.katip) {
-      figs.push({ key: "katip", photo: faces.katip, x: X(KATIP_DESK.sitX), bottom: H - Y(KATIP_DESK.sitBottom), h: KATIP_DESK.h * s, z: 1 });
+      figs.push({ key: "katip", photo: faces.katip, x: X(KATIP_DESK.sitX), bottom: H - Y(KATIP_DESK.top0) - KATIP_DESK.h * s, h: KATIP_DESK.h * s, z: 2 });
     }
+    const katipShown = room === ROOM.yerel && !!faces.katip;
+    const below = (h: number) => (katipShown ? Math.min(0, H - Y(FRONT_TOP) - h) : 0);
     // Mübaşir yalnızca tarafları çağırırken öne çıkar.
-    if (focus === "mubasir" && faces.mubasir) figs.push({ key: "mubasir", photo: faces.mubasir, x: W * 0.5, bottom: 0, h: H * 0.62, z: 6, front: true });
+    if (focus === "mubasir" && faces.mubasir) figs.push({ key: "mubasir", photo: faces.mubasir, x: W * 0.5, bottom: below(H * 0.62), h: H * 0.62, z: 6, front: true });
     if (!duel && n === 1 && c.courtCast?.includes("pros") && room.pros && faces.pros) {
       figs.push({ key: "pros", photo: faces.pros, x: X(room.pros.x), bottom: H - Y(room.pros.y), h: room.pros.h * s, z: 1 });
     }
-    if (!duel && c.courtCast?.includes("client") && faces.client) figs.push({ key: "client", photo: faces.client, x: W * 0.5, bottom: 0, h: H * 0.5, z: 3, front: true });
+    if (!duel && c.courtCast?.includes("client") && faces.client) figs.push({ key: "client", photo: faces.client, x: W * 0.5, bottom: below(H * 0.5), h: H * 0.5, z: 3, front: true });
     if (faces.p1 || duel) figs.push({ key: "p1", photo: faces.p1 || "av-erkek-38", x: W * 0.17, bottom: 0, h: H * 0.66, z: 4, front: true });
     const oppKey = duel ? "p2" : "opp";
     if ((duel || c.courtCast?.includes("opp")) && faces[oppKey]) figs.push({ key: oppKey, photo: faces[oppKey], flip: true, x: W * 0.83, bottom: 0, h: H * 0.66, z: 4, front: true });
@@ -205,6 +212,14 @@ export default function PhotoStage({ c, scene, focus, talking }: Props) {
               <Image source={bg.src} resizeMode="cover" style={{ position: "absolute", left: ox - X(KATIP_DESK.x0), top: oy - Y(KATIP_DESK.top), width: bg.w * s, height: bg.h * s }} />
             </View>
           )}
+          {scene === "court" && room === ROOM.yerel && faces.katip && (
+            // Kâtibin bilgisayar ekranı: arkası bize dönük; ayağı masaya oturur.
+            <View pointerEvents="none" style={{ position: "absolute", left: X(SCREEN.x0), width: (SCREEN.x1 - SCREEN.x0) * s, top: Y(SCREEN.top), height: (KATIP_DESK.top + 3 - SCREEN.top) * s, zIndex: 2, alignItems: "center" }}>
+              <View style={[styles.screen, { width: "100%", height: (SCREEN.bottom - SCREEN.top) * s, borderRadius: 3 * s }]} />
+              <View style={[styles.stand, { width: SCREEN.standW * s, flex: 1 }]} />
+              <View style={[styles.stand, { width: SCREEN.baseW * s, height: 2.5 * s, borderRadius: 2 * s }]} />
+            </View>
+          )}
           {scene === "office" && !duel && (
             // Masa ön katmanı: arka planın masa kısmı, müvekkilin belinin üstüne yeniden çizilir.
             <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: Y(DESK.edge), bottom: 0, overflow: "hidden", zIndex: 5 }}>
@@ -225,6 +240,8 @@ const styles = StyleSheet.create({
   stage: { flex: 1, overflow: "hidden", backgroundColor: "#111", borderRadius: 10 },
   // Konuşmayan ön plan karakterleri saydamlaşmaz, kararır (arka plan içlerinden görünmesin).
   dim: (Platform.OS === "web" ? { filter: "brightness(0.5)" } : { filter: [{ brightness: 0.5 }] }) as any,
+  screen: { backgroundColor: "#16171a", borderWidth: 1, borderColor: "#34363c", borderBottomColor: "#0b0b0c" },
+  stand: { backgroundColor: "#24262b" },
   plaque: { position: "absolute", top: 8, alignSelf: "center", backgroundColor: "rgba(20,16,10,0.62)", borderRadius: 4, paddingHorizontal: 10, paddingVertical: 3, maxWidth: "80%" },
   plaqueText: { fontFamily: F.display, fontSize: 12, letterSpacing: 2, color: C.brass },
   vignette: { position: "absolute", left: 0, right: 0, bottom: 0, height: 40, backgroundColor: "rgba(0,0,0,0.0)" }
