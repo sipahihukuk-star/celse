@@ -3,11 +3,11 @@
 // Tutarlar oyun içi yaklaşık değerlerdir (resmî tarife değildir).
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
-import { CaseFile } from "../engine/types";
+import { CaseFile, Side } from "../engine/types";
 import { currentAccount, onAccountChange } from "./account";
 import { levelOf } from "./career";
 import { branchOf } from "./branches";
-import { ageLife, Choice, dueEvent, EVENTS, Life, newLife, personalCosts, staffCosts } from "./life";
+import { ageLife, Choice, dueEvent, EDU, EVENTS, hasDegree, Life, migrateLife, newLife, personalCosts, staffCosts } from "./life";
 
 export interface City { id: string; name: string; rent: number; fee: number; note: string }
 /** rent: aylık büro kirası (TL) · fee: vekâlet ücreti çarpanı (büyük şehirde ücret ve iş hacmi yüksek, kira da yüksek) */
@@ -56,19 +56,23 @@ export interface Office {
 /** Duruşmaya çıkmayan rutin işler (danışmanlık, ihtarname, sözleşme, icra takipleri): itibar ve çalışanlarla artar. */
 export function routineIncome(o: Office) {
   const city = CITIES.find(c => c.id === o.city) || CITIES[0];
-  const base = 25000 + 4000 * Math.min(o.wins || 0, 20) + (o.life?.stajyer ? 12000 : 0) + (o.life?.katip ? 18000 : 0);
-  return Math.round((base * city.fee) / 500) * 500;
+  const base = 12000 + 3000 * Math.min(o.wins || 0, 20) + (o.life?.stajyer ? 10000 : 0) + (o.life?.katip ? 15000 : 0) + (o.life?.ownOffice ? 8000 : 0);
+  const edu = hasDegree(o.life, "yl") ? 1.15 : 1;
+  return Math.round((base * city.fee * edu) / 500) * 500;
 }
 
 export const START_CASH = 150000;
-export const FIXED = { ofis: 6000, baro: 2500, muhasebe: 3500 };
+/** Genç avukat ortak bir büroda masa kiralayarak başlar; giderler buna göre düşüktür. Kendi bürosuna geçince artar. */
+export const FIXED = { ofis: 3000, ofisTam: 7000, baro: 1500, muhasebe: 2000 };
 export const SECRETARY = 30000;
+export const DESK_SHARE = 0.35;
 
 export function monthlyCost(o: Office) {
   const city = CITIES.find(c => c.id === o.city) || CITIES[0];
+  const own = !!o.life?.ownOffice;
   const items = [
-    { text: "Büro kirası", amount: city.rent },
-    { text: "Elektrik, su, internet, kırtasiye", amount: FIXED.ofis },
+    own ? { text: "Büro kirası", amount: city.rent } : { text: "Ortak büroda masa kirası", amount: Math.round((city.rent * DESK_SHARE) / 500) * 500 },
+    { text: "Elektrik, su, internet, kırtasiye", amount: own ? FIXED.ofisTam : FIXED.ofis },
     { text: "Baro aidatı ve mesleki sigorta", amount: FIXED.baro },
     { text: "Mali müşavir", amount: FIXED.muhasebe }
   ];
@@ -82,6 +86,25 @@ export function monthlyCost(o: Office) {
 export type Source = "muvekkil" | "cmk" | "adli";
 const hash = (s: string) => { let h = 2166136261; for (const ch of s) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
 
+/** Baro üzerinden gelebilecek iş: müdafilik (CMK) ya da ilk derecede güçsüz tarafın vekilliği (adli yardım).
+ *  Karşılıklı dosyada hangi tarafın vekili olunacağını da söyler. */
+export function publicRole(c: CaseFile): { src: "cmk" | "adli"; side: Side } | null {
+  if (c.room === "tahkim" || levelOf(c) > 2) return null;
+  const sides: Side[] = c.mode === "duel" ? ["p1", "p2"] : ["p1"];
+  for (const sd of sides) if (/müdafi/i.test(c.sides[sd].role)) return { src: "cmk", side: sd };
+  if (levelOf(c) === 1) for (const sd of sides) if (/davacı|kiracı|işçi|mirasçı|borçlu|katılan|mağdur|zarar gören|eş vekili|anne|baba/i.test(c.sides[sd].role) && !/idare|bakanlı|şirket/i.test(c.sides[sd].role)) return { src: "adli", side: sd };
+  return null;
+}
+
+/** Karşılıklı dosyada büronun alacağı taraf: kurum temsilcisi olan taraf (Bakanlık, idare, federasyon) alınmaz. */
+export function careerSide(c: CaseFile): Side {
+  if (c.mode !== "duel") return "p1";
+  const inst = (sd: Side) => /temsilci|bakanlı|idare|vergi dairesi|federasyon|uefa|komite|birliği/i.test(c.sides[sd].role);
+  if (inst("p1")) return "p2";
+  if (inst("p2")) return "p1";
+  return hash(c.id + "taraf") % 2 ? "p2" : "p1";
+}
+
 /** Ceza davalarında sanık müdafiliği çoğu zaman CMK görevlendirmesiyle, bazı hukuk davaları adli yardımla gelir. */
 export function sourceOf(c: CaseFile): Source {
   const role = c.sides.p1.role.toLocaleLowerCase("tr");
@@ -93,14 +116,20 @@ export function sourceOf(c: CaseFile): Source {
 export const SOURCE_LABEL: Record<Source, string> = { muvekkil: "Müvekkil", cmk: "CMK görevlendirmesi", adli: "Adli yardım" };
 
 /** Vekâlet ücreti: seviye arttıkça yükselir; şehir çarpanı uygulanır. CMK ve adli yardımda ücret sabittir ve sonuca bağlı değildir. */
-export function feeFor(c: CaseFile, o: Office, won: boolean, score: number) {
-  const src = sourceOf(c);
+/** Uluslararası mahkeme ya da milletlerarası tahkim dosyası mı (yabancı dilde savunma yapılabilir). */
+export const isIntl = (c: CaseFile) => levelOf(c) === 5 || ["icc", "lcia", "uncitral", "cas"].includes(c.forum || "");
+
+export function feeFor(c: CaseFile, o: Office, won: boolean, score: number, opt?: { src?: Source; spec?: boolean }) {
+  const src = opt?.src || sourceOf(c);
   const city = CITIES.find(x => x.id === o.city) || CITIES[0];
-  if (src === "cmk") return { amount: 12000, text: "CMK ücreti (baro aracılığıyla, sonuçtan bağımsız)" };
-  if (src === "adli") return { amount: 14000, text: "Adli yardım ücreti (baro aracılığıyla, sonuçtan bağımsız)" };
+  if (src === "cmk") return { amount: levelOf(c) >= 2 ? 22000 : 15000, text: "CMK ücreti (baro aracılığıyla, sonuçtan bağımsız)" };
+  if (src === "adli") return { amount: 15000, text: "Adli yardım ücreti (baro aracılığıyla, sonuçtan bağımsız)" };
   const base = [0, 60000, 110000, 180000, 260000, 350000][levelOf(c)] || 60000;
   const katip = o.life?.katip && branchOf(c) === "icra" ? 1.15 : 1;
-  const full = Math.round((base * city.fee * (o.secretary ? 1.1 : 1) * katip) / 500) * 500;
+  const edu = hasDegree(o.life, "dr") ? 1.2 : hasDegree(o.life, "yl") ? 1.1 : 1;
+  const lang = isIntl(c) && (hasDegree(o.life, "en") || hasDegree(o.life, "fr")) ? 1.1 : 1;
+  const mult = (o.secretary ? 1.1 : 1) * katip * edu * lang * (opt?.spec ? 1.15 : 1) * (o.life?.ownOffice ? 1.1 : 1);
+  const full = Math.round((base * city.fee * mult) / 500) * 500;
   if (won) {
     const bonus = Math.round((full * Math.max(0, score - 60)) / 100 / 500) * 500;
     return { amount: full + bonus, text: bonus ? `Vekâlet ücreti ve başarı primi (ikna ${score})` : "Vekâlet ücreti" };
@@ -120,7 +149,7 @@ export async function loadOffice(): Promise<Office | null> {
     const v = await AsyncStorage.getItem(keyFor());
     if (!v) return null;
     const o: Office = JSON.parse(v);
-    if (!o.life) o.life = newLife(o.city);
+    o.life = migrateLife(o.life || newLife(o.city), o.city);
     return o;
   } catch { return null; }
 }
@@ -147,25 +176,43 @@ export async function closeMonth(income: { text: string; amount: number }[], cas
   const personal = personalCosts(life, month);
   income = [...income, { text: "Rutin büro işleri (danışmanlık, ihtarname, sözleşme)", amount: routineIncome(o) }];
   const inc = income.reduce((n, i) => n + i.amount, 0);
-  const cash = o.cash + inc - office.total - personal.total;
+  // Kredili mevduat: ay başında eksi olan bakiyeye faiz işler.
+  const kmh = o.cash < 0 ? Math.round((-o.cash * 0.045) / 100) * 100 : 0;
+  const cash = o.cash + inc - office.total - personal.total - kmh;
+  // Süresi dolan eğitimler tamamlanır.
+  const done = (life.study || []).filter(x => x.until <= month);
+  const graduated = done.map(x => EDU.find(e => e.id === x.id)?.label || x.id);
+  const lifeEdu: Life = done.length ? { ...life, study: (life.study || []).filter(x => x.until > month), degrees: [...(life.degrees || []), ...done.map(x => x.id)] } : life;
   const ledger = [...o.ledger,
     ...income.map(i => ({ ay: month, ...i })),
     { ay: month, text: "Büro giderleri", amount: -office.total },
-    { ay: month, text: "Kişisel giderler", amount: -personal.total }].slice(-80);
-  const aged = ageLife(life, cash, casesThisMonth);
-  const ev = o.pendingEvent ? null : dueEvent({ life: aged, month, cash, casesThisYear: 0 });
+    { ay: month, text: "Kişisel giderler", amount: -personal.total },
+    ...(kmh ? [{ ay: month, text: "Kredili mevduat faizi", amount: -kmh }] : []),
+    ...graduated.map(g => ({ ay: month, text: `Tamamlandı: ${g}`, amount: 0 }))].slice(-80);
+  const aged = ageLife(lifeEdu, cash, casesThisMonth);
+  const ev = o.pendingEvent ? null : dueEvent({ life: aged, month, cash, casesThisYear: 0, wins: o.wins || 0 });
   await save({ ...o, cash, month, ledger, life: aged, pendingEvent: o.pendingEvent || ev?.id });
-  return { income: inc, office: office.total, personal: personal.total, cash, month, event: ev?.title };
+  return { income: inc, office: office.total, personal: personal.total, cash, month, event: ev?.title, kmh, graduated };
+}
+
+/** Mesleki gelişim: kursa ya da lisansüstü programa kayıt. Ücret her ay kişisel giderlere eklenir. */
+export async function enroll(id: string) {
+  const o = await loadOffice();
+  if (!o || !o.life) return;
+  const e = EDU.find(x => x.id === id);
+  if (!e || hasDegree(o.life, id) || (o.life.study || []).some(x => x.id === id) || (e.needs && !hasDegree(o.life, e.needs))) return;
+  const life = { ...o.life, study: [...(o.life.study || []), { id, until: o.month + e.months }] };
+  await save({ ...o, life, ledger: [...o.ledger, { ay: o.month, text: `Kayıt: ${e.label}`, amount: 0 }].slice(-80) });
 }
 
 /** Dava bitince: ücret kasaya girer ve ay kapanır. */
-export async function settleCase(c: CaseFile, won: boolean, score: number) {
+export async function settleCase(c: CaseFile, won: boolean, score: number, opt?: { src?: Source; spec?: boolean }) {
   const o = await loadOffice();
   if (!o) return null;
-  const fee = feeFor(c, o, won, score);
+  const fee = feeFor(c, o, won, score, opt);
   if (won) await save({ ...o, wins: (o.wins || 0) + 1 });
   const r = await closeMonth([{ text: `${c.title}: ${fee.text}`, amount: fee.amount }], 1);
-  return r && { ...r, fee, source: sourceOf(c) };
+  return r && { ...r, fee, source: opt?.src || sourceOf(c) };
 }
 
 /** Bekleyen hayat olayının seçenekleri (o anki duruma göre). */
@@ -173,7 +220,7 @@ export function eventChoices(o: Office): { title: string; text: string; choices:
   if (!o.pendingEvent || !o.life) return null;
   const e = EVENTS.find(x => x.id === o.pendingEvent);
   if (!e) return null;
-  const ctx = { life: o.life, month: o.month, cash: o.cash, casesThisYear: 0 };
+  const ctx = { life: o.life, month: o.month, cash: o.cash, casesThisYear: 0, wins: o.wins || 0 };
   return { title: e.title, text: e.text(ctx), choices: e.choices(ctx).map(ch => ({ ...ch, disabled: !!ch.needCash && o.cash < ch.needCash })) };
 }
 
@@ -182,7 +229,7 @@ export async function resolveEvent(idx: number) {
   if (!o || !o.pendingEvent || !o.life) return;
   const e = EVENTS.find(x => x.id === o.pendingEvent);
   if (!e) { await save({ ...o, pendingEvent: undefined }); return; }
-  const ctx = { life: o.life, month: o.month, cash: o.cash, casesThisYear: 0 };
+  const ctx = { life: o.life, month: o.month, cash: o.cash, casesThisYear: 0, wins: o.wins || 0 };
   const ch = e.choices(ctx)[idx];
   if (!ch || (ch.needCash && o.cash < ch.needCash)) return;
   let life = ch.apply ? ch.apply(o.life, o.month) : o.life;

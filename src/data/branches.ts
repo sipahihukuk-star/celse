@@ -1,7 +1,7 @@
 // Dosyaların branşları. Branş, davanın "area" önekinden ve mahkemesinden çıkarılır.
 import { CaseFile } from "../engine/types";
 
-export type Branch = "borclar" | "ticaret" | "icra" | "is" | "ceza" | "aile" | "idare" | "anayasa";
+export type Branch = "borclar" | "ticaret" | "icra" | "is" | "ceza" | "aile" | "idare" | "anayasa" | "tahkim";
 export const BRANCHES: { id: Branch; label: string; icon: string }[] = [
   { id: "borclar", label: "Borçlar ve Kira", icon: "📜" },
   { id: "ticaret", label: "Ticaret", icon: "🏢" },
@@ -10,13 +10,18 @@ export const BRANCHES: { id: Branch; label: string; icon: string }[] = [
   { id: "ceza", label: "Ceza", icon: "⚖️" },
   { id: "aile", label: "Aile ve Miras", icon: "🏠" },
   { id: "idare", label: "İdare ve Vergi", icon: "🏛️" },
-  { id: "anayasa", label: "Anayasa ve İnsan Hakları", icon: "🕊️" }
+  { id: "anayasa", label: "Anayasa ve İnsan Hakları", icon: "🕊️" },
+  { id: "tahkim", label: "Tahkim ve Spor Hukuku", icon: "🌐" }
 ];
 export const branchLabel = (b: Branch) => BRANCHES.find(x => x.id === b)!.label;
 
 export function branchOf(c: CaseFile): Branch {
   const a = (c.area || "").toLocaleLowerCase("tr");
   const court = (c.court || "").toLocaleLowerCase("tr");
+  // Sigorta tahkimi ticaret hukukunun (TTK 6. Kitap), tazminat komisyonu insan haklarının alanıdır.
+  if (c.forum === "sigorta") return "ticaret";
+  if (c.forum === "ihtk") return "anayasa";
+  if (c.forum) return "tahkim";
   if (/^icra/.test(a) || /icra hukuk/.test(court)) return "icra";
   if (/^ticaret|^şirketler|^kıymetli evrak|^rekabet/.test(a) || /asliye ticaret/.test(court)) return "ticaret";
   if (/^anayasa|^aihm|^uluslararası|insan hakları/.test(a)) return "anayasa";

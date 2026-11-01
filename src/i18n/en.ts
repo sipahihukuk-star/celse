@@ -374,5 +374,16 @@ const dict: Record<string, string> = {
   "Başvuru raportörce ön incelemeden geçer; uyuşmazlık hakem heyeti (tutara göre tek ya da üç hakem) dosyayı inceler, gerekirse bilirkişi raporu alır; HMK hükümleri uygulanır. Karar, hakem atandıktan sonra dört ay içinde verilir.": "The application is first screened by a rapporteur; the arbitral panel (a sole arbitrator or three, depending on the amount) examines the file and obtains an expert report if needed; the Code of Civil Procedure (HMK) applies. The award is issued within four months of the arbitrator's appointment.",
   "Belirli tutarın üzerindeki uyuşmazlıklarda karara karşı bildirimden itibaren 10 gün içinde itiraz hakem heyetine bir kez itiraz edilir (itiraz icrayı durdurur); daha yüksek tutarlarda itiraz kararına karşı Yargıtay'a temyiz yolu açıktır. Parasal sınırlar her yıl Tebliğle güncellenir; başvuru tarihindeki sınır esas alınır.": "Above a set amount, a single objection lies to the objection panel within 10 days of notification (the objection suspends enforcement); for higher amounts, an appeal on points of law to the Court of Cassation against the objection decision. The monetary thresholds are updated every year by communiqué; the threshold on the date of application applies.",
   "Karşı taraf": "Opposing party",
+  "ANTRENMAN · SONUÇLAR KARİYERE İŞLEMEZ": "PRACTICE · RESULTS DO NOT COUNT TOWARDS YOUR CAREER",
+  "ARKADAŞINIZ · {rol}": "YOUR FRIEND · {rol}",
+  "Arkadaşınız": "Your friend",
+  "Dil kursunuz var: +8 puan": "You have a language course: +8 points",
+  "Kariyer dosyası: sonuç ücretinize ve itibarınıza işler. Rakibiniz kim olursa olsun siz büronuzun tarafını savunursunuz.": "Career file: the result affects your fee and reputation. Whoever your opponent is, you argue your firm's side.",
+  "Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.": "In the career, every file (single-player, two-player, arbitration) reaches your firm as work; two-player files are played against the computer, a friend or an online opponent, and the result counts towards your earnings.",
+  "Savunma dili:": "Pleading language:",
+  "Yabancı dilde savunma: +3 puan (kursla +8)": "Pleading in a foreign language: +3 points (+8 with a course)",
+  "Yeni bölüm açıldı: {b}. Unvanınız artık \"{u}\".": "New chapter unlocked: {b}. Your title is now \"{u}\".",
+  "büronuza gelen taraf": "the side your firm represents",
+  "05xx xxx xx xx · +49 …": "05xx xxx xx xx · +49 …",
 };
 export default dict;

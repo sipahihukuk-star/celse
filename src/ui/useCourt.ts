@@ -1,5 +1,6 @@
 // Duruşma akışı: satırlar → belgeler → (sıra değişimi) → seçenekler → cevap satırları → geri bildirim → ... → karar.
 import { useEffect, useState } from "react";
+import { penaltyFor } from "../data/settings";
 import { aiPick, applyChoice, bandFor, choicesOf, createGame, findNextStep, GameState, kindOf, linesOf, shuffle, textOf } from "../engine/engine";
 import { CaseFile, Line, Player, Scene, Side } from "../engine/types";
 import type { Move } from "../data/online";
@@ -33,7 +34,7 @@ export const LETTERS = "ABCDEFGH";
 
 export function useCourt(c: CaseFile, players: Record<Side, Player>, onFinish: (g: GameState) => void, online?: OnlineLink) {
   const [f, setF] = useState<Flow>(() => ({
-    game: createGame(c, players), scene: "office", lastSide: null, n: 0,
+    game: createGame(c, players, { penalty: penaltyFor(c) }), scene: "office", lastSide: null, n: 0,
     phase: { k: "lines", lines: c.intro, i: 0, after: { k: "docs" } }
   }));
 

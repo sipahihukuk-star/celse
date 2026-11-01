@@ -374,5 +374,16 @@ const dict: Record<string, string> = {
   "Başvuru raportörce ön incelemeden geçer; uyuşmazlık hakem heyeti (tutara göre tek ya da üç hakem) dosyayı inceler, gerekirse bilirkişi raporu alır; HMK hükümleri uygulanır. Karar, hakem atandıktan sonra dört ay içinde verilir.": "Der Antrag wird zunächst von einem Berichterstatter geprüft; das Schiedsgremium (Einzelschiedsrichter oder drei, je nach Streitwert) prüft die Akte und holt bei Bedarf ein Sachverständigengutachten ein; es gilt die Zivilprozessordnung (HMK). Der Schiedsspruch ergeht binnen vier Monaten nach Bestellung des Schiedsrichters.",
   "Belirli tutarın üzerindeki uyuşmazlıklarda karara karşı bildirimden itibaren 10 gün içinde itiraz hakem heyetine bir kez itiraz edilir (itiraz icrayı durdurur); daha yüksek tutarlarda itiraz kararına karşı Yargıtay'a temyiz yolu açıktır. Parasal sınırlar her yıl Tebliğle güncellenir; başvuru tarihindeki sınır esas alınır.": "Ab einem bestimmten Betrag ist binnen 10 Tagen ab Zustellung ein einmaliger Einspruch beim Einspruchsgremium möglich (er hemmt die Vollstreckung); bei höheren Beträgen Revision zum Kassationshof gegen die Einspruchsentscheidung. Die Wertgrenzen werden jährlich per Mitteilung angepasst; maßgeblich ist die Grenze am Tag der Antragstellung.",
   "Karşı taraf": "Gegenpartei",
+  "ANTRENMAN · SONUÇLAR KARİYERE İŞLEMEZ": "TRAINING · ERGEBNISSE ZÄHLEN NICHT FÜR DIE KARRIERE",
+  "ARKADAŞINIZ · {rol}": "IHR FREUND · {rol}",
+  "Arkadaşınız": "Ihr Freund",
+  "Dil kursunuz var: +8 puan": "Sie haben einen Sprachkurs: +8 Punkte",
+  "Kariyer dosyası: sonuç ücretinize ve itibarınıza işler. Rakibiniz kim olursa olsun siz büronuzun tarafını savunursunuz.": "Karriereakte: Das Ergebnis wirkt sich auf Honorar und Ansehen aus. Wer auch immer Ihr Gegner ist, Sie vertreten die Seite Ihrer Kanzlei.",
+  "Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.": "In der Karriere kommen alle Akten (Einzel-, Zweispieler-, Schiedsakten) als Mandate in Ihre Kanzlei; Zweispielerakten spielen Sie gegen den Computer, einen Freund oder einen Online-Gegner, und das Ergebnis zählt für Ihre Einnahmen.",
+  "Savunma dili:": "Plädoyersprache:",
+  "Yabancı dilde savunma: +3 puan (kursla +8)": "Plädoyer in einer Fremdsprache: +3 Punkte (+8 mit Kurs)",
+  "Yeni bölüm açıldı: {b}. Unvanınız artık \"{u}\".": "Neues Kapitel freigeschaltet: {b}. Ihr Titel lautet jetzt „{u}“.",
+  "büronuza gelen taraf": "die von Ihrer Kanzlei vertretene Seite",
+  "05xx xxx xx xx · +49 …": "05xx xxx xx xx · +49 …",
 };
 export default dict;

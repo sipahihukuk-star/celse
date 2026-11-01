@@ -29,15 +29,50 @@ export interface Life {
   done: string[];
   /** kasanın arka arkaya eksi kaldığı ay sayısı */
   redMonths: number;
+  /** ortak bürodaki masadan kendi bürosuna geçti mi */
+  ownOffice?: boolean;
+  /** tamamlanan eğitimler: "en", "fr", "yl", "dr" */
+  degrees?: string[];
+  /** süren eğitimler */
+  study?: { id: string; until: number }[];
+  /** aileden en son borç alınan ay */
+  familyLoanAt?: number;
+  /** giderlerin genç avukata göre yeniden ayarlandığı sürüm */
+  v2?: boolean;
+}
+
+/* ---------- Mesleki gelişim ---------- */
+
+export interface Edu { id: "en" | "fr" | "yl" | "dr"; label: string; months: number; monthly: number; needs?: string; slow?: boolean; gain: string }
+export const EDU: Edu[] = [
+  { id: "en", label: "İngilizce hukuk dili kursu", months: 6, monthly: 6000,
+    gain: "Uluslararası mahkeme ve tahkim dosyalarında İngilizce savunmanız ek puan alır, bu dosyalarda ücretiniz %10 artar." },
+  { id: "fr", label: "Fransızca hukuk dili kursu", months: 6, monthly: 6000,
+    gain: "AİHM ve UCM dosyalarında Fransızca savunmanız ek puan alır, bu dosyalarda ücretiniz %10 artar." },
+  { id: "yl", label: "Tezli yüksek lisans", months: 18, monthly: 5000, slow: true,
+    gain: "Okurken ayda bir dosya eksik gelir. Bitince vekâlet ücretleriniz %10, rutin büro geliriniz %15 artar." },
+  { id: "dr", label: "Doktora", months: 30, monthly: 6500, needs: "yl", slow: true,
+    gain: "Okurken ayda bir dosya eksik gelir. Bitince ücretleriniz toplam %20 artar ve yüksek yargı bölümleri bir dava erken açılır." }
+];
+export const hasDegree = (l: Life | undefined, id: string) => !!l?.degrees?.includes(id);
+export const studying = (l: Life | undefined) => (l?.study || []);
+
+/** Eski kayıtlardaki yüksek giderleri genç avukata uygun düzeye çeker (bir kez). */
+export function migrateLife(l: Life, city: string): Life {
+  if (l.v2) return l;
+  const fresh = newLife(city);
+  return { ...l, v2: true, homeRent: l.owner ? l.homeRent : Math.min(l.homeRent, fresh.homeRent), living: Math.min(l.living, fresh.living), transport: Math.min(l.transport, l.car && l.car !== "yok" ? l.transport : fresh.transport) };
 }
 
 export const STAJYER = 22000, KATIP = 35000;
 
 export function newLife(city: string): Life {
   const c = CITIES.find(x => x.id === city) || CITIES[0];
+  // Mesleğe yeni başlayan avukat: küçük bir kiralık ev, sade bir geçim, toplu taşıma.
   return {
-    homeRent: Math.max(20000, Math.round((c.rent * 0.8) / 1000) * 1000), living: 40000, owner: false, married: false,
-    children: [], transport: 4000, loans: [], stajyer: false, katip: false, strain: 0, snooze: {}, done: [], redMonths: 0
+    homeRent: Math.max(9000, Math.round((c.rent * 0.5) / 500) * 500), living: 17000, owner: false, married: false,
+    children: [], transport: 2500, loans: [], stajyer: false, katip: false, strain: 0, snooze: {}, done: [], redMonths: 0, v2: true,
+    degrees: [], study: []
   };
 }
 
@@ -58,6 +93,7 @@ export function personalCosts(l: Life, month: number) {
   l.children.forEach(ch => items.push({ text: `${ch.name} (${Math.max(0, Math.floor((month - ch.born) / 12))} yaş)`, amount: childCost(ch, month) }));
   l.loans.filter(x => x.until >= month).forEach(x => items.push({ text: x.text, amount: x.monthly }));
   if (l.alimony) items.push({ text: "Nafaka", amount: l.alimony });
+  (l.study || []).forEach(x => { const e = EDU.find(d => d.id === x.id); if (e) items.push({ text: `${e.label} (harç ve kurs ücreti)`, amount: e.monthly }); });
   return { items, total: items.reduce((n, i) => n + i.amount, 0) };
 }
 
@@ -74,7 +110,7 @@ export const dateOf = (month: number) => `${AYLAR[(Math.max(1, month) - 1) % 12]
 
 /* ---------- Olaylar ---------- */
 
-export interface Ctx { life: Life; month: number; cash: number; casesThisYear: number }
+export interface Ctx { life: Life; month: number; cash: number; casesThisYear: number; wins?: number }
 export interface Choice {
   label: string;
   note?: string;
@@ -91,6 +127,30 @@ export interface LifeEvent { id: string; title: string; text: (c: Ctx) => string
 const CHILD_NAMES = ["Deniz", "Ada", "Kerem", "Elif", "Yusuf", "Zeynep", "Mert", "Defne"];
 
 export const EVENTS: LifeEvent[] = [
+  {
+    id: "borc", title: "Ay sonunda kasa eksi",
+    text: c => `Giderleri karşılayamadınız; kasa ${Math.round(c.cash).toLocaleString("tr-TR")} TL. Ayı çıkarmak için bir yerden para bulmanız gerekiyor. Eksi bakiyeye her ay %4,5 faiz işler.`,
+    when: c => c.cash < 0,
+    choices: c => [
+      ...(c.month - (c.life.familyLoanAt ?? -99) >= 12 ? [{ label: "Ailenizden borç isteyin", note: "Bugün 60.000 TL; faizsiz, 10 ay boyunca ayda 6.000 TL geri ödersiniz. Aile yılda bir kez yardım edebilir.", once: 60000,
+        apply: (l: Life, m: number) => ({ ...l, familyLoanAt: m, loans: [...l.loans, { text: "Aileye borç", monthly: 6000, until: m + 10 }] }) }] : []),
+      { label: "Bir meslektaşınızdan borç alın", note: "Bugün 30.000 TL; 6 ay boyunca ayda 5.500 TL (küçük bir fark ekleyerek) ödersiniz.", once: 30000,
+        apply: (l, m) => ({ ...l, loans: [...l.loans, { text: "Meslektaşa borç", monthly: 5500, until: m + 6 }] }) },
+      { label: "Bankadan ihtiyaç kredisi", note: "Bugün 150.000 TL; 18 ay boyunca ayda 11.900 TL taksit.", once: 150000,
+        apply: (l, m) => ({ ...l, loans: [...l.loans, { text: "İhtiyaç kredisi", monthly: 11900, until: m + 18 }] }) },
+      { label: "Kredili mevduatla idare edin", note: "Borç almazsınız; eksi bakiyeye her ay %4,5 faiz işler. İki ay sonra yeniden sorulur.", snooze: 2 }
+    ], repeat: true
+  },
+  {
+    id: "kendi-buro", title: "Kendi büronuz",
+    text: () => "Ortak bürodaki masanız artık dar geliyor. Adliyeye yakın, kendi tabelanızı asabileceğiniz bir büro boşalmış.",
+    when: c => (c.wins || 0) >= 5 && !c.life.ownOffice,
+    choices: () => [
+      { label: "Kendi büronuzu açın", note: "Depozito ve mobilya 120.000 TL. Tam büro kirası ödersiniz; ücretleriniz %10 artar ve her ay bir dosya fazla gelir.", once: -120000, needCash: 120000,
+        apply: l => ({ ...l, ownOffice: true }) },
+      { label: "Ortak büroda kalın", note: "Altı ay sonra yeniden sorulur.", snooze: 6 }
+    ], repeat: true
+  },
   {
     id: "araba", title: "Araba ihtiyacı",
     text: () => "Adliye, icra daireleri ve cezaevi görüşmeleri arasında toplu taşımayla yetişmek zorlaştı. Bir araç almayı düşünüyorsunuz.",

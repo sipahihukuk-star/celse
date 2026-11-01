@@ -32,6 +32,12 @@ export function levelOf(c: CaseFile): number {
   const l = c.career?.level;
   if (l && l >= 1 && l <= CHAPTERS.length) return l;
   const court = c.court || "";
+  // Tahkim ve komisyonlar: sigorta ve tazminat komisyonu heyetli yerel düzeyde, TFF ve İSTAC yüksek yargı düzeyinde,
+  // milletlerarası tahkim ve CAS uluslararası düzeyde açılır. Devlet mahkemesindeki iptal ve tenfiz dosyaları mahkemeye göre.
+  if (c.room === "tahkim" && c.forum) {
+    if (/Yargıtay|Bölge|Asliye|Federal/.test(court)) return /Yargıtay|Federal/.test(court) ? 3 : 2;
+    return ({ sigorta: 2, ihtk: 2, tff: 3, istac: 3, cas: 5, icc: 5, lcia: 5, uncitral: 5 } as const)[c.forum];
+  }
   if (c.room === "uluslararasi" || /İnsan Hakları|Ceza Mahkemesi ·|Uluslararası/.test(court)) return 5;
   if (/Anayasa|Yüce Divan/.test(court)) return 4;
   if (/Yargıtay|Danıştay|Sayıştay/.test(court)) return 3;
@@ -148,7 +154,7 @@ const sortCases = (a: CaseFile, b: CaseFile, idx: Map<string, number>) => sortKe
  * - Açık bölümde davalar sırayla açılır: bir dava oynanınca (sonucu ne olursa olsun) sıradaki açılır.
  */
 /** premium false ise kariyer sırasındaki ilk `freeCount` dava dışındakiler abonelik kilidindedir. */
-export function buildCareer(solo: CaseFile[], progress: Progress, premium = true, freeCount = Infinity): CareerView {
+export function buildCareer(solo: CaseFile[], progress: Progress, premium = true, freeCount = Infinity, opts: { dr?: boolean } = {}): CareerView {
   let seq = 0;
   const idx = new Map(solo.map((c, i) => [c.id, i]));
   const pool = solo.filter(c => !c.career?.off);
@@ -157,7 +163,8 @@ export function buildCareer(solo: CaseFile[], progress: Progress, premium = true
   const chapters: CareerChapter[] = CHAPTERS.map(ch => {
     const list = pool.filter(c => levelOf(c) === ch.level).sort((a, b) => sortCases(a, b, idx));
     const wins = list.filter(c => progress[c.id]?.won).length;
-    const need = winsNeeded(list.length);
+    // Doktoralı avukat için yüksek yargı ve sonrası bölümler bir dava erken açılır (önceki bölümün gereği bir azalır).
+    const need = Math.max(1, winsNeeded(list.length) - (opts.dr && ch.level >= 2 ? 1 : 0));
     let open: boolean, why: string | undefined;
     if (!list.length) { open = false; why = "Yakında"; }
     else if (prevTitle === "") { open = true; }

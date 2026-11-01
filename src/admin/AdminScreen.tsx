@@ -11,6 +11,7 @@ import { C, F } from "../ui/theme";
 import { AuditPanel, GeneratePanel } from "./AiPanels";
 import { PlayersPanel } from "./PlayersPanel";
 import { TranslatePanel } from "./TranslatePanel";
+import { SettingsPanel } from "./SettingsPanel";
 import CaseEditor from "./CaseEditor";
 import { Field, Row, Section, Seg, SmallBtn } from "./form";
 import { blankCase, CourtPreset, PRESETS } from "./presets";
@@ -73,7 +74,7 @@ function AdminHome({ onExit, onPreview }: Props) {
   const [modeF, setModeF] = useState<"hepsi" | "solo" | "duel">("hepsi");
   const [statusF, setStatusF] = useState<"hepsi" | "yayinda" | "taslak" | "yerlesik">("hepsi");
   const [confirmDel, setConfirmDel] = useState<string | null>(null);
-  const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri">("");
+  const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri" | "ayarlar">("");
   const [isServerAdmin, setServerAdmin] = useState<boolean | null>(null);
   const reload = () => store.list().then(setStored);
   useEffect(() => { reload(); serverAdmin().then(setServerAdmin); }, []);
@@ -116,6 +117,7 @@ function AdminHome({ onExit, onPreview }: Props) {
         <View style={st.headActions}>
           <SmallBtn label="‹ Oyuna dön" onPress={onExit} />
           <SmallBtn label="👤 Oyuncular" tone={ai === "oyuncular" ? "accent" : "plain"} onPress={() => setAi(ai === "oyuncular" ? "" : "oyuncular")} />
+          <SmallBtn label="⚙️ Oyun ayarları" tone={ai === "ayarlar" ? "accent" : "plain"} onPress={() => setAi(ai === "ayarlar" ? "" : "ayarlar")} />
           <SmallBtn label="🌐 Çeviriler" tone={ai === "ceviri" ? "accent" : "plain"} onPress={() => setAi(ai === "ceviri" ? "" : "ceviri")} />
           <SmallBtn label="🔍 Yapay zekâ denetimi" tone={ai === "denetim" ? "accent" : "plain"} onPress={() => setAi(ai === "denetim" ? "" : "denetim")} />
           <SmallBtn label="✨ Yapay zekâ ile üret" tone={ai === "uretim" ? "accent" : "plain"} onPress={() => setAi(ai === "uretim" ? "" : "uretim")} />
@@ -131,6 +133,7 @@ function AdminHome({ onExit, onPreview }: Props) {
       </Text>
 
       {ai === "oyuncular" && <PlayersPanel onClose={() => setAi("")} />}
+      {ai === "ayarlar" && <SettingsPanel onClose={() => setAi("")} />}
       {ai === "ceviri" && <TranslatePanel cases={entries.map(e => e.c)} onClose={() => setAi("")} />}
       {ai === "denetim" && <AuditPanel entries={entries} onSaved={reload} onPreview={onPreview} onClose={() => setAi("")} />}
       {ai === "uretim" && <GeneratePanel takenIds={takenIds} onSaved={reload} onPreview={onPreview} onClose={() => setAi("")}

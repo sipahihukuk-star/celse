@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { currentAccount, onAccountChange, supabase } from "./account";
 
 export const FREE_CASES = 5;
+/** Abonelik şimdilik kapalı: her şey açık (test aşaması). Açmak için true yapın. */
+export const SUBSCRIPTION_ON = false;
 /** Planlar (KDV dahil). Yıllık plan, 12 aylık ödemeye göre yaklaşık %20 avantajlıdır: 12 × 520 = 6.240 TL yerine 5.000 TL. */
 export const PLANS = [
   { id: "yillik", label: "Yıllık", price: 5000, per: "yıl", note: "Aylık yaklaşık 417 TL · %20 avantajlı", best: true },
@@ -34,6 +36,7 @@ async function refresh() {
 onAccountChange(refresh);
 
 export function isPremium(): boolean {
+  if (!SUBSCRIPTION_ON) return true;
   return adminPreview || (!!premiumUntil && premiumUntil.getTime() > Date.now());
 }
 

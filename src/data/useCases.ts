@@ -21,5 +21,5 @@ export function useCases() {
   }, []);
   const all = mergeCases(stored);
   // Tahkim dosyaları kendi bölümünde listelenir; karşılıklı duruşma listesinde yer almaz.
-  return { all, duel: all.filter(c => c.mode === "duel" && c.room !== "tahkim"), solo: all.filter(c => c.mode === "solo"), tahkim: all.filter(c => c.room === "tahkim"), stored };
+  return { all, career: all.filter(c => !c.career?.off), duel: all.filter(c => c.mode === "duel" && c.room !== "tahkim"), solo: all.filter(c => c.mode === "solo"), tahkim: all.filter(c => c.room === "tahkim"), stored };
 }

@@ -374,5 +374,16 @@ const dict: Record<string, string> = {
   "Başvuru raportörce ön incelemeden geçer; uyuşmazlık hakem heyeti (tutara göre tek ya da üç hakem) dosyayı inceler, gerekirse bilirkişi raporu alır; HMK hükümleri uygulanır. Karar, hakem atandıktan sonra dört ay içinde verilir.": "La demande est d'abord examinée par un rapporteur ; le panel arbitral (arbitre unique ou trois selon le montant) examine le dossier et ordonne au besoin une expertise ; le Code de procédure civile (HMK) s'applique. La sentence est rendue dans les quatre mois suivant la nomination de l'arbitre.",
   "Belirli tutarın üzerindeki uyuşmazlıklarda karara karşı bildirimden itibaren 10 gün içinde itiraz hakem heyetine bir kez itiraz edilir (itiraz icrayı durdurur); daha yüksek tutarlarda itiraz kararına karşı Yargıtay'a temyiz yolu açıktır. Parasal sınırlar her yıl Tebliğle güncellenir; başvuru tarihindeki sınır esas alınır.": "Au-delà d'un certain montant, une seule opposition est ouverte devant le panel d'opposition dans les 10 jours de la notification (elle suspend l'exécution) ; pour les montants plus élevés, un pourvoi en cassation contre la décision sur opposition. Les seuils sont mis à jour chaque année par communiqué ; le seuil applicable est celui de la date de la demande.",
   "Karşı taraf": "Partie adverse",
+  "ANTRENMAN · SONUÇLAR KARİYERE İŞLEMEZ": "ENTRAÎNEMENT · LES RÉSULTATS NE COMPTENT PAS POUR LA CARRIÈRE",
+  "ARKADAŞINIZ · {rol}": "VOTRE AMI · {rol}",
+  "Arkadaşınız": "Votre ami",
+  "Dil kursunuz var: +8 puan": "Vous avez suivi un cours de langue : +8 points",
+  "Kariyer dosyası: sonuç ücretinize ve itibarınıza işler. Rakibiniz kim olursa olsun siz büronuzun tarafını savunursunuz.": "Dossier de carrière : le résultat compte pour vos honoraires et votre réputation. Quel que soit votre adversaire, vous défendez la partie de votre cabinet.",
+  "Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.": "Dans la carrière, tous les dossiers (solo, à deux, arbitrage) arrivent à votre cabinet comme des affaires ; les dossiers à deux se jouent contre l'ordinateur, un ami ou un adversaire en ligne, et le résultat compte pour vos revenus.",
+  "Savunma dili:": "Langue de plaidoirie :",
+  "Yabancı dilde savunma: +3 puan (kursla +8)": "Plaidoirie en langue étrangère : +3 points (+8 avec un cours)",
+  "Yeni bölüm açıldı: {b}. Unvanınız artık \"{u}\".": "Nouveau chapitre débloqué : {b}. Votre titre est désormais « {u} ».",
+  "büronuza gelen taraf": "la partie que représente votre cabinet",
+  "05xx xxx xx xx · +49 …": "05xx xxx xx xx · +49 …",
 };
 export default dict;

@@ -374,5 +374,16 @@ const dict: Record<string, string> = {
   "Başvuru raportörce ön incelemeden geçer; uyuşmazlık hakem heyeti (tutara göre tek ya da üç hakem) dosyayı inceler, gerekirse bilirkişi raporu alır; HMK hükümleri uygulanır. Karar, hakem atandıktan sonra dört ay içinde verilir.": "La solicitud pasa primero por un examen del ponente; el panel arbitral (árbitro único o tres, según la cuantía) examina el expediente y, si es necesario, recaba un informe pericial; se aplica el Código Procesal Civil (HMK). El laudo se dicta en cuatro meses desde el nombramiento del árbitro.",
   "Belirli tutarın üzerindeki uyuşmazlıklarda karara karşı bildirimden itibaren 10 gün içinde itiraz hakem heyetine bir kez itiraz edilir (itiraz icrayı durdurur); daha yüksek tutarlarda itiraz kararına karşı Yargıtay'a temyiz yolu açıktır. Parasal sınırlar her yıl Tebliğle güncellenir; başvuru tarihindeki sınır esas alınır.": "Por encima de cierta cuantía cabe una única oposición ante el panel de oposición en 10 días desde la notificación (suspende la ejecución); en cuantías superiores, recurso de casación ante el Tribunal Supremo contra la decisión de oposición. Los umbrales se actualizan cada año por comunicado; rige el vigente en la fecha de la solicitud.",
   "Karşı taraf": "Parte contraria",
+  "ANTRENMAN · SONUÇLAR KARİYERE İŞLEMEZ": "ENTRENAMIENTO · LOS RESULTADOS NO CUENTAN PARA LA CARRERA",
+  "ARKADAŞINIZ · {rol}": "SU AMIGO · {rol}",
+  "Arkadaşınız": "Su amigo",
+  "Dil kursunuz var: +8 puan": "Tiene un curso de idioma: +8 puntos",
+  "Kariyer dosyası: sonuç ücretinize ve itibarınıza işler. Rakibiniz kim olursa olsun siz büronuzun tarafını savunursunuz.": "Expediente de carrera: el resultado afecta a sus honorarios y reputación. Sea quien sea su rival, usted defiende la parte de su despacho.",
+  "Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.": "En la carrera, todos los expedientes (individuales, a dos jugadores, arbitraje) llegan a su despacho como encargos; los de dos jugadores se juegan contra el ordenador, un amigo o un rival en línea, y el resultado cuenta para sus ingresos.",
+  "Savunma dili:": "Idioma del alegato:",
+  "Yabancı dilde savunma: +3 puan (kursla +8)": "Alegato en idioma extranjero: +3 puntos (+8 con curso)",
+  "Yeni bölüm açıldı: {b}. Unvanınız artık \"{u}\".": "Nuevo capítulo desbloqueado: {b}. Su título ahora es \"{u}\".",
+  "büronuza gelen taraf": "la parte que representa su despacho",
+  "05xx xxx xx xx · +49 …": "05xx xxx xx xx · +49 …",
 };
 export default dict;

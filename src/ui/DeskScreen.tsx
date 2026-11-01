@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Branch, branchLabel, branchOf } from "../data/branches";
 import { CareerView, DIFFICULTY, Progress } from "../data/career";
-import { accept, branchStats, decline, ensureDeal, Flow, setFocus, useFlow } from "../data/flow";
-import { dateOf } from "../data/life";
-import { closeMonth, eventChoices, feeFor, monthlyCost, resolveEvent, SOURCE_LABEL, sourceOf, tl, useOffice } from "../data/office";
+import { accept, branchStats, decline, EARLY_FILES, ensureDeal, Flow, postponeSpecialty, setFocus, setSpecialty, specialtyDue, suggestSpecialty, useFlow } from "../data/flow";
+import { dateOf, EDU, hasDegree, studying } from "../data/life";
+import { careerSide, closeMonth, enroll, eventChoices, feeFor, monthlyCost, Office, resolveEvent, Source, SOURCE_LABEL, sourceOf, tl, useOffice } from "../data/office";
 import { personalCosts } from "../data/life";
 import { FREE_CASES } from "../data/subscription";
 import { CaseFile } from "../engine/types";
@@ -34,8 +34,11 @@ export default function DeskScreen({ solo, progress, view, premium, admin, onPla
   const flow = useFlow();
   const [closing, setClosing] = useState(false);
   const month = (office?.month || 0) + 1;
-  const extra = (office?.life?.stajyer ? 1 : 0) + (office?.life?.katip ? 1 : 0);
-  useEffect(() => { if (office && flow) ensureDeal(solo, progress, month, extra); }, [office?.month, flow?.dealtFor, extra, flow?.focus.join()]);
+  const extra = (office?.life?.stajyer ? 1 : 0) + (office?.life?.katip ? 1 : 0) + (office?.life?.ownOffice ? 1 : 0);
+  const slow = studying(office?.life).filter(x => EDU.find(e => e.id === x.id)?.slow).length;
+  const dr = hasDegree(office?.life, "dr");
+  const [pickSpec, setPickSpec] = useState(false);
+  useEffect(() => { if (office && flow) ensureDeal(solo, progress, month, extra, slow, dr); }, [office?.month, flow?.dealtFor, extra, slow, dr, flow?.focus.join()]);
   if (!office || !flow) return <View />;
 
   const byId = new Map(solo.map(c => [c.id, c]));
@@ -46,6 +49,11 @@ export default function DeskScreen({ solo, progress, view, premium, admin, onPla
   const deskFull = flow.active.length >= DESK_MAX;
   const cost = monthlyCost(office).total + personalCosts(office.life!, month).total;
   const toggle = (b: Branch) => setFocus(flow.focus.includes(b) ? flow.focus.filter(x => x !== b) : [...flow.focus, b]);
+  const closedN = Object.keys(flow.closed).length;
+  const specDue = specialtyDue(flow) && !ev;
+  const suggestion = specDue ? suggestSpecialty(flow, solo) : [];
+  const allStats = branchStats(flow, solo);
+  const life = office.life!;
 
   return (
     <ScrollView contentContainerStyle={s.wrap}>
@@ -85,6 +93,44 @@ export default function DeskScreen({ solo, progress, view, premium, admin, onPla
         </View>
       )}
 
+      {closedN < EARLY_FILES && (
+        <View style={s.info}>
+          <Text style={s.eventK}>MESLEĞİN İLK AYLARI</Text>
+          <Text style={s.small}>İlk dosyalarınız baro üzerinden gelir: CMK görevlendirmesiyle müdafilik ve adli yardım bürosunun verdiği davalar. Ücretleri sabit ve düşüktür. {EARLY_FILES} dosya kapattıktan sonra serbest müvekkiller kapınızı çalmaya başlar; kapattıkça daha çok dosya gelir.</Text>
+        </View>
+      )}
+
+      {specDue && (
+        <View style={s.event}>
+          <Text style={s.eventK}>UZMANLIK ALANI</Text>
+          <Text style={s.eventT}>{suggestion.length ? `Öneri: ${suggestion.map(b => branchLabel(b)).join(" ve ")}` : "Bir uzmanlık alanı seçin"}</Text>
+          <Text style={s.eventD}>Kapattığınız {closedN} dosyaya göre en başarılı olduğunuz alan{suggestion.length > 1 ? "lar" : ""} bunlar. Uzmanlık alanınızdan iki buçuk kat daha çok dosya gelir ve bu dosyalarda ücretiniz %15 artar. Diğer alanlardan da dosya gelmeye devam eder; alanınızı sonra değiştirebilirsiniz.</Text>
+          {pickSpec ? (
+            <View style={s.chips}>
+              {allStats.map(b => (
+                <Pressable key={b.id} onPress={() => { setPickSpec(false); setSpecialty([b.id]); }} style={s.chip}>
+                  <Text style={s.chipT}>{b.icon} {b.label}</Text>
+                  <Text style={s.chipS}>{b.won}K · {b.lost}Y</Text>
+                </Pressable>
+              ))}
+            </View>
+          ) : (
+            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 6 }}>
+              {suggestion.length > 0 && <Btn label="Öneriyi kabul et" onPress={() => setSpecialty(suggestion)} />}
+              <Btn kind="secondary" label="Başka alan seçeyim" onPress={() => setPickSpec(true)} />
+              <Btn kind="ghost" label="Henüz değil" onPress={() => postponeSpecialty()} />
+            </View>
+          )}
+        </View>
+      )}
+
+      {flow.specialty.length > 0 && (
+        <View style={s.specRow}>
+          <Text style={s.small}>Uzmanlık alanınız: <Text style={{ color: C.brass }}>{flow.specialty.map(b => branchLabel(b)).join(", ")}</Text></Text>
+          <Pressable onPress={() => setSpecialty([])}><Text style={s.closeLinkT}>değiştir ›</Text></Pressable>
+        </View>
+      )}
+
       {stats.length > 0 && (
         <View style={{ gap: 6 }}>
           <Text style={s.h}>Branşlar <Text style={s.hNote}>· dokunarak odaklanın; odak seçerseniz yalnız o branşlardan dosya gelir</Text></Text>
@@ -104,7 +150,7 @@ export default function DeskScreen({ solo, progress, view, premium, admin, onPla
       {!flow.offers.length && <Text style={s.empty}>Bu ay yeni dosya yok. Masadaki dosyaları bitirin ya da ayı kapatın.</Text>}
       {flow.offers.map(o => {
         const c = byId.get(o.id); if (!c) return null;
-        return <FileCard key={o.id} c={c} office={office} offer onAccept={() => (freeLeft <= 0 ? onPaywall() : accept(c.id))} onDecline={() => decline(c.id, month)}
+        return <FileCard key={o.id} c={c} office={office} src={flow.src[c.id] || o.src} side={flow.side[c.id] || o.side} spec={flow.specialty.includes(branchOf(c))} offer onAccept={() => (freeLeft <= 0 ? onPaywall() : accept(c.id))} onDecline={() => decline(c.id, month)}
           disabled={deskFull || !!ev} why={ev ? "Önce bu ayın kararını verin" : deskFull ? `Masanız dolu (en çok ${DESK_MAX} dosya)` : freeLeft <= 0 ? "Ücretsiz dosyalar bitti · abonelikle devam" : undefined} />;
       })}
 
@@ -112,7 +158,7 @@ export default function DeskScreen({ solo, progress, view, premium, admin, onPla
       {!flow.active.length && <Text style={s.empty}>Masanız boş. Gelen dosyalardan birini kabul edin.</Text>}
       {flow.active.map(id => {
         const c = byId.get(id); if (!c) return null;
-        return <FileCard key={id} c={c} office={office} onPlay={() => onPlay(c)} disabled={!!ev} why={ev ? "Önce bu ayın kararını verin" : undefined} />;
+        return <FileCard key={id} c={c} office={office} src={flow.src[c.id]} side={flow.side[c.id]} spec={flow.specialty.includes(branchOf(c))} onPlay={() => onPlay(c)} disabled={!!ev} why={ev ? "Önce bu ayın kararını verin" : undefined} />;
       })}
 
       {!flow.active.length && !ev && (
@@ -126,13 +172,35 @@ export default function DeskScreen({ solo, progress, view, premium, admin, onPla
           </View>
         ) : <Pressable onPress={() => setClosing(true)} style={s.closeLink}><Text style={s.closeLinkT}>Bu ayı dosyasız kapat ›</Text></Pressable>
       )}
+
+      <Text style={s.h}>Mesleki gelişim <Text style={s.hNote}>· ücret her ay kişisel giderlerinize eklenir</Text></Text>
+      <View style={{ gap: 8 }}>
+        {EDU.map(e => {
+          const done = hasDegree(life, e.id);
+          const now = studying(life).find(x => x.id === e.id);
+          const blocked = !!e.needs && !hasDegree(life, e.needs);
+          return (
+            <View key={e.id} style={s.edu}>
+              <View style={{ flex: 1, minWidth: 220, gap: 2 }}>
+                <Text style={s.choiceT}>{e.label} <Text style={s.chipS}>· {e.months} ay · ayda {tl(e.monthly)}</Text></Text>
+                <Text style={s.choiceD}>{e.gain}</Text>
+                {now && <Text style={[s.why, { color: C.p1 }]}>Devam ediyor · {dateOf(now.until)} tarihinde biter</Text>}
+                {blocked && !done && !now && <Text style={s.why}>Önce yüksek lisansı bitirin.</Text>}
+              </View>
+              {done ? <Text style={[s.diff, { color: C.good, borderColor: C.good }]}>Tamamlandı</Text>
+                : now ? null : <Btn kind="secondary" label="Kaydol" disabled={blocked} onPress={() => enroll(e.id)} style={blocked && { opacity: 0.5 }} />}
+            </View>
+          );
+        })}
+      </View>
     </ScrollView>
   );
 }
 
-function FileCard({ c, office, offer, onAccept, onDecline, onPlay, disabled, why }: { c: CaseFile; office: any; offer?: boolean; onAccept?: () => void; onDecline?: () => void; onPlay?: () => void; disabled?: boolean; why?: string }) {
-  const src = sourceOf(c);
-  const fee = feeFor(c, office, true, 70).amount;
+function FileCard({ c, office, offer, onAccept, onDecline, onPlay, disabled, why, src: src0, side: side0, spec }: { c: CaseFile; office: Office; offer?: boolean; onAccept?: () => void; onDecline?: () => void; onPlay?: () => void; disabled?: boolean; why?: string; src?: Source; side?: "p1" | "p2"; spec?: boolean }) {
+  const src = src0 || sourceOf(c);
+  const side = side0 || careerSide(c);
+  const fee = feeFor(c, office, true, 70, { src, spec }).amount;
   const d = c.difficulty ? DIFFICULTY[c.difficulty] : null;
   return (
     <View style={[s.card, { borderLeftColor: c.color }]}>
@@ -141,9 +209,10 @@ function FileCard({ c, office, offer, onAccept, onDecline, onPlay, disabled, why
         {d && <Text style={[s.diff, { color: d.color, borderColor: d.color }]}>{d.label}</Text>}
       </View>
       <Text style={s.cardT}>{c.title}</Text>
-      <Text style={s.cardCourt}>{c.court} · {c.sides.p1.role}</Text>
+      <Text style={s.cardCourt}>{c.court} · {c.sides[side].role}</Text>
+      {c.mode === "duel" && <Text style={s.duelTag}>KARŞILIKLI · rakip: {c.sides[side === "p1" ? "p2" : "p1"].role} · bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı</Text>}
       <Text style={s.cardTeaser} numberOfLines={3}>{c.teaser}</Text>
-      <Text style={[s.fee, src !== "muvekkil" && { color: C.p1 }]}>{SOURCE_LABEL[src]} · {src === "muvekkil" ? `ücret ≈ ${tl(fee)} (kazanırsanız prim)` : `sabit ücret ${tl(fee)}`}</Text>
+      <Text style={[s.fee, src !== "muvekkil" && { color: C.p1 }]}>{SOURCE_LABEL[src]} · {src === "muvekkil" ? `ücret ≈ ${tl(fee)} (kazanırsanız prim)` : `sabit ücret ${tl(fee)}`}{spec ? " · uzmanlık alanı" : ""}</Text>
       {!!why && <Text style={s.why}>{why}</Text>}
       <View style={s.cardBtns}>
         {offer ? (
@@ -194,5 +263,9 @@ const s = StyleSheet.create({
   cardBtns: { flexDirection: "row", justifyContent: "flex-end", gap: 8, marginTop: 6 },
   closeBox: { alignItems: "center", gap: 10, padding: 10 },
   closeLink: { alignSelf: "center", padding: 10 },
-  closeLinkT: { fontFamily: F.mono, fontSize: 12, color: C.muted, letterSpacing: 1 }
+  closeLinkT: { fontFamily: F.mono, fontSize: 12, color: C.muted, letterSpacing: 1 },
+  info: { borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 12, padding: 12, gap: 4 },
+  specRow: { flexDirection: "row", alignItems: "center", gap: 10, flexWrap: "wrap" },
+  edu: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 10, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 10, padding: 10 },
+  duelTag: { fontFamily: F.mono, fontSize: 11, color: C.p2 }
 });

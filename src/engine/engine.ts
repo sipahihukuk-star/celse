@@ -31,6 +31,8 @@ export interface GameState {
   asked: Record<number, number[]>;
   /** bitirilen görüşme adımları */
   closed: number[];
+  /** not kırma çarpanı: hatalı hamlede düşen puan bununla çarpılır (1 = dosyadaki değer) */
+  penalty?: number;
 }
 
 /** Ekranda gösterilen, adım türünden bağımsız seçenek. */
@@ -63,8 +65,8 @@ export function normalizeCase(raw: CaseFile): CaseFile {
   };
 }
 
-export function createGame(c: CaseFile, players: Record<Side, Player>): GameState {
-  return { caseId: c.id, mode: c.mode, players, stepIdx: -1, flags: {}, pts: { p1: 0, p2: 0 }, score: 50, log: [], asked: {}, closed: [] };
+export function createGame(c: CaseFile, players: Record<Side, Player>, opts?: { penalty?: number }): GameState {
+  return { penalty: opts?.penalty && opts.penalty > 0 ? opts.penalty : 1, caseId: c.id, mode: c.mode, players, stepIdx: -1, flags: {}, pts: { p1: 0, p2: 0 }, score: 50, log: [], asked: {}, closed: [] };
 }
 
 export function textOf(t: Text | undefined, flags: Flags): string {
@@ -155,8 +157,10 @@ export function applyChoice(c: CaseFile, state: GameState, stepIdx: number, choi
   const side = step.side;
   const pts = { ...state.pts };
   let score = state.score;
-  if (state.mode === "duel") pts[side] += ch.delta;
-  else score = Math.max(0, Math.min(100, score + ch.delta));
+  // Not kırma: yalnız eksi puanlar çarpılır; doğru hamlenin ödülü değişmez.
+  const delta = ch.delta < 0 ? Math.round(ch.delta * (state.penalty ?? 1)) : ch.delta;
+  if (state.mode === "duel") pts[side] += delta;
+  else score = Math.max(0, Math.min(100, score + delta));
   const asked = { ...state.asked };
   let closed = state.closed;
   if (kindOf(step) === "interview") {
@@ -164,7 +168,7 @@ export function applyChoice(c: CaseFile, state: GameState, stepIdx: number, choi
     else asked[stepIdx] = [...(asked[stepIdx] || []), ch.q!];
   }
   const entry: LogEntry = {
-    side, ai: state.players[side].ai, prompt: step.prompt, text: free ? `“${free.answer}”` : ch.text, letter, delta: ch.delta,
+    side, ai: state.players[side].ai, prompt: step.prompt, text: free ? `“${free.answer}”` : ch.text, letter, delta,
     note: free?.feedback ? `${free.feedback}${textOf(ch.note, flags) ? " " + textOf(ch.note, flags) : ""}` : textOf(ch.note, flags), law: ch.law,
     ...(free ? { free: { score: free.score, band: ch.text, model: step.model } } : {})
   };

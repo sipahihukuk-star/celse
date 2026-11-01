@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useAccount } from "../data/account";
-import { AVATARS, Avatar, CITIES, closeOffice, monthlyCost, Office, openOffice, SECRETARY, START_CASH, tl, updateOffice, useOffice } from "../data/office";
+import { AVATARS, Avatar, CITIES, closeOffice, DESK_SHARE, monthlyCost, Office, openOffice, SECRETARY, START_CASH, tl, updateOffice, useOffice } from "../data/office";
 import { Btn } from "./kit";
 import { PHOTOS } from "./photos";
 import { dateOf, personalCosts } from "../data/life";
@@ -54,7 +54,7 @@ function Setup({ onBack, onDone, initial }: { onBack: () => void; onDone: () => 
       <View style={s.headRow}><Btn kind="ghost" label="‹ Geri" onPress={onBack} /></View>
       <Text style={s.eyebrow}>{edit ? "BÜRO AYARLARI" : "BÜRONUZU AÇIN"}</Text>
       <Text style={s.title}>{edit ? "Karakter ve şehir" : "Cübbeniz hazır"}</Text>
-      {!edit && <Text style={s.sub}>Duruşmalarda sizi temsil edecek karakteri ve büronuzu açacağınız şehri seçin. {tl(START_CASH)} kuruluş sermayesiyle başlarsınız; her dava bir ay sürer, ay sonunda kira ve giderler kasadan düşer.</Text>}
+      {!edit && <Text style={s.sub}>Duruşmalarda sizi temsil edecek karakteri ve büronuzu açacağınız şehri seçin. {tl(START_CASH)} kuruluş sermayesiyle, ortak bir büroda masa kiralayarak başlarsınız; her dava bir ay sürer, ay sonunda kira ve giderler kasadan düşer. İşler büyüyünce kendi büronuzu açabilirsiniz.</Text>}
 
       <Text style={s.h}>Karakteriniz</Text>
       <View style={s.avatars}>
@@ -75,7 +75,7 @@ function Setup({ onBack, onDone, initial }: { onBack: () => void; onDone: () => 
         {CITIES.map(ct => (
           <Pressable key={ct.id} accessibilityRole="radio" accessibilityState={{ checked: city === ct.id }} onPress={() => setCity(ct.id)} style={[s.city, city === ct.id && s.on]}>
             <Text style={s.cityName}>{ct.name}</Text>
-            <Text style={s.cityRow}>Kira {tl(ct.rent)} · Ücret ×{ct.fee.toLocaleString("tr-TR")}</Text>
+            <Text style={s.cityRow}>Masa kirası {tl(Math.round((ct.rent * DESK_SHARE) / 500) * 500)} · kendi büro {tl(ct.rent)} · Ücret ×{ct.fee.toLocaleString("tr-TR")}</Text>
             <Text style={s.cityNote}>{ct.note}</Text>
           </Pressable>
         ))}

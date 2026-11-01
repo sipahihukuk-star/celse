@@ -37,8 +37,22 @@ export function keywordScore(answer: string, groups: KeywordGroup[] = []): Evalu
   return { score, feedback, by: "kavram" };
 }
 
-export async function evaluateFree(c: CaseFile, st: Step, answer: string, server?: { url: string; key: string; token?: string; fn?: string }): Promise<Evaluation> {
-  const offline = () => keywordScore(answer, st.keywords);
+const LANG_NOTE: Record<string, string> = {
+  en: "İngilizce", fr: "Fransızca"
+};
+
+/** answerLang: uluslararası dosyada cevabın yazıldığı yabancı dil (en, fr). bonus: dil yetkinliği için eklenecek puan. */
+export async function evaluateFree(c: CaseFile, st: Step, answer: string, server?: { url: string; key: string; token?: string; fn?: string }, opts?: { answerLang?: string; bonus?: number }): Promise<Evaluation> {
+  const ev = await evaluateRaw(c, st, answer, server, opts?.answerLang);
+  if (!opts?.answerLang || !opts.bonus) return ev;
+  const score = Math.min(100, ev.score + opts.bonus);
+  return { ...ev, score, feedback: `${ev.feedback} (+${opts.bonus}: ${LANG_NOTE[opts.answerLang] || ""} savunma)`.trim() };
+}
+
+async function evaluateRaw(c: CaseFile, st: Step, answer: string, server?: { url: string; key: string; token?: string; fn?: string }, answerLang?: string): Promise<Evaluation> {
+  // Yabancı dildeki cevap anahtar kelimelerle (Türkçe) ölçülemez: çevrimdışıyken orta puan verilir.
+  const offline = () => answerLang ? { score: 50, feedback: "Yabancı dildeki cevabınız çevrim dışıyken ayrıntılı değerlendirilemedi.", by: "kavram" as const } : keywordScore(answer, st.keywords);
+  const note = answerLang ? `(Not: Oyuncu bu cevabı uluslararası yargı mercii önünde ${LANG_NOTE[answerLang] || answerLang} yazmıştır. Hukuki içeriği dilden bağımsız değerlendir; kavramların yabancı dildeki karşılıklarını kabul et; yalnızca anlamı bozan dil hataları puanı düşürsün.) ` : "";
   if (!server?.url || !answer.trim()) return offline();
   try {
     const ctrl = new AbortController();
@@ -46,7 +60,7 @@ export async function evaluateFree(c: CaseFile, st: Step, answer: string, server
     const res = await fetch(`${server.url}/functions/v1/${server.fn || "degerlendir"}`, {
       method: "POST", signal: ctrl.signal,
       headers: { "Content-Type": "application/json", apikey: server.key, Authorization: `Bearer ${server.token || server.key}` },
-      body: JSON.stringify({ mode: "puan", dil: getLang(), dava: c.title, alan: c.area, mahkeme: c.court, rol: c.sides[st.side].role, soru: st.prompt, olcut: st.rubric || "", ornek: st.model || "", cevap: answer.slice(0, 2000) })
+      body: JSON.stringify({ mode: "puan", dil: getLang(), dava: c.title, alan: c.area, mahkeme: c.court, rol: c.sides[st.side].role, soru: note + st.prompt, olcut: st.rubric || "", ornek: st.model || "", cevap: answer.slice(0, 2000) })
     });
     clearTimeout(t);
     if (!res.ok) return offline();

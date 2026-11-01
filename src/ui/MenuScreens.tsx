@@ -81,9 +81,11 @@ export function TitleScreen({ onCareer, onOffice, office, onDuel, onSolo, onAdmi
             <Text style={styles.careerGo}>{office ? t("Büro ›") : t("Aç ›")}</Text>
           </Pressable>
         )}
+        <Text style={styles.fact}>{t("Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.")}</Text>
         <View style={styles.cta}>
-          <Btn kind="secondary" label={t("Karşılıklı duruşma")} onPress={onDuel} />
+          <Text style={[styles.eyebrow, { width: "100%" }]}>{t("ANTRENMAN · SONUÇLAR KARİYERE İŞLEMEZ")}</Text>
           <Btn kind="secondary" label={t("Tek kişilik dosyalar")} onPress={onSolo} />
+          <Btn kind="secondary" label={t("Karşılıklı duruşma")} onPress={onDuel} />
           <Btn kind="secondary" label={t("Tahkim ve komisyonlar")} onPress={onTahkim} />
           <Btn kind="secondary" label={t("İnternet üzerinden oyna")} onPress={onOnline} />
         </View>
@@ -113,6 +115,7 @@ export function CaseListScreen({ mode, cases, onPick, onBack, onSwitch, lockedNo
       <View style={styles.listHead}>
         <Btn kind="ghost" label={t("‹ Giriş")} onPress={onBack} />
         <View style={{ flex: 1, minWidth: 200 }}>
+          <Text style={styles.eyebrow}>{t("ANTRENMAN · SONUÇLAR KARİYERE İŞLEMEZ")}</Text>
           <Text style={styles.listTitle}>{duel ? t("Karşılıklı duruşma") : t("Tek kişilik dosyalar")}</Text>
           <Text style={styles.listSub}>{duel ? t("Aynı davada iki vekil sırayla hamle yapar. Arkadaşınızla aynı cihazda ya da bilgisayara karşı oynayın.") : t("Tek bir rol üstlenin; karşı taraf ve hâkim hazır bekliyor.")}</Text>
         </View>
@@ -161,8 +164,9 @@ function Seg({ options, value, onChange }: { options: { v: string; label: string
   );
 }
 
-export function SetupModal({ c, onClose, onStart, onOnline }: { c: CaseFile | null; onClose: () => void; onStart: (p: Record<Side, Player>) => void; onOnline?: (side: Side, open: boolean) => Promise<void> }) {
-  const [opp, setOpp] = useState("friend");
+/** fixedSide: kariyerden açılan dosyada büronun tarafı sabittir (rol seçilmez); meName oyuncunun adı. */
+export function SetupModal({ c, onClose, onStart, onOnline, fixedSide, meName, career }: { c: CaseFile | null; onClose: () => void; onStart: (p: Record<Side, Player>) => void; onOnline?: (side: Side, open: boolean) => Promise<void>; fixedSide?: Side; meName?: string; career?: boolean }) {
+  const [opp, setOpp] = useState(fixedSide ? "ai" : "friend");
   const [open, setOpen] = useState(true);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -170,33 +174,47 @@ export function SetupModal({ c, onClose, onStart, onOnline }: { c: CaseFile | nu
   const [side, setSide] = useState<Side>("p1");
   const [lvl, setLvl] = useState<"easy" | "hard">("easy");
   if (!c) return null;
+  const mySide: Side = fixedSide || side;
   const start = async () => {
     if (opp === "online" && onOnline) {
       setBusy(true); setErr("");
-      try { await onOnline(side, open); } catch (e) { setErr((e as Error).message); }
+      try { await onOnline(mySide, open); } catch (e) { setErr((e as Error).message); }
       setBusy(false); return;
+    }
+    if (opp === "friend" && fixedSide) {
+      const me: Player = { name: meName || t("Siz"), ai: false }, fr: Player = { name: (fixedSide === "p1" ? n2 : n1).trim() || t("Arkadaşınız"), ai: false };
+      return onStart(fixedSide === "p1" ? { p1: me, p2: fr } : { p1: fr, p2: me });
     }
     if (opp === "friend") return onStart({ p1: { name: n1.trim() || t("Oyuncu 1"), ai: false }, p2: { name: n2.trim() || t("Oyuncu 2"), ai: false } });
     const ai: Player = { name: lvl === "hard" ? t("Usta Bilgisayar") : t("Çaylak Bilgisayar"), ai: true, level: lvl };
-    const me: Player = { name: t("Siz"), ai: false };
-    onStart(side === "p1" ? { p1: me, p2: ai } : { p1: ai, p2: me });
+    const me: Player = { name: meName || t("Siz"), ai: false };
+    onStart(mySide === "p1" ? { p1: me, p2: ai } : { p1: ai, p2: me });
   };
+  const roleSeg = (label: string) => fixedSide
+    ? <><Text style={styles.legend}>{label}</Text><Text style={styles.sheetSub}>{c.sides[fixedSide].role}{career ? " · " + t("büronuza gelen taraf") : ""}</Text></>
+    : <><Text style={styles.legend}>{label}</Text><Seg value={side} onChange={v => setSide(v as Side)} options={[{ v: "p1", label: c.sides.p1.role }, { v: "p2", label: c.sides.p2.role }]} /></>;
   return (
     <Modal visible transparent animationType="fade" onRequestClose={onClose}>
       <Pressable style={styles.overlay} onPress={onClose}>
         <Pressable style={styles.sheet} onPress={() => {}}>
           <Text style={styles.sheetTitle}>{c.title}</Text>
           <Text style={styles.sheetSub}>{c.court} · {c.esas}</Text>
+          {career && <Text style={styles.sheetSub}>{t("Kariyer dosyası: sonuç ücretinize ve itibarınıza işler. Rakibiniz kim olursa olsun siz büronuzun tarafını savunursunuz.")}</Text>}
           <Text style={styles.legend}>{t("RAKİBİNİZ")}</Text>
           <Seg value={opp} onChange={setOpp} options={[{ v: "friend", label: t("Arkadaşım (aynı cihaz)") }, { v: "online", label: t("İnternet üzerinden") }, { v: "ai", label: t("Bilgisayar") }]} />
           {opp === "online" ? (
             <View style={{ gap: 10, marginTop: 14 }}>
-              <Text style={styles.legend}>{t("ROLÜNÜZ")}</Text>
-              <Seg value={side} onChange={v => setSide(v as Side)} options={[{ v: "p1", label: c.sides.p1.role }, { v: "p2", label: c.sides.p2.role }]} />
+              {roleSeg(t("ROLÜNÜZ"))}
               <Text style={styles.legend}>{t("DAVET")}</Text>
               <Seg value={open ? "acik" : "kod"} onChange={v => setOpen(v === "acik")} options={[{ v: "acik", label: t("Herkese açık + kod") }, { v: "kod", label: t("Yalnız kodla") }]} />
               <Text style={styles.sheetSub}>{t("Davet kodu oluşur; rakibiniz kodla ya da açık davetler listesinden katılır. Hesabınızla giriş yapmış olmalısınız.")}</Text>
               {!!err && <Text style={[styles.sheetSub, { color: C.bad }]}>{t(err)}</Text>}
+            </View>
+          ) : opp === "friend" && fixedSide ? (
+            <View style={{ gap: 10, marginTop: 14 }}>
+              {roleSeg(t("ROLÜNÜZ"))}
+              <Text style={styles.legend}>{t("ARKADAŞINIZ · {rol}", { rol: c.sides[fixedSide === "p1" ? "p2" : "p1"].role.toLocaleUpperCase(locale()) })}</Text>
+              <TextInput style={styles.input} value={fixedSide === "p1" ? n2 : n1} onChangeText={fixedSide === "p1" ? setN2 : setN1} placeholder={t("Arkadaşınız")} placeholderTextColor={C.inkSoft} maxLength={18} />
             </View>
           ) : opp === "friend" ? (
             <View style={{ gap: 10, marginTop: 14 }}>
@@ -207,8 +225,7 @@ export function SetupModal({ c, onClose, onStart, onOnline }: { c: CaseFile | nu
             </View>
           ) : (
             <View style={{ gap: 10, marginTop: 14 }}>
-              <Text style={styles.legend}>{t("ROLÜNÜZ")}</Text>
-              <Seg value={side} onChange={v => setSide(v as Side)} options={[{ v: "p1", label: c.sides.p1.role }, { v: "p2", label: c.sides.p2.role }]} />
+              {roleSeg(t("ROLÜNÜZ"))}
               <Text style={styles.legend}>{t("RAKİP SEVİYESİ")}</Text>
               <Seg value={lvl} onChange={v => setLvl(v as "easy" | "hard")} options={[{ v: "easy", label: t("Çaylak") }, { v: "hard", label: t("Usta") }]} />
             </View>

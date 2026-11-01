@@ -17,15 +17,17 @@ import AccountScreen from "./src/ui/AccountScreen";
 import PaywallScreen from "./src/ui/PaywallScreen";
 import OfficeScreen from "./src/ui/OfficeScreen";
 import DeskScreen from "./src/ui/DeskScreen";
-import { closeFile } from "./src/data/flow";
+import { closeFile, useFlow } from "./src/data/flow";
+import { branchOf } from "./src/data/branches";
+import { hasDegree } from "./src/data/life";
 import { newLife, personalCosts } from "./src/data/life";
 import { routineIncome } from "./src/data/office";
-import { feeFor, monthlyCost, settleCase, SOURCE_LABEL, sourceOf, tl, useOffice } from "./src/data/office";
+import { careerSide, feeFor, monthlyCost, settleCase, SOURCE_LABEL, sourceOf, tl, useOffice } from "./src/data/office";
 import { resumeMusic } from "./src/ui/music";
 import { FREE_CASES, usePremium } from "./src/data/subscription";
 import { buildCareer, levelOf, openIds, Progress, recordResult, resetProgress, useProgress, CHAPTERS } from "./src/data/career";
 import { useCases } from "./src/data/useCases";
-import { GameState, verdict } from "./src/engine/engine";
+import { GameState, other, verdict } from "./src/engine/engine";
 import { CaseFile, Player, Side } from "./src/engine/types";
 import CareerScreen from "./src/ui/CareerScreen";
 import GameScreen from "./src/ui/GameScreen";
@@ -68,7 +70,10 @@ export default function App() {
     IBMPlexMono_500Medium, IBMPlexMono_600SemiBold
   });
   const [route, setRoute] = useState<Route>({ k: "title" });
-  const [setup, setSetup] = useState<CaseFile | null>(null);
+  const [setup, setSetup] = useState<{ c: CaseFile; from: From; side?: Side; career?: boolean } | null>(null);
+  /** kariyer dosyası internet üzerinden oynanıyorsa: maç bitince sonuç büroya işlenir */
+  const [careerOnline, setCareerOnline] = useState<{ matchId: string; caseId: string; side: Side; from: From } | null>(null);
+  const flow = useFlow();
   const [run, setRun] = useState(0);
   const cases = useCases();
   const progress = useProgress();
@@ -91,40 +96,60 @@ export default function App() {
     : from === "tahkim" ? setRoute({ k: "tahkim" }) : from === "online" ? setRoute({ k: "online" }) : toList(c.mode));
   const fromOf = (c: CaseFile): From => (c.room === "tahkim" ? "tahkim" : "list");
   const findCase = (id: string) => cases.all.find(x => x.id === id);
-  const career = buildCareer(cases.solo, progress, premium, FREE_CASES);
+  const dr = hasDegree(office?.life, "dr");
+  const career = buildCareer(cases.career, progress, premium, FREE_CASES, { dr });
   const lockOf = new Map(career.chapters.flatMap(ch => ch.cases.map(x => [x.c.id, x.lock] as const)));
   const careerOpen = openIds(career);
 
-  /** Oyun bitince: tek kişilik davada sonucu kariyere yazar, yeni açılan bölüm ya da davayı bildirir. */
+  const careerFrom = (from: From) => from === "desk" || from === "career";
+  /** Kariyer dosyasında büronun tarafı: masadaki dosyada teklifle gelen taraf, haritada büronun alacağı taraf. */
+  const mySide = (c: CaseFile, from: From, players?: Record<Side, Player>): Side =>
+    c.mode === "solo" ? "p1" : (from === "desk" && flow?.side[c.id]) || (players ? (players.p1.ai || players.p1.remote ? "p2" : players.p2.ai || players.p2.remote ? "p1" : careerSide(c)) : careerSide(c));
+  const duelScore = (game: GameState, side: Side, ai?: AiVerdict) => ai ? ai[side] : Math.max(0, Math.min(100, 50 + game.pts[side] - game.pts[other(side)]));
+
+  /** Kariyer sonucu: ilerlemeye yazar, yeni açılan bölümü bildirir; masadan açılan dosyada ücret kasaya girer ve ay kapanır. */
+  const settle = (c: CaseFile, from: From, won: boolean, score: number): string | undefined => {
+    let notice: string | undefined;
+    const prev = progress[c.id] || { played: 0, won: false, best: 0 };
+    const nextProgress: Progress = { ...progress, [c.id]: { played: prev.played + 1, won: prev.won || won, best: won ? Math.max(prev.best, score) : prev.best } };
+    const after = buildCareer(cases.career, nextProgress, true, Infinity, { dr });
+    const newCh = after.chapters.filter(ch => ch.open && !career.chapters.find(x => x.level === ch.level)!.open);
+    if (newCh.length) notice = t("Yeni bölüm açıldı: {b}. Unvanınız artık \"{u}\".", { b: newCh.map(ch => ch.title).join(", "), u: after.rank });
+    recordResult(c.id, won, score);
+    if (office && from === "desk") {
+      const src = flow?.src[c.id] || sourceOf(c), spec = !!flow?.specialty.includes(branchOf(c));
+      closeFile(c.id, won, score, office.month + 1);
+      const fee = feeFor(c, office, won, score, { src, spec }), cost = monthlyCost(office).total;
+      const personal = personalCosts(office.life || newLife(office.city), office.month + 1).total;
+      const routine = routineIncome({ ...office, wins: (office.wins || 0) + (won ? 1 : 0) });
+      const money = `${src !== "muvekkil" ? SOURCE_LABEL[src] + " · " : ""}${fee.text}${spec ? " (uzmanlık alanı)" : ""}: +${tl(fee.amount)} · rutin işler +${tl(routine)} · büro gideri −${tl(cost)} · kişisel gider −${tl(personal)} · kasa ${tl(office.cash + fee.amount + routine - cost - personal)}.`;
+      notice = notice ? `${notice}\n${money}` : money;
+      settleCase(c, won, score, { src, spec });
+    }
+    return notice;
+  };
+
+  /** Oyun bitince: kariyer dosyasında sonucu işler (antrenmanda işlemez); karşılıklıda önce son sözler alınır. */
   const finish = (c: CaseFile, players: Record<Side, Player>, game: GameState, from: From) => {
     let notice: string | undefined;
-    if (c.mode === "solo" && from !== "admin") {
-      const won = verdict(c, game).winner === "p1";
-      const prev = progress[c.id] || { played: 0, won: false, best: 0 };
-      const nextProgress: Progress = { ...progress, [c.id]: { played: prev.played + 1, won: prev.won || won, best: won ? Math.max(prev.best, game.score) : prev.best } };
-      const after = buildCareer(cases.solo, nextProgress);
-      const newCh = after.chapters.filter(ch => ch.open && !career.chapters.find(x => x.level === ch.level)!.open);
-      const afterOpen = openIds(after);
-      const newCases = after.chapters.flatMap(ch => ch.cases).filter(x => afterOpen.has(x.c.id) && !careerOpen.has(x.c.id));
-      if (newCh.length) notice = `Yeni bölüm açıldı: ${newCh.map(ch => ch.title).join(", ")}. Unvanınız artık "${after.rank}".`;
-      else if (newCases.length) notice = `Sıradaki dava açıldı: ${newCases.map(x => x.c.title).join(", ")}.`;
-      recordResult(c.id, won, game.score);
-      // Büro hesabı (yalnız masadan açılan dosyalarda): ücret kasaya girer, ay kapanır, dosya masadan kalkar.
-      if (office && from === "desk") {
-        closeFile(c.id, won, game.score, office.month + 1);
-        const fee = feeFor(c, office, won, game.score), cost = monthlyCost(office).total;
-        const src = sourceOf(c);
-        const personal = personalCosts(office.life || newLife(office.city), office.month + 1).total;
-        const routine = routineIncome({ ...office, wins: (office.wins || 0) + (won ? 1 : 0) });
-        const money = `${src !== "muvekkil" ? SOURCE_LABEL[src] + " · " : ""}${fee.text}: +${tl(fee.amount)} · rutin işler +${tl(routine)} · büro gideri −${tl(cost)} · kişisel gider −${tl(personal)} · kasa ${tl(office.cash + fee.amount + routine - cost - personal)}.`;
-        notice = notice ? `${notice}\n${money}` : money;
-        settleCase(c, won, game.score);
-      }
-    }
-    // Karşılıklı duruşmada kararı yapay zekâ hâkim verir: önce tarafların son sözü alınır.
     if (c.mode === "duel" && !game.fatal) { setRoute({ k: "closing", c, players, game, from }); return; }
+    if (careerFrom(from)) {
+      const side = mySide(c, from, players);
+      notice = settle(c, from, verdict(c, game).winner === side, c.mode === "solo" ? game.score : duelScore(game, side));
+    }
     setRoute({ k: "verdict", c, players, game, from, notice });
   };
+  const afterClosing = (c: CaseFile, players: Record<Side, Player>, game: GameState, from: From, ai: AiVerdict) => {
+    let notice: string | undefined;
+    if (careerFrom(from)) { const side = mySide(c, from, players); notice = settle(c, from, ai.winner === side, duelScore(game, side, ai)); }
+    setRoute({ k: "verdict", c, players, game, from, ai, notice });
+  };
+  /** Kariyerden dosya açma: tek kişilik doğrudan, karşılıklı rakip seçimiyle (büronun tarafı sabit). */
+  const playCareer = (c: CaseFile, from: "desk" | "career") => {
+    if (c.mode === "solo") return startGame(c, { ...SOLO_PLAYERS, p1: { name: meName, ai: false } }, from);
+    setSetup({ c, from, side: (from === "desk" && flow?.side[c.id]) || careerSide(c), career: true });
+  };
+  const meName = account?.adSoyad ? t("Av. {ad}", { ad: account.adSoyad }) : t("Siz");
   // Önizlemede karşılıklı dava, iki kişilik olarak aynı cihazda açılır.
   const previewPlayers = (c: CaseFile): Record<Side, Player> => c.mode === "duel" ? { p1: { name: "Oyuncu 1", ai: false }, p2: { name: "Oyuncu 2", ai: false } } : SOLO_PLAYERS;
 
@@ -140,9 +165,9 @@ export default function App() {
           office={office} onOffice={() => setRoute({ k: "office" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
           onTahkim={() => setRoute({ k: "tahkim" })} onOnline={() => setRoute({ k: "online" })} tahkimCount={cases.all.filter(c => c.room === "tahkim").length} />}
         {route.k === "tahkim" && (
-          <TahkimScreen cases={cases.all.filter(c => c.room === "tahkim")} locked={c => !admin && !premium}
+          <TahkimScreen cases={cases.all.filter(c => c.room === "tahkim")} locked={() => false}
             onLocked={() => setRoute({ k: "paywall", back: "title" })}
-            onBack={() => setRoute({ k: "title" })} onPick={c => setSetup(c)} onOnline={() => setRoute({ k: "online" })} />
+            onBack={() => setRoute({ k: "title" })} onPick={c => setSetup({ c, from: "tahkim" })} onOnline={() => setRoute({ k: "online" })} />
         )}
         {route.k === "online" && (
           <OnlineLobby all={cases.all} onBack={() => setRoute({ k: "title" })} onLogin={() => setRoute({ k: "account" })}
@@ -153,32 +178,37 @@ export default function App() {
         )}
         {route.k === "onlineGame" && (
           <OnlineGame key={route.id} id={route.id} c={route.c} onExit={() => setRoute({ k: "online" })}
-            onDone={(game, players, ai) => setRoute({ k: "verdict", c: route.c, players, game, from: "online", ai })} />
+            onDone={(game, players, ai) => {
+              // Kariyer dosyası internetten oynandıysa sonuç büroya işlenir.
+              if (careerOnline && careerOnline.matchId === route.id && ai) {
+                const side = careerOnline.side, notice = settle(route.c, careerOnline.from, ai.winner === side, duelScore(game, side, ai));
+                setCareerOnline(null);
+                setRoute({ k: "verdict", c: route.c, players, game, from: careerOnline.from, ai, notice });
+              } else setRoute({ k: "verdict", c: route.c, players, game, from: "online", ai });
+            }} />
         )}
         {route.k === "paywall" && (
           <PaywallScreen onBack={() => (route.back === "career" ? setRoute({ k: "career" }) : route.back === "list" ? toList(route.mode || "solo") : setRoute({ k: "title" }))} />
         )}
         {route.k === "office" && <OfficeScreen onBack={() => setRoute({ k: "title" })} onCareer={() => setRoute({ k: "desk" })} />}
         {route.k === "desk" && (
-          <DeskScreen solo={cases.solo} progress={progress} view={career} premium={premium} admin={admin}
-            onPlay={c => startGame(c, SOLO_PLAYERS, "desk")} onOffice={() => setRoute({ k: "office" })} onMap={() => setRoute({ k: "career" })}
+          <DeskScreen solo={cases.career} progress={progress} view={career} premium={premium} admin={admin}
+            onPlay={c => playCareer(c, "desk")} onOffice={() => setRoute({ k: "office" })} onMap={() => setRoute({ k: "career" })}
             onPaywall={() => setRoute({ k: "paywall", back: "career" })} onBack={() => setRoute({ k: "title" })} />
         )}
         {route.k === "account" && (
           <AccountScreen initial={route.tab} onBack={() => setRoute({ k: "title" })} onDone={() => setRoute(route.then === "career" ? (office ? { k: "desk" } : { k: "office" }) : { k: "title" })} />
         )}
         {route.k === "career" && (
-          <CareerScreen view={career} premium={premium} office={office} onOffice={() => setRoute({ k: "office" })} onPaywall={() => setRoute({ k: "paywall", back: "career" })} onBack={() => setRoute(office ? { k: "desk" } : { k: "title" })} onPick={c => startGame(c, SOLO_PLAYERS, "career")} onReset={() => resetProgress()} />
+          <CareerScreen view={career} premium={premium} office={office} onOffice={() => setRoute({ k: "office" })} onPaywall={() => setRoute({ k: "paywall", back: "career" })} onBack={() => setRoute(office ? { k: "desk" } : { k: "title" })} onPick={c => playCareer(c, "career")} onReset={() => resetProgress()} />
         )}
         {route.k === "list" && (
           <CaseListScreen mode={route.mode} cases={route.mode === "duel" ? cases.duel : cases.solo}
-            lockedNote={c => admin ? undefined : c.mode === "duel" ? (premium ? undefined : t("Abonelikle açılır"))
-              : lockOf.get(c.id) === "premium" ? t("Abonelikle açılır")
-              : !c.career?.off && !careerOpen.has(c.id) ? t("Kariyerde açılır · {bolum}", { bolum: CHAPTERS[levelOf(c) - 1].title }) : undefined}
+            lockedNote={() => undefined}
             onLocked={c => { if (c.mode === "duel" || lockOf.get(c.id) === "premium") setRoute({ k: "paywall", back: "list", mode: c.mode }); }}
             onBack={() => setRoute({ k: "title" })}
             onSwitch={() => toList(route.mode === "duel" ? "solo" : "duel")}
-            onPick={c => (c.mode === "duel" ? setSetup(c) : startGame(c, SOLO_PLAYERS))} />
+            onPick={c => (c.mode === "duel" ? setSetup({ c, from: "list" }) : startGame(c, SOLO_PLAYERS))} />
         )}
         {route.k === "admin" && <AdminScreen onExit={() => setRoute({ k: "title" })} onPreview={c => startGame(c, previewPlayers(c), "admin")} />}
         {route.k === "game" && (
@@ -188,7 +218,7 @@ export default function App() {
         )}
         {route.k === "closing" && (
           <ClosingScreen c={route.c} game={route.game} players={route.players}
-            onDone={ai => setRoute({ k: "verdict", c: route.c, players: route.players, game: route.game, from: route.from, ai })} />
+            onDone={ai => afterClosing(route.c, route.players, route.game, route.from, ai)} />
         )}
         {route.k === "verdict" && (
           <VerdictScreen c={route.c} game={route.game} notice={route.notice} ai={route.ai}
@@ -196,11 +226,13 @@ export default function App() {
             onRetry={route.from === "online" ? undefined : () => startGame(route.c, route.players, route.from === "desk" ? "list" : route.from)}
             onBack={() => back(route.c, route.from)} />
         )}
-        <SetupModal key={setup?.id} c={setup} onClose={() => setSetup(null)} onStart={p => { const c = setup!; setSetup(null); startGame(c, p, fromOf(c)); }}
+        <SetupModal key={setup?.c.id} c={setup?.c || null} fixedSide={setup?.side} career={setup?.career} meName={setup?.career ? meName : undefined}
+          onClose={() => setSetup(null)} onStart={p => { const su = setup!; setSetup(null); startGame(su.c, p, su.from); }}
           onOnline={async (side, open) => {
             if (!account) { setSetup(null); setRoute({ k: "account" }); return; }
-            const c = setup!; const m = await createMatch(c.id, side, open);
-            setSetup(null); setRoute({ k: "onlineWait", id: m.id, c });
+            const su = setup!; const m = await createMatch(su.c.id, side, open);
+            if (su.career) setCareerOnline({ matchId: m.id, caseId: su.c.id, side, from: su.from });
+            setSetup(null); setRoute({ k: "onlineWait", id: m.id, c: su.c });
           }} />
         </View>
       </SafeAreaView>

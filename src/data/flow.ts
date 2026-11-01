@@ -3,13 +3,13 @@
 // Hangi branşta başarılıysa o branştan daha çok dosya gelir; oyuncu isterse birkaç branşa odaklanabilir.
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
-import { CaseFile } from "../engine/types";
+import { CaseFile, Side } from "../engine/types";
 import { currentAccount, onAccountChange } from "./account";
 import { Branch, branchOf, BRANCHES } from "./branches";
 import { buildCareer, levelOf, Progress } from "./career";
-import { sourceOf } from "./office";
+import { careerSide, publicRole, Source, sourceOf } from "./office";
 
-export interface Offer { id: string; month: number }
+export interface Offer { id: string; month: number; src?: Source; side?: Side }
 export interface Flow {
   offers: Offer[];
   /** kabul edilip masada bekleyen dosyalar */
@@ -24,9 +24,15 @@ export interface Flow {
   seen: Branch[];
   /** teklifler en son hangi ay için hazırlandı */
   dealtFor: number;
+  /** dosyanın büroya geliş yolu (CMK, adli yardım, müvekkil) ve karşılıklı dosyada büronun tarafı */
+  src: Record<string, Source>;
+  side: Record<string, Side>;
+  /** uzmanlık alanı (oyun önerir, oyuncu onaylar) ve önerinin en son sorulduğu kapalı dosya sayısı */
+  specialty: Branch[];
+  specialtyAskedAt?: number;
 }
 
-const empty = (): Flow => ({ offers: [], active: [], closed: {}, declined: {}, focus: [], seen: [], dealtFor: -1 });
+const empty = (): Flow => ({ offers: [], active: [], closed: {}, declined: {}, focus: [], seen: [], dealtFor: -1, src: {}, side: {}, specialty: [] });
 const keyFor = () => `celse-dosya-v1:${currentAccount()?.id || "misafir"}`;
 const listeners = new Set<() => void>();
 const emit = () => listeners.forEach(f => f());
@@ -80,35 +86,82 @@ function diffWeight(d: CaseFile["difficulty"], month: number) {
   return { basit: 0.8, orta: 1.5, zor: 2 }[k];
 }
 
-/** Ay başında teklifleri tazeler: bir aydan eski teklifler düşer (müvekkil başka avukata gider), boşluklar dolar. */
-export function deal(f: Flow, solo: CaseFile[], progress: Progress, month: number, extra = 0): Flow {
+/** Kariyerin başı: ilk dosyalar baro üzerinden (CMK ve adli yardım) gelir; bu kadar dosya kapanınca serbest müvekkiller gelir. */
+export const EARLY_FILES = 3;
+/** Uzmanlık önerisinin ilk sorulduğu kapalı dosya sayısı. */
+export const SPECIALTY_AT = 6;
+
+/** Bu ay masaya gelecek teklif sayısı: başta iki, kapanan dosya arttıkça çoğalır; okul ve çalışanlar etkiler. */
+export function offerCount(f: Flow, extra = 0, slow = 0) {
+  const closed = Object.keys(f.closed).length;
+  const base = closed < EARLY_FILES ? 2 : Math.min(5, 2 + Math.floor((closed - EARLY_FILES) / 3) + 1);
+  return Math.max(1, base + extra - slow);
+}
+
+/** Ay başında teklifleri tazeler: bir aydan eski teklifler düşer (müvekkil başka avukata gider), boşluklar dolar.
+ *  pool: kariyere girebilen bütün dosyalar (tek kişilik, karşılıklı, tahkim). */
+export function deal(f: Flow, pool0: CaseFile[], progress: Progress, month: number, extra = 0, slow = 0, dr = false): Flow {
   if (f.dealtFor === month) return f;
-  const career = buildCareer(solo, progress);
+  const career = buildCareer(pool0, progress, true, Infinity, { dr });
   const openLevels = new Set(career.chapters.filter(ch => ch.open).map(ch => ch.level));
   const maxLevel = Math.max(1, ...openLevels);
-  const stats = new Map(branchStats(f, solo).map(s => [s.id, s.weight]));
+  const stats = new Map(branchStats(f, pool0).map(s => [s.id, s.weight]));
   const offers = f.offers.filter(o => month - o.month < 2 && !f.active.includes(o.id));
   const taken = new Set([...offers.map(o => o.id), ...f.active, ...Object.keys(f.closed)]);
-  let pool = solo.filter(c => !c.career?.off && openLevels.has(levelOf(c)) && !taken.has(c.id) && !(f.declined[c.id] !== undefined && month - f.declined[c.id] < 6));
+  const early = Object.keys(f.closed).length < EARLY_FILES;
+  let pool = pool0.filter(c => !c.career?.off && openLevels.has(levelOf(c)) && !taken.has(c.id) && !(f.declined[c.id] !== undefined && month - f.declined[c.id] < 6));
+  // Başlangıç: yalnız baro görevlendirmeleri (CMK müdafiliği, adli yardım), önce kolay olanlar.
+  if (early) { const pub = pool.filter(c => publicRole(c) && c.difficulty !== "zor"); if (pub.length) pool = pub; }
   const focused = f.focus.length ? pool.filter(c => f.focus.includes(branchOf(c))) : pool;
   if (focused.length) pool = focused;
-  const want = 3 + extra;
+  const want = offerCount(f, extra, slow);
   const r = rand(`${currentAccount()?.id || "m"}:${month}`);
   const seen = new Set(f.seen);
+  const src = { ...f.src }, side = { ...f.side };
   while (offers.length < want && pool.length) {
-    const w = pool.map(c => (stats.get(branchOf(c)) || 1) * diffWeight(c.difficulty, month) * (levelOf(c) === maxLevel ? 1.6 : 1));
+    // Başlangıçta CMK ve adli yardım dosyaları karışık gelsin: gelmiş türden olmayan varsa önce o.
+    if (early) {
+      const got = new Set(offers.map(o => o.src));
+      const fresh = pool.filter(c => !got.has(publicRole(c)?.src));
+      if (fresh.length && fresh.length < pool.length) { const keep = new Set(fresh.map(c => c.id)); pool = [...fresh, ...pool.filter(c => !keep.has(c.id))].slice(0, fresh.length); }
+    }
+    const w = pool.map(c => (stats.get(branchOf(c)) || 1) * diffWeight(c.difficulty, month) * (levelOf(c) === maxLevel ? 1.6 : 1)
+      * (f.specialty.includes(branchOf(c)) ? 2.5 : 1) * (c.mode === "duel" ? 0.8 : 1));
     let t = r() * w.reduce((a, b) => a + b, 0), i = 0;
     while (i < w.length - 1 && (t -= w[i]) > 0) i++;
     const c = pool.splice(i, 1)[0];
-    offers.push({ id: c.id, month });
+    // Geliş yolu: başlangıçta baro görevi; sonra müdafilik dosyalarının yarısı CMK, bazı ilk derece dosyaları adli yardım.
+    const pub = publicRole(c);
+    const roll = r();
+    const s: Source = pub && (early || roll < (pub.src === "cmk" ? 0.5 : 0.2)) ? pub.src : c.mode === "solo" ? sourceOf(c) : "muvekkil";
+    src[c.id] = s;
+    side[c.id] = pub && s !== "muvekkil" ? pub.side : careerSide(c);
+    offers.push({ id: c.id, month, src: s, side: side[c.id] });
     seen.add(branchOf(c));
   }
-  return { ...f, offers, seen: BRANCHES.map(b => b.id).filter(b => seen.has(b)), dealtFor: month };
+  return { ...f, offers, src, side, seen: BRANCHES.map(b => b.id).filter(b => seen.has(b)), dealtFor: month };
 }
 
-export async function ensureDeal(solo: CaseFile[], progress: Progress, month: number, extra = 0) {
+/** Uzmanlık önerisi: en başarılı iki branş (en az bir kazanılmış dosyası olan). */
+export function suggestSpecialty(f: Flow, pool: CaseFile[]): Branch[] {
+  return branchStats(f, pool).filter(b => b.won > 0).sort((a, b) => b.weight - a.weight || b.won - a.won).slice(0, 2).map(b => b.id);
+}
+export function specialtyDue(f: Flow) {
+  const closed = Object.keys(f.closed).length;
+  return !f.specialty.length && closed >= SPECIALTY_AT && closed - (f.specialtyAskedAt ?? -99) >= 4;
+}
+export async function setSpecialty(b: Branch[]) {
   const f = await loadFlow();
-  const n = deal(f, solo, progress, month, extra);
+  await save({ ...f, specialty: b, specialtyAskedAt: Object.keys(f.closed).length, offers: [], dealtFor: -1 });
+}
+export async function postponeSpecialty() {
+  const f = await loadFlow();
+  await save({ ...f, specialtyAskedAt: Object.keys(f.closed).length });
+}
+
+export async function ensureDeal(pool: CaseFile[], progress: Progress, month: number, extra = 0, slow = 0, dr = false) {
+  const f = await loadFlow();
+  const n = deal(f, pool, progress, month, extra, slow, dr);
   if (n !== f) await save(n);
 }
 

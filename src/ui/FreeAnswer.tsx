@@ -8,6 +8,15 @@ import { CaseFile, Step } from "../engine/types";
 import { Btn } from "./kit";
 import { C, F } from "./theme";
 import { locale, t } from "../i18n";
+import { hasDegree } from "../data/life";
+import { isIntl, useOffice } from "../data/office";
+
+/** Uluslararası dosyada savunma dili: Türkçe, İngilizce ya da Fransızca. */
+const ANSWER_LANGS = [
+  { v: "", label: "Türkçe", rec: "", ph: "" },
+  { v: "en", label: "English", rec: "en-GB", ph: "Members of the Tribunal, …" },
+  { v: "fr", label: "Français", rec: "fr-FR", ph: "Monsieur le Président, Mesdames et Messieurs les juges, …" }
+];
 
 /** Tarayıcının konuşma tanıma özelliği (Chrome, Edge, Safari). Telefonda klavyedeki mikrofonla dikte edilir. */
 function getRecognizer(): any {
@@ -18,6 +27,10 @@ function getRecognizer(): any {
 
 export default function FreeAnswer({ c, step, onResult }: { c: CaseFile; step: Step; onResult: (answer: string, score: number, feedback: string) => void }) {
   const [text, setText] = useState("");
+  const { office } = useOffice();
+  const intl = isIntl(c);
+  const [alang, setAlang] = useState("");
+  const cur = ANSWER_LANGS.find(x => x.v === alang)!;
   const [busy, setBusy] = useState(false);
   const [listening, setListening] = useState(false);
   const rec = useRef<any>(null);
@@ -28,7 +41,7 @@ export default function FreeAnswer({ c, step, onResult }: { c: CaseFile; step: S
     if (listening) { try { rec.current?.stop(); } catch { /* yok say */ } return; }
     const r = getRecognizer();
     if (!r) return;
-    r.lang = locale(); r.interimResults = false; r.continuous = true;
+    r.lang = cur.rec || locale(); r.interimResults = false; r.continuous = true;
     const base = text ? text.trimEnd() + " " : "";
     let said = "";
     r.onresult = (e: any) => {
@@ -47,7 +60,9 @@ export default function FreeAnswer({ c, step, onResult }: { c: CaseFile; step: S
     try { rec.current?.stop(); } catch { /* yok say */ }
     setBusy(true);
     const token = await getAccessToken();
-    const ev = await evaluateFree(c, step, answer, serverReady() ? { url: SUPABASE_URL, key: SUPABASE_ANON_KEY, token, fn: AI_FUNCTION } : undefined);
+    // Dil kursunu bitirmiş avukat o dilde savunursa daha çok, kurssuz yabancı dilde savunursa az ek puan alır.
+    const bonus = alang ? (hasDegree(office?.life, alang) ? 8 : 3) : 0;
+    const ev = await evaluateFree(c, step, answer, serverReady() ? { url: SUPABASE_URL, key: SUPABASE_ANON_KEY, token, fn: AI_FUNCTION } : undefined, alang ? { answerLang: alang, bonus } : undefined);
     setBusy(false);
     onResult(answer, ev.score, ev.feedback);
   };
@@ -57,7 +72,18 @@ export default function FreeAnswer({ c, step, onResult }: { c: CaseFile; step: S
       <Text style={s.hint}>{canListen.current ? t("Cevabınızı kendi cümlelerinizle yazın ya da mikrofona söyleyin. Madde numarası vermek puanı artırır.")
         : Platform.OS !== "web" ? t("Cevabınızı kendi cümlelerinizle yazın ya da klavyedeki mikrofonla söyleyin. Madde numarası vermek puanı artırır.")
         : t("Cevabınızı kendi cümlelerinizle yazın. Madde numarası vermek puanı artırır.")}</Text>
-      <TextInput value={text} onChangeText={setText} multiline editable={!busy} placeholder={c.room === "tahkim" ? t("Sayın Hakem Heyeti, …") : t("Sayın Hâkim, …")} placeholderTextColor={C.muted}
+      {intl && (
+        <View style={s.langRow}>
+          <Text style={s.hint}>{t("Savunma dili:")}</Text>
+          {ANSWER_LANGS.map(l => (
+            <Pressable key={l.v} accessibilityRole="radio" accessibilityState={{ selected: alang === l.v }} onPress={() => setAlang(l.v)} style={[s.lang, alang === l.v && s.langOn]}>
+              <Text style={[s.langT, alang === l.v && { color: C.brassInk }]}>{l.label}</Text>
+            </Pressable>
+          ))}
+          {!!alang && <Text style={s.hint}>{hasDegree(office?.life, alang) ? t("Dil kursunuz var: +8 puan") : t("Yabancı dilde savunma: +3 puan (kursla +8)")}</Text>}
+        </View>
+      )}
+      <TextInput value={text} onChangeText={setText} multiline editable={!busy} placeholder={cur.ph || (c.room === "tahkim" ? t("Sayın Hakem Heyeti, …") : t("Sayın Hâkim, …"))} placeholderTextColor={C.muted}
         style={s.input} accessibilityLabel={t("Serbest cevap")} maxLength={2000} />
       <View style={s.row}>
         {canListen.current && (
@@ -77,6 +103,10 @@ export default function FreeAnswer({ c, step, onResult }: { c: CaseFile; step: S
 }
 
 const s = StyleSheet.create({
+  langRow: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 6 },
+  lang: { borderWidth: 1, borderColor: C.line, borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
+  langOn: { backgroundColor: C.brass, borderColor: C.brass },
+  langT: { fontFamily: F.mono, fontSize: 12, color: C.text },
   hint: { fontFamily: F.body, fontSize: 14, color: C.muted },
   input: { minHeight: 120, textAlignVertical: "top", fontFamily: F.body, fontSize: 17, color: C.text, backgroundColor: C.panel2, borderWidth: 1, borderColor: C.line, borderRadius: 8, padding: 12 },
   row: { flexDirection: "row", alignItems: "center", gap: 10, flexWrap: "wrap" },
