@@ -1,0 +1,392 @@
+{
+  "id": "th-sigorta-rucu-kusur",
+  "mode": "duel",
+  "difficulty": "zor",
+  "title": "Yüzde Altmış",
+  "area": "Tahkim · Sigorta tahkimi · Sorumluluk sigortasında halefiyet ve kusur oranı",
+  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakem Heyeti",
+  "courtShort": "SİGORTA TAHKİM",
+  "esas": "Başvuru No. 2026/66019",
+  "kararTarihi": "10.11.2026",
+  "color": "#5a3f2a",
+  "room": "tahkim",
+  "forum": "sigorta",
+  "inscription": null,
+  "bench": { "judges": 3, "title": "Hakem heyeti: başhakem ve iki hakem" },
+  "teaser": "Temel kazısı komşu binayı çatlattı. Mahkeme yükleniciyi tazminatın tamamından sorumlu tuttu; kusurun %60'ı ise alt yüklenicideydi. Sigortacı yalnız %40'ı ödedi: “Gerisini alt yükleniciden siz alın.”",
+  "sides": {
+    "p1": { "role": "Başvuran (sigortalı yüklenici) vekili", "short": "Başvuran" },
+    "p2": { "role": "Sigorta şirketi vekili", "short": "Sigorta şirketi" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#d2a07a", "hair": "#a39d96", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#efc7a1", "hair": "#2b211c", "style": "short", "beard": true, "shirt": "#24282f", "inner": "#efe9e0" } },
+    "p2": { "look": { "kind": "civil", "skin": "#c99268", "hair": "#1a1513", "style": "bun", "glasses": true, "shirt": "#1f2934", "inner": "#e6e3dd" } },
+    "client": { "name": "Levent Demirtaş · Yüklenici şirket müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#dcab84", "hair": "#4a3a30", "style": "short", "shirt": "#4b525b", "inner": "#e8e3da" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "08.04.2025'te Demirtaş Yapı İnşaat A.Ş.'nin İzmir Bornova'daki şantiyesinde temel kazısı sırasında komşu Erguvan Apartmanı'nın duvarları çatladı. İksa (kazı destek) işini alt yüklenici Kazık Zemin Ltd. Şti. yapıyordu." },
+    { "who": "narr", "text": "Apartman yönetimi yalnızca Demirtaş Yapı'ya dava açtı. Mahkeme, bilirkişinin kusur dağılımını (yüklenici %40 denetim eksikliği, alt yüklenici %60 projeye aykırı iksa) not ederek yükleniciyi 900.000 TL'nin tamamından sorumlu tuttu. Karar kesinleşti; Demirtaş Yapı 15.05.2026'da ödedi." },
+    { "who": "narr", "text": "Şirketin Alize Sigorta A.Ş.'de olay tarihini kapsayan Üçüncü Şahıslara Karşı Mali Sorumluluk Sigortası var: olay başı limit 2.000.000 TL, muafiyet 25.000 TL. Alize, “kusur oranınız %40” diyerek 360.000 TL ödedi ve gerisini reddetti. Alize, Komisyona üye." },
+    { "who": "narr", "text": "Şirkete yazılı başvuru yapıldı ve kalan talep reddedildi (5684 s.K. m.30/13). Sigortalının vekili Komisyona yapılacak başvuruyu hazırlıyor." }
+  ],
+  "docs": [
+    { "t": "Poliçe", "d": "Üçüncü Şahıslara Karşı Mali Sorumluluk. Dönem 01.01.2025–01.01.2026. Sigortacı, sigortalının poliçe süresi içinde gerçekleşen olaylar nedeniyle üçüncü kişilere verdiği zararlardan doğan hukuki sorumluluğunu olay başı 2.000.000 TL'ye kadar karşılar. Muafiyet her olayda 25.000 TL." },
+    { "t": "Asliye hukuk mahkemesi ilamı", "d": "Davacı Erguvan Apartmanı Yönetimi, davalı Demirtaş Yapı. Davalının 900.000 TL ödemesine. Gerekçe: zarar hem yüklenicinin denetim eksikliğinden (%40) hem alt yüklenicinin projeye aykırı uygulamasından (%60) doğmuştur; zarar gören, müteselsil sorumlulardan dilediğine tamamı için başvurabilir (TBK m.61). İstinaf incelemesinden geçerek kesinleşti." },
+    { "t": "Hakediş kesinti ve ibra protokolü (10.10.2025)", "d": "Alt yüklenici, iş gecikmesi ve yüklenicinin kendi zararları karşılığı 100.000 TL hakediş kesintisini kabul eder. Md.3: “Taraflar bu işten doğan karşılıklı alacakları bakımından birbirlerini ibra eder.” (Protokol dört maddedir.)" },
+    { "t": "Alize'nin ret yazısı", "d": "“Sigortalımızın kusur oranı %40'tır; bu oranda 360.000 TL ödenmiştir. Kalan kısım alt yüklenicinin kusuruna aittir. Ayrıca sigortalımız 10.10.2025 tarihli protokolle alt yükleniciyi ibra ederek şirketimizin rücu hakkını ortadan kaldırmıştır.”" },
+    { "t": "Kanun hükümleri", "d": "TTK m.1473: sorumluluk sigortasında sigortacı, sigorta süresi içindeki olaydan doğan sorumluluk nedeniyle tazminat öder. TTK m.1481: sigortacı ödediği tutar kadar sigortalının sorumlulara karşı haklarına halef olur; sigortalı bu hakları zedeleyecek biçimde davranırsa sigortacıya karşı sorumludur. TBK m.61-62: müteselsil sorumluluk ve iç ilişkide paylaştırma; payından fazlasını ödeyen rücu eder. TBK m.73: rücu hakkı, tam ödeme ve diğer sorumlunun öğrenilmesinden itibaren iki yılda zamanaşımına uğrar." }
+  ],
+  "evidence": [
+    { "id": "ev_ilam", "type": "belge", "title": "Asliye hukuk mahkemesi ilamı", "desc": "Yüklenici 900.000 TL'nin tamamından sorumlu; kusur dağılımı %40 / %60; müteselsil sorumluluk (TBK m.61)." },
+    { "id": "ev_md3", "type": "belge", "title": "Protokol · md.3", "desc": "“Taraflar bu işten doğan karşılıklı alacakları bakımından birbirlerini ibra eder.”" },
+    { "id": "ev_md4", "type": "belge", "title": "Protokol · md.4", "desc": "“Üçüncü kişilere ödenecek tazminatlar nedeniyle tarafların birbirine rücu hakları ve bu hakların sigortacılarına geçişi saklıdır.”", "if": "p1_protokol" },
+    { "id": "ev_ihtar", "type": "belge", "title": "Alt yükleniciye ihtarname (20.05.2026)", "desc": "Demirtaş Yapı, ödemeyi bildirip 540.000 TL'lik iç ilişki payını alt yükleniciden istemiş.", "if": "p1_ihtar" },
+    { "id": "law_1481", "type": "kanun", "title": "TTK m.1481", "desc": "Sigortacı ödediği tutar kadar sigortalının sorumlulara karşı haklarına halef olur; sigortalı bu hakları zedelerse sorumludur.", "law": "TTK m.1481" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAŞVURU · Talebinizi ve karşı tarafınızı belirleyeceksiniz." },
+        { "who": "client", "text": "Kusurun çoğu Kazık Zemin'deydi. Biz sigortacıyla mı uğraşacağız, onlarla mı?" }
+      ],
+      "prompt": "Başvuruyu nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Sigortalının zarar görene karşı sorumluluğu tamdı; muafiyet ve ödenen 360.000 TL düşülerek 515.000 TL iste. İç ilişkideki %60 payı Alize halef olarak ister.",
+          "delta": 20,
+          "set": ["p1_tam"],
+          "law": "TTK m.1473 · m.1481 · TBK m.61-62",
+          "note": "Sorumluluk sigortası, sigortalının zarar görene karşı hukuki sorumluluğunu karşılar; dış ilişkide bu sorumluluk müteselsil ve tamdır (TBK m.61). Kusur oranı yalnızca iç ilişkideki rücuyu belirler (TBK m.62); sigortacı ödediği ölçüde bu rücu hakkına halef olur (TTK m.1481). 900.000 − 25.000 − 360.000 = 515.000 TL."
+        },
+        {
+          "text": "Alt yükleniciyi de Komisyonda karşı taraf göster: %60 payı olan 540.000 TL'yi ondan, kendi kusur payına düşen kalan farkı da Alize'den iste.",
+          "delta": -10,
+          "set": ["p1_y"],
+          "law": "5684 s.K. m.30",
+          "note": "Komisyon, sigorta sözleşmesinden doğan ve sigorta kuruluşuyla yaşanan uyuşmazlıklara bakar; alt yükleniciye karşı rücu talebi bu yolun konusu değildir. Üstelik sigortacıdan yalnız %40'lık kısmı isteyerek, poliçenin sağladığı tam teminattan kendiliğinizden vazgeçtiniz."
+        },
+        {
+          "text": "Bilirkişinin %40 kusur tespiti hatalı; Komisyonda yeni bir bilirkişiyle müvekkilin kusursuz olduğunu ispatla ve 900.000 TL'nin kalanını Alize'den iste.",
+          "delta": -10,
+          "set": ["p1_kusur"],
+          "law": "TTK m.1473 · TBK m.61",
+          "note": "Sigortalının zarar görene karşı sorumluluğu kesinleşmiş ilamla belirlendi. Sigorta teminatı bakımından iç ilişkideki kusur oranı belirleyici değildir; kusursuzluk tartışması gereksiz bir yük getirdi ve muafiyeti hesaba katmayan talep fazla kaldı."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Uyuşmazlık 122.000 TL'yi aştığı için üç kişilik heyet kuruldu. Şirket adına cevap veriyorsunuz." }
+      ],
+      "prompt": "Savunmanın ana dayanağı ne olacak?",
+      "choices": [
+        {
+          "text": "Kusur oranına değil, protokole dayan: sigortalı alt yükleniciyi ibra ettiyse rücu hakkımız zedelendi; TTK m.1481 gereği bu ölçüde sorumludur.",
+          "delta": 15,
+          "set": ["p2_ibra"],
+          "law": "TTK m.1481",
+          "note": "Şirketin en güçlü dayanağı bu. Sigortalı, sigortacıya geçecek hakları zedeleyecek biçimde davranırsa sigortacıya karşı sorumlu olur (TTK m.1481). Sonuç, protokolün rücu hakkını gerçekten kapsayıp kapsamadığına bağlı."
+        },
+        {
+          "text": "Sorumluluk sigortası sigortalının kendi kusuruyla sınırlıdır; %40 kusur oranına düşen 360.000 TL ödendi ve şirketin borcu bu ödemeyle sona erdi.",
+          "delta": -10,
+          "set": ["p2_kusur"],
+          "law": "TTK m.1473 · TBK m.61",
+          "note": "Sorumluluk sigortası, sigortalının zarar görene karşı hukuki sorumluluğunu karşılar. Bu sorumluluk müteselsil olduğu için tamdır; kusur oranı ancak iç ilişkideki rücuyu belirler. Sigortacının buradaki hakkı ödemeyi kısmak değil, ödedikten sonra halef olarak rücu etmektir (TTK m.1481)."
+        },
+        {
+          "text": "Olay 08.04.2025'te oldu; iki yıllık süre içinde rücu edilmediği için halefiyetle şirkete geçecek hak da zamanaşımına uğradı, sigortalı bundan sorumludur.",
+          "delta": -15,
+          "set": ["p2_zaman"],
+          "law": "TBK m.73",
+          "note": "Rücu hakkının zamanaşımı olay tarihinden değil, tam ödemenin yapıldığı ve diğer sorumlunun öğrenildiği tarihten başlar (TBK m.73). Ödeme 15.05.2026'da yapıldı; süre işlemeye yeni başladı."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Alize'nin cevabı geldi. Heyetin toplantısından önce şirket müdürü Levent Demirtaş'la görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Alt yükleniciyle imzaladığınız protokolün tamamında rücu konusunda bir hüküm var mı?",
+          "delta": 15,
+          "set": ["p1_protokol"],
+          "reply": [
+            { "who": "client", "text": "Var. Avukatımız ısrar etmişti: 4. madde, üçüncü kişilere ödenecek tazminatlar için rücu haklarının ve sigortacıya geçişinin saklı olduğunu söylüyor." }
+          ],
+          "note": "Kilit soru. Şirketin ret yazısı yalnız 3. maddeye dayanıyor; 4. madde rücu hakkını açıkça saklı tutuyorsa sigortacıya geçecek hak zedelenmemiştir (TTK m.1481). Protokolün 4. maddesi çantanıza eklendi."
+        },
+        {
+          "text": "Mahkeme kararını ödedikten sonra alt yükleniciye bir bildirim yaptınız mı?",
+          "delta": 10,
+          "set": ["p1_ihtar"],
+          "reply": [
+            { "who": "client", "text": "20 Mayıs'ta noterden ihtar çektik; ödediğimizi bildirip 540.000 TL'lik paylarını istedik." }
+          ],
+          "note": "Yararlı. Ödeyen, birlikte sorumlulara durumu bildirmekle yükümlüdür (TBK m.73/2); bu bildirim rücu hakkını koruyan bir adım. İhtarname çantanıza eklendi."
+        },
+        {
+          "text": "Kazık Zemin'in kendi sorumluluk sigortası var mı?",
+          "delta": 0,
+          "reply": [
+            { "who": "client", "text": "Var galiba, Beta Sigorta. Poliçesini hiç görmedim." }
+          ],
+          "note": "Alize'nin ileride halef olarak yürüteceği rücu açısından ilginç, ama bu başvurunun sonucunu etkilemiyor."
+        },
+        {
+          "text": "Erguvan Apartmanı'nın onarımı tamamlandı mı?",
+          "delta": -5,
+          "reply": [
+            { "who": "client", "text": "Bitti, sakinler memnun. Bu bizim için iyi bir şey mi?" }
+          ],
+          "note": "Zarar gören tazmin edildi; bu bilgi sigortacıyla olan uyuşmazlığa bir şey katmıyor."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sigorta şirketi vekili, kusur oranı meselesinde son tutumunuz nedir?" }
+      ],
+      "prompt": "Kusur oranı tartışmasında nasıl bir tutum alacaksınız?",
+      "choices": [
+        {
+          "text": "Kusur oranını tartışmaya gerek yok; ödediğimiz ölçüde halef oluruz. Ödemenin, rücu için gereken belgelerin şirkete teslimiyle birlikte yapılmasını iste.",
+          "delta": 15,
+          "set": ["p2_halef"],
+          "law": "TTK m.1481 · m.1447",
+          "note": "Hukuken doğru bir geri çekilme. Kusur oranı teminatı değil, halef olarak yapılacak rücuyu belirler. Sigortalı, sigortacının haklarını kullanabilmesi için gerekli bilgi ve belgeleri sağlamakla yükümlüdür.",
+          "reply": [
+            { "who": "judge", "text": "Not edildi. Heyet ibra meselesini ayrıca inceleyecek." }
+          ]
+        },
+        {
+          "text": "Asliye hukuk mahkemesinin kusur tespiti şirketimizi bağlamaz; heyet kusuru yeniden belirlemeli ve sigortalının kendi payını aşan bütün kısmı reddetmelidir.",
+          "delta": -10,
+          "set": ["p2_yeniden"],
+          "law": "TTK m.1473 · TBK m.61",
+          "note": "Kusur oranı yeniden belirlense bile sonuç değişmez: sigortalının zarar görene karşı sorumluluğu müteselsil olduğu için tamdır. Teminat, iç ilişkideki paya göre değil, sigortalının hukuki sorumluluğuna göre belirlenir.",
+          "reply": [
+            { "who": "judge", "text": "Sigortalının dış ilişkideki sorumluluğu kesinleşmiş ilamla belirlenmiş. Not edildi." }
+          ]
+        },
+        {
+          "text": "Alt yükleniciye karşı açılacak rücu davası sonuçlanana kadar bu dosyanın bekletici mesele yapılmasını iste; iç ilişki payı orada kesinleşecektir.",
+          "delta": -10,
+          "set": ["p2_bekle"],
+          "law": "HMK m.165",
+          "note": "Rücu davası bu uyuşmazlığın sonucunu belirlemez; üstelik sigortacının halef olarak rücu edebilmesi için önce ödeme yapması gerekir. Bekletme, ödemeyi geciktirmekten başka bir işe yaramaz.",
+          "reply": [
+            { "who": "judge", "text": "Bekletici mesele talebi uygun görülmedi." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "p2_ibra",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, ibra protokolü hakkında karşı tarafı dinleyin." }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Heyet, sigortalı 10.10.2025 tarihli protokolle alt yükleniciyi bu işten doğan bütün alacaklar bakımından ibra etmiştir. Şirketimize geçecek rücu hakkı bu nedenle ortadan kalkmıştır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_md4"],
+      "hit": {
+        "delta": 25,
+        "set": ["p1_sakli"],
+        "law": "TTK m.1481",
+        "note": "Protokolün 4. maddesi, üçüncü kişilere ödenecek tazminatlar için rücu haklarını ve bu hakların sigortacılara geçişini açıkça saklı tutuyor. 3. maddedeki ibra, yüklenicinin kendi alacaklarıyla sınırlı; sigortacıya geçecek hak zedelenmedi.",
+        "reply": [
+          { "who": "judge", "text": "Protokolün tamamı dosyaya alındı. 4. madde, şirketin ret yazısında hiç anılmamış." }
+        ]
+      },
+      "responses": {
+        "ev_ihtar": {
+          "delta": 5,
+          "note": "İhtarname, sigortalının rücu hakkını kullandığını ve alt yükleniciye bildirdiğini gösteriyor (TBK m.73/2); ama ibranın kapsamını çürüten belge protokolün 4. maddesiydi."
+        },
+        "law_1481": {
+          "delta": 0,
+          "note": "Madde karşı tarafın dayanağı. Beyanı çürütmek için protokolün rücu hakkını saklı tutan hükmünü göstermeniz gerekiyordu."
+        },
+        "ev_md3": {
+          "delta": -15,
+          "note": "Karşı tarafın dayandığı genel ibra hükmünü kendiniz sundunuz."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge ibranın kapsamını göstermiyor." },
+      "pass": { "delta": -15, "note": "İtiraz etmediniz; protokolün rücu hakkını ortadan kaldırdığı beyanı cevapsız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "if": "p1_sakli", "text": "Sigorta şirketi vekili, protokolün 4. maddesi karşısında şirketin hakları nasıl korunacak?" },
+        { "who": "judge", "if": "!p1_sakli", "text": "Sigorta şirketi vekili, halefiyet ile ödeme borcunuz arasındaki ilişkiyi açıklayın." }
+      ],
+      "prompt": "Ödeme borcunun kapsamını ve şirketin halefiyetten doğan haklarını kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_hukuk"],
+          "law": "TTK m.1481 · TBK m.62, m.73",
+          "note": [
+            { "text": "Savunmayı kanunla uyumlu kurdunuz: sigortacı ödediği ölçüde sigortalının iç ilişkideki rücu hakkına halef olur; rücu zamanaşımı ödemeden itibaren işler (TBK m.73)." },
+            { "if": "p1_sakli", "text": " Protokolün 4. maddesi karşısında ibra savunmasını bırakıp şirketin halefiyet haklarını güvenceye almaya yöneldiniz." },
+            { "if": "!p1_sakli", "text": " Dosyadaki genel ibra hükmünün sigortacıya geçecek hakkı zedelediğini ve sigortalının bu ölçüde sorumlu olduğunu da gösterdiniz (TTK m.1481)." }
+          ]
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_hukuk"],
+          "law": "TTK m.1481",
+          "note": "Halefiyeti doğru andınız. Tam savunma; halefiyetin ödeme ölçüsünde gerçekleştiğini, iç ilişkideki %60 payın (540.000 TL) alt yükleniciden istenebileceğini, rücu zamanaşımının ödemeden başladığını (TBK m.73) ve sigortalının hakları zedeleyen davranışından sorumlu olacağını birlikte ortaya koyar."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "TTK m.1481 · TBK m.61",
+          "note": "Şirketin hukuken savunulabilir konumunu kuramadınız. Kusur oranıyla ödemeyi kısmak mümkün değil; şirketin hakkı, ödediği ölçüde halef olarak rücu etmek ve sigortalının bu hakkı zedeleyen davranışından onu sorumlu tutmaktır (TTK m.1481)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sorumluluk sigortacısı, sigortalının zarar görene karşı hukuki sorumluluğunu karşılar (TTK m.1473); dış ilişkide müteselsil sorumluluk tamdır (TBK m.61). (2) Sigortacı tazminatı ödediği ölçüde sigortalının, iç ilişkide payından fazlasını ödemesinden doğan rücu hakkına halef olur (TTK m.1481; TBK m.62); burada %60, yani 540.000 TL alt yükleniciden istenebilir. Halefiyet kanunidir, ayrıca temlik gerekmez. (3) Rücu hakkının zamanaşımı tam ödeme ve diğer sorumlunun öğrenilmesinden itibaren iki yıldır (TBK m.73). (4) Sigortalı bu hakkı zedeleyecek biçimde davranırsa (ör. kapsamlı bir ibra) sigortacıya karşı sorumludur (TTK m.1481); ibra rücuyu saklı tutuyorsa bu savunma düşer ve şirket halefiyet haklarını güvenceye alacak belgeleri istemelidir. Ödemeyi kusur oranıyla sınırlamaya devam eden cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["halef", "halefiyet", "yerine geç"], "weight": 2 },
+        { "terms": ["1481"], "weight": 1 },
+        { "terms": ["iç ilişki", "rücu", "540.000"], "weight": 2 },
+        { "terms": ["müteselsil", "dış ilişki", "tamamı", "TBK m.61"], "weight": 1 },
+        { "terms": ["zamanaşımı", "TBK m.73", "ödemeden itibaren", "iki yıl"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, sorumluluk sigortacısı sigortalının zarar görene karşı hukuki sorumluluğunu karşılar; bu sorumluluk müteselsil olduğu için dış ilişkide tamdır (TBK m.61). Şirket ödediği ölçüde sigortalının iç ilişkideki rücu hakkına kanunen halef olur (TTK m.1481; TBK m.62) ve alt yükleniciden %60'lık 540.000 TL'yi isteyebilir; bu hakkın zamanaşımı ödemeden itibaren işler (TBK m.73). Sigortalı bu hakkı zedelemişse şirkete karşı sorumludur; zedelememişse ödemenin, rücu için gerekli ilam, protokol ve ihtarname örneklerinin teslimiyle birlikte yapılmasını istiyoruz."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, son olarak sizi dinliyoruz. Talebinizin hukuki dayanağını ve tutarını açıklayın." }
+      ],
+      "prompt": "Sigortacının neden tazminatın tamamından sorumlu olduğunu ve kusur oranının nerede önem taşıdığını kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü beyan",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_hukuk"],
+          "law": "TTK m.1473 · m.1481 · TBK m.61-62",
+          "note": [
+            { "text": "Beyanınız sorumluluk sigortasının işleyişini doğru ayırdı: dış ilişkide tam sorumluluk teminatın konusudur; kusur oranı iç ilişkideki rücuyu belirler ve sigortacı bu rücuya ödediği ölçüde halef olur." },
+            { "if": "p1_sakli", "text": " Protokolün 4. maddesiyle rücu hakkının korunduğunu da gösterdiniz." },
+            { "if": "!p1_sakli && p2_ibra", "text": " Ama genel ibra hükmüne karşı rücu hakkının korunduğunu gösteren belgeyi dosyaya koyamadınız." }
+          ]
+        },
+        {
+          "text": "Yeterli beyan",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_hukuk"],
+          "law": "TTK m.1473 · TBK m.61",
+          "note": "Dış ilişkideki tam sorumluluğu gösterdiniz. Tam beyan; kusur oranının yalnızca iç ilişkideki rücuyu belirlediğini, sigortacının ödediği ölçüde bu rücuya halef olduğunu (TTK m.1481) ve 515.000 TL'lik hesabı birlikte ortaya koyar."
+        },
+        {
+          "text": "Zayıf beyan",
+          "delta": -10,
+          "law": "TTK m.1473 · m.1481 · TBK m.61-62",
+          "note": "Sorumluluk sigortasında teminatın dış ilişkideki sorumluluğa göre belirlendiğini, kusur oranının ise iç ilişkideki rücuyu ilgilendirdiğini ortaya koyamadınız."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sorumluluk sigortası, sigortalının poliçe süresi içindeki olaydan doğan hukuki sorumluluğunu karşılar (TTK m.1473). (2) Zarar gören, müteselsil sorumlulardan dilediğine zararın tamamı için başvurabilir (TBK m.61); sigortalının sorumluluğu kesinleşmiş ilamla 900.000 TL'dir. (3) Kusur oranı yalnızca iç ilişkideki paylaştırmayı ve rücuyu belirler (TBK m.62); sigortacı ödediği ölçüde bu rücu hakkına halef olur (TTK m.1481) ve %60'lık payı alt yükleniciden isteyebilir. (4) Rücu hakkı zedelenmemiştir: protokolün 4. maddesi rücuyu saklı tutar, alt yükleniciye ihtar çekilmiştir, zamanaşımı ödemeden başlar (TBK m.73). (5) Hesap: 900.000 − 25.000 muafiyet − 360.000 = 515.000 TL. Dış/iç ilişki ayrımını, halefiyeti ve hesabı birlikte söyleyen cevap tam puan alır.",
+      "keywords": [
+        { "terms": ["müteselsil", "dış ilişki", "tamamından", "TBK m.61"], "weight": 2 },
+        { "terms": ["iç ilişki", "TBK m.62", "paylaştırma"], "weight": 2 },
+        { "terms": ["halef", "1481"], "weight": 2 },
+        { "terms": ["515.000"], "weight": 1 },
+        { "terms": ["4. madde", "saklı", "ihtar", "zedelen"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, sorumluluk sigortası sigortalının zarar görene karşı hukuki sorumluluğunu karşılar (TTK m.1473). Zarar gören müteselsil sorumlulardan dilediğine tamamı için başvurabilir (TBK m.61); müvekkilin sorumluluğu kesinleşmiş ilamla 900.000 TL'dir. Kusur oranı yalnız iç ilişkideki rücuyu belirler (TBK m.62); şirket ödediği ölçüde bu rücuya halef olur (TTK m.1481). Protokolün 4. maddesi rücuyu saklı tutuyor, alt yükleniciye ihtar da çekildi. 900.000 TL'den 25.000 TL muafiyet ve ödenen 360.000 TL düşülünce 515.000 TL kalır."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sigorta şirketi vekili, karar öncesi son talebiniz?" }
+      ],
+      "prompt": "Son olarak ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Ödeme kararı verilirse sigortalının rücu için gereken ilam, protokol ve ihtarname örneklerini şirkete teslim etmesini ve muafiyetin düşülmesini iste.",
+          "delta": 15,
+          "set": ["p2_belge"],
+          "law": "TTK m.1481 · m.1447",
+          "note": "Yerinde bir kapanış. Halefiyet ödemeyle kendiliğinden gerçekleşir; şirketin alt yükleniciye karşı rücuyu yürütebilmesi için belgelere ihtiyacı var. Muafiyet de sözleşme gereği sigortalıda kalır."
+        },
+        {
+          "text": "Halefiyet için sigortalının alacağını yazılı bir temlikname ile şirkete devretmesi şarttır; temlik yapılmadıkça hiçbir ödeme yapılmamasına karar verilsin.",
+          "delta": -10,
+          "law": "TTK m.1481",
+          "note": "Halefiyet kanundan doğar; sigortacı tazminatı ödediği anda sigortalının yerine geçer. Ayrıca bir alacağın devri sözleşmesi aranmaz."
+        },
+        {
+          "text": "Sigortalı alt yükleniciden 100.000 TL hakediş kesintisi aldığına göre bu tutar zarar görene ödenmiş sayılmalı ve tazminattan ayrıca düşülmelidir.",
+          "delta": -10,
+          "law": "TTK m.1473",
+          "note": "Protokole göre 100.000 TL'lik kesinti iş gecikmesi ve yüklenicinin kendi zararları karşılığıdır; komşu binanın zararıyla ilgisi yoktur. Bu tutarı tazminattan düşmenin dayanağı yok."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_tam && (p1_sakli || !p2_ibra)",
+      "winner": "p1",
+      "hukum": "Başvurunun KABULÜ ile 515.000 TL'nin temerrüt faiziyle birlikte sigorta şirketinden alınarak başvurana ödenmesine,",
+      "summary": [
+        { "text": "Sorumluluk sigortası sigortalının zarar görene karşı hukuki sorumluluğunu karşılar (TTK m.1473). Sigortalı, müteselsil sorumlu olarak 900.000 TL'nin tamamından sorumlu tutulmuştu (TBK m.61). Kusur oranı yalnız iç ilişkideki rücuyu belirler; şirket ödediği ölçüde bu rücuya halef olur ve %60'lık payı alt yükleniciden isteyebilir (TTK m.1481, TBK m.62)." },
+        { "if": "p1_sakli", "text": " Protokolün 4. maddesi üçüncü kişilere ödenecek tazminatlar için rücu hakkını ve sigortacıya geçişini saklı tuttuğundan, şirketin ibra savunması reddedildi." },
+        { "if": "p2_kusur", "text": " Şirketin ödemeyi kusur oranıyla sınırlama tezi, sorumluluk sigortasının işleyişine aykırıydı." },
+        { "if": "p2_zaman", "text": " Rücu zamanaşımının olay tarihinden başladığı tezi de TBK m.73 karşısında reddedildi." },
+        { "if": "p2_belge", "text": " Heyet, sigortalının rücu için gerekli belgeleri şirkete teslim etmesini kayda geçirdi." }
+      ]
+    },
+    {
+      "if": "p1_kusur && (p1_sakli || !p2_ibra)",
+      "winner": "draw",
+      "hukum": "Başvurunun KISMEN KABULÜ ile 515.000 TL'nin temerrüt faiziyle birlikte sigorta şirketinden alınarak başvurana ödenmesine, muafiyete isabet eden 25.000 TL'nin REDDİNE,",
+      "summary": [
+        { "text": "Teminat, sigortalının kesinleşmiş ilamla belirlenen tam sorumluluğu üzerinden hesaplandı; kusur oranı yalnız iç ilişkideki rücuyu ilgilendirir (TTK m.1473, m.1481; TBK m.61-62)." },
+        { "text": " Ancak başvuran tarafı kusursuzluk tartışmasına girerek dosyayı gereksiz yere uzattı ve poliçedeki 25.000 TL muafiyeti hesaba katmadan talepte bulundu; bu kısım reddedildi." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": [
+        { "if": "p1_y", "text": "Alt yükleniciye yöneltilen başvurunun, Komisyonun görev alanına girmediğinden REDDİNE; sigorta şirketine yöneltilen talebin, sigortalının kendi kusur payına düşen tutarın ödenmiş olması nedeniyle REDDİNE," },
+        { "if": "!p1_y", "text": "Başvurunun REDDİNE," }
+      ],
+      "summary": [
+        { "if": "p1_y", "text": "Başvuran tarafı alt yükleniciyi Komisyonda karşı taraf gösterdi; oysa Komisyon sigorta kuruluşlarıyla olan sigorta uyuşmazlıklarına bakar. Sigortacıdan da yalnız %40'lık kısmı istediği için poliçenin tam teminatından yararlanamadı." },
+        { "if": "!p1_y", "text": "Sigortalı, 10.10.2025 tarihli protokolün 3. maddesiyle alt yükleniciyi bu işten doğan bütün alacaklar bakımından ibra etmişti; rücu hakkını saklı tutan bir hüküm dosyaya konmadı. Sigortacıya geçecek 540.000 TL'lik rücu hakkı zedelendiğinden sigortalı bu ölçüde şirkete karşı sorumlu oldu (TTK m.1481); şirketin ödediği 360.000 TL karşısında alacak kalmadı." },
+        { "if": "p2_ibra", "text": " Şirket vekili, savunmayı kusur oranına değil halefiyetin korunmasına dayandırarak doğru zemini seçti." }
+      ]
+    }
+  ]
+}

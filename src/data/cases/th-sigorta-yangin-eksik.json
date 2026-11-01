@@ -1,0 +1,454 @@
+{
+  "id": "th-sigorta-yangin-eksik",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Orantı Kuralı",
+  "area": "Tahkim · Sigorta tahkimi · Yangın sigortası",
+  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakem Heyeti",
+  "courtShort": "SİGORTA TAHKİM",
+  "esas": "2026/52766 Başvuru",
+  "kararTarihi": "18.02.2027",
+  "color": "#7a3b22",
+  "room": "tahkim",
+  "forum": "sigorta",
+  "inscription": null,
+  "bench": { "judges": 3, "title": "Üç sigorta hakeminden oluşan uyuşmazlık hakem heyeti" },
+  "teaser": "Mobilya atölyesi yandı. Makineler de stok da eksik sigortalı; şirket orantı kuralıyla ödeyip ibraname uzatıyor. Poliçenin arka sayfasında bir kloz var.",
+  "sides": {
+    "p1": { "role": "Başvuran şirket vekili", "short": "Başvuran" },
+    "p2": { "role": "Sigorta şirketi vekili", "short": "Sigorta şirketi" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#e0b48f", "hair": "#2b1d17", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#c08b62", "hair": "#1e1a18", "style": "short", "beard": true, "shirt": "#1f2a36", "inner": "#e9e6df" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f0caa6", "hair": "#6a4630", "style": "bun", "glasses": true, "shirt": "#33303a", "inner": "#efe9e0" } },
+    "serkan": { "name": "Serkan Kozan · Şirket müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#d2a27a", "hair": "#3a2c22", "style": "short", "shirt": "#6a5a48", "inner": "#e4dfd5" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Kozan Mobilya Ltd. Şti.'nin Bursa İnegöl'deki atölyesinde 18.08.2026 gecesi elektrik panosundaki kısa devreden çıkan yangın, makinelerin bir kısmını ve stoktaki keresteyi yaktı." },
+    { "who": "narr", "text": "Yangın poliçesi Kırlangıç Sigorta A.Ş.'de, 01.02.2026–01.02.2027 dönemi için: makine-teçhizat 2.500.000 TL, emtia 2.000.000 TL. Eksper, yangın anında makinelerin değerini 3.000.000 TL, emtianın değerini 2.400.000 TL; hasarı makinede 1.800.000 TL, emtiada 300.000 TL buldu." },
+    { "who": "narr", "text": "Şirket 12.10.2026'da orantı kuralını uyguladı: makine için 1.800.000 × 2,5/3,0 = 1.500.000 TL, emtia için 300.000 × 2,0/2,4 = 250.000 TL. Toplam 1.750.000 TL'yi, “başkaca hiçbir hak ve alacağım kalmamıştır” yazılı bir ibraname imzalanması karşılığında ödemeyi teklif etti; bakiye talebi reddetti." },
+    { "who": "serkan", "text": "Hasar 2.100.000; bize 350.000 eksik ödüyorlar. Bir de imza istiyorlar. Atölyeyi bir an önce ayağa kaldırmam lazım." },
+    { "who": "narr", "text": "Bugün 02.11.2026. Başvuran şirket vekili ilk hamleyi yapacak." }
+  ],
+  "docs": [
+    { "t": "Yangın poliçesi", "d": "Kırlangıç Sigorta A.Ş., 01.02.2026–01.02.2027. Makine-teçhizat 2.500.000 TL, emtia 2.000.000 TL. Sigorta değeri: rizikonun gerçekleştiği andaki gerçek değer. Eksik sigortada sigortacı, bedelin değere oranında sorumludur. Ek klozlar poliçe ekindedir." },
+    { "t": "Eksper raporu", "d": "Yangın sebebi: elektrik panosunda kısa devre. Makine: yangın anındaki değer 3.000.000 TL, hasar 1.800.000 TL. Emtia: yangın anındaki değer 2.400.000 TL (31.07.2026 stok kaydı ve faturalar), hasar 300.000 TL." },
+    { "t": "Şirketin ödeme teklifi", "d": "12.10.2026: Orantı kuralına göre 1.750.000 TL. Ödeme, ekteki ibranamenin imzalanması karşılığında yapılacaktır: “Bu ödemeyle başkaca hiçbir hak ve alacağım kalmamıştır.” Bakiye talep reddedilmiştir." },
+    { "t": "Sigorta tahkiminde parasal sınırlar (22.01.2026'dan)", "d": "35.000 TL'nin altındaki uyuşmazlıklarda karar kesin; 35.000 TL ve üzerinde 10 gün içinde itiraz. 122.000 TL ve üzerindeki uyuşmazlıklarda en az üç hakemli heyet zorunlu. 383.000 TL'yi aşan uyuşmazlıklarda itiraz kararına karşı temyiz." }
+  ],
+  "evidence": [
+    { "id": "ev_police", "type": "belge", "title": "Yangın poliçesi (teminat tablosu)", "desc": "Makine 2.500.000 TL, emtia 2.000.000 TL. Ek klozlar poliçe ekinde." },
+    { "id": "ev_eksper", "type": "belge", "title": "Eksper raporu", "desc": "Makine: değer 3.000.000, hasar 1.800.000 TL. Emtia: değer 2.400.000, hasar 300.000 TL." },
+    { "id": "ev_stok", "type": "belge", "title": "Ticari defter ve stok kaydı", "desc": "31.07.2026: emtia stoku 2.400.000 TL. Ağustos başında iki tır kereste alımı." },
+    { "id": "ev_kloz", "type": "belge", "title": "Enflasyon klozu (poliçe eki)", "desc": "“Makine-teçhizat teminatına %30 enflasyon klozu uygulanır. Sigorta bedeli, poliçe başlangıcından itibaren geçen gün sayısına göre doğrusal olarak artar ve poliçe bitiminde %30 artışa ulaşır.” Poliçe başlangıcından yangına kadar 198 gün geçmişti.", "if": "p1_klozBilgi" },
+    { "id": "ev_ibra", "type": "belge", "title": "İmzalı ibraname", "desc": "“Bu ödemeyle başkaca hiçbir hak ve alacağım kalmamıştır.” Şirket müdürünün imzası.", "if": "p1_ibra" },
+    { "id": "law_ttk1462", "type": "kanun", "title": "TTK m.1462 · Eksik sigorta", "desc": "Sigorta bedeli sigorta değerinden az ise, aksine sözleşme yoksa sigortacı, bedelin değere oranına göre sorumlu olur.", "law": "TTK m.1462" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "ÖDEME VE İBRANAME · Şirket 1.750.000 TL'yi ibraname karşılığında ödemeye hazır, bakiyeyi reddediyor. Müvekkil paraya ihtiyaç duyuyor." }
+      ],
+      "prompt": "Ödeme teklifine nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "İbranameyi imzalama; ödemeyi bakiye hakkı saklı tutularak kabul ettiğini şirkete yazıyla bildir, bakiye için Komisyona başvur.",
+          "delta": 20,
+          "set": ["p1_ihtirazi"],
+          "law": "5684 s.K. m.30/13 · TBK m.132",
+          "note": "Kısmi ödemeyi almak alacağı düşürmez; ama “başkaca hakkım kalmadı” diyen bir ibraname, ödenen tutar gerçek zarardan açıkça az değilse alacağı söndürebilir. Yargıtay, kısmi ödemeyle imzalatılan ibranameleri ancak açık bir oransızlık varsa makbuz hükmünde sayıyor. İhtirazi kayıtla riski kapattınız. 350.000 TL'lik uyuşmazlık üç hakemli heyette görülecek; temyiz sınırını aşmadığı için itiraz kararı kesin olacak.",
+          "reply": [
+            { "who": "narr", "text": "Şirket ihtirazi kayıtlı kabulü karşılıksız bırakmadı ama ödemeyi yaptı: 1.750.000 TL hesaba geçti. Başvuru 04.11.2026'da 350.000 TL üzerinden yapıldı; üç hakemli heyet oluşturuldu." }
+          ]
+        },
+        {
+          "text": "İbranameyi imzala ve 1.750.000 TL'yi hemen al; ibra yalnız ödenen tutar için geçerli olur, bakiyeyi nasılsa sonra Komisyondan isteriz.",
+          "delta": -10,
+          "set": ["p1_ibra"],
+          "law": "TBK m.132",
+          "note": "İbranamenin metni “başkaca hiçbir hak ve alacağım kalmamıştır” diyor. Ödenen tutar gerçek zarara yakınsa böyle bir ibraname alacağı söndürebilir; şirkete hazır bir savunma verdiniz.",
+          "reply": [
+            { "who": "narr", "text": "İbraname imzalandı, 1.750.000 TL ödendi. Başvuru 04.11.2026'da 350.000 TL üzerinden yapıldı; üç hakemli heyet oluşturuldu." }
+          ]
+        },
+        {
+          "text": "Ödemeyi tümden reddet ve 2.100.000 TL'nin tamamı için Komisyona başvur; kısmi ödemeyi almak bakiye hakkını kaybettirir.",
+          "delta": -5,
+          "set": ["p1_tum"],
+          "law": "TBK m.132",
+          "note": "Kısmi ödemeyi ihtirazi kayıtla kabul etmek hak kaybı doğurmaz. Atölye yeniden kurulurken 1.750.000 TL'yi aylarca beklemek müvekkile gereksiz zarar verdi; uyuşmazlık da 2.100.000 TL'ye büyüdü.",
+          "reply": [
+            { "who": "narr", "text": "Ödeme alınmadı. Başvuru 04.11.2026'da 2.100.000 TL üzerinden yapıldı; üç hakemli heyet oluşturuldu." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Başvuru Kırlangıç Sigorta'ya tebliğ edildi. Cevap dilekçesinin ana hattını belirlemelisiniz." }
+      ],
+      "prompt": "Savunmanızı neye dayandıracaksınız?",
+      "choices": [
+        {
+          "if": "p1_ibra",
+          "text": "Sigortalı 1.750.000 TL'yi alıp başkaca hiçbir hakkı kalmadığını yazılı olarak beyan etti; ibraname nedeniyle başvurunun reddini iste.",
+          "delta": 20,
+          "set": ["p2_ibra"],
+          "law": "TBK m.132",
+          "note": "Güçlü savunma. Ödenen tutar ile gerçek zarar arasında açık bir oransızlık yoksa ibraname alacağı söndürür. Başvuran, ibranamenin makbuz hükmünde sayılması için açık oransızlığı göstermek zorunda."
+        },
+        {
+          "text": "Hem makinede hem emtiada orantı kuralı uygulanır: bedeller yangın anındaki değerden az, ödeme TTK m.1462'ye göre doğru hesaplandı.",
+          "delta": 5,
+          "set": ["p2_ikisi"],
+          "law": "TTK m.1462",
+          "note": "Emtiada doğru; ama makinede poliçe ekindeki enflasyon klozu bedeli poliçe süresince artırıyor. TTK m.1462 orantıyı “aksine sözleşme yoksa” uygular; kloz bir aksine sözleşmedir. Makinede savunmanız tutmayacak."
+        },
+        {
+          "text": "Emtiada orantı kuralı tam uygulanır; makinede ise enflasyon klozuyla gün esasına göre artan bedeli hesaba katıp farkı kabul et.",
+          "delta": 20,
+          "set": ["p2_dogru"],
+          "law": "TTK m.1462 · Poliçe enflasyon klozu",
+          "note": "Doğru. Eksik sigortada sigortacı bedelin değere oranında sorumludur (TTK m.1462); emtiada kloz yok. Makinede ise bedel, klozla poliçe başlangıcından yangına kadar geçen 198 gün oranında artmış sayılır; bu artışı yok saymak savunulamazdı."
+        },
+        {
+          "text": "Yangın elektrik panosundaki kısa devreden çıktı; elektrik arızası teminat dışıdır, şirketin yaptığı ödeme bile bir iyi niyet göstergesidir.",
+          "delta": -10,
+          "set": ["p2_elektrik"],
+          "law": "Yangın Sigortası Genel Şartları",
+          "note": "Elektrik kaynaklı yangın, yangın teminatına girer. Teminat dışı olan, elektrikli cihazın kendi içinde elektrik akımından doğan hasardır; burada bütün atölyeyi saran bir yangın var. Ödeme yapmış bir şirketin teminatı tümden reddetmesi savunmanızı zayıflattı."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "MÜVEKKİL GÖRÜŞMESİ · Şirketin cevabı geldi. Serkan Kozan'la görüşüyorsunuz; iki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Poliçede makineler için özel bir kloz var mı?",
+          "delta": 15,
+          "set": ["p1_klozBilgi"],
+          "reply": [
+            { "who": "serkan", "text": "Acente “Enflasyona karşı yüzde otuz koruma koyduk” demişti. Poliçenin ekinde bir sayfa var, hiç okumadım." }
+          ],
+          "note": "Kilit soru. Enflasyon klozu makine bedelini poliçe süresince artırıyor. Kloz çantanıza eklendi."
+        },
+        {
+          "text": "Stok neden bu kadar arttı?",
+          "delta": 0,
+          "reply": [
+            { "who": "serkan", "text": "Ağustos başında otel siparişi için iki tır kereste aldık. Defterde de görünür." }
+          ],
+          "note": "Stok artışı gerçek ve defterde kayıtlı; emtiadaki eksik sigortayı kendi defterleriniz ispatlıyor. Bu kalemde orantı kuralından kaçış yok."
+        },
+        {
+          "text": "Emtianın değerini daha düşük gösterebilir miyiz?",
+          "delta": -10,
+          "reply": [
+            { "who": "serkan", "text": "Defterde 2.400.000 yazıyor ama ustam “O kerestenin yarısı fireydi” diyor." }
+          ],
+          "note": "Ticari defterdeki kayıt sahibinin aleyhine delildir (HMK m.222); defterle çelişen bir değer savunması güvenilirliğinizi zedeler. Bu yolu kapatın."
+        },
+        {
+          "text": "İtfaiye raporu yangının sebebi hakkında ne diyor?",
+          "delta": 5,
+          "reply": [
+            { "who": "serkan", "text": "Elektrik panosunda kısa devre. Panonun yıllık bakımları yapılıyordu, belgeleri var." }
+          ],
+          "note": "Yangının sebebinin elektrik olması teminatı ortadan kaldırmaz; şirketin olası bir istisna savunmasına karşı hazırlıklısınız."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "SÖZLÜ AÇIKLAMA · Heyet, kural olarak dosya üzerinden karar verse de bu dosyada tarafları dinlemeye karar verdi." },
+        { "who": "judge", "text": "Şirket vekili, değer tespitine ilişkin talebiniz nedir?" }
+      ],
+      "prompt": "Değerlerin nasıl belirlenmesini isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Bilirkişi, makinelerin ve emtianın yangın anındaki gerçek değerini defter, fatura ve piyasa fiyatlarıyla belirlesin; kloz hesabını da yapsın.",
+          "delta": 15,
+          "set": ["p2_bilirkisi"],
+          "law": "Tahkim Yönetmeliği m.16/12 · TTK m.1462",
+          "note": "Doğru. Orantı kuralında belirleyici olan, rizikonun gerçekleştiği andaki gerçek değerdir. Değerleri ve kloz hesabını bağımsız bilirkişiye götürmek, şirketin ödemesini sağlam bir zemine oturtur.",
+          "reply": [
+            { "who": "judge", "text": "Bilirkişi incelemesine karar verildi." }
+          ]
+        },
+        {
+          "text": "Sigorta değeri makinelerin yeni değeridir; yeni alım fiyatları 3.600.000 TL olduğundan orantı daha da düşük, 2.500.000 / 3.600.000 olmalı.",
+          "delta": -10,
+          "law": "TTK m.1462 · Poliçe",
+          "note": "Poliçede yeni değer klozu yok; sigorta değeri rizikonun gerçekleştiği andaki gerçek değerdir. Eksperin belirlediği 3.000.000 TL esas alınır. Kendi eksperinizle çelişen bir hesap önerdiniz.",
+          "reply": [
+            { "who": "judge", "text": "Sigorta değeri poliçe gereği gerçek değer üzerinden belirlenecek; bilirkişi görevlendirildi." }
+          ]
+        },
+        {
+          "text": "Bilirkişiye gerek yok; şirket eksperinin raporu hasar ve değer tespitinde tek yetkili belgedir, heyet bu rapora bağlıdır.",
+          "delta": -5,
+          "law": "Tahkim Yönetmeliği m.16/12",
+          "note": "Eksper raporu güçlü bir delil, ama heyeti bağlamaz; heyet gerekirse bilirkişiye başvurur (Tahkim Yönetmeliği m.16/12).",
+          "reply": [
+            { "who": "judge", "text": "Heyet, kloz hesabı için bilirkişiye kendiliğinden başvurdu." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, makine hasarına ilişkin şirket beyanına karşı diyeceğiniz?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Heyet, makineler yangın anında 3.000.000 TL değerindeydi; sigorta bedeli 2.500.000 TL. Eksik sigorta açık; orantı kuralına göre 1.500.000 TL ödenmiştir, başka borç yoktur." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_kloz"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_kloz"],
+        "law": "TTK m.1462 · Poliçe enflasyon klozu",
+        "note": "Enflasyon klozu makine bedelini poliçe süresince, geçen gün sayısına göre %30'a kadar artırıyor. Yangın anında bedel 2.500.000 TL değil, 2.906.849 TL'ydi. TTK m.1462 orantıyı “aksine sözleşme yoksa” uygular; orantı bu artmış bedel üzerinden kurulmalı.",
+        "reply": [
+          { "who": "judge", "text": "Kloz dosyaya alındı; bilirkişi hesabı buna göre yapacak." }
+        ]
+      },
+      "responses": {
+        "ev_police": {
+          "delta": 5,
+          "note": "Teminat tablosu bedeli gösteriyor ve “ek klozlar poliçe ekindedir” diyor. Sizi kurtaracak olan o ekteki enflasyon klozuydu."
+        },
+        "ev_eksper": {
+          "delta": 0,
+          "note": "Eksper raporu değerleri gösteriyor ama klozu hesaba katmıyor; şirketin beyanını çürütmedi."
+        },
+        "law_ttk1462": {
+          "delta": -5,
+          "note": "Bu madde şirketin dayanağı; orantı kuralını siz doğruladınız. Maddenin “aksine sözleşme yoksa” kaydını işletecek belge, poliçe ekindeki klozdu."
+        },
+        "ev_stok": {
+          "delta": -10,
+          "note": "Stok kaydı emtiadaki eksik sigortayı kanıtlıyor; kendi aleyhinize delil sundunuz."
+        }
+      },
+      "miss": { "delta": -5, "note": "Bu belge makinedeki orantı hesabını değiştirmiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; makinede orantı kuralı klozsuz uygulanmış gibi kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Şirket vekili, eksik sigortaya ilişkin esas savunmanızı alalım." }
+      ],
+      "prompt": "Orantı kuralının bu dosyada nasıl uygulanması gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p2_oranti"],
+          "law": "TTK m.1462 · HMK m.222",
+          "note": "Orantı kuralını doğru kurdunuz ve klozu sınırlarıyla kabul ettiniz: emtiada tam orantı, makinede gün esasına göre artmış bedel üzerinden orantı. Defter kaydının başvuranın aleyhine delil olduğunu da kullandınız."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_oranti"],
+          "law": "TTK m.1462",
+          "note": "Orantı kuralını doğru anlattınız. Tam savunma; sigorta değerinin yangın anındaki gerçek değer olduğunu, emtiada klozun bulunmadığını ve kendi defter kaydının başvuranın aleyhine delil olduğunu (HMK m.222), makinede klozun yalnız gün esasına göre artış sağladığını birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "TTK m.1462",
+          "note": "Savunmanın kilidi orantı kuralıydı: bedel, rizikonun gerçekleştiği andaki değerden azsa sigortacı bedelin değere oranında sorumludur (TTK m.1462). Emtiada kloz yok; makinede de kloz yalnız gün esasına göre artış sağlıyor."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sigorta bedeli sigorta değerinden az ise, aksine sözleşme yoksa sigortacı bedelin değere oranında sorumludur (TTK m.1462); sigorta değeri rizikonun gerçekleştiği andaki gerçek değerdir. (2) Emtiada bedel 2.000.000 TL, değer 2.400.000 TL; değer başvuranın kendi ticari defterindeki stok kaydıyla sabit, defter sahibinin aleyhine delildir (HMK m.222). Emtiada kloz yok; 300.000 × 2,0 / 2,4 = 250.000 TL doğru ödendi. (3) Makinedeki enflasyon klozu bedeli %30 birden değil, poliçe başlangıcından geçen gün sayısına göre doğrusal artırır; yangında artış ancak yaklaşık %16,27'ydi, bu yüzden makinede de orantı tamamen ortadan kalkmaz. Orantı kuralını, emtiada klozun yokluğunu ve makinede klozun gün esasına göre sınırlı etkisini birlikte söylemek tam puan için gerekir; elektrik istisnasına dayanan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["orantı", "oranında", "1462", "eksik sigorta"], "weight": 3 },
+        { "terms": ["gerçek değer", "yangın anındaki", "rizikonun gerçekleştiği an"], "weight": 2 },
+        { "terms": ["emtia", "stok", "defter", "222"], "weight": 2 },
+        { "terms": ["gün esasına", "doğrusal", "198 gün", "16,27", "%16"], "weight": 2 },
+        { "terms": ["250.000", "aksine sözleşme", "kloz"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, sigorta bedeli sigorta değerinden azsa, aksine sözleşme yoksa sigortacı bedelin değere oranında sorumludur (TTK m.1462); değer yangın anındaki gerçek değerdir. Emtianın 2.400.000 TL'lik değeri başvuranın kendi stok kaydıyla sabittir ve emtiada kloz yoktur; 250.000 TL doğru ödenmiştir. Makinedeki enflasyon klozu bedeli %30 birden değil, geçen gün sayısına göre artırır; yangında artış yaklaşık %16,27'ydi, bu yüzden makinede de orantı uygulanmaya devam eder."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, makine hasarına ilişkin esas beyanınızı ve hesabınızı alalım." }
+      ],
+      "prompt": "Enflasyon klozunun orantı kuralını nasıl değiştirdiğini ve şirketin ne kadar eksik ödediğini açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p1_hesap"],
+          "law": "TTK m.1462 · Poliçe enflasyon klozu",
+          "note": "Hesabı ve dayanağını eksiksiz kurdunuz: kloz bir aksine sözleşmedir; 198 günde bedel 2.906.849 TL'ye çıkar, oran %96,9, makine tazminatı 1.744.110 TL; ödenen 1.500.000 TL düşülünce fark 244.110 TL."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "law": "TTK m.1462 · Poliçe enflasyon klozu",
+          "note": "Klozu doğru yerden kullandınız. Tam savunma, TTK m.1462'deki “aksine sözleşme yoksa” kaydını, gün esasına göre artışı (198 gün, yaklaşık %16,27, bedel 2.906.849 TL) ve 244.110 TL'lik farkı birlikte gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "TTK m.1462 · Poliçe enflasyon klozu",
+          "note": "Orantı kuralı “aksine sözleşme yoksa” uygulanır (TTK m.1462). Poliçe ekindeki enflasyon klozu makine bedelini gün esasına göre artırıyordu: 198 günde 2.906.849 TL. Bu bedelle tazminat 1.744.110 TL, fark 244.110 TL olurdu."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) TTK m.1462 orantı kuralını 'aksine sözleşme yoksa' uygular; poliçe ekindeki %30'luk enflasyon klozu böyle bir aksine sözleşmedir ve makine bedelini poliçe süresince artırır. (2) Kloz artışı gün esasına göre doğrusaldır: poliçe başlangıcından yangına 198 gün geçmiştir; artış %30 × 198/365 ≈ %16,27, yangın anındaki bedel yaklaşık 2.906.849 TL'dir. (3) Orantı 2.906.849 / 3.000.000 ≈ %96,9; makine tazminatı 1.800.000 × %96,9 ≈ 1.744.110 TL. Ödenen 1.500.000 TL düşülünce fark 244.110 TL'dir. (4) Emtiada kloz olmadığı için orantı kuralı orada uygulanır. Klozun aksine sözleşme niteliğini, gün esasına göre hesabı ve farkı birlikte göstermek tam puan için gerekir; klozla %30'un tamamının uygulanacağını söyleyen cevap orta puan alır.",
+      "keywords": [
+        { "terms": ["kloz", "enflasyon klozu"], "weight": 3 },
+        { "terms": ["aksine sözleşme", "1462"], "weight": 2 },
+        { "terms": ["198", "gün esasına", "doğrusal", "16,27", "%16"], "weight": 2 },
+        { "terms": ["2.906.849", "1.744.110", "244.110", "96,9"], "weight": 2 },
+        { "terms": ["orantı", "oran"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, TTK m.1462 orantı kuralını aksine sözleşme yoksa uygular; poliçe ekindeki %30'luk enflasyon klozu böyle bir sözleşmedir. Kloz bedeli gün esasına göre artırır: yangında 198 gün geçmişti, artış yaklaşık %16,27, bedel 2.906.849 TL. Orantı %96,9 olur; makine tazminatı 1.744.110 TL'dir. Ödenen 1.500.000 TL düşülünce 244.110 TL eksik ödenmiştir."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Şirket vekili, enflasyon klozu uygulanırsa makine için ödenecek tazminat ne olur?" }
+      ],
+      "prompt": "Kloz uygulanınca makine tazminatı nedir?",
+      "choices": [
+        {
+          "text": "Bedel 198 gün için %16,27 artar ve 2.906.849 TL olur; oran %96,9, tazminat 1.744.110 TL. Ödenen 1.500.000 TL'yle fark 244.110 TL.",
+          "delta": 15,
+          "set": ["p2_hesap"],
+          "law": "TTK m.1462 · Poliçe enflasyon klozu",
+          "note": "Doğru: 2.500.000 × (1 + 0,30 × 198/365) = 2.906.849 TL; 1.800.000 × 2.906.849 / 3.000.000 = 1.744.110 TL. Farkı kendiniz doğru hesapladınız; heyet önünde güvenilirliğinizi korudunuz.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "Kloz bedeli doğrudan %30 artırır: 3.250.000 TL değeri aştığı için orantı uygulanmaz ve 1.800.000 TL'nin tamamı ödenmesi gerekir.",
+          "delta": -10,
+          "law": "Poliçe enflasyon klozu",
+          "note": "Kloz artışın poliçe süresince gün esasına göre doğrusal işleyeceğini söylüyor; %30'un tamamına ancak poliçe bitiminde ulaşılır. Şirket vekili olarak başvuranın talebini aynen kabul ettiniz.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "Kloz yalnız poliçe yenilenirken bedeli artırır; yangın dönem içinde çıktığı için uygulanmaz, ödeme 1.500.000 TL'de kalır ve fark yoktur.",
+          "delta": -10,
+          "law": "Poliçe enflasyon klozu",
+          "note": "Kloz metni artışı açıkça poliçe süresi içinde düzenliyor; yenilemeye bağlamak sözleşmede olmayan bir şart eklemek demek.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, faiz talebinizi açıklayın." }
+      ],
+      "prompt": "Faizi hangi tarihten ve hangi türden isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Farka, şirketin bakiyeyi açıkça reddettiği 12.10.2026'dan itibaren avans faizi iste; iki taraf da tacir, iş de ticari nitelikte.",
+          "delta": 15,
+          "set": ["p1_faiz"],
+          "law": "3095 s.K. m.2/2 · TBK m.117",
+          "note": "Şirket bakiyeyi açıkça reddettiği gün temerrüde düştü. İki tacir arasındaki ticari bir işte, yasal faiz değil avans faizi istenebilir (3095 s.K. m.2/2).",
+          "reply": [
+            { "who": "judge", "text": "Talep tutanağa geçirildi. Heyet karar için çekiliyor." }
+          ]
+        },
+        {
+          "text": "Farka, yangın tarihi 18.08.2026'dan itibaren yasal faiz iste; haksız fiilde olduğu gibi faiz olay gününden işlemeye başlar.",
+          "delta": -10,
+          "law": "TBK m.117 · 3095 s.K. m.2/2",
+          "note": "Sigortacı rizikonun gerçekleştiği gün değil, borç muaccel olup ödemeyi reddettiğinde temerrüde düşer. İki tacir arasındaki bu ticari işte de yasal faiz değil avans faizi istenir (3095 s.K. m.2/2).",
+          "reply": [
+            { "who": "judge", "text": "Talep tutanağa geçirildi. Heyet karar için çekiliyor." }
+          ]
+        },
+        {
+          "text": "Faizi isteme ama bilirkişi ücretinin tamamını şirkete yüklet; faiz talebi uyuşmazlık tutarını büyütür ve heyetin yapısını değiştirir.",
+          "delta": -5,
+          "law": "HMK m.26, m.326",
+          "note": "Faiz, uyuşmazlık tutarını ve heyetin yapısını değiştirmez; istenmezse de hükmedilmez (HMK m.26). Giderler haklılık oranına göre paylaştırılır (HMK m.326).",
+          "reply": [
+            { "who": "judge", "text": "Talep tutanağa geçirildi. Heyet karar için çekiliyor." }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_ibra",
+      "winner": "p2",
+      "hukum": "Başvurunun, başvuranın imzaladığı ibraname nedeniyle REDDİNE,",
+      "summary": [
+        { "text": "Başvuran şirket, 1.750.000 TL'yi “başkaca hiçbir hak ve alacağım kalmamıştır” yazılı bir ibraname karşılığında aldı. Enflasyon klozu gözetildiğinde gerçek tazminat 1.994.110 TL olsa da ödenen tutarla arasında açık bir oransızlık bulunmadığından ibraname makbuz hükmünde sayılmadı; alacak söndü." },
+        { "if": "p2_ibra", "text": " Şirket vekili ibranameyi savunmanın merkezine koydu." },
+        { "if": "p1_kloz || p1_hesap", "text": " Başvuran vekilinin kloz hesabı doğruydu, ama ibraname bu hesabı sonuçsuz bıraktı." }
+      ]
+    },
+    {
+      "if": "p1_tum",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Başvurunun KISMEN KABULÜ ile makine için 1.744.110 TL ve emtia için 250.000 TL olmak üzere toplam 1.994.110 TL tazminatın" },
+        { "if": "p1_faiz", "text": " 12.10.2026 tarihinden itibaren işleyecek avans faiziyle birlikte" },
+        { "text": " sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin 105.890 TL'lik talebin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Emtiada orantı kuralı uygulandı (TTK m.1462); makinede ise poliçedeki enflasyon klozu bedeli 198 gün oranında 2.906.849 TL'ye çıkardı ve tazminat 1.744.110 TL bulundu. Başvuran ödemeyi hiç almadığı için tazminatın tamamına hükmedildi; ama 1.750.000 TL aylarca bekletildi." },
+        { "if": "p2_elektrik", "text": " Şirketin elektrik istisnasına dayanan savunması reddedildi; elektrik kaynaklı yangın teminat içindedir." },
+        { "if": "!p1_faiz", "text": " Faiz istenmediği için faize hükmedilmedi." }
+      ]
+    },
+    {
+      "winner": "p1",
+      "hukum": [
+        { "text": "Başvurunun KISMEN KABULÜ ile makine hasarına ilişkin 244.110 TL bakiye tazminatın" },
+        { "if": "p1_faiz", "text": " 12.10.2026 tarihinden itibaren işleyecek avans faiziyle birlikte" },
+        { "text": " sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin 105.890 TL'lik talebin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Poliçedeki enflasyon klozu makine bedelini 198 gün oranında 2.906.849 TL'ye çıkardığından makinede orantı %96,9 üzerinden kuruldu; tazminat 1.744.110 TL, bakiye 244.110 TL. Emtiada kloz bulunmadığından orantı kuralı tam uygulandı ve o kısımdaki talep reddedildi (TTK m.1462)." },
+        { "if": "p1_kloz", "text": " Başvuran vekili poliçe ekindeki klozu bularak sunmuştu." },
+        { "if": "p1_ihtirazi", "text": " Kısmi ödemeyi ihtirazi kayıtla kabul ettiği için ibraname riski de doğmadı." },
+        { "if": "p2_dogru", "text": " Şirket vekili emtiada orantıyı doğru savunup makinedeki farkı kabul ederek talebin bir kısmını reddettirdi." },
+        { "if": "p2_elektrik", "text": " Şirketin elektrik istisnasına dayanan savunması reddedildi; elektrik kaynaklı yangın teminat içindedir." },
+        { "if": "!p1_faiz", "text": " Faiz istenmediği için faize hükmedilmedi." }
+      ]
+    }
+  ]
+}

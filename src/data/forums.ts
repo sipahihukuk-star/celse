@@ -112,11 +112,11 @@ export const FORUMS: Forum[] = [
       "Tazminatın reddi, eksik ödenmesi, istisna ve muafiyet tartışmaları, beyan yükümlülüğünün ihlali."
     ],
     surec: [
-      "Önce sigorta kuruluşuna yazılı başvuru yapılır; şirket reddederse ya da 15 gün içinde cevap vermezse Komisyona başvurulur (5684 s.K. m.30).",
-      "Uyuşmazlık hakem heyeti dosyayı inceler, gerekirse bilirkişi raporu alır; HMK hükümleri uygulanır. Karar başvurudan itibaren dört ay içinde verilir."
+      "Önce sigorta kuruluşuna yazılı başvuru yapılır; şirket reddederse ya da 15 iş günü içinde cevap vermezse Komisyona başvurulur (5684 s.K. m.30).",
+      "Başvuru raportörce ön incelemeden geçer; uyuşmazlık hakem heyeti (tutara göre tek ya da üç hakem) dosyayı inceler, gerekirse bilirkişi raporu alır; HMK hükümleri uygulanır. Karar, hakem atandıktan sonra dört ay içinde verilir."
     ],
     karar: "Hakem kararı ilam niteliğindedir; tazminat, faiz, yargılama gideri ve vekâlet ücretine hükmedilir.",
-    yol: "Belirli tutarın üzerindeki uyuşmazlıklarda karara karşı tebliğden itibaren 10 gün içinde itiraz hakem heyetine bir kez itiraz; daha yüksek tutarlarda itiraz kararına karşı Yargıtay'a temyiz. Sınırlar her yıl güncellenir (21.05.2025'ten itibaren itiraz 28.000 TL ve üzeri, temyiz 300.000 TL üzeri)."
+    yol: "Belirli tutarın üzerindeki uyuşmazlıklarda karara karşı bildirimden itibaren 10 gün içinde itiraz hakem heyetine bir kez itiraz edilir (itiraz icrayı durdurur); daha yüksek tutarlarda itiraz kararına karşı Yargıtay'a temyiz yolu açıktır. Parasal sınırlar her yıl Tebliğle güncellenir; başvuru tarihindeki sınır esas alınır."
   }
 ];
 

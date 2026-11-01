@@ -146,7 +146,7 @@
           "reply": [
             { "who": "client", "text": "Şantiye şefi irsaliyeye “22 panel kırık, çekinceli teslim alındı” yazdı, şoföre de imzalattı." }
           ],
-          "note": "Önemli soru. Sigortalı, taşıyıcıya karşı hakların korunmasını sağlamakla yükümlüdür; sigortacıya geçecek rücu hakkını bozarsa bundan sorumlu olur (TTK m.1472/2; Klozların 16. maddesi). Çekinceli irsaliye çantanıza eklendi."
+          "note": "Önemli soru. Sigortalı, taşıyıcıya karşı hakların korunmasını sağlamakla yükümlüdür; sigortacıya geçecek rücu hakkını bozarsa bundan sorumlu olur (TTK m.1448, m.1472/2; Klozların 16. maddesi). Çekinceli irsaliye çantanıza eklendi."
         },
         {
           "text": "Camları tıra kim yükledi ve spanzetle kim bağladı?",
@@ -373,15 +373,15 @@
           "text": "Teslimde taşıyıcıya hiçbir çekince konmadı; sigortalı rücu hakkımızı bozdu, tazminattan bu ölçüde indirim yapılmasını iste.",
           "delta": 15,
           "set": ["p2_rucu"],
-          "law": "TTK m.1472/2",
-          "note": "Sigortalı, sigortacıya geçecek hakları ihlal edici şekilde davranırsa sigortacıya karşı sorumlu olur (TTK m.1472/2). Kırık mal çekincesiz teslim alındığı için taşıyıcıya rücu zorlaştı; heyet bunu indirim sebebi saydı."
+          "law": "TTK m.1448 · m.1472/2",
+          "note": "Sigortalı, üçüncü kişilere karşı rücu haklarını korumakla yükümlüdür; aykırılık sigortacıyı olumsuz etkilemişse kusurun ağırlığına göre indirim yapılır (TTK m.1448) ve sigortalı, sigortacıya geçecek hakları ihlal edici davranışından sorumlu olur (m.1472/2). Kırık mal çekincesiz teslim alındığı için taşıyıcıya rücu zorlaştı; heyet bunu indirim sebebi saydı."
         },
         {
           "if": "p1_cekince",
           "text": "Sigortalı taşıyıcıya karşı kendisi dava açmadı; rücu hakkımızı korumadı, tazminattan bu ölçüde indirim yapılmasını iste.",
           "delta": -10,
-          "law": "TTK m.1472/2",
-          "note": "Sigortalının yükümlülüğü, hakların korunmasını sağlamaktır; irsaliyeye çekince konarak bu yapıldı. Taşıyıcıya dava açmak, tazminatı ödedikten sonra halef olan sigortacının işidir (TTK m.1472/1)."
+          "law": "TTK m.1448 · m.1472",
+          "note": "Sigortalının yükümlülüğü, hakların korunmasını sağlamaktır (TTK m.1448); irsaliyeye çekince konarak bu yapıldı. Taşıyıcıya dava açmak, tazminatı ödedikten sonra halef olan sigortacının işidir (TTK m.1472/1)."
         },
         {
           "text": "Başvuru riziko tarihinden aylar sonra yapıldı; sigorta tazminatı istemi zamanaşımına uğradı, başvurunun reddine karar verilmesini iste.",
@@ -425,7 +425,7 @@
       "hukum": "Başvurunun KISMEN KABULÜ ile 456.000 TL tazminatın sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE,",
       "summary": [
         { "text": "Heyet, kırılmanın ağırlıklı sebebinin kopan spanzet olduğunu kabul etti; bu nedenle ambalaj istisnası tazminatı bütünüyle ortadan kaldırmadı." },
-        { "if": "p2_rucu", "text": " Ancak kırık mal taşıyıcıdan çekincesiz teslim alındığı için sigortacının rücu hakkı zayıfladı; bu durum indirim sebebi sayıldı (TTK m.1472/2)." },
+        { "if": "p2_rucu", "text": " Ancak kırık mal taşıyıcıdan çekincesiz teslim alındığı için sigortacının rücu hakkı zayıfladı; bu durum indirim sebebi sayıldı (TTK m.1448, m.1472/2)." },
         { "if": "!p2_rucu", "text": " Ancak fabrikada sigortalının işçilerince yapılan hazırlığın zarara katkısı tam olarak bertaraf edilemedi; heyet hakkaniyete uygun bir indirim yaptı." },
         { "text": " Sonuç, muafiyet ve sovtaj sonrası tutardan %20 indirimle 456.000 TL oldu." }
       ]

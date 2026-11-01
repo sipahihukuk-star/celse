@@ -1,0 +1,436 @@
+{
+  "id": "th-sigorta-saglik-menisku",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Sol Diz",
+  "area": "Tahkim · Sigorta tahkimi · Sağlık sigortası",
+  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakem Heyeti",
+  "courtShort": "SİGORTA TAHKİM",
+  "esas": "2026/54877 Başvuru",
+  "kararTarihi": "05.03.2027",
+  "color": "#2f5d5a",
+  "room": "tahkim",
+  "forum": "sigorta",
+  "inscription": null,
+  "bench": { "judges": 3, "title": "Üç sigorta hakeminden oluşan uyuşmazlık hakem heyeti" },
+  "teaser": "Halı sahada dizi kilitlendi, menisküs ameliyatı oldu. Şirket “önceden var olan rahatsızlık” diyor; elindeki tek kayıt 2023'teki bir diz ağrısı.",
+  "sides": {
+    "p1": { "role": "Başvuran vekili", "short": "Başvuran" },
+    "p2": { "role": "Sigorta şirketi vekili", "short": "Sigorta şirketi" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#c99a72", "hair": "#2a2220", "style": "short", "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#efc9a8", "hair": "#a0522d", "style": "long", "glasses": true, "shirt": "#24303c", "inner": "#ece8e0" } },
+    "p2": { "look": { "kind": "civil", "skin": "#d6a47c", "hair": "#151515", "style": "short", "beard": true, "shirt": "#2a2d33", "inner": "#e6e2da" } },
+    "burak": { "name": "Burak Tunç · Sigortalı", "np": "civil", "look": { "kind": "civil", "skin": "#d8a67e", "hair": "#2a2220", "style": "short", "shirt": "#3e5a4a", "inner": "#e2ddd2" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Burak Tunç (34), 01.03.2024'ten beri Defne Sağlık Sigorta A.Ş.'de bireysel özel sağlık sigortalı; poliçe 01.03.2026'da yenilendi. 12.05.2026'da halı sahada ters bastı, sol dizi kilitlendi; arkadaşları onu acile götürdü." },
+    { "who": "narr", "text": "MR: sol diz iç menisküs arka boynuzunda yırtık; eklemde “başlangıç düzeyinde dejeneratif değişiklik”. 15.06.2026'da şirketle anlaşması olmayan Körfez Ortopedi Hastanesi'nde artroskopik onarım yapıldı. Fatura 148.000 TL; Burak kendisi ödedi." },
+    { "who": "narr", "text": "Şirket 10.07.2026'da geri ödeme talebini reddetti: MR'daki dejeneratif değişiklik ve 2023 tarihli bir ortopedi muayene kaydı, rahatsızlığın poliçeden önce var olduğunu gösteriyormuş." },
+    { "who": "burak", "text": "İki yıldır her ay prim ödüyorum. Dizim maçta kilitlendi; ondan önce hiçbir şikâyetim yoktu." },
+    { "who": "narr", "text": "Bugün 02.11.2026. Başvuran vekili ilk hamleyi yapacak." }
+  ],
+  "docs": [
+    { "t": "Sağlık sigortası poliçesi", "d": "Defne Sağlık Sigorta A.Ş.; ilk başlangıç 01.03.2024, yenileme 01.03.2026. Yatarak tedavi: anlaşmalı kurumda %100, anlaşmasız kurumda %80 ödeme. Yatarak tedavide muafiyet yok. Özel şart 4: “Poliçe başlangıç tarihinden önce mevcut olan hastalık, rahatsızlık ve bunlara bağlı komplikasyonlar teminat dışıdır.”" },
+    { "t": "Başvuru formu (2024)", "d": "Çevrim içi doldurulmuş. Kronik hastalık, kanser, kalp, şeker hastalığı ve son beş yıldaki ameliyatlar soruluyor; eklem ya da kas-iskelet sistemi sorusu yok." },
+    { "t": "MR raporu", "d": "20.05.2026: “Sol diz medial menisküs arka boynuzda yırtık. Eklemde başlangıç düzeyinde dejeneratif değişiklik.”" },
+    { "t": "Ameliyat faturası", "d": "Körfez Ortopedi Hastanesi (anlaşmasız kurum), 15.06.2026, artroskopik menisküs onarımı: 148.000 TL." },
+    { "t": "Red yazısı", "d": "10.07.2026: “MR'da tespit edilen dejeneratif değişiklik ve 2023 tarihli ortopedi muayene kaydı, rahatsızlığın poliçe başlangıcından önce mevcut olduğunu göstermektedir; özel şart 4 uyarınca teminat dışıdır.”" },
+    { "t": "Sigorta tahkiminde parasal sınırlar (22.01.2026'dan)", "d": "35.000 TL'nin altındaki uyuşmazlıklarda karar kesin; 35.000 TL ve üzerinde karara bildirimden itibaren 10 gün içinde bir kez itiraz. 122.000 TL ve üzerindeki uyuşmazlıklarda en az üç hakemli heyet zorunlu. 383.000 TL'yi aşmayan uyuşmazlıklarda itiraz üzerine verilen karar kesindir." }
+  ],
+  "evidence": [
+    { "id": "ev_police", "type": "belge", "title": "Sağlık sigortası poliçesi", "desc": "Özel şart 4: poliçe başlangıcından önce mevcut rahatsızlıklar teminat dışı. Anlaşmasız kurumda %80 ödeme." },
+    { "id": "ev_mr", "type": "belge", "title": "MR raporu", "desc": "Sol diz menisküs yırtığı; eklemde başlangıç düzeyinde dejeneratif değişiklik." },
+    { "id": "ev_fatura", "type": "belge", "title": "Ameliyat faturası", "desc": "Anlaşmasız kurum, 148.000 TL." },
+    { "id": "ev_red", "type": "belge", "title": "Red yazısı", "desc": "Dejeneratif değişiklik ve 2023 ortopedi kaydı gerekçe gösterilmiş." },
+    { "id": "ev_2023", "type": "belge", "title": "2023 ortopedi muayene kaydı", "desc": "14.02.2023: “Sağ dizde koşu sonrası ağrı. Muayene olağan. Fizik tedavi önerildi.” Sol dizle ilgili hiçbir kayıt yok.", "if": "p1_sag" },
+    { "id": "ev_acil", "type": "belge", "title": "Acil servis kaydı", "desc": "12.05.2026, 21.40: “Halı sahada burkulma sonrası sol dizde kilitlenme ve şişlik. Akut travma.”", "if": "p1_acil" },
+    { "id": "law_ttk1409", "type": "kanun", "title": "TTK m.1409/2", "desc": "Rizikonun sözleşmedeki bir istisna kapsamında gerçekleştiğini ispat yükü sigortacıya aittir.", "law": "TTK m.1409/2" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAŞVURU · Şirket geri ödeme talebini yazılı olarak reddetti. Başvurunun çerçevesini çizmelisiniz." }
+      ],
+      "prompt": "Başvuruyu nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Red yazısıyla Komisyona 148.000 TL için başvur; uyuşmazlık 122.000 TL'yi aştığından üç hakemli bir heyet kurulacağını müvekkile anlat.",
+          "delta": 15,
+          "set": ["p1_basvuru"],
+          "law": "5684 s.K. m.30/13 · Tahkim Yönetmeliği m.16",
+          "note": "Ön şart tamam: şirkete yazılı başvuru yapılmış ve reddedilmiş (5684 s.K. m.30/13). 148.000 TL'lik uyuşmazlıkta heyet zorunlu. 383.000 TL'yi aşmadığı için itiraz üzerine verilecek karar kesin olacak; dosyanın iki aşamada bitebileceğini bilerek hazırlanın.",
+          "reply": [
+            { "who": "narr", "text": "Başvuru 03.11.2026'da yapıldı; üç hakemli heyet oluşturuldu." }
+          ]
+        },
+        {
+          "text": "Önce şirkete yeniden yaz ve 15 iş günü bekle; red yazısının üzerinden dört ay geçtiği için ön başvuru şartı artık düşmüş sayılır.",
+          "delta": -5,
+          "set": ["p1_bekle"],
+          "law": "5684 s.K. m.30/13",
+          "note": "Ön başvuru şartı bir kez gerçekleşince sonradan düşmez; red yazısı yeterli. Başvuru için dikkat edilecek sınır, sigorta alacağının zamanaşımıdır. Üç hafta kaybettiniz.",
+          "reply": [
+            { "who": "narr", "text": "Şirket aynı cevabı yineledi. Başvuru 25.11.2026'da yapıldı; üç hakemli heyet oluşturuldu." }
+          ]
+        },
+        {
+          "text": "Anlaşmasız hastaneyi de karşı taraf göster: fatura fahiş, şirketin ödemeyeceği fark hastaneden istenecek, iki talep tek dosyada görülsün.",
+          "delta": -10,
+          "set": ["p1_basvuru"],
+          "law": "5684 s.K. m.30",
+          "note": "Komisyonda karşı taraf yalnız sigorta kuruluşu olabilir; hastaneye karşı bir talep varsa genel mahkemede ileri sürülür. Raportör bu kısmı ayıkladı.",
+          "reply": [
+            { "who": "narr", "text": "Raportör hastaneye yönelik kısmı ayıkladı. Başvuru 148.000 TL üzerinden Defne Sağlık'a karşı yürüyecek; üç hakemli heyet oluşturuldu." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Başvuru Defne Sağlık'a tebliğ edildi. Red gerekçesini nasıl savunacağınızı seçmelisiniz." }
+      ],
+      "prompt": "Savunmanızı neye dayandıracaksınız?",
+      "choices": [
+        {
+          "text": "Önceden var olan rahatsızlık: MR'daki dejeneratif değişiklik poliçeden önce başlamış; 2023 tarihli ortopedi kaydı da bunu açıkça doğruluyor.",
+          "delta": 15,
+          "set": ["p2_onceki"],
+          "law": "Poliçe özel şart 4 · TTK m.1409/2",
+          "note": "Red gerekçesini doğru yerden savundunuz: özel şart 4. Ama istisnayı ispat yükü sizde (TTK m.1409/2); dejenerasyonun yırtığa yol açtığını ve poliçeden önce var olduğunu göstermeniz gerekecek."
+        },
+        {
+          "text": "Spor sırasında oluşan yaralanmalar sağlık sigortasında genel olarak teminat dışıdır; halı sahada oluşan menisküs yırtığı da bu kapsamda kalır.",
+          "delta": -10,
+          "law": "Poliçe",
+          "note": "Poliçede amatör spor yaralanmalarına ilişkin bir istisna yok; sözleşmede olmayan bir istisnaya dayanamazsınız. Kendi red gerekçenizi de bıraktınız."
+        },
+        {
+          "text": "Sigortalı 2023 muayenesini başvuru formunda bildirmedi; beyan yükümlülüğü ihlal edildiğinden sözleşmeden cayıp primleri iade ederiz.",
+          "delta": -5,
+          "set": ["p2_cayma"],
+          "law": "TTK m.1435, m.1436",
+          "note": "Çevrim içi formda eklem ya da kas-iskelet sorusu yoktu; sorulmayan husustan sigortalı, kötüniyetle saklamadıkça sorumlu değildir (TTK m.1436). Bir dizdeki geçici ağrının sözleşmeyi etkileyecek önemli bir husus olduğu da gösterilemez."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "MÜVEKKİL GÖRÜŞMESİ · Şirketin cevabı geldi. Burak Tunç'la görüşüyorsunuz; iki soru sorabilirsiniz." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "2023'teki ortopedi muayenesi neyle ilgiliydi?",
+          "delta": 15,
+          "set": ["p1_sag"],
+          "reply": [
+            { "who": "burak", "text": "Sağ dizimde koşudan sonra ağrı vardı; iki seans fizik tedavi önerdiler, geçti. Ameliyat olan sol dizim." }
+          ],
+          "note": "Kilit soru. Şirketin dayandığı kayıt başka bir dizle ilgili. Kayıt delil çantanıza eklendi."
+        },
+        {
+          "text": "Halı sahada tam olarak ne oldu, kayıt var mı?",
+          "delta": 10,
+          "set": ["p1_acil"],
+          "reply": [
+            { "who": "burak", "text": "Ters bastım, dizim kilitlendi; ayağımı yere basamadım. Arkadaşlar acile götürdü, kayıt e-Nabız'da var." }
+          ],
+          "note": "Yararlı. Acil kaydı yaralanmanın akut bir travmayla oluştuğunu gösteriyor. Çantanıza eklendi."
+        },
+        {
+          "text": "Poliçeye girerken sağlık formunu nasıl doldurdunuz?",
+          "delta": 5,
+          "reply": [
+            { "who": "burak", "text": "İnternetten doldurdum. Kalp, şeker, kanser soruluyordu; eklemle ilgili bir soru yoktu." }
+          ],
+          "note": "Beyan yükümlülüğü tartışmasına karşı işe yarar (TTK m.1436); ama asıl savunma istisnanın şartlarının oluşmadığı."
+        },
+        {
+          "text": "Neden anlaşmalı bir hastaneye gitmediniz?",
+          "delta": 0,
+          "reply": [
+            { "who": "burak", "text": "Doktorum oradaydı, ona güveniyorum. %80 ödeneceğini biliyordum." }
+          ],
+          "note": "Ödeme oranı tartışılmayacak; poliçe zaten %80'i öngörüyor. Sorunuz dosyaya bir şey katmadı."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "SÖZLÜ AÇIKLAMA · Heyet, kural olarak dosya üzerinden karar verse de bu dosyada tarafları dinlemeye karar verdi." },
+        { "who": "judge", "text": "Şirket vekili, bilirkişi incelemesine ilişkin talebiniz nedir?" }
+      ],
+      "prompt": "Hangi incelemeyi isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Ortopedi uzmanı bilirkişi, yırtığın dejeneratif mi travmatik mi olduğunu ve poliçeden önce var olup olmadığını ayrıca belirlesin.",
+          "delta": 15,
+          "set": ["p2_bilirkisi"],
+          "law": "Tahkim Yönetmeliği m.16/12 · TTK m.1409/2",
+          "note": "Doğru. İstisnayı ispat yükü sizde; uyuşmazlığın düğümü olan tıbbi soruyu siz bilirkişiye götürdünüz.",
+          "reply": [
+            { "who": "judge", "text": "Ortopedi bilirkişisinden rapor alınacak." }
+          ]
+        },
+        {
+          "text": "Hastanenin fiyatı fahiş; bilirkişi yalnız menisküs ameliyatının SUT fiyatını belirlesin, kalan fark zaten sigortalıya kalır.",
+          "delta": -5,
+          "law": "Poliçe",
+          "note": "Poliçe ödemeyi SUT tarifesine değil, anlaşmasız kurumda faturanın %80'ine bağlıyor. Asıl savunmanız olan istisnayı da bilirkişiye götürmediniz.",
+          "reply": [
+            { "who": "judge", "text": "Heyet, yırtığın niteliği için ortopedi bilirkişisini kendiliğinden görevlendirdi." }
+          ]
+        },
+        {
+          "text": "Bilirkişiye gerek yok; MR raporundaki “dejeneratif” ifadesi rahatsızlığın eskiye dayandığını tek başına ve kesin olarak gösteriyor.",
+          "delta": -10,
+          "law": "TTK m.1409/2",
+          "note": "Dejeneratif değişikliğin varlığı, yırtığın ondan kaynaklandığını ya da poliçeden önce var olduğunu göstermez. İstisnayı ispat yükü sizdeyken incelemeden kaçındınız.",
+          "reply": [
+            { "who": "judge", "text": "Heyet, yırtığın niteliği için ortopedi bilirkişisini kendiliğinden görevlendirdi." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, şirket vekilinin beyanına karşı diyeceğiniz?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Heyet, sigortalının diz rahatsızlığı 2023'ten beri biliniyor; o yıl ortopediye başvurmuş. MR'daki dejeneratif değişiklik de rahatsızlığın eskiye dayandığını gösteriyor." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_2023"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_hit"],
+        "law": "TTK m.1409/2 · Poliçe özel şart 4",
+        "note": "Kayıt, 2023'teki şikâyetin sağ dizle ilgili olduğunu ve muayenenin olağan bulunduğunu gösteriyor; ameliyat sol dize yapıldı. Şirketin dayandığı tek önceki kayıt başka bir eklemle ilgili; “2023'ten beri bilinen diz rahatsızlığı” iddiası çöktü.",
+        "reply": [
+          { "who": "judge", "text": "Kayıt dosyaya alındı ve bilirkişiye gönderilecek." }
+        ]
+      },
+      "responses": {
+        "ev_acil": {
+          "delta": 8,
+          "set": ["p1_akut"],
+          "note": "Acil kaydı yaralanmanın 12.05.2026'da akut bir travmayla oluştuğunu gösteriyor; güçlü bir karşı delil. Ama 2023 kaydının hangi dizle ilgili olduğunu göstermedi."
+        },
+        "law_ttk1409": {
+          "delta": 3,
+          "note": "Doğru ilke: istisnayı şirket ispat eder. Ama şirketin dayandığı kaydı çürütecek belgeyi sunmanız gerekiyordu."
+        },
+        "ev_mr": {
+          "delta": -10,
+          "note": "MR raporu “dejeneratif değişiklik” ifadesini içeriyor; şirketin tezine yaradı."
+        },
+        "ev_red": {
+          "delta": -10,
+          "note": "Red yazısı şirketin tezini tekrar ediyor."
+        }
+      },
+      "miss": { "delta": -5, "note": "Bu belge şirketin dayandığı önceki kaydı çürütmüyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; “2023'ten beri bilinen diz rahatsızlığı” iddiası karşılıksız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Şirket vekili, özel şart 4'e ilişkin esas savunmanızı alalım." }
+      ],
+      "prompt": "Ameliyat giderinin neden teminat dışı olduğunu, kabul hâlinde de ne ödenmesi gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p2_ispat"],
+          "law": "Poliçe özel şart 4 · TTK m.1409/2, m.1423",
+          "note": "Savunmayı dürüst ve eksiksiz kurdunuz: şartın açıklığı ve bildirilmesi, ispat yükünü üstlenip bilirkişiye dayanma, kabul hâlinde de poliçedeki %80 oranı."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_ispat"],
+          "law": "Poliçe özel şart 4 · TTK m.1409/2",
+          "note": "Özel şarta dayandınız. Tam savunma, şartın sözleşme öncesinde bildirildiğini, ispat yükünün şirkette olduğunu kabul edip bilirkişiye dayandığını ve kabul hâlinde anlaşmasız kurum için %80 oranının uygulanacağını da söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "Poliçe özel şart 4 · TTK m.1409/2",
+          "note": "Savunmanın üç dayanağı vardı: özel şart 4'ün açık ve bildirilmiş olması, istisnayı ispat yükünü üstlenip ortopedi bilirkişisine dayanmak ve kabul hâlinde anlaşmasız kurum için %80 oranı. Bunları kurmadınız."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Poliçenin özel şart 4'ü poliçe başlangıcından önce mevcut rahatsızlıkları teminat dışı bırakıyor; bu şart sözleşmeden önce bilgilendirmeyle bildirildi (TTK m.1423) ve açık bir istisnadır. (2) MR'da eklemde dejeneratif değişiklik var; dejenerasyon zamanla gelişen bir süreçtir ve yırtığın bu zemin üzerinde oluştuğu, rahatsızlığın poliçeden önce başladığı ileri sürülebilir. (3) İstisnayı ispat yükü sigortacıdadır (TTK m.1409/2); şirket bunu ortopedi bilirkişisinin raporuyla ispat edecektir. (4) Kabul hâlinde bile ameliyat anlaşmasız kurumda yapıldığından poliçedeki %80 ödeme oranı uygulanır. İstisnayı, ispat yükünü ve %80 oranını birlikte söylemek tam puan için gerekir; spor yaralanmasının kendiliğinden teminat dışı olduğunu söyleyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["özel şart", "şart 4", "önceden mevcut", "poliçe başlangıcından önce"], "weight": 3 },
+        { "terms": ["dejeneratif", "dejenerasyon", "kronik"], "weight": 2 },
+        { "terms": ["ispat", "1409", "bilirkişi"], "weight": 2 },
+        { "terms": ["%80", "yüzde seksen", "anlaşmasız"], "weight": 2 },
+        { "terms": ["1423", "bilgilendirme", "aydınlatma"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, poliçenin özel şart 4'ü poliçe başlangıcından önce mevcut rahatsızlıkları açıkça teminat dışında bırakıyor ve bu şart sözleşmeden önce bildirildi (TTK m.1423). MR'daki dejeneratif değişiklik zamanla gelişen bir süreçtir; yırtığın bu zemin üzerinde oluştuğunu ortopedi bilirkişisiyle ispat edeceğiz (TTK m.1409/2). Kabul hâlinde bile ameliyat anlaşmasız kurumda yapıldığından poliçedeki %80 oranı uygulanmalıdır."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, esas beyanınızı alalım." }
+      ],
+      "prompt": "Özel şart 4'teki istisnanın bu ameliyata neden uygulanamayacağını açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 15,
+          "set": ["p1_guclu"],
+          "law": "TTK m.1409/2 · TBK m.23 · TTK m.1436",
+          "note": "İstisnayı daraltan bütün dayanakları kullandınız: ispat yükü şirkette; 2023 kaydı başka dizle ilgili; yırtık akut travmatik; başlangıç düzeyindeki dejenerasyon yaşla uyumlu bir bulgu ve rahatsızlık değil; belirsizlik şirket aleyhine yorumlanır."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "law": "TTK m.1409/2",
+          "note": "Doğru yöndesiniz. Tam savunma; ispat yükünün şirkette olduğunu (TTK m.1409/2), 2023 kaydının sağ dizle ilgili olduğunu, acil kaydındaki akut travmayı ve başlangıç düzeyindeki dejenerasyonun önceden var olan bir “rahatsızlık” sayılamayacağını birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "TTK m.1409/2",
+          "note": "İstisnayı ispat yükü şirkette (TTK m.1409/2). Savunmanın merkezinde 2023 kaydının sağ dizle ilgili olduğu, yaralanmanın acil kaydıyla belgelenen akut bir travma olduğu ve başlangıç düzeyindeki dejenerasyonun önceden mevcut bir rahatsızlık sayılamayacağı olmalıydı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Poliçedeki istisnanın şartlarını ispat yükü sigortacıdadır (TTK m.1409/2). (2) Şirketin dayandığı 2023 kaydı sağ dizle ilgilidir; ameliyat sol dize yapıldı. (3) Yaralanma 12.05.2026'da halı sahada akut bir travmayla oluştu; acil kaydı bunu gösteriyor. (4) MR'daki başlangıç düzeyindeki dejeneratif değişiklik yaşla uyumlu bir bulgudur; poliçe başlangıcından önce tanı konmuş ya da tedavi gerektiren bir 'rahatsızlık' değildir. İstisna dar yorumlanır, belirsizlik düzenleyen şirket aleyhine yorumlanır (TBK m.23). (5) Başvuru formunda eklem sorusu yoktu (TTK m.1436). İspat yükünü, 2023 kaydının başka dize ait olmasını ve akut travmayı birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        { "terms": ["ispat yükü", "1409", "istisnayı şirket"], "weight": 2 },
+        { "terms": ["sağ diz", "başka diz", "sol diz"], "weight": 3 },
+        { "terms": ["akut", "travma", "acil", "halı saha"], "weight": 2 },
+        { "terms": ["yaşla uyumlu", "başlangıç düzeyi", "bulgu", "dejeneratif"], "weight": 1 },
+        { "terms": ["TBK m.23", "aleyhine yorum", "dar yorum", "1436"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, istisnanın şartlarını ispat yükü şirkettedir (TTK m.1409/2). Şirketin dayandığı 2023 kaydı sağ dizle ilgilidir; ameliyat sol dize yapıldı. Yaralanma 12.05.2026'da halı sahada akut bir travmayla oluştu; acil kaydı bunu gösteriyor. MR'daki başlangıç düzeyindeki dejeneratif değişiklik yaşla uyumlu bir bulgudur, poliçeden önce var olan bir rahatsızlık değildir; istisna dar yorumlanmalıdır."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "if": "p1_hit || p1_guclu || p1_akut", "text": "BİLİRKİŞİ RAPORU · Sol dizdeki menisküs yırtığı akut travmatiktir. MR'daki başlangıç düzeyindeki dejeneratif değişiklik yaşla uyumludur, ameliyat gerekliliğini doğurmamıştır ve poliçe başlangıcından önce bir rahatsızlık bulunduğunu göstermez." },
+        { "who": "narr", "if": "!p1_hit && !p1_guclu && !p1_akut", "text": "BİLİRKİŞİ RAPORU · Yırtık travmayla belirginleşmiş olsa da eklemdeki dejeneratif süreç yırtığa zemin hazırlamıştır; 2023 tarihli diz şikâyeti bu sürecin poliçe başlangıcından önce başladığını düşündürmektedir." },
+        { "who": "judge", "text": "Şirket vekili, teminatın kabulü hâlinde ödenecek tutar hakkında beyanınız?" }
+      ],
+      "prompt": "Kabul hâlinde ödenecek tutar nedir?",
+      "choices": [
+        {
+          "text": "Ameliyat anlaşmasız kurumda yapıldı; poliçedeki %80 ödeme oranıyla 148.000 TL'nin 118.400 TL'si ödenir, kalan sigortalıya aittir.",
+          "delta": 15,
+          "set": ["p2_oran"],
+          "law": "Poliçe · Anlaşmasız kurum ödeme oranı",
+          "note": "Doğru. Poliçe anlaşmasız kurumda yatarak tedavide faturanın %80'ini ödemeyi öngörüyor: 148.000 × 0,80 = 118.400 TL.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "SUT fiyatı esas alınsın; devlet tarifesindeki menisküs ameliyatı bedeli ödenir, özel hastane farkı sigortalıya kalır.",
+          "delta": -5,
+          "law": "Poliçe",
+          "note": "Poliçe ödemeyi SUT tarifesine değil, anlaşmasız kurumda faturanın %80'ine bağlıyor. Sözleşmede olmayan bir sınırlama getiremezsiniz.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        },
+        {
+          "text": "Önce yıllık 10.000 TL muafiyet düşülür, kalana %80 uygulanır: 148.000 − 10.000 = 138.000 TL; bunun %80'i 110.400 TL eder.",
+          "delta": -5,
+          "law": "Poliçe",
+          "note": "Poliçede yatarak tedavi için muafiyet yok; yalnız anlaşmasız kurum için %80 ödeme oranı var. Sözleşmede olmayan bir indirim eklediniz.",
+          "reply": [
+            { "who": "judge", "text": "Beyan tutanağa geçirildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, son talepleriniz?" }
+      ],
+      "prompt": "Talep sonucunu nasıl bağlayacaksınız?",
+      "choices": [
+        {
+          "text": "%80 oranına itiraz etme; 118.400 TL'nin, geri ödeme talebinin reddedildiği 10.07.2026'dan itibaren yasal faiziyle ödenmesini iste.",
+          "delta": 15,
+          "set": ["p1_faiz"],
+          "law": "Poliçe · TBK m.117",
+          "note": "Poliçenin açık ödeme oranına direnmek yerine faizi doğru başlangıçtan istediniz. Şirket talebi açıkça reddettiği gün temerrüde düştü; tüketici sigortalı için yasal faiz istenir.",
+          "reply": [
+            { "who": "judge", "text": "Talepler tutanağa geçirildi. Heyet karar için çekiliyor." }
+          ]
+        },
+        {
+          "text": "%80 oranı tüketici aleyhine haksız bir şarttır; 148.000 TL'nin tamamını iste, anlaşmalı ve anlaşmasız kurum ayrımı geçersiz sayılmalı.",
+          "delta": -5,
+          "law": "Poliçe · TBK m.20-25",
+          "note": "Anlaşmalı ve anlaşmasız kurum ayrımı poliçede açıkça yazılı ve sağlık sigortasında yaygın bir ödeme düzenidir; haksız şart olduğunu gösterecek bir dayanak getirmediniz. Fark reddedilecek.",
+          "reply": [
+            { "who": "judge", "text": "Talepler tutanağa geçirildi. Heyet karar için çekiliyor." }
+          ]
+        },
+        {
+          "text": "Faizin başlangıcı Komisyona başvuru tarihi olsun; şirket ancak tahkim başvurusunu öğrenince temerrüde düşmüş sayılır.",
+          "delta": -10,
+          "law": "TBK m.117",
+          "note": "Şirket talebi 10.07.2026'da açıkça reddettiğinde temerrüde düştü. Başvuru tarihini seçmek dört aylık faizi kendi elinizle bırakmak demek.",
+          "reply": [
+            { "who": "judge", "text": "Talepler tutanağa geçirildi. Heyet karar için çekiliyor." }
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_hit || p1_guclu || p1_akut || !p2_onceki",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Başvurunun KISMEN KABULÜ ile poliçedeki anlaşmasız kurum ödeme oranı uygulanarak 118.400 TL'nin" },
+        { "if": "p1_faiz", "text": " 10.07.2026 tarihinden itibaren işleyecek yasal faiziyle birlikte" },
+        { "text": " sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin 29.600 TL'lik talebin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Bilirkişi, sol dizdeki yırtığın akut travmatik olduğunu ve başlangıç düzeyindeki dejeneratif değişikliğin poliçeden önce var olan bir rahatsızlık sayılamayacağını belirtti. Şirket özel şart 4'teki istisnanın şartlarını ispat edemedi (TTK m.1409/2)." },
+        { "if": "p1_hit", "text": " Başvuran vekili, şirketin dayandığı 2023 kaydının sağ dize ait olduğunu belgeyle gösterdi." },
+        { "if": "p2_cayma", "text": " Şirketin beyan yükümlülüğüne dayanan cayma savunması, formda eklem sorusu bulunmadığından reddedildi (TTK m.1436)." },
+        { "text": " Ameliyat anlaşmasız kurumda yapıldığından poliçe gereği faturanın %80'i ödendi; kalan 29.600 TL reddedildi." },
+        { "if": "!p1_faiz", "text": " Faiz istenmediği için faize hükmedilmedi." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Başvurunun REDDİNE,",
+      "summary": [
+        { "text": "Bilirkişi, eklemdeki dejeneratif sürecin yırtığa zemin hazırladığını ve 2023 tarihli diz şikâyetinin sürecin poliçeden önce başladığını düşündürdüğünü belirtti. Başvuran vekili şirketin dayandığı kaydı çürütemedi; özel şart 4'teki istisna uygulandı." },
+        { "if": "p2_onceki", "text": " Şirket vekili savunmayı red gerekçesine, önceden var olan rahatsızlık istisnasına sadık kalarak kurdu." }
+      ]
+    }
+  ]
+}
