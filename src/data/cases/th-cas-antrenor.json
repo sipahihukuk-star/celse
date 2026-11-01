@@ -133,7 +133,7 @@
       "prompt": "Temyizi hangi ana dayanağa oturtacaksınız?",
       "choices": [
         {
-          "text": "Fesih haklıydı: dört maçlık mağlubiyet serisi ve 9. sıra, sözleşmedeki ilk 8 hedefinin tutturulamayacağını gösteriyordu.",
+          "text": "Fesih haklıydı: üst üste dört mağlubiyet ve 13. haftadaki 9. sıra, sözleşmedeki ilk 8 hedefinin artık tutturulamayacağını açıkça gösteriyordu.",
           "delta": -15,
           "set": ["p1_sonuc"],
           "law": "İsviçre BK m.337 · CAS içtihadı",
@@ -196,7 +196,7 @@
         },
         {
           "if": "p1_mitigasyon && !p2_yeniIs",
-          "text": "Belge FIFA aşamasında da TMS kaydından istenebilirdi; R57/3 uyarınca dışlansın, alınırsa yalnızca imza parası düşülsün.",
+          "text": "Belge FIFA aşamasında Yunan kulübünden de istenebilirdi; R57/3 uyarınca dışlansın, alınırsa yalnızca imza parası düşülsün.",
           "delta": 5,
           "set": ["p2_dislama"],
           "law": "CAS Kodu R57/3",
@@ -313,7 +313,7 @@
           "note": "Feshin niteliğini ve tazminatın dayanağını kuramadınız. Başarısız sonuç haklı sebep değildir; işçi sözleşme sürseydi kazanacağını ister, bundan yalnızca fiilen kazandığı düşülür (m.337c/1-2)."
         }
       ],
-      "rubric": "İyi bir cevap şunları söyler: (1) Başarısız sonuçlar, sözleşmede açık bir fesih hakkı olarak düzenlenmedikçe antrenör sözleşmesinin derhâl feshi için haklı sebep değildir (İsviçre BK m.337; CAS içtihadı); fesih bildiriminde başka gerekçe yok. (2) Antrenör, sözleşme sürseydi kazanacağı kalan değeri (Aralık 2025–Haziran 2027, 950.000 €) ve ödenmeyen Kasım 2025 ücretini (50.000 €) ister (m.337c/1). (3) Mahsup yalnızca fiilen kazanılanla sınırlıdır (m.337c/2): Yunan sözleşmesi 15.09.2026'da sona erdi; fiilî gelir yaklaşık 130.000 € ücret ve 100.000 € imza parasıdır, kalan alacak 720.000 €'dur ve FIFA'nın hükmettiği 630.000 €'dan azdır değil fazladır. (4) Antrenör kendi temyizini açmadığından panel 630.000 €'nun üzerine çıkamaz; talep temyizin reddidir. Feshin haksızlığını, m.337c/2'nin sınırını ve talebin temyizin reddiyle sınırlı olduğunu birlikte söyleyen cevap tam puan alır; yalnızca 'fesih haksızdı' diyen cevap orta puan alır. İmza parasını inkâr eden ya da 950.000 €'nun tamamını isteyen cevap düşük puan alır.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Başarısız sonuçlar, sözleşmede açık bir fesih hakkı olarak düzenlenmedikçe antrenör sözleşmesinin derhâl feshi için haklı sebep değildir (İsviçre BK m.337; CAS içtihadı); fesih bildiriminde başka gerekçe yok. (2) Antrenör, sözleşme sürseydi kazanacağı kalan değeri (Aralık 2025–Haziran 2027, 950.000 €) ve ödenmeyen Kasım 2025 ücretini (50.000 €) ister (m.337c/1). (3) Mahsup yalnızca fiilen kazanılanla sınırlıdır (m.337c/2): Yunan sözleşmesi 15.09.2026'da sona erdi; fiilî gelir yaklaşık 130.000 € ücret ve 100.000 € imza parasıdır, kalan alacak 720.000 €'dur; bu, FIFA'nın hükmettiği 630.000 €'dan fazladır. (4) Antrenör kendi temyizini açmadığından panel 630.000 €'nun üzerine çıkamaz; talep temyizin reddidir. Feshin haksızlığını, m.337c/2'nin sınırını ve talebin temyizin reddiyle sınırlı olduğunu birlikte söyleyen cevap tam puan alır; yalnızca 'fesih haksızdı' diyen cevap orta puan alır. İmza parasını inkâr eden ya da 950.000 €'nun tamamını isteyen cevap düşük puan alır.",
       "keywords": [
         { "terms": ["haklı sebep", "başarısız sonuç", "kötü sonuç", "poor results"], "weight": 2 },
         { "terms": ["337c", "kalan değer", "sözleşme sürseydi", "residual"], "weight": 2 },
@@ -342,7 +342,7 @@
           ]
         },
         {
-          "text": "Önce FIFA kuralları, onlarda hüküm yoksa FIFA'nın merkezi İsviçre'de olduğundan İsviçre hukuku uygulanır.",
+          "text": "Önce FIFA kuralları uygulanır; onlarda hüküm yoksa, hukuk seçilmediği ve FIFA'nın merkezi İsviçre'de olduğu için İsviçre hukuku.",
           "delta": 15,
           "law": "CAS Kodu R58 · FIFA Statüsü",
           "note": "Doğru. R58'e göre panel uygulanacak spor kurallarını esas alır; taraflar hukuk seçmemişse kararı veren federasyonun merkezinin bulunduğu ülkenin hukuku ikincil olarak uygulanır. FIFA Statüsü de CAS'ın FIFA kurallarını ve ikincil olarak İsviçre hukukunu uygulayacağını söyler.",
@@ -380,7 +380,7 @@
           ]
         },
         {
-          "text": "Kulüp antrenörü itibarsızlaştırdı; tazminata ek olarak altı aylık ücret tutarında, 300.000 € ek tazminata da hükmedilsin.",
+          "text": "Kulüp antrenörü kamuoyunda itibarsızlaştırdı; tazminata ek olarak altı aylık ücret tutarında, 300.000 € ek tazminata da hükmedilsin.",
           "delta": -10,
           "set": ["p2_ek"],
           "law": "CAS Kodu R55 · İsviçre BK m.337c/3",
