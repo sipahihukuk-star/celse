@@ -83,17 +83,17 @@
       ],
       "kind": "free", "prompt": "Belgelerin şimdi dosyaya girebilmesi için mahkemeye ne söyleyeceksiniz? Kendi cümlelerinizle açıklayın.",
       "choices": [
-        {"text": "Güçlü savunma", "min": 70, "delta": 10, "set": ["islah"], "law": "HMK m.176 vd.", "note": "Doğru kurtarma yolunu buldunuz: süresinde gösterilmeyen delil, tahkikat sona erene kadar bir kez yapılabilen ıslahla gösterilebilir (HMK m.176-177). Bedelini de doğru söylediniz: ıslahın giderleri ve karşı tarafın zararı ıslah edene yüklenir (HMK m.178). Tek kullanımlık ve pahalı bir hak."},
-        {"text": "Yeterli savunma", "min": 40, "delta": 5, "set": ["islah"], "law": "HMK m.176 vd.", "note": "Islah yoluna başvurdunuz ve mahkeme belgeleri kabul etti. Ama ıslahın sınırlarını ve bedelini göstermediniz: tahkikat sona erene kadar yalnız bir kez kullanılabilir (HMK m.176-177); giderleri ve karşı tarafın zararı ıslah edene yüklenir (HMK m.178)."},
-        {"text": "Zayıf savunma", "delta": -5, "set": ["gecred"], "law": "HMK m.145", "note": "Belgelerin kabulünü hakkaniyete ya da gecikme amacı taşımadığına dayandırdınız. HMK m.145'teki izin istisnadır: belge elinizdeyken süreyi kaçırmak ihmaldir ve mahkeme izin vermedi. Açık olan yol ıslahtı (HMK m.176-178)."}
+        {"text": "Güçlü savunma", "min": 70, "delta": 10, "set": ["islah"], "law": "HMK m.176 vd.", "note": "Doğru kurtarma yolunu buldunuz: süresinde gösterilmeyen delil, tahkikat sona erene kadar bir kez yapılabilen ıslahla gösterilebilir (HMK m.176-177). Bedelini de doğru söylediniz: ıslahın giderleri ve karşı tarafın zararı ıslah edene yüklenir (HMK m.180). Tek kullanımlık ve pahalı bir hak."},
+        {"text": "Yeterli savunma", "min": 40, "delta": 5, "set": ["islah"], "law": "HMK m.176 vd.", "note": "Islah yoluna başvurdunuz ve mahkeme belgeleri kabul etti. Ama ıslahın sınırlarını ve bedelini göstermediniz: tahkikat sona erene kadar yalnız bir kez kullanılabilir (HMK m.176-177); giderleri ve karşı tarafın zararı ıslah edene yüklenir (HMK m.180)."},
+        {"text": "Zayıf savunma", "delta": -5, "set": ["gecred"], "law": "HMK m.145", "note": "Belgelerin kabulünü hakkaniyete ya da gecikme amacı taşımadığına dayandırdınız. HMK m.145'teki izin istisnadır: belge elinizdeyken süreyi kaçırmak ihmaldir ve mahkeme izin vermedi. Açık olan yol ıslahtı (HMK m.176-180)."}
       ],
-      "rubric": "İyi bir cevap şunları söyler: (1) Süresinde gösterilmeyen delil için başvurulacak yol ıslahtır; taraf delil bildirimini ıslahla düzelttiğini açıkça beyan eder (HMK m.176-177). (2) Islah, tahkikat sona erinceye kadar ve aynı davada bir kez yapılabilir; tahkikat henüz bitmediği için yol açıktır. (3) Islah eden taraf, ıslah nedeniyle yapılan yargılama giderlerini ve karşı tarafın uğradığı ya da uğrayabileceği zararı karşılamayı üstlenir (HMK m.178). Islahı süre ve bedel koşullarıyla birlikte kurmak tam puan alır; yalnızca 'ıslah ediyoruz' demek orta puan alır. Belgelerin hakkaniyet gereği ya da HMK m.145 uyarınca kabulünü istemek, gecikmeyi mazur göstermeye çalışmak ya da belgelerden vazgeçmek düşük puan alır.",
+      "rubric": "İyi bir cevap şunları söyler: (1) Süresinde gösterilmeyen delil için başvurulacak yol ıslahtır; taraf delil bildirimini ıslahla düzelttiğini açıkça beyan eder (HMK m.176-177). (2) Islah, tahkikat sona erinceye kadar ve aynı davada bir kez yapılabilir; tahkikat henüz bitmediği için yol açıktır. (3) Islah eden taraf, ıslah nedeniyle yapılan yargılama giderlerini ve karşı tarafın uğradığı ya da uğrayabileceği zararı karşılamayı üstlenir (HMK m.180). Islahı süre ve bedel koşullarıyla birlikte kurmak tam puan alır; yalnızca 'ıslah ediyoruz' demek orta puan alır. Belgelerin hakkaniyet gereği ya da HMK m.145 uyarınca kabulünü istemek, gecikmeyi mazur göstermeye çalışmak ya da belgelerden vazgeçmek düşük puan alır.",
       "keywords": [
         {"terms": ["ıslah", "islah", "ıslâh"], "weight": 3},
         {"terms": ["gider", "masraf", "zarar"], "weight": 2},
         {"terms": ["bir kez", "bir defa", "tek sefer", "bir kere"], "weight": 1},
         {"terms": ["tahkikat", "sona er"], "weight": 1},
-        {"terms": ["m.176", "m. 176", "madde 176", "176. madde", "md. 176", "m.177", "m. 177", "m.178", "m. 178"], "weight": 1}
+        {"terms": ["m.176", "m. 176", "madde 176", "176. madde", "md. 176", "m.177", "m. 177", "m.180", "m. 180"], "weight": 1}
       ],
       "model": "Sayın Hâkim, delil bildirimimizi ıslah yoluyla düzeltiyoruz. Tahkikat henüz sona ermediği ve bu hakkı daha önce kullanmadığımız için ıslah yolu açıktır (HMK m.176-177). Islah nedeniyle yapılan yargılama giderlerini ve karşı tarafın uğrayabileceği zararı karşılamayı kabul ediyoruz (HMK m.178); şerhli nüshanın ve mesajların delil olarak dosyaya alınmasını talep ediyoruz." },
     { "kind": "evidence", "side": "p1", "scene": "court",
@@ -134,7 +134,7 @@
           "note": "Doğru. Hâkimin indirim yetkisi (TBK m.182/3), tacir sıfatıyla borçlanan bakımından TTK m.22 ile sınırlanmıştır. Limited şirket tacirdir (TTK m.16). Malzeme gerekçesine de cevap verilebilirdi." },
         { "text": "Ceza koşulunu hâkim hiçbir hâlde indiremez; miktarı iki taraf serbestçe kararlaştırdı, sözleşmeye bağlılık gereği ceza aynen ödenmelidir.", "delta": -10,
           "law": "TBK m.182/3",
-          "note": "Hatalı. Taraflar cezanın miktarını serbestçe belirleyebilir (TBK m.182/1); ama genel kural, hâkimin aşırı gördüğü cezayı kendiliğinden indirmesidir (TBK m.182/3). Sonucu kurtaran şey davalının tacir olması (TTK m.22); bunu söylemeliydiniz." },
+          "note": "Hatalı. Taraflar cezanın miktarını serbestçe belirleyebilir (TBK m.182/2); ama genel kural, hâkimin aşırı gördüğü cezayı kendiliğinden indirmesidir (TBK m.182/3). Sonucu kurtaran şey davalının tacir olması (TTK m.22); bunu söylemeliydiniz." },
         { "text": "Cezanın yarıya indirilmesine itirazımız yoktur; yeter ki çekincesiz kabul savunması reddedilsin ve kalan kısım dava tarihinden faiziyle hüküm altına alınsın.", "delta": -15, "set": ["indirimkabul"],
           "law": "TTK m.22",
           "note": "Tacir olan davalı indirim isteyemezdi; kendi beyanınızla müvekkilin alacağının yarısından vazgeçtiniz." }
