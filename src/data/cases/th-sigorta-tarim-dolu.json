@@ -1,0 +1,415 @@
+{
+  "id": "th-sigorta-tarim-dolu",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Şahit Ağaç",
+  "area": "Tahkim · Sigorta tahkimi · Devlet destekli tarım sigortası (dolu hasarı ve ekspertiz itirazı)",
+  "court": "Sigorta Tahkim Komisyonu · Uyuşmazlık Hakem Heyeti",
+  "courtShort": "SİGORTA TAHKİM",
+  "esas": "Başvuru No. 2026/70544",
+  "kararTarihi": "18.11.2026",
+  "color": "#8a2f3a",
+  "room": "tahkim",
+  "forum": "sigorta",
+  "inscription": null,
+  "bench": { "judges": 3, "title": "Hakem heyeti: başhakem ve iki hakem" },
+  "teaser": "Mayıs dolusu kiraz bahçesini dövdü. İlk eksper hasarı %22 buldu, ikinci eksper %36. Hasat beklemez; kiraz toplanırken kanıt da toplanmalı.",
+  "sides": {
+    "p1": { "role": "Başvuran (çiftçi) vekili", "short": "Başvuran" },
+    "p2": { "role": "Tarım Sigortaları Havuzu vekili", "short": "Havuz" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#cf9d76", "hair": "#8d8780", "style": "short", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e6bc96", "hair": "#3b2a20", "style": "short", "shirt": "#252930", "inner": "#efe9e0" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f1cba7", "hair": "#1d1816", "style": "bun", "shirt": "#1f2934", "inner": "#e6e3dd" } },
+    "client": { "name": "Hüseyin Aydemir · Kiraz üreticisi", "np": "civil", "look": { "kind": "civil", "skin": "#b98259", "hair": "#5c5650", "style": "short", "beard": true, "shirt": "#5d6a4a", "inner": "#e6e0d4" } },
+    "expert": { "name": "Bilirkişi · Ziraat mühendisi", "np": "civil", "look": { "kind": "civil", "skin": "#e0b38e", "hair": "#4b3a2e", "style": "long", "shirt": "#4f5a46", "inner": "#ece6da" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Hüseyin Aydemir'in Salihli'deki 40 dekarlık kiraz bahçesi Devlet Destekli Bitkisel Ürün Sigortasıyla, Tarım Sigortaları Havuzu (TARSİM) adına sigortalı. Sigorta bedeli 2.400.000 TL; poliçeye göre dolu hasarında hasar oranından 5 puan muafiyet düşülüyor." },
+    { "who": "narr", "text": "12.05.2026'da bahçeye dolu yağdı. Aydemir ertesi gün ihbar etti. Genel Şartlara göre hasar, ürün hasat olgunluğuna geldiğinde kesin olarak tespit ediliyor." },
+    { "who": "narr", "text": "08.06.2026'daki kesin ekspertizde eksper altı ağaca bakıp hasar oranını %22 olarak belirledi: ödenecek tutar (22 − 5) × %1 × 2.400.000 = 408.000 TL. Aydemir hasarın en az %35 olduğunu düşünüyor." },
+    { "who": "narr", "text": "Bugün 09.06.2026. Kirazlar dalda; birkaç gün içinde toplanmazsa çürüyecek. Çiftçinin vekili ilk hamleyi yapacak." }
+  ],
+  "docs": [
+    { "t": "Genel Şartlar B.1 ve B.2", "d": "B.1: Dolu hasarı olaydan itibaren 15 gün içinde ihbar edilir. B.2: Sigortalı, hasarlı ürüne sigortasız gibi bakmaya devam eder; hasar tespit edilinceye kadar ürün üzerinde tespiti zorlaştıracak değişiklik yapmaz. Havuz ya da eksperin onayıyla hasat yapılabilir; bu durumda temsili örnekler bırakılır." },
+    { "t": "Genel Şartlar B.4 ve B.7", "d": "B.4/2: Hasar miktarında anlaşılamazsa sigortalı, ilk ekspertizden itibaren 7 gün içinde yazılı olarak ikinci ekspertiz ister; Havuz talebi aldığından itibaren 5 gün içinde yeni eksper görevlendirir. B.7/2: Hasar ancak hasat döneminde tespit edilir." },
+    { "t": "Genel Şartlar B.5, B.8, C.9", "d": "B.5: Hasar oranı sigorta bedeline uygulanır; önce muafiyet, sonra varsa müşterek sigorta payı düşülür. B.8: Sigortalının yükümlülüklerine aykırılığı zararı artırmışsa artış tazminattan düşülür. C.9: Riziko üyelikten sonra gerçekleşmişse uyuşmazlıklar Sigorta Tahkim Komisyonuna götürülebilir." },
+    { "t": "Kesin ekspertiz raporu (08.06.2026)", "d": "Örnekleme: bahçe genelinde 6 ağaç. Dolu hasar oranı %22. Not: “Meyvelerde monilya kaynaklı çürüme gözlendi; hastalık teminat dışıdır.”" },
+    { "t": "5684 s.K. m.30 ve 2026 sınırları", "d": "Önce sigorta kuruluşuna yazılı başvuru, ret ya da 15 iş günü cevapsızlık (m.30/13). 2026'da: 122.000 TL ve üzeri uyuşmazlıkta heyet; 35.000 TL ve üzeri kararlara itiraz; 383.000 TL üzerinde itiraz kararına temyiz." }
+  ],
+  "evidence": [
+    { "id": "ev_rapor1", "type": "belge", "title": "Kesin ekspertiz raporu", "desc": "6 ağaçlık örnekleme; dolu hasarı %22; monilya kaynaklı çürüme notu." },
+    { "id": "ev_rapor2", "type": "belge", "title": "İkinci ekspertiz raporu (15.06.2026)", "desc": "Her parselde işaretli 10 şahit ağaçtan örnekleme; dolu hasarı %36.", "if": "p1_itiraz" },
+    { "id": "ev_whatsapp", "type": "belge", "title": "Havuz eksperinin mesajı (09.06.2026)", "desc": "“Hasada başlayabilirsiniz. Her parselde benim kırmızı bantla işaretlediğim 10 ağacı ikinci ekspertize kadar bırakın.”", "if": "p1_onay" },
+    { "id": "ev_ilac", "type": "belge", "title": "İlaçlama faturası ve ziraat odası reçetesi", "desc": "15.05.2026: dolu sonrası monilyaya karşı koruyucu fungisit uygulaması; ilçe ziraat odası reçetesi ve bayi faturası.", "if": "p1_bakim" },
+    { "id": "ev_police", "type": "belge", "title": "Poliçe", "desc": "Kiraz, 40 dekar, sigorta bedeli 2.400.000 TL; dolu için 5 puan muafiyet." },
+    { "id": "ev_ozel", "type": "belge", "title": "Bağımsız mühendis raporu", "desc": "Sigortalının kendi seçtiği ziraat mühendisinin tek taraflı raporu: dolu hasarı %40.", "if": "p1_sure" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İTİRAZ · Kesin ekspertiz dün yapıldı. Kirazların toplanması gerekiyor, ama hasar oranına da itiraz etmek istiyorsunuz." },
+        { "who": "client", "text": "Ya kirazı kurtaracağız ya davayı. İkisi birden olur mu?" }
+      ],
+      "prompt": "Ne yapılmasını önereceksiniz?",
+      "choices": [
+        {
+          "text": "Yedi gün içinde Havuz'a yazılı itiraz edip ikinci ekspertiz iste; hasattan önce mutlaka Havuz'un yazılı onayını al ve her parselde şahit ağaç bırak.",
+          "delta": 20,
+          "set": ["p1_itiraz"],
+          "law": "Genel Şartlar B.2/2 · B.4/2",
+          "note": "İtiraz ilk ekspertizden itibaren 7 gün içinde, yazılı olarak yapılmalı ve ikinci ekspertiz istenmelidir (B.4/2). Hasat, Havuz ya da eksperin onayıyla ve temsili örnekler bırakılarak yapılabilir (B.2/2). Hem ürün kurtuldu hem delil korundu.",
+          "reply": [
+            { "who": "narr", "text": "İtiraz 11.06.2026'da yapıldı. Havuz 13.06'da ikinci eksper görevlendirdi; eksper 15.06'da şahit ağaçlarda hasarı %36 buldu. Havuz 30.06'da ikinci raporu kabul etmeyip ilk rapora göre ödediğini bildirdi. Komisyona 10.07.2026'da 336.000 TL için başvuruldu." }
+          ]
+        },
+        {
+          "text": "Kiraz bekleyemez: hasadı hemen tamamla ve ürünün fotoğraflarını çek. İtirazı doğrudan Komisyona başvurarak yap; ikinci ekspertize gerek yok.",
+          "delta": -15,
+          "set": ["p1_hasat"],
+          "law": "Genel Şartlar B.2 · B.4/2 · 5684 s.K. m.30/13",
+          "note": "Hem ikinci ekspertiz yolunu kullanmadınız hem de onay almadan ve örnek bırakmadan bütün ürünü topladınız; hasar oranını tartışacak delil yok oldu. Komisyona da önce Havuz'a yazılı başvuru yapılmadan gidilemez.",
+          "reply": [
+            { "who": "narr", "text": "Bahçe 11.06'da toplandı. Raportör ilk başvuruyu ön başvuru eksikliğinden işleme almadı; Havuz'a yapılan yazılı başvuru 02.07'de reddedildi. Komisyona 14.07.2026'da başvuruldu; dalda ölçülecek kiraz kalmamıştı." }
+          ]
+        },
+        {
+          "text": "Önce kendi seçeceğin bağımsız bir ziraat mühendisine rapor hazırlat; rapor gelince onu Havuz'a sunup ikinci ekspertiz iste, hasadı da ona göre planla.",
+          "delta": -10,
+          "set": ["p1_sure"],
+          "law": "Genel Şartlar B.4/2",
+          "note": "İkinci ekspertiz talebinin süresi ilk ekspertizden itibaren 7 gündür (B.4/2). Özel raporu beklerken süre geçti; Havuz talebi süresinde olmadığı için reddetti. Tek taraflı mühendis raporu ise ancak uzman görüşü değerindedir.",
+          "reply": [
+            { "who": "narr", "text": "Mühendis 14.06'da bahçeyi inceleyip hasarı %40 buldu. Talep Havuz'a 18.06'da, süre geçtikten sonra ulaştı ve reddedildi. Kiraz 20.06'da toplandı. Komisyona 10.07.2026'da 432.000 TL için başvuruldu." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Başvuru Havuz'a tebliğ edildi; uyuşmazlık 122.000 TL'yi aştığı için üç kişilik hakem heyeti kuruldu. Havuz adına cevap veriyorsunuz." }
+      ],
+      "prompt": "Cevabın omurgası ne olacak?",
+      "choices": [
+        {
+          "if": "p1_itiraz",
+          "text": "İkinci raporu tek başına kabul etme: iki raporun örnekleme yöntemini karşılaştırmak için bağımsız bilirkişi iste; muafiyetin her hâlde düşüleceğini de belirt.",
+          "delta": 15,
+          "set": ["p2_bilirkisi"],
+          "law": "HMK m.266 · Genel Şartlar B.5",
+          "note": "Ölçülü bir savunma. İki ekspertiz arasındaki fark teknik bir sorudur; heyetin bağımsız bir bilirkişiye başvurması gerekir. Muafiyet hangi oran kabul edilirse edilsin düşülür."
+        },
+        {
+          "if": "p1_hasat",
+          "text": "Sigortalı onay almadan ve örnek bırakmadan bütün ürünü topladı; tespit imkânı ortadan kalktı, hasar oranı kesin ekspertize göre kalmalıdır.",
+          "delta": 20,
+          "set": ["p2_delil"],
+          "law": "Genel Şartlar B.2 · B.8",
+          "note": "Sigortalı, hasar tespit edilinceye kadar ürün üzerinde tespiti zorlaştıracak değişiklik yapmamakla yükümlüdür; hasat ancak onayla ve temsili örnek bırakılarak yapılabilir (B.2). İkinci ekspertiz de istenmedi; dosyada kesin ekspertiz dışında güvenilir bir ölçüm yok."
+        },
+        {
+          "if": "p1_sure",
+          "text": "İkinci ekspertiz talebi yedi günlük süre geçtikten sonra yapıldı; Havuz yeni eksper atamakla yükümlü değildi, tek taraflı mühendis raporu bağlamaz.",
+          "delta": 20,
+          "set": ["p2_gec"],
+          "law": "Genel Şartlar B.4/2 · HMK m.293",
+          "note": "B.4/2'deki 7 günlük süre kaçırıldı. Sigortalının kendi seçtiği mühendisin raporu bilirkişi raporu değildir; tarafın sunduğu uzman görüşü olarak değerlendirilir (HMK m.293)."
+        },
+        {
+          "text": "İkinci ekspertiz yalnızca bir görüş bildirir; Genel Şartlar gereği Havuz'u bağlayan rapor ilk eksperin kesin ekspertizidir, ödeme de ona göre yapılır.",
+          "delta": -10,
+          "set": ["p2_ilk"],
+          "law": "Genel Şartlar B.4/2",
+          "note": "Genel Şartlar ikinci ekspertizi, hasar miktarında anlaşmazlık hâlinde sigortalıya tanınmış bir hak olarak düzenler; ilk raporun üstün geldiğine dair bir hüküm yoktur. İki rapor arasındaki farkı uyuşmazlığı çözen merci değerlendirir."
+        },
+        {
+          "text": "Devlet destekli tarım sigortası kamusal bir sistemdir; prim desteği devletten geldiği için uyuşmazlık idari yargının görevindedir, başvuru reddedilmeli.",
+          "delta": -15,
+          "set": ["p2_gorev"],
+          "law": "Genel Şartlar C.9 · 5684 s.K. m.30",
+          "note": "Prim desteği sözleşmenin özel hukuk niteliğini değiştirmez. Genel Şartlar C.9, uyuşmazlıkların Sigorta Tahkim Komisyonuna götürülebileceğini açıkça öngörür."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Havuz'un cevabı geldi. Heyetin sözlü açıklama toplantısından önce Hüseyin Aydemir'le görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "if": "p1_itiraz",
+          "text": "Şahit ağaçları kim seçti? Hasada izin verildiğine dair yazılı bir şey var mı?",
+          "delta": 15,
+          "set": ["p1_onay"],
+          "reply": [
+            { "who": "client", "text": "Havuz'un eksperi kendisi seçti, kırmızı bantla işaretledi. 9 Haziran'da WhatsApp'tan “hasada başlayabilirsiniz, işaretli ağaçları bırakın” diye yazdı." }
+          ],
+          "note": "Kilit soru. Şahit ağaçları Havuz'un eksperinin seçtiği ve hasadın onayla yapıldığı yazılı olarak sabit (B.2/2); örneklemin taraflı olduğu itirazına karşı en güçlü delil. Mesaj çantanıza eklendi."
+        },
+        {
+          "text": "Dolu yağdıktan sonra bahçede ilaçlama ya da başka bir bakım yaptınız mı?",
+          "delta": 15,
+          "set": ["p1_bakim"],
+          "reply": [
+            { "who": "client", "text": "Ziraat odası dolu yarasından mantar girer dedi, üç gün sonra koruyucu ilaç attım. Reçete de fatura da bende." }
+          ],
+          "note": "Önemli soru. Eksper raporundaki “monilya” notu, Havuz'un bakım yükümlülüğü ihlali iddiasına zemin hazırlıyor (B.2, B.8). İlaçlama belgeleri çantanıza eklendi."
+        },
+        {
+          "text": "Komşu bahçelerde de hasar oldu mu, onların eksperi ne buldu?",
+          "delta": 0,
+          "reply": [
+            { "who": "client", "text": "Ramazan'ın bahçesine %30 demişler. Ama onun ağaçları daha yaşlı, yeri de başka." }
+          ],
+          "note": "İlginç ama başka bir bahçenin oranı bu bahçenin hasarını ispatlamaz; koşullar farklı."
+        },
+        {
+          "text": "Geçen yılki hasat kaç ton olmuştu?",
+          "delta": -5,
+          "reply": [
+            { "who": "client", "text": "Kırk ton civarı. Bu yıl ancak yarısını sattım." }
+          ],
+          "note": "Önceki yılın verimi bu yılın dolu hasarını göstermez; ürün miktarı don, bakım, piyasa gibi pek çok sebeple değişir."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Havuz vekili, eksper raporunda geçen monilya notu hakkında ne diyorsunuz?" }
+      ],
+      "prompt": "Bu noktayı nasıl kullanacaksınız?",
+      "choices": [
+        {
+          "text": "Dolu sonrası koruyucu ilaçlama yapılmadıysa artan çürüme bakım yükümlülüğünün ihlalidir; bu artış tazminattan düşülmelidir (B.2, B.8).",
+          "delta": 15,
+          "set": ["p2_bakim"],
+          "law": "Genel Şartlar B.2 · B.8",
+          "note": "Doğru çerçeve. Sigortalı hasarlı ürüne sigortasız gibi bakmaya devam etmek zorundadır; bu yükümlülüğe aykırılık zararı artırmışsa artış tazminattan düşülür (B.8). Sonuç, ilaçlamanın yapılıp yapılmadığına bağlı.",
+          "reply": [
+            { "who": "judge", "text": "Not edildi. Başvuran tarafına soracağız." }
+          ]
+        },
+        {
+          "text": "Hastalık zaten teminat dışı; dolu yarasından gelişen çürüme de hastalık sayılır, bu yüzden dolunun payı ilk rapordaki %22'yi aşamaz.",
+          "delta": -5,
+          "set": ["p2_hastalik"],
+          "law": "Genel Şartlar A.2",
+          "note": "Hastalık teminat dışıdır, ama dolu yarasının doğrudan sonucu olan kayıp ile bağımsız bir hastalığın verdiği kayıp ayrı şeylerdir. Ayrımı yapmadan bütün çürümeyi dışarıda bırakmak, illiyeti incelemeden sonuca atlamaktır.",
+          "reply": [
+            { "who": "judge", "text": "Hangi kaybın doluya, hangisinin hastalığa ait olduğu teknik bir soru. Not edildi." }
+          ]
+        },
+        {
+          "text": "Sigortalı doluyu aynı gün değil ertesi gün ihbar etti; gecikme tespit imkânını daralttı, hasar oranı en düşük rapora göre belirlenmelidir.",
+          "delta": -10,
+          "set": ["p2_ihbar"],
+          "law": "Genel Şartlar B.1",
+          "note": "Dolu hasarında ihbar süresi 15 gündür (B.1). Ertesi gün yapılan ihbar süresindedir; hasar zaten hasat döneminde tespit edilir (B.7/2).",
+          "reply": [
+            { "who": "judge", "text": "İhbar süre içinde yapılmış. Not edildi." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Başvuran vekili, bakım konusunda karşı tarafın beyanına ne diyorsunuz?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Heyet, sigortalı dolu sonrası hiçbir koruyucu ilaçlama yapmamıştır. Çürümenin önemli bölümü bakım eksikliğinden kaynaklanmaktadır." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_ilac"],
+      "hit": {
+        "delta": 20,
+        "set": ["p1_ilac"],
+        "law": "Genel Şartlar B.2 · B.8",
+        "note": "Reçete ve fatura, doludan üç gün sonra monilyaya karşı koruyucu ilaçlama yapıldığını gösteriyor. Sigortalı bakım yükümlülüğünü yerine getirmiş; B.8'e göre indirim yapılacak bir artış yok.",
+        "reply": [
+          { "who": "judge", "text": "İlaçlama belgeleri dosyaya alındı." }
+        ]
+      },
+      "responses": {
+        "ev_rapor2": {
+          "delta": 0,
+          "note": "İkinci rapor hasar oranını gösterir; dolu sonrası bakımın yapıldığını göstermez."
+        },
+        "ev_whatsapp": {
+          "delta": 0,
+          "note": "Mesaj hasadın onaylı yapıldığını gösterir; ilaçlama iddiasını cevaplamaz."
+        },
+        "ev_rapor1": {
+          "delta": -10,
+          "note": "İlk rapordaki monilya notu, karşı tarafın iddiasının dayanağı; onu öne çıkardınız."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge dolu sonrası bakımın yapıldığını göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; bakım eksikliği iddiası cevapsız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "if": "p1_itiraz", "text": "Havuz vekili, iki ekspertiz raporu arasında 14 puanlık fark var. Heyet hangi ölçütle karar vermeli?" },
+        { "who": "judge", "if": "!p1_itiraz", "text": "Havuz vekili, başvuran kesin ekspertizdeki oranın düşük olduğunu söylüyor. Heyet hangi ölçütle karar vermeli?" }
+      ],
+      "prompt": "Hasar oranının nasıl belirlenmesi ve tazminatın nasıl hesaplanması gerektiğini kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_ornek"],
+          "law": "Genel Şartlar B.2 · B.5 · B.7 · HMK m.266",
+          "note": "Savunmayı doğru kurdunuz: hasar hasat döneminde, temsili örnekler üzerinden tespit edilir; örneklerin kim tarafından ve nasıl seçildiği raporun değerini belirler. Bağımsız bilirkişi incelemesi istediniz ve hesabın, muafiyet düşüldükten sonra yapılıp önceki ödemenin mahsup edileceğini gösterdiniz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_ornek"],
+          "law": "Genel Şartlar B.5 · HMK m.266",
+          "note": "Bilirkişi incelemesi ve muafiyet konusunda doğru noktalara değindiniz. Tam savunma, örneklerin temsil gücünü (kim seçti, kaç ağaç, hangi parsel), hasarın hasat döneminde tespitini (B.7/2) ve ödenen 408.000 TL'nin mahsubunu birlikte ortaya koyar."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "Genel Şartlar B.5 · B.7",
+          "note": "Havuz'un elindeki teknik ve hesap savunmalarını kullanamadınız: örneklerin temsil gücü, bilirkişi incelemesi, 5 puanlık muafiyet ve önceki ödemenin mahsubu."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Hasar hasat döneminde tespit edilir (B.7/2); onaylı hasatta tespit, bırakılan temsili örnekler üzerinden yapılır (B.2/2). Raporların değeri, örneklerin kim tarafından, kaç ağaçtan ve hangi parsellerden seçildiğine bağlıdır. (2) İki rapor arasındaki fark teknik bir sorudur; heyet bağımsız bir ziraat mühendisi bilirkişiye başvurmalıdır (HMK m.266). Sigortalının kendi seçtiği mühendisin raporu yalnızca uzman görüşüdür (HMK m.293). (3) Hesap: hasar oranından 5 puanlık muafiyet düşülür, sigorta bedeline uygulanır, ödenen 408.000 TL mahsup edilir (B.5). (4) Varsa hastalık kaynaklı kayıp ayrılmalıdır. Örnekleme, bilirkişi ve hesabı birlikte söyleyen cevap tam puan alır.",
+      "keywords": [
+        { "terms": ["örnek", "şahit ağaç", "temsil", "örnekleme"], "weight": 2 },
+        { "terms": ["bilirkişi", "m.266", "HMK 266"], "weight": 2 },
+        { "terms": ["muafiyet", "5 puan", "beş puan"], "weight": 1 },
+        { "terms": ["408.000", "mahsup", "ödenen"], "weight": 1 },
+        { "terms": ["hasat", "B.7", "olgunluk"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, hasar hasat döneminde, onaylı hasatta ise bırakılan temsili örnekler üzerinden tespit edilir (B.2/2, B.7/2). Raporların değeri, örneklerin kim tarafından ve kaç ağaçtan seçildiğine bağlıdır; bu teknik farkın bağımsız bir ziraat mühendisi bilirkişi tarafından incelenmesini istiyoruz (HMK m.266). Hangi oran kabul edilirse edilsin 5 puanlık muafiyet düşülmeli ve ödenen 408.000 TL mahsup edilmelidir (B.5)."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "narr", "text": "BİLİRKİŞİ RAPORU · Heyetin atadığı ziraat mühendisi raporunu verdi." },
+        { "who": "expert", "if": "p1_itiraz", "text": "Şahit ağaçlar her parseli temsil edecek biçimde dağılmış. Ölçümlerime göre dolu hasar oranı %34'tür. İlk ekspertizdeki altı ağaçlık örnekleme bahçeyi temsil etmez." },
+        { "who": "expert", "if": "p1_sure", "text": "Sigortalının mühendisinin hasattan önce çektiği tarih damgalı fotoğrafları inceledim. Fotoğraflardan güvenle söylenebilecek dolu hasar oranı %28'dir." },
+        { "who": "expert", "if": "p1_hasat", "text": "Bahçe bütünüyle toplanmış, örnek bırakılmamış. Kesin ekspertizdeki oranı denetleyecek bir veri yok." },
+        { "who": "judge", "text": "Başvuran vekili, rapor karşısında beyanınız?" }
+      ],
+      "prompt": "Heyetin hangi hasar oranını esas alması gerektiğini ve tazminatın hesabını kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü beyan",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_hesap"],
+          "law": "Genel Şartlar B.2/2 · B.4/2 · B.5",
+          "note": [
+            { "if": "p1_itiraz", "text": "Beyanınız yerindeydi: itiraz süresinde yapıldı, hasat onaylıydı, şahit ağaçları Havuz'un eksperi seçti; bilirkişi de ilk raporun örneklemini yetersiz buldu. Hesap: (34 − 5) × %1 × 2.400.000 = 696.000 TL; ödenen 408.000 TL düşülünce 288.000 TL." },
+            { "if": "!p1_itiraz", "text": "Elinizdeki imkânları iyi kullandınız, ama ilk hamledeki usul hatası dosyanın tavanını belirledi: ikinci ekspertiz süresinde istenmedi ya da ürün örnek bırakılmadan toplandı." }
+          ]
+        },
+        {
+          "text": "Yeterli beyan",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_hesap"],
+          "law": "Genel Şartlar B.4/2 · B.5",
+          "note": "Bilirkişi raporuna dayandınız. Tam beyan, itirazın süresinde ve onaylı hasatla yapıldığını, şahit ağaçların Havuz'un eksperince seçildiğini ve muafiyet ile önceki ödeme düşülerek hesaplanan tutarı birlikte ortaya koyar."
+        },
+        {
+          "text": "Zayıf beyan",
+          "delta": -10,
+          "law": "Genel Şartlar B.4/2 · B.5",
+          "note": "Raporu talebinizin lehine bağlayamadınız. İtirazın süresinde yapıldığını, örneklerin onaylı bırakıldığını ve tazminatın muafiyet ile önceki ödeme düşülerek nasıl hesaplanacağını göstermeniz gerekiyordu."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) İkinci ekspertiz, ilk ekspertizden itibaren 7 gün içinde yazılı olarak istenmiştir (B.4/2). (2) Hasat Havuz eksperinin yazılı onayıyla yapılmış, şahit ağaçları Havuz'un eksperi seçip işaretlemiştir (B.2/2); örneklem taraflı değildir. (3) Bilirkişi ilk raporun altı ağaçlık örneklemini yetersiz bulmuş, hasarı %34 olarak belirlemiştir. (4) Hesap: (34 − 5) × %1 × 2.400.000 = 696.000 TL; ödenen 408.000 TL düşülünce 288.000 TL. (5) Dolu sonrası ilaçlama yapıldığından B.8'e göre indirim gerekmez. Süreyi, onaylı şahit ağaçları ve hesabı birlikte söyleyen cevap tam puan alır.",
+      "keywords": [
+        { "terms": ["7 gün", "yedi gün", "süresinde", "B.4"], "weight": 1 },
+        { "terms": ["şahit ağaç", "işaretle", "onay", "eksperin seçtiği"], "weight": 2 },
+        { "terms": ["%34", "yüzde otuz dört", "bilirkişi"], "weight": 2 },
+        { "terms": ["696.000", "288.000"], "weight": 2 },
+        { "terms": ["muafiyet", "408.000", "mahsup"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, ikinci ekspertizi ilk ekspertizden üç gün sonra, yazılı olarak istedik (B.4/2). Hasat Havuz eksperinin yazılı onayıyla yapıldı; şahit ağaçları eksperin kendisi işaretledi (B.2/2). Bilirkişi ilk raporun altı ağaçlık örneklemini yetersiz bularak hasarı %34 belirledi. 5 puan muafiyet düşülünce %29 × 2.400.000 = 696.000 TL eder; ödenen 408.000 TL mahsup edilince 288.000 TL kalır. Dolu sonrası ilaçlama yapıldığı için indirim de gerekmez."
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_hasat",
+      "winner": "p2",
+      "hukum": "Başvurunun REDDİNE,",
+      "summary": [
+        { "text": "Sigortalı ikinci ekspertiz istemeden ve Havuz'un onayını almadan, örnek bırakmadan bütün ürünü topladı (Genel Şartlar B.2, B.4/2). Kesin ekspertizdeki %22'lik oranı denetleyecek bir veri kalmadı; ödenen 408.000 TL dışında alacak ispatlanamadı." },
+        { "if": "p2_delil", "text": " Havuz vekili, delilin sigortalının kendi davranışıyla ortadan kalktığını doğru gösterdi." }
+      ]
+    },
+    {
+      "if": "p1_sure && !(p2_bakim && !p1_ilac)",
+      "winner": "draw",
+      "hukum": "Başvurunun KISMEN KABULÜ ile 144.000 TL'nin Havuz'dan alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "İkinci ekspertiz talebi 7 günlük süre geçtikten sonra yapıldığı için Havuz yeni eksper atamadı (Genel Şartlar B.4/2). Sigortalının kendi mühendisinin %40'lık raporu uzman görüşü olarak kaldı (HMK m.293); heyetin bilirkişisi hasattan önce çekilmiş fotoğraflardan hasarı ancak %28 olarak doğrulayabildi." },
+        { "text": " (28 − 5) × %1 × 2.400.000 = 552.000 TL; ödenen 408.000 TL düşüldü." },
+        { "if": "p2_gec", "text": " Havuz vekili süre aşımını ve tek taraflı raporun niteliğini doğru gösterdi." }
+      ]
+    },
+    {
+      "if": "p1_sure",
+      "winner": "p2",
+      "hukum": "Başvurunun KISMEN KABULÜ ile 48.000 TL'nin Havuz'dan alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "İkinci ekspertiz süresinde istenmedi (Genel Şartlar B.4/2); bilirkişi fotoğraflardan hasarı %28 olarak doğrulayabildi. Dolu sonrası ilaçlama da ispatlanamadığından monilya kaynaklı 4 puanlık artış düşüldü (B.8): (24 − 5) × %1 × 2.400.000 = 456.000 TL; ödenen 408.000 TL düşüldü." },
+        { "text": " Havuz vekili, 432.000 TL'lik talebin neredeyse tamamını savuşturdu." }
+      ]
+    },
+    {
+      "if": "p1_itiraz && !(p2_bakim && !p1_ilac) && !(p2_ornek && !p1_onay)",
+      "winner": "p1",
+      "hukum": "Başvurunun KISMEN KABULÜ ile 288.000 TL'nin Havuz'dan alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "İkinci ekspertiz süresinde istendi ve hasat, Havuz eksperinin işaretlediği şahit ağaçlar bırakılarak onayla yapıldı (Genel Şartlar B.2/2, B.4/2). Bilirkişi, altı ağaçlık ilk örneklemi yetersiz bularak hasarı %34 belirledi. (34 − 5) × %1 × 2.400.000 = 696.000 TL; ödenen 408.000 TL düşüldü." },
+        { "if": "p2_bakim", "text": " Bakım eksikliği iddiası, dolu sonrası koruyucu ilaçlama belgelendiği için reddedildi (B.8)." },
+        { "if": "p2_ilk", "text": " Havuz'un ilk raporun bağlayıcı olduğu tezi Genel Şartlarda dayanak bulmadı." },
+        { "if": "p2_gorev", "text": " Görevsizlik itirazı Genel Şartlar C.9 karşısında reddedildi." }
+      ]
+    },
+    {
+      "if": "p1_itiraz && !((p2_bakim && !p1_ilac) && (p2_ornek && !p1_onay))",
+      "winner": "draw",
+      "hukum": "Başvurunun KISMEN KABULÜ ile 192.000 TL'nin Havuz'dan alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "İkinci ekspertiz süresinde istendi ve hasat onaylı yapıldı; heyet ilk raporun örneklemini yetersiz buldu." },
+        { "if": "p2_bakim && !p1_ilac", "text": " Ancak dolu sonrası ilaçlama yapıldığı ispatlanamadı; bilirkişi monilya kaynaklı 4 puanlık artışı bakım yükümlülüğü ihlaline bağladı ve bu artış düşüldü (B.8)." },
+        { "if": "p2_ornek && !p1_onay", "text": " Ancak şahit ağaçların Havuz eksperince seçildiği belgelenemedi; heyet örneklemin temsil gücünü sınırlı bularak oranı %30 kabul etti." },
+        { "text": " (30 − 5) × %1 × 2.400.000 = 600.000 TL; ödenen 408.000 TL düşüldü." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Başvurunun KISMEN KABULÜ ile 96.000 TL'nin Havuz'dan alınarak başvurana ödenmesine, fazlaya ilişkin talebin REDDİNE,",
+      "summary": [
+        { "text": "Şahit ağaçların Havuz eksperince seçildiği belgelenemedi ve dolu sonrası ilaçlama ispatlanamadı. Heyet örneklemin temsil gücünü sınırlı buldu (%30) ve monilya kaynaklı 4 puanlık artışı bakım yükümlülüğü ihlaline bağlayarak düştü (B.8): (26 − 5) × %1 × 2.400.000 = 504.000 TL; ödenen 408.000 TL düşüldü." },
+        { "text": " Havuz vekili, 336.000 TL'lik talebin büyük bölümünü savuşturdu." }
+      ]
+    }
+  ]
+}

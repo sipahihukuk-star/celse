@@ -93,17 +93,16 @@ export const FORUMS: Forum[] = [
     id: "ihtk", group: "Komisyonlar", short: "İHTK",
     name: "İnsan Hakları Tazminat Komisyonu (Adalet Bakanlığı)",
     olaylar: [
-      "Ceza soruşturması ve kovuşturmaları ile hukuk ve idari yargı davalarının makul sürede sonuçlandırılmaması (6384 s.K.).",
-      "Mahkeme kararlarının geç ya da eksik icra edilmesi veya hiç icra edilmemesi.",
-      "Kapsamın genişletilmesiyle: kamulaştırma ve irtifak davalarında uzun yargılama ve enflasyon nedeniyle değer kaybı; ceza infaz kurumunda disiplin cezası itirazlarında savunma hakkının kısıtlanması, Türkçe olmayan mektupların ve yayınların engellenmesi.",
-      "Avrupa İnsan Hakları Mahkemesi ve Anayasa Mahkemesinin bu konulardaki başvuruları Komisyona yönlendirmesi."
+      "Ceza soruşturması ve kovuşturmaları ile hukuk ve idari yargı davalarının makul sürede sonuçlandırılmaması: 7499 sayılı Kanunla (2024) yargılama sürerken ya da kesin kararın öğrenilmesinden itibaren bir ay içinde doğrudan müracaat edilebilir.",
+      "Mahkeme kararlarının geç ya da eksik icra edilmesi veya hiç icra edilmemesi: Anayasa Mahkemesi ve AİHM'den Komisyona yönlendirilen başvurular.",
+      "Geçmişte genişletilen alanlar (2014, AİHM'de bekleyen başvurular için): kamulaştırma ve irtifak davalarında uzun yargılama ve enflasyon nedeniyle değer kaybı; ceza infaz kurumunda disiplin cezası itirazlarında savunma hakkının kısıtlanması, Türkçe olmayan mektupların ve yayınların engellenmesi."
     ],
     surec: [
-      "Başvuru yazılıdır ve kanunda öngörülen sürede yapılır; Komisyon dosya üzerinden inceler, ilgili yargı dosyasını ve idarenin görüşünü getirtir.",
-      "Tazminat miktarı belirlenirken AİHM ve Anayasa Mahkemesinin benzer başvurulardaki ölçütleri esas alınır."
+      "Komisyon Adalet Bakanlığında görevli dokuz hâkim ve savcıdan oluşur, üçer kişilik heyetlerle çalışır; inceleme dosya üzerinden yapılır, ilgili yargı dosyası ve idarenin görüşü getirtilir.",
+      "Komisyon dokuz ay içinde karar verir; tazminat belirlenirken AİHM ve Anayasa Mahkemesinin benzer başvurulardaki ölçütleri esas alınır. Doğrudan makul süre müracaatında yalnızca manevi tazminata hükmedilir."
     ],
-    karar: "Komisyon ihlali tespit ederse başvurana manevi (gerektiğinde maddi) tazminat ödenmesine karar verir; görev alanı dışındaki ya da süresinde yapılmayan başvuruları reddeder.",
-    yol: "Komisyon kararına karşı kanunda öngörülen sürede Ankara'daki bölge idare mahkemesine itiraz edilebilir; bu karardan sonra Anayasa Mahkemesine bireysel başvuru yolu açıktır."
+    karar: "Komisyon ihlali tespit ederse başvurana tazminat ödenmesine karar verir; görev alanı dışındaki ya da süresinde yapılmayan başvuruları reddeder.",
+    yol: "Komisyon kararına karşı tebliğden itibaren on beş gün içinde, Komisyon aracılığıyla Ankara Bölge İdare Mahkemesine itiraz edilir; bu karar kesindir. Ardından Anayasa Mahkemesine bireysel başvuru yolu açıktır."
   },
   {
     id: "sigorta", group: "Komisyonlar", short: "STK",

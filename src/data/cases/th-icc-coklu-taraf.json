@@ -1,0 +1,794 @@
+{
+  "id": "th-icc-coklu-taraf",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "icc",
+  "difficulty": "zor",
+  "title": "Üç Sözleşme, Bir Masa",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Çok taraflı ve çok sözleşmeli tahkim: katılma ve birleştirme",
+  "court": "ICC Uluslararası Tahkim Divanı · Dava No. 28855/GZR (Tahkim yeri: Cenevre)",
+  "courtShort": "ICC · CENEVRE",
+  "esas": "ICC Dava No. 28855/GZR",
+  "kararTarihi": "09.06.2027",
+  "color": "#3a3f5c",
+  "teaser": "Rüzgâr santrali altı ay geç devreye girdi; yüklenicinin mali durumu sarsıntıda. İşveren ana şirketin garantisine de uzanmak istiyor, ama önceki avukat ana şirkete ayrı bir tahkim açmış.",
+  "bench": {
+    "judges": 3,
+    "title": "Başhakem ve iki hakem"
+  },
+  "inscription": null,
+  "sides": {
+    "p1": {
+      "role": "Davacı (İşveren) vekili",
+      "short": "İşveren"
+    },
+    "p2": {
+      "role": "Davalı (Yüklenici) ve ek taraf (Ana şirket) vekili",
+      "short": "Yüklenici"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Başhakem",
+      "np": "red",
+      "look": {
+        "kind": "civil",
+        "skin": "#e5bf9c",
+        "hair": "#6a6a70",
+        "style": "short",
+        "beard": true,
+        "shirt": "#2b2f36",
+        "inner": "#e8e4dc"
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "civil",
+        "skin": "#d6a57f",
+        "hair": "#231b16",
+        "style": "long",
+        "glasses": true,
+        "shirt": "#232b37",
+        "inner": "#ebe7df"
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "civil",
+        "skin": "#f3d5bb",
+        "hair": "#8a6a48",
+        "style": "short",
+        "shirt": "#2a2d34",
+        "inner": "#e6e2da"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Karaburun Rüzgâr Enerjisi A.Ş., İzmir Karaburun'daki rüzgâr santralini anahtar teslim (EPC) sözleşmesiyle Alman Nordwind Anlagenbau GmbH'ye yaptırdı. Santral 30.06.2025 yerine 15.01.2026'da devreye girdi. Sözleşmedeki gecikme tazminatı 6,3 milyon Avro."
+    },
+    {
+      "who": "narr",
+      "text": "Yüklenicinin borçlarını, İsviçreli ana şirketi Nordwind Holding AG ayrı bir sözleşmeyle garanti ediyor. Yüklenicinin mali durumu kötüleşti; işveren için asıl güvence ana şirket."
+    },
+    {
+      "who": "narr",
+      "text": "İşverenin önceki vekili 02.03.2026'da yükleniciye karşı ICC'de 28855 numaralı tahkimi, 10.03.2026'da da ana şirkete karşı garantiye dayanan 28903 numaralı ayrı bir tahkimi başlattı. Hiçbir davada henüz hakem onaylanmadı. Dosyayı bugün, 01.04.2026'da devraldınız."
+    }
+  ],
+  "docs": [
+    {
+      "t": "EPC sözleşmesi m.20 · Tahkim",
+      "d": "ICC Tahkim Kuralları, üç hakem, tahkim yeri Cenevre, dili İngilizce. Sözleşmeye Türk hukuku uygulanır."
+    },
+    {
+      "t": "Ana şirket garantisi m.8 · Tahkim",
+      "d": "ICC Tahkim Kuralları, üç hakem, tahkim yeri Cenevre, dili İngilizce. Garantiye İsviçre hukuku uygulanır."
+    },
+    {
+      "t": "Ana şirket garantisi m.2–3",
+      "d": "Holding, yüklenicinin EPC sözleşmesinden doğan ödeme borçlarını garanti eder. İşveren, yükleniciye yazılı talepte bulunup 30 gün içinde ödeme alamazsa Holding'den ödeme isteyebilir. Holding, yüklenicinin bütün savunmalarını ileri sürebilir. Üst sınır: 8.000.000 Avro."
+    },
+    {
+      "t": "Yedek parça sözleşmesi (2025) · Tahkim",
+      "d": "İşveren ile yüklenici arasında. ICC Tahkim Kuralları, üç hakem, Cenevre, İngilizce. Yüklenicinin ödenmemiş faturaları: 1.100.000 Avro."
+    },
+    {
+      "t": "İşletme ve bakım sözleşmesi · Tahkim",
+      "d": "İşveren ile yüklenicinin Türk bağlı şirketi Nordwind Servis Ltd. Şti. arasında. İSTAC Tahkim Kuralları, tek hakem, tahkim yeri İstanbul. Ödenmemiş bakım ücretleri: 400.000 Avro."
+    },
+    {
+      "t": "Talep yazıları",
+      "d": "İşveren 10.01.2026'da yükleniciden gecikme tazminatını yazılı olarak istedi; ödeme yapılmadı. 15.02.2026'da Holding'e garanti m.3 uyarınca ödeme talebi gönderdi."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_m20",
+      "type": "belge",
+      "title": "EPC sözleşmesi m.20",
+      "desc": "ICC, üç hakem, Cenevre, İngilizce; Türk hukuku."
+    },
+    {
+      "id": "ev_g8",
+      "type": "belge",
+      "title": "Ana şirket garantisi m.8",
+      "desc": "ICC, üç hakem, Cenevre, İngilizce; İsviçre hukuku. Son cümle: ‘Bu garantiden doğan bir uyuşmazlık, EPC sözleşmesinden doğan bir uyuşmazlıkla birlikte, aynı tahkimde çözülebilir.’"
+    },
+    {
+      "id": "ev_g23",
+      "type": "belge",
+      "title": "Ana şirket garantisi m.2–3",
+      "desc": "Holding yüklenicinin EPC borçlarını garanti eder; yükleniciye yazılı talep ve 30 gün şartı; üst sınır 8.000.000 Avro."
+    },
+    {
+      "id": "ev_talep",
+      "type": "belge",
+      "title": "Talep yazıları",
+      "desc": "10.01.2026'da yükleniciye, 15.02.2026'da Holding'e yazılı talep."
+    },
+    {
+      "id": "ev_om",
+      "type": "belge",
+      "title": "İşletme ve bakım sözleşmesi",
+      "desc": "Taraflar işveren ve Nordwind Servis Ltd. Şti.; İSTAC, İstanbul, tek hakem."
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "İki ayrı ICC tahkimi var: 28855 (işveren–yüklenici, EPC) ve 28903 (işveren–Holding, garanti). Aynı gecikme, iki ayrı heyet, iki ayrı karar riski."
+        }
+      ],
+      "prompt": "Holding'i yüklenicinin karşısına, aynı yargılamaya nasıl getireceksiniz?",
+      "choices": [
+        {
+          "text": "Hakem onaylanmadan Sekretaryaya, Holding'in 28855'e katılması için katılma talebi ver; 28903'ten çekil.",
+          "delta": 20,
+          "set": [
+            "p1_katilma"
+          ],
+          "law": "ICC Kuralları m.7(1), m.9",
+          "note": "Ek taraf, herhangi bir hakemin onaylanmasından ya da atanmasından önce, Sekretaryaya verilecek katılma talebiyle yargılamaya dahil edilebilir (m.7(1)). Farklı sözleşmelerden doğan talepler tek tahkimde ileri sürülebilir (m.9). Doğru zamanda, doğru araç.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Katılma talebi 03.04.2026'da verildi; 28903'ten çekilindi. Holding'e cevap için süre tanındı."
+            }
+          ]
+        },
+        {
+          "text": "ICC Divanından, 28903'ün 28855 ile birleştirilmesini iste; iki dosya tek heyette görülsün.",
+          "delta": -5,
+          "set": [
+            "p1_birlesme"
+          ],
+          "law": "ICC Kuralları m.10",
+          "note": "Birleştirme için ya bütün tarafların anlaşması (m.10(a)), ya bütün taleplerin aynı tahkim anlaşmasına ya da anlaşmalarına dayanması (m.10(b)), ya da tahkimlerin aynı taraflar arasında olması gerekir (m.10(c)). 28855 işveren–yüklenici, 28903 işveren–Holding arasında; Holding karşı çıktı. Divan talebi reddetti; iki tahkim ayrı yürüyecek.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Holding birleştirmeye karşı çıktı; ICC Divanı talebi reddetti. İki tahkim ayrı ayrı sürüyor."
+            }
+          ]
+        },
+        {
+          "text": "Hakem kurulunun kurulmasını bekle; kurulduktan sonra kuruldan Holding'in davaya katılmasına karar vermesini iste.",
+          "delta": -10,
+          "set": [
+            "p1_gec"
+          ],
+          "law": "ICC Kuralları m.7(1), m.7(5)",
+          "note": "Hakemler onaylandıktan sonra katılma ancak bütün taraflar, ek taraf da dahil, kabul ederse ya da m.7(5) şartlarıyla mümkündür. m.7(5) ek tarafın kurulun oluşumunu kabul etmesini arar; Holding etmedi. Katılma talebi reddedildi.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Holding, kurulmuş hakem kurulunu kabul etmediğini bildirdi; kurul katılma talebini reddetti."
+            }
+          ]
+        },
+        {
+          "text": "Holding'e ‘şirketler grubu’ ilkesi gereği EPC tahkim şartıyla bağlı olduğunu bildir; Görev Belgesine davalı diye yaz.",
+          "delta": -15,
+          "set": [
+            "p1_grup"
+          ],
+          "law": "ICC Kuralları m.7(1)",
+          "note": "Yargılamaya yeni bir taraf ancak usulüne uygun katılma talebiyle girer (m.7(1)). Holding'in kendi imzaladığı garantide zaten bir tahkim şartı varken tartışmalı bir ‘grup’ teorisine dayanmak gereksiz ve zayıf. Görev Belgesi taraf eklemenin yolu değil.",
+          "reply": [
+            {
+              "who": "narr",
+              "text": "Holding, Görev Belgesini imzalamayı reddetti; hakem kurulu Holding'i taraf saymadı."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "if": "p1_katilma",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Katılma talebi geldi. Yüklenici, işverenin gösterdiği hakemden önce kendi hakemini göstermişti. Holding'in yönetimi ‘bizim de kendi hakemimiz olsun’ diyor."
+        }
+      ],
+      "prompt": "Holding adına nasıl hareket edeceksiniz?",
+      "choices": [
+        {
+          "text": "Süresinde cevap ver; yetki itirazlarını sakla, hakemi yükleniciyle birlikte, ortak olarak göster.",
+          "delta": 15,
+          "set": [
+            "p2_ortak"
+          ],
+          "law": "ICC Kuralları m.7(4), m.12(6)–(7)",
+          "note": "Ek taraf, davacıyla ya da davalılarla birlikte ortak hakem gösterebilir (m.12(7)); birden fazla davalı hakemi birlikte gösterir (m.12(6)). İki şirketi aynı vekil temsil ettiği için ortak gösterim, hakem seçme hakkını korumanın en güvenli yolu."
+        },
+        {
+          "text": "Holding kendi hakemini ayrıca göstersin; yüklenicinin hakemiyle birlikte davalı tarafta iki hakem olsun.",
+          "delta": -10,
+          "set": [
+            "p2_ayri"
+          ],
+          "law": "ICC Kuralları m.12(6), m.12(8)",
+          "note": "Üç kişilik kurulda davalı tarafı tek hakem gösterir. Davalılar ortak gösterim yapmaz ve kurulun oluşumu konusunda anlaşılamazsa, Divan bütün hakemleri kendisi atayabilir (m.12(8)). Holding'in ısrarı üzerine Divan üç hakemi de atadı; yüklenicinin seçtiği hakem de gitti."
+        },
+        {
+          "text": "Cevap verme; Holding EPC'ye taraf değil, ICC onun hakkında yargılama yürütemez, karar da onu bağlamaz.",
+          "delta": -10,
+          "set": [
+            "p2_sessiz"
+          ],
+          "law": "ICC Kuralları m.6(3)–(4), m.6(8)",
+          "note": "Bir taraf katılmasa da yargılama yürür. Yetki sorununu önce Divan ön inceleme düzeyinde (prima facie), sonra hakem kurulu kesin olarak çözer (m.6(3)–(4)). Susmak, Holding'i hakem seçme ve savunma imkânından yoksun bıraktı."
+        },
+        {
+          "text": "Cenevre mahkemesinden, ICC'deki katılma işleminin durdurulması için ihtiyati tedbir iste.",
+          "delta": -15,
+          "set": [
+            "p2_tedbir"
+          ],
+          "law": "İsviçre MÖHUK m.186, m.190(2)(b)",
+          "note": "Hakem kurulu kendi yetkisine kendisi karar verir (m.186); devlet mahkemesine yetki sorunu ancak karardan sonra, iptal aşamasında götürülür (m.190(2)(b)). Talep reddedildi, zaman ve itibar kaybettiniz."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "office",
+      "if": "p1_katilma",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Holding, Divana ‘EPC'den ve garantiden doğan talepler birlikte görülemez’ diye itiraz etti. ICC Divanı, yargılamanın devam edip etmeyeceğine ön inceleme düzeyinde (prima facie) karar verecek; görüşünüzü yazılı istiyor."
+        }
+      ],
+      "prompt": "Divana, Holding'e karşı garantiden doğan taleplerin neden 28855'te, EPC talepleriyle birlikte görülebileceğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü görüş",
+          "min": 70,
+          "delta": 20,
+          "set": [
+            "p1_guclu"
+          ],
+          "law": "ICC Kuralları m.6(4), m.7(1), m.9",
+          "note": "Ön inceleme ölçütünü eksiksiz kurdunuz: katılma talebinin süresinde verilmesi, çok sözleşmeli tahkime imkân veren m.9, tahkim anlaşmalarının uyumluluğu ve tarafların taleplerin birlikte görülmesine rıza göstermiş olabileceği."
+        },
+        {
+          "text": "Yeterli görüş",
+          "min": 40,
+          "delta": 8,
+          "set": [
+            "p1_yeterli"
+          ],
+          "law": "ICC Kuralları m.9",
+          "note": "İki şartın aynı olduğunu söylediniz. Güçlü görüş, m.6(4)'teki iki ölçütü (uyumluluk ve birlikte görülmeye rıza) ayrı ayrı gösterir ve katılmanın hakem onayından önce istendiğini de vurgular."
+        },
+        {
+          "text": "Zayıf görüş",
+          "delta": -10,
+          "law": "ICC Kuralları m.6(4), m.9",
+          "note": "Usul ekonomisine ya da Holding'in yükleniciyle aynı grupta olmasına dayandınız. Belirleyici olan, tahkim anlaşmalarının uyumluluğu ve tarafların birlikte görülmeye rızasıydı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Katılma talebi, hiçbir hakem onaylanmadan veya atanmadan verildi (ICC m.7(1)). (2) Farklı sözleşmelerden doğan talepler, bir ya da birden fazla tahkim anlaşmasına dayansa da tek tahkimde ileri sürülebilir (m.9). (3) Divan, ön inceleme düzeyinde, tahkim anlaşmalarının uyumlu olabileceğine ve tarafların taleplerin birlikte görülmesine rıza göstermiş olabileceğine kanaat getirirse yargılama devam eder (m.6(4)(ii)). (4) Uyumluluk: iki şart da ICC Kuralları, üç hakem, Cenevre ve İngilizce öngörüyor; esasa farklı hukuk (Türk ve İsviçre hukuku) uygulanması uyumluluğu bozmaz. (5) Rıza: garanti EPC borçlarını teminat altına alıyor ve garanti m.8 uyuşmazlıkların birlikte çözülebileceğini açıkça söylüyor. Zamanlamayı, m.9'u ve iki ölçütü birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        {
+          "terms": [
+            "m.7(1)",
+            "7(1)",
+            "katılma talebi",
+            "onaylanmadan",
+            "Request for Joinder"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "m.9",
+            "madde 9",
+            "çok sözleşme",
+            "birden fazla sözleşme",
+            "multiple contracts"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "uyumlu",
+            "uyumluluk",
+            "compatible",
+            "Cenevre",
+            "üç hakem"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "birlikte görül",
+            "birlikte çözül",
+            "rıza",
+            "m.8",
+            "aynı tahkim"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "prima facie",
+            "ön inceleme",
+            "m.6(4)",
+            "6(4)"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "farklı hukuk",
+            "İsviçre hukuku",
+            "esasa uygulanacak"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Katılma talebi hiçbir hakem onaylanmadan verildi (m.7(1)). m.9, farklı sözleşmelerden doğan taleplerin tek tahkimde ileri sürülmesine izin verir. m.6(4)(ii) ölçütleri karşılanıyor: iki tahkim şartı da ICC Kuralları, üç hakem, Cenevre ve İngilizce öngörüyor; esasa farklı hukuk uygulanması uyumluluğu bozmaz. Garanti EPC borçlarını teminat altına alıyor ve m.8, uyuşmazlıkların aynı tahkimde birlikte çözülebileceğini açıkça söylüyor. Yargılama Holding bakımından da devam etmelidir."
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "CEVAP DİLEKÇESİ · Yüklenicinin işverenden alacakları var: yedek parça faturaları (1,1 milyon Avro) ve bağlı şirketi Nordwind Servis'in bakım ücretleri (400.000 Avro)."
+        }
+      ],
+      "prompt": "Yüklenicinin alacaklarını nasıl ileri süreceksiniz?",
+      "choices": [
+        {
+          "text": "Yedek parça alacağını cevap dilekçesinde karşı talep olarak ileri sür; bakım ücretlerini İSTAC'a bırak.",
+          "delta": 20,
+          "set": [
+            "p2_karsi"
+          ],
+          "law": "ICC Kuralları m.5(5), m.9",
+          "note": "Karşı talepler cevapla birlikte sunulur (m.5(5)). Yedek parça sözleşmesinin şartı EPC şartıyla aynı (ICC, üç hakem, Cenevre) ve taraflar aynı; m.9 uyarınca aynı tahkimde ileri sürülebilir. Bakım sözleşmesinin tarafı başka bir şirket ve şartı İSTAC; ona burada yer yok."
+        },
+        {
+          "text": "Hem yedek parça hem bakım alacaklarını karşı talep yap; hepsi aynı santral projesinden doğuyor.",
+          "delta": -15,
+          "set": [
+            "p2_om"
+          ],
+          "law": "ICC Kuralları m.6(4), m.9",
+          "note": "Bakım alacağının sahibi yüklenici değil, Nordwind Servis; şart da ICC değil, İSTAC, İstanbul, tek hakem. Bu talep için ne tarafların ne de tahkim anlaşmalarının uyumu var; hakem kurulu bu kısmı yetkisizlikle reddetti. Yedek parça alacağı ise usulüne uygun ileri sürülemediği için ayrı bir aşamaya kaldı."
+        },
+        {
+          "text": "Şimdilik bekle; yedek parça alacağını Görev Belgesi imzalandıktan sonra, ilk esas dilekçesinde ileri sür.",
+          "delta": -5,
+          "set": [
+            "p2_sonra"
+          ],
+          "law": "ICC Kuralları m.5(5), m.23(4)",
+          "note": "Görev Belgesinden sonra yeni talep ancak hakem kurulunun izniyle ileri sürülebilir (m.23(4)). Kurul izin vermedi; alacak ayrı bir tahkime kaldı."
+        },
+        {
+          "text": "Yedek parça için ayrı bir ICC tahkimi başlat ve Divandan onun 28855'le birleştirilmesini iste.",
+          "delta": -5,
+          "set": [
+            "p2_birlesme"
+          ],
+          "law": "ICC Kuralları m.10",
+          "note": [
+            {
+              "if": "p1_katilma",
+              "text": "28855'in tarafları artık işveren, yüklenici ve Holding; yeni tahkim ise yalnız işveren ile yüklenici arasında. m.10(c) aynı taraflar arasında tahkim arıyor; işveren de birleştirmeye rıza göstermedi. Divan talebi reddetti."
+            },
+            {
+              "if": "!p1_katilma",
+              "text": "Birleştirme mümkündü, ama gereksiz bir dolambaç: aynı alacak, m.9 uyarınca doğrudan cevap dilekçesinde karşı talep olarak ileri sürülebilirdi. İşveren itiraz etti; Divanın kararı aylar aldı."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "if": "p1_katilma",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "ICC Divanı, yargılamanın Holding bakımından da devam etmesine karar verdi; yetki sorununu kesin olarak çözmek hakem kuruluna kaldı. Cenevre'de yetki duruşması."
+        },
+        {
+          "who": "judge",
+          "text": "Davacı vekili, Holding'in itirazına cevabınız?"
+        }
+      ],
+      "statement": {
+        "who": "p2",
+        "text": "Sayın Başhakem, Holding garanti için ayrı bir tahkim şartı imzaladı. EPC uyuşmazlıklarıyla birlikte, yüklenicinin yargılamasında yargılanmaya hiçbir zaman rıza göstermedi."
+      },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": [
+        "ev_g8"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "p1_riza"
+        ],
+        "law": "ICC Kuralları m.6(4)(ii), m.9",
+        "note": "Garanti m.8'in son cümlesi, garantiden doğan uyuşmazlıkların EPC uyuşmazlıklarıyla birlikte aynı tahkimde çözülebileceğini açıkça söylüyor. Rıza, Holding'in kendi imzasını taşıyan metinde. Şartların geri kalanı da EPC şartıyla birebir aynı.",
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Garanti m.8 tutanağa geçirildi. Davalılar vekili, bu cümlenin Holding'in imzasıyla yürürlükte olduğuna itirazınız var mı?"
+          },
+          {
+            "who": "p2",
+            "text": "Yok, Sayın Başhakem."
+          }
+        ]
+      },
+      "responses": {
+        "ev_m20": {
+          "delta": 5,
+          "note": "EPC şartı, iki şartın uyumlu olduğunu gösterir; ama itiraz rızaya ilişkindi. Rızayı gösteren belge, Holding'in imzaladığı garanti m.8'di."
+        },
+        "ev_g23": {
+          "delta": 5,
+          "note": "Garantinin EPC borçlarını teminat altına alması, ilişkinin aynı hukuki ilişkiye dayandığını gösterir; ama birlikte yargılanmaya açık rıza garanti m.8'deydi."
+        },
+        "ev_talep": {
+          "delta": -5,
+          "note": "Talep yazıları garantinin esasına ilişkin; yetki itirazına cevap değil."
+        },
+        "ev_om": {
+          "delta": -10,
+          "note": "Bakım sözleşmesi bambaşka bir şirketle ve İSTAC şartıyla yapılmış; uyumsuz şartlara dikkat çekerek Holding'in tezine yardım ettiniz."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu belge Holding'in birlikte yargılanmaya rızasını göstermiyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "İtiraz etmediniz; Holding'in ‘rıza yok’ savunması cevapsız kaldı."
+      }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davalılar vekili, esasa ilişkin savunmanızı özetleyin.",
+          "if": "p1_katilma"
+        },
+        {
+          "who": "judge",
+          "text": "Davalı vekili, esasa ilişkin savunmanızı özetleyin.",
+          "if": "!p1_katilma"
+        }
+      ],
+      "prompt": "Hakem kuruluna, gecikme tazminatı talebi karşısında müvekkillerin sorumluluğunun sınırlarını kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": [
+            "p2_guclu"
+          ],
+          "law": "Garanti m.2–3 · ICC Kuralları m.9",
+          "note": "Savunmayı sözleşme metinlerine oturttunuz: Holding'in sorumluluğu yüklenicinin borcuna bağlı ve 8 milyon Avroyla sınırlı; Holding yüklenicinin bütün savunmalarını kullanabilir; yedek parça karşı talebi takasla tazminattan düşülmeli."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": [
+            "p2_yeterli"
+          ],
+          "law": "Garanti m.2–3",
+          "note": "Garantinin sınırlarına değindiniz. Güçlü savunma, garantinin yüklenicinin borcuna bağlılığını, üst sınırı ve takası birlikte gösterir."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "Garanti m.2–3",
+          "note": "Savunmayı yalnız gecikmenin ‘küçük’ olduğuna dayandırdınız ya da yetki itirazını tekrarladınız. Sözleşme metinlerinin çizdiği sınırları kullanmadınız."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Holding'in sorumluluğu yüklenicinin EPC borcuna bağlıdır; Holding garanti m.3 uyarınca yüklenicinin bütün savunmalarını ileri sürebilir. (2) Sorumluluk 8.000.000 Avro üst sınırıyla sınırlıdır ve ödeme talebi, yükleniciye yazılı talepten sonra 30 günlük süreye bağlıdır. (3) Gecikme tazminatı sözleşmede belirlenmiş tutarla sınırlıdır; aşan zarar istenemez. (4) Yüklenicinin yedek parça alacağı (1.100.000 Avro) aynı tahkimde ileri sürülmüştür (ICC m.5(5), m.9) ve takas yoluyla tazminattan düşülmelidir. Bağlılığı, üst sınırı ve takası birlikte söylemek tam puan için gerekir.",
+      "keywords": [
+        {
+          "terms": [
+            "bağlı",
+            "fer'i",
+            "feri",
+            "yüklenicinin savunma",
+            "savunmalarını ileri sür",
+            "accessory"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "8.000.000",
+            "8 milyon",
+            "üst sınır",
+            "cap",
+            "sınırlı"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "takas",
+            "set-off",
+            "mahsup",
+            "1.100.000",
+            "1,1 milyon",
+            "yedek parça"
+          ],
+          "weight": 2
+        },
+        {
+          "terms": [
+            "30 gün",
+            "yazılı talep",
+            "m.3"
+          ],
+          "weight": 1
+        },
+        {
+          "terms": [
+            "gecikme tazminatı",
+            "6,3 milyon",
+            "götürü"
+          ],
+          "weight": 1
+        }
+      ],
+      "model": "Sayın Başhakem, Holding'in sorumluluğu yüklenicinin EPC borcuna bağlıdır; garanti m.3 uyarınca Holding yüklenicinin bütün savunmalarını ileri sürebilir ve sorumluluğu 8.000.000 Avroyla sınırlıdır. Gecikme tazminatı sözleşmede belirlenmiş tutarla sınırlıdır. Yüklenicinin aynı tahkimde ileri sürdüğü 1.100.000 Avro yedek parça alacağı da takas yoluyla bu tutardan düşülmelidir."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "p2_karsi",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Davacı vekili, yedek parça karşı talebine cevabınız?"
+        }
+      ],
+      "prompt": "Karşı talebe nasıl cevap vereceksiniz?",
+      "choices": [
+        {
+          "text": "Yetkiye itiraz etme; esasa gir: 2025'te teslim edilen dişli kutusu parçalarının ayıplı olduğunu raporla göster.",
+          "delta": 10,
+          "set": [
+            "p1_ayip"
+          ],
+          "law": "ICC Kuralları m.9",
+          "note": "Yedek parça şartı EPC şartıyla uyumlu ve taraflar aynı; yetki itirazı tutmazdı. Savunmayı esasa, faturaların karşılığı olan parçaların ayıbına yönelttiniz; hakem kurulu karşı talebi kısmen reddetti."
+        },
+        {
+          "text": "Karşı talep başka bir sözleşmeden doğuyor; hakem kurulunun bu talep için yetkisi yok, reddedilsin.",
+          "delta": -10,
+          "set": [
+            "p1_yetki"
+          ],
+          "law": "ICC Kuralları m.6(4), m.9",
+          "note": "m.9, farklı sözleşmelerden doğan taleplerin tek tahkimde ileri sürülmesine izin verir; iki şart da ICC, üç hakem, Cenevre. Yetki itirazı reddedildi ve esasa ilişkin savunma için vakit kaybettiniz."
+        },
+        {
+          "text": "Karşı talebin ayrılmasını ve ayrı bir tahkimde görülmesini ICC Divanından iste; bu dosya hızlı bitsin.",
+          "delta": -5,
+          "set": [
+            "p1_ayir"
+          ],
+          "law": "ICC Kuralları m.6(4), m.9",
+          "note": "Talep usulüne uygun ileri sürüldükten sonra bunu ayırmak Divanın değil, gerekirse hakem kurulunun usul yönetiminin konusudur; ayırmanın da makul bir gerekçesi yok. Talep reddedildi."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "if": "p1_katilma",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Görev Belgesi imzalandı. Holding, işverenin garanti talebini haksız yere yaptığını ve bunun Holding'in kredi derecelendirmesine zarar verdiğini ileri sürerek işverenden tazminat istemek istiyor."
+        }
+      ],
+      "prompt": "Bu yeni talebi nasıl ileri süreceksiniz?",
+      "choices": [
+        {
+          "text": "Hakem kurulundan, yeni talebi ileri sürmek için izin iste; gecikme ve usul durumunu gerekçede açıkla.",
+          "delta": 10,
+          "set": [
+            "p2_izin"
+          ],
+          "law": "ICC Kuralları m.23(4)",
+          "note": "Görev Belgesinden sonra, belgenin sınırları dışına çıkan yeni talepler ancak hakem kurulunun izniyle ileri sürülebilir; kurul talebin niteliğini, yargılamanın aşamasını ve diğer durumları gözetir (m.23(4)). Doğru yol."
+        },
+        {
+          "text": "İzin isteme; yeni talebi bir sonraki esas dilekçesine ekle, kurul nasılsa değerlendirir ve karşı tarafa süre verir.",
+          "delta": -10,
+          "set": [
+            "p2_izinsiz"
+          ],
+          "law": "ICC Kuralları m.23(4)",
+          "note": "Görev Belgesinden sonra yeni talep izinsiz ileri sürülemez (m.23(4)). Kurul talebi dikkate almadı."
+        },
+        {
+          "text": "Ayrı bir ICC tahkimi başlat ve Divandan, onu m.10 uyarınca 28855'le birleştirmesini iste.",
+          "delta": -5,
+          "set": [
+            "p2_ayritahkim"
+          ],
+          "law": "ICC Kuralları m.10",
+          "note": "Yeni tahkim yalnız Holding ile işveren arasında olacak; 28855'in tarafları ise üç. m.10(c) aynı taraflar arasında tahkim arıyor; işveren de birleştirmeye rıza göstermedi. Divan talebi reddetti."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_katilma && (p1_riza || p1_guclu) && p2_karsi && p2_guclu && !p1_ayip",
+      "winner": "draw",
+      "hukum": "Davanın KISMEN KABULÜ ile davalı Nordwind Anlagenbau GmbH'nin davacıya 6.300.000 Avro gecikme tazminatı ödemesine; karşı talebin KABULÜ ile 1.100.000 Avronun takas yoluyla mahsubuna; ek taraf Nordwind Holding AG'nin kalan 5.200.000 Avrodan garanti m.2–3 uyarınca müteselsilen sorumlu olduğuna,",
+      "summary": [
+        {
+          "text": "İşveren vekili, Holding'i hakem onayından önce yargılamaya kattı (ICC m.7(1)) ve garantiden doğan taleplerin EPC talepleriyle birlikte görülebileceğini gösterdi (m.6(4), m.9)."
+        },
+        {
+          "text": " Yüklenici vekili ise yedek parça alacağını cevap dilekçesinde, doğru tahkimde karşı talep olarak ileri sürdü (m.5(5)) ve garantinin sınırlarını güçlü biçimde savundu; tazminat takasla azaldı."
+        }
+      ]
+    },
+    {
+      "if": "p1_katilma && (p1_riza || p1_guclu)",
+      "winner": "p1",
+      "hukum": [
+        {
+          "text": "Davanın KABULÜ ile davalı Nordwind Anlagenbau GmbH ile ek taraf Nordwind Holding AG'nin, Holding bakımından garanti m.2–3'teki sınırlar içinde, davacıya müteselsilen 6.300.000 Avro gecikme tazminatı ödemesine,"
+        },
+        {
+          "if": "p2_karsi && p1_ayip",
+          "text": " karşı talebin KISMEN KABULÜ ile 450.000 Avronun takas yoluyla mahsubuna, fazlaya ilişkin karşı talebin REDDİNE,"
+        },
+        {
+          "if": "p2_karsi && !p1_ayip",
+          "text": " karşı talebin KABULÜ ile 1.100.000 Avronun takas yoluyla mahsubuna,"
+        },
+        {
+          "if": "p2_om",
+          "text": " Nordwind Servis'in bakım ücretlerine ilişkin karşı talebin yetkisizlik nedeniyle REDDİNE,"
+        }
+      ],
+      "summary": [
+        {
+          "text": "İşveren vekili, Holding'i hakemler onaylanmadan katılma talebiyle yargılamaya getirdi (ICC m.7(1))."
+        },
+        {
+          "if": "p1_riza",
+          "text": " Garanti m.8'deki ‘aynı tahkimde birlikte çözülebilir’ hükmü, Holding'in rızasını gösterdi."
+        },
+        {
+          "if": "!p1_riza",
+          "text": " Tahkim şartlarının uyumluluğu ve garantinin EPC borçlarını teminat altına alması, taleplerin birlikte görülmesini haklı kıldı (m.6(4), m.9)."
+        },
+        {
+          "text": " Yüklenici gecikmeden sorumlu bulundu; ana şirket garantisi, işverene yüklenicinin mali sıkıntısına karşı güvence sağladı."
+        },
+        {
+          "if": "p2_ayri",
+          "text": " Davalıların ayrı ayrı hakem göstermekte ısrar etmesi üzerine Divan bütün kurulu kendisi atamıştı (m.12(8))."
+        },
+        {
+          "if": "p2_izinsiz",
+          "text": " Holding'in izinsiz ileri sürdüğü yeni talep incelenmedi (m.23(4))."
+        }
+      ]
+    },
+    {
+      "if": "p2_karsi",
+      "winner": "p2",
+      "hukum": "Davanın KISMEN KABULÜ ile davalı Nordwind Anlagenbau GmbH'nin davacıya 6.300.000 Avro gecikme tazminatı ödemesine; karşı talebin KABULÜ ile 1.100.000 Avronun takas yoluyla mahsubuna; Nordwind Holding AG bu yargılamaya taraf olmadığından onun hakkında karar verilmesine YER OLMADIĞINA,",
+      "summary": [
+        {
+          "if": "p1_birlesme",
+          "text": "İşveren vekili, aynı taraflar arasında olmayan iki tahkimin birleştirilmesini istedi; ICC m.10'un şartları yoktu ve Holding rıza göstermedi."
+        },
+        {
+          "if": "p1_gec",
+          "text": "İşveren vekili katılmayı hakem kurulu kurulduktan sonra istedi; Holding kurulun oluşumunu kabul etmediğinden m.7(5) işlemedi."
+        },
+        {
+          "if": "p1_grup",
+          "text": "İşveren vekili Holding'i katılma talebi olmadan, Görev Belgesine yazarak taraf yapmaya çalıştı; bu yol ICC Kurallarında yok."
+        },
+        {
+          "if": "p1_katilma",
+          "text": "Holding'in birlikte yargılanmaya rızası ve tahkim şartlarının uyumluluğu gösterilemedi; Holding bu yargılamaya bağlanamadı."
+        },
+        {
+          "text": " İşveren, mali sıkıntıdaki yükleniciye karşı bir karar aldı; ana şirketin garantisine bu tahkimde ulaşamadı. Yüklenici vekili ise yedek parça alacağını doğru zamanda, doğru tahkimde ileri sürüp takas ettirdi."
+        }
+      ]
+    },
+    {
+      "winner": "draw",
+      "hukum": "Davanın KISMEN KABULÜ ile davalı Nordwind Anlagenbau GmbH'nin davacıya 6.300.000 Avro gecikme tazminatı ödemesine; Nordwind Holding AG bu yargılamaya taraf olmadığından onun hakkında karar verilmesine YER OLMADIĞINA,",
+      "summary": [
+        {
+          "if": "p1_birlesme",
+          "text": "İşveren vekili, aynı taraflar arasında olmayan iki tahkimin birleştirilmesini istedi; ICC m.10'un şartları yoktu ve Holding rıza göstermedi. "
+        },
+        {
+          "if": "p1_gec",
+          "text": "İşveren vekili katılmayı hakem kurulu kurulduktan sonra istedi; Holding kurulun oluşumunu kabul etmediğinden m.7(5) işlemedi. "
+        },
+        {
+          "if": "p1_grup",
+          "text": "İşveren vekili Holding'i katılma talebi olmadan, Görev Belgesine yazarak taraf yapmaya çalıştı; bu yol ICC Kurallarında yok. "
+        },
+        {
+          "if": "p1_katilma",
+          "text": "Holding'in birlikte yargılanmaya rızası ve tahkim şartlarının uyumluluğu gösterilemedi. "
+        },
+        {
+          "text": "Yüklenici gecikmeden sorumlu bulundu, ama ana şirket bu yargılamanın dışında kaldı."
+        },
+        {
+          "if": "p2_om",
+          "text": " Nordwind Servis'in bakım ücretlerine ilişkin karşı talep yetkisizlikle reddedildi; yedek parça alacağı da usulüne uygun ileri sürülmediği için takasa konu olmadı."
+        },
+        {
+          "if": "p2_sonra",
+          "text": " Yüklenicinin yedek parça alacağı Görev Belgesinden sonra izinsiz ileri sürüldüğü için incelenmedi (m.23(4))."
+        },
+        {
+          "if": "p2_birlesme",
+          "text": " Yüklenicinin birleştirme talebi reddedildi; yedek parça alacağı ayrı tahkimde görülecek."
+        }
+      ]
+    }
+  ]
+}

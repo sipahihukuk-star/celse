@@ -1,0 +1,435 @@
+{
+  "id": "th-tff-tescil-itc",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "tff",
+  "difficulty": "orta",
+  "title": "Son Gün, 23.59",
+  "area": "Tahkim · Spor tahkimi · Transfer ve tescil (lisans çıkarılması)",
+  "court": "TFF Tahkim Kurulu",
+  "courtShort": "TFF TAHKİM KURULU",
+  "esas": "E.2027/096",
+  "kararTarihi": "19.02.2027",
+  "color": "#2a5a6a",
+  "teaser": "Transfer döneminin son gecesi Portekiz'den bir oyuncu alındı. Uluslararası transfer sertifikası iki gün sonra geldi; Federasyon tescili reddetti. Kulüp, sertifikanın dönem içinde istendiğini söylüyor.",
+  "bench": { "judges": 7, "title": "Kurul Başkanı ve altı üye" },
+  "inscription": null,
+  "sides": {
+    "p1": { "role": "İtiraz eden kulüp (Batıkent Spor A.Ş.) vekili", "short": "Kulüp" },
+    "p2": { "role": "Türkiye Futbol Federasyonu vekili", "short": "Federasyon" }
+  },
+  "cast": {
+    "judge": { "name": "Kurul Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#d9a982", "hair": "#2b2b2e", "style": "short", "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#f0caa6", "hair": "#2a2220", "style": "long", "glasses": true, "shirt": "#232a35", "inner": "#ece6dc" } },
+    "p2": { "look": { "kind": "civil", "skin": "#c99a72", "hair": "#5a4a40", "style": "short", "beard": true, "shirt": "#2e2c2a", "inner": "#e6e0d4" } },
+    "transfer": { "name": "Ahmet Yel · Kulübün transfer müdürü", "np": "civil", "look": { "kind": "civil", "skin": "#c4916b", "hair": "#1e1a18", "style": "short", "shirt": "#3f4f5a", "inner": "#e2ddd2" } },
+    "uzman": { "name": "Derya Tan · TFF Lisans ve Tescil Müdürlüğü", "np": "civil", "look": { "kind": "civil", "skin": "#e6bf9c", "hair": "#6b4a30", "style": "bun", "shirt": "#4a4a5a", "inner": "#efe9df" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Ara transfer ve tescil dönemi 05.02.2027 saat 23.59'da kapandı. Süper Lig ekibi Batıkent Spor A.Ş. o gün Portekiz'in Clube Atlântico takımından Rafael Moura'yı aldı. Futbolcu sözleşmesi 15.30'da imzalandı, harcama limiti denetimi için 16.50'de Kulüp Lisans Kurulu'na sunuldu; kulüpler arası transfer sözleşmesi 21.40'ta imzalandı." },
+    { "who": "narr", "text": "Uluslararası Transfer Sertifikası (ITC) 07.02.2027'de geldi. Federasyon 10.02.2027'de tescili reddetti: “Tescil dönemi sona erdikten sonra ulaşan ITC ile tescil yapılamaz.” Karar aynı gün kulübe bildirildi." },
+    { "who": "narr", "text": "Batıkent'in 13 ve 20 Şubat'ta lig maçları var. Kulüp vekili ilk hamleyi yapacak." }
+  ],
+  "docs": [
+    { "t": "Federasyonun tescil reddi (10.02.2027)", "d": "“Futbolcu Rafael Moura'ya ait ITC 07.02.2027 tarihinde, tescil dönemi sona erdikten sonra ulaşmıştır. Tescil yapılamaz.” Kulüp Lisans Kurulu'nun harcama limiti onayı: 05.02.2027, sözleşmenin sunuluş saati 16.50." },
+    { "t": "PFSTT m.13/1", "d": "Futbolcular yalnızca Federasyonun belirlediği transfer ve tescil dönemlerinde tescil edilir. Uluslararası transferlerde ITC'nin tescil dönemi içinde talep edilmiş olması hâlinde, istisnai olarak dönem dışında da tescil yapılabilir." },
+    { "t": "PFSTT m.20/1", "d": "Sözleşmeler imzalandıkları dönem içinde FYS üzerinden sunulur. Harcama limitine tabi kulüplerin sözleşmeleri dönemin son günü en geç 18.00'e kadar Kulüp Lisans Kurulu'na sunulur; bu saate kadar sunulmayanlar değerlendirilmez." },
+    { "t": "PFSTT m.12 (özet)", "d": "Alacaklıların transfer yasağı talep ettiği kulüpler, tescil için borcun ödendiğini ya da alacaklının muvafakatini belgelemelidir (m.12/1). Yasak için alacaklının Federasyona yazılı talebi gerekir (m.12/3). Borçlu, alacaklının alacağını icra yoluyla takip ettiğini resmi belgeyle bildirirse ve takipten feragat edilmemişse, bu alacak transfer yasağına yol açmaz (m.12/5)." }
+  ],
+  "evidence": [
+    { "id": "ev_karar", "type": "belge", "title": "Federasyonun tescil reddi", "desc": "ITC'nin dönem bittikten sonra ulaştığı gerekçesiyle ret (10.02.2027)." },
+    { "id": "ev_klk", "type": "belge", "title": "Kulüp Lisans Kurulu alındı kaydı", "desc": "Futbolcu sözleşmesi 05.02.2027 16.50'de FYS üzerinden sunuldu; harcama limiti onayı aynı gün." },
+    { "id": "ev_itc", "type": "belge", "title": "ITC'nin geliş kaydı", "desc": "Portekiz Futbol Federasyonu ITC'yi 07.02.2027 11.20'de gönderdi." },
+    { "id": "ev_tms", "type": "belge", "title": "FIFA TMS kaydı", "desc": "Batıkent Spor'un ITC talebi: 05.02.2027, 22.15. Kulüpler arası transfer sözleşmesi sisteme 22.05'te yüklendi.", "if": "p1_tms" },
+    { "id": "ev_uck", "type": "belge", "title": "UÇK kararı (Selim Aras)", "desc": "Eski teknik direktör Selim Aras'ın kulüpten 2.400.000 TL alacağı; karar Kasım 2026'da kesinleşti." },
+    { "id": "ev_yasak", "type": "belge", "title": "Selim Aras'ın transfer yasağı talebi", "desc": "18.01.2027 tarihli dilekçe: “Kesinleşmiş UÇK kararına rağmen ödeme yapılmadığından kulübe transfer yasağı uygulanmasını talep ederim.”", "if": "p2_bilgi" },
+    { "id": "ev_icra", "type": "belge", "title": "Selim Aras'ın icra takibi", "desc": "Selim Aras aynı alacak için 25.01.2027'de kulüp hakkında icra takibi başlattı; takip sürüyor, feragat yok.", "if": "p1_borc" },
+    { "id": "law_pfstt13", "type": "kanun", "title": "PFSTT m.13/1", "desc": "ITC tescil dönemi içinde talep edilmişse, dönem dışında da tescil yapılabilir.", "law": "PFSTT m.13/1" }
+  ],
+  "steps": [
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Kulübün transfer müdürü Ahmet Yel'le görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Transfer müdürüne ne soracaksınız?",
+      "choices": [
+        {
+          "text": "ITC talebi FIFA'nın transfer sistemine (TMS) tam olarak saat kaçta girildi?",
+          "delta": 15,
+          "set": ["p1_tms"],
+          "reply": [
+            { "who": "transfer", "text": "Transfer sözleşmesini 22.05'te yükledik, ITC talebini 22.15'te gönderdik. Ekran kaydı da sistem çıktısı da bende." }
+          ],
+          "note": "Doğru soru. İstisna, ITC'nin dönem içinde talep edilmesine bağlı (PFSTT m.13/1). TMS kaydı çantanıza eklendi."
+        },
+        {
+          "text": "Kulübün tescile engel bir borcu ya da hakkında bir transfer yasağı talebi var mı?",
+          "delta": 15,
+          "set": ["p1_borc"],
+          "reply": [
+            { "who": "transfer", "text": "Eski teknik direktör Selim Aras'ın UÇK alacağı var, 2,4 milyon TL. Ocak'ta Federasyondan yasak istemiş; ama 25 Ocak'ta bize icra takibi de başlattı. Takip sürüyor." }
+          ],
+          "note": "Önemli bir soru. Federasyon bu borcu karşınıza çıkarabilir; icra takibi ise alacağın transfer yasağına yol açmasını engelleyebilir (PFSTT m.12/5). İcra takibi belgesi çantanıza eklendi."
+        },
+        {
+          "text": "Sözleşme Kulüp Lisans Kurulu'na saat kaçta sunuldu?",
+          "delta": 5,
+          "reply": [
+            { "who": "transfer", "text": "16.50'de, FYS kaydı var. Harcama limiti onayı da aynı akşam geldi." }
+          ],
+          "note": "Yararlı bir teyit, ama bu bilgi Federasyonun kararında zaten yazıyor."
+        },
+        {
+          "text": "Oyuncu sağlık kontrolünden sorunsuz geçti mi?",
+          "delta": -5,
+          "reply": [
+            { "who": "transfer", "text": "Evet, 4 Şubat'ta İstanbul'da geçti." }
+          ],
+          "note": "Tescil uyuşmazlığıyla ilgisi olmayan bir soruya vakit ayırdınız."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "BAŞVURU · Ret kararı 10.02.2027'de bildirildi. İlk maç 13 Şubat'ta." }
+      ],
+      "prompt": "Ret kararına karşı nasıl bir yol izleyeceksiniz?",
+      "choices": [
+        {
+          "text": "Önce Federasyona yeniden tescil başvurusu yap, belgeleri tamamla; ret gelirse o zaman Tahkim Kurulu'na git.",
+          "delta": -10,
+          "set": ["p1_gec"],
+          "law": "5894 s.K. m.6/5 · Tahkim Kurulu Talimatı m.7",
+          "note": "Aynı talep için yeniden başvuru, ret kararına karşı itiraz süresini durdurmaz. Federasyonun ikinci cevabını beklerken süre 16 Şubat'a kadar eridi, itirazı son anda yaptınız; iki maç kaçtı.",
+          "reply": [
+            { "who": "narr", "text": "Federasyon ikinci başvuruyu 15.02.2027'de aynı gerekçeyle reddetti. İtiraz 16.02.2027'de verildi. Futbolcu 13 ve 20 Şubat maçlarında oynayamadı." }
+          ]
+        },
+        {
+          "text": "17.02.2027'ye kadar Tahkim Kurulu'na itiraz et, TMS kaydını ekle; maç takvimi nedeniyle Başkan'dan öncelikli inceleme iste.",
+          "delta": 15,
+          "set": ["p1_basvuru"],
+          "law": "5894 s.K. m.6/5 · Tahkim Kurulu Talimatı m.6, m.7, m.8",
+          "note": "Doğru. Federasyon kararına karşı bildirimden itibaren 7 gün içinde Tahkim Kurulu'na başvurulur (5894 s.K. m.6/5; Tahkim Kurulu Talimatı m.7); deliller dilekçeye eklenir (m.6), Başkan önemine göre öncelikli inceleme kararı verebilir (m.8).",
+          "reply": [
+            { "who": "narr", "text": "İtiraz 11.02.2027'de verildi; Başkan dosyanın öncelikle incelenmesine karar verdi. Futbolcu 13 Şubat maçında oynayamadı." }
+          ]
+        },
+        {
+          "text": "Tahkim Kurulu'ndan, karar verilene kadar oyuncuya tedbiren lisans çıkarılmasını iste; asıl itirazın gerekçesini sonra ayrıntılandır.",
+          "delta": -10,
+          "set": ["p1_tedbir"],
+          "law": "Tahkim Kurulu Talimatı m.20",
+          "note": "Talimattaki tedbir bir kararın infazını durdurur (m.20); ret kararının durdurulması oyuncuya lisans vermez. Eksik bir dilekçeyle de öncelikli inceleme isteyemediniz.",
+          "reply": [
+            { "who": "narr", "text": "Kurul, tedbir talebini reddetti; kulüp 14.02.2027'de itirazını gerekçelendirdi. Futbolcu 13 Şubat maçında oynayamadı." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Federasyonun cevabını hazırlıyorsunuz. Lisans ve Tescil Müdürlüğü'nden Derya Tan'la görüşüyorsunuz; iki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Uzmana ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Kulüp hakkında alacaklıların transfer yasağı talebi var mı?",
+          "delta": 15,
+          "set": ["p2_bilgi"],
+          "reply": [
+            { "who": "uzman", "text": "Var. Eski teknik direktör Selim Aras 18 Ocak'ta kesinleşmiş UÇK kararına dayanarak yazılı olarak yasak istedi. Kulüp ne ödeme ne muvafakat belgesi sundu." }
+          ],
+          "note": "Doğru soru. Alacaklının yazılı talebi varsa kulüp, tescil için borcun ödendiğini ya da alacaklının muvafakatini belgelemek zorundadır (PFSTT m.12/1, m.12/3). Talep dilekçesi çantanıza eklendi."
+        },
+        {
+          "text": "Kulüp, alacaklının icra takibini Federasyona resmi belgeyle bildirdi mi?",
+          "delta": 10,
+          "set": ["p2_bildirim"],
+          "reply": [
+            { "who": "uzman", "text": "Hayır, dosyada böyle bir bildirim yok." }
+          ],
+          "note": "Yararlı. İcra takibi istisnası, borçlu kulübün takibi resmi belgeyle bildirmesine bağlıdır (PFSTT m.12/5)."
+        },
+        {
+          "text": "ITC'nin talep saati bizim sistemimizde görünüyor mu?",
+          "delta": 5,
+          "reply": [
+            { "who": "uzman", "text": "Bize yalnız ITC'nin 7 Şubat 11.20'de geldiği yansıdı. Talep saatini kulüp TMS'ten gösterebilir." }
+          ],
+          "note": "Dürüst bir cevap. İstisna ITC'nin talep edildiği zamana bağlı; bu kayıt kulübün elinde."
+        },
+        {
+          "text": "Oyuncu daha önce Türkiye'de lisanslı oynadı mı?",
+          "delta": -5,
+          "reply": [
+            { "who": "uzman", "text": "Hayır, ilk kez Türkiye'ye geliyor." }
+          ],
+          "note": "Uyuşmazlığın çözümüne katkısı olmayan bir soru."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Federasyon, kulübün itirazına yazılı cevap verecek." }
+      ],
+      "prompt": "Ret kararının gerekçesini nasıl savunacaksınız?",
+      "choices": [
+        {
+          "text": "Tescil dönemi 05.02.2027 saat 23.59'da kapandı; ITC dönem bittikten sonra ulaştığı için tescil imkânsızdır, istisnası yoktur.",
+          "delta": -15,
+          "set": ["p2_sure"],
+          "law": "PFSTT m.13/1",
+          "note": "PFSTT m.13/1 açık bir istisna içerir: uluslararası transferde ITC dönem içinde talep edilmişse dönem dışında da tescil yapılabilir. İstisnayı yok saymak Federasyonun savunmasını çökertir."
+        },
+        {
+          "text": "ITC dönem içinde istenmiş olsa bile transfer sözleşmesi son gün 18.00'den sonra imzalandı; PFSTT m.20/1 gereği değerlendirilemez.",
+          "delta": -10,
+          "set": ["p2_saat"],
+          "law": "PFSTT m.20/1",
+          "note": "18.00 sınırı, harcama limiti denetimi için futbolcu sözleşmesinin Kulüp Lisans Kurulu'na sunulmasına ilişkindir; futbolcu sözleşmesi 16.50'de sunulmuştu. Kulüpler arası transfer sözleşmesinin imza saati bu kuralın konusu değil."
+        },
+        {
+          "text": "İstisna ITC'nin dönem içinde talep edilmesini arar; talebin 23.59'dan önce TMS'e girildiğini kulüp belgeyle ispatlamalıdır.",
+          "delta": 15,
+          "set": ["p2_istisna"],
+          "law": "PFSTT m.13/1",
+          "note": "Doğru ve dürüst. İstisna PFSTT m.13/1'de açık; ispat yükü onu ileri süren kulüpte. Federasyon yönünden asıl mesele, istisnanın şartlarının belgelenip belgelenmediği ve tescile başka bir engel olup olmadığıdır."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kurul, öncelikli olarak duruşma yapıyor. Kulüp vekili, itirazınızı açıklayın." }
+      ],
+      "prompt": "Kurul'a, ITC dönem bittikten sonra geldiği hâlde oyuncunun neden tescil edilmesi gerektiğini kendi cümlelerinizle anlatın.",
+      "choices": [
+        {
+          "text": "Güçlü itiraz",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_guclu", "p1_orta"],
+          "law": "PFSTT m.13/1, m.20/1",
+          "note": "İstisnanın dayanağını (PFSTT m.13/1), şartın gerçekleştiğini gösteren veriyi (ITC talebi 22.15, dönem 23.59'da kapanıyor) ve harcama limiti sınırının da karşılandığını (16.50) birlikte kurdunuz; talebiniz de açıktı."
+        },
+        {
+          "text": "Yeterli itiraz",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_orta"],
+          "law": "PFSTT m.13/1",
+          "note": "İstisnayı doğru gösterdiniz ama eksik. Tam itiraz; ITC talebinin 05.02.2027 saat 22.15'te, dönem kapanmadan TMS'e girildiğini, futbolcu sözleşmesinin 16.50'de Kulüp Lisans Kurulu'na sunulduğunu ve tescil ile lisans çıkarılması talebini birlikte söyler."
+        },
+        {
+          "text": "Zayıf itiraz",
+          "delta": -5,
+          "law": "PFSTT m.13/1",
+          "note": "Kurul'a tutunacağı bir dayanak vermediniz. Kulübü kurtaran, PFSTT m.13/1'deki istisnaydı: uluslararası transferde ITC dönem içinde talep edilmişse, sertifika sonradan gelse de tescil yapılabilir."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Kural olarak tescil yalnız dönem içinde yapılır; ama uluslararası transferde ITC tescil dönemi içinde talep edilmişse dönem dışında da tescil yapılabilir (PFSTT m.13/1). Ölçüt ITC'nin geliş tarihi değil, talep tarihidir. (2) ITC talebi FIFA TMS'e 05.02.2027 saat 22.15'te, dönem 23.59'da kapanmadan girildi (TMS kaydı). (3) Harcama limiti denetimi için futbolcu sözleşmesi son gün 18.00'den önce, 16.50'de Kulüp Lisans Kurulu'na sunuldu (PFSTT m.20/1). (4) Talep: ret kararının kaldırılması, futbolcunun tescili ve lisansının çıkarılması. Yalnızca 'sertifika gecikti, kulübün kusuru yok' diyen cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["m.13", "madde 13", "13. madde", "istisna"], "weight": 2 },
+        { "terms": ["talep edil", "talebi", "TMS", "22.15", "22:15"], "weight": 3 },
+        { "terms": ["dönem içinde", "23.59", "23:59", "kapanmadan"], "weight": 1 },
+        { "terms": ["16.50", "16:50", "18.00", "18:00", "Kulüp Lisans Kurulu"], "weight": 1 },
+        { "terms": ["tescil", "lisans"], "weight": 1 }
+      ],
+      "model": "Sayın Kurul, tescil kural olarak dönem içinde yapılır; ama uluslararası transferde ITC dönem içinde talep edilmişse dönem dışında da tescil yapılabilir (PFSTT m.13/1). Ölçüt sertifikanın geliş günü değil, talep anıdır. ITC talebimiz 05.02.2027 saat 22.15'te, dönem kapanmadan TMS'e girildi. Futbolcu sözleşmesi de harcama limiti denetimi için 16.50'de Kulüp Lisans Kurulu'na sunulmuştu. Ret kararının kaldırılmasını, oyuncunun tescilini ve lisansının çıkarılmasını istiyoruz."
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Federasyon vekili, kulübün beyanına karşı diyeceğiniz var mı?" }
+      ],
+      "statement": { "who": "p1", "text": "Sayın Kurul, ret kararının tek gerekçesi süredir. Bunun dışında oyuncunun tescilinin önünde hiçbir engel yoktur." },
+      "prompt": "Bu beyanı hangi belgeyle çürüteceksiniz?",
+      "correct": ["ev_yasak"],
+      "hit": {
+        "delta": 20,
+        "set": ["p2_yasak"],
+        "law": "PFSTT m.12/1, m.12/3",
+        "note": "Kesinleşmiş UÇK alacağına dayanan yazılı yasak talebi var. Alacaklının talep ettiği transfer yasağı karşısında kulüp, tescil için borcun ödendiğini ya da alacaklının muvafakatini belgelemek zorundadır (PFSTT m.12/1, m.12/3).",
+        "reply": [
+          { "who": "judge", "text": "Talep dilekçesi dosyaya alındı. Kulüp vekili, bu konuda söyleyeceğiniz var mı?" }
+        ]
+      },
+      "responses": {
+        "ev_uck": { "delta": 5, "note": "Borcun varlığını gösterdiniz, ama transfer yasağı için alacaklının Federasyona yazılı talebi gerekir (PFSTT m.12/3). Asıl belge, talep dilekçesiydi." },
+        "ev_icra": { "delta": -15, "note": "Bu belge kulübün işine yarar: icra yoluyla takip edilen alacak, takipten feragat edilmedikçe transfer yasağına yol açmaz (PFSTT m.12/5)." },
+        "ev_tms": { "delta": -10, "note": "TMS kaydı ITC'nin dönem içinde istendiğini gösteriyor; kulübün lehine bir belge sundunuz." },
+        "ev_klk": { "delta": -10, "note": "Kulüp Lisans Kurulu kaydı, harcama limiti sınırının karşılandığını gösteriyor; kulübün lehine." },
+        "law_pfstt13": { "delta": -10, "note": "Bu hüküm kulübün dayandığı istisnadır; sizin savunmanızı desteklemez." }
+      },
+      "miss": { "delta": -10, "note": "Bu belge tescile başka bir engel olduğunu göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; kulübün “başka engel yok” beyanı dosyada çürütülmeden kaldı." }
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "if": "p2_yasak",
+      "lines": [
+        { "who": "judge", "text": "Kulüp vekili, transfer yasağı talebi karşısında?" }
+      ],
+      "prompt": "Transfer yasağı talebine nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "Transfer yasağı ancak bir disiplin kurulu kararıyla verilebilir; alacaklının dilekçesi tek başına hiçbir sonuç doğurmaz.",
+          "delta": -10,
+          "law": "PFSTT m.12/1, m.12/3",
+          "note": "PFSTT m.12, alacaklının yazılı talebi üzerine kendiliğinden işleyen bir tescil engeli öngörür; ayrıca bir disiplin kararı gerekmez."
+        },
+        {
+          "text": "Borcu hemen ödeyelim ve makbuzu Kurul'a sunalım; borç ödenince tescilin önünde bir engel kalmaz, uzun tartışmaya gerek yok.",
+          "delta": 5,
+          "set": ["p1_ode"],
+          "law": "PFSTT m.12/1",
+          "note": "Sonuç verir: borcun ödendiğini belgeleyen kulübün tescil engeli kalkar (PFSTT m.12/1). Ama 2,4 milyon TL'yi hemen ödemek zorunda kaldınız.",
+          "reply": [
+            { "who": "narr", "text": "Kulüp borcu 18.02.2027'de ödedi; makbuz Kurul'a sunuldu." }
+          ]
+        },
+        {
+          "if": "p1_borc",
+          "text": "Selim Aras aynı alacak için 25.01.2027'de icra takibi başlattı ve takipten vazgeçmedi; bu alacak transfer yasağına yol açmaz.",
+          "delta": 20,
+          "set": ["p1_icra"],
+          "law": "PFSTT m.12/5",
+          "note": [
+            { "text": "Doğru. Alacaklı alacağını icra yoluyla takip ediyorsa ve takipten feragat etmemişse, bu alacak transfer yasağına yol açmaz (PFSTT m.12/5)." },
+            { "if": "p2_bildirim", "text": " Ancak istisna, kulübün takibi resmi belgeyle bildirmesine bağlı; Federasyon bunun yapılmadığını biliyor." }
+          ],
+          "reply": [
+            { "who": "judge", "text": "İcra takibine ilişkin belge dosyaya alındı." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Federasyon vekili, son beyanınız?" }
+      ],
+      "prompt": "Kurul'a, tescil talebinin neden reddedilmesi gerektiğini ya da hangi şartlar yerine gelmeden kabul edilemeyeceğini kendi cümlelerinizle anlatın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_guclu", "p2_orta"],
+          "law": "PFSTT m.12, m.13/1",
+          "note": "İstisnanın dar yorumlanacağını ve ispatının kulüpte olduğunu, transfer yasağının şartlarını ve icra takibi istisnasının resmi bildirime bağlı olduğunu birlikte kurdunuz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_orta"],
+          "law": "PFSTT m.12, m.13/1",
+          "note": "Doğru yöndesiniz ama eksik. Tam savunma; dönem dışı tescilin istisna olduğunu ve şartlarının kulüpçe ispatlanması gerektiğini, alacaklının yazılı talebi karşısında borcun ödenmesi ya da muvafakatin belgelenmesi gerektiğini ve icra takibi istisnasının ancak resmi belgeyle bildirimle işleyeceğini birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -5,
+          "law": "PFSTT m.12, m.13/1",
+          "note": "Kurul'a ret için somut bir dayanak sunmadınız. ITC istisnasının kanıtlanması kulübe düşer (PFSTT m.13/1); alacaklının yazılı yasak talebi karşısında da borcun ödendiği ya da muvafakat belgelenmelidir; icra takibi istisnası ise resmi belgeyle bildirime bağlıdır (m.12/5)."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Tescil kural olarak dönem içinde yapılır; dönem dışı tescil istisnadır ve dar yorumlanır; ITC'nin dönem içinde talep edildiğini kulüp belgeyle ispatlamalıdır (PFSTT m.13/1). (2) Kesinleşmiş UÇK alacağına dayanan yazılı transfer yasağı talebi var; kulüp tescil için borcun ödendiğini ya da alacaklının muvafakatini belgelemelidir (PFSTT m.12/1, m.12/3). (3) İcra takibi istisnası, borçlu kulübün takibi Federasyona resmi belgeyle bildirmesine bağlıdır (m.12/5); kulüp tescil talebinde böyle bir bildirim yapmadı. (4) Talep: itirazın reddi; olmazsa tescilin bu belgeler sunulmadan yapılmaması. Kurul kararı kesindir (Anayasa m.59/3). İstisnayı yok sayan ya da 18.00 sınırını kulüpler arası sözleşmeye uygulayan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["istisna", "dar yorum", "m.13", "ispat"], "weight": 1 },
+        { "terms": ["transfer yasağı", "yasak talebi", "m.12", "madde 12"], "weight": 2 },
+        { "terms": ["muvafakat", "ödendiğ", "ödeme belgesi"], "weight": 2 },
+        { "terms": ["resmi belge", "bildir", "12/5"], "weight": 2 },
+        { "terms": ["Selim Aras", "UÇK", "kesinleşmiş"], "weight": 1 }
+      ],
+      "model": "Sayın Kurul, dönem dışı tescil istisnadır ve ITC'nin dönem içinde istendiğini kulüp ispatlamalıdır (PFSTT m.13/1). Bundan bağımsız olarak, Selim Aras kesinleşmiş UÇK alacağına dayanarak yazılı olarak transfer yasağı istemiştir; kulüp tescil için borcun ödendiğini ya da muvafakati belgelemelidir (m.12/1, m.12/3). İcra takibi istisnası ise kulübün takibi resmi belgeyle bildirmesine bağlıdır (m.12/5); böyle bir bildirim yapılmadı. İtirazın reddini istiyoruz."
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Kulüp vekili, talebinizi son kez netleştirin." }
+      ],
+      "prompt": "Kurul'dan tam olarak ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Oyuncu tescil edilsin ve ret kararı yüzünden oynayamadığımız maçların tekrarına da karar verilsin; kulübün kaybı telafi edilsin.",
+          "delta": -10,
+          "set": ["p1_tekrar"],
+          "law": "Tahkim Kurulu Talimatı m.13",
+          "note": "Tescil uyuşmazlığında Kurul, oynanmış maçların tekrarına karar veremez; maçlar sahada tamamlanmış ve tescil edilmiştir. Talebinizin bu kısmı karşılıksız kaldı."
+        },
+        {
+          "text": "Kurul ret kararını kaldırıp dosyayı Federasyona iade etsin; Federasyon tescil talebini baştan yeniden değerlendirsin.",
+          "delta": -5,
+          "set": ["p1_iade"],
+          "law": "Tahkim Kurulu Talimatı m.13",
+          "note": "Kurul dosyayı merciine iade edebilir (m.13), ama lig sürerken bu yeni bir gecikme demektir. Kurul'dan doğrudan tescile karar vermesini istemeliydiniz."
+        },
+        {
+          "text": "Ret kararı kaldırılsın; oyuncu, 05.02.2027'deki ITC talebi esas alınarak tescil edilsin ve lisansı çıkarılsın.",
+          "delta": 15,
+          "set": ["p1_talep"],
+          "law": "PFSTT m.13/1 · Tahkim Kurulu Talimatı m.13",
+          "note": "Doğru. Kurul itiraz edilen kararı değiştirerek karar verebilir (Tahkim Kurulu Talimatı m.13); tescilin dayanağı, dönem içindeki ITC talebidir (PFSTT m.13/1)."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_tms && p1_orta && (!p2_yasak || p1_ode || (p1_icra && !(p2_bildirim && p2_guclu)))",
+      "winner": "p1",
+      "hukum": "İtirazın KABULÜ ile Federasyonun 10.02.2027 tarihli ret kararının KALDIRILMASINA, futbolcu Rafael Moura'nın 05.02.2027 tarihli ITC talebi esas alınarak Batıkent Spor A.Ş. adına TESCİLİNE ve lisansının ÇIKARILMASINA, kararın kesin olarak verildiğine,",
+      "summary": [
+        { "text": "ITC talebi 05.02.2027 saat 22.15'te, dönem kapanmadan TMS'e girilmişti; PFSTT m.13/1'deki istisna gereği sertifikanın sonradan gelmesi tescile engel değildir. Harcama limiti için sözleşme de 18.00'den önce sunulmuştu." },
+        { "if": "p2_yasak && p1_icra", "text": " Federasyonun gösterdiği transfer yasağı talebi, alacaklının aynı alacak için icra takibi yürüttüğü anlaşıldığından tescile engel sayılmadı (PFSTT m.12/5)." },
+        { "if": "p2_yasak && p1_ode", "text": " Transfer yasağı talebi karşısında kulüp borcu ödeyip makbuzu sundu (PFSTT m.12/1)." },
+        { "if": "p2_sure", "text": " Federasyonun istisnayı yok sayan savunması kabul görmedi." },
+        { "if": "p2_saat", "text": " 18.00 sınırının kulüpler arası sözleşmeye uygulanması gerektiği savunması da yerinde bulunmadı." },
+        { "if": "p1_gec || p1_tedbir", "text": " Kulüp vekilinin başvurudaki gecikmesi yüzünden oyuncu iki maç kaçırdı." },
+        { "if": "p1_tekrar", "text": " Maçların tekrarı talebi reddedildi." },
+        { "if": "p1_iade", "text": " Kulüp iade istemişti; Kurul, takvim nedeniyle doğrudan tescile karar verdi." }
+      ]
+    },
+    {
+      "if": "p1_tms && p1_orta && p1_icra",
+      "winner": "draw",
+      "hukum": "İtirazın KISMEN KABULÜ ile Federasyonun 10.02.2027 tarihli ret kararının KALDIRILMASINA; futbolcu Rafael Moura'nın, kulübün Selim Aras'ın icra takibine ilişkin resmi belgeyi Federasyona sunmasından sonra Batıkent Spor A.Ş. adına TESCİLİNE ve lisansının çıkarılmasına,",
+      "summary": [
+        { "text": "ITC dönem içinde talep edildiğinden süre engeli yoktu (PFSTT m.13/1)." },
+        { "text": " Ancak Federasyon vekili, icra takibi istisnasının kulübün takibi resmi belgeyle bildirmesine bağlı olduğunu ve böyle bir bildirimin yapılmadığını gösterdi (PFSTT m.12/5). Tescil, bildirim yapılıncaya kadar ertelendi; oyuncu bir maç daha kaçıracak." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "İtirazın REDDİNE, Federasyonun 10.02.2027 tarihli tescil reddi kararının ONANMASINA, kararın kesin olarak verildiğine,",
+      "summary": [
+        { "if": "!p1_tms", "text": "Kulüp vekili ITC talebinin dönem kapanmadan yapıldığını TMS kaydıyla göstermedi; PFSTT m.13/1'deki istisnanın şartı ispatlanamadı." },
+        { "if": "p1_tms && !p1_orta", "text": "Kulüp vekili elindeki TMS kaydına rağmen istisnayı Kurul'a ikna edici biçimde kuramadı." },
+        { "if": "p1_tms && p1_orta && p2_yasak", "text": "ITC istisnası ispatlanmıştı, ama Federasyon vekili kesinleşmiş UÇK alacağına dayanan yazılı transfer yasağı talebini gösterdi; kulüp borcun ödendiğini, muvafakati ya da icra takibini belgeleyemedi (PFSTT m.12)." },
+        { "if": "p2_istisna", "text": " Federasyon vekili istisnayı tanıyıp ispat yükünü doğru yere koydu." }
+      ]
+    }
+  ]
+}

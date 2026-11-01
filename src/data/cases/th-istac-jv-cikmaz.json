@@ -1,0 +1,415 @@
+{
+  "id": "th-istac-jv-cikmaz",
+  "mode": "duel",
+  "difficulty": "basit",
+  "title": "Rus Ruleti",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Ortak girişim çıkmazı ve pay devri",
+  "court": "İstanbul Tahkim Merkezi (ISTAC) · Dosya No. 2026/302 (Tahkim yeri: İstanbul)",
+  "courtShort": "ISTAC · İSTANBUL",
+  "esas": "ISTAC 2026/302",
+  "kararTarihi": "17.05.2027",
+  "color": "#3f5a2e",
+  "room": "tahkim",
+  "forum": "istac",
+  "bench": { "judges": 3, "title": "Başhakem ve iki hakem" },
+  "inscription": null,
+  "teaser": "Yüzde elli, yüzde elli. Yatırım kararı kilitlenince Türk ortak “ya al ya sat” teklifini gönderdi; Alman ortak altmış gün sustu. Şimdi teklifin bir bilgi saklanarak verildiğini söylüyor.",
+  "sides": {
+    "p1": { "role": "Davacı (Ege Enerji) vekili", "short": "Davacı" },
+    "p2": { "role": "Davalı (Nordwind) vekili", "short": "Davalı" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#d6a882", "hair": "#8a8a90", "style": "short", "beard": true, "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#e2b48e", "hair": "#2a201c", "style": "long", "shirt": "#1f2530", "inner": "#efe9e0" } },
+    "p2": { "look": { "kind": "civil", "skin": "#f1d3b6", "hair": "#a0703a", "style": "short", "shirt": "#22262e", "inner": "#e9e5dd" } },
+    "hukukdir": { "name": "Dr. Katrin Albers · Nordwind hukuk direktörü", "np": "civil", "look": { "kind": "civil", "skin": "#f3d6bc", "hair": "#4a3528", "style": "bun", "glasses": true, "shirt": "#3e4a5a", "inner": "#ece7de" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Egewind Rüzgâr Enerjisi A.Ş., İzmir'deki bir rüzgâr santralini işletiyor. Paylarının yarısı Ege Enerji Yatırım A.Ş.'nin, yarısı Hamburglu Nordwind Renewables GmbH'nin. 2021 tarihli pay sahipleri sözleşmesine (PSS) Türk hukuku uygulanıyor; uyuşmazlıklar ISTAC tahkimine gidiyor." },
+    { "who": "narr", "text": "Santralin yenilenmesi için gereken yatırım kararı iki yönetim kurulu toplantısında kilitlendi. Ege 10.03.2026'da çıkmaz bildirdi; 15.04.2026'da PSS'deki “ya al ya sat” düzeneğini işletti: Nordwind'in paylarına 42.000.000 EUR teklif etti." },
+    { "who": "narr", "text": "Nordwind 60 gün içinde cevap vermedi. PSS'ye göre bu, payları satmayı seçmek demek. Nordwind ise teklifin geçersiz olduğunu söylüyor ve paylarını bir yatırım fonuna satmak için görüşüyor." }
+  ],
+  "docs": [
+    { "t": "PSS m.8 · Çıkmaz düzeneği", "d": "8.2: Çıkmaz bildiriminden sonra genel müdürler 30 gün müzakere eder. 8.3: Sonra her pay sahibi, karşı tarafın paylarını belirli bir fiyattan alma teklifi verebilir. 8.4: Teklif veren, teklif tarihinde bildiği ve şirket değerini önemli ölçüde etkileyen bütün bilgileri açıklar. 8.5: Muhatap 60 gün içinde aynı fiyattan ya satar ya alır; cevap vermezse satmayı seçmiş sayılır. 8.6: Devirde pay senetleri ciro edilip teslim edilir, bedel aynı anda ödenir; taraflar yönetim kurulunda devre onay için oy kullanır." },
+    { "t": "PSS m.15, m.16", "d": "m.15: PSS'den doğan veya onunla bağlantılı uyuşmazlıklar ISTAC Tahkim Kurallarına göre İstanbul'da üç hakemle çözülür. m.16: Türk hukuku uygulanır." },
+    { "t": "Egewind esas sözleşmesi m.7", "d": "Nama yazılı payların devri yönetim kurulunun onayına bağlıdır." },
+    { "t": "Teklif ve teslim", "d": "15.04.2026 tarihli teklif Hamburg'daki merkeze kuryeyle ve e-postayla gönderildi; kurye 16.04.2026'da imza karşılığı teslim etti. 60 günlük süre 15.06.2026'da doldu." },
+    { "t": "Nordwind'in yazısı (20.06.2026)", "d": "“Teklif geçersizdir. Çıkmaz müzakeresi yapılmamış, teklif önemli bir bilgi gizlenerek verilmiştir. Paylarımızı Baltic Infra Fund'a devretmek için görüşmelerimiz sürmektedir.”" }
+  ],
+  "evidence": [
+    { "id": "ev_tutanak", "type": "belge", "title": "Genel müdürler toplantısı tutanağı (20.03.2026)", "desc": "Yatırım kararı görüşüldü, uzlaşma sağlanamadı; bir sonraki görüşme tarihi belirlenmedi." },
+    { "id": "ev_eposta", "type": "belge", "title": "Nordwind genel müdürünün e-postası (09.04.2026)", "desc": "“Yenileme yatırımı konusunda müzakereye devam etmeyeceğiz. Bizim için konu kapanmıştır.”" },
+    { "id": "ev_kurye", "type": "belge", "title": "Kurye teslim belgesi (16.04.2026)", "desc": "Teklif Hamburg'daki merkeze imza karşılığı teslim edildi." },
+    { "id": "ev_portal", "type": "belge", "title": "Yönetim kurulu portalı kayıtları", "desc": "İletim şirketinin ek kapasite bağlantı onayı 11.04.2026'da Egewind yönetim kurulu portalına yüklendi; Nordwind'in atadığı iki yönetim kurulu üyesi belgeyi 12.04.2026'da açıp indirdi." },
+    { "id": "ev_onay", "type": "belge", "title": "Bağlantı onayı (10.04.2026)", "desc": "İletim şirketi Egewind'e 40 MW ek kapasite için bağlantı onayı verdi. Yazı genel müdüre (Ege'nin atadığı) gönderilmiş.", "if": "p2_bilgi" },
+    { "id": "law_tbk36", "type": "kanun", "title": "TBK m.36 ve m.39", "desc": "Aldatılan taraf sözleşmeyle bağlı değildir; iptali aldatmanın öğrenilmesinden itibaren bir yıl içinde bildirmelidir.", "law": "TBK m.36, m.39" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "TEDBİR · Nordwind'in yatırım fonuyla görüştüğü haberi geldi. Tahkim kurulu henüz oluşmadı; kurulun oluşması iki ayı bulabilir." }
+      ],
+      "prompt": "Payların üçüncü kişiye devrini nasıl önleyeceksiniz?",
+      "choices": [
+        {
+          "text": "İstanbul Asliye Ticaret Mahkemesinden payların üçüncü kişiye devrini önleyen ihtiyati tedbir iste (MTK m.6) ve hemen ISTAC'a başvur.",
+          "delta": 15,
+          "set": ["p1_tedbir"],
+          "law": "MTK m.6",
+          "note": "Tahkim anlaşması, tahkimden önce ya da tahkim sırasında mahkemeden ihtiyati tedbir istenmesine engel değildir (MTK m.6). Hakem kurulunun tedbiri ise üçüncü kişileri bağlayamaz; fon ve pay defteri bakımından etkili koruma mahkemeden gelir.",
+          "reply": [
+            { "who": "narr", "text": "Mahkeme, payların üçüncü kişiye devrinin ve pay defterine kaydının tedbiren önlenmesine karar verdi. Tahkim talebi 26.06.2026'da sunuldu." }
+          ]
+        },
+        {
+          "text": "Hemen ISTAC'a başvur; kurul oluşunca ondan Baltic Infra Fund'ın payları almasını ve pay defterine kaydını yasaklayan bir tedbir iste.",
+          "delta": -10,
+          "set": ["p1_hakemtedbir"],
+          "law": "MTK m.6/2",
+          "note": "Hakem kurulu tedbir kararı verebilir, ama üçüncü kişileri bağlayan ya da resmî makamlarca yerine getirilecek tedbire karar veremez (MTK m.6/2). Fon tahkimin tarafı değil; üstelik kurulun oluşmasını beklerken iki ay korumasız kaldınız."
+        },
+        {
+          "text": "Nordwind'e noter ihtarı çek: payları yedi gün içinde ciro edip teslim etsin, etmezse tahkime başvurulacak; önce dostane yol tükensin.",
+          "delta": -5,
+          "set": ["p1_ihtar"],
+          "law": "MTK m.6",
+          "note": "İhtar zarar vermez ama korumaz. Nordwind'in fonla görüştüğü bir sırada ihtiyati tedbir istemek mümkünken (MTK m.6) zaman kaybettiniz."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Tahkim talebi tebliğ edildi. Nordwind'in yönetimi, Ege'nin teklif verirken önemli bir bilgiyi sakladığına inanıyor." }
+      ],
+      "prompt": "Cevap dilekçesinin eksenini ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Teklif aldatmayla verildi: bağlantı onayını gizleyen Ege'ye karşı iptali cevapta bildir (TBK m.36, m.39); PSS m.8.4 de ihlal edildi.",
+          "delta": 15,
+          "set": ["p2_hile"],
+          "law": "TBK m.36, m.39 · PSS m.8.4",
+          "note": "Aldatılan taraf sözleşmeyle bağlı değildir; iptali aldatmayı öğrendiği tarihten itibaren bir yıl içinde bildirmelidir (TBK m.36, m.39). İptali süresinde ve açıkça bildirdiniz; PSS'deki bilgi verme borcu da dayanağınız."
+        },
+        {
+          "text": "Yetki itirazı: pay devri şirketler hukukuna ilişkin bir uyuşmazlıktır, tahkime elverişli değildir (MTK m.1/4); dava ticaret mahkemesinde görülmeli.",
+          "delta": -10,
+          "set": ["p2_elverisiz"],
+          "law": "MTK m.1/4",
+          "note": "MTK m.1/4 yalnız Türkiye'deki taşınmazlar üzerindeki ayni haklara ve tarafların iradesine tabi olmayan işlere ilişkin uyuşmazlıkları tahkimin dışında bırakır. PSS'den doğan pay devri borcu, tarafların serbestçe tasarruf edebildiği sözleşmesel bir borçtur; tahkime elverişlidir."
+        },
+        {
+          "text": "Esas sözleşme m.7 pay devrini yönetim kurulunun onayına bağlıyor; kurul onay vermedikçe devir istenemez, talep baştan reddedilmeli.",
+          "delta": -5,
+          "set": ["p2_onay"],
+          "law": "TTK m.493 · PSS m.8.6",
+          "note": "Onay kaydı devrin şirkete karşı hüküm doğurması için gereklidir; pay sahipleri arasındaki devir borcunu ortadan kaldırmaz. Üstelik PSS m.8.6'da Nordwind onay için oy kullanmayı üstlenmişti; kendi borcuna dayanarak devirden kaçamaz."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "p2", "text": "Sayın Başhakem, PSS m.8.2'deki çıkmaz müzakeresi yapılmadı. Genel müdürler yalnız bir kez görüştü; teklif erken verildi." },
+        { "who": "judge", "text": "Davacı vekili?" }
+      ],
+      "prompt": "Bu itiraza nasıl karşılık vereceksiniz?",
+      "choices": [
+        {
+          "text": "m.8.2 görüşme sayısı değil, 30 günlük süre öngörür; teklif 36. günde verildi. Nordwind'in genel müdürü 09.04'te müzakereyi kendisi kesti.",
+          "delta": 15,
+          "set": ["p1_30gun"],
+          "law": "PSS m.8.2 · TMK m.2",
+          "note": "Hüküm, çıkmaz bildiriminden sonra 30 günlük bir müzakere süresi öngörüyor; süre geçmişti. Müzakereyi kendisi reddeden tarafın, müzakerenin yetersizliğine dayanması dürüstlük kuralıyla bağdaşmaz (TMK m.2)."
+        },
+        {
+          "text": "Müzakere şartı yalnız bir nezaket kuralıdır; uyulmamasının hukuki bir sonucu yoktur, teklif her durumda geçerlidir.",
+          "delta": -10,
+          "set": ["p1_onemsiz"],
+          "law": "PSS m.8.2",
+          "note": "Taraflar müzakere aşamasını çıkmaz düzeneğinin ön adımı olarak açıkça kararlaştırmıştı; ona “nezaket kuralı” demek, sözleşmeyi yok saymaktır. Elinizde sürenin dolduğunu ve Nordwind'in müzakereyi kestiğini gösteren daha güçlü bir cevap vardı."
+        },
+        {
+          "text": "Kurul isterse yeni bir çıkmaz bildirimiyle süreci baştan başlatmayı öner; bu arada mevcut teklif askıda kalsın, uzlaşma kapısı açılsın.",
+          "delta": -5,
+          "set": ["p1_tekrar"],
+          "law": "PSS m.8.2, m.8.5",
+          "note": "Bu öneri, kendi teklifinizin geçerliliğinden şüphe ettiğinizi gösterdi. Süre dolmuş, Nordwind müzakereyi kesmişti; geri adım atmanıza gerek yoktu."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Tanık beyanlarından önce Nordwind'in hukuk direktörü Dr. Katrin Albers'le görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Hukuk direktörüne ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Teklif bize ne zaman ulaştı, neden cevap vermedik?",
+          "delta": -5,
+          "set": ["p2_aldik"],
+          "reply": [
+            { "who": "hukukdir", "text": "16 Nisan'da kuryeyle geldi, e-postayla da. Yönetim kurulumuz süreyi geçirip sonra itiraz etmeye karar verdi; tutanağa da öyle yazıldı." }
+          ],
+          "note": "Teklifin ulaştığı tartışmasızdı; bu soru size bir şey kazandırmadı, aksine susmanın bilinçli bir tercih olduğunu öğrendiniz."
+        },
+        {
+          "text": "Ege teklif verirken bizim bilmediğimiz bir şey biliyor muydu?",
+          "delta": 15,
+          "set": ["p2_bilgi"],
+          "reply": [
+            { "who": "hukukdir", "text": "Evet. 10 Nisan'da iletim şirketi santrale 40 MW ek kapasite için bağlantı onayı verdi. Yazı Ege'nin atadığı genel müdüre gitti; bize kimse haber vermedi. Bu onay şirketin değerini ciddi biçimde artırıyor." }
+          ],
+          "note": "Doğru soru. Teklif tarihinde bilinen ve şirket değerini önemli ölçüde etkileyen bilgi PSS m.8.4 uyarınca açıklanmalıydı. Onay yazısı delil çantanıza eklendi."
+        },
+        {
+          "text": "Teklif edilen fiyat payların gerçek değerini karşılıyor mu?",
+          "delta": 5,
+          "set": ["p2_degerleme"],
+          "reply": [
+            { "who": "hukukdir", "text": "Bağımsız değerleme şirketimiz, yeni kapasiteyle birlikte payların 55 milyon avro ettiğini söylüyor." }
+          ],
+          "note": "Yararlı bir arka plan; ama “ya al ya sat” düzeneğinde fiyatın düşüklüğü tek başına teklifi geçersiz kılmaz, muhatap aynı fiyattan almayı da seçebilirdi."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, bilgi gizleme iddiasına cevabınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Başhakem, Ege bağlantı onayını gizleyerek düşük bir fiyatla teklif verdi. Nordwind, 60 günlük süre boyunca bu bilgiden tamamen habersizdi." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_portal"],
+      "hit": {
+        "delta": 25,
+        "set": ["p1_bilgiliydi"],
+        "law": "TBK m.36 · PSS m.8.4",
+        "note": "Bağlantı onayı teklif tarihinden önce, 11.04.2026'da yönetim kurulu portalına yüklenmiş ve Nordwind'in atadığı iki üye tarafından 12.04.2026'da açılmıştı. Nordwind'in bilgisi yönetim kurulundaki temsilcileri aracılığıyla vardı; bilgiyi bilen taraf aldatılmış sayılmaz (TBK m.36).",
+        "reply": [
+          { "who": "judge", "text": "Portal kayıtları dosyaya alındı. Davalı vekili, kayıtların doğruluğuna itirazınız var mı?" },
+          { "who": "p2", "text": "Kayıtlara itirazımız yok, Sayın Başhakem." }
+        ]
+      },
+      "responses": {
+        "ev_eposta": {
+          "delta": -5,
+          "note": "Bu e-posta müzakerenin kesildiğini gösteriyor; bilgi gizleme iddiasıyla ilgisi yok."
+        },
+        "ev_tutanak": {
+          "delta": -5,
+          "note": "Genel müdürler toplantısı, bağlantı onayından önce yapılmıştı; beyanı çürütmez."
+        },
+        "ev_kurye": {
+          "delta": -5,
+          "note": "Teklifin ulaştığını gösteriyor; Nordwind'in onaydan haberdar olduğunu değil."
+        },
+        "law_tbk36": {
+          "delta": -5,
+          "note": "Madde aldatmanın sonuçlarını düzenliyor; Nordwind'in bilgisi olduğunu göstermek için bir belge gerekirdi. Portal kayıtları çantanızdaydı."
+        },
+        "ev_onay": {
+          "delta": -10,
+          "note": "Onay yazısının genel müdüre gönderildiğini gösteriyor; davalının tezini destekler."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge Nordwind'in onaydan haberdar olduğunu göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; bilgi gizleme iddiası cevapsız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, teklifin neden müvekkilinizi bağlamadığını özetleyin." }
+      ],
+      "prompt": "Nordwind'in “ya al ya sat” teklifiyle neden bağlı olmadığını kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_aldatma"],
+          "law": "PSS m.8.4 · TBK m.36, m.39 · TMK m.2",
+          "note": "“Ya al ya sat” düzeneği iki tarafın aynı bilgiyle karar vermesine dayanır; PSS m.8.4 bu yüzden teklif verene açıklama borcu yükler. Bağlantı onayı teklif tarihinde biliniyordu ve değeri önemli ölçüde artırıyordu. Açıklama borcuna aykırı susma aldatmadır; aldatılan taraf bağlı değildir ve iptal bir yıl içinde bildirilmiştir (TBK m.36, m.39)."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_aldatma"],
+          "law": "PSS m.8.4 · TBK m.36",
+          "note": "Dayanağı gösterdiniz. Tam savunma, PSS m.8.4'teki açıklama borcunu, onayın teklif tarihinde bilindiğini ve değeri etkilediğini, açıklama borcu varken susmanın aldatma sayılacağını ve iptalin bir yıl içinde bildirildiğini (TBK m.39) birlikte kurar."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "PSS m.8.4 · TBK m.36",
+          "note": "Teklifin bağlamadığını kuramadınız. Fiyatın düşüklüğü yetmez; muhatap aynı fiyattan almayı da seçebilirdi. Dayanak, PSS m.8.4'teki açıklama borcunun ihlali ve TBK m.36'daki aldatmaydı."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) ‘Ya al ya sat’ düzeneği, iki tarafın aynı bilgiyle aynı fiyattan alma ya da satma kararı vermesine dayanır; PSS m.8.4 bu yüzden teklif verene, teklif tarihinde bildiği ve şirket değerini önemli ölçüde etkileyen bütün bilgileri açıklama borcu yükler. (2) 10.04.2026 tarihli bağlantı onayı teklif tarihinde biliniyordu ve değeri önemli ölçüde artırıyordu; açıklanmadı. (3) Açıklama borcu varken susmak aldatmadır; aldatılan taraf sözleşmeyle bağlı değildir (TBK m.36) ve iptali öğrenmeden itibaren bir yıl içinde bildirmelidir (TBK m.39); iptal cevapta bildirildi. (4) Dürüstlük kuralı da sonucu destekler (TMK m.2). m.8.4'ü, aldatmayı ve iptalin süresinde bildirildiğini birlikte kuran cevap tam puan alır; yalnız fiyatın düşüklüğüne dayanan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["m.8.4", "8.4", "açıklama borcu", "bilgi verme"], "weight": 3 },
+        { "terms": ["aldatma", "hile", "TBK m.36", "m.36"], "weight": 2 },
+        { "terms": ["iptal", "bir yıl", "m.39"], "weight": 2 },
+        { "terms": ["bağlantı onayı", "40 MW", "ek kapasite"], "weight": 1 },
+        { "terms": ["dürüstlük", "TMK m.2", "aynı bilgi"], "weight": 1 }
+      ],
+      "model": "Sayın Başhakem, bu düzenek iki tarafın aynı bilgiyle karar vermesine dayanır; PSS m.8.4 bu yüzden teklif verene, şirket değerini önemli ölçüde etkileyen bütün bilgileri açıklama borcu yükler. Ege, 10.04.2026 tarihli 40 MW'lık bağlantı onayını bildiği hâlde açıklamadan teklif verdi. Açıklama borcu varken susmak aldatmadır; aldatılan taraf bağlı değildir (TBK m.36) ve iptali öğrenmeden itibaren bir yıl içinde, cevap dilekçemizde bildirdik (TBK m.39)."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, talebinizin hukuki dayanağını ve kurulun nasıl bir hüküm kurmasını istediğinizi özetleyin." }
+      ],
+      "prompt": "Payların devrine hükmedilmesi gerektiğini kendi cümlelerinizle savunun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_ifa"],
+          "law": "PSS m.8.5, m.8.6 · TTK m.490 · TBK m.97",
+          "note": "Nordwind 60 gün sustu; PSS m.8.5 bunu satmayı seçmek olarak kabul eder ve taraflar bu sonucu önceden kararlaştırmıştır. Borç, pay senetlerinin ciro edilip teslimidir (TTK m.490); karşılığında bedel aynı anda ödenir (TBK m.97). Nordwind m.8.6 uyarınca yönetim kurulunda onay için oy kullanmakla da yükümlüdür; onay kaydı devirden kaçmanın aracı olamaz."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_ifa"],
+          "law": "PSS m.8.5, m.8.6",
+          "note": "Dayanağı doğru kurdunuz. Tam beyan, kurulun kuracağı hükmü de somutlaştırır: pay senetlerinin ciro ve teslimi (TTK m.490), bedelin aynı anda ödenmesi (TBK m.97) ve Nordwind'in yönetim kurulunda onay için oy kullanması (m.8.6)."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "PSS m.8.5, m.8.6",
+          "note": "Talebi kuramadınız. m.8.5'teki susmanın sonucu, m.8.6'daki devir borcu ve kurulun kuracağı hüküm (ciro ve teslim, bedelin aynı anda ödenmesi, onay için oy) somut olarak gösterilmeliydi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) PSS m.8.5 uyarınca Nordwind 60 gün içinde cevap vermediği için payları 42.000.000 EUR'ya satmayı seçmiş sayılır; taraflar susmanın bu sonucunu önceden kararlaştırmıştır ve teklif 16.04.2026'da ulaşmıştır. (2) Çıkmaz müzakeresi için öngörülen 30 günlük süre geçmiş, Nordwind müzakereyi 09.04.2026'da kendisi kesmiştir. (3) Kurul ifaya hükmetmelidir: pay senetlerinin ciro edilip teslimi (TTK m.490) ve karşılığında bedelin aynı anda ödenmesi (TBK m.97). (4) Nordwind PSS m.8.6 uyarınca yönetim kurulunda onay için oy kullanmakla yükümlüdür; esas sözleşmedeki onay kaydı (TTK m.493) taraflar arasındaki devir borcunu ortadan kaldırmaz. Susmanın sonucunu, ifa hükmünü ve onay için oy borcunu birlikte kuran cevap tam puan alır.",
+      "keywords": [
+        { "terms": ["m.8.5", "8.5", "60 gün", "sustu", "cevap vermedi", "satmayı seçmiş"], "weight": 3 },
+        { "terms": ["ciro", "teslim", "pay senedi", "TTK m.490"], "weight": 2 },
+        { "terms": ["aynı anda", "karşılıklı", "TBK m.97", "bedel"], "weight": 1 },
+        { "terms": ["m.8.6", "oy kullan", "onay"], "weight": 2 },
+        { "terms": ["30 gün", "müzakere", "09.04"], "weight": 1 }
+      ],
+      "model": "Sayın Başhakem, teklif 16.04.2026'da Nordwind'e ulaştı ve Nordwind 60 gün sustu; PSS m.8.5'e göre bu, payları 42.000.000 EUR'ya satmayı seçmek demektir. Çıkmaz müzakeresinin 30 günlük süresi geçmiş, Nordwind müzakereyi kendisi kesmişti. Kurulun, Nordwind'in pay senetlerini ciro edip teslim etmesine (TTK m.490), bedelin aynı anda ödenmesine (TBK m.97) ve Nordwind'in yönetim kurulunda devre onay için oy kullanmasına (m.8.6) hükmetmesini istiyoruz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, kurul devre hükmederse ikincil bir talebiniz var mı?" }
+      ],
+      "prompt": "İkincil talebiniz ne olacak?",
+      "choices": [
+        {
+          "text": "Devre hükmedilirse bedelin pay senetlerinin teslimiyle aynı anda ödenmesi ve Nordwind'in şirketten alacaklarının kapatılması koşul olsun.",
+          "delta": 15,
+          "set": ["p2_es"],
+          "law": "TBK m.97 · PSS m.8.6",
+          "note": "Karşılıklı borçlarda taraflardan biri kendi borcunu ifa etmedikçe ötekinin ifasını isteyemez (TBK m.97). Hükmün aynı anda ifa düzenine bağlanmasını ve ortaklık alacaklarınızın kapatılmasını sağladınız; müvekkilin çıkışını güvenceye aldınız."
+        },
+        {
+          "text": "Fiyat düşük: bağımsız değerleme 55.000.000 EUR diyor. Kurul devre hükmedecekse bedeli de bu değere çıkarsın.",
+          "delta": -10,
+          "set": ["p2_fiyat"],
+          "law": "PSS m.8.5 · HMK m.26",
+          "note": "“Ya al ya sat” düzeneğinde fiyatı teklif veren belirler; muhatap aynı fiyattan almayı seçerek kendini korur. Kurul sözleşmedeki fiyatı yeniden yazamaz; karşı talep olarak getirilmemiş bir artış da istenemez."
+        },
+        {
+          "text": "Devir hükmü kamu düzenine aykırı olur; hüküm verilirse MTK m.15 uyarınca iptal ettiririz, kurul bunu şimdiden hesaba katsın.",
+          "delta": -5,
+          "set": ["p2_kamu"],
+          "law": "MTK m.15/A-2-b",
+          "note": "Sözleşmeden doğan bir pay devri borcunun ifasına hükmetmek kamu düzenine aykırı değildir; kamu düzeni sebebi temel hukuk ilkelerinin açıkça çiğnendiği istisnai durumlar içindir. Kurulu tehdit eder gibi görünen bu beyan size bir şey kazandırmadı."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Müvekkil, hakem kararı lehine çıkarsa payları ne zaman ve nasıl alabileceğini soruyor." }
+      ],
+      "prompt": "Kararın yerine getirilmesi için ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "İptal süresi geçince ya da iptal davası reddedilince mahkemeden icra edilebilirlik şerhi al ve icraya koy; Türkiye'de verilen karara tenfiz gerekmez.",
+          "delta": 15,
+          "set": ["p1_icra"],
+          "law": "MTK m.15/B",
+          "note": "Tahkim yeri İstanbul olduğundan karar Türk hakem kararıdır; New York Sözleşmesine göre tenfiz değil, iptal yoluna tabidir. İptal davası açılması icrayı kendiliğinden durdurur; süre geçince ya da dava reddedilince karar icra edilebilir hâle gelir (MTK m.15/B)."
+        },
+        {
+          "text": "Kararı Türkiye'de New York Sözleşmesine göre tanıma ve tenfiz ettir; yabancı bir şirket aleyhine verildiği için tenfiz şart.",
+          "delta": -10,
+          "set": ["p1_tenfiz"],
+          "law": "MTK m.15/B · New York Sözleşmesi m.I",
+          "note": "Kararın yabancılığı tarafların uyruğuna değil, tahkim yerine bakılarak belirlenir. Tahkim yeri İstanbul; karar Türk hakem kararıdır ve tenfize gerek olmadan, iptal süresi sonunda icra edilebilir (MTK m.15/B)."
+        },
+        {
+          "text": "Karar tebliğ edilir edilmez, iptal davasını beklemeden icraya koy; hakem kararı kesindir, iptal davası icrayı durdurmaz.",
+          "delta": -5,
+          "set": ["p1_hemen"],
+          "law": "MTK m.15/B",
+          "note": "MTK'da iptal davasının açılması hakem kararının icrasını kendiliğinden durdurur (MTK m.15/B). Nordwind 30 gün içinde iptal davası açarsa icra takibi duracaktı."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p2_hile && !p1_bilgiliydi && (p2_aldatma || p2_bilgi)",
+      "winner": "p2",
+      "hukum": "Davanın REDDİNE; davalının PSS m.8.5 uyarınca paylarını satmayı seçmiş sayılmadığının TESPİTİNE, tahkim masraflarının davacıya yükletilmesine,",
+      "summary": [
+        { "text": "PSS m.8.4, teklif verene şirket değerini önemli ölçüde etkileyen bilgileri açıklama borcu yüklüyordu. Ege, teklif tarihinde bildiği 40 MW'lık bağlantı onayını açıklamadı; Nordwind'in bu bilgiye sahip olduğu da gösterilemedi." },
+        { "text": " Açıklama borcuna aykırı susma aldatmadır; Nordwind iptali cevap dilekçesinde, bir yıllık süre içinde bildirdi (TBK m.36, m.39). Susmanın satış sonucunu doğuran teklif Nordwind'i bağlamadı." },
+        { "if": "p1_tedbir", "text": " Mahkemeden alınan ihtiyati tedbir, kararın kesinleşmesiyle kalkacak." }
+      ]
+    },
+    {
+      "if": "p1_ifa",
+      "winner": "p1",
+      "hukum": [
+        { "text": "Davanın KABULÜ ile davalının Egewind Rüzgâr Enerjisi A.Ş.'deki paylarını temsil eden pay senetlerini davacıya ciro ve teslim etmesine, davacının 42.000.000 EUR bedeli" },
+        { "if": "p2_es", "text": " teslimle aynı anda ve davalının şirketten olan alacaklarının kapatılması koşuluyla" },
+        { "if": "!p2_es", "text": " teslimle aynı anda" },
+        { "text": " ödemesine, davalının devre onay için yönetim kurulunda olumlu oy kullanmasına," }
+      ],
+      "summary": [
+        { "text": "Nordwind teklife 60 gün cevap vermedi; PSS m.8.5'e göre payları satmayı seçmiş sayıldı." },
+        { "if": "p1_bilgiliydi", "text": " Aldatma iddiası tutmadı: bağlantı onayı teklif tarihinden önce yönetim kurulu portalına yüklenmiş ve Nordwind'in atadığı üyelerce açılmıştı; bilen taraf aldatılmış sayılmaz." },
+        { "if": "!p2_hile", "text": " Nordwind aldatma iddiasını cevapta ileri sürüp iptali bildirmemişti." },
+        { "if": "p2_hile && !p1_bilgiliydi && !p2_aldatma && !p2_bilgi", "text": " Nordwind aldatmayı ileri sürdü ama somut olgularla kuramadı." },
+        { "if": "p2_elverisiz", "text": " Tahkime elverişlilik itirazı reddedildi: sözleşmeden doğan pay devri borcu tarafların serbestçe tasarruf edebildiği bir konudur (MTK m.1/4)." },
+        { "if": "p1_tedbir", "text": " Mahkemeden alınan ihtiyati tedbir, payların yargılama sırasında fona devrini önlemişti." },
+        { "if": "p1_hakemtedbir || p1_ihtar", "text": " Davacı yargılama boyunca payları mahkeme tedbiriyle güvenceye almadı; yönetim kurulundaki onay yetkisi olmasa fona devir engellenemeyebilirdi." }
+      ]
+    },
+    {
+      "winner": "draw",
+      "hukum": "Davalının PSS m.8.5 uyarınca paylarını satmayı seçmiş sayıldığının TESPİTİNE; pay senetlerinin teslimine ilişkin eda talebinin, talep sonucu ciro, teslim ve bedelin ödenmesi düzeni bakımından belirli olmadığından REDDİNE,",
+      "summary": [
+        { "text": "Nordwind 60 gün sustu ve payları satmayı seçmiş sayıldı; aldatma iddiası da tutmadı." },
+        { "text": " Ama davacı vekili kurulun kuracağı ifa hükmünü (ciro ve teslim, bedelin aynı anda ödenmesi, onay için oy) somutlaştıramadı. Kurul tespitle yetindi; Ege devri için yeniden harekete geçmek zorunda." }
+      ]
+    }
+  ]
+}
