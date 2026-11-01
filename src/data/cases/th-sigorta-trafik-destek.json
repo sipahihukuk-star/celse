@@ -57,7 +57,7 @@
       "prompt": "Başvuruyu nasıl kuracaksınız?",
       "choices": [
         {
-          "text": "Belirsiz alacak olarak başvur: şimdilik 300.000 TL iste, zararın tamamı bilirkişi hesabıyla belli olunca talebi artır.",
+          "text": "Belirsiz alacak olarak başvur: şimdilik 300.000 TL iste, zararın tamamı bilirkişi hesabıyla belli olunca talebi rapora göre artır.",
           "delta": 20,
           "set": ["p1_belirsiz"],
           "law": "HMK m.107 · 5684 s.K. m.30/23",
@@ -379,7 +379,7 @@
       "prompt": "Rapordaki 700.000 TL'lik bakiye karşısında ne yapacaksınız?",
       "choices": [
         {
-          "text": "Karardan önce bedel artırım dilekçesi ver: talebi 700.000 TL'ye yükselt ve aradaki başvuru ücreti farkını yatır.",
+          "text": "Karardan önce bedel artırım dilekçesi ver: talebi rapordaki 700.000 TL'ye yükselt ve aradaki başvuru ücreti farkını da süresinde yatır.",
           "delta": 15,
           "set": ["p1_artir"],
           "law": "HMK m.107/2 · HMK m.26",
