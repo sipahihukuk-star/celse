@@ -117,7 +117,7 @@ export function CaseListScreen({ mode, cases, onPick, onBack, onSwitch, lockedNo
         <View style={{ flex: 1, minWidth: 200 }}>
           <Text style={styles.eyebrow}>{t("ANTRENMAN · SONUÇLAR KARİYERE İŞLEMEZ")}</Text>
           <Text style={styles.listTitle}>{duel ? t("Karşılıklı duruşma") : t("Tek kişilik dosyalar")}</Text>
-          <Text style={styles.listSub}>{duel ? t("Aynı davada iki vekil sırayla hamle yapar. Arkadaşınızla aynı cihazda ya da bilgisayara karşı oynayın.") : t("Tek bir rol üstlenin; karşı taraf ve hâkim hazır bekliyor.")}</Text>
+          <Text style={styles.listSub}>{duel ? t("Aynı davada iki vekil sırayla hamle yapar. Arkadaşınızla aynı cihazda ya da bilgisayara karşı oynayın.") : t("Tek bir rol üstlenin; karşı taraf ve hâkim hazır bekliyor.") + " " + t("Kariyerde ulaştığınız mahkemelerin dosyaları açıktır; üst mahkemeler kariyerde dava kazandıkça açılır.")}</Text>
         </View>
         <Btn kind="ghost" label={duel ? t("Tek kişilik ›") : t("Karşılıklı ›")} onPress={onSwitch} />
       </View>

@@ -206,8 +206,9 @@ export default function App() {
         )}
         {route.k === "list" && (
           <CaseListScreen mode={route.mode} cases={route.mode === "duel" ? cases.duel : cases.solo}
-            lockedNote={() => undefined}
-            onLocked={c => { if (c.mode === "duel" || lockOf.get(c.id) === "premium") setRoute({ k: "paywall", back: "list", mode: c.mode }); }}
+            // Tek kişilik dosyalar antrenmanda da kariyerdeki ilerlemeye göre açılır: kariyerde ulaşılmamış mahkemeye girilemez.
+            lockedNote={c => admin || c.mode !== "solo" || c.career?.off || careerOpen.has(c.id) ? undefined
+              : t("Kariyerde açılır · {bolum}", { bolum: CHAPTERS[levelOf(c) - 1].title })}
             onBack={() => setRoute({ k: "title" })}
             onSwitch={() => toList(route.mode === "duel" ? "solo" : "duel")}
             onPick={c => (c.mode === "duel" ? setSetup({ c, from: "list" }) : startGame(c, SOLO_PLAYERS))} />

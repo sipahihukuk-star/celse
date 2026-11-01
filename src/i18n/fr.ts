@@ -385,5 +385,6 @@ const dict: Record<string, string> = {
   "Yeni bölüm açıldı: {b}. Unvanınız artık \"{u}\".": "Nouveau chapitre débloqué : {b}. Votre titre est désormais « {u} ».",
   "büronuza gelen taraf": "la partie que représente votre cabinet",
   "05xx xxx xx xx · +49 …": "05xx xxx xx xx · +49 …",
+  "Kariyerde ulaştığınız mahkemelerin dosyaları açıktır; üst mahkemeler kariyerde dava kazandıkça açılır.": "Les dossiers des juridictions atteintes dans votre carrière sont ouverts ; les juridictions supérieures se débloquent à mesure que vous gagnez des affaires en carrière.",
 };
 export default dict;
