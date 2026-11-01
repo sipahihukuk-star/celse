@@ -1,0 +1,383 @@
+{
+  "id": "th-icc-faiz-doviz",
+  "mode": "duel",
+  "difficulty": "orta",
+  "title": "Efektif Kaydı",
+  "area": "Tahkim · Milletlerarası ticari tahkim · Döviz borcu, faiz ve tenfiz",
+  "court": "ICC Uluslararası Tahkim Divanı · Dava No. 29187/FXI (Tahkim yeri: Paris)",
+  "courtShort": "ICC · PARİS",
+  "esas": "ICC 29187/FXI",
+  "kararTarihi": "26.07.2027",
+  "color": "#2f5a3f",
+  "room": "tahkim",
+  "forum": "icc",
+  "bench": { "judges": 3, "title": "Başhakem ve iki hakem" },
+  "inscription": null,
+  "teaser": "Taksit Euro olarak ödenecekti; alıcı üç ay gecikti ve vadedeki kurla Türk lirası yatırdı. Aradaki kur farkı 80.000 avro. Dördüncü taksit hiç gelmedi; faiz ise sözleşmede yazmıyor.",
+  "sides": {
+    "p1": { "role": "Davacı (Satıcı) vekili", "short": "Davacı" },
+    "p2": { "role": "Davalı (Alıcı) vekili", "short": "Davalı" }
+  },
+  "cast": {
+    "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#ecc9a8", "hair": "#2a2220", "style": "long", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#d9a982", "hair": "#1e1a18", "style": "short", "beard": true, "shirt": "#1f2530", "inner": "#efe9e0" } },
+    "p2": { "look": { "kind": "civil", "skin": "#e8bf9a", "hair": "#6a4a32", "style": "bun", "shirt": "#22262e", "inner": "#e9e5dd" } },
+    "cfo": { "name": "Hakan Yeşilyurt · Alıcının mali işler direktörü", "np": "civil", "look": { "kind": "civil", "skin": "#cf9d76", "hair": "#4a4a50", "style": "short", "glasses": true, "shirt": "#4a3e30", "inner": "#e6e1d6" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "Valencialı Iberia Hidráulica S.L., Konya Tarım Makineleri A.Ş.'ye 2.400.000 EUR'luk hidrolik aksam sattı. Bedel dört eşit taksitle, her biri 600.000 EUR olarak ödenecekti. Sözleşmeye Türk hukuku uygulanıyor; tahkim yeri Paris." },
+    { "who": "narr", "text": "İlk iki taksit zamanında ödendi. 31.03.2026'da ödenmesi gereken üçüncü taksit 30.06.2026'da, vade günündeki kurla hesaplanmış Türk lirası olarak yatırıldı; 30.06 kuruyla bu tutar 520.000 EUR ediyor. 30.06.2026 vadeli dördüncü taksit hiç ödenmedi." },
+    { "who": "narr", "text": "Satıcı 600.000 EUR ile 80.000 EUR kur farkını ve faizini istiyor. Sözleşmede faiz oranı yok. Alıcı, Türkiye'de yerleşik bir şirketin Euro borcuyla bağlanamayacağını söylüyor." }
+  ],
+  "docs": [
+    { "t": "Satış sözleşmesi m.6", "d": "m.6.1: Bedel dört taksitle; vadeler 30.09.2025, 31.12.2025, 31.03.2026 ve 30.06.2026; her biri 600.000 EUR. m.6.2: “Ödemeler yalnızca Euro olarak, efektif yapılır. Başka bir para birimiyle yapılan ödeme borcu sona erdirmez.”" },
+    { "t": "Sözleşme m.14, m.15", "d": "m.14: Türk hukuku uygulanır. m.15: ICC Tahkim Kuralları, üç hakem, tahkim yeri Paris, dil İngilizce." },
+    { "t": "Üçüncü taksit ödemesi", "d": "30.06.2026: Alıcı, 31.03.2026 tarihli döviz satış kuruyla hesapladığı Türk lirasını satıcının Türkiye'deki muhabir hesabına yatırdı. Satıcının bankası tutarı aynı gün 520.000 EUR'ya çevirdi." },
+    { "t": "Satıcının ihtarı (15.08.2026)", "d": "Kalan 80.000 EUR ile dördüncü taksit 600.000 EUR'nun yedi gün içinde ödenmesi istendi; ödeme yapılmadı." },
+    { "t": "Tahkim talebi (10.10.2026)", "d": "Satıcı ICC Sekretaryasına başvurdu. Görev Tutanağı Ocak 2027'de imzalanacak." }
+  ],
+  "evidence": [
+    { "id": "ev_sozlesme", "type": "belge", "title": "Sözleşme m.6.2 · Efektif kaydı", "desc": "Ödemeler yalnızca Euro olarak yapılır; başka para birimiyle ödeme borcu sona erdirmez." },
+    { "id": "ev_banka", "type": "belge", "title": "Banka çevirim dekontu (30.06.2026)", "desc": "Yatırılan Türk lirası aynı gün 520.000 EUR'ya çevrildi." },
+    { "id": "ev_sakli", "type": "belge", "title": "Satıcının e-postası (02.07.2026)", "desc": "“Yatırdığınız Türk lirası 30.06 kuruyla 520.000 EUR'ya karşılık geldi; kısmi ödeme olarak mahsup ediyoruz. Kalan 80.000 EUR ile dördüncü taksiti bekliyoruz; bütün haklarımız saklıdır.”" },
+    { "id": "ev_ihtar", "type": "belge", "title": "İhtar (15.08.2026)", "desc": "Kalan 80.000 EUR ve dördüncü taksit için yedi gün süre." },
+    { "id": "law_tbk99", "type": "kanun", "title": "TBK m.99", "desc": "Yabancı para borcu, aynen ödeme kaydı yoksa ödeme günündeki değeriyle Türk parası olarak ödenebilir; vadesinde ödenmezse alacaklı aynen ya da vade veya fiilî ödeme günündeki rayiçle Türk parası olarak ödenmesini isteyebilir.", "law": "TBK m.99" }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "TAHKİM TALEBİ · Müvekkil, faizi “nasılsa sonra da isteriz” diyerek ilk dilekçeyi kısa tutmanızı istiyor." }
+      ],
+      "prompt": "Talep sonucunu nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Dördüncü taksit 600.000 EUR, kur farkı 80.000 EUR ve ikisine vadelerinden itibaren faiz; hepsi şimdi, Euro olarak istensin.",
+          "delta": 15,
+          "set": ["p1_tam"],
+          "law": "ICC m.4/3, m.23/4 · TBK m.99/3",
+          "note": "Bütün talepler tahkim talebinde yer almalı ki Görev Tutanağına girsin. Tutanağın sınırları dışında kalan yeni talep ancak kurulun izniyle getirilebilir (ICC m.23/4). Euro olarak istemek, efektif kaydının ve TBK m.99/3'ün verdiği korumayı saklar."
+        },
+        {
+          "text": "Şimdilik yalnız 680.000 EUR anaparayı iste; faizi, tutar netleşince Görev Tutanağından sonra ek bir talep dilekçesiyle getir.",
+          "delta": -10,
+          "set": ["p1_faizsonra"],
+          "law": "ICC m.23/4",
+          "note": "Görev Tutanağı imzalandıktan sonra Tutanağın sınırları dışında kalan yeni talep ancak kurulun izniyle getirilebilir (ICC m.23/4). Kurul, gerekçesiz gecikmeyle getirilen faiz talebine izin vermedi."
+        },
+        {
+          "text": "Bütün alacağı dava günündeki kurla Türk lirasına çevirip TL olarak iste; Türkiye'de tenfiz ve icra çok daha kolay olur.",
+          "delta": -5,
+          "set": ["p1_tl"],
+          "law": "TBK m.99/3",
+          "note": "Alacaklı yabancı para alacağının Türk parası olarak ödenmesini isteyebilir (TBK m.99/3); ama dava günündeki kurla TL'ye çevirmek, sonraki kur artışının riskini müvekkile yükler. Efektif kaydının sağladığı korumayı kendiliğinizden bıraktınız."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · Talep dilekçesi tebliğ edildi. Alıcının genel müdürü, Türk şirketlerinin döviz cinsinden sözleşme yapamayacağını bir yerden duymuş." }
+      ],
+      "prompt": "Cevap dilekçesinin eksenini ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Euro borcunu ve dördüncü taksiti kabul et; TL ödemeyi kısmi ifa olarak mahsup ettir, savunmayı faizin oranına ve kapsamına yönelt.",
+          "delta": 15,
+          "set": ["p2_gercekci"],
+          "law": "TBK m.99 · 3095 s. K. m.4/a",
+          "note": "Tutulmayacak savunmalarla güven kaybetmek yerine, tartışılabilir tek alana, faize yöneldiniz. Kurul sizi bu konuda dikkatle dinleyecek."
+        },
+        {
+          "text": "Euro borcu 32 sayılı Karar m.4/g'ye aykırı ve geçersizdir; borç TL'ye çevrilmeli, üçüncü taksit vade kuruyla tamamen ödenmiş sayılmalı.",
+          "delta": -10,
+          "set": ["p2_32"],
+          "law": "32 sayılı Karar m.4/g",
+          "note": "m.4/g, Türkiye'de yerleşik kişilerin kendi aralarındaki belirli sözleşmelerde döviz cinsinden bedel kararlaştırmasını sınırlar. Satıcı Valencia'da yerleşik; Türkiye'ye mal ithalatına ilişkin bu sözleşme kapsam dışındadır."
+        },
+        {
+          "text": "TBK m.99/2'ye göre borçlu Euro borcunu Türk parasıyla ödeyebilir; vade günündeki kurla yapılan ödeme üçüncü taksiti tamamen sona erdirdi.",
+          "delta": -5,
+          "set": ["p2_99"],
+          "law": "TBK m.99/2, m.99/3",
+          "note": "m.99/2 bu imkânı ancak sözleşmede aynen ödeme kaydı yoksa tanır; m.6.2 açık bir efektif kaydıdır. Üstelik ödeme vadesinde yapılmadı; bu durumda kurun hangi güne göre alınacağını alacaklı seçer (m.99/3)."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, faizin başlangıç tarihi hakkında beyanınız?" }
+      ],
+      "prompt": "Faiz hangi tarihten işlemelidir?",
+      "choices": [
+        {
+          "text": "Vadeler sözleşmede belirli; alıcı ihtara gerek olmadan vadenin geçmesiyle temerrüde düştü (TBK m.117/2). Faiz 31.03 ve 30.06'dan işler.",
+          "delta": 15,
+          "set": ["p1_vade"],
+          "law": "TBK m.117/2",
+          "note": "Borcun ifa edileceği gün birlikte belirlenmişse, bu günün geçmesiyle borçlu temerrüde düşer; ayrıca ihtar gerekmez (TBK m.117/2). Üçüncü taksitin tamamına 31.03'ten kısmi ödeme gününe kadar, kalan 80.000 EUR'ya o günden sonra; dördüncü taksite 30.06'dan faiz işler."
+        },
+        {
+          "text": "Faiz, 15.08.2026 tarihli ihtarın tebliğinden işlesin; Türk hukukunda temerrüt için her durumda ihtar gerekir, önceki dönem için faiz istenemez.",
+          "delta": -5,
+          "set": ["p1_ihtardan"],
+          "law": "TBK m.117",
+          "note": "Belirli vadeli borçlarda temerrüt için ihtar gerekmez (TBK m.117/2). İhtar tarihinden faiz istemekle, vadelerden ihtara kadar geçen dönemin faizinden kendiliğinizden vazgeçtiniz."
+        },
+        {
+          "text": "Faiz hakem kararının tarihinden işlesin; alacak ancak kararla kesinleşir.",
+          "delta": -10,
+          "set": ["p1_karardan"],
+          "law": "TBK m.117/2",
+          "note": "Alacağın tartışmalı olması temerrüdü ertelemez; muaccel ve belirli vadeli borçta borçlu vadenin geçmesiyle temerrüde düşer (TBK m.117/2). Bir yılı aşan faizden vazgeçmiş oldunuz."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p2",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Duruşmadan önce alıcının mali işler direktörü Hakan Yeşilyurt'la görüşüyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Mali işler direktörüne ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Üçüncü taksiti neden Türk lirası olarak ödedik?",
+          "delta": 5,
+          "set": ["p2_kabul"],
+          "reply": [
+            { "who": "cfo", "text": "Kur yükselmişti, vade kuruyla TL ödemek bize ucuz geldi. Satıcının muhasebesinden “ödemeniz alınmıştır” diye bir e-posta geldi; bunu kabul diye anladık." }
+          ],
+          "note": "Satıcının kabulüne dayanacaksanız bilmeniz gereken bir ayrıntı. Ama “ödemeniz alınmıştır” demek, efektif kaydı olan bir borçta TL ödemenin borcu tamamen sona erdirdiğini kabul etmek anlamına gelmeyebilir."
+        },
+        {
+          "text": "Satıcının Türkiye'de bir şubesi ya da yerleşik bir temsilcisi var mı?",
+          "delta": 5,
+          "set": ["p2_yerlesik"],
+          "reply": [
+            { "who": "cfo", "text": "Yok. Her şey Valencia'dan yürüyor; yalnız Türkiye'de bir muhabir banka hesabı kullanıyorlar." }
+          ],
+          "note": "Önemli: satıcı Türkiye'de yerleşik değil. 32 sayılı Karar m.4/g'deki döviz yasağı Türkiye'de yerleşiklerin kendi aralarındaki sözleşmeler içindir; bu savunma tutmaz."
+        },
+        {
+          "text": "Satıcı bizden ne zaman ve hangi faizle ödeme istedi?",
+          "delta": 10,
+          "set": ["p2_oran"],
+          "reply": [
+            { "who": "cfo", "text": "İhtarında yalnız anaparayı istedi. Tahkim talebinde ise yıllık yüzde dokuz faiz istiyor; İspanya'daki geç ödeme kanununa dayanıyor." }
+          ],
+          "note": "Doğru soru. Sözleşmede faiz yoksa oranı uygulanacak hukuk, yani Türk hukuku belirler; İspanyol oranı uygulanmaz. Faiz savunmanız için sağlam bir zemin."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davacı vekili, üçüncü taksit hakkında davalının beyanına cevabınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Başhakem, satıcı Türk lirası ödemeyi itirazsız kabul etti ve “ödemeniz alınmıştır” diye yazdı. Üçüncü taksit tamamen ödenmiştir; kur farkı istenemez." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_sakli"],
+      "hit": {
+        "delta": 25,
+        "set": ["p1_sakli"],
+        "law": "Sözleşme m.6.2 · TBK m.99/3",
+        "note": "Satıcı iki gün sonra açıkça yazdı: TL tutarı 30.06 kuruyla 520.000 EUR'ya karşılık geliyor, kısmi ödeme olarak mahsup ediliyor, kalan 80.000 EUR bekleniyor ve haklar saklı. Muhasebenin alındı bildirimi borcu sona erdiren bir kabul değildir; çekince açık.",
+        "reply": [
+          { "who": "judge", "text": "E-posta dosyaya alındı. Davalı vekili, e-postanın alındığını tartışıyor musunuz?" },
+          { "who": "p2", "text": "Tartışmıyoruz, Sayın Başhakem." }
+        ]
+      },
+      "responses": {
+        "ev_sozlesme": {
+          "delta": 5,
+          "set": ["p1_efektif"],
+          "law": "Sözleşme m.6.2",
+          "note": "Yararlı: efektif kaydı, başka para birimiyle ödemenin borcu sona erdirmeyeceğini söylüyor. Ama beyan satıcının sonradan kabul ettiği üzerine; bunu en iyi, satıcının çekince içeren 02.07.2026 e-postası çürütürdü."
+        },
+        "law_tbk99": {
+          "delta": -5,
+          "note": "Madde genel kuralı veriyor; satıcının ödemeyi tam ifa olarak kabul etmediğini göstermez. Çekinceli e-posta çantanızdaydı."
+        },
+        "ev_banka": {
+          "delta": -5,
+          "note": "Dekont çevirimin 520.000 EUR ettiğini gösteriyor; satıcının bunu tam ödeme saymadığını göstermez."
+        },
+        "ev_ihtar": {
+          "delta": -5,
+          "note": "İhtar kalan alacağı istiyor, ama ödemeden bir buçuk ay sonra; asıl önemli olan ödemenin hemen ardından yapılan çekinceydi."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge satıcının ödemeyi tam ifa olarak kabul etmediğini göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; kurul TL ödemenin kabul edildiği beyanını cevapsız buldu." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Davalı vekili, faiz talebine karşı savunmanızı alalım." }
+      ],
+      "prompt": "Faizin oranına ve kapsamına karşı savunmanızı kendi cümlelerinizle kurun.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_faizsav"],
+          "law": "3095 s. K. m.4/a, m.2/2",
+          "note": "Sözleşmede faiz kararlaştırılmamış ve sözleşmeye Türk hukuku uygulanıyor. Yabancı para borcunda, sözleşmede daha yüksek oran yoksa, devlet bankalarının o para birimiyle açılmış bir yıl vadeli mevduata ödediği en yüksek faiz uygulanır (3095 s. K. m.4/a). İspanyol oranı da, TL borçları için öngörülen avans faizi (m.2/2) de uygulanmaz. Faiz Euro anapara üzerinden ve basit faiz olarak hesaplanır."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_faizsav"],
+          "law": "3095 s. K. m.4/a",
+          "note": "Oranı doğru yere bağladınız. Tam savunma, Türk hukukunun neden uygulandığını (m.14), 3095 s. K. m.4/a'daki Euro mevduat oranını ve İspanyol oranı ile avans faizinin neden uygulanmadığını birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "3095 s. K. m.4/a",
+          "note": "Faiz savunmasını kuramadınız. Sözleşme Türk hukukuna tabi; yabancı para borcunda oran 3095 s. K. m.4/a'ya göre, devlet bankalarının bir yıllık Euro mevduatına ödediği en yüksek faizdir. Satıcının istediği %9 bununla bağdaşmaz."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Sözleşmede faiz oranı kararlaştırılmamıştır; taraflar sözleşmeye Türk hukukunu uygulatmayı seçmiştir (m.14), bu nedenle faiz oranı Türk hukukuna göre belirlenir. (2) 3095 sayılı Kanun m.4/a uyarınca yabancı para borcunda, sözleşmede daha yüksek akdî ya da gecikme faizi yoksa, devlet bankalarının o yabancı parayla açılmış bir yıl vadeli mevduat hesaplarına ödediği en yüksek faiz uygulanır. (3) Satıcının dayandığı İspanyol geç ödeme oranı uygulanmaz; Türk lirası borçları için öngörülen avans faizi (3095 s. K. m.2/2) de Euro borcuna uygulanmaz. (4) Faiz Euro anapara üzerinden ve sözleşmede kararlaştırılmadığı için basit faiz olarak işler. m.4/a'yı ve öteki oranların neden uygulanmadığını birlikte kuran cevap tam puan alır.",
+      "keywords": [
+        { "terms": ["3095", "m.4/a", "4/a"], "weight": 3 },
+        { "terms": ["devlet bankaları", "mevduat", "bir yıl vadeli", "bir yıllık"], "weight": 2 },
+        { "terms": ["Türk hukuku", "m.14", "uygulanacak hukuk"], "weight": 1 },
+        { "terms": ["İspanyol", "yüzde dokuz", "%9", "avans faizi", "m.2/2"], "weight": 2 },
+        { "terms": ["basit faiz", "faize faiz", "anapara"], "weight": 1 }
+      ],
+      "model": "Sayın Başhakem, sözleşmede faiz oranı yoktur ve taraflar Türk hukukunu seçmiştir (m.14). Türk hukukunda yabancı para borcuna, sözleşmede daha yüksek oran kararlaştırılmamışsa devlet bankalarının bir yıl vadeli Euro mevduatına ödediği en yüksek faiz uygulanır (3095 s. K. m.4/a). Satıcının istediği İspanyol %9'luk oranı da, TL borçları için öngörülen avans faizi de bu borca uygulanamaz. Faiz Euro anapara üzerinden, basit faiz olarak hesaplanmalıdır."
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "Müvekkil, kararın Konya'daki alıcıya karşı Türkiye'de nasıl icra edileceğini soruyor. Alıcı Paris'te iptal davası açacağını söylüyor." }
+      ],
+      "prompt": "Paris'te verilecek hakem kararını Türkiye'de nasıl tenfiz ettireceğinizi ve alıcının itirazlarını nasıl karşılayacağınızı anlatın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_tenfiz"],
+          "law": "New York Sözleşmesi m.IV, m.V, m.VI · MÖHUK m.1/2",
+          "note": "Tahkim yeri Paris olduğundan karar yabancı hakem kararıdır; Türkiye ve Fransa New York Sözleşmesine taraftır ve Sözleşme MÖHUK'tan önce uygulanır (MÖHUK m.1/2). Kararın ve tahkim anlaşmasının aslı ya da onaylı örneği, onaylı Türkçe çevirisiyle sunulur (m.IV). Ret sebepleri m.V'te sınırlıdır; Paris'te iptal davasının açılmış olması tek başına engel değildir, karar iptal edilmiş ya da durdurulmuş olmalıdır (m.V/1-e). Euro cinsinden hüküm kamu düzenine aykırı değildir."
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_tenfiz"],
+          "law": "New York Sözleşmesi m.IV, m.V",
+          "note": "Doğru çerçeveyi kurdunuz. Tam cevap, sunulacak belgeleri (m.IV), ret sebeplerinin sınırlılığını (m.V), Paris'teki iptal davasının etkisini (m.V/1-e, m.VI) ve Euro hükmün kamu düzenine aykırı olmadığını birlikte söyler."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "New York Sözleşmesi m.IV, m.V, m.VI",
+          "note": "Tenfiz yolunu kuramadınız. Paris'te verilen karar Türkiye'de New York Sözleşmesine göre tenfiz edilir; belgeler m.IV'e göre sunulur, ret sebepleri m.V ile sınırlıdır ve bekleyen bir iptal davası kendiliğinden engel değildir."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Tahkim yeri Paris olduğundan karar Türkiye bakımından yabancı hakem kararıdır; Türkiye ve Fransa New York Sözleşmesine taraftır ve Türkiye'nin karşılıklılık ve ticari nitelik çekinceleri bu davada sorun değildir. Sözleşme MÖHUK'un tenfiz hükümlerinden önce uygulanır (MÖHUK m.1/2). (2) Tenfiz talebine kararın ve tahkim anlaşmasının aslı ya da onaylı örneği, onaylı Türkçe çevirisiyle eklenir (m.IV). (3) Ret sebepleri m.V'te sınırlıdır; tenfiz hâkimi esası yeniden inceleyemez. (4) Paris'te iptal davası açılmış olması tek başına engel değildir; kararın iptal edilmiş ya da durdurulmuş olması gerekir (m.V/1-e); mahkeme kararı erteleyebilir ve alıcıdan teminat isteyebilir (m.VI). (5) Euro cinsinden hüküm kamu düzenine aykırı değildir (m.V/2-b); 32 sayılı Karar yerleşik olmayan satıcıyla yapılan ithalat sözleşmesine uygulanmaz. Bunların çoğunu birlikte, maddeleriyle kuran cevap tam puan alır.",
+      "keywords": [
+        { "terms": ["New York", "NYS", "Sözleşme"], "weight": 2 },
+        { "terms": ["tenfiz", "tanıma"], "weight": 2 },
+        { "terms": ["m.V", "madde V", "ret sebep", "sınırlı"], "weight": 1 },
+        { "terms": ["iptal davası", "Paris", "V/1-e", "m.VI", "ertele"], "weight": 2 },
+        { "terms": ["kamu düzeni", "V/2-b"], "weight": 1 },
+        { "terms": ["aslı", "onaylı", "çeviri", "m.IV"], "weight": 1 },
+        { "terms": ["MÖHUK", "m.1/2"], "weight": 1 }
+      ],
+      "model": "Karar Paris'te verileceği için Türkiye bakımından yabancı hakem kararıdır; Türkiye ve Fransa New York Sözleşmesine taraf olduğundan tenfiz bu Sözleşmeye göre istenir ve Sözleşme MÖHUK'tan önce uygulanır (MÖHUK m.1/2). Talebe kararın ve tahkim şartının onaylı örnekleri, onaylı Türkçe çevirileriyle eklenir (m.IV). Ret sebepleri m.V ile sınırlıdır; Paris'te iptal davası açılmış olması kararın iptal edilmesi ya da durdurulması anlamına gelmez (m.V/1-e), mahkeme en fazla erteleyip alıcıdan teminat isteyebilir (m.VI). Euro cinsinden hüküm de kamu düzenine aykırı değildir."
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "TENFİZ · Hakem kararı aleyhe çıktı; satıcı Konya'da tenfiz davası açtı. Paris'te iptal davanız sürüyor, ama Fransız mahkemesi icrayı durdurmadı." }
+      ],
+      "prompt": "Tenfiz davasında hangi savunmayı yapacaksınız?",
+      "choices": [
+        {
+          "text": "Paris'teki iptal davasını göster; New York Sözleşmesi m.VI uyarınca karar ertelensin. Mahkeme bizden teminat da isteyebilir.",
+          "delta": 15,
+          "set": ["p2_erteleme"],
+          "law": "New York Sözleşmesi m.V/1-e, m.VI",
+          "note": "Bekleyen iptal davası tek başına ret sebebi değildir; ama mahkeme tenfiz kararını erteleyebilir ve tenfiz isteyenin talebiyle karşı taraftan uygun teminat isteyebilir (m.VI). Gerçekçi ve savunulabilir bir talep."
+        },
+        {
+          "text": "Euro cinsinden hüküm Türk parasını koruma mevzuatına, dolayısıyla kamu düzenine aykırıdır (m.V/2-b); tenfiz reddedilsin.",
+          "delta": -10,
+          "set": ["p2_kamu"],
+          "law": "New York Sözleşmesi m.V/2-b",
+          "note": "Kamu düzeni, Türk hukukunun temel ilkelerinin açıkça çiğnendiği istisnai durumlar içindir. Yerleşik olmayan bir satıcıyla yapılan ithalat sözleşmesinde Euro borcu Türk hukukunda da geçerlidir; savunma reddedildi."
+        },
+        {
+          "text": "Hakemler faizi ve kur farkını yanlış hesapladı; tenfiz hâkimi hesabı baştan yapıp doğru tutara göre tenfize karar versin.",
+          "delta": -10,
+          "set": ["p2_esas"],
+          "law": "New York Sözleşmesi m.V",
+          "note": "Tenfiz hâkimi hakem kararının esasını yeniden inceleyemez; ret sebepleri m.V'te sayılanlarla sınırlıdır. Hesap hatası iddiası tenfizde dinlenmez."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "(p1_sakli || p1_efektif) && !p1_faizsonra",
+      "winner": "p1",
+      "hukum": [
+        { "if": "!p1_tl", "text": "Davanın KABULÜ ile 600.000 EUR dördüncü taksit ile 80.000 EUR kur farkının" },
+        { "if": "p1_tl", "text": "Davanın KABULÜ ile 600.000 EUR dördüncü taksit ile 80.000 EUR kur farkının dava tarihindeki kurla Türk lirası karşılığının" },
+        { "if": "p1_vade", "text": " vade tarihlerinden" },
+        { "if": "p1_ihtardan", "text": " ihtarın tebliğinden" },
+        { "if": "p1_karardan", "text": " karar tarihinden" },
+        { "text": " itibaren 3095 sayılı Kanun m.4/a uyarınca işleyecek faiziyle birlikte davalıdan alınarak davacıya ödenmesine, fazla faiz talebinin REDDİNE," }
+      ],
+      "summary": [
+        { "text": "Sözleşmedeki efektif kaydı, başka para birimiyle yapılan ödemenin borcu sona erdirmeyeceğini söylüyordu. Vadesinden üç ay sonra yatırılan Türk lirası ancak tahsil günündeki karşılığıyla, 520.000 EUR olarak mahsup edildi." },
+        { "if": "p1_sakli", "text": " Satıcı iki gün sonra çekinceyle kalan 80.000 EUR'yu istemişti; alındı bildirimi bir kabul sayılmadı." },
+        { "text": " Faiz oranı Türk hukukundan bulundu: Euro borcuna devlet bankalarının bir yıllık Euro mevduatına ödediği en yüksek faiz (3095 s. K. m.4/a); İspanyol oranı reddedildi." },
+        { "if": "p2_32", "text": " 32 sayılı Karar savunması tutmadı; satıcı Türkiye'de yerleşik değildi." },
+        { "if": "p1_ihtardan || p1_karardan", "text": " Satıcı vekili faizi geç bir tarihten istediği için vadeden o güne kadarki faiz kaybedildi." },
+        { "if": "p1_tl", "text": " Alacak dava tarihindeki kurla TL'ye çevrildiği için sonraki kur artışı satıcının aleyhine işledi." }
+      ]
+    },
+    {
+      "if": "(p1_sakli || p1_efektif) || !p1_faizsonra",
+      "winner": "draw",
+      "hukum": [
+        { "if": "p1_sakli || p1_efektif", "text": "Davanın KISMEN KABULÜ ile 600.000 EUR dördüncü taksit ile 80.000 EUR kur farkının davalıdan alınarak davacıya ödenmesine; Görev Tutanağından sonra getirilen faiz talebinin ICC m.23/4 uyarınca incelenmesine izin verilmemesine," },
+        { "if": "!(p1_sakli || p1_efektif)", "text": "Davanın KISMEN KABULÜ ile 600.000 EUR dördüncü taksitin 3095 sayılı Kanun m.4/a uyarınca işleyecek faiziyle birlikte davalıdan alınarak davacıya ödenmesine, kur farkı talebinin REDDİNE," }
+      ],
+      "summary": [
+        { "if": "p1_faizsonra", "text": "Kur farkı ve dördüncü taksit kabul edildi; ama faiz, Görev Tutanağından sonra getirildiği için incelenmedi (ICC m.23/4). Satıcı vekilinin “faizi sonra isteriz” tercihi bir yılı aşan faize mal oldu." },
+        { "if": "!p1_faizsonra", "text": "Dördüncü taksit faiziyle kabul edildi. Ama satıcının Türk lirası ödemeyi çekincesiz aldığı yönündeki beyan çürütülemedi; kurul üçüncü taksiti ödenmiş saydı ve 80.000 EUR kur farkını reddetti." },
+        { "if": "p2_faizsav", "text": " Faiz oranı alıcı vekilinin savunduğu gibi 3095 s. K. m.4/a'ya göre belirlendi." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "Davanın KISMEN KABULÜ ile yalnız 600.000 EUR dördüncü taksitin davalıdan alınarak davacıya ödenmesine, kur farkı talebinin REDDİNE, Görev Tutanağından sonra getirilen faiz talebinin incelenmesine izin verilmemesine,",
+      "summary": [
+        { "text": "Alıcı, tartışmasız dördüncü taksit dışındaki bütün tartışmalı noktalarda kazandı. Satıcının Türk lirası ödemeyi çekincesiz aldığı yönündeki beyan çürütülemedi; üçüncü taksit ödenmiş sayıldı." },
+        { "text": " Faiz talebi de Görev Tutanağından sonra getirildiği için incelenmedi (ICC m.23/4)." }
+      ]
+    }
+  ]
+}

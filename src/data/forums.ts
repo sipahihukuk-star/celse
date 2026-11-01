@@ -86,8 +86,8 @@ export const FORUMS: Forum[] = [
       "İtiraz, federasyon talimatlarında öngörülen kısa süre içinde yazılı olarak yapılır; Kurul dosya üzerinden ya da duruşmalı inceler.",
       "Hakem kararlarının ve oyun kurallarının uygulanması (saha içi takdir) kural olarak denetlenmez; hukuk kuralına aykırılık denetlenir."
     ],
-    karar: "Anayasa m.59/3 uyarınca spor federasyonlarının sporun yönetimi ve disipliniyle ilgili kararlarına karşı ancak zorunlu tahkim yoluna gidilebilir; Tahkim Kurulu kararları kesindir.",
-    yol: "Hiçbir yargı merciine başvurulamaz; ancak temel hak ihlali iddiasıyla Anayasa Mahkemesine bireysel başvuru yapılabileceği kabul edilmektedir."
+    karar: "Anayasa m.59/3 uyarınca sporun yönetimi ve disipliniyle ilgili federasyon kararlarına karşı ancak zorunlu tahkim yoluna gidilebilir; Tahkim Kurulunun bu kararları kesindir.",
+    yol: "Yönetim ve disiplin kararlarında yargı yolu kapalıdır; Anayasa Mahkemesi bu kararlara karşı bireysel başvuruları konu bakımından yetkisizlik nedeniyle kabul edilemez bulmaktadır, AİHM yolu ise açıktır (Ali Rıza ve Diğerleri/Türkiye, 2020). Alacak ve menajer ücreti gibi diğer uyuşmazlıklarda 2022'den beri bir ay içinde HMK m.439'a göre iptal davası açılabilir (5894 s.K. m.6/6)."
   },
   {
     id: "ihtk", group: "Komisyonlar", short: "İHTK",

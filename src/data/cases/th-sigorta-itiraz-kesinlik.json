@@ -1,0 +1,396 @@
+{
+  "id": "th-sigorta-itiraz-kesinlik",
+  "mode": "duel",
+  "difficulty": "zor",
+  "title": "Hangi Tarihin Sınırı",
+  "area": "Tahkim · Sigorta tahkimi · İtiraz hakem heyeti ve parasal sınır (kesinlik)",
+  "court": "Sigorta Tahkim Komisyonu · İtiraz Hakem Heyeti",
+  "courtShort": "İTİRAZ HAKEM HEYETİ",
+  "esas": "2026/İHK-31407",
+  "kararTarihi": "22.06.2026",
+  "color": "#3f5a3a",
+  "room": "tahkim",
+  "forum": "sigorta",
+  "inscription": null,
+  "bench": { "judges": 3, "title": "İtiraz hakem heyeti: başkan ve iki hakem" },
+  "teaser": "31.000 TL'lik uyuşmazlık. Başvuru yapıldığında itiraz sınırı 28.000 TL'ydi, karar verildiğinde 35.000 TL. Sigorta şirketi “karar kesin” diyor; itiraz edilen kısım ise yalnızca 20.000 TL.",
+  "sides": {
+    "p1": { "role": "İtiraz eden (başvuran) vekili", "short": "İtiraz eden" },
+    "p2": { "role": "Sigorta şirketi vekili", "short": "Sigorta şirketi" }
+  },
+  "cast": {
+    "judge": { "name": "Panel Başkanı", "np": "red", "look": { "kind": "civil", "skin": "#e2b590", "hair": "#2f2621", "style": "short", "beard": true, "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
+    "p1": { "look": { "kind": "civil", "skin": "#d7a37b", "hair": "#5b3b26", "style": "long", "shirt": "#24282f", "inner": "#efe9e0" } },
+    "p2": { "look": { "kind": "civil", "skin": "#efc8a3", "hair": "#2a2321", "style": "short", "shirt": "#1f2934", "inner": "#e6e3dd" } },
+    "client": { "name": "Selin Ateş · Grafik tasarımcı", "np": "civil", "look": { "kind": "civil", "skin": "#f0cdaa", "hair": "#1c1715", "style": "curly", "shirt": "#6b4f73", "inner": "#efe6dc" } }
+  },
+  "intro": [
+    { "who": "narr", "text": "03.12.2025'te Selin Ateş'in dizüstü bilgisayarına kahve döküldü. Cihaz Poyraz Sigorta A.Ş.'de Elektronik Cihaz Sigortasıyla sigortalıydı. Şirket hasarı aynı gün kaydetti; eksper dokuzuncu gün geldi. Serviste ekranın yanı sıra anakartın da paslandığı görüldü." },
+    { "who": "narr", "text": "Şirket “kullanıcı hatası” diyerek ödemeyi reddetti. Selin 12.01.2026'da Komisyona başvurdu: ekran 11.000 TL, anakart 20.000 TL, toplam 31.000 TL. Başvuru tarihinde itiraz sınırı 28.000 TL'ydi; 22.01.2026'dan itibaren sınır 35.000 TL oldu." },
+    { "who": "narr", "text": "Hakem 20.04.2026'da kararını verdi: kaza sonucu sıvı teması teminat kapsamında, ekran için 11.000 TL ödenecek; ama sigortalı cihazı dokuz gün servise götürmediği için anakart zararı zararı azaltma yükümlülüğünün ihlalidir, 20.000 TL reddedildi (TTK m.1448). Karar 24.04.2026'da tebliğ edildi." },
+    { "who": "narr", "text": "Bugün 27.04.2026. Başvuranın vekili ilk hamleyi yapacak." }
+  ],
+  "docs": [
+    { "t": "5684 s.K. m.30/12", "d": "Belirlenen sınırın altındaki uyuşmazlıklara ilişkin hakem kararları kesindir. Sınır ve üzerindeki uyuşmazlıklarda verilen kararlara karşı, kararın bildirilmesinden itibaren on gün içinde, bir defaya mahsus olmak üzere Komisyon nezdinde itiraz edilebilir; itiraz üzerine kararın icrası durur. Temyiz sınırının üzerindeki uyuşmazlıklarda itiraz kararına karşı temyiz yolu açıktır." },
+    { "t": "Parasal Sınırlar Tebliği", "d": "RG 16.04.2022/31811; değişik RG 21.05.2025/32906 (itiraz sınırı 28.000 TL, temyiz sınırı 300.000 TL, heyet sınırı 96.000 TL; her yıl başında Yİ-ÜFE oranında artırılır). 2026 sınırları 22.01.2026'dan itibaren: itiraz 35.000 TL, heyet 122.000 TL, temyiz 383.000 TL. RG 19.03.2026/33201 değişikliği, m.3/4: “Birinci ve ikinci fıkradaki parasal sınırların uygulanmasında başvurunun yapıldığı tarihteki miktar esas alınır.”" },
+    { "t": "Uyuşmazlık hakemi kararı (20.04.2026)", "d": "Başvurunun KISMEN KABULÜ ile 11.000 TL ekran bedelinin ödenmesine; anakart bedeli 20.000 TL'nin, sigortalının cihazı dokuz gün servise götürmeyerek zararın artmasına yol açması nedeniyle (TTK m.1448) REDDİNE." },
+    { "t": "Poliçe ve hasar dosyası", "d": "Teminat: ani ve beklenmedik sıvı teması dahil kaza sonucu hasar. Hasar ihbarı 03.12.2025, 10.42. Eksper ziyareti 12.12.2025. Servis raporu 13.12.2025: ekran ve anakart; anakartta sıvı kaynaklı korozyon." },
+    { "t": "TTK m.1448", "d": "Riziko gerçekleşince sigorta ettiren, zararı azaltmak ve artmasını önlemek için makul tedbirleri alır ve sigortacının talimatlarına mümkün olduğunca uyar. Aykırılık sigortacıyı olumsuz etkilemişse kusurun ağırlığına göre tazminattan indirim yapılır. Bu tedbirlerin makul giderleri sonuç vermese bile sigortacıca ayrıca ödenir." }
+  ],
+  "evidence": [
+    { "id": "ev_karar", "type": "belge", "title": "Uyuşmazlık hakemi kararı", "desc": "Ekran 11.000 TL kabul; anakart 20.000 TL, TTK m.1448 gerekçesiyle ret." },
+    { "id": "ev_servis", "type": "belge", "title": "Servis raporu (13.12.2025)", "desc": "Anakartta sıvı kaynaklı korozyon; ilk 48 saatte temizlik yapılsaydı kurtarılabileceği notu." },
+    { "id": "ev_sms", "type": "belge", "title": "Şirketin SMS'i (03.12.2025, 10.55)", "desc": "“Hasar dosyanız açılmıştır. Eksperimiz sizinle iletişime geçecektir. Eksper incelemesine kadar cihazı açmayınız, servise götürmeyiniz ve herhangi bir işlem yaptırmayınız.”", "if": "p1_talimat" },
+    { "id": "ev_arama", "type": "belge", "title": "Çağrı merkezi kayıtları", "desc": "Sigortalı 05.12, 08.12 ve 10.12.2025'te arayıp eksperin ne zaman geleceğini sormuş.", "if": "p1_eksper" },
+    { "id": "ev_police", "type": "belge", "title": "Poliçe", "desc": "Ani ve beklenmedik sıvı teması dahil kaza sonucu hasar teminatı." }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "İTİRAZ · Karar 24.04.2026'da tebliğ edildi. Müvekkil anakart için reddedilen 20.000 TL'nin peşinde." },
+        { "who": "client", "text": "Bir arkadaşım “35.000'in altı kesin, itiraz edemezsin” dedi. Doğru mu?" }
+      ],
+      "prompt": "Ne yapacaksınız?",
+      "choices": [
+        {
+          "text": "Tebliğden itibaren on gün içinde, itiraz ücretini yatırarak itiraz et; sınırın 12.01.2026'daki başvuru tarihine göre belirlendiğini yaz.",
+          "delta": 20,
+          "set": ["p1_sure"],
+          "law": "5684 s.K. m.30/12 · Parasal Sınırlar Tebliği m.3/4",
+          "note": "İtiraz, kararın bildirilmesinden itibaren on gün içinde ve bir defaya mahsus yapılır. 19.03.2026'dan beri parasal sınırda başvurunun yapıldığı tarihteki miktar esas alınıyor; 12.01.2026'da itiraz sınırı 28.000 TL'ydi, uyuşmazlık 31.000 TL. Yol açık.",
+          "reply": [
+            { "who": "narr", "text": "İtiraz 29.04.2026'da, ücreti yatırılarak yapıldı. Dosya üç kişilik itiraz hakem heyetine geldi; heyet önce itirazın kabul edilebilirliğini inceleyecek." }
+          ]
+        },
+        {
+          "text": "Karar 35.000 TL'nin altında kaldığı için itiraz yolu kapalı; kararın kanun yararına bozulması için Adalet Bakanlığına başvur.",
+          "delta": -25,
+          "law": "HMK m.363 · 5684 s.K. m.30/12",
+          "note": "İki hata birden. İtiraz yolu açıktı ve on günlük süre böylece kaçtı. Kanun yararına temyiz de HMK m.363'te ilk derece ve bölge adliye mahkemelerinin kesin kararlarıyla sınırlıdır; Yargıtay 4. Hukuk Dairesi bu yolu itiraz hakem heyeti kararlarına karşı da kabul etmemiştir (29.02.2024, E.2023/10053, K.2024/2327).",
+          "fatal": {
+            "label": "SONUÇ:",
+            "hukum": "Uyuşmazlık hakemi kararına süresinde itiraz edilmediğinden karar KESİNLEŞMİŞTİR,",
+            "summary": "Başvuran vekili itiraz yolunun kapalı olduğunu düşünerek on günlük itiraz süresini kullanmadı ve kanun yararına temyize yöneldi. Oysa sınır başvuru tarihine göre belirleniyordu ve itiraz yolu açıktı; kanun yararına temyiz ise Komisyon kararlarına karşı işletilen bir yol değildir."
+          }
+        },
+        {
+          "text": "On gün içinde itiraz et, ama sınırın karar tarihine göre 35.000 TL olduğunu kabul edip, hakkaniyet gereği istisnai olarak esasın incelenmesini iste.",
+          "delta": -10,
+          "set": ["p1_hakkaniyet"],
+          "law": "Parasal Sınırlar Tebliği m.3/4",
+          "note": "İtirazı süresinde yaptınız, ama kendi aleyhinize yanlış bir kabulde bulundunuz: 19.03.2026 değişikliğinden sonra sınır başvuru tarihine göre belirleniyor. Kanun yolu sınırları hakkaniyetle aşılmaz; asıl dayanağınızı bıraktınız.",
+          "reply": [
+            { "who": "narr", "text": "İtiraz 29.04.2026'da yapıldı. Dosya üç kişilik itiraz hakem heyetine geldi; heyet önce itirazın kabul edilebilirliğini inceleyecek." }
+          ]
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        { "who": "narr", "text": "CEVAP · İtiraz şirkete bildirildi. Şirket kendisi itiraz etmemişti; ekran için hükmedilen 11.000 TL'yi tartışmıyor." }
+      ],
+      "prompt": "İtiraza cevabınızı nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Usulden ret isteme: 19.03.2026 değişikliğiyle sınır başvuru tarihine göre belirleniyor. Savunmayı esasa, TTK m.1448'e ve kusurun ağırlığına yönelt.",
+          "delta": 15,
+          "set": ["p2_esas"],
+          "law": "Parasal Sınırlar Tebliği m.3/4 · TTK m.1448",
+          "note": "Dürüst ve isabetli bir tercih. Başvuru 12.01.2026'da, o tarihteki 28.000 TL'lik sınırın üzerinde bir uyuşmazlıkla yapıldı; kesinlik itirazı tutmaz. Güvenilirliğinizi esastaki savunmaya saklamak doğru."
+        },
+        {
+          "text": "Karar 20.04.2026'da verildi ve 22.01.2026'dan beri itiraz sınırı 35.000 TL; 31.000 TL'lik uyuşmazlıkta karar kesindir, itiraz reddedilmelidir.",
+          "delta": -5,
+          "set": ["p2_tarih"],
+          "law": "Parasal Sınırlar Tebliği m.3/4",
+          "note": "Bu tez Tebliğin eski metnine göre kurulabilirdi. Ama 19.03.2026 değişikliğiyle birinci ve ikinci fıkradaki sınırlarda başvurunun yapıldığı tarihteki miktar esas alınıyor; karar bu değişiklikten sonra verildi."
+        },
+        {
+          "text": "İtiraz yalnızca reddedilen 20.000 TL'ye yöneliyor; sınır itiraz edilen miktara göre belirlenir ve bu miktar her iki tarihteki sınırın da altında kalıyor.",
+          "delta": -10,
+          "set": ["p2_miktar"],
+          "law": "5684 s.K. m.30/12",
+          "note": "Kanun “uyuşmazlıklar hakkında verilen kararlar” der; sınır, itiraz edilen ya da hükmedilen kısma göre değil, uyuşmazlığın tamamına göre belirlenir. Uyuşmazlık miktarı başvurudaki 31.000 TL'dir."
+        }
+      ]
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Heyet olarak önce itirazın kabul edilebilirliğini inceliyoruz." },
+        { "who": "judge", "if": "p2_tarih", "text": "Şirket, kararın 35.000 TL'lik sınırın altında olduğunu ve kesinleştiğini söylüyor." },
+        { "who": "judge", "if": "p2_miktar", "text": "Şirket, itiraz edilen 20.000 TL'nin her iki sınırın da altında kaldığını söylüyor." },
+        { "who": "judge", "text": "İtiraz eden vekili, itirazın neden incelenmesi gerektiğini açıklayın." }
+      ],
+      "prompt": "İtirazın neden kabul edilebilir olduğunu kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü beyan",
+          "min": 70,
+          "delta": 20,
+          "set": ["p1_kabul"],
+          "law": "5684 s.K. m.30/12 · Parasal Sınırlar Tebliği m.3/4",
+          "note": "Kabul edilebilirliği eksiksiz gösterdiniz: süre, uyuşmazlık miktarı ve hangi tarihin sınırının uygulanacağı. Tebliğin 19.03.2026'da değişen m.3/4'ü başvuru tarihini esas alıyor; 12.01.2026'daki 28.000 TL'lik sınır 31.000 TL'lik uyuşmazlıkla aşılmış."
+        },
+        {
+          "text": "Yeterli beyan",
+          "min": 40,
+          "delta": 8,
+          "set": ["p1_kabul"],
+          "law": "Parasal Sınırlar Tebliği m.3/4",
+          "note": "Ana dayanağı gösterdiniz. Tam beyan; 19.03.2026 değişikliğiyle başvuru tarihinin esas alındığını, uyuşmazlık miktarının itiraz edilen 20.000 TL değil başvurudaki 31.000 TL olduğunu ve itirazın on gün içinde yapıldığını birlikte söyler."
+        },
+        {
+          "text": "Zayıf beyan",
+          "delta": -10,
+          "law": "Parasal Sınırlar Tebliği m.3/4",
+          "note": "Kabul edilebilirliğin dayanaklarını gösteremediniz: 19.03.2026 tarihli değişiklikle sınırda başvuru tarihi esas alınır; uyuşmazlık miktarı başvurudaki 31.000 TL'dir."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) İtiraz, kararın 24.04.2026'daki tebliğinden itibaren on gün içinde, 29.04.2026'da ve bir defaya mahsus yapılmıştır (5684 s.K. m.30/12). (2) Parasal Sınırlar Tebliğinin 19.03.2026'da değişen m.3/4'üne göre itiraz ve temyiz sınırlarında başvurunun yapıldığı tarihteki miktar esas alınır; başvuru 12.01.2026'da yapılmıştır ve o tarihte geçerli itiraz sınırı 28.000 TL'dir (35.000 TL'lik sınır 22.01.2026'dan itibaren geçerlidir). Karar değişiklikten sonra verildiğinden yeni kural uygulanır. (3) Sınır, itiraz edilen (20.000 TL) ya da hükmedilen (11.000 TL) kısma göre değil, uyuşmazlık miktarına, yani başvurudaki 31.000 TL'ye göre belirlenir. (4) 31.000 TL ≥ 28.000 TL; itiraz yolu açıktır. Tarih kuralını, uyuşmazlık miktarını ve süreyi birlikte söyleyen cevap tam puan alır; yalnızca hakkaniyete dayanan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["başvuru tarihi", "başvurunun yapıldığı tarih", "12.01.2026"], "weight": 3 },
+        { "terms": ["19.03.2026", "19 Mart", "tebliğ değişikliği", "m.3/4"], "weight": 1 },
+        { "terms": ["28.000", "yirmi sekiz bin"], "weight": 2 },
+        { "terms": ["uyuşmazlık miktarı", "31.000", "tamamı"], "weight": 2 },
+        { "terms": ["on gün", "10 gün", "süresinde"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, itiraz kararın 24.04.2026'daki tebliğinden itibaren on gün içinde yapıldı. Parasal Sınırlar Tebliğinin 19.03.2026'da değişen m.3/4'üne göre sınırda başvurunun yapıldığı tarihteki miktar esas alınır; başvuru 12.01.2026'da yapıldı ve o tarihte itiraz sınırı 28.000 TL'ydi. Sınır itiraz edilen 20.000 TL'ye değil, uyuşmazlığın tamamına, yani başvurudaki 31.000 TL'ye göre belirlenir. Uyuşmazlık sınırın üzerinde olduğundan itiraz yolu açıktır."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Heyet itirazı kabul edilebilir bulmuştur; esasa geçiyoruz. Sigorta şirketi vekili, anakart kalemi hakkında beyanınız?" }
+      ],
+      "prompt": "Anakart kalemini nasıl savunacaksınız?",
+      "choices": [
+        {
+          "text": "Sıvı temasında saatler önemli; cihaz dokuz gün servise götürülmedi ve korozyon büyüdü. TTK m.1448 gereği artış kusura göre düşülmeli.",
+          "delta": 15,
+          "set": ["p2_1448"],
+          "law": "TTK m.1448",
+          "note": "Doğru çerçeve: zararı azaltma yükümlülüğünün ihlali, sigortacıyı olumsuz etkilemişse kusurun ağırlığına göre indirim sebebidir. Sonuç, gecikmenin kimden kaynaklandığına bağlı.",
+          "reply": [
+            { "who": "judge", "text": "Not edildi. Gecikmenin sebebini itiraz edenden soracağız." }
+          ]
+        },
+        {
+          "text": "Zararı azaltma yükümlülüğünü ihlal eden sigortalı, artan zarar için hiçbir tazminat isteyemez; hakemin anakart kalemini bütünüyle reddetmesi doğrudur.",
+          "delta": -10,
+          "set": ["p2_tamret"],
+          "law": "TTK m.1448",
+          "note": "m.1448 ihlalin sonucunu, sigortacının olumsuz etkilendiği ölçüde ve kusurun ağırlığına göre indirim olarak düzenler. Kalemin otomatik olarak bütünüyle reddi kanunun öngördüğü sonuç değildir.",
+          "reply": [
+            { "who": "judge", "text": "Kanun indirimden söz ediyor. Not edildi." }
+          ]
+        },
+        {
+          "text": "Kahve dökülmesi kullanıcı hatasıdır; istisna anakart kadar ekranı da kapsar. Heyet ekran için hükmedilen 11.000 TL'yi de kaldırmalıdır.",
+          "delta": -10,
+          "set": ["p2_ekran"],
+          "law": "5684 s.K. m.30/12",
+          "note": "Şirket hakem kararına itiraz etmedi; ekran kalemi bakımından karar şirket yönünden kesinleşti. Heyet, yalnızca itiraz edenin itirazıyla sınırlı inceleme yapar; itiraz edenin durumunu onun aleyhine ağırlaştıramaz.",
+          "reply": [
+            { "who": "judge", "text": "Şirket itiraz etmemiştir; ekran kalemi incelememizin konusu değil." }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        { "who": "narr", "text": "Heyet kısa bir ara verdi. Koridorda Selin Ateş'le konuşuyorsunuz. İki soru soracak vaktiniz var." }
+      ],
+      "prompt": "Müvekkile ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Hasarı bildirdiğinizde şirket size cihazla ilgili bir şey söyledi ya da yazdı mı?",
+          "delta": 15,
+          "set": ["p1_talimat"],
+          "reply": [
+            { "who": "client", "text": "On üç dakika sonra SMS geldi: “Eksper incelemesine kadar cihazı açmayınız, servise götürmeyiniz.” Ben de dediklerini yaptım." }
+          ],
+          "note": "Kilit soru. Sigorta ettiren sigortacının talimatlarına mümkün olduğunca uymakla yükümlüdür (TTK m.1448). Gecikmeye şirketin kendi talimatı yol açtıysa sigortalıya kusur yüklenemez. SMS çantanıza eklendi."
+        },
+        {
+          "text": "Eksper dokuz gün boyunca neden gelmedi; siz bu arada şirketi aradınız mı?",
+          "delta": 10,
+          "set": ["p1_eksper"],
+          "reply": [
+            { "who": "client", "text": "Üç kez aradım, “eksper yoğun” dediler. Çağrı kayıtları şirkette olmalı, ekran görüntülerini aldım." }
+          ],
+          "note": "Yararlı. Sigortalının beklerken pasif kalmadığını gösteriyor. Ama asıl soru, servise götürmemenin sebebiydi. Çağrı kayıtları çantanıza eklendi."
+        },
+        {
+          "text": "Servis anakart hakkında tam olarak ne söyledi?",
+          "delta": 0,
+          "reply": [
+            { "who": "client", "text": "İlk iki günde temizlense kurtulurmuş, dediler. Rapora da yazdılar." }
+          ],
+          "note": "İki yüzü keskin bir bilgi: gecikmenin zararı artırdığını doğruluyor. Asıl mesele bu gecikmenin kimden kaynaklandığı."
+        },
+        {
+          "text": "Bilgisayarı iş için mi kullanıyorsunuz?",
+          "delta": -5,
+          "reply": [
+            { "who": "client", "text": "Evet, bütün tasarımlarımı onunla yapıyorum. Bu sorun olur mu?" }
+          ],
+          "note": "Bu itirazın konusuyla ilgisi olmayan, üstelik karşı tarafa yeni bir tartışma kapısı açabilecek bir soru."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "İtiraz eden vekili, şirket vekilinin beyanına cevabınız?" }
+      ],
+      "statement": { "who": "p2", "text": "Sayın Heyet, sigortalı cihazı dokuz gün boyunca kendi isteğiyle bekletmiştir. Şirketimiz kendisine servise gitmemesi yönünde hiçbir talimat vermemiştir." },
+      "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+      "correct": ["ev_sms"],
+      "hit": {
+        "delta": 25,
+        "set": ["p1_sms"],
+        "law": "TTK m.1448",
+        "note": "Şirketin SMS'i, cihazın eksper incelemesine kadar servise götürülmemesini açıkça istiyor. Sigortalı sigortacının talimatına uydu (TTK m.1448); gecikmenin sebebi eksperin dokuz gün sonra gelmesi.",
+        "reply": [
+          { "who": "judge", "text": "SMS dosyaya alındı. Talimat şirketin kendi numarasından gönderilmiş." }
+        ]
+      },
+      "responses": {
+        "ev_arama": {
+          "delta": 5,
+          "note": "Çağrı kayıtları sigortalının eksperi beklediğini ve aradığını gösteriyor; ama “talimat verilmedi” beyanını doğrudan çürüten belge, şirketin servise götürmeyin diyen SMS'iydi."
+        },
+        "ev_servis": {
+          "delta": -10,
+          "note": "Servis raporu, ilk 48 saatte temizlik yapılsaydı anakartın kurtarılabileceğini söylüyor; şirketin tezini güçlendirdiniz."
+        },
+        "ev_karar": {
+          "delta": -5,
+          "note": "Hakem kararı, itiraz ettiğiniz gerekçeyi içeriyor; şirketin beyanını çürütmez."
+        }
+      },
+      "miss": { "delta": -10, "note": "Bu belge gecikmenin sebebini göstermiyor." },
+      "pass": { "delta": -10, "note": "İtiraz etmediniz; gecikmenin sigortalının kendi isteğiyle olduğu beyanı cevapsız kaldı." }
+    },
+    {
+      "kind": "free",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "if": "p1_sms", "text": "Sigorta şirketi vekili, SMS ortada. Buna rağmen indirim için bir dayanağınız var mı?" },
+        { "who": "judge", "if": "!p1_sms", "text": "Sigorta şirketi vekili, anakart kaleminde nasıl bir sonuç öneriyorsunuz?" }
+      ],
+      "prompt": "Anakart kalemi için önerdiğiniz sonucu ve dayanağını kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü savunma",
+          "min": 70,
+          "delta": 20,
+          "set": ["p2_ilk"],
+          "law": "TTK m.1448",
+          "note": [
+            { "text": "Savunmayı ölçülü ve kanuna uygun kurdunuz: m.1448 tam ret değil, kusurun ağırlığına göre indirim öngörür." },
+            { "if": "p1_sms", "text": " Talimat cihazın açılmamasını ve servise götürülmemesini istiyordu; ama pilin çıkarılması ya da cihazın kurutulması gibi onarım sayılmayan ilk müdahaleler makul tedbirlerdi ve giderleri sigortacıya yüklenebilirdi (m.1448/3). Kusurun paylaşıldığını savundunuz." },
+            { "if": "!p1_sms", "text": " Gecikmenin sigortalıdan kaynaklandığını ve servis raporuna göre korozyonun bu sürede büyüdüğünü gösterdiniz." }
+          ]
+        },
+        {
+          "text": "Yeterli savunma",
+          "min": 40,
+          "delta": 8,
+          "set": ["p2_ilk"],
+          "law": "TTK m.1448",
+          "note": "İndirim talebinizi m.1448'e dayandırdınız. Tam savunma, sonucun tam ret değil kusura göre indirim olduğunu, onarım sayılmayan ilk müdahalelerin (pilin çıkarılması, kurutma) talimatla yasaklanmadığını ve bunların giderlerinin sigortacıca ödenecek olduğunu (m.1448/3) birlikte ortaya koyar."
+        },
+        {
+          "text": "Zayıf savunma",
+          "delta": -10,
+          "law": "TTK m.1448",
+          "note": "m.1448'in ölçüsünü kuramadınız: indirim, kusurun ağırlığına göre yapılır; sigortacının kendi talimatı varsa kusurun ne ölçüde sigortalıda kaldığını somut olarak göstermeniz gerekir."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) TTK m.1448'e göre zararı azaltma yükümlülüğünün ihlali, sigortacıyı olumsuz etkilediği ölçüde kusurun ağırlığına göre indirim sebebidir; tam ret değildir. (2) Sigortalı sigortacının talimatlarına mümkün olduğunca uymakla yükümlüdür; talimat cihazın açılmamasını ve servise götürülmemesini istemişse gecikmenin büyük kısmı sigortacıya aittir. (3) Buna karşılık pilin çıkarılması, cihazın kapatılıp kurutulması gibi onarım sayılmayan ilk müdahaleler makul tedbirlerdir; giderleri sigortacıca ayrıca karşılanacağından (m.1448/3) sigortalının bunları yapmaması kusurun bir bölümünü onda bırakır. (4) Bu nedenle anakart bedelinden kusurun paylaşıldığı ölçüde, örneğin yarı oranında indirim önerilir. Tam ret isteyen ya da ekran kalemini yeniden tartışan cevap düşük puan alır.",
+      "keywords": [
+        { "terms": ["1448", "zararı azaltma", "zararı önleme"], "weight": 2 },
+        { "terms": ["indirim", "kusurun ağırlığı", "oranında"], "weight": 2 },
+        { "terms": ["talimat", "SMS"], "weight": 1 },
+        { "terms": ["ilk müdahale", "pil", "batarya", "kurut"], "weight": 2 },
+        { "terms": ["gider", "masraf", "1448/3"], "weight": 1 }
+      ],
+      "model": "Sayın Heyet, TTK m.1448 zararı azaltma yükümlülüğünün ihlaline tam ret değil, kusurun ağırlığına göre indirim bağlar. Talimatımız cihazın açılmamasını ve servise götürülmemesini istiyordu; ama pilin çıkarılması ve cihazın kurutulması gibi onarım sayılmayan ilk müdahaleler makul tedbirlerdi ve giderleri bize yüklenebilirdi (m.1448/3). Kusur paylaşılmıştır; anakart bedelinden yarı oranında indirim yapılmasını talep ediyoruz."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        { "who": "judge", "text": "Sigorta şirketi vekili, karar öncesi son beyanınız?" }
+      ],
+      "prompt": "Son olarak ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Esasa girilmesini kabul ederek, anakart kaleminde kusurun paylaşıldığı ölçüde indirim yapılmasını ve itiraz ücretinin buna göre paylaştırılmasını iste.",
+          "delta": 15,
+          "set": ["p2_son"],
+          "law": "TTK m.1448",
+          "note": "Tutarlı bir kapanış. İtiraz kabul edilebilir, inceleme yalnızca anakart kalemiyle sınırlı; şirketin savunulabilir tek sonucu kusura göre indirimdir."
+        },
+        {
+          "text": "İtiraz hakem heyeti yalnızca hukuka aykırılık denetimi yapar; maddi vakıaları yeniden değerlendiremez, bu yüzden SMS dikkate alınmadan karar onanmalıdır.",
+          "delta": -10,
+          "law": "5684 s.K. m.30/12",
+          "note": "İtiraz hakem heyeti, itirazla sınırlı olmak üzere uyuşmazlığı yeniden inceler ve kararı değiştirebilir; vakıa değerlendirmesi de buna dahildir."
+        },
+        {
+          "text": "Kararın icrası itiraz nedeniyle durduğundan, hakemin hükmettiği 11.000 TL için de itiraz kararına kadar faiz işlemeyeceğinin karara yazılmasını iste.",
+          "delta": -15,
+          "law": "5684 s.K. m.30/12",
+          "note": "İtiraz kararın icrasını durdurur, borcu ya da temerrüdü ortadan kaldırmaz. Üstelik şirket ekran kalemine itiraz etmediği için bu kısım incelemenin konusu değil."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p1_sms && !p2_ilk",
+      "winner": "p1",
+      "hukum": "İtirazın KABULÜ ile uyuşmazlık hakemi kararının anakart bedeline ilişkin kısmının KALDIRILMASINA, ekran bedeli 11.000 TL'ye ek olarak 20.000 TL anakart bedelinin de sigorta şirketinden alınarak başvurana ödenmesine, toplam 31.000 TL'ye hükmedilmesine,",
+      "summary": [
+        { "text": "İtiraz kabul edilebilirdi: Parasal Sınırlar Tebliğinin 19.03.2026'da değişen m.3/4'ü uyarınca başvuru tarihindeki (12.01.2026) 28.000 TL'lik sınır esas alındı; uyuşmazlık miktarı başvurudaki 31.000 TL'ydi." },
+        { "text": " Esasta, sigortalının cihazı servise götürmemesi şirketin kendi SMS talimatından kaynaklanıyordu; talimata uyan sigortalıya kusur yüklenemez (TTK m.1448)." },
+        { "if": "p2_tarih", "text": " Şirketin karar tarihindeki 35.000 TL'lik sınıra dayanan kesinlik itirazı reddedildi." },
+        { "if": "p2_miktar", "text": " Sınırın itiraz edilen kısma göre belirlenmesi gerektiği tezi, kanunun “uyuşmazlık” ölçütü karşısında reddedildi." }
+      ]
+    },
+    {
+      "if": "p1_sms",
+      "winner": "draw",
+      "hukum": "İtirazın KISMEN KABULÜ ile uyuşmazlık hakemi kararının anakart bedeline ilişkin kısmının KALDIRILMASINA, ekran bedeli 11.000 TL'ye ek olarak 10.000 TL anakart bedelinin sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin itirazın REDDİNE,",
+      "summary": [
+        { "text": "İtiraz kabul edilebilirdi; sınır başvuru tarihine göre belirlendi (Tebliğ m.3/4) ve uyuşmazlık miktarı 31.000 TL'ydi." },
+        { "text": " Heyet, servise götürmemenin şirketin talimatından kaynaklandığını kabul etti; ama pilin çıkarılması ve kurutma gibi onarım sayılmayan ilk müdahalelerin yapılmamasında sigortalının da payı olduğunu, bu tedbirlerin giderlerinin sigortacıca karşılanacağını (TTK m.1448/3) dikkate alarak anakart bedelinden yarı oranında indirim yaptı." }
+      ]
+    },
+    {
+      "winner": "p2",
+      "hukum": "İtirazın KISMEN KABULÜ ile uyuşmazlık hakemi kararının anakart bedeline ilişkin kısmının KALDIRILMASINA, ekran bedeli 11.000 TL'ye ek olarak 5.000 TL anakart bedelinin sigorta şirketinden alınarak başvurana ödenmesine, fazlaya ilişkin itirazın REDDİNE,",
+      "summary": [
+        { "text": "İtiraz kabul edilebilirdi; sınır başvuru tarihine göre belirlendi (Tebliğ m.3/4)." },
+        { "text": " Ancak itiraz eden, cihazı dokuz gün servise götürmemesinin şirketin talimatından kaynaklandığını gösteremedi. Heyet, zararı azaltma yükümlülüğünün ihlalinde tam ret değil kusura göre indirim öngören TTK m.1448 uyarınca anakart bedelinden %75 indirim yaptı." },
+        { "if": "p2_1448 || p2_ilk", "text": " Şirket vekili m.1448'in ölçüsünü doğru kurdu." }
+      ]
+    }
+  ]
+}
