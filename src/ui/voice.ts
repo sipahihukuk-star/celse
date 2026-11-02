@@ -5,7 +5,8 @@
 //    biri ve ayrı bir ses tonu verilir.
 // Her iki durumda da metindeki kısaltmalar okunmadan önce açılır ("TBK m.147" → "Türk Borçlar Kanunu madde 147").
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AudioPlayer, createAudioPlayer } from "expo-audio";
+import { AudioPlayer, createAudioPlayer, setAudioModeAsync } from "expo-audio";
+import { Platform } from "react-native";
 import * as Speech from "expo-speech";
 import { useEffect, useState } from "react";
 import { CLOUD_VOICES, serverReady, SUPABASE_ANON_KEY, SUPABASE_URL, TTS_FUNCTION } from "../config";
@@ -37,7 +38,11 @@ const M_NAMES = /cem|ahmet|tolga|x-mfm|x-tmc|male|erkek/i;
 async function load() {
   if (loaded) return;
   loaded = true;
-  try { enabled = (await AsyncStorage.getItem(KEY)) === "1"; } catch { /* yok say */ }
+  // Seslendirme ilk açılışta açıktır; oyuncu 🔇 ile kapatırsa tercih saklanır.
+  try { const v = await AsyncStorage.getItem(KEY); enabled = v === null ? true : v === "1"; } catch { enabled = true; }
+  listeners.forEach(f => f(enabled));
+  // iPhone'da sessiz moddayken de konuşmalar duyulsun (telefonun yan anahtarı kapalı olsa bile).
+  if (Platform.OS !== "web") setAudioModeAsync({ playsInSilentMode: true, shouldPlayInBackground: false, interruptionMode: "mixWithOthers" }).catch(() => {});
   try {
     const all = await Speech.getAvailableVoicesAsync();
     const tr = all.filter(v => v.language?.toLowerCase().replace("_", "-").startsWith("tr"));

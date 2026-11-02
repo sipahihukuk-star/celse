@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { useKeyboardOpen } from "./keyboard";
 import { bagOf, choicesOf, GameState, grade, kindOf } from "../engine/engine";
 import { CaseFile, Line, Player, Side } from "../engine/types";
 import { Btn, Chip, Scale } from "./kit";
@@ -99,9 +100,10 @@ export default function GameScreen({ c, players, onExit, onFinish, online }: Pro
     else if (phase.k === "feedback" && last) speakLine(last.note || "", "narr");
   }, [phase, voiceOn]);
   useEffect(() => () => { stopSpeaking(); }, []);
+  const kbOpen = useKeyboardOpen();
 
   return (
-    <View style={styles.root}>
+    <KeyboardAvoidingView style={styles.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
       <View style={styles.top}>
         <Btn kind="ghost" label={t("‹ Dosyalar")} onPress={onExit} />
         <View style={styles.topCase}>
@@ -120,7 +122,8 @@ export default function GameScreen({ c, players, onExit, onFinish, online }: Pro
         </View>
       </View>
 
-      <View style={[styles.stageWrap, { flex: wide ? 1.5 : 1 }]}>
+      {/* Telefonda klavye açıkken sahne küçülür; yazı alanı ve "Cevabı sun" düğmesi görünür kalır. */}
+      <View style={[styles.stageWrap, { flex: wide ? 1.5 : 1 }, kbOpen && !wide && { flex: 0.35 }]}>
         {viewMode === "gercek"
           ? <PhotoStage c={c} scene={scene} focus={focus} talking={!!line && (voiceOn ? speaking || !tw.done : true)}
               say={line && phase.k === "lines" ? { id: `${game.log.length}-${phase.i}-${line.text.length}`, text: line.text, voice: voiceOn } : undefined} />
@@ -128,7 +131,7 @@ export default function GameScreen({ c, players, onExit, onFinish, online }: Pro
       </View>
 
       <View style={[styles.panel, { flex: wide ? 0.85 : 1 }]}>
-        <ScrollView ref={scroller} contentContainerStyle={styles.panelInner}>
+        <ScrollView ref={scroller} contentContainerStyle={styles.panelInner} keyboardShouldPersistTaps="handled" keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}>
           {phase.k === "lines" && line && (
             <Pressable onPress={tapLine} accessibilityRole="button" accessibilityLabel={t("Devam")}>
               <View style={styles.np}><View style={[styles.dot, { backgroundColor: speakerName(line.who).dot }]} /><Text style={line.who === "narr" ? styles.npNarr : styles.npText}>{speakerName(line.who).name}</Text></View>
@@ -305,7 +308,7 @@ export default function GameScreen({ c, players, onExit, onFinish, online }: Pro
           </Pressable>
         </Pressable>
       </Modal>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

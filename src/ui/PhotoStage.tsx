@@ -64,6 +64,11 @@ const KATIP_DESK = { x0: 470, x1: 800, top: 413, bottom: 492, sitX: 640, top0: 3
 const SCREEN = { x0: 606, x1: 674, top: 376, bottom: 410, standW: 12, baseW: 46 };
 /** Ön plandaki tek kişi (sanık, tanık, müvekkil, mübaşir) kâtibin yüzünü örtmesin: başı bu çizginin altında kalır. */
 const FRONT_TOP = 418;
+/** Yüksek mahkeme salonu (bg-yuksek): sağdaki zabıt masası ve ekranı. Kâtip ekranın arkasında oturur; savcı, heyette boş koltuk
+ *  kalmazsa masanın solunda oturur. Masa önü ve ekran, bu kişilerin üstüne arka plandan yeniden çizilir. */
+const YK = { deskTop: 412, katipX: 1126, prosDeskX: 1040, h: 172, cover: [{ x0: 1084, x1: 1170, top: 362, bottom: 414 }, { x0: 990, x1: 1262, top: 410, bottom: 500 }] };
+/** Telefonda (dar sahnede) salonun en az bu kadarı (fotoğraf pikseli) görünür: savcı ve kâtip kadrajda kalır, karakterler küçülür. */
+const MIN_VIEW = 1060;
 
 /** Mahkemeye göre değişen mübaşir ve kâtip yüzleri. */
 const MUBASIR = ["mubasir", "mubasir-kadin", "mubasir-genc", "mubasir-yasli"] as const;
@@ -177,9 +182,12 @@ export default function PhotoStage({ c, scene, focus, talking, say }: Props) {
   const bg = scene === "office" ? PHOTOS["bg-gorusme"] : PHOTOS[room.bg];
 
   // Arka plan "kapla" ölçeği: sahneyi doldurur, taşan kenarlar kırpılır.
-  const s = W && H ? Math.max(W / bg.w, H / bg.h) : 1;
+  // Duruşma salonu dar ekranda kırpılmaz, daraltılır: fotoğraf alta yaslanır, üstte kalan şerit duvarın uzantısıyla doldurulur.
+  const s = W && H ? Math.max(W / bg.w, scene === "court" ? Math.min(H / bg.h, W / MIN_VIEW) : H / bg.h) : 1;
+  /** Ön plandaki kişilerin ölçü birimi: sahne yüksekliği ya da (daraltılmış salonda) fotoğrafın görünen yüksekliği. */
+  const U = Math.min(H, bg.h * s);
   // Kırpma gerekiyorsa üstten az, alttan çok kırpılır (kürsü ve başlar görünür kalsın; alt kısım zemin).
-  const ox = (W - bg.w * s) / 2, oy = bg.h * s > H ? (H - bg.h * s) * 0.3 : (H - bg.h * s) / 2;
+  const ox = (W - bg.w * s) / 2, oy = bg.h * s > H ? (H - bg.h * s) * 0.3 : H - bg.h * s;
   const X = (x: number) => ox + x * s, Y = (y: number) => oy + y * s;
 
   const figs: Fig[] = [];
@@ -214,25 +222,40 @@ export default function PhotoStage({ c, scene, focus, talking, say }: Props) {
     if (room === ROOM.yerel && faces.katip) {
       figs.push({ key: "katip", photo: faces.katip, x: X(KATIP_DESK.sitX), bottom: H - Y(KATIP_DESK.top0) - KATIP_DESK.h * s, h: KATIP_DESK.h * s, z: 2 });
     }
+    // Yüksek mahkeme salonunda kâtip, sağdaki zabıt masasında ekranın arkasında oturur.
+    if (room === ROOM.yuksek && faces.katip) {
+      const kh = YK.h * s;
+      figs.push({ key: "katip", photo: faces.katip, x: X(YK.katipX), bottom: H - Y(YK.deskTop) - kh * 0.37, h: kh, z: 1 });
+    }
     const katipShown = room === ROOM.yerel && !!faces.katip;
     const below = (h: number) => (katipShown ? Math.min(0, H - Y(FRONT_TOP) - h) : 0);
     // Mübaşir yalnızca tarafları çağırırken öne çıkar.
-    if (focus === "mubasir" && faces.mubasir) figs.push({ key: "mubasir", photo: faces.mubasir, x: W * 0.5, bottom: below(H * 0.62), h: H * 0.62, z: 6, front: true });
-    if (!duel && n === 1 && c.courtCast?.includes("pros") && room.pros && faces.pros) {
-      figs.push({ key: "pros", photo: faces.pros, x: X(room.pros.x), bottom: H - Y(room.pros.y), h: room.pros.h * s, z: 1 });
+    if (focus === "mubasir" && faces.mubasir) figs.push({ key: "mubasir", photo: faces.mubasir, x: W * 0.5, bottom: below(U * 0.62), h: U * 0.62, z: 6, front: true });
+    // Savcı (ceza davaları, Danıştay savcısı): kürsüde heyetin sağında oturur. Yerel salonda kendi yeri var; yüksek mahkemede
+    // heyetin yanındaki boş koltuk, o da yoksa zabıt masası.
+    // Yüksek mahkemede karşı taraf savcıysa (Cumhuriyet, Yargıtay ya da Sayıştay savcısı) ayakta değil, kürsüde oturur.
+    const oppIsPros = !duel && room === ROOM.yuksek && c.cast.opp?.np === "red" && !faces.pros && !faces.savci;
+    const prosKey = faces.pros ? "pros" : faces.savci ? "savci" : oppIsPros && faces.opp ? "opp" : null;
+    if (prosKey) {
+      if (room === ROOM.yerel && room.pros) figs.push({ key: prosKey, photo: faces[prosKey], x: X(room.pros.x), bottom: H - Y(room.pros.y), h: room.pros.h * s, z: 1 });
+      else if (room === ROOM.yuksek) {
+        const last = xs[xs.length - 1], free = room.bench.seats.find(v => v > last + 60);
+        if (free && n <= 4) figs.push({ key: prosKey, photo: faces[prosKey], x: X(free), bottom: H - Y(room.bench.y) - room.bench.h * s * 0.06, h: room.bench.h * s * 0.98, z: 1 });
+        else { const ph0 = YK.h * s; figs.push({ key: prosKey, photo: faces[prosKey], x: X(YK.prosDeskX), bottom: H - Y(YK.deskTop) - ph0 * 0.37, h: ph0, z: 1 }); }
+      }
     }
     // Taraf teşkili: her taraf kendi avukatının yanında, avukatın biraz gerisinde durur (kâtibin altında kalacak boyda).
     // Dar (telefon) sahnede avukatlar kenara açılır, taraflar biraz küçülüp ortaya yaklaşır; yüzleri görünür kalır.
-    const t = Math.max(0, Math.min(1, (W / H - 1) / 0.8)), lerp = (a: number, b: number) => a + (b - a) * t;
-    const LX = lerp(0.1, 0.17), PX = lerp(0.41, 0.36), ph = H * lerp(0.44, 0.52);
+    const t = Math.max(0, Math.min(1, (W / U - 1) / 0.8)), lerp = (a: number, b: number) => a + (b - a) * t;
+    const LX = lerp(0.12, 0.17), PX = lerp(0.4, 0.36), ph = U * lerp(0.42, 0.52), lh = U * 0.66;
     if (parties.left && faces[parties.left]) figs.push({ key: parties.left, photo: faces[parties.left], x: W * PX, bottom: below(ph), h: ph, z: 3, front: true });
     if (parties.right && faces[parties.right]) figs.push({ key: parties.right, photo: faces[parties.right], flip: true, x: W * (1 - PX), bottom: below(ph), h: ph, z: 3, front: true });
-    if (faces.p1 || duel) figs.push({ key: "p1", photo: faces.p1 || "av-erkek-38", x: W * LX, bottom: 0, h: H * 0.66, z: 4, front: true });
+    if (faces.p1 || duel) figs.push({ key: "p1", photo: faces.p1 || "av-erkek-38", x: W * LX, bottom: 0, h: lh, z: 4, front: true });
     const oppKey = duel ? "p2" : "opp";
-    if ((duel || c.courtCast?.includes("opp")) && faces[oppKey]) figs.push({ key: oppKey, photo: faces[oppKey], flip: true, x: W * (1 - LX), bottom: 0, h: H * 0.66, z: 4, front: true });
+    if ((duel || (c.courtCast?.includes("opp") && !oppIsPros)) && faces[oppKey]) figs.push({ key: oppKey, photo: faces[oppKey], flip: true, x: W * (1 - LX), bottom: 0, h: lh, z: 4, front: true });
     // Salonda yeri olmayan biri (tanık, bilirkişi, uzman) konuşurken ortaya, kürsünün önüne çıkar.
     if (focus && faces[focus] && !figs.some(f => f.key === focus) && !/^(judge|mubasir|katip|narr)/.test(focus))
-      figs.push({ key: focus, photo: faces[focus], x: W * 0.5, bottom: below(H * 0.58), h: H * 0.58, z: 6, front: true });
+      figs.push({ key: focus, photo: faces[focus], x: W * 0.5, bottom: below(U * 0.58), h: U * 0.58, z: 6, front: true });
   } else if (W) {
     if (duel) {
       figs.push({ key: "p1", photo: faces.p1 || "av-erkek-38", x: W * 0.25, bottom: 0, h: H * 0.72, z: 4, front: true });
@@ -254,13 +277,18 @@ export default function PhotoStage({ c, scene, focus, talking, say }: Props) {
     return (
       <View key={f.key} pointerEvents="none" style={[{ position: "absolute", left: f.x - w / 2, bottom: f.bottom, width: w, height: h, zIndex: f.z + (speaking ? 1 : 0) }, f.flip && { transform: [{ scaleX: -1 }] }]}>
         <Image source={p.src} resizeMode="contain" accessibilityIgnoresInvertColors
-          style={[{ width: w, height: h }, !lit && f.front && styles.dim]} />
+          style={[{ width: w, height: h }, !lit && f.front && Platform.OS === "web" && styles.dim]} />
+        {/* Telefonda karartma: aynı görselin siyaha boyanmış kopyası üstüne yarı saydam konur (saydam kenarlar korunur;
+            iOS'taki "filter" karakterin çevresini gri bir kare olarak gösteriyordu). */}
+        {!lit && f.front && Platform.OS !== "web" && (
+          <Image source={p.src} resizeMode="contain" style={{ position: "absolute", left: 0, top: 0, width: w, height: h, tintColor: "#000", opacity: 0.5 }} />
+        )}
         {m && (m.a || m.o) && (() => {
           // 1: açık, 2: yuvarlak, 3: yayvan (açık kare dikeyde basık), 4: yarı açık (açık kare yarı saydam).
           const src = mouth === 2 ? m.o || m.a : m.a || m.o;
           const extra = mouth === 3 ? { transform: [{ scaleY: 0.62 }, { scaleX: 1.06 }] } : mouth === 4 ? { opacity: 0.55 } : null;
           return <Image source={src} resizeMode="stretch"
-            style={[{ position: "absolute", left: m.x * w, top: m.y * h, width: m.w * w, height: m.h * h }, extra, !lit && f.front && styles.dim]} />;
+            style={[{ position: "absolute", left: m.x * w, top: m.y * h, width: m.w * w, height: m.h * h }, extra]} />;
         })()}
       </View>
     );
@@ -271,6 +299,13 @@ export default function PhotoStage({ c, scene, focus, talking, say }: Props) {
      <View style={[styles.stage, W0 > W && { position: "absolute", top: 0, bottom: 0, left: (W0 - W) / 2, width: W }]}>
       {W > 0 && (
         <>
+          {oy > 0 && (
+            // Daraltılmış salonda üstte kalan şerit: fotoğrafın üst kenarı dikeyde uzatılır (duvar ve tavan devam eder).
+            <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: 0, height: oy + 1, overflow: "hidden" }}>
+              <Image source={bg.src} resizeMode="stretch" style={{ position: "absolute", left: ox, top: 0, width: bg.w * s, height: (oy + 1) / 0.06 }} />
+              <View style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.35)" }} />
+            </View>
+          )}
           <Image source={bg.src} resizeMode="cover" style={{ position: "absolute", left: ox, top: oy, width: bg.w * s, height: bg.h * s }} />
           {figs.sort((a, b) => a.z - b.z).map(fig)}
           {scene === "court" && room === ROOM.yerel && faces.katip && (
@@ -286,6 +321,12 @@ export default function PhotoStage({ c, scene, focus, talking, say }: Props) {
               <View style={[styles.stand, { width: SCREEN.baseW * s, height: 2.5 * s, borderRadius: 2 * s }]} />
             </View>
           )}
+          {scene === "court" && room === ROOM.yuksek && YK.cover.map((r, i) => (
+            // Zabıt masasının önü ve ekranı, kâtip ile savcının üstüne yeniden çizilir.
+            <View key={"yk" + i} pointerEvents="none" style={{ position: "absolute", left: X(r.x0), width: (r.x1 - r.x0) * s, top: Y(r.top), height: (r.bottom - r.top) * s, overflow: "hidden", zIndex: 2 }}>
+              <Image source={bg.src} resizeMode="cover" style={{ position: "absolute", left: ox - X(r.x0), top: oy - Y(r.top), width: bg.w * s, height: bg.h * s }} />
+            </View>
+          ))}
           {scene === "office" && !duel && (
             // Masa ön katmanı: arka planın masa kısmı, müvekkilin belinin üstüne yeniden çizilir.
             <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: Y(DESK.edge), bottom: 0, overflow: "hidden", zIndex: 5 }}>

@@ -392,5 +392,6 @@ const dict: Record<string, string> = {
   "Çıkış yap": "Abmelden",
   "Evet, hesabımı ve kariyerimi kalıcı olarak sil": "Ja, mein Konto und meine Karriere endgültig löschen",
   "Oturum açık: {ad}": "Angemeldet: {ad}",
+  "Klavyeyi kapat ⌄": "Tastatur schließen ⌄",
 };
 export default dict;

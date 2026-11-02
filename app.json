@@ -67,6 +67,14 @@
         "projectId": "0f43df6e-12d0-4f8c-b779-77f503add543"
       }
     },
-    "owner": "themiscodecelse"
+    "owner": "themiscodecelse",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/0f43df6e-12d0-4f8c-b779-77f503add543",
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    }
   }
 }

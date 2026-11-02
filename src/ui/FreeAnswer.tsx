@@ -1,6 +1,7 @@
 // Serbest cevap: oyuncu savunmasını kendisi yazar ya da söyler; cevap değerlendirilip puanına göre sonuç uygulanır.
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Keyboard, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { useKeyboardOpen } from "./keyboard";
 import { AI_FUNCTION, serverReady, SUPABASE_ANON_KEY, SUPABASE_URL } from "../config";
 import { getAccessToken } from "../data/account";
 import { evaluateFree } from "../engine/evaluate";
@@ -27,6 +28,7 @@ function getRecognizer(): any {
 
 export default function FreeAnswer({ c, step, onResult }: { c: CaseFile; step: Step; onResult: (answer: string, score: number, feedback: string) => void }) {
   const [text, setText] = useState("");
+  const kbOpen = useKeyboardOpen();
   const { office } = useOffice();
   const intl = isIntl(c);
   const [alang, setAlang] = useState("");
@@ -57,6 +59,7 @@ export default function FreeAnswer({ c, step, onResult }: { c: CaseFile; step: S
   const submit = async () => {
     const answer = text.trim();
     if (!answer || busy) return;
+    Keyboard.dismiss();
     try { rec.current?.stop(); } catch { /* yok say */ }
     setBusy(true);
     const token = await getAccessToken();
@@ -84,7 +87,13 @@ export default function FreeAnswer({ c, step, onResult }: { c: CaseFile; step: S
         </View>
       )}
       <TextInput value={text} onChangeText={setText} multiline editable={!busy} placeholder={cur.ph || (c.room === "tahkim" ? t("Sayın Hakem Heyeti, …") : t("Sayın Hâkim, …"))} placeholderTextColor={C.muted}
-        style={s.input} accessibilityLabel={t("Serbest cevap")} maxLength={2000} />
+        style={s.input} accessibilityLabel={t("Serbest cevap")} maxLength={2000}
+        returnKeyType="done" submitBehavior="blurAndSubmit" onSubmitEditing={() => Keyboard.dismiss()} />
+      {kbOpen && (
+        <Pressable accessibilityRole="button" onPress={() => Keyboard.dismiss()} style={s.kbClose}>
+          <Text style={s.kbCloseT}>{t("Klavyeyi kapat ⌄")}</Text>
+        </Pressable>
+      )}
       <View style={s.row}>
         {canListen.current && (
           <Pressable accessibilityRole="button" onPress={toggleMic} disabled={busy} style={[s.mic, listening && s.micOn]}>
@@ -103,6 +112,8 @@ export default function FreeAnswer({ c, step, onResult }: { c: CaseFile; step: S
 }
 
 const s = StyleSheet.create({
+  kbClose: { alignSelf: "flex-end", paddingHorizontal: 12, paddingVertical: 6, borderRadius: 999, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel2 },
+  kbCloseT: { fontFamily: F.bodyMed, fontSize: 14, color: C.text },
   langRow: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 6 },
   lang: { borderWidth: 1, borderColor: C.line, borderRadius: 999, paddingHorizontal: 10, paddingVertical: 4 },
   langOn: { backgroundColor: C.brass, borderColor: C.brass },

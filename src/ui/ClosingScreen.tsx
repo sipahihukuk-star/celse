@@ -1,7 +1,7 @@
 // Karşılıklı duruşmanın son bölümü: taraflar son sözlerini yazar ya da söyler, yapay zekâ hâkim kararı verir.
 // Aynı cihazda iki oyuncu varsa sıra karşı tarafa geçerken önceki metin gizlenir. Bilgisayar rakibin son sözü hamlelerinden derlenir.
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { AI_FUNCTION, serverReady, SUPABASE_ANON_KEY, SUPABASE_URL } from "../config";
 import { getAccessToken } from "../data/account";
 import { GameState } from "../engine/engine";
@@ -54,6 +54,7 @@ export default function ClosingScreen({ c, game, players, onDone }: { c: CaseFil
     try { r.start(); } catch { setListening(false); }
   };
   const submit = () => {
+    Keyboard.dismiss();
     try { rec.current?.stop(); } catch { /* yok say */ }
     setSaid(x => ({ ...x, [side]: text.trim() }));
     setText(""); setReady(false); setTurn(t => t + 1);
@@ -74,7 +75,8 @@ export default function ClosingScreen({ c, game, players, onDone }: { c: CaseFil
   const twoHumans = !players.p1.ai && !players.p2.ai;
 
   return (
-    <ScrollView contentContainerStyle={s.wrap}>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+    <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled" keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}>
       <Text style={s.eyebrow}>{c.court.toLocaleUpperCase(locale())} · {t("SON SÖZ")}</Text>
       <Text style={[s.title, { color: sideColor(side) }]}>{players[side].name} · {c.sides[side].role}</Text>
       {twoHumans && !ready ? (
@@ -86,7 +88,8 @@ export default function ClosingScreen({ c, game, players, onDone }: { c: CaseFil
         <View style={{ gap: 10 }}>
           <Text style={s.sub}>{arb ? t("Davanın özünü, dayandığınız kuralları ve karşı tarafın zayıf noktasını birkaç cümlede söyleyin. Kararı yapay zekâ hakem verecek: duruşmadaki hamleleriniz ve bu son söz birlikte değerlendirilir.")
             : t("Davanın özünü, dayandığınız kanun maddelerini ve karşı tarafın zayıf noktasını birkaç cümlede söyleyin. Kararı yapay zekâ hâkim verecek: duruşmadaki hamleleriniz ve bu son söz birlikte değerlendirilir.")}</Text>
-          <TextInput value={text} onChangeText={setText} multiline placeholder={arb ? t("Sayın Hakem Heyeti, …") : t("Sayın Mahkeme, …")} placeholderTextColor={C.muted} style={s.input} maxLength={2500} accessibilityLabel={t("Son söz")} />
+          <TextInput value={text} onChangeText={setText} multiline placeholder={arb ? t("Sayın Hakem Heyeti, …") : t("Sayın Mahkeme, …")} placeholderTextColor={C.muted} style={s.input} maxLength={2500} accessibilityLabel={t("Son söz")}
+            returnKeyType="done" submitBehavior="blurAndSubmit" onSubmitEditing={() => Keyboard.dismiss()} />
           <View style={s.row}>
             {canListen && (
               <Pressable accessibilityRole="button" onPress={toggleMic} style={[s.mic, listening && s.micOn]}>
@@ -99,6 +102,7 @@ export default function ClosingScreen({ c, game, players, onDone }: { c: CaseFil
         </View>
       )}
     </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
