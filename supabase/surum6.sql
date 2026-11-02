@@ -46,7 +46,7 @@ language sql stable security definer set search_path = public as $$
   with ay_basi as (select (date_trunc('month', now() at time zone 'Europe/Istanbul') at time zone 'Europe/Istanbul') as t),
   toplam as (
     select k.kullanici_id, sum(k.puan)::bigint as puan,
-           count(*) filter (where k.kazandi)::bigint as kazanilan, count(*)::bigint as dava
+           count(k.dava_id) filter (where k.kazandi)::bigint as kazanilan, count(k.dava_id)::bigint as dava
     from public.kariyer k group by k.kullanici_id
   ),
   aylik as (
@@ -62,7 +62,7 @@ language sql stable security definer set search_path = public as $$
     where (sehir_f is null or p.sehir = sehir_f)
   ),
   sirali as (
-    select s.*, rank() over (order by s.puan desc, s.kazanilan desc) as sira from satir s where s.puan > 0
+    select s.kullanici_id, s.gorunen_ad, s.sehir, s.avatar, s.unvan, s.puan, s.kazanilan, s.dava, rank() over (order by s.puan desc, s.kazanilan desc) as sira from satir s where s.puan > 0
   )
   select sira, gorunen_ad, sehir, avatar, unvan, puan, kazanilan, dava, kullanici_id = auth.uid()
   from sirali where sira <= 50 or kullanici_id = auth.uid() order by sira limit 51;
