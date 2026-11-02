@@ -5,6 +5,7 @@ import { bagOf, choicesOf, GameState, grade, kindOf } from "../engine/engine";
 import { CaseFile, Line, Player, Side } from "../engine/types";
 import { Btn, Chip, Scale } from "./kit";
 import PhotoStage, { cast } from "./PhotoStage";
+import { useCharacter } from "../data/character";
 import { useOffice } from "../data/office";
 import Stage from "./Stage";
 import { useViewMode } from "./viewMode";
@@ -85,7 +86,8 @@ export default function GameScreen({ c, players, onExit, onFinish, online }: Pro
   const speaking = useSpeaking();
   const { office } = useOffice();
   // Her karakterin sesi, sahnede görünen yüzün cinsiyetine göre seçilir; oyuncunun sesi bütün davalarda aynıdır.
-  const faces = useMemo(() => cast(c, office?.avatar), [c.id, office?.avatar]);
+  const me = useCharacter();
+  const faces = useMemo(() => cast(c, office?.avatar || me?.avatar), [c.id, office?.avatar, me?.avatar]);
   const speaker = (who: string): Speaker => who === "narr" ? { id: "narr", role: "narr", female: false }
     : { id: who === "p1" && !duel ? `oyuncu:${faces.p1}` : `${c.id}:${who}:${faces[who] || ""}`, role: who, female: (faces[who] || "").includes("kadin") };
   // Sıradaki üç satırı önceden seslendir.

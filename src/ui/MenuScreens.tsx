@@ -19,7 +19,7 @@ import { LANGS, locale, t, useLang } from "../i18n";
 /* ---------- Giriş ---------- */
 export interface TitleProps {
   onCareer: () => void; onOffice: () => void; office: Office | null; onAccount: () => void; onSignUp: () => void; onSignIn: () => void; onSignOut: () => void;
-  account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; onTahkim: () => void; onHistory: () => void;
+  account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; onTahkim: () => void; onHistory: () => void; onCharacter: () => void;
   onMap: () => void; tahkimCount: number; duelCount: number; soloCount: number; rankName: string; won: number; total: number;
 }
 export function TitleScreen(p: TitleProps) {
@@ -135,6 +135,7 @@ function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; o
               </>
             )}
             <Text style={styles.mSection}>{t("KARİYER")}</Text>
+            <Item label={t("Karakterim")} sub={t("Kendinizi tarif edin, duruşmadaki yüzünüzü seçin")} onPress={go(p.onCharacter)} />
             <Item label={t("Geçmiş dosyalar ve başarı")} sub={t("Kazanılan ve kaybedilen davalar, puanlar, unvan")} onPress={go(p.onHistory)} />
             <Item label={t("Büro, kasa ve kazanç")} sub={t("Gelir-gider defteri, giderler, mesleki gelişim")} onPress={go(p.onOffice)} />
             <Item label={t("Kariyer haritası")} onPress={go(p.onMap)} />

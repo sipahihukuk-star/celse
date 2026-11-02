@@ -4,6 +4,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Image, LayoutChangeEvent, Platform, StyleSheet, Text, View } from "react-native";
 import { Avatar, useOffice } from "../data/office";
+import { useCharacter } from "../data/character";
 import { MOUTHS } from "./mouths";
 import { firstName, FEMALE, isFemale, partiesOf, robeOf } from "./people";
 import { currentAccount } from "../data/account";
@@ -175,7 +176,8 @@ export default function PhotoStage({ c, scene, focus, talking, say }: Props) {
   const { w: W0, h: H } = box;
   const W = Math.min(W0, Math.round(H * 2.1));
   const duel = c.mode === "duel";
-  const faces = useMemo(() => cast(c, office?.avatar), [c.id, office?.avatar]);
+  const me = useCharacter();
+  const faces = useMemo(() => cast(c, office?.avatar || me?.avatar), [c.id, office?.avatar, me?.avatar]);
   const room = roomOf(c);
   const parties = useMemo(() => partiesOf(c), [c.id]);
   // Büro görüşmesi: avukatın koltuğundan bakış; müvekkil masanın karşısındaki koltukta oturur.

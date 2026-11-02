@@ -1,5 +1,7 @@
 // Büro: karakter ve şehir seçimi (ilk açılış), sonra kasa, aylık giderler ve hesap defteri.
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { Character, saveCharacter, useCharacter } from "../data/character";
+import { CharacterPicker } from "./CharacterScreen";
 import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useAccount } from "../data/account";
 import { AVATARS, Avatar, CITIES, closeOffice, DESK_SHARE, monthlyCost, Office, openOffice, SECRETARY, START_CASH, tl, updateOffice, useOffice } from "../data/office";
@@ -8,13 +10,6 @@ import { PHOTOS } from "./photos";
 import { dateOf, personalCosts } from "../data/life";
 import { FEMALE, firstName } from "./people";
 import { C, F } from "./theme";
-
-const AV_LABEL: Record<Avatar, string> = {
-  "av-erkek-38": "Erkek · 38", "av-kadin-32": "Kadın · 32", "av-erkek-58": "Erkek · 58", "av-kadin-52": "Kadın · 52",
-  "av-erkek-25": "Erkek · 25", "av-kadin-25": "Kadın · 25", "av-kadin-basortulu": "Kadın · 30",
-  "av-erkek-32": "Erkek · 32", "av-kadin-28": "Kadın · 28", "av-erkek-46": "Erkek · 46", "av-kadin-41": "Kadın · 41",
-  "av-erkek-27": "Erkek · 27", "av-kadin-35": "Kadın · 35", "av-erkek-66": "Erkek · 66", "av-kadin-61": "Kadın · 61"
-};
 
 export function AvatarFace({ k, size = 64 }: { k: Avatar; size?: number }) {
   const p = PHOTOS[k];
@@ -35,11 +30,15 @@ export default function OfficeScreen({ onBack, onCareer }: { onBack: () => void;
 
 function Setup({ onBack, onDone, initial }: { onBack: () => void; onDone: () => void; initial?: Office }) {
   const { account } = useAccount();
-  const [avatar, setAvatar] = useState<Avatar>(initial?.avatar || (FEMALE.has(firstName(account?.adSoyad)) ? "av-kadin-32" : "av-erkek-38"));
+  const saved = useCharacter();
+  const pick = useRef<Character | null>(null);
+  const start = initial ? { ...(saved || {}), avatar: initial.avatar } : saved || undefined;
   const [city, setCity] = useState(initial?.city || "izmir");
   const [name, setName] = useState(initial?.name || (account ? `Av. ${account.adSoyad} Hukuk Bürosu` : "Hukuk Bürosu"));
   const edit = !!initial;
   const save = async () => {
+    const avatar: Avatar = pick.current?.avatar || initial?.avatar || (FEMALE.has(firstName(account?.adSoyad)) ? "av-kadin-32" : "av-erkek-38");
+    if (pick.current) await saveCharacter(pick.current);
     if (edit) {
       // Taşınma: başka şehre geçiş masraflıdır.
       const moving = city !== initial!.city;
@@ -57,15 +56,7 @@ function Setup({ onBack, onDone, initial }: { onBack: () => void; onDone: () => 
       {!edit && <Text style={s.sub}>Duruşmalarda sizi temsil edecek karakteri ve büronuzu açacağınız şehri seçin. {tl(START_CASH)} kuruluş sermayesiyle, ortak bir büroda masa kiralayarak başlarsınız; her dava bir ay sürer, ay sonunda kira ve giderler kasadan düşer. İşler büyüyünce kendi büronuzu açabilirsiniz.</Text>}
 
       <Text style={s.h}>Karakteriniz</Text>
-      <View style={s.avatars}>
-        {AVATARS.map(k => (
-          <Pressable key={k} accessibilityRole="radio" accessibilityState={{ checked: avatar === k }} accessibilityLabel={AV_LABEL[k]} onPress={() => setAvatar(k)}
-            style={[s.avatar, avatar === k && s.on]}>
-            <Image source={PHOTOS[k].src} style={{ width: 92, height: 118 }} resizeMode="contain" />
-            <Text style={s.avLabel}>{AV_LABEL[k]}</Text>
-          </Pressable>
-        ))}
-      </View>
+      <CharacterPicker key={start?.avatar || "yeni"} initial={start} onChange={c => { pick.current = c; }} />
 
       <Text style={s.h}>Büronun adı</Text>
       <TextInput value={name} onChangeText={setName} style={s.input} placeholderTextColor={C.muted} maxLength={60} />

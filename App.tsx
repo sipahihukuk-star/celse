@@ -15,6 +15,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import AdminScreen from "./src/admin/AdminScreen";
 import { signOut, supabase, useAccount } from "./src/data/account";
 import AccountScreen from "./src/ui/AccountScreen";
+import CharacterScreen from "./src/ui/CharacterScreen";
 import HistoryScreen from "./src/ui/HistoryScreen";
 import { useServerAdmin } from "./src/data/adminHook";
 import OfficeScreen from "./src/ui/OfficeScreen";
@@ -59,6 +60,7 @@ type Route =
   | { k: "desk" }
   | { k: "account"; then?: "career"; tab?: "giris" | "kayit" }
   | { k: "history" }
+  | { k: "character" }
   | { k: "game"; c: CaseFile; players: Record<Side, Player>; run: number; from: From }
   | { k: "closing"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From }
   | { k: "verdict"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From; notice?: string; ai?: AiVerdict };
@@ -170,8 +172,9 @@ export default function App() {
           onAccount={() => setRoute({ k: "account" })} onSignIn={() => setRoute({ k: "account", tab: "giris" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "career" })} onSignOut={() => signOut()}
           onCareer={() => setRoute(!account ? { k: "account", then: "career" } : office ? { k: "desk" } : { k: "office" })}
           office={office} onOffice={() => setRoute(account ? { k: "office" } : { k: "account", then: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
-          onHistory={() => setRoute({ k: "history" })} onMap={() => setRoute({ k: "career" })}
+          onHistory={() => setRoute({ k: "history" })} onCharacter={() => setRoute({ k: "character" })} onMap={() => setRoute({ k: "career" })}
           onTahkim={() => setRoute({ k: "tahkim" })} tahkimCount={cases.all.filter(c => c.room === "tahkim").length} />}
+        {route.k === "character" && <CharacterScreen onBack={() => setRoute({ k: "title" })} />}
         {route.k === "history" && <HistoryScreen view={career} progress={progress} all={cases.all} onBack={() => setRoute({ k: "title" })} onOffice={() => setRoute({ k: "office" })} />}
         {route.k === "tahkim" && (
           <TahkimScreen cases={cases.all.filter(c => c.room === "tahkim")} locked={() => false}
