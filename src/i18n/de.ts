@@ -495,5 +495,7 @@ const dict: Record<string, string> = {
   "Panoya katılınamadı. Bağlantınızı kontrol edip yeniden deneyin.": "Beitritt fehlgeschlagen. Verbindung prüfen und erneut versuchen.",
   "Liderlik panosu sunucu bağlantısı gerektirir.": "Die Bestenliste braucht eine Serververbindung.",
   "Liderlik panosu şu an açılamadı.": "Die Bestenliste konnte nicht geladen werden.",
+  "WEB SÜRÜMÜ · BİLGİSAYARDAN DA OYNAYIN": "WEBVERSION · AUCH AM COMPUTER SPIELEN",
+  "Uygulama açılmazsa bu adresten aynı hesapla girip kaldığınız yerden devam edebilirsiniz.": "Wenn die App nicht startet, melden Sie sich hier mit demselben Konto an und spielen Sie weiter.",
 };
 export default dict;

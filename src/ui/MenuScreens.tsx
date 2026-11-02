@@ -93,7 +93,17 @@ export function TitleScreen(p: TitleProps) {
             <Btn kind="secondary" label={t("Tahkim ve komisyonlar") + ` · ${p.tahkimCount}`} onPress={p.onTahkim} />
           </View>
           <Text style={styles.fact}>{t("Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.")}</Text>
-          {Platform.OS === "web" && <StoreLinks />}
+          {Platform.OS === "web" ? <StoreLinks /> : (
+            <Pressable accessibilityRole="link" onPress={() => Linking.openURL(WEB_URL)} style={({ pressed }) => [styles.webLink, pressed && { opacity: 0.8 }]}>
+              <Text style={styles.webIcon}>🌐</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.careerKDark}>{t("WEB SÜRÜMÜ · BİLGİSAYARDAN DA OYNAYIN")}</Text>
+                <Text style={styles.webUrl}>{WEB_URL.replace(/^https:\/\//, "").replace(/\/$/, "")}</Text>
+                <Text style={styles.webNote}>{t("Uygulama açılmazsa bu adresten aynı hesapla girip kaldığınız yerden devam edebilirsiniz.")}</Text>
+              </View>
+              <Text style={styles.careerGoDark}>›</Text>
+            </Pressable>
+          )}
         </View>
       </ScrollView>
       <SideMenu visible={menu} onClose={() => setMenu(false)} {...p} />
@@ -360,6 +370,10 @@ const styles = StyleSheet.create({
   accLink: { fontFamily: F.mono, fontSize: 12, letterSpacing: 1, color: C.brass },
   byline: { fontFamily: F.monoBold, fontSize: 12, letterSpacing: 4, color: C.brassDim, marginTop: -2, marginBottom: 6 },
   careerCard: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: C.brass, borderRadius: 10, paddingHorizontal: 18, paddingVertical: 14, marginBottom: 12, maxWidth: 480 },
+  webLink: { flexDirection: "row", alignItems: "center", gap: 12, borderWidth: 1, borderColor: C.line, borderRadius: 12, paddingVertical: 10, paddingHorizontal: 14, backgroundColor: C.panel, marginTop: 12 },
+  webIcon: { fontSize: 24 },
+  webUrl: { fontFamily: F.bodyBold, fontSize: 15, color: C.text },
+  webNote: { fontFamily: F.body, fontSize: 12, color: C.muted },
   boardLink: { flexDirection: "row", alignItems: "center", gap: 12, borderWidth: 1, borderColor: C.line, borderRadius: 12, paddingVertical: 10, paddingHorizontal: 14, backgroundColor: C.panel },
   boardIcon: { fontSize: 26 },
   boardT: { fontFamily: F.display, fontSize: 18, color: C.text },
