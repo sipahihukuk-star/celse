@@ -28,7 +28,10 @@
         "track": "internal",
         "releaseStatus": "draft"
       },
-      "ios": {}
+      "ios": {
+        "ascAppId": "6829524134",
+        "appleTeamId": "UH3WBSPVG4"
+      }
     }
   }
 }
