@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Celse · İndir</title>
+<meta name="description" content="Celse avukatlık oyunu: iPhone, Android ya da tarayıcıda oynayın.">
+<style>
+:root{--bg:#1c0a0f;--panel:#2a1118;--line:#4d2531;--fg:#fbf4f5;--mut:#c79aa3;--acc:#8c1d2f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 -apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:760px;margin:0 auto;padding:40px 16px 64px;text-align:center}
+h1{font-family:Georgia,serif;font-size:56px;letter-spacing:4px;margin:0}
+.by{letter-spacing:4px;font-size:12px;color:var(--mut);margin-bottom:18px}
+p{color:var(--mut)}
+.row{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin:28px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;width:220px}
+.card canvas,.card img{background:#fff;border-radius:8px;padding:8px;width:180px;height:180px}
+a.btn{display:inline-block;margin-top:10px;padding:10px 16px;border-radius:10px;background:var(--acc);color:#fff;text-decoration:none;font-weight:600}
+a.web{background:transparent;border:1px solid var(--line)}
+.msg{color:var(--fg);font-weight:600}
+</style>
+</head>
+<body>
+<main>
+  <h1>CELSE</h1>
+  <div class="by">BY THEMISCODE</div>
+  <p id="msg" class="msg">Yönlendiriliyorsunuz…</p>
+  <div class="row" id="cards" hidden>
+    <div class="card"><div id="qr-ios"></div><div>iPhone</div><a class="btn" id="a-ios" href="#">App Store</a></div>
+    <div class="card"><div id="qr-and"></div><div>Android</div><a class="btn" id="a-and" href="#">Google Play</a></div>
+  </div>
+  <a class="btn web" href="./">Tarayıcıda oyna ›</a>
+</main>
+<script src="./qrcode.js"></script>
+<script>
+(async function () {
+  var links = { ios: "https://apps.apple.com/app/id6829524134", android: "https://play.google.com/store/apps/details?id=com.themiscode.celse" };
+  try {
+    var r = await fetch("https://ouyyfhobpihyrnwlcimo.supabase.co/rest/v1/ayarlar?select=deger&anahtar=eq.oyun", { headers: { apikey: "sb_publishable_Q4-NnTAvRCcATNHc-LLogA_iXkjpV2v" } });
+    var j = await r.json();
+    var d = j && j[0] && j[0].deger;
+    if (d && /^https:\/\//.test(d.iosLink || "")) links.ios = d.iosLink;
+    if (d && /^https:\/\//.test(d.androidLink || "")) links.android = d.androidLink;
+  } catch (e) { /* varsayılan bağlantılar */ }
+  var ua = navigator.userAgent || "";
+  var isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  var isAndroid = /Android/.test(ua);
+  if (isIOS) { location.replace(links.ios); return; }
+  if (isAndroid) { location.replace(links.android); return; }
+  document.getElementById("msg").textContent = "Telefonunuzun kamerasıyla QR kodu okutun.";
+  document.getElementById("cards").hidden = false;
+  function qr(id, url) {
+    try { var q = qrcode(0, "M"); q.addData(url); q.make(); document.getElementById(id).innerHTML = q.createImgTag(6, 8); } catch (e) {}
+  }
+  qr("qr-ios", links.ios); qr("qr-and", links.android);
+  document.getElementById("a-ios").href = links.ios;
+  document.getElementById("a-and").href = links.android;
+})();
+</script>
+</body>
+</html>

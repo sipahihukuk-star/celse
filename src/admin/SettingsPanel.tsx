@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { CHAPTERS } from "../data/career";
 import { GameSettings, saveSettings, useSettings } from "../data/settings";
 import { C, F } from "../ui/theme";
-import { Section, Seg, SmallBtn } from "./form";
+import { Field, Section, Seg, SmallBtn } from "./form";
 
 const BASES = ["0.5", "0.75", "1", "1.25", "1.5", "2", "2.5", "3"];
 const STEPS = ["0", "0.1", "0.15", "0.25", "0.35", "0.5"];
@@ -30,6 +30,9 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
         ))}
       </View>
       <Text style={st.note}>Örnek: dosyada −10 puanlık bir hata, %150 oranda −15 puan düşürür.</Text>
+      <Field label="iPhone bağlantısı (App Store ya da TestFlight herkese açık bağlantısı)" value={v.iosLink} onChange={x => setV({ ...v, iosLink: x })} mono />
+      <Field label="Android bağlantısı (Google Play ya da test katılım bağlantısı)" value={v.androidLink} onChange={x => setV({ ...v, androidLink: x })} mono />
+      <Text style={st.note}>Web sitesindeki QR kodları ve https://sipahihukuk-star.github.io/celse/indir.html sayfası bu bağlantılara yönlenir.</Text>
       <View style={{ flexDirection: "row", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
         <SmallBtn label="Kaydet" tone="accent" onPress={async () => {
           const where = await saveSettings(v);

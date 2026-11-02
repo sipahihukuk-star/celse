@@ -421,5 +421,15 @@ const dict: Record<string, string> = {
   "Yönetim paneli": "Verwaltung",
   "en iyi {n}": "bestes {n}",
   "İtibar": "Ansehen",
+  "Android": "Android",
+  "Bilgisayarda büyük ekranda oynayın": "Auf dem großen Bildschirm am Computer spielen",
+  "Celse cebinizde": "Celse für die Hosentasche",
+  "Celse'yi paylaş": "Celse teilen",
+  "Celse: avukatlık oyunu. İndirin ya da tarayıcıda oynayın: {url}": "Celse: ein Anwaltsspiel. Herunterladen oder im Browser spielen: {url}",
+  "TELEFONUNUZA İNDİRİN": "AUFS HANDY HOLEN",
+  "Telefonunuzun kamerasıyla QR kodu okutun. Kariyeriniz hesabınıza kayıtlıdır; telefonda kaldığınız yerden devam edersiniz.": "Scannen Sie den QR-Code mit der Handykamera. Ihre Karriere ist im Konto gespeichert; am Handy geht es dort weiter, wo Sie aufgehört haben.",
+  "Web sürümü": "Webversion",
+  "iOS": "iOS",
+  "iPhone, Android ve web bağlantısı": "Link für iPhone, Android und Web",
 };
 export default dict;

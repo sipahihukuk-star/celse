@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Linking, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { useVoiceEnabled } from "./voice";
+import { Platform, Share } from "react-native";
+import { StoreLinks } from "./StoreLinks";
+import { DOWNLOAD_URL, WEB_URL } from "../data/settings";
 import { CaseFile, Player, Side } from "../engine/types";
 import { Account } from "../data/account";
 import { DIFFICULTY } from "../data/career";
@@ -81,6 +84,7 @@ export function TitleScreen(p: TitleProps) {
             <Btn kind="secondary" label={t("Tahkim ve komisyonlar") + ` · ${p.tahkimCount}`} onPress={p.onTahkim} />
           </View>
           <Text style={styles.fact}>{t("Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.")}</Text>
+          {Platform.OS === "web" && <StoreLinks />}
         </View>
       </ScrollView>
       <SideMenu visible={menu} onClose={() => setMenu(false)} {...p} />
@@ -147,6 +151,8 @@ function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; o
             <Toggle label={t("Seslendirme")} on={voice} set={setVoice} />
             <Toggle label={t("Fon müziği")} on={music} set={setMusic} />
             <Text style={styles.mSection}>{t("DİĞER")}</Text>
+            {Platform.OS !== "web" && <Item label={t("Web sürümü")} sub={t("Bilgisayarda büyük ekranda oynayın")} onPress={() => Linking.openURL(WEB_URL)} />}
+            <Item label={t("Celse'yi paylaş")} sub={t("iPhone, Android ve web bağlantısı")} onPress={() => Share.share({ message: t("Celse: avukatlık oyunu. İndirin ya da tarayıcıda oynayın: {url}", { url: DOWNLOAD_URL }) })} />
             <Item label={t("Gizlilik politikası")} onPress={() => Linking.openURL("https://sipahihukuk-star.github.io/celse/gizlilik.html")} />
             <Item label={t("Yönetim paneli")} onPress={go(p.onAdmin)} />
             <Text style={[styles.byline, { marginTop: 18, paddingHorizontal: 18 }]}>BY THEMISCODE</Text>

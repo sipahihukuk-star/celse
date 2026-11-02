@@ -11,8 +11,18 @@ export interface GameSettings {
   notKirma: number;
   /** her kariyer basamağında (yerel → heyetli → yüksek yargı → AYM → uluslararası) çarpana eklenen oran */
   notKirmaArtis: number;
+  /** Mağaza bağlantıları (QR ve "indir" sayfası). Test döneminde TestFlight / Play test bağlantısı yazılabilir. */
+  iosLink: string;
+  androidLink: string;
 }
-export const DEFAULT_SETTINGS: GameSettings = { notKirma: 1, notKirmaArtis: 0.15 };
+export const WEB_URL = "https://sipahihukuk-star.github.io/celse/";
+export const DOWNLOAD_URL = WEB_URL + "indir.html";
+export const DEFAULT_SETTINGS: GameSettings = {
+  notKirma: 1, notKirmaArtis: 0.15,
+  iosLink: "https://apps.apple.com/app/id6829524134",
+  androidLink: "https://play.google.com/store/apps/details?id=com.themiscode.celse"
+};
+const link = (v: unknown, d: string) => (typeof v === "string" && /^https:\/\/\S+$/.test(v.trim()) ? v.trim() : d);
 const LOCAL = "celse-ayarlar-v1";
 
 let current: GameSettings = { ...DEFAULT_SETTINGS };
@@ -20,7 +30,9 @@ const listeners = new Set<() => void>();
 const emit = () => listeners.forEach(f => f());
 const clean = (v: Partial<GameSettings> | null | undefined): GameSettings => ({
   notKirma: Math.max(0.25, Math.min(4, Number(v?.notKirma) || DEFAULT_SETTINGS.notKirma)),
-  notKirmaArtis: Math.max(0, Math.min(1, v?.notKirmaArtis === undefined ? DEFAULT_SETTINGS.notKirmaArtis : Number(v.notKirmaArtis) || 0))
+  notKirmaArtis: Math.max(0, Math.min(1, v?.notKirmaArtis === undefined ? DEFAULT_SETTINGS.notKirmaArtis : Number(v.notKirmaArtis) || 0)),
+  iosLink: link(v?.iosLink, DEFAULT_SETTINGS.iosLink),
+  androidLink: link(v?.androidLink, DEFAULT_SETTINGS.androidLink)
 });
 
 export async function loadSettings(): Promise<GameSettings> {
