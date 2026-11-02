@@ -16,12 +16,14 @@ export const C = {
 };
 
 export const F = {
-  display: "AlegreyaSC_700Bold",
-  displayMed: "AlegreyaSC_500Medium",
-  body: "AlegreyaSans_400Regular",
-  bodyItalic: "AlegreyaSans_400Regular_Italic",
-  bodyMed: "AlegreyaSans_500Medium",
-  bodyBold: "AlegreyaSans_700Bold",
+  // Başlıklar: Playfair Display (klasik, yüksek kontrastlı serif); metin: Manrope (okunaklı, modern); logo: Cinzel (taş yazıt).
+  display: "PlayfairDisplay_700Bold",
+  displayMed: "PlayfairDisplay_600SemiBold",
+  logo: "Cinzel_700Bold",
+  body: "Manrope_400Regular",
+  bodyItalic: "PlayfairDisplay_400Regular_Italic",
+  bodyMed: "Manrope_500Medium",
+  bodyBold: "Manrope_700Bold",
   mono: "IBMPlexMono_500Medium",
   monoBold: "IBMPlexMono_600SemiBold"
 };

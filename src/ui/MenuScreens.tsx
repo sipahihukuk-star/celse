@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
+import { Linking, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
+import { useVoiceEnabled } from "./voice";
 import { CaseFile, Player, Side } from "../engine/types";
 import { Account } from "../data/account";
 import { DIFFICULTY } from "../data/career";
@@ -13,98 +14,151 @@ import { C, F } from "./theme";
 import { LANGS, locale, t, useLang } from "../i18n";
 
 /* ---------- Giriş ---------- */
-export function TitleScreen({ onCareer, onOffice, office, onDuel, onSolo, onAdmin, onAccount, onSignUp, onSignOut, onTahkim, onOnline, tahkimCount, account, server, duelCount, soloCount, rankName, started, won, total }: { onTahkim: () => void; onOnline: () => void; tahkimCount: number; onCareer: () => void; onOffice: () => void; office: Office | null; onAccount: () => void; onSignUp: () => void; onSignOut: () => void; account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; duelCount: number; soloCount: number; rankName: string; won: number; total: number }) {
+export interface TitleProps {
+  onCareer: () => void; onOffice: () => void; office: Office | null; onAccount: () => void; onSignUp: () => void; onSignIn: () => void; onSignOut: () => void;
+  account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; onTahkim: () => void; onHistory: () => void;
+  onMap: () => void; tahkimCount: number; duelCount: number; soloCount: number; rankName: string; won: number; total: number;
+}
+export function TitleScreen(p: TitleProps) {
   const { width } = useWindowDimensions();
   const [tilt, setTilt] = useState(-4);
+  const [menu, setMenu] = useState(false);
   useEffect(() => { const id = setInterval(() => setTilt(a => -a), 3000); return () => clearInterval(id); }, []);
   const wide = width >= 760;
-  const [view, setView] = useViewMode();
-  const [music, setMusic] = useMusic();
-  const [lang, chooseLang] = useLang();
+  const { account, server, office } = p;
   return (
-    <ScrollView contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "center" }]}>
-      <View style={[styles.titleArt, wide && { flex: 0.8 }]}>
-        <Scale angle={tilt} size={wide ? 340 : 180} left={C.p1} right={C.p2} />
-      </View>
-      <View style={[{ gap: 6 }, wide && { flex: 1.2 }]}>
-        <View style={styles.langRow} accessibilityRole="radiogroup" accessibilityLabel={t("Dil")}>
-          {LANGS.map((l, i) => (
-            <React.Fragment key={l.id}>
-              {i > 0 && <Text style={styles.langSep}>·</Text>}
-              <Pressable accessibilityRole="radio" accessibilityState={{ checked: lang === l.id }} accessibilityLabel={l.name} onPress={() => chooseLang(l.id)}
-                style={[styles.langBtn, lang === l.id && styles.langOn]}>
-                <Text style={[styles.langText, lang === l.id && styles.langTextOn]}>{l.label}</Text>
-              </Pressable>
-            </React.Fragment>
-          ))}
-        </View>
-        <View style={styles.accRow}>
-          {account ? (
-            <>
-              <Text style={styles.accHello}>{t("Av. {ad}", { ad: account.adSoyad })}</Text>
-              <Pressable accessibilityRole="button" onPress={onAccount}><Text style={styles.accLink}>{server ? t("Hesap") : t("Oyuncu değiştir")}</Text></Pressable>
-              <Pressable accessibilityRole="button" onPress={onSignOut}><Text style={styles.accLink}>{t("Çıkış")}</Text></Pressable>
-            </>
-          ) : (
-            <Pressable accessibilityRole="button" onPress={onAccount}><Text style={styles.accLink}>{server ? t("Giriş yap ›") : t("Oyuncu oluştur / seç ›")}</Text></Pressable>
-          )}
-        </View>
-        <Text style={styles.eyebrow}>{t("BİR AVUKATLIK OYUNU")}</Text>
-        <Text style={[styles.logo, { fontSize: wide ? 128 : 84, lineHeight: wide ? 120 : 82 }]}>Celse</Text>
-        <Text style={styles.byline}>BY THEMISCODE</Text>
-        <Text style={styles.lede}>{t("Genç bir avukat olarak sulh ve asliye mahkemelerinde başlayın; davaları kazandıkça Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne ve Strazburg'a yükselin.")}</Text>
-        <View style={styles.facts}>
-          <Text style={styles.fact}><Text style={styles.factB}>{duelCount}</Text> {t("karşılıklı dava")}</Text>
-          <Text style={styles.fact}><Text style={styles.factB}>{soloCount}</Text> {t("tek kişilik dosya")}</Text>
-          {tahkimCount > 0 && <Text style={styles.fact}><Text style={styles.factB}>{tahkimCount}</Text> {t("tahkim ve komisyon dosyası")}</Text>}
-          <Text style={styles.fact}><Text style={styles.factB}>2</Text> {t("oyuncu ya da bilgisayara karşı")}</Text>
-        </View>
-        <Pressable accessibilityRole="button" onPress={onCareer} style={({ pressed }) => [styles.careerCard, pressed && { opacity: 0.85 }]}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.careerK}>{account ? t("KARİYER · {won}/{total} DAVA KAZANILDI", { won, total }) : t("KARİYER")}</Text>
-            <Text style={styles.careerRank}>{account ? rankName : server ? t("Giriş yapın, devam edin") : t("Oyuncu seçin, başlayın")}</Text>
+    <View style={{ flex: 1 }}>
+      {/* Üst şerit: solda menü, sağda üyelik */}
+      <View style={styles.topBar}>
+        <Pressable accessibilityRole="button" accessibilityLabel={t("Menü")} onPress={() => setMenu(true)} style={styles.burger} hitSlop={10}>
+          <View style={styles.burgerLine} /><View style={styles.burgerLine} /><View style={styles.burgerLine} />
+        </Pressable>
+        <View style={{ flex: 1 }} />
+        {account ? (
+          <Pressable accessibilityRole="button" onPress={p.onAccount} style={styles.accChip}>
+            <Text style={styles.accChipT} numberOfLines={1}>{t("Av. {ad}", { ad: account.adSoyad })}</Text>
+          </Pressable>
+        ) : (
+          <View style={{ flexDirection: "row", gap: 8 }}>
+            <Btn kind="ghost" label={server ? t("Giriş yap") : t("Oyuncu seç")} onPress={p.onSignIn} />
+            <Btn label={server ? t("Üye ol") : t("Yeni oyuncu")} onPress={p.onSignUp} />
           </View>
-          <Text style={styles.careerGo}>{!account ? (server ? t("Giriş yap ›") : t("Başla ›")) : started ? t("Devam et ›") : t("Başla ›")}</Text>
-        </Pressable>
-        {!account && server && (
-          <Pressable accessibilityRole="button" onPress={onSignUp} style={{ alignSelf: "flex-start", paddingVertical: 4 }}>
-            <Text style={styles.signUp}>{t("Hesabınız yok mu?")} <Text style={styles.signUpB}>{t("Üye olun ›")}</Text></Text>
-          </Pressable>
         )}
-        {account && (
-          <Pressable accessibilityRole="button" onPress={onOffice} style={({ pressed }) => [styles.officeCard, pressed && { opacity: 0.85 }]}>
-            {office && <AvatarFace k={office.avatar} size={44} />}
-            <View style={{ flex: 1 }}>
-              <Text style={styles.careerK}>{office ? t("BÜRO · {sehir} · {ay}. AY", { sehir: (CITIES.find(c => c.id === office.city)?.name || "").toLocaleUpperCase("tr"), ay: office.month }) : t("BÜRO")}</Text>
-              <Text style={styles.officeT}>{office ? t("Kasa {tutar}", { tutar: tl(office.cash) }) : t("Karakterinizi seçin, büronuzu açın")}</Text>
-            </View>
-            <Text style={styles.careerGo}>{office ? t("Büro ›") : t("Aç ›")}</Text>
-          </Pressable>
-        )}
-        <Text style={styles.fact}>{t("Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.")}</Text>
-        <View style={styles.cta}>
-          <Text style={[styles.eyebrow, { width: "100%" }]}>{t("ANTRENMAN · SONUÇLAR KARİYERE İŞLEMEZ")}</Text>
-          <Btn kind="secondary" label={t("Tek kişilik dosyalar")} onPress={onSolo} />
-          <Btn kind="secondary" label={t("Karşılıklı duruşma")} onPress={onDuel} />
-          <Btn kind="secondary" label={t("Tahkim ve komisyonlar")} onPress={onTahkim} />
-          <Btn kind="secondary" label={t("İnternet üzerinden oyna")} onPress={onOnline} />
-        </View>
-        <Pressable accessibilityRole="button" onPress={() => setView(view === "gercek" ? "cizim" : "gercek")} style={styles.adminLink}>
-          <Text style={styles.adminLinkText}>{t("Görünüm")}: {view === "gercek" ? t("Gerçekçi ⇄ Çizime geç") : t("Çizim ⇄ Gerçekçiye geç")}</Text>
-        </Pressable>
-        <Pressable accessibilityRole="switch" accessibilityState={{ checked: music }} onPress={() => setMusic(!music)} style={styles.adminLink}>
-          <Text style={styles.adminLinkText}>{t("Fon müziği")}: {music ? t("Açık ♪ (kapat)") : t("Kapalı (aç)")}</Text>
-        </Pressable>
-        <Pressable accessibilityRole="button" onPress={onAdmin} style={styles.adminLink}>
-          <Text style={styles.adminLinkText}>{t("Yönetim paneli ›")}</Text>
-        </Pressable>
       </View>
-    </ScrollView>
+
+      <ScrollView contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "center" }]}>
+        <View style={[styles.titleArt, wide && { flex: 0.8 }]}>
+          <Scale angle={tilt} size={wide ? 320 : 150} left={C.p1} right={C.p2} />
+        </View>
+        <View style={[{ gap: 6 }, wide && { flex: 1.2 }]}>
+          <Text style={styles.eyebrow}>{t("BİR AVUKATLIK OYUNU")}</Text>
+          <Text style={[styles.logo, { fontSize: wide ? 104 : 68, lineHeight: wide ? 112 : 76 }]}>Celse</Text>
+          <Text style={styles.byline}>BY THEMISCODE</Text>
+          <Text style={styles.lede}>{t("Genç bir avukat olarak sulh ve asliye mahkemelerinde başlayın; davaları kazandıkça Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne ve Strazburg'a yükselin.")}</Text>
+
+          <Pressable accessibilityRole="button" onPress={p.onCareer} style={({ pressed }) => [styles.careerCard, { marginTop: 14 }, pressed && { opacity: 0.85 }]}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.careerK}>{account ? t("KARİYER · {won}/{total} DAVA KAZANILDI", { won: p.won, total: p.total }) : t("KARİYER")}</Text>
+              <Text style={styles.careerRank}>{account ? p.rankName : server ? t("Giriş yapın, devam edin") : t("Oyuncu seçin, başlayın")}</Text>
+            </View>
+            <Text style={styles.careerGo}>{!account ? (server ? t("Giriş yap ›") : t("Başla ›")) : p.started ? t("Devam et ›") : t("Başla ›")}</Text>
+          </Pressable>
+          {account && (
+            <Pressable accessibilityRole="button" onPress={p.onOffice} style={({ pressed }) => [styles.officeCard, pressed && { opacity: 0.85 }]}>
+              {office && <AvatarFace k={office.avatar} size={44} />}
+              <View style={{ flex: 1 }}>
+                <Text style={styles.careerKDark}>{office ? t("BÜRO · {sehir} · {ay}. AY", { sehir: (CITIES.find(c => c.id === office.city)?.name || "").toLocaleUpperCase("tr"), ay: office.month }) : t("BÜRO")}</Text>
+                <Text style={styles.officeT}>{office ? t("Kasa {tutar}", { tutar: tl(office.cash) }) : t("Karakterinizi seçin, büronuzu açın")}</Text>
+              </View>
+              <Text style={styles.careerGoDark}>{office ? t("Büro ›") : t("Aç ›")}</Text>
+            </Pressable>
+          )}
+
+          <Text style={[styles.eyebrow, { marginTop: 18 }]}>{t("ANTRENMAN · SONUÇLAR KARİYERE İŞLEMEZ")}</Text>
+          <View style={styles.cta}>
+            <Btn kind="secondary" label={t("Tek kişilik dosyalar") + ` · ${p.soloCount}`} onPress={p.onSolo} />
+            <Btn kind="secondary" label={t("Karşılıklı duruşma") + ` · ${p.duelCount}`} onPress={p.onDuel} />
+            <Btn kind="secondary" label={t("Tahkim ve komisyonlar") + ` · ${p.tahkimCount}`} onPress={p.onTahkim} />
+          </View>
+          <Text style={styles.fact}>{t("Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.")}</Text>
+        </View>
+      </ScrollView>
+      <SideMenu visible={menu} onClose={() => setMenu(false)} {...p} />
+    </View>
   );
 }
 
-/* ---------- Dosya dolabı ---------- */
-export function CaseListScreen({ mode, cases, onPick, onBack, onSwitch, lockedNote, onLocked }: { mode: "duel" | "solo"; cases: CaseFile[]; onPick: (c: CaseFile) => void; onBack: () => void; onSwitch: () => void; lockedNote?: (c: CaseFile) => string | undefined; onLocked?: (c: CaseFile) => void }) {
+/** Sol üstteki ☰ menü: hesap, geçmiş ve kazanç, ayarlar (dil, görünüm, müzik, seslendirme), gizlilik, yönetim. */
+function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; onClose: () => void }) {
+  const [view, setView] = useViewMode();
+  const [music, setMusic] = useMusic();
+  const [voice, setVoice] = useVoiceEnabled();
+  const [lang, chooseLang] = useLang();
+  const go = (f: () => void) => () => { onClose(); f(); };
+  const Item = ({ label, sub, onPress }: { label: string; sub?: string; onPress: () => void }) => (
+    <Pressable accessibilityRole="button" onPress={onPress} style={({ pressed }) => [styles.mItem, pressed && { backgroundColor: C.panel2 }]}>
+      <Text style={styles.mItemT}>{label}</Text>
+      {!!sub && <Text style={styles.mItemS}>{sub}</Text>}
+    </Pressable>
+  );
+  const Toggle = ({ label, on, set }: { label: string; on: boolean; set: (v: boolean) => void }) => (
+    <Pressable accessibilityRole="switch" accessibilityState={{ checked: on }} onPress={() => set(!on)} style={styles.mItem}>
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+        <Text style={styles.mItemT}>{label}</Text>
+        <View style={[styles.sw, on && styles.swOn]}><View style={[styles.swDot, on && { alignSelf: "flex-end", backgroundColor: C.brassInk }]} /></View>
+      </View>
+    </Pressable>
+  );
+  return (
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+      <View style={{ flex: 1, flexDirection: "row" }}>
+        <View style={styles.drawer}>
+          <ScrollView contentContainerStyle={{ paddingVertical: 18, gap: 4 }}>
+            <View style={styles.mHead}>
+              <Text style={styles.mLogo}>Celse</Text>
+              <Pressable accessibilityRole="button" accessibilityLabel={t("Kapat")} onPress={onClose} hitSlop={10}><Text style={styles.mClose}>✕</Text></Pressable>
+            </View>
+            <Text style={styles.mSection}>{t("HESAP")}</Text>
+            {p.account ? (
+              <>
+                <Item label={t("Av. {ad}", { ad: p.account.adSoyad })} sub={t("Hesap bilgileri, çıkış, hesabı silme")} onPress={go(p.onAccount)} />
+                <Item label={t("Çıkış yap")} onPress={go(p.onSignOut)} />
+              </>
+            ) : (
+              <>
+                <Item label={p.server ? t("Giriş yap") : t("Oyuncu seç")} onPress={go(p.onSignIn)} />
+                <Item label={p.server ? t("Üye ol") : t("Yeni oyuncu")} onPress={go(p.onSignUp)} />
+              </>
+            )}
+            <Text style={styles.mSection}>{t("KARİYER")}</Text>
+            <Item label={t("Geçmiş dosyalar ve başarı")} sub={t("Kazanılan ve kaybedilen davalar, puanlar, unvan")} onPress={go(p.onHistory)} />
+            <Item label={t("Büro, kasa ve kazanç")} sub={t("Gelir-gider defteri, giderler, mesleki gelişim")} onPress={go(p.onOffice)} />
+            <Item label={t("Kariyer haritası")} onPress={go(p.onMap)} />
+            <Text style={styles.mSection}>{t("AYARLAR")}</Text>
+            <View style={[styles.mItem, { flexDirection: "row", flexWrap: "wrap", gap: 6 }]}>
+              {LANGS.map(l => (
+                <Pressable key={l.id} accessibilityRole="radio" accessibilityState={{ checked: lang === l.id }} accessibilityLabel={l.name} onPress={() => chooseLang(l.id)}
+                  style={[styles.langBtn, lang === l.id && styles.langOn]}>
+                  <Text style={[styles.langText, lang === l.id && styles.langTextOn]}>{l.label}</Text>
+                </Pressable>
+              ))}
+            </View>
+            <Toggle label={t("Gerçekçi görünüm")} on={view === "gercek"} set={v => setView(v ? "gercek" : "cizim")} />
+            <Toggle label={t("Seslendirme")} on={voice} set={setVoice} />
+            <Toggle label={t("Fon müziği")} on={music} set={setMusic} />
+            <Text style={styles.mSection}>{t("DİĞER")}</Text>
+            <Item label={t("Gizlilik politikası")} onPress={() => Linking.openURL("https://sipahihukuk-star.github.io/celse/gizlilik.html")} />
+            <Item label={t("Yönetim paneli")} onPress={go(p.onAdmin)} />
+            <Text style={[styles.byline, { marginTop: 18, paddingHorizontal: 18 }]}>BY THEMISCODE</Text>
+          </ScrollView>
+        </View>
+        <Pressable style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.55)" }} onPress={onClose} accessibilityLabel={t("Kapat")} />
+      </View>
+    </Modal>
+  );
+}
+
+export function CaseListScreen({ mode, cases, onPick, onBack, onSwitch, lockedNote, onLocked, onOnline }: { mode: "duel" | "solo"; cases: CaseFile[]; onPick: (c: CaseFile) => void; onBack: () => void; onSwitch: () => void; lockedNote?: (c: CaseFile) => string | undefined; onLocked?: (c: CaseFile) => void; onOnline?: () => void }) {
   const [res, setRes] = useState<Record<string, SavedResult>>({});
   useEffect(() => { loadResults().then(setRes); }, [mode]);
   const { width } = useWindowDimensions();
@@ -117,10 +171,19 @@ export function CaseListScreen({ mode, cases, onPick, onBack, onSwitch, lockedNo
         <View style={{ flex: 1, minWidth: 200 }}>
           <Text style={styles.eyebrow}>{t("ANTRENMAN · SONUÇLAR KARİYERE İŞLEMEZ")}</Text>
           <Text style={styles.listTitle}>{duel ? t("Karşılıklı duruşma") : t("Tek kişilik dosyalar")}</Text>
-          <Text style={styles.listSub}>{duel ? t("Aynı davada iki vekil sırayla hamle yapar. Arkadaşınızla aynı cihazda ya da bilgisayara karşı oynayın.") : t("Tek bir rol üstlenin; karşı taraf ve hâkim hazır bekliyor.") + " " + t("Kariyerde ulaştığınız mahkemelerin dosyaları açıktır; üst mahkemeler kariyerde dava kazandıkça açılır.")}</Text>
+          <Text style={styles.listSub}>{duel ? t("Aynı davada iki vekil sırayla hamle yapar. Bir dosya seçip rakibinizi belirleyin: aynı cihazda bir arkadaşınız, bilgisayar ya da internetten başka bir avukat.") : t("Tek bir rol üstlenin; karşı taraf ve hâkim hazır bekliyor.") + " " + t("Kariyerde ulaştığınız mahkemelerin dosyaları açıktır; üst mahkemeler kariyerde dava kazandıkça açılır.")}</Text>
         </View>
         <Btn kind="ghost" label={duel ? t("Tek kişilik ›") : t("Karşılıklı ›")} onPress={onSwitch} />
       </View>
+      {duel && onOnline && (
+        <Pressable accessibilityRole="button" onPress={onOnline} style={({ pressed }) => [styles.onlineBar, pressed && { opacity: 0.85 }]}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.onlineK}>{t("İNTERNET ÜZERİNDEN")}</Text>
+            <Text style={styles.onlineT}>{t("Davet koduyla katılın ya da açık davetlerden birini seçin")}</Text>
+          </View>
+          <Text style={styles.careerGoDark}>{t("Lobi ›")}</Text>
+        </Pressable>
+      )}
       <View style={styles.folders}>
         {cases.map(c => {
           const r = res[c.id];
@@ -241,10 +304,28 @@ export function SetupModal({ c, onClose, onStart, onOnline, fixedSide, meName, c
 }
 
 const styles = StyleSheet.create({
-  titleWrap: { flexGrow: 1, justifyContent: "center", width: "100%", maxWidth: 1080, alignSelf: "center", paddingHorizontal: 16, paddingVertical: 32, gap: 24 },
+  titleWrap: { flexGrow: 1, justifyContent: "center", width: "100%", maxWidth: 1080, alignSelf: "center", paddingHorizontal: 16, paddingTop: 8, paddingBottom: 32, gap: 18 },
+  topBar: { flexDirection: "row", alignItems: "center", gap: 10, paddingHorizontal: 16, paddingVertical: 10, width: "100%", maxWidth: 1080, alignSelf: "center" },
+  burger: { width: 40, height: 40, borderRadius: 10, borderWidth: 1, borderColor: C.line, alignItems: "center", justifyContent: "center", gap: 5 },
+  burgerLine: { width: 20, height: 2, borderRadius: 1, backgroundColor: C.text },
+  accChip: { borderWidth: 1, borderColor: C.line, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, maxWidth: 220 },
+  accChipT: { fontFamily: F.bodyMed, fontSize: 14, color: C.text },
+  drawer: { width: "82%", maxWidth: 360, backgroundColor: C.wallDeep, borderRightWidth: 1, borderRightColor: C.line },
+  mHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 18, marginBottom: 6 },
+  mLogo: { fontFamily: F.logo, fontSize: 30, color: C.brass },
+  mClose: { fontFamily: F.bodyBold, fontSize: 20, color: C.muted },
+  mSection: { fontFamily: F.mono, fontSize: 11, letterSpacing: 2, color: C.brassDim, paddingHorizontal: 18, marginTop: 14, marginBottom: 2 },
+  mItem: { paddingHorizontal: 18, paddingVertical: 11 },
+  mItemT: { fontFamily: F.bodyMed, fontSize: 16, color: C.text },
+  mItemS: { fontFamily: F.body, fontSize: 13, color: C.muted, marginTop: 2 },
+  sw: { width: 44, height: 24, borderRadius: 12, backgroundColor: C.panel2, borderWidth: 1, borderColor: C.line, padding: 2 },
+  swOn: { backgroundColor: C.brass, borderColor: C.brass },
+  swDot: { width: 18, height: 18, borderRadius: 9, backgroundColor: C.muted },
+  careerKDark: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.muted },
+  careerGoDark: { fontFamily: F.bodyBold, fontSize: 17, color: C.brass },
   titleArt: { alignItems: "center" },
   eyebrow: { fontFamily: F.mono, fontSize: 12, letterSpacing: 2.5, color: C.muted },
-  logo: { fontFamily: F.display, color: C.brass },
+  logo: { fontFamily: F.logo, color: C.brass, letterSpacing: 2 },
   lede: { fontFamily: F.body, fontSize: 19, lineHeight: 27, color: "#d9d5ca", maxWidth: 480, marginTop: 8 },
   facts: { flexDirection: "row", flexWrap: "wrap", columnGap: 18, rowGap: 4, marginVertical: 14 },
   fact: { fontFamily: F.body, fontSize: 15, color: C.muted },
@@ -270,6 +351,9 @@ const styles = StyleSheet.create({
   signUpB: { fontFamily: F.bodyBold, color: C.text, textDecorationLine: "underline" },
   careerGo: { fontFamily: F.bodyBold, fontSize: 17, color: C.brassInk },
   cta: { flexDirection: "row", flexWrap: "wrap", gap: 12 },
+  onlineBar: { flexDirection: "row", alignItems: "center", gap: 10, borderWidth: 1, borderColor: C.brass, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 10, marginBottom: 20, backgroundColor: C.panel },
+  onlineK: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.brassDim },
+  onlineT: { fontFamily: F.bodyMed, fontSize: 15, color: C.text },
   listWrap: { width: "100%", maxWidth: 1080, alignSelf: "center", paddingHorizontal: 16, paddingVertical: 20 },
   listHead: { flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start", gap: 14, marginBottom: 24 },
   listTitle: { fontFamily: F.display, fontSize: 32, color: C.brass },

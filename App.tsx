@@ -1,9 +1,10 @@
-import { AlegreyaSans_400Regular } from "@expo-google-fonts/alegreya-sans/400Regular";
-import { AlegreyaSans_400Regular_Italic } from "@expo-google-fonts/alegreya-sans/400Regular_Italic";
-import { AlegreyaSans_500Medium } from "@expo-google-fonts/alegreya-sans/500Medium";
-import { AlegreyaSans_700Bold } from "@expo-google-fonts/alegreya-sans/700Bold";
-import { AlegreyaSC_500Medium } from "@expo-google-fonts/alegreya-sc/500Medium";
-import { AlegreyaSC_700Bold } from "@expo-google-fonts/alegreya-sc/700Bold";
+import { Cinzel_700Bold } from "@expo-google-fonts/cinzel/700Bold";
+import { Manrope_400Regular } from "@expo-google-fonts/manrope/400Regular";
+import { Manrope_500Medium } from "@expo-google-fonts/manrope/500Medium";
+import { Manrope_700Bold } from "@expo-google-fonts/manrope/700Bold";
+import { PlayfairDisplay_400Regular_Italic } from "@expo-google-fonts/playfair-display/400Regular_Italic";
+import { PlayfairDisplay_600SemiBold } from "@expo-google-fonts/playfair-display/600SemiBold";
+import { PlayfairDisplay_700Bold } from "@expo-google-fonts/playfair-display/700Bold";
 import { IBMPlexMono_500Medium } from "@expo-google-fonts/ibm-plex-mono/500Medium";
 import { IBMPlexMono_600SemiBold } from "@expo-google-fonts/ibm-plex-mono/600SemiBold";
 import { useFonts } from "expo-font";
@@ -14,7 +15,8 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import AdminScreen from "./src/admin/AdminScreen";
 import { signOut, supabase, useAccount } from "./src/data/account";
 import AccountScreen from "./src/ui/AccountScreen";
-import PaywallScreen from "./src/ui/PaywallScreen";
+import HistoryScreen from "./src/ui/HistoryScreen";
+import { useServerAdmin } from "./src/data/adminHook";
 import OfficeScreen from "./src/ui/OfficeScreen";
 import DeskScreen from "./src/ui/DeskScreen";
 import { closeFile, useFlow } from "./src/data/flow";
@@ -56,7 +58,7 @@ type Route =
   | { k: "office" }
   | { k: "desk" }
   | { k: "account"; then?: "career"; tab?: "giris" | "kayit" }
-  | { k: "paywall"; back: "career" | "list" | "title"; mode?: "duel" | "solo" }
+  | { k: "history" }
   | { k: "game"; c: CaseFile; players: Record<Side, Player>; run: number; from: From }
   | { k: "closing"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From }
   | { k: "verdict"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From; notice?: string; ai?: AiVerdict };
@@ -65,8 +67,8 @@ const SOLO_PLAYERS: Record<Side, Player> = { p1: { name: "Siz", ai: false }, p2:
 
 export default function App() {
   const [loaded, error] = useFonts({
-    AlegreyaSC_500Medium, AlegreyaSC_700Bold,
-    AlegreyaSans_400Regular, AlegreyaSans_400Regular_Italic, AlegreyaSans_500Medium, AlegreyaSans_700Bold,
+    Cinzel_700Bold, PlayfairDisplay_400Regular_Italic, PlayfairDisplay_600SemiBold, PlayfairDisplay_700Bold,
+    Manrope_400Regular, Manrope_500Medium, Manrope_700Bold,
     IBMPlexMono_500Medium, IBMPlexMono_600SemiBold
   });
   // Doğrudan yönetim paneli: adresin sonuna ?yonetim yazılınca panel açılır (PIN yine sorulur).
@@ -80,7 +82,10 @@ export default function App() {
   const cases = useCases();
   const progress = useProgress();
   const { account } = useAccount();
-  const { premium, admin } = usePremium();
+  const { premium, admin: pinAdmin } = usePremium();
+  // Sunucuda yönetici olan hesap (ya da yönetim paneline PIN ile giren) her şeyi kilitsiz görür.
+  const srvAdmin = useServerAdmin();
+  const admin = pinAdmin || srvAdmin;
   const { office } = useOffice();
   // Dil değişince bütün ekran yeniden çizilir.
   const [lang] = useLang();
@@ -162,17 +167,19 @@ export default function App() {
         <View key={lang} style={styles.root}>
         {route.k === "title" && <TitleScreen duelCount={cases.duel.length} soloCount={cases.solo.length} rankName={career.rank} started={Object.keys(progress).length > 0} won={career.won} total={career.total}
           account={account} server={!!supabase()}
-          onAccount={() => setRoute({ k: "account" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "career" })} onSignOut={() => signOut()}
+          onAccount={() => setRoute({ k: "account" })} onSignIn={() => setRoute({ k: "account", tab: "giris" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "career" })} onSignOut={() => signOut()}
           onCareer={() => setRoute(!account ? { k: "account", then: "career" } : office ? { k: "desk" } : { k: "office" })}
-          office={office} onOffice={() => setRoute({ k: "office" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
-          onTahkim={() => setRoute({ k: "tahkim" })} onOnline={() => setRoute({ k: "online" })} tahkimCount={cases.all.filter(c => c.room === "tahkim").length} />}
+          office={office} onOffice={() => setRoute(account ? { k: "office" } : { k: "account", then: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
+          onHistory={() => setRoute({ k: "history" })} onMap={() => setRoute({ k: "career" })}
+          onTahkim={() => setRoute({ k: "tahkim" })} tahkimCount={cases.all.filter(c => c.room === "tahkim").length} />}
+        {route.k === "history" && <HistoryScreen view={career} progress={progress} all={cases.all} onBack={() => setRoute({ k: "title" })} onOffice={() => setRoute({ k: "office" })} />}
         {route.k === "tahkim" && (
           <TahkimScreen cases={cases.all.filter(c => c.room === "tahkim")} locked={() => false}
-            onLocked={() => setRoute({ k: "paywall", back: "title" })}
+            onLocked={() => {}}
             onBack={() => setRoute({ k: "title" })} onPick={c => setSetup({ c, from: "tahkim" })} onOnline={() => setRoute({ k: "online" })} />
         )}
         {route.k === "online" && (
-          <OnlineLobby all={cases.all} onBack={() => setRoute({ k: "title" })} onLogin={() => setRoute({ k: "account" })}
+          <OnlineLobby all={cases.all} onBack={() => toList("duel")} onLogin={() => setRoute({ k: "account" })}
             onJoined={m => { const c = findCase(m.dava_id); if (c) setRoute({ k: "onlineGame", id: m.id, c }); }} />
         )}
         {route.k === "onlineWait" && (
@@ -189,20 +196,17 @@ export default function App() {
               } else setRoute({ k: "verdict", c: route.c, players, game, from: "online", ai });
             }} />
         )}
-        {route.k === "paywall" && (
-          <PaywallScreen onBack={() => (route.back === "career" ? setRoute({ k: "career" }) : route.back === "list" ? toList(route.mode || "solo") : setRoute({ k: "title" }))} />
-        )}
         {route.k === "office" && <OfficeScreen onBack={() => setRoute({ k: "title" })} onCareer={() => setRoute({ k: "desk" })} />}
         {route.k === "desk" && (
           <DeskScreen solo={cases.career} progress={progress} view={career} premium={premium} admin={admin}
             onPlay={c => playCareer(c, "desk")} onOffice={() => setRoute({ k: "office" })} onMap={() => setRoute({ k: "career" })}
-            onPaywall={() => setRoute({ k: "paywall", back: "career" })} onBack={() => setRoute({ k: "title" })} />
+            onPaywall={() => {}} onBack={() => setRoute({ k: "title" })} />
         )}
         {route.k === "account" && (
           <AccountScreen initial={route.tab} onBack={() => setRoute({ k: "title" })} onDone={() => setRoute(route.then === "career" ? (office ? { k: "desk" } : { k: "office" }) : { k: "title" })} />
         )}
         {route.k === "career" && (
-          <CareerScreen view={career} premium={premium} office={office} onOffice={() => setRoute({ k: "office" })} onPaywall={() => setRoute({ k: "paywall", back: "career" })} onBack={() => setRoute(office ? { k: "desk" } : { k: "title" })} onPick={c => playCareer(c, "career")} onReset={() => resetProgress()} />
+          <CareerScreen view={career} premium={premium} office={office} onOffice={() => setRoute({ k: "office" })} onPaywall={() => {}} onBack={() => setRoute(office ? { k: "desk" } : { k: "title" })} onPick={c => playCareer(c, "career")} onReset={() => resetProgress()} />
         )}
         {route.k === "list" && (
           <CaseListScreen mode={route.mode} cases={route.mode === "duel" ? cases.duel : cases.solo}
@@ -211,6 +215,7 @@ export default function App() {
               : t("Kariyerde açılır · {bolum}", { bolum: CHAPTERS[levelOf(c) - 1].title })}
             onBack={() => setRoute({ k: "title" })}
             onSwitch={() => toList(route.mode === "duel" ? "solo" : "duel")}
+            onOnline={() => setRoute({ k: "online" })}
             onPick={c => (c.mode === "duel" ? setSetup({ c, from: "list" }) : startGame(c, SOLO_PLAYERS))} />
         )}
         {route.k === "admin" && <AdminScreen onExit={() => setRoute({ k: "title" })} onPreview={c => startGame(c, previewPlayers(c), "admin")} />}
