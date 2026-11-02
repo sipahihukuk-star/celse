@@ -16,6 +16,7 @@ import AdminScreen from "./src/admin/AdminScreen";
 import { signOut, supabase, useAccount } from "./src/data/account";
 import AccountScreen from "./src/ui/AccountScreen";
 import CharacterScreen from "./src/ui/CharacterScreen";
+import LeaderboardScreen from "./src/ui/LeaderboardScreen";
 import HistoryScreen from "./src/ui/HistoryScreen";
 import { useServerAdmin } from "./src/data/adminHook";
 import OfficeScreen from "./src/ui/OfficeScreen";
@@ -61,6 +62,7 @@ type Route =
   | { k: "account"; then?: "career"; tab?: "giris" | "kayit" }
   | { k: "history" }
   | { k: "character" }
+  | { k: "board" }
   | { k: "game"; c: CaseFile; players: Record<Side, Player>; run: number; from: From }
   | { k: "closing"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From }
   | { k: "verdict"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From; notice?: string; ai?: AiVerdict };
@@ -124,7 +126,7 @@ export default function App() {
     const after = buildCareer(cases.career, nextProgress, true, Infinity, { dr });
     const newCh = after.chapters.filter(ch => ch.open && !career.chapters.find(x => x.level === ch.level)!.open);
     if (newCh.length) notice = t("Yeni bölüm açıldı: {b}. Unvanınız artık \"{u}\".", { b: newCh.map(ch => ch.title).join(", "), u: after.rank });
-    recordResult(c.id, won, score);
+    recordResult(c.id, won, score, levelOf(c));
     if (office && from === "desk") {
       const src = flow?.src[c.id] || sourceOf(c), spec = !!flow?.specialty.includes(branchOf(c));
       closeFile(c.id, won, score, office.month + 1);
@@ -172,8 +174,10 @@ export default function App() {
           onAccount={() => setRoute({ k: "account" })} onSignIn={() => setRoute({ k: "account", tab: "giris" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "career" })} onSignOut={() => signOut()}
           onCareer={() => setRoute(!account ? { k: "account", then: "career" } : office ? { k: "desk" } : { k: "office" })}
           office={office} onOffice={() => setRoute(account ? { k: "office" } : { k: "account", then: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
-          onHistory={() => setRoute({ k: "history" })} onCharacter={() => setRoute({ k: "character" })} onMap={() => setRoute({ k: "career" })}
+          onHistory={() => setRoute({ k: "history" })} onCharacter={() => setRoute({ k: "character" })} onBoard={() => setRoute({ k: "board" })} onMap={() => setRoute({ k: "career" })}
           onTahkim={() => setRoute({ k: "tahkim" })} tahkimCount={cases.all.filter(c => c.room === "tahkim").length} />}
+        {route.k === "board" && <LeaderboardScreen progress={progress} all={cases.all} rank={career.rank} onBack={() => setRoute({ k: "title" })}
+          onSignIn={() => setRoute({ k: "account", tab: "giris" })} onSignUp={() => setRoute({ k: "account", tab: "kayit" })} />}
         {route.k === "character" && <CharacterScreen onBack={() => setRoute({ k: "title" })} />}
         {route.k === "history" && <HistoryScreen view={career} progress={progress} all={cases.all} onBack={() => setRoute({ k: "title" })} onOffice={() => setRoute({ k: "office" })} />}
         {route.k === "tahkim" && (

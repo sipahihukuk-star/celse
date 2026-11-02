@@ -19,7 +19,7 @@ import { LANGS, locale, t, useLang } from "../i18n";
 /* ---------- Giriş ---------- */
 export interface TitleProps {
   onCareer: () => void; onOffice: () => void; office: Office | null; onAccount: () => void; onSignUp: () => void; onSignIn: () => void; onSignOut: () => void;
-  account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; onTahkim: () => void; onHistory: () => void; onCharacter: () => void;
+  account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; onTahkim: () => void; onHistory: () => void; onCharacter: () => void; onBoard: () => void;
   onMap: () => void; tahkimCount: number; duelCount: number; soloCount: number; rankName: string; won: number; total: number;
 }
 export function TitleScreen(p: TitleProps) {
@@ -76,6 +76,15 @@ export function TitleScreen(p: TitleProps) {
               <Text style={styles.careerGoDark}>{office ? t("Büro ›") : t("Aç ›")}</Text>
             </Pressable>
           )}
+
+          <Pressable accessibilityRole="button" onPress={p.onBoard} style={({ pressed }) => [styles.boardLink, pressed && { opacity: 0.8 }]}>
+            <Text style={styles.boardIcon}>🏆</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.careerKDark}>{t("LİDERLİK PANOSU")}</Text>
+              <Text style={styles.boardT}>{t("Diğer avukatlarla yarışın")}</Text>
+            </View>
+            <Text style={styles.careerGoDark}>{t("Sıralama ›")}</Text>
+          </Pressable>
 
           <Text style={[styles.eyebrow, { marginTop: 18 }]}>{t("ANTRENMAN · SONUÇLAR KARİYERE İŞLEMEZ")}</Text>
           <View style={styles.cta}>
@@ -135,6 +144,7 @@ function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; o
               </>
             )}
             <Text style={styles.mSection}>{t("KARİYER")}</Text>
+            <Item label={t("Liderlik panosu")} sub={t("Kariyer puanına göre en iyi avukatlar")} onPress={go(p.onBoard)} />
             <Item label={t("Karakterim")} sub={t("Kendinizi tarif edin, duruşmadaki yüzünüzü seçin")} onPress={go(p.onCharacter)} />
             <Item label={t("Geçmiş dosyalar ve başarı")} sub={t("Kazanılan ve kaybedilen davalar, puanlar, unvan")} onPress={go(p.onHistory)} />
             <Item label={t("Büro, kasa ve kazanç")} sub={t("Gelir-gider defteri, giderler, mesleki gelişim")} onPress={go(p.onOffice)} />
@@ -350,6 +360,9 @@ const styles = StyleSheet.create({
   accLink: { fontFamily: F.mono, fontSize: 12, letterSpacing: 1, color: C.brass },
   byline: { fontFamily: F.monoBold, fontSize: 12, letterSpacing: 4, color: C.brassDim, marginTop: -2, marginBottom: 6 },
   careerCard: { flexDirection: "row", alignItems: "center", gap: 12, backgroundColor: C.brass, borderRadius: 10, paddingHorizontal: 18, paddingVertical: 14, marginBottom: 12, maxWidth: 480 },
+  boardLink: { flexDirection: "row", alignItems: "center", gap: 12, borderWidth: 1, borderColor: C.line, borderRadius: 12, paddingVertical: 10, paddingHorizontal: 14, backgroundColor: C.panel },
+  boardIcon: { fontSize: 26 },
+  boardT: { fontFamily: F.display, fontSize: 18, color: C.text },
   officeCard: { flexDirection: "row", alignItems: "center", gap: 12, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 10, marginTop: 8 },
   officeT: { fontFamily: F.displayMed, fontSize: 19, color: C.text },
   careerK: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.brassInk, opacity: 0.8 },

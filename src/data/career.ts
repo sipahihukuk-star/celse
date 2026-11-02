@@ -50,7 +50,14 @@ export const winsNeeded = (n: number) => Math.min(4, Math.max(1, Math.ceil(n * 0
 
 /* ---------- İlerleme kaydı ---------- */
 
-export interface CaseRecord { played: number; won: boolean; best: number }
+export interface CaseRecord { played: number; won: boolean; best: number; /** liderlik panosu puanı (en iyi deneme) */ pts?: number }
+
+/** Bir denemenin pano puanı: kazanılan davada 50 + dava puanı, kaybedilende dava puanının dörtte biri;
+ *  üst mahkemelerde çarpan artar (sulh/asliye ×1 … uluslararası ×2). */
+export function boardPoints(won: boolean, score: number, level: number): number {
+  const s = Math.max(0, Math.min(100, score || 0));
+  return Math.round((won ? 50 + s : s * 0.25) * (1 + 0.25 * (Math.max(1, Math.min(5, level)) - 1)));
+}
 export type Progress = Record<string, CaseRecord>;
 const listeners = new Set<() => void>();
 const emit = () => listeners.forEach(f => f());
@@ -69,28 +76,36 @@ export async function loadProgress(): Promise<Progress> {
   const acc = currentAccount(), sb = supabase();
   if (acc?.mode !== "server" || !sb) return local;
   try {
-    const { data } = await sb.from("kariyer").select("dava_id, oynama, kazandi, en_iyi").eq("kullanici_id", acc.id);
+    // Pano sütunları (puan) 6. kurulumla gelir; kurulum yapılmamışsa eski sütunlarla okunur.
+    type Row = { dava_id: string; oynama: number; kazandi: boolean; en_iyi: number; puan?: number };
+    const first = await sb.from("kariyer").select("dava_id, oynama, kazandi, en_iyi, puan").eq("kullanici_id", acc.id);
+    const data: Row[] | null = first.error ? (await sb.from("kariyer").select("dava_id, oynama, kazandi, en_iyi").eq("kullanici_id", acc.id)).data : first.data;
     const merged: Progress = { ...local };
     (data || []).forEach(r => {
       const l = merged[r.dava_id];
-      merged[r.dava_id] = { played: Math.max(l?.played || 0, r.oynama), won: !!(l?.won || r.kazandi), best: Math.max(l?.best || 0, r.en_iyi) };
+      const pts = Math.max(l?.pts || 0, r.puan || 0);
+      merged[r.dava_id] = { played: Math.max(l?.played || 0, r.oynama), won: !!(l?.won || r.kazandi), best: Math.max(l?.best || 0, r.en_iyi), ...(pts ? { pts } : {}) };
     });
     await AsyncStorage.setItem(keyFor(), JSON.stringify(merged));
     return merged;
   } catch { return local; }
 }
 
-/** Tek kişilik bir davanın sonucunu kaydeder. En iyi puan ve "en az bir kez kazandı" bilgisi korunur. */
-export async function recordResult(id: string, won: boolean, score: number) {
+/** Bir davanın sonucunu kaydeder. En iyi puan, "en az bir kez kazandı" bilgisi ve en yüksek pano puanı korunur. */
+export async function recordResult(id: string, won: boolean, score: number, level = 1) {
   try {
     const all = await loadLocal();
     const prev = all[id] || { played: 0, won: false, best: 0 };
-    const rec = { played: prev.played + 1, won: prev.won || won, best: won ? Math.max(prev.best, score) : prev.best };
+    const pts = Math.max(prev.pts || 0, boardPoints(won, score, level));
+    const rec: CaseRecord = { played: prev.played + 1, won: prev.won || won, best: won ? Math.max(prev.best, score) : prev.best, pts };
     all[id] = rec;
     await AsyncStorage.setItem(keyFor(), JSON.stringify(all));
     const acc = currentAccount(), sb = supabase();
     if (acc?.mode === "server" && sb) {
-      await sb.from("kariyer").upsert({ kullanici_id: acc.id, dava_id: id, oynama: rec.played, kazandi: rec.won, en_iyi: rec.best, guncelleme: new Date().toISOString() });
+      const row = { kullanici_id: acc.id, dava_id: id, oynama: rec.played, kazandi: rec.won, en_iyi: rec.best, guncelleme: new Date().toISOString() };
+      const { error } = await sb.from("kariyer").upsert({ ...row, puan: pts, seviye: Math.max(1, Math.min(5, level)) });
+      if (error) await sb.from("kariyer").upsert(row); // 6. kurulum (pano) henüz yapılmamış
+      else if (pts > (prev.pts || 0)) await sb.from("puan_gecmisi").insert({ kullanici_id: acc.id, dava_id: id, artis: pts - (prev.pts || 0) });
     }
   } catch { /* depolama ya da ağ yoksa sessizce geç; yerel kayıt kalır */ }
   emit();
