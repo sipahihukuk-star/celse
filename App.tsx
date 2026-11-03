@@ -17,6 +17,7 @@ import { signOut, supabase, useAccount } from "./src/data/account";
 import AccountScreen from "./src/ui/AccountScreen";
 import CharacterScreen from "./src/ui/CharacterScreen";
 import { KeyboardBar } from "./src/ui/KeyboardBar";
+import { NewPassword } from "./src/ui/NewPassword";
 import { BoardInvite, shouldInvite } from "./src/ui/BoardInvite";
 import { useCharacter } from "./src/data/character";
 import LeaderboardScreen from "./src/ui/LeaderboardScreen";
@@ -175,6 +176,7 @@ export default function App() {
     <SafeAreaProvider>
       <SafeAreaView style={styles.root} edges={["top", "bottom", "left", "right"]} onTouchStart={resumeMusic}>
         <KeyboardBar />
+        <NewPassword />
         <BoardInvite visible={invite} onClose={() => setInvite(false)}
           info={{ sehir: office ? CITIES.find(x => x.id === office.city)?.name : undefined, avatar: office?.avatar || me?.avatar, unvan: career.rank }} />
         <StatusBar style="light" />

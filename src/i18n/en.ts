@@ -794,5 +794,11 @@ const dict: Record<string, string> = {
   "Kasım": "November",
   "Aralık": "December",
   "Tebrikler! Liderlik panosunda görünmek ister misiniz?": "Congratulations! Would you like to appear on the leaderboard?",
+  "Yeni şifrenizi belirleyin": "Set your new password",
+  "Yeni şifre (en az 6 karakter)": "New password (at least 6 characters)",
+  "Yeni şifre (tekrar)": "New password (again)",
+  "Şifreler aynı değil.": "The passwords do not match.",
+  "Şifreyi kaydet": "Save password",
+  "Şifre en az 6 karakter olmalı.": "The password must be at least 6 characters.",
 };
 export default dict;

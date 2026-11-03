@@ -3,6 +3,7 @@
 // - Cihaz (Supabase henüz ayarlı değilse): aynı cihazda birden çok oyuncu profili; her birinin ayrı kariyeri olur.
 import "react-native-url-polyfill/auto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Platform } from "react-native";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { serverReady, setServerReachable, SUPABASE_ANON_KEY, SUPABASE_URL } from "../config";
@@ -20,7 +21,7 @@ export interface SignUpInput { adSoyad: string; telefon: string; eposta: string;
 let client: SupabaseClient | null = null;
 export function supabase(): SupabaseClient | null {
   if (!serverReady()) return null;
-  if (!client) client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { storage: AsyncStorage, persistSession: true, autoRefreshToken: true, detectSessionInUrl: false } });
+  if (!client) client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { storage: AsyncStorage, persistSession: true, autoRefreshToken: true, detectSessionInUrl: Platform.OS === "web" } });
   return client;
 }
 
@@ -86,7 +87,8 @@ export async function initAccount() {
     const { data } = await sb.auth.getSession();
     const u = data.session?.user;
     current = u ? await loadServerProfile(u.id, u.email || "") : null;
-    sb.auth.onAuthStateChange(async (_e, session) => {
+    sb.auth.onAuthStateChange(async (ev, session) => {
+      if (ev === "PASSWORD_RECOVERY") { recovering = true; }
       const nu = session?.user;
       current = nu ? await loadServerProfile(nu.id, nu.email || "") : null;
       emit();
@@ -132,7 +134,8 @@ export async function signIn(eposta: string, sifre: string): Promise<{ error?: s
 export async function resetPassword(eposta: string): Promise<{ error?: string }> {
   const sb = supabase();
   if (!sb) return { error: "Sunucu henüz ayarlı değil." };
-  const { error } = await sb.auth.resetPasswordForEmail(eposta.trim().toLowerCase());
+  // Bağlantı web sürümünü açar; orada yeni şifre penceresi çıkar (uygulama da web adresiyle aynı hesabı kullanır).
+  const { error } = await sb.auth.resetPasswordForEmail(eposta.trim().toLowerCase(), { redirectTo: "https://sipahihukuk-star.github.io/celse/" });
   return error ? { error: trError(error.message) } : {};
 }
 
@@ -176,6 +179,22 @@ export async function getAccessToken(): Promise<string | undefined> {
   if (!sb) return undefined;
   const { data } = await sb.auth.getSession();
   return data.session?.access_token;
+}
+
+/* ---------- Şifre yenileme ---------- */
+// E-postadaki "şifre yenileme" bağlantısıyla gelen oyuncu geçici oturumla açılır; yeni şifresini belirleyene kadar pencere görünür.
+// Bağlantı adresi "type=recovery" taşır; Supabase adresi temizlemeden önce bakılır.
+let recovering = Platform.OS === "web" && typeof window !== "undefined" && /type=recovery/.test(window.location.hash + window.location.search);
+export const isRecovering = () => recovering;
+export function endRecovery() { recovering = false; emit(); }
+export async function setNewPassword(sifre: string): Promise<{ error?: string }> {
+  const sb = supabase();
+  if (!sb) return { error: "Sunucu henüz ayarlı değil." };
+  if (sifre.length < 6) return { error: "Şifre en az 6 karakter olmalı." };
+  const { error } = await sb.auth.updateUser({ password: sifre });
+  if (error) return { error: trError(error.message) };
+  recovering = false; emit();
+  return {};
 }
 
 export function useAccount(): { account: Account | null; ready: boolean } {
