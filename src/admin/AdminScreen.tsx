@@ -15,7 +15,8 @@ import { SettingsPanel } from "./SettingsPanel";
 import CaseEditor from "./CaseEditor";
 import { Field, Row, Section, Seg, SmallBtn } from "./form";
 import { blankCase, CourtPreset, PRESETS } from "./presets";
-import { getPin, serverAdmin, setPin, Status, store, StoredCase } from "./store";
+import { getPin, resetAdminCache, serverAdmin, setPin, Status, store, StoredCase } from "./store";
+import { onAccountChange } from "../data/account";
 
 interface Props { onExit: () => void; onPreview: (c: CaseFile) => void }
 
@@ -77,7 +78,13 @@ function AdminHome({ onExit, onPreview }: Props) {
   const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri" | "ayarlar">("");
   const [isServerAdmin, setServerAdmin] = useState<boolean | null>(null);
   const reload = () => store.list().then(setStored);
-  useEffect(() => { reload(); serverAdmin().then(setServerAdmin); }, []);
+  // Yönetici denetimi oturum yüklendikten sonra ve hesap her değiştiğinde yeniden yapılır (sayfa oturumdan önce açılırsa
+  // ilk denetim "yönetici değil" sonucunu önbelleğe alıyordu).
+  useEffect(() => {
+    const check = () => { resetAdminCache(); serverAdmin().then(v => { setServerAdmin(v); reload(); }); };
+    reload(); check();
+    return onAccountChange(check);
+  }, []);
 
   const entries: Entry[] = useMemo(() => {
     const byId = new Map(stored.map(s => [s.case.id, s]));
