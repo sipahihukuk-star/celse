@@ -68,9 +68,7 @@
       }
     },
     "owner": "themiscodecelse",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.0-odeme",
     "updates": {
       "url": "https://u.expo.dev/0f43df6e-12d0-4f8c-b779-77f503add543",
       "checkAutomatically": "ON_LOAD",
