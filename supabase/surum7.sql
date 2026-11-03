@@ -6,7 +6,7 @@
 -- Oyuncu kendi abonelik ve kredi satırını yalnızca okur; yazma yalnız service role (ödeme bildirimi) ve yöneticiye (abonelikte 'manuel').
 -- Supabase > SQL Editor'de bir kez çalıştırılır. Tekrar çalıştırmak zararsızdır.
 
-/* ---------- abonelikler ---------- */
+-- ---------- abonelikler ----------
 alter table public.abonelikler add column if not exists urun text;
 alter table public.abonelikler add column if not exists ortam text;
 alter table public.abonelikler add column if not exists yenilenecek boolean;
@@ -20,7 +20,7 @@ alter table public.abonelikler enable row level security;
 drop policy if exists "kendi aboneliğini görür" on public.abonelikler;
 create policy "kendi aboneliğini görür" on public.abonelikler for select using (auth.uid() = kullanici_id);
 
-/* ---------- Derdini anlat kredisi ---------- */
+-- ---------- Derdini anlat kredisi ----------
 create table if not exists public.derdini_kredi (
   kullanici_id uuid primary key references auth.users (id) on delete cascade,
   kredi integer not null default 0 check (kredi >= 0),
@@ -35,7 +35,7 @@ create policy "yönetici krediyi görür" on public.derdini_kredi for select usi
 -- insert / update / delete ilkesi yok: yalnız service role (RLS'yi aşar) yazar.
 grant select on public.derdini_kredi to authenticated;
 
-/* ---------- işlenen ödeme olayları ---------- */
+-- ---------- işlenen ödeme olayları ----------
 create table if not exists public.odeme_olaylari (
   olay_id text primary key,
   tur text not null,
@@ -52,17 +52,18 @@ alter table public.odeme_olaylari enable row level security;
 drop policy if exists "yönetici ödeme olaylarını görür" on public.odeme_olaylari;
 create policy "yönetici ödeme olaylarını görür" on public.odeme_olaylari for select using (public.yonetici_mi());
 
-/* ---------- ödeme olayını işle (tek işlem, tekrar güvenli) ----------
-   p_tur: RevenueCat olay türü. p_kredi: tüketilebilir üründe eklenecek (+) ya da iadede düşülecek (−) kredi; abonelikte 0.
-   p_bitis: aboneliğin bitişi (RevenueCat expiration_at_ms); abonelik olayı değilse null.
-   Dönüş: 'tekrar' (bu olay daha önce işlendi), 'kredi', 'abonelik' ya da 'kayit' (yalnız kaydedildi). */
+-- ---------- ödeme olayını işle (tek işlem, tekrar güvenli) ----------
+-- p_tur: RevenueCat olay türü. p_kredi: tüketilebilir üründe eklenecek (+) ya da iadede düşülecek (−) kredi; abonelikte 0.
+-- p_bitis: aboneliğin bitişi (RevenueCat expiration_at_ms); abonelik olayı değilse null.
+-- Dönüş: 'tekrar' (bu olay daha önce işlendi), 'kredi', 'abonelik' ya da 'kayit' (yalnız kaydedildi).
 create or replace function public.odeme_olayi_isle(
   p_olay_id text, p_tur text, p_kullanici uuid, p_urun text, p_kaynak text, p_ortam text,
   p_bitis timestamptz, p_yenilenecek boolean, p_kredi integer, p_ham jsonb
 ) returns text
 language plpgsql security definer set search_path = public as $$
 declare
-  eski public.abonelikler%rowtype;
+  eski_kaynak text;
+  eski_bitis timestamptz;
   v_sonuc text := 'kayit';
   v_var boolean := p_kullanici is not null and exists (select 1 from auth.users where id = p_kullanici);
 begin
@@ -86,9 +87,9 @@ begin
           guncelleme = now();
     v_sonuc := 'kredi';
   elsif p_bitis is not null then
-    select * into eski from public.abonelikler where kullanici_id = p_kullanici for update;
+    select kaynak, bitis into eski_kaynak, eski_bitis from public.abonelikler where kullanici_id = p_kullanici for update;
     -- Yöneticinin elle verdiği ve daha geç biten abonelik, mağaza olayıyla kısaltılmaz.
-    if found and eski.kaynak = 'manuel' and eski.bitis > p_bitis then
+    if found and eski_kaynak = 'manuel' and eski_bitis > p_bitis then
       v_sonuc := 'manuel_korundu';
     else
       insert into public.abonelikler as a (kullanici_id, bitis, kaynak, urun, ortam, yenilenecek, son_olay, olay_zamani, guncelleme)
