@@ -33,7 +33,12 @@ export async function onBoard(): Promise<boolean> {
 export async function joinBoard(info: { sehir?: string; avatar?: string; unvan?: string }): Promise<{ error?: string }> {
   const acc = currentAccount(), sb = supabase();
   if (acc?.mode !== "server" || !sb) return { error: "Panoda yer almak için üye girişi gerekir." };
-  const { error } = await sb.from("pano").upsert({ kullanici_id: acc.id, gorunen_ad: displayName(acc.adSoyad), sehir: info.sehir || null, avatar: info.avatar || null, unvan: info.unvan || null, guncelleme: new Date().toISOString() });
+  // Büro ve karakter cihazda tutulur; büro açılmamış bir cihazdan girilince eski şehir ve yüz silinmesin diye yalnız bilinenler yazılır.
+  const row: Record<string, string> = { kullanici_id: acc.id, gorunen_ad: displayName(acc.adSoyad), guncelleme: new Date().toISOString() };
+  if (info.sehir) row.sehir = info.sehir;
+  if (info.avatar) row.avatar = info.avatar;
+  if (info.unvan) row.unvan = info.unvan;
+  const { error } = await sb.from("pano").upsert(row);
   return error ? { error: "Panoya katılınamadı. Bağlantınızı kontrol edip yeniden deneyin." } : {};
 }
 
