@@ -21,6 +21,7 @@ export interface TitleProps {
   onCareer: () => void; onOffice: () => void; office: Office | null; onAccount: () => void; onSignUp: () => void; onSignIn: () => void; onSignOut: () => void;
   account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; onTahkim: () => void; onHistory: () => void; onCharacter: () => void; onBoard: () => void;
   /** sunucuda yönetici olan hesap: yönetim paneli yalnız ona görünür */ isAdmin?: boolean;
+  /** Celse Pro ekranı (abonelik, geri yükleme) ve Pro etkin mi */ onPro?: () => void; pro?: boolean;
   onMap: () => void; tahkimCount: number; duelCount: number; soloCount: number; rankName: string; won: number; total: number;
 }
 export function TitleScreen(p: TitleProps) {
@@ -159,6 +160,7 @@ function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; o
                 <Item label={p.server ? t("Üye ol") : t("Yeni oyuncu")} onPress={go(p.onSignUp)} />
               </>
             )}
+            {!!p.onPro && <Item label={t("Celse Pro")} sub={p.pro ? t("Aboneliğiniz etkin") : t("Bütün kariyer · aylık ya da yıllık abonelik")} onPress={go(p.onPro)} />}
             <Text style={styles.mSection}>{t("KARİYER")}</Text>
             <Item label={t("Liderlik panosu")} sub={t("Kariyer puanına göre en iyi avukatlar")} onPress={go(p.onBoard)} />
             <Item label={t("Karakterim")} sub={t("Kendinizi tarif edin, duruşmadaki yüzünüzü seçin")} onPress={go(p.onCharacter)} />

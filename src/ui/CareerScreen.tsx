@@ -39,8 +39,8 @@ export default function CareerScreen({ view, onBack, onPick, onReset, onPaywall,
 
       {!premium && (
         <Pressable accessibilityRole="button" onPress={onPaywall} style={s.promo}>
-          <Text style={s.promoT}>{t("İlk 5 dava ücretsiz.")}</Text>
-          <Text style={s.promoD}>{t("Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne, AİHM'e ve karşılıklı duruşmaya abonelikle devam edin · yıllık 5.000 TL ›")}</Text>
+          <Text style={s.promoT}>{t("İlk bölüm ücretsiz.")}</Text>
+          <Text style={s.promoD}>{t("Heyetli mahkemelere, Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne ve AİHM'e Celse Pro ile devam edin ›")}</Text>
         </Pressable>
       )}
       <View style={{ gap: 18, marginTop: 22 }}>

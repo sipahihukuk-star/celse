@@ -32,7 +32,8 @@ import { newLife, personalCosts } from "./src/data/life";
 import { CITIES, routineIncome } from "./src/data/office";
 import { careerSide, feeFor, lineText, monthlyCost, settleCase, SOURCE_LABEL, sourceOf, tl, useOffice } from "./src/data/office";
 import { resumeMusic } from "./src/ui/music";
-import { FREE_CASES, usePremium } from "./src/data/subscription";
+import { FREE_LEVEL, usePremium } from "./src/data/subscription";
+import PaywallScreen from "./src/ui/PaywallScreen";
 import { buildCareer, levelOf, openIds, Progress, recordResult, resetProgress, useProgress, CHAPTERS } from "./src/data/career";
 import { useCases } from "./src/data/useCases";
 import { GameState, other, verdict } from "./src/engine/engine";
@@ -63,7 +64,8 @@ type Route =
   | { k: "career" }
   | { k: "office" }
   | { k: "desk" }
-  | { k: "account"; then?: "career"; tab?: "giris" | "kayit" }
+  | { k: "account"; then?: "career" | "paywall"; tab?: "giris" | "kayit" }
+  | { k: "paywall" }
   | { k: "history" }
   | { k: "character" }
   | { k: "board" }
@@ -153,7 +155,9 @@ export default function App() {
   const fromOf = (c: CaseFile): From => (c.room === "tahkim" ? "tahkim" : "list");
   const findCase = (id: string) => cases.all.find(x => x.id === id);
   const dr = hasDegree(office?.life, "dr");
-  const career = buildCareer(cases.career, progress, premium, FREE_CASES, { dr });
+  // Ücretsiz sürüm: kariyerin ilk bölümü. Pro ya da yönetici her bölümü açık görür.
+  const unlocked = premium || admin;
+  const career = buildCareer(cases.career, progress, unlocked, FREE_LEVEL, { dr });
   boardInfo.current = { sehir: office ? CITIES.find(x => x.id === office.city)?.name : undefined, avatar: office?.avatar || me?.avatar, unvan: career.rank };
   const lockOf = new Map(career.chapters.flatMap(ch => ch.cases.map(x => [x.c.id, x.lock] as const)));
   const careerOpen = openIds(career);
@@ -227,7 +231,7 @@ export default function App() {
           onCareer={() => setRoute(!account ? { k: "account", then: "career" } : office ? { k: "desk" } : { k: "office" })}
           office={office} onOffice={() => setRoute(account ? { k: "office" } : { k: "account", then: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
           onHistory={() => setRoute({ k: "history" })} onCharacter={() => setRoute({ k: "character" })} onBoard={() => setRoute({ k: "board" })} isAdmin={srvAdmin} onMap={() => setRoute({ k: "career" })}
-          onTahkim={() => setRoute({ k: "tahkim" })} tahkimCount={cases.all.filter(c => c.room === "tahkim").length} />}
+          onTahkim={() => setRoute({ k: "tahkim" })} onPro={() => setRoute({ k: "paywall" })} pro={unlocked} tahkimCount={cases.all.filter(c => c.room === "tahkim").length} />}
         {route.k === "board" && <LeaderboardScreen progress={progress} all={cases.all} rank={career.rank} onBack={() => setRoute({ k: "title" })}
           onSignIn={() => setRoute({ k: "account", tab: "giris" })} onSignUp={() => setRoute({ k: "account", tab: "kayit" })} />}
         {route.k === "character" && <CharacterScreen onBack={() => setRoute({ k: "title" })} />}
@@ -259,23 +263,29 @@ export default function App() {
         {route.k === "desk" && (
           <DeskScreen solo={cases.career} progress={progress} view={career} premium={premium} admin={admin}
             onPlay={c => playCareer(c, "desk")} onOffice={() => setRoute({ k: "office" })} onMap={() => setRoute({ k: "career" })}
-            onPaywall={() => {}} onBack={() => setRoute({ k: "title" })} />
+            onPaywall={() => setRoute({ k: "paywall" })} onBack={() => setRoute({ k: "title" })} />
         )}
         {route.k === "account" && (
-          <AccountScreen initial={route.tab} onBack={() => setRoute({ k: "title" })} onDone={() => setRoute(route.then === "career" ? (office ? { k: "desk" } : { k: "office" }) : { k: "title" })} />
+          <AccountScreen initial={route.tab} onBack={() => setRoute({ k: "title" })} onDone={() => setRoute(route.then === "career" ? (office ? { k: "desk" } : { k: "office" }) : route.then === "paywall" ? { k: "paywall" } : { k: "title" })} />
         )}
         {route.k === "career" && (
-          <CareerScreen view={career} premium={premium} office={office} onOffice={() => setRoute({ k: "office" })} onPaywall={() => {}} onBack={() => setRoute(office ? { k: "desk" } : { k: "title" })} onPick={c => playCareer(c, "career")} onReset={() => resetProgress()} />
+          <CareerScreen view={career} premium={unlocked} office={office} onOffice={() => setRoute({ k: "office" })} onPaywall={() => setRoute({ k: "paywall" })} onBack={() => setRoute(office ? { k: "desk" } : { k: "title" })} onPick={c => playCareer(c, "career")} onReset={() => resetProgress()} />
         )}
         {route.k === "list" && (
           <CaseListScreen mode={route.mode} cases={route.mode === "duel" ? cases.duel : cases.solo}
             // Tek kişilik dosyalar antrenmanda da kariyerdeki ilerlemeye göre açılır: kariyerde ulaşılmamış mahkemeye girilemez.
             lockedNote={c => admin || c.mode !== "solo" || c.career?.off || careerOpen.has(c.id) ? undefined
+              : lockOf.get(c.id) === "premium" ? t("Celse Pro ile açılır")
               : t("Kariyerde açılır · {bolum}", { bolum: t(CHAPTERS[levelOf(c) - 1].title) })}
+            onLocked={c => { if (lockOf.get(c.id) === "premium") setRoute({ k: "paywall" }); }}
             onBack={() => setRoute({ k: "title" })}
             onSwitch={() => toList(route.mode === "duel" ? "solo" : "duel")}
             onOnline={() => setRoute({ k: "online" })}
             onPick={c => (c.mode === "duel" ? setSetup({ c, from: "list" }) : startGame(c, SOLO_PLAYERS))} />
+        )}
+        {route.k === "paywall" && (
+          <PaywallScreen onBack={() => goBack()} signedIn={account?.mode === "server"} server={!!supabase()}
+            onSignIn={() => setRoute({ k: "account", tab: "giris", then: "paywall" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "paywall" })} />
         )}
         {route.k === "admin" && <AdminScreen onExit={() => setRoute({ k: "title" })} onPreview={c => startGame(c, previewPlayers(c), "admin")} />}
         {route.k === "game" && (

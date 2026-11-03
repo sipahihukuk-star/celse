@@ -169,9 +169,8 @@ const sortCases = (a: CaseFile, b: CaseFile, idx: Map<string, number>) => sortKe
  * - İlk bölüm baştan açıktır. Bir bölüm, önceki dolu bölümde yeterli dava kazanılınca açılır. Boş bölümler ("yakında") atlanır.
  * - Açık bölümde davalar sırayla açılır: bir dava oynanınca (sonucu ne olursa olsun) sıradaki açılır.
  */
-/** premium false ise kariyer sırasındaki ilk `freeCount` dava dışındakiler abonelik kilidindedir. */
-export function buildCareer(solo: CaseFile[], progress: Progress, premium = true, freeCount = Infinity, opts: { dr?: boolean } = {}): CareerView {
-  let seq = 0;
+/** premium false ise `freeLevel` bölümünden sonraki bölümlerin bütün davaları abonelik (Celse Pro) kilidindedir. */
+export function buildCareer(solo: CaseFile[], progress: Progress, premium = true, freeLevel = Infinity, opts: { dr?: boolean } = {}): CareerView {
   const idx = new Map(solo.map((c, i) => [c.id, i]));
   const pool = solo.filter(c => !c.career?.off);
   let prevOpen = true, prevWins = 0, prevNeed = 0, prevTitle = "";
@@ -193,7 +192,7 @@ export function buildCareer(solo: CaseFile[], progress: Progress, premium = true
       // Dosya akışında davalar sırayla değil, büroya geldikçe açılır: açık bölümdeki her dava oynanabilir.
       const ok = open;
       prevPlayed = !!rec?.played;
-      if (!premium && seq++ >= freeCount) return { c, rec, lock: "premium", why: t("Abonelikle açılır") };
+      if (!premium && ch.level > freeLevel) return { c, rec, lock: "premium", why: t("Celse Pro ile açılır") };
       return { c, rec, lock: ok ? "open" : "locked", why: ok ? undefined : why };
     });
     if (list.length) {

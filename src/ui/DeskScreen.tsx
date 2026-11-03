@@ -3,13 +3,13 @@
 import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Branch, branchLabel, branchOf } from "../data/branches";
-import { CareerView, DIFFICULTY, Progress } from "../data/career";
+import { CareerView, DIFFICULTY, levelOf, Progress } from "../data/career";
 import { accept, branchStats, decline, EARLY_FILES, ensureDeal, Flow, postponeSpecialty, setFocus, setSpecialty, specialtyDue, suggestSpecialty, useFlow } from "../data/flow";
 import { dateOf, EDU, hasDegree, studying } from "../data/life";
 import { careerSide, closeMonth, enroll, eventChoices, feeFor, monthlyCost, Office, resolveEvent, Source, SOURCE_LABEL, sourceOf, tl, useOffice } from "../data/office";
 import { locale, t } from "../i18n";
 import { personalCosts } from "../data/life";
-import { FREE_CASES } from "../data/subscription";
+import { FREE_LEVEL } from "../data/subscription";
 import { CaseFile } from "../engine/types";
 import { Btn } from "./kit";
 import { AvatarFace } from "./OfficeScreen";
@@ -45,8 +45,8 @@ export default function DeskScreen({ solo, progress, view, premium, admin, onPla
   const byId = new Map(solo.map(c => [c.id, c]));
   const stats = branchStats(flow, solo).filter(b => b.open);
   const ev = eventChoices(office);
-  const used = Object.keys(flow.closed).length + flow.active.length;
-  const freeLeft = premium || admin ? Infinity : FREE_CASES - used;
+  // Ücretsiz sürümde yalnız ilk bölümün dosyaları alınır ve oynanır; sonrakiler Celse Pro ister.
+  const paid = (c: CaseFile) => !premium && !admin && levelOf(c) > FREE_LEVEL;
   const deskFull = flow.active.length >= DESK_MAX;
   const cost = monthlyCost(office).total + personalCosts(office.life!, month).total;
   const toggle = (b: Branch) => setFocus(flow.focus.includes(b) ? flow.focus.filter(x => x !== b) : [...flow.focus, b]);
@@ -153,15 +153,15 @@ export default function DeskScreen({ solo, progress, view, premium, admin, onPla
       {!flow.offers.length && <Text style={s.empty}>{t("Bu ay yeni dosya yok. Masadaki dosyaları bitirin ya da ayı kapatın.")}</Text>}
       {flow.offers.map(o => {
         const c = byId.get(o.id); if (!c) return null;
-        return <FileCard key={o.id} c={c} office={office} src={flow.src[c.id] || o.src} side={flow.side[c.id] || o.side} spec={flow.specialty.includes(branchOf(c))} offer onAccept={() => (freeLeft <= 0 ? onPaywall() : accept(c.id))} onDecline={() => decline(c.id, month)}
-          disabled={deskFull || !!ev} why={ev ? t("Önce bu ayın kararını verin") : deskFull ? t("Masanız dolu (en çok {n} dosya)", { n: DESK_MAX }) : freeLeft <= 0 ? t("Ücretsiz dosyalar bitti · abonelikle devam") : undefined} />;
+        return <FileCard key={o.id} c={c} office={office} src={flow.src[c.id] || o.src} side={flow.side[c.id] || o.side} spec={flow.specialty.includes(branchOf(c))} offer onAccept={() => (paid(c) ? onPaywall() : accept(c.id))} onDecline={() => decline(c.id, month)}
+          disabled={deskFull || !!ev} why={ev ? t("Önce bu ayın kararını verin") : deskFull ? t("Masanız dolu (en çok {n} dosya)", { n: DESK_MAX }) : paid(c) ? t("Bu dosya Celse Pro ile alınır") : undefined} />;
       })}
 
       <Text style={s.h}>{t("Masamdaki dosyalar ({n}/{max})", { n: flow.active.length, max: DESK_MAX })}</Text>
       {!flow.active.length && <Text style={s.empty}>{t("Masanız boş. Gelen dosyalardan birini kabul edin.")}</Text>}
       {flow.active.map(id => {
         const c = byId.get(id); if (!c) return null;
-        return <FileCard key={id} c={c} office={office} src={flow.src[c.id]} side={flow.side[c.id]} spec={flow.specialty.includes(branchOf(c))} onPlay={() => onPlay(c)} disabled={!!ev} why={ev ? t("Önce bu ayın kararını verin") : undefined} />;
+        return <FileCard key={id} c={c} office={office} src={flow.src[c.id]} side={flow.side[c.id]} spec={flow.specialty.includes(branchOf(c))} onPlay={() => (paid(c) ? onPaywall() : onPlay(c))} disabled={!!ev} why={ev ? t("Önce bu ayın kararını verin") : paid(c) ? t("Bu dosya Celse Pro ile oynanır") : undefined} />;
       })}
 
       {!flow.active.length && !ev && (
