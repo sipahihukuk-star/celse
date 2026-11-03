@@ -1,6 +1,7 @@
 // Karakter oluşturma: oyuncu kendini tarif eder ya da özellikleri seçer; en yakın avukat fotoğrafları önerilir.
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Image, Keyboard, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { kbBar } from "./KeyboardBar";
 import { Beard, Character, Gender, Hair, HairColor, parseTraits, rankAvatars, saveCharacter, Traits, useCharacter } from "../data/character";
 import { Avatar, useOffice } from "../data/office";
 import { useAccount } from "../data/account";
@@ -84,7 +85,7 @@ export function CharacterPicker({ initial, onChange }: { initial?: Partial<Chara
   return (
     <View style={{ gap: 10 }}>
       <Text style={s.h}>{t("Kendinizi tarif edin")}</Text>
-      <TextInput value={text} onChangeText={onText} multiline style={s.input} placeholderTextColor={C.muted} maxLength={300}
+      <TextInput {...kbBar} value={text} onChangeText={onText} multiline style={s.input} placeholderTextColor={C.muted} maxLength={300}
         placeholder={t("Ör. 35 yaşında, kısa siyah saçlı, sakallı ve gözlüklü bir erkek avukatım.")} blurOnSubmit returnKeyType="done" onSubmitEditing={() => Keyboard.dismiss()} />
       <Text style={s.note}>{t("Yazdıkça aşağıdaki seçimler kendiliğinden işaretlenir; dilerseniz elle de değiştirebilirsiniz.")}</Text>
 

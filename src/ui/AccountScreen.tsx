@@ -1,6 +1,7 @@
 // Üyelik ekranı: üye ol / giriş yap (sunucu) ya da bu cihazdaki oyuncular (sunucu ayarlı değilken).
 import React, { useEffect, useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { kbBar } from "./KeyboardBar";
 import { Account, deleteLocal, deleteServerAccount, localProfiles, resetPassword, signIn, signOut, signUp, supabase, switchLocal, useAccount } from "../data/account";
 import { KVKK_BASLIK, KVKK_METNI } from "../legal/kvkk";
 import { Btn } from "./kit";
@@ -103,7 +104,7 @@ function Input(props: { label: string; value: string; onChange: (v: string) => v
   return (
     <View style={{ gap: 4 }}>
       <Text style={s.label}>{props.label}</Text>
-      <TextInput value={props.value} onChangeText={props.onChange} placeholder={props.placeholder} placeholderTextColor={C.muted} style={s.input}
+      <TextInput {...kbBar} value={props.value} onChangeText={props.onChange} placeholder={props.placeholder} placeholderTextColor={C.muted} style={s.input}
         secureTextEntry={ty === "password"} autoCapitalize={ty === "name" ? "words" : "none"} autoCorrect={false}
         keyboardType={ty === "email" ? "email-address" : ty === "phone" ? "phone-pad" : "default"}
         autoComplete={ty === "email" ? "email" : ty === "phone" ? "tel" : ty === "password" ? "password" : ty === "name" ? "name" : "off"}

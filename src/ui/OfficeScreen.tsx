@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { Character, saveCharacter, useCharacter } from "../data/character";
 import { CharacterPicker } from "./CharacterScreen";
 import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { kbBar } from "./KeyboardBar";
 import { useAccount } from "../data/account";
 import { AVATARS, Avatar, CITIES, closeOffice, DESK_SHARE, monthlyCost, Office, openOffice, SECRETARY, START_CASH, tl, updateOffice, useOffice } from "../data/office";
 import { Btn } from "./kit";
@@ -59,7 +60,7 @@ function Setup({ onBack, onDone, initial }: { onBack: () => void; onDone: () => 
       <CharacterPicker key={start?.avatar || "yeni"} initial={start} onChange={c => { pick.current = c; }} />
 
       <Text style={s.h}>Büronun adı</Text>
-      <TextInput value={name} onChangeText={setName} style={s.input} placeholderTextColor={C.muted} maxLength={60} />
+      <TextInput {...kbBar} value={name} onChangeText={setName} style={s.input} placeholderTextColor={C.muted} maxLength={60} />
 
       <Text style={s.h}>Şehir {edit && <Text style={s.hNote}>(başka şehre taşınmak 20.000 TL)</Text>}</Text>
       <View style={s.cities}>

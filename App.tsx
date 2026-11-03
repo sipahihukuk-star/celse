@@ -16,6 +16,7 @@ import AdminScreen from "./src/admin/AdminScreen";
 import { signOut, supabase, useAccount } from "./src/data/account";
 import AccountScreen from "./src/ui/AccountScreen";
 import CharacterScreen from "./src/ui/CharacterScreen";
+import { KeyboardBar } from "./src/ui/KeyboardBar";
 import LeaderboardScreen from "./src/ui/LeaderboardScreen";
 import HistoryScreen from "./src/ui/HistoryScreen";
 import { useServerAdmin } from "./src/data/adminHook";
@@ -167,6 +168,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.root} edges={["top", "bottom", "left", "right"]} onTouchStart={resumeMusic}>
+        <KeyboardBar />
         <StatusBar style="light" />
         <View key={lang} style={styles.root}>
         {route.k === "title" && <TitleScreen duelCount={cases.duel.length} soloCount={cases.solo.length} rankName={career.rank} started={Object.keys(progress).length > 0} won={career.won} total={career.total}

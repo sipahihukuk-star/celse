@@ -1,6 +1,7 @@
 // Serbest cevap: oyuncu savunmasını kendisi yazar ya da söyler; cevap değerlendirilip puanına göre sonuç uygulanır.
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Keyboard, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { kbBar } from "./KeyboardBar";
 import { useKeyboardOpen } from "./keyboard";
 import { AI_FUNCTION, serverReady, SUPABASE_ANON_KEY, SUPABASE_URL } from "../config";
 import { getAccessToken } from "../data/account";
@@ -86,7 +87,7 @@ export default function FreeAnswer({ c, step, onResult }: { c: CaseFile; step: S
           {!!alang && <Text style={s.hint}>{hasDegree(office?.life, alang) ? t("Dil kursunuz var: +8 puan") : t("Yabancı dilde savunma: +3 puan (kursla +8)")}</Text>}
         </View>
       )}
-      <TextInput value={text} onChangeText={setText} multiline editable={!busy} placeholder={cur.ph || (c.room === "tahkim" ? t("Sayın Hakem Heyeti, …") : t("Sayın Hâkim, …"))} placeholderTextColor={C.muted}
+      <TextInput {...kbBar} value={text} onChangeText={setText} multiline editable={!busy} placeholder={cur.ph || (c.room === "tahkim" ? t("Sayın Hakem Heyeti, …") : t("Sayın Hâkim, …"))} placeholderTextColor={C.muted}
         style={s.input} accessibilityLabel={t("Serbest cevap")} maxLength={2000}
         returnKeyType="done" submitBehavior="blurAndSubmit" onSubmitEditing={() => Keyboard.dismiss()} />
       {kbOpen && (

@@ -2,6 +2,7 @@
 // Aynı cihazda iki oyuncu varsa sıra karşı tarafa geçerken önceki metin gizlenir. Bilgisayar rakibin son sözü hamlelerinden derlenir.
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { kbBar } from "./KeyboardBar";
 import { AI_FUNCTION, serverReady, SUPABASE_ANON_KEY, SUPABASE_URL } from "../config";
 import { getAccessToken } from "../data/account";
 import { GameState } from "../engine/engine";
@@ -88,7 +89,7 @@ export default function ClosingScreen({ c, game, players, onDone }: { c: CaseFil
         <View style={{ gap: 10 }}>
           <Text style={s.sub}>{arb ? t("Davanın özünü, dayandığınız kuralları ve karşı tarafın zayıf noktasını birkaç cümlede söyleyin. Kararı yapay zekâ hakem verecek: duruşmadaki hamleleriniz ve bu son söz birlikte değerlendirilir.")
             : t("Davanın özünü, dayandığınız kanun maddelerini ve karşı tarafın zayıf noktasını birkaç cümlede söyleyin. Kararı yapay zekâ hâkim verecek: duruşmadaki hamleleriniz ve bu son söz birlikte değerlendirilir.")}</Text>
-          <TextInput value={text} onChangeText={setText} multiline placeholder={arb ? t("Sayın Hakem Heyeti, …") : t("Sayın Mahkeme, …")} placeholderTextColor={C.muted} style={s.input} maxLength={2500} accessibilityLabel={t("Son söz")}
+          <TextInput {...kbBar} value={text} onChangeText={setText} multiline placeholder={arb ? t("Sayın Hakem Heyeti, …") : t("Sayın Mahkeme, …")} placeholderTextColor={C.muted} style={s.input} maxLength={2500} accessibilityLabel={t("Son söz")}
             returnKeyType="done" submitBehavior="blurAndSubmit" onSubmitEditing={() => Keyboard.dismiss()} />
           <View style={s.row}>
             {canListen && (

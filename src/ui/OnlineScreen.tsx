@@ -1,6 +1,7 @@
 // İnternet üzerinden karşılıklı oyun ekranları: lobi (kodla katıl, açık davetler), davet bekleme ve oyun + son söz + karar.
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Platform, Pressable, ScrollView, Share, StyleSheet, Text, TextInput, View } from "react-native";
+import { kbBar } from "./KeyboardBar";
 import { AI_FUNCTION, serverReady, SUPABASE_ANON_KEY, SUPABASE_URL } from "../config";
 import { getAccessToken, useAccount } from "../data/account";
 import { getMatch, joinMatch, leaveMatch, Match, Move, myId, openMatches, sendClosing, sendMove, sendVerdict, sideOf, useMatch } from "../data/online";
@@ -53,7 +54,7 @@ export function OnlineLobby({ all, onBack, onJoined, onLogin }: { all: CaseFile[
           <View style={s.card}>
             <Text style={s.legend}>{t("DAVET KODUYLA KATIL")}</Text>
             <View style={s.row}>
-              <TextInput value={kod} onChangeText={x => setKod(x.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6))} placeholder={t("ör. K7P2QX")} placeholderTextColor={C.muted}
+              <TextInput {...kbBar} value={kod} onChangeText={x => setKod(x.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6))} placeholder={t("ör. K7P2QX")} placeholderTextColor={C.muted}
                 style={[s.input, { flex: 1, letterSpacing: 4 }]} autoCapitalize="characters" autoCorrect={false} onSubmitEditing={() => kod.length === 6 && join(kod)} />
               <Btn label={busy ? t("Katılınıyor…") : t("Katıl")} disabled={kod.length !== 6 || busy} onPress={() => join(kod)} />
             </View>
@@ -193,7 +194,7 @@ function OnlineClosing({ c, match, mySide, players, game, onDone, onExit }: { c:
       <Text style={s.eyebrow}>{c.court.toLocaleUpperCase(locale())} · {t("SON SÖZ")}</Text>
       <Text style={s.title}>{players[mySide].name} · {c.sides[mySide].role}</Text>
       <Text style={s.body}>{t("Davanın özünü, dayandığınız kuralları ve karşı tarafın zayıf noktasını birkaç cümlede söyleyin. Kararı yapay zekâ verecek: duruşmadaki hamleleriniz ve bu son söz birlikte değerlendirilir.")}</Text>
-      <TextInput value={text} onChangeText={setText} multiline placeholder={t("Sayın Hakem Heyeti, …")} placeholderTextColor={C.muted} style={[s.input, { minHeight: 160, textAlignVertical: "top" }]} maxLength={2500} />
+      <TextInput {...kbBar} value={text} onChangeText={setText} multiline placeholder={t("Sayın Hakem Heyeti, …")} placeholderTextColor={C.muted} style={[s.input, { minHeight: 160, textAlignVertical: "top" }]} maxLength={2500} />
       <Btn label={t("Son sözü sun ▸")} disabled={!text.trim()} onPress={async () => { setSent(true); try { await sendClosing(match.id, text.trim()); } catch { setSent(false); } }} />
     </ScrollView>
   );

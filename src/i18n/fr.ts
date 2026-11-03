@@ -497,5 +497,7 @@ const dict: Record<string, string> = {
   "Liderlik panosu şu an açılamadı.": "Le classement n'a pas pu être chargé.",
   "WEB SÜRÜMÜ · BİLGİSAYARDAN DA OYNAYIN": "VERSION WEB · JOUEZ AUSSI SUR ORDINATEUR",
   "Uygulama açılmazsa bu adresten aynı hesapla girip kaldığınız yerden devam edebilirsiniz.": "Si l'application ne s'ouvre pas, connectez-vous ici avec le même compte et reprenez où vous en étiez.",
+  "Bitti": "OK",
+  "Klavyeyi kapat": "Fermer le clavier",
 };
 export default dict;

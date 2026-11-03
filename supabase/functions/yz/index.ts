@@ -15,12 +15,21 @@ const cors = {
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const cut = (s: unknown, n: number) => String(s || "").slice(0, n);
 
+// Yeni modeller varsayılan olarak önce "düşünür" ve bu düşünme max_tokens sınırından yer; kısa JSON cevaplarda
+// düşünme sınırı doldurunca metin boş gelir. Haiku'da düşünme kapatılır, Sonnet'te araçsız istekte ön düşünme kalkar.
+const THINK = (model: string) => model.indexOf("haiku") >= 0 ? { type: "disabled" } : { type: "between_tools" };
+
 async function ask(model: string, system: string, user: string, maxTokens: number) {
-  const r = await fetch("https://api.anthropic.com/v1/messages", {
+  const send = (withThink: boolean) => fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: { "x-api-key": KEY(), "anthropic-version": "2023-06-01", "content-type": "application/json" },
-    body: JSON.stringify({ model: model, max_tokens: maxTokens, system: system, messages: [{ role: "user", content: user }] })
+    body: JSON.stringify(withThink
+      ? { model: model, max_tokens: maxTokens, thinking: THINK(model), system: system, messages: [{ role: "user", content: user }] }
+      : { model: model, max_tokens: maxTokens * 3, system: system, messages: [{ role: "user", content: user }] })
   });
+  let r = await send(true);
+  // Model düşünme ayarını kabul etmezse ayarsız ve daha geniş sınırla yeniden dene.
+  if (r.status === 400) r = await send(false);
   if (!r.ok) throw new Error("model " + r.status + " " + (await r.text()).slice(0, 200));
   const data = await r.json();
   const text = (data.content || []).map((p: { text?: string }) => p.text || "").join("");
@@ -31,7 +40,7 @@ async function ask(model: string, system: string, user: string, maxTokens: numbe
   // Kurtarma: model JSON dışında yazdıysa ya da kesildiyse puanı metinden çek.
   const sm = text.match(/score[^0-9]{0,6}([0-9]{1,3})/i);
   if (sm) return { score: Number(sm[1]), feedback: text.replace(/[{}"]/g, "").slice(0, 500) };
-  throw new Error("biçim: " + text.slice(0, 160));
+  throw new Error("biçim (" + (data.stop_reason || "") + "): " + text.slice(0, 160));
 }
 
 const NL = String.fromCharCode(10);
@@ -63,7 +72,7 @@ async function puan(b: Record<string, unknown>) {
     b.ornek ? "Örnek iyi cevap: " + cut(b.ornek, 2000) : "",
     "Oyuncunun cevabı:" + NL + Q3 + cevap + Q3
   ].filter(Boolean).join(NL + NL);
-  const out = await ask("claude-haiku-5-5", system + NL + lang(b), user, 1200);
+  const out = await ask("claude-haiku-5-5", system + NL + lang(b), user, 2000);
   return { score: Math.max(0, Math.min(100, Math.round(Number(out.score) || 0))), feedback: cut(out.feedback, 600) };
 }
 
@@ -84,7 +93,7 @@ async function karar(b: Record<string, unknown>) {
     "p1'in son sözü:" + NL + Q3 + cut(b.son1, 2500) + Q3,
     "p2'nin son sözü:" + NL + Q3 + cut(b.son2, 2500) + Q3
   ].join(NL + NL);
-  const out = await ask("claude-sonnet-5-5", system + NL + lang(b), user, 900);
+  const out = await ask("claude-sonnet-5-5", system + NL + lang(b), user, 3000);
   const w = out.winner === "p1" || out.winner === "p2" ? out.winner : "sulh";
   const n = (x: unknown) => Math.max(0, Math.min(100, Math.round(Number(x) || 0)));
   return { winner: w, p1: n(out.p1), p2: n(out.p2), hukum: cut(out.hukum, 500), gerekce: cut(out.gerekce, 1500) };
