@@ -12,6 +12,7 @@ import { useViewMode } from "./viewMode";
 import { useMusic } from "./music";
 import { CITIES, Office, tl } from "../data/office";
 import { AvatarFace } from "./OfficeScreen";
+import { LoginCard } from "./LoginCard";
 import { loadResults, SavedResult } from "./storage";
 import { C, F } from "./theme";
 import { LANGS, locale, t, useLang } from "../i18n";
@@ -23,6 +24,9 @@ export interface TitleProps {
   /** sunucuda yönetici olan hesap: yönetim paneli yalnız ona görünür */ isAdmin?: boolean;
   /** Celse Pro ekranı (abonelik, geri yükleme) ve Pro etkin mi */ onPro?: () => void; pro?: boolean;
   onMap: () => void; tahkimCount: number; duelCount: number; soloCount: number; rankName: string; won: number; total: number;
+  /** üye olmadan oynayan (giriş kartını geçmiş) oyuncu; "Üye olmadan dene" ile açılır, "Giriş yap" ile giriş kartına döner */
+  guest?: boolean; onGuest?: () => void; onLeaveGuest?: () => void;
+  /** "Derdini anlat" danışma ekranı */ onDanisma?: () => void;
 }
 export function TitleScreen(p: TitleProps) {
   const { width } = useWindowDimensions();
@@ -31,6 +35,8 @@ export function TitleScreen(p: TitleProps) {
   useEffect(() => { const id = setInterval(() => setTilt(a => -a), 3000); return () => clearInterval(id); }, []);
   const wide = width >= 760;
   const { account, server, office } = p;
+  // Giriş kartı: oturum yokken ve oyuncu "Üye olmadan dene" demediyse. Oyun menüsü üye olmadan da açılır (Apple zorunlu üyeliği kabul etmez).
+  const entry = !account && !p.guest;
   return (
     <View style={{ flex: 1 }}>
       {/* Üst şerit: solda menü, sağda üyelik */}
@@ -48,22 +54,34 @@ export function TitleScreen(p: TitleProps) {
           <Pressable accessibilityRole="button" onPress={p.onAccount} style={styles.accChip}>
             <Text style={styles.accChipT} numberOfLines={1}>{t("Av. {ad}", { ad: account.adSoyad })}</Text>
           </Pressable>
-        ) : (
+        ) : !entry && (
           <View style={{ flexDirection: "row", gap: 8 }}>
-            <Btn kind="ghost" label={server ? t("Giriş yap") : t("Oyuncu seç")} onPress={p.onSignIn} />
+            <Btn kind="ghost" label={server ? t("Giriş yap") : t("Oyuncu seç")} onPress={p.onLeaveGuest || p.onSignIn} />
             <Btn label={server ? t("Üye ol") : t("Yeni oyuncu")} onPress={p.onSignUp} />
           </View>
         )}
       </View>
 
-      <ScrollView contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "center" }]}>
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "center" }]}>
         <View style={[styles.titleArt, wide && { flex: 0.8 }]}>
-          <Scale angle={tilt} size={wide ? 320 : 150} left={C.p1} right={C.p2} />
+          <Scale angle={tilt} size={wide ? 320 : entry ? 96 : 150} left={C.p1} right={C.p2} />
         </View>
         <View style={[{ gap: 6 }, wide && { flex: 1.2 }]}>
           <Text style={styles.eyebrow}>{t("BİR AVUKATLIK OYUNU")}</Text>
-          <Text style={[styles.logo, { fontSize: wide ? 104 : 68, lineHeight: wide ? 112 : 76 }]}>Celse</Text>
+          <Text style={[styles.logo, { fontSize: wide ? 104 : entry ? 52 : 68, lineHeight: wide ? 112 : entry ? 60 : 76 }]}>Celse</Text>
           <Text style={styles.byline}>BY THEMISCODE</Text>
+
+          {entry ? (
+            <>
+              <LoginCard server={server} onSignUp={p.onSignUp} onPickLocal={p.onSignIn} />
+              <Pressable accessibilityRole="button" onPress={p.onGuest} hitSlop={8} style={({ pressed }) => [styles.guestLink, pressed && { opacity: 0.7 }]}>
+                <Text style={styles.guestLinkT}>{t("Üye olmadan dene ›")}</Text>
+              </Pressable>
+              {!!p.onDanisma && <DanismaCard onPress={p.onDanisma} />}
+            </>
+          ) : (
+          <>
+          <Text style={styles.hello}>{account ? t("Hoş geldiniz, Av. {ad}", { ad: account.adSoyad }) : t("Üye olmadan oynuyorsunuz. Kariyeriniz için giriş yapın.")}</Text>
           <Text style={styles.lede}>{t("Genç bir avukat olarak sulh ve asliye mahkemelerinde başlayın; davaları kazandıkça Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne ve Strazburg'a yükselin.")}</Text>
 
           <Pressable accessibilityRole="button" onPress={p.onCareer} style={({ pressed }) => [styles.careerCard, { marginTop: 14 }, pressed && { opacity: 0.85 }]}>
@@ -92,6 +110,7 @@ export function TitleScreen(p: TitleProps) {
             </View>
             <Text style={styles.careerGoDark}>{t("Sıralama ›")}</Text>
           </Pressable>
+          {!!p.onDanisma && <DanismaCard onPress={p.onDanisma} />}
 
           <Text style={[styles.eyebrow, { marginTop: 18 }]}>{t("ANTRENMAN · SONUÇLAR KARİYERE İŞLEMEZ")}</Text>
           <View style={styles.cta}>
@@ -100,6 +119,8 @@ export function TitleScreen(p: TitleProps) {
             <Btn kind="secondary" label={t("Tahkim ve komisyonlar") + ` · ${p.tahkimCount}`} onPress={p.onTahkim} />
           </View>
           <Text style={styles.fact}>{t("Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.")}</Text>
+          </>
+          )}
           {Platform.OS === "web" ? <StoreLinks /> : (
             <Pressable accessibilityRole="link" onPress={() => Linking.openURL(WEB_URL)} style={({ pressed }) => [styles.webLink, pressed && { opacity: 0.8 }]}>
               <Text style={styles.webIcon}>🌐</Text>
@@ -115,6 +136,21 @@ export function TitleScreen(p: TitleProps) {
       </ScrollView>
       <SideMenu visible={menu} onClose={() => setMenu(false)} {...p} />
     </View>
+  );
+}
+
+/** "Derdini anlat" kartı: kendi olayınızı anlatıp eğitim amaçlı değerlendirme alırsınız. */
+function DanismaCard({ onPress }: { onPress: () => void }) {
+  return (
+    <Pressable accessibilityRole="button" onPress={onPress} style={({ pressed }) => [styles.danismaCard, pressed && { opacity: 0.85 }]}>
+      <Text style={styles.boardIcon}>⚖️</Text>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.careerKDark}>{t("DERDİNİ ANLAT")}</Text>
+        <Text style={styles.boardT}>{t("Kendi olayınızı anlatın")}</Text>
+        <Text style={styles.webNote}>{t("Güçlü ve zayıf yönleriniz, delilleriniz, izlenebilecek yollar ve duruşma canlandırması. Eğitim amaçlıdır, hukuki görüş değildir.")}</Text>
+      </View>
+      <Text style={styles.careerGoDark}>›</Text>
+    </Pressable>
   );
 }
 
@@ -160,6 +196,7 @@ function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; o
                 <Item label={p.server ? t("Üye ol") : t("Yeni oyuncu")} onPress={go(p.onSignUp)} />
               </>
             )}
+            {!!p.onDanisma && <Item label={t("Derdini anlat")} sub={t("Eğitim amaçlı danışma canlandırması · krediyle")} onPress={go(p.onDanisma)} />}
             {!!p.onPro && <Item label={t("Celse Pro")} sub={p.pro ? t("Aboneliğiniz etkin") : t("Bütün kariyer · aylık ya da yıllık abonelik")} onPress={go(p.onPro)} />}
             <Text style={styles.mSection}>{t("KARİYER")}</Text>
             <Item label={t("Liderlik panosu")} sub={t("Kariyer puanına göre en iyi avukatlar")} onPress={go(p.onBoard)} />
@@ -397,6 +434,10 @@ const styles = StyleSheet.create({
   signUpB: { fontFamily: F.bodyBold, color: C.text, textDecorationLine: "underline" },
   careerGo: { fontFamily: F.bodyBold, fontSize: 17, color: C.brassInk },
   cta: { flexDirection: "row", flexWrap: "wrap", gap: 12 },
+  hello: { fontFamily: F.bodyBold, fontSize: 17, color: C.text, marginTop: 4 },
+  guestLink: { alignSelf: "flex-start", paddingVertical: 6 },
+  guestLinkT: { fontFamily: F.bodyMed, fontSize: 15, color: C.brass, textDecorationLine: "underline" },
+  danismaCard: { flexDirection: "row", alignItems: "center", gap: 12, borderWidth: 1, borderColor: C.brassDim, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14, backgroundColor: C.panel2, marginTop: 10, maxWidth: 480 },
   onlineBar: { flexDirection: "row", alignItems: "center", gap: 10, borderWidth: 1, borderColor: C.brass, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 10, marginBottom: 20, backgroundColor: C.panel },
   onlineK: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.brassDim },
   onlineT: { fontFamily: F.bodyMed, fontSize: 15, color: C.text },
