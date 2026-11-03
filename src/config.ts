@@ -14,6 +14,9 @@ export const TTS_FUNCTION = "bright-action";
 /** Yapay zekâ hâkim fonksiyonunun adresi (serbest cevap puanı ve karşılıklı duruşma kararı). */
 export const AI_FUNCTION = "quick-worker";
 
+/** "Derdini anlat" danışma fonksiyonunun adresi (supabase/functions/danisma; panelde başka adla kurulursa burası değişir). */
+export const DANISMA_FUNCTION = "danisma";
+
 /** Bulut seslendirme (Google Cloud Text-to-Speech) için karakter sesleri. Supabase "seslendir" fonksiyonu
  *  GOOGLE_TTS_KEY ile kurulunca kullanılır; ses adı bulunamazsa fonksiyon WaveNet sesine düşer. */
 export const CLOUD_VOICES = {

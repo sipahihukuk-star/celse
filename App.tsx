@@ -50,6 +50,7 @@ import { localizeCase } from "./src/i18n/cases";
 import { t, useLang } from "./src/i18n";
 import { OnlineGame, OnlineLobby, OnlineWait } from "./src/ui/OnlineScreen";
 import { TahkimScreen } from "./src/ui/TahkimScreen";
+import DanismaScreen from "./src/ui/DanismaScreen";
 
 /** from: oyun bitince nereye dönüleceği (dosya dolabı ya da yönetim paneli önizlemesi) */
 type From = "list" | "admin" | "career" | "desk" | "tahkim" | "online";
@@ -64,7 +65,8 @@ type Route =
   | { k: "career" }
   | { k: "office" }
   | { k: "desk" }
-  | { k: "account"; then?: "career" | "paywall"; tab?: "giris" | "kayit" }
+  | { k: "account"; then?: "career" | "paywall" | "danisma"; tab?: "giris" | "kayit" }
+  | { k: "danisma" }
   | { k: "paywall" }
   | { k: "history" }
   | { k: "character" }
@@ -124,6 +126,8 @@ export default function App() {
   const flow = useFlow();
   const [run, setRun] = useState(0);
   const [invite, setInvite] = useState(false);
+  /** "Üye olmadan dene": giriş kartını geçip oyun menüsüne misafir olarak girer (bu oturum boyunca). */
+  const [guest, setGuest] = useState(false);
   const me = useCharacter();
   const cases = useCases();
   const progress = useProgress();
@@ -231,7 +235,12 @@ export default function App() {
           onCareer={() => setRoute(!account ? { k: "account", then: "career" } : office ? { k: "desk" } : { k: "office" })}
           office={office} onOffice={() => setRoute(account ? { k: "office" } : { k: "account", then: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
           onHistory={() => setRoute({ k: "history" })} onCharacter={() => setRoute({ k: "character" })} onBoard={() => setRoute({ k: "board" })} isAdmin={srvAdmin} onMap={() => setRoute({ k: "career" })}
-          onTahkim={() => setRoute({ k: "tahkim" })} onPro={() => setRoute({ k: "paywall" })} pro={unlocked} tahkimCount={cases.all.filter(c => c.room === "tahkim").length} />}
+          onTahkim={() => setRoute({ k: "tahkim" })} onPro={() => setRoute({ k: "paywall" })} pro={unlocked} tahkimCount={cases.all.filter(c => c.room === "tahkim").length}
+          guest={guest} onGuest={() => setGuest(true)} onLeaveGuest={() => setGuest(false)} onDanisma={() => setRoute({ k: "danisma" })} />}
+        {route.k === "danisma" && (
+          <DanismaScreen onBack={() => setRoute({ k: "title" })} signedIn={account?.mode === "server"} server={!!supabase()} admin={srvAdmin}
+            onSignIn={() => setRoute({ k: "account", tab: "giris", then: "danisma" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "danisma" })} />
+        )}
         {route.k === "board" && <LeaderboardScreen progress={progress} all={cases.all} rank={career.rank} onBack={() => setRoute({ k: "title" })}
           onSignIn={() => setRoute({ k: "account", tab: "giris" })} onSignUp={() => setRoute({ k: "account", tab: "kayit" })} />}
         {route.k === "character" && <CharacterScreen onBack={() => setRoute({ k: "title" })} />}
@@ -266,7 +275,7 @@ export default function App() {
             onPaywall={() => setRoute({ k: "paywall" })} onBack={() => setRoute({ k: "title" })} />
         )}
         {route.k === "account" && (
-          <AccountScreen initial={route.tab} onBack={() => setRoute({ k: "title" })} onDone={() => setRoute(route.then === "career" ? (office ? { k: "desk" } : { k: "office" }) : route.then === "paywall" ? { k: "paywall" } : { k: "title" })} />
+          <AccountScreen initial={route.tab} onBack={() => setRoute({ k: "title" })} onDone={() => setRoute(route.then === "career" ? (office ? { k: "desk" } : { k: "office" }) : route.then === "paywall" ? { k: "paywall" } : route.then === "danisma" ? { k: "danisma" } : { k: "title" })} />
         )}
         {route.k === "career" && (
           <CareerScreen view={career} premium={unlocked} office={office} onOffice={() => setRoute({ k: "office" })} onPaywall={() => setRoute({ k: "paywall" })} onBack={() => setRoute(office ? { k: "desk" } : { k: "title" })} onPick={c => playCareer(c, "career")} onReset={() => resetProgress()} />
