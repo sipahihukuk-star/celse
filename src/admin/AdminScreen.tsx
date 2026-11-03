@@ -15,7 +15,7 @@ import { SettingsPanel } from "./SettingsPanel";
 import CaseEditor from "./CaseEditor";
 import { Field, Row, Section, Seg, SmallBtn } from "./form";
 import { blankCase, CourtPreset, PRESETS } from "./presets";
-import { getPin, resetAdminCache, serverAdmin, setPin, Status, store, StoredCase } from "./store";
+import { clearPin, getPin, resetAdminCache, serverAdmin, setPin, Status, store, StoredCase } from "./store";
 import { onAccountChange } from "../data/account";
 
 interface Props { onExit: () => void; onPreview: (c: CaseFile) => void }
@@ -59,7 +59,15 @@ function PinGate({ onOk, onExit }: { onOk: () => void; onExit: () => void }) {
           <Btn kind="ghost" label="Vazgeç" onPress={onExit} />
           <Btn label={creating ? "PIN'i kaydet ve gir" : "Giriş"} onPress={submit} />
         </View>
-        <Text style={st.gateNote}>Bu PIN yalnızca bu cihazı korur. Davalar sunucuya taşındığında giriş, kullanıcı hesabıyla yapılacak.</Text>
+        {!creating && (
+          <Pressable accessibilityRole="button" onPress={async () => {
+            // PIN yalnızca bu cihazda tutulur; sunucuda yönetici olarak giriş yapmış kişi onu sıfırlayıp yenisini belirleyebilir.
+            resetAdminCache();
+            if (await serverAdmin()) { await clearPin(); setStored(null); setA(""); setB(""); setErr(""); }
+            else setErr("PIN'i sıfırlamak için önce oyunda yönetici hesabınızla giriş yapın (şifrenizi unuttuysanız Giriş yap › Şifremi unuttum).");
+          }}><Text style={st.forgot}>PIN'imi unuttum</Text></Pressable>
+        )}
+        <Text style={st.gateNote}>Bu PIN yalnızca bu cihazı korur. Unutursanız yönetici hesabınızla giriş yapıp "PIN'imi unuttum" ile yenisini belirleyebilirsiniz.</Text>
       </View>
     </View>
   );
@@ -273,6 +281,7 @@ const st = StyleSheet.create({
   gate: { width: "100%", maxWidth: 420, backgroundColor: C.panel, borderWidth: 1, borderColor: C.line, borderRadius: 12, padding: 22, gap: 10 },
   gateTitle: { fontFamily: F.display, fontSize: 26, color: C.brass },
   gateText: { fontFamily: F.body, fontSize: 16, color: C.text },
+  forgot: { fontFamily: F.bodyMed, fontSize: 14, color: C.p1, textAlign: "center", padding: 6 },
   gateNote: { fontFamily: F.body, fontSize: 13, color: C.muted, marginTop: 6 },
   gateActions: { flexDirection: "row", justifyContent: "flex-end", gap: 8, marginTop: 4 },
   pin: { fontFamily: F.mono, fontSize: 20, letterSpacing: 6, color: C.text, backgroundColor: C.panel2, borderWidth: 1, borderColor: C.line, borderRadius: 6, paddingHorizontal: 12, paddingVertical: 10 },

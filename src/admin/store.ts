@@ -110,6 +110,9 @@ const PIN_KEY = "celse-yonetim-pin";
 export async function getPin(): Promise<string | null> {
   try { return await AsyncStorage.getItem(PIN_KEY); } catch { return null; }
 }
+export async function clearPin() {
+  try { await AsyncStorage.removeItem(PIN_KEY); } catch { /* yok say */ }
+}
 export async function setPin(pin: string) {
   await AsyncStorage.setItem(PIN_KEY, pin);
 }
