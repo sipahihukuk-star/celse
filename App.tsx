@@ -18,7 +18,7 @@ import AccountScreen from "./src/ui/AccountScreen";
 import CharacterScreen from "./src/ui/CharacterScreen";
 import { KeyboardBar } from "./src/ui/KeyboardBar";
 import { NewPassword } from "./src/ui/NewPassword";
-import { BoardInvite, shouldInvite } from "./src/ui/BoardInvite";
+import { BoardInvite, joinIfConsented, shouldInvite } from "./src/ui/BoardInvite";
 import { useCharacter } from "./src/data/character";
 import LeaderboardScreen from "./src/ui/LeaderboardScreen";
 import HistoryScreen from "./src/ui/HistoryScreen";
@@ -115,6 +115,10 @@ export default function App() {
   const findCase = (id: string) => cases.all.find(x => x.id === id);
   const dr = hasDegree(office?.life, "dr");
   const career = buildCareer(cases.career, progress, premium, FREE_CASES, { dr });
+  // Üyelikte panoya onay veren oyuncu ilk girişte panoya eklenir.
+  React.useEffect(() => {
+    if (account?.mode === "server") joinIfConsented({ sehir: office ? CITIES.find(x => x.id === office.city)?.name : undefined, avatar: office?.avatar || me?.avatar, unvan: career.rank });
+  }, [account?.id]);
   const lockOf = new Map(career.chapters.flatMap(ch => ch.cases.map(x => [x.c.id, x.lock] as const)));
   const careerOpen = openIds(career);
 

@@ -3,7 +3,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import { Modal, StyleSheet, Text, View } from "react-native";
-import { currentAccount } from "../data/account";
+import { currentAccount, supabase } from "../data/account";
 import { displayName, joinBoard, onBoard } from "../data/leaderboard";
 import { Btn } from "./kit";
 import { C, F } from "./theme";
@@ -17,6 +17,19 @@ export async function shouldInvite(): Promise<boolean> {
   if (acc?.mode !== "server") return false;
   try { if (await AsyncStorage.getItem(flagKey(acc.id))) return false; } catch { return false; }
   return !(await onBoard().catch(() => true));
+}
+
+/** Üye olurken panoya onay verdiyse (hesap bilgisinde pano_onay) ilk girişte panoya eklenir; davet bir daha sorulmaz. */
+export async function joinIfConsented(info: { sehir?: string; avatar?: string; unvan?: string }) {
+  const acc = currentAccount(), sb = supabase();
+  if (acc?.mode !== "server" || !sb) return;
+  try {
+    if (await AsyncStorage.getItem(flagKey(acc.id))) return;
+    const { data } = await sb.auth.getUser();
+    if (!data.user?.user_metadata?.pano_onay) return;
+    if (!(await onBoard())) { const r = await joinBoard(info); if (r.error) return; }
+    await AsyncStorage.setItem(flagKey(acc.id), "katildi");
+  } catch { /* sonra yeniden denenir */ }
 }
 
 export function BoardInvite({ visible, info, onClose }: { visible: boolean; info: { sehir?: string; avatar?: string; unvan?: string }; onClose: (joined: boolean) => void }) {

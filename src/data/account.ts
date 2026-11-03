@@ -16,7 +16,7 @@ export interface Account {
   mode: "server" | "local";
 }
 
-export interface SignUpInput { adSoyad: string; telefon: string; eposta: string; sifre?: string; kvkk: boolean }
+export interface SignUpInput { adSoyad: string; telefon: string; eposta: string; sifre?: string; kvkk: boolean; /** liderlik panosunda görünmeye açık rıza */ pano?: boolean }
 
 let client: SupabaseClient | null = null;
 export function supabase(): SupabaseClient | null {
@@ -109,7 +109,7 @@ export async function signUp(v: SignUpInput): Promise<{ error?: string; needsCon
   if (sb) {
     const { data, error } = await sb.auth.signUp({
       email: row.eposta, password: v.sifre!,
-      options: { data: { ad_soyad: row.adSoyad, telefon: row.telefon, kvkk_onay: new Date().toISOString() } }
+      options: { data: { ad_soyad: row.adSoyad, telefon: row.telefon, kvkk_onay: new Date().toISOString(), ...(v.pano ? { pano_onay: new Date().toISOString() } : {}) } }
     });
     if (error) return { error: trError(error.message) };
     // E-posta doğrulaması açıksa oturum hemen açılmaz.

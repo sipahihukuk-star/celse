@@ -114,7 +114,7 @@ function Input(props: { label: string; value: string; onChange: (v: string) => v
 }
 
 function SignUpForm({ server, onDone }: { server: boolean; onDone: () => void }) {
-  const [v, setV] = useState({ adSoyad: "", telefon: "", eposta: "", sifre: "", kvkk: false });
+  const [v, setV] = useState({ adSoyad: "", telefon: "", eposta: "", sifre: "", kvkk: false, pano: false });
   const [msg, setMsg] = useState<{ t: string; ok?: boolean } | null>(null);
   const [busy, setBusy] = useState(false);
   const [showKvkk, setShowKvkk] = useState(false);
@@ -139,6 +139,13 @@ function SignUpForm({ server, onDone }: { server: boolean; onDone: () => void })
           <Text style={s.link} onPress={() => setShowKvkk(true)}>{t("Aydınlatma metnini")}</Text>{t(" okudum; kişisel verilerimin bu metinde belirtilen amaçlarla işlenmesi hakkında bilgilendirildim.")}
         </Text>
       </Pressable>
+      {server && (
+        // Açık rıza: kutu işaretsiz gelir; işaretlenirse ilk girişte oyuncu panoya eklenir, istediği an 🏆 ekranından çıkabilir.
+        <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: v.pano }} onPress={() => up("pano")(!v.pano)} style={s.check}>
+          <View style={[s.box, v.pano && s.boxOn]}>{v.pano && <Text style={s.tick}>✓</Text>}</View>
+          <Text style={s.checkText}>{t("Liderlik panosunda adım (Av. Ad S. biçiminde), unvanım, şehrim ve puanım diğer oyunculara görünsün. (İsteğe bağlı; istediğim an panodan çıkabilirim.)")}</Text>
+        </Pressable>
+      )}
       {!!msg && <Text style={[s.msg, msg.ok && { color: C.good }]}>{msg.t}</Text>}
       <Btn label={busy ? t("Kaydediliyor…") : server ? t("Üye ol") : t("Oyuncuyu oluştur")} onPress={submit} disabled={busy} />
       <KvkkModal visible={showKvkk} onClose={() => setShowKvkk(false)} />

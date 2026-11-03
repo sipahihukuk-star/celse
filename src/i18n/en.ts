@@ -800,5 +800,6 @@ const dict: Record<string, string> = {
   "Şifreler aynı değil.": "The passwords do not match.",
   "Şifreyi kaydet": "Save password",
   "Şifre en az 6 karakter olmalı.": "The password must be at least 6 characters.",
+  "Liderlik panosunda adım (Av. Ad S. biçiminde), unvanım, şehrim ve puanım diğer oyunculara görünsün. (İsteğe bağlı; istediğim an panodan çıkabilirim.)": "Show my name (as Att. First L.), title, city and points to other players on the leaderboard. (Optional; I can leave at any time.)",
 };
 export default dict;
