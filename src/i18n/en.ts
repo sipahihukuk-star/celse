@@ -801,5 +801,7 @@ const dict: Record<string, string> = {
   "Şifreyi kaydet": "Save password",
   "Şifre en az 6 karakter olmalı.": "The password must be at least 6 characters.",
   "Liderlik panosunda adım (Av. Ad S. biçiminde), unvanım, şehrim ve puanım diğer oyunculara görünsün. (İsteğe bağlı; istediğim an panodan çıkabilirim.)": "Show my name (as Att. First L.), title, city and points to other players on the leaderboard. (Optional; I can leave at any time.)",
+  "Yalnızca yönetici hesabında görünür": "Visible only to the admin account",
+  "Yönetim": "Admin",
 };
 export default dict;

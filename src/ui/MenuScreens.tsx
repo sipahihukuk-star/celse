@@ -20,6 +20,7 @@ import { LANGS, locale, t, useLang } from "../i18n";
 export interface TitleProps {
   onCareer: () => void; onOffice: () => void; office: Office | null; onAccount: () => void; onSignUp: () => void; onSignIn: () => void; onSignOut: () => void;
   account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; onTahkim: () => void; onHistory: () => void; onCharacter: () => void; onBoard: () => void;
+  /** sunucuda yönetici olan hesap: yönetim paneli yalnız ona görünür */ isAdmin?: boolean;
   onMap: () => void; tahkimCount: number; duelCount: number; soloCount: number; rankName: string; won: number; total: number;
 }
 export function TitleScreen(p: TitleProps) {
@@ -36,6 +37,11 @@ export function TitleScreen(p: TitleProps) {
         <Pressable accessibilityRole="button" accessibilityLabel={t("Menü")} onPress={() => setMenu(true)} style={styles.burger} hitSlop={10}>
           <View style={styles.burgerLine} /><View style={styles.burgerLine} /><View style={styles.burgerLine} />
         </Pressable>
+        {p.isAdmin && (
+          <Pressable accessibilityRole="button" accessibilityLabel={t("Yönetim paneli")} onPress={p.onAdmin} style={styles.adminBtn} hitSlop={8}>
+            <Text style={styles.adminBtnT}>⚙ {t("Yönetim")}</Text>
+          </Pressable>
+        )}
         <View style={{ flex: 1 }} />
         {account ? (
           <Pressable accessibilityRole="button" onPress={p.onAccount} style={styles.accChip}>
@@ -175,7 +181,7 @@ function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; o
             {Platform.OS !== "web" && <Item label={t("Web sürümü")} sub={t("Bilgisayarda büyük ekranda oynayın")} onPress={() => Linking.openURL(WEB_URL)} />}
             <Item label={t("Celse'yi paylaş")} sub={t("iPhone, Android ve web bağlantısı")} onPress={() => Share.share({ message: t("Celse: avukatlık oyunu. İndirin ya da tarayıcıda oynayın: {url}", { url: DOWNLOAD_URL }) })} />
             <Item label={t("Gizlilik politikası")} onPress={() => Linking.openURL("https://sipahihukuk-star.github.io/celse/gizlilik.html")} />
-            <Item label={t("Yönetim paneli")} onPress={go(p.onAdmin)} />
+            {p.isAdmin && <Item label={t("Yönetim paneli")} sub={t("Yalnızca yönetici hesabında görünür")} onPress={go(p.onAdmin)} />}
             <Text style={[styles.byline, { marginTop: 18, paddingHorizontal: 18 }]}>BY THEMISCODE</Text>
           </ScrollView>
         </View>
@@ -335,6 +341,8 @@ export function SetupModal({ c, onClose, onStart, onOnline, fixedSide, meName, c
 const styles = StyleSheet.create({
   titleWrap: { flexGrow: 1, justifyContent: "center", width: "100%", maxWidth: 1080, alignSelf: "center", paddingHorizontal: 16, paddingTop: 8, paddingBottom: 32, gap: 18 },
   topBar: { flexDirection: "row", alignItems: "center", gap: 10, paddingHorizontal: 16, paddingVertical: 10, width: "100%", maxWidth: 1080, alignSelf: "center" },
+  adminBtn: { marginLeft: 10, height: 40, paddingHorizontal: 12, borderRadius: 10, borderWidth: 1, borderColor: C.brassDim, alignItems: "center", justifyContent: "center", backgroundColor: C.panel2 },
+  adminBtnT: { fontFamily: F.bodyBold, fontSize: 14, color: C.brass },
   burger: { width: 40, height: 40, borderRadius: 10, borderWidth: 1, borderColor: C.line, alignItems: "center", justifyContent: "center", gap: 5 },
   burgerLine: { width: 20, height: 2, borderRadius: 1, backgroundColor: C.text },
   accChip: { borderWidth: 1, borderColor: C.line, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, maxWidth: 220 },

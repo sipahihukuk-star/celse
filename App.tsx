@@ -226,7 +226,7 @@ export default function App() {
           onAccount={() => setRoute({ k: "account" })} onSignIn={() => setRoute({ k: "account", tab: "giris" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "career" })} onSignOut={() => signOut()}
           onCareer={() => setRoute(!account ? { k: "account", then: "career" } : office ? { k: "desk" } : { k: "office" })}
           office={office} onOffice={() => setRoute(account ? { k: "office" } : { k: "account", then: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
-          onHistory={() => setRoute({ k: "history" })} onCharacter={() => setRoute({ k: "character" })} onBoard={() => setRoute({ k: "board" })} onMap={() => setRoute({ k: "career" })}
+          onHistory={() => setRoute({ k: "history" })} onCharacter={() => setRoute({ k: "character" })} onBoard={() => setRoute({ k: "board" })} isAdmin={srvAdmin} onMap={() => setRoute({ k: "career" })}
           onTahkim={() => setRoute({ k: "tahkim" })} tahkimCount={cases.all.filter(c => c.room === "tahkim").length} />}
         {route.k === "board" && <LeaderboardScreen progress={progress} all={cases.all} rank={career.rank} onBack={() => setRoute({ k: "title" })}
           onSignIn={() => setRoute({ k: "account", tab: "giris" })} onSignUp={() => setRoute({ k: "account", tab: "kayit" })} />}
