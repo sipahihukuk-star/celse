@@ -28,18 +28,18 @@ export function textLeaves(c: CaseFile): [string, string][] {
 }
 
 const SYSTEM = (lang: string) => [
-  "You are a professional legal translator specialised in international arbitration, sports arbitration and Turkish law.",
+  "You are a professional legal translator specialised in Turkish law, Turkish court procedure, international and sports arbitration. The texts are dialogue, questions, answer options, notes and documents of a courtroom training game set in Turkish (or international) courts.",
   "Translate each Turkish string in the given JSON array into " + LANG_NAMES[lang] + ".",
-  "Rules: keep the same number of items and the same order; keep numbers, dates, amounts, case numbers, article references and party names accurate (translate statute names in a natural way, e.g. 'TBK m.147' -> 'Turkish Code of Obligations art. 147' in the target language); keep the register of a hearing (formal, concise); keep short labels short; do not add explanations.",
+  "Rules: keep the same number of items and the same order; keep numbers, dates, amounts, case numbers, article references and personal names accurate; render Turkish courts and statutes naturally for a foreign reader while keeping the abbreviation once where useful (e.g. 'TBK m.147' -> 'Turkish Code of Obligations (TBK) art. 147', 'İzmir 3. Asliye Hukuk Mahkemesi' -> the target-language equivalent of 'İzmir 3rd Civil Court of First Instance'); keep the register of a hearing (formal, concise); keep short labels short; keep {placeholders} and line breaks unchanged; do not add explanations.",
   "Answer ONLY with a JSON array of translated strings."
 ].join("\n");
 
-export async function translateCase(c: CaseFile, lang: string, onProgress?: (done: number, total: number) => void): Promise<CaseFile> {
+export async function translateCase(c: CaseFile, lang: string, onProgress?: (done: number, total: number) => void, model: "derin" | "hizli" = "derin"): Promise<CaseFile> {
   const leaves = textLeaves(c);
   const chunks: [string, string][][] = [];
   let cur: [string, string][] = [], size = 0;
   for (const l of leaves) {
-    if (size + l[1].length > 5000 && cur.length) { chunks.push(cur); cur = []; size = 0; }
+    if (size + l[1].length > 4000 && cur.length) { chunks.push(cur); cur = []; size = 0; }
     cur.push(l); size += l[1].length;
   }
   if (cur.length) chunks.push(cur);
@@ -48,7 +48,7 @@ export async function translateCase(c: CaseFile, lang: string, onProgress?: (don
   // Parçalar ikişer ikişer aynı anda çevrilir.
   for (let i = 0; i < chunks.length; i += 2) {
     const part = await Promise.all(chunks.slice(i, i + 2).map(async ch => {
-      const { text } = await askAdmin(SYSTEM(lang), JSON.stringify(ch.map(x => x[1])), { model: "derin", azami: 8000 });
+      const { text } = await askAdmin(SYSTEM(lang), JSON.stringify(ch.map(x => x[1])), { model, azami: 12000 });
       const arr = extractJson<string[]>(text);
       if (!Array.isArray(arr) || arr.length !== ch.length) throw new AiError("Çeviri eksik geldi; tekrar deneyin.");
       return ch.map((x, k) => ({ yol: x[0], deger: String(arr[k]) }));
