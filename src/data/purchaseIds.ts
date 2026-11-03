@@ -1,11 +1,11 @@
 // Uygulama içi satın alma ayarları (RevenueCat). Hem telefon (purchases.ts) hem web (purchases.web.ts) bunu kullanır.
 //
 // ▼▼▼ REVENUECAT ANAHTARLARI · YALNIZ BURADAN DEĞİŞTİRİLİR ▼▼▼
-// Şimdilik RevenueCat "Test Store" anahtarı (herkese açık SDK anahtarıdır, depoya yazılabilir; gizli anahtar DEĞİL).
+// iOS: gerçek App Store anahtarı. Android: Play bağlanana kadar RevenueCat "Test Store" anahtarı (herkese açık SDK anahtarıdır, depoya yazılabilir; gizli anahtar DEĞİL).
 // Mağazalar bağlanınca RevenueCat > Project settings > API keys'teki "appl_…" (iOS) ve "goog_…" (Android) anahtarları yazılır.
 // Gizli (sk_…) anahtar asla buraya yazılmaz.
 export const REVENUECAT_KEYS = {
-  ios: "test_WRECbJQMhoilDPDbWlDxuNCHPlI",
+  ios: "appl_xWwtERsVWbDbjoLimuYhjPvczPO",
   android: "test_WRECbJQMhoilDPDbWlDxuNCHPlI"
 };
 // ▲▲▲ REVENUECAT ANAHTARLARI ▲▲▲
