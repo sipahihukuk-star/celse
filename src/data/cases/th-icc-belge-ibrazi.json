@@ -22,7 +22,7 @@
     "judge": { "name": "Başhakem", "np": "red", "look": { "kind": "civil", "skin": "#e7c2a0", "hair": "#4b3b30", "style": "bun", "glasses": true, "shirt": "#2b2f36", "inner": "#e8e4dc" } },
     "p1": { "look": { "kind": "civil", "skin": "#d2a07a", "hair": "#191512", "style": "long", "shirt": "#232a35", "inner": "#ebe7df" } },
     "p2": { "look": { "kind": "civil", "skin": "#f0cfb2", "hair": "#7a6a5a", "style": "short", "glasses": true, "shirt": "#2c2c33", "inner": "#e5e1d9" } },
-    "hukukcu": { "name": "Dr. Matthias Brandl · Davalının hukuk müşaviri", "np": "civil", "look": { "kind": "civil", "skin": "#efd0b6", "hair": "#5e4a38", "style": "short", "beard": true, "shirt": "#353a44", "inner": "#ecebe6" } }
+    "hukukcu": { "name": "Dr. Matthias Brandl · Tanık, davalının hukuk müşaviri", "np": "civil", "look": { "kind": "civil", "skin": "#efd0b6", "hair": "#5e4a38", "style": "short", "beard": true, "shirt": "#353a44", "inner": "#ecebe6" } }
   },
   "intro": [
     { "who": "narr", "text": "Bursa Otomotiv Yan Sanayi A.Ş., 2021'den beri Alman Kessler Fahrzeugwerke AG'ye fren kaliperi üretiyordu. Kessler, 30.06.2026'da sözleşmeyi ‘ret oranının üç ay üst üste sınırı aşması’ gerekçesiyle feshetti." },
