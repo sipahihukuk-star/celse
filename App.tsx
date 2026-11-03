@@ -10,7 +10,7 @@ import { IBMPlexMono_600SemiBold } from "@expo-google-fonts/ibm-plex-mono/600Sem
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { BackHandler, Platform, StyleSheet, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import AdminScreen from "./src/admin/AdminScreen";
 import { signOut, supabase, useAccount } from "./src/data/account";
@@ -44,7 +44,7 @@ import { C } from "./src/ui/theme";
 import VerdictScreen from "./src/ui/VerdictScreen";
 import ClosingScreen from "./src/ui/ClosingScreen";
 import { AiVerdict } from "./src/engine/judge";
-import { createMatch } from "./src/data/online";
+import { createMatch, leaveMatch } from "./src/data/online";
 import { localizeCase } from "./src/i18n/cases";
 import { t, useLang } from "./src/i18n";
 import { OnlineGame, OnlineLobby, OnlineWait } from "./src/ui/OnlineScreen";
@@ -80,8 +80,42 @@ export default function App() {
     IBMPlexMono_500Medium, IBMPlexMono_600SemiBold
   });
   // Doğrudan yönetim paneli: adresin sonuna ?yonetim yazılınca panel açılır (PIN yine sorulur).
-  const [route, setRoute] = useState<Route>(() =>
+  const [route, setRouteRaw] = useState<Route>(() =>
     typeof window !== "undefined" && /[?&#]yonetim\b/i.test((window.location?.search || "") + (window.location?.hash || "")) ? { k: "admin" } : { k: "title" });
+  // Geri tuşu (Android'in geri tuşu, tarayıcının geri düğmesi): bir önceki ekrana döner; giriş ekranında uygulamadan çıkar.
+  // Duruşma, kapanış ve karar gibi bitmiş adımlar geçmişe yazılmaz; geri tuşu onların öncesindeki listeye döndürür.
+  const routeRef = React.useRef(route);
+  const stack = React.useRef<Route[]>(route.k === "admin" ? [{ k: "title" }] : []);
+  const TRANSIENT = new Set(["game", "closing", "verdict", "onlineWait", "onlineGame"]);
+  const setRoute = (r: Route) => {
+    const cur = routeRef.current;
+    if (r.k === "title") stack.current = [];
+    else if (cur.k !== r.k && !TRANSIENT.has(cur.k)) {
+      stack.current = [...stack.current.filter(x => x.k !== r.k), cur].slice(-20);
+      if (Platform.OS === "web" && typeof window !== "undefined") { try { window.history.pushState({ celse: stack.current.length }, ""); } catch { /* yok say */ } }
+    }
+    routeRef.current = r; setRouteRaw(r);
+  };
+  const goBack = (): boolean => {
+    if (setup) { setSetup(null); return true; }
+    const prev = stack.current.pop();
+    if (!prev) { if (routeRef.current.k !== "title") { routeRef.current = { k: "title" }; setRouteRaw({ k: "title" }); return true; } return false; }
+    if (routeRef.current.k === "onlineGame") leaveMatch((routeRef.current as { id: string }).id).catch(() => {});
+    routeRef.current = prev; setRouteRaw(prev);
+    return true;
+  };
+  const backRef = React.useRef(goBack); backRef.current = goBack;
+  React.useEffect(() => {
+    if (Platform.OS === "android") {
+      const sub = BackHandler.addEventListener("hardwareBackPress", () => backRef.current());
+      return () => sub.remove();
+    }
+    if (Platform.OS === "web" && typeof window !== "undefined") {
+      const onPop = () => { backRef.current(); };
+      window.addEventListener("popstate", onPop);
+      return () => window.removeEventListener("popstate", onPop);
+    }
+  }, []);
   const [setup, setSetup] = useState<{ c: CaseFile; from: From; side?: Side; career?: boolean } | null>(null);
   /** kariyer dosyası internet üzerinden oynanıyorsa: maç bitince sonuç büroya işlenir */
   const [careerOnline, setCareerOnline] = useState<{ matchId: string; caseId: string; side: Side; from: From } | null>(null);
@@ -101,6 +135,11 @@ export default function App() {
   const [lang] = useLang();
 
   // Yazı tipleri yüklenemezse (ör. ağ engeli) sistem yazı tipiyle devam edilir.
+  // Üyelikte panoya onay veren oyuncu ilk girişte panoya eklenir. (Kancalar erken dönüşten önce durmalı.)
+  const boardInfo = React.useRef<{ sehir?: string; avatar?: string; unvan?: string }>({});
+  React.useEffect(() => {
+    if (account?.mode === "server") { const id = setTimeout(() => joinIfConsented(boardInfo.current), 1500); return () => clearTimeout(id); }
+  }, [account?.id]);
   if (!loaded && !error) return <View style={styles.root} />;
 
   // Tahkim dosyaları seçili dilde açılır (çevirisi varsa).
@@ -115,10 +154,7 @@ export default function App() {
   const findCase = (id: string) => cases.all.find(x => x.id === id);
   const dr = hasDegree(office?.life, "dr");
   const career = buildCareer(cases.career, progress, premium, FREE_CASES, { dr });
-  // Üyelikte panoya onay veren oyuncu ilk girişte panoya eklenir.
-  React.useEffect(() => {
-    if (account?.mode === "server") joinIfConsented({ sehir: office ? CITIES.find(x => x.id === office.city)?.name : undefined, avatar: office?.avatar || me?.avatar, unvan: career.rank });
-  }, [account?.id]);
+  boardInfo.current = { sehir: office ? CITIES.find(x => x.id === office.city)?.name : undefined, avatar: office?.avatar || me?.avatar, unvan: career.rank };
   const lockOf = new Map(career.chapters.flatMap(ch => ch.cases.map(x => [x.c.id, x.lock] as const)));
   const careerOpen = openIds(career);
 
