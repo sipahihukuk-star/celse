@@ -28,13 +28,20 @@ async function load() {
   loaded = true;
   try {
     const v = (await AsyncStorage.getItem(KEY)) as Lang | null;
-    if (v && LANGS.some(l => l.id === v)) { lang = v; listeners.forEach(f => f(lang)); }
+    if (v && LANGS.some(l => l.id === v)) { lang = v; markDocLang(v); listeners.forEach(f => f(lang)); }
   } catch { /* yok say */ }
 }
 
 export const getLang = () => lang;
+/** Tarayıcıya sayfanın dilini bildirir (yoksa Chrome Türkçe sayfayı İngilizce sanıp çeviri önerir). */
+function markDocLang(l: Lang) {
+  try { if (typeof document !== "undefined") document.documentElement.lang = l; } catch { /* yok say */ }
+}
+markDocLang("tr");
+
 export function setLang(l: Lang) {
   lang = l;
+  markDocLang(l);
   try { AsyncStorage.setItem(KEY, l); } catch { /* yok say */ }
   listeners.forEach(f => f(l));
 }
