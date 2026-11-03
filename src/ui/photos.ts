@@ -76,5 +76,16 @@ export const PHOTOS = {
   "ar-tr-erkek-40": { src: require("../../assets/gercek/ar-tr-erkek-40.webp"), w: 384, h: 440 },
   "ks-erkek-40": { src: require("../../assets/gercek/ks-erkek-40.webp"), w: 391, h: 500 },
   "ks-kadin-38": { src: require("../../assets/gercek/ks-kadin-38.webp"), w: 391, h: 500 },
+  "av-erkek-28-gozluk": { src: require("../../assets/gercek/av-erkek-28-gozluk.webp"), w: 400, h: 510 },
+  "av-erkek-30-sari": { src: require("../../assets/gercek/av-erkek-30-sari.webp"), w: 400, h: 502 },
+  "av-erkek-42-biyik": { src: require("../../assets/gercek/av-erkek-42-biyik.webp"), w: 400, h: 505 },
+  "av-erkek-45-kel": { src: require("../../assets/gercek/av-erkek-45-kel.webp"), w: 400, h: 499 },
+  "av-erkek-52-sakal": { src: require("../../assets/gercek/av-erkek-52-sakal.webp"), w: 400, h: 493 },
+  "av-erkek-62-kel": { src: require("../../assets/gercek/av-erkek-62-kel.webp"), w: 400, h: 497 },
+  "av-kadin-26-sari": { src: require("../../assets/gercek/av-kadin-26-sari.webp"), w: 400, h: 525 },
+  "av-kadin-28-gozluk": { src: require("../../assets/gercek/av-kadin-28-gozluk.webp"), w: 400, h: 528 },
+  "av-kadin-30-kivircik": { src: require("../../assets/gercek/av-kadin-30-kivircik.webp"), w: 400, h: 531 },
+  "av-kadin-48-basortulu": { src: require("../../assets/gercek/av-kadin-48-basortulu.webp"), w: 400, h: 513 },
+  "av-kadin-58-topuz": { src: require("../../assets/gercek/av-kadin-58-topuz.webp"), w: 400, h: 525 },
 } as const;
 export type PhotoKey = keyof typeof PHOTOS;

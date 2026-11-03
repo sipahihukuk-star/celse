@@ -26,7 +26,18 @@ export const PORTRAIT_TRAITS: Record<Avatar, Required<Omit<Traits, "color">> & {
   "av-kadin-41": { g: "k", age: 41, hair: "uzun", color: "kizil", beard: "yok", glasses: true },
   "av-kadin-52": { g: "k", age: 52, hair: "kisa", color: "kizil", beard: "yok", glasses: true },
   "av-kadin-61": { g: "k", age: 61, hair: "kisa", color: "kir", beard: "yok", glasses: false },
-  "av-kadin-basortulu": { g: "k", age: 30, hair: "basortu", beard: "yok", glasses: false }
+  "av-kadin-basortulu": { g: "k", age: 30, hair: "basortu", beard: "yok", glasses: false },
+  "av-erkek-28-gozluk": { g: "e", age: 28, hair: "kisa", color: "siyah", beard: "yok", glasses: true },
+  "av-erkek-30-sari": { g: "e", age: 30, hair: "kisa", color: "sari", beard: "yok", glasses: false },
+  "av-erkek-42-biyik": { g: "e", age: 42, hair: "kisa", color: "kahve", beard: "biyik", glasses: false },
+  "av-erkek-45-kel": { g: "e", age: 45, hair: "kel", beard: "yok", glasses: false },
+  "av-erkek-52-sakal": { g: "e", age: 52, hair: "kisa", color: "kir", beard: "sakal", glasses: false },
+  "av-erkek-62-kel": { g: "e", age: 62, hair: "kel", color: "kir", beard: "sakal", glasses: true },
+  "av-kadin-26-sari": { g: "k", age: 26, hair: "uzun", color: "sari", beard: "yok", glasses: false },
+  "av-kadin-28-gozluk": { g: "k", age: 28, hair: "kisa", color: "siyah", beard: "yok", glasses: true },
+  "av-kadin-30-kivircik": { g: "k", age: 30, hair: "kivircik", color: "kahve", beard: "yok", glasses: false },
+  "av-kadin-48-basortulu": { g: "k", age: 48, hair: "basortu", beard: "yok", glasses: true },
+  "av-kadin-58-topuz": { g: "k", age: 58, hair: "topuz", color: "kir", beard: "yok", glasses: false }
 };
 
 const has = (s: string, re: RegExp) => re.test(s);
