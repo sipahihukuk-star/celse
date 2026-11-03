@@ -39,6 +39,8 @@ export default function DeskScreen({ solo, progress, view, premium, admin, onPla
   const slow = studying(office?.life).filter(x => EDU.find(e => e.id === x.id)?.slow).length;
   const dr = hasDegree(office?.life, "dr");
   const [pickSpec, setPickSpec] = useState(false);
+  const [open, setOpen] = useState({ gelen: true, masa: true, egitim: false });
+  const flip = (k: keyof typeof open) => setOpen(o => ({ ...o, [k]: !o[k] }));
   useEffect(() => { if (office && flow) ensureDeal(solo, progress, month, extra, slow, dr); }, [office?.month, flow?.dealtFor, extra, slow, dr, flow?.focus.join()]);
   if (!office || !flow) return <View />;
 
@@ -149,17 +151,17 @@ export default function DeskScreen({ solo, progress, view, premium, admin, onPla
         </View>
       )}
 
-      <Text style={s.h}>{t("Gelen dosyalar")} <Text style={s.hNote}>· {t("kabul etmezseniz bir ay sonra müvekkil başka avukata gider")}</Text></Text>
-      {!flow.offers.length && <Text style={s.empty}>{t("Bu ay yeni dosya yok. Masadaki dosyaları bitirin ya da ayı kapatın.")}</Text>}
-      {flow.offers.map(o => {
+      <Fold title={t("Gelen dosyalar")} count={flow.offers.length} note={t("kabul etmezseniz bir ay sonra müvekkil başka avukata gider")} open={open.gelen} onToggle={() => flip("gelen")} />
+      {open.gelen && !flow.offers.length && <Text style={s.empty}>{t("Bu ay yeni dosya yok. Masadaki dosyaları bitirin ya da ayı kapatın.")}</Text>}
+      {open.gelen && flow.offers.map(o => {
         const c = byId.get(o.id); if (!c) return null;
         return <FileCard key={o.id} c={c} office={office} src={flow.src[c.id] || o.src} side={flow.side[c.id] || o.side} spec={flow.specialty.includes(branchOf(c))} offer onAccept={() => (paid(c) ? onPaywall() : accept(c.id))} onDecline={() => decline(c.id, month)}
           disabled={deskFull || !!ev} why={ev ? t("Önce bu ayın kararını verin") : deskFull ? t("Masanız dolu (en çok {n} dosya)", { n: DESK_MAX }) : paid(c) ? t("Bu dosya Celse Pro ile alınır") : undefined} />;
       })}
 
-      <Text style={s.h}>{t("Masamdaki dosyalar ({n}/{max})", { n: flow.active.length, max: DESK_MAX })}</Text>
-      {!flow.active.length && <Text style={s.empty}>{t("Masanız boş. Gelen dosyalardan birini kabul edin.")}</Text>}
-      {flow.active.map(id => {
+      <Fold title={t("Masamdaki dosyalar")} count={`${flow.active.length}/${DESK_MAX}`} open={open.masa} onToggle={() => flip("masa")} />
+      {open.masa && !flow.active.length && <Text style={s.empty}>{t("Masanız boş. Gelen dosyalardan birini kabul edin.")}</Text>}
+      {open.masa && flow.active.map(id => {
         const c = byId.get(id); if (!c) return null;
         return <FileCard key={id} c={c} office={office} src={flow.src[c.id]} side={flow.side[c.id]} spec={flow.specialty.includes(branchOf(c))} onPlay={() => (paid(c) ? onPaywall() : onPlay(c))} disabled={!!ev} why={ev ? t("Önce bu ayın kararını verin") : paid(c) ? t("Bu dosya Celse Pro ile oynanır") : undefined} />;
       })}
@@ -176,8 +178,8 @@ export default function DeskScreen({ solo, progress, view, premium, admin, onPla
         ) : <Pressable onPress={() => setClosing(true)} style={s.closeLink}><Text style={s.closeLinkT}>{t("Bu ayı dosyasız kapat ›")}</Text></Pressable>
       )}
 
-      <Text style={s.h}>{t("Mesleki gelişim")} <Text style={s.hNote}>· {t("ücret her ay kişisel giderlerinize eklenir")}</Text></Text>
-      <View style={{ gap: 8 }}>
+      <Fold title={t("Mesleki gelişim")} note={t("ücret her ay kişisel giderlerinize eklenir")} open={open.egitim} onToggle={() => flip("egitim")} />
+      {open.egitim && <View style={{ gap: 8 }}>
         {EDU.map(e => {
           const done = hasDegree(life, e.id);
           const now = studying(life).find(x => x.id === e.id);
@@ -195,8 +197,25 @@ export default function DeskScreen({ solo, progress, view, premium, admin, onPla
             </View>
           );
         })}
-      </View>
+      </View>}
     </ScrollView>
+  );
+}
+
+/** Açılıp kapanan bölüm başlığı: dosya listeleri uzayınca sayfa aşağı kaymasın diye. */
+function Fold({ title, count, note, open, onToggle }: { title: string; count?: number | string; note?: string; open: boolean; onToggle: () => void }) {
+  return (
+    <Pressable accessibilityRole="button" accessibilityState={{ expanded: open }} onPress={onToggle}
+      style={({ pressed }) => [s.fold, open && s.foldOn, pressed && { opacity: 0.85 }]}>
+      <View style={{ flex: 1, gap: 2 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+          <Text style={s.foldT}>{title}</Text>
+          {count !== undefined && <Text style={s.badge}>{count}</Text>}
+        </View>
+        {!!note && <Text style={s.hNote}>{note}</Text>}
+      </View>
+      <Text style={s.chev}>{open ? "▲" : "▼"}</Text>
+    </Pressable>
   );
 }
 
@@ -270,5 +289,10 @@ const s = StyleSheet.create({
   info: { borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 12, padding: 12, gap: 4 },
   specRow: { flexDirection: "row", alignItems: "center", gap: 10, flexWrap: "wrap" },
   edu: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 10, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 10, padding: 10 },
+  fold: { flexDirection: "row", alignItems: "center", gap: 10, marginTop: 8, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel2, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 12 },
+  foldOn: { borderColor: C.brass },
+  foldT: { fontFamily: F.display, fontSize: 22, color: C.brass },
+  badge: { fontFamily: F.monoBold, fontSize: 13, color: C.brassInk, backgroundColor: C.brass, borderRadius: 10, paddingHorizontal: 8, paddingVertical: 1, overflow: "hidden" },
+  chev: { fontFamily: F.mono, fontSize: 16, color: C.brass },
   duelTag: { fontFamily: F.mono, fontSize: 11, color: C.p2 }
 });

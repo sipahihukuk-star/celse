@@ -859,5 +859,6 @@ const dict: Record<string, string> = {
   "Satın alma yalnızca mobil uygulamada yapılır.": "Käufe sind nur in der mobilen App möglich.",
   "Hesabınız mağazaya bağlanamadı. İnternet bağlantınızı kontrol edip yeniden deneyin.": "Ihr Konto konnte nicht mit dem Store verknüpft werden. Prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
   "bilinmeyen hata": "unbekannter Fehler",
+  "Masamdaki dosyalar": "Fälle auf meinem Schreibtisch"
 };
 export default dict;
