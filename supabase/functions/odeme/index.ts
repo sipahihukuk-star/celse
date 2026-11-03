@@ -17,7 +17,7 @@ const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { sta
 /** Uygulamadaki purchaseIds.ts ile aynı: tüketilebilir ürün → kredi. */
 const CREDITS: Record<string, number> = { celse_derdini_anlat_1: 1, celse_derdini_anlat_3: 3 };
 const PRO_PRODUCTS = ["celse_pro_aylik", "celse_pro_yillik"];
-const PRO_ENTITLEMENT = "pro";
+const PRO_ENTITLEMENT = "themiscode_i_nc_pro"; // RevenueCat yetki kimliği (src/data/purchaseIds.ts ile aynı)
 
 /** RevenueCat mağaza adı → abonelikler.kaynak */
 const KAYNAK: Record<string, string> = {

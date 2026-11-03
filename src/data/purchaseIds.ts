@@ -11,7 +11,7 @@ export const REVENUECAT_KEYS = {
 // ▲▲▲ REVENUECAT ANAHTARLARI ▲▲▲
 
 /** RevenueCat'teki yetki (entitlement) kimliği: etkinse oyuncu Celse Pro'dur. */
-export const PRO_ENTITLEMENT = "pro";
+export const PRO_ENTITLEMENT = "themiscode_i_nc_pro"; // RevenueCat projesi açılırken kendiliğinden oluşan yetki
 
 /** App Store Connect / Google Play ürün kimlikleri (iki mağazada aynı). */
 export const PRODUCTS = {
