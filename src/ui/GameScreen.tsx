@@ -35,11 +35,13 @@ function useTypewriter(text: string) {
 export default function GameScreen({ c, players, onExit, onFinish, online }: Props) {
   const court = useCourt(c, players, onFinish, online);
   const { game, phase, scene } = court;
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const [docs, setDocs] = useState(false);
   const [record, setRecord] = useState(false);
   // Duruşma tutanağı: gösterilen her satır ve verilen her karar, sırasıyla.
-  const [history, setHistory] = useState<{ who: string; text: string; karar?: boolean }[]>([]);
+  const [history, setHistory] = useState<{ who: string; text: string; karar?: boolean; not?: boolean }[]>([]);
+  // Tutanak açıldığında bir kez en sona kaydırılır; sonra oyuncu serbestçe yukarı aşağı gezer.
+  const recScrolled = useRef(false);
   const seen = useRef(new WeakMap<object, number>());
   const duel = c.mode === "duel";
   const wide = width >= 860;
@@ -66,6 +68,7 @@ export default function GameScreen({ c, players, onExit, onFinish, online }: Pro
   const last = game.log[game.log.length - 1];
 
   const scroller = useRef<any>(null);
+  const recRef = useRef<any>(null);
   useEffect(() => { scroller.current?.scrollTo({ y: 0, animated: false }); }, [phase]);
 
   const tapLine = () => (tw.done ? court.next() : tw.finish());
@@ -77,7 +80,8 @@ export default function GameScreen({ c, players, onExit, onFinish, online }: Pro
   }, [phase]);
   useEffect(() => {
     const e = game.log[game.log.length - 1];
-    if (e) setHistory(h => [...h, { who: e.side, text: `${c.sides[e.side].short}: ${e.text}`, karar: true }]);
+    if (e) setHistory(h => [...h, { who: e.side, text: `${c.sides[e.side].short}: ${e.text}`, karar: true },
+      ...(e.note ? [{ who: "narr", text: (e.law ? e.law + " · " : "") + t(e.note), not: true }] : [])]);
   }, [game.log.length]);
 
   // Seslendirme: her yeni satır, soru ve geri bildirim okunur.
@@ -267,30 +271,34 @@ export default function GameScreen({ c, players, onExit, onFinish, online }: Pro
         </ScrollView>
       </View>
 
-      <Modal visible={record} transparent animationType="fade" onRequestClose={() => setRecord(false)}>
-        <Pressable style={styles.overlay} onPress={() => setRecord(false)}>
-          <Pressable style={styles.sheet} onPress={() => {}}>
+      <Modal visible={record} transparent animationType="fade" onRequestClose={() => setRecord(false)} onShow={() => { recScrolled.current = false; }}>
+        <View style={styles.overlay}>
+          {/* Arka plana dokununca kapanır; kâğıt ayrı durur ki iPhone'da kaydırma dokunuşları yutulmasın. */}
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setRecord(false)} accessibilityLabel={t("Kapat")} />
+          <View style={styles.sheet}>
             <Text style={styles.sheetTitle}>{t("Duruşma tutanağı")}</Text>
             <Text style={styles.sheetSub}>{c.court} · {c.esas}</Text>
-            <ScrollView style={{ maxHeight: 460 }} ref={r => { setTimeout(() => r?.scrollToEnd?.({ animated: false }), 0); }}>
+            <ScrollView style={{ maxHeight: Math.max(240, height * 0.62) }} ref={recRef} showsVerticalScrollIndicator
+              onContentSizeChange={() => { if (!recScrolled.current) { recScrolled.current = true; recRef.current?.scrollToEnd({ animated: false }); } }}>
               {history.map((h, i) => (
-                <View key={i} style={[styles.sheetItem, h.karar && styles.recKarar]}>
-                  <Text style={styles.sheetT}>{h.karar ? t("KARAR") : speakerName(h.who).name}</Text>
-                  <Text style={styles.sheetD}>{h.text}</Text>
+                <View key={i} style={[styles.sheetItem, h.karar && styles.recKarar, h.not && styles.recNot]}>
+                  <Text style={[styles.sheetT, h.not && styles.recNotT]}>{h.karar ? t("KARAR") : h.not ? t("Hukukçu notu") : speakerName(h.who).name}</Text>
+                  <Text style={[styles.sheetD, h.not && { fontStyle: "italic" }]}>{h.text}</Text>
                 </View>
               ))}
             </ScrollView>
             <Btn kind="ghostInk" label={t("Kapat")} onPress={() => setRecord(false)} style={{ alignSelf: "flex-start", marginTop: 14 }} />
-          </Pressable>
-        </Pressable>
+          </View>
+        </View>
       </Modal>
 
       <Modal visible={docs} transparent animationType="fade" onRequestClose={() => setDocs(false)}>
-        <Pressable style={styles.overlay} onPress={() => setDocs(false)}>
-          <Pressable style={styles.sheet} onPress={() => {}}>
+        <View style={styles.overlay}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setDocs(false)} accessibilityLabel={t("Kapat")} />
+          <View style={styles.sheet}>
             <Text style={styles.sheetTitle}>{t("Dosya")}</Text>
             <Text style={styles.sheetSub}>{c.court} · {c.esas}</Text>
-            <ScrollView style={{ maxHeight: 420 }}>
+            <ScrollView style={{ maxHeight: Math.max(240, height * 0.62) }} showsVerticalScrollIndicator>
               {c.docs.map(d => (
                 <View key={d.t} style={styles.sheetItem}><Text style={styles.sheetT}>{d.t}</Text><Text style={styles.sheetD}>{d.d}</Text></View>
               ))}
@@ -307,8 +315,8 @@ export default function GameScreen({ c, players, onExit, onFinish, online }: Pro
               )}
             </ScrollView>
             <Btn kind="ghostInk" label={t("Kapat")} onPress={() => setDocs(false)} style={{ alignSelf: "flex-start", marginTop: 14 }} />
-          </Pressable>
-        </Pressable>
+          </View>
+        </View>
       </Modal>
     </KeyboardAvoidingView>
   );
@@ -334,6 +342,8 @@ const styles = StyleSheet.create({
   dlgNarr: { fontFamily: F.bodyItalic, color: C.textSoft },
   rowEnd: { flexDirection: "row", justifyContent: "flex-end", marginTop: 12 },
   rowBetween: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8, marginTop: 12 },
+  recNot: { borderTopWidth: 0, paddingLeft: 12, borderLeftWidth: 3, borderLeftColor: C.rule, marginBottom: 4 },
+  recNotT: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1, color: C.inkSoft },
   recKarar: { backgroundColor: "rgba(255,255,255,0.11)", paddingHorizontal: 8 },
   rowStart: { flexDirection: "row", justifyContent: "flex-start", marginTop: 12 },
   statement: { backgroundColor: C.panel2, borderLeftWidth: 4, borderLeftColor: C.bad, borderRadius: 6, padding: 12, marginBottom: 12, gap: 4 },

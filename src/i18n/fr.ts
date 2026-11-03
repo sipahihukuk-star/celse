@@ -502,5 +502,6 @@ const dict: Record<string, string> = {
   "Aynı cihaz: iki taraf da bu telefonda oynanır; sıra değişince telefonu arkadaşınıza verirsiniz. Ayrı telefonlardan oynamak için \"İnternet üzerinden\"i seçin.": "Même appareil : les deux parties jouent sur ce téléphone ; passez-le à votre ami quand le tour change. Pour jouer sur deux téléphones, choisissez « Par internet ».",
   "Ayrı telefonlar: her avukat yalnızca kendi tarafının sorularını kendi telefonunda cevaplar.": "Téléphones séparés : chaque avocat ne répond qu'aux questions de sa partie, sur son propre téléphone.",
   "Karşı tarafı bilgisayar oynar.": "L'ordinateur joue la partie adverse.",
+  "Hukukçu notu": "Note du juriste",
 };
 export default dict;
