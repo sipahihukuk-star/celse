@@ -803,5 +803,11 @@ const dict: Record<string, string> = {
   "Liderlik panosunda adım (Av. Ad S. biçiminde), unvanım, şehrim ve puanım diğer oyunculara görünsün. (İsteğe bağlı; istediğim an panodan çıkabilirim.)": "Mostrar mi nombre (como Ab. Nombre I.), título, ciudad y puntos a otros jugadores en la clasificación. (Opcional; puedo salir cuando quiera.)",
   "Yalnızca yönetici hesabında görünür": "Solo visible para la cuenta de administrador",
   "Yönetim": "Admin",
+  "Şu anki karakteriniz. Değiştirmek için tarifinizi güncelleyip aşağıdaki düğmeye basın.": "Tu personaje actual. Para cambiarlo, actualiza tu descripción y pulsa el botón de abajo.",
+  "Bana uygun avukatları göster": "Mostrar abogados que se parecen a mí",
+  "Size en uygun avukatlar": "Los abogados que más se te parecen",
+  "Birini seçin. Sonuç uymadıysa tarifinizi değiştirip yeniden deneyin.": "Elige uno. ¿No encaja? Cambia tu descripción y vuelve a intentarlo.",
+  "Önce kendinizi tarif edin ya da birkaç seçeneği işaretleyin.": "Primero descríbete o marca algunas opciones.",
+  "Tarifiniz yalnızca bu cihazda saklanır, hiçbir yere gönderilmez.": "Tu descripción se guarda solo en este dispositivo y no se envía a ningún sitio.",
 };
 export default dict;

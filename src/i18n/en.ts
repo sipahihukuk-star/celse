@@ -803,5 +803,11 @@ const dict: Record<string, string> = {
   "Liderlik panosunda adım (Av. Ad S. biçiminde), unvanım, şehrim ve puanım diğer oyunculara görünsün. (İsteğe bağlı; istediğim an panodan çıkabilirim.)": "Show my name (as Att. First L.), title, city and points to other players on the leaderboard. (Optional; I can leave at any time.)",
   "Yalnızca yönetici hesabında görünür": "Visible only to the admin account",
   "Yönetim": "Admin",
+  "Şu anki karakteriniz. Değiştirmek için tarifinizi güncelleyip aşağıdaki düğmeye basın.": "Your current character. To change it, update your description and tap the button below.",
+  "Bana uygun avukatları göster": "Show lawyers that match me",
+  "Size en uygun avukatlar": "Lawyers that match you best",
+  "Birini seçin. Sonuç uymadıysa tarifinizi değiştirip yeniden deneyin.": "Pick one. Not quite right? Change your description and try again.",
+  "Önce kendinizi tarif edin ya da birkaç seçeneği işaretleyin.": "First describe yourself or tick a few options.",
+  "Tarifiniz yalnızca bu cihazda saklanır, hiçbir yere gönderilmez.": "Your description stays on this device and is never sent anywhere.",
 };
 export default dict;

@@ -59,7 +59,7 @@ export function CharacterPicker({ initial, onChange }: { initial?: Partial<Chara
     return h;
   })());
   const setT = (patch: Partial<Traits>) => {
-    manual.current = false;
+    manual.current = false; setShown(false);
     hand.current = { ...hand.current, ...patch };
     setTraits(tr => ({ ...tr, ...patch }));
   };
@@ -67,12 +67,13 @@ export function CharacterPicker({ initial, onChange }: { initial?: Partial<Chara
     setText(v);
     const p = parseTraits(v);
     for (const k of Object.keys(p) as (keyof Traits)[]) delete hand.current[k];
-    manual.current = false;
+    manual.current = false; setShown(false);
     setTraits({ ...p, ...hand.current });
   };
   const ageOpt = traits.age === undefined ? undefined : AGES.find(a => traits.age! >= a.min && traits.age! <= a.max)?.v;
-  const top = any ? ranked.slice(0, 3) : [];
-  const rest = any ? ranked.slice(3) : ranked;
+  // Yüzler baştan gösterilmez: oyuncu tarifini yapıp "Bana uygun avukatları göster" deyince en yakın üç yüz çıkar.
+  const [shown, setShown] = useState(false);
+  const top = ranked.slice(0, 3);
 
   const Face = ({ k, score, big }: { k: Avatar; score?: number; big?: boolean }) => (
     <Pressable accessibilityRole="radio" accessibilityState={{ checked: avatar === k }} accessibilityLabel={score !== undefined ? t("%{n} uyum", { n: score }) : undefined}
@@ -106,15 +107,23 @@ export function CharacterPicker({ initial, onChange }: { initial?: Partial<Chara
       <Row<boolean> label={t("Gözlük")} value={traits.glasses} set={v => setT({ glasses: v })}
         opts={[{ v: true, label: t("Gözlüklü") }, { v: false, label: t("Gözlüksüz") }]} />
 
-      {top.length > 0 && (
+      {!shown && initial?.avatar && (
+        <View style={s.current}>
+          <Image source={PHOTOS[avatar].src} style={{ width: 58, height: 74 }} resizeMode="contain" />
+          <Text style={s.currentT}>{t("Şu anki karakteriniz. Değiştirmek için tarifinizi güncelleyip aşağıdaki düğmeye basın.")}</Text>
+        </View>
+      )}
+      {!shown ? (
+        <Btn kind="secondary" label={t("Bana uygun avukatları göster")} disabled={!any} onPress={() => { Keyboard.dismiss(); manual.current = false; setAvatar(ranked[0].k); setShown(true); }} />
+      ) : (
         <>
-          <Text style={s.h}>{t("Size en yakın")}</Text>
+          <Text style={s.h}>{t("Size en uygun avukatlar")}</Text>
           <View style={s.faces}>{top.map(r => <Face key={r.k} k={r.k} score={r.score} big />)}</View>
+          <Text style={s.note}>{t("Birini seçin. Sonuç uymadıysa tarifinizi değiştirip yeniden deneyin.")}</Text>
         </>
       )}
-      <Text style={s.h}>{top.length ? t("Diğer yüzler") : t("Bir yüz seçin")}</Text>
-      <View style={s.faces}>{rest.map(r => <Face key={r.k} k={r.k} />)}</View>
-      <Text style={s.note}>{t("Tarifiniz yalnızca bu cihazda saklanır, hiçbir yere gönderilmez. Yeni yüz seçenekleri zamanla eklenecek.")}</Text>
+      {!any && <Text style={s.note}>{t("Önce kendinizi tarif edin ya da birkaç seçeneği işaretleyin.")}</Text>}
+      <Text style={s.note}>{t("Tarifiniz yalnızca bu cihazda saklanır, hiçbir yere gönderilmez.")}</Text>
     </View>
   );
 }
@@ -157,5 +166,7 @@ const s = StyleSheet.create({
   face: { alignItems: "center", borderWidth: 1, borderColor: C.line, borderRadius: 10, paddingTop: 6, paddingBottom: 4, paddingHorizontal: 4, backgroundColor: C.panel },
   faceBig: { paddingHorizontal: 8, paddingTop: 8 },
   on: { borderColor: C.brass, borderWidth: 2, backgroundColor: "rgba(255,255,255,0.11)" },
+  current: { flexDirection: "row", alignItems: "center", gap: 12, borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 8, backgroundColor: C.panel },
+  currentT: { flex: 1, fontFamily: F.body, fontSize: 13, color: C.textSoft },
   score: { fontFamily: F.mono, fontSize: 11, color: C.brass, marginTop: 4 }
 });
