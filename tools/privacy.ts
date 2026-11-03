@@ -14,6 +14,7 @@ const EN = [
   "Legal grounds: performance of a contract (KVKK Art. 5/2-c), legal obligations (Art. 5/2-ç) and legitimate interest (Art. 5/2-f).",
   "Transfers: data may be transferred to the cloud and AI providers we use (hosting and accounts: Supabase; evaluation of free answers: Anthropic; text-to-speech: Google Cloud), whose servers may be located abroad (KVKK Art. 9). Your name, phone number and e-mail are never sent with your answers.",
   "Leaderboard: only if you choose to join, other players see your name as \"Att. First L.\" (surname initial only), your title, your office city, your chosen character image and your game points; your phone and e-mail are never shown. This is based on your explicit consent (KVKK Art. 5/1); you can leave at any time and your leaderboard entry is then deleted. The self-description you write when creating a character stays on your device and is never sent to our servers.",
+  "Usage statistics and error reports: to improve the App we record usage events pseudonymously - which cases are started and finished, game mode, case score, views of the Pro screen and purchases - together with the app version and platform. These records contain no name, phone number or e-mail; we use your member number if you are signed in, otherwise a random identifier generated on your device, and only the administrator can access them. Error reports you send from the hearing screen (the type you choose, your description and the current case, step, on-screen text, version, platform and language) are kept to fix the error and to reply to you in your in-app inbox. When you delete your account these records are detached from your member number and become anonymous (KVKK Art. 5/2-f, legitimate interest).",
   `Your rights (KVKK Art. 11): you may ask whether your data is processed, request information, correction, deletion or destruction, object, and claim compensation. Send requests to ${V.eposta}.`,
   "Retention: data is kept for as long as your account exists and for the periods required by law, then deleted, destroyed or anonymised.",
   `Account deletion: you can permanently delete your account at any time in the App under Account > "Delete my account"; your profile, career and game records are deleted with it. If you cannot access the App, e-mail ${V.eposta} from the address you registered with; requests are completed within 30 days.`,
@@ -30,11 +31,11 @@ main{max-width:760px;margin:0 auto;padding:32px 16px 64px}h1{color:var(--acc);fo
 .m{color:var(--mut);font-size:14px}a{color:var(--acc)}hr{border:0;border-top:1px solid var(--mut);opacity:.3;margin:32px 0}
 </style></head><body><main>${body}</main></body></html>`;
 
-const date = "3 Kasım 2026";
+const date = "4 Kasım 2026";
 writeFileSync("public/gizlilik.html", page("Celse · Gizlilik Politikası", `
 <h1>Celse · Gizlilik Politikası</h1><p class="m">${KVKK_BASLIK} · Son güncelleme: ${date}</p>
 ${KVKK_METNI.map(para).join("\n")}
-<hr><h2 lang="en">Privacy Policy (English)</h2><p class="m">Last updated: 3 November 2026</p>
+<hr><h2 lang="en">Privacy Policy (English)</h2><p class="m">Last updated: 4 November 2026</p>
 ${EN.map(para).join("\n")}`));
 
 writeFileSync("public/hesap-silme.html", page("Celse · Hesap silme", `

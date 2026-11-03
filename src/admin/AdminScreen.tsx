@@ -12,6 +12,8 @@ import { AuditPanel, GeneratePanel } from "./AiPanels";
 import { PlayersPanel } from "./PlayersPanel";
 import { TranslatePanel } from "./TranslatePanel";
 import { SettingsPanel } from "./SettingsPanel";
+import { StatsPanel } from "./StatsPanel";
+import { MessagesPanel, ReportsPanel } from "./InboxPanels";
 import CaseEditor from "./CaseEditor";
 import { Field, Row, Section, Seg, SmallBtn } from "./form";
 import { blankCase, CourtPreset, PRESETS } from "./presets";
@@ -83,7 +85,7 @@ function AdminHome({ onExit, onPreview }: Props) {
   const [modeF, setModeF] = useState<"hepsi" | "solo" | "duel">("hepsi");
   const [statusF, setStatusF] = useState<"hepsi" | "yayinda" | "taslak" | "yerlesik">("hepsi");
   const [confirmDel, setConfirmDel] = useState<string | null>(null);
-  const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri" | "ayarlar">("");
+  const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri" | "ayarlar" | "istatistik" | "mesajlar" | "hatalar">("");
   const [isServerAdmin, setServerAdmin] = useState<boolean | null>(null);
   const reload = () => store.list().then(setStored);
   // Yönetici denetimi oturum yüklendikten sonra ve hesap her değiştiğinde yeniden yapılır (sayfa oturumdan önce açılırsa
@@ -111,6 +113,7 @@ function AdminHome({ onExit, onPreview }: Props) {
 
   const counts = { toplam: entries.length, yayinda: entries.filter(e => e.status === "yayinda").length, taslak: entries.filter(e => e.status === "taslak").length };
   const takenIds = entries.map(e => e.c.id);
+  const titles = useMemo(() => Object.fromEntries(entries.map(e => [e.c.id, e.c.title])), [entries]);
 
   if (editing) {
     return (
@@ -131,6 +134,9 @@ function AdminHome({ onExit, onPreview }: Props) {
         </View>
         <View style={st.headActions}>
           <SmallBtn label="‹ Oyuna dön" onPress={onExit} />
+          <SmallBtn label="📊 İstatistikler" tone={ai === "istatistik" ? "accent" : "plain"} onPress={() => setAi(ai === "istatistik" ? "" : "istatistik")} />
+          <SmallBtn label="✉️ Duyuru ve mesajlar" tone={ai === "mesajlar" ? "accent" : "plain"} onPress={() => setAi(ai === "mesajlar" ? "" : "mesajlar")} />
+          <SmallBtn label="⚑ Hata bildirimleri" tone={ai === "hatalar" ? "accent" : "plain"} onPress={() => setAi(ai === "hatalar" ? "" : "hatalar")} />
           <SmallBtn label="👤 Oyuncular" tone={ai === "oyuncular" ? "accent" : "plain"} onPress={() => setAi(ai === "oyuncular" ? "" : "oyuncular")} />
           <SmallBtn label="⚙️ Oyun ayarları" tone={ai === "ayarlar" ? "accent" : "plain"} onPress={() => setAi(ai === "ayarlar" ? "" : "ayarlar")} />
           <SmallBtn label="🌐 Çeviriler" tone={ai === "ceviri" ? "accent" : "plain"} onPress={() => setAi(ai === "ceviri" ? "" : "ceviri")} />
@@ -147,6 +153,10 @@ function AdminHome({ onExit, onPreview }: Props) {
           : "Sunucu: bu hesap yönetici değil ya da sunucuya ulaşılamıyor. Değişiklikler yalnızca bu cihazda kalır; yapay zekâ araçları çalışmaz. (Yönetici hesabınızla “Giriş yap” ile girin.)"}
       </Text>
 
+      {ai === "istatistik" && <StatsPanel titles={titles} onClose={() => setAi("")} />}
+      {ai === "mesajlar" && <MessagesPanel onClose={() => setAi("")} />}
+      {ai === "hatalar" && <ReportsPanel titles={titles} onClose={() => setAi("")}
+        onOpenCase={id => { const e = entries.find(x => x.c.id === id); if (!e) return false; setEditing({ c: e.c, status: e.status, isNew: false }); return true; }} />}
       {ai === "oyuncular" && <PlayersPanel onClose={() => setAi("")} />}
       {ai === "ayarlar" && <SettingsPanel onClose={() => setAi("")} />}
       {ai === "ceviri" && <TranslatePanel cases={entries.map(e => e.c)} onClose={() => setAi("")} />}
@@ -288,7 +298,7 @@ const st = StyleSheet.create({
   err: { fontFamily: F.body, fontSize: 14, color: C.bad },
   wrap: { width: "100%", maxWidth: 1100, alignSelf: "center", paddingHorizontal: 16, paddingVertical: 18, gap: 14 },
   head: { flexDirection: "row", flexWrap: "wrap", alignItems: "flex-end", gap: 12 },
-  headActions: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
+  headActions: { flexDirection: "row", flexWrap: "wrap", gap: 6, flexShrink: 1 },
   crumb: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.muted },
   title: { fontFamily: F.display, fontSize: 30, color: C.brass },
   sub: { fontFamily: F.body, fontSize: 15, color: C.muted },

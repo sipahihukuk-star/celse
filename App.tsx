@@ -50,6 +50,8 @@ import { localizeCase } from "./src/i18n/cases";
 import { t, useLang } from "./src/i18n";
 import { OnlineGame, OnlineLobby, OnlineWait } from "./src/ui/OnlineScreen";
 import { TahkimScreen } from "./src/ui/TahkimScreen";
+import InboxScreen from "./src/ui/InboxScreen";
+import { trackRoute } from "./src/data/usage";
 
 /** from: oyun bitince nereye dönüleceği (dosya dolabı ya da yönetim paneli önizlemesi) */
 type From = "list" | "admin" | "career" | "desk" | "tahkim" | "online";
@@ -69,6 +71,7 @@ type Route =
   | { k: "history" }
   | { k: "character" }
   | { k: "board" }
+  | { k: "inbox" }
   | { k: "game"; c: CaseFile; players: Record<Side, Player>; run: number; from: From }
   | { k: "closing"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From }
   | { k: "verdict"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From; notice?: string; ai?: AiVerdict };
@@ -142,6 +145,8 @@ export default function App() {
   React.useEffect(() => {
     if (account?.mode === "server") { const id = setTimeout(() => joinIfConsented(boardInfo.current), 1500); return () => clearTimeout(id); }
   }, [account?.id]);
+  // Kullanım istatistiği: duruşma açılınca, karar ekranına varınca ya da yarıda bırakılınca bir olay yazılır (src/data/usage.ts).
+  React.useEffect(() => { trackRoute(route, !!careerOnline); }, [route]);
   if (!loaded && !error) return <View style={styles.root} />;
 
   // Tahkim dosyaları seçili dilde açılır (çevirisi varsa).
@@ -231,10 +236,11 @@ export default function App() {
           onCareer={() => setRoute(!account ? { k: "account", then: "career" } : office ? { k: "desk" } : { k: "office" })}
           office={office} onOffice={() => setRoute(account ? { k: "office" } : { k: "account", then: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
           onHistory={() => setRoute({ k: "history" })} onCharacter={() => setRoute({ k: "character" })} onBoard={() => setRoute({ k: "board" })} isAdmin={srvAdmin} onMap={() => setRoute({ k: "career" })}
-          onTahkim={() => setRoute({ k: "tahkim" })} onPro={() => setRoute({ k: "paywall" })} pro={unlocked} tahkimCount={cases.all.filter(c => c.room === "tahkim").length} />}
+          onTahkim={() => setRoute({ k: "tahkim" })} onPro={() => setRoute({ k: "paywall" })} pro={unlocked} onInbox={() => setRoute({ k: "inbox" })} tahkimCount={cases.all.filter(c => c.room === "tahkim").length} />}
         {route.k === "board" && <LeaderboardScreen progress={progress} all={cases.all} rank={career.rank} onBack={() => setRoute({ k: "title" })}
           onSignIn={() => setRoute({ k: "account", tab: "giris" })} onSignUp={() => setRoute({ k: "account", tab: "kayit" })} />}
         {route.k === "character" && <CharacterScreen onBack={() => setRoute({ k: "title" })} />}
+        {route.k === "inbox" && <InboxScreen onBack={() => setRoute({ k: "title" })} onSignIn={() => setRoute({ k: "account", tab: "giris" })} />}
         {route.k === "history" && <HistoryScreen view={career} progress={progress} all={cases.all} onBack={() => setRoute({ k: "title" })} onOffice={() => setRoute({ k: "office" })} />}
         {route.k === "tahkim" && (
           <TahkimScreen cases={cases.all.filter(c => c.room === "tahkim")} locked={() => false}

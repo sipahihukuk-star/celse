@@ -6,6 +6,7 @@ import { Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View } from
 import { PlanInfo, PlanKind } from "../data/purchaseIds";
 import { buyPlan, getPlans, PURCHASES_AVAILABLE, restorePurchases } from "../data/purchases";
 import { FALLBACK_PRICE, refreshPremium, usePremium } from "../data/subscription";
+import { logUsage } from "../data/usage";
 import { locale, t } from "../i18n";
 import { Btn } from "./kit";
 import { StoreLinks } from "./StoreLinks";
@@ -36,6 +37,7 @@ export default function PaywallScreen({ onBack, onSignIn, onSignUp, signedIn, se
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
   useEffect(() => {
+    if (!premium) logUsage("paywall_goruldu");
     if (!PURCHASES_AVAILABLE) return;
     getPlans().then(setPlans).catch(() => setPlans([]));
   }, []);
@@ -52,7 +54,7 @@ export default function PaywallScreen({ onBack, onSignIn, onSignUp, signedIn, se
     setBusy(true); setMsg("");
     const r = await buyPlan(plan);
     setBusy(false);
-    if (r.ok) { setMsg(t("Celse Pro açıldı. İyi duruşmalar!")); after(); }
+    if (r.ok) { setMsg(t("Celse Pro açıldı. İyi duruşmalar!")); after(); logUsage("satin_alma", { davaId: `pro_${plan}` }); }
     else if (!r.cancelled) setMsg(t("Satın alma tamamlanamadı: {hata}", { hata: t(r.error || "bilinmeyen hata") }));
   };
   const restore = async () => {
