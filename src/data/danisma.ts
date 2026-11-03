@@ -1,6 +1,7 @@
 // "Derdini anlat": eğitim amaçlı danışma canlandırması (hukuki görüş değildir, Av. K. m.35).
 // Bütün model çağrıları sunucudaki "danisma" fonksiyonunda yapılır (supabase/functions/danisma); uygulama yalnız formu,
 // dili ve oturum anahtarını gönderir. Geçmiş danışmalar "danismalar" tablosundan okunur (oyuncu yalnız kendi satırlarını görür ve siler).
+import { logUsage } from "./usage";
 import { DANISMA_FUNCTION, SUPABASE_ANON_KEY, SUPABASE_URL } from "../config";
 import { getLang } from "../i18n";
 import { getAccessToken, supabase } from "./account";
@@ -90,7 +91,11 @@ async function call<T>(action: string, body: Record<string, unknown>): Promise<C
 }
 
 export const kontrolEt = (form: DanismaForm) => call<KontrolSonucu>("kontrol", { form });
-export const degerlendir = (form: DanismaForm, onay: string) => call<{ id: string; degerlendirme: Degerlendirme; kalan_takip: number }>("degerlendir", { form, onay });
+export const degerlendir = async (form: DanismaForm, onay: string) => {
+  const r = await call<{ id: string; degerlendirme: Degerlendirme; kalan_takip: number }>("degerlendir", { form, onay });
+  if (r.ok) logUsage("danisma", { ucretli: true });
+  return r;
+};
 export const canlandir = (id: string, taraf: "davaci" | "davali") => call<{ canlandirma: Canlandirma }>("canlandir", { id, taraf });
 export const takipSor = (id: string, soru: string) => call<{ soru: string; cevap: string; kalan_takip: number }>("takip", { id, soru });
 

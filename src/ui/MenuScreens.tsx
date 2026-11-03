@@ -16,6 +16,7 @@ import { LoginCard } from "./LoginCard";
 import { loadResults, SavedResult } from "./storage";
 import { C, F } from "./theme";
 import { LANGS, locale, t, useLang } from "../i18n";
+import { InboxDot, InboxMenuItem } from "./InboxScreen";
 
 /* ---------- Giriş ---------- */
 export interface TitleProps {
@@ -23,6 +24,7 @@ export interface TitleProps {
   account: Account | null; server: boolean; started: boolean; onDuel: () => void; onSolo: () => void; onAdmin: () => void; onTahkim: () => void; onHistory: () => void; onCharacter: () => void; onBoard: () => void;
   /** sunucuda yönetici olan hesap: yönetim paneli yalnız ona görünür */ isAdmin?: boolean;
   /** Celse Pro ekranı (abonelik, geri yükleme) ve Pro etkin mi */ onPro?: () => void; pro?: boolean;
+  /** Gelen kutusu (duyurular, hata bildirimlerine yanıtlar) */ onInbox?: () => void;
   onMap: () => void; tahkimCount: number; duelCount: number; soloCount: number; rankName: string; won: number; total: number;
   /** üye olmadan oynayan (giriş kartını geçmiş) oyuncu; "Üye olmadan dene" ile açılır, "Giriş yap" ile giriş kartına döner */
   guest?: boolean; onGuest?: () => void; onLeaveGuest?: () => void;
@@ -43,6 +45,7 @@ export function TitleScreen(p: TitleProps) {
       <View style={styles.topBar}>
         <Pressable accessibilityRole="button" accessibilityLabel={t("Menü")} onPress={() => setMenu(true)} style={styles.burger} hitSlop={10}>
           <View style={styles.burgerLine} /><View style={styles.burgerLine} /><View style={styles.burgerLine} />
+          {!!p.onInbox && <InboxDot />}
         </Pressable>
         {p.isAdmin && (
           <Pressable accessibilityRole="button" accessibilityLabel={t("Yönetim paneli")} onPress={p.onAdmin} style={styles.adminBtn} hitSlop={8}>
@@ -197,6 +200,7 @@ function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; o
               </>
             )}
             {!!p.onDanisma && <Item label={t("Derdini anlat")} sub={t("Eğitim amaçlı danışma canlandırması · krediyle")} onPress={go(p.onDanisma)} />}
+            {!!p.onInbox && <InboxMenuItem onPress={go(p.onInbox)} />}
             {!!p.onPro && <Item label={t("Celse Pro")} sub={p.pro ? t("Aboneliğiniz etkin") : t("Bütün kariyer · aylık ya da yıllık abonelik")} onPress={go(p.onPro)} />}
             <Text style={styles.mSection}>{t("KARİYER")}</Text>
             <Item label={t("Liderlik panosu")} sub={t("Kariyer puanına göre en iyi avukatlar")} onPress={go(p.onBoard)} />

@@ -14,7 +14,9 @@ import { C, F, sideColor, toneColor } from "./theme";
 import { LETTERS, OnlineLink, useCourt } from "./useCourt";
 import { prefetchLines, Speaker, speakLine, stopSpeaking, useSpeaking, useVoiceEnabled } from "./voice";
 import FreeAnswer from "./FreeAnswer";
-import { locale, t } from "../i18n";
+import { getLang, locale, t } from "../i18n";
+import { BugReportLink, BugReportModal } from "./BugReport";
+import { APP_VERSION } from "../data/usage";
 
 interface Props { c: CaseFile; players: Record<Side, Player>; onExit: () => void; onFinish: (g: GameState) => void; online?: OnlineLink }
 
@@ -53,6 +55,7 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
   const { width, height } = useWindowDimensions();
   const [docs, setDocs] = useState(false);
   const [record, setRecord] = useState(false);
+  const [bug, setBug] = useState(false);
   // Duruşma tutanağı: gösterilen her satır ve verilen her karar, sırasıyla.
   const [history, setHistory] = useState<{ who: string; text: string; karar?: boolean; not?: boolean }[]>([]);
   // Tutanak açıldığında bir kez en sona kaydırılır; sonra oyuncu serbestçe yukarı aşağı gezer.
@@ -119,6 +122,20 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
   }, [phase, voiceOn]);
   useEffect(() => () => { stopSpeaking(); }, []);
   const kbOpen = useKeyboardOpen();
+
+  // Hata bildirimi: hangi adımda ve hangi satırdayken bildirildiği kendiliğinden eklenir.
+  const stepIdx: number | null = "step" in phase ? phase.step : phase.k === "lines" && "step" in phase.after ? phase.after.step : null;
+  const bugContext = () => {
+    const shownText = line ? line.text : phase.k === "choices" ? c.steps[phase.step].prompt : phase.k === "feedback" && last ? last.note || last.text : "";
+    return {
+      dava: c.title, mahkeme: c.court, esas: c.esas, bicim: c.mode, asama: phase.k, adim: stepIdx,
+      satir_no: phase.k === "lines" ? phase.i : null, konusan: line ? speakerName(line.who).name : null,
+      satir: (typeof shownText === "string" ? shownText : "").slice(0, 1200),
+      puan: duel ? game.pts : game.score, hamle: game.log.length,
+      surum: APP_VERSION, platform: Platform.OS, dil: getLang(), gorunum: viewMode, ekran: `${Math.round(width)}x${Math.round(height)}`
+    };
+  };
+  const bugFromDocs = () => { setDocs(false); setTimeout(() => setBug(true), Platform.OS === "web" ? 0 : 400); };
 
   return (
     <KeyboardAvoidingView style={styles.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
@@ -280,6 +297,7 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
               </View>
             );
           })()}
+          <BugReportLink onPress={() => setBug(true)} />
         </ScrollView>
       </View>
 
@@ -326,10 +344,15 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
                 </>
               )}
             </ScrollView>
-            <Btn kind="ghostInk" label={t("Kapat")} onPress={() => setDocs(false)} style={{ alignSelf: "flex-start", marginTop: 14 }} />
+            <View style={styles.sheetActions}>
+              <Btn kind="ghostInk" label={t("Kapat")} onPress={() => setDocs(false)} />
+              <BugReportLink ink onPress={bugFromDocs} />
+            </View>
           </View>
         </View>
       </Modal>
+
+      <BugReportModal visible={bug} onClose={() => setBug(false)} davaId={c.id} adim={stepIdx} subtitle={`${c.court} · ${c.esas}`} context={bugContext} />
     </KeyboardAvoidingView>
   );
 }
@@ -396,6 +419,7 @@ const styles = StyleSheet.create({
   sheet: { backgroundColor: C.paper, borderRadius: 4, padding: 22, width: "100%", maxWidth: 640 },
   sheetTitle: { fontFamily: F.display, fontSize: 24, color: C.ink },
   sheetSub: { fontFamily: F.mono, fontSize: 12, color: C.inkSoft, marginBottom: 12 },
+  sheetActions: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: 14 },
   sheetItem: { borderTopWidth: 1, borderTopColor: C.rule, paddingVertical: 10, gap: 2 },
   sheetT: { fontFamily: F.bodyBold, fontSize: 16, color: C.ink },
   sheetD: { fontFamily: F.body, fontSize: 15, color: C.inkSoft }
