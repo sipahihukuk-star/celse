@@ -139,3 +139,14 @@ export function useCharacter(): Character | null {
   }, []);
   return c;
 }
+
+/** Karakter ve yüklenip yüklenmediği (yüz seçimine göre metin uyarlanacaksa yüklenmesi beklenir). */
+export function useCharacterState(): { character: Character | null; ready: boolean } {
+  const [s, setS] = useState<{ character: Character | null; ready: boolean }>(() => ({ character: cache ?? null, ready: cache !== undefined }));
+  useEffect(() => {
+    const load = () => { loadCharacter().then(character => setS({ character, ready: true })); };
+    load(); listeners.add(load);
+    return () => { listeners.delete(load); };
+  }, []);
+  return s;
+}

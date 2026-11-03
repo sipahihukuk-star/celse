@@ -6,32 +6,18 @@ import { Image, LayoutChangeEvent, Platform, StyleSheet, Text, View } from "reac
 import { Avatar, useOffice } from "../data/office";
 import { useCharacter } from "../data/character";
 import { MOUTHS } from "./mouths";
-import { firstName, FEMALE, isFemale, partiesOf, robeOf } from "./people";
+import { firstName, FEMALE, partiesOf, robeOf } from "./people";
+import { AIHM, castFaces, domesticForum, officeGuest, stateCourt, tintJudge, UCM } from "./castFaces";
 import { currentAccount } from "../data/account";
-import { CaseFile, Look, Scene } from "../engine/types";
+import { CaseFile, Scene } from "../engine/types";
 import { PhotoKey, PHOTOS } from "./photos";
 import { C, F } from "./theme";
+
+export { stateCourt, tintJudge } from "./castFaces";
 
 /** Konuşulan satır: ağız kareleri metindeki seslere göre sıralanır. voice: satır seslendiriliyor mu. */
 export interface Say { id: string; text: string; voice: boolean }
 interface Props { c: CaseFile; scene: Scene; focus: string | null; talking: boolean; say?: Say }
-
-type Pool = { f: PhotoKey[]; m: PhotoKey[] };
-const JUDGE: Pool = { f: ["hk-kadin-55", "hk-kadin-45", "hk-kadin-32"], m: ["hk-erkek-58", "hk-erkek-42", "hk-erkek-65"] };
-const PROS: Pool = { f: ["sv-kadin"], m: ["sv-erkek"] };
-const LAWYER: Pool = { f: ["av-kadin-32", "av-kadin-52", "av-kadin-25", "av-kadin-basortulu", "av-kadin-41", "av-kadin-28", "av-kadin-61", "av-kadin-35"], m: ["av-erkek-38", "av-erkek-58", "av-erkek-25", "av-erkek-46", "av-erkek-32", "av-erkek-66", "av-erkek-27"] };
-const CIVIL: Pool = { f: ["mv-kadin-45", "mv-kadin-25", "mv-kadin-62", "mv-kadin-72"], m: ["mv-erkek-55", "mv-erkek-22", "mv-erkek-is", "mv-erkek-isci"] };
-const AIHM: Pool = { f: ["ul-kadin-aihm", "ul-kadin-aihm2"], m: ["ul-erkek-aihm", "ul-erkek-aihm2", "ul-erkek-aihm3"] };
-/** Tahkimde avukatlar cübbe giymez: takım elbiseli vekiller. */
-const COUNSEL: Pool = { f: ["ks-kadin-38"], m: ["ks-erkek-40", "mv-erkek-is"] };
-/** Hakemler (takım elbiseli): milletlerarası ve Türk. */
-const ARB_INTL: Pool = { f: ["ar-kadin-50"], m: ["ar-erkek-62", "ar-erkek-48"] };
-const ARB_TR: Pool = { f: ["ar-tr-kadin-44"], m: ["ar-tr-erkek-56"] };
-const UCM: Pool = { f: ["ul-kadin-ucm", "ul-kadin-ucm2"], m: ["ul-erkek-ucm", "ul-erkek-ucm2"] };
-
-const isOld = (look?: Look) => !!look?.hair && /^#(6b6b|9a9a|a0a0|8a8a|b0b0|c0c0|7a7a)/i.test(look.hair);
-
-function hash(s: string) { let h = 2166136261; for (const ch of s) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
 
 /** Salon arka planı ve kürsü geometrisi (fotoğraf koordinatları 1280×716). */
 type Bench = { seats: number[]; y: number; h: number };
@@ -44,10 +30,6 @@ const ROOM: Record<string, { bg: PhotoKey; bench: Bench; pros?: { x: number; y: 
   uluslararasi: { bg: "bg-uluslararasi", bench: { seats: [90, 143, 196, 250, 303, 356, 410, 463, 527, 580, 634, 687, 741, 794, 847, 901, 940], y: 300, h: 100 } }
 };
 
-/** Türkiye'deki kurullar ve komisyonlar (TFF Tahkim Kurulu, İHTK, Sigorta Tahkim) Ankara'daki toplantı salonunda görülür. */
-const domesticForum = (c: CaseFile) => c.forum === "tff" || c.forum === "ihtk" || c.forum === "sigorta";
-/** Tahkim bölümündeki bazı dosyalar devlet mahkemesinde görülür (iptal davası, tanıma-tenfiz): onlar adliye salonunda. */
-export const stateCourt = (c: CaseFile) => c.room === "tahkim" && /Asliye|Bölge Adliye|Yargıtay|Hukuk Dairesi|Ticaret Mahkemesi|Bölge İdare|İdare Mahkemesi/.test(c.court) && !/Tahkim|Komisyon|Kurul/.test(c.court);
 function roomOf(c: CaseFile) {
   if (stateCourt(c)) return /Bölge|Yargıtay|Dairesi/.test(c.court) ? ROOM.yuksek : ROOM.yerel;
   if (c.room === "tahkim") return domesticForum(c) ? ROOM.komisyon : ROOM.tahkim;
@@ -71,64 +53,11 @@ const YK = { deskTop: 412, katipX: 1126, prosDeskX: 1040, h: 172, cover: [{ x0: 
 /** Telefonda (dar sahnede) salonun en az bu kadarı (fotoğraf pikseli) görünür: savcı ve kâtip kadrajda kalır, karakterler küçülür. */
 const MIN_VIEW = 1060;
 
-/** Mahkemeye göre değişen mübaşir ve kâtip yüzleri. */
-const MUBASIR = ["mubasir", "mubasir-kadin", "mubasir-genc", "mubasir-yasli"] as const;
-const KATIP = ["katip", "katip-erkek", "katip-kadin-45", "katip-erkek-45"] as const;
-
-export function tintJudge(k: PhotoKey, robe: string): PhotoKey {
-  const t = `${k}${robe}`;
-  return robe && /^hk-/.test(k) && t in PHOTOS ? (t as PhotoKey) : k;
-}
-
 interface Fig { key: string; photo: PhotoKey; flip?: boolean; x: number; bottom: number; h: number; z: number; front?: boolean }
 
-/** Davanın kadrosuna fotoğraf atar. Aynı dava her açılışta aynı kişileri gösterir. */
+/** Davanın kadrosuna fotoğraf atar (bkz. castFaces.ts). Oyuncu karakter seçmemişse hesaptaki ada göre bir avukat yüzü alır. */
 export function cast(c: CaseFile, avatar?: Avatar | null) {
-  const used = new Set<PhotoKey>(avatar ? [avatar] : []);
-  const pick = (pool: Pool, female: boolean, seed: string, old = false): PhotoKey => {
-    const list = [...(female ? pool.f : pool.m), ...(female ? pool.m : pool.f)];
-    const start = old ? 0 : hash(c.id + seed) % (female ? pool.f.length : pool.m.length);
-    for (let i = 0; i < list.length; i++) {
-      const k = list[(start + i) % list.length];
-      if (!used.has(k)) { used.add(k); return k; }
-    }
-    return list[start % list.length];
-  };
-  const tahkim = c.room === "tahkim" && !stateCourt(c);
-  const intl = !tahkim && (c.room === "uluslararasi" || /İnsan Hakları|Uluslararası/.test(c.court));
-  const judgePool = tahkim ? (domesticForum(c) || c.forum === "istac" ? ARB_TR : ARB_INTL) : intl ? (/Ceza Mahkemesi/.test(c.court) ? UCM : AIHM) : JUDGE;
-  const j = c.cast.judge;
-  const map: Record<string, PhotoKey> = {};
-  map.judge = tintJudge(pick(judgePool, isFemale(j?.look, j?.name), "judge", isOld(j?.look)), robeOf(c));
-  for (const [role, m] of Object.entries(c.cast)) {
-    if (role === "judge") continue;
-    const robe = m.look?.kind !== "civil";
-    const red = m.np === "red" || role === "pros" || role === "savci";
-    const counsel = tahkim && (role === "p1" || role === "p2" || role === "opp");
-    const pool = counsel ? { f: COUNSEL.f.filter(k => k in PHOTOS), m: COUNSEL.m.filter(k => k in PHOTOS) } as Pool : !robe ? CIVIL : red ? (intl ? judgePool : PROS) : LAWYER;
-    map[role] = pick(pool, isFemale(m.look, m.name), role, isOld(m.look));
-  }
-  // Oyuncunun kendisi: büroda seçtiği karakter; seçmemişse hesaptaki ada göre bir avukat.
-  if (!tahkim && (avatar || c.mode === "solo")) {
-    const f = FEMALE.has(firstName(currentAccount()?.adSoyad));
-    const mine: PhotoKey = avatar || (f ? "av-kadin-32" : "av-erkek-38");
-    // Karşı tarafın avukatı oyuncunun yüzünü taşıyorsa ona başka bir yüz ver.
-    for (const [r, k] of Object.entries(map)) if (k === mine && r !== "p1") { used.delete(k); used.add(mine); map[r] = pick(LAWYER, k.includes("kadin"), r + "2"); }
-    map.p1 = mine;
-    used.add(mine);
-  }
-  // Taraf teşkili: kadroda karşılığı olmayan taraf (ör. karşı tarafın kendisi) için de bir yüz seçilir.
-  const pr = partiesOf(c);
-  // Şirket ya da kulüp tarafı takım elbiseli bir yetkiliyle temsil edilir.
-  const corp = (k: string) => k.startsWith("party_") && /şirket|sigorta|a\.ş|kulüp|üretici|tedarikçi|satıcı|alıcı|işveren|yüklenici|armatör|kiracı \(|distribütör|lisans|havuz/i.test(c.sides[k === "party_p1" ? "p1" : "p2"].role);
-  const SUIT: Pool = { f: ["ks-kadin-38", "mv-kadin-45"].filter(k => k in PHOTOS) as PhotoKey[], m: ["mv-erkek-is", "ks-erkek-40", "mv-erkek-55"].filter(k => k in PHOTOS) as PhotoKey[] };
-  for (const k of [pr.left, pr.right]) if (k && !map[k]) map[k] = pick(corp(k) ? SUIT : CIVIL, hash(c.id + k) % 2 === 0, k);
-  // Mübaşir ve kâtip dosyanın mahkemesine göre seçilir: aynı mahkemede hep aynı kişiler, başka mahkemede başkaları.
-  const pool = <T extends readonly string[]>(arr: T) => arr.filter(k => k in PHOTOS) as unknown as PhotoKey[];
-  const mubs = pool(MUBASIR), kats = pool(KATIP);
-  if (mubs.length) map.mubasir = mubs[hash(c.court + "mub") % mubs.length];
-  if (kats.length) map.katip = kats[hash(c.court + "kat") % kats.length];
-  return map;
+  return castFaces(c, avatar, FEMALE.has(firstName(currentAccount()?.adSoyad)));
 }
 
 /** Ağız kareleri: 0 kapalı, 1 açık ("a"), 2 yuvarlak ("o, u"), 3 yayvan ("e, i"), 4 yarı açık (ünsüzler). */
@@ -180,6 +109,13 @@ export default function PhotoStage({ c, scene, focus, talking, say }: Props) {
   const faces = useMemo(() => cast(c, office?.avatar || me?.avatar), [c.id, office?.avatar, me?.avatar]);
   const room = roomOf(c);
   const parties = useMemo(() => partiesOf(c), [c.id]);
+  // Büroda konuşan diğer kişi (büro ortağı, müvekkilin yakını, şirket yetkilisi; karşılıklı modda müvekkil): ilk konuştuğu
+  // satırdan itibaren büroda görünür, salona geçilince çıkar. Böylece yüzü olmayan bir ses konuşmaz.
+  const [guest, setGuest] = useState<string | null>(null);
+  useEffect(() => {
+    if (scene !== "office") { if (guest) setGuest(null); return; }
+    if (focus && focus !== guest && officeGuest(c, focus) && faces[focus]) setGuest(focus);
+  }, [scene, focus, c.id]);
   // Büro görüşmesi: avukatın koltuğundan bakış; müvekkil masanın karşısındaki koltukta oturur.
   const bg = scene === "office" ? PHOTOS["bg-gorusme"] : PHOTOS[room.bg];
 
@@ -259,13 +195,17 @@ export default function PhotoStage({ c, scene, focus, talking, say }: Props) {
     if (focus && faces[focus] && !figs.some(f => f.key === focus) && !/^(judge|mubasir|katip|narr)/.test(focus))
       figs.push({ key: focus, photo: faces[focus], x: W * 0.5, bottom: below(U * 0.58), h: U * 0.58, z: 6, front: true });
   } else if (W) {
+    const g = guest && faces[guest] ? guest : null;
     if (duel) {
       figs.push({ key: "p1", photo: faces.p1 || "av-erkek-38", x: W * 0.25, bottom: 0, h: H * 0.72, z: 4, front: true });
       if (faces.p2) figs.push({ key: "p2", photo: faces.p2, flip: true, x: W * 0.75, bottom: 0, h: H * 0.72, z: 4, front: true });
-    } else if (faces.client) {
+      if (g) figs.push({ key: g, photo: faces[g], x: W * 0.5, bottom: 0, h: H * 0.62, z: 3, front: true });
+    } else {
       // Koltuğun önünde, belinden aşağısı masanın arkasında kalacak biçimde (masa ön katmanı ayrıca çizilir).
       const ch = DESK.clientH * s;
-      figs.push({ key: "client", photo: faces.client, x: X(DESK.clientX), bottom: H - Y(DESK.clientBottom), h: ch, z: 2, front: true });
+      if (faces.client) figs.push({ key: "client", photo: faces.client, x: X(DESK.clientX), bottom: H - Y(DESK.clientBottom), h: ch, z: 2, front: true });
+      // Diğer konuşan kişi masanın solunda durur; müvekkil yoksa koltuğa oturur.
+      if (g) figs.push({ key: g, photo: faces[g], flip: true, x: faces.client ? Math.max(X(DESK.clientX - 370), W * 0.17) : X(DESK.clientX), bottom: H - Y(DESK.clientBottom), h: ch, z: 2, front: true });
     }
   }
 

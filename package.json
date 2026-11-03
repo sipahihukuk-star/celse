@@ -41,6 +41,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "tsx tools/simulate.ts",
+    "tutarlilik": "tsx tools/tutarlilik.ts",
     "typecheck": "tsc --noEmit",
     "export:web": "expo export --platform web"
   },

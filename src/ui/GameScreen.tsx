@@ -5,7 +5,8 @@ import { bagOf, choicesOf, GameState, grade, kindOf } from "../engine/engine";
 import { CaseFile, Line, Player, Side } from "../engine/types";
 import { Btn, Chip, Scale } from "./kit";
 import PhotoStage, { cast } from "./PhotoStage";
-import { useCharacter } from "../data/character";
+import { adaptPlayerAddress } from "./castText";
+import { useCharacterState } from "../data/character";
 import { useOffice } from "../data/office";
 import Stage from "./Stage";
 import { useViewMode } from "./viewMode";
@@ -32,7 +33,21 @@ function useTypewriter(text: string) {
   return { shown: text.slice(0, n), done: n >= text.length, finish: () => setN(text.length) };
 }
 
-export default function GameScreen({ c, players, onExit, onFinish, online }: Props) {
+export default function GameScreen(props: Props) {
+  const { office, ready } = useOffice();
+  const me = useCharacterState();
+  // Her karakterin yüzü (ve sesi) davanın kadrosundan seçilir; oyuncunun yüzü büroda seçtiği karakterdir.
+  const faces = useMemo(() => cast(props.c, office?.avatar || me.character?.avatar), [props.c, office?.avatar, me.character?.avatar]);
+  // Oyuncunun avukatına "Avukat Hanım / Bey" hitabı, sahnedeki yüzünün cinsiyetine uyarlanır (kime yöneldiği belli
+  // olmayan avukat hitabı "Sayın Avukat" olur). Satırlar, seçenekler, notlar ve seslendirme aynı metni kullanır.
+  const playerFemale = (faces.p1 || "").includes("kadin");
+  const c = useMemo(() => adaptPlayerAddress(props.c, playerFemale), [props.c, playerFemale]);
+  // Duruşma akışı ilk satırları başlangıçta alır: karakter yüklenmeden başlarsa hitap yanlış cinsiyetle kalırdı.
+  if (!ready || !me.ready) return <View style={styles.root} />;
+  return <Game {...props} c={c} faces={faces} />;
+}
+
+function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: Record<string, string> }) {
   const court = useCourt(c, players, onFinish, online);
   const { game, phase, scene } = court;
   const { width, height } = useWindowDimensions();
@@ -88,10 +103,7 @@ export default function GameScreen({ c, players, onExit, onFinish, online }: Pro
   const [voiceOn, setVoiceOn] = useVoiceEnabled();
   const [viewMode] = useViewMode();
   const speaking = useSpeaking();
-  const { office } = useOffice();
   // Her karakterin sesi, sahnede görünen yüzün cinsiyetine göre seçilir; oyuncunun sesi bütün davalarda aynıdır.
-  const me = useCharacter();
-  const faces = useMemo(() => cast(c, office?.avatar || me?.avatar), [c.id, office?.avatar, me?.avatar]);
   const speaker = (who: string): Speaker => who === "narr" ? { id: "narr", role: "narr", female: false }
     : { id: who === "p1" && !duel ? `oyuncu:${faces.p1}` : `${c.id}:${who}:${faces[who] || ""}`, role: who, female: (faces[who] || "").includes("kadin") };
   // Sıradaki üç satırı önceden seslendir.
