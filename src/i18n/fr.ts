@@ -499,5 +499,8 @@ const dict: Record<string, string> = {
   "Uygulama açılmazsa bu adresten aynı hesapla girip kaldığınız yerden devam edebilirsiniz.": "Si l'application ne s'ouvre pas, connectez-vous ici avec le même compte et reprenez où vous en étiez.",
   "Bitti": "OK",
   "Klavyeyi kapat": "Fermer le clavier",
+  "Aynı cihaz: iki taraf da bu telefonda oynanır; sıra değişince telefonu arkadaşınıza verirsiniz. Ayrı telefonlardan oynamak için \"İnternet üzerinden\"i seçin.": "Même appareil : les deux parties jouent sur ce téléphone ; passez-le à votre ami quand le tour change. Pour jouer sur deux téléphones, choisissez « Par internet ».",
+  "Ayrı telefonlar: her avukat yalnızca kendi tarafının sorularını kendi telefonunda cevaplar.": "Téléphones séparés : chaque avocat ne répond qu'aux questions de sa partie, sur son propre téléphone.",
+  "Karşı tarafı bilgisayar oynar.": "L'ordinateur joue la partie adverse.",
 };
 export default dict;

@@ -292,6 +292,8 @@ export function SetupModal({ c, onClose, onStart, onOnline, fixedSide, meName, c
           {career && <Text style={styles.sheetSub}>{t("Kariyer dosyası: sonuç ücretinize ve itibarınıza işler. Rakibiniz kim olursa olsun siz büronuzun tarafını savunursunuz.")}</Text>}
           <Text style={styles.legend}>{t("RAKİBİNİZ")}</Text>
           <Seg value={opp} onChange={setOpp} options={[{ v: "friend", label: t("Arkadaşım (aynı cihaz)") }, { v: "online", label: t("İnternet üzerinden") }, { v: "ai", label: t("Bilgisayar") }]} />
+          <Text style={styles.sheetSub}>{opp === "friend" ? t("Aynı cihaz: iki taraf da bu telefonda oynanır; sıra değişince telefonu arkadaşınıza verirsiniz. Ayrı telefonlardan oynamak için \"İnternet üzerinden\"i seçin.")
+            : opp === "online" ? t("Ayrı telefonlar: her avukat yalnızca kendi tarafının sorularını kendi telefonunda cevaplar.") : t("Karşı tarafı bilgisayar oynar.")}</Text>
           {opp === "online" ? (
             <View style={{ gap: 10, marginTop: 14 }}>
               {roleSeg(t("ROLÜNÜZ"))}
