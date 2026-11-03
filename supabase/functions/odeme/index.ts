@@ -14,18 +14,18 @@
 
 const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { "Content-Type": "application/json" } });
 
-/** Uygulamadaki purchaseIds.ts ile aynı: tüketilebilir ürün → kredi. */
+// Uygulamadaki purchaseIds.ts ile aynı: tüketilebilir ürün → kredi.
 const CREDITS: Record<string, number> = { celse_derdini_anlat_1: 1, celse_derdini_anlat_3: 3 };
 const PRO_PRODUCTS = ["celse_pro_aylik", "celse_pro_yillik"];
 const PRO_ENTITLEMENT = "themiscode_i_nc_pro"; // RevenueCat yetki kimliği (src/data/purchaseIds.ts ile aynı)
 
-/** RevenueCat mağaza adı → abonelikler.kaynak */
+// RevenueCat mağaza adı → abonelikler.kaynak
 const KAYNAK: Record<string, string> = {
   APP_STORE: "app_store", MAC_APP_STORE: "app_store", PLAY_STORE: "google_play", TEST_STORE: "test_store"
 };
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-/** Sabit sürede karşılaştırma (gizli değeri zamanlamayla tahmin etmeyi zorlaştırır). */
+// Sabit sürede karşılaştırma (gizli değeri zamanlamayla tahmin etmeyi zorlaştırır).
 function same(a: string, b: string) {
   const x = new TextEncoder().encode(a), y = new TextEncoder().encode(b);
   let d = x.length ^ y.length;
@@ -34,7 +34,7 @@ function same(a: string, b: string) {
 }
 const bare = (s: string) => s.replace(/^Bearer\s+/i, "").trim();
 
-/** Olaydaki Supabase kullanıcısı: anonim ($RCAnonymousID:) kimlikler atlanır; takma adlarda (aliases) da aranır. */
+// Olaydaki Supabase kullanıcısı: anonim ($RCAnonymousID:) kimlikler atlanır; takma adlarda (aliases) da aranır.
 function userOf(ev: Record<string, unknown>): string | null {
   const ids = [ev.app_user_id, ev.original_app_user_id, ...((ev.aliases as unknown[]) || [])].map(x => String(x || ""));
   return ids.find(id => id && !id.startsWith("$RCAnonymousID:") && UUID.test(id)) || null;
