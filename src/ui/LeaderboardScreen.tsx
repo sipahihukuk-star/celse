@@ -79,7 +79,7 @@ export default function LeaderboardScreen({ progress, all, rank, onBack, onSignI
         {avatar ? <AvatarFace k={avatar} size={52} /> : <View style={s.noFace} />}
         <View style={{ flex: 1, gap: 2 }}>
           <Text style={s.meName}>{account ? displayName(account.adSoyad) : t("Misafir")}</Text>
-          <Text style={s.meSub}>{t("{p} puan", { p: num(mine) })} · {rank}</Text>
+          <Text style={s.meSub}>{t("{p} puan", { p: num(mine) })} · {t(rank)}</Text>
           {myRow && <Text style={s.meRank}>{period === "ay" ? t("Bu ay {n}. sıradasınız", { n: myRow.sira }) : t("{n}. sıradasınız", { n: myRow.sira })}</Text>}
         </View>
       </View>
@@ -119,7 +119,7 @@ export default function LeaderboardScreen({ progress, all, rank, onBack, onSignI
                 {isAvatar(r.avatar) ? <AvatarFace k={r.avatar} size={40} /> : <View style={[s.noFace, { width: 40, height: 40 }]} />}
                 <View style={{ flex: 1, minWidth: 0 }}>
                   <Text style={s.name} numberOfLines={1}>{r.ad}{r.ben ? " · " + t("siz") : ""}</Text>
-                  <Text style={s.sub} numberOfLines={1}>{[r.unvan, r.sehir].filter(Boolean).join(" · ")}</Text>
+                  <Text style={s.sub} numberOfLines={1}>{[r.unvan && t(r.unvan), r.sehir].filter(Boolean).join(" · ")}</Text>
                 </View>
                 <View style={{ alignItems: "flex-end" }}>
                   <Text style={s.pts}>{num(r.puan)}</Text>

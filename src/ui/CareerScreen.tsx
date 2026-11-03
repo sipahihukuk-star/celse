@@ -7,6 +7,7 @@ import { CITIES, feeFor, Office, sourceOf, SOURCE_LABEL, tl } from "../data/offi
 import { AvatarFace } from "./OfficeScreen";
 import { Btn } from "./kit";
 import { C, F } from "./theme";
+import { t } from "../i18n";
 
 export default function CareerScreen({ view, onBack, onPick, onReset, onPaywall, premium, office, onOffice }: { office: Office | null; onOffice: () => void; view: CareerView; onBack: () => void; onPick: (c: CaseFile) => void; onReset: () => void; onPaywall: () => void; premium: boolean }) {
   const pct = view.total ? Math.round((view.won / view.total) * 100) : 0;
@@ -14,15 +15,15 @@ export default function CareerScreen({ view, onBack, onPick, onReset, onPaywall,
   return (
     <ScrollView contentContainerStyle={s.wrap}>
       <View style={s.head}>
-        <Btn kind="ghost" label="‹ Giriş" onPress={onBack} />
+        <Btn kind="ghost" label={t("‹ Giriş")} onPress={onBack} />
         <View style={{ flex: 1, minWidth: 220 }}>
-          <Text style={s.eyebrow}>KARİYER</Text>
-          <Text style={s.rank}>{view.rank}</Text>
+          <Text style={s.eyebrow}>{t("KARİYER")}</Text>
+          <Text style={s.rank}>{t(view.rank)}</Text>
           <Text style={s.next}>{view.next}</Text>
         </View>
         <View style={s.stats}>
-          <Stat k="İtibar" v={String(view.itibar)} />
-          <Stat k="Kazanılan" v={`${view.won}/${view.total}`} />
+          <Stat k={t("İtibar")} v={String(view.itibar)} />
+          <Stat k={t("Kazanılan")} v={`${view.won}/${view.total}`} />
         </View>
       </View>
       {office && (
@@ -38,8 +39,8 @@ export default function CareerScreen({ view, onBack, onPick, onReset, onPaywall,
 
       {!premium && (
         <Pressable accessibilityRole="button" onPress={onPaywall} style={s.promo}>
-          <Text style={s.promoT}>İlk 5 dava ücretsiz.</Text>
-          <Text style={s.promoD}>Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne, AİHM'e ve karşılıklı duruşmaya abonelikle devam edin · yıllık 5.000 TL ›</Text>
+          <Text style={s.promoT}>{t("İlk 5 dava ücretsiz.")}</Text>
+          <Text style={s.promoD}>{t("Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne, AİHM'e ve karşılıklı duruşmaya abonelikle devam edin · yıllık 5.000 TL ›")}</Text>
         </Pressable>
       )}
       <View style={{ gap: 18, marginTop: 22 }}>
@@ -48,15 +49,15 @@ export default function CareerScreen({ view, onBack, onPick, onReset, onPaywall,
 
       {confirm ? (
         <View style={s.confirm}>
-          <Text style={s.confirmText}>Bütün kariyer ilerlemesi silinir ve ilk bölümden başlarsınız.</Text>
+          <Text style={s.confirmText}>{t("Bütün kariyer ilerlemesi silinir ve ilk bölümden başlarsınız.")}</Text>
           <View style={{ flexDirection: "row", gap: 10 }}>
-            <Btn kind="ghost" label="Vazgeç" onPress={() => setConfirm(false)} />
-            <Btn label="Evet, sıfırla" onPress={() => { setConfirm(false); onReset(); }} />
+            <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setConfirm(false)} />
+            <Btn label={t("Evet, sıfırla")} onPress={() => { setConfirm(false); onReset(); }} />
           </View>
         </View>
       ) : (
         <Pressable accessibilityRole="button" onPress={() => setConfirm(true)} style={s.reset}>
-          <Text style={s.resetText}>Kariyeri sıfırla</Text>
+          <Text style={s.resetText}>{t("Kariyeri sıfırla")}</Text>
         </Pressable>
       )}
     </ScrollView>
@@ -82,16 +83,16 @@ function ChapterCard({ ch, no, onPick, onPaywall, office }: { office: Office | n
           <Text style={[s.chNoText, ch.open && { color: C.brassInk }]}>{done ? "✓" : no}</Text>
         </View>
         <View style={{ flex: 1, minWidth: 0 }}>
-          <Text style={s.chTitle}>{ch.title}</Text>
-          <Text style={s.chCourts}>{ch.courts}</Text>
+          <Text style={s.chTitle}>{t(ch.title)}</Text>
+          <Text style={s.chCourts}>{t(ch.courts)}</Text>
           <View style={[s.badge, ch.open ? s.badgeOpen : s.badgeLocked]}>
-            <Text style={s.badgeText}>{soon ? "YAKINDA" : ch.open ? `${ch.wins}/${ch.need} GALİBİYET` : "KİLİTLİ"}</Text>
+            <Text style={s.badgeText}>{soon ? t("YAKINDA") : ch.open ? t("{w}/{n} GALİBİYET", { w: ch.wins, n: ch.need }) : t("KİLİTLİ")}</Text>
           </View>
         </View>
       </View>
-      <Text style={s.chBlurb}>{ch.blurb}</Text>
+      <Text style={s.chBlurb}>{t(ch.blurb)}</Text>
       {!ch.open && !!ch.why && !soon && <Text style={s.chWhy}>🔒 {ch.why}.</Text>}
-      {soon && <Text style={s.chWhy}>Bu basamağın davaları hazırlanıyor; şimdilik bir sonraki bölüme geçilir.</Text>}
+      {soon && <Text style={s.chWhy}>{t("Bu basamağın davaları hazırlanıyor; şimdilik bir sonraki bölüme geçilir.")}</Text>}
       {ch.cases.length > 0 && (
         <View style={s.cases}>
           {ch.cases.map((x, i) => <CaseRow key={x.c.id} x={x} i={i} onPick={onPick} onPaywall={onPaywall} office={office} />)}
@@ -106,7 +107,7 @@ function CaseRow({ x, i, onPick, onPaywall, office }: { office: Office | null; x
   const paid = x.lock === "premium";
   const src = sourceOf(x.c);
   const fee = office ? feeFor(x.c, office, true, 60).amount : 0;
-  const st = !x.rec?.played ? (open ? "Yeni" : "") : x.rec.won ? `Kazandınız · ${x.rec.best}` : "Kaybettiniz";
+  const st = !x.rec?.played ? (open ? t("Yeni") : "") : x.rec.won ? t("Kazandınız · {n}", { n: x.rec.best }) : t("Kaybettiniz");
   return (
     <Pressable accessibilityRole="button" accessibilityState={{ disabled: !open }} disabled={!open && !paid} onPress={() => (paid ? onPaywall() : onPick(x.c))}
       style={({ pressed }) => [s.row, !open && { opacity: 0.45 }, pressed && { backgroundColor: C.panel2 }]}>
@@ -114,10 +115,10 @@ function CaseRow({ x, i, onPick, onPaywall, office }: { office: Office | null; x
       <View style={{ flex: 1, minWidth: 0 }}>
         <View style={s.titleLine}>
           <Text style={s.rowTitle} numberOfLines={1}>{x.c.title}</Text>
-          {!!x.c.difficulty && <Text style={[s.diff, { color: DIFFICULTY[x.c.difficulty].color, borderColor: DIFFICULTY[x.c.difficulty].color }]}>{DIFFICULTY[x.c.difficulty].label}</Text>}
+          {!!x.c.difficulty && <Text style={[s.diff, { color: DIFFICULTY[x.c.difficulty].color, borderColor: DIFFICULTY[x.c.difficulty].color }]}>{t(DIFFICULTY[x.c.difficulty].label)}</Text>}
         </View>
         <Text style={s.rowSub} numberOfLines={1}>{x.c.court} · {x.c.area}</Text>
-        {!!office && <Text style={[s.rowFee, src !== "muvekkil" && { color: C.p1 }]} numberOfLines={1}>{SOURCE_LABEL[src]} · {src === "muvekkil" ? `ücret ~${tl(fee)}` : `sabit ücret ${tl(fee)}`}</Text>}
+        {!!office && <Text style={[s.rowFee, src !== "muvekkil" && { color: C.p1 }]} numberOfLines={1}>{t(SOURCE_LABEL[src])} · {src === "muvekkil" ? t("ücret ~{tutar}", { tutar: tl(fee) }) : t("sabit ücret {tutar}", { tutar: tl(fee) })}</Text>}
         {!open && !!x.why && <Text style={s.rowWhy}>{x.why}</Text>}
       </View>
       {!!st && (

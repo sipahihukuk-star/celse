@@ -3,6 +3,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { CaseFile } from "../engine/types";
+import { t } from "../i18n";
 import { currentAccount, onAccountChange, supabase } from "./account";
 
 export interface Chapter {
@@ -181,9 +182,10 @@ export function buildCareer(solo: CaseFile[], progress: Progress, premium = true
     // Doktoralı avukat için yüksek yargı ve sonrası bölümler bir dava erken açılır (önceki bölümün gereği bir azalır).
     const need = Math.max(1, winsNeeded(list.length) - (opts.dr && ch.level >= 2 ? 1 : 0));
     let open: boolean, why: string | undefined;
-    if (!list.length) { open = false; why = "Yakında"; }
+    // Kilit nedeni ve hedef cümlesi yalnızca ekranda gösterilir (saklanmaz), bu yüzden burada çevrilir; unvan (rank) panoya Türkçe gider.
+    if (!list.length) { open = false; why = t("Yakında"); }
     else if (prevTitle === "") { open = true; }
-    else { open = prevOpen && prevWins >= prevNeed; if (!open) why = `"${prevTitle}" bölümünde ${prevNeed} dava kazanın`; }
+    else { open = prevOpen && prevWins >= prevNeed; if (!open) why = t("\"{bolum}\" bölümünde {n} dava kazanın", { bolum: t(prevTitle), n: prevNeed }); }
     let prevPlayed = true;
     const cases: CareerCase[] = list.map(c => {
       const rec = progress[c.id];
@@ -191,20 +193,20 @@ export function buildCareer(solo: CaseFile[], progress: Progress, premium = true
       // Dosya akışında davalar sırayla değil, büroya geldikçe açılır: açık bölümdeki her dava oynanabilir.
       const ok = open;
       prevPlayed = !!rec?.played;
-      if (!premium && seq++ >= freeCount) return { c, rec, lock: "premium", why: "Abonelikle açılır" };
+      if (!premium && seq++ >= freeCount) return { c, rec, lock: "premium", why: t("Abonelikle açılır") };
       return { c, rec, lock: ok ? "open" : "locked", why: ok ? undefined : why };
     });
     if (list.length) {
       if (open) {
         rankName = ch.rank;
-        if (wins < need && !next) next = `${ch.title}: bir sonraki bölüm için ${need - wins} dava daha kazanın.`;
+        if (wins < need && !next) next = t("{bolum}: bir sonraki bölüm için {n} dava daha kazanın.", { bolum: t(ch.title), n: need - wins });
       }
       prevOpen = open; prevWins = wins; prevNeed = need; prevTitle = ch.title;
     }
     return { ...ch, cases, open, wins, need, why };
   });
   const total = chapters.reduce((n, ch) => n + ch.cases.length, 0);
-  if (!next) next = wonAll === total ? "Bütün davaları kazandınız." : "Kalan davaları kazanarak itibarınızı artırın.";
+  if (!next) next = wonAll === total ? t("Bütün davaları kazandınız.") : t("Kalan davaları kazanarak itibarınızı artırın.");
   return { chapters, rank: rankName, itibar, won: wonAll, total, next };
 }
 

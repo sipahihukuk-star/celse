@@ -62,7 +62,7 @@ export function TitleScreen(p: TitleProps) {
           <Pressable accessibilityRole="button" onPress={p.onCareer} style={({ pressed }) => [styles.careerCard, { marginTop: 14 }, pressed && { opacity: 0.85 }]}>
             <View style={{ flex: 1 }}>
               <Text style={styles.careerK}>{account ? t("KARİYER · {won}/{total} DAVA KAZANILDI", { won: p.won, total: p.total }) : t("KARİYER")}</Text>
-              <Text style={styles.careerRank}>{account ? p.rankName : server ? t("Giriş yapın, devam edin") : t("Oyuncu seçin, başlayın")}</Text>
+              <Text style={styles.careerRank}>{account ? t(p.rankName) : server ? t("Giriş yapın, devam edin") : t("Oyuncu seçin, başlayın")}</Text>
             </View>
             <Text style={styles.careerGo}>{!account ? (server ? t("Giriş yap ›") : t("Başla ›")) : p.started ? t("Devam et ›") : t("Başla ›")}</Text>
           </Pressable>

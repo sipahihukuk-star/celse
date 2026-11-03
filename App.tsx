@@ -17,6 +17,8 @@ import { signOut, supabase, useAccount } from "./src/data/account";
 import AccountScreen from "./src/ui/AccountScreen";
 import CharacterScreen from "./src/ui/CharacterScreen";
 import { KeyboardBar } from "./src/ui/KeyboardBar";
+import { BoardInvite, shouldInvite } from "./src/ui/BoardInvite";
+import { useCharacter } from "./src/data/character";
 import LeaderboardScreen from "./src/ui/LeaderboardScreen";
 import HistoryScreen from "./src/ui/HistoryScreen";
 import { useServerAdmin } from "./src/data/adminHook";
@@ -26,8 +28,8 @@ import { closeFile, useFlow } from "./src/data/flow";
 import { branchOf } from "./src/data/branches";
 import { hasDegree } from "./src/data/life";
 import { newLife, personalCosts } from "./src/data/life";
-import { routineIncome } from "./src/data/office";
-import { careerSide, feeFor, monthlyCost, settleCase, SOURCE_LABEL, sourceOf, tl, useOffice } from "./src/data/office";
+import { CITIES, routineIncome } from "./src/data/office";
+import { careerSide, feeFor, lineText, monthlyCost, settleCase, SOURCE_LABEL, sourceOf, tl, useOffice } from "./src/data/office";
 import { resumeMusic } from "./src/ui/music";
 import { FREE_CASES, usePremium } from "./src/data/subscription";
 import { buildCareer, levelOf, openIds, Progress, recordResult, resetProgress, useProgress, CHAPTERS } from "./src/data/career";
@@ -84,6 +86,8 @@ export default function App() {
   const [careerOnline, setCareerOnline] = useState<{ matchId: string; caseId: string; side: Side; from: From } | null>(null);
   const flow = useFlow();
   const [run, setRun] = useState(0);
+  const [invite, setInvite] = useState(false);
+  const me = useCharacter();
   const cases = useCases();
   const progress = useProgress();
   const { account } = useAccount();
@@ -126,15 +130,17 @@ export default function App() {
     const nextProgress: Progress = { ...progress, [c.id]: { played: prev.played + 1, won: prev.won || won, best: won ? Math.max(prev.best, score) : prev.best } };
     const after = buildCareer(cases.career, nextProgress, true, Infinity, { dr });
     const newCh = after.chapters.filter(ch => ch.open && !career.chapters.find(x => x.level === ch.level)!.open);
-    if (newCh.length) notice = t("Yeni bölüm açıldı: {b}. Unvanınız artık \"{u}\".", { b: newCh.map(ch => ch.title).join(", "), u: after.rank });
+    if (newCh.length) notice = t("Yeni bölüm açıldı: {b}. Unvanınız artık \"{u}\".", { b: newCh.map(ch => t(ch.title)).join(", "), u: t(after.rank) });
     recordResult(c.id, won, score, levelOf(c));
+    if (won) shouldInvite().then(v => { if (v) setInvite(true); }).catch(() => {});
     if (office && from === "desk") {
       const src = flow?.src[c.id] || sourceOf(c), spec = !!flow?.specialty.includes(branchOf(c));
       closeFile(c.id, won, score, office.month + 1);
       const fee = feeFor(c, office, won, score, { src, spec }), cost = monthlyCost(office).total;
       const personal = personalCosts(office.life || newLife(office.city), office.month + 1).total;
       const routine = routineIncome({ ...office, wins: (office.wins || 0) + (won ? 1 : 0) });
-      const money = `${src !== "muvekkil" ? SOURCE_LABEL[src] + " · " : ""}${fee.text}${spec ? " (uzmanlık alanı)" : ""}: +${tl(fee.amount)} · rutin işler +${tl(routine)} · büro gideri −${tl(cost)} · kişisel gider −${tl(personal)} · kasa ${tl(office.cash + fee.amount + routine - cost - personal)}.`;
+      const money = `${src !== "muvekkil" ? t(SOURCE_LABEL[src]) + " · " : ""}${lineText(fee.text)}${spec ? ` (${t("uzmanlık alanı")})` : ""}: `
+        + t("+{ucret} · rutin işler +{rutin} · büro gideri −{buro} · kişisel gider −{kisisel} · kasa {kasa}.", { ucret: tl(fee.amount), rutin: tl(routine), buro: tl(cost), kisisel: tl(personal), kasa: tl(office.cash + fee.amount + routine - cost - personal) });
       notice = notice ? `${notice}\n${money}` : money;
       settleCase(c, won, score, { src, spec });
     }
@@ -169,6 +175,8 @@ export default function App() {
     <SafeAreaProvider>
       <SafeAreaView style={styles.root} edges={["top", "bottom", "left", "right"]} onTouchStart={resumeMusic}>
         <KeyboardBar />
+        <BoardInvite visible={invite} onClose={() => setInvite(false)}
+          info={{ sehir: office ? CITIES.find(x => x.id === office.city)?.name : undefined, avatar: office?.avatar || me?.avatar, unvan: career.rank }} />
         <StatusBar style="light" />
         <View key={lang} style={styles.root}>
         {route.k === "title" && <TitleScreen duelCount={cases.duel.length} soloCount={cases.solo.length} rankName={career.rank} started={Object.keys(progress).length > 0} won={career.won} total={career.total}
@@ -221,7 +229,7 @@ export default function App() {
           <CaseListScreen mode={route.mode} cases={route.mode === "duel" ? cases.duel : cases.solo}
             // Tek kişilik dosyalar antrenmanda da kariyerdeki ilerlemeye göre açılır: kariyerde ulaşılmamış mahkemeye girilemez.
             lockedNote={c => admin || c.mode !== "solo" || c.career?.off || careerOpen.has(c.id) ? undefined
-              : t("Kariyerde açılır · {bolum}", { bolum: CHAPTERS[levelOf(c) - 1].title })}
+              : t("Kariyerde açılır · {bolum}", { bolum: t(CHAPTERS[levelOf(c) - 1].title) })}
             onBack={() => setRoute({ k: "title" })}
             onSwitch={() => toList(route.mode === "duel" ? "solo" : "duel")}
             onOnline={() => setRoute({ k: "online" })}

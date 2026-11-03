@@ -4,6 +4,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { CaseFile, Side } from "../engine/types";
+import { getLang, t } from "../i18n";
 import { currentAccount, onAccountChange } from "./account";
 import { levelOf } from "./career";
 import { branchOf } from "./branches";
@@ -246,6 +247,25 @@ export function useOffice(): { office: Office | null; ready: boolean } {
     load(); listeners.add(load);
     return () => { listeners.delete(load); };
   }, []);
+  return s;
+}
+
+/** Hesap defteri ve gider kalemleri Türkçe saklanır (cihazdaki kayıtlar değişmesin); ekranda seçili dile çevrilir.
+ *  Sabit metinler doğrudan, kalıplı olanlar (çocuk yaşı, eğitim, "Başlık: kalem") parçalanarak çevrilir. */
+export function lineText(s: string): string {
+  if (getLang() === "tr" || !s) return s;
+  if (t(s) !== s) return t(s);
+  let m: RegExpMatchArray | null;
+  if ((m = s.match(/^Vekâlet ücreti ve başarı primi \(ikna (\d+)\)$/))) return t("Vekâlet ücreti ve başarı primi (ikna {n})", { n: m[1] });
+  if ((m = s.match(/^(.+) \(harç ve kurs ücreti\)$/))) return t("{ad} (harç ve kurs ücreti)", { ad: t(m[1]) });
+  if ((m = s.match(/^(.+) \((\d+) yaş\)$/))) return t("{ad} ({n} yaş)", { ad: m[1], n: m[2] });
+  if ((m = s.match(/^Tamamlandı: (.+)$/))) return t("Tamamlandı: {ad}", { ad: t(m[1]) });
+  if ((m = s.match(/^Kayıt: (.+)$/))) return t("Kayıt: {ad}", { ad: t(m[1]) });
+  // "Dava adı: ücret kalemi" ya da "Olay: seçim": sağ taraf bilinen bir kalemse iki parça ayrı çevrilir.
+  for (let i = s.indexOf(": "); i > 0; i = s.indexOf(": ", i + 2)) {
+    const right = s.slice(i + 2), r = lineText(right);
+    if (r !== right) return `${t(s.slice(0, i))}: ${r}`;
+  }
   return s;
 }
 

@@ -1,6 +1,7 @@
 // Avukatın özel hayatı: kişisel giderler (ev kirası, geçim), aile, araba, ev, büro çalışanları ve zamanla çıkan olaylar.
 // Her ay sonunda (bir dava bitince ya da "ayı kapat" denince) koşulu tutan bir olay çıkabilir; oyuncu seçer,
 // seçimin tek seferlik ve aylık gideri olur. Tutarlar 2027 için oyun içi yaklaşık değerlerdir.
+import { t } from "../i18n";
 import { CITIES } from "./office";
 
 export interface Child { name: string; born: number }
@@ -106,7 +107,8 @@ export function staffCosts(l: Life) {
 
 /** Takvim: 1. ay Ocak 2027. */
 const AYLAR = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-export const dateOf = (month: number) => `${AYLAR[(Math.max(1, month) - 1) % 12]} ${2027 + Math.floor((Math.max(1, month) - 1) / 12)}`;
+/** Ekranda gösterilir (saklanmaz); ay adı seçili dile çevrilir. */
+export const dateOf = (month: number) => `${t(AYLAR[(Math.max(1, month) - 1) % 12])} ${2027 + Math.floor((Math.max(1, month) - 1) / 12)}`;
 
 /* ---------- Olaylar ---------- */
 
@@ -129,7 +131,8 @@ const CHILD_NAMES = ["Deniz", "Ada", "Kerem", "Elif", "Yusuf", "Zeynep", "Mert",
 export const EVENTS: LifeEvent[] = [
   {
     id: "borc", title: "Ay sonunda kasa eksi",
-    text: c => `Giderleri karşılayamadınız; kasa ${Math.round(c.cash).toLocaleString("tr-TR")} TL. Ayı çıkarmak için bir yerden para bulmanız gerekiyor. Eksi bakiyeye her ay %4,5 faiz işler.`,
+    // Olay metinleri ve notlar yalnızca ekranda gösterilir; değişkenli olanlar burada çevrilir, başlık ve seçenek adları (defterde saklanır) ekranda.
+    text: c => t("Giderleri karşılayamadınız; kasa {kasa} TL. Ayı çıkarmak için bir yerden para bulmanız gerekiyor. Eksi bakiyeye her ay %4,5 faiz işler.", { kasa: Math.round(c.cash).toLocaleString("tr-TR") }),
     when: c => c.cash < 0,
     choices: c => [
       ...(c.month - (c.life.familyLoanAt ?? -99) >= 12 ? [{ label: "Ailenizden borç isteyin", note: "Bugün 60.000 TL; faizsiz, 10 ay boyunca ayda 6.000 TL geri ödersiniz. Aile yılda bir kez yardım edebilir.", once: 60000,
@@ -168,7 +171,7 @@ export const EVENTS: LifeEvent[] = [
     text: () => "Baroya kayıtlı bir stajyer, stajının avukatlık kısmını büronuzda yapmak istiyor. Dilekçe taslakları ve kalem işlerinde yardımcı olabilir.",
     when: c => c.month >= 4 && !c.life.stajyer,
     choices: () => [
-      { label: "Kabul et", note: `Ayda ${STAJYER.toLocaleString("tr-TR")} TL. Her ay masanıza bir dosya fazla gelir.`, apply: l => ({ ...l, stajyer: true }) },
+      { label: "Kabul et", note: t("Ayda {tutar} TL. Her ay masanıza bir dosya fazla gelir.", { tutar: STAJYER.toLocaleString("tr-TR") }), apply: l => ({ ...l, stajyer: true }) },
       { label: "Şimdilik hayır", snooze: 6 }
     ], repeat: true
   },
@@ -194,7 +197,7 @@ export const EVENTS: LifeEvent[] = [
   },
   {
     id: "kira-artisi", title: "Ev sahibinden kira artışı",
-    text: c => `Kira sözleşmenizin yılı doldu. Ev sahibi kirayı artırmak istiyor (şu an ${c.life.homeRent.toLocaleString("tr-TR")} TL).`,
+    text: c => t("Kira sözleşmenizin yılı doldu. Ev sahibi kirayı artırmak istiyor (şu an {tutar} TL).", { tutar: c.life.homeRent.toLocaleString("tr-TR") }),
     when: c => !c.life.owner && c.month > 1 && c.month % 12 === 0,
     choices: () => [
       { label: "TÜFE oranında artışı kabul et", note: "Konut kirası artışı on iki aylık TÜFE ortalamasını geçemez (TBK m.344); oyunda %30.", apply: l => ({ ...l, homeRent: Math.round((l.homeRent * 1.3) / 500) * 500 }) },
@@ -206,7 +209,7 @@ export const EVENTS: LifeEvent[] = [
     text: () => "Adliyede yıllarca çalışmış bir büro katibi iş arıyor. İcra takibi ve tebligat işlerini çok iyi biliyor.",
     when: c => c.month >= 8 && !c.life.katip,
     choices: () => [
-      { label: "İşe al", note: `Ayda ${KATIP.toLocaleString("tr-TR")} TL. İcra dosyalarında ücretiniz %15 artar ve her ay bir dosya fazla gelir.`, apply: l => ({ ...l, katip: true }) },
+      { label: "İşe al", note: t("Ayda {tutar} TL. İcra dosyalarında ücretiniz %15 artar ve her ay bir dosya fazla gelir.", { tutar: KATIP.toLocaleString("tr-TR") }), apply: l => ({ ...l, katip: true }) },
       { label: "Hayır", snooze: 8 }
     ], repeat: true
   },
@@ -233,7 +236,7 @@ export const EVENTS: LifeEvent[] = [
   },
   {
     id: "evlilik-gerilim", title: "Evde gerilim",
-    text: c => `Eşiniz son aylarda neredeyse hiç evde olmadığınızdan yakınıyor${c.life.redMonths ? "; para sıkıntısı da tartışmaları artırıyor" : ""}.`,
+    text: c => c.life.redMonths ? t("Eşiniz son aylarda neredeyse hiç evde olmadığınızdan yakınıyor; para sıkıntısı da tartışmaları artırıyor.") : t("Eşiniz son aylarda neredeyse hiç evde olmadığınızdan yakınıyor."),
     when: c => c.life.married && c.life.strain >= 60,
     choices: () => [
       { label: "Bir hafta tatile çıkalım", note: "80.000 TL; ilişki düzelir.", once: -80000, apply: l => ({ ...l, strain: 10 }) },
@@ -246,7 +249,7 @@ export const EVENTS: LifeEvent[] = [
     text: () => "Eşiniz anlaşmalı boşanmak istediğini söyledi. Edinilmiş mallara katılma rejiminde birikimlerin yarısı paylaşılacak.",
     when: c => c.life.married && c.life.strain >= 95,
     choices: c => [
-      { label: "Anlaşmalı boşanma", note: `Kasadaki birikimin yarısı ve avukatlık gideri; ${c.life.children.length ? "çocuk başına ayda 12.000 TL iştirak nafakası" : "nafaka yok"}.`,
+      { label: "Anlaşmalı boşanma", note: c.life.children.length ? t("Kasadaki birikimin yarısı ve avukatlık gideri; çocuk başına ayda 12.000 TL iştirak nafakası.") : t("Kasadaki birikimin yarısı ve avukatlık gideri; nafaka yok."),
         once: -Math.max(40000, Math.round(Math.max(0, c.cash) / 2)),
         apply: l => ({ ...l, married: false, divorced: true, strain: 0, alimony: l.children.length * 12000 }) },
       { label: "Son bir şans: birlikte terapi", note: "Ayda 8.000 TL, bir yıl.", apply: (l, m) => ({ ...l, strain: 50, loans: [...l.loans, { text: "Çift terapisi", monthly: 8000, until: m + 12 }] }) }

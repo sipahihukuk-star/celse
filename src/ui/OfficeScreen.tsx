@@ -5,7 +5,8 @@ import { CharacterPicker } from "./CharacterScreen";
 import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { kbBar } from "./KeyboardBar";
 import { useAccount } from "../data/account";
-import { AVATARS, Avatar, CITIES, closeOffice, DESK_SHARE, monthlyCost, Office, openOffice, SECRETARY, START_CASH, tl, updateOffice, useOffice } from "../data/office";
+import { AVATARS, Avatar, CITIES, closeOffice, DESK_SHARE, lineText, monthlyCost, Office, openOffice, SECRETARY, SOURCE_LABEL, START_CASH, tl, updateOffice, useOffice } from "../data/office";
+import { locale, t } from "../i18n";
 import { Btn } from "./kit";
 import { PHOTOS } from "./photos";
 import { dateOf, personalCosts } from "../data/life";
@@ -35,7 +36,7 @@ function Setup({ onBack, onDone, initial }: { onBack: () => void; onDone: () => 
   const pick = useRef<Character | null>(null);
   const start = initial ? { ...(saved || {}), avatar: initial.avatar } : saved || undefined;
   const [city, setCity] = useState(initial?.city || "izmir");
-  const [name, setName] = useState(initial?.name || (account ? `Av. ${account.adSoyad} Hukuk Bürosu` : "Hukuk Bürosu"));
+  const [name, setName] = useState(initial?.name || (account ? t("Av. {ad} Hukuk Bürosu", { ad: account.adSoyad }) : t("Hukuk Bürosu")));
   const edit = !!initial;
   const save = async () => {
     const avatar: Avatar = pick.current?.avatar || initial?.avatar || (FEMALE.has(firstName(account?.adSoyad)) ? "av-kadin-32" : "av-erkek-38");
@@ -46,34 +47,34 @@ function Setup({ onBack, onDone, initial }: { onBack: () => void; onDone: () => 
       const cost = moving ? 20000 : 0;
       await updateOffice({ avatar, name: name.trim() || initial!.name, city, cash: initial!.cash - cost,
         ledger: moving ? [...initial!.ledger, { ay: initial!.month, text: "Taşınma ve yeni büro kurulumu", amount: -cost }].slice(-60) : initial!.ledger });
-    } else await openOffice(name.trim() || "Hukuk Bürosu", city, avatar);
+    } else await openOffice(name.trim() || t("Hukuk Bürosu"), city, avatar);
     onDone();
   };
   return (
     <ScrollView contentContainerStyle={s.wrap}>
-      <View style={s.headRow}><Btn kind="ghost" label="‹ Geri" onPress={onBack} /></View>
-      <Text style={s.eyebrow}>{edit ? "BÜRO AYARLARI" : "BÜRONUZU AÇIN"}</Text>
-      <Text style={s.title}>{edit ? "Karakter ve şehir" : "Cübbeniz hazır"}</Text>
-      {!edit && <Text style={s.sub}>Duruşmalarda sizi temsil edecek karakteri ve büronuzu açacağınız şehri seçin. {tl(START_CASH)} kuruluş sermayesiyle, ortak bir büroda masa kiralayarak başlarsınız; her dava bir ay sürer, ay sonunda kira ve giderler kasadan düşer. İşler büyüyünce kendi büronuzu açabilirsiniz.</Text>}
+      <View style={s.headRow}><Btn kind="ghost" label={t("‹ Geri")} onPress={onBack} /></View>
+      <Text style={s.eyebrow}>{edit ? t("BÜRO AYARLARI") : t("BÜRONUZU AÇIN")}</Text>
+      <Text style={s.title}>{edit ? t("Karakter ve şehir") : t("Cübbeniz hazır")}</Text>
+      {!edit && <Text style={s.sub}>{t("Duruşmalarda sizi temsil edecek karakteri ve büronuzu açacağınız şehri seçin. {tutar} kuruluş sermayesiyle, ortak bir büroda masa kiralayarak başlarsınız; her dava bir ay sürer, ay sonunda kira ve giderler kasadan düşer. İşler büyüyünce kendi büronuzu açabilirsiniz.", { tutar: tl(START_CASH) })}</Text>}
 
-      <Text style={s.h}>Karakteriniz</Text>
+      <Text style={s.h}>{t("Karakteriniz")}</Text>
       <CharacterPicker key={start?.avatar || "yeni"} initial={start} onChange={c => { pick.current = c; }} />
 
-      <Text style={s.h}>Büronun adı</Text>
+      <Text style={s.h}>{t("Büronun adı")}</Text>
       <TextInput {...kbBar} value={name} onChangeText={setName} style={s.input} placeholderTextColor={C.muted} maxLength={60} />
 
-      <Text style={s.h}>Şehir {edit && <Text style={s.hNote}>(başka şehre taşınmak 20.000 TL)</Text>}</Text>
+      <Text style={s.h}>{t("Şehir")} {edit && <Text style={s.hNote}>{t("(başka şehre taşınmak {tutar})", { tutar: tl(20000) })}</Text>}</Text>
       <View style={s.cities}>
         {CITIES.map(ct => (
           <Pressable key={ct.id} accessibilityRole="radio" accessibilityState={{ checked: city === ct.id }} onPress={() => setCity(ct.id)} style={[s.city, city === ct.id && s.on]}>
             <Text style={s.cityName}>{ct.name}</Text>
-            <Text style={s.cityRow}>Masa kirası {tl(Math.round((ct.rent * DESK_SHARE) / 500) * 500)} · kendi büro {tl(ct.rent)} · Ücret ×{ct.fee.toLocaleString("tr-TR")}</Text>
-            <Text style={s.cityNote}>{ct.note}</Text>
+            <Text style={s.cityRow}>{t("Masa kirası {masa} · kendi büro {buro} · Ücret ×{carpan}", { masa: tl(Math.round((ct.rent * DESK_SHARE) / 500) * 500), buro: tl(ct.rent), carpan: ct.fee.toLocaleString(locale()) })}</Text>
+            <Text style={s.cityNote}>{t(ct.note)}</Text>
           </Pressable>
         ))}
       </View>
-      <Btn label={edit ? "Kaydet" : "Büroyu aç"} onPress={save} />
-      <Text style={s.fine}>Tutarlar oyun içi yaklaşık değerlerdir; gerçek kira, Avukatlık Asgari Ücret Tarifesi ya da CMK ücret tarifesi değildir.</Text>
+      <Btn label={edit ? t("Kaydet") : t("Büroyu aç")} onPress={save} />
+      <Text style={s.fine}>{t("Tutarlar oyun içi yaklaşık değerlerdir; gerçek kira, Avukatlık Asgari Ücret Tarifesi ya da CMK ücret tarifesi değildir.")}</Text>
     </ScrollView>
   );
 }
@@ -89,33 +90,33 @@ function Dashboard({ o, onBack, onCareer }: { o: Office; onBack: () => void; onC
   return (
     <ScrollView contentContainerStyle={s.wrap}>
       <View style={s.headRow}>
-        <Btn kind="ghost" label="‹ Giriş" onPress={onBack} />
+        <Btn kind="ghost" label={t("‹ Giriş")} onPress={onBack} />
         <View style={{ flex: 1 }} />
-        <Btn label="Büro masası ›" onPress={onCareer} />
+        <Btn label={t("Büro masası ›")} onPress={onCareer} />
       </View>
       <View style={s.idRow}>
         <AvatarFace k={o.avatar} size={84} />
         <View style={{ flex: 1, minWidth: 200 }}>
-          <Text style={s.eyebrow}>{city.name.toLocaleUpperCase("tr")} · {dateOf(o.month + 1).toLocaleUpperCase("tr")}</Text>
+          <Text style={s.eyebrow}>{city.name.toLocaleUpperCase("tr")} · {dateOf(o.month + 1).toLocaleUpperCase(locale())}</Text>
           <Text style={s.title}>{o.name}</Text>
-          <Pressable onPress={() => setEdit(true)} accessibilityRole="button"><Text style={s.link}>Karakter, ad ya da şehir değiştir ›</Text></Pressable>
+          <Pressable onPress={() => setEdit(true)} accessibilityRole="button"><Text style={s.link}>{t("Karakter, ad ya da şehir değiştir ›")}</Text></Pressable>
         </View>
       </View>
 
       <View style={s.cards}>
         <View style={[s.card, { flexBasis: 240 }]}>
-          <Text style={s.k}>Kasa</Text>
+          <Text style={s.k}>{t("Kasa")}</Text>
           <Text style={[s.cash, o.cash < 0 && { color: C.bad }]}>{tl(o.cash)}</Text>
-          <Text style={s.small}>{o.cash < 0 ? "Kasa ekside: kirayı ödemek için dava almalısınız." : runway < 2 ? "Kasa bir aydan az gidere yetiyor." : `Davasız ${runway} ay idare eder.`}</Text>
+          <Text style={s.small}>{o.cash < 0 ? t("Kasa ekside: kirayı ödemek için dava almalısınız.") : runway < 2 ? t("Kasa bir aydan az gidere yetiyor.") : t("Davasız {n} ay idare eder.", { n: runway })}</Text>
         </View>
         <View style={[s.card, { flexBasis: 280 }]}>
-          <Text style={s.k}>Büro giderleri · {tl(cost.total)}/ay</Text>
+          <Text style={s.k}>{t("Büro giderleri · {tutar}/ay", { tutar: tl(cost.total) })}</Text>
           {cost.items.map(i => (
-            <View key={i.text} style={s.line}><Text style={s.lineT}>{i.text}</Text><Text style={s.lineV}>{tl(i.amount)}</Text></View>
+            <View key={i.text} style={s.line}><Text style={s.lineT}>{lineText(i.text)}</Text><Text style={s.lineV}>{tl(i.amount)}</Text></View>
           ))}
           <Pressable accessibilityRole="switch" accessibilityState={{ checked: o.secretary }} onPress={() => updateOffice({ secretary: !o.secretary })} style={s.toggle}>
             <View style={[s.box, o.secretary && s.boxOn]}>{o.secretary && <Text style={s.tick}>✓</Text>}</View>
-            <Text style={s.toggleT}>Sekreter çalıştır ({tl(SECRETARY)}/ay): müvekkil davalarında ücret %10 artar.</Text>
+            <Text style={s.toggleT}>{t("Sekreter çalıştır ({tutar}/ay): müvekkil davalarında ücret %10 artar.", { tutar: tl(SECRETARY) })}</Text>
           </Pressable>
         </View>
       </View>
@@ -124,28 +125,28 @@ function Dashboard({ o, onBack, onCareer }: { o: Office; onBack: () => void; onC
         const L = o.life!; const pc = personalCosts(L, o.month + 1);
         return (
           <View style={s.card}>
-            <Text style={s.k}>Hayatınız · {dateOf(o.month + 1)} · kişisel gider {tl(pc.total)}/ay</Text>
-            <Text style={s.small}>{[L.married ? "Evli" : L.divorced ? "Boşanmış" : "Bekâr", L.children.length ? `${L.children.length} çocuk` : "", L.owner ? "Ev sahibi" : "Kirada", L.car && L.car !== "yok" ? "Arabalı" : "Arabasız", L.stajyer ? "Stajyer var" : "", L.katip ? "Katip var" : ""].filter(Boolean).join(" · ")}</Text>
+            <Text style={s.k}>{t("Hayatınız · {tarih} · kişisel gider {tutar}/ay", { tarih: dateOf(o.month + 1), tutar: tl(pc.total) })}</Text>
+            <Text style={s.small}>{[L.married ? t("Evli") : L.divorced ? t("Boşanmış") : t("Bekâr"), L.children.length ? t("{n} çocuk", { n: L.children.length }) : "", L.owner ? t("Ev sahibi") : t("Kirada"), L.car && L.car !== "yok" ? t("Arabalı") : t("Arabasız"), L.stajyer ? t("Stajyer var") : "", L.katip ? t("Katip var") : ""].filter(Boolean).join(" · ")}</Text>
             {pc.items.map(i => (
-              <View key={i.text} style={s.line}><Text style={s.lineT}>{i.text}</Text><Text style={s.lineV}>{tl(i.amount)}</Text></View>
+              <View key={i.text} style={s.line}><Text style={s.lineT}>{lineText(i.text)}</Text><Text style={s.lineV}>{tl(i.amount)}</Text></View>
             ))}
-            <Text style={s.small}>Zamanla hayatınızda olaylar çıkar (araba, evlilik, çocuk, ev, eleman…). Kararları büro masasında verirsiniz.</Text>
+            <Text style={s.small}>{t("Zamanla hayatınızda olaylar çıkar (araba, evlilik, çocuk, ev, eleman…). Kararları büro masasında verirsiniz.")}</Text>
           </View>
         );
       })()}
 
       <View style={s.card}>
-        <Text style={s.k}>Davalar büroya nasıl gelir?</Text>
-        <Text style={s.small}>• <Text style={s.b}>Müvekkil:</Text> vekâlet ücreti davanın basamağına ve şehrinize göre belirlenir; kazanırsanız ikna puanınıza göre prim alırsınız, kaybederseniz yalnızca peşin kısmı kalır.</Text>
-        <Text style={s.small}>• <Text style={s.b}>CMK görevlendirmesi:</Text> baro sizi şüpheli ya da sanık müdafii olarak atar; ücret sabittir ve sonuçtan bağımsızdır.</Text>
-        <Text style={s.small}>• <Text style={s.b}>Adli yardım:</Text> ücreti ödeyemeyen kişinin davası baro aracılığıyla size gelir; ücret sabittir.</Text>
+        <Text style={s.k}>{t("Davalar büroya nasıl gelir?")}</Text>
+        <Text style={s.small}>• <Text style={s.b}>{t(SOURCE_LABEL.muvekkil)}:</Text> {t("vekâlet ücreti davanın basamağına ve şehrinize göre belirlenir; kazanırsanız ikna puanınıza göre prim alırsınız, kaybederseniz yalnızca peşin kısmı kalır.")}</Text>
+        <Text style={s.small}>• <Text style={s.b}>{t(SOURCE_LABEL.cmk)}:</Text> {t("baro sizi şüpheli ya da sanık müdafii olarak atar; ücret sabittir ve sonuçtan bağımsızdır.")}</Text>
+        <Text style={s.small}>• <Text style={s.b}>{t(SOURCE_LABEL.adli)}:</Text> {t("ücreti ödeyemeyen kişinin davası baro aracılığıyla size gelir; ücret sabittir.")}</Text>
       </View>
 
       <View style={s.card}>
-        <Text style={s.k}>Hesap defteri</Text>
+        <Text style={s.k}>{t("Hesap defteri")}</Text>
         {o.ledger.slice().reverse().slice(0, 14).map((l, i) => (
           <View key={i} style={s.line}>
-            <Text style={s.lineT} numberOfLines={2}><Text style={s.month}>{l.ay}. ay </Text>{l.text}</Text>
+            <Text style={s.lineT} numberOfLines={2}><Text style={s.month}>{l.ay}. {t("ay")} </Text>{lineText(l.text)}</Text>
             <Text style={[s.lineV, { color: l.amount < 0 ? C.bad : C.good }]}>{l.amount < 0 ? "" : "+"}{tl(l.amount)}</Text>
           </View>
         ))}
@@ -153,14 +154,14 @@ function Dashboard({ o, onBack, onCareer }: { o: Office; onBack: () => void; onC
 
       {confirm ? (
         <View style={{ alignItems: "center", gap: 8, marginTop: 10 }}>
-          <Text style={s.small}>Büro kapanır, kasa ve defter silinir. Kariyer ilerlemeniz korunur.</Text>
+          <Text style={s.small}>{t("Büro kapanır, kasa ve defter silinir. Kariyer ilerlemeniz korunur.")}</Text>
           <View style={{ flexDirection: "row", gap: 10 }}>
-            <Btn kind="ghost" label="Vazgeç" onPress={() => setConfirm(false)} />
-            <Btn label="Büroyu kapat" onPress={() => { setConfirm(false); closeOffice(); }} />
+            <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setConfirm(false)} />
+            <Btn label={t("Büroyu kapat")} onPress={() => { setConfirm(false); closeOffice(); }} />
           </View>
         </View>
       ) : (
-        <Pressable onPress={() => setConfirm(true)} style={{ alignSelf: "center", padding: 8, marginTop: 10 }}><Text style={s.reset}>Büroyu kapat ve yeniden kur</Text></Pressable>
+        <Pressable onPress={() => setConfirm(true)} style={{ alignSelf: "center", padding: 8, marginTop: 10 }}><Text style={s.reset}>{t("Büroyu kapat ve yeniden kur")}</Text></Pressable>
       )}
     </ScrollView>
   );

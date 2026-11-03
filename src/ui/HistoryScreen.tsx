@@ -2,7 +2,7 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { CareerView, Progress } from "../data/career";
-import { tl, useOffice } from "../data/office";
+import { lineText, tl, useOffice } from "../data/office";
 import { CaseFile } from "../engine/types";
 import { t } from "../i18n";
 import { Btn } from "./kit";
@@ -29,7 +29,7 @@ export default function HistoryScreen({ view, progress, all, onBack, onOffice }:
       <Text style={s.eyebrow}>{t("KARİYER")}</Text>
       <Text style={s.title}>{t("Geçmiş dosyalar ve başarı")}</Text>
       <View style={s.stats}>
-        <Stat k={t("Unvan")} v={view.rank} />
+        <Stat k={t("Unvan")} v={t(view.rank)} />
         <Stat k={t("Kazanılan")} v={`${won} / ${played.length}`} />
         <Stat k={t("İtibar")} v={String(view.itibar)} />
         {office && <Stat k={t("Kasa")} v={tl(office.cash)} />}
@@ -56,7 +56,7 @@ export default function HistoryScreen({ view, progress, all, onBack, onOffice }:
       {ledger.length > 0 && <Text style={s.h}>{t("Son hareketler")}</Text>}
       {ledger.slice(-15).reverse().map((l, i) => (
         <View key={i} style={s.led}>
-          <Text style={s.ledT} numberOfLines={2}>{l.ay}. {t("ay")} · {l.text}</Text>
+          <Text style={s.ledT} numberOfLines={2}>{l.ay}. {t("ay")} · {lineText(l.text)}</Text>
           <Text style={[s.ledA, { color: l.amount < 0 ? C.bad : l.amount > 0 ? C.good : C.muted }]}>{l.amount ? tl(l.amount) : ""}</Text>
         </View>
       ))}
