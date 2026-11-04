@@ -1,0 +1,27 @@
+name: Görsel aktarma (geçici dal)
+on:
+  push:
+    branches: [gorsel-aktar]
+    paths: [liste.txt]
+permissions:
+  contents: write
+jobs:
+  aktar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: İndir
+        run: |
+          while read -r p u; do
+            [ -z "$p" ] && continue
+            mkdir -p "$(dirname "out/$p")"
+            curl -sSfL --retry 3 -o "out/$p" "$u"
+          done < liste.txt
+          ls -laR out
+      - name: Gönder
+        run: |
+          git config user.name "gorsel-aktar"
+          git config user.email "noreply@anthropic.com"
+          git add out
+          git commit -m "aktarılan görseller [skip ci]"
+          git push
