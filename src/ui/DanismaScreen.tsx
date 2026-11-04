@@ -11,7 +11,6 @@ import { CreditInfo, PRODUCTS } from "../data/purchaseIds";
 import { buyConsumable, getCreditProducts, PURCHASES_AVAILABLE } from "../data/purchases";
 import { refreshPremium, usePremium } from "../data/subscription";
 import { locale, t } from "../i18n";
-import { kbBar } from "./KeyboardBar";
 import { ORNEK_DANISMA, ORNEK_SENARYO } from "../data/izleOrnek";
 import DanismaWatch from "./DanismaWatch";
 import { kimAdi, sahneBaslik } from "./izleOrtak";
@@ -110,6 +109,14 @@ export default function DanismaScreen(p: Props) {
       )}
     </ScrollView>
   );
+}
+
+/** Çok satırlı kutu: yalnız yazarken kendi içinde kayar. Odakta değilken parmak kutunun üstünden de sayfayı kaydırır
+ *  (iPhone'da kutu kaydırmayı kendisi yakalayınca sayfa aşağı inmiyordu). */
+function FieldInput(p: React.ComponentProps<typeof TextInput>) {
+  const [on, setOn] = useState(false);
+  return <TextInput {...p} scrollEnabled={on}
+    onFocus={e => { setOn(true); p.onFocus?.(e); }} onBlur={e => { setOn(false); p.onBlur?.(e); }} />;
 }
 
 function Disclaimer() {
@@ -213,7 +220,7 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
           <View key={k} style={s.card}>
             <Text style={s.label}>{i + 1}. {t(KUTU[k].label)} *</Text>
             <Text style={s.hint}>{t(KUTU[k].hint)}</Text>
-            <TextInput {...kbBar} multiline value={form[k]} onChangeText={v => setForm({ ...form, [k]: v })} maxLength={AZAMI}
+            <FieldInput multiline value={form[k]} onChangeText={v => setForm({ ...form, [k]: v })} maxLength={AZAMI}
               placeholderTextColor={C.muted} placeholder={t("En az {n} karakter", { n: ASGARI[k] })}
               style={[s.input, bad && s.inputBad]} textAlignVertical="top" accessibilityLabel={t(KUTU[k].label)} />
             <View style={s.counterRow}>
@@ -231,7 +238,7 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
           {sorular.map((q, i) => (
             <View key={i} style={{ gap: 4 }}>
               <Text style={s.body}>{i + 1}. {q.soru} <Text style={s.hint}>({t(KUTU[q.kutu].label)})</Text></Text>
-              <TextInput {...kbBar} multiline value={cevaplar[i] || ""} onChangeText={v => setCevaplar(c => c.map((x, j) => (j === i ? v : x)))}
+              <FieldInput multiline value={cevaplar[i] || ""} onChangeText={v => setCevaplar(c => c.map((x, j) => (j === i ? v : x)))}
                 style={[s.input, { minHeight: 64 }]} textAlignVertical="top" placeholderTextColor={C.muted} placeholder={t("Cevabınız")} />
             </View>
           ))}
@@ -468,7 +475,7 @@ function Result({ d, onChange, onWatch }: { d: Danisma; onChange: (d: Danisma) =
         ))}
         {d.kalan_takip > 0 && (
           <>
-            <TextInput {...kbBar} multiline value={soru} onChangeText={setSoru} maxLength={1000} style={[s.input, { minHeight: 64 }]} textAlignVertical="top"
+            <FieldInput multiline value={soru} onChangeText={setSoru} maxLength={1000} style={[s.input, { minHeight: 64 }]} textAlignVertical="top"
               placeholderTextColor={C.muted} placeholder={t("Sorunuzu yazın")} accessibilityLabel={t("Takip sorusu")} />
             <Btn label={busy === "takip" ? t("Cevaplanıyor…") : t("Sor ({k} hak kaldı)", { k: d.kalan_takip })} disabled={!!busy} onPress={ask} />
           </>
