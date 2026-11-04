@@ -21,7 +21,7 @@ interface Props { c: CaseFile; scene: Scene; focus: string | null; talking: bool
 
 /** Salon arka planı ve kürsü geometrisi (fotoğraf koordinatları 1280×716). */
 type Bench = { seats: number[]; y: number; h: number };
-const ROOM: Record<string, { bg: PhotoKey; bench: Bench; pros?: { x: number; y: number; h: number } }> = {
+export const ROOM: Record<string, { bg: PhotoKey; bench: Bench; pros?: { x: number; y: number; h: number } }> = {
   yerel: { bg: "bg-yerel", bench: { seats: [520, 640, 760], y: 338, h: 165 }, pros: { x: 965, y: 362, h: 150 } },
   yuksek: { bg: "bg-yuksek", bench: { seats: [345, 485, 627, 787, 930], y: 372, h: 210 } },
   aym: { bg: "bg-aym", bench: { seats: [152, 210, 268, 326, 384, 442, 500, 558, 638, 716, 774, 832, 890, 948, 1006, 1064, 1124], y: 372, h: 118 } },
@@ -40,7 +40,7 @@ function roomOf(c: CaseFile) {
 }
 
 /** Görüşme odası (bg-gorusme, 1280×716): masanın uzak kenarı ve müvekkilin yeri. */
-const DESK = { edge: 467, clientX: 632, clientBottom: 520, clientH: 430 };
+export const DESK = { edge: 467, clientX: 632, clientBottom: 520, clientH: 430 };
 /** Yerel salonda zabıt kâtibinin masası (hâkimin önündeki bilgisayarlı masa, bg-yerel 1280×716). */
 const KATIP_DESK = { x0: 470, x1: 800, top: 413, bottom: 492, sitX: 640, top0: 318, h: 150 };
 /** Kâtibin önündeki ekran (arkası bize dönük); başı ekranın üstünden görünür. */
@@ -51,7 +51,7 @@ const FRONT_TOP = 418;
  *  kalmazsa masanın solunda oturur. Masa önü ve ekran, bu kişilerin üstüne arka plandan yeniden çizilir. */
 const YK = { deskTop: 412, katipX: 1126, prosDeskX: 1040, h: 172, cover: [{ x0: 1084, x1: 1170, top: 362, bottom: 414 }, { x0: 990, x1: 1262, top: 410, bottom: 500 }] };
 /** Telefonda (dar sahnede) salonun en az bu kadarı (fotoğraf pikseli) görünür: savcı ve kâtip kadrajda kalır, karakterler küçülür. */
-const MIN_VIEW = 1060;
+export const MIN_VIEW = 1060;
 
 interface Fig { key: string; photo: PhotoKey; flip?: boolean; x: number; bottom: number; h: number; z: number; front?: boolean }
 
@@ -77,7 +77,7 @@ export function visemes(text: string): number[] {
 
 /** Konuşma süresine orantılı ağız hareketi: satırın harfleri konuşma hızında sırayla kareye dönüşür.
  *  Seslendirme açıkken ses sürdükçe (gerekirse başa dönerek), kapalıyken metnin okunma süresince oynar. */
-function useMouthFrame(on: boolean, say?: Say) {
+export function useMouthFrame(on: boolean, say?: Say) {
   const [f, setF] = useState(0);
   useEffect(() => {
     if (!on || !say) { setF(0); return; }

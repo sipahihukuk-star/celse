@@ -88,11 +88,13 @@ export default function App() {
   });
   // Doğrudan yönetim paneli: adresin sonuna ?yonetim yazılınca panel açılır (PIN yine sorulur).
   const [route, setRouteRaw] = useState<Route>(() =>
-    typeof window !== "undefined" && /[?&#]yonetim\b/i.test((window.location?.search || "") + (window.location?.hash || "")) ? { k: "admin" } : { k: "title" });
+    typeof window !== "undefined" && /[?&#]yonetim\b/i.test((window.location?.search || "") + (window.location?.hash || "")) ? { k: "admin" }
+      // Danışma bağlantısı (telefondan "videoyu web'de hazırla") ve "Duruşmayı izle" önizlemesi (?izle-ornek) danışma ekranını açar.
+      : Platform.OS === "web" && typeof window !== "undefined" && /[?&](danisma=|izle-ornek)/.test(window.location?.search || "") ? { k: "danisma" } : { k: "title" });
   // Geri tuşu (Android'in geri tuşu, tarayıcının geri düğmesi): bir önceki ekrana döner; giriş ekranında uygulamadan çıkar.
   // Duruşma, kapanış ve karar gibi bitmiş adımlar geçmişe yazılmaz; geri tuşu onların öncesindeki listeye döndürür.
   const routeRef = React.useRef(route);
-  const stack = React.useRef<Route[]>(route.k === "admin" ? [{ k: "title" }] : []);
+  const stack = React.useRef<Route[]>(route.k === "admin" || route.k === "danisma" ? [{ k: "title" }] : []);
   const TRANSIENT = new Set(["game", "closing", "verdict", "onlineWait", "onlineGame"]);
   const setRoute = (r: Route) => {
     const cur = routeRef.current;

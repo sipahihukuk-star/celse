@@ -114,8 +114,8 @@ function cloudUrl(text: string, voice: string): Promise<string | null> {
 }
 
 /** Sıradaki satırları arka planda hazırlar (oyuncu okurken seslendirilir, geçince beklemeden çalar). */
-export function prefetchLines(lines: { text: string; speaker: Speaker }[]) {
-  if (!enabled) return;
+export function prefetchLines(lines: { text: string; speaker: Speaker }[], force = false) {
+  if (!enabled && !force) return;
   for (const l of lines) if (l.text) cloudUrl(spoken(l.text), cloudVoice(l.speaker));
 }
 
@@ -126,8 +126,9 @@ function stopAll() {
   setSpeaking(false);
 }
 
-export async function speakLine(text: string, speaker: Speaker | string = "narr") {
-  if (!enabled || !text) return;
+/** force: oyunun genel seslendirme ayarından bağımsız çalar ("Duruşmayı izle" kendi ses düğmesini kullanır). */
+export async function speakLine(text: string, speaker: Speaker | string = "narr", force = false) {
+  if ((!enabled && !force) || !text) return;
   stopAll();
   const my = token;
   const s: Speaker = typeof speaker === "string" ? { id: speaker, role: speaker, female: false } : speaker;
@@ -156,6 +157,11 @@ export async function speakLine(text: string, speaker: Speaker | string = "narr"
 }
 
 export function stopSpeaking() { stopAll(); }
+
+/** Karakterin bulut sesi adı (aynı karakter hep aynı ses). */
+export const voiceOf = (s: Speaker) => cloudVoice(s);
+/** Satırın bulut ses dosyasının adresi (oynatmayla aynı metin ve ses; dosya bir kez üretilir ve depoda saklanır). Sunucu yoksa null. */
+export const lineAudioUrl = (text: string, speaker: Speaker) => cloudUrl(spoken(text), cloudVoice(speaker));
 
 export function setVoiceEnabled(on: boolean) {
   enabled = on;

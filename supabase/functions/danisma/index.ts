@@ -8,6 +8,14 @@
 //    → {id, degerlendirme: {nitelik, guclu, zayif, deliller, savunma, yollar, kapanis, uyari}, kalan_takip}
 //  - canlandir: aynı kredinin içinde kısa bir duruşma canlandırması (bir kez üretilir, sonra kayıttan döner).
 //    → {canlandirma: {satirlar: [{rol, ad?, metin}], degerlendirme}}
+//  - izle: aynı kredinin içinde görsel canlandırma senaryosu ("Duruşmayı izle"; bir kez üretilir, danismalar.senaryo'da
+//    saklanır, surum11.sql). Dört sahne: görüşme (bizim taraf), görüşme (karşı taraf), duruşma, karar (eğitim amaçlı).
+//    → {senaryo: {taraf, mahkeme, ozet, roller: {bizAvukat, karsiAvukat, hakim, karsiTaraf}, sahneler: [{tur, satirlar: [{kim, metin}]}], uyari}}
+//  - ses: senaryonun tek parça MP3 kaydı. Uygulama her satırı "seslendir" fonksiyonuyla (oynatırken kullandığı aynı ses ve metinle)
+//    seslendirir ve ortak "ses" deposundaki dosya yollarını sırasıyla gönderir: {parcalar: [{yol, ara}]}. Bu fonksiyon dosyaları
+//    indirir, araya sessizlik koyarak MP3 çerçevelerini birleştirir, kullanıcının klasörüne (özel "danisma-ses" deposu,
+//    <kullanıcı>/<danışma>.mp3) yükler, yolu danismalar.ses_yolu'na yazar ve süreli imzalı adres döner. Kayıt varsa parça
+//    gönderilmeden de adres döner; yoksa 409 "parça gerekli". → {url}
 //  - takip: değerlendirmeden sonra en çok 5 takip sorusu (aynı kredi). → {soru, cevap, kalan_takip}
 // Kimlik: istemci oyuncunun Supabase oturumunu (Authorization: Bearer <erişim anahtarı>) gönderir; fonksiyon
 // /auth/v1/user ile doğrular. Veritabanına service role ile yazar (surum8.sql'deki işlevler yalnız service role'e açıktır).
@@ -44,7 +52,7 @@ const AZAMI = 6000;
 const TAKIP_AZAMI = 1000;
 
 // Hız sınırı (kişi başına, saatlik).
-const SINIR: Record<string, number> = { kontrol: 30, degerlendir: 6, canlandir: 10, takip: 30 };
+const SINIR: Record<string, number> = { kontrol: 30, degerlendir: 6, canlandir: 10, izle: 10, ses: 8, takip: 30 };
 
 // Oyuncunun dili: model metni bu dilde yazar (JSON alan adları aynı kalır). yz ile aynı "dil" alanı.
 const DIL: Record<string, string> = { en: "English", es: "Spanish", fr: "French", de: "German" };
@@ -321,6 +329,204 @@ async function canlandir(uid: string, b: Record<string, unknown>) {
   return json({ canlandirma: c });
 }
 
+// ---------- duruşmayı izle: görsel canlandırma senaryosu ----------
+const KIMLER = ["bizAvukat", "karsiAvukat", "hakim", "biz", "karsiTaraf"];
+// Sahne türleri sırasıyla; her sahnede kimlerin konuşabileceği ve satır sınırları.
+const SAHNELER: { tur: string; kimler: string[]; asgari: number; azami: number }[] = [
+  { tur: "gorusme_biz", kimler: ["bizAvukat", "biz"], asgari: 2, azami: 12 },
+  { tur: "gorusme_karsi", kimler: ["karsiAvukat", "karsiTaraf"], asgari: 2, azami: 12 },
+  { tur: "durusma", kimler: KIMLER, asgari: 4, azami: 22 },
+  { tur: "karar", kimler: ["hakim"], asgari: 1, azami: 4 }
+];
+
+// Modelin senaryosunu denetler ve temizler; bir sahne eksikse hata verir (istemciye yarım senaryo gitmez).
+export function senaryoOf(out: Record<string, unknown>, taraf: string, d: string) {
+  const r = (out.roller || {}) as Record<string, unknown>;
+  const rol = (k: string) => gizle(cut(r[k], 50).replace(/\s+/g, " ").trim());
+  const roller: Record<string, string> = { bizAvukat: rol("bizAvukat"), karsiAvukat: rol("karsiAvukat"), hakim: rol("hakim"), karsiTaraf: rol("karsiTaraf") };
+  const gelen = Array.isArray(out.sahneler) ? out.sahneler : [];
+  const sahneler = SAHNELER.map(S => {
+    const x = gelen.find((y: { tur?: unknown }) => y && String(y.tur) === S.tur) as { satirlar?: unknown } | undefined;
+    const satirlar = (x && Array.isArray(x.satirlar) ? x.satirlar : [])
+      .map((l: { kim?: unknown; metin?: unknown }) => {
+        const kim = String(l && l.kim);
+        return { kim: S.tur === "karar" ? "hakim" : kim, metin: gizle(cut(l && l.metin, 1200).trim()) };
+      })
+      .filter((l: { kim: string; metin: string }) => l.metin && S.kimler.indexOf(l.kim) >= 0)
+      .slice(0, S.azami);
+    if (satirlar.length < S.asgari) throw new Error("senaryo eksik: " + S.tur);
+    return { tur: S.tur, satirlar: satirlar };
+  });
+  // Mahkemenin yalnız türü yazılır (il, numara ya da esas numarası yok).
+  const mahkeme = cut(out.mahkeme, 60).replace(/\d+\s?\.?\s?/g, "").replace(/\s+/g, " ").trim();
+  return { taraf: taraf, mahkeme: mahkeme, ozet: gizle(cut(out.ozet, 1500).trim()), roller: roller, sahneler: sahneler, uyari: UYARI[d] };
+}
+
+async function izle(uid: string, b: Record<string, unknown>) {
+  const row = await rowOf(String(b.id || ""), uid);
+  if (!row || row.durum !== "hazir") return json({ error: "danışma bulunamadı" }, 404);
+  // senaryo sütunu ayrı okunur: surum11.sql çalıştırılmadıysa yalnız bu işlem hata verir, ötekiler etkilenmez.
+  const kayit = async () => {
+    const rows = await srv("/rest/v1/danismalar?id=eq." + row.id + "&kullanici_id=eq." + uid + "&select=senaryo", "GET");
+    return rows && rows[0] && rows[0].senaryo ? JSON.parse(rows[0].senaryo) : null;
+  };
+  const once = await kayit();
+  if (once) return json({ senaryo: once });
+  const d = dilOf(b);
+  const taraf = b.taraf === "davali" ? "davali" : "davaci";
+  const bizRol = taraf === "davaci" ? "davacı (ya da başvuran, şikâyetçi, müşteki)" : "davalı (ya da karşı taraf, şüpheli, sanık)";
+  const system = [
+    TEMEL,
+    TARIH(),
+    "Görevin: bu olay üzerine eğitim amaçlı, izlenebilir kısa bir canlandırma senaryosu yazmak. Senaryo uygulamada fotoğraflı karakterlerle sahnelenecek; izlemesi 3-5 dakika sürmeli. Kullanıcının tarafı: " + bizRol + ".",
+    "Konuşanlar (kim alanı): bizAvukat (kullanıcının avukatı), biz (kullanıcının kendisi; ona \"siz\" diye hitap edilir), karsiAvukat (karşı tarafın avukatı), karsiTaraf (karşı taraf), hakim.",
+    "Karakterlere ad verme; gerçek ya da uydurma kişi, şirket, kurum adı kullanma. Herkes yalnız rolüyle anılsın. Avukatlar birbirine ve taraflara adla değil \"meslektaşım\", \"müvekkilim\", \"davacı\", \"davalı\" gibi hitap etsin.",
+    "roller alanına her rolün kısa adını yaz (en çok 4 kelime): bizAvukat ve karsiAvukat için davadaki sıfatı (örneğin davacı vekili, davalı vekili, müşteki vekili, sanık müdafii, davalı idare vekili); hakim için hâkim ya da mahkeme başkanı; karsiTaraf için olaydan çıkan rolü (örneğin işveren şirket yetkilisi, kiracı, ev sahibi, satıcı firma yetkilisi, eski eş, davalı idare temsilcisi). Ad değil, rol yaz.",
+    "mahkeme alanına yalnız görevli mahkemenin ya da merciin türünü yaz (örneğin İş Mahkemesi, Asliye Hukuk Mahkemesi, Tüketici Mahkemesi, İdare Mahkemesi); il, numara ya da dosya numarası yazma.",
+    "ozet alanına olayın 3-5 cümlelik tarafsız özetini yaz (kişisel veri olmadan).",
+    "Dört sahne yaz, bu sırayla:",
+    "1) gorusme_biz: bizAvukat büroda kullanıcıyı (biz) dinler; olayı kısaca özetletir, 2-3 açıklayıcı soru sorar, delilleri ve süreleri sorar, sonunda izleyeceği yolu sade dille anlatır. Yalnız bizAvukat ve biz konuşur; 6-10 satır. biz yalnız kullanıcının anlattığı olgulara dayanarak cevap verir, yeni olgu uydurmaz; bilmediğini \"bilmiyorum\" diye söyler.",
+    "2) gorusme_karsi: karsiAvukat kendi bürosunda karsiTaraf ile görüşür; karsiTaraf olayı kendi açısından anlatır (kullanıcının yazdığı karşı taraf argümanlarına dayanarak), karsiAvukat sorular sorar ve savunma planını kurar. Yalnız karsiAvukat ve karsiTaraf konuşur; 6-10 satır.",
+    "3) durusma: hakim celseyi açar (dosya numarası okumadan), taraf vekilleri talep ve savunmalarını, delillerini ve karşı cevaplarını sırayla sunar; hakim gerektiğinde taraflara (biz, karsiTaraf) kısa sorular sorar, delil (tanık, bilirkişi, belge) taleplerini tartışır. 12-20 satır.",
+    "4) karar: yalnız hakim konuşur; 1-3 paragraf. İlk cümlesi bunun eğitim amaçlı bir canlandırma olduğunu ve gerçek bir mahkeme kararı ya da hukuki görüş olmadığını söylesin. Ardından dosyanın bu hâliyle hangi noktaların ispatına bağlı olduğunu, olası sonucu ölçülü ve koşula bağlı bir dille (kesinlik ya da garanti olmadan), eksik delilleri ve usul risklerini anlat; somut iş için bir avukata danışılması gerektiğini hatırlat.",
+    "Her satır en çok 3 kısa cümle olsun; sade, anlaşılır, avukat olmayan birinin izleyip anlayacağı bir dil kullan. Kanun maddesini yalnız emin olduğunda an.",
+    "İstek açıkça hukuka aykırı bir amaca yönelikse yalnızca {\"ret\": \"kısa neden\"} yaz.",
+    "Yanıtın yalnızca şu JSON olsun: {\"mahkeme\": \"...\", \"ozet\": \"...\", \"roller\": {\"bizAvukat\": \"...\", \"karsiAvukat\": \"...\", \"hakim\": \"...\", \"karsiTaraf\": \"...\"}, \"sahneler\": [{\"tur\": \"gorusme_biz\" | \"gorusme_karsi\" | \"durusma\" | \"karar\", \"satirlar\": [{\"kim\": \"bizAvukat\" | \"biz\" | \"karsiAvukat\" | \"karsiTaraf\" | \"hakim\", \"metin\": \"...\"}]}]}",
+    dilTalimati(d)
+  ].join(NL);
+  const deg = row.degerlendirme ? JSON.parse(row.degerlendirme) : {};
+  const user = formMetni(row as unknown as Form) + NL + NL + "Önceki değerlendirmenin özeti:" + NL + ["nitelik", "zayif", "savunma", "yollar"].map(k => cut(deg[k], 2000)).join(NL);
+  const out = await askJson(GUCLU, system, user, 8000);
+  if (out.ret) return json({ ret: cut(out.ret, 500) }, 422);
+  const sen = senaryoOf(out, taraf, d);
+  // Bir kez üretilir: aynı anda iki istek gelirse önce yazılan kalır ve o döner.
+  await srv("/rest/v1/danismalar?id=eq." + row.id + "&senaryo=is.null", "PATCH", { senaryo: JSON.stringify(sen) }, "return=minimal");
+  return json({ senaryo: (await kayit()) || sen });
+}
+
+// ---------- sesli kayıt (MP3) ----------
+// MP3 çerçeveleri: aynı biçimdeki (Google TTS, 24 kHz) dosyalar çerçeve çerçeve art arda eklenebilir. Dosya başındaki ID3 etiketi,
+// sondaki fazlalık ve süre bilgisi taşıyan Xing/Info/VBRI çerçevesi atılır (yoksa oynatıcı yalnız ilk parçanın süresini gösterir).
+const BR1 = [0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320];
+const BR2 = [0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160];
+const SR: Record<number, number[]> = { 3: [44100, 48000, 32000], 2: [22050, 24000, 16000], 0: [11025, 12000, 8000] };
+
+export function cerceve(b: Uint8Array, i: number) {
+  if (i + 4 > b.length || b[i] !== 255 || (b[i + 1] & 224) !== 224) return null;
+  const ver = (b[i + 1] >> 3) & 3, layer = (b[i + 1] >> 1) & 3;
+  if (ver === 1 || layer !== 1) return null;
+  const bri = b[i + 2] >> 4, sri = (b[i + 2] >> 2) & 3, pad = (b[i + 2] >> 1) & 1;
+  if (bri === 0 || bri === 15 || sri === 3) return null;
+  const br = (ver === 3 ? BR1 : BR2)[bri] * 1000, sr = SR[ver][sri];
+  const mono = (b[i + 3] >> 6) === 3;
+  return { boy: Math.floor(((ver === 3 ? 144 : 72) * br) / sr) + pad, yan: ver === 3 ? (mono ? 17 : 32) : (mono ? 9 : 17), ornek: ver === 3 ? 1152 : 576, sr: sr };
+}
+
+// Bir MP3 dosyasının yalnız ses çerçeveleri (ID3, Xing/Info ve sondaki fazlalık olmadan) ve ilk çerçevenin başlığı.
+export function cerceveler(b: Uint8Array) {
+  let i = 0;
+  if (b.length > 10 && b[0] === 73 && b[1] === 68 && b[2] === 51) i = 10 + ((b[6] & 127) << 21 | (b[7] & 127) << 14 | (b[8] & 127) << 7 | (b[9] & 127)) + ((b[5] & 16) ? 10 : 0);
+  const parcalar: Uint8Array[] = [];
+  let ilk: { bas: Uint8Array; sr: number; ornek: number } | null = null;
+  let say = 0;
+  while (i < b.length) {
+    const c = cerceve(b, i);
+    if (!c || i + c.boy > b.length) { if (say) break; i++; continue; }
+    const f = b.subarray(i, i + c.boy);
+    const etiket = String.fromCharCode(f[4 + c.yan], f[5 + c.yan], f[6 + c.yan], f[7 + c.yan]);
+    const vbri = String.fromCharCode(f[36], f[37], f[38], f[39]);
+    if (!(say === 0 && (etiket === "Xing" || etiket === "Info" || vbri === "VBRI"))) parcalar.push(f);
+    if (!ilk) ilk = { bas: f.subarray(0, 4), sr: c.sr, ornek: c.ornek };
+    say++; i += c.boy;
+  }
+  return { parcalar: parcalar, ilk: ilk };
+}
+
+// Sessiz çerçeve: aynı başlık (dolgu biti ve CRC kapalı), yan bilgi ve ana veri sıfır.
+function sessizlik(bas: Uint8Array, sr: number, ornek: number, ms: number) {
+  const h = new Uint8Array(bas);
+  h[1] = h[1] | 1; h[2] = h[2] & 253;
+  const c = cerceve(h, 0);
+  if (!c || ms <= 0) return new Uint8Array(0);
+  const n = Math.max(1, Math.round((ms / 1000) * sr / ornek));
+  const out = new Uint8Array(c.boy * n);
+  for (let k = 0; k < n; k++) out.set(h, k * c.boy);
+  return out;
+}
+
+// Parçaları sırasıyla birleştirir; ara: 0 yok, 1 kısa (konuşmacı değişimi), 2 uzun (sahne geçişi). Biçimi ilk parçadan farklı
+// olan parça (örnekleme hızı) atlanır.
+export const ARA_MS = [0, 450, 1200];
+export function mp3Birlestir(dosyalar: Uint8Array[], aralar: number[]) {
+  const ciktilar: Uint8Array[] = [];
+  let ref: { bas: Uint8Array; sr: number; ornek: number } | null = null;
+  dosyalar.forEach((d, k) => {
+    const c = cerceveler(d);
+    if (!c.ilk || !c.parcalar.length) return;
+    if (!ref) ref = c.ilk;
+    if (c.ilk.sr !== ref.sr) return;
+    if (ciktilar.length) ciktilar.push(sessizlik(ref.bas, ref.sr, ref.ornek, ARA_MS[aralar[k]] || 0));
+    for (const f of c.parcalar) ciktilar.push(f);
+  });
+  if (!ref) return null;
+  const top = ciktilar.reduce((a, x) => a + x.length, 0);
+  const out = new Uint8Array(top);
+  let o = 0;
+  for (const x of ciktilar) { out.set(x, o); o += x.length; }
+  return out;
+}
+
+const SES_DEPO = "danisma-ses";
+const SES_PARCA = /^(tr-TR|en-US|es-ES|fr-FR|de-DE)-[A-Za-z0-9-]+\/[0-9a-f]{40}\.mp3$/;
+const depoBaslik = (ek: Record<string, string>) => {
+  const key = SRV();
+  const h: Record<string, string> = { apikey: key };
+  if (key.startsWith("eyJ")) h.Authorization = "Bearer " + key;
+  for (const k in ek) h[k] = ek[k];
+  return h;
+};
+// Özel depodaki dosyanın süreli (1 gün) imzalı indirme adresi.
+async function imzaliAdres(yol: string) {
+  const r = await fetch(SB_URL() + "/storage/v1/object/sign/" + SES_DEPO + "/" + yol, { method: "POST", headers: depoBaslik({ "Content-Type": "application/json" }), body: JSON.stringify({ expiresIn: 86400 }) });
+  const j = await r.json().catch(() => ({}));
+  const u = String(j.signedURL || j.signedUrl || "");
+  if (!r.ok || !u) throw new Error("imza " + r.status);
+  return SB_URL() + "/storage/v1" + (u.startsWith("/") ? "" : "/") + u + (u.indexOf("?") >= 0 ? "&" : "?") + "download=celse-durusma.mp3";
+}
+
+async function sesKaydi(uid: string, b: Record<string, unknown>) {
+  const row = await rowOf(String(b.id || ""), uid);
+  if (!row || row.durum !== "hazir") return json({ error: "danışma bulunamadı" }, 404);
+  const ekler = await srv("/rest/v1/danismalar?id=eq." + row.id + "&kullanici_id=eq." + uid + "&select=senaryo,ses_yolu", "GET");
+  const ek = (ekler && ekler[0]) || {};
+  if (!ek.senaryo) return json({ error: "önce senaryo" }, 409);
+  if (ek.ses_yolu && b.yenile !== true) return json({ url: await imzaliAdres(ek.ses_yolu) });
+  const gelen = Array.isArray(b.parcalar) ? b.parcalar : null;
+  if (!gelen) return json({ error: "parça gerekli" }, 409);
+  if (!gelen.length || gelen.length > 90) return json({ error: "geçersiz istek" }, 400);
+  const parcalar = gelen.map((x: { yol?: unknown; ara?: unknown }) => ({ yol: String(x && x.yol), ara: Math.max(0, Math.min(2, Number(x && x.ara) || 0)) }));
+  if (!parcalar.every((x: { yol: string }) => SES_PARCA.test(x.yol))) return json({ error: "geçersiz istek" }, 400);
+  // Dosyalar herkese açık "ses" deposundan altışar altışar indirilir.
+  const dosyalar: Uint8Array[] = new Array(parcalar.length);
+  let toplam = 0;
+  for (let k = 0; k < parcalar.length; k += 6) {
+    await Promise.all(parcalar.slice(k, k + 6).map(async (x: { yol: string }, j: number) => {
+      const r = await fetch(SB_URL() + "/storage/v1/object/public/ses/" + x.yol);
+      if (!r.ok) throw new Error("ses parçası yok " + r.status);
+      dosyalar[k + j] = new Uint8Array(await r.arrayBuffer());
+      toplam += dosyalar[k + j].length;
+    }));
+    if (toplam > 40000000) return json({ error: "ses çok uzun" }, 413);
+  }
+  const mp3 = mp3Birlestir(dosyalar, parcalar.map((x: { ara: number }) => x.ara));
+  if (!mp3 || mp3.length < 1000) return json({ error: "ses birleştirilemedi" }, 502);
+  const yol = uid + "/" + row.id + ".mp3";
+  const up = await fetch(SB_URL() + "/storage/v1/object/" + SES_DEPO + "/" + yol, { method: "POST", headers: depoBaslik({ "Content-Type": "audio/mpeg", "x-upsert": "true" }), body: mp3 });
+  if (!up.ok) throw new Error("yükleme " + up.status + " " + (await up.text()).slice(0, 200));
+  await srv("/rest/v1/danismalar?id=eq." + row.id, "PATCH", { ses_yolu: yol }, "return=minimal");
+  return json({ url: await imzaliAdres(yol) });
+}
+
 async function takip(uid: string, b: Record<string, unknown>) {
   const soru = gizle(cut(b.soru, TAKIP_AZAMI).trim());
   if (soru.length < 5) return json({ error: "soru çok kısa" }, 400);
@@ -375,6 +581,8 @@ export async function handle(req: Request): Promise<Response> {
     if (action === "kontrol") return await kontrol(uid, b);
     if (action === "degerlendir") return await degerlendir(req, uid, b);
     if (action === "canlandir") return await canlandir(uid, b);
+    if (action === "izle") return await izle(uid, b);
+    if (action === "ses") return await sesKaydi(uid, b);
     return await takip(uid, b);
   } catch (e) {
     return json({ error: "sunucu hatası", detay: String(e).slice(0, 300) }, 502);

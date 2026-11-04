@@ -1,10 +1,10 @@
 // "Derdini anlat": oyuncu kendi olayını dört kutuya yazar; ücretsiz eksik bilgi denetiminden geçince 1 krediyle
 // eğitim amaçlı değerlendirme, aynı kredi içinde duruşma canlandırması ve en çok 5 takip sorusu alır.
 // Eğitim amaçlı canlandırmadır, hukuki görüş değildir (1136 sayılı Avukatlık Kanunu m.35).
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Linking, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import {
-  ALANLAR, alanAdi, ASGARI, AZAMI, BOS_FORM, canlandir, Cevap, cevaplariEkle, Danisma, DanismaForm, Degerlendirme, deleteDanisma,
+  ALANLAR, alanAdi, ASGARI, AZAMI, BOS_FORM, Cevap, izleSenaryo, Senaryo, cevaplariEkle, Danisma, DanismaForm, Degerlendirme, deleteDanisma,
   ALAN_ADI, degerlendir, formHatalari, kontrolEt, Kutu, listDanismalar, Soru, takipSor, TAKIP_HAKKI
 } from "../data/danisma";
 import { CreditInfo, PRODUCTS } from "../data/purchaseIds";
@@ -12,6 +12,9 @@ import { buyConsumable, getCreditProducts, PURCHASES_AVAILABLE } from "../data/p
 import { refreshPremium, usePremium } from "../data/subscription";
 import { locale, t } from "../i18n";
 import { kbBar } from "./KeyboardBar";
+import { ORNEK_DANISMA, ORNEK_SENARYO } from "../data/izleOrnek";
+import DanismaWatch from "./DanismaWatch";
+import { kimAdi, sahneBaslik } from "./izleOrtak";
 import { Btn } from "./kit";
 import { StoreLinks } from "./StoreLinks";
 import { C, F } from "./theme";
@@ -38,12 +41,34 @@ const PAKETLER = [{ productId: PRODUCTS.derdini1, credits: 1, price: "₺149,99"
 
 const errText = (r: Cevap<unknown>) => (r.ok ? "" : t(r.error, r.vars));
 
+/** Web adresindeki parametre (?izle-ornek, ?danisma=<kimlik>). Telefonda boş. */
+const adresParam = (re: RegExp) => {
+  if (Platform.OS !== "web" || typeof window === "undefined") return null;
+  const m = (window.location?.search || "").match(re);
+  return m ? m[1] || "" : null;
+};
+
 export default function DanismaScreen(p: Props) {
   const [view, setView] = useState<"yeni" | "gecmis" | "sonuc">("yeni");
   const [list, setList] = useState<Danisma[] | null>(null);
   const [open, setOpen] = useState<Danisma | null>(null);
-  const reload = () => listDanismalar().then(setList).catch(() => setList([]));
+  // "Duruşmayı izle" oynatıcısı. Geliştirme önizlemesi: web'de ?izle-ornek ile gömülü örnek senaryo açılır (sunucuya gitmez).
+  const [watch, setWatch] = useState<{ s: Senaryo; d: Danisma; son?: boolean } | null>(() =>
+    adresParam(/[?&](izle-ornek)\b/) !== null ? { s: ORNEK_SENARYO, d: ORNEK_DANISMA, son: adresParam(/[?&]izle-ornek=(son)\b/) === "son" } : null);
+  // Telefondan "videoyu web'de hazırla" ile gelen bağlantı: ?danisma=<kimlik> o danışmanın kayıtlar ekranını açar.
+  const hedef = useRef(adresParam(/[?&]danisma=([0-9a-f-]{36})/i));
+  const reload = () => listDanismalar().then(l => {
+    setList(l);
+    const h = hedef.current && l.find(x => x.id === hedef.current);
+    if (h) {
+      hedef.current = null;
+      setOpen(h); setView("sonuc");
+      if (h.senaryo) setWatch({ s: h.senaryo, d: h, son: true });
+    }
+  }).catch(() => setList([]));
   useEffect(() => { if (p.signedIn) reload(); }, [p.signedIn]);
+
+  if (watch) return <DanismaWatch key={watch.d.id} s={watch.s} d={watch.d} basla={watch.son ? "son" : undefined} onClose={() => setWatch(null)} />;
 
   return (
     <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled" automaticallyAdjustKeyboardInsets keyboardDismissMode="on-drag">
@@ -79,7 +104,8 @@ export default function DanismaScreen(p: Props) {
           )}
           {view === "yeni" && <NewForm admin={p.admin} onDone={d => { setOpen(d); setView("sonuc"); reload(); }} />}
           {view === "gecmis" && <History list={list} onOpen={d => { setOpen(d); setView("sonuc"); }} onDeleted={reload} />}
-          {view === "sonuc" && open && <Result key={open.id} d={open} onChange={d => { setOpen(d); setList(l => l?.map(x => (x.id === d.id ? d : x)) || l); }} />}
+          {view === "sonuc" && open && <Result key={open.id} d={open} onChange={d => { setOpen(d); setList(l => l?.map(x => (x.id === d.id ? d : x)) || l); }}
+            onWatch={(sn, son) => setWatch({ s: sn, d: open, son })} />}
         </>
       )}
     </ScrollView>
@@ -153,7 +179,7 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
       return setMsg({ t: errText(r) + (r.iade ? " " + t("Krediniz düşülmedi.") : "") });
     }
     refreshPremium();
-    const d: Danisma = { ...form, id: r.data.id, durum: "hazir", degerlendirme: r.data.degerlendirme, canlandirma: null, takip: [], kalan_takip: r.data.kalan_takip, created_at: new Date().toISOString() };
+    const d: Danisma = { ...form, id: r.data.id, durum: "hazir", degerlendirme: r.data.degerlendirme, canlandirma: null, senaryo: null, takip: [], kalan_takip: r.data.kalan_takip, created_at: new Date().toISOString() };
     setFormRaw(BOS_FORM); setOnay(null); setShown(false); setMsg(null);
     onDone(d);
   };
@@ -322,18 +348,22 @@ function Paras({ text }: { text: string }) {
   );
 }
 
-function Result({ d, onChange }: { d: Danisma; onChange: (d: Danisma) => void }) {
-  const [taraf, setTaraf] = useState<"davaci" | "davali">("davaci");
-  const [busy, setBusy] = useState<"" | "canlandir" | "takip">("");
+function Result({ d, onChange, onWatch }: { d: Danisma; onChange: (d: Danisma) => void; onWatch: (s: Senaryo, son?: boolean) => void }) {
+  const [taraf, setTaraf] = useState<"davaci" | "davali">(d.canlandirma?.taraf || "davaci");
+  const [busy, setBusy] = useState<"" | "izle" | "takip">("");
   const [soru, setSoru] = useState("");
   const [msg, setMsg] = useState("");
+  const [metin, setMetin] = useState(false);
+  const [izleMsg, setIzleMsg] = useState("");
   const deg = d.degerlendirme;
-  const play = async () => {
-    setBusy("canlandir"); setMsg("");
-    const r = await canlandir(d.id, taraf);
+  const izle = async (son?: boolean) => {
+    if (d.senaryo) return onWatch(d.senaryo, son);
+    setBusy("izle"); setIzleMsg("");
+    const r = await izleSenaryo(d.id, taraf);
     setBusy("");
-    if (!r.ok) return setMsg(errText(r));
-    onChange({ ...d, canlandirma: r.data.canlandirma });
+    if (!r.ok) return setIzleMsg(errText(r));
+    onChange({ ...d, senaryo: r.data.senaryo });
+    onWatch(r.data.senaryo, son);
   };
   const ask = async () => {
     if (soru.trim().length < 5) return setMsg(t("Sorunuzu biraz daha açık yazın."));
@@ -345,11 +375,29 @@ function Result({ d, onChange }: { d: Danisma; onChange: (d: Danisma) => void })
     onChange({ ...d, takip: [...d.takip, { soru: r.data.soru, cevap: r.data.cevap }], kalan_takip: r.data.kalan_takip });
   };
   const c = d.canlandirma;
+  const sn = d.senaryo;
   const name = (rol: string, ad?: string) => ad || (rol === "hakim" ? t("Hâkim") : rol === "davaci" ? t("Davacı vekili") : t("Davalı vekili"));
 
   return (
     <View style={{ gap: 14 }}>
       <Text style={s.meta}>{t(alanAdi(d.alan)).toLocaleUpperCase(locale())} · {new Date(d.created_at).toLocaleDateString(locale())}</Text>
+      <View style={[s.card, { borderColor: C.brass }]}>
+        <Text style={s.cardT}>{t("Duruşmayı izle")}</Text>
+        <Text style={s.hint}>{t("Davanız sahnelenir ve seslendirilir: avukatınız sizi dinler, karşı tarafın avukatı kendi müvekkiliyle görüşür, duruşma yapılır ve hâkim eğitim amaçlı bir değerlendirme yapar. Sonunda sesli kaydı (MP3) ve videoyu indirebilirsiniz. Aynı kredinin içindedir; bir kez hazırlanır.")}</Text>
+        {!sn && (
+          <View style={s.row}>
+            {(["davaci", "davali"] as const).map(x => (
+              <Pressable key={x} accessibilityRole="radio" accessibilityState={{ checked: taraf === x }} onPress={() => setTaraf(x)} style={[s.alan, taraf === x && s.alanOn]}>
+                <Text style={[s.alanT, taraf === x && s.alanTOn]}>{x === "davaci" ? t("Ben davacı tarafıyım") : t("Ben davalı tarafıyım")}</Text>
+              </Pressable>
+            ))}
+          </View>
+        )}
+        <Btn label={busy === "izle" ? t("Duruşma hazırlanıyor… (bir dakika sürebilir)") : t("▶ Duruşmayı izle")} disabled={!!busy} onPress={() => izle()} style={s.big} />
+        {!!sn && <Btn kind="ghost" label={t("🎧 🎬 Sesli kaydı ve videoyu indir")} disabled={!!busy} onPress={() => izle(true)} />}
+        {busy === "izle" && <Text style={s.hint}>{t("Duruşma hazırlanıyor… (bir dakika sürebilir)")}</Text>}
+        {!!izleMsg && <Text style={s.msg}>{izleMsg}</Text>}
+      </View>
       {!deg ? <Text style={s.body}>{t("Değerlendirme bulunamadı.")}</Text> : deg.metin && !deg.nitelik ? (
         <View style={s.card}><Paras text={deg.metin} /></View>
       ) : BOLUM.map(([k, title], i) => (
@@ -367,20 +415,27 @@ function Result({ d, onChange }: { d: Danisma; onChange: (d: Danisma) => void })
       </View>
 
       <View style={s.card}>
-        <Text style={s.cardT}>{t("Duruşmayı canlandır")}</Text>
-        {!c ? (
-          <>
-            <Text style={s.hint}>{t("Aynı kredinin içindedir. Davacı ve davalı vekilleri birkaç tur konuşur; sonunda hâkim eğitim amaçlı bir değerlendirme yapar. Bir kez üretilir.")}</Text>
-            <View style={s.row}>
-              {(["davaci", "davali"] as const).map(x => (
-                <Pressable key={x} accessibilityRole="radio" accessibilityState={{ checked: taraf === x }} onPress={() => setTaraf(x)} style={[s.alan, taraf === x && s.alanOn]}>
-                  <Text style={[s.alanT, taraf === x && s.alanTOn]}>{x === "davaci" ? t("Ben davacı tarafıyım") : t("Ben davalı tarafıyım")}</Text>
-                </Pressable>
-              ))}
-            </View>
-            <Btn label={busy === "canlandir" ? t("Duruşma hazırlanıyor…") : t("Duruşmayı canlandır")} disabled={!!busy} onPress={play} />
-          </>
-        ) : (
+        <Text style={s.cardT}>{t("Metin olarak oku")}</Text>
+        <Pressable onPress={() => setMetin(!metin)} accessibilityRole="button"><Text style={s.link}>{metin ? t("Metni gizle") : t("Duruşmanın metnini göster")}</Text></Pressable>
+        {metin && sn && (
+          <View style={{ gap: 10 }}>
+            {sn.sahneler.map((sh, i) => (
+              <View key={i} style={{ gap: 8 }}>
+                <Text style={s.secT}>{sahneBaslik(sh.tur, sn).baslik}</Text>
+                {sh.satirlar.map((l, j) => {
+                  const mine = l.kim === "biz" || l.kim === "bizAvukat", judge = l.kim === "hakim";
+                  return (
+                    <View key={j} style={[s.bubble, judge ? s.bJudge : mine ? s.bMine : s.bOther]}>
+                      <Text style={[s.bWho, mine && { color: C.brassInk }]}>{kimAdi(l.kim, sn)}</Text>
+                      <Text style={[s.bText, mine && { color: C.brassInk }]}>{l.metin}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+            ))}
+          </View>
+        )}
+        {metin && !sn && c && (
           <View style={{ gap: 10 }}>
             {c.satirlar.map((l, i) => {
               const mine = l.rol === c.taraf, judge = l.rol === "hakim";
@@ -399,6 +454,7 @@ function Result({ d, onChange }: { d: Danisma; onChange: (d: Danisma) => void })
             )}
           </View>
         )}
+        {metin && !sn && !c && <Text style={s.hint}>{t("Metin, duruşma hazırlandıktan sonra burada görünür.")}</Text>}
       </View>
 
       <View style={s.card}>
@@ -476,5 +532,6 @@ const s = StyleSheet.create({
   bMine: { alignSelf: "flex-end", backgroundColor: C.brass },
   bOther: { alignSelf: "flex-start", backgroundColor: C.panel2, borderWidth: 1, borderColor: C.line },
   bWho: { fontFamily: F.monoBold, fontSize: 11, letterSpacing: 1, color: C.brassDim, textTransform: "uppercase" },
-  bText: { fontFamily: F.body, fontSize: 15, lineHeight: 22, color: C.text }
+  bText: { fontFamily: F.body, fontSize: 15, lineHeight: 22, color: C.text },
+  big: { paddingVertical: 15 }
 });

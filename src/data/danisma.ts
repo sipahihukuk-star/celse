@@ -50,9 +50,19 @@ export interface Degerlendirme { nitelik: string; guclu: string; zayif: string; 
 export interface Satir { rol: "hakim" | "davaci" | "davali"; ad?: string; metin: string }
 export interface Canlandirma { taraf: "davaci" | "davali"; satirlar: Satir[]; degerlendirme: string; uyari?: string }
 export interface Takip { soru: string; cevap: string }
+/** "Duruşmayı izle" senaryosu: dört sahne, her satırda konuşan rol ve metin (sunucu: izle işlemi, danismalar.senaryo). */
+export type Kim = "bizAvukat" | "karsiAvukat" | "hakim" | "biz" | "karsiTaraf";
+export type SahneTur = "gorusme_biz" | "gorusme_karsi" | "durusma" | "karar";
+export interface SenaryoSatir { kim: Kim; metin: string }
+export interface Sahne { tur: SahneTur; satirlar: SenaryoSatir[] }
+export interface Senaryo {
+  taraf: "davaci" | "davali"; mahkeme: string; ozet: string;
+  roller: { bizAvukat: string; karsiAvukat: string; hakim: string; karsiTaraf: string };
+  sahneler: Sahne[]; uyari?: string;
+}
 export interface Danisma {
   id: string; alan: string; olay: string; deliller: string; karsi: string; talep: string; durum: string;
-  degerlendirme: Degerlendirme | null; canlandirma: Canlandirma | null; takip: Takip[]; kalan_takip: number; created_at: string;
+  degerlendirme: Degerlendirme | null; canlandirma: Canlandirma | null; senaryo?: Senaryo | null; takip: Takip[]; kalan_takip: number; created_at: string;
 }
 
 /** Sunucu cevabı: ok değilse error Türkçe kaynak metindir (ekranda t() ile çevrilir). */
@@ -67,7 +77,9 @@ const HATA: Record<string, string> = {
   "riza gerekli": "Devam etmek için açık rıza kutusunu işaretleyin.",
   "yapay zekâ kurulmadı": "Danışma hizmeti henüz açılmadı.",
   "danışma bulunamadı": "Danışma bulunamadı.",
-  "değerlendirme yapılamadı": "Değerlendirme şu an yapılamadı."
+  "değerlendirme yapılamadı": "Değerlendirme şu an yapılamadı.",
+  "parça gerekli": "parça gerekli",
+  "ses birleştirilemedi": "Sesli kayıt şu an hazırlanamadı."
 };
 
 async function call<T>(action: string, body: Record<string, unknown>): Promise<Cevap<T>> {
@@ -101,6 +113,9 @@ export const degerlendir = async (form: DanismaForm, onay: string, ornek = false
   return r;
 };
 export const canlandir = (id: string, taraf: "davaci" | "davali") => call<{ canlandirma: Canlandirma }>("canlandir", { id, taraf });
+/** Tek parça MP3 kaydı: parcalar verilmezse yalnız kayıtlı dosyanın adresi istenir (yoksa 409 "parça gerekli"). */
+export const sesKaydi = (id: string, parcalar?: { yol: string; ara: number }[]) => call<{ url: string }>("ses", parcalar ? { id, parcalar } : { id });
+export const izleSenaryo = (id: string, taraf: "davaci" | "davali") => call<{ senaryo: Senaryo }>("izle", { id, taraf });
 export const takipSor = (id: string, soru: string) => call<{ soru: string; cevap: string; kalan_takip: number }>("takip", { id, soru });
 
 /** Sorulara verilen cevaplar ilgili kutunun sonuna eklenir. */
@@ -123,20 +138,34 @@ const parse = <T,>(s: unknown): T | null => {
 export async function listDanismalar(): Promise<Danisma[]> {
   const sb = supabase();
   if (!sb) return [];
-  const { data, error } = await sb.from("danismalar")
-    .select("id, alan, olay, deliller, karsi, talep, durum, degerlendirme, canlandirma, takip, kalan_takip, created_at")
-    .eq("durum", "hazir").order("created_at", { ascending: false }).limit(50);
+  const cols = "id, alan, olay, deliller, karsi, talep, durum, degerlendirme, canlandirma, takip, kalan_takip, created_at";
+  const q = (c: string) => sb.from("danismalar").select(c).eq("durum", "hazir").order("created_at", { ascending: false }).limit(50);
+  // senaryo sütunu surum11.sql ile gelir; sütun henüz yoksa liste onsuz okunur.
+  let { data, error } = await q(cols + ", senaryo");
+  if (error) ({ data, error } = await q(cols));
   if (error || !data) return [];
-  return data.map((r: Record<string, unknown>) => ({
+  return (data as unknown as Record<string, unknown>[]).map(r => ({
     ...(r as unknown as Danisma),
     degerlendirme: parse<Degerlendirme>(r.degerlendirme), canlandirma: parse<Canlandirma>(r.canlandirma),
+    senaryo: senaryoOf(r.senaryo),
     takip: Array.isArray(r.takip) ? (r.takip as Takip[]) : []
   }));
+}
+
+/** Kayıttaki senaryo metni; bozuksa ya da sahnesi yoksa null (ekran eski metin görünümüne düşer). */
+function senaryoOf(v: unknown): Senaryo | null {
+  const x = parse<Senaryo>(v);
+  return x && Array.isArray(x.sahneler) && x.sahneler.length ? x : null;
 }
 
 export async function deleteDanisma(id: string): Promise<boolean> {
   const sb = supabase();
   if (!sb) return false;
+  // Varsa sesli kayıt da silinir (özel depoda, kullanıcının klasöründe; surum11.sql).
+  try {
+    const uid = (await sb.auth.getSession()).data.session?.user?.id;
+    if (uid) await sb.storage.from("danisma-ses").remove([`${uid}/${id}.mp3`]);
+  } catch { /* dosya yoksa ya da depo kurulmadıysa yok say */ }
   const { error } = await sb.from("danismalar").delete().eq("id", id);
   return !error;
 }
