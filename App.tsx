@@ -228,7 +228,6 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.root} edges={["top", "bottom", "left", "right"]} onTouchStart={resumeMusic}>
-        <KeyboardBar />
         <NewPassword />
         <BoardInvite visible={invite} onClose={() => setInvite(false)}
           info={{ sehir: office ? CITIES.find(x => x.id === office.city)?.name : undefined, avatar: office?.avatar || me?.avatar, unvan: career.rank }} />
@@ -327,6 +326,7 @@ export default function App() {
             setSetup(null); setRoute({ k: "onlineWait", id: m.id, c: su.c });
           }} />
         </View>
+        <KeyboardBar />
       </SafeAreaView>
     </SafeAreaProvider>
   );

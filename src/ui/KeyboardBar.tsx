@@ -1,29 +1,39 @@
-// iPhone'da klavyenin hemen üstünde duran "Bitti" çubuğu. Çok satırlı yazı alanlarında iOS klavyesinde kapatma tuşu
-// yoktur; bu çubuk her yazı alanına bağlanır (inputAccessoryViewID) ve dokununca klavyeyi indirir.
-import React from "react";
-import { InputAccessoryView, Keyboard, Platform, Pressable, StyleSheet, Text, View } from "react-native";
+// iPhone'da klavye açıkken klavyenin hemen üstünde, sağda duran "Bitti" düğmesi. Çok satırlı yazı alanlarında iOS klavyesinde
+// kapatma tuşu yoktur. Önceki InputAccessoryView yöntemi bazı ekranlarda (yeni iOS sürümlerinde) görünmedi; bu yüzden düğme
+// klavye olaylarını dinleyip uygulamanın en üstüne çizilir ve her yazı alanında kendiliğinden çıkar.
+import React, { useEffect, useState } from "react";
+import { Keyboard, Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { C, F } from "./theme";
 import { t } from "../i18n";
 
 export const KB_BAR = "celse-klavye-cubugu";
-/** TextInput'a eklenecek özellik: <TextInput {...kbBar} /> */
-export const kbBar = Platform.OS === "ios" ? { inputAccessoryViewID: KB_BAR } : {};
+/** Eski kullanım için korunur: artık yazı alanına bir şey eklemesi gerekmez. */
+export const kbBar = {};
 
-export function KeyboardBar() {
-  if (Platform.OS !== "ios") return null;
+/** inModal: Modal içinde tam ekran çizilir (güvenli alan payı düşülmez). */
+export function KeyboardBar({ inModal }: { inModal?: boolean }) {
+  const [h, setH] = useState(0);
+  const ins = useSafeAreaInsets();
+  useEffect(() => {
+    if (Platform.OS !== "ios") return;
+    const a = Keyboard.addListener("keyboardWillShow", e => setH(e.endCoordinates.height));
+    const b = Keyboard.addListener("keyboardWillChangeFrame", e => setH(e.endCoordinates.screenY > 0 ? e.endCoordinates.height : 0));
+    const c = Keyboard.addListener("keyboardWillHide", () => setH(0));
+    return () => { a.remove(); b.remove(); c.remove(); };
+  }, []);
+  if (Platform.OS !== "ios" || h <= 0) return null;
   return (
-    <InputAccessoryView nativeID={KB_BAR}>
-      <View style={s.bar}>
-        <Pressable accessibilityRole="button" accessibilityLabel={t("Klavyeyi kapat")} onPress={() => Keyboard.dismiss()} hitSlop={12} style={s.btn}>
-          <Text style={s.t}>{t("Bitti")}</Text>
-        </Pressable>
-      </View>
-    </InputAccessoryView>
+    <View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { zIndex: 9999 }]}>
+      <Pressable accessibilityRole="button" accessibilityLabel={t("Klavyeyi kapat")} onPress={() => Keyboard.dismiss()} hitSlop={10}
+        style={[s.btn, { bottom: h + 8 - (inModal ? 0 : ins.bottom) }]}>
+        <Text style={s.t}>{t("Bitti")}</Text>
+      </Pressable>
+    </View>
   );
 }
 
 const s = StyleSheet.create({
-  bar: { flexDirection: "row", justifyContent: "flex-end", backgroundColor: "#d1d3d9", borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: "#a9abb0", paddingHorizontal: 12, paddingVertical: 6 },
-  btn: { paddingHorizontal: 14, paddingVertical: 6, borderRadius: 8, backgroundColor: C.bordo },
+  btn: { position: "absolute", right: 12, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 18, backgroundColor: C.bordo, borderWidth: 1, borderColor: "rgba(255,255,255,0.35)", shadowColor: "#000", shadowOpacity: 0.35, shadowRadius: 6, shadowOffset: { width: 0, height: 2 } },
   t: { fontFamily: F.bodyBold, fontSize: 16, color: "#fff" }
 });

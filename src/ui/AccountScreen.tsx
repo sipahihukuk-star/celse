@@ -1,7 +1,7 @@
 // Üyelik ekranı: üye ol / giriş yap (sunucu) ya da bu cihazdaki oyuncular (sunucu ayarlı değilken).
 import React, { useEffect, useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { kbBar } from "./KeyboardBar";
+import { KeyboardBar, kbBar } from "./KeyboardBar";
 import { Account, deleteLocal, deleteServerAccount, localProfiles, resetPassword, signIn, signOut, signUp, supabase, switchLocal, useAccount } from "../data/account";
 import { KVKK_BASLIK, KVKK_METNI } from "../legal/kvkk";
 import { Btn } from "./kit";
@@ -189,6 +189,7 @@ export function KvkkModal({ visible, onClose }: { visible: boolean; onClose: () 
           <View style={{ flexDirection: "row", justifyContent: "flex-end", marginTop: 12 }}><Btn kind="ghostInk" label={t("Kapat")} onPress={onClose} /></View>
         </Pressable>
       </Pressable>
+      <KeyboardBar inModal />
     </Modal>
   );
 }

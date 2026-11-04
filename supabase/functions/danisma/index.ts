@@ -97,6 +97,12 @@ const formMetni = (f: Form) => [
 ].join(NL + NL);
 
 // ---------- ortak talimat ----------
+// Modelin kendi bildiği tarih eskidir: bugünün tarihi her istekte açıkça verilir (aksi hâlde yakın tarihleri "gelecek" sanıyor).
+function TARIH() {
+  const d = new Date(Date.now() + 3 * 3600 * 1000);
+  const g = String(d.getUTCDate()).padStart(2, "0"), a = String(d.getUTCMonth() + 1).padStart(2, "0");
+  return "Bugünün tarihi: " + g + "." + a + "." + d.getUTCFullYear() + " (Türkiye saati). Süreleri ve tarihleri buna göre değerlendir; bugünden önceki tarihleri gelecek sanma.";
+}
 const TEMEL = [
   "Sen Türk hukukunu iyi bilen, tarafsız ve eğitici bir hukuk eğitmenisin. Celse adlı avukatlık eğitim uygulamasının \"Derdini anlat\" bölümünde, kullanıcının kendi anlattığı olayı eğitim amaçlı olarak değerlendiriyorsun.",
   "Bu bir hukuki görüş, avukatlık hizmeti ya da danışmanlık değildir; 1136 sayılı Avukatlık Kanunu m.35 uyarınca hukuki mütalaa vermek avukatlara aittir. Kesin hüküm kurma, sonuç ya da kazanma garantisi verme; \"olabilir\", \"değerlendirilebilir\", \"ileri sürülebilir\" gibi ölçülü bir dil kullan ve somut işi için kullanıcıyı bir avukata yönlendir.",
@@ -203,22 +209,26 @@ async function kontrol(uid: string, b: Record<string, unknown>) {
   const d = dilOf(b);
   const system = [
     TEMEL,
+    TARIH(),
     "Şu anki görevin YALNIZCA şu: anlatılan olayın, eğitim amaçlı bir hukuki değerlendirme için yeterli bilgi içerip içermediğine karar vermek. Değerlendirmeyi yapma, hukuki görüş yazma.",
     "Yeterlilik için bak: tarafların rolleri ve aralarındaki ilişki; olayların sırası ve yaklaşık tarihleri (süre hesabı için önemli); para söz konusuysa tutarlar; elde hangi belge, tanık ya da kayıt olduğu; karşı tarafın ne dediği; kullanıcının tam olarak ne istediği.",
     "Seçilen alana özgü temel bilgileri de ara. Örnekler: iş hukukunda işe giriş ve çıkış tarihi, ücret, fesih şekli ve gerekçesi, arabulucuya gidilip gidilmediği; kira ve borçlarda sözleşme tarihi, bedel, ihtar ya da ödeme durumu; ailede evlilik tarihi, çocuklar, gelir durumu; icrada takip türü ve tebliğ tarihi; cezada olay tarihi, şikâyet ya da soruşturma aşaması; idarede işlemin ve tebliğin tarihi; mirasta ölüm tarihi ve mirasçılar; tüketicide satın alma tarihi, bedel ve satıcıya başvuru; ticarette şirket ya da sözleşme türü.",
-    "Değerlendirmeyi gerçekten değiştirecek eksikler için en çok 5 kısa ve somut soru sor; en önemlisini önce yaz. Her soruyu cevabının ekleneceği kutuyla eşleştir: olay, deliller, karsi ya da talep. Ayrıntı eksikleri önemsizse ya da kullanıcı makul ölçüde bilgi verdiyse yeterli de.",
+    "Değerlendirmeyi gerçekten değiştirecek eksikler için en çok 3 kısa ve somut soru sor; en önemlisini önce yaz. Her soruyu cevabının ekleneceği kutuyla eşleştir: olay, deliller, karsi ya da talep. Ayrıntı eksikleri önemsizse ya da kullanıcı makul ölçüde bilgi verdiyse yeterli de.",
     "Metinde \"Soru: ... Cevap: ...\" biçiminde önceki sorulara verilmiş cevaplar olabilir; aynı soruyu tekrar sorma. Kullanıcı bilmediğini söylediyse o konuyu yeniden sorma.",
     "Ad, soyad, kimlik numarası, adres ya da telefon sorma.",
     "Amaç açıkça hukuka aykırıysa uygunsuz true yap ve neden alanına kısaca yaz.",
     "Yanıtın yalnızca şu JSON olsun: {\"yeterli\": true ya da false, \"sorular\": [{\"kutu\": \"olay\" | \"deliller\" | \"karsi\" | \"talep\", \"soru\": \"...\"}], \"uygunsuz\": false, \"neden\": \"\"}",
     dilTalimati(d)
   ].join(NL);
-  const out = await askJson(HIZLI, system, formMetni(v.form), 1200);
+  // Kullanıcıyı sonsuz soru döngüsüne sokmamak için: cevaplanmış soru sayısı arttıkça yalnız zorunlu eksik sorulur, 6 cevaptan sonra yeterli sayılır.
+  const cevaplanan = (formMetni(v.form).match(/Soru:/g) || []).length;
+  const sinir = cevaplanan >= 3 ? NL + "Kullanıcı şimdiye kadar " + cevaplanan + " soruyu cevapladı. Artık yalnız değerlendirmeyi tamamen imkânsız kılan bir eksik varsa en çok 1 soru sor; yoksa yeterli de." : "";
+  const out: Record<string, unknown> = cevaplanan >= 6 ? { yeterli: true, sorular: [] } : await askJson(HIZLI, system + sinir, formMetni(v.form), 1200);
   if (out.uygunsuz === true) return json({ yeterli: false, sorular: [], uygunsuz: true, neden: cut(out.neden, 400) });
   const sorular = (Array.isArray(out.sorular) ? out.sorular : [])
     .map((x: { kutu?: unknown; soru?: unknown }) => ({ kutu: KUTULAR.indexOf(String(x && x.kutu)) >= 0 ? String(x.kutu) : "olay", soru: cut(x && x.soru, 300).trim() }))
     .filter((x: { soru: string }) => x.soru.length > 3)
-    .slice(0, 5);
+    .slice(0, 3);
   const yeterli = out.yeterli === true || sorular.length === 0;
   return json(yeterli ? { yeterli: true, sorular: [], onay: await imza(uid, v.form) } : { yeterli: false, sorular: sorular });
 }
@@ -240,6 +250,7 @@ async function degerlendir(req: Request, uid: string, b: Record<string, unknown>
   }
   const system = [
     TEMEL,
+    TARIH(),
     "Görevin: kullanıcının anlattığı olayı eğitim amaçlı, yapılandırılmış biçimde değerlendirmek. Kullanıcıya \"siz\" diye hitap et.",
     "Bölümler:",
     "nitelik: olayın hukuki niteliği, hangi hukuki ilişkinin ve uyuşmazlığın söz konusu olduğu, uygulanabilecek mevzuat ve görevli/yetkili mahkeme ya da merci.",
@@ -280,6 +291,7 @@ async function canlandir(uid: string, b: Record<string, unknown>) {
   const taraf = b.taraf === "davali" ? "davali" : "davaci";
   const system = [
     TEMEL,
+    TARIH(),
     "Görevin: bu olay üzerine eğitim amaçlı, kısa bir duruşma canlandırması yazmak. Kullanıcının tarafı: " + (taraf === "davaci" ? "davacı (ya da başvuran, şikâyetçi)" : "davalı (ya da karşı taraf, şüpheli/sanık)") + ".",
     "Sıra: hâkim duruşmayı açar; davacı vekili ve davalı vekili sırayla 3 tur konuşur (talep, savunma, deliller, karşı cevaplar); hâkim gerekirse kısa sorular sorar. Toplam 8-12 konuşma olsun; her konuşma en çok 4 cümle.",
     "Ceza ya da idare davasıysa roller için uygun adı ad alanına yaz (örneğin müşteki vekili, sanık müdafii, davalı idare vekili); rol alanı yine hakim, davaci ya da davali olsun.",
@@ -313,6 +325,7 @@ async function takip(uid: string, b: Record<string, unknown>) {
   const d = dilOf(b);
   const system = [
     TEMEL,
+    TARIH(),
     "Görevin: daha önce eğitim amaçlı değerlendirdiğin olay hakkında kullanıcının takip sorusunu cevaplamak. Kısa ve somut yaz (en çok 200 kelime), düz metin; Markdown başlığı ya da tablo kullanma.",
     "Soru olayla ilgisizse ya da hukuka aykırı bir amaca yönelikse kibarca cevap verme ve nedenini söyle. Cevabın sonunda tek cümleyle somut iş için bir avukata danışmasını hatırlat.",
     dilTalimati(d)

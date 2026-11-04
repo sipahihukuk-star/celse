@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Modal, StyleSheet, Text, TextInput, View } from "react-native";
 import { endRecovery, isRecovering, setNewPassword, useAccount } from "../data/account";
-import { kbBar } from "./KeyboardBar";
+import { KeyboardBar, kbBar } from "./KeyboardBar";
 import { Btn } from "./kit";
 import { C, F } from "./theme";
 import { t } from "../i18n";
@@ -35,6 +35,7 @@ export function NewPassword() {
           </View>
         </View>
       </View>
+      <KeyboardBar inModal />
     </Modal>
   );
 }

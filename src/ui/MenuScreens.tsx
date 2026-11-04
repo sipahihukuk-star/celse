@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { KeyboardBar } from "./KeyboardBar";
 import { Linking, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { useVoiceEnabled } from "./voice";
 import { Platform, Share } from "react-native";
@@ -230,6 +231,7 @@ function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; o
         </View>
         <Pressable style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.55)" }} onPress={onClose} accessibilityLabel={t("Kapat")} />
       </View>
+      <KeyboardBar inModal />
     </Modal>
   );
 }
@@ -377,6 +379,7 @@ export function SetupModal({ c, onClose, onStart, onOnline, fixedSide, meName, c
           </View>
         </Pressable>
       </Pressable>
+      <KeyboardBar inModal />
     </Modal>
   );
 }
