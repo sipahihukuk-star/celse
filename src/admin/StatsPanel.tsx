@@ -1,5 +1,6 @@
 // Yönetim paneli · İstatistikler: oynanan davalar (ücretsiz / ücretli içerik), aktif kullanıcı, yeni üye, Pro abone,
 // ödeme olayları, en çok oynanan davalar, oyun biçimleri ve üye başına kullanım tablosu (supabase/surum9.sql).
+import { kbBar } from "../ui/KeyboardBar";
 import React, { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { Chip } from "../ui/kit";
@@ -131,7 +132,7 @@ export function StatsPanel({ titles, onClose }: { titles: Record<string, string>
 
           <Card title="Üyeler" hint={`Oyun sayıları ${period} için; son etkinlik bütün zamanlar.`}>
             <View style={st.row}>
-              <TextInput value={q} onChangeText={setQ} placeholder="Ara: ad, e-posta…" placeholderTextColor={C.muted} style={st.search} />
+              <TextInput {...kbBar} value={q} onChangeText={setQ} placeholder="Ara: ad, e-posta…" placeholderTextColor={C.muted} style={st.search} />
               <Seg value={sort} onChange={setSort} options={[{ v: "son", label: "Son etkinlik" }, { v: "oyun", label: "Oyun sayısı" }]} />
             </View>
             <Text style={st.note}>{users.length} üye{users.length > 150 ? " · ilk 150 gösteriliyor" : ""}</Text>

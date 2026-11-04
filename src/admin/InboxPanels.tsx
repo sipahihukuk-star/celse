@@ -1,5 +1,6 @@
 // Yönetim paneli · "Duyuru ve mesajlar" ve "Hata bildirimleri" (supabase/surum9.sql).
 // Gönderme tek yoldan yapılır: mesajGonder() (src/data/inbox.ts). E-posta ileride oraya eklenecek.
+import { kbBar } from "../ui/KeyboardBar";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { supabase } from "../data/account";
@@ -79,7 +80,7 @@ export function MessagesPanel({ onClose }: { onClose: () => void }) {
             </View>
           ) : (
             <>
-              <TextInput value={q} onChangeText={setQ} placeholder="Ara: ad soyad ya da e-posta (en az 2 harf)" placeholderTextColor={C.muted} style={st.search} autoCapitalize="none" />
+              <TextInput {...kbBar} value={q} onChangeText={setQ} placeholder="Ara: ad soyad ya da e-posta (en az 2 harf)" placeholderTextColor={C.muted} style={st.search} autoCapitalize="none" />
               {found.map(p => (
                 <Pressable key={p.id} accessibilityRole="button" onPress={() => { setPerson(p); setFound([]); }} style={({ pressed }) => [st.pick, pressed && { opacity: 0.7 }]}>
                   <Text style={st.pickT}>{p.ad_soyad || "(adsız)"}</Text><Text style={st.meta}>{p.eposta}</Text>

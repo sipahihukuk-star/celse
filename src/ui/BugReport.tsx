@@ -1,5 +1,6 @@
 // "Hata bildir" penceresi: oyuncu duruşma sırasında metin, hukuk, görsel ya da teknik bir hatayı bildirir.
 // Dava, adım, ekrandaki satır, uygulama sürümü, platform ve dil kendiliğinden eklenir (supabase/surum9.sql "hata_bildirimleri").
+import { kbBar } from "./KeyboardBar";
 import React, { useState } from "react";
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useAccount } from "../data/account";
@@ -81,7 +82,7 @@ export function BugReportModal({ visible, onClose, davaId, adim, subtitle, conte
                     ))}
                   </View>
                   <Text style={st.label}>{t("AÇIKLAMA")}</Text>
-                  <TextInput value={text} onChangeText={v => { setText(v); setErr(""); }} multiline maxLength={4000}
+                  <TextInput {...kbBar} value={text} onChangeText={v => { setText(v); setErr(""); }} multiline maxLength={4000}
                     placeholder={t("Ne yanlış? Doğrusu ne olmalı? (ör. madde numarası, yazım hatası, uyumsuz görsel)")} placeholderTextColor={C.inkSoft}
                     style={st.input} accessibilityLabel={t("Açıklama")} />
                   <View style={st.ctx}>
