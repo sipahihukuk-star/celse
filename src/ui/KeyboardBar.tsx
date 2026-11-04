@@ -3,7 +3,6 @@
 // klavye olaylarını dinleyip uygulamanın en üstüne çizilir ve her yazı alanında kendiliğinden çıkar.
 import React, { useEffect, useState } from "react";
 import { Keyboard, Platform, Pressable, StyleSheet, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { C, F } from "./theme";
 import { t } from "../i18n";
 
@@ -11,10 +10,9 @@ export const KB_BAR = "celse-klavye-cubugu";
 /** Eski kullanım için korunur: artık yazı alanına bir şey eklemesi gerekmez. */
 export const kbBar = {};
 
-/** inModal: Modal içinde tam ekran çizilir (güvenli alan payı düşülmez). */
-export function KeyboardBar({ inModal }: { inModal?: boolean }) {
+/** Mutlak konum ekranın altından ölçülür (SafeAreaView dolgusu etkilemez); düğme klavyenin 12 nokta üstünde durur. */
+export function KeyboardBar(_p: { inModal?: boolean }) {
   const [h, setH] = useState(0);
-  const ins = useSafeAreaInsets();
   useEffect(() => {
     if (Platform.OS !== "ios") return;
     const a = Keyboard.addListener("keyboardWillShow", e => setH(e.endCoordinates.height));
@@ -26,7 +24,7 @@ export function KeyboardBar({ inModal }: { inModal?: boolean }) {
   return (
     <View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { zIndex: 9999 }]}>
       <Pressable accessibilityRole="button" accessibilityLabel={t("Klavyeyi kapat")} onPress={() => Keyboard.dismiss()} hitSlop={10}
-        style={[s.btn, { bottom: h + 8 - (inModal ? 0 : ins.bottom) }]}>
+        style={[s.btn, { bottom: h + 12 }]}>
         <Text style={s.t}>{t("Bitti")}</Text>
       </Pressable>
     </View>
