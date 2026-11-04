@@ -37,6 +37,8 @@ export interface CastMember {
   /** isim plakasının rengi */
   np?: "red" | "green" | "civil";
   look: Look;
+  /** "business": şirket ya da kurum adına gelen biri; fotoğraflı sahnede takım elbiseli bir yüz alır (castFaces EXEC). */
+  attire?: "business";
 }
 
 export interface Fatal {

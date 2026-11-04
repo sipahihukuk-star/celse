@@ -1,14 +1,15 @@
-// "Duruşmayı izle" videosu (yalnız web): sahneler bir <canvas>'a çizilir (arka plan, yüzler ve siluetler, ad etiketleri, altyazı,
-// sabit uyarı), satırların bulut sesleri WebAudio ile aynı zaman çizelgesine konur ve MediaRecorder ile tek dosyaya kaydedilir
+// "Duruşmayı izle" videosu (yalnız web): sahneler bir <canvas>'a çizilir (oyunun sahne yerleşimiyle — stageLayout — arka plan,
+// yüzler, masa önü, salon levhası; altta altyazı, üstte sabit uyarı), satırların bulut sesleri WebAudio ile aynı zaman çizelgesine konur ve MediaRecorder ile tek dosyaya kaydedilir
 // (tarayıcı destekliyorsa mp4, değilse webm). Kayıt gerçek sürede yapılır. Yeni bir yerel modül gerektirmez.
 // Eğitim amaçlı canlandırmadır, hukuki görüş değildir; karakterler gerçek avukat değildir.
 import { Image as RNImage, Platform } from "react-native";
 import type { Danisma, Kim, Senaryo } from "../data/danisma";
 import { t } from "../i18n";
-import { ARA_SN, Fig, figW, Kadro, kimAdi, kimKisa, Parca, parcalar, sahneBaslik, SIL_H, SIL_PATH, SIL_W, UYARI_KISA, yerlesim } from "./izleOrtak";
+import { ARA_SN, gorunum, Kadro, kimAdi, Parca, parcalar, sahneBaslik, UYARI_KISA } from "./izleOrtak";
 import { MOUTHS } from "./mouths";
 import { visemes } from "./PhotoStage";
 import { PhotoKey, PHOTOS } from "./photos";
+import { drawOrder, figState, KATIP_DESK, SCREEN, StageFig, stageLayout, StageLayout } from "./stageLayout";
 import { C, F } from "./theme";
 import { lineAudioUrl } from "./voice";
 
@@ -67,9 +68,14 @@ export async function videoKaydet(o: {
   // Geliştirme denemesi: window.__izleVideoKisa ile her sahneden yalnız ilk iki satır (otomatik ekran denemesi için).
   if (g().__izleVideoKisa) list = list.filter(p => !p.adim || p.adim.k === "kart" || p.adim.li < 2);
 
-  // 1) görseller
-  const keys = new Set<PhotoKey>(["bg-gorusme", "bg-yerel"]);
-  Object.values(k.yuz).forEach(x => x && keys.add(x));
+  // 1) görseller: her sahnenin yerleşimindeki arka plan ve yüzler (heyet üyeleri dahil) ile kadronun bütün yüzleri.
+  const keys = new Set<PhotoKey>(["bg-gorusme"]);
+  Object.values(k.faces).forEach(x => x && keys.add(x));
+  for (const sh of s.sahneler) {
+    const g = gorunum(k, sh.tur);
+    const L = stageLayout({ c: k.c, scene: g.scene, faces: g.faces, focus: null, guest: null, W, H: SH });
+    keys.add(L.bg); L.figs.forEach(f => keys.add(f.photo));
+  }
   const img: Partial<Record<string, HTMLImageElement | null>> = {};
   const mouth: Record<string, { a: HTMLImageElement | null; o: HTMLImageElement | null }> = {};
   await Promise.all([...keys].map(async key => {
@@ -77,7 +83,7 @@ export async function videoKaydet(o: {
     const m = MOUTHS[key];
     if (m) mouth[key] = { a: m.a ? await loadImg(m.a) : null, o: m.o ? await loadImg(m.o) : null };
   }));
-  if (!img["bg-gorusme"] || !img["bg-yerel"]) throw new Error(t("Görseller yüklenemedi."));
+  if ([...keys].some(x => x.startsWith("bg-") && !img[x])) throw new Error(t("Görseller yüklenemedi."));
   // Konuşmayan kişinin karartılmış kopyası bir kez hazırlanır (her karede filtre uygulamak yavaştır).
   const koyu: Record<string, HTMLCanvasElement> = {};
   for (const key of keys) {
@@ -181,43 +187,27 @@ function sarmala(ctx: CanvasRenderingContext2D, text: string, max: number) {
   return lines;
 }
 
-function pill(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, on: boolean) {
-  ctx.font = `20px ${F.bodyBold}`;
-  const w = Math.min(360, ctx.measureText(text).width + 26), h = 32;
-  const lx = Math.max(6, Math.min(W - w - 6, x - w / 2));
-  ctx.fillStyle = on ? C.bordo : "rgba(10,10,14,0.75)";
-  ctx.strokeStyle = on ? "#fff" : "rgba(255,255,255,0.4)";
-  ctx.lineWidth = 1.5;
-  ctx.beginPath(); (ctx as any).roundRect ? (ctx as any).roundRect(lx, y, w, h, 16) : ctx.rect(lx, y, w, h); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-  ctx.fillText(text, lx + w / 2, y + h / 2 + 1, w - 20);
-}
-
 /** Kare düzeni: üstte sabit uyarı şeridi, ortada sahne, altta konuşanın adı ve altyazı (uygulamadaki gibi; altyazı kimseyi örtmez). */
 const SY = 44, SH = 480, CY = SY + SH;
 
-function cizSahne(ctx: CanvasRenderingContext2D, s: Senaryo, k: Kadro, img: Partial<Record<string, HTMLImageElement | null>>, koyu: Record<string, HTMLCanvasElement>,
-  mouth: Record<string, { a: HTMLImageElement | null; o: HTMLImageElement | null }>, seg: Seg, el: number) {
+type Img = Partial<Record<string, HTMLImageElement | null>>;
+type Agiz = Record<string, { a: HTMLImageElement | null; o: HTMLImageElement | null }>;
+
+function cizSahne(ctx: CanvasRenderingContext2D, s: Senaryo, k: Kadro, img: Img, koyu: Record<string, HTMLCanvasElement>, mouth: Agiz, seg: Seg, el: number) {
   const a = seg.p.adim;
   const sahne = s.sahneler[a ? a.si : 0];
   const line = a && a.k === "satir" ? sahne.satirlar[a.li] : null;
-  const focus: Kim | null = line ? line.kim : null;
-  const y = yerlesim(sahne.tur, W, SH, k.yuz);
-  const bg = img[y.bg]!;
-  const B = PHOTOS[y.bg];
+  const g = gorunum(k, sahne.tur);
+  const focus = line ? g.key[line.kim] : null;
+  // Oyundaki sahneyle aynı yerleşim (büroda konuk yok: danışma görüşmesinde masada yalnız danışan ya da karşı taraf oturur).
+  const L = stageLayout({ c: k.c, scene: g.scene, faces: g.faces, focus, guest: null, W, H: SH });
   ctx.save();
   ctx.fillStyle = C.wallDeep; ctx.fillRect(0, 0, W, H);
 
   // Sahne (SY..CY arası, kırpılarak).
   ctx.save();
   ctx.beginPath(); ctx.rect(0, SY, W, SH); ctx.clip(); ctx.translate(0, SY);
-  const bgDraw = (sy: number, sh: number, dy: number) => {
-    ctx.save();
-    if (y.ayna) { ctx.translate(W, 0); ctx.scale(-1, 1); }
-    ctx.drawImage(bg, 0, sy, B.w, sh, y.ox, dy, B.w * y.s, sh * y.s);
-    ctx.restore();
-  };
-  bgDraw(0, B.h, y.oy);
+  ctx.fillStyle = "#111"; ctx.fillRect(0, 0, W, SH);
   // Ağız karesi: konuşma süresince metnin seslerine göre (PhotoStage ile aynı sıralama).
   let mf = 0;
   if (line && el >= 0) {
@@ -226,21 +216,12 @@ function cizSahne(ctx: CanvasRenderingContext2D, s: Senaryo, k: Kadro, img: Part
     const i = Math.floor(el / per);
     mf = i < seq.length ? seq[i] : 0;
   }
-  for (const f of [...y.figs].sort((p, q) => p.z - q.z)) cizKisi(ctx, f, SH, img, koyu, mouth, focus, mf);
-  if (y.masa !== null) bgDraw((y.masa - y.oy) / y.s, B.h - (y.masa - y.oy) / y.s, y.masa);
-  // Ad etiketleri: siluetlerde hep, diğerlerinde konuşurken.
-  for (const f of y.figs) {
-    if (f.photo && f.kim !== focus) continue;
-    let top = f.photo ? SH - f.bottom - f.h * (f.kim === "hakim" ? 0.18 : 0.1) : SH - f.bottom - f.h * 0.52 - (y.salon && f.kim === "karsiTaraf" ? 40 : 0);
-    if (y.masa !== null && f.photo) top = Math.min(top, y.masa - 44);
-    pill(ctx, kimKisa(f.kim, s), f.x, Math.max(56, Math.min(SH - 40, top)), f.kim === focus);
-  }
-  if (y.salon) {
+  cizYerlesim(ctx, L, img, koyu, mouth, focus, mf);
+  if (L.plaque) {
     ctx.font = `22px ${F.display}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    const tx = (s.mahkeme || t("Mahkeme")) + " · " + t("temsilî");
-    const w = ctx.measureText(tx).width + 30;
+    const w = Math.min(W * 0.8, ctx.measureText(L.plaque).width + 30);
     ctx.fillStyle = "rgba(20,16,10,0.62)"; ctx.fillRect(W / 2 - w / 2, 10, w, 34);
-    ctx.fillStyle = C.brass; ctx.fillText(tx, W / 2, 28);
+    ctx.fillStyle = C.brass; ctx.fillText(L.plaque, W / 2, 28, w - 20);
   }
   ctx.restore();
 
@@ -275,23 +256,44 @@ function cizSahne(ctx: CanvasRenderingContext2D, s: Senaryo, k: Kadro, img: Part
   ctx.restore();
 }
 
-function cizKisi(ctx: CanvasRenderingContext2D, f: Fig, HH: number, img: Partial<Record<string, HTMLImageElement | null>>, koyu: Record<string, HTMLCanvasElement>,
-  mouth: Record<string, { a: HTMLImageElement | null; o: HTMLImageElement | null }>, focus: Kim | null, mf: number) {
-  const w = figW(f), h = f.h, x0 = f.x - w / 2, y0 = HH - f.bottom - h;
-  const speaking = focus === f.kim;
-  const lit = focus === null || speaking || !f.front;
-  ctx.save();
-  if (!f.photo) {
-    // Siluet: koyu dolgu ve açık kenar çizgisi (konuşurken parlak); ekrandakiyle aynı.
-    ctx.translate(x0, y0); ctx.scale(w / SIL_W, h / SIL_H);
-    const p = new Path2D(SIL_PATH);
-    ctx.fillStyle = "#17171c"; ctx.fill(p);
-    ctx.strokeStyle = speaking ? "#fbf4f5" : "rgba(255,255,255,0.55)"; ctx.lineWidth = speaking ? 1.9 : 1.2; ctx.stroke(p);
-    ctx.restore();
-    return;
+/** Oyundaki sahnenin (PhotoStage) tuvaldeki karşılığı: aynı yerleşim, aynı çizim sırası. */
+function cizYerlesim(ctx: CanvasRenderingContext2D, L: StageLayout, img: Img, koyu: Record<string, HTMLCanvasElement>, mouth: Agiz, focus: string | null, mf: number) {
+  const bg = img[L.bg];
+  const B = PHOTOS[L.bg];
+  if (!bg) return;
+  const { s, ox, oy } = L;
+  const X = (x: number) => ox + x * s, Y = (y: number) => oy + y * s;
+  // Daraltılmış salonda üstte kalan şerit: fotoğrafın üst kenarı dikeyde uzatılır, biraz karartılır.
+  if (oy > 0) {
+    ctx.drawImage(bg, 0, 0, B.w, B.h * 0.06, ox, 0, B.w * s, oy + 1);
+    ctx.fillStyle = "rgba(0,0,0,0.35)"; ctx.fillRect(0, 0, L.W, oy + 1);
   }
+  ctx.drawImage(bg, ox, oy, B.w * s, B.h * s);
+  for (const d of drawOrder(L, focus)) {
+    if (d.k === "fig") { cizKisi(ctx, d.f, L.H, img, koyu, mouth, focus, mf); continue; }
+    // Örtü: arka planın bu parçası kişilerin üstüne yeniden çizilir (fotoğrafın dışına taşan kısım kırpılır).
+    const x0 = Math.max(0, d.r.x0), x1 = Math.min(B.w, d.r.x1), y0 = Math.max(0, d.r.top), y1 = Math.min(B.h, d.r.bottom);
+    if (x1 > x0 && y1 > y0) ctx.drawImage(bg, x0, y0, x1 - x0, y1 - y0, X(x0), Y(y0), (x1 - x0) * s, (y1 - y0) * s);
+  }
+  if (L.screen) {
+    // Kâtibin ekranı: arkası bize dönük; ayağı masaya oturur.
+    const sx = X(SCREEN.x0), sw = (SCREEN.x1 - SCREEN.x0) * s, top = Y(SCREEN.top), sh = (SCREEN.bottom - SCREEN.top) * s;
+    ctx.fillStyle = "#16171a"; ctx.strokeStyle = "#34363c"; ctx.lineWidth = Math.max(1, s);
+    ctx.beginPath(); (ctx as any).roundRect ? (ctx as any).roundRect(sx, top, sw, sh, 3 * s) : ctx.rect(sx, top, sw, sh); ctx.fill(); ctx.stroke();
+    const foot = Y(KATIP_DESK.top + 3);
+    ctx.fillStyle = "#24262b";
+    ctx.fillRect(sx + sw / 2 - (SCREEN.standW * s) / 2, top + sh, SCREEN.standW * s, Math.max(0, foot - (top + sh) - 2.5 * s));
+    ctx.fillRect(sx + sw / 2 - (SCREEN.baseW * s) / 2, foot - 2.5 * s, SCREEN.baseW * s, 2.5 * s);
+  }
+}
+
+function cizKisi(ctx: CanvasRenderingContext2D, f: StageFig, HH: number, img: Img, koyu: Record<string, HTMLCanvasElement>, mouth: Agiz, focus: string | null, mf: number) {
+  const P = PHOTOS[f.photo];
+  const h = f.h, w = h * (P.w / P.h), x0 = f.x - w / 2, y0 = HH - f.bottom - h;
+  const { speaking, lit } = figState(f, focus);
   const im = img[f.photo];
-  if (!im) { ctx.restore(); return; }
+  if (!im) return;
+  ctx.save();
   if (f.flip) { ctx.translate(f.x, 0); ctx.scale(-1, 1); ctx.translate(-f.x, 0); }
   ctx.drawImage(!lit && koyu[f.photo] ? koyu[f.photo] : im, x0, y0, w, h);
   const m = MOUTHS[f.photo], mi = mouth[f.photo];

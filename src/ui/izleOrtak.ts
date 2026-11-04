@@ -1,51 +1,144 @@
-// "Duruşmayı izle" ortak parçaları: kadro (yüzler ve sesler), rol adları, sahne başlıkları, adımlar, sahne yerleşimi,
-// sesli kayıt/video parçaları ve tutanak metni. Ekrandaki oynatıcı (DanismaWatch), MP3 ve video (izleVideo) aynı bilgiyi kullanır.
+// "Duruşmayı izle" ortak parçaları: kadro (yüzler ve sesler), rol adları, sahne başlıkları, adımlar, sesli kayıt/video parçaları
+// ve tutanak metni. Ekrandaki oynatıcı (DanismaWatch), MP3 ve video (izleVideo) aynı bilgiyi kullanır.
+// Sahneler oyunun kendi sahnesiyle çizilir: senaryodan oyundaki gibi bir dava dosyası (CaseFile) kurulur, yüzler oyunun havuzlarından
+// (castFaces) gelir; büro görüşmesi oyundaki görüşme odası, duruşma o mahkeme türünün oyundaki salonudur (stageLayout).
 // Eğitim amaçlı canlandırmadır, hukuki görüş değildir; karakterler gerçek avukat değildir.
 import type { Danisma, Kim, SahneTur, Senaryo } from "../data/danisma";
 import { alanAdi } from "../data/danisma";
+import type { CaseFile, Look, Scene } from "../engine/types";
 import { locale, t } from "../i18n";
-import { hash, JUDGE, LAWYER } from "./castFaces";
-import { PhotoKey, PHOTOS } from "./photos";
-import { DESK, MIN_VIEW, ROOM } from "./PhotoStage";
+import { castFaces, faceFemale, hash, LAWYER } from "./castFaces";
+import type { PhotoKey } from "./photos";
 import { Speaker, voiceOf } from "./voice";
 
 export const UYARI_KISA = "Eğitim amaçlı canlandırmadır, hukuki görüş değildir. Oyuncular/karakterler gerçek avukat değildir.";
 
-/** Siluet (baş ve omuzlar), 100×128 birimlik kutuda. SVG'de ve tuvalde (Path2D) aynı yol kullanılır. */
-export const SIL_PATH = "M50 12 C61 12 68 22 68 35 C68 48 61 58 50 58 C39 58 32 48 32 35 C32 22 39 12 50 12 Z M42 56 L58 56 L59 67 C76 70 91 80 95 101 L97 128 L3 128 L5 101 C9 80 24 70 41 67 Z";
-export const SIL_W = 100, SIL_H = 128;
-
 export interface Kadro {
-  /** Fotoğrafı olanların yüzü (siluetlerin yüzü yoktur). */
-  yuz: Partial<Record<Kim, PhotoKey>>;
-  /** Her konuşanın sesi (bulut sesi adı farklı olacak biçimde seçilir). */
+  /** Senaryodan kurulan, oyundaki gibi dava dosyası (yalnız sahne çizimi için: kadro, mahkeme, salon). */
+  c: CaseFile;
+  /** Sahnedeki yüzler (oyunun kadro anahtarlarıyla: p1, opp, judge, client, karşı taraf, kâtip...). */
+  faces: Record<string, PhotoKey>;
+  /** Karşı tarafın kadrodaki anahtarı ("karsiTaraf"; karşı taraf savcıysa "savci"). */
+  kt: string;
+  /** Konuşanların yüzü. */
+  yuz: Record<Kim, PhotoKey>;
+  /** Her konuşanın sesi (bulut sesi adı farklı olacak biçimde seçilir; cinsiyet yüze uyar). */
   ses: Record<Kim | "narr", Speaker>;
 }
 
+/* ---------- cinsiyet: metinden, yoksa danışmaya bağlı sabit bir seçim ---------- */
+const L = "a-zçğıöşüâîû";
+const w = (re: string) => new RegExp(`(^|[^${L}])(${re})(?=[^${L}]|$)`, "g");
+const KADIN_BEN = w("kocam(ın|la|dan|a|ı|ız)?|eski kocam\\S*|hamile(yim|yken|ydim)?|gebe(yim|yken|liğim\\S*)?|lohusa\\S*|doğum izn\\S*|doğum yaptı\\S*|annesiyim|anne olarak|kadın olarak|bir kadınım|kızlık soyad\\S*");
+const ERKEK_BEN = w("karım(ın|la|dan|a|ı)?|eski karım\\S*|hanımım\\S*|babasıyım|baba olarak|erkek olarak|bir erkeğim|askerlik\\S*|askere|askerde\\S*");
+const say = (re: RegExp, x: string) => (x.toLocaleLowerCase("tr").match(re) || []).length;
+/** Satırlardaki hitaplar: "… Hanım", "hanımefendi" ya da "… Bey", "beyefendi". */
+const hitap = (x: string) => ({ f: say(w("hanım(efendi)?(ın|a|ı|la|cığım)?"), x), m: say(w("bey(efendi)?(in|e|i|le)?"), x) });
+const karar = (f: number, m: number): boolean | undefined => (f > m ? true : m > f ? false : undefined);
+
+/** Danışanın (biz) ve karşı tarafın cinsiyeti: görüşmede avukatın hitabı, danışma metnindeki birinci tekil ipuçları
+ *  ("kocam", "hamileyken", "karım", "askerlik"), karşı tarafın rol adı ("eşi", "baba"). Anlaşılmazsa undefined. */
+export function tarafCinsiyeti(s: Senaryo, d: Danisma): { biz?: boolean; karsi?: boolean } {
+  const satir = (tur: SahneTur, kim: Kim) => s.sahneler.filter(x => x.tur === tur).flatMap(x => x.satirlar).filter(l => l.kim === kim).map(l => l.metin).join(" ");
+  const hb = hitap(satir("gorusme_biz", "bizAvukat")), hk = hitap(satir("gorusme_karsi", "karsiAvukat"));
+  const benim = [d.olay, d.talep, d.deliller, ...s.sahneler.flatMap(x => x.satirlar).filter(l => l.kim === "biz").map(l => l.metin)].join(" ");
+  const biz = karar(hb.f, hb.m) ?? karar(say(KADIN_BEN, benim), say(ERKEK_BEN, benim));
+  const rol = (s.roller?.karsiTaraf || "").toLocaleLowerCase("tr");
+  let karsi = karar(hk.f, hk.m);
+  if (karsi === undefined) {
+    if (w("kadın(ı)?|anne(si)?|kız(ı|kardeş\\S*)?|karı(sı)?|hanım(ı)?").test(rol)) karsi = true;
+    else if (w("erkek|baba(sı)?|koca(sı)?|oğul|oğlu|bey(i)?").test(rol)) karsi = false;
+    else if (biz !== undefined && w("eş(i|im|iniz)?|davalı eş|davacı eş").test(rol)) karsi = !biz;
+  }
+  return { biz, karsi };
+}
+
+/** Karşı taraf bir şirket ya da kurum mu (işveren, sigorta, banka, idare...). Öyleyse takım elbiseli bir yetkili gelir. */
+export const kurumMu = (x: string) => /şirket|a\.ş|ltd|holding|işveren|sigorta|banka|finans|kurum|idare|belediye|bakanlı|müdürlüğ|başkanlığ|üniversite|hastane|okul|kooperatif|vakıf|dernek|yönetim|yetkili|temsilci|mağaza|satıcı|üretici|firma|ticaret|market|operatör|kargo|otel|acente|fabrika|işletme/i.test(x);
+
+const look = (female: boolean, kind: Look["kind"]): Look => ({ kind, skin: "#d9a982", hair: "#2e2a28", style: female ? "long" : "short" });
+
+/** Senaryodan oyundaki gibi bir dava dosyası: mahkeme ve salon, heyet, kadro (danışan müvekkil, karşı taraf, iki vekil, hâkim;
+ *  ceza mahkemesinde savcı). Adlar yalnız yüz seçimi içindir; ekrandaki etiketler kimAdi/kimKisa'dan gelir. */
+export function izleDosyasi(s: Senaryo, d: Danisma, g: { avukat: boolean; karsiAvukat: boolean; hakim: boolean; biz: boolean; karsi: boolean; savci: boolean }): { c: CaseFile; kt: string } {
+  const r = s.roller || ({} as Senaryo["roller"]);
+  const mahkeme = s.mahkeme || t("Mahkeme");
+  const davaci = s.taraf !== "davali";
+  const tahkim = /Tahkim|Hakem/i.test(mahkeme) && !/Asliye|Ticaret Mahkemesi/.test(mahkeme);
+  const yuksek = /Yargıtay|Danıştay|Sayıştay|Bölge/.test(mahkeme);
+  const heyet = /Ağır Ceza|Bölge|Yargıtay|Danıştay|Sayıştay|Anayasa|Tahkim|Hakem|Komisyon|Kurul/i.test(mahkeme) ? 3 : 1;
+  const ceza = /Ceza/.test(mahkeme);
+  const ktSavci = /savcı/i.test(r.karsiTaraf || "");
+  const kt = ktSavci ? "savci" : "karsiTaraf";
+  const ktAd = r.karsiTaraf || t("Karşı taraf");
+  const cast: CaseFile["cast"] = {
+    judge: { name: r.hakim || t("Hâkim"), np: "red", look: look(g.hakim, "robe") },
+    p1: { look: look(g.avukat, "robe") },
+    opp: { name: r.karsiAvukat || (davaci ? "Davalı vekili" : "Davacı vekili"), np: "green", look: look(g.karsiAvukat, "robe") },
+    client: { name: "Müvekkil", np: "civil", look: look(g.biz, "civil") },
+    // Karşı taraf, karşı vekilin yanında durur: taraf sıfatı (davalı/davacı) adına eklenir ki taraf teşkilinde yerini bulsun.
+    [kt]: ktSavci
+      ? { name: ktAd, np: "red", look: look(g.karsi, "robe") }
+      : { name: `${ktAd} · ${davaci ? "Davalı" : "Davacı"}`, np: "civil", look: look(g.karsi, "civil"), ...(kurumMu(`${ktAd} ${d.karsi || ""}`) ? { attire: "business" as const } : {}) }
+  };
+  // Ceza mahkemesinde savcı kürsüde oturur (oyundaki ceza duruşmalarındaki gibi); karşı taraf savcıysa o oturur.
+  if (ceza && !ktSavci) cast.pros = { name: "Cumhuriyet Savcısı", np: "red", look: look(g.savci, "robe") };
+  const c: CaseFile = {
+    id: `danisma:${d.id}`, mode: "solo", title: t("Duruşmayı izle"), area: alanAdi(d.alan), court: mahkeme,
+    courtShort: `${mahkeme} · ${t("temsilî")}`, esas: "", kararTarihi: "", color: "#7b1e2e", teaser: "",
+    sides: { p1: { role: davaci ? "Davacı vekili" : "Davalı vekili", short: davaci ? "Davacı" : "Davalı" }, p2: { role: ktAd, short: ktAd } },
+    cast, courtCast: ["opp"], bench: { judges: heyet },
+    room: tahkim ? "tahkim" : yuksek ? "yuksek" : undefined,
+    // Türkiye'deki hakem heyetleri ve komisyonlar toplantı salonunda (bg-komisyon); öbür tahkimler Türk hakemlerle tahkim salonunda.
+    forum: tahkim ? (/Sigorta/.test(mahkeme) ? "sigorta" : /Komisyon|Heyet|Kurul/.test(mahkeme) ? "ihtk" : "istac") : undefined,
+    intro: [], docs: [], steps: [], outcomes: []
+  };
+  return { c, kt };
+}
+
 /** Danışmaya bağlı sabit kadro: aynı danışma her açılışta aynı yüzleri ve sesleri kullanır. */
-export function kadro(id: string): Kadro {
+export function kadro(d: Danisma, s: Senaryo): Kadro {
+  const id = d.id;
   const h = hash(id);
   const bizF = (h & 1) === 1;
-  const pick = (pool: readonly PhotoKey[], k: number) => pool[k % pool.length];
-  const bizAvukat = pick(bizF ? LAWYER.f : LAWYER.m, h >>> 3);
-  // Karşı avukat ayırt edilsin diye öbür cinsiyetten seçilir.
-  const karsiAvukat = pick(bizF ? LAWYER.m : LAWYER.f, h >>> 7);
-  const hakim = pick((h >>> 2) & 1 ? JUDGE.f : JUDGE.m, h >>> 11);
-  const yuz: Kadro["yuz"] = { bizAvukat, karsiAvukat, hakim };
-  const female: Record<Kim, boolean> = {
-    bizAvukat: bizAvukat.includes("kadin"), karsiAvukat: karsiAvukat.includes("kadin"), hakim: hakim.includes("kadin"),
-    biz: ((h >>> 15) & 1) === 1, karsiTaraf: ((h >>> 16) & 1) === 1
-  };
+  // Danışanın avukatı (eski sürümdeki seçimle aynı); karşı avukat ayırt edilsin diye öbür cinsiyetten.
+  const bizAvukat = (bizF ? LAWYER.f : LAWYER.m)[(h >>> 3) % (bizF ? LAWYER.f : LAWYER.m).length];
+  const cins = tarafCinsiyeti(s, d);
+  const { c, kt } = izleDosyasi(s, d, {
+    avukat: bizF, karsiAvukat: !bizF, hakim: ((h >>> 2) & 1) === 1, savci: ((h >>> 13) & 1) === 1,
+    biz: cins.biz ?? ((h >>> 15) & 1) === 1, karsi: cins.karsi ?? ((h >>> 16) & 1) === 1
+  });
+  const faces = castFaces(c, bizAvukat as Parameters<typeof castFaces>[1], bizF);
+  const yuz: Kadro["yuz"] = { bizAvukat: faces.p1, karsiAvukat: faces.opp, hakim: faces.judge, biz: faces.client, karsiTaraf: faces[kt] };
   const ses = { narr: { id: "narr", role: "narr", female: true } } as Kadro["ses"];
   const kullanilan = new Set<string>();
   for (const k of ["hakim", "bizAvukat", "karsiAvukat", "biz", "karsiTaraf"] as Kim[]) {
-    let sp: Speaker = { id: `danisma:${id}:${k}`, role: k === "hakim" ? "judge" : k, female: female[k] };
+    let sp: Speaker = { id: `danisma:${id}:${k}`, role: k === "hakim" ? "judge" : k, female: faceFemale(yuz[k]) };
     // Aynı cinsiyetten iki kişi aynı sesle konuşmasın: kimlik ekiyle başka bir ses denenir.
     for (let i = 1; i < 30 && kullanilan.has(voiceOf(sp)); i++) sp = { ...sp, id: `danisma:${id}:${k}:${i}` };
     kullanilan.add(voiceOf(sp));
     ses[k] = sp;
   }
-  return { yuz, ses };
+  return { c, faces, kt, yuz, ses };
+}
+
+/** Sahnenin oyundaki karşılığı: büro mu salon mu, kimin bakışından, konuşan hangi kadro anahtarı.
+ *  Karşı tarafın görüşmesi karşı vekilin bürosudur: oyundaki görüşme odası, bakış karşı vekilin; karşı taraf masanın karşısında oturur.
+ *  (Oda aynalanmaz: duvardaki ruhsatnamenin yazısı ters görünüyordu.) */
+export interface Gorunum { scene: Scene; faces: Record<string, PhotoKey>; key: Record<Kim, string> }
+export function gorunum(k: Kadro, tur: SahneTur): Gorunum {
+  if (tur === "gorusme_karsi") {
+    const f = k.faces;
+    return {
+      scene: "office",
+      faces: { ...f, client: f[k.kt], [k.kt]: f.client, p1: f.opp, opp: f.p1 },
+      key: { karsiAvukat: "p1", karsiTaraf: "client", biz: k.kt, bizAvukat: "opp", hakim: "judge" }
+    };
+  }
+  return {
+    scene: tur === "gorusme_biz" ? "office" : "court", faces: k.faces,
+    key: { bizAvukat: "p1", karsiAvukat: "opp", hakim: "judge", biz: "client", karsiTaraf: k.kt }
+  };
 }
 
 const tarafAdi = (s: Senaryo, biz: boolean) => ((s.taraf === "davaci") === biz ? t("davacı") : t("davalı"));
@@ -96,54 +189,6 @@ export function parcalar(s: Senaryo, k: Kadro): Parca[] {
   }
   return out;
 }
-
-/* ---------- sahne yerleşimi (fotoğraf koordinatları 1280×716; ekranda ve tuvalde aynı) ---------- */
-/** Yerel salon (bg-yerel): tek hâkimin kürsüdeki yeri. Görüşme odası ve dar ekran ölçüsü PhotoStage'den gelir. */
-const BENCH = { x: 640, y: ROOM.yerel.bench.y, h: ROOM.yerel.bench.h };
-
-export interface Fig { kim: Kim; photo?: PhotoKey; x: number; bottom: number; h: number; flip?: boolean; z: number; front: boolean }
-export interface Yerlesim {
-  bg: PhotoKey; s: number; ox: number; oy: number; W: number; H: number; figs: Fig[];
-  /** Görüşme odasında masanın ön kenarı (bu çizginin altı kişilerin üstüne yeniden çizilir). */
-  masa: number | null;
-  /** Karşı tarafın bürosu: aynı oda aynalanarak başka bir büro gibi gösterilir. */
-  ayna: boolean;
-  salon: boolean;
-}
-
-export function yerlesim(tur: SahneTur, W: number, H: number, yuz: Kadro["yuz"]): Yerlesim {
-  const office = tur === "gorusme_biz" || tur === "gorusme_karsi";
-  const bg: PhotoKey = office ? "bg-gorusme" : "bg-yerel";
-  const B = PHOTOS[bg];
-  // Salonda savcı ve kâtip olmadığı için dar ekranda salonun ortası (kürsü) yeterlidir: oyundakinden daha yakın çekilir.
-  const s = W && H ? Math.max(W / B.w, office ? H / B.h : Math.min(H / B.h, W / (MIN_VIEW * 0.55))) : 1;
-  const ox = (W - B.w * s) / 2, oy = B.h * s > H ? (H - B.h * s) * 0.3 : H - B.h * s;
-  const X = (x: number) => ox + x * s, Y = (y: number) => oy + y * s;
-  const figs: Fig[] = [];
-  if (office) {
-    const ayna = tur === "gorusme_karsi";
-    const av: Kim = ayna ? "karsiAvukat" : "bizAvukat", taraf: Kim = ayna ? "karsiTaraf" : "biz";
-    const h = DESK.clientH * s, bottom = H - Y(DESK.clientBottom);
-    // Taraf masanın karşısındaki koltukta; avukat masanın solunda (aynalı odada sağında), ona dönük.
-    const tx = X(DESK.clientX), ax = Math.max(X(DESK.clientX - 360), W * 0.21);
-    const m = (x: number) => (ayna ? W - x : x);
-    figs.push({ kim: taraf, x: m(tx), bottom, h, z: 2, front: true });
-    figs.push({ kim: av, photo: yuz[av], flip: !ayna, x: m(ax), bottom, h, z: 2, front: true });
-    return { bg, s, ox, oy, W, H, figs, masa: Y(DESK.edge), ayna, salon: false };
-  }
-  const U = Math.min(H, B.h * s);
-  figs.push({ kim: "hakim", photo: yuz.hakim, x: X(BENCH.x), bottom: H - Y(BENCH.y) - BENCH.h * s * 0.06, h: BENCH.h * s * 1.06, z: 1, front: false });
-  // Dar (telefon) sahnede avukatlar kenara açılır, taraflar biraz küçülüp ortaya yaklaşır (PhotoStage ile aynı oranlar).
-  const k = Math.max(0, Math.min(1, (W / U - 1) / 0.8)), lerp = (a: number, b: number) => a + (b - a) * k;
-  const LX = lerp(0.12, 0.17), PX = lerp(0.39, 0.36), ph = U * lerp(0.46, 0.52), lh = U * 0.66;
-  figs.push({ kim: "biz", x: W * PX, bottom: 0, h: ph, z: 3, front: true });
-  figs.push({ kim: "karsiTaraf", x: W * (1 - PX), bottom: 0, h: ph, z: 3, front: true });
-  figs.push({ kim: "bizAvukat", photo: yuz.bizAvukat, x: W * LX, bottom: 0, h: lh, z: 4, front: true });
-  figs.push({ kim: "karsiAvukat", photo: yuz.karsiAvukat, flip: true, x: W * (1 - LX), bottom: 0, h: lh, z: 4, front: true });
-  return { bg, s, ox, oy, W, H, figs, masa: null, ayna: false, salon: true };
-}
-/** Kişinin genişliği: fotoğraf oranı ya da siluet oranı. */
-export const figW = (f: Fig) => (f.photo ? f.h * (PHOTOS[f.photo].w / PHOTOS[f.photo].h) : f.h * (SIL_W / SIL_H));
 
 /* ---------- tutanak ve yazdırma (ikincil seçenek) ---------- */
 export function ozetMetni(s: Senaryo, d: Danisma) {

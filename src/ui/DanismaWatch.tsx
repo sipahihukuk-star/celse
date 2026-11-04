@@ -1,21 +1,17 @@
-// "Duruşmayı izle": danışmanın senaryosu fotoğraflı sahnelerle oynatılır (görüşme, karşı tarafın görüşmesi, duruşma, karar).
-// Kullanıcı ve karşı taraf siluettir; adları yalnız rolleridir. Satırlar seslendirilir (ses açık başlar, 🔇 ile kapanır) ve
+// "Duruşmayı izle": danışmanın senaryosu oyunun kendi fotoğraflı sahnesiyle (PhotoStage) oynatılır: görüşme oyundaki görüşme
+// odasında (danışan masanın karşısında oturur), karşı tarafın görüşmesi karşı vekilin bakışından aynı odada, duruşma ve karar o mahkeme türünün
+// oyundaki salonunda. Yüzler oyunun havuzlarından gelir (izleOrtak.kadro); adlar yalnız rollerdir. Satırlar seslendirilir (ses açık başlar, 🔇 ile kapanır) ve
 // otomatik ilerler. Sonda sesli kayıt (MP3) ve video (web) indirilir; metin özeti yazdırma ikincil seçenektir.
 // Eğitim amaçlı canlandırmadır, hukuki görüş değildir; karakterler gerçek avukat değildir.
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Image, LayoutChangeEvent, Linking, Platform, Pressable, ScrollView, Share, StyleSheet, Text, useWindowDimensions, View } from "react-native";
-import Svg, { Path } from "react-native-svg";
+import { Linking, Platform, Pressable, ScrollView, Share, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { alanAdi, Danisma, Kim, Senaryo, sesKaydi } from "../data/danisma";
 import { WEB_URL } from "../data/settings";
 import { locale, t } from "../i18n";
-import {
-  Adim, adimlar, Fig, figW, kadro, kimAdi, kimKisa, ozetHtml, ozetMetni, parcalar, sahneBaslik, SIL_H, SIL_PATH, SIL_W, UYARI_KISA, yerlesim
-} from "./izleOrtak";
+import { Adim, adimlar, gorunum, kadro, Kadro, kimAdi, ozetHtml, ozetMetni, parcalar, sahneBaslik, UYARI_KISA } from "./izleOrtak";
 import { videoDestekli, videoKaydet, VideoIptal } from "./izleVideo";
 import { Btn } from "./kit";
-import { MOUTHS } from "./mouths";
-import { useMouthFrame } from "./PhotoStage";
-import { PHOTOS } from "./photos";
+import PhotoStage from "./PhotoStage";
 import { C, F } from "./theme";
 import { lineAudioUrl, prefetchLines, speakLine, stopSpeaking, useSpeaking } from "./voice";
 
@@ -33,7 +29,7 @@ function useTypewriter(text: string) {
 
 export default function DanismaWatch({ s, d, onClose, basla }: Props) {
   const steps = useMemo(() => adimlar(s), [s]);
-  const k = useMemo(() => kadro(d.id), [d.id]);
+  const k = useMemo(() => kadro(d, s), [d.id, s]);
   const [pos, setPos] = useState(0);
   const [son, setSon] = useState(basla === "son");
   const [auto, setAuto] = useState(true);
@@ -105,7 +101,7 @@ export default function DanismaWatch({ s, d, onClose, basla }: Props) {
       <Text style={st.warn}>{t(UYARI_KISA)}</Text>
 
       <View style={[st.stageWrap, { flex: wide ? 1.5 : 1 }]}>
-        <WatchStage s={s} tur={sahne.tur} yuz={k.yuz} focus={line ? line.kim : null} talking={talking}
+        <WatchStage k={k} si={step.si} tur={sahne.tur} focus={line ? line.kim : null} talking={talking}
           say={line ? { id: `${pos}`, text: line.metin, voice: ses } : undefined} />
         {step.k === "kart" && (
           <View style={st.card} pointerEvents="none">
@@ -141,88 +137,18 @@ export default function DanismaWatch({ s, d, onClose, basla }: Props) {
 
 const dotOf = (kim: Kim) => (kim === "hakim" ? C.bordoHi : kim === "bizAvukat" || kim === "biz" ? C.good : C.mid);
 
-/* ---------- sahne ---------- */
-function Silhouette({ id, w, h, speaking }: { id: string; w: number; h: number; speaking: boolean }) {
-  return (
-    <Svg width={w} height={h} viewBox={`0 0 ${SIL_W} ${SIL_H}`} accessibilityLabel={id}>
-      <Path d={SIL_PATH} fill="#17171c" stroke={speaking ? "#fbf4f5" : "rgba(255,255,255,0.55)"} strokeWidth={speaking ? 1.9 : 1.2} />
-    </Svg>
-  );
-}
-
-function WatchStage({ s, tur, yuz, focus, talking, say }: {
-  s: Senaryo; tur: Senaryo["sahneler"][number]["tur"]; yuz: ReturnType<typeof kadro>["yuz"]; focus: Kim | null; talking: boolean;
+/* ---------- sahne: oyunun sahnesi ---------- */
+function WatchStage({ k, si, tur, focus, talking, say }: {
+  k: Kadro; si: number; tur: Senaryo["sahneler"][number]["tur"]; focus: Kim | null; talking: boolean;
   say?: { id: string; text: string; voice: boolean };
 }) {
-  const [box, setBox] = useState({ w: 0, h: 0 });
-  const onLayout = (e: LayoutChangeEvent) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height });
-  const W0 = box.w, H = box.h, W = Math.min(W0, Math.round(H * 2.1));
-  const y = useMemo(() => yerlesim(tur, W, H, yuz), [tur, W, H, yuz]);
-  const mouth = useMouthFrame(talking && !!focus, say);
-  const bg = PHOTOS[y.bg];
-
-  const fig = (f: Fig) => {
-    const w = figW(f), h = f.h;
-    const speaking = focus === f.kim;
-    const lit = focus === null || speaking || !f.front;
-    const pos = { position: "absolute" as const, left: f.x - w / 2, bottom: f.bottom, width: w, height: h, zIndex: f.z + (speaking ? 1 : 0) };
-    if (!f.photo) return <View key={f.kim} pointerEvents="none" style={pos}><Silhouette id={kimKisa(f.kim, s)} w={w} h={h} speaking={speaking} /></View>;
-    const p = PHOTOS[f.photo];
-    const m = speaking && mouth ? MOUTHS[f.photo] : undefined;
-    return (
-      <View key={f.kim} pointerEvents="none" style={[pos, f.flip && { transform: [{ scaleX: -1 }] }]}>
-        <Image source={p.src} resizeMode="contain" accessibilityIgnoresInvertColors style={[{ width: w, height: h }, !lit && Platform.OS === "web" && st.dim]} />
-        {!lit && Platform.OS !== "web" && <Image source={p.src} resizeMode="contain" style={{ position: "absolute", left: 0, top: 0, width: w, height: h, tintColor: "#000", opacity: 0.5 }} />}
-        {m && (m.a || m.o) && (
-          <Image source={mouth === 2 ? m.o || m.a : m.a || m.o} resizeMode="stretch"
-            style={[{ position: "absolute", left: m.x * w, top: m.y * h, width: m.w * w, height: m.h * h },
-              mouth === 3 ? { transform: [{ scaleY: 0.62 }, { scaleX: 1.06 }] } : mouth === 4 ? { opacity: 0.55 } : null]} />
-        )}
-      </View>
-    );
-  };
-  // Ad etiketleri: siluetlerde hep, diğerlerinde yalnız konuşurken.
-  const pills = y.figs.filter(f => !f.photo || f.kim === focus).map(f => {
-    const pw = Math.min(170, W * 0.42);
-    // Salondaki iki siluetin etiketi dar ekranda üst üste binmesin: karşı tarafınki biraz yukarıda.
-    let top = f.photo ? H - f.bottom - f.h * (f.kim === "hakim" ? 0.18 : 0.08) : H - f.bottom - f.h * 0.52 - (y.salon && f.kim === "karsiTaraf" ? 26 : 0);
-    if (y.masa !== null && f.photo) top = Math.min(top, y.masa - 30);
-    return (
-      <View key={"p-" + f.kim} pointerEvents="none" style={{ position: "absolute", left: Math.max(2, Math.min(W - pw - 2, f.x - pw / 2)), width: pw, top: Math.max(4, Math.min(H - 26, top)), alignItems: "center", zIndex: 9 }}>
-        <Text numberOfLines={1} style={[st.pill, f.kim === focus && st.pillOn]}>{kimKisa(f.kim, s)}</Text>
-      </View>
-    );
-  });
-
-  return (
-    <View style={{ flex: 1 }} onLayout={onLayout}>
-      <View style={[st.stage, W0 > W && { position: "absolute", top: 0, bottom: 0, left: (W0 - W) / 2, width: W }]}>
-        {W > 0 && (
-          <>
-            {y.oy > 0 && (
-              <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: 0, height: y.oy + 1, overflow: "hidden" }}>
-                <Image source={bg.src} resizeMode="stretch" style={{ position: "absolute", left: y.ox, top: 0, width: bg.w * y.s, height: (y.oy + 1) / 0.06 }} />
-                <View style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.35)" }} />
-              </View>
-            )}
-            <Image source={bg.src} resizeMode="cover" style={[{ position: "absolute", left: y.ox, top: y.oy, width: bg.w * y.s, height: bg.h * y.s }, y.ayna && { transform: [{ scaleX: -1 }] }]} />
-            {[...y.figs].sort((a, b) => a.z - b.z).map(fig)}
-            {y.masa !== null && (
-              <View pointerEvents="none" style={[{ position: "absolute", left: 0, right: 0, top: y.masa, bottom: 0, overflow: "hidden", zIndex: 5 }, y.ayna && { transform: [{ scaleX: -1 }] }]}>
-                <Image source={bg.src} resizeMode="cover" style={{ position: "absolute", left: y.ox, top: y.oy - y.masa, width: bg.w * y.s, height: bg.h * y.s }} />
-              </View>
-            )}
-            {y.salon && <View style={st.plaque} pointerEvents="none"><Text style={st.plaqueT} numberOfLines={1}>{(s.mahkeme || t("Mahkeme")) + " · " + t("temsilî")}</Text></View>}
-            {pills}
-          </>
-        )}
-      </View>
-    </View>
-  );
+  const g = useMemo(() => gorunum(k, tur), [k, tur]);
+  // Her sahne yeni baştan kurulur (büroda bir önceki sahnenin konuğu kalmasın).
+  return <PhotoStage key={si} c={k.c} scene={g.scene} faces={g.faces} focus={focus ? g.key[focus] : null} talking={talking} say={say} />;
 }
 
 /* ---------- son ekran: kayıtlar ve özet ---------- */
-function EndScreen({ s, d, k, onClose, onReplay }: { s: Senaryo; d: Danisma; k: ReturnType<typeof kadro>; onClose: () => void; onReplay: () => void }) {
+function EndScreen({ s, d, k, onClose, onReplay }: { s: Senaryo; d: Danisma; k: Kadro; onClose: () => void; onReplay: () => void }) {
   const [busy, setBusy] = useState<"" | "mp3" | "video">("");
   const [prog, setProg] = useState("");
   const [msg, setMsg] = useState<{ t: string; ok?: boolean } | null>(null);
@@ -364,12 +290,6 @@ const st = StyleSheet.create({
   topS: { fontFamily: F.mono, fontSize: 11, color: C.muted },
   warn: { fontFamily: F.bodyMed, fontSize: 12, lineHeight: 16, color: C.textSoft, backgroundColor: "rgba(208,166,76,0.14)", borderWidth: 1, borderColor: C.mid, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 5 },
   stageWrap: { minHeight: 200 },
-  stage: { flex: 1, overflow: "hidden", backgroundColor: "#111", borderRadius: 10 },
-  dim: (Platform.OS === "web" ? { filter: "brightness(0.5)" } : {}) as any,
-  plaque: { position: "absolute", top: 8, alignSelf: "center", backgroundColor: "rgba(20,16,10,0.62)", borderRadius: 4, paddingHorizontal: 10, paddingVertical: 3, maxWidth: "80%", zIndex: 8 },
-  plaqueT: { fontFamily: F.display, fontSize: 12, letterSpacing: 1.5, color: C.brass },
-  pill: { fontFamily: F.bodyBold, fontSize: 11, color: "#fff", backgroundColor: "rgba(10,10,14,0.72)", borderWidth: 1, borderColor: "rgba(255,255,255,0.35)", borderRadius: 999, paddingHorizontal: 8, paddingVertical: 2, overflow: "hidden" },
-  pillOn: { backgroundColor: C.bordo, borderColor: "#fff" },
   card: { position: "absolute", left: 0, right: 0, top: 0, bottom: 0, backgroundColor: "rgba(12,4,7,0.72)", borderRadius: 10, alignItems: "center", justifyContent: "center", padding: 18, gap: 8, zIndex: 20 },
   cardT: { fontFamily: F.display, fontSize: 26, color: C.brass, textAlign: "center" },
   cardS: { fontFamily: F.body, fontSize: 15, lineHeight: 21, color: C.textSoft, textAlign: "center", maxWidth: 520 },

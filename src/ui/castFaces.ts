@@ -9,13 +9,21 @@ export type Pool = { f: PhotoKey[]; m: PhotoKey[] };
 export const JUDGE: Pool = { f: ["hk-kadin-55", "hk-kadin-45", "hk-kadin-32"], m: ["hk-erkek-58", "hk-erkek-42", "hk-erkek-65"] };
 export const PROS: Pool = { f: ["sv-kadin"], m: ["sv-erkek"] };
 export const LAWYER: Pool = { f: ["av-kadin-32", "av-kadin-52", "av-kadin-25", "av-kadin-basortulu", "av-kadin-41", "av-kadin-28", "av-kadin-61", "av-kadin-35"], m: ["av-erkek-38", "av-erkek-58", "av-erkek-25", "av-erkek-46", "av-erkek-32", "av-erkek-66", "av-erkek-27"] };
+/** Sivil yüzler (müvekkil, sanık, tanık). mv-erkek-22 (kapüşonlu, kaygılı genç), mv-erkek-isci (iş ceketli), mv-erkek-55 (kareli
+ *  gömlek, mont), mv-erkek-is (yakası açık gömlek, sert bakışlı), mv-kadin-25 (kazaklı genç), mv-kadin-72 (başörtülü yaşlı) gündelik
+ *  ya da sert görünür: yalnız bu havuzda kalır, şirket ve tahkim rollerine (EXEC, COUNSEL) verilmez. */
 export const CIVIL: Pool = { f: ["mv-kadin-45", "mv-kadin-25", "mv-kadin-62", "mv-kadin-72"], m: ["mv-erkek-55", "mv-erkek-22", "mv-erkek-is", "mv-erkek-isci"] };
 export const AIHM: Pool = { f: ["ul-kadin-aihm", "ul-kadin-aihm2"], m: ["ul-erkek-aihm", "ul-erkek-aihm2", "ul-erkek-aihm3"] };
-/** Tahkimde avukatlar cübbe giymez: takım elbiseli vekiller. */
-export const COUNSEL: Pool = { f: ["ks-kadin-38"], m: ["ks-erkek-40", "mv-erkek-is"] };
 /** Hakemler (takım elbiseli): milletlerarası ve Türk. */
 export const ARB_INTL: Pool = { f: ["ar-kadin-50"], m: ["ar-erkek-62", "ar-erkek-48"] };
 export const ARB_TR: Pool = { f: ["ar-tr-kadin-44"], m: ["ar-tr-erkek-56"] };
+/** Şirket yetkilisi, yönetici, ticari tahkimde taraf: takım elbiseli, derli toplu yüzler (vekiller ks-, hakem çekimleri ar-).
+ *  Heyette oturan hakemlerin yüzleri dosyada ayrılır (arbBench), aynı kişi hem hakem hem taraf olmaz. */
+export const EXEC: Pool = { f: ["ks-kadin-38", "ar-tr-kadin-44", "ar-kadin-50"], m: ["ks-erkek-40", "ar-tr-erkek-40", "ar-erkek-48", "ar-tr-erkek-56", "ar-erkek-62"] };
+/** EXEC tükenirse aynı cinsiyetten yedek (gündelik ama derli toplu: bej palto, bluz). Erkekte yedek yok. */
+const EXEC_SPARE: Pool = { f: ["mv-kadin-62"], m: [] };
+/** Tahkimde avukatlar cübbe giymez: takım elbiseli vekiller (önce dosya tutan ks- yüzleri). */
+export const COUNSEL: Pool = EXEC;
 export const UCM: Pool = { f: ["ul-kadin-ucm", "ul-kadin-ucm2"], m: ["ul-erkek-ucm", "ul-erkek-ucm2"] };
 
 /** Adında yaş yazmayan yüzlerin görünen yaşı (fotoğraflara bakılarak tahmin edildi). */
@@ -48,6 +56,19 @@ export function tintJudge(k: PhotoKey, robe: string): PhotoKey {
   return robe && /^hk-/.test(k) && t in PHOTOS ? (t as PhotoKey) : k;
 }
 
+/** Tahkim heyetinin (başhakem dışındaki) üyeleri bu sırayla gelir (PhotoStage/stageLayout bu sırayı kullanır). */
+export function arbBench(c: CaseFile, judge: PhotoKey | undefined): PhotoKey[] {
+  const pool = domesticForum(c) ? ["ar-tr-erkek-56", "ar-tr-kadin-44", "ar-tr-erkek-40", "ar-erkek-62"] : c.forum === "istac" ? ["ar-tr-erkek-56", "ar-kadin-50", "ar-erkek-48", "ar-tr-kadin-44"] : ["ar-erkek-62", "ar-kadin-50", "ar-erkek-48", "ar-tr-erkek-56"];
+  return (pool.filter(k => k in PHOTOS) as PhotoKey[]).filter(k => k !== judge);
+}
+
+/** Ticari tahkim (ICC, ISTAC, LCIA, UNCITRAL) ve CAS: taraflar ve kadrodaki sivil kişiler şirket ya da kurum adına gelir. */
+export const commercialArb = (c: CaseFile) => c.room === "tahkim" && !stateCourt(c) && /^(icc|istac|lcia|uncitral|cas)$/.test(c.forum || "");
+/** Kadrodaki kişinin şirket/kurum adına gelen biri olduğu (ad etiketinin tamamına bakılır; "Av.", "Dr." ünvanlı sivil kişiler de). */
+export const CORP_ROLE = /şirket|müdür|direktör|genel sekreter|yetkili|başkan|müşavir|kurucu|yönetim kurulu|yönetici|\bcfo\b|\bceo\b|şefi|temsilci/i;
+/** Taraf sıfatının (sides.role) şirket ya da kulüp olduğu. */
+export const CORP_SIDE = /şirket|sigorta|banka|a\.ş|kulüp|üretici|tedarikçi|satıcı|alıcı|işveren|yüklenici|armatör|kiracı \(|distribütör|lisans|havuz/i;
+
 /** Mahkemeye göre değişen mübaşir ve kâtip yüzleri. */
 const MUBASIR = ["mubasir", "mubasir-kadin", "mubasir-genc", "mubasir-yasli"] as const;
 const KATIP = ["katip", "katip-erkek", "katip-kadin-45", "katip-erkek-45"] as const;
@@ -69,13 +90,22 @@ export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = f
     return ng ? ng === "f" : isFemale(m?.look, m?.name);
   };
   const ageOf = (role: string) => hints[role]?.age ?? (isOld(c.cast[role]?.look) ? 62 : undefined);
-  const pick = (pool: Pool, female: boolean, seed: string, age?: number): PhotoKey => {
+  /** ordered: havuzun sırası önceliktir (ilk boş yüz); yoksa dava kimliğine bağlı bir yerden başlanır.
+   *  spare: havuz tükenince, öbür cinsiyete geçmeden önce denenecek aynı cinsiyetten yedekler. Seçenek verilirse önce aynı
+   *  cinsiyetin bütün boş yüzleri denenir (seçeneksiz çağrılar eski sırayı korur). */
+  const pick = (pool: Pool, female: boolean, seed: string, age?: number, o?: { ordered?: boolean; spare?: Pool }): PhotoKey => {
     const same = female ? pool.f : pool.m;
+    const take = (k: PhotoKey) => { used.add(k); return k; };
     if (age !== undefined) {
-      // En yakın yaştaki boş yüz; eşit yakınlıkta dava kimliğine bağlı sabit bir sıra.
+      // En yakın yaştaki boş yüz; eşit yakınlıkta dava kimliğine bağlı sabit bir sıra (ordered ise havuz sırası).
       const d = (k: PhotoKey) => Math.abs((faceAge(k) ?? 40) - age);
-      const ranked = [...same].sort((a, b) => d(a) - d(b) || hash(c.id + seed + a) - hash(c.id + seed + b));
-      for (const k of ranked) if (!used.has(k)) { used.add(k); return k; }
+      const ranked = [...same].sort((a, b) => d(a) - d(b) || (o?.ordered ? same.indexOf(a) - same.indexOf(b) : hash(c.id + seed + a) - hash(c.id + seed + b)));
+      for (const k of ranked) if (!used.has(k)) return take(k);
+    }
+    if (o) {
+      const st = o.ordered ? 0 : hash(c.id + seed) % Math.max(1, same.length);
+      for (let i = 0; i < same.length; i++) { const k = same[(st + i) % same.length]; if (!used.has(k)) return take(k); }
+      for (const k of o.spare ? (female ? o.spare.f : o.spare.m) : []) if (!used.has(k)) return take(k);
     }
     const list = [...same, ...(female ? pool.m : pool.f)];
     const start = hash(c.id + seed) % same.length;
@@ -91,12 +121,24 @@ export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = f
   const j = c.cast.judge;
   const map: Record<string, PhotoKey> = {};
   map.judge = tintJudge(pick(judgePool, j ? femaleOf("judge") : false, "judge", ageOf("judge")), robeOf(c));
-  for (const [role, m] of Object.entries(c.cast)) {
-    if (role === "judge") continue;
+  // Tahkimde heyetin öbür üyeleri de salonda oturur: yüzleri taraflara ve vekillere verilmesin.
+  if (tahkim) {
+    const wings = arbBench(c, map.judge);
+    for (let i = 0; i < Math.max(0, (c.bench?.judges ?? 1) - 1) && wings.length; i++) used.add(wings[i % wings.length]);
+  }
+  const exec = (role: string, name?: string) => commercialArb(c) || CORP_ROLE.test(name || "") || /^(Av|Dr|Prof|Doç)\./.test(name || "") || (role === "karsi" || role.startsWith("party_")) && corpSide(role);
+  const corpSide = (k: string) => CORP_SIDE.test(c.sides[k === "party_p1" ? "p1" : "p2"].role);
+  const isCounsel = (role: string) => tahkim && (role === "p1" || role === "p2" || role === "opp");
+  // Tahkimde önce vekiller seçilir (dosya tutan ks- yüzleri onlara kalsın), sonra öbür kişiler.
+  const roles = Object.keys(c.cast).filter(r => r !== "judge").sort((a, b) => +isCounsel(b) - +isCounsel(a));
+  for (const role of roles) {
+    const m = c.cast[role];
     const robe = m.look?.kind !== "civil";
     const red = m.np === "red" || role === "pros" || role === "savci";
-    const counsel = tahkim && (role === "p1" || role === "p2" || role === "opp");
-    const pool = counsel ? { f: COUNSEL.f.filter(k => k in PHOTOS), m: COUNSEL.m.filter(k => k in PHOTOS) } as Pool : !robe ? CIVIL : red ? (intl ? judgePool : PROS) : LAWYER;
+    if (isCounsel(role)) { map[role] = pick(COUNSEL, femaleOf(role), role, ageOf(role), { ordered: true, spare: EXEC_SPARE }); continue; }
+    // Şirket ya da kurum adına gelen sivil kişi (yönetici, yetkili; ticari tahkimde herkes): takım elbiseli yüz.
+    if (!robe && !red && (m.attire === "business" || exec(role, m.name))) { map[role] = pick(EXEC, femaleOf(role), role, ageOf(role), { spare: EXEC_SPARE }); continue; }
+    const pool = !robe ? CIVIL : red ? (intl ? judgePool : PROS) : LAWYER;
     map[role] = pick(pool, femaleOf(role), role, ageOf(role));
   }
   // Oyuncunun kendisi: büroda seçtiği karakter; seçmemişse hesaptaki ada göre bir avukat.
@@ -109,10 +151,11 @@ export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = f
   }
   // Taraf teşkili: kadroda karşılığı olmayan taraf (ör. karşı tarafın kendisi) için de bir yüz seçilir.
   const pr = partiesOf(c);
-  // Şirket ya da kulüp tarafı takım elbiseli bir yetkiliyle temsil edilir.
-  const corp = (k: string) => k.startsWith("party_") && /şirket|sigorta|a\.ş|kulüp|üretici|tedarikçi|satıcı|alıcı|işveren|yüklenici|armatör|kiracı \(|distribütör|lisans|havuz/i.test(c.sides[k === "party_p1" ? "p1" : "p2"].role);
-  const SUIT: Pool = { f: ["ks-kadin-38", "mv-kadin-45"].filter(k => k in PHOTOS) as PhotoKey[], m: ["mv-erkek-is", "ks-erkek-40", "mv-erkek-55"].filter(k => k in PHOTOS) as PhotoKey[] };
-  for (const k of [pr.left, pr.right]) if (k && !map[k]) map[k] = pick(corp(k) ? SUIT : CIVIL, hash(c.id + k) % 2 === 0, k);
+  // Şirket, kulüp ya da ticari tahkimde taraf: takım elbiseli bir yetkiliyle temsil edilir (EXEC); öbürleri sivil.
+  for (const k of [pr.left, pr.right]) if (k && !map[k]) {
+    const f = hash(c.id + k) % 2 === 0;
+    map[k] = exec(k) ? pick(EXEC, f, k, undefined, { spare: EXEC_SPARE }) : pick(CIVIL, f, k);
+  }
   // Mübaşir ve kâtip dosyanın mahkemesine göre seçilir: aynı mahkemede hep aynı kişiler, başka mahkemede başkaları.
   const pool = <T extends readonly string[]>(arr: T) => arr.filter(k => k in PHOTOS) as unknown as PhotoKey[];
   const mubs = pool(MUBASIR), kats = pool(KATIP);
