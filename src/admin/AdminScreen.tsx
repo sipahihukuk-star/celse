@@ -1,4 +1,5 @@
 // Yönetim paneli: giriş, dava listesi, yeni dava sihirbazı, içe aktarma ve düzenleyici.
+import { SamplesPanel } from "./SamplesPanel";
 import { DIFFICULTY, levelOf } from "../data/career";
 import { setAdminPreview } from "../data/subscription";
 import React, { useEffect, useMemo, useState } from "react";
@@ -85,7 +86,7 @@ function AdminHome({ onExit, onPreview }: Props) {
   const [modeF, setModeF] = useState<"hepsi" | "solo" | "duel">("hepsi");
   const [statusF, setStatusF] = useState<"hepsi" | "yayinda" | "taslak" | "yerlesik">("hepsi");
   const [confirmDel, setConfirmDel] = useState<string | null>(null);
-  const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri" | "ayarlar" | "istatistik" | "mesajlar" | "hatalar">("");
+  const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri" | "ayarlar" | "istatistik" | "mesajlar" | "hatalar" | "ornek">("");
   const [isServerAdmin, setServerAdmin] = useState<boolean | null>(null);
   const reload = () => store.list().then(setStored);
   // Yönetici denetimi oturum yüklendikten sonra ve hesap her değiştiğinde yeniden yapılır (sayfa oturumdan önce açılırsa
@@ -137,6 +138,7 @@ function AdminHome({ onExit, onPreview }: Props) {
           <SmallBtn label="📊 İstatistikler" tone={ai === "istatistik" ? "accent" : "plain"} onPress={() => setAi(ai === "istatistik" ? "" : "istatistik")} />
           <SmallBtn label="✉️ Duyuru ve mesajlar" tone={ai === "mesajlar" ? "accent" : "plain"} onPress={() => setAi(ai === "mesajlar" ? "" : "mesajlar")} />
           <SmallBtn label="⚑ Hata bildirimleri" tone={ai === "hatalar" ? "accent" : "plain"} onPress={() => setAi(ai === "hatalar" ? "" : "hatalar")} />
+          <SmallBtn label="📂 Örnek olaylar" tone={ai === "ornek" ? "accent" : "plain"} onPress={() => setAi(ai === "ornek" ? "" : "ornek")} />
           <SmallBtn label="👤 Oyuncular" tone={ai === "oyuncular" ? "accent" : "plain"} onPress={() => setAi(ai === "oyuncular" ? "" : "oyuncular")} />
           <SmallBtn label="⚙️ Oyun ayarları" tone={ai === "ayarlar" ? "accent" : "plain"} onPress={() => setAi(ai === "ayarlar" ? "" : "ayarlar")} />
           <SmallBtn label="🌐 Çeviriler" tone={ai === "ceviri" ? "accent" : "plain"} onPress={() => setAi(ai === "ceviri" ? "" : "ceviri")} />
@@ -157,6 +159,7 @@ function AdminHome({ onExit, onPreview }: Props) {
       {ai === "mesajlar" && <MessagesPanel onClose={() => setAi("")} />}
       {ai === "hatalar" && <ReportsPanel titles={titles} onClose={() => setAi("")}
         onOpenCase={id => { const e = entries.find(x => x.c.id === id); if (!e) return false; setEditing({ c: e.c, status: e.status, isNew: false }); return true; }} />}
+      {ai === "ornek" && <SamplesPanel onClose={() => setAi("")} />}
       {ai === "oyuncular" && <PlayersPanel onClose={() => setAi("")} />}
       {ai === "ayarlar" && <SettingsPanel onClose={() => setAi("")} />}
       {ai === "ceviri" && <TranslatePanel cases={entries.map(e => e.c)} onClose={() => setAi("")} />}

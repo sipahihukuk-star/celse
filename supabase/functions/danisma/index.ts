@@ -249,6 +249,8 @@ async function degerlendir(req: Request, uid: string, b: Record<string, unknown>
   let id: string;
   try {
     id = await rpc("danisma_baslat", { p_kullanici: uid, p_alan: v.form.alan, p_olay: v.form.olay, p_deliller: v.form.deliller, p_karsi: v.form.karsi, p_talep: v.form.talep, p_dil: d, p_ucretsiz: admin });
+    // İsteğe bağlı muvafakat: olay anonimleştirilerek örnek dava dosyası hazırlanmasında kullanılabilir (surum10.sql).
+    if (b.ornek === true) { try { await srv("/rest/v1/danismalar?id=eq." + id, "PATCH", { ornek_izni: true }); } catch (_e) { void _e; } }
   } catch (e) {
     if (/kredi yok/.test(String(e))) return json({ error: "kredi yok" }, 402);
     throw e;

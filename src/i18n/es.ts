@@ -1025,6 +1025,10 @@ const dict: Record<string, string> = {
   "Aydınlatma metni": "Aviso de privacidad",
   "Bir avukatla görüşmek isterseniz": "Si quiere hablar con un abogado",
   "Celse sizi belirli bir avukata yönlendirmez ve avukatlık ücretinden pay almaz. Bulunduğunuz ildeki baronun avukat arama hizmetinden avukat bulabilir; maddi imkânınız yoksa baronun adli yardım bürosuna başvurabilirsiniz. Bu değerlendirmeyi avukatınıza göstermeniz görüşmeyi kolaylaştırır.": "Celse no le deriva a un abogado concreto ni recibe parte de los honorarios. Puede encontrar abogado mediante el buscador del colegio de abogados de su provincia; si no puede pagarlo, puede acudir a su oficina de asistencia jurídica gratuita. Mostrar esta evaluación a su abogado puede facilitar la reunión.",
-  "Türkiye Barolar Birliği ›": "Unión de Colegios de Abogados de Turquía ›"
+  "Türkiye Barolar Birliği ›": "Unión de Colegios de Abogados de Turquía ›",
+  "Şu alanlar eksik: {alanlar}. Kırmızıyla işaretli alanları tamamlamadan devam edemezsiniz.": "Faltan estos campos: {alanlar}. No puede continuar hasta completar los campos marcados en rojo.",
+  "Zorunlu:": "Obligatorio:",
+  "İsteğe bağlı:": "Opcional:",
+  "Olayımın, kişisel bilgilerden arındırılarak (anonimleştirilerek) Celse'de eğitim amaçlı örnek dava dosyası hazırlanmasında kullanılmasına muvafakat ediyorum. Bu izin değerlendirmeyi ya da ücreti etkilemez; danışmamı silersem izin de ortadan kalkar.": "Acepto que mi caso, despojado de datos personales (anonimizado), se utilice para preparar expedientes de ejemplo educativos en Celse. Esto no afecta a la evaluación ni al precio; si elimino mi consulta, el permiso también termina."
 };
 export default dict;

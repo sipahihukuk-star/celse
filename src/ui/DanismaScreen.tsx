@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Linking, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import {
   ALANLAR, alanAdi, ASGARI, AZAMI, BOS_FORM, canlandir, Cevap, cevaplariEkle, Danisma, DanismaForm, Degerlendirme, deleteDanisma,
-  degerlendir, formHatalari, kontrolEt, Kutu, listDanismalar, Soru, takipSor, TAKIP_HAKKI
+  ALAN_ADI, degerlendir, formHatalari, kontrolEt, Kutu, listDanismalar, Soru, takipSor, TAKIP_HAKKI
 } from "../data/danisma";
 import { CreditInfo, PRODUCTS } from "../data/purchaseIds";
 import { buyConsumable, getCreditProducts, PURCHASES_AVAILABLE } from "../data/purchases";
@@ -112,6 +112,7 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
   const [cevaplar, setCevaplar] = useState<string[]>([]);
   const [onay, setOnay] = useState<string | null>(null);
   const [riza, setRiza] = useState(false);
+  const [ornek, setOrnek] = useState(false);
   const [busy, setBusy] = useState<"" | "kontrol" | "degerlendir">("");
   const [msg, setMsg] = useState<{ t: string; ok?: boolean } | null>(null);
   // Form değişince önceki "yeterli" onayı düşer: değerlendirme yalnız denetlenen metne yapılır.
@@ -123,7 +124,8 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
   const check = async (f: DanismaForm = form) => {
     setShown(true); setMsg(null);
     if (!riza) { setMsg({ t: t("Devam etmek için açık rıza kutusunu işaretleyin.") }); return; }
-    if (Object.keys(formHatalari(f)).length) { setMsg({ t: t("Bilgiler eksik. Kırmızıyla işaretli alanları tamamlamadan devam edemezsiniz.") }); return; }
+    const eksik = Object.keys(formHatalari(f)) as (keyof typeof ALAN_ADI)[];
+    if (eksik.length) { setMsg({ t: t("Şu alanlar eksik: {alanlar}. Kırmızıyla işaretli alanları tamamlamadan devam edemezsiniz.", { alanlar: eksik.map(k => t(ALAN_ADI[k])).join(", ") }) }); return; }
     setBusy("kontrol");
     const r = await kontrolEt(f);
     setBusy("");
@@ -143,7 +145,7 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
   const start = async () => {
     if (!onay) return;
     setBusy("degerlendir"); setMsg(null);
-    const r = await degerlendir(form, onay);
+    const r = await degerlendir(form, onay, ornek);
     setBusy("");
     if (!r.ok) {
       if (r.status === 409) setOnay(null);
@@ -218,7 +220,11 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
         <Text style={s.hint}>{t("Değerlendirme için dosya numarası, mahkeme adı, kişi ya da şirket adı, adres, plaka veya kesin tarih gerekmez; tarihler için yaklaşık ay ve yıl yeterlidir. Sağlık bilgisini yalnız konuyla doğrudan ilgiliyse ve genel olarak yazın. Bu tür numaralar yazılsa bile sunucuda gizlenir.")}</Text>
         <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: riza }} onPress={() => setRiza(!riza)} style={s.check}>
           <View style={[s.box, riza && s.boxOn]}>{riza && <Text style={s.tick}>✓</Text>}</View>
-          <Text style={s.checkT}>{t("Yazdıklarımın eğitim amaçlı değerlendirme için yurt dışındaki yapay zekâ hizmet sağlayıcısına (Anthropic, ABD) aktarılarak işlenmesine; yazdıklarımda sağlık gibi özel nitelikli bir bilgi varsa onun da işlenmesine açık rıza veriyorum. Aydınlatma metnini okudum. Rızamı geçmiş danışmalarımı silerek geri alabilirim.")} <Text style={s.link} onPress={() => Linking.openURL("https://sipahihukuk-star.github.io/celse/gizlilik.html")}>{t("Aydınlatma metni")}</Text></Text>
+          <Text style={s.checkT}>{t("Zorunlu:")} {t("Yazdıklarımın eğitim amaçlı değerlendirme için yurt dışındaki yapay zekâ hizmet sağlayıcısına (Anthropic, ABD) aktarılarak işlenmesine; yazdıklarımda sağlık gibi özel nitelikli bir bilgi varsa onun da işlenmesine açık rıza veriyorum. Aydınlatma metnini okudum. Rızamı geçmiş danışmalarımı silerek geri alabilirim.")} <Text style={s.link} onPress={() => Linking.openURL("https://sipahihukuk-star.github.io/celse/gizlilik.html")}>{t("Aydınlatma metni")}</Text></Text>
+        </Pressable>
+        <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: ornek }} onPress={() => setOrnek(!ornek)} style={s.check}>
+          <View style={[s.box, ornek && s.boxOn]}>{ornek && <Text style={s.tick}>✓</Text>}</View>
+          <Text style={s.checkT}>{t("İsteğe bağlı:")} {t("Olayımın, kişisel bilgilerden arındırılarak (anonimleştirilerek) Celse'de eğitim amaçlı örnek dava dosyası hazırlanmasında kullanılmasına muvafakat ediyorum. Bu izin değerlendirmeyi ya da ücreti etkilemez; danışmamı silersem izin de ortadan kalkar.")}</Text>
         </Pressable>
       </View>
 

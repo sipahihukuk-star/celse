@@ -28,6 +28,9 @@ export const BOS_FORM: DanismaForm = { alan: "", olay: "", deliller: "", karsi: 
 export const kimlikNoVar = (s: string) => /(^|[^0-9])[1-9]\d{10}(?![0-9])/.test(s);
 
 /** Kutu kutu eksikler (Türkçe kaynak metin; ekranda t() ile çevrilir). Boşsa form tamamdır. */
+/** Eksik alanların adları (uyarı mesajında sayılır; kırmızı işaret ekranın başka yerinde kalabilir). */
+export const ALAN_ADI: Record<Kutu | "alan", string> = { alan: "Hukuk alanı", olay: "Somut olay", deliller: "Deliller ve ek bilgiler", karsi: "Karşı tarafın argümanları", talep: "Talebiniz" };
+
 export function formHatalari(f: DanismaForm): Partial<Record<Kutu | "alan", string>> {
   const e: Partial<Record<Kutu | "alan", string>> = {};
   if (!ALANLAR.some(a => a.id === f.alan)) e.alan = "Hukuk alanını seçin.";
@@ -92,8 +95,8 @@ async function call<T>(action: string, body: Record<string, unknown>): Promise<C
 }
 
 export const kontrolEt = (form: DanismaForm) => call<KontrolSonucu>("kontrol", { form, riza: true });
-export const degerlendir = async (form: DanismaForm, onay: string) => {
-  const r = await call<{ id: string; degerlendirme: Degerlendirme; kalan_takip: number }>("degerlendir", { form, onay, riza: true });
+export const degerlendir = async (form: DanismaForm, onay: string, ornek = false) => {
+  const r = await call<{ id: string; degerlendirme: Degerlendirme; kalan_takip: number }>("degerlendir", { form, onay, riza: true, ornek });
   if (r.ok) logUsage("danisma", { ucretli: true });
   return r;
 };
