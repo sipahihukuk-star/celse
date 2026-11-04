@@ -46,7 +46,7 @@ export default function DanismaScreen(p: Props) {
   useEffect(() => { if (p.signedIn) reload(); }, [p.signedIn]);
 
   return (
-    <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
+    <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled" automaticallyAdjustKeyboardInsets keyboardDismissMode="interactive">
       <View style={s.head}>
         <Btn kind="ghost" label={view === "sonuc" ? t("‹ Geri") : t("‹ Giriş")} onPress={() => (view === "sonuc" ? setView("gecmis") : p.onBack())} />
       </View>
@@ -430,7 +430,7 @@ const s = StyleSheet.create({
   alanOn: { backgroundColor: C.brass, borderColor: C.brass },
   alanT: { fontFamily: F.bodyMed, fontSize: 14, color: C.text },
   alanTOn: { color: C.brassInk, fontFamily: F.bodyBold },
-  input: { fontFamily: F.body, fontSize: 16, lineHeight: 22, color: C.text, backgroundColor: C.panel2, borderWidth: 1, borderColor: C.line, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10, minHeight: 120 },
+  input: { fontFamily: F.body, fontSize: 16, lineHeight: 22, color: C.text, backgroundColor: C.panel2, borderWidth: 1, borderColor: C.line, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10, minHeight: 120, maxHeight: 240 },
   inputBad: { borderColor: C.bad },
   counterRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", gap: 10 },
   counter: { fontFamily: F.mono, fontSize: 11, color: C.muted },
