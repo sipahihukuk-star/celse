@@ -2,7 +2,7 @@
 // eğitim amaçlı değerlendirme, aynı kredi içinde duruşma canlandırması ve en çok 5 takip sorusu alır.
 // Eğitim amaçlı canlandırmadır, hukuki görüş değildir (1136 sayılı Avukatlık Kanunu m.35).
 import React, { useEffect, useState } from "react";
-import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Linking, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import {
   ALANLAR, alanAdi, ASGARI, AZAMI, BOS_FORM, canlandir, Cevap, cevaplariEkle, Danisma, DanismaForm, Degerlendirme, deleteDanisma,
   degerlendir, formHatalari, kontrolEt, Kutu, listDanismalar, Soru, takipSor, TAKIP_HAKKI
@@ -111,16 +111,18 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
   const [sorular, setSorular] = useState<Soru[] | null>(null);
   const [cevaplar, setCevaplar] = useState<string[]>([]);
   const [onay, setOnay] = useState<string | null>(null);
+  const [riza, setRiza] = useState(false);
   const [busy, setBusy] = useState<"" | "kontrol" | "degerlendir">("");
   const [msg, setMsg] = useState<{ t: string; ok?: boolean } | null>(null);
   // Form değişince önceki "yeterli" onayı düşer: değerlendirme yalnız denetlenen metne yapılır.
   const setForm = (f: DanismaForm) => { setFormRaw(f); setOnay(null); };
   const errs = formHatalari(form);
   const complete = Object.keys(errs).length === 0;
-  const canStart = !!onay && (admin || credits > 0) && !busy;
+  const canStart = riza && !!onay && (admin || credits > 0) && !busy;
 
   const check = async (f: DanismaForm = form) => {
     setShown(true); setMsg(null);
+    if (!riza) { setMsg({ t: t("Devam etmek için açık rıza kutusunu işaretleyin.") }); return; }
     if (Object.keys(formHatalari(f)).length) { setMsg({ t: t("Bilgiler eksik. Kırmızıyla işaretli alanları tamamlamadan devam edemezsiniz.") }); return; }
     setBusy("kontrol");
     const r = await kontrolEt(f);
@@ -210,6 +212,15 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
       )}
 
       {!!msg && <Text style={[s.msg, msg.ok && { color: C.good }]}>{msg.t}</Text>}
+
+      <View style={s.card}>
+        <Text style={s.cardT}>{t("Kişisel verileriniz")}</Text>
+        <Text style={s.hint}>{t("Değerlendirme için dosya numarası, mahkeme adı, kişi ya da şirket adı, adres, plaka veya kesin tarih gerekmez; tarihler için yaklaşık ay ve yıl yeterlidir. Sağlık bilgisini yalnız konuyla doğrudan ilgiliyse ve genel olarak yazın. Bu tür numaralar yazılsa bile sunucuda gizlenir.")}</Text>
+        <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: riza }} onPress={() => setRiza(!riza)} style={s.check}>
+          <View style={[s.box, riza && s.boxOn]}>{riza && <Text style={s.tick}>✓</Text>}</View>
+          <Text style={s.checkT}>{t("Yazdıklarımın eğitim amaçlı değerlendirme için yurt dışındaki yapay zekâ hizmet sağlayıcısına (Anthropic, ABD) aktarılarak işlenmesine; yazdıklarımda sağlık gibi özel nitelikli bir bilgi varsa onun da işlenmesine açık rıza veriyorum. Aydınlatma metnini okudum. Rızamı geçmiş danışmalarımı silerek geri alabilirim.")} <Text style={s.link} onPress={() => Linking.openURL("https://sipahihukuk-star.github.io/celse/gizlilik.html")}>{t("Aydınlatma metni")}</Text></Text>
+        </Pressable>
+      </View>
 
       <View style={s.card}>
         <Btn kind={onay ? "ghost" : "primary"} label={busy === "kontrol" ? t("Denetleniyor…") : onay ? t("✓ Bilgiler yeterli") : t("Eksik bilgi denetimi (ücretsiz)")} disabled={!!busy || !!onay} onPress={() => check()} />
@@ -344,6 +355,12 @@ function Result({ d, onChange }: { d: Danisma; onChange: (d: Danisma) => void })
       <Disclaimer />
 
       <View style={s.card}>
+        <Text style={s.cardT}>{t("Bir avukatla görüşmek isterseniz")}</Text>
+        <Text style={s.body}>{t("Celse sizi belirli bir avukata yönlendirmez ve avukatlık ücretinden pay almaz. Bulunduğunuz ildeki baronun avukat arama hizmetinden avukat bulabilir; maddi imkânınız yoksa baronun adli yardım bürosuna başvurabilirsiniz. Bu değerlendirmeyi avukatınıza göstermeniz görüşmeyi kolaylaştırır.")}</Text>
+        <Pressable onPress={() => Linking.openURL("https://www.barobirlik.org.tr")}><Text style={s.link}>{t("Türkiye Barolar Birliği ›")}</Text></Pressable>
+      </View>
+
+      <View style={s.card}>
         <Text style={s.cardT}>{t("Duruşmayı canlandır")}</Text>
         {!c ? (
           <>
@@ -430,6 +447,12 @@ const s = StyleSheet.create({
   alanOn: { backgroundColor: C.brass, borderColor: C.brass },
   alanT: { fontFamily: F.bodyMed, fontSize: 14, color: C.text },
   alanTOn: { color: C.brassInk, fontFamily: F.bodyBold },
+  check: { flexDirection: "row", gap: 10, alignItems: "flex-start" },
+  box: { width: 22, height: 22, borderRadius: 4, borderWidth: 1, borderColor: C.brassDim, alignItems: "center", justifyContent: "center", marginTop: 2 },
+  boxOn: { backgroundColor: C.brass, borderColor: C.brass },
+  tick: { fontFamily: F.bodyBold, fontSize: 14, color: C.brassInk },
+  checkT: { flex: 1, fontFamily: F.body, fontSize: 14, lineHeight: 20, color: C.textSoft },
+  link: { color: C.brass, textDecorationLine: "underline" },
   input: { fontFamily: F.body, fontSize: 16, lineHeight: 22, color: C.text, backgroundColor: C.panel2, borderWidth: 1, borderColor: C.line, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10, minHeight: 120, maxHeight: 240 },
   inputBad: { borderColor: C.bad },
   counterRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", gap: 10 },

@@ -67,7 +67,10 @@ export function gizle(s: string) {
   return s
     .replace(/\bTR\s?\d{2}(?:\s?\d{4}){5}\s?\d{2}\b/gi, "[IBAN gizlendi]")
     .replace(/(^|[^0-9])(\d{11})(?![0-9])/g, "$1[numara gizlendi]")
-    .replace(/(^|[^0-9])((?:\+90|0)\s?5\d{2}\s?\d{3}\s?\d{2}\s?\d{2})(?![0-9])/g, "$1[telefon gizlendi]");
+    .replace(/(^|[^0-9])((?:\+90|0)\s?5\d{2}\s?\d{3}\s?\d{2}\s?\d{2})(?![0-9])/g, "$1[telefon gizlendi]")
+    .replace(/\b(19|20)\d{2}\s?\/\s?\d{1,6}(\s?(E|K|Esas|Karar|D\.İş|Talimat)\b\.?)?/g, "[dosya no gizlendi]")
+    .replace(/\b(0[1-9]|[1-7]\d|8[01])\s?[A-Z]{1,3}\s?\d{2,4}\b/g, "[plaka gizlendi]")
+    .replace(/[\w.+-]+@[\w-]+\.[\w.]+/g, "[e-posta gizlendi]");
 }
 
 interface Form { alan: string; olay: string; deliller: string; karsi: string; talep: string }
@@ -104,6 +107,7 @@ function TARIH() {
   return "Bugünün tarihi: " + g + "." + a + "." + d.getUTCFullYear() + " (Türkiye saati). Süreleri ve tarihleri buna göre değerlendir; bugünden önceki tarihleri gelecek sanma.";
 }
 const TEMEL = [
+  "Kişisel veriyi en aza indir: kullanıcıdan ad, dosya numarası, mahkeme adı, kesin tarih ya da sağlık ayrıntısı isteme; metinde gizlenmiş ([… gizlendi]) yerleri tahmin etmeye çalışma. Eksik bilgi varsa bunu açık bir varsayım olarak yaz.",
   "Sen Türk hukukunu iyi bilen, tarafsız ve eğitici bir hukuk eğitmenisin. Celse adlı avukatlık eğitim uygulamasının \"Derdini anlat\" bölümünde, kullanıcının kendi anlattığı olayı eğitim amaçlı olarak değerlendiriyorsun.",
   "Bu bir hukuki görüş, avukatlık hizmeti ya da danışmanlık değildir; 1136 sayılı Avukatlık Kanunu m.35 uyarınca hukuki mütalaa vermek avukatlara aittir. Kesin hüküm kurma, sonuç ya da kazanma garantisi verme; \"olabilir\", \"değerlendirilebilir\", \"ileri sürülebilir\" gibi ölçülü bir dil kullan ve somut işi için kullanıcıyı bir avukata yönlendir.",
   "Yalnız yürürlükteki Türk hukukuna dayan. İlgili olduğunda TMK, TBK, İİK, HMK, TCK, CMK, İYUK, TTK, 4857 sayılı İş Kanunu, 7036 sayılı İş Mahkemeleri Kanunu, 6502 sayılı Tüketicinin Korunması Hakkında Kanun gibi kanunların maddelerini yalnız emin olduğunda numarasıyla an. Emin değilsen hükmü numarasız an ve \"ilgili hükmün güncel metni kontrol edilmeli\" de; madde numarası uydurma.",
@@ -204,6 +208,7 @@ async function imza(uid: string, f: Form) {
 
 // ---------- işlemler ----------
 async function kontrol(uid: string, b: Record<string, unknown>) {
+  if (b.riza !== true) return json({ error: "riza gerekli" }, 400);
   const v = formOf(b);
   if (!v.form) return json({ error: v.hata, kutu: v.kutu }, 400);
   const d = dilOf(b);
@@ -211,19 +216,18 @@ async function kontrol(uid: string, b: Record<string, unknown>) {
     TEMEL,
     TARIH(),
     "Şu anki görevin YALNIZCA şu: anlatılan olayın, eğitim amaçlı bir hukuki değerlendirme için yeterli bilgi içerip içermediğine karar vermek. Değerlendirmeyi yapma, hukuki görüş yazma.",
-    "Yeterlilik için bak: tarafların rolleri ve aralarındaki ilişki; olayların sırası ve yaklaşık tarihleri (süre hesabı için önemli); para söz konusuysa tutarlar; elde hangi belge, tanık ya da kayıt olduğu; karşı tarafın ne dediği; kullanıcının tam olarak ne istediği.",
-    "Seçilen alana özgü temel bilgileri de ara. Örnekler: iş hukukunda işe giriş ve çıkış tarihi, ücret, fesih şekli ve gerekçesi, arabulucuya gidilip gidilmediği; kira ve borçlarda sözleşme tarihi, bedel, ihtar ya da ödeme durumu; ailede evlilik tarihi, çocuklar, gelir durumu; icrada takip türü ve tebliğ tarihi; cezada olay tarihi, şikâyet ya da soruşturma aşaması; idarede işlemin ve tebliğin tarihi; mirasta ölüm tarihi ve mirasçılar; tüketicide satın alma tarihi, bedel ve satıcıya başvuru; ticarette şirket ya da sözleşme türü.",
-    "Değerlendirmeyi gerçekten değiştirecek eksikler için en çok 3 kısa ve somut soru sor; en önemlisini önce yaz. Her soruyu cevabının ekleneceği kutuyla eşleştir: olay, deliller, karsi ya da talep. Ayrıntı eksikleri önemsizse ya da kullanıcı makul ölçüde bilgi verdiyse yeterli de.",
-    "Metinde \"Soru: ... Cevap: ...\" biçiminde önceki sorulara verilmiş cevaplar olabilir; aynı soruyu tekrar sorma. Kullanıcı bilmediğini söylediyse o konuyu yeniden sorma.",
+    "Ölçün düşük olsun: kullanıcı olayı, delillerini, karşı tarafın tutumunu ve isteğini genel hatlarıyla anlattıysa YETERLİ de. Bu bir eğitim canlandırmasıdır; dosya incelemesi değildir. Eksik ayrıntıları değerlendirmede varsayım olarak belirtmek yeterlidir.",
+    "Yalnız şu durumda soru sor: olayın türü ya da kullanıcının ne istediği hiç anlaşılmıyorsa, ya da bir süre veya zamanaşımı hesabı için olayın yaklaşık zamanı (ay ve yıl) tamamen bilinmiyorsa. En çok 3 kısa soru sor ve her soruyu cevabının ekleneceği kutuyla eşleştir: olay, deliller, karsi ya da talep.",
+    "ASLA sorma: esas ya da karar numarası, mahkeme, daire, icra dairesi ya da savcılığın adı veya numarası, kişi ya da şirket adları, adres, plaka, kimlik numarası, telefon, e-posta, kesin gün-ay-yıl tarihleri (yaklaşık ay-yıl yeter), sağlık durumunun ayrıntıları ve belgelerin tam metni. Bunlar kişisel veridir ve eğitim amaçlı değerlendirme için gerekmez.",
     "Ad, soyad, kimlik numarası, adres ya da telefon sorma.",
     "Amaç açıkça hukuka aykırıysa uygunsuz true yap ve neden alanına kısaca yaz.",
     "Yanıtın yalnızca şu JSON olsun: {\"yeterli\": true ya da false, \"sorular\": [{\"kutu\": \"olay\" | \"deliller\" | \"karsi\" | \"talep\", \"soru\": \"...\"}], \"uygunsuz\": false, \"neden\": \"\"}",
     dilTalimati(d)
   ].join(NL);
   // Kullanıcıyı sonsuz soru döngüsüne sokmamak için: cevaplanmış soru sayısı arttıkça yalnız zorunlu eksik sorulur, 6 cevaptan sonra yeterli sayılır.
+  // Tek tur: kullanıcı soruları bir kez cevapladıysa (ya da "bilmiyorum" dediyse) bilgi yeterli sayılır.
   const cevaplanan = (formMetni(v.form).match(/Soru:/g) || []).length;
-  const sinir = cevaplanan >= 3 ? NL + "Kullanıcı şimdiye kadar " + cevaplanan + " soruyu cevapladı. Artık yalnız değerlendirmeyi tamamen imkânsız kılan bir eksik varsa en çok 1 soru sor; yoksa yeterli de." : "";
-  const out: Record<string, unknown> = cevaplanan >= 6 ? { yeterli: true, sorular: [] } : await askJson(HIZLI, system + sinir, formMetni(v.form), 1200);
+  const out: Record<string, unknown> = cevaplanan >= 1 ? { yeterli: true, sorular: [] } : await askJson(HIZLI, system, formMetni(v.form), 1200);
   if (out.uygunsuz === true) return json({ yeterli: false, sorular: [], uygunsuz: true, neden: cut(out.neden, 400) });
   const sorular = (Array.isArray(out.sorular) ? out.sorular : [])
     .map((x: { kutu?: unknown; soru?: unknown }) => ({ kutu: KUTULAR.indexOf(String(x && x.kutu)) >= 0 ? String(x.kutu) : "olay", soru: cut(x && x.soru, 300).trim() }))
@@ -236,6 +240,7 @@ async function kontrol(uid: string, b: Record<string, unknown>) {
 const BOLUMLER = ["nitelik", "guclu", "zayif", "deliller", "savunma", "yollar", "kapanis"];
 
 async function degerlendir(req: Request, uid: string, b: Record<string, unknown>) {
+  if (b.riza !== true) return json({ error: "riza gerekli" }, 400);
   const v = formOf(b);
   if (!v.form) return json({ error: v.hata, kutu: v.kutu }, 400);
   if (String(b.onay || "") !== (await imza(uid, v.form))) return json({ error: "önce eksik bilgi denetimi" }, 409);

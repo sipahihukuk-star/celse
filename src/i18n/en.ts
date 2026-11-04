@@ -1018,5 +1018,13 @@ const dict: Record<string, string> = {
   "Sunucuya ulaşılamıyor. İnternet bağlantınızı kontrol edip yeniden deneyin.": "The server cannot be reached. Check your internet connection and try again.",
   "Kısa sürede çok fazla bildirim gönderildi. Biraz sonra yeniden deneyin.": "Too many reports were sent in a short time. Please try again a little later.",
   "Bildirim gönderilemedi. Biraz sonra yeniden deneyin.": "The report could not be sent. Please try again a little later.",
+  "Devam etmek için açık rıza kutusunu işaretleyin.": "Tick the explicit consent box to continue.",
+  "Kişisel verileriniz": "Your personal data",
+  "Değerlendirme için dosya numarası, mahkeme adı, kişi ya da şirket adı, adres, plaka veya kesin tarih gerekmez; tarihler için yaklaşık ay ve yıl yeterlidir. Sağlık bilgisini yalnız konuyla doğrudan ilgiliyse ve genel olarak yazın. Bu tür numaralar yazılsa bile sunucuda gizlenir.": "The evaluation does not need a case number, court name, names of people or companies, an address, a licence plate or exact dates; an approximate month and year is enough. Mention health information only if it is directly relevant, and only in general terms. Such numbers are masked on the server even if you type them.",
+  "Yazdıklarımın eğitim amaçlı değerlendirme için yurt dışındaki yapay zekâ hizmet sağlayıcısına (Anthropic, ABD) aktarılarak işlenmesine; yazdıklarımda sağlık gibi özel nitelikli bir bilgi varsa onun da işlenmesine açık rıza veriyorum. Aydınlatma metnini okudum. Rızamı geçmiş danışmalarımı silerek geri alabilirim.": "I give my explicit consent to what I write being transferred to and processed by the AI service provider abroad (Anthropic, USA) for an educational evaluation, including any special-category information such as health data it may contain. I have read the privacy notice. I can withdraw my consent by deleting my past consultations.",
+  "Aydınlatma metni": "Privacy notice",
+  "Bir avukatla görüşmek isterseniz": "If you want to talk to a lawyer",
+  "Celse sizi belirli bir avukata yönlendirmez ve avukatlık ücretinden pay almaz. Bulunduğunuz ildeki baronun avukat arama hizmetinden avukat bulabilir; maddi imkânınız yoksa baronun adli yardım bürosuna başvurabilirsiniz. Bu değerlendirmeyi avukatınıza göstermeniz görüşmeyi kolaylaştırır.": "Celse does not refer you to a particular lawyer and takes no share of legal fees. You can find a lawyer through your local bar association's lawyer search; if you cannot afford one, you can apply to the bar's legal aid office. Showing this evaluation to your lawyer can make the meeting easier.",
+  "Türkiye Barolar Birliği ›": "Union of Turkish Bar Associations ›"
 };
 export default dict;

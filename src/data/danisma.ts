@@ -61,6 +61,7 @@ const HATA: Record<string, string> = {
   "çok fazla istek": "Çok fazla istek gönderildi. Biraz sonra yeniden deneyin.",
   "takip hakkı kalmadı": "Bu danışmadaki takip sorusu hakkınız doldu.",
   "önce eksik bilgi denetimi": "Önce eksik bilgi denetimini tamamlayın.",
+  "riza gerekli": "Devam etmek için açık rıza kutusunu işaretleyin.",
   "yapay zekâ kurulmadı": "Danışma hizmeti henüz açılmadı.",
   "danışma bulunamadı": "Danışma bulunamadı.",
   "değerlendirme yapılamadı": "Değerlendirme şu an yapılamadı."
@@ -90,9 +91,9 @@ async function call<T>(action: string, body: Record<string, unknown>): Promise<C
   }
 }
 
-export const kontrolEt = (form: DanismaForm) => call<KontrolSonucu>("kontrol", { form });
+export const kontrolEt = (form: DanismaForm) => call<KontrolSonucu>("kontrol", { form, riza: true });
 export const degerlendir = async (form: DanismaForm, onay: string) => {
-  const r = await call<{ id: string; degerlendirme: Degerlendirme; kalan_takip: number }>("degerlendir", { form, onay });
+  const r = await call<{ id: string; degerlendirme: Degerlendirme; kalan_takip: number }>("degerlendir", { form, onay, riza: true });
   if (r.ok) logUsage("danisma", { ucretli: true });
   return r;
 };
