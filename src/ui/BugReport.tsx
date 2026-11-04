@@ -61,7 +61,7 @@ export function BugReportModal({ visible, onClose, davaId, adim, subtitle, conte
         <View style={st.overlay}>
           <Pressable style={StyleSheet.absoluteFill} onPress={close} accessibilityLabel={t("Kapat")} />
           <View style={st.sheet}>
-            <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ gap: 10 }}>
+            <ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" contentContainerStyle={{ gap: 10 }}>
               <Text style={st.title}>{t("Hata bildir")}</Text>
               {!!subtitle && <Text style={st.sub}>{subtitle}</Text>}
               {done ? (

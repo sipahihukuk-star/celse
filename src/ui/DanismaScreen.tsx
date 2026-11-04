@@ -46,7 +46,7 @@ export default function DanismaScreen(p: Props) {
   useEffect(() => { if (p.signedIn) reload(); }, [p.signedIn]);
 
   return (
-    <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled" automaticallyAdjustKeyboardInsets keyboardDismissMode="interactive">
+    <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled" automaticallyAdjustKeyboardInsets keyboardDismissMode="on-drag">
       <View style={s.head}>
         <Btn kind="ghost" label={view === "sonuc" ? t("‹ Geri") : t("‹ Giriş")} onPress={() => (view === "sonuc" ? setView("gecmis") : p.onBack())} />
       </View>

@@ -35,7 +35,7 @@ export function OnlineLobby({ all, onBack, onJoined, onLogin }: { all: CaseFile[
   };
 
   return (
-    <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
+    <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
       <View style={s.head}>
         <Btn kind="ghost" label={t("‹ Geri")} onPress={onBack} />
         <View style={{ flex: 1, minWidth: 220 }}>

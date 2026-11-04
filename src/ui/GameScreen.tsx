@@ -166,7 +166,7 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
       </View>
 
       <View style={[styles.panel, { flex: wide ? 0.85 : 1 }]}>
-        <ScrollView ref={scroller} contentContainerStyle={styles.panelInner} keyboardShouldPersistTaps="handled" keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}>
+        <ScrollView ref={scroller} contentContainerStyle={styles.panelInner} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
           {phase.k === "lines" && line && (
             <Pressable onPress={tapLine} accessibilityRole="button" accessibilityLabel={t("Devam")}>
               <View style={styles.np}><View style={[styles.dot, { backgroundColor: speakerName(line.who).dot }]} /><Text style={line.who === "narr" ? styles.npNarr : styles.npText}>{speakerName(line.who).name}</Text></View>
