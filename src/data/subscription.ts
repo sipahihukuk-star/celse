@@ -7,7 +7,9 @@
 // Yönetici (PIN ya da sunucu yöneticisi) her şeyi kilitsiz görür; bunu App.tsx premium || admin olarak birleştirir.
 import { useEffect, useState } from "react";
 import { currentAccount, onAccountChange, supabase } from "./account";
+import { Platform } from "react-native";
 import { onProChange, proState, startPurchases } from "./purchases";
+import { getSettings, onSettingsChange } from "./settings";
 
 /** Abonelik kilidi açık mı? false yapılırsa her şey ücretsiz olur (test). */
 export const SUBSCRIPTION_ON = true;
@@ -22,6 +24,7 @@ let adminPreview = false;
 const listeners = new Set<() => void>();
 const emit = () => listeners.forEach(f => f());
 onProChange(emit);
+onSettingsChange(emit);
 
 /** Yönetim paneline PIN ile girildiğinde bu oturumda her şey açılır (içerik denetimi için). */
 export function setAdminPreview(on: boolean) { adminPreview = on; emit(); }
@@ -50,6 +53,8 @@ const serverActive = () => !!serverUntil && serverUntil.getTime() > Date.now();
 
 export function isPremium(): boolean {
   if (!SUBSCRIPTION_ON) return true;
+  // Web'de satış yapılamaz: mağazada satış açılana kadar (yönetim > Oyun ayarları) web'de her şey açıktır.
+  if (Platform.OS === "web" && !getSettings().webProKilidi) return true;
   return adminPreview || proState().active || serverActive();
 }
 

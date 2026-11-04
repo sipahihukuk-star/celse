@@ -17,6 +17,9 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
   return (
     <Section title="Oyun ayarları" hint="Not kırma: oyuncu hatalı bir hamle yaptığında düşen puan bu oranla çarpılır. Doğru hamlenin puanı değişmez. Kariyer basamağı yükseldikçe oran kendiliğinden artar."
       right={<SmallBtn label="Kapat" onPress={onClose} />}>
+      <Seg label="Web'de Pro kilidi" value={v.webProKilidi ? "acik" : "kapali"} onChange={x => setV({ ...v, webProKilidi: x === "acik" })}
+        options={[{ v: "kapali", label: "Kapalı (web'de her şey açık)" }, { v: "acik", label: "Açık (2. bölümden sonrası Pro)" }]} />
+      <Text style={st.note}>Mağazada satış açılınca "Açık"a getirin. Web'den satın alma yapılmaz; telefonda alınan Pro, aynı hesapla web'de de geçerlidir.</Text>
       <Seg label="Temel not kırma oranı" value={String(v.notKirma)} onChange={x => setV({ ...v, notKirma: Number(x) })}
         options={BASES.map(b => ({ v: b, label: pct(Number(b)) }))} />
       <Seg label="Her basamakta artış" value={String(v.notKirmaArtis)} onChange={x => setV({ ...v, notKirmaArtis: Number(x) })}

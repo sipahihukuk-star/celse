@@ -14,13 +14,16 @@ export interface GameSettings {
   /** Mağaza bağlantıları (QR ve "indir" sayfası). Test döneminde TestFlight / Play test bağlantısı yazılabilir. */
   iosLink: string;
   androidLink: string;
+  /** Web'de Pro kilidi: mağazada satış açılana kadar kapalı (web'den satın alma yapılamaz). Açılınca web'de de 2. bölümden sonrası Pro ister. */
+  webProKilidi: boolean;
 }
 export const WEB_URL = "https://sipahihukuk-star.github.io/celse/";
 export const DOWNLOAD_URL = WEB_URL + "indir.html";
 export const DEFAULT_SETTINGS: GameSettings = {
   notKirma: 1, notKirmaArtis: 0.15,
   iosLink: "https://apps.apple.com/app/id6829524134",
-  androidLink: "https://play.google.com/store/apps/details?id=com.themiscode.celse"
+  androidLink: "https://play.google.com/store/apps/details?id=com.themiscode.celse",
+  webProKilidi: false
 };
 const link = (v: unknown, d: string) => (typeof v === "string" && /^https:\/\/\S+$/.test(v.trim()) ? v.trim() : d);
 const LOCAL = "celse-ayarlar-v1";
@@ -32,7 +35,8 @@ const clean = (v: Partial<GameSettings> | null | undefined): GameSettings => ({
   notKirma: Math.max(0.25, Math.min(4, Number(v?.notKirma) || DEFAULT_SETTINGS.notKirma)),
   notKirmaArtis: Math.max(0, Math.min(1, v?.notKirmaArtis === undefined ? DEFAULT_SETTINGS.notKirmaArtis : Number(v.notKirmaArtis) || 0)),
   iosLink: link(v?.iosLink, DEFAULT_SETTINGS.iosLink),
-  androidLink: link(v?.androidLink, DEFAULT_SETTINGS.androidLink)
+  androidLink: link(v?.androidLink, DEFAULT_SETTINGS.androidLink),
+  webProKilidi: v?.webProKilidi === true
 });
 
 export async function loadSettings(): Promise<GameSettings> {
@@ -63,6 +67,11 @@ export async function saveSettings(v: GameSettings): Promise<"sunucu" | "cihaz">
   }
   return "cihaz";
 }
+
+/** Anlık ayarlar (kanca olmadan). */
+export const getSettings = () => current;
+/** Ayar değişince haber verir. */
+export function onSettingsChange(f: () => void) { listeners.add(f); return () => { listeners.delete(f); }; }
 
 export function useSettings(): GameSettings {
   const [, force] = useState(0);
