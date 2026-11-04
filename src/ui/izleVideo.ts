@@ -270,7 +270,7 @@ function cizYerlesim(ctx: CanvasRenderingContext2D, L: StageLayout, img: Img, ko
   }
   ctx.drawImage(bg, ox, oy, B.w * s, B.h * s);
   for (const d of drawOrder(L, focus)) {
-    if (d.k === "fig") { cizKisi(ctx, d.f, L.H, img, koyu, mouth, focus, mf); continue; }
+    if (d.k === "fig") { cizKisi(ctx, d.f, L.H, img, koyu, mouth, focus, mf, L.figs); continue; }
     // Örtü: arka planın bu parçası kişilerin üstüne yeniden çizilir (fotoğrafın dışına taşan kısım kırpılır).
     const x0 = Math.max(0, d.r.x0), x1 = Math.min(B.w, d.r.x1), y0 = Math.max(0, d.r.top), y1 = Math.min(B.h, d.r.bottom);
     if (x1 > x0 && y1 > y0) ctx.drawImage(bg, x0, y0, x1 - x0, y1 - y0, X(x0), Y(y0), (x1 - x0) * s, (y1 - y0) * s);
@@ -287,10 +287,10 @@ function cizYerlesim(ctx: CanvasRenderingContext2D, L: StageLayout, img: Img, ko
   }
 }
 
-function cizKisi(ctx: CanvasRenderingContext2D, f: StageFig, HH: number, img: Img, koyu: Record<string, HTMLCanvasElement>, mouth: Agiz, focus: string | null, mf: number) {
+function cizKisi(ctx: CanvasRenderingContext2D, f: StageFig, HH: number, img: Img, koyu: Record<string, HTMLCanvasElement>, mouth: Agiz, focus: string | null, mf: number, shown: StageFig[]) {
   const P = PHOTOS[f.photo];
   const h = f.h, w = h * (P.w / P.h), x0 = f.x - w / 2, y0 = HH - f.bottom - h;
-  const { speaking, lit } = figState(f, focus);
+  const { speaking, lit } = figState(f, focus, shown);
   const im = img[f.photo];
   if (!im) return;
   ctx.save();

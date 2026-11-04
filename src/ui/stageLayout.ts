@@ -162,7 +162,9 @@ export function stageLayout(o: { c: CaseFile; scene: Scene; faces: Record<string
 }
 
 /** Kişi konuşuyor mu, aydınlık mı (konuşmayan ön plan kişileri kararır; kürsü hep aydınlık). */
-export function figState(f: StageFig, focus: string | null) {
+export function figState(f: StageFig, focus: string | null, shown?: StageFig[]) {
+  // Konuşan sahnede görünmüyorsa (ör. büroda bakışı bize ait avukat) kimse karartılmaz: her satırda ışık değişip "açı değişiyor" gibi görünüyordu.
+  if (focus !== null && shown && !shown.some(x => x.key === focus || (focus === "judge" && x.key === "judge"))) focus = null;
   const bench = f.key.startsWith("judge");
   const speaking = focus !== null && (focus === f.key || (f.key === "judge" && focus === "judge"));
   const lit = focus === null || focus === f.key || bench || !f.front;
@@ -172,7 +174,7 @@ export function figState(f: StageFig, focus: string | null) {
 /** Çizim sırası: önce z, eşit z'de önce kişiler sonra örtüler (ekrandaki zIndex ve belge sırasıyla aynı). Konuşan bir kat öne çıkar. */
 export function drawOrder(L: StageLayout, focus: string | null): ({ k: "fig"; f: StageFig } | { k: "cover"; r: Cover })[] {
   const items = [
-    ...[...L.figs].sort((a, b) => a.z - b.z).map(f => ({ k: "fig" as const, f, z: f.z + (figState(f, focus).speaking ? 1 : 0), o: 0 })),
+    ...[...L.figs].sort((a, b) => a.z - b.z).map(f => ({ k: "fig" as const, f, z: f.z + (figState(f, focus, L.figs).speaking ? 1 : 0), o: 0 })),
     ...L.covers.map(r => ({ k: "cover" as const, r, z: r.z, o: 1 }))
   ];
   return items.map((x, i) => ({ x, i })).sort((a, b) => a.x.z - b.x.z || a.x.o - b.x.o || a.i - b.i)

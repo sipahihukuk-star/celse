@@ -91,7 +91,7 @@ export default function PhotoStage({ c, scene, focus, talking, say, faces: given
   const fig = (f: StageFig) => {
     const p = PHOTOS[f.photo];
     const h = f.h, w = h * (p.w / p.h);
-    const { speaking, lit } = figState(f, focus);
+    const { speaking, lit } = figState(f, focus, L.figs);
     const m = speaking && mouth ? MOUTHS[f.photo] : undefined;
     return (
       <View key={f.key} pointerEvents="none" style={[{ position: "absolute", left: f.x - w / 2, bottom: f.bottom, width: w, height: h, zIndex: f.z + (speaking ? 1 : 0) }, f.flip && { transform: [{ scaleX: -1 }] }]}>
