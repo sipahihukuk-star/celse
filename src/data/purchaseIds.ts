@@ -10,6 +10,9 @@ export const REVENUECAT_KEYS = {
 };
 // ▲▲▲ REVENUECAT ANAHTARLARI ▲▲▲
 
+/** Android'de gerçek mağaza anahtarı (goog_) yazılana kadar satış kapalıdır; o süre içinde Android'de kilit de yoktur. */
+export const ANDROID_SATIS = !REVENUECAT_KEYS.android.startsWith("test_");
+
 /** RevenueCat'teki yetki (entitlement) kimliği: etkinse oyuncu Celse Pro'dur. */
 export const PRO_ENTITLEMENT = "themiscode_i_nc_pro"; // RevenueCat projesi açılırken kendiliğinden oluşan yetki
 

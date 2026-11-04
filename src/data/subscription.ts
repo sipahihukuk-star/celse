@@ -10,6 +10,7 @@ import { currentAccount, onAccountChange, supabase } from "./account";
 import { Platform } from "react-native";
 import { onProChange, proState, startPurchases } from "./purchases";
 import { getSettings, onSettingsChange } from "./settings";
+import { ANDROID_SATIS } from "./purchaseIds";
 
 /** Abonelik kilidi açık mı? false yapılırsa her şey ücretsiz olur (test). */
 export const SUBSCRIPTION_ON = true;
@@ -55,6 +56,8 @@ export function isPremium(): boolean {
   if (!SUBSCRIPTION_ON) return true;
   // Web'de satış yapılamaz: mağazada satış açılana kadar (yönetim > Oyun ayarları) web'de her şey açıktır.
   if (Platform.OS === "web" && !getSettings().webProKilidi) return true;
+  // Android'de Google Play satışı kurulana kadar (goog_ anahtarı) kilit yoktur.
+  if (Platform.OS === "android" && !ANDROID_SATIS) return true;
   return adminPreview || proState().active || serverActive();
 }
 

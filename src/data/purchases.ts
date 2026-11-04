@@ -5,10 +5,10 @@ import { Platform } from "react-native";
 import { useEffect, useState } from "react";
 import Purchases, { CustomerInfo, PRODUCT_CATEGORY, PurchasesPackage, PurchasesStoreProduct } from "react-native-purchases";
 import { currentAccount, onAccountChange } from "./account";
-import { BuyResult, CREDIT_PACKS, CreditInfo, PlanInfo, PlanKind, PRO_ENTITLEMENT, PRODUCTS, ProState, REVENUECAT_KEYS } from "./purchaseIds";
+import { ANDROID_SATIS, BuyResult, CREDIT_PACKS, CreditInfo, PlanInfo, PlanKind, PRO_ENTITLEMENT, PRODUCTS, ProState, REVENUECAT_KEYS } from "./purchaseIds";
 
 /** Bu platformda mağazadan satın alma yapılabilir mi? (Web'de false.) */
-export const PURCHASES_AVAILABLE = Platform.OS === "ios" || Platform.OS === "android";
+export const PURCHASES_AVAILABLE = Platform.OS === "ios" || (Platform.OS === "android" && ANDROID_SATIS);
 
 let configured = false;
 /** RevenueCat'e bildirilen kullanıcı (Supabase kimliği) ya da anonimse null */
