@@ -97,7 +97,7 @@ export function explainDeadline(r: DeadlineRule, regime?: Regime, calc = lastDay
 }
 
 /** Tebliğ tarihi önerisi: karar tarihinden `after` gün sonraki iş günü; son gün adli tatile rastlamasın diye gerekirse ileri alınır. */
-export function suggestTeblig(kararTarihi: string, rule: Omit<DeadlineRule, "teblig">, regime: Regime, after = 18): string {
+export function suggestTeblig(kararTarihi: string, rule: Omit<DeadlineRule, "teblig">, regime: Regime | undefined, after = 18): string {
   let d = parseDate(kararTarihi) || parseDate("01.03.2027")!;
   d = addDays(d, after);
   const inTatil = (x: Date) => { const k = md(x); return k >= ADLI_TATIL.from && k <= ADLI_TATIL.to; };

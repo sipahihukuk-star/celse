@@ -9,6 +9,7 @@ import { lastDay, longDate, parseDate, fmtDate, addDays, suggestTeblig } from ".
 import { GameState, kindOf, normalizeCase, other, verdict } from "./engine";
 import { test } from "./expr";
 import { CMK_SINIR, PARASAL_SINIR } from "./sinirlar";
+import { forumStage, forumWay, ForumWay } from "./forumAppeal";
 import { AppealKind, AppealStage, CaseFile, CastMember, Choice, DeadlineRule, Outcome, Regime, Side, Step, Winner } from "./types";
 
 /* ---------- Rejim ve derece ---------- */
@@ -160,11 +161,17 @@ export function kanunYolu(c: CaseFile, opts: { outcome?: Outcome; stage?: Outcom
   return { istinaf, temyiz };
 }
 
+/** Forum yolunun Route biçimi (karar ekranı ve aşama dosyası için). */
+export function forumRoute(w: ForumWay, kind: AppealKind): Route {
+  return { kind, court: w.court, courtShort: w.courtShort, via: w.via, rule: { days: w.days, law: w.law, what: kind === "cevap" ? `${w.name}a cevap dilekçesi` : `${w.name} dilekçesi` },
+    rejectLaw: w.rejectLaw, judges: w.judges, benchTitle: w.benchTitle };
+}
+
 /* ---------- Sıradaki kanun yolu ---------- */
 
 export interface NextAppeal {
   /** oyuncunun başlatabileceği aşama */
-  offer?: { kind: AppealKind; route: Route; basic: boolean; note?: string };
+  offer?: { kind: AppealKind; route: Route; basic: boolean; note?: string; /** komisyon ve kurullarda düğme metni ("İtiraz et") */ label?: string };
   /** kanun yolu kapalı: "Bu karar kesindir: …" (yarar: hukuki yarar yok) */
   closed?: { kind: AppealKind; reason: string; yarar?: boolean };
 }
@@ -178,6 +185,24 @@ export function nextAppeal(played: CaseFile, game: GameState, base: CaseFile, si
   if (offIn(base, "istinaf") && offIn(base, "temyiz") && offIn(base, "cevap")) return {};
   if (game.fatal) return {};
   const v = { ...verdict(played, game), ...(winner ? { winner } : {}) };
+  // Komisyon ve kurul kararları: itiraz (ve sigorta tahkiminde tutar yeterse Yargıtay'a temyiz).
+  if (base.forum) {
+    if (played.appealOf) {
+      if (played.appealOf.kind === "temyiz" || v.winner === "p1") return {};
+      const first = forumWay(base, "istinaf");
+      if (!first || "closed" in first || first.next !== "temyiz") return {};
+      const t = forumWay(base, "temyiz");
+      if (!t) return {};
+      if ("closed" in t) return { closed: { kind: "temyiz", reason: t.closed } };
+      return { offer: { kind: "temyiz", route: forumRoute(t, "temyiz"), basic: true, note: t.note, label: "Temyize başvur" } };
+    }
+    if (base.mode === "duel" && v.winner === "draw") return {};
+    const adverse = v.winner !== side, kind: AppealKind = adverse ? "istinaf" : "cevap";
+    const fw = forumWay(base, kind);
+    if (!fw) return {};
+    if ("closed" in fw) return { closed: { kind, reason: fw.closed } };
+    return { offer: { kind, route: forumRoute(fw, kind), basic: true, note: fw.note, label: adverse ? `${fw.name[0].toLocaleUpperCase("tr")}${fw.name.slice(1)} et` : `Karşı tarafın ${fw.name}ına cevap ver` } };
+  }
   const baseOutcome = baseGame ? matched(base, baseGame) : played === base ? matched(base, game) : undefined;
   if (played.appealOf) {
     const kind = played.appealOf.kind;
@@ -216,9 +241,13 @@ const GENERIC_OPP: CastMember = { name: "Av. Selim Akın · Karşı taraf vekili
 export function appealCase(base: CaseFile, kind: AppealKind, ctx: { side?: Side; baseGame?: GameState; prev?: { c: CaseFile; game: GameState } } = {}): CaseFile {
   const side = ctx.side || "p1";
   const reg = regimeOf(base);
-  const hand = side === "p1" ? base.appeal?.[kind] : undefined;
-  const stage = hand ? withHearingChoice(hand, kind, reg) : genericStage(base, kind, side, ctx.baseGame, ctx.prev);
-  const route = routeOf(base, kind);
+  const fw = base.forum ? forumWay(base, kind) : null;
+  if (base.forum && (!fw || "closed" in fw)) throw new Error(`${base.id}: bu karara karşı ${kind} yolu yok`);
+  const way = fw as ForumWay | null;
+  const hand = side === "p1" && !way ? base.appeal?.[kind] : undefined;
+  const stage = way ? forumStage(base, kind, side, way, keyIssue(base, side, ctx.baseGame, kind === "cevap"), ctx.baseGame ? safeHukum(base, ctx.baseGame) : "", dative, ctx.prev)
+    : hand ? withHearingChoice(hand, kind, reg) : genericStage(base, kind, side, ctx.baseGame, ctx.prev);
+  const route = way ? forumRoute(way, kind) : routeOf(base, kind);
   const mine = base.sides[side], theirs = base.sides[other(side)];
   const cast: Record<string, CastMember> = {};
   Object.entries(base.cast).forEach(([k, m]) => { if (k !== "p1" && k !== "p2") cast[k] = m; });
@@ -233,7 +262,7 @@ export function appealCase(base: CaseFile, kind: AppealKind, ctx: { side?: Side;
   } else if (!cast.opp) cast.opp = { ...GENERIC_OPP, name: `Av. Selim Akın · ${theirs.role.replace(/ vekili.*$/, "")} vekili` };
   same.p1 = base.mode === "duel" ? side : "p1";
   same.party_p1 = `party_${side}`; same.party_p2 = `party_${other(side)}`;
-  if (cast.judge) cast.judge = { ...cast.judge, name: "Daire Başkanı" };
+  if (cast.judge) cast.judge = { ...cast.judge, name: way ? way.head : "Daire Başkanı" };
   if (cast.pros) cast.pros = { ...cast.pros, name: kind === "temyiz" ? "Yargıtay Cumhuriyet Savcısı" : "Cumhuriyet Savcısı" };
   Object.assign(cast, stage.cast || {});
   // Elle yazılmış aşama bir kişiyi başka biriyle değiştirdiyse (ad farklı) o kişi yeni sayılır.
@@ -246,12 +275,12 @@ export function appealCase(base: CaseFile, kind: AppealKind, ctx: { side?: Side;
     esas: stage.esas || stageEsas(base, kind), kararTarihi: stage.kararTarihi || stageDate(base, kind),
     teaser: stage.teaser || base.teaser,
     sides: { p1: { role: stage.role || roleFor(mine.role, kind), short: "Siz" }, p2: { role: stage.oppRole || theirs.role, short: "Karşı taraf" } },
-    cast, courtCast, bench: stage.bench || { judges: route.judges, title: route.benchTitle }, room: "yuksek",
+    cast, courtCast, bench: stage.bench || { judges: route.judges, title: route.benchTitle }, room: way ? "tahkim" : "yuksek", ...(way ? { forum: base.forum } : {}),
     inscription: stage.inscription === undefined ? base.inscription ?? "ADALET MÜLKÜN TEMELİDİR" : stage.inscription,
     evidence: stage.evidence, intro: stage.intro, docs: stage.docs || base.docs, steps: stage.steps,
     outcomes: stage.outcomes.map(o => ({ noCourt: true, ...o })),
     career: { off: true }, kanunYolu: base.kanunYolu,
-    appealOf: { id: base.id, kind, basic: !hand, level, regime: reg, same, baseDuel: base.mode === "duel", side }
+    appealOf: { id: base.id, kind, basic: !hand, level, regime: way ? undefined : reg, same, baseDuel: base.mode === "duel", side }
   });
   if (out.appealOf) Object.defineProperty(out.appealOf, "base", { value: base, enumerable: false, configurable: true, writable: true });
   return out;
@@ -531,6 +560,8 @@ function safeHukum(c: CaseFile, g: GameState) { try { return verdict(c, g).hukum
 
 /** Dosyadaki bütün kanun yolu aşamalarını (elle yazılmış ve temel) üretip döndürür; doğrulama ve testler için. */
 export function allStages(base: CaseFile): CaseFile[] {
+  if (base.forum) return (["istinaf", "cevap", "temyiz"] as AppealKind[]).filter(k => { const w = forumWay(base, k); return !!w && !("closed" in w) && (k !== "temyiz" || base.forum === "sigorta"); })
+    .map(k => appealCase(base, k, { side: "p1" }));
   const tier = tierOf(base);
   const kinds: AppealKind[] = tier === "ilk" ? ["istinaf", "cevap", "temyiz"] : tier === "bolge" ? ["temyiz"] : [];
   return kinds.filter(k => !offIn(base, k)).map(k => appealCase(base, k, { side: "p1" }));

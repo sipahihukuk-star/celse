@@ -116,7 +116,7 @@ export const FORUMS: Forum[] = [
       "Başvuru raportörce ön incelemeden geçer; uyuşmazlık hakem heyeti (tutara göre tek ya da üç hakem) dosyayı inceler, gerekirse bilirkişi raporu alır; HMK hükümleri uygulanır. Karar, hakem atandıktan sonra dört ay içinde verilir."
     ],
     karar: "Hakem kararı ilam niteliğindedir; tazminat, faiz, yargılama gideri ve vekâlet ücretine hükmedilir.",
-    yol: "Belirli tutarın üzerindeki uyuşmazlıklarda karara karşı bildirimden itibaren 10 gün içinde itiraz hakem heyetine bir kez itiraz edilir (itiraz icrayı durdurur); daha yüksek tutarlarda itiraz kararına karşı Yargıtay'a temyiz yolu açıktır. Parasal sınırlar her yıl Tebliğle güncellenir; başvuru tarihindeki sınır esas alınır."
+    yol: "Belirli tutarın üzerindeki uyuşmazlıklarda (2026'da 35.000 TL ve üzeri) karara karşı bildirimden itibaren 10 gün içinde itiraz hakem heyetine bir kez yazılı itiraz edilir; itiraz icrayı durdurur, adli tatil süreyi uzatmaz. Daha yüksek tutarlarda (2026'da 383.000 TL'yi aşan) itiraz hakem heyeti kararına karşı iki hafta içinde Yargıtay'a temyiz yolu açıktır (5684 s.K. m.30/12). Parasal sınırlar her yıl güncellenir; başvuru tarihindeki sınır esas alınır."
   },
   {
     id: "baro", group: "Komisyonlar", short: "DİSİPLİN",

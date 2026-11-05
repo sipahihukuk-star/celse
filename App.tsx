@@ -271,14 +271,18 @@ export default function App() {
     const ch = r.chain;
     if (!ch) return undefined;
     const na = nextAppeal(r.c, r.game, ch.base, ch.side, ch.baseGame, r.ai ? (r.ai.winner === "sulh" ? "draw" : r.ai.winner) : undefined);
-    if (na.closed) return { closed: true, text: na.closed.yarar ? t("İstinafa başvurmanızda hukuki yarar yok: {neden}", { neden: na.closed.reason }) : t("Bu karar kesindir: {neden}", { neden: na.closed.reason }) };
+    if (na.closed) return { closed: true, text: na.closed.yarar ? t(ch.base.forum ? "İtiraz etmenizde hukuki yarar yok: {neden}" : "İstinafa başvurmanızda hukuki yarar yok: {neden}", { neden: na.closed.reason }) : t("Bu karar kesindir: {neden}", { neden: na.closed.reason }) };
     if (!na.offer) return undefined;
     const { kind, route: way, basic } = na.offer;
-    const text = (kind === "cevap" ? t("Karşı taraf kararı istinaf etti. Cevap dilekçenizi hazırlayıp kararı {mahkeme} önünde savunun.", { mahkeme: way.court })
+    const forum = !!ch.base.forum;
+    const text = (forum ? (kind === "cevap" ? t("Karşı taraf karara itiraz etti. Cevap dilekçenizi hazırlayıp kararı {mahkeme} önünde savunun.", { mahkeme: way.court })
+      : kind === "temyiz" ? t("Karar aleyhinize. {mahkeme} nezdinde temyiz yoluna başvurabilirsiniz.", { mahkeme: way.court })
+      : t("Karar aleyhinize. Kararı {mahkeme} önüne yazılı itirazla götürebilirsiniz.", { mahkeme: way.court }))
+      : kind === "cevap" ? t("Karşı taraf kararı istinaf etti. Cevap dilekçenizi hazırlayıp kararı {mahkeme} önünde savunun.", { mahkeme: way.court })
       : kind === "temyiz" ? t("Karar aleyhinize. {mahkeme} nezdinde temyiz yoluna başvurabilirsiniz.", { mahkeme: way.court })
       : t("Karar aleyhinize. {mahkeme} nezdinde istinaf yoluna başvurabilirsiniz.", { mahkeme: way.court }))
-      + (basic ? " " + t("Bu dosya için temel bir kanun yolu aşaması kurulacak.") : "");
-    const button = kind === "cevap" ? t("Karşı tarafın istinafına cevap ver") : kind === "temyiz" ? t("Temyize başvur") : t("İstinafa başvur");
+      + (basic && !forum ? " " + t("Bu dosya için temel bir kanun yolu aşaması kurulacak.") : "");
+    const button = na.offer.label ? t(na.offer.label) : kind === "cevap" ? t("Karşı tarafın istinafına cevap ver") : kind === "temyiz" ? t("Temyize başvur") : t("İstinafa başvur");
     return { text, button, onPress: () => startAppeal(kind, r) };
   };
   const startAppeal = (kind: AppealKind, r: Extract<Route, { k: "verdict" }>) => {

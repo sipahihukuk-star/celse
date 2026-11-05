@@ -272,7 +272,7 @@ export interface CaseFile {
   kanunYolu?: KesinlikData;
   /** kanun yolu aşamasından üretilmiş dosyada: ana dava, aşama, temel (otomatik) yol mu, kariyer seviyesi */
   appealOf?: {
-    id: string; kind: AppealKind; basic: boolean; level: number; regime: Regime;
+    id: string; kind: AppealKind; basic: boolean; level: number; regime?: Regime;
     /** Kanun yolu aşamasında ilk derecedeki kişilerle aynı kalanlar: aşamadaki rol → ilk derecedeki rol (yüz ve ses aynı kalır). */
     same?: Record<string, string>;
     /** oyuncunun ilk derecedeki tarafı */
