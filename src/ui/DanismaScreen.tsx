@@ -14,6 +14,7 @@ import { refreshPremium, usePremium } from "../data/subscription";
 import { locale, t } from "../i18n";
 import { ORNEK_DANISMA, ORNEK_SENARYO } from "../data/izleOrnek";
 import DanismaWatch from "./DanismaWatch";
+import EvrakScreen from "./EvrakScreen";
 import { cinsKodu, danisanKadinMi, kimAdi, sahneBaslik } from "./izleOrtak";
 import { beklemeDoldu, DanismaDosyasi, dosyalarim, INSAN_BEKLEME_DK, kayitSenaryo, OyunKaydi } from "../data/danismaDosya";
 import { useAccount } from "../data/account";
@@ -63,6 +64,8 @@ export default function DanismaScreen(p: Props) {
   const hedef = useRef(adresParam(/[?&]danisma=([0-9a-f-]{36})/i));
   // Oyunculara gönderilen dosyalar (danışma kimliğine göre); surum13.sql kurulmadıysa boş.
   const [dosyalar, setDosyalar] = useState<Record<string, DanismaDosyasi>>({});
+  // "Evrakla duruşma provası" (beta: yalnız yönetici; sonra avukatlara açılacak).
+  const [evrak, setEvrak] = useState(() => adresParam(/[?&](evrak)\b/) !== null);
   const reload = () => listDanismalar().then(l => {
     setList(l);
     dosyalarim().then(setDosyalar).catch(() => {});
@@ -75,6 +78,7 @@ export default function DanismaScreen(p: Props) {
   }).catch(() => setList([]));
   useEffect(() => { if (p.signedIn) reload(); }, [p.signedIn]);
 
+  if (evrak) return <EvrakScreen onBack={() => setEvrak(false)} />;
   if (watch) return <DanismaWatch key={watch.d.id + (watch.oyuncu ? ":oyuncu" : "")} s={watch.s} d={watch.d} basla={watch.son ? "son" : undefined} onClose={() => setWatch(null)} />;
   const oyuncuKaydi = (d: Danisma, k: OyunKaydi) => { const sn = kayitSenaryo(k); if (sn) setWatch({ s: sn, d, oyuncu: true }); };
 
@@ -109,6 +113,13 @@ export default function DanismaScreen(p: Props) {
                 </Pressable>
               ))}
             </View>
+          )}
+          {view === "yeni" && p.admin && (
+            <Pressable accessibilityRole="button" onPress={() => setEvrak(true)} style={s.card}>
+              <Text style={s.meta}>{t("YENİ · DENEME · YALNIZ YÖNETİCİ")}</Text>
+              <Text style={s.cardT}>{t("Evrakla duruşma provası")}</Text>
+              <Text style={s.body}>{t("Dosyanın evrakını yükleyin: kişisel veriler bu cihazda kodlanır, yalnız kodlu metin gönderilir. Hâkimin soruları, karşı tarafın argümanları ve sözlü beyan taslağı hazırlanır.")}</Text>
+            </Pressable>
           )}
           {view === "yeni" && <NewForm admin={p.admin} onDone={d => { setOpen(d); setView("sonuc"); reload(); }} />}
           {view === "gecmis" && <History list={list} dosyalar={dosyalar} onOpen={d => { setOpen(d); setView("sonuc"); }} onDeleted={reload} onKayit={oyuncuKaydi} />}

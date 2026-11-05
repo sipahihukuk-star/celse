@@ -102,7 +102,7 @@ export default function App() {
   const [route, setRouteRaw] = useState<Route>(() =>
     typeof window !== "undefined" && /[?&#]yonetim\b/i.test((window.location?.search || "") + (window.location?.hash || "")) ? { k: "admin" }
       // Danışma bağlantısı (telefondan "videoyu web'de hazırla") ve "Duruşmayı izle" önizlemesi (?izle-ornek) danışma ekranını açar.
-      : Platform.OS === "web" && typeof window !== "undefined" && /[?&](danisma=|izle-ornek)/.test(window.location?.search || "") ? { k: "danisma" }
+      : Platform.OS === "web" && typeof window !== "undefined" && /[?&](danisma=|izle-ornek|evrak)/.test(window.location?.search || "") ? { k: "danisma" }
       // Web mağazası: ?magaza (sitenin "Satın al" bağlantısı)
       : Platform.OS === "web" && typeof window !== "undefined" && /[?&#]magaza\b/.test((window.location?.search || "") + (window.location?.hash || "")) ? { k: "magaza" } : { k: "title" });
   // Geri tuşu (Android'in geri tuşu, tarayıcının geri düğmesi): bir önceki ekrana döner; giriş ekranında uygulamadan çıkar.

@@ -85,10 +85,14 @@ const HATA: Record<string, string> = {
   "danışma bulunamadı": "Danışma bulunamadı.",
   "değerlendirme yapılamadı": "Değerlendirme şu an yapılamadı.",
   "parça gerekli": "parça gerekli",
-  "ses birleştirilemedi": "Sesli kayıt şu an hazırlanamadı."
+  "ses birleştirilemedi": "Sesli kayıt şu an hazırlanamadı.",
+  "beta": "Evrakla duruşma provası şimdilik deneme aşamasında; yalnız yöneticilere açık.",
+  "evrak kısa": "Evrak metni çok kısa.",
+  "maskelenmemiş veri": "Metinde maskelenmemiş kişisel veri kaldı (kimlik no, IBAN, e-posta ya da telefon). Onay ekranında bu ifadeyi ayrıca gizleyin.",
+  "istek çok uzun": "Evrak çok uzun. Daha az sayfa seçin."
 };
 
-async function call<T>(action: string, body: Record<string, unknown>, sure = 120000): Promise<Cevap<T>> {
+export async function call<T>(action: string, body: Record<string, unknown>, sure = 120000): Promise<Cevap<T>> {
   if (!supabase() || !SUPABASE_URL) return { ok: false, error: "Sunucuya şu an ulaşılamıyor." };
   const token = await getAccessToken();
   if (!token) return { ok: false, error: "Önce giriş yapın." };
