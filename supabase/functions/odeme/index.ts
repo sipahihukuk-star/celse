@@ -70,9 +70,10 @@ Deno.serve(async req => {
   // (oyuncu giriş yapınca logIn ile birleşir ve RevenueCat yeni olaylar gönderir).
   if (!kullanici) return json({ ok: true, not: "anonim kullanıcı atlandı" });
 
-  const urun = String(ev.new_product_id || ev.product_id || "");
+  // Google Play abonelikleri "urun:temelplan" biçiminde gelir (ör. celse_pro_aylik:aylik); yalnız ürün kısmı kullanılır.
+  const urun = String(ev.new_product_id || ev.product_id || "").split(":")[0];
   const ents = ((ev.entitlement_ids as unknown[]) || []).map(String);
-  const pro = PRO_PRODUCTS.indexOf(urun) >= 0 || PRO_PRODUCTS.indexOf(String(ev.product_id || "")) >= 0 || ents.indexOf(PRO_ENTITLEMENT) >= 0;
+  const pro = PRO_PRODUCTS.indexOf(urun) >= 0 || PRO_PRODUCTS.indexOf(String(ev.product_id || "").split(":")[0]) >= 0 || ents.indexOf(PRO_ENTITLEMENT) >= 0;
   const kredi = CREDITS[String(ev.product_id || "")] || 0;
   const exp = Number(ev.expiration_at_ms) || 0;
   const now = Date.now();

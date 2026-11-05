@@ -87,7 +87,8 @@ export async function getPlans(): Promise<PlanInfo[]> {
   if (!setup()) return [];
   const off = (await Purchases.getOfferings()).current;
   if (!off) return [];
-  const byProduct = (id: string) => off.availablePackages.find(p => p.product.identifier === id) || null;
+  // Android'de abonelik kimliği "urun:temelplan" biçimindedir (ör. celse_pro_aylik:aylik).
+  const byProduct = (id: string) => off.availablePackages.find(p => p.product.identifier.split(":")[0] === id) || null;
   const found: [PlanKind, PurchasesPackage | null][] = [["aylik", off.monthly || byProduct(PRODUCTS.aylik)], ["yillik", off.annual || byProduct(PRODUCTS.yillik)]];
   const out: PlanInfo[] = [];
   for (const [kind, p] of found) if (p) { packages.set(kind, p); out.push({ kind, price: p.product.priceString, productId: p.product.identifier, amount: p.product.price, currency: p.product.currencyCode }); }
