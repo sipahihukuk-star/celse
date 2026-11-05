@@ -1,11 +1,12 @@
 // "Derdini anlat": oyuncu kendi olayını dört kutuya yazar; ücretsiz eksik bilgi denetiminden geçince 1 krediyle
-// eğitim amaçlı değerlendirme, aynı kredi içinde duruşma canlandırması ve en çok 5 takip sorusu alır.
-// Eğitim amaçlı canlandırmadır, hukuki görüş değildir (1136 sayılı Avukatlık Kanunu m.35).
+// eğitim amaçlı değerlendirme, aynı kredi içinde duruşma canlandırması ve en çok 5 takip sorusu alır. Canlandırmayı hemen yapay zekâ
+// yapar ya da olay anonimleştirilerek uygulamadaki avukat oyunculara oynatılır (danismaDosya.ts); ikisi birlikte de seçilebilir.
+// Eğitim amaçlı canlandırmadır, hukuki görüş değildir (1136 sayılı Avukatlık Kanunu m.35). Uyarı her ekranda bir kez gösterilir.
 import React, { useEffect, useRef, useState } from "react";
 import { Linking, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import {
   ALANLAR, alanAdi, ASGARI, AZAMI, BOS_FORM, Cevap, izleSenaryo, Senaryo, cevaplariEkle, Danisma, DanismaForm, Degerlendirme, deleteDanisma,
-  ALAN_ADI, degerlendir, formHatalari, kontrolEt, Kutu, listDanismalar, Soru, takipSor, TAKIP_HAKKI
+  ALAN_ADI, degerlendir, dosyaHazirla, formHatalari, kontrolEt, Kutu, listDanismalar, Soru, takipSor, TAKIP_HAKKI
 } from "../data/danisma";
 import { CreditInfo, PRODUCTS } from "../data/purchaseIds";
 import { buyConsumable, getCreditProducts, PURCHASES_AVAILABLE } from "../data/purchases";
@@ -13,7 +14,11 @@ import { refreshPremium, usePremium } from "../data/subscription";
 import { locale, t } from "../i18n";
 import { ORNEK_DANISMA, ORNEK_SENARYO } from "../data/izleOrnek";
 import DanismaWatch from "./DanismaWatch";
-import { kimAdi, sahneBaslik } from "./izleOrtak";
+import { cinsKodu, danisanKadinMi, kimAdi, sahneBaslik } from "./izleOrtak";
+import { beklemeDoldu, DanismaDosyasi, dosyalarim, INSAN_BEKLEME_DK, kayitSenaryo, OyunKaydi } from "../data/danismaDosya";
+import { useAccount } from "../data/account";
+import { useCharacter } from "../data/character";
+import { useOffice } from "../data/office";
 import { Btn } from "./kit";
 import { StoreLinks } from "./StoreLinks";
 import { C, F } from "./theme";
@@ -33,7 +38,7 @@ const BOLUM: [keyof Degerlendirme, string][] = [
   ["deliller", "Delillerin değeri ve eksik deliller"],
   ["savunma", "Karşı tarafın muhtemel savunması"],
   ["yollar", "İzlenebilecek yollar ve süreler"],
-  ["kapanis", "Bir avukata danışın"]
+  ["kapanis", "Kapanış"]
 ];
 /** Mağaza fiyatı alınamazsa gösterilen fiyatlar (KDV dahil). */
 const PAKETLER = [{ productId: PRODUCTS.derdini1, credits: 1, price: "₺149,99" }, { productId: PRODUCTS.derdini3, credits: 3, price: "₺349,99" }];
@@ -52,12 +57,15 @@ export default function DanismaScreen(p: Props) {
   const [list, setList] = useState<Danisma[] | null>(null);
   const [open, setOpen] = useState<Danisma | null>(null);
   // "Duruşmayı izle" oynatıcısı. Geliştirme önizlemesi: web'de ?izle-ornek ile gömülü örnek senaryo açılır (sunucuya gitmez).
-  const [watch, setWatch] = useState<{ s: Senaryo; d: Danisma; son?: boolean } | null>(() =>
+  const [watch, setWatch] = useState<{ s: Senaryo; d: Danisma; son?: boolean; oyuncu?: boolean } | null>(() =>
     adresParam(/[?&](izle-ornek)\b/) !== null ? { s: ORNEK_SENARYO, d: ORNEK_DANISMA, son: adresParam(/[?&]izle-ornek=(son)\b/) === "son" } : null);
   // Telefondan "videoyu web'de hazırla" ile gelen bağlantı: ?danisma=<kimlik> o danışmanın kayıtlar ekranını açar.
   const hedef = useRef(adresParam(/[?&]danisma=([0-9a-f-]{36})/i));
+  // Oyunculara gönderilen dosyalar (danışma kimliğine göre); surum13.sql kurulmadıysa boş.
+  const [dosyalar, setDosyalar] = useState<Record<string, DanismaDosyasi>>({});
   const reload = () => listDanismalar().then(l => {
     setList(l);
+    dosyalarim().then(setDosyalar).catch(() => {});
     const h = hedef.current && l.find(x => x.id === hedef.current);
     if (h) {
       hedef.current = null;
@@ -67,7 +75,8 @@ export default function DanismaScreen(p: Props) {
   }).catch(() => setList([]));
   useEffect(() => { if (p.signedIn) reload(); }, [p.signedIn]);
 
-  if (watch) return <DanismaWatch key={watch.d.id} s={watch.s} d={watch.d} basla={watch.son ? "son" : undefined} onClose={() => setWatch(null)} />;
+  if (watch) return <DanismaWatch key={watch.d.id + (watch.oyuncu ? ":oyuncu" : "")} s={watch.s} d={watch.d} basla={watch.son ? "son" : undefined} onClose={() => setWatch(null)} />;
+  const oyuncuKaydi = (d: Danisma, k: OyunKaydi) => { const sn = kayitSenaryo(k); if (sn) setWatch({ s: sn, d, oyuncu: true }); };
 
   return (
     <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled" automaticallyAdjustKeyboardInsets keyboardDismissMode="on-drag">
@@ -102,8 +111,9 @@ export default function DanismaScreen(p: Props) {
             </View>
           )}
           {view === "yeni" && <NewForm admin={p.admin} onDone={d => { setOpen(d); setView("sonuc"); reload(); }} />}
-          {view === "gecmis" && <History list={list} onOpen={d => { setOpen(d); setView("sonuc"); }} onDeleted={reload} />}
-          {view === "sonuc" && open && <Result key={open.id} d={open} onChange={d => { setOpen(d); setList(l => l?.map(x => (x.id === d.id ? d : x)) || l); }}
+          {view === "gecmis" && <History list={list} dosyalar={dosyalar} onOpen={d => { setOpen(d); setView("sonuc"); }} onDeleted={reload} onKayit={oyuncuKaydi} />}
+          {view === "sonuc" && open && <Result key={open.id} d={open} dosya={dosyalar[open.id] || null} onChange={d => { setOpen(d); setList(l => l?.map(x => (x.id === d.id ? d : x)) || l); }}
+            onDosya={f => setDosyalar(m => ({ ...m, [open.id]: f }))} onKayit={k => oyuncuKaydi(open, k)}
             onWatch={(sn, son) => setWatch({ s: sn, d: open, son })} />}
         </>
       )}
@@ -123,8 +133,19 @@ function Disclaimer() {
   return (
     <View style={s.warn}>
       <Text style={s.warnT}>{t("Eğitim amaçlı canlandırmadır, hukuki görüş değildir.")}</Text>
-      <Text style={s.warnD}>{t("Avukatlık Kanunu m.35 uyarınca hukuki görüş yalnız avukatlarca verilir. Gerçek ad, soyad ya da T.C. kimlik numarası yazmayın; kişilerden rolleriyle söz edin (işveren, kiracı, eş gibi). Somut işiniz için bir avukata danışın.")}</Text>
+      <Text style={s.warnD}>{t("Avukatlık Kanunu m.35 uyarınca hukuki görüş yalnız avukatlarca verilir. Gerçek ad, soyad ya da T.C. kimlik numarası yazmayın; kişilerden rolleriyle söz edin (işveren, kiracı, eş gibi).")}</Text>
     </View>
+  );
+}
+
+/** Zorunlu kabul: değerlendirme ve canlandırma yapay zekâ ürünüdür, hata yapabilir, mahkeme kararı ya da hukuki görüş değildir
+ *  (KVKK açık rıza kutusundan ayrıdır; sunucu da "kabul" ister). */
+function KabulKutusu({ on, set }: { on: boolean; set: (v: boolean) => void }) {
+  return (
+    <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: on }} onPress={() => set(!on)} style={s.check} testID="kabul">
+      <View style={[s.box, on && s.boxOn]}>{on && <Text style={s.tick}>✓</Text>}</View>
+      <Text style={s.checkT}>{t("Zorunlu:")} {t("Bu değerlendirme ve duruşma canlandırmasının yapay zekâ tarafından üretildiğini, hata yapabileceğini, gerçek bir mahkeme kararı ya da hukuki görüş olmadığını bildiğimi ve bu bilinçle kullandığımı kabul ediyorum.")}</Text>
+    </Pressable>
   );
 }
 
@@ -145,6 +166,7 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
   const [cevaplar, setCevaplar] = useState<string[]>([]);
   const [onay, setOnay] = useState<string | null>(null);
   const [riza, setRiza] = useState(false);
+  const [kabul, setKabul] = useState(false);
   const [ornek, setOrnek] = useState(false);
   const [busy, setBusy] = useState<"" | "kontrol" | "degerlendir">("");
   const [msg, setMsg] = useState<{ t: string; ok?: boolean } | null>(null);
@@ -152,11 +174,12 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
   const setForm = (f: DanismaForm) => { setFormRaw(f); setOnay(null); };
   const errs = formHatalari(form);
   const complete = Object.keys(errs).length === 0;
-  const canStart = riza && !!onay && (admin || credits > 0) && !busy;
+  const canStart = riza && kabul && !!onay && (admin || credits > 0) && !busy;
 
   const check = async (f: DanismaForm = form) => {
     setShown(true); setMsg(null);
     if (!riza) { setMsg({ t: t("Devam etmek için açık rıza kutusunu işaretleyin.") }); return; }
+    if (!kabul) { setMsg({ t: t("Devam etmek için yapay zekâ uyarısını kabul ettiğinizi işaretleyin.") }); return; }
     const eksik = Object.keys(formHatalari(f)) as (keyof typeof ALAN_ADI)[];
     if (eksik.length) { setMsg({ t: t("Şu alanlar eksik: {alanlar}. Kırmızıyla işaretli alanları tamamlamadan devam edemezsiniz.", { alanlar: eksik.map(k => t(ALAN_ADI[k])).join(", ") }) }); return; }
     setBusy("kontrol");
@@ -186,7 +209,7 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
       return setMsg({ t: errText(r) + (r.iade ? " " + t("Krediniz düşülmedi.") : "") });
     }
     refreshPremium();
-    const d: Danisma = { ...form, id: r.data.id, durum: "hazir", degerlendirme: r.data.degerlendirme, canlandirma: null, senaryo: null, takip: [], kalan_takip: r.data.kalan_takip, created_at: new Date().toISOString() };
+    const d: Danisma = { ...form, id: r.data.id, durum: "hazir", degerlendirme: r.data.degerlendirme, canlandirma: null, senaryo: null, takip: [], kalan_takip: r.data.kalan_takip, created_at: new Date().toISOString(), kabul_zaman: new Date().toISOString() };
     setFormRaw(BOS_FORM); setOnay(null); setShown(false); setMsg(null);
     onDone(d);
   };
@@ -255,6 +278,7 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
           <View style={[s.box, riza && s.boxOn]}>{riza && <Text style={s.tick}>✓</Text>}</View>
           <Text style={s.checkT}>{t("Zorunlu:")} {t("Yazdıklarımın eğitim amaçlı değerlendirme için yurt dışındaki yapay zekâ hizmet sağlayıcısına (Anthropic, ABD) aktarılarak işlenmesine; yazdıklarımda sağlık gibi özel nitelikli bir bilgi varsa onun da işlenmesine açık rıza veriyorum. Aydınlatma metnini okudum. Rızamı geçmiş danışmalarımı silerek geri alabilirim.")} <Text style={s.link} onPress={() => Linking.openURL("https://sipahihukuk-star.github.io/celse/gizlilik.html")}>{t("Aydınlatma metni")}</Text></Text>
         </Pressable>
+        <KabulKutusu on={kabul} set={setKabul} />
         <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: ornek }} onPress={() => setOrnek(!ornek)} style={s.check}>
           <View style={[s.box, ornek && s.boxOn]}>{ornek && <Text style={s.tick}>✓</Text>}</View>
           <Text style={s.checkT}>{t("İsteğe bağlı:")} {t("Olayımın, kişisel bilgilerden arındırılarak (anonimleştirilerek) Celse'de eğitim amaçlı örnek dava dosyası hazırlanmasında kullanılmasına muvafakat ediyorum. Bu izin değerlendirmeyi ya da ücreti etkilemez; danışmamı silersem izin de ortadan kalkar.")}</Text>
@@ -319,27 +343,41 @@ function BuyCredits() {
 }
 
 /* ---------- geçmiş ---------- */
-function History({ list, onOpen, onDeleted }: { list: Danisma[] | null; onOpen: (d: Danisma) => void; onDeleted: () => void }) {
+/** Oyunculara gönderilen dosyanın durumu (geçmiş listesinde ve sonuç ekranında). */
+function dosyaDurumu(f: DanismaDosyasi) {
+  if (f.durum === "oynandi") return t("Avukat oyuncu oynadı · kayıt hazır");
+  if (f.durum === "oynaniyor") return t("Bir avukat oyuncu dosyanızı oynuyor");
+  return beklemeDoldu(f) ? t("{dk} dakikadır oyuncu bekliyor", { dk: INSAN_BEKLEME_DK }) : t("Oyuncu bekleniyor");
+}
+
+function History({ list, dosyalar, onOpen, onDeleted, onKayit }: {
+  list: Danisma[] | null; dosyalar: Record<string, DanismaDosyasi>; onOpen: (d: Danisma) => void; onDeleted: () => void; onKayit: (d: Danisma, k: OyunKaydi) => void;
+}) {
   const [ask, setAsk] = useState<string | null>(null);
   if (list === null) return <Text style={s.hint}>{t("Yükleniyor…")}</Text>;
   if (!list.length) return <Text style={s.body}>{t("Henüz danışmanız yok.")}</Text>;
   return (
     <View style={{ gap: 10 }}>
-      {list.map(d => (
-        <View key={d.id} style={s.card}>
-          <Text style={s.meta}>{t(alanAdi(d.alan)).toLocaleUpperCase(locale())} · {new Date(d.created_at).toLocaleDateString(locale())}</Text>
-          <Text style={s.body} numberOfLines={3}>{d.olay}</Text>
-          <View style={s.row}>
-            <Btn label={t("Aç")} onPress={() => onOpen(d)} />
-            {ask === d.id ? (
-              <>
-                <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setAsk(null)} />
-                <Btn kind="ghost" label={t("Evet, kalıcı olarak sil")} onPress={async () => { setAsk(null); await deleteDanisma(d.id); onDeleted(); }} />
-              </>
-            ) : <Btn kind="ghost" label={t("Sil")} onPress={() => setAsk(d.id)} />}
+      {list.map(d => {
+        const f = dosyalar[d.id];
+        return (
+          <View key={d.id} style={s.card}>
+            <Text style={s.meta}>{t(alanAdi(d.alan)).toLocaleUpperCase(locale())} · {new Date(d.created_at).toLocaleDateString(locale())}</Text>
+            <Text style={s.body} numberOfLines={3}>{d.olay}</Text>
+            {!!f && <View style={[s.chip, f.durum === "oynandi" && s.chipOn]}><Text style={[s.chipT, f.durum === "oynandi" && { color: C.brassInk }]}>{dosyaDurumu(f)}</Text></View>}
+            <View style={s.row}>
+              <Btn label={t("Aç")} onPress={() => onOpen(d)} />
+              {f?.durum === "oynandi" && f.kayit && kayitSenaryo(f.kayit) && <Btn kind="ghost" label={t("▶ Oyuncu kaydını izle")} onPress={() => onKayit(d, f.kayit as OyunKaydi)} />}
+              {ask === d.id ? (
+                <>
+                  <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setAsk(null)} />
+                  <Btn kind="ghost" label={t("Evet, kalıcı olarak sil")} onPress={async () => { setAsk(null); await deleteDanisma(d.id); onDeleted(); }} />
+                </>
+              ) : <Btn kind="ghost" label={t("Sil")} onPress={() => setAsk(d.id)} />}
+            </View>
           </View>
-        </View>
-      ))}
+        );
+      })}
     </View>
   );
 }
@@ -355,23 +393,65 @@ function Paras({ text }: { text: string }) {
   );
 }
 
-function Result({ d, onChange, onWatch }: { d: Danisma; onChange: (d: Danisma) => void; onWatch: (s: Senaryo, son?: boolean) => void }) {
-  const [taraf, setTaraf] = useState<"davaci" | "davali">(d.canlandirma?.taraf || "davaci");
-  const [busy, setBusy] = useState<"" | "izle" | "takip">("");
+type Yol = "yz" | "insan" | "ikisi";
+
+function Result({ d, dosya, onChange, onWatch, onDosya, onKayit }: {
+  d: Danisma; dosya: DanismaDosyasi | null; onChange: (d: Danisma) => void; onWatch: (s: Senaryo, son?: boolean) => void;
+  onDosya: (f: DanismaDosyasi) => void; onKayit: (k: OyunKaydi) => void;
+}) {
+  const [taraf, setTaraf] = useState<"davaci" | "davali">(d.canlandirma?.taraf || d.senaryo?.taraf || "davaci");
+  const [busy, setBusy] = useState<"" | "izle" | "takip" | "dosya">("");
   const [soru, setSoru] = useState("");
   const [msg, setMsg] = useState("");
   const [metin, setMetin] = useState(false);
+  const [kayitMetni, setKayitMetni] = useState(false);
   const [izleMsg, setIzleMsg] = useState("");
+  const [yol, setYol] = useState<Yol>("yz");
+  // Yapay zekâ uyarısı: bu danışmada değerlendirmeden önce kabul edildiyse yeniden sorulmaz (eski danışmalarda burada sorulur).
+  const [kabul, setKabul] = useState(!!d.kabul_zaman);
   const deg = d.degerlendirme;
-  const izle = async (son?: boolean) => {
-    if (d.senaryo) return onWatch(d.senaryo, son);
+  // Danışanın cinsiyeti (sahnedeki yüz ve modelin hitapları): karakter, büro, hesap adı, sonra danışma metni.
+  const karakter = useCharacter();
+  const { office } = useOffice();
+  const { account } = useAccount();
+  const bos: Senaryo = { taraf, mahkeme: "", ozet: "", roller: { bizAvukat: "", karsiAvukat: "", hakim: "", karsiTaraf: "" }, sahneler: [] };
+  const cins = cinsKodu(danisanKadinMi({ karakter: karakter?.avatar, buro: office?.avatar, ad: account?.adSoyad }, d.senaryo || bos, d));
+
+  const hazirla = async (): Promise<Senaryo | null> => {
+    if (d.senaryo) return d.senaryo;
     setBusy("izle"); setIzleMsg("");
-    const r = await izleSenaryo(d.id, taraf);
+    const r = await izleSenaryo(d.id, taraf, cins);
     setBusy("");
-    if (!r.ok) return setIzleMsg(errText(r));
+    if (!r.ok) { setIzleMsg(errText(r)); return null; }
     onChange({ ...d, senaryo: r.data.senaryo });
-    onWatch(r.data.senaryo, son);
+    return r.data.senaryo;
   };
+  const izle = async (son?: boolean) => {
+    if (!kabul) return setIzleMsg(t("Devam etmek için yapay zekâ uyarısını kabul ettiğinizi işaretleyin."));
+    const sn = await hazirla();
+    if (sn) onWatch(sn, son);
+  };
+  const gonder = async (): Promise<boolean> => {
+    if (!kabul) { setIzleMsg(t("Devam etmek için yapay zekâ uyarısını kabul ettiğinizi işaretleyin.")); return false; }
+    setBusy("dosya"); setIzleMsg("");
+    const r = await dosyaHazirla(d.id, taraf, cins);
+    setBusy("");
+    if (!r.ok) { setIzleMsg(errText(r)); return false; }
+    onDosya({ id: r.data.dosya.id, danisma_id: d.id, durum: r.data.dosya.durum as DanismaDosyasi["durum"], oynayan: null, kayit: null, created_at: r.data.dosya.created_at, alindi_at: null, oynandi_at: null });
+    return true;
+  };
+  const basla = async () => {
+    if (yol === "insan") { await gonder(); return; }
+    if (yol === "ikisi" && !dosya && !(await gonder())) return;
+    await izle();
+  };
+  // Bekleme süresi dolduysa (oyuncu almadıysa) yapay zekâ canlandırması kendiliğinden hazırlanır (aynı kredinin içindedir).
+  const doldu = !!dosya && dosya.durum === "bekliyor" && beklemeDoldu(dosya);
+  const otomatik = useRef(false);
+  useEffect(() => {
+    if (doldu && !d.senaryo && kabul && !otomatik.current && !busy) { otomatik.current = true; hazirla(); }
+  }, [doldu, d.senaryo, kabul]);
+
   const ask = async () => {
     if (soru.trim().length < 5) return setMsg(t("Sorunuzu biraz daha açık yazın."));
     setBusy("takip"); setMsg("");
@@ -384,14 +464,26 @@ function Result({ d, onChange, onWatch }: { d: Danisma; onChange: (d: Danisma) =
   const c = d.canlandirma;
   const sn = d.senaryo;
   const name = (rol: string, ad?: string) => ad || (rol === "hakim" ? t("Hâkim") : rol === "davaci" ? t("Davacı vekili") : t("Davalı vekili"));
+  const kayit = dosya?.durum === "oynandi" ? dosya.kayit : null;
+  const kayitSn = kayit ? kayitSenaryo(kayit) : null;
+  const secim = (k: Yol, baslik: string, alt: string) => (
+    <Pressable key={k} accessibilityRole="radio" accessibilityState={{ checked: yol === k }} onPress={() => setYol(k)} style={[s.yol, yol === k && s.yolOn]}>
+      <View style={[s.radio, yol === k && s.radioOn]}>{yol === k && <View style={s.radioDot} />}</View>
+      <View style={{ flex: 1, gap: 2 }}>
+        <Text style={s.yolT}>{baslik}</Text>
+        <Text style={s.hint}>{alt}</Text>
+      </View>
+    </Pressable>
+  );
 
   return (
     <View style={{ gap: 14 }}>
       <Text style={s.meta}>{t(alanAdi(d.alan)).toLocaleUpperCase(locale())} · {new Date(d.created_at).toLocaleDateString(locale())}</Text>
       <View style={[s.card, { borderColor: C.brass }]}>
         <Text style={s.cardT}>{t("Duruşmayı izle")}</Text>
-        <Text style={s.hint}>{t("Davanız sahnelenir ve seslendirilir: avukatınız sizi dinler, karşı tarafın avukatı kendi müvekkiliyle görüşür, duruşma yapılır ve hâkim eğitim amaçlı bir değerlendirme yapar. Sonunda sesli kaydı (MP3) ve videoyu indirebilirsiniz. Aynı kredinin içindedir; bir kez hazırlanır.")}</Text>
-        {!sn && (
+        <Text style={s.hint}>{t("Davanız sahnelenir: avukatınız sizi dinler, duruşma yapılır ve hâkim gerekçeli bir karar verir. Aynı kredinin içindedir.")}</Text>
+        {!d.kabul_zaman && <KabulKutusu on={kabul} set={setKabul} />}
+        {(!sn || !dosya) && (
           <View style={s.row}>
             {(["davaci", "davali"] as const).map(x => (
               <Pressable key={x} accessibilityRole="radio" accessibilityState={{ checked: taraf === x }} onPress={() => setTaraf(x)} style={[s.alan, taraf === x && s.alanOn]}>
@@ -400,9 +492,46 @@ function Result({ d, onChange, onWatch }: { d: Danisma; onChange: (d: Danisma) =
             ))}
           </View>
         )}
-        <Btn label={busy === "izle" ? t("Duruşma hazırlanıyor… (bir dakika sürebilir)") : t("▶ Duruşmayı izle")} disabled={!!busy} onPress={() => izle()} style={s.big} />
+
+        {!dosya ? (
+          <>
+            <Text style={s.label}>{t("Duruşmayı kim canlandırsın?")}</Text>
+            {secim("yz", t("Hemen yapay zekâ canlandırsın"), t("Bir dakika içinde hazır. Avukatlar, karşı taraf ve hâkim yapay zekâdır."))}
+            {secim("insan", t("Uygulamadaki avukat oyuncular oynasın"), t("Olayınız anonimleştirilir; avukatınızı uygulamadaki bir avukat oyuncu oynar."))}
+            {secim("ikisi", t("İkisi de: şimdi yapay zekâ, sonra oyuncular"), t("Yapay zekâ canlandırmasını hemen izlersiniz; oyuncu kaydı geldiğinde onu da izlersiniz."))}
+            {yol !== "yz" && (
+              <View style={s.warnBox} testID="oyuncu-uyari">
+                <Text style={s.warnBoxT}>{t("Hemen olmaz")}</Text>
+                <Text style={s.body}>{t("Dosyanız, bir avukat oyuncu onu aldığında oynanır. Oyuncular genellikle kısa sürede oynar; {dk} dakika içinde kimse almazsa yapay zekâ canlandırması hazırlanır. Kesin bir süre garantisi yoktur.", { dk: INSAN_BEKLEME_DK })}</Text>
+                <Text style={s.body}>{t("Oynandığında Gelen kutunuza bildirim gelir (e-posta bildirimi açıldığında e-postayla da). Kaydı bu ekrandan ve Geçmiş'ten izlersiniz.")}</Text>
+                <Text style={s.hint}>{t("Olayınızdan, kişisel bilgiler çıkarılarak (anonimleştirilerek) bir dava dosyası hazırlanır ve giriş yapmış oyunculara gösterilir; adınız ve e-postanız gösterilmez. Oyuncular gerçek avukat olmayabilir. Ek ücret yoktur; yapay zekâ canlandırması aynı kredinin içindedir.")}</Text>
+              </View>
+            )}
+            <Btn label={busy === "dosya" ? t("Dosya hazırlanıyor… (birkaç dakika sürebilir)") : busy === "izle" ? t("Duruşma hazırlanıyor… (bir dakika sürebilir)")
+              : yol === "insan" ? t("Oyunculara gönder") : yol === "ikisi" ? t("▶ Duruşmayı izle ve oyunculara gönder") : t("▶ Duruşmayı izle")}
+              disabled={!!busy || !kabul} onPress={basla} style={[s.big, (!kabul || !!busy) && { opacity: 0.45 }]} />
+          </>
+        ) : (
+          <View style={{ gap: 10 }}>
+            <View style={[s.chip, dosya.durum === "oynandi" && s.chipOn]}><Text style={[s.chipT, dosya.durum === "oynandi" && { color: C.brassInk }]}>{dosyaDurumu(dosya)}</Text></View>
+            {dosya.durum !== "oynandi" && !doldu && <Text style={s.hint}>{t("Dosyanız oyunculara açıldı. Oynandığında Gelen kutunuza bildirim gelir. {dk} dakika içinde kimse almazsa yapay zekâ canlandırması hazırlanır.", { dk: INSAN_BEKLEME_DK })}</Text>}
+            {doldu && <Text style={s.body}>{t("{dk} dakika içinde bir avukat oyuncu dosyanızı almadı. Yapay zekâ canlandırması aynı kredinin içindedir ve sizin için hazırlanıyor; dosyanız oyunculara açık kalır.", { dk: INSAN_BEKLEME_DK })}</Text>}
+            {kayit && (
+              <>
+                <Text style={s.body}>{t("Dosyanızı {ad} oynadı. Sonuç: {sonuc} · ikna puanı {puan}/100.", { ad: kayit.oynayan || dosya.oynayan || t("bir avukat oyuncu"), sonuc: kayit.sonuc?.stamp || "", puan: kayit.puan })}</Text>
+                {kayitSn ? <Btn label={t("▶ Oyuncu kaydını izle")} onPress={() => onKayit(kayit)} style={s.big} /> : null}
+                <Pressable onPress={() => setKayitMetni(!kayitMetni)} accessibilityRole="button"><Text style={s.link}>{kayitMetni ? t("Kaydın metnini gizle") : t("Oyuncu kaydının metnini göster")}</Text></Pressable>
+                {(kayitMetni || !kayitSn) && <KayitMetni k={kayit} />}
+              </>
+            )}
+            {(!!sn || doldu || dosya.durum !== "oynandi") && (
+              <Btn kind={sn ? "primary" : "ghost"} label={busy === "izle" ? t("Duruşma hazırlanıyor… (bir dakika sürebilir)") : sn ? t("▶ Yapay zekâ canlandırmasını izle") : t("Yapay zekâ canlandırmasını şimdi hazırla")}
+                disabled={!!busy || !kabul} onPress={() => izle()} />
+            )}
+          </View>
+        )}
         {!!sn && <Btn kind="ghost" label={t("🎧 🎬 Sesli kaydı ve videoyu indir")} disabled={!!busy} onPress={() => izle(true)} />}
-        {busy === "izle" && <Text style={s.hint}>{t("Duruşma hazırlanıyor… (bir dakika sürebilir)")}</Text>}
+        {busy === "dosya" && <Text style={s.hint}>{t("Olayınızdan oyuncular için anonim bir dava dosyası hazırlanıyor…")}</Text>}
         {!!izleMsg && <Text style={s.msg}>{izleMsg}</Text>}
       </View>
       {!deg ? <Text style={s.body}>{t("Değerlendirme bulunamadı.")}</Text> : deg.metin && !deg.nitelik ? (
@@ -413,13 +542,6 @@ function Result({ d, onChange, onWatch }: { d: Danisma; onChange: (d: Danisma) =
           <Paras text={String(deg[k] || "")} />
         </View>
       ))}
-      <Disclaimer />
-
-      <View style={s.card}>
-        <Text style={s.cardT}>{t("Bir avukatla görüşmek isterseniz")}</Text>
-        <Text style={s.body}>{t("Celse sizi belirli bir avukata yönlendirmez ve avukatlık ücretinden pay almaz. Bulunduğunuz ildeki baronun avukat arama hizmetinden avukat bulabilir; maddi imkânınız yoksa baronun adli yardım bürosuna başvurabilirsiniz. Bu değerlendirmeyi avukatınıza göstermeniz görüşmeyi kolaylaştırır.")}</Text>
-        <Pressable onPress={() => Linking.openURL("https://www.barobirlik.org.tr")}><Text style={s.link}>{t("Türkiye Barolar Birliği ›")}</Text></Pressable>
-      </View>
 
       <View style={s.card}>
         <Text style={s.cardT}>{t("Metin olarak oku")}</Text>
@@ -455,7 +577,7 @@ function Result({ d, onChange, onWatch }: { d: Danisma; onChange: (d: Danisma) =
             })}
             {!!c.degerlendirme && (
               <View style={[s.card, { backgroundColor: C.panel2 }]}>
-                <Text style={s.secT}>{t("Hâkimin eğitim amaçlı değerlendirmesi")}</Text>
+                <Text style={s.secT}>{t("Hâkimin kararı")}</Text>
                 <Paras text={c.degerlendirme} />
               </View>
             )}
@@ -482,6 +604,29 @@ function Result({ d, onChange, onWatch }: { d: Danisma; onChange: (d: Danisma) =
         )}
       </View>
       {!!msg && <Text style={s.msg}>{msg}</Text>}
+    </View>
+  );
+}
+
+/** Oyuncu kaydının metin tutanağı: bütün konuşmalar, oyuncunun seçimleri ve açıklamalar, karar (görsel oynatıcının yedeği). */
+function KayitMetni({ k }: { k: OyunKaydi }) {
+  return (
+    <View style={{ gap: 8 }}>
+      {(k.satirlar || []).map((l, i) => l.tur === "not"
+        ? <Text key={i} style={s.hint}>{l.text}</Text>
+        : (
+          <View key={i} style={[s.bubble, l.who === "judge" ? s.bJudge : l.who === "p1" || l.who === "client" ? s.bMine : s.bOther]}>
+            <Text style={[s.bWho, (l.who === "p1" || l.who === "client") && { color: C.brassInk }]}>{l.who === "p1" ? `${k.oynayan || l.ad} · ${t("avukat oyuncu")}` : l.who === "client" ? t("Siz") : l.ad}{l.tur === "karar" ? " · " + t("seçim") : ""}</Text>
+            <Text style={[s.bText, (l.who === "p1" || l.who === "client") && { color: C.brassInk }]}>{l.text}</Text>
+          </View>
+        ))}
+      {!!k.sonuc && (
+        <View style={[s.card, { backgroundColor: C.panel2 }]}>
+          <Text style={s.secT}>{t("Hâkimin kararı")} · {k.sonuc.stamp}</Text>
+          <Paras text={k.sonuc.hukum} />
+          {!!k.sonuc.summary && <Paras text={k.sonuc.summary} />}
+        </View>
+      )}
     </View>
   );
 }
@@ -540,5 +685,13 @@ const s = StyleSheet.create({
   bOther: { alignSelf: "flex-start", backgroundColor: C.panel2, borderWidth: 1, borderColor: C.line },
   bWho: { fontFamily: F.monoBold, fontSize: 11, letterSpacing: 1, color: C.brassDim, textTransform: "uppercase" },
   bText: { fontFamily: F.body, fontSize: 15, lineHeight: 22, color: C.text },
-  big: { paddingVertical: 15 }
+  big: { paddingVertical: 15 },
+  yol: { flexDirection: "row", gap: 10, alignItems: "flex-start", borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 12, backgroundColor: C.panel2 },
+  yolOn: { borderColor: C.brass },
+  yolT: { fontFamily: F.bodyBold, fontSize: 15, color: C.text },
+  radio: { width: 20, height: 20, borderRadius: 10, borderWidth: 1, borderColor: C.brassDim, alignItems: "center", justifyContent: "center", marginTop: 2 },
+  radioOn: { borderColor: C.brass },
+  radioDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: C.brass },
+  warnBox: { borderWidth: 1, borderColor: C.mid, borderRadius: 10, padding: 12, gap: 6, backgroundColor: "rgba(208,166,76,0.10)" },
+  warnBoxT: { fontFamily: F.bodyBold, fontSize: 15, color: C.mid }
 });

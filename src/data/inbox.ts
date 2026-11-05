@@ -162,12 +162,18 @@ export async function mesajGonder(m: OutgoingMessage): Promise<{ id?: string | n
     }
   } catch (e) { return { error: (e as Error).message || "Gönderilemedi." }; }
 
+  epostaBildir(id);
+  return { id };
+}
+
+/** Gelen kutusuna düşen mesajın e-posta kopyası. Yönetim panelinden gönderilen mesajlar (mesajGonder) ve sunucudaki işlevlerin
+ *  bıraktığı mesajlar (ör. surum13.sql danisma_dosya_bitir: "Danışma dosyanız oynandı") aynı kancadan geçer. */
+export function epostaBildir(id: string | null | undefined) {
+  if (!id) return;
   // TODO(e-posta): Türkiye'de barınan SMTP hizmeti (Resend) kurulunca e-posta burada gönderilecek. Plan:
-  //   if (id) sb.functions.invoke("eposta-gonder", { body: { mesaj_id: id } }).catch(() => {});
+  //   supabase()?.functions.invoke("eposta-gonder", { body: { mesaj_id: id } }).catch(() => {});
   // Edge function, mesajı servis anahtarıyla okuyup alıcının (duyuruda bütün üyelerin) e-postasına gönderir.
   // E-posta hatası mesajın gelen kutusuna düşmesini engellememeli; bu yüzden beklenmez ve hata yok sayılır.
-
-  return { id };
 }
 
 /** Yalnız bildirimin durumunu değiştirir (oyuncuya mesaj gitmez). */

@@ -8,7 +8,10 @@ import { Linking, Platform, Pressable, ScrollView, Share, StyleSheet, Text, useW
 import { alanAdi, Danisma, Kim, Senaryo, sesKaydi } from "../data/danisma";
 import { WEB_URL } from "../data/settings";
 import { locale, t } from "../i18n";
-import { Adim, adimlar, gorunum, kadro, Kadro, kimAdi, ozetHtml, ozetMetni, parcalar, sahneBaslik, UYARI_KISA } from "./izleOrtak";
+import { Adim, adimlar, danisanKadinMi, gorunum, kadro, Kadro, kimAdi, ozetHtml, ozetMetni, parcalar, sahneBaslik, UYARI_KISA } from "./izleOrtak";
+import { useAccount } from "../data/account";
+import { useCharacter } from "../data/character";
+import { useOffice } from "../data/office";
 import { videoDestekli, videoKaydet, VideoIptal } from "./izleVideo";
 import { Btn } from "./kit";
 import PhotoStage from "./PhotoStage";
@@ -29,7 +32,12 @@ function useTypewriter(text: string) {
 
 export default function DanismaWatch({ s, d, onClose, basla }: Props) {
   const steps = useMemo(() => adimlar(s), [s]);
-  const k = useMemo(() => kadro(d, s), [d.id, s]);
+  // Danışanın ("Siz") yüzü ve sesi: seçtiği karakter, büronun karakteri, hesaptaki ad, sonra metindeki ipuçları.
+  const karakter = useCharacter();
+  const { office } = useOffice();
+  const { account } = useAccount();
+  const bizKadin = danisanKadinMi({ karakter: karakter?.avatar, buro: office?.avatar, ad: account?.adSoyad }, s, d);
+  const k = useMemo(() => kadro(d, s, bizKadin), [d.id, s, bizKadin]);
   const [pos, setPos] = useState(0);
   const [son, setSon] = useState(basla === "son");
   const [auto, setAuto] = useState(true);
@@ -116,7 +124,7 @@ export default function DanismaWatch({ s, d, onClose, basla }: Props) {
           {line ? (
             <Pressable onPress={tap} accessibilityRole="button" accessibilityLabel={t("İleri")}>
               <View style={st.np}><View style={[st.dot, { backgroundColor: dotOf(line.kim) }]} /><Text style={st.npT}>{kimAdi(line.kim, s)}</Text></View>
-              {sahne.tur === "karar" && <Text style={st.kararChip}>{t("EĞİTİM AMAÇLI DEĞERLENDİRME · GERÇEK KARAR DEĞİLDİR")}</Text>}
+              {sahne.tur === "karar" && <Text style={st.kararChip}>{t("EĞİTİM AMAÇLI KARAR")}</Text>}
               <Text style={st.dlg}>{tw.shown}</Text>
             </Pressable>
           ) : (
@@ -233,12 +241,13 @@ function EndScreen({ s, d, k, onClose, onReplay }: { s: Senaryo; d: Danisma; k: 
       <Text style={st.eyebrow}>{t("DURUŞMAYI İZLE")}</Text>
       <Text style={st.endT}>{t("Canlandırma bitti")}</Text>
       <Text style={st.endM}>{t(alanAdi(d.alan)).toLocaleUpperCase(locale())} · {s.mahkeme || t("Mahkeme")}</Text>
-      <View style={st.warnBox}><Text style={st.warnT}>{t(UYARI_KISA)}</Text><Text style={st.warnD}>{s.uyari || ""}</Text></View>
+      <View style={st.warnBox}><Text style={st.warnT}>{t(UYARI_KISA)}</Text>{!!s.uyari && <Text style={st.warnD}>{s.uyari}</Text>}</View>
 
       <View style={[st.box, { borderColor: C.brass }]}>
         <Text style={st.boxT}>{t("Kaydı alın")}</Text>
-        <Btn label={busy === "mp3" ? t("Hazırlanıyor…") : t("🎧 Sesli kaydı indir (MP3)")} disabled={!!busy} onPress={mp3} />
-        <Text style={st.hint}>{t("Bütün sahneler, her karakter kendi sesiyle, tek bir MP3 dosyasında. Bir kez hazırlanır; sonra hemen iner.")}</Text>
+        {/* Sesli kayıt sunucudaki yapay zekâ senaryosundan birleştirilir; avukat oyuncunun kaydında yalnız video vardır. */}
+        {!s.oyuncu && <Btn label={busy === "mp3" ? t("Hazırlanıyor…") : t("🎧 Sesli kaydı indir (MP3)")} disabled={!!busy} onPress={mp3} />}
+        {!s.oyuncu && <Text style={st.hint}>{t("Bütün sahneler, her karakter kendi sesiyle, tek bir MP3 dosyasında. Bir kez hazırlanır; sonra hemen iner.")}</Text>}
         {Platform.OS === "web" ? (videoOk ? (
           <>
             <Btn label={busy === "video" ? t("Video kaydediliyor…") : t("🎬 Videoyu indir")} disabled={!!busy} onPress={video} />
@@ -248,7 +257,7 @@ function EndScreen({ s, d, k, onClose, onReplay }: { s: Senaryo; d: Danisma; k: 
         ) : <Text style={st.hint}>{t("Bu tarayıcı video kaydını desteklemiyor; Chrome, Edge ya da Firefox'un güncel sürümünü deneyin.")}</Text>) : (
           <>
             <Text style={st.hint}>{t("Video web sürümünde indirilir. Aynı hesapla giriş yaptığınızda bu danışma orada da açılır.")}</Text>
-            <Btn kind="ghost" label={t("🎬 Videoyu web'de hazırla ›")} onPress={() => Linking.openURL(`${WEB_URL}?danisma=${d.id}`)} />
+            {!s.oyuncu && <Btn kind="ghost" label={t("🎬 Videoyu web'de hazırla ›")} onPress={() => Linking.openURL(`${WEB_URL}?danisma=${d.id}`)} />}
           </>
         )}
         {!!prog && <Text style={st.prog}>{prog}</Text>}
@@ -262,7 +271,7 @@ function EndScreen({ s, d, k, onClose, onReplay }: { s: Senaryo; d: Danisma; k: 
       </View>
       {!!karar && (
         <View style={st.box}>
-          <Text style={st.boxT}>{t("Hâkimin eğitim amaçlı değerlendirmesi")}</Text>
+          <Text style={st.boxT}>{t("Hâkimin kararı")}</Text>
           {karar.satirlar.map((l, i) => <Text key={i} style={st.body}>{l.metin}</Text>)}
         </View>
       )}

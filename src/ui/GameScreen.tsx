@@ -17,8 +17,10 @@ import FreeAnswer from "./FreeAnswer";
 import { getLang, locale, t } from "../i18n";
 import { BugReportLink, BugReportModal } from "./BugReport";
 import { APP_VERSION } from "../data/usage";
+import type { TutanakSatiri } from "../data/danismaDosya";
 
-interface Props { c: CaseFile; players: Record<Side, Player>; onExit: () => void; onFinish: (g: GameState) => void; online?: OnlineLink }
+/** onFinish'in ikinci değeri ekrandaki duruşma tutanağıdır (danışma dosyalarının oyun kaydı için; danismaDosya.ts kayitOf). */
+interface Props { c: CaseFile; players: Record<Side, Player>; onExit: () => void; onFinish: (g: GameState, tutanak: TutanakSatiri[]) => void; online?: OnlineLink }
 
 /** Motorun hamle değerlendirme etiketi (Türkçe) seçili dile çevrilir. */
 const gradeLabel = (l: string) =>
@@ -50,14 +52,17 @@ export default function GameScreen(props: Props) {
 }
 
 function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: Record<string, string> }) {
-  const court = useCourt(c, players, onFinish, online);
+  // Tutanak, oyun bitince karar ekranına giderken onFinish ile verilir (en güncel hâli ref'ten okunur).
+  const tutanakRef = useRef<TutanakSatiri[]>([]);
+  const court = useCourt(c, players, g => onFinish(g, tutanakRef.current), online);
   const { game, phase, scene } = court;
   const { width, height } = useWindowDimensions();
   const [docs, setDocs] = useState(false);
   const [record, setRecord] = useState(false);
   const [bug, setBug] = useState(false);
   // Duruşma tutanağı: gösterilen her satır ve verilen her karar, sırasıyla.
-  const [history, setHistory] = useState<{ who: string; text: string; karar?: boolean; not?: boolean }[]>([]);
+  const [history, setHistory] = useState<TutanakSatiri[]>([]);
+  tutanakRef.current = history;
   // Tutanak açıldığında bir kez en sona kaydırılır; sonra oyuncu serbestçe yukarı aşağı gezer.
   const recScrolled = useRef(false);
   const seen = useRef(new WeakMap<object, number>());
@@ -94,12 +99,12 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
   useEffect(() => {
     if (phase.k !== "lines" || !line) return;
     const max = seen.current.get(phase.lines) ?? -1;
-    if (phase.i > max) { seen.current.set(phase.lines, phase.i); setHistory(h => [...h, { who: line.who, text: line.text }]); }
+    if (phase.i > max) { seen.current.set(phase.lines, phase.i); setHistory(h => [...h, { who: line.who, text: line.text, scene }]); }
   }, [phase]);
   useEffect(() => {
     const e = game.log[game.log.length - 1];
-    if (e) setHistory(h => [...h, { who: e.side, text: `${c.sides[e.side].short}: ${e.text}`, karar: true },
-      ...(e.note ? [{ who: "narr", text: (e.law ? e.law + " · " : "") + t(e.note), not: true }] : [])]);
+    if (e) setHistory(h => [...h, { who: e.side, text: `${c.sides[e.side].short}: ${e.text}`, karar: true, scene },
+      ...(e.note ? [{ who: "narr", text: (e.law ? e.law + " · " : "") + t(e.note), not: true, scene }] : [])]);
   }, [game.log.length]);
 
   // Seslendirme: her yeni satır, soru ve geri bildirim okunur.

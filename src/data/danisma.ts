@@ -59,10 +59,14 @@ export interface Senaryo {
   taraf: "davaci" | "davali"; mahkeme: string; ozet: string;
   roller: { bizAvukat: string; karsiAvukat: string; hakim: string; karsiTaraf: string };
   sahneler: Sahne[]; uyari?: string;
+  /** Oyuncu kaydından çevrilmiş senaryoda oynayan avukat oyuncunun takma adı (danismaDosya.ts kayitSenaryo). */
+  oyuncu?: string;
 }
 export interface Danisma {
   id: string; alan: string; olay: string; deliller: string; karsi: string; talep: string; durum: string;
   degerlendirme: Degerlendirme | null; canlandirma: Canlandirma | null; senaryo?: Senaryo | null; takip: Takip[]; kalan_takip: number; created_at: string;
+  /** Kullanıcının yapay zekâ uyarısını kabul ettiği an (surum13.sql); eski danışmalarda yok. */
+  kabul_zaman?: string | null;
 }
 
 /** Sunucu cevabı: ok değilse error Türkçe kaynak metindir (ekranda t() ile çevrilir). */
@@ -75,6 +79,8 @@ const HATA: Record<string, string> = {
   "takip hakkı kalmadı": "Bu danışmadaki takip sorusu hakkınız doldu.",
   "önce eksik bilgi denetimi": "Önce eksik bilgi denetimini tamamlayın.",
   "riza gerekli": "Devam etmek için açık rıza kutusunu işaretleyin.",
+  "kabul gerekli": "Devam etmek için yapay zekâ uyarısını kabul ettiğinizi işaretleyin.",
+  "dosya hazırlanamadı": "Oyuncular için dosya şu an hazırlanamadı. Biraz sonra yeniden deneyin.",
   "yapay zekâ kurulmadı": "Danışma hizmeti henüz açılmadı.",
   "danışma bulunamadı": "Danışma bulunamadı.",
   "değerlendirme yapılamadı": "Değerlendirme şu an yapılamadı.",
@@ -82,13 +88,13 @@ const HATA: Record<string, string> = {
   "ses birleştirilemedi": "Sesli kayıt şu an hazırlanamadı."
 };
 
-async function call<T>(action: string, body: Record<string, unknown>): Promise<Cevap<T>> {
+async function call<T>(action: string, body: Record<string, unknown>, sure = 120000): Promise<Cevap<T>> {
   if (!supabase() || !SUPABASE_URL) return { ok: false, error: "Sunucuya şu an ulaşılamıyor." };
   const token = await getAccessToken();
   if (!token) return { ok: false, error: "Önce giriş yapın." };
   try {
     const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 120000);
+    const timer = setTimeout(() => ctrl.abort(), sure);
     const r = await fetch(`${SUPABASE_URL}/functions/v1/${DANISMA_FUNCTION}`, {
       method: "POST", signal: ctrl.signal,
       headers: { "Content-Type": "application/json", apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${token}` },
@@ -106,16 +112,22 @@ async function call<T>(action: string, body: Record<string, unknown>): Promise<C
   }
 }
 
-export const kontrolEt = (form: DanismaForm) => call<KontrolSonucu>("kontrol", { form, riza: true });
+// kabul: kullanıcı, değerlendirmenin ve canlandırmanın yapay zekâ ürünü olduğunu, hata yapabileceğini ve gerçek bir mahkeme kararı ya da
+// hukuki görüş olmadığını bildiğini kabul etti (ekrandaki zorunlu kutu; sunucu da ister).
+export const kontrolEt = (form: DanismaForm) => call<KontrolSonucu>("kontrol", { form, riza: true, kabul: true });
 export const degerlendir = async (form: DanismaForm, onay: string, ornek = false) => {
-  const r = await call<{ id: string; degerlendirme: Degerlendirme; kalan_takip: number }>("degerlendir", { form, onay, riza: true, ornek });
+  const r = await call<{ id: string; degerlendirme: Degerlendirme; kalan_takip: number }>("degerlendir", { form, onay, riza: true, kabul: true, ornek });
   if (r.ok) logUsage("danisma", { ucretli: true });
   return r;
 };
-export const canlandir = (id: string, taraf: "davaci" | "davali") => call<{ canlandirma: Canlandirma }>("canlandir", { id, taraf });
+export const canlandir = (id: string, taraf: "davaci" | "davali") => call<{ canlandirma: Canlandirma }>("canlandir", { id, taraf, kabul: true });
 /** Tek parça MP3 kaydı: parcalar verilmezse yalnız kayıtlı dosyanın adresi istenir (yoksa 409 "parça gerekli"). */
 export const sesKaydi = (id: string, parcalar?: { yol: string; ara: number }[]) => call<{ url: string }>("ses", parcalar ? { id, parcalar } : { id });
-export const izleSenaryo = (id: string, taraf: "davaci" | "davali") => call<{ senaryo: Senaryo }>("izle", { id, taraf });
+/** cins: danışanın cinsiyeti ("e" / "k"; karakterden ya da hesaptaki addan), modelin hitapları sahnedeki yüze uysun diye. */
+export const izleSenaryo = (id: string, taraf: "davaci" | "davali", cins?: "e" | "k") => call<{ senaryo: Senaryo }>("izle", { id, taraf, kabul: true, ...(cins ? { cins } : {}) });
+/** "Uygulamadaki avukat oyuncular oynasın": olaydan anonim, oynanabilir dosya üretilir ve oyunculara açılır (bir kez; aynı kredi). */
+export const dosyaHazirla = (id: string, taraf: "davaci" | "davali", cins?: "e" | "k") =>
+  call<{ dosya: { id: string; durum: string; created_at: string } }>("dosya", { id, taraf, kabul: true, ...(cins ? { cins } : {}) }, 300000);
 export const takipSor = (id: string, soru: string) => call<{ soru: string; cevap: string; kalan_takip: number }>("takip", { id, soru });
 
 /** Sorulara verilen cevaplar ilgili kutunun sonuna eklenir. */
@@ -140,8 +152,9 @@ export async function listDanismalar(): Promise<Danisma[]> {
   if (!sb) return [];
   const cols = "id, alan, olay, deliller, karsi, talep, durum, degerlendirme, canlandirma, takip, kalan_takip, created_at";
   const q = (c: string) => sb.from("danismalar").select(c).eq("durum", "hazir").order("created_at", { ascending: false }).limit(50);
-  // senaryo sütunu surum11.sql ile gelir; sütun henüz yoksa liste onsuz okunur.
-  let { data, error } = await q(cols + ", senaryo");
+  // senaryo sütunu surum11.sql, kabul_zaman surum13.sql ile gelir; sütun henüz yoksa liste onsuz okunur.
+  let { data, error } = await q(cols + ", senaryo, kabul_zaman");
+  if (error) ({ data, error } = await q(cols + ", senaryo"));
   if (error) ({ data, error } = await q(cols));
   if (error || !data) return [];
   return (data as unknown as Record<string, unknown>[]).map(r => ({

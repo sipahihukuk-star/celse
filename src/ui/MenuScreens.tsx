@@ -30,6 +30,7 @@ export interface TitleProps {
   /** üye olmadan oynayan (giriş kartını geçmiş) oyuncu; "Üye olmadan dene" ile açılır, "Giriş yap" ile giriş kartına döner */
   guest?: boolean; onGuest?: () => void; onLeaveGuest?: () => void;
   /** "Derdini anlat" danışma ekranı */ onDanisma?: () => void;
+  /** Danışma dosyaları (gerçek olaylar): kullanıcıların anonim olaylarını avukat olarak oynama (antrenman) */ onDanismaDosya?: () => void;
 }
 export function TitleScreen(p: TitleProps) {
   const { width } = useWindowDimensions();
@@ -121,6 +122,7 @@ export function TitleScreen(p: TitleProps) {
             <Btn kind="secondary" label={t("Tek kişilik dosyalar") + ` · ${p.soloCount}`} onPress={p.onSolo} />
             <Btn kind="secondary" label={t("Karşılıklı duruşma") + ` · ${p.duelCount}`} onPress={p.onDuel} />
             <Btn kind="secondary" label={t("Tahkim ve komisyonlar") + ` · ${p.tahkimCount}`} onPress={p.onTahkim} />
+            {!!p.onDanismaDosya && <Btn kind="secondary" label={t("Danışma dosyaları (gerçek olaylar)")} onPress={p.onDanismaDosya} />}
           </View>
           <Text style={styles.fact}>{t("Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.")}</Text>
           </>
@@ -201,6 +203,7 @@ function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; o
               </>
             )}
             {!!p.onDanisma && <Item label={t("Derdini anlat")} sub={t("Eğitim amaçlı danışma canlandırması · krediyle")} onPress={go(p.onDanisma)} />}
+            {!!p.onDanismaDosya && <Item label={t("Danışma dosyaları (gerçek olaylar)")} sub={t("Kullanıcıların anonim olaylarında avukatlık yapın · antrenman")} onPress={go(p.onDanismaDosya)} />}
             {!!p.onInbox && <InboxMenuItem onPress={go(p.onInbox)} />}
             {!!p.onPro && <Item label={t("Celse Pro")} sub={p.pro ? t("Aboneliğiniz etkin") : t("Bütün kariyer · aylık ya da yıllık abonelik")} onPress={go(p.onPro)} />}
             <Text style={styles.mSection}>{t("KARİYER")}</Text>
