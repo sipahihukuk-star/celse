@@ -20,6 +20,7 @@
     "expo-splash-screen": "~58.0.11",
     "expo-status-bar": "~58.0.4",
     "expo-updates": "~58.0.18",
+    "fflate": "^0.8.2",
     "qrcode-generator": "^2.0.4",
     "react": "19.3.0",
     "react-dom": "^19.3.0",
@@ -40,7 +41,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "tsx tools/simulate.ts && tsx tools/synctest.ts && tsx tools/appeal-test.ts && tsx tools/appeal-faces-test.ts",
+    "test": "tsx tools/simulate.ts && tsx tools/synctest.ts && tsx tools/appeal-test.ts && tsx tools/appeal-faces-test.ts && tsx tools/mask-test.ts",
     "tutarlilik": "tsx tools/tutarlilik.ts",
     "typecheck": "tsc --noEmit",
     "export:web": "expo export --platform web"
