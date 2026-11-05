@@ -1,5 +1,5 @@
 // Gizlilik politikası ve hesap silme sayfalarını uygulamadaki aydınlatma metninden üretir (mağazaların istediği adresler):
-//   https://sipahihukuk-star.github.io/celse/gizlilik.html · .../hesap-silme.html
+//   https://celse.themiscode.com/gizlilik.html · .../hesap-silme.html
 // Çalıştırma: npx tsx tools/privacy.ts
 import { writeFileSync } from "fs";
 import { KVKK_BASLIK, KVKK_METNI, VERI_SORUMLUSU as V } from "../src/legal/kvkk";

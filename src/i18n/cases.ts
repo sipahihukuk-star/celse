@@ -9,7 +9,7 @@ import { normalizeCase } from "../engine/engine";
 import { CaseFile } from "../engine/types";
 import { getLang, Lang, useLang } from "./index";
 
-const BASE = Platform.OS === "web" ? "./ceviri" : "https://sipahihukuk-star.github.io/celse/ceviri";
+const BASE = Platform.OS === "web" ? "./ceviri" : "https://celse.themiscode.com/ceviri";
 const cache = new Map<string, CaseFile | null>();
 
 const shape = (c: CaseFile) => JSON.stringify(c.steps.map(s => [s.kind || "choice", s.side, s.if || "", s.choices.map(ch => [ch.delta, (ch.set || []).join("+"), ch.if || "", ch.min ?? ""])]))

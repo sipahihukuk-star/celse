@@ -17,7 +17,7 @@ export interface GameSettings {
   /** Web'de Pro kilidi: mağazada satış açılana kadar kapalı (web'den satın alma yapılamaz). Açılınca web'de de 2. bölümden sonrası Pro ister. */
   webProKilidi: boolean;
 }
-export const WEB_URL = "https://sipahihukuk-star.github.io/celse/";
+export const WEB_URL = "https://celse.themiscode.com/";
 export const DOWNLOAD_URL = WEB_URL + "indir.html";
 export const DEFAULT_SETTINGS: GameSettings = {
   notKirma: 1, notKirmaArtis: 0.15,

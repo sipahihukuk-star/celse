@@ -35,7 +35,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
       <Text style={st.note}>Örnek: dosyada −10 puanlık bir hata, %150 oranda −15 puan düşürür.</Text>
       <Field label="iPhone bağlantısı (App Store ya da TestFlight herkese açık bağlantısı)" value={v.iosLink} onChange={x => setV({ ...v, iosLink: x })} mono />
       <Field label="Android bağlantısı (Google Play ya da test katılım bağlantısı)" value={v.androidLink} onChange={x => setV({ ...v, androidLink: x })} mono />
-      <Text style={st.note}>Web sitesindeki QR kodları ve https://sipahihukuk-star.github.io/celse/indir.html sayfası bu bağlantılara yönlenir.</Text>
+      <Text style={st.note}>Web sitesindeki QR kodları ve https://celse.themiscode.com/indir.html sayfası bu bağlantılara yönlenir.</Text>
       <View style={{ flexDirection: "row", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
         <SmallBtn label="Kaydet" tone="accent" onPress={async () => {
           const where = await saveSettings(v);

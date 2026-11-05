@@ -135,7 +135,7 @@ export async function resetPassword(eposta: string): Promise<{ error?: string }>
   const sb = supabase();
   if (!sb) return { error: "Sunucu henüz ayarlı değil." };
   // Bağlantı web sürümünü açar; orada yeni şifre penceresi çıkar (uygulama da web adresiyle aynı hesabı kullanır).
-  const { error } = await sb.auth.resetPasswordForEmail(eposta.trim().toLowerCase(), { redirectTo: "https://sipahihukuk-star.github.io/celse/" });
+  const { error } = await sb.auth.resetPasswordForEmail(eposta.trim().toLowerCase(), { redirectTo: "https://celse.themiscode.com/" });
   return error ? { error: trError(error.message) } : {};
 }
 

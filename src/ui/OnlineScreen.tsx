@@ -14,7 +14,7 @@ import GameScreen from "./GameScreen";
 import { Btn, Chip } from "./kit";
 import { C, F } from "./theme";
 
-const shareText = (m: Match, c?: CaseFile) => t("Celse'de benimle karşılıklı duruşmaya gel: {dava} · davet kodu {kod} · {adres}", { dava: c?.title || t("dava"), kod: m.kod, adres: "https://sipahihukuk-star.github.io/celse/" });
+const shareText = (m: Match, c?: CaseFile) => t("Celse'de benimle karşılıklı duruşmaya gel: {dava} · davet kodu {kod} · {adres}", { dava: c?.title || t("dava"), kod: m.kod, adres: "https://celse.themiscode.com/" });
 
 /* ---------------- Lobi ---------------- */
 

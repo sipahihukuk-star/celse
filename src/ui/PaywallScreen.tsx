@@ -13,7 +13,7 @@ import { StoreLinks } from "./StoreLinks";
 import { C, F } from "./theme";
 
 const EULA_URL = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/";
-const PRIVACY_URL = "https://sipahihukuk-star.github.io/celse/gizlilik.html";
+const PRIVACY_URL = "https://celse.themiscode.com/gizlilik.html";
 const MANAGE_URL = Platform.OS === "android" ? "https://play.google.com/store/account/subscriptions" : "https://apps.apple.com/account/subscriptions";
 
 const BENEFITS = [

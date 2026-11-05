@@ -227,7 +227,7 @@ function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; o
             <Text style={styles.mSection}>{t("DİĞER")}</Text>
             {Platform.OS !== "web" && <Item label={t("Web sürümü")} sub={t("Bilgisayarda büyük ekranda oynayın")} onPress={() => Linking.openURL(WEB_URL)} />}
             <Item label={t("Celse'yi paylaş")} sub={t("iPhone, Android ve web bağlantısı")} onPress={() => Share.share({ message: t("Celse: avukatlık oyunu. İndirin ya da tarayıcıda oynayın: {url}", { url: DOWNLOAD_URL }) })} />
-            <Item label={t("Gizlilik politikası")} onPress={() => Linking.openURL("https://sipahihukuk-star.github.io/celse/gizlilik.html")} />
+            <Item label={t("Gizlilik politikası")} onPress={() => Linking.openURL("https://celse.themiscode.com/gizlilik.html")} />
             {p.isAdmin && <Item label={t("Yönetim paneli")} sub={t("Yalnızca yönetici hesabında görünür")} onPress={go(p.onAdmin)} />}
             <Text style={[styles.byline, { marginTop: 18, paddingHorizontal: 18 }]}>BY THEMISCODE</Text>
           </ScrollView>

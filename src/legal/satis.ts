@@ -22,7 +22,7 @@ export const SATICI = {
   mersis: "[DOLDURULACAK: MERSİS numarası]",
   vergi: "[DOLDURULACAK: vergi dairesi ve vergi kimlik numarası]",
   kep: "[DOLDURULACAK: KEP adresi; yoksa bu satır kaldırılır]",
-  web: "https://sipahihukuk-star.github.io/celse/"
+  web: "https://celse.themiscode.com/"
 };
 
 /** İletişim sayfasında görünen, yayımdan önce kaldırılacak not. */
