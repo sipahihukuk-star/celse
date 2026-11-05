@@ -271,7 +271,15 @@ export interface CaseFile {
   /** kesinlik denetimi için uyuşmazlığın değeri ve niteliği */
   kanunYolu?: KesinlikData;
   /** kanun yolu aşamasından üretilmiş dosyada: ana dava, aşama, temel (otomatik) yol mu, kariyer seviyesi */
-  appealOf?: { id: string; kind: AppealKind; basic: boolean; level: number; regime: Regime };
+  appealOf?: {
+    id: string; kind: AppealKind; basic: boolean; level: number; regime: Regime;
+    /** Kanun yolu aşamasında ilk derecedeki kişilerle aynı kalanlar: aşamadaki rol → ilk derecedeki rol (yüz ve ses aynı kalır). */
+    same?: Record<string, string>;
+    /** ilk derece karşılıklı (duel) davaydı */
+    baseDuel?: boolean;
+    /** ilk derece dosyası (yalnız bellekte; kaydedilmez) */
+    base?: CaseFile;
+  };
 }
 
 export interface Player {

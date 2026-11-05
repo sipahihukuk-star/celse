@@ -222,13 +222,25 @@ export function appealCase(base: CaseFile, kind: AppealKind, ctx: { side?: Side;
   const mine = base.sides[side], theirs = base.sides[other(side)];
   const cast: Record<string, CastMember> = {};
   Object.entries(base.cast).forEach(([k, m]) => { if (k !== "p1" && k !== "p2") cast[k] = m; });
-  if (!cast.opp || base.mode === "duel") cast.opp = { ...GENERIC_OPP, name: `Av. Selim Akın · ${theirs.role.replace(/ vekili.*$/, "")} vekili` };
+  // İlk derecedeki kişiler kanun yolunda da aynı kişilerdir (müvekkil, karşı taraf, tanıklar, karşı vekil): yüzleri ve sesleri değişmez.
+  // Hâkim ve savcı üst mahkemenin kişileridir; onlar yenidir.
+  const same: Record<string, string> = {};
+  Object.keys(cast).forEach(k => { if (k !== "judge" && k !== "pros") same[k] = k; });
+  if (base.mode === "duel" && base.cast[other(side)]) {
+    // Karşılıklı davada karşı vekil öbür oyuncuydu: aynı kişi (aynı yüz), ada bağlı olmayan bir etiketle.
+    cast.opp = { ...base.cast[other(side)], name: `${theirs.role.replace(/ vekili.*$/, "")} vekili` };
+    same.opp = other(side);
+  } else if (!cast.opp) cast.opp = { ...GENERIC_OPP, name: `Av. Selim Akın · ${theirs.role.replace(/ vekili.*$/, "")} vekili` };
+  same.p1 = base.mode === "duel" ? side : "p1";
+  same.party_p1 = `party_${side}`; same.party_p2 = `party_${other(side)}`;
   if (cast.judge) cast.judge = { ...cast.judge, name: "Daire Başkanı" };
   if (cast.pros) cast.pros = { ...cast.pros, name: kind === "temyiz" ? "Yargıtay Cumhuriyet Savcısı" : "Cumhuriyet Savcısı" };
   Object.assign(cast, stage.cast || {});
+  // Elle yazılmış aşama bir kişiyi başka biriyle değiştirdiyse (ad farklı) o kişi yeni sayılır.
+  Object.keys(stage.cast || {}).forEach(k => { const b = same[k] && base.cast[same[k]]; if (b && b.name !== cast[k].name) delete same[k]; });
   const courtCast = stage.courtCast || ["judge", "you", "opp", ...(cast.pros && reg === "cmk" ? ["pros"] : []), ...(cast.client && kind !== "temyiz" ? ["client"] : [])];
   const level = Math.min(5, Math.max(courtLevel(stage.court), (base.career?.level || courtLevel(base.court)) + 1));
-  return normalizeCase({
+  const out = normalizeCase({
     id: `${base.id}~${kind}`, mode: "solo", title: base.title, area: base.area, color: base.color, difficulty: base.difficulty,
     court: stage.court, courtShort: stage.courtShort || route.courtShort,
     esas: stage.esas || stageEsas(base, kind), kararTarihi: stage.kararTarihi || stageDate(base, kind),
@@ -239,8 +251,10 @@ export function appealCase(base: CaseFile, kind: AppealKind, ctx: { side?: Side;
     evidence: stage.evidence, intro: stage.intro, docs: stage.docs || base.docs, steps: stage.steps,
     outcomes: stage.outcomes.map(o => ({ noCourt: true, ...o })),
     career: { off: true }, kanunYolu: base.kanunYolu,
-    appealOf: { id: base.id, kind, basic: !hand, level, regime: reg }
+    appealOf: { id: base.id, kind, basic: !hand, level, regime: reg, same, baseDuel: base.mode === "duel" }
   });
+  if (out.appealOf) Object.defineProperty(out.appealOf, "base", { value: base, enumerable: false, configurable: true, writable: true });
+  return out;
 }
 
 const roleFor = (role: string, kind: AppealKind) => `${role} · ${kind === "cevap" ? "istinafa cevap veren" : kind === "temyiz" ? "temyiz eden" : "istinaf eden"}`;

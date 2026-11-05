@@ -86,8 +86,17 @@ const KATIP = ["katip", "katip-erkek", "katip-kadin-45", "katip-erkek-45"] as co
  *  (savcı, hâkim, tanık) yüz buna uyar; (3) görünüş tarifi (sakal, saç biçimi) — çizim sahnesi için yazılmıştır, kısa saç
  *  "erkek" sayıldığından en zayıf kaynaktır. Ad ile hitap çelişirse metin hatasıdır (tools/tutarlilik.ts raporlar).
  *  Yaş: metinde yazan yaş ("22 yaşında", "genç", "yaşlı") ya da kır saç; varsa havuzdaki en yakın yaştaki yüz seçilir. */
-export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = false) {
+export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = false): Record<string, PhotoKey> {
   const used = new Set<PhotoKey>(avatar ? [avatar] : []);
+  // Kanun yolu aşaması (istinaf, temyiz): ilk derecedeki kişiler aynı yüzle gelir; üst mahkemenin hâkimi ilk derece hâkiminden farklı biridir.
+  const inherited: Record<string, PhotoKey> = {};
+  const ap = c.appealOf;
+  if (ap?.base && ap.same) {
+    const bm = castFaces(ap.base, avatar, accountFemale);
+    for (const [r, br] of Object.entries(ap.same)) if (bm[br]) inherited[r] = bm[br];
+    Object.values(inherited).forEach(k => used.add(k));
+    if (bm.judge) used.add(bm.judge.replace(/-(yesil|gri)$/, "") as PhotoKey);
+  }
   const hints = castHints(c);
   const femaleOf = (role: string) => {
     const m = c.cast[role];
@@ -138,6 +147,7 @@ export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = f
   // Tahkimde önce vekiller seçilir (ks- yüzleri önce onlara), sonra öbür kişiler.
   const roles = Object.keys(c.cast).filter(r => r !== "judge").sort((a, b) => +isCounsel(b) - +isCounsel(a));
   for (const role of roles) {
+    if (inherited[role]) { map[role] = inherited[role]; continue; }
     const m = c.cast[role];
     const robe = m.look?.kind !== "civil";
     const red = m.np === "red" || role === "pros" || role === "savci";
@@ -148,7 +158,9 @@ export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = f
     map[role] = pick(pool, femaleOf(role), role, ageOf(role));
   }
   // Oyuncunun kendisi: büroda seçtiği karakter; seçmemişse hesaptaki ada göre bir avukat.
-  if (!tahkim && (avatar || c.mode === "solo")) {
+  // Kanun yolunda oyuncu ilk derecedeki yüzüyle gelir.
+  if (inherited.p1) map.p1 = inherited.p1;
+  else if (!tahkim && (avatar || c.mode === "solo")) {
     const mine: PhotoKey = avatar || (accountFemale ? "av-kadin-32" : "av-erkek-38");
     // Karşı tarafın avukatı oyuncunun yüzünü taşıyorsa ona başka bir yüz ver.
     for (const [r, k] of Object.entries(map)) if (k === mine && r !== "p1") { used.delete(k); used.add(mine); map[r] = pick(LAWYER, k.includes("kadin"), r + "2", ageOf(r)); }
@@ -158,6 +170,7 @@ export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = f
   // Taraf teşkili: kadroda karşılığı olmayan taraf (ör. karşı tarafın kendisi) için de bir yüz seçilir.
   const pr = partiesOf(c);
   // Şirket, kulüp ya da ticari tahkimde taraf: takım elbiseli bir yetkiliyle temsil edilir (EXEC); öbürleri sivil.
+  for (const k of [pr.left, pr.right]) if (k && !map[k] && inherited[k]) map[k] = inherited[k];
   for (const k of [pr.left, pr.right]) if (k && !map[k]) {
     const f = hash(c.id + k) % 2 === 0;
     map[k] = exec(k) ? pick(EXEC, f, k, undefined, { spare: EXEC_SPARE }) : pick(CIVIL, f, k);
@@ -168,6 +181,14 @@ export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = f
   if (mubs.length) map.mubasir = mubs[hash(c.court + "mub") % mubs.length];
   if (kats.length) map.katip = kats[hash(c.court + "kat") % kats.length];
   return map;
+}
+
+/** Seslendirmede konuşmacının kimliği: aynı kişi her davada ve kanun yolu aşamalarında aynı sesle konuşur.
+ *  Oyuncunun kendisi (tek kişilik dosyada) bütün davalarda aynı sesle konuşur. */
+export function speakerId(c: CaseFile, who: string, face: string, duel: boolean): string {
+  const ap = c.appealOf;
+  if (who === "p1" && !duel && !ap?.baseDuel) return `oyuncu:${face}`;
+  return `${ap?.id ?? c.id}:${ap?.same?.[who] ?? who}:${face}`;
 }
 
 /** Büroda konuşan ve büroda görünmesi gereken kişi (büro ortağı, müvekkilin yakını, şirket yetkilisi, karşılıklı modda müvekkil).

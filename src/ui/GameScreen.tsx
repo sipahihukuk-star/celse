@@ -5,6 +5,7 @@ import { bagOf, choicesOf, GameState, grade, kindOf } from "../engine/engine";
 import { CaseFile, Line, Player, Side } from "../engine/types";
 import { Btn, Chip, Scale } from "./kit";
 import PhotoStage, { cast } from "./PhotoStage";
+import { speakerId } from "./castFaces";
 import { adaptPlayerAddress } from "./castText";
 import { useCharacterState } from "../data/character";
 import { useOffice } from "../data/office";
@@ -114,7 +115,7 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
   const speaking = useSpeaking();
   // Her karakterin sesi, sahnede görünen yüzün cinsiyetine göre seçilir; oyuncunun sesi bütün davalarda aynıdır.
   const speaker = (who: string): Speaker => who === "narr" ? { id: "narr", role: "narr", female: false }
-    : { id: who === "p1" && !duel ? `oyuncu:${faces.p1}` : `${c.id}:${who}:${faces[who] || ""}`, role: who, female: (faces[who] || "").includes("kadin") };
+    : { id: speakerId(c, who, faces[who] || "", duel), role: who, female: (faces[who] || "").includes("kadin") };
   // Sıradaki üç satırı önceden seslendir.
   useEffect(() => {
     if (!voiceOn || phase.k !== "lines") return;
