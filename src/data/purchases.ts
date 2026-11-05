@@ -113,7 +113,7 @@ let creditProducts: PurchasesStoreProduct[] = [];
 export async function getCreditProducts(): Promise<CreditInfo[]> {
   if (!setup()) return [];
   creditProducts = await Purchases.getProducts(Object.keys(CREDIT_PACKS), PRODUCT_CATEGORY.NON_SUBSCRIPTION);
-  return creditProducts.map(p => ({ productId: p.identifier, price: p.priceString, credits: CREDIT_PACKS[p.identifier] || 0 }));
+  return creditProducts.map(p => ({ productId: p.identifier, price: p.priceString, credits: CREDIT_PACKS[p.identifier.split(":")[0]] || 0 }));
 }
 
 export async function buyConsumable(productId: string): Promise<BuyResult> {
