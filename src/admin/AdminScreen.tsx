@@ -20,6 +20,8 @@ import { Field, Row, Section, Seg, SmallBtn } from "./form";
 import { blankCase, CourtPreset, PRESETS } from "./presets";
 import { clearPin, getPin, resetAdminCache, serverAdmin, setPin, Status, store, StoredCase } from "./store";
 import { onAccountChange } from "../data/account";
+import { useInnerBack } from "../ui/innerBack";
+import { FloatingNav, useFloatingNav } from "../ui/FloatingNav";
 
 interface Props { onExit: () => void; onPreview: (c: CaseFile) => void }
 
@@ -89,6 +91,12 @@ function AdminHome({ onExit, onPreview }: Props) {
   const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri" | "ayarlar" | "istatistik" | "mesajlar" | "hatalar" | "ornek">("");
   const [isServerAdmin, setServerAdmin] = useState<boolean | null>(null);
   const reload = () => store.list().then(setStored);
+  // Tarayıcının geri düğmesi / Android geri tuşu: önce açık olan alt sayfayı kapatır (düzenleyici, panel, yeni dava, içe aktarma).
+  useInnerBack(!!ai, () => setAi(""));
+  useInnerBack(wizard, () => setWizard(false));
+  useInnerBack(importing, () => setImporting(false));
+  useInnerBack(!!editing, () => { setEditing(null); reload(); });
+  const nav = useFloatingNav();
   // Yönetici denetimi oturum yüklendikten sonra ve hesap her değiştiğinde yeniden yapılır (sayfa oturumdan önce açılırsa
   // ilk denetim "yönetici değil" sonucunu önbelleğe alıyordu).
   useEffect(() => {
@@ -126,7 +134,8 @@ function AdminHome({ onExit, onPreview }: Props) {
   }
 
   return (
-    <ScrollView contentContainerStyle={st.wrap} keyboardShouldPersistTaps="handled">
+    <View style={{ flex: 1 }}>
+    <ScrollView ref={nav.ref} onScroll={nav.onScroll} scrollEventThrottle={64} contentContainerStyle={st.wrap} keyboardShouldPersistTaps="handled">
       <View style={st.head}>
         <View style={{ flex: 1, minWidth: 220 }}>
           <Text style={st.crumb}>CELSE · YÖNETİM</Text>
@@ -223,6 +232,8 @@ function AdminHome({ onExit, onPreview }: Props) {
         <Text style={st.help}>• <Text style={st.helpB}>Yapay zekâ ile üret:</Text> Branş, mahkeme, zorluk ve konu seçerek yeni dosya yazdırırsınız. Dosya taslak olarak kaydedilir; oynayıp beğenirseniz yayınlarsınız.</Text>
       </Section>
     </ScrollView>
+    <FloatingNav nav={nav} onBack={ai ? () => setAi("") : onExit} backLabel={ai ? "‹ Panelleri kapat" : "‹ Oyuna dön"} />
+    </View>
   );
 }
 

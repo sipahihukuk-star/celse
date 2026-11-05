@@ -35,6 +35,7 @@ import { resumeMusic } from "./src/ui/music";
 import { FREE_LEVEL, usePremium } from "./src/data/subscription";
 import PaywallScreen from "./src/ui/PaywallScreen";
 import ShopScreen from "./src/ui/ShopScreen";
+import { runInnerBack } from "./src/ui/innerBack";
 import { buildCareer, CaseRecord, levelOf, openIds, Progress, recordResult, resetProgress, useProgress, CHAPTERS } from "./src/data/career";
 import { appealCase, nextAppeal } from "./src/engine/appeal";
 import { AppealKind } from "./src/engine/types";
@@ -120,6 +121,8 @@ export default function App() {
   };
   const goBack = (): boolean => {
     if (setup) { setSetup(null); return true; }
+    // Ekran içi alt sayfa (ör. Yönetim'de açık panel) varsa önce o kapanır.
+    if (runInnerBack()) return true;
     const prev = stack.current.pop();
     if (!prev) { if (routeRef.current.k !== "title") { routeRef.current = { k: "title" }; setRouteRaw({ k: "title" }); return true; } return false; }
     if (routeRef.current.k === "onlineGame") leaveMatch((routeRef.current as { id: string }).id).catch(() => {});
