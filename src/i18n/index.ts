@@ -35,7 +35,8 @@ async function load() {
 export const getLang = () => lang;
 /** Tarayıcıya sayfanın dilini bildirir (yoksa Chrome Türkçe sayfayı İngilizce sanıp çeviri önerir). */
 function markDocLang(l: Lang) {
-  try { if (typeof document !== "undefined") document.documentElement.lang = l; } catch { /* yok say */ }
+  // Uygulamanın kendi dil seçimi var: Chrome'un otomatik çevirisi kapatılır ("Kabul et" → "Kabil ve" gibi bozulmalar oluyordu).
+  try { if (typeof document !== "undefined") { document.documentElement.lang = l; document.documentElement.setAttribute("translate", "no"); document.documentElement.classList.add("notranslate"); } } catch { /* yok say */ }
 }
 markDocLang("tr");
 

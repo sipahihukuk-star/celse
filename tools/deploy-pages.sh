@@ -5,7 +5,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 rm -rf dist && npx expo export -p web >/dev/null
 T=$(mktemp -d); cp -r dist/. "$T"/
-sed -i 's#"/_expo/#"./_expo/#g; s#"/favicon.ico"#"./favicon.ico"#g; s#<html lang="en">#<html lang="tr">#' "$T/index.html"
+sed -i 's#"/_expo/#"./_expo/#g; s#"/favicon.ico"#"./favicon.ico"#g; s#<html lang="en">#<html lang="tr" translate="no" class="notranslate">#; s#<head>#<head><meta name="google" content="notranslate">#' "$T/index.html"
 for f in "$T"/_expo/static/js/web/*.js; do sed -i 's#"/assets/#"./assets/#g' "$f"; done
 touch "$T/.nojekyll"
 cd "$T" && git init -q && git checkout -q -b gh-pages && git add -A
