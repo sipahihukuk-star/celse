@@ -8,6 +8,7 @@ import { alanAdi } from "../data/danisma";
 import type { CaseFile, Look, Scene } from "../engine/types";
 import { locale, t } from "../i18n";
 import { castFaces, faceFemale, hash, LAWYER } from "./castFaces";
+import { nameGender } from "./castText";
 import type { PhotoKey } from "./photos";
 import { Speaker, voiceOf } from "./voice";
 
@@ -36,22 +37,45 @@ const say = (re: RegExp, x: string) => (x.toLocaleLowerCase("tr").match(re) || [
 const hitap = (x: string) => ({ f: say(w("hanım(efendi)?(ın|a|ı|la|cığım)?"), x), m: say(w("bey(efendi)?(in|e|i|le)?"), x) });
 const karar = (f: number, m: number): boolean | undefined => (f > m ? true : m > f ? false : undefined);
 
+/** Karşı tarafı anlatan ipuçları. Akrabalık sözleri ("kocam", "eski karım") olay ve karşı taraf kutusunda, genel sözler
+ *  ("adam", "kadın", "… Bey", "… Hanım") yalnız karşı tarafın argümanları kutusunda aranır (olayda tanık ya da danışan için de geçebilir). */
+const KARSI_ERKEK_AKRABA = w("kocam(ın|la|dan|a|ı)?|eski kocam\\S*|eski eşim olan adam");
+const KARSI_KADIN_AKRABA = w("karım(ın|la|dan|a|ı)?|eski karım\\S*");
+const KARSI_ERKEK = w("adam(ın|a|ı)?|bey(in|e|i)?|beyefendi");
+const KARSI_KADIN = w("kadın(ın|a|ı)?|hanım(ın|a|ı)?|hanımefendi");
+
 /** Danışanın (biz) ve karşı tarafın cinsiyeti: görüşmede avukatın hitabı, danışma metnindeki birinci tekil ipuçları
- *  ("kocam", "hamileyken", "karım", "askerlik"), karşı tarafın rol adı ("eşi", "baba"). Anlaşılmazsa undefined. */
-export function tarafCinsiyeti(s: Senaryo, d: Danisma): { biz?: boolean; karsi?: boolean } {
+ *  ("kocam", "hamileyken", "karım", "askerlik"), karşı tarafın rol adı ("eşi", "baba") ve danışanın karşı taraf için yazdıkları.
+ *  Anlaşılmazsa undefined. bizBilinen: danışanın cinsiyeti karakterinden ya da hesabından biliniyorsa (eş davasında karşı taraf öbürüdür). */
+export function tarafCinsiyeti(s: Senaryo, d: Danisma, bizBilinen?: boolean): { biz?: boolean; karsi?: boolean } {
   const satir = (tur: SahneTur, kim: Kim) => s.sahneler.filter(x => x.tur === tur).flatMap(x => x.satirlar).filter(l => l.kim === kim).map(l => l.metin).join(" ");
   const hb = hitap(satir("gorusme_biz", "bizAvukat")), hk = hitap(satir("gorusme_karsi", "karsiAvukat"));
   const benim = [d.olay, d.talep, d.deliller, ...s.sahneler.flatMap(x => x.satirlar).filter(l => l.kim === "biz").map(l => l.metin)].join(" ");
-  const biz = karar(hb.f, hb.m) ?? karar(say(KADIN_BEN, benim), say(ERKEK_BEN, benim));
+  // Danışanın kendi metni (birinci tekil ipuçları) avukatın hitabından önce gelir: hitabı model yazar, metni danışan.
+  const biz = karar(say(KADIN_BEN, benim), say(ERKEK_BEN, benim)) ?? karar(hb.f, hb.m);
   const rol = (s.roller?.karsiTaraf || "").toLocaleLowerCase("tr");
-  let karsi = karar(hk.f, hk.m);
+  const bilinen = bizBilinen ?? biz;
+  let karsi: boolean | undefined;
+  if (w("kadın(ı)?|anne(si)?|kız(ı|kardeş\\S*)?|karı(sı)?|hanım(ı)?").test(rol)) karsi = true;
+  else if (w("erkek|baba(sı)?|koca(sı)?|oğul|oğlu|bey(i)?").test(rol)) karsi = false;
+  else if (bilinen !== undefined && w("eş(i|im|iniz)?|davalı eş|davacı eş").test(rol)) karsi = !bilinen;
   if (karsi === undefined) {
-    if (w("kadın(ı)?|anne(si)?|kız(ı|kardeş\\S*)?|karı(sı)?|hanım(ı)?").test(rol)) karsi = true;
-    else if (w("erkek|baba(sı)?|koca(sı)?|oğul|oğlu|bey(i)?").test(rol)) karsi = false;
-    else if (biz !== undefined && w("eş(i|im|iniz)?|davalı eş|davacı eş").test(rol)) karsi = !biz;
+    const hepsi = [d.karsi, d.olay].join(" ");
+    karsi = karar(say(KARSI_KADIN_AKRABA, hepsi), say(KARSI_ERKEK_AKRABA, hepsi)) ?? karar(say(KARSI_KADIN, d.karsi || ""), say(KARSI_ERKEK, d.karsi || "")) ?? karar(hk.f, hk.m);
   }
   return { biz, karsi };
 }
+
+/** Danışanın (sahnedeki "Siz") cinsiyeti, bu sırayla: oyuncunun seçtiği karakter, büronun karakteri, hesaptaki ad (kadın ve erkek
+ *  adları listesi), danışma metnindeki ipuçları. true kadın, false erkek, undefined bilinmiyor. */
+export function danisanKadinMi(o: { karakter?: string | null; buro?: string | null; ad?: string | null }, s?: Senaryo, d?: Danisma): boolean | undefined {
+  for (const a of [o.karakter, o.buro]) if (a && /^av-(kadin|erkek)/.test(a)) return faceFemale(a);
+  const g = nameGender(o.ad || undefined);
+  if (g) return g === "f";
+  return s && d ? tarafCinsiyeti(s, d).biz : undefined;
+}
+/** Sunucuya giden kısa biçim ("k" / "e"). */
+export const cinsKodu = (kadin?: boolean) => (kadin === undefined ? undefined : kadin ? "k" as const : "e" as const);
 
 /** Karşı taraf bir şirket ya da kurum mu (işveren, sigorta, banka, idare...). Öyleyse takım elbiseli bir yetkili gelir. */
 export const kurumMu = (x: string) => /şirket|a\.ş|ltd|holding|işveren|sigorta|banka|finans|kurum|idare|belediye|bakanlı|müdürlüğ|başkanlığ|üniversite|hastane|okul|kooperatif|vakıf|dernek|yönetim|yetkili|temsilci|mağaza|satıcı|üretici|firma|ticaret|market|operatör|kargo|otel|acente|fabrika|işletme/i.test(x);
@@ -96,17 +120,18 @@ export function izleDosyasi(s: Senaryo, d: Danisma, g: { avukat: boolean; karsiA
   return { c, kt };
 }
 
-/** Danışmaya bağlı sabit kadro: aynı danışma her açılışta aynı yüzleri ve sesleri kullanır. */
-export function kadro(d: Danisma, s: Senaryo): Kadro {
+/** Danışmaya bağlı sabit kadro: aynı danışma her açılışta aynı yüzleri ve sesleri kullanır.
+ *  bizKadin: danışanın cinsiyeti (danisanKadinMi: karakter, büro, hesap adı); verilmezse metindeki ipuçlarından, o da yoksa sabit seçim. */
+export function kadro(d: Danisma, s: Senaryo, bizKadin?: boolean): Kadro {
   const id = d.id;
   const h = hash(id);
   const bizF = (h & 1) === 1;
   // Danışanın avukatı (eski sürümdeki seçimle aynı); karşı avukat ayırt edilsin diye öbür cinsiyetten.
   const bizAvukat = (bizF ? LAWYER.f : LAWYER.m)[(h >>> 3) % (bizF ? LAWYER.f : LAWYER.m).length];
-  const cins = tarafCinsiyeti(s, d);
+  const cins = tarafCinsiyeti(s, d, bizKadin);
   const { c, kt } = izleDosyasi(s, d, {
     avukat: bizF, karsiAvukat: !bizF, hakim: ((h >>> 2) & 1) === 1, savci: ((h >>> 13) & 1) === 1,
-    biz: cins.biz ?? ((h >>> 15) & 1) === 1, karsi: cins.karsi ?? ((h >>> 16) & 1) === 1
+    biz: bizKadin ?? cins.biz ?? ((h >>> 15) & 1) === 1, karsi: cins.karsi ?? ((h >>> 16) & 1) === 1
   });
   const faces = castFaces(c, bizAvukat as Parameters<typeof castFaces>[1], bizF);
   const yuz: Kadro["yuz"] = { bizAvukat: faces.p1, karsiAvukat: faces.opp, hakim: faces.judge, biz: faces.client, karsiTaraf: faces[kt] };
@@ -163,10 +188,16 @@ export function kimKisa(kim: Kim, s: Senaryo) {
 }
 
 export function sahneBaslik(tur: SahneTur, s: Senaryo) {
+  // Avukat oyuncunun kaydı: numarasız başlıklar (karşı tarafın görüşmesi yoktur).
+  if (s.oyuncu) {
+    if (tur === "gorusme_biz") return { baslik: t("Büro görüşmesi"), alt: t("Avukat oyuncu ({ad}) sizinle görüşüyor.", { ad: s.oyuncu }) };
+    if (tur === "durusma") return { baslik: t("Duruşma"), alt: `${s.mahkeme || t("Mahkeme")} · ${t("avukat oyuncunun duruşması")}` };
+    if (tur === "karar") return { baslik: t("Karar"), alt: t("Hâkimin eğitim amaçlı kararı.") };
+  }
   if (tur === "gorusme_biz") return { baslik: t("1. Görüşme — sizin avukatınız"), alt: t("Avukatınız sizi bürosunda dinliyor ve sorular soruyor.") };
   if (tur === "gorusme_karsi") return { baslik: t("2. Görüşme — karşı taraf"), alt: t("Karşı tarafın avukatı, {rol} ile görüşüyor.", { rol: kimKisa("karsiTaraf", s) }) };
   if (tur === "durusma") return { baslik: t("3. Duruşma"), alt: `${s.mahkeme || t("Mahkeme")} · ${t("temsilî duruşma")}` };
-  return { baslik: t("4. Karar"), alt: t("Hâkimin eğitim amaçlı değerlendirmesi — gerçek bir karar değildir.") };
+  return { baslik: t("4. Karar"), alt: t("Hâkimin gerekçeli kararı (eğitim amaçlı).") };
 }
 
 export type Adim = { k: "kart"; si: number } | { k: "satir"; si: number; li: number };

@@ -236,7 +236,7 @@ function cizSahne(ctx: CanvasRenderingContext2D, s: Senaryo, k: Kadro, img: Img,
     const page = Math.min(pages - 1, Math.floor((Math.max(0, el) / Math.max(0.1, seg.dur)) * pages));
     ctx.fillStyle = sahne.tur === "karar" ? C.mid : C.brassDim;
     ctx.font = `21px ${F.bodyBold}`;
-    ctx.fillText(kimAdi(line.kim, s) + (sahne.tur === "karar" ? " · " + t("EĞİTİM AMAÇLI DEĞERLENDİRME · GERÇEK KARAR DEĞİLDİR") : ""), 50, CY + 34, W - 100);
+    ctx.fillText(kimAdi(line.kim, s) + (sahne.tur === "karar" ? " · " + t("EĞİTİM AMAÇLI KARAR") : ""), 50, CY + 34, W - 100);
     ctx.fillStyle = "#fff"; ctx.font = `${size}px ${F.body}`;
     lines.slice(page * per, page * per + per).forEach((l, i) => ctx.fillText(l, 50, CY + 34 + (i + 1) * lh, W - 100));
   } else {

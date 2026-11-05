@@ -52,10 +52,12 @@ import { OnlineGame, OnlineLobby, OnlineWait } from "./src/ui/OnlineScreen";
 import { TahkimScreen } from "./src/ui/TahkimScreen";
 import DanismaScreen from "./src/ui/DanismaScreen";
 import InboxScreen from "./src/ui/InboxScreen";
+import DanismaDosyaScreen from "./src/ui/DanismaDosyaScreen";
+import { dosyaBirak, dosyaBitir, dosyaKimligi, kayitOf, TutanakSatiri } from "./src/data/danismaDosya";
 import { trackRoute } from "./src/data/usage";
 
 /** from: oyun bitince nereye dönüleceği (dosya dolabı ya da yönetim paneli önizlemesi) */
-type From = "list" | "admin" | "career" | "desk" | "tahkim" | "online";
+type From = "list" | "admin" | "career" | "desk" | "tahkim" | "online" | "danismaDosya";
 type Route =
   | { k: "title" }
   | { k: "list"; mode: "duel" | "solo" }
@@ -69,6 +71,7 @@ type Route =
   | { k: "desk" }
   | { k: "account"; then?: "career" | "paywall" | "danisma"; tab?: "giris" | "kayit" }
   | { k: "danisma" }
+  | { k: "danismaDosya" }
   | { k: "paywall" }
   | { k: "history" }
   | { k: "character" }
@@ -162,7 +165,7 @@ export default function App() {
   };
   const toList = (mode: "duel" | "solo") => setRoute({ k: "list", mode });
   const back = (c: CaseFile, from: From) => (from === "admin" ? setRoute({ k: "admin" }) : from === "career" ? setRoute({ k: "career" }) : from === "desk" ? setRoute({ k: "desk" })
-    : from === "tahkim" ? setRoute({ k: "tahkim" }) : from === "online" ? setRoute({ k: "online" }) : toList(c.mode));
+    : from === "tahkim" ? setRoute({ k: "tahkim" }) : from === "online" ? setRoute({ k: "online" }) : from === "danismaDosya" ? setRoute({ k: "danismaDosya" }) : toList(c.mode));
   const fromOf = (c: CaseFile): From => (c.room === "tahkim" ? "tahkim" : "list");
   const findCase = (id: string) => cases.all.find(x => x.id === id);
   const dr = hasDegree(office?.life, "dr");
@@ -204,8 +207,19 @@ export default function App() {
   };
 
   /** Oyun bitince: kariyer dosyasında sonucu işler (antrenmanda işlemez); karşılıklıda önce son sözler alınır. */
-  const finish = (c: CaseFile, players: Record<Side, Player>, game: GameState, from: From) => {
+  const finish = (c: CaseFile, players: Record<Side, Player>, game: GameState, from: From, tutanak: TutanakSatiri[] = []) => {
     let notice: string | undefined;
+    // Danışma dosyası (gerçek olay): oyun kaydı sunucuya yazılır ve dosya sahibine gider; kariyere işlemez.
+    const dosyaId = from === "danismaDosya" ? dosyaKimligi(c) : null;
+    if (dosyaId) {
+      setRoute({ k: "verdict", c, players, game, from, notice: t("Oyun kaydınız dosya sahibine gönderiliyor…") });
+      dosyaBitir(dosyaId, kayitOf(c, game, tutanak)).then(r => {
+        const cur = routeRef.current;
+        if (cur.k !== "verdict" || cur.c.id !== c.id) return;
+        setRoute({ ...cur, notice: r.error ? t("Oyun kaydı gönderilemedi: {hata}", { hata: t(r.error) }) : t("Oyun kaydınız dosya sahibine gönderildi; Gelen kutusuna bildirim gitti. Teşekkürler!") });
+      });
+      return;
+    }
     if (c.mode === "duel" && !game.fatal) { setRoute({ k: "closing", c, players, game, from }); return; }
     if (careerFrom(from)) {
       const side = mySide(c, from, players);
@@ -242,7 +256,12 @@ export default function App() {
           office={office} onOffice={() => setRoute(account ? { k: "office" } : { k: "account", then: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
           onHistory={() => setRoute({ k: "history" })} onCharacter={() => setRoute({ k: "character" })} onBoard={() => setRoute({ k: "board" })} isAdmin={srvAdmin} onMap={() => setRoute({ k: "career" })}
           onTahkim={() => setRoute({ k: "tahkim" })} onPro={() => setRoute({ k: "paywall" })} pro={unlocked} tahkimCount={cases.all.filter(c => c.room === "tahkim").length}
-          guest={guest} onGuest={() => setGuest(true)} onLeaveGuest={() => setGuest(false)} onDanisma={() => setRoute({ k: "danisma" })} onInbox={() => setRoute({ k: "inbox" })} />}
+          guest={guest} onGuest={() => setGuest(true)} onLeaveGuest={() => setGuest(false)} onDanisma={() => setRoute({ k: "danisma" })} onInbox={() => setRoute({ k: "inbox" })}
+          onDanismaDosya={() => setRoute({ k: "danismaDosya" })} />}
+        {route.k === "danismaDosya" && (
+          <DanismaDosyaScreen signedIn={account?.mode === "server"} onBack={() => setRoute({ k: "title" })} onSignIn={() => setRoute({ k: "account", tab: "giris" })}
+            onPlay={c => startGame(c, { ...SOLO_PLAYERS, p1: { name: meName, ai: false } }, "danismaDosya")} />
+        )}
         {route.k === "danisma" && (
           <DanismaScreen onBack={() => setRoute({ k: "title" })} signedIn={account?.mode === "server"} server={!!supabase()} admin={srvAdmin}
             onSignIn={() => setRoute({ k: "account", tab: "giris", then: "danisma" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "danisma" })} />
@@ -306,8 +325,8 @@ export default function App() {
         {route.k === "admin" && <AdminScreen onExit={() => setRoute({ k: "title" })} onPreview={c => startGame(c, previewPlayers(c), "admin")} />}
         {route.k === "game" && (
           <GameScreen key={route.run} c={route.c} players={route.players}
-            onExit={() => back(route.c, route.from)}
-            onFinish={game => finish(route.c, route.players, game, route.from)} />
+            onExit={() => { if (route.from === "danismaDosya") { const id = dosyaKimligi(route.c); if (id) dosyaBirak(id); } back(route.c, route.from); }}
+            onFinish={(game, tutanak) => finish(route.c, route.players, game, route.from, tutanak)} />
         )}
         {route.k === "closing" && (
           <ClosingScreen c={route.c} game={route.game} players={route.players}
@@ -315,8 +334,8 @@ export default function App() {
         )}
         {route.k === "verdict" && (
           <VerdictScreen c={route.c} game={route.game} notice={route.notice} ai={route.ai}
-            backLabel={route.from === "admin" ? t("Yönetim paneline dön") : route.from === "career" ? t("Kariyere dön") : route.from === "desk" ? t("Büro masasına dön") : route.from === "tahkim" ? t("Tahkim listesine dön") : route.from === "online" ? t("Çevrim içi lobiye dön") : undefined}
-            onRetry={route.from === "online" ? undefined : () => startGame(route.c, route.players, route.from === "desk" ? "list" : route.from)}
+            backLabel={route.from === "admin" ? t("Yönetim paneline dön") : route.from === "career" ? t("Kariyere dön") : route.from === "desk" ? t("Büro masasına dön") : route.from === "tahkim" ? t("Tahkim listesine dön") : route.from === "online" ? t("Çevrim içi lobiye dön") : route.from === "danismaDosya" ? t("Danışma dosyalarına dön") : undefined}
+            onRetry={route.from === "online" || route.from === "danismaDosya" ? undefined : () => startGame(route.c, route.players, route.from === "desk" ? "list" : route.from)}
             onBack={() => back(route.c, route.from)} />
         )}
         <SetupModal key={setup?.c.id} c={setup?.c || null} fixedSide={setup?.side} career={setup?.career} meName={setup?.career ? meName : undefined}
