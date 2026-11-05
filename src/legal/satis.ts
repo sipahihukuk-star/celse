@@ -13,21 +13,17 @@ export const SON_GUNCELLEME = "5 Kasım 2026";
 
 /** Satıcı / hizmet sağlayıcı tanıtıcı bilgileri (6563 s. ETK m.3; Mesafeli Sözleşmeler Yönetmeliği m.5/1-b, c). */
 export const SATICI = {
-  unvan: "Themiscode Inc. [DOLDURULACAK: ticaret sicilindeki tam ticaret unvanı teyit edilecek]",
+  unvan: "SİPAHİ YAZILIM PROJE GELİŞTİRME DANIŞMANLIK İNŞAAT TAAHHÜT SANAYİ VE TİCARET LİMİTED ŞİRKETİ",
   marka: "Celse",
-  yetkili: "Av. Yüksel Sipahi",
-  adres: V.adres,
+  adres: "[DOLDURULACAK: şirketin güncel adresi (ticaret sicilinde kayıtlı adres)]",
   eposta: V.eposta,
-  telefon: "[DOLDURULACAK: telefon numarası]",
+  telefon: "0 (505) 887 00 58",
   mersis: "[DOLDURULACAK: MERSİS numarası]",
-  vergi: "[DOLDURULACAK: vergi dairesi ve vergi kimlik numarası]",
+  vergi: "Kordon Vergi Dairesi · 7710348137",
+  sicil: "İzmir Ticaret Sicil Müdürlüğü · 193107",
   kep: "[DOLDURULACAK: KEP adresi; yoksa bu satır kaldırılır]",
   web: "https://celse.themiscode.com/"
 };
-
-/** İletişim sayfasında görünen, yayımdan önce kaldırılacak not. */
-export const UNVAN_NOTU =
-  "[DOLDURULACAK: Yayımdan önce silinecek not: Belgelerde satıcı olarak \"Themiscode Inc.\" yazılmıştır; yazışmalarda \"Sipahi Yazılım Inc.\" adı da geçmektedir. iyzico üye işyeri başvurusunu yapan, faturayı düzenleyecek ve ticaret sicilinde kayıtlı olan şirketin tam ticaret unvanı (ör. \"… Yazılım Anonim Şirketi\" / \"… Limited Şirketi\") teyit edilip bütün sayfalarda aynı biçimde yazılmalıdır.]";
 
 /** Ödeme kuruluşu (6493 sayılı Kanun kapsamında lisanslı). */
 export const ODEME_KURULUSU = "İyzi Ödeme ve Elektronik Para Hizmetleri A.Ş. (iyzico)";
@@ -106,11 +102,11 @@ const S = SATICI;
 const saticiBlok: Blok = {
   liste: [
     ["Unvan", S.unvan],
-    ["Yetkili", S.yetkili],
     ["Adres", S.adres],
     ["E-posta", S.eposta],
     ["Telefon", S.telefon],
     ["MERSİS no", S.mersis],
+    ["Ticaret sicil no", S.sicil],
     ["Vergi dairesi / no", S.vergi],
     ["KEP", S.kep],
     ["İnternet sitesi", S.web]
@@ -387,7 +383,7 @@ export const ILETISIM: Belge = {
   dosya: "iletisim.html", kisaAd: "İletişim", baslik: "İletişim",
   giris: "Celse, aşağıda bilgileri yer alan şirket tarafından geliştirilir ve satılır.",
   bolumler: [
-    { baslik: "Şirket bilgileri", bloklar: [saticiBlok, { not: UNVAN_NOTU }] },
+    { baslik: "Şirket bilgileri", bloklar: [saticiBlok] },
     { baslik: "Bize ulaşın", bloklar: [
       ["Satış, abonelik ve iade", `${S.eposta} · e-postanızda hesabınızın e-posta adresini ve sipariş tarihini belirtin.`],
       ["Cayma bildirimi", `${S.eposta} veya ${S.adres} (İade ve Cayma Hakkı Politikası'ndaki formla ya da serbest yazıyla).`],
