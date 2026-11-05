@@ -251,7 +251,7 @@ export function appealCase(base: CaseFile, kind: AppealKind, ctx: { side?: Side;
     evidence: stage.evidence, intro: stage.intro, docs: stage.docs || base.docs, steps: stage.steps,
     outcomes: stage.outcomes.map(o => ({ noCourt: true, ...o })),
     career: { off: true }, kanunYolu: base.kanunYolu,
-    appealOf: { id: base.id, kind, basic: !hand, level, regime: reg, same, baseDuel: base.mode === "duel" }
+    appealOf: { id: base.id, kind, basic: !hand, level, regime: reg, same, baseDuel: base.mode === "duel", side }
   });
   if (out.appealOf) Object.defineProperty(out.appealOf, "base", { value: base, enumerable: false, configurable: true, writable: true });
   return out;
@@ -430,6 +430,23 @@ export function genericStage(base: CaseFile, kind: AppealKind, side: Side, baseG
   const talep: Step = { side: "p1", scene: "office", section: "SONUÇ VE İSTEM", lines: [], prompt: "Sonuç ve isteminizi nasıl yazacaksınız?",
     choices: [talepOk[kind], ...talepWrong].map(ch => ({ ...ch, doc: ch.text })) };
 
+  // Duruşma istemi: üst mahkeme incelemesi çoğunlukla dosya üzerinden yapılır; duruşma istenirse ve daire uygun görürse
+  // vekil sözlü açıklama yapar. Oyuncu seçer; duruşmasız seçerse duruşma adımı atlanır ve karar dilekçeye göre verilir.
+  const durusmaLaw = kind === "temyiz" ? { hmk: "HMK m.369", iik: "HMK m.369", cmk: "CMK m.299", iyuk: "İYUK m.17" }[reg] : { hmk: "HMK m.353, m.356", iik: "HMK m.353, m.356", cmk: "CMK m.280-281", iyuk: "İYUK m.17" }[reg];
+  const durusma: Step = { side: "p1", scene: "office", section: "SONUÇ VE İSTEM", lines: [], prompt: "İncelemenin duruşmalı mı, duruşmasız mı yapılmasını istiyorsunuz?",
+    choices: [
+      { text: "Duruşmasız: dosya üzerinden inceleme yeterli; dilekçem sebeplerimi tam olarak anlatıyor.", delta: 0, set: ["durusmasiz"], law: durusmaLaw,
+        doc: "İncelemenin dosya üzerinden yapılmasını talep ederiz.",
+        note: kind === "temyiz"
+          ? "Temyiz incelemesi kural olarak dosya üzerinden yapılır; duruşma yalnız kanunun aradığı hâllerde istem üzerine açılır."
+          : "Üst mahkeme incelemesinin büyük bölümü dosya üzerinden yapılır; daire dilekçenize ve dosyaya bakarak karar verir. Sözlü açıklama hakkınız olmaz; dilekçeniz tek sözünüz olur." },
+      { text: "Duruşmalı: duruşma yapılmasını ve sözlü açıklama hakkı tanınmasını talep etmek.", delta: 0, set: ["durusma"], law: durusmaLaw,
+        doc: "Duruşma yapılmasını ve sözlü açıklamalarımızın dinlenmesini talep ederiz.",
+        note: kind === "temyiz"
+          ? "Temyizde duruşma istemi kanunun aradığı hâllerde kabul edilir; açılırsa sebeplerinizi sözlü olarak özetlersiniz."
+          : "Daire duruşma açarsa vekiller sözlü açıklama yapar; dilekçede yazmadığınız yeni bir sebebi duruşmada ileri süremezsiniz." }
+    ] };
+
   const paper: Step = {
     kind: "dilekce", side: "p1", scene: "office", lines: [{ who: "narr", text: "Dilekçeniz hazır. Sunmadan önce son bir kez okuyun." }],
     prompt: "Dilekçeyi gözden geçirin.", choices: [],
@@ -444,7 +461,7 @@ export function genericStage(base: CaseFile, kind: AppealKind, side: Side, baseG
 
   const pros = reg === "cmk" && !!base.cast.pros;
   const hearing: Step = {
-    side: "p1", scene: "court",
+    if: "durusma", side: "p1", scene: "court",
     lines: [
       ...(kind === "temyiz"
         ? [{ who: "narr", text: `Dosya temyiz incelemesi için heyetin önünde. Duruşma yalnız kanunun aradığı hâllerde istem üzerine yapılır (${{ hmk: "HMK m.369", iik: "HMK m.369", cmk: "CMK m.299", iyuk: "İYUK m.17" }[reg]}); yapılmazsa daire dosya üzerinden karar verir. Bu aşama, vekilin sebeplerini heyete özetlediği kısa bir oturumla canlandırılıyor.` }]
@@ -475,7 +492,8 @@ export function genericStage(base: CaseFile, kind: AppealKind, side: Side, baseG
     { winner: "p2", stamp: "ESASTAN RET", karar: "ret", label: "HÜKÜM:",
       hukum: `İstinaf başvurusunun ${lawRet} uyarınca ESASTAN REDDİNE; oy birliğiyle karar verildi.`,
       summary: [{ if: "!sebep", text: `Dilekçe dosyadaki kilit meseleye (${issue.law}) dayanmadı; daire ilk derece kararında kaldırmayı gerektiren bir hukuka aykırılık görmedi.` },
-        { if: "sebep", text: `Doğru sebebi gösterdiniz; ama talebiniz de duruşmadaki beyanınız da bu sebebi daireye taşıyamadı.` }] }
+        { if: "sebep && durusma", text: `Doğru sebebi gösterdiniz; ama talebiniz de duruşmadaki beyanınız da bu sebebi daireye taşıyamadı.` },
+        { if: "sebep && !durusma", text: `Doğru sebebi gösterdiniz; ama sonuç ve isteminiz bu sebebi daireye taşıyamadı. Dosya üzerinden incelemede dilekçe tek sözünüzdür.` }] }
   ];
   else if (kind === "cevap") outcomes = [
     { if: "sebep && (talep || sozlu)", winner: "p1", stamp: "ESASTAN RET", karar: "ret", label: "HÜKÜM:",
@@ -493,7 +511,7 @@ export function genericStage(base: CaseFile, kind: AppealKind, side: Side, baseG
       hukum: `Temyiz isteminin REDDİ ile ${prevCourt} kararının ONANMASINA; oy birliğiyle kesin olarak karar verildi.`,
       summary: [{ if: "!sebep", text: `Temyiz dilekçesi dosyanın kilit meselesine (${issue.law}) dayanmadı.` }, { if: "sebep", text: "Doğru sebebi gösterdiniz; ama heyet kararın sonucunu etkileyecek bir hukuka aykırılık görmedi." }] }
   ];
-  return { court: route.court, courtShort: route.courtShort, intro, steps: [date, merci, sebep, talep, paper, hearing], outcomes };
+  return { court: route.court, courtShort: route.courtShort, intro, steps: [date, merci, sebep, talep, durusma, paper, hearing], outcomes };
 }
 
 function safeHukum(c: CaseFile, g: GameState) { try { return verdict(c, g).hukum.replace(/\s+/g, " ").trim(); } catch { return ""; } }

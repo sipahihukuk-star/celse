@@ -86,13 +86,14 @@ const KATIP = ["katip", "katip-erkek", "katip-kadin-45", "katip-erkek-45"] as co
  *  (savcı, hâkim, tanık) yüz buna uyar; (3) görünüş tarifi (sakal, saç biçimi) — çizim sahnesi için yazılmıştır, kısa saç
  *  "erkek" sayıldığından en zayıf kaynaktır. Ad ile hitap çelişirse metin hatasıdır (tools/tutarlilik.ts raporlar).
  *  Yaş: metinde yazan yaş ("22 yaşında", "genç", "yaşlı") ya da kır saç; varsa havuzdaki en yakın yaştaki yüz seçilir. */
-export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = false): Record<string, PhotoKey> {
+/** playerSide: oyuncunun oynadığı taraf (karşılıklı davada p2 de olabilir); oyuncunun yüzü o tarafa konur. */
+export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = false, playerSide: "p1" | "p2" = "p1"): Record<string, PhotoKey> {
   const used = new Set<PhotoKey>(avatar ? [avatar] : []);
   // Kanun yolu aşaması (istinaf, temyiz): ilk derecedeki kişiler aynı yüzle gelir; üst mahkemenin hâkimi ilk derece hâkiminden farklı biridir.
   const inherited: Record<string, PhotoKey> = {};
   const ap = c.appealOf;
   if (ap?.base && ap.same) {
-    const bm = castFaces(ap.base, avatar, accountFemale);
+    const bm = castFaces(ap.base, avatar, accountFemale, ap.side || "p1");
     for (const [r, br] of Object.entries(ap.same)) if (bm[br]) inherited[r] = bm[br];
     Object.values(inherited).forEach(k => used.add(k));
     if (bm.judge) used.add(bm.judge.replace(/-(yesil|gri)$/, "") as PhotoKey);
@@ -163,8 +164,10 @@ export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = f
   else if (!tahkim && (avatar || c.mode === "solo")) {
     const mine: PhotoKey = avatar || (accountFemale ? "av-kadin-32" : "av-erkek-38");
     // Karşı tarafın avukatı oyuncunun yüzünü taşıyorsa ona başka bir yüz ver.
-    for (const [r, k] of Object.entries(map)) if (k === mine && r !== "p1") { used.delete(k); used.add(mine); map[r] = pick(LAWYER, k.includes("kadin"), r + "2", ageOf(r)); }
-    map.p1 = mine;
+    const ps = c.mode === "duel" ? playerSide : "p1";
+    for (const [r, k] of Object.entries(map)) if (k === mine && r !== ps) { used.delete(k); used.add(mine); map[r] = pick(LAWYER, k.includes("kadin"), r + "2", ageOf(r)); }
+    // Karşılıklı davada oyuncu p2'yi oynuyorsa onun yüzü p2'ye; p1 (karşı vekil) kendi seçilen yüzünde kalır.
+    map[ps] = mine;
     used.add(mine);
   }
   // Taraf teşkili: kadroda karşılığı olmayan taraf (ör. karşı tarafın kendisi) için de bir yüz seçilir.

@@ -43,10 +43,12 @@ export default function GameScreen(props: Props) {
   const { office, ready } = useOffice();
   const me = useCharacterState();
   // Her karakterin yüzü (ve sesi) davanın kadrosundan seçilir; oyuncunun yüzü büroda seçtiği karakterdir.
-  const faces = useMemo(() => cast(props.c, office?.avatar || me.character?.avatar), [props.c, office?.avatar, me.character?.avatar]);
+  // Karşılıklı davada oyuncunun tarafı: internetten oynanıyorsa kendi tarafı, bilgisayara karşı ise insan olan taraf.
+  const mySide = props.online?.mySide ?? (props.players.p1.ai && !props.players.p2.ai ? "p2" : "p1");
+  const faces = useMemo(() => cast(props.c, office?.avatar || me.character?.avatar, mySide), [props.c, office?.avatar, me.character?.avatar, mySide]);
   // Oyuncunun avukatına "Avukat Hanım / Bey" hitabı, sahnedeki yüzünün cinsiyetine uyarlanır (kime yöneldiği belli
   // olmayan avukat hitabı "Sayın Avukat" olur). Satırlar, seçenekler, notlar ve seslendirme aynı metni kullanır.
-  const playerFemale = (faces.p1 || "").includes("kadin");
+  const playerFemale = (faces[props.c.mode === "duel" ? mySide : "p1"] || "").includes("kadin");
   const c = useMemo(() => adaptPlayerAddress(props.c, playerFemale), [props.c, playerFemale]);
   // Duruşma akışı ilk satırları başlangıçta alır: karakter yüklenmeden başlarsa hitap yanlış cinsiyetle kalırdı.
   if (!ready || !me.ready) return <View style={styles.root} />;

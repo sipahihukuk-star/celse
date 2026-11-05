@@ -1,12 +1,12 @@
 // Kanun yolu aşamasının iki özel adımı: oyuncunun süre son gününü kendisinin yazdığı tarih alanı ve dilekçe önizlemesi.
 import React, { useRef, useState } from "react";
-import { StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
+import { Platform, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { petitionOf } from "../engine/appeal";
 import { gradeDeadline, longDate, parseDate } from "../engine/deadline";
 import { GameState } from "../engine/engine";
 import { CaseFile, Step } from "../engine/types";
 import { t } from "../i18n";
-import { kbBar } from "./KeyboardBar";
+import { hideKeyboardBar, kbBar } from "./KeyboardBar";
 import { Btn } from "./kit";
 import { C, F } from "./theme";
 
@@ -50,7 +50,8 @@ function Field({ label, value, width, max, onChange, onSubmit, inputRef }: { lab
   return (
     <View style={{ gap: 4 }}>
       <TextInput {...kbBar} ref={inputRef} value={value} onChangeText={onChange} onSubmitEditing={onSubmit} keyboardType="number-pad" inputMode="numeric" maxLength={max}
-        placeholder={max === 4 ? "YYYY" : max === 2 && label === t("Gün") ? "GG" : "AA"} placeholderTextColor={C.muted} returnKeyType="next"
+        onFocus={() => hideKeyboardBar(Platform.OS === "ios")} onBlur={() => hideKeyboardBar(false)}
+        placeholder={max === 4 ? "YYYY" : max === 2 && label === t("Gün") ? "GG" : "AA"} placeholderTextColor={C.muted} returnKeyType={max === 4 ? "done" : "next"}
         accessibilityLabel={label} style={[s.input, { width }]} />
       <Text style={s.small}>{label}</Text>
     </View>

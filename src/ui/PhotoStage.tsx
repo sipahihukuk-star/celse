@@ -23,8 +23,8 @@ interface Props { c: CaseFile; scene: Scene; focus: string | null; talking: bool
 export { DESK, MIN_VIEW, ROOM } from "./stageLayout";
 
 /** Davanın kadrosuna fotoğraf atar (bkz. castFaces.ts). Oyuncu karakter seçmemişse hesaptaki ada göre bir avukat yüzü alır. */
-export function cast(c: CaseFile, avatar?: Avatar | null) {
-  return castFaces(c, avatar, FEMALE.has(firstName(currentAccount()?.adSoyad)));
+export function cast(c: CaseFile, avatar?: Avatar | null, playerSide: "p1" | "p2" = "p1") {
+  return castFaces(c, avatar, FEMALE.has(firstName(currentAccount()?.adSoyad)), playerSide);
 }
 
 /** Ağız kareleri: 0 kapalı, 1 açık ("a"), 2 yuvarlak ("o, u"), 3 yayvan ("e, i"), 4 yarı açık (ünsüzler). */

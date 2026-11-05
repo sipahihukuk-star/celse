@@ -12,8 +12,16 @@ export const KB_BAR = "celse-klavye-cubugu";
 /** Eski kullanım için korunur: artık yazı alanına bir şey eklemesi gerekmez. */
 export const kbBar = {};
 
+/** Kendi kapatma/ilerleme tuşu olan yazı alanları (iOS rakam klavyesindeki "Next"/"Done" gibi) odaklanınca "Bitti" gizlenir;
+ *  yoksa iki düğme üst üste biner. Kullanım: onFocus={() => hideKeyboardBar(true)} onBlur={() => hideKeyboardBar(false)}. */
+let hidden = false;
+const hideSubs = new Set<(h: boolean) => void>();
+export function hideKeyboardBar(h: boolean) { hidden = h; hideSubs.forEach(f => f(h)); }
+
 export function KeyboardBar(_p: { inModal?: boolean }) {
   const [bottom, setBottom] = useState(-1);
+  const [off, setOff] = useState(hidden);
+  useEffect(() => { hideSubs.add(setOff); return () => { hideSubs.delete(setOff); }; }, []);
   const box = useRef<React.ComponentRef<typeof View>>(null);
   useEffect(() => {
     if (Platform.OS === "ios") {
@@ -37,7 +45,7 @@ export function KeyboardBar(_p: { inModal?: boolean }) {
   if (Platform.OS !== "ios" && Platform.OS !== "android") return null;
   return (
     <View ref={box} collapsable={false} pointerEvents="box-none" style={[StyleSheet.absoluteFill, { zIndex: 9999 }]}>
-      {bottom >= 0 && (
+      {bottom >= 0 && !off && (
         <Pressable accessibilityRole="button" accessibilityLabel={t("Klavyeyi kapat")} onPress={() => Keyboard.dismiss()} hitSlop={10}
           style={[s.btn, { bottom }]}>
           <Text style={s.t}>{t("Bitti")}</Text>

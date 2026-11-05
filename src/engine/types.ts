@@ -275,6 +275,8 @@ export interface CaseFile {
     id: string; kind: AppealKind; basic: boolean; level: number; regime: Regime;
     /** Kanun yolu aşamasında ilk derecedeki kişilerle aynı kalanlar: aşamadaki rol → ilk derecedeki rol (yüz ve ses aynı kalır). */
     same?: Record<string, string>;
+    /** oyuncunun ilk derecedeki tarafı */
+    side?: Side;
     /** ilk derece karşılıklı (duel) davaydı */
     baseDuel?: boolean;
     /** ilk derece dosyası (yalnız bellekte; kaydedilmez) */
