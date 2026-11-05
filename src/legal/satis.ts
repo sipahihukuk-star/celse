@@ -15,7 +15,7 @@ export const SON_GUNCELLEME = "5 Kasım 2026";
 export const SATICI = {
   unvan: "SİPAHİ YAZILIM PROJE GELİŞTİRME DANIŞMANLIK İNŞAAT TAAHHÜT SANAYİ VE TİCARET LİMİTED ŞİRKETİ",
   marka: "Celse",
-  adres: "[DOLDURULACAK: şirketin güncel adresi (ticaret sicilinde kayıtlı adres)]",
+  adres: "Kahramanlar Mah. 1395 Sk. No: 10/A, Konak / İzmir",
   eposta: V.eposta,
   telefon: "0 (505) 887 00 58",
   mersis: "[DOLDURULACAK: MERSİS numarası]",
