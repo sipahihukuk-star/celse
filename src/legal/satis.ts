@@ -21,7 +21,6 @@ export const SATICI = {
   mersis: "[DOLDURULACAK: MERSİS numarası]",
   vergi: "Kordon Vergi Dairesi · 7710348137",
   sicil: "İzmir Ticaret Sicil Müdürlüğü · 193107",
-  kep: "[DOLDURULACAK: KEP adresi; yoksa bu satır kaldırılır]",
   web: "https://celse.themiscode.com/"
 };
 
@@ -108,7 +107,6 @@ const saticiBlok: Blok = {
     ["MERSİS no", S.mersis],
     ["Ticaret sicil no", S.sicil],
     ["Vergi dairesi / no", S.vergi],
-    ["KEP", S.kep],
     ["İnternet sitesi", S.web]
   ]
 };
