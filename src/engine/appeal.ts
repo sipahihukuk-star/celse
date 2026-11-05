@@ -217,7 +217,7 @@ export function appealCase(base: CaseFile, kind: AppealKind, ctx: { side?: Side;
   const side = ctx.side || "p1";
   const reg = regimeOf(base);
   const hand = side === "p1" ? base.appeal?.[kind] : undefined;
-  const stage = hand || genericStage(base, kind, side, ctx.baseGame, ctx.prev);
+  const stage = hand ? withHearingChoice(hand, kind, reg) : genericStage(base, kind, side, ctx.baseGame, ctx.prev);
   const route = routeOf(base, kind);
   const mine = base.sides[side], theirs = base.sides[other(side)];
   const cast: Record<string, CastMember> = {};
@@ -309,6 +309,34 @@ export function keyIssue(base: CaseFile, side: Side, game?: GameState, won = fal
 const clip = (s: string, n: number) => (s.length <= n ? s : s.slice(0, s.lastIndexOf(" ", n)).replace(/[,;:]$/, "") + "…");
 
 /** Temel yol: davanın kendi hukuki meselesinden kısa bir kanun yolu aşaması. */
+/** Duruşma istemi adımı: üst mahkeme incelemesi çoğunlukla dosya üzerinden yapılır; oyuncu duruşmalı ya da duruşmasız seçer.
+ *  Duruşmasız seçilirse duruşma (salon) adımları atlanır ve karar dilekçeye göre verilir. */
+function durusmaStep(kind: AppealKind, reg: Regime): Step {
+  const durusmaLaw = kind === "temyiz" ? { hmk: "HMK m.369", iik: "HMK m.369", cmk: "CMK m.299", iyuk: "İYUK m.17" }[reg] : { hmk: "HMK m.353, m.356", iik: "HMK m.353, m.356", cmk: "CMK m.280-281", iyuk: "İYUK m.17" }[reg];
+  return { side: "p1", scene: "office", section: "SONUÇ VE İSTEM", lines: [], prompt: "İncelemenin duruşmalı mı, duruşmasız mı yapılmasını istiyorsunuz?",
+    choices: [
+      { text: "Duruşmasız: dosya üzerinden inceleme yeterli; dilekçem sebeplerimi tam olarak anlatıyor.", delta: 0, set: ["durusmasiz"], law: durusmaLaw,
+        doc: "İncelemenin dosya üzerinden yapılmasını talep ederiz.",
+        note: kind === "temyiz"
+          ? "Temyiz incelemesi kural olarak dosya üzerinden yapılır; duruşma yalnız kanunun aradığı hâllerde istem üzerine açılır."
+          : "Üst mahkeme incelemesinin büyük bölümü dosya üzerinden yapılır; daire dilekçenize ve dosyaya bakarak karar verir. Sözlü açıklama hakkınız olmaz; dilekçeniz tek sözünüz olur." },
+      { text: "Duruşmalı: duruşma yapılmasını ve sözlü açıklama hakkı tanınmasını talep etmek.", delta: 0, set: ["durusma"], law: durusmaLaw,
+        doc: "Duruşma yapılmasını ve sözlü açıklamalarımızın dinlenmesini talep ederiz.",
+        note: kind === "temyiz"
+          ? "Temyizde duruşma istemi kanunun aradığı hâllerde kabul edilir; açılırsa sebeplerinizi sözlü olarak özetlersiniz."
+          : "Daire duruşma açarsa vekiller sözlü açıklama yapar; dilekçede yazmadığınız yeni bir sebebi duruşmada ileri süremezsiniz." }
+    ] };
+}
+
+/** Elle yazılmış aşamaya duruşma istemi sorusunu ekler: dilekçe önizlemesinden önce sorulur, sonraki salon adımları yalnız duruşma istenirse oynanır. */
+function withHearingChoice(stage: AppealStage, kind: AppealKind, reg: Regime): AppealStage {
+  const i = stage.steps.findIndex(st => st.kind === "dilekce");
+  if (i < 0 || stage.steps.some(st => st.choices?.some(ch => ch.set?.includes("durusma")))) return stage;
+  const steps = stage.steps.map((st, j) => j > i && st.scene === "court" ? { ...st, if: st.if ? `durusma && (${st.if})` : "durusma" } : st);
+  steps.splice(i, 0, durusmaStep(kind, reg));
+  return { ...stage, steps };
+}
+
 export function genericStage(base: CaseFile, kind: AppealKind, side: Side, baseGame?: GameState, prev?: { c: CaseFile; game: GameState }): AppealStage {
   const reg = regimeOf(base), fromBolge = tierOf(base) === "bolge";
   const route = { ...routeOf(base, kind), ...(kind === "temyiz" && prev ? { via: prev.c.court } : {}) };
@@ -430,22 +458,7 @@ export function genericStage(base: CaseFile, kind: AppealKind, side: Side, baseG
   const talep: Step = { side: "p1", scene: "office", section: "SONUÇ VE İSTEM", lines: [], prompt: "Sonuç ve isteminizi nasıl yazacaksınız?",
     choices: [talepOk[kind], ...talepWrong].map(ch => ({ ...ch, doc: ch.text })) };
 
-  // Duruşma istemi: üst mahkeme incelemesi çoğunlukla dosya üzerinden yapılır; duruşma istenirse ve daire uygun görürse
-  // vekil sözlü açıklama yapar. Oyuncu seçer; duruşmasız seçerse duruşma adımı atlanır ve karar dilekçeye göre verilir.
-  const durusmaLaw = kind === "temyiz" ? { hmk: "HMK m.369", iik: "HMK m.369", cmk: "CMK m.299", iyuk: "İYUK m.17" }[reg] : { hmk: "HMK m.353, m.356", iik: "HMK m.353, m.356", cmk: "CMK m.280-281", iyuk: "İYUK m.17" }[reg];
-  const durusma: Step = { side: "p1", scene: "office", section: "SONUÇ VE İSTEM", lines: [], prompt: "İncelemenin duruşmalı mı, duruşmasız mı yapılmasını istiyorsunuz?",
-    choices: [
-      { text: "Duruşmasız: dosya üzerinden inceleme yeterli; dilekçem sebeplerimi tam olarak anlatıyor.", delta: 0, set: ["durusmasiz"], law: durusmaLaw,
-        doc: "İncelemenin dosya üzerinden yapılmasını talep ederiz.",
-        note: kind === "temyiz"
-          ? "Temyiz incelemesi kural olarak dosya üzerinden yapılır; duruşma yalnız kanunun aradığı hâllerde istem üzerine açılır."
-          : "Üst mahkeme incelemesinin büyük bölümü dosya üzerinden yapılır; daire dilekçenize ve dosyaya bakarak karar verir. Sözlü açıklama hakkınız olmaz; dilekçeniz tek sözünüz olur." },
-      { text: "Duruşmalı: duruşma yapılmasını ve sözlü açıklama hakkı tanınmasını talep etmek.", delta: 0, set: ["durusma"], law: durusmaLaw,
-        doc: "Duruşma yapılmasını ve sözlü açıklamalarımızın dinlenmesini talep ederiz.",
-        note: kind === "temyiz"
-          ? "Temyizde duruşma istemi kanunun aradığı hâllerde kabul edilir; açılırsa sebeplerinizi sözlü olarak özetlersiniz."
-          : "Daire duruşma açarsa vekiller sözlü açıklama yapar; dilekçede yazmadığınız yeni bir sebebi duruşmada ileri süremezsiniz." }
-    ] };
+  const durusma = durusmaStep(kind, reg);
 
   const paper: Step = {
     kind: "dilekce", side: "p1", scene: "office", lines: [{ who: "narr", text: "Dilekçeniz hazır. Sunmadan önce son bir kez okuyun." }],

@@ -559,7 +559,7 @@
       ],
       "outcomes": [
         {
-          "if": "sebep && teblig",
+          "if": "sebep && (teblig || (durusmasiz && izin))",
           "winner": "p1",
           "stamp": "KALDIRMA",
           "karar": "kaldirma",
