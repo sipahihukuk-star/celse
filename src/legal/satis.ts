@@ -18,7 +18,7 @@ export const SATICI = {
   adres: "Kahramanlar Mah. 1395 Sk. No: 10/A, Konak / İzmir",
   eposta: V.eposta,
   telefon: "0 (505) 887 00 58",
-  mersis: "[DOLDURULACAK: MERSİS numarası]",
+  mersis: "0771034813700012",
   vergi: "Kordon Vergi Dairesi · 7710348137",
   sicil: "İzmir Ticaret Sicil Müdürlüğü · 193107",
   web: "https://celse.themiscode.com/"

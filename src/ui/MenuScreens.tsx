@@ -4,6 +4,7 @@ import { Linking, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, use
 import { useVoiceEnabled } from "./voice";
 import { Platform, Share } from "react-native";
 import { StoreLinks } from "./StoreLinks";
+import { LegalFooter } from "./LegalFooter";
 import { DOWNLOAD_URL, WEB_URL } from "../data/settings";
 import { CaseFile, Player, Side } from "../engine/types";
 import { Account } from "../data/account";
@@ -127,7 +128,7 @@ export function TitleScreen(p: TitleProps) {
           <Text style={styles.fact}>{t("Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.")}</Text>
           </>
           )}
-          {Platform.OS === "web" ? <StoreLinks /> : (
+          {Platform.OS === "web" ? <><StoreLinks /><LegalFooter /></> : (
             <Pressable accessibilityRole="link" onPress={() => Linking.openURL(WEB_URL)} style={({ pressed }) => [styles.webLink, pressed && { opacity: 0.8 }]}>
               <Text style={styles.webIcon}>🌐</Text>
               <View style={{ flex: 1 }}>
