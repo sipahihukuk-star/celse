@@ -19,10 +19,13 @@ const LINKS: [string, string][] = [
 
 const MARKS = ["iyzico ile Öde", "VISA", "Mastercard", "TROY"];
 
-export function LegalFooter() {
+export function LegalFooter({ onShop }: { onShop?: () => void } = {}) {
   return (
     <View style={s.wrap}>
       <View style={s.links}>
+        <Pressable accessibilityRole="link" onPress={onShop || (() => Linking.openURL(WEB_URL + "?magaza"))} hitSlop={4} style={({ pressed }) => [pressed && { opacity: 0.7 }]}>
+          <Text style={[s.link, { fontFamily: F.bodyBold }]}>Satın al</Text>
+        </Pressable>
         {LINKS.map(([label, file]) => (
           <Pressable key={file} accessibilityRole="link" onPress={() => Linking.openURL(WEB_URL + file)} hitSlop={4}
             style={({ pressed }) => [pressed && { opacity: 0.7 }]}>

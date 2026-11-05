@@ -34,6 +34,7 @@ import { careerSide, feeFor, lineText, monthlyCost, settleCase, SOURCE_LABEL, so
 import { resumeMusic } from "./src/ui/music";
 import { FREE_LEVEL, usePremium } from "./src/data/subscription";
 import PaywallScreen from "./src/ui/PaywallScreen";
+import ShopScreen from "./src/ui/ShopScreen";
 import { buildCareer, CaseRecord, levelOf, openIds, Progress, recordResult, resetProgress, useProgress, CHAPTERS } from "./src/data/career";
 import { appealCase, nextAppeal } from "./src/engine/appeal";
 import { AppealKind } from "./src/engine/types";
@@ -72,10 +73,11 @@ type Route =
   | { k: "career" }
   | { k: "office" }
   | { k: "desk" }
-  | { k: "account"; then?: "career" | "paywall" | "danisma"; tab?: "giris" | "kayit" }
+  | { k: "account"; then?: "career" | "paywall" | "danisma" | "magaza"; tab?: "giris" | "kayit" }
   | { k: "danisma" }
   | { k: "danismaDosya" }
   | { k: "paywall" }
+  | { k: "magaza" }
   | { k: "history" }
   | { k: "character" }
   | { k: "board" }
@@ -99,11 +101,13 @@ export default function App() {
   const [route, setRouteRaw] = useState<Route>(() =>
     typeof window !== "undefined" && /[?&#]yonetim\b/i.test((window.location?.search || "") + (window.location?.hash || "")) ? { k: "admin" }
       // Danışma bağlantısı (telefondan "videoyu web'de hazırla") ve "Duruşmayı izle" önizlemesi (?izle-ornek) danışma ekranını açar.
-      : Platform.OS === "web" && typeof window !== "undefined" && /[?&](danisma=|izle-ornek)/.test(window.location?.search || "") ? { k: "danisma" } : { k: "title" });
+      : Platform.OS === "web" && typeof window !== "undefined" && /[?&](danisma=|izle-ornek)/.test(window.location?.search || "") ? { k: "danisma" }
+      // Web mağazası: ?magaza (sitenin "Satın al" bağlantısı)
+      : Platform.OS === "web" && typeof window !== "undefined" && /[?&#]magaza\b/.test((window.location?.search || "") + (window.location?.hash || "")) ? { k: "magaza" } : { k: "title" });
   // Geri tuşu (Android'in geri tuşu, tarayıcının geri düğmesi): bir önceki ekrana döner; giriş ekranında uygulamadan çıkar.
   // Duruşma, kapanış ve karar gibi bitmiş adımlar geçmişe yazılmaz; geri tuşu onların öncesindeki listeye döndürür.
   const routeRef = React.useRef(route);
-  const stack = React.useRef<Route[]>(route.k === "admin" || route.k === "danisma" ? [{ k: "title" }] : []);
+  const stack = React.useRef<Route[]>(route.k === "admin" || route.k === "danisma" || route.k === "magaza" ? [{ k: "title" }] : []);
   const TRANSIENT = new Set(["game", "closing", "verdict", "onlineWait", "onlineGame"]);
   const setRoute = (r: Route) => {
     const cur = routeRef.current;
@@ -304,7 +308,7 @@ export default function App() {
           office={office} onOffice={() => setRoute(account ? { k: "office" } : { k: "account", then: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
           onHistory={() => setRoute({ k: "history" })} onCharacter={() => setRoute({ k: "character" })} onBoard={() => setRoute({ k: "board" })} isAdmin={srvAdmin} onMap={() => setRoute({ k: "career" })}
           onTahkim={() => setRoute({ k: "tahkim" })} onPro={() => setRoute({ k: "paywall" })} pro={unlocked} tahkimCount={cases.all.filter(c => c.room === "tahkim").length}
-          guest={guest} onGuest={() => setGuest(true)} onLeaveGuest={() => setGuest(false)} onDanisma={() => setRoute({ k: "danisma" })} onInbox={() => setRoute({ k: "inbox" })}
+          guest={guest} onGuest={() => setGuest(true)} onLeaveGuest={() => setGuest(false)} onDanisma={() => setRoute({ k: "danisma" })} onShop={Platform.OS === "web" ? () => setRoute({ k: "magaza" }) : undefined} onInbox={() => setRoute({ k: "inbox" })}
           onDanismaDosya={() => setRoute({ k: "danismaDosya" })} />}
         {route.k === "danismaDosya" && (
           <DanismaDosyaScreen signedIn={account?.mode === "server"} onBack={() => setRoute({ k: "title" })} onSignIn={() => setRoute({ k: "account", tab: "giris" })}
@@ -349,7 +353,7 @@ export default function App() {
             onPaywall={() => setRoute({ k: "paywall" })} onBack={() => setRoute({ k: "title" })} />
         )}
         {route.k === "account" && (
-          <AccountScreen initial={route.tab} onBack={() => setRoute({ k: "title" })} onDone={() => setRoute(route.then === "career" ? (office ? { k: "desk" } : { k: "office" }) : route.then === "paywall" ? { k: "paywall" } : route.then === "danisma" ? { k: "danisma" } : { k: "title" })} />
+          <AccountScreen initial={route.tab} onBack={() => setRoute({ k: "title" })} onDone={() => setRoute(route.then === "career" ? (office ? { k: "desk" } : { k: "office" }) : route.then === "paywall" ? { k: "paywall" } : route.then === "danisma" ? { k: "danisma" } : route.then === "magaza" ? { k: "magaza" } : { k: "title" })} />
         )}
         {route.k === "career" && (
           <CareerScreen view={career} premium={unlocked} office={office} onOffice={() => setRoute({ k: "office" })} onPaywall={() => setRoute({ k: "paywall" })} onBack={() => setRoute(office ? { k: "desk" } : { k: "title" })} onPick={c => playCareer(c, "career")} onReset={() => resetProgress()} />
@@ -369,6 +373,11 @@ export default function App() {
         {route.k === "paywall" && (
           <PaywallScreen onBack={() => goBack()} signedIn={account?.mode === "server"} server={!!supabase()}
             onSignIn={() => setRoute({ k: "account", tab: "giris", then: "paywall" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "paywall" })} />
+        )}
+        {route.k === "magaza" && (
+          <ShopScreen onBack={() => goBack()} signedIn={account?.mode === "server"} server={!!supabase()}
+            buyer={account ? { ad: account.adSoyad, eposta: account.eposta } : undefined}
+            onSignIn={() => setRoute({ k: "account", tab: "giris", then: "magaza" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "magaza" })} />
         )}
         {route.k === "admin" && <AdminScreen onExit={() => setRoute({ k: "title" })} onPreview={c => startGame(c, previewPlayers(c), "admin")} />}
         {route.k === "game" && (

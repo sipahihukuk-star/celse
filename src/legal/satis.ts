@@ -404,7 +404,7 @@ export const FIYATLAR = {
     "Dijital içerik anında ifa edildiğinden, ödeme adımında onay vermenizle Celse Pro için cayma hakkı sona erer. Kullanılmamış danışma kredilerinde 14 gün içinde cayma hakkınız vardır. Ayrıntılar İade ve Cayma Hakkı Politikası'ndadır.",
     "Mobil uygulamada App Store veya Google Play üzerinden yapılan satın alımlarda fiyat, mağazanın gösterdiği fiyattır ve iade mağazanın koşullarına tabidir."
   ],
-  satinAl: "Satın almak için Celse'ye hesabınızla giriş yapın ve Celse Pro ya da Derdini Anlat ekranını açın."
+  satinAl: "Web'den satın almak için https://celse.themiscode.com/?magaza adresindeki Satın al sayfasında ürünü sepete ekleyin, hesabınızla giriş yapın ve siparişi tamamlayın. Mobil uygulamada Celse Pro ya da Derdini Anlat ekranından satın alabilirsiniz."
 };
 
 export const BELGELER: Belge[] = [MESAFELI_SATIS, ON_BILGILENDIRME, IADE, TESLIMAT, ILETISIM];

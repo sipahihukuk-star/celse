@@ -31,6 +31,7 @@ export interface TitleProps {
   /** üye olmadan oynayan (giriş kartını geçmiş) oyuncu; "Üye olmadan dene" ile açılır, "Giriş yap" ile giriş kartına döner */
   guest?: boolean; onGuest?: () => void; onLeaveGuest?: () => void;
   /** "Derdini anlat" danışma ekranı */ onDanisma?: () => void;
+  /** Web mağazası (Celse Pro ve kredi paketleri; yalnız web) */ onShop?: () => void;
   /** Danışma dosyaları (gerçek olaylar): kullanıcıların anonim olaylarını avukat olarak oynama (antrenman) */ onDanismaDosya?: () => void;
 }
 export function TitleScreen(p: TitleProps) {
@@ -128,7 +129,7 @@ export function TitleScreen(p: TitleProps) {
           <Text style={styles.fact}>{t("Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.")}</Text>
           </>
           )}
-          {Platform.OS === "web" ? <><StoreLinks /><LegalFooter /></> : (
+          {Platform.OS === "web" ? <>{!!p.onShop && <ShopCard onPress={p.onShop} />}<StoreLinks /><LegalFooter onShop={p.onShop} /></> : (
             <Pressable accessibilityRole="link" onPress={() => Linking.openURL(WEB_URL)} style={({ pressed }) => [styles.webLink, pressed && { opacity: 0.8 }]}>
               <Text style={styles.webIcon}>🌐</Text>
               <View style={{ flex: 1 }}>
@@ -143,6 +144,20 @@ export function TitleScreen(p: TitleProps) {
       </ScrollView>
       <SideMenu visible={menu} onClose={() => setMenu(false)} {...p} />
     </View>
+  );
+}
+
+/** Web mağazası kartı: fiyatlar ve satın alma. */
+function ShopCard({ onPress }: { onPress: () => void }) {
+  return (
+    <Pressable accessibilityRole="link" onPress={onPress} style={({ pressed }) => [styles.boardLink, { marginTop: 14 }, pressed && { opacity: 0.8 }]}>
+      <Text style={styles.boardIcon}>🛒</Text>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.careerKDark}>{t("SATIN AL · CELSE PRO VE DERDİNİ ANLAT")}</Text>
+        <Text style={styles.boardT}>{t("Pro aylık 149,99 TL · yıllık 999,99 TL · danışma kredisi 149,99 TL'den")}</Text>
+      </View>
+      <Text style={styles.careerGoDark}>{t("Fiyatlar ›")}</Text>
+    </Pressable>
   );
 }
 
