@@ -232,6 +232,7 @@ export function aiPick(choices: Choice[], level: "easy" | "hard" = "easy", rand 
 /** Dava dosyasını yükleme öncesi denetler; hata listesini döndürür. */
 export function validateCase(c: CaseFile): string[] {
   const errs: string[] = [];
+  if (c.difficulty && !["basit", "orta", "zor"].includes(c.difficulty)) errs.push(`zorluk "${c.difficulty}" geçersiz (basit, orta ya da zor olmalı)`);
   const who = new Set(["narr", "p1", "p2", ...Object.keys(c.cast)]);
   const setFlags = new Set<string>(["end"]);
   const addSets = (s?: string[]) => (s || []).forEach(f => setFlags.add(f));

@@ -1,6 +1,6 @@
 // Tahkim ve komisyon rehberi: hangi uyuşmazlıklarda başvurulur, yargılama nasıl yürür, karar nasıl verilir, karara karşı yol.
 // Oyunda "Tahkim ve komisyonlar" ekranında her forumun başında gösterilir.
-export type ForumId = "icc" | "istac" | "lcia" | "uncitral" | "cas" | "tff" | "ihtk" | "sigorta";
+export type ForumId = "icc" | "istac" | "lcia" | "uncitral" | "cas" | "tff" | "ihtk" | "sigorta" | "baro";
 
 export interface Forum {
   id: ForumId;
@@ -117,6 +117,21 @@ export const FORUMS: Forum[] = [
     ],
     karar: "Hakem kararı ilam niteliğindedir; tazminat, faiz, yargılama gideri ve vekâlet ücretine hükmedilir.",
     yol: "Belirli tutarın üzerindeki uyuşmazlıklarda karara karşı bildirimden itibaren 10 gün içinde itiraz hakem heyetine bir kez itiraz edilir (itiraz icrayı durdurur); daha yüksek tutarlarda itiraz kararına karşı Yargıtay'a temyiz yolu açıktır. Parasal sınırlar her yıl Tebliğle güncellenir; başvuru tarihindeki sınır esas alınır."
+  },
+  {
+    id: "baro", group: "Komisyonlar", short: "DİSİPLİN",
+    name: "Baro ve TBB Disiplin Kurulları (avukatların disiplin yargılaması)",
+    olaylar: [
+      "Avukatlık Kanunu m.134-135 (7571 sayılı Kanunla 2025'te yeniden düzenlendi) disiplin cezasını gerektiren eylemleri cezaya göre sayar: uyarma (ör. mazeretsiz duruşmaya gelmemek, meslektaşı kamuoyu önünde küçük düşürmek), kınama (ör. reklam yasağını ihlal, özen yükümlülüğünü ihlal ederek hak kaybına yol açmak), para cezası (ör. müvekkilinin zararına menfaat sağlamak), işten çıkarma (ör. resmî sıfatla görev yaptığı işte avukatlık yapmak) ve meslekten çıkarma.",
+      "Şikâyetler çoğunlukla müvekkilden gelir: tahsil edilen paranın verilmemesi, işin takipsiz bırakılması, süre kaçırılması, iletişimsizlik; ayrıca reklam yasağı, meslektaşlar arası ilişkiler ve yasaklı işlerde avukatlık."
+    ],
+    surec: [
+      "Şikâyet üzerine baro yönetim kurulu ön inceleme yapar, gerekirse soruşturma yaptırır ve disiplin kovuşturması açılmasına ya da kovuşturmaya yer olmadığına karar verir.",
+      "Kovuşturma baro disiplin kurulunda yürür: avukatın savunması alınır, belgeler incelenir, gerekirse tanık ve şikâyetçi dinlenir. Avukat bir meslektaşını vekil olarak getirebilir; son söz hakkında kovuşturma yapılan avukatındır.",
+      "Disiplin kovuşturması, eylemin baroca öğrenilmesinden ve işlenmesinden itibaren kanundaki zamanaşımı süreleri geçtikten sonra açılamaz (Av.K. m.154)."
+    ],
+    karar: "Kurul uyarma, kınama, para cezası (20.000-200.000 TL; her yıl yeniden değerleme oranında artar), üç aydan iki yıla kadar işten çıkarma ya da meslekten çıkarma cezası verir veya disiplin cezası verilmesine yer olmadığına karar verir (Av.K. m.135).",
+    yol: "Baro disiplin kurulu kararına karşı ilgili avukat ve Cumhuriyet savcısı tebliğden itibaren otuz gün içinde TBB Disiplin Kuruluna itiraz edebilir (Av.K. m.157). TBB Disiplin Kurulu dosya üzerinden inceler; işten ya da meslekten çıkarmada istem üzerine ya da kendiliğinden duruşma yapabilir. Uyarma, kınama ve para cezası kararları kesindir; diğerleri Adalet Bakanlığının onayıyla kesinleşir. Kesinleşen karara karşı idari yargı yolu açıktır."
   }
 ];
 

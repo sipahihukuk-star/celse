@@ -1,0 +1,512 @@
+{
+  "id": "th-baro-arabulucu-avukat",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "baro",
+  "difficulty": "zor",
+  "title": "Masanın İki Yanı",
+  "area": "Tahkim · TBB Disiplin Kurulu · Arabulucu olarak görev yaptığı işte avukatlık",
+  "court": "Türkiye Barolar Birliği Disiplin Kurulu",
+  "courtShort": "TBB DİSİPLİN KURULU",
+  "esas": "İtiraz Dosyası 2026/87",
+  "kararTarihi": "11.11.2026",
+  "color": "#2f3f4a",
+  "teaser": "Bir avukat, arabulucu olarak masasında oturduğu işçi-işveren uyuşmazlığından aylar sonra işçinin alacak davasını üstlendi. Baro kınama verdi; Cumhuriyet savcısı eylemin işten çıkarmayı gerektirdiğini söyleyerek itiraz etti. Konu aynı uyuşmazlık mı?",
+  "bench": {
+    "judges": 5,
+    "title": "Kurul Başkanı ve dört üye"
+  },
+  "inscription": null,
+  "sides": {
+    "p1": {
+      "role": "Hakkında kovuşturma yapılan avukatın vekili",
+      "short": "Savunma"
+    },
+    "p2": {
+      "role": "İtiraz eden Cumhuriyet savcısı",
+      "short": "Savcılık"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Kurul Başkanı",
+      "np": "red",
+      "look": {
+        "kind": "civil",
+        "skin": "#d9a882",
+        "hair": "#8a8a8a",
+        "style": "short",
+        "shirt": "#2b2f36",
+        "inner": "#e8e4dc",
+        "glasses": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "civil",
+        "skin": "#e8c09a",
+        "hair": "#3b2b22",
+        "style": "long",
+        "shirt": "#262a31",
+        "inner": "#e4ddd2"
+      }
+    },
+    "p2": {
+      "name": "Cumhuriyet Savcısı",
+      "np": "red",
+      "look": {
+        "kind": "civil",
+        "skin": "#d2a07a",
+        "hair": "#2a2220",
+        "style": "short",
+        "shirt": "#1f2328",
+        "inner": "#e4ddd2"
+      }
+    },
+    "avukat": {
+      "name": "Av. Okan Tekin · Hakkında kovuşturma yapılan",
+      "np": "civil",
+      "attire": "business",
+      "look": {
+        "kind": "civil",
+        "skin": "#dcae86",
+        "hair": "#5b5b60",
+        "style": "short",
+        "shirt": "#2f3540",
+        "inner": "#e2ddd2",
+        "glasses": true
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Av. Okan Tekin aynı zamanda arabuluculuk siciline kayıtlı. 10.01.2025'te, işten çıkarılan Deniz Avcı ile işvereni Kuzey Lojistik A.Ş. arasındaki işe iade uyuşmazlığında arabulucu olarak görev yaptı; taraflar anlaşamadı."
+    },
+    {
+      "who": "narr",
+      "text": "Deniz Avcı'nın işe iade davası reddedildi. Haziran 2025'te Deniz, kıdem ve ihbar tazminatı ile fazla mesai alacakları için Okan Tekin'e vekâlet verdi; bu alacaklar için başka bir arabulucu önünde zorunlu arabuluculuk yapıldı, ardından dava açıldı."
+    },
+    {
+      "who": "narr",
+      "text": "Kuzey Lojistik baroya şikâyette bulundu. İstanbul Barosu Disiplin Kurulu, eylemin mesleğe güveni zedelediğini kabul ederek kınama cezası verdi. Cumhuriyet savcısı, eylemin işten çıkarmayı gerektiren bent kapsamında olduğunu ileri sürerek TBB Disiplin Kuruluna itiraz etti."
+    },
+    {
+      "who": "narr",
+      "text": "İşten çıkarma tartışıldığı için Kurul, avukatın istemi üzerine duruşma açtı. İtiraz eden önce dinlenir; son söz hakkında kovuşturma yapılan avukatındır."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Avukatlık Kanunu m.134-135 (7571 s.K. ile değişik)",
+      "d": "Avukatın hâkim, savcı, hakem, arabulucu, bilirkişi gibi resmî sıfatla görev yaptığı bir işte avukatlık yapması işten çıkarma (üç aydan iki yıla kadar) cezasını gerektirir. Mesleğe duyulan güveni zedeleyen davranışlar kınama bentlerindedir."
+    },
+    {
+      "t": "Avukatlık Kanunu m.157",
+      "d": "Baro disiplin kurulu kararlarına karşı ilgili avukat ve Cumhuriyet savcısı otuz gün içinde TBB Disiplin Kuruluna itiraz edebilir. Kurul dosya üzerinden inceler; işten ya da meslekten çıkarmada istem üzerine ya da kendiliğinden duruşma yapabilir. Kararı onar, bozup kovuşturmanın derinleştirilmesi için baroya gönderir, kaldırıp esas hakkında karar verir ya da düzelterek onar."
+    },
+    {
+      "t": "Arabuluculuk tutanakları",
+      "d": "10.01.2025 son tutanak (arabulucu Av. Okan Tekin): 'Uyuşmazlık konusu: işe iade ve boşta geçen süre ücreti. Taraflar anlaşamamıştır.' 18.06.2025 son tutanak (başka bir arabulucu): 'kıdem, ihbar tazminatı ve fazla mesai alacakları; anlaşamama.'"
+    },
+    {
+      "t": "Baro Disiplin Kurulu kararı",
+      "d": "23.04.2026 · Eylem mesleğe güveni zedeleyen davranış olarak nitelendirildi; kınama. Gerekçede birinci arabuluculuk görüşmesinin içeriği incelenmedi."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_tutanak1",
+      "type": "belge",
+      "title": "İlk arabuluculuk son tutanağı",
+      "desc": "10.01.2025; arabulucu Av. Okan Tekin; konu işe iade ve boşta geçen süre ücreti; anlaşamama."
+    },
+    {
+      "id": "ev_tutanak2",
+      "type": "belge",
+      "title": "İkinci arabuluculuk son tutanağı",
+      "desc": "18.06.2025; başka bir arabulucu; konu kıdem, ihbar ve fazla mesai alacakları; anlaşamama."
+    },
+    {
+      "id": "ev_not",
+      "type": "belge",
+      "title": "İlk arabuluculuk görüşme notları (işverenin sunduğu)",
+      "desc": "Arabulucunun görüşme sırasında tuttuğu ve taraflara gönderdiği e-posta: 'İşveren, fazla mesai kayıtlarının eksik tutulduğunu ve bu nedenle işe iade yerine tazminat ödemeyi değerlendirebileceğini belirtti.'"
+    },
+    {
+      "id": "ev_dava",
+      "type": "belge",
+      "title": "Alacak davası dilekçesi",
+      "desc": "Av. Okan Tekin imzalı; fazla mesai alacağı 'işverenin kayıtlarının eksik tutulduğu kendi beyanıyla sabittir' gerekçesiyle isteniyor."
+    },
+    {
+      "id": "ev_cekilme",
+      "type": "belge",
+      "title": "Vekillikten çekilme dilekçesi",
+      "desc": "05.03.2026; Okan Tekin davadan çekilmiş, müvekkile yeni avukat bulunmuş.",
+      "if": "p1_cekilme"
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "SAVUNMA HAZIRLIĞI · Okan Tekin ile Kurul öncesi son görüşme."
+        },
+        {
+          "who": "avukat",
+          "text": "Arabuluculuk işe iade içindi. Alacak davası başka bir uyuşmazlık, başka bir arabulucu önünde görüşüldü."
+        }
+      ],
+      "prompt": "Savunmayı hangi eksene oturtacaksınız?",
+      "choices": [
+        {
+          "text": "İki uyuşmazlığın konusunun farklı olduğunu iki son tutanakla göster; 'görev yaptığı iş' kavramının dar yorumlanmasını savun.",
+          "delta": 15,
+          "set": [
+            "p1_fark"
+          ],
+          "law": "Av.K. m.134-135",
+          "note": "Doğru eksen. İşten çıkarma bendi 'görev yaptığı işte' avukatlığı arar; aynı iş olup olmadığı somut olarak tartışılmalıdır."
+        },
+        {
+          "text": "Arabuluculuk resmî bir sıfat değildir; arabulucu kamu görevlisi olmadığından işten çıkarma bendi bu eyleme hiç uygulanamaz.",
+          "delta": -10,
+          "law": "Av.K. m.135",
+          "note": "Yeni metin arabulucuyu açıkça sayar; bu savunma kanunun lafzına aykırı."
+        },
+        {
+          "text": "Savcılığın itiraz hakkı yoktur; itiraz yalnız avukata tanınmıştır.",
+          "delta": -15,
+          "law": "Av.K. m.157",
+          "note": "Yanlış. Baro disiplin kurulu kararlarına Cumhuriyet savcısı da itiraz edebilir."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Okan Tekin'e iki soru sorabilirsiniz."
+        }
+      ],
+      "prompt": "Ne soracaksınız?",
+      "choices": [
+        {
+          "text": "İlk arabuluculukta fazla mesai konuşuldu mu?",
+          "delta": 10,
+          "set": [
+            "p1_risk"
+          ],
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "İşveren temsilcisi kayıtların eksik olduğundan söz etti… Ben de görüşme notuna yazdım."
+            }
+          ],
+          "note": "Kritik. Karşı tarafın elindeki en güçlü belgeyi önceden öğrendiniz; savunmayı inkâra değil ölçüye kurabilirsiniz."
+        },
+        {
+          "text": "Şikâyetten sonra davada ne yaptınız?",
+          "delta": 10,
+          "set": [
+            "p1_cekilme"
+          ],
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "Mart'ta vekillikten çekildim, müvekkile başka bir meslektaş buldum. Dava devam ediyor."
+            },
+            {
+              "who": "narr",
+              "text": "Çekilme dilekçesi delil çantanıza eklendi."
+            }
+          ],
+          "note": "Yararlı. Çekilme eylemi ortadan kaldırmaz ama cezanın süresinde lehe değerlendirilebilir."
+        },
+        {
+          "text": "Müvekkilden ne kadar ücret aldınız?",
+          "delta": -5,
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "Tarifenin biraz üzerinde."
+            }
+          ],
+          "note": "Ücret bu kovuşturmanın konusu değil."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "İtiraz eden Cumhuriyet savcısı, itirazınızı açıklayın."
+        }
+      ],
+      "prompt": "İtirazın merkezine ne koyacaksınız?",
+      "choices": [
+        {
+          "text": "Baro eylemi yanlış nitelendirdi: arabulucu olarak görev yaptığı işte avukatlık, kanunda işten çıkarma bendinde sayılmıştır.",
+          "delta": 20,
+          "set": [
+            "p2_bent"
+          ],
+          "law": "Av.K. m.134-135",
+          "note": "Doğru. Yeni düzenleme katalog esaslıdır; eylem işten çıkarma bendinde sayılmışsa kurul onu kınama bentlerinin genel ifadesiyle karşılayamaz."
+        },
+        {
+          "text": "Avukatın meslekten çıkarılmasını iste; arabuluculuk sırrını kendi davasında kullanmak mesleğin onuruyla hiçbir biçimde bağdaşmaz.",
+          "delta": -10,
+          "law": "Av.K. m.135",
+          "note": "Meslekten çıkarma belirli suçlardan mahkûmiyete bağlıdır; kanunda karşılığı olmayan bir talep."
+        },
+        {
+          "text": "Kınama cezasının para cezasına çevrilmesini iste; müvekkilin zararına menfaat sağlanmıştır.",
+          "delta": -5,
+          "law": "Av.K. m.135",
+          "note": "Dosyada avukatın müvekkilinin zararına menfaat sağladığına dair bir olgu yok; asıl mesele görev yaptığı işte avukatlık."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Savcılık, savunmanın beyanına cevabınız?"
+        }
+      ],
+      "statement": {
+        "who": "p1",
+        "text": "Müvekkilimin arabuluculuk yaptığı uyuşmazlık işe iadeydi; alacak davası bambaşka bir iştir ve o uyuşmazlıkta öğrendiği hiçbir bilgiyi kullanmamıştır."
+      },
+      "prompt": "Bu beyanı hangi belgeyle karşılayacaksınız?",
+      "correct": [
+        "ev_not",
+        "ev_dava"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "p2_ayni"
+        ],
+        "law": "Av.K. m.134-135",
+        "note": "Arabuluculuk notu, işverenin fazla mesai kayıtlarının eksikliğini arabulucuya söylediğini; dava dilekçesi ise aynı bilginin 'işverenin kendi beyanı' olarak kullanıldığını gösteriyor. 'Hiçbir bilgiyi kullanmadı' beyanı çürüdü.",
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Arabuluculuk sırasında edinilen bilginin davada kullanıldığı anlaşılıyor. Savunma?"
+          }
+        ]
+      },
+      "responses": {
+        "ev_tutanak1": {
+          "delta": 0,
+          "note": "İlk tutanak yalnız konuyu (işe iade) gösteriyor; savunmanın lehine okunabilir."
+        },
+        "ev_tutanak2": {
+          "delta": -10,
+          "note": "İkinci tutanak alacakların başka bir arabulucu önünde görüşüldüğünü gösteriyor; savunmanın tezini destekliyor."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu belge beyana cevap vermiyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "'Hiçbir bilgiyi kullanmadı' beyanı cevapsız kaldı."
+      }
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Savunma, eylem kanunun hangi bendine girer ve Kurul nasıl karar vermelidir?"
+        }
+      ],
+      "prompt": "Eylemin nitelendirilmesini ve Kurulun vermesi gereken kararı kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü görüş",
+          "min": 70,
+          "delta": 20,
+          "set": [
+            "p1_olcut"
+          ],
+          "law": "Av.K. m.134-135 · m.157",
+          "note": "Güçlü bir savunma: uyuşmazlıkların konusunun ayrıldığını tutanaklarla gösterdiniz; işten çıkarma bendinin 'görev yaptığı iş' şartını tartıştınız; bend uygulanacaksa bile sürenin alt sınırda kalması gerektiğini, çekilmeyi ve zararın doğmamasını gerekçe yaptınız."
+        },
+        {
+          "text": "Yeterli görüş",
+          "min": 40,
+          "delta": 10,
+          "set": [
+            "p1_olcut"
+          ],
+          "law": "Av.K. m.135",
+          "note": "Uyuşmazlıkların farklı olduğunu söylediniz. Eksik kalan: arabuluculuk notundaki bilginin davada kullanılması karşısında alternatif talebiniz (alt sınır, çekilme)."
+        },
+        {
+          "text": "Zayıf görüş",
+          "delta": -5,
+          "law": "Av.K. m.135",
+          "note": "Nitelendirme tartışmasına girmediniz; Kurul savcılığın tezini olduğu gibi kabul edebilir."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Yeni katalogda işten çıkarma bendi, avukatın arabulucu olarak 'görev yaptığı işte' avukatlık yapmasını arar; aynı iş olup olmadığı somut olarak belirlenmelidir. (2) İlk arabuluculuğun konusu işe iade ve boşta geçen süre ücretiydi; kıdem, ihbar ve fazla mesai alacakları ayrı bir zorunlu arabuluculuk sürecinde, başka bir arabulucu önünde görüşüldü (iki son tutanak). (3) Arabuluculuk notundaki bilgi davada kullanılmışsa bu, iki işin bağlantısını gösterebilir; bu durumda Kurul en azından baroya bozarak birinci arabuluculuğun içeriğinin araştırılmasını sağlamalıdır (Av.K. m.157). (4) Bend uygulanacaksa süre üç ay alt sınırda kalmalıdır: avukat şikâyetten sonra vekillikten çekilmiş, müvekkilin bir zararı doğmamıştır."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Savcılık, talebiniz?"
+        }
+      ],
+      "prompt": "Kuruldan nasıl bir karar isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Baro kararının kaldırılmasını ve esas hakkında karar verilerek işten çıkarma cezası verilmesini iste.",
+          "delta": 20,
+          "set": [
+            "p2_talep"
+          ],
+          "law": "Av.K. m.157 · m.135",
+          "note": "Doğru. Yeniden incelemeyi gerektirmeyen hâllerde Kurul kararı kaldırıp esas hakkında karar verebilir; delil dosyada."
+        },
+        {
+          "text": "Kınama cezasının onanmasını iste; itiraz amacına ulaştı, avukat zaten bir disiplin cezası almış oldu.",
+          "delta": -15,
+          "law": "Av.K. m.157",
+          "note": "Kendi itirazınızdan vazgeçtiniz: onama, baronun nitelendirmesini kabul etmek demek."
+        },
+        {
+          "text": "Avukatın arabuluculuk sicilinden silinmesine karar verilmesini iste.",
+          "delta": -10,
+          "law": "Av.K. m.135",
+          "note": "Arabuluculuk sicili TBB Disiplin Kurulunun yetkisinde değil; bu talep kurulun önündeki uyuşmazlığın dışında."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Son söz hakkında kovuşturma yapılan avukatındır."
+        }
+      ],
+      "prompt": "Okan Tekin son sözünü nasıl kullanacak?",
+      "choices": [
+        {
+          "text": "Bilgiyi dilekçede kullanmanın hata olduğunu kabul etsin; vekillikten çekildiğini, müvekkilin zarar görmediğini söylesin.",
+          "delta": 15,
+          "set": [
+            "p1_kabul"
+          ],
+          "note": "Ölçülü. Kusurun kabulü ve çekilme cezanın süresinin takdirinde lehe değerlendirilir.",
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "O bilgiyi dilekçeye koymamalıydım. Şikâyeti öğrenince çekildim; müvekkilim zarar görmedi."
+            }
+          ]
+        },
+        {
+          "text": "Arabuluculukta öğrenilenin zaten dosyaya gireceğini, bu yüzden gizliliğin bu davada önemsiz kaldığını söylesin.",
+          "delta": -10,
+          "note": "Arabuluculuğun temeli gizliliktir; bunu önemsizleştirmek Kurulun takdirini aleyhe çevirir.",
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "Nasılsa bilirkişi bulacaktı o kayıtları."
+            }
+          ]
+        },
+        {
+          "text": "Bir şey söylemesin.",
+          "delta": 0,
+          "note": "Son söz hakkı kullanılmadı."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p2_bent && p2_ayni && p2_talep && !p1_olcut",
+      "winner": "p2",
+      "stamp": "KALDIRMA",
+      "hukum": [
+        {
+          "text": "İtirazın KABULÜ ile İstanbul Barosu Disiplin Kurulu kararının KALDIRILMASINA; Av. Okan Tekin'in arabulucu olarak görev yaptığı işte avukatlık yaptığı sabit görüldüğünden Avukatlık Kanunu m.134-135 uyarınca"
+        },
+        {
+          "if": "p1_cekilme || p1_kabul",
+          "text": " üç ay"
+        },
+        {
+          "if": "!p1_cekilme && !p1_kabul",
+          "text": " altı ay"
+        },
+        {
+          "text": " süreyle İŞTEN ÇIKARMA cezası ile cezalandırılmasına; kararın Adalet Bakanlığının onayına sunulmasına oy birliğiyle karar verildi."
+        }
+      ],
+      "summary": [
+        {
+          "text": "Arabuluculuk notu ve dava dilekçesi, arabuluculukta öğrenilen bilginin alacak davasında kullanıldığını gösterdi; Kurul iki işin bağlantılı olduğunu kabul edip eylemi işten çıkarma bendinde nitelendirdi."
+        },
+        {
+          "if": "p1_cekilme || p1_kabul",
+          "text": " Vekillikten çekilme ve kusurun kabulü sürenin alt sınırda tutulmasını sağladı."
+        }
+      ]
+    },
+    {
+      "if": "p2_ayni && p1_olcut",
+      "winner": "draw",
+      "stamp": "BOZMA",
+      "hukum": "İtirazın KABULÜ ile İstanbul Barosu Disiplin Kurulu kararının BOZULMASINA; birinci arabuluculuk sürecinin içeriği ve bu süreçte edinilen bilgilerin alacak davasında kullanılıp kullanılmadığı araştırılarak eylemin nitelendirilmesi için dosyanın kovuşturmanın derinleştirilmesi amacıyla baroya GÖNDERİLMESİNE (Av.K. m.157) oy birliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "Savcılık, arabuluculukta edinilen bilginin davada kullanıldığını gösterdi; savunma ise iki uyuşmazlığın konusunun ayrıldığını tutanaklarla ortaya koydu. Kurul, baronun birinci arabuluculuğun içeriğini incelemeden karar verdiğini saptayıp dosyayı derinleştirilmek üzere geri gönderdi."
+        }
+      ]
+    },
+    {
+      "if": "!p2_ayni && (p1_fark || p1_olcut)",
+      "winner": "p1",
+      "stamp": "ONAMA",
+      "hukum": "İtirazın REDDİ ile İstanbul Barosu Disiplin Kurulunun kınama cezasına ilişkin kararının ONANMASINA; kararın kesin olduğuna oy birliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "İki arabuluculuğun konusu ve arabulucuları farklıydı; savcılık birinci arabuluculukta edinilen bir bilginin davada kullanıldığını gösteremedi. Kurul, eylemin 'arabulucu olarak görev yaptığı işte' avukatlık sayılamayacağını, mesleğe güveni zedeleyen davranış olarak kınamayı gerektirdiğini kabul etti."
+        }
+      ]
+    },
+    {
+      "winner": "p2",
+      "stamp": "KALDIRMA",
+      "hukum": "İtirazın KABULÜ ile İstanbul Barosu Disiplin Kurulu kararının KALDIRILMASINA; Av. Okan Tekin'in Avukatlık Kanunu m.134-135 uyarınca üç ay süreyle İŞTEN ÇIKARMA cezası ile cezalandırılmasına; kararın Adalet Bakanlığının onayına sunulmasına oy çokluğuyla karar verildi.",
+      "summary": "Savunma iki işin farklı olduğunu Kurulu ikna edecek biçimde ortaya koyamadı; Kurul eylemi işten çıkarma bendinde nitelendirdi ve cezayı alt sınırdan belirledi."
+    }
+  ]
+}

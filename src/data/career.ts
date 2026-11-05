@@ -37,7 +37,7 @@ export function levelOf(c: CaseFile): number {
   // milletlerarası tahkim ve CAS uluslararası düzeyde açılır. Devlet mahkemesindeki iptal ve tenfiz dosyaları mahkemeye göre.
   if (c.room === "tahkim" && c.forum) {
     if (/Yargıtay|Bölge|Asliye|Federal/.test(court)) return /Yargıtay|Federal/.test(court) ? 3 : 2;
-    return ({ sigorta: 2, ihtk: 2, tff: 3, istac: 3, cas: 5, icc: 5, lcia: 5, uncitral: 5 } as const)[c.forum];
+    return ({ sigorta: 2, ihtk: 2, baro: 2, tff: 3, istac: 3, cas: 5, icc: 5, lcia: 5, uncitral: 5 } as const)[c.forum];
   }
   if (c.room === "uluslararasi" || /İnsan Hakları|Ceza Mahkemesi ·|Uluslararası/.test(court)) return 5;
   if (/Anayasa|Yüce Divan/.test(court)) return 4;

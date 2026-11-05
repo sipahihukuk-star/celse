@@ -1,0 +1,561 @@
+{
+  "id": "th-baro-emanet-para",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "baro",
+  "difficulty": "orta",
+  "title": "Emanetteki Para",
+  "area": "Tahkim · Baro Disiplin Kurulu · Müvekkil parasının uhdede tutulması",
+  "court": "İzmir Barosu Disiplin Kurulu",
+  "courtShort": "BARO DİSİPLİN KURULU",
+  "esas": "Disiplin Dosyası 2026/412",
+  "kararTarihi": "22.10.2026",
+  "color": "#4a3a2e",
+  "teaser": "Avukat, müvekkilinin icradan tahsil edilen 412.000 TL'sini aylarca vermedi; parayı ancak şikâyetten sonra ödedi. Savunmaya göre para emanet hesabında bekledi, ücret hesabı yapılıyordu. Banka ekstresi başka bir şey söylüyor olabilir.",
+  "bench": {
+    "judges": 5,
+    "title": "Kurul Başkanı ve dört üye"
+  },
+  "inscription": null,
+  "sides": {
+    "p1": {
+      "role": "Hakkında kovuşturma yapılan avukatın vekili",
+      "short": "Savunma"
+    },
+    "p2": {
+      "role": "Şikâyetçi vekili",
+      "short": "Şikâyetçi"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Kurul Başkanı",
+      "np": "red",
+      "look": {
+        "kind": "civil",
+        "skin": "#d9a882",
+        "hair": "#6b6b6b",
+        "style": "short",
+        "shirt": "#2b2f36",
+        "inner": "#e8e4dc",
+        "glasses": true
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "civil",
+        "skin": "#e8c09a",
+        "hair": "#2a2220",
+        "style": "short",
+        "shirt": "#262a31",
+        "inner": "#e4ddd2"
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "civil",
+        "skin": "#f0caa6",
+        "hair": "#3b2b22",
+        "style": "long",
+        "shirt": "#30343c",
+        "inner": "#dcd6cc"
+      }
+    },
+    "avukat": {
+      "name": "Av. Kerem Uslu · Hakkında kovuşturma yapılan",
+      "np": "civil",
+      "attire": "business",
+      "look": {
+        "kind": "civil",
+        "skin": "#dcae86",
+        "hair": "#2e2a28",
+        "style": "short",
+        "shirt": "#2f3540",
+        "inner": "#e2ddd2"
+      }
+    },
+    "sikayetci": {
+      "name": "Hatice Demir · Şikâyetçi",
+      "np": "civil",
+      "look": {
+        "kind": "civil",
+        "skin": "#c99872",
+        "hair": "#3b2b22",
+        "style": "long",
+        "shirt": "#6b5e5e",
+        "inner": "#e2ddd2"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Hatice Demir, çalıştığı tekstil firmasına karşı açtığı işçilik alacağı davasını kazandı. Avukatı Kerem Uslu, 12.02.2026'da icra dairesinden 412.000 TL tahsil etti."
+    },
+    {
+      "who": "narr",
+      "text": "Yazılı ücret sözleşmesine göre avukata tahsil edilen tutarın yüzde on beşi düşüyordu. Hatice'ye 20.05.2026'da 150.000 TL ödendi; kalan 200.200 TL, Hatice'nin 01.07.2026'da baroya şikâyette bulunmasından sonra, 14.08.2026'da yatırıldı."
+    },
+    {
+      "who": "narr",
+      "text": "Baro yönetim kurulu disiplin kovuşturması açtı. Bugün İzmir Barosu Disiplin Kurulu dosyayı duruşmalı inceliyor."
+    },
+    {
+      "who": "sikayetci",
+      "text": "Paramı almak için dört ay avukatımın peşinde koştum. Telefonlara çıkmadı; sonunda baroya yazmak zorunda kaldım."
+    }
+  ],
+  "docs": [
+    {
+      "t": "Avukatlık Kanunu m.134-135 (7571 s.K. ile değişik)",
+      "d": "Disiplin cezalarını ve her cezayı gerektiren eylemleri tek tek sayar. Müvekkilinin zararına menfaat sağlamak para cezasını (20.000-200.000 TL, yeniden değerleme oranında artar) gerektirir; mesleğe duyulan güveni zedeleyen davranışlar kınama bentlerindedir."
+    },
+    {
+      "t": "Avukatlık Kanunu m.34 ve TBB Meslek Kuralları",
+      "d": "Avukat yüklendiği görevi özen, doğruluk ve onur içinde yerine getirir; müvekkil adına aldığı parayı gecikmeden bildirir, hesabını verir ve teslim eder."
+    },
+    {
+      "t": "Avukatlık Kanunu m.39",
+      "d": "Avukat, ücreti ve giderleri ödenmedikçe elindeki evrakı geri vermekle yükümlü değildir (hapis hakkı). Hüküm evraka ilişkindir; müvekkilin parası için ayrıca bir alıkoyma yetkisi tanımaz."
+    },
+    {
+      "t": "Ücret sözleşmesi",
+      "d": "03.04.2024 · Tahsil edilen tutarın %15'i avukatlık ücreti; karşı taraf vekâlet ücreti avukata ait. Masraflar müvekkile ait; tahsilatta mahsup edilebilir."
+    },
+    {
+      "t": "Kovuşturma süreci",
+      "d": "01.07.2026 şikâyet · 14.08.2026 kalan tutarın ödenmesi · 03.09.2026 yönetim kurulunun kovuşturma kararı · 22.10.2026 Disiplin Kurulu duruşması."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_sozlesme",
+      "type": "belge",
+      "title": "Ücret sözleşmesi",
+      "desc": "03.04.2024; tahsilatın %15'i ücret, masraflar mahsup edilebilir. Mahsubun ne zaman yapılacağına dair hüküm yok."
+    },
+    {
+      "id": "ev_dekont",
+      "type": "belge",
+      "title": "Ödeme dekontları",
+      "desc": "20.05.2026: 150.000 TL; 14.08.2026: 200.200 TL. Toplam 350.200 TL; avukat 61.800 TL ücreti mahsup etmiş."
+    },
+    {
+      "id": "ev_ekstre",
+      "type": "belge",
+      "title": "Emanet hesabı ekstresi",
+      "desc": "12.02.2026 girişi 412.000 TL. 05.03.2026'da 95.000 TL büro kira hesabına aktarılmış, 18.03.2026'da geri yatırılmış. Diğer günlerde bakiye tahsil tutarının altına inmemiş."
+    },
+    {
+      "id": "ev_mesaj",
+      "type": "belge",
+      "title": "Avukatın 16.02.2026 tarihli mesajı",
+      "desc": "\"Hatice Hanım, icradan tahsilat yapıldı; hesap dökümünü hazırlayıp size ileteceğim.\" Döküm gönderilmemiş.",
+      "if": "p1_bilgi"
+    },
+    {
+      "id": "ev_arama",
+      "type": "belge",
+      "title": "Arama kayıtları",
+      "desc": "Şikâyetçinin Mart-Haziran 2026 arasında avukatın bürosunu 23 kez aradığını gösteren operatör dökümü."
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "SAVUNMA HAZIRLIĞI · Kerem Uslu büronuzda. Yarın Disiplin Kurulunda savunmasını siz yapacaksınız."
+        },
+        {
+          "who": "avukat",
+          "text": "Para hiç kaybolmadı; tamamı ödendi. Ücret hesabını kesinleştirmeden göndermek istemedim, o kadar."
+        }
+      ],
+      "prompt": "Savunmayı hangi eksene oturtacaksınız?",
+      "choices": [
+        {
+          "text": "Gecikmeyi kabul et; paranın emanet hesabında durduğunu, menfaat sağlanmadığını ve ücretin sözleşmeye göre mahsup edildiğini belgele.",
+          "delta": 20,
+          "set": [
+            "p1_eksen"
+          ],
+          "law": "Av.K. m.135 · m.34",
+          "note": "Doğru eksen. Yeni katalogda ceza, eylemin niteliğine bağlı: müvekkilin zararına menfaat sağlamak para cezası gerektirir. Asıl tartışma gecikmenin olup olmadığı değil, menfaat sağlanıp sağlanmadığıdır."
+        },
+        {
+          "text": "Avukatın hapis hakkı vardır: ücreti kesinleşip ödenene kadar müvekkile ait parayı da alıkoyabilir; gecikme bu hakkın kullanılmasıdır (Av.K. m.39).",
+          "delta": -15,
+          "set": [
+            "p1_hapis"
+          ],
+          "law": "Av.K. m.39",
+          "note": "Yanlış. m.39'daki hapis hakkı evrak içindir. Müvekkilin parasını alıkoyma yetkisi vermez; ücret, sözleşmeye göre mahsup edilir ve hesabı verilir."
+        },
+        {
+          "text": "Müvekkilin telefonlara geç döndüğünü, ödeme için banka bilgilerini geç verdiğini savun; gecikmenin sorumlusu şikâyetçidir.",
+          "delta": -10,
+          "law": "Av.K. m.34",
+          "note": "Zayıf. Dosyada müvekkilin 23 kez aradığını gösteren bir döküm var; bu savunma kurulun güvenini kaybettirir."
+        },
+        {
+          "text": "Disiplin kovuşturması zamanaşımına uğramıştır; ilk tahsilat üzerinden aylar geçmiştir.",
+          "delta": -15,
+          "law": "Av.K. m.154",
+          "note": "Yanlış. Eylem 2026 başında, şikâyet 01.07.2026'da, kovuşturma kararı 03.09.2026'da. Kanundaki zamanaşımı süreleri dolmadı."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "ŞİKÂYETÇİ · Hatice Demir'le Disiplin Kurulundan önce son kez görüşüyorsunuz."
+        },
+        {
+          "who": "sikayetci",
+          "text": "Avukat paramı kendi işinde kullandı, eminim. Kuruldan faiziyle tazminat isteyelim."
+        }
+      ],
+      "prompt": "Kurulda neyin üzerine gideceksiniz?",
+      "choices": [
+        {
+          "text": "Emanet hesabının ekstresini getirt; paranın başka amaçla kullanılıp kullanılmadığını göster, ceza buna göre belirlenir.",
+          "delta": 20,
+          "set": [
+            "p2_ekstre"
+          ],
+          "law": "Av.K. m.135",
+          "note": "Doğru. Gecikme tartışmasız; cezanın ağırlığını belirleyecek olan, avukatın müvekkilin zararına menfaat sağlayıp sağlamadığıdır. Bunu banka kaydı gösterir."
+        },
+        {
+          "text": "Kuruldan, geciken tutarın gecikme faiziyle birlikte şikâyetçiye ödenmesine ve avukatın zarardan sorumlu tutulmasına karar vermesini iste.",
+          "delta": -10,
+          "set": [
+            "p2_tazminat"
+          ],
+          "law": "Av.K. m.135",
+          "note": "Disiplin kurulu tazminata ya da faize hükmedemez; disiplin cezası verir. Faiz ve zarar için genel mahkemede dava açılır."
+        },
+        {
+          "text": "Avukatın meslekten çıkarılmasını iste; müvekkil parasını tutan biri avukatlık yapmamalı.",
+          "delta": -10,
+          "law": "Av.K. m.135",
+          "note": "Meslekten çıkarma yeni katalogda belirli suçlardan mahkûmiyete bağlı. Talebiniz kanundaki karşılığı olmayan bir ceza; kurulun güvenini zedeler."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Kerem Uslu'ya iki soru sorabilirsiniz."
+        }
+      ],
+      "prompt": "Ne soracaksınız?",
+      "choices": [
+        {
+          "text": "Tahsilattan sonra müvekkile ne zaman, nasıl bilgi verdiniz?",
+          "delta": 10,
+          "set": [
+            "p1_bilgi"
+          ],
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "16 Şubat'ta mesaj attım: tahsilat yapıldı, döküm göndereceğim dedim. Dökümü… göndermedim, işler yoğundu."
+            },
+            {
+              "who": "narr",
+              "text": "Mesajın ekran görüntüsü delil çantanıza eklendi."
+            }
+          ],
+          "note": "Yararlı. Müvekkilin tahsilattan habersiz bırakılmadığı gösterilebilir; ama dökümün gönderilmemesi zayıf nokta olarak kalır."
+        },
+        {
+          "text": "Para emanet hesabından hiç çıktı mı?",
+          "delta": 15,
+          "set": [
+            "p1_kira"
+          ],
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "Mart başında büro kirası için 95.000 TL aktardım. İki hafta sonra geri koydum. Kimse zarar görmedi."
+            }
+          ],
+          "note": "Kritik soru. Kurulda karşı tarafın ekstreyle çıkaracağı bilgiyi önceden öğrendiniz; savunmayı inkâra değil, ölçüye kurabilirsiniz."
+        },
+        {
+          "text": "Bu müvekkille daha önce bir sorun yaşadınız mı?",
+          "delta": -5,
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "Hayır, iyi anlaşırdık."
+            }
+          ],
+          "note": "Disiplin kovuşturmasının konusu bu tahsilat; geçmiş ilişki kurulun sorusuna cevap vermiyor."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Şikâyetçi vekili, savunmanın beyanına cevabınız?"
+        }
+      ],
+      "statement": {
+        "who": "p1",
+        "text": "Müvekkilin parası tahsilattan ödemeye kadar emanet hesabında eksiksiz korunmuştur; avukat bu paradan kendisine hiçbir menfaat sağlamamıştır."
+      },
+      "prompt": "Bu beyanı hangi belgeyle karşılayacaksınız?",
+      "correct": [
+        "ev_ekstre"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "p2_menfaat"
+        ],
+        "law": "Av.K. m.135",
+        "note": "Ekstre, 95.000 TL'nin iki hafta boyunca büro kirası için kullanıldığını gösteriyor. 'Eksiksiz korundu' beyanı çürüdü; müvekkilin parası avukatın kendi gideri için kullanılmış.",
+        "reply": [
+          {
+            "who": "judge",
+            "text": "05.03.2026 tarihli 95.000 TL'lik çıkış kayda geçti. Savunma, bu aktarmanın açıklaması nedir?"
+          }
+        ]
+      },
+      "responses": {
+        "ev_arama": {
+          "delta": 5,
+          "note": "Arama kayıtları gecikmeyi ve iletişimsizliği gösteriyor; ama 'para korundu' beyanına doğrudan cevap değil."
+        },
+        "ev_dekont": {
+          "delta": 0,
+          "note": "Dekontlar ödemenin geç yapıldığını gösteriyor; paranın arada nerede durduğunu göstermiyor."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu belge beyana cevap vermiyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "Savunmanın 'para eksiksiz korundu' beyanı cevapsız kaldı."
+      }
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Savunma, gecikme ve hesaptaki aktarma ortada. Müvekkilinizin eylemi hangi cezayı gerektirir, neden?"
+        }
+      ],
+      "prompt": "Eylemin kanundaki karşılığını ve cezanın neden en ağır seçenekte olmaması gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü görüş",
+          "min": 70,
+          "delta": 20,
+          "set": [
+            "p1_olcut"
+          ],
+          "law": "Av.K. m.134-135 · m.34",
+          "note": "Ölçülü bir savunma: gecikmeyi ve aktarmayı inkâr etmediniz, ücretin sözleşmeye göre mahsup edildiğini, tutarın tamamının ödendiğini ve zararın oluşmadığını gösterip cezanın alt sınırda kalması gerektiğini savundunuz."
+        },
+        {
+          "text": "Yeterli görüş",
+          "min": 40,
+          "delta": 10,
+          "set": [
+            "p1_olcut"
+          ],
+          "law": "Av.K. m.135",
+          "note": "Cezanın hafif tutulması gerektiğini söylediniz. Eksik kalan: aktarmanın kısa sürüp geri yatırıldığı, ücret mahsubunun sözleşmeye dayandığı ve paranın tamamının ödendiği."
+        },
+        {
+          "text": "Zayıf görüş",
+          "delta": -5,
+          "law": "Av.K. m.135",
+          "note": "Görüşünüz eylemin kanundaki karşılığını ve cezanın ölçüsünü göstermedi."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Gecikme ve 05.03.2026'daki 95.000 TL'lik aktarma inkâr edilmez; savunma ölçü üzerine kurulur. (2) Aktarma iki hafta içinde geri yatırılmış, paranın tamamı (ücret mahsubu dışında) ödenmiş, müvekkil sonuçta bir para kaybına uğramamıştır. (3) Ücretin %15'i yazılı ücret sözleşmesine göre mahsup edilmiştir; hesap dökümünün gönderilmemesi bir kusurdur ama ücret hakkı tartışmalı değildir. (4) Av.K. m.134-135'teki katalogda müvekkilin zararına menfaat sağlamak para cezasıdır; ceza 20.000-200.000 TL arasında takdir edilir; avukatın sicili, eylemin süresi ve zararın giderilmesi alt sınıra yakın bir ceza için gerekçedir. (5) Av.K. m.39'daki hapis hakkı paraya uygulanmaz; savunma buna dayanmamalıdır."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Şikâyetçi vekili, talebinizi netleştirin."
+        },
+        {
+          "who": "sikayetci",
+          "text": "Bu kadar mı? Dört ay paramı kullandı!"
+        }
+      ],
+      "prompt": "Kuruldan ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Menfaat sağlandığı için para cezası iste; paranın kullanılması ve dört aylık gecikme nedeniyle tutarın alt sınırı aşmasını talep et.",
+          "delta": 20,
+          "set": [
+            "p2_talep"
+          ],
+          "law": "Av.K. m.135",
+          "note": "Doğru. Talebiniz kanundaki karşılığa ve dosyadaki somut olgulara (aktarma, gecikme, gönderilmeyen döküm) dayanıyor."
+        },
+        {
+          "text": "Uyarma cezası yeterlidir; şikâyetçinin amacı paraya kavuşmaktı, para da faiziyle olmasa bile sonunda eksiksiz ödendi.",
+          "delta": -10,
+          "law": "Av.K. m.135",
+          "note": "Şikâyetçi vekili olarak eylemin ağırlığını küçülttünüz; ayrıca uyarma bentleri müvekkil parasının kullanılmasını karşılamaz."
+        },
+        {
+          "text": "Avukatın üç yıl süreyle işten çıkarılmasını iste; müvekkil parasını kendi kirasında kullanan biri mesleği bir süre yapmamalı.",
+          "delta": -10,
+          "law": "Av.K. m.135",
+          "note": "İşten çıkarma yeni katalogda başka eylemlere bağlı ve üst sınırı iki yıl. Kanunda karşılığı olmayan bir talep kurulu ikna etmez."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Son söz hakkında kovuşturma yapılan avukatındır. Savunma, müvekkiliniz son sözünü nasıl kullanacak?"
+        }
+      ],
+      "prompt": "Kerem Uslu'nun son sözünü nasıl kurgulayacaksınız?",
+      "choices": [
+        {
+          "text": "Kusurunu kabul etsin, gecikme faizini kendiliğinden ödediğini dekontla göstersin, emanet hesabını artık ayrı tuttuğunu söylesin.",
+          "delta": 15,
+          "set": [
+            "p1_iade"
+          ],
+          "law": "Av.K. m.34",
+          "note": "Etkili. Zararın giderilmesi ve pişmanlık cezanın takdirinde gözetilir; kurul bunu alt sınıra yakın bir ceza için gerekçe yapabilir.",
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "Hatalıydım. Hatice Hanım'a gecikme faizini dün yatırdım; dekontu sunuyorum. Bundan sonra emanet hesabına dokunulmuyor."
+            }
+          ]
+        },
+        {
+          "text": "Hiçbir kusuru olmadığını, paranın tamamının ödendiğini ve şikâyetin bir ücret pazarlığı için kötü niyetle yapıldığını söylesin.",
+          "delta": -10,
+          "note": "Ekstre ortadayken kusuru reddetmek kurulun takdirini aleyhe çevirir.",
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "Bu şikâyet kötü niyetli. Ben bir şey yapmadım."
+            }
+          ]
+        },
+        {
+          "text": "Hiç konuşmasın; savunmanın söyledikleri yeterlidir.",
+          "delta": 0,
+          "note": "Son söz hakkı kullanılmadı; bu bir hata değil ama fırsattı."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p2_menfaat && p2_talep && !p1_iade && !p1_olcut",
+      "winner": "p2",
+      "stamp": "PARA CEZASI",
+      "hukum": [
+        {
+          "text": "Av. Kerem Uslu'nun, müvekkili adına tahsil ettiği paranın bir kısmını kendi büro gideri için kullanarak müvekkilinin zararına menfaat sağladığı sabit görüldüğünden Avukatlık Kanunu m.134-135 uyarınca 60.000 TL PARA CEZASI ile cezalandırılmasına;"
+        },
+        {
+          "if": "p2_tazminat",
+          "text": " şikâyetçinin faiz ve tazminat isteminin disiplin kurulunun görev alanı dışında kaldığına;"
+        },
+        {
+          "text": " kararın tebliğinden itibaren otuz gün içinde TBB Disiplin Kuruluna itiraz yolu açık olmak üzere oy birliğiyle karar verildi."
+        }
+      ],
+      "summary": [
+        {
+          "text": "Emanet hesabının ekstresi, 95.000 TL'nin iki hafta boyunca büro kirası için kullanıldığını gösterdi; savunmanın 'para eksiksiz korundu' beyanı çürüdü. Kurul, dört aylık gecikmeyi ve gönderilmeyen hesap dökümünü de gözeterek cezayı alt sınırın üzerinde belirledi."
+        },
+        {
+          "if": "p1_hapis",
+          "text": " Avukatın hapis hakkı savunması tutmadı: Av.K. m.39 evraka ilişkindir."
+        }
+      ]
+    },
+    {
+      "if": "p2_menfaat && (p1_iade || p1_olcut)",
+      "winner": "draw",
+      "stamp": "PARA CEZASI",
+      "hukum": [
+        {
+          "text": "Av. Kerem Uslu'nun müvekkilinin zararına menfaat sağladığı sabit görüldüğünden Avukatlık Kanunu m.134-135 uyarınca, zararın giderilmiş olması ve pişmanlığı gözetilerek alt sınırdan 20.000 TL PARA CEZASI ile cezalandırılmasına; kararın tebliğinden itibaren otuz gün içinde TBB Disiplin Kuruluna itiraz yolu açık olmak üzere oy birliğiyle karar verildi."
+        }
+      ],
+      "summary": [
+        {
+          "text": "Şikâyetçi vekili paranın büro giderinde kullanıldığını belgeyle gösterdi; bu, cezanın türünü belirledi. Savunma ise gecikmeyi ve aktarmayı inkâr etmeden ölçüyü tartıştı."
+        },
+        {
+          "if": "p1_iade",
+          "text": " Gecikme faizinin kendiliğinden ödenmesi zararın giderildiğini gösterdi."
+        },
+        {
+          "if": "p1_olcut",
+          "text": " Savunmanın ölçülü görüşü cezanın alt sınırda tutulmasına gerekçe oldu."
+        }
+      ]
+    },
+    {
+      "if": "!p2_menfaat && (p1_eksen || p1_olcut)",
+      "winner": "p1",
+      "stamp": "KINAMA",
+      "hukum": [
+        {
+          "text": "Av. Kerem Uslu'nun müvekkili adına tahsil ettiği parayı ve hesap dökümünü gecikmeksizin bildirip teslim etmeyerek mesleğe duyulan güveni zedelediği anlaşıldığından Avukatlık Kanunu m.134-135 uyarınca KINAMA cezası ile cezalandırılmasına; müvekkilin zararına menfaat sağlandığı iddiası ispatlanamadığından bu yönden para cezası verilmesine yer olmadığına; kararın tebliğinden itibaren otuz gün içinde TBB Disiplin Kuruluna itiraz yolu açık olmak üzere oy birliğiyle karar verildi."
+        }
+      ],
+      "summary": [
+        {
+          "text": "Gecikme ve gönderilmeyen hesap dökümü sabit; ama paranın avukatın kendi işinde kullanıldığı dosyada gösterilmedi. Kurul eylemi kınama bentleri kapsamında değerlendirdi."
+        },
+        {
+          "if": "!p2_ekstre",
+          "text": " Şikâyetçi vekili emanet hesabının ekstresini istemediği için asıl soru cevapsız kaldı."
+        }
+      ]
+    },
+    {
+      "winner": "p2",
+      "stamp": "PARA CEZASI",
+      "hukum": "Av. Kerem Uslu'nun müvekkilinin zararına menfaat sağladığı kanaatine varıldığından Avukatlık Kanunu m.134-135 uyarınca 40.000 TL PARA CEZASI ile cezalandırılmasına; kararın tebliğinden itibaren otuz gün içinde TBB Disiplin Kuruluna itiraz yolu açık olmak üzere oy çokluğuyla karar verildi.",
+      "summary": "Savunma gecikmenin ve paranın akıbetinin açıklamasını kurulu ikna edecek biçimde ortaya koyamadı; kurul dosyadaki belgelerle para cezasına hükmetti."
+    }
+  ]
+}

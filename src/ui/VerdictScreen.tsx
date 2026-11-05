@@ -58,9 +58,9 @@ export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, not
     <ScrollView contentContainerStyle={styles.wrap}>
       <View style={styles.karar}>
         {/* Tahkim kararlarında "T.C." başlığı yok; Türkiye'deki kurul ve komisyonlarda vardır. */}
-        {(!arb || c.forum === "tff" || c.forum === "ihtk" || c.forum === "sigorta") && <Text style={styles.head}>T.C.</Text>}
+        {(!arb || c.forum === "tff" || c.forum === "ihtk" || c.forum === "sigorta" || c.forum === "baro") && <Text style={styles.head}>T.C.</Text>}
         <Text style={styles.courtName}>{c.court.toLocaleUpperCase(locale())}</Text>
-        <Text style={styles.sub}>{arb ? t(c.forum === "ihtk" ? "KOMİSYON KARARI" : c.forum === "tff" ? "TAHKİM KURULU KARARI" : "HAKEM KARARI")
+        <Text style={styles.sub}>{arb ? t(c.forum === "ihtk" ? "KOMİSYON KARARI" : c.forum === "baro" ? "DİSİPLİN KURULU KARARI" : c.forum === "tff" ? "TAHKİM KURULU KARARI" : "HAKEM KARARI")
           : c.appealOf ? t(c.appealOf.kind === "temyiz" ? "TEMYİZ İNCELEMESİ" : "İSTİNAF İNCELEMESİ") : t("KISA KARAR")}</Text>
 
         <View style={styles.meta}>

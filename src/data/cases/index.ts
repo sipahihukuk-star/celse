@@ -125,6 +125,9 @@ import thIccFidicGecikme from "./th-icc-fidic-gecikme.json";
 import thIccMucbirSebep from "./th-icc-mucbir-sebep.json";
 import thIhtkCezaMakulSure from "./th-ihtk-ceza-makul-sure.json";
 import thIhtkDisiplinSavunma from "./th-ihtk-disiplin-savunma.json";
+import thBaroEmanetPara from "./th-baro-emanet-para.json";
+import thBaroReklamYasagi from "./th-baro-reklam-yasagi.json";
+import thBaroArabulucuAvukat from "./th-baro-arabulucu-avukat.json";
 import thIhtkEksikIcra from "./th-ihtk-eksik-icra.json";
 import thIhtkGecIcra from "./th-ihtk-gec-icra.json";
 import thIhtkGorevDisiSure from "./th-ihtk-gorev-disi-sure.json";
@@ -263,7 +266,7 @@ export const CASES = [dEskiBorc, dTayin, dPerformans, eskiBorc, geceAramasi, soz
   thIccFidicGecikme,
   thIccMucbirSebep,
   thIhtkCezaMakulSure,
-  thIhtkDisiplinSavunma,
+  thIhtkDisiplinSavunma, thBaroEmanetPara, thBaroReklamYasagi, thBaroArabulucuAvukat,
   thIhtkEksikIcra,
   thIhtkGecIcra,
   thIhtkGorevDisiSure,

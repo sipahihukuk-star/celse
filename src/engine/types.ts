@@ -256,7 +256,7 @@ export interface CaseFile {
   /** salonun görünümü */
   room?: "yerel" | "yuksek" | "uluslararasi" | "tahkim";
   /** Tahkim ve komisyon dosyalarında yer: icc, istac, lcia, uncitral, cas, tff, ihtk, sigorta */
-  forum?: "icc" | "istac" | "lcia" | "uncitral" | "cas" | "tff" | "ihtk" | "sigorta";
+  forum?: "icc" | "istac" | "lcia" | "uncitral" | "cas" | "tff" | "ihtk" | "sigorta" | "baro";
   /** hâkimin arkasındaki yazı; null ise yazı yok */
   inscription?: string | null;
   /** delil çantası */

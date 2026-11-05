@@ -1,0 +1,526 @@
+{
+  "id": "th-baro-reklam-yasagi",
+  "mode": "duel",
+  "room": "tahkim",
+  "forum": "baro",
+  "difficulty": "basit",
+  "title": "Sponsorlu Gönderi",
+  "area": "Tahkim · Baro Disiplin Kurulu · Sosyal medyada reklam yasağı",
+  "court": "Ankara Barosu Disiplin Kurulu",
+  "courtShort": "BARO DİSİPLİN KURULU",
+  "esas": "Disiplin Dosyası 2026/198",
+  "kararTarihi": "17.09.2026",
+  "color": "#3e3a52",
+  "teaser": "Genç bir avukatın Instagram hesabında boşanma davasını üç ayda bitirme vaadi, ücretsiz ilk görüşme ve sponsorlu bir video. Bir meslektaşı baroya şikâyet etti. Hangi paylaşım bilgilendirme, hangisi iş elde etmeye yönelik reklam?",
+  "bench": {
+    "judges": 5,
+    "title": "Kurul Başkanı ve dört üye"
+  },
+  "inscription": null,
+  "sides": {
+    "p1": {
+      "role": "Hakkında kovuşturma yapılan avukatın vekili",
+      "short": "Savunma"
+    },
+    "p2": {
+      "role": "Şikâyetçi avukatın vekili",
+      "short": "Şikâyetçi"
+    }
+  },
+  "cast": {
+    "judge": {
+      "name": "Kurul Başkanı",
+      "np": "red",
+      "look": {
+        "kind": "civil",
+        "skin": "#e0b48c",
+        "hair": "#3a3a3a",
+        "style": "short",
+        "shirt": "#2b2f36",
+        "inner": "#e8e4dc"
+      }
+    },
+    "p1": {
+      "look": {
+        "kind": "civil",
+        "skin": "#d8a67e",
+        "hair": "#2a2220",
+        "style": "short",
+        "shirt": "#262a31",
+        "inner": "#e4ddd2",
+        "beard": true
+      }
+    },
+    "p2": {
+      "look": {
+        "kind": "civil",
+        "skin": "#f0caa6",
+        "hair": "#5b4636",
+        "style": "long",
+        "shirt": "#30343c",
+        "inner": "#dcd6cc",
+        "glasses": true
+      }
+    },
+    "avukat": {
+      "name": "Av. Selin Arslan · Hakkında kovuşturma yapılan",
+      "np": "civil",
+      "attire": "business",
+      "look": {
+        "kind": "civil",
+        "skin": "#f1cfae",
+        "hair": "#3b2b22",
+        "style": "long",
+        "shirt": "#2f3540",
+        "inner": "#e2ddd2"
+      }
+    },
+    "sikayetci": {
+      "name": "Av. Murat Kaya · Şikâyetçi",
+      "np": "civil",
+      "attire": "business",
+      "look": {
+        "kind": "civil",
+        "skin": "#d2a07a",
+        "hair": "#6b6b6b",
+        "style": "short",
+        "shirt": "#2e3238",
+        "inner": "#e2ddd2"
+      }
+    }
+  },
+  "intro": [
+    {
+      "who": "narr",
+      "text": "Av. Selin Arslan iki yıldır Ankara'da aile hukuku alanında çalışıyor. Instagram hesabında hukuki bilgilendirme videoları ve kısa yazılar paylaşıyor; hesabın 48 bin takipçisi var."
+    },
+    {
+      "who": "narr",
+      "text": "Mart 2026'da hesapta 'Anlaşmalı boşanmanızı 3 ayda bitiriyoruz · İlk görüşme ücretsiz · Randevu için DM' yazılı bir görsel, sponsorlu olarak yayımlandı. Aynı dönemde 'Arslan Hukuk · Kazandığımız 120 dava' başlıklı bir sayfa da dolaşıma girdi."
+    },
+    {
+      "who": "narr",
+      "text": "Av. Murat Kaya baroya şikâyette bulundu. Yönetim kurulu disiplin kovuşturması açtı; Ankara Barosu Disiplin Kurulu bugün dosyayı inceliyor."
+    },
+    {
+      "who": "avukat",
+      "text": "Ben insanlara haklarını anlatıyorum. Herkes sosyal medyada; biz neden olmayalım?"
+    }
+  ],
+  "docs": [
+    {
+      "t": "Avukatlık Kanunu m.55",
+      "d": "Avukatların iş elde etmek için reklam sayılabilecek her türlü teşebbüs ve harekette bulunmaları yasaktır. Reklam yasağına ilişkin esaslar TBB'nin yönetmeliğiyle belirlenir."
+    },
+    {
+      "t": "TBB Meslek Kuralları ve Reklam Yasağı Yönetmeliği (özet)",
+      "d": "Avukat internet sitesi ve sosyal medya hesabı açabilir; unvanını, iletişim bilgilerini, çalışma alanlarını ve hukuki bilgilendirme içeriklerini paylaşabilir. İş elde etmeye yönelik, başarı vaat eden, ücret ya da indirim duyuran, müvekkil referansı ve kazanılan dava sayısı veren paylaşımlar reklam yasağına aykırıdır."
+    },
+    {
+      "t": "Avukatlık Kanunu m.134-135 (7571 s.K. ile değişik)",
+      "d": "Reklam yasağını ihlal etmek kınama cezasını gerektiren eylemler arasında sayılmıştır."
+    },
+    {
+      "t": "Kovuşturma süreci",
+      "d": "02.04.2026 şikâyet · 14.05.2026 yönetim kurulunun kovuşturma kararı · 17.09.2026 Disiplin Kurulu duruşması. Şikâyetten sonra sponsorlu görsel hesaptan kaldırıldı."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_tespit",
+      "type": "belge",
+      "title": "Noter tespit tutanağı",
+      "desc": "28.03.2026; Av. Selin Arslan'ın doğrulanmış hesabında, 'Sponsorlu' ibaresiyle yayımlanan 'Anlaşmalı boşanmanızı 3 ayda bitiriyoruz · İlk görüşme ücretsiz · Randevu için DM' görseli."
+    },
+    {
+      "id": "ev_video",
+      "type": "belge",
+      "title": "Velayet bilgilendirme videosu",
+      "desc": "Aynı hesapta; boşanmada velayetin nasıl belirlendiğini anlatan dört dakikalık video. İletişim çağrısı ya da ücret bilgisi yok."
+    },
+    {
+      "id": "ev_fan",
+      "type": "belge",
+      "title": "'Arslan Hukuk · Kazandığımız 120 dava' sayfasının kayıtları",
+      "desc": "Sayfayı 2025'te büroda staj yapan biri açmış; yönetici listesinde Selin Arslan yok. Selin Arslan'ın 03.04.2026'da sayfanın kapatılması için platforma yaptığı bildirim ekli.",
+      "if": "p1_hesap"
+    },
+    {
+      "id": "ev_sikayet",
+      "type": "belge",
+      "title": "Şikâyet dilekçesi",
+      "desc": "Av. Murat Kaya; ekran görüntüleri ekli, kaynak ve tarih bilgisi yok."
+    }
+  ],
+  "steps": [
+    {
+      "side": "p1",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "SAVUNMA HAZIRLIĞI · Selin Arslan büronuzda."
+        }
+      ],
+      "prompt": "Savunmayı nasıl kuracaksınız?",
+      "choices": [
+        {
+          "text": "Paylaşımları tek tek ayır: bilgilendirme serbesttir, '120 dava' sayfası avukata ait değildir; tartışmayı tek görsele indir.",
+          "delta": 20,
+          "set": [
+            "p1_eksen"
+          ],
+          "law": "Av.K. m.55 · TBB Meslek Kuralları",
+          "note": "Doğru. Reklam yasağı avukatın sosyal medyada bulunmasını yasaklamaz; iş elde etmeye yönelik paylaşımı yasaklar. Her paylaşımın kime ait olduğu ve ne söylediği ayrı ayrı değerlendirilir."
+        },
+        {
+          "text": "İfade özgürlüğü sosyal medyada reklam yasağının uygulanmasına engeldir; kovuşturma Anayasa'ya aykırıdır.",
+          "delta": -10,
+          "law": "Anayasa m.26 · Av.K. m.55",
+          "note": "Reklam yasağı kanunla öngörülmüş, meslek onuruna dayanan bir sınırlamadır; disiplin kurulu kanunu uygulamakla yükümlüdür. Bu savunma kurulu ikna etmez."
+        },
+        {
+          "text": "Bütün avukatlar sosyal medyada benzer paylaşımlar yapıyor; yalnız müvekkilime kovuşturma açılması eşitliğe aykırıdır.",
+          "delta": -10,
+          "law": "Av.K. m.55",
+          "note": "Başkalarının aynı eylemi yapması eylemi hukuka uygun kılmaz."
+        },
+        {
+          "text": "Her şeyi kabul et ve en hafif ceza olan uyarmayı iste.",
+          "delta": -5,
+          "law": "Av.K. m.135",
+          "note": "Reklam yasağının ihlali yeni katalogda kınama bentlerinde; uyarma istemek kanunda karşılığı olmayan bir talep. Üstelik avukata ait olmayan paylaşımı da kabul etmiş oldunuz."
+        }
+      ]
+    },
+    {
+      "side": "p2",
+      "scene": "office",
+      "lines": [
+        {
+          "who": "narr",
+          "text": "ŞİKÂYETÇİ · Av. Murat Kaya ile görüşüyorsunuz."
+        },
+        {
+          "who": "sikayetci",
+          "text": "Elimde ekran görüntüleri var. Yeter mi?"
+        }
+      ],
+      "prompt": "Delil durumunu nasıl güçlendireceksiniz?",
+      "choices": [
+        {
+          "text": "Ekran görüntüsü yerine, paylaşımın hangi hesapta, ne zaman ve sponsorlu yayımlandığını gösteren noter tespitini sun.",
+          "delta": 20,
+          "set": [
+            "p2_tespit"
+          ],
+          "law": "Av.K. m.55",
+          "note": "Doğru. Kaynağı ve tarihi belli olmayan ekran görüntüsü itiraza açıktır; noter tespiti paylaşımın avukatın kendi doğrulanmış hesabına ait olduğunu gösterir."
+        },
+        {
+          "text": "Selin Arslan'ın bütün sosyal medya hesaplarının kapatılmasına ve paylaşımlarının kaldırılmasına karar verilmesini iste.",
+          "delta": -10,
+          "law": "Av.K. m.135",
+          "note": "Disiplin kurulunun böyle bir yetkisi yok; disiplin cezası verir."
+        },
+        {
+          "text": "Avukatın meslekten çıkarılmasını iste; reklam mesleğin onurunu zedeler.",
+          "delta": -10,
+          "law": "Av.K. m.135",
+          "note": "Meslekten çıkarma yeni katalogda belirli suçlardan mahkûmiyete bağlıdır. Talebiniz kurulun güvenini zedeler."
+        }
+      ]
+    },
+    {
+      "kind": "interview",
+      "side": "p1",
+      "scene": "office",
+      "limit": 2,
+      "lines": [
+        {
+          "who": "narr",
+          "text": "Selin Arslan'a iki soru sorabilirsiniz."
+        }
+      ],
+      "prompt": "Ne soracaksınız?",
+      "choices": [
+        {
+          "text": "'Kazandığımız 120 dava' sayfası sizin mi?",
+          "delta": 15,
+          "set": [
+            "p1_hesap"
+          ],
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "Hayır! Eski stajyerim açmış. Görür görmez platforma kapatma bildirimi yaptım, kaydı bende."
+            },
+            {
+              "who": "narr",
+              "text": "Sayfanın yönetici kayıtları ve kapatma bildirimi delil çantanıza eklendi."
+            }
+          ],
+          "note": "Kilit soru. Avukata ait olmayan bir paylaşım onun disiplin sorumluluğuna yüklenemez."
+        },
+        {
+          "text": "Sponsorlu görseli kim hazırladı, ne yazıyordu?",
+          "delta": 10,
+          "set": [
+            "p1_sponsor"
+          ],
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "Ben hazırladım… 'Randevu için DM' yazıyordu. Şikâyetten sonra kaldırdım."
+            }
+          ],
+          "note": "Zayıf noktanızı öğrendiniz: bu görsel iş elde etmeye yönelik. Savunmayı inkâra değil, sınırlamaya kurabilirsiniz."
+        },
+        {
+          "text": "Takipçi sayınız nasıl bu kadar arttı?",
+          "delta": -5,
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "Velayet videom çok paylaşıldı."
+            }
+          ],
+          "note": "Takipçi sayısı reklam yasağının ölçütü değil; paylaşımın içeriği ve amacıdır."
+        }
+      ]
+    },
+    {
+      "kind": "evidence",
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Şikâyetçi vekili, savunmanın beyanına cevabınız?"
+        }
+      ],
+      "statement": {
+        "who": "p1",
+        "text": "Müvekkilimin hesabındaki paylaşımların tamamı bilgilendirme amaçlıdır; iş elde etmeye yönelik tek bir paylaşım yoktur."
+      },
+      "prompt": "Bu beyanı hangi belgeyle karşılayacaksınız?",
+      "correct": [
+        "ev_tespit"
+      ],
+      "hit": {
+        "delta": 20,
+        "set": [
+          "p2_ispat"
+        ],
+        "law": "Av.K. m.55",
+        "note": "Noter tespiti, avukatın doğrulanmış hesabında sponsorlu olarak yayımlanan, başarı ve ücretsiz görüşme vaat eden, randevu çağrısı yapan görseli gösteriyor. 'Tamamı bilgilendirme' beyanı çürüdü.",
+        "reply": [
+          {
+            "who": "judge",
+            "text": "Noter tespiti dosyaya alındı. Savunma, bu görsele ne diyorsunuz?"
+          }
+        ]
+      },
+      "responses": {
+        "ev_sikayet": {
+          "delta": 0,
+          "note": "Kaynağı ve tarihi belli olmayan ekran görüntüleri savunmanın itirazına açık."
+        },
+        "ev_video": {
+          "delta": -10,
+          "note": "Bu video gerçekten bilgilendirme amaçlı; savunmanın beyanını destekliyor."
+        }
+      },
+      "miss": {
+        "delta": -10,
+        "note": "Bu belge beyana cevap vermiyor."
+      },
+      "pass": {
+        "delta": -15,
+        "note": "'Tamamı bilgilendirme' beyanı cevapsız kaldı."
+      }
+    },
+    {
+      "kind": "free",
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Savunma, paylaşımları kurula ayrı ayrı değerlendirin."
+        }
+      ],
+      "prompt": "Hangi paylaşımın serbest, hangisinin yasak sayılabileceğini ve kurulun kararını neye göre vermesi gerektiğini kendi cümlelerinizle açıklayın.",
+      "choices": [
+        {
+          "text": "Güçlü görüş",
+          "min": 70,
+          "delta": 20,
+          "set": [
+            "p1_olcut"
+          ],
+          "law": "Av.K. m.55 · m.134-135",
+          "note": "Ayırt edici bir savunma: bilgilendirme içeriklerinin serbest olduğunu, '120 dava' sayfasının avukata ait olmadığını gösterdiniz ve tartışmayı tek görselle sınırladınız."
+        },
+        {
+          "text": "Yeterli görüş",
+          "min": 40,
+          "delta": 10,
+          "set": [
+            "p1_olcut"
+          ],
+          "law": "Av.K. m.55",
+          "note": "Bilgilendirmenin serbest olduğunu söylediniz. Eksik kalan: '120 dava' sayfasının avukata ait olmadığı ve sponsorlu görselin şikâyetten hemen sonra kaldırıldığı."
+        },
+        {
+          "text": "Zayıf görüş",
+          "delta": -5,
+          "law": "Av.K. m.55",
+          "note": "Paylaşımları ayırmadınız; kurul hepsini aynı kefeye koyabilir."
+        }
+      ],
+      "rubric": "İyi bir cevap şunları söyler: (1) Reklam yasağı (Av.K. m.55) avukatın sosyal medyada bulunmasını yasaklamaz; unvan, iletişim, çalışma alanları ve hukuki bilgilendirme içerikleri serbesttir. Velayet videosu bu niteliktedir. (2) 'Kazandığımız 120 dava' sayfasını avukat açmamış, yöneticisi değildir; görür görmez kapatılması için bildirimde bulunmuştur. Başkasının paylaşımı avukatın disiplin sorumluluğuna yüklenemez. (3) Tartışılabilecek tek paylaşım sponsorlu görseldir; şikâyetten sonra kaldırılmıştır. (4) Kurul her paylaşımı ayrı değerlendirmeli; avukata ait olmayan ve bilgilendirme niteliğindeki paylaşımlar yönünden disiplin cezası verilmesine yer olmadığına karar vermelidir."
+    },
+    {
+      "side": "p2",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Şikâyetçi vekili, talebiniz?"
+        }
+      ],
+      "prompt": "Kuruldan ne isteyeceksiniz?",
+      "choices": [
+        {
+          "text": "Sponsorlu görsel nedeniyle reklam yasağının ihlalini ve kanundaki karşılığı olan kınama cezasını iste.",
+          "delta": 20,
+          "set": [
+            "p2_talep"
+          ],
+          "law": "Av.K. m.55 · m.135",
+          "note": "Doğru. Talebiniz kanundaki karşılığa ve belgelenmiş paylaşıma dayanıyor."
+        },
+        {
+          "text": "Her paylaşım ayrı bir ihlal olduğundan, her biri için ayrı ayrı para cezası verilmesini iste.",
+          "delta": -10,
+          "law": "Av.K. m.135",
+          "note": "Reklam yasağının ihlali kınama bentlerinde; para cezası kanundaki karşılık değil."
+        },
+        {
+          "text": "Avukatın baro levhasından geçici olarak silinmesini iste; aynı hesabı kullanmaya devam ediyor.",
+          "delta": -10,
+          "law": "Av.K. m.135",
+          "note": "Kanunda böyle bir disiplin cezası yok."
+        }
+      ]
+    },
+    {
+      "side": "p1",
+      "scene": "court",
+      "lines": [
+        {
+          "who": "judge",
+          "text": "Son söz hakkında kovuşturma yapılan avukatındır."
+        }
+      ],
+      "prompt": "Selin Arslan son sözünü nasıl kullanacak?",
+      "choices": [
+        {
+          "text": "Görselin hata olduğunu kabul etsin; kaldırdığını, hesabını baronun sosyal medya rehberine göre düzenlediğini söylesin.",
+          "delta": 15,
+          "set": [
+            "p1_duzeltme"
+          ],
+          "note": "Ölçülü. Kusurun kabulü ve düzeltme, kurulun kararında ve gerekçesinde lehe değerlendirilir.",
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "O görseli yayımlamamalıydım. Kaldırdım; hesabımda artık yalnız bilgilendirme içerikleri var."
+            }
+          ]
+        },
+        {
+          "text": "Şikâyetin rekabet amacıyla yapıldığını, şikâyetçinin müvekkillerini kaybettiği için kıskandığını söylesin.",
+          "delta": -10,
+          "note": "Meslektaşı kurul önünde küçük düşürmek yeni bir disiplin konusu olabilir; savunmaya katkısı yok.",
+          "reply": [
+            {
+              "who": "avukat",
+              "text": "Murat Bey müvekkil kaybettiği için şikâyet etti."
+            }
+          ]
+        },
+        {
+          "text": "Bir şey söylemesin.",
+          "delta": 0,
+          "note": "Son söz hakkı kullanılmadı."
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "if": "p2_ispat && p2_talep && !p1_olcut",
+      "winner": "p2",
+      "stamp": "KINAMA",
+      "hukum": "Av. Selin Arslan'ın sosyal medya hesabında sponsorlu olarak yayımladığı, başarı ve ücretsiz görüşme vaat eden ve randevu çağrısı içeren paylaşımla reklam yasağını ihlal ettiği sabit görüldüğünden Avukatlık Kanunu m.55 ve m.134-135 uyarınca KINAMA cezası ile cezalandırılmasına; kararın tebliğinden itibaren otuz gün içinde TBB Disiplin Kuruluna itiraz yolu açık olmak üzere oy birliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "Noter tespiti paylaşımın avukatın kendi hesabında, sponsorlu olarak yayımlandığını gösterdi; savunma paylaşımları ayırmadığı için kurul şikâyeti bütünüyle değerlendirdi."
+        }
+      ]
+    },
+    {
+      "if": "p2_ispat && p1_olcut",
+      "winner": "draw",
+      "stamp": "KINAMA",
+      "hukum": [
+        {
+          "text": "Av. Selin Arslan'ın sponsorlu görsel nedeniyle reklam yasağını ihlal ettiği sabit görüldüğünden Avukatlık Kanunu m.55 ve m.134-135 uyarınca KINAMA cezası ile cezalandırılmasına;"
+        },
+        {
+          "if": "p1_hesap",
+          "text": " 'Kazandığımız 120 dava' sayfasının avukata ait olmadığı anlaşıldığından bu yönden"
+        },
+        {
+          "if": "!p1_hesap",
+          "text": " bilgilendirme niteliğindeki diğer paylaşımlar yönünden"
+        },
+        {
+          "text": " disiplin cezası verilmesine yer olmadığına; kararın tebliğinden itibaren otuz gün içinde TBB Disiplin Kuruluna itiraz yolu açık olmak üzere oy birliğiyle karar verildi."
+        }
+      ],
+      "summary": [
+        {
+          "text": "Şikâyetçi vekili yasak paylaşımı belgeyle gösterdi; savunma ise tartışmayı tek görselle sınırladı. Kurul yalnız o paylaşım için ceza verdi."
+        },
+        {
+          "if": "p1_duzeltme",
+          "text": " Paylaşımın kaldırılması ve hesabın düzeltilmesi gerekçede lehe değerlendirildi."
+        }
+      ]
+    },
+    {
+      "if": "!p2_ispat && (p1_eksen || p1_olcut)",
+      "winner": "p1",
+      "stamp": "YER OLMADIĞI",
+      "hukum": "Av. Selin Arslan'ın reklam yasağını ihlal ettiğine ilişkin iddianın, paylaşımların kaynağı ve tarihi belgelenemediğinden ispatlanamadığı anlaşıldığından DİSİPLİN CEZASI VERİLMESİNE YER OLMADIĞINA; kararın tebliğinden itibaren otuz gün içinde TBB Disiplin Kuruluna itiraz yolu açık olmak üzere oy birliğiyle karar verildi.",
+      "summary": [
+        {
+          "text": "Dosyada yalnız kaynağı ve tarihi belli olmayan ekran görüntüleri vardı; savunma paylaşımları ayırıp bilgilendirme içeriklerinin serbest olduğunu gösterdi."
+        },
+        {
+          "if": "!p2_tespit",
+          "text": " Şikâyetçi vekili noter tespiti sunmadığı için asıl paylaşımın avukata ait olduğu ispatlanamadı."
+        }
+      ]
+    },
+    {
+      "winner": "p2",
+      "stamp": "KINAMA",
+      "hukum": "Av. Selin Arslan'ın sosyal medya paylaşımlarıyla reklam yasağını ihlal ettiği kanaatine varıldığından Avukatlık Kanunu m.55 ve m.134-135 uyarınca KINAMA cezası ile cezalandırılmasına; kararın tebliğinden itibaren otuz gün içinde TBB Disiplin Kuruluna itiraz yolu açık olmak üzere oy çokluğuyla karar verildi.",
+      "summary": "Savunma paylaşımların bilgilendirme amaçlı olduğunu ve avukata ait olmayanları ayırarak gösteremedi."
+    }
+  ]
+}
