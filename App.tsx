@@ -53,6 +53,7 @@ import { TahkimScreen } from "./src/ui/TahkimScreen";
 import DanismaScreen from "./src/ui/DanismaScreen";
 import InboxScreen from "./src/ui/InboxScreen";
 import { trackRoute } from "./src/data/usage";
+import { useCloudSync } from "./src/data/sync";
 
 /** from: oyun bitince nereye dönüleceği (dosya dolabı ya da yönetim paneli önizlemesi) */
 type From = "list" | "admin" | "career" | "desk" | "tahkim" | "online";
@@ -142,6 +143,8 @@ export default function App() {
   const srvAdmin = useServerAdmin();
   const admin = pinAdmin || srvAdmin;
   const { office } = useOffice();
+  // Giriş yapan hesabın büro, dosya akışı ve karakter yüzü cihazlar arasında eşitlenir (src/data/sync.ts).
+  useCloudSync();
   // Dil değişince bütün ekran yeniden çizilir.
   const [lang] = useLang();
 

@@ -90,6 +90,7 @@ Oyuncu genç avukat olarak tek hâkimli yerel mahkemelerde başlar ve kazandık�
 ## Üyelik ve kariyer kaydı
 
 - **Sunucu (Supabase):** `src/config.ts` içine proje adresi ve anon anahtar yazılınca gerçek üyelik açılır: ad soyad, telefon, e-posta, şifre ve KVKK onayı. Profiller `profiller`, kariyer `kariyer` tablosunda tutulur; herkes yalnızca kendi satırlarını görür (RLS). Şema: `supabase/schema.sql`.
+- **Cihazlar arası eşitleme:** Giriş yapan oyuncunun bürosu, dosya akışı ve seçtiği karakter yüzü `oyuncu_durumu` tablosunda tek satır olarak tutulur (`supabase/surum12.sql`, `src/data/sync.ts`); iPhone, Android ve web aynı durumu görür. Açılışta ve girişte sunucudan çekilir, değişiklikten 3 sn sonra ve uygulama arka plana geçerken gönderilir. Çatışma kuralı `src/data/syncCore.ts` başında yazılıdır (ilk girişte ilerlemesi fazla olan, sonra son yazan kazanır); denemeler `tools/synctest.ts` (`npm test`). Karakter tarifi cihazda kalır. Misafir eşitlenmez; çıkışta cihazdaki kayıt silinmez, başka hesaba da gönderilmez.
 - **Cihaz modu:** Sunucu ayarlı değilken aynı cihazda birden çok oyuncu oluşturulabilir; her birinin kariyeri ayrı anahtarda tutulur.
 - **KVKK:** Aydınlatma metni taslağı `src/legal/kvkk.ts` içindedir; veri sorumlusu bilgileri yayından önce doldurulmalıdır.
 

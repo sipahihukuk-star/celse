@@ -1,8 +1,10 @@
 // Oyuncunun karakteri: kendini tarif eder ya da özellikleri seçer; Celse avukat fotoğrafları arasından en yakın olanı bulur.
-// Tarif ve seçimler yalnızca bu cihazda saklanır, hiçbir sunucuya gönderilmez.
+// Tarif ve seçimler yalnızca bu cihazda saklanır, hiçbir sunucuya gönderilmez; giriş yapan hesapta yalnız seçilen yüz eşitlenir.
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
+import { currentAccount, onAccountChange } from "./account";
 import { AVATARS, Avatar, loadOffice, updateOffice } from "./office";
+import { markChanged } from "./syncBus";
 
 export type Gender = "e" | "k";
 export type Hair = "kisa" | "uzun" | "topuz" | "kivircik" | "kel" | "basortu";
@@ -102,36 +104,82 @@ export function rankAvatars(t: Traits): { k: Avatar; score: number }[] {
 
 /* ---------- Saklama ---------- */
 export interface Character { avatar: Avatar; traits: Traits; text: string }
-const KEY = "celse-karakter-v1";
-let cache: Character | null | undefined;
+// Misafirin karakteri eski, cihaz geneli anahtarda; her hesabın karakteri kendi anahtarında durur.
+// Eski anahtardaki (sahibi yazılmamış) karakteri ilk giren hesap bir kez sahiplenir; başka hesap onu almaz.
+// Sunucuyla yalnız seçilen yüz (avatar) eşitlenir; tarif ve özellikler bu cihazda kalır (aydınlatma metni).
+const LEGACY = "celse-karakter-v1";
+const keyFor = (owner = currentAccount()?.id) => (owner ? `${LEGACY}:${owner}` : LEGACY);
+let cache: { key: string; v: Character | null } | undefined;
 const listeners = new Set<() => void>();
+const emit = () => listeners.forEach(f => f());
+const cached = () => (cache && cache.key === keyFor() ? cache.v : undefined);
+const valid = (v: unknown): v is Character => !!v && typeof v === "object" && (AVATARS as readonly string[]).includes((v as Character).avatar);
+const clean = (v: Character): Character => ({ avatar: v.avatar, traits: v.traits && typeof v.traits === "object" ? v.traits : {}, text: typeof v.text === "string" ? v.text : "" });
+// Hesap değişince önbellek o hesabın anahtarına göre yeniden okunur (oturum yenilemede değişmez).
+onAccountChange(() => { if (cache && cache.key !== keyFor()) { cache = undefined; emit(); } });
+
+async function readFor(owner: string | undefined): Promise<Character | null> {
+  const key = keyFor(owner);
+  try {
+    const raw = await AsyncStorage.getItem(key);
+    if (raw !== null) { const v = JSON.parse(raw); return valid(v) ? clean(v) : null; }
+    if (!owner) return null;
+    const old = JSON.parse((await AsyncStorage.getItem(LEGACY)) || "null");
+    if (!valid(old) || ((old as { sahip?: string }).sahip && (old as { sahip?: string }).sahip !== owner)) return null;
+    const c = clean(old);
+    await AsyncStorage.setItem(key, JSON.stringify(c));
+    await AsyncStorage.setItem(LEGACY, JSON.stringify({ ...c, sahip: owner }));
+    return c;
+  } catch { return null; }
+}
 
 export async function loadCharacter(): Promise<Character | null> {
-  if (cache !== undefined) return cache;
-  try {
-    const v = JSON.parse((await AsyncStorage.getItem(KEY)) || "null");
-    cache = v && (AVATARS as readonly string[]).includes(v.avatar) ? v : null;
-  } catch { cache = null; }
-  return cache ?? null;
+  const hit = cached();
+  if (hit !== undefined) return hit;
+  const key = keyFor();
+  const v = await readFor(currentAccount()?.id);
+  if (key === keyFor()) cache = { key, v };
+  return v;
 }
 
 /** Karakteri kaydeder; büro açıksa büronun karakteri de değişir (duruşmalarda bu yüz görünür). */
 export async function saveCharacter(c: Character) {
-  cache = c;
-  try { await AsyncStorage.setItem(KEY, JSON.stringify(c)); } catch { /* depolama yoksa yalnız bu oturumda */ }
+  const owner = currentAccount()?.id;
+  cache = { key: keyFor(owner), v: c };
+  try { await AsyncStorage.setItem(keyFor(owner), JSON.stringify(c)); } catch { /* depolama yoksa yalnız bu oturumda */ }
   const o = await loadOffice();
   if (o && o.avatar !== c.avatar) await updateOffice({ avatar: c.avatar });
-  listeners.forEach(f => f());
+  emit();
+  markChanged(owner);
 }
 
 export async function clearCharacter() {
-  cache = null;
-  try { await AsyncStorage.removeItem(KEY); } catch { /* yok say */ }
-  listeners.forEach(f => f());
+  const owner = currentAccount()?.id;
+  cache = { key: keyFor(owner), v: null };
+  try { await AsyncStorage.removeItem(keyFor(owner)); } catch { /* yok say */ }
+  emit();
+  markChanged(owner);
+}
+
+/** Eşitleme için: hesabın karakterinden sunucuya giden kısım (yalnız seçilen yüz). */
+export async function readAvatarFor(owner: string): Promise<{ avatar: Avatar } | null> {
+  const c = await readFor(owner);
+  return c ? { avatar: c.avatar } : null;
+}
+/** Eşitleme için: sunucudaki yüzü yazar. Yüz aynıysa cihazdaki tarif korunur, değiştiyse tarif boşalır.
+ *  Sunucuda karakter yoksa cihazdaki karakter silinmez. Yerel değişiklik sayılmaz. */
+export async function writeAvatarFor(owner: string, a: { avatar: string } | null) {
+  if (!a || !(AVATARS as readonly string[]).includes(a.avatar)) return;
+  const prev = await readFor(owner);
+  if (prev?.avatar === a.avatar) return;
+  const c: Character = { avatar: a.avatar as Avatar, traits: {}, text: "" };
+  try { await AsyncStorage.setItem(keyFor(owner), JSON.stringify(c)); } catch { /* yok say */ }
+  if (cache?.key === keyFor(owner)) cache = { key: cache.key, v: c };
+  if (currentAccount()?.id === owner) emit();
 }
 
 export function useCharacter(): Character | null {
-  const [c, setC] = useState<Character | null>(cache ?? null);
+  const [c, setC] = useState<Character | null>(cached() ?? null);
   useEffect(() => {
     const load = () => { loadCharacter().then(setC); };
     load(); listeners.add(load);
@@ -142,7 +190,7 @@ export function useCharacter(): Character | null {
 
 /** Karakter ve yüklenip yüklenmediği (yüz seçimine göre metin uyarlanacaksa yüklenmesi beklenir). */
 export function useCharacterState(): { character: Character | null; ready: boolean } {
-  const [s, setS] = useState<{ character: Character | null; ready: boolean }>(() => ({ character: cache ?? null, ready: cache !== undefined }));
+  const [s, setS] = useState<{ character: Character | null; ready: boolean }>(() => ({ character: cached() ?? null, ready: cached() !== undefined }));
   useEffect(() => {
     const load = () => { loadCharacter().then(character => setS({ character, ready: true })); };
     load(); listeners.add(load);

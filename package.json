@@ -40,7 +40,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "tsx tools/simulate.ts",
+    "test": "tsx tools/simulate.ts && tsx tools/synctest.ts",
     "tutarlilik": "tsx tools/tutarlilik.ts",
     "typecheck": "tsc --noEmit",
     "export:web": "expo export --platform web"

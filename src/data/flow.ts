@@ -8,6 +8,7 @@ import { currentAccount, onAccountChange } from "./account";
 import { Branch, branchOf, BRANCHES } from "./branches";
 import { buildCareer, levelOf, Progress } from "./career";
 import { careerSide, publicRole, Source, sourceOf } from "./office";
+import { markChanged } from "./syncBus";
 
 export interface Offer { id: string; month: number; src?: Source; side?: Side }
 export interface Flow {
@@ -33,7 +34,8 @@ export interface Flow {
 }
 
 const empty = (): Flow => ({ offers: [], active: [], closed: {}, declined: {}, focus: [], seen: [], dealtFor: -1, src: {}, side: {}, specialty: [] });
-const keyFor = () => `celse-dosya-v1:${currentAccount()?.id || "misafir"}`;
+/** Her hesabın dosya akışı ayrı anahtarda (oturum yoksa "misafir"); giriş yapan hesapta sunucuyla eşitlenir (sync.ts). */
+const keyFor = (owner = currentAccount()?.id) => `celse-dosya-v1:${owner || "misafir"}`;
 const listeners = new Set<() => void>();
 const emit = () => listeners.forEach(f => f());
 onAccountChange(emit);
@@ -42,8 +44,20 @@ export async function loadFlow(): Promise<Flow> {
   try { const v = await AsyncStorage.getItem(keyFor()); return v ? { ...empty(), ...JSON.parse(v) } : empty(); } catch { return empty(); }
 }
 async function save(f: Flow) {
-  try { await AsyncStorage.setItem(keyFor(), JSON.stringify(f)); } catch { /* yok say */ }
+  const owner = currentAccount()?.id;
+  try { await AsyncStorage.setItem(keyFor(owner), JSON.stringify(f)); } catch { /* yok say */ }
   emit();
+  markChanged(owner);
+}
+
+/** Eşitleme için: belirli hesabın cihazdaki dosya akışı (kayıt yoksa null). */
+export async function readFlowFor(owner: string): Promise<Flow | null> {
+  try { const v = await AsyncStorage.getItem(keyFor(owner)); return v ? JSON.parse(v) : null; } catch { return null; }
+}
+/** Eşitleme için: sunucudan gelen akışı yazar; yerel değişiklik sayılmaz. Ekranlar yeniden çizilir. */
+export async function writeFlowFor(owner: string, f: Flow | null) {
+  try { if (f) await AsyncStorage.setItem(keyFor(owner), JSON.stringify(f)); else await AsyncStorage.removeItem(keyFor(owner)); } catch { /* yok say */ }
+  if (currentAccount()?.id === owner) emit();
 }
 
 export function useFlow(): Flow | null {

@@ -147,7 +147,7 @@ export async function switchLocal(id: string) {
 
 export async function deleteLocal(id: string) {
   await saveLocal((await localProfiles()).filter(p => p.id !== id));
-  for (const k of [`celse-kariyer-v1:${id}`, `celse-buro-v1:${id}`, `celse-dosya-v1:${id}`]) { try { await AsyncStorage.removeItem(k); } catch { /* yok say */ } }
+  for (const k of accountKeys(id)) { try { await AsyncStorage.removeItem(k); } catch { /* yok say */ } }
   if (current?.id === id) { current = null; try { await AsyncStorage.removeItem(LOCAL_CURRENT); } catch { /* yok say */ } }
   emit();
 }
@@ -159,14 +159,25 @@ export async function deleteServerAccount(): Promise<{ error?: string }> {
   if (!sb || !id) return { error: "Önce giriş yapın." };
   const { error } = await sb.rpc("hesabimi_sil");
   if (error) return { error: "Hesap silinemedi: " + error.message };
-  for (const k of [`celse-kariyer-v1:${id}`, `celse-buro-v1:${id}`, `celse-dosya-v1:${id}`]) { try { await AsyncStorage.removeItem(k); } catch { /* yok say */ } }
+  for (const k of accountKeys(id)) { try { await AsyncStorage.removeItem(k); } catch { /* yok say */ } }
   try { await sb.auth.signOut(); } catch { /* oturum zaten düştü */ }
   current = null;
   emit();
   return {};
 }
 
+/** Hesaba bağlı cihaz kayıtları (kariyer, büro, dosya akışı, karakter, eşitleme bilgisi). */
+const accountKeys = (id: string) => [`celse-kariyer-v1:${id}`, `celse-buro-v1:${id}`, `celse-dosya-v1:${id}`, `celse-karakter-v1:${id}`, `celse-esitleme-v1:${id}`];
+
+/** Çıkıştan hemen önce çalışır (ör. bekleyen eşitlemeyi göndermek için); en fazla birkaç saniye beklenir, hata çıkışı engellemez. */
+const beforeSignOut = new Set<() => Promise<void>>();
+export function onBeforeSignOut(f: () => Promise<void>) { beforeSignOut.add(f); return () => { beforeSignOut.delete(f); }; }
+
 export async function signOut() {
+  if (beforeSignOut.size) {
+    const all = Promise.all([...beforeSignOut].map(f => f().catch(() => {})));
+    await Promise.race([all, new Promise(r => setTimeout(r, 2000))]);
+  }
   const sb = supabase();
   if (sb) await sb.auth.signOut();
   else { try { await AsyncStorage.removeItem(LOCAL_CURRENT); } catch { /* yok say */ } }

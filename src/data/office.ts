@@ -9,6 +9,7 @@ import { currentAccount, onAccountChange } from "./account";
 import { levelOf } from "./career";
 import { branchOf } from "./branches";
 import { ageLife, Choice, dueEvent, EDU, EVENTS, hasDegree, Life, migrateLife, newLife, personalCosts, staffCosts } from "./life";
+import { markChanged } from "./syncBus";
 
 export interface City { id: string; name: string; rent: number; fee: number; note: string }
 /** rent: aylık büro kirası (TL) · fee: vekâlet ücreti çarpanı (büyük şehirde ücret ve iş hacmi yüksek, kira da yüksek) */
@@ -141,7 +142,8 @@ export function feeFor(c: CaseFile, o: Office, won: boolean, score: number, opt?
 
 /* ---------- Kayıt ---------- */
 
-const keyFor = () => `celse-buro-v1:${currentAccount()?.id || "misafir"}`;
+/** Her hesabın bürosu ayrı anahtarda (oturum yoksa "misafir"); giriş yapan hesapta sunucuyla eşitlenir (sync.ts). */
+const keyFor = (owner = currentAccount()?.id) => `celse-buro-v1:${owner || "misafir"}`;
 const listeners = new Set<() => void>();
 const emit = () => listeners.forEach(f => f());
 onAccountChange(emit);
@@ -156,8 +158,20 @@ export async function loadOffice(): Promise<Office | null> {
   } catch { return null; }
 }
 async function save(o: Office | null) {
-  try { if (o) await AsyncStorage.setItem(keyFor(), JSON.stringify(o)); else await AsyncStorage.removeItem(keyFor()); } catch { /* yok say */ }
+  const owner = currentAccount()?.id;
+  try { if (o) await AsyncStorage.setItem(keyFor(owner), JSON.stringify(o)); else await AsyncStorage.removeItem(keyFor(owner)); } catch { /* yok say */ }
   emit();
+  markChanged(owner);
+}
+
+/** Eşitleme için: belirli hesabın cihazdaki bürosu (olduğu gibi, dönüştürülmeden). */
+export async function readOfficeFor(owner: string): Promise<Office | null> {
+  try { const v = await AsyncStorage.getItem(keyFor(owner)); return v ? JSON.parse(v) : null; } catch { return null; }
+}
+/** Eşitleme için: sunucudan gelen büroyu yazar; yerel değişiklik sayılmaz (yeniden gönderilmez). Ekranlar yeniden çizilir. */
+export async function writeOfficeFor(owner: string, o: Office | null) {
+  try { if (o) await AsyncStorage.setItem(keyFor(owner), JSON.stringify(o)); else await AsyncStorage.removeItem(keyFor(owner)); } catch { /* yok say */ }
+  if (currentAccount()?.id === owner) emit();
 }
 
 export async function openOffice(name: string, city: string, avatar: Avatar) {
