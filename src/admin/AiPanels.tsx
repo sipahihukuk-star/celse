@@ -8,7 +8,8 @@ import { BRANCHES } from "../data/branches";
 import { CaseFile } from "../engine/types";
 import { Chip } from "../ui/kit";
 import { C, F } from "../ui/theme";
-import { AiError, applyIssues, auditCase, AuditReport, generateCase, GenResult, Issue, Op } from "./ai";
+import { AiError, applyIssues, auditCase, AuditReport, generateAppeal, generateCase, GenResult, Issue, Op } from "./ai";
+import { tierOf } from "../engine/appeal";
 import { listReports, saveReport } from "./audits";
 import { Section, Seg, SmallBtn } from "./form";
 import { CourtPreset, PRESETS } from "./presets";
@@ -51,6 +52,17 @@ export function AuditPanel({ entries, onSaved, onPreview, onClose }: { entries: 
       setBusy(b => ({ ...b, [c.id]: "Hata: " + errText(e) }));
       throw e;
     }
+  };
+
+  /** Kanun yolu: dosyaya yapay zekâyla istinaf aşaması yazdırır, motorla sınar ve taslak olarak kaydeder (oyuna yayınlanmaz). */
+  const genAppeal = async (c: CaseFile) => {
+    setBusy(b => ({ ...b, [c.id]: "Yazılıyor…" }));
+    try {
+      const r = await generateAppeal(c, "istinaf", s => setBusy(b => ({ ...b, [c.id]: s })));
+      await store.save(r.c, "taslak");
+      setBusy(b => ({ ...b, [c.id]: `İstinaf aşaması taslağa kaydedildi${r.problems.length ? ` (${r.problems.length} sorun: ${r.problems.slice(0, 2).join("; ")})` : ""}. Düzenleyicide gözden geçirip yayınlayın.` }));
+      onSaved();
+    } catch (e) { setBusy(b => ({ ...b, [c.id]: "Hata: " + errText(e) })); }
   };
 
   const runMany = async (list: CaseFile[]) => {
@@ -127,6 +139,9 @@ export function AuditPanel({ entries, onSaved, onPreview, onClose }: { entries: 
               <View style={st.rowWrap}>
                 {r && <SmallBtn label={p.length ? "Sorunları gör ›" : "Raporu gör"} tone={p.length ? "accent" : "plain"} onPress={() => setOpen(e.c.id)} />}
                 <SmallBtn label={r ? "Yeniden denetle" : "Denetle"} disabled={!!busy[e.c.id] && !/^Hata/.test(busy[e.c.id])} onPress={() => { run(e.c).catch(() => {}); }} />
+                {tierOf(e.c) === "ilk" && !e.c.appeal?.istinaf && (
+                  <SmallBtn label="İstinaf aşaması üret" disabled={!!busy[e.c.id] && !/^Hata|^İstinaf/.test(busy[e.c.id])} onPress={() => { genAppeal(e.c).catch(() => {}); }} />
+                )}
               </View>
             </View>
           );

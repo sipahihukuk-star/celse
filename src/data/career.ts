@@ -92,13 +92,16 @@ export async function loadProgress(): Promise<Progress> {
   } catch { return local; }
 }
 
-/** Bir davanın sonucunu kaydeder. En iyi puan, "en az bir kez kazandı" bilgisi ve en yüksek pano puanı korunur. */
-export async function recordResult(id: string, won: boolean, score: number, level = 1) {
+/** Bir davanın sonucunu kaydeder. En iyi puan, "en az bir kez kazandı" bilgisi ve en yüksek pano puanı korunur.
+ *  opts.amend: kanun yolundan sonra aynı denemenin kesin sonucu. Verilen kayıt (denemeden önceki hâl) esas alınır;
+ *  ilk derecede yazılan sonuç böylece üst mahkemenin kararıyla değiştirilir (oynama sayısı artmaz). */
+export async function recordResult(id: string, won: boolean, score: number, level = 1, opts?: { amend: CaseRecord | null }) {
   try {
     const all = await loadLocal();
     const prev = all[id] || { played: 0, won: false, best: 0 };
-    const pts = Math.max(prev.pts || 0, boardPoints(won, score, level));
-    const rec: CaseRecord = { played: prev.played + 1, won: prev.won || won, best: won ? Math.max(prev.best, score) : prev.best, pts };
+    const base = opts ? opts.amend || { played: 0, won: false, best: 0 } : prev;
+    const pts = Math.max(base.pts || 0, boardPoints(won, score, level));
+    const rec: CaseRecord = { played: opts ? Math.max(prev.played, base.played + 1) : prev.played + 1, won: base.won || won, best: won ? Math.max(base.best, score) : base.best, pts };
     all[id] = rec;
     await AsyncStorage.setItem(keyFor(), JSON.stringify(all));
     const acc = currentAccount(), sb = supabase();

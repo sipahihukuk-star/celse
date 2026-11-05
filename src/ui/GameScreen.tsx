@@ -14,6 +14,7 @@ import { C, F, sideColor, toneColor } from "./theme";
 import { LETTERS, OnlineLink, useCourt } from "./useCourt";
 import { prefetchLines, Speaker, speakLine, stopSpeaking, useSpeaking, useVoiceEnabled } from "./voice";
 import FreeAnswer from "./FreeAnswer";
+import { DeadlineAnswer, PetitionPaper } from "./AppealParts";
 import { getLang, locale, t } from "../i18n";
 import { BugReportLink, BugReportModal } from "./BugReport";
 import { APP_VERSION } from "../data/usage";
@@ -235,7 +236,10 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
 
                 {kind === "evidence" && <Text style={styles.bagTitle}>{t("DELİL ÇANTASI")}</Text>}
                 {kind === "free" && !isAI && <FreeAnswer key={phase.step} c={c} step={st} onResult={court.chooseFree} />}
-                {kind !== "free" && <View style={[styles.choices, wide && kind !== "interview" && styles.twoCol]}>
+                {/* Kanun yolu: oyuncu süre son gününü yazar; dilekçe önizlemesinde tek hamle "sun"dur. */}
+                {kind === "date" && !isAI && <DeadlineAnswer key={phase.step} c={c} step={st} onResult={court.chooseFree} />}
+                {kind === "dilekce" && <PetitionPaper c={c} game={game} stepIdx={phase.step} name={players.p1.name} onSubmit={() => pick(0, 0)} />}
+                {kind !== "free" && kind !== "date" && kind !== "dilekce" && <View style={[styles.choices, wide && kind !== "interview" && styles.twoCol]}>
                   {phase.order.map((ci, pos) => {
                     const ch = list[ci];
                     if (!ch) return null;
@@ -264,7 +268,7 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
                     );
                   })}
                 </View>}
-                {kind !== "choice" && kind !== "free" && (() => {
+                {(kind === "evidence" || kind === "interview") && (() => {
                   const ci = list.findIndex(ch => (kind === "evidence" && !ch.evidence) || ch.finish);
                   if (ci < 0) return null;
                   return (

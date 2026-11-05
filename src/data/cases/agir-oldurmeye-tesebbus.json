@@ -183,5 +183,1011 @@
         { "if": "vasif", "text": " Ölçütleri doğru saydınız, ama hiçbirini dosyadaki bir delille desteklemediniz. Adli Tıp raporu darbenin sayısını ve yerini gösteriyordu." },
         { "if": "!yardim", "text": " Müvekkile olaydan sonra ne yaptığını sorsaydınız, yardım çağırdığını gösteren 112 kaydı elinizde olurdu." }
       ] }
-  ]
+  ],
+  "appeal": {
+    "istinaf": {
+      "court": "Kayseri Bölge Adliye Mahkemesi 2. Ceza Dairesi",
+      "courtShort": "BAM · 2. CEZA DAİRESİ",
+      "esas": "2027/418 Esas",
+      "kararTarihi": "21.06.2027",
+      "role": "Sanık müdafii · istinaf eden",
+      "oppRole": "Katılan vekili",
+      "teaser": "Hakan Er kasten öldürmeye teşebbüsten mahkûm oldu. Hükmü istinaf edin: süreyi yeni kanuna göre hesaplayın, eksik delili daireye getirin.",
+      "cast": {
+        "judge": {
+          "name": "Daire Başkanı",
+          "np": "red",
+          "look": {
+            "kind": "robe",
+            "collar": "hakim",
+            "skin": "#d9a982",
+            "hair": "#6b6b70",
+            "style": "short",
+            "glasses": true
+          }
+        },
+        "pros": {
+          "name": "Cumhuriyet Savcısı",
+          "np": "red",
+          "look": {
+            "kind": "robe",
+            "collar": "hakim",
+            "skin": "#c79a74",
+            "hair": "#1d1a19",
+            "style": "long"
+          }
+        }
+      },
+      "courtCast": [
+        "judge",
+        "pros",
+        "you",
+        "client",
+        "opp"
+      ],
+      "intro": [
+        {
+          "who": "narr",
+          "text": "Kayseri 1. Ağır Ceza Mahkemesi 25.01.2027'de Hakan Er'i kasten öldürmeye teşebbüsten (TCK m.81/1, m.35/2) mahkûm etti. Ceza beş yılı aşıyor."
+        },
+        {
+          "who": "client",
+          "text": "Ben onu öldürmek istemedim. Ambulansı ben çağırdım, bacağını ben sıktım. Mahkeme bunu hiç sormadı."
+        },
+        {
+          "who": "narr",
+          "text": "Hükmün gerekçesi size 12.02.2027 Cuma günü tebliğ edildi. Savcı ve katılan hükmü istinaf etmedi."
+        }
+      ],
+      "docs": [
+        {
+          "t": "İlk derece hükmü (25.01.2027)",
+          "d": "Kasten öldürmeye teşebbüs, TCK m.81/1, m.35/2 ve m.62. Gerekçe: mağdurun hayati tehlike geçirmesi öldürme kastını gösterir."
+        },
+        {
+          "t": "Tebliğ",
+          "d": "Gerekçeli hüküm sanık müdafiine 12.02.2027 Cuma günü tebliğ edildi."
+        },
+        {
+          "t": "Adli Tıp raporu",
+          "d": "Sol uyluk dış yüzde tek kesi; damar yaralanması nedeniyle hayati tehlike. Başka yara yok."
+        },
+        {
+          "t": "Kanun yolu durumu",
+          "d": "Hükmü yalnızca sanık müdafii istinaf edecek; Cumhuriyet savcısı ve katılan istinaf etmedi."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev_atk",
+          "type": "belge",
+          "title": "Adli Tıp raporu",
+          "desc": "Sol uyluk dış yüzde tek kesi. Damar yaralanması nedeniyle hayati tehlike. Başka darbe izi yok."
+        },
+        {
+          "id": "ev_bicak",
+          "type": "belge",
+          "title": "Olay yeri tutanağı",
+          "desc": "Döşeme bıçağı dükkânın iş aleti; tezgâhın üzerinde bulundu."
+        },
+        {
+          "id": "ev_112",
+          "type": "belge",
+          "title": "112 çağrı kaydı",
+          "desc": "Daireye celbedilen kayıt: olaydan bir dakika sonra sanığın hattından arama, “Bacağına bıçak geldi, kan duruyor, çabuk gelin.” Ekip sanığı kemerle bacağı sıkarken buldu.",
+          "if": "celp"
+        },
+        {
+          "id": "law_283",
+          "type": "kanun",
+          "title": "CMK m.283 · Aleyhe değiştirme yasağı",
+          "desc": "Hüküm yalnız sanık lehine istinaf edilmişse yeni hükümdeki ceza, önceki hükümle belirlenmiş olan cezadan daha ağır olamaz.",
+          "law": "CMK m.283"
+        }
+      ],
+      "steps": [
+        {
+          "kind": "date",
+          "side": "p1",
+          "scene": "office",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Büronun eski ortağı kapıdan sesleniyor: “Ceza davasında istinaf yedi gündü, acele et!”"
+            },
+            {
+              "who": "narr",
+              "text": "Tebliğ: 12.02.2027 Cuma. Hükmün tarihine bakın ve bugünkü kanunla hesaplayın."
+            }
+          ],
+          "prompt": "İstinaf dilekçesini en geç hangi gün vermelisiniz? Son günü yazın.",
+          "deadline": {
+            "teblig": "12.02.2027",
+            "weeks": 2,
+            "law": "CMK m.273/1",
+            "what": "istinaf dilekçesi"
+          },
+          "choices": [
+            {
+              "text": "Doğru gün",
+              "min": 100,
+              "delta": 10,
+              "set": [
+                "sure"
+              ],
+              "law": "CMK m.273/1",
+              "note": "7499 sayılı Kanunla istinaf süresi, 1.6.2024'ten sonra verilen hükümlerde hükmün gerekçesiyle tebliğinden itibaren iki haftadır (CMK m.273/1). Eski ortağınızın yedi günü önceki düzendi."
+            },
+            {
+              "text": "Erken gün",
+              "min": 50,
+              "delta": -5,
+              "set": [
+                "sure"
+              ],
+              "law": "CMK m.273/1",
+              "note": "Dilekçe yine süresinde olur; ama süreyi eski yedi günlük düzene ya da yanlış başlangıca göre hesapladınız. Bugün süre, gerekçeli hükmün tebliğinden itibaren iki haftadır (CMK m.273/1)."
+            },
+            {
+              "text": "Süre geçti",
+              "min": 0,
+              "delta": -25,
+              "law": "CMK m.273/1, m.276",
+              "note": "Süre kaçtı. Süresinden sonra yapılan istinaf başvurusu hükmü veren mahkemece reddedilir (CMK m.276).",
+              "fatal": {
+                "label": "SONUÇ:",
+                "hukum": "Sanık müdafiinin istinaf başvurusunun süresinde yapılmadığından Kayseri 1. Ağır Ceza Mahkemesince REDDİNE karar verildi.",
+                "summary": "İstinaf süresi hükmün gerekçesiyle tebliğinden itibaren iki haftaydı; 12.02.2027 tebliğine göre son gün 26.02.2027 Cuma idi (CMK m.273/1). Süresinden sonraki başvuru reddedilir (CMK m.276); kasten öldürmeye teşebbüs hükmü kesinleşti."
+              }
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "MERCİ",
+          "lines": [],
+          "prompt": "Dilekçe kime hitaben yazılır, nereye verilir?",
+          "choices": [
+            {
+              "text": "Kayseri BAM ilgili ceza dairesine gönderilmek üzere, hükmü veren Kayseri 1. Ağır Ceza Mahkemesine.",
+              "delta": 10,
+              "set": [
+                "merci"
+              ],
+              "doc": "KAYSERİ 1. AĞIR CEZA MAHKEMESİNE\nGönderilmek üzere\nKAYSERİ BÖLGE ADLİYE MAHKEMESİ İLGİLİ CEZA DAİRESİNE",
+              "law": "CMK m.273/1",
+              "note": "Doğru. İstinaf, hükmü veren mahkemeye dilekçe verilerek ya da zabıt kâtibine beyanda bulunularak yapılır (CMK m.273/1)."
+            },
+            {
+              "text": "Yargıtay 1. Ceza Dairesine; ağır ceza mahkemesi hükümleri istinafa uğramadan doğrudan temyiz edilir.",
+              "delta": -10,
+              "doc": "YARGITAY 1. CEZA DAİRESİ BAŞKANLIĞINA",
+              "law": "CMK m.272, m.286",
+              "note": "Bu, istinaf öncesi düzendi. Bugün ilk derece hükümlerine karşı yol istinaftır (CMK m.272); temyiz, bölge adliye mahkemesi ceza dairelerinin hükümlerine karşıdır (CMK m.286)."
+            },
+            {
+              "text": "Kayseri 2. Ağır Ceza Mahkemesine itiraz; numara olarak izleyen mahkeme hükmü yeniden inceler.",
+              "delta": -10,
+              "doc": "KAYSERİ 2. AĞIR CEZA MAHKEMESİNE\n(İtiraz)",
+              "law": "CMK m.267, m.268",
+              "note": "İtiraz, kanunun gösterdiği hâkim ve mahkeme kararlarına karşıdır (CMK m.267); hükümlere karşı itiraz yolu yoktur. Numara takibi bu yüzden burada işlemez."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "İSTİNAF SEBEPLERİ",
+          "lines": [],
+          "prompt": "İstinaf dilekçenizin ana sebebi ne olacak?",
+          "choices": [
+            {
+              "text": "Suçun vasfı: tek darbe, hedef bacak, iş aleti, durması; eylem öldürme değil yaralama kastı taşır.",
+              "delta": 20,
+              "set": [
+                "vasif"
+              ],
+              "law": "TCK m.81, m.86, m.87/1-d",
+              "doc": "1. Mahkeme, mağdurun hayati tehlike geçirmesini tek başına öldürme kastının kanıtı saymıştır. Oysa kast fiilin bütününden çıkarılır: önceden hazırlanmamış bir iş aleti, hayati organ bulunmayan bacağa tek darbe, devam imkânı varken durma, önceden husumet olmaması ve fiilden hemen sonra yardım çağrılması. Eylem TCK m.86/1, m.86/3-e ve m.87/1-d kapsamında kasten yaralamadır.",
+              "note": "Doğru. Hükmün dayandığı tek gerekçeyi, Yargıtay'ın kast ölçütleriyle hedef aldınız."
+            },
+            {
+              "text": "Haksız tahrik indiriminin uygulanmamış olması; suç vasfına dokunmadan yalnız cezanın indirilmesi.",
+              "delta": 5,
+              "set": [
+                "tahrikSebep"
+              ],
+              "law": "TCK m.29",
+              "doc": "Mağdurun haksız fiili nedeniyle TCK m.29 uyarınca indirim yapılmalıdır.",
+              "note": "Geçerli bir ikincil sebep; ama asıl mesele suçun vasfı. Vasıf değişirse ceza öldürmeye teşebbüsün dokuz yıllık alt sınırından çok aşağı iner."
+            },
+            {
+              "text": "Katılanın sonradan şikâyetinden vazgeçtiğini bildirip kamu davasının düşmesine karar verilmesi.",
+              "delta": -10,
+              "law": "TCK m.73; CMK m.223",
+              "doc": "Katılan şikâyetinden vazgeçmiştir; kamu davasının düşmesine karar verilmelidir.",
+              "note": "Kasten öldürmeye teşebbüs de, nitelikli kasten yaralama da şikâyete bağlı değildir; şikâyetten vazgeçme davayı düşürmez (TCK m.73)."
+            },
+            {
+              "text": "Sanığın pişmanlığı, sabıkasızlığı ve ailesinin durumu; cezanın ağır olduğunu genel bir dille yazmak.",
+              "delta": -5,
+              "law": "TCK m.62",
+              "doc": "Sanığın pişmanlığı ve ailesinin durumu gözetilerek cezası ağırdır.",
+              "note": "Takdiri indirim (TCK m.62) zaten uygulandı. Genel bir yakınma, hükmün dayandığı kast değerlendirmesine dokunmuyor."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "DELİLLER VE TALEPLER",
+          "lines": [
+            {
+              "who": "client",
+              "text": "112'yi ben aradım. Kayıt bir yerde vardır, değil mi? Mahkemede kimse istemedi."
+            }
+          ],
+          "prompt": "112 kaydı ilk derecede dosyaya girmemiş. Ne yapacaksınız?",
+          "choices": [
+            {
+              "text": "Kaydın celbini ve duruşma açılmasını isteyin; ceza istinafında daire delil toplayıp hükmü yeniden kurar.",
+              "delta": 15,
+              "set": [
+                "celp"
+              ],
+              "law": "CMK m.280",
+              "doc": "Olaydan hemen sonra sanığın hattından yapılan 112 çağrısının ses kaydının ve ekip tutanağının celbini, CMK m.280 uyarınca duruşma açılarak delillerin yeniden değerlendirilmesini talep ederiz.",
+              "note": "Doğru. Ceza istinafı, hukuk istinafından farklıdır: daire gerekirse davanın yeniden görülmesine karar verip duruşma açar, delil toplar ve hükmü yeniden kurar (CMK m.280)."
+            },
+            {
+              "text": "Talep etmeyin; istinafta ilk derecede sunulmayan yeni delile dayanılamaz, dilekçe zayıflar.",
+              "delta": -10,
+              "law": "HMK m.357; CMK m.280",
+              "doc": "",
+              "note": "Bu, hukuk yargılamasındaki yasaktır (HMK m.357). Ceza istinafında daire maddi gerçeği araştırır; yeni delil toplayabilir (CMK m.280)."
+            },
+            {
+              "text": "Kaydı Yargıtay aşamasına saklayın; temyizde sunulan delil heyeti daha çok etkiler.",
+              "delta": -10,
+              "law": "CMK m.288, m.289",
+              "doc": "",
+              "note": "Temyiz bir hukuki denetimdir; Yargıtay delil toplamaz, hükmün hukuka aykırılığını inceler (CMK m.288). Delilin yeri bölge adliye mahkemesi duruşmasıdır."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "SONUÇ VE İSTEM",
+          "lines": [],
+          "prompt": "Sonuç ve isteminizi nasıl yazacaksınız?",
+          "choices": [
+            {
+              "text": "Duruşma açılarak hükmün kaldırılmasına, eylemin kasten yaralama sayılarak yeniden hüküm kurulmasına.",
+              "delta": 10,
+              "set": [
+                "talep"
+              ],
+              "law": "CMK m.280/2",
+              "doc": "Duruşma açılarak ilk derece hükmünün KALDIRILMASINA, eylemin TCK m.86/1, m.86/3-e, m.87/1-d kapsamında kasten yaralama olarak nitelendirilerek yeniden hüküm kurulmasına karar verilmesini saygıyla talep ederiz.",
+              "note": "Doğru. Duruşma sonunda daire başvuruyu esastan reddeder ya da ilk derece hükmünü kaldırarak yeniden hüküm kurar (CMK m.280/2)."
+            },
+            {
+              "text": "Hükmün bozularak dosyanın, yeniden yargılama için Kayseri 1. Ağır Ceza Mahkemesine gönderilmesine.",
+              "delta": -5,
+              "set": [
+                "gonder"
+              ],
+              "law": "CMK m.280, m.289",
+              "doc": "Hükmün bozularak dosyanın ilk derece mahkemesine gönderilmesini talep ederiz.",
+              "note": "Bozup gönderme, CMK m.289'daki hukuka kesin aykırılık hâlleri gibi sınırlı durumlara özgüdür. Vasıf hatasını daire duruşma açarak kendisi düzeltir."
+            },
+            {
+              "text": "Sanığın beraatine; kast kesin olarak ispatlanamadığından şüpheden sanık yararlanır.",
+              "delta": -10,
+              "law": "CMK m.223/2-e",
+              "doc": "Sanığın beraatine karar verilmesini talep ederiz.",
+              "note": "Sanık bıçakla vurduğunu kabul ediyor; tartışma kastın türü üzerinde. Beraat istemek inandırıcı değil ve vasıf savunmasını zayıflatır."
+            }
+          ]
+        },
+        {
+          "kind": "free",
+          "side": "p1",
+          "scene": "office",
+          "section": "AÇIKLAMALAR",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Dilekçenin açıklamalar bölümüne, dairenin okuyacağı ana paragrafı yazın."
+            }
+          ],
+          "prompt": "Kastın neden öldürme kastı olmadığını dilekçenize kendi cümlelerinizle yazın.",
+          "rubric": "İyi bir paragraf şunları söyler: (1) Hayati tehlike tek başına öldürme kastını göstermez; kast fiilin bütününden çıkarılır. (2) Yargıtay ölçütleri: kullanılan araç (önceden hazırlanmamış iş aleti), hedef alınan bölge (hayati organ bulunmayan bacak), darbe sayısı ve şiddeti (tek darbe), fiile devam imkânı varken durma, önceden husumet olmaması, fiilden sonraki davranış (112'yi araması, kanamayı durdurmaya çalışması). (3) Eylem kasten yaralamadır (TCK m.86, m.87/1-d). En az dört ölçütü sayıp sonucu söyleyen tam puan alır; iki ölçüt sayan orta puan alır. Yalnızca pişmanlığa, beraate ya da tahrike dayanan cevap düşük puan alır.",
+          "keywords": [
+            {
+              "terms": [
+                "hayati tehlike"
+              ],
+              "weight": 1
+            },
+            {
+              "terms": [
+                "tek darbe",
+                "tek bir darbe",
+                "bir kez"
+              ],
+              "weight": 2
+            },
+            {
+              "terms": [
+                "bacak",
+                "uyluk",
+                "hayati organ"
+              ],
+              "weight": 2
+            },
+            {
+              "terms": [
+                "iş aleti",
+                "hazırlanmamış",
+                "döşeme bıçağı"
+              ],
+              "weight": 1
+            },
+            {
+              "terms": [
+                "devam",
+                "durdu",
+                "bıraktı"
+              ],
+              "weight": 1
+            },
+            {
+              "terms": [
+                "112",
+                "ambulans",
+                "yardım"
+              ],
+              "weight": 2
+            },
+            {
+              "terms": [
+                "kasten yaralama",
+                "m.86",
+                "m.87"
+              ],
+              "weight": 2
+            }
+          ],
+          "model": "Mağdurun hayati tehlike geçirmesi tek başına öldürme kastını göstermez; kast fiilin bütününden çıkarılır. Sanık önceden hazırlanmamış bir iş aletiyle, hayati organ bulunmayan bacağa tek darbe vurmuş, devam imkânı varken durmuş, hemen 112'yi arayıp kemeriyle kanamayı durdurmaya çalışmıştır; taraflar arasında önceden husumet yoktur. Bu ölçütlerin tamamı yaralama kastını gösterir; eylem TCK m.86/1, m.86/3-e ve m.87/1-d kapsamında kasten yaralamadır.",
+          "choices": [
+            {
+              "text": "Güçlü açıklama",
+              "min": 70,
+              "delta": 15,
+              "set": [
+                "aciklama"
+              ],
+              "law": "TCK m.81, m.86, m.87/1-d",
+              "note": "Daireyi ikna edecek bir paragraf: Yargıtay'ın kast ölçütlerini dosyadaki olgularla eşleştirdiniz."
+            },
+            {
+              "text": "Yeterli açıklama",
+              "min": 40,
+              "delta": 5,
+              "set": [
+                "aciklama"
+              ],
+              "law": "TCK m.81, m.86",
+              "note": "Doğru yöndesiniz; ama ölçütleri eksik saydınız. Araç, bölge, darbe sayısı, devam imkânı, husumet ve sonraki davranış birlikte değerlendirilir."
+            },
+            {
+              "text": "Zayıf açıklama",
+              "delta": -5,
+              "law": "TCK m.81, m.86",
+              "note": "Paragraf, hükmün dayandığı “hayati tehlike = öldürme kastı” gerekçesine cevap vermedi."
+            }
+          ]
+        },
+        {
+          "kind": "dilekce",
+          "side": "p1",
+          "scene": "office",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Dilekçe hazır. UYAP'tan Kayseri 1. Ağır Ceza Mahkemesine göndermeden önce son kez okuyun."
+            }
+          ],
+          "prompt": "Dilekçenizi gözden geçirin.",
+          "choices": [],
+          "paper": {
+            "title": "İSTİNAF DİLEKÇESİ",
+            "meta": [
+              {
+                "k": "Dosya",
+                "v": "Kayseri 1. Ağır Ceza Mahkemesi 2026/198 Esas"
+              },
+              {
+                "k": "İstinaf eden (sanık)",
+                "v": "Hakan Er"
+              },
+              {
+                "k": "Katılan",
+                "v": "Tarık Şahin"
+              },
+              {
+                "k": "Hüküm · tebliğ",
+                "v": "25.01.2027 · 12.02.2027"
+              },
+              {
+                "k": "Konu",
+                "v": "Kasten öldürmeye teşebbüs hükmünün kaldırılması istemidir."
+              }
+            ],
+            "sign": "Sanık müdafii"
+          }
+        },
+        {
+          "kind": "evidence",
+          "side": "p1",
+          "scene": "court",
+          "lines": [
+            {
+              "who": "judge",
+              "text": "Davanın yeniden görülmesine karar vermiştik; duruşmayı açıyorum. Katılan vekili, beyanınız?"
+            }
+          ],
+          "statement": {
+            "who": "opp",
+            "text": "Darbe büyük bir damarı kesti. Mağdur ancak ameliyatla kurtuldu. Sanık öldürmek istemeseydi bu yaraya yol açmazdı; hayati tehlike kastı kendiliğinden gösterir."
+          },
+          "prompt": "Bu beyanı hangi delille karşılayacaksınız?",
+          "correct": [
+            "ev_112",
+            "ev_atk"
+          ],
+          "hit": {
+            "delta": 20,
+            "set": [
+              "delil"
+            ],
+            "reply": [
+              {
+                "who": "judge",
+                "text": "Delil tutanağa geçti. Heyet darbenin sayısını, yerini ve sanığın fiilden sonraki davranışını değerlendirecek."
+              }
+            ],
+            "note": "Doğru. Rapor tek darbeyi ve hayati organ bulunmayan bölgeyi; 112 kaydı ise sanığın fiilden hemen sonra yardım çağırdığını gösterir. Kastı belirleyen, sonuç değil fiilin bütünüdür."
+          },
+          "responses": {
+            "ev_bicak": {
+              "delta": 5,
+              "note": "Bıçağın iş aleti olması lehinize; ama yaranın niteliği ve sonraki davranış sorusuna rapor ya da 112 kaydı cevap verirdi."
+            },
+            "law_283": {
+              "delta": 0,
+              "note": "Aleyhe değiştirme yasağı cezanın üst sınırını korur; kastın türü sorusuna cevap vermez."
+            }
+          },
+          "miss": {
+            "delta": -10,
+            "note": "Bu delil kast meselesine cevap vermiyor."
+          },
+          "pass": {
+            "delta": -15,
+            "note": "“Hayati tehlike kastı gösterir” iddiası dairede de cevapsız kaldı."
+          }
+        },
+        {
+          "side": "p1",
+          "scene": "court",
+          "lines": [
+            {
+              "who": "pros",
+              "text": "Mütalaam: eylem kasten öldürmeye teşebbüstür. Bunun da ötesinde ilk derece takdiri indirimi yerinde değildir; cezanın artırılmasını talep ediyorum."
+            },
+            {
+              "who": "judge",
+              "text": "Müdafi, son beyanınız?"
+            }
+          ],
+          "prompt": "Savcının ceza artırımı talebine ne diyeceksiniz?",
+          "choices": [
+            {
+              "text": "Hükmü yalnız sanık istinaf etti; yeni hükümdeki ceza öncekinden ağır olamaz.",
+              "delta": 10,
+              "set": [
+                "aleyhe"
+              ],
+              "law": "CMK m.283",
+              "note": "Doğru. Hüküm yalnız sanık lehine istinaf edildiğinde yeni hükümdeki ceza önceki cezadan ağır olamaz (CMK m.283). Savcı ve katılan istinaf etmedi."
+            },
+            {
+              "text": "Takdiri indirimin kaldırılmasına itiraz etmeyelim; vasıf değişirse ceza zaten aşağı iner.",
+              "delta": -5,
+              "law": "CMK m.283",
+              "note": "Aleyhe değiştirme yasağı sizin kalkanınızdı; kullanmadan bıraktınız. Vasıf değişmezse savcının talebi kabul edilemezdi ama bunu siz söylemeliydiniz."
+            },
+            {
+              "text": "Savcının bu talebi için ayrıca istinaf dilekçesi vermesi gerektiğini söyleyip duruşmanın ertelenmesini isteyin.",
+              "delta": -10,
+              "law": "CMK m.283",
+              "note": "Erteleme gereksiz. Savcı süresinde istinaf etmedi; artık yapamaz. Talebin karşılığı CMK m.283'tür: ceza önceki hükümden ağır olamaz."
+            }
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "if": "vasif && (delil || (celp && aciklama))",
+          "winner": "p1",
+          "stamp": "KALDIRMA",
+          "karar": "kaldirma",
+          "label": "HÜKÜM:",
+          "ceza": {
+            "hapisAy": 50
+          },
+          "hukum": "Sanık müdafiinin istinaf başvurusunun KABULÜ ile Kayseri 1. Ağır Ceza Mahkemesinin 25.01.2027 tarihli hükmünün CMK m.280/2 uyarınca KALDIRILMASINA; Dairemizce yapılan duruşma sonunda eylemin silahla ve mağdurun yaşamını tehlikeye sokacak biçimde kasten yaralama suçunu oluşturduğu anlaşıldığından, sanığın TCK m.86/1, m.86/3-e, m.87/1-d ve m.62 uyarınca hapis cezasıyla cezalandırılmasına; oy birliğiyle karar verildi.",
+          "summary": [
+            {
+              "text": "Daire öldürme kastının bulunmadığını kabul etti: tek darbe, hayati organ bulunmayan bir bölge, önceden hazırlanmamış bir iş aleti ve devam imkânı varken durma."
+            },
+            {
+              "if": "celp",
+              "text": " Ceza istinafının imkânını kullandınız: ilk derecede eksik kalan 112 kaydını daireye getirttiniz."
+            },
+            {
+              "if": "aleyhe",
+              "text": " Savcının ceza artırımı talebini de CMK m.283 ile baştan karşıladınız."
+            },
+            {
+              "if": "gonder",
+              "text": " Bozup gönderme talebiniz yerinde değildi; daire duruşma açarak hükmü kendisi kurdu."
+            }
+          ]
+        },
+        {
+          "winner": "p2",
+          "stamp": "ESASTAN RET",
+          "karar": "ret",
+          "label": "HÜKÜM:",
+          "ceza": {
+            "hapisAy": 90
+          },
+          "hukum": [
+            {
+              "text": "Sanık müdafiinin istinaf başvurusunun CMK m.280/2 uyarınca ESASTAN REDDİNE"
+            },
+            {
+              "if": "aleyhe",
+              "text": ", hüküm yalnız sanık lehine istinaf edildiğinden cezanın artırılması talebinin CMK m.283 uyarınca reddine"
+            },
+            {
+              "text": "; tebliğden itibaren iki hafta içinde Yargıtay'a temyiz yolu açık olmak üzere oy birliğiyle karar verildi."
+            }
+          ],
+          "summary": [
+            {
+              "if": "!vasif",
+              "text": "Dilekçe hükmün dayandığı kast değerlendirmesini hedef almadı."
+            },
+            {
+              "if": "vasif && !celp && !delil",
+              "text": "Vasıf itirazınız doğruydu; ama onu taşıyacak bir delil göstermediniz. 112 kaydı ilk derecede de, dairede de dosyaya girmedi."
+            },
+            {
+              "if": "vasif && (celp || delil)",
+              "text": "Doğru sebebi ve delili gösterdiniz; ama dilekçedeki açıklamanız heyeti kast konusunda ikna etmedi."
+            },
+            {
+              "if": "!aleyhe",
+              "text": " Savcının ceza artırımı talebine karşı CMK m.283'ü siz hatırlatmadınız; daire yasağı kendiliğinden gözetti."
+            },
+            {
+              "text": " Hükümdeki hapis cezası beş yılı aştığından temyiz yolu açıktır (CMK m.286/2-a)."
+            }
+          ]
+        }
+      ]
+    },
+    "cevap": {
+      "court": "Kayseri Bölge Adliye Mahkemesi 2. Ceza Dairesi",
+      "courtShort": "BAM · 2. CEZA DAİRESİ",
+      "esas": "2027/433 Esas",
+      "kararTarihi": "23.06.2027",
+      "role": "Sanık müdafii · istinafa cevap veren",
+      "oppRole": "Katılan vekili · istinaf eden",
+      "teaser": "Heyet eylemi kasten yaralama saydı. Savcı ve katılan hükmü sanık aleyhine istinaf etti. Bu kez aleyhe değiştirme yasağı sizi korumuyor.",
+      "cast": {
+        "judge": {
+          "name": "Daire Başkanı",
+          "np": "red",
+          "look": {
+            "kind": "robe",
+            "collar": "hakim",
+            "skin": "#d9a982",
+            "hair": "#6b6b70",
+            "style": "short",
+            "glasses": true
+          }
+        },
+        "pros": {
+          "name": "Cumhuriyet Savcısı",
+          "np": "red",
+          "look": {
+            "kind": "robe",
+            "collar": "hakim",
+            "skin": "#c79a74",
+            "hair": "#1d1a19",
+            "style": "long"
+          }
+        }
+      },
+      "courtCast": [
+        "judge",
+        "pros",
+        "you",
+        "client",
+        "opp"
+      ],
+      "intro": [
+        {
+          "who": "narr",
+          "text": "Kayseri 1. Ağır Ceza Mahkemesi eylemi kasten yaralama (TCK m.86/1, m.86/3-e, m.87/1-d) saydı. Cumhuriyet savcısı ve katılan vekili hükmü istinaf etti: “eylem öldürmeye teşebbüstür.”"
+        },
+        {
+          "who": "narr",
+          "text": "Katılan vekilinin istinaf dilekçesi size 03.03.2027 Çarşamba günü tebliğ edildi."
+        },
+        {
+          "who": "client",
+          "text": "Yine mi öldürmeye teşebbüs? Bu kez daha ağır ceza verebilirler mi?"
+        }
+      ],
+      "docs": [
+        {
+          "t": "İlk derece hükmü (25.01.2027)",
+          "d": "Kasten yaralama; TCK m.86/1, m.86/3-e, m.87/1-d ve m.62. Gerekçe: tek darbe, hedef bacak, devam imkânı varken durma."
+        },
+        {
+          "t": "Savcının ve katılanın istinaf dilekçeleri",
+          "d": "Sanık aleyhine: hayati tehlike öldürme kastını gösterir; eylem TCK m.81/1, m.35 kapsamındadır."
+        },
+        {
+          "t": "Tebliğ",
+          "d": "Katılan vekilinin istinaf dilekçesi müdafie 03.03.2027 Çarşamba günü tebliğ edildi."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev_atk",
+          "type": "belge",
+          "title": "Adli Tıp raporu",
+          "desc": "Sol uyluk dış yüzde tek kesi; damar yaralanması nedeniyle hayati tehlike. Başka darbe izi yok."
+        },
+        {
+          "id": "ev_112",
+          "type": "belge",
+          "title": "112 çağrı kaydı",
+          "desc": "Olaydan bir dakika sonra sanığın hattından arama; ekip sanığı kemerle bacağı sıkarken buldu."
+        },
+        {
+          "id": "ev_doktor",
+          "type": "belge",
+          "title": "Katılanın sunduğu özel uzman görüşü",
+          "desc": "Dairede ilk kez sunuldu: “Darbe femoral arter hattına yönelmiştir.” Adli Tıp raporuyla aynı bulguya dayanıyor."
+        },
+        {
+          "id": "law_283",
+          "type": "kanun",
+          "title": "CMK m.283 · Aleyhe değiştirme yasağı",
+          "desc": "Hüküm yalnız sanık lehine istinaf edilmişse yeni ceza öncekinden ağır olamaz.",
+          "law": "CMK m.283"
+        }
+      ],
+      "steps": [
+        {
+          "kind": "date",
+          "side": "p1",
+          "scene": "office",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "İstinaf dilekçesine cevap süresi, dilekçenin size tebliğinden işler. Tebliğ: 03.03.2027 Çarşamba."
+            }
+          ],
+          "prompt": "Cevap dilekçesini en geç hangi gün vermelisiniz? Son günü yazın.",
+          "deadline": {
+            "teblig": "03.03.2027",
+            "weeks": 2,
+            "law": "CMK m.277/1",
+            "what": "cevap dilekçesi"
+          },
+          "choices": [
+            {
+              "text": "Doğru gün",
+              "min": 100,
+              "delta": 10,
+              "set": [
+                "sure"
+              ],
+              "law": "CMK m.277/1",
+              "note": "Karşı taraf istinaf dilekçesinin tebliğinden itibaren iki hafta içinde yazılı cevap verebilir (CMK m.277/1)."
+            },
+            {
+              "text": "Erken gün",
+              "min": 50,
+              "delta": -5,
+              "set": [
+                "sure"
+              ],
+              "law": "CMK m.277/1",
+              "note": "Cevabınız süresinde olur; ama süreyi kısa hesapladınız. Cevap süresi tebliğden itibaren iki haftadır (CMK m.277/1)."
+            },
+            {
+              "text": "Süre geçti",
+              "min": 0,
+              "delta": -15,
+              "set": [
+                "gec"
+              ],
+              "law": "CMK m.277/1",
+              "note": "Cevap süresini kaçırdınız. Daire incelemeyi yapar; savunmanızı ancak duruşmada sözlü olarak sunabilirsiniz."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "MERCİ",
+          "lines": [],
+          "prompt": "Cevap dilekçesi kime hitaben yazılır, nereye verilir?",
+          "choices": [
+            {
+              "text": "Kayseri BAM ilgili ceza dairesine sunulmak üzere, hükmü veren Kayseri 1. Ağır Ceza Mahkemesine.",
+              "delta": 10,
+              "set": [
+                "merci"
+              ],
+              "doc": "KAYSERİ 1. AĞIR CEZA MAHKEMESİNE\nGönderilmek üzere\nKAYSERİ BÖLGE ADLİYE MAHKEMESİ İLGİLİ CEZA DAİRESİNE",
+              "law": "CMK m.277",
+              "note": "Doğru. Cevap, dosyanın bulunduğu hükmü veren mahkemeye verilir; dosya daireye cevapla birlikte gönderilir."
+            },
+            {
+              "text": "Kayseri Cumhuriyet Başsavcılığına; savcının istinafını geri almasını sağlayacak bir yazıyla.",
+              "delta": -10,
+              "doc": "KAYSERİ CUMHURİYET BAŞSAVCILIĞINA",
+              "law": "CMK m.277",
+              "note": "Savcılık istinaf eden taraftır; cevap mahkemeye verilir. Başvurunun geri alınması savcının kendi takdiridir."
+            },
+            {
+              "text": "Doğrudan Yargıtay 1. Ceza Dairesine; daire ilk derece hükmünü zaten onaylayacaktır.",
+              "delta": -10,
+              "doc": "YARGITAY 1. CEZA DAİRESİ BAŞKANLIĞINA",
+              "law": "CMK m.272, m.286",
+              "note": "İstinafı bölge adliye mahkemesi inceler; Yargıtay ancak daire hükmünden sonra temyizle devreye girer."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "CEVAPLARIMIZ",
+          "lines": [],
+          "prompt": "Cevap dilekçenizin merkezine ne koyacaksınız?",
+          "choices": [
+            {
+              "text": "Hüküm kast ölçütlerine uygun: tek darbe, bacak, iş aleti, durması ve 112'yi araması yaralama kastını gösterir.",
+              "delta": 20,
+              "set": [
+                "savunma"
+              ],
+              "law": "TCK m.81, m.86, m.87/1-d",
+              "doc": "İlk derece hükmü isabetlidir. Hayati tehlike tek başına öldürme kastını göstermez; tek darbe, hayati organ bulunmayan bölge, önceden hazırlanmamış iş aleti, devam imkânı varken durma ve fiilden hemen sonra 112'nin aranması yaralama kastını gösterir.",
+              "note": "Doğru. İlk derece hükmünün gerekçesini, Yargıtay'ın kast ölçütleriyle savundunuz."
+            },
+            {
+              "text": "Aleyhe değiştirme yasağı: ilk derece hükmü sanık lehine olduğundan daire daha ağır bir ceza veremez (CMK m.283).",
+              "delta": -10,
+              "set": [
+                "yanlis283"
+              ],
+              "law": "CMK m.283",
+              "doc": "CMK m.283 uyarınca sanık aleyhine değişiklik yapılamaz.",
+              "note": "Yasak yalnız hüküm sanık lehine istinaf edildiğinde işler (CMK m.283). Burada savcı ve katılan sanık aleyhine istinaf etti; daire daha ağır hüküm kurabilir."
+            },
+            {
+              "text": "Savcılığın istinafının, tebliğ tarihleri kontrol edilmeden süresiz olduğunu ileri sürmek.",
+              "delta": -5,
+              "law": "CMK m.273, m.276",
+              "doc": "Savcılığın istinaf başvurusu süresinde değildir.",
+              "note": "Dosyaya göre başvurular süresinde. Dayanaksız bir süre itirazı cevabın inandırıcılığını zayıflatır."
+            },
+            {
+              "text": "Katılanın da kavgada kusurlu olduğunu, mağdurun da cezalandırılması gerektiğini yazmak.",
+              "delta": -5,
+              "law": "TCK m.29",
+              "doc": "Mağdur da kavgada kusurludur.",
+              "note": "Mağdurun haksız fiili ancak tahrik indirimi olarak hükme etki eder; istinaf incelemesinin konusu sanığın eyleminin vasfıdır."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "SONUÇ VE İSTEM",
+          "lines": [],
+          "prompt": "Sonuç ve isteminizi nasıl yazacaksınız?",
+          "choices": [
+            {
+              "text": "Cumhuriyet savcısının ve katılanın istinaf başvurularının esastan reddine.",
+              "delta": 10,
+              "set": [
+                "talep"
+              ],
+              "law": "CMK m.280/1-a",
+              "doc": "Cumhuriyet savcısının ve katılan vekilinin istinaf başvurularının CMK m.280/1-a uyarınca ESASTAN REDDİNE karar verilmesini saygıyla talep ederiz.",
+              "note": "Doğru talep."
+            },
+            {
+              "text": "İstinafların kabulüyle sanığın beraatine; kast hiç ispatlanamadı.",
+              "delta": -10,
+              "law": "CMK m.272",
+              "doc": "Sanığın beraatine karar verilmesini talep ederiz.",
+              "note": "Sanık hükmü istinaf etmedi; karşı tarafın istinafına cevapta kendi lehinize yeni hüküm isteyemezsiniz. Üstelik sanık vurduğunu kabul ediyor."
+            },
+            {
+              "text": "Hükmün bozularak, delillerin yeniden toplanması için dosyanın ilk derece mahkemesine gönderilmesine.",
+              "delta": -10,
+              "law": "CMK m.280, m.289",
+              "doc": "Hükmün bozularak dosyanın ilk derece mahkemesine gönderilmesini talep ederiz.",
+              "note": "Lehinize olan hükmü bozdurup dosyayı geri göndermek istemek, kazanımınızı tehlikeye atar."
+            }
+          ]
+        },
+        {
+          "kind": "dilekce",
+          "side": "p1",
+          "scene": "office",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Cevap dilekçesi hazır. Göndermeden önce okuyun."
+            }
+          ],
+          "prompt": "Dilekçenizi gözden geçirin.",
+          "choices": [],
+          "paper": {
+            "title": "İSTİNAF DİLEKÇELERİNE CEVAP",
+            "meta": [
+              {
+                "k": "Dosya",
+                "v": "Kayseri 1. Ağır Ceza Mahkemesi 2026/198 Esas"
+              },
+              {
+                "k": "Cevap veren (sanık)",
+                "v": "Hakan Er"
+              },
+              {
+                "k": "İstinaf edenler",
+                "v": "Cumhuriyet savcısı; katılan Tarık Şahin"
+              },
+              {
+                "k": "İstinaf dilekçesinin tebliği",
+                "v": "03.03.2027"
+              }
+            ],
+            "sign": "Sanık müdafii"
+          }
+        },
+        {
+          "kind": "evidence",
+          "side": "p1",
+          "scene": "court",
+          "lines": [
+            {
+              "who": "judge",
+              "text": "Duruşmayı açıyorum. Katılan vekili, yeni bir belge sunacağınızı bildirdiniz."
+            }
+          ],
+          "statement": {
+            "who": "opp",
+            "text": "Uzman hekim görüşünü sunuyoruz: darbe femoral arter hattına yönelmiştir. Sanık nereye vurduğunu biliyordu; hedef damardı."
+          },
+          "prompt": "Bu görüşü hangi delille karşılayacaksınız?",
+          "correct": [
+            "ev_atk",
+            "ev_112"
+          ],
+          "hit": {
+            "delta": 20,
+            "set": [
+              "delil"
+            ],
+            "reply": [
+              {
+                "who": "judge",
+                "text": "Rapordaki darbe sayısı ve sanığın fiilden sonraki davranışı tutanağa geçti."
+              }
+            ],
+            "note": "Doğru. Uzman görüşü, Adli Tıp raporundaki aynı bulguya dayanıyor; yeni bir olgu getirmiyor. Kastı belirleyen tek bir anatomik ayrıntı değil, fiilin bütünü ve fiilden sonraki davranıştır."
+          },
+          "responses": {
+            "law_283": {
+              "delta": -10,
+              "note": "Savcı ve katılan sanık aleyhine istinaf etti; CMK m.283 burada uygulanmaz."
+            },
+            "ev_doktor": {
+              "delta": -10,
+              "note": "Karşı tarafın belgesini sundunuz."
+            }
+          },
+          "miss": {
+            "delta": -10,
+            "note": "Bu delil uzman görüşüne cevap vermiyor."
+          },
+          "pass": {
+            "delta": -15,
+            "note": "Uzman görüşü cevapsız kaldı. Ceza istinafında daire yeni delili değerlendirebilir."
+          }
+        }
+      ],
+      "outcomes": [
+        {
+          "if": "savunma && (delil || talep)",
+          "winner": "p1",
+          "stamp": "ESASTAN RET",
+          "karar": "ret",
+          "label": "HÜKÜM:",
+          "hukum": "Cumhuriyet savcısının ve katılan vekilinin istinaf başvurularının CMK m.280/1-a uyarınca ESASTAN REDDİNE; oy birliğiyle karar verildi.",
+          "summary": [
+            {
+              "text": "Daire, ilk derece mahkemesinin kast değerlendirmesini isabetli buldu; eylem kasten yaralama olarak kaldı."
+            },
+            {
+              "if": "delil",
+              "text": " Uzman görüşünün Adli Tıp raporundaki bulguyu tekrar ettiğini ve fiilden sonraki davranışın kastı gösterdiğini delille ortaya koydunuz."
+            },
+            {
+              "if": "yanlis283",
+              "text": " Aleyhe değiştirme yasağına dayanmanız yanlıştı: savcı aleyhe istinaf etmişti."
+            },
+            {
+              "if": "gec",
+              "text": " Cevabı süresinde vermediniz; savunmanızı duruşmada sözlü tamamladınız."
+            }
+          ]
+        },
+        {
+          "winner": "p2",
+          "stamp": "KALDIRMA",
+          "karar": "kaldirma",
+          "label": "HÜKÜM:",
+          "ceza": {
+            "hapisAy": 108
+          },
+          "hukum": "Cumhuriyet savcısının ve katılan vekilinin istinaf başvurularının KABULÜ ile ilk derece hükmünün CMK m.280/2 uyarınca KALDIRILMASINA; Dairemizce yapılan duruşma sonunda sanığın kasten öldürmeye teşebbüs suçundan TCK m.81/1, m.35/2 ve m.62 uyarınca hapis cezasıyla cezalandırılmasına; tebliğden itibaren iki hafta içinde Yargıtay'a temyiz yolu açık olmak üzere oy birliğiyle karar verildi.",
+          "summary": [
+            {
+              "text": "Daire, savcının ve katılanın sebeplerini yerinde buldu; hükmü sanık aleyhine yeniden kurdu."
+            },
+            {
+              "if": "!savunma",
+              "text": " Cevabınız ilk derece hükmünün kast gerekçesini savunmadı."
+            },
+            {
+              "if": "yanlis283",
+              "text": " CMK m.283'e dayanmak işe yaramadı: aleyhe istinaf varken yasak işlemez."
+            },
+            {
+              "text": " Hapis cezası beş yılı aştığından temyiz yolu açıktır (CMK m.286/2-a)."
+            }
+          ]
+        }
+      ]
+    }
+  }
 }

@@ -7,7 +7,8 @@ import { AI_FUNCTION, serverReady, SUPABASE_ANON_KEY, SUPABASE_URL } from "../co
 import { getAccessToken } from "../data/account";
 import { CASES } from "../data/cases";
 import { normalizeCase } from "../engine/engine";
-import { CaseFile } from "../engine/types";
+import { AppealKind, AppealStage, CaseFile } from "../engine/types";
+import { validateAppeals } from "../engine/appeal";
 import { AiError, applyOps, AuditReport, engineCheck, extractJson, flatten, Issue } from "./aiCore";
 import { CourtPreset } from "./presets";
 export * from "./aiCore";
@@ -204,4 +205,46 @@ export async function generateCase(req: GenRequest, takenIds: string[], onStage:
   }
   say(problems.length ? `Dosya üretildi ama ${problems.length} yapısal sorun kaldı; düzenleyicide bakın.` : "Dosya üretildi ve bütün yolları sorunsuz oynandı.");
   return { c, problems, log };
+}
+
+/* ---------- Kanun yolu aşaması üretimi ---------- */
+
+const APPEAL_FORMAT = [
+  "KANUN YOLU AŞAMASI BİÇİMİ (JSON, dosyanın appeal.<tür> alanı):",
+  "{court (tam daire adı, ör. 'Konya Bölge Adliye Mahkemesi 3. Hukuk Dairesi'), courtShort, esas, kararTarihi, role (oyuncunun rolü), oppRole, teaser, cast? (yalnız değişen kişiler; judge: 'Daire Başkanı'), courtCast, intro, docs, evidence?, steps, outcomes}.",
+  "Adımlar bu sırayla olmalı:",
+  "1) {kind:'date', scene:'office', deadline:{teblig:'GG.AA.YYYY', weeks|days, law, what}, choices: üç sonuç: {text:'Doğru gün', min:100, delta:10, set:['sure']}, {text:'Erken gün', min:50, delta:-5, set:['sure']}, {text:'Süre geçti', min:0, ...}}. Oyuncu son günü kendisi yazar; motor tebliğin ertesi gününden başlayıp hafta sonu ve resmî tatili kaydırarak doğru günü hesaplar. İstinaf ve temyizde 'Süre geçti' sonucu fatal olsun (süre aşımından ret); cevap dilekçesinde fatal olmasın. Tebliğ tarihini adli tatile (20 Temmuz–31 Ağustos) denk getirme.",
+  "2) MERCİ: {section:'MERCİ'} seçenekli adım; doğru seçenekte doc: 'KARARI VEREN MAHKEMEYE\\nGönderilmek üzere\\nİNCELEYECEK DAİREYE' biçiminde başlık.",
+  "3) Sebepler: {section:'İSTİNAF SEBEPLERİ' | 'TEMYİZ SEBEPLERİ' | 'CEVAPLARIMIZ'}; her seçenekte doc (dilekçeye yazılacak cümle). Yanlışlar gerçek hatalar olsun: HMK m.357 yeni delil/talep yasağı, yanlış yargı yolu, gerekçesiz itiraz...",
+  "4) Gerekirse ek seçenekli adım (ör. delil celbi; section:'DELİLLER VE TALEPLER').",
+  "5) SONUÇ VE İSTEM: {section:'SONUÇ VE İSTEM'}: kaldırma / esastan ret / gönderme / bozma talepleri; doğru olanı rejime göre seç.",
+  "6) İsteğe bağlı serbest cevap {kind:'free', section:'AÇIKLAMALAR', rubric, keywords, model, choices (min 70/40/0)}.",
+  "7) {kind:'dilekce', scene:'office', prompt:'Dilekçenizi gözden geçirin.', choices:[], paper:{title:'İSTİNAF DİLEKÇESİ', meta:[{k,v}], sign:'Davacı vekili'}}.",
+  "8) Bir ya da iki duruşma adımı (scene:'court'; evidence ya da choice) ve dairenin kararı.",
+  "outcomes: [{if?, winner:'p1'|'p2', stamp:'KALDIRMA'|'ESASTAN RET'|'GÖNDERME'|'BOZMA'|'ONAMA'|'RET', karar:'kaldirma'|'ret'|'gonderme'|'bozma'|'onama', label:'HÜKÜM:', hukum, summary, kesin?: 'kesinlik gerekçesi', ceza?: {hapisAy} (ceza davasında)}]. Oyuncu p1'dir; winner p1 oyuncunun lehine sonuçtur. Son kural koşulsuz olmalı.",
+  "Süreler (bugünkü hukuk): HMK istinaf ve temyiz iki hafta (m.345, m.361), cevap iki hafta (m.347); İİK m.363-364 iki hafta (7499 s.K.); CMK istinaf ve temyiz iki hafta (m.273, m.291; 7499 s.K.), cevap iki hafta (m.277); İYUK istinaf ve temyiz otuz gün (m.45, m.46). İdari yargıda m.46 dışındaki bölge idare kararları kesindir (m.45/6). Parasal sınır tutarı yazma.",
+  FORMAT
+].join("\n");
+
+/** Bir dosyaya istinaf, cevap ya da temyiz aşaması yazdırır; motorla sınanmış yeni dosyayı döndürür (kaydetmez). */
+export async function generateAppeal(c: CaseFile, kind: AppealKind, onStage: (s: string) => void): Promise<GenResult> {
+  const log: string[] = [];
+  const say = (s: string) => { log.push(s); onStage(s); };
+  const sample = CASES.find(x => x.appeal?.[kind])?.appeal?.[kind];
+  say(`${kind === "cevap" ? "İstinafa cevap" : kind === "temyiz" ? "Temyiz" : "İstinaf"} aşaması yazılıyor…`);
+  const r = await askAdmin([GEN_RULES, APPEAL_FORMAT].join("\n\n"), [
+    `DOSYA: ${c.title} (${c.id}) · ${c.court} · oyuncu p1: ${c.sides.p1.role}`,
+    kind === "cevap" ? "Oyuncu ilk derecede kazandı; karşı taraf istinaf etti. Oyuncu cevap dilekçesi verir ve kararı dairede savunur."
+      : kind === "temyiz" ? "Bölge mahkemesi oyuncunun aleyhine karar verdi; oyuncu temyiz eder." : "Oyuncu ilk derecede kaybetti (ya da kısmen kaybetti) ve istinaf eder.",
+    'Yanıtın yalnızca aşamanın JSON nesnesi olsun: {"court": ..., "steps": [...], "outcomes": [...]}', "",
+    "ANA DOSYA:", JSON.stringify({ ...c, appeal: undefined }), "",
+    ...(sample ? ["ÖRNEK AŞAMA (biçim için; içeriğini kopyalama):", JSON.stringify(sample)] : [])
+  ].join("\n"), { model: "derin", azami: 9000 });
+  const stage = extractJson<AppealStage>(r.text);
+  if (!stage || !Array.isArray(stage.steps) || !Array.isArray(stage.outcomes)) throw new AiError("Yapay zekâ geçerli bir aşama vermedi. Tekrar deneyin.");
+  const next = normalizeCase({ ...c, appeal: { ...(c.appeal || {}), [kind]: stage } });
+  say("Oyun motoruyla sınanıyor…");
+  const problems = validateAppeals(next, x => engineCheck(x).filter(p => !/serbest cevap/.test(p)));
+  say(problems.length ? `Aşama üretildi ama ${problems.length} sorun kaldı; düzenleyicide bakın.` : "Aşama üretildi ve bütün yolları sorunsuz oynandı.");
+  return { c: next, problems, log };
 }

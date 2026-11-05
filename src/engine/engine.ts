@@ -1,4 +1,5 @@
 // Oyunun kuralları. Arayüzden bağımsızdır; aynı kod mobilde, web'de ve testlerde çalışır.
+import { parseDate } from "./deadline";
 import { Flags, names, parse, test } from "./expr";
 import { CaseFile, Choice, EvidenceItem, EvidenceResponse, Fatal, Line, Player, Side, Step, Text, Winner } from "./types";
 
@@ -13,6 +14,8 @@ export interface LogEntry {
   law?: string;
   /** serbest cevap: puan, uygulanan sonuç ve örnek cevap */
   free?: { score: number; band: string; model?: string };
+  /** dilekçe kuran adımda: dilekçeye yazılan bölüm ve cümle (dilekçe önizlemesi bunlardan kurulur) */
+  doc?: { section: string; text: string };
 }
 
 export interface GameState {
@@ -133,7 +136,9 @@ export function choicesOf(c: CaseFile, state: GameState, stepIdx: number): Resol
     out.push({ text: "Görüşmeyi bitir", delta: 0, finish: true });
     return out;
   }
-  if (kind === "free") return freeBands(st);
+  // Tarih adımı serbest cevap gibi puanlanır (doğru gün 100, erken 50, geç 0); dilekçe önizlemesinde tek hamle "sun"dur.
+  if (kind === "free" || kind === "date") return freeBands(st);
+  if (kind === "dilekce") return [{ text: "Dilekçeyi sun", delta: 0, finish: true }];
   return st.choices.filter(ch => test(ch.if, f));
 }
 
@@ -170,7 +175,8 @@ export function applyChoice(c: CaseFile, state: GameState, stepIdx: number, choi
   const entry: LogEntry = {
     side, ai: state.players[side].ai, prompt: step.prompt, text: free ? `“${free.answer}”` : ch.text, letter, delta,
     note: free?.feedback ? `${free.feedback}${textOf(ch.note, flags) ? " " + textOf(ch.note, flags) : ""}` : textOf(ch.note, flags), law: ch.law,
-    ...(free ? { free: { score: free.score, band: ch.text, model: step.model } } : {})
+    ...(free ? { free: { score: free.score, band: ch.text, model: step.model } } : {}),
+    ...(step.section && (free?.answer || ch.doc) ? { doc: { section: step.section, text: (kindOf(step) === "free" && free ? free.answer : ch.doc || "").trim() } } : {})
   };
   return {
     ...state, stepIdx, flags, pts, score, asked, closed, log: ch.finish ? state.log : [...state.log, entry],
@@ -264,6 +270,13 @@ export function validateCase(c: CaseFile): string[] {
       if (!s.choices.some(ch => !ch.min)) errs.push(`${w}: serbest cevapta alt sınırı 0 olan bir sonuç olmalı (her cevap bir sonuca düşmeli)`);
       if (!s.rubric && !s.keywords?.length) errs.push(`${w}: serbest cevapta değerlendirme ölçütü (rubric) ya da anahtar kavramlar olmalı`);
     }
+    if (kind === "date") {
+      if (!s.deadline || !parseDate(s.deadline.teblig)) errs.push(`${w}: tarih adımında geçerli bir tebliğ tarihi (deadline.teblig, GG.AA.YYYY) olmalı`);
+      else if (!s.deadline.days && !s.deadline.weeks) errs.push(`${w}: tarih adımında süre (deadline.days ya da deadline.weeks) olmalı`);
+      const mins = s.choices.map(ch => ch.min ?? 0);
+      if (![100, 50, 0].every(m => mins.includes(m))) errs.push(`${w}: tarih adımında üç sonuç olmalı: min 100 (doğru gün), 50 (erken), 0 (süre geçti)`);
+    }
+    if (kind === "dilekce" && !s.paper?.title) errs.push(`${w}: dilekçe önizlemesinde başlık (paper.title) olmalı`);
     if (kind === "evidence") {
       if (!c.evidence?.length) errs.push(`${w}: delil adımı var ama davada delil çantası yok`);
       if (!s.correct?.length || !s.hit) errs.push(`${w}: delil adımında "correct" ve "hit" gerekli`);
