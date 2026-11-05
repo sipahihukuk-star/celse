@@ -9,7 +9,9 @@ import { stateCourt } from "./PhotoStage";
 import { C, F, sideColor, sideInk, toneColor } from "./theme";
 import { locale, t } from "../i18n";
 
-interface Props { c: CaseFile; game: GameState; onRetry?: () => void; onBack: () => void; backLabel?: string; notice?: string; ai?: AiVerdict }
+/** Kanun yolu kutusu: başvuru düğmesi ya da "Bu karar kesindir: …" açıklaması. */
+export interface AppealPanel { text: string; button?: string; onPress?: () => void; closed?: boolean }
+interface Props { c: CaseFile; game: GameState; onRetry?: () => void; onBack: () => void; backLabel?: string; notice?: string; ai?: AiVerdict; appeal?: AppealPanel }
 
 const TAIL = " istinaf yolu açık olmak üzere verilen karar açıkça okunup usulen anlatıldı.";
 const cap = (s: string) => { const l = s.toLocaleLowerCase(locale()); return l.charAt(0).toLocaleUpperCase(locale()) + l.slice(1); };
@@ -29,7 +31,7 @@ const rankLabel = (score: number) => {
   return r === "Kıdemli avukat" ? t("Kıdemli avukat") : r === "Deneyimli avukat" ? t("Deneyimli avukat") : r === "Genç avukat" ? t("Genç avukat") : r === "Stajyer avukat" ? t("Stajyer avukat") : r;
 };
 
-export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, notice, ai }: Props) {
+export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, notice, ai, appeal }: Props) {
   const v = useMemo(() => {
     const v0 = verdict(c, game);
     const base = { ...v0, stamp: localStamp(c, v0), label: localLabel(v0.label) };
@@ -46,7 +48,8 @@ export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, not
 
   useEffect(() => {
     const tone = v.winner === "draw" ? "draw" : duel || v.winner === "p1" ? "win" : "lose";
-    saveResult(c.id, { text: duel ? cap(v.stamp) : `${cap(v.stamp)} · ${game.score}`, tone });
+    // Kanun yolu aşamasının sonucu, listelerde ana davanın sonucu olarak görünür.
+    saveResult(c.appealOf?.id || c.id, { text: duel ? cap(v.stamp) : `${cap(v.stamp)} · ${game.score}`, tone });
   }, []);
 
   const leader = game.pts.p1 === game.pts.p2 ? null : game.pts.p1 > game.pts.p2 ? "p1" : "p2";
@@ -57,7 +60,8 @@ export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, not
         {/* Tahkim kararlarında "T.C." başlığı yok; Türkiye'deki kurul ve komisyonlarda vardır. */}
         {(!arb || c.forum === "tff" || c.forum === "ihtk" || c.forum === "sigorta") && <Text style={styles.head}>T.C.</Text>}
         <Text style={styles.courtName}>{c.court.toLocaleUpperCase(locale())}</Text>
-        <Text style={styles.sub}>{arb ? t(c.forum === "ihtk" ? "KOMİSYON KARARI" : c.forum === "tff" ? "TAHKİM KURULU KARARI" : "HAKEM KARARI") : t("KISA KARAR")}</Text>
+        <Text style={styles.sub}>{arb ? t(c.forum === "ihtk" ? "KOMİSYON KARARI" : c.forum === "tff" ? "TAHKİM KURULU KARARI" : "HAKEM KARARI")
+          : c.appealOf ? t(c.appealOf.kind === "temyiz" ? "TEMYİZ İNCELEMESİ" : "İSTİNAF İNCELEMESİ") : t("KISA KARAR")}</Text>
 
         <View style={styles.meta}>
           <Meta k={t("Esas No")} v={c.esas} />
@@ -101,8 +105,16 @@ export default function VerdictScreen({ c, game, onRetry, onBack, backLabel, not
         </View>
       )}
 
+      {!!appeal && (
+        <View style={[styles.notice, styles.appeal, appeal.closed && styles.appealClosed]}>
+          <Text style={styles.noticeK}>{t("KANUN YOLU")}{c.appealOf?.basic ? " · " + t("TEMEL AŞAMA") : ""}</Text>
+          <Text style={styles.noticeText}>{appeal.text}</Text>
+          {!!appeal.button && !!appeal.onPress && <Btn label={appeal.button} onPress={appeal.onPress} style={{ alignSelf: "flex-start", marginTop: 6 }} />}
+        </View>
+      )}
+
       <View style={styles.actions}>
-        {onRetry && <Btn label={t("Davayı yeniden oyna")} onPress={onRetry} />}
+        {onRetry && <Btn kind={appeal?.button ? "ghost" : "primary"} label={t("Davayı yeniden oyna")} onPress={onRetry} />}
         <Btn kind="ghost" label={backLabel || t("Dosya dolabına dön")} onPress={onBack} />
       </View>
 
@@ -137,6 +149,8 @@ const styles = StyleSheet.create({
   notice: { width: "100%", marginTop: 16, borderWidth: 1, borderColor: C.brass, backgroundColor: "rgba(255,255,255,0.10)", borderRadius: 8, padding: 14, gap: 4 },
   noticeK: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.brass },
   noticeText: { fontFamily: F.bodyMed, fontSize: 17, color: C.text },
+  appeal: { borderColor: C.brassDim, backgroundColor: C.panel2 },
+  appealClosed: { borderColor: C.line, backgroundColor: C.panel },
   wrap: { width: "100%", maxWidth: 800, alignSelf: "center", paddingHorizontal: 16, paddingVertical: 20 },
   karar: { backgroundColor: C.paper, borderRadius: 4, padding: 24 },
   head: { textAlign: "center", fontFamily: F.display, fontSize: 15, color: C.ink, letterSpacing: 1 },

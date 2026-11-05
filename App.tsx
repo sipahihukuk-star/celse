@@ -34,7 +34,9 @@ import { careerSide, feeFor, lineText, monthlyCost, settleCase, SOURCE_LABEL, so
 import { resumeMusic } from "./src/ui/music";
 import { FREE_LEVEL, usePremium } from "./src/data/subscription";
 import PaywallScreen from "./src/ui/PaywallScreen";
-import { buildCareer, levelOf, openIds, Progress, recordResult, resetProgress, useProgress, CHAPTERS } from "./src/data/career";
+import { buildCareer, CaseRecord, levelOf, openIds, Progress, recordResult, resetProgress, useProgress, CHAPTERS } from "./src/data/career";
+import { appealCase, nextAppeal } from "./src/engine/appeal";
+import { AppealKind } from "./src/engine/types";
 import { useCases } from "./src/data/useCases";
 import { GameState, other, verdict } from "./src/engine/engine";
 import { CaseFile, Player, Side } from "./src/engine/types";
@@ -74,9 +76,12 @@ type Route =
   | { k: "character" }
   | { k: "board" }
   | { k: "inbox" }
-  | { k: "game"; c: CaseFile; players: Record<Side, Player>; run: number; from: From }
+  | { k: "game"; c: CaseFile; players: Record<Side, Player>; run: number; from: From; chain?: Chain }
   | { k: "closing"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From }
-  | { k: "verdict"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From; notice?: string; ai?: AiVerdict };
+  | { k: "verdict"; c: CaseFile; players: Record<Side, Player>; game: GameState; from: From; notice?: string; ai?: AiVerdict; chain?: Chain };
+
+/** Kanun yolu zinciri: ilk derece davası, oyuncunun tarafı, ilk derece oyunu, önceki aşama ve kariyer kaydının denemeden önceki hâli. */
+type Chain = { base: CaseFile; side: Side; baseGame: GameState; prev?: { c: CaseFile; game: GameState }; before?: CaseRecord | null; me: string };
 
 const SOLO_PLAYERS: Record<Side, Player> = { p1: { name: "Siz", ai: false }, p2: { name: "Karşı taraf", ai: false } };
 
@@ -156,9 +161,9 @@ export default function App() {
   if (!loaded && !error) return <View style={styles.root} />;
 
   // Tahkim dosyaları seçili dilde açılır (çevirisi varsa).
-  const startGame = async (c0: CaseFile, players: Record<Side, Player>, from: From = "list") => {
+  const startGame = async (c0: CaseFile, players: Record<Side, Player>, from: From = "list", chain?: Chain) => {
     const c = await localizeCase(c0);
-    setRun(r => r + 1); setRoute({ k: "game", c, players, run: run + 1, from });
+    setRun(r => r + 1); setRoute({ k: "game", c, players, run: run + 1, from, chain });
   };
   const toList = (mode: "duel" | "solo") => setRoute({ k: "list", mode });
   const back = (c: CaseFile, from: From) => (from === "admin" ? setRoute({ k: "admin" }) : from === "career" ? setRoute({ k: "career" }) : from === "desk" ? setRoute({ k: "desk" })
@@ -203,20 +208,60 @@ export default function App() {
     return notice;
   };
 
+  /** Kanun yolu zinciri: tek kişilik davada ve bilgisayara karşı karşılıklı davada açılır (internet ve aynı cihazda iki kişi hariç). */
+  const chainFor = (c: CaseFile, players: Record<Side, Player>, game: GameState, from: From): Chain | undefined => {
+    if (from === "online" || players.p1.remote || players.p2.remote) return undefined;
+    const side = mySide(c, from, players);
+    if (c.mode === "duel" && (players[side].ai || !players[other(side)].ai)) return undefined;
+    return { base: c, side, baseGame: game, before: careerFrom(from) ? progress[c.id] ?? null : undefined, me: c.mode === "solo" ? (players.p1.name === "Siz" ? meName : players.p1.name) : players[side].name };
+  };
+  /** Kanun yolu aşamasının sonucu kariyerde aynı denemenin kesin sonucu olur: ilk derece kaydının yerine, üst mahkeme çarpanıyla. */
+  const settleAppeal = (stage: CaseFile, game: GameState, chain: Chain, from: From): string | undefined => {
+    if (!careerFrom(from) || chain.before === undefined) return undefined;
+    const won = verdict(stage, game).winner === "p1";
+    const level = Math.min(5, Math.max(levelOf(stage), levelOf(chain.base) + 1));
+    recordResult(chain.base.id, won, game.score, level, { amend: chain.before });
+    return won ? t("Son durum: {mahkeme} kararıyla kazandınız. Sonuç kariyerinize üst mahkeme çarpanıyla işlendi.", { mahkeme: stage.court })
+      : t("Son durum: {mahkeme} kararıyla kaybettiniz. Kariyerinizde bu dosyanın sonucu güncellendi.", { mahkeme: stage.court });
+  };
   /** Oyun bitince: kariyer dosyasında sonucu işler (antrenmanda işlemez); karşılıklıda önce son sözler alınır. */
-  const finish = (c: CaseFile, players: Record<Side, Player>, game: GameState, from: From) => {
+  const finish = (c: CaseFile, players: Record<Side, Player>, game: GameState, from: From, chain?: Chain) => {
     let notice: string | undefined;
+    if (c.appealOf && chain) { setRoute({ k: "verdict", c, players, game, from, notice: settleAppeal(c, game, chain, from), chain }); return; }
     if (c.mode === "duel" && !game.fatal) { setRoute({ k: "closing", c, players, game, from }); return; }
+    const next = chainFor(c, players, game, from);
     if (careerFrom(from)) {
       const side = mySide(c, from, players);
       notice = settle(c, from, verdict(c, game).winner === side, c.mode === "solo" ? game.score : duelScore(game, side));
     }
-    setRoute({ k: "verdict", c, players, game, from, notice });
+    setRoute({ k: "verdict", c, players, game, from, notice, chain: next });
   };
   const afterClosing = (c: CaseFile, players: Record<Side, Player>, game: GameState, from: From, ai: AiVerdict) => {
     let notice: string | undefined;
+    const next = chainFor(c, players, game, from);
     if (careerFrom(from)) { const side = mySide(c, from, players); notice = settle(c, from, ai.winner === side, duelScore(game, side, ai)); }
-    setRoute({ k: "verdict", c, players, game, from, ai, notice });
+    setRoute({ k: "verdict", c, players, game, from, ai, notice, chain: next });
+  };
+  /** Karar ekranındaki kanun yolu kutusu: açık yol için başvuru düğmesi, kapalı yol için kesinlik gerekçesi. */
+  const appealFor = (r: Extract<Route, { k: "verdict" }>) => {
+    const ch = r.chain;
+    if (!ch) return undefined;
+    const na = nextAppeal(r.c, r.game, ch.base, ch.side, ch.baseGame, r.ai ? (r.ai.winner === "sulh" ? "draw" : r.ai.winner) : undefined);
+    if (na.closed) return { closed: true, text: na.closed.yarar ? t("İstinafa başvurmanızda hukuki yarar yok: {neden}", { neden: na.closed.reason }) : t("Bu karar kesindir: {neden}", { neden: na.closed.reason }) };
+    if (!na.offer) return undefined;
+    const { kind, route: way, basic } = na.offer;
+    const text = (kind === "cevap" ? t("Karşı taraf kararı istinaf etti. Cevap dilekçenizi hazırlayıp kararı {mahkeme} önünde savunun.", { mahkeme: way.court })
+      : kind === "temyiz" ? t("Karar aleyhinize. {mahkeme} nezdinde temyiz yoluna başvurabilirsiniz.", { mahkeme: way.court })
+      : t("Karar aleyhinize. {mahkeme} nezdinde istinaf yoluna başvurabilirsiniz.", { mahkeme: way.court }))
+      + (basic ? " " + t("Bu dosya için temel bir kanun yolu aşaması kurulacak.") : "");
+    const button = kind === "cevap" ? t("Karşı tarafın istinafına cevap ver") : kind === "temyiz" ? t("Temyize başvur") : t("İstinafa başvur");
+    return { text, button, onPress: () => startAppeal(kind, r) };
+  };
+  const startAppeal = (kind: AppealKind, r: Extract<Route, { k: "verdict" }>) => {
+    const ch = r.chain!;
+    const prev = r.c.appealOf ? { c: r.c, game: r.game } : undefined;
+    const stage = appealCase(ch.base, kind, { side: ch.side, baseGame: ch.baseGame, prev });
+    startGame(stage, { p1: { name: ch.me, ai: false }, p2: { name: t("Karşı taraf"), ai: false } }, r.from, { ...ch, prev });
   };
   /** Kariyerden dosya açma: tek kişilik doğrudan, karşılıklı rakip seçimiyle (büronun tarafı sabit). */
   const playCareer = (c: CaseFile, from: "desk" | "career") => {
@@ -307,16 +352,16 @@ export default function App() {
         {route.k === "game" && (
           <GameScreen key={route.run} c={route.c} players={route.players}
             onExit={() => back(route.c, route.from)}
-            onFinish={game => finish(route.c, route.players, game, route.from)} />
+            onFinish={game => finish(route.c, route.players, game, route.from, route.chain)} />
         )}
         {route.k === "closing" && (
           <ClosingScreen c={route.c} game={route.game} players={route.players}
             onDone={ai => afterClosing(route.c, route.players, route.game, route.from, ai)} />
         )}
         {route.k === "verdict" && (
-          <VerdictScreen c={route.c} game={route.game} notice={route.notice} ai={route.ai}
+          <VerdictScreen c={route.c} game={route.game} notice={route.notice} ai={route.ai} appeal={appealFor(route)}
             backLabel={route.from === "admin" ? t("Yönetim paneline dön") : route.from === "career" ? t("Kariyere dön") : route.from === "desk" ? t("Büro masasına dön") : route.from === "tahkim" ? t("Tahkim listesine dön") : route.from === "online" ? t("Çevrim içi lobiye dön") : undefined}
-            onRetry={route.from === "online" ? undefined : () => startGame(route.c, route.players, route.from === "desk" ? "list" : route.from)}
+            onRetry={route.from === "online" ? undefined : () => startGame(route.c, route.players, route.from === "desk" ? "list" : route.from, route.c.appealOf ? route.chain : undefined)}
             onBack={() => back(route.c, route.from)} />
         )}
         <SetupModal key={setup?.c.id} c={setup?.c || null} fixedSide={setup?.side} career={setup?.career} meName={setup?.career ? meName : undefined}

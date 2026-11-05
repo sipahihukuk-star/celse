@@ -63,6 +63,8 @@ export interface Choice {
   fatal?: Fatal;
   /** serbest cevap adımında bu sonucun alt puan sınırı (0–100). Sonuçlar yüksekten düşüğe denenir. */
   min?: number;
+  /** dilekçe kuran adımlarda: bu seçeneğin dilekçeye yazdığı cümle (önizlemede adımın `section` başlığı altında görünür) */
+  doc?: string;
 }
 
 /** Serbest cevapta çevrimdışı puanlama için kavram grubu: terimlerden biri geçerse ağırlık kadar puan. */
@@ -91,7 +93,7 @@ export interface EvidenceResponse {
 export interface Step {
   /** choice: klasik seçenekler (varsayılan) · evidence: çantadan delil sunma · interview: müvekkil görüşmesi
    *  · free: oyuncu cevabını kendisi yazar ya da söyler; puanına göre `choices` içindeki sonuçlardan biri uygulanır */
-  kind?: "choice" | "evidence" | "interview" | "free";
+  kind?: "choice" | "evidence" | "interview" | "free" | "date" | "dilekce";
   /** free: iyi bir cevabın içermesi gerekenler (yapay zekâ değerlendiricisine verilir) */
   rubric?: string;
   /** free: yapay zekâ yokken kullanılan kavram grupları */
@@ -119,6 +121,52 @@ export interface Step {
   pass?: EvidenceResponse;
   /** interview: en fazla kaç soru sorulabileceği */
   limit?: number;
+  /** date: oyuncu kanun yolu süresinin son gününü yazar. Sonuçlar (choices) `min` ile seçilir: 100 doğru gün, 50 süreden önceki bir gün, 0 süre geçmiş. */
+  deadline?: DeadlineRule;
+  /** dilekçe kuran adım: seçilen seçeneğin `doc` cümlesi (free adımda oyuncunun yazdığı metin) bu başlık altına yazılır */
+  section?: string;
+  /** dilekce: önizlenen dilekçenin başlığı ve künyesi; içerik önceki adımların `section`/`doc` kayıtlarından kurulur */
+  paper?: { title: string; meta?: { k: string; v: string }[]; sign?: string };
+}
+
+/** Kanun yolu süresi: tebliğ tarihi ve süre. Son gün tatile rastlarsa izleyen iş günü (HMK m.93, CMK m.39, İYUK m.8). */
+export interface DeadlineRule {
+  /** kararın (ya da karşı taraf dilekçesinin) tebliğ tarihi, GG.AA.YYYY */
+  teblig: string;
+  /** süre: gün ya da hafta */
+  days?: number;
+  weeks?: number;
+  /** dayanak, ör. "HMK m.345" */
+  law: string;
+  /** ne için: "istinaf dilekçesi", "cevap dilekçesi" ... */
+  what?: string;
+}
+
+/** Kanun yolu açısından uyuşmazlığın niteliği; kanunYolu() bunlarla istinaf ve temyizin açık olup olmadığına bakar. */
+export interface KesinlikData {
+  /** HMK / İİK: uyuşmazlığın (kanun yoluna konu kısmın) değeri, TL */
+  deger?: number;
+  /** parasal sınırın hangi yılın tutarıyla karşılaştırılacağı (dava açılış yılı; HMK ek m.1) */
+  yil?: number;
+  /** İYUK m.46/1: kararı temyize açan bent (ör. "a" düzenleyici işlem, "d" meslekten / kamu görevinden çıkarma, "g" imar planı) */
+  iyukBent?: string;
+  /** İYUK m.46/2-a: tek hâkimle verilen karar (daire yeniden karar verse de temyiz yok) */
+  tekHakim?: boolean;
+  /** İYUK m.20/A ivedi yargılama: istinaf yok, doğrudan Danıştay'da temyiz */
+  ivedi?: boolean;
+  /** kanunda kesin olduğu yazılı karar: kısa gerekçe */
+  kesin?: string;
+}
+
+/** Ceza hükmünün kanun yolu açısından niteliği (CMK m.272/3, m.286/2). */
+export interface PenaltyInfo {
+  /** hükmolunan hapis cezası, ay */
+  hapisAy?: number;
+  /** yalnız adli para cezası, TL */
+  adliParaTL?: number;
+  beraat?: boolean;
+  /** beraat hükümlerinde suçun kanundaki üst sınırı: adli para cezası gün sayısı (CMK m.272/3-b) */
+  ustSinirGun?: number;
 }
 
 export interface Outcome {
@@ -129,6 +177,57 @@ export interface Outcome {
   noCourt?: boolean;
   hukum: Text;
   summary: Text;
+  /** kanun yolu: bu kararla dosya kesinleşir; gerekçesi (ör. "İYUK m.45/6: m.46 dışındaki daire kararları kesindir") */
+  kesin?: string;
+  /** kanun yoluna başvurmakta hukuki yarar yok (ör. talebin tamamı kabul edildi); gerekçesi */
+  yarar?: string;
+  /** kanun yolu aşamasında dairenin kararının türü (sonraki kanun yolunun açık olup olmadığına etki eder) */
+  karar?: "ret" | "duzeltme" | "kaldirma" | "gonderme" | "onama" | "bozma";
+  /** ceza davasında hükmün niteliği (istinaf / temyiz kesinlik denetimi için) */
+  ceza?: PenaltyInfo;
+  /** hukuk davasında kanun yoluna konu aleyhe kısmın değeri, TL (yoksa dosyadaki kanunYolu.deger) */
+  deger?: number;
+}
+
+export type AppealKind = "istinaf" | "cevap" | "temyiz";
+
+/** Kanun yolu rejimi: hukuk (HMK), icra hukuk (İİK), ceza (CMK), idari yargı (İYUK). */
+export type Regime = "hmk" | "iik" | "cmk" | "iyuk";
+
+/** Kanun yolu aşaması: istinaf ya da temyiz incelemesi. Ana dosyanın künyesi, kadrosu ve belgeleri devralınır;
+ *  burada yazılanlar onların üstüne yazar. Oyun motoru bunu sıradan bir tek kişilik dosya olarak oynar (appealCase). */
+export interface AppealStage {
+  court: string;
+  courtShort?: string;
+  esas?: string;
+  kararTarihi?: string;
+  bench?: { judges: number; title?: string };
+  inscription?: string | null;
+  /** oyuncunun bu aşamadaki rolü (ör. "Davacı (işçi) vekili · istinaf eden") */
+  role?: string;
+  /** karşı tarafın rolü */
+  oppRole?: string;
+  teaser?: string;
+  /** eklenen ya da değişen kişiler (ör. daire başkanı, BAM savcısı) */
+  cast?: Record<string, CastMember>;
+  courtCast?: string[];
+  intro: Line[];
+  docs?: { t: string; d: string }[];
+  evidence?: EvidenceItem[];
+  steps: Step[];
+  outcomes: Outcome[];
+}
+
+/** İlk derece kararından sonraki kanun yolları. Yazılmayan aşama için motor temel (otomatik) bir yol üretir. */
+export interface AppealBlock {
+  /** oyuncu kaybettiğinde (ya da kısmen kaybettiğinde) kendi istinafı */
+  istinaf?: AppealStage;
+  /** oyuncu kazandığında karşı tarafın istinafına cevap dilekçesi */
+  cevap?: AppealStage;
+  /** istinaf incelemesinden sonra sonuç hâlâ aleyhteyse temyiz */
+  temyiz?: AppealStage;
+  /** kapalı aşamalar (ör. ["temyiz"]); true: bu dosyada kanun yolu oynatılmaz */
+  off?: boolean | AppealKind[];
 }
 
 export interface CaseFile {
@@ -167,6 +266,12 @@ export interface CaseFile {
   steps: Step[];
   /** sırayla denenir; ilk tutan kural karardır, sonuncusu koşulsuz olmalı */
   outcomes: Outcome[];
+  /** istinaf / temyiz aşamaları (isteğe bağlı; yazılmayan aşama için temel yol üretilir) */
+  appeal?: AppealBlock;
+  /** kesinlik denetimi için uyuşmazlığın değeri ve niteliği */
+  kanunYolu?: KesinlikData;
+  /** kanun yolu aşamasından üretilmiş dosyada: ana dava, aşama, temel (otomatik) yol mu, kariyer seviyesi */
+  appealOf?: { id: string; kind: AppealKind; basic: boolean; level: number; regime: Regime };
 }
 
 export interface Player {

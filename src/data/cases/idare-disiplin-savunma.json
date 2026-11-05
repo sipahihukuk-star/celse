@@ -154,5 +154,846 @@
         { "if": "izin", "text": " İzin onayı çantanızdaydı, ama idarenin savunmasına karşı onu sunmadınız." },
         { "if": "hafif", "text": " Cezanın ağırlığına dayanmak sonuç vermedi: kanun bu fiil için kınama öngörüyor." }
       ] }
-  ]
+  ],
+  "appeal": {
+    "istinaf": {
+      "court": "Erzurum Bölge İdare Mahkemesi 2. İdari Dava Dairesi",
+      "courtShort": "BÖLGE İDARE · 2. İDARİ DAVA DAİRESİ",
+      "esas": "2026/2214 Esas",
+      "kararTarihi": "26.02.2027",
+      "role": "Davacı (memur) vekili · istinaf eden",
+      "oppRole": "Davalı idare vekili",
+      "teaser": "İdare mahkemesi kınama cezasına karşı davayı reddetti. Kararı istinaf edin; ama bilin ki bu dairenin ret kararı son söz olacak.",
+      "cast": {
+        "judge": {
+          "name": "Daire Başkanı",
+          "np": "red",
+          "look": {
+            "kind": "robe",
+            "collar": "hakim",
+            "skin": "#d9a982",
+            "hair": "#6b6b70",
+            "style": "short",
+            "glasses": true
+          }
+        }
+      },
+      "courtCast": [
+        "judge",
+        "you",
+        "opp"
+      ],
+      "intro": [
+        {
+          "who": "narr",
+          "text": "Erzurum 2. İdare Mahkemesi 15.10.2026 tarihli kararıyla davayı reddetti: “savunma istemi gönderilmiş, davacı süresinde cevap vermemiştir.”"
+        },
+        {
+          "who": "client",
+          "text": "Ben o günlerde izindeydim, e-postayı göremezdim ki. Bu karar böyle mi kalacak?"
+        },
+        {
+          "who": "narr",
+          "text": "Gerekçeli karar 23.10.2026 Cuma günü tebliğ edildi. İdari yargıda istinaf süresi farklıdır; dikkatle hesaplayın."
+        }
+      ],
+      "docs": [
+        {
+          "t": "İlk derece kararı (15.10.2026)",
+          "d": "Davanın reddi. Gerekçe: savunma istemi 03.03.2026'da kurumsal e-postaya gönderilmiş, yedi gün içinde cevap verilmemiş; davacı savunma hakkından vazgeçmiş sayılır (657 s.K. m.130)."
+        },
+        {
+          "t": "Tebliğ",
+          "d": "Gerekçeli karar davacı vekiline 23.10.2026 Cuma günü tebliğ edildi."
+        },
+        {
+          "t": "Savunma istem yazısı",
+          "d": "Yalnızca kurumsal e-postayla gönderilmiş; imza, tebellüğ şerhi ya da tebliğ mazbatası yok."
+        },
+        {
+          "t": "Kınama cezası kararı",
+          "d": "20.03.2026; 657 s.K. m.125/B uyarınca kınama."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev_yazi",
+          "type": "belge",
+          "title": "Savunma istem yazısı",
+          "desc": "3 Mart 2026. Yalnızca kurumsal e-postayla gönderilmiş; imza, tebellüğ şerhi ya da tebliğ mazbatası yok."
+        },
+        {
+          "id": "ev_izin",
+          "type": "belge",
+          "title": "Yıllık izin onayı",
+          "desc": "İdarenin kendi onayı: davacı 2–13 Mart 2026 arasında yıllık izinde. Kurumsal e-postaya yalnızca iş yeri ağından erişiliyor.",
+          "if": "izin"
+        },
+        {
+          "id": "ev_rapor",
+          "type": "belge",
+          "title": "Soruşturma raporu",
+          "desc": "Davacının savunma hakkından vazgeçmiş sayıldığı yazılı."
+        },
+        {
+          "id": "law_ay129",
+          "type": "kanun",
+          "title": "Anayasa m.129/2",
+          "desc": "Memurlara ve diğer kamu görevlilerine savunma hakkı tanınmadıkça disiplin cezası verilemez.",
+          "law": "Anayasa m.129/2"
+        }
+      ],
+      "steps": [
+        {
+          "kind": "date",
+          "side": "p1",
+          "scene": "office",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Tebliğ: 23.10.2026 Cuma. İdari yargıda süre gün olarak işler."
+            }
+          ],
+          "prompt": "İstinaf dilekçesini en geç hangi gün vermelisiniz? Son günü yazın.",
+          "deadline": {
+            "teblig": "23.10.2026",
+            "days": 30,
+            "law": "İYUK m.45/1",
+            "what": "istinaf dilekçesi"
+          },
+          "choices": [
+            {
+              "text": "Doğru gün",
+              "min": 100,
+              "delta": 10,
+              "set": [
+                "sure"
+              ],
+              "law": "İYUK m.45/1, m.8",
+              "note": "İdare ve vergi mahkemesi kararlarına karşı istinaf süresi tebliğden itibaren otuz gündür (İYUK m.45/1). Otuzuncu gün 22 Kasım Pazar; süre izleyen iş günü 23 Kasım Pazartesi biter (İYUK m.8)."
+            },
+            {
+              "text": "Erken gün",
+              "min": 50,
+              "delta": -5,
+              "set": [
+                "sure"
+              ],
+              "law": "İYUK m.45/1, m.8",
+              "note": "Dilekçe süresinde olur; ama süreyi yanlış hesapladınız. İdari yargıda istinaf süresi otuz gündür; hukuk davalarındaki iki haftalık süre burada uygulanmaz. Son gün hafta sonuna rastlarsa süre izleyen iş günü biter (İYUK m.8)."
+            },
+            {
+              "text": "Süre geçti",
+              "min": 0,
+              "delta": -25,
+              "law": "İYUK m.45/1",
+              "note": "Süre kaçtı; süresinden sonra yapılan istinaf başvurusu reddedilir.",
+              "fatal": {
+                "label": "SONUÇ:",
+                "hukum": "İstinaf dilekçesinin süre aşımı nedeniyle REDDİNE karar verildi.",
+                "summary": "İstinaf süresi tebliğden itibaren otuz gündü; 23.10.2026 tebliğine göre otuzuncu gün Pazar olduğundan son gün 23.11.2026 Pazartesi idi (İYUK m.45/1, m.8). Davanın reddi kararı kesinleşti."
+              }
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "MERCİ",
+          "lines": [],
+          "prompt": "Dilekçe kime hitaben yazılır, nereye verilir?",
+          "choices": [
+            {
+              "text": "Erzurum BİM ilgili idari dava dairesine gönderilmek üzere, kararı veren Erzurum 2. İdare Mahkemesine.",
+              "delta": 10,
+              "set": [
+                "merci"
+              ],
+              "doc": "ERZURUM 2. İDARE MAHKEMESİNE\nGönderilmek üzere\nERZURUM BÖLGE İDARE MAHKEMESİ İLGİLİ İDARİ DAVA DAİRESİNE",
+              "law": "İYUK m.45",
+              "note": "Doğru. İdare mahkemesi kararlarına karşı istinaf, aynı yargı çevresindeki bölge idare mahkemesine yapılır (İYUK m.45/1); dilekçe kararı veren mahkeme aracılığıyla gönderilir."
+            },
+            {
+              "text": "Danıştay 12. Dairesine; memur disiplin cezalarında yol doğrudan temyizdir, daire sonucu belirler.",
+              "delta": -10,
+              "doc": "DANIŞTAY 12. DAİRESİ BAŞKANLIĞINA",
+              "law": "İYUK m.45, m.46",
+              "note": "İdare mahkemesi kararlarına karşı yol istinaftır (İYUK m.45). Danıştay'a temyiz, bölge idare mahkemesi kararlarına karşı ve yalnızca m.46'daki hâllerde açılır."
+            },
+            {
+              "text": "Disiplin kuruluna yeniden itiraz; kurul kınamayı kaldırırsa istinafa gerek kalmaz.",
+              "delta": -10,
+              "doc": "DİSİPLİN KURULU BAŞKANLIĞINA",
+              "law": "657 s.K. m.135",
+              "note": "Disiplin kuruluna itiraz süresi tebliğden itibaren yedi gündü ve çoktan geçti (657 s.K. m.135). Mahkeme kararına karşı yol bölge idare mahkemesidir."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "İSTİNAF SEBEPLERİ",
+          "lines": [],
+          "prompt": "İstinaf dilekçenizin ana sebebi ne olacak?",
+          "choices": [
+            {
+              "text": "Savunma hakkı: istem usulüne uygun tebliğ edilmedi, müvekkil izindeydi; vazgeçme sonucu doğmaz.",
+              "delta": 20,
+              "set": [
+                "sebep"
+              ],
+              "law": "Anayasa m.129/2; 657 s.K. m.130",
+              "doc": "1. Savunma istemi yalnızca kurumsal e-postaya, imzasız ve tebellüğ şerhi olmadan gönderilmiştir; usulüne uygun tebliğ ispatlanamamıştır.\n2. Müvekkil o tarihlerde yıllık izindedir ve kurumsal e-postaya erişemez. Usulüne uygun ulaştırılmayan bir istem nedeniyle savunma hakkından vazgeçmiş sayılamaz (657 s.K. m.130).\n3. Savunma alınmadan verilen disiplin cezası hukuka aykırıdır (Anayasa m.129/2).",
+              "note": "Doğru. Kararın tek dayanağı olan “vazgeçmiş sayılma” sonucunu, tebliğ eksikliğiyle hedef aldınız."
+            },
+            {
+              "text": "Kınama yerine, dokuz yıllık temiz sicil gözetilerek uyarma cezası verilmesi gerektiği.",
+              "delta": -10,
+              "set": [
+                "cevir"
+              ],
+              "law": "İYUK m.2/2",
+              "doc": "Müvekkilin temiz sicili gözetilerek uyarma cezası verilmelidir.",
+              "note": "İdari yargı yerleri idari işlem niteliğinde ya da idarenin takdir yetkisini kaldıracak biçimde karar veremez (İYUK m.2/2). Daire cezayı değiştiremez; ancak işlemin hukuka uygunluğunu denetler."
+            },
+            {
+              "text": "Eylemin sabit olmadığı: araç, müdür yardımcısının yazılı görev talimatıyla kullanıldı.",
+              "delta": 5,
+              "set": [
+                "gorev"
+              ],
+              "law": "657 s.K. m.125/B",
+              "doc": "Araç, müdür yardımcısının 12.02.2026 tarihli yazılı görev talimatıyla kullanılmıştır; eylem sabit değildir.",
+              "note": "Geçerli bir ek sebep; ama kararın dayanağı savunma hakkının tanındığı kabulü. Önce onu yıkmalısınız."
+            },
+            {
+              "text": "Disiplin amirinin müvekkile karşı kişisel husumeti; belge göstermeden, tanık beyanına dayanarak.",
+              "delta": -5,
+              "law": "İYUK m.2",
+              "doc": "Disiplin amiri müvekkile karşı kişisel husumet beslemektedir.",
+              "note": "İspatı zor ve kararın dayanağına dokunmayan bir iddia. Daire işlemin hukuka uygunluğunu dosyadaki belgelerle inceler."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "EKLER",
+          "lines": [
+            {
+              "who": "client",
+              "text": "İzin onayı bende duruyor. İlk davada vermedik; şimdi ekleyebilir miyiz?"
+            }
+          ],
+          "prompt": "İzin onayını ne yapacaksınız?",
+          "choices": [
+            {
+              "text": "Dilekçeye ekleyin; idari yargıda re'sen araştırma ilkesi istinaf incelemesinde de geçerlidir.",
+              "delta": 10,
+              "set": [
+                "izin"
+              ],
+              "law": "İYUK m.20",
+              "doc": "Ek: Davacının 2–13 Mart 2026 tarihli yıllık izin onayı (idarenin kendi belgesi).",
+              "note": "Doğru. İdari yargıda mahkeme ve daire, gerekli gördüğü her türlü incelemeyi kendiliğinden yapar (İYUK m.20). İdarenin kendi onayladığı izin belgesi, istemin müvekkile ulaşamayacağını gösterir."
+            },
+            {
+              "text": "Eklemeyin; istinafta yeni belge sunulamaz, daire ilk derecede sunulmayan belgeyi dikkate almaz.",
+              "delta": -10,
+              "law": "HMK m.357; İYUK m.20, m.31",
+              "doc": "",
+              "note": "İstinafta yeni delil yasağı hukuk yargılamasına özgüdür (HMK m.357); idari yargıda re'sen araştırma ilkesi geçerlidir (İYUK m.20). En güçlü belgenizi dosya dışında bıraktınız."
+            },
+            {
+              "text": "Belgeyi saklayın; Danıştay aşamasında sunarsınız, son mercide daha etkili olur.",
+              "delta": -10,
+              "law": "İYUK m.45/6, m.46",
+              "doc": "",
+              "note": "Kınama cezasına ilişkin dava İYUK m.46'da sayılmıyor: dairenin ret kararı kesin olacak (İYUK m.45/6). Belgeyi sunmak için başka bir aşama yok."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "SONUÇ VE İSTEM",
+          "lines": [],
+          "prompt": "Sonuç ve isteminizi nasıl yazacaksınız?",
+          "choices": [
+            {
+              "text": "İlk derece kararının kaldırılmasına ve kınama cezasına ilişkin işlemin iptaline.",
+              "delta": 10,
+              "set": [
+                "talep"
+              ],
+              "law": "İYUK m.45/4",
+              "doc": "İlk derece kararının KALDIRILMASINA, dava konusu kınama cezasına ilişkin işlemin İPTALİNE, yargılama giderleri ve vekâlet ücretinin davalı idareye yükletilmesine karar verilmesini; İYUK m.17 uyarınca duruşma yapılmasını saygıyla talep ederiz.",
+              "note": "Doğru. Daire istinafı yerinde bulursa kararı kaldırır ve davanın esası hakkında yeniden karar verir (İYUK m.45/4)."
+            },
+            {
+              "text": "Kararın kaldırılarak, yeniden inceleme için dosyanın Erzurum 2. İdare Mahkemesine gönderilmesine.",
+              "delta": -5,
+              "set": [
+                "gonder"
+              ],
+              "law": "İYUK m.45/5",
+              "doc": "Kararın kaldırılarak dosyanın ilk derece mahkemesine gönderilmesini talep ederiz.",
+              "note": "Gönderme yalnız görev, yetki ya da reddedilen veya yasaklı hâkim gibi hâllere özgüdür (İYUK m.45/5). Burada daire esas hakkında kendisi karar verir."
+            },
+            {
+              "text": "İşlemin iptaliyle birlikte, ilk kez istinafta, manevi tazminata da hükmedilmesine.",
+              "delta": -10,
+              "set": [
+                "tazminat"
+              ],
+              "law": "İYUK m.2, m.12",
+              "doc": "Ayrıca müvekkil lehine manevi tazminata hükmedilmesini talep ederiz.",
+              "note": "Tam yargı istemi ilk derecede ileri sürülmedi; istinafta davanın konusu genişletilemez. Tazminat, iptal kararından sonra ayrıca istenebilir (İYUK m.12)."
+            }
+          ]
+        },
+        {
+          "kind": "dilekce",
+          "side": "p1",
+          "scene": "office",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Dilekçe hazır. UYAP'tan Erzurum 2. İdare Mahkemesine göndermeden önce son kez okuyun."
+            }
+          ],
+          "prompt": "Dilekçenizi gözden geçirin.",
+          "choices": [],
+          "paper": {
+            "title": "İSTİNAF DİLEKÇESİ",
+            "meta": [
+              {
+                "k": "Dosya",
+                "v": "Erzurum 2. İdare Mahkemesi 2026/612 Esas"
+              },
+              {
+                "k": "İstinaf eden (davacı)",
+                "v": "Serdar Kılınç"
+              },
+              {
+                "k": "Karşı taraf (davalı)",
+                "v": "Doğu Anadolu Bölge Arşiv Müdürlüğü"
+              },
+              {
+                "k": "Karar · tebliğ",
+                "v": "15.10.2026 · 23.10.2026"
+              },
+              {
+                "k": "Konu",
+                "v": "Kınama cezasına karşı açılan davanın reddine ilişkin kararın kaldırılması istemidir."
+              }
+            ],
+            "sign": "Davacı vekili"
+          }
+        },
+        {
+          "kind": "evidence",
+          "side": "p1",
+          "scene": "court",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "İstinaf dilekçesinde duruşma istediniz; iptal davasında taraflardan birinin isteği üzerine daire duruşma yaptı (İYUK m.17)."
+            },
+            {
+              "who": "judge",
+              "text": "Duruşmayı açıyorum. Davalı idare vekili, beyanınız?"
+            }
+          ],
+          "statement": {
+            "who": "opp",
+            "text": "Savunma istemi kurumsal e-postaya gönderilmiştir. Bu bir elektronik tebligattır; davacı e-postasını okumamakla savunma hakkından kendisi vazgeçmiştir."
+          },
+          "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+          "correct": [
+            "ev_izin"
+          ],
+          "hit": {
+            "delta": 20,
+            "set": [
+              "teblig"
+            ],
+            "reply": [
+              {
+                "who": "judge",
+                "text": "İzin onayı idarenin kendi belgesi. İdare vekili, savunma istemi izindeki memura başka bir yolla bildirildi mi?"
+              },
+              {
+                "who": "opp",
+                "text": "…Hayır, Sayın Başkan."
+              }
+            ],
+            "note": "Doğru. İdarenin kendi izin onayı, istemin müvekkile ulaşamayacağını gösteriyor. Usulüne uygun yapıldığı ispatlanamayan bir kurum içi e-posta, Tebligat Kanunu'ndaki elektronik tebligat yerine geçmez; vazgeçme sonucu doğmaz."
+          },
+          "responses": {
+            "ev_yazi": {
+              "delta": 10,
+              "set": [
+                "teblig"
+              ],
+              "note": "İyi bir cevap: yazıda imza, tebellüğ şerhi ya da tebliğ mazbatası yok. İzin onayı ise istemin müvekkile hiç ulaşamayacağını açıkça gösterirdi."
+            },
+            "law_ay129": {
+              "delta": 5,
+              "note": "Doğru ilke; ama idarenin “tebliğ edildi” iddiasını belgeyle çürütmediniz."
+            },
+            "ev_rapor": {
+              "delta": -10,
+              "note": "Soruşturma raporu idarenin tezini tekrarlıyor."
+            }
+          },
+          "miss": {
+            "delta": -10,
+            "note": "Bu belge idarenin beyanına cevap vermiyor."
+          },
+          "pass": {
+            "delta": -15,
+            "note": "İdarenin “elektronik tebligat yapıldı” beyanı cevapsız kaldı."
+          }
+        }
+      ],
+      "outcomes": [
+        {
+          "if": "sebep && teblig",
+          "winner": "p1",
+          "stamp": "KALDIRMA",
+          "karar": "kaldirma",
+          "label": "HÜKÜM:",
+          "hukum": [
+            {
+              "text": "İstinaf başvurusunun KABULÜ ile Erzurum 2. İdare Mahkemesinin 15.10.2026 tarihli kararının İYUK m.45/4 uyarınca KALDIRILMASINA; dava konusu kınama cezasına ilişkin işlemin İPTALİNE, yargılama giderleri ile vekâlet ücretinin davalı idareden alınarak davacıya verilmesine"
+            },
+            {
+              "if": "tazminat",
+              "text": ", istinaf aşamasında ileri sürülen manevi tazminat istemi hakkında karar verilmesine yer olmadığına"
+            },
+            {
+              "text": "; kararın tebliğinden itibaren otuz gün içinde Danıştay'a temyiz yolu açık olmak üzere (İYUK m.46/2) oy birliğiyle karar verildi."
+            }
+          ],
+          "summary": [
+            {
+              "text": "Daire, savunma istemi usulüne uygun tebliğ edilmediği için davacının savunma hakkından vazgeçmiş sayılamayacağını, cezanın savunma alınmadan verildiğini kabul etti (Anayasa m.129/2; 657 s.K. m.130)."
+            },
+            {
+              "if": "izin",
+              "text": " İlk derecede sunulmayan izin onayı re'sen araştırma ilkesiyle dosyaya girdi ve sonucu belirledi."
+            },
+            {
+              "if": "cevir",
+              "text": " Cezanın uyarmaya çevrilmesi isteği yargı yetkisinin sınırı nedeniyle karşılıksız kaldı (İYUK m.2/2)."
+            },
+            {
+              "text": " Daire kararı kaldırıp yeniden karar verdiği için idare bu karara karşı Danıştay'da temyize gidebilir (İYUK m.46/2)."
+            }
+          ]
+        },
+        {
+          "winner": "p2",
+          "stamp": "RET",
+          "karar": "ret",
+          "label": "HÜKÜM:",
+          "kesin": "İYUK m.45/6: kınama cezasına ilişkin dava İYUK m.46'da sayılan davalardan olmadığından, bölge idare mahkemesinin istinaf başvurusunu reddeden kararı kesindir.",
+          "hukum": "İstinaf başvurusunun İYUK m.45/3 uyarınca REDDİNE; kesin olarak oy birliğiyle karar verildi.",
+          "summary": [
+            {
+              "if": "!sebep",
+              "text": "Dilekçe kararın tek dayanağına, “savunma istendi, cevap verilmedi” kabulüne cevap vermedi."
+            },
+            {
+              "if": "sebep && !izin",
+              "text": "Doğru sebebi yazdınız; ama idarenin kendi izin onayını dosyaya koymadınız. Re'sen araştırma ilkesi elinizdeydi."
+            },
+            {
+              "if": "sebep && izin",
+              "text": "Doğru sebep ve doğru belge dosyadaydı; ama idarenin “elektronik tebligat” beyanını duruşmada çürütmediniz."
+            },
+            {
+              "text": " Kınama cezası İYUK m.46'da sayılmadığından bu karar kesindir; Danıştay yolu kapalı."
+            }
+          ]
+        }
+      ]
+    },
+    "cevap": {
+      "court": "Erzurum Bölge İdare Mahkemesi 2. İdari Dava Dairesi",
+      "courtShort": "BÖLGE İDARE · 2. İDARİ DAVA DAİRESİ",
+      "esas": "2026/2301 Esas",
+      "kararTarihi": "05.03.2027",
+      "role": "Davacı (memur) vekili · istinafa cevap veren",
+      "oppRole": "Davalı idare vekili · istinaf eden",
+      "teaser": "Kınama cezası iptal edildi; idare kararı istinaf etti ve dosyanın ilk derece mahkemesine geri gönderilmesini istiyor.",
+      "cast": {
+        "judge": {
+          "name": "Daire Başkanı",
+          "np": "red",
+          "look": {
+            "kind": "robe",
+            "collar": "hakim",
+            "skin": "#d9a982",
+            "hair": "#6b6b70",
+            "style": "short",
+            "glasses": true
+          }
+        }
+      },
+      "courtCast": [
+        "judge",
+        "you",
+        "opp"
+      ],
+      "intro": [
+        {
+          "who": "narr",
+          "text": "Erzurum 2. İdare Mahkemesi kınama cezasına ilişkin işlemi iptal etti: savunma istemi usulüne uygun tebliğ edilmemişti."
+        },
+        {
+          "who": "narr",
+          "text": "Davalı idare kararı istinaf etti. İstinaf dilekçesi size 25.11.2026 Çarşamba günü tebliğ edildi."
+        },
+        {
+          "who": "client",
+          "text": "İdare yine uğraşıyor. Bu sefer ne diyorlar?"
+        }
+      ],
+      "docs": [
+        {
+          "t": "İlk derece kararı (15.10.2026)",
+          "d": "Kınama cezasına ilişkin işlemin iptali; dosya üzerinden, taraflar duruşma istemediği için duruşmasız."
+        },
+        {
+          "t": "İdarenin istinaf dilekçesi",
+          "d": "Sebepler: (1) kurumsal e-posta elektronik tebligattır; (2) mahkeme duruşma yapmadan karar verdi, savunmamız yeterince incelenmedi; dosya ilk derece mahkemesine geri gönderilmeli."
+        },
+        {
+          "t": "Tebliğ",
+          "d": "İdarenin istinaf dilekçesi davacı vekiline 25.11.2026 Çarşamba günü tebliğ edildi."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev_izin",
+          "type": "belge",
+          "title": "Yıllık izin onayı",
+          "desc": "İdarenin kendi onayı: davacı 2–13 Mart 2026 arasında yıllık izinde. Kurumsal e-postaya yalnızca iş yeri ağından erişiliyor."
+        },
+        {
+          "id": "ev_yazi",
+          "type": "belge",
+          "title": "Savunma istem yazısı",
+          "desc": "Yalnızca kurumsal e-postayla; imza, tebellüğ şerhi ya da tebliğ mazbatası yok."
+        },
+        {
+          "id": "law_17",
+          "type": "kanun",
+          "title": "İYUK m.17 · Duruşma",
+          "desc": "İptal davalarında duruşma, taraflardan birinin isteğine bağlıdır; istenmezse dosya üzerinden karar verilir.",
+          "law": "İYUK m.17"
+        },
+        {
+          "id": "law_45_5",
+          "type": "kanun",
+          "title": "İYUK m.45/5 · Kaldırıp gönderme",
+          "desc": "Görevsiz ya da yetkisiz mahkemece veya reddedilmiş ya da yasaklı hâkimce karar verilmişse daire kararı kaldırıp dosyayı gönderir.",
+          "law": "İYUK m.45/5"
+        }
+      ],
+      "steps": [
+        {
+          "kind": "date",
+          "side": "p1",
+          "scene": "office",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Cevap süresi, istinaf dilekçesinin tebliğinden işler. Tebliğ: 25.11.2026 Çarşamba."
+            }
+          ],
+          "prompt": "Cevap dilekçesini en geç hangi gün vermelisiniz? Son günü yazın.",
+          "deadline": {
+            "teblig": "25.11.2026",
+            "days": 30,
+            "law": "İYUK m.45/2, m.48",
+            "what": "cevap dilekçesi"
+          },
+          "choices": [
+            {
+              "text": "Doğru gün",
+              "min": 100,
+              "delta": 10,
+              "set": [
+                "sure"
+              ],
+              "law": "İYUK m.45/2, m.48",
+              "note": "İstinafa cevap, temyize ilişkin hükümlere göre otuz gün içinde verilir (İYUK m.45/2 yollamasıyla m.48)."
+            },
+            {
+              "text": "Erken gün",
+              "min": 50,
+              "delta": -5,
+              "set": [
+                "sure"
+              ],
+              "law": "İYUK m.45/2, m.48",
+              "note": "Cevabınız süresinde olur; ama süreyi kısa hesapladınız. İdari yargıda cevap süresi otuz gündür."
+            },
+            {
+              "text": "Süre geçti",
+              "min": 0,
+              "delta": -15,
+              "set": [
+                "gec"
+              ],
+              "law": "İYUK m.45/2, m.48",
+              "note": "Cevap süresini kaçırdınız. Daire inceleme yapar; ama idarenin sebeplerini sizin yazılı cevabınız olmadan değerlendirir."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "MERCİ",
+          "lines": [],
+          "prompt": "Cevap dilekçesi kime hitaben yazılır, nereye verilir?",
+          "choices": [
+            {
+              "text": "Erzurum BİM ilgili idari dava dairesine sunulmak üzere, kararı veren Erzurum 2. İdare Mahkemesine.",
+              "delta": 10,
+              "set": [
+                "merci"
+              ],
+              "doc": "ERZURUM 2. İDARE MAHKEMESİNE\nGönderilmek üzere\nERZURUM BÖLGE İDARE MAHKEMESİ İLGİLİ İDARİ DAVA DAİRESİNE",
+              "law": "İYUK m.45/2, m.48",
+              "note": "Doğru. Cevap, dosyanın bulunduğu mahkemeye verilir ve istinaf dilekçesiyle birlikte daireye gönderilir."
+            },
+            {
+              "text": "Doğrudan Danıştay 12. Dairesine; memur davalarının son sözü oradadır, daireyi atlayın.",
+              "delta": -10,
+              "doc": "DANIŞTAY 12. DAİRESİ BAŞKANLIĞINA",
+              "law": "İYUK m.45, m.46",
+              "note": "İstinaf incelemesini bölge idare mahkemesi yapar; kınama cezasına ilişkin bu davada Danıştay yolu ancak m.46/2 koşullarında açılır."
+            },
+            {
+              "text": "Disiplin kurulu başkanlığına; idare istinaftan vazgeçerse dava kendiliğinden kesinleşir.",
+              "delta": -10,
+              "doc": "DİSİPLİN KURULU BAŞKANLIĞINA",
+              "law": "İYUK m.45",
+              "note": "İstinaftan vazgeçmek idarenin kendi kararıdır; cevap dilekçesi mahkemeye verilir."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "CEVAPLARIMIZ",
+          "lines": [],
+          "prompt": "Cevap dilekçenizin merkezine ne koyacaksınız?",
+          "choices": [
+            {
+              "text": "E-posta usulüne uygun tebligat değildir, müvekkil izindeydi; duruşma istenmedi, gönderme sebebi yok.",
+              "delta": 20,
+              "set": [
+                "sebep"
+              ],
+              "law": "657 s.K. m.130; İYUK m.17, m.45/5",
+              "doc": "1. Kurumsal e-postaya imzasız ve tebellüğ şerhsiz gönderilen istem usulüne uygun tebliğ değildir; müvekkil o tarihlerde idarenin kendi onayıyla izindedir. Vazgeçme sonucu doğmamıştır (657 s.K. m.130).\n2. İptal davasında duruşma taraflardan birinin isteğine bağlıdır (İYUK m.17); idare de istememiştir. Kaldırıp gönderme ancak İYUK m.45/5'teki hâllerde mümkündür; hiçbiri yoktur.",
+              "note": "Doğru. İdarenin iki sebebini de dosyadaki belgeler ve kanun hükümleriyle karşıladınız."
+            },
+            {
+              "text": "İdarenin, kendi işlemi iptal edildiği için istinaf etmekte hukuki yararı bulunmadığını ileri sürmek.",
+              "delta": -10,
+              "law": "İYUK m.45",
+              "doc": "Davalı idarenin istinaf etmekte hukuki yararı yoktur.",
+              "note": "İşlemi iptal edilen idare, aleyhine olan bu karara karşı istinaf yoluna başvurabilir. Bu itiraz dayanaksızdır."
+            },
+            {
+              "text": "Cezanın aslında uyarma olması gerektiğini, iptal yerine cezanın hafifletilmesini istemek.",
+              "delta": -10,
+              "law": "İYUK m.2/2",
+              "doc": "Cezanın uyarmaya çevrilmesini talep ederiz.",
+              "note": "Kazandığınız iptal kararını kendiniz tartışmaya açtınız; üstelik yargı yeri cezayı değiştiremez (İYUK m.2/2)."
+            },
+            {
+              "text": "Kararın doğru olduğunu, idarenin sebeplerine tek tek cevap vermeden kısa bir cümleyle belirtmek.",
+              "delta": -10,
+              "law": "İYUK m.45/2",
+              "doc": "İlk derece kararı usul ve yasaya uygundur.",
+              "note": "Cevap dilekçesi karşı tarafın sebeplerine cevap verdiği ölçüde işe yarar."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "SONUÇ VE İSTEM",
+          "lines": [],
+          "prompt": "Sonuç ve isteminizi nasıl yazacaksınız?",
+          "choices": [
+            {
+              "text": "Davalı idarenin istinaf başvurusunun reddine, ilk derece kararının korunmasına.",
+              "delta": 10,
+              "set": [
+                "talep"
+              ],
+              "law": "İYUK m.45/3",
+              "doc": "Davalı idarenin istinaf başvurusunun İYUK m.45/3 uyarınca REDDİNE karar verilmesini saygıyla talep ederiz.",
+              "note": "Doğru talep."
+            },
+            {
+              "text": "İstinafın kabulüyle, yeniden inceleme için dosyanın ilk derece mahkemesine gönderilmesine.",
+              "delta": -10,
+              "law": "İYUK m.45/5",
+              "doc": "Dosyanın ilk derece mahkemesine gönderilmesini talep ederiz.",
+              "note": "Bu, idarenin istediği şey. Cevap veren taraf olarak başvurunun reddini istemelisiniz."
+            },
+            {
+              "text": "İptal kararına ek olarak, yoksun kalınan haklar için tazminata da hükmedilmesine.",
+              "delta": -10,
+              "law": "İYUK m.12",
+              "doc": "Ayrıca tazminata hükmedilmesini talep ederiz.",
+              "note": "Karşı tarafın istinafına cevapta davanın konusu genişletilemez. Tazminat ayrı bir istemdir (İYUK m.12)."
+            }
+          ]
+        },
+        {
+          "kind": "dilekce",
+          "side": "p1",
+          "scene": "office",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Cevap dilekçesi hazır. Göndermeden önce okuyun."
+            }
+          ],
+          "prompt": "Dilekçenizi gözden geçirin.",
+          "choices": [],
+          "paper": {
+            "title": "İSTİNAF DİLEKÇESİNE CEVAP",
+            "meta": [
+              {
+                "k": "Dosya",
+                "v": "Erzurum 2. İdare Mahkemesi 2026/612 Esas"
+              },
+              {
+                "k": "Cevap veren (davacı)",
+                "v": "Serdar Kılınç"
+              },
+              {
+                "k": "İstinaf eden (davalı)",
+                "v": "Doğu Anadolu Bölge Arşiv Müdürlüğü"
+              },
+              {
+                "k": "İstinaf dilekçesinin tebliği",
+                "v": "25.11.2026"
+              }
+            ],
+            "sign": "Davacı vekili"
+          }
+        },
+        {
+          "kind": "evidence",
+          "side": "p1",
+          "scene": "court",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "İdare istinaf dilekçesinde duruşma istedi; daire duruşma yaptı (İYUK m.17)."
+            },
+            {
+              "who": "judge",
+              "text": "Duruşmayı açıyorum. Davalı idare vekili, sebeplerinizi açıklayın."
+            }
+          ],
+          "statement": {
+            "who": "opp",
+            "text": "İlk derece mahkemesi duruşma yapmadan karar verdi; idarenin savunması gereği gibi dinlenmedi. Dosyanın yeniden görülmek üzere ilk derece mahkemesine gönderilmesini istiyoruz."
+          },
+          "prompt": "Bu beyanı hangi delille karşılayacaksınız?",
+          "correct": [
+            "law_17",
+            "law_45_5"
+          ],
+          "hit": {
+            "delta": 20,
+            "set": [
+              "gonderYok"
+            ],
+            "reply": [
+              {
+                "who": "judge",
+                "text": "Dosyada taraflardan hiçbirinin duruşma istemediği anlaşılıyor. Beyan tutanağa geçti."
+              }
+            ],
+            "note": "Doğru. İptal davasında duruşma taraflardan birinin isteğine bağlıdır (İYUK m.17); idare istemedi. Kaldırıp gönderme yalnız görev, yetki ya da hâkimin reddi gibi İYUK m.45/5'teki hâllerde olur."
+          },
+          "responses": {
+            "ev_izin": {
+              "delta": 5,
+              "note": "İzin onayı esası güçlendirir; ama tartışılan duruşma ve gönderme meselesi."
+            },
+            "ev_yazi": {
+              "delta": 0,
+              "note": "Bu belge tebliğ eksikliğini gösterir; ama idarenin gönderme talebine cevap vermez."
+            }
+          },
+          "miss": {
+            "delta": -10,
+            "note": "Bu delil gönderme talebine cevap vermiyor."
+          },
+          "pass": {
+            "delta": -15,
+            "note": "Gönderme talebi cevapsız kaldı."
+          }
+        }
+      ],
+      "outcomes": [
+        {
+          "if": "sebep && (talep || gonderYok)",
+          "winner": "p1",
+          "stamp": "RET",
+          "karar": "ret",
+          "label": "HÜKÜM:",
+          "kesin": "İYUK m.45/6: kınama cezasına ilişkin dava İYUK m.46'da sayılmadığından dairenin istinafı reddeden kararı kesindir.",
+          "hukum": "Davalı idarenin istinaf başvurusunun İYUK m.45/3 uyarınca REDDİNE; kesin olarak oy birliğiyle karar verildi.",
+          "summary": [
+            {
+              "text": "Daire, savunma istemi usulüne uygun tebliğ edilmediği için cezanın savunma alınmadan verildiğini kabul etti; iptal kararı korundu ve kesinleşti."
+            },
+            {
+              "if": "gonderYok",
+              "text": " İdarenin gönderme talebini İYUK m.17 ve m.45/5 ile karşıladınız."
+            },
+            {
+              "if": "gec",
+              "text": " Cevabınızı süreden sonra verdiniz; daire duruşmadaki beyanınızla yetindi."
+            }
+          ]
+        },
+        {
+          "winner": "p2",
+          "stamp": "KALDIRMA",
+          "karar": "kaldirma",
+          "label": "HÜKÜM:",
+          "hukum": "Davalı idarenin istinaf başvurusunun KABULÜ ile Erzurum 2. İdare Mahkemesinin kararının İYUK m.45/4 uyarınca KALDIRILMASINA, DAVANIN REDDİNE; kararın tebliğinden itibaren otuz gün içinde Danıştay'a temyiz yolu açık olmak üzere (İYUK m.46/2) oy birliğiyle karar verildi.",
+          "summary": [
+            {
+              "text": "Daire idarenin sebeplerini cevapsız buldu ve iptal kararını kaldırdı."
+            },
+            {
+              "if": "!sebep",
+              "text": " Cevabınız tebliğ eksikliğini ve gönderme şartlarının bulunmadığını göstermedi."
+            },
+            {
+              "text": " Daire kararı kaldırıp yeniden karar verdiği için Danıştay'da temyiz yolu açıktır (İYUK m.46/2)."
+            }
+          ]
+        }
+      ]
+    }
+  }
 }

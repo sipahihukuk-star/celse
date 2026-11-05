@@ -148,6 +148,7 @@
   ],
   "outcomes": [
     { "if": "eksik", "winner": "p2", "stamp": "EKSİK DAVA",
+      "yarar": "Talep ettiğiniz ücretlerin tamamı kabul edildi; aleyhinize bir hüküm olmadığı için istinafta hukuki yararınız yok. Kıdem tazminatı istinafta ilk kez istenemez (HMK m.357/1); zamanaşımı dolmadan ayrı bir dava açılmalı.",
       "hukum": "Davanın KABULÜ ile ödenmeyen Temmuz, Ağustos ve Eylül 2026 ücretlerinin mevduata uygulanan en yüksek faiziyle birlikte davalıdan alınarak davacıya verilmesine,",
       "summary": "Ücretler hüküm altına alındı. Ama kıdem tazminatı hiç istenmediği için mahkeme bu konuda karar veremedi (HMK m.26). Müvekkil kıdem tazminatı için beş yıllık zamanaşımı (İş K. ek m.3) dolmadan ayrı bir dava açmak zorunda; yeniden arabuluculuk, yeniden masraf." },
     { "if": "!kod && !sure", "winner": "p2",
@@ -174,5 +175,933 @@
         { "if": "sure", "text": " Süre itirazını da süregelen ihlal ilkesiyle karşıladınız." },
         { "if": "sakin", "text": " Müvekkilin salondaki öfkesini yatıştırıp hukuki bir cümleye çevirdiniz." }
       ] }
-  ]
+  ],
+  "kanunYolu": {
+    "deger": 312000,
+    "yil": 2026
+  },
+  "appeal": {
+    "istinaf": {
+      "court": "Konya Bölge Adliye Mahkemesi 3. Hukuk Dairesi",
+      "courtShort": "BAM · 3. HUKUK DAİRESİ",
+      "esas": "2027/1532 Esas",
+      "kararTarihi": "12.11.2027",
+      "role": "Davacı (işçi) vekili · istinaf eden",
+      "oppRole": "Davalı işveren vekili",
+      "teaser": "Mahkeme ücretleri verdi, kıdem tazminatını reddetti. Kararı istinaf edin: süreyi kendiniz hesaplayın, dilekçeyi kendiniz kurun.",
+      "cast": {
+        "judge": {
+          "name": "Daire Başkanı",
+          "np": "red",
+          "look": {
+            "kind": "robe",
+            "collar": "hakim",
+            "skin": "#d9a982",
+            "hair": "#6b6b70",
+            "style": "short",
+            "glasses": true
+          }
+        }
+      },
+      "courtCast": [
+        "judge",
+        "you",
+        "opp",
+        "client"
+      ],
+      "intro": [
+        {
+          "who": "narr",
+          "text": "Konya 1. İş Mahkemesi 22.05.2027 tarihli kararıyla ödenmeyen üç aylık ücreti kabul etti, 312.000 TL'lik kıdem tazminatı talebini reddetti: “fesih istifa niteliğindedir.”"
+        },
+        {
+          "who": "client",
+          "text": "Üç ay maaşsız çalıştım, şimdi istifa etmişim. Bu karar böyle mi kalacak?"
+        },
+        {
+          "who": "narr",
+          "text": "Gerekçeli karar 08.06.2027 Salı günü büronuza tebliğ edildi. Kıdem tazminatı yönünden istinaf dilekçesini hazırlayacaksınız."
+        }
+      ],
+      "docs": [
+        {
+          "t": "İlk derece kararı (22.05.2027)",
+          "d": "Ücret alacakları kabul; kıdem tazminatı reddedildi. Gerekçe: SGK çıkış kodu 03 (istifa); davacının hak düşürücü süreyi (İş K. m.26) geçirdiği."
+        },
+        {
+          "t": "Tebliğ mazbatası",
+          "d": "Gerekçeli karar davacı vekiline 08.06.2027 Salı günü tebliğ edildi."
+        },
+        {
+          "t": "Noter fesih ihtarnamesi (12.10.2026)",
+          "d": "İlk derecede dosyaya sunulmuş: fesih nedeni Temmuz, Ağustos, Eylül 2026 ücretlerinin ödenmemesi; İş K. m.24/II-e."
+        },
+        {
+          "t": "Banka hesap dökümü",
+          "d": "İlk derecede sunulmuş: son ücret 10.07.2026'da (Haziran ücreti) yatmış."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev_ihtar",
+          "type": "belge",
+          "title": "Noter fesih ihtarnamesi",
+          "desc": "12.10.2026; fesih nedeni üç aylık ücretin ödenmemesi, İş K. m.24/II-e. İlk derecede dosyaya sunuldu."
+        },
+        {
+          "id": "ev_banka",
+          "type": "belge",
+          "title": "Banka hesap dökümü",
+          "desc": "Son ücret 10.07.2026. İlk derecede dosyaya sunuldu."
+        },
+        {
+          "id": "ev_isgiris",
+          "type": "belge",
+          "title": "Yeni işe giriş bildirgesi",
+          "desc": "Davalı vekilinin istinaf duruşmasında ilk kez sunduğu belge: davacı 01.11.2026'da başka bir firmada işe başlamış."
+        },
+        {
+          "id": "law_357",
+          "type": "kanun",
+          "title": "HMK m.357 · İstinafta yapılamayacak işlemler",
+          "desc": "İlk derecede ileri sürülmeyen iddia ve savunmalar dinlenmez, yeni delillere dayanılamaz; ilk derecede usulüne uygun gösterilip incelenmeyen deliller hariç.",
+          "law": "HMK m.357"
+        }
+      ],
+      "steps": [
+        {
+          "kind": "date",
+          "side": "p1",
+          "scene": "office",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Tebliğ mazbatası önünüzde: 08.06.2027 Salı. İstinaf süresini kendiniz hesaplayacaksınız."
+            }
+          ],
+          "prompt": "İstinaf dilekçesini en geç hangi gün vermelisiniz? Son günü yazın.",
+          "deadline": {
+            "teblig": "08.06.2027",
+            "weeks": 2,
+            "law": "HMK m.345",
+            "what": "istinaf dilekçesi"
+          },
+          "choices": [
+            {
+              "text": "Doğru gün",
+              "min": 100,
+              "delta": 10,
+              "set": [
+                "sure"
+              ],
+              "law": "HMK m.345, m.92",
+              "note": "İstinaf süresi gerekçeli kararın tebliğinden itibaren iki haftadır (HMK m.345). Hafta olarak belirlenen süre, başladığı güne karşılık gelen haftanın aynı adlı gününde biter (HMK m.92)."
+            },
+            {
+              "text": "Erken gün",
+              "min": 50,
+              "delta": -5,
+              "set": [
+                "sure"
+              ],
+              "law": "HMK m.345, m.92",
+              "note": "Dilekçe yine süresinde olur; ama son günü yanlış hesapladınız. Süre kısa karardan değil, gerekçeli kararın tebliğinden başlar ve iki hafta sonra aynı adlı günde biter."
+            },
+            {
+              "text": "Süre geçti",
+              "min": 0,
+              "delta": -25,
+              "law": "HMK m.345, m.346",
+              "note": "Süre kaçtı. Süresinden sonra verilen istinaf dilekçesini kararı veren mahkeme reddeder (HMK m.346).",
+              "fatal": {
+                "label": "SONUÇ:",
+                "hukum": "İstinaf dilekçesinin süresinde verilmediğinden Konya 1. İş Mahkemesince REDDİNE karar verildi.",
+                "summary": "İstinaf süresi gerekçeli kararın 08.06.2027'deki tebliğinden itibaren iki haftaydı; son gün 22.06.2027 Salı idi (HMK m.345). Süresinden sonra verilen dilekçe ilk derece mahkemesince reddedilir (HMK m.346). Kıdem tazminatının reddi kesinleşti."
+              }
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "MERCİ",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Dilekçenin başlığını yazıyorsunuz."
+            }
+          ],
+          "prompt": "Dilekçe kime hitaben yazılır, nereye verilir?",
+          "choices": [
+            {
+              "text": "Konya BAM ilgili hukuk dairesine gönderilmek üzere, kararı veren Konya 1. İş Mahkemesine.",
+              "delta": 10,
+              "set": [
+                "merci"
+              ],
+              "doc": "KONYA 1. İŞ MAHKEMESİNE\nGönderilmek üzere\nKONYA BÖLGE ADLİYE MAHKEMESİ İLGİLİ HUKUK DAİRESİNE",
+              "law": "HMK m.342-344",
+              "note": "Doğru. İstinaf dilekçesi kararı veren mahkemeye verilir; harç ve giderler orada yatırılır, dosya incelenmek üzere bölge adliye mahkemesine gönderilir."
+            },
+            {
+              "text": "Yargıtay 9. Hukuk Dairesine; iş davalarında ilk derece kararına karşı doğrudan temyiz yolu açıktır.",
+              "delta": -10,
+              "doc": "YARGITAY 9. HUKUK DAİRESİ BAŞKANLIĞINA",
+              "law": "HMK m.341, m.361; 7036 s.K. m.7",
+              "note": "İş mahkemesi kararlarına karşı da yol istinaftır (7036 s.K. m.7; HMK m.341). Temyiz, bölge adliye mahkemesi kararlarına karşı açılır (HMK m.361)."
+            },
+            {
+              "text": "Konya 1. İş Mahkemesine itiraz olarak; hâkim yeni belgelerle kararını yeniden gözden geçirebilir.",
+              "delta": -10,
+              "doc": "KONYA 1. İŞ MAHKEMESİNE\n(İtiraz)",
+              "law": "HMK m.294",
+              "note": "Hüküm verilmekle mahkemenin davadan elini çekmesi sonucu doğar; hâkim kendi nihai kararını değiştiremez. Bu karara karşı yol, bölge adliye mahkemesine istinaftır."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "İSTİNAF SEBEPLERİ",
+          "lines": [
+            {
+              "who": "client",
+              "text": "İşyerinden Fatma da var, o her şeyi biliyor. Mahkemede onu hiç dinletmedik. Şimdi dinletsek?"
+            }
+          ],
+          "prompt": "İstinaf sebebiniz ne olacak?",
+          "choices": [
+            {
+              "text": "Fesih m.24/II-e'ye dayanıyor; SGK kodu işçiyi bağlamaz, ücret ödenmedikçe m.26 süresi işlemez.",
+              "delta": 20,
+              "set": [
+                "sebep"
+              ],
+              "law": "İş K. m.24/II-e, m.26; 1475 s.K. m.14",
+              "doc": "1. Fesih, dosyadaki noter ihtarnamesine göre ücretlerin ödenmemesine dayanan haklı nedenle fesihtir (İş K. m.24/II-e). İşverenin tek taraflı düzenlediği SGK çıkış kodu feshin niteliğini belirlemez.\n2. Ücretin ödenmemesi süregelen bir ihlaldir; ödenmeme sürdükçe İş K. m.26'daki altı iş günlük süre işlemez. Son ödenmeyen Eylül ücreti 10.10.2026'da muaccel olmuş, fesih 12.10.2026'da yapılmıştır.\n3. Haklı nedenle fesheden işçi kıdem tazminatına hak kazanır (1475 s.K. m.14/1).",
+              "note": "Doğru. Kararı iki dayanağından birden vurdunuz: feshin niteliği ve hak düşürücü süre. İhtarname ilk derecede dosyaya sunulmuş bir delil; daire onu değerlendirebilir."
+            },
+            {
+              "text": "Fatma'nın tanıklığıyla istifa olmadığını ispat edeceğimizi yazıp tanığı istinafta ilk kez bildirmek.",
+              "delta": -10,
+              "set": [
+                "yeniTanik"
+              ],
+              "law": "HMK m.357",
+              "doc": "İlk derecede bildirilmeyen tanık Fatma Er'in dinlenmesini talep ederiz.",
+              "note": "İstinafta yeni delile dayanılamaz; ilk derecede bildirilmeyen tanık dinlenmez (HMK m.357). Üstelik tanığa gerek yok: feshin nedeni dosyadaki noter ihtarnamesinde yazılı."
+            },
+            {
+              "text": "Kıdemin yanında ilk derecede istenmeyen kötüniyet ve ihbar tazminatlarını da istinafta talep etmek.",
+              "delta": -10,
+              "set": [
+                "yeniTalep"
+              ],
+              "law": "HMK m.357/1; İş K. m.17",
+              "doc": "Ayrıca ihbar ve kötüniyet tazminatlarına da hükmedilmesini talep ederiz.",
+              "note": "İstinafta davanın ıslahı ve yeni talep yapılamaz (HMK m.357/1). Kaldı ki haklı nedenle derhâl fesheden işçiye ihbar tazminatı, işçinin kendi feshinde kötüniyet tazminatı doğmaz."
+            },
+            {
+              "text": "Kararın müvekkilin mağduriyetini görmezden geldiğini, hakkaniyete aykırı olduğunu genel bir dille yazmak.",
+              "delta": -10,
+              "law": "HMK m.342/2-ç, m.355",
+              "doc": "Karar hakkaniyete aykırıdır; müvekkilin mağduriyeti gözetilmemiştir.",
+              "note": "Dilekçede istinaf sebepleri ve gerekçesi gösterilmelidir (HMK m.342/2-ç); daire, kamu düzeni dışında, dilekçedeki sebeplerle sınırlı inceleme yapar (HMK m.355). Genel bir yakınma sebep değildir."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "SONUÇ VE İSTEM",
+          "lines": [],
+          "prompt": "Sonuç ve isteminizi nasıl yazacaksınız?",
+          "choices": [
+            {
+              "text": "Kararın kıdem yönünden kaldırılmasına, daire tarafından kıdem tazminatının da kabulüne.",
+              "delta": 10,
+              "set": [
+                "talep"
+              ],
+              "law": "HMK m.353/1-b-2",
+              "doc": "İlk derece kararının kıdem tazminatı yönünden KALDIRILMASINA, yeniden esas hakkında karar verilerek 312.000 TL kıdem tazminatının fesih tarihinden işleyecek mevduata uygulanan en yüksek faiziyle davalıdan tahsiline karar verilmesini saygıyla talep ederiz.",
+              "note": "Doğru. Deliller dosyada; daire kararı kaldırıp esas hakkında yeniden karar verebilir (HMK m.353/1-b-2)."
+            },
+            {
+              "text": "Kararın kaldırılarak dosyanın, yeniden yargılama için ilk derece mahkemesine gönderilmesine.",
+              "delta": -5,
+              "set": [
+                "gonder"
+              ],
+              "law": "HMK m.353/1-a",
+              "doc": "Kararın kaldırılarak dosyanın ilk derece mahkemesine gönderilmesini talep ederiz.",
+              "note": "Gönderme, dava şartı eksikliği, önemli delillerin hiç toplanmaması gibi HMK m.353/1-a'daki hâllere özgüdür. Burada deliller dosyada; daire esas hakkında kendisi karar verir."
+            },
+            {
+              "text": "Kesinleşmiş kararın aynı mahkemede yargılamanın yenilenmesi yoluyla baştan görülmesine.",
+              "delta": -10,
+              "law": "HMK m.374-375",
+              "doc": "Yargılamanın yenilenmesine karar verilmesini talep ederiz.",
+              "note": "Yargılamanın yenilenmesi, kesinleşmiş kararlara karşı sınırlı sebeplerle açılan olağanüstü bir yoldur; karar henüz kesinleşmedi ve yol istinaftır."
+            }
+          ]
+        },
+        {
+          "kind": "free",
+          "side": "p1",
+          "scene": "office",
+          "section": "AÇIKLAMALAR",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Dilekçenin açıklamalar bölümüne, dairenin okuyacağı ana paragrafı yazın."
+            }
+          ],
+          "prompt": "İlk derece kararının neden hatalı olduğunu dilekçenize kendi cümlelerinizle yazın.",
+          "rubric": "İyi bir paragraf şunları söyler: (1) Feshin niteliğini fesih bildiriminin içeriği belirler; dosyadaki noter ihtarnamesi feshin ücretlerin ödenmemesine (İş K. m.24/II-e) dayandığını gösterir. (2) İşverenin bildirdiği SGK çıkış kodu tek taraflı bir beyandır, işçiyi bağlamaz. (3) Ücretin ödenmemesi süregelen bir ihlaldir; İş K. m.26'daki altı iş günlük süre işlemez; ayrıca Eylül ücreti 10 Ekim'de muaccel olmuş, fesih 12 Ekim'de yapılmıştır. (4) Bu nedenle kıdem tazminatına hükmedilmelidir (1475 s.K. m.14). Üç unsuru (ihtarname/fesih nedeni, SGK kodunun bağlamaması, sürenin işlememesi) birlikte söyleyen tam puan alır; ikisini söyleyen orta puan alır. Yalnızca mağduriyete dayanan, yeni tanık ya da yeni talep isteyen cevap düşük puan alır.",
+          "keywords": [
+            {
+              "terms": [
+                "ihtarname",
+                "noter",
+                "fesih bildirimi"
+              ],
+              "weight": 2
+            },
+            {
+              "terms": [
+                "SGK",
+                "çıkış kodu",
+                "kod 03",
+                "03"
+              ],
+              "weight": 2
+            },
+            {
+              "terms": [
+                "süregelen",
+                "devam eden",
+                "ödenmedikçe",
+                "muaccel",
+                "10 Ekim"
+              ],
+              "weight": 2
+            },
+            {
+              "terms": [
+                "m.24",
+                "24/II",
+                "haklı neden"
+              ],
+              "weight": 1
+            },
+            {
+              "terms": [
+                "m.26",
+                "altı iş günü",
+                "hak düşürücü"
+              ],
+              "weight": 1
+            },
+            {
+              "terms": [
+                "kıdem"
+              ],
+              "weight": 1
+            }
+          ],
+          "model": "Müvekkil iş sözleşmesini, dosyadaki 12.10.2026 tarihli noter ihtarnamesinde açıkça yazıldığı gibi, üç aylık ücretinin ödenmemesi nedeniyle İş K. m.24/II-e uyarınca feshetmiştir. Feshin niteliğini fesih bildiriminin içeriği belirler; işverenin tek taraflı bildirdiği SGK çıkış kodu işçiyi bağlamaz. Ücretin ödenmemesi süregelen bir ihlal olduğundan m.26'daki altı iş günlük süre işlememiştir; kaldı ki Eylül ücreti 10 Ekim'de muaccel olmuş, fesih iki gün sonra yapılmıştır. Kıdem tazminatına hükmedilmesi gerekir.",
+          "choices": [
+            {
+              "text": "Güçlü açıklama",
+              "min": 70,
+              "delta": 15,
+              "set": [
+                "aciklama"
+              ],
+              "law": "İş K. m.24/II-e, m.26",
+              "note": "Daireyi ikna edecek bir paragraf: fesih nedeni belgede, SGK kodu bağlayıcı değil, süre işlemedi."
+            },
+            {
+              "text": "Yeterli açıklama",
+              "min": 40,
+              "delta": 5,
+              "set": [
+                "aciklama"
+              ],
+              "law": "İş K. m.24/II-e, m.26",
+              "note": "Doğru yöndesiniz; ama kararın iki dayanağını (istifa kodu ve hak düşürücü süre) birlikte çürütmediniz."
+            },
+            {
+              "text": "Zayıf açıklama",
+              "delta": -5,
+              "law": "İş K. m.24/II-e",
+              "note": "Paragraf kararın dayanaklarına cevap vermedi. Fesih nedeninin ihtarnamede yazılı olduğunu, SGK kodunun işçiyi bağlamadığını ve süregelen ihlalde m.26 süresinin işlemediğini yazmalıydınız."
+            }
+          ]
+        },
+        {
+          "kind": "dilekce",
+          "side": "p1",
+          "scene": "office",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Dilekçe hazır. Harç ve gider avansıyla birlikte UYAP'tan Konya 1. İş Mahkemesine göndermeden önce son kez okuyun."
+            }
+          ],
+          "prompt": "Dilekçenizi gözden geçirin.",
+          "choices": [],
+          "paper": {
+            "title": "İSTİNAF DİLEKÇESİ",
+            "meta": [
+              {
+                "k": "Dosya",
+                "v": "Konya 1. İş Mahkemesi 2026/2210 Esas"
+              },
+              {
+                "k": "İstinaf eden (davacı)",
+                "v": "Gülsüm Arslan"
+              },
+              {
+                "k": "Karşı taraf (davalı)",
+                "v": "Meram Ambalaj San. Ltd. Şti."
+              },
+              {
+                "k": "Karar · tebliğ",
+                "v": "22.05.2027 · 08.06.2027"
+              },
+              {
+                "k": "Konu",
+                "v": "Kıdem tazminatı talebinin reddine ilişkin kararın kaldırılması istemidir."
+              }
+            ],
+            "sign": "Davacı vekili"
+          }
+        },
+        {
+          "kind": "evidence",
+          "side": "p1",
+          "scene": "court",
+          "lines": [
+            {
+              "who": "judge",
+              "text": "HMK m.355 uyarınca dilekçedeki sebeplerle sınırlı inceleme için duruşma açtık. Davalı vekili, cevabınız?"
+            }
+          ],
+          "statement": {
+            "who": "opp",
+            "text": "Davacı fesihten üç hafta sonra başka bir firmada işe başlamıştır. İşe giriş bildirgesini sunuyoruz. Gerçek neden yeni iştir; fesih bahanedir."
+          },
+          "prompt": "Bu beyanı hangi delille karşılayacaksınız?",
+          "correct": [
+            "law_357"
+          ],
+          "hit": {
+            "delta": 20,
+            "set": [
+              "yasak"
+            ],
+            "reply": [
+              {
+                "who": "judge",
+                "text": "Belge ilk derecede sunulmamış. HMK m.357 uyarınca dikkate alınmayacaktır."
+              }
+            ],
+            "note": "Doğru. İlk derecede gösterilmeyen yeni delile istinafta dayanılamaz (HMK m.357). Kaldı ki feshin haklılığı fesih anındaki nedene göre değerlendirilir; işçinin sonradan iş bulması feshi haksız kılmaz."
+          },
+          "responses": {
+            "ev_ihtar": {
+              "delta": 10,
+              "set": [
+                "ihtarHit"
+              ],
+              "reply": [
+                {
+                  "who": "judge",
+                  "text": "İhtarname dosyada mevcut; fesih nedeni tutanağa geçti."
+                }
+              ],
+              "note": "İhtarname fesih nedenini gösteriyor; güçlü bir cevap. Ama yeni belgeye karşı ilk kalkanınız HMK m.357 olmalıydı: belge istinafta ilk kez sunuluyor."
+            },
+            "ev_banka": {
+              "delta": 0,
+              "note": "Ücretin ödenmediğini gösterir, ama yeni belgenin dosyaya girip giremeyeceği sorusuna cevap vermez."
+            },
+            "ev_isgiris": {
+              "delta": -10,
+              "note": "Karşı tarafın yeni belgesini kendiniz sundunuz; tartışmayı onun zeminine taşıdınız."
+            }
+          },
+          "miss": {
+            "delta": -10,
+            "note": "Bu delil beyana cevap vermiyor."
+          },
+          "pass": {
+            "delta": -15,
+            "note": "Yeni belge itirazsız kaldı. HMK m.357'yi hatırlatmanız gerekirdi."
+          }
+        }
+      ],
+      "outcomes": [
+        {
+          "if": "sebep && (yasak || ihtarHit || aciklama)",
+          "winner": "p1",
+          "stamp": "KALDIRMA",
+          "karar": "kaldirma",
+          "label": "HÜKÜM:",
+          "hukum": [
+            {
+              "text": "Davacı vekilinin istinaf başvurusunun KABULÜ ile Konya 1. İş Mahkemesinin 22.05.2027 tarihli kararının kıdem tazminatı yönünden HMK m.353/1-b-2 uyarınca KALDIRILMASINA; yeniden esas hakkında karar verilerek 312.000 TL kıdem tazminatının fesih tarihi olan 12.10.2026'dan itibaren işleyecek mevduata uygulanan en yüksek faiziyle davalıdan alınarak davacıya verilmesine, ücret alacaklarına ilişkin hükmün aynen korunmasına"
+            },
+            {
+              "if": "yeniTalep",
+              "text": ", istinaf aşamasında ileri sürülen ihbar ve kötüniyet tazminatı talepleri hakkında HMK m.357/1 uyarınca karar verilmesine yer olmadığına"
+            },
+            {
+              "text": "; oy birliğiyle karar verildi."
+            }
+          ],
+          "summary": [
+            {
+              "text": "Daire, feshin noter ihtarnamesinde yazılı olduğu gibi ücretlerin ödenmemesine dayandığını, SGK çıkış kodunun işçiyi bağlamadığını ve ücretin ödenmemesi süregelen bir ihlal olduğundan m.26 süresinin işlemediğini kabul etti."
+            },
+            {
+              "if": "yasak",
+              "text": " Davalının istinafta ilk kez sunduğu işe giriş belgesini HMK m.357 ile dışarıda bıraktırdınız."
+            },
+            {
+              "if": "yeniTanik",
+              "text": " İstinafta ilk kez bildirdiğiniz tanık dinlenmedi; zaten gerek de yoktu."
+            },
+            {
+              "if": "gonder",
+              "text": " Gönderme talebiniz yersizdi; daire esası kendisi karara bağladı."
+            },
+            {
+              "if": "!merci",
+              "text": " Dilekçeyi yanlış merciye yöneltmeniz süre riski yarattı; dilekçe ilk derece mahkemesine geç ulaşsaydı istinaf reddedilebilirdi."
+            }
+          ]
+        },
+        {
+          "winner": "p2",
+          "stamp": "ESASTAN RET",
+          "karar": "ret",
+          "label": "HÜKÜM:",
+          "hukum": "Davacı vekilinin istinaf başvurusunun HMK m.353/1-b-1 uyarınca ESASTAN REDDİNE; oy birliğiyle karar verildi.",
+          "summary": [
+            {
+              "if": "!sebep",
+              "text": "Dilekçe kararın iki dayanağına (SGK kodu ve hak düşürücü süre) cevap vermedi. Daire, dilekçedeki sebeplerle sınırlı incelemede kaldırmayı gerektiren bir aykırılık görmedi (HMK m.355)."
+            },
+            {
+              "if": "sebep",
+              "text": "Doğru sebebi yazdınız; ama ne açıklamalarınız ne de duruşmadaki cevabınız daireyi ikna etti. Davalının yeni belgesi itirazsız kaldı."
+            },
+            {
+              "if": "yeniTanik || yeniTalep",
+              "text": " İstinafta yeni tanık ve yeni talep HMK m.357 nedeniyle dinlenmedi."
+            }
+          ]
+        }
+      ]
+    },
+    "cevap": {
+      "court": "Konya Bölge Adliye Mahkemesi 3. Hukuk Dairesi",
+      "courtShort": "BAM · 3. HUKUK DAİRESİ",
+      "esas": "2027/1611 Esas",
+      "kararTarihi": "18.11.2027",
+      "role": "Davacı (işçi) vekili · istinafa cevap veren",
+      "oppRole": "Davalı işveren vekili · istinaf eden",
+      "teaser": "Davayı kazandınız; işveren kararı istinaf etti. Cevap süresini hesaplayın, cevap dilekçesini kurun ve kararı dairede savunun.",
+      "cast": {
+        "judge": {
+          "name": "Daire Başkanı",
+          "np": "red",
+          "look": {
+            "kind": "robe",
+            "collar": "hakim",
+            "skin": "#d9a982",
+            "hair": "#6b6b70",
+            "style": "short",
+            "glasses": true
+          }
+        }
+      },
+      "courtCast": [
+        "judge",
+        "you",
+        "opp",
+        "client"
+      ],
+      "intro": [
+        {
+          "who": "narr",
+          "text": "Konya 1. İş Mahkemesi kıdem tazminatını ve ücretleri kabul etti. Davalı işveren kararı istinaf etti: “fesih istifadır, hak düşürücü süre geçmiştir.”"
+        },
+        {
+          "who": "narr",
+          "text": "İşverenin istinaf dilekçesi 01.07.2027 Perşembe günü size tebliğ edildi."
+        },
+        {
+          "who": "client",
+          "text": "Bitti sanıyordum. Şimdi ne olacak?"
+        }
+      ],
+      "docs": [
+        {
+          "t": "İlk derece kararı (22.05.2027)",
+          "d": "312.000 TL kıdem tazminatı ve üç aylık ücret, mevduata uygulanan en yüksek faiziyle kabul edildi."
+        },
+        {
+          "t": "Davalının istinaf dilekçesi",
+          "d": "Sebepler: (1) SGK'ya istifa kodu bildirildi; (2) Temmuz ücretinin ödeme günü 10 Ağustos'tu, fesih altı iş günü içinde yapılmadı; (3) davacı m.34'teki iş görmekten kaçınma hakkını kullanmadan feshedemezdi."
+        },
+        {
+          "t": "Tebliğ mazbatası",
+          "d": "İstinaf dilekçesi davacı vekiline 01.07.2027 Perşembe günü tebliğ edildi."
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev_ihtar",
+          "type": "belge",
+          "title": "Noter fesih ihtarnamesi",
+          "desc": "12.10.2026; fesih nedeni üç aylık ücretin ödenmemesi, İş K. m.24/II-e."
+        },
+        {
+          "id": "ev_banka",
+          "type": "belge",
+          "title": "Banka hesap dökümü",
+          "desc": "Son ücret 10.07.2026; Temmuz, Ağustos, Eylül ücretleri yatmamış."
+        },
+        {
+          "id": "ev_sgk",
+          "type": "belge",
+          "title": "SGK işten ayrılış bildirgesi",
+          "desc": "İşverenin bildirdiği çıkış kodu: 03 (istifa)."
+        },
+        {
+          "id": "law_m34",
+          "type": "kanun",
+          "title": "İş K. m.34 · Ücretin gecikmesi",
+          "desc": "Ücreti ödeme gününden itibaren yirmi gün içinde ödenmeyen işçi iş görmekten kaçınabilir.",
+          "law": "İş K. m.34"
+        },
+        {
+          "id": "law_m24",
+          "type": "kanun",
+          "title": "İş K. m.24/II-e",
+          "desc": "Ücret ödenmezse işçi sözleşmeyi bildirim süresini beklemeden feshedebilir.",
+          "law": "İş K. m.24/II-e"
+        }
+      ],
+      "steps": [
+        {
+          "kind": "date",
+          "side": "p1",
+          "scene": "office",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Cevap dilekçesi için süre, istinaf dilekçesinin tebliğinden işler. Tebliğ: 01.07.2027 Perşembe."
+            }
+          ],
+          "prompt": "Cevap dilekçesini en geç hangi gün vermelisiniz? Son günü yazın.",
+          "deadline": {
+            "teblig": "01.07.2027",
+            "weeks": 2,
+            "law": "HMK m.347",
+            "what": "cevap dilekçesi"
+          },
+          "choices": [
+            {
+              "text": "Doğru gün",
+              "min": 100,
+              "delta": 10,
+              "set": [
+                "sure"
+              ],
+              "law": "HMK m.347, m.93",
+              "note": "İki hafta 15 Temmuz Perşembe günü dolar; 15 Temmuz resmî tatil olduğundan süre izleyen iş günü 16 Temmuz Cuma bitiminde sona erer (HMK m.93)."
+            },
+            {
+              "text": "Erken gün",
+              "min": 50,
+              "delta": -5,
+              "set": [
+                "sure"
+              ],
+              "law": "HMK m.347, m.93",
+              "note": "Dilekçe süresinde olur; ama 15 Temmuz'un resmî tatil olduğunu gözden kaçırdınız ya da süreyi kısa hesapladınız (HMK m.93)."
+            },
+            {
+              "text": "Süre geçti",
+              "min": 0,
+              "delta": -15,
+              "set": [
+                "gec"
+              ],
+              "law": "HMK m.347",
+              "note": "Cevap süresini kaçırdınız. Daire istinaf incelemesini yine yapar; ama işverenin sebeplerini sizin yazılı cevabınız olmadan değerlendirir. Süreden sonra katılma yoluyla istinaf da yapılamaz (HMK m.348)."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "MERCİ",
+          "lines": [],
+          "prompt": "Cevap dilekçesi kime hitaben yazılır, nereye verilir?",
+          "choices": [
+            {
+              "text": "Konya BAM ilgili hukuk dairesine sunulmak üzere, kararı veren Konya 1. İş Mahkemesine.",
+              "delta": 10,
+              "set": [
+                "merci"
+              ],
+              "doc": "KONYA 1. İŞ MAHKEMESİNE\nGönderilmek üzere\nKONYA BÖLGE ADLİYE MAHKEMESİ İLGİLİ HUKUK DAİRESİNE",
+              "law": "HMK m.347",
+              "note": "Doğru. Dosya henüz kararı veren mahkemede; cevap dilekçesi oraya verilir, istinaf dilekçesiyle birlikte daireye gönderilir."
+            },
+            {
+              "text": "Doğrudan Yargıtay 9. Hukuk Dairesine; işverenin istinafı orada da incelenecektir.",
+              "delta": -10,
+              "doc": "YARGITAY 9. HUKUK DAİRESİ BAŞKANLIĞINA",
+              "law": "HMK m.341, m.361",
+              "note": "İstinaf incelemesini bölge adliye mahkemesi yapar. Yargıtay, ancak daire kararından sonra temyiz üzerine devreye girer."
+            },
+            {
+              "text": "Davalının bağlı olduğu SGK il müdürlüğüne; çıkış kodunun düzeltilmesi istinafı sonuçsuz bırakır.",
+              "delta": -10,
+              "doc": "SGK KONYA İL MÜDÜRLÜĞÜNE",
+              "law": "HMK m.347",
+              "note": "SGK kaydının düzeltilmesi ayrı bir idari işlemdir; istinaf incelemesini durdurmaz. Cevap dilekçesi mahkemeye verilir."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "CEVAPLARIMIZ",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "İşverenin üç sebebi var: istifa kodu, hak düşürücü süre ve m.34."
+            }
+          ],
+          "prompt": "Cevap dilekçenizin merkezine ne koyacaksınız?",
+          "choices": [
+            {
+              "text": "Fesih nedeni ihtarnamede yazılı; SGK kodu bağlamaz; süregelen ihlalde m.26 süresi işlemez.",
+              "delta": 20,
+              "set": [
+                "sebep"
+              ],
+              "law": "İş K. m.24/II-e, m.26",
+              "doc": "1. Feshin nedeni dosyadaki noter ihtarnamesinde açıkça yazılıdır: üç aylık ücretin ödenmemesi (İş K. m.24/II-e). İşverenin tek taraflı bildirdiği SGK çıkış kodu feshin niteliğini belirlemez.\n2. Ücretin ödenmemesi süregelen bir ihlaldir; ödenmeme sürdükçe m.26'daki süre işlemez. Eylül ücreti 10.10.2026'da muaccel olmuş, fesih 12.10.2026'da yapılmıştır.",
+              "note": "Doğru. İşverenin ilk iki sebebini dosyadaki belgelerle karşıladınız."
+            },
+            {
+              "text": "Cevap dilekçesinde katılma yoluyla istinaf yapıp ihbar tazminatına da hükmedilmesini istemek.",
+              "delta": -10,
+              "set": [
+                "katilma"
+              ],
+              "law": "HMK m.348, m.357; İş K. m.17",
+              "doc": "Katılma yoluyla istinaf olarak ihbar tazminatına da hükmedilmesini talep ederiz.",
+              "note": "Katılma yoluyla istinaf cevap dilekçesiyle yapılabilir (HMK m.348); ama dayanağı yok: haklı nedenle derhâl fesheden işçiye ihbar tazminatı doğmaz. İlk derecede istenmemişse istinafta yeni talep de olmaz (HMK m.357)."
+            },
+            {
+              "text": "İşverenin istinafının süresinde olmadığını, tebliğ tarihlerini dosyadan kontrol etmeden ileri sürmek.",
+              "delta": -5,
+              "law": "HMK m.345, m.346",
+              "doc": "Davalının istinaf başvurusu süresinde değildir.",
+              "note": "Dosyaya göre işverenin dilekçesi süresinde verilmiş. Dayanaksız bir süre itirazı dilekçenin inandırıcılığını zayıflatır."
+            },
+            {
+              "text": "Kararın doğru olduğunu, işverenin sebeplerine tek tek cevap vermeden kısa bir cümleyle belirtmek.",
+              "delta": -10,
+              "law": "HMK m.347",
+              "doc": "İlk derece kararı usul ve yasaya uygundur.",
+              "note": "Cevap dilekçesi, karşı tarafın sebeplerine cevap verdiği ölçüde işe yarar. Daire işverenin sebeplerini sizin cevabınız olmadan tartacak."
+            }
+          ]
+        },
+        {
+          "side": "p1",
+          "scene": "office",
+          "section": "SONUÇ VE İSTEM",
+          "lines": [],
+          "prompt": "Sonuç ve isteminizi nasıl yazacaksınız?",
+          "choices": [
+            {
+              "text": "Davalının istinaf başvurusunun esastan reddine, kararın aynen korunmasına.",
+              "delta": 10,
+              "set": [
+                "talep"
+              ],
+              "law": "HMK m.353/1-b-1",
+              "doc": "Davalının istinaf başvurusunun HMK m.353/1-b-1 uyarınca ESASTAN REDDİNE karar verilmesini saygıyla talep ederiz.",
+              "note": "Doğru talep."
+            },
+            {
+              "text": "İstinafın kabulüyle kıdem tazminatının, gecikme nedeniyle artırılarak yeniden hesaplanmasına.",
+              "delta": -10,
+              "law": "HMK m.348, m.357",
+              "doc": "Kıdem tazminatının artırılarak yeniden hesaplanmasını talep ederiz.",
+              "note": "Karşı tarafın istinafı üzerine kendi lehinize değişiklik isteyemezsiniz; bunun yolu kendi istinafınız ya da süresinde katılma yoluyla istinaftı."
+            },
+            {
+              "text": "Dosyanın, eksik incelemenin giderilmesi için ilk derece mahkemesine gönderilmesine.",
+              "delta": -10,
+              "law": "HMK m.353/1-a",
+              "doc": "Dosyanın ilk derece mahkemesine gönderilmesini talep ederiz.",
+              "note": "Gönderme istemek kazandığınız kararı kaldırtmak demek. Cevap veren taraf olarak başvurunun reddini istemelisiniz."
+            }
+          ]
+        },
+        {
+          "kind": "dilekce",
+          "side": "p1",
+          "scene": "office",
+          "lines": [
+            {
+              "who": "narr",
+              "text": "Cevap dilekçesi hazır. Göndermeden önce okuyun."
+            }
+          ],
+          "prompt": "Dilekçenizi gözden geçirin.",
+          "choices": [],
+          "paper": {
+            "title": "İSTİNAF DİLEKÇESİNE CEVAP",
+            "meta": [
+              {
+                "k": "Dosya",
+                "v": "Konya 1. İş Mahkemesi 2026/2210 Esas"
+              },
+              {
+                "k": "Cevap veren (davacı)",
+                "v": "Gülsüm Arslan"
+              },
+              {
+                "k": "İstinaf eden (davalı)",
+                "v": "Meram Ambalaj San. Ltd. Şti."
+              },
+              {
+                "k": "İstinaf dilekçesinin tebliği",
+                "v": "01.07.2027"
+              }
+            ],
+            "sign": "Davacı vekili"
+          }
+        },
+        {
+          "kind": "evidence",
+          "side": "p1",
+          "scene": "court",
+          "lines": [
+            {
+              "who": "judge",
+              "text": "Duruşmayı açıyorum. Davalı vekili istinaf sebeplerini açıkladı. Davacı vekili, m.34'e ilişkin sebebe ne diyorsunuz?"
+            }
+          ],
+          "statement": {
+            "who": "opp",
+            "text": "Ücreti ödenmeyen işçinin önce m.34'teki iş görmekten kaçınma hakkını kullanması gerekir. Davacı bunu yapmadan doğrudan feshetmiştir; fesih bu nedenle haksızdır."
+          },
+          "prompt": "Bu beyanı hangi delille çürüteceksiniz?",
+          "correct": [
+            "law_m24"
+          ],
+          "hit": {
+            "delta": 20,
+            "set": [
+              "m34"
+            ],
+            "reply": [
+              {
+                "who": "judge",
+                "text": "m.24/II-e'nin lafzı tutanağa geçti."
+              }
+            ],
+            "note": "Doğru. m.24/II-e, ücret ödenmeyen işçiye bildirim süresini beklemeden fesih hakkı verir; m.34 ise ayrı ve seçimlik bir haktır, fesih için ön şart değildir."
+          },
+          "responses": {
+            "law_m34": {
+              "delta": 5,
+              "set": [
+                "m34"
+              ],
+              "note": "m.34'ün metni “kaçınabilir” der; bir hak tanır, zorunluluk getirmez. Doğru yorum, ama fesih hakkını doğrudan veren m.24/II-e daha güçlü bir cevaptı."
+            },
+            "ev_ihtar": {
+              "delta": 5,
+              "note": "İhtarname fesih nedenini gösterir; ama tartışılan, fesihten önce m.34'ün kullanılmasının şart olup olmadığı."
+            },
+            "ev_sgk": {
+              "delta": -10,
+              "note": "İşverenin kendi istifa kodunu sundunuz."
+            }
+          },
+          "miss": {
+            "delta": -10,
+            "note": "Bu delil m.34 sebebine cevap vermiyor."
+          },
+          "pass": {
+            "delta": -15,
+            "note": "m.34 sebebi cevapsız kaldı."
+          }
+        }
+      ],
+      "outcomes": [
+        {
+          "if": "sebep && (talep || m34)",
+          "winner": "p1",
+          "stamp": "ESASTAN RET",
+          "karar": "ret",
+          "label": "HÜKÜM:",
+          "hukum": "Davalı vekilinin istinaf başvurusunun HMK m.353/1-b-1 uyarınca ESASTAN REDDİNE, istinaf giderlerinin davalı üzerinde bırakılmasına; oy birliğiyle karar verildi.",
+          "summary": [
+            {
+              "text": "Daire, feshin ücretlerin ödenmemesine dayandığını, SGK kodunun işçiyi bağlamadığını ve süregelen ihlalde m.26 süresinin işlemediğini kabul etti; ilk derecede kazandığınız karar korundu."
+            },
+            {
+              "if": "m34",
+              "text": " m.34'ün fesih için ön şart olmadığını da gösterdiniz."
+            },
+            {
+              "if": "katilma",
+              "text": " Katılma yoluyla ihbar tazminatı isteğiniz ise dinlenmedi."
+            },
+            {
+              "if": "gec",
+              "text": " Cevap dilekçenizi süreden sonra verdiniz; daire duruşmadaki beyanlarınızla yetindi."
+            }
+          ]
+        },
+        {
+          "winner": "p2",
+          "stamp": "KALDIRMA",
+          "karar": "kaldirma",
+          "label": "HÜKÜM:",
+          "hukum": "Davalı vekilinin istinaf başvurusunun KABULÜ ile Konya 1. İş Mahkemesinin kararının kıdem tazminatı yönünden HMK m.353/1-b-2 uyarınca KALDIRILMASINA, kıdem tazminatı talebinin REDDİNE, ücret alacaklarına ilişkin hükmün korunmasına; oy birliğiyle karar verildi.",
+          "summary": [
+            {
+              "text": "Daire işverenin sebeplerini cevapsız buldu; kıdem tazminatı kararı kaldırıldı."
+            },
+            {
+              "if": "!sebep",
+              "text": " Cevap dilekçeniz feshin nedenini ve m.26 süresini savunmadı."
+            },
+            {
+              "if": "!m34",
+              "text": " m.34'ün ön şart olduğu iddiası da cevapsız kaldı."
+            }
+          ]
+        }
+      ]
+    }
+  }
 }

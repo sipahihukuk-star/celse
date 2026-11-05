@@ -2,6 +2,7 @@
 import { normalizeCase, validateCase } from "../engine/engine";
 import { hasFreeStep, lengthCues } from "../engine/lint";
 import { simulateCase } from "../engine/simulate";
+import { validateAppeals } from "../engine/appeal";
 import { CaseFile } from "../engine/types";
 
 export class AiError extends Error {}
@@ -76,6 +77,8 @@ export function engineCheck(c: CaseFile): string[] {
     if (!r.truncated && r.unreachedSteps.length) out.push(`Hiçbir yolda ulaşılmayan adımlar: ${r.unreachedSteps.join(", ")}`);
     out.push(...lengthCues(n).problems);
     if (!hasFreeStep(n)) out.push("serbest cevap (yazılı / sesli, kind: free) adımı yok; en az bir adım free olmalı");
+    // Kanun yolu aşamaları (elle yazılmış ve temel): şema denetimi.
+    if (!n.appealOf) out.push(...validateAppeals(n, validateCase));
     return out;
   } catch (e) { return ["Oynatma hatası: " + (e as Error).message]; }
 }
