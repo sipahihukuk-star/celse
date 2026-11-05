@@ -136,6 +136,8 @@ export interface DeadlineRule {
   /** süre: gün ya da hafta */
   days?: number;
   weeks?: number;
+  /** ay olarak süre (ör. AİHS m.43: üç ay) */
+  months?: number;
   /** dayanak, ör. "HMK m.345" */
   law: string;
   /** ne için: "istinaf dilekçesi", "cevap dilekçesi" ... */

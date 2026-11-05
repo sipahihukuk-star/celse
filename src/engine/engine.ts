@@ -273,7 +273,7 @@ export function validateCase(c: CaseFile): string[] {
     }
     if (kind === "date") {
       if (!s.deadline || !parseDate(s.deadline.teblig)) errs.push(`${w}: tarih adımında geçerli bir tebliğ tarihi (deadline.teblig, GG.AA.YYYY) olmalı`);
-      else if (!s.deadline.days && !s.deadline.weeks) errs.push(`${w}: tarih adımında süre (deadline.days ya da deadline.weeks) olmalı`);
+      else if (!s.deadline.days && !s.deadline.weeks && !s.deadline.months) errs.push(`${w}: tarih adımında süre (deadline.days, weeks ya da months) olmalı`);
       const mins = s.choices.map(ch => ch.min ?? 0);
       if (![100, 50, 0].every(m => mins.includes(m))) errs.push(`${w}: tarih adımında üç sonuç olmalı: min 100 (doğru gün), 50 (erken), 0 (süre geçti)`);
     }

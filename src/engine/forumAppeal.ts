@@ -16,7 +16,21 @@ export interface ForumWay {
   /** "itiraz" ya da "temyiz" */
   name: string;
   days: number;
+  /** ay olarak süre (verilirse days yerine) */
+  months?: number;
+  /** süre tebliğden değil kararın tarihinden işler (AİHS m.43/1) */
+  fromKarar?: boolean;
   law: string;
+  /** dilekçenin adı (varsayılan "<name> dilekçesi") ve cevap dilekçesinin adı */
+  what?: string;
+  cevapWhat?: string;
+  /** karşı tarafın başvurusuna cevap verilemiyorsa (ör. AİHM'de Büyük Daireye gönderme talebi) */
+  noCevap?: boolean;
+  /** karar ekranındaki düğme metinleri */
+  button?: string;
+  cevapButton?: string;
+  /** sonuç ve istemde yanlış seçenekler (varsayılan: tazminat, gerekçe düzeltme) */
+  talepWrong?: { text: string; doc: string; note: string }[];
   rejectLaw: string;
   judges: number;
   benchTitle: string;
@@ -48,6 +62,8 @@ const yearOf = (c: CaseFile) => +(c.kararTarihi || "").slice(-4) || new Date().g
 
 /** Forum kararına karşı yol: açık ise güzergâh, kapalı ise gerekçe; forum değilse null. */
 export function forumWay(c: CaseFile, kind: AppealKind): ForumWay | { closed: string } | null {
+  const intl = highCourtWay(c, kind);
+  if (intl !== undefined) return intl;
   if (!c.forum) return null;
   const f = c.forum;
   if (f === "baro") {
@@ -129,29 +145,98 @@ export function forumWay(c: CaseFile, kind: AppealKind): ForumWay | { closed: st
   return { closed: "Hakem kararına karşı olağan bir itiraz yolu yoktur; yalnız kanunda sayılan sınırlı sebeplerle, tahkim yerinin mahkemesinde iptal davası açılabilir." };
 }
 
+/** Anayasa Mahkemesi, AİHM ve Uluslararası Ceza Mahkemesi: yol varsa güzergâh, yoksa kesinlik gerekçesi; bu mahkemelerden değilse undefined. */
+function highCourtWay(c: CaseFile, kind: AppealKind): ForumWay | { closed: string } | null | undefined {
+  const k = c.court || "";
+  if (/^Anayasa Mahkemesi/.test(k)) {
+    if (/Bölüm/.test(k)) return { closed: "Anayasa m.153/1: Anayasa Mahkemesinin bireysel başvuru kararları kesindir. İhlal bulunmadığı ya da başvurunun kabul edilemez bulunduğu kararın tebliğinden itibaren dört ay içinde Avrupa İnsan Hakları Mahkemesine başvurulabilir (AİHS m.35/1)." };
+    return { closed: "Anayasa m.153/1: Anayasa Mahkemesinin kararları kesindir." };
+  }
+  if (/İnsan Hakları Mahkemesi/.test(k)) {
+    if (/Büyük Daire/.test(k)) return { closed: "AİHS m.44/1: Büyük Daire kararları kesindir. Kararın yerine getirilmesini Bakanlar Komitesi denetler (AİHS m.46)." };
+    if (/Komite|Tek Yargıç/.test(k)) return { closed: "AİHS m.27-28: tek yargıç ve komite kararları kesindir." };
+    if (kind !== "istinaf") return null;
+    return {
+      court: "Avrupa İnsan Hakları Mahkemesi · Büyük Daire (beş yargıçlı kabul paneli)", courtShort: "AİHM · BÜYÜK DAİRE PANELİ", via: "Avrupa İnsan Hakları Mahkemesi Yazı İşleri", name: "gönderme talebi",
+      what: "Büyük Daireye gönderme talebi", button: "Büyük Daireye gönderilmesini iste", noCevap: true,
+      days: 0, months: 3, fromKarar: true, law: "AİHS m.43/1", rejectLaw: "AİHS m.43/1, m.44/2", judges: 5, benchTitle: "Beş yargıçlı kabul paneli", head: "Panel Başkanı",
+      incele: "Daire kararından itibaren üç ay içinde taraflardan biri davanın Büyük Daireye gönderilmesini isteyebilir. Beş yargıçlı panel, dava Sözleşmenin yorumu ya da uygulanmasına ilişkin ciddi bir sorun veya genel önemi olan ciddi bir mesele ortaya koyuyorsa talebi kabul eder (AİHS m.43/2); panel tarafları dinlemez, gerekçe yazmaz. Kabul edilirse Büyük Daire davayı yeniden inceler.",
+      merciOk: "Talebi, Daire kararına karşı Mahkemenin Yazı İşlerine (Strazburg) yazılı olarak verin; ciddi meseleyi gerekçelendirin.",
+      merciWrong: [
+        { text: "Daire kararına karşı Bakanlar Komitesine itiraz edin.", doc: "AVRUPA KONSEYİ BAKANLAR KOMİTESİNE", law: "AİHS m.46",
+          note: "Bakanlar Komitesi kararların yerine getirilmesini denetler; kararın kendisine karşı başvuru mercii değildir." },
+        { text: "Türkiye'de Anayasa Mahkemesine bireysel başvuru yaparak AİHM kararını denetletin.", doc: "ANAYASA MAHKEMESİ BAŞKANLIĞINA", law: "AİHS m.43",
+          note: "Ulusal mahkemeler AİHM kararını denetleyemez; Daire kararına karşı tek yol Büyük Daireye gönderme talebidir." }
+      ],
+      talepWrong: [
+        { text: "Davanın Türk mahkemelerinde yeniden görülmesine Büyük Dairece hükmedilmesine.", doc: "Davanın ulusal mahkemelerde yeniden görülmesine karar verilmesini talep ederiz.",
+          note: "AİHM ulusal mahkemelere yeniden yargılama emri vermez; ihlali tespit eder ve gerekirse hakkaniyete uygun tazmin öngörür. Yeniden yargılama iç hukukun konusudur." },
+        { text: "Daire kararının yalnız gerekçesinin değiştirilmesine, sonucunun olduğu gibi bırakılmasına.", doc: "Daire kararının gerekçesinin değiştirilmesini talep ederiz.",
+          note: "Gönderme talebi davanın bütünüyle Büyük Dairede yeniden incelenmesini amaçlar; gerekçe düzeltmesi aleyhe sonucu kaldırmaz." }
+      ],
+      kabul: { stamp: "BÜYÜK DAİRE", karar: "kaldirma", hukum: "Panel, gönderme talebini KABUL ETTİ; Büyük Daire davayı yeniden inceleyerek Sözleşmenin ihlal edildiğine karar verdi" },
+      ret: { stamp: "RET", karar: "ret", hukum: "Panel, Büyük Daireye gönderme talebini REDDETTİ; Daire kararı kesinleşti",
+        kesin: "AİHS m.44/2-c: panel gönderme talebini reddettiğinde Daire kararı kesinleşir." }
+    };
+  }
+  if (/Uluslararası Ceza Mahkemesi/.test(k)) {
+    if (/Temyiz Dairesi/.test(k)) return { closed: "Roma Statüsü m.81-83: Temyiz Dairesinin kararları kesindir. Yalnız yeni delil gibi sınırlı sebeplerle, kesinleşen mahkûmiyete karşı yeniden inceleme (m.84) istenebilir." };
+    if (kind !== "istinaf") return null;
+    const on = /Ön Dava Dairesi/.test(k);
+    return {
+      court: "Uluslararası Ceza Mahkemesi · Temyiz Dairesi", courtShort: "UCM · TEMYİZ DAİRESİ", via: "Uluslararası Ceza Mahkemesi Yazı İşleri", name: "temyiz",
+      what: on ? "kabul edilebilirlik kararına karşı temyiz başvurusu" : "temyiz başvurusu", button: "Temyiz Dairesine başvur", noCevap: true,
+      days: on ? 5 : 30, law: on ? "Roma Statüsü m.82/1-a; Usul ve Delil Kuralları k.154" : "Roma Statüsü m.81; Usul ve Delil Kuralları k.150", rejectLaw: on ? "Usul ve Delil Kuralları k.154" : "Usul ve Delil Kuralları k.150",
+      judges: 5, benchTitle: "Temyiz Dairesi Başkanı ve dört yargıç", head: "Temyiz Dairesi Başkanı",
+      durusma: "Usul ve Delil Kuralları k.156 (Temyiz Dairesi duruşma yapabilir)",
+      incele: on
+        ? "Yargı yetkisine ya da kabul edilebilirliğe ilişkin Ön Dava Dairesi kararlarına karşı Temyiz Dairesine başvurulabilir (Roma Statüsü m.82/1-a); süre kararın bildiriminden itibaren beş gündür."
+        : "Yargılama Dairesinin mahkûmiyet ya da beraat kararına karşı savcı ve hükümlü Temyiz Dairesine başvurabilir (Roma Statüsü m.81): usul hatası, olay hatası, hukuk hatası ya da yargılamanın hakkaniyetini etkileyen başka bir sebep. Süre kararın bildiriminden itibaren otuz gündür.",
+      merciOk: "Temyiz başvurusunu (notice of appeal) Mahkemenin Yazı İşlerine verin; Temyiz Dairesi inceler.",
+      merciWrong: [
+        { text: "Kararı veren daireye, kararını yeniden gözden geçirmesi için başvurun.", doc: "YARGILAMA DAİRESİNE\n(Yeniden inceleme)", law: "Roma Statüsü m.81",
+          note: "Daire verdiği nihai kararı kendisi değiştiremez; yol Temyiz Dairesidir." },
+        { text: "Devletler Partisi Kuruluna başvurarak kararın kaldırılmasını isteyin.", doc: "DEVLETLER PARTİSİ KURULUNA", law: "Roma Statüsü m.112",
+          note: "Devletler Partisi Kurulu yönetim organıdır; yargısal kararları denetleyemez." }
+      ],
+      talepWrong: [
+        { text: "Mahkûmiyet nedeniyle sanığa Mahkemece tazminat ödenmesine karar verilmesine.", doc: "Sanık lehine tazminata hükmedilmesini talep ederiz.",
+          note: "Temyiz Dairesi kararı onar, değiştirir ya da bozar; haksız tutma tazminatı (m.85) ayrı bir yoldur." },
+        { text: "Kararın yalnız gerekçesinin düzeltilmesine, hükmün olduğu gibi bırakılmasına.", doc: "Kararın gerekçesinin düzeltilmesini talep ederiz.",
+          note: "Gerekçe düzeltmesi aleyhe hükmü ortadan kaldırmaz." }
+      ],
+      kabul: { stamp: "BOZMA", karar: "bozma", hukum: on ? "Temyiz başvurusunun KABULÜ ile Ön Dava Dairesinin kabul edilebilirlik kararının KALDIRILMASINA" : "Temyiz başvurusunun KABULÜ ile Yargılama Dairesi kararının BOZULMASINA" },
+      ret: { stamp: "ONAMA", karar: "onama", hukum: "Temyiz başvurusunun REDDİ ile kararın ONANMASINA", kesin: "Roma Statüsü m.83: Temyiz Dairesinin kararı kesindir." }
+    };
+  }
+  return undefined;
+}
+
 const clip = (s: string, n: number) => (s.length <= n ? s : s.slice(0, s.lastIndexOf(" ", n)).replace(/[,;:]$/, "") + "…");
 
 /** Forum aşaması: süre → merci → sebep → talep → (duruşma istemi) → dilekçe → (duruşma) → karar. */
 export function forumStage(base: CaseFile, kind: AppealKind, side: Side, w: ForumWay, issue: { law: string; text: string }, baseHukum: string, dat: (s: string) => string, prev?: { c: CaseFile; game: GameState }): AppealStage {
   const cevap = kind === "cevap", temyiz = kind === "temyiz";
   const prevDate = prev?.c.kararTarihi || base.kararTarihi;
-  const teblig = suggestTeblig(prevDate, { days: w.days, law: w.law }, undefined, cevap ? 20 : 12);
-  const calc = lastDay({ days: w.days, law: w.law, teblig });
+  const span = w.months ? { months: w.months } : { days: w.days };
+  const teblig = w.fromKarar ? prevDate! : suggestTeblig(prevDate, { ...span, law: w.law }, undefined, cevap ? 20 : 12);
+  const fromWord = w.fromKarar ? "Karar tarihi" : "Tebliğ";
+  const calc = lastDay({ ...span, law: w.law, teblig });
   const Name = w.name[0].toLocaleUpperCase("tr") + w.name.slice(1);
-  const what = cevap ? `${w.name}a cevap dilekçesi` : `${w.name} dilekçesi`;
+  const what = cevap ? (w.cevapWhat || `${w.name}a cevap dilekçesi`) : (w.what || `${w.name} dilekçesi`);
   const decided = temyiz ? (prev?.c.court || w.via) : base.court.replace(/\s*·.*$/, "");
 
   const intro = [
     { who: "narr", text: cevap
       ? `${decided} ${base.kararTarihi} tarihli kararıyla uyuşmazlığı müvekkiliniz lehine sonuçlandırdı. Karşı taraf karara itiraz etti.`
       : `${decided} ${prevDate} tarihli kararıyla müvekkiliniz aleyhine karar verdi.${baseHukum ? ` “${clip(baseHukum, 170)}”` : ""}` },
-    { who: "narr", text: cevap ? `İtiraz dilekçesi size ${fmtDate(calc.teblig)} tarihinde tebliğ edildi. Cevabınızı hazırlayacaksınız.` : `Karar size ${fmtDate(calc.teblig)} tarihinde tebliğ edildi. ${Name} dilekçenizi hazırlayacaksınız.` },
+    { who: "narr", text: cevap ? `İtiraz dilekçesi size ${fmtDate(calc.teblig)} tarihinde tebliğ edildi. Cevabınızı hazırlayacaksınız.` : w.fromKarar ? `Karar ${fmtDate(calc.teblig)} tarihinde açıklandı. ${what[0].toLocaleUpperCase("tr") + what.slice(1)} hazırlayacaksınız; süre karar tarihinden işler.` : `Karar size ${fmtDate(calc.teblig)} tarihinde tebliğ edildi. ${what[0].toLocaleUpperCase("tr") + what.slice(1)} hazırlayacaksınız.` },
     { who: "narr", text: w.incele }
   ];
 
   const date: Step = {
-    kind: "date", side: "p1", scene: "office", lines: [], deadline: { days: w.days, law: w.law, what, teblig },
-    prompt: `${what[0].toLocaleUpperCase("tr") + what.slice(1)} için son gün hangisi? Tebliğ: ${longDate(calc.teblig)}. Son günü yazın.`,
+    kind: "date", side: "p1", scene: "office", lines: [], deadline: { ...span, law: w.law, what, teblig },
+    prompt: `${what[0].toLocaleUpperCase("tr") + what.slice(1)} için son gün hangisi? ${fromWord}: ${longDate(calc.teblig)}. Son günü yazın.`,
     choices: [
       { text: "Doğru gün", min: 100, delta: 10, set: ["sure"], law: w.law, note: "Süreyi doğru hesapladınız." },
       { text: "Erken gün", min: 50, delta: -5, set: ["sure"], law: w.law, note: "Dilekçe yine süresinde verilir; ama son günü yanlış hesapladınız." },
@@ -198,10 +283,12 @@ export function forumStage(base: CaseFile, kind: AppealKind, side: Side, w: Foru
         ? { text: `Karşı tarafın ${w.name} başvurusunun reddine ve kararın aynen korunmasına.`, delta: 10, set: ["talep"], law: w.law, doc: `Karşı tarafın ${w.name} başvurusunun reddine karar verilmesini talep ederiz.`, note: "Doğru talep." }
         : { text: `${decided} kararının kaldırılmasına ve müvekkil lehine yeniden karar verilmesine.`, delta: 10, set: ["talep"], law: w.law, doc: `${decided} kararının kaldırılmasına ve müvekkil lehine yeniden karar verilmesine karar verilmesini talep ederiz.`,
             note: `Doğru. ${w.court} kararı yerinde bulmazsa kaldırıp yeniden karar verebilir.` },
-      { text: "Karar nedeniyle uğranılan zararın karşı taraftan tazminat olarak alınmasına karar verilmesine.", delta: -10, law: w.law, doc: "Uğranılan zararın tazminine karar verilmesini talep ederiz.",
-        note: `${w.court} kararın yerinde olup olmadığını inceler; ayrıca tazminata hükmetmez.` },
-      { text: "Kararın yalnız gerekçesinin düzeltilmesine, sonucunun ise olduğu gibi bırakılmasına.", delta: -5, law: w.law, doc: "Kararın gerekçesinin düzeltilmesine karar verilmesini talep ederiz.",
-        note: cevap ? "Gerekçe düzeltmesi karşı tarafın itirazını karşılamaz." : "Gerekçe düzeltmesi aleyhinize olan sonucu ortadan kaldırmaz." }
+      ...(w.talepWrong || [
+        { text: "Karar nedeniyle uğranılan zararın karşı taraftan tazminat olarak alınmasına karar verilmesine.", doc: "Uğranılan zararın tazminine karar verilmesini talep ederiz.",
+          note: `${w.court} kararın yerinde olup olmadığını inceler; ayrıca tazminata hükmetmez.` },
+        { text: "Kararın yalnız gerekçesinin düzeltilmesine, sonucunun ise olduğu gibi bırakılmasına.", doc: "Kararın gerekçesinin düzeltilmesine karar verilmesini talep ederiz.",
+          note: cevap ? "Gerekçe düzeltmesi karşı tarafın başvurusunu karşılamaz." : "Gerekçe düzeltmesi aleyhinize olan sonucu ortadan kaldırmaz." }
+      ]).map((x, i) => ({ text: x.text, delta: i === 0 ? -10 : -5, law: w.law, doc: x.doc, note: x.note }))
     ]
   };
 
@@ -217,7 +304,7 @@ export function forumStage(base: CaseFile, kind: AppealKind, side: Side, w: Foru
   steps.push({
     kind: "dilekce", side: "p1", scene: "office", lines: [{ who: "narr", text: "Dilekçeniz hazır. Sunmadan önce son bir kez okuyun." }],
     prompt: "Dilekçeyi gözden geçirin.", choices: [],
-    paper: { title: cevap ? `${w.name.toLocaleUpperCase("tr")}A CEVAP DİLEKÇESİ` : `${w.name.toLocaleUpperCase("tr")} DİLEKÇESİ`,
+    paper: { title: what.toLocaleUpperCase("tr"),
       meta: [
         { k: "Dosya", v: base.esas },
         { k: cevap ? "Cevap veren" : temyiz ? "Temyiz eden" : "İtiraz eden", v: base.sides[side].role.replace(/ vekili.*$/, "") },

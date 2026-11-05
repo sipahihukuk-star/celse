@@ -53,12 +53,19 @@ export interface DeadlineCalc {
   label: string;
 }
 
+/** Ay olarak süre: tebliğ gününe karşılık gelen ayın aynı günü (o ayda yoksa ayın son günü). */
+function addMonths(d: Date, m: number): Date {
+  const y = d.getUTCFullYear(), mo = d.getUTCMonth() + m, day = d.getUTCDate();
+  const last = new Date(Date.UTC(y, mo + 1, 0)).getUTCDate();
+  return new Date(Date.UTC(y, mo, Math.min(day, last)));
+}
+
 /** Sürenin son günü. regime verilirse adli tatil uzaması uygulanır (sinirlar.ts → ADLI_TATIL). */
 export function lastDay(r: DeadlineRule, regime?: Regime): DeadlineCalc {
   const teblig = parseDate(r.teblig);
   if (!teblig) throw new Error(`Geçersiz tebliğ tarihi: ${r.teblig}`);
   const n = r.weeks ? r.weeks * 7 : r.days || 0;
-  const raw = addDays(teblig, n);
+  const raw = r.months ? addMonths(teblig, r.months) : addDays(teblig, n);
   const shifts: string[] = [];
   let d = raw;
   const ext = regime ? ADLI_TATIL.uzama[regime] : undefined;
@@ -68,7 +75,7 @@ export function lastDay(r: DeadlineRule, regime?: Regime): DeadlineCalc {
   }
   const afterTatil = d;
   while (!isWorkday(d)) { shifts.push(holidayName(d) || weekday(d)); d = addDays(d, 1); }
-  const label = r.weeks ? `${r.weeks === 1 ? "bir" : r.weeks === 2 ? "iki" : r.weeks} hafta` : `${r.days} gün`;
+  const label = r.months ? `${["", "bir", "iki", "üç", "dört", "beş", "altı"][r.months] || r.months} ay` : r.weeks ? `${r.weeks === 1 ? "bir" : r.weeks === 2 ? "iki" : r.weeks} hafta` : `${r.days} gün`;
   return { teblig, raw, afterTatil, last: d, shifts, label };
 }
 
