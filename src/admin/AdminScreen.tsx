@@ -97,6 +97,12 @@ function AdminHome({ onExit, onPreview }: Props) {
   useInnerBack(importing, () => setImporting(false));
   useInnerBack(!!editing, () => { setEditing(null); reload(); });
   const nav = useFloatingNav();
+  // Dava listesi sayfa sayfa gösterilir: sayfa başına 5, 10, 25, 50 ya da 100 dosya (tercih bu tarayıcıda hatırlanır).
+  const [perPage, setPerPageRaw] = useState<number>(() => { try { const v = Number(globalThis.localStorage?.getItem("celse-yonetim-sayfa")); return [5, 10, 25, 50, 100].includes(v) ? v : 25; } catch { return 25; } });
+  const setPerPage = (n: number) => { setPerPageRaw(n); setPage(0); try { globalThis.localStorage?.setItem("celse-yonetim-sayfa", String(n)); } catch { /* yok say */ } };
+  const [page, setPage] = useState(0);
+  const listY = React.useRef(0);
+  useEffect(() => { setPage(0); }, [q, modeF, statusF]);
   // Yönetici denetimi oturum yüklendikten sonra ve hesap her değiştiğinde yeniden yapılır (sayfa oturumdan önce açılırsa
   // ilk denetim "yönetici değil" sonucunu önbelleğe alıyordu).
   useEffect(() => {
@@ -119,6 +125,23 @@ function AdminHome({ onExit, onPreview }: Props) {
     (modeF === "hepsi" || e.c.mode === modeF) &&
     (statusF === "hepsi" || e.status === statusF) &&
     (!q || `${e.c.title} ${e.c.court} ${e.c.area} ${e.c.id}`.toLocaleLowerCase("tr").includes(q.toLocaleLowerCase("tr"))));
+
+  const pages = Math.max(1, Math.ceil(shown.length / perPage));
+  const cur = Math.min(page, pages - 1);
+  const pageItems = shown.slice(cur * perPage, cur * perPage + perPage);
+  const goPage = (p: number) => { setPage(Math.max(0, Math.min(pages - 1, p))); nav.ref.current?.scrollTo({ y: Math.max(0, listY.current - 8), animated: false }); };
+  const Pager = ({ size }: { size?: boolean }) => (
+    <View style={st.pager}>
+      {size && <Seg label="Sayfada gösterilecek dosya" value={String(perPage)} onChange={v => setPerPage(Number(v))} options={[5, 10, 25, 50, 100].map(n => ({ v: String(n), label: `${n}'li` }))} />}
+      <View style={st.pagerNav}>
+        <SmallBtn label="« İlk" onPress={() => goPage(0)} />
+        <SmallBtn label="‹ Önceki" onPress={() => goPage(cur - 1)} />
+        <Text style={st.pagerT}>Sayfa {cur + 1} / {pages} · {shown.length ? `${cur * perPage + 1}–${Math.min(shown.length, (cur + 1) * perPage)}` : 0} / {shown.length} dava</Text>
+        <SmallBtn label="Sonraki ›" onPress={() => goPage(cur + 1)} />
+        <SmallBtn label="Son »" onPress={() => goPage(pages - 1)} />
+      </View>
+    </View>
+  );
 
   const counts = { toplam: entries.length, yayinda: entries.filter(e => e.status === "yayinda").length, taslak: entries.filter(e => e.status === "taslak").length };
   const takenIds = entries.map(e => e.c.id);
@@ -185,8 +208,9 @@ function AdminHome({ onExit, onPreview }: Props) {
         <Seg value={statusF} onChange={setStatusF} options={[{ v: "hepsi", label: "Tüm durumlar" }, { v: "yayinda", label: "Yayında" }, { v: "taslak", label: "Taslak" }, { v: "yerlesik", label: "Uygulamayla gelen" }]} />
       </View>
 
-      <View style={{ gap: 8 }}>
-        {shown.map(e => {
+      <View style={{ gap: 8 }} onLayout={ev => { listY.current = ev.nativeEvent.layout.y; }}>
+        <Pager size />
+        {pageItems.map(e => {
           const errs = validateCase(e.c).length;
           return (
             <View key={e.c.id} style={st.row}>
@@ -221,6 +245,7 @@ function AdminHome({ onExit, onPreview }: Props) {
           );
         })}
         {shown.length === 0 && <Text style={st.sub}>Bu filtreye uyan dava yok.</Text>}
+        {pageItems.length > 4 && <Pager />}
       </View>
 
       <Section title="Nasıl çalışır?">
@@ -301,6 +326,9 @@ function ImportBox({ takenIds, onDone }: { takenIds: string[]; onDone: () => voi
 }
 
 const st = StyleSheet.create({
+  pager: { gap: 8, paddingVertical: 4 },
+  pagerNav: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 8 },
+  pagerT: { fontFamily: F.bodyMed, fontSize: 13, color: C.muted },
   center: { flex: 1, alignItems: "center", justifyContent: "center", padding: 16 },
   gate: { width: "100%", maxWidth: 420, backgroundColor: C.panel, borderWidth: 1, borderColor: C.line, borderRadius: 12, padding: 22, gap: 10 },
   gateTitle: { fontFamily: F.display, fontSize: 26, color: C.brass },
