@@ -1,5 +1,7 @@
 // Maskeleme motoru testi: uydurma (gerçek olmayan) bir dilekçe üzerinde kişisel veri sızıntısı, emsal künyelerinin korunması,
 // geri çevirme ve okuyucular denetlenir. Gerçek müvekkil evrakı test verisi olarak KULLANILMAZ.
+import { readFileSync } from "fs";
+import { join } from "path";
 import { zipSync, strToU8 } from "fflate";
 import { mask, unmask, leaks, tcknGecerli, geriKodla } from "../src/engine/mask";
 import { evrakMetni } from "../src/engine/mask/readers";
@@ -80,6 +82,10 @@ const udf = zipSync({ "content.xml": strToU8(`<?xml version="1.0" encoding="UTF-
 ok(evrakMetni("dilekce.udf", udf).startsWith("DAVACI : Kemal YAZICI"), "UDF okuyucu");
 const docx = zipSync({ "word/document.xml": strToU8(`<w:document><w:body><w:p><w:r><w:t>DAVACI :</w:t></w:r><w:r><w:t xml:space="preserve"> Kemal &amp; YAZICI</w:t></w:r></w:p><w:p><w:r><w:t>İkinci</w:t></w:r></w:p></w:body></w:document>`) });
 ok(evrakMetni("dilekce.docx", docx) === "DAVACI : Kemal & YAZICI\nİkinci", "DOCX okuyucu");
+
+// Eski Word (.doc): uydurma bir dilekçenin Word 97-2003 hâli (tools/fixtures; gerçek kişi yok).
+const doc = evrakMetni("dilekce.doc", new Uint8Array(readFileSync(join(process.cwd(), "tools/fixtures/uydurma-dilekce.doc"))));
+ok(doc.includes("DAVACI : Selin KARAKAYA") && doc.includes("Şükür, ğüşıöç ĞÜŞİÖÇ"), "DOC okuyucu (Türkçe harfler dahil)");
 
 if (fail) { console.log("\nMASKELENMİŞ:\n" + r.masked + "\n"); console.log(r.entities); console.log(`mask-test: ${fail} hata`); process.exit(1); }
 console.log(`mask-test: tamam (${r.entities.length} kod)`);

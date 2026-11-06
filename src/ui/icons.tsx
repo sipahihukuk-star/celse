@@ -5,7 +5,7 @@ import { View } from "react-native";
 import Svg, { Circle, Path } from "react-native-svg";
 import { C } from "./theme";
 
-export type IconName = "scales" | "trophy" | "folder" | "cart";
+export type IconName = "scales" | "trophy" | "folder" | "cart" | "film" | "notes";
 
 export function Icon({ name, size = 24, color = C.brass, stroke = 1.6 }: { name: IconName; size?: number; color?: string; stroke?: number }) {
   const p = { stroke: color, strokeWidth: stroke, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, fill: "none" };
@@ -43,6 +43,20 @@ export function Icon({ name, size = 24, color = C.brass, stroke = 1.6 }: { name:
           <Path d="M3 4.5h2.2l2.1 10.2a1.5 1.5 0 0 0 1.5 1.2h7.9a1.5 1.5 0 0 0 1.5-1.1L20 8H6" {...p} />
           <Circle cx={9.5} cy={19.5} r={1.2} {...p} />
           <Circle cx={17} cy={19.5} r={1.2} {...p} />
+        </>
+      )}
+      {name === "film" && (
+        <>
+          <Path d="M4 6.5h16v11H4z" {...p} />
+          <Path d="M4 9.5h16M8 6.5l-1.5 3M12.5 6.5 11 9.5M17 6.5l-1.5 3" {...p} />
+          <Path d="m10.5 12 3.5 2-3.5 2v-4Z" {...p} />
+        </>
+      )}
+      {name === "notes" && (
+        <>
+          <Path d="M7 3.5h7.5L18 7v13.5H7z" {...p} />
+          <Path d="M14.5 3.5V7H18" {...p} />
+          <Path d="M9.5 11h6M9.5 14h6M9.5 17h4" {...p} />
         </>
       )}
     </Svg>
