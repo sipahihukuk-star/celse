@@ -64,7 +64,7 @@ export function TitleScreen(p: TitleProps) {
     if (settle.current) clearTimeout(settle.current);
     settle.current = setTimeout(() => setHome(HOME_PAGES[Math.max(0, Math.min(HOME_PAGES.length - 1, Math.round(x / pw)))]), 140);
   };
-  // Geniş web ekranında QR kodları iki yanda durur (solda iPhone, sağda Android); dar ekranda sayfanın altındaki kartta.
+  // Geniş web ekranında QR kodları sağda alt alta durur (üstte iPhone, altta Android); dar ekranda sayfanın altındaki kartta.
   const rails = Platform.OS === "web" && width >= 1180;
   const footer = Platform.OS === "web" ? <>{!!p.onShop && <ShopCard onPress={p.onShop} />}{!rails && <StoreLinks />}<LegalFooter onShop={p.onShop} /></> : null;
   return (
@@ -102,7 +102,6 @@ export function TitleScreen(p: TitleProps) {
       </View>
 
       <View style={{ flex: 1, flexDirection: "row" }}>
-      {rails && <View style={styles.railCol}><StoreRail platform="ios" /></View>}
       <View style={{ flex: 1 }} onLayout={e => setPw(Math.round(e.nativeEvent.layout.width))}>
       {pw > 0 && (
       <ScrollView ref={pager} horizontal pagingEnabled showsHorizontalScrollIndicator={false} scrollEventThrottle={32}
@@ -111,8 +110,9 @@ export function TitleScreen(p: TitleProps) {
         <DanismaHome wide={wide} admin={!!p.isAdmin} onDanisma={p.onDanisma} onGame={() => goPage("oyun")} footer={footer} />
       </View>
       <View style={{ width: pw }}>
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "center" }]}>
-        <View style={[styles.titleArt, wide && { flex: 0.8 }]}>
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "flex-start" }]}>
+        {/* Geniş ekranda terazi başlığın hizasında durur; sayfa kaydırılmadan görünür. */}
+        <View style={[styles.titleArt, wide && { flex: 0.8, paddingTop: 70 }]}>
           <Scale angle={tilt} size={wide ? 320 : entry ? 96 : 150} left={C.p1} right={C.p2} />
         </View>
         <View style={[{ gap: 6 }, wide && { flex: 1.2 }]}>
@@ -185,7 +185,7 @@ export function TitleScreen(p: TitleProps) {
       </ScrollView>
       )}
       </View>
-      {rails && <View style={styles.railCol}><StoreRail platform="android" /></View>}
+      {rails && <View style={styles.railCol}><StoreRail platform="ios" /><StoreRail platform="android" /></View>}
       </View>
       <SideMenu visible={menu} onClose={() => setMenu(false)} {...p} />
     </View>
@@ -535,7 +535,7 @@ const styles = StyleSheet.create({
   hello: { fontFamily: F.bodyBold, fontSize: 17, color: C.text, marginTop: 4 },
   guestLink: { alignSelf: "flex-start", paddingVertical: 6 },
   guestLinkT: { fontFamily: F.bodyMed, fontSize: 15, color: C.brass, textDecorationLine: "underline" },
-  railCol: { width: 196, alignItems: "center", justifyContent: "center", paddingHorizontal: 14 },
+  railCol: { width: 184, alignItems: "center", justifyContent: "center", gap: 12, paddingHorizontal: 12 },
   pills: { flexDirection: "row", gap: 8, justifyContent: "center", paddingHorizontal: 16, paddingBottom: 6 },
   pill: { borderWidth: 1, borderColor: C.line, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 7, backgroundColor: C.panel },
   pillOn: { backgroundColor: C.brass, borderColor: C.brass },

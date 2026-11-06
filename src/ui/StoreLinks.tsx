@@ -55,15 +55,15 @@ export function StoreRail({ platform }: { platform: "ios" | "android" }) {
     <Pressable accessibilityRole="link" accessibilityLabel={ios ? "iPhone · App Store" : "Android · Google Play"} onPress={() => Linking.openURL(url)}
       style={({ pressed }) => [s.rail, pressed && { opacity: 0.85 }]}>
       <Text style={[s.eyebrow, { textAlign: "center" }]}>{t("TELEFONUNUZA İNDİRİN")}</Text>
-      <View style={s.qr}><QR value={url} size={120} /></View>
-      <Text style={s.label}>{ios ? "iPhone · App Store" : "Android · Google Play"}</Text>
-      <Text style={[s.sub, { textAlign: "center" }]}>{t("Kamerayla okutun")}</Text>
+      <View style={s.qr}><QR value={url} size={96} /></View>
+      <Text style={[s.label, { textAlign: "center" }]}>{ios ? "iPhone" : "Android"}</Text>
+      <Text style={[s.sub, { textAlign: "center", fontSize: 12 }]}>{ios ? "App Store" : "Google Play"} · {t("kamerayla okutun")}</Text>
     </Pressable>
   );
 }
 
 const s = StyleSheet.create({
-  rail: { width: 168, alignItems: "center", gap: 8, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 14, paddingVertical: 14, paddingHorizontal: 10 },
+  rail: { width: 160, alignItems: "center", gap: 6, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 14, paddingVertical: 10, paddingHorizontal: 8 },
   card: { borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 14, padding: 16, gap: 6, marginTop: 18 },
   eyebrow: { fontFamily: F.mono, fontSize: 11, letterSpacing: 2, color: C.brassDim },
   title: { fontFamily: F.display, fontSize: 22, color: C.text },
