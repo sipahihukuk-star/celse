@@ -46,7 +46,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "tsx tools/simulate.ts && tsx tools/synctest.ts && tsx tools/appeal-test.ts && tsx tools/appeal-faces-test.ts && tsx tools/mask-test.ts",
+    "test": "tsx tools/simulate.ts && tsx tools/synctest.ts && tsx tools/appeal-test.ts && tsx tools/appeal-faces-test.ts && tsx tools/faces-test.ts && tsx tools/mask-test.ts",
     "tutarlilik": "tsx tools/tutarlilik.ts",
     "typecheck": "tsc --noEmit",
     "export:web": "expo export --platform web"

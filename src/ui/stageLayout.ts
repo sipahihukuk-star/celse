@@ -54,7 +54,9 @@ export interface StageLayout {
 
 /** Konuşanın sahnede bulunduğu yer ve boyu. W×H: sahnenin piksel ölçüsü (en fazla 2,1:1).
  *  guest: büroda görünen öbür kişi (ilk konuştuğu satırdan itibaren). */
-export function stageLayout(o: { c: CaseFile; scene: Scene; faces: Record<string, PhotoKey>; focus: string | null; guest: string | null; W: number; H: number }): StageLayout {
+/** side: karşılıklı davada büroda sırası gelen taraf. Verilirse büroda yalnız o tarafın avukatı (ve müvekkili) görünür;
+ *  karşı vekil müvekkil görüşmesinde aynı odada oturmaz. */
+export function stageLayout(o: { c: CaseFile; scene: Scene; faces: Record<string, PhotoKey>; focus: string | null; guest: string | null; W: number; H: number; side?: "p1" | "p2" }): StageLayout {
   const { c, scene, faces, focus, W, H } = o;
   const duel = c.mode === "duel";
   const room = roomOf(c);
@@ -144,7 +146,13 @@ export function stageLayout(o: { c: CaseFile; scene: Scene; faces: Record<string
       figs.push({ key: focus, photo: faces[focus], x: W * 0.5, bottom: below(U * 0.58), h: U * 0.58, z: 6, front: true });
   } else if (W) {
     const g = o.guest && faces[o.guest] ? o.guest : null;
-    if (duel) {
+    const other = o.side === "p1" ? "p2" : "p1";
+    if (duel && o.side && focus !== other) {
+      // Tek avukat kendi yerinde (p1 solda, p2 sağda); müvekkil karşısında, ona dönük.
+      const left = o.side === "p1";
+      figs.push({ key: o.side, photo: faces[o.side] || "av-erkek-38", flip: !left, x: W * (left ? 0.27 : 0.73), bottom: 0, h: H * 0.72, z: 4, front: true });
+      if (g) figs.push({ key: g, photo: faces[g], flip: left, x: W * (left ? 0.68 : 0.32), bottom: 0, h: H * 0.62, z: 3, front: true });
+    } else if (duel) {
       figs.push({ key: "p1", photo: faces.p1 || "av-erkek-38", x: W * 0.25, bottom: 0, h: H * 0.72, z: 4, front: true });
       if (faces.p2) figs.push({ key: "p2", photo: faces.p2, flip: true, x: W * 0.75, bottom: 0, h: H * 0.72, z: 4, front: true });
       if (g) figs.push({ key: g, photo: faces[g], x: W * 0.5, bottom: 0, h: H * 0.62, z: 3, front: true });

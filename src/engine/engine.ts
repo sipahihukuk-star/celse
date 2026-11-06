@@ -97,7 +97,8 @@ function interviewOpen(c: CaseFile, state: GameState, idx: number): boolean {
   const asked = state.asked[idx] || [];
   const limit = st.limit ?? st.choices.length;
   const left = st.choices.filter((q, i) => !asked.includes(i) && test(q.if, state.flags)).length;
-  return asked.length < limit && left > 0;
+  // Bir soru sorulduktan sonra tek soru kaldıysa görüşme biter: seçimsiz (tek şıklı) soru sorulmaz.
+  return asked.length < limit && (left > 1 || (left === 1 && asked.length === 0));
 }
 
 /** Sıradaki oynanabilir adımın indeksi; dava bittiyse -1. Açık bir görüşme varsa aynı adım döner. */
@@ -266,6 +267,11 @@ export function validateCase(c: CaseFile): string[] {
     checkLines(s.lines, `${w}.lines`);
     if (kind === "choice" && (s.choices.length < 2 || s.choices.length > 6)) errs.push(`${w}: 2–6 seçenek olmalı`);
     if (kind === "interview" && !s.choices.length) errs.push(`${w}: görüşmede en az bir soru olmalı`);
+    // Son soruda da seçim kalsın: koşulsuz soru sayısı, sorulabilecek soru sayısından en az bir fazla olmalı (tek şıklı soru olmaz).
+    if (kind === "interview" && s.choices.length) {
+      const lim = s.limit ?? s.choices.length, acik = s.choices.filter(q => !q.if).length;
+      if (acik < lim + 1) errs.push(`${w}: görüşmede ${lim} soru sorulabiliyor; son soruda da seçim kalması için en az ${lim + 1} koşulsuz soru olmalı (şu an ${acik})`);
+    }
     if (kind === "free") {
       if (s.choices.length < 2) errs.push(`${w}: serbest cevapta en az iki sonuç (iyi / zayıf) olmalı`);
       if (!s.choices.some(ch => !ch.min)) errs.push(`${w}: serbest cevapta alt sınırı 0 olan bir sonuç olmalı (her cevap bir sonuca düşmeli)`);

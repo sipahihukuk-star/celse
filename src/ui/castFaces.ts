@@ -46,6 +46,9 @@ export function faceAge(k?: string): number | undefined {
   return FACE_AGE[base] ?? (base.match(/-(\d{2})(?:-|$)/) ? +base.match(/-(\d{2})(?:-|$)/)![1] : undefined);
 }
 export const faceFemale = (k?: string) => !!k && /kadin/.test(k);
+const oldFace = (k: string) => (faceAge(k) ?? 40) >= 60;
+const CIVIL_YOUNG: Pool = { f: CIVIL.f.filter(k => !oldFace(k)), m: CIVIL.m.filter(k => !oldFace(k)) };
+const CIVIL_OLD: Pool = { f: CIVIL.f.filter(oldFace), m: CIVIL.m.filter(oldFace) };
 
 export const isOld = (look?: Look) => !!look?.hair && /^#(6b6b|9a9a|a0a0|8a8a|b0b0|c0c0|7a7a)/i.test(look.hair);
 
@@ -131,6 +134,16 @@ export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = f
     }
     return list[start % list.length];
   };
+  /** Sivil kişi: metinde yaş yoksa ve saçı kır değilse yaşlı yüz (kır saçlı 62, başörtülü 72) verilmez; o yüzler yalnız
+   *  yaşlı olduğu bilinen kişilere gider. Önce eski seçim yapılır, yaşlı yüz çıkarsa genç havuzdan yeniden seçilir
+   *  (öbür davaların yüzleri değişmesin diye). */
+  const civil = (female: boolean, seed: string, age?: number): PhotoKey => {
+    const n0 = used.size;
+    const k = pick(CIVIL, female, seed, age);
+    if (age !== undefined || !oldFace(k)) return k;
+    if (used.size > n0) used.delete(k);
+    return pick(CIVIL_YOUNG, female, seed, undefined, { spare: CIVIL_OLD });
+  };
   const tahkim = c.room === "tahkim" && !stateCourt(c);
   const intl = !tahkim && (c.room === "uluslararasi" || /İnsan Hakları|Uluslararası/.test(c.court));
   const judgePool = tahkim ? (domesticForum(c) || c.forum === "istac" ? ARB_TR : ARB_INTL) : intl ? (/Ceza Mahkemesi/.test(c.court) ? UCM : AIHM) : JUDGE;
@@ -155,7 +168,8 @@ export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = f
     if (isCounsel(role)) { map[role] = pick(COUNSEL, femaleOf(role), role, ageOf(role), { spare: COUNSEL_SPARE }); continue; }
     // Şirket ya da kurum adına gelen sivil kişi (yönetici, yetkili; ticari tahkimde herkes): takım elbiseli yüz.
     if (!robe && !red && (m.attire === "business" || exec(role, m.name))) { map[role] = pick(EXEC, femaleOf(role), role, ageOf(role), { spare: EXEC_SPARE }); continue; }
-    const pool = !robe ? CIVIL : red ? (intl ? judgePool : PROS) : LAWYER;
+    if (!robe) { map[role] = civil(femaleOf(role), role, ageOf(role)); continue; }
+    const pool = red ? (intl ? judgePool : PROS) : LAWYER;
     map[role] = pick(pool, femaleOf(role), role, ageOf(role));
   }
   // Oyuncunun kendisi: büroda seçtiği karakter; seçmemişse hesaptaki ada göre bir avukat.
@@ -176,7 +190,7 @@ export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = f
   for (const k of [pr.left, pr.right]) if (k && !map[k] && inherited[k]) map[k] = inherited[k];
   for (const k of [pr.left, pr.right]) if (k && !map[k]) {
     const f = hash(c.id + k) % 2 === 0;
-    map[k] = exec(k) ? pick(EXEC, f, k, undefined, { spare: EXEC_SPARE }) : pick(CIVIL, f, k);
+    map[k] = exec(k) ? pick(EXEC, f, k, undefined, { spare: EXEC_SPARE }) : civil(f, k);
   }
   // Mübaşir ve kâtip dosyanın mahkemesine göre seçilir: aynı mahkemede hep aynı kişiler, başka mahkemede başkaları.
   const pool = <T extends readonly string[]>(arr: T) => arr.filter(k => k in PHOTOS) as unknown as PhotoKey[];

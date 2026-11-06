@@ -231,6 +231,17 @@
           "note": "Kilit soru. Yargıtay uygulamasında affedilen ya da hoşgörüyle karşılanan olaylar sonradan kusur olarak yüklenemez; ama af olgusunu davalının savunmada ileri sürmesi gerekir."
         },
         {
+          "text": "Kripto yatırımında tam olarak ne kadar kaybettiniz, para nereye gitti?",
+          "delta": 0,
+          "reply": [
+            {
+              "who": "davali",
+              "text": "850.000 liranın neredeyse hepsi gitti. Bir platforma yatırmıştım, çöktü. Utanıyorum."
+            }
+          ],
+          "note": "Zayıf soru. Kaybın miktarı zaten dosyada. Kusur tartışmasında önemli olan sonrasında ne olduğudur (af, hoşgörü, karşı tarafın kusuru); bu soru savunmaya yeni bir vakıa ya da delil kazandırmadı."
+        },
+        {
           "text": "Eşinizin size ya da ailenize karşı kusurlu bir davranışı oldu mu? Bunu kim gördü?",
           "delta": 10,
           "set": [
