@@ -16,6 +16,8 @@ export interface GameSettings {
   androidLink: string;
   /** Web'de Pro kilidi: mağazada satış açılana kadar kapalı (web'den satın alma yapılamaz). Açılınca web'de de 2. bölümden sonrası Pro ister. */
   webProKilidi: boolean;
+  /** Celse Avukat paketinin satışı: mağaza ürünleri ve fiyatlar onaylanınca açılır; kapalıyken "yakında" yazar. */
+  avukatSatis: boolean;
 }
 export const WEB_URL = "https://celse.themiscode.com/";
 export const DOWNLOAD_URL = WEB_URL + "indir.html";
@@ -23,7 +25,8 @@ export const DEFAULT_SETTINGS: GameSettings = {
   notKirma: 1, notKirmaArtis: 0.15,
   iosLink: "https://apps.apple.com/app/id6829524134",
   androidLink: "https://play.google.com/store/apps/details?id=com.themiscode.celse",
-  webProKilidi: false
+  webProKilidi: false,
+  avukatSatis: false
 };
 const link = (v: unknown, d: string) => (typeof v === "string" && /^https:\/\/\S+$/.test(v.trim()) ? v.trim() : d);
 const LOCAL = "celse-ayarlar-v1";
@@ -36,7 +39,8 @@ const clean = (v: Partial<GameSettings> | null | undefined): GameSettings => ({
   notKirmaArtis: Math.max(0, Math.min(1, v?.notKirmaArtis === undefined ? DEFAULT_SETTINGS.notKirmaArtis : Number(v.notKirmaArtis) || 0)),
   iosLink: link(v?.iosLink, DEFAULT_SETTINGS.iosLink),
   androidLink: link(v?.androidLink, DEFAULT_SETTINGS.androidLink),
-  webProKilidi: v?.webProKilidi === true
+  webProKilidi: v?.webProKilidi === true,
+  avukatSatis: v?.avukatSatis === true
 });
 
 export async function loadSettings(): Promise<GameSettings> {

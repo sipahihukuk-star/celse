@@ -11,6 +11,7 @@ import {
 import { CreditInfo, PRODUCTS } from "../data/purchaseIds";
 import { buyConsumable, getCreditProducts, PURCHASES_AVAILABLE } from "../data/purchases";
 import { refreshPremium, usePremium } from "../data/subscription";
+import { useSettings } from "../data/settings";
 import { locale, t } from "../i18n";
 import { ORNEK_DANISMA, ORNEK_SENARYO } from "../data/izleOrnek";
 import DanismaWatch from "./DanismaWatch";
@@ -67,7 +68,7 @@ export default function DanismaScreen(p: Props) {
   const [dosyalar, setDosyalar] = useState<Record<string, DanismaDosyasi>>({});
   // "Evrakla duruşma provası" (beta: yalnız yönetici; sonra avukatlara açılacak).
   const premE = usePremium();
-  const evrakIzinli = premE.evrak || !!premE.avukat?.aktif;
+  const evrakIzinli = premE.evrak || !!premE.avukat?.aktif || useSettings().avukatSatis;
   const [evrak, setEvrak] = useState(() => !!p.evrak || adresParam(/[?&](evrak)\b/) !== null);
   const reload = () => listDanismalar().then(l => {
     setList(l);

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HOME_PAGES, HomePage, useHomePage } from "./homePage";
 import { usePremium } from "../data/subscription";
+import { useSettings } from "../data/settings";
 import { KeyboardBar } from "./KeyboardBar";
 import { Linking, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { useVoiceEnabled } from "./voice";
@@ -214,7 +215,8 @@ function ShopCard({ onPress }: { onPress: () => void }) {
 function DanismaHome({ wide, admin: yonetici, onDanisma, onGame, footer }: { wide: boolean; admin: boolean; onDanisma?: (evrak?: boolean) => void; onGame: () => void; footer: React.ReactNode }) {
   // Evrakla duruşma provası: yöneticiler ve yönetim panelinden izin verilen oyuncular (surum14.sql).
   const prem = usePremium();
-  const admin = yonetici || prem.evrak || !!prem.avukat?.aktif;
+  const satis = useSettings().avukatSatis;
+  const admin = yonetici || prem.evrak || !!prem.avukat?.aktif || satis;
   return (
     <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, { gap: 12 }]}>
       <View style={{ gap: 6, width: "100%", maxWidth: 720, alignSelf: "center" }}>
@@ -238,7 +240,7 @@ function DanismaHome({ wide, admin: yonetici, onDanisma, onGame, footer }: { wid
         <Pressable accessibilityRole="button" disabled={!admin} onPress={() => onDanisma(true)} style={({ pressed }) => [styles.homeCard, styles.homeCardPro, pressed && { opacity: 0.85 }]}>
           <IconBadge name="folder" size={48} />
           <View style={{ flex: 1, gap: 4 }}>
-            <Text style={styles.careerKDark}>{admin ? t("AVUKATLAR İÇİN · DENEME") : t("AVUKATLAR İÇİN · YAKINDA")}</Text>
+            <Text style={styles.careerKDark}>{admin ? t("AVUKATLAR İÇİN · CELSE AVUKAT") : t("AVUKATLAR İÇİN · YAKINDA")}</Text>
             <Text style={styles.homeT}>{t("Evrakla duruşma provası")}</Text>
             <Text style={styles.webNote}>{t("Dosyanın evrakını yükleyin: kişisel veriler cihazınızda kodlanır, yalnız kodlu metin gönderilir ve kaydedilmez. Hâkimin soruları, karşı tarafın argümanları, zayıf noktalar ve sözlü beyan taslağı hazırlanır.")}</Text>
           </View>

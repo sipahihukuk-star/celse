@@ -10,6 +10,8 @@ import { dosyaAc, EVRAK_AZAMI, evrakBiletAl, evrakDerle, evrakIzle, evrakOturumu
 import type { Danisma, Senaryo } from "../data/danisma";
 import type { CaseFile } from "../engine/types";
 import DanismaWatch from "./DanismaWatch";
+import { AvukatPaketKart } from "./AvukatPaketKart";
+import { useSettings } from "../data/settings";
 import { setAvukatKalan, usePremium } from "../data/subscription";
 import { EVRAK_KREDI } from "../data/purchaseIds";
 import { IconBadge } from "./icons";
@@ -60,6 +62,7 @@ const sahteDanisma = (s: Senaryo): Danisma => ({
 export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFile) => void; /** yönetici ya da deneme izni: kredi düşmez */ ucretsiz?: boolean }) {
   // Celse Avukat paketi: işlem başına kredi (notlar 1, izle 3, oyna 3); yöneticiler ve deneme izinlileri ücretsiz.
   const prem = usePremium();
+  const ayar = useSettings();
   const ucretsiz = !!p.ucretsiz || prem.evrak;
   const av = prem.avukat;
   const yeter = (n: number) => ucretsiz || (!!av?.aktif && av.kalan >= n);
@@ -275,7 +278,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
       <Text style={s.cardT}>{t("Duruşma salonuna girin")}</Text>
       <Text style={s.hint}>{ucretsiz ? t("Deneme erişimi: işlemler kredi düşmez.")
         : av?.aktif ? t("Celse Avukat · bu ay kalan {k} / {a} kredi · yenilenme {d}", { k: av.kalan, a: av.aylik, d: av.donemSonu ? av.donemSonu.toLocaleDateString("tr-TR") : "" })
-        : t("Evrakla duruşma provası Celse Avukat paketiyle kullanılır: ayda 160 kredi, Celse Pro dahil. Paket yakında satışta.")}</Text>
+        : t("Evrakla duruşma provası Celse Avukat paketiyle kullanılır: ayda 160 kredi, Celse Pro dahil.") + (ayar.avukatSatis ? "" : " " + t("Paket yakında satışta."))}</Text>
       <View style={s.acts}>
         <Pressable accessibilityRole="button" disabled={!hazir || (!dosya && !yeter(EVRAK_KREDI.evrak_oyna))} onPress={oyna} style={({ pressed }) => [s.act, (!hazir || (!dosya && !yeter(EVRAK_KREDI.evrak_oyna))) && s.actOff, pressed && { opacity: 0.85 }]}>
           <IconBadge name="scales" size={44} />
@@ -316,6 +319,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
         <Text style={s.warnT}>{t("Kişisel veriler cihazınızdan çıkmaz.")}</Text>
         <Text style={s.warnD}>{t("Evrak bu cihazda okunur ve maskelenir: adlar, kimlik ve dosya numaraları, adresler ve mahkeme adları kodlara çevrilir; tarihlerde yalnız ay ve yıl kalır. Sunucuya yalnız sizin onayladığınız kodlu metin gider ve kaydedilmez. Kodların karşılıkları yalnız bu cihazın belleğinde tutulur; “Oturumu temizle” ya da uygulamayı kapatmak siler.")}</Text>
       </View>
+      {!ucretsiz && <AvukatPaketKart />}
 
       {adim === "yukle" && (
         <View style={s.card}>
