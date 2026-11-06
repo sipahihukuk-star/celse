@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { HOME_PAGES, HomePage, useHomePage } from "./homePage";
 import { KeyboardBar } from "./KeyboardBar";
 import { Linking, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { useVoiceEnabled } from "./voice";
@@ -30,7 +31,7 @@ export interface TitleProps {
   onMap: () => void; tahkimCount: number; duelCount: number; soloCount: number; rankName: string; won: number; total: number;
   /** üye olmadan oynayan (giriş kartını geçmiş) oyuncu; "Üye olmadan dene" ile açılır, "Giriş yap" ile giriş kartına döner */
   guest?: boolean; onGuest?: () => void; onLeaveGuest?: () => void;
-  /** "Derdini anlat" danışma ekranı */ onDanisma?: () => void;
+  /** "Derdini anlat" danışma ekranı; evrak: doğrudan "Evrakla duruşma provası" açılır */ onDanisma?: (evrak?: boolean) => void;
   /** Web mağazası (Celse Pro ve kredi paketleri; yalnız web) */ onShop?: () => void;
   /** Danışma dosyaları (gerçek olaylar): kullanıcıların anonim olaylarını avukat olarak oynama (antrenman) */ onDanismaDosya?: () => void;
 }
@@ -43,6 +44,26 @@ export function TitleScreen(p: TitleProps) {
   const { account, server, office } = p;
   // Giriş kartı: oturum yokken ve oyuncu "Üye olmadan dene" demediyse. Oyun menüsü üye olmadan da açılır (Apple zorunlu üyeliği kabul etmez).
   const entry = !account && !p.guest;
+  // Ön yüz iki sayfadır: "Derdini anlat" ve "Kariyer ve oyun". Parmakla kaydırılır ya da üstteki düğmeyle geçilir;
+  // kullanıcı hangi sayfada kalırsa uygulama bir dahaki açılışta o sayfayla açılır.
+  const [home, setHome, ready] = useHomePage();
+  const [pw, setPw] = useState(0);
+  const pager = useRef<React.ComponentRef<typeof ScrollView>>(null);
+  const placed = useRef(false);
+  const settle = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const homeRef = useRef(home); homeRef.current = home;
+  useEffect(() => {
+    if (!pw || !ready) return;
+    placed.current = true;
+    pager.current?.scrollTo({ x: HOME_PAGES.indexOf(homeRef.current) * pw, animated: false });
+  }, [pw, ready]);
+  const goPage = (h: HomePage) => { setHome(h); pager.current?.scrollTo({ x: HOME_PAGES.indexOf(h) * pw, animated: true }); };
+  const onPagerScroll = (x: number) => {
+    if (!placed.current || !pw) return;
+    if (settle.current) clearTimeout(settle.current);
+    settle.current = setTimeout(() => setHome(HOME_PAGES[Math.max(0, Math.min(HOME_PAGES.length - 1, Math.round(x / pw)))]), 140);
+  };
+  const footer = Platform.OS === "web" ? <>{!!p.onShop && <ShopCard onPress={p.onShop} />}<StoreLinks /><LegalFooter onShop={p.onShop} /></> : null;
   return (
     <View style={{ flex: 1 }}>
       {/* Üst şerit: solda menü, sağda üyelik */}
@@ -69,6 +90,22 @@ export function TitleScreen(p: TitleProps) {
         )}
       </View>
 
+      <View style={styles.pills} accessibilityRole="tablist">
+        {HOME_PAGES.map(h => (
+          <Pressable key={h} accessibilityRole="tab" accessibilityState={{ selected: home === h }} onPress={() => goPage(h)} style={[styles.pill, home === h && styles.pillOn]}>
+            <Text style={[styles.pillT, home === h && styles.pillTOn]}>{h === "danisma" ? t("Derdini anlat") : t("Kariyer ve oyun")}</Text>
+          </Pressable>
+        ))}
+      </View>
+
+      <View style={{ flex: 1 }} onLayout={e => setPw(Math.round(e.nativeEvent.layout.width))}>
+      {pw > 0 && (
+      <ScrollView ref={pager} horizontal pagingEnabled showsHorizontalScrollIndicator={false} scrollEventThrottle={32}
+        onScroll={e => onPagerScroll(e.nativeEvent.contentOffset.x)} style={{ flex: 1 }}>
+      <View style={{ width: pw }}>
+        <DanismaHome wide={wide} admin={!!p.isAdmin} onDanisma={p.onDanisma} onGame={() => goPage("oyun")} footer={footer} />
+      </View>
+      <View style={{ width: pw }}>
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "center" }]}>
         <View style={[styles.titleArt, wide && { flex: 0.8 }]}>
           <Scale angle={tilt} size={wide ? 320 : entry ? 96 : 150} left={C.p1} right={C.p2} />
@@ -84,7 +121,6 @@ export function TitleScreen(p: TitleProps) {
               <Pressable accessibilityRole="button" onPress={p.onGuest} hitSlop={8} style={({ pressed }) => [styles.guestLink, pressed && { opacity: 0.7 }]}>
                 <Text style={styles.guestLinkT}>{t("Üye olmadan dene ›")}</Text>
               </Pressable>
-              {!!p.onDanisma && <DanismaCard onPress={p.onDanisma} />}
             </>
           ) : (
           <>
@@ -117,8 +153,6 @@ export function TitleScreen(p: TitleProps) {
             </View>
             <Text style={styles.careerGoDark}>{t("Sıralama ›")}</Text>
           </Pressable>
-          {!!p.onDanisma && <DanismaCard onPress={p.onDanisma} />}
-
           <Text style={[styles.eyebrow, { marginTop: 18 }]}>{t("ANTRENMAN · SONUÇLAR KARİYERE İŞLEMEZ")}</Text>
           <View style={styles.cta}>
             <Btn kind="secondary" label={t("Tek kişilik dosyalar") + ` · ${p.soloCount}`} onPress={p.onSolo} />
@@ -129,7 +163,7 @@ export function TitleScreen(p: TitleProps) {
           <Text style={styles.fact}>{t("Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.")}</Text>
           </>
           )}
-          {Platform.OS === "web" ? <>{!!p.onShop && <ShopCard onPress={p.onShop} />}<StoreLinks /><LegalFooter onShop={p.onShop} /></> : (
+          {Platform.OS === "web" ? footer : (
             <Pressable accessibilityRole="link" onPress={() => Linking.openURL(WEB_URL)} style={({ pressed }) => [styles.webLink, pressed && { opacity: 0.8 }]}>
               <Text style={styles.webIcon}>🌐</Text>
               <View style={{ flex: 1 }}>
@@ -142,6 +176,10 @@ export function TitleScreen(p: TitleProps) {
           )}
         </View>
       </ScrollView>
+      </View>
+      </ScrollView>
+      )}
+      </View>
       <SideMenu visible={menu} onClose={() => setMenu(false)} {...p} />
     </View>
   );
@@ -161,18 +199,43 @@ function ShopCard({ onPress }: { onPress: () => void }) {
   );
 }
 
-/** "Derdini anlat" kartı: kendi olayınızı anlatıp eğitim amaçlı değerlendirme alırsınız. */
-function DanismaCard({ onPress }: { onPress: () => void }) {
+/** Ön yüzün "Derdini anlat" sayfası: vatandaş için kendi olayını anlatma, avukat için evrakla duruşma provası. */
+function DanismaHome({ wide, admin, onDanisma, onGame, footer }: { wide: boolean; admin: boolean; onDanisma?: (evrak?: boolean) => void; onGame: () => void; footer: React.ReactNode }) {
   return (
-    <Pressable accessibilityRole="button" onPress={onPress} style={({ pressed }) => [styles.danismaCard, pressed && { opacity: 0.85 }]}>
-      <Text style={styles.boardIcon}>⚖️</Text>
-      <View style={{ flex: 1 }}>
-        <Text style={styles.careerKDark}>{t("DERDİNİ ANLAT")}</Text>
-        <Text style={styles.boardT}>{t("Kendi olayınızı anlatın")}</Text>
-        <Text style={styles.webNote}>{t("Güçlü ve zayıf yönleriniz, delilleriniz, izlenebilecek yollar ve duruşma canlandırması. Eğitim amaçlıdır, hukuki görüş değildir.")}</Text>
+    <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, { gap: 12 }]}>
+      <View style={{ gap: 6, width: "100%", maxWidth: 720, alignSelf: "center" }}>
+        <Text style={styles.eyebrow}>{t("HUKUK YARDIMCISI · EĞİTİM AMAÇLI")}</Text>
+        <Text style={[styles.logo, { fontSize: wide ? 88 : 60, lineHeight: wide ? 96 : 68 }]}>Celse</Text>
+        <Text style={styles.byline}>BY THEMISCODE</Text>
+        <Text style={styles.lede}>{t("Olayınızı anlatın: güçlü ve zayıf yönlerinizi, delillerinizi, karşı tarafın muhtemel savunmasını ve izlenebilecek yolları görün; duruşmanızı fotoğraflı karakterlerle izleyin.")}</Text>
       </View>
-      <Text style={styles.careerGoDark}>›</Text>
-    </Pressable>
+      {!!onDanisma && (
+        <Pressable accessibilityRole="button" onPress={() => onDanisma()} style={({ pressed }) => [styles.homeCard, pressed && { opacity: 0.85 }]}>
+          <Text style={styles.homeIcon}>⚖️</Text>
+          <View style={{ flex: 1, gap: 4 }}>
+            <Text style={styles.careerKDark}>{t("DERDİNİ ANLAT · HERKES İÇİN")}</Text>
+            <Text style={styles.homeT}>{t("Kendi olayınızı anlatın")}</Text>
+            <Text style={styles.webNote}>{t("Eksik bilgi denetimi ücretsiz; değerlendirme, duruşma canlandırması ve takip soruları krediyle. Eğitim amaçlıdır, hukuki görüş değildir.")}</Text>
+          </View>
+          <Text style={styles.careerGoDark}>›</Text>
+        </Pressable>
+      )}
+      {!!onDanisma && (
+        <Pressable accessibilityRole="button" disabled={!admin} onPress={() => onDanisma(true)} style={({ pressed }) => [styles.homeCard, styles.homeCardPro, pressed && { opacity: 0.85 }]}>
+          <Text style={styles.homeIcon}>📂</Text>
+          <View style={{ flex: 1, gap: 4 }}>
+            <Text style={styles.careerKDark}>{admin ? t("AVUKATLAR İÇİN · DENEME") : t("AVUKATLAR İÇİN · YAKINDA")}</Text>
+            <Text style={styles.homeT}>{t("Evrakla duruşma provası")}</Text>
+            <Text style={styles.webNote}>{t("Dosyanın evrakını yükleyin: kişisel veriler cihazınızda kodlanır, yalnız kodlu metin gönderilir ve kaydedilmez. Hâkimin soruları, karşı tarafın argümanları, zayıf noktalar ve sözlü beyan taslağı hazırlanır.")}</Text>
+          </View>
+          {admin && <Text style={styles.careerGoDark}>›</Text>}
+        </Pressable>
+      )}
+      <Pressable accessibilityRole="button" onPress={onGame} hitSlop={8} style={({ pressed }) => [styles.swipeHint, pressed && { opacity: 0.7 }]}>
+        <Text style={styles.guestLinkT}>{wide ? t("Kariyer ve avukatlık oyunu ›") : t("Kariyer ve avukatlık oyunu için sola kaydırın ›")}</Text>
+      </Pressable>
+      <View style={{ width: "100%", maxWidth: 720, alignSelf: "center" }}>{footer}</View>
+    </ScrollView>
   );
 }
 
@@ -463,6 +526,16 @@ const styles = StyleSheet.create({
   hello: { fontFamily: F.bodyBold, fontSize: 17, color: C.text, marginTop: 4 },
   guestLink: { alignSelf: "flex-start", paddingVertical: 6 },
   guestLinkT: { fontFamily: F.bodyMed, fontSize: 15, color: C.brass, textDecorationLine: "underline" },
+  pills: { flexDirection: "row", gap: 8, justifyContent: "center", paddingHorizontal: 16, paddingBottom: 6 },
+  pill: { borderWidth: 1, borderColor: C.line, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 7, backgroundColor: C.panel },
+  pillOn: { backgroundColor: C.brass, borderColor: C.brass },
+  pillT: { fontFamily: F.bodyMed, fontSize: 14, color: C.text },
+  pillTOn: { color: C.brassInk, fontFamily: F.bodyBold },
+  homeCard: { flexDirection: "row", alignItems: "center", gap: 14, borderWidth: 1, borderColor: C.brassDim, borderRadius: 14, paddingVertical: 16, paddingHorizontal: 16, backgroundColor: C.panel2, width: "100%", maxWidth: 720, alignSelf: "center" },
+  homeCardPro: { borderColor: C.line, backgroundColor: C.panel },
+  homeIcon: { fontSize: 32 },
+  homeT: { fontFamily: F.display, fontSize: 21, color: C.text },
+  swipeHint: { alignSelf: "center", paddingVertical: 8 },
   danismaCard: { flexDirection: "row", alignItems: "center", gap: 12, borderWidth: 1, borderColor: C.brassDim, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14, backgroundColor: C.panel2, marginTop: 10, maxWidth: 480 },
   onlineBar: { flexDirection: "row", alignItems: "center", gap: 10, borderWidth: 1, borderColor: C.brass, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 10, marginBottom: 20, backgroundColor: C.panel },
   onlineK: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.brassDim },

@@ -24,7 +24,7 @@ import { Btn } from "./kit";
 import { StoreLinks } from "./StoreLinks";
 import { C, F } from "./theme";
 
-interface Props { onBack: () => void; onSignIn: () => void; onSignUp: () => void; signedIn: boolean; server: boolean; admin: boolean }
+interface Props { evrak?: boolean; onBack: () => void; onSignIn: () => void; onSignUp: () => void; signedIn: boolean; server: boolean; admin: boolean }
 
 const KUTU: Record<Kutu, { label: string; hint: string }> = {
   olay: { label: "Somut olay", hint: "Ne oldu? Olayları tarih sırasıyla yazın: ne zaman, kim (rolüyle), ne yaptı." },
@@ -65,7 +65,7 @@ export default function DanismaScreen(p: Props) {
   // Oyunculara gönderilen dosyalar (danışma kimliğine göre); surum13.sql kurulmadıysa boş.
   const [dosyalar, setDosyalar] = useState<Record<string, DanismaDosyasi>>({});
   // "Evrakla duruşma provası" (beta: yalnız yönetici; sonra avukatlara açılacak).
-  const [evrak, setEvrak] = useState(() => adresParam(/[?&](evrak)\b/) !== null);
+  const [evrak, setEvrak] = useState(() => !!p.evrak || adresParam(/[?&](evrak)\b/) !== null);
   const reload = () => listDanismalar().then(l => {
     setList(l);
     dosyalarim().then(setDosyalar).catch(() => {});
@@ -78,7 +78,7 @@ export default function DanismaScreen(p: Props) {
   }).catch(() => setList([]));
   useEffect(() => { if (p.signedIn) reload(); }, [p.signedIn]);
 
-  if (evrak) return <EvrakScreen onBack={() => setEvrak(false)} />;
+  if (evrak) return <EvrakScreen onBack={() => (p.evrak ? p.onBack() : setEvrak(false))} />;
   if (watch) return <DanismaWatch key={watch.d.id + (watch.oyuncu ? ":oyuncu" : "")} s={watch.s} d={watch.d} basla={watch.son ? "son" : undefined} onClose={() => setWatch(null)} />;
   const oyuncuKaydi = (d: Danisma, k: OyunKaydi) => { const sn = kayitSenaryo(k); if (sn) setWatch({ s: sn, d, oyuncu: true }); };
 
