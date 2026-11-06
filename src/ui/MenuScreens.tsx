@@ -217,7 +217,7 @@ function DanismaHome({ wide, admin: yonetici, onDanisma, onGame, footer }: { wid
   return (
     <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, { gap: 12 }]}>
       <View style={{ gap: 6, width: "100%", maxWidth: 720, alignSelf: "center" }}>
-        <Text style={styles.eyebrow}>{t("HUKUK YARDIMCISI · EĞİTİM AMAÇLI")}</Text>
+        <Text style={styles.eyebrow}>{t("HUKUK YARDIMCISI")}</Text>
         <Text style={[styles.logo, { fontSize: wide ? 88 : 60, lineHeight: wide ? 96 : 68 }]}>Celse</Text>
         <Text style={styles.byline}>BY THEMISCODE</Text>
         <Text style={styles.lede}>{t("Olayınızı anlatın: güçlü ve zayıf yönlerinizi, delillerinizi, karşı tarafın muhtemel savunmasını ve izlenebilecek yolları görün; duruşmanızı fotoğraflı karakterlerle izleyin.")}</Text>
