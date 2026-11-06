@@ -2,6 +2,11 @@
 // (danisma fonksiyonu, evrak işlemi; hiçbir şey kaydedilmez). Gelen hazırlık notları cihazda gerçek değerlere geri çevrilir.
 import { call } from "./danisma";
 import { unmask } from "../engine/mask";
+import type { Senaryo } from "./danisma";
+import type { CaseFile } from "../engine/types";
+import { dosyaAc, senaryoAc } from "./evrakAc";
+export { dosyaAc, senaryoAc };
+import { setAktifMaske } from "../engine/mask/oturum";
 
 export interface Prova {
   ozet: string; uyusmazlik: string[]; hakimSorulari: { soru: string; cevap: string }[]; karsiArgumanlar: { arguman: string; cevap: string }[];
@@ -35,4 +40,26 @@ export function provaMetni(p: Prova, t: (s: string) => string): string {
   if (p.sozlu) L.push(t("Sözlü beyan taslağı"), p.sozlu, "");
   if (p.uyari) L.push(p.uyari);
   return L.join("\n");
+}
+
+// ---------- Duruşma salonu: yapay zekâ oynasın (izle) ya da avukat kendisi oynasın ----------
+
+/** Canlandırma senaryosu (Duruşmayı izle oynatıcısıyla aynı biçim); kişiler kodlarıyla gelir. */
+export const evrakIzle = (metin: string, taraf: "davaci" | "davali", asama: string) =>
+  call<{ senaryo: Senaryo }>("evrak_izle", { metin, taraf, asama, kabul: true }, 240000);
+/** Oynanabilir tek kişilik dosya; kişiler kodlarıyla gelir. */
+export const evrakOyna = (metin: string, taraf: "davaci" | "davali", asama: string) =>
+  call<{ dosya: unknown }>("evrak_oyna", { metin, taraf, asama, kabul: true }, 300000);
+
+/** Evrak oturumu: ekran oyuna geçip geri dönünce kaybolmasın diye bellekte tutulur (cihazda; sunucuya gitmez).
+ *  "Oturumu temizle" ya da uygulamanın kapanması siler. Oturum varken giden metinler yeniden kodlanır (mask/oturum.ts). */
+export interface EvrakOturum {
+  evraklar: { ad: string; metin: string }[]; yapistir: string; taraf: "davaci" | "davali"; asama: string; allow: string[]; extra: string[];
+  map: Record<string, string>; prova?: { kodlu: Prova; acik: Prova }; senaryo?: Senaryo; dosya?: CaseFile;
+}
+let oturum: EvrakOturum | null = null;
+export const evrakOturumu = () => oturum;
+export function evrakOturumuYaz(o: EvrakOturum | null) {
+  oturum = o;
+  setAktifMaske(o ? o.map : null);
 }

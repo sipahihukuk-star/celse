@@ -1,7 +1,7 @@
 // Maskeleme motoru testi: uydurma (gerçek olmayan) bir dilekçe üzerinde kişisel veri sızıntısı, emsal künyelerinin korunması,
 // geri çevirme ve okuyucular denetlenir. Gerçek müvekkil evrakı test verisi olarak KULLANILMAZ.
 import { zipSync, strToU8 } from "fflate";
-import { mask, unmask, leaks, tcknGecerli } from "../src/engine/mask";
+import { mask, unmask, leaks, tcknGecerli, geriKodla } from "../src/engine/mask";
 import { evrakMetni } from "../src/engine/mask/readers";
 
 let fail = 0;
@@ -61,6 +61,14 @@ const back = unmask(r.masked, r.map);
 for (const s of ["Kemal YAZICI", TC1, "Hasan Demirtaş", "2024/1188"]) ok(back.includes(s), `geri çevrilince olmalı: "${s}"`);
 const answer = "[DAVACI] lehine [İDARE MAHKEMESİ-1] kararı emsal gösterilebilir.";
 ok(!unmask(answer, r.map).includes("[DAVACI]"), "yapay zekâ cevabı geri çevrilmeli");
+
+// Geri kodlama: ekranda gerçek adlarla yazılmış metin (ya da oyuncunun kendi cevabı) sunucuya ve seslendirmeye giderken yeniden kodlanır.
+const acik = "Kemal YAZICI'nın tanığı Hasan Demirtaş; Yazıcı ayrıca [Ocak 2025] tarihinde İzmir 3. İdare Mahkemesi'ne başvurdu.";
+const kod = geriKodla(acik, r.map, "kod"), ses = geriKodla(acik, r.map, "ses");
+for (const v of ["Kemal", "YAZICI", "Yazıcı", "Hasan", "Demirtaş", "İzmir 3."]) { ok(!kod.includes(v), `geri kodlama (kod) sızıntı: ${v}`); ok(!ses.includes(v), `geri kodlama (ses) sızıntı: ${v}`); }
+ok(kod.includes("[DAVACI]"), "geri kodlama: davacı kodu");
+ok(ses.includes("davacı") && !/\[/.test(ses), "seslendirmede kod yerine rol adı okunmalı: " + ses);
+ok(unmask("[Ocak 2025] tarihinde", r.map) === "Ocak 2025 tarihinde", "ay-yıl kodu parantezsiz açılmalı");
 
 // Elle düzeltme: allow ile bir değer açık bırakılır, extra ile ek ifade gizlenir.
 const r2 = mask(DILEKCE, { allow: ["Hasan Demirtaş"], extra: ["Binbaşı"] });

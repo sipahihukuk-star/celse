@@ -61,6 +61,8 @@ export interface Senaryo {
   sahneler: Sahne[]; uyari?: string;
   /** Oyuncu kaydından çevrilmiş senaryoda oynayan avukat oyuncunun takma adı (danismaDosya.ts kayitSenaryo). */
   oyuncu?: string;
+  /** Evrakla duruşma provasından gelen canlandırma: sunucuda kaydı yoktur (sesli kayıt ve web bağlantısı gösterilmez). */
+  evrak?: boolean;
 }
 export interface Danisma {
   id: string; alan: string; olay: string; deliller: string; karsi: string; talep: string; durum: string;

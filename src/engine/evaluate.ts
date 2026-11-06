@@ -3,6 +3,9 @@ import { getLang } from "../i18n";
 // yoksa ya da cevap gelmezse adımdaki anahtar kavramlarla çevrimdışı puanlanır.
 import { expandForSpeech } from "./speechText";
 import { CaseFile, KeywordGroup, Step } from "./types";
+import { disariGiden } from "./mask/oturum";
+/** Evrak oturumunda giden metindeki gerçek adlar yeniden kodlanır. */
+const disariGidenJson = (o: Record<string, unknown>) => JSON.stringify(o, (_k, v) => (typeof v === "string" ? disariGiden(v) : v));
 
 export interface Evaluation { score: number; feedback: string; by: "ai" | "kavram" }
 
@@ -60,7 +63,7 @@ async function evaluateRaw(c: CaseFile, st: Step, answer: string, server?: { url
     const res = await fetch(`${server.url}/functions/v1/${server.fn || "degerlendir"}`, {
       method: "POST", signal: ctrl.signal,
       headers: { "Content-Type": "application/json", apikey: server.key, Authorization: `Bearer ${server.token || server.key}` },
-      body: JSON.stringify({ mode: "puan", dil: getLang(), dava: c.title, alan: c.area, mahkeme: c.court, rol: c.sides[st.side].role, soru: note + st.prompt, olcut: st.rubric || "", ornek: st.model || "", cevap: answer.slice(0, 2000) })
+      body: disariGidenJson({ mode: "puan", dil: getLang(), dava: c.title, alan: c.area, mahkeme: c.court, rol: c.sides[st.side].role, soru: note + st.prompt, olcut: st.rubric || "", ornek: st.model || "", cevap: answer.slice(0, 2000) })
     });
     clearTimeout(t);
     if (!res.ok) return offline();

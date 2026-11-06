@@ -237,7 +237,7 @@ function EndScreen({ s, d, k, onClose, onReplay }: { s: Senaryo; d: Danisma; k: 
   const karar = s.sahneler.find(x => x.tur === "karar");
   return (
     <ScrollView contentContainerStyle={st.endWrap}>
-      <View style={{ flexDirection: "row" }}><Btn kind="ghost" label={t("‹ Danışmaya dön")} onPress={onClose} /></View>
+      <View style={{ flexDirection: "row" }}><Btn kind="ghost" label={s.evrak ? t("‹ Provaya dön") : t("‹ Danışmaya dön")} onPress={onClose} /></View>
       <Text style={st.eyebrow}>{t("DURUŞMAYI İZLE")}</Text>
       <Text style={st.endT}>{t("Canlandırma bitti")}</Text>
       <Text style={st.endM}>{t(alanAdi(d.alan)).toLocaleUpperCase(locale())} · {s.mahkeme || t("Mahkeme")}</Text>
@@ -246,8 +246,8 @@ function EndScreen({ s, d, k, onClose, onReplay }: { s: Senaryo; d: Danisma; k: 
       <View style={[st.box, { borderColor: C.brass }]}>
         <Text style={st.boxT}>{t("Kaydı alın")}</Text>
         {/* Sesli kayıt sunucudaki yapay zekâ senaryosundan birleştirilir; avukat oyuncunun kaydında yalnız video vardır. */}
-        {!s.oyuncu && <Btn label={busy === "mp3" ? t("Hazırlanıyor…") : t("🎧 Sesli kaydı indir (MP3)")} disabled={!!busy} onPress={mp3} />}
-        {!s.oyuncu && <Text style={st.hint}>{t("Bütün sahneler, her karakter kendi sesiyle, tek bir MP3 dosyasında. Bir kez hazırlanır; sonra hemen iner.")}</Text>}
+        {!s.oyuncu && !s.evrak && <Btn label={busy === "mp3" ? t("Hazırlanıyor…") : t("🎧 Sesli kaydı indir (MP3)")} disabled={!!busy} onPress={mp3} />}
+        {!s.oyuncu && !s.evrak && <Text style={st.hint}>{t("Bütün sahneler, her karakter kendi sesiyle, tek bir MP3 dosyasında. Bir kez hazırlanır; sonra hemen iner.")}</Text>}
         {Platform.OS === "web" ? (videoOk ? (
           <>
             <Btn label={busy === "video" ? t("Video kaydediliyor…") : t("🎬 Videoyu indir")} disabled={!!busy} onPress={video} />
@@ -257,7 +257,7 @@ function EndScreen({ s, d, k, onClose, onReplay }: { s: Senaryo; d: Danisma; k: 
         ) : <Text style={st.hint}>{t("Bu tarayıcı video kaydını desteklemiyor; Chrome, Edge ya da Firefox'un güncel sürümünü deneyin.")}</Text>) : (
           <>
             <Text style={st.hint}>{t("Video web sürümünde indirilir. Aynı hesapla giriş yaptığınızda bu danışma orada da açılır.")}</Text>
-            {!s.oyuncu && <Btn kind="ghost" label={t("🎬 Videoyu web'de hazırla ›")} onPress={() => Linking.openURL(`${WEB_URL}?danisma=${d.id}`)} />}
+            {!s.oyuncu && !s.evrak && <Btn kind="ghost" label={t("🎬 Videoyu web'de hazırla ›")} onPress={() => Linking.openURL(`${WEB_URL}?danisma=${d.id}`)} />}
           </>
         )}
         {!!prog && <Text style={st.prog}>{prog}</Text>}

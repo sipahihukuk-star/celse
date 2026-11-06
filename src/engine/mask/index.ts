@@ -232,9 +232,37 @@ function suffixOf(m: string, value: string): string {
   return m.length > value.length ? m.slice(value.length) : "";
 }
 
-/** Kodlu metni gerçek değerlere geri çevirir (yalnız cihazda). */
+/** Kodlu metni gerçek değerlere geri çevirir (yalnız cihazda). Ay-yıl kodları ("[Ekim 2026]") köşeli parantezsiz yazılır. */
 export function unmask(text: string, map: Record<string, string>): string {
-  return text.replace(/\[[^\]\n]{1,40}\]/g, code => (code in map ? map[code] : code));
+  return text.replace(/\[[^\]\n]{1,40}\]/g, code => (code in map ? map[code] : AY_YIL.test(code) ? code.slice(1, -1) : code));
+}
+const AY_YIL = new RegExp(`^\\[(?:${AYLAR.join("|")}) (?:19|20)\\d{2}\\]$`);
+
+/** Kodun sesli okunuşu: kişisel veri olmadan, rolüyle ("[DAVALI VEKİLİ]" → "davalı vekili", "[KİŞİ-2]" → "ilgili kişi"). */
+export function sesEtiketi(code: string): string {
+  const label = code.slice(1, -1).replace(/-\d+$/, "");
+  const ozel: Record<string, string> = { "KİŞİ": "ilgili kişi", NO: "numara", ESAS: "dosya numarası", "İL": "il", "GİZLİ": "gizli bilgi", TCKN: "kimlik numarası", VKN: "vergi numarası", AVUKAT: "avukat", "ŞİRKET": "şirket", "E-POSTA": "e-posta adresi" };
+  return ozel[label] || trLow(label);
+}
+
+/** Gerçek değerleri yeniden kodlar: cihazdan çıkan her metin için (yapay zekâ puanlaması "kod", bulut seslendirmesi "ses").
+ *  Taraf ve kişi adlarının tek tek sözcükleri de (soyadı gibi) yakalanır; oyuncunun kendi yazdığı cevapta da çalışır. */
+export function geriKodla(text: string, map: Record<string, string>, mod: "kod" | "ses"): string {
+  if (!text) return text;
+  const pairs: [string, string][] = [];
+  for (const [code, value] of Object.entries(map)) {
+    pairs.push([value, code]);
+    if (/^\[(?:DAVA|SANIK|MÜŞTEKİ|KATILAN|ŞÜPHELİ|BAŞVUR|KİŞİ|AVUKAT|TANIK|ALACAKLI|BORÇLU|MAĞDUR|İHBAR|ŞİKAYETÇİ|İTİRAZ|KARŞI|MÜDAFİ)/.test(code) || /VEKİLİ|MÜDAFİİ/.test(code))
+      for (const w of value.split(/\s+/)) if (w.length >= 3 && /^[A-ZÇĞİÖŞÜ]/.test(w)) pairs.push([w, code]);
+  }
+  pairs.sort((a, b) => b[0].length - a[0].length);
+  let t = text;
+  for (const [value, code] of pairs) {
+    const out = mod === "ses" ? sesEtiketi(code) : code;
+    for (const v of new Set([value, trUp(value), value.split(" ").map(x => x[0] + trLow(x.slice(1))).join(" ")]))
+      t = t.replace(new RegExp(`(?<![${UP}${LOW}])${esc(v)}(?![${LOW}${UP}])`, "g"), out);
+  }
+  return mod === "ses" ? t.replace(/\[([^\]\n]{1,40})\]/g, (m) => (AY_YIL.test(m) ? m.slice(1, -1) : sesEtiketi(m))) : t;
 }
 
 /** Maskelenmiş metinde kişisel veri izi kalmış mı: denetim için. */

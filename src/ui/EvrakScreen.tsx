@@ -1,11 +1,15 @@
 // "Evrakla duruşma provası" (beta, yönetici): avukat dosya evrakını yükler (web: UDF, Word, metin; telefonda şimdilik yapıştırma),
 // evrak CİHAZDA maskelenir, avukat onay ekranında kodlanan her değeri görür, açık bırakır ya da ek ifade gizler; sunucuya yalnız
 // kodlu metin gider ve hiçbir şey kaydedilmez. Gelen hazırlık notları cihazda gerçek adlara geri çevrilir.
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Platform, Pressable, ScrollView, Share, StyleSheet, Text, TextInput, View } from "react-native";
 import { Entity, Kind, mask } from "../engine/mask";
 import { evrakMetni, turBul } from "../engine/mask/readers";
-import { EVRAK_AZAMI, evrakProva, Prova, provaAc, provaMetni } from "../data/evrak";
+import { dosyaAc, EVRAK_AZAMI, evrakIzle, evrakOturumu, evrakOturumuYaz, evrakOyna, evrakProva, Prova, provaAc, provaMetni, senaryoAc } from "../data/evrak";
+import type { Danisma, Senaryo } from "../data/danisma";
+import type { CaseFile } from "../engine/types";
+import DanismaWatch from "./DanismaWatch";
+import { setAktifMaske } from "../engine/mask/oturum";
 import { useInnerBack } from "./innerBack";
 import { Btn } from "./kit";
 import { t } from "../i18n";
@@ -43,23 +47,36 @@ function riskler(s: string): string[] {
   return out;
 }
 
-export default function EvrakScreen(p: { onBack: () => void }) {
-  const [adim, setAdim] = useState<Adim>("yukle");
-  const [evraklar, setEvraklar] = useState<Evrak[]>([]);
-  const [yapistir, setYapistir] = useState("");
-  const [taraf, setTaraf] = useState<"davaci" | "davali">("davaci");
-  const [asama, setAsama] = useState("");
-  const [allow, setAllow] = useState<string[]>([]);
-  const [extra, setExtra] = useState<string[]>([]);
+/** "Duruşmayı izle" oynatıcısı danışma kaydı bekler; evrak canlandırmasının sunucuda kaydı yoktur, yerinde bir karşılık verilir. */
+const sahteDanisma = (s: Senaryo): Danisma => ({
+  id: "evrak-" + Math.abs([...s.ozet].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) | 0, 7)), alan: "diger", olay: s.ozet, deliller: "", karsi: "", talep: "",
+  durum: "hazir", degerlendirme: null, canlandirma: null, takip: [], kalan_takip: 0, created_at: new Date().toISOString()
+});
+
+export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFile) => void }) {
+  // Oyundan dönünce kaldığı yerden açılır (oturum bellekte; uygulama kapanınca silinir).
+  const o = useMemo(() => evrakOturumu(), []);
+  const [adim, setAdim] = useState<Adim>(o?.prova ? "sonuc" : o ? "onay" : "yukle");
+  const [evraklar, setEvraklar] = useState<Evrak[]>(o?.evraklar || []);
+  const [yapistir, setYapistir] = useState(o?.yapistir || "");
+  const [taraf, setTaraf] = useState<"davaci" | "davali">(o?.taraf || "davaci");
+  const [asama, setAsama] = useState(o?.asama || "");
+  const [allow, setAllow] = useState<string[]>(o?.allow || []);
+  const [extra, setExtra] = useState<string[]>(o?.extra || []);
+  const [senaryo, setSenaryo] = useState<Senaryo | null>(o?.senaryo || null);
+  const [dosya, setDosya] = useState<CaseFile | null>(o?.dosya || null);
+  const [izle, setIzle] = useState(false);
+  const [mesgul, setMesgul] = useState<"" | "prova" | "izle" | "oyna">("");
   const [ek, setEk] = useState("");
-  const [okudum, setOkudum] = useState(false);
+  const [okudum, setOkudum] = useState(!!o);
   const [tamami, setTamami] = useState(false);
   const [err, setErr] = useState("");
-  const [prova, setProva] = useState<{ kodlu: Prova; acik: Prova; map: Record<string, string> } | null>(null);
+  const [prova, setProva] = useState<{ kodlu: Prova; acik: Prova } | null>(o?.prova || null);
   const [kodlu, setKodlu] = useState(false);
   const [kopyalandi, setKopyalandi] = useState(false);
 
   useInnerBack(adim === "onay" || adim === "sonuc", () => setAdim(adim === "sonuc" ? "onay" : "yukle"));
+  useInnerBack(izle, () => setIzle(false));
 
   const tumMetin = useMemo(() => {
     const parts = evraklar.map((e, i) => `=== ${t("Evrak")} ${i + 1}: ${e.ad.replace(/\.[^.]+$/, "")} ===\n${e.metin}`);
@@ -69,6 +86,19 @@ export default function EvrakScreen(p: { onBack: () => void }) {
   // Evrak adı da kişisel veri taşıyabilir (müvekkil adıyla kaydedilmiş dosya): başlıklar da maskeden geçer.
   const sonuc = useMemo(() => (adim === "yukle" ? null : mask(tumMetin, { allow, extra })), [adim, tumMetin, allow, extra]);
   const risk = sonuc ? riskler(sonuc.masked) : [];
+  // Oturum: maskeleme değişince önceki sonuçlar eski kodlarla üretildiği için atılır.
+  const imza = useRef(JSON.stringify([allow, extra, tumMetin.length]));
+  useEffect(() => {
+    const yeni = JSON.stringify([allow, extra, tumMetin.length]);
+    if (yeni !== imza.current) { imza.current = yeni; setProva(null); setSenaryo(null); setDosya(null); }
+  }, [allow, extra, tumMetin]);
+  useEffect(() => {
+    if (!sonuc) return;
+    evrakOturumuYaz({ evraklar, yapistir, taraf, asama, allow, extra, map: sonuc.map, prova: prova || undefined, senaryo: senaryo || undefined, dosya: dosya || undefined });
+  }, [sonuc, evraklar, yapistir, taraf, asama, allow, extra, prova, senaryo, dosya]);
+  const cik = () => { evrakOturumuYaz(null); p.onBack(); };
+  // Ekran kapanınca kodların karşılıkları giden metinlerde etkin kalmaz (oyuna geçilirse App yeniden açar).
+  useEffect(() => () => setAktifMaske(null), []);
 
   const ekle = async () => {
     setErr("");
@@ -90,11 +120,38 @@ export default function EvrakScreen(p: { onBack: () => void }) {
   };
   const gonder = async () => {
     if (!sonuc) return;
-    setErr(""); setAdim("bekle");
+    if (prova) { setAdim("sonuc"); return; }
+    setErr(""); setMesgul("prova");
     const r = await evrakProva(sonuc.masked, taraf, asama.trim());
-    if (!r.ok) { setErr(t(r.error, r.vars)); setAdim("onay"); return; }
-    setProva({ kodlu: r.data, acik: provaAc(r.data, sonuc.map), map: sonuc.map });
+    setMesgul("");
+    if (!r.ok) { setErr(t(r.error, r.vars)); return; }
+    setProva({ kodlu: r.data, acik: provaAc(r.data, sonuc.map) });
     setKodlu(false); setAdim("sonuc");
+  };
+  /** Yapay zekâ oynasın: canlandırma senaryosu; bir kez üretilir, yeniden izlemede aynısı açılır. */
+  const izlet = async () => {
+    if (!sonuc) return;
+    if (senaryo) { setIzle(true); return; }
+    setErr(""); setMesgul("izle");
+    const r = await evrakIzle(sonuc.masked, taraf, asama.trim());
+    setMesgul("");
+    if (!r.ok) { setErr(t(r.error, r.vars)); return; }
+    const sn = senaryoAc(r.data.senaryo, sonuc.map);
+    setSenaryo(sn); setIzle(true);
+  };
+  /** Ben oynayayım: evraktan oynanabilir dosya; avukat kendi tarafının vekili olarak duruşmaya girer. */
+  const oyna = async () => {
+    if (!sonuc || !p.onPlay) return;
+    if (dosya) { p.onPlay(dosya); return; }
+    setErr(""); setMesgul("oyna");
+    const r = await evrakOyna(sonuc.masked, taraf, asama.trim());
+    setMesgul("");
+    if (!r.ok) { setErr(t(r.error, r.vars)); return; }
+    const c = dosyaAc(r.data.dosya, sonuc.map);
+    if (!c) { setErr(t("Dosya şu an oynanabilir hâle getirilemedi. Yeniden deneyin.")); return; }
+    setDosya(c);
+    evrakOturumuYaz({ evraklar, yapistir, taraf, asama, allow, extra, map: sonuc.map, prova: prova || undefined, senaryo: senaryo || undefined, dosya: c });
+    p.onPlay(c);
   };
   const paylas = async () => {
     if (!prova) return;
@@ -118,16 +175,47 @@ export default function EvrakScreen(p: { onBack: () => void }) {
     return SIRA.filter(k => g.has(k)).map(k => [k, g.get(k)!] as const);
   }, [sonuc]);
 
+  if (izle && senaryo) return <DanismaWatch key={senaryo.ozet.length} s={senaryo} d={sahteDanisma(senaryo)} onClose={() => setIzle(false)} />;
+  const hazir = okudum && risk.length === 0 && !mesgul;
+  const Aksiyonlar = (
+    <View style={s.card}>
+      <Text style={s.cardT}>{t("Duruşma salonuna girin")}</Text>
+      <View style={s.acts}>
+        <Pressable accessibilityRole="button" disabled={!hazir} onPress={oyna} style={({ pressed }) => [s.act, !hazir && s.actOff, pressed && { opacity: 0.85 }]}>
+          <Text style={s.actIcon}>⚖️</Text>
+          <Text style={s.actT}>{mesgul === "oyna" ? t("Dosya hazırlanıyor…") : dosya ? t("Yeniden oyna") : t("Ben oynayayım")}</Text>
+          <Text style={s.actD}>{t("Kendi tarafınızın vekili olarak duruşmaya girin: müvekkil görüşmesi, hâkimin soruları, delille itiraz, sözlü savunma ve karar.")}</Text>
+        </Pressable>
+        <Pressable accessibilityRole="button" disabled={!hazir} onPress={izlet} style={({ pressed }) => [s.act, !hazir && s.actOff, pressed && { opacity: 0.85 }]}>
+          <Text style={s.actIcon}>🎬</Text>
+          <Text style={s.actT}>{mesgul === "izle" ? t("Canlandırma hazırlanıyor…") : senaryo ? t("Yeniden izle") : t("Yapay zekâ oynasın")}</Text>
+          <Text style={s.actD}>{t("Büro görüşmeleri, duruşma ve karar fotoğraflı karakterlerle sahnelenir; siz izlersiniz.")}</Text>
+        </Pressable>
+        <Pressable accessibilityRole="button" disabled={!hazir} onPress={gonder} style={({ pressed }) => [s.act, !hazir && s.actOff, pressed && { opacity: 0.85 }]}>
+          <Text style={s.actIcon}>📋</Text>
+          <Text style={s.actT}>{mesgul === "prova" ? t("Hazırlanıyor…") : prova ? t("Hazırlık notlarını aç") : t("Hazırlık notları")}</Text>
+          <Text style={s.actD}>{t("Hâkimin soruları, karşı tarafın argümanları, zayıf noktalar, süreler ve sözlü beyan taslağı.")}</Text>
+        </Pressable>
+      </View>
+      {!!mesgul && <Text style={s.hint}>{t("Evrakın uzunluğuna göre bir-üç dakika sürebilir; ekranı açık tutun.")}</Text>}
+      {!!err && <Text style={s.err}>{err}</Text>}
+      {!hazir && !mesgul && <Text style={s.hint}>{risk.length ? t("Önce metinde kalan kişisel veriyi gizleyin.") : t("Önce gönderilecek metni denetleyip onay kutusunu işaretleyin.")}</Text>}
+      <Text style={s.hint}>{t("Ekranda gerçek adlar görünür; seslendirmeye ve yapay zekâ puanlamasına giden metinlerde adlar yeniden kodlanır.")}</Text>
+    </View>
+  );
+
   return (
     <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled" automaticallyAdjustKeyboardInsets keyboardDismissMode="on-drag">
       <View style={s.head}>
-        <Btn kind="ghost" label={t("‹ Geri")} onPress={() => (adim === "yukle" ? p.onBack() : adim === "sonuc" ? setAdim("onay") : adim === "onay" ? setAdim("yukle") : undefined)} />
+        <Btn kind="ghost" label={t("‹ Geri")} onPress={() => (adim === "yukle" ? cik() : adim === "sonuc" ? setAdim("onay") : adim === "onay" ? setAdim("yukle") : undefined)} />
+        <View style={{ flex: 1 }} />
+        {adim !== "yukle" && <Btn kind="ghost" label={t("Oturumu temizle")} onPress={cik} />}
       </View>
       <Text style={s.eyebrow}>{t("EVRAKLA DURUŞMA PROVASI · DENEME")}</Text>
       <Text style={s.title}>{t("Dosyanızla duruşmaya hazırlanın")}</Text>
       <View style={s.warn}>
         <Text style={s.warnT}>{t("Kişisel veriler cihazınızdan çıkmaz.")}</Text>
-        <Text style={s.warnD}>{t("Evrak bu cihazda okunur ve maskelenir: adlar, kimlik ve dosya numaraları, adresler ve mahkeme adları kodlara çevrilir; tarihlerde yalnız ay ve yıl kalır. Sunucuya yalnız sizin onayladığınız kodlu metin gider ve kaydedilmez. Kodların karşılıkları yalnız bu ekranda tutulur; ekrandan çıkınca silinir.")}</Text>
+        <Text style={s.warnD}>{t("Evrak bu cihazda okunur ve maskelenir: adlar, kimlik ve dosya numaraları, adresler ve mahkeme adları kodlara çevrilir; tarihlerde yalnız ay ve yıl kalır. Sunucuya yalnız sizin onayladığınız kodlu metin gider ve kaydedilmez. Kodların karşılıkları yalnız bu cihazın belleğinde tutulur; “Oturumu temizle” ya da uygulamayı kapatmak siler.")}</Text>
       </View>
 
       {adim === "yukle" && (
@@ -225,15 +313,12 @@ export default function EvrakScreen(p: { onBack: () => void }) {
               <View style={[s.box, okudum && s.boxOn]}>{okudum && <Text style={s.tick}>✓</Text>}</View>
               <Text style={s.checkT}>{t("Gönderilecek metni denetledim; kişisel veri kalmadı. Hazırlık notlarının yapay zekâ ürünü olduğunu, hata yapabileceğini ve son değerlendirmenin bana ait olduğunu biliyorum.")}</Text>
             </Pressable>
-            {!!err && <Text style={s.err}>{err}</Text>}
-            <View style={s.row}>
-              <Btn label={adim === "bekle" ? t("Hazırlanıyor…") : t("Duruşma provasını hazırla")} disabled={!okudum || risk.length > 0 || adim === "bekle"} onPress={gonder} />
-            </View>
-            {adim === "bekle" && <Text style={s.hint}>{t("Evrakın uzunluğuna göre bir-iki dakika sürebilir.")}</Text>}
           </View>
+          {Aksiyonlar}
         </>
       )}
 
+      {adim === "sonuc" && Aksiyonlar}
       {adim === "sonuc" && prova && <ProvaView p={kodlu ? prova.kodlu : prova.acik} />}
       {adim === "sonuc" && prova && (
         <View style={s.card}>
@@ -245,7 +330,7 @@ export default function EvrakScreen(p: { onBack: () => void }) {
             <Btn kind="secondary" label={Platform.OS === "web" ? (kopyalandi ? t("Kopyalandı") : t("Kopyala")) : t("Paylaş")} onPress={paylas} />
             {Platform.OS === "web" && <Btn kind="ghost" label={t("Metin olarak indir")} onPress={indir} />}
           </View>
-          <Text style={s.hint}>{t("Hazırlık notları kaydedilmez; bu ekrandan çıkınca silinir. Saklamak için kopyalayın ya da indirin.")}</Text>
+          <Text style={s.hint}>{t("Hazırlık notları sunucuda kaydedilmez; oturumu temizleyince ya da uygulamayı kapatınca silinir. Saklamak için kopyalayın ya da indirin.")}</Text>
         </View>
       )}
     </ScrollView>
@@ -322,5 +407,11 @@ const s = StyleSheet.create({
   box: { width: 22, height: 22, borderRadius: 4, borderWidth: 1, borderColor: C.brassDim, alignItems: "center", justifyContent: "center", marginTop: 2 },
   boxOn: { backgroundColor: C.brass, borderColor: C.brass },
   tick: { fontFamily: F.bodyBold, fontSize: 14, color: C.brassInk },
+  acts: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
+  act: { flexGrow: 1, flexBasis: 200, borderWidth: 1, borderColor: C.brassDim, borderRadius: 12, padding: 14, gap: 6, backgroundColor: C.panel2 },
+  actOff: { opacity: 0.45 },
+  actIcon: { fontSize: 28 },
+  actT: { fontFamily: F.display, fontSize: 19, color: C.text },
+  actD: { fontFamily: F.body, fontSize: 13, lineHeight: 18, color: C.textSoft },
   checkT: { flex: 1, fontFamily: F.body, fontSize: 14, lineHeight: 20, color: C.textSoft }
 });

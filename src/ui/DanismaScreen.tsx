@@ -15,6 +15,7 @@ import { locale, t } from "../i18n";
 import { ORNEK_DANISMA, ORNEK_SENARYO } from "../data/izleOrnek";
 import DanismaWatch from "./DanismaWatch";
 import EvrakScreen from "./EvrakScreen";
+import type { CaseFile } from "../engine/types";
 import { cinsKodu, danisanKadinMi, kimAdi, sahneBaslik } from "./izleOrtak";
 import { beklemeDoldu, DanismaDosyasi, dosyalarim, INSAN_BEKLEME_DK, kayitSenaryo, OyunKaydi } from "../data/danismaDosya";
 import { useAccount } from "../data/account";
@@ -24,7 +25,7 @@ import { Btn } from "./kit";
 import { StoreLinks } from "./StoreLinks";
 import { C, F } from "./theme";
 
-interface Props { evrak?: boolean; onBack: () => void; onSignIn: () => void; onSignUp: () => void; signedIn: boolean; server: boolean; admin: boolean }
+interface Props { evrak?: boolean; onEvrakPlay?: (c: CaseFile) => void; onBack: () => void; onSignIn: () => void; onSignUp: () => void; signedIn: boolean; server: boolean; admin: boolean }
 
 const KUTU: Record<Kutu, { label: string; hint: string }> = {
   olay: { label: "Somut olay", hint: "Ne oldu? Olayları tarih sırasıyla yazın: ne zaman, kim (rolüyle), ne yaptı." },
@@ -78,7 +79,7 @@ export default function DanismaScreen(p: Props) {
   }).catch(() => setList([]));
   useEffect(() => { if (p.signedIn) reload(); }, [p.signedIn]);
 
-  if (evrak) return <EvrakScreen onBack={() => (p.evrak ? p.onBack() : setEvrak(false))} />;
+  if (evrak) return <EvrakScreen onPlay={p.onEvrakPlay} onBack={() => (p.evrak ? p.onBack() : setEvrak(false))} />;
   if (watch) return <DanismaWatch key={watch.d.id + (watch.oyuncu ? ":oyuncu" : "")} s={watch.s} d={watch.d} basla={watch.son ? "son" : undefined} onClose={() => setWatch(null)} />;
   const oyuncuKaydi = (d: Danisma, k: OyunKaydi) => { const sn = kayitSenaryo(k); if (sn) setWatch({ s: sn, d, oyuncu: true }); };
 

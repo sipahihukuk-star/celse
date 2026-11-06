@@ -57,12 +57,14 @@ import { TahkimScreen } from "./src/ui/TahkimScreen";
 import DanismaScreen from "./src/ui/DanismaScreen";
 import InboxScreen from "./src/ui/InboxScreen";
 import DanismaDosyaScreen from "./src/ui/DanismaDosyaScreen";
+import { evrakOturumu } from "./src/data/evrak";
+import { setAktifMaske } from "./src/engine/mask/oturum";
 import { dosyaBirak, dosyaBitir, dosyaKimligi, kayitOf, TutanakSatiri } from "./src/data/danismaDosya";
 import { trackRoute } from "./src/data/usage";
 import { useCloudSync } from "./src/data/sync";
 
 /** from: oyun bitince nereye dönüleceği (dosya dolabı ya da yönetim paneli önizlemesi) */
-type From = "list" | "admin" | "career" | "desk" | "tahkim" | "online" | "danismaDosya";
+type From = "list" | "admin" | "career" | "desk" | "tahkim" | "online" | "danismaDosya" | "evrak";
 type Route =
   | { k: "title" }
   | { k: "list"; mode: "duel" | "solo" }
@@ -108,6 +110,12 @@ export default function App() {
   // Geri tuşu (Android'in geri tuşu, tarayıcının geri düğmesi): bir önceki ekrana döner; giriş ekranında uygulamadan çıkar.
   // Duruşma, kapanış ve karar gibi bitmiş adımlar geçmişe yazılmaz; geri tuşu onların öncesindeki listeye döndürür.
   const routeRef = React.useRef(route);
+  // Evrak oturumunun kod karşılıkları yalnız evrak ekranında ve oradan açılan oyunda etkin (giden metinler yeniden kodlanır).
+  React.useEffect(() => {
+    if (route.k === "danisma") return; // evrak ekranı kendisi açar ve kapanınca kapatır (EvrakScreen)
+    const evrakta = (route.k === "game" || route.k === "verdict") && route.from === "evrak";
+    setAktifMaske(evrakta ? evrakOturumu()?.map ?? null : null);
+  }, [route]);
   const stack = React.useRef<Route[]>(route.k === "admin" || route.k === "danisma" || route.k === "magaza" ? [{ k: "title" }] : []);
   const TRANSIENT = new Set(["game", "closing", "verdict", "onlineWait", "onlineGame"]);
   const setRoute = (r: Route) => {
@@ -180,7 +188,7 @@ export default function App() {
   };
   const toList = (mode: "duel" | "solo") => setRoute({ k: "list", mode });
   const back = (c: CaseFile, from: From) => (from === "admin" ? setRoute({ k: "admin" }) : from === "career" ? setRoute({ k: "career" }) : from === "desk" ? setRoute({ k: "desk" })
-    : from === "tahkim" ? setRoute({ k: "tahkim" }) : from === "online" ? setRoute({ k: "online" }) : from === "danismaDosya" ? setRoute({ k: "danismaDosya" }) : toList(c.mode));
+    : from === "tahkim" ? setRoute({ k: "tahkim" }) : from === "online" ? setRoute({ k: "online" }) : from === "danismaDosya" ? setRoute({ k: "danismaDosya" }) : from === "evrak" ? setRoute({ k: "danisma", evrak: true }) : toList(c.mode));
   const fromOf = (c: CaseFile): From => (c.room === "tahkim" ? "tahkim" : "list");
   const findCase = (id: string) => cases.all.find(x => x.id === id);
   const dr = hasDegree(office?.life, "dr");
@@ -251,6 +259,8 @@ export default function App() {
       });
       return;
     }
+    // Evrakla duruşma provası: kariyere ve hiçbir sunucu kaydına işlemez.
+    if (from === "evrak") { setRoute({ k: "verdict", c, players, game, from, notice: t("Prova bitti. Sonuç kariyerinize işlenmez ve hiçbir yere kaydedilmez.") }); return; }
     if (c.appealOf && chain) { setRoute({ k: "verdict", c, players, game, from, notice: settleAppeal(c, game, chain, from), chain }); return; }
     if (c.mode === "duel" && !game.fatal) { setRoute({ k: "closing", c, players, game, from }); return; }
     const next = chainFor(c, players, game, from);
@@ -322,7 +332,7 @@ export default function App() {
             onPlay={c => startGame(c, { ...SOLO_PLAYERS, p1: { name: meName, ai: false } }, "danismaDosya")} />
         )}
         {route.k === "danisma" && (
-          <DanismaScreen key={route.evrak ? "evrak" : "danisma"} evrak={route.evrak} onBack={() => setRoute({ k: "title" })} signedIn={account?.mode === "server"} server={!!supabase()} admin={srvAdmin}
+          <DanismaScreen key={route.evrak ? "evrak" : "danisma"} evrak={route.evrak} onEvrakPlay={c => startGame(c, { ...SOLO_PLAYERS, p1: { name: meName, ai: false } }, "evrak")} onBack={() => setRoute({ k: "title" })} signedIn={account?.mode === "server"} server={!!supabase()} admin={srvAdmin}
             onSignIn={() => setRoute({ k: "account", tab: "giris", then: "danisma" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "danisma" })} />
         )}
         {route.k === "board" && <LeaderboardScreen progress={progress} all={cases.all} rank={career.rank} onBack={() => setRoute({ k: "title" })}
@@ -397,8 +407,8 @@ export default function App() {
             onDone={ai => afterClosing(route.c, route.players, route.game, route.from, ai)} />
         )}
         {route.k === "verdict" && (
-          <VerdictScreen c={route.c} game={route.game} notice={route.notice} ai={route.ai} appeal={route.from === "danismaDosya" ? undefined : appealFor(route)}
-            backLabel={route.from === "admin" ? t("Yönetim paneline dön") : route.from === "career" ? t("Kariyere dön") : route.from === "desk" ? t("Büro masasına dön") : route.from === "tahkim" ? t("Tahkim listesine dön") : route.from === "online" ? t("Çevrim içi lobiye dön") : route.from === "danismaDosya" ? t("Danışma dosyalarına dön") : undefined}
+          <VerdictScreen c={route.c} game={route.game} notice={route.notice} ai={route.ai} appeal={route.from === "danismaDosya" || route.from === "evrak" ? undefined : appealFor(route)}
+            backLabel={route.from === "admin" ? t("Yönetim paneline dön") : route.from === "career" ? t("Kariyere dön") : route.from === "desk" ? t("Büro masasına dön") : route.from === "tahkim" ? t("Tahkim listesine dön") : route.from === "online" ? t("Çevrim içi lobiye dön") : route.from === "danismaDosya" ? t("Danışma dosyalarına dön") : route.from === "evrak" ? t("Provaya dön") : undefined}
             onRetry={route.from === "online" || route.from === "danismaDosya" ? undefined : () => startGame(route.c, route.players, route.from === "desk" ? "list" : route.from, route.c.appealOf ? route.chain : undefined)}
             onBack={() => back(route.c, route.from)} />
         )}

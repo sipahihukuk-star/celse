@@ -12,11 +12,13 @@ import { useEffect, useState } from "react";
 import { CLOUD_VOICES, serverReady, SUPABASE_ANON_KEY, SUPABASE_URL, TTS_FUNCTION } from "../config";
 import { getAccessToken } from "../data/account";
 import { expandForSpeech } from "../engine/speechText";
+import { sesliOkunan } from "../engine/mask/oturum";
 import { getLang } from "../i18n";
 
 /** Seçili dile göre bulut sesi bölgesi; Türkçe kısaltma açımı yalnız Türkçede yapılır. */
 const REGION: Record<string, string> = { tr: "tr-TR", en: "en-US", es: "es-ES", fr: "fr-FR", de: "de-DE" };
-const spoken = (text: string) => (getLang() === "tr" ? expandForSpeech(text) : text);
+// Evrak oturumunda adlar seslendirmeye gitmeden rol adına çevrilir (src/engine/mask/oturum.ts).
+const spoken = (text0: string) => { const text = sesliOkunan(text0); return getLang() === "tr" ? expandForSpeech(text) : text; };
 export { expandForSpeech };
 
 const KEY = "celse-seslendirme";

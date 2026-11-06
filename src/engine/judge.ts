@@ -4,6 +4,9 @@ import { getLang } from "../i18n";
 import { canon } from "./evaluate";
 import { GameState } from "./engine";
 import { CaseFile, Side } from "./types";
+import { disariGiden } from "./mask/oturum";
+/** Evrak oturumunda giden metindeki gerçek adlar yeniden kodlanır. */
+const disariGidenJson = (o: Record<string, unknown>) => JSON.stringify(o, (_k, v) => (typeof v === "string" ? disariGiden(v) : v));
 
 export interface AiVerdict { winner: Side | "sulh"; p1: number; p2: number; hukum: string; gerekce: string; by: "ai" | "puan" }
 
@@ -41,7 +44,7 @@ export async function judgeDuel(c: CaseFile, g: GameState, s1: string, s2: strin
     const res = await fetch(`${server.url}/functions/v1/${server.fn}`, {
       method: "POST", signal: ctrl.signal,
       headers: { "Content-Type": "application/json", apikey: server.key, Authorization: `Bearer ${server.token || server.key}` },
-      body: JSON.stringify({
+      body: disariGidenJson({
         mode: "karar", dil: getLang(), dava: c.title, alan: c.area, mahkeme: c.court, olay: c.teaser,
         belgeler: c.docs.map(d => `- ${d.t}: ${d.d}`).join("\n"),
         rol1: c.sides.p1.role, rol2: c.sides.p2.role, hamleler: movesText(c, g), son1: s1.slice(0, 2500), son2: s2.slice(0, 2500)
