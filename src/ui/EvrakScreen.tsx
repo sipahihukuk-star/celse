@@ -3,9 +3,10 @@
 // kodlu metin gider ve hiçbir şey kaydedilmez. Gelen hazırlık notları cihazda gerçek adlara geri çevrilir.
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Platform, Pressable, ScrollView, Share, StyleSheet, Text, TextInput, View } from "react-native";
-import { Entity, Kind, mask } from "../engine/mask";
-import { evrakMetni, turBul } from "../engine/mask/readers";
-import { dosyaAc, EVRAK_AZAMI, evrakIzle, evrakOturumu, evrakOturumuYaz, evrakOyna, evrakProva, Prova, provaAc, provaMetni, senaryoAc } from "../data/evrak";
+import { Entity, Kind, mask, unmask } from "../engine/mask";
+import { evrakMetni, turBul, zipIcerigi } from "../engine/mask/readers";
+import { DerlemeKarti, DOGRUDAN_SINIR, derlemeKredisi, derlenmisMetin, evrakBol, kartlariBirlestir, onemSirasi, partiler } from "../engine/mask/derleme";
+import { dosyaAc, EVRAK_AZAMI, evrakBiletAl, evrakDerle, evrakIzle, evrakOturumu, evrakOturumuYaz, evrakOyna, evrakProva, Prova, provaAc, provaMetni, senaryoAc } from "../data/evrak";
 import type { Danisma, Senaryo } from "../data/danisma";
 import type { CaseFile } from "../engine/types";
 import DanismaWatch from "./DanismaWatch";
@@ -33,7 +34,7 @@ const SIRA: Kind[] = ["taraf", "kisi", "avukat", "sirket", "kimlik", "iletisim",
 function dosyaSec(): Promise<{ ad: string; bytes: Uint8Array }[]> {
   return new Promise(resolve => {
     const input = document.createElement("input");
-    input.type = "file"; input.multiple = true; input.accept = ".udf,.doc,.docx,.txt,.pdf,.tif,.tiff,.jpg,.jpeg,.png";
+    input.type = "file"; input.multiple = true; input.accept = ".udf,.doc,.docx,.txt,.pdf,.tif,.tiff,.jpg,.jpeg,.png,.zip";
     input.onchange = async () => {
       const files = Array.from(input.files || []);
       resolve(await Promise.all(files.map(async f => ({ ad: f.name, bytes: new Uint8Array(await f.arrayBuffer()) }))));
@@ -49,6 +50,17 @@ function riskler(s: string): string[] {
   if (/\bTR\s?\d{2}(?:\s?\d{4}){5}/i.test(s)) out.push("IBAN");
   if (/[\w.+-]+@[\w-]+\.[\w.]+/.test(s)) out.push(t("e-posta"));
   if (/(^|\D)(?:\+90|0)?\s?\(?5\d{2}\)?\s?\d{3}\s?\d{2}\s?\d{2}(?!\d)/.test(s)) out.push(t("telefon"));
+  return out;
+}
+
+/** ZIP'ten çıkan baytları telefondaki okuyucuya göndermek için base64'e çevirir. */
+function bytesBase64(b: Uint8Array): string {
+  const T = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  let out = "";
+  for (let i = 0; i < b.length; i += 3) {
+    const n = (b[i] << 16) | ((b[i + 1] || 0) << 8) | (b[i + 2] || 0);
+    out += T[(n >> 18) & 63] + T[(n >> 12) & 63] + (i + 1 < b.length ? T[(n >> 6) & 63] : "=") + (i + 2 < b.length ? T[n & 63] : "=");
+  }
   return out;
 }
 
@@ -85,6 +97,12 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
   const [prova, setProva] = useState<{ kodlu: Prova; acik: Prova } | null>(o?.prova || null);
   const [kodlu, setKodlu] = useState(false);
   const [kopyalandi, setKopyalandi] = useState(false);
+  // Büyük dosya derlemesi (bilet 6 saat geçerli; kartlar tür, tarih, önem ve özet taşır).
+  const [bilet, setBilet] = useState<string | undefined>(o?.derleme?.bilet);
+  const [kartlar, setKartlar] = useState<DerlemeKarti[] | null>(o?.derleme?.kartlar || null);
+  const [onemliler, setOnemliler] = useState<number[]>(o?.derleme?.onemliler || []);
+  const [derleniyor, setDerleniyor] = useState("");
+  const [hepsiGorunsun, setHepsiGorunsun] = useState(false);
 
   useInnerBack(adim === "onay" || adim === "sonuc", () => setAdim(adim === "sonuc" ? "onay" : "yukle"));
   useInnerBack(izle, () => setIzle(false));
@@ -101,12 +119,57 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
   const imza = useRef(JSON.stringify([allow, extra, tumMetin.length]));
   useEffect(() => {
     const yeni = JSON.stringify([allow, extra, tumMetin.length]);
-    if (yeni !== imza.current) { imza.current = yeni; setProva(null); setSenaryo(null); setDosya(null); }
+    if (yeni !== imza.current) { imza.current = yeni; setProva(null); setSenaryo(null); setDosya(null); setKartlar(null); partiSonuc.current.clear(); }
   }, [allow, extra, tumMetin]);
   useEffect(() => {
     if (!sonuc) return;
-    evrakOturumuYaz({ evraklar, yapistir, taraf, asama, allow, extra, map: sonuc.map, prova: prova || undefined, senaryo: senaryo || undefined, dosya: dosya || undefined });
-  }, [sonuc, evraklar, yapistir, taraf, asama, allow, extra, prova, senaryo, dosya]);
+    evrakOturumuYaz({ evraklar, yapistir, taraf, asama, allow, extra, map: sonuc.map, prova: prova || undefined, senaryo: senaryo || undefined, dosya: dosya || undefined, derleme: { bilet, kartlar: kartlar || undefined, onemliler } });
+  }, [sonuc, evraklar, yapistir, taraf, asama, allow, extra, prova, senaryo, dosya, bilet, kartlar, onemliler]);
+  // Gönderilecek metin: küçük dosyada maskelenmiş evrakın kendisi; büyük dosyada derlenmiş dosya (derlenmeden gönderilmez).
+  const buyuk = !!sonuc && sonuc.masked.length > DOGRUDAN_SINIR;
+  const bolunmus = useMemo(() => (buyuk && sonuc ? evrakBol(sonuc.masked) : []), [buyuk, sonuc]);
+  const calisma = useMemo(() => {
+    if (!sonuc) return "";
+    if (!buyuk) return sonuc.masked;
+    return kartlar ? derlenmisMetin(bolunmus, kartlar, new Set(onemliler)) : "";
+  }, [sonuc, buyuk, bolunmus, kartlar, onemliler]);
+  /** Dosyayı derle: partiler hızlı modele gider (aynı anda üç parti); yarıda kalırsa aynı biletle kaldığı yerden sürer. */
+  const partiSonuc = useRef(new Map<number, Partial<DerlemeKarti>[]>());
+  const derle = async () => {
+    if (!sonuc) return;
+    setErr("");
+    const ps = partiler(bolunmus);
+    let b = bilet;
+    if (!b) {
+      setDerleniyor(t("Hazırlanıyor…"));
+      const r = await evrakBiletAl(sonuc.masked.length);
+      if (!r.ok) { setDerleniyor(""); setErr(t(r.error, r.vars)); return; }
+      kalanYaz(r.data.avukatKalan ?? undefined);
+      b = r.data.bilet; setBilet(b); partiSonuc.current.clear();
+    }
+    let bitti = partiSonuc.current.size, hata = "";
+    setDerleniyor(t("Derleniyor: {i} / {n} parti", { i: bitti, n: ps.length }));
+    let sira = 0;
+    const isci = async () => {
+      while (!hata) {
+        const k = sira++;
+        if (k >= ps.length) return;
+        if (partiSonuc.current.has(k)) continue;
+        let r = await evrakDerle(b!, ps[k]);
+        if (!r.ok && r.error !== "bilet" && r.error !== "maskelenmemiş veri") r = await evrakDerle(b!, ps[k]); // bir kez yeniden dene
+        if (!r.ok) { hata = r.error === "bilet" ? "bilet" : t(r.error, r.vars); return; }
+        partiSonuc.current.set(k, r.data.kartlar);
+        bitti++;
+        setDerleniyor(t("Derleniyor: {i} / {n} parti", { i: bitti, n: ps.length }));
+      }
+    };
+    await Promise.all([isci(), isci(), isci()]);
+    setDerleniyor("");
+    if (hata === "bilet") { setBilet(undefined); setErr(t("Derleme süresi doldu (6 saat). “Dosyayı derle”ye yeniden basın.")); return; }
+    if (hata) { setErr(t("Derleme yarıda kaldı: {h} “Dosyayı derle”ye yeniden basınca kaldığı yerden sürer; yeniden kredi düşmez.", { h: hata })); return; }
+    const gelen = [...partiSonuc.current.values()].flat();
+    setKartlar(kartlariBirlestir(bolunmus, gelen));
+  };
   const cik = () => { evrakOturumuYaz(null); p.onBack(); };
   // Ekran kapanınca kodların karşılıkları giden metinlerde etkin kalmaz (oyuna geçilirse App yeniden açar).
   useEffect(() => () => setAktifMaske(null), []);
@@ -117,16 +180,27 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
   const setOkuma = (m: string) => { if (m) okumaSon.current = m; setOkumaState(m); };
   const [ocrUyari, setOcrUyari] = useState(false);
   const okuyucu = useRef<EvrakOkuyucuRef>(null);
-  /** Seçilen dosyaları sırayla okur. Web'de bayt dizisi gelir; telefonda dosya adresi (uri) gelir ve gerektiğinde okunur. */
+  /** Seçilen dosyaları sırayla okur. ZIP açılır ve içindeki evraklar tek tek okunur (sınır evrak sayısı değil, hacimdir).
+   *  Web'de bayt dizisi gelir; telefonda dosya adresi (uri) gelir ve gerektiğinde okunur. */
   type Kaynak = { ad: string; bytes?: Uint8Array; uri?: string };
   const isle = async (secilen: Kaynak[]) => {
     const yeni: Evrak[] = [];
+    const sira: Kaynak[] = [];
     for (const f of secilen) {
+      if (turBul(f.ad) === "zip") {
+        try { const ic = zipIcerigi(f.bytes || await baytlar(f.uri!)); if (!ic.length) setErr(t("{ad}: ZIP içinde okunabilir evrak yok.", { ad: f.ad })); sira.push(...ic); }
+        catch { setErr(t("{ad}: ZIP dosyası açılamadı.", { ad: f.ad })); }
+      } else sira.push(f);
+    }
+    let i = 0;
+    for (const f of sira) {
+      i++;
       const tur = turBul(f.ad);
-      if (!tur) { setErr(t("{ad}: bu dosya türü okunamıyor. UDF, Word (DOC/DOCX), PDF, TIF, JPG/PNG ya da metin dosyası seçin.", { ad: f.ad })); continue; }
+      if (!tur) { setErr(t("{ad}: bu dosya türü okunamıyor. UDF, Word (DOC/DOCX), PDF, TIF, JPG/PNG, ZIP ya da metin dosyası seçin.", { ad: f.ad })); continue; }
       try {
         let metin: string;
-        const ilerle = (m: string) => setOkuma(`${f.ad}: ${t(m)}`);
+        const onEk = sira.length > 1 ? `(${i} / ${sira.length}) ` : "";
+        const ilerle = (m: string) => setOkuma(`${onEk}${f.ad}: ${t(m)}`);
         if (tur === "pdf" || tur === "tif" || tur === "resim") {
           if (Platform.OS === "web") {
             // Kütüphaneler ve yazı tanıma yalnız gerektiğinde, tarayıcıda yüklenir; dosya cihazdan çıkmaz.
@@ -137,10 +211,11 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
             // Telefonda aynı okuma, görünmez WebView içinde (EvrakOkuyucu); dosya telefondan çıkmaz.
             if (!okuyucu.current) throw new Error("Okuyucu hazır değil, yeniden deneyin.");
             ilerle("Dosya hazırlanıyor…");
-            metin = await okuyucu.current.oku(f.ad, tur, await base64(f.uri!), ilerle);
+            const b64 = f.uri ? await base64(f.uri) : bytesBase64(f.bytes!);
+            metin = await okuyucu.current.oku(f.ad, tur, b64, ilerle);
           }
           if (tur !== "pdf" || /yazı tanıma/i.test(okumaSon.current)) setOcrUyari(true);
-        } else metin = evrakMetni(f.ad, f.bytes || await baytlar(f.uri!));
+        } else { ilerle("okunuyor"); metin = evrakMetni(f.ad, f.bytes || await baytlar(f.uri!)); }
         if (metin.replace(/\s/g, "").length < 20) { setErr(t("{ad}: dosyada okunabilir metin bulunamadı.", { ad: f.ad })); continue; }
         yeni.push({ ad: f.ad, metin });
       } catch (e) { setErr(`${f.ad}: ${t(String((e as Error).message || e))}`); }
@@ -169,7 +244,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
     if (!sonuc) return;
     if (prova) { setAdim("sonuc"); return; }
     setErr(""); setMesgul("prova");
-    const r = await evrakProva(sonuc.masked, taraf, asama.trim());
+    const r = await evrakProva(calisma, taraf, asama.trim());
     setMesgul("");
     if (!r.ok) { setErr(t(r.error, r.vars)); return; }
     kalanYaz(r.data.avukatKalan);
@@ -181,7 +256,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
     if (!sonuc) return;
     if (senaryo) { setIzle(true); return; }
     setErr(""); setMesgul("izle");
-    const r = await evrakIzle(sonuc.masked, taraf, asama.trim());
+    const r = await evrakIzle(calisma, taraf, asama.trim());
     setMesgul("");
     if (!r.ok) { setErr(t(r.error, r.vars)); return; }
     kalanYaz(r.data.avukatKalan);
@@ -193,7 +268,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
     if (!sonuc || !p.onPlay) return;
     if (dosya) { p.onPlay(dosya); return; }
     setErr(""); setMesgul("oyna");
-    const r = await evrakOyna(sonuc.masked, taraf, asama.trim());
+    const r = await evrakOyna(calisma, taraf, asama.trim());
     setMesgul("");
     if (!r.ok) { setErr(t(r.error, r.vars)); return; }
     kalanYaz(r.data.avukatKalan);
@@ -226,7 +301,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
   }, [sonuc]);
 
   if (izle && senaryo) return <DanismaWatch key={senaryo.ozet.length} s={senaryo} d={sahteDanisma(senaryo)} onClose={() => setIzle(false)} />;
-  const hazir = okudum && risk.length === 0 && !mesgul;
+  const hazir = okudum && risk.length === 0 && !mesgul && !!calisma;
   const Aksiyonlar = (
     <View style={s.card}>
       <Text style={s.cardT}>{t("Duruşma salonuna girin")}</Text>
@@ -255,7 +330,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
       </View>
       {!!mesgul && <Text style={s.hint}>{t("Evrakın uzunluğuna göre bir-üç dakika sürebilir; ekranı açık tutun.")}</Text>}
       {!!err && <Text style={s.err}>{err}</Text>}
-      {!hazir && !mesgul && <Text style={s.hint}>{risk.length ? t("Önce metinde kalan kişisel veriyi gizleyin.") : t("Önce gönderilecek metni denetleyip onay kutusunu işaretleyin.")}</Text>}
+      {!hazir && !mesgul && <Text style={s.hint}>{risk.length ? t("Önce metinde kalan kişisel veriyi gizleyin.") : !okudum ? t("Önce gönderilecek metni denetleyip onay kutusunu işaretleyin.") : t("Önce dosyayı derleyin.")}</Text>}
       <Text style={s.hint}>{t("Ekranda gerçek adlar görünür; seslendirmeye ve yapay zekâ puanlamasına giden metinlerde adlar yeniden kodlanır.")}</Text>
     </View>
   );
@@ -277,7 +352,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
       {adim === "yukle" && (
         <View style={s.card}>
           <Text style={s.cardT}>{t("1. Evrakı ekleyin")}</Text>
-          <Text style={s.hint}>{t("Dilekçe, cevap, bilirkişi raporu, ara karar gibi evrakı seçin: UYAP UDF ve TIF, PDF, Word (DOC ve DOCX), evrak fotoğrafı (JPG/PNG) ya da metin dosyası. Taranmış evrak, yazı tanımayla bu cihazda okunur.")}</Text>
+          <Text style={s.hint}>{t("Dilekçe, cevap, bilirkişi raporu, ara karar gibi evrakı seçin: UYAP UDF ve TIF, PDF, Word (DOC ve DOCX), evrak fotoğrafı (JPG/PNG), UYAP'tan inen ZIP ya da metin dosyası. Evrak sayısı sınırsızdır; büyük dosya önce derlenir. Taranmış evrak, yazı tanımayla bu cihazda okunur.")}</Text>
           <View style={s.row}>
             <Btn kind="secondary" label={okuma ? t("Okunuyor…") : t("Dosya seç")} disabled={!!okuma} onPress={ekle} />
             {Platform.OS !== "web" && TELEFON_SECIM && <Btn kind="ghost" label={t("Fotoğraf çek")} disabled={!!okuma} onPress={cek} />}
@@ -285,13 +360,22 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
           {!!okuma && <Text style={s.hint}>{okuma}</Text>}
           {ocrUyari && !okuma && <Text style={s.hint}>{t("Taranmış sayfalardan yazı tanımayla okunan metinde harf hataları olabilir; adlar bu yüzden kaçabilir. Maskeleme ekranında metni dikkatle denetleyin.")}</Text>}
           {Platform.OS !== "web" && adim === "yukle" && <EvrakOkuyucu ref={okuyucu} />}
-          {evraklar.map((e, i) => (
+          {evraklar.length > 0 && (
+            <Text style={s.meta}>{t("{n} evrak · yaklaşık {s} sayfa · {k} karakter", { n: evraklar.length, s: Math.max(1, Math.round(evraklar.reduce((a, e) => a + e.metin.length, 0) / 3000)).toLocaleString("tr-TR"), k: evraklar.reduce((a, e) => a + e.metin.length, 0).toLocaleString("tr-TR") })}</Text>
+          )}
+          {(hepsiGorunsun ? evraklar : evraklar.slice(0, 8)).map((e, i) => (
             <View key={i} style={s.file}>
               <Text style={s.fileT} numberOfLines={1}>{e.ad}</Text>
               <Text style={s.meta}>{t("{n} karakter", { n: e.metin.length.toLocaleString("tr-TR") })}</Text>
               <Pressable accessibilityRole="button" onPress={() => setEvraklar(l => l.filter((_, j) => j !== i))}><Text style={s.link}>{t("Çıkar")}</Text></Pressable>
             </View>
           ))}
+          {evraklar.length > 8 && (
+            <View style={s.row}>
+              <Pressable onPress={() => setHepsiGorunsun(x => !x)}><Text style={s.link}>{hepsiGorunsun ? t("Kısalt") : t("Bütün evrakları göster ({n})", { n: evraklar.length })}</Text></Pressable>
+              <Pressable onPress={() => setEvraklar([])}><Text style={s.link}>{t("Hepsini çıkar")}</Text></Pressable>
+            </View>
+          )}
           <Text style={s.label}>{t("Ya da metni yapıştırın")}</Text>
           <TextInput style={s.input} multiline value={yapistir} onChangeText={setYapistir} placeholder={t("Evrakın metni…")} placeholderTextColor={C.muted} />
           <Text style={s.label}>{t("Hangi taraftasınız?")}</Text>
@@ -306,7 +390,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
           <TextInput style={[s.input, { minHeight: 60 }]} multiline value={asama} onChangeText={setAsama} maxLength={200}
             placeholder={t("ör. ilk duruşma, tanık dinlenecek; bilirkişi raporuna itiraz edeceğiz")} placeholderTextColor={C.muted} />
           {!!err && <Text style={s.err}>{err}</Text>}
-          {uzun && <Text style={s.err}>{t("Evrak çok uzun. Daha az sayfa seçin.")}</Text>}
+          {uzun && <Text style={s.err}>{t("Evrak bu cihazın belleği için çok büyük. Dosyayı birkaç parçaya bölün.")}</Text>}
           <View style={s.row}>
             <Btn label={t("Maskele ve göster")} disabled={tumMetin.trim().length < 200 || uzun} onPress={() => { setOkudum(false); setAdim("onay"); }} />
           </View>
@@ -372,6 +456,48 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
               <Text style={s.checkT}>{t("Gönderilecek metni denetledim; kişisel veri kalmadı. Hazırlık notlarının yapay zekâ ürünü olduğunu, hata yapabileceğini ve son değerlendirmenin bana ait olduğunu biliyorum.")}</Text>
             </Pressable>
           </View>
+          {buyuk && sonuc && (
+            <View style={s.card}>
+              <Text style={s.cardT}>{t("4. Dosyayı derle")}</Text>
+              <Text style={s.hint}>{t("Dosya büyük: {n} evrak, yaklaşık {p} sayfa. Güçlü modele gitmeden önce her evrak ayrı ayrı okunur; gereksizler (tebligat, harç, vekaletname, üst yazı) ayıklanır, gerekliler özetlenip önem ve tarih sırasına dizilir. Derleme de kaydedilmez.", { n: bolunmus.length, p: Math.max(1, Math.round(sonuc.masked.length / 3000)).toLocaleString("tr-TR") })}</Text>
+              {!kartlar && (
+                <View style={s.row}>
+                  <Btn label={derleniyor || (bilet ? t("Derlemeyi sürdür") : t("Dosyayı derle"))} disabled={!!derleniyor || !okudum || risk.length > 0 || (!bilet && !ucretsiz && !yeter(derlemeKredisi(sonuc.masked.length)))} onPress={derle} />
+                  {!ucretsiz && !bilet && <Text style={[s.cost, { alignSelf: "center" }]}>{t("{n} kredi", { n: derlemeKredisi(sonuc.masked.length) })}</Text>}
+                </View>
+              )}
+              {!!derleniyor && <Text style={s.hint}>{t("Ekranı açık tutun; büyük dosyada birkaç dakika sürebilir.")}</Text>}
+              {kartlar && (() => {
+                const ilgili = [...kartlar].filter(k => k.onem > 0 || onemliler.includes(k.no)).sort(onemSirasi);
+                const cikan = kartlar.filter(k => k.onem === 0 && !onemliler.includes(k.no));
+                const ONEM = ["GEREKSİZ", "YARDIMCI", "ÖNEMLİ", "KİLİT"];
+                const goster = hepsiGorunsun ? ilgili : ilgili.slice(0, 25);
+                const ac = (x: string) => unmask(x, sonuc.map);
+                return (
+                  <View style={{ gap: 8 }}>
+                    <Text style={s.warnT}>{t("Derlendi: {n} gerekli evrak, {c} evrak ayıklandı.", { n: ilgili.length, c: cikan.length })}</Text>
+                    <Text style={s.hint}>{t("Sıralama önem ve tarihe göre. ★ ile işaretlediğiniz evrakların tam metni de gönderilir (kilit evraklar kendiliğinden eklenir).")}</Text>
+                    {goster.map(k => (
+                      <View key={k.no} style={s.kart}>
+                        <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: onemliler.includes(k.no) }} hitSlop={8}
+                          onPress={() => setOnemliler(x => (x.includes(k.no) ? x.filter(y => y !== k.no) : [...x, k.no]))}>
+                          <Text style={[s.yildiz, onemliler.includes(k.no) && { color: C.brass }]}>{onemliler.includes(k.no) ? "★" : "☆"}</Text>
+                        </Pressable>
+                        <View style={{ flex: 1, gap: 2 }}>
+                          <Text style={s.cost}>{ONEM[k.onem]} · {ac(k.tarih) || t("tarihsiz")} · {t("Evrak")} {k.no}</Text>
+                          <Text style={s.fileT} numberOfLines={1}>{k.tur} — {ac(k.ad)}</Text>
+                          <Text style={s.actD} numberOfLines={2}>{ac(k.ozet)}</Text>
+                        </View>
+                      </View>
+                    ))}
+                    {ilgili.length > 25 && <Pressable onPress={() => setHepsiGorunsun(x => !x)}><Text style={s.link}>{hepsiGorunsun ? t("Kısalt") : t("Bütün gerekli evrakları göster ({n})", { n: ilgili.length })}</Text></Pressable>}
+                    {cikan.length > 0 && <Text style={s.hint}>{t("Ayıklananlar: {l}", { l: cikan.slice(0, 12).map(k => `${k.tur} (Evrak ${k.no})`).join(", ") + (cikan.length > 12 ? "…" : "") })}</Text>}
+                    <Pressable onPress={() => { setKartlar(null); partiSonuc.current.clear(); }}><Text style={s.link}>{t("Yeniden derle")}</Text></Pressable>
+                  </View>
+                );
+              })()}
+            </View>
+          )}
           {Aksiyonlar}
         </>
       )}
@@ -470,6 +596,8 @@ const s = StyleSheet.create({
   actOff: { opacity: 0.45 },
   actIcon: { fontSize: 28 },
   actT: { fontFamily: F.display, fontSize: 19, color: C.text },
+  kart: { flexDirection: "row", gap: 10, alignItems: "flex-start", borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 10, backgroundColor: C.panel2 },
+  yildiz: { fontSize: 22, color: C.muted, lineHeight: 26 },
   cost: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1, color: C.brassDim, marginTop: 2 },
   actD: { fontFamily: F.body, fontSize: 13, lineHeight: 18, color: C.textSoft },
   checkT: { flex: 1, fontFamily: F.body, fontSize: 14, lineHeight: 20, color: C.textSoft }
