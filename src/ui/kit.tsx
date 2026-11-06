@@ -24,7 +24,7 @@ export function Chip({ label, color, style }: { label: string; color: string; st
 }
 
 /** Değeri yumuşakça hedefe taşır (terazi için). */
-function useTween(target: number, ms = 700) {
+export function useTween(target: number, ms = 700) {
   const [v, setV] = useState(target);
   const from = useRef(target);
   useEffect(() => {

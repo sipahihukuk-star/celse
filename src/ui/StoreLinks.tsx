@@ -46,24 +46,37 @@ export function StoreLinks() {
   );
 }
 
-/** Geniş web ekranında ön yüzün iki yanındaki QR: solda iPhone, sağda Android. Sayfa kaydırılmadan görünür. */
-export function StoreRail({ platform }: { platform: "ios" | "android" }) {
+/** Geniş web ekranında ön yüzün sağındaki QR sütunu: tek başlık, alt alta iPhone ve Android. Sayfa kaydırılmadan görünür. */
+export function StoreRails() {
   const st = useSettings();
-  const ios = platform === "ios";
-  const url = ios ? st.iosLink : st.androidLink;
+  const Kart = ({ ios }: { ios: boolean }) => {
+    const url = ios ? st.iosLink : st.androidLink;
+    return (
+      <Pressable accessibilityRole="link" accessibilityLabel={ios ? "iPhone · App Store" : "Android · Google Play"} onPress={() => Linking.openURL(url)}
+        style={({ pressed }) => [s.rail, pressed && { opacity: 0.85 }]}>
+        <View style={s.qr}><QR value={url} size={92} /></View>
+        <View style={{ alignItems: "center", gap: 2 }}>
+          <Text style={s.railT}>{ios ? "iPhone" : "Android"}</Text>
+          <Text style={s.railS}>{ios ? "App Store" : "Google Play"}</Text>
+        </View>
+      </Pressable>
+    );
+  };
   return (
-    <Pressable accessibilityRole="link" accessibilityLabel={ios ? "iPhone · App Store" : "Android · Google Play"} onPress={() => Linking.openURL(url)}
-      style={({ pressed }) => [s.rail, pressed && { opacity: 0.85 }]}>
-      <Text style={[s.eyebrow, { textAlign: "center" }]}>{t("TELEFONUNUZA İNDİRİN")}</Text>
-      <View style={s.qr}><QR value={url} size={96} /></View>
-      <Text style={[s.label, { textAlign: "center" }]}>{ios ? "iPhone" : "Android"}</Text>
-      <Text style={[s.sub, { textAlign: "center", fontSize: 12 }]}>{ios ? "App Store" : "Google Play"} · {t("kamerayla okutun")}</Text>
-    </Pressable>
+    <View style={s.rails}>
+      <Text style={[s.eyebrow, { textAlign: "center", lineHeight: 16 }]}>{t("TELEFONUNUZA İNDİRİN")}</Text>
+      <Kart ios />
+      <Kart ios={false} />
+      <Text style={[s.railS, { textAlign: "center" }]}>{t("Kamerayla okutun")}</Text>
+    </View>
   );
 }
 
 const s = StyleSheet.create({
-  rail: { width: 160, alignItems: "center", gap: 6, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 14, paddingVertical: 10, paddingHorizontal: 8 },
+  rails: { width: 148, alignItems: "stretch", gap: 14 },
+  rail: { alignItems: "center", gap: 10, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 16, paddingTop: 12, paddingBottom: 12, paddingHorizontal: 10 },
+  railT: { fontFamily: F.bodyBold, fontSize: 14, color: C.text },
+  railS: { fontFamily: F.body, fontSize: 12, color: C.muted },
   card: { borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 14, padding: 16, gap: 6, marginTop: 18 },
   eyebrow: { fontFamily: F.mono, fontSize: 11, letterSpacing: 2, color: C.brassDim },
   title: { fontFamily: F.display, fontSize: 22, color: C.text },

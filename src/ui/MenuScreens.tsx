@@ -5,13 +5,15 @@ import { KeyboardBar } from "./KeyboardBar";
 import { Linking, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { useVoiceEnabled } from "./voice";
 import { Platform, Share } from "react-native";
-import { StoreLinks, StoreRail } from "./StoreLinks";
+import { StoreLinks, StoreRails } from "./StoreLinks";
+import { HeroScale } from "./HeroScale";
+import { IconBadge } from "./icons";
 import { LegalFooter } from "./LegalFooter";
 import { DOWNLOAD_URL, WEB_URL } from "../data/settings";
 import { CaseFile, Player, Side } from "../engine/types";
 import { Account } from "../data/account";
 import { DIFFICULTY } from "../data/career";
-import { Btn, Scale } from "./kit";
+import { Btn } from "./kit";
 import { useViewMode } from "./viewMode";
 import { useMusic } from "./music";
 import { CITIES, Office, tl } from "../data/office";
@@ -112,8 +114,8 @@ export function TitleScreen(p: TitleProps) {
       <View style={{ width: pw }}>
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "flex-start" }]}>
         {/* Geniş ekranda terazi başlığın hizasında durur; sayfa kaydırılmadan görünür. */}
-        <View style={[styles.titleArt, wide && { flex: 0.8, paddingTop: 70 }]}>
-          <Scale angle={tilt} size={wide ? 320 : entry ? 96 : 150} left={C.p1} right={C.p2} />
+        <View style={[styles.titleArt, wide && { flex: 0.8, paddingTop: 24, paddingLeft: 24 }]}>
+          <HeroScale angle={tilt} size={wide ? 300 : entry ? 130 : 190} left={C.p1} right={C.p2} />
         </View>
         <View style={[{ gap: 6 }, wide && { flex: 1.2 }]}>
           <Text style={styles.eyebrow}>{t("BİR AVUKATLIK OYUNU")}</Text>
@@ -151,7 +153,7 @@ export function TitleScreen(p: TitleProps) {
           )}
 
           <Pressable accessibilityRole="button" onPress={p.onBoard} style={({ pressed }) => [styles.boardLink, pressed && { opacity: 0.8 }]}>
-            <Text style={styles.boardIcon}>🏆</Text>
+            <IconBadge name="trophy" size={40} />
             <View style={{ flex: 1 }}>
               <Text style={styles.careerKDark}>{t("LİDERLİK PANOSU")}</Text>
               <Text style={styles.boardT}>{t("Diğer avukatlarla yarışın")}</Text>
@@ -185,7 +187,7 @@ export function TitleScreen(p: TitleProps) {
       </ScrollView>
       )}
       </View>
-      {rails && <View style={styles.railCol}><StoreRail platform="ios" /><StoreRail platform="android" /></View>}
+      {rails && <View style={styles.railCol}><StoreRails /></View>}
       </View>
       <SideMenu visible={menu} onClose={() => setMenu(false)} {...p} />
     </View>
@@ -196,7 +198,7 @@ export function TitleScreen(p: TitleProps) {
 function ShopCard({ onPress }: { onPress: () => void }) {
   return (
     <Pressable accessibilityRole="link" onPress={onPress} style={({ pressed }) => [styles.boardLink, { marginTop: 14 }, pressed && { opacity: 0.8 }]}>
-      <Text style={styles.boardIcon}>🛒</Text>
+      <IconBadge name="cart" size={40} />
       <View style={{ flex: 1 }}>
         <Text style={styles.careerKDark}>{t("SATIN AL · CELSE PRO VE DERDİNİ ANLAT")}</Text>
         <Text style={styles.boardT}>{t("Pro aylık 149,99 TL · yıllık 999,99 TL · danışma kredisi 149,99 TL'den")}</Text>
@@ -220,7 +222,7 @@ function DanismaHome({ wide, admin: yonetici, onDanisma, onGame, footer }: { wid
       </View>
       {!!onDanisma && (
         <Pressable accessibilityRole="button" onPress={() => onDanisma()} style={({ pressed }) => [styles.homeCard, pressed && { opacity: 0.85 }]}>
-          <Text style={styles.homeIcon}>⚖️</Text>
+          <IconBadge name="scales" size={48} />
           <View style={{ flex: 1, gap: 4 }}>
             <Text style={styles.careerKDark}>{t("DERDİNİ ANLAT · HERKES İÇİN")}</Text>
             <Text style={styles.homeT}>{t("Kendi olayınızı anlatın")}</Text>
@@ -231,7 +233,7 @@ function DanismaHome({ wide, admin: yonetici, onDanisma, onGame, footer }: { wid
       )}
       {!!onDanisma && (
         <Pressable accessibilityRole="button" disabled={!admin} onPress={() => onDanisma(true)} style={({ pressed }) => [styles.homeCard, styles.homeCardPro, pressed && { opacity: 0.85 }]}>
-          <Text style={styles.homeIcon}>📂</Text>
+          <IconBadge name="folder" size={48} />
           <View style={{ flex: 1, gap: 4 }}>
             <Text style={styles.careerKDark}>{admin ? t("AVUKATLAR İÇİN · DENEME") : t("AVUKATLAR İÇİN · YAKINDA")}</Text>
             <Text style={styles.homeT}>{t("Evrakla duruşma provası")}</Text>
@@ -535,7 +537,7 @@ const styles = StyleSheet.create({
   hello: { fontFamily: F.bodyBold, fontSize: 17, color: C.text, marginTop: 4 },
   guestLink: { alignSelf: "flex-start", paddingVertical: 6 },
   guestLinkT: { fontFamily: F.bodyMed, fontSize: 15, color: C.brass, textDecorationLine: "underline" },
-  railCol: { width: 184, alignItems: "center", justifyContent: "center", gap: 12, paddingHorizontal: 12 },
+  railCol: { width: 188, alignItems: "center", justifyContent: "flex-start", paddingTop: 56, paddingHorizontal: 20 },
   pills: { flexDirection: "row", gap: 8, justifyContent: "center", paddingHorizontal: 16, paddingBottom: 6 },
   pill: { borderWidth: 1, borderColor: C.line, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 7, backgroundColor: C.panel },
   pillOn: { backgroundColor: C.brass, borderColor: C.brass },
