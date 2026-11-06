@@ -213,7 +213,8 @@ function ShopCard({ onPress }: { onPress: () => void }) {
 /** Ön yüzün "Derdini anlat" sayfası: vatandaş için kendi olayını anlatma, avukat için evrakla duruşma provası. */
 function DanismaHome({ wide, admin: yonetici, onDanisma, onGame, footer }: { wide: boolean; admin: boolean; onDanisma?: (evrak?: boolean) => void; onGame: () => void; footer: React.ReactNode }) {
   // Evrakla duruşma provası: yöneticiler ve yönetim panelinden izin verilen oyuncular (surum14.sql).
-  const admin = yonetici || usePremium().evrak;
+  const prem = usePremium();
+  const admin = yonetici || prem.evrak || !!prem.avukat?.aktif;
   return (
     <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, { gap: 12 }]}>
       <View style={{ gap: 6, width: "100%", maxWidth: 720, alignSelf: "center" }}>

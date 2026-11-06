@@ -18,6 +18,9 @@ const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { sta
 const CREDITS: Record<string, number> = { celse_derdini_anlat_1: 1, celse_derdini_anlat_3: 3 };
 const PRO_PRODUCTS = ["celse_pro_aylik", "celse_pro_yillik"];
 const PRO_ENTITLEMENT = "themiscode_i_nc_pro"; // RevenueCat yetki kimliği (src/data/purchaseIds.ts ile aynı)
+// Celse Avukat paketi (surum15.sql: avukat_paket). Pro'yu da kapsar; bitişi ayrıca avukat_odeme ile yazılır.
+const AVUKAT_PRODUCTS = ["celse_avukat_aylik", "celse_avukat_yillik"];
+const AVUKAT_ENTITLEMENT = "celse_avukat";
 
 // RevenueCat mağaza adı → abonelikler.kaynak
 const KAYNAK: Record<string, string> = {
@@ -40,14 +43,14 @@ function userOf(ev: Record<string, unknown>): string | null {
   return ids.find(id => id && !id.startsWith("$RCAnonymousID:") && UUID.test(id)) || null;
 }
 
-async function apply(p: Record<string, unknown>) {
+async function apply(p: Record<string, unknown>, fn = "odeme_olayi_isle") {
   const url = Deno.env.get("SUPABASE_URL") || "";
   const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
   if (!url || !key) throw new Error("SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY yok");
   const headers: Record<string, string> = { apikey: key, "Content-Type": "application/json" };
   // Eski (JWT) servis anahtarı Authorization'da da gider; yeni sb_secret_ anahtarı yalnız apikey başlığında.
   if (key.startsWith("eyJ")) headers.Authorization = "Bearer " + key;
-  const r = await fetch(url + "/rest/v1/rpc/odeme_olayi_isle", { method: "POST", headers: headers, body: JSON.stringify(p) });
+  const r = await fetch(url + "/rest/v1/rpc/" + fn, { method: "POST", headers: headers, body: JSON.stringify(p) });
   if (!r.ok) throw new Error("veritabanı " + r.status + " " + (await r.text()).slice(0, 300));
   return await r.json();
 }
@@ -73,7 +76,8 @@ Deno.serve(async req => {
   // Google Play abonelikleri "urun:temelplan" biçiminde gelir (ör. celse_pro_aylik:aylik); yalnız ürün kısmı kullanılır.
   const urun = String(ev.new_product_id || ev.product_id || "").split(":")[0];
   const ents = ((ev.entitlement_ids as unknown[]) || []).map(String);
-  const pro = PRO_PRODUCTS.indexOf(urun) >= 0 || PRO_PRODUCTS.indexOf(String(ev.product_id || "").split(":")[0]) >= 0 || ents.indexOf(PRO_ENTITLEMENT) >= 0;
+  const avukat = AVUKAT_PRODUCTS.indexOf(urun) >= 0 || AVUKAT_PRODUCTS.indexOf(String(ev.product_id || "").split(":")[0]) >= 0 || ents.indexOf(AVUKAT_ENTITLEMENT) >= 0;
+  const pro = avukat || PRO_PRODUCTS.indexOf(urun) >= 0 || PRO_PRODUCTS.indexOf(String(ev.product_id || "").split(":")[0]) >= 0 || ents.indexOf(PRO_ENTITLEMENT) >= 0;
   const kredi = CREDITS[String(ev.product_id || "").split(":")[0]] || 0;
   const exp = Number(ev.expiration_at_ms) || 0;
   const now = Date.now();
@@ -114,7 +118,12 @@ Deno.serve(async req => {
       p_kaynak: KAYNAK[String(ev.store || "")] || "revenuecat", p_ortam: String(ev.environment || "") || null,
       p_bitis: bitis, p_yenilenecek: yenilenecek, p_kredi: krediFark, p_ham: ev
     });
-    return json({ ok: true, sonuc: sonuc });
+    // Avukat paketi: aynı olay daha önce işlendiyse ("tekrar") yeniden yazılmaz.
+    let avukatSonuc: unknown = null;
+    if (avukat && bitis && sonuc !== "tekrar") {
+      avukatSonuc = await apply({ p_kullanici: kullanici, p_bitis: bitis, p_kaynak: KAYNAK[String(ev.store || "")] || "revenuecat", p_yenilenecek: yenilenecek }, "avukat_odeme");
+    }
+    return json({ ok: true, sonuc: sonuc, avukat: avukatSonuc });
   } catch (e) {
     // 500: RevenueCat olayı daha sonra yeniden gönderir.
     return json({ error: String(e) }, 500);

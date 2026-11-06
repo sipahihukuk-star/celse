@@ -23,6 +23,11 @@ let serverUntil: Date | null = null;
 let credits = 0;
 /** Yönetim panelinden açılan "Evrakla duruşma provası" izni (surum14.sql: ozel_yetkiler). */
 let evrakIzni = false;
+/** Celse Avukat paketi (surum15.sql): etkinse Pro da açıktır; kalan bu ayın kredisidir. */
+export interface AvukatDurum { aktif: boolean; bitis: Date | null; aylik: number; kalan: number; donemSonu: Date | null; kaynak: string }
+let avukat: AvukatDurum | null = null;
+/** İşlemden sonra sunucunun bildirdiği kalan kredi (yeniden okumadan ekranı günceller). */
+export function setAvukatKalan(kalan: number) { if (avukat) { avukat = { ...avukat, kalan }; emit(); } }
 let adminPreview = false;
 const listeners = new Set<() => void>();
 const emit = () => listeners.forEach(f => f());
@@ -34,7 +39,7 @@ export function setAdminPreview(on: boolean) { adminPreview = on; emit(); }
 
 /** Sunucudaki abonelik ve "Derdini anlat" kredisi. Satın almadan sonra da çağrılır (ödeme bildirimi birkaç saniye sürebilir). */
 export async function refreshPremium() {
-  let u: Date | null = null, k = 0, ev = false;
+  let u: Date | null = null, k = 0, ev = false, av: AvukatDurum | null = null;
   const acc = currentAccount(), sb = supabase();
   if (acc?.mode === "server" && sb) {
     try {
@@ -49,9 +54,14 @@ export async function refreshPremium() {
       const { data } = await sb.from("ozel_yetkiler").select("evrak").eq("kullanici_id", acc.id).maybeSingle();
       ev = data?.evrak === true;
     } catch { /* 14. kurulum yapılmamış olabilir */ }
+    try {
+      const { data } = await sb.rpc("avukat_durumum");
+      const r = Array.isArray(data) ? data[0] : data;
+      if (r) av = { aktif: r.aktif === true, bitis: r.bitis ? new Date(r.bitis) : null, aylik: Number(r.aylik) || 0, kalan: Number(r.kalan) || 0, donemSonu: r.donem_sonu ? new Date(r.donem_sonu) : null, kaynak: String(r.kaynak || "") };
+    } catch { /* 15. kurulum yapılmamış olabilir */ }
   }
   if (acc?.id !== currentAccount()?.id) return; // bu arada hesap değişti; yeni hesabın yenilemesi yazar
-  serverUntil = u; credits = k; evrakIzni = ev;
+  serverUntil = u; credits = k; evrakIzni = ev; avukat = av;
   emit();
 }
 onAccountChange(refreshPremium);
@@ -64,7 +74,7 @@ export function isPremium(): boolean {
   if (Platform.OS === "web" && !getSettings().webProKilidi) return true;
   // Android'de Google Play satışı kurulana kadar (goog_ anahtarı) kilit yoktur.
   if (Platform.OS === "android" && !ANDROID_SATIS) return true;
-  return adminPreview || proState().active || serverActive();
+  return adminPreview || proState().active || serverActive() || !!avukat?.aktif;
 }
 
 /** Pro bitiş tarihi: mağazadaki ya da sunucudaki, hangisi daha geçse. */
@@ -73,12 +83,12 @@ function until(): Date | null {
   return a && b ? (a > b ? a : b) : a || b;
 }
 
-export function usePremium(): { premium: boolean; until: Date | null; admin: boolean; willRenew: boolean; credits: number; evrak: boolean } {
+export function usePremium(): { premium: boolean; until: Date | null; admin: boolean; willRenew: boolean; credits: number; evrak: boolean; avukat: AvukatDurum | null } {
   const [, force] = useState(0);
   useEffect(() => {
     const f = () => force(n => n + 1);
     listeners.add(f); startPurchases(); refreshPremium();
     return () => { listeners.delete(f); };
   }, []);
-  return { premium: isPremium(), until: until(), admin: adminPreview, willRenew: proState().willRenew, credits, evrak: evrakIzni };
+  return { premium: isPremium(), until: until(), admin: adminPreview, willRenew: proState().willRenew, credits, evrak: evrakIzni, avukat };
 }

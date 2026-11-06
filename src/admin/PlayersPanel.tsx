@@ -8,7 +8,8 @@ import { Chip } from "../ui/kit";
 import { C, F } from "../ui/theme";
 import { Section, SmallBtn } from "./form";
 
-interface Row { id: string; ad_soyad: string; eposta: string; telefon: string; olusturma: string; bitis?: string; kaynak?: string; kredi: number; evrak: boolean }
+interface Avukat { bitis: string; kaynak: string; aylik: number; kalan: number; donem_sonu: string }
+interface Row { id: string; ad_soyad: string; eposta: string; telefon: string; olusturma: string; bitis?: string; kaynak?: string; kredi: number; evrak: boolean; avukat?: Avukat }
 
 const FOREVER = "2099-12-31T23:59:59Z";
 const fmt = (d: string) => new Date(d).toLocaleDateString("tr-TR");
@@ -19,6 +20,7 @@ export function PlayersPanel({ onClose }: { onClose: () => void }) {
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
   const [kurulum14, setKurulum14] = useState(true);
+  const [kurulum15, setKurulum15] = useState(true);
 
   const load = async () => {
     const sb = supabase();
@@ -29,12 +31,15 @@ export function PlayersPanel({ onClose }: { onClose: () => void }) {
       sb.from("derdini_kredi").select("kullanici_id, kredi"),
       sb.from("ozel_yetkiler").select("kullanici_id, evrak")
     ]);
+    const av = await sb.rpc("yonetici_avukat_listesi");
+    setKurulum15(!av.error);
+    const avm = new Map(((av.data as any[]) || []).map((x: any) => [x.kullanici_id, x as Avukat]));
     setKurulum14(!y.error);
     if (p.error) { setErr(p.error.message.includes("permission") ? "Bu hesap yönetici değil ya da supabase/surum3.sql henüz çalıştırılmadı." : p.error.message); setRows([]); return; }
     const sub = new Map((a.data || []).map((x: any) => [x.kullanici_id, x]));
     const kr = new Map((k.data || []).map((x: any) => [x.kullanici_id, Number(x.kredi) || 0]));
     const ev = new Map((y.data || []).map((x: any) => [x.kullanici_id, x.evrak === true]));
-    setRows((p.data || []).map((r: any) => ({ ...r, bitis: sub.get(r.id)?.bitis, kaynak: sub.get(r.id)?.kaynak, kredi: kr.get(r.id) || 0, evrak: !!ev.get(r.id) })));
+    setRows((p.data || []).map((r: any) => ({ ...r, bitis: sub.get(r.id)?.bitis, kaynak: sub.get(r.id)?.kaynak, kredi: kr.get(r.id) || 0, evrak: !!ev.get(r.id), avukat: avm.get(r.id) })));
     setErr("");
   };
   useEffect(() => { load(); }, []);
@@ -63,6 +68,21 @@ export function PlayersPanel({ onClose }: { onClose: () => void }) {
     if (res.error) setErr(res.error.message.includes("function") ? "Önce supabase/surum14.sql çalıştırılmalı." : res.error.message);
     await load(); setBusy(null);
   };
+  const avukatPaket = async (r: Row, bitis: string | null) => {
+    const sb = supabase(); if (!sb) return;
+    setBusy(r.id);
+    const res = await sb.rpc("yonetici_avukat_paket", { p_kullanici: r.id, p_bitis: bitis });
+    if (res.error) setErr(res.error.message.includes("function") ? "Önce supabase/surum15.sql çalıştırılmalı." : res.error.message);
+    await load(); setBusy(null);
+  };
+  const avukatKredi = async (r: Row, n: number) => {
+    const sb = supabase(); if (!sb) return;
+    setBusy(r.id);
+    const res = await sb.rpc("yonetici_avukat_kredi", { p_kullanici: r.id, p_miktar: n });
+    if (res.error) setErr(res.error.message);
+    await load(); setBusy(null);
+  };
+  const avukatAktif = (r: Row) => !!r.avukat && new Date(r.avukat.bitis) > new Date();
   const plus = (months: number) => { const d = new Date(); d.setMonth(d.getMonth() + months); return d.toISOString(); };
 
   const shown = (rows || []).filter(r => !q || `${r.ad_soyad} ${r.eposta} ${r.telefon}`.toLocaleLowerCase("tr").includes(q.toLocaleLowerCase("tr")));
@@ -88,6 +108,7 @@ export function PlayersPanel({ onClose }: { onClose: () => void }) {
                 : <Chip label="ÜCRETSİZ SÜRÜM" color={C.muted} />}
               <Chip label={`DERDİNİ ANLAT · ${r.kredi} KREDİ`} color={r.kredi > 0 ? C.brass : C.muted} />
               {r.evrak && <Chip label="EVRAK PROVASI AÇIK" color={C.good} />}
+              {avukatAktif(r) && <Chip label={`CELSE AVUKAT · ${r.avukat!.kalan}/${r.avukat!.aylik} KREDİ · ${r.avukat!.kaynak === "manuel" ? "ÜCRETSİZ" : "ABONE"} · ${fmt(r.avukat!.bitis)}'E KADAR`} color={C.good} />}
             </View>
           </View>
           {busy !== r.id && kurulum14 && (
@@ -99,6 +120,19 @@ export function PlayersPanel({ onClose }: { onClose: () => void }) {
               {r.kredi > 0 && <SmallBtn label="−1" tone="danger" onPress={() => kredi(r, -1)} />}
               <Text style={[st.meta, { marginLeft: 8 }]}>Evrakla duruşma provası:</Text>
               {r.evrak ? <SmallBtn label="İzni kapat" tone="danger" onPress={() => evrak(r, false)} /> : <SmallBtn label="İzin ver" tone="accent" onPress={() => evrak(r, true)} />}
+            </View>
+          )}
+          {busy !== r.id && kurulum15 && (
+            <View style={[st.row, { width: "100%" }]}>
+              <Text style={st.meta}>Celse Avukat paketi:</Text>
+              {r.avukat && r.avukat.kaynak !== "manuel" && avukatAktif(r) ? <Text style={st.meta}>Ücretli abonelik</Text> : (
+                <>
+                  <SmallBtn label="1 ay" onPress={() => avukatPaket(r, plus(1))} />
+                  <SmallBtn label="1 yıl" onPress={() => avukatPaket(r, plus(12))} />
+                  {avukatAktif(r) && <SmallBtn label="Kaldır" tone="danger" onPress={() => avukatPaket(r, null)} />}
+                </>
+              )}
+              {avukatAktif(r) && <SmallBtn label="+20 kredi (bu ay)" onPress={() => avukatKredi(r, 20)} />}
             </View>
           )}
           <View style={st.row}>

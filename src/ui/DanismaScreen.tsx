@@ -66,7 +66,8 @@ export default function DanismaScreen(p: Props) {
   // Oyunculara gönderilen dosyalar (danışma kimliğine göre); surum13.sql kurulmadıysa boş.
   const [dosyalar, setDosyalar] = useState<Record<string, DanismaDosyasi>>({});
   // "Evrakla duruşma provası" (beta: yalnız yönetici; sonra avukatlara açılacak).
-  const evrakIzinli = usePremium().evrak;
+  const premE = usePremium();
+  const evrakIzinli = premE.evrak || !!premE.avukat?.aktif;
   const [evrak, setEvrak] = useState(() => !!p.evrak || adresParam(/[?&](evrak)\b/) !== null);
   const reload = () => listDanismalar().then(l => {
     setList(l);
@@ -80,7 +81,7 @@ export default function DanismaScreen(p: Props) {
   }).catch(() => setList([]));
   useEffect(() => { if (p.signedIn) reload(); }, [p.signedIn]);
 
-  if (evrak) return <EvrakScreen onPlay={p.onEvrakPlay} onBack={() => (p.evrak ? p.onBack() : setEvrak(false))} />;
+  if (evrak) return <EvrakScreen ucretsiz={!!p.admin} onPlay={p.onEvrakPlay} onBack={() => (p.evrak ? p.onBack() : setEvrak(false))} />;
   if (watch) return <DanismaWatch key={watch.d.id + (watch.oyuncu ? ":oyuncu" : "")} s={watch.s} d={watch.d} basla={watch.son ? "son" : undefined} onClose={() => setWatch(null)} />;
   const oyuncuKaydi = (d: Danisma, k: OyunKaydi) => { const sn = kayitSenaryo(k); if (sn) setWatch({ s: sn, d, oyuncu: true }); };
 

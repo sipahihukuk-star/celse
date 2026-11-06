@@ -21,8 +21,16 @@ export const PRODUCTS = {
   aylik: "celse_pro_aylik",
   yillik: "celse_pro_yillik",
   derdini1: "celse_derdini_anlat_1",
-  derdini3: "celse_derdini_anlat_3"
+  derdini3: "celse_derdini_anlat_3",
+  /** Celse Avukat paketi (Evrakla duruşma provası, ayda 160 kredi; Pro dahil). Mağazalarda henüz açılmadı. */
+  avukatAylik: "celse_avukat_aylik",
+  avukatYillik: "celse_avukat_yillik"
 } as const;
+
+/** RevenueCat'teki Avukat paketi yetkisi (odeme fonksiyonu da aynı kimliği kullanır). */
+export const AVUKAT_ENTITLEMENT = "celse_avukat";
+/** Evrakla duruşma provasında işlem başına kredi (danisma fonksiyonundaki EVRAK_KREDI ile aynı). */
+export const EVRAK_KREDI = { evrak: 1, evrak_izle: 3, evrak_oyna: 3 } as const;
 
 /** "Derdini anlat" kredi paketleri: ürün → kaç kredi (sunucudaki ödeme fonksiyonu da aynı eşlemeyi kullanır). */
 export const CREDIT_PACKS: Record<string, number> = { [PRODUCTS.derdini1]: 1, [PRODUCTS.derdini3]: 3 };

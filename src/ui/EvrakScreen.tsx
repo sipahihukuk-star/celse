@@ -9,6 +9,8 @@ import { dosyaAc, EVRAK_AZAMI, evrakIzle, evrakOturumu, evrakOturumuYaz, evrakOy
 import type { Danisma, Senaryo } from "../data/danisma";
 import type { CaseFile } from "../engine/types";
 import DanismaWatch from "./DanismaWatch";
+import { setAvukatKalan, usePremium } from "../data/subscription";
+import { EVRAK_KREDI } from "../data/purchaseIds";
 import { IconBadge } from "./icons";
 import { setAktifMaske } from "../engine/mask/oturum";
 import { useInnerBack } from "./innerBack";
@@ -54,7 +56,13 @@ const sahteDanisma = (s: Senaryo): Danisma => ({
   durum: "hazir", degerlendirme: null, canlandirma: null, takip: [], kalan_takip: 0, created_at: new Date().toISOString()
 });
 
-export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFile) => void }) {
+export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFile) => void; /** yönetici ya da deneme izni: kredi düşmez */ ucretsiz?: boolean }) {
+  // Celse Avukat paketi: işlem başına kredi (notlar 1, izle 3, oyna 3); yöneticiler ve deneme izinlileri ücretsiz.
+  const prem = usePremium();
+  const ucretsiz = !!p.ucretsiz || prem.evrak;
+  const av = prem.avukat;
+  const yeter = (n: number) => ucretsiz || (!!av?.aktif && av.kalan >= n);
+  const kalanYaz = (k?: number) => { if (typeof k === "number") setAvukatKalan(k); };
   // Oyundan dönünce kaldığı yerden açılır (oturum bellekte; uygulama kapanınca silinir).
   const o = useMemo(() => evrakOturumu(), []);
   const [adim, setAdim] = useState<Adim>(o?.prova ? "sonuc" : o ? "onay" : "yukle");
@@ -143,6 +151,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
     const r = await evrakProva(sonuc.masked, taraf, asama.trim());
     setMesgul("");
     if (!r.ok) { setErr(t(r.error, r.vars)); return; }
+    kalanYaz(r.data.avukatKalan);
     setProva({ kodlu: r.data, acik: provaAc(r.data, sonuc.map) });
     setKodlu(false); setAdim("sonuc");
   };
@@ -154,6 +163,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
     const r = await evrakIzle(sonuc.masked, taraf, asama.trim());
     setMesgul("");
     if (!r.ok) { setErr(t(r.error, r.vars)); return; }
+    kalanYaz(r.data.avukatKalan);
     const sn = senaryoAc(r.data.senaryo, sonuc.map);
     setSenaryo(sn); setIzle(true);
   };
@@ -165,6 +175,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
     const r = await evrakOyna(sonuc.masked, taraf, asama.trim());
     setMesgul("");
     if (!r.ok) { setErr(t(r.error, r.vars)); return; }
+    kalanYaz(r.data.avukatKalan);
     const c = dosyaAc(r.data.dosya, sonuc.map);
     if (!c) { setErr(t("Dosya şu an oynanabilir hâle getirilemedi. Yeniden deneyin.")); return; }
     setDosya(c);
@@ -198,21 +209,27 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
   const Aksiyonlar = (
     <View style={s.card}>
       <Text style={s.cardT}>{t("Duruşma salonuna girin")}</Text>
+      <Text style={s.hint}>{ucretsiz ? t("Deneme erişimi: işlemler kredi düşmez.")
+        : av?.aktif ? t("Celse Avukat · bu ay kalan {k} / {a} kredi · yenilenme {d}", { k: av.kalan, a: av.aylik, d: av.donemSonu ? av.donemSonu.toLocaleDateString("tr-TR") : "" })
+        : t("Evrakla duruşma provası Celse Avukat paketiyle kullanılır: ayda 160 kredi, Celse Pro dahil. Paket yakında satışta.")}</Text>
       <View style={s.acts}>
-        <Pressable accessibilityRole="button" disabled={!hazir} onPress={oyna} style={({ pressed }) => [s.act, !hazir && s.actOff, pressed && { opacity: 0.85 }]}>
+        <Pressable accessibilityRole="button" disabled={!hazir || (!dosya && !yeter(EVRAK_KREDI.evrak_oyna))} onPress={oyna} style={({ pressed }) => [s.act, (!hazir || (!dosya && !yeter(EVRAK_KREDI.evrak_oyna))) && s.actOff, pressed && { opacity: 0.85 }]}>
           <IconBadge name="scales" size={44} />
           <Text style={s.actT}>{mesgul === "oyna" ? t("Dosya hazırlanıyor…") : dosya ? t("Yeniden oyna") : t("Ben oynayayım")}</Text>
           <Text style={s.actD}>{t("Kendi tarafınızın vekili olarak duruşmaya girin: müvekkil görüşmesi, hâkimin soruları, delille itiraz, sözlü savunma ve karar.")}</Text>
+          {!ucretsiz && !dosya && <Text style={s.cost}>{t("{n} kredi", { n: EVRAK_KREDI.evrak_oyna })}</Text>}
         </Pressable>
-        <Pressable accessibilityRole="button" disabled={!hazir} onPress={izlet} style={({ pressed }) => [s.act, !hazir && s.actOff, pressed && { opacity: 0.85 }]}>
+        <Pressable accessibilityRole="button" disabled={!hazir || (!senaryo && !yeter(EVRAK_KREDI.evrak_izle))} onPress={izlet} style={({ pressed }) => [s.act, (!hazir || (!senaryo && !yeter(EVRAK_KREDI.evrak_izle))) && s.actOff, pressed && { opacity: 0.85 }]}>
           <IconBadge name="film" size={44} />
           <Text style={s.actT}>{mesgul === "izle" ? t("Canlandırma hazırlanıyor…") : senaryo ? t("Yeniden izle") : t("Yapay zekâ oynasın")}</Text>
           <Text style={s.actD}>{t("Büro görüşmeleri, duruşma ve karar fotoğraflı karakterlerle sahnelenir; siz izlersiniz.")}</Text>
+          {!ucretsiz && !senaryo && <Text style={s.cost}>{t("{n} kredi", { n: EVRAK_KREDI.evrak_izle })}</Text>}
         </Pressable>
-        <Pressable accessibilityRole="button" disabled={!hazir} onPress={gonder} style={({ pressed }) => [s.act, !hazir && s.actOff, pressed && { opacity: 0.85 }]}>
+        <Pressable accessibilityRole="button" disabled={!hazir || (!prova && !yeter(EVRAK_KREDI.evrak))} onPress={gonder} style={({ pressed }) => [s.act, (!hazir || (!prova && !yeter(EVRAK_KREDI.evrak))) && s.actOff, pressed && { opacity: 0.85 }]}>
           <IconBadge name="notes" size={44} />
           <Text style={s.actT}>{mesgul === "prova" ? t("Hazırlanıyor…") : prova ? t("Hazırlık notlarını aç") : t("Hazırlık notları")}</Text>
           <Text style={s.actD}>{t("Hâkimin soruları, karşı tarafın argümanları, zayıf noktalar, süreler ve sözlü beyan taslağı.")}</Text>
+          {!ucretsiz && !prova && <Text style={s.cost}>{t("{n} kredi", { n: EVRAK_KREDI.evrak })}</Text>}
         </Pressable>
       </View>
       {!!mesgul && <Text style={s.hint}>{t("Evrakın uzunluğuna göre bir-üç dakika sürebilir; ekranı açık tutun.")}</Text>}
@@ -229,7 +246,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
         <View style={{ flex: 1 }} />
         {adim !== "yukle" && <Btn kind="ghost" label={t("Oturumu temizle")} onPress={cik} />}
       </View>
-      <Text style={s.eyebrow}>{t("EVRAKLA DURUŞMA PROVASI · DENEME")}</Text>
+      <Text style={s.eyebrow}>{t("EVRAKLA DURUŞMA PROVASI · CELSE AVUKAT")}</Text>
       <Text style={s.title}>{t("Dosyanızla duruşmaya hazırlanın")}</Text>
       <View style={s.warn}>
         <Text style={s.warnT}>{t("Kişisel veriler cihazınızdan çıkmaz.")}</Text>
@@ -432,6 +449,7 @@ const s = StyleSheet.create({
   actOff: { opacity: 0.45 },
   actIcon: { fontSize: 28 },
   actT: { fontFamily: F.display, fontSize: 19, color: C.text },
+  cost: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1, color: C.brassDim, marginTop: 2 },
   actD: { fontFamily: F.body, fontSize: 13, lineHeight: 18, color: C.textSoft },
   checkT: { flex: 1, fontFamily: F.body, fontSize: 14, lineHeight: 20, color: C.textSoft }
 });

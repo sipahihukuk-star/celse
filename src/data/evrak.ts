@@ -15,7 +15,7 @@ export interface Prova {
 export const EVRAK_AZAMI = 120000;
 
 export const evrakProva = (metin: string, taraf: "davaci" | "davali", asama: string) =>
-  call<Prova>("evrak", { metin, taraf, asama, kabul: true }, 240000);
+  call<Prova & { avukatKalan?: number }>("evrak", { metin, taraf, asama, kabul: true }, 240000);
 
 /** Hazırlık notlarındaki kodları gerçek değerlere çevirir (yalnız cihazda). */
 export function provaAc(p: Prova, map: Record<string, string>): Prova {
@@ -46,10 +46,10 @@ export function provaMetni(p: Prova, t: (s: string) => string): string {
 
 /** Canlandırma senaryosu (Duruşmayı izle oynatıcısıyla aynı biçim); kişiler kodlarıyla gelir. */
 export const evrakIzle = (metin: string, taraf: "davaci" | "davali", asama: string) =>
-  call<{ senaryo: Senaryo }>("evrak_izle", { metin, taraf, asama, kabul: true }, 240000);
+  call<{ senaryo: Senaryo; avukatKalan?: number }>("evrak_izle", { metin, taraf, asama, kabul: true }, 240000);
 /** Oynanabilir tek kişilik dosya; kişiler kodlarıyla gelir. */
 export const evrakOyna = (metin: string, taraf: "davaci" | "davali", asama: string) =>
-  call<{ dosya: unknown }>("evrak_oyna", { metin, taraf, asama, kabul: true }, 300000);
+  call<{ dosya: unknown; avukatKalan?: number }>("evrak_oyna", { metin, taraf, asama, kabul: true }, 300000);
 
 /** Evrak oturumu: ekran oyuna geçip geri dönünce kaybolmasın diye bellekte tutulur (cihazda; sunucuya gitmez).
  *  "Oturumu temizle" ya da uygulamanın kapanması siler. Oturum varken giden metinler yeniden kodlanır (mask/oturum.ts). */

@@ -837,8 +837,39 @@ async function evrakIzni(req: Request, uid: string) {
   } catch (_e) { return false; }
 }
 
+// Celse Avukat paketi (surum15.sql): her işlem aylık krediden düşer. Yöneticiler ve deneme izni verilen oyuncular ücretsizdir.
+// Kredi, model çağrısından önce düşülür; işlem başarısız olursa (hata ya da 4xx/5xx cevap) geri verilir.
+const EVRAK_KREDI: Record<string, number> = { evrak: 1, evrak_izle: 3, evrak_oyna: 3 };
+interface EvrakHak { hata?: Response; dusen: number; kalan: number | null }
+async function evrakHakki(req: Request, uid: string, action: string): Promise<EvrakHak> {
+  if (await evrakIzni(req, uid)) return { dusen: 0, kalan: null };
+  const kredi = EVRAK_KREDI[action] || 1;
+  try {
+    const kalan = await rpc("avukat_kredi_dus", { p_kullanici: uid, p_kredi: kredi, p_tur: action });
+    return { dusen: kredi, kalan: Number(kalan) };
+  } catch (e) {
+    const m = String(e);
+    if (/kredi yok/.test(m)) return { hata: json({ error: "avukat kredisi yok" }, 402), dusen: 0, kalan: null };
+    if (/paket yok/.test(m)) return { hata: json({ error: "avukat paketi yok" }, 403), dusen: 0, kalan: null };
+    return { hata: json({ error: "beta" }, 403), dusen: 0, kalan: null }; // surum15 kurulmamış
+  }
+}
+async function evrakKredili(req: Request, uid: string, action: string, b: Record<string, unknown>) {
+  const hak = await evrakHakki(req, uid, action);
+  if (hak.hata) return hak.hata;
+  const iade = async () => { if (hak.dusen) { try { await rpc("avukat_kredi_iade", { p_kullanici: uid, p_kredi: hak.dusen, p_tur: action }); } catch (_e) { void _e; } } };
+  let r: Response;
+  try {
+    r = action === "evrak" ? await evrak(req, uid, b) : action === "evrak_izle" ? await evrakIzle(req, uid, b) : await evrakOyna(req, uid, b);
+  } catch (e) { await iade(); throw e; }
+  if (!r.ok) { await iade(); return r; }
+  if (hak.kalan === null) return r;
+  const govde = await r.json();
+  govde.avukatKalan = hak.kalan;
+  return json(govde);
+}
+
 async function evrak(req: Request, uid: string, b: Record<string, unknown>) {
-  if (!(await evrakIzni(req, uid))) return json({ error: "beta" }, 403);
   if (b.kabul !== true) return json({ error: "kabul gerekli" }, 400);
   const metin = cut(b.metin, EVRAK_AZAMI).trim();
   if (metin.length < 200) return json({ error: "evrak kısa" }, 400);
@@ -894,8 +925,7 @@ const EVRAK_KODLAR = [
 
 interface EvrakOn { hata?: Response; metin: string; taraf: string; bizRol: string; asama: string }
 const evrakHata = (r: Response): EvrakOn => ({ hata: r, metin: "", taraf: "", bizRol: "", asama: "" });
-async function evrakOn(req: Request, uid: string, b: Record<string, unknown>): Promise<EvrakOn> {
-  if (!(await evrakIzni(req, uid))) return evrakHata(json({ error: "beta" }, 403));
+async function evrakOn(_req: Request, _uid: string, b: Record<string, unknown>): Promise<EvrakOn> {
   if (b.kabul !== true) return evrakHata(json({ error: "kabul gerekli" }, 400));
   const metin = cut(b.metin, EVRAK_AZAMI).trim();
   if (metin.length < 200) return evrakHata(json({ error: "evrak kısa" }, 400));
@@ -983,9 +1013,7 @@ export async function handle(req: Request): Promise<Response> {
     if (action === "izle") return await izle(uid, b);
     if (action === "ses") return await sesKaydi(uid, b);
     if (action === "dosya") return await dosya(uid, b);
-    if (action === "evrak") return await evrak(req, uid, b);
-    if (action === "evrak_izle") return await evrakIzle(req, uid, b);
-    if (action === "evrak_oyna") return await evrakOyna(req, uid, b);
+    if (action === "evrak" || action === "evrak_izle" || action === "evrak_oyna") return await evrakKredili(req, uid, action, b);
     return await takip(uid, b);
   } catch (e) {
     return json({ error: "sunucu hatası", detay: String(e).slice(0, 300) }, 502);
