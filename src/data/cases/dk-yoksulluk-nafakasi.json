@@ -22,7 +22,7 @@
     "gulay": { "name": "Gülay Sezer · Davalı", "np": "civil", "look": { "kind": "civil", "skin": "#d9a982", "hair": "#3a2418", "style": "long", "shirt": "#5a6b3f", "inner": "#ece6da" } }
   },
   "intro": [
-    { "who": "narr", "text": "Levent ve Gülay Sezer 2019'da Antalya'da boşandı. Gülay lehine yoksulluk nafakası bağlandı; 2024'te aylık 9.000 TL'ye artırıldı." },
+    { "who": "narr", "text": "Levent ve Gülay Sezer 2019'da Antalya'da boşandı. Gülay lehine yoksulluk nafakası bağlandı; 2024'te aylık 9.000 TL'ye artırıldı. Gülay bugün 46 yaşında." },
     { "who": "levent", "text": "Gülay iki yıldır Murat Kaya diye biriyle birlikte. Aynı binada oturuyorlar, tatile beraber gidiyorlar. Bir de otelde iş bulmuş. Ben hâlâ her ay ödüyorum." },
     { "who": "levent", "text": "Bir dedektif bürosu teklif getirdi: gece pencereden fotoğraf çekecekler, arabasına cihaz takacaklar. Bir de hemen ödemeyi kesip bugüne kadar ödediklerimi geri isteyelim." },
     { "who": "narr", "text": "Bugün 10.02.2027." }
