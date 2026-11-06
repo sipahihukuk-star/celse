@@ -59,6 +59,8 @@ import InboxScreen from "./src/ui/InboxScreen";
 import DanismaDosyaScreen from "./src/ui/DanismaDosyaScreen";
 import { evrakOturumu } from "./src/data/evrak";
 import { setAktifMaske } from "./src/engine/mask/oturum";
+import { kaydirmaCubugu } from "./src/ui/webScrollbar";
+kaydirmaCubugu();
 import { dosyaBirak, dosyaBitir, dosyaKimligi, kayitOf, TutanakSatiri } from "./src/data/danismaDosya";
 import { trackRoute } from "./src/data/usage";
 import { useCloudSync } from "./src/data/sync";

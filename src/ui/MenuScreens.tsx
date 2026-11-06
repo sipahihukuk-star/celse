@@ -51,6 +51,8 @@ export function TitleScreen(p: TitleProps) {
   // kullanıcı hangi sayfada kalırsa uygulama bir dahaki açılışta o sayfayla açılır.
   const [home, setHome, ready] = useHomePage();
   const [pw, setPw] = useState(0);
+  // Sayfa yüksekliği: her sayfanın kendi dikey kaydırması olsun diye sayfalar bu yükseklikle sınırlanır (yoksa web'de alt kısım kesilir).
+  const [ph, setPh] = useState(0);
   const pager = useRef<React.ComponentRef<typeof ScrollView>>(null);
   const placed = useRef(false);
   const settle = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -104,14 +106,14 @@ export function TitleScreen(p: TitleProps) {
       </View>
 
       <View style={{ flex: 1, flexDirection: "row" }}>
-      <View style={{ flex: 1 }} onLayout={e => setPw(Math.round(e.nativeEvent.layout.width))}>
+      <View style={{ flex: 1 }} onLayout={e => { setPw(Math.round(e.nativeEvent.layout.width)); setPh(Math.round(e.nativeEvent.layout.height)); }}>
       {pw > 0 && (
       <ScrollView ref={pager} horizontal pagingEnabled showsHorizontalScrollIndicator={false} scrollEventThrottle={32}
         onScroll={e => onPagerScroll(e.nativeEvent.contentOffset.x)} style={{ flex: 1 }}>
-      <View style={{ width: pw }}>
+      <View style={{ width: pw, height: ph }}>
         <DanismaHome wide={wide} admin={!!p.isAdmin} onDanisma={p.onDanisma} onGame={() => goPage("oyun")} footer={footer} />
       </View>
-      <View style={{ width: pw }}>
+      <View style={{ width: pw, height: ph }}>
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "flex-start" }]}>
         {/* Geniş ekranda terazi başlığın hizasında durur; sayfa kaydırılmadan görünür. */}
         <View style={[styles.titleArt, wide && { flex: 0.8, paddingTop: 24, paddingLeft: 24 }]}>
