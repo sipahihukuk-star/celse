@@ -66,6 +66,7 @@ export default function DanismaScreen(p: Props) {
   // Oyunculara gönderilen dosyalar (danışma kimliğine göre); surum13.sql kurulmadıysa boş.
   const [dosyalar, setDosyalar] = useState<Record<string, DanismaDosyasi>>({});
   // "Evrakla duruşma provası" (beta: yalnız yönetici; sonra avukatlara açılacak).
+  const evrakIzinli = usePremium().evrak;
   const [evrak, setEvrak] = useState(() => !!p.evrak || adresParam(/[?&](evrak)\b/) !== null);
   const reload = () => listDanismalar().then(l => {
     setList(l);
@@ -115,9 +116,9 @@ export default function DanismaScreen(p: Props) {
               ))}
             </View>
           )}
-          {view === "yeni" && p.admin && (
+          {view === "yeni" && (p.admin || evrakIzinli) && (
             <Pressable accessibilityRole="button" onPress={() => setEvrak(true)} style={s.card}>
-              <Text style={s.meta}>{t("YENİ · DENEME · YALNIZ YÖNETİCİ")}</Text>
+              <Text style={s.meta}>{t("YENİ · AVUKATLAR İÇİN · DENEME")}</Text>
               <Text style={s.cardT}>{t("Evrakla duruşma provası")}</Text>
               <Text style={s.body}>{t("Dosyanın evrakını yükleyin: kişisel veriler bu cihazda kodlanır, yalnız kodlu metin gönderilir. Hâkimin soruları, karşı tarafın argümanları ve sözlü beyan taslağı hazırlanır.")}</Text>
             </Pressable>

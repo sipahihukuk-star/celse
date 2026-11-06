@@ -828,8 +828,17 @@ const ciftler = (v: unknown, a: string, b: string, n: number) => (Array.isArray(
   .map((x: Record<string, unknown>) => ({ [a]: cut(x && x[a], 800).trim(), [b]: cut(x && x[b], 1500).trim() }))
   .filter((x: Record<string, string>) => x[a]);
 
+// Evrakla duruşma provası (deneme): yöneticiler ve yönetim panelinden izin verilen oyuncular (surum14.sql: ozel_yetkiler.evrak).
+async function evrakIzni(req: Request, uid: string) {
+  if (await isAdmin(req)) return true;
+  try {
+    const rows = await srv("/rest/v1/ozel_yetkiler?kullanici_id=eq." + uid + "&select=evrak", "GET");
+    return !!(rows && rows[0] && rows[0].evrak === true);
+  } catch (_e) { return false; }
+}
+
 async function evrak(req: Request, uid: string, b: Record<string, unknown>) {
-  if (!(await isAdmin(req))) return json({ error: "beta" }, 403);
+  if (!(await evrakIzni(req, uid))) return json({ error: "beta" }, 403);
   if (b.kabul !== true) return json({ error: "kabul gerekli" }, 400);
   const metin = cut(b.metin, EVRAK_AZAMI).trim();
   if (metin.length < 200) return json({ error: "evrak kısa" }, 400);
@@ -885,8 +894,8 @@ const EVRAK_KODLAR = [
 
 interface EvrakOn { hata?: Response; metin: string; taraf: string; bizRol: string; asama: string }
 const evrakHata = (r: Response): EvrakOn => ({ hata: r, metin: "", taraf: "", bizRol: "", asama: "" });
-async function evrakOn(req: Request, b: Record<string, unknown>): Promise<EvrakOn> {
-  if (!(await isAdmin(req))) return evrakHata(json({ error: "beta" }, 403));
+async function evrakOn(req: Request, uid: string, b: Record<string, unknown>): Promise<EvrakOn> {
+  if (!(await evrakIzni(req, uid))) return evrakHata(json({ error: "beta" }, 403));
   if (b.kabul !== true) return evrakHata(json({ error: "kabul gerekli" }, 400));
   const metin = cut(b.metin, EVRAK_AZAMI).trim();
   if (metin.length < 200) return evrakHata(json({ error: "evrak kısa" }, 400));
@@ -896,8 +905,8 @@ async function evrakOn(req: Request, b: Record<string, unknown>): Promise<EvrakO
   return { metin: metin, taraf: davaci ? "davaci" : "davali", bizRol: davaci ? "davacı (ya da başvuran, müşteki, katılan)" : "davalı (ya da sanık, şüpheli, karşı taraf)", asama: cut(b.asama, 200).trim() };
 }
 
-async function evrakIzle(req: Request, b: Record<string, unknown>) {
-  const on = await evrakOn(req, b);
+async function evrakIzle(req: Request, uid: string, b: Record<string, unknown>) {
+  const on = await evrakOn(req, uid, b);
   if (on.hata) return on.hata;
   const d = dilOf(b);
   const system = [
@@ -921,8 +930,8 @@ async function evrakIzle(req: Request, b: Record<string, unknown>) {
   return json({ senaryo: senaryoOf(out, on.taraf, d, gizleEvrak) });
 }
 
-async function evrakOyna(req: Request, b: Record<string, unknown>) {
-  const on = await evrakOn(req, b);
+async function evrakOyna(req: Request, uid: string, b: Record<string, unknown>) {
+  const on = await evrakOn(req, uid, b);
   if (on.hata) return on.hata;
   const system = [
     "Sen Türk hukukunu iyi bilen, deneyimli bir avukat eğitmenisin. Görevin: bir avukatın takip ettiği dosyanın evrakından, Celse avukatlık oyununda o avukatın kendisinin oynayacağı tek kişilik, oynanabilir bir duruşma dosyası yazmak. Amaç avukatın gerçek duruşmasına prova yapması.",
@@ -975,8 +984,8 @@ export async function handle(req: Request): Promise<Response> {
     if (action === "ses") return await sesKaydi(uid, b);
     if (action === "dosya") return await dosya(uid, b);
     if (action === "evrak") return await evrak(req, uid, b);
-    if (action === "evrak_izle") return await evrakIzle(req, b);
-    if (action === "evrak_oyna") return await evrakOyna(req, b);
+    if (action === "evrak_izle") return await evrakIzle(req, uid, b);
+    if (action === "evrak_oyna") return await evrakOyna(req, uid, b);
     return await takip(uid, b);
   } catch (e) {
     return json({ error: "sunucu hatası", detay: String(e).slice(0, 300) }, 502);

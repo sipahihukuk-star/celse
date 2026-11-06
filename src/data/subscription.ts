@@ -21,6 +21,8 @@ export const FALLBACK_PRICE = { aylik: "149,99 ₺", yillik: "999,99 ₺" };
 
 let serverUntil: Date | null = null;
 let credits = 0;
+/** Yönetim panelinden açılan "Evrakla duruşma provası" izni (surum14.sql: ozel_yetkiler). */
+let evrakIzni = false;
 let adminPreview = false;
 const listeners = new Set<() => void>();
 const emit = () => listeners.forEach(f => f());
@@ -32,7 +34,7 @@ export function setAdminPreview(on: boolean) { adminPreview = on; emit(); }
 
 /** Sunucudaki abonelik ve "Derdini anlat" kredisi. Satın almadan sonra da çağrılır (ödeme bildirimi birkaç saniye sürebilir). */
 export async function refreshPremium() {
-  let u: Date | null = null, k = 0;
+  let u: Date | null = null, k = 0, ev = false;
   const acc = currentAccount(), sb = supabase();
   if (acc?.mode === "server" && sb) {
     try {
@@ -43,9 +45,13 @@ export async function refreshPremium() {
       const { data } = await sb.from("derdini_kredi").select("kredi").eq("kullanici_id", acc.id).maybeSingle();
       k = Math.max(0, Number(data?.kredi) || 0);
     } catch { /* 7. kurulum yapılmamış olabilir */ }
+    try {
+      const { data } = await sb.from("ozel_yetkiler").select("evrak").eq("kullanici_id", acc.id).maybeSingle();
+      ev = data?.evrak === true;
+    } catch { /* 14. kurulum yapılmamış olabilir */ }
   }
   if (acc?.id !== currentAccount()?.id) return; // bu arada hesap değişti; yeni hesabın yenilemesi yazar
-  serverUntil = u; credits = k;
+  serverUntil = u; credits = k; evrakIzni = ev;
   emit();
 }
 onAccountChange(refreshPremium);
@@ -67,12 +73,12 @@ function until(): Date | null {
   return a && b ? (a > b ? a : b) : a || b;
 }
 
-export function usePremium(): { premium: boolean; until: Date | null; admin: boolean; willRenew: boolean; credits: number } {
+export function usePremium(): { premium: boolean; until: Date | null; admin: boolean; willRenew: boolean; credits: number; evrak: boolean } {
   const [, force] = useState(0);
   useEffect(() => {
     const f = () => force(n => n + 1);
     listeners.add(f); startPurchases(); refreshPremium();
     return () => { listeners.delete(f); };
   }, []);
-  return { premium: isPremium(), until: until(), admin: adminPreview, willRenew: proState().willRenew, credits };
+  return { premium: isPremium(), until: until(), admin: adminPreview, willRenew: proState().willRenew, credits, evrak: evrakIzni };
 }
