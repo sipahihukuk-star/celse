@@ -18,7 +18,7 @@ export { stateCourt, tintJudge } from "./castFaces";
 
 /** Konuşulan satır: ağız kareleri metindeki seslere göre sıralanır. voice: satır seslendiriliyor mu. */
 export interface Say { id: string; text: string; voice: boolean }
-interface Props { c: CaseFile; scene: Scene; focus: string | null; talking: boolean; say?: Say }
+interface Props { c: CaseFile; scene: Scene; focus: string | null; talking: boolean; say?: Say; side?: "p1" | "p2" }
 
 export { DESK, MIN_VIEW, ROOM } from "./stageLayout";
 
@@ -63,7 +63,7 @@ export function useMouthFrame(on: boolean, say?: Say) {
 }
 
 /** faces: kadro dışarıdan verilirse (ör. "Duruşmayı izle") oyuncunun karakteri yerine bu yüzler kullanılır. */
-export default function PhotoStage({ c, scene, focus, talking, say, faces: given }: Props & { faces?: Record<string, PhotoKey> }) {
+export default function PhotoStage({ c, scene, focus, talking, say, side, faces: given }: Props & { faces?: Record<string, PhotoKey> }) {
   const { office } = useOffice();
   const mouth = useMouthFrame(talking && focus !== null && focus !== "narr", say);
   const [box, setBox] = useState({ w: 0, h: 0 });
@@ -83,7 +83,7 @@ export default function PhotoStage({ c, scene, focus, talking, say, faces: given
     if (focus && focus !== guest && officeGuest(c, focus) && faces[focus]) setGuest(focus);
   }, [scene, focus, c.id]);
   // Büro görüşmesi: avukatın koltuğundan bakış; müvekkil masanın karşısındaki koltukta oturur.
-  const L = useMemo(() => stageLayout({ c, scene, faces, focus, guest, W, H }), [c, scene, faces, focus, guest, W, H]);
+  const L = useMemo(() => stageLayout({ c, scene, faces, focus, guest, W, H, side }), [c, scene, faces, focus, guest, W, H, side]);
   const { s, ox, oy } = L;
   const bg = PHOTOS[L.bg];
   const X = (x: number) => ox + x * s, Y = (y: number) => oy + y * s;

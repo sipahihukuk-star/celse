@@ -5,6 +5,7 @@ import { bagOf, choicesOf, GameState, grade, kindOf } from "../engine/engine";
 import { CaseFile, Line, Player, Side } from "../engine/types";
 import { Btn, Chip, Scale } from "./kit";
 import PhotoStage, { cast } from "./PhotoStage";
+import type { PhotoKey } from "./photos";
 import { speakerId } from "./castFaces";
 import { adaptPlayerAddress } from "./castText";
 import { useCharacterState } from "../data/character";
@@ -55,7 +56,7 @@ export default function GameScreen(props: Props) {
   return <Game {...props} c={c} faces={faces} />;
 }
 
-function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: Record<string, string> }) {
+function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: Record<string, PhotoKey> }) {
   // Tutanak, oyun bitince karar ekranına giderken onFinish ile verilir (en güncel hâli ref'ten okunur).
   const tutanakRef = useRef<TutanakSatiri[]>([]);
   const court = useCourt(c, players, g => onFinish(g, tutanakRef.current), online);
@@ -89,6 +90,11 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
   let focus: string | null = null;
   if (line && line.who !== "narr") focus = line.who;
   if (phase.k === "choices" || phase.k === "pass") focus = duel ? c.steps[phase.step].side : scene === "court" ? "p1" : null;
+
+  // Büroda sırası gelen taraf (karşılıklı dava): sahnede yalnız o tarafın avukatı ve müvekkili görünür.
+  const stepNow = phase.k === "lines" ? (phase.after.k === "turn" || phase.after.k === "feedback" ? phase.after.step : undefined) : phase.k === "docs" ? undefined : (phase as { step?: number }).step;
+  const sideNow = stepNow !== undefined ? c.steps[stepNow]?.side : court.lastSide ?? undefined;
+  const officeSide = duel && scene === "office" ? sideNow : undefined;
 
   // Terazi açısı ve puan
   const angle = duel ? -Math.max(-60, Math.min(60, game.pts.p1 - game.pts.p2)) / 60 * 15 : -(game.score - 50) / 50 * 15;
@@ -169,7 +175,7 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
       {/* Telefonda klavye açıkken sahne küçülür; yazı alanı ve "Cevabı sun" düğmesi görünür kalır. */}
       <View style={[styles.stageWrap, { flex: wide ? 1.5 : 1 }, kbOpen && !wide && { flex: 0.35 }]}>
         {viewMode === "gercek"
-          ? <PhotoStage c={c} scene={scene} focus={focus} talking={!!line && (voiceOn ? speaking || !tw.done : true)}
+          ? <PhotoStage c={c} scene={scene} focus={focus} faces={faces} side={officeSide} talking={!!line && (voiceOn ? speaking || !tw.done : true)}
               say={line && phase.k === "lines" ? { id: `${game.log.length}-${phase.i}-${line.text.length}`, text: line.text, voice: voiceOn } : undefined} />
           : <Stage c={c} scene={scene} focus={focus} talking={!!line && !tw.done} />}
       </View>
