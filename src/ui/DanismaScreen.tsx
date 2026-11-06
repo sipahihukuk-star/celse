@@ -68,7 +68,8 @@ export default function DanismaScreen(p: Props) {
   const [dosyalar, setDosyalar] = useState<Record<string, DanismaDosyasi>>({});
   // "Evrakla duruşma provası" (beta: yalnız yönetici; sonra avukatlara açılacak).
   const premE = usePremium();
-  const evrakIzinli = premE.evrak || !!premE.avukat?.aktif || useSettings().avukatSatis;
+  const avukatSatis = useSettings().avukatSatis; // kanca koşulsuz çağrılır
+  const evrakIzinli = premE.evrak || !!premE.avukat?.aktif || avukatSatis;
   const [evrak, setEvrak] = useState(() => !!p.evrak || adresParam(/[?&](evrak)\b/) !== null);
   const reload = () => listDanismalar().then(l => {
     setList(l);
