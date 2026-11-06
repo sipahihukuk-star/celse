@@ -2,7 +2,7 @@
   "expo": {
     "name": "Celse",
     "slug": "celse",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "scheme": "celse",
@@ -60,7 +60,16 @@
           "resizeMode": "contain",
           "backgroundColor": "#1c0a0f"
         }
-      ]
+      ],
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Evrakla duruşma provası için evrakın fotoğrafını çekip bu cihazda okumak üzere kameraya erişilir. Fotoğraf hiçbir yere gönderilmez.",
+          "photosPermission": "Evrak fotoğrafını bu cihazda okumak için seçtiğiniz fotoğrafa erişilir. Fotoğraf hiçbir yere gönderilmez.",
+          "microphonePermission": false
+        }
+      ],
+      "expo-document-picker"
     ],
     "extra": {
       "eas": {
@@ -68,7 +77,7 @@
       }
     },
     "owner": "themiscodecelse",
-    "runtimeVersion": "1.0.0-odeme",
+    "runtimeVersion": "1.1.0-evrak",
     "updates": {
       "url": "https://u.expo.dev/0f43df6e-12d0-4f8c-b779-77f503add543",
       "checkAutomatically": "ON_LOAD",

@@ -9,6 +9,8 @@ import { dosyaAc, EVRAK_AZAMI, evrakIzle, evrakOturumu, evrakOturumuYaz, evrakOy
 import type { Danisma, Senaryo } from "../data/danisma";
 import type { CaseFile } from "../engine/types";
 import DanismaWatch from "./DanismaWatch";
+import { EvrakOkuyucu, EvrakOkuyucuRef } from "./EvrakOkuyucu";
+import { base64, baytlar, dosyaSecTelefon, fotografCek, TELEFON_SECIM } from "./evrakSec";
 import { setAvukatKalan, usePremium } from "../data/subscription";
 import { EVRAK_KREDI } from "../data/purchaseIds";
 import { IconBadge } from "./icons";
@@ -114,30 +116,49 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
   const okumaSon = useRef("");
   const setOkuma = (m: string) => { if (m) okumaSon.current = m; setOkumaState(m); };
   const [ocrUyari, setOcrUyari] = useState(false);
+  const okuyucu = useRef<EvrakOkuyucuRef>(null);
+  /** Seçilen dosyaları sırayla okur. Web'de bayt dizisi gelir; telefonda dosya adresi (uri) gelir ve gerektiğinde okunur. */
+  type Kaynak = { ad: string; bytes?: Uint8Array; uri?: string };
+  const isle = async (secilen: Kaynak[]) => {
+    const yeni: Evrak[] = [];
+    for (const f of secilen) {
+      const tur = turBul(f.ad);
+      if (!tur) { setErr(t("{ad}: bu dosya türü okunamıyor. UDF, Word (DOC/DOCX), PDF, TIF, JPG/PNG ya da metin dosyası seçin.", { ad: f.ad })); continue; }
+      try {
+        let metin: string;
+        const ilerle = (m: string) => setOkuma(`${f.ad}: ${t(m)}`);
+        if (tur === "pdf" || tur === "tif" || tur === "resim") {
+          if (Platform.OS === "web") {
+            // Kütüphaneler ve yazı tanıma yalnız gerektiğinde, tarayıcıda yüklenir; dosya cihazdan çıkmaz.
+            const oku = await import("./evrakOku");
+            const by = f.bytes!;
+            metin = tur === "pdf" ? await oku.pdfMetni(by, ilerle) : tur === "tif" ? await oku.tifMetni(by, ilerle) : await oku.resimMetni(by, f.ad, ilerle);
+          } else {
+            // Telefonda aynı okuma, görünmez WebView içinde (EvrakOkuyucu); dosya telefondan çıkmaz.
+            if (!okuyucu.current) throw new Error("Okuyucu hazır değil, yeniden deneyin.");
+            ilerle("Dosya hazırlanıyor…");
+            metin = await okuyucu.current.oku(f.ad, tur, await base64(f.uri!), ilerle);
+          }
+          if (tur !== "pdf" || /yazı tanıma/i.test(okumaSon.current)) setOcrUyari(true);
+        } else metin = evrakMetni(f.ad, f.bytes || await baytlar(f.uri!));
+        if (metin.replace(/\s/g, "").length < 20) { setErr(t("{ad}: dosyada okunabilir metin bulunamadı.", { ad: f.ad })); continue; }
+        yeni.push({ ad: f.ad, metin });
+      } catch (e) { setErr(`${f.ad}: ${t(String((e as Error).message || e))}`); }
+    }
+    setEvraklar(l => [...l, ...yeni]);
+    setOkuma("");
+  };
   const ekle = async () => {
     setErr("");
     try {
-      const secilen = await dosyaSec();
-      const yeni: Evrak[] = [];
-      for (const f of secilen) {
-        const tur = turBul(f.ad);
-        if (!tur) { setErr(t("{ad}: bu dosya türü okunamıyor. UDF, Word (DOC/DOCX), PDF, TIF, JPG/PNG ya da metin dosyası seçin.", { ad: f.ad })); continue; }
-        try {
-          let metin: string;
-          if (tur === "pdf" || tur === "tif" || tur === "resim") {
-            // Kütüphaneler ve yazı tanıma yalnız gerektiğinde, tarayıcıda yüklenir; dosya cihazdan çıkmaz.
-            const oku = await import("./evrakOku");
-            const ilerle = (m: string) => setOkuma(`${f.ad}: ${t(m)}`);
-            metin = tur === "pdf" ? await oku.pdfMetni(f.bytes, ilerle) : tur === "tif" ? await oku.tifMetni(f.bytes, ilerle) : await oku.resimMetni(f.bytes, f.ad, ilerle);
-            if (tur !== "pdf" || /yazı tanıma/i.test(okumaSon.current)) setOcrUyari(true);
-          } else metin = evrakMetni(f.ad, f.bytes);
-          if (metin.replace(/\s/g, "").length < 20) { setErr(t("{ad}: dosyada okunabilir metin bulunamadı.", { ad: f.ad })); continue; }
-          yeni.push({ ad: f.ad, metin });
-        } catch (e) { setErr(`${f.ad}: ${t(String((e as Error).message || e))}`); }
-      }
-      setEvraklar(l => [...l, ...yeni]);
-    } catch { setErr(t("Dosya okunamadı.")); }
-    setOkuma("");
+      if (Platform.OS === "web") await isle(await dosyaSec());
+      else await isle(await dosyaSecTelefon());
+    } catch (e) { setErr(t(String((e as Error)?.message || "Dosya okunamadı."))); setOkuma(""); }
+  };
+  const cek = async () => {
+    setErr("");
+    try { const f = await fotografCek(); if (f) await isle([f]); }
+    catch (e) { setErr(t(String((e as Error)?.message || "Fotoğraf okunamadı."))); setOkuma(""); }
   };
   const seciliGizle = () => {
     if (Platform.OS !== "web") return;
@@ -256,14 +277,14 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
       {adim === "yukle" && (
         <View style={s.card}>
           <Text style={s.cardT}>{t("1. Evrakı ekleyin")}</Text>
-          {Platform.OS === "web" ? (
-            <>
-              <Text style={s.hint}>{t("Dilekçe, cevap, bilirkişi raporu, ara karar gibi evrakı seçin: UYAP UDF ve TIF, PDF, Word (DOC ve DOCX), evrak fotoğrafı (JPG/PNG) ya da metin dosyası. Taranmış evrak, yazı tanımayla bu cihazda okunur.")}</Text>
-              <View style={s.row}><Btn kind="secondary" label={okuma ? t("Okunuyor…") : t("Dosya seç")} disabled={!!okuma} onPress={ekle} /></View>
-              {!!okuma && <Text style={s.hint}>{okuma}</Text>}
-              {ocrUyari && !okuma && <Text style={s.hint}>{t("Taranmış sayfalardan yazı tanımayla okunan metinde harf hataları olabilir; adlar bu yüzden kaçabilir. Maskeleme ekranında metni dikkatle denetleyin.")}</Text>}
-            </>
-          ) : <Text style={s.hint}>{t("Telefonda şimdilik evrakın metnini aşağıya yapıştırın. Dosyadan okuma web'de açık.")}</Text>}
+          <Text style={s.hint}>{t("Dilekçe, cevap, bilirkişi raporu, ara karar gibi evrakı seçin: UYAP UDF ve TIF, PDF, Word (DOC ve DOCX), evrak fotoğrafı (JPG/PNG) ya da metin dosyası. Taranmış evrak, yazı tanımayla bu cihazda okunur.")}</Text>
+          <View style={s.row}>
+            <Btn kind="secondary" label={okuma ? t("Okunuyor…") : t("Dosya seç")} disabled={!!okuma} onPress={ekle} />
+            {Platform.OS !== "web" && TELEFON_SECIM && <Btn kind="ghost" label={t("Fotoğraf çek")} disabled={!!okuma} onPress={cek} />}
+          </View>
+          {!!okuma && <Text style={s.hint}>{okuma}</Text>}
+          {ocrUyari && !okuma && <Text style={s.hint}>{t("Taranmış sayfalardan yazı tanımayla okunan metinde harf hataları olabilir; adlar bu yüzden kaçabilir. Maskeleme ekranında metni dikkatle denetleyin.")}</Text>}
+          {Platform.OS !== "web" && adim === "yukle" && <EvrakOkuyucu ref={okuyucu} />}
           {evraklar.map((e, i) => (
             <View key={i} style={s.file}>
               <Text style={s.fileT} numberOfLines={1}>{e.ad}</Text>
