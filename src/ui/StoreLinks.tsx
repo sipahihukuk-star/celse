@@ -46,7 +46,24 @@ export function StoreLinks() {
   );
 }
 
+/** Geniş web ekranında ön yüzün iki yanındaki QR: solda iPhone, sağda Android. Sayfa kaydırılmadan görünür. */
+export function StoreRail({ platform }: { platform: "ios" | "android" }) {
+  const st = useSettings();
+  const ios = platform === "ios";
+  const url = ios ? st.iosLink : st.androidLink;
+  return (
+    <Pressable accessibilityRole="link" accessibilityLabel={ios ? "iPhone · App Store" : "Android · Google Play"} onPress={() => Linking.openURL(url)}
+      style={({ pressed }) => [s.rail, pressed && { opacity: 0.85 }]}>
+      <Text style={[s.eyebrow, { textAlign: "center" }]}>{t("TELEFONUNUZA İNDİRİN")}</Text>
+      <View style={s.qr}><QR value={url} size={120} /></View>
+      <Text style={s.label}>{ios ? "iPhone · App Store" : "Android · Google Play"}</Text>
+      <Text style={[s.sub, { textAlign: "center" }]}>{t("Kamerayla okutun")}</Text>
+    </Pressable>
+  );
+}
+
 const s = StyleSheet.create({
+  rail: { width: 168, alignItems: "center", gap: 8, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 14, paddingVertical: 14, paddingHorizontal: 10 },
   card: { borderWidth: 1, borderColor: C.line, backgroundColor: C.panel, borderRadius: 14, padding: 16, gap: 6, marginTop: 18 },
   eyebrow: { fontFamily: F.mono, fontSize: 11, letterSpacing: 2, color: C.brassDim },
   title: { fontFamily: F.display, fontSize: 22, color: C.text },

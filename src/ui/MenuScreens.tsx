@@ -5,7 +5,7 @@ import { KeyboardBar } from "./KeyboardBar";
 import { Linking, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { useVoiceEnabled } from "./voice";
 import { Platform, Share } from "react-native";
-import { StoreLinks } from "./StoreLinks";
+import { StoreLinks, StoreRail } from "./StoreLinks";
 import { LegalFooter } from "./LegalFooter";
 import { DOWNLOAD_URL, WEB_URL } from "../data/settings";
 import { CaseFile, Player, Side } from "../engine/types";
@@ -64,7 +64,9 @@ export function TitleScreen(p: TitleProps) {
     if (settle.current) clearTimeout(settle.current);
     settle.current = setTimeout(() => setHome(HOME_PAGES[Math.max(0, Math.min(HOME_PAGES.length - 1, Math.round(x / pw)))]), 140);
   };
-  const footer = Platform.OS === "web" ? <>{!!p.onShop && <ShopCard onPress={p.onShop} />}<StoreLinks /><LegalFooter onShop={p.onShop} /></> : null;
+  // Geniş web ekranında QR kodları iki yanda durur (solda iPhone, sağda Android); dar ekranda sayfanın altındaki kartta.
+  const rails = Platform.OS === "web" && width >= 1180;
+  const footer = Platform.OS === "web" ? <>{!!p.onShop && <ShopCard onPress={p.onShop} />}{!rails && <StoreLinks />}<LegalFooter onShop={p.onShop} /></> : null;
   return (
     <View style={{ flex: 1 }}>
       {/* Üst şerit: solda menü, sağda üyelik */}
@@ -99,6 +101,8 @@ export function TitleScreen(p: TitleProps) {
         ))}
       </View>
 
+      <View style={{ flex: 1, flexDirection: "row" }}>
+      {rails && <View style={styles.railCol}><StoreRail platform="ios" /></View>}
       <View style={{ flex: 1 }} onLayout={e => setPw(Math.round(e.nativeEvent.layout.width))}>
       {pw > 0 && (
       <ScrollView ref={pager} horizontal pagingEnabled showsHorizontalScrollIndicator={false} scrollEventThrottle={32}
@@ -180,6 +184,8 @@ export function TitleScreen(p: TitleProps) {
       </View>
       </ScrollView>
       )}
+      </View>
+      {rails && <View style={styles.railCol}><StoreRail platform="android" /></View>}
       </View>
       <SideMenu visible={menu} onClose={() => setMenu(false)} {...p} />
     </View>
@@ -529,6 +535,7 @@ const styles = StyleSheet.create({
   hello: { fontFamily: F.bodyBold, fontSize: 17, color: C.text, marginTop: 4 },
   guestLink: { alignSelf: "flex-start", paddingVertical: 6 },
   guestLinkT: { fontFamily: F.bodyMed, fontSize: 15, color: C.brass, textDecorationLine: "underline" },
+  railCol: { width: 196, alignItems: "center", justifyContent: "center", paddingHorizontal: 14 },
   pills: { flexDirection: "row", gap: 8, justifyContent: "center", paddingHorizontal: 16, paddingBottom: 6 },
   pill: { borderWidth: 1, borderColor: C.line, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 7, backgroundColor: C.panel },
   pillOn: { backgroundColor: C.brass, borderColor: C.brass },
