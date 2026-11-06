@@ -5,7 +5,7 @@ import { Platform } from "react-native";
 import { useEffect, useState } from "react";
 import Purchases, { CustomerInfo, PRODUCT_CATEGORY, PurchasesPackage, PurchasesStoreProduct } from "react-native-purchases";
 import { currentAccount, onAccountChange } from "./account";
-import { ANDROID_SATIS, BuyResult, CREDIT_PACKS, CreditInfo, PlanInfo, PlanKind, PRO_ENTITLEMENT, PRODUCTS, ProState, REVENUECAT_KEYS } from "./purchaseIds";
+import { ANDROID_SATIS, AvukatPlan, BuyResult, CREDIT_PACKS, CreditInfo, PlanInfo, PlanKind, PRO_ENTITLEMENT, PRODUCTS, ProState, REVENUECAT_KEYS } from "./purchaseIds";
 
 /** Bu platformda mağazadan satın alma yapılabilir mi? (Web'de false.) */
 export const PURCHASES_AVAILABLE = Platform.OS === "ios" || (Platform.OS === "android" && ANDROID_SATIS);
@@ -124,6 +124,29 @@ export async function buyConsumable(productId: string): Promise<BuyResult> {
     const p = creditProducts.find(x => x.identifier === productId);
     if (!p) return { ok: false, error: "Ürün bulunamadı. Biraz sonra yeniden deneyin." };
     await Purchases.purchaseStoreProduct(p);
+    return { ok: true };
+  } catch (e) { return cancelled(e) ? { ok: false, cancelled: true } : { ok: false, error: errText(e) }; }
+}
+
+/** Celse Avukat paketi (abonelik): mağaza ürünleri doğrudan istenir (Pro teklifinden ayrı). Paket, ödeme bildirimiyle sunucuda açılır. */
+let avukatProducts: PurchasesStoreProduct[] = [];
+export async function getAvukatPlans(): Promise<AvukatPlan[]> {
+  if (!setup()) return [];
+  try {
+    avukatProducts = await Purchases.getProducts([PRODUCTS.avukatAylik, PRODUCTS.avukatYillik], PRODUCT_CATEGORY.SUBSCRIPTION);
+  } catch { return []; }
+  const kind = (id: string): PlanKind => (id.split(":")[0] === PRODUCTS.avukatYillik ? "yillik" : "aylik");
+  return avukatProducts.map(p => ({ kind: kind(p.identifier), productId: p.identifier, price: p.priceString })).sort(a => (a.kind === "aylik" ? -1 : 1));
+}
+export async function buyAvukat(productId: string): Promise<BuyResult> {
+  const why = await ready();
+  if (why) return { ok: false, error: why };
+  try {
+    if (!avukatProducts.some(p => p.identifier === productId)) await getAvukatPlans();
+    const p = avukatProducts.find(x => x.identifier === productId);
+    if (!p) return { ok: false, error: "Ürün bulunamadı. Biraz sonra yeniden deneyin." };
+    const r = await Purchases.purchaseStoreProduct(p);
+    apply(r.customerInfo);
     return { ok: true };
   } catch (e) { return cancelled(e) ? { ok: false, cancelled: true } : { ok: false, error: errText(e) }; }
 }

@@ -38,6 +38,8 @@ export const CREDIT_PACKS: Record<string, number> = { [PRODUCTS.derdini1]: 1, [P
 export type PlanKind = "aylik" | "yillik";
 /** Paywall'da gösterilen plan: fiyat metni mağazanın yerel biçimindedir (ör. "₺149,99"). */
 export interface PlanInfo { kind: PlanKind; price: string; productId: string; /** sayısal fiyat ve para birimi (aylık karşılık ve avantaj hesabı için) */ amount: number; currency: string }
+/** Celse Avukat paketi planı (mağaza fiyatıyla). */
+export interface AvukatPlan { kind: PlanKind; productId: string; price: string }
 export interface CreditInfo { productId: string; price: string; credits: number }
 export interface ProState { active: boolean; until: Date | null; willRenew: boolean; productId?: string }
 export interface BuyResult { ok: boolean; cancelled?: boolean; error?: string }

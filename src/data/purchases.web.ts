@@ -1,6 +1,6 @@
 // Web: mağaza yok, RevenueCat yüklenmez. Pro telefonda alınır; web'de hesaba girince "abonelikler" tablosundan açılır
 // (bkz. subscription.ts). Bu dosya purchases.ts ile aynı dışa aktarımları verir.
-import { BuyResult, CreditInfo, PlanInfo, PlanKind, ProState } from "./purchaseIds";
+import { AvukatPlan, BuyResult, CreditInfo, PlanInfo, PlanKind, ProState } from "./purchaseIds";
 
 export const PURCHASES_AVAILABLE = false;
 const none: ProState = { active: false, until: null, willRenew: false };
@@ -15,3 +15,5 @@ export const buyPlan = async (_k: PlanKind): Promise<BuyResult> => NA;
 export const getCreditProducts = async (): Promise<CreditInfo[]> => [];
 export const buyConsumable = async (_id: string): Promise<BuyResult> => NA;
 export const restorePurchases = async (): Promise<BuyResult> => NA;
+export const getAvukatPlans = async (): Promise<AvukatPlan[]> => [];
+export const buyAvukat = async (_id: string): Promise<BuyResult> => NA;
