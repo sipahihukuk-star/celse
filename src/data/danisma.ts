@@ -93,6 +93,7 @@ const HATA: Record<string, string> = {
   "maskelenmemiş veri": "Metinde maskelenmemiş kişisel veri kaldı (kimlik no, IBAN, e-posta ya da telefon). Onay ekranında bu ifadeyi ayrıca gizleyin.",
   "istek çok uzun": "Evrak çok uzun. Daha az sayfa seçin.",
   "avukat paketi yok": "Evrakla duruşma provası Celse Avukat paketiyle kullanılır.",
+  "bilet": "Derleme süresi doldu; dosyayı yeniden derleyin.",
   "avukat kredisi yok": "Bu ayki Celse Avukat krediniz bitti; yeni dönemde yenilenir."
 };
 

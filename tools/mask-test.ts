@@ -4,7 +4,8 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { zipSync, strToU8 } from "fflate";
 import { mask, unmask, leaks, tcknGecerli, geriKodla } from "../src/engine/mask";
-import { evrakMetni } from "../src/engine/mask/readers";
+import { evrakMetni, zipIcerigi } from "../src/engine/mask/readers";
+import { derlemeKredisi, derlenmisMetin, evrakBol, kartlariBirlestir, partiler } from "../src/engine/mask/derleme";
 
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("  ✗ " + m); } };
@@ -80,12 +81,41 @@ ok(!r2.masked.includes("Binbaşı"), "extra: gizlenmeli");
 // Okuyucular: UDF (content.xml CDATA) ve DOCX (word/document.xml).
 const udf = zipSync({ "content.xml": strToU8(`<?xml version="1.0" encoding="UTF-8"?><template><content><![CDATA[DAVACI : Kemal YAZICI\nAçıklama]]></content><properties/></template>`) });
 ok(evrakMetni("dilekce.udf", udf).startsWith("DAVACI : Kemal YAZICI"), "UDF okuyucu");
+const zip = zipSync({ "dosya/1.udf": udf, "dosya/__MACOSX/x": strToU8("x"), "ic.zip": zipSync({ "2.txt": strToU8("DAVACI : Kemal YAZICI") }), "not.exe": strToU8("x") });
+ok(zipIcerigi(zip).map(x => x.ad).join(",") === "2.txt,1.udf" || zipIcerigi(zip).map(x => x.ad).sort().join(",") === "1.udf,2.txt", "ZIP içeriği (iç içe ZIP dahil, desteklenmeyenler atlanır)");
 const docx = zipSync({ "word/document.xml": strToU8(`<w:document><w:body><w:p><w:r><w:t>DAVACI :</w:t></w:r><w:r><w:t xml:space="preserve"> Kemal &amp; YAZICI</w:t></w:r></w:p><w:p><w:r><w:t>İkinci</w:t></w:r></w:p></w:body></w:document>`) });
 ok(evrakMetni("dilekce.docx", docx) === "DAVACI : Kemal & YAZICI\nİkinci", "DOCX okuyucu");
 
 // Eski Word (.doc): uydurma bir dilekçenin Word 97-2003 hâli (tools/fixtures; gerçek kişi yok).
 const doc = evrakMetni("dilekce.doc", new Uint8Array(readFileSync(join(process.cwd(), "tools/fixtures/uydurma-dilekce.doc"))));
 ok(doc.includes("DAVACI : Selin KARAKAYA") && doc.includes("Şükür, ğüşıöç ĞÜŞİÖÇ"), "DOC okuyucu (Türkçe harfler dahil)");
+
+// Büyük dosya derleme: bölme, partiler, kart birleştirme, ayıklama ve sıralama, bütçe.
+{
+  const parcalar: string[] = [];
+  for (let i = 1; i <= 40; i++) parcalar.push(`=== Evrak ${i}: belge ${i} ===\n` + (i === 7 ? "Bilirkişi raporu metni.\n".repeat(20000) : `Evrak ${i} metni [DAVACI] hakkında.`));
+  const ev = evrakBol(parcalar.join("\n\n"));
+  ok(ev.length === 40 && ev[6].no === 7, "evrakBol 40 evrak");
+  const ps = partiler(ev);
+  ok(ps.every(p => p.reduce((a, x) => a + x.metin.length, 0) <= 180000 && p.length <= 25), "partiler sınır içinde");
+  ok(ps.flat().filter(x => x.no === 7).length >= 3, "büyük evrak parçalara bölünür");
+  const gelen = [
+    { no: 1, tur: "Dava dilekçesi", tarih: "[Ocak 2024]", onem: 3, ozet: "Dava açıldı.", kilit: ["işe iade"] },
+    { no: 2, tur: "Tebligat", tarih: "[Şubat 2024]", onem: 0, ozet: "Tebliğ." },
+    { no: 7, tur: "Bilirkişi raporu", tarih: "[Mart 2025]", onem: 2, ozet: "Bölüm 1." },
+    { no: 7, tur: "Bilirkişi raporu", tarih: "", onem: 3, ozet: "Bölüm 2." },
+    { no: 99, tur: "Uydurma", onem: 3, ozet: "yok" }
+  ];
+  const kartlar = kartlariBirlestir(ev, gelen);
+  ok(kartlar.length === 40, "her evraka bir kart (eksikler tamamlanır, uydurma no atlanır)");
+  ok(kartlar.find(k => k.no === 7)!.onem === 3 && kartlar.find(k => k.no === 7)!.ozet.includes("Bölüm 2"), "parça kartları birleşir");
+  const dm = derlenmisMetin(ev, kartlar, new Set([3]));
+  ok(!dm.includes("Tebliğ.") && /1 evrak .*çıkarıldı/.test(dm), "gereksiz evrak ayıklanır");
+  ok(dm.indexOf("### Evrak 1 · Dava dilekçesi") < dm.indexOf("### Evrak 3"), "önem sırası");
+  ok(dm.includes("Evrak 3 · Evrak · TAM METİN"), "★ işaretli evrakın tam metni eklenir");
+  ok(dm.length <= 200000, "derlenmiş dosya bütçe içinde");
+  ok(derlemeKredisi(10) === 1 && derlemeKredisi(1500001) === 3, "derleme kredisi hacme göre");
+}
 
 if (fail) { console.log("\nMASKELENMİŞ:\n" + r.masked + "\n"); console.log(r.entities); console.log(`mask-test: ${fail} hata`); process.exit(1); }
 console.log(`mask-test: tamam (${r.entities.length} kod)`);

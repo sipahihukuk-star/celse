@@ -2,6 +2,7 @@
 // (danisma fonksiyonu, evrak işlemi; hiçbir şey kaydedilmez). Gelen hazırlık notları cihazda gerçek değerlere geri çevrilir.
 import { call } from "./danisma";
 import { unmask } from "../engine/mask";
+import type { DerlemeKarti, PartiEvrak } from "../engine/mask/derleme";
 import type { Senaryo } from "./danisma";
 import type { CaseFile } from "../engine/types";
 import { dosyaAc, senaryoAc } from "./evrakAc";
@@ -12,7 +13,8 @@ export interface Prova {
   ozet: string; uyusmazlik: string[]; hakimSorulari: { soru: string; cevap: string }[]; karsiArgumanlar: { arguman: string; cevap: string }[];
   zayif: string[]; eksik: string[]; sureler: string[]; sozlu: string; uyari?: string;
 }
-export const EVRAK_AZAMI = 120000;
+/** Yükleme üst sınırı yalnız tarayıcı belleği için (yaklaşık 20.000 sayfa); büyük dosya derlenerek gönderilir (src/engine/mask/derleme.ts). */
+export const EVRAK_AZAMI = 60000000;
 
 export const evrakProva = (metin: string, taraf: "davaci" | "davali", asama: string) =>
   call<Prova & { avukatKalan?: number }>("evrak", { metin, taraf, asama, kabul: true }, 240000);
@@ -51,11 +53,19 @@ export const evrakIzle = (metin: string, taraf: "davaci" | "davali", asama: stri
 export const evrakOyna = (metin: string, taraf: "davaci" | "davali", asama: string) =>
   call<{ dosya: unknown; avukatKalan?: number }>("evrak_oyna", { metin, taraf, asama, kabul: true }, 300000);
 
+/** Büyük dosya: hacme göre kredi düşer ve 6 saat geçerli bilet döner (yöneticiye ve deneme izinlisine ücretsiz). */
+export const evrakBiletAl = (toplam: number) => call<{ bilet: string; avukatKalan?: number | null }>("evrak_bilet", { toplam }, 30000);
+/** Bir partideki evrakların kartları (tür, tarih, önem, özet, kilit noktalar). */
+export const evrakDerle = (bilet: string, evraklar: PartiEvrak[]) =>
+  call<{ kartlar: Partial<DerlemeKarti>[] }>("evrak_derle", { bilet, evraklar }, 150000);
+
 /** Evrak oturumu: ekran oyuna geçip geri dönünce kaybolmasın diye bellekte tutulur (cihazda; sunucuya gitmez).
  *  "Oturumu temizle" ya da uygulamanın kapanması siler. Oturum varken giden metinler yeniden kodlanır (mask/oturum.ts). */
 export interface EvrakOturum {
   evraklar: { ad: string; metin: string }[]; yapistir: string; taraf: "davaci" | "davali"; asama: string; allow: string[]; extra: string[];
   map: Record<string, string>; prova?: { kodlu: Prova; acik: Prova }; senaryo?: Senaryo; dosya?: CaseFile;
+  /** Büyük dosya derlemesi: bilet (6 saat; yeniden denemede kredi düşmez), evrak kartları ve tam metni istenen evraklar. */
+  derleme?: { bilet?: string; kartlar?: DerlemeKarti[]; onemliler: number[] };
 }
 let oturum: EvrakOturum | null = null;
 export const evrakOturumu = () => oturum;

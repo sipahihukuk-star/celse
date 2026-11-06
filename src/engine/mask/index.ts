@@ -116,7 +116,7 @@ export function mask(text: string, opts: MaskOptions = {}): MaskResult {
       const kind: Kind = SIRKET.test(nm) ? "sirket" : "taraf";
       const label = kind === "sirket" ? "ŞİRKET" : roleName;
       const code = codeFor(kind, label, nm, names.length > 1);
-      people.push({ value: nm, code });
+      if (!people.some(x => x.value === nm)) people.push({ value: nm, code }); // aynı kişi her evrakta yeniden yazılabilir
       out = out.replace(nm, code);
     }
     return out;

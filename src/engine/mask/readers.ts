@@ -3,7 +3,7 @@
 import { unzipSync, strFromU8 } from "fflate";
 import * as CFB from "cfb";
 
-export type EvrakTuru = "udf" | "docx" | "doc" | "txt" | "pdf" | "tif" | "resim";
+export type EvrakTuru = "udf" | "docx" | "doc" | "txt" | "pdf" | "tif" | "resim" | "zip";
 
 const decodeXml = (s: string) => s
   .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, "\"").replace(/&apos;/g, "'")
@@ -19,6 +19,7 @@ export function turBul(ad: string): EvrakTuru | null {
   if (e === "pdf") return "pdf";
   if (e === "tif" || e === "tiff") return "tif";
   if (e === "jpg" || e === "jpeg" || e === "png") return "resim";
+  if (e === "zip") return "zip";
   return null;
 }
 
@@ -91,6 +92,20 @@ export function docMetni(bytes: Uint8Array): string {
   out = out.replace(/\u0013[^\u0013\u0014\u0015]*\u0014([^\u0013\u0015]*)\u0015/g, "$1").replace(/\u0013[^\u0015]*\u0015/g, "");
   return out.replace(/\r/g, "\n").replace(/[\u0007]/g, "\t").replace(/[\u000b\u000c]/g, "\n")
     .replace(/[\u0000-\u0008\u000e-\u001f]/g, "").replace(/\n{3,}/g, "\n\n").trim();
+}
+
+/** ZIP (UYAP'tan toplu inen dosya gibi): içindeki evraklar ad ve baytlarıyla; klasörler ve sistem dosyaları atlanır. İç içe ZIP de açılır. */
+export function zipIcerigi(bytes: Uint8Array, derinlik = 0): { ad: string; bytes: Uint8Array }[] {
+  const files = unzipSync(bytes);
+  const out: { ad: string; bytes: Uint8Array }[] = [];
+  for (const yol of Object.keys(files).sort()) {
+    const ad = yol.split("/").pop() || yol;
+    if (!ad || yol.endsWith("/") || yol.startsWith("__MACOSX") || ad.startsWith(".")) continue;
+    const tur = turBul(ad);
+    if (tur === "zip") { if (derinlik < 2) out.push(...zipIcerigi(files[yol], derinlik + 1)); continue; }
+    if (tur) out.push({ ad, bytes: files[yol] });
+  }
+  return out;
 }
 
 export function evrakMetni(ad: string, bytes: Uint8Array): string {
