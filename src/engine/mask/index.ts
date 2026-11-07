@@ -177,7 +177,8 @@ export function mask(text: string, opts: MaskOptions = {}): MaskResult {
   put(/((?:DETSİS|UETS|KEP|MERSİS|Sicil|Başvuru|Dosya|Kayıt|Abone|Müşteri|Poliçe|Hesap|Protokol|Tutanak|Seri|Pasaport|sicil|başvuru|dosya|kayıt|abone|müşteri|poliçe|hesap|protokol|tutanak|seri|pasaport)\s?(?:No|no|Numarası|numarası|Nosu|nosu)?\s*[:.]?\s*)([A-Z0-9][\w\-/.]{3,30})(?=[\s,;)]|$)/g,
     (_m, a, n) => (/\d/.test(n) ? (() => { const c = codeFor("numara", "NO", n.trim()); count(c); return a + c; })() : null));
   put(/\b(\d{3,})(\s(?:yevmiye|Yevmiye|sıra|Sıra))/g, (_m, n, rest) => { const c = codeFor("numara", "NO", n); count(c); return c + rest; });
-  put(/(?<![\d.,])\d{7,}(?![\d.,])/g, m => { const c = codeFor("numara", "NO", m); count(c); return c; });
+  // Cümle sonundaki nokta ya da virgül sayıyı korumaz ("… 12345678901."); yalnız ondalık/binlik parçası olan sayılar (1.234.567,89) kalır.
+  put(/(?<!\d[.,]?)\d{7,}(?![.,]?\d)/g, m => { const c = codeFor("numara", "NO", m); count(c); return c; });
 
   // 4) Esas, karar, soruşturma numaraları (korunan emsaller dışında).
   put(/\b(?:19|20)\d{2}\s?\/\s?\d{1,7}(?:\s?(?:E\.|K\.|Esas|Karar|D\.\s?İş|Talimat|Soruşturma|Hz\.|Değişik İş|Müt\.))?/g, m => { const c = codeFor("dosya", "ESAS", m); count(c); return c; });

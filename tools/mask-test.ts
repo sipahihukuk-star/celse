@@ -117,5 +117,12 @@ ok(doc.includes("DAVACI : Selin KARAKAYA") && doc.includes("Şükür, ğüşıö
   ok(derlemeKredisi(10) === 1 && derlemeKredisi(1500001) === 3, "derleme kredisi hacme göre");
 }
 
+// Cümle sonundaki noktalı ya da virgüllü uzun sayı da gizlenir; para tutarları kalır.
+{
+  const m = mask("Kimlik no 12345678901. Kayıt 98765432109, tutar 1.234.567,89 TL ve 12345678901,50 TL.").masked;
+  ok(!/12345678901\.|98765432109/.test(m), "noktalı/virgüllü 11 haneli sayı gizlendi");
+  ok(m.includes("1.234.567,89") && m.includes("12345678901,50"), "para tutarları korundu");
+}
+
 if (fail) { console.log("\nMASKELENMİŞ:\n" + r.masked + "\n"); console.log(r.entities); console.log(`mask-test: ${fail} hata`); process.exit(1); }
 console.log(`mask-test: tamam (${r.entities.length} kod)`);
