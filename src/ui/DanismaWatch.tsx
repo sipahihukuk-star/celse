@@ -119,8 +119,10 @@ export default function DanismaWatch({ s, d, onClose, basla }: Props) {
         )}
       </View>
 
-      <View style={[st.panel, wide ? { flex: 0.85 } : { flexShrink: 1, maxHeight: "50%" }]}>
-        <ScrollView style={{ flexGrow: 0 }} contentContainerStyle={st.panelIn}>
+      {/* Telefonda konuşma kutusunun boyu sabittir: yazı harf harf uzadıkça kutu büyüyüp sahneyi yukarı itmesin (ekran kayıyordu).
+          Uzun satır kutunun içinde kayar. */}
+      <View style={[st.panel, wide ? { flex: 0.85 } : { height: 250, maxHeight: "48%", flexShrink: 0 }]}>
+        <ScrollView style={{ flexGrow: 0, flexShrink: 1 }} contentContainerStyle={st.panelIn}>
           {line ? (
             <Pressable onPress={tap} accessibilityRole="button" accessibilityLabel={t("İleri")}>
               <View style={st.np}><View style={[st.dot, { backgroundColor: dotOf(line.kim) }]} /><Text style={st.npT}>{kimAdi(line.kim, s)}</Text></View>
