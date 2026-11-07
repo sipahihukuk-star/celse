@@ -217,6 +217,8 @@ function DanismaHome({ wide, admin: yonetici, onDanisma, onGame, footer }: { wid
   const prem = usePremium();
   const satis = useSettings().avukatSatis;
   const admin = yonetici || prem.evrak || !!prem.avukat?.aktif || satis;
+  // Kilitliyken karta basınca hiçbir şey olmuyordu ("butona basılmıyor"); artık neden kapalı olduğu yazar.
+  const [kilit, setKilit] = useState(false);
   return (
     <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, { gap: 12 }]}>
       <View style={{ gap: 6, width: "100%", maxWidth: 720, alignSelf: "center" }}>
@@ -237,7 +239,7 @@ function DanismaHome({ wide, admin: yonetici, onDanisma, onGame, footer }: { wid
         </Pressable>
       )}
       {!!onDanisma && (
-        <Pressable accessibilityRole="button" disabled={!admin} onPress={() => onDanisma(true)} style={({ pressed }) => [styles.homeCard, styles.homeCardPro, pressed && { opacity: 0.85 }]}>
+        <Pressable accessibilityRole="button" onPress={() => (admin ? onDanisma(true) : setKilit(k => !k))} style={({ pressed }) => [styles.homeCard, styles.homeCardPro, pressed && { opacity: 0.85 }]}>
           <IconBadge name="folder" size={48} />
           <View style={{ flex: 1, gap: 4 }}>
             <Text style={styles.careerKDark}>{admin ? t("AVUKATLAR İÇİN · CELSE AVUKAT") : t("AVUKATLAR İÇİN · YAKINDA")}</Text>
@@ -246,6 +248,11 @@ function DanismaHome({ wide, admin: yonetici, onDanisma, onGame, footer }: { wid
           </View>
           {admin && <Text style={styles.careerGoDark}>›</Text>}
         </Pressable>
+      )}
+      {!!onDanisma && !admin && kilit && (
+        <View style={styles.kilitNot}>
+          <Text style={styles.webNote}>{t("Evrakla duruşma provası şimdilik yalnız davet edilen avukatlara açık. Davet edildiyseniz aynı hesapla giriş yapıp uygulamayı kapatıp yeniden açın. Celse Avukat paketi satışa çıkınca herkese açılacak.")}</Text>
+        </View>
       )}
       <Pressable accessibilityRole="button" onPress={onGame} hitSlop={8} style={({ pressed }) => [styles.swipeHint, pressed && { opacity: 0.7 }]}>
         <Text style={styles.guestLinkT}>{wide ? t("Kariyer ve avukatlık oyunu ›") : t("Kariyer ve avukatlık oyunu için sola kaydırın ›")}</Text>
@@ -549,6 +556,7 @@ const styles = StyleSheet.create({
   pillT: { fontFamily: F.bodyMed, fontSize: 14, color: C.text },
   pillTOn: { color: C.brassInk, fontFamily: F.bodyBold },
   homeCard: { flexDirection: "row", alignItems: "center", gap: 14, borderWidth: 1, borderColor: C.brassDim, borderRadius: 14, paddingVertical: 16, paddingHorizontal: 16, backgroundColor: C.panel2, width: "100%", maxWidth: 720, alignSelf: "center" },
+  kilitNot: { width: "100%", maxWidth: 720, alignSelf: "center", borderWidth: 1, borderColor: C.line, borderRadius: 12, padding: 14, marginTop: -4 },
   homeCardPro: { borderColor: C.line, backgroundColor: C.panel },
   homeIcon: { fontSize: 32 },
   homeT: { fontFamily: F.display, fontSize: 21, color: C.text },
