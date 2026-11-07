@@ -66,6 +66,8 @@ export interface EvrakOturum {
   map: Record<string, string>; prova?: { kodlu: Prova; acik: Prova }; senaryo?: Senaryo; dosya?: CaseFile;
   /** Büyük dosya derlemesi: bilet (6 saat; yeniden denemede kredi düşmez), evrak kartları ve tam metni istenen evraklar. */
   derleme?: { bilet?: string; kartlar?: DerlemeKarti[]; onemliler: number[] };
+  /** Bu cihazdaki "Önceki hazırlıklarım" kaydı: kimliği ve (evrak yeniden yüklenmeden açıldıysa) kodların karşılıkları. */
+  arsivId?: string; arsivMap?: Record<string, string>;
 }
 let oturum: EvrakOturum | null = null;
 export const evrakOturumu = () => oturum;
