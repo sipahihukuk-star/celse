@@ -17,6 +17,7 @@ import { StatsPanel } from "./StatsPanel";
 import { MessagesPanel, ReportsPanel } from "./InboxPanels";
 import CaseEditor from "./CaseEditor";
 import { Field, Row, Section, Seg, SmallBtn } from "./form";
+import { VisualAuditPanel } from "./VisualAuditPanel";
 import { blankCase, CourtPreset, PRESETS } from "./presets";
 import { clearPin, getPin, resetAdminCache, serverAdmin, setPin, Status, store, StoredCase } from "./store";
 import { onAccountChange } from "../data/account";
@@ -88,7 +89,7 @@ function AdminHome({ onExit, onPreview }: Props) {
   const [modeF, setModeF] = useState<"hepsi" | "solo" | "duel">("hepsi");
   const [statusF, setStatusF] = useState<"hepsi" | "yayinda" | "taslak" | "yerlesik">("hepsi");
   const [confirmDel, setConfirmDel] = useState<string | null>(null);
-  const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri" | "ayarlar" | "istatistik" | "mesajlar" | "hatalar" | "ornek">("");
+  const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri" | "ayarlar" | "istatistik" | "mesajlar" | "hatalar" | "ornek" | "gorsel">("");
   const [isServerAdmin, setServerAdmin] = useState<boolean | null>(null);
   const reload = () => store.list().then(setStored);
   // Tarayıcının geri düğmesi / Android geri tuşu: önce açık olan alt sayfayı kapatır (düzenleyici, panel, yeni dava, içe aktarma).
@@ -174,6 +175,7 @@ function AdminHome({ onExit, onPreview }: Props) {
           <SmallBtn label="👤 Oyuncular" tone={ai === "oyuncular" ? "accent" : "plain"} onPress={() => setAi(ai === "oyuncular" ? "" : "oyuncular")} />
           <SmallBtn label="⚙️ Oyun ayarları" tone={ai === "ayarlar" ? "accent" : "plain"} onPress={() => setAi(ai === "ayarlar" ? "" : "ayarlar")} />
           <SmallBtn label="🌐 Çeviriler" tone={ai === "ceviri" ? "accent" : "plain"} onPress={() => setAi(ai === "ceviri" ? "" : "ceviri")} />
+          <SmallBtn label="🎭 Görsel denetim" tone={ai === "gorsel" ? "accent" : "plain"} onPress={() => setAi(ai === "gorsel" ? "" : "gorsel")} />
           <SmallBtn label="🔍 Yapay zekâ denetimi" tone={ai === "denetim" ? "accent" : "plain"} onPress={() => setAi(ai === "denetim" ? "" : "denetim")} />
           <SmallBtn label="✨ Yapay zekâ ile üret" tone={ai === "uretim" ? "accent" : "plain"} onPress={() => setAi(ai === "uretim" ? "" : "uretim")} />
           <SmallBtn label="JSON içe aktar" onPress={() => setImporting(!importing)} />
@@ -195,6 +197,8 @@ function AdminHome({ onExit, onPreview }: Props) {
       {ai === "oyuncular" && <PlayersPanel onClose={() => setAi("")} />}
       {ai === "ayarlar" && <SettingsPanel onClose={() => setAi("")} />}
       {ai === "ceviri" && <TranslatePanel cases={entries.map(e => e.c)} onClose={() => setAi("")} />}
+      {ai === "gorsel" && <VisualAuditPanel cases={entries.map(e => e.c)} onClose={() => setAi("")}
+        onOpenCase={id => { const e = entries.find(x => x.c.id === id); if (e) setEditing({ c: e.c, status: e.status, isNew: false }); }} />}
       {ai === "denetim" && <AuditPanel entries={entries} onSaved={reload} onPreview={onPreview} onClose={() => setAi("")} />}
       {ai === "uretim" && <GeneratePanel takenIds={takenIds} onSaved={reload} onPreview={onPreview} onClose={() => setAi("")}
         onEdit={c => { setAi(""); setEditing({ c, status: "taslak", isNew: false }); }} />}
