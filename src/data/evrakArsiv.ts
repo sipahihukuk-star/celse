@@ -1,19 +1,21 @@
 // "Önceki hazırlıklarım": evrakla duruşma provasının sonuçları (hazırlık notları, canlandırma, oynanabilir dosya) yalnız BU CİHAZDA
 // saklanır; sunucuya gitmez. Evrakın kendisi saklanmaz, yalnız sonuçlar ve kodların karşılıkları (sonuçta gerçek adlar görünsün diye).
-// En çok 10 kayıt, 30 gün; avukat her kaydı ya da hepsini silebilir. Ekrandan yanlışlıkla çıkan avukat sonucu kaybetmesin diye eklendi.
+// En çok 10 kayıt, 7 gün; avukat "Provayı bitir"de çıktıyı indirip siler ya da kayıt 7 gün sonra kendiliğinden silinir.
+// Ekrandan yanlışlıkla çıkan avukat sonucu kaybetmesin diye vardır.
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { CaseFile } from "../engine/types";
 import type { Senaryo } from "./danisma";
-import type { Prova } from "./evrak";
+import type { OynananProva, Prova } from "./evrak";
 
 export interface ArsivKayit {
   id: string; tarih: string; baslik: string; taraf: "davaci" | "davali"; asama: string;
   map: Record<string, string>; prova?: { kodlu: Prova; acik: Prova }; senaryo?: Senaryo; dosya?: CaseFile;
+  paket?: string; oynanan?: OynananProva;
 }
 
 const KEY = "celse-evrak-arsiv";
 const AZAMI = 10;
-const OMUR = 30 * 24 * 3600 * 1000;
+const OMUR = 7 * 24 * 3600 * 1000;
 
 async function oku(): Promise<ArsivKayit[]> {
   try {
@@ -37,6 +39,15 @@ export const arsivListesi = () => oku();
 export async function arsivKaydet(k: ArsivKayit) {
   const xs = (await oku()).filter(x => x.id !== k.id);
   await yaz([k, ...xs].slice(0, AZAMI));
+}
+
+/** Var olan kaydın bazı alanlarını günceller (ör. arka planda gelen hazırlık notları, oynanan provanın dökümü). */
+export async function arsivGuncelle(id: string, ek: Partial<ArsivKayit>) {
+  const xs = await oku();
+  const i = xs.findIndex(x => x.id === id);
+  if (i < 0) return;
+  xs[i] = { ...xs[i], ...ek };
+  await yaz(xs);
 }
 
 export async function arsivSil(id: string) { await yaz((await oku()).filter(x => x.id !== id)); }
