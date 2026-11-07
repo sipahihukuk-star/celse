@@ -93,6 +93,15 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
   const [dosya, setDosya] = useState<CaseFile | null>(o?.dosya || null);
   const [izle, setIzle] = useState(false);
   const [mesgul, setMesgul] = useState<"" | "prova" | "izle" | "oyna">("");
+  // Uzun işlerde geçen süre ekranda sayılır: avukat işin sürdüğünü görür, takılıp takılmadığını anlar.
+  const [gecen, setGecen] = useState(0);
+  useEffect(() => {
+    if (!mesgul) { setGecen(0); return; }
+    const t0 = Date.now();
+    const id = setInterval(() => setGecen(Math.floor((Date.now() - t0) / 1000)), 1000);
+    return () => clearInterval(id);
+  }, [mesgul]);
+  const sure = `${Math.floor(gecen / 60)}:${String(gecen % 60).padStart(2, "0")}`;
   const [ek, setEk] = useState("");
   const [okudum, setOkudum] = useState(!!o);
   const [tamami, setTamami] = useState(false);
@@ -335,7 +344,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
           {!ucretsiz && !prova && <Text style={s.cost}>{t("{n} kredi", { n: EVRAK_KREDI.evrak })}</Text>}
         </Pressable>
       </View>
-      {!!mesgul && <Text style={s.hint}>{t("Evrakın uzunluğuna göre bir-üç dakika sürebilir; ekranı açık tutun.")}</Text>}
+      {!!mesgul && <Text style={s.hint}>{t("Geçen süre {s}. Evrakın uzunluğuna göre bir-dört dakika sürebilir. Ekranı açık ve bu sayfayı önde tutun; telefon kilitlenir ya da başka uygulamaya geçerseniz sonuç kaybolabilir.", { s: sure })}</Text>}
       {!!err && <Text style={s.err}>{err}</Text>}
       {arsivdenAcik && <Text style={s.hint}>{t("Bu hazırlık bu cihazdaki kayıttan açıldı. Kayıtlı olanlar kredi düşmeden açılır; yeni bir işlem için evrakı yeniden yükleyin.")}</Text>}
       {!hazir && !mesgul && !arsivdenAcik && <Text style={s.hint}>{risk.length ? t("Önce metinde kalan kişisel veriyi gizleyin.") : !okudum ? t("Önce gönderilecek metni denetleyip onay kutusunu işaretleyin.") : t("Önce dosyayı derleyin.")}</Text>}
