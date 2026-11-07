@@ -45,12 +45,24 @@ function dosyaSec(): Promise<{ ad: string; bytes: Uint8Array }[]> {
 }
 
 /** Maskelenmiş metinde hâlâ kişisel veri izi: geçerli kimlik no, IBAN, e-posta, cep telefonu, uzun sayılar (sunucu da denetler). */
+const RISK: [RegExp, string][] = [
+  [/(?<!\d[.,]?)[1-9]\d{10}(?![.,]?\d)/g, "11 haneli sayı"],
+  [/\bTR\s?\d{2}(?:\s?\d{4}){5}/gi, "IBAN"],
+  [/[\w.+-]+@[\w-]+\.[\w.]+/g, "e-posta"],
+  [/(?<!\d)(?:\+90|0)?\s?\(?5\d{2}\)?\s?\d{3}\s?\d{2}\s?\d{2}(?!\d)/g, "telefon"]
+];
 function riskler(s: string): string[] {
-  const out: string[] = [];
-  if (/(^|\D)[1-9]\d{10}(?!\d)/.test(s)) out.push(t("11 haneli sayı"));
-  if (/\bTR\s?\d{2}(?:\s?\d{4}){5}/i.test(s)) out.push("IBAN");
-  if (/[\w.+-]+@[\w-]+\.[\w.]+/.test(s)) out.push(t("e-posta"));
-  if (/(^|\D)(?:\+90|0)?\s?\(?5\d{2}\)?\s?\d{3}\s?\d{2}\s?\d{2}(?!\d)/.test(s)) out.push(t("telefon"));
+  return RISK.filter(([re]) => { re.lastIndex = 0; return re.test(s); }).map(([, ad]) => t(ad));
+}
+/** Kalan kişisel veri izlerinin kendisi (gizlenmek üzere) ve çevresindeki metin (avukat neyin gizlendiğini görsün diye). */
+function riskBul(s: string): { deger: string; cevre: string }[] {
+  const out: { deger: string; cevre: string }[] = [];
+  for (const [re] of RISK) for (const m of s.matchAll(re)) {
+    const deger = m[0].trim();
+    if (!deger || out.some(x => x.deger === deger)) continue;
+    const i = m.index || 0;
+    out.push({ deger, cevre: s.slice(Math.max(0, i - 40), i + m[0].length + 40).replace(/\s+/g, " ") });
+  }
   return out;
 }
 
@@ -466,6 +478,16 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
               <Pressable onPress={() => setTamami(x => !x)}><Text style={s.link}>{tamami ? t("Kısalt") : t("Tamamını göster ({n} karakter)", { n: sonuc.masked.length.toLocaleString("tr-TR") })}</Text></Pressable>
             )}
             {risk.length > 0 && <Text style={s.err}>{t("Dikkat: metinde hâlâ {x} görünüyor. Gizlemeden gönderilemez.", { x: risk.join(", ") })}</Text>}
+            {risk.length > 0 && sonuc && (() => {
+              const bulunan = riskBul(sonuc.masked);
+              return (
+                <View style={{ gap: 6 }}>
+                  {bulunan.slice(0, 6).map((x, i) => <Text key={i} style={s.hint}>… {x.cevre} …</Text>)}
+                  {bulunan.length > 6 && <Text style={s.hint}>{t("ve {n} tane daha", { n: bulunan.length - 6 })}</Text>}
+                  <View style={s.row}><Btn kind="secondary" label={t("Bunların hepsini gizle ({n})", { n: bulunan.length })} onPress={() => setExtra(e => [...e, ...bulunan.map(x => x.deger).filter(d => !e.includes(d))])} /></View>
+                </View>
+              );
+            })()}
             <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: okudum }} onPress={() => setOkudum(x => !x)} style={s.check}>
               <View style={[s.box, okudum && s.boxOn]}>{okudum && <Text style={s.tick}>✓</Text>}</View>
               <Text style={s.checkT}>{t("Gönderilecek metni denetledim; kişisel veri kalmadı. Hazırlık notlarının yapay zekâ ürünü olduğunu, hata yapabileceğini ve son değerlendirmenin bana ait olduğunu biliyorum.")}</Text>
