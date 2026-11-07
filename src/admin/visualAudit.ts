@@ -3,14 +3,16 @@
 //  2) Karşılıklı davada büroda yalnız sırası gelen tarafın avukatı görünür (karşı vekil müvekkil görüşmesine girmez).
 //  3) Metinde yaşı yazmayan, saçı kır olmayan sivil kişiye yaşlı yüz (kır saçlı 62, başörtülü 72) düşmez.
 //  4) Görüşmelerde son soruda da seçim kalır (tek şıklı soru olmaz).
+//  5) Dosyada ve kanun yolu aşamalarında (istinaf, cevap, temyiz) hiçbir şık yarıda kesilip "…" ile bitmez.
 // Yönetim panelindeki "Görsel denetim" düğmesi ve tools/faces-test.ts aynı denetimi kullanır.
+import { allStages } from "../engine/appeal";
 import { applyChoice, choicesOf, createGame, findNextStep, normalizeCase, validateCase } from "../engine/engine";
 import { CaseFile } from "../engine/types";
 import { castFaces, faceAge, isOld } from "../ui/castFaces";
 import { castHints } from "../ui/castText";
 import { stageLayout } from "../ui/stageLayout";
 
-export interface VisualIssue { tur: "yuz" | "sahne" | "yas" | "gorusme"; yer: string; sorun: string; oneri: string }
+export interface VisualIssue { tur: "yuz" | "sahne" | "yas" | "gorusme" | "sik"; yer: string; sorun: string; oneri: string }
 
 const AV = "av-erkek-58" as const;
 
@@ -58,6 +60,15 @@ export function visualAudit(raw: CaseFile): VisualIssue[] {
       }
       g = applyChoice(c, g, i, ch.findIndex(x => !x.finish), "A");
     }
+  });
+  // 5: yarıda kesilmiş şık (dosyanın kendisinde ve otomatik kurulan kanun yolu aşamalarında).
+  const kesik = (st: { choices?: { text: string }[] }) => (st.choices || []).find(ch => /(…|\.\.\.)\s*$/.test(ch.text));
+  c.steps.forEach((st, i) => { const k = kesik(st); if (k) out.push({ tur: "sik", yer: `${i + 1}. adım`, sorun: `Şık yarıda kesilmiş: “${k.text.slice(-60)}”`, oneri: "Şıkkı tam bir cümle olarak yazın." }); });
+  let stages: CaseFile[] = [];
+  try { stages = allStages(c); } catch { /* kanun yolu kurulamazsa bu denetim atlanır */ }
+  for (const sc of stages) sc.steps.forEach((st, i) => {
+    const k = kesik(st);
+    if (k) out.push({ tur: "sik", yer: `${sc.title || "Kanun yolu"} · ${i + 1}. adım`, sorun: `Kanun yolu şıkkı yarıda kesilmiş: “${k.text.slice(-60)}”`, oneri: "Kod hatası: geliştiriciye bildirin." });
   });
   // Aynı sorun iki taraftan iki kez gelmesin.
   const seen = new Set<string>();

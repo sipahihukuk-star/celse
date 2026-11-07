@@ -6,8 +6,9 @@
 // üretilir: süre (oyuncu son günü yazar) → dilekçe (merci, sebep, talep, önizleme) → kısa duruşma → dairenin kararı.
 // Kanun yolunun açık olup olmadığını kanunYolu() söyler (kesinlik: parasal sınır, ceza türü, kanunda kesin kararlar).
 import { lastDay, longDate, parseDate, fmtDate, addDays, suggestTeblig } from "./deadline";
-import { GameState, kindOf, normalizeCase, other, verdict } from "./engine";
+import { GameState, kindOf, normalizeCase, other, textOf, verdict } from "./engine";
 import { test } from "./expr";
+import { sebepMetni } from "./sebep";
 import { CMK_SINIR, PARASAL_SINIR } from "./sinirlar";
 import { forumStage, forumWay, ForumWay } from "./forumAppeal";
 import { AppealKind, AppealStage, CaseFile, CastMember, Choice, DeadlineRule, Outcome, Regime, Side, Step, Winner } from "./types";
@@ -320,7 +321,7 @@ export function petitionOf(c: CaseFile, game: GameState, stepIdx: number): Petit
 const W: Record<AppealKind, string> = { istinaf: "İstinaf", cevap: "İstinafa cevap", temyiz: "Temyiz" };
 
 /** Ana davadaki kilit hukuki mesele: oyuncunun kaçırdığı (ya da kazandığı davada dayandığı) en değerli hamle. */
-export function keyIssue(base: CaseFile, side: Side, game?: GameState, won = false): { law: string; text: string } {
+export function keyIssue(base: CaseFile, side: Side, game?: GameState, won = false): { law: string; text: string; note?: string } {
   const cand = base.steps.map(s => {
     if (s.side !== side || !["choice", "evidence"].includes(kindOf(s))) return null;
     const pool = kindOf(s) === "evidence" ? (s.hit ? [{ text: s.statement ? `Karşı tarafın “${s.statement.text.slice(0, 90)}…” beyanı dosyadaki belgeyle çürütülmüştür` : "Karşı tarafın beyanı dosyadaki belgeyle çürütülmüştür", delta: s.hit.delta, law: s.hit.law } as Choice] : []) : s.choices;
@@ -332,10 +333,11 @@ export function keyIssue(base: CaseFile, side: Side, game?: GameState, won = fal
   const pick = (won ? cand.filter(x => x.pickedBest) : cand.filter(x => x.missed)).sort((a, b) => b.best.delta - a.best.delta)[0]
     || [...cand].sort((a, b) => b.best.delta - a.best.delta)[0];
   if (!pick) return { law: base.area.split("·").pop()!.trim(), text: `İlk derece mahkemesi ${base.area.split("·").pop()!.trim().toLocaleLowerCase("tr")} konusunda dosyadaki delilleri hatalı değerlendirmiştir` };
-  return { law: pick.best.law!, text: pick.best.text.replace(/\s+/g, " ").trim() };
+  return { law: pick.best.law!, text: pick.best.text.replace(/\s+/g, " ").trim(), note: textOf(pick.best.note, game?.flags || {}) };
 }
 
 const clip = (s: string, n: number) => (s.length <= n ? s : s.slice(0, s.lastIndexOf(" ", n)).replace(/[,;:]$/, "") + "…");
+
 
 /** Temel yol: davanın kendi hukuki meselesinden kısa bir kanun yolu aşaması. */
 /** Duruşma istemi adımı: üst mahkeme incelemesi çoğunlukla dosya üzerinden yapılır; oyuncu duruşmalı ya da duruşmasız seçer.
@@ -432,7 +434,7 @@ export function genericStage(base: CaseFile, kind: AppealKind, side: Side, baseG
     ]
   };
 
-  const groundRaw = kind === "cevap" ? `İlk derece kararı ${issue.law} yönünden isabetlidir: ${issue.text}` : `${issue.law} yönünden hukuka aykırılık: ${issue.text}`;
+  const groundHead = kind === "cevap" ? `İlk derece kararı ${issue.law} yönünden isabetlidir: ` : `${issue.law} yönünden hukuka aykırılık: `;
   const wrongs: Choice[] = [
     (reg === "hmk" || reg === "iik")
       ? { text: "İlk derecede hiç bildirilmeyen yeni tanıkları ve yeni belgeleri dilekçeye ekleyip olayı baştan ispat edeceğimizi yazmak.", delta: -10, law: "HMK m.357",
@@ -450,11 +452,13 @@ export function genericStage(base: CaseFile, kind: AppealKind, side: Side, baseG
       note: "Tutanağa geçmeyen bir söz ve karşı vekilin tavrı, kararın hukuka aykırılığını göstermez." }
   ];
   const longest = Math.max(...wrongs.map(w => w.text.length));
+  const sebepT = sebepMetni(issue, Math.max(60, Math.floor(longest * 1.15) - groundHead.length));
+  const groundRaw = groundHead + sebepT.tam;
   const sebep: Step = {
     side: "p1", scene: "office", section: sebepTitle, lines: [],
     prompt: kind === "cevap" ? "Cevap dilekçenizin merkezine neyi koyacaksınız?" : `${kind === "temyiz" ? "Temyiz" : "İstinaf"} sebebiniz ne olacak?`,
     choices: [
-      { text: clip(groundRaw, Math.floor(longest * 1.1)), delta: 20, set: ["sebep"], law: issue.law, doc: groundRaw + ".",
+      { text: groundHead + sebepT.kisa, delta: 20, set: ["sebep"], law: issue.law, doc: groundRaw + ".",
         note: kind === "cevap" ? `Doğru. Kararın dayandığı hukuki değerlendirmeyi (${issue.law}) savunarak karşı tarafın sebeplerini karşıladınız.`
           : `Doğru. Kararı, davanın kilit hukuki meselesinden (${issue.law}) eleştirdiniz; ${kurum} bu yönden inceleme yapacak.` },
       ...(kind === "cevap" ? wrongs.map(w => w.law === "HMK m.357"
