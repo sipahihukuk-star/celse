@@ -844,9 +844,9 @@ async function evrakIzni(req: Request, uid: string) {
 // Kredi, model çağrısından önce düşülür; işlem başarısız olursa (hata ya da 4xx/5xx cevap) geri verilir.
 const EVRAK_KREDI: Record<string, number> = { evrak: 1, evrak_izle: 3, evrak_oyna: 3 };
 interface EvrakHak { hata?: Response; dusen: number; kalan: number | null }
-async function evrakHakki(req: Request, uid: string, action: string): Promise<EvrakHak> {
+async function evrakHakki(req: Request, uid: string, action: string, kredi: number): Promise<EvrakHak> {
   if (await evrakIzni(req, uid)) return { dusen: 0, kalan: null };
-  const kredi = EVRAK_KREDI[action] || 1;
+  if (kredi <= 0) return { dusen: 0, kalan: null };
   try {
     const kalan = await rpc("avukat_kredi_dus", { p_kullanici: uid, p_kredi: kredi, p_tur: action });
     return { dusen: kredi, kalan: Number(kalan) };
@@ -857,8 +857,38 @@ async function evrakHakki(req: Request, uid: string, action: string): Promise<Ev
     return { hata: json({ error: "beta" }, 403), dusen: 0, kalan: null }; // surum15 kurulmamış
   }
 }
+// Prova paketi: aynı evrak için ilk mod (oyna ya da izle) 3 kredi ve hazırlık notları dahil; öteki mod 2 kredi.
+// Sunucu hiçbir şey saklamaz: cevapla birlikte imzalı bir "paket" bileti verilir (kullanıcı, evrak metninin SHA-256 özeti,
+// son geçerlilik, ödenmiş modlar). Sonraki istek bu bileti getirir; aynı metin için indirimli fiyat uygulanır. 7 gün geçerli.
+const PAKET_SURE = 7 * 24 * 3600 * 1000;
+const PAKET_MOD: Record<string, string> = { evrak_oyna: "o", evrak_izle: "i" };
+async function sha256Hex(x: string) {
+  const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(x));
+  return Array.from(new Uint8Array(d)).map(v => v.toString(16).padStart(2, "0")).join("");
+}
+async function paketOku(uid: string, paket: unknown, ozet: string): Promise<string | null> {
+  const p = String(paket || "").split("|");
+  if (p.length !== 5 || p[0] !== uid || p[1] !== ozet || Number(p[2]) < Date.now()) return null;
+  const imza = await biletImza("paket|" + p[0] + "|" + p[1] + "|" + p[2] + "|" + p[3]);
+  return imza === p[4] ? p[3] : null;
+}
+async function paketYaz(uid: string, ozet: string, modlar: string) {
+  const v = uid + "|" + ozet + "|" + String(Date.now() + PAKET_SURE) + "|" + modlar;
+  return v + "|" + (await biletImza("paket|" + v));
+}
+function paketKredi(action: string, modlar: string | null) {
+  const taban = EVRAK_KREDI[action] || 1;
+  if (!modlar) return taban;
+  if (action === "evrak") return 0;
+  const m = PAKET_MOD[action];
+  if (modlar.indexOf(m) >= 0) return taban;
+  return 2;
+}
+
 async function evrakKredili(req: Request, uid: string, action: string, b: Record<string, unknown>) {
-  const hak = await evrakHakki(req, uid, action);
+  const ozet = await sha256Hex(cut(b.metin, EVRAK_AZAMI).trim());
+  const modlar = await paketOku(uid, b.paket, ozet);
+  const hak = await evrakHakki(req, uid, action, paketKredi(action, modlar));
   if (hak.hata) return hak.hata;
   const iade = async () => { if (hak.dusen) { try { await rpc("avukat_kredi_iade", { p_kullanici: uid, p_kredi: hak.dusen, p_tur: action }); } catch (_e) { void _e; } } };
   let r: Response;
@@ -866,9 +896,11 @@ async function evrakKredili(req: Request, uid: string, action: string, b: Record
     r = action === "evrak" ? await evrak(req, uid, b) : action === "evrak_izle" ? await evrakIzle(req, uid, b) : await evrakOyna(req, uid, b);
   } catch (e) { await iade(); throw e; }
   if (!r.ok) { await iade(); return r; }
-  if (hak.kalan === null) return r;
   const govde = await r.json();
-  govde.avukatKalan = hak.kalan;
+  if (hak.kalan !== null) govde.avukatKalan = hak.kalan;
+  const m = PAKET_MOD[action] || "";
+  const yeni = (modlar || "") + (m && (modlar || "").indexOf(m) < 0 ? m : "");
+  govde.paket = await paketYaz(uid, ozet, yeni);
   return json(govde);
 }
 

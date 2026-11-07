@@ -6,7 +6,8 @@ import { Platform, Pressable, ScrollView, Share, StyleSheet, Text, TextInput, Vi
 import { Entity, Kind, mask, unmask } from "../engine/mask";
 import { evrakMetni, turBul, zipIcerigi } from "../engine/mask/readers";
 import { DerlemeKarti, DOGRUDAN_SINIR, derlemeKredisi, derlenmisMetin, evrakBol, kartlariBirlestir, onemSirasi, partiler } from "../engine/mask/derleme";
-import { dosyaAc, EVRAK_AZAMI, evrakBiletAl, evrakDerle, evrakIzle, evrakOturumu, evrakOturumuYaz, evrakOyna, evrakProva, Prova, provaAc, provaMetni, senaryoAc } from "../data/evrak";
+import { dosyaAc, EVRAK_AZAMI, evrakBiletAl, evrakDerle, evrakDinle, evrakIzle, evrakOturumu, evrakOturumuYaz, evrakOyna, evrakProva, notlariArkadaAl, OynananProva, Prova, provaAc, provaMetni, senaryoAc } from "../data/evrak";
+import { ozetMetni } from "./izleOrtak";
 import type { Danisma, Senaryo } from "../data/danisma";
 import type { CaseFile } from "../engine/types";
 import DanismaWatch from "./DanismaWatch";
@@ -120,6 +121,17 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
   const [tamami, setTamami] = useState(false);
   const [err, setErr] = useState("");
   const [prova, setProva] = useState<{ kodlu: Prova; acik: Prova } | null>(o?.prova || null);
+  // Prova paketi: ilk mod 3 kredi ve notlar dahil, öteki mod 2 kredi (sunucunun imzalı bileti). Notlar mod hazırlanınca arkada gelir.
+  const [paket, setPaket] = useState<string | undefined>(o?.paket);
+  const [notlarBekliyor, setNotlarBekliyor] = useState(!!o?.notlarBekliyor);
+  const [oynanan, setOynanan] = useState<OynananProva | undefined>(o?.oynanan);
+  const [indirildi, setIndirildi] = useState(false);
+  useEffect(() => evrakDinle(() => {
+    const x = evrakOturumu();
+    if (!x) return;
+    if (x.prova) setProva(x.prova);
+    setPaket(x.paket); setNotlarBekliyor(!!x.notlarBekliyor); setOynanan(x.oynanan);
+  }), []);
   const [kodlu, setKodlu] = useState(false);
   const [kopyalandi, setKopyalandi] = useState(false);
   // Büyük dosya derlemesi (bilet 6 saat geçerli; kartlar tür, tarih, önem ve özet taşır).
@@ -149,26 +161,30 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
   const imza = useRef(JSON.stringify([allow, extra, tumMetin.length]));
   useEffect(() => {
     const yeni = JSON.stringify([allow, extra, tumMetin.length]);
-    if (yeni !== imza.current) { imza.current = yeni; setProva(null); setSenaryo(null); setDosya(null); setKartlar(null); partiSonuc.current.clear(); setArsivMap(null); setArsivId(undefined); }
+    if (yeni !== imza.current) { imza.current = yeni; setProva(null); setSenaryo(null); setDosya(null); setKartlar(null); partiSonuc.current.clear(); setArsivMap(null); setArsivId(undefined); setPaket(undefined); setOynanan(undefined); setNotlarBekliyor(false); setIndirildi(false); }
   }, [allow, extra, tumMetin]);
   useEffect(() => {
     if (!sonuc) return;
-    evrakOturumuYaz({ evraklar, yapistir, taraf, asama, allow, extra, map: arsivMap || sonuc.map, prova: prova || undefined, senaryo: senaryo || undefined, dosya: dosya || undefined, derleme: { bilet, kartlar: kartlar || undefined, onemliler }, arsivId, arsivMap: arsivMap || undefined });
-  }, [sonuc, evraklar, yapistir, taraf, asama, allow, extra, prova, senaryo, dosya, bilet, kartlar, onemliler, arsivId, arsivMap]);
+    // Arka planda gelen notlar ve oyun dökümü oturumda olabilir; ekranın eski hâli onları silmesin.
+    const simdi = evrakOturumu();
+    const ayni = !!simdi && simdi.arsivId === arsivId;
+    evrakOturumuYaz({ evraklar, yapistir, taraf, asama, allow, extra, map: arsivMap || sonuc.map, prova: prova || (ayni ? simdi?.prova : undefined), senaryo: senaryo || undefined, dosya: dosya || undefined, derleme: { bilet, kartlar: kartlar || undefined, onemliler }, arsivId, arsivMap: arsivMap || undefined, paket: paket || (ayni ? simdi?.paket : undefined), oynanan: oynanan || (ayni ? simdi?.oynanan : undefined), notlarBekliyor: ayni ? simdi?.notlarBekliyor : false });
+  }, [sonuc, evraklar, yapistir, taraf, asama, allow, extra, prova, senaryo, dosya, bilet, kartlar, onemliler, arsivId, arsivMap, paket, oynanan]);
   // Her yeni sonuç (notlar, canlandırma, oynanabilir dosya) bu cihazdaki "Önceki hazırlıklarım"a yazılır; ekrandan çıkınca kaybolmaz.
   useEffect(() => {
     if (!sonuc || !(prova || senaryo || dosya)) return;
     const id = arsivId || "ev-" + Date.now().toString(36);
     if (!arsivId) setArsivId(id);
     const baslik = (prova?.acik.ozet || senaryo?.ozet || dosya?.title || t("Evrakla duruşma provası")).replace(/\s+/g, " ").slice(0, 110);
-    arsivKaydet({ id, tarih: new Date().toISOString(), baslik, taraf, asama, map: arsivMap || sonuc.map, prova: prova || undefined, senaryo: senaryo || undefined, dosya: dosya || undefined });
-  }, [prova, senaryo, dosya]);
+    arsivKaydet({ id, tarih: new Date().toISOString(), baslik, taraf, asama, map: arsivMap || sonuc.map, prova: prova || undefined, senaryo: senaryo || undefined, dosya: dosya || undefined, paket, oynanan });
+  }, [prova, senaryo, dosya, oynanan]);
   /** Kayıtlı hazırlığı açar: evrak yüklenmeden sonuçlar görünür; izle ve oyna kayıtlıysa yeniden açılır (kredi düşmez). */
   const arsivAc = (k: ArsivKayit) => {
     imza.current = JSON.stringify([[], [], 0]);
     setEvraklar([]); setYapistir(""); setAllow([]); setExtra([]); setKartlar(null); setBilet(undefined); setOnemliler([]); setErr("");
     setTaraf(k.taraf); setAsama(k.asama); setArsivMap(k.map); setArsivId(k.id);
     setProva(k.prova || null); setSenaryo(k.senaryo || null); setDosya(k.dosya || null); setOkudum(true); setKodlu(false);
+    setPaket(k.paket); setOynanan(k.oynanan); setNotlarBekliyor(false); setIndirildi(false);
     setAdim("sonuc");
   };
   const arsivdenAcik = !!arsivMap && !tumMetin.trim();
@@ -288,15 +304,36 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
     const sel = (window.getSelection?.()?.toString() || "").trim();
     if (sel.length >= 2 && !/^\[[^\]]+\]$/.test(sel)) setExtra(x => (x.includes(sel) ? x : [...x, sel]));
   };
+  /** Oturumu ve cihazdaki kaydı hemen yazar (ekran oyuna geçmeden önce; arka plandaki notlar bu kayda işlenir). */
+  const hemenKaydet = (ek: { dosya?: CaseFile; senaryo?: Senaryo; paket?: string }) => {
+    if (!sonuc) return "";
+    const id = arsivId || "ev-" + Date.now().toString(36);
+    if (!arsivId) setArsivId(id);
+    const map = arsivMap || sonuc.map;
+    const d = ek.dosya || dosya || undefined, sn = ek.senaryo || senaryo || undefined, pk = ek.paket || paket;
+    evrakOturumuYaz({ evraklar, yapistir, taraf, asama, allow, extra, map, prova: prova || undefined, senaryo: sn, dosya: d, derleme: { bilet, kartlar: kartlar || undefined, onemliler }, arsivId: id, arsivMap: arsivMap || undefined, paket: pk, oynanan });
+    const baslik = (prova?.acik.ozet || sn?.ozet || d?.title || t("Evrakla duruşma provası")).replace(/\s+/g, " ").slice(0, 110);
+    arsivKaydet({ id, tarih: new Date().toISOString(), baslik, taraf, asama, map, prova: prova || undefined, senaryo: sn, dosya: d, paket: pk, oynanan });
+    return id;
+  };
+  /** Hazırlık notları: mod hazırlanınca kendiliğinden (pakete dahil, kredi düşmez) arkada istenir. */
+  const notlariIste = (pk?: string) => {
+    if (!sonuc || prova) return;
+    notlariArkadaAl(calisma, taraf, asama.trim(), pk, arsivMap || sonuc.map);
+  };
   const gonder = async () => {
     if (!sonuc) return;
     if (prova) { setAdim("sonuc"); return; }
+    if (notlarBekliyor) return;
     setErr(""); setMesgul("prova");
-    const r = await evrakProva(calisma, taraf, asama.trim());
+    const r = await evrakProva(calisma, taraf, asama.trim(), paket);
     setMesgul("");
     if (!r.ok) { setErr(t(r.error, r.vars)); return; }
     kalanYaz(r.data.avukatKalan);
-    setProva({ kodlu: r.data, acik: provaAc(r.data, sonuc.map) });
+    const { avukatKalan: _k, paket: pk, ...kodluNot } = r.data;
+    void _k;
+    if (pk) setPaket(pk);
+    setProva({ kodlu: kodluNot as Prova, acik: provaAc(kodluNot as Prova, arsivMap || sonuc.map) });
     setKodlu(false); setAdim("sonuc");
   };
   /** Yapay zekâ oynasın: canlandırma senaryosu; bir kez üretilir, yeniden izlemede aynısı açılır. */
@@ -304,26 +341,32 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
     if (!sonuc) return;
     if (senaryo) { setIzle(true); return; }
     setErr(""); setMesgul("izle");
-    const r = await evrakIzle(calisma, taraf, asama.trim());
+    const r = await evrakIzle(calisma, taraf, asama.trim(), paket);
     setMesgul("");
     if (!r.ok) { setErr(t(r.error, r.vars)); return; }
     kalanYaz(r.data.avukatKalan);
-    const sn = senaryoAc(r.data.senaryo, sonuc.map);
-    setSenaryo(sn); setIzle(true);
+    const sn = senaryoAc(r.data.senaryo, arsivMap || sonuc.map);
+    const pk = r.data.paket || paket;
+    setSenaryo(sn); setPaket(pk);
+    hemenKaydet({ senaryo: sn, paket: pk });
+    notlariIste(pk);
+    setIzle(true);
   };
   /** Ben oynayayım: evraktan oynanabilir dosya; avukat kendi tarafının vekili olarak duruşmaya girer. */
   const oyna = async () => {
     if (!sonuc || !p.onPlay) return;
     if (dosya) { p.onPlay(dosya); return; }
     setErr(""); setMesgul("oyna");
-    const r = await evrakOyna(calisma, taraf, asama.trim());
+    const r = await evrakOyna(calisma, taraf, asama.trim(), paket);
     setMesgul("");
     if (!r.ok) { setErr(t(r.error, r.vars)); return; }
     kalanYaz(r.data.avukatKalan);
-    const c = dosyaAc(r.data.dosya, sonuc.map);
+    const c = dosyaAc(r.data.dosya, arsivMap || sonuc.map);
     if (!c) { setErr(t("Dosya şu an oynanabilir hâle getirilemedi. Yeniden deneyin.")); return; }
-    setDosya(c);
-    evrakOturumuYaz({ evraklar, yapistir, taraf, asama, allow, extra, map: arsivMap || sonuc.map, prova: prova || undefined, senaryo: senaryo || undefined, dosya: c, arsivId, arsivMap: arsivMap || undefined });
+    const pk = r.data.paket || paket;
+    setDosya(c); setPaket(pk);
+    hemenKaydet({ dosya: c, paket: pk });
+    notlariIste(pk);
     p.onPlay(c);
   };
   const paylas = async () => {
@@ -341,6 +384,41 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
 
+  /** Provanın çıktısı: hazırlık notları, izlenen canlandırmanın metni ve avukatın oynadığı duruşmanın dökümü tek metinde. */
+  const ciktiMetni = () => {
+    const L: string[] = [t("CELSE · EVRAKLA DURUŞMA PROVASI"), new Date().toLocaleString("tr-TR"), ""];
+    if (prova) L.push(provaMetni(kodlu ? prova.kodlu : prova.acik, x => t(x)), "");
+    if (oynanan) {
+      L.push(t("OYNADIĞINIZ DURUŞMA"), oynanan.baslik, "");
+      oynanan.adimlar.forEach((a, i) => L.push(`${i + 1}. ${a.soru}`, `   ${t("Seçiminiz")}: ${a.cevap} (${a.puan > 0 ? "+" : ""}${a.puan})`, ...(a.not ? [`   ${a.not}`] : []), ...(a.madde ? [`   ${a.madde}`] : []), ""));
+      L.push(t("Sonuç") + ": " + oynanan.puan, oynanan.hukum, oynanan.ozet, "");
+    }
+    if (senaryo) L.push(t("YAPAY ZEKÂNIN OYNADIĞI DURUŞMA"), ozetMetni(senaryo, sahteDanisma(senaryo)), "");
+    L.push(t("Eğitim amaçlıdır, hukuki görüş değildir. Son değerlendirme avukata aittir."));
+    return L.join("\n");
+  };
+  const ciktiAl = () => {
+    const metin = ciktiMetni();
+    if (Platform.OS === "web") {
+      const blob = new Blob([metin], { type: "text/plain;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob); a.download = "durusma-provasi-" + new Date().toISOString().slice(0, 10) + ".txt"; a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      setIndirildi(true);
+    } else Share.share({ message: metin }).then(() => setIndirildi(true)).catch(() => {});
+  };
+  /** Provayı bitir: bu cihazdaki kayıt ve oturum silinir; ekran baştan başlar. */
+  const bitir = async () => {
+    if (arsivId) await arsivSil(arsivId);
+    evrakOturumuYaz(null);
+    imza.current = JSON.stringify([[], [], 0]);
+    setEvraklar([]); setYapistir(""); setAllow([]); setExtra([]); setKartlar(null); setBilet(undefined); setOnemliler([]);
+    setProva(null); setSenaryo(null); setDosya(null); setPaket(undefined); setOynanan(undefined); setNotlarBekliyor(false); setIndirildi(false);
+    setArsivId(undefined); setArsivMap(null); setOkudum(false); setErr("");
+    setAdim("yukle");
+  };
+  const sonucVar = !!(prova || senaryo || dosya || oynanan);
+
   const uzun = tumMetin.length > EVRAK_AZAMI;
   const gruplar = useMemo(() => {
     const g = new Map<Kind, Entity[]>();
@@ -350,6 +428,22 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
 
   if (izle && senaryo) return <DanismaWatch key={senaryo.ozet.length} s={senaryo} d={sahteDanisma(senaryo)} onClose={() => setIzle(false)} />;
   const hazir = okudum && risk.length === 0 && !mesgul && !!calisma;
+  /** Kredi: ilk mod 3 (notlar dahil); öteki mod paketle 2; yönetici ve deneme izinlisine 0. */
+  const fiyat = (m: "oyna" | "izle") => {
+    if (ucretsiz) return 0;
+    const digeri = m === "oyna" ? !!senaryo : !!dosya;
+    return digeri && paket ? 2 : m === "oyna" ? EVRAK_KREDI.evrak_oyna : EVRAK_KREDI.evrak_izle;
+  };
+  const Bitir = sonucVar ? (
+    <View style={s.card}>
+      <Text style={s.cardT}>{t("Provayı bitir")}</Text>
+      <Text style={s.hint}>{t("Çıktıyı alın: hazırlık notları, yapay zekânın oynadığı duruşmanın metni ve sizin oynadığınız duruşmanın dökümü tek dosyada. Çıktıyı aldıktan sonra bu cihazdan silin; silmezseniz 7 gün sonra kendiliğinden silinir. Sunucuda hiçbir kaydı yoktur.")}</Text>
+      <View style={s.row}>
+        <Btn kind="secondary" label={Platform.OS === "web" ? t("Çıktıyı indir") : t("Çıktıyı paylaş")} onPress={ciktiAl} />
+        <Btn kind="ghost" label={indirildi ? t("Aldım, bu cihazdan sil") : t("Çıktı almadan sil")} onPress={bitir} />
+      </View>
+    </View>
+  ) : null;
   const Aksiyonlar = (
     <View style={s.card}>
       <Text style={s.cardT}>{t("Duruşma salonuna girin")}</Text>
@@ -357,25 +451,28 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
         : av?.aktif ? t("Celse Avukat · bu ay kalan {k} / {a} kredi · yenilenme {d}", { k: av.kalan, a: av.aylik, d: av.donemSonu ? av.donemSonu.toLocaleDateString("tr-TR") : "" })
         : t("Evrakla duruşma provası Celse Avukat paketiyle kullanılır: ayda 160 kredi, Celse Pro dahil.") + (ayar.avukatSatis ? "" : " " + t("Paket yakında satışta."))}</Text>
       <View style={s.acts}>
-        <Pressable accessibilityRole="button" disabled={dosya ? !!mesgul : !hazir || !yeter(EVRAK_KREDI.evrak_oyna)} onPress={oyna} style={({ pressed }) => [s.act, (dosya ? !!mesgul : !hazir || !yeter(EVRAK_KREDI.evrak_oyna)) && s.actOff, pressed && { opacity: 0.85 }]}>
+        <Pressable accessibilityRole="button" disabled={dosya ? !!mesgul : !hazir || !yeter(fiyat("oyna"))} onPress={oyna} style={({ pressed }) => [s.act, (dosya ? !!mesgul : !hazir || !yeter(fiyat("oyna"))) && s.actOff, pressed && { opacity: 0.85 }]}>
           <IconBadge name="scales" size={44} />
           <Text style={s.actT}>{mesgul === "oyna" ? t("Dosya hazırlanıyor…") : dosya ? t("Yeniden oyna") : t("Ben oynayayım")}</Text>
           <Text style={s.actD}>{t("Kendi tarafınızın vekili olarak duruşmaya girin: müvekkil görüşmesi, hâkimin soruları, delille itiraz, sözlü savunma ve karar.")}</Text>
-          {!ucretsiz && !dosya && <Text style={s.cost}>{t("{n} kredi", { n: EVRAK_KREDI.evrak_oyna })}</Text>}
+          {!ucretsiz && !dosya && <Text style={s.cost}>{senaryo ? t("{n} kredi", { n: fiyat("oyna") }) : t("{n} kredi · hazırlık notları dahil", { n: fiyat("oyna") })}</Text>}
         </Pressable>
-        <Pressable accessibilityRole="button" disabled={senaryo ? !!mesgul : !hazir || !yeter(EVRAK_KREDI.evrak_izle)} onPress={izlet} style={({ pressed }) => [s.act, (senaryo ? !!mesgul : !hazir || !yeter(EVRAK_KREDI.evrak_izle)) && s.actOff, pressed && { opacity: 0.85 }]}>
+        <Pressable accessibilityRole="button" disabled={senaryo ? !!mesgul : !hazir || !yeter(fiyat("izle"))} onPress={izlet} style={({ pressed }) => [s.act, (senaryo ? !!mesgul : !hazir || !yeter(fiyat("izle"))) && s.actOff, pressed && { opacity: 0.85 }]}>
           <IconBadge name="film" size={44} />
           <Text style={s.actT}>{mesgul === "izle" ? t("Canlandırma hazırlanıyor…") : senaryo ? t("Yeniden izle") : t("Yapay zekâ oynasın")}</Text>
           <Text style={s.actD}>{t("Büro görüşmeleri, duruşma ve karar fotoğraflı karakterlerle sahnelenir; siz izlersiniz.")}</Text>
-          {!ucretsiz && !senaryo && <Text style={s.cost}>{t("{n} kredi", { n: EVRAK_KREDI.evrak_izle })}</Text>}
-        </Pressable>
-        <Pressable accessibilityRole="button" disabled={prova ? !!mesgul : !hazir || !yeter(EVRAK_KREDI.evrak)} onPress={gonder} style={({ pressed }) => [s.act, (prova ? !!mesgul : !hazir || !yeter(EVRAK_KREDI.evrak)) && s.actOff, pressed && { opacity: 0.85 }]}>
-          <IconBadge name="notes" size={44} />
-          <Text style={s.actT}>{mesgul === "prova" ? t("Hazırlanıyor…") : prova ? t("Hazırlık notlarını aç") : t("Hazırlık notları")}</Text>
-          <Text style={s.actD}>{t("Hâkimin soruları, karşı tarafın argümanları, zayıf noktalar, süreler ve sözlü beyan taslağı.")}</Text>
-          {!ucretsiz && !prova && <Text style={s.cost}>{t("{n} kredi", { n: EVRAK_KREDI.evrak })}</Text>}
+          {!ucretsiz && !senaryo && <Text style={s.cost}>{dosya ? t("{n} kredi", { n: fiyat("izle") }) : t("{n} kredi · hazırlık notları dahil", { n: fiyat("izle") })}</Text>}
         </Pressable>
       </View>
+      {/* Hazırlık notları ayrı bir seçenek değil: modlardan biri hazırlanınca kendiliğinden gelir. */}
+      {(prova || notlarBekliyor || dosya || senaryo || mesgul === "prova") && (
+        <View style={s.row}>
+          <IconBadge name="notes" size={36} />
+          {prova ? <Btn kind="secondary" label={t("Hazırlık notlarını aç")} onPress={() => setAdim("sonuc")} />
+            : notlarBekliyor || mesgul === "prova" ? <Text style={[s.hint, { flex: 1 }]}>{t("Hazırlık notları arka planda hazırlanıyor; bitince burada açılır.")}</Text>
+            : <Btn kind="secondary" label={t("Hazırlık notlarını hazırla")} onPress={gonder} disabled={!!mesgul || !hazir} />}
+        </View>
+      )}
       {!!mesgul && <Text style={s.hint}>{t("Geçen süre {s}. Evrakın uzunluğuna göre bir-dört dakika sürebilir. Ekranı açık ve bu sayfayı önde tutun; telefon kilitlenir ya da başka uygulamaya geçerseniz sonuç kaybolabilir.", { s: sure })}</Text>}
       {!!err && <Text style={s.err}>{err}</Text>}
       {arsivdenAcik && <Text style={s.hint}>{t("Bu hazırlık bu cihazdaki kayıttan açıldı. Kayıtlı olanlar kredi düşmeden açılır; yeni bir işlem için evrakı yeniden yükleyin.")}</Text>}
@@ -395,14 +492,14 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
       <Text style={s.title}>{t("Dosyanızla duruşmaya hazırlanın")}</Text>
       <View style={s.warn}>
         <Text style={s.warnT}>{t("Kişisel veriler cihazınızdan çıkmaz.")}</Text>
-        <Text style={s.warnD}>{t("Evrak bu cihazda okunur ve maskelenir: adlar, kimlik ve dosya numaraları, adresler ve mahkeme adları kodlara çevrilir; tarihlerde yalnız ay ve yıl kalır. Sunucuya yalnız sizin onayladığınız kodlu metin gider ve kaydedilmez. Sonuçlar ve kodların karşılıkları yalnız bu cihazda, “Önceki hazırlıklarım” listesinde 30 gün saklanır; oradan silebilirsiniz.")}</Text>
+        <Text style={s.warnD}>{t("Evrak bu cihazda okunur ve maskelenir: adlar, kimlik ve dosya numaraları, adresler ve mahkeme adları kodlara çevrilir; tarihlerde yalnız ay ve yıl kalır. Sunucuya yalnız sizin onayladığınız kodlu metin gider ve kaydedilmez. Sonuçlar ve kodların karşılıkları yalnız bu cihazda, “Önceki hazırlıklarım” listesinde en çok 7 gün saklanır; “Provayı bitir” ile hemen silebilirsiniz.")}</Text>
       </View>
       {!ucretsiz && <AvukatPaketKart />}
 
       {adim === "yukle" && arsiv.length > 0 && (
         <View style={s.card}>
           <Text style={s.cardT}>{t("Önceki hazırlıklarım")}</Text>
-          <Text style={s.hint}>{t("Yalnız bu cihazda saklanır, sunucuya gitmez; 30 gün sonra kendiliğinden silinir. Açmak kredi düşmez.")}</Text>
+          <Text style={s.hint}>{t("Yalnız bu cihazda saklanır, sunucuya gitmez; 7 gün sonra kendiliğinden silinir. Açmak kredi düşmez.")}</Text>
           {arsiv.map(k => (
             <View key={k.id} style={s.arsivRow}>
               <View style={{ flex: 1, minWidth: 200, gap: 2 }}>
@@ -577,10 +674,12 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
             </View>
           )}
           {Aksiyonlar}
+          {Bitir}
         </>
       )}
 
       {adim === "sonuc" && Aksiyonlar}
+      {adim === "sonuc" && Bitir}
       {adim === "sonuc" && prova && <ProvaView p={kodlu ? prova.kodlu : prova.acik} />}
       {adim === "sonuc" && prova && (
         <View style={s.card}>
@@ -592,7 +691,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
             <Btn kind="secondary" label={Platform.OS === "web" ? (kopyalandi ? t("Kopyalandı") : t("Kopyala")) : t("Paylaş")} onPress={paylas} />
             {Platform.OS === "web" && <Btn kind="ghost" label={t("Metin olarak indir")} onPress={indir} />}
           </View>
-          <Text style={s.hint}>{t("Hazırlık notları sunucuda kaydedilmez; yalnız bu cihazda, evrak ekranının başındaki “Önceki hazırlıklarım” listesinde 30 gün durur. Başka yerde saklamak için kopyalayın ya da indirin.")}</Text>
+          <Text style={s.hint}>{t("Hazırlık notları sunucuda kaydedilmez; yalnız bu cihazda, evrak ekranının başındaki “Önceki hazırlıklarım” listesinde en çok 7 gün durur. Saklamak için “Provayı bitir”den çıktı alın.")}</Text>
         </View>
       )}
     </ScrollView>

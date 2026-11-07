@@ -57,7 +57,7 @@ import { TahkimScreen } from "./src/ui/TahkimScreen";
 import DanismaScreen from "./src/ui/DanismaScreen";
 import InboxScreen from "./src/ui/InboxScreen";
 import DanismaDosyaScreen from "./src/ui/DanismaDosyaScreen";
-import { evrakOturumu } from "./src/data/evrak";
+import { evrakOturumu, oynananYaz } from "./src/data/evrak";
 import { setAktifMaske } from "./src/engine/mask/oturum";
 import { kaydirmaCubugu } from "./src/ui/webScrollbar";
 kaydirmaCubugu();
@@ -262,7 +262,17 @@ export default function App() {
       return;
     }
     // Evrakla duruşma provası: kariyere ve hiçbir sunucu kaydına işlemez.
-    if (from === "evrak") { setRoute({ k: "verdict", c, players, game, from, notice: t("Prova bitti. Sonuç kariyerinize işlenmez ve hiçbir yere kaydedilmez.") }); return; }
+    if (from === "evrak") {
+      // Oynanan provanın dökümü (yalnız bu cihazda): "Provayı bitir"de çıktıya girer.
+      const v = verdict(c, game);
+      oynananYaz({
+        tarih: new Date().toISOString(), baslik: c.title, hukum: v.hukum, ozet: v.summary,
+        puan: c.mode === "solo" ? `${t("İkna")} ${game.score}/100` : `${game.pts.p1} – ${game.pts.p2}`,
+        adimlar: game.log.map(l => ({ soru: l.prompt, cevap: l.text, puan: l.delta, not: l.note, madde: l.law }))
+      });
+      setRoute({ k: "verdict", c, players, game, from, notice: t("Prova bitti. Sonuç kariyerinize işlenmez; dökümü “Provayı bitir”den çıktı olarak alabilirsiniz.") });
+      return;
+    }
     if (c.appealOf && chain) { setRoute({ k: "verdict", c, players, game, from, notice: settleAppeal(c, game, chain, from), chain }); return; }
     if (c.mode === "duel" && !game.fatal) { setRoute({ k: "closing", c, players, game, from }); return; }
     const next = chainFor(c, players, game, from);

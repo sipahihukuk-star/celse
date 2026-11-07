@@ -8,6 +8,7 @@ import type { CaseFile } from "../engine/types";
 import { dosyaAc, senaryoAc } from "./evrakAc";
 export { dosyaAc, senaryoAc };
 import { setAktifMaske } from "../engine/mask/oturum";
+import { arsivGuncelle } from "./evrakArsiv";
 
 export interface Prova {
   ozet: string; uyusmazlik: string[]; hakimSorulari: { soru: string; cevap: string }[]; karsiArgumanlar: { arguman: string; cevap: string }[];
@@ -16,8 +17,9 @@ export interface Prova {
 /** Yükleme üst sınırı yalnız tarayıcı belleği için (yaklaşık 20.000 sayfa); büyük dosya derlenerek gönderilir (src/engine/mask/derleme.ts). */
 export const EVRAK_AZAMI = 60000000;
 
-export const evrakProva = (metin: string, taraf: "davaci" | "davali", asama: string) =>
-  call<Prova & { avukatKalan?: number }>("evrak", { metin, taraf, asama, kabul: true, akis: true }, 300000);
+// paket: sunucunun verdiği imzalı bilet. Aynı evrak için ilk mod (oyna ya da izle) 3 kredi ve hazırlık notları dahil, öteki mod 2 kredi.
+export const evrakProva = (metin: string, taraf: "davaci" | "davali", asama: string, paket?: string) =>
+  call<Prova & { avukatKalan?: number; paket?: string }>("evrak", { metin, taraf, asama, kabul: true, akis: true, paket }, 300000);
 
 /** Hazırlık notlarındaki kodları gerçek değerlere çevirir (yalnız cihazda). */
 export function provaAc(p: Prova, map: Record<string, string>): Prova {
@@ -47,11 +49,11 @@ export function provaMetni(p: Prova, t: (s: string) => string): string {
 // ---------- Duruşma salonu: yapay zekâ oynasın (izle) ya da avukat kendisi oynasın ----------
 
 /** Canlandırma senaryosu (Duruşmayı izle oynatıcısıyla aynı biçim); kişiler kodlarıyla gelir. */
-export const evrakIzle = (metin: string, taraf: "davaci" | "davali", asama: string) =>
-  call<{ senaryo: Senaryo; avukatKalan?: number }>("evrak_izle", { metin, taraf, asama, kabul: true, akis: true }, 300000);
+export const evrakIzle = (metin: string, taraf: "davaci" | "davali", asama: string, paket?: string) =>
+  call<{ senaryo: Senaryo; avukatKalan?: number; paket?: string }>("evrak_izle", { metin, taraf, asama, kabul: true, akis: true, paket }, 300000);
 /** Oynanabilir tek kişilik dosya; kişiler kodlarıyla gelir. */
-export const evrakOyna = (metin: string, taraf: "davaci" | "davali", asama: string) =>
-  call<{ dosya: unknown; avukatKalan?: number }>("evrak_oyna", { metin, taraf, asama, kabul: true, akis: true }, 360000);
+export const evrakOyna = (metin: string, taraf: "davaci" | "davali", asama: string, paket?: string) =>
+  call<{ dosya: unknown; avukatKalan?: number; paket?: string }>("evrak_oyna", { metin, taraf, asama, kabul: true, akis: true, paket }, 360000);
 
 /** Büyük dosya: hacme göre kredi düşer ve 6 saat geçerli bilet döner (yöneticiye ve deneme izinlisine ücretsiz). */
 export const evrakBiletAl = (toplam: number) => call<{ bilet: string; avukatKalan?: number | null }>("evrak_bilet", { toplam }, 30000);
@@ -68,10 +70,49 @@ export interface EvrakOturum {
   derleme?: { bilet?: string; kartlar?: DerlemeKarti[]; onemliler: number[] };
   /** Bu cihazdaki "Önceki hazırlıklarım" kaydı: kimliği ve (evrak yeniden yüklenmeden açıldıysa) kodların karşılıkları. */
   arsivId?: string; arsivMap?: Record<string, string>;
+  /** Sunucunun imzalı prova paketi bileti (indirimli ikinci mod ve dahil hazırlık notları için). */
+  paket?: string;
+  /** Avukatın kendi oynadığı provanın dökümü (oyun bitince App yazar). */
+  oynanan?: OynananProva;
+  /** Hazırlık notları arka planda hazırlanıyor. */
+  notlarBekliyor?: boolean;
 }
+export interface OynananProva { tarih: string; baslik: string; hukum: string; ozet: string; puan: string; adimlar: { soru: string; cevap: string; puan: number; not: string; madde?: string }[] }
 let oturum: EvrakOturum | null = null;
 export const evrakOturumu = () => oturum;
 export function evrakOturumuYaz(o: EvrakOturum | null) {
   oturum = o;
   setAktifMaske(o ? o.map : null);
+}
+
+// ---------- Arka planda hazırlık notları ----------
+// Mod (oyna ya da izle) hazırlanınca notlar arkada istenir; avukat bu sırada oynar ya da izler. Ekran açık olmasa da sonuç
+// oturuma ve bu cihazdaki "Önceki hazırlıklarım" kaydına yazılır; açık ekran dinleyiciyle haberdar edilir.
+const dinleyiciler = new Set<() => void>();
+export function evrakDinle(f: () => void) { dinleyiciler.add(f); return () => { dinleyiciler.delete(f); }; }
+export const evrakHaber = () => dinleyiciler.forEach(f => { try { f(); } catch { /* ekran kapanmış */ } });
+
+export async function notlariArkadaAl(metin: string, taraf: "davaci" | "davali", asama: string, paket: string | undefined, map: Record<string, string>) {
+  const o0 = oturum;
+  if (!o0 || o0.prova || o0.notlarBekliyor) return;
+  oturum = { ...o0, notlarBekliyor: true }; evrakHaber();
+  const r = await evrakProva(metin, taraf, asama, paket);
+  const o = oturum;
+  if (!o || o.arsivId !== o0.arsivId) return; // bu arada başka bir dosyaya geçildi
+  if (!r.ok) { oturum = { ...o, notlarBekliyor: false }; evrakHaber(); return; }
+  const { avukatKalan: _k, paket: yeniPaket, ...kodlu } = r.data;
+  void _k;
+  const prova = { kodlu: kodlu as Prova, acik: provaAc(kodlu as Prova, map) };
+  oturum = { ...o, notlarBekliyor: false, prova, paket: yeniPaket || o.paket };
+  if (o.arsivId) arsivGuncelle(o.arsivId, { prova, paket: yeniPaket || o.paket }).catch(() => {});
+  evrakHaber();
+}
+
+/** Avukatın oynadığı prova bitince (App.tsx): döküm oturuma ve cihazdaki kayda yazılır; "Provayı bitir"de çıktıya girer. */
+export function oynananYaz(x: OynananProva) {
+  const o = oturum;
+  if (!o) return;
+  oturum = { ...o, oynanan: x };
+  if (o.arsivId) arsivGuncelle(o.arsivId, { oynanan: x }).catch(() => {});
+  evrakHaber();
 }
