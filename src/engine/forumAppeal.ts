@@ -5,6 +5,7 @@
 // Süreler ve parasal sınırlar: DOĞRULAYIN (aşağıdaki tablolar).
 import { fmtDate, lastDay, longDate, suggestTeblig } from "./deadline";
 import { GameState } from "./engine";
+import { sebepMetni } from "./sebep";
 import { AppealKind, AppealStage, CaseFile, Choice, Outcome, Side, Step } from "./types";
 
 export interface ForumWay {
@@ -215,7 +216,7 @@ function highCourtWay(c: CaseFile, kind: AppealKind): ForumWay | { closed: strin
 const clip = (s: string, n: number) => (s.length <= n ? s : s.slice(0, s.lastIndexOf(" ", n)).replace(/[,;:]$/, "") + "…");
 
 /** Forum aşaması: süre → merci → sebep → talep → (duruşma istemi) → dilekçe → (duruşma) → karar. */
-export function forumStage(base: CaseFile, kind: AppealKind, side: Side, w: ForumWay, issue: { law: string; text: string }, baseHukum: string, dat: (s: string) => string, prev?: { c: CaseFile; game: GameState }): AppealStage {
+export function forumStage(base: CaseFile, kind: AppealKind, side: Side, w: ForumWay, issue: { law: string; text: string; note?: string }, baseHukum: string, dat: (s: string) => string, prev?: { c: CaseFile; game: GameState }): AppealStage {
   const cevap = kind === "cevap", temyiz = kind === "temyiz";
   const prevDate = prev?.c.kararTarihi || base.kararTarihi;
   const span = w.months ? { months: w.months } : { days: w.days };
@@ -259,7 +260,7 @@ export function forumStage(base: CaseFile, kind: AppealKind, side: Side, w: Foru
   };
 
   const sebepTitle = cevap ? "CEVAPLARIMIZ" : `${w.name.toLocaleUpperCase("tr")} SEBEPLERİ`;
-  const ground = cevap ? `Karar ${issue.law} yönünden isabetlidir: ${issue.text}` : `${issue.law} yönünden hukuka aykırılık: ${issue.text}`;
+  const groundHead = cevap ? `Karar ${issue.law} yönünden isabetlidir: ` : `${issue.law} yönünden hukuka aykırılık: `;
   const wrongs: Choice[] = [
     { text: "Kararın hakkaniyete aykırı olduğunu, hangi yönden hukuka aykırı bulunduğunu göstermeden genel bir itirazla belirtmek.", delta: -10, law: w.law,
       doc: "Karar hakkaniyete aykırıdır; kaldırılması gerekir.", note: "Gerekçesiz bir itiraz mercii ikna etmez; sebep somut olarak gösterilmeli." },
@@ -267,10 +268,12 @@ export function forumStage(base: CaseFile, kind: AppealKind, side: Side, w: Foru
       doc: "Karşı tarafın üslubu müvekkilimizi etkilemiştir.", note: "Üslup ve tutanağa geçmeyen sözler kararın hukuka aykırılığını göstermez." }
   ];
   const longest = Math.max(...wrongs.map(x => x.text.length));
+  const sebepT = sebepMetni(issue, Math.max(60, Math.floor(longest * 1.15) - groundHead.length));
+  const ground = groundHead + sebepT.tam;
   const sebep: Step = {
     side: "p1", scene: "office", section: sebepTitle, lines: [], prompt: cevap ? "Cevabınızın merkezine neyi koyacaksınız?" : `${Name} sebebiniz ne olacak?`,
     choices: [
-      { text: clip(ground, Math.floor(longest * 1.1)), delta: 20, set: ["sebep"], law: issue.law, doc: ground + ".",
+      { text: groundHead + sebepT.kisa, delta: 20, set: ["sebep"], law: issue.law, doc: ground + ".",
         note: cevap ? `Doğru. Kararın dayandığı değerlendirmeyi (${issue.law}) savundunuz.` : `Doğru. Kararı uyuşmazlığın kilit meselesinden (${issue.law}) eleştirdiniz.` },
       ...wrongs
     ]

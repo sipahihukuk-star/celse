@@ -6,7 +6,7 @@ import { C, F } from "../ui/theme";
 import { Section, SmallBtn } from "./form";
 import { VisualIssue, visualAudit } from "./visualAudit";
 
-const TUR: Record<VisualIssue["tur"], string> = { yuz: "Yüz", sahne: "Sahne", yas: "Yaş", gorusme: "Görüşme" };
+const TUR: Record<VisualIssue["tur"], string> = { yuz: "Yüz", sahne: "Sahne", yas: "Yaş", gorusme: "Görüşme", sik: "Şık" };
 
 export function VisualAuditPanel({ cases, onOpenCase, onClose }: { cases: CaseFile[]; onOpenCase: (id: string) => void; onClose: () => void }) {
   const [res, setRes] = useState<{ c: CaseFile; issues: VisualIssue[] }[] | null>(null);
@@ -23,7 +23,7 @@ export function VisualAuditPanel({ cases, onOpenCase, onClose }: { cases: CaseFi
   const toplam = res?.reduce((n, x) => n + x.issues.length, 0) ?? 0;
   return (
     <Section title="Görsel denetim"
-      hint="Yapay zekâ denetiminin göremediği, ekranda ortaya çıkan hataları arar: oyuncunun yüzü yanlış tarafta mı, büroda karşı vekil görünüyor mu, yaşı yazmayan kişiye yaşlı yüz düşüyor mu, görüşmede tek şıklı soru kalıyor mu. Yapay zekâ kullanmaz, kredi harcamaz; birkaç saniye sürer."
+      hint="Yapay zekâ denetiminin göremediği, ekranda ortaya çıkan hataları arar: oyuncunun yüzü yanlış tarafta mı, büroda karşı vekil görünüyor mu, yaşı yazmayan kişiye yaşlı yüz düşüyor mu, görüşmede tek şıklı soru kalıyor mu, bir şık (kanun yolu aşamaları dahil) yarıda kesilip “…” ile bitiyor mu. Yapay zekâ kullanmaz, kredi harcamaz; birkaç saniye sürer."
       right={<SmallBtn label="Kapat" onPress={onClose} />}>
       <View style={st.row}>
         <SmallBtn label={busy ? "Taranıyor…" : res ? `Yeniden tara (${cases.length} dava)` : `Bütün davaları tara (${cases.length})`} tone="accent" disabled={busy} onPress={run} />

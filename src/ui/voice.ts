@@ -65,7 +65,10 @@ function deviceVoice(s: Speaker) {
   const genderOk = !voice || voice.female === undefined || voice.female === s.female;
   // Ton: hâkim tok ve yavaş; kişiye göre küçük farklar; ses cinsiyete uymuyorsa ton kaydırılır.
   let pitch = narr ? 1.0 : 0.94 + ((h >> 8) % 13) / 100;
-  if (!genderOk || (voice?.female === undefined && !narr)) pitch += s.female ? 0.16 : -0.14;
+  // Telefonda çoğu zaman tek Türkçe ses vardır (iPhone'da kadın sesi "Yelda"). Erkek karakter o sesle konuşacaksa ton belirgin
+  // biçimde kalınlaştırılır; hafif kaydırma kadın sesi gibi duyuluyordu (mübaşir).
+  if (!genderOk) pitch = s.female ? pitch + 0.16 : 0.7 + ((h >> 8) % 7) / 100;
+  else if (voice?.female === undefined && !narr) pitch += s.female ? 0.16 : -0.14;
   let rate = narr ? 1.0 : 0.96 + ((h >> 4) % 9) / 100;
   if (s.role === "judge") { pitch -= 0.05; rate -= 0.05; }
   return { voice: voice?.id, pitch, rate };
@@ -136,8 +139,16 @@ export async function speakLine(text: string, speaker: Speaker | string = "narr"
   const s: Speaker = typeof speaker === "string" ? { id: speaker, role: speaker, female: false } : speaker;
   const say = spoken(text);
   setSpeaking(true);
-  const url = await cloudUrl(say, cloudVoice(s));
+  let url = await cloudUrl(say, cloudVoice(s));
   if (my !== token) return;
+  // Bulut sesi bir kez gelmezse (anlık ağ hatası) yarım saniye sonra bir daha denenir; cihaz sesi son çaredir, çünkü
+  // telefonda erkek Türkçe ses çoğu zaman yoktur ve erkek karakter kadın sesiyle konuşur.
+  if (!url && serverReady() && !cloudDown) {
+    await new Promise(r => setTimeout(r, 500));
+    if (my !== token) return;
+    url = await cloudUrl(say, cloudVoice(s));
+    if (my !== token) return;
+  }
   if (url) {
     try {
       const p = createAudioPlayer({ uri: url });
