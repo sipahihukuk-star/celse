@@ -1062,6 +1062,33 @@ async function evrakDerle(uid: string, b: Record<string, unknown>) {
   return json({ kartlar: kartlar });
 }
 
+// Uzun işler (evrak notları, canlandırma, oyun dosyası, derleme): cevap başlığı hemen gönderilir, iş bitene kadar 10 saniyede bir boşluk
+// yazılır, sonunda JSON gelir. Böylece ağ geçidinin 150 saniyelik boşta bekleme sınırı isteği kesmez. Hata da gövdede döner (__durum).
+// Yalnız akis: true gönderen yeni istemcilerde; eski uygulama sürümleri eskisi gibi düz cevap alır.
+function akisla(is: Promise<Response>): Response {
+  const enc = new TextEncoder();
+  const stream = new ReadableStream({
+    start(ctrl) {
+      const yaz = function (x: string) { try { ctrl.enqueue(enc.encode(x)); } catch (_e) { void _e; } };
+      yaz(" ");
+      const zamanlayici = setInterval(function () { yaz(" "); }, 10000);
+      is.then(async function (r) {
+        let govde: Record<string, unknown> = {};
+        try { govde = await r.json(); } catch (_e) { govde = {}; }
+        if (!r.ok) govde.__durum = r.status;
+        return govde;
+      }).catch(function (e) {
+        return { error: "sunucu hatası", detay: String(e).slice(0, 300), __durum: 502 } as Record<string, unknown>;
+      }).then(function (govde) {
+        clearInterval(zamanlayici);
+        yaz(JSON.stringify(govde));
+        try { ctrl.close(); } catch (_e) { void _e; }
+      });
+    }
+  });
+  return new Response(stream, { status: 200, headers: { ...cors, "Content-Type": "application/json" } });
+}
+
 export async function handle(req: Request): Promise<Response> {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   if (req.method !== "POST") return json({ error: "yalnız POST" }, 405);
@@ -1084,9 +1111,9 @@ export async function handle(req: Request): Promise<Response> {
     if (action === "izle") return await izle(uid, b);
     if (action === "ses") return await sesKaydi(uid, b);
     if (action === "dosya") return await dosya(uid, b);
-    if (action === "evrak" || action === "evrak_izle" || action === "evrak_oyna") return await evrakKredili(req, uid, action, b);
+    if (action === "evrak" || action === "evrak_izle" || action === "evrak_oyna") return b.akis === true ? akisla(evrakKredili(req, uid, action, b)) : await evrakKredili(req, uid, action, b);
     if (action === "evrak_bilet") return await evrakBilet(req, uid, b);
-    if (action === "evrak_derle") return await evrakDerle(uid, b);
+    if (action === "evrak_derle") return b.akis === true ? akisla(evrakDerle(uid, b)) : await evrakDerle(uid, b);
     return await takip(uid, b);
   } catch (e) {
     return json({ error: "sunucu hatası", detay: String(e).slice(0, 300) }, 502);

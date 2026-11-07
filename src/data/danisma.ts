@@ -109,13 +109,21 @@ export async function call<T>(action: string, body: Record<string, unknown>, sur
       headers: { "Content-Type": "application/json", apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${token}` },
       body: JSON.stringify({ action, dil: getLang(), ...body })
     });
+    // Uzun işlerde (akis) cevap hemen başlar, gövde iş bitince gelir: süre sınırı gövde okunurken de geçerli kalır.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let j: any = {};
+    try { const txt = await r.text(); j = txt.trim() ? JSON.parse(txt) : {}; } catch {
+      if (ctrl.signal.aborted) { clearTimeout(timer); return { ok: false, error: "Sunucu zamanında cevap vermedi. Biraz sonra yeniden deneyin." }; }
+      j = {};
+    }
     clearTimeout(timer);
-    const j = await r.json().catch(() => ({}));
-    if (r.ok) return { ok: true, data: j as T };
-    if (j?.ret) return { ok: false, status: r.status, iade: true, error: "Bu istek değerlendirilemedi: {neden}", vars: { neden: String(j.ret) } };
-    if (j?.uygunsuz) return { ok: false, status: r.status, error: "Bu istek değerlendirilemedi: {neden}", vars: { neden: String(j.neden || "") } };
+    // Akışlı cevapta HTTP durumu hep 200'dür; asıl durum gövdedeki __durum alanındadır.
+    const durum = typeof j?.__durum === "number" ? j.__durum : r.status;
+    if (r.ok && typeof j?.__durum !== "number") return { ok: true, data: j as T };
+    if (j?.ret) return { ok: false, status: durum, iade: true, error: "Bu istek değerlendirilemedi: {neden}", vars: { neden: String(j.ret) } };
+    if (j?.uygunsuz) return { ok: false, status: durum, error: "Bu istek değerlendirilemedi: {neden}", vars: { neden: String(j.neden || "") } };
     const e = String(j?.error || "");
-    return { ok: false, status: r.status, iade: !!j?.iade, error: HATA[e] || (r.status === 400 ? "Formdaki bilgiler eksik." : "Sunucu şu an cevap veremedi. Biraz sonra yeniden deneyin.") };
+    return { ok: false, status: durum, iade: !!j?.iade, error: HATA[e] || (durum === 400 ? "Formdaki bilgiler eksik." : "Sunucu şu an cevap veremedi. Biraz sonra yeniden deneyin.") };
   } catch {
     return { ok: false, error: "Bağlantı kurulamadı. İnternet bağlantınızı kontrol edin." };
   }
