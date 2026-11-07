@@ -19,6 +19,10 @@ export function PlayersPanel({ onClose }: { onClose: () => void }) {
   const [q, setQ] = useState("");
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
+  // Her tuşun sonucu o kişinin kartında yazar (başarılıysa yeşil, hata varsa kırmızı); hata yalnız listenin tepesinde kalınca görünmüyordu.
+  const [sonuc, setSonuc] = useState<Record<string, { ok: boolean; t: string }>>({});
+  const bildir = (r: Row, error: { message: string } | null, ok: string, kurulum?: string) =>
+    setSonuc(x => ({ ...x, [r.id]: error ? { ok: false, t: "İşlem yapılamadı: " + (kurulum && error.message.includes("function") ? kurulum : error.message) } : { ok: true, t: "✓ " + ok } }));
   const [kurulum14, setKurulum14] = useState(true);
   const [kurulum15, setKurulum15] = useState(true);
 
@@ -50,7 +54,7 @@ export function PlayersPanel({ onClose }: { onClose: () => void }) {
     const res = until
       ? await sb.from("abonelikler").upsert({ kullanici_id: r.id, bitis: until, kaynak: "manuel", guncelleme: new Date().toISOString() })
       : await sb.from("abonelikler").delete().eq("kullanici_id", r.id);
-    if (res.error) setErr(res.error.message);
+    bildir(r, res.error, until ? `Oyunun tam erişimi ${until === FOREVER ? "süresiz" : fmt(until) + " tarihine kadar"} açıldı.` : "Oyunun ücretsiz erişimi kaldırıldı.");
     await load();
     setBusy(null);
   };
@@ -58,28 +62,28 @@ export function PlayersPanel({ onClose }: { onClose: () => void }) {
     const sb = supabase(); if (!sb) return;
     setBusy(r.id);
     const res = await sb.rpc("yonetici_kredi_ver", { p_kullanici: r.id, p_miktar: n });
-    if (res.error) setErr(res.error.message.includes("function") ? "Önce supabase/surum14.sql çalıştırılmalı." : res.error.message);
+    bildir(r, res.error, `Derdini anlat kredisi ${n > 0 ? n + " artırıldı" : -n + " azaltıldı"}.`, "önce supabase/surum14.sql çalıştırılmalı.");
     await load(); setBusy(null);
   };
   const evrak = async (r: Row, acik: boolean) => {
     const sb = supabase(); if (!sb) return;
     setBusy(r.id);
     const res = await sb.rpc("yonetici_evrak_yetki", { p_kullanici: r.id, p_acik: acik });
-    if (res.error) setErr(res.error.message.includes("function") ? "Önce supabase/surum14.sql çalıştırılmalı." : res.error.message);
+    bildir(r, res.error, acik ? "Evrakla duruşma provası sınırsız olarak açıldı." : "Evrakla duruşma provası izni kapatıldı.", "önce supabase/surum14.sql çalıştırılmalı.");
     await load(); setBusy(null);
   };
   const avukatPaket = async (r: Row, bitis: string | null) => {
     const sb = supabase(); if (!sb) return;
     setBusy(r.id);
     const res = await sb.rpc("yonetici_avukat_paket", { p_kullanici: r.id, p_bitis: bitis });
-    if (res.error) setErr(res.error.message.includes("function") ? "Önce supabase/surum15.sql çalıştırılmalı." : res.error.message);
+    bildir(r, res.error, bitis ? `Celse Avukat paketi ${fmt(bitis)} tarihine kadar açıldı (ayda 160 kredi). Kişi uygulamayı kapatıp açınca evrak bölümü açılır.` : "Celse Avukat paketi kaldırıldı.", "önce supabase/surum15.sql çalıştırılmalı.");
     await load(); setBusy(null);
   };
   const avukatKredi = async (r: Row, n: number) => {
     const sb = supabase(); if (!sb) return;
     setBusy(r.id);
     const res = await sb.rpc("yonetici_avukat_kredi", { p_kullanici: r.id, p_miktar: n });
-    if (res.error) setErr(res.error.message);
+    bildir(r, res.error, `Bu ayın avukat kredisine ${n} eklendi.`);
     await load(); setBusy(null);
   };
   const avukatAktif = (r: Row) => !!r.avukat && new Date(r.avukat.bitis) > new Date();
@@ -135,6 +139,7 @@ export function PlayersPanel({ onClose }: { onClose: () => void }) {
               {avukatAktif(r) && <SmallBtn label="+20 kredi (bu ay)" onPress={() => avukatKredi(r, 20)} />}
             </View>
           )}
+          {busy !== r.id && !!sonuc[r.id] && <Text style={[st.sonuc, { color: sonuc[r.id].ok ? C.good : C.bad }]}>{sonuc[r.id].t}</Text>}
           <View style={st.row}>
             {busy === r.id ? <ActivityIndicator color={C.brass} /> : (r.kaynak && r.kaynak !== "manuel" && active(r)) ? <Text style={st.meta}>Ücretli abonelik</Text> : (
               <>
@@ -157,5 +162,6 @@ const st = StyleSheet.create({
   name: { fontFamily: F.displayMed, fontSize: 17, color: C.text },
   meta: { fontFamily: F.body, fontSize: 13, color: C.muted },
   row: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 6 },
-  err: { fontFamily: F.body, fontSize: 14, color: C.bad }
+  err: { fontFamily: F.body, fontSize: 14, color: C.bad },
+  sonuc: { fontFamily: F.bodyBold, fontSize: 14, width: "100%" }
 });
