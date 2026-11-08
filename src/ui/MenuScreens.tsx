@@ -8,7 +8,7 @@ import { useVoiceEnabled } from "./voice";
 import { Platform, Share } from "react-native";
 import { StoreLinks, StoreRails } from "./StoreLinks";
 import { HeroScale } from "./HeroScale";
-import { IconBadge } from "./icons";
+import { Icon, IconBadge } from "./icons";
 import { LegalFooter } from "./LegalFooter";
 import { DOWNLOAD_URL, WEB_URL } from "../data/settings";
 import { CaseFile, Player, Side } from "../engine/types";
@@ -75,8 +75,8 @@ export function TitleScreen(p: TitleProps) {
   const footer = Platform.OS === "web" ? <>{!!p.onShop && <ShopCard onPress={p.onShop} />}{!rails && <StoreLinks />}<LegalFooter onShop={p.onShop} /></> : null;
   return (
     <View style={{ flex: 1 }}>
-      {/* Üst şerit: solda menü, sağda üyelik */}
-      <View style={styles.topBar}>
+      {/* Üst şerit: solda menü, sağda üyelik. İlk giriş sayfasında yoktur. */}
+      {!entry && <View style={styles.topBar}>
         <Pressable accessibilityRole="button" accessibilityLabel={t("Menü")} onPress={() => setMenu(true)} style={styles.burger} hitSlop={10}>
           <View style={styles.burgerLine} /><View style={styles.burgerLine} /><View style={styles.burgerLine} />
           {!!p.onInbox && <InboxDot />}
@@ -97,7 +97,7 @@ export function TitleScreen(p: TitleProps) {
             <Btn label={server ? t("Üye ol") : t("Yeni oyuncu")} onPress={p.onSignUp} />
           </View>
         )}
-      </View>
+      </View>}
 
       {entry ? (
         <View style={{ flex: 1, flexDirection: "row" }}>
@@ -202,50 +202,56 @@ export function TitleScreen(p: TitleProps) {
 /** İlk giriş sayfası: oturum yokken üç bölümden (Dava takibi, Derdini anlat, Kariyer ve oyun) önce gelir.
  *  Giriş yapınca ya da "Üye olmadan dene" denince üç sayfa açılır. Apple zorunlu üyeliği kabul etmediği için üye olmadan da geçilebilir. */
 function EntryHome({ wide, tilt, server, onSignUp, onSignIn, onGuest, footer }: { wide: boolean; tilt: number; server: boolean; onSignUp: () => void; onSignIn: () => void; onGuest?: () => void; footer: React.ReactNode }) {
+  // Bölümler burada yalnız tanıtılır (tıklanmaz); girişten sonra üstteki sekmelerle açılır.
   const bolumler: { ikon: "folder" | "scales" | "trophy"; ad: string; not: string }[] = [
-    { ikon: "folder", ad: t("Dava takibi"), not: t("Föyleriniz, duruşmalarınız, süreleriniz ve evrakınız tek yerde.") },
-    { ikon: "scales", ad: t("Derdini anlat"), not: t("Olayınızı anlatın, güçlü ve zayıf yönlerinizi görün; avukatlar için evrakla duruşma provası.") },
-    { ikon: "trophy", ad: t("Kariyer ve oyun"), not: t("Genç bir avukat olarak başlayın, davaları kazandıkça yükselin.") },
+    { ikon: "folder", ad: t("Dava takibi"), not: t("föyleriniz, duruşmalarınız, süreleriniz ve evrakınız tek yerde.") },
+    { ikon: "scales", ad: t("Derdini anlat"), not: t("olayınızı anlatın, güçlü ve zayıf yönlerinizi görün; avukatlar için evrakla duruşma provası.") },
+    { ikon: "trophy", ad: t("Kariyer ve oyun"), not: t("genç bir avukat olarak başlayın, davaları kazandıkça yükselin.") },
   ];
   return (
-    <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row", alignItems: "flex-start", gap: 40 }]}>
-      <View style={[{ gap: 6 }, wide && { flex: 1.1 }]}>
-        <View style={[styles.titleArt, { marginBottom: 4 }]}>
-          <HeroScale angle={tilt} size={wide ? 220 : 120} left={C.p1} right={C.p2} />
-        </View>
-        <Text style={styles.eyebrow}>{t("AVUKATLAR VE HERKES İÇİN")}</Text>
-        <Text style={[styles.logo, { fontSize: wide ? 96 : 56, lineHeight: wide ? 104 : 64 }]}>Celse</Text>
-        <Text style={styles.byline}>BY THEMISCODE</Text>
-        <View style={{ gap: 10, marginTop: 10 }}>
-          {bolumler.map(b => (
-            <View key={b.ikon} style={styles.entryRow}>
-              <IconBadge name={b.ikon} size={36} />
-              <View style={{ flex: 1 }}>
-                <Text style={styles.entryRowT}>{b.ad}</Text>
-                <Text style={styles.webNote}>{b.not}</Text>
+    <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, { justifyContent: "flex-start", paddingTop: wide ? 28 : 16, gap: wide ? 28 : 18 }]}>
+      <View style={[{ gap: wide ? 40 : 18 }, wide && { flexDirection: "row", alignItems: "flex-start" }]}>
+        <View style={[{ gap: 4 }, wide && { flex: 1.1 }]}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: wide ? 18 : 12 }}>
+            <View style={{ flex: 1, gap: 2 }}>
+              <Text style={styles.eyebrow}>{t("AVUKATLAR VE HERKES İÇİN")}</Text>
+              <Text style={[styles.logo, { fontSize: wide ? 72 : 50, lineHeight: wide ? 80 : 58 }]}>Celse</Text>
+              <Text style={styles.byline}>BY THEMISCODE</Text>
+            </View>
+            <HeroScale angle={tilt} size={wide ? 120 : 84} left={C.p1} right={C.p2} />
+          </View>
+          <Text style={[styles.entryIntro, { marginTop: wide ? 10 : 6 }]}>{t("Celse'de üç bölüm var:")}</Text>
+          <View style={{ gap: 8, marginTop: 4 }}>
+            {bolumler.map(b => (
+              <View key={b.ikon} style={{ flexDirection: "row", alignItems: "flex-start", gap: 10 }}>
+                <View style={{ paddingTop: 2 }}><Icon name={b.ikon} size={18} color={C.brassDim} /></View>
+                <Text style={[styles.entryText, { flex: 1 }]}>
+                  <Text style={styles.entryTextB}>{b.ad}</Text>{": " + b.not}
+                </Text>
               </View>
-            </View>
-          ))}
+            ))}
+          </View>
+          <Text style={[styles.webNote, { marginTop: 8 }]}>{t("Giriş yaptıktan sonra bu bölümler üstteki sekmelerden açılır.")}</Text>
+        </View>
+        <View style={[{ gap: 6 }, wide && { flex: 0.9 }]}>
+          <LoginCard server={server} onSignUp={onSignUp} onPickLocal={onSignIn} />
+          {!!onGuest && (
+            <Pressable accessibilityRole="button" onPress={onGuest} hitSlop={8} style={({ pressed }) => [styles.guestLink, pressed && { opacity: 0.7 }]}>
+              <Text style={styles.guestLinkT}>{t("Üye olmadan dene ›")}</Text>
+            </Pressable>
+          )}
         </View>
       </View>
-      <View style={[{ gap: 6 }, wide && { flex: 0.9, paddingTop: 24 }]}>
-        <LoginCard server={server} onSignUp={onSignUp} onPickLocal={onSignIn} />
-        {!!onGuest && (
-          <Pressable accessibilityRole="button" onPress={onGuest} hitSlop={8} style={({ pressed }) => [styles.guestLink, pressed && { opacity: 0.7 }]}>
-            <Text style={styles.guestLinkT}>{t("Üye olmadan dene ›")}</Text>
-          </Pressable>
-        )}
-        {Platform.OS === "web" ? footer : (
-          <Pressable accessibilityRole="link" onPress={() => Linking.openURL(WEB_URL)} style={({ pressed }) => [styles.webLink, pressed && { opacity: 0.8 }]}>
-            <Text style={styles.webIcon}>🌐</Text>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.careerKDark}>{t("WEB SÜRÜMÜ · BİLGİSAYARDAN DA KULLANIN")}</Text>
-              <Text style={styles.webUrl}>{WEB_URL.replace(/^https:\/\//, "").replace(/\/$/, "")}</Text>
-            </View>
-            <Text style={styles.careerGoDark}>›</Text>
-          </Pressable>
-        )}
-      </View>
+      {Platform.OS === "web" ? <View>{footer}</View> : (
+        <Pressable accessibilityRole="link" onPress={() => Linking.openURL(WEB_URL)} style={({ pressed }) => [styles.webLink, pressed && { opacity: 0.8 }]}>
+          <Text style={styles.webIcon}>🌐</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.careerKDark}>{t("WEB SÜRÜMÜ · BİLGİSAYARDAN DA KULLANIN")}</Text>
+            <Text style={styles.webUrl}>{WEB_URL.replace(/^https:\/\//, "").replace(/\/$/, "")}</Text>
+          </View>
+          <Text style={styles.careerGoDark}>›</Text>
+        </Pressable>
+      )}
     </ScrollView>
   );
 }
@@ -602,8 +608,9 @@ const styles = StyleSheet.create({
   careerKDark: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.muted },
   careerGoDark: { fontFamily: F.bodyBold, fontSize: 17, color: C.brass },
   titleArt: { alignItems: "center" },
-  entryRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 10, paddingHorizontal: 12, borderRadius: 14, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel2 },
-  entryRowT: { fontFamily: F.display, fontSize: 19, color: C.text },
+  entryIntro: { fontFamily: F.bodyMed, fontSize: 15, color: C.textSoft },
+  entryText: { fontFamily: F.body, fontSize: 14, lineHeight: 20, color: C.muted },
+  entryTextB: { fontFamily: F.bodyBold, color: C.text },
   eyebrow: { fontFamily: F.mono, fontSize: 12, letterSpacing: 2.5, color: C.muted },
   logo: { fontFamily: F.logo, color: C.brass, letterSpacing: 2 },
   lede: { fontFamily: F.body, fontSize: 19, lineHeight: 27, color: "#d9d5ca", maxWidth: 480, marginTop: 8 },
