@@ -57,6 +57,8 @@ export interface Foy {
   muvekkilBilgi?: MuvekkilBilgi;
   /** karşı tarafın kimlik, iletişim ve vekil bilgileri: müvekkil bilgileri gibi yalnız cihazda (eşitlemede şifreli) */
   karsiBilgi?: KarsiBilgi;
+  /** icra takibi hazırlığı (takip yolu, alacak kalemleri, faiz, dayanak belge) */
+  icra?: import("./icra").IcraBilgi;
   durum: "acik" | "kapali";
   /** Sonraki duruşma: YYYY-AA-GG (saat isteğe bağlı: YYYY-AA-GGTSS:DD). */
   durusma?: string;
