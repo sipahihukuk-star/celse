@@ -69,6 +69,8 @@ export async function cevrimdisiHazirla(ilerle: Ilerleme): Promise<void> {
 }
 
 /** PDF: önce metin katmanı; boş sayfalar yazı tanımayla. */
+const DOGRULAMA = /e-?\s?imza|elektronik\s+imza|güvenli\s+elektronik|5070|uyap|doğrulama|dogrulama|vatandas\.uyap|avukat\.uyap|https?:\/\/|www\.|sayfa\s*\d+\s*\/\s*\d+|^\s*\d+\s*\/\s*\d+\s*$/i;
+
 /** pdf.js yazı parçalarını sayfadaki konumlarına göre satırlara dizer (satır sonu işareti olmayan PDF'ler için). */
 function satirlaPdf(items: Any[]): string {
   const p = items.filter(it => typeof it.str === "string" && it.transform).map(it => ({ s: it.str as string, x: it.transform[4] as number, y: it.transform[5] as number, w: (it.width as number) || 0, h: Math.abs(it.transform[3] as number) || Math.abs(it.height as number) || 10 }));
@@ -108,14 +110,19 @@ export async function pdfMetni(bytes: Uint8Array, ilerle: Ilerleme): Promise<str
     const tc = await page.getTextContent();
     let metin = satirlaPdf(tc.items as Any[]);
     // Yazı yoksa (taranmış sayfa) ya da yazı tipi kodlaması bozuksa (anlamsız karakterler) sayfa yazı tanımayla okunur.
-    if (metin.replace(/\s/g, "").length < 40 || yaziKalitesi(metin).bozuk) {
+    // UYAP'tan inen PDF'lerde asıl metin çoğu zaman resimdir; yazı katmanında yalnız e-imza / doğrulama satırı bulunur.
+    // Bu satırlar çıkarıldıktan sonra kalan yazı azsa sayfa yazı tanımayla da okunur.
+    const asil = metin.split("\n").filter(x => !DOGRULAMA.test(x)).join("\n");
+    if (asil.replace(/\s/g, "").length < 250 || yaziKalitesi(metin).bozuk) {
 
       ilerle(`Taranmış sayfa, yazı tanıma: sayfa ${i} / ${doc.numPages}`);
       const vp = page.getViewport({ scale: 2.2 });
       const c = document.createElement("canvas");
       c.width = Math.ceil(vp.width); c.height = Math.ceil(vp.height);
       await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
-      metin = (await ocr(c, ilerle)).trim();
+      const okunan = (await ocr(c, ilerle)).trim();
+      // Yazı katmanındaki kısa metin (bozuk değilse) korunur, tanınan yazının sonuna eklenir.
+      metin = yaziKalitesi(metin).bozuk || !asil.trim() ? okunan : okunan.length > asil.length ? okunan + "\n" + metin : metin;
     }
     sayfalar.push(metin);
   }
