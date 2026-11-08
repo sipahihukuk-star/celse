@@ -10,7 +10,7 @@ import { FoyTur, turBilgi } from "../data/foyTurleri";
 import { FoylemeSohbeti } from "./FoylemeSohbeti";
 import { geriAc } from "../data/foyleme";
 import { HavuzEvrak, havuzuGrupla, HavuzGrup, Hedef } from "../data/havuz";
-import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
+import { kunyeCikar, kunyeyiDoldur, yapiIskeleti } from "../data/kunyeCikar";
 import { turBul, yaziKalitesi, zipIcerigi } from "../engine/mask/readers";
 import { t } from "../i18n";
 import { evrakMetniOku, evrakOlustur, Kaynak } from "./foyEvrak";
@@ -39,6 +39,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
   const [hazir, setHazir] = useState<boolean>(() => { try { return globalThis.localStorage?.getItem("celse-cevrimdisi-hazir") === "1"; } catch { return false; } });
 
   const [goster, setGoster] = useState<string | null>(null);
+  const [iskelet, setIskelet] = useState<string | null>(null);
   const [tablolar, setTablolar] = useState<{ ad: string; sonuc: AktarimSonucu }[]>([]);
   const [tabloHata, setTabloHata] = useState("");
   // Akış: grubun hangi grubun devamı olduğu (öneriyi değiştirmek ya da kaldırmak için; null = bağ yok).
@@ -305,6 +306,8 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
                     </View>
                     <Btn kind="ghost" label={ayriHedef[e.id] ? t("Değiştir") : t("Föy seç")} onPress={() => setSecim(secim === e.id ? null : e.id)} />
                   </View>
+                  {!!e.metin.trim() && <Pressable onPress={() => setIskelet(iskelet === e.id ? null : e.id)}><Text style={s.link}>{iskelet === e.id ? t("Yapıyı gizle") : t("Yapıyı göster (adlar ve numaralar gizli)")}</Text></Pressable>}
+                  {iskelet === e.id && <Text style={[s.hint, { fontFamily: "monospace" }]} selectable>{yapiIskeleti(e.metin)}</Text>}
                   {goster === e.id && <Text style={[s.hint, { fontFamily: undefined }]} selectable>{e.metin.split("\n").filter(x => x.trim()).slice(0, 14).join("\n")}</Text>}
                   {secim === e.id && secici(id => setAyriHedef(x => ({ ...x, [e.id]: id })))}
                 </View>

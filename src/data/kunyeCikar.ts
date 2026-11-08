@@ -6,6 +6,8 @@ import type { Foy, KarsiBilgi, MuvekkilBilgi } from "./foy";
 export interface TarafOneri { ad: string; kimlikNo?: string; adres?: string; vekil?: string }
 export interface KunyeOneri {
   mahkeme?: string; esasNo?: string; konu?: string; durusma?: string;
+  /** UYAP dosya türü ("CBS Soruşturma Dosyası", "Hukuk Dava Dosyası", "İcra Dosyası"…): föy türü tahmini için */
+  dosyaTuru?: string;
   /** dava / başvuru / soruşturma / takip tarihi (YYYY-AA-GG) */
   acilis?: string;
   /** evrakın kendi tarihi (karar, tutanak, dilekçe tarihi; YYYY-AA-GG): föyde evrak bu tarihe göre sıralanır */
@@ -25,13 +27,30 @@ export function basHarf(s: string) {
 }
 
 const BIRINCI = ["DAVACILAR", "DAVACI", "MÜŞTEKİ", "ŞİKAYETÇİ", "ŞİKÂYETÇİ", "KATILAN", "ALACAKLI", "BAŞVURUCU", "BAŞVURAN", "İTİRAZ EDEN", "İSTİNAF EDEN", "TEMYİZ EDEN", "KEŞİDECİ", "İHTAR EDEN",
-  "SUÇ DUYURUSUNDA BULUNAN", "ŞİKAYET EDEN", "ŞİKÂYET EDEN", "İHBAR EDEN", "MÜDAHİL", "BAŞVURUCULAR", "ALACAKLILAR", "MÜŞTEKİLER"];
+  "SUÇ DUYURUSUNDA BULUNAN", "SUÇTAN ZARAR GÖREN", "MAĞDUR", "MAĞDURLAR", "ŞİKAYET EDEN", "ŞİKÂYET EDEN", "İHBAR EDEN", "MÜDAHİL", "BAŞVURUCULAR", "ALACAKLILAR", "MÜŞTEKİLER"];
 const IKINCI = ["DAVALILAR", "DAVALI", "ŞÜPHELİ", "SANIK", "BORÇLU", "KARŞI TARAF", "ALEYHİNE BAŞVURULAN", "KARŞI DAVALI", "MUHATAP", "İHTAR EDİLEN",
   "ŞÜPHELİLER", "SANIKLAR", "BORÇLULAR", "ŞİKAYET EDİLEN", "ŞİKÂYET EDİLEN", "ŞİKAYET OLUNAN", "HAKKINDA ŞİKAYETTE BULUNULAN", "KARŞI TARAFLAR"];
 const ROLLER = [...BIRINCI, ...IKINCI].sort((a, b) => b.length - a.length);
 // Ayraç iki nokta ya da (PDF ve taramada sütun olarak dizilmiş başlıklarda) sekme / birden çok boşluk.
 const rolDeseni = new RegExp(`^\\s*(${ROLLER.join("|")})\\s*(VEKİLİ|VEKİLLERİ|MÜDAFİİ)?(?:\\s*:|\\t|\\s{2,})\\s*(.*)$`, "i");
 const vekilDeseni = /^\s*(VEKİLİ|VEKİLLERİ|MÜDAFİİ)(?:\s*:|\t|\s{2,})\s*(.*)$/i;
+/** UYAP tablolarında tarafın türü sütunu; ad değildir. */
+const TIP_HUCRE = /^(KİŞİ|KURUM|GERÇEK KİŞİ|TÜZEL KİŞİ|ŞİRKET|ŞAHIS|SANAL KİŞİ|TÜZEL|GERÇEK|-|—)$/i;
+const hucreler = (x: string) => x.split(/\t|\s{2,}/).map(c => c.trim()).filter(Boolean);
+/** "Birim : …", "Dosya No    2024/12" ya da etiket bir satırda, değeri altındaki satırda (UYAP dosya bilgisi çıktısı). */
+function etiket(satirlar: string[], adlar: string[], gecerli: (v: string) => boolean = v => v.length > 1): string | undefined {
+  const re = new RegExp(`^\\s*(?:${adlar.join("|")})\\s*(?::|\\t|\\s{2,})\\s*(.+)$`);
+  const yalniz = new RegExp(`^\\s*(?:${adlar.join("|")})\\s*:?\\s*$`);
+  for (let i = 0; i < Math.min(satirlar.length, 150); i++) {
+    const u = satirlar[i].toLocaleUpperCase("tr");
+    const m = u.match(re);
+    if (m) { const v = satirlar[i].slice(satirlar[i].length - m[1].length).trim(); const ilk = hucreler(v)[0] || v; if (gecerli(ilk)) return ilk; }
+    if (yalniz.test(u) && satirlar[i + 1] && gecerli(satirlar[i + 1].trim())) return satirlar[i + 1].trim();
+  }
+  return undefined;
+}
+const ESAS_DEGER = /^((?:19|20)\d{2}\s*\/\s*\d{1,7})/;
+
 /** Küçük harfle yazılmış başlık ("Davacı : …") da tanınsın: Türkçe büyük harfe çevirip bakılır. */
 const rolBul = (x: string) => x.match(rolDeseni) || x.toLocaleUpperCase("tr").match(rolDeseni);
 
@@ -70,15 +89,31 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
   // Mahkeme / savcılık / icra dairesi: başlıktaki ilk büyük harfli satır.
   const merci = new RegExp(`^(?:T\\.?\\s?C\\.?\\s+)?([${BUYUK}][${BUYUK}0-9 .]{2,60}(?:MAHKEMESİ|SAVCILIĞI|İCRA DAİRESİ|İCRA MÜDÜRLÜĞÜ|HUKUK DAİRESİ|CEZA DAİRESİ|DAVA DAİRESİ|ARABULUCULUK BÜROSU|ARABULUCULUK MERKEZİ|KOMİSYONU BAŞKANLIĞI|KOMİSYONU|HAKEM HEYETİ|DİSİPLİN KURULU|BAROSU BAŞKANLIĞI|DANIŞTAY|YARGITAY))(?:['’]?(?:NE|NA|YE|YA))?(?=[\\s,.]|$)`);
   // Dilekçe başlığı "… MAHKEMESİ'NE" de olur; "NÖBETÇİ" mahkeme henüz belli olmayan mahkemedir, alınmaz.
-  for (const x of bas) { const m = x.match(merci) || x.toLocaleUpperCase("tr").match(merci); if (m && !/NÖBETÇİ/.test(m[1])) { o.mahkeme = basHarf(m[1]); break; } }
-  const esas = metin.match(/(?:ESAS\s*(?:NO|NUMARASI)?|DOSYA\s*NO|SORUŞTURMA\s*(?:NO|NUMARASI)|TAKİP\s*NO|BÜRO\s*(?:NO|NUMARASI)|ARABULUCULUK\s*(?:NO|NUMARASI)|BAŞVURU\s*(?:NO|NUMARASI))\s*[:.]?\s*((?:19|20)\d{2}\s*\/\s*\d{1,7})/i)
+  const etiketsiz = (x: string) => x.replace(/^\s*(?:BİRİM ADI|BİRİM|MAHKEME ADI|MAHKEME|DAİRE|MERCİ|Birim Adı|Birim|Mahkeme Adı|Mahkeme|Daire|Merci)\s*(?::|\t|\s{2,})\s*/, "");
+  for (const x0 of bas) { const x = etiketsiz(x0); const m = x.match(merci) || x.toLocaleUpperCase("tr").match(merci); if (m && !/NÖBETÇİ/.test(m[1])) { o.mahkeme = basHarf(m[1]); break; } }
+  if (!o.mahkeme) { const b = etiket(bas, ["BİRİM ADI", "BİRİM", "MAHKEME ADI", "MAHKEMESİ", "MAHKEME", "DAİRE", "MERCİ", "SAVCILIK"], v => v.length > 4 && !/^\d/.test(v)); if (b) o.mahkeme = basHarf(b); }
+  const esas = metin.match(/(?:ESAS\s*(?:NO|NUMARASI)?|DOSYA\s*(?:NO|NUMARASI|NUMARA)|SORUŞTURMA\s*(?:NO|NUMARASI)|TAKİP\s*NO|BÜRO\s*(?:NO|NUMARASI)|ARABULUCULUK\s*(?:NO|NUMARASI)|BAŞVURU\s*(?:NO|NUMARASI))\s*[:.]?\s*((?:19|20)\d{2}\s*\/\s*\d{1,7})/i)
     || metin.match(/\b((?:19|20)\d{2}\s*\/\s*\d{1,7})\s*(?:Esas|E\.)\b/);
   if (esas) o.esasNo = esas[1].replace(/\s+/g, "");
+  if (!o.esasNo) { const e = etiket(satirlar, ["DOSYA NO", "DOSYA NUMARASI", "ESAS NO", "ESAS NUMARASI", "SORUŞTURMA NO", "TAKİP NO", "BAŞVURU NO"], v => ESAS_DEGER.test(v)); if (e) o.esasNo = e.match(ESAS_DEGER)![1].replace(/\s+/g, ""); }
+  const dt = etiket(satirlar, ["DOSYA TÜRÜ", "DOSYA TİPİ", "DOSYA TURU"]) || metin.toLocaleUpperCase("tr").match(/\b((?:CBS|C\.?B\.?S\.?)\s+SORUŞTURMA|HUKUK\s+DAVA|CEZA\s+DAVA|İDARE\s+DAVA|İDARİ\s+DAVA|VERGİ\s+DAVA|İCRA|ARABULUCULUK|TAZMİNAT\s+KOMİSYONU|İSTİNAF|TEMYİZ|TALİMAT|SATIŞ\s+MEMURLUĞU)\s+DOSYASI\b/i)?.[0];
+  if (dt) o.dosyaTuru = basHarf(dt.replace(/\s+/g, " ").trim());
   // Taraflar ve vekilleri.
   let sonRol: "birinci" | "ikinci" | null = null;
   for (let i = 0; i < Math.min(satirlar.length, 120); i++) {
     const m = rolBul(satirlar[i]);
     if (!m) continue;
+    // Tablo satırı ("Davacı   Kişi   AD SOYAD   Av. VEKİL"): hücrelere bölünür.
+    if (!m[2] && /\t|\s{2,}/.test(m[3].trim())) {
+      const rol0 = m[1].toLocaleUpperCase("tr").replace("ŞİKÂYETÇİ", "ŞİKAYETÇİ");
+      const yan0 = BIRINCI.includes(rol0) ? "birinci" : "ikinci";
+      const hs = hucreler(m[3]).filter(c => !TIP_HUCRE.test(c));
+      const adH = hs.find(c => !/^(AV\.|AVUKAT)/i.test(c) && !/^\d+$/.test(c));
+      const vekH = hs.find(c => /^(AV\.|AVUKAT)/i.test(c));
+      if (adH && !o[yan0]) { const t = tarafAyir(adH, ""); if (t) o[yan0] = t; }
+      if (vekH && o[yan0] && !o[yan0]!.vekil) { const v = tarafAyir(vekH, "")?.ad; if (v) o[yan0]!.vekil = "Av. " + v; }
+      continue;
+    }
     const rol = m[1].toLocaleUpperCase("tr").replace("ŞİKÂYETÇİ", "ŞİKAYETÇİ");
     const yan = BIRINCI.includes(rol) ? "birinci" : "ikinci";
     if (m[2]) {
@@ -94,6 +129,20 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
     if (alt && o[yan] && !o[yan]!.vekil) { const v = tarafAyir(alt[2], "")?.ad; if (v) o[yan]!.vekil = "Av. " + v; }
   }
   void sonRol;
+  // Rolün sonda ya da ortada olduğu tablo satırları ("AD SOYAD   Davacı   Av. …").
+  if (!o.birinci || !o.ikinci) for (const x of satirlar.slice(0, 150)) {
+    const hs = hucreler(x);
+    if (hs.length < 2) continue;
+    const ri = hs.findIndex(c => ROLLER.includes(c.toLocaleUpperCase("tr").replace("ŞİKÂYETÇİ", "ŞİKAYETÇİ")));
+    if (ri < 0) continue;
+    const rol = hs[ri].toLocaleUpperCase("tr").replace("ŞİKÂYETÇİ", "ŞİKAYETÇİ");
+    const yan = BIRINCI.includes(rol) ? "birinci" : "ikinci";
+    if (o[yan]) continue;
+    const digerleri = hs.filter((c, j) => j !== ri && !TIP_HUCRE.test(c) && !/^\d+$/.test(c));
+    const adH = digerleri.find(c => !/^(AV\.|AVUKAT)/i.test(c)), vekH = digerleri.find(c => /^(AV\.|AVUKAT)/i.test(c));
+    const t = adH ? tarafAyir(adH, "") : undefined;
+    if (t) { o[yan] = t; if (vekH) { const v = tarafAyir(vekH, "")?.ad; if (v) t.vekil = "Av. " + v; } }
+  }
   // Dava konusu.
   const konu = metin.match(/^\s*(?:DAVA|DAVANIN KONUSU|KONU|SUÇ)\s*:\s*(.{3,140})$/im);
   if (konu) o.konu = basHarf(konu[1].replace(/\s+/g, " ").trim().replace(/[.;]$/, ""));
@@ -108,6 +157,7 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
   // Açılış tarihi: gerekçeli karar ve tutanak başlığındaki "DAVA TARİHİ", "BAŞVURU TARİHİ", "SUÇ TARİHİ" değil "SORUŞTURMA" / "TAKİP" tarihi.
   const ac = metin.match(/(?:DAVA|BAŞVURU|SORUŞTURMA|TAKİP|İHBAR|ŞİKAYET|ŞİKÂYET)\s*(?:AÇILIŞ\s*)?TARİHİ\s*[:]?\s*(\d{1,2})[./](\d{1,2})[./](\d{4})/i);
   if (ac) { const x = tarihIso(ac[1], ac[2], ac[3]); if (x) o.acilis = x; }
+  if (!o.acilis) { const a = etiket(satirlar, ["AÇILIŞ TARİHİ", "DOSYA AÇILIŞ TARİHİ", "KAYIT TARİHİ", "DOSYA KAYIT TARİHİ"], v => /^\d{1,2}[./]\d{1,2}[./]\d{4}/.test(v)); const d = a?.match(/^(\d{1,2})[./](\d{1,2})[./](\d{4})/); if (d) { const x = tarihIso(d[1], d[2], d[3]); if (x) o.acilis = x; } }
   // Evrakın kendi tarihi: "KARAR TARİHİ", "TUTANAK TARİHİ", "Tarih :" ya da başlıktaki/sondaki ilk tarih.
   const bt = metin.match(/(?:KARAR|TUTANAK|RAPOR|DİLEKÇE|TEBLİĞ|DÜZENLEME)\s*TARİHİ\s*[:]\s*(\d{1,2})[./](\d{1,2})[./](\d{4})/i)
     || metin.match(/(?:^|\n)\s*TARİH\s*[:]\s*(\d{1,2})[./](\d{1,2})[./](\d{4})/i)
@@ -160,4 +210,20 @@ export function kunyeyiDoldur(f: Foy, o: KunyeOneri): { ek: Partial<Foy>; dolan:
   if (bos(kb.vekil) && onlar?.vekil) { kb.vekil = onlar.vekil; kbDegisti = true; dolan.push("karşı taraf vekili"); }
   if (kbDegisti) ek.karsiBilgi = kb;
   return { ek, dolan };
+}
+
+// Yapı iskeleti: okunamayan evrakın düzenini kişisel bilgi göstermeden incelemek için. Bilinen hukuk ve başlık sözcükleri kalır,
+// öteki her sözcük □ olur, rakamlar 9 olur. Ad, adres ve numara görünmez; satır ve sütun düzeni görünür.
+const SOZLUK = new Set([...ROLLER.flatMap(r => r.split(" ")), "T.C.", "TC", "BİRİM", "ADI", "SOYADI", "UNVANI", "DOSYA", "NO", "NUMARASI", "TÜRÜ", "TİPİ", "DURUMU", "AÇILIŞ", "KAYIT", "TARİHİ",
+  "ESAS", "KARAR", "TARAF", "TARAFLAR", "TARAFLARI", "TARAFI", "ROL", "ROLÜ", "VEKİL", "VEKİLİ", "VEKİLLERİ", "KİŞİ", "KURUM", "GERÇEK", "TÜZEL", "MAHKEMESİ", "MAHKEME", "HUKUK", "CEZA", "ASLİYE",
+  "AĞIR", "SULH", "İŞ", "İCRA", "DAİRESİ", "MÜDÜRLÜĞÜ", "CUMHURİYET", "BAŞSAVCILIĞI", "SAVCILIĞI", "CBS", "SORUŞTURMA", "SORUŞTURMASI", "DAVA", "DAVASI", "DOSYASI", "İDARE", "VERGİ", "AÇIK",
+  "KAPALI", "SAYFA", "TARİH", "KONU", "SUÇ", "SUÇU", "BİLGİLERİ", "BİLGİSİ", "DETAY", "EVRAK", "LİSTESİ", "AİLE", "TÜKETİCİ", "TİCARET", "ARABULUCULUK", "BÜROSU", "KOMİSYONU", "BAŞKANLIĞI",
+  "TAZMİNAT", "ADALET", "BAKANLIĞI", "UYAP", "BİLİŞİM", "SİSTEMİ", "TAKİP", "TÜR", "TÜRÜ", "YOLU", "İLAMLI", "İLAMSIZ", "DURUŞMA", "SAAT", "HAKİM", "KATİP", "ZABIT", "TUTANAĞI", "VE", "İLE", "AV.", "AVUKAT",
+  "ADRES", "ADRESİ", "KİMLİK", "VERGİ", "MERCİ", "GÖNDERİLEN", "GÖNDEREN", "ALAN", "TEBLİĞ", "İSTİNAF", "TEMYİZ", "DAİRE", "BÖLGE", "ADLİYE", "BİLİRKİŞİ", "RAPORU", "DİLEKÇE", "DİLEKÇESİ", "CEVAP"]);
+export function yapiIskeleti(metin: string, satir = 20): string {
+  return metin.split("\n").filter(x => x.trim()).slice(0, satir).map(x => x.replace(/\t/g, " ⇥ ").replace(/[^\s⇥]+/g, w => {
+    const cip = w.toLocaleUpperCase("tr").replace(/[:;,()]+$/, "");
+    if (SOZLUK.has(cip) || SOZLUK.has(cip.replace(/\.$/, ""))) return w;
+    return w.replace(/\d/g, "9").replace(/\p{L}+/gu, "□");
+  }).replace(/(□[ ]?){3,}/g, "□□□ ")).join("\n");
 }

@@ -72,7 +72,9 @@ export function havuzuGrupla(evraklar: HavuzEvrak[], foyler: Foy[], avukatlar: s
       if (f && !esasSade(f.esasNo)) { g.hedef = { tur: "var", foyId: f.id }; g.neden = "aynı müvekkil ve karşı taraf"; continue; }
     }
     // Yeni föy: tür mahkemeden, taraf vekil adından.
-    const foyTur = turTahmin(g.mahkeme || "", ...g.evraklar.map(e => e.oneri.konu || "")) || "hukuk";
+    // UYAP dosya türü ("CBS Soruşturma Dosyası") en güvenilir işarettir; yoksa merci ve konu.
+    const dosyaTuru = g.evraklar.map(e => e.oneri.dosyaTuru).find(Boolean);
+    const foyTur = (dosyaTuru && turTahmin(dosyaTuru)) || turTahmin(g.mahkeme || "", ...g.evraklar.map(e => e.oneri.konu || "")) || "hukuk";
     const bizBirinci = g.evraklar.some(e => bizimVekil(e.oneri.birinci?.vekil, avukatlar));
     const bizIkinci = g.evraklar.some(e => bizimVekil(e.oneri.ikinci?.vekil, avukatlar));
     const taraf: FoyTaraf = bizIkinci && !bizBirinci ? "davali" : "davaci";

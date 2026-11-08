@@ -87,7 +87,7 @@ function satirlaPdf(items: Any[]): string {
       if (!it.s) continue;
       const bosluk = it.x - sonX;
       // Geniş boşluk sütun ayrımıdır ("DAVACI        : …"); küçük boşluk sözcük arasıdır.
-      if (x && bosluk > it.h * 2) x += "  ";
+      if (x && bosluk > it.h * 1.2) x += "  ";
       else if (x && bosluk > it.h * 0.15 && !/\s$/.test(x) && !/^\s/.test(it.s)) x += " ";
       x += it.s; sonX = it.x + it.w;
     }

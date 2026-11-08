@@ -1,5 +1,5 @@
 // Evraktan künye çıkarma: uydurma (sentetik) UYAP biçimli metinlerle.
-import { kunyeCikar, kunyeyiDoldur } from "../src/data/kunyeCikar";
+import { yapiIskeleti, kunyeCikar, kunyeyiDoldur } from "../src/data/kunyeCikar";
 import { bosFoy } from "../src/data/foy";
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
@@ -73,6 +73,16 @@ ok(!kunyeCikar("İZMİR NÖBETÇİ ASLİYE HUKUK MAHKEMESİ'NE", simdi).mahkeme,
   ok(/Tazminat Komisyonu Başkanlığı/.test(b.mahkeme || "") && b.esasNo === "2024/1234" && /Uydurma Kişi Altı/.test(b.birinci?.ad || ""), "komisyon: " + JSON.stringify(b));
   const c = kunyeCikar("T.C.\nBAYRAKLI CUMHURİYET SAVCILIĞI\nSORUŞTURMA NO : 2025/9\nŞÜPHELİ : SAHTE KİŞİ YEDİ");
   ok(/Cumhuriyet Savcılığı/.test(c.mahkeme || ""), "savcılık: " + JSON.stringify(c));
+}
+// UYAP dosya bilgisi çıktısı (uydurma): etiketli alanlar ve taraf tablosu.
+{
+  const u = kunyeCikar("Dosya Bilgileri\nBirim    İzmir 7. İş Mahkemesi\nDosya No    2024/456\nDosya Türü    Hukuk Dava Dosyası\nDosya Durumu    Açık\nAçılış Tarihi    05.03.2024\nTaraf Bilgileri\nRol    Tipi    Adı\nDavacı    Kişi    UYDURMA KİŞİ SEKİZ    Av. ÖRNEK VEKİL DOKUZ\nDavalı    Kurum    HAYALİ KURUM A.Ş.");
+  ok(u.mahkeme === "İzmir 7. İş Mahkemesi" && u.esasNo === "2024/456" && u.dosyaTuru === "Hukuk Dava Dosyası" && u.acilis === "2024-03-05", "UYAP alanları: " + JSON.stringify(u));
+  ok(/Uydurma Kişi Sekiz/.test(u.birinci?.ad || "") && /Örnek Vekil Dokuz/.test(u.birinci?.vekil || "") && /Hayali Kurum/.test(u.ikinci?.ad || ""), "UYAP taraf tablosu: " + JSON.stringify(u));
+  const c = kunyeCikar("Birim\nBayraklı Cumhuriyet Başsavcılığı\nDosya No\n2025/7788\nCbs Soruşturma Dosyası\nUYDURMA KİŞİ ON    Müşteki\nSAHTE KİŞİ ONBİR    Şüpheli");
+  ok(/Başsavcılığı/.test(c.mahkeme || "") && c.esasNo === "2025/7788" && /Soruşturma/.test(c.dosyaTuru || "") && /Uydurma Kişi On/.test(c.birinci?.ad || "") && /Sahte Kişi Onbir/.test(c.ikinci?.ad || ""), "alt satırda değer, sonda rol: " + JSON.stringify(c));
+  const isk = yapiIskeleti("Birim    İzmir 7. İş Mahkemesi\nDavacı    Kişi    UYDURMA KİŞİ SEKİZ    2024/456");
+  ok(!/İzmir|UYDURMA|SEKİZ|2024\/456/.test(isk) && /Birim/.test(isk) && /Davacı/.test(isk) && /9999\/999/.test(isk), "iskelet ad ve numara göstermez: " + isk);
 }
 if (fail) { console.log(`kunye-test: ${fail} hata`); process.exit(1); }
 console.log("kunye-test: tamam");
