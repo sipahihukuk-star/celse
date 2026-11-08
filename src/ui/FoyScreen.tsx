@@ -26,7 +26,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [yuklendi, setYuklendi] = useState(false);
   const [secili, setSecili] = useState<Secili | null>(null);
   const [aktar, setAktar] = useState(false);
-  const [havuz, setHavuz] = useState(false);
+  const [havuz, setHavuz] = useState<false | true | Foy>(false);
   // "sahsi": şahsi dosyalar bölümünden açılan giriş (yeni föy şahsi ve şifreli olur).
   const [giris, setGiris] = useState<false | "normal" | "sahsi">(false);
   const [ara, setAra] = useState("");
@@ -50,14 +50,14 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   useEffect(() => { yenile(); return foyDinle(yenile); }, []);
   // Dava takibinden çıkınca şahsi dosyalar kilitlenir (bilgisayarı başkası kullanırsa görünmesin).
   useEffect(() => () => { ozelKilitle(); }, []);
-  useInnerBack(!!secili || aktar || havuz || !!giris || !!kilitSor, () => { setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); });
+  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor, () => { setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); });
 
   // Telefonda: föyler uygulamanın deposunda; evrak ekleme, toplu aktarma, DavaTek klasörü ve yedek dosyası bilgisayardadır.
   const web = Platform.OS === "web";
   if (kilitSor) return <OzelKilit durum={kilit} onKapat={() => setKilitSor(null)} onAcildi={() => { const f = kilitSor.sonra; setKilitSor(null); yenile(); f?.(); }} />;
-  if (havuz) return <EvrakHavuzu liste={liste.filter(f => !f.ozel)} onBitti={m => { setHavuz(false); if (m) setMesaj({ t: m, ok: true }); yenile(); }} />;
+  if (havuz) return <EvrakHavuzu liste={liste.filter(f => !f.ozel || (havuz !== true && f.id === havuz.id))} kaynakFoy={havuz === true ? undefined : havuz} onBitti={m => { setHavuz(false); if (m) setMesaj({ t: m, ok: true }); yenile(); }} />;
   if (aktar) return <Aktar mevcut={liste} onBitti={(n) => { setAktar(false); if (n) setMesaj({ t: n, ok: true }); }} />;
-  if (secili) return <FoySayfa key={secili.id} id={secili.id} ekle={secili.ekle} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} />;
+  if (secili) return <FoySayfa key={secili.id} id={secili.id} ekle={secili.ekle} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} onAyir={f => { setSecili(null); setHavuz(f); }} />;
 
   const yeniFoy = async (tur: FoyTur, ek: { ozel?: boolean; davaTuru?: string } = {}) => {
     const olustur = async () => { const f = bosFoy({ tur, ozel: !!ek.ozel, davaTuru: ek.davaTuru || "" }); await foyKaydet(f); setGiris(false); setSecili({ id: f.id }); };

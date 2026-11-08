@@ -22,8 +22,10 @@ export function basHarf(s: string) {
   return x.split(" ").map(w => (/^(VE|İLE|DA|DE)$/.test(w) ? tr(w) : /^([A-ZÇĞİÖŞÜ]\.)+$|^(A\.Ş|T\.A\.Ş)\.?$/.test(w) ? w : /^LTD\.?$/.test(w) ? "Ltd." : /^ŞTİ\.?$/.test(w) ? "Şti." : w.slice(0, 1) + tr(w.slice(1)))).join(" ");
 }
 
-const BIRINCI = ["DAVACILAR", "DAVACI", "MÜŞTEKİ", "ŞİKAYETÇİ", "ŞİKÂYETÇİ", "KATILAN", "ALACAKLI", "BAŞVURUCU", "BAŞVURAN", "İTİRAZ EDEN", "İSTİNAF EDEN", "TEMYİZ EDEN", "KEŞİDECİ", "İHTAR EDEN"];
-const IKINCI = ["DAVALILAR", "DAVALI", "ŞÜPHELİ", "SANIK", "BORÇLU", "KARŞI TARAF", "ALEYHİNE BAŞVURULAN", "KARŞI DAVALI", "MUHATAP", "İHTAR EDİLEN"];
+const BIRINCI = ["DAVACILAR", "DAVACI", "MÜŞTEKİ", "ŞİKAYETÇİ", "ŞİKÂYETÇİ", "KATILAN", "ALACAKLI", "BAŞVURUCU", "BAŞVURAN", "İTİRAZ EDEN", "İSTİNAF EDEN", "TEMYİZ EDEN", "KEŞİDECİ", "İHTAR EDEN",
+  "SUÇ DUYURUSUNDA BULUNAN", "ŞİKAYET EDEN", "ŞİKÂYET EDEN", "İHBAR EDEN", "MÜDAHİL", "BAŞVURUCULAR", "ALACAKLILAR", "MÜŞTEKİLER"];
+const IKINCI = ["DAVALILAR", "DAVALI", "ŞÜPHELİ", "SANIK", "BORÇLU", "KARŞI TARAF", "ALEYHİNE BAŞVURULAN", "KARŞI DAVALI", "MUHATAP", "İHTAR EDİLEN",
+  "ŞÜPHELİLER", "SANIKLAR", "BORÇLULAR", "ŞİKAYET EDİLEN", "ŞİKÂYET EDİLEN", "ŞİKAYET OLUNAN", "HAKKINDA ŞİKAYETTE BULUNULAN", "KARŞI TARAFLAR"];
 const ROLLER = [...BIRINCI, ...IKINCI].sort((a, b) => b.length - a.length);
 const rolDeseni = new RegExp(`^\\s*(${ROLLER.join("|")})\\s*(VEKİLİ|VEKİLLERİ|MÜDAFİİ)?\\s*:\\s*(.*)$`, "i");
 
@@ -54,7 +56,10 @@ function tarafAyir(kalan: string, sonraki: string): TarafOneri | undefined {
 
 export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
   const o: KunyeOneri = {};
-  const satirlar = metin.replace(/\r/g, "").split("\n").map(x => x.trim()).filter(Boolean);
+  // Satır sonu olmadan yazılmış başlıklar ("DAVACI : … VEKİLİ : … DAVALI : …") satırlara ayrılır.
+  const rolHepsi = [...ROLLER, "VEKİLİ", "VEKİLLERİ", "MÜDAFİİ", "KONU", "DAVA", "SUÇ", "ESAS NO", "DOSYA NO", "SORUŞTURMA NO"].sort((a, b) => b.length - a.length).join("|");
+  const duz = metin.replace(/\r/g, "").replace(new RegExp(`[ \\t]{2,}(?=(?:${rolHepsi})[ \\t]*:)`, "g"), "\n").replace(new RegExp(`([^\\n])\\s+(?=(?:${rolHepsi.replace(/\b(DAVA|SUÇ|KONU)\|/g, "")})[ \\t]*:)`, "g"), "$1\n");
+  const satirlar = duz.split("\n").map(x => x.trim()).filter(Boolean);
   const bas = satirlar.slice(0, 60);
   // Mahkeme / savcılık / icra dairesi: başlıktaki ilk büyük harfli satır.
   const merci = new RegExp(`^(?:T\\.?\\s?C\\.?\\s+)?([${BUYUK}][${BUYUK}0-9 .]{2,60}(?:MAHKEMESİ|BAŞSAVCILIĞI|İCRA DAİRESİ|İCRA MÜDÜRLÜĞÜ|HUKUK DAİRESİ|CEZA DAİRESİ|ARABULUCULUK BÜROSU))(?:['’]?(?:NE|NA|YE|YA))?(?=[\\s,.]|$)`);

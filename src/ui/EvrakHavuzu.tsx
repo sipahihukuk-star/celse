@@ -3,7 +3,8 @@
 // Evrak hiçbir yere gönderilmez; okuma kütüphaneleri bir kez indirildikten sonra internet kapalıyken de çalışır.
 import React, { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { ayarOku, ayarYaz, bosFoy, Foy, foyBaslik, FoyEvrak, foyGetir, foyHaber, foyKaydet, tarihYaz } from "../data/foy";
+import { useAccount } from "../data/account";
+import { ayarOku, ayarYaz, bosFoy, dosyaOku, dosyaSil, Foy, foyBaslik, FoyEvrak, foyGetir, foyHaber, foyKaydet, foySil, tarihYaz } from "../data/foy";
 import { FoyTur, turBilgi } from "../data/foyTurleri";
 import { HavuzEvrak, havuzuGrupla, HavuzGrup, Hedef } from "../data/havuz";
 import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
@@ -17,7 +18,9 @@ import { C } from "./theme";
 const UZANTILAR = ["udf", "doc", "docx", "txt", "pdf", "tif", "tiff", "jpg", "jpeg", "png", "zip"];
 type Okunan = HavuzEvrak & { kaynak: () => Promise<Kaynak> };
 
-export function EvrakHavuzu({ liste, onBitti }: { liste: Foy[]; onBitti: (mesaj?: string) => void }) {
+/** kaynakFoy verilirse: o föyde toplanmış evrak (ör. hepsi tek föye yüklenmiş) okunur, gruplanır ve ait oldukları föylere taşınır. */
+export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBitti: (mesaj?: string) => void; kaynakFoy?: Foy }) {
+  const { account } = useAccount();
   const [okunan, setOkunan] = useState<Okunan[]>([]);
   const [ilerleme, setIlerleme] = useState("");
   const [avukatlar, setAvukatlar] = useState("");
@@ -28,7 +31,17 @@ export function EvrakHavuzu({ liste, onBitti }: { liste: Foy[]; onBitti: (mesaj?
   const [uyguluyor, setUyguluyor] = useState(false);
   const [hazirlik, setHazirlik] = useState("");
 
-  useEffect(() => { ayarOku<string>("buroAvukatlari").then(x => setAvukatlar(x || "")).catch(() => {}); }, []);
+  const [goster, setGoster] = useState<string | null>(null);
+  // Büro avukatları: kayıtlı liste; yoksa hesaptaki ad.
+  useEffect(() => { ayarOku<string>("buroAvukatlari").then(x => setAvukatlar(x || (account?.adSoyad ? "Av. " + account.adSoyad : ""))).catch(() => {}); }, [account?.adSoyad]);
+  // Föyde toplanmış evrak: metni zaten okunmuş, asıl dosya cihazdan okunur.
+  useEffect(() => {
+    if (!kaynakFoy) return;
+    setOkunan(kaynakFoy.evraklar.map(e => ({
+      id: e.id, ad: e.ad, boyut: e.boyut, metin: e.metin, okunamadi: e.okunamadi, oneri: e.metin ? kunyeCikar(e.metin) : {},
+      kaynak: async () => { const b = await dosyaOku(e.id); return { ad: e.ad, bytes: b ? new Uint8Array(await b.arrayBuffer()) : new Uint8Array(), blob: b, yol: e.kaynak }; }
+    })));
+  }, [kaynakFoy?.id]);
   const avukatListesi = avukatlar.split(/[,;\n]/).map(x => x.trim()).filter(Boolean);
   const { gruplar, ayrilamayan } = useMemo(() => havuzuGrupla(okunan, liste, avukatListesi), [okunan, liste, avukatlar]);
   const hedefi = (g: HavuzGrup): Hedef => hedefler[g.anahtar] || g.hedef;
@@ -68,14 +81,18 @@ export function EvrakHavuzu({ liste, onBitti }: { liste: Foy[]; onBitti: (mesaj?
     setUyguluyor(true);
     await ayarYaz("buroAvukatlari", avukatlar);
     let yeniFoy = 0, eklenen = 0;
+    const tasinan: string[] = [];
     const isle = async (hedef: Hedef, evraklar: Okunan[], g?: HavuzGrup) => {
       if (hedef.tur === "atla" || !evraklar.length) return;
+      // Föyden ayırırken: kendi föyünde kalacak evrak yerinde durur.
+      if (kaynakFoy && hedef.tur === "var" && hedef.foyId === kaynakFoy.id) return;
       let f: Foy | undefined = hedef.tur === "var" ? await foyGetir(hedef.foyId) : bosFoy({ tur: hedef.foyTur, taraf: hedef.taraf, acilis: g?.acilis });
       if (!f) return;
       if (hedef.tur === "yeni") yeniFoy++;
       const eklenecek: FoyEvrak[] = [];
       for (const e of evraklar) {
-        if (f.evraklar.some(x => x.ad === e.ad && x.boyut === e.boyut)) continue; // aynı evrak zaten var
+        if (f.evraklar.some(x => x.ad === e.ad && x.boyut === e.boyut)) { if (kaynakFoy) tasinan.push(e.id); continue; } // aynı evrak zaten var
+        if (kaynakFoy) tasinan.push(e.id);
         setIlerleme(t("{ad} föye ekleniyor…", { ad: e.ad }));
         eklenecek.push(await evrakOlustur(f, await e.kaynak(), { metin: e.metin, okunamadi: e.okunamadi }));
       }
@@ -89,6 +106,15 @@ export function EvrakHavuzu({ liste, onBitti }: { liste: Foy[]; onBitti: (mesaj?
     };
     for (const g of gruplar) await isle(hedefi(g), g.evraklar as Okunan[], g);
     for (const e of ayrilamayan as Okunan[]) { const id = ayriHedef[e.id]; if (id) await isle({ tur: "var", foyId: id }, [e]); }
+    if (kaynakFoy && tasinan.length) {
+      const k = await foyGetir(kaynakFoy.id);
+      if (k) {
+        const kalan = k.evraklar.filter(e => !tasinan.includes(e.id));
+        for (const id of tasinan) await dosyaSil(id).catch(() => {});
+        const bos = !kalan.length && !k.muvekkil.trim() && !k.esasNo.trim() && !k.mahkeme.trim() && !k.gorevler.length && !k.notlar.trim();
+        if (bos) await foySil({ ...k, evraklar: [] }); else await foyKaydet({ ...k, evraklar: kalan }, true);
+      }
+    }
     foyHaber();
     setUyguluyor(false); setIlerleme("");
     onBitti(t("{n} evrak föylere eklendi; {y} yeni föy açıldı.", { n: eklenen, y: yeniFoy }));
@@ -118,7 +144,7 @@ export function EvrakHavuzu({ liste, onBitti }: { liste: Foy[]; onBitti: (mesaj?
     <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
       <View style={s.head}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={() => onBitti()} /></View>
       <Text style={s.eyebrow}>{t("DAVA TAKİBİ")}</Text>
-      <Text style={s.title}>{t("Toplu evrak yükle")}</Text>
+      <Text style={s.title}>{kaynakFoy ? t("Evrakı föylere ayır") : t("Toplu evrak yükle")}</Text>
       <View style={s.warn}>
         <Text style={s.warnT}>{t("Bütün evrakı bir kerede atın, Celse ayırsın.")}</Text>
         <Text style={s.warnD}>{t("Dosyaları ya da bütün bir klasörü seçin (UDF, PDF, Word, TIF, fotoğraf, ZIP). Her evrak bu bilgisayarda okunur; dosya numarası, mahkeme, müvekkil ve karşı taraf adına göre gruplanır. Her grup var olan föyüne eklenir ya da yeni föy açılır; mahkeme, esas no, taraflar, vekiller ve açılış tarihi evraktan doldurulur. Önce önizleme görürsünüz, onaylamadan hiçbir şey kaydedilmez. Evrak internete gönderilmez.")}</Text>
@@ -128,11 +154,11 @@ export function EvrakHavuzu({ liste, onBitti }: { liste: Foy[]; onBitti: (mesaj?
         <Text style={s.label}>{t("Büronuzdaki avukatların adları (virgülle)")}</Text>
         <TextInput value={avukatlar} onChangeText={setAvukatlar} placeholder={t("Örn. Av. Ad Soyad, Av. Ad Soyad")} placeholderTextColor={C.muted} style={s.inputTek} />
         <Text style={s.hint}>{t("Evrakta “VEKİLİ” satırında bu adlar geçerse hangi tarafın vekili olduğunuz anlaşılır ve müvekkil doğru seçilir.")}</Text>
-        <View style={s.row}>
+        {!kaynakFoy && <View style={s.row}>
           <Btn label={t("Dosyaları seç")} disabled={!!ilerleme || uyguluyor} onPress={() => sec(false)} />
           <Btn kind="secondary" label={t("Klasör seç")} disabled={!!ilerleme || uyguluyor} onPress={() => sec(true)} />
           {okunan.length > 0 && <Btn kind="ghost" label={t("Temizle")} disabled={uyguluyor} onPress={() => { setOkunan([]); setHedefler({}); setAyriHedef({}); }} />}
-        </View>
+        </View>}
         {!!ilerleme && <View style={[s.row, { alignItems: "center" }]}><ActivityIndicator color={C.brass} /><Text style={s.hint}>{ilerleme}</Text></View>}
       </View>
 
@@ -168,10 +194,12 @@ export function EvrakHavuzu({ liste, onBitti }: { liste: Foy[]; onBitti: (mesaj?
                   <View style={[s.file, { alignItems: "center" }]}>
                     <View style={{ flex: 1 }}>
                       <Text style={s.fileT} numberOfLines={1}>{e.ad}</Text>
-                      <Text style={s.hint}>{boyutYaz(e.boyut)}{e.okunamadi ? " · " + t("metni okunamadı") : ""}{ayriHedef[e.id] ? " → " + foyAdi(ayriHedef[e.id]) : ""}</Text>
+                      <Text style={s.hint}>{boyutYaz(e.boyut)}{e.okunamadi ? " · " + t("metni okunamadı") : !e.metin.trim() ? " · " + t("metin yok") : " · " + t("bulunan: {x}", { x: [e.oneri.mahkeme ? t("merci") : "", e.oneri.esasNo ? t("dosya no") : "", e.oneri.birinci ? t("1. taraf") : "", e.oneri.ikinci ? t("2. taraf") : ""].filter(Boolean).join(", ") || t("hiçbiri") })}{ayriHedef[e.id] ? " → " + foyAdi(ayriHedef[e.id]) : ""}</Text>
+                      {!!e.metin.trim() && <Pressable onPress={() => setGoster(goster === e.id ? null : e.id)}><Text style={s.link}>{goster === e.id ? t("Metni gizle") : t("İlk satırları göster (yalnız bu ekranda)")}</Text></Pressable>}
                     </View>
                     <Btn kind="ghost" label={ayriHedef[e.id] ? t("Değiştir") : t("Föy seç")} onPress={() => setSecim(secim === e.id ? null : e.id)} />
                   </View>
+                  {goster === e.id && <Text style={[s.hint, { fontFamily: undefined }]} selectable>{e.metin.split("\n").filter(x => x.trim()).slice(0, 14).join("\n")}</Text>}
                   {secim === e.id && secici(id => setAyriHedef(x => ({ ...x, [e.id]: id })))}
                 </View>
               ))}
