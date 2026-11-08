@@ -99,7 +99,10 @@ export function turTahmin(...metinler: string[]): FoyTur | undefined {
   if (!m.trim()) return undefined;
   if (/baro/.test(m) && /sorustur|disiplin|sikayet/.test(m)) return "idari_sorusturma";
   if (/arabulucu/.test(m)) return "arabuluculuk";
-  if (/icra dairesi|icra mud|takip/.test(m) && !/mahkeme/.test(m)) return "icra";
+  if (/cbs sorusturma|sorusturma dosyasi/.test(m)) return "sorusturma";
+  if (/idare dava|idari dava dosyasi|vergi dava/.test(m)) return "idari_dava";
+  if (/ceza dava/.test(m)) return "ceza";
+  if (/icra dairesi|icra mud|icra dosyasi|takip/.test(m) && !/mahkeme|hukuk dava/.test(m)) return "icra";
   if (/bassavcilig|savcilig|sorusturma no|suc duyuru|sikayet/.test(m)) return "sorusturma";
   if (/agir ceza|asliye ceza|sulh ceza|cocuk mahkemesi|ceza mahkemesi|ceza davasi/.test(m)) return "ceza";
   if (/idare mahkemesi|vergi mahkemesi|danistay|bolge idare|idari dava|iptal davasi|tam yargi/.test(m)) return "idari_dava";
