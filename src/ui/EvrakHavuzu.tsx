@@ -8,6 +8,7 @@ import type { FoyTaraf } from "../data/foy";
 import { ayarOku, ayarYaz, bosFoy, dosyaOku, dosyaSil, Foy, foyBaslik, FoyEvrak, foyGetir, foyHaber, foyKaydet, foylerKaydet, foySil, tarihYaz } from "../data/foy";
 import { FoyTur, turBilgi } from "../data/foyTurleri";
 import { FoylemeSohbeti } from "./FoylemeSohbeti";
+import { geriAc } from "../data/foyleme";
 import { HavuzEvrak, havuzuGrupla, HavuzGrup, Hedef } from "../data/havuz";
 import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
 import { turBul, zipIcerigi } from "../engine/mask/readers";
@@ -312,7 +313,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
                   const temizle = () => { setAyriYeni(y => { const z = { ...y }; delete z[eid]; return z; }); };
                   if (x.hedef === "yeni" && !g && !foyId) {
                     const tur = x.tur && turBilgi(x.tur as FoyTur).tur === x.tur ? x.tur as FoyTur : "hukuk";
-                    setAyriYeni(y => ({ ...y, [eid]: { foyTur: tur, taraf: x.taraf === 2 ? "davali" : "davaci", kume: x.kume ? "k" + x.kume : eid, merci: typeof x.merci === "string" ? x.merci.slice(0, 200) : undefined, no: typeof x.no === "string" ? x.no.slice(0, 60) : undefined } }));
+                    setAyriYeni(y => ({ ...y, [eid]: { foyTur: tur, taraf: x.taraf === 2 ? "davali" : "davaci", kume: x.kume ? "k" + x.kume : eid, merci: typeof x.merci === "string" && x.merci !== "[DOSYA NO]" ? geriAc(x.merci, k.geri).slice(0, 200) : undefined, no: typeof x.no === "string" && /^DOSYA-\d+$/.test(x.no.trim()) ? geriAc(x.no.trim(), k.geri).slice(0, 60) : undefined } }));
                     setAyriHedef(y => { const z = { ...y }; delete z[eid]; return z; }); setEvrakGrup(y => { const z = { ...y }; delete z[eid]; return z; });
                     continue;
                   }
