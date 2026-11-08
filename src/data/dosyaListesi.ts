@@ -21,6 +21,11 @@ function merciBul(u: string): string | undefined {
   return x.length > 6 ? x : undefined;
 }
 
+/** İcra ceza mahkemesi dosyaları (İİK 331 vd. suçlar: mal beyanında bulunmama, taahhüdü ihlal, karşılıksız…): ceza davası
+ * türünde, dava türü "İcra ceza"; çoğu zaman bir icra takibinin devamıdır. */
+export const ICRA_CEZA = "İcra ceza (İİK 331 vd.)";
+export const icraCezaMi = (...xs: (string | undefined)[]) => /İCRA CEZA/.test(xs.filter(Boolean).join(" ").toLocaleUpperCase("tr"));
+
 export interface ListeSatiri { mahkeme?: string; esasNo: string; dosyaTuru?: string; kapali: boolean; acilis?: string; satir: string }
 
 /** Metin bir dosya listesiyse satırlarını döner; değilse null (tek dosyaya ait evrak). */
@@ -56,7 +61,7 @@ export function listedenFoyler(metin: string, kaynak: string): Foy[] {
     const satis = /SATIŞ MEMURLUĞU/.test(((r.mahkeme || "") + " " + (r.dosyaTuru || "")).toLocaleUpperCase("tr"));
     const tur = (satis ? turTahmin(r.dosyaTuru || "", r.mahkeme || "", r.satir) : (r.dosyaTuru && turTahmin(r.dosyaTuru)) || turTahmin(r.mahkeme || "")) || "hukuk";
     return bosFoy({
-    tur, davaTuru: satis ? (tur === "icra" ? "Satış (icra satışı)" : "Satış (ortaklığın giderilmesi – sulh hukuk)") : "",
+    tur, davaTuru: satis ? (tur === "icra" ? "Satış (icra satışı)" : "Satış (ortaklığın giderilmesi – sulh hukuk)") : icraCezaMi(r.mahkeme, r.dosyaTuru) ? ICRA_CEZA : "",
     mahkeme: r.mahkeme || "", esasNo: r.esasNo, acilis: r.acilis, durum: r.kapali ? "kapali" : "acik",
     notlar: `UYAP dosya listesinden aktarıldı (${kaynak})${r.dosyaTuru ? " · " + r.dosyaTuru : ""}.`
     });
@@ -71,6 +76,12 @@ export function turDuzeltmeleri(liste: Foy[]): { f: Foy; tur: Foy["tur"] & strin
     const n = (f.notlar || "").match(/UYAP dosya listesinden aktarıldı \([^)]*\)(?: · ([^.\n]+))?\./);
     if (!n || f.evraklar.length) continue;
     const dosyaTuru = n[1] || "";
+    // İcra ceza dosyası: tür ceza, dava türü boşsa "İcra ceza" yazılır.
+    if (icraCezaMi(f.mahkeme, dosyaTuru)) {
+      if (!f.davaTuru && (f.tur || "hukuk") === "ceza") out.push({ f, tur: "ceza", davaTuru: ICRA_CEZA });
+      else if ((f.tur || "hukuk") === "hukuk") out.push({ f, tur: "ceza", davaTuru: f.davaTuru || ICRA_CEZA });
+      continue;
+    }
     const satis = /SATIŞ MEMURLUĞU/.test((f.mahkeme + " " + dosyaTuru).toLocaleUpperCase("tr"));
     const tur = (satis ? turTahmin(dosyaTuru, f.mahkeme) : (dosyaTuru && turTahmin(dosyaTuru)) || turTahmin(f.mahkeme)) || "hukuk";
     // Yalnız varsayılan "hukuk" olarak açılmış föyler düzeltilir (öteki türler zaten tanınmıştı).
