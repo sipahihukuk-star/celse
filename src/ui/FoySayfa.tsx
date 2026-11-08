@@ -91,7 +91,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
 
   const evrakEkle = async (zorTur?: string) => {
     setErr("");
-    const secilen = await dosyaSec(".udf,.doc,.docx,.txt,.pdf,.tif,.tiff,.jpg,.jpeg,.png,.zip");
+    const secilen = await dosyaSec(".udf,.doc,.docx,.rtf,.odt,.htm,.html,.txt,.pdf,.tif,.tiff,.jpg,.jpeg,.png,.zip");
     const sira: Kaynak[] = [];
     for (const k of secilen) {
       if (turBul(k.ad) === "zip") { try { sira.push(...zipIcerigi(k.bytes)); } catch { setErr(t("{ad}: ZIP dosyası açılamadı.", { ad: k.ad })); } }
@@ -235,7 +235,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         <IconBadge name="notes" size={30} />
         <View style={{ flex: 1 }}>
           <Text style={s.fileT} numberOfLines={1}>{e.ad}</Text>
-          <Text style={s.hint}>{e.tarih ? t("evrak tarihi {d}", { d: tarihYaz(e.tarih) }) + " · " : ""}{boyutYaz(e.boyut)} · {t("eklendi {d}", { d: tarihYaz(e.eklenme.slice(0, 10)) })}{e.okunamadi ? " · " + t("metni okunamadı") : e.metin.trim() ? "" : e.bulutMetin ? " · " + t("metni bulutta (kodlu)") : " · " + t("metin yok")}{e.kaynak ? " · DavaTek" : ""}</Text>
+          <Text style={s.hint}>{e.tarih ? t("evrak tarihi {d}", { d: tarihYaz(e.tarih) }) + " · " : ""}{boyutYaz(e.boyut)} · {t("eklendi {d}", { d: tarihYaz(e.eklenme.slice(0, 10)) })}{e.okunamadi ? " · " + t("metni okunamadı: {n}", { n: e.okunamadi }) : e.metin.trim() ? "" : e.bulutMetin ? " · " + t("metni bulutta (kodlu)") : " · " + t("metin yok")}{e.kaynak ? " · DavaTek" : ""}</Text>
           <View style={[s.row, { gap: 12 }]}>
             <Pressable onPress={() => setTurSec(turSec === e.id ? null : e.id)}><Text style={s.link}>{t(e.tur || "Tür seç")} ▾</Text></Pressable>
             <Pressable onPress={() => evrakDegistir(e, { onemli: e.onemli === false })}><Text style={s.link}>{e.onemli === false ? t("☆ Önemsiz") : t("★ Önemli")}</Text></Pressable>

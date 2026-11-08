@@ -16,5 +16,12 @@ const m = k.kodla("Deneme Kişi Bir dosyasında davacı vekiliyiz, Uydurma Yapı
 ok(!/Deneme|Uydurma|0532|10000000146/.test(m), "mesaj kodlandı: " + m);
 const c = Object.entries(k.geri).find(([, ad]) => /Deneme Kişi Bir/i.test(ad))?.[0];
 ok(!!c && geriAc(`${c} için yeni föy açtım.`, k.geri).startsWith("Deneme Kişi Bir"), "cevap geri açılıyor");
+// Ayrılamayan evrak: baş kısmı maskelenip gider; bilinmeyen adlar, kimlik ve adres çıkar, merci ve numara kalır.
+const e2 = ev("b", "T.C.\nANKARA CUMHURİYET BAŞSAVCILIĞINA\nŞİKAYETÇİ : HAYALİ ŞAHIS İKİ (TC 10000000078)\nADRES : Uydurma Mah. Deneme Sok. No:3 Çankaya/Ankara\nŞÜPHELİ : SAHTE İSİM ÜÇ\nSUÇ : Dolandırıcılık\nAçıklamalar: 2025/777 sayılı dosya ile ilgilidir.");
+const r2 = havuzuGrupla([e2], [], []);
+const k2 = kodlaDurum(r2.gruplar, g => g.hedef, () => undefined, r2.ayrilamayan.length ? r2.ayrilamayan : [e2], [], []);
+ok(/Dolandırıcılık/.test(k2.durum) && /ozet/.test(k2.durum), "özet var: " + k2.durum.slice(0, 400));
+ok(!/HAYALİ|Hayali|SAHTE|Sahte|10000000078|Uydurma Mah|Deneme Sok/.test(k2.durum), "özette gerçek ad, kimlik, adres yok: " + k2.durum);
+ok(/2025\/777/.test(k2.durum), "numara kalır");
 if (fail) { console.log(`foyleme-test: ${fail} hata`); process.exit(1); }
 console.log("foyleme-test: tamam");

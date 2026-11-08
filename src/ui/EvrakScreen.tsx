@@ -36,7 +36,7 @@ const SIRA: Kind[] = ["taraf", "kisi", "avukat", "sirket", "kimlik", "iletisim",
 function dosyaSec(): Promise<{ ad: string; bytes: Uint8Array }[]> {
   return new Promise(resolve => {
     const input = document.createElement("input");
-    input.type = "file"; input.multiple = true; input.accept = ".udf,.doc,.docx,.txt,.pdf,.tif,.tiff,.jpg,.jpeg,.png,.zip";
+    input.type = "file"; input.multiple = true; input.accept = ".udf,.doc,.docx,.rtf,.odt,.htm,.html,.txt,.pdf,.tif,.tiff,.jpg,.jpeg,.png,.zip";
     input.onchange = async () => {
       const files = Array.from(input.files || []);
       resolve(await Promise.all(files.map(async f => ({ ad: f.name, bytes: new Uint8Array(await f.arrayBuffer()) }))));
