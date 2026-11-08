@@ -15,6 +15,10 @@ ok(/KİŞİ-\d/.test(k.durum) && /AVUKAT-1/.test(k.durum), "kodlar var");
 const m = k.kodla("Deneme Kişi Bir dosyasında davacı vekiliyiz, Uydurma Yapı ile arabuluculuk da var. Tel 0532 111 22 33, TC 10000000146");
 ok(!/Deneme|Uydurma|0532|10000000146/.test(m), "mesaj kodlandı: " + m);
 const c = Object.entries(k.geri).find(([, ad]) => /Deneme Kişi Bir/i.test(ad))?.[0];
+ok(!/2026\/321|İZMİR|İzmir|3\. ASLİYE/.test(k.durum) && /DOSYA-1/.test(k.durum) && /ASLİYE HUKUK MAHKEMESİ-1/.test(k.durum), "mahkeme ve esas no kodlu: " + k.durum.slice(0, 300));
+const m2 = k.kodla("İzmir 3. Asliye Hukuk Mahkemesi 2026/321 esas sayılı dosya ile 2024/9 sayılı dosya");
+ok(!/2026\/321|2024\/9|İzmir 3/.test(m2) && /DOSYA-1/.test(m2), "mesajdaki numara ve merci kodlandı: " + m2);
+ok(geriAc("DOSYA-1 ASLİYE HUKUK MAHKEMESİ-1 dosyasında", k.geri).toLocaleUpperCase("tr") === "2026/321 İZMİR 3. ASLİYE HUKUK MAHKEMESİ DOSYASINDA", "numara ve merci geri açılır: " + geriAc("DOSYA-1 ASLİYE HUKUK MAHKEMESİ-1 dosyasında", k.geri));
 ok(!!c && geriAc(`${c} için yeni föy açtım.`, k.geri).startsWith("Deneme Kişi Bir"), "cevap geri açılıyor");
 // Ayrılamayan evrak: baş kısmı maskelenip gider; bilinmeyen adlar, kimlik ve adres çıkar, merci ve numara kalır.
 const e2 = ev("b", "T.C.\nANKARA CUMHURİYET BAŞSAVCILIĞINA\nŞİKAYETÇİ : HAYALİ ŞAHIS İKİ (TC 10000000078)\nADRES : Uydurma Mah. Deneme Sok. No:3 Çankaya/Ankara\nŞÜPHELİ : SAHTE İSİM ÜÇ\nSUÇ : Dolandırıcılık\nAçıklamalar: 2025/777 sayılı dosya ile ilgilidir.");
@@ -22,6 +26,6 @@ const r2 = havuzuGrupla([e2], [], []);
 const k2 = kodlaDurum(r2.gruplar, g => g.hedef, () => undefined, r2.ayrilamayan.length ? r2.ayrilamayan : [e2], [], []);
 ok(/Dolandırıcılık/.test(k2.durum) && /ozet/.test(k2.durum), "özet var: " + k2.durum.slice(0, 400));
 ok(!/HAYALİ|Hayali|SAHTE|Sahte|10000000078|Uydurma Mah|Deneme Sok/.test(k2.durum), "özette gerçek ad, kimlik, adres yok: " + k2.durum);
-ok(/2025\/777/.test(k2.durum), "numara kalır");
+ok(!/2025\/777|ANKARA|Ankara/.test(k2.durum) && /BAŞSAVCILIĞI-1/.test(k2.durum), "numara ve il kodlanır, merci türü kalır: " + k2.durum);
 if (fail) { console.log(`foyleme-test: ${fail} hata`); process.exit(1); }
 console.log("foyleme-test: tamam");

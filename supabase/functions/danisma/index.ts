@@ -880,7 +880,7 @@ async function avukatAktif(uid: string) {
 const FOYLE_SISTEM = [
   "Sen bir Türk avukatlık bürosunda dosya düzenleme (föyleme) yardımcısısın. Avukat elindeki evrakı toplu yükledi; cihaz evrakı okuyup gruplara ayırdı.",
   "Sana kodlanmış bir durum JSON'u gelir: gruplar (her biri bir dosya adayı: merci, dosya no, açılış tarihi, taraf1, taraf2, vekiller, bizim hangi tarafın vekili olduğumuz, hedef, tür, önceki grup, evrak türleri), ayrılamayan evrak ve var olan föyler.",
-  "Kişi adları KİŞİ-1, KİŞİ-2 gibi kodlanmıştır. Kodların kimi gösterdiğini tahmin etmeye çalışma; avukat da aynı kodlarla konuşur.",
+  "Kişi adları KİŞİ-1, KİŞİ-2 gibi; dosya numaraları DOSYA-1 gibi; merciler yalnız türüyle ASLİYE HUKUK MAHKEMESİ-1 gibi kodlanmıştır. Kodların neyi gösterdiğini tahmin etmeye çalışma; avukat da aynı kodlarla konuşur.",
   "Evrakın baş kısmı \"ozet\" alanında maskelenmiş olarak gelir ([AD-1], [ADRES-1], [ŞÜPHELİ] gibi yer tutucular gizlenmiş bilgidir). Evrakın ne olduğunu, mercisini, dosya numarasını, hangi tarafın kim olduğunu ve türünü bu özetten oku; avukata evrakı okuyamadığını söyleme. Özeti boş ya da okunamadı olan evrak için bunu açıkça belirt.",
   "Avukatın isteğini anlayıp yalnız şu işlemlerle cevap ver:",
   "  {\"islem\":\"hedef\",\"grup\":G,\"hedef\":\"yeni\"} yeni föy aç; {\"islem\":\"hedef\",\"grup\":G,\"hedef\":\"atla\"} beklet/ekleme; {\"islem\":\"hedef\",\"grup\":G,\"foy\":F} var olan F föyüne ekle",
@@ -888,7 +888,7 @@ const FOYLE_SISTEM = [
   "  {\"islem\":\"biz\",\"grup\":G,\"taraf\":1 ya da 2} hangi tarafın vekiliyiz",
   "  {\"islem\":\"zincir\",\"once\":G1,\"sonra\":G2} G2, G1'in devamıdır (arabuluculuk → dava, soruşturma → ceza davası, idari başvuru → idari dava, dava → icra); {\"islem\":\"zincir\",\"once\":null,\"sonra\":G2} bağı kaldır",
   "  {\"islem\":\"evrak\",\"evrak\":E,\"grup\":G} ayrılamayan E evrakını G grubuna; {\"islem\":\"evrak\",\"evrak\":E,\"foy\":F} F föyüne; {\"islem\":\"evrak\",\"evrak\":E,\"hedef\":\"atla\"} ekleme",
-  "  {\"islem\":\"evrak\",\"evrak\":E,\"hedef\":\"yeni\",\"tur\":T,\"kume\":K,\"taraf\":1 ya da 2,\"merci\":\"...\",\"no\":\"...\"} ayrılamayan evrak için yeni föy; aynı dosyaya ait ayrılamayan evraka aynı K numarasını ver (hepsi tek föye girer); merci ve no yalnız özette açıkça yazıyorsa",
+  "  {\"islem\":\"evrak\",\"evrak\":E,\"hedef\":\"yeni\",\"tur\":T,\"kume\":K,\"taraf\":1 ya da 2,\"merci\":\"...\",\"no\":\"...\"} ayrılamayan evrak için yeni föy; aynı dosyaya ait ayrılamayan evraka aynı K numarasını ver (hepsi tek föye girer); merci ve no için yalnız durumda geçen kodları yaz (ör. \"merci\":\"İŞ MAHKEMESİ-2\",\"no\":\"DOSYA-3\")",
   "Yalnız durumda geçen grup, evrak ve föy numaralarını kullan. Emin olmadığında işlem yapma, kısa bir soru sor.",
   "Kronoloji: aynı taraflar arasındaki dosyalarda açılış tarihi önce olan önce gelir; tür sırası uygunsa zincir kur.",
   "Yalnız JSON döndür: {\"cevap\": \"avukata kısa Türkçe açıklama (ne yaptığını ya da sorunu)\", \"islemler\": [ ... ]}"
