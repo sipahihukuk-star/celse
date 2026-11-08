@@ -30,7 +30,7 @@ import { branchOf } from "./src/data/branches";
 import { hasDegree } from "./src/data/life";
 import { newLife, personalCosts } from "./src/data/life";
 import { CITIES, routineIncome } from "./src/data/office";
-import { careerSide, feeFor, lineText, monthlyCost, settleCase, SOURCE_LABEL, sourceOf, tl, useOffice } from "./src/data/office";
+import { careerSide, feeFor, kanunYoluOdemesi, lineText, monthlyCost, settleCase, SOURCE_LABEL, sourceOf, tl, useOffice } from "./src/data/office";
 import { resumeMusic } from "./src/ui/music";
 import { FREE_LEVEL, usePremium } from "./src/data/subscription";
 import PaywallScreen from "./src/ui/PaywallScreen";
@@ -248,8 +248,22 @@ export default function App() {
     const won = verdict(stage, game).winner === "p1";
     const level = Math.min(5, Math.max(levelOf(stage), levelOf(chain.base) + 1));
     recordResult(chain.base.id, won, game.score, level, { amend: chain.before });
-    return won ? t("Son durum: {mahkeme} kararıyla kazandınız. Sonuç kariyerinize üst mahkeme çarpanıyla işlendi.", { mahkeme: stage.court })
+    const sonuc = won ? t("Son durum: {mahkeme} kararıyla kazandınız. Sonuç kariyerinize üst mahkeme çarpanıyla işlendi.", { mahkeme: stage.court })
       : t("Son durum: {mahkeme} kararıyla kaybettiniz. Kariyerinizde bu dosyanın sonucu güncellendi.", { mahkeme: stage.court });
+    // Büro: kanun yolu ücreti; karar lehe döndüyse kalan vekâlet ücreti ve karşı vekâlet ücreti kasaya girer.
+    if (!office || from !== "desk") return sonuc;
+    const baseWon = verdict(chain.base, chain.baseGame).winner === chain.side;
+    const baseScore = chain.base.mode === "solo" ? chain.baseGame.score : duelScore(chain.baseGame, chain.side);
+    const ak = stage.appealOf!;
+    const odeme = kanunYoluOdemesi({ base: chain.base, asama: `${ak.kind}-${ak.level}`, mahkeme: stage.courtShort || stage.court, baseWon, baseScore, wonNow: won,
+      src: flow?.src[chain.base.id] || sourceOf(chain.base), spec: !!flow?.specialty.includes(branchOf(chain.base)) });
+    odeme.then(r => {
+      const cur = routeRef.current;
+      if (!r || cur.k !== "verdict" || cur.c.id !== stage.id) return;
+      const satir = r.kalemler.map(k => `${lineText(k.text)}: ${k.amount >= 0 ? "+" : "−"}${tl(Math.abs(k.amount))}`).join(" · ");
+      setRoute({ ...cur, notice: `${sonuc}\n${satir} · ${t("kasa {kasa}", { kasa: tl(r.kasa) })}.` });
+    }).catch(() => {});
+    return sonuc;
   };
   /** Oyun bitince: kariyer dosyasında sonucu işler (antrenmanda işlemez); karşılıklıda önce son sözler alınır. */
   const finish = (c: CaseFile, players: Record<Side, Player>, game: GameState, from: From, tutanak: TutanakSatiri[] = [], chain?: Chain) => {

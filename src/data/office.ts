@@ -54,6 +54,8 @@ export interface Office {
   pendingEvent?: string;
   /** büronun kazandığı dava sayısı (itibar: rutin işleri artırır) */
   wins?: number;
+  /** Kanun yolu ödemeleri, dosya başına: son ödenen sonuç (kazanıldı mı), ödenen aşamalar, alınan karşı taraf vekâlet ücreti. */
+  kanunYolu?: Record<string, { won: boolean; asamalar: string[]; karsi: number }>;
 }
 
 /** Duruşmaya çıkmayan rutin işler (danışmanlık, ihtarname, sözleşme, icra takipleri): itibar ve çalışanlarla artar. */
@@ -133,11 +135,13 @@ export function feeFor(c: CaseFile, o: Office, won: boolean, score: number, opt?
   const lang = isIntl(c) && (hasDegree(o.life, "en") || hasDegree(o.life, "fr")) ? 1.1 : 1;
   const mult = (o.secretary ? 1.1 : 1) * katip * edu * lang * (opt?.spec ? 1.15 : 1) * (o.life?.ownOffice ? 1.1 : 1);
   const full = Math.round((base * city.fee * mult) / 500) * 500;
+  // Avukat, dava kazanılsa da kaybedilse de ücretini alır (Avukatlık Asgari Ücret Tarifesi; yargılama giderlerini de
+  // müvekkil öder). Kaybetmek büronun gelirini düşürmez; kazanınca sözleşmedeki başarı primi eklenir.
   if (won) {
     const bonus = Math.round((full * Math.max(0, score - 60)) / 100 / 500) * 500;
     return { amount: full + bonus, text: bonus ? `Vekâlet ücreti ve başarı primi (ikna ${score})` : "Vekâlet ücreti" };
   }
-  return { amount: Math.round((full * 0.4) / 500) * 500, text: "Peşin alınan ücret (dava kaybedildi)" };
+  return { amount: full, text: "Vekâlet ücreti (sonuçtan bağımsız)" };
 }
 
 /* ---------- Kayıt ---------- */
@@ -229,6 +233,43 @@ export async function settleCase(c: CaseFile, won: boolean, score: number, opt?:
   if (won) await save({ ...o, wins: (o.wins || 0) + 1 });
   const r = await closeMonth([{ text: `${c.title}: ${fee.text}`, amount: fee.amount }], 1);
   return r && { ...r, fee, source: opt?.src || sourceOf(c) };
+}
+
+/** Kanun yolu sonucu büroya yansır (ay kapanmaz; kanun yolu ayrı bir iştir):
+ *  · her aşama için kanun yolu vekâlet ücreti (sonuçtan bağımsız);
+ *  · ilk derecede kaybedilip kanun yolunda lehe dönen dosyada başarı primi ve karşı tarafa yükletilen vekâlet ücreti
+ *    (Av.K. m.164/5: avukata aittir);
+ *  · lehe dönmüş karar üst mahkemede yeniden aleyhe dönerse alınan karşı vekâlet ücreti iade edilir.
+ *  Aynı aşama ikinci kez oynanırsa (tekrar) yeniden ödenmez. */
+export async function kanunYoluOdemesi(x: { base: CaseFile; asama: string; mahkeme: string; baseWon: boolean; baseScore: number; wonNow: boolean; src?: Source; spec?: boolean }) {
+  const o = await loadOffice();
+  if (!o) return null;
+  const kayit = o.kanunYolu?.[x.base.id] || { won: x.baseWon, asamalar: [], karsi: 0 };
+  if (kayit.asamalar.includes(x.asama)) return null;
+  const src = x.src || sourceOf(x.base);
+  const kalemler: { text: string; amount: number }[] = [];
+  let karsi = kayit.karsi;
+  if (src === "cmk" || src === "adli") {
+    kalemler.push({ text: `${x.base.title}: kanun yolu ücreti (baro aracılığıyla)`, amount: 8000 });
+  } else {
+    const tam = feeFor(x.base, o, true, 60, { src, spec: x.spec }).amount;
+    kalemler.push({ text: `${x.base.title}: ${x.mahkeme} aşaması vekâlet ücreti`, amount: Math.round((tam * 0.2) / 500) * 500 });
+    if (!kayit.won && x.wonNow) {
+      const prim = feeFor(x.base, o, true, x.baseScore, { src, spec: x.spec }).amount - feeFor(x.base, o, false, x.baseScore, { src, spec: x.spec }).amount;
+      if (prim > 0) kalemler.push({ text: `${x.base.title}: başarı primi (karar ${x.mahkeme} kararıyla lehe döndü)`, amount: prim });
+      const kv = Math.round((tam * 0.3) / 500) * 500;
+      kalemler.push({ text: `${x.base.title}: karşı tarafa yükletilen vekâlet ücreti (Av.K. m.164/5)`, amount: kv });
+      karsi += kv;
+    } else if (kayit.won && !x.wonNow && karsi > 0) {
+      kalemler.push({ text: `${x.base.title}: lehe hükmedilen karşı vekâlet ücretinin iadesi (karar ${x.mahkeme} kararıyla aleyhe döndü)`, amount: -karsi });
+      karsi = 0;
+    }
+  }
+  const toplam = kalemler.reduce((t, k) => t + k.amount, 0);
+  const ledger = [...o.ledger, ...kalemler.map(k => ({ ay: o.month, text: k.text, amount: k.amount }))].slice(-200);
+  await save({ ...o, cash: o.cash + toplam, ledger, wins: (o.wins || 0) + (!kayit.won && x.wonNow ? 1 : 0),
+    kanunYolu: { ...(o.kanunYolu || {}), [x.base.id]: { won: x.wonNow, asamalar: [...kayit.asamalar, x.asama], karsi } } });
+  return { kalemler, toplam, kasa: o.cash + toplam };
 }
 
 /** Bekleyen hayat olayının seçenekleri (o anki duruma göre). */
