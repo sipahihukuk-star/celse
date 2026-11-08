@@ -14,16 +14,23 @@ export type ParaBirimi = "TL" | "USD" | "EUR" | "GBP";
 
 export interface Kisi { ad: string; kimlikNo?: string; adres?: string }
 export interface Masraf { ad: string; tutar: number }
+/** Alacak kalemi: UYAP'ta her kalem kendi faiz türüyle ayrı satırdır (ör. manevi tazminat avans faizli, yargılama gideri yasal faizli). */
+export interface Kalem { ad: string; tutar: number; faizTuru?: FaizTuru; oran?: number; faizBaslangic?: string; islemisElle?: number }
 export interface IcraBilgi {
   yol: TakipYolu;
   talep?: "haciz" | "haciz_tahliye" | "tahliye" | "rehin";
   // Dayanak belge
-  ilam?: { mahkeme?: string; esasNo?: string; kararNo?: string; kararTarihi?: string; kesinlesme?: string };
+  ilam?: { mahkeme?: string; esasNo?: string; kararNo?: string; kararTarihi?: string; kesinlesme?: string; dosyaTuru?: string };
   senet?: { tur?: "bono" | "cek" | "police"; duzenleme?: string; vade?: string; seriNo?: string; banka?: string; kesideci?: string };
   kira?: { sozlesmeTarihi?: string; aylikKira?: number; aylar?: string; adres?: string };
   belge?: string; // genel haciz: fatura, sözleşme, cari hesap, ihtarname…
   ekBorclular?: Kisi[];
   // Alacak
+  kalemler?: Kalem[];
+  /** ödemenin yapılacağı hesap (takip talebinin 1. maddesi) */
+  hesap?: { iban?: string; banka?: string; sahibi?: "vekil" | "alacakli" };
+  /** adres yerine MERNİS adresi seçilsin */
+  mernisAlacakli?: boolean; mernisBorclu?: boolean;
   paraBirimi?: ParaBirimi;
   kur?: number; // takip tarihindeki kur (yabancı para)
   asil?: number;
@@ -123,41 +130,76 @@ export function icraVekalet(takipMiktari: number, tahliye: boolean): { ucret: nu
 export const tl = (x: number, pb: ParaBirimi = "TL") => x.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " " + pb;
 const tarihYaz = (x?: string) => (x ? x.split("-").reverse().join(".") : "…");
 
+/** Takip yoluna göre hazır kalem adları (UYAP takip talebindeki adlarla). */
+export const KALEM_ADLARI: Record<TakipYolu, string[]> = {
+  ilamli: ["Asıl alacak", "Manevi tazminat", "Maddi tazminat", "Yargılama gideri", "Vekâlet ücreti", "Bakiye harç", "Kıdem tazminatı", "İhbar tazminatı", "Nafaka"],
+  genel: ["Asıl alacak", "Fatura bedeli", "Cari hesap alacağı", "Kredi kartı borcu", "Sözleşme bedeli", "Cezai şart"],
+  kambiyo: ["Çek bedeli", "Senet bedeli", "Poliçe bedeli"],
+  kira: ["Kira bedeli", "Aidat", "Ortak gider"],
+  ipotek: ["Asıl alacak", "Kredi borcu"],
+  tasinir_rehni: ["Asıl alacak", "Kredi borcu"]
+};
+
+/** Kalemler; eski kayıtlarda tek asıl alacak + ilam vekâlet ücreti + yargılama gideri kalemlere çevrilir. */
+export function kalemleri(b: IcraBilgi): Kalem[] {
+  if (b.kalemler) return b.kalemler;
+  const xs: Kalem[] = [];
+  // Yeni föy: hazır ilk kalem (takip yoluna göre adı) boş tutarla gelir.
+  if (!b.asil && !b.yargilamaGideri && !b.ilamVekalet) return [{ ad: KALEM_ADLARI[b.yol || "genel"][0], tutar: 0, faizTuru: b.faizTuru || "yasal" }];
+  if (b.asil) xs.push({ ad: "Asıl alacak", tutar: b.asil, faizTuru: b.faizTuru || "yasal", oran: b.oran, faizBaslangic: b.faizBaslangic, islemisElle: b.islemisFaizElle });
+  if (b.yol === "ilamli" && b.yargilamaGideri) xs.push({ ad: "Yargılama gideri", tutar: b.yargilamaGideri, faizTuru: "yasal", faizBaslangic: b.ilam?.kararTarihi });
+  if (b.yol === "ilamli" && b.ilamVekalet) xs.push({ ad: "Vekâlet ücreti", tutar: b.ilamVekalet, faizTuru: "yasal", faizBaslangic: b.ilam?.kararTarihi });
+  return xs;
+}
+
+export interface KalemHesap { k: Kalem; faiz: number; dilimler: FaizDilimi[]; eksik?: string }
 export interface IcraHesap {
-  asil: number; faiz: number; faizDilimleri: FaizDilimi[]; faizEksik?: string; masraf: number; ek: { ad: string; tutar: number }[];
+  kalemler: KalemHesap[]; asil: number; faiz: number; masraf: number; ek: { ad: string; tutar: number }[];
   toplam: number; toplamTL: number; vekalet: ReturnType<typeof icraVekalet>;
 }
 export function icraHesapla(b: IcraBilgi, bugun = new Date().toISOString().slice(0, 10)): IcraHesap {
-  const asil = b.asil || 0;
   const tarih = b.takipTarihi || bugun;
-  const f = b.islemisFaizElle !== undefined ? { tutar: b.islemisFaizElle, dilimler: [] as FaizDilimi[], eksik: undefined } : islemisFaiz(asil, b.faizBaslangic || "", tarih, b.faizTuru || "yasal", b.oran);
+  const kalemler: KalemHesap[] = kalemleri(b).map(k => {
+    if (k.islemisElle !== undefined) return { k, faiz: k.islemisElle, dilimler: [] };
+    const f = islemisFaiz(k.tutar || 0, k.faizBaslangic || "", tarih, k.faizTuru || "yasal", k.oran);
+    return { k, faiz: f.tutar, dilimler: f.dilimler, eksik: f.eksik };
+  });
+  const asil = r2(kalemler.reduce((a, x) => a + (x.k.tutar || 0), 0));
+  const faiz = r2(kalemler.reduce((a, x) => a + x.faiz, 0));
   const masraf = r2((b.masraflar || []).reduce((a, m) => a + (m.tutar || 0), 0));
   const ek: { ad: string; tutar: number }[] = [];
-  if (b.yol === "ilamli") {
-    if (b.ilamVekalet) ek.push({ ad: "İlam vekâlet ücreti", tutar: b.ilamVekalet });
-    if (b.yargilamaGideri) ek.push({ ad: "Yargılama gideri", tutar: b.yargilamaGideri });
-  }
-  if (b.yol === "kambiyo" && asil) {
+  const ilk = kalemler[0]?.k.tutar || 0;
+  if (b.yol === "kambiyo" && ilk) {
     // TTK m.644/1-c: çek bedelinin %10'u çek tazminatı; TTK m.725/1-d: bono/poliçede binde üçü aşmayan komisyon.
-    if (b.senet?.tur === "cek") ek.push({ ad: "Çek tazminatı (%10, TTK 644)", tutar: r2(asil * 0.1) });
-    else ek.push({ ad: "Komisyon (binde 3, TTK 725)", tutar: r2(asil * 0.003) });
+    if (b.senet?.tur === "cek") ek.push({ ad: "Çek tazminatı (%10, TTK 644)", tutar: r2(ilk * 0.1) });
+    else ek.push({ ad: "Komisyon (binde 3, TTK 725)", tutar: r2(ilk * 0.003) });
   }
-  const toplam = r2(asil + f.tutar + masraf + ek.reduce((a, x) => a + x.tutar, 0));
+  const toplam = r2(asil + faiz + masraf + ek.reduce((a, x) => a + x.tutar, 0));
   const yabanci = b.paraBirimi && b.paraBirimi !== "TL";
   const toplamTL = yabanci ? r2(toplam * (b.kur || 0)) : toplam;
   const tahliye = b.yol === "kira" && (b.talep === "haciz_tahliye" || b.talep === "tahliye");
-  return { asil, faiz: f.tutar, faizDilimleri: f.dilimler, faizEksik: f.eksik, masraf, ek, toplam, toplamTL, vekalet: icraVekalet(toplamTL, tahliye) };
+  return { kalemler, asil, faiz, masraf, ek, toplam, toplamTL, vekalet: icraVekalet(toplamTL, tahliye) };
+}
+
+const faizKisa = (k?: FaizTuru) => (k === "yasal" ? "yasal faiz" : k === "avans" ? "avans faizi" : k === "sozlesme" ? "sözleşmedeki temerrüt faizi" : k === "mevduat" ? "en yüksek mevduat faizi" : "");
+/** Takip sonrası faiz: her kalem kendi faiz türüyle ("manevi tazminat için avans faizi, diğer alacaklar için yasal faiz"). */
+function sonrakiFaiz(b: IcraBilgi): string {
+  const xs = kalemleri(b).filter(k => k.tutar && (k.faizTuru || "yasal") !== "yok");
+  if (!xs.length) return "";
+  const gruplar = new Map<string, string[]>();
+  for (const k of xs) { const t = faizKisa(k.faizTuru || "yasal") + (k.oran ? ` (yıllık %${String(k.oran).replace(".", ",")})` : ""); gruplar.set(t, [...(gruplar.get(t) || []), k.ad.toLocaleLowerCase("tr")]); }
+  if (gruplar.size === 1) return `takip tarihinden itibaren ${[...gruplar.keys()][0]} oranından az olmamak üzere değişen oranlarda faizi`;
+  const parcalar = [...gruplar.entries()].map(([t, adlar], i, a) => (i === a.length - 1 ? `diğer alacaklar için hesaplanacak ${t}` : `${adlar.join(", ")} için hesaplanacak ${t}`));
+  return `takip tarihinden itibaren ${parcalar.join(" ve ")} oranından az olmamak üzere değişen oranlarda faizi`;
 }
 
 /** "Alacaklının talep ettiği hak" metni (UYAP XML: alacaklininTalepEttigiHak). */
 export function talepEdilenHak(b: IcraBilgi, bugun = new Date().toISOString().slice(0, 10)): string {
   const h = icraHesapla(b, bugun);
   const pb = b.paraBirimi || "TL";
-  const tur = b.takipSonrasiTur || b.faizTuru || "yasal";
-  const oran = b.takipSonrasiOran ?? (tur === b.faizTuru ? b.oran : undefined);
-  const faiz = tur === "yok" ? "" : `takip tarihinden itibaren ${oran ? `yıllık %${String(oran).replace(".", ",")} oranında` : "değişen oranlarda"} ${turAdi(tur).replace(/\s*\(.*\)$/, "").replace(/ – .*$/, "").toLocaleLowerCase("tr")} işleyecek, `;
-  return `${tl(h.toplam, pb)} tutarındaki toplam alacağın tahsilde tekerrür olmamak şartıyla, ${faiz}icra gideri ve vekâlet ücreti ile birlikte tahsili talebidir. (Fazlaya dair ve faiz oranlarındaki artıştan doğan talep hakkımız saklıdır)`
-    + (b.tbk100 !== false ? " TBK. 100. mad. gereğince kısmi ödemeler öncelikle varsa işlemiş faiz, masraf ve ferilere mahsup edilecektir." : "");
+  const faiz = sonrakiFaiz(b);
+  return `${tl(h.toplam, pb)} tutarındaki toplam alacağın, fazlaya ilişkin haklarımız saklı kalmak ve tahsilde tekerrür olmamak kaydıyla, ${faiz ? faiz + ", " : ""}icra giderleri ve avukatlık ücreti ile birlikte tahsili talebidir.`
+    + (b.tbk100 !== false ? " TBK 100. madde uyarınca kısmi ödemeler öncelikle faiz ve giderlere mahsup edilecektir." : "");
 }
 
 /** UYAP'ta takip açmak için eksik kalan bilgiler. */
@@ -168,13 +210,15 @@ export function icraEksikler(f: Foy, b: IcraBilgi): string[] {
   if (!f.mahkeme) e.push("İcra dairesi");
   if (!f.muvekkil) e.push("Alacaklının adı / unvanı");
   if (!m.kimlikNo) e.push("Alacaklının T.C. kimlik ya da vergi no'su");
-  if (!m.adres) e.push("Alacaklının adresi");
+  if (!m.adres && !b.mernisAlacakli) e.push("Alacaklının adresi (ya da MERNİS adresi)");
   if (!f.karsiTaraf) e.push("Borçlunun adı / unvanı");
   if (!k.kimlikNo) e.push("Borçlunun T.C. kimlik ya da vergi no'su");
-  if (!k.adres) e.push("Borçlunun adresi");
-  if (!b.asil) e.push("Asıl alacak tutarı");
+  if (!k.adres && !b.mernisBorclu) e.push("Borçlunun adresi (ya da MERNİS adresi)");
+  if (!b.hesap?.iban) e.push("Ödemenin yapılacağı hesap (IBAN)");
+  const ks = kalemleri(b);
+  if (!ks.some(x => x.tutar)) e.push("En az bir alacak kalemi ve tutarı");
+  for (const x of ks) if (x.tutar && (x.faizTuru || "yasal") !== "yok" && !x.faizBaslangic && x.islemisElle === undefined) e.push(`"${x.ad}" için faiz başlangıç tarihi`);
   if (b.paraBirimi && b.paraBirimi !== "TL" && !b.kur) e.push("Takip tarihindeki döviz kuru");
-  if ((b.faizTuru || "yasal") !== "yok" && !b.faizBaslangic && b.islemisFaizElle === undefined) e.push("Faiz başlangıç (temerrüt / vade) tarihi");
   if (b.yol === "ilamli" && (!b.ilam?.mahkeme || !b.ilam?.esasNo || !b.ilam?.kararNo || !b.ilam?.kararTarihi)) e.push("İlamın mahkemesi, esas ve karar no'su, karar tarihi");
   if (b.yol === "kambiyo" && (!b.senet?.tur || !b.senet?.vade)) e.push("Senedin türü ve vadesi");
   if (b.yol === "kira" && (!b.kira?.aylikKira || !b.kira?.aylar)) e.push("Aylık kira ve takibe konu aylar");
@@ -183,53 +227,51 @@ export function icraEksikler(f: Foy, b: IcraBilgi): string[] {
   return e;
 }
 
-/** Takip talebi özeti: UYAP'taki giriş sırasıyla. */
+/** Takip talebi özeti: UYAP'ın ürettiği takip talebi düzeninde. */
 export function takipTalebiMetni(f: Foy, b: IcraBilgi, bugun = new Date().toISOString().slice(0, 10), vekil?: string): string {
   const h = icraHesapla(b, bugun);
   const pb = b.paraBirimi || "TL";
   const yol = TAKIP_YOLLARI.find(x => x.k === b.yol);
   const m = f.muvekkilBilgi || {}, k = f.karsiBilgi || {};
-  const kisi = (ad?: string, kimlik?: string, adres?: string) => [ad || "…", kimlik ? `(T.C./V.K.N. ${kimlik})` : "", adres ? `– ${adres}` : ""].filter(Boolean).join(" ");
-  const borclular = [kisi(f.karsiTaraf, k.kimlikNo, k.adres), ...(b.ekBorclular || []).filter(x => x.ad).map(x => kisi(x.ad, x.kimlikNo, x.adres))];
-  const dayanak = b.yol === "ilamli" ? `${b.ilam?.mahkeme || "…"} ${b.ilam?.esasNo || "…"} E., ${b.ilam?.kararNo || "…"} K. sayılı, ${tarihYaz(b.ilam?.kararTarihi)} tarihli ilam${b.ilam?.kesinlesme ? ` (kesinleşme ${tarihYaz(b.ilam.kesinlesme)})` : ""}`
+  const kisi = (ad?: string, kimlik?: string, adres?: string, mernis?: boolean) => [ad || "…", kimlik ? `(T.C./V.K.N. ${kimlik})` : "", mernis ? "– MERNİS adresi seçilmiştir" : adres ? `– ${adres}` : ""].filter(Boolean).join(" ");
+  const borclular = [kisi(f.karsiTaraf, k.kimlikNo, k.adres, b.mernisBorclu), ...(b.ekBorclular || []).filter(x => x.ad).map(x => kisi(x.ad, x.kimlikNo, x.adres))];
+  // UYAP icra emrindeki kalıp: "… Mahkemesi'nin 2015/432 (Hukuk Dava Dosyası) esas ve 2026/592 karar sayılı 24/06/2026 karar tarihli ilamı"
+  const dayanak = b.yol === "ilamli" ? `${b.ilam?.mahkeme || "…"}'nin ${b.ilam?.esasNo || "…"} (${b.ilam?.dosyaTuru || "Hukuk Dava Dosyası"}) esas ve ${b.ilam?.kararNo || "…"} karar sayılı ${b.ilam?.kararTarihi ? b.ilam.kararTarihi.split("-").reverse().join("/") : "…"} karar tarihli ilamı${b.ilam?.kesinlesme ? ` (kesinleşme ${tarihYaz(b.ilam.kesinlesme)})` : ""}`
     : b.yol === "kambiyo" ? `${b.senet?.tur === "cek" ? "Çek" : b.senet?.tur === "police" ? "Poliçe" : "Bono"}: düzenleme ${tarihYaz(b.senet?.duzenleme)}, vade ${tarihYaz(b.senet?.vade)}${b.senet?.seriNo ? `, seri/çek no ${b.senet.seriNo}` : ""}${b.senet?.banka ? `, ${b.senet.banka}` : ""}${b.senet?.kesideci ? `, keşideci ${b.senet.kesideci}` : ""}`
     : b.yol === "kira" ? `${tarihYaz(b.kira?.sozlesmeTarihi)} tarihli kira sözleşmesi; aylık kira ${b.kira?.aylikKira ? tl(b.kira.aylikKira, pb) : "…"}; takibe konu aylar: ${b.kira?.aylar || "…"}${b.kira?.adres ? `; kiralanan: ${b.kira.adres}` : ""}`
     : b.yol === "ipotek" || b.yol === "tasinir_rehni" ? (b.belge || "Rehin / ipotek belgesi: …")
     : (b.belge || "…");
-  const sonraTur = b.takipSonrasiTur || b.faizTuru || "yasal";
-  const sonraOran = b.takipSonrasiOran ?? (sonraTur === b.faizTuru ? b.oran : undefined);
-  const sonra = sonraTur === "yok" ? "Takip sonrası faiz istenmiyor."
-    : `Asıl alacağa (${tl(h.asil, pb)}) takip tarihinden itibaren tahsil tarihine kadar ${turAdi(sonraTur).toLocaleLowerCase("tr")}${sonraOran ? ` (yıllık %${sonraOran})` : sonraTur === "yasal" || sonraTur === "avans" ? " (değişen oranlarla)" : ""} işletilmesi.`;
-  const talep = b.talep === "haciz_tahliye" ? "Alacağın tahsili için haciz ve kiralananın tahliyesi" : b.talep === "tahliye" ? "Kiralananın tahliyesi"
-    : b.yol === "ipotek" || b.yol === "tasinir_rehni" ? "Rehnin paraya çevrilmesi" : "Alacağın tahsili için haciz";
+  const talep = b.talep === "haciz_tahliye" ? "Haciz ve tahliye yolu" : b.talep === "tahliye" ? "Tahliye yolu"
+    : b.yol === "ipotek" || b.yol === "tasinir_rehni" ? "Rehnin paraya çevrilmesi yolu" : "Haciz yolu";
   const sat: string[] = [];
-  sat.push("TAKİP TALEBİ ÖZETİ (UYAP'a giriş sırasıyla)", "");
   const mah = MAHIYETLER.find(x => x.kod === b.mahiyet);
-  sat.push(`1. Takip yolu: ${yol ? yol.ad + (yol.ornek ? ` (${yol.ornek})` : " (örnek no'yu UYAP'ta seçin)") : "…"}${mah ? ` · takip mahiyeti: ${mah.ad} (${mah.kod})` : ""}`);
-  sat.push(`2. İcra dairesi: ${f.mahkeme || "…"}`);
-  sat.push(`3. Alacaklı: ${kisi(f.muvekkil, m.kimlikNo, m.adres)}`);
-  sat.push(`   Alacaklı vekili: ${vekil ? "Av. " + vekil.replace(/^av\.?\s*/i, "") : "…"}${m.vekaletname ? ` (vekâletname: ${m.vekaletname})` : ""}`);
-  sat.push(`4. Borçlu${borclular.length > 1 ? "lar" : ""}:`);
+  sat.push("TAKİP TALEBİ ÖZETİ (UYAP'a giriş sırasıyla)", "");
+  sat.push(`Takip yolu: ${yol ? yol.ad + (yol.ornek ? ` (${yol.ornek})` : " (örnek no'yu UYAP'ta seçin)") : "…"}${mah ? ` · takip mahiyeti: ${mah.ad} (${mah.kod})` : ""}`);
+  sat.push(`İcra dairesi: ${f.mahkeme || "…"}`);
+  sat.push(`1. Alacaklı: ${kisi(f.muvekkil, m.kimlikNo, m.adres, b.mernisAlacakli)}`);
+  sat.push(`   Vekili: ${vekil ? "Av. " + vekil.replace(/^av\.?\s*/i, "") : "…"}${m.vekaletname ? ` (vekâletname: ${m.vekaletname})` : ""}`);
+  sat.push(`   Ödeme hesabı: ${b.hesap?.iban ? `${b.hesap.iban}${b.hesap.banka ? " – " + b.hesap.banka : ""} (${b.hesap.sahibi === "alacakli" ? "alacaklı adına" : "vekil adına"})` : "…"}`);
+  sat.push(`2. Borçlu${borclular.length > 1 ? "lar" : ""}:`);
   borclular.forEach((x, i) => sat.push(`   ${i + 1}) ${x}`));
-  sat.push(`5. Alacağın dayanağı: ${dayanak}`);
-  sat.push("6. Alacak kalemleri:");
-  sat.push(`   - Asıl alacak: ${tl(h.asil, pb)}`);
-  if ((b.faizTuru || "yasal") !== "yok") {
-    if (b.islemisFaizElle !== undefined) sat.push(`   - İşlemiş faiz (${turAdi(b.faizTuru || "yasal")}): ${tl(h.faiz, pb)}`);
-    else {
-      sat.push(`   - İşlemiş faiz (${turAdi(b.faizTuru || "yasal")}, ${tarihYaz(b.faizBaslangic)} – ${tarihYaz(b.takipTarihi || bugun)}): ${tl(h.faiz, pb)}`);
-      for (const d of h.faizDilimleri) sat.push(`       ${tarihYaz(d.bas)} – ${tarihYaz(d.son)}: ${d.gun} gün × %${d.oran} = ${tl(d.tutar, pb)}`);
+  sat.push(`3. Alacağın dayanağı: ${dayanak}`);
+  sat.push("4. Alacak kalemleri:");
+  for (const x of h.kalemler) {
+    if (!x.k.tutar) continue;
+    const tur = x.k.faizTuru || "yasal";
+    sat.push(`   ${tl(x.k.tutar, pb)}  ${x.k.ad}${tur !== "yok" ? ` (istenen: ${faizKisa(tur)}${x.k.oran ? ` yıllık %${String(x.k.oran).replace(".", ",")}` : ""})` : ""}`);
+    if (tur !== "yok" && x.faiz) {
+      sat.push(`   ${tl(x.faiz, pb)}  ${x.k.ad} bedeline işlemiş ${faizKisa(tur)}${x.k.faizBaslangic ? ` (${tarihYaz(x.k.faizBaslangic)} – ${tarihYaz(b.takipTarihi || bugun)})` : ""}`);
+      for (const d of x.dilimler) sat.push(`        ${tarihYaz(d.bas)} – ${tarihYaz(d.son)}: ${d.gun} gün × %${String(d.oran).replace(".", ",")} = ${tl(d.tutar, pb)}`);
     }
   }
-  for (const x of h.ek) sat.push(`   - ${x.ad}: ${tl(x.tutar, pb)}`);
-  for (const x of b.masraflar || []) if (x.tutar) sat.push(`   - ${x.ad || "Masraf"}: ${tl(x.tutar, pb)}`);
-  sat.push(`   TOPLAM: ${tl(h.toplam, pb)}${pb !== "TL" ? ` (takip tarihindeki kur ${b.kur || "…"} ile ${tl(h.toplamTL)}; ödeme günündeki kurla tahsili istenir)` : ""}`);
-  sat.push(`7. Takip sonrası faiz: ${sonra}`);
-  sat.push(`8. Talep (48/9): ${talep}.`);
-  sat.push(`9. Alacaklının talep ettiği hak: ${talepEdilenHak(b, bugun)}`);
-  sat.push(`   TBK 100 mahsup: ${b.tbk100 !== false ? "evet" : "hayır"} · BSMV: ${b.bsmv ? "evet" : "hayır"} · KKDF: ${b.kkdf ? "evet" : "hayır"}`);
+  for (const x of h.ek) sat.push(`   ${tl(x.tutar, pb)}  ${x.ad}`);
+  for (const x of b.masraflar || []) if (x.tutar) sat.push(`   ${tl(x.tutar, pb)}  ${x.ad || "Masraf"}`);
+  sat.push(`   ${tl(h.toplam, pb)}  Toplam alacak${pb !== "TL" ? ` (takip tarihindeki kur ${b.kur || "…"} ile ${tl(h.toplamTL)}; ödeme günündeki kurla tahsili istenir)` : ""}`);
+  sat.push(`5. Talep edilen hak: ${talepEdilenHak(b, bugun)}`);
+  sat.push(`   TBK 100: ${b.tbk100 !== false ? "uygulanacak" : "uygulanmayacak"} · BSMV: ${b.bsmv ? "evet" : "hayır"} · KKDF: ${b.kkdf ? "evet" : "hayır"}`);
+  sat.push(`6. Takip yolu (48/9): ${talep}`);
   if (b.not) sat.push(`Not: ${b.not}`);
   sat.push("");
-  sat.push(`Bilgi: 2026–2027 AAÜT'ye göre icra vekâlet ücreti yaklaşık ${tl(h.vekalet.ucret)} (${h.vekalet.aciklama}); borçlu ödeme süresinde öderse ${tl(h.vekalet.ucDortte)}. Dosya hesabını icra dairesi yapar; takip talebinde ayrıca istenmesi gerekmez.`);
+  sat.push(`Bilgi: 2026–2027 AAÜT'ye göre icra vekâlet ücreti yaklaşık ${tl(h.vekalet.ucret)} (${h.vekalet.aciklama}); borçlu ödeme süresinde öderse ${tl(h.vekalet.ucDortte)}. Dosya hesabını icra dairesi yapar.`);
   return sat.join("\n");
 }

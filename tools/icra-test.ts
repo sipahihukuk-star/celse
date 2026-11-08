@@ -22,15 +22,32 @@ ok(icraVekalet(100000, true).ucret === 16000 + 26000, "tahliye maktu eklenir: " 
 // Kambiyo: çek tazminatı %10
 const f = bosFoy({ tur: "icra", muvekkil: "Uydurma Alacaklı A.Ş.", karsiTaraf: "Hayali Borçlu", mahkeme: "Uydurma 3. İcra Dairesi", taraf: "davaci",
   muvekkilBilgi: { kimlikNo: "1234567890", adres: "Uydurma Mah. 1" }, karsiBilgi: { kimlikNo: "10000000146", adres: "Hayali Sok. 2" } });
-const b = { yol: "kambiyo" as const, senet: { tur: "cek" as const, vade: "2026-09-01", duzenleme: "2026-08-01" }, asil: 50000, faizBaslangic: "2026-09-01", takipTarihi: "2026-10-01", faizTuru: "avans" as const };
+const b = { yol: "kambiyo" as const, senet: { tur: "cek" as const, vade: "2026-09-01", duzenleme: "2026-08-01" }, asil: 50000, faizBaslangic: "2026-09-01", takipTarihi: "2026-10-01", faizTuru: "avans" as const, hesap: { iban: "TR000000000000000000000000" } };
 const h = icraHesapla(b);
 ok(h.ek.some(x => /Çek tazminatı/.test(x.ad) && x.tutar === 5000), "çek tazminatı");
 ok(yakin(h.toplam, 50000 + 5000 + h.faiz), "toplam");
 const metin = takipTalebiMetni(f, b, "2026-10-01");
-ok(/Örnek 10/.test(metin) && /Çek tazminatı/.test(metin) && /TOPLAM/.test(metin) && /takip tarihinden itibaren/.test(metin), "takip talebi metni:\n" + metin);
-ok(/tahsilde tekerrür olmamak şartıyla/.test(metin) && /TBK\. 100/.test(metin), "talep edilen hak");
+ok(/Örnek 10/.test(metin) && /Çek tazminatı/.test(metin) && /Toplam alacak/.test(metin) && /takip tarihinden itibaren/.test(metin), "takip talebi metni:\n" + metin);
+ok(/tahsilde tekerrür olmamak kaydıyla/.test(metin) && /TBK 100/.test(metin), "talep edilen hak");
 ok(icraEksikler(f, { ...b, yol: "genel", belge: "fatura" }).some(x => /mahiyet/.test(x)), "mahiyet zorunlu");
 ok(icraEksikler(f, b).length === 0, "eksik yok: " + icraEksikler(f, b).join(", "));
 ok(icraEksikler(bosFoy({ tur: "icra" }), { yol: "genel" }).length >= 5, "eksikler listelenir");
+// Kalem kalem faiz (UYAP takip talebindeki gibi): manevi tazminat avans, yargılama gideri yasal.
+{
+  const { talepEdilenHak } = require("../src/data/icra");
+  const k = { yol: "ilamli" as const, takipTarihi: "2026-10-01", kalemler: [
+    { ad: "Manevi tazminat", tutar: 15000, faizTuru: "avans" as const, faizBaslangic: "2026-01-01" },
+    { ad: "Yargılama gideri", tutar: 1000, faizTuru: "yasal" as const, faizBaslangic: "2026-06-01" },
+    { ad: "Bakiye harç", tutar: 250, faizTuru: "yasal" as const, faizBaslangic: "2026-06-01" }] };
+  const hh = icraHesapla(k);
+  ok(hh.kalemler.length === 3 && hh.kalemler[0].dilimler[0].oran === 39.75 && hh.kalemler[1].dilimler.length === 2, "kalem dilimleri: " + JSON.stringify(hh.kalemler.map(x => x.dilimler)));
+  ok(yakin(hh.toplam, 16250 + hh.faiz), "kalemli toplam");
+  const th = talepEdilenHak(k);
+  ok(/manevi tazminat için hesaplanacak avans faizi ve diğer alacaklar için hesaplanacak yasal faiz/.test(th), "talep metni kalem kalem: " + th);
+  const m2 = takipTalebiMetni(f, k, "2026-10-01");
+  ok(/Manevi tazminat bedeline işlemiş avans faizi/.test(m2) && /Bakiye harç \(istenen: yasal faiz\)/.test(m2), "özet kalemleri:\n" + m2);
+  // Eski kayıt (tek asıl alacak) kalemlere çevrilir
+  ok(icraHesapla({ yol: "genel", asil: 1000, faizTuru: "yasal", faizBaslangic: "2026-01-01", takipTarihi: "2026-02-01" }).kalemler.length === 1, "eski kayıt");
+}
 if (fail) { console.log(`icra-test: ${fail} hata`); process.exit(1); }
 console.log("icra-test: tamam");

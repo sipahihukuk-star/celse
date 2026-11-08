@@ -4,7 +4,7 @@
 import React, { useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { Foy, tarihCoz } from "../data/foy";
-import { MAHIYETLER, FAIZ_TURLERI, FaizTuru, IcraBilgi, icraEksikler, icraHesapla, Masraf, ParaBirimi, TAKIP_YOLLARI, TakipYolu, takipTalebiMetni, tl } from "../data/icra";
+import { Kalem, KALEM_ADLARI, kalemleri, MAHIYETLER, FAIZ_TURLERI, FaizTuru, IcraBilgi, icraEksikler, icraHesapla, Masraf, ParaBirimi, TAKIP_YOLLARI, TakipYolu, takipTalebiMetni, tl } from "../data/icra";
 import { t } from "../i18n";
 import { useAccount } from "../data/account";
 import { Acilir } from "./Acilir";
@@ -38,6 +38,10 @@ export function IcraBolum({ f, degistir, surum }: { f: Foy; degistir: (ek: Parti
   const masraflar = b.masraflar || [];
   const masrafYaz = (i: number, ek: Partial<Masraf>) => yaz({ masraflar: masraflar.map((m, j) => (j === i ? { ...m, ...ek } : m)) });
   const borclular = b.ekBorclular || [];
+  // Kalemler: eski kayıttaki tek asıl alacak ilk düzenlemede kalem listesine çevrilir.
+  const ks = kalemleri(b);
+  const kalemlerYaz = (xs: Kalem[]) => yaz({ kalemler: xs, asil: undefined, islemisFaizElle: undefined, ilamVekalet: undefined, yargilamaGideri: undefined });
+  const kalemYaz = (i: number, ek: Partial<Kalem>) => kalemlerYaz(ks.map((k, j) => (j === i ? { ...k, ...ek } : k)));
 
   const { account } = useAccount();
   const metin = () => takipTalebiMetni(f, b, undefined, account?.adSoyad);
@@ -71,6 +75,8 @@ export function IcraBolum({ f, degistir, surum }: { f: Foy; degistir: (ek: Parti
           {alan("Karar no", b.ilam?.kararNo || "", v => yaz({ ilam: { ...b.ilam, kararNo: v } }), "2026/45", 120)}
           {tarih("Karar tarihi", b.ilam?.kararTarihi, v => yaz({ ilam: { ...b.ilam, kararTarihi: v } }))}
           {tarih("Kesinleşme (varsa)", b.ilam?.kesinlesme, v => yaz({ ilam: { ...b.ilam, kesinlesme: v } }))}
+          <Acilir etiket={t("İlamın dosya türü")} secili={b.ilam?.dosyaTuru || "Hukuk Dava Dosyası"} genislik={220} onSec={k => yaz({ ilam: { ...b.ilam, dosyaTuru: k } })}
+            secenekler={["Hukuk Dava Dosyası", "Ceza Dava Dosyası", "İdari Dava Dosyası", "İş Dava Dosyası", "Tüketici Dava Dosyası", "Ticaret Dava Dosyası", "Aile Dava Dosyası"].map(x => ({ k: x, ad: t(x) }))} />
         </View>
       )}
       {b.yol === "kambiyo" && (
@@ -112,33 +118,49 @@ export function IcraBolum({ f, degistir, surum }: { f: Foy; degistir: (ek: Parti
       ))}
       <View style={s.row}><Btn kind="ghost" label={t("+ Borçlu ekle (kefil, avalist, ciranta…)")} onPress={() => yaz({ ekBorclular: [...borclular, { ad: "" }] })} /></View>
 
-      {/* Alacak kalemleri */}
-      <Text style={s.secT}>{t("Alacak kalemleri")}</Text>
+      {/* Ödeme hesabı ve adres seçimi */}
+      <Text style={s.secT}>{t("Ödeme hesabı ve adresler")}</Text>
       <View style={s.alanlar}>
-        {para(`Asıl alacak (${pb})`, b.asil, v => yaz({ asil: v }))}
-        {pb !== "TL" && alan("Takip tarihindeki kur", sayiYaz(b.kur), v => yaz({ kur: sayi(v) }), "Örn. 41,25", 150)}
-        {tarih("Faiz başlangıcı (temerrüt / vade)", b.faizBaslangic, v => yaz({ faizBaslangic: v }))}
-        {tarih("Takip tarihi (boşsa bugün)", b.takipTarihi, v => yaz({ takipTarihi: v }))}
+        {alan("IBAN (ödemenin yapılacağı hesap)", b.hesap?.iban || "", v => { yaz({ hesap: { ...b.hesap, iban: v.toUpperCase().replace(/\s+/g, "") } }); try { globalThis.localStorage?.setItem("celse-icra-iban", v.toUpperCase().replace(/\s+/g, "")); } catch { /* yok say */ } }, "TR…", 280)}
+        {alan("Banka", b.hesap?.banka || "", v => { yaz({ hesap: { ...b.hesap, banka: v } }); try { globalThis.localStorage?.setItem("celse-icra-banka", v); } catch { /* yok say */ } }, undefined, 200)}
       </View>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
-        <Acilir etiket={t("İşlemiş faiz türü")} secili={b.faizTuru || "yasal"} genislik={300} onSec={k => yaz({ faizTuru: k as FaizTuru })} secenekler={FAIZ_TURLERI.map(x => ({ k: x.k, ad: t(x.ad) }))} />
-        {(b.faizTuru || "yasal") !== "yok" && alan(b.faizTuru === "sozlesme" || b.faizTuru === "mevduat" ? "Yıllık oran (%)" : "Yıllık oran (%) – boşsa Celse'deki oranlar", sayiYaz(b.oran), v => yaz({ oran: sayi(v) }), b.faizTuru === "yasal" ? "9 / 24 / 31 dönemsel" : b.faizTuru === "avans" ? "39,75 (20.12.2025'ten)" : "Örn. 48", 200)}
+        <Acilir etiket={t("Hesap kimin adına")} secili={b.hesap?.sahibi || "vekil"} genislik={170} onSec={k => yaz({ hesap: { ...b.hesap, sahibi: k as "vekil" | "alacakli" } })} secenekler={[{ k: "vekil", ad: t("Vekil adına") }, { k: "alacakli", ad: t("Alacaklı adına") }]} />
+        <Acilir etiket={t("Alacaklı adresi")} secili={b.mernisAlacakli ? "M" : "A"} genislik={200} onSec={k => yaz({ mernisAlacakli: k === "M" })} secenekler={[{ k: "A", ad: t("Künyedeki adres") }, { k: "M", ad: t("MERNİS adresi") }]} />
+        <Acilir etiket={t("Borçlu adresi")} secili={b.mernisBorclu ? "M" : "A"} genislik={200} onSec={k => yaz({ mernisBorclu: k === "M" })} secenekler={[{ k: "A", ad: t("Künyedeki adres") }, { k: "M", ad: t("MERNİS adresi") }]} />
       </View>
-      {(b.faizTuru || "yasal") !== "yok" && (
-        <View style={{ gap: 2 }}>
-          <Text style={s.body}>{t("İşlemiş faiz: {x}", { x: tl(h.faiz, pb) })}{b.islemisFaizElle !== undefined ? " " + t("(elle girildi)") : ""}</Text>
-          {b.islemisFaizElle === undefined && h.faizDilimleri.map((d, i) => <Text key={i} style={s.hint}>{tarihYaz(d.bas)} – {tarihYaz(d.son)}: {d.gun} {t("gün")} × %{String(d.oran).replace(".", ",")} = {tl(d.tutar, pb)}</Text>)}
-          {!!h.faizEksik && b.islemisFaizElle === undefined && <Text style={[s.hint, { color: C.bad }]}>{t(h.faizEksik)}</Text>}
-          <View style={s.alanlar}>{para("İşlemiş faizi elle yaz (isteğe bağlı)", b.islemisFaizElle, v => yaz({ islemisFaizElle: v }))}</View>
+      {!b.hesap?.iban && (() => { let i = "", bk = ""; try { i = globalThis.localStorage?.getItem("celse-icra-iban") || ""; bk = globalThis.localStorage?.getItem("celse-icra-banka") || ""; } catch { /* yok say */ } return i ? <View style={s.row}><Btn kind="ghost" label={t("Son kullanılan hesabı yaz ({i})", { i: i.slice(0, 4) + "…" + i.slice(-4) })} onPress={() => yaz({ hesap: { ...b.hesap, iban: i, banka: bk || b.hesap?.banka } })} /></View> : null; })()}
+
+      {/* Alacak kalemleri: her kalem kendi faiz türüyle (UYAP takip talebindeki gibi) */}
+      <Text style={s.secT}>{t("Alacak kalemleri")}</Text>
+      <Text style={s.hint}>{t("UYAP'taki gibi her kalem ayrı yazılır ve kendi faizini işletir (ör. manevi tazminat avans faizli; yargılama gideri, vekâlet ücreti, bakiye harç yasal faizli). İşlemiş faiz kalem kalem hesaplanır; takip sonrası faiz de her kalemin kendi türüyle istenir.")}</Text>
+      <View style={s.alanlar}>
+        {pb !== "TL" && alan("Takip tarihindeki kur", sayiYaz(b.kur), v => yaz({ kur: sayi(v) }), "Örn. 41,25", 150)}
+        {tarih("Takip tarihi (boşsa bugün)", b.takipTarihi, v => yaz({ takipTarihi: v }))}
+      </View>
+      {h.kalemler.map((x, i) => (
+        <View key={i + ":" + surum} style={{ gap: 6, borderLeftWidth: 2, borderLeftColor: C.brassDim, paddingLeft: 10 }}>
+          <View style={[s.alanlar, { alignItems: "flex-end" }]}>
+            {alan("Kalem", x.k.ad, v => kalemYaz(i, { ad: v }), "Örn. Asıl alacak", 200)}
+            {para(`Tutar (${pb})`, x.k.tutar || undefined, v => kalemYaz(i, { tutar: v || 0 }))}
+            {tarih("Faiz başlangıcı", x.k.faizBaslangic, v => kalemYaz(i, { faizBaslangic: v }))}
+            <Pressable onPress={() => kalemlerYaz(ks.filter((_, j) => j !== i))}><Text style={s.sil}>{t("Kaldır")}</Text></Pressable>
+          </View>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
+            <Acilir etiket={t("Faiz türü")} secili={x.k.faizTuru || "yasal"} genislik={280} onSec={k => kalemYaz(i, { faizTuru: k as FaizTuru })} secenekler={FAIZ_TURLERI.map(y => ({ k: y.k, ad: t(y.ad) }))} />
+            {(x.k.faizTuru || "yasal") !== "yok" && alan(x.k.faizTuru === "sozlesme" || x.k.faizTuru === "mevduat" ? "Yıllık oran (%)" : "Yıllık oran (%) – boşsa dönemsel", sayiYaz(x.k.oran), v => kalemYaz(i, { oran: sayi(v) }), x.k.faizTuru === "avans" ? "39,75" : x.k.faizTuru === "yasal" || !x.k.faizTuru ? "9 / 24 / 31" : "Örn. 48", 170)}
+            {(x.k.faizTuru || "yasal") !== "yok" && para("İşlemiş faiz elle (isteğe bağlı)", x.k.islemisElle, v => kalemYaz(i, { islemisElle: v }))}
+          </View>
+          {(x.k.faizTuru || "yasal") !== "yok" && <Text style={s.body}>{t("İşlemiş faiz: {x}", { x: tl(x.faiz, pb) })}{x.k.islemisElle !== undefined ? " " + t("(elle)") : ""}</Text>}
+          {x.k.islemisElle === undefined && x.dilimler.map((d, j) => <Text key={j} style={s.hint}>{tarihYaz(d.bas)} – {tarihYaz(d.son)}: {d.gun} {t("gün")} × %{String(d.oran).replace(".", ",")} = {tl(d.tutar, pb)}</Text>)}
+          {!!x.eksik && x.k.islemisElle === undefined && <Text style={[s.hint, { color: C.bad }]}>{t(x.eksik)}</Text>}
         </View>
-      )}
-      {b.yol === "ilamli" && (
-        <View style={s.alanlar}>
-          {para("İlam vekâlet ücreti", b.ilamVekalet, v => yaz({ ilamVekalet: v }))}
-          {para("Yargılama gideri", b.yargilamaGideri, v => yaz({ yargilamaGideri: v }))}
-        </View>
-      )}
-      {h.ek.filter(x => !/İlam|Yargılama/.test(x.ad)).map(x => <Text key={x.ad} style={s.body}>{t(x.ad)}: {tl(x.tutar, pb)}</Text>)}
+      ))}
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
+        <Acilir etiket={t("+ Kalem ekle")} secili="" genislik={260} onSec={k => k && kalemlerYaz([...ks, { ad: k, tutar: 0, faizTuru: "yasal", faizBaslangic: b.yol === "ilamli" && /Yargılama|Vekâlet|harç/i.test(k) ? b.ilam?.kararTarihi : undefined }])}
+          secenekler={[{ k: "", ad: t("Kalem seçin…") }, ...KALEM_ADLARI[b.yol].map(x => ({ k: x, ad: t(x) }))]} />
+      </View>
+      {h.ek.map(x => <Text key={x.ad} style={s.body}>{t(x.ad)}: {tl(x.tutar, pb)}</Text>)}
       <Text style={s.label}>{t("Masraflar (protesto, ihtarname, noter…)")}</Text>
       {masraflar.map((m, i) => (
         <View key={i + ":" + surum} style={[s.alanlar, { alignItems: "flex-end" }]}>
@@ -153,13 +175,6 @@ export function IcraBolum({ f, degistir, surum }: { f: Foy; degistir: (ek: Parti
         <Acilir etiket={t("TBK 100 mahsup")} secili={b.tbk100 === false ? "H" : "E"} genislik={130} onSec={k => yaz({ tbk100: k === "E" })} secenekler={[{ k: "E", ad: t("Evet") }, { k: "H", ad: t("Hayır") }]} />
         <Acilir etiket={t("BSMV")} secili={b.bsmv ? "E" : "H"} genislik={110} onSec={k => yaz({ bsmv: k === "E" })} secenekler={[{ k: "H", ad: t("Hayır") }, { k: "E", ad: t("Evet") }]} />
         <Acilir etiket={t("KKDF")} secili={b.kkdf ? "E" : "H"} genislik={110} onSec={k => yaz({ kkdf: k === "E" })} secenekler={[{ k: "H", ad: t("Hayır") }, { k: "E", ad: t("Evet") }]} />
-      </View>
-
-      {/* Takip sonrası faiz */}
-      <Text style={s.secT}>{t("Takip sonrası faiz")}</Text>
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
-        <Acilir etiket={t("Faiz türü")} secili={b.takipSonrasiTur || b.faizTuru || "yasal"} genislik={300} onSec={k => yaz({ takipSonrasiTur: k as FaizTuru })} secenekler={FAIZ_TURLERI.map(x => ({ k: x.k, ad: t(x.ad) }))} />
-        {alan("Yıllık oran (%) – değişkense boş bırakın", sayiYaz(b.takipSonrasiOran), v => yaz({ takipSonrasiOran: sayi(v) }), undefined, 200)}
       </View>
 
       {/* Sonuç */}
