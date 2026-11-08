@@ -3,7 +3,7 @@
 // Her şey bu cihazda (src/data/foy.ts); yapay zekâya yalnız kodlanmış metin gider. Föy sayfası: FoySayfa.tsx.
 import React, { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { bosFoy, Foy, foyBaslik, foyDinle, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, ozelSayisi, tarihYaz, yedekMetni, yedektenYukle } from "../data/foy";
+import { bosFoy, Foy, foyBaslik, foyDinle, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, tarihYaz, yedekMetni, yedektenYukle } from "../data/foy";
 import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyAktar";
 import { DAVA_TURLERI, FoyTur, Giris, GIRISLER, turBilgi, TURLER } from "../data/foyTurleri";
 import { useInnerBack } from "./innerBack";
@@ -14,6 +14,7 @@ import { dosyaSec, gunYaz, indir, s } from "./foyStil";
 import { FoyBulutKart } from "./FoyBulutKart";
 import { FloatingNav, useFloatingNav } from "./FloatingNav";
 import { IliskiKart } from "./IliskiKart";
+import { EvrakHavuzu } from "./EvrakHavuzu";
 import { Btn } from "./kit";
 import { t } from "../i18n";
 import { C } from "./theme";
@@ -25,7 +26,9 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [yuklendi, setYuklendi] = useState(false);
   const [secili, setSecili] = useState<Secili | null>(null);
   const [aktar, setAktar] = useState(false);
-  const [giris, setGiris] = useState(false);
+  const [havuz, setHavuz] = useState(false);
+  // "sahsi": şahsi dosyalar bölümünden açılan giriş (yeni föy şahsi ve şifreli olur).
+  const [giris, setGiris] = useState<false | "normal" | "sahsi">(false);
   const [ara, setAra] = useState("");
   const [filtre, setFiltre] = useState<"acik" | "kapali" | "hepsi">("acik");
   const [turF, setTurF] = useState<FoyTur | "hepsi">("hepsi");
@@ -36,20 +39,23 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [boy, setBoyRaw] = useState<number>(() => { try { const v = Number(globalThis.localStorage?.getItem("celse-foy-sayfa")); return [5, 10, 25, 50, 100].includes(v) ? v : 25; } catch { return 25; } });
   const setBoy = (n: number) => { setBoyRaw(n); setSayfa(0); try { globalThis.localStorage?.setItem("celse-foy-sayfa", String(n)); } catch { /* yok say */ } };
   const nav = useFloatingNav();
+  const [sirala, setSiralaRaw] = useState<"durusma" | "acilisYeni" | "acilisEski" | "degisim">(() => { try { const v = globalThis.localStorage?.getItem("celse-foy-sirala"); return v === "acilisYeni" || v === "acilisEski" || v === "degisim" ? v : "durusma"; } catch { return "durusma"; } });
+  const setSirala = (v: typeof sirala) => { setSiralaRaw(v); setSayfa(0); try { globalThis.localStorage?.setItem("celse-foy-sirala", v); } catch { /* yok say */ } };
   useEffect(() => { setSayfa(0); }, [ara, filtre, turF]);
-  const [ozelN, setOzelN] = useState(0);
   const [kilitSor, setKilitSor] = useState<null | { sonra?: () => void }>(null);
   const yenile = () => {
     foyListesi().then(x => { setListe(x); setYuklendi(true); }).catch(() => setYuklendi(true));
     ozelKilitDurumu().then(setKilit).catch(() => {});
-    ozelSayisi().then(setOzelN).catch(() => {});
   };
   useEffect(() => { yenile(); return foyDinle(yenile); }, []);
-  useInnerBack(!!secili || aktar || giris || !!kilitSor, () => { setSecili(null); setAktar(false); setGiris(false); setKilitSor(null); });
+  // Dava takibinden çıkınca şahsi dosyalar kilitlenir (bilgisayarı başkası kullanırsa görünmesin).
+  useEffect(() => () => { ozelKilitle(); }, []);
+  useInnerBack(!!secili || aktar || havuz || !!giris || !!kilitSor, () => { setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); });
 
   // Telefonda: föyler uygulamanın deposunda; evrak ekleme, toplu aktarma, DavaTek klasörü ve yedek dosyası bilgisayardadır.
   const web = Platform.OS === "web";
   if (kilitSor) return <OzelKilit durum={kilit} onKapat={() => setKilitSor(null)} onAcildi={() => { const f = kilitSor.sonra; setKilitSor(null); yenile(); f?.(); }} />;
+  if (havuz) return <EvrakHavuzu liste={liste.filter(f => !f.ozel)} onBitti={m => { setHavuz(false); if (m) setMesaj({ t: m, ok: true }); yenile(); }} />;
   if (aktar) return <Aktar mevcut={liste} onBitti={(n) => { setAktar(false); if (n) setMesaj({ t: n, ok: true }); }} />;
   if (secili) return <FoySayfa key={secili.id} id={secili.id} ekle={secili.ekle} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} />;
 
@@ -58,19 +64,29 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     if (ek.ozel && (await ozelKilitDurumu()) !== "acik") { setKilitSor({ sonra: olustur }); return; }
     await olustur();
   };
-  if (giris) return <GirisMenu liste={liste} onKapat={() => setGiris(false)} onSec={yeniFoy} onEvraka={(id, tur) => { setGiris(false); setSecili({ id, ekle: tur }); }} />;
+  if (giris) return <GirisMenu liste={giris === "sahsi" ? liste.filter(f => f.ozel) : liste.filter(f => !f.ozel)} sahsi={giris === "sahsi"} onKapat={() => setGiris(false)} onSec={yeniFoy} onEvraka={(id, tur) => { setGiris(false); setSecili({ id, ekle: tur }); }} />;
 
   const q = ara.trim().toLocaleLowerCase("tr");
   const byId = new Map(liste.map(f => [f.id, f] as const));
-  const gorunen = liste
+  // Şahsi dosyalar büro listesine, yaklaşanlara, önerilere ve DavaTek eşleştirmesine hiç karışmaz; yalnız en alttaki
+  // şahsi dosyalar bölümünde, kilit açıkken görünür.
+  const buro = liste.filter(f => !f.ozel);
+  const sahsiler = liste.filter(f => f.ozel);
+  const gorunen = buro
     .filter(f => filtre === "hepsi" || f.durum === filtre)
     .filter(f => turF === "hepsi" || (f.tur || "hukuk") === turF)
     .filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, f.notlar, turBilgi(f.tur).ad, ...Object.values(f.muvekkilBilgi || {})].join(" ").toLocaleLowerCase("tr").includes(q))
-    .sort((a, b) => (a.durusma || "9999").localeCompare(b.durusma || "9999") || b.guncelleme.localeCompare(a.guncelleme));
-  const turlerVar = TURLER.filter(x => liste.some(f => (f.tur || "hukuk") === x.tur));
+    .sort((a, b) => {
+      const ac = (f: Foy) => f.acilis || f.olusturma.slice(0, 10);
+      if (sirala === "acilisYeni") return ac(b).localeCompare(ac(a));
+      if (sirala === "acilisEski") return ac(a).localeCompare(ac(b));
+      if (sirala === "degisim") return b.guncelleme.localeCompare(a.guncelleme);
+      return (a.durusma || "9999").localeCompare(b.durusma || "9999") || b.guncelleme.localeCompare(a.guncelleme);
+    });
+  const turlerVar = TURLER.filter(x => buro.some(f => (f.tur || "hukuk") === x.tur));
   // Yaklaşanlar: önümüzdeki 14 gün (ve geçmiş ama tamamlanmamış işler).
   const yaklasan: { f: Foy; tur: "durusma" | "gorev"; metin: string; tarih: string; gun: number }[] = [];
-  for (const f of liste.filter(x => x.durum === "acik")) {
+  for (const f of buro.filter(x => x.durum === "acik")) {
     const g = kacGun(f.durusma);
     if (f.durusma && g !== undefined && g >= 0 && g <= 14) yaklasan.push({ f, tur: "durusma", metin: t("Duruşma"), tarih: f.durusma, gun: g });
     for (const x of f.gorevler) {
@@ -88,11 +104,33 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     catch (e) { setMesaj({ t: t(String((e as Error).message || e)) }); }
   };
 
+  const foySatir = (f: Foy) => {
+          const g = kacGun(f.durusma);
+          const acikGorev = f.gorevler.filter(x => !x.bitti).length;
+          const once = f.oncekiId ? byId.get(f.oncekiId) : undefined;
+          const tb = turBilgi(f.tur);
+          return (
+            <Pressable key={f.id} onPress={() => setSecili({ id: f.id })} style={({ pressed }) => [s.foy, pressed && { opacity: 0.85 }]}>
+              <View style={{ flex: 1, gap: 3 }}>
+                <Text style={[s.turChip, f.ozel && s.ozelChip]}>{f.ozel ? "🔒 " : ""}{tb.kisa}{f.asama ? " · " + f.asama.toLocaleUpperCase("tr") : ""}</Text>
+                <Text style={s.foyT} numberOfLines={1}>{foyBaslik(f)}</Text>
+                <Text style={s.hint} numberOfLines={1}>{[f.mahkeme, f.esasNo, f.davaTuru, f.acilis ? t("açılış {d}", { d: tarihYaz(f.acilis) }) : ""].filter(Boolean).join(" · ") || t("Merci ve numara yazılmamış")}</Text>
+                {!!once && <Text style={s.hint} numberOfLines={1}>↳ {t("{tur} {no} dosyasının devamı", { tur: turBilgi(once.tur).ad, no: once.esasNo || "" })}</Text>}
+                <Text style={s.meta}>{[t("{n} EVRAK", { n: f.evraklar.length }), acikGorev ? t("{n} AÇIK İŞ", { n: acikGorev }) : ""].filter(Boolean).join(" · ")}</Text>
+              </View>
+              {!!f.durusma && <Text style={[s.foyD, g !== undefined && g >= 0 && g <= 7 && { color: C.brass }]}>{tarihYaz(f.durusma)}{"\n"}<Text style={s.hint}>{gunYaz(g)}</Text></Text>}
+            </Pressable>
+          );
+  };
   const sayfaSay = Math.max(1, Math.ceil(gorunen.length / boy));
   const cur = Math.min(sayfa, sayfaSay - 1);
   const sayfadaki = gorunen.slice(cur * boy, cur * boy + boy);
   const sayfalama = (
     <View style={[s.row, { alignItems: "center" }]}>
+      <Text style={s.hint}>{t("Sırala:")}</Text>
+      {([["durusma", t("Duruşma")], ["acilisYeni", t("Açılış (yeni önce)")], ["acilisEski", t("Açılış (eski önce)")], ["degisim", t("Son değişiklik")]] as const).map(([k, ad]) => (
+        <Pressable key={k} onPress={() => setSirala(k)} style={[s.chip, sirala === k && s.chipOn]}><Text style={[s.chipT, sirala === k && s.chipTOn]}>{ad}</Text></Pressable>
+      ))}
       <Text style={s.hint}>{t("Sayfada:")}</Text>
       {[5, 10, 25, 50, 100].map(n => (
         <Pressable key={n} onPress={() => setBoy(n)} style={[s.chip, boy === n && s.chipOn]}><Text style={[s.chipT, boy === n && s.chipTOn]}>{n}</Text></Pressable>
@@ -120,21 +158,15 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       </View>
 
       <View style={s.row}>
-        <Btn label={t("+ Yeni giriş")} onPress={() => setGiris(true)} />
-        {web && <Btn kind="secondary" label={t("Excel ya da Word'den toplu ekle")} onPress={() => setAktar(true)} />}
+        {web && <Btn label={t("📥 Toplu evrak yükle")} onPress={() => setHavuz(true)} />}
+        <Btn kind={web ? "secondary" : "primary"} label={t("+ Yeni giriş")} onPress={() => setGiris("normal")} />
+        {web && <Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} />}
       </View>
       {mesaj && <Text style={[s.hint, { color: mesaj.ok ? C.good : C.bad }]}>{mesaj.t}</Text>}
 
       <FoyBulutKart />
-      <IliskiKart liste={liste} onAc={id => setSecili({ id })} />
-      {web && <KlasorKart liste={liste} onBilgi={m => setMesaj(m)} />}
-
-      <View style={[s.card, { flexDirection: "row", alignItems: "center", gap: 10, flexWrap: "wrap" }]}>
-        <Text style={[s.body, { flex: 1 }]}>{kilit === "yok" ? t("🔒 Şahsi dosyalarınız (kendi davalarınız, soruşturmalarınız) ayrı şifreyle kilitli ve şifreli saklanabilir.")
-          : kilit === "acik" ? t("🔓 Şahsi dosyalar açık ({n}). 15 dakika kullanılmazsa kendiliğinden kilitlenir.", { n: ozelN }) : t("🔒 Şahsi dosyalar kilitli ({n}).", { n: ozelN })}</Text>
-        {kilit === "acik" ? <Btn kind="ghost" label={t("Kilitle")} onPress={ozelKilitle} />
-          : <Btn kind="secondary" label={kilit === "yok" ? t("Şifre kur") : t("Şifreyle aç")} onPress={() => setKilitSor({})} />}
-      </View>
+      <IliskiKart liste={buro} onAc={id => setSecili({ id })} />
+      {web && <KlasorKart liste={buro} onBilgi={m => setMesaj(m)} />}
 
       {yaklasan.length > 0 && (
         <View style={s.card}>
@@ -165,33 +197,33 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
             <Pressable onPress={() => setTurF("hepsi")} style={[s.chip, turF === "hepsi" && s.chipOn]}><Text style={[s.chipT, turF === "hepsi" && s.chipTOn]}>{t("Bütün türler")}</Text></Pressable>
             {turlerVar.map(x => (
               <Pressable key={x.tur} onPress={() => setTurF(x.tur)} style={[s.chip, turF === x.tur && s.chipOn]}>
-                <Text style={[s.chipT, turF === x.tur && s.chipTOn]}>{t(x.ad)} ({liste.filter(f => (f.tur || "hukuk") === x.tur).length})</Text>
+                <Text style={[s.chipT, turF === x.tur && s.chipTOn]}>{t(x.ad)} ({buro.filter(f => (f.tur || "hukuk") === x.tur).length})</Text>
               </Pressable>
             ))}
           </View>
         )}
         {yuklendi && liste.length === 0 && <Text style={s.body}>{t("Henüz föy yok. “+ Yeni giriş” ile ekleyin ya da dosya listenizi Excel veya Word tablosundan toplu olarak aktarın.")}</Text>}
-        {gorunen.length > 5 && sayfalama}
-        {sayfadaki.map(f => {
-          const g = kacGun(f.durusma);
-          const acikGorev = f.gorevler.filter(x => !x.bitti).length;
-          const once = f.oncekiId ? byId.get(f.oncekiId) : undefined;
-          const tb = turBilgi(f.tur);
-          return (
-            <Pressable key={f.id} onPress={() => setSecili({ id: f.id })} style={({ pressed }) => [s.foy, pressed && { opacity: 0.85 }]}>
-              <View style={{ flex: 1, gap: 3 }}>
-                <Text style={[s.turChip, f.ozel && s.ozelChip]}>{f.ozel ? "🔒 " : ""}{tb.kisa}{f.asama ? " · " + f.asama.toLocaleUpperCase("tr") : ""}</Text>
-                <Text style={s.foyT} numberOfLines={1}>{foyBaslik(f)}</Text>
-                <Text style={s.hint} numberOfLines={1}>{[f.mahkeme, f.esasNo, f.davaTuru].filter(Boolean).join(" · ") || t("Merci ve numara yazılmamış")}</Text>
-                {!!once && <Text style={s.hint} numberOfLines={1}>↳ {t("{tur} {no} dosyasının devamı", { tur: turBilgi(once.tur).ad, no: once.esasNo || "" })}</Text>}
-                <Text style={s.meta}>{[t("{n} EVRAK", { n: f.evraklar.length }), acikGorev ? t("{n} AÇIK İŞ", { n: acikGorev }) : ""].filter(Boolean).join(" · ")}</Text>
-              </View>
-              {!!f.durusma && <Text style={[s.foyD, g !== undefined && g >= 0 && g <= 7 && { color: C.brass }]}>{tarihYaz(f.durusma)}{"\n"}<Text style={s.hint}>{gunYaz(g)}</Text></Text>}
-            </Pressable>
-          );
-        })}
+        {gorunen.length > 1 && sayfalama}
+        {sayfadaki.map(foySatir)}
         {gorunen.length > boy && sayfalama}
       </View>
+
+      {/* Şahsi dosyalar: sayfanın en sonunda, kilit açıkken; kilitliyken hiçbir yerde sayısı bile görünmez. */}
+      {kilit === "acik" ? (
+        <View style={[s.card, { borderColor: C.mid }]}>
+          <Text style={s.cardT}>🔓 {t("Şahsi dosyalarım ({n})", { n: sahsiler.length })}</Text>
+          <Text style={s.hint}>{t("Yalnız şifreyi bilen görür; büro listesine, yaklaşanlara, önerilere ve DavaTek eşleştirmesine karışmaz. 15 dakika kullanılmazsa ya da dava takibinden çıkınca kendiliğinden kilitlenir.")}</Text>
+          {sahsiler.map(foySatir)}
+          <View style={s.row}>
+            <Btn kind="secondary" label={t("+ Şahsi dosya ekle")} onPress={() => setGiris("sahsi")} />
+            <Btn kind="ghost" label={t("Kilitle")} onPress={() => { ozelKilitle(); yenile(); }} />
+          </View>
+        </View>
+      ) : (
+        <Pressable accessibilityRole="button" onPress={() => setKilitSor({})} hitSlop={8} style={{ alignSelf: "flex-start", paddingVertical: 14 }}>
+          <Text style={[s.hint, { textDecorationLine: "underline", opacity: 0.6 }]}>{t("Şahsi dosyalar")}</Text>
+        </Pressable>
+      )}
     </ScrollView>
     <FloatingNav nav={nav} onBack={p.onBack} />
     </View>
@@ -199,25 +231,20 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
 }
 
 /* ---------- yeni giriş menüsü ---------- */
-function GirisMenu({ liste, onKapat, onSec, onEvraka }: { liste: Foy[]; onKapat: () => void; onSec: (t: FoyTur, ek: { ozel?: boolean; davaTuru?: string }) => void; onEvraka: (id: string, tur: string) => void }) {
+function GirisMenu({ liste, sahsi, onKapat, onSec, onEvraka }: { liste: Foy[]; sahsi?: boolean; onKapat: () => void; onSec: (t: FoyTur, ek: { ozel?: boolean; davaTuru?: string }) => void; onEvraka: (id: string, tur: string) => void }) {
   const [alt, setAlt] = useState<Giris | null>(null);
   const [ara, setAra] = useState("");
-  // Şahsi dosya: avukatın kendi dosyası (her türden olabilir); ayrı şifreyle kilitli ve şifreli saklanır.
-  const [sahsi, setSahsi] = useState(false);
   // "Hangi dava": türün alt listesi (boşanma, işe iade, hekim disiplin soruşturması…). Seçilen föyde "Konu" olur.
   const [altTur, setAltTur] = useState<FoyTur | null>(null);
   const [kendi, setKendi] = useState("");
   const sec = (tur: FoyTur) => (DAVA_TURLERI[tur]?.length ? setAltTur(tur) : onSec(tur, { ozel: sahsi }));
-  const sahsiKart = (
-    <Pressable accessibilityRole="switch" accessibilityState={{ checked: sahsi }} onPress={() => setSahsi(!sahsi)} style={[s.girisK, { width: "100%", flexGrow: 0, flexBasis: "auto", flexDirection: "row", alignItems: "center", gap: 12 }, sahsi && { borderColor: C.mid, backgroundColor: C.panel2 }]}>
-      <Text style={{ fontSize: 22 }}>{sahsi ? "🔒" : "🔓"}</Text>
-      <View style={{ flex: 1 }}>
-        <Text style={s.girisT}>{sahsi ? t("Şahsi dosyam olarak açılacak") : t("Şahsi dosyam mı?")}</Text>
-        <Text style={s.hint}>{t("Kendi davanız, soruşturmanız ya da başvurunuz (boşanma, kira, ücret alacağı, ceza, baro, disiplin…) her türde şahsi dosya olabilir: ayrı şifreyle kilitli ve şifreli saklanır, büro föyleriyle karışmaz.")}</Text>
-      </View>
-      <Text style={[s.girisT, { color: sahsi ? C.mid : C.muted }]}>{sahsi ? t("AÇIK") : t("KAPALI")}</Text>
-    </Pressable>
-  );
+  // Şahsi dosya girişi yalnız şahsi dosyalar bölümünden (kilit açıkken) açılır; büro girişinde şahsi seçeneği hiç görünmez.
+  const sahsiKart = sahsi ? (
+    <View style={[s.warn, { borderColor: C.mid }]}>
+      <Text style={s.warnT}>🔒 {t("Şahsi dosya açıyorsunuz")}</Text>
+      <Text style={s.warnD}>{t("Kendi davanız, soruşturmanız ya da başvurunuz: ayrı şifreyle şifrelenip saklanır, büro föyleriyle karışmaz.")}</Text>
+    </View>
+  ) : null;
   if (altTur) {
     const tb = turBilgi(altTur);
     return (

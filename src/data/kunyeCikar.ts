@@ -6,6 +6,8 @@ import type { Foy, KarsiBilgi, MuvekkilBilgi } from "./foy";
 export interface TarafOneri { ad: string; kimlikNo?: string; adres?: string; vekil?: string }
 export interface KunyeOneri {
   mahkeme?: string; esasNo?: string; konu?: string; durusma?: string;
+  /** dava / başvuru / soruşturma / takip tarihi (YYYY-AA-GG) */
+  acilis?: string;
   birinci?: TarafOneri; ikinci?: TarafOneri;
   vekalet?: { noter?: string; tarih?: string; yevmiye?: string; kimlikNo?: string };
 }
@@ -17,11 +19,11 @@ export function basHarf(s: string) {
   const x = s.replace(/\s+/g, " ").trim();
   if (x !== x.toLocaleUpperCase("tr")) return x;
   // "A.Ş.", "LTD.", "ŞTİ." gibi kısaltmalar büyük kalır.
-  return x.split(" ").map(w => (/^(VE|İLE|DA|DE)$/.test(w) ? tr(w) : /^([A-ZÇĞİÖŞÜ]\.)+$|^(LTD|ŞTİ|A\.Ş|T\.A\.Ş)\.?$/.test(w) ? w : w.slice(0, 1) + tr(w.slice(1)))).join(" ");
+  return x.split(" ").map(w => (/^(VE|İLE|DA|DE)$/.test(w) ? tr(w) : /^([A-ZÇĞİÖŞÜ]\.)+$|^(A\.Ş|T\.A\.Ş)\.?$/.test(w) ? w : /^LTD\.?$/.test(w) ? "Ltd." : /^ŞTİ\.?$/.test(w) ? "Şti." : w.slice(0, 1) + tr(w.slice(1)))).join(" ");
 }
 
-const BIRINCI = ["DAVACILAR", "DAVACI", "MÜŞTEKİ", "ŞİKAYETÇİ", "ŞİKÂYETÇİ", "KATILAN", "ALACAKLI", "BAŞVURUCU", "BAŞVURAN", "İTİRAZ EDEN", "İSTİNAF EDEN", "TEMYİZ EDEN"];
-const IKINCI = ["DAVALILAR", "DAVALI", "ŞÜPHELİ", "SANIK", "BORÇLU", "KARŞI TARAF", "ALEYHİNE BAŞVURULAN", "KARŞI DAVALI"];
+const BIRINCI = ["DAVACILAR", "DAVACI", "MÜŞTEKİ", "ŞİKAYETÇİ", "ŞİKÂYETÇİ", "KATILAN", "ALACAKLI", "BAŞVURUCU", "BAŞVURAN", "İTİRAZ EDEN", "İSTİNAF EDEN", "TEMYİZ EDEN", "KEŞİDECİ", "İHTAR EDEN"];
+const IKINCI = ["DAVALILAR", "DAVALI", "ŞÜPHELİ", "SANIK", "BORÇLU", "KARŞI TARAF", "ALEYHİNE BAŞVURULAN", "KARŞI DAVALI", "MUHATAP", "İHTAR EDİLEN"];
 const ROLLER = [...BIRINCI, ...IKINCI].sort((a, b) => b.length - a.length);
 const rolDeseni = new RegExp(`^\\s*(${ROLLER.join("|")})\\s*(VEKİLİ|VEKİLLERİ|MÜDAFİİ)?\\s*:\\s*(.*)$`, "i");
 
@@ -92,6 +94,9 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
   const bugun = simdi.toISOString().slice(0, 10);
   const ileri = durusmalar.filter(x => x.slice(0, 10) >= bugun).sort();
   if (ileri.length) o.durusma = ileri[0];
+  // Açılış tarihi: gerekçeli karar ve tutanak başlığındaki "DAVA TARİHİ", "BAŞVURU TARİHİ", "SUÇ TARİHİ" değil "SORUŞTURMA" / "TAKİP" tarihi.
+  const ac = metin.match(/(?:DAVA|BAŞVURU|SORUŞTURMA|TAKİP|İHBAR|ŞİKAYET|ŞİKÂYET)\s*(?:AÇILIŞ\s*)?TARİHİ\s*[:]?\s*(\d{1,2})[./](\d{1,2})[./](\d{4})/i);
+  if (ac) { const x = tarihIso(ac[1], ac[2], ac[3]); if (x) o.acilis = x; }
   // Vekâletname.
   if (/VEK[AÂ]LETNAME/i.test(metin)) {
     const v: NonNullable<KunyeOneri["vekalet"]> = {};
@@ -119,6 +124,7 @@ export function kunyeyiDoldur(f: Foy, o: KunyeOneri): { ek: Partial<Foy>; dolan:
   if (bos(f.esasNo) && o.esasNo) { ek.esasNo = o.esasNo; dolan.push("esas no"); }
   if (bos(f.davaTuru) && o.konu) { ek.davaTuru = o.konu; dolan.push("konu"); }
   if (!f.durusma && o.durusma) { ek.durusma = o.durusma; dolan.push("duruşma"); }
+  if (!f.acilis && o.acilis) { ek.acilis = o.acilis; dolan.push("açılış tarihi"); }
   if (bos(f.muvekkil) && biz?.ad) { ek.muvekkil = biz.ad; dolan.push("müvekkil"); }
   if (bos(f.karsiTaraf) && onlar?.ad) { ek.karsiTaraf = onlar.ad; dolan.push("karşı taraf"); }
   const mb: MuvekkilBilgi = { ...(f.muvekkilBilgi || {}) };

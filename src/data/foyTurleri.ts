@@ -5,7 +5,7 @@
 
 export type FoyTur =
   | "danisma" | "arabuluculuk" | "sorusturma" | "ceza" | "hukuk" | "idari_basvuru" | "idari_dava" | "idari_sorusturma"
-  | "icra" | "kurum_basvuru" | "sozlesme" | "ozel_ceza" | "baro";
+  | "icra" | "kurum_basvuru" | "sozlesme" | "ozel_ceza" | "baro" | "arabulucu_gorev" | "bilirkisi_gorev";
 
 export interface TurBilgi {
   tur: FoyTur; ad: string; kisa: string; aciklama: string;
@@ -35,7 +35,7 @@ export const TURLER: TurBilgi[] = [
     taraflar: ["Başvurucu", "İdare"], asamalar: ["Başvuru", "Cevap bekleniyor", "Ret / zımni ret", "Kabul"], sonraki: ["idari_dava"] },
   { tur: "idari_dava", ad: "İdari dava", kisa: "İDARİ DAVA", aciklama: "İdare ve vergi mahkemelerindeki iptal ve tam yargı davaları.", merci: "Mahkeme", no: "Esas no", merciOrnek: "İzmir 2. İdare Mahkemesi",
     taraflar: ["Davacı", "Davalı idare"], asamalar: ["Dava açıldı", "Savunma", "Bilirkişi / keşif", "Karar", "İstinaf", "Temyiz", "Kesinleşti"], sonraki: [] },
-  { tur: "idari_sorusturma", ad: "Disiplin / idari soruşturma", kisa: "DİSİPLİN SORUŞTURMASI", aciklama: "Memur, hekim, öğretmen, işçi (4857), noter, mali müşavir… hakkında disiplin ya da ön inceleme.", merci: "Kurum / meslek kuruluşu / işveren", no: "Soruşturma no", merciOrnek: "İl Sağlık Müdürlüğü",
+  { tur: "idari_sorusturma", ad: "Disiplin soruşturması", kisa: "DİSİPLİN SORUŞTURMASI", aciklama: "Memur, hekim, öğretmen, işçi (4857), avukat (baro), noter, mali müşavir… hakkında disiplin ya da ön inceleme.", merci: "Kurum / meslek kuruluşu / işveren", no: "Soruşturma no", merciOrnek: "İl Sağlık Müdürlüğü",
     taraflar: ["Hakkında soruşturma yapılan", "Kurum / işveren"], asamalar: ["Soruşturma", "Savunma", "Disiplin kararı", "İtiraz"], sonraki: ["idari_dava", "hukuk"] },
   { tur: "icra", ad: "İcra takibi", kisa: "İCRA", aciklama: "İlamlı, ilamsız ya da rehinli takip.", merci: "İcra dairesi", no: "Takip no", merciOrnek: "İzmir 12. İcra Dairesi",
     taraflar: ["Alacaklı / borçlu", "Karşı taraf"], asamalar: ["Takip başlatıldı", "Ödeme emri", "İtiraz", "Haciz", "Satış", "Tahsil"], sonraki: ["hukuk"] },
@@ -44,9 +44,13 @@ export const TURLER: TurBilgi[] = [
   { tur: "sozlesme", ad: "Sözleşme", kisa: "SÖZLEŞME", aciklama: "Hazırlanan ya da incelenen sözleşme.", merci: "Sözleşme konusu", no: "Sözleşme no", merciOrnek: "Kira sözleşmesi",
     taraflar: ["Müvekkil", "Karşı taraf"], asamalar: ["Taslak", "Müzakere", "İmzalandı", "İhtilaf"], sonraki: ["arabuluculuk", "hukuk", "icra"] },
   { tur: "baro", ad: "Baro soruşturması", kisa: "BARO", aciklama: "Avukat hakkında baro disiplin soruşturması.", merci: "Baro", no: "Dosya no", merciOrnek: "İzmir Barosu",
-    taraflar: ["Hakkında soruşturma yapılan", "Şikâyetçi"], asamalar: ["Şikâyet", "Disiplin soruşturması", "Disiplin kurulu", "Karar", "İtiraz"], sonraki: ["idari_dava"] },
+    taraflar: ["Hakkında soruşturma yapılan", "Şikâyetçi"], asamalar: ["Şikâyet", "Disiplin soruşturması", "Disiplin kurulu", "Karar", "İtiraz"], sonraki: ["idari_dava"], eski: true },
   { tur: "ozel_ceza", ad: "Kişisel ceza soruşturması", kisa: "CEZA", aciklama: "Eski kayıt: kişisel ceza soruşturması.", merci: "Savcılık / mahkeme", no: "Dosya no", merciOrnek: "",
-    taraflar: ["Ben", "Karşı taraf"], asamalar: ["Soruşturma", "Kovuşturma", "Karar"], sonraki: ["ceza"], eski: true }
+    taraflar: ["Ben", "Karşı taraf"], asamalar: ["Soruşturma", "Kovuşturma", "Karar"], sonraki: ["ceza"], eski: true },
+  { tur: "arabulucu_gorev", ad: "Arabulucu olarak görev", kisa: "ARABULUCU GÖREVİ", aciklama: "Avukatın arabulucu olarak yürüttüğü dosya.", merci: "Arabuluculuk bürosu", no: "Büro / arabuluculuk no", merciOrnek: "İzmir Arabuluculuk Bürosu",
+    taraflar: ["Başvurucu", "Diğer taraf"], asamalar: ["Görevlendirme", "Taraflara ulaşma", "Toplantı", "Anlaşma", "Anlaşamama", "Ücret tahsil edildi"], sonraki: [] },
+  { tur: "bilirkisi_gorev", ad: "Bilirkişi olarak görev", kisa: "BİLİRKİŞİ GÖREVİ", aciklama: "Avukatın bilirkişi olarak rapor yazdığı dosya.", merci: "Mahkeme / savcılık", no: "Esas / soruşturma no", merciOrnek: "İzmir 3. Asliye Hukuk Mahkemesi",
+    taraflar: ["Davacı", "Davalı"], asamalar: ["Görevlendirme", "İnceleme / keşif", "Rapor yazımı", "Rapor teslim edildi", "Ek rapor", "Ücret tahsil edildi"], sonraki: [] }
 ];
 
 export const turBilgi = (t?: FoyTur): TurBilgi => TURLER.find(x => x.tur === (t || "hukuk")) || TURLER[4];
@@ -62,7 +66,7 @@ export const DAVA_TURLERI: Partial<Record<FoyTur, string[]>> = {
     "Avukatlık ücreti alacağı", "Miras / tenkis", "Ortaklığın giderilmesi", "Tapu iptal ve tescil", "Kamulaştırma", "Sigorta", "Hizmet tespiti (SGK)"],
   ceza: ["Dolandırıcılık", "Güveni kötüye kullanma", "Hırsızlık", "Hakaret", "Tehdit", "Kasten yaralama", "Taksirle yaralama / öldürme",
     "Uyuşturucu", "Konut dokunulmazlığı", "Kişisel verilerin ihlali", "Resmî belgede sahtecilik", "Karşılıksız çek", "Trafik güvenliği", "Bilişim suçları"],
-  idari_sorusturma: ["Devlet memuru (657 s. DMK)", "Hekim / sağlık çalışanı", "Öğretmen", "Akademisyen / öğrenci (YÖK)", "İşçi (4857 s. İş Kanunu, işyeri disiplini)",
+  idari_sorusturma: ["Avukat (baro disiplin)", "Devlet memuru (657 s. DMK)", "Hekim / sağlık çalışanı", "Öğretmen", "Akademisyen / öğrenci (YÖK)", "İşçi (4857 s. İş Kanunu, işyeri disiplini)",
     "Kamu işçisi", "Polis / bekçi", "Asker (TSK disiplin)", "Hâkim / savcı (HSK)", "Noter", "Mali müşavir / SMMM", "Mühendis / mimar odası",
     "Eczacı", "Sporcu / kulüp (federasyon disiplin)", "Ön inceleme (4483 s. Kanun)"],
   baro: ["Disiplin soruşturması", "Meslek kurallarına aykırılık", "Ücret uyuşmazlığı şikâyeti", "Levhadan silinme"],
@@ -75,17 +79,16 @@ export const DAVA_TURLERI: Partial<Record<FoyTur, string[]>> = {
 /** "Yeni giriş" menüsü: avukatın işe başladığı belge ya da işlem. */
 export interface Giris { ad: string; aciklama: string; tur?: FoyTur; secenek?: FoyTur[]; evrakaEkle?: string }
 export const GIRISLER: Giris[] = [
-  { ad: "Yeni dava / soruşturma", aciklama: "Hukuk, ceza, idari dava; ceza, disiplin ya da baro soruşturması", secenek: ["hukuk", "ceza", "idari_dava", "sorusturma", "idari_sorusturma", "baro"] },
+  { ad: "Yeni dava / soruşturma", aciklama: "Hukuk, ceza ya da idari dava; ceza soruşturması", secenek: ["hukuk", "ceza", "idari_dava", "sorusturma"] },
   { ad: "Suç duyurusu", aciklama: "Savcılığa şikâyet ya da ihbar", tur: "sorusturma" },
   { ad: "Arabuluculuk başvurusu", aciklama: "Dava şartı ya da ihtiyari", tur: "arabuluculuk" },
   { ad: "Bilirkişi raporu", aciklama: "Var olan föye rapor ekle", evrakaEkle: "Bilirkişi raporu" },
-  { ad: "İdari başvuru", aciklama: "İdareye başvuru ya da itiraz", tur: "idari_basvuru" },
+  { ad: "İdari başvuru / disiplin", aciklama: "İdareye başvuru, itiraz; disiplin soruşturması (memur, hekim, işçi, avukat…)", secenek: ["idari_basvuru", "idari_sorusturma"] },
   { ad: "Kurum / banka başvurusu", aciklama: "Banka, sigorta, SGK, hakem heyeti", tur: "kurum_basvuru" },
   { ad: "İcra takibi", aciklama: "İlamlı, ilamsız, rehinli", tur: "icra" },
   { ad: "Sözleşme", aciklama: "Hazırlama ya da inceleme", tur: "sozlesme" },
   { ad: "Hukuki danışma", aciklama: "Davadan ya da başvurudan önce", tur: "danisma" },
-  { ad: "Disiplin / idari soruşturma", aciklama: "Memur, hekim, öğretmen, işçi (4857), noter…", tur: "idari_sorusturma" },
-  { ad: "Baro soruşturması", aciklama: "Avukat hakkında disiplin", tur: "baro" }
+  { ad: "Arabulucu ya da bilirkişi olarak görev", aciklama: "Sizin arabulucu ya da bilirkişi olduğunuz dosyalar", secenek: ["arabulucu_gorev", "bilirkisi_gorev"] }
 ];
 
 const sade = (s: string) => s.toLocaleLowerCase("tr").replace(/â/g, "a").replace(/î/g, "i").replace(/û/g, "u").replace(/ı/g, "i").replace(/ğ/g, "g").replace(/ü/g, "u").replace(/ş/g, "s").replace(/ö/g, "o").replace(/ç/g, "c");
@@ -94,7 +97,7 @@ const sade = (s: string) => s.toLocaleLowerCase("tr").replace(/â/g, "a").replac
 export function turTahmin(...metinler: string[]): FoyTur | undefined {
   const m = sade(metinler.filter(Boolean).join(" "));
   if (!m.trim()) return undefined;
-  if (/baro/.test(m) && /sorustur|disiplin|sikayet/.test(m)) return "baro";
+  if (/baro/.test(m) && /sorustur|disiplin|sikayet/.test(m)) return "idari_sorusturma";
   if (/arabulucu/.test(m)) return "arabuluculuk";
   if (/icra dairesi|icra mud|takip/.test(m) && !/mahkeme/.test(m)) return "icra";
   if (/bassavcilig|savcilig|sorusturma no|suc duyuru|sikayet/.test(m)) return "sorusturma";
