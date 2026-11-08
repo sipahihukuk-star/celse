@@ -2,7 +2,7 @@
 // "Dosya ne durumda?" (önemli evrak üzerinden yapay zekâ özeti, sesli dinleme). Her şey bu cihazda; dışarı yalnız kodlu metin gider.
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
+import { dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
 import { DAVA_TURLERI, EVRAK_TURLERI, FoyTur, turBilgi, TURLER } from "../data/foyTurleri";
 import { unmask } from "../engine/mask";
 import { zipIcerigi, turBul } from "../engine/mask/readers";
@@ -40,6 +40,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
   const [gorevTarih, setGorevTarih] = useState("");
   const [durusmaYazi, setDurusmaYazi] = useState("");
   const [silOnay, setSilOnay] = useState(false);
+  const [muvAc, setMuvAc] = useState(false);
   const [soruluyor, setSoruluyor] = useState(false);
   const [baglaAc, setBaglaAc] = useState(false);
   const [baglaAra, setBaglaAra] = useState("");
@@ -154,6 +155,14 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
     <View style={s.alan} key={alan}>
       <Text style={s.label}>{t(etiket)}</Text>
       <TextInput defaultValue={deger} onChangeText={v => degistir({ [alan]: v } as Partial<Foy>)} placeholder={ph ? t(ph) : undefined} placeholderTextColor={C.muted} style={s.inputTek} />
+    </View>
+  );
+  const mb = f.muvekkilBilgi || {};
+  const mbDolu = Object.values(mb).filter(x => (x || "").trim()).length;
+  const mbEl = (etiket: string, k: keyof MuvekkilBilgi, ph?: string) => (
+    <View style={s.alan} key={k}>
+      <Text style={s.label}>{t(etiket)}</Text>
+      <TextInput defaultValue={mb[k] || ""} onChangeText={v => degistir({ muvekkilBilgi: { ...(son.current?.muvekkilBilgi || f.muvekkilBilgi || {}), [k]: v } })} placeholder={ph ? t(ph) : undefined} placeholderTextColor={C.muted} multiline={k === "adres" || k === "ek"} style={s.inputTek} />
     </View>
   );
   const g = kacGun(f.durusma);
@@ -282,6 +291,33 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
 
       <View style={s.card}>
         <Text style={s.cardT}>{t("Künye")}</Text>
+        <View style={s.alanlar}>
+          {alanEl("Müvekkil", f.muvekkil, "muvekkil")}
+          {alanEl("Karşı taraf", f.karsiTaraf, "karsiTaraf")}
+          <View style={[s.alan, { flexBasis: "100%" }]}>
+            <Pressable onPress={() => setMuvAc(!muvAc)}><Text style={s.link}>{muvAc ? "▾ " : "▸ "}{t("Müvekkil bilgileri")}{mbDolu ? " · " + t("{n} alan dolu", { n: mbDolu }) : ""}</Text></Pressable>
+            {muvAc && (
+              <View style={[s.alanlar, { marginTop: 6 }]}>
+                {mbEl("T.C. kimlik / vergi no", "kimlikNo")}
+                {mbEl("Telefon", "telefon")}
+                {mbEl("E-posta", "eposta")}
+                {mbEl("Adres", "adres")}
+                {mbEl("Vekâletname (noterlik, tarih, yevmiye no)", "vekaletname", "İzmir 5. Noterliği, 12.03.2026, 12345")}
+                {mbEl("Diğer bilgiler (diğer müvekkiller, yetkili, notlar)", "ek")}
+                <Text style={[s.hint, { flexBasis: "100%" }]}>{t("Bu bilgiler yalnız bu cihazda (eşitlemede şifreli) durur; yapay zekâya hiç gönderilmez.")}</Text>
+              </View>
+            )}
+          </View>
+          {alanEl(tb.merci, f.mahkeme, "mahkeme", tb.merciOrnek)}
+          {alanEl(tb.no, f.esasNo, "esasNo", "2026/123")}
+          {alanEl(f.tur === "idari_sorusturma" || f.tur === "baro" || f.tur === "sorusturma" ? "Soruşturma konusu" : "Dava konusu", f.davaTuru, "davaTuru")}
+          <View style={s.alan}>
+            <Text style={s.label}>{t("Sonraki duruşma / toplantı")}</Text>
+            <TextInput value={durusmaYazi} onChangeText={v => { setDurusmaYazi(v); const d = tarihCoz(v); if (d || !v.trim()) degistir({ durusma: d }); }} placeholder="12.03.2027 10:30" placeholderTextColor={C.muted} style={s.inputTek} />
+            {!!f.durusma && <Text style={[s.hint, g !== undefined && g >= 0 && g <= 7 && { color: C.brass }]}>{gunYaz(g)}</Text>}
+            {!!durusmaYazi.trim() && !tarihCoz(durusmaYazi) && <Text style={s.err}>{t("Tarihi 12.03.2027 ya da 12.03.2027 10:30 biçiminde yazın.")}</Text>}
+          </View>
+        </View>
         <Text style={s.label}>{t("Dosya türü")}</Text>
         <View style={s.chips}>
           {TURLER.filter(x => !x.eski || x.tur === f.tur).map(x => (
@@ -310,19 +346,6 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
             </View>
           </>
         )}
-        <View style={s.alanlar}>
-          {alanEl("Müvekkil", f.muvekkil, "muvekkil")}
-          {alanEl("Karşı taraf", f.karsiTaraf, "karsiTaraf")}
-          {alanEl(tb.merci, f.mahkeme, "mahkeme", tb.merciOrnek)}
-          {alanEl(tb.no, f.esasNo, "esasNo", "2026/123")}
-          {alanEl(f.tur === "idari_sorusturma" || f.tur === "baro" || f.tur === "sorusturma" ? "Soruşturma konusu" : "Dava konusu", f.davaTuru, "davaTuru")}
-          <View style={s.alan}>
-            <Text style={s.label}>{t("Sonraki duruşma / toplantı")}</Text>
-            <TextInput value={durusmaYazi} onChangeText={v => { setDurusmaYazi(v); const d = tarihCoz(v); if (d || !v.trim()) degistir({ durusma: d }); }} placeholder="12.03.2027 10:30" placeholderTextColor={C.muted} style={s.inputTek} />
-            {!!f.durusma && <Text style={[s.hint, g !== undefined && g >= 0 && g <= 7 && { color: C.brass }]}>{gunYaz(g)}</Text>}
-            {!!durusmaYazi.trim() && !tarihCoz(durusmaYazi) && <Text style={s.err}>{t("Tarihi 12.03.2027 ya da 12.03.2027 10:30 biçiminde yazın.")}</Text>}
-          </View>
-        </View>
         <View style={s.chips}>
           {taraflar && (["davaci", "davali"] as const).map((k, i) => (
             <Pressable key={k} onPress={() => degistir({ taraf: k })} style={[s.chip, f.taraf === k && s.chipOn]}>
