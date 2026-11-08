@@ -44,6 +44,8 @@ export interface Foy {
   asama?: string;
   /** bu dosya hangi dosyanın devamı (soruşturma → ceza davası, arabuluculuk → hukuk davası) */
   oncekiId?: string;
+  /** zincir dışı ilgili dosyalar (karşı dava, birleşen dosya, aynı taraflar arasındaki öteki dava) */
+  ilgiliIds?: string[];
   /** kilitli özel dosya (kişisel ceza, baro soruşturması) */
   ozel?: boolean;
   muvekkil: string; karsiTaraf: string; mahkeme: string; esasNo: string; davaTuru: string; taraf: FoyTaraf;
