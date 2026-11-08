@@ -44,6 +44,8 @@ export interface Foy {
   asama?: string;
   /** bu dosya hangi dosyanın devamı (soruşturma → ceza davası, arabuluculuk → hukuk davası) */
   oncekiId?: string;
+  /** dava / başvuru / soruşturmanın açıldığı gün (YYYY-AA-GG): evraktan bulunur ya da elle yazılır; listede bu tarihe göre sıralanabilir */
+  acilis?: string;
   /** zincir dışı ilgili dosyalar (karşı dava, birleşen dosya, aynı taraflar arasındaki öteki dava) */
   ilgiliIds?: string[];
   /** kilitli özel dosya (kişisel ceza, baro soruşturması) */

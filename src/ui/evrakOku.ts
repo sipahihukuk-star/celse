@@ -54,6 +54,18 @@ async function ocr(kaynak: HTMLCanvasElement, ilerle: Ilerleme): Promise<string>
   return String(data?.text || "");
 }
 
+/** İnternet kapalıyken de okuyabilmek için okuma kütüphanelerini ve Türkçe dil dosyasını bir kez indirir (servis çalışanı ve
+ *  yazı tanıma kütüphanesi bunları bilgisayarda saklar). Kişisel veri içermez. */
+export async function cevrimdisiHazirla(ilerle: Ilerleme): Promise<void> {
+  ilerle("PDF okuyucu indiriliyor…");
+  await betik(CDN.pdf);
+  await fetch(CDN.pdfWorker).catch(() => {});
+  ilerle("TIF okuyucu indiriliyor…");
+  await betik(CDN.pako); await betik(CDN.utif);
+  ilerle("Yazı tanıma ve Türkçe dil dosyası indiriliyor (bir kez, birkaç dakika sürebilir)…");
+  await ocrIscisi(ilerle);
+}
+
 /** PDF: önce metin katmanı; boş sayfalar yazı tanımayla. */
 export async function pdfMetni(bytes: Uint8Array, ilerle: Ilerleme): Promise<string> {
   await betik(CDN.pdf);

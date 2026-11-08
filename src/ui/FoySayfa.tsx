@@ -393,6 +393,10 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
           </View>
           {alanEl(tb.merci, f.mahkeme, "mahkeme", tb.merciOrnek ? "Örn. " + tb.merciOrnek : undefined)}
           {alanEl(tb.no, f.esasNo, "esasNo", "Örn. 2026/123")}
+          <View style={s.alan} key={"acilis:" + surum}>
+            <Text style={s.label}>{t("Açılış tarihi")}</Text>
+            <TextInput defaultValue={tarihYaz(f.acilis)} onChangeText={v => { const d = tarihCoz(v); if (d || !v.trim()) degistir({ acilis: d ? d.slice(0, 10) : undefined }); }} placeholder={t("Örn. 05.01.2026")} placeholderTextColor={C.muted} style={s.inputTek} />
+          </View>
           {alanEl(f.tur === "idari_sorusturma" || f.tur === "baro" || f.tur === "sorusturma" ? "Soruşturma konusu" : "Dava konusu", f.davaTuru, "davaTuru")}
           <View style={s.alan}>
             <Text style={s.label}>{t("Sonraki duruşma / toplantı")}</Text>

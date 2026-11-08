@@ -15,6 +15,19 @@ export function dosyaSec(accept: string, coklu = true): Promise<Kaynak[]> {
     input.click();
   });
 }
+/** Dosyaları ya da bütün bir klasörü (alt klasörler dahil) seçtirir; içerik hemen okunmaz (çok sayıda dosyada bellek dolmasın). */
+export function dosyaListesiSec(uzantilar: string[], klasor = false): Promise<File[]> {
+  return new Promise(resolve => {
+    const input = document.createElement("input");
+    input.type = "file"; input.multiple = true;
+    if (klasor) input.setAttribute("webkitdirectory", ""); else input.accept = uzantilar.map(x => "." + x).join(",");
+    input.onchange = () => {
+      const xs = Array.from(input.files || []).filter(f => uzantilar.includes((f.name.split(".").pop() || "").toLowerCase()));
+      resolve(xs);
+    };
+    input.click();
+  });
+}
 export function indir(ad: string, icerik: Blob) {
   const a = document.createElement("a");
   a.href = URL.createObjectURL(icerik); a.download = ad; a.click();
