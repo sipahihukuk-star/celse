@@ -12,6 +12,7 @@ import { evrakOlustur } from "./foyEvrak";
 import { gorulduYaz, klasorBilgisi, klasorDestekli, klasorSec, klasorTara, TaramaDosyasi } from "./foyKlasor";
 import { dosyaSec, gunYaz, indir, s } from "./foyStil";
 import { FoyBulutKart } from "./FoyBulutKart";
+import { IliskiKart } from "./IliskiKart";
 import { Btn } from "./kit";
 import { t } from "../i18n";
 import { C } from "./theme";
@@ -101,6 +102,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       {mesaj && <Text style={[s.hint, { color: mesaj.ok ? C.good : C.bad }]}>{mesaj.t}</Text>}
 
       <FoyBulutKart />
+      <IliskiKart liste={liste} onAc={id => setSecili({ id })} />
       {web && <KlasorKart liste={liste} onBilgi={m => setMesaj(m)} />}
 
       <View style={[s.card, { flexDirection: "row", alignItems: "center", gap: 10, flexWrap: "wrap" }]}>

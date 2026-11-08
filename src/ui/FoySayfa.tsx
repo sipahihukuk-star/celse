@@ -296,6 +296,19 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
             </View>
           </>
         )}
+        {!!f.ilgiliIds?.length && (
+          <>
+            <Text style={s.label}>{t("İlgili dosyalar")}</Text>
+            <View style={s.chips}>
+              {f.ilgiliIds.map(id => liste.find(x => x.id === id)).filter((x): x is Foy => !!x).map(x => (
+                <View key={x.id} style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+                  {halka(x)}
+                  <Pressable accessibilityLabel={t("Bağlantıyı kaldır")} hitSlop={6} onPress={() => { degistir({ ilgiliIds: (f.ilgiliIds || []).filter(y => y !== x.id) }); foyGetir(x.id).then(o => o && foyKaydet({ ...o, ilgiliIds: (o.ilgiliIds || []).filter(y => y !== f.id) }, true)).catch(() => {}); }}><Text style={s.hint}>✕</Text></Pressable>
+                </View>
+              ))}
+            </View>
+          </>
+        )}
         <View style={s.row}>
           <Btn kind="ghost" label={baglaAc ? t("Vazgeç") : f.oncekiId ? t("Önceki dosyayı değiştir") : t("Önceki bir dosyaya bağla")} onPress={() => setBaglaAc(!baglaAc)} />
           {!!f.oncekiId && <Btn kind="ghost" label={t("Bağlantıyı kaldır")} onPress={() => degistir({ oncekiId: undefined })} />}
