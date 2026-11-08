@@ -29,7 +29,11 @@ const BIRINCI = ["DAVACILAR", "DAVACI", "MÜŞTEKİ", "ŞİKAYETÇİ", "ŞİKÂY
 const IKINCI = ["DAVALILAR", "DAVALI", "ŞÜPHELİ", "SANIK", "BORÇLU", "KARŞI TARAF", "ALEYHİNE BAŞVURULAN", "KARŞI DAVALI", "MUHATAP", "İHTAR EDİLEN",
   "ŞÜPHELİLER", "SANIKLAR", "BORÇLULAR", "ŞİKAYET EDİLEN", "ŞİKÂYET EDİLEN", "ŞİKAYET OLUNAN", "HAKKINDA ŞİKAYETTE BULUNULAN", "KARŞI TARAFLAR"];
 const ROLLER = [...BIRINCI, ...IKINCI].sort((a, b) => b.length - a.length);
-const rolDeseni = new RegExp(`^\\s*(${ROLLER.join("|")})\\s*(VEKİLİ|VEKİLLERİ|MÜDAFİİ)?\\s*:\\s*(.*)$`, "i");
+// Ayraç iki nokta ya da (PDF ve taramada sütun olarak dizilmiş başlıklarda) sekme / birden çok boşluk.
+const rolDeseni = new RegExp(`^\\s*(${ROLLER.join("|")})\\s*(VEKİLİ|VEKİLLERİ|MÜDAFİİ)?(?:\\s*:|\\t|\\s{2,})\\s*(.*)$`, "i");
+const vekilDeseni = /^\s*(VEKİLİ|VEKİLLERİ|MÜDAFİİ)(?:\s*:|\t|\s{2,})\s*(.*)$/i;
+/** Küçük harfle yazılmış başlık ("Davacı : …") da tanınsın: Türkçe büyük harfe çevirip bakılır. */
+const rolBul = (x: string) => x.match(rolDeseni) || x.toLocaleUpperCase("tr").match(rolDeseni);
 
 const tarihIso = (g: string, a: string, y: string, s?: string, d?: string) => {
   const yy = Number(y), aa = Number(a), gg = Number(g);
@@ -64,16 +68,16 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
   const satirlar = duz.split("\n").map(x => x.trim()).filter(Boolean);
   const bas = satirlar.slice(0, 60);
   // Mahkeme / savcılık / icra dairesi: başlıktaki ilk büyük harfli satır.
-  const merci = new RegExp(`^(?:T\\.?\\s?C\\.?\\s+)?([${BUYUK}][${BUYUK}0-9 .]{2,60}(?:MAHKEMESİ|BAŞSAVCILIĞI|İCRA DAİRESİ|İCRA MÜDÜRLÜĞÜ|HUKUK DAİRESİ|CEZA DAİRESİ|ARABULUCULUK BÜROSU))(?:['’]?(?:NE|NA|YE|YA))?(?=[\\s,.]|$)`);
+  const merci = new RegExp(`^(?:T\\.?\\s?C\\.?\\s+)?([${BUYUK}][${BUYUK}0-9 .]{2,60}(?:MAHKEMESİ|SAVCILIĞI|İCRA DAİRESİ|İCRA MÜDÜRLÜĞÜ|HUKUK DAİRESİ|CEZA DAİRESİ|DAVA DAİRESİ|ARABULUCULUK BÜROSU|ARABULUCULUK MERKEZİ|KOMİSYONU BAŞKANLIĞI|KOMİSYONU|HAKEM HEYETİ|DİSİPLİN KURULU|BAROSU BAŞKANLIĞI|DANIŞTAY|YARGITAY))(?:['’]?(?:NE|NA|YE|YA))?(?=[\\s,.]|$)`);
   // Dilekçe başlığı "… MAHKEMESİ'NE" de olur; "NÖBETÇİ" mahkeme henüz belli olmayan mahkemedir, alınmaz.
-  for (const x of bas) { const m = x.match(merci); if (m && !/NÖBETÇİ/.test(m[1])) { o.mahkeme = basHarf(m[1]); break; } }
+  for (const x of bas) { const m = x.match(merci) || x.toLocaleUpperCase("tr").match(merci); if (m && !/NÖBETÇİ/.test(m[1])) { o.mahkeme = basHarf(m[1]); break; } }
   const esas = metin.match(/(?:ESAS\s*(?:NO|NUMARASI)?|DOSYA\s*NO|SORUŞTURMA\s*(?:NO|NUMARASI)|TAKİP\s*NO|BÜRO\s*(?:NO|NUMARASI)|ARABULUCULUK\s*(?:NO|NUMARASI)|BAŞVURU\s*(?:NO|NUMARASI))\s*[:.]?\s*((?:19|20)\d{2}\s*\/\s*\d{1,7})/i)
     || metin.match(/\b((?:19|20)\d{2}\s*\/\s*\d{1,7})\s*(?:Esas|E\.)\b/);
   if (esas) o.esasNo = esas[1].replace(/\s+/g, "");
   // Taraflar ve vekilleri.
   let sonRol: "birinci" | "ikinci" | null = null;
   for (let i = 0; i < Math.min(satirlar.length, 120); i++) {
-    const m = satirlar[i].match(rolDeseni);
+    const m = rolBul(satirlar[i]);
     if (!m) continue;
     const rol = m[1].toLocaleUpperCase("tr").replace("ŞİKÂYETÇİ", "ŞİKAYETÇİ");
     const yan = BIRINCI.includes(rol) ? "birinci" : "ikinci";
@@ -86,7 +90,7 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
     if (!o[yan]) { const t = tarafAyir(m[3], satirlar[i + 1] || ""); if (t) o[yan] = t; }
     sonRol = yan;
     // Hemen altındaki "VEKİLİ :" satırı bu tarafındır.
-    const alt = satirlar[i + 1]?.match(/^\s*(VEKİLİ|VEKİLLERİ|MÜDAFİİ)\s*:\s*(.*)$/i) || satirlar[i + 2]?.match(/^\s*(VEKİLİ|VEKİLLERİ|MÜDAFİİ)\s*:\s*(.*)$/i);
+    const alt = satirlar[i + 1]?.toLocaleUpperCase("tr").match(vekilDeseni) || satirlar[i + 2]?.toLocaleUpperCase("tr").match(vekilDeseni);
     if (alt && o[yan] && !o[yan]!.vekil) { const v = tarafAyir(alt[2], "")?.ad; if (v) o[yan]!.vekil = "Av. " + v; }
   }
   void sonRol;

@@ -11,7 +11,7 @@ import { FoylemeSohbeti } from "./FoylemeSohbeti";
 import { geriAc } from "../data/foyleme";
 import { HavuzEvrak, havuzuGrupla, HavuzGrup, Hedef } from "../data/havuz";
 import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
-import { turBul, zipIcerigi } from "../engine/mask/readers";
+import { turBul, yaziKalitesi, zipIcerigi } from "../engine/mask/readers";
 import { t } from "../i18n";
 import { evrakMetniOku, evrakOlustur, Kaynak } from "./foyEvrak";
 import { boyutYaz, dosyaListesiSec, s } from "./foyStil";
@@ -36,6 +36,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
   const [ara, setAra] = useState("");
   const [uyguluyor, setUyguluyor] = useState(false);
   const [hazirlik, setHazirlik] = useState("");
+  const [hazir, setHazir] = useState<boolean>(() => { try { return globalThis.localStorage?.getItem("celse-cevrimdisi-hazir") === "1"; } catch { return false; } });
 
   const [goster, setGoster] = useState<string | null>(null);
   const [tablolar, setTablolar] = useState<{ ad: string; sonuc: AktarimSonucu }[]>([]);
@@ -179,9 +180,26 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
     onBitti(t("{n} evrak föylere eklendi; {y} yeni föy açıldı.", { n: eklenen, y: yeniFoy + ayrim.yeni.length }) + (ayrim.guncellenen.length ? " " + t("Excel listesinden {g} föy güncellendi.", { g: ayrim.guncellenen.length }) : ""));
   };
 
+  // Okuyucu güncellendiğinde ya da yazı tanıma sonradan hazırlandığında ayrılamayan evrak asıl dosyadan yeniden okunur.
+  const yenidenOku = async () => {
+    const xs = ayrilamayan as Okunan[];
+    let i = 0;
+    for (const e of xs) {
+      i++;
+      try {
+        const k = await e.kaynak();
+        if (!k.bytes.length) continue;
+        const o = await evrakMetniOku(k, m => setIlerleme(t("({a} / {b}) {ad}: {m}", { a: i, b: xs.length, ad: e.ad, m: t(m) })));
+        const metin = "hata" in o ? "" : o.metin;
+        setOkunan(ys => ys.map(y => y.id === e.id ? { ...y, metin, okunamadi: "hata" in o ? o.hata : o.okunamadi, oneri: metin ? kunyeCikar(metin) : {} } : y));
+      } catch { /* dosya artık yoksa geç */ }
+    }
+    setIlerleme("");
+  };
+
   const hazirla = async () => {
     setHazirlik(t("Hazırlanıyor…"));
-    try { const o = await import("./evrakOku"); await o.cevrimdisiHazirla(m => setHazirlik(t(m))); setHazirlik(t("Hazır: bu bilgisayar artık internet kapalıyken de evrak okuyabilir.")); }
+    try { const o = await import("./evrakOku"); await o.cevrimdisiHazirla(m => setHazirlik(t(m))); setHazirlik(""); setHazir(true); try { globalThis.localStorage?.setItem("celse-cevrimdisi-hazir", "1"); } catch { /* yok say */ } }
     catch (e) { setHazirlik(t("İndirilemedi: {m}", { m: String((e as Error).message || e) })); }
   };
 
@@ -275,12 +293,14 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
             <View style={{ gap: 6 }}>
               <Text style={s.cardT}>{t("Ayrılamayan evrak ({n})", { n: ayrilamayan.length })}</Text>
               <Text style={s.hint}>{t("Bunlarda dosya numarası ya da taraf adları bulunamadı (ör. makbuz, fotoğraf, yazışma). Föyünü seçin; seçmezseniz eklenmez.")}</Text>
+              <View style={s.row}><Btn kind="secondary" label={t("Bunları yeniden oku")} disabled={!!ilerleme} onPress={yenidenOku} /></View>
               {ayrilamayan.map(e => (
                 <View key={e.id} style={{ gap: 4 }}>
                   <View style={[s.file, { alignItems: "center" }]}>
                     <View style={{ flex: 1 }}>
                       <Text style={s.fileT} numberOfLines={1}>{e.ad}</Text>
                       <Text style={s.hint}>{evrakGrup[e.id] ? "→ " + t("grup: {g}", { g: (() => { const gg = gruplar.find(x => x.anahtar === evrakGrup[e.id]); return gg ? [gg.mahkeme, gg.esasNo].filter(Boolean).join(" ") || [gg.birinci, gg.ikinci].filter(Boolean).join(" – ") : ""; })() }) + " · " : ""}{boyutYaz(e.boyut)}{e.okunamadi ? " · " + t("metni okunamadı: {n}", { n: e.okunamadi }) : !e.metin.trim() ? " · " + t("içinde yazı bulunamadı") : ayriYeni[e.id] ? " · → " + t("yeni föy ({tur}){m}", { tur: turBilgi(ayriYeni[e.id].foyTur).ad, m: ayriYeni[e.id].merci || ayriYeni[e.id].no ? ": " + [ayriYeni[e.id].merci, ayriYeni[e.id].no].filter(Boolean).join(" ") : "" }) + " · " + t("bulunan: {x}", { x: [e.oneri.mahkeme ? t("merci") : "", e.oneri.esasNo ? t("dosya no") : "", e.oneri.birinci ? t("1. taraf") : "", e.oneri.ikinci ? t("2. taraf") : ""].filter(Boolean).join(", ") || t("hiçbiri") }) : " · " + t("bulunan: {x}", { x: [e.oneri.mahkeme ? t("merci") : "", e.oneri.esasNo ? t("dosya no") : "", e.oneri.birinci ? t("1. taraf") : "", e.oneri.ikinci ? t("2. taraf") : ""].filter(Boolean).join(", ") || t("hiçbiri") })}{ayriHedef[e.id] ? " → " + foyAdi(ayriHedef[e.id]) : ""}</Text>
+                      {!!e.metin.trim() && !e.oneri.mahkeme && !e.oneri.esasNo && !e.oneri.birinci && !e.oneri.ikinci && (() => { const q = yaziKalitesi(e.metin); return <Text style={s.hint}>{t("okunan yazı: {h} harf, {s} satır, en uzun satır {u} karakter, Türkçe harf %{tr}{b}", { h: q.harf, s: q.satir, u: q.enUzunSatir, tr: q.turkce, b: q.bozuk ? " · " + t("yazı bozuk görünüyor") : "" })}</Text>; })()}
                       {!!e.metin.trim() && <Pressable onPress={() => setGoster(goster === e.id ? null : e.id)}><Text style={s.link}>{goster === e.id ? t("Metni gizle") : t("İlk satırları göster (yalnız bu ekranda)")}</Text></Pressable>}
                     </View>
                     <Btn kind="ghost" label={ayriHedef[e.id] ? t("Değiştir") : t("Föy seç")} onPress={() => setSecim(secim === e.id ? null : e.id)} />
@@ -332,8 +352,8 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
 
       <View style={s.card}>
         <Text style={s.cardT}>{t("İnternet kapalıyken çalışma")}</Text>
-        <Text style={s.hint}>{t("Word, UDF ve metin dosyaları her zaman internetsiz okunur. Taranmış PDF, TIF ve fotoğraf için yazı tanıma kütüphanesi ve Türkçe dil dosyası bir kez indirilir; sonra bu bilgisayarda kalır. Hazırlamak için bir kez internete bağlıyken basın.")}</Text>
-        <View style={s.row}><Btn kind="secondary" label={t("Bu bilgisayarı internetsiz okumaya hazırla")} onPress={hazirla} /></View>
+        <Text style={s.hint}>{t("Word ve UDF dosyaları her zaman internetsiz okunur. Taranmış PDF, TIF ve fotoğrafı okumak (yazı tanıma) için gereken araç ise ilk kullanımda internetten indirilir. Bu düğme o aracı şimdiden indirip bu bilgisayara kaydeder; böylece adliyede, yolda ya da internet kesikken de taranmış evrak okunur. Bir kez basmanız yeter.")}</Text>
+        <View style={s.row}><Btn kind={hazir ? "ghost" : "secondary"} label={hazir ? t("✓ Bu bilgisayar internetsiz okumaya hazır") : t("Bu bilgisayarı internetsiz okumaya hazırla")} disabled={!!hazirlik} onPress={hazirla} /></View>
         {!!hazirlik && <Text style={s.hint}>{hazirlik}</Text>}
       </View>
     </ScrollView>

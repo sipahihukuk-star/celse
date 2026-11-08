@@ -167,6 +167,22 @@ export function rtfMetni(bytes: Uint8Array): string {
   return out.replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
 }
 
+const SIK = new Set(["ve", "ile", "bir", "bu", "için", "olarak", "olan", "da", "de", "ki", "mahkemesi", "dava", "davacı", "davalı", "tarih", "tarihli", "no", "karar",
+  "tarafından", "ilgili", "sayılı", "gereği", "olduğu", "edilen", "hakkında", "esas", "vekili", "talep", "gibi", "kadar", "göre", "veya", "ise", "her", "olup", "edilmesine"]);
+/** Çıkarılan yazının okunur Türkçe olup olmadığı (bozuk yazı tipi kodlamalı PDF'ler anlamsız karakter verir). Kişisel bilgi içermez. */
+export function yaziKalitesi(metin: string): { harf: number; satir: number; enUzunSatir: number; turkce: number; sik: number; bozuk: boolean } {
+  const harfler = metin.match(/\p{L}/gu) || [];
+  const turkce = harfler.filter(c => /[a-zçğıöşüâîûA-ZÇĞİÖŞÜÂÎÛ]/.test(c)).length;
+  const kelimeler = (metin.toLocaleLowerCase("tr").match(/\p{L}{2,}/gu) || []);
+  const sik = kelimeler.filter(w => SIK.has(w)).length;
+  const satirlar = metin.split("\n");
+  const garip = (metin.match(/[\u0000-\u0008\u000e-\u001f\ue000-\uf8ff\ufffd]/g) || []).length;
+  const turkceOran = harfler.length ? turkce / harfler.length : 0;
+  const sikOran = kelimeler.length ? sik / kelimeler.length : 0;
+  const bozuk = harfler.length > 30 && (turkceOran < 0.85 || garip > harfler.length * 0.05 || (kelimeler.length > 40 && sikOran < 0.015));
+  return { harf: harfler.length, satir: satirlar.length, enUzunSatir: Math.max(0, ...satirlar.map(x => x.length)), turkce: Math.round(turkceOran * 100), sik: Math.round(sikOran * 1000) / 10, bozuk };
+}
+
 /** Dosyanın gerçek türü (uzantısı yanlış ya da eksik olsa da): içeriğin ilk baytlarına bakılır. */
 export function gercekTur(ad: string, bytes: Uint8Array): EvrakTuru | null {
   const b = bytes;

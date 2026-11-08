@@ -64,5 +64,15 @@ const dilekce = kunyeCikar("İZMİR 4. İŞ MAHKEMESİ'NE\nDOSYA NO : 2026/55 Es
 ok(dilekce.mahkeme === "İzmir 4. İş Mahkemesi" && dilekce.esasNo === "2026/55", "dilekçe başlığı: " + JSON.stringify(dilekce));
 ok(!kunyeCikar("İZMİR NÖBETÇİ ASLİYE HUKUK MAHKEMESİ'NE", simdi).mahkeme, "nöbetçi mahkeme alınmaz");
 
+// PDF'den sütun olarak gelen başlık (iki nokta yok), küçük harfli merci ve roller, başka merciler (uydurma).
+{
+  const a = kunyeCikar("T.C.\nİzmir 3. Asliye Hukuk Mahkemesi\nESAS NO  2026/55\nDavacı    Uydurma Kişi Dört\nVekili    Av. Örnek Avukat Beş\nDavalı    Hayali Şirket A.Ş.");
+  ok(a.mahkeme === "İzmir 3. Asliye Hukuk Mahkemesi" && a.esasNo === "2026/55", "sütunlu başlık merci/no: " + JSON.stringify(a));
+  ok(!!a.birinci && /Uydurma Kişi Dört/i.test(a.birinci.ad) && /Örnek Avukat Beş/i.test(a.birinci.vekil || "") && !!a.ikinci && /Hayali Şirket/i.test(a.ikinci.ad), "sütunlu taraflar: " + JSON.stringify(a));
+  const b = kunyeCikar("T.C.\nADALET BAKANLIĞI\nTAZMİNAT KOMİSYONU BAŞKANLIĞI\nBAŞVURU NO: 2024/1234\nBAŞVURUCU: UYDURMA KİŞİ ALTI");
+  ok(/Tazminat Komisyonu Başkanlığı/.test(b.mahkeme || "") && b.esasNo === "2024/1234" && /Uydurma Kişi Altı/.test(b.birinci?.ad || ""), "komisyon: " + JSON.stringify(b));
+  const c = kunyeCikar("T.C.\nBAYRAKLI CUMHURİYET SAVCILIĞI\nSORUŞTURMA NO : 2025/9\nŞÜPHELİ : SAHTE KİŞİ YEDİ");
+  ok(/Cumhuriyet Savcılığı/.test(c.mahkeme || ""), "savcılık: " + JSON.stringify(c));
+}
 if (fail) { console.log(`kunye-test: ${fail} hata`); process.exit(1); }
 console.log("kunye-test: tamam");
