@@ -54,5 +54,9 @@ ok(c.mahkeme === "İzmir Cumhuriyet Başsavcılığı" && c.esasNo === "2026/987
 const eski = kunyeCikar("duruşmanın 12/03/2020 günü saat 10:30'a bırakılmasına", simdi);
 ok(!eski.durusma, "geçmiş duruşma alınmaz");
 
+const dilekce = kunyeCikar("İZMİR 4. İŞ MAHKEMESİ'NE\nDOSYA NO : 2026/55 Esas\nDAVALI : DENEME İŞVEREN LTD. ŞTİ.", simdi);
+ok(dilekce.mahkeme === "İzmir 4. İş Mahkemesi" && dilekce.esasNo === "2026/55", "dilekçe başlığı: " + JSON.stringify(dilekce));
+ok(!kunyeCikar("İZMİR NÖBETÇİ ASLİYE HUKUK MAHKEMESİ'NE", simdi).mahkeme, "nöbetçi mahkeme alınmaz");
+
 if (fail) { console.log(`kunye-test: ${fail} hata`); process.exit(1); }
 console.log("kunye-test: tamam");
