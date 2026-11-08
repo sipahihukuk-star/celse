@@ -39,6 +39,7 @@ export interface TitleProps {
   /** Web mağazası (Celse Pro ve kredi paketleri; yalnız web) */ onShop?: () => void;
   /** Danışma dosyaları (gerçek olaylar): kullanıcıların anonim olaylarını avukat olarak oynama (antrenman) */ onDanismaDosya?: () => void;
   /** Dava takibi (föyler; yalnız bu cihazda) */ onFoy?: () => void;
+  /** Ön sayfadan örnek duruşma canlandırması (üyeliksiz) */ onOrnek?: () => void;
 }
 export function TitleScreen(p: TitleProps) {
   const { width } = useWindowDimensions();
@@ -101,7 +102,7 @@ export function TitleScreen(p: TitleProps) {
 
       {entry ? (
         <View style={{ flex: 1, flexDirection: "row" }}>
-          <EntryHome wide={wide} tilt={tilt} server={server} onSignUp={p.onSignUp} onSignIn={p.onSignIn} onGuest={p.onGuest} footer={footer} />
+          <EntryHome wide={wide} tilt={tilt} server={server} onSignUp={p.onSignUp} onSignIn={p.onSignIn} onGuest={p.onGuest} onOrnek={p.onOrnek} onDanisma={p.onDanisma ? () => p.onDanisma?.() : undefined} footer={footer} />
           {rails && <View style={styles.railCol}><StoreRails /></View>}
         </View>
       ) : (<>
@@ -201,7 +202,7 @@ export function TitleScreen(p: TitleProps) {
 
 /** İlk giriş sayfası: oturum yokken üç bölümden (Dava takibi, Derdini anlat, Kariyer ve oyun) önce gelir.
  *  Giriş yapınca ya da "Üye olmadan dene" denince üç sayfa açılır. Apple zorunlu üyeliği kabul etmediği için üye olmadan da geçilebilir. */
-function EntryHome({ wide, tilt, server, onSignUp, onSignIn, onGuest, footer }: { wide: boolean; tilt: number; server: boolean; onSignUp: () => void; onSignIn: () => void; onGuest?: () => void; footer: React.ReactNode }) {
+function EntryHome({ wide, tilt, server, onSignUp, onSignIn, onGuest, onOrnek, onDanisma, footer }: { wide: boolean; tilt: number; server: boolean; onSignUp: () => void; onSignIn: () => void; onGuest?: () => void; onOrnek?: () => void; onDanisma?: () => void; footer: React.ReactNode }) {
   // Bölümler burada yalnız tanıtılır (tıklanmaz); girişten sonra üstteki sekmelerle açılır.
   const bolumler: { ikon: "folder" | "scales" | "trophy"; ad: string; not: string }[] = [
     { ikon: "folder", ad: t("Dava takibi"), not: t("föyleriniz, duruşmalarınız, süreleriniz ve evrakınız tek yerde.") },
@@ -232,6 +233,16 @@ function EntryHome({ wide, tilt, server, onSignUp, onSignIn, onGuest, footer }: 
             ))}
           </View>
           <Text style={[styles.webNote, { marginTop: 8 }]}>{t("Giriş yaptıktan sonra bu bölümler üstteki sekmelerden açılır.")}</Text>
+          {(!!onOrnek || !!onDanisma) && (
+            <View style={styles.denemeKutu}>
+              <Text style={styles.careerKDark}>{t("ÖNCE DENEYİN")}</Text>
+              <Text style={styles.entryText}>{t("Bir duruşmanın nasıl canlandırıldığını üye olmadan izleyin. Kendi olayınızı anlatın: eksik bilgi denetimi ücretsiz; değerlendirme, canlandırma ve video 1 kredi.")}</Text>
+              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 4 }}>
+                {!!onOrnek && <Btn label={t("▶ Örnek duruşmayı izle")} onPress={onOrnek} />}
+                {!!onDanisma && <Btn kind="ghost" label={t("Kendi olayınızı anlatın ›")} onPress={onDanisma} />}
+              </View>
+            </View>
+          )}
         </View>
         <View style={[{ gap: 6 }, wide && { flex: 0.9 }]}>
           <LoginCard server={server} onSignUp={onSignUp} onPickLocal={onSignIn} />
@@ -608,6 +619,7 @@ const styles = StyleSheet.create({
   careerKDark: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.muted },
   careerGoDark: { fontFamily: F.bodyBold, fontSize: 17, color: C.brass },
   titleArt: { alignItems: "center" },
+  denemeKutu: { marginTop: 14, gap: 6, padding: 14, borderRadius: 14, borderWidth: 1, borderColor: C.brassDim, backgroundColor: C.panel2 },
   entryIntro: { fontFamily: F.bodyMed, fontSize: 15, color: C.textSoft },
   entryText: { fontFamily: F.body, fontSize: 14, lineHeight: 20, color: C.muted },
   entryTextB: { fontFamily: F.bodyBold, color: C.text },

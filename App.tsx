@@ -81,7 +81,7 @@ type Route =
   | { k: "office" }
   | { k: "desk" }
   | { k: "account"; then?: "career" | "paywall" | "danisma" | "magaza"; tab?: "giris" | "kayit" }
-  | { k: "danisma"; evrak?: boolean }
+  | { k: "danisma"; evrak?: boolean; ornek?: boolean }
   | { k: "foy" }
   | { k: "danismaDosya" }
   | { k: "paywall" }
@@ -355,7 +355,7 @@ export default function App() {
           office={office} onOffice={() => setRoute(account ? { k: "office" } : { k: "account", then: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
           onHistory={() => setRoute({ k: "history" })} onCharacter={() => setRoute({ k: "character" })} onBoard={() => setRoute({ k: "board" })} isAdmin={srvAdmin} onMap={() => setRoute({ k: "career" })}
           onTahkim={() => setRoute({ k: "tahkim" })} onPro={() => setRoute({ k: "paywall" })} pro={unlocked} tahkimCount={cases.all.filter(c => c.room === "tahkim").length}
-          guest={guest} onGuest={() => setGuest(true)} onLeaveGuest={() => setGuest(false)} onDanisma={(evrak?: boolean) => setRoute({ k: "danisma", evrak })} onFoy={() => setRoute({ k: "foy" })} onShop={Platform.OS === "web" ? () => setRoute({ k: "magaza" }) : undefined} onInbox={() => setRoute({ k: "inbox" })}
+          guest={guest} onGuest={() => setGuest(true)} onLeaveGuest={() => setGuest(false)} onDanisma={(evrak?: boolean) => setRoute({ k: "danisma", evrak })} onOrnek={() => setRoute({ k: "danisma", ornek: true })} onFoy={() => setRoute({ k: "foy" })} onShop={Platform.OS === "web" ? () => setRoute({ k: "magaza" }) : undefined} onInbox={() => setRoute({ k: "inbox" })}
           onDanismaDosya={() => setRoute({ k: "danismaDosya" })} />}
         {route.k === "danismaDosya" && (
           <DanismaDosyaScreen signedIn={account?.mode === "server"} onBack={() => setRoute({ k: "title" })} onSignIn={() => setRoute({ k: "account", tab: "giris" })}
@@ -370,7 +370,7 @@ export default function App() {
             }} />
         )}
         {route.k === "danisma" && (
-          <DanismaScreen key={route.evrak ? "evrak" : "danisma"} evrak={route.evrak} onEvrakPlay={c => startGame(c, { ...SOLO_PLAYERS, p1: { name: meName, ai: false } }, "evrak")} onBack={() => setRoute({ k: "title" })} signedIn={account?.mode === "server"} server={!!supabase()} admin={srvAdmin}
+          <DanismaScreen key={route.evrak ? "evrak" : route.ornek ? "ornek" : "danisma"} evrak={route.evrak} ornek={route.ornek} onEvrakPlay={c => startGame(c, { ...SOLO_PLAYERS, p1: { name: meName, ai: false } }, "evrak")} onBack={() => setRoute({ k: "title" })} signedIn={account?.mode === "server"} server={!!supabase()} admin={srvAdmin}
             onSignIn={() => setRoute({ k: "account", tab: "giris", then: "danisma" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "danisma" })} />
         )}
         {route.k === "board" && <LeaderboardScreen progress={progress} all={cases.all} rank={career.rank} onBack={() => setRoute({ k: "title" })}

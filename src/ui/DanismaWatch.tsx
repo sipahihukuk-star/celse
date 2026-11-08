@@ -18,7 +18,7 @@ import PhotoStage from "./PhotoStage";
 import { C, F } from "./theme";
 import { lineAudioUrl, prefetchLines, speakLine, stopSpeaking, useSpeaking } from "./voice";
 
-interface Props { s: Senaryo; d: Danisma; onClose: () => void; basla?: "son" }
+interface Props { s: Senaryo; d: Danisma; onClose: () => void; basla?: "son"; /** ön sayfadaki örnek duruşma: kayıt indirilmez, kendi olayına yönlendirilir */ ornek?: boolean }
 
 function useTypewriter(text: string) {
   const [n, setN] = useState(0);
@@ -30,7 +30,7 @@ function useTypewriter(text: string) {
   return { shown: text.slice(0, n), done: n >= text.length, finish: () => setN(text.length) };
 }
 
-export default function DanismaWatch({ s, d, onClose, basla }: Props) {
+export default function DanismaWatch({ s, d, onClose, basla, ornek }: Props) {
   const steps = useMemo(() => adimlar(s), [s]);
   // Danışanın ("Siz") yüzü ve sesi: seçtiği karakter, büronun karakteri, hesaptaki ad, sonra metindeki ipuçları.
   const karakter = useCharacter();
@@ -90,7 +90,7 @@ export default function DanismaWatch({ s, d, onClose, basla }: Props) {
     return () => clearTimeout(tm);
   }, [auto, pos, tw.done, speaking, ses, son]);
 
-  if (son) return <EndScreen s={s} d={d} k={k} onClose={onClose} onReplay={() => { setPos(0); setSon(false); }} />;
+  if (son) return <EndScreen s={s} d={d} k={k} ornek={ornek} onClose={onClose} onReplay={() => { setPos(0); setSon(false); }} />;
 
   const talking = !!line && (ses ? speaking || !tw.done : true);
   const tap = () => (line && !tw.done ? tw.finish() : next());
@@ -158,7 +158,7 @@ function WatchStage({ k, si, tur, focus, talking, say }: {
 }
 
 /* ---------- son ekran: kayıtlar ve özet ---------- */
-function EndScreen({ s, d, k, onClose, onReplay }: { s: Senaryo; d: Danisma; k: Kadro; onClose: () => void; onReplay: () => void }) {
+function EndScreen({ s, d, k, ornek, onClose, onReplay }: { s: Senaryo; d: Danisma; k: Kadro; ornek?: boolean; onClose: () => void; onReplay: () => void }) {
   const [busy, setBusy] = useState<"" | "mp3" | "video">("");
   const [prog, setProg] = useState("");
   const [msg, setMsg] = useState<{ t: string; ok?: boolean } | null>(null);
@@ -239,12 +239,19 @@ function EndScreen({ s, d, k, onClose, onReplay }: { s: Senaryo; d: Danisma; k: 
   const karar = s.sahneler.find(x => x.tur === "karar");
   return (
     <ScrollView contentContainerStyle={st.endWrap}>
-      <View style={{ flexDirection: "row" }}><Btn kind="ghost" label={s.evrak ? t("‹ Provaya dön") : t("‹ Danışmaya dön")} onPress={onClose} /></View>
+      <View style={{ flexDirection: "row" }}><Btn kind="ghost" label={s.evrak ? t("‹ Provaya dön") : ornek ? t("‹ Kendi olayımı anlat") : t("‹ Danışmaya dön")} onPress={onClose} /></View>
       <Text style={st.eyebrow}>{t("DURUŞMAYI İZLE")}</Text>
       <Text style={st.endT}>{t("Canlandırma bitti")}</Text>
       <Text style={st.endM}>{t(alanAdi(d.alan)).toLocaleUpperCase(locale())} · {s.mahkeme || t("Mahkeme")}</Text>
       <View style={st.warnBox}><Text style={st.warnT}>{t(UYARI_KISA)}</Text>{!!s.uyari && <Text style={st.warnD}>{s.uyari}</Text>}</View>
 
+      {ornek ? (
+        <View style={[st.box, { borderColor: C.brass }]}>
+          <Text style={st.boxT}>{t("Şimdi kendi olayınız")}</Text>
+          <Text style={st.body}>{t("Bu bir örnek duruşmaydı. Kendi olayınızı anlatın: güçlü ve zayıf yönleriniz değerlendirilsin, duruşmanız bu şekilde canlandırılsın, sesli kaydını ve videosunu indirin. Eksik bilgi denetimi ücretsizdir; değerlendirme, canlandırma ve video 1 kredidir.")}</Text>
+          <Btn label={t("Kendi olayımı anlat ›")} onPress={onClose} />
+        </View>
+      ) : (
       <View style={[st.box, { borderColor: C.brass }]}>
         <Text style={st.boxT}>{t("Kaydı alın")}</Text>
         {/* Sesli kayıt sunucudaki yapay zekâ senaryosundan birleştirilir; avukat oyuncunun kaydında yalnız video vardır. */}
@@ -266,6 +273,7 @@ function EndScreen({ s, d, k, onClose, onReplay }: { s: Senaryo; d: Danisma; k: 
         {!!msg && <Text style={[st.msg, msg.ok && { color: C.good }]}>{msg.t}</Text>}
         {Platform.OS === "web" && <View ref={preview} style={[st.preview, busy !== "video" && { display: "none" }]} />}
       </View>
+      )}
 
       <View style={st.box}>
         <Text style={st.boxT}>{t("Olay özeti")}</Text>
