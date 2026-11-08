@@ -114,13 +114,24 @@ async function isAdmin(req: Request) {
   return (await r.json()) === true;
 }
 
+// Yönetim panelindeki düzeltme sohbeti ekran görüntüsü de gönderebilir: en çok 4 görsel (JPEG/PNG/WebP), her biri ~3 MB'a kadar.
+function icerik(b: Record<string, unknown>) {
+  const metin = cut(b.istek, 200000);
+  const gs = Array.isArray(b.gorseller) ? (b.gorseller as { tur?: string; veri?: string }[]).slice(0, 4) : [];
+  const resimler = gs
+    .filter(g => g && typeof g.veri === "string" && g.veri.length < 4000000 && ["image/jpeg", "image/png", "image/webp"].indexOf(String(g.tur)) >= 0)
+    .map(g => ({ type: "image", source: { type: "base64", media_type: String(g.tur), data: String(g.veri) } }));
+  if (!resimler.length) return metin;
+  return [...resimler, { type: "text", text: metin }];
+}
+
 async function yonetim(b: Record<string, unknown>) {
   const model = b.model === "hizli" ? "claude-haiku-5-5" : "claude-sonnet-5-5";
   const azami = Math.max(500, Math.min(16000, Number(b.azami) || 4000));
   const r = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: { "x-api-key": KEY(), "anthropic-version": "2023-06-01", "content-type": "application/json" },
-    body: JSON.stringify({ model: model, max_tokens: azami, system: cut(b.sistem, 60000), messages: [{ role: "user", content: cut(b.istek, 200000) }] })
+    body: JSON.stringify({ model: model, max_tokens: azami, system: cut(b.sistem, 60000), messages: [{ role: "user", content: icerik(b) }] })
   });
   if (!r.ok) throw new Error("model " + r.status + " " + (await r.text()).slice(0, 300));
   const data = await r.json();

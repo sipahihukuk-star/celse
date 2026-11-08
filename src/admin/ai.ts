@@ -16,7 +16,7 @@ export * from "./aiCore";
 type ModelKind = "derin" | "hizli";
 
 /** Sunucudaki modele yönetici olarak soru sorar; modelin yazdığı metni döndürür. */
-export async function askAdmin(sistem: string, istek: string, opt: { model?: ModelKind; azami?: number } = {}): Promise<{ text: string; cut: boolean }> {
+export async function askAdmin(sistem: string, istek: string, opt: { model?: ModelKind; azami?: number; gorseller?: { tur: string; veri: string }[] } = {}): Promise<{ text: string; cut: boolean }> {
   if (!serverReady()) throw new AiError("Sunucuya ulaşılamıyor. İnternet bağlantısını kontrol edin.");
   const token = await getAccessToken();
   if (!token) throw new AiError("Yapay zekâ araçları için oyuna yönetici hesabınızla giriş yapın (Giriş yap).");
@@ -26,7 +26,7 @@ export async function askAdmin(sistem: string, istek: string, opt: { model?: Mod
     const r = await fetch(`${SUPABASE_URL}/functions/v1/${AI_FUNCTION}`, {
       method: "POST", signal: ctrl.signal,
       headers: { "Content-Type": "application/json", apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ mode: "yonetim", sistem, istek, model: opt.model || "derin", azami: opt.azami || 6000 })
+      body: JSON.stringify({ mode: "yonetim", sistem, istek, model: opt.model || "derin", azami: opt.azami || 6000, gorseller: opt.gorseller })
     });
     const j = await r.json().catch(() => ({} as any));
     if (r.status === 403) throw new AiError("Bu hesap sunucuda yönetici olarak tanımlı değil.");

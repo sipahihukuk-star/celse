@@ -8,7 +8,7 @@
 import { lastDay, longDate, parseDate, fmtDate, addDays, suggestTeblig } from "./deadline";
 import { GameState, kindOf, normalizeCase, other, textOf, verdict } from "./engine";
 import { test } from "./expr";
-import { sebepMetni } from "./sebep";
+import { sebepMetni, yaziliSebep } from "./sebep";
 import { CMK_SINIR, PARASAL_SINIR } from "./sinirlar";
 import { forumStage, forumWay, ForumWay } from "./forumAppeal";
 import { AppealKind, AppealStage, CaseFile, CastMember, Choice, DeadlineRule, Outcome, Regime, Side, Step, Winner } from "./types";
@@ -454,19 +454,10 @@ export function genericStage(base: CaseFile, kind: AppealKind, side: Side, baseG
   const longest = Math.max(...wrongs.map(w => w.text.length));
   const sebepT = sebepMetni(issue, Math.max(60, Math.floor(longest * 1.15) - groundHead.length));
   const groundRaw = groundHead + sebepT.tam;
-  const sebep: Step = {
-    side: "p1", scene: "office", section: sebepTitle, lines: [],
-    prompt: kind === "cevap" ? "Cevap dilekçenizin merkezine neyi koyacaksınız?" : `${kind === "temyiz" ? "Temyiz" : "İstinaf"} sebebiniz ne olacak?`,
-    choices: [
-      { text: groundHead + sebepT.kisa, delta: 20, set: ["sebep"], law: issue.law, doc: groundRaw + ".",
-        note: kind === "cevap" ? `Doğru. Kararın dayandığı hukuki değerlendirmeyi (${issue.law}) savunarak karşı tarafın sebeplerini karşıladınız.`
-          : `Doğru. Kararı, davanın kilit hukuki meselesinden (${issue.law}) eleştirdiniz; ${kurum} bu yönden inceleme yapacak.` },
-      ...(kind === "cevap" ? wrongs.map(w => w.law === "HMK m.357"
-        ? { ...w, text: "İlk derecede ileri sürmediğimiz yeni bir savunmayı ve yeni belgeleri cevap dilekçesinde ilk kez ileri sürmek.", doc: "İlk derecede ileri sürmediğimiz yeni savunmamızı ve ekli belgeleri sunarız." }
-        : w.doc!.startsWith("Karar adalete") ? { ...w, text: "Kararın doğru olduğunu, karşı tarafın sebeplerine tek tek cevap vermeden ve gerekçe göstermeden kısaca belirtmek.", doc: "İlk derece kararı usul ve yasaya uygundur.",
-            note: "Karşı tarafın sebeplerine cevap vermeyen bir dilekçe daireye yardımcı olmaz; kararın neden doğru olduğunu hukuki dayanağıyla göstermelisiniz." } : w) : wrongs)
-    ]
-  };
+  // Sebep artık oyuncunun kendi yazdığı metindir (yapay zekâ puanlar). Hazır şıklar ("…isabetlidir: …") yapay ve çoğu zaman
+  // davayla ilgisiz okunuyordu. Yanlış şıklar (wrongs) yalnız kısa sebep metninin boyunu ayarlamak için kalır.
+  const sebepYazili = yaziliSebep({ kind, ad: kind === "temyiz" ? "temyiz" : "istinaf", law: issue.law, kural: sebepT.tam, head: groundHead, section: sebepTitle, kurum, issue });
+
 
   const talepOk: Record<AppealKind, Choice> = {
     istinaf: { text: reg === "cmk" ? "Hükmün kaldırılmasına, duruşma açılarak sanık lehine yeniden hüküm kurulmasına." : "İlk derece kararının kaldırılmasına ve yeniden esas hakkında müvekkil lehine karar verilmesine.",
@@ -557,7 +548,7 @@ export function genericStage(base: CaseFile, kind: AppealKind, side: Side, baseG
       hukum: `Temyiz isteminin REDDİ ile ${prevCourt} kararının ONANMASINA; oy birliğiyle kesin olarak karar verildi.`,
       summary: [{ if: "!sebep", text: `Temyiz dilekçesi dosyanın kilit meselesine (${issue.law}) dayanmadı.` }, { if: "sebep", text: "Doğru sebebi gösterdiniz; ama heyet kararın sonucunu etkileyecek bir hukuka aykırılık görmedi." }] }
   ];
-  return { court: route.court, courtShort: route.courtShort, intro, steps: [date, merci, sebep, talep, durusma, paper, hearing], outcomes };
+  return { court: route.court, courtShort: route.courtShort, intro, steps: [date, merci, sebepYazili, talep, durusma, paper, hearing], outcomes };
 }
 
 function safeHukum(c: CaseFile, g: GameState) { try { return verdict(c, g).hukum.replace(/\s+/g, " ").trim(); } catch { return ""; } }
