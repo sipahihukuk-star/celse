@@ -3,7 +3,8 @@
 // KİŞİ-n, büro avukatları AVUKAT-n, dosya numaraları DOSYA-n, merciler yalnız türüyle (ASLİYE HUKUK MAHKEMESİ-n) gider: mahkeme ve
 // esas no birlikte, dosyaya erişebilen herkes için tarafları belirlenebilir kılar (KVKK'da kişisel veri; ceza dosyasında özel nitelikli).
 // Dosya adları gitmez. Evrakın yalnız baş kısmı, önce bilinenler kodlanıp sonra maskelenerek (kalan adlar, kimlik no, adres, telefon,
-// il çıkar) "ozet" olarak gider; böylece yapay zekâ evrakın ne olduğunu okuyabilir.
+// il çıkar) "ozet" olarak gider; böylece yapay zekâ evrakın ne olduğunu okuyabilir. Özetteki adlar da bütün evrakta aynı KİŞİ-n
+// koduyla gider; cihaz evrakı ayıramadığında yapay zekâ aynı kişilere ait evrakı birleştirip föy önerebilir.
 // Cevaptaki kodlar cihazda gerçek adlara çevrilir.
 // Model yalnız işlem listesi döner; işlemler önizlemeye uygulanır, avukat onaylamadan hiçbir şey kaydedilmez.
 import type { Foy } from "./foy";
@@ -78,9 +79,15 @@ export function kodlaDurum(gruplar: HavuzGrup[], hedefi: (g: HavuzGrup) => Hedef
     if (!bas) return null;
     const m = mask(kodla(bas), {});
     let x = m.masked;
-    for (const [k, v] of Object.entries(m.map)) {
+    for (const [k, v] of Object.entries(m.map).sort((p, q) => q[0].length - p[0].length)) {
       if (/^\[ESAS-\d+\]$/.test(k)) x = x.split(k).join(no(v) || k);
       else if (/MAHKEMES|SAVCILI|DAİRES|MÜDÜRLÜĞ|BAŞKANLIĞ/.test(k)) x = x.split(k).join(merci(v) || k);
+      // Kişi ve şirket adları bütün evrakta AYNI koda çevrilir (KİŞİ-n): yapay zekâ aynı kişinin evrakını birleştirebilsin.
+      // Adres, kimlik/telefon numarası, il gibi öteki yer tutucular gizli kalır.
+      else if (!/^\[(ADRES|NO|İL|İLÇE|TELEFON|TEL|E-?POSTA|IBAN|PLAKA|TARİH|KART|HESAP|SİCİL|PASAPORT|PARSEL|ADA|URL|WEB)/.test(k)) {
+        const c = ver(v.replace(/^av\.?\s*/i, ""));
+        if (c) x = x.split(k).join(c);
+      }
     }
     return kodla(x.replace(/\[KİŞİ-(\d+)\]/g, "[AD-$1]")).slice(0, uzunluk);
   };

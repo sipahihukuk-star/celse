@@ -27,5 +27,15 @@ const k2 = kodlaDurum(r2.gruplar, g => g.hedef, () => undefined, r2.ayrilamayan.
 ok(/Dolandırıcılık/.test(k2.durum) && /ozet/.test(k2.durum), "özet var: " + k2.durum.slice(0, 400));
 ok(!/HAYALİ|Hayali|SAHTE|Sahte|10000000078|Uydurma Mah|Deneme Sok/.test(k2.durum), "özette gerçek ad, kimlik, adres yok: " + k2.durum);
 ok(!/2025\/777|ANKARA|Ankara/.test(k2.durum) && /BAŞSAVCILIĞI-1/.test(k2.durum), "numara ve il kodlanır, merci türü kalır: " + k2.durum);
+// Ayrılamayan iki evrakta aynı kişi aynı kodu alır; ad gitmez.
+{
+  const a = ev("c", "Dosya Bilgileri\nKonu: Alacak\nMüşteki: Hayali Şahıs Oniki\nAçıklama: dilekçe");
+  const b = ev("d", "Tebligat\nMüşteki: HAYALİ ŞAHIS ONİKİ\nKonu: tebligat");
+  const k3 = kodlaDurum([], g => g.hedef, () => undefined, [a, b], [], []);
+  const oz = JSON.parse(k3.durum).ayrilamayan.map((x: { ozet: string }) => x.ozet);
+  const kod = (x: string) => x.match(/KİŞİ-\d+/)?.[0];
+  ok(!/Hayali|HAYALİ|Oniki|ONİKİ/i.test(k3.durum), "özette ad yok: " + oz.join(" | "));
+  ok(!!kod(oz[0]) && kod(oz[0]) === kod(oz[1]), "aynı kişi aynı kod: " + oz.join(" | "));
+}
 if (fail) { console.log(`foyleme-test: ${fail} hata`); process.exit(1); }
 console.log("foyleme-test: tamam");
