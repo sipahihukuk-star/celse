@@ -32,6 +32,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [ara, setAra] = useState("");
   const [filtre, setFiltre] = useState<"acik" | "kapali" | "hepsi">("acik");
   const [turF, setTurF] = useState<FoyTur | "hepsi">("hepsi");
+  // Yalnız evrakı olan föyler (listeden gelen binlerce boş föy arasında evrak yüklenmiş olanları bulmak için).
+  const [evrakli, setEvrakli] = useState(false);
   const [mesaj, setMesaj] = useState<{ t: string; ok?: boolean } | null>(null);
   const [kilit, setKilit] = useState<"yok" | "kilitli" | "acik">("yok");
   // Föy listesi sayfa sayfa: 5, 10, 25, 50, 100 (tercih bu cihazda hatırlanır).
@@ -75,6 +77,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const gorunen = buro
     .filter(f => filtre === "hepsi" || f.durum === filtre)
     .filter(f => turF === "hepsi" || (f.tur || "hukuk") === turF)
+    .filter(f => !evrakli || f.evraklar.length > 0)
     .filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, f.notlar, turBilgi(f.tur).ad, ...Object.values(f.muvekkilBilgi || {})].join(" ").toLocaleLowerCase("tr").includes(q))
     .sort((a, b) => {
       const ac = (f: Foy) => f.acilis || f.olusturma.slice(0, 10);
@@ -191,6 +194,9 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
               <Text style={[s.chipT, filtre === k && s.chipTOn]}>{k === "acik" ? t("Açık") : k === "kapali" ? t("Kapalı") : t("Hepsi")} ({liste.filter(f => k === "hepsi" || f.durum === k).length})</Text>
             </Pressable>
           ))}
+          <Pressable onPress={() => { setEvrakli(!evrakli); setSayfa(0); }} style={[s.chip, evrakli && s.chipOn]}>
+            <Text style={[s.chipT, evrakli && s.chipTOn]}>📎 {t("Evrakı olanlar")} ({buro.filter(f => f.evraklar.length > 0).length})</Text>
+          </Pressable>
         </View>
         {turlerVar.length > 1 && (
           <View style={s.chips}>
