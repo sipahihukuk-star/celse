@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { HOME_PAGES, HomePage, useGorunenYuzler, useHomePage, yuzAdi } from "./homePage";
+import { HOME_PAGES, HomePage, izinliYuzler, useGorunenYuzler, useHomePage, yuzAdi } from "./homePage";
 import { usePremium } from "../data/subscription";
 import { useSettings } from "../data/settings";
 import { KeyboardBar } from "./KeyboardBar";
@@ -427,7 +427,7 @@ function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; o
             </>}
             <Text style={styles.mSection}>{t("KULLANDIĞIM BÖLÜMLER")}</Text>
             <Text style={[styles.mItemS, { paddingHorizontal: 18, marginBottom: 2 }]}>{t("Kullanmadığınız bölümü kapatın; ön sayfada görünmez. En az biri açık kalır.")}</Text>
-            {HOME_PAGES.map(h => (
+            {HOME_PAGES.filter(h => { const iz = izinliYuzler(); return !iz || iz.includes(h); }).map(h => (
               <Toggle key={h} label={t(yuzAdi(h))} on={yuzler.includes(h)}
                 set={v => setYuzler(v ? [...yuzler, h] : yuzler.length > 1 ? yuzler.filter(x => x !== h) : yuzler)} />
             ))}

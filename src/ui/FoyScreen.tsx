@@ -1,52 +1,42 @@
-// Dava takibi: föy listesi, yaklaşan duruşma ve işler, föy sayfası (künye, evrak, görevler, yapay zekâ değerlendirmesi),
-// Excel/Word'den toplu föy, yedek. Her şey bu cihazda (src/data/foy.ts); yapay zekâya yalnız kodlanmış metin gider.
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { bosFoy, dosyaOku, dosyaSil, dosyaYaz, Foy, foyBaslik, foyDestekli, foyDinle, FoyEvrak, foyGetir, foyKaydet, foyler as foyListesi, foylerKaydet, foySil, Gorev, kacGun, tarihCoz, tarihYaz, yedekMetni, yedektenYukle, yeniId } from "../data/foy";
+// Dava takibi: föy listesi (türe göre), yeni giriş menüsü (dava, suç duyurusu, arabuluculuk, idari başvuru, icra, sözleşme…),
+// yaklaşan duruşma ve işler, kilitli özel dosyalar, DavaTek klasörü, Excel/Word'den toplu föy, yedek.
+// Her şey bu cihazda (src/data/foy.ts); yapay zekâya yalnız kodlanmış metin gider. Föy sayfası: FoySayfa.tsx.
+import React, { useEffect, useMemo, useState } from "react";
+import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { bosFoy, Foy, foyBaslik, foyDestekli, foyDinle, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, ozelSayisi, tarihYaz, yedekMetni, yedektenYukle } from "../data/foy";
 import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyAktar";
-import { evrakMetni, turBul, zipIcerigi } from "../engine/mask/readers";
-import { mask, unmask } from "../engine/mask";
-import { DOGRUDAN_SINIR } from "../engine/mask/derleme";
-import { evrakProva } from "../data/evrak";
-import { setAvukatKalan, usePremium } from "../data/subscription";
-import { EVRAK_KREDI } from "../data/purchaseIds";
+import { FoyTur, Giris, GIRISLER, ozelTur, turBilgi, TURLER } from "../data/foyTurleri";
 import { useInnerBack } from "./innerBack";
-import { IconBadge } from "./icons";
+import { FoySayfa } from "./FoySayfa";
+import { evrakOlustur } from "./foyEvrak";
+import { gorulduYaz, klasorBilgisi, klasorDestekli, klasorSec, klasorTara, TaramaDosyasi } from "./foyKlasor";
+import { dosyaSec, gunYaz, indir, s } from "./foyStil";
 import { Btn } from "./kit";
 import { t } from "../i18n";
-import { C, F } from "./theme";
+import { C } from "./theme";
 
-type Kaynak = { ad: string; bytes: Uint8Array; blob?: Blob };
-function dosyaSec(accept: string, coklu = true): Promise<Kaynak[]> {
-  return new Promise(resolve => {
-    const input = document.createElement("input");
-    input.type = "file"; input.multiple = coklu; input.accept = accept;
-    input.onchange = async () => {
-      const files = Array.from(input.files || []);
-      resolve(await Promise.all(files.map(async f => ({ ad: f.name, bytes: new Uint8Array(await f.arrayBuffer()), blob: f }))));
-    };
-    input.click();
-  });
-}
-function indir(ad: string, icerik: Blob) {
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(icerik); a.download = ad; a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
-}
-const boyutYaz = (n: number) => (n > 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB");
-const gunYaz = (g?: number) => (g === undefined ? "" : g === 0 ? t("bugün") : g === 1 ? t("yarın") : g > 0 ? t("{n} gün sonra", { n: g }) : t("{n} gün geçti", { n: -g }));
+type Secili = { id: string; ekle?: string };
 
 export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) => void; ucretsiz?: boolean }) {
   const [liste, setListe] = useState<Foy[]>([]);
   const [yuklendi, setYuklendi] = useState(false);
-  const [secili, setSecili] = useState<string | null>(null);
+  const [secili, setSecili] = useState<Secili | null>(null);
   const [aktar, setAktar] = useState(false);
+  const [giris, setGiris] = useState(false);
   const [ara, setAra] = useState("");
   const [filtre, setFiltre] = useState<"acik" | "kapali" | "hepsi">("acik");
+  const [turF, setTurF] = useState<FoyTur | "hepsi">("hepsi");
   const [mesaj, setMesaj] = useState<{ t: string; ok?: boolean } | null>(null);
-  const yenile = () => foyListesi().then(x => { setListe(x); setYuklendi(true); }).catch(() => setYuklendi(true));
+  const [kilit, setKilit] = useState<"yok" | "kilitli" | "acik">("yok");
+  const [ozelN, setOzelN] = useState(0);
+  const [kilitSor, setKilitSor] = useState<null | { sonra?: () => void }>(null);
+  const yenile = () => {
+    foyListesi().then(x => { setListe(x); setYuklendi(true); }).catch(() => setYuklendi(true));
+    ozelKilitDurumu().then(setKilit).catch(() => {});
+    ozelSayisi().then(setOzelN).catch(() => {});
+  };
   useEffect(() => { yenile(); return foyDinle(yenile); }, []);
-  useInnerBack(!!secili || aktar, () => { setSecili(null); setAktar(false); });
+  useInnerBack(!!secili || aktar || giris || !!kilitSor, () => { setSecili(null); setAktar(false); setGiris(false); setKilitSor(null); });
 
   if (Platform.OS !== "web" || !foyDestekli()) {
     return (
@@ -57,14 +47,25 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       </ScrollView>
     );
   }
+  if (kilitSor) return <OzelKilit durum={kilit} onKapat={() => setKilitSor(null)} onAcildi={() => { const f = kilitSor.sonra; setKilitSor(null); yenile(); f?.(); }} />;
   if (aktar) return <Aktar mevcut={liste} onBitti={(n) => { setAktar(false); if (n) setMesaj({ t: n, ok: true }); }} />;
-  if (secili) return <FoySayfa id={secili} onKapat={() => setSecili(null)} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} />;
+  if (secili) return <FoySayfa key={secili.id} id={secili.id} ekle={secili.ekle} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} />;
+
+  const yeniFoy = async (tur: FoyTur) => {
+    const olustur = async () => { const f = bosFoy({ tur }); await foyKaydet(f); setGiris(false); setSecili({ id: f.id }); };
+    if (ozelTur(tur) && (await ozelKilitDurumu()) !== "acik") { setKilitSor({ sonra: olustur }); return; }
+    await olustur();
+  };
+  if (giris) return <GirisMenu liste={liste} onKapat={() => setGiris(false)} onSec={yeniFoy} onEvraka={(id, tur) => { setGiris(false); setSecili({ id, ekle: tur }); }} />;
 
   const q = ara.trim().toLocaleLowerCase("tr");
+  const byId = new Map(liste.map(f => [f.id, f] as const));
   const gorunen = liste
     .filter(f => filtre === "hepsi" || f.durum === filtre)
-    .filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, f.notlar].join(" ").toLocaleLowerCase("tr").includes(q))
+    .filter(f => turF === "hepsi" || (f.tur || "hukuk") === turF)
+    .filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, f.notlar, turBilgi(f.tur).ad].join(" ").toLocaleLowerCase("tr").includes(q))
     .sort((a, b) => (a.durusma || "9999").localeCompare(b.durusma || "9999") || b.guncelleme.localeCompare(a.guncelleme));
+  const turlerVar = TURLER.filter(x => liste.some(f => (f.tur || "hukuk") === x.tur));
   // Yaklaşanlar: önümüzdeki 14 gün (ve geçmiş ama tamamlanmamış işler).
   const yaklasan: { f: Foy; tur: "durusma" | "gorev"; metin: string; tarih: string; gun: number }[] = [];
   for (const f of liste.filter(x => x.durum === "acik")) {
@@ -77,7 +78,6 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   }
   yaklasan.sort((a, b) => a.tarih.localeCompare(b.tarih));
 
-  const yeni = async () => { const f = bosFoy(); await foyKaydet(f); setSecili(f.id); };
   const yedekAl = async () => indir("celse-foyler-" + new Date().toISOString().slice(0, 10) + ".json", new Blob([await yedekMetni()], { type: "application/json" }));
   const yedekYukle = async () => {
     const [k] = await dosyaSec(".json", false);
@@ -93,7 +93,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       <Text style={s.title}>{t("Föylerim")}</Text>
       <View style={s.warn}>
         <Text style={s.warnT}>{t("Föyleriniz yalnız bu bilgisayarda saklanır.")}</Text>
-        <Text style={s.warnD}>{t("Künye, evrak ve görevler sunucuya gitmez. Yapay zekâ değerlendirmesinde yalnız cihazda kodlanmış metin gönderilir ve kaydedilmez. Bilgisayar değişirse ya da tarayıcı verisi silinirse föyler kaybolur; düzenli olarak yedek alın.")}</Text>
+        <Text style={s.warnD}>{t("Künye, evrak ve görevler sunucuya gitmez. Yapay zekâya yalnız cihazda kodlanmış metin gönderilir ve kaydedilmez. Bilgisayar değişirse ya da tarayıcı verisi silinirse föyler kaybolur; düzenli olarak yedek alın.")}</Text>
         <View style={s.row}>
           <Btn kind="ghost" label={t("Yedeği indir")} onPress={yedekAl} />
           <Btn kind="ghost" label={t("Yedekten yükle")} onPress={yedekYukle} />
@@ -101,16 +101,25 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       </View>
 
       <View style={s.row}>
-        <Btn label={t("+ Yeni föy")} onPress={yeni} />
+        <Btn label={t("+ Yeni giriş")} onPress={() => setGiris(true)} />
         <Btn kind="secondary" label={t("Excel ya da Word'den toplu ekle")} onPress={() => setAktar(true)} />
       </View>
       {mesaj && <Text style={[s.hint, { color: mesaj.ok ? C.good : C.bad }]}>{mesaj.t}</Text>}
+
+      <KlasorKart liste={liste} onBilgi={m => setMesaj(m)} />
+
+      {(ozelN > 0 || kilit !== "yok") && (
+        <View style={[s.card, { flexDirection: "row", alignItems: "center", gap: 10, flexWrap: "wrap" }]}>
+          <Text style={[s.body, { flex: 1 }]}>{kilit === "acik" ? t("🔓 Özel dosyalar açık ({n}). 15 dakika kullanılmazsa kendiliğinden kilitlenir.", { n: ozelN }) : t("🔒 Özel dosyalar kilitli ({n}).", { n: ozelN })}</Text>
+          {kilit === "acik" ? <Btn kind="ghost" label={t("Kilitle")} onPress={ozelKilitle} /> : <Btn kind="secondary" label={t("Şifreyle aç")} onPress={() => setKilitSor({})} />}
+        </View>
+      )}
 
       {yaklasan.length > 0 && (
         <View style={s.card}>
           <Text style={s.cardT}>{t("Yaklaşanlar (14 gün)")}</Text>
           {yaklasan.slice(0, 20).map((y, i) => (
-            <Pressable key={i} onPress={() => setSecili(y.f.id)} style={({ pressed }) => [s.yak, pressed && { opacity: 0.8 }]}>
+            <Pressable key={i} onPress={() => setSecili({ id: y.f.id })} style={({ pressed }) => [s.yak, pressed && { opacity: 0.8 }]}>
               <Text style={[s.yakTarih, y.gun < 0 && { color: C.bad }, y.gun <= 2 && y.gun >= 0 && { color: C.brass }]}>{tarihYaz(y.tarih)}{"\n"}<Text style={s.hint}>{gunYaz(y.gun)}</Text></Text>
               <View style={{ flex: 1 }}>
                 <Text style={s.fileT}>{y.tur === "durusma" ? "⚖ " : "☐ "}{y.metin}</Text>
@@ -130,16 +139,30 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
             </Pressable>
           ))}
         </View>
-        {yuklendi && liste.length === 0 && <Text style={s.body}>{t("Henüz föy yok. “+ Yeni föy” ile tek tek ekleyin ya da dosya listenizi Excel veya Word tablosundan toplu olarak aktarın.")}</Text>}
+        {turlerVar.length > 1 && (
+          <View style={s.chips}>
+            <Pressable onPress={() => setTurF("hepsi")} style={[s.chip, turF === "hepsi" && s.chipOn]}><Text style={[s.chipT, turF === "hepsi" && s.chipTOn]}>{t("Bütün türler")}</Text></Pressable>
+            {turlerVar.map(x => (
+              <Pressable key={x.tur} onPress={() => setTurF(x.tur)} style={[s.chip, turF === x.tur && s.chipOn]}>
+                <Text style={[s.chipT, turF === x.tur && s.chipTOn]}>{t(x.ad)} ({liste.filter(f => (f.tur || "hukuk") === x.tur).length})</Text>
+              </Pressable>
+            ))}
+          </View>
+        )}
+        {yuklendi && liste.length === 0 && <Text style={s.body}>{t("Henüz föy yok. “+ Yeni giriş” ile ekleyin ya da dosya listenizi Excel veya Word tablosundan toplu olarak aktarın.")}</Text>}
         {gorunen.map(f => {
           const g = kacGun(f.durusma);
           const acikGorev = f.gorevler.filter(x => !x.bitti).length;
+          const once = f.oncekiId ? byId.get(f.oncekiId) : undefined;
+          const tb = turBilgi(f.tur);
           return (
-            <Pressable key={f.id} onPress={() => setSecili(f.id)} style={({ pressed }) => [s.foy, pressed && { opacity: 0.85 }]}>
-              <View style={{ flex: 1, gap: 2 }}>
+            <Pressable key={f.id} onPress={() => setSecili({ id: f.id })} style={({ pressed }) => [s.foy, pressed && { opacity: 0.85 }]}>
+              <View style={{ flex: 1, gap: 3 }}>
+                <Text style={[s.turChip, f.ozel && s.ozelChip]}>{f.ozel ? "🔒 " : ""}{tb.kisa}{f.asama ? " · " + f.asama.toLocaleUpperCase("tr") : ""}</Text>
                 <Text style={s.foyT} numberOfLines={1}>{foyBaslik(f)}</Text>
-                <Text style={s.hint} numberOfLines={1}>{[f.mahkeme, f.esasNo, f.davaTuru].filter(Boolean).join(" · ") || t("Mahkeme ve esas no yazılmamış")}</Text>
-                <Text style={s.meta}>{[f.taraf === "davali" ? t("DAVALI VEKİLİ") : t("DAVACI VEKİLİ"), t("{n} EVRAK", { n: f.evraklar.length }), acikGorev ? t("{n} AÇIK İŞ", { n: acikGorev }) : ""].filter(Boolean).join(" · ")}</Text>
+                <Text style={s.hint} numberOfLines={1}>{[f.mahkeme, f.esasNo, f.davaTuru].filter(Boolean).join(" · ") || t("Merci ve numara yazılmamış")}</Text>
+                {!!once && <Text style={s.hint} numberOfLines={1}>↳ {t("{tur} {no} dosyasının devamı", { tur: turBilgi(once.tur).ad, no: once.esasNo || "" })}</Text>}
+                <Text style={s.meta}>{[t("{n} EVRAK", { n: f.evraklar.length }), acikGorev ? t("{n} AÇIK İŞ", { n: acikGorev }) : ""].filter(Boolean).join(" · ")}</Text>
               </View>
               {!!f.durusma && <Text style={[s.foyD, g !== undefined && g >= 0 && g <= 7 && { color: C.brass }]}>{tarihYaz(f.durusma)}{"\n"}<Text style={s.hint}>{gunYaz(g)}</Text></Text>}
             </Pressable>
@@ -147,6 +170,156 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         })}
       </View>
     </ScrollView>
+  );
+}
+
+/* ---------- yeni giriş menüsü ---------- */
+function GirisMenu({ liste, onKapat, onSec, onEvraka }: { liste: Foy[]; onKapat: () => void; onSec: (t: FoyTur) => void; onEvraka: (id: string, tur: string) => void }) {
+  const [alt, setAlt] = useState<Giris | null>(null);
+  const [ara, setAra] = useState("");
+  if (alt?.evrakaEkle) {
+    const q = ara.trim().toLocaleLowerCase("tr");
+    const xs = liste.filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo].join(" ").toLocaleLowerCase("tr").includes(q)).slice(0, 30);
+    return (
+      <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
+        <View style={s.head}><Btn kind="ghost" label={t("‹ Geri")} onPress={() => setAlt(null)} /></View>
+        <Text style={s.title}>{t("{tur} hangi föye?", { tur: t(alt.evrakaEkle) })}</Text>
+        <TextInput value={ara} onChangeText={setAra} placeholder={t("Ara: müvekkil, karşı taraf, esas no…")} placeholderTextColor={C.muted} style={s.inputTek} />
+        {xs.map(f => (
+          <Pressable key={f.id} onPress={() => onEvraka(f.id, alt.evrakaEkle!)} style={s.foy}>
+            <View style={{ flex: 1 }}>
+              <Text style={s.turChip}>{turBilgi(f.tur).kisa}</Text>
+              <Text style={s.foyT} numberOfLines={1}>{foyBaslik(f)}</Text>
+              <Text style={s.hint} numberOfLines={1}>{[f.mahkeme, f.esasNo].filter(Boolean).join(" · ")}</Text>
+            </View>
+          </Pressable>
+        ))}
+        {!liste.length && <Text style={s.body}>{t("Önce bir föy oluşturun.")}</Text>}
+      </ScrollView>
+    );
+  }
+  return (
+    <ScrollView contentContainerStyle={s.wrap}>
+      <View style={s.head}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={alt ? () => setAlt(null) : onKapat} /></View>
+      <Text style={s.eyebrow}>{t("YENİ GİRİŞ")}</Text>
+      <Text style={s.title}>{alt ? t(alt.ad) : t("Ne ile başlıyorsunuz?")}</Text>
+      {!alt && <Text style={s.hint}>{t("Dosyalar sonradan birbirine bağlanabilir: suç duyurusu ceza davasına, arabuluculuk hukuk davasına, idari başvuru idari davaya dönüştüğünde föyün içinden “Devamını aç” deyin.")}</Text>}
+      <View style={s.grid}>
+        {(alt?.secenek ? alt.secenek.map(x => ({ ad: turBilgi(x).ad, aciklama: turBilgi(x).aciklama, tur: x } as Giris)) : GIRISLER).map(g => {
+          const oz = g.tur && ozelTur(g.tur);
+          return (
+            <Pressable key={g.ad} onPress={() => (g.tur ? onSec(g.tur) : setAlt(g))} style={({ pressed }) => [s.girisK, oz && { borderColor: C.mid }, pressed && { opacity: 0.85 }]}>
+              <Text style={s.girisT}>{oz ? "🔒 " : ""}{t(g.ad)}</Text>
+              <Text style={s.hint}>{t(g.aciklama)}</Text>
+            </Pressable>
+          );
+        })}
+      </View>
+    </ScrollView>
+  );
+}
+
+/* ---------- özel dosya kilidi ---------- */
+function OzelKilit({ durum, onKapat, onAcildi }: { durum: "yok" | "kilitli" | "acik"; onKapat: () => void; onAcildi: () => void }) {
+  const [a, setA] = useState(""), [b, setB] = useState("");
+  const [err, setErr] = useState(""), [busy, setBusy] = useState(false);
+  const kur = durum === "yok";
+  const git = async () => {
+    setErr("");
+    if (kur && a !== b) { setErr(t("Şifreler aynı değil.")); return; }
+    setBusy(true);
+    try {
+      if (kur) { await ozelKilitKur(a); onAcildi(); }
+      else if (await ozelAc(a)) onAcildi();
+      else setErr(t("Şifre yanlış."));
+    } catch (e) { setErr(t(String((e as Error).message || e))); }
+    setBusy(false);
+  };
+  return (
+    <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
+      <View style={s.head}><Btn kind="ghost" label={t("‹ Vazgeç")} onPress={onKapat} /></View>
+      <Text style={s.eyebrow}>{t("ÖZEL DOSYALAR")}</Text>
+      <Text style={s.title}>{kur ? t("Özel dosya şifresi belirleyin") : t("Özel dosyaları açın")}</Text>
+      <View style={s.card}>
+        <Text style={s.body}>{kur
+          ? t("Kişisel ceza soruşturmaları ve baro soruşturmaları bu şifreden türetilen anahtarla şifrelenip saklanır. Şifre hiçbir yere kaydedilmez; unutursanız bu dosyalar açılamaz. En az 6 karakter.")
+          : t("Özel dosyalar şifreli. Açmak için şifrenizi girin; 15 dakika kullanılmazsa yeniden kilitlenir.")}</Text>
+        <TextInput value={a} onChangeText={setA} secureTextEntry placeholder={t("Şifre")} placeholderTextColor={C.muted} style={s.inputTek} onSubmitEditing={kur ? undefined : git} autoFocus />
+        {kur && <TextInput value={b} onChangeText={setB} secureTextEntry placeholder={t("Şifre (tekrar)")} placeholderTextColor={C.muted} style={s.inputTek} onSubmitEditing={git} />}
+        {!!err && <Text style={s.err}>{err}</Text>}
+        <View style={s.row}><Btn label={busy ? t("Bekleyin…") : kur ? t("Şifreyi kur ve aç") : t("Aç")} onPress={git} disabled={busy || !a} /></View>
+      </View>
+    </ScrollView>
+  );
+}
+
+/* ---------- DavaTek klasörü ---------- */
+function KlasorKart({ liste, onBilgi }: { liste: Foy[]; onBilgi: (m: { t: string; ok?: boolean }) => void }) {
+  const [bilgi, setBilgi] = useState<{ ad: string; izin: string } | null>(null);
+  const [ilerleme, setIlerleme] = useState("");
+  const [bekleyen, setBekleyen] = useState<TaramaDosyasi[]>([]);
+  const [busy, setBusy] = useState(false);
+  useEffect(() => { klasorBilgisi().then(setBilgi).catch(() => {}); }, []);
+  const byId = useMemo(() => new Map(liste.map(f => [f.id, f] as const)), [liste]);
+  if (!klasorDestekli()) return null;
+
+  const ekle = async (xs: { d: TaramaDosyasi; foyId: string }[]) => {
+    const gruplar = new Map<string, TaramaDosyasi[]>();
+    for (const x of xs) gruplar.set(x.foyId, [...(gruplar.get(x.foyId) || []), x.d]);
+    for (const [id, ds] of gruplar) {
+      const f = byId.get(id);
+      if (!f) continue;
+      const evraklar = [...f.evraklar];
+      for (const d of ds) evraklar.push(await evrakOlustur(f, d.kaynak, { metin: d.metin, okunamadi: d.okunamadi }));
+      await foyKaydet({ ...f, evraklar });
+    }
+    await gorulduYaz(xs.map(x => x.d.anahtar));
+  };
+  const tara = async () => {
+    setBusy(true); setBekleyen([]);
+    try {
+      const sonuc = await klasorTara(liste, setIlerleme);
+      const eslesen = sonuc.filter(d => d.foyId).map(d => ({ d, foyId: d.foyId! }));
+      await ekle(eslesen);
+      const kalan = sonuc.filter(d => !d.foyId);
+      setBekleyen(kalan);
+      onBilgi({ t: sonuc.length ? t("{n} yeni dosya bulundu: {e} tanesi föyüne eklendi, {k} tanesi için föy seçmeniz gerekiyor.", { n: sonuc.length, e: eslesen.length, k: kalan.length }) : t("Klasörde yeni dosya yok."), ok: true });
+    } catch (e) { onBilgi({ t: t(String((e as Error).message || e)) }); }
+    setIlerleme(""); setBusy(false);
+    klasorBilgisi().then(setBilgi).catch(() => {});
+  };
+  return (
+    <View style={s.card}>
+      <Text style={s.cardT}>{t("DavaTek klasörü")}</Text>
+      <Text style={s.hint}>{t("DavaTek'in evrak indirdiği klasörü bir kez seçin. “Yeni evrakı al” dediğinizde Celse klasördeki yeni dosyaları okur, esas ya da dosya numarasından föyünü bulup ekler. Dosyalar bu bilgisayardan çıkmaz.")}</Text>
+      <View style={s.row}>
+        {bilgi ? <Btn label={busy ? t("Okunuyor…") : t("Yeni evrakı al")} onPress={tara} disabled={busy} /> : null}
+        <Btn kind={bilgi ? "ghost" : "secondary"} label={bilgi ? t("Klasörü değiştir ({ad})", { ad: bilgi.ad }) : t("Klasörü seç")} onPress={async () => { const ad = await klasorSec(); if (ad) setBilgi({ ad, izin: "granted" }); }} disabled={busy} />
+      </View>
+      {!!ilerleme && <Text style={s.hint}>{ilerleme}</Text>}
+      {bekleyen.map(d => (
+        <View key={d.anahtar} style={[s.file, { flexWrap: "wrap" }]}>
+          <View style={{ flex: 1, minWidth: 200 }}>
+            <Text style={s.fileT} numberOfLines={1}>{d.kaynak.ad}</Text>
+            <Text style={s.hint} numberOfLines={1}>{d.kaynak.yol} · {t(d.neden || "")}</Text>
+          </View>
+          <FoySecici liste={liste} onSec={async id => { await ekle([{ d, foyId: id }]); setBekleyen(xs => xs.filter(x => x !== d)); }} />
+          <Pressable onPress={async () => { await gorulduYaz([d.anahtar]); setBekleyen(xs => xs.filter(x => x !== d)); }}><Text style={s.sil}>{t("Atla")}</Text></Pressable>
+        </View>
+      ))}
+    </View>
+  );
+}
+function FoySecici({ liste, onSec }: { liste: Foy[]; onSec: (id: string) => void }) {
+  const [ac, setAc] = useState(false);
+  const [q, setQ] = useState("");
+  if (!ac) return <Pressable onPress={() => setAc(true)}><Text style={s.link}>{t("Föy seç")}</Text></Pressable>;
+  const xs = liste.filter(f => { const k = q.trim().toLocaleLowerCase("tr"); return !k || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo].join(" ").toLocaleLowerCase("tr").includes(k); }).slice(0, 8);
+  return (
+    <View style={{ width: "100%", gap: 4 }}>
+      <TextInput value={q} onChangeText={setQ} placeholder={t("Ara…")} placeholderTextColor={C.muted} style={s.inputTek} autoFocus />
+      {xs.map(f => <Pressable key={f.id} onPress={() => onSec(f.id)}><Text style={s.link}>{foyBaslik(f)} · {f.esasNo}</Text></Pressable>)}
+    </View>
   );
 }
 
@@ -206,252 +379,3 @@ function Aktar({ mevcut, onBitti }: { mevcut: Foy[]; onBitti: (mesaj?: string) =
   );
 }
 
-/* ---------- föy sayfası ---------- */
-function FoySayfa({ id, onKapat, onHazirlan, ucretsiz }: { id: string; onKapat: () => void; onHazirlan: (f: Foy) => void; ucretsiz?: boolean }) {
-  const [f, setF] = useState<Foy | null>(null);
-  const [okuma, setOkuma] = useState("");
-  const [err, setErr] = useState("");
-  const [yeniGorev, setYeniGorev] = useState("");
-  const [gorevTarih, setGorevTarih] = useState("");
-  const [durusmaYazi, setDurusmaYazi] = useState("");
-  const [silOnay, setSilOnay] = useState(false);
-  const [degerlendiriliyor, setDegerlendiriliyor] = useState(false);
-  const prem = usePremium();
-  const bedava = !!ucretsiz || prem.evrak;
-  const zaman = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const son = useRef<Foy | null>(null);
-  useEffect(() => { foyGetir(id).then(x => { if (x) { setF(x); setDurusmaYazi(x.durusma ? tarihYaz(x.durusma) : ""); } }); }, [id]);
-  // Her değişiklik yarım saniye sonra kaydedilir; ekrandan çıkarken bekleyen kayıt hemen yazılır.
-  const degistir = (ek: Partial<Foy>) => setF(x => {
-    if (!x) return x;
-    const y = { ...x, ...ek };
-    son.current = y;
-    if (zaman.current) clearTimeout(zaman.current);
-    zaman.current = setTimeout(() => { foyKaydet(y); zaman.current = null; }, 500);
-    return y;
-  });
-  useEffect(() => () => { if (zaman.current && son.current) { clearTimeout(zaman.current); foyKaydet(son.current); } }, []);
-  if (!f) return <ScrollView contentContainerStyle={s.wrap}><Text style={s.hint}>{t("Yükleniyor…")}</Text></ScrollView>;
-
-  const evrakEkle = async () => {
-    setErr("");
-    const secilen = await dosyaSec(".udf,.doc,.docx,.txt,.pdf,.tif,.tiff,.jpg,.jpeg,.png,.zip");
-    const sira: Kaynak[] = [];
-    for (const k of secilen) {
-      if (turBul(k.ad) === "zip") { try { sira.push(...zipIcerigi(k.bytes)); } catch { setErr(t("{ad}: ZIP dosyası açılamadı.", { ad: k.ad })); } }
-      else sira.push(k);
-    }
-    const eklenen: FoyEvrak[] = [];
-    let i = 0;
-    for (const k of sira) {
-      i++;
-      const tur = turBul(k.ad);
-      if (!tur) { setErr(t("{ad}: bu dosya türü okunamıyor.", { ad: k.ad })); continue; }
-      const onEk = sira.length > 1 ? `(${i} / ${sira.length}) ` : "";
-      const ilerle = (m: string) => setOkuma(`${onEk}${k.ad}: ${t(m)}`);
-      let metin = "", okunamadi: string | undefined;
-      try {
-        if (tur === "pdf" || tur === "tif" || tur === "resim") {
-          const oku = await import("./evrakOku");
-          metin = tur === "pdf" ? await oku.pdfMetni(k.bytes, ilerle) : tur === "tif" ? await oku.tifMetni(k.bytes, ilerle) : await oku.resimMetni(k.bytes, k.ad, ilerle);
-        } else { ilerle("okunuyor"); metin = evrakMetni(k.ad, k.bytes); }
-      } catch (e) { okunamadi = String((e as Error).message || e); }
-      const e: FoyEvrak = { id: yeniId("ev"), ad: k.ad, boyut: k.bytes.length, eklenme: new Date().toISOString(), metin, okunamadi };
-      try { await dosyaYaz(e.id, k.blob || new Blob([k.bytes as BlobPart])); } catch { /* asıl dosya saklanamazsa metin yine durur */ }
-      eklenen.push(e);
-    }
-    setOkuma("");
-    if (eklenen.length) degistir({ evraklar: [...f.evraklar, ...eklenen] });
-  };
-  const evrakAc = async (e: FoyEvrak) => {
-    const b = await dosyaOku(e.id);
-    if (!b) { setErr(t("Asıl dosya bu cihazda bulunamadı (yalnız okunan metni var).")); return; }
-    if (/\.(pdf|jpg|jpeg|png|txt)$/i.test(e.ad)) window.open(URL.createObjectURL(b), "_blank"); else indir(e.ad, b);
-  };
-  const evrakSil = async (e: FoyEvrak) => { await dosyaSil(e.id).catch(() => {}); degistir({ evraklar: f.evraklar.filter(x => x.id !== e.id) }); };
-  const gorevEkle = () => {
-    const m = yeniGorev.trim();
-    if (!m) return;
-    degistir({ gorevler: [...f.gorevler, { id: yeniId("g"), metin: m, tarih: tarihCoz(gorevTarih), bitti: false, kaynak: "elle" }] });
-    setYeniGorev(""); setGorevTarih("");
-  };
-  const gorevDegistir = (g: Gorev, ek: Partial<Gorev> | null) => degistir({ gorevler: ek ? f.gorevler.map(x => (x.id === g.id ? { ...x, ...ek } : x)) : f.gorevler.filter(x => x.id !== g.id) });
-
-  // Yapay zekâ değerlendirmesi: evrak cihazda kodlanır, kodlu metin gider; dönen özet, süreler ve yapılacaklar föye yazılır.
-  const tumMetin = f.evraklar.filter(e => e.metin.trim()).map((e, i) => `=== ${t("Evrak")} ${i + 1}: ${e.ad.replace(/\.[^.]+$/, "")} ===\n${e.metin}`).join("\n\n");
-  const degerlendir = async () => {
-    setErr("");
-    const m = mask(tumMetin, {});
-    if (m.masked.length > DOGRUDAN_SINIR) { setErr(t("Evrak çok uzun. “Duruşmaya hazırlan” ekranında dosyayı derleyip oradan değerlendirin.")); return; }
-    if (/(?<!\d[.,]?)[1-9]\d{10}(?![.,]?\d)|\bTR\s?\d{2}(?:\s?\d{4}){5}|[\w.+-]+@[\w-]+\.[\w.]+/i.test(m.masked)) { setErr(t("Metinde gizlenmemiş kişisel veri kalmış olabilir. “Duruşmaya hazırlan” ekranında kontrol edip gizleyin.")); return; }
-    setDegerlendiriliyor(true);
-    const r = await evrakProva(m.masked, f.taraf, t("Dava takibi: dosyanın güncel durumunun özeti, işleyen ve yaklaşan süreler, avukatın yapması gereken işler."));
-    setDegerlendiriliyor(false);
-    if (!r.ok) { setErr(t(r.error, r.vars)); return; }
-    if (typeof r.data.avukatKalan === "number") setAvukatKalan(r.data.avukatKalan);
-    const u = (x: string) => unmask(x, m.map);
-    const d = r.data;
-    const yapay: Gorev[] = (d.eksik || []).map(x => ({ id: yeniId("g"), metin: u(x), bitti: false, kaynak: "yapay" as const }))
-      .filter(x => !f.gorevler.some(y => y.metin === x.metin));
-    degistir({
-      degerlendirme: { tarih: new Date().toISOString(), ozet: u(d.ozet || ""), uyusmazlik: (d.uyusmazlik || []).map(u), sureler: (d.sureler || []).map(u), zayif: (d.zayif || []).map(u) },
-      gorevler: [...f.gorevler, ...yapay]
-    });
-  };
-
-  // Bileşen değil, düz işlev: her tuşta yeniden kurulup odağı kaybetmesin.
-  const alanEl = (etiket: string, deger: string, alan: keyof Foy, ph?: string) => (
-    <View style={s.alan} key={alan}>
-      <Text style={s.label}>{t(etiket)}</Text>
-      <TextInput defaultValue={deger} onChangeText={v => degistir({ [alan]: v } as Partial<Foy>)} placeholder={ph ? t(ph) : undefined} placeholderTextColor={C.muted} style={s.inputTek} />
-    </View>
-  );
-  const g = kacGun(f.durusma);
-  const acik = f.gorevler.filter(x => !x.bitti).sort((a, b) => (a.tarih || "9999").localeCompare(b.tarih || "9999"));
-  const biten = f.gorevler.filter(x => x.bitti);
-
-  return (
-    <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
-      <View style={s.head}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={onKapat} /></View>
-      <Text style={s.eyebrow}>{[f.mahkeme, f.esasNo].filter(Boolean).join(" · ").toLocaleUpperCase("tr") || t("YENİ FÖY")}</Text>
-      <Text style={s.title}>{foyBaslik(f)}</Text>
-
-      <View style={s.card}>
-        <View style={s.row}>
-          <Btn label={t("Duruşmaya hazırlan")} onPress={() => onHazirlan(f)} disabled={!f.evraklar.some(e => e.metin.trim())} />
-          <Btn kind="secondary" label={degerlendiriliyor ? t("Değerlendiriliyor…") : t("Föyü yapay zekâyla değerlendir")} onPress={degerlendir} disabled={degerlendiriliyor || !tumMetin.trim()} />
-        </View>
-        <Text style={s.hint}>{t("Duruşmaya hazırlan: föyün evrakı Evrakla duruşma provasına aktarılır; orada kendiniz oynarsınız ya da yapay zekâ oynar. Değerlendirme: özet, süreler ve yapılacak işler föye yazılır{k}.", { k: bedava ? "" : " (" + t("{n} kredi", { n: EVRAK_KREDI.evrak }) + ")" })}</Text>
-        {degerlendiriliyor && <Text style={s.hint}>{t("Bir-üç dakika sürebilir; sayfayı açık tutun.")}</Text>}
-        {!!err && <Text style={s.err}>{err}</Text>}
-      </View>
-
-      <View style={s.card}>
-        <Text style={s.cardT}>{t("Künye")}</Text>
-        <View style={s.alanlar}>
-          {alanEl("Müvekkil", f.muvekkil, "muvekkil")}
-          {alanEl("Karşı taraf", f.karsiTaraf, "karsiTaraf")}
-          {alanEl("Mahkeme", f.mahkeme, "mahkeme", "İzmir 3. Asliye Ticaret Mahkemesi")}
-          {alanEl("Esas no", f.esasNo, "esasNo", "2026/123")}
-          {alanEl("Dava türü", f.davaTuru, "davaTuru")}
-          <View style={s.alan}>
-            <Text style={s.label}>{t("Sonraki duruşma")}</Text>
-            <TextInput value={durusmaYazi} onChangeText={v => { setDurusmaYazi(v); const d = tarihCoz(v); if (d || !v.trim()) degistir({ durusma: d }); }} placeholder="12.03.2027 10:30" placeholderTextColor={C.muted} style={s.inputTek} />
-            {!!f.durusma && <Text style={[s.hint, g !== undefined && g >= 0 && g <= 7 && { color: C.brass }]}>{gunYaz(g)}</Text>}
-            {!!durusmaYazi.trim() && !tarihCoz(durusmaYazi) && <Text style={s.err}>{t("Tarihi 12.03.2027 ya da 12.03.2027 10:30 biçiminde yazın.")}</Text>}
-          </View>
-        </View>
-        <View style={s.chips}>
-          {(["davaci", "davali"] as const).map(k => (
-            <Pressable key={k} onPress={() => degistir({ taraf: k })} style={[s.chip, f.taraf === k && s.chipOn]}>
-              <Text style={[s.chipT, f.taraf === k && s.chipTOn]}>{k === "davaci" ? t("Davacı / şikâyetçi vekiliyiz") : t("Davalı / sanık vekiliyiz")}</Text>
-            </Pressable>
-          ))}
-          {(["acik", "kapali"] as const).map(k => (
-            <Pressable key={k} onPress={() => degistir({ durum: k })} style={[s.chip, f.durum === k && s.chipOn]}>
-              <Text style={[s.chipT, f.durum === k && s.chipTOn]}>{k === "acik" ? t("Açık") : t("Kapalı")}</Text>
-            </Pressable>
-          ))}
-        </View>
-        <Text style={s.label}>{t("Notlar")}</Text>
-        <TextInput defaultValue={f.notlar} onChangeText={v => degistir({ notlar: v })} multiline placeholder={t("Dosyayla ilgili notlarınız")} placeholderTextColor={C.muted} style={s.input} />
-      </View>
-
-      <View style={s.card}>
-        <Text style={s.cardT}>{t("Yapılacaklar")}</Text>
-        {acik.map(x => (
-          <View key={x.id} style={s.gorev}>
-            <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: false }} onPress={() => gorevDegistir(x, { bitti: true })} style={s.box} />
-            <View style={{ flex: 1 }}>
-              <Text style={s.body}>{x.metin}</Text>
-              <Text style={s.hint}>{[x.tarih ? tarihYaz(x.tarih) + " · " + gunYaz(kacGun(x.tarih)) : "", x.kaynak === "yapay" ? t("yapay zekâ önerisi, kontrol edin") : ""].filter(Boolean).join(" · ")}</Text>
-            </View>
-            <Pressable onPress={() => gorevDegistir(x, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>
-          </View>
-        ))}
-        <View style={s.addRow}>
-          <TextInput value={yeniGorev} onChangeText={setYeniGorev} onSubmitEditing={gorevEkle} placeholder={t("Yeni iş: ör. bilirkişi raporuna itiraz")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1 }]} />
-          <TextInput value={gorevTarih} onChangeText={setGorevTarih} onSubmitEditing={gorevEkle} placeholder={t("son gün")} placeholderTextColor={C.muted} style={[s.inputTek, { width: 120 }]} />
-          <Btn kind="secondary" label={t("Ekle")} onPress={gorevEkle} />
-        </View>
-        {biten.length > 0 && <Text style={s.hint}>{t("Tamamlanan")}: {biten.map(x => x.metin).join(" · ")}</Text>}
-      </View>
-
-      <View style={s.card}>
-        <Text style={s.cardT}>{t("Evrak")} ({f.evraklar.length})</Text>
-        <Text style={s.hint}>{t("UDF, Word, PDF, TIF, fotoğraf ya da UYAP/DavaTek'ten inen ZIP. Dosyalar bu bilgisayarda saklanır; taranmış evrakın yazısı da burada okunur.")}</Text>
-        <View style={s.row}><Btn kind="secondary" label={t("Evrak ekle")} onPress={evrakEkle} disabled={!!okuma} /></View>
-        {!!okuma && <Text style={s.hint}>{okuma}</Text>}
-        {f.evraklar.map(e => (
-          <View key={e.id} style={s.file}>
-            <IconBadge name="notes" size={30} />
-            <View style={{ flex: 1 }}>
-              <Text style={s.fileT} numberOfLines={1}>{e.ad}</Text>
-              <Text style={s.hint}>{boyutYaz(e.boyut)} · {tarihYaz(e.eklenme.slice(0, 10))}{e.okunamadi ? " · " + t("metni okunamadı") : e.metin.trim() ? "" : " · " + t("metin yok")}</Text>
-            </View>
-            <Pressable onPress={() => evrakAc(e)}><Text style={s.link}>{t("Aç")}</Text></Pressable>
-            <Pressable onPress={() => evrakSil(e)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>
-          </View>
-        ))}
-      </View>
-
-      {f.degerlendirme && (
-        <View style={s.card}>
-          <Text style={s.cardT}>{t("Yapay zekâ değerlendirmesi")}</Text>
-          <Text style={s.hint}>{tarihYaz(f.degerlendirme.tarih.slice(0, 10))} · {t("Eğitim ve yardım amaçlıdır; süreleri ve sonucu kendiniz doğrulayın.")}</Text>
-          <Text style={s.body}>{f.degerlendirme.ozet}</Text>
-          {f.degerlendirme.sureler.length > 0 && <><Text style={s.secT}>{t("Süreler")}</Text>{f.degerlendirme.sureler.map((x, i) => <Text key={i} style={s.body}>• {x}</Text>)}</>}
-          {f.degerlendirme.uyusmazlik.length > 0 && <><Text style={s.secT}>{t("Çekişmeli konular")}</Text>{f.degerlendirme.uyusmazlik.map((x, i) => <Text key={i} style={s.body}>• {x}</Text>)}</>}
-          {f.degerlendirme.zayif.length > 0 && <><Text style={s.secT}>{t("Zayıf noktalar ve riskler")}</Text>{f.degerlendirme.zayif.map((x, i) => <Text key={i} style={s.body}>• {x}</Text>)}</>}
-        </View>
-      )}
-
-      <View style={s.row}>
-        {!silOnay ? <Btn kind="ghost" label={t("Föyü sil")} onPress={() => setSilOnay(true)} />
-          : <><Text style={[s.err, { alignSelf: "center" }]}>{t("Föy, evrakı ve görevleriyle bu bilgisayardan silinecek.")}</Text>
-            <Btn kind="ghost" label={t("Evet, sil")} onPress={async () => { if (zaman.current) clearTimeout(zaman.current); zaman.current = null; son.current = null; await foySil(f); onKapat(); }} />
-            <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setSilOnay(false)} /></>}
-      </View>
-    </ScrollView>
-  );
-}
-
-const s = StyleSheet.create({
-  wrap: { width: "100%", maxWidth: 900, alignSelf: "center", paddingHorizontal: 16, paddingVertical: 20, gap: 12 },
-  head: { flexDirection: "row" },
-  eyebrow: { fontFamily: F.mono, fontSize: 12, letterSpacing: 2.5, color: C.muted, marginTop: 4 },
-  title: { fontFamily: F.display, fontSize: 30, color: C.brass },
-  warn: { borderWidth: 1, borderColor: C.mid, borderRadius: 10, padding: 12, gap: 6, backgroundColor: "rgba(208,166,76,0.10)" },
-  warnT: { fontFamily: F.bodyBold, fontSize: 15, color: C.text },
-  warnD: { fontFamily: F.body, fontSize: 13, lineHeight: 19, color: C.textSoft },
-  card: { backgroundColor: C.panel, borderWidth: 1, borderColor: C.line, borderRadius: 12, padding: 14, gap: 10 },
-  cardT: { fontFamily: F.displayMed, fontSize: 20, color: C.text },
-  secT: { fontFamily: F.bodyBold, fontSize: 15, color: C.brass, marginTop: 4 },
-  body: { fontFamily: F.body, fontSize: 15, lineHeight: 22, color: C.textSoft },
-  hint: { fontFamily: F.body, fontSize: 13, lineHeight: 18, color: C.muted },
-  meta: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1, color: C.brassDim },
-  label: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1, color: C.brass, textTransform: "uppercase" },
-  err: { fontFamily: F.bodyMed, fontSize: 14, lineHeight: 20, color: C.bad },
-  link: { fontFamily: F.bodyMed, fontSize: 14, color: C.brass, textDecorationLine: "underline", paddingHorizontal: 4 },
-  sil: { fontFamily: F.bodyMed, fontSize: 13, color: C.muted, textDecorationLine: "underline", paddingHorizontal: 4 },
-  row: { flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "center" },
-  addRow: { flexDirection: "row", flexWrap: "wrap", gap: 8, alignItems: "center" },
-  chips: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
-  chip: { borderWidth: 1, borderColor: C.line, borderRadius: 999, paddingHorizontal: 12, paddingVertical: 7, backgroundColor: C.panel2 },
-  chipOn: { backgroundColor: C.brass, borderColor: C.brass },
-  chipT: { fontFamily: F.bodyMed, fontSize: 14, color: C.text },
-  chipTOn: { color: C.brassInk, fontFamily: F.bodyBold },
-  inputTek: { borderWidth: 1, borderColor: C.line, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 9, fontFamily: F.body, fontSize: 15, color: C.text, backgroundColor: C.panel2 },
-  input: { borderWidth: 1, borderColor: C.line, borderRadius: 8, padding: 10, minHeight: 90, fontFamily: F.body, fontSize: 15, color: C.text, backgroundColor: C.panel2, textAlignVertical: "top" },
-  alanlar: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
-  alan: { flexGrow: 1, flexBasis: 260, gap: 4 },
-  foy: { flexDirection: "row", gap: 10, alignItems: "center", borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 12, backgroundColor: C.panel2 },
-  foyT: { fontFamily: F.bodyBold, fontSize: 16, color: C.text },
-  foyD: { fontFamily: F.monoBold, fontSize: 13, color: C.text, textAlign: "right" },
-  yak: { flexDirection: "row", gap: 12, alignItems: "center", borderTopWidth: 1, borderTopColor: C.line, paddingTop: 8 },
-  yakTarih: { width: 120, fontFamily: F.monoBold, fontSize: 13, color: C.text },
-  gorev: { flexDirection: "row", gap: 10, alignItems: "flex-start" },
-  box: { width: 22, height: 22, borderRadius: 4, borderWidth: 1, borderColor: C.brassDim, marginTop: 2 },
-  file: { flexDirection: "row", alignItems: "center", gap: 10, borderWidth: 1, borderColor: C.line, borderRadius: 8, padding: 10, backgroundColor: C.panel2 },
-  fileT: { fontFamily: F.bodyMed, fontSize: 14, color: C.text }
-});

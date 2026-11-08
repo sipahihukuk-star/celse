@@ -21,7 +21,7 @@ export const ASGARI: Record<Kutu, number> = { olay: 40, deliller: 40, karsi: 40,
 export const AZAMI = 6000;
 export const TAKIP_HAKKI = 5;
 
-export interface DanismaForm { alan: string; olay: string; deliller: string; karsi: string; talep: string }
+export interface DanismaForm { alan: string; olay: string; deliller: string; karsi: string; talep: string; /** eklenen evrakın cihazda kodlanmış metni (isteğe bağlı) */ evrak?: string }
 export const BOS_FORM: DanismaForm = { alan: "", olay: "", deliller: "", karsi: "", talep: "" };
 
 /** T.C. kimlik numarasına benzeyen 11 haneli sayı var mı? (Uyarı için; sunucu ayrıca gizler.) */

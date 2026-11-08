@@ -55,6 +55,8 @@ const KUTU_ADI: Record<string, string> = { olay: "Somut olay", deliller: "Delill
 const ASGARI: Record<string, number> = { olay: 40, deliller: 40, karsi: 40, talep: 20 };
 const AZAMI = 6000;
 const TAKIP_AZAMI = 1000;
+// Vatandaşın Derdini anlat'a eklediği evrak: cihazda okunur ve kişisel veriler kodlanır; yalnız kodlu metin gelir (en çok bu kadar).
+const DANISMA_EVRAK = 40000;
 
 // Hız sınırı (kişi başına, saatlik).
 const SINIR: Record<string, number> = { kontrol: 30, degerlendir: 6, canlandir: 10, izle: 10, ses: 8, takip: 30, dosya: 4, evrak: 8, evrak_izle: 6, evrak_oyna: 4, evrak_bilet: 10, evrak_derle: 150 };
@@ -87,7 +89,7 @@ export function gizle(s: string) {
     .replace(/[\w.+-]+@[\w-]+\.[\w.]+/g, "[e-posta gizlendi]");
 }
 
-interface Form { alan: string; olay: string; deliller: string; karsi: string; talep: string }
+interface Form { alan: string; olay: string; deliller: string; karsi: string; talep: string; evrak?: string }
 
 // Formu denetler ve temizler; eksikse hangi kutu olduğunu söyler.
 export function formOf(b: Record<string, unknown>): { form?: Form; hata?: string; kutu?: string } {
@@ -102,6 +104,8 @@ export function formOf(b: Record<string, unknown>): { form?: Form; hata?: string
     out[k] = v; toplam += v.length;
   }
   if (toplam > 20000) return { hata: "metin çok uzun" };
+  const ev = gizle(cut(f.evrak, DANISMA_EVRAK).trim());
+  if (ev) out.evrak = ev;
   return { form: out as unknown as Form };
 }
 
@@ -111,7 +115,7 @@ const formMetni = (f: Form) => [
   "2. Deliller ve ek bilgiler:" + NL + Q3 + f.deliller + Q3,
   "3. Karşı tarafın argümanları:" + NL + Q3 + f.karsi + Q3,
   "4. Talebi:" + NL + Q3 + f.talep + Q3
-].join(NL + NL);
+].concat(f.evrak ? ["5. Kullanıcının eklediği evrak (kişisel veriler cihazda kodlanmıştır; KİŞİ-1, KURUM-2 gibi kodları tahmin etmeye çalışma):" + NL + Q3 + f.evrak + Q3] : []).join(NL + NL);
 
 // ---------- ortak talimat ----------
 // Modelin kendi bildiği tarih eskidir: bugünün tarihi her istekte açıkça verilir (aksi hâlde yakın tarihleri "gelecek" sanıyor).
@@ -206,10 +210,14 @@ async function srv(path: string, method: string, body?: unknown, prefer?: string
 }
 const rpc = (fn: string, args: Record<string, unknown>) => srv("/rest/v1/rpc/" + fn, "POST", args);
 
-interface Row { id: string; alan: string; olay: string; deliller: string; karsi: string; talep: string; durum: string; degerlendirme: string | null; canlandirma: string | null; takip: { soru: string; cevap: string }[]; kalan_takip: number }
+interface Row { id: string; alan: string; olay: string; deliller: string; karsi: string; talep: string; evrak?: string | null; durum: string; degerlendirme: string | null; canlandirma: string | null; takip: { soru: string; cevap: string }[]; kalan_takip: number }
 async function rowOf(id: string, uid: string): Promise<Row | null> {
   if (!/^[0-9a-f-]{36}$/i.test(id)) return null;
-  const rows = await srv("/rest/v1/danismalar?id=eq." + id + "&kullanici_id=eq." + uid + "&select=id,alan,olay,deliller,karsi,talep,durum,degerlendirme,canlandirma,takip,kalan_takip", "GET");
+  const alanlar = "id,alan,olay,deliller,karsi,talep,durum,degerlendirme,canlandirma,takip,kalan_takip";
+  let rows;
+  // evrak sütunu 16. kurulumla gelir; yoksa evraksız okunur.
+  try { rows = await srv("/rest/v1/danismalar?id=eq." + id + "&kullanici_id=eq." + uid + "&select=" + alanlar + ",evrak", "GET"); }
+  catch (_e) { rows = await srv("/rest/v1/danismalar?id=eq." + id + "&kullanici_id=eq." + uid + "&select=" + alanlar, "GET"); }
   return rows && rows[0] ? rows[0] : null;
 }
 
@@ -217,7 +225,7 @@ async function rowOf(id: string, uid: string): Promise<Row | null> {
 async function imza(uid: string, f: Form) {
   const enc = new TextEncoder();
   const k = await crypto.subtle.importKey("raw", enc.encode("danisma-onay:" + SRV()), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-  const sig = await crypto.subtle.sign("HMAC", k, enc.encode([uid, f.alan, f.olay, f.deliller, f.karsi, f.talep].join(NL + "--" + NL)));
+  const sig = await crypto.subtle.sign("HMAC", k, enc.encode([uid, f.alan, f.olay, f.deliller, f.karsi, f.talep].concat(f.evrak ? [await sha256Hex(f.evrak)] : []).join(NL + "--" + NL)));
   return Array.from(new Uint8Array(sig)).map(x => x.toString(16).padStart(2, "0")).join("");
 }
 
@@ -268,6 +276,8 @@ async function degerlendir(req: Request, uid: string, b: Record<string, unknown>
     id = await rpc("danisma_baslat", { p_kullanici: uid, p_alan: v.form.alan, p_olay: v.form.olay, p_deliller: v.form.deliller, p_karsi: v.form.karsi, p_talep: v.form.talep, p_dil: d, p_ucretsiz: admin });
     // İsteğe bağlı muvafakat: olay anonimleştirilerek örnek dava dosyası hazırlanmasında kullanılabilir (surum10.sql).
     if (b.ornek === true) { try { await srv("/rest/v1/danismalar?id=eq." + id, "PATCH", { ornek_izni: true }); } catch (_e) { void _e; } }
+    // Eklenen evrakın kodlu metni (surum16.sql); canlandırma ve takip soruları da buna dayanır. Sütun yoksa değerlendirme yine yapılır.
+    if (v.form.evrak) { try { await srv("/rest/v1/danismalar?id=eq." + id, "PATCH", { evrak: v.form.evrak }); } catch (_e) { void _e; } }
     // Yapay zekâ uyarısının kabul edildiği an (surum13.sql). Sütun yoksa değerlendirme yine yapılır.
     try { await srv("/rest/v1/danismalar?id=eq." + id, "PATCH", { kabul_zaman: new Date().toISOString() }); } catch (_e) { void _e; }
   } catch (e) {

@@ -11,6 +11,7 @@ import { Platform } from "react-native";
 import { onProChange, proState, startPurchases } from "./purchases";
 import { getSettings, onSettingsChange } from "./settings";
 import { ANDROID_SATIS } from "./purchaseIds";
+import { setIzinliYuzler } from "../ui/homePage";
 
 /** Abonelik kilidi açık mı? false yapılırsa her şey ücretsiz olur (test). */
 export const SUBSCRIPTION_ON = true;
@@ -39,7 +40,7 @@ export function setAdminPreview(on: boolean) { adminPreview = on; emit(); }
 
 /** Sunucudaki abonelik ve "Derdini anlat" kredisi. Satın almadan sonra da çağrılır (ödeme bildirimi birkaç saniye sürebilir). */
 export async function refreshPremium() {
-  let u: Date | null = null, k = 0, ev = false, av: AvukatDurum | null = null;
+  let u: Date | null = null, k = 0, ev = false, av: AvukatDurum | null = null, yz: string[] | null = null;
   const acc = currentAccount(), sb = supabase();
   if (acc?.mode === "server" && sb) {
     try {
@@ -51,8 +52,12 @@ export async function refreshPremium() {
       k = Math.max(0, Number(data?.kredi) || 0);
     } catch { /* 7. kurulum yapılmamış olabilir */ }
     try {
-      const { data } = await sb.from("ozel_yetkiler").select("evrak").eq("kullanici_id", acc.id).maybeSingle();
+      // yuzler sütunu 16. kurulumla gelir; yoksa yalnız evrak okunur.
+      let r = await sb.from("ozel_yetkiler").select("evrak, yuzler").eq("kullanici_id", acc.id).maybeSingle();
+      if (r.error) r = await sb.from("ozel_yetkiler").select("evrak").eq("kullanici_id", acc.id).maybeSingle();
+      const data = r.data as { evrak?: boolean; yuzler?: string[] | null } | null;
       ev = data?.evrak === true;
+      yz = Array.isArray(data?.yuzler) ? data!.yuzler! : null;
     } catch { /* 14. kurulum yapılmamış olabilir */ }
     try {
       const { data } = await sb.rpc("avukat_durumum");
@@ -62,6 +67,8 @@ export async function refreshPremium() {
   }
   if (acc?.id !== currentAccount()?.id) return; // bu arada hesap değişti; yeni hesabın yenilemesi yazar
   serverUntil = u; credits = k; evrakIzni = ev; avukat = av;
+  // Yöneticinin kişiye açtığı yüzler (yönetim paneline PIN ile girmiş yönetici hepsini görür).
+  setIzinliYuzler(adminPreview ? null : yz);
   emit();
 }
 onAccountChange(refreshPremium);
