@@ -8,6 +8,8 @@ import { C, F } from "../ui/theme";
 import { BarChart, fmtNum, HBars, LineChart, SERIES } from "./charts";
 import { Section, Seg, SmallBtn } from "./form";
 import { demoStats, loadStats, Stats, Unit, UserRow } from "./stats";
+import { supabase } from "../data/account";
+import { HomePage, yuzAdi } from "../ui/homePage";
 
 type Range = "7" | "30" | "90" | "12";
 const MODE_LABEL: Record<string, string> = { kariyer: "Kariyer", solo: "Tek kişilik (antrenman)", duel: "Karşılıklı", tahkim: "Tahkim ve komisyonlar", antrenman: "Antrenman", bilinmiyor: "Bilinmiyor" };
@@ -140,6 +142,58 @@ export function StatsPanel({ titles, onClose }: { titles: Record<string, string>
           </Card>
         </>
       )}
+    </Section>
+  );
+}
+
+/** Dava takibi ve Derdini anlat yüzlerinin istatistikleri (supabase/surum16.sql: istat_yuzler). Oyun yüzü StatsPanel'i kullanır. */
+export function YuzIstat({ yuz, onClose }: { yuz: Exclude<HomePage, "oyun">; onClose: () => void }) {
+  const { width } = useWindowDimensions();
+  const [gun, setGun] = useState<"7" | "30" | "90" | "365">("30");
+  const [v, setV] = useState<Record<string, number> | null>(null);
+  const [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
+  const load = async () => {
+    const sb = supabase();
+    if (!sb) { setErr("Sunucuya ulaşılamıyor."); return; }
+    setBusy(true);
+    const r = await sb.rpc("istat_yuzler", { p_gun: Number(gun) });
+    setBusy(false);
+    if (r.error) { setErr(r.error.message.includes("function") ? "Bu istatistikler için önce supabase/surum16.sql çalıştırılmalı." : r.error.message); setV(null); return; }
+    setErr(""); setV((r.data || {}) as Record<string, number>);
+  };
+  useEffect(() => { load(); }, [gun]);
+  const cols = width >= 900 ? 4 : 2;
+  const n = (k: string) => fmtNum(Number(v?.[k]) || 0);
+  const period = `son ${gun} gün`;
+  return (
+    <Section title={`İstatistikler · ${yuzAdi(yuz)}`} hint={yuz === "takip" ? "Dava takibi: föylerin içeriği sunucuda yoktur; burada paket ve kredi kullanımı görünür." : "Derdini anlat: danışmalar, krediler ve evrakla duruşma provası."}
+      right={<SmallBtn label="Kapat" onPress={onClose} />}>
+      <View style={st.controls}>
+        <Seg value={gun} onChange={setGun} options={[{ v: "7", label: "7 gün" }, { v: "30", label: "30 gün" }, { v: "90", label: "90 gün" }, { v: "365", label: "1 yıl" }]} />
+        <View style={st.row}>
+          <SmallBtn label="↻ Yenile" onPress={load} disabled={busy} />
+          {busy && <ActivityIndicator color={C.brass} />}
+        </View>
+      </View>
+      {!!err && <Text style={st.err}>{err}</Text>}
+      {!!v && (yuz === "danisma" ? (
+        <View style={st.tiles}>
+          <Tile cols={cols} k="Danışma" v={n("danisma_sayi")} sub={`${period} · ${n("danisma_kisi")} kişi · ${n("danisma_ucretsiz")} ücretsiz`} />
+          <Tile cols={cols} k="Kredi bakiyesi" v={n("kredi_kalan")} sub={`${n("kredili_kisi")} kişide kredi var`} />
+          <Tile cols={cols} k="Satın alınan kredi" v={n("kredi_alinan")} sub="bütün zamanlar" />
+          <Tile cols={cols} k="Evrak provası izni" v={n("evrak_izinli")} sub={`avukat paketi: ${n("avukat_aktif")} kişi`} />
+          <Tile cols={cols} k="Avukat kredisi kullanımı" v={n("avukat_kredi")} sub={`${period} · ${n("avukat_islem")} işlem · ${n("avukat_kisi")} kişi`} />
+          <Tile cols={cols} k="Yalnız bazı yüzleri açık" v={n("yuz_kisitli")} sub={`bunlardan Derdini anlat açık: ${n("yuz_danisma")}`} />
+        </View>
+      ) : (
+        <View style={st.tiles}>
+          <Tile cols={cols} k="Celse Avukat paketi" v={n("avukat_aktif")} sub={`${n("avukat_ucretli")} ücretli · ${Number(v.avukat_aktif || 0) - Number(v.avukat_ucretli || 0)} ücretsiz (elle)`} />
+          <Tile cols={cols} k="Avukat kredisi kullanımı" v={n("avukat_kredi")} sub={`${period} · ${n("avukat_islem")} işlem`} />
+          <Tile cols={cols} k="Kullanan avukat" v={n("avukat_kisi")} sub={period} />
+          <Tile cols={cols} k="Yalnız bazı yüzleri açık" v={n("yuz_kisitli")} sub={`bunlardan Dava takibi açık: ${n("yuz_takip")}`} />
+        </View>
+      ))}
     </Section>
   );
 }

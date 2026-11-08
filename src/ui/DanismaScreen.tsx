@@ -15,6 +15,7 @@ import { useSettings } from "../data/settings";
 import { locale, t } from "../i18n";
 import { ORNEK_DANISMA, ORNEK_SENARYO } from "../data/izleOrnek";
 import DanismaWatch from "./DanismaWatch";
+import { DanismaEvrak, EkliEvrak, evrakBirlestir } from "./DanismaEvrak";
 import EvrakScreen from "./EvrakScreen";
 import type { CaseFile } from "../engine/types";
 import { cinsKodu, danisanKadinMi, kimAdi, sahneBaslik } from "./izleOrtak";
@@ -187,6 +188,9 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
   const [kabul, setKabul] = useState(false);
   const [ornek, setOrnek] = useState(false);
   const [busy, setBusy] = useState<"" | "kontrol" | "degerlendir">("");
+  const [ekler, setEklerRaw] = useState<EkliEvrak[]>([]);
+  // Evrak değişince kodlu metin forma yazılır ve önceki "yeterli" onayı düşer.
+  const setEkler = (xs: EkliEvrak[]) => { setEklerRaw(xs); const m = evrakBirlestir(xs).metin; setForm({ ...form, evrak: m || undefined }); };
   const [msg, setMsg] = useState<{ t: string; ok?: boolean } | null>(null);
   // Form değişince önceki "yeterli" onayı düşer: değerlendirme yalnız denetlenen metne yapılır.
   const setForm = (f: DanismaForm) => { setFormRaw(f); setOnay(null); };
@@ -228,7 +232,7 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
     }
     refreshPremium();
     const d: Danisma = { ...form, id: r.data.id, durum: "hazir", degerlendirme: r.data.degerlendirme, canlandirma: null, senaryo: null, takip: [], kalan_takip: r.data.kalan_takip, created_at: new Date().toISOString(), kabul_zaman: new Date().toISOString() };
-    setFormRaw(BOS_FORM); setOnay(null); setShown(false); setMsg(null);
+    setFormRaw(BOS_FORM); setEklerRaw([]); setOnay(null); setShown(false); setMsg(null);
     onDone(d);
   };
 
@@ -271,6 +275,8 @@ function NewForm({ admin, onDone }: { admin: boolean; onDone: (d: Danisma) => vo
           </View>
         );
       })}
+
+      <DanismaEvrak ekler={ekler} setEkler={setEkler} />
 
       {sorular && sorular.length > 0 && (
         <View style={[s.card, { borderColor: C.mid }]}>

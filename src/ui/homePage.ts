@@ -34,27 +34,50 @@ export function useHomePage(): [HomePage, (p: HomePage) => void, boolean] {
   return [p, setHomePage, ready];
 }
 
-// Görünen bölümler: kullanıcı (ya da yönetici) kullanmadığı yüzleri kapatabilir; kapalı yüz ön sayfada ve sekmelerde görünmez.
-// En az bir yüz açık kalır. Tercih cihazda saklanır.
+// Görünen bölümler: kullanıcı kullanmadığı yüzleri kapatabilir (tercih cihazda); yönetici de yönetim panelinden kişi başına
+// yüz kapatabilir (sunucuda: ozel_yetkiler.yuzler, surum16.sql). Görünen = kullanıcının açık bıraktıkları ∩ yöneticinin izin verdikleri.
+// En az bir yüz açık kalır. Kapalı yüz ön sayfada ve sekmelerde görünmez.
 const YKEY = "celse-yuzler";
-let yuzler: HomePage[] = [...HOME_PAGES];
+let yerel: HomePage[] = [...HOME_PAGES];
+/** yöneticinin izin verdiği yüzler; null = hepsi */
+let izinli: HomePage[] | null = null;
 let yLoaded = false;
 const yListeners = new Set<(p: HomePage[]) => void>();
-export function setGorunenYuzler(xs: HomePage[]) {
-  const temiz = HOME_PAGES.filter(h => xs.includes(h));
-  yuzler = temiz.length ? temiz : [...HOME_PAGES];
-  try { AsyncStorage.setItem(YKEY, JSON.stringify(yuzler)); } catch { /* yok say */ }
+function gorunen(): HomePage[] {
+  const xs = HOME_PAGES.filter(h => yerel.includes(h) && (!izinli || izinli.includes(h)));
+  return xs.length ? xs : izinli && izinli.length ? [...izinli] : [...HOME_PAGES];
+}
+let yuzler: HomePage[] = gorunen();
+function yay() {
+  yuzler = gorunen();
   yListeners.forEach(f => f(yuzler));
   if (!yuzler.includes(page)) setHomePage(yuzler[0]);
 }
+/** Kullanıcının kendi tercihi (ayarlardaki "Kullandığım bölümler"). */
+export function setGorunenYuzler(xs: HomePage[]) {
+  const temiz = HOME_PAGES.filter(h => xs.includes(h));
+  yerel = temiz.length ? temiz : [...HOME_PAGES];
+  try { AsyncStorage.setItem(YKEY, JSON.stringify(yerel)); } catch { /* yok say */ }
+  yay();
+}
+/** Sunucudaki izin (oturum açılınca ve yenilenince). null ya da boş = hepsi açık. */
+export function setIzinliYuzler(xs: string[] | null) {
+  const temiz = xs ? HOME_PAGES.filter(h => xs.includes(h)) : [];
+  const yeni = temiz.length ? temiz : null;
+  if (JSON.stringify(yeni) === JSON.stringify(izinli)) return;
+  izinli = yeni;
+  yay();
+}
+export const izinliYuzler = () => izinli;
 export function useGorunenYuzler(): [HomePage[], (xs: HomePage[]) => void] {
   const [xs, setXs] = useState(yuzler);
   useEffect(() => {
     yListeners.add(setXs);
+    setXs(yuzler);
     if (!yLoaded) {
       AsyncStorage.getItem(YKEY).then(v => {
         const a = v ? (JSON.parse(v) as HomePage[]) : null;
-        if (Array.isArray(a)) { const t = HOME_PAGES.filter(h => a.includes(h)); if (t.length) { yuzler = t; yListeners.forEach(f => f(t)); if (!t.includes(page)) setHomePage(t[0]); } }
+        if (Array.isArray(a)) { const t = HOME_PAGES.filter(h => a.includes(h)); if (t.length) { yerel = t; yay(); } }
       }).catch(() => {}).finally(() => { yLoaded = true; });
     }
     return () => { yListeners.delete(setXs); };

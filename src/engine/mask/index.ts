@@ -41,7 +41,11 @@ export function tcknGecerli(s: string): boolean {
 
 const ROLLER = ["DAVACILAR", "DAVALILAR", "DAVACI", "DAVALI", "VEKİLLERİ", "VEKİLİ", "MÜŞTEKİ", "MÜŞTEKİLER", "ŞİKAYETÇİ", "ŞİKÂYETÇİ", "ŞÜPHELİ", "ŞÜPHELİLER",
   "SANIK", "SANIKLAR", "KATILAN", "KATILANLAR", "MÜDAFİİ", "MÜDAFİLERİ", "ALACAKLI", "BORÇLU", "BAŞVURUCU", "BAŞVURAN", "İTİRAZ EDEN", "KARŞI TARAF",
-  "TANIK", "TANIKLAR", "MAKTUL", "MAĞDUR", "MÜVEKKİL", "İHBAR OLUNAN", "FERİ MÜDAHİL", "ÜÇÜNCÜ KİŞİ", "TEMYİZ EDEN", "İSTİNAF EDEN", "DAVACI VEKİLİ", "DAVALI VEKİLİ"];
+  "TANIK", "TANIKLAR", "MAKTUL", "MAĞDUR", "MÜVEKKİL", "İHBAR OLUNAN", "FERİ MÜDAHİL", "ÜÇÜNCÜ KİŞİ", "TEMYİZ EDEN", "İSTİNAF EDEN", "DAVACI VEKİLİ", "DAVALI VEKİLİ",
+  "KEŞİDECİ", "MUHATAP", "İHTAR EDEN", "İHTAR EDİLEN"];
+// Başlıklar küçük harfle de yazılır ("Davacı: …", "Keşideci: …"): her rolün baş harfi büyük biçimi de tanınır.
+const basBuyuk = (r: string) => r.split(" ").map(w => w.slice(0, 1) + w.slice(1).toLocaleLowerCase("tr")).join(" ");
+const ROL_DESEN = [...ROLLER, ...ROLLER.map(basBuyuk)].sort((a, b) => b.length - a.length);
 
 /** Emsal karar künyeleri ve korunan ifadeler: maskelemeden önce yer tutucuya alınır. */
 const KORU = [
@@ -99,7 +103,10 @@ export function mask(text: string, opts: MaskOptions = {}): MaskResult {
   // 1) Taraflar: başlık satırları ("DAVACI : Ad SOYAD (T.C. Kimlik No: …)").
   const people: { value: string; code: string }[] = [];
   let lastRole = "";
-  const roleRe = new RegExp(`^[ \\t]*(${ROLLER.map(esc).join("|")})[ \\t]*:[ \\t]*(.+)$`, "gm");
+  const rolAlt = ROL_DESEN.map(esc).join("|");
+  // Aynı satırda iki taraf ("Davacı: … Davalı: …") varsa ikincisi kendi satırına alınır.
+  t = t.replace(new RegExp(`([^\\n:]\\S)[ \\t]{2,}(?=(?:${rolAlt})[ \\t]*:)`, "g"), "$1\n");
+  const roleRe = new RegExp(`^[ \\t]*(${rolAlt})[ \\t]*:[ \\t]*(.+)$`, "gm");
   t = t.replace(roleRe, (line, role: string, rest: string) => {
     const r = trUp(role).replace("ŞİKÂYETÇİ", "ŞİKAYETÇİ");
     const isVekil = /VEKİL|MÜDAFİ/.test(r);

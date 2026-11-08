@@ -13,7 +13,7 @@ import { AuditPanel, GeneratePanel } from "./AiPanels";
 import { PlayersPanel } from "./PlayersPanel";
 import { TranslatePanel } from "./TranslatePanel";
 import { SettingsPanel } from "./SettingsPanel";
-import { StatsPanel } from "./StatsPanel";
+import { StatsPanel, YuzIstat } from "./StatsPanel";
 import { MessagesPanel, ReportsPanel } from "./InboxPanels";
 import CaseEditor from "./CaseEditor";
 import { Field, Row, Section, Seg, SmallBtn } from "./form";
@@ -216,12 +216,12 @@ function AdminHome({ onExit, onPreview, onEvrak, onFoy }: Props) {
           : "Sunucu: bu hesap yönetici değil ya da sunucuya ulaşılamıyor. Değişiklikler yalnızca bu cihazda kalır; yapay zekâ araçları çalışmaz. (Yönetici hesabınızla “Giriş yap” ile girin.)"}
       </Text>
 
-      {ai === "istatistik" && <StatsPanel titles={titles} onClose={() => setAi("")} />}
+      {ai === "istatistik" && (yuzNe === "oyun" ? <StatsPanel titles={titles} onClose={() => setAi("")} /> : <YuzIstat yuz={yuzNe} onClose={() => setAi("")} />)}
       {ai === "mesajlar" && <MessagesPanel onClose={() => setAi("")} />}
       {ai === "hatalar" && <ReportsPanel titles={titles} onClose={() => setAi("")}
         onOpenCase={id => { const e = entries.find(x => x.c.id === id); if (!e) return false; setEditing({ c: e.c, status: e.status, isNew: false }); return true; }} />}
       {ai === "ornek" && <SamplesPanel onClose={() => setAi("")} />}
-      {ai === "oyuncular" && <PlayersPanel onClose={() => setAi("")} />}
+      {ai === "oyuncular" && <PlayersPanel yuz={yuzNe} onClose={() => setAi("")} />}
       {ai === "ayarlar" && <SettingsPanel onClose={() => setAi("")} />}
       {ai === "ceviri" && <TranslatePanel cases={entries.map(e => e.c)} onClose={() => setAi("")} />}
       {ai === "sohbet" && <DuzeltmeSohbeti entries={entries} onSaved={reload} onClose={() => setAi("")} />}

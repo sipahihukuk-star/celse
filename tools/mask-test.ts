@@ -124,5 +124,11 @@ ok(doc.includes("DAVACI : Selin KARAKAYA") && doc.includes("Şükür, ğüşıö
   ok(m.includes("1.234.567,89") && m.includes("12345678901,50"), "para tutarları korundu");
 }
 
+// Küçük harfli başlıklar ("Davacı: …", "Keşideci: …") ve aynı satırdaki iki taraf da kodlanır (sözlükte olmayan adlar dahil).
+{
+  const m = mask("Keşideci: Deneme Kişi Örnek (T.C. 10000000146)\nDavacı: Örnek Kişi Bir   Davalı: Deneme Yapı A.Ş.\nÖrnek Kişi Bir kira ödemedi.").masked;
+  ok(!/Deneme Kişi Örnek|Örnek Kişi Bir|Deneme Yapı/.test(m), "küçük harfli taraf başlıkları kodlandı: " + JSON.stringify(m));
+}
+
 if (fail) { console.log("\nMASKELENMİŞ:\n" + r.masked + "\n"); console.log(r.entities); console.log(`mask-test: ${fail} hata`); process.exit(1); }
 console.log(`mask-test: tamam (${r.entities.length} kod)`);
