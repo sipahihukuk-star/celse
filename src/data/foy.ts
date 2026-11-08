@@ -30,6 +30,8 @@ export interface FoyEvrak {
   tur?: string; onemli?: boolean;
   /** bu evrakın tek başına kodlanmış hâli (yalnız bu metin dışarı gidebilir) ve kodların karşılıkları (cihazda kalır) */
   maskeli?: string; kodlar?: Record<string, string>;
+  /** evrakın kendi tarihi (YYYY-AA-GG; evraktan okunur): föyde evrak bu tarihe göre sıralanır */
+  tarih?: string;
   /** metni bu cihazda değil, bulutta (maskeli) duruyor: telefon gerektiğinde indirir */
   bulutMetin?: boolean;
   /** DavaTek klasöründen geldiyse klasördeki yolu */

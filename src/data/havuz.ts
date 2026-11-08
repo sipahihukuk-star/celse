@@ -2,7 +2,7 @@
 // bilgisayarda okur (kunyeCikar), dosya numarası, mahkeme ve taraf adlarına göre gruplar, her grubu var olan bir föye bağlar ya
 // da yeni föy önerir. Hiçbir şey dışarı gönderilmez; internet kapalıyken de çalışır.
 import type { Foy, FoyTaraf } from "./foy";
-import { FoyTur, turTahmin } from "./foyTurleri";
+import { FoyTur, turBilgi, turTahmin } from "./foyTurleri";
 import type { KunyeOneri } from "./kunyeCikar";
 
 export interface HavuzEvrak { id: string; ad: string; boyut: number; metin: string; okunamadi?: string; oneri: KunyeOneri; hata?: string }
@@ -16,6 +16,8 @@ export interface HavuzGrup {
   neden: string;
   /** büro avukatlarının adı evrakta geçmediği için hangi tarafın vekili olunduğu tahmin */
   tarafBelirsiz?: boolean;
+  /** bu grup hangi grubun devamı (aynı taraflar; arabuluculuk → dava, soruşturma → ceza davası; açılış sırasına göre) */
+  onceki?: string;
 }
 
 const EKLER = new Set(["av", "avukat", "aş", "as", "a", "ş", "ltd", "şti", "sti", "limited", "anonim", "şirketi", "sirketi", "ve", "tic", "san"]);
@@ -79,5 +81,14 @@ export function havuzuGrupla(evraklar: HavuzEvrak[], foyler: Foy[], avukatlar: s
     g.neden = es ? "bu numarayla föy yok" : "bu taraflarla föy yok";
   }
   const sirali = [...gruplar.values()].sort((a, b) => (a.acilis || "9999").localeCompare(b.acilis || "9999") || (a.esasNo || "").localeCompare(b.esasNo || ""));
+  // Akış: aynı taraflar arasındaki gruplar tür sırasına ve açılış tarihine göre zincirlenir.
+  const tur = (g: HavuzGrup): FoyTur | undefined => g.hedef.tur === "yeni" ? g.hedef.foyTur : g.hedef.tur === "var" ? foyler.find(f => f.id === (g.hedef as { foyId: string }).foyId)?.tur || "hukuk" : undefined;
+  const taraflar = (g: HavuzGrup) => [adSade(g.birinci), adSade(g.ikinci)].filter(x => x.length >= 5).sort().join("|");
+  for (const g of sirali) {
+    const tg = tur(g), kg = taraflar(g);
+    if (!tg || !kg.includes("|")) continue;
+    const once = sirali.filter(o => o !== g && taraflar(o) === kg && (o.acilis || "") <= (g.acilis || "9999") && turBilgi(tur(o)).sonraki.includes(tg));
+    if (once.length) g.onceki = once[once.length - 1].anahtar;
+  }
   return { gruplar: sirali, ayrilamayan };
 }

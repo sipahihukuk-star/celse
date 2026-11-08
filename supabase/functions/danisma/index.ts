@@ -59,7 +59,7 @@ const TAKIP_AZAMI = 1000;
 const DANISMA_EVRAK = 40000;
 
 // Hız sınırı (kişi başına, saatlik).
-const SINIR: Record<string, number> = { kontrol: 30, degerlendir: 6, canlandir: 10, izle: 10, ses: 8, takip: 30, dosya: 4, evrak: 8, evrak_izle: 6, evrak_oyna: 4, evrak_bilet: 10, evrak_derle: 150 };
+const SINIR: Record<string, number> = { kontrol: 30, degerlendir: 6, canlandir: 10, izle: 10, ses: 8, takip: 30, dosya: 4, evrak: 8, evrak_izle: 6, evrak_oyna: 4, evrak_bilet: 10, evrak_derle: 150, foyle: 60 };
 
 // Oyuncunun dili: model metni bu dilde yazar (JSON alan adları aynı kalır). yz ile aynı "dil" alanı.
 const DIL: Record<string, string> = { en: "English", es: "Spanish", fr: "French", de: "German" };
@@ -867,6 +867,43 @@ async function evrakHakki(req: Request, uid: string, action: string, kredi: numb
     return { hata: json({ error: "beta" }, 403), dusen: 0, kalan: null }; // surum15 kurulmamış
   }
 }
+// Föyleme sohbeti (Dava takibi > Toplu evrak yükle): avukat yüklediği evrakın nasıl föyleneceğini yazıyla yönetir.
+// İstemci yalnız KODLANMIŞ özet gönderir (KİŞİ-1, KİŞİ-2…; gerçek adlar cihazda kalır). Model, verilen grup ve föy
+// numaraları üzerinde yapılacak işlemleri JSON olarak döner; işlemler cihazda önizlemeye uygulanır, avukat onaylamadan
+// hiçbir şey kaydedilmez. Ücretsizdir; Celse Avukat paketi (ya da deneme izni) gerekir.
+async function avukatAktif(uid: string) {
+  try {
+    const rows = await srv("/rest/v1/avukat_paket?kullanici_id=eq." + uid + "&select=bitis", "GET");
+    return !!(rows && rows[0] && rows[0].bitis && new Date(rows[0].bitis).getTime() > Date.now());
+  } catch (_e) { return false; }
+}
+const FOYLE_SISTEM = [
+  "Sen bir Türk avukatlık bürosunda dosya düzenleme (föyleme) yardımcısısın. Avukat elindeki evrakı toplu yükledi; cihaz evrakı okuyup gruplara ayırdı.",
+  "Sana kodlanmış bir durum JSON'u gelir: gruplar (her biri bir dosya adayı: merci, dosya no, açılış tarihi, taraf1, taraf2, vekiller, bizim hangi tarafın vekili olduğumuz, hedef, tür, önceki grup, evrak türleri), ayrılamayan evrak ve var olan föyler.",
+  "Kişi adları KİŞİ-1, KİŞİ-2 gibi kodlanmıştır. Kodların kimi gösterdiğini tahmin etmeye çalışma; avukat da aynı kodlarla konuşur.",
+  "Avukatın isteğini anlayıp yalnız şu işlemlerle cevap ver:",
+  "  {\"islem\":\"hedef\",\"grup\":G,\"hedef\":\"yeni\"} yeni föy aç; {\"islem\":\"hedef\",\"grup\":G,\"hedef\":\"atla\"} beklet/ekleme; {\"islem\":\"hedef\",\"grup\":G,\"foy\":F} var olan F föyüne ekle",
+  "  {\"islem\":\"tur\",\"grup\":G,\"tur\":T} T şunlardan biri: hukuk, ceza, idari_dava, sorusturma, arabuluculuk, icra, idari_basvuru, idari_sorusturma, kurum_basvuru, sozlesme, danisma, arabulucu_gorev, bilirkisi_gorev",
+  "  {\"islem\":\"biz\",\"grup\":G,\"taraf\":1 ya da 2} hangi tarafın vekiliyiz",
+  "  {\"islem\":\"zincir\",\"once\":G1,\"sonra\":G2} G2, G1'in devamıdır (arabuluculuk → dava, soruşturma → ceza davası, idari başvuru → idari dava, dava → icra); {\"islem\":\"zincir\",\"once\":null,\"sonra\":G2} bağı kaldır",
+  "  {\"islem\":\"evrak\",\"evrak\":E,\"grup\":G} ayrılamayan E evrakını G grubuna; {\"islem\":\"evrak\",\"evrak\":E,\"foy\":F} F föyüne; {\"islem\":\"evrak\",\"evrak\":E,\"hedef\":\"atla\"} ekleme",
+  "Yalnız durumda geçen grup, evrak ve föy numaralarını kullan. Emin olmadığında işlem yapma, kısa bir soru sor.",
+  "Kronoloji: aynı taraflar arasındaki dosyalarda açılış tarihi önce olan önce gelir; tür sırası uygunsa zincir kur.",
+  "Yalnız JSON döndür: {\"cevap\": \"avukata kısa Türkçe açıklama (ne yaptığını ya da sorunu)\", \"islemler\": [ ... ]}"
+].join(NL);
+async function foyle(req: Request, uid: string, b: Record<string, unknown>) {
+  if (!(await evrakIzni(req, uid)) && !(await avukatAktif(uid))) return json({ error: "avukat paketi yok" }, 403);
+  const durum = cut(b.durum, 60000).trim();
+  const mesaj = cut(b.mesaj, 2000).trim();
+  if (!durum || !mesaj) return json({ error: "eksik" }, 400);
+  const sizinti = evrakSizinti(durum + " " + mesaj);
+  if (sizinti.length) return json({ error: "kişisel veri", alanlar: sizinti }, 400);
+  const gecmis = liste(b.gecmis, 12, 1500);
+  const istek = "Durum (JSON):" + NL + durum + NL + NL + (gecmis.length ? "Önceki konuşma:" + NL + gecmis.join(NL) + NL + NL : "") + "Avukatın isteği:" + NL + mesaj;
+  const j = await askJson(HIZLI, FOYLE_SISTEM, istek, 3000);
+  return json({ cevap: cut(j.cevap, 3000), islemler: Array.isArray(j.islemler) ? j.islemler.slice(0, 300) : [] });
+}
+
 // Prova paketi: aynı evrak için ilk mod (oyna ya da izle) 3 kredi ve hazırlık notları dahil; öteki mod 2 kredi.
 // Sunucu hiçbir şey saklamaz: cevapla birlikte imzalı bir "paket" bileti verilir (kullanıcı, evrak metninin SHA-256 özeti,
 // son geçerlilik, ödenmiş modlar). Sonraki istek bu bileti getirir; aynı metin için indirimli fiyat uygulanır. 7 gün geçerli.
@@ -1140,7 +1177,8 @@ export async function handle(req: Request): Promise<Response> {
     const raw = await req.text();
     // Evrak provası maskelenmiş dosya metnini taşır; öteki işlemler kısa formdur.
     const evrakMi = raw.slice(0, 40).indexOf("\"action\":\"evrak") >= 0;
-    if (raw.length > (evrakMi ? EVRAK_AZAMI + 40000 : 40000)) return json({ error: "istek çok uzun" }, 413);
+    const foyleMi = raw.slice(0, 40).indexOf("\"action\":\"foyle") >= 0;
+    if (raw.length > (evrakMi ? EVRAK_AZAMI + 40000 : foyleMi ? 90000 : 40000)) return json({ error: "istek çok uzun" }, 413);
     const b = JSON.parse(raw || "{}") as Record<string, unknown>;
     const action = String(b.action || "");
     if (!SINIR[action]) return json({ error: "bilinmeyen işlem" }, 400);
@@ -1155,6 +1193,7 @@ export async function handle(req: Request): Promise<Response> {
     if (action === "dosya") return await dosya(uid, b);
     if (action === "evrak" || action === "evrak_izle" || action === "evrak_oyna") return b.akis === true ? akisla(evrakKredili(req, uid, action, b)) : await evrakKredili(req, uid, action, b);
     if (action === "evrak_bilet") return await evrakBilet(req, uid, b);
+    if (action === "foyle") return await foyle(req, uid, b);
     if (action === "evrak_derle") return b.akis === true ? akisla(evrakDerle(uid, b)) : await evrakDerle(uid, b);
     return await takip(uid, b);
   } catch (e) {

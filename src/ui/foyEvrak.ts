@@ -3,6 +3,7 @@
 // "Dosya ne durumda?" için önemli evraktan, sınıra sığacak kadar seçilip birlikte kodlanan metin hazırlanır.
 import { dosyaYaz, Foy, FoyEvrak, yeniId } from "../data/foy";
 import { evrakSinifla } from "../data/foyTurleri";
+import { kunyeCikar } from "../data/kunyeCikar";
 import { mask } from "../engine/mask";
 import { DOGRUDAN_SINIR } from "../engine/mask/derleme";
 import { evrakMetni, turBul } from "../engine/mask/readers";
@@ -16,7 +17,9 @@ const ekAdlar = (f: Foy) => [f.muvekkil, f.karsiTaraf].map(x => (x || "").trim()
 export function evrakHazirla(f: Foy, e: FoyEvrak, yeniden = false): FoyEvrak {
   const s = evrakSinifla(e.ad, e.metin);
   const m = e.metin.trim() ? mask(e.metin, { extra: ekAdlar(f) }) : null;
-  return { ...e, tur: yeniden || !e.tur ? s.tur : e.tur, onemli: yeniden || e.onemli === undefined ? s.onemli : e.onemli, maskeli: m?.masked, kodlar: m?.map };
+  // Evrakın kendi tarihi (karar, tutanak, dilekçe): föyde kronolojik sıra için.
+  const tarih = e.tarih || (e.metin.trim() ? kunyeCikar(e.metin.slice(0, 20000)).belgeTarihi : undefined);
+  return { ...e, tur: yeniden || !e.tur ? s.tur : e.tur, onemli: yeniden || e.onemli === undefined ? s.onemli : e.onemli, maskeli: m?.masked, kodlar: m?.map, tarih };
 }
 
 /** Dosyanın yazısını cihazda çıkarır (taranmış PDF, TIF ve fotoğraf için yazı tanıma dahil). */
