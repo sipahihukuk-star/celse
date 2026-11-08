@@ -7,6 +7,7 @@ import { t } from "../i18n";
 import { s } from "./foyStil";
 import { Btn } from "./kit";
 import { C } from "./theme";
+import { Katlanir } from "./Katlanir";
 
 const saatYaz = (iso?: string) => {
   if (!iso) return "";
@@ -67,8 +68,7 @@ export function FoyBulutKart() {
   };
 
   return (
-    <View style={s.card}>
-      <Text style={s.cardT}>☁️ {t("Bulut eşitlemesi")}</Text>
+    <Katlanir anahtar="bulut" baslik={"☁️ " + t("Bulut eşitlemesi")} ozet={durum.tur === "acik" ? t("açık") : durum.tur === "cihaz_kapali" ? t("bu cihazda kapalı") : durum.tur === "sifre_yok" ? t("kurulmadı") : durum.tur === "giris_yok" ? t("giriş gerekli") : ""}>
       {durum.tur === "giris_yok" && <Text style={s.hint}>{t("Föylerinizi bilgisayar ile telefon arasında eşitlemek için hesabınıza giriş yapın.")}</Text>}
       {durum.tur === "kurulum_yok" && <Text style={s.hint}>{t("Bulut eşitlemesi henüz sunucuda kurulmadı (yönetici: supabase/surum17.sql).")}</Text>}
       {(durum.tur === "sifre_yok" || durum.tur === "cihaz_kapali") && (
@@ -94,6 +94,6 @@ export function FoyBulutKart() {
         </>
       )}
       {mesaj && <Text style={[s.hint, { color: mesaj.ok ? C.good : C.bad }]}>{mesaj.t}</Text>}
-    </View>
+    </Katlanir>
   );
 }

@@ -17,6 +17,7 @@ import { FloatingNav, useFloatingNav } from "./FloatingNav";
 import { IliskiKart } from "./IliskiKart";
 import { EvrakHavuzu } from "./EvrakHavuzu";
 import { Acilir } from "./Acilir";
+import { Katlanir } from "./Katlanir";
 import { Btn } from "./kit";
 import { t } from "../i18n";
 import { C } from "./theme";
@@ -178,13 +179,12 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         const duzelecek = turDuzeltmeleri(buro);
         if (!duzelecek.length && !turDuzelt) return null;
         return (
-          <View style={s.card}>
-            <Text style={s.cardT}>{t("Föy türleri düzeltilebilir")}</Text>
+          <Katlanir anahtar="turduzelt" baslik={t("Föy türleri düzeltilebilir")} ozet={duzelecek.length ? t("{n} föy", { n: duzelecek.length }) : t("tamam")}>
             {duzelecek.length > 0 && <Text style={s.hint}>{t("UYAP listesinden aktarılan {n} föyün türü yeni kurallara göre farklı çıkıyor (ör. satış memurluğu, tazminat komisyonu, sulh ceza hakimliği). Elle değiştirdiğiniz türlere dokunulmaz.", { n: duzelecek.length })}</Text>}
             {duzelecek.length > 0 && <Text style={s.hint}>{Object.entries(duzelecek.reduce((m, x) => { const k = `${turBilgi(x.f.tur).ad} → ${turBilgi(x.tur).ad}`; m[k] = (m[k] || 0) + 1; return m; }, {} as Record<string, number>)).map(([k, n]) => `${k}: ${n}`).join(" · ")}</Text>}
             {!!turDuzelt && <Text style={[s.hint, { color: C.brass }]}>{turDuzelt}</Text>}
             {duzelecek.length > 0 && <View style={s.row}><Btn label={t("Türleri düzelt")} onPress={async () => { await foylerKaydet(duzelecek.map(x => ({ ...x.f, tur: x.tur, davaTuru: x.f.davaTuru || x.davaTuru }))); setTurDuzelt(t("{n} föyün türü düzeltildi.", { n: duzelecek.length })); yenile(); }} /></View>}
-          </View>
+          </Katlanir>
         );
       })()}
       {web && <KlasorKart liste={buro} onBilgi={m => setMesaj(m)} />}
@@ -406,8 +406,7 @@ function KlasorKart({ liste, onBilgi }: { liste: Foy[]; onBilgi: (m: { t: string
     klasorBilgisi().then(setBilgi).catch(() => {});
   };
   return (
-    <View style={s.card}>
-      <Text style={s.cardT}>{t("DavaTek klasörü")}</Text>
+    <Katlanir anahtar="davatek" baslik={t("DavaTek klasörü")} ozet={bilgi ? bilgi.ad : t("klasör seçilmedi")}>
       <Text style={s.hint}>{t("DavaTek'in evrak indirdiği klasörü bir kez seçin. “Yeni evrakı al” dediğinizde Celse klasördeki yeni dosyaları okur, esas ya da dosya numarasından föyünü bulup ekler. Dosyalar bu bilgisayardan çıkmaz.")}</Text>
       <View style={s.row}>
         {bilgi ? <Btn label={busy ? t("Okunuyor…") : t("Yeni evrakı al")} onPress={tara} disabled={busy} /> : null}
@@ -424,7 +423,7 @@ function KlasorKart({ liste, onBilgi }: { liste: Foy[]; onBilgi: (m: { t: string
           <Pressable onPress={async () => { await gorulduYaz([d.anahtar]); setBekleyen(xs => xs.filter(x => x !== d)); }}><Text style={s.sil}>{t("Atla")}</Text></Pressable>
         </View>
       ))}
-    </View>
+    </Katlanir>
   );
 }
 function FoySecici({ liste, onSec }: { liste: Foy[]; onSec: (id: string) => void }) {
