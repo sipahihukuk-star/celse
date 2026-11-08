@@ -28,6 +28,8 @@ ok(h.ek.some(x => /Çek tazminatı/.test(x.ad) && x.tutar === 5000), "çek tazmi
 ok(yakin(h.toplam, 50000 + 5000 + h.faiz), "toplam");
 const metin = takipTalebiMetni(f, b, "2026-10-01");
 ok(/Örnek 10/.test(metin) && /Çek tazminatı/.test(metin) && /TOPLAM/.test(metin) && /takip tarihinden itibaren/.test(metin), "takip talebi metni:\n" + metin);
+ok(/tahsilde tekerrür olmamak şartıyla/.test(metin) && /TBK\. 100/.test(metin), "talep edilen hak");
+ok(icraEksikler(f, { ...b, yol: "genel", belge: "fatura" }).some(x => /mahiyet/.test(x)), "mahiyet zorunlu");
 ok(icraEksikler(f, b).length === 0, "eksik yok: " + icraEksikler(f, b).join(", "));
 ok(icraEksikler(bosFoy({ tur: "icra" }), { yol: "genel" }).length >= 5, "eksikler listelenir");
 if (fail) { console.log(`icra-test: ${fail} hata`); process.exit(1); }
