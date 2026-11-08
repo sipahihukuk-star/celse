@@ -39,7 +39,7 @@ export const yeniId = (on: string) => on + "-" + Date.now().toString(36) + "-" +
 export function bosFoy(k: Partial<Foy> = {}): Foy {
   const simdi = new Date().toISOString();
   const f: Foy = { id: yeniId("foy"), olusturma: simdi, guncelleme: simdi, tur: "hukuk", muvekkil: "", karsiTaraf: "", mahkeme: "", esasNo: "", davaTuru: "", taraf: "davaci", durum: "acik", notlar: "", gorevler: [], evraklar: [], ...k };
-  f.ozel = ozelTur(f.tur);
+  f.ozel = k.ozel ?? ozelTur(f.tur);
   return f;
 }
 export const foyBaslik = (f: Foy) => [f.muvekkil || "Müvekkil yazılmamış", f.karsiTaraf].filter(Boolean).join(" – ");
@@ -180,6 +180,22 @@ export async function foySil(f: Foy) {
   await islem(f.ozel ? "ozel" : "foyler", "readwrite", s => { s.delete(f.id); });
   await islem("dosyalar", "readwrite", s => { for (const e of f.evraklar) s.delete(e.id); });
   haber();
+}
+
+/** Föyü şahsi dosyalara taşır ya da şahsi dosyalardan çıkarır (evrakın asıl dosyaları da şifrelenir ya da şifresi açılır).
+ *  Her iki yönde de şahsi dosya kilidinin açık olması gerekir. */
+export async function foyOzelYap(f: Foy, ozel: boolean): Promise<Foy> {
+  if (!!f.ozel === ozel) return f;
+  if (!etkinAnahtar()) throw new Error("Şahsi dosyalar kilitli. Önce şifreyle açın.");
+  for (const e of f.evraklar) {
+    const b = await dosyaOku(e.id);
+    if (b) await dosyaYaz(e.id, b, ozel);
+  }
+  const yeni: Foy = { ...f, ozel };
+  await yaz(yeni);
+  await islem(f.ozel ? "ozel" : "foyler", "readwrite", s => { s.delete(f.id); });
+  haber();
+  return yeni;
 }
 
 /** Evrakın asıl dosyası (açmak ve indirmek için). Özel föyün dosyası şifreli yazılır. */

@@ -2,8 +2,8 @@
 // "Dosya ne durumda?" (önemli evrak üzerinden yapay zekâ özeti, sesli dinleme). Her şey bu cihazda; dışarı yalnız kodlu metin gider.
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { dosyaOku, dosyaSil, donguMu, Foy, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foySil, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
-import { EVRAK_TURLERI, FoyTur, turBilgi, TURLER } from "../data/foyTurleri";
+import { dosyaOku, dosyaSil, donguMu, Foy, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
+import { DAVA_TURLERI, EVRAK_TURLERI, FoyTur, turBilgi, TURLER } from "../data/foyTurleri";
 import { unmask } from "../engine/mask";
 import { zipIcerigi, turBul } from "../engine/mask/readers";
 import { evrakProva } from "../data/evrak";
@@ -68,7 +68,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
   useEffect(() => () => { if (zaman.current && son.current) { clearTimeout(zaman.current); foyKaydet(son.current).catch(() => {}); } }, []);
   const zin = useMemo(() => (f ? zincir(f, liste) : { onceki: [], sonraki: [] }), [f, liste]);
 
-  if (yok) return <ScrollView contentContainerStyle={s.wrap}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={onKapat} /><Text style={s.err}>{t("Föy bulunamadı ya da özel dosyalar kilitli.")}</Text></ScrollView>;
+  if (yok) return <ScrollView contentContainerStyle={s.wrap}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={onKapat} /><Text style={s.err}>{t("Föy bulunamadı ya da şahsi dosyalar kilitli.")}</Text></ScrollView>;
   if (!f) return <ScrollView contentContainerStyle={s.wrap}><Text style={s.hint}>{t("Yükleniyor…")}</Text></ScrollView>;
   const tb = turBilgi(f.tur);
 
@@ -201,7 +201,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
       <View style={s.head}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={async () => { await hemenKaydet(); onKapat(); }} /></View>
       <Text style={s.eyebrow}>{[tb.kisa, f.asama, f.mahkeme, f.esasNo].filter(Boolean).join(" · ").toLocaleUpperCase("tr")}</Text>
       <Text style={s.title}>{foyBaslik(f)}</Text>
-      {f.ozel && <Text style={[s.turChip, s.ozelChip]}>🔒 {t("ÖZEL DOSYA · ŞİFRELİ SAKLANIR")}</Text>}
+      {f.ozel && <Text style={[s.turChip, s.ozelChip]}>🔒 {t("ŞAHSİ DOSYA · ŞİFRELİ SAKLANIR")}</Text>}
 
       <View style={s.card}>
         <View style={s.row}>
@@ -279,7 +279,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
         <Text style={s.cardT}>{t("Künye")}</Text>
         <Text style={s.label}>{t("Dosya türü")}</Text>
         <View style={s.chips}>
-          {TURLER.filter(x => !!x.ozel === !!f.ozel).map(x => (
+          {TURLER.filter(x => !x.eski || x.tur === f.tur).map(x => (
             <Pressable key={x.tur} onPress={() => degistir({ tur: x.tur, asama: x.asamalar.includes(f.asama || "") ? f.asama : undefined })} style={[s.chip, (f.tur || "hukuk") === x.tur && s.chipOn]}>
               <Text style={[s.chipT, (f.tur || "hukuk") === x.tur && s.chipTOn]}>{t(x.ad)}</Text>
             </Pressable>
@@ -293,12 +293,24 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
             </Pressable>
           ))}
         </View>
+        {!!DAVA_TURLERI[f.tur || "hukuk"]?.length && (
+          <>
+            <Text style={s.label}>{f.tur === "idari_sorusturma" || f.tur === "baro" || f.tur === "sorusturma" ? t("Hangi soruşturma") : t("Hangi dava")}</Text>
+            <View style={s.chips}>
+              {DAVA_TURLERI[f.tur || "hukuk"]!.map(x => (
+                <Pressable key={x} onPress={() => degistir({ davaTuru: f.davaTuru === x ? "" : x })} style={[s.chip, f.davaTuru === x && s.chipOn]}>
+                  <Text style={[s.chipT, f.davaTuru === x && s.chipTOn]}>{t(x)}</Text>
+                </Pressable>
+              ))}
+            </View>
+          </>
+        )}
         <View style={s.alanlar}>
           {alanEl("Müvekkil", f.muvekkil, "muvekkil")}
           {alanEl("Karşı taraf", f.karsiTaraf, "karsiTaraf")}
           {alanEl(tb.merci, f.mahkeme, "mahkeme", tb.merciOrnek)}
           {alanEl(tb.no, f.esasNo, "esasNo", "2026/123")}
-          {alanEl("Konu", f.davaTuru, "davaTuru")}
+          {alanEl(f.tur === "idari_sorusturma" || f.tur === "baro" || f.tur === "sorusturma" ? "Soruşturma konusu" : "Dava konusu", f.davaTuru, "davaTuru")}
           <View style={s.alan}>
             <Text style={s.label}>{t("Sonraki duruşma / toplantı")}</Text>
             <TextInput value={durusmaYazi} onChangeText={v => { setDurusmaYazi(v); const d = tarihCoz(v); if (d || !v.trim()) degistir({ durusma: d }); }} placeholder="12.03.2027 10:30" placeholderTextColor={C.muted} style={s.inputTek} />
@@ -360,6 +372,12 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
       </View>
 
       <View style={s.row}>
+        <Btn kind="ghost" label={f.ozel ? t("🔓 Şahsi dosyalardan çıkar") : t("🔒 Şahsi dosyalarıma taşı")} onPress={async () => {
+          setErr("");
+          if ((await ozelKilitDurumu()) !== "acik") { setErr(t("Önce Föylerim ekranında şahsi dosyaları şifreyle açın (şifre kurulu değilse oradan kurun).")); return; }
+          try { await hemenKaydet(); const y = await foyOzelYap(son.current || f, !f.ozel); son.current = null; setF(y); }
+          catch (e) { setErr(t(String((e as Error).message || e))); }
+        }} />
         {!silOnay ? <Btn kind="ghost" label={t("Föyü sil")} onPress={() => setSilOnay(true)} />
           : <><Text style={[s.err, { alignSelf: "center" }]}>{t("Föy, evrakı ve görevleriyle bu cihazdan silinecek.")}</Text>
             <Btn kind="ghost" label={t("Evet, sil")} onPress={async () => { if (zaman.current) clearTimeout(zaman.current); zaman.current = null; son.current = null; await foySil(f); onKapat(); }} />

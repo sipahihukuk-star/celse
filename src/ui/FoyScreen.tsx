@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { bosFoy, Foy, foyBaslik, foyDestekli, foyDinle, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, ozelSayisi, tarihYaz, yedekMetni, yedektenYukle } from "../data/foy";
 import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyAktar";
-import { FoyTur, Giris, GIRISLER, ozelTur, turBilgi, TURLER } from "../data/foyTurleri";
+import { DAVA_TURLERI, FoyTur, Giris, GIRISLER, turBilgi, TURLER } from "../data/foyTurleri";
 import { useInnerBack } from "./innerBack";
 import { FoySayfa } from "./FoySayfa";
 import { evrakOlustur } from "./foyEvrak";
@@ -51,9 +51,9 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   if (aktar) return <Aktar mevcut={liste} onBitti={(n) => { setAktar(false); if (n) setMesaj({ t: n, ok: true }); }} />;
   if (secili) return <FoySayfa key={secili.id} id={secili.id} ekle={secili.ekle} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} />;
 
-  const yeniFoy = async (tur: FoyTur) => {
-    const olustur = async () => { const f = bosFoy({ tur }); await foyKaydet(f); setGiris(false); setSecili({ id: f.id }); };
-    if (ozelTur(tur) && (await ozelKilitDurumu()) !== "acik") { setKilitSor({ sonra: olustur }); return; }
+  const yeniFoy = async (tur: FoyTur, ek: { ozel?: boolean; davaTuru?: string } = {}) => {
+    const olustur = async () => { const f = bosFoy({ tur, ozel: !!ek.ozel, davaTuru: ek.davaTuru || "" }); await foyKaydet(f); setGiris(false); setSecili({ id: f.id }); };
+    if (ek.ozel && (await ozelKilitDurumu()) !== "acik") { setKilitSor({ sonra: olustur }); return; }
     await olustur();
   };
   if (giris) return <GirisMenu liste={liste} onKapat={() => setGiris(false)} onSec={yeniFoy} onEvraka={(id, tur) => { setGiris(false); setSecili({ id, ekle: tur }); }} />;
@@ -108,12 +108,12 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
 
       <KlasorKart liste={liste} onBilgi={m => setMesaj(m)} />
 
-      {(ozelN > 0 || kilit !== "yok") && (
-        <View style={[s.card, { flexDirection: "row", alignItems: "center", gap: 10, flexWrap: "wrap" }]}>
-          <Text style={[s.body, { flex: 1 }]}>{kilit === "acik" ? t("🔓 Özel dosyalar açık ({n}). 15 dakika kullanılmazsa kendiliğinden kilitlenir.", { n: ozelN }) : t("🔒 Özel dosyalar kilitli ({n}).", { n: ozelN })}</Text>
-          {kilit === "acik" ? <Btn kind="ghost" label={t("Kilitle")} onPress={ozelKilitle} /> : <Btn kind="secondary" label={t("Şifreyle aç")} onPress={() => setKilitSor({})} />}
-        </View>
-      )}
+      <View style={[s.card, { flexDirection: "row", alignItems: "center", gap: 10, flexWrap: "wrap" }]}>
+        <Text style={[s.body, { flex: 1 }]}>{kilit === "yok" ? t("🔒 Şahsi dosyalarınız (kendi davalarınız, soruşturmalarınız) ayrı şifreyle kilitli ve şifreli saklanabilir.")
+          : kilit === "acik" ? t("🔓 Şahsi dosyalar açık ({n}). 15 dakika kullanılmazsa kendiliğinden kilitlenir.", { n: ozelN }) : t("🔒 Şahsi dosyalar kilitli ({n}).", { n: ozelN })}</Text>
+        {kilit === "acik" ? <Btn kind="ghost" label={t("Kilitle")} onPress={ozelKilitle} />
+          : <Btn kind="secondary" label={kilit === "yok" ? t("Şifre kur") : t("Şifreyle aç")} onPress={() => setKilitSor({})} />}
+      </View>
 
       {yaklasan.length > 0 && (
         <View style={s.card}>
@@ -174,9 +174,47 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
 }
 
 /* ---------- yeni giriş menüsü ---------- */
-function GirisMenu({ liste, onKapat, onSec, onEvraka }: { liste: Foy[]; onKapat: () => void; onSec: (t: FoyTur) => void; onEvraka: (id: string, tur: string) => void }) {
+function GirisMenu({ liste, onKapat, onSec, onEvraka }: { liste: Foy[]; onKapat: () => void; onSec: (t: FoyTur, ek: { ozel?: boolean; davaTuru?: string }) => void; onEvraka: (id: string, tur: string) => void }) {
   const [alt, setAlt] = useState<Giris | null>(null);
   const [ara, setAra] = useState("");
+  // Şahsi dosya: avukatın kendi dosyası (her türden olabilir); ayrı şifreyle kilitli ve şifreli saklanır.
+  const [sahsi, setSahsi] = useState(false);
+  // "Hangi dava": türün alt listesi (boşanma, işe iade, hekim disiplin soruşturması…). Seçilen föyde "Konu" olur.
+  const [altTur, setAltTur] = useState<FoyTur | null>(null);
+  const [kendi, setKendi] = useState("");
+  const sec = (tur: FoyTur) => (DAVA_TURLERI[tur]?.length ? setAltTur(tur) : onSec(tur, { ozel: sahsi }));
+  const sahsiKart = (
+    <Pressable accessibilityRole="switch" accessibilityState={{ checked: sahsi }} onPress={() => setSahsi(!sahsi)} style={[s.girisK, { width: "100%", flexGrow: 0, flexBasis: "auto", flexDirection: "row", alignItems: "center", gap: 12 }, sahsi && { borderColor: C.mid, backgroundColor: C.panel2 }]}>
+      <Text style={{ fontSize: 22 }}>{sahsi ? "🔒" : "🔓"}</Text>
+      <View style={{ flex: 1 }}>
+        <Text style={s.girisT}>{sahsi ? t("Şahsi dosyam olarak açılacak") : t("Şahsi dosyam mı?")}</Text>
+        <Text style={s.hint}>{t("Kendi davanız, soruşturmanız ya da başvurunuz (boşanma, kira, ücret alacağı, ceza, baro, disiplin…) her türde şahsi dosya olabilir: ayrı şifreyle kilitli ve şifreli saklanır, büro föyleriyle karışmaz.")}</Text>
+      </View>
+      <Text style={[s.girisT, { color: sahsi ? C.mid : C.muted }]}>{sahsi ? t("AÇIK") : t("KAPALI")}</Text>
+    </Pressable>
+  );
+  if (altTur) {
+    const tb = turBilgi(altTur);
+    return (
+      <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
+        <View style={s.head}><Btn kind="ghost" label={t("‹ Geri")} onPress={() => setAltTur(null)} /></View>
+        <Text style={s.eyebrow}>{(sahsi ? t("ŞAHSİ · ") : "") + tb.kisa}</Text>
+        <Text style={s.title}>{altTur === "idari_sorusturma" || altTur === "baro" || altTur === "sorusturma" ? t("Hangi soruşturma?") : t("Hangi dava?")}</Text>
+        <View style={s.grid}>
+          {DAVA_TURLERI[altTur]!.map(x => (
+            <Pressable key={x} onPress={() => onSec(altTur, { ozel: sahsi, davaTuru: x })} style={({ pressed }) => [s.girisK, pressed && { opacity: 0.85 }]}>
+              <Text style={s.girisT}>{t(x)}</Text>
+            </Pressable>
+          ))}
+        </View>
+        <Text style={s.label}>{t("Listede yoksa kendiniz yazın")}</Text>
+        <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
+          <TextInput value={kendi} onChangeText={setKendi} placeholder={t("Örn. ecrimisil, önalım, haksız rekabet…")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 220 }]} onSubmitEditing={() => kendi.trim() && onSec(altTur, { ozel: sahsi, davaTuru: kendi.trim() })} />
+          <Btn label={kendi.trim() ? t("Bununla aç") : t("Konuyu sonra yazarım")} onPress={() => onSec(altTur, { ozel: sahsi, davaTuru: kendi.trim() })} />
+        </View>
+      </ScrollView>
+    );
+  }
   if (alt?.evrakaEkle) {
     const q = ara.trim().toLocaleLowerCase("tr");
     const xs = liste.filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo].join(" ").toLocaleLowerCase("tr").includes(q)).slice(0, 30);
@@ -204,16 +242,15 @@ function GirisMenu({ liste, onKapat, onSec, onEvraka }: { liste: Foy[]; onKapat:
       <Text style={s.eyebrow}>{t("YENİ GİRİŞ")}</Text>
       <Text style={s.title}>{alt ? t(alt.ad) : t("Ne ile başlıyorsunuz?")}</Text>
       {!alt && <Text style={s.hint}>{t("Dosyalar sonradan birbirine bağlanabilir: suç duyurusu ceza davasına, arabuluculuk hukuk davasına, idari başvuru idari davaya dönüştüğünde föyün içinden “Devamını aç” deyin.")}</Text>}
+      {sahsiKart}
       <View style={s.grid}>
-        {(alt?.secenek ? alt.secenek.map(x => ({ ad: turBilgi(x).ad, aciklama: turBilgi(x).aciklama, tur: x } as Giris)) : GIRISLER).map(g => {
-          const oz = g.tur && ozelTur(g.tur);
-          return (
-            <Pressable key={g.ad} onPress={() => (g.tur ? onSec(g.tur) : setAlt(g))} style={({ pressed }) => [s.girisK, oz && { borderColor: C.mid }, pressed && { opacity: 0.85 }]}>
-              <Text style={s.girisT}>{oz ? "🔒 " : ""}{t(g.ad)}</Text>
+        {(alt?.secenek ? alt.secenek.map(x => ({ ad: turBilgi(x).ad, aciklama: turBilgi(x).aciklama, tur: x } as Giris)) : GIRISLER)
+          .filter(g => !(sahsi && g.evrakaEkle)).map(g => (
+            <Pressable key={g.ad} onPress={() => (g.tur ? sec(g.tur) : setAlt(g))} style={({ pressed }) => [s.girisK, sahsi && { borderColor: C.mid }, pressed && { opacity: 0.85 }]}>
+              <Text style={s.girisT}>{sahsi ? "🔒 " : ""}{t(g.ad)}</Text>
               <Text style={s.hint}>{t(g.aciklama)}</Text>
             </Pressable>
-          );
-        })}
+          ))}
       </View>
     </ScrollView>
   );
