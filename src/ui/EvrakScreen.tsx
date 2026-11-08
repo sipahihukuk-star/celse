@@ -104,7 +104,7 @@ export default function EvrakScreen(p: { onBack: () => void; onPlay?: (c: CaseFi
   }, [mesgul]);
   const sure = `${Math.floor(gecen / 60)}:${String(gecen % 60).padStart(2, "0")}`;
   const [ek, setEk] = useState("");
-  const [okudum, setOkudum] = useState(!!o);
+  const [okudum, setOkudum] = useState(!!o && !o.aktarim);
   const [tamami, setTamami] = useState(false);
   const [err, setErr] = useState("");
   const [prova, setProva] = useState<{ kodlu: Prova; acik: Prova } | null>(o?.prova || null);

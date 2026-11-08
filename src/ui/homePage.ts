@@ -1,10 +1,10 @@
-// Ön yüzde hangi sayfa açılır: "danisma" (Derdini anlat ve avukat araçları) ya da "oyun" (kariyer ve oyun).
+// Ön yüzde hangi sayfa açılır: "takip" (dava takibi, föyler), "danisma" (Derdini anlat ve avukat araçları) ya da "oyun" (kariyer ve oyun).
 // Kullanıcı parmağıyla kaydırıp hangi sayfada kalırsa uygulama bir dahaki açılışta o sayfayla açılır. Tercih cihazda saklanır.
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 
-export type HomePage = "danisma" | "oyun";
-export const HOME_PAGES: HomePage[] = ["danisma", "oyun"];
+export type HomePage = "takip" | "danisma" | "oyun";
+export const HOME_PAGES: HomePage[] = ["takip", "danisma", "oyun"];
 const KEY = "celse-onyuz";
 let page: HomePage = "danisma";
 let loaded = false;
@@ -25,7 +25,7 @@ export function useHomePage(): [HomePage, (p: HomePage) => void, boolean] {
     listeners.add(setP);
     if (!loaded) {
       AsyncStorage.getItem(KEY)
-        .then(v => { if (v === "danisma" || v === "oyun") { page = v; listeners.forEach(f => f(v)); } })
+        .then(v => { if (v === "takip" || v === "danisma" || v === "oyun") { page = v; listeners.forEach(f => f(v)); } })
         .catch(() => {})
         .finally(() => { loaded = true; setReady(true); });
     }

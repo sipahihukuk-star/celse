@@ -74,6 +74,8 @@ export interface EvrakOturum {
   paket?: string;
   /** Avukatın kendi oynadığı provanın dökümü (oyun bitince App yazar). */
   oynanan?: OynananProva;
+  /** Dava takibinden aktarıldı: gönderilecek metin henüz denetlenmedi (onay kutusu boş başlar). */
+  aktarim?: boolean;
   /** Hazırlık notları arka planda hazırlanıyor. */
   notlarBekliyor?: boolean;
 }
