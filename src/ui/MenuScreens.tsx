@@ -47,7 +47,7 @@ export function TitleScreen(p: TitleProps) {
   useEffect(() => { const id = setInterval(() => setTilt(a => -a), 3000); return () => clearInterval(id); }, []);
   const wide = width >= 760;
   const { account, server, office } = p;
-  // Giriş kartı: oturum yokken ve oyuncu "Üye olmadan dene" demediyse. Oyun menüsü üye olmadan da açılır (Apple zorunlu üyeliği kabul etmez).
+  // İlk giriş sayfası: oturum yokken ve oyuncu "Üye olmadan dene" demediyse üç bölümden önce gelir (Apple zorunlu üyeliği kabul etmez; üye olmadan da geçilir).
   const entry = !account && !p.guest;
   // Ön yüz iki sayfadır: "Derdini anlat" ve "Kariyer ve oyun". Parmakla kaydırılır ya da üstteki düğmeyle geçilir;
   // kullanıcı hangi sayfada kalırsa uygulama bir dahaki açılışta o sayfayla açılır.
@@ -99,6 +99,12 @@ export function TitleScreen(p: TitleProps) {
         )}
       </View>
 
+      {entry ? (
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <EntryHome wide={wide} tilt={tilt} server={server} onSignUp={p.onSignUp} onSignIn={p.onSignIn} onGuest={p.onGuest} footer={footer} />
+          {rails && <View style={styles.railCol}><StoreRails /></View>}
+        </View>
+      ) : (<>
       <View style={styles.pills} accessibilityRole="tablist">
         {HOME_PAGES.map(h => (
           <Pressable key={h} accessibilityRole="tab" accessibilityState={{ selected: home === h }} onPress={() => goPage(h)} style={[styles.pill, home === h && styles.pillOn]}>
@@ -122,21 +128,13 @@ export function TitleScreen(p: TitleProps) {
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "flex-start" }]}>
         {/* Geniş ekranda terazi başlığın hizasında durur; sayfa kaydırılmadan görünür. */}
         <View style={[styles.titleArt, wide && { flex: 0.8, paddingTop: 24, paddingLeft: 24 }]}>
-          <HeroScale angle={tilt} size={wide ? 300 : entry ? 130 : 190} left={C.p1} right={C.p2} />
+          <HeroScale angle={tilt} size={wide ? 300 : 190} left={C.p1} right={C.p2} />
         </View>
         <View style={[{ gap: 6 }, wide && { flex: 1.2 }]}>
           <Text style={styles.eyebrow}>{t("BİR AVUKATLIK OYUNU")}</Text>
-          <Text style={[styles.logo, { fontSize: wide ? 104 : entry ? 52 : 68, lineHeight: wide ? 112 : entry ? 60 : 76 }]}>Celse</Text>
+          <Text style={[styles.logo, { fontSize: wide ? 104 : 68, lineHeight: wide ? 112 : 76 }]}>Celse</Text>
           <Text style={styles.byline}>BY THEMISCODE</Text>
 
-          {entry ? (
-            <>
-              <LoginCard server={server} onSignUp={p.onSignUp} onPickLocal={p.onSignIn} />
-              <Pressable accessibilityRole="button" onPress={p.onGuest} hitSlop={8} style={({ pressed }) => [styles.guestLink, pressed && { opacity: 0.7 }]}>
-                <Text style={styles.guestLinkT}>{t("Üye olmadan dene ›")}</Text>
-              </Pressable>
-            </>
-          ) : (
           <>
           <Text style={styles.hello}>{account ? t("Hoş geldiniz, Av. {ad}", { ad: account.adSoyad }) : t("Üye olmadan oynuyorsunuz. Kariyeriniz için giriş yapın.")}</Text>
           <Text style={styles.lede}>{t("Genç bir avukat olarak sulh ve asliye mahkemelerinde başlayın; davaları kazandıkça Yargıtay'a, Danıştay'a, Anayasa Mahkemesi'ne ve Strazburg'a yükselin.")}</Text>
@@ -176,7 +174,6 @@ export function TitleScreen(p: TitleProps) {
           </View>
           <Text style={styles.fact}>{t("Kariyerde bütün dosyalar (tek kişilik, karşılıklı, tahkim) büronuza iş olarak gelir; karşılıklı dosyaları bilgisayara, arkadaşınıza ya da internetten bir rakibe karşı oynarsınız ve sonuç kazancınıza işler.")}</Text>
           </>
-          )}
           {Platform.OS === "web" ? footer : (
             <Pressable accessibilityRole="link" onPress={() => Linking.openURL(WEB_URL)} style={({ pressed }) => [styles.webLink, pressed && { opacity: 0.8 }]}>
               <Text style={styles.webIcon}>🌐</Text>
@@ -196,8 +193,60 @@ export function TitleScreen(p: TitleProps) {
       </View>
       {rails && <View style={styles.railCol}><StoreRails /></View>}
       </View>
+      </>)}
       <SideMenu visible={menu} onClose={() => setMenu(false)} {...p} />
     </View>
+  );
+}
+
+/** İlk giriş sayfası: oturum yokken üç bölümden (Dava takibi, Derdini anlat, Kariyer ve oyun) önce gelir.
+ *  Giriş yapınca ya da "Üye olmadan dene" denince üç sayfa açılır. Apple zorunlu üyeliği kabul etmediği için üye olmadan da geçilebilir. */
+function EntryHome({ wide, tilt, server, onSignUp, onSignIn, onGuest, footer }: { wide: boolean; tilt: number; server: boolean; onSignUp: () => void; onSignIn: () => void; onGuest?: () => void; footer: React.ReactNode }) {
+  const bolumler: { ikon: "folder" | "scales" | "trophy"; ad: string; not: string }[] = [
+    { ikon: "folder", ad: t("Dava takibi"), not: t("Föyleriniz, duruşmalarınız, süreleriniz ve evrakınız tek yerde.") },
+    { ikon: "scales", ad: t("Derdini anlat"), not: t("Olayınızı anlatın, güçlü ve zayıf yönlerinizi görün; avukatlar için evrakla duruşma provası.") },
+    { ikon: "trophy", ad: t("Kariyer ve oyun"), not: t("Genç bir avukat olarak başlayın, davaları kazandıkça yükselin.") },
+  ];
+  return (
+    <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row", alignItems: "flex-start", gap: 40 }]}>
+      <View style={[{ gap: 6 }, wide && { flex: 1.1 }]}>
+        <View style={[styles.titleArt, { marginBottom: 4 }]}>
+          <HeroScale angle={tilt} size={wide ? 220 : 120} left={C.p1} right={C.p2} />
+        </View>
+        <Text style={styles.eyebrow}>{t("AVUKATLAR VE HERKES İÇİN")}</Text>
+        <Text style={[styles.logo, { fontSize: wide ? 96 : 56, lineHeight: wide ? 104 : 64 }]}>Celse</Text>
+        <Text style={styles.byline}>BY THEMISCODE</Text>
+        <View style={{ gap: 10, marginTop: 10 }}>
+          {bolumler.map(b => (
+            <View key={b.ikon} style={styles.entryRow}>
+              <IconBadge name={b.ikon} size={36} />
+              <View style={{ flex: 1 }}>
+                <Text style={styles.entryRowT}>{b.ad}</Text>
+                <Text style={styles.webNote}>{b.not}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
+      </View>
+      <View style={[{ gap: 6 }, wide && { flex: 0.9, paddingTop: 24 }]}>
+        <LoginCard server={server} onSignUp={onSignUp} onPickLocal={onSignIn} />
+        {!!onGuest && (
+          <Pressable accessibilityRole="button" onPress={onGuest} hitSlop={8} style={({ pressed }) => [styles.guestLink, pressed && { opacity: 0.7 }]}>
+            <Text style={styles.guestLinkT}>{t("Üye olmadan dene ›")}</Text>
+          </Pressable>
+        )}
+        {Platform.OS === "web" ? footer : (
+          <Pressable accessibilityRole="link" onPress={() => Linking.openURL(WEB_URL)} style={({ pressed }) => [styles.webLink, pressed && { opacity: 0.8 }]}>
+            <Text style={styles.webIcon}>🌐</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.careerKDark}>{t("WEB SÜRÜMÜ · BİLGİSAYARDAN DA KULLANIN")}</Text>
+              <Text style={styles.webUrl}>{WEB_URL.replace(/^https:\/\//, "").replace(/\/$/, "")}</Text>
+            </View>
+            <Text style={styles.careerGoDark}>›</Text>
+          </Pressable>
+        )}
+      </View>
+    </ScrollView>
   );
 }
 
@@ -553,6 +602,8 @@ const styles = StyleSheet.create({
   careerKDark: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.muted },
   careerGoDark: { fontFamily: F.bodyBold, fontSize: 17, color: C.brass },
   titleArt: { alignItems: "center" },
+  entryRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 10, paddingHorizontal: 12, borderRadius: 14, borderWidth: 1, borderColor: C.line, backgroundColor: C.panel2 },
+  entryRowT: { fontFamily: F.display, fontSize: 19, color: C.text },
   eyebrow: { fontFamily: F.mono, fontSize: 12, letterSpacing: 2.5, color: C.muted },
   logo: { fontFamily: F.logo, color: C.brass, letterSpacing: 2 },
   lede: { fontFamily: F.body, fontSize: 19, lineHeight: 27, color: "#d9d5ca", maxWidth: 480, marginTop: 8 },
