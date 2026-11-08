@@ -26,7 +26,7 @@ import { Btn } from "./kit";
 import { StoreLinks } from "./StoreLinks";
 import { C, F } from "./theme";
 
-interface Props { evrak?: boolean; onEvrakPlay?: (c: CaseFile) => void; onBack: () => void; onSignIn: () => void; onSignUp: () => void; signedIn: boolean; server: boolean; admin: boolean }
+interface Props { /** ön sayfadan "Örnek duruşmayı izle": örnek canlandırmayla açılır */ ornek?: boolean; evrak?: boolean; onEvrakPlay?: (c: CaseFile) => void; onBack: () => void; onSignIn: () => void; onSignUp: () => void; signedIn: boolean; server: boolean; admin: boolean }
 
 const KUTU: Record<Kutu, { label: string; hint: string }> = {
   olay: { label: "Somut olay", hint: "Ne oldu? Olayları tarih sırasıyla yazın: ne zaman, kim (rolüyle), ne yaptı." },
@@ -60,8 +60,9 @@ export default function DanismaScreen(p: Props) {
   const [list, setList] = useState<Danisma[] | null>(null);
   const [open, setOpen] = useState<Danisma | null>(null);
   // "Duruşmayı izle" oynatıcısı. Geliştirme önizlemesi: web'de ?izle-ornek ile gömülü örnek senaryo açılır (sunucuya gitmez).
-  const [watch, setWatch] = useState<{ s: Senaryo; d: Danisma; son?: boolean; oyuncu?: boolean } | null>(() =>
-    adresParam(/[?&](izle-ornek)\b/) !== null ? { s: ORNEK_SENARYO, d: ORNEK_DANISMA, son: adresParam(/[?&]izle-ornek=(son)\b/) === "son" } : null);
+  const [watch, setWatch] = useState<{ s: Senaryo; d: Danisma; son?: boolean; oyuncu?: boolean; ornek?: boolean } | null>(() =>
+    p.ornek ? { s: ORNEK_SENARYO, d: ORNEK_DANISMA, ornek: true }
+    : adresParam(/[?&](izle-ornek)\b/) !== null ? { s: ORNEK_SENARYO, d: ORNEK_DANISMA, son: adresParam(/[?&]izle-ornek=(son)\b/) === "son", ornek: true } : null);
   // Telefondan "videoyu web'de hazırla" ile gelen bağlantı: ?danisma=<kimlik> o danışmanın kayıtlar ekranını açar.
   const hedef = useRef(adresParam(/[?&]danisma=([0-9a-f-]{36})/i));
   // Oyunculara gönderilen dosyalar (danışma kimliğine göre); surum13.sql kurulmadıysa boş.
@@ -84,7 +85,7 @@ export default function DanismaScreen(p: Props) {
   useEffect(() => { if (p.signedIn) reload(); }, [p.signedIn]);
 
   if (evrak) return <EvrakScreen ucretsiz={!!p.admin} onPlay={p.onEvrakPlay} onBack={() => (p.evrak ? p.onBack() : setEvrak(false))} />;
-  if (watch) return <DanismaWatch key={watch.d.id + (watch.oyuncu ? ":oyuncu" : "")} s={watch.s} d={watch.d} basla={watch.son ? "son" : undefined} onClose={() => setWatch(null)} />;
+  if (watch) return <DanismaWatch key={watch.d.id + (watch.oyuncu ? ":oyuncu" : "")} s={watch.s} d={watch.d} basla={watch.son ? "son" : undefined} ornek={watch.ornek} onClose={() => setWatch(null)} />;
   const oyuncuKaydi = (d: Danisma, k: OyunKaydi) => { const sn = kayitSenaryo(k); if (sn) setWatch({ s: sn, d, oyuncu: true }); };
 
   return (
@@ -100,11 +101,12 @@ export default function DanismaScreen(p: Props) {
       {!p.signedIn ? (
         <View style={s.card}>
           <Text style={s.cardT}>{t("Danışma için giriş yapın")}</Text>
-          <Text style={s.body}>{t("Anlattıklarınız ve değerlendirmeler hesabınıza kaydedilir; istediğiniz zaman silebilirsiniz. Kredi de hesabınıza bağlıdır.")}</Text>
+          <Text style={s.body}>{t("Ücretsiz üye olun, olayınızı yazın: eksik bilgi denetimi ücretsizdir. Değerlendirme, duruşma canlandırması, sesli kayıt ve video 1 kredidir ({a}). Anlattıklarınız hesabınıza kaydedilir; istediğiniz zaman silebilirsiniz.", { a: PAKETLER[0].price })}</Text>
           {p.server ? (
             <View style={s.row}>
-              <Btn label={t("Giriş yap")} onPress={p.onSignIn} />
-              <Btn kind="ghost" label={t("Üye ol")} onPress={p.onSignUp} />
+              <Btn label={t("Üye ol")} onPress={p.onSignUp} />
+              <Btn kind="ghost" label={t("Giriş yap")} onPress={p.onSignIn} />
+              <Btn kind="ghost" label={t("Örnek duruşmayı izle")} onPress={() => setWatch({ s: ORNEK_SENARYO, d: ORNEK_DANISMA, ornek: true })} />
             </View>
           ) : <Text style={s.err}>{t("Sunucuya şu an ulaşılamıyor. İnternet bağlantınızı kontrol edip uygulamayı yeniden açın.")}</Text>}
         </View>
