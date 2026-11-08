@@ -2,7 +2,9 @@
 // "Dosya ne durumda?" (önemli evrak üzerinden yapay zekâ özeti, sesli dinleme). Her şey bu cihazda; dışarı yalnız kodlu metin gider.
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
+import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
+import { MuvekkilMesaj } from "./MuvekkilMesaj";
+import { dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, KarsiBilgi, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
 import { DAVA_TURLERI, EVRAK_TURLERI, FoyTur, turBilgi, TURLER } from "../data/foyTurleri";
 import { unmask } from "../engine/mask";
 import { zipIcerigi, turBul } from "../engine/mask/readers";
@@ -41,6 +43,9 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
   const [durusmaYazi, setDurusmaYazi] = useState("");
   const [silOnay, setSilOnay] = useState(false);
   const [muvAc, setMuvAc] = useState(false);
+  const [karsiAc, setKarsiAc] = useState(false);
+  const [surum, setSurum] = useState(0);
+  const [kunyeMesaj, setKunyeMesaj] = useState("");
   const [soruluyor, setSoruluyor] = useState(false);
   const [baglaAc, setBaglaAc] = useState(false);
   const [baglaAra, setBaglaAra] = useState("");
@@ -92,7 +97,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
       eklenen.push(zorTur ? { ...r, tur: zorTur, onemli: true } : r);
     }
     setOkuma("");
-    if (eklenen.length) degistir({ evraklar: [...f.evraklar, ...eklenen] });
+    if (eklenen.length) degistir({ evraklar: [...f.evraklar, ...eklenen], ...kunyeEvraktan(eklenen, f) });
   };
   const evrakAc = async (e: FoyEvrak) => {
     if (!dosyaSaklanir()) { setErr(t("Asıl dosya bilgisayarınızda duruyor; telefonda yalnız künye ve kodlanmış metin vardır.")); return; }
@@ -152,7 +157,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
     .slice(0, 12);
 
   const alanEl = (etiket: string, deger: string, alan: keyof Foy, ph?: string) => (
-    <View style={s.alan} key={alan}>
+    <View style={s.alan} key={alan + ":" + surum}>
       <Text style={s.label}>{t(etiket)}</Text>
       <TextInput defaultValue={deger} onChangeText={v => degistir({ [alan]: v } as Partial<Foy>)} placeholder={ph ? t(ph) : undefined} placeholderTextColor={C.muted} style={s.inputTek} />
     </View>
@@ -160,11 +165,34 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
   const mb = f.muvekkilBilgi || {};
   const mbDolu = Object.values(mb).filter(x => (x || "").trim()).length;
   const mbEl = (etiket: string, k: keyof MuvekkilBilgi, ph?: string) => (
-    <View style={s.alan} key={k}>
+    <View style={s.alan} key={"m" + k + ":" + surum}>
       <Text style={s.label}>{t(etiket)}</Text>
       <TextInput defaultValue={mb[k] || ""} onChangeText={v => degistir({ muvekkilBilgi: { ...(son.current?.muvekkilBilgi || f.muvekkilBilgi || {}), [k]: v } })} placeholder={ph ? t(ph) : undefined} placeholderTextColor={C.muted} multiline={k === "adres" || k === "ek"} style={s.inputTek} />
     </View>
   );
+  const kb = f.karsiBilgi || {};
+  const kbDolu = Object.values(kb).filter(x => (x || "").trim()).length;
+  const kbEl = (etiket: string, k: keyof KarsiBilgi, ph?: string) => (
+    <View style={s.alan} key={"k" + k + ":" + surum}>
+      <Text style={s.label}>{t(etiket)}</Text>
+      <TextInput defaultValue={kb[k] || ""} onChangeText={v => degistir({ karsiBilgi: { ...(son.current?.karsiBilgi || f.karsiBilgi || {}), [k]: v } })} placeholder={ph ? t(ph) : undefined} placeholderTextColor={C.muted} multiline={k === "adres" || k === "ek"} style={s.inputTek} />
+    </View>
+  );
+  /** Okunmuş evraktan künyenin boş alanlarını doldurur (cihazda; metin hiçbir yere gitmez). */
+  const kunyeEvraktan = (evraklar: FoyEvrak[], temel: Foy): Partial<Foy> => {
+    let x: Foy = temel; const tum: string[] = [];
+    for (const e of [...evraklar].sort((a, b) => a.eklenme.localeCompare(b.eklenme))) {
+      if (!e.metin.trim()) continue;
+      const r = kunyeyiDoldur(x, kunyeCikar(e.metin));
+      if (r.dolan.length) { x = { ...x, ...r.ek }; tum.push(...r.dolan); }
+    }
+    const ek: Partial<Foy> = {};
+    for (const k of ["mahkeme", "esasNo", "davaTuru", "durusma", "muvekkil", "karsiTaraf", "muvekkilBilgi", "karsiBilgi"] as const) if (x[k] !== temel[k]) (ek as Record<string, unknown>)[k] = x[k];
+    setKunyeMesaj(tum.length ? t("Evraktan dolduruldu: {x}. Kontrol edin.", { x: [...new Set(tum)].join(", ") }) : t("Evrakta künyeye eklenecek yeni bilgi bulunamadı (yalnız boş alanlar doldurulur)."));
+    if (tum.length) setSurum(v => v + 1);
+    if (ek.durusma) setDurusmaYazi(tarihYaz(ek.durusma));
+    return ek;
+  };
   const g = kacGun(f.durusma);
   const acik = f.gorevler.filter(x => !x.bitti).sort((a, b) => (a.tarih || "9999").localeCompare(b.tarih || "9999"));
   const biten = f.gorevler.filter(x => x.bitti);
@@ -291,6 +319,13 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
 
       <View style={s.card}>
         <Text style={s.cardT}>{t("Künye")}</Text>
+        {f.evraklar.some(e => e.metin.trim()) && (
+          <View style={[s.row, { alignItems: "center" }]}>
+            <Btn kind="ghost" label={t("Künyeyi evraktan doldur")} onPress={() => { const ek = kunyeEvraktan(f.evraklar, f); if (Object.keys(ek).length) degistir(ek); }} />
+            <Text style={[s.hint, { flex: 1 }]}>{t("Mahkeme, esas no, taraflar, vekiller, kimlik no, adres, duruşma günü ve vekâletname bilgisi evrakın kendisinden, bu cihazda okunur. Yalnız boş alanlar doldurulur.")}</Text>
+          </View>
+        )}
+        {!!kunyeMesaj && <Text style={[s.hint, { color: C.brass }]}>{kunyeMesaj}</Text>}
         <View style={s.alanlar}>
           {alanEl("Müvekkil", f.muvekkil, "muvekkil")}
           {alanEl("Karşı taraf", f.karsiTaraf, "karsiTaraf")}
@@ -307,13 +342,25 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
                 <Text style={[s.hint, { flexBasis: "100%" }]}>{t("Bu bilgiler yalnız bu cihazda (eşitlemede şifreli) durur; yapay zekâya hiç gönderilmez.")}</Text>
               </View>
             )}
+            <Pressable onPress={() => setKarsiAc(!karsiAc)} style={{ marginTop: 6 }}><Text style={s.link}>{karsiAc ? "▾ " : "▸ "}{t("Karşı taraf bilgileri")}{kbDolu ? " · " + t("{n} alan dolu", { n: kbDolu }) : ""}</Text></Pressable>
+            {karsiAc && (
+              <View style={[s.alanlar, { marginTop: 6 }]}>
+                {kbEl("Vekili (ad, baro, sicil no)", "vekil", "Örn. Av. … · İzmir Barosu · 12345")}
+                {kbEl("T.C. kimlik / vergi no", "kimlikNo")}
+                {kbEl("Telefon", "telefon")}
+                {kbEl("E-posta", "eposta")}
+                {kbEl("Adres", "adres")}
+                {kbEl("Diğer bilgiler", "ek")}
+                <Text style={[s.hint, { flexBasis: "100%" }]}>{t("Bu bilgiler yalnız bu cihazda (eşitlemede şifreli) durur; yapay zekâya hiç gönderilmez.")}</Text>
+              </View>
+            )}
           </View>
-          {alanEl(tb.merci, f.mahkeme, "mahkeme", tb.merciOrnek)}
-          {alanEl(tb.no, f.esasNo, "esasNo", "2026/123")}
+          {alanEl(tb.merci, f.mahkeme, "mahkeme", tb.merciOrnek ? "Örn. " + tb.merciOrnek : undefined)}
+          {alanEl(tb.no, f.esasNo, "esasNo", "Örn. 2026/123")}
           {alanEl(f.tur === "idari_sorusturma" || f.tur === "baro" || f.tur === "sorusturma" ? "Soruşturma konusu" : "Dava konusu", f.davaTuru, "davaTuru")}
           <View style={s.alan}>
             <Text style={s.label}>{t("Sonraki duruşma / toplantı")}</Text>
-            <TextInput value={durusmaYazi} onChangeText={v => { setDurusmaYazi(v); const d = tarihCoz(v); if (d || !v.trim()) degistir({ durusma: d }); }} placeholder="12.03.2027 10:30" placeholderTextColor={C.muted} style={s.inputTek} />
+            <TextInput value={durusmaYazi} onChangeText={v => { setDurusmaYazi(v); const d = tarihCoz(v); if (d || !v.trim()) degistir({ durusma: d }); }} placeholder={t("Örn. 12.03.2027 10:30")} placeholderTextColor={C.muted} style={s.inputTek} />
             {!!f.durusma && <Text style={[s.hint, g !== undefined && g >= 0 && g <= 7 && { color: C.brass }]}>{gunYaz(g)}</Text>}
             {!!durusmaYazi.trim() && !tarihCoz(durusmaYazi) && <Text style={s.err}>{t("Tarihi 12.03.2027 ya da 12.03.2027 10:30 biçiminde yazın.")}</Text>}
           </View>
@@ -361,6 +408,8 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
         <Text style={s.label}>{t("Notlar")}</Text>
         <TextInput defaultValue={f.notlar} onChangeText={v => degistir({ notlar: v })} multiline placeholder={t("Dosyayla ilgili notlarınız")} placeholderTextColor={C.muted} style={s.input} />
       </View>
+
+      <MuvekkilMesaj f={f} />
 
       <View style={s.card}>
         <Text style={s.cardT}>{t("Yapılacaklar")}</Text>

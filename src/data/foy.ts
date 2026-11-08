@@ -17,6 +17,12 @@ export interface MuvekkilBilgi {
   /** diğer müvekkiller, yetkili kişi, aile bilgisi gibi serbest not */
   ek?: string;
 }
+export interface KarsiBilgi {
+  kimlikNo?: string; telefon?: string; eposta?: string; adres?: string;
+  /** karşı taraf vekili: ad, baro, sicil no */
+  vekil?: string;
+  ek?: string;
+}
 export interface Gorev { id: string; metin: string; tarih?: string; bitti: boolean; kaynak: "elle" | "yapay" | "aktarma" }
 export interface FoyEvrak {
   id: string; ad: string; boyut: number; eklenme: string; metin: string; okunamadi?: string;
@@ -43,6 +49,8 @@ export interface Foy {
   muvekkil: string; karsiTaraf: string; mahkeme: string; esasNo: string; davaTuru: string; taraf: FoyTaraf;
   /** müvekkilin iletişim ve vekâlet bilgileri: yalnız cihazda (eşitlemede şifreli); yapay zekâya hiç gönderilmez */
   muvekkilBilgi?: MuvekkilBilgi;
+  /** karşı tarafın kimlik, iletişim ve vekil bilgileri: müvekkil bilgileri gibi yalnız cihazda (eşitlemede şifreli) */
+  karsiBilgi?: KarsiBilgi;
   durum: "acik" | "kapali";
   /** Sonraki duruşma: YYYY-AA-GG (saat isteğe bağlı: YYYY-AA-GGTSS:DD). */
   durusma?: string;
