@@ -4,6 +4,7 @@ import React, { useMemo, useState } from "react";
 import { Linking, Platform, Pressable, Share, Text, TextInput, View } from "react-native";
 import { Foy, tarihYaz } from "../data/foy";
 import { t } from "../i18n";
+import { Acilir } from "./Acilir";
 import { s } from "./foyStil";
 import { Btn } from "./kit";
 import { C } from "./theme";
@@ -60,13 +61,7 @@ export function MuvekkilMesaj({ f, ic }: { f: Foy; ic?: boolean }) {
   return (
     <View style={ic ? { gap: 10 } : s.card}>
       {!ic && <Text style={s.cardT}>{t("Müvekkile mesaj")}</Text>}
-      <View style={s.chips}>
-        {kaliplar.map(x => (
-          <Pressable key={x.k} onPress={() => { setKalip(x.k); setMetin(null); setBilgi(""); }} style={[s.chip, kalip === x.k && s.chipOn]}>
-            <Text style={[s.chipT, kalip === x.k && s.chipTOn]}>{x.ad}</Text>
-          </Pressable>
-        ))}
-      </View>
+      <Acilir etiket={t("Mesaj kalıbı")} secili={kalip} genislik={240} onSec={k => { setKalip(k as Kalip); setMetin(null); setBilgi(""); }} secenekler={kaliplar.map(x => ({ k: x.k, ad: x.ad }))} />
       <TextInput value={yazi} onChangeText={setMetin} multiline style={[s.input, { minHeight: 110 }]} />
       <View style={s.row}>
         <Btn label={t("WhatsApp'ta aç")} disabled={!yazi.trim()} onPress={() => ac((tel ? `https://wa.me/${tel}` : "https://wa.me/") + "?text=" + encodeURIComponent(yazi))} />

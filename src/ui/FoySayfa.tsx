@@ -250,13 +250,8 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         <Pressable onPress={() => evrakDegistir(e, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>
       </View>
       {turSec === e.id && (
-        <View style={s.chips}>
-          {EVRAK_TURLERI.map(x => (
-            <Pressable key={x} onPress={() => { evrakDegistir(e, { tur: x }); setTurSec(null); }} style={[s.chip, e.tur === x && s.chipOn]}>
-              <Text style={[s.chipT, e.tur === x && s.chipTOn]}>{t(x)}</Text>
-            </Pressable>
-          ))}
-        </View>
+        <Acilir etiket={t("Evrak türü")} secili={e.tur || ""} genislik={240} acikBasla onSec={x => { evrakDegistir(e, { tur: x }); setTurSec(null); }}
+          secenekler={EVRAK_TURLERI.map(x => ({ k: x, ad: t(x) }))} />
       )}
       {kodluGor === e.id && !!e.maskeli && (
         <View style={s.warn}>
@@ -293,13 +288,8 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
           {sesliOkumaVar() && (
             <View style={s.row}>
               {okuyor ? <Btn kind="secondary" label={t("■ Durdur")} onPress={sesliDur} /> : <Btn kind="secondary" label={t("🔊 Sesli dinle")} onPress={() => sesliOku(okunacak(f.degerlendirme!), hiz)} />}
-              <View style={s.chips}>
-                {[0.8, 1, 1.25, 1.5].map(h => (
-                  <Pressable key={h} onPress={() => { setHiz(h); if (okuyor) sesliOku(okunacak(f.degerlendirme!), h); }} style={[s.chip, hiz === h && s.chipOn]}>
-                    <Text style={[s.chipT, hiz === h && s.chipTOn]}>{String(h).replace(".", ",")}×</Text>
-                  </Pressable>
-                ))}
-              </View>
+              <Acilir etiket={t("Okuma hızı")} secili={String(hiz)} genislik={110} onSec={k => { const h = Number(k); setHiz(h); if (okuyor) sesliOku(okunacak(f.degerlendirme!), h); }}
+                secenekler={[0.8, 1, 1.25, 1.5].map(h => ({ k: String(h), ad: String(h).replace(".", ",") + "×" }))} />
             </View>
           )}
           {sesliOkumaVar() && !yerelSesVar() && <Text style={s.hint}>{t("Bu bilgisayarda yerel Türkçe ses yok; tarayıcının çevrim içi sesi kullanılır.")}</Text>}
@@ -424,17 +414,11 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
               secenekler={[{ k: "-", ad: t("Belirtilmemiş") }, ...[...(DAVA_TURLERI[f.tur || "hukuk"] || []), ...(f.davaTuru && !(DAVA_TURLERI[f.tur || "hukuk"] || []).includes(f.davaTuru) ? [f.davaTuru] : [])].map(x => ({ k: x, ad: t(x) }))]} />
           )}
         </View>
-        <View style={s.chips}>
-          {taraflar && (["davaci", "davali"] as const).map((k, i) => (
-            <Pressable key={k} onPress={() => degistir({ taraf: k })} style={[s.chip, f.taraf === k && s.chipOn]}>
-              <Text style={[s.chipT, f.taraf === k && s.chipTOn]}>{t(taraflar[i])}</Text>
-            </Pressable>
-          ))}
-          {(["acik", "kapali"] as const).map(k => (
-            <Pressable key={k} onPress={() => degistir({ durum: k })} style={[s.chip, f.durum === k && s.chipOn]}>
-              <Text style={[s.chipT, f.durum === k && s.chipTOn]}>{k === "acik" ? t("Açık") : t("Kapalı")}</Text>
-            </Pressable>
-          ))}
+        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
+          {taraflar && <Acilir etiket={t("Hangi tarafın vekiliyiz")} secili={f.taraf || "davaci"} genislik={220} onSec={k => degistir({ taraf: k as "davaci" | "davali" })}
+            secenekler={(["davaci", "davali"] as const).map((k, i) => ({ k, ad: t(taraflar[i]) }))} />}
+          <Acilir etiket={t("Dosya durumu")} secili={f.durum || "acik"} genislik={140} onSec={k => degistir({ durum: k as "acik" | "kapali" })}
+            secenekler={[{ k: "acik", ad: t("Açık") }, { k: "kapali", ad: t("Kapalı") }]} />
         </View>
         <Text style={s.label}>{t("Notlar")}</Text>
         <TextInput defaultValue={f.notlar} onChangeText={v => degistir({ notlar: v })} multiline placeholder={t("Dosyayla ilgili notlarınız")} placeholderTextColor={C.muted} style={s.input} />
@@ -498,14 +482,10 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
           );
           return (
             <>
-              <View style={s.chips}>
-                {([["hepsi", t("Hepsi ({n})", { n: f.evraklar.length })], ["onemli", t("Önemli ({n})", { n: onemli.length })], ["onemsiz", t("Önemsiz ({n})", { n: onemsiz.length })]] as const).map(([k, ad]) => (
-                  <Pressable key={k} onPress={() => { setEvrakSuz(k); setEvrakSayfa(0); }} style={[s.chip, evrakSuz === k && s.chipOn]}><Text style={[s.chipT, evrakSuz === k && s.chipTOn]}>{ad}</Text></Pressable>
-                ))}
-                <Text style={[s.hint, { alignSelf: "center", marginLeft: 8 }]}>{t("Sayfada:")}</Text>
-                {[5, 10, 25, 50, 100].map(n => (
-                  <Pressable key={n} onPress={() => setEvrakBoy(n)} style={[s.chip, evrakBoy === n && s.chipOn]}><Text style={[s.chipT, evrakBoy === n && s.chipTOn]}>{n}</Text></Pressable>
-                ))}
+              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
+                <Acilir etiket={t("Göster")} secili={evrakSuz} genislik={170} onSec={k => { setEvrakSuz(k as typeof evrakSuz); setEvrakSayfa(0); }}
+                  secenekler={[{ k: "hepsi", ad: t("Hepsi"), n: f.evraklar.length }, { k: "onemli", ad: t("Önemli"), n: onemli.length }, { k: "onemsiz", ad: t("Önemsiz"), n: onemsiz.length }]} />
+                <Acilir etiket={t("Sayfada")} secili={String(evrakBoy)} genislik={90} onSec={k => setEvrakBoy(Number(k))} secenekler={[5, 10, 25, 50, 100].map(n => ({ k: String(n), ad: String(n) }))} />
               </View>
               <View style={[s.file, { alignItems: "center", flexWrap: "wrap" }]}>
                 <Kutu acik={hepsiSecili} yarim={!hepsiSecili && liste.some(e => secim.has(e.id))} etiket={t("Tümünü seç")}

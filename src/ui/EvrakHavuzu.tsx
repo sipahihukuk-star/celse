@@ -13,6 +13,7 @@ import { HavuzEvrak, havuzuGrupla, HavuzGrup, Hedef } from "../data/havuz";
 import { kunyeCikar, kunyeyiDoldur, yapiIskeleti } from "../data/kunyeCikar";
 import { turBul, yaziKalitesi, zipIcerigi } from "../engine/mask/readers";
 import { t } from "../i18n";
+import { Acilir } from "./Acilir";
 import { evrakMetniOku, evrakOlustur, Kaynak } from "./foyEvrak";
 import { boyutYaz, dosyaListesiSec, s } from "./foyStil";
 import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyAktar";
@@ -372,11 +373,5 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
 
 const SECENEK: FoyTur[] = ["hukuk", "ceza", "idari_dava", "sorusturma", "arabuluculuk", "icra", "idari_basvuru", "idari_sorusturma", "kurum_basvuru", "arabulucu_gorev", "bilirkisi_gorev"];
 function TurSec({ deger, onSec }: { deger: FoyTur; onSec: (t: FoyTur) => void }) {
-  const [acik, setAcik] = useState(false);
-  if (!acik) return <Btn kind="ghost" label={t("Tür: {t} ▾", { t: turBilgi(deger).ad })} onPress={() => setAcik(true)} />;
-  return (
-    <View style={s.chips}>
-      {SECENEK.map(x => <Pressable key={x} onPress={() => { onSec(x); setAcik(false); }} style={[s.chip, deger === x && s.chipOn]}><Text style={[s.chipT, deger === x && s.chipTOn]}>{t(turBilgi(x).ad)}</Text></Pressable>)}
-    </View>
-  );
+  return <Acilir etiket={t("Föy türü")} secili={deger} genislik={230} onSec={k => onSec(k as FoyTur)} secenekler={SECENEK.map(x => ({ k: x, ad: t(turBilgi(x).ad) }))} />;
 }
