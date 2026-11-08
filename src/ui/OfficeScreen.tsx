@@ -137,7 +137,7 @@ function Dashboard({ o, onBack, onCareer }: { o: Office; onBack: () => void; onC
 
       <View style={s.card}>
         <Text style={s.k}>{t("Davalar büroya nasıl gelir?")}</Text>
-        <Text style={s.small}>• <Text style={s.b}>{t(SOURCE_LABEL.muvekkil)}:</Text> {t("vekâlet ücreti davanın basamağına ve şehrinize göre belirlenir; kazanırsanız ikna puanınıza göre prim alırsınız, kaybederseniz yalnızca peşin kısmı kalır.")}</Text>
+        <Text style={s.small}>• <Text style={s.b}>{t(SOURCE_LABEL.muvekkil)}:</Text> {t("vekâlet ücreti davanın basamağına ve şehrinize göre belirlenir ve dava kaybedilse de ödenir (yargılama giderlerini müvekkil karşılar); kazanırsanız ikna puanınıza göre başarı primi alırsınız. Kanun yolunda her aşama ayrıca ücretlendirilir; karar lehinize dönerse başarı primi ve karşı vekâlet ücreti de kasaya girer.")}</Text>
         <Text style={s.small}>• <Text style={s.b}>{t(SOURCE_LABEL.cmk)}:</Text> {t("baro sizi şüpheli ya da sanık müdafii olarak atar; ücret sabittir ve sonuçtan bağımsızdır.")}</Text>
         <Text style={s.small}>• <Text style={s.b}>{t(SOURCE_LABEL.adli)}:</Text> {t("ücreti ödeyemeyen kişinin davası baro aracılığıyla size gelir; ücret sabittir.")}</Text>
       </View>
