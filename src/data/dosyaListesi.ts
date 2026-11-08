@@ -21,7 +21,7 @@ function merciBul(u: string): string | undefined {
   return x.length > 6 ? x : undefined;
 }
 
-export interface ListeSatiri { mahkeme?: string; esasNo: string; dosyaTuru?: string; kapali: boolean; acilis?: string }
+export interface ListeSatiri { mahkeme?: string; esasNo: string; dosyaTuru?: string; kapali: boolean; acilis?: string; satir: string }
 
 /** Metin bir dosya listesiyse satırlarını döner; değilse null (tek dosyaya ait evrak). */
 export function dosyaListesiOku(metin: string): ListeSatiri[] | null {
@@ -38,7 +38,7 @@ export function dosyaListesiOku(metin: string): ListeSatiri[] | null {
     if (!mahkeme && !tur) continue;
     const t = u.replace(ESAS, " ").match(TARIH);
     const acilis = t ? `${t[3]}-${t[2].padStart(2, "0")}-${t[1].padStart(2, "0")}` : undefined;
-    out.push({ mahkeme: mahkeme ? basHarf(mahkeme) : undefined, esasNo: `${e[1]}/${e[2]}`, dosyaTuru: tur ? basHarf(tur + " DOSYASI") : undefined, kapali: /\b(KAPALI|KAPANMIŞ)\b/.test(u), acilis });
+    out.push({ mahkeme: mahkeme ? basHarf(mahkeme) : undefined, esasNo: `${e[1]}/${e[2]}`, dosyaTuru: tur ? basHarf(tur + " DOSYASI") : undefined, kapali: /\b(KAPALI|KAPANMIŞ)\b/.test(u), acilis, satir: x });
   }
   // Liste sayılması için: en az 3 ayrı dosya ve satırların önemli kısmı dosya satırı (kararda geçen birkaç atıf liste değildir).
   const tek = new Map(out.map(r => [(r.mahkeme || "") + "|" + r.esasNo, r]));
@@ -51,9 +51,32 @@ export function dosyaListesiOku(metin: string): ListeSatiri[] | null {
 export function listedenFoyler(metin: string, kaynak: string): Foy[] {
   const xs = dosyaListesiOku(metin);
   if (!xs) return [];
-  return xs.map(r => bosFoy({
-    tur: (r.dosyaTuru && turTahmin(r.dosyaTuru)) || turTahmin(r.mahkeme || "") || "hukuk",
+  return xs.map(r => {
+    // Satış memurluğu sulh hukuktan (ortaklığın giderilmesi) ya da icradan gelir: satırın kendisine de bakılır.
+    const satis = /SATIŞ MEMURLUĞU/.test(((r.mahkeme || "") + " " + (r.dosyaTuru || "")).toLocaleUpperCase("tr"));
+    const tur = (satis ? turTahmin(r.dosyaTuru || "", r.mahkeme || "", r.satir) : (r.dosyaTuru && turTahmin(r.dosyaTuru)) || turTahmin(r.mahkeme || "")) || "hukuk";
+    return bosFoy({
+    tur, davaTuru: satis ? (tur === "icra" ? "Satış (icra satışı)" : "Satış (ortaklığın giderilmesi – sulh hukuk)") : "",
     mahkeme: r.mahkeme || "", esasNo: r.esasNo, acilis: r.acilis, durum: r.kapali ? "kapali" : "acik",
     notlar: `UYAP dosya listesinden aktarıldı (${kaynak})${r.dosyaTuru ? " · " + r.dosyaTuru : ""}.`
-  }));
+    });
+  });
+}
+
+/** Daha önce UYAP listesinden aktarılmış föylerin türünü yeni kurallarla yeniden belirler. Yalnız türü listeden geldiği gibi
+ * duran (notlarında aktarma notu olan, evrakı olmayan) föyler; avukatın elle değiştirdiği tür değişmez (tahmin aynı türü verir). */
+export function turDuzeltmeleri(liste: Foy[]): { f: Foy; tur: Foy["tur"] & string; davaTuru: string }[] {
+  const out: { f: Foy; tur: Foy["tur"] & string; davaTuru: string }[] = [];
+  for (const f of liste) {
+    const n = (f.notlar || "").match(/UYAP dosya listesinden aktarıldı \([^)]*\)(?: · ([^.\n]+))?\./);
+    if (!n || f.evraklar.length) continue;
+    const dosyaTuru = n[1] || "";
+    const satis = /SATIŞ MEMURLUĞU/.test((f.mahkeme + " " + dosyaTuru).toLocaleUpperCase("tr"));
+    const tur = (satis ? turTahmin(dosyaTuru, f.mahkeme) : (dosyaTuru && turTahmin(dosyaTuru)) || turTahmin(f.mahkeme)) || "hukuk";
+    // Yalnız varsayılan "hukuk" olarak açılmış föyler düzeltilir (öteki türler zaten tanınmıştı).
+    if ((f.tur || "hukuk") !== "hukuk" || tur === "hukuk" && !satis) continue;
+    if (tur === (f.tur || "hukuk") && !(satis && !f.davaTuru)) continue;
+    out.push({ f, tur, davaTuru: satis ? (tur === "icra" ? "Satış (icra satışı)" : "Satış (ortaklığın giderilmesi – sulh hukuk)") : "" });
+  }
+  return out;
 }

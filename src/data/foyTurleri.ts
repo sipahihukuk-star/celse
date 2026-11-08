@@ -100,7 +100,9 @@ export function turTahmin(...metinler: string[]): FoyTur | undefined {
   if (/baro/.test(m) && /sorustur|disiplin|sikayet/.test(m)) return "idari_sorusturma";
   if (/arabulucu/.test(m)) return "arabuluculuk";
   if (/cbs sorusturma|sorusturma dosyasi/.test(m)) return "sorusturma";
-  if (/satis memurlugu/.test(m)) return "icra";
+  // Satış memurluğu iki kaynaktan gelir: sulh hukuk mahkemesinin ortaklığın giderilmesi (izale-i şuyu) kararıyla satış ya da icra
+  // satışı. Kaynak yazıyorsa ona göre; yazmıyorsa sulh hukuk sayılır (satış memurlukları sulh hukuk mahkemelerine bağlıdır).
+  if (/satis memurlugu/.test(m)) return /icra dairesi|icra mud|icra dosyasi|haciz|takip/.test(m) && !/sulh hukuk|ortakligin giderilmesi|izale/.test(m) ? "icra" : "hukuk";
   if (/tazminat komisyonu/.test(m)) return "idari_basvuru";
   if (/sulh ceza hakimligi|infaz hakimligi/.test(m)) return "ceza";
   if (/idare dava|idari dava dosyasi|vergi dava/.test(m)) return "idari_dava";

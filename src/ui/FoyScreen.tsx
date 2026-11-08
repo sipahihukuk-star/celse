@@ -5,6 +5,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { bosFoy, Foy, foyBaslik, foyDinle, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, tarihYaz, yedekMetni, yedektenYukle } from "../data/foy";
 import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyAktar";
+import { turDuzeltmeleri } from "../data/dosyaListesi";
 import { DAVA_TURLERI, FoyTur, Giris, GIRISLER, turBilgi, TURLER } from "../data/foyTurleri";
 import { useInnerBack } from "./innerBack";
 import { FoySayfa } from "./FoySayfa";
@@ -15,6 +16,7 @@ import { FoyBulutKart } from "./FoyBulutKart";
 import { FloatingNav, useFloatingNav } from "./FloatingNav";
 import { IliskiKart } from "./IliskiKart";
 import { EvrakHavuzu } from "./EvrakHavuzu";
+import { Acilir } from "./Acilir";
 import { Btn } from "./kit";
 import { t } from "../i18n";
 import { C } from "./theme";
@@ -34,6 +36,10 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [turF, setTurF] = useState<FoyTur | "hepsi">("hepsi");
   // Yalnız evrakı olan föyler (listeden gelen binlerce boş föy arasında evrak yüklenmiş olanları bulmak için).
   const [evrakli, setEvrakli] = useState(false);
+  // Türün altında açılan alt süzgeçler: hangi dava (dava türü) ve aşama; "" = belirtilmemiş, null = hepsi.
+  const [davaF, setDavaF] = useState<string | null>(null);
+  const [asamaF, setAsamaF] = useState<string | null>(null);
+  const [turDuzelt, setTurDuzelt] = useState("");
   const [mesaj, setMesaj] = useState<{ t: string; ok?: boolean } | null>(null);
   const [kilit, setKilit] = useState<"yok" | "kilitli" | "acik">("yok");
   // Föy listesi sayfa sayfa: 5, 10, 25, 50, 100 (tercih bu cihazda hatırlanır).
@@ -43,7 +49,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const nav = useFloatingNav();
   const [sirala, setSiralaRaw] = useState<"durusma" | "acilisYeni" | "acilisEski" | "degisim">(() => { try { const v = globalThis.localStorage?.getItem("celse-foy-sirala"); return v === "acilisYeni" || v === "acilisEski" || v === "degisim" ? v : "durusma"; } catch { return "durusma"; } });
   const setSirala = (v: typeof sirala) => { setSiralaRaw(v); setSayfa(0); try { globalThis.localStorage?.setItem("celse-foy-sirala", v); } catch { /* yok say */ } };
-  useEffect(() => { setSayfa(0); }, [ara, filtre, turF]);
+  useEffect(() => { setSayfa(0); }, [ara, filtre, turF, davaF, asamaF]);
+  useEffect(() => { setDavaF(null); setAsamaF(null); }, [turF]);
   const [kilitSor, setKilitSor] = useState<null | { sonra?: () => void }>(null);
   const yenile = () => {
     foyListesi().then(x => { setListe(x); setYuklendi(true); }).catch(() => setYuklendi(true));
@@ -78,6 +85,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     .filter(f => filtre === "hepsi" || f.durum === filtre)
     .filter(f => turF === "hepsi" || (f.tur || "hukuk") === turF)
     .filter(f => !evrakli || f.evraklar.length > 0)
+    .filter(f => davaF === null || (f.davaTuru || "").trim() === davaF)
+    .filter(f => asamaF === null || (f.asama || "").trim() === asamaF)
     .filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, f.notlar, turBilgi(f.tur).ad, ...Object.values(f.muvekkilBilgi || {})].join(" ").toLocaleLowerCase("tr").includes(q))
     .sort((a, b) => {
       const ac = (f: Foy) => f.acilis || f.olusturma.slice(0, 10);
@@ -129,15 +138,11 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const cur = Math.min(sayfa, sayfaSay - 1);
   const sayfadaki = gorunen.slice(cur * boy, cur * boy + boy);
   const sayfalama = (
-    <View style={[s.row, { alignItems: "center" }]}>
-      <Text style={s.hint}>{t("Sırala:")}</Text>
-      {([["durusma", t("Duruşma")], ["acilisYeni", t("Açılış (yeni önce)")], ["acilisEski", t("Açılış (eski önce)")], ["degisim", t("Son değişiklik")]] as const).map(([k, ad]) => (
-        <Pressable key={k} onPress={() => setSirala(k)} style={[s.chip, sirala === k && s.chipOn]}><Text style={[s.chipT, sirala === k && s.chipTOn]}>{ad}</Text></Pressable>
-      ))}
-      <Text style={s.hint}>{t("Sayfada:")}</Text>
-      {[5, 10, 25, 50, 100].map(n => (
-        <Pressable key={n} onPress={() => setBoy(n)} style={[s.chip, boy === n && s.chipOn]}><Text style={[s.chipT, boy === n && s.chipTOn]}>{n}</Text></Pressable>
-      ))}
+    <View style={[s.row, { alignItems: "flex-end", flexWrap: "wrap" }]}>
+      <Acilir etiket={t("Sırala")} secili={sirala} onSec={k => setSirala(k as typeof sirala)} genislik={190}
+        secenekler={[{ k: "durusma", ad: t("Duruşma") }, { k: "acilisYeni", ad: t("Açılış (yeni önce)") }, { k: "acilisEski", ad: t("Açılış (eski önce)") }, { k: "degisim", ad: t("Son değişiklik") }]} />
+      <Acilir etiket={t("Sayfada")} secili={String(boy)} onSec={k => setBoy(Number(k))} genislik={90}
+        secenekler={[5, 10, 25, 50, 100].map(n => ({ k: String(n), ad: String(n) }))} />
       {sayfaSay > 1 && <>
         <Btn kind="ghost" label={t("‹ Önceki")} disabled={cur === 0} onPress={() => setSayfa(cur - 1)} />
         <Text style={s.hint}>{t("Sayfa {a} / {b} · {c}–{d} / {e} föy", { a: cur + 1, b: sayfaSay, c: cur * boy + 1, d: Math.min(gorunen.length, (cur + 1) * boy), e: gorunen.length })}</Text>
@@ -169,6 +174,19 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
 
       <FoyBulutKart />
       <IliskiKart liste={buro} onAc={id => setSecili({ id })} />
+      {(() => {
+        const duzelecek = turDuzeltmeleri(buro);
+        if (!duzelecek.length && !turDuzelt) return null;
+        return (
+          <View style={s.card}>
+            <Text style={s.cardT}>{t("Föy türleri düzeltilebilir")}</Text>
+            {duzelecek.length > 0 && <Text style={s.hint}>{t("UYAP listesinden aktarılan {n} föyün türü yeni kurallara göre farklı çıkıyor (ör. satış memurluğu, tazminat komisyonu, sulh ceza hakimliği). Elle değiştirdiğiniz türlere dokunulmaz.", { n: duzelecek.length })}</Text>}
+            {duzelecek.length > 0 && <Text style={s.hint}>{Object.entries(duzelecek.reduce((m, x) => { const k = `${turBilgi(x.f.tur).ad} → ${turBilgi(x.tur).ad}`; m[k] = (m[k] || 0) + 1; return m; }, {} as Record<string, number>)).map(([k, n]) => `${k}: ${n}`).join(" · ")}</Text>}
+            {!!turDuzelt && <Text style={[s.hint, { color: C.brass }]}>{turDuzelt}</Text>}
+            {duzelecek.length > 0 && <View style={s.row}><Btn label={t("Türleri düzelt")} onPress={async () => { await foylerKaydet(duzelecek.map(x => ({ ...x.f, tur: x.tur, davaTuru: x.f.davaTuru || x.davaTuru }))); setTurDuzelt(t("{n} föyün türü düzeltildi.", { n: duzelecek.length })); yenile(); }} /></View>}
+          </View>
+        );
+      })()}
       {web && <KlasorKart liste={buro} onBilgi={m => setMesaj(m)} />}
 
       {yaklasan.length > 0 && (
@@ -188,26 +206,30 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
 
       <View style={s.card}>
         <TextInput value={ara} onChangeText={setAra} placeholder={t("Ara: müvekkil, karşı taraf, mahkeme, esas no…")} placeholderTextColor={C.muted} style={s.inputTek} />
-        <View style={s.chips}>
-          {(["acik", "kapali", "hepsi"] as const).map(k => (
-            <Pressable key={k} onPress={() => setFiltre(k)} style={[s.chip, filtre === k && s.chipOn]}>
-              <Text style={[s.chipT, filtre === k && s.chipTOn]}>{k === "acik" ? t("Açık") : k === "kapali" ? t("Kapalı") : t("Hepsi")} ({liste.filter(f => k === "hepsi" || f.durum === k).length})</Text>
-            </Pressable>
-          ))}
-          <Pressable onPress={() => { setEvrakli(!evrakli); setSayfa(0); }} style={[s.chip, evrakli && s.chipOn]}>
-            <Text style={[s.chipT, evrakli && s.chipTOn]}>📎 {t("Evrakı olanlar")} ({buro.filter(f => f.evraklar.length > 0).length})</Text>
-          </Pressable>
-        </View>
-        {turlerVar.length > 1 && (
-          <View style={s.chips}>
-            <Pressable onPress={() => setTurF("hepsi")} style={[s.chip, turF === "hepsi" && s.chipOn]}><Text style={[s.chipT, turF === "hepsi" && s.chipTOn]}>{t("Bütün türler")}</Text></Pressable>
-            {turlerVar.map(x => (
-              <Pressable key={x.tur} onPress={() => setTurF(x.tur)} style={[s.chip, turF === x.tur && s.chipOn]}>
-                <Text style={[s.chipT, turF === x.tur && s.chipTOn]}>{t(x.ad)} ({buro.filter(f => (f.tur || "hukuk") === x.tur).length})</Text>
-              </Pressable>
-            ))}
-          </View>
-        )}
+        {(() => {
+          // Süzgeçler açılır kutularda: durum, evrak, tür; tür seçilince o türün dava türleri ve aşamaları.
+          const tf = turF === "hepsi" ? [] : buro.filter(f => (f.tur || "hukuk") === turF && (filtre === "hepsi" || f.durum === filtre));
+          const say = (al: (f: Foy) => string, sabit: string[] = []) => {
+            const m = new Map<string, number>(sabit.map(x => [x, 0]));
+            for (const f of tf) { const k = al(f).trim(); m.set(k, (m.get(k) || 0) + 1); }
+            return [...m.entries()].sort((a, b) => (a[0] === "" ? 1 : b[0] === "" ? -1 : 0) || b[1] - a[1]).map(([k, n]) => ({ k: "x:" + k, ad: k || t("Belirtilmemiş"), n }));
+          };
+          const hepsi = { k: "*", ad: t("Hepsi"), n: tf.length };
+          return (
+            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
+              <Acilir etiket={t("Durum")} secili={filtre} onSec={k => setFiltre(k as typeof filtre)}
+                secenekler={(["acik", "kapali", "hepsi"] as const).map(k => ({ k, ad: k === "acik" ? t("Açık") : k === "kapali" ? t("Kapalı") : t("Hepsi"), n: buro.filter(f => k === "hepsi" || f.durum === k).length }))} />
+              <Acilir etiket={t("Dosya türü")} secili={turF} onSec={k => setTurF(k as FoyTur | "hepsi")} genislik={200}
+                secenekler={[{ k: "hepsi", ad: t("Bütün türler"), n: buro.length }, ...turlerVar.map(x => ({ k: x.tur, ad: t(x.ad), n: buro.filter(f => (f.tur || "hukuk") === x.tur).length }))]} />
+              {turF !== "hepsi" && <Acilir etiket={t("Hangi dava")} secili={davaF === null ? "*" : "x:" + davaF} onSec={k => setDavaF(k === "*" ? null : k.slice(2))} genislik={200}
+                secenekler={[hepsi, ...say(f => f.davaTuru || "")]} />}
+              {turF !== "hepsi" && <Acilir etiket={t("Aşama")} secili={asamaF === null ? "*" : "x:" + asamaF} onSec={k => setAsamaF(k === "*" ? null : k.slice(2))}
+                secenekler={[hepsi, ...say(f => f.asama || "", turBilgi(turF).asamalar)]} />}
+              <Acilir etiket={t("Evrak")} secili={evrakli ? "var" : "hepsi"} onSec={k => setEvrakli(k === "var")}
+                secenekler={[{ k: "hepsi", ad: t("Bütün föyler") }, { k: "var", ad: t("Evrakı olanlar"), n: buro.filter(f => f.evraklar.length > 0).length }]} />
+            </View>
+          );
+        })()}
         {yuklendi && liste.length === 0 && <Text style={s.body}>{t("Henüz föy yok. “+ Yeni giriş” ile ekleyin ya da dosya listenizi Excel veya Word tablosundan toplu olarak aktarın.")}</Text>}
         {gorunen.length > 1 && sayfalama}
         {sayfadaki.map(foySatir)}
