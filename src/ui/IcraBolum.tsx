@@ -7,6 +7,7 @@ import { Foy, tarihCoz } from "../data/foy";
 import { Kalem, KALEM_ADLARI, kalemleri, MAHIYETLER, FAIZ_TURLERI, FaizTuru, IcraBilgi, icraEksikler, icraHesapla, Masraf, ParaBirimi, TAKIP_YOLLARI, TakipYolu, takipTalebiMetni, tl } from "../data/icra";
 import { t } from "../i18n";
 import { useAccount } from "../data/account";
+import { uyapXml, vekilEksik } from "../data/icraXml";
 import { Acilir } from "./Acilir";
 import { indir, s } from "./foyStil";
 import { Btn } from "./kit";
@@ -50,6 +51,15 @@ export function IcraBolum({ f, degistir, surum }: { f: Foy; degistir: (ek: Parti
     catch { setBilgi(t("Kopyalanamadı; aşağıdaki metni seçip kopyalayın.")); }
   };
   const [goster, setGoster] = useState(false);
+  // Vekil bilgileri (UYAP XML'inde zorunlu): bu bilgisayarda hatırlanır, her föyde yeniden yazılmaz.
+  const [vekil, setVekilRaw] = useState<{ ad?: string; tc?: string; baroNo?: string; tbbNo?: string; adres?: string }>(() => { try { return JSON.parse(globalThis.localStorage?.getItem("celse-vekil") || "{}"); } catch { return {}; } });
+  const setVekil = (ek: Partial<typeof vekil>) => { const v = { ...vekil, ...ek }; setVekilRaw(v); try { globalThis.localStorage?.setItem("celse-vekil", JSON.stringify(v)); } catch { /* yok say */ } };
+  const vekilBilgi = { adSoyad: vekil.ad || account?.adSoyad || "", tcKimlikNo: vekil.tc, baroNo: vekil.baroNo, tbbNo: vekil.tbbNo, adres: vekil.adres };
+  const xmlIndir = () => {
+    const x = uyapXml(f, b, vekilBilgi);
+    indir(`uyap-takip-${(f.esasNo || f.id).replace(/[^\w-]+/g, "-")}.xml`, new Blob([x], { type: "application/xml;charset=utf-8" }));
+    setBilgi(t("XML indirildi. UYAP Avukat Portal → İcra Takip Açılış – XML ekranında il, adliye ve kota/tevzi tipini seçip bu dosyayı yükleyin; takip “Tamamlanmayan Dosyalarım”a düşer, orada kontrol edip imzalarsınız."));
+  };
 
   return (
     <View style={{ gap: 12 }}>
@@ -189,11 +199,21 @@ export function IcraBolum({ f, degistir, surum }: { f: Foy; degistir: (ek: Parti
         </View>
       )}
       {alan("Not (takip talebine eklenir)", b.not || "", v => yaz({ not: v }), undefined, 400)}
+      <Text style={s.secT}>{t("Vekil bilgileri (UYAP XML için; bu bilgisayarda hatırlanır)")}</Text>
+      <View style={s.alanlar}>
+        {alan("Vekilin adı soyadı", vekil.ad || account?.adSoyad || "", v => setVekil({ ad: v }), "Av. Ad Soyad", 200)}
+        {alan("T.C. kimlik no", vekil.tc || "", v => setVekil({ tc: v.replace(/\D/g, "") }), undefined, 150)}
+        {alan("Baro sicil no", vekil.baroNo || "", v => setVekil({ baroNo: v }), undefined, 120)}
+        {alan("TBB no", vekil.tbbNo || "", v => setVekil({ tbbNo: v }), undefined, 120)}
+        {alan("Büro adresi", vekil.adres || "", v => setVekil({ adres: v }), "… / İZMİR", 300)}
+      </View>
       <View style={s.row}>
-        <Btn label={t("Takip talebi özetini kopyala")} onPress={kopyala} />
+        <Btn label={t("UYAP XML indir (deneme)")} disabled={vekilEksik(vekilBilgi).length > 0 || eksik.some(x => /alacak kalemi|İcra dairesi|adı/.test(x))} onPress={xmlIndir} />
+        <Btn kind="secondary" label={t("Takip talebi özetini kopyala")} onPress={kopyala} />
         <Btn kind="secondary" label={goster ? t("Özeti gizle") : t("Özeti göster")} onPress={() => setGoster(!goster)} />
         <Btn kind="ghost" label={t("Metin olarak indir")} onPress={() => indir(`takip-talebi-${(f.esasNo || f.id).replace(/[^\w-]+/g, "-")}.txt`, new Blob([metin()], { type: "text/plain;charset=utf-8" }))} />
       </View>
+      {vekilEksik(vekilBilgi).length > 0 && <Text style={s.hint}>{t("XML için vekil bilgisi eksik: {x}", { x: vekilEksik(vekilBilgi).map(x => t(x)).join(", ") })}</Text>}
       {!!bilgi && <Text style={[s.hint, { color: C.good }]}>{bilgi}</Text>}
       {goster && <Text selectable style={[s.body, { fontFamily: "monospace", fontSize: 13 }]}>{metin()}</Text>}
       <Text style={s.hint}>{t("Oranlar: yasal faiz %9 (31.05.2024'e kadar), %24 (01.06.2024), %31 (31.07.2026, 7589 s. Kanun); avans faizi %39,75 (20.12.2025). Yeni bir oran yayımlandığında yukarıdaki oran alanına yazabilirsiniz. Hesaplar bilgi içindir; takip talebini UYAP'ta kontrol edin.")}</Text>
