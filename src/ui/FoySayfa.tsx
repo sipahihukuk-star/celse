@@ -2,11 +2,12 @@
 // "Dosya ne durumda?" (önemli evrak üzerinden yapay zekâ özeti, sesli dinleme). Her şey bu cihazda; dışarı yalnız kodlu metin gider.
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { dosyaOku, dosyaSil, donguMu, Foy, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
+import { dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
 import { DAVA_TURLERI, EVRAK_TURLERI, FoyTur, turBilgi, TURLER } from "../data/foyTurleri";
 import { unmask } from "../engine/mask";
 import { zipIcerigi, turBul } from "../engine/mask/readers";
 import { evrakProva } from "../data/evrak";
+import { metinleriGetir } from "../data/foyBulut";
 import { setAvukatKalan, usePremium } from "../data/subscription";
 import { EVRAK_KREDI } from "../data/purchaseIds";
 import { durumKaynagi, evrakHazirla, evrakOkuVeHazirla, Kaynak } from "./foyEvrak";
@@ -93,6 +94,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
     if (eklenen.length) degistir({ evraklar: [...f.evraklar, ...eklenen] });
   };
   const evrakAc = async (e: FoyEvrak) => {
+    if (!dosyaSaklanir()) { setErr(t("Asıl dosya bilgisayarınızda duruyor; telefonda yalnız künye ve kodlanmış metin vardır.")); return; }
     const b = await dosyaOku(e.id);
     if (!b) { setErr(t("Asıl dosya bu cihazda bulunamadı (yalnız okunan metni var).")); return; }
     if (/\.(pdf|jpg|jpeg|png|txt)$/i.test(e.ad)) window.open(URL.createObjectURL(b), "_blank"); else indir(e.ad, b);
@@ -115,7 +117,10 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
     // Eski evrakın türü ve önemi yoksa şimdi belirlenir.
     const hazir = f.evraklar.some(e => e.tur === undefined) ? { ...f, evraklar: f.evraklar.map(e => (e.tur === undefined ? evrakHazirla(f, e) : e)) } : f;
     if (hazir !== f) degistir({ evraklar: hazir.evraklar });
-    const k = durumKaynagi(hazir);
+    // Metni bu cihazda olmayan evrak (telefon, ya da başka bilgisayardan eşitlenmiş föy) buluttan kodlanmış hâliyle getirilir.
+    let tam = hazir;
+    try { tam = await metinleriGetir(hazir); } catch { /* bulut yoksa eldekilerle devam */ }
+    const k = durumKaynagi(tam);
     if (!k.kullanilan.length) { setErr(t("Önemli olarak işaretli, yazısı okunmuş evrak yok. Evrak ekleyin ya da önemini değiştirin.")); return; }
     if (/(?<!\d[.,]?)[1-9]\d{10}(?![.,]?\d)|\bTR\s?\d{2}(?:\s?\d{4}){5}|[\w.+-]+@[\w-]+\.[\w.]+/i.test(k.metin)) { setErr(t("Metinde gizlenmemiş kişisel veri kalmış olabilir. “Duruşmaya hazırlan” ekranında kontrol edip gizleyin.")); return; }
     setSoruluyor(true);
@@ -168,7 +173,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
         <IconBadge name="notes" size={30} />
         <View style={{ flex: 1 }}>
           <Text style={s.fileT} numberOfLines={1}>{e.ad}</Text>
-          <Text style={s.hint}>{boyutYaz(e.boyut)} · {tarihYaz(e.eklenme.slice(0, 10))}{e.okunamadi ? " · " + t("metni okunamadı") : e.metin.trim() ? "" : " · " + t("metin yok")}{e.kaynak ? " · DavaTek" : ""}</Text>
+          <Text style={s.hint}>{boyutYaz(e.boyut)} · {tarihYaz(e.eklenme.slice(0, 10))}{e.okunamadi ? " · " + t("metni okunamadı") : e.metin.trim() ? "" : e.bulutMetin ? " · " + t("metni bulutta (kodlu)") : " · " + t("metin yok")}{e.kaynak ? " · DavaTek" : ""}</Text>
           <View style={[s.row, { gap: 12 }]}>
             <Pressable onPress={() => setTurSec(turSec === e.id ? null : e.id)}><Text style={s.link}>{t(e.tur || "Tür seç")} ▾</Text></Pressable>
             <Pressable onPress={() => evrakDegistir(e, { onemli: e.onemli === false })}><Text style={s.link}>{e.onemli === false ? t("☆ Önemsiz") : t("★ Önemli")}</Text></Pressable>
@@ -205,7 +210,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
 
       <View style={s.card}>
         <View style={s.row}>
-          <Btn label={soruluyor ? t("Bakılıyor…") : t("Dosya ne durumda?")} onPress={durumSor} disabled={soruluyor || !onemli.some(e => e.metin.trim())} />
+          <Btn label={soruluyor ? t("Bakılıyor…") : t("Dosya ne durumda?")} onPress={durumSor} disabled={soruluyor || !onemli.some(e => e.metin.trim() || e.bulutMetin)} />
           {DAVA.includes(f.tur || "hukuk") && <Btn kind="secondary" label={t("Duruşmaya hazırlan")} onPress={async () => { await hemenKaydet(); onHazirlan(f); }} disabled={!f.evraklar.some(e => e.metin.trim())} />}
         </View>
         <Text style={s.hint}>{t("Dosya ne durumda: önemli evrak (kararlar, bilirkişi raporları, tutanaklar, dilekçeler) cihazda kodlanıp yapay zekâya gönderilir; özet, süreler ve yapılacak işler föye yazılır{k}. Önemsiz işaretlenen evrak (tebligat, makbuz, vekâletname) gönderilmez.", { k: bedava ? "" : " (" + t("{n} kredi", { n: EVRAK_KREDI.evrak }) + ")" })}</Text>
@@ -357,10 +362,12 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
       <View style={s.card}>
         <Text style={s.cardT}>{t("Evrak")} ({f.evraklar.length})</Text>
         <Text style={s.hint}>{t("UDF, Word, PDF, TIF, fotoğraf ya da UYAP/DavaTek'ten inen ZIP. Dosyalar bu cihazda saklanır; taranmış evrakın yazısı da burada okunur. Her evrakın türü ve önemi kendiliğinden belirlenir, değiştirebilirsiniz.")}</Text>
-        <View style={s.row}>
-          {!!ekle && <Btn label={t("{tur} ekle", { tur: t(ekle) })} onPress={() => evrakEkle(ekle)} disabled={!!okuma} />}
-          <Btn kind="secondary" label={t("Evrak ekle")} onPress={() => evrakEkle()} disabled={!!okuma} />
-        </View>
+        {dosyaSaklanir() ? (
+          <View style={s.row}>
+            {!!ekle && <Btn label={t("{tur} ekle", { tur: t(ekle) })} onPress={() => evrakEkle(ekle)} disabled={!!okuma} />}
+            <Btn kind="secondary" label={t("Evrak ekle")} onPress={() => evrakEkle()} disabled={!!okuma} />
+          </View>
+        ) : <Text style={s.hint}>{t("Telefondan evrak ekleme uygulamanın bir sonraki sürümünde gelecek; şimdilik evrakı bilgisayardan ekleyin, bulut eşitlemesiyle buraya gelir.")}</Text>}
         {!!okuma && <Text style={s.hint}>{okuma}</Text>}
         {onemli.map(evrakSatir)}
         {onemsiz.length > 0 && (

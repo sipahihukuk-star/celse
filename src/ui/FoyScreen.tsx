@@ -3,7 +3,7 @@
 // Her şey bu cihazda (src/data/foy.ts); yapay zekâya yalnız kodlanmış metin gider. Föy sayfası: FoySayfa.tsx.
 import React, { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { bosFoy, Foy, foyBaslik, foyDestekli, foyDinle, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, ozelSayisi, tarihYaz, yedekMetni, yedektenYukle } from "../data/foy";
+import { bosFoy, Foy, foyBaslik, foyDinle, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, ozelSayisi, tarihYaz, yedekMetni, yedektenYukle } from "../data/foy";
 import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyAktar";
 import { DAVA_TURLERI, FoyTur, Giris, GIRISLER, turBilgi, TURLER } from "../data/foyTurleri";
 import { useInnerBack } from "./innerBack";
@@ -11,6 +11,7 @@ import { FoySayfa } from "./FoySayfa";
 import { evrakOlustur } from "./foyEvrak";
 import { gorulduYaz, klasorBilgisi, klasorDestekli, klasorSec, klasorTara, TaramaDosyasi } from "./foyKlasor";
 import { dosyaSec, gunYaz, indir, s } from "./foyStil";
+import { FoyBulutKart } from "./FoyBulutKart";
 import { Btn } from "./kit";
 import { t } from "../i18n";
 import { C } from "./theme";
@@ -38,15 +39,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   useEffect(() => { yenile(); return foyDinle(yenile); }, []);
   useInnerBack(!!secili || aktar || giris || !!kilitSor, () => { setSecili(null); setAktar(false); setGiris(false); setKilitSor(null); });
 
-  if (Platform.OS !== "web" || !foyDestekli()) {
-    return (
-      <ScrollView contentContainerStyle={s.wrap}>
-        <View style={s.head}><Btn kind="ghost" label={t("‹ Geri")} onPress={p.onBack} /></View>
-        <Text style={s.title}>{t("Dava takibi")}</Text>
-        <Text style={s.body}>{t("Dava takibi şimdilik bilgisayarda çalışır: celse.themiscode.com adresini bilgisayarınızda Chrome ya da Edge ile açın. Föyler o bilgisayarda saklanır.")}</Text>
-      </ScrollView>
-    );
-  }
+  // Telefonda: föyler uygulamanın deposunda; evrak ekleme, toplu aktarma, DavaTek klasörü ve yedek dosyası bilgisayardadır.
+  const web = Platform.OS === "web";
   if (kilitSor) return <OzelKilit durum={kilit} onKapat={() => setKilitSor(null)} onAcildi={() => { const f = kilitSor.sonra; setKilitSor(null); yenile(); f?.(); }} />;
   if (aktar) return <Aktar mevcut={liste} onBitti={(n) => { setAktar(false); if (n) setMesaj({ t: n, ok: true }); }} />;
   if (secili) return <FoySayfa key={secili.id} id={secili.id} ekle={secili.ekle} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} />;
@@ -92,21 +86,22 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       <Text style={s.eyebrow}>{t("DAVA TAKİBİ · CELSE AVUKAT")}</Text>
       <Text style={s.title}>{t("Föylerim")}</Text>
       <View style={s.warn}>
-        <Text style={s.warnT}>{t("Föyleriniz yalnız bu bilgisayarda saklanır.")}</Text>
-        <Text style={s.warnD}>{t("Künye, evrak ve görevler sunucuya gitmez. Yapay zekâya yalnız cihazda kodlanmış metin gönderilir ve kaydedilmez. Bilgisayar değişirse ya da tarayıcı verisi silinirse föyler kaybolur; düzenli olarak yedek alın.")}</Text>
-        <View style={s.row}>
+        <Text style={s.warnT}>{web ? t("Föyleriniz bu cihazda saklanır.") : t("Föyleriniz bu telefonda saklanır.")}</Text>
+        <Text style={s.warnD}>{t("Yapay zekâya yalnız cihazda kodlanmış metin gönderilir ve kaydedilmez. Bulut eşitlemesini açarsanız föyler bu cihazda şifrelenip diğer cihazlarınıza gider; sunucu içeriği okuyamaz. Eşitleme kapalıysa cihaz değişince ya da tarayıcı verisi silinince föyler kaybolur; yedek alın.")}</Text>
+        {web && <View style={s.row}>
           <Btn kind="ghost" label={t("Yedeği indir")} onPress={yedekAl} />
           <Btn kind="ghost" label={t("Yedekten yükle")} onPress={yedekYukle} />
-        </View>
+        </View>}
       </View>
 
       <View style={s.row}>
         <Btn label={t("+ Yeni giriş")} onPress={() => setGiris(true)} />
-        <Btn kind="secondary" label={t("Excel ya da Word'den toplu ekle")} onPress={() => setAktar(true)} />
+        {web && <Btn kind="secondary" label={t("Excel ya da Word'den toplu ekle")} onPress={() => setAktar(true)} />}
       </View>
       {mesaj && <Text style={[s.hint, { color: mesaj.ok ? C.good : C.bad }]}>{mesaj.t}</Text>}
 
-      <KlasorKart liste={liste} onBilgi={m => setMesaj(m)} />
+      <FoyBulutKart />
+      {web && <KlasorKart liste={liste} onBilgi={m => setMesaj(m)} />}
 
       <View style={[s.card, { flexDirection: "row", alignItems: "center", gap: 10, flexWrap: "wrap" }]}>
         <Text style={[s.body, { flex: 1 }]}>{kilit === "yok" ? t("🔒 Şahsi dosyalarınız (kendi davalarınız, soruşturmalarınız) ayrı şifreyle kilitli ve şifreli saklanabilir.")
