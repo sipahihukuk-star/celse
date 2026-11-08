@@ -137,6 +137,17 @@ export function kodlaDurum(gruplar: HavuzGrup[], hedefi: (g: HavuzGrup) => Hedef
 export const geriAc = (s: string, geri: Record<string, string>) => {
   let x = s.replace(/\b(KİŞİ|AVUKAT|DOSYA)-\d+\b/g, m => geri[m] || m);
   // Merci kodları ("ASLİYE HUKUK MAHKEMESİ-2"): uzun olandan başlayarak.
-  for (const k of Object.keys(geri).filter(k => !/^(KİŞİ|AVUKAT|DOSYA)-\d+$/.test(k)).sort((p, q) => q.length - p.length)) x = x.split(k).join(geri[k]);
+  const merciler = Object.keys(geri).filter(k => !/^(KİŞİ|AVUKAT|DOSYA)-\d+$/.test(k)).sort((p, q) => q.length - p.length);
+  for (const k of merciler) x = x.split(k).join(geri[k]);
+  // Yapay zekâ kodu kısaltmış olabilir ("CBS-1" = CUMHURİYET BAŞSAVCILIĞI-1, "AHM-2" = ASLİYE HUKUK MAHKEMESİ-2).
+  const kisa = (tur: string) => {
+    const ilk = tur.split(" ").filter(Boolean).map(w => w[0]).join("");
+    return /SAVCILI/.test(tur) ? [ilk, "CBS", "C.B.S."] : [ilk];
+  };
+  for (const k of merciler) {
+    const m = k.match(/^(.*)-(\d+)$/);
+    if (!m) continue;
+    for (const a of kisa(m[1])) if (a.length >= 2) x = x.replace(new RegExp(`(^|[^\\p{L}])${a.replace(/\./g, "\\.")}[- ]${m[2]}(?![\\d])`, "gu"), `$1${geri[k]}`);
+  }
   return x;
 };
