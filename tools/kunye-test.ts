@@ -59,6 +59,7 @@ const tekSatir = kunyeCikar("İZMİR CUMHURİYET BAŞSAVCILIĞINA SUÇ DUYURUSUN
 ok(tekSatir.mahkeme === "İzmir Cumhuriyet Başsavcılığı" && tekSatir.birinci?.ad === "Deneme Müşteki" && tekSatir.birinci?.vekil === "Av. Örnek Büro Avukatı" && tekSatir.ikinci?.ad === "Örnek Şüpheli", "tek satırlık suç duyurusu: " + JSON.stringify(tekSatir));
 const sekme = kunyeCikar("İZMİR NÖBETÇİ İŞ MAHKEMESİ'NE\n\nDAVACI\t\t\t: ÖRNEK İŞÇİ (T.C. 10000000146)\nVEKİLİ\t\t\t: Av. ÖRNEK BÜRO AVUKATI\nDAVALI\t\t\t: DENEME İŞVEREN A.Ş.\nKONU\t\t\t: İşçilik alacakları", simdi);
 ok(!sekme.mahkeme && sekme.birinci?.ad === "Örnek İşçi" && sekme.birinci?.kimlikNo === "10000000146" && sekme.birinci?.vekil === "Av. Örnek Büro Avukatı" && sekme.ikinci?.ad === "Deneme İşveren A.Ş." && sekme.konu === "İşçilik alacakları", "sekmeli dilekçe: " + JSON.stringify(sekme));
+ok(kunyeCikar("GEREKÇELİ KARAR\nDAVA TARİHİ : 05/01/2026\nKARAR TARİHİ : 01/10/2026", simdi).belgeTarihi === "2026-10-01", "belge tarihi: karar tarihi");
 const dilekce = kunyeCikar("İZMİR 4. İŞ MAHKEMESİ'NE\nDOSYA NO : 2026/55 Esas\nDAVALI : DENEME İŞVEREN LTD. ŞTİ.", simdi);
 ok(dilekce.mahkeme === "İzmir 4. İş Mahkemesi" && dilekce.esasNo === "2026/55", "dilekçe başlığı: " + JSON.stringify(dilekce));
 ok(!kunyeCikar("İZMİR NÖBETÇİ ASLİYE HUKUK MAHKEMESİ'NE", simdi).mahkeme, "nöbetçi mahkeme alınmaz");

@@ -29,5 +29,11 @@ ok(r.ayrilamayan.some(e => e.id === x1.id), "künyesiz evrak ayrılamayanlarda")
 ok(r.gruplar[0].esasNo === "2025/88", "gruplar açılış tarihine göre sıralı");
 void d1;
 
+const arb = ev("T.C.\nİZMİR ARABULUCULUK BÜROSU\nBÜRO NO : 2025/700\nBAŞVURUCU : ÖRNEK İŞÇİ\nKARŞI TARAF : DENEME İŞVEREN LTD. ŞTİ.\nBAŞVURU TARİHİ : 01/02/2025");
+const r2 = havuzuGrupla([b1, arb], [], ["Örnek Büro Avukatı"]);
+const ga = r2.gruplar.find(g => g.esasNo === "2025/700"), gd = r2.gruplar.find(g => g.esasNo === "2025/88");
+ok(ga?.hedef.tur === "yeni" && ga.hedef.foyTur === "arabuluculuk", "arabuluculuk bürosu türü: " + JSON.stringify(ga?.hedef));
+ok(!!gd && gd.onceki === ga?.anahtar, "akış: iş davası arabuluculuğun devamı");
+
 if (fail) { console.log(`havuz-test: ${fail} hata`); process.exit(1); }
 console.log("havuz-test: tamam");

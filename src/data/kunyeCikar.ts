@@ -8,6 +8,8 @@ export interface KunyeOneri {
   mahkeme?: string; esasNo?: string; konu?: string; durusma?: string;
   /** dava / başvuru / soruşturma / takip tarihi (YYYY-AA-GG) */
   acilis?: string;
+  /** evrakın kendi tarihi (karar, tutanak, dilekçe tarihi; YYYY-AA-GG): föyde evrak bu tarihe göre sıralanır */
+  belgeTarihi?: string;
   birinci?: TarafOneri; ikinci?: TarafOneri;
   vekalet?: { noter?: string; tarih?: string; yevmiye?: string; kimlikNo?: string };
 }
@@ -65,7 +67,7 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
   const merci = new RegExp(`^(?:T\\.?\\s?C\\.?\\s+)?([${BUYUK}][${BUYUK}0-9 .]{2,60}(?:MAHKEMESİ|BAŞSAVCILIĞI|İCRA DAİRESİ|İCRA MÜDÜRLÜĞÜ|HUKUK DAİRESİ|CEZA DAİRESİ|ARABULUCULUK BÜROSU))(?:['’]?(?:NE|NA|YE|YA))?(?=[\\s,.]|$)`);
   // Dilekçe başlığı "… MAHKEMESİ'NE" de olur; "NÖBETÇİ" mahkeme henüz belli olmayan mahkemedir, alınmaz.
   for (const x of bas) { const m = x.match(merci); if (m && !/NÖBETÇİ/.test(m[1])) { o.mahkeme = basHarf(m[1]); break; } }
-  const esas = metin.match(/(?:ESAS\s*(?:NO|NUMARASI)?|DOSYA\s*NO|SORUŞTURMA\s*(?:NO|NUMARASI)|TAKİP\s*NO)\s*[:.]?\s*((?:19|20)\d{2}\s*\/\s*\d{1,7})/i)
+  const esas = metin.match(/(?:ESAS\s*(?:NO|NUMARASI)?|DOSYA\s*NO|SORUŞTURMA\s*(?:NO|NUMARASI)|TAKİP\s*NO|BÜRO\s*(?:NO|NUMARASI)|ARABULUCULUK\s*(?:NO|NUMARASI)|BAŞVURU\s*(?:NO|NUMARASI))\s*[:.]?\s*((?:19|20)\d{2}\s*\/\s*\d{1,7})/i)
     || metin.match(/\b((?:19|20)\d{2}\s*\/\s*\d{1,7})\s*(?:Esas|E\.)\b/);
   if (esas) o.esasNo = esas[1].replace(/\s+/g, "");
   // Taraflar ve vekilleri.
@@ -102,6 +104,12 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
   // Açılış tarihi: gerekçeli karar ve tutanak başlığındaki "DAVA TARİHİ", "BAŞVURU TARİHİ", "SUÇ TARİHİ" değil "SORUŞTURMA" / "TAKİP" tarihi.
   const ac = metin.match(/(?:DAVA|BAŞVURU|SORUŞTURMA|TAKİP|İHBAR|ŞİKAYET|ŞİKÂYET)\s*(?:AÇILIŞ\s*)?TARİHİ\s*[:]?\s*(\d{1,2})[./](\d{1,2})[./](\d{4})/i);
   if (ac) { const x = tarihIso(ac[1], ac[2], ac[3]); if (x) o.acilis = x; }
+  // Evrakın kendi tarihi: "KARAR TARİHİ", "TUTANAK TARİHİ", "Tarih :" ya da başlıktaki/sondaki ilk tarih.
+  const bt = metin.match(/(?:KARAR|TUTANAK|RAPOR|DİLEKÇE|TEBLİĞ|DÜZENLEME)\s*TARİHİ\s*[:]\s*(\d{1,2})[./](\d{1,2})[./](\d{4})/i)
+    || metin.match(/(?:^|\n)\s*TARİH\s*[:]\s*(\d{1,2})[./](\d{1,2})[./](\d{4})/i)
+    || satirlar.slice(0, 25).join("\n").match(/\b(\d{1,2})[./](\d{1,2})[./](\d{4})\b/)
+    || satirlar.slice(-12).join("\n").match(/\b(\d{1,2})[./](\d{1,2})[./](\d{4})\b/);
+  if (bt) { const x = tarihIso(bt[1], bt[2], bt[3]); if (x) o.belgeTarihi = x; }
   // Vekâletname.
   if (/VEK[AÂ]LETNAME/i.test(metin)) {
     const v: NonNullable<KunyeOneri["vekalet"]> = {};

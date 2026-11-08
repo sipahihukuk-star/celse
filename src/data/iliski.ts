@@ -87,7 +87,9 @@ export function iliskiOner(liste: Foy[], reddedilen: Set<string>): IliskiOnerisi
       const o = kunyeCikar(ev.metin.slice(0, 4000));
       const e = esasSade(o.esasNo);
       if (e.length < 6 || e === kendi) continue;
-      const hedef = (esasFoy.get(e) || []).filter(h => h.id !== f.id && (!o.mahkeme || !h.mahkeme || sade(o.mahkeme) === sade(h.mahkeme)));
+      // Evrakın başlığında merci de olmalı ve hedef föyünkiyle aynı olmalı (metinde geçen başka bir dosya numarası yetmez).
+      if (!o.mahkeme) continue;
+      const hedef = (esasFoy.get(e) || []).filter(h => h.id !== f.id && (!h.mahkeme || sade(o.mahkeme) === sade(h.mahkeme)));
       if (hedef.length !== 1) continue;
       const k = ciftAnahtari(f.id, hedef[0].id, "evrak:" + ev.id);
       if (!reddedilen.has(k)) out.push({ anahtar: k, tur: "evrak", puan: 6, nedenler: [`evrakın başlığındaki dosya no ${o.esasNo}`], a: f, b: hedef[0], evrak: ev });

@@ -219,7 +219,9 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const acik = f.gorevler.filter(x => !x.bitti).sort((a, b) => (a.tarih || "9999").localeCompare(b.tarih || "9999"));
   const biten = f.gorevler.filter(x => x.bitti);
   const taraflar = tarafAdlari(f.tur);
-  const onemli = f.evraklar.filter(e => e.onemli !== false), onemsiz = f.evraklar.filter(e => e.onemli === false);
+  // Evrak kronolojik: kendi tarihi (karar, tutanak, dilekçe tarihi) ya da eklenme günü.
+  const evrakSira = (a: FoyEvrak, b: FoyEvrak) => (a.tarih || a.eklenme.slice(0, 10)).localeCompare(b.tarih || b.eklenme.slice(0, 10));
+  const onemli = f.evraklar.filter(e => e.onemli !== false).sort(evrakSira), onemsiz = f.evraklar.filter(e => e.onemli === false).sort(evrakSira);
   const halka = (x: Foy, ben = false) => (
     <Pressable key={x.id} onPress={ben ? undefined : async () => { await hemenKaydet(); onAc(x.id); }} style={[s.zHalka, ben && s.zHalkaOn]}>
       <Text style={s.meta}>{turBilgi(x.tur).kisa}</Text>
@@ -233,7 +235,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         <IconBadge name="notes" size={30} />
         <View style={{ flex: 1 }}>
           <Text style={s.fileT} numberOfLines={1}>{e.ad}</Text>
-          <Text style={s.hint}>{boyutYaz(e.boyut)} · {tarihYaz(e.eklenme.slice(0, 10))}{e.okunamadi ? " · " + t("metni okunamadı") : e.metin.trim() ? "" : e.bulutMetin ? " · " + t("metni bulutta (kodlu)") : " · " + t("metin yok")}{e.kaynak ? " · DavaTek" : ""}</Text>
+          <Text style={s.hint}>{e.tarih ? t("evrak tarihi {d}", { d: tarihYaz(e.tarih) }) + " · " : ""}{boyutYaz(e.boyut)} · {t("eklendi {d}", { d: tarihYaz(e.eklenme.slice(0, 10)) })}{e.okunamadi ? " · " + t("metni okunamadı") : e.metin.trim() ? "" : e.bulutMetin ? " · " + t("metni bulutta (kodlu)") : " · " + t("metin yok")}{e.kaynak ? " · DavaTek" : ""}</Text>
           <View style={[s.row, { gap: 12 }]}>
             <Pressable onPress={() => setTurSec(turSec === e.id ? null : e.id)}><Text style={s.link}>{t(e.tur || "Tür seç")} ▾</Text></Pressable>
             <Pressable onPress={() => evrakDegistir(e, { onemli: e.onemli === false })}><Text style={s.link}>{e.onemli === false ? t("☆ Önemsiz") : t("★ Önemli")}</Text></Pressable>
