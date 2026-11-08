@@ -4,7 +4,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { useAccount } from "../data/account";
-import { ayarOku, ayarYaz, bosFoy, dosyaOku, dosyaSil, Foy, foyBaslik, FoyEvrak, foyGetir, foyHaber, foyKaydet, foySil, tarihYaz } from "../data/foy";
+import { ayarOku, ayarYaz, bosFoy, dosyaOku, dosyaSil, Foy, foyBaslik, FoyEvrak, foyGetir, foyHaber, foyKaydet, foylerKaydet, foySil, tarihYaz } from "../data/foy";
 import { FoyTur, turBilgi } from "../data/foyTurleri";
 import { FoylemeSohbeti } from "./FoylemeSohbeti";
 import { HavuzEvrak, havuzuGrupla, HavuzGrup, Hedef } from "../data/havuz";
@@ -13,10 +13,13 @@ import { turBul, zipIcerigi } from "../engine/mask/readers";
 import { t } from "../i18n";
 import { evrakMetniOku, evrakOlustur, Kaynak } from "./foyEvrak";
 import { boyutYaz, dosyaListesiSec, s } from "./foyStil";
+import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyAktar";
 import { Btn } from "./kit";
 import { C } from "./theme";
 
-const UZANTILAR = ["udf", "doc", "docx", "txt", "pdf", "tif", "tiff", "jpg", "jpeg", "png", "zip"];
+const UZANTILAR = ["udf", "doc", "docx", "txt", "pdf", "tif", "tiff", "jpg", "jpeg", "png", "zip", "xlsx", "xlsm", "csv", "xls"];
+// Excel/CSV dosyası evrak değil, dosya listesidir: her satırı bir föy olur (Dosya listesini aktar ile aynı okuma).
+const LISTE = ["xlsx", "xlsm", "csv"];
 type Okunan = HavuzEvrak & { kaynak: () => Promise<Kaynak> };
 
 /** kaynakFoy verilirse: o föyde toplanmış evrak (ör. hepsi tek föye yüklenmiş) okunur, gruplanır ve ait oldukları föylere taşınır. */
@@ -33,6 +36,8 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
   const [hazirlik, setHazirlik] = useState("");
 
   const [goster, setGoster] = useState<string | null>(null);
+  const [tablolar, setTablolar] = useState<{ ad: string; sonuc: AktarimSonucu }[]>([]);
+  const [tabloHata, setTabloHata] = useState("");
   // Akış: grubun hangi grubun devamı olduğu (öneriyi değiştirmek ya da kaldırmak için; null = bağ yok).
   const [zincir, setZincir] = useState<Record<string, string | null>>({});
   // Ayrılamayan evrakı bir gruba vermek (sohbetle).
@@ -51,7 +56,15 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
     })));
   }, [kaynakFoy?.id]);
   const avukatListesi = avukatlar.split(/[,;\n]/).map(x => x.trim()).filter(Boolean);
-  const { gruplar, ayrilamayan } = useMemo(() => havuzuGrupla(okunan, liste, avukatListesi), [okunan, liste, avukatlar]);
+  // Excel satırlarından föyler: listede aynı mahkeme ve esas varsa güncellenir, yoksa yeni föy olur. Evrak bu föylerle de eşleşir.
+  const ayrim = useMemo(() => {
+    const tek: Foy[] = [];
+    const anahtar = (f: Foy) => (f.esasNo ? (f.mahkeme || "").toLocaleLowerCase("tr") + "|" + f.esasNo.replace(/\s+/g, "") : "");
+    for (const x of tablolar.flatMap(t => t.sonuc.foyler)) if (!anahtar(x) || !tek.some(y => anahtar(y) === anahtar(x))) tek.push(x);
+    return tek.length ? birlestir(liste, tek) : { yeni: [] as Foy[], guncellenen: [] as Foy[] };
+  }, [tablolar, liste]);
+  const tumFoy = useMemo(() => [...liste, ...ayrim.yeni], [liste, ayrim]);
+  const { gruplar, ayrilamayan } = useMemo(() => havuzuGrupla(okunan, tumFoy, avukatListesi), [okunan, tumFoy, avukatlar]);
   const belirsiz = (g: HavuzGrup) => g.hedef.tur === "yeni" && (!!g.tarafBelirsiz || !g.birinci || !g.ikinci);
   const hedefi = (g: HavuzGrup): Hedef => hedefler[g.anahtar] || (beklet && belirsiz(g) ? { tur: "atla" } : g.hedef);
   const oncesi = (g: HavuzGrup): string | undefined => (g.anahtar in zincir ? zincir[g.anahtar] || undefined : g.onceki);
@@ -63,6 +76,16 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
     let i = 0;
     for (const d of dosyalar) {
       i++;
+      const uz = (d.name.split(".").pop() || "").toLowerCase();
+      if (uz === "xls") { setTabloHata(t("{ad}: eski Excel biçimi (.xls) okunamıyor; Excel'de “Farklı kaydet → Excel Çalışma Kitabı (.xlsx)” yapıp yeniden seçin.", { ad: d.name })); continue; }
+      if (LISTE.includes(uz)) {
+        try {
+          const sonuc = tablodanFoyler(tabloOku(d.name, new Uint8Array(await d.arrayBuffer())));
+          if (sonuc.foyler.length) setTablolar(x => [...x.filter(y => y.ad !== d.name), { ad: d.name, sonuc }]);
+          else setTabloHata(t("{ad}: tabloda föy olacak satır bulunamadı (başlık satırında müvekkil, mahkeme, esas no gibi sütunlar olmalı).", { ad: d.name }));
+        } catch (e) { setTabloHata(t("{ad}: {m}", { ad: d.name, m: String((e as Error).message || e) })); }
+        continue;
+      }
       const yol = (d as File & { webkitRelativePath?: string }).webkitRelativePath || d.name;
       const parca: Kaynak[] = [];
       const bytes = new Uint8Array(await d.arrayBuffer());
@@ -90,6 +113,9 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
   const uygula = async () => {
     setUyguluyor(true);
     await ayarYaz("buroAvukatlari", avukatlar);
+    // Önce Excel listesindeki föyler kaydedilir (evrak bunlara da eklenebilsin diye).
+    const listeFoy = ayrim.yeni.length + ayrim.guncellenen.length;
+    if (listeFoy) await foylerKaydet([...ayrim.yeni, ...ayrim.guncellenen]);
     let yeniFoy = 0, eklenen = 0;
     const tasinan: string[] = [];
     const grupFoy: Record<string, string> = {};
@@ -140,7 +166,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
     }
     foyHaber();
     setUyguluyor(false); setIlerleme("");
-    onBitti(t("{n} evrak föylere eklendi; {y} yeni föy açıldı.", { n: eklenen, y: yeniFoy }));
+    onBitti(t("{n} evrak föylere eklendi; {y} yeni föy açıldı.", { n: eklenen, y: yeniFoy + ayrim.yeni.length }) + (ayrim.guncellenen.length ? " " + t("Excel listesinden {g} föy güncellendi.", { g: ayrim.guncellenen.length }) : ""));
   };
 
   const hazirla = async () => {
@@ -149,11 +175,11 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
     catch (e) { setHazirlik(t("İndirilemedi: {m}", { m: String((e as Error).message || e) })); }
   };
 
-  const foyAdi = (id: string) => { const f = liste.find(x => x.id === id); return f ? `${turBilgi(f.tur).ad} · ${foyBaslik(f)}${f.esasNo ? " · " + f.esasNo : ""}` : "?"; };
+  const foyAdi = (id: string) => { const f = tumFoy.find(x => x.id === id); return f ? `${turBilgi(f.tur).ad} · ${foyBaslik(f)}${f.esasNo ? " · " + f.esasNo : ""}` : "?"; };
   const hedefYaz = (h: Hedef) => h.tur === "var" ? t("Var olan föye: {f}", { f: foyAdi(h.foyId) }) : h.tur === "yeni" ? t("Yeni föy: {t} ({v})", { t: turBilgi(h.foyTur).ad, v: h.taraf === "davali" ? t("karşı tarafın vekiliyiz") : t("başvuran tarafın vekiliyiz") }) : t("Atlanacak");
   const secici = (onSec: (id: string) => void) => {
     const q = ara.trim().toLocaleLowerCase("tr");
-    const xs = liste.filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo].join(" ").toLocaleLowerCase("tr").includes(q)).slice(0, 12);
+    const xs = tumFoy.filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo].join(" ").toLocaleLowerCase("tr").includes(q)).slice(0, 12);
     return (
       <View style={{ gap: 6 }}>
         <TextInput value={ara} onChangeText={setAra} placeholder={t("Föy ara: müvekkil, karşı taraf, esas no…")} placeholderTextColor={C.muted} style={s.inputTek} />
@@ -170,7 +196,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
       <Text style={s.title}>{kaynakFoy ? t("Evrakı föylere ayır") : t("Toplu evrak yükle")}</Text>
       <View style={s.warn}>
         <Text style={s.warnT}>{t("Bütün evrakı bir kerede atın, Celse ayırsın.")}</Text>
-        <Text style={s.warnD}>{t("Dosyaları ya da bütün bir klasörü seçin (UDF, PDF, Word, TIF, fotoğraf, ZIP). Her evrak bu bilgisayarda okunur; dosya numarası, mahkeme, müvekkil ve karşı taraf adına göre gruplanır. Her grup var olan föyüne eklenir ya da yeni föy açılır; mahkeme, esas no, taraflar, vekiller ve açılış tarihi evraktan doldurulur. Önce önizleme görürsünüz, onaylamadan hiçbir şey kaydedilmez. Evrak internete gönderilmez.")}</Text>
+        <Text style={s.warnD}>{t("Dosyaları ya da bütün bir klasörü seçin (UDF, PDF, Word, TIF, fotoğraf, ZIP). Excel ya da CSV dosya listesi de atabilirsiniz: her satırı bir föy olur. Her evrak bu bilgisayarda okunur; dosya numarası, mahkeme, müvekkil ve karşı taraf adına göre gruplanır. Her grup var olan föyüne eklenir ya da yeni föy açılır; mahkeme, esas no, taraflar, vekiller ve açılış tarihi evraktan doldurulur. Önce önizleme görürsünüz, onaylamadan hiçbir şey kaydedilmez. Evrak internete gönderilmez.")}</Text>
       </View>
 
       <View style={s.card}>
@@ -188,6 +214,24 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
         </View>}
         {!!ilerleme && <View style={[s.row, { alignItems: "center" }]}><ActivityIndicator color={C.brass} /><Text style={s.hint}>{ilerleme}</Text></View>}
       </View>
+
+      {!!tabloHata && <Text style={s.err}>{tabloHata}</Text>}
+      {tablolar.length > 0 && (
+        <View style={s.card}>
+          <Text style={s.cardT}>📊 {t("Excel / CSV dosya listesi")}</Text>
+          {tablolar.map(x => (
+            <View key={x.ad} style={[s.row, { alignItems: "center" }]}>
+              <Text style={[s.hint, { flex: 1 }]}>{t("{ad}: {n} satır föy olacak{a}", { ad: x.ad, n: x.sonuc.foyler.length, a: x.sonuc.atlanan ? " · " + t("{k} boş satır atlandı", { k: x.sonuc.atlanan }) : "" })}{x.sonuc.eslesmeyen.length ? " · " + t("tanınmayan sütunlar notlara yazıldı: {s}", { s: x.sonuc.eslesmeyen.join(", ") }) : ""}</Text>
+              <Btn kind="ghost" label={t("Kaldır")} onPress={() => setTablolar(y => y.filter(z => z.ad !== x.ad))} />
+            </View>
+          ))}
+          <Text style={s.fileT}>{t("{y} yeni föy açılacak; {g} var olan föy güncellenecek (aynı mahkeme ve esas no).", { y: ayrim.yeni.length, g: ayrim.guncellenen.length })}</Text>
+          {ayrim.yeni.slice(0, 8).map(f => <Text key={f.id} style={s.hint} numberOfLines={1}>• {[turBilgi(f.tur).ad, foyBaslik(f), f.mahkeme, f.esasNo].filter(Boolean).join(" · ")}</Text>)}
+          {ayrim.yeni.length > 8 && <Text style={s.hint}>{t("… ve {n} föy daha", { n: ayrim.yeni.length - 8 })}</Text>}
+          <Text style={s.hint}>{t("Aynı anda seçtiğiniz evrak, numarası ya da tarafları uyan bu föylere eklenir.")}</Text>
+          {!okunan.length && <View style={s.row}><Btn label={uyguluyor ? t("Kaydediliyor…") : t("Onayla ve föyleri kaydet")} disabled={uyguluyor} onPress={uygula} /></View>}
+        </View>
+      )}
 
       {okunan.length > 0 && (
         <View style={s.card}>
@@ -237,7 +281,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
               ))}
             </View>
           )}
-          <FoylemeSohbeti gruplar={gruplar} ayrilamayan={ayrilamayan} liste={liste} avukatlar={avukatListesi} hedefi={hedefi} oncesi={oncesi}
+          <FoylemeSohbeti gruplar={gruplar} ayrilamayan={ayrilamayan} liste={tumFoy} avukatlar={avukatListesi} hedefi={hedefi} oncesi={oncesi}
             uygula={(islemler, k) => {
               for (const x of islemler) {
                 const g = x.grup ? gruplar.find(y => y.anahtar === k.gruplar[x.grup! - 1]) : undefined;
