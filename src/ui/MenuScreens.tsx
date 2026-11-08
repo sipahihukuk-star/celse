@@ -294,7 +294,7 @@ function TakipHome({ wide, admin: yonetici, onFoy, onNext, footer }: { wide: boo
         <Text style={styles.eyebrow}>{t("DAVA TAKİBİ")}</Text>
         <Text style={[styles.logo, { fontSize: wide ? 88 : 60, lineHeight: wide ? 96 : 68 }]}>Celse</Text>
         <Text style={styles.byline}>BY THEMISCODE</Text>
-        <Text style={styles.lede}>{t("Dava dosyalarınızı föy föy takip edin: duruşmalar, süreler, yapılacak işler ve evrak tek yerde. Föyden tek tuşla duruşma provasına geçin. Föyleriniz bilgisayarınızdan çıkmaz.")}</Text>
+        <Text style={styles.lede}>{t("Dava dosyalarınızı föy föy takip edin: duruşmalar, süreler, yapılacak işler ve evrak tek yerde. Föyden tek tuşla duruşma provasına geçin. Föyleriniz cihazınızda tutulur; isterseniz uçtan uca şifreli eşitlemeyle telefonunuzda da açılır.")}</Text>
       </View>
       {!!onFoy && (
         <Pressable accessibilityRole="button" onPress={() => (acik ? onFoy() : setKilit(k => !k))} style={({ pressed }) => [styles.homeCard, styles.homeCardPro, pressed && { opacity: 0.85 }]}>
@@ -303,7 +303,7 @@ function TakipHome({ wide, admin: yonetici, onFoy, onNext, footer }: { wide: boo
             <Text style={styles.careerKDark}>{acik ? t("AVUKATLAR İÇİN") : t("AVUKATLAR İÇİN · YAKINDA")}</Text>
             <Text style={styles.homeT}>{t("Föylerim")}</Text>
             <Text style={styles.webNote}>{t("Dosya listenizi Excel ya da Word'den toplu aktarın; evrakı ekleyin, yaklaşan duruşma ve işleri görün, yapay zekâya özet, süre ve yapılacakları çıkartın.")}</Text>
-            {Platform.OS !== "web" && <Text style={styles.webNote}>{t("Şimdilik bilgisayarda çalışır: celse.themiscode.com'u Chrome ya da Edge ile açın.")}</Text>}
+            {Platform.OS !== "web" && <Text style={styles.webNote}>{t("Evrak ekleme ve toplu aktarma bilgisayarda (celse.themiscode.com); föyler bulut eşitlemesiyle telefona gelir.")}</Text>}
           </View>
           {acik && <Text style={styles.careerGoDark}>›</Text>}
         </Pressable>

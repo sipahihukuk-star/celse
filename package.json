@@ -10,6 +10,8 @@
     "@expo-google-fonts/manrope": "^0.4.3",
     "@expo-google-fonts/playfair-display": "^0.4.2",
     "@expo/metro-runtime": "~58.0.15",
+    "@noble/ciphers": "2.0.1",
+    "@noble/hashes": "2.0.1",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@supabase/supabase-js": "^2.118.0",
     "cfb": "^1.2.2",
@@ -46,7 +48,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "tsx tools/simulate.ts && tsx tools/synctest.ts && tsx tools/appeal-test.ts && tsx tools/appeal-faces-test.ts && tsx tools/faces-test.ts && tsx tools/mask-test.ts",
+    "test": "tsx tools/simulate.ts && tsx tools/synctest.ts && tsx tools/appeal-test.ts && tsx tools/appeal-faces-test.ts && tsx tools/faces-test.ts && tsx tools/mask-test.ts && tsx tools/sifre-test.ts",
     "tutarlilik": "tsx tools/tutarlilik.ts",
     "typecheck": "tsc --noEmit",
     "export:web": "expo export --platform web"

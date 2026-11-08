@@ -1,10 +1,13 @@
 // Dava takibi (föyler). Her dosya bir föydür: türü (hukuk davası, soruşturma, arabuluculuk…), künye, aşama, duruşmalar, evrak,
 // görevler ve yapay zekâ değerlendirmesi. Föyler birbirine bağlanır (soruşturma → ceza davası; arabuluculuk → hukuk davası).
-// Hepsi YALNIZ BU CİHAZDA (tarayıcının IndexedDB deposu) tutulur; asıl evrak ve gerçek adlar sunucuya gitmez. Yapay zekâya
-// yalnız cihazda kodlanmış metin gider. Kişisel ceza ve baro soruşturmaları "özel"dir: ayrı bir şifreden türetilen anahtarla
-// AES-GCM ile şifrelenip saklanır; şifre girilmeden listede görünmez, şifre hiçbir yere kaydedilmez.
+// Föyler cihazda tutulur: tarayıcıda IndexedDB, telefonda uygulamanın kendi deposu (AsyncStorage; telefonda asıl evrak dosyası
+// saklanmaz). İsteğe bağlı bulut eşitlemesi (foyBulut.ts) föyleri avukatın şifresiyle cihazda şifreleyip gönderir; sunucu okuyamaz.
+// Yapay zekâya yalnız cihazda kodlanmış metin gider. Şahsi dosyalar ayrı bir şifreden türetilen anahtarla AES-GCM ile
+// şifrelenip saklanır; şifre girilmeden listede görünmez, şifre hiçbir yere kaydedilmez.
 // Kaybolmaya karşı "Yedeği indir" bütün föyleri tek dosyaya yazar (özel föyler şifreli hâliyle); "Yedekten yükle" geri getirir.
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FoyTur, ozelTur } from "./foyTurleri";
+import { Anahtar, anahtarTuret, b64, b64Coz, coz, kodla, metneCevir, rastgele, Sifreli, sifrele } from "./sifre";
 
 export type FoyTaraf = "davaci" | "davali";
 export interface Gorev { id: string; metin: string; tarih?: string; bitti: boolean; kaynak: "elle" | "yapay" | "aktarma" }
@@ -14,6 +17,8 @@ export interface FoyEvrak {
   tur?: string; onemli?: boolean;
   /** bu evrakın tek başına kodlanmış hâli (yalnız bu metin dışarı gidebilir) ve kodların karşılıkları (cihazda kalır) */
   maskeli?: string; kodlar?: Record<string, string>;
+  /** metni bu cihazda değil, bulutta (maskeli) duruyor: telefon gerektiğinde indirir */
+  bulutMetin?: boolean;
   /** DavaTek klasöründen geldiyse klasördeki yolu */
   kaynak?: string;
 }
@@ -48,8 +53,12 @@ export const foyBaslik = (f: Foy) => [f.muvekkil || "Müvekkil yazılmamış", f
 // Sürüm 2: "ozel" (şifreli özel föyler) ve "ayar" (kilit bilgisi, DavaTek klasörü, görülen dosyalar) depoları eklendi.
 const DB = "celse-foy", SURUM = 2;
 type Depo = "foyler" | "dosyalar" | "ozel" | "ayar";
-const destek = () => typeof indexedDB !== "undefined";
+const idbVar = () => typeof indexedDB !== "undefined";
+// Telefonda IndexedDB yoktur: aynı depolar AsyncStorage'da JSON olarak tutulur (asıl dosyalar hariç).
+const destek = () => true;
 export const foyDestekli = destek;
+/** Bu cihazda asıl evrak dosyası saklanabilir mi (telefonda hayır: yalnız künye, görevler ve metinler). */
+export const dosyaSaklanir = idbVar;
 
 function ac(): Promise<IDBDatabase> {
   return new Promise((ok, hata) => {
@@ -65,7 +74,45 @@ function ac(): Promise<IDBDatabase> {
     r.onerror = () => hata(r.error);
   });
 }
+// ---------- Telefon deposu (AsyncStorage) ----------
+const ANAHTARLI: Depo[] = ["foyler", "ozel"];
+const bellek: Partial<Record<Depo, Map<string, unknown>>> = {};
+const yaziyor: Partial<Record<Depo, Promise<void>>> = {};
+const sakla = (_k: string, v: unknown) => v instanceof Uint8Array ? { __u8: b64(v) } : v instanceof ArrayBuffer ? { __ab: b64(v) } : v;
+const canlandir = (_k: string, v: any) => v && typeof v === "object" ? (typeof v.__u8 === "string" ? b64Coz(v.__u8) : typeof v.__ab === "string" ? b64Coz(v.__ab).buffer : v) : v;
+async function depoYukle(d: Depo) {
+  if (!bellek[d]) {
+    const m = new Map<string, unknown>();
+    try { const v = await AsyncStorage.getItem("celse-foy-db:" + d); if (v) for (const [k, x] of Object.entries(JSON.parse(v, canlandir))) m.set(k, x); } catch { /* bozuksa boş başla */ }
+    bellek[d] = m;
+  }
+  return bellek[d]!;
+}
+type Sahte = { result?: unknown };
+function sahteDepo(d: Depo, m: Map<string, unknown>) {
+  const sonuc = (result?: unknown): Sahte => ({ result });
+  return {
+    get: (k: string) => sonuc(m.get(k)),
+    getAll: () => sonuc([...m.values()]),
+    count: () => sonuc(m.size),
+    put: (v: any, k?: string) => { if (d === "dosyalar") throw new Error("Telefonda asıl evrak dosyası saklanmaz."); m.set(ANAHTARLI.includes(d) ? v.id : String(k), v); return sonuc(); },
+    delete: (k: string) => { m.delete(k); return sonuc(); }
+  };
+}
+async function yerelIslem<T>(depo: Depo, kip: IDBTransactionMode, f: (s: any) => any): Promise<T> {
+  const m = await depoYukle(depo);
+  const r = f(sahteDepo(depo, m)) as Sahte | void;
+  if (kip === "readwrite") {
+    const once = yaziyor[depo] || Promise.resolve();
+    const simdi = once.then(() => AsyncStorage.setItem("celse-foy-db:" + depo, JSON.stringify(Object.fromEntries(m), sakla))).catch(() => {});
+    yaziyor[depo] = simdi;
+    await simdi;
+  }
+  return (r ? r.result : undefined) as T;
+}
+
 function islem<T>(depo: Depo, kip: IDBTransactionMode, f: (s: IDBObjectStore) => IDBRequest | void): Promise<T> {
+  if (!idbVar()) return yerelIslem<T>(depo, kip, f as (s: any) => any);
   return ac().then(db => new Promise<T>((ok, hata) => {
     const tx = db.transaction(depo, kip);
     const r = f(tx.objectStore(depo));
@@ -83,24 +130,13 @@ export function foyDinle(f: () => void) { dinleyiciler.add(f); return () => { di
 const haber = () => dinleyiciler.forEach(f => { try { f(); } catch { /* yok say */ } });
 
 // ---------- Özel föy kilidi (şifreleme) ----------
-interface Sifreli { iv: Uint8Array; veri: ArrayBuffer }
-interface KilitBilgi { tuz: Uint8Array; dogrulama: Sifreli }
-interface OzelKayit extends Sifreli { id: string }
+export interface KilitBilgi { tuz: Uint8Array; dogrulama: Sifreli }
+/** Şahsi föy: şifreli içerik; eşitleme karşılaştırması için yalnız güncelleme zamanı açıktır. */
+export interface OzelKayit extends Sifreli { id: string; guncelleme?: string }
 const DOGRULAMA = "celse-ozel-foy";
 const KILIT_SURE = 15 * 60 * 1000;
-let anahtar: CryptoKey | null = null;
+let anahtar: Anahtar | null = null;
 let sonKullanim = 0;
-const kodla = (s: string) => new TextEncoder().encode(s);
-
-async function anahtarTuret(sifre: string, tuz: Uint8Array) {
-  const ham = await crypto.subtle.importKey("raw", kodla(sifre), "PBKDF2", false, ["deriveKey"]);
-  return crypto.subtle.deriveKey({ name: "PBKDF2", salt: tuz as BufferSource, iterations: 250000, hash: "SHA-256" }, ham, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
-}
-async function sifrele(k: CryptoKey, veri: Uint8Array): Promise<Sifreli> {
-  const iv = crypto.getRandomValues(new Uint8Array(12));
-  return { iv, veri: await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv as BufferSource }, k, veri as BufferSource) };
-}
-const coz = (k: CryptoKey, x: Sifreli) => crypto.subtle.decrypt({ name: "AES-GCM", iv: x.iv as BufferSource }, k, x.veri);
 /** Kullanılan anahtar (15 dakika dokunulmazsa kilit kendiliğinden kapanır). */
 function etkinAnahtar() {
   if (anahtar && Date.now() - sonKullanim > KILIT_SURE) anahtar = null;
@@ -115,7 +151,7 @@ export async function ozelKilitDurumu(): Promise<"yok" | "kilitli" | "acik"> {
 export async function ozelKilitKur(sifre: string) {
   if (sifre.length < 6) throw new Error("Şifre en az 6 karakter olmalı.");
   if (await ayarOku<KilitBilgi>("ozelKilit")) throw new Error("Özel dosya şifresi zaten kurulu.");
-  const tuz = crypto.getRandomValues(new Uint8Array(16));
+  const tuz = rastgele(16);
   const k = await anahtarTuret(sifre, tuz);
   await ayarYaz("ozelKilit", { tuz, dogrulama: await sifrele(k, kodla(DOGRULAMA)) } as KilitBilgi);
   anahtar = k; sonKullanim = Date.now(); haber();
@@ -125,7 +161,7 @@ export async function ozelAc(sifre: string): Promise<boolean> {
   if (!b) return false;
   const k = await anahtarTuret(sifre, b.tuz);
   try {
-    const d = new TextDecoder().decode(await coz(k, b.dogrulama));
+    const d = metneCevir(await coz(k, b.dogrulama));
     if (d !== DOGRULAMA) return false;
   } catch { return false; }
   anahtar = k; sonKullanim = Date.now(); haber();
@@ -133,8 +169,8 @@ export async function ozelAc(sifre: string): Promise<boolean> {
 }
 export function ozelKilitle() { anahtar = null; haber(); }
 export const ozelSayisi = () => (destek() ? islem<number>("ozel", "readonly", s => s.count()) : Promise.resolve(0));
-async function ozelCoz(x: OzelKayit, k: CryptoKey): Promise<Foy | null> {
-  try { return JSON.parse(new TextDecoder().decode(await coz(k, x))) as Foy; } catch { return null; }
+async function ozelCoz(x: OzelKayit, k: Anahtar): Promise<Foy | null> {
+  try { return JSON.parse(metneCevir(await coz(k, x))) as Foy; } catch { return null; }
 }
 
 // ---------- Föyler ----------
@@ -162,7 +198,7 @@ async function yaz(f: Foy) {
     const k = etkinAnahtar();
     if (!k) throw new Error("Özel dosyalar kilitli. Kaydetmek için şifreyle açın.");
     const x = await sifrele(k, kodla(JSON.stringify(f)));
-    await islem("ozel", "readwrite", s => { s.put({ id: f.id, ...x }); });
+    await islem("ozel", "readwrite", s => { s.put({ id: f.id, guncelleme: f.guncelleme, ...x }); });
   } else await islem("foyler", "readwrite", s => { s.put(f); });
 }
 export async function foyKaydet(f: Foy, sessiz = false) {
@@ -178,9 +214,33 @@ export async function foylerKaydet(xs: Foy[]) {
 }
 export async function foySil(f: Foy) {
   await islem(f.ozel ? "ozel" : "foyler", "readwrite", s => { s.delete(f.id); });
-  await islem("dosyalar", "readwrite", s => { for (const e of f.evraklar) s.delete(e.id); });
+  if (idbVar()) await islem("dosyalar", "readwrite", s => { for (const e of f.evraklar) s.delete(e.id); });
+  // Bulut eşitlemesi diğer cihazlardan da silsin diye silinen föy not edilir.
+  const sil = (await ayarOku<Record<string, string>>("bulutSilinen")) || {};
+  sil[f.id] = new Date().toISOString();
+  await ayarYaz("bulutSilinen", sil);
   haber();
 }
+
+// ---------- Bulut eşitlemesi için ham erişim (foyBulut.ts) ----------
+export const hamFoyler = () => islem<Foy[]>("foyler", "readonly", s => s.getAll()).then(x => x || []);
+export const hamOzeller = () => islem<OzelKayit[]>("ozel", "readonly", s => s.getAll()).then(x => x || []);
+/** Buluttan gelen föyü olduğu gibi yazar (güncelleme zamanı korunur). Şahsi/açık deposu değiştiyse eskisi silinir. */
+export async function hamFoyYaz(f: Foy) {
+  await islem("foyler", "readwrite", s => { s.put(f); });
+  await islem("ozel", "readwrite", s => { s.delete(f.id); });
+}
+export async function hamOzelYaz(x: OzelKayit) {
+  await islem("ozel", "readwrite", s => { s.put(x); });
+  await islem("foyler", "readwrite", s => { s.delete(x.id); });
+}
+export async function hamSil(id: string) {
+  await islem("foyler", "readwrite", s => { s.delete(id); });
+  await islem("ozel", "readwrite", s => { s.delete(id); });
+}
+export const kilitBilgisi = () => ayarOku<KilitBilgi>("ozelKilit");
+export const kilitBilgisiYaz = (k: KilitBilgi) => ayarYaz("ozelKilit", k);
+export const foyHaber = () => haber();
 
 /** Föyü şahsi dosyalara taşır ya da şahsi dosyalardan çıkarır (evrakın asıl dosyaları da şifrelenir ya da şifresi açılır).
  *  Her iki yönde de şahsi dosya kilidinin açık olması gerekir. */
@@ -200,6 +260,7 @@ export async function foyOzelYap(f: Foy, ozel: boolean): Promise<Foy> {
 
 /** Evrakın asıl dosyası (açmak ve indirmek için). Özel föyün dosyası şifreli yazılır. */
 export async function dosyaYaz(id: string, b: Blob, ozel = false) {
+  if (!idbVar()) return;
   if (!ozel) return islem("dosyalar", "readwrite", s => { s.put(b, id); });
   const k = etkinAnahtar();
   if (!k) throw new Error("Özel dosyalar kilitli.");
@@ -207,13 +268,14 @@ export async function dosyaYaz(id: string, b: Blob, ozel = false) {
   return islem("dosyalar", "readwrite", s => { s.put({ sifreli: true, tip: b.type, ...x }, id); });
 }
 export async function dosyaOku(id: string): Promise<Blob | undefined> {
+  if (!idbVar()) return undefined;
   const v = await islem<Blob | (Sifreli & { sifreli: true; tip: string }) | undefined>("dosyalar", "readonly", s => s.get(id));
   if (!v || v instanceof Blob) return v as Blob | undefined;
   const k = etkinAnahtar();
   if (!k) return undefined;
   return new Blob([await coz(k, v)], { type: v.tip || "" });
 }
-export const dosyaSil = (id: string) => islem("dosyalar", "readwrite", s => { s.delete(id); });
+export const dosyaSil = (id: string) => (idbVar() ? islem("dosyalar", "readwrite", s => { s.delete(id); }) : Promise.resolve());
 
 // ---------- Dosya zinciri ----------
 /** Föyün öncekileri (en eskiden başlayarak) ve kendisinden doğan dosyalar. */
@@ -236,8 +298,6 @@ export function donguMu(f: Foy, hedefId: string, liste: Foy[]) {
 
 // ---------- Yedek ----------
 /** Bütün föyler (evrak metinleri dahil, asıl dosyalar hariç) tek JSON metninde. Özel föyler şifreli hâliyle yazılır. */
-const b64 = (b: ArrayBuffer | Uint8Array) => { const u = b instanceof Uint8Array ? b : new Uint8Array(b); let s = ""; for (let i = 0; i < u.length; i++) s += String.fromCharCode(u[i]); return btoa(s); };
-const b64Coz = (s: string) => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 export async function yedekMetni() {
   const acik = (await islem<Foy[]>("foyler", "readonly", s => s.getAll())) || [];
   const oz = (await islem<OzelKayit[]>("ozel", "readonly", s => s.getAll())) || [];
@@ -258,9 +318,9 @@ export async function yedektenYukle(metin: string): Promise<number> {
   if (Array.isArray(j.ozel) && j.ozel.length && j.kilit) {
     const yerel = await ayarOku<KilitBilgi>("ozelKilit");
     const ayni = yerel && b64(yerel.tuz) === j.kilit.tuz;
-    if (!yerel) await ayarYaz("ozelKilit", { tuz: b64Coz(j.kilit.tuz), dogrulama: { iv: b64Coz(j.kilit.iv), veri: b64Coz(j.kilit.veri).buffer } } as KilitBilgi);
+    if (!yerel) await ayarYaz("ozelKilit", { tuz: b64Coz(j.kilit.tuz), dogrulama: { iv: b64Coz(j.kilit.iv), veri: b64Coz(j.kilit.veri).buffer as ArrayBuffer } } as KilitBilgi);
     if (!yerel || ayni) {
-      await islem("ozel", "readwrite", s => { for (const x of j.ozel) s.put({ id: x.id, iv: b64Coz(x.iv), veri: b64Coz(x.veri).buffer }); });
+      await islem("ozel", "readwrite", s => { for (const x of j.ozel) s.put({ id: x.id, iv: b64Coz(x.iv), veri: b64Coz(x.veri).buffer as ArrayBuffer }); });
       n += j.ozel.length;
     }
   }
