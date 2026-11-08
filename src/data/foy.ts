@@ -10,6 +10,13 @@ import { FoyTur, ozelTur } from "./foyTurleri";
 import { Anahtar, anahtarTuret, b64, b64Coz, coz, kodla, metneCevir, rastgele, Sifreli, sifrele } from "./sifre";
 
 export type FoyTaraf = "davaci" | "davali";
+export interface MuvekkilBilgi {
+  kimlikNo?: string; telefon?: string; eposta?: string; adres?: string;
+  /** vekâletname: noterlik, tarih, yevmiye no */
+  vekaletname?: string;
+  /** diğer müvekkiller, yetkili kişi, aile bilgisi gibi serbest not */
+  ek?: string;
+}
 export interface Gorev { id: string; metin: string; tarih?: string; bitti: boolean; kaynak: "elle" | "yapay" | "aktarma" }
 export interface FoyEvrak {
   id: string; ad: string; boyut: number; eklenme: string; metin: string; okunamadi?: string;
@@ -34,6 +41,8 @@ export interface Foy {
   /** kilitli özel dosya (kişisel ceza, baro soruşturması) */
   ozel?: boolean;
   muvekkil: string; karsiTaraf: string; mahkeme: string; esasNo: string; davaTuru: string; taraf: FoyTaraf;
+  /** müvekkilin iletişim ve vekâlet bilgileri: yalnız cihazda (eşitlemede şifreli); yapay zekâya hiç gönderilmez */
+  muvekkilBilgi?: MuvekkilBilgi;
   durum: "acik" | "kapali";
   /** Sonraki duruşma: YYYY-AA-GG (saat isteğe bağlı: YYYY-AA-GGTSS:DD). */
   durusma?: string;

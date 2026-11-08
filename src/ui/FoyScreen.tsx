@@ -57,7 +57,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const gorunen = liste
     .filter(f => filtre === "hepsi" || f.durum === filtre)
     .filter(f => turF === "hepsi" || (f.tur || "hukuk") === turF)
-    .filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, f.notlar, turBilgi(f.tur).ad].join(" ").toLocaleLowerCase("tr").includes(q))
+    .filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, f.notlar, turBilgi(f.tur).ad, ...Object.values(f.muvekkilBilgi || {})].join(" ").toLocaleLowerCase("tr").includes(q))
     .sort((a, b) => (a.durusma || "9999").localeCompare(b.durusma || "9999") || b.guncelleme.localeCompare(a.guncelleme));
   const turlerVar = TURLER.filter(x => liste.some(f => (f.tur || "hukuk") === x.tur));
   // Yaklaşanlar: önümüzdeki 14 gün (ve geçmiş ama tamamlanmamış işler).
