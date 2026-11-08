@@ -32,8 +32,10 @@ function tarafAdlari(tur?: FoyTur): [string, string] | null {
   }
 }
 
-export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz }: {
+export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz, onAyir }: {
   id: string; liste: Foy[]; ekle?: string; onKapat: () => void; onAc: (id: string) => void; onHazirlan: (f: Foy) => void; ucretsiz?: boolean;
+  /** bu föyde toplanmış evrakı ait oldukları föylere ayır */
+  onAyir?: (f: Foy) => void;
 }) {
   const [f, setF] = useState<Foy | null>(null);
   const [yok, setYok] = useState(false);
@@ -481,6 +483,12 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
           </View>
         ) : <Text style={s.hint}>{t("Telefondan evrak ekleme uygulamanın bir sonraki sürümünde gelecek; şimdilik evrakı bilgisayardan ekleyin, bulut eşitlemesiyle buraya gelir.")}</Text>}
         {!!okuma && <Text style={s.hint}>{okuma}</Text>}
+        {!!onAyir && f.evraklar.length > 1 && dosyaSaklanir() && (
+          <View style={[s.row, { alignItems: "center" }]}>
+            <Btn kind="secondary" label={t("Evrakı föylere ayır")} onPress={async () => { await hemenKaydet(); const g = await foyGetir(f.id); onAyir(g || f); }} />
+            <Text style={[s.hint, { flex: 1 }]}>{t("Farklı dosyalara ait evrak bu föyde toplandıysa: Celse her evrakın dosya numarasını, merciini ve taraflarını okur, ait olduğu föye taşır ya da yeni föy açar. Önce önizleme gösterir.")}</Text>
+          </View>
+        )}
         {f.evraklar.length > 0 && (() => {
           const liste = evrakSuz === "onemli" ? onemli : evrakSuz === "onemsiz" ? onemsiz : [...onemli, ...onemsiz];
           const sayfaSay = Math.max(1, Math.ceil(liste.length / evrakBoy));
