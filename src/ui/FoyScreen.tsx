@@ -12,6 +12,7 @@ import { evrakOlustur } from "./foyEvrak";
 import { gorulduYaz, klasorBilgisi, klasorDestekli, klasorSec, klasorTara, TaramaDosyasi } from "./foyKlasor";
 import { dosyaSec, gunYaz, indir, s } from "./foyStil";
 import { FoyBulutKart } from "./FoyBulutKart";
+import { FloatingNav, useFloatingNav } from "./FloatingNav";
 import { IliskiKart } from "./IliskiKart";
 import { Btn } from "./kit";
 import { t } from "../i18n";
@@ -30,6 +31,12 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [turF, setTurF] = useState<FoyTur | "hepsi">("hepsi");
   const [mesaj, setMesaj] = useState<{ t: string; ok?: boolean } | null>(null);
   const [kilit, setKilit] = useState<"yok" | "kilitli" | "acik">("yok");
+  // Föy listesi sayfa sayfa: 5, 10, 25, 50, 100 (tercih bu cihazda hatırlanır).
+  const [sayfa, setSayfa] = useState(0);
+  const [boy, setBoyRaw] = useState<number>(() => { try { const v = Number(globalThis.localStorage?.getItem("celse-foy-sayfa")); return [5, 10, 25, 50, 100].includes(v) ? v : 25; } catch { return 25; } });
+  const setBoy = (n: number) => { setBoyRaw(n); setSayfa(0); try { globalThis.localStorage?.setItem("celse-foy-sayfa", String(n)); } catch { /* yok say */ } };
+  const nav = useFloatingNav();
+  useEffect(() => { setSayfa(0); }, [ara, filtre, turF]);
   const [ozelN, setOzelN] = useState(0);
   const [kilitSor, setKilitSor] = useState<null | { sonra?: () => void }>(null);
   const yenile = () => {
@@ -81,8 +88,25 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     catch (e) { setMesaj({ t: t(String((e as Error).message || e)) }); }
   };
 
+  const sayfaSay = Math.max(1, Math.ceil(gorunen.length / boy));
+  const cur = Math.min(sayfa, sayfaSay - 1);
+  const sayfadaki = gorunen.slice(cur * boy, cur * boy + boy);
+  const sayfalama = (
+    <View style={[s.row, { alignItems: "center" }]}>
+      <Text style={s.hint}>{t("Sayfada:")}</Text>
+      {[5, 10, 25, 50, 100].map(n => (
+        <Pressable key={n} onPress={() => setBoy(n)} style={[s.chip, boy === n && s.chipOn]}><Text style={[s.chipT, boy === n && s.chipTOn]}>{n}</Text></Pressable>
+      ))}
+      {sayfaSay > 1 && <>
+        <Btn kind="ghost" label={t("‹ Önceki")} disabled={cur === 0} onPress={() => setSayfa(cur - 1)} />
+        <Text style={s.hint}>{t("Sayfa {a} / {b} · {c}–{d} / {e} föy", { a: cur + 1, b: sayfaSay, c: cur * boy + 1, d: Math.min(gorunen.length, (cur + 1) * boy), e: gorunen.length })}</Text>
+        <Btn kind="ghost" label={t("Sonraki ›")} disabled={cur >= sayfaSay - 1} onPress={() => { setSayfa(cur + 1); nav.toTop(); }} />
+      </>}
+    </View>
+  );
   return (
-    <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
+    <View style={{ flex: 1 }}>
+    <ScrollView ref={nav.ref} onScroll={nav.onScroll} scrollEventThrottle={64} contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
       <View style={s.head}><Btn kind="ghost" label={t("‹ Geri")} onPress={p.onBack} /></View>
       <Text style={s.eyebrow}>{t("DAVA TAKİBİ · CELSE AVUKAT")}</Text>
       <Text style={s.title}>{t("Föylerim")}</Text>
@@ -147,7 +171,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
           </View>
         )}
         {yuklendi && liste.length === 0 && <Text style={s.body}>{t("Henüz föy yok. “+ Yeni giriş” ile ekleyin ya da dosya listenizi Excel veya Word tablosundan toplu olarak aktarın.")}</Text>}
-        {gorunen.map(f => {
+        {gorunen.length > 5 && sayfalama}
+        {sayfadaki.map(f => {
           const g = kacGun(f.durusma);
           const acikGorev = f.gorevler.filter(x => !x.bitti).length;
           const once = f.oncekiId ? byId.get(f.oncekiId) : undefined;
@@ -165,8 +190,11 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
             </Pressable>
           );
         })}
+        {gorunen.length > boy && sayfalama}
       </View>
     </ScrollView>
+    <FloatingNav nav={nav} onBack={p.onBack} />
+    </View>
   );
 }
 
