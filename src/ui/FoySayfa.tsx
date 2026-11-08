@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
 import { MuvekkilMesaj } from "./MuvekkilMesaj";
+import { Katlanir } from "./Katlanir";
 import { dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, KarsiBilgi, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
 import { DAVA_TURLERI, EVRAK_TURLERI, FoyTur, turBilgi, TURLER } from "../data/foyTurleri";
 import { unmask } from "../engine/mask";
@@ -306,8 +307,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         </View>
       )}
 
-      <View style={s.card}>
-        <Text style={s.cardT}>{t("Dosya zinciri")}</Text>
+      <Katlanir anahtar="zincir" baslik={t("Dosya zinciri")} ozet={zin.onceki.length + zin.sonraki.length + (f.ilgiliIds?.length || 0) ? t("{n} bağlı dosya", { n: zin.onceki.length + zin.sonraki.length + (f.ilgiliIds?.length || 0) }) : t("bağlı dosya yok")}>
         <View style={s.zincir}>
           {zin.onceki.map(x => <React.Fragment key={x.id}>{halka(x)}<Text style={s.hint}>→</Text></React.Fragment>)}
           {halka(f, true)}
@@ -355,10 +355,9 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             {!baglanabilir.length && <Text style={s.hint}>{t("Bağlanabilecek föy yok.")}</Text>}
           </View>
         )}
-      </View>
+      </Katlanir>
 
-      <View style={s.card}>
-        <Text style={s.cardT}>{t("Künye")}</Text>
+      <Katlanir anahtar="kunye" baslik={t("Künye")} varsayilan={!f.mahkeme && !f.muvekkil} ozet={[f.mahkeme, f.esasNo, f.muvekkil].filter(Boolean).join(" · ")}>
         {f.evraklar.some(e => e.metin.trim()) && (
           <View style={[s.row, { alignItems: "center" }]}>
             <Btn kind="ghost" label={t("Künyeyi evraktan doldur")} onPress={() => { const ek = kunyeEvraktan(f.evraklar, f); if (Object.keys(ek).length) degistir(ek); }} />
@@ -451,12 +450,11 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         </View>
         <Text style={s.label}>{t("Notlar")}</Text>
         <TextInput defaultValue={f.notlar} onChangeText={v => degistir({ notlar: v })} multiline placeholder={t("Dosyayla ilgili notlarınız")} placeholderTextColor={C.muted} style={s.input} />
-      </View>
+      </Katlanir>
 
-      <MuvekkilMesaj f={f} />
+      <Katlanir anahtar="mesaj" baslik={t("Müvekkile mesaj")} ozet={t("WhatsApp / Telegram")}><MuvekkilMesaj f={f} ic /></Katlanir>
 
-      <View style={s.card}>
-        <Text style={s.cardT}>{t("Yapılacaklar")}</Text>
+      <Katlanir anahtar="gorev" baslik={t("Yapılacaklar")} ozet={acik.length ? t("{n} açık iş", { n: acik.length }) : t("açık iş yok")}>
         {acik.map(x => (
           <View key={x.id} style={s.gorev}>
             <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: false }} onPress={() => gorevDegistir(x, { bitti: true })} style={s.box} />
@@ -473,10 +471,9 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
           <Btn kind="secondary" label={t("Ekle")} onPress={gorevEkle} />
         </View>
         {biten.length > 0 && <Text style={s.hint}>{t("Tamamlanan")}: {biten.map(x => x.metin).join(" · ")}</Text>}
-      </View>
+      </Katlanir>
 
-      <View style={s.card}>
-        <Text style={s.cardT}>{t("Evrak")} ({f.evraklar.length})</Text>
+      <Katlanir anahtar="evrak" baslik={`${t("Evrak")} (${f.evraklar.length})`} zorla={!!ekle} ozet={f.evraklar.length ? t("{n} evrak", { n: f.evraklar.length }) : t("evrak yok")}>
         <Text style={s.hint}>{t("UDF, Word, PDF, TIF, fotoğraf ya da UYAP/DavaTek'ten inen ZIP. Dosyalar bu cihazda saklanır; taranmış evrakın yazısı da burada okunur. Her evrakın türü ve önemi kendiliğinden belirlenir, değiştirebilirsiniz.")}</Text>
         {dosyaSaklanir() ? (
           <View style={s.row}>
@@ -543,7 +540,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             </>
           );
         })()}
-      </View>
+      </Katlanir>
 
       <View style={s.row}>
         <Btn kind="ghost" label={f.ozel ? t("🔓 Şahsi dosyalardan çıkar") : t("🔒 Şahsi dosyalarıma taşı")} onPress={async () => {
