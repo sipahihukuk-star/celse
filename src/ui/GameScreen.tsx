@@ -67,6 +67,8 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
   const [bug, setBug] = useState(false);
   // Duruşma tutanağı: gösterilen her satır ve verilen her karar, sırasıyla.
   const [history, setHistory] = useState<TutanakSatiri[]>([]);
+  // Şıklarda iki dokunuş: ilk dokunuş seçer, aynı şıkka ikinci dokunuş onaylar (yanlışlıkla basınca hamle gitmesin).
+  const [secili, setSecili] = useState<string | null>(null);
   tutanakRef.current = history;
   // Tutanak açıldığında bir kez en sona kaydırılır; sonra oyuncu serbestçe yukarı aşağı gezer.
   const recScrolled = useRef(false);
@@ -226,7 +228,12 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
             const kind = kindOf(st);
             const list = choicesOf(c, game, phase.step);
             const isAI = court.aiTurn;
-            const pick = (ci: number, pos: number) => court.choose(ci, LETTERS[pos] || String(pos + 1));
+            const pick = (ci: number, pos: number) => { setSecili(null); court.choose(ci, LETTERS[pos] || String(pos + 1)); };
+            const asamaKey = phase.step + "-" + (game.asked[phase.step] || []).length;
+            const secKey = (ci: number) => asamaKey + ":" + ci;
+            // İlk dokunuş seçer; seçili şıkka yeniden dokunulunca onaylanır.
+            const dokun = (ci: number, pos: number) => (secili === secKey(ci) ? pick(ci, pos) : setSecili(secKey(ci)));
+            const seciliMi = (ci: number) => secili === secKey(ci);
             const pickedStyle = (ci: number) => [phase.aiPick === ci && styles.choicePicked, isAI && phase.aiPick !== ci && { opacity: 0.6 }];
             const asked = (game.asked[phase.step] || []).length;
             const limit = st.limit ?? st.choices.length;
@@ -257,22 +264,26 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
                     if (kind === "evidence" && ch.evidence) {
                       const ev = ch.evidence;
                       return (
-                        <Pressable key={ci} accessibilityRole="button" accessibilityLabel={t("Delil sun: {delil}", { delil: ev.title })} disabled={isAI} onPress={() => pick(ci, pos)}
-                          style={({ pressed }) => [styles.evCard, wide && styles.half, pressed && styles.evPressed, phase.aiPick === ci && styles.evPicked, isAI && phase.aiPick !== ci && { opacity: 0.6 }]}>
+                        <Pressable key={ci} accessibilityRole="button" accessibilityLabel={t("Delil sun: {delil}", { delil: ev.title })} disabled={isAI} onPress={() => dokun(ci, pos)}
+                          style={({ pressed }) => [styles.evCard, wide && styles.half, pressed && styles.evPressed, (phase.aiPick === ci || seciliMi(ci)) && styles.evPicked, isAI && phase.aiPick !== ci && { opacity: 0.6 }]}>
                           <View style={styles.evHead}>
                             <Text style={styles.evType}>{ev.type === "kanun" ? t("KANUN") : ev.type === "beyan" ? t("BEYAN") : t("BELGE")}</Text>
                             {!!ev.law && <Text style={styles.evLaw}>{ev.law}</Text>}
                           </View>
                           <Text style={styles.evTitle}>{ev.title}</Text>
                           <Text style={styles.evDesc}>{ev.desc}</Text>
+                          {seciliMi(ci) && <Text style={styles.onayT}>{t("Sunmak için yeniden dokunun ✓")}</Text>}
                         </Pressable>
                       );
                     }
                     return (
-                      <Pressable key={ci} accessibilityRole="button" accessibilityLabel={`${LETTERS[pos]}) ${ch.text}`} disabled={isAI} onPress={() => pick(ci, pos)}
-                        style={({ pressed }) => [styles.choice, wide && kind !== "interview" && styles.half, pressed && styles.choicePressed, ...pickedStyle(ci)]}>
-                        <View style={styles.key}><Text style={styles.keyText}>{kind === "interview" ? "?" : LETTERS[pos]}</Text></View>
-                        <Text style={styles.choiceText}>{ch.text}</Text>
+                      <Pressable key={ci} accessibilityRole="button" accessibilityLabel={`${LETTERS[pos]}) ${ch.text}`} disabled={isAI} onPress={() => dokun(ci, pos)}
+                        style={({ pressed }) => [styles.choice, wide && kind !== "interview" && styles.half, pressed && styles.choicePressed, ...pickedStyle(ci), seciliMi(ci) && styles.choicePicked]}>
+                        <View style={[styles.key, seciliMi(ci) && styles.keyOn]}><Text style={[styles.keyText, seciliMi(ci) && styles.keyTextOn]}>{seciliMi(ci) ? "✓" : kind === "interview" ? "?" : LETTERS[pos]}</Text></View>
+                        <View style={{ flex: 1 }}>
+                          <Text style={styles.choiceText}>{ch.text}</Text>
+                          {seciliMi(ci) && <Text style={styles.onayT}>{t("Onaylamak için yeniden dokunun")}</Text>}
+                        </View>
                       </Pressable>
                     );
                   })}
@@ -426,6 +437,9 @@ const styles = StyleSheet.create({
   choice: { flexDirection: "row", gap: 10, alignItems: "flex-start", backgroundColor: C.panel2, borderWidth: 1, borderColor: C.line, borderRadius: 8, padding: 11 },
   choicePressed: { borderColor: C.brassDim, backgroundColor: "#212b34" },
   choicePicked: { borderColor: C.brass, backgroundColor: "#2b2a20" },
+  keyOn: { backgroundColor: C.brass, borderColor: C.brass },
+  keyTextOn: { color: C.bordo },
+  onayT: { fontFamily: F.bodyBold, fontSize: 12, color: C.brass, marginTop: 4 },
   key: { width: 26, height: 26, borderRadius: 13, borderWidth: 1, borderColor: C.brassDim, alignItems: "center", justifyContent: "center" },
   keyText: { fontFamily: F.mono, fontSize: 12, color: C.brass },
   choiceText: { flex: 1, fontFamily: F.body, fontSize: 16, lineHeight: 22, color: C.text },

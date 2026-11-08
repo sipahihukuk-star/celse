@@ -33,3 +33,32 @@ export function useHomePage(): [HomePage, (p: HomePage) => void, boolean] {
   }, []);
   return [p, setHomePage, ready];
 }
+
+// Görünen bölümler: kullanıcı (ya da yönetici) kullanmadığı yüzleri kapatabilir; kapalı yüz ön sayfada ve sekmelerde görünmez.
+// En az bir yüz açık kalır. Tercih cihazda saklanır.
+const YKEY = "celse-yuzler";
+let yuzler: HomePage[] = [...HOME_PAGES];
+let yLoaded = false;
+const yListeners = new Set<(p: HomePage[]) => void>();
+export function setGorunenYuzler(xs: HomePage[]) {
+  const temiz = HOME_PAGES.filter(h => xs.includes(h));
+  yuzler = temiz.length ? temiz : [...HOME_PAGES];
+  try { AsyncStorage.setItem(YKEY, JSON.stringify(yuzler)); } catch { /* yok say */ }
+  yListeners.forEach(f => f(yuzler));
+  if (!yuzler.includes(page)) setHomePage(yuzler[0]);
+}
+export function useGorunenYuzler(): [HomePage[], (xs: HomePage[]) => void] {
+  const [xs, setXs] = useState(yuzler);
+  useEffect(() => {
+    yListeners.add(setXs);
+    if (!yLoaded) {
+      AsyncStorage.getItem(YKEY).then(v => {
+        const a = v ? (JSON.parse(v) as HomePage[]) : null;
+        if (Array.isArray(a)) { const t = HOME_PAGES.filter(h => a.includes(h)); if (t.length) { yuzler = t; yListeners.forEach(f => f(t)); if (!t.includes(page)) setHomePage(t[0]); } }
+      }).catch(() => {}).finally(() => { yLoaded = true; });
+    }
+    return () => { yListeners.delete(setXs); };
+  }, []);
+  return [xs, setGorunenYuzler];
+}
+export const yuzAdi = (h: HomePage) => (h === "takip" ? "Dava takibi" : h === "danisma" ? "Derdini anlat" : "Kariyer ve oyun");
