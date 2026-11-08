@@ -58,8 +58,8 @@ export const TAKIP_YOLLARI: { k: TakipYolu; ad: string; ornek?: string }[] = [
   { k: "kambiyo", ad: "Kambiyo senetlerine dayalı haciz yolu", ornek: "Örnek 10" },
   { k: "kira", ad: "Kira alacağı (ilamsız tahliye ve haciz)", ornek: "Örnek 13" },
   { k: "ilamli", ad: "İlamlı takip – para alacağı", ornek: "Örnek 4-5" },
-  { k: "ipotek", ad: "İpoteğin paraya çevrilmesi yoluyla takip" },
-  { k: "tasinir_rehni", ad: "Taşınır rehninin paraya çevrilmesi yoluyla takip" }
+  { k: "ipotek", ad: "İpoteğin paraya çevrilmesi yoluyla takip", ornek: "Örnek 9" },
+  { k: "tasinir_rehni", ad: "Taşınır rehninin paraya çevrilmesi yoluyla takip", ornek: "Örnek 8" }
 ];
 /** UYAP takip mahiyeti kodları (XML: <dosya mahiyetKodu="…">). Yalnız biri seçilir. */
 export const MAHIYETLER: { kod: string; ad: string; yol: "genel" | "ilamli" }[] = [
