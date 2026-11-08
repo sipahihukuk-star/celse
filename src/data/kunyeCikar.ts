@@ -55,8 +55,9 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
   const satirlar = metin.replace(/\r/g, "").split("\n").map(x => x.trim()).filter(Boolean);
   const bas = satirlar.slice(0, 60);
   // Mahkeme / savcılık / icra dairesi: başlıktaki ilk büyük harfli satır.
-  const merci = new RegExp(`^(?:T\\.?\\s?C\\.?\\s+)?([${BUYUK}][${BUYUK}0-9 .]{2,60}(?:MAHKEMESİ|BAŞSAVCILIĞI|İCRA DAİRESİ|İCRA MÜDÜRLÜĞÜ|HUKUK DAİRESİ|CEZA DAİRESİ|ARABULUCULUK BÜROSU))(?=\\s|$)`);
-  for (const x of bas) { const m = x.match(merci); if (m) { o.mahkeme = basHarf(m[1]); break; } }
+  const merci = new RegExp(`^(?:T\\.?\\s?C\\.?\\s+)?([${BUYUK}][${BUYUK}0-9 .]{2,60}(?:MAHKEMESİ|BAŞSAVCILIĞI|İCRA DAİRESİ|İCRA MÜDÜRLÜĞÜ|HUKUK DAİRESİ|CEZA DAİRESİ|ARABULUCULUK BÜROSU))(?:['’]?(?:NE|NA|YE|YA))?(?=[\\s,.]|$)`);
+  // Dilekçe başlığı "… MAHKEMESİ'NE" de olur; "NÖBETÇİ" mahkeme henüz belli olmayan mahkemedir, alınmaz.
+  for (const x of bas) { const m = x.match(merci); if (m && !/NÖBETÇİ/.test(m[1])) { o.mahkeme = basHarf(m[1]); break; } }
   const esas = metin.match(/(?:ESAS\s*(?:NO|NUMARASI)?|DOSYA\s*NO|SORUŞTURMA\s*(?:NO|NUMARASI)|TAKİP\s*NO)\s*[:.]?\s*((?:19|20)\d{2}\s*\/\s*\d{1,7})/i)
     || metin.match(/\b((?:19|20)\d{2}\s*\/\s*\d{1,7})\s*(?:Esas|E\.)\b/);
   if (esas) o.esasNo = esas[1].replace(/\s+/g, "");
