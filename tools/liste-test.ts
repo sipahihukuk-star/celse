@@ -38,5 +38,14 @@ ok(listedenFoyler(tekSatir, "x.pdf").length === 1 && /Satış Memurluğu/.test(l
   const r = turDuzeltmeleri([a, b, c, d]);
   ok(r.length === 2 && r.find((x: { f: { id: string } }) => x.f.id === a.id)?.davaTuru.includes("sulh hukuk") && r.find((x: { f: { id: string } }) => x.f.id === b.id)?.tur === "idari_basvuru", "tür düzeltmesi: " + JSON.stringify(r.map((x: { f: { mahkeme: string }; tur: string; davaTuru: string }) => [x.f.mahkeme, x.tur, x.davaTuru])));
 }
+{
+  const ic = listedenFoyler("Birim Adı  Dosya No  Dosya Türü  Dosya Durumu  Açılış Tarihi\nUydurma 2. İcra Ceza Mahkemesi  2024/88  İcra Ceza Dava Dosyası  Açık  02.02.2024", "x.pdf");
+  ok(ic.length === 1 && ic[0].tur === "ceza" && /İcra ceza/.test(ic[0].davaTuru), "icra ceza: " + JSON.stringify(ic.map(x => [x.tur, x.davaTuru, x.mahkeme])));
+  const { turDuzeltmeleri } = require("../src/data/dosyaListesi");
+  const { bosFoy } = require("../src/data/foy");
+  const e = bosFoy({ tur: "ceza", mahkeme: "Uydurma 1. İcra Ceza Mahkemesi", esasNo: "2023/9", notlar: "UYAP dosya listesinden aktarıldı (z.pdf) · Ceza Dava Dosyası." });
+  const r = turDuzeltmeleri([e]);
+  ok(r.length === 1 && r[0].tur === "ceza" && /İcra ceza/.test(r[0].davaTuru), "eski icra ceza föyü düzeltilir");
+}
 if (fail) { console.log(`liste-test: ${fail} hata`); process.exit(1); }
 console.log("liste-test: tamam");

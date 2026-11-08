@@ -180,8 +180,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         if (!duzelecek.length && !turDuzelt) return null;
         return (
           <Katlanir anahtar="turduzelt" baslik={t("Föy türleri düzeltilebilir")} ozet={duzelecek.length ? t("{n} föy", { n: duzelecek.length }) : t("tamam")}>
-            {duzelecek.length > 0 && <Text style={s.hint}>{t("UYAP listesinden aktarılan {n} föyün türü yeni kurallara göre farklı çıkıyor (ör. satış memurluğu, tazminat komisyonu, sulh ceza hakimliği). Elle değiştirdiğiniz türlere dokunulmaz.", { n: duzelecek.length })}</Text>}
-            {duzelecek.length > 0 && <Text style={s.hint}>{Object.entries(duzelecek.reduce((m, x) => { const k = `${turBilgi(x.f.tur).ad} → ${turBilgi(x.tur).ad}`; m[k] = (m[k] || 0) + 1; return m; }, {} as Record<string, number>)).map(([k, n]) => `${k}: ${n}`).join(" · ")}</Text>}
+            {duzelecek.length > 0 && <Text style={s.hint}>{t("UYAP listesinden aktarılan {n} föyün türü ya da dava türü yeni kurallara göre düzeltilebilir (ör. satış memurluğu, tazminat komisyonu, sulh ceza hakimliği, icra ceza). Elle değiştirdiğiniz türlere dokunulmaz.", { n: duzelecek.length })}</Text>}
+            {duzelecek.length > 0 && <Text style={s.hint}>{Object.entries(duzelecek.reduce((m, x) => { const k = x.f.tur === x.tur ? `${turBilgi(x.tur).ad}: ${x.davaTuru}` : `${turBilgi(x.f.tur).ad} → ${turBilgi(x.tur).ad}${x.davaTuru ? " (" + x.davaTuru + ")" : ""}`; m[k] = (m[k] || 0) + 1; return m; }, {} as Record<string, number>)).map(([k, n]) => `${k}: ${n}`).join(" · ")}</Text>}
             {!!turDuzelt && <Text style={[s.hint, { color: C.brass }]}>{turDuzelt}</Text>}
             {duzelecek.length > 0 && <View style={s.row}><Btn label={t("Türleri düzelt")} onPress={async () => { await foylerKaydet(duzelecek.map(x => ({ ...x.f, tur: x.tur, davaTuru: x.f.davaTuru || x.davaTuru }))); setTurDuzelt(t("{n} föyün türü düzeltildi.", { n: duzelecek.length })); yenile(); }} /></View>}
           </Katlanir>
