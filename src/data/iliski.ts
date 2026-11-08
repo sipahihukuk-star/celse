@@ -32,7 +32,6 @@ function numaralar(f: Foy): Set<string> {
   return s;
 }
 const kimlikler = (f: Foy) => new Set([f.muvekkilBilgi?.kimlikNo, f.karsiBilgi?.kimlikNo].map(x => (x || "").replace(/\D/g, "")).filter(x => x.length >= 10));
-const ayniAd = (x?: string, y?: string) => { const a = sade(x), b = sade(y); return a.length >= 5 && a === b; };
 const tarih = (f: Foy) => f.evraklar.map(e => e.eklenme).sort()[0] || f.olusturma;
 export const ciftAnahtari = (a: string, b: string, tur: string) => [a, b].sort().join("|") + "|" + tur;
 
@@ -40,8 +39,28 @@ export function iliskiOner(liste: Foy[], reddedilen: Set<string>): IliskiOnerisi
   const out: IliskiOnerisi[] = [];
   const nums = new Map(liste.map(f => [f.id, numaralar(f)] as const));
   const kims = new Map(liste.map(f => [f.id, kimlikler(f)] as const));
+  // Binlerce föyde bütün çiftleri karşılaştırmak yerine yalnız ortak bir işareti olan çiftlere bakılır
+  // (aynı esas no, birinin numarası ötekinin evrakında, aynı kimlik, aynı ad).
+  const sadeAd = new Map(liste.map(f => [f.id, { m: sade(f.muvekkil), k: sade(f.karsiTaraf) }] as const));
+  const dizin = new Map<string, number[]>();
+  const koy = (anahtar: string, i: number) => { const a = dizin.get(anahtar); if (a) { if (a[a.length - 1] !== i) a.push(i); } else dizin.set(anahtar, [i]); };
+  liste.forEach((f, i) => {
+    const e = esasSade(f.esasNo); if (e.length >= 6) koy("e:" + e, i);
+    for (const n of nums.get(f.id)!) koy("e:" + n, i);
+    for (const k of kims.get(f.id)!) koy("k:" + k, i);
+    const a = sadeAd.get(f.id)!;
+    if (a.m.length >= 5) koy("a:" + a.m, i);
+    if (a.k.length >= 5) koy("a:" + a.k, i);
+  });
+  const ciftler = new Set<number>();
+  const N = liste.length;
+  for (const xs of dizin.values()) {
+    if (xs.length < 2 || xs.length > 400) continue; // çok yaygın bir ad ya da numara işaret sayılmaz
+    for (let p = 0; p < xs.length; p++) for (let q = p + 1; q < xs.length; q++) ciftler.add(Math.min(xs[p], xs[q]) * N + Math.max(xs[p], xs[q]));
+  }
   const bagli = (x: Foy, y: Foy) => x.oncekiId === y.id || y.oncekiId === x.id || !!x.ilgiliIds?.includes(y.id) || !!y.ilgiliIds?.includes(x.id);
-  for (let i = 0; i < liste.length; i++) for (let j = i + 1; j < liste.length; j++) {
+  for (const c of ciftler) {
+    const i = Math.floor(c / N), j = c % N;
     const x = liste[i], y = liste[j];
     if (bagli(x, y)) continue;
     const ex = esasSade(x.esasNo), ey = esasSade(y.esasNo);
@@ -56,9 +75,11 @@ export function iliskiOner(liste: Foy[], reddedilen: Set<string>): IliskiOnerisi
     if (ey.length >= 6 && ex !== ey && nums.get(x.id)!.has(ey)) { puan += 3; nedenler.push(`${y.esasNo} numarası öteki föyün evrakında geçiyor`); }
     const kx = kims.get(x.id)!, ky = kims.get(y.id)!;
     if ([...kx].some(k => ky.has(k))) { puan += 4; nedenler.push("aynı kimlik / vergi no"); }
-    if (ayniAd(x.muvekkil, y.muvekkil)) { puan += 2; nedenler.push("aynı müvekkil"); }
-    if (ayniAd(x.karsiTaraf, y.karsiTaraf)) { puan += 2; nedenler.push("aynı karşı taraf"); }
-    else if (ayniAd(x.muvekkil, y.karsiTaraf) || ayniAd(x.karsiTaraf, y.muvekkil)) { puan += 1; nedenler.push("taraflar yer değiştirmiş (karşı dava olabilir)"); }
+    const ax = sadeAd.get(x.id)!, ay = sadeAd.get(y.id)!;
+    const es = (a: string, b: string) => a.length >= 5 && a === b;
+    if (es(ax.m, ay.m)) { puan += 2; nedenler.push("aynı müvekkil"); }
+    if (es(ax.k, ay.k)) { puan += 2; nedenler.push("aynı karşı taraf"); }
+    else if (es(ax.m, ay.k) || es(ax.k, ay.m)) { puan += 1; nedenler.push("taraflar yer değiştirmiş (karşı dava olabilir)"); }
     const tx = turBilgi(x.tur), ty = turBilgi(y.tur);
     const xOnce = tx.sonraki.includes(y.tur || "hukuk"), yOnce = ty.sonraki.includes(x.tur || "hukuk");
     const zincir = xOnce || yOnce;

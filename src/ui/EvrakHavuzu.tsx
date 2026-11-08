@@ -67,7 +67,8 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
   const ayrim = useMemo(() => {
     const tek: Foy[] = [];
     const anahtar = (f: Foy) => (f.esasNo ? (f.mahkeme || "").toLocaleLowerCase("tr") + "|" + f.esasNo.replace(/\s+/g, "") : "");
-    for (const x of tablolar.flatMap(t => t.sonuc.foyler)) if (!anahtar(x) || !tek.some(y => anahtar(y) === anahtar(x))) tek.push(x);
+    const gorulen = new Set<string>();
+    for (const x of tablolar.flatMap(t => t.sonuc.foyler)) { const a = anahtar(x); if (!a || !gorulen.has(a)) { tek.push(x); if (a) gorulen.add(a); } }
     return tek.length ? birlestir(liste, tek) : { yeni: [] as Foy[], guncellenen: [] as Foy[] };
   }, [tablolar, liste]);
   const tumFoy = useMemo(() => [...liste, ...ayrim.yeni], [liste, ayrim]);

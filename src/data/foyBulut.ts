@@ -183,11 +183,19 @@ async function esitleIc() {
   await ayarYaz("bulutCekim", cekim);
 
   // 2) Gönder: bu cihazda değişenler.
-  const yaz = async (satir: Satir) => {
-    const r = await sb.from(TABLO).upsert({ kullanici_id: uid, ...satir }, { onConflict: "kullanici_id,kayit_id" });
-    if (r.error) throw new Error(r.error.message);
-  };
+  // Satırlar 200'lük paketler hâlinde gönderilir (binlerce föyde tek tek istek yerine); her paketten sonra ilerleme kaydedilir,
+  // yarıda kalırsa bir sonraki eşitleme kaldığı yerden sürer.
   const metinGonderilen = (await ayarOku<Record<string, string>>("bulutMetinGonderilen")) || {};
+  let bekleyen: Satir[] = [];
+  const gonder = async () => {
+    if (!bekleyen.length) return;
+    const r = await sb.from(TABLO).upsert(bekleyen.map(x => ({ kullanici_id: uid, ...x })), { onConflict: "kullanici_id,kayit_id" });
+    if (r.error) throw new Error(r.error.message);
+    bekleyen = [];
+    await ayarYaz("bulutGonderilen", gonderilen);
+    await ayarYaz("bulutMetinGonderilen", metinGonderilen);
+  };
+  const yaz = async (satir: Satir) => { bekleyen.push(satir); if (bekleyen.length >= 200) await gonder(); };
   for (const f of yerel.values()) {
     if (gonderilen[f.id] === f.guncelleme) continue;
     await yaz({ kayit_id: f.id, tur: "foy", ...(await paketle(k, foyKabugu(f))), guncelleme: f.guncelleme, silindi: false });
@@ -215,6 +223,7 @@ async function esitleIc() {
     await yaz({ kayit_id: "metin:" + id, tur: "metin", iv: "", veri: "", guncelleme: zaman, silindi: true });
     delete gonderilen[id]; delete metinGonderilen[id]; giden++;
   }
+  await gonder();
   await ayarYaz("bulutSilinen", {});
   await ayarYaz("bulutGonderilen", gonderilen);
   await ayarYaz("bulutMetinGonderilen", metinGonderilen);

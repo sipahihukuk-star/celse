@@ -37,5 +37,6 @@ ok(!/2025\/777|ANKARA|Ankara/.test(k2.durum) && /BAŞSAVCILIĞI-1/.test(k2.durum
   ok(!/Hayali|HAYALİ|Oniki|ONİKİ/i.test(k3.durum), "özette ad yok: " + oz.join(" | "));
   ok(!!kod(oz[0]) && kod(oz[0]) === kod(oz[1]), "aynı kişi aynı kod: " + oz.join(" | "));
 }
+ok(/Başsavcılığı/i.test(geriAc("CBS-1 için föy açtım.", k2.geri)) && !/CBS-1/.test(geriAc("CBS-1 için föy açtım.", k2.geri)), "kısaltılmış merci kodu açılır: " + geriAc("CBS-1 için föy açtım.", k2.geri));
 if (fail) { console.log(`foyleme-test: ${fail} hata`); process.exit(1); }
 console.log("foyleme-test: tamam");
