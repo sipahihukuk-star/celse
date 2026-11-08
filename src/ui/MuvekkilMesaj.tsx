@@ -40,7 +40,7 @@ function metinYaz(f: Foy, k: Kalip): string {
   return hitap + " ";
 }
 
-export function MuvekkilMesaj({ f }: { f: Foy }) {
+export function MuvekkilMesaj({ f, ic }: { f: Foy; ic?: boolean }) {
   const [kalip, setKalip] = useState<Kalip>("durusma");
   const varsayilan = useMemo(() => metinYaz(f, kalip), [f.id, kalip, f.durusma, f.mahkeme, f.esasNo, f.muvekkil, f.degerlendirme?.tarih]);
   const [metin, setMetin] = useState<string | null>(null);
@@ -58,8 +58,8 @@ export function MuvekkilMesaj({ f }: { f: Foy }) {
     { k: "durusma", ad: t("Duruşma hatırlatması") }, { k: "durum", ad: t("Dosyanın durumu") }, { k: "evrak", ad: t("Belge / bilgi isteği") }, { k: "serbest", ad: t("Boş mesaj") }
   ];
   return (
-    <View style={s.card}>
-      <Text style={s.cardT}>{t("Müvekkile mesaj")}</Text>
+    <View style={ic ? { gap: 10 } : s.card}>
+      {!ic && <Text style={s.cardT}>{t("Müvekkile mesaj")}</Text>}
       <View style={s.chips}>
         {kaliplar.map(x => (
           <Pressable key={x.k} onPress={() => { setKalip(x.k); setMetin(null); setBilgi(""); }} style={[s.chip, kalip === x.k && s.chipOn]}>
