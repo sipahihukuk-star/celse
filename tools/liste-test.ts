@@ -22,5 +22,21 @@ const karar = "T.C.\nİZMİR 3. ASLİYE HUKUK MAHKEMESİ\nESAS NO: 2026/12\nDAVA
 ok(dosyaListesiOku(karar) === null, "karar liste sayılmaz");
 const tekSatir = "Birim Adı  Dosya No  Dosya Türü  Dosya Durumu  Açılış Tarihi\nUydurma 1. Satış Memurluğu  2023/777  Satış Memurluğu Dosyası  Açık  02.02.2023";
 ok(listedenFoyler(tekSatir, "x.pdf").length === 1 && /Satış Memurluğu/.test(listedenFoyler(tekSatir, "x.pdf")[0].mahkeme), "tek satırlık UYAP çıktısı: " + JSON.stringify(dosyaListesiOku(tekSatir)));
+{
+  const { turTahmin } = require("../src/data/foyTurleri");
+  ok(turTahmin("Satış Memurluğu Dosyası", "Uydurma 1. Satış Memurluğu", "Uydurma 2. Sulh Hukuk Mahkemesi ortaklığın giderilmesi") === "hukuk", "satış: sulh hukuk");
+  ok(turTahmin("Satış Memurluğu Dosyası", "Uydurma 1. Satış Memurluğu", "Uydurma 9. İcra Dairesi 2023/5 haciz") === "icra", "satış: icra");
+  ok(turTahmin("Satış Memurluğu Dosyası") === "hukuk", "satış: kaynak yoksa sulh hukuk");
+}
+{
+  const { turDuzeltmeleri } = require("../src/data/dosyaListesi");
+  const { bosFoy } = require("../src/data/foy");
+  const a = bosFoy({ tur: "hukuk", mahkeme: "Uydurma 1. Satış Memurluğu", esasNo: "2023/1", notlar: "UYAP dosya listesinden aktarıldı (x.pdf) · Satış Memurluğu Dosyası." });
+  const b = bosFoy({ tur: "hukuk", mahkeme: "Uydurma Tazminat Komisyonu Başkanlığı", esasNo: "2024/2", notlar: "UYAP dosya listesinden aktarıldı (y.pdf)." });
+  const c = bosFoy({ tur: "ceza", mahkeme: "Uydurma Sulh Ceza Hakimliği", esasNo: "2024/3", notlar: "UYAP dosya listesinden aktarıldı (z.pdf)." });
+  const d = bosFoy({ tur: "hukuk", mahkeme: "Uydurma 2. Asliye Hukuk Mahkemesi", esasNo: "2024/4", notlar: "UYAP dosya listesinden aktarıldı (z.pdf) · Hukuk Dava Dosyası." });
+  const r = turDuzeltmeleri([a, b, c, d]);
+  ok(r.length === 2 && r.find((x: { f: { id: string } }) => x.f.id === a.id)?.davaTuru.includes("sulh hukuk") && r.find((x: { f: { id: string } }) => x.f.id === b.id)?.tur === "idari_basvuru", "tür düzeltmesi: " + JSON.stringify(r.map((x: { f: { mahkeme: string }; tur: string; davaTuru: string }) => [x.f.mahkeme, x.tur, x.davaTuru])));
+}
 if (fail) { console.log(`liste-test: ${fail} hata`); process.exit(1); }
 console.log("liste-test: tamam");
