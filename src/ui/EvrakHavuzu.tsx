@@ -16,6 +16,7 @@ import { t } from "../i18n";
 import { evrakMetniOku, evrakOlustur, Kaynak } from "./foyEvrak";
 import { boyutYaz, dosyaListesiSec, s } from "./foyStil";
 import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyAktar";
+import { listedenFoyler } from "../data/dosyaListesi";
 import { Btn } from "./kit";
 import { C } from "./theme";
 
@@ -105,6 +106,9 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
         if (okunan.some(x => x.ad === k.ad && x.boyut === k.bytes.length) || yeni.some(x => x.ad === k.ad && x.boyut === k.bytes.length)) continue;
         const o = await evrakMetniOku(k, m => setIlerleme(t("({a} / {b}) {ad}: {m}", { a: i, b: dosyalar.length, ad: k.ad, m: t(m) })));
         const metin = "hata" in o ? "" : o.metin;
+        // UYAP dosya listesi (her satırı bir dosya): evrak değil, her satır föy olur (Excel listesi gibi).
+        const lf = metin ? listedenFoyler(metin, k.ad) : [];
+        if (lf.length) { setTablolar(x => [...x.filter(y => y.ad !== k.ad), { ad: k.ad, sonuc: { foyler: lf, eslesen: {}, eslesmeyen: [], atlanan: 0 } }]); continue; }
         // Asıl dosya belleğe alınmaz; uygularken yeniden okunur (ZIP içindekiler bellekte kalır).
         const tekDosya = turBul(d.name) !== "zip";
         const kopya = tekDosya ? null : k;
@@ -192,6 +196,8 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
         if (!k.bytes.length) continue;
         const o = await evrakMetniOku(k, m => setIlerleme(t("({a} / {b}) {ad}: {m}", { a: i, b: xs.length, ad: e.ad, m: t(m) })));
         const metin = "hata" in o ? "" : o.metin;
+        const lf = metin ? listedenFoyler(metin, e.ad) : [];
+        if (lf.length) { setTablolar(x => [...x.filter(y => y.ad !== e.ad), { ad: e.ad, sonuc: { foyler: lf, eslesen: {}, eslesmeyen: [], atlanan: 0 } }]); setOkunan(ys => ys.filter(y => y.id !== e.id)); continue; }
         setOkunan(ys => ys.map(y => y.id === e.id ? { ...y, metin, okunamadi: "hata" in o ? o.hata : o.okunamadi, oneri: metin ? kunyeCikar(metin) : {} } : y));
       } catch { /* dosya artık yoksa geç */ }
     }
@@ -247,7 +253,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
       {!!tabloHata && <Text style={s.err}>{tabloHata}</Text>}
       {tablolar.length > 0 && (
         <View style={s.card}>
-          <Text style={s.cardT}>📊 {t("Excel / CSV dosya listesi")}</Text>
+          <Text style={s.cardT}>📊 {t("Dosya listeleri (Excel, CSV ya da UYAP dosya listesi)")}</Text>
           {tablolar.map(x => (
             <View key={x.ad} style={[s.row, { alignItems: "center" }]}>
               <Text style={[s.hint, { flex: 1 }]}>{t("{ad}: {n} satır föy olacak{a}", { ad: x.ad, n: x.sonuc.foyler.length, a: x.sonuc.atlanan ? " · " + t("{k} boş satır atlandı", { k: x.sonuc.atlanan }) : "" })}{x.sonuc.eslesmeyen.length ? " · " + t("tanınmayan sütunlar notlara yazıldı: {s}", { s: x.sonuc.eslesmeyen.join(", ") }) : ""}</Text>
