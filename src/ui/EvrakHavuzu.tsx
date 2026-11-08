@@ -4,6 +4,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { useAccount } from "../data/account";
+import type { FoyTaraf } from "../data/foy";
 import { ayarOku, ayarYaz, bosFoy, dosyaOku, dosyaSil, Foy, foyBaslik, FoyEvrak, foyGetir, foyHaber, foyKaydet, foylerKaydet, foySil, tarihYaz } from "../data/foy";
 import { FoyTur, turBilgi } from "../data/foyTurleri";
 import { FoylemeSohbeti } from "./FoylemeSohbeti";
@@ -17,7 +18,7 @@ import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyA
 import { Btn } from "./kit";
 import { C } from "./theme";
 
-const UZANTILAR = ["udf", "doc", "docx", "txt", "pdf", "tif", "tiff", "jpg", "jpeg", "png", "zip", "xlsx", "xlsm", "csv", "xls"];
+const UZANTILAR = ["udf", "doc", "docx", "rtf", "odt", "htm", "html", "txt", "pdf", "tif", "tiff", "jpg", "jpeg", "png", "zip", "xlsx", "xlsm", "csv", "xls"];
 // Excel/CSV dosyası evrak değil, dosya listesidir: her satırı bir föy olur (Dosya listesini aktar ile aynı okuma).
 const LISTE = ["xlsx", "xlsm", "csv"];
 type Okunan = HavuzEvrak & { kaynak: () => Promise<Kaynak> };
@@ -42,6 +43,8 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
   const [zincir, setZincir] = useState<Record<string, string | null>>({});
   // Ayrılamayan evrakı bir gruba vermek (sohbetle).
   const [evrakGrup, setEvrakGrup] = useState<Record<string, string>>({});
+  // Ayrılamayan evrak için sohbetle açılacak yeni föy (aynı küme tek föy olur).
+  const [ayriYeni, setAyriYeni] = useState<Record<string, { foyTur: FoyTur; taraf: FoyTaraf; kume: string; merci?: string; no?: string }>>({});
   // Avukatın kuralı: tarafları ya da hangi tarafın vekili olunduğu belli olmayanlar beklesin.
   const [beklet, setBekletRaw] = useState<boolean>(() => { try { return globalThis.localStorage?.getItem("celse-havuz-beklet") !== "0"; } catch { return true; } });
   const setBeklet = (v: boolean) => { setBekletRaw(v); try { globalThis.localStorage?.setItem("celse-havuz-beklet", v ? "1" : "0"); } catch { /* yok say */ } };
@@ -89,7 +92,10 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
       const yol = (d as File & { webkitRelativePath?: string }).webkitRelativePath || d.name;
       const parca: Kaynak[] = [];
       const bytes = new Uint8Array(await d.arrayBuffer());
-      if (turBul(d.name) === "zip") { try { parca.push(...zipIcerigi(bytes)); } catch { continue; } }
+      if (turBul(d.name) === "zip") {
+        try { parca.push(...zipIcerigi(bytes)); }
+        catch (e) { yeni.push({ id: Math.random().toString(36).slice(2), ad: d.name, boyut: bytes.length, metin: "", okunamadi: t("ZIP açılamadı ({m})", { m: String((e as Error).message || e) }), oneri: {}, kaynak: async () => ({ ad: d.name, bytes, yol }) }); continue; }
+      }
       else parca.push({ ad: d.name, bytes, yol });
       for (const k of parca) {
         setIlerleme(t("({a} / {b}) {ad} okunuyor…", { a: i, b: dosyalar.length, ad: k.ad }));
@@ -119,12 +125,12 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
     let yeniFoy = 0, eklenen = 0;
     const tasinan: string[] = [];
     const grupFoy: Record<string, string> = {};
-    const isle = async (hedef: Hedef, evraklar: Okunan[], g?: HavuzGrup) => {
+    const isle = async (hedef: Hedef, evraklar: Okunan[], g?: HavuzGrup, kunye?: { merci?: string; no?: string }) => {
       if (hedef.tur === "atla" || !evraklar.length) return;
       if (g && hedef.tur === "var") grupFoy[g.anahtar] = hedef.foyId;
       // Föyden ayırırken: kendi föyünde kalacak evrak yerinde durur.
       if (kaynakFoy && hedef.tur === "var" && hedef.foyId === kaynakFoy.id) return;
-      let f: Foy | undefined = hedef.tur === "var" ? await foyGetir(hedef.foyId) : bosFoy({ tur: hedef.foyTur, taraf: hedef.taraf, acilis: g?.acilis });
+      let f: Foy | undefined = hedef.tur === "var" ? await foyGetir(hedef.foyId) : bosFoy({ tur: hedef.foyTur, taraf: hedef.taraf, acilis: g?.acilis, ...(kunye?.merci ? { mahkeme: kunye.merci } : {}), ...(kunye?.no ? { esasNo: kunye.no } : {}) });
       if (!f) return;
       if (g) grupFoy[g.anahtar] = f.id;
       if (hedef.tur === "yeni") yeniFoy++;
@@ -147,6 +153,9 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
     };
     for (const g of gruplar) await isle(hedefi(g), [...(g.evraklar as Okunan[]), ...(ayrilamayan as Okunan[]).filter(e => evrakGrup[e.id] === g.anahtar)], g);
     for (const e of ayrilamayan as Okunan[]) { const id = ayriHedef[e.id]; if (id && !evrakGrup[e.id]) await isle({ tur: "var", foyId: id }, [e]); }
+    const kumeler = new Map<string, Okunan[]>();
+    for (const e of ayrilamayan as Okunan[]) { const y = ayriYeni[e.id]; if (y && !evrakGrup[e.id] && !ayriHedef[e.id]) kumeler.set(y.kume, [...(kumeler.get(y.kume) || []), e]); }
+    for (const es of kumeler.values()) { const y = ayriYeni[es[0].id]; await isle({ tur: "yeni", foyTur: y.foyTur, taraf: y.taraf }, es, undefined, y); }
     // Akış: devamı olan dosya öncekine bağlanır (zaten bağlı olan değişmez).
     for (const g of gruplar) {
       const once = oncesi(g);
@@ -270,7 +279,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
                   <View style={[s.file, { alignItems: "center" }]}>
                     <View style={{ flex: 1 }}>
                       <Text style={s.fileT} numberOfLines={1}>{e.ad}</Text>
-                      <Text style={s.hint}>{evrakGrup[e.id] ? "→ " + t("grup: {g}", { g: (() => { const gg = gruplar.find(x => x.anahtar === evrakGrup[e.id]); return gg ? [gg.mahkeme, gg.esasNo].filter(Boolean).join(" ") || [gg.birinci, gg.ikinci].filter(Boolean).join(" – ") : ""; })() }) + " · " : ""}{boyutYaz(e.boyut)}{e.okunamadi ? " · " + t("metni okunamadı") : !e.metin.trim() ? " · " + t("metin yok") : " · " + t("bulunan: {x}", { x: [e.oneri.mahkeme ? t("merci") : "", e.oneri.esasNo ? t("dosya no") : "", e.oneri.birinci ? t("1. taraf") : "", e.oneri.ikinci ? t("2. taraf") : ""].filter(Boolean).join(", ") || t("hiçbiri") })}{ayriHedef[e.id] ? " → " + foyAdi(ayriHedef[e.id]) : ""}</Text>
+                      <Text style={s.hint}>{evrakGrup[e.id] ? "→ " + t("grup: {g}", { g: (() => { const gg = gruplar.find(x => x.anahtar === evrakGrup[e.id]); return gg ? [gg.mahkeme, gg.esasNo].filter(Boolean).join(" ") || [gg.birinci, gg.ikinci].filter(Boolean).join(" – ") : ""; })() }) + " · " : ""}{boyutYaz(e.boyut)}{e.okunamadi ? " · " + t("metni okunamadı: {n}", { n: e.okunamadi }) : !e.metin.trim() ? " · " + t("içinde yazı bulunamadı") : ayriYeni[e.id] ? " · → " + t("yeni föy ({tur}){m}", { tur: turBilgi(ayriYeni[e.id].foyTur).ad, m: ayriYeni[e.id].merci || ayriYeni[e.id].no ? ": " + [ayriYeni[e.id].merci, ayriYeni[e.id].no].filter(Boolean).join(" ") : "" }) + " · " + t("bulunan: {x}", { x: [e.oneri.mahkeme ? t("merci") : "", e.oneri.esasNo ? t("dosya no") : "", e.oneri.birinci ? t("1. taraf") : "", e.oneri.ikinci ? t("2. taraf") : ""].filter(Boolean).join(", ") || t("hiçbiri") }) : " · " + t("bulunan: {x}", { x: [e.oneri.mahkeme ? t("merci") : "", e.oneri.esasNo ? t("dosya no") : "", e.oneri.birinci ? t("1. taraf") : "", e.oneri.ikinci ? t("2. taraf") : ""].filter(Boolean).join(", ") || t("hiçbiri") })}{ayriHedef[e.id] ? " → " + foyAdi(ayriHedef[e.id]) : ""}</Text>
                       {!!e.metin.trim() && <Pressable onPress={() => setGoster(goster === e.id ? null : e.id)}><Text style={s.link}>{goster === e.id ? t("Metni gizle") : t("İlk satırları göster (yalnız bu ekranda)")}</Text></Pressable>}
                     </View>
                     <Btn kind="ghost" label={ayriHedef[e.id] ? t("Değiştir") : t("Föy seç")} onPress={() => setSecim(secim === e.id ? null : e.id)} />
@@ -300,6 +309,14 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
                 } else if (x.islem === "evrak" && x.evrak) {
                   const eid = k.evraklar[x.evrak - 1];
                   if (!eid) continue;
+                  const temizle = () => { setAyriYeni(y => { const z = { ...y }; delete z[eid]; return z; }); };
+                  if (x.hedef === "yeni" && !g && !foyId) {
+                    const tur = x.tur && turBilgi(x.tur as FoyTur).tur === x.tur ? x.tur as FoyTur : "hukuk";
+                    setAyriYeni(y => ({ ...y, [eid]: { foyTur: tur, taraf: x.taraf === 2 ? "davali" : "davaci", kume: x.kume ? "k" + x.kume : eid, merci: typeof x.merci === "string" ? x.merci.slice(0, 200) : undefined, no: typeof x.no === "string" ? x.no.slice(0, 60) : undefined } }));
+                    setAyriHedef(y => { const z = { ...y }; delete z[eid]; return z; }); setEvrakGrup(y => { const z = { ...y }; delete z[eid]; return z; });
+                    continue;
+                  }
+                  temizle();
                   if (g) setEvrakGrup(y => ({ ...y, [eid]: g.anahtar }));
                   else if (foyId) { setAyriHedef(y => ({ ...y, [eid]: foyId })); setEvrakGrup(y => { const z = { ...y }; delete z[eid]; return z; }); }
                   else if (x.hedef === "atla") { setAyriHedef(y => { const z = { ...y }; delete z[eid]; return z; }); setEvrakGrup(y => { const z = { ...y }; delete z[eid]; return z; }); }

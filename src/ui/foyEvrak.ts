@@ -6,7 +6,7 @@ import { evrakSinifla } from "../data/foyTurleri";
 import { kunyeCikar } from "../data/kunyeCikar";
 import { mask } from "../engine/mask";
 import { DOGRUDAN_SINIR } from "../engine/mask/derleme";
-import { evrakMetni, turBul } from "../engine/mask/readers";
+import { evrakMetni, evrakTanisi, gercekTur } from "../engine/mask/readers";
 
 export type Kaynak = { ad: string; bytes: Uint8Array; blob?: Blob; yol?: string };
 
@@ -24,16 +24,23 @@ export function evrakHazirla(f: Foy, e: FoyEvrak, yeniden = false): FoyEvrak {
 
 /** Dosyanın yazısını cihazda çıkarır (taranmış PDF, TIF ve fotoğraf için yazı tanıma dahil). */
 export async function evrakMetniOku(k: Kaynak, ilerle: (m: string) => void): Promise<{ metin: string; okunamadi?: string } | { hata: string }> {
-  const tur = turBul(k.ad);
-  if (!tur) return { hata: "bu dosya türü okunamıyor" };
+  // Tür uzantıdan değil içerikten bulunur (uzantısı yanlış ya da eksik dosyalar da okunsun).
+  const tur = gercekTur(k.ad, k.bytes);
+  const tani = () => { try { return " [" + evrakTanisi(k.ad, k.bytes) + "]"; } catch { return ""; } };
+  if (!k.bytes.length) return { metin: "", okunamadi: "dosya boş (0 bayt) ya da bu bilgisayarda açılamadı" };
+  if (!tur || tur === "zip") return { metin: "", okunamadi: "bu dosya türü okunamıyor" + tani() };
   try {
+    let metin: string;
     if (tur === "pdf" || tur === "tif" || tur === "resim") {
       const oku = await import("./evrakOku");
-      return { metin: tur === "pdf" ? await oku.pdfMetni(k.bytes, ilerle) : tur === "tif" ? await oku.tifMetni(k.bytes, ilerle) : await oku.resimMetni(k.bytes, k.ad, ilerle) };
+      metin = tur === "pdf" ? await oku.pdfMetni(k.bytes, ilerle) : tur === "tif" ? await oku.tifMetni(k.bytes, ilerle) : await oku.resimMetni(k.bytes, k.ad, ilerle);
+    } else {
+      ilerle("okunuyor");
+      metin = evrakMetni(k.ad, k.bytes);
     }
-    ilerle("okunuyor");
-    return { metin: evrakMetni(k.ad, k.bytes) };
-  } catch (e) { return { metin: "", okunamadi: String((e as Error).message || e) }; }
+    if (!metin.trim()) return { metin: "", okunamadi: (tur === "pdf" || tur === "tif" || tur === "resim" ? "yazı tanıma sayfada yazı bulamadı (görüntü çok soluk ya da boş olabilir)" : "dosyada yazı yok") + tani() };
+    return { metin };
+  } catch (e) { return { metin: "", okunamadi: String((e as Error).message || e) + tani() }; }
 }
 
 /** Okunmuş dosyayı föyün evrakı yapar: tür, önem, kodlama; asıl dosya cihazda saklanır (özel föyde şifreli). */

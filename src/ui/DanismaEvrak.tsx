@@ -12,7 +12,7 @@ import { C, F } from "./theme";
 
 /** Sunucunun kabul ettiği en uzun kodlu evrak metni (danisma fonksiyonu: DANISMA_EVRAK). */
 export const DANISMA_EVRAK_AZAMI = 40000;
-const KABUL = ".udf,.doc,.docx,.txt,.pdf,.tif,.tiff,.jpg,.jpeg,.png";
+const KABUL = ".udf,.doc,.docx,.rtf,.odt,.htm,.html,.txt,.pdf,.tif,.tiff,.jpg,.jpeg,.png";
 
 export interface EkliEvrak { id: string; ad: string; ham: string; okunamadi?: string }
 
