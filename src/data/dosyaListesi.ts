@@ -7,7 +7,7 @@ import { basHarf } from "./kunyeCikar";
 
 const ESAS = /\b((?:19|20)\d{2})\s*\/\s*(\d{1,7})\b/;
 const TARIH = /\b(\d{1,2})[./](\d{1,2})[./]((?:19|20)\d{2})\b/;
-const MERCI_SON = /(MAHKEMESİ|HAKİMLİĞİ|BAŞSAVCILIĞI|SAVCILIĞI|İCRA DAİRESİ|İCRA MÜDÜRLÜĞÜ|HUKUK DAİRESİ|CEZA DAİRESİ|DAVA DAİRESİ|KOMİSYONU BAŞKANLIĞI|KOMİSYONU|ARABULUCULUK BÜROSU|HAKEM HEYETİ|DANIŞTAY|YARGITAY)/;
+const MERCI_SON = /(MAHKEMESİ|HAKİMLİĞİ|HÂKİMLİĞİ|SATIŞ MEMURLUĞU|BAŞSAVCILIĞI|SAVCILIĞI|İCRA DAİRESİ|İCRA MÜDÜRLÜĞÜ|HUKUK DAİRESİ|CEZA DAİRESİ|DAVA DAİRESİ|KOMİSYONU BAŞKANLIĞI|KOMİSYONU|ARABULUCULUK BÜROSU|HAKEM HEYETİ|DANIŞTAY|YARGITAY)/;
 const DUR = /^(AÇIK|KAPALI|KAPANMIŞ|DERDEST|\d+|(?:19|20)\d{2}\/\d+|\d{1,2}[./]\d{1,2}[./]\d{4}|DOSYASI|DOSYA|NO|BİRİM|[-–|•])$/;
 
 function merciBul(u: string): string | undefined {
@@ -42,7 +42,9 @@ export function dosyaListesiOku(metin: string): ListeSatiri[] | null {
   }
   // Liste sayılması için: en az 3 ayrı dosya ve satırların önemli kısmı dosya satırı (kararda geçen birkaç atıf liste değildir).
   const tek = new Map(out.map(r => [(r.mahkeme || "") + "|" + r.esasNo, r]));
-  if (tek.size < 3 || out.length < satirlar.length * 0.2) return null;
+  // Tek satırlık UYAP çıktısı da (başlığında "Dosya Durumu", "Açılış Tarihi" gibi sütunlar olan) listedir.
+  const baslikli = /DOSYA\s+DURUMU|AÇILIŞ\s+TARİHİ|DOSYA\s+TÜRÜ|BİRİM\s+ADI/.test(metin.toLocaleUpperCase("tr")) && satirlar.length <= 40;
+  if ((tek.size < 3 && !(baslikli && tek.size >= 1)) || out.length < satirlar.length * 0.2 && !baslikli) return null;
   return [...tek.values()];
 }
 

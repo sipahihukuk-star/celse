@@ -20,5 +20,7 @@ ok(bul("2022/4444")?.tur === "icra", "icra: " + JSON.stringify(bul("2022/4444"))
 ok(bul("2025/55")?.tur === "idari_dava", "idari dava: " + JSON.stringify(bul("2025/55")));
 const karar = "T.C.\nİZMİR 3. ASLİYE HUKUK MAHKEMESİ\nESAS NO: 2026/12\nDAVACI: UYDURMA\nGEREĞİ DÜŞÜNÜLDÜ:\nİzmir 5. Asliye Hukuk Mahkemesinin 2023/45 Esas sayılı dosyası getirtildi ve incelendi, bu dosyada verilen kararın kesinleştiği anlaşıldı.\nDavanın kabulüne karar verildi.";
 ok(dosyaListesiOku(karar) === null, "karar liste sayılmaz");
+const tekSatir = "Birim Adı  Dosya No  Dosya Türü  Dosya Durumu  Açılış Tarihi\nUydurma 1. Satış Memurluğu  2023/777  Satış Memurluğu Dosyası  Açık  02.02.2023";
+ok(listedenFoyler(tekSatir, "x.pdf").length === 1 && /Satış Memurluğu/.test(listedenFoyler(tekSatir, "x.pdf")[0].mahkeme), "tek satırlık UYAP çıktısı: " + JSON.stringify(dosyaListesiOku(tekSatir)));
 if (fail) { console.log(`liste-test: ${fail} hata`); process.exit(1); }
 console.log("liste-test: tamam");
