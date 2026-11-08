@@ -4,7 +4,7 @@
 import React, { useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { Foy, tarihCoz } from "../data/foy";
-import { FAIZ_TURLERI, FaizTuru, IcraBilgi, icraEksikler, icraHesapla, Masraf, ParaBirimi, TAKIP_YOLLARI, TakipYolu, takipTalebiMetni, tl } from "../data/icra";
+import { MAHIYETLER, FAIZ_TURLERI, FaizTuru, IcraBilgi, icraEksikler, icraHesapla, Masraf, ParaBirimi, TAKIP_YOLLARI, TakipYolu, takipTalebiMetni, tl } from "../data/icra";
 import { t } from "../i18n";
 import { useAccount } from "../data/account";
 import { Acilir } from "./Acilir";
@@ -56,6 +56,8 @@ export function IcraBolum({ f, degistir, surum }: { f: Foy; degistir: (ek: Parti
           secenekler={TAKIP_YOLLARI.map(x => ({ k: x.k, ad: t(x.ad) + (x.ornek ? ` (${x.ornek})` : "") }))} />
         {b.yol === "kira" && <Acilir etiket={t("Talep")} secili={b.talep || "haciz_tahliye"} genislik={220} onSec={k => yaz({ talep: k as IcraBilgi["talep"] })}
           secenekler={[{ k: "haciz_tahliye", ad: t("Haciz ve tahliye") }, { k: "haciz", ad: t("Yalnız haciz (kira alacağı)") }, { k: "tahliye", ad: t("Yalnız tahliye") }]} />}
+        {(b.yol === "genel" || b.yol === "ilamli") && <Acilir etiket={t("Takip mahiyeti (zorunlu)")} secili={b.mahiyet || "-"} genislik={240} onSec={k => yaz({ mahiyet: k === "-" ? undefined : k })}
+          secenekler={[{ k: "-", ad: t("Seçiniz") }, ...MAHIYETLER.filter(x => x.yol === b.yol).map(x => ({ k: x.kod, ad: `${t(x.ad)} (${x.kod})` }))]} />}
         <Acilir etiket={t("Para birimi")} secili={pb} genislik={110} onSec={k => yaz({ paraBirimi: k as ParaBirimi })}
           secenekler={(["TL", "USD", "EUR", "GBP"] as const).map(k => ({ k, ad: k }))} />
       </View>
@@ -146,6 +148,12 @@ export function IcraBolum({ f, degistir, surum }: { f: Foy; degistir: (ek: Parti
         </View>
       ))}
       <View style={s.row}><Btn kind="ghost" label={t("+ Masraf ekle")} onPress={() => yaz({ masraflar: [...masraflar, { ad: "", tutar: 0 }] })} /></View>
+
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
+        <Acilir etiket={t("TBK 100 mahsup")} secili={b.tbk100 === false ? "H" : "E"} genislik={130} onSec={k => yaz({ tbk100: k === "E" })} secenekler={[{ k: "E", ad: t("Evet") }, { k: "H", ad: t("Hayır") }]} />
+        <Acilir etiket={t("BSMV")} secili={b.bsmv ? "E" : "H"} genislik={110} onSec={k => yaz({ bsmv: k === "E" })} secenekler={[{ k: "H", ad: t("Hayır") }, { k: "E", ad: t("Evet") }]} />
+        <Acilir etiket={t("KKDF")} secili={b.kkdf ? "E" : "H"} genislik={110} onSec={k => yaz({ kkdf: k === "E" })} secenekler={[{ k: "H", ad: t("Hayır") }, { k: "E", ad: t("Evet") }]} />
+      </View>
 
       {/* Takip sonrası faiz */}
       <Text style={s.secT}>{t("Takip sonrası faiz")}</Text>

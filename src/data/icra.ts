@@ -35,6 +35,12 @@ export interface IcraBilgi {
   masraflar?: Masraf[];
   ilamVekalet?: number; // ilamlı: ilamdaki vekâlet ücreti
   yargilamaGideri?: number; // ilamlı: ilamdaki yargılama gideri
+  /** UYAP takip mahiyeti (Örnek 7 ve 4-5'te zorunlu; 18.12.2015 duyurusu) */
+  mahiyet?: string;
+  /** TBK 100 (eski BK 84): kısmi ödemeler önce faiz, masraf ve ferilere mahsup edilsin (varsayılan evet) */
+  tbk100?: boolean;
+  bsmv?: boolean;
+  kkdf?: boolean;
   takipSonrasiTur?: FaizTuru;
   takipSonrasiOran?: number;
   not?: string;
@@ -48,6 +54,17 @@ export const TAKIP_YOLLARI: { k: TakipYolu; ad: string; ornek?: string }[] = [
   { k: "ipotek", ad: "İpoteğin paraya çevrilmesi yoluyla takip" },
   { k: "tasinir_rehni", ad: "Taşınır rehninin paraya çevrilmesi yoluyla takip" }
 ];
+/** UYAP takip mahiyeti kodları (XML: <dosya mahiyetKodu="…">). Yalnız biri seçilir. */
+export const MAHIYETLER: { kod: string; ad: string; yol: "genel" | "ilamli" }[] = [
+  { kod: "1007", ad: "Telefon (sabit)", yol: "genel" }, { kod: "1107", ad: "Çocuk teslimi", yol: "genel" }, { kod: "1207", ad: "Tüketici hakem heyeti", yol: "genel" },
+  { kod: "1307", ad: "Belgesiz", yol: "genel" }, { kod: "1407", ad: "Sözleşme / protokol", yol: "genel" }, { kod: "2007", ad: "Telefon (cep)", yol: "genel" },
+  { kod: "3007", ad: "İnternet / TV", yol: "genel" }, { kod: "4007", ad: "Su", yol: "genel" }, { kod: "5007", ad: "Elektrik", yol: "genel" },
+  { kod: "6007", ad: "Doğal gaz", yol: "genel" }, { kod: "7007", ad: "Kredi kartı", yol: "genel" }, { kod: "8008", ad: "Kredi sözleşmesi", yol: "genel" },
+  { kod: "9009", ad: "Nafaka", yol: "genel" },
+  { kod: "1045", ad: "Nafaka", yol: "ilamli" }, { kod: "2045", ad: "Çocuk teslimi", yol: "ilamli" }, { kod: "3045", ad: "Tüketici hakem heyeti", yol: "ilamli" },
+  { kod: "4045", ad: "Para alacağı", yol: "ilamli" }
+];
+
 export const FAIZ_TURLERI: { k: FaizTuru; ad: string }[] = [
   { k: "yasal", ad: "Yasal faiz (3095 m.1)" },
   { k: "avans", ad: "Avans faizi – ticari temerrüt (3095 m.2/2)" },
@@ -132,6 +149,17 @@ export function icraHesapla(b: IcraBilgi, bugun = new Date().toISOString().slice
   return { asil, faiz: f.tutar, faizDilimleri: f.dilimler, faizEksik: f.eksik, masraf, ek, toplam, toplamTL, vekalet: icraVekalet(toplamTL, tahliye) };
 }
 
+/** "Alacaklının talep ettiği hak" metni (UYAP XML: alacaklininTalepEttigiHak). */
+export function talepEdilenHak(b: IcraBilgi, bugun = new Date().toISOString().slice(0, 10)): string {
+  const h = icraHesapla(b, bugun);
+  const pb = b.paraBirimi || "TL";
+  const tur = b.takipSonrasiTur || b.faizTuru || "yasal";
+  const oran = b.takipSonrasiOran ?? (tur === b.faizTuru ? b.oran : undefined);
+  const faiz = tur === "yok" ? "" : `takip tarihinden itibaren ${oran ? `yıllık %${String(oran).replace(".", ",")} oranında` : "değişen oranlarda"} ${turAdi(tur).replace(/\s*\(.*\)$/, "").replace(/ – .*$/, "").toLocaleLowerCase("tr")} işleyecek, `;
+  return `${tl(h.toplam, pb)} tutarındaki toplam alacağın tahsilde tekerrür olmamak şartıyla, ${faiz}icra gideri ve vekâlet ücreti ile birlikte tahsili talebidir. (Fazlaya dair ve faiz oranlarındaki artıştan doğan talep hakkımız saklıdır)`
+    + (b.tbk100 !== false ? " TBK. 100. mad. gereğince kısmi ödemeler öncelikle varsa işlemiş faiz, masraf ve ferilere mahsup edilecektir." : "");
+}
+
 /** UYAP'ta takip açmak için eksik kalan bilgiler. */
 export function icraEksikler(f: Foy, b: IcraBilgi): string[] {
   const e: string[] = [];
@@ -151,6 +179,7 @@ export function icraEksikler(f: Foy, b: IcraBilgi): string[] {
   if (b.yol === "kambiyo" && (!b.senet?.tur || !b.senet?.vade)) e.push("Senedin türü ve vadesi");
   if (b.yol === "kira" && (!b.kira?.aylikKira || !b.kira?.aylar)) e.push("Aylık kira ve takibe konu aylar");
   if (b.yol === "genel" && !b.belge) e.push("Alacağın dayanağı (fatura, sözleşme, cari hesap…)");
+  if ((b.yol === "genel" || b.yol === "ilamli") && !b.mahiyet) e.push("Takip mahiyeti (Örnek 7 ve 4-5'te zorunlu)");
   return e;
 }
 
@@ -175,7 +204,8 @@ export function takipTalebiMetni(f: Foy, b: IcraBilgi, bugun = new Date().toISOS
     : b.yol === "ipotek" || b.yol === "tasinir_rehni" ? "Rehnin paraya çevrilmesi" : "Alacağın tahsili için haciz";
   const sat: string[] = [];
   sat.push("TAKİP TALEBİ ÖZETİ (UYAP'a giriş sırasıyla)", "");
-  sat.push(`1. Takip yolu: ${yol ? yol.ad + (yol.ornek ? ` (${yol.ornek})` : " (örnek no'yu UYAP'ta seçin)") : "…"}`);
+  const mah = MAHIYETLER.find(x => x.kod === b.mahiyet);
+  sat.push(`1. Takip yolu: ${yol ? yol.ad + (yol.ornek ? ` (${yol.ornek})` : " (örnek no'yu UYAP'ta seçin)") : "…"}${mah ? ` · takip mahiyeti: ${mah.ad} (${mah.kod})` : ""}`);
   sat.push(`2. İcra dairesi: ${f.mahkeme || "…"}`);
   sat.push(`3. Alacaklı: ${kisi(f.muvekkil, m.kimlikNo, m.adres)}`);
   sat.push(`   Alacaklı vekili: ${vekil ? "Av. " + vekil.replace(/^av\.?\s*/i, "") : "…"}${m.vekaletname ? ` (vekâletname: ${m.vekaletname})` : ""}`);
@@ -195,7 +225,9 @@ export function takipTalebiMetni(f: Foy, b: IcraBilgi, bugun = new Date().toISOS
   for (const x of b.masraflar || []) if (x.tutar) sat.push(`   - ${x.ad || "Masraf"}: ${tl(x.tutar, pb)}`);
   sat.push(`   TOPLAM: ${tl(h.toplam, pb)}${pb !== "TL" ? ` (takip tarihindeki kur ${b.kur || "…"} ile ${tl(h.toplamTL)}; ödeme günündeki kurla tahsili istenir)` : ""}`);
   sat.push(`7. Takip sonrası faiz: ${sonra}`);
-  sat.push(`8. Talep: ${talep}.`);
+  sat.push(`8. Talep (48/9): ${talep}.`);
+  sat.push(`9. Alacaklının talep ettiği hak: ${talepEdilenHak(b, bugun)}`);
+  sat.push(`   TBK 100 mahsup: ${b.tbk100 !== false ? "evet" : "hayır"} · BSMV: ${b.bsmv ? "evet" : "hayır"} · KKDF: ${b.kkdf ? "evet" : "hayır"}`);
   if (b.not) sat.push(`Not: ${b.not}`);
   sat.push("");
   sat.push(`Bilgi: 2026–2027 AAÜT'ye göre icra vekâlet ücreti yaklaşık ${tl(h.vekalet.ucret)} (${h.vekalet.aciklama}); borçlu ödeme süresinde öderse ${tl(h.vekalet.ucDortte)}. Dosya hesabını icra dairesi yapar; takip talebinde ayrıca istenmesi gerekmez.`);
