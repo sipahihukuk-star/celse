@@ -4,6 +4,8 @@
 // Kütüphaneler yalnız bu türden bir dosya seçildiğinde, sürümü sabitlenmiş CDN adreslerinden bir kez indirilir; uygulamayı ağırlaştırmaz.
 // Türkçe yazı tanıma dil dosyası ilk kullanımda iner (yaklaşık 10 MB) ve tarayıcı önbelleğinde kalır.
 
+import { yaziKalitesi } from "../engine/mask/readers";
+
 const CDN = {
   pdf: "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js",
   pdfWorker: "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js",
@@ -67,6 +69,32 @@ export async function cevrimdisiHazirla(ilerle: Ilerleme): Promise<void> {
 }
 
 /** PDF: önce metin katmanı; boş sayfalar yazı tanımayla. */
+/** pdf.js yazı parçalarını sayfadaki konumlarına göre satırlara dizer (satır sonu işareti olmayan PDF'ler için). */
+function satirlaPdf(items: Any[]): string {
+  const p = items.filter(it => typeof it.str === "string" && it.transform).map(it => ({ s: it.str as string, x: it.transform[4] as number, y: it.transform[5] as number, w: (it.width as number) || 0, h: Math.abs(it.transform[3] as number) || Math.abs(it.height as number) || 10 }));
+  if (!p.length) return "";
+  p.sort((a, b) => b.y - a.y || a.x - b.x);
+  const satirlar: { y: number; h: number; ps: typeof p }[] = [];
+  for (const it of p) {
+    const son = satirlar[satirlar.length - 1];
+    if (son && Math.abs(son.y - it.y) <= Math.max(2, Math.min(son.h, it.h) * 0.5)) son.ps.push(it);
+    else satirlar.push({ y: it.y, h: it.h, ps: [it] });
+  }
+  return satirlar.map(l => {
+    l.ps.sort((a, b) => a.x - b.x);
+    let x = "", sonX = -Infinity;
+    for (const it of l.ps) {
+      if (!it.s) continue;
+      const bosluk = it.x - sonX;
+      // Geniş boşluk sütun ayrımıdır ("DAVACI        : …"); küçük boşluk sözcük arasıdır.
+      if (x && bosluk > it.h * 2) x += "  ";
+      else if (x && bosluk > it.h * 0.15 && !/\s$/.test(x) && !/^\s/.test(it.s)) x += " ";
+      x += it.s; sonX = it.x + it.w;
+    }
+    return x.replace(/[ \t]+$/g, "");
+  }).filter(x => x.trim()).join("\n");
+}
+
 export async function pdfMetni(bytes: Uint8Array, ilerle: Ilerleme): Promise<string> {
   await betik(CDN.pdf);
   const pdfjs = W().pdfjsLib;
@@ -78,8 +106,9 @@ export async function pdfMetni(bytes: Uint8Array, ilerle: Ilerleme): Promise<str
     ilerle(`PDF okunuyor: sayfa ${i} / ${doc.numPages}`);
     const page = await doc.getPage(i);
     const tc = await page.getTextContent();
-    let metin = (tc.items as Any[]).map(it => (it.str || "") + (it.hasEOL ? "\n" : "")).join("").replace(/[ \t]+\n/g, "\n").trim();
-    if (metin.replace(/\s/g, "").length < 40) {
+    let metin = satirlaPdf(tc.items as Any[]);
+    // Yazı yoksa (taranmış sayfa) ya da yazı tipi kodlaması bozuksa (anlamsız karakterler) sayfa yazı tanımayla okunur.
+    if (metin.replace(/\s/g, "").length < 40 || yaziKalitesi(metin).bozuk) {
 
       ilerle(`Taranmış sayfa, yazı tanıma: sayfa ${i} / ${doc.numPages}`);
       const vp = page.getViewport({ scale: 2.2 });

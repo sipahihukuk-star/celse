@@ -1,6 +1,6 @@
 // Evrak okuyucuları: uydurma dosyalarla UDF çeşitleri, RTF, HTML olarak kaydedilmiş Word, Türkçe kod sayfalı metin, yanlış uzantı.
 import { strToU8, zipSync } from "fflate";
-import { evrakMetni, evrakTanisi, gercekTur } from "../src/engine/mask/readers";
+import { evrakMetni, evrakTanisi, gercekTur, yaziKalitesi } from "../src/engine/mask/readers";
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
 const dene = (ad: string, b: Uint8Array, bek: RegExp, m: string) => { try { const x = evrakMetni(ad, b); ok(bek.test(x), m + ": " + x.slice(0, 120)); } catch (e) { ok(false, m + " hata: " + (e as Error).message + " " + evrakTanisi(ad, b)); } };
@@ -21,5 +21,10 @@ dene("j.udf", docx, /2026\/12/, "DOCX .udf uzantılı");
 ok(gercekTur("x", strToU8("%PDF-1.4")) === "pdf", "PDF imzası");
 ok(/content\.xml/.test(evrakTanisi("k.udf", udf("<x/>"))), "tanı paket içini gösterir");
 try { evrakMetni("k.udf", udf("<template><content></content></template>")); ok(false, "boş UDF hata vermeli"); } catch (e) { ok(/boş/.test((e as Error).message), "boş UDF nedeni"); }
+{
+  ok(!yaziKalitesi("T.C. İZMİR 3. ASLİYE HUKUK MAHKEMESİ ESAS NO: 2026/12 DAVACI vekili tarafından açılan dava ile ilgili olarak karar verilmesi talep edilmiş olup dosya incelendi ve gereği düşünüldü. Davalı vekili cevap dilekçesinde davanın reddini talep etmiştir.").bozuk, "düzgün yazı bozuk sayılmaz");
+  ok(yaziKalitesi("ÞÝÐ ÐÞÝ ¾¼½ ÞÝÐÞ ÐÝÞ ÝÐÞ ÞÐÝ ¾¼½ ÐÐÞ ÝÞÝ ÞÞÐ ÝÝÞ ÐÞÐ ¾½¼ ÞÝÞ ÐÝÐ").bozuk, "anlamsız karakterli yazı bozuk sayılır");
+  ok(yaziKalitesi("\ue001\ue002\ue003 \ue004\ue005 abc def ghi jkl mno pqr stu vwx yz ab cd ef gh ij kl mn op qr st".repeat(3)).bozuk, "özel alan karakterleri bozuk sayılır");
+}
 if (fail) { console.log(`okuyucu-test: ${fail} hata`); process.exit(1); }
 console.log("okuyucu-test: tamam");
