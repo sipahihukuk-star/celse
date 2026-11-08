@@ -57,7 +57,9 @@ import { TahkimScreen } from "./src/ui/TahkimScreen";
 import DanismaScreen from "./src/ui/DanismaScreen";
 import InboxScreen from "./src/ui/InboxScreen";
 import DanismaDosyaScreen from "./src/ui/DanismaDosyaScreen";
-import { evrakOturumu, oynananYaz } from "./src/data/evrak";
+import { evrakOturumu, evrakOturumuYaz, oynananYaz } from "./src/data/evrak";
+import FoyScreen from "./src/ui/FoyScreen";
+import { tarihYaz } from "./src/data/foy";
 import { setAktifMaske } from "./src/engine/mask/oturum";
 import { kaydirmaCubugu } from "./src/ui/webScrollbar";
 kaydirmaCubugu();
@@ -80,6 +82,7 @@ type Route =
   | { k: "desk" }
   | { k: "account"; then?: "career" | "paywall" | "danisma" | "magaza"; tab?: "giris" | "kayit" }
   | { k: "danisma"; evrak?: boolean }
+  | { k: "foy" }
   | { k: "danismaDosya" }
   | { k: "paywall" }
   | { k: "magaza" }
@@ -106,6 +109,7 @@ export default function App() {
   const [route, setRouteRaw] = useState<Route>(() =>
     typeof window !== "undefined" && /[?&#]yonetim\b/i.test((window.location?.search || "") + (window.location?.hash || "")) ? { k: "admin" }
       // Danışma bağlantısı (telefondan "videoyu web'de hazırla") ve "Duruşmayı izle" önizlemesi (?izle-ornek) danışma ekranını açar.
+      : Platform.OS === "web" && typeof window !== "undefined" && /[?&]foy\b/.test(window.location?.search || "") ? { k: "foy" }
       : Platform.OS === "web" && typeof window !== "undefined" && /[?&](danisma=|izle-ornek|evrak)/.test(window.location?.search || "") ? { k: "danisma" }
       // Web mağazası: ?magaza (sitenin "Satın al" bağlantısı)
       : Platform.OS === "web" && typeof window !== "undefined" && /[?&#]magaza\b/.test((window.location?.search || "") + (window.location?.hash || "")) ? { k: "magaza" } : { k: "title" });
@@ -118,7 +122,7 @@ export default function App() {
     const evrakta = (route.k === "game" || route.k === "verdict") && route.from === "evrak";
     setAktifMaske(evrakta ? evrakOturumu()?.map ?? null : null);
   }, [route]);
-  const stack = React.useRef<Route[]>(route.k === "admin" || route.k === "danisma" || route.k === "magaza" ? [{ k: "title" }] : []);
+  const stack = React.useRef<Route[]>(route.k === "admin" || route.k === "danisma" || route.k === "magaza" || route.k === "foy" ? [{ k: "title" }] : []);
   const TRANSIENT = new Set(["game", "closing", "verdict", "onlineWait", "onlineGame"]);
   const setRoute = (r: Route) => {
     const cur = routeRef.current;
@@ -337,11 +341,19 @@ export default function App() {
           office={office} onOffice={() => setRoute(account ? { k: "office" } : { k: "account", then: "career" })} onDuel={() => toList("duel")} onSolo={() => toList("solo")} onAdmin={() => setRoute({ k: "admin" })}
           onHistory={() => setRoute({ k: "history" })} onCharacter={() => setRoute({ k: "character" })} onBoard={() => setRoute({ k: "board" })} isAdmin={srvAdmin} onMap={() => setRoute({ k: "career" })}
           onTahkim={() => setRoute({ k: "tahkim" })} onPro={() => setRoute({ k: "paywall" })} pro={unlocked} tahkimCount={cases.all.filter(c => c.room === "tahkim").length}
-          guest={guest} onGuest={() => setGuest(true)} onLeaveGuest={() => setGuest(false)} onDanisma={(evrak?: boolean) => setRoute({ k: "danisma", evrak })} onShop={Platform.OS === "web" ? () => setRoute({ k: "magaza" }) : undefined} onInbox={() => setRoute({ k: "inbox" })}
+          guest={guest} onGuest={() => setGuest(true)} onLeaveGuest={() => setGuest(false)} onDanisma={(evrak?: boolean) => setRoute({ k: "danisma", evrak })} onFoy={() => setRoute({ k: "foy" })} onShop={Platform.OS === "web" ? () => setRoute({ k: "magaza" }) : undefined} onInbox={() => setRoute({ k: "inbox" })}
           onDanismaDosya={() => setRoute({ k: "danismaDosya" })} />}
         {route.k === "danismaDosya" && (
           <DanismaDosyaScreen signedIn={account?.mode === "server"} onBack={() => setRoute({ k: "title" })} onSignIn={() => setRoute({ k: "account", tab: "giris" })}
             onPlay={c => startGame(c, { ...SOLO_PLAYERS, p1: { name: meName, ai: false } }, "danismaDosya")} />
+        )}
+        {route.k === "foy" && (
+          <FoyScreen ucretsiz={srvAdmin} onBack={() => setRoute({ k: "title" })}
+            onHazirlan={f => {
+              // Föyün evrakı Evrakla duruşma provasına aktarılır; onay kutusu boş başlar (gönderilecek metin denetlenmeli).
+              evrakOturumuYaz({ evraklar: f.evraklar.filter(e => e.metin.trim()).map(e => ({ ad: e.ad, metin: e.metin })), yapistir: "", taraf: f.taraf, asama: f.durusma ? t("Sonraki duruşma {d}", { d: tarihYaz(f.durusma) }) : "", allow: [], extra: [], map: {}, aktarim: true });
+              setRoute({ k: "danisma", evrak: true });
+            }} />
         )}
         {route.k === "danisma" && (
           <DanismaScreen key={route.evrak ? "evrak" : "danisma"} evrak={route.evrak} onEvrakPlay={c => startGame(c, { ...SOLO_PLAYERS, p1: { name: meName, ai: false } }, "evrak")} onBack={() => setRoute({ k: "title" })} signedIn={account?.mode === "server"} server={!!supabase()} admin={srvAdmin}

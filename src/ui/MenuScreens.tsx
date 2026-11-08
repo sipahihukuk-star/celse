@@ -38,6 +38,7 @@ export interface TitleProps {
   /** "Derdini anlat" danışma ekranı; evrak: doğrudan "Evrakla duruşma provası" açılır */ onDanisma?: (evrak?: boolean) => void;
   /** Web mağazası (Celse Pro ve kredi paketleri; yalnız web) */ onShop?: () => void;
   /** Danışma dosyaları (gerçek olaylar): kullanıcıların anonim olaylarını avukat olarak oynama (antrenman) */ onDanismaDosya?: () => void;
+  /** Dava takibi (föyler; yalnız bu cihazda) */ onFoy?: () => void;
 }
 export function TitleScreen(p: TitleProps) {
   const { width } = useWindowDimensions();
@@ -101,7 +102,7 @@ export function TitleScreen(p: TitleProps) {
       <View style={styles.pills} accessibilityRole="tablist">
         {HOME_PAGES.map(h => (
           <Pressable key={h} accessibilityRole="tab" accessibilityState={{ selected: home === h }} onPress={() => goPage(h)} style={[styles.pill, home === h && styles.pillOn]}>
-            <Text style={[styles.pillT, home === h && styles.pillTOn]}>{h === "danisma" ? t("Derdini anlat") : t("Kariyer ve oyun")}</Text>
+            <Text style={[styles.pillT, home === h && styles.pillTOn]}>{h === "takip" ? t("Dava takibi") : h === "danisma" ? t("Derdini anlat") : t("Kariyer ve oyun")}</Text>
           </Pressable>
         ))}
       </View>
@@ -111,6 +112,9 @@ export function TitleScreen(p: TitleProps) {
       {pw > 0 && (
       <ScrollView ref={pager} horizontal pagingEnabled showsHorizontalScrollIndicator={false} scrollEventThrottle={32}
         onScroll={e => onPagerScroll(e.nativeEvent.contentOffset.x)} style={{ flex: 1 }}>
+      <View style={{ width: pw, height: ph }}>
+        <TakipHome wide={wide} admin={!!p.isAdmin} onFoy={p.onFoy} onNext={() => goPage("danisma")} footer={footer} />
+      </View>
       <View style={{ width: pw, height: ph }}>
         <DanismaHome wide={wide} admin={!!p.isAdmin} onDanisma={p.onDanisma} onGame={() => goPage("oyun")} footer={footer} />
       </View>
@@ -208,6 +212,43 @@ function ShopCard({ onPress }: { onPress: () => void }) {
       </View>
       <Text style={styles.careerGoDark}>{t("Fiyatlar ›")}</Text>
     </Pressable>
+  );
+}
+
+/** Ön yüzün "Dava takibi" sayfası: avukatın föyleri (duruşmalar, süreler, yapılacaklar, evrak). Föyler cihazda kalır. */
+function TakipHome({ wide, admin: yonetici, onFoy, onNext, footer }: { wide: boolean; admin: boolean; onFoy?: () => void; onNext: () => void; footer: React.ReactNode }) {
+  const prem = usePremium();
+  const satis = useSettings().avukatSatis;
+  const acik = yonetici || prem.evrak || !!prem.avukat?.aktif || satis;
+  const [kilit, setKilit] = useState(false);
+  return (
+    <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, { gap: 12 }]}>
+      <View style={{ gap: 6, width: "100%", maxWidth: 720, alignSelf: "center" }}>
+        <Text style={styles.eyebrow}>{t("DAVA TAKİBİ")}</Text>
+        <Text style={[styles.logo, { fontSize: wide ? 88 : 60, lineHeight: wide ? 96 : 68 }]}>Celse</Text>
+        <Text style={styles.byline}>BY THEMISCODE</Text>
+        <Text style={styles.lede}>{t("Dava dosyalarınızı föy föy takip edin: duruşmalar, süreler, yapılacak işler ve evrak tek yerde. Föyden tek tuşla duruşma provasına geçin. Föyleriniz bilgisayarınızdan çıkmaz.")}</Text>
+      </View>
+      {!!onFoy && (
+        <Pressable accessibilityRole="button" onPress={() => (acik ? onFoy() : setKilit(k => !k))} style={({ pressed }) => [styles.homeCard, styles.homeCardPro, pressed && { opacity: 0.85 }]}>
+          <IconBadge name="folder" size={48} />
+          <View style={{ flex: 1, gap: 4 }}>
+            <Text style={styles.careerKDark}>{acik ? t("AVUKATLAR İÇİN") : t("AVUKATLAR İÇİN · YAKINDA")}</Text>
+            <Text style={styles.homeT}>{t("Föylerim")}</Text>
+            <Text style={styles.webNote}>{t("Dosya listenizi Excel ya da Word'den toplu aktarın; evrakı ekleyin, yaklaşan duruşma ve işleri görün, yapay zekâya özet, süre ve yapılacakları çıkartın.")}</Text>
+            {Platform.OS !== "web" && <Text style={styles.webNote}>{t("Şimdilik bilgisayarda çalışır: celse.themiscode.com'u Chrome ya da Edge ile açın.")}</Text>}
+          </View>
+          {acik && <Text style={styles.careerGoDark}>›</Text>}
+        </Pressable>
+      )}
+      {!!onFoy && !acik && kilit && (
+        <View style={styles.kilitNot}>
+          <Text style={styles.webNote}>{t("Dava takibi şimdilik yalnız davet edilen avukatlara açık. Celse Avukat paketi satışa çıkınca herkese açılacak.")}</Text>
+        </View>
+      )}
+      <Pressable onPress={onNext}><Text style={styles.webNote}>{t("Hukuk yardımcısı için sola kaydırın ›")}</Text></Pressable>
+      {footer}
+    </ScrollView>
   );
 }
 
