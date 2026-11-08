@@ -434,7 +434,7 @@ export default function App() {
             buyer={account ? { ad: account.adSoyad, eposta: account.eposta } : undefined}
             onSignIn={() => setRoute({ k: "account", tab: "giris", then: "magaza" })} onSignUp={() => setRoute({ k: "account", tab: "kayit", then: "magaza" })} />
         )}
-        {route.k === "admin" && <AdminScreen onExit={() => setRoute({ k: "title" })} onPreview={c => startGame(c, previewPlayers(c), "admin")} />}
+        {route.k === "admin" && <AdminScreen onExit={() => setRoute({ k: "title" })} onPreview={c => startGame(c, previewPlayers(c), "admin")} onEvrak={() => setRoute({ k: "danisma", evrak: true })} onFoy={() => setRoute({ k: "foy" })} />}
         {route.k === "game" && (
           <GameScreen key={route.run} c={route.c} players={route.players}
             onExit={() => { if (route.from === "danismaDosya") { const id = dosyaKimligi(route.c); if (id) dosyaBirak(id); } back(route.c, route.from); }}

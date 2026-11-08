@@ -24,18 +24,20 @@ import { clearPin, getPin, resetAdminCache, serverAdmin, setPin, Status, store, 
 import { onAccountChange } from "../data/account";
 import { useInnerBack } from "../ui/innerBack";
 import { FloatingNav, useFloatingNav } from "../ui/FloatingNav";
+import { HomePage, useGorunenYuzler, useHomePage, yuzAdi } from "../ui/homePage";
 
-interface Props { onExit: () => void; onPreview: (c: CaseFile) => void }
+interface Props { onExit: () => void; onPreview: (c: CaseFile) => void; /** Derdini anlat yüzü: evrak provası */ onEvrak?: () => void; /** Dava takibi yüzü: föyler */ onFoy?: () => void }
 
 type Entry = { c: CaseFile; status: Status | "yerlesik"; updatedAt?: string; builtIn: boolean; overridden: boolean };
 
 // Oturum boyunca bir kez PIN sorulur (önizlemeden dönüşte tekrar sorulmaz).
 let sessionUnlocked = false;
 
-export default function AdminScreen({ onExit, onPreview }: Props) {
+export default function AdminScreen(props: Props) {
+  const { onExit } = props;
   const [unlocked, setUnlocked] = useState(sessionUnlocked);
   if (!unlocked) return <PinGate onOk={() => { sessionUnlocked = true; setAdminPreview(true); setUnlocked(true); }} onExit={onExit} />;
-  return <AdminHome onExit={onExit} onPreview={onPreview} />;
+  return <AdminHome {...props} />;
 }
 
 /* ---------- Giriş ---------- */
@@ -81,7 +83,7 @@ function PinGate({ onOk, onExit }: { onOk: () => void; onExit: () => void }) {
 }
 
 /* ---------- Liste ---------- */
-function AdminHome({ onExit, onPreview }: Props) {
+function AdminHome({ onExit, onPreview, onEvrak, onFoy }: Props) {
   const [stored, setStored] = useState<StoredCase[]>([]);
   const [editing, setEditing] = useState<{ c: CaseFile; status: Entry["status"]; isNew: boolean } | null>(null);
   const [wizard, setWizard] = useState(false);
@@ -92,6 +94,12 @@ function AdminHome({ onExit, onPreview }: Props) {
   const [confirmDel, setConfirmDel] = useState<string | null>(null);
   const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri" | "ayarlar" | "istatistik" | "mesajlar" | "hatalar" | "ornek" | "gorsel" | "sohbet">("");
   const [isServerAdmin, setServerAdmin] = useState<boolean | null>(null);
+  // Yönetim paneli de ön yüz gibi üç yüze ayrılır: ortak araçlar (istatistik, oyuncular, mesajlar…) üçünde, diğerleri ilgili yüzde.
+  const [yuzler] = useGorunenYuzler();
+  const [anaYuz] = useHomePage();
+  const [yuz, setYuzRaw] = useState<HomePage>(anaYuz);
+  const setYuz = (h: HomePage) => { setYuzRaw(h); setAi(""); setWizard(false); setImporting(false); };
+  const yuzNe = yuzler.includes(yuz) ? yuz : yuzler[0];
   const reload = () => store.list().then(setStored);
   // Tarayıcının geri düğmesi / Android geri tuşu: önce açık olan alt sayfayı kapatır (düzenleyici, panel, yeni dava, içe aktarma).
   useInnerBack(!!ai, () => setAi(""));
@@ -163,27 +171,44 @@ function AdminHome({ onExit, onPreview }: Props) {
     <ScrollView ref={nav.ref} onScroll={nav.onScroll} scrollEventThrottle={64} contentContainerStyle={st.wrap} keyboardShouldPersistTaps="handled">
       <View style={st.head}>
         <View style={{ flex: 1, minWidth: 220 }}>
-          <Text style={st.crumb}>CELSE · YÖNETİM</Text>
-          <Text style={st.title}>Dava dosyaları</Text>
-          <Text style={st.sub}>{counts.toplam} dava · {counts.yayinda} yayında · {counts.taslak} taslak</Text>
+          <Text style={st.crumb}>CELSE · YÖNETİM · {yuzAdi(yuzNe).toLocaleUpperCase("tr")}</Text>
+          <Text style={st.title}>{yuzNe === "oyun" ? "Dava dosyaları" : yuzAdi(yuzNe)}</Text>
+          {yuzNe === "oyun" && <Text style={st.sub}>{counts.toplam} dava · {counts.yayinda} yayında · {counts.taslak} taslak</Text>}
         </View>
-        <View style={st.headActions}>
-          <SmallBtn label="‹ Oyuna dön" onPress={onExit} />
-          <SmallBtn label="📊 İstatistikler" tone={ai === "istatistik" ? "accent" : "plain"} onPress={() => setAi(ai === "istatistik" ? "" : "istatistik")} />
-          <SmallBtn label="✉️ Duyuru ve mesajlar" tone={ai === "mesajlar" ? "accent" : "plain"} onPress={() => setAi(ai === "mesajlar" ? "" : "mesajlar")} />
-          <SmallBtn label="⚑ Hata bildirimleri" tone={ai === "hatalar" ? "accent" : "plain"} onPress={() => setAi(ai === "hatalar" ? "" : "hatalar")} />
-          <SmallBtn label="📂 Örnek olaylar" tone={ai === "ornek" ? "accent" : "plain"} onPress={() => setAi(ai === "ornek" ? "" : "ornek")} />
-          <SmallBtn label="👤 Oyuncular" tone={ai === "oyuncular" ? "accent" : "plain"} onPress={() => setAi(ai === "oyuncular" ? "" : "oyuncular")} />
-          <SmallBtn label="⚙️ Oyun ayarları" tone={ai === "ayarlar" ? "accent" : "plain"} onPress={() => setAi(ai === "ayarlar" ? "" : "ayarlar")} />
-          <SmallBtn label="🌐 Çeviriler" tone={ai === "ceviri" ? "accent" : "plain"} onPress={() => setAi(ai === "ceviri" ? "" : "ceviri")} />
-          <SmallBtn label="💬 Düzeltme sohbeti" tone={ai === "sohbet" ? "accent" : "plain"} onPress={() => setAi(ai === "sohbet" ? "" : "sohbet")} />
+      </View>
+      {yuzler.length > 1 && (
+        <View style={st.yuzBar} accessibilityRole="tablist">
+          {yuzler.map(h => (
+            <SmallBtn key={h} label={yuzAdi(h)} tone={yuzNe === h ? "accent" : "plain"} onPress={() => setYuz(h)} />
+          ))}
+        </View>
+      )}
+      <View style={[st.headActions, { justifyContent: "flex-start" }]}>
+        <SmallBtn label="‹ Ön sayfaya dön" onPress={onExit} />
+        <Text style={st.grupT}>ORTAK</Text>
+        <SmallBtn label="📊 İstatistikler" tone={ai === "istatistik" ? "accent" : "plain"} onPress={() => setAi(ai === "istatistik" ? "" : "istatistik")} />
+        <SmallBtn label="👤 Oyuncular" tone={ai === "oyuncular" ? "accent" : "plain"} onPress={() => setAi(ai === "oyuncular" ? "" : "oyuncular")} />
+        <SmallBtn label="✉️ Duyuru ve mesajlar" tone={ai === "mesajlar" ? "accent" : "plain"} onPress={() => setAi(ai === "mesajlar" ? "" : "mesajlar")} />
+        <SmallBtn label="⚑ Hata bildirimleri" tone={ai === "hatalar" ? "accent" : "plain"} onPress={() => setAi(ai === "hatalar" ? "" : "hatalar")} />
+        <SmallBtn label="💬 Düzeltme sohbeti" tone={ai === "sohbet" ? "accent" : "plain"} onPress={() => setAi(ai === "sohbet" ? "" : "sohbet")} />
+        <SmallBtn label="⚙️ Ayarlar" tone={ai === "ayarlar" ? "accent" : "plain"} onPress={() => setAi(ai === "ayarlar" ? "" : "ayarlar")} />
+      </View>
+      <View style={[st.headActions, { justifyContent: "flex-start" }]}>
+        <Text style={st.grupT}>{yuzAdi(yuzNe).toLocaleUpperCase("tr")}</Text>
+        {yuzNe === "danisma" && <SmallBtn label="📂 Örnek olaylar" tone={ai === "ornek" ? "accent" : "plain"} onPress={() => setAi(ai === "ornek" ? "" : "ornek")} />}
+        {yuzNe === "danisma" && !!onEvrak && <SmallBtn label="📄 Evrakla duruşma provası" onPress={onEvrak} />}
+        {yuzNe === "takip" && !!onFoy && <SmallBtn label="📁 Föylerim" onPress={onFoy} />}
+        {yuzNe === "oyun" && <>
           <SmallBtn label="🎭 Görsel denetim" tone={ai === "gorsel" ? "accent" : "plain"} onPress={() => setAi(ai === "gorsel" ? "" : "gorsel")} />
           <SmallBtn label="🔍 Yapay zekâ denetimi" tone={ai === "denetim" ? "accent" : "plain"} onPress={() => setAi(ai === "denetim" ? "" : "denetim")} />
           <SmallBtn label="✨ Yapay zekâ ile üret" tone={ai === "uretim" ? "accent" : "plain"} onPress={() => setAi(ai === "uretim" ? "" : "uretim")} />
+          <SmallBtn label="🌐 Çeviriler" tone={ai === "ceviri" ? "accent" : "plain"} onPress={() => setAi(ai === "ceviri" ? "" : "ceviri")} />
           <SmallBtn label="JSON içe aktar" onPress={() => setImporting(!importing)} />
           <SmallBtn label="+ Yeni dava" tone="accent" onPress={() => setWizard(!wizard)} />
-        </View>
+        </>}
       </View>
+      {yuzNe === "takip" && <Text style={st.sub}>Föyler avukatın kendi cihazında tutulur; sunucuda föy içeriği yoktur. Kimin dava takibini kullanabileceğini “Oyuncular”daki Celse Avukat paketi ve “Ayarlar”daki satış anahtarı belirler.</Text>}
+      {yuzNe === "danisma" && <Text style={st.sub}>Derdini anlat kredileri ve evrak provası izinleri “Oyuncular”da; örnek dosyaya dönüştürülecek olaylar “Örnek olaylar”da.</Text>}
 
       <Text style={[st.sub, { fontSize: 13 }, isServerAdmin === false && { color: C.bad }]}>
         {isServerAdmin === null ? "Sunucu yetkisi denetleniyor…"
@@ -209,6 +234,7 @@ function AdminHome({ onExit, onPreview }: Props) {
       {wizard && <NewCaseWizard takenIds={takenIds} onCancel={() => setWizard(false)} onCreate={c => { setWizard(false); setEditing({ c, status: "taslak", isNew: true }); }} />}
       {importing && <ImportBox takenIds={takenIds} onDone={() => { setImporting(false); reload(); }} />}
 
+      {yuzNe === "oyun" && <>
       <View style={st.filters}>
         <TextInput value={q} onChangeText={setQ} placeholder="Ara: başlık, mahkeme, alan…" placeholderTextColor={C.muted} style={st.search} />
         <Seg value={modeF} onChange={setModeF} options={[{ v: "hepsi", label: "Tüm modlar" }, { v: "solo", label: "Tek kişilik" }, { v: "duel", label: "Karşılıklı" }]} />
@@ -263,8 +289,9 @@ function AdminHome({ onExit, onPreview }: Props) {
         <Text style={st.help}>• <Text style={st.helpB}>Yapay zekâ denetimi:</Text> Dosyaları hukuki doğruluk, puanlama, tutarlılık ve yazım yönünden inceler. Bulunan sorunlar listelenir; yalnızca seçip onayladığınız düzeltmeler uygulanır, dosya motorla sınanır ve onayınızla yayınlanır.</Text>
         <Text style={st.help}>• <Text style={st.helpB}>Yapay zekâ ile üret:</Text> Branş, mahkeme, zorluk ve konu seçerek yeni dosya yazdırırsınız. Dosya taslak olarak kaydedilir; oynayıp beğenirseniz yayınlarsınız.</Text>
       </Section>
+      </>}
     </ScrollView>
-    <FloatingNav nav={nav} onBack={ai ? () => setAi("") : onExit} backLabel={ai ? "‹ Panelleri kapat" : "‹ Oyuna dön"} />
+    <FloatingNav nav={nav} onBack={ai ? () => setAi("") : onExit} backLabel={ai ? "‹ Panelleri kapat" : "‹ Ön sayfaya dön"} />
     </View>
   );
 }
@@ -347,7 +374,9 @@ const st = StyleSheet.create({
   err: { fontFamily: F.body, fontSize: 14, color: C.bad },
   wrap: { width: "100%", maxWidth: 1100, alignSelf: "center", paddingHorizontal: 16, paddingVertical: 18, gap: 14 },
   head: { flexDirection: "row", flexWrap: "wrap", alignItems: "flex-end", gap: 12 },
-  headActions: { flexDirection: "row", flexWrap: "wrap", gap: 6, flexShrink: 1 },
+  headActions: { flexDirection: "row", flexWrap: "wrap", gap: 6, flexShrink: 1, alignItems: "center" },
+  yuzBar: { flexDirection: "row", flexWrap: "wrap", gap: 6, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: C.line, marginBottom: 4 },
+  grupT: { fontFamily: F.mono, fontSize: 11, letterSpacing: 2, color: C.muted, marginLeft: 6 },
   crumb: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1.5, color: C.muted },
   title: { fontFamily: F.display, fontSize: 30, color: C.brass },
   sub: { fontFamily: F.body, fontSize: 15, color: C.muted },

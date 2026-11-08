@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { HOME_PAGES, HomePage, useHomePage } from "./homePage";
+import { HOME_PAGES, HomePage, useGorunenYuzler, useHomePage, yuzAdi } from "./homePage";
 import { usePremium } from "../data/subscription";
 import { useSettings } from "../data/settings";
 import { KeyboardBar } from "./KeyboardBar";
@@ -53,6 +53,7 @@ export function TitleScreen(p: TitleProps) {
   // Ön yüz iki sayfadır: "Derdini anlat" ve "Kariyer ve oyun". Parmakla kaydırılır ya da üstteki düğmeyle geçilir;
   // kullanıcı hangi sayfada kalırsa uygulama bir dahaki açılışta o sayfayla açılır.
   const [home, setHome, ready] = useHomePage();
+  const [yuzler] = useGorunenYuzler();
   const [pw, setPw] = useState(0);
   // Sayfa yüksekliği: her sayfanın kendi dikey kaydırması olsun diye sayfalar bu yükseklikle sınırlanır (yoksa web'de alt kısım kesilir).
   const [ph, setPh] = useState(0);
@@ -63,13 +64,13 @@ export function TitleScreen(p: TitleProps) {
   useEffect(() => {
     if (!pw || !ready) return;
     placed.current = true;
-    pager.current?.scrollTo({ x: HOME_PAGES.indexOf(homeRef.current) * pw, animated: false });
-  }, [pw, ready]);
-  const goPage = (h: HomePage) => { setHome(h); pager.current?.scrollTo({ x: HOME_PAGES.indexOf(h) * pw, animated: true }); };
+    pager.current?.scrollTo({ x: Math.max(0, yuzler.indexOf(homeRef.current)) * pw, animated: false });
+  }, [pw, ready, yuzler]);
+  const goPage = (h: HomePage) => { if (!yuzler.includes(h)) return; setHome(h); pager.current?.scrollTo({ x: yuzler.indexOf(h) * pw, animated: true }); };
   const onPagerScroll = (x: number) => {
     if (!placed.current || !pw) return;
     if (settle.current) clearTimeout(settle.current);
-    settle.current = setTimeout(() => setHome(HOME_PAGES[Math.max(0, Math.min(HOME_PAGES.length - 1, Math.round(x / pw)))]), 140);
+    settle.current = setTimeout(() => setHome(yuzler[Math.max(0, Math.min(yuzler.length - 1, Math.round(x / pw)))]), 140);
   };
   // Geniş web ekranında QR kodları sağda alt alta durur (üstte iPhone, altta Android); dar ekranda sayfanın altındaki kartta.
   const rails = Platform.OS === "web" && width >= 1180;
@@ -106,26 +107,26 @@ export function TitleScreen(p: TitleProps) {
           {rails && <View style={styles.railCol}><StoreRails /></View>}
         </View>
       ) : (<>
-      <View style={styles.pills} accessibilityRole="tablist">
-        {HOME_PAGES.map(h => (
+      {yuzler.length > 1 && <View style={styles.pills} accessibilityRole="tablist">
+        {yuzler.map(h => (
           <Pressable key={h} accessibilityRole="tab" accessibilityState={{ selected: home === h }} onPress={() => goPage(h)} style={[styles.pill, home === h && styles.pillOn]}>
             <Text style={[styles.pillT, home === h && styles.pillTOn]}>{h === "takip" ? t("Dava takibi") : h === "danisma" ? t("Derdini anlat") : t("Kariyer ve oyun")}</Text>
           </Pressable>
         ))}
-      </View>
+      </View>}
 
       <View style={{ flex: 1, flexDirection: "row" }}>
       <View style={{ flex: 1 }} onLayout={e => { setPw(Math.round(e.nativeEvent.layout.width)); setPh(Math.round(e.nativeEvent.layout.height)); }}>
       {pw > 0 && (
       <ScrollView ref={pager} horizontal pagingEnabled showsHorizontalScrollIndicator={false} scrollEventThrottle={32}
         onScroll={e => onPagerScroll(e.nativeEvent.contentOffset.x)} style={{ flex: 1 }}>
-      <View style={{ width: pw, height: ph }}>
-        <TakipHome wide={wide} admin={!!p.isAdmin} onFoy={p.onFoy} onNext={() => goPage("danisma")} footer={footer} />
-      </View>
-      <View style={{ width: pw, height: ph }}>
-        <DanismaHome wide={wide} admin={!!p.isAdmin} onDanisma={p.onDanisma} onGame={() => goPage("oyun")} footer={footer} />
-      </View>
-      <View style={{ width: pw, height: ph }}>
+      {yuzler.includes("takip") && <View style={{ width: pw, height: ph }}>
+        <TakipHome wide={wide} admin={!!p.isAdmin} onFoy={p.onFoy} onNext={yuzler.includes("danisma") ? () => goPage("danisma") : undefined} footer={footer} />
+      </View>}
+      {yuzler.includes("danisma") && <View style={{ width: pw, height: ph }}>
+        <DanismaHome wide={wide} admin={!!p.isAdmin} onDanisma={p.onDanisma} onGame={yuzler.includes("oyun") ? () => goPage("oyun") : undefined} footer={footer} />
+      </View>}
+      {yuzler.includes("oyun") && <View style={{ width: pw, height: ph }}>
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "flex-start" }]}>
         {/* Geniş ekranda terazi başlığın hizasında durur; sayfa kaydırılmadan görünür. */}
         <View style={[styles.titleArt, wide && { flex: 0.8, paddingTop: 24, paddingLeft: 24 }]}>
@@ -188,7 +189,7 @@ export function TitleScreen(p: TitleProps) {
           )}
         </View>
       </ScrollView>
-      </View>
+      </View>}
       </ScrollView>
       )}
       </View>
@@ -282,7 +283,7 @@ function ShopCard({ onPress }: { onPress: () => void }) {
 }
 
 /** Ön yüzün "Dava takibi" sayfası: avukatın föyleri (duruşmalar, süreler, yapılacaklar, evrak). Föyler cihazda kalır. */
-function TakipHome({ wide, admin: yonetici, onFoy, onNext, footer }: { wide: boolean; admin: boolean; onFoy?: () => void; onNext: () => void; footer: React.ReactNode }) {
+function TakipHome({ wide, admin: yonetici, onFoy, onNext, footer }: { wide: boolean; admin: boolean; onFoy?: () => void; onNext?: () => void; footer: React.ReactNode }) {
   const prem = usePremium();
   const satis = useSettings().avukatSatis;
   const acik = yonetici || prem.evrak || !!prem.avukat?.aktif || satis;
@@ -312,14 +313,14 @@ function TakipHome({ wide, admin: yonetici, onFoy, onNext, footer }: { wide: boo
           <Text style={styles.webNote}>{t("Dava takibi şimdilik yalnız davet edilen avukatlara açık. Celse Avukat paketi satışa çıkınca herkese açılacak.")}</Text>
         </View>
       )}
-      <Pressable onPress={onNext}><Text style={styles.webNote}>{t("Hukuk yardımcısı için sola kaydırın ›")}</Text></Pressable>
+      {!!onNext && <Pressable onPress={onNext}><Text style={styles.webNote}>{t("Hukuk yardımcısı için sola kaydırın ›")}</Text></Pressable>}
       {footer}
     </ScrollView>
   );
 }
 
 /** Ön yüzün "Derdini anlat" sayfası: vatandaş için kendi olayını anlatma, avukat için evrakla duruşma provası. */
-function DanismaHome({ wide, admin: yonetici, onDanisma, onGame, footer }: { wide: boolean; admin: boolean; onDanisma?: (evrak?: boolean) => void; onGame: () => void; footer: React.ReactNode }) {
+function DanismaHome({ wide, admin: yonetici, onDanisma, onGame, footer }: { wide: boolean; admin: boolean; onDanisma?: (evrak?: boolean) => void; onGame?: () => void; footer: React.ReactNode }) {
   // Evrakla duruşma provası: yöneticiler ve yönetim panelinden izin verilen oyuncular (surum14.sql).
   const prem = usePremium();
   const satis = useSettings().avukatSatis;
@@ -361,9 +362,9 @@ function DanismaHome({ wide, admin: yonetici, onDanisma, onGame, footer }: { wid
           <Text style={styles.webNote}>{t("Evrakla duruşma provası şimdilik yalnız davet edilen avukatlara açık. Davet edildiyseniz aynı hesapla giriş yapıp uygulamayı kapatıp yeniden açın. Celse Avukat paketi satışa çıkınca herkese açılacak.")}</Text>
         </View>
       )}
-      <Pressable accessibilityRole="button" onPress={onGame} hitSlop={8} style={({ pressed }) => [styles.swipeHint, pressed && { opacity: 0.7 }]}>
+      {!!onGame && <Pressable accessibilityRole="button" onPress={onGame} hitSlop={8} style={({ pressed }) => [styles.swipeHint, pressed && { opacity: 0.7 }]}>
         <Text style={styles.guestLinkT}>{wide ? t("Kariyer ve avukatlık oyunu ›") : t("Kariyer ve avukatlık oyunu için sola kaydırın ›")}</Text>
-      </Pressable>
+      </Pressable>}
       <View style={{ width: "100%", maxWidth: 720, alignSelf: "center" }}>{footer}</View>
     </ScrollView>
   );
@@ -376,6 +377,7 @@ function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; o
   const [voice, setVoice] = useVoiceEnabled();
   const [lang, chooseLang] = useLang();
   const go = (f: () => void) => () => { onClose(); f(); };
+  const [yuzler, setYuzler] = useGorunenYuzler();
   const Item = ({ label, sub, onPress }: { label: string; sub?: string; onPress: () => void }) => (
     <Pressable accessibilityRole="button" onPress={onPress} style={({ pressed }) => [styles.mItem, pressed && { backgroundColor: C.panel2 }]}>
       <Text style={styles.mItemT}>{label}</Text>
@@ -415,12 +417,20 @@ function SideMenu({ visible, onClose, ...p }: TitleProps & { visible: boolean; o
             {!!p.onDanismaDosya && <Item label={t("Danışma dosyaları (gerçek olaylar)")} sub={t("Kullanıcıların anonim olaylarında avukatlık yapın · antrenman")} onPress={go(p.onDanismaDosya)} />}
             {!!p.onInbox && <InboxMenuItem onPress={go(p.onInbox)} />}
             {!!p.onPro && <Item label={t("Celse Pro")} sub={p.pro ? t("Aboneliğiniz etkin") : t("Bütün kariyer · aylık ya da yıllık abonelik")} onPress={go(p.onPro)} />}
+            {yuzler.includes("oyun") && <>
             <Text style={styles.mSection}>{t("KARİYER")}</Text>
             <Item label={t("Liderlik panosu")} sub={t("Kariyer puanına göre en iyi avukatlar")} onPress={go(p.onBoard)} />
             <Item label={t("Karakterim")} sub={t("Kendinizi tarif edin, duruşmadaki yüzünüzü seçin")} onPress={go(p.onCharacter)} />
             <Item label={t("Geçmiş dosyalar ve başarı")} sub={t("Kazanılan ve kaybedilen davalar, puanlar, unvan")} onPress={go(p.onHistory)} />
             <Item label={t("Büro, kasa ve kazanç")} sub={t("Gelir-gider defteri, giderler, mesleki gelişim")} onPress={go(p.onOffice)} />
             <Item label={t("Kariyer haritası")} onPress={go(p.onMap)} />
+            </>}
+            <Text style={styles.mSection}>{t("KULLANDIĞIM BÖLÜMLER")}</Text>
+            <Text style={[styles.mItemS, { paddingHorizontal: 18, marginBottom: 2 }]}>{t("Kullanmadığınız bölümü kapatın; ön sayfada görünmez. En az biri açık kalır.")}</Text>
+            {HOME_PAGES.map(h => (
+              <Toggle key={h} label={t(yuzAdi(h))} on={yuzler.includes(h)}
+                set={v => setYuzler(v ? [...yuzler, h] : yuzler.length > 1 ? yuzler.filter(x => x !== h) : yuzler)} />
+            ))}
             <Text style={styles.mSection}>{t("AYARLAR")}</Text>
             <View style={[styles.mItem, { flexDirection: "row", flexWrap: "wrap", gap: 6 }]}>
               {LANGS.map(l => (
