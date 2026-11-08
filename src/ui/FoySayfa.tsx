@@ -5,6 +5,7 @@ import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
 import { MuvekkilMesaj } from "./MuvekkilMesaj";
 import { Katlanir } from "./Katlanir";
+import { Acilir } from "./Acilir";
 import { IcraBolum } from "./IcraBolum";
 import { tl } from "../data/icra";
 import { dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, KarsiBilgi, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
@@ -410,34 +411,19 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             {!!durusmaYazi.trim() && !tarihCoz(durusmaYazi) && <Text style={s.err}>{t("Tarihi 12.03.2027 ya da 12.03.2027 10:30 biçiminde yazın.")}</Text>}
           </View>
         </View>
-        <Text style={s.label}>{t("Dosya türü")}</Text>
-        <View style={s.chips}>
-          {TURLER.filter(x => !x.eski || x.tur === f.tur).map(x => (
-            <Pressable key={x.tur} onPress={() => degistir({ tur: x.tur, asama: x.asamalar.includes(f.asama || "") ? f.asama : undefined })} style={[s.chip, (f.tur || "hukuk") === x.tur && s.chipOn]}>
-              <Text style={[s.chipT, (f.tur || "hukuk") === x.tur && s.chipTOn]}>{t(x.ad)}</Text>
-            </Pressable>
-          ))}
+        {/* Dosya türü, aşama ve hangi dava: açılır kutularda; kutuya basınca başlıklar altına doğru listelenir. */}
+        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
+          <Acilir etiket={t("Dosya türü")} secili={f.tur || "hukuk"} genislik={230}
+            onSec={k => { const x = TURLER.find(y => y.tur === k)!; degistir({ tur: x.tur, asama: x.asamalar.includes(f.asama || "") ? f.asama : undefined }); }}
+            secenekler={TURLER.filter(x => !x.eski || x.tur === f.tur).map(x => ({ k: x.tur, ad: t(x.ad) }))} />
+          <Acilir etiket={t("Aşama")} secili={f.asama || "-"} genislik={200} onSec={k => degistir({ asama: k === "-" ? undefined : k })}
+            secenekler={[{ k: "-", ad: t("Belirtilmemiş") }, ...tb.asamalar.map(x => ({ k: x, ad: t(x) }))]} />
+          {(!!DAVA_TURLERI[f.tur || "hukuk"]?.length || !!f.davaTuru) && (
+            <Acilir etiket={f.tur === "idari_sorusturma" || f.tur === "baro" || f.tur === "sorusturma" ? t("Hangi soruşturma") : t("Hangi dava")} secili={f.davaTuru || "-"} genislik={260}
+              onSec={k => degistir({ davaTuru: k === "-" ? "" : k })}
+              secenekler={[{ k: "-", ad: t("Belirtilmemiş") }, ...[...(DAVA_TURLERI[f.tur || "hukuk"] || []), ...(f.davaTuru && !(DAVA_TURLERI[f.tur || "hukuk"] || []).includes(f.davaTuru) ? [f.davaTuru] : [])].map(x => ({ k: x, ad: t(x) }))]} />
+          )}
         </View>
-        <Text style={s.label}>{t("Aşama")}</Text>
-        <View style={s.chips}>
-          {tb.asamalar.map(x => (
-            <Pressable key={x} onPress={() => degistir({ asama: f.asama === x ? undefined : x })} style={[s.chip, f.asama === x && s.chipOn]}>
-              <Text style={[s.chipT, f.asama === x && s.chipTOn]}>{t(x)}</Text>
-            </Pressable>
-          ))}
-        </View>
-        {!!DAVA_TURLERI[f.tur || "hukuk"]?.length && (
-          <>
-            <Text style={s.label}>{f.tur === "idari_sorusturma" || f.tur === "baro" || f.tur === "sorusturma" ? t("Hangi soruşturma") : t("Hangi dava")}</Text>
-            <View style={s.chips}>
-              {DAVA_TURLERI[f.tur || "hukuk"]!.map(x => (
-                <Pressable key={x} onPress={() => degistir({ davaTuru: f.davaTuru === x ? "" : x })} style={[s.chip, f.davaTuru === x && s.chipOn]}>
-                  <Text style={[s.chipT, f.davaTuru === x && s.chipTOn]}>{t(x)}</Text>
-                </Pressable>
-              ))}
-            </View>
-          </>
-        )}
         <View style={s.chips}>
           {taraflar && (["davaci", "davali"] as const).map((k, i) => (
             <Pressable key={k} onPress={() => degistir({ taraf: k })} style={[s.chip, f.taraf === k && s.chipOn]}>
