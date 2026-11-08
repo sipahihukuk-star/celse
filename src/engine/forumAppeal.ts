@@ -5,7 +5,7 @@
 // Süreler ve parasal sınırlar: DOĞRULAYIN (aşağıdaki tablolar).
 import { fmtDate, lastDay, longDate, suggestTeblig } from "./deadline";
 import { GameState } from "./engine";
-import { sebepMetni } from "./sebep";
+import { sebepMetni, yaziliSebep } from "./sebep";
 import { AppealKind, AppealStage, CaseFile, Choice, Outcome, Side, Step } from "./types";
 
 export interface ForumWay {
@@ -270,14 +270,9 @@ export function forumStage(base: CaseFile, kind: AppealKind, side: Side, w: Foru
   const longest = Math.max(...wrongs.map(x => x.text.length));
   const sebepT = sebepMetni(issue, Math.max(60, Math.floor(longest * 1.15) - groundHead.length));
   const ground = groundHead + sebepT.tam;
-  const sebep: Step = {
-    side: "p1", scene: "office", section: sebepTitle, lines: [], prompt: cevap ? "Cevabınızın merkezine neyi koyacaksınız?" : `${Name} sebebiniz ne olacak?`,
-    choices: [
-      { text: groundHead + sebepT.kisa, delta: 20, set: ["sebep"], law: issue.law, doc: ground + ".",
-        note: cevap ? `Doğru. Kararın dayandığı değerlendirmeyi (${issue.law}) savundunuz.` : `Doğru. Kararı uyuşmazlığın kilit meselesinden (${issue.law}) eleştirdiniz.` },
-      ...wrongs
-    ]
-  };
+  // Sebep oyuncunun kendi yazdığı metindir (yapay zekâ puanlar); şıklardan seçilmez.
+  const sebep: Step = yaziliSebep({ kind: cevap ? "cevap" : "itiraz", ad: w.name, law: issue.law, kural: ground.slice(groundHead.length), head: groundHead, section: sebepTitle, kurum: w.court, issue });
+
 
   const talep: Step = {
     side: "p1", scene: "office", section: "SONUÇ VE İSTEM", lines: [], prompt: "Sonuç ve isteminizi nasıl yazacaksınız?",
