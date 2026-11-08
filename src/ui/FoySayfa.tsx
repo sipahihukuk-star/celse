@@ -16,6 +16,7 @@ import { durumKaynagi, evrakHazirla, evrakOkuVeHazirla, Kaynak } from "./foyEvra
 import { boyutYaz, dosyaSec, gunYaz, indir, s } from "./foyStil";
 import { sesliDur, sesliOku, sesliOkumaVar, useSesliOkuma, yerelSesVar } from "./sesliOku";
 import { IconBadge } from "./icons";
+import { FloatingNav, useFloatingNav } from "./FloatingNav";
 import { Btn } from "./kit";
 import { t } from "../i18n";
 import { C } from "./theme";
@@ -43,6 +44,14 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
   const [durusmaYazi, setDurusmaYazi] = useState("");
   const [silOnay, setSilOnay] = useState(false);
   const [muvAc, setMuvAc] = useState(false);
+  // Evrak listesi: seçim kutuları, toplu işlem ve sayfalama (5, 10, 25, 50, 100; tercih bu cihazda hatırlanır).
+  const [secim, setSecim] = useState<Set<string>>(new Set());
+  const [evrakSuz, setEvrakSuz] = useState<"hepsi" | "onemli" | "onemsiz">("hepsi");
+  const [evrakSayfa, setEvrakSayfa] = useState(0);
+  const [evrakBoy, setEvrakBoyRaw] = useState<number>(() => { try { const v = Number(globalThis.localStorage?.getItem("celse-foy-evrak-sayfa")); return [5, 10, 25, 50, 100].includes(v) ? v : 10; } catch { return 10; } });
+  const setEvrakBoy = (n: number) => { setEvrakBoyRaw(n); setEvrakSayfa(0); try { globalThis.localStorage?.setItem("celse-foy-evrak-sayfa", String(n)); } catch { /* yok say */ } };
+  const [topluSil, setTopluSil] = useState(false);
+  const nav = useFloatingNav();
   const [karsiAc, setKarsiAc] = useState(false);
   const [surum, setSurum] = useState(0);
   const [kunyeMesaj, setKunyeMesaj] = useState("");
@@ -51,7 +60,6 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
   const [baglaAra, setBaglaAra] = useState("");
   const [turSec, setTurSec] = useState<string | null>(null);
   const [kodluGor, setKodluGor] = useState<string | null>(null);
-  const [onemsizAc, setOnemsizAc] = useState(false);
   const [hiz, setHiz] = useState(1);
   const okuyor = useSesliOkuma();
   const prem = usePremium();
@@ -106,8 +114,20 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
     if (/\.(pdf|jpg|jpeg|png|txt)$/i.test(e.ad)) window.open(URL.createObjectURL(b), "_blank"); else indir(e.ad, b);
   };
   const evrakDegistir = (e: FoyEvrak, ek: Partial<FoyEvrak> | null) => {
-    if (!ek) { dosyaSil(e.id).catch(() => {}); degistir({ evraklar: f.evraklar.filter(x => x.id !== e.id) }); return; }
+    if (!ek) { dosyaSil(e.id).catch(() => {}); degistir({ evraklar: f.evraklar.filter(x => x.id !== e.id) }); setSecim(x => { const y = new Set(x); y.delete(e.id); return y; }); return; }
     degistir({ evraklar: f.evraklar.map(x => (x.id === e.id ? { ...x, ...ek } : x)) });
+  };
+  /** Seçilen evraka toplu işlem: sil ya da önemli/önemsiz yap. */
+  const topluIslem = (ek: Partial<FoyEvrak> | null) => {
+    if (!secim.size) return;
+    if (!ek) {
+      for (const id of secim) dosyaSil(id).catch(() => {});
+      degistir({ evraklar: f.evraklar.filter(x => !secim.has(x.id)) });
+      setSecim(new Set()); setTopluSil(false); setEvrakSayfa(0);
+      return;
+    }
+    degistir({ evraklar: f.evraklar.map(x => (secim.has(x.id) ? { ...x, ...ek } : x)) });
+    setSecim(new Set());
   };
   const gorevEkle = () => {
     const m = yeniGorev.trim();
@@ -207,6 +227,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
   const evrakSatir = (e: FoyEvrak) => (
     <View key={e.id} style={{ gap: 6 }}>
       <View style={[s.file, e.onemli === false && s.onemsiz]}>
+        <Kutu acik={secim.has(e.id)} onPress={() => setSecim(x => { const y = new Set(x); if (y.has(e.id)) y.delete(e.id); else y.add(e.id); return y; })} etiket={t("{ad} seç", { ad: e.ad })} />
         <IconBadge name="notes" size={30} />
         <View style={{ flex: 1 }}>
           <Text style={s.fileT} numberOfLines={1}>{e.ad}</Text>
@@ -238,9 +259,11 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
     </View>
   );
 
+  const geri = async () => { await hemenKaydet(); onKapat(); };
   return (
-    <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
-      <View style={s.head}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={async () => { await hemenKaydet(); onKapat(); }} /></View>
+    <View style={{ flex: 1 }}>
+    <ScrollView ref={nav.ref} onScroll={nav.onScroll} scrollEventThrottle={64} contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
+      <View style={s.head}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={geri} /></View>
       <Text style={s.eyebrow}>{[tb.kisa, f.asama, f.mahkeme, f.esasNo].filter(Boolean).join(" · ").toLocaleUpperCase("tr")}</Text>
       <Text style={s.title}>{foyBaslik(f)}</Text>
       {f.ozel && <Text style={[s.turChip, s.ozelChip]}>🔒 {t("ŞAHSİ DOSYA · ŞİFRELİ SAKLANIR")}</Text>}
@@ -454,13 +477,58 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
           </View>
         ) : <Text style={s.hint}>{t("Telefondan evrak ekleme uygulamanın bir sonraki sürümünde gelecek; şimdilik evrakı bilgisayardan ekleyin, bulut eşitlemesiyle buraya gelir.")}</Text>}
         {!!okuma && <Text style={s.hint}>{okuma}</Text>}
-        {onemli.map(evrakSatir)}
-        {onemsiz.length > 0 && (
-          <>
-            <Pressable onPress={() => setOnemsizAc(!onemsizAc)}><Text style={s.link}>{onemsizAc ? "▾ " : "▸ "}{t("Önemsiz evrak ({n})", { n: onemsiz.length })}</Text></Pressable>
-            {onemsizAc && onemsiz.map(evrakSatir)}
-          </>
-        )}
+        {f.evraklar.length > 0 && (() => {
+          const liste = evrakSuz === "onemli" ? onemli : evrakSuz === "onemsiz" ? onemsiz : [...onemli, ...onemsiz];
+          const sayfaSay = Math.max(1, Math.ceil(liste.length / evrakBoy));
+          const cur = Math.min(evrakSayfa, sayfaSay - 1);
+          const sayfadaki = liste.slice(cur * evrakBoy, cur * evrakBoy + evrakBoy);
+          const hepsiSecili = liste.length > 0 && liste.every(e => secim.has(e.id));
+          const sayfaGec = (n: number) => { setEvrakSayfa(Math.max(0, Math.min(sayfaSay - 1, n))); };
+          const sayfalama = sayfaSay > 1 && (
+            <View style={[s.row, { alignItems: "center" }]}>
+              <Btn kind="ghost" label={t("‹ Önceki")} disabled={cur === 0} onPress={() => sayfaGec(cur - 1)} />
+              <Text style={s.hint}>{t("Sayfa {a} / {b} · {c}–{d} / {e} evrak", { a: cur + 1, b: sayfaSay, c: cur * evrakBoy + 1, d: Math.min(liste.length, (cur + 1) * evrakBoy), e: liste.length })}</Text>
+              <Btn kind="ghost" label={t("Sonraki ›")} disabled={cur >= sayfaSay - 1} onPress={() => sayfaGec(cur + 1)} />
+            </View>
+          );
+          return (
+            <>
+              <View style={s.chips}>
+                {([["hepsi", t("Hepsi ({n})", { n: f.evraklar.length })], ["onemli", t("Önemli ({n})", { n: onemli.length })], ["onemsiz", t("Önemsiz ({n})", { n: onemsiz.length })]] as const).map(([k, ad]) => (
+                  <Pressable key={k} onPress={() => { setEvrakSuz(k); setEvrakSayfa(0); }} style={[s.chip, evrakSuz === k && s.chipOn]}><Text style={[s.chipT, evrakSuz === k && s.chipTOn]}>{ad}</Text></Pressable>
+                ))}
+                <Text style={[s.hint, { alignSelf: "center", marginLeft: 8 }]}>{t("Sayfada:")}</Text>
+                {[5, 10, 25, 50, 100].map(n => (
+                  <Pressable key={n} onPress={() => setEvrakBoy(n)} style={[s.chip, evrakBoy === n && s.chipOn]}><Text style={[s.chipT, evrakBoy === n && s.chipTOn]}>{n}</Text></Pressable>
+                ))}
+              </View>
+              <View style={[s.file, { alignItems: "center", flexWrap: "wrap" }]}>
+                <Kutu acik={hepsiSecili} yarim={!hepsiSecili && liste.some(e => secim.has(e.id))} etiket={t("Tümünü seç")}
+                  onPress={() => setSecim(hepsiSecili ? new Set([...secim].filter(id => !liste.some(e => e.id === id))) : new Set([...secim, ...liste.map(e => e.id)]))} />
+                <Text style={[s.fileT, { flex: 1 }]}>{secim.size ? t("{n} evrak seçili", { n: secim.size }) : t("Tümünü seç ({n})", { n: liste.length })}</Text>
+                {secim.size > 0 && !topluSil && (
+                  <>
+                    <Btn kind="ghost" label={t("★ Önemli yap")} onPress={() => topluIslem({ onemli: true })} />
+                    <Btn kind="ghost" label={t("☆ Önemsiz yap")} onPress={() => topluIslem({ onemli: false })} />
+                    <Btn kind="ghost" label={t("Seçilenleri sil")} onPress={() => setTopluSil(true)} />
+                    <Btn kind="ghost" label={t("Seçimi kaldır")} onPress={() => setSecim(new Set())} />
+                  </>
+                )}
+                {topluSil && (
+                  <>
+                    <Text style={[s.err, { alignSelf: "center" }]}>{t("{n} evrak bu föyden silinecek.", { n: secim.size })}</Text>
+                    <Btn kind="ghost" label={t("Evet, sil")} onPress={() => topluIslem(null)} />
+                    <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setTopluSil(false)} />
+                  </>
+                )}
+              </View>
+              {sayfalama}
+              {sayfadaki.map(evrakSatir)}
+              {!sayfadaki.length && <Text style={s.hint}>{t("Bu bölümde evrak yok.")}</Text>}
+              {sayfalama}
+            </>
+          );
+        })()}
       </View>
 
       <View style={s.row}>
@@ -476,5 +544,17 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz 
             <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setSilOnay(false)} /></>}
       </View>
     </ScrollView>
+    <FloatingNav nav={nav} onBack={geri} backLabel={t("‹ Föylere dön")} />
+    </View>
+  );
+}
+
+/** Seçim kutusu (☐ / ☑ / yarım ▣). */
+function Kutu({ acik, yarim, onPress, etiket }: { acik: boolean; yarim?: boolean; onPress: () => void; etiket: string }) {
+  return (
+    <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: yarim ? "mixed" : acik }} accessibilityLabel={etiket} onPress={onPress} hitSlop={8}
+      style={{ width: 24, height: 24, borderRadius: 5, borderWidth: 2, borderColor: acik || yarim ? C.brass : C.muted, backgroundColor: acik ? C.brass : "transparent", alignItems: "center", justifyContent: "center" }}>
+      {acik ? <Text style={{ color: C.brassInk, fontWeight: "800", fontSize: 15, lineHeight: 18 }}>✓</Text> : yarim ? <View style={{ width: 10, height: 3, backgroundColor: C.brass }} /> : null}
+    </Pressable>
   );
 }
