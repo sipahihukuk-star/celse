@@ -54,6 +54,8 @@ export interface Office {
   pendingEvent?: string;
   /** büronun kazandığı dava sayısı (itibar: rutin işleri artırır) */
   wins?: number;
+  /** Bir defalık düzeltme yapıldı: eski kuralda kaybedilen davalarda ücretin yalnız %40'ı ödenmişti. */
+  ucretDuzeltmesi?: boolean;
   /** Kanun yolu ödemeleri, dosya başına: son ödenen sonuç (kazanıldı mı), ödenen aşamalar, alınan karşı taraf vekâlet ücreti. */
   kanunYolu?: Record<string, { won: boolean; asamalar: string[]; karsi: number }>;
 }
@@ -156,10 +158,25 @@ export async function loadOffice(): Promise<Office | null> {
   try {
     const v = await AsyncStorage.getItem(keyFor());
     if (!v) return null;
-    const o: Office = JSON.parse(v);
+    let o: Office = JSON.parse(v);
     o.life = migrateLife(o.life || newLife(o.city), o.city);
+    if (!o.ucretDuzeltmesi) { o = ucretiDuzelt(o); await save(o); }
     return o;
   } catch { return null; }
+}
+
+const ESKI_KAYIP = "Peşin alınan ücret (dava kaybedildi)";
+/** Bir defalık düzeltme: eski kuralda kaybedilen davada ücretin yalnız %40'ı ("peşin") kasaya girmişti. Artık ücret
+ *  sonuçtan bağımsız ödendiği için her böyle kayıt için eksik kalan %60 (peşin tutarın 1,5 katı) kasaya eklenir. */
+export function ucretiDuzelt(o: Office): Office {
+  const eksik = o.ledger.filter(l => l.amount > 0 && l.text.includes(ESKI_KAYIP))
+    .reduce((t, l) => t + Math.round((l.amount * 1.5) / 500) * 500, 0);
+  if (eksik <= 0) return { ...o, ucretDuzeltmesi: true };
+  const n = o.ledger.filter(l => l.amount > 0 && l.text.includes(ESKI_KAYIP)).length;
+  return {
+    ...o, cash: o.cash + eksik, ucretDuzeltmesi: true,
+    ledger: [...o.ledger, { ay: o.month, text: `Düzeltme: kaybedilen ${n} davada eksik ödenen vekâlet ücreti (ücret sonuçtan bağımsız)`, amount: eksik }]
+  };
 }
 async function save(o: Office | null) {
   const owner = currentAccount()?.id;
