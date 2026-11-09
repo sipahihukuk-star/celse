@@ -4,7 +4,7 @@
 // zekâya standart komuta çevirtilir; komutu yine cihaz çalıştırır. Yazan her komut sesli onay ister. Konuşma tanıma tarayıcının
 // özelliğidir: cihazda tanıma varsa o kullanılır, yoksa tarayıcı sesi kendi hizmetine gönderir; ekranda belirtilir.
 import React, { useEffect, useRef, useState } from "react";
-import { Platform, Pressable, ScrollView, Text, TextInput, useWindowDimensions, View } from "react-native";
+import { PanResponder, Platform, Pressable, ScrollView, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { buroUyeleri } from "../data/buro";
 import { call } from "../data/danisma";
 import { bosFoy, Foy, foyKaydet } from "../data/foy";
@@ -71,7 +71,45 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
   const durumRef = useRef({ okuyor: false, dinliyor: false, dusunuyor: false });
   durumRef.current = { okuyor, dinliyor, dusunuyor };
   const onceOkuyordu = useRef(false);
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
+  // Mikrofon topu sürüklenerek taşınır (sağa, sola, yukarı, aşağı); yeri bu cihazda hatırlanır.
+  const [konum, setKonum] = useState<{ r: number; b: number }>(() => {
+    try { const x = JSON.parse(globalThis.localStorage?.getItem("celse-asistan-konum") || "null"); if (x && typeof x.r === "number") return x; } catch { /* yok say */ }
+    return Platform.OS === "web" ? { r: 20, b: 28 } : { r: 12, b: 84 };
+  });
+  const konumRef = useRef(konum); konumRef.current = konum;
+  const suruklendi = useRef(false);
+  const basla = useRef({ r: 0, b: 0 });
+  const surukle = useRef(PanResponder.create({
+    onStartShouldSetPanResponder: () => false,
+    onMoveShouldSetPanResponder: (_e, g) => Math.abs(g.dx) + Math.abs(g.dy) > 6,
+    // Düğmenin (Pressable) dokunuşu sürükleme başlayınca ondan alınır.
+    onMoveShouldSetPanResponderCapture: (_e, g) => Math.abs(g.dx) + Math.abs(g.dy) > 6,
+    onPanResponderGrant: () => { basla.current = konumRef.current; suruklendi.current = true; },
+    onPanResponderMove: (_e, g) => setKonum({ r: basla.current.r - g.dx, b: basla.current.b - g.dy }),
+    onPanResponderRelease: () => {
+      try { globalThis.localStorage?.setItem("celse-asistan-konum", JSON.stringify(konumRef.current)); } catch { /* yok say */ }
+      setTimeout(() => { suruklendi.current = false; }, 50);
+    },
+    onPanResponderTerminationRequest: () => false
+  })).current;
+  // Web: fare ya da dokunmatik ekranla sürükleme (pencere düzeyinde izlenir).
+  const webSurukle = (e: Any) => {
+    const x0 = e.nativeEvent?.clientX ?? e.clientX, y0 = e.nativeEvent?.clientY ?? e.clientY;
+    const k0 = konumRef.current;
+    let tasindi = false;
+    const hareket = (m: PointerEvent) => {
+      const dx = m.clientX - x0, dy = m.clientY - y0;
+      if (!tasindi && Math.abs(dx) + Math.abs(dy) < 6) return;
+      tasindi = true; suruklendi.current = true;
+      setKonum({ r: k0.r - dx, b: k0.b - dy });
+    };
+    const birak = () => {
+      window.removeEventListener("pointermove", hareket); window.removeEventListener("pointerup", birak);
+      if (tasindi) { try { globalThis.localStorage?.setItem("celse-asistan-konum", JSON.stringify(konumRef.current)); } catch { /* yok say */ } setTimeout(() => { suruklendi.current = false; }, 50); }
+    };
+    window.addEventListener("pointermove", hareket); window.addEventListener("pointerup", birak);
+  };
 
   useEffect(() => {
     if (!yuzen) yerelTanima().then(setYerel);
@@ -242,7 +280,19 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
     };
     rec.current = r;
     sohbetAcik.current = true;
-    try { r.start(); setDinliyor(true); } catch (err) { setHata(String((err as Error).message || err)); }
+    // Takılma bekçisi: tanıma 20 sn içinde hiç sonuç ya da bitiş vermezse (tarayıcıda zaman zaman olur) durdurulur ve düğme serbest kalır.
+    let canli = true;
+    const eskiSonuc = r.onresult, eskiSon = r.onend;
+    r.onresult = (e: Any) => { canli = false; eskiSonuc(e); };
+    r.onend = () => { canli = false; clearTimeout(bekci); eskiSon(); };
+    const bekci = setTimeout(() => {
+      if (!canli || rec.current !== r) return;
+      try { r.abort(); } catch { /* yok say */ }
+      setDinliyor(false); setAra("");
+      if (sohbetAcik.current && surekli) setTimeout(() => { if (sohbetAcik.current) dinle(); }, 300);
+      else setHata(t("Mikrofon cevap vermedi; yeniden basın."));
+    }, 20000);
+    try { r.start(); setDinliyor(true); } catch (err) { clearTimeout(bekci); setDinliyor(false); try { r.abort(); } catch { /* yok say */ } setHata(t("Mikrofon başlatılamadı: {h}. Yeniden basın.", { h: String((err as Error).message || err) })); }
   }
   const durdur = () => { sohbetAcik.current = false; try { rec.current?.stop(); } catch { /* yok say */ } };
   const yaziGonder = () => { if (yazi.trim()) { isle([yazi]); setYazi(""); } };
@@ -288,17 +338,23 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
 
   if (!yuzen) return <View style={[s.card, { gap: 10 }]}>{icerik}</View>;
   const genislik = Math.min(440, width - 24);
+  const sinirla = (p: { r: number; b: number }) => ({ r: Math.max(8, Math.min(p.r, width - 68)), b: Math.max(8, Math.min(p.b, height - 68)) });
+  const yer = sinirla(konum);
+  // Panel açıkken pencereden taşmasın.
+  const sag = acik ? Math.min(yer.r, Math.max(8, width - genislik - 8)) : yer.r;
   return (
     // Web'de pencerenin sağ alt köşesine sabitlenir (sayfa ortalanmış dar bir sütunda olsa da en sağda durur).
-    <View pointerEvents="box-none" style={{ position: (Platform.OS === "web" ? "fixed" : "absolute") as "absolute", right: Platform.OS === "web" ? 20 : 12, bottom: Platform.OS === "web" ? 28 : 84, alignItems: "flex-end", gap: 10, zIndex: 50 }}>
+    <View pointerEvents="box-none" style={{ position: (Platform.OS === "web" ? "fixed" : "absolute") as "absolute", right: sag, bottom: yer.b, alignItems: "flex-end", gap: 10, zIndex: 50 }}>
       {acik && (
         <View style={[s.card, { width: genislik, gap: 8, shadowColor: "#000", shadowOpacity: 0.5, shadowRadius: 18, borderColor: C.brassDim }]}>{icerik}</View>
       )}
       {!acik && (
-        <Pressable onPress={() => { setAcik(true); if (SR()) dinle(); }} accessibilityRole="button" accessibilityLabel={t("Sesli asistan")}
+        <View {...(Platform.OS === "web" ? ({ onPointerDown: webSurukle } as Any) : surukle.panHandlers)}>
+        <Pressable onPress={() => { if (suruklendi.current) { suruklendi.current = false; return; } setAcik(true); if (SR()) dinle(); }} accessibilityRole="button" accessibilityLabel={t("Sesli asistan")} accessibilityHint={t("Basılı tutup sürükleyerek yerini değiştirebilirsiniz")}
           style={{ width: 60, height: 60, borderRadius: 30, alignItems: "center", justifyContent: "center", backgroundColor: C.bordo, borderWidth: 2, borderColor: C.brass, shadowColor: "#000", shadowOpacity: 0.5, shadowRadius: 12 }}>
           <Text style={{ fontSize: 26 }}>🎙</Text>
         </Pressable>
+        </View>
       )}
     </View>
   );
