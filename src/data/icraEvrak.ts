@@ -25,6 +25,7 @@ export function evrakTuruBul(metin: string): IcraEvrakTuru {
 
 function faizTuru(x: string): FaizTuru | undefined {
   const u = ust(x);
+  if (/1530/.test(u)) return "ttk1530";
   if (/AVANS|TİCARİ|REESKONT|3095.{0,30}2\.\s*MADDE/.test(u)) return "avans";
   if (/EN YÜKSEK MEVDUAT|MEVDUAT/.test(u)) return "mevduat";
   if (/YASAL|KANUNİ|ADİ KANUNİ/.test(u)) return "yasal";

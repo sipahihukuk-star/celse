@@ -20,7 +20,7 @@ const nit = (o: Record<string, unknown>) => Object.entries(o).filter(([, v]) => 
 const tarih = (iso?: string) => (iso ? iso.split("-").reverse().join("/") : undefined);
 const tutar = (x?: number) => (x === undefined ? undefined : (Math.round(x * 100) / 100).toFixed(2));
 const PB: Record<ParaBirimi, [string, string]> = { TL: ["PRBRMTL", "TL - Türk Lirası"], USD: ["PRBRMUSD", "USD - Amerikan Doları"], EUR: ["PRBRMEUR", "EUR - Euro"], GBP: ["PRBRMGBP", "GBP - İngiliz Sterlini"] };
-const FAIZ_KOD: Record<string, [string, string]> = { yasal: ["FAIZT00002", "Adi Kanuni Faiz"], avans: ["FAIZT00007", "Reeskont Avans"], mevduat: ["FAIZT00011", "En Yüksek Mevduat Faizi(TL)"], sozlesme: ["FAIZT00003", "Diğer"] };
+const FAIZ_KOD: Record<string, [string, string]> = { yasal: ["FAIZT00002", "Adi Kanuni Faiz"], avans: ["FAIZT00007", "Reeskont Avans"], mevduat: ["FAIZT00011", "En Yüksek Mevduat Faizi(TL)"], sozlesme: ["FAIZT00003", "Diğer"], ttk1530: ["FAIZT00003", "TTK 1530. Madde Temerrüt Faizi"] };
 
 /** Takip türü / yolu / şekli. */
 export function takipKodlari(b: IcraBilgi): { takipTuru: number; takipYolu: number; takipSekli: number } {

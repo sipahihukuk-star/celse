@@ -50,5 +50,7 @@ ok(icraEksikler(bosFoy({ tur: "icra" }), { yol: "genel" }).length >= 5, "eksikle
   // Eski kayıt (tek asıl alacak) kalemlere çevrilir
   ok(icraHesapla({ yol: "genel", asil: 1000, faizTuru: "yasal", faizBaslangic: "2026-01-01", takipTarihi: "2026-02-01" }).kalemler.length === 1, "eski kayıt");
 }
+{ const t = islemisFaiz(1000, "2025-07-01", "2026-07-01", "ttk1530"); ok(t.dilimler.map(d => d.oran).join(",") === "53.25,43", "TTK 1530 dilimleri: " + JSON.stringify(t.dilimler)); }
+{ const y = islemisFaiz(1000, "2005-01-01", "2006-06-01", "yasal"); ok(y.dilimler.map(d => d.oran).join(",") === "38,12,9" && !y.eksik, "eski yasal faiz: " + JSON.stringify(y.dilimler)); }
 if (fail) { console.log(`icra-test: ${fail} hata`); process.exit(1); }
 console.log("icra-test: tamam");
