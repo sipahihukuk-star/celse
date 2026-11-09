@@ -371,7 +371,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
   );
 }
 
-const SECENEK: FoyTur[] = ["hukuk", "ceza", "idari_dava", "sorusturma", "arabuluculuk", "icra", "idari_basvuru", "idari_sorusturma", "kurum_basvuru", "arabulucu_gorev", "bilirkisi_gorev"];
+const SECENEK: FoyTur[] = ["hukuk", "ceza", "idari_dava", "sorusturma", "arabuluculuk", "icra", "idari_basvuru", "idari_sorusturma", "kurum_basvuru", "tazminat_komisyonu", "bireysel_basvuru", "arabulucu_gorev", "bilirkisi_gorev"];
 function TurSec({ deger, onSec }: { deger: FoyTur; onSec: (t: FoyTur) => void }) {
   return <Acilir etiket={t("Föy türü")} secili={deger} genislik={230} onSec={k => onSec(k as FoyTur)} secenekler={SECENEK.map(x => ({ k: x, ad: t(turBilgi(x).ad) }))} />;
 }

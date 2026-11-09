@@ -36,7 +36,7 @@ ok(listedenFoyler(tekSatir, "x.pdf").length === 1 && /Satış Memurluğu/.test(l
   const c = bosFoy({ tur: "ceza", mahkeme: "Uydurma Sulh Ceza Hakimliği", esasNo: "2024/3", notlar: "UYAP dosya listesinden aktarıldı (z.pdf)." });
   const d = bosFoy({ tur: "hukuk", mahkeme: "Uydurma 2. Asliye Hukuk Mahkemesi", esasNo: "2024/4", notlar: "UYAP dosya listesinden aktarıldı (z.pdf) · Hukuk Dava Dosyası." });
   const r = turDuzeltmeleri([a, b, c, d]);
-  ok(r.length === 2 && r.find((x: { f: { id: string } }) => x.f.id === a.id)?.davaTuru.includes("sulh hukuk") && r.find((x: { f: { id: string } }) => x.f.id === b.id)?.tur === "idari_basvuru", "tür düzeltmesi: " + JSON.stringify(r.map((x: { f: { mahkeme: string }; tur: string; davaTuru: string }) => [x.f.mahkeme, x.tur, x.davaTuru])));
+  ok(r.length === 2 && r.find((x: { f: { id: string } }) => x.f.id === a.id)?.davaTuru.includes("sulh hukuk") && r.find((x: { f: { id: string } }) => x.f.id === b.id)?.tur === "tazminat_komisyonu", "tür düzeltmesi: " + JSON.stringify(r.map((x: { f: { mahkeme: string }; tur: string; davaTuru: string }) => [x.f.mahkeme, x.tur, x.davaTuru])));
 }
 {
   const ic = listedenFoyler("Birim Adı  Dosya No  Dosya Türü  Dosya Durumu  Açılış Tarihi\nUydurma 2. İcra Ceza Mahkemesi  2024/88  İcra Ceza Dava Dosyası  Açık  02.02.2024", "x.pdf");
@@ -46,6 +46,14 @@ ok(listedenFoyler(tekSatir, "x.pdf").length === 1 && /Satış Memurluğu/.test(l
   const e = bosFoy({ tur: "ceza", mahkeme: "Uydurma 1. İcra Ceza Mahkemesi", esasNo: "2023/9", notlar: "UYAP dosya listesinden aktarıldı (z.pdf) · Ceza Dava Dosyası." });
   const r = turDuzeltmeleri([e]);
   ok(r.length === 1 && r[0].tur === "ceza" && /İcra ceza/.test(r[0].davaTuru), "eski icra ceza föyü düzeltilir");
+}
+{
+  const { turTahmin } = require("../src/data/foyTurleri");
+  const { turDuzeltmeleri } = require("../src/data/dosyaListesi");
+  const { bosFoy } = require("../src/data/foy");
+  ok(turTahmin("Adalet Bakanlığı Tazminat Komisyonu Başkanlığı") === "tazminat_komisyonu" && turTahmin("Anayasa Mahkemesi") === "bireysel_basvuru" && turTahmin("Avrupa İnsan Hakları Mahkemesi") === "bireysel_basvuru", "yeni türler");
+  const t1 = bosFoy({ tur: "idari_basvuru", mahkeme: "Tazminat Komisyonu Başkanlığı", esasNo: "2024/1", notlar: "UYAP dosya listesinden aktarıldı (t.pdf)." });
+  ok(turDuzeltmeleri([t1])[0]?.tur === "tazminat_komisyonu", "idari başvuru olmuş komisyon föyü düzeltilir");
 }
 if (fail) { console.log(`liste-test: ${fail} hata`); process.exit(1); }
 console.log("liste-test: tamam");
