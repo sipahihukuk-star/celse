@@ -31,7 +31,8 @@ export type Eylem =
   | { tip: "ekran"; ad: "tevkil" | "buro" }
   | { tip: "yzSor"; foyId: string; soru: string }
   | { tip: "foyYaz"; foyId: string; ek: Partial<Foy>; diger?: { foyId: string; ek: Partial<Foy> } }
-  | { tip: "sekme"; ad: SekmeAd };
+  | { tip: "sekme"; ad: SekmeAd }
+  | { tip: "buroSor"; soru: string };
 /** anlasilmadi: kurallarla anlaşılamadı (sesli asistan cümleyi kodlayıp yapay zekâya yorumlatabilir). */
 export interface Cevap { metin: string; baglam: Baglam; eylem?: Eylem; anlasilmadi?: boolean }
 
@@ -160,7 +161,9 @@ function yeniDavaSor(v: YeniDava, foyId?: string): Cevap {
   return { metin: `Yeni ${turBilgi(v.tur).ad.toLocaleLowerCase("tr")} föyü açayım: ${v.dava}${kim ? ", " + kim : ""}. Yapılacaklara "Dava aç: ${v.dava}" işini${v.tarih ? ", son gün " + tarihSoyle(v.tarih) + " olarak" : ", son gün olmadan"} yazayım mı?`, baglam: b("onay") };
 }
 
-const YARDIM = "Şunları sorabilirsiniz: dosyayı yapay zekâya sormak için: Yılmaz dosyası için yapay zekâya sor, sırada ne var; bugün ne var; gecikmiş işler; bu hafta duruşmalar; duruşma konuları; Yılmaz dosyasında duruşmaya girildi; Yılmaz dosyasında e-duruşma talep ettik, e-duruşma kabul edildi ya da reddedildi; Yılmaz dosyasına masraf ekle 615 lira harç; Yılmaz dosyasına tahsilat 20 bin lira; Yılmaz'ın dosyaları; tevkil avukatlar; bir dosyanın durumu, örneğin Yılmaz dosyası ne durumda; iş eklemek için: Yılmaz dosyasına iş ekle, bilirkişi raporuna itiraz, son gün 15 Kasım; iş kapatmak için: bilirkişi işini kapat, numara 4 0 1 2; yeni dava kaydetmek için: yeni dava aç, boşanma davası; tüm işleri oku; ve dosyayı aç.";
+/** Sohbeti bitiren sözler (cümlenin tamamı). */
+export const BITIR = /^(tamam\s+)?(asistanı kapat|sus|yeter|konuşmayı bitir|sohbeti bitir|teşekkür(ler|ederim| ederim)|teşekkürler sağ ?ol|sağ ?ol(un)?|görüşürüz|hoşça kal|şimdilik bu kadar|bu kadar|bu kadar yeter)$/;
+const YARDIM = "Bütün dosyalarınız hakkında serbestçe konuşabilirsiniz, örneğin: bu hafta neler var, hangi dosyada bilirkişi raporu geldi, kimden ne kadar ücret alacağımız var. Ayrıca şunları söyleyebilirsiniz: dosyayı yapay zekâya sormak için: Yılmaz dosyası için yapay zekâya sor, sırada ne var; bugün ne var; gecikmiş işler; bu hafta duruşmalar; duruşma konuları; Yılmaz dosyasında duruşmaya girildi; Yılmaz dosyasında e-duruşma talep ettik, e-duruşma kabul edildi ya da reddedildi; Yılmaz dosyasına masraf ekle 615 lira harç; Yılmaz dosyasına tahsilat 20 bin lira; Yılmaz'ın dosyaları; tevkil avukatlar; bir dosyanın durumu, örneğin Yılmaz dosyası ne durumda; iş eklemek için: Yılmaz dosyasına iş ekle, bilirkişi raporuna itiraz, son gün 15 Kasım; iş kapatmak için: bilirkişi işini kapat, numara 4 0 1 2; yeni dava kaydetmek için: yeni dava aç, boşanma davası; tüm işleri oku; ve dosyayı aç.";
 const EVET = /^(evet|onaylıyorum|onayla|tamam|olur|doğru|aynen|ekle|kapat)(\s|$|[,.!])/;
 const HAYIR = /^(hayır|iptal|vazgeç|vazgeçtim|yanlış|dur)(\s|$|[,.!])/;
 const SIRA: Record<string, number> = { birinci: 0, ilk: 0, "1": 0, ikinci: 1, "2": 1, üçüncü: 2, "3": 2, dördüncü: 3, "4": 3, beşinci: 4, "5": 4 };
@@ -237,6 +240,9 @@ export function sesliKomut(soz: string, liste: Foy[], b: Baglam, bugun = bugunSt
 
   if (/^(yardım|neler yapabilirsin|ne sorabilirim|komutlar)/.test(m)) return cevap(YARDIM);
 
+  // Büroya sor: bütün dosyalar hakkında serbest soru ("büroya sor, bu ay hangi dosyalarda karar bekleniyor").
+  const bs = m.match(/^(?:büroya|genel(?:\s+olarak)?|bütün dosyalar(?:a|ım)?(?:\s+için)?)\s+sor(?:ar mısın)?\s*[:,]?\s*(.+)$/);
+  if (bs) return cevap("Bütün dosyalara bakıyorum; yarım dakika kadar sürebilir.", { foyId: b.foyId }, { tip: "buroSor", soru: bs[1].trim() });
   // Yapay zekâya sor: "Yılmaz dosyası için yapay zekâya sor, itiraz süresi ne zaman doluyor" / "bu dosyayı yapay zekâya sor".
   const yz = m.match(/^(.*?)\s*(?:için\s+|hakkında\s+)?yapay\s*zek[âa]ya\s+sor(?:ar mısın)?\s*[:,]?\s*(.*)$/);
   if (yz) {
@@ -352,12 +358,17 @@ export function sesliKomut(soz: string, liste: Foy[], b: Baglam, bugun = bugunSt
     return cevap(`${g.metin} işini ${rakamRakam(no)} numarasıyla kapatıyorum. Doğru mu?`, { foyId: f.id, bekleyen: { tip: "kapatOnay", foyId: f.id, gorevId: g.id, no } });
   }
 
-  if (/gecik/.test(m)) return cevap(ozetSoyle(liste, bugun, "gecikti"));
+  // Kısa komutlar ("bugün ne var", "bu hafta duruşmalar", "gecikmiş işler") cihazda cevaplanır; uzun, serbest sorular
+  // ("bu hafta neler var bir özetle", "duruşmaya girdiğimiz dosyalarda karar çıktı mı") yapay zekâya bütün dosyalarla sorulur.
+  const kisa = m.split(/\s+/).filter(w => !/^(hocam|lütfen|bana|acaba|bir|şöyle|peki|şimdi|bakalım|söyle|söyler|misin|mısın|oku)$/.test(w)).length <= 4 && !/(özetle|anlat|değerlendir|neden|niçin|nasıl)/.test(m) && !/(bu hafta|bu ay|yarın|haftaya).*neler|neler.*(bu hafta|bu ay|yarın|haftaya)/.test(m);
+  // Uzun soruda cihazın cevabı yedekte tutulur (yapay zekâya ulaşılamazsa o okunur).
+  const yerel = (metin: string): Cevap => (kisa ? cevap(metin) : { ...cevap(metin), anlasilmadi: true });
+  if (/gecik/.test(m)) return yerel(ozetSoyle(liste, bugun, "gecikti"));
   if (/duruşma/.test(m) && !foyBul(liste, m.replace(/duruşma\S*/g, "")).length) {
     const gun = /bugün/.test(m) ? 0 : /yarın/.test(m) ? 1 : /bu hafta|haftaya/.test(m) ? 7 : /bu ay/.test(m) ? 30 : 14;
-    return cevap(durusmaSoyle(liste, bugun, gun));
+    return yerel(durusmaSoyle(liste, bugun, gun));
   }
-  if (/(bugün|ne var|yapılacak|işlerim|neler|acil|özet)/.test(m) && !foyBul(liste, m).length) return cevap(ozetSoyle(liste, bugun));
+  if (/(bugün|ne var|yapılacak|işlerim|neler|acil|özet)/.test(m) && !foyBul(liste, m).length) return yerel(ozetSoyle(liste, bugun));
 
   // Dosyayı aç
   if (/(^|\s)(aç|göster)(\s|$)/.test(m)) {
