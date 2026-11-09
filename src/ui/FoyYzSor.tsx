@@ -2,7 +2,7 @@
 // var, mevzuata göre hangi yollar açık, hangi süreler işliyor). Dosya cihazda kodlanır, kodlu hâli gider; cevap cihazda gerçek
 // adlarla açılır, sesli okunabilir ve föye kaydedilir. Önerilen işler tek dokunuşla yapılacaklara eklenir.
 import React, { useRef, useState } from "react";
-import { ActivityIndicator, Linking, Platform, Pressable, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Linking, Pressable, Text, TextInput, View } from "react-native";
 import { Foy, Gorev, yeniId, YzSoru } from "../data/foy";
 import { bugunStr } from "../data/isTakibi";
 import { t } from "../i18n";
@@ -12,9 +12,10 @@ import { s } from "./foyStil";
 import { Btn } from "./kit";
 import { sesliDur, sesliOku, useSesliOkuma } from "./sesliOku";
 import { C } from "./theme";
+import { izinYokMetni, tanimaIzni, tanimaSinifi } from "./konusmaTanima";
 
 type Any = any; // eslint-disable-line @typescript-eslint/no-explicit-any
-const SR = (): Any => (Platform.OS === "web" && typeof window !== "undefined" ? (window as Any).SpeechRecognition || (window as Any).webkitSpeechRecognition : null);
+const SR = (): Any => tanimaSinifi();
 const HAZIR = ["Bu dosya ne durumda, nerede kaldık?", "Sırada ne yapmalıyım?", "Mevzuata göre hangi yollar açık?", "Hangi süreler işliyor?"];
 export function FoyYzSor({ f, onDegistir }: { f: Foy; tur?: string; onDegistir: (ek: Partial<Foy>) => void }) {
   const [soru, setSoru] = useState("");
@@ -42,16 +43,17 @@ export function FoyYzSor({ f, onDegistir }: { f: Foy; tur?: string; onDegistir: 
     finally { setBekle(false); }
   };
 
-  const dinle = () => {
+  const dinle = async () => {
     const R = SR();
     if (!R) return;
+    if (!(await tanimaIzni())) { setHata(t(izinYokMetni())); return; }
     sesliDur(); setHata(""); setAra("");
     try { rec.current?.abort(); } catch { /* yok say */ }
     const r = new R();
     r.lang = "tr-TR"; r.interimResults = true; r.continuous = false;
     let son = "";
     r.onresult = (e: Any) => { let a = ""; for (let i = e.resultIndex; i < e.results.length; i++) { if (e.results[i].isFinal) son += e.results[i][0].transcript; else a += e.results[i][0].transcript; } setAra(son + a); };
-    r.onerror = (e: Any) => { setDinliyor(false); if (e?.error === "not-allowed") setHata(t("Mikrofon izni verilmedi.")); else if (e?.error !== "aborted" && e?.error !== "no-speech") setHata(t("Konuşma tanıma hatası: {k}", { k: String(e?.error) })); };
+    r.onerror = (e: Any) => { setDinliyor(false); if (e?.error === "not-allowed" || e?.error === "service-not-allowed") setHata(t(izinYokMetni())); else if (e?.error !== "aborted" && e?.error !== "no-speech") setHata(t("Konuşma tanıma hatası: {k}", { k: String(e?.error) })); };
     r.onend = () => { setDinliyor(false); setAra(""); if (son.trim()) { setSoru(son.trim()); sor(son, true); } };
     rec.current = r;
     try { r.start(); setDinliyor(true); } catch (err) { setHata(String((err as Error).message || err)); }

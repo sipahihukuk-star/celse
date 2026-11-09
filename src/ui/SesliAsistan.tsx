@@ -17,9 +17,10 @@ import { s } from "./foyStil";
 import { Btn } from "./kit";
 import { sesliDur, sesliOku, useSesliOkuma } from "./sesliOku";
 import { C } from "./theme";
+import { izinYokMetni, tanimaIzni, tanimaSinifi, telefonda } from "./konusmaTanima";
 
 type Any = any; // eslint-disable-line @typescript-eslint/no-explicit-any
-const SR = (): Any => (Platform.OS === "web" && typeof window !== "undefined" ? (window as Any).SpeechRecognition || (window as Any).webkitSpeechRecognition : null);
+const SR = (): Any => tanimaSinifi();
 export const sesliAsistanVar = () => !!SR();
 
 /** Cihazda (çevrim dışı) Türkçe tanıma var mı; gerekirse indirilir. */
@@ -204,6 +205,7 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
     if (!R) return;
     // Cihazda tanıma yalnız mikrofona ilk basılınca denetlenir (gerekirse dil paketi o an, kullanıcının isteğiyle indirilir).
     if (yerel === null && yuzen) { const v = await yerelTanima(); setYerel(v); yerelRef.current = v; }
+    if (telefonda && !(await tanimaIzni())) { sohbetAcik.current = false; setHata(t(izinYokMetni())); return; }
     sesliDur(); setHata(""); setAra("");
     try { rec.current?.abort(); } catch { /* yok say */ }
     const r = new R();
@@ -227,7 +229,7 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
       // Sohbet modunda sessizlik sohbeti bitirmez: avukat kapatana ya da "teşekkürler" diyene kadar dinlemeye devam edilir.
       if (k === "no-speech" && surekli && sohbetAcik.current) { sessiz.current++; setTimeout(() => { if (sohbetAcik.current && (kalici.acik || !yuzen)) dinle(); }, 300); return; }
       if (k === "not-allowed" || k === "service-not-allowed") sohbetAcik.current = false;
-      if (k === "not-allowed" || k === "service-not-allowed") setHata(t("Mikrofon izni verilmedi. Adres çubuğundaki kilit simgesinden mikrofona izin verin."));
+      if (k === "not-allowed" || k === "service-not-allowed") setHata(t(izinYokMetni()));
       else if (k === "no-speech") setHata(t("Ses duyulmadı. Mikrofona basıp tekrar konuşun."));
       else if (k === "network") setHata(t("Konuşma tanıma hizmetine ulaşılamadı (internet)."));
       else if (k !== "aborted") setHata(t("Konuşma tanıma hatası: {k}", { k: String(k) }));
@@ -261,7 +263,7 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
         {okuyor && <Btn kind="ghost" label={t("Sesi kes")} onPress={sesliDur} />}
         {yuzen && <Pressable onPress={() => { durdur(); sesliDur(); setAcik(false); }} accessibilityLabel={t("Kapat")} hitSlop={10}><Text style={{ color: C.textSoft, fontSize: 22 }}>×</Text></Pressable>}
       </View>
-      {!SR() && <Text style={s.hint}>{t("Bu tarayıcıda konuşma tanıma yok (Chrome ya da Edge'de çalışır). Aşağıya yazarak da komut verebilirsiniz.")}</Text>}
+      {!SR() && <Text style={s.hint}>{telefonda ? t("Bu telefonda konuşma tanıma kullanılamıyor (uygulamayı güncelleyin). Aşağıya yazarak da komut verebilirsiniz.") : t("Bu tarayıcıda konuşma tanıma yok (Chrome ya da Edge'de çalışır). Aşağıya yazarak da komut verebilirsiniz.")}</Text>}
       {!!hata && <Text style={[s.hint, { color: C.bad }]}>{hata}</Text>}
       <ScrollView style={{ maxHeight: yuzen ? 260 : undefined }} contentContainerStyle={{ gap: 6 }}>
         {konusma.slice(yuzen ? -8 : -30).map((x, i) => (
@@ -274,7 +276,9 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
         <View style={{ width: 18, height: 18, borderRadius: 4, borderWidth: 1, borderColor: C.brassDim, backgroundColor: surekli ? C.brassDim : "transparent" }} />
         <Text style={s.hint}>{t("Sohbet modu: bir kez basın; cevaptan sonra yeniden dinler. Bitirmek için “teşekkürler” ya da “görüşürüz” deyin.")}</Text>
       </Pressable>
-      <Text style={[s.hint, { fontSize: 11 }]}>{yerel
+      <Text style={[s.hint, { fontSize: 11 }]}>{telefonda
+        ? t("Sesiniz telefonun konuşma tanıma hizmetiyle (iPhone'da Apple, Android'de Google) yazıya çevrilir. Anlaşılmayan cümle ve sorular yapay zekâya adlar ve numaralar kodlanarak gider.")
+        : yerel
         ? t("Konuşmanız bu cihazda yazıya çevrilir. Anlaşılmayan cümle yapay zekâya adlar ve numaralar kodlanarak gider.")
         : t("Sesiniz yazıya çevrilmek için tarayıcının hizmetine (Chrome'da Google) gider. Anlaşılmayan cümle yapay zekâya föydeki adlar ve numaralar kodlanarak gider; föyde olmayan bir ad söylerseniz o ad gidebilir.")}</Text>
     </>

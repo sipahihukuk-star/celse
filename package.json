@@ -24,6 +24,7 @@
     "expo-linear-gradient": "~58.0.3",
     "expo-notifications": "~58.1.6",
     "expo-speech": "~58.0.3",
+    "expo-speech-recognition": "~58.0.1",
     "expo-splash-screen": "~58.0.11",
     "expo-status-bar": "~58.0.4",
     "expo-updates": "~58.0.18",
