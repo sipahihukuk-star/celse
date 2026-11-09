@@ -17,7 +17,7 @@ const sayi = (v: string): number | undefined => { const x = v.replace(/\./g, "")
 const sayiYaz = (x?: number) => (x === undefined ? "" : String(x).replace(".", ","));
 const tarihYaz = (x?: string) => (x ? x.split("-").reverse().join(".") : "");
 
-export function IcraBolum({ f, degistir, surum }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number }) {
+export function IcraBolum({ f, degistir, surum, onEvraktan }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; onEvraktan?: () => void }) {
   const b: IcraBilgi = f.icra || { yol: "genel", talep: "haciz", paraBirimi: "TL", faizTuru: "yasal" };
   const [bilgi, setBilgi] = useState("");
   const yaz = (ek: Partial<IcraBilgi>) => degistir({ icra: { ...b, ...ek } });
@@ -65,6 +65,12 @@ export function IcraBolum({ f, degistir, surum }: { f: Foy; degistir: (ek: Parti
     <View style={{ gap: 12 }}>
       <Text style={s.hint}>{t("Alacaklı (müvekkil) ve borçlu (karşı taraf) adı, kimlik no ve adresi künyeden alınır. Buraya takibin yolu, dayanağı ve alacak kalemleri girilir; Celse işlemiş faizi ve toplamı hesaplar, UYAP'a giriş sırasıyla takip talebi özetini hazırlar.")}</Text>
 
+      {!!onEvraktan && (
+        <View style={[s.row, { alignItems: "center" }]}>
+          <Btn label={t("Evraktan doldur")} onPress={onEvraktan} />
+          <Text style={[s.hint, { flex: 1 }]}>{t("Takibe konu evrakı (ilam, çek, senet, kira sözleşmesi, fatura) ve vekâletnameyi aşağıdaki Evrak bölümüne ekleyin: takip yolu, ilam/çek bilgileri, alacak kalemleri ve faiz başlangıçları; müvekkil ve karşı tarafın adı, kimlik no'su ve adresi kendiliğinden yazılır. Yalnız boş alanlar doldurulur.")}</Text>
+        </View>
+      )}
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
         <Acilir etiket={t("Takip yolu")} secili={b.yol} genislik={300} onSec={k => yaz({ yol: k as TakipYolu, talep: k === "kira" ? "haciz_tahliye" : k === "ipotek" || k === "tasinir_rehni" ? "rehin" : "haciz" })}
           secenekler={TAKIP_YOLLARI.map(x => ({ k: x.k, ad: t(x.ad) + (x.ornek ? ` (${x.ornek})` : "") }))} />
