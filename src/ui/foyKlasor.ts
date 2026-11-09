@@ -1,6 +1,8 @@
 // DavaTek klasörü: avukat DavaTek'in evrak indirdiği klasörü bir kez seçer (Chrome ya da Edge, Windows ve Mac). Celse klasörü
 // tarar; daha önce görmediği dosyaları okur ve esas/dosya numarasından (klasör adında ya da evrakın başında) ilgili föyü bulur.
 // Eşleşen evrak föye eklenir; eşleşmeyenler avukata sorulur. Dosyalar bu bilgisayardan çıkmaz. Klasör izni tarayıcıda saklanır.
+// Masaüstü köprüsü (masaustu/klasor, Windows kurulumu "CelseKlasorKurulum.exe"): kuruluysa klasör ondan okunur (127.0.0.1;
+// tarayıcı izni gerekmez, her tarayıcıda çalışır, Windows açılınca kendiliğinden başlar). Köprü yalnız Celse sayfasına cevap verir.
 import { ayarOku, ayarYaz, Foy } from "../data/foy";
 import { turBul } from "../engine/mask/readers";
 import { evrakMetniOku, Kaynak } from "./foyEvrak";
@@ -11,7 +13,32 @@ const KLASOR = "davatekKlasor", GORULEN = "davatekGorulen";
 
 export const klasorDestekli = () => typeof window !== "undefined" && typeof (window as any).showDirectoryPicker === "function";
 
-export async function klasorBilgisi(): Promise<{ ad: string; izin: "granted" | "prompt" | "denied" } | null> {
+export const KOPRU = "http://127.0.0.1:47613";
+export const KURULUM_ADRESI = "./indir/CelseKlasorKurulum.exe";
+export interface KopruDurumu { klasor: string; surum: string; dosya: number }
+/** Masaüstü köprüsü çalışıyor mu (en çok 1,5 sn bekler). */
+export async function kopruDurumu(): Promise<KopruDurumu | null> {
+  if (typeof window === "undefined" || typeof fetch !== "function") return null;
+  const ac = new AbortController();
+  const z = setTimeout(() => ac.abort(), 1500);
+  try {
+    const r = await fetch(KOPRU + "/durum", { signal: ac.signal, cache: "no-store" });
+    if (!r.ok) return null;
+    const j = await r.json();
+    return j && j.uygulama === "celse-klasor" ? { klasor: String(j.klasor || ""), surum: String(j.surum || ""), dosya: Number(j.dosya) || 0 } : null;
+  } catch { return null; } finally { clearTimeout(z); }
+}
+export async function kopruKlasorDegistir(yol: string): Promise<string> {
+  const r = await fetch(KOPRU + "/klasor", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ yol }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.hata || "Klasör değiştirilemedi.");
+  return j.klasor;
+}
+export const kopruKlasorAc = () => fetch(KOPRU + "/ac", { method: "POST" }).catch(() => undefined);
+
+export async function klasorBilgisi(): Promise<{ ad: string; izin: "granted" | "prompt" | "denied"; kopru?: boolean } | null> {
+  const k = await kopruDurumu();
+  if (k) return { ad: k.klasor, izin: "granted", kopru: true };
   const h = await ayarOku<Tutamak>(KLASOR).catch(() => undefined);
   if (!h) return null;
   let izin: "granted" | "prompt" | "denied" = "prompt";
@@ -58,13 +85,31 @@ export function foyBul(yol: string, metin: string, liste: Foy[]): { foyId?: stri
 
 /** Klasörü tarar; yeni dosyaları okuyup föylerle eşleştirir. İzin gerekiyorsa ister (tıklamayla çağrılmalı). */
 export async function klasorTara(liste: Foy[], ilerle: (m: string) => void, azami = 200): Promise<TaramaDosyasi[]> {
+  const kopru = await kopruDurumu();
+  const yeni: { anahtar: string; yol: string; dosya: File }[] = [];
+  if (kopru) {
+    const gorulen = new Set((await ayarOku<string[]>(GORULEN)) || []);
+    ilerle("Celse Evrak klasörü taranıyor…");
+    const r = await fetch(KOPRU + "/liste", { cache: "no-store" });
+    if (!r.ok) throw new Error("Masaüstü köprüsü klasörü okuyamadı.");
+    const j = await r.json() as { dosyalar: { yol: string; boyut: number; degisim: number }[] };
+    for (const d of j.dosyalar || []) {
+      if (yeni.length >= azami) break;
+      const anahtar = `${d.yol}|${d.boyut}|${d.degisim}`;
+      if (gorulen.has(anahtar)) continue;
+      const g = await fetch(KOPRU + "/dosya?yol=" + encodeURIComponent(d.yol), { cache: "no-store" });
+      if (!g.ok) continue;
+      const blob = await g.blob();
+      yeni.push({ anahtar, yol: d.yol, dosya: new File([blob], d.yol.split("/").pop() || d.yol, { lastModified: d.degisim }) });
+    }
+    return oku(yeni, liste, ilerle);
+  }
   const h = await ayarOku<Tutamak>(KLASOR);
   if (!h) throw new Error("Önce DavaTek klasörünü seçin.");
   let izin = "prompt";
   try { izin = await h.queryPermission({ mode: "read" }); if (izin !== "granted") izin = await h.requestPermission({ mode: "read" }); } catch { /* yok say */ }
   if (izin !== "granted") throw new Error("Klasörü okuma izni verilmedi.");
   const gorulen = new Set((await ayarOku<string[]>(GORULEN)) || []);
-  const yeni: { anahtar: string; yol: string; dosya: File }[] = [];
   const gez = async (d: Tutamak, yol: string, derinlik: number) => {
     if (derinlik > 6 || yeni.length >= azami) return;
     for await (const g of d.values()) {
@@ -80,6 +125,10 @@ export async function klasorTara(liste: Foy[], ilerle: (m: string) => void, azam
   };
   ilerle("Klasör taranıyor…");
   await gez(h, "", 0);
+  return oku(yeni, liste, ilerle);
+}
+
+async function oku(yeni: { anahtar: string; yol: string; dosya: File }[], liste: Foy[], ilerle: (m: string) => void): Promise<TaramaDosyasi[]> {
   const out: TaramaDosyasi[] = [];
   let i = 0;
   for (const y of yeni) {
