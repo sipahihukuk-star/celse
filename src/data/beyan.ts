@@ -50,7 +50,7 @@ export const BEYAN_KLASORLERI: BeyanKlasoru[] = [
     M("Islah dilekçesi", "Islah talebimizin sunulmasıdır."), M("İhtiyati tedbir talebi", "İhtiyati tedbir kararı verilmesi talebidir."),
     M("İhtiyati haciz talebi", "İhtiyati haciz kararı verilmesi talebidir."), M("Delil tespiti talebi", "Delil tespiti yapılması talebidir."),
     M("Davaya müdahale talebi", "Davaya fer'i müdahil olarak katılma talebidir."), M("Feragat / kabul dilekçesi", "Feragat / kabul beyanımızın sunulmasıdır."),
-    M("Mazeret dilekçesi", "Mazeretimizin bildirilmesi ve duruşmanın ertelenmesi talebidir."), M("Duruşmada sözlü beyan notu"),
+    M("Mazeret dilekçesi", "Mazeretimizin bildirilmesi ve duruşmanın ertelenmesi talebidir."), M("E-duruşma talebi", "Duruşmaya e-duruşma yoluyla katılma talebimizdir."), M("Duruşmada sözlü beyan notu"),
     M("Yargılamanın yenilenmesi talebi", "Yargılamanın yenilenmesi talebidir.")
   ] },
   { ad: "Kanun yolları", turler: [
@@ -193,6 +193,27 @@ export function beyanCercevesi(f: Foy, b: Pick<Beyan, "konu"> & { tur?: string }
         alt: ["", "Saygılarımızla.", tarih, `${sifat(biz)} Vekili`, vekil], imza: 4, ortaBaslik: true
       };
   }
+}
+
+/** E-duruşma talep dilekçesinin gövdesi (hazır metin; yapay zekâ gerekmez). tarih: "YYYY-AA-GG" ya da "YYYY-AA-GGTSS:DD". */
+export function eDurusmaTalebi(tarih: string): Beyan {
+  const g = tarih.slice(0, 10).split("-").reverse().join(".");
+  const saat = tarih.length > 10 ? " saat " + tarih.slice(11, 16) : "";
+  const n = new Date().toISOString();
+  return {
+    id: "by-e-" + tarih.replace(/\D/g, ""), olusturma: n, guncelleme: n, tur: "E-duruşma talebi",
+    konu: `${g} tarihli duruşmaya e-duruşma yoluyla katılma talebimizdir.`,
+    metin: [
+      "AÇIKLAMALAR",
+      `1- Yukarıda numarası yazılı dosyanın ${g}${saat} için belirlenen duruşmasına, 6100 sayılı Hukuk Muhakemeleri Kanunu'nun 149. maddesi ve ilgili mevzuat uyarınca, UYAP Avukat Portal üzerinden e-duruşma (ses ve görüntü nakli) yoluyla katılmak istiyoruz.`,
+      "2- E-duruşma için gerekli teknik altyapı tarafımızca sağlanmıştır.",
+      "",
+      "HUKUKİ NEDENLER : HMK m. 149 ve ilgili mevzuat.",
+      "",
+      "SONUÇ VE İSTEM",
+      `Yukarıda açıklanan nedenlerle, ${g} tarihli duruşmaya e-duruşma yoluyla katılmamıza izin verilmesini saygıyla arz ve talep ederiz.`
+    ].join("\n")
+  };
 }
 
 /** Kaynakların beyana yazılacak atıf satırı. */

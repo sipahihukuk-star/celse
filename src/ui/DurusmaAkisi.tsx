@@ -2,14 +2,15 @@
 // sırayla değişir) ve e-duruşma (e? sorulmadı · e– istenmeyecek · e⏳ talep edildi · e✓ kabul · e✗ red). Mahkeme ya da
 // dosya numarası değiştiyse araya küçük bir "↳ yeni mahkeme · yeni no" etiketi girer. En üstte tek satır özet: sorun yoksa
 // yeşil "Her şey işlendi ✓". Hapa basınca altında ayrıntı açılır (açılır kutularla). Az yer kaplar; eski duruşmalar katlanır.
+import { beyanDosyaAdi, ciktiBicimi, eDurusmaTalebi, tamMetin, udfOlustur } from "../data/beyan";
 import React, { useEffect, useMemo, useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Platform, Pressable, Text, TextInput, View } from "react-native";
 import { buroUyeleri, Uye } from "../data/buro";
-import { dTur, DTur, DTUR_AD, DTUR_SIMGE, girildiSoru, gunTurleri, icraMi, Durusma, durusmaEkle, durusmaOzeti, durusmaSirala, durusmaUyarilari, EDurum, eSorulur, evraktanDurusma, Girildi, kunyeDurusmasi, yerDegisti, bugunGun, E_TALEP_GUN } from "../data/durusma";
-import { Foy, silineniNotEt, tarihCoz, tarihYaz } from "../data/foy";
+import { dTur, DTur, DTUR_AD, DTUR_SIMGE, girildiSoru, gunTurleri, icraMi, Durusma, durusmaEkle, durusmaOzeti, durusmaSirala, durusmaUyarilari, EDurum, eSorulur, evraktanDurusma, Girildi, kunyeDurusmasi, durusmaDuzeni, yerDegisti, bugunGun, E_TALEP_GUN } from "../data/durusma";
+import { ayarOku, Foy, silineniNotEt, tarihCoz, tarihYaz } from "../data/foy";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
-import { s } from "./foyStil";
+import { indir, s } from "./foyStil";
 import { Btn } from "./kit";
 import { C } from "./theme";
 
@@ -34,7 +35,22 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
   const [mesaj, setMesaj] = useState("");
   const [uyeler, setUyeler] = useState<Uye[]>([]);
   const bugun = bugunGun();
-  useEffect(() => { buroUyeleri().then(x => setUyeler(x.uyeler)).catch(() => {}); }, []);
+  const [benAd, setBenAd] = useState("");
+  useEffect(() => {
+    buroUyeleri().then(x => { setUyeler(x.uyeler); const b = x.uyeler.find(u => u.kullanici_id === x.ben); if (b?.ad) setBenAd(b.ad); }).catch(() => {});
+    ayarOku<string>("beyanVekil").then(v => { if (v) setBenAd(a => a || v); }).catch(() => {});
+  }, []);
+  // E-duruşma talep dilekçesi: föyden hazır UDF; föyün beyan taslaklarına da kaydedilir.
+  const talepDilekcesi = async (d: Durusma) => {
+    const vekil = (await ayarOku<string>("beyanVekil").catch(() => "")) || "";
+    const b = eDurusmaTalebi(d.tarih);
+    const fy = { ...f, mahkeme: d.mahkeme || f.mahkeme, esasNo: d.esasNo || f.esasNo };
+    const metin = tamMetin(fy, b, { vekil });
+    const cb = ciktiBicimi(fy, b, { vekil });
+    indir(beyanDosyaAdi(fy, b, "udf"), new Blob([udfOlustur(metin, cb.imza, cb.ortaBaslik) as BlobPart], { type: "application/octet-stream" }));
+    degistir({ beyanlar: [b, ...(f.beyanlar || []).filter(x => x.id !== b.id)].slice(0, 50) });
+    setMesaj(vekil ? t("Dilekçe indirildi ve föyün beyanlarına kaydedildi. UYAP'tan gönderince “Talebi UYAP'tan gönderdim”e basın.") : t("Dilekçe indirildi. İmzadaki vekil adı için Beyan editöründe bir kez vekil adınızı yazın."));
+  };
   // Künyedeki "sonraki duruşma" akışta yoksa eklenir.
   useEffect(() => { const xs = kunyeDurusmasi(f); if (xs) degistir({ durusmalar: xs }); }, [f.durusma]);
 
@@ -71,6 +87,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
           <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{icraMi(f) ? "📌" : "⚖"} {baslik}</Text>
           <Text style={[s.hint, { flex: 1 }]}>{icraMi(f) ? t("henüz haciz ya da keşif günü yok") : t("henüz duruşma ya da keşif günü yok")}</Text>
         </View>
+        {durusmaDuzeni(f) === "talepli" && <Text style={s.hint}>{t("Bu tür dosyada duruşma her celsede olmaz; yalnız talep ya da karar üzerine (çoğu zaman bir kez) yapılır. Duruşma günü verilirse buraya ekleyin.")}</Text>}
         <EkleSatiri yeni={yeni} setYeni={setYeni} ekle={ekle} tur={yeniTur} turler={turler} setTur={setYeniTur} evraktan={okumaVar ? evraktan : undefined} />
         {!!mesaj && <Text style={[s.hint, { color: C.brass }]}>{mesaj}</Text>}
       </View>
@@ -144,6 +161,23 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
             <Alan etiket={t("Esas no (değiştiyse)")} deger={sec.esasNo || ""} genislik={130} onDegis={v => dGuncelle(sec, { esasNo: v.trim() || undefined })} />
             <Alan etiket={t("Not")} deger={sec.not || ""} genislik={220} onDegis={v => dGuncelle(sec, { not: v || undefined })} />
           </View>
+          {esor && dTur(sec) === "durusma" && sec.tarih.slice(0, 10) >= bugun && (
+            <View style={{ gap: 6, borderWidth: 1, borderColor: sec.e === "kabul" ? C.good : sec.e === "red" ? C.bad : sec.e === "talep" ? C.mid : C.line, borderRadius: 8, padding: 8 }}>
+              <Text style={[s.hint, { color: C.text, fontWeight: "700" }]}>{t("E-duruşma")}: {t(E_SIMGE[sec.e || "yok"].ad)}{sec.eTalepEden ? " · " + t("talep eden: {k}", { k: sec.eTalepEden }) : ""}</Text>
+              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+                {(!sec.e || sec.e === "istenmeyecek") && <>
+                  {Platform.OS === "web" && <Btn kind="secondary" label={t("📝 Talep dilekçesini indir (UYAP UDF)")} onPress={() => talepDilekcesi(sec)} />}
+                  <Btn label={t("✓ Talebi UYAP'tan gönderdim")} onPress={() => dGuncelle(sec, { e: "talep", eTalep: bugun, eTalepEden: benAd || undefined })} />
+                </>}
+                {sec.e === "talep" && <>
+                  <Btn label={t("✓ Kabul edildi")} onPress={() => dGuncelle(sec, { e: "kabul", eKarar: bugun })} />
+                  <Btn kind="secondary" label={t("✗ Reddedildi")} onPress={() => dGuncelle(sec, { e: "red", eKarar: bugun })} />
+                </>}
+              </View>
+              {sec.e === "talep" && <Text style={s.hint}>{t("Karar gelene kadar her gün hatırlatılır; duruşmaya iki gün kala karar yoksa acil uyarı ve bildirim gelir. Ret gelirse duruşmaya girecek kişiyi ayarlayın.")}</Text>}
+              {sec.e === "red" && <Text style={[s.hint, { color: C.bad }]}>{t("E-duruşma reddedildi: duruşmaya bizzat ya da tevkille girilecek.")}</Text>}
+            </View>
+          )}
           <Text style={s.hint}>
             {[sec.eTalep ? t("e-duruşma talebi {d}", { d: tarihYaz(sec.eTalep) }) : "", sec.eKarar ? t("karar {d}", { d: tarihYaz(sec.eKarar) }) : "",
               !sec.e && esor && sec.tarih.slice(0, 10) >= bugun ? t("Talep için son gün sayılan tarih: duruşmadan {n} gün önce.", { n: E_TALEP_GUN }) : "",

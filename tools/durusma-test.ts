@@ -1,6 +1,7 @@
 // Duruşma akışı, hesap ve talepler: uydurma (sentetik) evrakla.
 import { bosFoy } from "../src/data/foy";
-import { durusmaEkle, durusmaOzeti, durusmaUyarilari, evrakDurusmaOku, evraktanDurusma, kunyeDurusmasi, yerDegisti, banaAit, takvim } from "../src/data/durusma";
+import { eDurusmaTalebi } from "../src/data/beyan";
+import { durusmaDuzeni, eSorulur, durusmaEkle, durusmaOzeti, durusmaUyarilari, evrakDurusmaOku, evraktanDurusma, kunyeDurusmasi, yerDegisti, banaAit, takvim } from "../src/data/durusma";
 import { hesapOzeti, makbuzOku, standartGiderler, talepOku, tevkilOku, tutarCoz, ucretSozlesmesiOku } from "../src/data/hesap";
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
@@ -123,4 +124,28 @@ const hu = durusmaUyarilari({ ...icf, durusmalar: hr.durusmalar }, "2026-11-27")
 ok(hu.some(x => /Bugün haciz/.test(x.metin)) && !hu.some(x => x.tur.startsWith("e")), "haciz uyarısı, e-duruşma yok " + JSON.stringify(hu.map(x => x.metin)));
 ok(durusmaUyarilari({ ...icf, durusmalar: hr.durusmalar }, "2026-11-30").some(x => /Hacze gidildi mi/.test(x.metin)), "hacze gidildi mi");
 
+// E-duruşma yalnız hukukta; idare mahkemesinde duruşma talepli
+{
+  ok(eSorulur(bosFoy({ tur: "hukuk" })) && !eSorulur(bosFoy({ tur: "ceza" })) && !eSorulur(bosFoy({ tur: "idari_dava" })), "e-duruşma yalnız hukuk");
+  ok(durusmaDuzeni({ tur: "hukuk" }) === "olagan" && durusmaDuzeni({ tur: "ceza" }) === "olagan" && durusmaDuzeni({ tur: "idari_dava" }) === "talepli" && durusmaDuzeni({ tur: "tazminat_komisyonu" }) === "talepli" && durusmaDuzeni({ tur: "danisma" }) === "yok", "duruşma düzeni");
+  const idari = bosFoy({ tur: "idari_dava", durusmalar: [{ id: "i1", tarih: "2026-10-01", girildi: "evet" }] });
+  ok(!durusmaUyarilari(idari, "2026-11-09").some(u => u.tur === "sonraki" || u.tur === "eSor"), "idari: sonraki duruşma ve e-duruşma sorulmaz");
+  const h = (eTalep: string, bugun: string) => durusmaUyarilari(bosFoy({ tur: "hukuk", durusmalar: [{ id: "h1", tarih: "2026-12-10T10:00", e: "talep", eTalep }] }), bugun).find(u => u.tur === "eKarar");
+  ok(!h("2026-11-09", "2026-11-10"), "talepten hemen sonra uyarmaz");
+  ok(!h("2026-11-09", "2026-11-11"), "uzak duruşmada henüz uyarmaz");
+  const u2 = h("2026-11-09", "2026-11-26");
+  ok(!!u2 && u2.bas === "2026-11-26" && /karar verilmedi/.test(u2.metin), "talepten 2 gün sonra değil, duruşmadan 14 gün önce başlar (uzak duruşma): " + JSON.stringify(u2 && { bas: u2.bas, m: u2.metin }));
+  const u3 = h("2026-12-01", "2026-12-03");
+  ok(!!u3 && u3.bas === "2026-12-03", "yakın duruşmada talepten 2 gün sonra başlar");
+  const u4 = h("2026-12-01", "2026-12-09");
+  ok(!!u4 && /1 gün var, e-duruşma kararı yok/.test(u4.metin) && (u4.duzey === "gecikti" || u4.duzey === "bugun"), "duruşmaya 1 gün kala acil: " + JSON.stringify(u4 && { m: u4.metin, d: u4.duzey }));
+  const u5 = h("2026-12-01", "2026-12-10");
+  ok(!!u5 && /Bugün duruşma: e-duruşma kararı yok/.test(u5.metin), "duruşma günü");
+  const kabul = durusmaUyarilari(bosFoy({ tur: "hukuk", durusmalar: [{ id: "h1", tarih: "2026-12-10", e: "kabul", eTalep: "2026-12-01", eKarar: "2026-12-04" }] }), "2026-12-09");
+  ok(!kabul.some(u => u.tur === "eKarar" || u.tur === "eRed"), "kabulde uyarı yok");
+  const red = durusmaUyarilari(bosFoy({ tur: "hukuk", durusmalar: [{ id: "h1", tarih: "2026-12-10", e: "red" }] }), "2026-12-09");
+  ok(red.some(u => u.tur === "eRed"), "redde bizzat girilecek uyarısı");
+  const b = eDurusmaTalebi("2026-12-10T10:30");
+  ok(b.tur === "E-duruşma talebi" && /10\.12\.2026 saat 10:30/.test(b.metin) && /HMK m\. 149/.test(b.metin) && /SONUÇ VE İSTEM/.test(b.metin), "e-duruşma talep dilekçesi");
+}
 if (fail) { console.log(`durusma-test: ${fail} hata`); process.exit(1); } else console.log("durusma-test: tamam");
