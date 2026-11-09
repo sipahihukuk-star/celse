@@ -31,10 +31,7 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false,
-      "blockedPermissions": [
-        "android.permission.RECORD_AUDIO"
-      ]
+      "predictiveBackGestureEnabled": false
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -47,8 +44,7 @@
       [
         "expo-audio",
         {
-          "microphonePermission": false,
-          "recordAudioAndroid": false,
+          "microphonePermission": "Sesli asistanla konuşarak dava takibini yönetebilmeniz için mikrofon kullanılır. Ses kaydedilip saklanmaz; konuşmanız yalnız yazıya çevrilir.",
           "enableBackgroundPlayback": false
         }
       ],
@@ -66,10 +62,21 @@
         {
           "cameraPermission": "Evrakla duruşma provası için evrakın fotoğrafını çekip bu cihazda okumak üzere kameraya erişilir. Fotoğraf hiçbir yere gönderilmez.",
           "photosPermission": "Evrak fotoğrafını bu cihazda okumak için seçtiğiniz fotoğrafa erişilir. Fotoğraf hiçbir yere gönderilmez.",
-          "microphonePermission": false
+          "microphonePermission": "Sesli asistanla konuşarak dava takibini yönetebilmeniz için mikrofon kullanılır. Ses kaydedilip saklanmaz; konuşmanız yalnız yazıya çevrilir."
         }
       ],
-      "expo-document-picker"
+      "expo-document-picker",
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Sesli asistanla konuşarak dava takibini yönetebilmeniz için mikrofon kullanılır. Ses kaydedilip saklanmaz; konuşmanız yalnız yazıya çevrilir.",
+          "speechRecognitionPermission": "Söylediklerinizi yazıya çevirmek için cihazın konuşma tanıma hizmeti kullanılır. Ses kaydı saklanmaz.",
+          "androidSpeechServicePackages": [
+            "com.google.android.googlequicksearchbox",
+            "com.google.android.tts"
+          ]
+        }
+      ]
     ],
     "extra": {
       "eas": {
