@@ -7,7 +7,7 @@ import { C } from "./theme";
 
 export type Sekme = "foyler" | "durusmalar" | "isler" | "liste" | "toplu" | "buro" | "tevkil";
 const SEKMELER: { k: Sekme; ad: string; web?: boolean }[] = [
-  { k: "foyler", ad: "📁 Föyler" }, { k: "durusmalar", ad: "⚖ Duruşma ve keşifler" }, { k: "isler", ad: "✅ Yapılacaklar" },
+  { k: "foyler", ad: "📁 Föyler" }, { k: "durusmalar", ad: "⚖ Duruşma, haciz, keşif" }, { k: "isler", ad: "✅ Yapılacaklar" },
   { k: "liste", ad: "📋 Dava listesi" }, { k: "toplu", ad: "📥 Toplu evrak yükle", web: true }, { k: "buro", ad: "👥 Büro" }, { k: "tevkil", ad: "🤝 Tevkil" }
 ];
 

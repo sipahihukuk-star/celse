@@ -2,7 +2,7 @@
 // buradan da işaretlenir; e-duruşma durumu ve bekleyen konular görünür; liste Excel'e aktarılır.
 import React, { useMemo, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { bugunGun, dTur, DTur, gunKaydir, takvim, TakvimSatir } from "../data/durusma";
+import { bugunGun, dTur, DTur, DTUR_AD, DTUR_SIMGE, girildiSoru, gunKaydir, takvim, TakvimSatir } from "../data/durusma";
 import { Foy, foyKaydet } from "../data/foy";
 import { turBilgi } from "../data/foyTurleri";
 import { xlsxYaz } from "../data/xlsxYaz";
@@ -46,6 +46,7 @@ export function DurusmalarEkrani({ liste, onAc }: { liste: Foy[]; onAc: (id: str
       yarin: yakin.filter(x => x.gun === gunKaydir(bugun, 1)).length,
       hafta: yakin.filter(x => x.gun >= bugun).length,
       kesif: yakin.filter(x => x.gun >= bugun && x.tur === "kesif").length,
+      haciz: yakin.filter(x => x.gun >= bugun && x.tur === "haciz").length,
       eBekleyen: takvim(liste, bugun, gunKaydir(bugun, 90), bugun).filter(x => x.d.e === "talep").length,
       isaretsiz: yakin.filter(x => x.gun < bugun && !x.d.girildi && x.f.durum !== "kapali").length
     };
@@ -57,9 +58,9 @@ export function DurusmalarEkrani({ liste, onAc }: { liste: Foy[]; onAc: (id: str
   };
   const excel = () => {
     const tablo: (string | number)[][] = [["Gün", "Saat", "Tür", "Mahkeme / merci", "Dosya no", "Müvekkil – karşı taraf", "Dosya türü", "Aşama", "E-duruşma", "Girildi", "Bekleyen konu"],
-      ...satirlar.map(x => [trTarih(x.d.tarih), x.d.tarih.length > 10 ? x.d.tarih.slice(11, 16) : "", x.tur === "kesif" ? "Keşif" : "Duruşma", x.d.mahkeme || x.f.mahkeme, x.d.esasNo || x.f.esasNo,
+      ...satirlar.map(x => [trTarih(x.d.tarih), x.d.tarih.length > 10 ? x.d.tarih.slice(11, 16) : "", DTUR_AD[x.tur], x.d.mahkeme || x.f.mahkeme, x.d.esasNo || x.f.esasNo,
         [x.f.muvekkil, x.f.karsiTaraf].filter(Boolean).join(" – "), turBilgi(x.f.tur).ad, x.f.asama || "", x.d.e ? E_AD[x.d.e] : "", x.d.girildi === "evet" ? "Evet" : x.d.girildi === "hayir" ? "Hayır" : "", x.uyari?.metin || ""])];
-    const b = xlsxYaz("Duruşma ve keşifler", tablo, [12, 7, 9, 34, 12, 34, 16, 14, 26, 8, 34]);
+    const b = xlsxYaz("Duruşma haciz keşif", tablo, [12, 7, 9, 34, 12, 34, 16, 14, 26, 8, 34]);
     indir(`durusma-ve-kesifler-${bugun}.xlsx`, new Blob([b as BlobPart], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
   };
 
@@ -71,15 +72,16 @@ export function DurusmalarEkrani({ liste, onAc }: { liste: Foy[]; onAc: (id: str
 
   return (
     <ScrollView contentContainerStyle={[s.wrap, { maxWidth: 1000 }]} keyboardShouldPersistTaps="handled">
-      <Text style={s.eyebrow}>{t("DAVA TAKİBİ · DURUŞMA VE KEŞİFLER")}</Text>
-      <Text style={s.title}>{t("Duruşma ve keşifler")}</Text>
-      <Text style={s.hint}>{t("Bütün föylerdeki duruşma ve keşif günleri. Satıra basınca föy açılır; kutuya basarak girildiğini işaretleyin (bir kez ✓ girildi, iki kez ✗ girilmedi). Keşif günleri tutanak ve ara karardan da okunur.")}</Text>
+      <Text style={s.eyebrow}>{t("DAVA TAKİBİ · DURUŞMA, HACİZ, KEŞİF")}</Text>
+      <Text style={s.title}>{t("Duruşma, haciz ve keşif")}</Text>
+      <Text style={s.hint}>{t("Bütün föylerdeki duruşma, haciz ve keşif günleri (icra dosyalarında duruşma yoktur; haciz ve keşif günü vardır). Satıra basınca föy açılır; kutuya basarak işaretleyin (bir kez ✓, iki kez ✗). Keşif ve haciz günleri tutanak ve ara karardan da okunur.")}</Text>
 
       <View style={[s.card, { flexDirection: "row", flexWrap: "wrap", gap: 8 }]}>
         <Hap ad={t("Bugün")} n={ozet.bugun} renk={C.bad} onPress={() => donemSec("bugun")} />
         <Hap ad={t("Yarın")} n={ozet.yarin} renk={C.p2} onPress={() => donemSec("hafta")} />
         <Hap ad={t("7 gün içinde")} n={ozet.hafta} renk={C.mid} onPress={() => donemSec("hafta")} />
         <Hap ad={t("Keşif (7 gün)")} n={ozet.kesif} renk={C.brass} onPress={() => { donemSec("hafta"); setTur("kesif"); }} />
+        <Hap ad={t("Haciz (7 gün)")} n={ozet.haciz} renk={C.brass} onPress={() => { donemSec("hafta"); setTur("haciz"); }} />
         <Hap ad={t("E-duruşma kararı beklenen")} n={ozet.eBekleyen} renk={C.mid} onPress={() => { donemSec("90"); setBekleyen(true); }} />
         <Hap ad={t("Girildi işaretlenmemiş")} n={ozet.isaretsiz} renk={C.bad} onPress={() => { donemSec("gecmis30"); setBekleyen(true); }} />
       </View>
@@ -90,7 +92,7 @@ export function DurusmalarEkrani({ liste, onAc }: { liste: Foy[]; onAc: (id: str
           <Acilir etiket={t("Dönem")} secili={donem} genislik={200} onSec={k => donemSec(k as Donem)}
             secenekler={[{ k: "bugun", ad: t("Bugün") }, { k: "hafta", ad: t("Önümüzdeki 7 gün") }, { k: "30", ad: t("Önümüzdeki 30 gün") }, { k: "90", ad: t("Önümüzdeki 90 gün") }, { k: "gecmis30", ad: t("Geçmiş 30 gün") }, { k: "gecmis365", ad: t("Geçmiş 1 yıl") }]} />
           <Acilir etiket={t("Tür")} secili={tur} genislik={170} onSec={k => setTur(k as "hepsi" | DTur)}
-            secenekler={[{ k: "hepsi", ad: t("Duruşma ve keşif") }, { k: "durusma", ad: "⚖ " + t("Yalnız duruşma") }, { k: "kesif", ad: "🔍 " + t("Yalnız keşif") }]} />
+            secenekler={[{ k: "hepsi", ad: t("Hepsi") }, { k: "durusma", ad: "⚖ " + t("Yalnız duruşma") }, { k: "haciz", ad: "📌 " + t("Yalnız haciz") }, { k: "kesif", ad: "🔍 " + t("Yalnız keşif") }]} />
           <Acilir etiket={t("Göster")} secili={bekleyen ? "bekleyen" : "hepsi"} genislik={220} onSec={k => setBekleyen(k === "bekleyen")}
             secenekler={[{ k: "hepsi", ad: t("Hepsi") }, { k: "bekleyen", ad: t("Yalnız konu bekleyenler") }]} />
         </View>
@@ -106,12 +108,12 @@ export function DurusmalarEkrani({ liste, onAc }: { liste: Foy[]; onAc: (id: str
             {gunBaslik(g)}{g === bugun ? " · " + t("bugün") : g === gunKaydir(bugun, 1) ? " · " + t("yarın") : ""}
           </Text>
           {xs.map(x => {
-            const kesif = dTur(x.d) === "kesif";
+            const tr = dTur(x.d), kesif = tr !== "durusma";
             const gecmis = x.gun < bugun;
             return (
               <View key={x.f.id + x.d.id} style={[s.card, { flexDirection: "row", gap: 10, alignItems: "center", borderLeftWidth: 5, borderLeftColor: x.uyari ? C.mid : kesif ? C.brass : C.line, paddingVertical: 10 }]}>
                 <Pressable onPress={() => girildi(x)} hitSlop={8} accessibilityRole="checkbox" accessibilityState={{ checked: x.d.girildi === "evet" }}
-                  accessibilityLabel={kesif ? t("Keşfe katılındı mı") : t("Duruşmaya girildi mi")}
+                  accessibilityLabel={t(girildiSoru(tr)).replace(/\?$/, "")}
                   style={{ width: 26, height: 26, borderRadius: 5, borderWidth: 2, alignItems: "center", justifyContent: "center",
                     borderColor: x.d.girildi === "evet" ? C.good : x.d.girildi === "hayir" ? C.bad : gecmis ? C.mid : C.muted,
                     backgroundColor: x.d.girildi === "evet" ? C.good : x.d.girildi === "hayir" ? C.bad : "transparent" }}>
@@ -119,7 +121,7 @@ export function DurusmalarEkrani({ liste, onAc }: { liste: Foy[]; onAc: (id: str
                 </Pressable>
                 <Pressable onPress={() => onAc(x.f.id)} accessibilityRole="button" style={{ flex: 1, gap: 2 }}>
                   <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>
-                    {x.d.tarih.length > 10 ? x.d.tarih.slice(11, 16) + " · " : ""}{kesif ? "🔍 " + t("Keşif") : "⚖ " + t("Duruşma")} · {x.d.mahkeme || x.f.mahkeme || t("mahkeme yazılmamış")}{(x.d.esasNo || x.f.esasNo) ? " · " + (x.d.esasNo || x.f.esasNo) : ""}
+                    {x.d.tarih.length > 10 ? x.d.tarih.slice(11, 16) + " · " : ""}{DTUR_SIMGE[tr] + " " + t(DTUR_AD[tr])} · {x.d.mahkeme || x.f.mahkeme || t("mahkeme yazılmamış")}{(x.d.esasNo || x.f.esasNo) ? " · " + (x.d.esasNo || x.f.esasNo) : ""}
                   </Text>
                   <Text style={s.hint} numberOfLines={1}>{[[x.f.muvekkil, x.f.karsiTaraf].filter(Boolean).join(" – "), x.f.davaTuru || t(turBilgi(x.f.tur).ad), x.f.asama].filter(Boolean).join(" · ")}</Text>
                   {(!!x.d.e || !!x.uyari) && (
@@ -135,7 +137,7 @@ export function DurusmalarEkrani({ liste, onAc }: { liste: Foy[]; onAc: (id: str
           })}
         </View>
       ))}
-      {!gruplar.length && <Text style={s.hint}>{t("Bu dönemde duruşma ya da keşif yok.")}</Text>}
+      {!gruplar.length && <Text style={s.hint}>{t("Bu dönemde duruşma, haciz ya da keşif yok.")}</Text>}
     </ScrollView>
   );
 }

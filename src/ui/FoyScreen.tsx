@@ -48,7 +48,6 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [klasordenGelen, setKlasordenGelen] = useState<TaramaDosyasi[]>([]);
   const [rapor, setRapor] = useState(false);
   const [isler, setIsler] = useState(false);
-  const [ses, setSes] = useState(false);
   const [buroAc, setBuroAc] = useState(false);
   const [tevkilAc, setTevkilAc] = useState(false);
   const [durusmaAc, setDurusmaAc] = useState(false);
@@ -97,7 +96,10 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     else if (k === "toplu") setHavuz(true); else if (k === "buro") setBuroAc(true); else if (k === "tevkil") setTevkilAc(true);
   };
   const rozet = useMemo(() => { const n = duzeySayilari(liste); const d = tumDurusmaUyarilari(liste).filter(x => x.duzey === "gecikti" || x.duzey === "bugun" || x.duzey === "acil").length; return { isler: n.gecikti + n.bugun + n.acil, durusmalar: d }; }, [liste]);
-  const sar = (el: React.ReactNode) => <View style={{ flex: 1 }}><TakipSekmeler aktif={sekme} onSec={sekmeSec} rozet={rozet} /><View style={{ flex: 1 }}>{el}</View></View>;
+  // Sesli asistan: her ekranda sağ altta mikrofon (föyün içinde "bu dosya" o föydür).
+  const asistan = Platform.OS === "web" ? <SesliAsistan yuzen liste={liste} onAc={id => setSecili({ id })} onIsler={() => sekmeSec("isler")} onSekme={k => sekmeSec(k)}
+    baglamFoyId={secili?.id} ekran={secili ? "açık föy" : sekme} /> : null;
+  const sar = (el: React.ReactNode) => <View style={{ flex: 1 }}><TakipSekmeler aktif={sekme} onSec={sekmeSec} rozet={rozet} /><View style={{ flex: 1 }}>{el}</View>{asistan}</View>;
 
   // Telefonda: föyler uygulamanın deposunda; evrak ekleme, toplu aktarma, DavaTek klasörü ve yedek dosyası bilgisayardadır.
   const web = Platform.OS === "web";
@@ -114,7 +116,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     return havuz === true ? sar(el) : el;
   }
   if (aktar) return <Aktar mevcut={liste} onBitti={(n) => { setAktar(false); if (n) setMesaj({ t: n, ok: true }); }} />;
-  if (secili) return <FoySayfa key={secili.id} id={secili.id} ekle={secili.ekle} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} onAyir={f => { setSecili(null); setHavuz(f); }} />;
+  if (secili) return <View style={{ flex: 1 }}><FoySayfa key={secili.id} id={secili.id} ekle={secili.ekle} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} onAyir={f => { setSecili(null); setHavuz(f); }} />{asistan}</View>;
 
   const yeniFoy = async (tur: FoyTur, ek: { ozel?: boolean; davaTuru?: string } = {}) => {
     const olustur = async () => { const f = bosFoy({ tur, ozel: !!ek.ozel, davaTuru: ek.davaTuru || "" }); await foyKaydet(f); setGiris(false); setSecili({ id: f.id }); };
@@ -218,13 +220,11 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
 
       <View style={s.row}>
         <Btn label={t("+ Yeni giriş")} onPress={() => setGiris("normal")} />
-        {web && <Btn kind={ses ? "primary" : "secondary"} label={t("🎙 Sesli asistan")} onPress={() => setSes(!ses)} />}
         {web && <Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} />}
       </View>
       {mesaj && <Text style={[s.hint, { color: mesaj.ok ? C.good : C.bad }]}>{mesaj.t}</Text>}
       {web && <GizliPencereUyarisi />}
       <BuroKatilKart onBuro={() => setBuroAc(true)} />
-      {web && ses && <SesliAsistan liste={liste} onAc={id => setSecili({ id })} onIsler={() => setIsler(true)} onEkran={ad => (ad === "tevkil" ? setTevkilAc(true) : setBuroAc(true))} />}
       {(() => {
         const n = duzeySayilari(liste);
         // Duruşma ve e-duruşma konuları da sayılır (girildi kutusu boş, e-duruşma sorulmadı, karar bekleniyor).
@@ -322,6 +322,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       )}
     </ScrollView>
     <FloatingNav nav={nav} onBack={p.onBack} />
+    {asistan}
     </View>
   );
 }

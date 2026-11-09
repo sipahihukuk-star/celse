@@ -2,7 +2,8 @@
 //  1) Duruşmaya girildi mi (boş / ✓ girildi / ✗ girilmedi). Günü geçmiş ve işaretlenmemiş duruşma uyarır.
 //  2) E-duruşma: önce "talep edilecek mi?" sorulur. "Talep edilmeyecek" denirse kutu kapanır; "talep edildi" denirse
 //     karar beklenir ve karar gelene kadar uyarır; kabulde ✓, redde ✗ (duruşmaya bizzat girilecek).
-// Keşif de aynı akışta tutulur (tur: "kesif"): keşfe katılındı mı sorulur; e-duruşma sorulmaz.
+// Keşif de aynı akışta tutulur (tur: "kesif"): keşfe katılındı mı sorulur; e-duruşma sorulmaz. İcra dosyasında duruşma yoktur:
+// günler haciz (tur: "haciz") ve keşif günüdür; evraktaki haciz günü de okunur.
 // Dosya yeni bir esas no aldıysa ya da mahkeme değiştiyse (görevsizlik, birleşme, istinaf) kayıt o günkü mahkemeyi ve
 // numarayı taşır; akışta değişiklik ayrıca gösterilir. Kayıtlar künyedeki "sonraki duruşma"dan, elle ve evraktan (tutanak,
 // ara karar, e-duruşma onay ekranının fotoğrafı) oluşur. Her şey bu cihazda; metin hiçbir yere gönderilmez.
@@ -11,8 +12,16 @@ import { kunyeCikar } from "./kunyeCikar";
 
 export type Girildi = "evet" | "hayir";
 export type EDurum = "istenmeyecek" | "talep" | "kabul" | "red";
-export type DTur = "durusma" | "kesif";
+export type DTur = "durusma" | "kesif" | "haciz";
 export const dTur = (d: { tur?: DTur }): DTur => d.tur || "durusma";
+/** İcra dosyasında duruşma olmaz: günler haciz ve keşif (kıymet takdiri) günüdür. */
+export const icraMi = (f: { tur?: string }) => f.tur === "icra";
+/** Bu föyde kullanılan gün türleri; ilki varsayılandır. */
+export const gunTurleri = (f: { tur?: string }): DTur[] => (icraMi(f) ? ["haciz", "kesif"] : ["durusma", "kesif"]);
+export const DTUR_AD: Record<DTur, string> = { durusma: "Duruşma", kesif: "Keşif", haciz: "Haciz" };
+export const DTUR_SIMGE: Record<DTur, string> = { durusma: "⚖", kesif: "🔍", haciz: "📌" };
+/** Kutunun sorusu: duruşmaya girildi mi / keşfe katılındı mı / hacze gidildi mi. */
+export const girildiSoru = (t: DTur) => (t === "kesif" ? "Keşfe katılındı mı?" : t === "haciz" ? "Hacze gidildi mi?" : "Duruşmaya girildi mi?");
 export interface Durusma {
   id: string;
   /** duruşma (yoksa) ya da keşif */
@@ -66,7 +75,7 @@ export function durusmaEkle(f: Foy, tarih: string, ek: Partial<Durusma> = {}): D
 /** Künyedeki "sonraki duruşma" akışta yoksa eklenir. Değişiklik yoksa null. */
 export function kunyeDurusmasi(f: Foy): Durusma[] | null {
   if (!f.durusma) return null;
-  const xs = durusmaEkle(f, f.durusma, { kaynak: "kunye" });
+  const xs = durusmaEkle(f, f.durusma, { kaynak: "kunye", ...(icraMi(f) ? { tur: "haciz" as DTur } : {}) });
   return xs === (f.durusmalar || []) ? null : xs;
 }
 
@@ -85,7 +94,11 @@ const ETIKETLI = new RegExp(String.raw`(?:DURUŞMA|CELSE|OTURUM|E-?\s?DURUŞMA)\
 // Keşif: "keşfin 12/03/2027 günü saat 10:00'da yapılmasına", "12.03.2027 günü mahallinde keşif yapılmasına", "KEŞİF TARİHİ: 12.03.2027"
 const KESIF_ETIKET = new RegExp(String.raw`KEŞ[İI]F\s*(?:GÜNÜ|TARİHİ|TARİH)\s*(?:VE\s*SAATİ)?\s*:?\s*` + TARIH + SAAT, "gi");
 const KESIF_ONCE = new RegExp(String.raw`keşf[a-zçğıöşü]*\s+(?:ve\s+bilirkişi\s+incelemesi(?:nin)?\s+)?` + TARIH + SAAT, "gi");
-const KESIF_SONRA = new RegExp(TARIH + SAAT + String.raw`[^\n.]{0,40}?(?:mahallinde\s+)?keşi?f`, "gi");
+const KESIF_SONRA = new RegExp(TARIH + SAAT + String.raw`[^\n.,;]{0,40}?(?:mahallinde\s+)?keşi?f`, "gi");
+// Haciz: "haczin 12/03/2027 günü saat 10:00'da yapılmasına", "12.03.2027 tarihinde haciz mahalline gidilmesine", "HACİZ TARİHİ: 12.03.2027"
+const HACIZ_ETIKET = new RegExp(String.raw`HAC[İI]Z\s*(?:GÜNÜ|TARİHİ|TARİH)\s*(?:VE\s*SAATİ)?\s*:?\s*` + TARIH + SAAT, "gi");
+const HACIZ_ONCE = new RegExp(String.raw`hacz[a-zçğıöşü]*\s+(?:işleminin\s+)?` + TARIH + SAAT, "gi");
+const HACIZ_SONRA = new RegExp(TARIH + SAAT + String.raw`[^\n.,;]{0,40}?hac(?:iz|z)`, "gi");
 const TUTANAK = /DURUŞMA\s+TUTANAĞI|CELSE\s+TUTANAĞI|AÇIK\s+DURUŞMAYA\s+BAŞLANDI|DURUŞMAYA\s+BAŞLANDI|OTURUM\s+TUTANAĞI|DURUŞMA\s+AÇILDI/i;
 
 const BIZ: Record<"davaci" | "davali", string> = {
@@ -98,6 +111,8 @@ export interface EvrakDurusmaBulgu {
   tarihler: string[];
   /** metinde geçen keşif günleri */
   kesifler?: string[];
+  /** metinde geçen haciz günleri */
+  hacizler?: string[];
   /** tutanaksa: o duruşmanın günü ve bizim vekilin gelip gelmediği */
   oturum?: { tarih: string; girildi?: Girildi };
   /** e-duruşma: talep / kabul / red ve hangi duruşma için */
@@ -110,13 +125,22 @@ export function evrakDurusmaOku(metin: string, taraf: "davaci" | "davali" = "dav
   const u = metin.toLocaleUpperCase("tr").replace(/[ \t]+/g, " ");
   const k = kunyeCikar(metin, simdi);
   const o: EvrakDurusmaBulgu = { tarihler: [], mahkeme: k.mahkeme, esasNo: k.esasNo, belgeTarihi: k.belgeTarihi };
-  const kesif: string[] = [];
-  for (const re of [KESIF_ETIKET, KESIF_ONCE, KESIF_SONRA]) for (const m of metin.matchAll(re)) {
-    const x = tarihIso(m[1], m[2], m[3], m[4], m[5]);
-    if (x) { const i = kesif.findIndex(y => y.slice(0, 10) === x.slice(0, 10)); if (i < 0) kesif.push(x); else if (x.length > kesif[i].length) kesif[i] = x; }
-  }
+  // Önce etiketli ve önünde "haczin / keşfin" geçen günler (kesin), sonra arkasında geçenler (yalnız kesin olmayan günler).
+  const topla = (res: RegExp[], haric: string[]) => {
+    const out: string[] = [];
+    for (const re of res) for (const m of metin.matchAll(re)) {
+      const x = tarihIso(m[1], m[2], m[3], m[4], m[5]);
+      if (!x || haric.some(y => y.slice(0, 10) === x.slice(0, 10))) continue;
+      const i = out.findIndex(y => y.slice(0, 10) === x.slice(0, 10)); if (i < 0) out.push(x); else if (x.length > out[i].length) out[i] = x;
+    }
+    return out;
+  };
+  const kesinH = topla([HACIZ_ETIKET, HACIZ_ONCE], []), kesinK = topla([KESIF_ETIKET, KESIF_ONCE], kesinH);
+  const haciz = [...kesinH, ...topla([HACIZ_SONRA], [...kesinH, ...kesinK])];
+  const kesif = [...kesinK, ...topla([KESIF_SONRA], [...haciz, ...kesinK])];
   if (kesif.length) o.kesifler = kesif.sort();
-  const kesifGun = new Set(kesif.map(x => x.slice(0, 10)));
+  if (haciz.length) o.hacizler = haciz.sort();
+  const kesifGun = new Set([...kesif, ...haciz].map(x => x.slice(0, 10)));
   const ekle = (x?: string) => { if (x && !kesifGun.has(x.slice(0, 10)) && !o.tarihler.some(y => y.slice(0, 10) === x.slice(0, 10))) o.tarihler.push(x); };
   for (const re of [ETIKETLI, ILERI]) for (const m of metin.matchAll(re)) ekle(tarihIso(m[1], m[2], m[3], m[4], m[5]));
   // Tutanak: başlıktaki duruşma günü o oturumun günüdür; ilerideki gün "bırakılmasına" denen sonraki duruşmadır.
@@ -161,10 +185,15 @@ export function evraktanDurusma(f: Foy, evraklar: { id: string; metin: string; t
   for (const e of sira) {
     const b = evrakDurusmaOku(e.metin, f.taraf || "davaci", simdi);
     const yer = { mahkeme: b.mahkeme, esasNo: b.esasNo };
-    for (const t of b.tarihler) {
+    for (const t of icraMi(f) ? [] : b.tarihler) {
       const once = xs;
       xs = durusmaEkle(ff(), t, { kaynak: "evrak", evrakId: e.id, ...yer });
       if (xs !== once) degisen.add("duruşma günü");
+    }
+    for (const t of b.hacizler || []) {
+      const once = xs;
+      xs = durusmaEkle(ff(), t, { tur: "haciz", kaynak: "evrak", evrakId: e.id, ...yer });
+      if (xs !== once) degisen.add("haciz günü");
     }
     for (const t of b.kesifler || []) {
       const once = xs;
@@ -186,6 +215,21 @@ export function evraktanDurusma(f: Foy, evraklar: { id: string; metin: string; t
     }
   }
   return { durusmalar: durusmaSirala(xs), degisen: [...degisen] };
+}
+
+/** Föyün mahkemesi ya da dosya numarası değişince (görevsizlik, birleşme, istinaf, yeni esas): bugün ve sonrasındaki günler
+ *  yeni mahkeme ve numarayla akar; geçmiş günler o günkü mahkeme ve numarayla kalır. Değişiklik yoksa null. */
+export function yerDegisimi(f: Foy, ek: { mahkeme?: string; esasNo?: string }, bugun = bugunGun()): Durusma[] | null {
+  const xs = f.durusmalar || [];
+  let degisti = false;
+  const ys = xs.map(d => {
+    if (d.tarih.slice(0, 10) < bugun) return d;
+    const y = { ...d };
+    if (ek.mahkeme !== undefined && (!d.mahkeme || d.mahkeme === f.mahkeme) && d.mahkeme !== (ek.mahkeme || undefined)) { y.mahkeme = ek.mahkeme || undefined; degisti = true; }
+    if (ek.esasNo !== undefined && (!d.esasNo || d.esasNo === f.esasNo) && d.esasNo !== (ek.esasNo || undefined)) { y.esasNo = ek.esasNo || undefined; degisti = true; }
+    return y;
+  });
+  return degisti ? ys : null;
 }
 
 /** Akışta mahkeme ya da dosya numarası bir önceki duruşmadan farklıysa: değişikliği anlatan kısa yazı. */
@@ -216,12 +260,15 @@ export function durusmaUyarilari(f: Foy, bugun = bugunGun()): DurusmaUyari[] {
   for (const d of xs) {
     const g = d.tarih.slice(0, 10);
     const kalanD = fark(bugun, g);
-    const kesif = dTur(d) === "kesif";
+    const tur = dTur(d);
     if (kalanD < 0) {
-      if (!d.girildi && -kalanD <= GECMIS_UYARI_GUN) ekle(d, "girildi", kesif ? "Keşfe katılındı mı? Kutu işaretlenmedi" : "Duruşmaya girildi mi? Kutu işaretlenmedi", g);
+      if (!d.girildi && -kalanD <= GECMIS_UYARI_GUN) ekle(d, "girildi", girildiSoru(tur) + " Kutu işaretlenmedi", g);
       continue;
     }
-    if (kesif) { if (kalanD === 0 && !d.girildi) ekle(d, "girildi", "Bugün keşif var: katılınca kutuyu işaretleyin", g); continue; }
+    if (tur !== "durusma" || icraMi(f)) {
+      if (kalanD === 0 && !d.girildi) ekle(d, "girildi", tur === "kesif" ? "Bugün keşif var: katılınca kutuyu işaretleyin" : tur === "haciz" ? "Bugün haciz var: gidilince kutuyu işaretleyin" : "Bugün işlem var: kutuyu işaretleyin", g);
+      continue;
+    }
     if (!d.e && eSorulur(f)) ekle(d, "eSor", "E-duruşma talep edilecek mi? Karar verilmedi", gunEkle(g, -E_TALEP_GUN), 21);
     else if (d.e === "talep") ekle(d, "eKarar", "E-duruşma talebinin kararı bekleniyor", gunEkle(g, -1), 21);
     else if (d.e === "red") ekle(d, "eRed", "E-duruşma reddedildi: duruşmaya bizzat girilecek", g, 7);
@@ -248,11 +295,11 @@ export function banaAit(f: Foy, ben?: { uid: string; yonetici: boolean } | null)
 /** Akışın tek satırlık özeti (içi rahatlasın diye: sorun yoksa bunu açıkça söyler). */
 export function durusmaOzeti(f: Foy, bugun = bugunGun()): { metin: string; iyi: boolean } {
   const xs = f.durusmalar || [];
-  if (!xs.length) return { metin: f.durusma ? "Duruşma günü akışa ekleniyor" : "Duruşma günü yok", iyi: true };
+  if (!xs.length) return { metin: f.durusma ? "Gün akışa ekleniyor" : icraMi(f) ? "Haciz ya da keşif günü yok" : "Duruşma günü yok", iyi: true };
   const u = durusmaUyarilari(f, bugun);
   const sonraki = durusmaSirala(xs).find(x => x.tarih.slice(0, 10) >= bugun);
-  const kesifMi = sonraki && dTur(sonraki) === "kesif";
-  const sn = sonraki ? `sonraki ${kesifMi ? "keşif " : ""}${sonraki.tarih.slice(8, 10)}.${sonraki.tarih.slice(5, 7)}.${sonraki.tarih.slice(0, 4)}` + (sonraki.e === "kabul" ? " · e-duruşma ✓" : "") : "";
+  const kesifMi = sonraki && dTur(sonraki) !== "durusma";
+  const sn = sonraki ? `sonraki ${kesifMi ? DTUR_AD[dTur(sonraki)].toLocaleLowerCase("tr") + " " : ""}${sonraki.tarih.slice(8, 10)}.${sonraki.tarih.slice(5, 7)}.${sonraki.tarih.slice(0, 4)}` + (sonraki.e === "kabul" ? " · e-duruşma ✓" : "") : "";
   if (!u.length) return { metin: ["Her şey işlendi ✓", sn].filter(Boolean).join(" · "), iyi: true };
   return { metin: `${u.length} konu bekliyor: ${u[0].metin.toLocaleLowerCase("tr")}`, iyi: false };
 }

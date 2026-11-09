@@ -5,7 +5,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { buroUyeleri, Uye } from "../data/buro";
-import { dTur, DTur, Durusma, durusmaEkle, durusmaOzeti, durusmaSirala, durusmaUyarilari, EDurum, eSorulur, evraktanDurusma, Girildi, kunyeDurusmasi, yerDegisti, bugunGun, E_TALEP_GUN } from "../data/durusma";
+import { dTur, DTur, DTUR_AD, DTUR_SIMGE, girildiSoru, gunTurleri, icraMi, Durusma, durusmaEkle, durusmaOzeti, durusmaSirala, durusmaUyarilari, EDurum, eSorulur, evraktanDurusma, Girildi, kunyeDurusmasi, yerDegisti, bugunGun, E_TALEP_GUN } from "../data/durusma";
 import { Foy, silineniNotEt, tarihCoz, tarihYaz } from "../data/foy";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
@@ -28,7 +28,9 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
   const [secili, setSecili] = useState<string | null>(null);
   const [hepsi, setHepsi] = useState(false);
   const [yeni, setYeni] = useState("");
-  const [yeniTur, setYeniTur] = useState<DTur>("durusma");
+  const turler = gunTurleri(f);
+  const [yeniTur, setYeniTur] = useState<DTur>(turler[0]);
+  const baslik = icraMi(f) ? t("Haciz ve keşif günleri") : t("Duruşma ve keşifler");
   const [mesaj, setMesaj] = useState("");
   const [uyeler, setUyeler] = useState<Uye[]>([]);
   const bugun = bugunGun();
@@ -51,7 +53,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
   const ekle = () => {
     const tarih = tarihCoz(yeni);
     if (!tarih) { setMesaj(t("Tarihi 18.12.2026 ya da 18.12.2026 10:30 biçiminde yazın.")); return; }
-    const liste = durusmaEkle(f, tarih, yeniTur === "kesif" ? { tur: "kesif" } : {});
+    const liste = durusmaEkle(f, tarih, yeniTur === "durusma" ? {} : { tur: yeniTur });
     const ileri = liste.filter(x => x.tarih.slice(0, 10) >= bugun && dTur(x) === "durusma");
     degistir({ durusmalar: liste, ...(ileri.length ? { durusma: ileri[0].tarih } : {}) });
     setYeni(""); setMesaj("");
@@ -66,10 +68,10 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
     return (
       <View style={[s.card, { paddingVertical: 10, gap: 8 }]}>
         <View style={[s.row, { alignItems: "center" }]}>
-          <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>⚖ {t("Duruşma ve keşifler")}</Text>
-          <Text style={[s.hint, { flex: 1 }]}>{t("henüz duruşma ya da keşif günü yok")}</Text>
+          <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{icraMi(f) ? "📌" : "⚖"} {baslik}</Text>
+          <Text style={[s.hint, { flex: 1 }]}>{icraMi(f) ? t("henüz haciz ya da keşif günü yok") : t("henüz duruşma ya da keşif günü yok")}</Text>
         </View>
-        <EkleSatiri yeni={yeni} setYeni={setYeni} ekle={ekle} tur={yeniTur} setTur={setYeniTur} evraktan={okumaVar ? evraktan : undefined} />
+        <EkleSatiri yeni={yeni} setYeni={setYeni} ekle={ekle} tur={yeniTur} turler={turler} setTur={setYeniTur} evraktan={okumaVar ? evraktan : undefined} />
         {!!mesaj && <Text style={[s.hint, { color: C.brass }]}>{mesaj}</Text>}
       </View>
     );
@@ -82,7 +84,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
   return (
     <View style={[s.card, { paddingVertical: 10, gap: 8, borderColor: ozet.iyi ? C.good + "88" : C.mid }]}>
       <View style={[s.row, { alignItems: "center" }]}>
-        <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>⚖ {t("Duruşma ve keşifler")}</Text>
+        <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{icraMi(f) ? "📌" : "⚖"} {baslik}</Text>
         <Text style={[s.hint, { flex: 1, color: ozet.iyi ? C.good : C.mid, fontWeight: "700" }]} numberOfLines={2}>{t(ozet.metin)}</Text>
       </View>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
@@ -98,7 +100,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
               {!!yer && <Text style={{ color: C.brassDim, fontSize: 11, fontWeight: "700" }}>↳ {yer}</Text>}
               <View style={[hapStil(renk), bugunMu && { backgroundColor: C.bordo }]}>
                 <Pressable onPress={() => setSecili(secili === d.id ? null : d.id)} accessibilityRole="button" accessibilityLabel={t("Duruşma {d} ayrıntısı", { d: tarihYaz(d.tarih) })}>
-                  <Text style={{ color: gecmis ? C.textSoft : C.text, fontSize: 12, fontWeight: "700" }}>{dTur(d) === "kesif" ? "🔍 " + t("Keşif") + " " : ""}{kisaTarih(d.tarih)}</Text>
+                  <Text style={{ color: gecmis ? C.textSoft : C.text, fontSize: 12, fontWeight: "700" }}>{dTur(d) !== "durusma" || icraMi(f) ? DTUR_SIMGE[dTur(d)] + " " + t(DTUR_AD[dTur(d)]) + " " : ""}{kisaTarih(d.tarih)}</Text>
                 </Pressable>
                 <Pressable onPress={() => dGuncelle(d, { girildi: SONRAKI_GIRILDI[d.girildi || ""] })} hitSlop={6} accessibilityRole="checkbox"
                   accessibilityState={{ checked: d.girildi === "evet" }} accessibilityLabel={t("Duruşmaya girildi mi")}
@@ -121,10 +123,10 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
       {sec && (
         <View style={{ gap: 8, borderTopWidth: 1, borderTopColor: C.line, paddingTop: 8 }}>
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
-            <Acilir etiket={t("Tür")} secili={dTur(sec)} genislik={140} onSec={k => dGuncelle(sec, { tur: k === "kesif" ? "kesif" : undefined, ...(k === "kesif" ? { e: undefined } : {}) })}
-              secenekler={[{ k: "durusma", ad: "⚖ " + t("Duruşma") }, { k: "kesif", ad: "🔍 " + t("Keşif") }]} />
-            <Acilir etiket={dTur(sec) === "kesif" ? t("Keşfe katılındı mı?") : t("Duruşmaya girildi mi?")} secili={sec.girildi || "-"} genislik={180} onSec={k => dGuncelle(sec, { girildi: k === "-" ? undefined : k as Girildi })}
-              secenekler={[{ k: "-", ad: t("İşaretlenmedi") }, { k: "evet", ad: "✓ " + (dTur(sec) === "kesif" ? t("Katılındı") : t("Girildi")) }, { k: "hayir", ad: "✗ " + (dTur(sec) === "kesif" ? t("Katılınmadı") : t("Girilmedi")) }]} />
+            <Acilir etiket={t("Tür")} secili={dTur(sec)} genislik={140} onSec={k => dGuncelle(sec, { tur: k === "durusma" ? undefined : k as DTur, ...(k !== "durusma" ? { e: undefined } : {}) })}
+              secenekler={[...new Set([...turler, dTur(sec)])].map(k => ({ k, ad: DTUR_SIMGE[k] + " " + t(DTUR_AD[k]) }))} />
+            <Acilir etiket={t(girildiSoru(dTur(sec)))} secili={sec.girildi || "-"} genislik={180} onSec={k => dGuncelle(sec, { girildi: k === "-" ? undefined : k as Girildi })}
+              secenekler={[{ k: "-", ad: t("İşaretlenmedi") }, { k: "evet", ad: "✓ " + (dTur(sec) === "kesif" ? t("Katılındı") : dTur(sec) === "haciz" ? t("Gidildi") : t("Girildi")) }, { k: "hayir", ad: "✗ " + (dTur(sec) === "kesif" ? t("Katılınmadı") : dTur(sec) === "haciz" ? t("Gidilmedi") : t("Girilmedi")) }]} />
             {(esor || !!sec.e) && dTur(sec) === "durusma" && <Acilir etiket={t("E-duruşma")} secili={sec.e || "-"} genislik={230}
               onSec={k => dGuncelle(sec, { e: k === "-" ? undefined : k as EDurum, ...(k === "talep" && !sec.eTalep ? { eTalep: bugun } : {}), ...((k === "kabul" || k === "red") && !sec.eKarar ? { eKarar: bugun } : {}) })}
               secenekler={[{ k: "-", ad: t("Henüz karar verilmedi") }, { k: "istenmeyecek", ad: t("Talep edilmeyecek") }, { k: "talep", ad: "⏳ " + t("Talep edildi, karar bekleniyor") }, { k: "kabul", ad: "✓ " + t("Kabul edildi") }, { k: "red", ad: "✗ " + t("Reddedildi") }]} />}
@@ -162,7 +164,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
           ))}
         </View>
       )}
-      <EkleSatiri yeni={yeni} setYeni={setYeni} ekle={ekle} tur={yeniTur} setTur={setYeniTur} evraktan={okumaVar ? evraktan : undefined} />
+      <EkleSatiri yeni={yeni} setYeni={setYeni} ekle={ekle} tur={yeniTur} turler={turler} setTur={setYeniTur} evraktan={okumaVar ? evraktan : undefined} />
       {!!mesaj && <Text style={[s.hint, { color: C.brass }]}>{mesaj}</Text>}
     </View>
   );
@@ -182,14 +184,14 @@ function Alan({ etiket, deger, genislik, onDegis }: { etiket: string; deger: str
   );
 }
 
-function EkleSatiri({ yeni, setYeni, ekle, evraktan, tur, setTur }: { yeni: string; setYeni: (v: string) => void; ekle: () => void; evraktan?: () => void; tur: DTur; setTur: (x: DTur) => void }) {
+function EkleSatiri({ yeni, setYeni, ekle, evraktan, tur, turler, setTur }: { yeni: string; setYeni: (v: string) => void; ekle: () => void; evraktan?: () => void; tur: DTur; turler: DTur[]; setTur: (x: DTur) => void }) {
   return (
     <View style={[s.row, { alignItems: "center", gap: 6 }]}>
-      <Pressable onPress={() => setTur(tur === "durusma" ? "kesif" : "durusma")} accessibilityRole="button" accessibilityLabel={t("Tür: {x}", { x: tur === "kesif" ? t("Keşif") : t("Duruşma") })}
+      <Pressable onPress={() => setTur(turler[(turler.indexOf(tur) + 1) % turler.length])} accessibilityRole="button" accessibilityLabel={t("Tür: {x}", { x: t(DTUR_AD[tur]) })}
         style={{ borderWidth: 1, borderColor: C.brassDim, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 7 }}>
-        <Text style={{ color: C.text, fontSize: 13, fontWeight: "700" }}>{tur === "kesif" ? "🔍 " + t("Keşif") : "⚖ " + t("Duruşma")} ⇄</Text>
+        <Text style={{ color: C.text, fontSize: 13, fontWeight: "700" }}>{DTUR_SIMGE[tur] + " " + t(DTUR_AD[tur])} ⇄</Text>
       </Pressable>
-      <TextInput value={yeni} onChangeText={setYeni} onSubmitEditing={ekle} placeholder={tur === "kesif" ? t("+ keşif günü: 18.12.2026 10:30") : t("+ duruşma günü: 18.12.2026 10:30")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 180, paddingVertical: 6 }]} />
+      <TextInput value={yeni} onChangeText={setYeni} onSubmitEditing={ekle} placeholder={t("+ {x} günü: 18.12.2026 10:30", { x: t(DTUR_AD[tur]).toLocaleLowerCase("tr") })} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 180, paddingVertical: 6 }]} />
       <Btn kind="secondary" label={t("Ekle")} onPress={ekle} disabled={!yeni.trim()} />
       {evraktan && <Btn kind="ghost" label={t("Evraktan oku")} onPress={evraktan} />}
     </View>

@@ -13,6 +13,7 @@ import { kisiDosyalari } from "../data/iliski";
 import { TALEP_AD } from "../data/hesap";
 import { bugunStr, uyariDuzeyi } from "../data/isTakibi";
 import { evrakBasligi } from "../data/evrakBaslik";
+import { yerDegisimi } from "../data/durusma";
 import { buroUyeleri, buroYetkim } from "../data/buro";
 import { FoyYzSor } from "./FoyYzSor";
 import { DUZEY_RENK, duzeyAdi, GorevKapat } from "./GorevKapat";
@@ -22,7 +23,7 @@ import { IcraBolum } from "./IcraBolum";
 import { tl } from "../data/icra";
 import { komisyonaUygun } from "../data/davaListesi";
 import { evrakTuruBul, icraDoldur } from "../data/icraEvrak";
-import { silineniNotEt, dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, KarsiBilgi, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
+import { foyDinle, silineniNotEt, dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, KarsiBilgi, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
 import { DAVA_TURLERI, EVRAK_TURLERI, FoyTur, turBilgi, TURLER } from "../data/foyTurleri";
 import { unmask } from "../engine/mask";
 import { zipIcerigi, turBul } from "../engine/mask/readers";
@@ -101,11 +102,18 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const degistir = (ek: Partial<Foy>) => setF(x => {
     if (!x) return x;
     const y = { ...x, ...ek };
+    // Mahkeme ya da dosya no değişince gelecek duruşma günleri yeni mahkeme ve numarayla akar (geçmişteki günler kalır).
+    if (("mahkeme" in ek || "esasNo" in ek) && !("durusmalar" in ek)) { const d = yerDegisimi(x, { mahkeme: ek.mahkeme, esasNo: ek.esasNo }); if (d) y.durusmalar = d; }
     son.current = y;
     if (zaman.current) clearTimeout(zaman.current);
     zaman.current = setTimeout(() => { foyKaydet(y).catch(e => setErr(t(String((e as Error).message || e)))); zaman.current = null; }, 500);
     return y;
   });
+  // Föy başka yerden değişirse (sesli asistan, eşitleme, Yapılacaklar): bekleyen yerel kayıt yoksa yeni hâli alınır.
+  useEffect(() => foyDinle(() => {
+    if (zaman.current) return;
+    foyGetir(id).then(x => { if (x) setF(y => { if (y && x.guncelleme > y.guncelleme) { setSurum(v => v + 1); return x; } return y; }); }).catch(() => {});
+  }), [id]);
   const hemenKaydet = async () => { if (zaman.current && son.current) { clearTimeout(zaman.current); zaman.current = null; await foyKaydet(son.current); } };
   useEffect(() => () => { if (zaman.current && son.current) { clearTimeout(zaman.current); foyKaydet(son.current).catch(() => {}); } }, []);
   const zin = useMemo(() => (f ? zincir(f, liste) : { onceki: [], sonraki: [] }), [f, liste]);
