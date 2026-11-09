@@ -31,6 +31,10 @@ export interface Flow {
   /** uzmanlık alanı (oyun önerir, oyuncu onaylar) ve önerinin en son sorulduğu kapalı dosya sayısı */
   specialty: Branch[];
   specialtyAskedAt?: number;
+  /** büroya dosya akışı (−3 … +1): alınmayan dosya düşürür, kabul edilen dosya artırır */
+  akis?: number;
+  /** son ay başında alınmadığı için başka avukata giden dosya sayısı (ekranda gösterilir) */
+  kacan?: number;
 }
 
 const empty = (): Flow => ({ offers: [], active: [], closed: {}, declined: {}, focus: [], seen: [], dealtFor: -1, src: {}, side: {}, specialty: [] });
@@ -105,14 +109,23 @@ export const EARLY_FILES = 3;
 /** Uzmanlık önerisinin ilk sorulduğu kapalı dosya sayısı. */
 export const SPECIALTY_AT = 6;
 
-/** Bu ay masaya gelecek teklif sayısı: başta iki, kapanan dosya arttıkça çoğalır; okul ve çalışanlar etkiler. */
+/** Dosya akışı sınırları ve adımları: alınmadan giden dosyalı her ay −1, geri çevrilen her dosya −0,5,
+ *  kabul edilen her dosya +0,5 (iki-üç dosya alınca bir dosya fazla gelir). */
+export const AKIS_MIN = -3, AKIS_MAX = 1;
+/** Masada aynı anda en çok bu kadar dosya olur. */
+export const MASA_EN_COK = 3;
+const akisSinir = (x: number) => Math.max(AKIS_MIN, Math.min(AKIS_MAX, x));
+export const akisEtkisi = (f: Flow) => Math.trunc(f.akis || 0);
+
+/** Bu ay masaya gelecek teklif sayısı: başta iki, kapanan dosya arttıkça çoğalır; okul, çalışanlar ve dosya akışı etkiler. */
 export function offerCount(f: Flow, extra = 0, slow = 0) {
   const closed = Object.keys(f.closed).length;
   const base = closed < EARLY_FILES ? 2 : Math.min(5, 2 + Math.floor((closed - EARLY_FILES) / 3) + 1);
-  return Math.max(1, base + extra - slow);
+  return Math.max(1, base + extra - slow + akisEtkisi(f));
 }
 
-/** Ay başında teklifleri tazeler: bir aydan eski teklifler düşer (müvekkil başka avukata gider), boşluklar dolar.
+/** Ay başında teklifleri tazeler: geçen aydan kalan, alınmamış teklifler düşer (müvekkil başka avukata gider) ve
+ *  bir süre yeniden gelmez; dosya alınmadıkça büroya gelen dosya azalır. Boşluklar yeni dosyalarla dolar.
  *  pool: kariyere girebilen bütün dosyalar (tek kişilik, karşılıklı, tahkim). */
 export function deal(f: Flow, pool0: CaseFile[], progress: Progress, month: number, extra = 0, slow = 0, dr = false): Flow {
   if (f.dealtFor === month) return f;
@@ -120,7 +133,13 @@ export function deal(f: Flow, pool0: CaseFile[], progress: Progress, month: numb
   const openLevels = new Set(career.chapters.filter(ch => ch.open).map(ch => ch.level));
   const maxLevel = Math.max(1, ...openLevels);
   const stats = new Map(branchStats(f, pool0).map(s => [s.id, s.weight]));
-  const offers = f.offers.filter(o => month - o.month < 2 && !f.active.includes(o.id));
+  const offers = f.offers.filter(o => o.month >= month && !f.active.includes(o.id));
+  const giden = f.offers.filter(o => o.month < month && !f.active.includes(o.id));
+  const declined = { ...f.declined };
+  for (const o of giden) declined[o.id] = month;
+  // Masa doluyken dosya alınamaz; o ay giden dosyalar akışı düşürmez.
+  const ceza = giden.length && f.active.length < MASA_EN_COK;
+  f = { ...f, declined, kacan: giden.length, akis: ceza ? akisSinir((f.akis || 0) - 1) : f.akis };
   const taken = new Set([...offers.map(o => o.id), ...f.active, ...Object.keys(f.closed)]);
   const early = Object.keys(f.closed).length < EARLY_FILES;
   let pool = pool0.filter(c => !c.career?.off && openLevels.has(levelOf(c)) && !taken.has(c.id) && !(f.declined[c.id] !== undefined && month - f.declined[c.id] < 6));
@@ -182,11 +201,11 @@ export async function ensureDeal(pool: CaseFile[], progress: Progress, month: nu
 export async function accept(id: string) {
   const f = await loadFlow();
   if (!f.offers.some(o => o.id === id)) return;
-  await save({ ...f, offers: f.offers.filter(o => o.id !== id), active: [...f.active, id] });
+  await save({ ...f, offers: f.offers.filter(o => o.id !== id), active: [...f.active, id], akis: akisSinir((f.akis || 0) + 0.5) });
 }
 export async function decline(id: string, month: number) {
   const f = await loadFlow();
-  await save({ ...f, offers: f.offers.filter(o => o.id !== id), declined: { ...f.declined, [id]: month } });
+  await save({ ...f, offers: f.offers.filter(o => o.id !== id), declined: { ...f.declined, [id]: month }, akis: akisSinir((f.akis || 0) - 0.5) });
 }
 export async function setFocus(focus: Branch[]) {
   const f = await loadFlow();

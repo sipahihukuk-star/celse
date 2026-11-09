@@ -40,6 +40,10 @@ export interface Life {
   familyLoanAt?: number;
   /** giderlerin genç avukata göre yeniden ayarlandığı sürüm */
   v2?: boolean;
+  /** en son hayat olayının sorulduğu ay (olaylar arasında en az birkaç ay geçer) */
+  lastEventAt?: number;
+  /** her olayın en son sorulduğu ay (aynı olay üst üste gelmesin, sıra hepsine gelsin) */
+  sorulan?: Record<string, number>;
 }
 
 /* ---------- Mesleki gelişim ---------- */
@@ -157,7 +161,7 @@ export const EVENTS: LifeEvent[] = [
   {
     id: "araba", title: "Araba ihtiyacı",
     text: () => "Adliye, icra daireleri ve cezaevi görüşmeleri arasında toplu taşımayla yetişmek zorlaştı. Bir araç almayı düşünüyorsunuz.",
-    when: c => c.month >= 3 && !c.life.car,
+    when: c => c.month >= 6 && !c.life.car,
     choices: () => [
       { label: "Krediyle sıfır araç", note: "Peşinat 300.000 TL, 36 ay boyunca ayda 28.000 TL; yakıt ve bakım ayda 9.000 TL.", once: -300000, needCash: 300000,
         apply: (l, m) => ({ ...l, car: "kredili", transport: 9000, loans: [...l.loans, { text: "Taşıt kredisi", monthly: 28000, until: m + 36 }] }) },
@@ -169,7 +173,7 @@ export const EVENTS: LifeEvent[] = [
   {
     id: "stajyer", title: "Stajyer avukat başvurusu",
     text: () => "Baroya kayıtlı bir stajyer, stajının avukatlık kısmını büronuzda yapmak istiyor. Dilekçe taslakları ve kalem işlerinde yardımcı olabilir.",
-    when: c => c.month >= 4 && !c.life.stajyer,
+    when: c => c.month >= 7 && !c.life.stajyer,
     choices: () => [
       { label: "Kabul et", note: t("Ayda {tutar} TL. Her ay masanıza bir dosya fazla gelir.", { tutar: STAJYER.toLocaleString("tr-TR") }), apply: l => ({ ...l, stajyer: true }) },
       { label: "Şimdilik hayır", snooze: 6 }
@@ -178,21 +182,24 @@ export const EVENTS: LifeEvent[] = [
   {
     id: "evlilik", title: "Evlilik",
     text: () => "Uzun süredir birlikte olduğunuz kişi evlilik konusunu açtı. Ailelerle tanışma faslı da çoktan geçti.",
-    when: c => c.month >= 6 && !c.life.married && !c.life.divorced,
+    // Evlilik mesleğin ilk yıllarında hemen gelmez: en az bir buçuk yıl ve birkaç kazanılmış dava.
+    when: c => c.month >= 18 && (c.wins || 0) >= 3 && !c.life.married && !c.life.divorced,
     choices: () => [
       { label: "Evlenelim", note: "Düğün ve ev kurulumu 350.000 TL; hane geçimi ayda 20.000 TL artar.", once: -350000,
         apply: (l, m) => ({ ...l, married: true, marriedAt: m, strain: 0 }) },
-      { label: "Biraz daha bekleyelim", note: "Konu altı ay sonra yeniden açılır.", snooze: 6 }
+      { label: "Biraz daha bekleyelim", note: "Konu bir yıl sonra yeniden açılır.", snooze: 12 }
     ], repeat: true
   },
   {
     id: "cocuk", title: "Çocuk",
     text: c => c.life.children.length ? "Eşiniz ikinci bir çocuk istiyor." : "Eşinizle çocuk sahibi olmayı konuşuyorsunuz.",
-    when: c => c.life.married && c.month >= (c.life.marriedAt || 0) + 8 && c.life.children.length < 2,
+    // İlk çocuk evlilikten en az bir buçuk yıl, ikincisi ilk çocuktan en az iki buçuk yıl sonra konuşulur.
+    when: c => c.life.married && c.month >= (c.life.marriedAt || 0) + 18 && c.life.children.length < 2
+      && (!c.life.children.length || c.month >= c.life.children[c.life.children.length - 1].born + 30),
     choices: c => [
       { label: "Evet", note: "Doğum ve hazırlık 90.000 TL; çocuğun aylık gideri bebeklikte 15.000, kreşte 22.000, okulda 28.000 TL.", once: -90000,
         apply: (l, m) => ({ ...l, children: [...l.children, { name: CHILD_NAMES[(m + l.children.length) % CHILD_NAMES.length], born: m + 1 }] }) },
-      { label: "Şimdi değil", note: "Bir yıl sonra yeniden konuşulur.", snooze: 12 }
+      { label: "Şimdi değil", note: "Bir buçuk yıl sonra yeniden konuşulur.", snooze: 18 }
     ], repeat: true
   },
   {
@@ -207,20 +214,20 @@ export const EVENTS: LifeEvent[] = [
   {
     id: "katip", title: "Deneyimli büro katibi",
     text: () => "Adliyede yıllarca çalışmış bir büro katibi iş arıyor. İcra takibi ve tebligat işlerini çok iyi biliyor.",
-    when: c => c.month >= 8 && !c.life.katip,
+    when: c => c.month >= 12 && !c.life.katip,
     choices: () => [
       { label: "İşe al", note: t("Ayda {tutar} TL. İcra dosyalarında ücretiniz %15 artar ve her ay bir dosya fazla gelir.", { tutar: KATIP.toLocaleString("tr-TR") }), apply: l => ({ ...l, katip: true }) },
-      { label: "Hayır", snooze: 8 }
+      { label: "Hayır", snooze: 10 }
     ], repeat: true
   },
   {
     id: "ev-al", title: "Konut kredisi",
     text: () => "Bankanız avukatlara özel konut kredisi kampanyası yapıyor. Kira ödemek yerine kendi evinizin taksitlerini ödeyebilirsiniz.",
-    when: c => c.month >= 12 && !c.life.owner,
+    when: c => c.month >= 24 && !c.life.owner,
     choices: () => [
       { label: "Ev al", note: "Peşinat 1.200.000 TL; 120 ay boyunca ayda 55.000 TL taksit. Kira ödemesi biter.", once: -1200000, needCash: 1200000,
         apply: (l, m) => ({ ...l, owner: true, loans: [...l.loans, { text: "Konut kredisi", monthly: 55000, until: m + 120 }] }) },
-      { label: "Kirada devam", snooze: 12 }
+      { label: "Kirada devam", snooze: 18 }
     ], repeat: true
   },
   {
@@ -255,6 +262,71 @@ export const EVENTS: LifeEvent[] = [
       { label: "Son bir şans: birlikte terapi", note: "Ayda 8.000 TL, bir yıl.", apply: (l, m) => ({ ...l, strain: 50, loans: [...l.loans, { text: "Çift terapisi", monthly: 8000, until: m + 12 }] }) }
     ]
   },
+  // ── İlerleyen yıllarda çıkan sıkıntılar (her ay değil; ayına göre ara sıra) ──
+  {
+    id: "ucret-odenmiyor", title: "Müvekkil ücreti ödemiyor",
+    text: () => "Davasını kazandığınız bir müvekkil, sözleşmedeki vekâlet ücretinin kalan kısmını ödemiyor; telefonlarınıza da çıkmıyor.",
+    when: c => c.month >= 10 && (c.wins || 0) >= 2 && sans(c, "ucret-odenmiyor", 0.25),
+    choices: () => [
+      { label: "Ücret alacağı için icra takibi başlatın", note: "Takip masrafı düşüldükten sonra 40.000 TL tahsil edilir (Av.K. m.39 hapis hakkı da var).", once: 40000, snooze: 12 },
+      { label: "Bir kez daha konuşun, indirim yapın", note: "Müvekkil 25.000 TL öder; ilişki bozulmaz.", once: 25000, snooze: 12 },
+      { label: "Peşine düşmeyin", note: "Alacak kaybolur.", snooze: 12 }
+    ], repeat: true
+  },
+  {
+    id: "baro-sikayet", title: "Baroya şikâyet",
+    text: () => "Kaybedilen bir davanın karşı tarafı, sizi “duruşmada hakaret etti” diye baroya şikâyet etmiş. Disiplin kurulu savunmanızı istiyor.",
+    when: c => c.month >= 14 && sans(c, "baro-sikayet", 0.15),
+    choices: () => [
+      { label: "Savunmayı kendiniz yazın", note: "Tutanakları ve tanık beyanlarını toplamak için birkaç gece geç saate kadar çalışırsınız; evde gerilim artar.", apply: l => ({ ...l, strain: l.married ? Math.min(100, l.strain + 10) : l.strain }), snooze: 12 },
+      { label: "Kıdemli bir meslektaştan destek alın", note: "Savunma ücreti 20.000 TL; şikâyet kovuşturmaya yer olmadığı kararıyla kapanır.", once: -20000, snooze: 12 }
+    ], repeat: true
+  },
+  {
+    id: "vergi", title: "Vergi dairesinden yazı",
+    text: () => "Vergi dairesi, geçen yılın serbest meslek makbuzlarıyla banka hareketleriniz arasında fark görmüş; açıklama istiyor.",
+    when: c => c.month >= 16 && c.month % 12 >= 3 && c.month % 12 <= 5 && sans(c, "vergi", 0.4),
+    choices: () => [
+      { label: "Mali müşavirle düzeltme beyannamesi verin", note: "Fark vergisi ve müşavir ücreti 30.000 TL; ceza indirimi uygulanır.", once: -30000, snooze: 12 },
+      { label: "Belgelerle itiraz edin", note: "Masraf 6.000 TL; belgeleriniz tamsa mesele kapanır, değilse bir yıl sonra yeniden gelir.", once: -6000, snooze: 12 }
+    ], repeat: true
+  },
+  {
+    id: "buro-hasar", title: "Büroda su baskını",
+    text: () => "Üst kattaki tesisat patladı; büronun tavanından su geldi, dosya dolabının alt rafları ıslandı.",
+    when: c => c.month >= 12 && sans(c, "buro-hasar", 0.08),
+    choices: () => [
+      { label: "Hemen tamir ettirip dosyaları kurtarın", note: "Tadilat ve dosyaların kurutulması 35.000 TL; masrafı üst kat komşusundan isteyebilirsiniz (TBK m.49).", once: -35000, snooze: 12 },
+      { label: "Komşunun sigortasına başvurun", note: "Masrafın çoğunu sigorta öder; sizden 10.000 TL çıkar ama iki hafta düzensiz çalışırsınız.", once: -10000, snooze: 12 }
+    ], repeat: true
+  },
+  {
+    id: "ebeveyn", title: "Ailenizin bakıma ihtiyacı var",
+    text: () => "Memleketteki anneniz yalnız yaşamakta zorlanıyor; günlük işlerine yardım edecek birine ihtiyacı var.",
+    when: c => c.month >= 30 && sans(c, "ebeveyn", 0.12),
+    choices: () => [
+      { label: "Yarı zamanlı bakıcı tutun", note: "Bir yıl boyunca ayda 15.000 TL.", apply: (l, m) => ({ ...l, loans: [...l.loans, { text: "Annenize bakıcı", monthly: 15000, until: m + 12 }] }), snooze: 12 },
+      { label: "Hafta sonları siz gidin", note: "Para çıkmaz ama yorulursunuz; evde gerilim artar.", apply: l => ({ ...l, strain: l.married ? Math.min(100, l.strain + 15) : l.strain }), snooze: 12 }
+    ]
+  },
+  {
+    id: "yorgunluk", title: "Yorgunluk",
+    text: () => "Aylardır hafta sonu da dosya çalışıyorsunuz. Sabahları güçlükle kalkıyor, duruşma saatlerini karıştırmaya başlıyorsunuz.",
+    when: c => c.month >= 20 && sans(c, "yorgunluk", 0.1),
+    choices: () => [
+      { label: "İki hafta izin yapın", note: "Kaçan iş ve tatil 50.000 TL; evdeki gerilim de azalır.", once: -50000, apply: l => ({ ...l, strain: Math.max(0, l.strain - 20) }), snooze: 12 },
+      { label: "Devam edin", note: "Bir şey olmaz gibi görünür; evde gerilim artar.", apply: l => ({ ...l, strain: l.married ? Math.min(100, l.strain + 10) : l.strain }), snooze: 8 }
+    ], repeat: true
+  },
+  {
+    id: "stajyer-bitti", title: "Stajyeriniz ruhsat aldı",
+    text: () => "Stajyeriniz stajını tamamlayıp ruhsatını aldı. Büronuzda avukat olarak kalmak istiyor.",
+    when: c => c.life.stajyer && c.month >= 20 && sans(c, "stajyer-bitti", 0.15),
+    choices: () => [
+      { label: "Ücretli avukat olarak işe alın", note: "Ayda 40.000 TL; her ay masanıza bir dosya fazla gelmeye devam eder.", apply: (l, m) => ({ ...l, loans: [...l.loans, { text: "Çalışan avukat ücreti", monthly: 40000 - STAJYER, until: m + 600 }] }), snooze: 12 },
+      { label: "Teşekkür edip uğurlayın", note: "Stajyer ayrılır; yeni bir stajyer başvurusu ileride gelebilir.", apply: l => ({ ...l, stajyer: false }), snooze: 12 }
+    ]
+  },
   {
     id: "araba-ariza", title: "Arabanız arızalandı",
     text: () => "Duruşmaya giderken arabanın şanzımanı arızalandı.",
@@ -263,14 +335,32 @@ export const EVENTS: LifeEvent[] = [
   }
 ];
 
-/** Bu ay sorulacak olay (en fazla bir tane). */
+/** Olayların ara sıra çıkması için aya ve olaya göre sabit (kayıt yeniden yüklenince değişmeyen) bir şans. */
+export function sans(c: Ctx, id: string, oran: number): boolean {
+  let h = 2166136261;
+  for (const ch of id + ":" + c.month) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
+  return ((h >>> 0) % 1000) / 1000 < oran;
+}
+
+/** Ertelenemeyen olaylar (para sıkıntısı, boşanma): araya ay koyma kuralına takılmaz. */
+const ACIL = new Set(["borc", "eleman-cikar", "bosanma"]);
+/** İki hayat olayı arasında en az bu kadar ay geçer; hayat davalardan hızlı akmaz. */
+export const OLAY_ARASI = 3;
+
+/** Bu ay sorulacak olay (en fazla bir tane). Acil olanlar her ay; diğerleri son olaydan en az OLAY_ARASI ay sonra. */
 export function dueEvent(c: Ctx): LifeEvent | null {
-  for (const e of EVENTS) {
-    if (!e.repeat && c.life.done.includes(e.id)) continue;
-    if ((c.life.snooze[e.id] || 0) > c.month) continue;
-    if (e.when(c)) return e;
-  }
-  return null;
+  const sakin = c.month - (c.life.lastEventAt ?? -99) >= OLAY_ARASI;
+  const uygun = EVENTS.filter(e => {
+    if (!e.repeat && c.life.done.includes(e.id)) return false;
+    if ((c.life.snooze[e.id] || 0) > c.month) return false;
+    if (!ACIL.has(e.id) && !sakin) return false;
+    return e.when(c);
+  });
+  const acil = uygun.find(e => ACIL.has(e.id));
+  if (acil) return acil;
+  // En uzun süredir sorulmayan olay önce gelir; hiç sorulmamışlar en önde (aynı öneri üst üste gelmez).
+  const son = (e: LifeEvent) => c.life.sorulan?.[e.id] ?? -999;
+  return uygun.sort((a, b) => son(a) - son(b))[0] || null;
 }
 
 /** Bir ayın sonunda hayatın kendi kendine değişen kısmı: eksi ay sayısı ve evlilikteki gerilim. */
