@@ -1,6 +1,6 @@
 // Büro ve çalışanlar: büro kurma, çalışan davet etme (ünvan ve yetkiyle), davetle katılma, ünvan değiştirme, çıkarma.
 // Föyler büro anahtarıyla uçtan uca şifreli paylaşılır; ayrıntı data/buro.ts ve supabase/surum18.sql.
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { BuroDurum, buroDurumu, burodanAyril, buroKur, davetIptal, davetKabul, davetOlustur, UNVANLAR, unvanYetkisi, uyeCikar, uyeGuncelle, Yetki, YETKI_AD } from "../data/buro";
 import { esitle } from "../data/foyBulut";
@@ -26,6 +26,7 @@ export function BuroEkrani({ onKapat }: { onKapat: () => void }) {
   const [dAd, setDAd] = useState("");
   const [dUnvan, setDUnvan] = useState("Stajyer avukat");
   const [dYetki, setDYetki] = useState<Yetki>("yaz");
+  const [adOdak, setAdOdak] = useState(false);
   const [yeniKod, setYeniKod] = useState<{ kod: string; ad: string; unvan: string } | null>(null);
   const [cikarSor, setCikarSor] = useState<string | null>(null);
 
@@ -37,7 +38,28 @@ export function BuroEkrani({ onKapat }: { onKapat: () => void }) {
     catch (e) { setMesaj({ t: t(String((e as Error).message || e)) }); }
     finally { setBusy(""); }
   };
-  const kopyala = (x: string) => { try { (globalThis as unknown as { navigator?: { clipboard?: { writeText: (s: string) => void } } }).navigator?.clipboard?.writeText(x); setMesaj({ t: t("Kopyalandı."), ok: true }); } catch { /* yok say */ } };
+  // Kopyalama sonucu tuşun kendisinde görünür (sayfanın altındaki mesaj ekranın dışında kalıyordu).
+  const [kopyaDurum, setKopyaDurum] = useState<"" | "ok" | "hata">("");
+  const kopyaZaman = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (kopyaZaman.current) clearTimeout(kopyaZaman.current); }, []);
+  const kopyala = async (x: string) => {
+    const g = globalThis as unknown as {
+      navigator?: { clipboard?: { writeText: (s: string) => Promise<void> } };
+      document?: { createElement: (t: string) => { value: string; style: { position: string; opacity: string }; select: () => void; remove: () => void }; body: { appendChild: (e: unknown) => void }; execCommand: (c: string) => boolean };
+    };
+    let ok = false;
+    try { if (g.navigator?.clipboard) { await g.navigator.clipboard.writeText(x); ok = true; } } catch { /* aşağıdaki yedek yolu dene */ }
+    if (!ok && g.document) {
+      try {
+        const ta = g.document.createElement("textarea");
+        ta.value = x; ta.style.position = "fixed"; ta.style.opacity = "0";
+        g.document.body.appendChild(ta); ta.select(); ok = g.document.execCommand("copy"); ta.remove();
+      } catch { ok = false; }
+    }
+    setKopyaDurum(ok ? "ok" : "hata");
+    if (kopyaZaman.current) clearTimeout(kopyaZaman.current);
+    kopyaZaman.current = setTimeout(() => setKopyaDurum(""), 2500);
+  };
 
   const ust = (
     <>
@@ -128,7 +150,13 @@ export function BuroEkrani({ onKapat }: { onKapat: () => void }) {
         <View style={s.card}>
           <Text style={[s.body, { color: C.text }]}>{t("+ Çalışan davet et")}</Text>
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
-            <TextInput value={dAd} onChangeText={setDAd} placeholder={t("Adı soyadı")} placeholderTextColor={C.muted} style={[s.inputTek, { minWidth: 220, flex: 1 }]} />
+            {/* Ünvan ve Yetki kutularıyla aynı yapı: üstte küçük etiket, altta aynı yükseklik ve köşede kutu. */}
+            <View style={{ minWidth: 220, flex: 1, gap: 4 }}>
+              <Text style={{ color: C.muted, fontSize: 11, letterSpacing: 0.5 }}>{t("Adı soyadı")}</Text>
+              <TextInput value={dAd} onChangeText={setDAd} placeholder={t("ör. Ad Soyad")} placeholderTextColor={C.muted}
+                onFocus={() => setAdOdak(true)} onBlur={() => setAdOdak(false)}
+                style={[s.inputTek, { borderRadius: 10, paddingVertical: 8, paddingHorizontal: 12, fontSize: 14, borderColor: adOdak ? C.brass : C.line }, Platform.OS === "web" ? { outlineWidth: 0 } : null]} />
+            </View>
             <Acilir etiket={t("Ünvan")} secili={dUnvan} genislik={200} secenekler={unvanSecenek} onSec={k => { setDUnvan(k); setDYetki(unvanYetkisi(k)); }} />
             <Acilir etiket={t("Yetki")} secili={dYetki} genislik={290} secenekler={yetkiSecenek} onSec={k => setDYetki(k as Yetki)} />
           </View>
@@ -140,9 +168,10 @@ export function BuroEkrani({ onKapat }: { onKapat: () => void }) {
               <Text selectable style={{ color: C.brass, fontSize: 26, fontWeight: "800", letterSpacing: 2 }}>{yeniKod.kod}</Text>
               <Text style={s.hint} selectable>{davetMetni}</Text>
               <View style={s.row}>
-                {Platform.OS === "web" && <Btn kind="secondary" label={t("Mesajı kopyala")} onPress={() => kopyala(davetMetni)} />}
-                <Btn kind="ghost" label={t("Kapat")} onPress={() => setYeniKod(null)} />
+                {Platform.OS === "web" && <Btn kind={kopyaDurum === "ok" ? "primary" : "secondary"} label={kopyaDurum === "ok" ? t("Kopyalandı ✓") : t("Mesajı kopyala")} onPress={() => kopyala(davetMetni)} />}
+                <Btn kind="ghost" label={t("Kapat")} onPress={() => { setYeniKod(null); setKopyaDurum(""); }} />
               </View>
+              {kopyaDurum === "hata" && <Text style={[s.hint, { color: C.bad }]}>{t("Kopyalanamadı. Metni fareyle seçip Ctrl+C ile kopyalayın.")}</Text>}
               <Text style={s.hint}>{t("Kodu yalnız o kişiye, yüz yüze ya da WhatsApp'tan iletin. Kodu bilen herkes büroya bu ünvanla katılabilir; yanlış kişiye gittiyse aşağıdan iptal edin.")}</Text>
             </View>
           )}
