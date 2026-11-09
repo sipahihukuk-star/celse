@@ -12,7 +12,8 @@ ok(yakin(f1.tutar, 100000 * 0.09 * 152 / 365 + 100000 * 0.24 * 214 / 365), "yasa
 const f2 = islemisFaiz(10000, "2026-07-01", "2026-08-30", "yasal");
 ok(f2.dilimler.length === 2 && f2.dilimler[0].oran === 24 && f2.dilimler[0].gun === 30 && f2.dilimler[1].oran === 31 && f2.dilimler[1].gun === 30, "2026 yasal faiz değişimi: " + JSON.stringify(f2.dilimler));
 // Avans: 20.12.2025 öncesi eksik uyarısı; elle oranla sabit
-ok(!!islemisFaiz(1000, "2025-01-01", "2026-01-01", "avans").eksik, "avans eski dönem uyarısı");
+{ const a = islemisFaiz(100000, "2023-01-01", "2023-12-31", "avans");
+  ok(!a.eksik && a.dilimler.map(d => d.oran).join(",") === "10.75,16.75,26.75,31.75,36.75,41.75,44.25", "avans 2023 dilimleri: " + a.dilimler.map(d => d.bas + ":" + d.oran).join(" ")); }
 ok(yakin(islemisFaiz(1000, "2025-01-01", "2026-01-01", "avans", 45).tutar, 1000 * 0.45 * 365 / 365), "elle oran");
 ok(islemisFaiz(1000, "2026-01-01", "2026-03-02", "avans").tutar > 0 && !islemisFaiz(1000, "2026-01-01", "2026-03-02", "avans").eksik, "avans güncel dönem");
 // AAÜT: ilk 800.000 %16, sonraki 800.000 %15

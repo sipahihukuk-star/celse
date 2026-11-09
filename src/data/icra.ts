@@ -3,7 +3,7 @@
 // Oranlar (kaynak: Resmî Gazete; Celse'nin bildiği son durum):
 //  - Yasal faiz (3095 m.1): %9 (2006–31.05.2024), %24 (01.06.2024, 8485 s. CK), %31 (31.07.2026, 7589 s. Kanun: TCMB reeskont
 //    oranının %80'i; her yıl 31 Aralık oranına göre, 30 Haziran oranı 5 puan ayrışırsa ikinci yarıda o).
-//  - Avans faizi (3095 m.2/2, ticari işlerde temerrüt): %39,75 (20.12.2025 TCMB tebliği). Daha eski dönemler Celse'de yok.
+//  - Avans faizi (3095 m.2/2, ticari işlerde temerrüt): TCMB avans faizi oranları 1990'dan 20.12.2025'e (%39,75) dönem dönem.
 //  - Vekâlet ücreti: 2026–2027 AAÜT (RG 03.11.2026): nispi dilimler; icra dairesinde maktu 12.500 TL (takip 78.125 TL'ye kadar),
 //    tahliye 26.000 TL; borçlu ödeme süresinde öderse dörtte üçü.
 import type { Foy } from "./foy";
@@ -83,7 +83,10 @@ export const turAdi = (k?: FaizTuru) => FAIZ_TURLERI.find(x => x.k === k)?.ad ||
 
 /** Dönemsel oran tabloları: [başlangıç (dahil), yıllık %]. */
 export const YASAL: [string, number][] = [["2006-01-01", 9], ["2024-06-01", 24], ["2026-07-31", 31]];
-export const AVANS: [string, number][] = [["2025-12-20", 39.75]];
+/** Avans faizi: TCMB "Reeskont ve Avans Faiz Oranları" tablosu (1990–20.12.2025, tcmb.gov.tr). Politika faizi değildir. */
+export const AVANS: [string, number][] = [
+  ["1990-01-01", 45.0], ["1990-09-20", 48.25], ["1990-11-23", 50.75], ["1991-02-15", 54.5], ["1994-01-27", 65.0], ["1994-04-21", 98.0], ["1994-07-12", 85.0], ["1994-07-27", 75.0], ["1994-10-01", 64.0], ["1995-06-10", 60.0], ["1995-08-01", 57.0], ["1997-08-02", 80.0], ["1999-12-30", 70.0], ["2002-05-17", 64.0], ["2003-06-14", 57.0], ["2003-10-08", 48.0], ["2004-06-15", 42.0], ["2005-01-13", 35.0], ["2005-05-25", 30.0], ["2005-12-20", 25.0], ["2006-12-20", 29.0], ["2007-12-28", 27.0], ["2009-04-09", 20.0], ["2009-06-12", 19.0], ["2009-12-22", 16.0], ["2010-12-30", 15.0], ["2011-12-29", 17.75], ["2012-06-19", 16.5], ["2012-12-20", 13.75], ["2013-06-21", 11.0], ["2013-12-27", 11.75], ["2014-12-14", 10.5], ["2016-12-31", 9.75], ["2018-06-29", 19.5], ["2019-10-11", 18.25], ["2019-12-21", 13.75], ["2020-06-13", 10.0], ["2020-12-19", 16.75], ["2021-12-31", 15.75], ["2022-12-31", 10.75], ["2023-06-24", 16.75], ["2023-09-01", 26.75], ["2023-09-28", 31.75], ["2023-11-01", 36.75], ["2023-12-01", 41.75], ["2023-12-23", 44.25], ["2024-04-01", 51.75], ["2024-12-28", 49.25], ["2025-03-08", 44.25], ["2025-09-17", 42.25], ["2025-12-20", 39.75]
+];
 
 const gun = (a: string, b: string) => Math.round((Date.parse(b + "T00:00:00Z") - Date.parse(a + "T00:00:00Z")) / 86400000);
 const r2 = (x: number) => Math.round(x * 100) / 100;
