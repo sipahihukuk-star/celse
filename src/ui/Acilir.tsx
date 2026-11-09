@@ -6,8 +6,8 @@ import { C } from "./theme";
 
 export interface Secenek { k: string; ad: string; n?: number }
 
-export function Acilir(p: { etiket: string; secenekler: Secenek[]; secili: string; onSec: (k: string) => void; genislik?: number }) {
-  const [acik, setAcik] = useState(false);
+export function Acilir(p: { etiket: string; secenekler: Secenek[]; secili: string; onSec: (k: string) => void; genislik?: number; acikBasla?: boolean }) {
+  const [acik, setAcik] = useState(!!p.acikBasla);
   const sec = p.secenekler.find(x => x.k === p.secili) || p.secenekler[0];
   const yaz = (x?: Secenek) => (x ? x.ad + (x.n !== undefined ? ` (${x.n})` : "") : "");
   return (
