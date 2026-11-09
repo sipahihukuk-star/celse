@@ -60,6 +60,10 @@ export interface Foy {
   /** icra takibi hazırlığı (takip yolu, alacak kalemleri, faiz, dayanak belge) */
   icra?: import("./icra").IcraBilgi;
   durum: "acik" | "kapali";
+  /** dosyanın kapandığı / kesinleştiği gün (YYYY-AA-GG): yargılama süresi bu tarihe kadar sayılır */
+  kapanis?: string;
+  /** Adalet Bakanlığı Tazminat Komisyonu (6384 s. Kanun, makul sürede yargılanma) başvurusu */
+  komisyon?: { durum: "yok" | "basvuruldu" | "sonuclandi"; tarih?: string; no?: string };
   /** Sonraki duruşma: YYYY-AA-GG (saat isteğe bağlı: YYYY-AA-GGTSS:DD). */
   durusma?: string;
   notlar: string; gorevler: Gorev[]; evraklar: FoyEvrak[]; degerlendirme?: FoyDegerlendirme;

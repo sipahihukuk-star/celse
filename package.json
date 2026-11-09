@@ -48,7 +48,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "tsx tools/simulate.ts && tsx tools/synctest.ts && tsx tools/appeal-test.ts && tsx tools/appeal-faces-test.ts && tsx tools/faces-test.ts && tsx tools/mask-test.ts && tsx tools/sifre-test.ts && tsx tools/kunye-test.ts && tsx tools/iliski-test.ts && tsx tools/havuz-test.ts && tsx tools/foyleme-test.ts && tsx tools/okuyucu-test.ts && tsx tools/liste-test.ts && tsx tools/icra-test.ts && tsx tools/icraxml-test.ts && tsx tools/icraevrak-test.ts",
+    "test": "tsx tools/simulate.ts && tsx tools/synctest.ts && tsx tools/appeal-test.ts && tsx tools/appeal-faces-test.ts && tsx tools/faces-test.ts && tsx tools/mask-test.ts && tsx tools/sifre-test.ts && tsx tools/kunye-test.ts && tsx tools/iliski-test.ts && tsx tools/havuz-test.ts && tsx tools/foyleme-test.ts && tsx tools/okuyucu-test.ts && tsx tools/liste-test.ts && tsx tools/icra-test.ts && tsx tools/icraxml-test.ts && tsx tools/icraevrak-test.ts && tsx tools/davalistesi-test.ts",
     "tutarlilik": "tsx tools/tutarlilik.ts",
     "typecheck": "tsc --noEmit",
     "export:web": "expo export --platform web"
