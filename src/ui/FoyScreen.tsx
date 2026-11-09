@@ -11,7 +11,7 @@ import { DAVA_TURLERI, FoyTur, Giris, GIRISLER, turBilgi, TURLER } from "../data
 import { useInnerBack } from "./innerBack";
 import { FoySayfa } from "./FoySayfa";
 import { evrakOlustur } from "./foyEvrak";
-import { gorulduYaz, klasorBilgisi, klasorDestekli, klasorSec, klasorTara, kopruKlasorAc, kopruKlasorDegistir, KURULUM_ADRESI, TaramaDosyasi } from "./foyKlasor";
+import { gorulduYaz, klasorBilgisi, klasorDestekli, klasorSec, klasorTara, kopruDurumu, kopruKlasorAc, kopruKlasorDegistir, KURULUM_ADRESI, TaramaDosyasi } from "./foyKlasor";
 import { dosyaSec, gunYaz, indir, s } from "./foyStil";
 import { FoyBulutKart } from "./FoyBulutKart";
 import { FloatingNav, useFloatingNav } from "./FloatingNav";
@@ -499,7 +499,10 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
     <View style={{ gap: 6, borderWidth: 1, borderColor: C.line, borderRadius: 8, padding: 10 }}>
       <Text style={[s.hint, { color: C.text, fontWeight: "700" }]}>{t("Masaüstü kurulumu (Windows)")}</Text>
       <Text style={s.hint}>{t("“Celse Klasör” küçük bir programdır: Belgeler içinde “Celse Evrak” klasörünü açar, Windows açılınca kendiliğinden başlar ve Celse'nin bu klasörü tarayıcı izni istemeden okumasını sağlar. DavaTek > Ayarlar'da evrak klasörü olarak bu klasörü seçersiniz. Dosyalar bilgisayardan çıkmaz. İlk açılışta Windows “bilinmeyen yayımcı” uyarısı verirse “Ek bilgi > Yine de çalıştır” deyin.")}</Text>
-      <View style={s.row}><Btn kind={windows ? "secondary" : "ghost"} label={t("⬇ Kurulumu indir (CelseKlasorKurulum.exe)")} onPress={() => { if (typeof window !== "undefined") window.open(KURULUM_ADRESI, "_blank"); }} /></View>
+      <View style={s.row}>
+        <Btn kind={windows ? "secondary" : "ghost"} label={t("⬇ Kurulumu indir (CelseKlasorKurulum.exe)")} onPress={() => { if (typeof window !== "undefined") window.open(KURULUM_ADRESI, "_blank"); }} />
+        <Btn kind="ghost" label={t("Kurdum, bağlan")} onPress={async () => { const k = await kopruDurumu(true); if (k) { setBilgi({ ad: k.klasor, izin: "granted", kopru: true }); tara(); } else onBilgi({ t: t("Masaüstü köprüsüne ulaşılamadı. Kurulumu çalıştırdığınızdan emin olun; tarayıcı yerel erişim izni sorduysa “İzin ver” deyin.") }); }} />
+      </View>
     </View>
   ) : null;
 
