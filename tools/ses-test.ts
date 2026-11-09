@@ -50,5 +50,23 @@ ok(r.eylem?.tip === "ac" && r.eylem.foyId === b.id, "aç");
 r = sor("gecikmiş işler");
 ok(/1 gecikmiş/.test(r.metin), "gecikmiş");
 ok(/Anlayamadım/.test(sor("hava nasıl").metin), "anlaşılmayan");
+// Yeni dava: eksikler tek tek sorulur, onayla föy açılır ve "Dava aç" işi yazılır.
+bg = {};
+r = sor("yeni dava aç boşanma davası");
+ok(r.baglam.bekleyen?.tip === "yeniDava" && /Müvekkilin adı/.test(r.metin), "yeni dava: müvekkil sorulur: " + r.metin);
+r = sor("zeynep örnekoğlu");
+ok(/Karşı taraf/.test(r.metin), "karşı taraf sorulur");
+r = sor("geç");
+ok(/ne zamana kadar/.test(r.metin), "tarih sorulur");
+r = sor("iki hafta sonra");
+ok(/boşanma davası/.test(r.metin) && /Zeynep Örnekoğlu/.test(r.metin) && /23 Kasım/.test(r.metin) && !r.eylem, "onay sorulur: " + r.metin);
+r = sor("evet");
+ok(r.eylem?.tip === "yeniDava" && r.eylem.foy.muvekkil === "Zeynep Örnekoğlu" && r.eylem.foy.karsiTaraf === "" && r.eylem.foy.davaTuru === "boşanma davası" && r.eylem.gorev.metin === "Dava aç: boşanma davası" && r.eylem.gorev.tarih === "2026-11-23", "yeni dava eylemi: " + JSON.stringify(r.eylem));
+bg = {};
+r = sor("yeni icra takibi kaydet");
+ok(r.baglam.bekleyen?.tip === "yeniDava" && r.baglam.bekleyen.v.tur === "icra" && /Müvekkil/.test(r.metin), "icra türü: " + JSON.stringify(r.baglam.bekleyen));
+sor("vazgeç");
+r = sor("tüm işleri oku");
+ok(/açık iş var/.test(r.metin), "tüm işler: " + r.metin);
 if (fail) { console.log(`ses-test: ${fail} hata`); process.exit(1); }
 console.log("ses-test: tamam");

@@ -2,8 +2,8 @@
 // iş emri / evrak numarasıyla kapanır. Yeni iş buradan da eklenir; liste Excel'e aktarılır.
 import React, { useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { Foy, foyBaslik, foyKaydet, Gorev, tarihCoz, tarihYaz, yeniId } from "../data/foy";
-import { TURLER } from "../data/foyTurleri";
+import { bosFoy, Foy, foyBaslik, foyKaydet, Gorev, tarihCoz, tarihYaz, yeniId } from "../data/foy";
+import { FoyTur, TURLER } from "../data/foyTurleri";
 import { bugunStr, duzeySayilari, DUZEY_SIRA, isListesi, IsSuzgec, isTablosu } from "../data/isTakibi";
 import { xlsxYaz } from "../data/xlsxYaz";
 import { t } from "../i18n";
@@ -45,6 +45,16 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
     if (q.length < 2 || hedef) return [];
     return buro.filter(f => [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru].join(" ").toLocaleLowerCase("tr").includes(q)).slice(0, 8);
   }, [foyAra, hedef, liste]);
+  // Henüz açılmamış dava: föy açılır, "Dava aç" işi yapılacaklara yazılır.
+  const [yeniDava, setYeniDava] = useState(false);
+  const [yd, setYd] = useState<{ tur: FoyTur; muvekkil: string; karsi: string; dava: string }>({ tur: "hukuk", muvekkil: "", karsi: "", dava: "" });
+  const davaKaydet = async () => {
+    if (!yd.dava.trim() && !yd.muvekkil.trim()) return;
+    const is = yeni.trim() || "Dava aç: " + (yd.dava.trim() || TURLER.find(x => x.tur === yd.tur)?.ad || "dava");
+    const g: Gorev = { id: yeniId("g"), metin: is, tarih: tarihCoz(sonGun), bitti: false, kaynak: "elle", eklenme: bugunStr() };
+    await foyKaydet(bosFoy({ tur: yd.tur, muvekkil: yd.muvekkil.trim(), karsiTaraf: yd.karsi.trim(), davaTuru: yd.dava.trim(), notlar: "Yapılacaklardan kaydedildi; dava henüz açılmadı.", gorevler: [g] }));
+    setMesaj(t("Yeni föy açıldı, iş yapılacaklara yazıldı: {is}", { is })); setYeni(""); setSonGun(""); setYd({ tur: yd.tur, muvekkil: "", karsi: "", dava: "" });
+  };
   const ekle = async () => {
     if (!hedef || !yeni.trim()) return;
     const g: Gorev = { id: yeniId("g"), metin: yeni.trim(), tarih: tarihCoz(sonGun), bitti: false, kaynak: "elle", eklenme: bugunStr() };
@@ -79,7 +89,24 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
 
       <View style={s.card}>
         <Text style={[s.body, { color: C.text }]}>{t("+ Yeni iş")}</Text>
-        {hedef ? (
+        <Acilir etiket={t("İş nereye")} secili={yeniDava ? "yeni" : "mevcut"} genislik={280} onSec={k => setYeniDava(k === "yeni")}
+          secenekler={[{ k: "mevcut", ad: t("Var olan bir föye") }, { k: "yeni", ad: t("Yeni dava (henüz açılmadı)") }]} />
+        {yeniDava ? (
+          <View style={{ gap: 8 }}>
+            <Acilir etiket={t("Dosya türü")} secili={yd.tur} genislik={260} onSec={k => setYd({ ...yd, tur: k as FoyTur })}
+              secenekler={TURLER.filter(x => !x.eski && !["arabulucu_gorev", "bilirkisi_gorev", "sozlesme", "danisma"].includes(x.tur)).map(x => ({ k: x.tur, ad: t(x.ad) }))} />
+            <View style={s.addRow}>
+              <TextInput value={yd.dava} onChangeText={v => setYd({ ...yd, dava: v })} placeholder={t("Dava: ör. boşanma davası, işe iade")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 200 }]} />
+              <TextInput value={yd.muvekkil} onChangeText={v => setYd({ ...yd, muvekkil: v })} placeholder={t("Müvekkil")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 160 }]} />
+              <TextInput value={yd.karsi} onChangeText={v => setYd({ ...yd, karsi: v })} placeholder={t("Karşı taraf")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 160 }]} />
+            </View>
+            <View style={s.addRow}>
+              <TextInput value={yeni} onChangeText={setYeni} placeholder={t("İş (boş bırakılırsa: Dava aç)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 220 }]} />
+              <TextInput value={sonGun} onChangeText={setSonGun} placeholder={t("son gün (gg.aa.yyyy)")} placeholderTextColor={C.muted} style={[s.inputTek, { width: 170 }]} />
+              <Btn kind="secondary" label={t("Föyü aç ve işi yaz")} disabled={!yd.dava.trim() && !yd.muvekkil.trim()} onPress={davaKaydet} />
+            </View>
+          </View>
+        ) : hedef ? (
           <View style={[s.row, { alignItems: "center" }]}>
             <Text style={[s.body, { flex: 1 }]} numberOfLines={1}>{foyBaslik(hedef)} · {[hedef.mahkeme, hedef.esasNo].filter(Boolean).join(" ")}</Text>
             <Pressable onPress={() => { setHedef(null); setFoyAra(""); }}><Text style={s.sil}>{t("Föyü değiştir")}</Text></Pressable>
@@ -87,13 +114,13 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
         ) : (
           <TextInput value={foyAra} onChangeText={setFoyAra} placeholder={t("Föy ara: müvekkil, mahkeme, dosya no…")} placeholderTextColor={C.muted} style={s.inputTek} />
         )}
-        {bulunan.map(f => (
+        {!yeniDava && bulunan.map(f => (
           <Pressable key={f.id} onPress={() => setHedef(f)} style={{ paddingVertical: 6, borderBottomWidth: 1, borderBottomColor: C.line }}>
             <Text style={s.body} numberOfLines={1}>{foyBaslik(f)}</Text>
             <Text style={s.hint} numberOfLines={1}>{[f.mahkeme, f.esasNo, f.durum === "kapali" ? t("kapalı") : ""].filter(Boolean).join(" · ")}</Text>
           </Pressable>
         ))}
-        {!!hedef && (
+        {!yeniDava && !!hedef && (
           <View style={s.addRow}>
             <TextInput value={yeni} onChangeText={setYeni} onSubmitEditing={ekle} placeholder={t("İş: ör. bilirkişi raporuna itiraz")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 220 }]} />
             <TextInput value={sonGun} onChangeText={setSonGun} onSubmitEditing={ekle} placeholder={t("son gün (gg.aa.yyyy)")} placeholderTextColor={C.muted} style={[s.inputTek, { width: 170 }]} />

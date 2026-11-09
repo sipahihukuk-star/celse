@@ -3,7 +3,7 @@
 // kendi hizmetine (Chrome'da Google) gönderip yazıya çevirir; ekranda bu belirtilir. İş ekleme ve kapatma sesli onayla yapılır.
 import React, { useEffect, useRef, useState } from "react";
 import { Platform, Pressable, Text, TextInput, View } from "react-native";
-import { Foy, foyKaydet } from "../data/foy";
+import { bosFoy, Foy, foyKaydet } from "../data/foy";
 import { Baglam, Eylem, sesliKomut } from "../data/sesKomut";
 import { t } from "../i18n";
 import { s } from "./foyStil";
@@ -50,6 +50,11 @@ export function SesliAsistan({ liste, onAc, onIsler }: { liste: Foy[]; onAc: (id
   }, [okuyor]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const uygula = async (e: Eylem) => {
+    if (e.tip === "yeniDava") {
+      const yeni = bosFoy({ ...e.foy, notlar: "Sesli asistanla kaydedildi; dava henüz açılmadı.", gorevler: [e.gorev] });
+      await foyKaydet(yeni);
+      return;
+    }
     const f = listeRef.current.find(x => x.id === (e.tip === "isler" ? "" : e.foyId));
     if (e.tip === "ekle" && f) await foyKaydet({ ...f, gorevler: [...f.gorevler, e.gorev] });
     if (e.tip === "kapat" && f) await foyKaydet({ ...f, gorevler: f.gorevler.map(g => (g.id === e.gorevId ? { ...g, bitti: true, kapanis: e.kapanis } : g)) });

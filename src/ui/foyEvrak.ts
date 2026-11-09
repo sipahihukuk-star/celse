@@ -1,6 +1,7 @@
 // Föy evrakının işlenmesi: dosya cihazda okunur (taranmışsa yazısı da burada çıkarılır), türü ve önemi belirlenir,
 // evrak TEK BAŞINA kodlanır (her evrakın kendi kod listesi cihazda kalır) ve asıl dosya bu cihazda saklanır.
 // "Dosya ne durumda?" için önemli evraktan, sınıra sığacak kadar seçilip birlikte kodlanan metin hazırlanır.
+import { konuCikar } from "../data/evrakBaslik";
 import { dosyaYaz, Foy, FoyEvrak, yeniId } from "../data/foy";
 import { evrakSinifla } from "../data/foyTurleri";
 import { kunyeCikar } from "../data/kunyeCikar";
@@ -19,7 +20,8 @@ export function evrakHazirla(f: Foy, e: FoyEvrak, yeniden = false): FoyEvrak {
   const m = e.metin.trim() ? mask(e.metin, { extra: ekAdlar(f) }) : null;
   // Evrakın kendi tarihi (karar, tutanak, dilekçe): föyde kronolojik sıra için.
   const tarih = e.tarih || (e.metin.trim() ? kunyeCikar(e.metin.slice(0, 20000)).belgeTarihi : undefined);
-  return { ...e, tur: yeniden || !e.tur ? s.tur : e.tur, onemli: yeniden || e.onemli === undefined ? s.onemli : e.onemli, maskeli: m?.masked, kodlar: m?.map, tarih };
+  const tur = yeniden || !e.tur ? s.tur : e.tur;
+  return { ...e, tur, onemli: yeniden || e.onemli === undefined ? s.onemli : e.onemli, maskeli: m?.masked, kodlar: m?.map, tarih, konu: yeniden || e.konu === undefined ? konuCikar(e.metin, tur) : e.konu };
 }
 
 /** Dosyanın yazısını cihazda çıkarır (taranmış PDF, TIF ve fotoğraf için yazı tanıma dahil). */

@@ -43,6 +43,8 @@ export interface FoyEvrak {
   bulutMetin?: boolean;
   /** DavaTek klasöründen geldiyse klasördeki yolu */
   kaynak?: string;
+  /** evrakın içeriğinden çıkarılan kısa konu (KONU satırı, hüküm, sonraki duruşma); başlıkta görünür */
+  konu?: string;
 }
 export interface FoyDegerlendirme { tarih: string; ozet: string; uyusmazlik: string[]; sureler: string[]; zayif: string[] }
 export interface Foy {
