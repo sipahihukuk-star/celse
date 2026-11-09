@@ -41,11 +41,11 @@ export async function telefonBildirimPlanla(liste: Foy[]) {
     const simdi = new Date();
     for (const u of us) {
       const son = new Date(u.sonGun + "T09:00:00");
-      const ilk = new Date(son.getTime() - 3 * 86400000);
+      const ilk = u.bas ? new Date(u.bas + "T09:00:00") : new Date(son.getTime() - 3 * 86400000);
       const bas = ilk > simdi ? ilk : new Date(simdi.getFullYear(), simdi.getMonth(), simdi.getDate() + (simdi.getHours() >= 9 ? 1 : 0), 9, 0, 0);
       const bit = son > bas ? son : new Date(bas.getTime() + 6 * 86400000);
       for (let d = new Date(bas); d <= bit && plan.length < 60; d = new Date(d.getTime() + 86400000))
-        plan.push({ tarih: d, baslik: u.kalan < 0 ? "Celse · Gecikti" : "Celse · Duruşma", govde: govde(u) });
+        plan.push({ tarih: d, baslik: u.tur === "eKarar" ? "Celse · E-duruşma kararı yok" : u.kalan < 0 ? "Celse · Gecikti" : "Celse · Duruşma", govde: govde(u) });
     }
     const imza = JSON.stringify(plan.map(p => [p.tarih.getTime(), p.govde]));
     if (imza === sonPlan) return;
@@ -66,6 +66,13 @@ export async function webDurusmaBildirimi(liste: Foy[]) {
     const N = (globalThis as unknown as { Notification?: { permission: string; new (b: string, o: object): unknown } }).Notification;
     if (!N || N.permission !== "granted") return;
     const d = new Date(), bugun = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    // Duruşmaya iki gün ya da daha az kalmışken e-duruşma kararı yoksa: üç saatte bir yeniden bildirilir.
+    const acil = (await benimUyarilarim(liste)).filter(u => u.tur === "eKarar" && u.kalan <= 0);
+    const sonAcil = Number(globalThis.localStorage?.getItem("celse-edurusma-acil") || 0);
+    if (acil.length && Date.now() - sonAcil > 3 * 3600000) {
+      globalThis.localStorage?.setItem("celse-edurusma-acil", String(Date.now()));
+      new N("Celse · E-duruşma kararı yok!", { body: acil.slice(0, 4).map(govde).join("\n") });
+    }
     if (globalThis.localStorage?.getItem("celse-durusma-bildirim-gun") === bugun) return;
     const us = await benimUyarilarim(liste);
     if (!us.length) return;

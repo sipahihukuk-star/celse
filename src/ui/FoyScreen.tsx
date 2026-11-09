@@ -11,6 +11,7 @@ import { DAVA_TURLERI, FoyTur, Giris, GIRISLER, turBilgi, TURLER } from "../data
 import { useInnerBack } from "./innerBack";
 import { FoySayfa } from "./FoySayfa";
 import { evrakOlustur } from "./foyEvrak";
+import { EslesmeyenEvrak } from "./EslesmeyenEvrak";
 import { gorulduYaz, klasorBilgisi, klasorDestekli, klasorSec, klasorTara, kopruDurumu, kopruKlasorAc, kopruKlasorDegistir, KURULUM_ADRESI, TaramaDosyasi } from "./foyKlasor";
 import { dosyaSec, gunYaz, indir, s } from "./foyStil";
 import { FoyBulutKart } from "./FoyBulutKart";
@@ -542,29 +543,12 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
       {!!ilerleme && <Text style={s.hint}>{ilerleme}</Text>}
       {!!son && !ilerleme && <Text style={s.hint}>{son}</Text>}
       {bekleyen.slice(0, 30).map(d => (
-        <View key={d.anahtar} style={[s.file, { flexWrap: "wrap" }]}>
-          <View style={{ flex: 1, minWidth: 200 }}>
-            <Text style={s.fileT} numberOfLines={1}>{d.kaynak.ad}</Text>
-            <Text style={s.hint} numberOfLines={1}>{d.kaynak.yol} · {t(d.neden || "")}{d.okunamadi ? " · " + t("okunamadı: {n}", { n: d.okunamadi }) : ""}</Text>
-          </View>
-          <FoySecici liste={liste} onSec={async id => { await ekle([{ d, foyId: id }]); setBekleyen(xs => xs.filter(x => x !== d)); }} />
-          <Pressable onPress={async () => { await gorulduYaz([d.anahtar]); setBekleyen(xs => xs.filter(x => x !== d)); }}><Text style={s.sil}>{t("Atla")}</Text></Pressable>
-        </View>
+        <EslesmeyenEvrak key={d.anahtar} d={d} liste={liste}
+          onEkle={async id => { await ekle([{ d, foyId: id }]); setBekleyen(xs => xs.filter(x => x !== d)); onBilgi({ t: t("“{ad}” dosyasına eklendi.", { ad: d.kaynak.ad }), ok: true }); }}
+          onAtla={async () => { await gorulduYaz([d.anahtar]); setBekleyen(xs => xs.filter(x => x !== d)); }} />
       ))}
       {bekleyen.length > 30 && <Text style={s.hint}>{t("… ve {n} dosya daha", { n: bekleyen.length - 30 })}</Text>}
     </Katlanir>
-  );
-}
-function FoySecici({ liste, onSec }: { liste: Foy[]; onSec: (id: string) => void }) {
-  const [ac, setAc] = useState(false);
-  const [q, setQ] = useState("");
-  if (!ac) return <Pressable onPress={() => setAc(true)}><Text style={s.link}>{t("Föy seç")}</Text></Pressable>;
-  const xs = liste.filter(f => { const k = q.trim().toLocaleLowerCase("tr"); return !k || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo].join(" ").toLocaleLowerCase("tr").includes(k); }).slice(0, 8);
-  return (
-    <View style={{ width: "100%", gap: 4 }}>
-      <TextInput value={q} onChangeText={setQ} placeholder={t("Ara…")} placeholderTextColor={C.muted} style={s.inputTek} autoFocus />
-      {xs.map(f => <Pressable key={f.id} onPress={() => onSec(f.id)}><Text style={s.link}>{foyBaslik(f)} · {f.esasNo}</Text></Pressable>)}
-    </View>
   );
 }
 

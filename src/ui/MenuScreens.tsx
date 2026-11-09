@@ -330,17 +330,6 @@ function TakipHome({ wide, admin: yonetici, onFoy, onNext, footer }: { wide: boo
           {acik && <Text style={styles.careerGoDark}>›</Text>}
         </Pressable>
       )}
-      {!!onFoy && acik && Platform.OS === "web" && (
-        <Pressable accessibilityRole="link" onPress={() => { if (typeof window !== "undefined") window.open("./indir/CelseKlasorKurulum.exe", "_blank"); }} style={({ pressed }) => [styles.homeCard, pressed && { opacity: 0.85 }]}>
-          <IconBadge name="folder" size={48} />
-          <View style={{ flex: 1, gap: 4 }}>
-            <Text style={styles.careerKDark}>{t("WINDOWS KURULUMU · DAVATEK KLASÖRÜ")}</Text>
-            <Text style={styles.homeT}>{t("Celse Klasör kurulumunu indir")}</Text>
-            <Text style={styles.webNote}>{t("CelseKlasorKurulum.exe: Belgeler'de “Celse Evrak” klasörünü açar; DavaTek'in evrak klasörü olarak bunu seçersiniz, Celse yeni evrakı kendiliğinden föyüne koyar. Evrak bilgisayarınızdan çıkmaz. Windows “bilinmeyen yayımcı” derse “Ek bilgi > Yine de çalıştır”.")}</Text>
-          </View>
-          <Text style={styles.careerGoDark}>⬇</Text>
-        </Pressable>
-      )}
       {!!onFoy && !acik && kilit && (
         <View style={styles.kilitNot}>
           <Text style={styles.webNote}>{t("Dava takibi şimdilik yalnız davet edilen avukatlara açık. Celse Avukat paketi satışa çıkınca herkese açılacak.")}</Text>

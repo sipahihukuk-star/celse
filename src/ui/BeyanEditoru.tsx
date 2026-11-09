@@ -5,7 +5,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Linking, Platform, Pressable, ScrollView, Share, Text, TextInput, View } from "react-native";
 import { atif, Beyan, BEYAN_KLASORLERI, beyanCercevesi, beyanDosyaAdi, beyanHtml, beyanTuru, ciktiBicimi, docxOlustur, HukukKaynak, tamMetin, udfOlustur } from "../data/beyan";
-import { ayarOku, ayarYaz, Foy, foyKaydet, yeniId } from "../data/foy";
+import { ayarOku, ayarYaz, bosFoy, Foy, foyKaydet, yeniId } from "../data/foy";
+import { turBilgi } from "../data/foyTurleri";
 import { kutuphane, kutuphanedenSil, kutuphaneyeEkle } from "../data/hukukKutuphane";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
@@ -334,17 +335,38 @@ export function BeyanEditoru({ f, onDegistir }: { f: Foy; onDegistir: (ek: Parti
 }
 
 /** Dava takibi > Beyan editörü sekmesi: föy seçilir, o föyün editörü açılır. */
+const FOYSUZ = "foysuzBeyan";
+/** Dava takibi > Beyan editörü sekmesi: föy seçmeden yazılabilir (başlık bilgileri elle) ya da bir föy seçilir. */
 export function BeyanSekmesi({ liste }: { liste: Foy[] }) {
-  const acik = liste.filter(x => !x.ozel).sort((a, b) => (a.durum === b.durum ? (b.guncelleme || "").localeCompare(a.guncelleme || "") : a.durum === "acik" ? -1 : 1));
-  const [id, setId] = useState<string>(acik[0]?.id || "");
-  const f = liste.find(x => x.id === id);
+  const sirali = [...liste].sort((a, b) => (a.durum === b.durum ? (b.guncelleme || "").localeCompare(a.guncelleme || "") : a.durum === "acik" ? -1 : 1));
+  const [id, setId] = useState<string>("_foysuz");
+  const [serbest, setSerbest] = useState<Foy | null>(null);
+  useEffect(() => { ayarOku<Foy>(FOYSUZ).then(x => setSerbest(x || bosFoy({ id: "foysuz", muvekkil: "", karsiTaraf: "", mahkeme: "", esasNo: "" }))).catch(() => setSerbest(bosFoy({ id: "foysuz" }))); }, []);
+  const serbestKaydet = (ek: Partial<Foy>) => setSerbest(x => { const y = { ...(x as Foy), ...ek }; ayarYaz(FOYSUZ, y).catch(() => {}); return y; });
+  const f = id === "_foysuz" ? serbest : liste.find(x => x.id === id);
+  const etiket = (x: Foy) => [turBilgi(x.tur).kisa, x.muvekkil || x.karsiTaraf || t("adsız"), x.mahkeme, x.esasNo].filter(Boolean).join(" · ") + (x.ozel ? " 🔒" : "") + (x.durum === "kapali" ? " (" + t("kapalı") + ")" : "");
   return (
     <ScrollView keyboardShouldPersistTaps="handled"><View style={s.wrap}>
       <Text style={s.eyebrow}>{t("DAVA TAKİBİ · BEYAN EDİTÖRÜ")}</Text>
       <Text style={s.title}>{t("Beyan editörü")}</Text>
-      {!acik.length && <Text style={s.body}>{t("Önce bir föy ekleyin; beyan föydeki bilgilerle yazılır.")}</Text>}
-      {!!acik.length && <Acilir etiket={t("Dosya")} genislik={320} secenekler={acik.map(x => ({ k: x.id, ad: [x.muvekkil || x.karsiTaraf || t("adsız"), x.mahkeme, x.esasNo].filter(Boolean).join(" · ") + (x.durum === "kapali" ? " (" + t("kapalı") + ")" : "") }))} secili={id} onSec={setId} />}
-      {f && <View style={s.card}><BeyanEditoru key={f.id} f={f} onDegistir={ek => foyKaydet({ ...f, ...ek })} /></View>}
+      <Acilir etiket={t("Dosya (isteğe bağlı)")} genislik={360} secili={id} onSec={setId}
+        secenekler={[{ k: "_foysuz", ad: t("✎ Föy seçmeden yaz") }, ...sirali.map(x => ({ k: x.id, ad: etiket(x) }))]} />
+      {id === "_foysuz" && serbest && (
+        <View style={[s.card, { gap: 8 }]}>
+          <Text style={s.hint}>{t("Föy seçmeden yazıyorsunuz: başlıktaki bilgileri buraya yazın (boş bırakılanlar “…” olur). Yapay zekâ yalnız talimatınızla ve eklediğiniz kaynaklarla yazar. Taslaklar bu bilgisayarda saklanır.")}</Text>
+          <View style={s.addRow}>
+            <TextInput value={serbest.mahkeme} onChangeText={x => serbestKaydet({ mahkeme: x })} placeholder={t("Merci (örn. İzmir 3. Asliye Hukuk Mahkemesi)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 2, minWidth: 220 }]} />
+            <TextInput value={serbest.esasNo} onChangeText={x => serbestKaydet({ esasNo: x })} placeholder={t("Dosya no")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 120 }]} />
+          </View>
+          <View style={s.addRow}>
+            <TextInput value={serbest.muvekkil} onChangeText={x => serbestKaydet({ muvekkil: x })} placeholder={t("Müvekkil")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 180 }]} />
+            <TextInput value={serbest.karsiTaraf} onChangeText={x => serbestKaydet({ karsiTaraf: x })} placeholder={t("Karşı taraf")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 180 }]} />
+            <Acilir etiket={t("Bizim taraf")} genislik={180} secili={serbest.taraf === "davali" ? "davali" : "davaci"} onSec={k => serbestKaydet({ taraf: k as Foy["taraf"] })}
+              secenekler={[{ k: "davaci", ad: t("Davacı / başvuran") }, { k: "davali", ad: t("Davalı / sanık") }]} />
+          </View>
+        </View>
+      )}
+      {f && <View style={s.card}><BeyanEditoru key={f.id} f={f} onDegistir={ek => (f.id === "foysuz" ? serbestKaydet(ek) : foyKaydet({ ...f, ...ek }))} /></View>}
     </View></ScrollView>
   );
 }

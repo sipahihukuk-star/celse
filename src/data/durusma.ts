@@ -32,16 +32,25 @@ export interface Durusma {
   mahkeme?: string; esasNo?: string;
   girildi?: Girildi;
   e?: EDurum;
-  /** e-duruşma talebinin ve kararın günü (YYYY-AA-GG) */
-  eTalep?: string; eKarar?: string;
+  /** e-duruşma talebinin ve kararın günü (YYYY-AA-GG) ve talebi Celse'den gönderen çalışan */
+  eTalep?: string; eKarar?: string; eTalepEden?: string;
   not?: string;
   kaynak?: "elle" | "kunye" | "evrak";
   /** bilginin okunduğu evrak */
   evrakId?: string;
 }
 
-/** E-duruşma (hukuk) ya da SEGBİS (ceza) sorulan dosya türleri. */
-export const E_TURLER = ["hukuk", "idari_dava", "ceza", "bilirkisi_gorev"];
+/** E-duruşma yalnız hukuk davalarında (ilk derece, istinaf ve temyiz duruşmaları) sorulur. */
+export const E_TURLER = ["hukuk"];
+/** Duruşma düzeni: hukuk ve ceza davalarında her celsede duruşma olur; idare mahkemesi, komisyon, AYM / AİHM ve disiplin
+ *  dosyalarında duruşma yalnız talep ya da karar üzerine (çoğu zaman bir kez) yapılır; diğerlerinde duruşma yoktur. */
+export type DurusmaDuzeni = "olagan" | "talepli" | "yok";
+export function durusmaDuzeni(f: { tur?: string }): DurusmaDuzeni {
+  const t = f.tur || "hukuk";
+  if (t === "hukuk" || t === "ceza" || t === "ozel_ceza") return "olagan";
+  if (t === "idari_dava" || t === "tazminat_komisyonu" || t === "bireysel_basvuru" || t === "kurum_basvuru" || t === "baro" || t === "idari_sorusturma" || t === "bilirkisi_gorev") return "talepli";
+  return "yok";
+}
 export const eSorulur = (f: Foy) => E_TURLER.includes(f.tur || "hukuk");
 /** E-duruşma talebi için son gün: duruşmadan bu kadar gün önce (mahkemenin karar verecek zamanı olsun). */
 export const E_TALEP_GUN = 7;
@@ -244,7 +253,7 @@ export function yerDegisti(onceki: Durusma | undefined, d: Durusma): string | nu
 // ── Uyarılar ────────────────────────────────────────────────────────────────────────────────────────
 export type DUyariTur = "girildi" | "eSor" | "eKarar" | "eRed" | "sonraki";
 export type DDuzey = "gecikti" | "bugun" | "acil" | "uyari" | "dikkat";
-export interface DurusmaUyari { f: Foy; d?: Durusma; tur: DUyariTur; metin: string; sonGun: string; kalan: number; duzey: DDuzey }
+export interface DurusmaUyari { f: Foy; d?: Durusma; tur: DUyariTur; metin: string; sonGun: string; kalan: number; duzey: DDuzey; /** bildirimlerin başlayacağı gün (yoksa son günden 3 gün önce) */ bas?: string }
 const duzeyOf = (kalan: number): DDuzey => (kalan < 0 ? "gecikti" : kalan === 0 ? "bugun" : kalan <= 3 ? "acil" : kalan <= 7 ? "uyari" : "dikkat");
 
 /** Bir föyün duruşma uyarıları. Kapalı ve şahsi föyler uyarmaz. */
@@ -252,10 +261,10 @@ export function durusmaUyarilari(f: Foy, bugun = bugunGun()): DurusmaUyari[] {
   if (f.ozel || f.durum === "kapali") return [];
   const out: DurusmaUyari[] = [];
   const xs = durusmaSirala(f.durusmalar || []);
-  const ekle = (d: Durusma | undefined, tur: DUyariTur, metin: string, sonGun: string, enErken?: number) => {
+  const ekle = (d: Durusma | undefined, tur: DUyariTur, metin: string, sonGun: string, enErken?: number, bas?: string) => {
     const kalan = fark(bugun, sonGun);
-    if (enErken !== undefined && kalan > enErken) return;
-    out.push({ f, d, tur, metin, sonGun, kalan, duzey: duzeyOf(kalan) });
+    if (enErken !== undefined && kalan > enErken && !(bas && bas <= bugun)) return;
+    out.push({ f, d, tur, metin, sonGun, kalan, duzey: duzeyOf(kalan), ...(bas ? { bas } : {}) });
   };
   for (const d of xs) {
     const g = d.tarih.slice(0, 10);
@@ -270,13 +279,20 @@ export function durusmaUyarilari(f: Foy, bugun = bugunGun()): DurusmaUyari[] {
       continue;
     }
     if (!d.e && eSorulur(f)) ekle(d, "eSor", "E-duruşma talep edilecek mi? Karar verilmedi", gunEkle(g, -E_TALEP_GUN), 21);
-    else if (d.e === "talep") ekle(d, "eKarar", "E-duruşma talebinin kararı bekleniyor", gunEkle(g, -1), 21);
+    else if (d.e === "talep") {
+      // Karar gelmeyen talep: talepten iki gün sonra (en geç duruşmadan iki hafta önce) her gün hatırlatılır; duruşmaya iki gün
+      // kala karar hâlâ yoksa acil olur (UYAP'ta görünmeyen ret yüzünden duruşma kaçmasın).
+      const bas = [d.eTalep ? gunEkle(d.eTalep, 2) : bugun, gunEkle(g, -14)].sort()[1];
+      const metin = kalanD <= 2 ? (kalanD === 0 ? "Bugün duruşma: e-duruşma kararı yok! UYAP'tan bakın; kabul edilmediyse duruşmaya girecek kişiyi hemen ayarlayın" : "Duruşmaya " + kalanD + " gün var, e-duruşma kararı yok! UYAP'tan bakın; kabul edilmediyse duruşmaya girecek kişiyi ayarlayın")
+        : "E-duruşma talebine karar verilmedi: UYAP'tan kontrol edin";
+      ekle(d, "eKarar", metin, gunEkle(g, -2), 21, bas);
+    }
     else if (d.e === "red") ekle(d, "eRed", "E-duruşma reddedildi: duruşmaya bizzat girilecek", g, 7);
     if (kalanD === 0 && !d.girildi) ekle(d, "girildi", "Bugün duruşma var: girilince kutuyu işaretleyin", g);
   }
   // Son duruşma geçmiş, girilmiş ve sonraki gün yazılmamışsa: sonraki duruşma günü sorulur.
   const son = xs.filter(x => dTur(x) === "durusma").slice(-1)[0];
-  if (son && fark(bugun, son.tarih.slice(0, 10)) < 0 && son.girildi && !xs.some(x => x.tarih.slice(0, 10) >= bugun) && f.tur !== "icra")
+  if (son && fark(bugun, son.tarih.slice(0, 10)) < 0 && son.girildi && !xs.some(x => x.tarih.slice(0, 10) >= bugun) && durusmaDuzeni(f) === "olagan")
     ekle(son, "sonraki", "Sonraki duruşma günü yazılmadı", gunEkle(son.tarih.slice(0, 10), 3), 0);
   return out;
 }
