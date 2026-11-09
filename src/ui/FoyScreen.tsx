@@ -28,6 +28,8 @@ import { durusmaUyarilari, tumDurusmaUyarilari } from "../data/durusma";
 import { telefonBildirimPlanla, webDurusmaBildirimi } from "./durusmaBildirim";
 
 let bildirimZaman: ReturnType<typeof setTimeout> | null = null;
+import { TakipSekmeler, Sekme } from "./TakipSekmeler";
+import { DurusmalarEkrani } from "./DurusmalarEkrani";
 import { duzeySayilari } from "../data/isTakibi";
 import { DUZEY_RENK } from "./GorevKapat";
 import { Btn } from "./kit";
@@ -49,6 +51,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [ses, setSes] = useState(false);
   const [buroAc, setBuroAc] = useState(false);
   const [tevkilAc, setTevkilAc] = useState(false);
+  const [durusmaAc, setDurusmaAc] = useState(false);
   // "sahsi": şahsi dosyalar bölümünden açılan giriş (yeni föy şahsi ve şifreli olur).
   const [giris, setGiris] = useState<false | "normal" | "sahsi">(false);
   const [ara, setAra] = useState("");
@@ -84,18 +87,32 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   useEffect(() => { yenile(); return foyDinle(yenile); }, []);
   // Dava takibinden çıkınca şahsi dosyalar kilitlenir (bilgisayarı başkası kullanırsa görünmesin).
   useEffect(() => () => { ozelKilitle(); }, []);
-  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc || tevkilAc, () => { if (secili && (rapor || isler || tevkilAc)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); });
+  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc || tevkilAc || durusmaAc, () => { if (secili && (rapor || isler || tevkilAc || durusmaAc)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); });
+  // Üst sekmeler: hangi ekran açıksa o sekme seçili görünür; sekmeye basınca öbürleri kapanır.
+  const sekme: Sekme = durusmaAc ? "durusmalar" : isler ? "isler" : rapor ? "liste" : havuz ? "toplu" : buroAc ? "buro" : tevkilAc ? "tevkil" : "foyler";
+  const sekmeSec = (k: Sekme) => {
+    setSecili(null); setAktar(false); setGiris(false); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false);
+    if (k !== "toplu") setHavuz(false);
+    if (k === "durusmalar") setDurusmaAc(true); else if (k === "isler") setIsler(true); else if (k === "liste") setRapor(true);
+    else if (k === "toplu") setHavuz(true); else if (k === "buro") setBuroAc(true); else if (k === "tevkil") setTevkilAc(true);
+  };
+  const rozet = useMemo(() => { const n = duzeySayilari(liste); const d = tumDurusmaUyarilari(liste).filter(x => x.duzey === "gecikti" || x.duzey === "bugun" || x.duzey === "acil").length; return { isler: n.gecikti + n.bugun + n.acil, durusmalar: d }; }, [liste]);
+  const sar = (el: React.ReactNode) => <View style={{ flex: 1 }}><TakipSekmeler aktif={sekme} onSec={sekmeSec} rozet={rozet} /><View style={{ flex: 1 }}>{el}</View></View>;
 
   // Telefonda: föyler uygulamanın deposunda; evrak ekleme, toplu aktarma, DavaTek klasörü ve yedek dosyası bilgisayardadır.
   const web = Platform.OS === "web";
   if (kilitSor) return <OzelKilit durum={kilit} onKapat={() => setKilitSor(null)} onAcildi={() => { const f = kilitSor.sonra; setKilitSor(null); yenile(); f?.(); }} />;
-  if (buroAc && !secili) return <BuroEkrani onKapat={() => setBuroAc(false)} />;
-  if (tevkilAc && !secili) return <TevkilListesi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setTevkilAc(false)} />;
-  if (isler && !secili) return <IsTakibi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setIsler(false)} />;
-  if (rapor && !secili) return <DavaListesi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setRapor(false)} />;
-  if (havuz) return <EvrakHavuzu liste={liste.filter(f => !f.ozel || (havuz !== true && f.id === havuz.id))} kaynakFoy={havuz === true ? undefined : havuz}
-    hazir={havuz === true ? klasordenGelen : undefined}
-    onBitti={async m => { if (m && klasordenGelen.length) { await gorulduYaz(klasordenGelen.map(x => x.anahtar)); setKlasordenGelen([]); } setHavuz(false); if (m) setMesaj({ t: m, ok: true }); yenile(); }} />;
+  if (durusmaAc && !secili) return sar(<DurusmalarEkrani liste={liste} onAc={id => setSecili({ id })} />);
+  if (buroAc && !secili) return sar(<BuroEkrani onKapat={() => setBuroAc(false)} />);
+  if (tevkilAc && !secili) return sar(<TevkilListesi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setTevkilAc(false)} />);
+  if (isler && !secili) return sar(<IsTakibi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setIsler(false)} />);
+  if (rapor && !secili) return sar(<DavaListesi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setRapor(false)} />);
+  if (havuz) {
+    const el = <EvrakHavuzu liste={liste.filter(f => !f.ozel || (havuz !== true && f.id === havuz.id))} kaynakFoy={havuz === true ? undefined : havuz}
+      hazir={havuz === true ? klasordenGelen : undefined}
+      onBitti={async m => { if (m && klasordenGelen.length) { await gorulduYaz(klasordenGelen.map(x => x.anahtar)); setKlasordenGelen([]); } setHavuz(false); if (m) setMesaj({ t: m, ok: true }); yenile(); }} />;
+    return havuz === true ? sar(el) : el;
+  }
   if (aktar) return <Aktar mevcut={liste} onBitti={(n) => { setAktar(false); if (n) setMesaj({ t: n, ok: true }); }} />;
   if (secili) return <FoySayfa key={secili.id} id={secili.id} ekle={secili.ekle} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} onAyir={f => { setSecili(null); setHavuz(f); }} />;
 
@@ -185,6 +202,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   );
   return (
     <View style={{ flex: 1 }}>
+    <TakipSekmeler aktif="foyler" onSec={sekmeSec} rozet={rozet} />
     <ScrollView ref={nav.ref} onScroll={nav.onScroll} scrollEventThrottle={64} contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
       <View style={s.head}><Btn kind="ghost" label={t("‹ Geri")} onPress={p.onBack} /></View>
       <Text style={s.eyebrow}>{t("DAVA TAKİBİ · CELSE AVUKAT")}</Text>
@@ -199,13 +217,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       </View>
 
       <View style={s.row}>
-        {web && <Btn label={t("📥 Toplu evrak yükle")} onPress={() => setHavuz(true)} />}
-        <Btn kind="secondary" label={t("📋 Dava listesi")} onPress={() => setRapor(true)} />
-        <Btn kind="secondary" label={t("✅ Yapılacaklar")} onPress={() => setIsler(true)} />
+        <Btn label={t("+ Yeni giriş")} onPress={() => setGiris("normal")} />
         {web && <Btn kind={ses ? "primary" : "secondary"} label={t("🎙 Sesli asistan")} onPress={() => setSes(!ses)} />}
-        <Btn kind="secondary" label={t("👥 Büro ve çalışanlar")} onPress={() => setBuroAc(true)} />
-        <Btn kind="secondary" label={t("🤝 Tevkil avukatlar")} onPress={() => setTevkilAc(true)} />
-        <Btn kind={web ? "secondary" : "primary"} label={t("+ Yeni giriş")} onPress={() => setGiris("normal")} />
         {web && <Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} />}
       </View>
       {mesaj && <Text style={[s.hint, { color: mesaj.ok ? C.good : C.bad }]}>{mesaj.t}</Text>}

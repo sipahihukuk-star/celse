@@ -17,6 +17,9 @@ interface Row { id: string; ad_soyad: string; eposta: string; telefon: string; o
 const FOREVER = "2099-12-31T23:59:59Z";
 const fmt = (d: string) => new Date(d).toLocaleDateString("tr-TR");
 
+interface TakipBilgi { kullanici_id: string; buro_ad: string | null; unvan: string | null; yetki: string | null; esitleme: boolean; bulut_foy: number; son_esitleme: string | null; yz_istek: number }
+const kisi = (yuz?: HomePage) => (yuz === "oyun" || !yuz ? "Oyuncular" : "Kullanıcılar");
+
 export function PlayersPanel({ onClose, yuz }: { onClose: () => void; /** seçili yüz; yoksa herkes ve bütün düğmeler */ yuz?: HomePage }) {
   const [rows, setRows] = useState<Row[] | null>(null);
   const [q, setQ] = useState("");
@@ -29,6 +32,9 @@ export function PlayersPanel({ onClose, yuz }: { onClose: () => void; /** seçil
   const [kurulum14, setKurulum14] = useState(true);
   const [kurulum15, setKurulum15] = useState(true);
   const [kurulum16, setKurulum16] = useState(true);
+  // Dava takibi yüzünde kullanıcı başına büro, ünvan, eşitleme ve kullanım (19. kurulum); içerik değil, yalnız sayılar.
+  const [takip, setTakip] = useState<Map<string, TakipBilgi> | null>(null);
+  const [kurulum19, setKurulum19] = useState(true);
 
   const load = async () => {
     const sb = supabase();
@@ -51,6 +57,11 @@ export function PlayersPanel({ onClose, yuz }: { onClose: () => void; /** seçil
     const kr = new Map((k.data || []).map((x: any) => [x.kullanici_id, Number(x.kredi) || 0]));
     const ev = new Map((yv.data || []).map((x: any) => [x.kullanici_id, x.evrak === true]));
     const yz = new Map((yv.data || []).map((x: any) => [x.kullanici_id, Array.isArray(x.yuzler) && x.yuzler.length ? HOME_PAGES.filter(h => x.yuzler.includes(h)) : [...HOME_PAGES]]));
+    if (yuz === "takip") {
+      const tk = await sb.rpc("yonetici_takip_kullanicilari", { p_gun: 30 });
+      setKurulum19(!tk.error);
+      setTakip(new Map(((tk.data as TakipBilgi[]) || []).map(x => [x.kullanici_id, x])));
+    }
     setRows((p.data || []).map((r: any) => ({ ...r, bitis: sub.get(r.id)?.bitis, kaynak: sub.get(r.id)?.kaynak, kredi: kr.get(r.id) || 0, evrak: !!ev.get(r.id), avukat: avm.get(r.id), yuzler: yz.get(r.id) || [...HOME_PAGES] })));
     setErr("");
   };
@@ -112,12 +123,15 @@ export function PlayersPanel({ onClose, yuz }: { onClose: () => void; /** seçil
   const active = (r: Row) => !!r.bitis && new Date(r.bitis) > new Date();
 
   return (
-    <Section title={yuz ? `Oyuncular · ${yuzAdi(yuz)}` : "Oyuncular"} hint={yuz === "takip" ? "Dava takibini kullanabilen üyeler: Celse Avukat paketi ve açık yüzler." : yuz === "danisma" ? "Derdini anlat'ı kullanabilen üyeler: kredi, evrakla duruşma provası izni, Celse Avukat paketi ve açık yüzler." : yuz === "oyun" ? "Kariyer ve oyunu kullanabilen üyeler: ücretsiz tam erişim (Pro) ve açık yüzler." : "Üyeleri görün; seçtiğiniz kişiye ücretsiz tam erişim (Pro), Derdini anlat kredisi ya da Evrakla duruşma provası izni verin. Mağaza ya da iyzico ile alınmış abonelikler burada yalnızca görüntülenir."}
+    <Section title={yuz ? `${kisi(yuz)} · ${yuzAdi(yuz)}` : "Oyuncular"} hint={yuz === "takip" ? "Dava takibi kullanıcıları: Celse Avukat paketi, büro ve ünvan, bulut eşitlemesi, buluttaki föy sayısı ve son 30 günde yapay zekâ kullanımı. Föylerin içeriği şifrelidir; burada görünmez." : yuz === "danisma" ? "Derdini anlat'ı kullanabilen üyeler: kredi, evrakla duruşma provası izni, Celse Avukat paketi ve açık yüzler." : yuz === "oyun" ? "Kariyer ve oyunu kullanabilen üyeler: ücretsiz tam erişim (Pro) ve açık yüzler." : "Üyeleri görün; seçtiğiniz kişiye ücretsiz tam erişim (Pro), Derdini anlat kredisi ya da Evrakla duruşma provası izni verin. Mağaza ya da iyzico ile alınmış abonelikler burada yalnızca görüntülenir."}
       right={<SmallBtn label="Kapat" onPress={onClose} />}>
       <TextInput value={q} onChangeText={setQ} placeholder="Ara: ad, e-posta, telefon…" placeholderTextColor={C.muted} style={st.search} />
       {rows === null ? <ActivityIndicator color={C.brass} /> : (
-        <Text style={st.meta}>{yuz ? `${yuzde.length} / ${rows.length} üye bu yüzde · ` : `${rows.length} üye · `} {yuzde.filter(active).length} tam erişimli · {yuzde.filter(r => r.kredi > 0).length} kredili · {yuzde.filter(r => r.evrak).length} evrak provası izinli · {yuzde.filter(avukatAktif).length} avukat paketli</Text>
+        yuz === "takip"
+          ? <Text style={st.meta}>{yuzde.length} / {rows.length} kullanıcı dava takibinde · {yuzde.filter(avukatAktif).length} avukat paketli · {yuzde.filter(r => takip?.get(r.id)?.esitleme).length} bulut eşitlemesi açık · {yuzde.filter(r => takip?.get(r.id)?.buro_ad).length} büroda</Text>
+          : <Text style={st.meta}>{yuz ? `${yuzde.length} / ${rows.length} üye bu yüzde · ` : `${rows.length} üye · `} {yuzde.filter(active).length} tam erişimli · {yuzde.filter(r => r.kredi > 0).length} kredili · {yuzde.filter(r => r.evrak).length} evrak provası izinli · {yuzde.filter(avukatAktif).length} avukat paketli</Text>
       )}
+      {yuz === "takip" && !kurulum19 && <Text style={st.err}>Büro, eşitleme ve kullanım bilgisi için önce supabase/surum19.sql çalıştırılmalı.</Text>}
       {!kurulum16 && <Text style={st.err}>Kişi başına yüz açıp kapatmak için önce supabase/surum16.sql çalıştırılmalı.</Text>}
       {!kurulum14 && <Text style={st.err}>Kredi ve evrak provası düğmeleri için önce supabase/surum14.sql çalıştırılmalı.</Text>}
       {!!err && <Text style={st.err}>{err}</Text>}
@@ -126,7 +140,16 @@ export function PlayersPanel({ onClose, yuz }: { onClose: () => void; /** seçil
           <View style={{ flex: 1, minWidth: 220, gap: 2 }}>
             <Text style={st.name}>{r.ad_soyad || "(adsız)"}</Text>
             <Text style={st.meta}>{r.eposta} · {r.telefon} · üyelik {fmt(r.olusturma)}</Text>
-            <View style={st.row}>
+            {yuz === "takip" ? (
+              <View style={st.row}>
+                {avukatAktif(r) ? <Chip label={`CELSE AVUKAT · ${r.avukat!.kaynak === "manuel" ? "ÜCRETSİZ" : "ABONE"} · ${fmt(r.avukat!.bitis)}'E KADAR`} color={C.good} /> : <Chip label="AVUKAT PAKETİ YOK" color={C.muted} />}
+                {(() => { const k = takip?.get(r.id); if (!k) return null; return <>
+                  {k.buro_ad ? <Chip label={`${k.buro_ad.toLocaleUpperCase("tr")} · ${(k.unvan || "").toLocaleUpperCase("tr")}`} color={C.brass} /> : <Chip label="BÜRO YOK" color={C.muted} />}
+                  <Chip label={k.esitleme ? `EŞİTLEME AÇIK · ${k.bulut_foy} FÖY${k.son_esitleme ? " · SON " + fmt(k.son_esitleme) : ""}` : "EŞİTLEME KAPALI"} color={k.esitleme ? C.good : C.muted} />
+                  {k.yz_istek > 0 && <Chip label={`YAPAY ZEKÂ · 30 GÜNDE ${k.yz_istek} İSTEK`} color={C.p2} />}
+                </>; })()}
+              </View>
+            ) : <View style={st.row}>
               {active(r)
                 ? <Chip label={`${r.kaynak === "manuel" ? "ÜCRETSİZ ERİŞİM" : "ABONE"} · ${r.bitis === FOREVER || (r.bitis || "").startsWith("2099") ? "SÜRESİZ" : fmt(r.bitis!) + "'E KADAR"}`} color={C.good} />
                 : <Chip label="ÜCRETSİZ SÜRÜM" color={C.muted} />}
@@ -134,7 +157,7 @@ export function PlayersPanel({ onClose, yuz }: { onClose: () => void; /** seçil
               {r.evrak && <Chip label="EVRAK PROVASI AÇIK" color={C.good} />}
               {r.yuzler.length < 3 && <Chip label={"YALNIZ " + r.yuzler.map(h => yuzAdi(h).toLocaleUpperCase("tr")).join(" + ")} color={C.p2} />}
               {avukatAktif(r) && <Chip label={`CELSE AVUKAT · ${r.avukat!.kalan}/${r.avukat!.aylik} KREDİ · ${r.avukat!.kaynak === "manuel" ? "ÜCRETSİZ" : "ABONE"} · ${fmt(r.avukat!.bitis)}'E KADAR`} color={C.good} />}
-            </View>
+            </View>}
           </View>
           {busy !== r.id && kurulum16 && (
             <View style={[st.row, { width: "100%" }]}>

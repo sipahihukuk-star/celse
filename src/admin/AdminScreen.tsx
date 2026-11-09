@@ -14,6 +14,7 @@ import { PlayersPanel } from "./PlayersPanel";
 import { TranslatePanel } from "./TranslatePanel";
 import { SettingsPanel } from "./SettingsPanel";
 import { StatsPanel, YuzIstat } from "./StatsPanel";
+import { TakipIstat } from "./TakipIstat";
 import { MessagesPanel, ReportsPanel } from "./InboxPanels";
 import CaseEditor from "./CaseEditor";
 import { Field, Row, Section, Seg, SmallBtn } from "./form";
@@ -187,10 +188,10 @@ function AdminHome({ onExit, onPreview, onEvrak, onFoy }: Props) {
         <SmallBtn label="‹ Ön sayfaya dön" onPress={onExit} />
         <Text style={st.grupT}>ORTAK</Text>
         <SmallBtn label="📊 İstatistikler" tone={ai === "istatistik" ? "accent" : "plain"} onPress={() => setAi(ai === "istatistik" ? "" : "istatistik")} />
-        <SmallBtn label="👤 Oyuncular" tone={ai === "oyuncular" ? "accent" : "plain"} onPress={() => setAi(ai === "oyuncular" ? "" : "oyuncular")} />
+        <SmallBtn label={yuzNe === "oyun" ? "👤 Oyuncular" : "👤 Kullanıcılar"} tone={ai === "oyuncular" ? "accent" : "plain"} onPress={() => setAi(ai === "oyuncular" ? "" : "oyuncular")} />
         <SmallBtn label="✉️ Duyuru ve mesajlar" tone={ai === "mesajlar" ? "accent" : "plain"} onPress={() => setAi(ai === "mesajlar" ? "" : "mesajlar")} />
-        <SmallBtn label="⚑ Hata bildirimleri" tone={ai === "hatalar" ? "accent" : "plain"} onPress={() => setAi(ai === "hatalar" ? "" : "hatalar")} />
-        <SmallBtn label="💬 Düzeltme sohbeti" tone={ai === "sohbet" ? "accent" : "plain"} onPress={() => setAi(ai === "sohbet" ? "" : "sohbet")} />
+        {yuzNe !== "takip" && <SmallBtn label="⚑ Hata bildirimleri" tone={ai === "hatalar" ? "accent" : "plain"} onPress={() => setAi(ai === "hatalar" ? "" : "hatalar")} />}
+        {yuzNe === "oyun" && <SmallBtn label="💬 Düzeltme sohbeti" tone={ai === "sohbet" ? "accent" : "plain"} onPress={() => setAi(ai === "sohbet" ? "" : "sohbet")} />}
         <SmallBtn label="⚙️ Ayarlar" tone={ai === "ayarlar" ? "accent" : "plain"} onPress={() => setAi(ai === "ayarlar" ? "" : "ayarlar")} />
       </View>
       <View style={[st.headActions, { justifyContent: "flex-start" }]}>
@@ -207,16 +208,16 @@ function AdminHome({ onExit, onPreview, onEvrak, onFoy }: Props) {
           <SmallBtn label="+ Yeni dava" tone="accent" onPress={() => setWizard(!wizard)} />
         </>}
       </View>
-      {yuzNe === "takip" && <Text style={st.sub}>Föyler avukatın kendi cihazında tutulur; sunucuda föy içeriği yoktur. Kimin dava takibini kullanabileceğini “Oyuncular”daki Celse Avukat paketi ve “Ayarlar”daki satış anahtarı belirler.</Text>}
-      {yuzNe === "danisma" && <Text style={st.sub}>Derdini anlat kredileri ve evrak provası izinleri “Oyuncular”da; örnek dosyaya dönüştürülecek olaylar “Örnek olaylar”da.</Text>}
+      {yuzNe === "takip" && <Text style={st.sub}>Föyler avukatın cihazında ve bulutta uçtan uca şifreli durur; sunucuda föy içeriği okunamaz. Kimin dava takibini kullanabileceğini “Kullanıcılar”daki Celse Avukat paketi ve “Ayarlar”daki satış anahtarı belirler. İstatistikler yalnız sayıdır: kullanıcı, büro, eşitleme, yapay zekâ kullanımı.</Text>}
+      {yuzNe === "danisma" && <Text style={st.sub}>Derdini anlat kredileri ve evrak provası izinleri “Kullanıcılar”da; örnek dosyaya dönüştürülecek olaylar “Örnek olaylar”da.</Text>}
 
       <Text style={[st.sub, { fontSize: 13 }, isServerAdmin === false && { color: C.bad }]}>
         {isServerAdmin === null ? "Sunucu yetkisi denetleniyor…"
-          : isServerAdmin ? "Sunucu: yönetici ✓ · Yayınladığınız dosyalar bütün oyunculara gider; yapay zekâ araçları açık."
+          : isServerAdmin ? (yuzNe === "oyun" ? "Sunucu: yönetici ✓ · Yayınladığınız dosyalar bütün oyunculara gider; yapay zekâ araçları açık." : "Sunucu: yönetici ✓ · Kullanıcı bilgileri ve istatistikler açık.")
           : "Sunucu: bu hesap yönetici değil ya da sunucuya ulaşılamıyor. Değişiklikler yalnızca bu cihazda kalır; yapay zekâ araçları çalışmaz. (Yönetici hesabınızla “Giriş yap” ile girin.)"}
       </Text>
 
-      {ai === "istatistik" && (yuzNe === "oyun" ? <StatsPanel titles={titles} onClose={() => setAi("")} /> : <YuzIstat yuz={yuzNe} onClose={() => setAi("")} />)}
+      {ai === "istatistik" && (yuzNe === "oyun" ? <StatsPanel titles={titles} onClose={() => setAi("")} /> : yuzNe === "takip" ? <TakipIstat onClose={() => setAi("")} /> : <YuzIstat yuz={yuzNe} onClose={() => setAi("")} />)}
       {ai === "mesajlar" && <MessagesPanel onClose={() => setAi("")} />}
       {ai === "hatalar" && <ReportsPanel titles={titles} onClose={() => setAi("")}
         onOpenCase={id => { const e = entries.find(x => x.c.id === id); if (!e) return false; setEditing({ c: e.c, status: e.status, isNew: false }); return true; }} />}

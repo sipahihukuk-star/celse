@@ -1,6 +1,6 @@
 // Duruşma akışı, hesap ve talepler: uydurma (sentetik) evrakla.
 import { bosFoy } from "../src/data/foy";
-import { durusmaEkle, durusmaOzeti, durusmaUyarilari, evrakDurusmaOku, evraktanDurusma, kunyeDurusmasi, yerDegisti, banaAit } from "../src/data/durusma";
+import { durusmaEkle, durusmaOzeti, durusmaUyarilari, evrakDurusmaOku, evraktanDurusma, kunyeDurusmasi, yerDegisti, banaAit, takvim } from "../src/data/durusma";
 import { hesapOzeti, makbuzOku, standartGiderler, talepOku, tevkilOku, tutarCoz, ucretSozlesmesiOku } from "../src/data/hesap";
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
@@ -95,5 +95,20 @@ const hf2 = { ...hf, hesap: { kalemler: sg } };
 ok(standartGiderler(hf2, { yol: 400, kirtasiyeDilekce: 50, kirtasiyeDosya: 100 }, "2026-11-09").length === 0, "ikinci kez yazılmaz");
 const oz = hesapOzeti({ ...hf2, hesap: { ucret: { tutar: 50000 }, kalemler: [...sg, { id: "t", tarih: "2026-11-01", tutar: 20000, tur: "tahsilat" }] } });
 ok(oz.kalanUcret === 30000 && oz.masraf === 600, "hesap özeti " + JSON.stringify(oz));
+
+// Keşif: evraktan keşif günü ayrı okunur, duruşma sayılmaz; e-duruşma sorulmaz; takvimde ikisi birlikte.
+const ara = "ARA KARAR\nDosyanın bilirkişi ile birlikte mahallinde keşif yapılmak üzere keşfin 25/11/2026 günü saat 10:00'da yapılmasına, duruşmanın 15/12/2026 günü saat 09:30'a bırakılmasına karar verildi.";
+const kb = evrakDurusmaOku(ara, "davaci", simdi);
+ok(kb.kesifler?.[0] === "2026-11-25T10:00" && kb.tarihler.length === 1 && kb.tarihler[0] === "2026-12-15T09:30", "keşif ayrı okunur " + JSON.stringify(kb));
+const kf = bosFoy({ tur: "hukuk", mahkeme: "Uydurma 1. Asliye Hukuk Mahkemesi", esasNo: "2026/5" });
+const kr = evraktanDurusma(kf, [ev("k1", ara, "2026-11-05")], simdi);
+const kesifD = kr.durusmalar.find(x => x.tur === "kesif");
+ok(!!kesifD && kr.durusmalar.length === 2 && kr.degisen.includes("keşif günü"), "keşif akışa girer " + JSON.stringify(kr));
+const ku = durusmaUyarilari({ ...kf, durusmalar: kr.durusmalar }, "2026-11-20");
+ok(!ku.some(x => x.d?.id === kesifD?.id && x.tur.startsWith("e")) && ku.some(x => x.tur === "eSor" && x.d?.tur !== "kesif"), "keşifte e-duruşma sorulmaz " + JSON.stringify(ku.map(x => [x.tur, x.d?.tur])));
+ok(durusmaUyarilari({ ...kf, durusmalar: kr.durusmalar }, "2026-11-25").some(x => /keşif/i.test(x.metin)), "bugün keşif uyarısı");
+ok(durusmaEkle({ ...kf, durusmalar: kr.durusmalar }, "2026-11-25", {}).length === 3, "aynı gün duruşma ayrı kayıt");
+const tk = takvim([{ ...kf, durusmalar: kr.durusmalar }, { ...bosFoy({}), ozel: true, durusmalar: [{ id: "z", tarih: "2026-11-26" }] }], "2026-11-01", "2026-12-31", "2026-11-09");
+ok(tk.length === 2 && tk[0].tur === "kesif" && tk[1].tur === "durusma", "takvim " + JSON.stringify(tk.map(x => [x.gun, x.tur])));
 
 if (fail) { console.log(`durusma-test: ${fail} hata`); process.exit(1); } else console.log("durusma-test: tamam");

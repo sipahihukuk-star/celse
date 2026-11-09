@@ -1,0 +1,40 @@
+// Yönetim paneli dava takibi istatistikleri (surum19.sql) gerçek Postgres (PGlite) üzerinde: npm i --no-save @electric-sql/pglite@0.2.17 && node tools/takip-istat-sql-test.mjs
+import { PGlite } from "@electric-sql/pglite";
+import fs from "fs";
+const R = new URL("../supabase/", import.meta.url).pathname;
+const db = new PGlite();
+await db.exec(`
+create schema auth; create table auth.users (id uuid primary key);
+create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('test.uid', true), '')::uuid $$;
+create role anon; create role authenticated; grant usage on schema public, auth to anon, authenticated; grant execute on function auth.uid() to authenticated, anon;
+create table public.profiller (id uuid primary key, ad_soyad text);
+create table public.avukat_paket (kullanici_id uuid primary key, bitis timestamptz, kaynak text);
+create table public.danisma_istekleri (kullanici_id uuid, tur text, zaman timestamptz default now());
+create function public.yonetici_mi() returns boolean language sql stable as $$ select current_setting('test.admin', true) = '1' $$;
+`);
+await db.exec(fs.readFileSync(R + "surum17.sql", "utf8"));
+await db.exec(fs.readFileSync(R + "surum18.sql", "utf8"));
+await db.exec(fs.readFileSync(R + "surum19.sql", "utf8"));
+await db.exec(fs.readFileSync(R + "surum19.sql", "utf8"));
+const A = "00000000-0000-0000-0000-00000000000a", B = "00000000-0000-0000-0000-00000000000b";
+for (const u of [A, B]) { await db.query("insert into auth.users values ($1)", [u]); await db.query("insert into public.profiller values ($1, 'x')", [u]); }
+await db.query("insert into public.avukat_paket values ($1, now() + interval '30 days', 'manuel')", [A]);
+await db.query("insert into public.foy_bulut_anahtar values ($1, 't', 'i', 'd')", [A]);
+await db.query("insert into public.foy_bulut (kullanici_id, kayit_id, tur) values ($1, 'f1', 'foy'), ($1, 'f2', 'foy'), ($1, 'm1', 'metin')", [A]);
+await db.exec("set test.uid = '" + A + "'");
+const buro = (await db.query("select public.buro_kur('B', 'A', '', '') as id")).rows[0].id;
+await db.query("insert into public.buro_foy (buro_id, kayit_id, tur) values ($1, 'f3', 'foy')", [buro]);
+for (let i = 0; i < 3; i++) await db.query("select public.danisma_sinir($1, 'foy_sor', 40, 3600)", [A]);
+await db.query("select public.danisma_sinir($1, 'foyle', 40, 3600)", [B]);
+let fail = 0; const ok = (c, m) => { if (!c) { fail++; console.log("✗ " + m); } };
+const hata = await db.query("select public.istat_takip(30)").then(() => "", e => e.message);
+ok(/Yetki yok/.test(hata), "yönetici değilse yok");
+await db.exec("set test.admin = '1'");
+const v = (await db.query("select public.istat_takip(30) as v")).rows[0].v;
+console.log(JSON.stringify(v));
+ok(v.kullanici === 2 && v.avukat_aktif === 1 && v.esitleme === 1 && v.bulut_foy === 2 && v.buro === 1 && v.buro_uye === 1 && v.buro_foy === 1 && v.yz.foy_sor === 3 && v.yz.foyle === 1 && v.yz_kisi.foy_sor === 1 && v.unvanlar["Kurucu avukat"] === 1 && v.aktif_kisi === 1, "istat_takip");
+const u = (await db.query("select * from public.yonetici_takip_kullanicilari(30) order by kullanici_id")).rows;
+console.log(JSON.stringify(u));
+ok(u[0].buro_ad === "B" && u[0].unvan === "Kurucu avukat" && u[0].esitleme === true && u[0].bulut_foy === 3 && u[0].yz_istek === 3 && u[1].esitleme === false && u[1].yz_istek === 1, "kullanıcı listesi");
+ok((await db.query("select count(1)::int as n from public.danisma_istekleri")).rows[0].n === 4, "sınır kaydı sürüyor");
+console.log(fail ? "surum19: " + fail + " hata" : "surum19: tamam");
