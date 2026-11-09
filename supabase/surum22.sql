@@ -1,4 +1,5 @@
--- Celse · 22. kurulum: İçtihat arşivi. Yargıtay, Danıştay, bölge adliye ve ilk derece kararlarının tam metni, Türkçe tam
+-- Celse · 22. kurulum: İçtihat arşivi ve diğer mevzuat arşivi (KHK, Cumhurbaşkanlığı kararname / yönetmelik / genelge, tüzük,
+-- yönetmelik, tebliğ). İçtihat arşivi: Yargıtay, Danıştay, bölge adliye ve ilk derece kararlarının tam metni, Türkçe tam
 -- metin aramasıyla. Arşiv iki yoldan dolar: (1) yönetim panelinden temel kararlar (içtihadı birleştirme kararları, genel
 -- kurullar, idari ve vergi dava daireleri kurulları) resmî emsal karar servisinden yüklenir; (2) Celse'de açılan her karar
 -- arşive eklenir. Kararlar kamuya açık resmî metinlerdir (servis taraf adlarını gizleyerek yayımlar); kullanıcıya ait bilgi yoktur.
@@ -54,3 +55,46 @@ language sql stable security definer set search_path = public as $$
   from public.ictihat_karar
 $$;
 grant execute on function public.ictihat_durumu() to authenticated;
+
+-- Diğer mevzuat arşivi (kanunlar dışı): yönetim panelinden KHK (olağan ve olağanüstü), Cumhurbaşkanlığı kararnameleri,
+-- yönetmelikleri ve genelgeleri ile tüzükler yüklenir; Celse'de açılan her yönetmelik, tebliğ ve diğer mevzuat da eklenir.
+create table if not exists public.mevzuat_belge (
+  id text primary key,
+  tur text not null default '',
+  tur_ad text not null default '',
+  no text not null default '',
+  ad text not null default '',
+  rg_tarih date,
+  rg_sayi text not null default '',
+  metin text not null,
+  kaynak text not null default 'acilan',
+  eklenme timestamptz not null default now(),
+  ara tsvector generated always as (to_tsvector('turkish', ad || ' ' || metin)) stored
+);
+create index if not exists mevzuat_belge_ara on public.mevzuat_belge using gin (ara);
+create index if not exists mevzuat_belge_tur on public.mevzuat_belge (tur, rg_tarih desc);
+alter table public.mevzuat_belge enable row level security;
+drop policy if exists mevzuat_belge_oku on public.mevzuat_belge;
+create policy mevzuat_belge_oku on public.mevzuat_belge for select to authenticated using (true);
+
+create or replace function public.mevzuat_belge_ara(p_soz text, p_tur text default '', p_sinir int default 20)
+returns table (id text, tur text, tur_ad text, no text, ad text, rg_tarih date, rg_sayi text, bolum text, puan real)
+language sql stable security definer set search_path = public as $$
+  with q as (select websearch_to_tsquery('turkish', p_soz) as t)
+  select b.id, b.tur, b.tur_ad, b.no, b.ad, b.rg_tarih, b.rg_sayi,
+         ts_headline('turkish', left(b.metin, 60000), q.t, 'MaxWords=40, MinWords=15, MaxFragments=2, StartSel=«, StopSel=»'),
+         ts_rank(b.ara, q.t)
+  from public.mevzuat_belge b, q
+  where b.ara @@ q.t and (coalesce(p_tur, '') = '' or b.tur = p_tur)
+  order by ts_rank(b.ara, q.t) desc, b.rg_tarih desc nulls last
+  limit least(greatest(p_sinir, 1), 50)
+$$;
+grant execute on function public.mevzuat_belge_ara(text, text, int) to authenticated;
+
+create or replace function public.mevzuat_belge_durumu()
+returns table (tur text, adet bigint, mb numeric)
+language sql stable security definer set search_path = public as $$
+  select b.tur, count(1), round(sum(octet_length(b.metin)) / 1048576.0, 1)
+  from public.mevzuat_belge b group by b.tur order by b.tur
+$$;
+grant execute on function public.mevzuat_belge_durumu() to authenticated;

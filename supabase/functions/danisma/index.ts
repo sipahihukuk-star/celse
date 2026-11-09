@@ -59,7 +59,7 @@ const TAKIP_AZAMI = 1000;
 const DANISMA_EVRAK = 40000;
 
 // Hız sınırı (kişi başına, saatlik).
-const SINIR: Record<string, number> = { kontrol: 30, degerlendir: 6, canlandir: 10, izle: 10, ses: 8, takip: 30, dosya: 4, evrak: 8, evrak_izle: 6, evrak_oyna: 4, evrak_bilet: 10, evrak_derle: 150, foyle: 60, foy_sor: 40, ses_anla: 200, genel_sor: 40, beyan_yaz: 40, kaynak_ara: 60, karar_ara: 400, mevzuat_bul: 400, belge_getir: 400, mevzuat_yukle: 3000, ictihat_yukle: 5000 };
+const SINIR: Record<string, number> = { kontrol: 30, degerlendir: 6, canlandir: 10, izle: 10, ses: 8, takip: 30, dosya: 4, evrak: 8, evrak_izle: 6, evrak_oyna: 4, evrak_bilet: 10, evrak_derle: 150, foyle: 60, foy_sor: 40, ses_anla: 200, genel_sor: 40, beyan_yaz: 40, kaynak_ara: 60, karar_ara: 400, mevzuat_bul: 400, belge_getir: 400, mevzuat_yukle: 3000, ictihat_yukle: 5000, mevzuat_tur_yukle: 5000 };
 
 // Oyuncunun dili: model metni bu dilde yazar (JSON alan adları aynı kalır). yz ile aynı "dil" alanı.
 const DIL: Record<string, string> = { en: "English", es: "Spanish", fr: "French", de: "German" };
@@ -1265,7 +1265,15 @@ async function mevzuatBul(req: Request, uid: string, b: Record<string, unknown>)
       sonuc.maddeler = (rows || []).map((r: Record<string, unknown>) => ({ no: r.no, kanun: r.ad, durum: r.durum, madde: r.madde, baslik: r.baslik || "", metin: cut(r.metin, ms ? 20000 : 1500), slug: r.slug }));
     } catch (_e) { sonuc.arsivYok = true; }
   }
-  // 2) Resmî mevzuat araması (bütün türler).
+  // 2) Celse'nin diğer mevzuat arşivi (KHK, CB kararname, tüzük, açılmış yönetmelik ve tebliğler…).
+  if (tur !== "KANUN") {
+    try {
+      const rows = await rpc("mevzuat_belge_ara", { p_soz: soz, p_tur: tur === "MULGA" ? "" : tur, p_sinir: 10 });
+      sonuc.arsivBelgeler = (rows || []).map((x: Record<string, unknown>) => ({ id: String(x.id), no: cut(x.no, 30), ad: cut(x.ad, 400), tur: cut(x.tur_ad, 80), turKod: cut(x.tur, 40),
+        rgTarih: trTarih(x.rg_tarih), rgSayi: cut(x.rg_sayi, 20), url: "https://mevzuat.adalet.gov.tr/mevzuat/" + String(x.id), bolum: cut(x.bolum, 800), arsiv: true }));
+    } catch (_e) { void _e; }
+  }
+  // 3) Resmî mevzuat araması (bütün türler).
   if (b.resmi !== false) {
     const data: Record<string, unknown> = { pageSize: 10, pageNumber: Math.max(1, Math.min(50, Number(b.sayfa) || 1)), phrase: soz, sortFields: ["RESMI_GAZETE_TARIHI"], sortDirection: "desc" };
     if (tur) data.mevzuatTurList = [tur];
@@ -1307,6 +1315,12 @@ async function belgeGetir(req: Request, uid: string, b: Record<string, unknown>)
       if (a && a[0] && a[0].metin) return json({ id: id, kaynak: kaynak, metin: a[0].metin, pdf: false, url: "https://mevzuat.adalet.gov.tr/ictihat/" + id, arsiv: true });
     } catch (_e) { void _e; }
   }
+  if (kaynak === "mevzuat") {
+    try {
+      const a = await srv("/rest/v1/mevzuat_belge?id=eq." + encodeURIComponent(id) + "&select=metin", "GET");
+      if (a && a[0] && a[0].metin) return json({ id: id, kaynak: kaynak, metin: a[0].metin, pdf: false, url: "https://mevzuat.adalet.gov.tr/mevzuat/" + id, arsiv: true });
+    } catch (_e) { void _e; }
+  }
   const eski = await onbellek(anahtar, 30) as Record<string, unknown> | null;
   if (eski) return json(eski);
   let d: Record<string, unknown>;
@@ -1318,6 +1332,7 @@ async function belgeGetir(req: Request, uid: string, b: Record<string, unknown>)
   if (/html/i.test(mime) && d.content) metin = htmlMetin(new TextDecoder().decode(b64Utf8(String(d.content))));
   const out = { id: id, kaynak: kaynak, metin: cut(metin, 200000), pdf: !/html/i.test(mime), url: url };
   if (metin && kaynak === "karar" && b.meta && typeof b.meta === "object") await arsiveYaz(id, b.meta as Record<string, unknown>, out.metin, "acilan");
+  else if (metin && kaynak === "mevzuat" && b.meta && typeof b.meta === "object") await mevzuatArsiveYaz(id, b.meta as Record<string, unknown>, out.metin, "acilan");
   else if (metin) await onbellegeYaz(anahtar, out);
   return json(out);
 }
@@ -1327,6 +1342,54 @@ async function arsiveYaz(id: string, m: Record<string, unknown>, metin: string, 
   try {
     await srv("/rest/v1/ictihat_karar?on_conflict=id", "POST", { id: id, mahkeme: cut(m.mahkeme, 80), birim: cut(m.birim, 120), esas: cut(m.esas, 40), karar: cut(m.karar, 40), tarih: isoTarih(m.tarih), metin: cut(metin, 300000), kaynak: kaynak }, "resolution=ignore-duplicates,return=minimal");
   } catch (_e) { void _e; }
+}
+
+async function mevzuatArsiveYaz(id: string, m: Record<string, unknown>, metin: string, kaynak: string) {
+  try {
+    await srv("/rest/v1/mevzuat_belge?on_conflict=id", "POST", { id: id, tur: cut(m.turKod, 40), tur_ad: cut(m.tur, 80), no: cut(m.no, 30), ad: cut(m.ad, 500), rg_tarih: isoTarih(m.rgTarih), rg_sayi: cut(m.rgSayi, 20), metin: cut(metin, 400000), kaynak: kaynak }, "resolution=ignore-duplicates,return=minimal");
+  } catch (_e) { void _e; }
+}
+
+// Diğer mevzuatın arşive yüklenmesi (yalnız yönetici; panel art arda çağırır): bir mevzuat türünün (KHK, CB_KARARNAME, TUZUK,
+// CB_YONETMELIK, CB_GENELGE…) bir sayfası (10 belge) resmî mevzuat servisinden alınır, arşivde olmayanların metni eklenir.
+async function mevzuatTurYukle(req: Request, b: Record<string, unknown>) {
+  if (!(await isAdmin(req))) return json({ error: "yetki yok" }, 403);
+  const tur = cut(b.tur, 40).replace(/[^A-Z_]/g, "");
+  if (!tur) return json({ error: "eksik" }, 400);
+  const sayfa = Math.max(1, Math.min(2000, Number(b.sayfa) || 1));
+  try {
+    const d0 = await rpc("mevzuat_belge_durumu", {});
+    const mb = (d0 || []).reduce((t: number, x: { mb: number }) => t + Number(x.mb || 0), 0);
+    if (mb > 250) return json({ bitti: true, dolu: true, mb: mb, eklenen: 0, toplam: 0 });
+  } catch (e) { return json({ error: "mevzuat arşivi tablosu yok (surum22.sql çalıştırılmalı): " + cut((e as Error).message, 160) }, 500); }
+  let d: Record<string, unknown>;
+  try { d = await bedesten("/mevzuat/searchDocuments", { pageSize: 10, pageNumber: sayfa, mevzuatTurList: [tur], sortFields: ["RESMI_GAZETE_TARIHI"], sortDirection: "desc" }, true); }
+  catch (e) { return json({ error: String((e as Error).message) === "yoğun" ? "yoğun" : "servis", bekle: 30 }, 503); }
+  const liste = ((d.mevzuatList || []) as Record<string, unknown>[]).filter(x => x.mevzuatId);
+  const toplam = Number(d.total) || 0;
+  let mevcut = new Set<string>();
+  if (liste.length) {
+    try {
+      const rows = await srv("/rest/v1/mevzuat_belge?select=id&id=in.(" + liste.map(x => encodeURIComponent("\"" + String(x.mevzuatId) + "\"")).join(",") + ")", "GET");
+      mevcut = new Set((rows || []).map((x: { id: string }) => x.id));
+    } catch (_e) { void _e; }
+  }
+  let eklenen = 0, yogun = false;
+  for (const x of liste) {
+    const id = String(x.mevzuatId);
+    if (mevcut.has(id)) continue;
+    try {
+      await new Promise(ok => setTimeout(ok, 3200));
+      const c = await bedesten("/mevzuat/getDocumentContent", { documentType: "MEVZUAT", id: id }, false);
+      if (!/html/i.test(String(c.mimeType || "text/html")) || !c.content) continue;
+      const metin = htmlMetin(new TextDecoder().decode(b64Utf8(String(c.content))));
+      if (!metin) continue;
+      const t = (x.mevzuatTur || {}) as Record<string, unknown>;
+      await mevzuatArsiveYaz(id, { turKod: t.name || tur, tur: t.description || tur, no: x.mevzuatNo, ad: x.mevzuatAdi, rgTarih: x.resmiGazeteTarihi, rgSayi: x.resmiGazeteSayisi }, metin, "yukleme");
+      eklenen++;
+    } catch (e) { if (String((e as Error).message) === "yoğun") { yogun = true; break; } }
+  }
+  return json({ sayfa: sayfa, toplam: toplam, eklenen: eklenen, atlanan: mevcut.size, bitti: !yogun && (sayfa * 10 >= toplam || !liste.length), yogun: yogun });
 }
 
 // İçtihat arşivinin yüklenmesi (yalnız yönetici; panel art arda çağırır): bir mahkeme / kurul ve (isteğe bağlı) yıl için resmî
@@ -1768,6 +1831,7 @@ export async function handle(req: Request): Promise<Response> {
     if (action === "belge_getir") return await belgeGetir(req, uid, b);
     if (action === "mevzuat_yukle") return await mevzuatYukle(req, b);
     if (action === "ictihat_yukle") return await ictihatYukle(req, b);
+    if (action === "mevzuat_tur_yukle") return await mevzuatTurYukle(req, b);
     if (action === "evrak_derle") return b.akis === true ? akisla(evrakDerle(uid, b)) : await evrakDerle(uid, b);
     return await takip(uid, b);
   } catch (e) {

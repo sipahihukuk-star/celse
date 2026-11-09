@@ -11,6 +11,7 @@ const onbellek = new Map<string, unknown>();
 const kanunlar = new Map<string, Record<string, unknown>>();
 const maddeler: Record<string, unknown>[] = [];
 const arsiv = new Map<string, Record<string, unknown>>();
+const mbelge = new Map<string, Record<string, unknown>>();
 const MD = `# DENEME KANUNU (No. 9999)
 
 > Resmî kaynak: https://mevzuat.adalet.gov.tr/mevzuat/1
@@ -59,6 +60,12 @@ globalThis.fetch = (async (u: string | URL, o?: RequestInit) => {
   if (url.includes("/rpc/yonetici_mi")) return js(yonetici);
   if (url.includes("/rpc/mevzuat_madde_getir")) { const a = JSON.parse(body); return js(a.p_no === "6100" && a.p_madde === "281" ? [{ slug: "6100-hmk", no: "6100", ad: "HUKUK MUHAKEMELERİ KANUNU", durum: "yururlukte", madde: "281", baslik: "Bilirkişi raporuna itiraz", metin: "(1) Taraflar..." }] : []); }
   if (url.includes("/rpc/mevzuat_ara")) return js([{ slug: "6100-hmk", no: "6100", ad: "HUKUK MUHAKEMELERİ KANUNU", durum: "yururlukte", madde: "281", baslik: "Bilirkişi raporuna itiraz", metin: "(1) Taraflar...", puan: 0.5 }]);
+  if (url.includes("/rpc/mevzuat_belge_durumu")) return js([{ tur: "KHK", adet: mbelge.size, mb: 1 }]);
+  if (url.includes("/rpc/mevzuat_belge_ara")) return js([...mbelge.values()].map(x => ({ ...x, bolum: "… «hal» …" })));
+  if (url.includes("/rest/v1/mevzuat_belge")) {
+    if (method === "GET") { const id = url.match(/id=eq\.([^&]+)/)?.[1]; if (id) return js(mbelge.has(id) ? [mbelge.get(id)] : []); const ids = (url.match(/id=in\.\((.*)\)/)?.[1] || "").split(",").map(x => x.replace(/"/g, "")); return js(ids.filter(x => mbelge.has(x)).map(id => ({ id }))); }
+    const r = JSON.parse(body); if (!mbelge.has(r.id)) mbelge.set(r.id, r); return new Response(null, { status: 201 });
+  }
   if (url.includes("/rpc/ictihat_durumu")) return js([{ karar: arsiv.size, mb: 1 }]);
   if (url.includes("/rpc/ictihat_ara")) return js([...arsiv.values()].map(x => ({ ...x, bolum: "… «bilirkişi» …", puan: 1 })));
   if (url.includes("/rpc/")) return js(true);
@@ -87,6 +94,7 @@ globalThis.fetch = (async (u: string | URL, o?: RequestInit) => {
     if (bedesten429 > 0) { bedesten429--; return js({}, 429); }
     if (url.endsWith("/emsal-karar/searchDocuments")) return js({ data: { emsalKararList: [{ documentId: "1001", itemType: { name: "YARGITAYKARARI", description: "Yargıtay Kararı" }, birimAdi: "9. Hukuk Dairesi", esasNo: "2023/1", kararNo: "2024/2", kararTarihiStr: "12.03.2024", kararTarihi: "2024-03-12T00:00:00Z" }], total: 1, start: 0 }, metadata: { FMTY: "SUCCESS" } });
     if (url.endsWith("/emsal-karar/getDocumentContent")) return js({ data: { content: Buffer.from("<html><body><p>T.C.</p><p>YARGITAY</p><p>Davac&#305; vekili &amp; davalı</p></body></html>").toString("base64"), mimeType: "text/html", version: 1 }, metadata: { FMTY: "SUCCESS" } });
+    if (url.endsWith("/mevzuat/getDocumentContent")) return js({ data: { content: Buffer.from("<p>OLAĞANÜSTÜ HAL KAPSAMINDA</p><p>Madde 1- Tedbirler.</p>").toString("base64"), mimeType: "text/html" }, metadata: { FMTY: "SUCCESS" } });
     if (url.endsWith("/mevzuat/searchDocuments")) return js({ data: { mevzuatList: [{ mevzuatId: "500", mevzuatNo: "696", mevzuatAdi: "OLAĞANÜSTÜ HAL KAPSAMINDA ... KANUN HÜKMÜNDE KARARNAME", mevzuatTur: { name: "KHK", description: "Kanun Hükmünde Kararname" }, resmiGazeteTarihi: "2017-12-24T00:00:00", resmiGazeteSayisi: "30280" }], total: 1 }, metadata: { FMTY: "SUCCESS" } });
   }
   return js([]);
@@ -169,6 +177,22 @@ const son = (p: string) => [...cagrilar].reverse().find(c => c.url.includes(p));
   r = await handle(istek({ action: "ictihat_yukle", mahkeme: "YARGITAYKARARI", birim: "Hukuk Genel Kurulu", yil: 2025, sayfa: 1 }));
   j = await r.json();
   ok(j.eklenen === 0 && j.atlanan === 1, "arşivdeki karar yeniden alınmaz");
+  // Diğer mevzuat arşivi
+  r = await handle(istek({ action: "mevzuat_tur_yukle", tur: "KHK", sayfa: 1 }));
+  j = await r.json();
+  ok(j.eklenen === 1 && j.bitti && mbelge.get("500")?.tur === "KHK" && mbelge.get("500")?.rg_tarih === "2017-12-24" && mbelge.get("500")?.kaynak === "yukleme", "KHK arşive yüklendi: " + JSON.stringify(j) + " " + String(JSON.stringify(mbelge.get("500"))).slice(0, 160));
+  ok(!JSON.parse(son("/mevzuat/searchDocuments")!.body).data.phrase && JSON.parse(son("/mevzuat/searchDocuments")!.body).data.mevzuatTurList[0] === "KHK", "türün bütün belgeleri listelenir");
+  r = await handle(istek({ action: "mevzuat_bul", soz: "olağanüstü hal", tur: "KHK" }));
+  j = await r.json();
+  ok(j.arsivBelgeler?.length === 1 && j.arsivBelgeler[0].arsiv && j.arsivBelgeler[0].turKod === "KHK", "aramada arşiv belgeleri: " + JSON.stringify(j.arsivBelgeler));
+  const n3 = cagrilar.length;
+  r = await handle(istek({ action: "belge_getir", kaynak: "mevzuat", id: "500" }));
+  j = await r.json();
+  ok(j.arsiv && !cagrilar.slice(n3).some(c => c.url.includes("bedesten")), "arşivdeki mevzuat servise gitmeden");
+  yonetici = false;
+  r = await handle(istek({ action: "mevzuat_tur_yukle", tur: "KHK", sayfa: 1 }));
+  ok(r.status === 403, "mevzuat yükleme yalnız yönetici");
+  yonetici = true;
   if (fail) { console.log(`hukuk-kaynak-test: ${fail} hata`); process.exit(1); }
   console.log("hukuk-kaynak-test: tamam");
 })();

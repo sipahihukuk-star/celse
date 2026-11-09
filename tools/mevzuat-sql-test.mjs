@@ -12,7 +12,8 @@ await db.exec(fs.readFileSync(R + "surum21.sql", "utf8"));
 await db.exec(fs.readFileSync(R + "surum21.sql", "utf8"));
 await db.exec(fs.readFileSync(R + "surum22.sql", "utf8"));
 await db.exec(fs.readFileSync(R + "surum22.sql", "utf8"));
-await db.exec("grant select on public.ictihat_karar to authenticated");
+await db.exec("grant select on public.ictihat_karar, public.mevzuat_belge to authenticated");
+await db.exec(`insert into public.mevzuat_belge (id, tur, tur_ad, no, ad, rg_tarih, metin) values ('500', 'KHK', 'Kanun Hükmünde Kararname', '696', 'OLAĞANÜSTÜ HAL KAPSAMINDA TEDBİRLER', '2017-12-24', 'Olağanüstü hal kapsamında alınan tedbirler.')`);
 await db.exec(`insert into public.ictihat_karar (id, mahkeme, birim, esas, karar, tarih, metin, kaynak) values
  ('1', 'Yargıtay', 'Hukuk Genel Kurulu', '2023/1', '2024/2', '2024-03-12', 'Bilirkişi raporlarına yapılan itirazlar karşılanmadan hüküm kurulamaz.', 'yukleme'),
  ('2', 'Danıştay', 'İdare Dava Daireleri Kurulu', '2022/3', '2023/4', '2023-05-01', 'İdari işlemin iptali için menfaat ihlali yeterlidir.', 'acilan')`);
@@ -44,5 +45,9 @@ r = await as("select karar, yargitay, danistay from public.ictihat_durumu()");
 ok(Number(r.rows[0].karar) === 2 && Number(r.rows[0].yargitay) === 1, "içtihat durumu: " + JSON.stringify(r.rows[0]));
 hata = ""; try { await as("insert into public.ictihat_karar (id, metin) values ('x', 'y')"); } catch (e) { hata = e.message; }
 ok(/row-level|policy|permission denied/i.test(hata), "kullanıcı içtihat arşivine yazamaz");
+r = await as("select id, bolum from public.mevzuat_belge_ara($1, 'KHK', 10)", ["olağanüstü hal tedbirleri"]);
+ok(r.rows.length === 1 && /«/.test(r.rows[0].bolum), "diğer mevzuat araması: " + JSON.stringify(r.rows));
+r = await as("select tur, adet from public.mevzuat_belge_durumu()");
+ok(r.rows[0].tur === "KHK" && Number(r.rows[0].adet) === 1, "diğer mevzuat durumu");
 if (fail) { console.log(`mevzuat-sql-test: ${fail} hata`); process.exit(1); }
 console.log("mevzuat-sql-test: tamam");
