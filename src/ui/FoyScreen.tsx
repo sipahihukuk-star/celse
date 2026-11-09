@@ -20,6 +20,7 @@ import { Acilir } from "./Acilir";
 import { Katlanir } from "./Katlanir";
 import { DavaListesi } from "./DavaListesi";
 import { gunlukBildirim, IsTakibi } from "./IsTakibi";
+import { SesliAsistan } from "./SesliAsistan";
 import { duzeySayilari } from "../data/isTakibi";
 import { DUZEY_RENK } from "./GorevKapat";
 import { Btn } from "./kit";
@@ -36,6 +37,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [havuz, setHavuz] = useState<false | true | Foy>(false);
   const [rapor, setRapor] = useState(false);
   const [isler, setIsler] = useState(false);
+  const [ses, setSes] = useState(false);
   // "sahsi": şahsi dosyalar bölümünden açılan giriş (yeni föy şahsi ve şifreli olur).
   const [giris, setGiris] = useState<false | "normal" | "sahsi">(false);
   const [ara, setAra] = useState("");
@@ -178,10 +180,12 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         {web && <Btn label={t("📥 Toplu evrak yükle")} onPress={() => setHavuz(true)} />}
         <Btn kind="secondary" label={t("📋 Dava listesi")} onPress={() => setRapor(true)} />
         <Btn kind="secondary" label={t("✅ Yapılacaklar")} onPress={() => setIsler(true)} />
+        {web && <Btn kind={ses ? "primary" : "secondary"} label={t("🎙 Sesli asistan")} onPress={() => setSes(!ses)} />}
         <Btn kind={web ? "secondary" : "primary"} label={t("+ Yeni giriş")} onPress={() => setGiris("normal")} />
         {web && <Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} />}
       </View>
       {mesaj && <Text style={[s.hint, { color: mesaj.ok ? C.good : C.bad }]}>{mesaj.t}</Text>}
+      {web && ses && <SesliAsistan liste={liste} onAc={id => setSecili({ id })} onIsler={() => setIsler(true)} />}
       {(() => {
         const n = duzeySayilari(liste);
         const kirmizi = n.gecikti + n.bugun + n.acil;
