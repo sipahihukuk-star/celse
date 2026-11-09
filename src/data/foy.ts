@@ -23,7 +23,14 @@ export interface KarsiBilgi {
   vekil?: string;
   ek?: string;
 }
-export interface Gorev { id: string; metin: string; tarih?: string; bitti: boolean; kaynak: "elle" | "yapay" | "aktarma" }
+/** İşin kapanışı: iş emri / evrak numarası olmadan iş kapanmaz. Numara elle yazılır ya da yüklenen görselden okunur. */
+export interface GorevKapanis { tarih: string; no: string; kaynak: "elle" | "gorsel"; gorsel?: string }
+export interface Gorev {
+  id: string; metin: string; tarih?: string; bitti: boolean; kaynak: "elle" | "yapay" | "aktarma";
+  /** İşin eklendiği gün (uyarı, eklenmeden son güne geçen süreye göre artar). */
+  eklenme?: string;
+  kapanis?: GorevKapanis;
+}
 export interface FoyEvrak {
   id: string; ad: string; boyut: number; eklenme: string; metin: string; okunamadi?: string;
   /** evrak türü (Bilirkişi raporu, Karar, Dilekçe…) ve önemi: cihazda belirlenir, avukat değiştirebilir */

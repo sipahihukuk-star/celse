@@ -140,7 +140,7 @@ export function tablodanFoyler(tablo: (string | number)[][]): AktarimSonucu {
       muvekkil, karsiTaraf: karsi, mahkeme, esasNo, davaTuru: yazi(r, "davaTuru"), taraf,
       durusma: tarihCoz(al(r, "durusma")), notlar: yazi(r, "notlar"),
       durum: /kapali|kapandi|bitti|kesinles|arsiv/.test(sade(yazi(r, "durum"))) ? "kapali" : "acik",
-      gorevler: gorev ? [{ id: yeniId("g"), metin: gorev, bitti: false, kaynak: "aktarma" }] : []
+      gorevler: gorev ? [{ id: yeniId("g"), metin: gorev, bitti: false, kaynak: "aktarma", eklenme: new Date().toISOString().slice(0, 10) }] : []
     }));
   }
   return { foyler, eslesen, eslesmeyen, atlanan };
