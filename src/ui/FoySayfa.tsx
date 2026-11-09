@@ -5,6 +5,7 @@ import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
 import { MuvekkilMesaj } from "./MuvekkilMesaj";
 import { bugunStr, uyariDuzeyi } from "../data/isTakibi";
+import { evrakBasligi } from "../data/evrakBaslik";
 import { DUZEY_RENK, duzeyAdi, GorevKapat } from "./GorevKapat";
 import { Katlanir } from "./Katlanir";
 import { Acilir } from "./Acilir";
@@ -128,7 +129,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     if (!dosyaSaklanir()) { setErr(t("Asıl dosya bilgisayarınızda duruyor; telefonda yalnız künye ve kodlanmış metin vardır.")); return; }
     const b = await dosyaOku(e.id);
     if (!b) { setErr(t("Asıl dosya bu cihazda bulunamadı (yalnız okunan metni var).")); return; }
-    if (/\.(pdf|jpg|jpeg|png|txt)$/i.test(e.ad)) window.open(URL.createObjectURL(b), "_blank"); else indir(e.ad, b);
+    if (/\.(pdf|jpg|jpeg|png|txt)$/i.test(e.ad)) window.open(URL.createObjectURL(b), "_blank"); else indir(evrakBasligi(f, e).dosyaAdi, b);
   };
   const evrakDegistir = (e: FoyEvrak, ek: Partial<FoyEvrak> | null) => {
     if (!ek) { dosyaSil(e.id).catch(() => {}); degistir({ evraklar: f.evraklar.filter(x => x.id !== e.id) }); setSecim(x => { const y = new Set(x); y.delete(e.id); return y; }); return; }
@@ -254,8 +255,11 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         <Kutu acik={secim.has(e.id)} onPress={() => setSecim(x => { const y = new Set(x); if (y.has(e.id)) y.delete(e.id); else y.add(e.id); return y; })} etiket={t("{ad} seç", { ad: e.ad })} />
         <IconBadge name="notes" size={30} />
         <View style={{ flex: 1 }}>
-          <Text style={s.fileT} numberOfLines={1}>{e.ad}</Text>
-          <Text style={s.hint}>{e.tarih ? t("evrak tarihi {d}", { d: tarihYaz(e.tarih) }) + " · " : ""}{boyutYaz(e.boyut)} · {t("eklendi {d}", { d: tarihYaz(e.eklenme.slice(0, 10)) })}{e.okunamadi ? " · " + t("metni okunamadı: {n}", { n: e.okunamadi }) : e.metin.trim() ? "" : e.bulutMetin ? " · " + t("metni bulutta (kodlu)") : " · " + t("metin yok")}{e.kaynak ? " · DavaTek" : ""}</Text>
+          {(() => { const b = evrakBasligi(f, e); return <>
+            <Text style={s.fileT} numberOfLines={2}>{b.baslik}</Text>
+            <Text style={[s.hint, { color: C.textSoft }]} numberOfLines={2}>{b.ait}</Text>
+          </>; })()}
+          <Text style={s.hint}>{e.ad} · {boyutYaz(e.boyut)} · {t("eklendi {d}", { d: tarihYaz(e.eklenme.slice(0, 10)) })}{e.okunamadi ? " · " + t("metni okunamadı: {n}", { n: e.okunamadi }) : e.metin.trim() ? "" : e.bulutMetin ? " · " + t("metni bulutta (kodlu)") : " · " + t("metin yok")}{e.kaynak ? " · DavaTek" : ""}</Text>
           <View style={[s.row, { gap: 12 }]}>
             <Pressable onPress={() => setTurSec(turSec === e.id ? null : e.id)}><Text style={s.link}>{t(e.tur || "Tür seç")} ▾</Text></Pressable>
             <Pressable onPress={() => evrakDegistir(e, { onemli: e.onemli === false })}><Text style={s.link}>{e.onemli === false ? t("☆ Önemsiz") : t("★ Önemli")}</Text></Pressable>
@@ -263,6 +267,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
           </View>
         </View>
         <Pressable onPress={() => evrakAc(e)}><Text style={s.link}>{t("Aç")}</Text></Pressable>
+        {dosyaSaklanir() && <Pressable onPress={async () => { const b = await dosyaOku(e.id); if (b) indir(evrakBasligi(f, e).dosyaAdi, b); else setErr(t("Asıl dosya bu cihazda bulunamadı (yalnız okunan metni var).")); }}><Text style={s.link}>{t("İndir")}</Text></Pressable>}
         <Pressable onPress={() => evrakDegistir(e, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>
       </View>
       {turSec === e.id && (

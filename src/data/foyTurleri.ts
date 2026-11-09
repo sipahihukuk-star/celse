@@ -132,6 +132,9 @@ export function turTahmin(...metinler: string[]): FoyTur | undefined {
 type Kural = [string, RegExp | ((m: string) => boolean), boolean];
 const KURALLAR: Kural[] = [
   ["Gerekçeli karar", /gerekceli karar/, true],
+  // Mahkemeye / makama hitapla başlayan ve KONU satırı olan metin bir dilekçedir (içinde "bilirkişi raporu" geçse de).
+  ["Dilekçe", m => /\bkonu\s*:/.test(m) && /(mahkemesi ?'?ne|baskanligina|hakimligine|savciligina|mudurlugune|dairesine)\b/.test(m.slice(0, 300))
+    && !/istinaf|temyiz|dava dilekce|cevap dilekce|cevaba cevap|replik|duplik|savunma/.test(m), true],
   ["Bilirkişi raporu", /bilirkisi( ek)? rapor|bilirkisi heyeti|kok rapor/, true],
   ["İddianame", /iddianame/, true],
   ["Kovuşturmaya yer olmadığı kararı", /kovusturmaya yer olmadig|\bkyok\b/, true],
