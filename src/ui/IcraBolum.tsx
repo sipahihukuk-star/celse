@@ -222,7 +222,7 @@ export function IcraBolum({ f, degistir, surum, onEvraktan }: { f: Foy; degistir
       {vekilEksik(vekilBilgi).length > 0 && <Text style={s.hint}>{t("XML için vekil bilgisi eksik: {x}", { x: vekilEksik(vekilBilgi).map(x => t(x)).join(", ") })}</Text>}
       {!!bilgi && <Text style={[s.hint, { color: C.good }]}>{bilgi}</Text>}
       {goster && <Text selectable style={[s.body, { fontFamily: "monospace", fontSize: 13 }]}>{metin()}</Text>}
-      <Text style={s.hint}>{t("Oranlar: yasal faiz %9 (31.05.2024'e kadar), %24 (01.06.2024), %31 (31.07.2026, 7589 s. Kanun); avans faizi TCMB tablosundan dönem dönem (1990–20.12.2025, son oran %39,75). Yeni bir oran yayımlandığında yukarıdaki oran alanına yazabilirsiniz. Hesaplar bilgi içindir; takip talebini UYAP'ta kontrol edin.")}</Text>
+      <Text style={s.hint}>{t("Oranlar: yasal faiz 1984'ten bu yana dönem dönem (son: %24 01.06.2024, %31 31.07.2026, 7589 s. Kanun); TTK 1530 faizi TCMB'nin yıllık ilanlarından (2026: %43); avans faizi TCMB tablosundan dönem dönem (1990–20.12.2025, son oran %39,75). Yeni bir oran yayımlandığında yukarıdaki oran alanına yazabilirsiniz. Hesaplar bilgi içindir; takip talebini UYAP'ta kontrol edin.")}</Text>
     </View>
   );
 }
