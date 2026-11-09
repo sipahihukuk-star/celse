@@ -1,6 +1,6 @@
 // Beyan editörünün yapay zekâ çağrıları. Föy, taslak ve kaynaklar BİRLİKTE kodlanır (aynı kişi her yerde aynı kodla);
 // dönen gövde cihazda gerçek adlarla açılır. Kaynak aramada konu da föyün adları kodlanarak gider.
-import { atif, Beyan, HukukKaynak } from "../data/beyan";
+import { atif, Beyan, beyanTuru, HukukKaynak } from "../data/beyan";
 import { call } from "../data/danisma";
 import { Foy, yeniId } from "../data/foy";
 import { turBilgi } from "../data/foyTurleri";
@@ -18,7 +18,8 @@ export async function beyanYazdir(f: Foy, b: Beyan, talimat: string, duzelt: boo
   const taslak = duzelt ? (k.gecmis[0]?.soru || "") : "", kaynaklar = kaynakMetni ? (k.gecmis[0]?.cevap || "") : "";
   if (SIZINTI.test(k.dosya + " " + k.soru + " " + taslak + " " + kaynaklar)) return { ok: false, hata: "Dosyada ya da taslakta gizlenmemiş kişisel veri (kimlik no, IBAN ya da e-posta) kalmış olabilir; gönderilmedi. Bu bilgiyi çıkarın." };
   const konu = mask(b.konu || "", { extra: ekAdlar(f) }).masked;
-  const r = await call<{ metin: string }>("beyan_yaz", { dosya: k.dosya, tur: b.tur, konu, talimat: k.soru === "-" ? "" : k.soru, taslak: taslak === "-" ? "" : taslak, kaynaklar: kaynaklar === "-" ? "" : kaynaklar, arama: true }, 240000);
+  const bt = beyanTuru(b.tur);
+  const r = await call<{ metin: string }>("beyan_yaz", { dosya: k.dosya, tur: b.tur, cerceve: bt.cerceve, klasor: bt.klasor, konu, talimat: k.soru === "-" ? "" : k.soru, taslak: taslak === "-" ? "" : taslak, kaynaklar: kaynaklar === "-" ? "" : kaynaklar, arama: true }, 240000);
   if (!r.ok) return { ok: false, hata: r.error, vars: r.vars as Record<string, string | number> | undefined };
   return { ok: true, metin: unmask(r.data.metin || "", k.map).trim() };
 }

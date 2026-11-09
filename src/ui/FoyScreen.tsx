@@ -11,7 +11,7 @@ import { DAVA_TURLERI, FoyTur, Giris, GIRISLER, turBilgi, TURLER } from "../data
 import { useInnerBack } from "./innerBack";
 import { FoySayfa } from "./FoySayfa";
 import { evrakOlustur } from "./foyEvrak";
-import { gorulduYaz, klasorBilgisi, klasorDestekli, klasorSec, klasorTara, TaramaDosyasi } from "./foyKlasor";
+import { gorulduYaz, klasorBilgisi, klasorDestekli, klasorSec, klasorTara, kopruKlasorAc, kopruKlasorDegistir, KURULUM_ADRESI, TaramaDosyasi } from "./foyKlasor";
 import { dosyaSec, gunYaz, indir, s } from "./foyStil";
 import { FoyBulutKart } from "./FoyBulutKart";
 import { FloatingNav, useFloatingNav } from "./FloatingNav";
@@ -446,7 +446,8 @@ function OzelKilit({ durum, onKapat, onAcildi }: { durum: "yok" | "kilitli" | "a
 
 /* ---------- DavaTek klasörü ---------- */
 function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { t: string; ok?: boolean }) => void; onToplu: (xs: TaramaDosyasi[]) => void }) {
-  const [bilgi, setBilgi] = useState<{ ad: string; izin: string } | null>(null);
+  const [bilgi, setBilgi] = useState<{ ad: string; izin: string; kopru?: boolean } | null>(null);
+  const [yolDegis, setYolDegis] = useState<string | null>(null);
   const [ilerleme, setIlerleme] = useState("");
   const [bekleyen, setBekleyen] = useState<TaramaDosyasi[]>([]);
   const [busy, setBusy] = useState(false);
@@ -486,21 +487,54 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
   useEffect(() => {
     klasorBilgisi().then(b => { setBilgi(b); if (b?.izin === "granted" && !otomatik.current) { otomatik.current = true; tara(true); } }).catch(() => {});
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // Masaüstü köprüsü bağlıysa Föylerim açık kaldıkça iki dakikada bir yeni evraka bakılır.
+  useEffect(() => {
+    if (!bilgi?.kopru) return;
+    const z = setInterval(() => { if (!busyRef.current) tara(true); }, 120000);
+    return () => clearInterval(z);
+  }, [bilgi?.kopru]); // eslint-disable-line react-hooks/exhaustive-deps
+  const busyRef = useRef(false); busyRef.current = busy;
+  const windows = Platform.OS === "web" && typeof navigator !== "undefined" && /Windows/i.test(navigator.userAgent);
+  const kurulum = Platform.OS === "web" && !bilgi?.kopru ? (
+    <View style={{ gap: 6, borderWidth: 1, borderColor: C.line, borderRadius: 8, padding: 10 }}>
+      <Text style={[s.hint, { color: C.text, fontWeight: "700" }]}>{t("Masaüstü kurulumu (Windows)")}</Text>
+      <Text style={s.hint}>{t("“Celse Klasör” küçük bir programdır: Belgeler içinde “Celse Evrak” klasörünü açar, Windows açılınca kendiliğinden başlar ve Celse'nin bu klasörü tarayıcı izni istemeden okumasını sağlar. DavaTek > Ayarlar'da evrak klasörü olarak bu klasörü seçersiniz. Dosyalar bilgisayardan çıkmaz. İlk açılışta Windows “bilinmeyen yayımcı” uyarısı verirse “Ek bilgi > Yine de çalıştır” deyin.")}</Text>
+      <View style={s.row}><Btn kind={windows ? "secondary" : "ghost"} label={t("⬇ Kurulumu indir (CelseKlasorKurulum.exe)")} onPress={() => { if (typeof window !== "undefined") window.open(KURULUM_ADRESI, "_blank"); }} /></View>
+    </View>
+  ) : null;
 
-  if (!klasorDestekli()) return (
+  if (!klasorDestekli() && !bilgi?.kopru) return (
     <Katlanir anahtar="davatek" baslik={t("Evrak klasörü (DavaTek / indirilenler)")} ozet={t("bu tarayıcıda yok")}>
       <Text style={s.hint}>{t("Bilgisayardaki bir klasörü izleme yalnız Chrome ya da Edge'de (gizli pencere olmadan) çalışır. Bu tarayıcıda “📥 Toplu evrak yükle > Klasör seç” ile aynı klasörü seçebilirsiniz.")}</Text>
+      {kurulum}
     </Katlanir>
   );
   return (
-    <Katlanir anahtar="davatek" baslik={t("Evrak klasörü (DavaTek / indirilenler)")} ozet={bilgi ? [bilgi.ad, bekleyen.length ? t("{n} dosya föy bekliyor", { n: bekleyen.length }) : ""].filter(Boolean).join(" · ") : t("klasör seçilmedi")}>
+    <Katlanir anahtar="davatek" baslik={t("Evrak klasörü (DavaTek / indirilenler)")} ozet={bilgi ? [bilgi.kopru ? t("masaüstü köprüsü bağlı") : "", bilgi.ad, bekleyen.length ? t("{n} dosya föy bekliyor", { n: bekleyen.length }) : ""].filter(Boolean).join(" · ") : t("klasör seçilmedi")}>
       <Text style={s.hint}>{t("Bilgisayarınızda bir klasör seçin (DavaTek'in indirdiği klasör ya da UYAP'tan indirdiklerinizi attığınız klasör). Celse, Föylerim her açıldığında bu klasördeki yeni dosyaları okur, kişisel verileri bu bilgisayarda kodlar ve esas / dosya numarasından föyüne ekler. Föyü bulunamayanları toplu yüklemeye gönderirsiniz; orada gruplanır, gerekirse yeni föy açılır. Dosyalar bu bilgisayardan çıkmaz.")}</Text>
       <Text style={s.hint}>{t("Önemli: Chrome'un gizli (incognito) penceresinde klasör izni, föyler ve eşitleme şifresi pencere kapanınca silinir. Celse'yi normal pencerede açın; Chrome izin sorarsa “Her ziyarette izin ver” deyin.")}</Text>
+      {bilgi?.kopru && <Text style={[s.hint, { color: C.good }]}>{t("✓ Masaüstü köprüsü bağlı · {ad} · Celse açıkken iki dakikada bir yeni evraka bakılır.", { ad: bilgi.ad })}</Text>}
+      {!bilgi?.kopru && kurulum}
       <View style={s.row}>
         {bilgi ? <Btn label={busy ? t("Okunuyor…") : t("Yeni evrakı şimdi al")} onPress={() => tara()} disabled={busy} /> : null}
-        <Btn kind={bilgi ? "ghost" : "secondary"} label={bilgi ? t("Klasörü değiştir ({ad})", { ad: bilgi.ad }) : t("Klasörü seç")} onPress={async () => { const ad = await klasorSec(); if (ad) { setBilgi({ ad, izin: "granted" }); tara(); } }} disabled={busy} />
+        {bilgi?.kopru
+          ? <>
+            <Btn kind="ghost" label={t("Klasörü aç")} onPress={() => kopruKlasorAc()} />
+            <Btn kind="ghost" label={t("Klasörü değiştir")} onPress={() => setYolDegis(bilgi.ad)} disabled={busy} />
+          </>
+          : <Btn kind={bilgi ? "ghost" : "secondary"} label={bilgi ? t("Klasörü değiştir ({ad})", { ad: bilgi.ad }) : t("Klasörü seç")} onPress={async () => { const ad = await klasorSec(); if (ad) { setBilgi({ ad, izin: "granted" }); tara(); } }} disabled={busy} />}
         {bekleyen.length > 0 && <Btn kind="secondary" label={t("Föyü bulunamayanları toplu yüklemede föyle ({n})", { n: bekleyen.length })} onPress={() => onToplu(bekleyen)} disabled={busy} />}
       </View>
+      {yolDegis !== null && (
+        <View style={{ gap: 6 }}>
+          <Text style={s.hint}>{t("Klasörün tam yolunu yazın (Dosya Gezgini'nin adres çubuğundan kopyalayabilirsiniz):")}</Text>
+          <TextInput value={yolDegis} onChangeText={setYolDegis} style={s.inputTek} autoCapitalize="none" />
+          <View style={s.row}>
+            <Btn label={t("Kaydet")} onPress={async () => { try { const ad = await kopruKlasorDegistir(yolDegis); setBilgi({ ad, izin: "granted", kopru: true }); setYolDegis(null); tara(); } catch (e) { onBilgi({ t: t(String((e as Error).message)) }); } }} />
+            <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setYolDegis(null)} />
+          </View>
+        </View>
+      )}
       {bilgi && bilgi.izin !== "granted" && !busy && <Text style={[s.hint, { color: C.mid }]}>{t("Tarayıcı bu oturumda klasöre bakmak için bir kez izin istiyor: “Yeni evrakı şimdi al”a basın.")}</Text>}
       {!!ilerleme && <Text style={s.hint}>{ilerleme}</Text>}
       {!!son && !ilerleme && <Text style={s.hint}>{son}</Text>}

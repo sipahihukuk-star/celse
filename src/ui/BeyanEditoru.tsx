@@ -4,7 +4,7 @@
 // Kaynak paneli resmî sitelerde içtihat / mevzuat, DergiPark gibi açık erişimli sitelerde doktrin arar; avukat elle de ekler.
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Linking, Platform, Pressable, ScrollView, Share, Text, TextInput, View } from "react-native";
-import { atif, Beyan, BEYAN_TURLERI, beyanCercevesi, beyanDosyaAdi, beyanHtml, docxOlustur, HukukKaynak, tamMetin, udfOlustur } from "../data/beyan";
+import { atif, Beyan, BEYAN_KLASORLERI, beyanCercevesi, beyanDosyaAdi, beyanHtml, beyanTuru, ciktiBicimi, docxOlustur, HukukKaynak, tamMetin, udfOlustur } from "../data/beyan";
 import { ayarOku, ayarYaz, Foy, foyKaydet, yeniId } from "../data/foy";
 import { kutuphane, kutuphanedenSil, kutuphaneyeEkle } from "../data/hukukKutuphane";
 import { t } from "../i18n";
@@ -19,19 +19,18 @@ import { C } from "./theme";
 
 type Any = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 const BICIMLER = [{ k: "udf", ad: "UYAP (UDF)" }, { k: "docx", ad: "Word (.docx)" }, { k: "pdf", ad: "PDF (yazdır)" }];
+const TALIMAT_ORNEK: Record<string, string> = {
+  mahkeme: "Örn. bilirkişinin kusur oranını %50 vermesine itiraz et; kavşakta geçiş hakkının bizde olduğunu, tanık beyanlarını ve kamera kaydını vurgula; yeni heyet iste",
+  basvuru: "Örn. olayları tarih sırasıyla anlat, ihlal edilen hakları ayrı başlıklarla yaz, iç hukuk yollarının tüketildiğini ve sürede başvurduğumuzu göster",
+  sozlesme: "Örn. kiraya veren müvekkil, aylık kira 20.000 TL, süre 1 yıl, depozito iki aylık kira, artış TÜFE oranında, ev hayvanı yasak",
+  ihtarname: "Örn. 3 aylık kira borcunun 30 gün içinde ödenmesini, ödenmezse tahliye davası açılacağını ihtar et",
+  rapor: "Örn. mahkemenin sorduğu kusur oranı ve tazminat hesabı; dosyadaki tutanak ve fotoğraflara göre değerlendir",
+  serbest: "Örn. müvekkile dosyanın son durumunu, sıradaki duruşmayı ve beklenen süreyi sade bir dille anlatan yazı"
+};
 const TUR_AD: Record<HukukKaynak["tur"], string> = { ictihat: "İçtihat", mevzuat: "Mevzuat", doktrin: "Doktrin" };
 const web = Platform.OS === "web";
-const bosBeyan = (tur = BEYAN_TURLERI[0]): Beyan => { const n = new Date().toISOString(); return { id: yeniId("by"), olusturma: n, guncelleme: n, tur, konu: konuOner(tur), metin: "", kaynaklar: [] }; };
-function konuOner(tur: string): string {
-  const k: Record<string, string> = {
-    "Bilirkişi raporuna itiraz": "Bilirkişi raporuna itirazlarımızın sunulmasıdır.", "Cevaba cevap (replik)": "Cevap dilekçesine karşı cevaplarımızın sunulmasıdır.",
-    "İkinci cevap (düplik)": "Cevaba cevap dilekçesine karşı beyanlarımızın sunulmasıdır.", "Delil listesi ve tanık bildirimi": "Delillerimizin ve tanıklarımızın bildirilmesidir.",
-    "Islah dilekçesi": "Islah talebimizin sunulmasıdır.", "İstinaf dilekçesi": "Kararın kaldırılması istemiyle istinaf sebeplerimizin sunulmasıdır.",
-    "Temyiz dilekçesi": "Kararın bozulması istemiyle temyiz sebeplerimizin sunulmasıdır.", "Mazeret dilekçesi": "Mazeretimizin bildirilmesi ve duruşmanın ertelenmesi talebidir.",
-    "Ara karara karşı beyan": "Ara karara ilişkin beyanlarımızın sunulmasıdır.", "Beyan dilekçesi": "Beyanlarımızın sunulmasıdır."
-  };
-  return k[tur] || "";
-}
+const bosBeyan = (tur = "Beyan dilekçesi"): Beyan => { const n = new Date().toISOString(); return { id: yeniId("by"), olusturma: n, guncelleme: n, tur, konu: konuOner(tur), metin: "", kaynaklar: [] }; };
+function konuOner(tur: string): string { return beyanTuru(tur).konu || ""; }
 
 /** Talimatı söyleyerek yazdırmak için küçük dikte düğmesi. */
 function Dikte({ onMetin }: { onMetin: (x: string) => void }) {
@@ -263,14 +262,15 @@ export function BeyanEditoru({ f, onDegistir }: { f: Foy; onDegistir: (ek: Parti
   };
   const disari = async () => {
     const metin = tamMetin(f, b, { vekil });
+    const cb = ciktiBicimi(f, b, { vekil });
     ayarYaz("beyanBicim", bicim).catch(() => {});
     if (!web) { await Share.share({ message: metin, title: b.tur }); return; }
-    if (bicim === "udf") indir(beyanDosyaAdi(f, b, "udf"), new Blob([udfOlustur(metin) as BlobPart], { type: "application/octet-stream" }));
-    else if (bicim === "docx") indir(beyanDosyaAdi(f, b, "docx"), new Blob([docxOlustur(metin) as BlobPart], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" }));
+    if (bicim === "udf") indir(beyanDosyaAdi(f, b, "udf"), new Blob([udfOlustur(metin, cb.imza, cb.ortaBaslik) as BlobPart], { type: "application/octet-stream" }));
+    else if (bicim === "docx") indir(beyanDosyaAdi(f, b, "docx"), new Blob([docxOlustur(metin, cb.imza, cb.ortaBaslik) as BlobPart], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" }));
     else {
       const w = window.open("", "_blank");
       if (!w) { setHata(t("Yazdırma penceresi açılamadı; tarayıcının açılır pencere engelini kaldırın.")); return; }
-      w.document.write(beyanHtml(metin, beyanDosyaAdi(f, b, "pdf").replace(/\.pdf$/, ""))); w.document.close();
+      w.document.write(beyanHtml(metin, beyanDosyaAdi(f, b, "pdf").replace(/\.pdf$/, ""), cb.imza, cb.ortaBaslik)); w.document.close();
       setTimeout(() => { w.focus(); w.print(); }, 400);
     }
   };
@@ -278,17 +278,19 @@ export function BeyanEditoru({ f, onDegistir }: { f: Foy; onDegistir: (ek: Parti
 
   return (
     <View style={{ gap: 10 }}>
-      <Text style={s.hint}>{t("Beyan türünü seçin, ne yazılmasını istediğinizi yazın ya da söyleyin. Gövdeyi yapay zekâ föydeki künye, işler, notlar ve önemli evraktan yazar (adlar ve numaralar kodlanarak gider); başlık ve imza föyden eklenir. Aşağıdaki kaynaklardan eklediklerinizi beyanda anar. Göndermeden önce mutlaka okuyup düzeltin.")}</Text>
+      <Text style={s.hint}>{t("Klasörü ve belge türünü seçin (dilekçe, sözleşme, arabuluculuk, uzlaştırma, komisyon, Anayasa Mahkemesi, AİHM, ihtarname, bilirkişi raporu…), ne yazılmasını istediğinizi yazın ya da söyleyin. Gövdeyi yapay zekâ föydeki künye, işler, notlar ve önemli evraktan yazar (adlar ve numaralar kodlanarak gider); başlık ve imza föyden eklenir. Aşağıdaki kaynaklardan eklediklerinizi beyanda anar. Göndermeden önce mutlaka okuyup düzeltin.")}</Text>
       <View style={s.addRow}>
         <Acilir etiket={t("Taslak")} genislik={220} secenekler={[{ k: "_yeni", ad: t("✚ Yeni beyan") }, ...beyanlar.map(x => ({ k: x.id, ad: `${x.tur} · ${new Date(x.guncelleme).toLocaleDateString("tr-TR")}` }))]}
           secili={beyanlar.some(x => x.id === b.id) ? b.id : "_yeni"} onSec={k => { setHata(""); setB(k === "_yeni" ? bosBeyan(b.tur) : beyanlar.find(x => x.id === k) || bosBeyan()); }} />
-        <Acilir etiket={t("Beyan türü")} genislik={240} secenekler={BEYAN_TURLERI.map(x => ({ k: x, ad: t(x) }))} secili={b.tur} onSec={k => sakla({ ...b, tur: k, konu: !b.konu || b.konu === konuOner(b.tur) ? konuOner(k) : b.konu })} />
+        <Acilir etiket={t("Klasör")} genislik={240} secenekler={BEYAN_KLASORLERI.map(k => ({ k: k.ad, ad: t(k.ad), n: k.turler.length }))} secili={beyanTuru(b.tur).klasor}
+          onSec={k => { const x = BEYAN_KLASORLERI.find(y => y.ad === k)!.turler[0].ad; sakla({ ...b, tur: x, konu: !b.konu || b.konu === konuOner(b.tur) ? konuOner(x) : b.konu }); }} />
+        <Acilir etiket={t("Belge türü")} genislik={300} secenekler={(BEYAN_KLASORLERI.find(k => k.ad === beyanTuru(b.tur).klasor)?.turler || []).map(x => ({ k: x.ad, ad: t(x.ad) }))} secili={beyanTuru(b.tur).ad} onSec={k => sakla({ ...b, tur: k, konu: !b.konu || b.konu === konuOner(b.tur) ? konuOner(k) : b.konu })} />
       </View>
       <Text style={s.label}>{t("Konu")}</Text>
       <TextInput value={b.konu} onChangeText={x => sakla({ ...b, konu: x })} placeholder={t("Konu satırı")} placeholderTextColor={C.muted} style={s.inputTek} />
       <Text style={s.label}>{b.metin ? t("Düzeltme talimatı") : t("Talimat")}</Text>
       <TextInput value={talimat} onChangeText={setTalimat} multiline style={[s.input, { minHeight: 70 }]} placeholderTextColor={C.muted}
-        placeholder={b.metin ? t("Örn. ikinci maddeyi kısalt, kusur oranına itirazı güçlendir, ek rapor talebini ekle") : t("Örn. bilirkişinin kusur oranını %50 vermesine itiraz et; kavşakta geçiş hakkının bizde olduğunu, tanık beyanlarını ve kamera kaydını vurgula; yeni heyet iste")} />
+        placeholder={b.metin ? t("Örn. ikinci maddeyi kısalt, kusur oranına itirazı güçlendir, ek rapor talebini ekle") : t(TALIMAT_ORNEK[beyanTuru(b.tur).cerceve])} />
       <View style={s.addRow}>
         <Dikte onMetin={x => (x ? setTalimat(y => (y ? y + " " : "") + x) : setHata(t(izinYokMetni())))} />
         {!b.metin && <Btn label={bekle ? t("Yazılıyor… (bir dakika kadar)") : t("✍ Taslak yaz")} disabled={bekle} onPress={() => yaz(false)} />}
