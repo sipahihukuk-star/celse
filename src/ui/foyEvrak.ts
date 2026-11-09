@@ -14,7 +14,7 @@ export type Kaynak = { ad: string; bytes: Uint8Array; blob?: Blob; yol?: string 
 /** Föyün bilinen adları her evrakta mutlaka kodlansın. */
 // Müvekkil ve karşı taraf adı; şirketlerde unvan eki olmadan geçen kısa adı da (ör. "Örnek Sigorta A.Ş." → "Örnek Sigorta") kodlanır.
 const SIRKET_EKI = /\s+(A\.?\s?Ş\.?|ANONİM ŞİRKETİ|Anonim Şirketi|LTD\.?\s?ŞTİ\.?|Ltd\.?\s?Şti\.?|LİMİTED ŞİRKETİ|Limited Şirketi|ve Tic\.?.*|VE TİC\.?.*|San\.?\s?ve\s?Tic\.?.*)$/;
-const ekAdlar = (f: Foy) => {
+export const ekAdlar = (f: Foy) => {
   const xs = [f.muvekkil, f.karsiTaraf].map(x => (x || "").trim()).filter(x => x.length > 2);
   for (const x of [...xs]) { const k = x.replace(SIRKET_EKI, "").trim(); if (k !== x && k.length > 4) xs.push(k); }
   return xs;
@@ -93,7 +93,8 @@ export function durumKaynagi(f: Foy): { metin: string; map: Record<string, strin
  *  evrak (en çok ~60.000 harf) tek seferde kodlanır; aynı kişi her yerde aynı kodla görünür. Dönen cevap map ile açılır. */
 export function foySoruKaynagi(f: Foy, soru: string, gecmis: { soru: string; cevap: string }[], tur: string, sinir = 60000):
   { dosya: string; soru: string; gecmis: { soru: string; cevap: string }[]; map: Record<string, string>; evrakSay: number } {
-  const tr = (x?: string) => (x ? x.slice(0, 10).split("-").reverse().join(".") : "");
+  // YYYY-AA-GG: kodlama gg.aa.yyyy tarihlerini aya indirir; süre hesabı için gün gerekir.
+  const tr = (x?: string) => (x ? x.slice(0, 10) : "");
   const kunye = [
     "=== KÜNYE ===",
     "Dosya türü: " + tur + (f.davaTuru ? " · " + f.davaTuru : ""),

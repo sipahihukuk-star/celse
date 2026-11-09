@@ -1,14 +1,18 @@
 // Föy özetini, dilekçeyi ya da raporu cihazın kendi Türkçe sesiyle okur (tarayıcının konuşma sentezi). Metin gerçek adlar
 // içerebileceği için bulut seslendirmesine gönderilmez; cihazda çalışan (localService) Türkçe ses tercih edilir.
 // Hız 0,7–1,6 arasında ayarlanır. Uzun metin cümle cümle sıraya konur (bazı tarayıcılar uzun tek parçayı yarıda keser).
+// Telefonda (iOS, Android) tarayıcı sentezi yoktur; cihazın kendi Türkçe sesi expo-speech ile kullanılır.
 import { useEffect, useState } from "react";
+import { Platform } from "react-native";
+import * as Speech from "expo-speech";
 
-const synth = () => (typeof window !== "undefined" ? window.speechSynthesis : undefined);
+const YEREL = Platform.OS !== "web";
+const synth = () => (!YEREL && typeof window !== "undefined" ? window.speechSynthesis : undefined);
 const dinleyiciler = new Set<(on: boolean) => void>();
 let konusuyor = false;
 const bildir = (on: boolean) => { konusuyor = on; dinleyiciler.forEach(f => f(on)); };
 
-export const sesliOkumaVar = () => !!synth() && typeof SpeechSynthesisUtterance !== "undefined";
+export const sesliOkumaVar = () => YEREL || (!!synth() && typeof SpeechSynthesisUtterance !== "undefined");
 
 function turkceSes(): { ses?: SpeechSynthesisVoice; yerel: boolean } {
   const xs = synth()?.getVoices() || [];
@@ -17,7 +21,7 @@ function turkceSes(): { ses?: SpeechSynthesisVoice; yerel: boolean } {
   return { ses: yerel || tr[0], yerel: !!yerel || !tr.length };
 }
 /** Cihazda Türkçe ses yoksa tarayıcının çevrim içi sesi kullanılabilir; ekranda uyarmak için. */
-export const yerelSesVar = () => turkceSes().yerel;
+export const yerelSesVar = () => YEREL || turkceSes().yerel;
 
 function parcala(metin: string): string[] {
   const cumleler = metin.replace(/\s+/g, " ").match(/[^.!?…:;]+[.!?…:;]*/g) || [metin];
@@ -30,6 +34,18 @@ function parcala(metin: string): string[] {
 }
 
 export function sesliOku(metin: string, hiz = 1) {
+  if (YEREL) {
+    if (!metin.trim()) return;
+    Speech.stop();
+    const parcalar = parcala(metin);
+    parcalar.forEach((p, i) => Speech.speak(p, {
+      language: "tr-TR", rate: Math.max(0.5, Math.min(2, hiz)),
+      onStart: i === 0 ? () => bildir(true) : undefined,
+      onDone: i === parcalar.length - 1 ? () => bildir(false) : undefined,
+      onStopped: () => bildir(false), onError: () => bildir(false)
+    }));
+    return;
+  }
   const s = synth();
   if (!s || !metin.trim()) return;
   s.cancel();
@@ -44,7 +60,7 @@ export function sesliOku(metin: string, hiz = 1) {
     s.speak(u);
   });
 }
-export function sesliDur() { synth()?.cancel(); bildir(false); }
+export function sesliDur() { if (YEREL) Speech.stop(); else synth()?.cancel(); bildir(false); }
 
 export function useSesliOkuma(): boolean {
   const [on, setOn] = useState(konusuyor);

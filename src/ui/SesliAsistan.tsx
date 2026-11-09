@@ -11,7 +11,7 @@ import { bosFoy, Foy, foyKaydet } from "../data/foy";
 import { turBilgi } from "../data/foyTurleri";
 import type { SekmeAd, SesUye } from "../data/sesEk";
 import { sesKodAc, sesKodla } from "../data/sesKod";
-import { Baglam, Cevap, Eylem, sesliKomut } from "../data/sesKomut";
+import { Baglam, BITIR, Cevap, Eylem, sesliKomut } from "../data/sesKomut";
 import { t } from "../i18n";
 import { s } from "./foyStil";
 import { Btn } from "./kit";
@@ -55,7 +55,11 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
   const [dusunuyor, setDusunuyor] = useState(false);
   const [ara, setAra] = useState("");
   const [yazi, setYazi] = useState("");
-  const [surekli, setSurekli] = useState(() => { try { return globalThis.localStorage?.getItem("celse-ses-surekli") === "1"; } catch { return false; } });
+  const [surekli, setSurekli] = useState(() => { try { return globalThis.localStorage?.getItem("celse-ses-surekli") !== "0"; } catch { return true; } });
+  // Sohbet modu: bir kez basılır; asistan her cevaptan sonra yeniden dinler, "teşekkürler / görüşürüz / sus" deyince ya da
+  // durdurulunca biter. Sessizlikte iki kez daha dinler, sonra bekler.
+  const sohbetAcik = useRef(false);
+  const sessiz = useRef(0);
   const [yerel, setYerel] = useState<boolean | null>(null);
   const yerelRef = useRef(false); yerelRef.current = !!yerel;
   const [hata, setHata] = useState("");
@@ -63,6 +67,8 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
   const listeRef = useRef(liste); listeRef.current = liste;
   const uyeRef = useRef<{ uyeler: SesUye[]; ben?: string }>({ uyeler: [] });
   const okuyor = useSesliOkuma();
+  const durumRef = useRef({ okuyor: false, dinliyor: false, dusunuyor: false });
+  durumRef.current = { okuyor, dinliyor, dusunuyor };
   const onceOkuyordu = useRef(false);
   const { width } = useWindowDimensions();
 
@@ -75,9 +81,21 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
   useEffect(() => { if (baglamFoyId) kalici.bag = { ...kalici.bag, foyId: baglamFoyId }; }, [baglamFoyId]);
   // Sürekli konuşma: cevap okunup bitince yeniden dinlenir.
   useEffect(() => {
-    if (onceOkuyordu.current && !okuyor && surekli && (acik || !yuzen)) dinle();
+    if (onceOkuyordu.current && !okuyor && surekli && sohbetAcik.current && (kalici.acik || !yuzen)) setTimeout(() => { if (sohbetAcik.current) dinle(); }, 350);
     onceOkuyordu.current = okuyor;
   }, [okuyor]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Cevap sesli okunamadıysa (cihazda ses yok) sohbet modunda yine de yeniden dinlenir.
+  useEffect(() => {
+    if (konusma[konusma.length - 1]?.kim !== "celse") return;
+    const z = setTimeout(() => {
+      const d = durumRef.current;
+      const ws = Platform.OS === "web" && typeof window !== "undefined" ? (window as Any).speechSynthesis : null;
+      if (ws && (ws.speaking || ws.pending)) return;
+      if (!d.okuyor && !d.dinliyor && !d.dusunuyor && surekli && sohbetAcik.current && (kalici.acik || !yuzen)) dinle();
+    }, 3500);
+    return () => clearTimeout(z);
+  }, [konusma]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const uygula = async (e: Eylem) => {
     if (e.tip === "yeniDava") {
@@ -98,6 +116,7 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
       sesliOku(r.ok ? okunacak(metin) : metin, 1.05);
       return;
     }
+    if (e.tip === "buroSor") { await genelSor(e.soru); return; }
     if (e.tip === "sekme") { setTimeout(() => onSekme?.(e.ad), 900); return; }
     if (e.tip === "isler") { setTimeout(() => (onSekme ? onSekme("isler") : onIsler()), 900); return; }
     if (e.tip === "ekran") { setTimeout(() => (onSekme ? onSekme(e.ad) : onEkran?.(e.ad)), 900); return; }
@@ -115,6 +134,19 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
     }
   };
 
+  /** Bütün dosyalar hakkında serbest soru (danisma genel_sor); cevap okunur. */
+  const genelSor = async (soru: string) => {
+    setDusunuyor(true);
+    try {
+      const { buroyaSor } = await import("./buroSoru");
+      const r = await buroyaSor(listeRef.current, soru);
+      const metin = r.ok ? r.cevap : t(r.hata, r.vars);
+      setKonusma(k => [...k, { kim: "celse" as const, metin }]);
+      const { okunacak } = await import("../data/yzCevap");
+      sesliOku(r.ok ? okunacak(metin) : metin, 1.05);
+    } finally { setDusunuyor(false); }
+  };
+
   const yerelAnla = (x: string): Cevap => sesliKomut(x, listeRef.current, kalici.bag, undefined, uyeRef.current);
   const sonuc = (r: Cevap, sesli = true) => {
     kalici.bag = r.baglam;
@@ -128,6 +160,14 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
     const xs = secenekler.map(x => x.trim()).filter(Boolean);
     if (!xs.length) return;
     setKonusma(k => [...k, { kim: "siz" as const, metin: xs[0] }]);
+    sessiz.current = 0;
+    if (BITIR.test(xs[0].toLocaleLowerCase("tr").trim().replace(/[.!?]+$/, ""))) {
+      sohbetAcik.current = false;
+      const metin = t("Görüşmek üzere. Gerekince mikrofona basmanız yeterli.");
+      setKonusma(k => [...k, { kim: "celse" as const, metin }]);
+      sesliOku(metin, 1.05);
+      return;
+    }
     let ilk: Cevap | null = null;
     for (const x of xs) {
       const r = yerelAnla(x);
@@ -142,9 +182,10 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
       const kod = sesKodla(xs[0], listeRef.current, uyeRef.current.uyeler.map(u => u.ad));
       const acikFoy = kalici.bag.foyId ? listeRef.current.find(f => f.id === kalici.bag.foyId) : undefined;
       const r = await call<{ komutlar: string[]; cevap?: string }>("ses_anla", { soz: kod.kodlu, ekran: ekran || "", foy: acikFoy ? `${turBilgi(acikFoy.tur).ad}${acikFoy.asama ? ", aşama " + acikFoy.asama : ""}` : "" }, 30000);
-      if (!r.ok) { yedek(t("Anlayamadım. Yardım derseniz neler yapabileceğimi söylerim.")); return; }
+      if (!r.ok) { if (ilk && !/^Anlayamadım/.test(ilk.metin)) yedek(""); else { setDusunuyor(false); await genelSor(xs[0]); } return; }
       const komutlar = (r.data.komutlar || []).map(k => sesKodAc(k, kod.harita));
-      if (!komutlar.length) { if (ilk && !/^Anlayamadım/.test(ilk.metin)) yedek(""); else sonuc({ metin: r.data.cevap || t("Bunu yapamıyorum. Yardım derseniz neler yapabileceğimi söylerim."), baglam: kalici.bag }); return; }
+      // Hiçbir komuta uymayan cümle bütün dosyalar hakkında serbest soru sayılır.
+      if (!komutlar.length) { setDusunuyor(false); await genelSor(xs[0]); return; }
       const metinler: string[] = [];
       for (const k of komutlar) {
         const c = yerelAnla(k);
@@ -184,6 +225,10 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
     r.onerror = (e: Any) => {
       setDinliyor(false);
       const k = e?.error;
+      // Sohbet modunda sessizlik: iki kez daha dinlenir.
+      if (k === "no-speech" && surekli && sohbetAcik.current && sessiz.current < 2) { sessiz.current++; setTimeout(() => { if (sohbetAcik.current) dinle(); }, 300); return; }
+      if (k === "no-speech") sohbetAcik.current = false;
+      if (k === "not-allowed" || k === "service-not-allowed") sohbetAcik.current = false;
       if (k === "not-allowed" || k === "service-not-allowed") setHata(t("Mikrofon izni verilmedi. Adres çubuğundaki kilit simgesinden mikrofona izin verin."));
       else if (k === "no-speech") setHata(t("Ses duyulmadı. Mikrofona basıp tekrar konuşun."));
       else if (k === "network") setHata(t("Konuşma tanıma hizmetine ulaşılamadı (internet)."));
@@ -194,9 +239,10 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
       if (son.trim()) isle(alternatifler.length > 1 && son.trim() === alternatifler[0].trim() ? alternatifler : [son]);
     };
     rec.current = r;
+    sohbetAcik.current = true;
     try { r.start(); setDinliyor(true); } catch (err) { setHata(String((err as Error).message || err)); }
   }
-  const durdur = () => { try { rec.current?.stop(); } catch { /* yok say */ } };
+  const durdur = () => { sohbetAcik.current = false; try { rec.current?.stop(); } catch { /* yok say */ } };
   const yaziGonder = () => { if (yazi.trim()) { isle([yazi]); setYazi(""); } };
   const durum = dinliyor ? t("Dinliyorum…") : dusunuyor ? t("Düşünüyorum…") : okuyor ? t("Cevap okunuyor…") : t("Mikrofona basıp konuşun");
 
@@ -228,7 +274,7 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
         placeholder={t("Yazarak da komut verin, Enter ile gönderin")} placeholderTextColor={C.muted} style={s.inputTek} />
       <Pressable onPress={() => { const y = !surekli; setSurekli(y); try { globalThis.localStorage?.setItem("celse-ses-surekli", y ? "1" : "0"); } catch { /* yok say */ } }} style={[s.row, { alignItems: "center" }]} accessibilityRole="checkbox" accessibilityState={{ checked: surekli }}>
         <View style={{ width: 18, height: 18, borderRadius: 4, borderWidth: 1, borderColor: C.brassDim, backgroundColor: surekli ? C.brassDim : "transparent" }} />
-        <Text style={s.hint}>{t("Sürekli konuşma: cevap bitince yeniden dinlesin")}</Text>
+        <Text style={s.hint}>{t("Sohbet modu: bir kez basın; cevaptan sonra yeniden dinler. Bitirmek için “teşekkürler” ya da “görüşürüz” deyin.")}</Text>
       </Pressable>
       <Text style={[s.hint, { fontSize: 11 }]}>{yerel
         ? t("Konuşmanız bu cihazda yazıya çevrilir. Anlaşılmayan cümle yapay zekâya adlar ve numaralar kodlanarak gider.")
