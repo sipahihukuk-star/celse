@@ -91,6 +91,8 @@ export interface Foy {
   /** talepler: adli yardım, ihtiyati haciz, ihtiyati tedbir… (hesap.ts) */
   talepler?: import("./hesap").Talep[];
   notlar: string; gorevler: Gorev[]; evraklar: FoyEvrak[]; degerlendirme?: FoyDegerlendirme;
+  /** beyan editöründe yazılan taslaklar (beyan.ts) */
+  beyanlar?: import("./beyan").Beyan[];
   /** "Yapay zekâya sor" konuşması (son 30 soru-cevap; cevaplar gerçek adlarla, cihazda ve şifreli bulutta) */
   yzSohbet?: YzSoru[];
 }
