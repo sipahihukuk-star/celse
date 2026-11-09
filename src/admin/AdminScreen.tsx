@@ -15,6 +15,7 @@ import { TranslatePanel } from "./TranslatePanel";
 import { SettingsPanel } from "./SettingsPanel";
 import { StatsPanel, YuzIstat } from "./StatsPanel";
 import { TakipIstat } from "./TakipIstat";
+import { MevzuatArsivi } from "./MevzuatArsivi";
 import { MessagesPanel, ReportsPanel } from "./InboxPanels";
 import CaseEditor from "./CaseEditor";
 import { Field, Row, Section, Seg, SmallBtn } from "./form";
@@ -93,7 +94,7 @@ function AdminHome({ onExit, onPreview, onEvrak, onFoy }: Props) {
   const [modeF, setModeF] = useState<"hepsi" | "solo" | "duel">("hepsi");
   const [statusF, setStatusF] = useState<"hepsi" | "yayinda" | "taslak" | "yerlesik">("hepsi");
   const [confirmDel, setConfirmDel] = useState<string | null>(null);
-  const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri" | "ayarlar" | "istatistik" | "mesajlar" | "hatalar" | "ornek" | "gorsel" | "sohbet">("");
+  const [ai, setAi] = useState<"" | "denetim" | "uretim" | "oyuncular" | "ceviri" | "ayarlar" | "istatistik" | "mesajlar" | "hatalar" | "ornek" | "gorsel" | "sohbet" | "mevzuat">("");
   const [isServerAdmin, setServerAdmin] = useState<boolean | null>(null);
   // Yönetim paneli de ön yüz gibi üç yüze ayrılır: ortak araçlar (istatistik, oyuncular, mesajlar…) üçünde, diğerleri ilgili yüzde.
   const [yuzler] = useGorunenYuzler();
@@ -199,6 +200,7 @@ function AdminHome({ onExit, onPreview, onEvrak, onFoy }: Props) {
         {yuzNe === "danisma" && <SmallBtn label="📂 Örnek olaylar" tone={ai === "ornek" ? "accent" : "plain"} onPress={() => setAi(ai === "ornek" ? "" : "ornek")} />}
         {yuzNe === "danisma" && !!onEvrak && <SmallBtn label="📄 Evrakla duruşma provası" onPress={onEvrak} />}
         {yuzNe === "takip" && !!onFoy && <SmallBtn label="📁 Föylerim" onPress={onFoy} />}
+        {yuzNe === "takip" && <SmallBtn label="📚 Mevzuat arşivi" tone={ai === "mevzuat" ? "accent" : "plain"} onPress={() => setAi(ai === "mevzuat" ? "" : "mevzuat")} />}
         {yuzNe === "oyun" && <>
           <SmallBtn label="🎭 Görsel denetim" tone={ai === "gorsel" ? "accent" : "plain"} onPress={() => setAi(ai === "gorsel" ? "" : "gorsel")} />
           <SmallBtn label="🔍 Yapay zekâ denetimi" tone={ai === "denetim" ? "accent" : "plain"} onPress={() => setAi(ai === "denetim" ? "" : "denetim")} />
@@ -219,6 +221,7 @@ function AdminHome({ onExit, onPreview, onEvrak, onFoy }: Props) {
 
       {ai === "istatistik" && (yuzNe === "oyun" ? <StatsPanel titles={titles} onClose={() => setAi("")} /> : yuzNe === "takip" ? <TakipIstat onClose={() => setAi("")} /> : <YuzIstat yuz={yuzNe} onClose={() => setAi("")} />)}
       {ai === "mesajlar" && <MessagesPanel onClose={() => setAi("")} />}
+      {ai === "mevzuat" && <MevzuatArsivi onClose={() => setAi("")} />}
       {ai === "hatalar" && <ReportsPanel titles={titles} onClose={() => setAi("")}
         onOpenCase={id => { const e = entries.find(x => x.c.id === id); if (!e) return false; setEditing({ c: e.c, status: e.status, isNew: false }); return true; }} />}
       {ai === "ornek" && <SamplesPanel onClose={() => setAi("")} />}
