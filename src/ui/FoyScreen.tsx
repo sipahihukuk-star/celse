@@ -21,6 +21,7 @@ import { Katlanir } from "./Katlanir";
 import { DavaListesi } from "./DavaListesi";
 import { gunlukBildirim, IsTakibi } from "./IsTakibi";
 import { SesliAsistan } from "./SesliAsistan";
+import { BuroEkrani } from "./BuroEkrani";
 import { duzeySayilari } from "../data/isTakibi";
 import { DUZEY_RENK } from "./GorevKapat";
 import { Btn } from "./kit";
@@ -38,6 +39,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [rapor, setRapor] = useState(false);
   const [isler, setIsler] = useState(false);
   const [ses, setSes] = useState(false);
+  const [buroAc, setBuroAc] = useState(false);
   // "sahsi": şahsi dosyalar bölümünden açılan giriş (yeni föy şahsi ve şifreli olur).
   const [giris, setGiris] = useState<false | "normal" | "sahsi">(false);
   const [ara, setAra] = useState("");
@@ -68,11 +70,12 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   useEffect(() => { yenile(); return foyDinle(yenile); }, []);
   // Dava takibinden çıkınca şahsi dosyalar kilitlenir (bilgisayarı başkası kullanırsa görünmesin).
   useEffect(() => () => { ozelKilitle(); }, []);
-  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler, () => { if (secili && (rapor || isler)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); });
+  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc, () => { if (secili && (rapor || isler)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); });
 
   // Telefonda: föyler uygulamanın deposunda; evrak ekleme, toplu aktarma, DavaTek klasörü ve yedek dosyası bilgisayardadır.
   const web = Platform.OS === "web";
   if (kilitSor) return <OzelKilit durum={kilit} onKapat={() => setKilitSor(null)} onAcildi={() => { const f = kilitSor.sonra; setKilitSor(null); yenile(); f?.(); }} />;
+  if (buroAc && !secili) return <BuroEkrani onKapat={() => setBuroAc(false)} />;
   if (isler && !secili) return <IsTakibi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setIsler(false)} />;
   if (rapor && !secili) return <DavaListesi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setRapor(false)} />;
   if (havuz) return <EvrakHavuzu liste={liste.filter(f => !f.ozel || (havuz !== true && f.id === havuz.id))} kaynakFoy={havuz === true ? undefined : havuz} onBitti={m => { setHavuz(false); if (m) setMesaj({ t: m, ok: true }); yenile(); }} />;
@@ -181,6 +184,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         <Btn kind="secondary" label={t("📋 Dava listesi")} onPress={() => setRapor(true)} />
         <Btn kind="secondary" label={t("✅ Yapılacaklar")} onPress={() => setIsler(true)} />
         {web && <Btn kind={ses ? "primary" : "secondary"} label={t("🎙 Sesli asistan")} onPress={() => setSes(!ses)} />}
+        <Btn kind="secondary" label={t("👥 Büro ve çalışanlar")} onPress={() => setBuroAc(true)} />
         <Btn kind={web ? "secondary" : "primary"} label={t("+ Yeni giriş")} onPress={() => setGiris("normal")} />
         {web && <Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} />}
       </View>

@@ -6,6 +6,7 @@ import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
 import { MuvekkilMesaj } from "./MuvekkilMesaj";
 import { bugunStr, uyariDuzeyi } from "../data/isTakibi";
 import { evrakBasligi } from "../data/evrakBaslik";
+import { buroYetkim } from "../data/buro";
 import { DUZEY_RENK, duzeyAdi, GorevKapat } from "./GorevKapat";
 import { Katlanir } from "./Katlanir";
 import { Acilir } from "./Acilir";
@@ -13,7 +14,7 @@ import { IcraBolum } from "./IcraBolum";
 import { tl } from "../data/icra";
 import { komisyonaUygun } from "../data/davaListesi";
 import { evrakTuruBul, icraDoldur } from "../data/icraEvrak";
-import { dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, KarsiBilgi, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
+import { silineniNotEt, dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, KarsiBilgi, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
 import { DAVA_TURLERI, EVRAK_TURLERI, FoyTur, turBilgi, TURLER } from "../data/foyTurleri";
 import { unmask } from "../engine/mask";
 import { zipIcerigi, turBul } from "../engine/mask/readers";
@@ -53,6 +54,8 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const [yeniGorev, setYeniGorev] = useState("");
   const [gorevTarih, setGorevTarih] = useState("");
   const [kapatId, setKapatId] = useState<string | null>(null);
+  const [yetkim, setYetkim] = useState<string | null>(null);
+  useEffect(() => { buroYetkim().then(setYetkim).catch(() => {}); }, []);
   const [durusmaYazi, setDurusmaYazi] = useState("");
   const [silOnay, setSilOnay] = useState(false);
   const [muvAc, setMuvAc] = useState(false);
@@ -132,7 +135,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     if (/\.(pdf|jpg|jpeg|png|txt)$/i.test(e.ad)) window.open(URL.createObjectURL(b), "_blank"); else indir(evrakBasligi(f, e).dosyaAdi, b);
   };
   const evrakDegistir = (e: FoyEvrak, ek: Partial<FoyEvrak> | null) => {
-    if (!ek) { dosyaSil(e.id).catch(() => {}); degistir({ evraklar: f.evraklar.filter(x => x.id !== e.id) }); setSecim(x => { const y = new Set(x); y.delete(e.id); return y; }); return; }
+    if (!ek) { dosyaSil(e.id).catch(() => {}); degistir({ evraklar: f.evraklar.filter(x => x.id !== e.id), silinen: silineniNotEt(f, [e.id]) }); setSecim(x => { const y = new Set(x); y.delete(e.id); return y; }); return; }
     degistir({ evraklar: f.evraklar.map(x => (x.id === e.id ? { ...x, ...ek } : x)) });
   };
   /** Seçilen evraka toplu işlem: sil ya da önemli/önemsiz yap. */
@@ -153,7 +156,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     degistir({ gorevler: [...f.gorevler, { id: yeniId("g"), metin: m, tarih: tarihCoz(gorevTarih), bitti: false, kaynak: "elle", eklenme: bugunStr() }] });
     setYeniGorev(""); setGorevTarih("");
   };
-  const gorevDegistir = (g: Gorev, ek: Partial<Gorev> | null) => degistir({ gorevler: ek ? f.gorevler.map(x => (x.id === g.id ? { ...x, ...ek } : x)) : f.gorevler.filter(x => x.id !== g.id) });
+  const gorevDegistir = (g: Gorev, ek: Partial<Gorev> | null) => degistir(ek ? { gorevler: f.gorevler.map(x => (x.id === g.id ? { ...x, ...ek } : x)) } : { gorevler: f.gorevler.filter(x => x.id !== g.id), silinen: silineniNotEt(f, [g.id]) });
 
   // Dosya ne durumda: önemli evrak cihazda birlikte kodlanır; kodlu metin gider, dönen özet gerçek adlarla föye yazılır.
   const durumSor = async () => {
@@ -479,7 +482,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             <Pressable accessibilityRole="checkbox" accessibilityLabel={t("Kapat")} accessibilityState={{ checked: false }} onPress={() => setKapatId(x.id)} style={[s.box, { borderColor: DUZEY_RENK[uyariDuzeyi(x, f).duzey] }]} />
             <View style={{ flex: 1, gap: 6 }}>
               <Text style={s.body}>{x.metin}</Text>
-              {(() => { const u = uyariDuzeyi(x, f); return <Text style={[s.hint, { color: DUZEY_RENK[u.duzey], fontWeight: "700" }]}>{[duzeyAdi(u.duzey), t(u.metin), x.tarih ? tarihYaz(x.tarih) : "", x.kaynak === "yapay" ? t("yapay zekâ önerisi, kontrol edin") : ""].filter(Boolean).join(" · ")}</Text>; })()}
+              {(() => { const u = uyariDuzeyi(x, f); return <Text style={[s.hint, { color: DUZEY_RENK[u.duzey], fontWeight: "700" }]}>{[duzeyAdi(u.duzey), t(u.metin), x.tarih ? tarihYaz(x.tarih) : "", x.atananAd ? "👤 " + x.atananAd : "", x.kaynak === "yapay" ? t("yapay zekâ önerisi, kontrol edin") : ""].filter(Boolean).join(" · ")}</Text>; })()}
               {kapatId === x.id && <GorevKapat g={x} onVazgec={() => setKapatId(null)} onKapat={k => { gorevDegistir(x, { bitti: true, kapanis: k }); setKapatId(null); }} />}
             </View>
             <Pressable onPress={() => gorevDegistir(x, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>
@@ -565,7 +568,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
           try { await hemenKaydet(); const y = await foyOzelYap(son.current || f, !f.ozel); son.current = null; setF(y); }
           catch (e) { setErr(t(String((e as Error).message || e))); }
         }} />
-        {!silOnay ? <Btn kind="ghost" label={t("Föyü sil")} onPress={() => setSilOnay(true)} />
+        {yetkim === "yaz" ? <Text style={s.hint}>{t("Ünvanınızın föy silme yetkisi yok.")}</Text> : !silOnay ? <Btn kind="ghost" label={t("Föyü sil")} onPress={() => setSilOnay(true)} />
           : <><Text style={[s.err, { alignSelf: "center" }]}>{t("Föy, evrakı ve görevleriyle bu cihazdan silinecek.")}</Text>
             <Btn kind="ghost" label={t("Evet, sil")} onPress={async () => { if (zaman.current) clearTimeout(zaman.current); zaman.current = null; son.current = null; await foySil(f); onKapat(); }} />
             <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setSilOnay(false)} /></>}
