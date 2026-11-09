@@ -6,6 +6,7 @@ import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
 import { MuvekkilMesaj } from "./MuvekkilMesaj";
 import { bugunStr, uyariDuzeyi } from "../data/isTakibi";
 import { evrakBasligi } from "../data/evrakBaslik";
+import { FoyYzSor } from "./FoyYzSor";
 import { buroYetkim } from "../data/buro";
 import { DUZEY_RENK, duzeyAdi, GorevKapat } from "./GorevKapat";
 import { Katlanir } from "./Katlanir";
@@ -324,6 +325,11 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         </View>
       )}
 
+      {(
+        <Katlanir anahtar="yzsor" baslik={t("🤖 Yapay zekâya sor")} varsayilan ozet={f.yzSohbet?.length ? t("son soru {d}", { d: tarihYaz(f.yzSohbet[f.yzSohbet.length - 1].tarih) }) : t("ne durumda, nerede kaldık, sırada ne var")}>
+          <FoyYzSor f={f} tur={tb.ad} onDegistir={degistir} />
+        </Katlanir>
+      )}
       <Katlanir anahtar="zincir" baslik={t("Dosya zinciri")} ozet={zin.onceki.length + zin.sonraki.length + (f.ilgiliIds?.length || 0) ? t("{n} bağlı dosya", { n: zin.onceki.length + zin.sonraki.length + (f.ilgiliIds?.length || 0) }) : t("bağlı dosya yok")}>
         <View style={s.zincir}>
           {zin.onceki.map(x => <React.Fragment key={x.id}>{halka(x)}<Text style={s.hint}>→</Text></React.Fragment>)}

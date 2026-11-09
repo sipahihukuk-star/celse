@@ -24,6 +24,7 @@ export interface KarsiBilgi {
   ek?: string;
 }
 /** İşin kapanışı: iş emri / evrak numarası olmadan iş kapanmaz. Numara elle yazılır ya da yüklenen görselden okunur. */
+export interface YzSoru { id: string; tarih: string; soru: string; cevap: string; kaynaklar?: { baslik: string; url: string }[] }
 export interface GorevKapanis { tarih: string; no: string; kaynak: "elle" | "gorsel"; gorsel?: string }
 export interface Gorev {
   id: string; metin: string; tarih?: string; bitti: boolean; kaynak: "elle" | "yapay" | "aktarma";
@@ -80,6 +81,8 @@ export interface Foy {
   /** Sonraki duruşma: YYYY-AA-GG (saat isteğe bağlı: YYYY-AA-GGTSS:DD). */
   durusma?: string;
   notlar: string; gorevler: Gorev[]; evraklar: FoyEvrak[]; degerlendirme?: FoyDegerlendirme;
+  /** "Yapay zekâya sor" konuşması (son 30 soru-cevap; cevaplar gerçek adlarla, cihazda ve şifreli bulutta) */
+  yzSohbet?: YzSoru[];
 }
 
 export const yeniId = (on: string) => on + "-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 7);

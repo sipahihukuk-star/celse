@@ -12,7 +12,13 @@ import { evrakMetni, evrakTanisi, gercekTur } from "../engine/mask/readers";
 export type Kaynak = { ad: string; bytes: Uint8Array; blob?: Blob; yol?: string };
 
 /** Föyün bilinen adları her evrakta mutlaka kodlansın. */
-const ekAdlar = (f: Foy) => [f.muvekkil, f.karsiTaraf].map(x => (x || "").trim()).filter(x => x.length > 2);
+// Müvekkil ve karşı taraf adı; şirketlerde unvan eki olmadan geçen kısa adı da (ör. "Örnek Sigorta A.Ş." → "Örnek Sigorta") kodlanır.
+const SIRKET_EKI = /\s+(A\.?\s?Ş\.?|ANONİM ŞİRKETİ|Anonim Şirketi|LTD\.?\s?ŞTİ\.?|Ltd\.?\s?Şti\.?|LİMİTED ŞİRKETİ|Limited Şirketi|ve Tic\.?.*|VE TİC\.?.*|San\.?\s?ve\s?Tic\.?.*)$/;
+const ekAdlar = (f: Foy) => {
+  const xs = [f.muvekkil, f.karsiTaraf].map(x => (x || "").trim()).filter(x => x.length > 2);
+  for (const x of [...xs]) { const k = x.replace(SIRKET_EKI, "").trim(); if (k !== x && k.length > 4) xs.push(k); }
+  return xs;
+};
 
 /** Evrakın türünü, önemini ve kodlu hâlini (yeniden) hesaplar. Avukatın elle seçtiği tür ve önem korunur. */
 export function evrakHazirla(f: Foy, e: FoyEvrak, yeniden = false): FoyEvrak {
@@ -81,4 +87,40 @@ export function durumKaynagi(f: Foy): { metin: string; map: Record<string, strin
   const ham = secilen.map((e, i) => `=== Evrak ${i + 1} · ${e.tur || "Diğer"}: ${e.ad.replace(/\.[^.]+$/, "")} ===\n${e.metin}`).join("\n\n");
   const m = mask(ham, { extra: ekAdlar(f) });
   return { metin: m.masked, map: m.map, kullanilan: secilen, disarida: sira.filter(e => !secilen.includes(e)) };
+}
+
+/** "Yapay zekâya sor" için dosyanın kodlanmış hâli: künye, işler, notlar, son değerlendirme, önceki sorular, soru ve önemli
+ *  evrak (en çok ~60.000 harf) tek seferde kodlanır; aynı kişi her yerde aynı kodla görünür. Dönen cevap map ile açılır. */
+export function foySoruKaynagi(f: Foy, soru: string, gecmis: { soru: string; cevap: string }[], tur: string, sinir = 60000):
+  { dosya: string; soru: string; gecmis: { soru: string; cevap: string }[]; map: Record<string, string>; evrakSay: number } {
+  const tr = (x?: string) => (x ? x.slice(0, 10).split("-").reverse().join(".") : "");
+  const kunye = [
+    "=== KÜNYE ===",
+    "Dosya türü: " + tur + (f.davaTuru ? " · " + f.davaTuru : ""),
+    "Bizim taraf: " + (f.taraf === "davali" ? "davalı / sanık / borçlu tarafı" : "davacı / başvuran / alacaklı tarafı"),
+    "Merci: " + (f.mahkeme || "yazılmamış") + (f.esasNo ? " · dosya no " + f.esasNo : ""),
+    "Müvekkil: " + (f.muvekkil || "yazılmamış") + (f.karsiTaraf ? " · karşı taraf: " + f.karsiTaraf : ""),
+    "Açılış: " + (tr(f.acilis) || "yazılmamış") + " · aşama: " + (f.asama || "yazılmamış") + " · durum: " + (f.durum === "kapali" ? "kapalı" + (f.kapanis ? " (" + tr(f.kapanis) + ")" : "") : "açık"),
+    f.durusma ? "Sıradaki duruşma: " + tr(f.durusma) + (f.durusma.length > 10 ? " " + f.durusma.slice(11, 16) : "") : "",
+    "=== YAPILACAK İŞLER ===",
+    ...(f.gorevler.length ? f.gorevler.slice(-30).map(g => "- " + g.metin + (g.tarih ? " (son gün " + tr(g.tarih) + ")" : "") + (g.bitti ? " [tamamlandı" + (g.kapanis ? " " + tr(g.kapanis.tarih) : "") + "]" : " [açık]")) : ["(iş yok)"]),
+    f.notlar.trim() ? "=== AVUKATIN NOTLARI ===\n" + f.notlar.trim().slice(0, 3000) : "",
+    f.degerlendirme?.ozet ? "=== SON DEĞERLENDİRME (" + tr(f.degerlendirme.tarih) + ") ===\n" + f.degerlendirme.ozet + (f.degerlendirme.sureler.length ? "\nSüreler: " + f.degerlendirme.sureler.join("; ") : "") : "",
+    "=== EVRAK LİSTESİ ===",
+    ...(f.evraklar.length ? [...f.evraklar].sort((a, b) => (a.tarih || a.eklenme).localeCompare(b.tarih || b.eklenme)).slice(-60).map(e => "- " + (e.tur || "Evrak") + (e.konu ? ": " + e.konu : "") + " · " + tr(e.tarih || e.eklenme)) : ["(evrak yok)"])
+  ].filter(Boolean).join("\n");
+  const onemli = f.evraklar.filter(e => e.onemli !== false && e.metin.trim())
+    .sort((a, b) => { const pa = ONCELIK.indexOf(a.tur || "Diğer"), pb = ONCELIK.indexOf(b.tur || "Diğer"); return (pa < 0 ? 99 : pa) - (pb < 0 ? 99 : pb) || b.eklenme.localeCompare(a.eklenme); });
+  const secilen: FoyEvrak[] = [];
+  let toplam = 0;
+  for (const e of onemli) { const n = Math.min(e.metin.length, 20000) + 80; if (toplam + n > sinir) continue; secilen.push(e); toplam += n; }
+  secilen.sort((a, b) => (a.tarih || a.eklenme).localeCompare(b.tarih || b.eklenme));
+  const evrak = secilen.map((e, i) => "=== Evrak " + (i + 1) + " · " + (e.tur || "Diğer") + " · " + tr(e.tarih || e.eklenme) + " ===\n" + e.metin.slice(0, 20000)).join("\n\n");
+  const AYRAC = "\n\u241E\u241E\n";
+  const parcalar = [kunye + (evrak ? "\n\n=== ÖNEMLİ EVRAKIN METNİ ===\n" + evrak : ""), soru, ...gecmis.flatMap(x => [x.soru, x.cevap])];
+  const m = mask(parcalar.join(AYRAC), { extra: ekAdlar(f) });
+  const k = m.masked.split(AYRAC.trim()).map(x => x.trim());
+  const gk: { soru: string; cevap: string }[] = [];
+  for (let i = 2; i + 1 < k.length; i += 2) gk.push({ soru: k[i], cevap: k[i + 1] });
+  return { dosya: k[0], soru: k[1] || soru, gecmis: gk, map: m.map, evrakSay: secilen.length };
 }
