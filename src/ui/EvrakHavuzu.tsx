@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { useAccount } from "../data/account";
 import type { FoyTaraf } from "../data/foy";
-import { ayarOku, ayarYaz, bosFoy, dosyaOku, dosyaSil, Foy, foyBaslik, FoyEvrak, foyGetir, foyHaber, foyKaydet, foylerKaydet, foySil, tarihYaz } from "../data/foy";
+import { ayarOku, ayarYaz, bosFoy, dosyaOku, Foy, foyBaslik, FoyEvrak, foyGetir, foyHaber, foyKaydet, foylerKaydet, foySil, tarihYaz } from "../data/foy";
 import { FoyTur, turBilgi } from "../data/foyTurleri";
 import { FoylemeSohbeti } from "./FoylemeSohbeti";
 import { geriAc } from "../data/foyleme";
@@ -17,6 +17,8 @@ import { Acilir } from "./Acilir";
 import { evrakMetniOku, evrakOlustur, Kaynak } from "./foyEvrak";
 import { boyutYaz, dosyaListesiSec, s } from "./foyStil";
 import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyAktar";
+import { metinleriGetir } from "../data/foyBulut";
+import type { TaramaDosyasi } from "./foyKlasor";
 import { listedenFoyler } from "../data/dosyaListesi";
 import { Btn } from "./kit";
 import { C } from "./theme";
@@ -27,7 +29,8 @@ const LISTE = ["xlsx", "xlsm", "csv"];
 type Okunan = HavuzEvrak & { kaynak: () => Promise<Kaynak> };
 
 /** kaynakFoy verilirse: o föyde toplanmış evrak (ör. hepsi tek föye yüklenmiş) okunur, gruplanır ve ait oldukları föylere taşınır. */
-export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBitti: (mesaj?: string) => void; kaynakFoy?: Foy }) {
+/** hazir: evrak klasöründen gelen, zaten okunmuş dosyalar (föyü bulunamayanlar); ekran bunlarla açılır. */
+export function EvrakHavuzu({ liste, onBitti, kaynakFoy, hazir: klasorden }: { liste: Foy[]; onBitti: (mesaj?: string) => void; kaynakFoy?: Foy; hazir?: TaramaDosyasi[] }) {
   const { account } = useAccount();
   const [okunan, setOkunan] = useState<Okunan[]>([]);
   const [ilerleme, setIlerleme] = useState("");
@@ -57,11 +60,38 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
   useEffect(() => { ayarOku<string>("buroAvukatlari").then(x => setAvukatlar(x || (account?.adSoyad ? "Av. " + account.adSoyad : ""))).catch(() => {}); }, [account?.adSoyad]);
   // Föyde toplanmış evrak: metni zaten okunmuş, asıl dosya cihazdan okunur.
   useEffect(() => {
+    if (!klasorden?.length) return;
+    setOkunan(x => [...x, ...klasorden.filter(d => !x.some(y => y.id === d.anahtar)).map(d => ({
+      id: d.anahtar, ad: d.kaynak.ad, boyut: d.kaynak.bytes.length, metin: d.metin, okunamadi: d.okunamadi, oneri: d.metin ? kunyeCikar(d.metin) : {},
+      kaynak: async () => d.kaynak
+    }))]);
+  }, [klasorden]);
+  // Başka bilgisayardan (ör. sekreterin) eşitlenmiş evrakın yazısı bu cihazda yoksa önce buluttan getirilir; o da yoksa ve asıl
+  // dosya bu bilgisayardaysa dosya yeniden okunur. Yazısı hiç bulunamayanın nedeni listede gösterilir.
+  useEffect(() => {
     if (!kaynakFoy) return;
-    setOkunan(kaynakFoy.evraklar.map(e => ({
-      id: e.id, ad: e.ad, boyut: e.boyut, metin: e.metin, okunamadi: e.okunamadi, oneri: e.metin ? kunyeCikar(e.metin) : {},
-      kaynak: async () => { const b = await dosyaOku(e.id); return { ad: e.ad, bytes: b ? new Uint8Array(await b.arrayBuffer()) : new Uint8Array(), blob: b, yol: e.kaynak }; }
-    })));
+    let iptal = false;
+    (async () => {
+      setIlerleme(t("Evrakın yazısı hazırlanıyor…"));
+      const f = await metinleriGetir(kaynakFoy).catch(() => kaynakFoy);
+      const xs: Okunan[] = [];
+      let i = 0;
+      for (const e of f.evraklar) {
+        i++;
+        let metin = e.metin, okunamadi = e.okunamadi;
+        if (!metin.trim()) {
+          const b = await dosyaOku(e.id).catch(() => undefined);
+          if (b && b.size) {
+            const o = await evrakMetniOku({ ad: e.ad, bytes: new Uint8Array(await b.arrayBuffer()), blob: b }, m => setIlerleme(t("({a} / {b}) {ad}: {m}", { a: i, b: f.evraklar.length, ad: e.ad, m: t(m) })));
+            metin = "hata" in o ? "" : o.metin; okunamadi = "hata" in o ? o.hata : o.okunamadi;
+          } else if (!okunamadi) okunamadi = e.bulutMetin ? "yazısı buluttan getirilemedi; bu evrakı ekleyen bilgisayarda bir kez eşitleme yapılmalı" : "yazısı da asıl dosyası da bu bilgisayarda yok";
+        }
+        xs.push({ id: e.id, ad: e.ad, boyut: e.boyut, metin, okunamadi, oneri: metin ? kunyeCikar(metin) : {},
+          kaynak: async () => { const b = await dosyaOku(e.id); return { ad: e.ad, bytes: b ? new Uint8Array(await b.arrayBuffer()) : new Uint8Array(), blob: b, yol: e.kaynak }; } });
+      }
+      if (!iptal) { setOkunan(xs); setIlerleme(""); }
+    })();
+    return () => { iptal = true; };
   }, [kaynakFoy?.id]);
   const avukatListesi = avukatlar.split(/[,;\n]/).map(x => x.trim()).filter(Boolean);
   // Excel satırlarından föyler: listede aynı mahkeme ve esas varsa güncellenir, yoksa yeni föy olur. Evrak bu föylerle de eşleşir.
@@ -149,6 +179,9 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
         if (f.evraklar.some(x => x.ad === e.ad && x.boyut === e.boyut)) { if (kaynakFoy) tasinan.push(e.id); continue; } // aynı evrak zaten var
         if (kaynakFoy) tasinan.push(e.id);
         setIlerleme(t("{ad} föye ekleniyor…", { ad: e.ad }));
+        // Föyden ayırırken evrak olduğu gibi taşınır (aynı kimlik, asıl dosya ve buluttaki yazı korunur).
+        const asil = kaynakFoy?.evraklar.find(x => x.id === e.id);
+        if (asil) { eklenecek.push({ ...asil, ...(e.metin && !asil.metin ? { metin: e.metin } : {}), ...(e.oneri.belgeTarihi && !asil.tarih ? { tarih: e.oneri.belgeTarihi } : {}) }); continue; }
         const yeniE = await evrakOlustur(f, await e.kaynak(), { metin: e.metin, okunamadi: e.okunamadi });
         eklenecek.push(e.oneri.belgeTarihi ? { ...yeniE, tarih: e.oneri.belgeTarihi } : yeniE);
       }
@@ -177,7 +210,6 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy }: { liste: Foy[]; onBit
       const k = await foyGetir(kaynakFoy.id);
       if (k) {
         const kalan = k.evraklar.filter(e => !tasinan.includes(e.id));
-        for (const id of tasinan) await dosyaSil(id).catch(() => {});
         const bos = !kalan.length && !k.muvekkil.trim() && !k.esasNo.trim() && !k.mahkeme.trim() && !k.gorevler.length && !k.notlar.trim();
         if (bos) await foySil({ ...k, evraklar: [] }); else await foyKaydet({ ...k, evraklar: kalan }, true);
       }

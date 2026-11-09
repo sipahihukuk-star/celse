@@ -96,7 +96,8 @@ export function kodlaDurum(gruplar: HavuzGrup[], hedefi: (g: HavuzGrup) => Hedef
   const grupNo = gruplar.map(g => g.anahtar);
   const foyListe = [...foyler].sort((x, y) => Number(ilgiliFoy.has(y.id)) - Number(ilgiliFoy.has(x.id)) || y.guncelleme.localeCompare(x.guncelleme)).slice(0, 80);
   const foyNo = foyListe.map(f => f.id);
-  const durum = {
+  // Sunucu durumu 60.000 karakterde keser; yarım JSON yapay zekâya "boş" görünür. Sığmazsa özetler kısaltılarak yeniden kurulur.
+  const kur = (ayriUzun: number, grupUzun: number) => ({
     gruplar: gruplar.map((g, i) => {
       const h = hedefi(g);
       const v1 = g.evraklar.map(e => e.oneri.birinci?.vekil).find(Boolean), v2 = g.evraklar.map(e => e.oneri.ikinci?.vekil).find(Boolean);
@@ -107,12 +108,14 @@ export function kodlaDurum(gruplar: HavuzGrup[], hedefi: (g: HavuzGrup) => Hedef
         biz: h.tur === "yeni" ? (g.tarafBelirsiz ? "belirsiz" : h.taraf === "davali" ? 2 : 1) : (bizimMi(v1) ? 1 : bizimMi(v2) ? 2 : "belirsiz"),
         hedef: h.tur === "var" ? `föy ${foyNo.indexOf(h.foyId) + 1}` : h.tur, tur: h.tur === "yeni" ? h.foyTur : null,
         onceki: once ? grupNo.indexOf(once) + 1 || null : null,
-        evrak: g.evraklar.slice(0, 25).map((e, j) => ({ tur: evrakSinifla("", e.metin).tur, tarih: e.oneri.belgeTarihi || null, ...(j < 2 && e.metin ? { ozet: ozet(e.metin, 350) } : {}) }))
+        evrak: g.evraklar.slice(0, 25).map((e, j) => ({ tur: e.metin ? evrakSinifla("", e.metin).tur : "okunamadı", tarih: e.oneri.belgeTarihi || null, ...(j < 2 && e.metin && grupUzun ? { ozet: ozet(e.metin, grupUzun) } : {}) }))
       };
     }),
-    ayrilamayan: ayrilamayan.slice(0, 60).map((e, i) => ({ evrak: i + 1, tur: e.metin ? evrakSinifla("", e.metin).tur : "okunamadı", taraf1: ver(e.oneri.birinci?.ad), taraf2: ver(e.oneri.ikinci?.ad), merci: merci(e.oneri.mahkeme), no: no(e.oneri.esasNo), ozet: e.metin ? ozet(e.metin, 700) : null })),
+    ayrilamayan: ayrilamayan.slice(0, 60).map((e, i) => ({ evrak: i + 1, tur: e.metin ? evrakSinifla("", e.metin).tur : "okunamadı", taraf1: ver(e.oneri.birinci?.ad), taraf2: ver(e.oneri.ikinci?.ad), merci: merci(e.oneri.mahkeme), no: no(e.oneri.esasNo), ozet: e.metin && ayriUzun ? ozet(e.metin, ayriUzun) : null })),
     foyler: foyListe.map((f, i) => ({ foy: i + 1, tur: f.tur || "hukuk", muvekkil: ver(f.muvekkil), karsi: ver(f.karsiTaraf), no: no(f.esasNo), merci: merci(f.mahkeme), acilis: f.acilis || null }))
-  };
+  });
+  let durum = "";
+  for (const [a, b] of [[700, 350], [450, 250], [250, 150], [120, 0], [0, 0]]) { durum = JSON.stringify(kur(a, b)); if (durum.length <= 55000) break; }
   // Mesajdaki adlar: tam ad, şirket eki olmadan ad ve soyadı (en az 4 harf); büyük/küçük harf ve Türkçe harf farkı gözetilmez.
   function kodla(s: string) {
     const adlar = [...kod.entries()].map(([k, c]) => ({ ad: geri[c], k, c })).filter(x => x.ad).sort((x, y) => y.ad.length - x.ad.length);
@@ -130,7 +133,7 @@ export function kodlaDurum(gruplar: HavuzGrup[], hedefi: (g: HavuzGrup) => Hedef
     // Kimlik, telefon, e-posta hiç gitmez.
     return x.replace(/\b\d{10,11}\b/g, "[NUMARA]").replace(/[\w.+-]+@[\w-]+\.[\w.]+/g, "[E-POSTA]").replace(/(?:\+90|0)\s?5\d{2}\s?\d{3}\s?\d{2}\s?\d{2}/g, "[TELEFON]");
   }
-  return { durum: JSON.stringify(durum), gruplar: grupNo, foyler: foyNo, evraklar: ayrilamayan.slice(0, 60).map(e => e.id), geri, kodla };
+  return { durum, gruplar: grupNo, foyler: foyNo, evraklar: ayrilamayan.slice(0, 60).map(e => e.id), geri, kodla };
 }
 
 /** Cevaptaki kodları gerçek adlara çevirir (yalnız cihazda). */
