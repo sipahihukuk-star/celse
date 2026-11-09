@@ -16,16 +16,27 @@ export const klasorDestekli = () => typeof window !== "undefined" && typeof (win
 export const KOPRU = "http://127.0.0.1:47613";
 export const KURULUM_ADRESI = "./indir/CelseKlasorKurulum.exe";
 export interface KopruDurumu { klasor: string; surum: string; dosya: number }
-/** Masaüstü köprüsü çalışıyor mu (en çok 1,5 sn bekler). */
-export async function kopruDurumu(): Promise<KopruDurumu | null> {
+// Köprü yalnız kurulduğu biliniyorsa yoklanır: Chrome, sayfa 127.0.0.1'e her istek yaptığında "yerel ağ erişimi" izni sorar;
+// kurulum yapmamış avukata bu soru (ve mikrofon izniyle çakışması) hiç gösterilmez. Kurulum Celse'yi "?klasor=kuruldu" ile açar.
+const KOPRU_VAR = "kopruKuruldu";
+export async function kopruKurulduIsaretle() { await ayarYaz(KOPRU_VAR, true); }
+async function kopruBekleniyor(): Promise<boolean> {
+  try { if (/[?&]klasor=kuruldu\b/.test(window.location?.search || "")) { await ayarYaz(KOPRU_VAR, true); return true; } } catch { /* yok say */ }
+  return !!(await ayarOku<boolean>(KOPRU_VAR).catch(() => false));
+}
+/** Masaüstü köprüsü çalışıyor mu (en çok 1,5 sn bekler). zorla: kurulduğu işaretli olmasa da yokla (avukat “Bağla” dediğinde). */
+export async function kopruDurumu(zorla = false): Promise<KopruDurumu | null> {
   if (typeof window === "undefined" || typeof fetch !== "function") return null;
+  if (!zorla && !(await kopruBekleniyor())) return null;
   const ac = new AbortController();
   const z = setTimeout(() => ac.abort(), 1500);
   try {
     const r = await fetch(KOPRU + "/durum", { signal: ac.signal, cache: "no-store" });
     if (!r.ok) return null;
     const j = await r.json();
-    return j && j.uygulama === "celse-klasor" ? { klasor: String(j.klasor || ""), surum: String(j.surum || ""), dosya: Number(j.dosya) || 0 } : null;
+    if (!(j && j.uygulama === "celse-klasor")) return null;
+    if (zorla) await ayarYaz(KOPRU_VAR, true);
+    return { klasor: String(j.klasor || ""), surum: String(j.surum || ""), dosya: Number(j.dosya) || 0 };
   } catch { return null; } finally { clearTimeout(z); }
 }
 export async function kopruKlasorDegistir(yol: string): Promise<string> {

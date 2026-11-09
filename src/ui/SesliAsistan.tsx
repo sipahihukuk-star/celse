@@ -27,12 +27,11 @@ export const sesliAsistanVar = () => !!SR();
 async function yerelTanima(): Promise<boolean> {
   const R = SR();
   if (!R?.available) return false;
+  // Yalnız dil paketi hazırsa cihazda tanınır; indirme başlatılmaz (indirme uzun sürüp mikrofonu bekletiyordu). En çok 1,5 sn beklenir.
   try {
-    const d = await R.available({ langs: ["tr-TR"], processLocally: true });
-    if (d === "available") return true;
-    if (d === "downloadable" || d === "downloading") return !!(await R.install({ langs: ["tr-TR"], processLocally: true }));
-  } catch { /* desteklenmiyor */ }
-  return false;
+    const d = await Promise.race([R.available({ langs: ["tr-TR"], processLocally: true }), new Promise(ok => setTimeout(() => ok("zaman"), 1500))]);
+    return d === "available";
+  } catch { return false; }
 }
 
 // Ekran değişince konuşma ve bağlam kaybolmasın: modül düzeyinde tutulur.
@@ -62,6 +61,7 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
   const sohbetAcik = useRef(false);
   const sessiz = useRef(0);
   const [yerel, setYerel] = useState<boolean | null>(null);
+  const yerelDenetlendi = useRef(false);
   const yerelRef = useRef(false); yerelRef.current = !!yerel;
   const [hata, setHata] = useState("");
   const rec = useRef<Any>(null);
@@ -204,7 +204,7 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
     const R = SR();
     if (!R) return;
     // Cihazda tanıma yalnız mikrofona ilk basılınca denetlenir (gerekirse dil paketi o an, kullanıcının isteğiyle indirilir).
-    if (yerel === null && yuzen) { const v = await yerelTanima(); setYerel(v); yerelRef.current = v; }
+    if (!yerelDenetlendi.current && yuzen) { yerelDenetlendi.current = true; const v = await yerelTanima(); setYerel(v); yerelRef.current = v; }
     if (telefonda && !(await tanimaIzni())) { sohbetAcik.current = false; setHata(t(izinYokMetni())); return; }
     sesliDur(); setHata(""); setAra("");
     try { rec.current?.abort(); } catch { /* yok say */ }
@@ -226,6 +226,8 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
     r.onerror = (e: Any) => {
       setDinliyor(false);
       const k = e?.error;
+      // Cihazda tanıma kullanılamadıysa (dil paketi, hizmet) bir kez sunucu tanımasıyla yeniden denenir.
+      if (yerelRef.current && k !== "no-speech" && k !== "aborted" && k !== "not-allowed") { yerelRef.current = false; setYerel(false); setTimeout(() => dinle(), 200); return; }
       // Sohbet modunda sessizlik sohbeti bitirmez: avukat kapatana ya da "teşekkürler" diyene kadar dinlemeye devam edilir.
       if (k === "no-speech" && surekli && sohbetAcik.current) { sessiz.current++; setTimeout(() => { if (sohbetAcik.current && (kalici.acik || !yuzen)) dinle(); }, 300); return; }
       if (k === "not-allowed" || k === "service-not-allowed") sohbetAcik.current = false;
