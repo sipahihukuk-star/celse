@@ -56,8 +56,8 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
   const [ara, setAra] = useState("");
   const [yazi, setYazi] = useState("");
   const [surekli, setSurekli] = useState(() => { try { return globalThis.localStorage?.getItem("celse-ses-surekli") !== "0"; } catch { return true; } });
-  // Sohbet modu: bir kez basılır; asistan her cevaptan sonra yeniden dinler, "teşekkürler / görüşürüz / sus" deyince ya da
-  // durdurulunca biter. Sessizlikte iki kez daha dinler, sonra bekler.
+  // Sohbet modu: bir kez basılır; asistan her cevaptan sonra yeniden dinler. Sessizlikte de dinlemeyi sürdürür; yalnız avukat
+  // "teşekkürler / görüşürüz / sus" deyince, durdurunca ya da pencereyi kapatınca biter (son söz avukatındır).
   const sohbetAcik = useRef(false);
   const sessiz = useRef(0);
   const [yerel, setYerel] = useState<boolean | null>(null);
@@ -163,9 +163,8 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
     sessiz.current = 0;
     if (BITIR.test(xs[0].toLocaleLowerCase("tr").trim().replace(/[.!?]+$/, ""))) {
       sohbetAcik.current = false;
-      const metin = t("Görüşmek üzere. Gerekince mikrofona basmanız yeterli.");
-      setKonusma(k => [...k, { kim: "celse" as const, metin }]);
-      sesliOku(metin, 1.05);
+      // Son söz avukatındır: asistan konuşmaz, yalnız ekrana yazar.
+      setHata(t("Sohbet bitti. Yeniden konuşmak için mikrofona basın."));
       return;
     }
     let ilk: Cevap | null = null;
@@ -225,9 +224,8 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
     r.onerror = (e: Any) => {
       setDinliyor(false);
       const k = e?.error;
-      // Sohbet modunda sessizlik: iki kez daha dinlenir.
-      if (k === "no-speech" && surekli && sohbetAcik.current && sessiz.current < 2) { sessiz.current++; setTimeout(() => { if (sohbetAcik.current) dinle(); }, 300); return; }
-      if (k === "no-speech") sohbetAcik.current = false;
+      // Sohbet modunda sessizlik sohbeti bitirmez: avukat kapatana ya da "teşekkürler" diyene kadar dinlemeye devam edilir.
+      if (k === "no-speech" && surekli && sohbetAcik.current) { sessiz.current++; setTimeout(() => { if (sohbetAcik.current && (kalici.acik || !yuzen)) dinle(); }, 300); return; }
       if (k === "not-allowed" || k === "service-not-allowed") sohbetAcik.current = false;
       if (k === "not-allowed" || k === "service-not-allowed") setHata(t("Mikrofon izni verilmedi. Adres çubuğundaki kilit simgesinden mikrofona izin verin."));
       else if (k === "no-speech") setHata(t("Ses duyulmadı. Mikrofona basıp tekrar konuşun."));
