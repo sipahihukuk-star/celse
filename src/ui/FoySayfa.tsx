@@ -455,7 +455,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       {(f.tur === "icra" || !!f.icra) && (
         <Katlanir anahtar="icra" baslik={t("İcra takibi bilgileri")} varsayilan ozet={f.icra?.asil ? t("asıl alacak {x}", { x: tl(f.icra.asil, f.icra.paraBirimi || "TL") }) : t("doldurulmadı")}>
           {!!icraMesaj && <Text style={[s.hint, { color: C.good }]}>{icraMesaj}</Text>}
-          <IcraBolum f={f} degistir={degistir} surum={surum} onEvraktan={() => {
+          <IcraBolum f={f} degistir={degistir} surum={surum} okuma={okuma} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} onEvraktan={() => {
             const r = icraDoldur(f.icra || { yol: "genel", paraBirimi: "TL", faizTuru: "yasal" }, f.evraklar.map(e => e.metin));
             if (r.dolan.length) { degistir({ icra: r.yeni }); setSurum(v => v + 1); }
             setIcraMesaj(r.dolan.length ? t("İcra bilgileri evraktan dolduruldu: {x}. Kontrol edin.", { x: r.dolan.join(", ") }) : f.evraklar.some(e => e.metin.trim()) ? t("Evrakta ilam, çek, senet, kira sözleşmesi ya da fatura bulunamadı; ya da alanlar zaten dolu (yalnız boş alanlar doldurulur).") : t("Önce aşağıdaki Evrak bölümünden takibe konu evrakı (ilam, çek, senet, kira sözleşmesi, fatura) ve varsa vekâletnameyi ekleyin."));
