@@ -10,6 +10,7 @@ import { kutuphane, kutuphanedenSil, kutuphaneyeEkle } from "../data/hukukKutuph
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
 import { beyanYazdir, kaynakBul } from "./beyanCagri";
+import { belgeGetir, belgeKaynak, Karar, KanunMaddesi, kararAra, kararKaynak, kararKunye, MAHKEME_SECENEK, maddeKaynak, maddeKunye, MEVZUAT_TURU, mevzuatBul, MevzuatBelgesi, belgeKunye } from "./resmiKaynak";
 import { indir, s } from "./foyStil";
 import { Katlanir } from "./Katlanir";
 import { Btn } from "./kit";
@@ -67,9 +68,108 @@ function KaynakKart({ k, onEkle, onKaydet, onSil, eklendi }: { k: HukukKaynak; o
   );
 }
 
+/** Bir kararın ya da mevzuatın tam metni (açılıp kapanır, içinde arama sözcükleri vurgulanmaz; kaydırılabilir). */
+function TamMetin({ kaynak, id }: { kaynak: "karar" | "mevzuat"; id: string }) {
+  const [m, setM] = useState<{ metin: string; pdf: boolean; url: string } | null>(null);
+  const [hata, setHata] = useState("");
+  useEffect(() => { belgeGetir(kaynak, id).then(r => (r.ok ? setM(r) : setHata(t(r.hata, r.vars)))); }, [kaynak, id]);
+  if (hata) return <Text style={s.err}>{hata}</Text>;
+  if (!m) return <Text style={s.hint}>{t("Metin getiriliyor…")}</Text>;
+  if (!m.metin) return <Text style={s.hint}>{m.pdf ? t("Bu belge yalnız PDF olarak yayımlanmış; “Kaynağı aç” ile resmî sitede okuyun.") : t("Metin alınamadı; “Kaynağı aç” ile resmî sitede okuyun.")}</Text>;
+  return <ScrollView style={{ maxHeight: 420, borderWidth: 1, borderColor: C.line, borderRadius: 8, padding: 10, backgroundColor: "#fbfaf6" }} nestedScrollEnabled><Text selectable style={{ color: "#111", fontSize: 14, lineHeight: 21 }}>{m.metin}</Text></ScrollView>;
+}
+
+/** Resmî arama: kararlar (Yargıtay, Danıştay, bölge adliye, ilk derece, KYB) ya da mevzuat (Celse kanun arşivi madde madde + resmî servis). */
+function ResmiArama({ tur, f, onEkle, ekli, kaydet, ilkSoz }: { tur: "ictihat" | "mevzuat"; f?: Foy | null; onEkle?: (k: HukukKaynak) => void; ekli: string[]; kaydet: (k: HukukKaynak) => void; ilkSoz: string }) {
+  const [soz, setSoz] = useState(ilkSoz);
+  const [mahkeme, setMahkeme] = useState("");
+  const [birim, setBirim] = useState("");
+  const [mtur, setMtur] = useState("");
+  const [sayfa, setSayfa] = useState(1);
+  const [bekle, setBekle] = useState(false);
+  const [hata, setHata] = useState("");
+  const [kararlar, setKararlar] = useState<Karar[] | null>(null);
+  const [toplam, setToplam] = useState(0);
+  const [maddeler, setMaddeler] = useState<KanunMaddesi[]>([]);
+  const [belgeler, setBelgeler] = useState<MevzuatBelgesi[] | null>(null);
+  const [acik, setAcik] = useState<string>("");
+  const ara = async (sy = 1) => {
+    if (soz.trim().length < 2) { setHata(t(tur === "ictihat" ? "Aranacak sözcükleri yazın (örn. \"bilirkişi raporuna itiraz\" süre)." : "Kanun ve madde (örn. HMK 281) ya da sözcük yazın.")); return; }
+    setBekle(true); setHata(""); setAcik(""); setSayfa(sy);
+    try {
+      if (tur === "ictihat") {
+        const r = await kararAra(soz, { mahkeme: mahkeme || undefined, birim: birim.trim() || undefined, sayfa: sy }, f);
+        if (!r.ok) { setHata(t(r.hata, r.vars)); return; }
+        setKararlar(r.kararlar); setToplam(r.toplam);
+        if (!r.kararlar.length) setHata(t("Karar bulunamadı. Daha az sözcükle ya da tırnak içinde tam ifadeyle deneyin."));
+      } else {
+        const r = await mevzuatBul(soz, { tur: mtur || undefined, mulga: mtur === "MULGA", sayfa: sy }, f);
+        if (!r.ok) { setHata(t(r.hata, r.vars)); return; }
+        setMaddeler(sy === 1 ? r.maddeler : []); setBelgeler(r.belgeler);
+        const not = [r.resmiHata ? t(r.resmiHata) : "", r.arsivYok ? t("Kanun arşivi henüz yüklenmedi (yönetim paneli > Mevzuat arşivi).") : ""].filter(Boolean).join(" ");
+        if (not) setHata(not);
+        else if (!r.maddeler.length && !r.belgeler.length) setHata(t("Sonuç yok. Kanun adını ya da kısaltmasını ve madde numarasını yazın (örn. TBK 49) ya da farklı sözcüklerle deneyin."));
+      }
+    } finally { setBekle(false); }
+  };
+  const Dugmeler = ({ k, acKey, url }: { k: HukukKaynak; acKey?: string; url?: string }) => (
+    <View style={s.addRow}>
+      {acKey && <Pressable onPress={() => setAcik(acik === acKey ? "" : acKey)}><Text style={s.link}>{acik === acKey ? t("Metni kapat") : t("Tam metni aç")}</Text></Pressable>}
+      {!!url && <Pressable onPress={() => Linking.openURL(url)}><Text style={s.link}>{t("Resmî sitede aç")}</Text></Pressable>}
+      {onEkle && <Btn kind={ekli.includes(k.kunye) ? "secondary" : "primary"} label={ekli.includes(k.kunye) ? t("✓ Beyanda") : t("➕ Beyana ekle")} disabled={ekli.includes(k.kunye)} onPress={() => onEkle(k)} />}
+      <Btn kind="ghost" label={t("⭐ Kütüphaneme kaydet")} onPress={() => kaydet(k)} />
+    </View>
+  );
+  return (
+    <View style={{ gap: 10 }}>
+      <View style={s.addRow}>
+        {tur === "ictihat"
+          ? <Acilir etiket={t("Mahkeme")} genislik={240} secenekler={MAHKEME_SECENEK.map(x => ({ k: x.k || "_", ad: t(x.ad) }))} secili={mahkeme || "_"} onSec={k => setMahkeme(k === "_" ? "" : k)} />
+          : <Acilir etiket={t("Mevzuat türü")} genislik={280} secenekler={MEVZUAT_TURU.map(x => ({ k: x.k || "_", ad: t(x.ad) }))} secili={mtur || "_"} onSec={k => setMtur(k === "_" ? "" : k)} />}
+        {tur === "ictihat" && <TextInput value={birim} onChangeText={setBirim} placeholder={t("Daire (isteğe bağlı): 9. Hukuk Dairesi")} placeholderTextColor={C.muted} style={[s.inputTek, { minWidth: 200 }]} />}
+      </View>
+      <View style={s.addRow}>
+        <TextInput value={soz} onChangeText={setSoz} onSubmitEditing={() => ara(1)} returnKeyType="search" style={[s.inputTek, { flex: 1, minWidth: 220 }]} placeholderTextColor={C.muted}
+          placeholder={tur === "ictihat" ? t("Örn. \"bilirkişi raporuna itiraz\" ek rapor  ·  kira tespiti +emsal") : t("Örn. HMK 281 · TBK m. 49 · Anayasa 36 · kat mülkiyeti aidat")} />
+        <Btn label={bekle ? t("Aranıyor…") : t("🔍 Ara")} disabled={bekle} onPress={() => ara(1)} />
+      </View>
+      {!!hata && <Text style={s.err}>{hata}</Text>}
+      {maddeler.map(m => { const k = maddeKaynak(m); const key = "m" + m.slug + m.madde; return (
+        <View key={key} style={[s.file, { flexDirection: "column", alignItems: "stretch", gap: 6 }]}>
+          <Text style={s.meta}>{t("Kanun maddesi")}{m.durum !== "yururlukte" ? " · " + t("MÜLGA") : ""}</Text>
+          <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{maddeKunye(m)}{m.baslik ? " – " + m.baslik : ""}</Text>
+          <Text selectable style={s.body}>{acik === key ? m.metin : m.metin.slice(0, 600) + (m.metin.length > 600 ? "…" : "")}</Text>
+          <Dugmeler k={k} acKey={m.metin.length > 600 ? key : undefined} />
+        </View>); })}
+      {(belgeler || []).map(b => { const k = belgeKaynak(b); const key = "b" + b.id; return (
+        <View key={key} style={[s.file, { flexDirection: "column", alignItems: "stretch", gap: 6 }]}>
+          <Text style={s.meta}>{b.tur}{b.rgTarih ? " · RG " + b.rgTarih + (b.rgSayi ? "/" + b.rgSayi : "") : ""}</Text>
+          <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{belgeKunye(b)}</Text>
+          <Dugmeler k={k} acKey={key} url={b.url} />
+          {acik === key && <TamMetin kaynak="mevzuat" id={b.id} />}
+        </View>); })}
+      {(kararlar || []).map(x => { const k = kararKaynak(x); const key = "k" + x.id; return (
+        <View key={key} style={[s.file, { flexDirection: "column", alignItems: "stretch", gap: 6 }]}>
+          <Text style={s.meta}>{x.mahkeme}{x.kesinlesme ? " · " + x.kesinlesme : ""}</Text>
+          <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{kararKunye(x)}</Text>
+          <Dugmeler k={k} acKey={key} url={x.url} />
+          {acik === key && <TamMetin kaynak="karar" id={x.id} />}
+        </View>); })}
+      {((tur === "ictihat" && kararlar && toplam > sayfa * 10) || (tur === "mevzuat" && belgeler && belgeler.length === 10)) && (
+        <View style={s.addRow}>
+          {sayfa > 1 && <Btn kind="ghost" label={t("‹ Önceki")} disabled={bekle} onPress={() => ara(sayfa - 1)} />}
+          <Text style={s.hint}>{t("Sayfa {n}", { n: sayfa })}{tur === "ictihat" ? " · " + t("{n} karar", { n: toplam.toLocaleString("tr-TR") }) : ""}</Text>
+          <Btn kind="ghost" label={t("Sonraki ›")} disabled={bekle} onPress={() => ara(sayfa + 1)} />
+        </View>
+      )}
+    </View>
+  );
+}
+
 /** İçtihat, mevzuat ve doktrin: arama, sonuçlar, kütüphanem, elle ekleme. onEkle verilirse kaynak beyana eklenebilir. */
 export function KaynakPaneli({ f, onEkle, ekli = [], konu: varsayilan = "" }: { f?: Foy | null; onEkle?: (k: HukukKaynak) => void; ekli?: string[]; konu?: string }) {
   const [tur, setTur] = useState<HukukKaynak["tur"]>("ictihat");
+  const [yol, setYol] = useState<"resmi" | "yz">("resmi");
   const [konu, setKonu] = useState(varsayilan);
   const [bekle, setBekle] = useState(false);
   const [hata, setHata] = useState("");
@@ -91,12 +191,16 @@ export function KaynakPaneli({ f, onEkle, ekli = [], konu: varsayilan = "" }: { 
   const kutTur = kut.filter(k => k.tur === tur);
   return (
     <View style={{ gap: 10 }}>
-      <Text style={s.hint}>{t("İçtihat Yargıtay, Danıştay, Anayasa Mahkemesi, UYAP emsal ve AİHM sitelerinde; mevzuat mevzuat.gov.tr ve Resmî Gazete'de; doktrin DergiPark gibi açık erişimli sitelerde aranır. Yalnız aramada gerçekten bulunan kaynaklar gösterilir; künyeyi beyana koymadan önce kaynağı açıp kontrol edin.")}</Text>
+      <Text style={s.hint}>{t("Kararlar Adalet Bakanlığı'nın emsal karar servisinden (Yargıtay, Danıştay, bölge adliye, ilk derece, kanun yararına bozma) tam metniyle gelir. Kanunlar (yürürlükteki ve mülga) madde madde Celse arşivinden; KHK, Cumhurbaşkanlığı kararnamesi, yönetmelik, tüzük, genelge ve tebliğ resmî mevzuat servisinden aranır. Doktrin ve yapay zekâ araması DergiPark gibi açık erişimli sitelerde yapılır; künyeyi beyana koymadan önce kaynağı açıp kontrol edin.")}</Text>
       <View style={s.addRow}>
-        <Acilir etiket={t("Ne arıyorsunuz")} secenekler={(["ictihat", "mevzuat", "doktrin"] as const).map(k => ({ k, ad: t(TUR_AD[k]), n: kut.filter(x => x.tur === k).length || undefined }))} secili={tur} onSec={k => { setTur(k as HukukKaynak["tur"]); setSonuc(null); }} />
+        <Acilir etiket={t("Ne arıyorsunuz")} secenekler={(["ictihat", "mevzuat", "doktrin"] as const).map(k => ({ k, ad: t(TUR_AD[k]), n: kut.filter(x => x.tur === k).length || undefined }))} secili={tur} onSec={k => { setTur(k as HukukKaynak["tur"]); setSonuc(null); setHata(""); }} />
+        {tur !== "doktrin" && <Acilir etiket={t("Nereden")} genislik={260} secenekler={[{ k: "resmi", ad: tur === "ictihat" ? t("Resmî karar arama (UYAP emsal)") : t("Kanun arşivi ve resmî mevzuat") }, { k: "yz", ad: t("Yapay zekâ ile ara") }]} secili={yol} onSec={k => { setYol(k as "resmi" | "yz"); setHata(""); }} />}
+      </View>
+      {tur !== "doktrin" && yol === "resmi" && <ResmiArama key={tur} tur={tur} f={f} onEkle={onEkle} ekli={ekli} kaydet={kaydet} ilkSoz={varsayilan.replace(/(larımızın|lerimizin|imizin|ımızın)\s+sunulmasıdır\.?$/, "").replace(/\.$/, "")} />}
+      {(tur === "doktrin" || yol === "yz") && <View style={s.addRow}>
         <TextInput value={konu} onChangeText={setKonu} onSubmitEditing={ara} placeholder={t("Konu: örn. kusur oranına itiraz, ıslah zamanaşımı")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 220 }]} returnKeyType="search" />
         <Btn label={bekle ? t("Aranıyor…") : t("🔍 Ara")} onPress={ara} disabled={bekle} />
-      </View>
+      </View>}
       {!!hata && <Text style={s.err}>{hata}</Text>}
       {sonuc?.kaynaklar.map(k => <KaynakKart key={k.id} k={k} eklendi={ekli.includes(k.kunye)} onEkle={onEkle ? () => onEkle(k) : undefined} onKaydet={() => kaydet(k)} />)}
       {!!sonuc?.genel && <KaynakKart k={genelKaynak(sonuc.genel)} onEkle={onEkle ? () => onEkle(genelKaynak(sonuc.genel)) : undefined} onKaydet={() => kaydet(genelKaynak(sonuc.genel))} />}

@@ -59,7 +59,7 @@ const TAKIP_AZAMI = 1000;
 const DANISMA_EVRAK = 40000;
 
 // Hız sınırı (kişi başına, saatlik).
-const SINIR: Record<string, number> = { kontrol: 30, degerlendir: 6, canlandir: 10, izle: 10, ses: 8, takip: 30, dosya: 4, evrak: 8, evrak_izle: 6, evrak_oyna: 4, evrak_bilet: 10, evrak_derle: 150, foyle: 60, foy_sor: 40, ses_anla: 200, genel_sor: 40, beyan_yaz: 40, kaynak_ara: 60 };
+const SINIR: Record<string, number> = { kontrol: 30, degerlendir: 6, canlandir: 10, izle: 10, ses: 8, takip: 30, dosya: 4, evrak: 8, evrak_izle: 6, evrak_oyna: 4, evrak_bilet: 10, evrak_derle: 150, foyle: 60, foy_sor: 40, ses_anla: 200, genel_sor: 40, beyan_yaz: 40, kaynak_ara: 60, karar_ara: 400, mevzuat_bul: 400, belge_getir: 400, mevzuat_yukle: 3000 };
 
 // Oyuncunun dili: model metni bu dilde yazar (JSON alan adları aynı kalır). yz ile aynı "dil" alanı.
 const DIL: Record<string, string> = { en: "English", es: "Spanish", fr: "French", de: "German" };
@@ -1140,6 +1140,256 @@ async function kaynakAra(req: Request, uid: string, b: Record<string, unknown>) 
   return json({ kaynaklar: liste, genel: tur === "doktrin" ? cut(j.genel, 3000).trim() : "", aranan: out.bulunan.length });
 }
 
+// ── Resmî hukuk kaynakları (İçtihat, mevzuat ve doktrin paneli) ───────────────────────────────────────────────────
+// Kararlar: Adalet Bakanlığı'nın emsal karar servisi (bedesten.adalet.gov.tr; UYAP Mevzuat ve emsal arama sitelerinin
+// arka ucu): Yargıtay, Danıştay, bölge adliye (istinaf) hukuk, yerel (ilk derece) hukuk ve kanun yararına bozma kararları.
+// Mevzuat: Celse'nin kanun arşivi (mevzuat_kanun / mevzuat_madde, surum21.sql; madde madde, Türkçe tam metin araması) ve aynı
+// servisin mevzuat araması (KHK, Cumhurbaşkanlığı kararnameleri, yönetmelik, tüzük, genelge, tebliğ, mülga mevzuat…).
+// Servis IP başına kısa sürede az isteğe izin verir; sonuçlar ve belgeler hukuk_onbellek'te saklanır. Sorgu kişisel veri
+// içermemelidir (istemci föy adlarını kodlar); kodlar ([GİZLİ-1] gibi) aramadan çıkarılır.
+const BEDESTEN = "https://bedesten.adalet.gov.tr";
+const BEDESTEN_BASLIK: Record<string, string> = {
+  "Accept": "application/json", "Content-Type": "application/json; charset=utf-8", "AdaletApplicationName": "UyapMevzuat",
+  "Origin": "https://mevzuat.adalet.gov.tr", "Referer": "https://mevzuat.adalet.gov.tr/", "User-Agent": "Celse/1.0 (+https://celse.themiscode.com)"
+};
+const MAHKEMELER = ["YARGITAYKARARI", "DANISTAYKARAR", "ISTINAFHUKUK", "YERELHUKUK", "KYB"];
+const kodsuz = (x: string) => x.replace(/\[[^\]]{1,40}\]/g, " ").replace(/\s+/g, " ").trim();
+
+async function onbellek(anahtar: string, gun: number): Promise<unknown | null> {
+  try {
+    const rows = await srv("/rest/v1/hukuk_onbellek?anahtar=eq." + encodeURIComponent(anahtar) + "&select=veri,tarih", "GET");
+    if (rows && rows[0] && Date.now() - Date.parse(rows[0].tarih) < gun * 864e5) return rows[0].veri;
+  } catch (_e) { void _e; }
+  return null;
+}
+async function onbellegeYaz(anahtar: string, veri: unknown) {
+  try { await srv("/rest/v1/hukuk_onbellek?on_conflict=anahtar", "POST", { anahtar: anahtar, veri: veri, tarih: new Date().toISOString() }, "resolution=merge-duplicates,return=minimal"); } catch (_e) { void _e; }
+}
+async function bedesten(yol: string, data: Record<string, unknown>, sayfali: boolean): Promise<Record<string, unknown>> {
+  const govde = JSON.stringify(sayfali ? { data: data, applicationName: "UyapMevzuat", paging: true } : { data: data, applicationName: "UyapMevzuat" });
+  for (let deneme = 0; deneme < 2; deneme++) {
+    const r = await fetch(BEDESTEN + yol, { method: "POST", headers: BEDESTEN_BASLIK, body: govde });
+    if (r.status === 429 && deneme === 0) { await new Promise(ok => setTimeout(ok, 2500)); continue; }
+    if (r.status === 429) throw new Error("yoğun");
+    if (!r.ok) throw new Error("bedesten " + r.status);
+    const j = await r.json();
+    if (j && j.metadata && j.metadata.FMTY === "ERROR") throw new Error("bedesten " + cut(j.metadata.FMTE, 200));
+    return (j && j.data) || {};
+  }
+  throw new Error("yoğun");
+}
+const resmiHata = (e: unknown) => {
+  const m = String((e as Error).message || e);
+  return json({ error: m === "yoğun" ? "Resmî arama servisi şu an yoğun; birkaç saniye sonra yeniden deneyin." : "Resmî arama servisine ulaşılamadı. Biraz sonra yeniden deneyin.", ayrinti: cut(m, 200) }, 503);
+};
+const trTarih = (x: unknown) => { const m = String(x || "").match(/^(\d{4})-(\d{2})-(\d{2})/); return m ? m[3] + "." + m[2] + "." + m[1] : String(x || ""); };
+
+async function kararAra(req: Request, uid: string, b: Record<string, unknown>) {
+  if (!(await evrakIzni(req, uid)) && !(await avukatAktif(uid))) return json({ error: "avukat paketi yok" }, 403);
+  const soz = kodsuz(cut(b.soz, 300));
+  if (soz.length < 2) return json({ error: "eksik" }, 400);
+  if (evrakSizinti(soz).length) return json({ error: "maskelenmemiş veri" }, 422);
+  const mahkeme = MAHKEMELER.indexOf(String(b.mahkeme)) >= 0 ? [String(b.mahkeme)] : MAHKEMELER;
+  const sayfa = Math.max(1, Math.min(50, Number(b.sayfa) || 1));
+  const data: Record<string, unknown> = { pageSize: 10, pageNumber: sayfa, itemTypeList: mahkeme, phrase: soz, sortFields: ["KARAR_TARIHI"], sortDirection: "desc" };
+  const birim = cut(b.birim, 80).trim();
+  if (birim) data.birimAdi = birim;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(String(b.bas || ""))) data.kararTarihiStart = String(b.bas) + "T00:00:00.000Z";
+  if (/^\d{4}-\d{2}-\d{2}$/.test(String(b.son || ""))) data.kararTarihiEnd = String(b.son) + "T23:59:59.999Z";
+  const anahtar = "karar:" + JSON.stringify(data);
+  let d = await onbellek(anahtar, 1) as Record<string, unknown> | null;
+  if (!d) {
+    try { d = await bedesten("/emsal-karar/searchDocuments", data, true); } catch (e) { return resmiHata(e); }
+    await onbellegeYaz(anahtar, d);
+  }
+  const liste = ((d.emsalKararList || []) as Record<string, unknown>[]).map(x => {
+    const tur = (x.itemType || {}) as Record<string, unknown>;
+    return {
+      id: String(x.documentId || ""), mahkeme: cut(tur.description || tur.name, 80), birim: cut(x.birimAdi, 120),
+      esas: cut(x.esasNo || (x.esasNoYil ? x.esasNoYil + "/" + x.esasNoSira : ""), 40), karar: cut(x.kararNo || (x.kararNoYil ? x.kararNoYil + "/" + x.kararNoSira : ""), 40),
+      tarih: cut(x.kararTarihiStr || trTarih(x.kararTarihi), 20), kesinlesme: cut(x.kesinlesmeDurumu, 60),
+      url: "https://mevzuat.adalet.gov.tr/ictihat/" + String(x.documentId || "")
+    };
+  }).filter(x => x.id);
+  return json({ kararlar: liste, toplam: Number(d.total) || liste.length, sayfa: sayfa });
+}
+
+// Kısaltmayla madde: "HMK 281", "TBK m. 49", "Anayasa 36", "İİK 68/a".
+const KISALTMA: Record<string, string> = {
+  "anayasa": "2709", "ay": "2709", "tmk": "4721", "mk": "4721", "tbk": "6098", "bk": "6098", "hmk": "6100", "tck": "5237", "cmk": "5271", "iik": "2004", "iyuk": "2577",
+  "ttk": "6102", "ik": "4857", "iş kanunu": "4857", "ssgss": "5510", "kmk": "634", "tkhk": "6502", "vuk": "213", "aatuhk": "6183", "hmuk": "6325", "huak": "6325",
+  "imk": "7036", "kabahatler": "5326", "kk": "5326", "kik": "4734", "ak": "1136", "avukatlık kanunu": "1136", "imar kanunu": "3194", "kamulaştırma kanunu": "2942",
+  "tebligat kanunu": "7201", "tk": "7201", "noterlik kanunu": "1512", "harçlar kanunu": "492", "kvkk": "6698", "ckk": "5275", "ctk": "5275", "tmk 6284": "6284"
+};
+function maddeSorusu(soz: string): { no: string; madde: string } | null {
+  const x = soz.toLocaleLowerCase("tr").trim();
+  const m = x.match(/^(.+?)\s*(?:m\.?|md\.?|madde)?\s*(geçici|ek)?\s*(\d{1,4})(?:\s*\/\s*[a-zçğöşü])?\.?\s*(?:madde(?:si)?)?$/);
+  if (!m) return null;
+  const ad = m[1].replace(/\s+(?:m|md)\.?$/, "").trim();
+  const no = KISALTMA[ad] || (/^\d{2,4}$/.test(ad) ? ad : (ad.match(/^(\d{2,4})\s+sayılı/) || [])[1]);
+  if (!no) return null;
+  return { no: no, madde: (m[2] ? (m[2] === "geçici" ? "Geçici " : "Ek ") : "") + m[3] };
+}
+
+async function mevzuatBul(req: Request, uid: string, b: Record<string, unknown>) {
+  if (!(await evrakIzni(req, uid)) && !(await avukatAktif(uid))) return json({ error: "avukat paketi yok" }, 403);
+  const soz = kodsuz(cut(b.soz, 300));
+  if (soz.length < 2) return json({ error: "eksik" }, 400);
+  if (evrakSizinti(soz).length) return json({ error: "maskelenmemiş veri" }, 422);
+  const tur = cut(b.tur, 40).trim();
+  const sonuc: Record<string, unknown> = { maddeler: [], belgeler: [] };
+  // 1) Celse arşivi (kanunlar, madde madde): yalnız tür seçilmemişse ya da KANUN / MULGA ise.
+  if (!tur || tur === "KANUN" || tur === "MULGA") {
+    try {
+      const ms = maddeSorusu(soz);
+      let rows = ms ? await rpc("mevzuat_madde_getir", { p_no: ms.no, p_madde: ms.madde }) : [];
+      if (!rows || !rows.length) rows = await rpc("mevzuat_ara", { p_soz: soz, p_sinir: 15, p_mulga: tur === "MULGA" || b.mulga === true });
+      sonuc.maddeler = (rows || []).map((r: Record<string, unknown>) => ({ no: r.no, kanun: r.ad, durum: r.durum, madde: r.madde, baslik: r.baslik || "", metin: cut(r.metin, ms ? 20000 : 1500), slug: r.slug }));
+    } catch (_e) { sonuc.arsivYok = true; }
+  }
+  // 2) Resmî mevzuat araması (bütün türler).
+  if (b.resmi !== false) {
+    const data: Record<string, unknown> = { pageSize: 10, pageNumber: Math.max(1, Math.min(50, Number(b.sayfa) || 1)), phrase: soz, sortFields: ["RESMI_GAZETE_TARIHI"], sortDirection: "desc" };
+    if (tur) data.mevzuatTurList = [tur];
+    if (b.baslikta === true) data.basliktaAra = true; else data.basliktaAra = false;
+    const anahtar = "mevzuat:" + JSON.stringify(data);
+    let d = await onbellek(anahtar, 1) as Record<string, unknown> | null;
+    if (!d) {
+      try { d = await bedesten("/mevzuat/searchDocuments", data, true); await onbellegeYaz(anahtar, d); }
+      catch (e) { sonuc.resmiHata = String((e as Error).message) === "yoğun" ? "Resmî mevzuat araması şu an yoğun; birkaç saniye sonra yeniden deneyin." : "Resmî mevzuat aramasına ulaşılamadı."; d = null; }
+    }
+    if (d) {
+      sonuc.belgeler = ((d.mevzuatList || []) as Record<string, unknown>[]).map(x => {
+        const t = (x.mevzuatTur || {}) as Record<string, unknown>;
+        return { id: String(x.mevzuatId || ""), no: cut(x.mevzuatNo, 30), ad: cut(x.mevzuatAdi, 400), tur: cut(t.description || t.name, 80), turKod: cut(t.name, 40),
+          rgTarih: trTarih(x.resmiGazeteTarihi), rgSayi: cut(x.resmiGazeteSayisi, 20), url: "https://mevzuat.adalet.gov.tr/mevzuat/" + String(x.mevzuatId || "") };
+      }).filter(x => x.id);
+      sonuc.toplam = Number(d.total) || 0;
+    }
+  }
+  return json(sonuc);
+}
+
+function htmlMetin(h: string): string {
+  return h.replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/gi, " ").replace(/<br\s*\/?>/gi, "\n").replace(/<\/(p|div|tr|li|h\d)>/gi, "\n")
+    .replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, "\"").replace(/&#(\d+);/g, (_a, n) => String.fromCharCode(Number(n)))
+    .replace(/[ \t]+/g, " ").replace(/\n\s+/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+function b64Utf8(x: string): Uint8Array { const s = atob(x); const u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u; }
+
+async function belgeGetir(req: Request, uid: string, b: Record<string, unknown>) {
+  if (!(await evrakIzni(req, uid)) && !(await avukatAktif(uid))) return json({ error: "avukat paketi yok" }, 403);
+  const id = cut(b.id, 40).replace(/[^\w-]/g, "");
+  const kaynak = b.kaynak === "mevzuat" ? "mevzuat" : "karar";
+  if (!id) return json({ error: "eksik" }, 400);
+  const anahtar = "belge:" + kaynak + ":" + id;
+  const eski = await onbellek(anahtar, 30) as Record<string, unknown> | null;
+  if (eski) return json(eski);
+  let d: Record<string, unknown>;
+  try { d = kaynak === "karar" ? await bedesten("/emsal-karar/getDocumentContent", { documentId: id }, false) : await bedesten("/mevzuat/getDocumentContent", { documentType: "MEVZUAT", id: id }, false); }
+  catch (e) { return resmiHata(e); }
+  const mime = String(d.mimeType || "text/html");
+  const url = kaynak === "karar" ? "https://mevzuat.adalet.gov.tr/ictihat/" + id : "https://mevzuat.adalet.gov.tr/mevzuat/" + id;
+  let metin = "";
+  if (/html/i.test(mime) && d.content) metin = htmlMetin(new TextDecoder().decode(b64Utf8(String(d.content))));
+  const out = { id: id, kaynak: kaynak, metin: cut(metin, 200000), pdf: !/html/i.test(mime), url: url };
+  if (metin) await onbellegeYaz(anahtar, out);
+  return json(out);
+}
+
+// Kanun arşivinin yüklenmesi / güncellenmesi (yalnız yönetici; panel art arda çağırır). Kaynak: Adalet Bakanlığı mevzuat
+// servisinden günlük güncellenen açık veri deposu (github.com/onurcan-b/acik-mevzuat; yürürlükteki ve mülga bütün kanunlar).
+// Metin özeti (sha) değişmeyen kanun yeniden yüklenmez.
+const ARSIV = "https://raw.githubusercontent.com/onurcan-b/acik-mevzuat/main/";
+async function mevzuatYukle(req: Request, b: Record<string, unknown>) {
+  if (!(await isAdmin(req))) return json({ error: "yetki yok" }, 403);
+  const r = await fetch(ARSIV + "indeks.json");
+  if (!r.ok) return json({ error: "arşiv dizini alınamadı " + r.status }, 502);
+  const ix = await r.json();
+  const docs = (ix.documents || []) as Record<string, string>[];
+  const bas = Math.max(0, Number(b.bas) || 0), adet = Math.max(1, Math.min(12, Number(b.adet) || 8));
+  const dilim = docs.slice(bas, bas + adet);
+  const sluglar = dilim.map(x => String(x.path || "").replace(/^kanunlar\//, ""));
+  let mevcut: Record<string, string> = {};
+  try {
+    const rows = await srv("/rest/v1/mevzuat_kanun?select=slug,sha&slug=in.(" + sluglar.map(x => encodeURIComponent("\"" + x + "\"")).join(",") + ")", "GET");
+    for (const x of rows || []) mevcut[x.slug] = x.sha;
+  } catch (e) { return json({ error: "arşiv tabloları yok (surum21.sql çalıştırılmalı): " + cut((e as Error).message, 200) }, 500); }
+  let degisen = 0, madde = 0;
+  const hatalar: string[] = [];
+  for (let i = 0; i < dilim.length; i++) {
+    const x = dilim[i], slug = sluglar[i];
+    if (b.zorla !== true && mevcut[slug] && mevcut[slug] === x.content_sha256) continue;
+    try {
+      const m = await fetch(ARSIV + x.path + "/metin.md");
+      if (!m.ok) throw new Error("metin " + m.status);
+      const md = await m.text();
+      let maddeler = maddelereAyir(md);
+      if (!maddeler.length) maddeler = [{ sira: 1, madde: "Metin", baslik: "", metin: md.replace(/^[\s\S]*?\n---\n/, "").trim().slice(0, 60000) }];
+      const rg = md.match(/Resmî Gazete\s*:\s*Tarih\s*:\s*(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+      const kabul = md.match(/Kabul\s+Tarihi\s*:\s*(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+      const iso = (q: RegExpMatchArray | null) => (q ? q[3] + "-" + ("0" + q[2]).slice(-2) + "-" + ("0" + q[1]).slice(-2) : null);
+      const sayi = md.match(/Sayı\s*:\s*(\d+)/);
+      await srv("/rest/v1/mevzuat_kanun?on_conflict=slug", "POST", {
+        slug: slug, no: String(x.law_number || ""), ad: cut(x.title, 500), durum: x.type === "MULGA" || /YÜRÜRLÜKTEN KALDIRIL/i.test(String(x.title)) ? "mulga" : "yururlukte",
+        kabul: iso(kabul), rg_sayi: sayi ? sayi[1] : null, kaynak_url: x.source_mevzuat_id ? "https://mevzuat.adalet.gov.tr/mevzuat/" + x.source_mevzuat_id : null,
+        mevzuat_id: x.source_mevzuat_id || null, sha: null, madde_sayisi: maddeler.length, guncelleme: new Date().toISOString()
+      }, "resolution=merge-duplicates,return=minimal");
+      void rg;
+      await srv("/rest/v1/mevzuat_madde?slug=eq." + encodeURIComponent(slug), "DELETE", undefined, "return=minimal");
+      for (let k = 0; k < maddeler.length; k += 300) {
+        await srv("/rest/v1/mevzuat_madde", "POST", maddeler.slice(k, k + 300).map(y => ({ slug: slug, sira: y.sira, madde: y.madde, baslik: y.baslik || null, metin: y.metin })), "return=minimal");
+      }
+      // sha en son yazılır: yarıda kalan kanun bir sonraki turda yeniden yüklenir.
+      await srv("/rest/v1/mevzuat_kanun?slug=eq." + encodeURIComponent(slug), "PATCH", { sha: x.content_sha256 }, "return=minimal");
+      degisen++; madde += maddeler.length;
+    } catch (e) { hatalar.push(slug + ": " + cut((e as Error).message, 160)); }
+  }
+  const sonraki = bas + dilim.length;
+  return json({ toplam: docs.length, islenen: sonraki, degisen: degisen, madde: madde, bitti: sonraki >= docs.length, sonraki: sonraki, hatalar: hatalar });
+}
+
+// Kanun metnini maddelere ayırır (başlık: MADDE satırından önceki kısa blok; bölüm başlıkları atılır; satır kırılmaları birleşir).
+interface Madde { sira: number; madde: string; baslik: string; metin: string }
+const BOLUM = /^(?:(?:BİRİNCİ|İKİNCİ|ÜÇÜNCÜ|DÖRDÜNCÜ|BEŞİNCİ|ALTINCI|YEDİNCİ|SEKİZİNCİ|DOKUZUNCU|ONUNCU|ON|YİRMİNCİ|YİRMİ|OTUZUNCU|OTUZ|KIRKINCI|KIRK)\S*\s+)+(?:KISIM|BÖLÜM|AYIRIM|KİTAP|FASIL|KESİM|BAP)$|^(?:KISIM|BÖLÜM|KİTAP|FASIL)\s+[\dIVXLC]+$/i;
+function maddelereAyir(md: string): Madde[] {
+  const govde = md.replace(/\r\n?/g, "\n").replace(/^[\s\S]*?\n---\n/, "");
+  const re = /^((?:GEÇİCİ|Geçici|EK|Ek|MÜKERRER|Mükerrer)\s+)?(?:MADDE|Madde)\s+(\d+(?:\s*\/\s*[A-Za-zÇĞİÖŞÜçğıöşü]+)?(?:\s*\(\w+\))?)\s*[-–—.:]+\s*/gm;
+  const yerler: { i: number; son: number; on: string; no: string }[] = [];
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(govde))) yerler.push({ i: m.index, son: m.index + m[0].length, on: (m[1] || "").trim(), no: m[2].replace(/\s+/g, "") });
+  const bloklar = (x: string) => x.split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
+  const birlestir = (x: string) => x.split(/\n\s*\n/).map(b => b.trim().replace(/\n(?!\s*(?:\(\d+\)|[a-zçğıöşü]{1,2}\)|\d+\.|-))/g, " ").replace(/[ \t]+/g, " ")).filter(Boolean).join("\n");
+  const baslikMi = (b: string) => b.length <= 220 && !/[.;,]$/.test(b) && !/^\(/.test(b) && !BOLUM.test(b.replace(/\s+/g, " "));
+  const temizBaslik = (b: string) => b.replace(/\s+/g, " ").replace(/(\s*\[\d+\])+$/, "").replace(/\s*:$/, "").trim();
+  const sonuc: Madde[] = [];
+  for (let k = 0; k < yerler.length; k++) {
+    const y = yerler[k];
+    // Başlık: MADDE satırından hemen önceki blok (bölüm başlığı değilse ve cümle gibi bitmiyorsa).
+    const once = bloklar(govde.slice(k ? yerler[k - 1].son : 0, y.i));
+    let baslik = "";
+    if (once.length && baslikMi(once[once.length - 1].replace(/\s+/g, " "))) baslik = temizBaslik(once[once.length - 1]);
+    let metinHam = govde.slice(y.son, k + 1 < yerler.length ? yerler[k + 1].i : govde.length);
+    const parca = metinHam.split(/\n\s*\n/);
+    // Sonraki maddenin başlığını ve araya giren bölüm başlıklarını at.
+    if (k + 1 < yerler.length) {
+      // Önce sonraki maddenin başlığı (tek blok), sonra araya giren bölüm başlıkları ve kısa ara başlıklar.
+      const son = () => (parca[parca.length - 1] || "").trim().replace(/\s+/g, " ");
+      while (parca.length > 1 && !son()) parca.pop();
+      if (parca.length > 1 && baslikMi(son())) parca.pop();
+      while (parca.length > 1) {
+        const s = son();
+        if (!s || BOLUM.test(s) || (s.length <= 80 && /^[A-ZÇĞİÖŞÜ]/.test(s) && !/[.;,:)]$/.test(s))) parca.pop(); else break;
+      }
+    }
+    const metin = birlestir(parca.join("\n\n"));
+    const madde = (y.on ? (/^ge/i.test(y.on) ? "Geçici " : /^ek/i.test(y.on) ? "Ek " : "Mükerrer ") : "") + y.no;
+    sonuc.push({ sira: k + 1, madde, baslik, metin: metin.slice(0, 60000) });
+  }
+  return sonuc;
+}
+
+
 // Prova paketi: aynı evrak için ilk mod (oyna ya da izle) 3 kredi ve hazırlık notları dahil; öteki mod 2 kredi.
 // Sunucu hiçbir şey saklamaz: cevapla birlikte imzalı bir "paket" bileti verilir (kullanıcı, evrak metninin SHA-256 özeti,
 // son geçerlilik, ödenmiş modlar). Sonraki istek bu bileti getirir; aynı metin için indirimli fiyat uygulanır. 7 gün geçerli.
@@ -1435,6 +1685,10 @@ export async function handle(req: Request): Promise<Response> {
     if (action === "genel_sor") return await genelSor(req, uid, b);
     if (action === "beyan_yaz") return await beyanYaz(req, uid, b);
     if (action === "kaynak_ara") return await kaynakAra(req, uid, b);
+    if (action === "karar_ara") return await kararAra(req, uid, b);
+    if (action === "mevzuat_bul") return await mevzuatBul(req, uid, b);
+    if (action === "belge_getir") return await belgeGetir(req, uid, b);
+    if (action === "mevzuat_yukle") return await mevzuatYukle(req, b);
     if (action === "evrak_derle") return b.akis === true ? akisla(evrakDerle(uid, b)) : await evrakDerle(uid, b);
     return await takip(uid, b);
   } catch (e) {
