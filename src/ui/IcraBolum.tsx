@@ -17,7 +17,7 @@ const sayi = (v: string): number | undefined => { const x = v.replace(/\./g, "")
 const sayiYaz = (x?: number) => (x === undefined ? "" : String(x).replace(".", ","));
 const tarihYaz = (x?: string) => (x ? x.split("-").reverse().join(".") : "");
 
-export function IcraBolum({ f, degistir, surum, onEvraktan }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; onEvraktan?: () => void }) {
+export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, okuma }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; onEvraktan?: () => void; onEvrakEkle?: () => void; okuma?: string }) {
   const b: IcraBilgi = f.icra || { yol: "genel", talep: "haciz", paraBirimi: "TL", faizTuru: "yasal" };
   const [bilgi, setBilgi] = useState("");
   const yaz = (ek: Partial<IcraBilgi>) => degistir({ icra: { ...b, ...ek } });
@@ -65,10 +65,15 @@ export function IcraBolum({ f, degistir, surum, onEvraktan }: { f: Foy; degistir
     <View style={{ gap: 12 }}>
       <Text style={s.hint}>{t("Alacaklı (müvekkil) ve borçlu (karşı taraf) adı, kimlik no ve adresi künyeden alınır. Buraya takibin yolu, dayanağı ve alacak kalemleri girilir; Celse işlemiş faizi ve toplamı hesaplar, UYAP'a giriş sırasıyla takip talebi özetini hazırlar.")}</Text>
 
-      {!!onEvraktan && (
-        <View style={[s.row, { alignItems: "center" }]}>
-          <Btn label={t("Evraktan doldur")} onPress={onEvraktan} />
-          <Text style={[s.hint, { flex: 1 }]}>{t("Takibe konu evrakı (ilam, çek, senet, kira sözleşmesi, fatura) ve vekâletnameyi aşağıdaki Evrak bölümüne ekleyin: takip yolu, ilam/çek bilgileri, alacak kalemleri ve faiz başlangıçları; müvekkil ve karşı tarafın adı, kimlik no'su ve adresi kendiliğinden yazılır. Yalnız boş alanlar doldurulur.")}</Text>
+      {(!!onEvrakEkle || !!onEvraktan) && (
+        <View style={{ gap: 6, borderWidth: 1, borderColor: C.brassDim, borderRadius: 10, padding: 10 }}>
+          <Text style={[s.body, { color: C.text }]}>{t("1. Takibe konu evrakı yükleyin")}</Text>
+          <Text style={s.hint}>{t("İlam, çek, senet, kira sözleşmesi ya da fatura (PDF, fotoğraf, UDF, Word) ve varsa vekâletname. Celse okur; takip yolu, ilam/çek bilgileri, alacak kalemleri, faiz başlangıçları ve tarafların adı, kimlik no'su, adresi kendiliğinden yazılır. Yalnız boş alanlar doldurulur.")}</Text>
+          <View style={s.row}>
+            {!!onEvrakEkle && <Btn label={okuma ? t("Okunuyor…") : t("📎 Evrak yükle (ilam, çek, senet…)")} disabled={!!okuma} onPress={onEvrakEkle} />}
+            {!!onEvraktan && <Btn kind="secondary" label={t("Eklenmiş evraktan yeniden doldur")} onPress={onEvraktan} />}
+          </View>
+          {!!okuma && <Text style={s.hint}>{okuma}</Text>}
         </View>
       )}
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
@@ -212,6 +217,10 @@ export function IcraBolum({ f, degistir, surum, onEvraktan }: { f: Foy; degistir
         {alan("Baro sicil no", vekil.baroNo || "", v => setVekil({ baroNo: v }), undefined, 120)}
         {alan("TBB no", vekil.tbbNo || "", v => setVekil({ tbbNo: v }), undefined, 120)}
         {alan("Büro adresi", vekil.adres || "", v => setVekil({ adres: v }), "… / İZMİR", 300)}
+      </View>
+      <View style={{ gap: 4, borderWidth: 1, borderColor: C.brassDim, borderRadius: 10, padding: 10 }}>
+        <Text style={[s.body, { color: C.text }]}>{t("2. UYAP'a yükleme")}</Text>
+        <Text style={s.hint}>{t("a) “UYAP XML indir” ile dosyayı indirin (İndirilenler klasörüne düşer). b) UYAP Avukat Portal → menü → Dava Açılış İşlemleri → İcra Takip Açılış – XML. c) İl, adliye, kota / daire tevzi tipi ve takip tipini seçin. d) “Dosya Seç” ile indirdiğiniz .xml dosyasını seçin ve takibi başlatın. e) Takip “Tamamlanmayan Dosyalarım”a düşer: orada kontrol edip dayanak evrakı ekler, imzalar ve harcı yatırırsınız.")}</Text>
       </View>
       <View style={s.row}>
         <Btn label={t("UYAP XML indir (deneme)")} disabled={vekilEksik(vekilBilgi).length > 0 || eksik.some(x => /alacak kalemi|İcra dairesi|adı/.test(x))} onPress={xmlIndir} />
