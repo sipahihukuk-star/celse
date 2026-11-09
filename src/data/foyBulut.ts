@@ -184,7 +184,9 @@ export function surumBirlestir(yeni: Foy, eski: Foy): Foy {
     ...(durusmalar ? { durusmalar } : {}),
     ...(kalemler ? { hesap: { ...(eski.hesap || {}), ...(yeni.hesap || {}), kalemler } } : {}),
     ...(yeni.tevkil || eski.tevkil ? { tevkil: birlestir(yeni.tevkil, eski.tevkil) } : {}),
-    ...(yeni.talepler || eski.talepler ? { talepler: birlestir(yeni.talepler, eski.talepler) } : {})
+    ...(yeni.talepler || eski.talepler ? { talepler: birlestir(yeni.talepler, eski.talepler) } : {}),
+    // Beyan taslakları: aynı taslağın en son düzenlenen hâli kalır.
+    ...(yeni.beyanlar || eski.beyanlar ? { beyanlar: birlestir(yeni.beyanlar, eski.beyanlar, (x, o) => (o.guncelleme > x.guncelleme ? o : x)) } : {})
   };
   return { ...yeni, gorevler, evraklar, ...ek, ...(silinen.length ? { silinen } : {}) };
 }
@@ -196,7 +198,7 @@ export function gelenFoy(uzak: Foy, yerel: Foy | undefined, gonderilmedi: boolea
   if (!gonderilmedi) return yerel.guncelleme >= uzak.guncelleme ? { f: null, gonder: false } : { f: metinKoru(uzak, yerel), gonder: false };
   if (uzak.guncelleme > yerel.guncelleme) {
     const b = metinKoru(surumBirlestir(uzak, yerel), yerel);
-    const ekImza = (x: Foy) => JSON.stringify([x.durusmalar, x.hesap?.kalemler?.length, x.tevkil?.length, x.talepler?.length]);
+    const ekImza = (x: Foy) => JSON.stringify([x.durusmalar, x.hesap?.kalemler?.length, x.tevkil?.length, x.talepler?.length, x.beyanlar?.map(b => b.id + b.guncelleme)]);
     const fark = b.gorevler.length !== uzak.gorevler.length || b.evraklar.length !== uzak.evraklar.length || b.gorevler.some((g, i) => g !== uzak.gorevler[i]) || ekImza(b) !== ekImza(uzak);
     return { f: fark ? { ...b, guncelleme: new Date(Math.max(Date.now(), Date.parse(uzak.guncelleme) + 1)).toISOString() } : b, gonder: fark };
   }

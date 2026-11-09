@@ -10,11 +10,12 @@ import { silineniNotEt } from "./foy";
 import type { Baglam, Cevap } from "./sesKomut";
 import { foyBul, foyKisa, sesliTarih, tarihSoyle } from "./sesKomut";
 
-export type SekmeAd = "foyler" | "durusmalar" | "isler" | "liste" | "toplu" | "buro" | "tevkil";
+export type SekmeAd = "foyler" | "beyan" | "kaynak" | "durusmalar" | "isler" | "liste" | "toplu" | "buro" | "tevkil";
 export interface SesUye { kullanici_id: string; ad: string; unvan: string }
 export interface SesOrtam { uyeler?: SesUye[]; ben?: string }
 
 const SEKME_SOZ: [RegExp, SekmeAd, string][] = [
+  [/beyan\s+editör|dilekçe\s+(editör|yaz)|beyan\s+yaz/, "beyan", "Beyan editörü"], [/içtihat|mevzuat|doktrin|kaynaklar|kütüphane/, "kaynak", "İçtihat, mevzuat ve doktrin"],
   [/duruşma(lar)?(\s+ve\s+keşif(ler)?)?|keşifler|hacizler/, "durusmalar", "Duruşma, haciz ve keşif"], [/yapılacaklar|işler\s+(sekme|ekran)/, "isler", "Yapılacaklar"],
   [/dava\s+liste/, "liste", "Dava listesi"], [/toplu\s+(evrak|yükle)|evrak\s+yükle/, "toplu", "Toplu evrak yükle"],
   [/büro|çalışanlar/, "buro", "Büro ve çalışanlar"], [/tevkil/, "tevkil", "Tevkil avukatlar"], [/föyler(im)?|ana\s+sayfa|dosyalar(ım)?\s+(sekme|ekran|liste)/, "foyler", "Föyler"]

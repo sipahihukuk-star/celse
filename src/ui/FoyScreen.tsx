@@ -1,6 +1,7 @@
 // Dava takibi: föy listesi (türe göre), yeni giriş menüsü (dava, suç duyurusu, arabuluculuk, idari başvuru, icra, sözleşme…),
 // yaklaşan duruşma ve işler, kilitli özel dosyalar, DavaTek klasörü, Excel/Word'den toplu föy, yedek.
 // Her şey bu cihazda (src/data/foy.ts); yapay zekâya yalnız kodlanmış metin gider. Föy sayfası: FoySayfa.tsx.
+import { BeyanSekmesi, KaynakSekmesi } from "./BeyanEditoru";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { bosFoy, Foy, foyBaslik, foyDinle, foyGetir, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, tarihYaz, yedekMetni, yedektenYukle } from "../data/foy";
@@ -51,6 +52,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [buroAc, setBuroAc] = useState(false);
   const [tevkilAc, setTevkilAc] = useState(false);
   const [durusmaAc, setDurusmaAc] = useState(false);
+  const [beyanAc, setBeyanAc] = useState<false | "beyan" | "kaynak">(false);
   // "sahsi": şahsi dosyalar bölümünden açılan giriş (yeni föy şahsi ve şifreli olur).
   const [giris, setGiris] = useState<false | "normal" | "sahsi">(false);
   const [ara, setAra] = useState("");
@@ -86,12 +88,13 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   useEffect(() => { yenile(); return foyDinle(yenile); }, []);
   // Dava takibinden çıkınca şahsi dosyalar kilitlenir (bilgisayarı başkası kullanırsa görünmesin).
   useEffect(() => () => { ozelKilitle(); }, []);
-  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc || tevkilAc || durusmaAc, () => { if (secili && (rapor || isler || tevkilAc || durusmaAc)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); });
+  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc || tevkilAc || durusmaAc || !!beyanAc, () => { if (secili && (rapor || isler || tevkilAc || durusmaAc)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setBeyanAc(false); });
   // Üst sekmeler: hangi ekran açıksa o sekme seçili görünür; sekmeye basınca öbürleri kapanır.
-  const sekme: Sekme = durusmaAc ? "durusmalar" : isler ? "isler" : rapor ? "liste" : havuz ? "toplu" : buroAc ? "buro" : tevkilAc ? "tevkil" : "foyler";
+  const sekme: Sekme = beyanAc ? beyanAc : durusmaAc ? "durusmalar" : isler ? "isler" : rapor ? "liste" : havuz ? "toplu" : buroAc ? "buro" : tevkilAc ? "tevkil" : "foyler";
   const sekmeSec = (k: Sekme) => {
-    setSecili(null); setAktar(false); setGiris(false); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false);
+    setSecili(null); setAktar(false); setGiris(false); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setBeyanAc(false);
     if (k !== "toplu") setHavuz(false);
+    if (k === "beyan" || k === "kaynak") setBeyanAc(k);
     if (k === "durusmalar") setDurusmaAc(true); else if (k === "isler") setIsler(true); else if (k === "liste") setRapor(true);
     else if (k === "toplu") setHavuz(true); else if (k === "buro") setBuroAc(true); else if (k === "tevkil") setTevkilAc(true);
   };
@@ -104,6 +107,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   // Telefonda: föyler uygulamanın deposunda; evrak ekleme, toplu aktarma, DavaTek klasörü ve yedek dosyası bilgisayardadır.
   const web = Platform.OS === "web";
   if (kilitSor) return <OzelKilit durum={kilit} onKapat={() => setKilitSor(null)} onAcildi={() => { const f = kilitSor.sonra; setKilitSor(null); yenile(); f?.(); }} />;
+  if (beyanAc === "beyan" && !secili) return sar(<BeyanSekmesi liste={liste} />);
+  if (beyanAc === "kaynak" && !secili) return sar(<KaynakSekmesi />);
   if (durusmaAc && !secili) return sar(<DurusmalarEkrani liste={liste} onAc={id => setSecili({ id })} />);
   if (buroAc && !secili) return sar(<BuroEkrani onKapat={() => setBuroAc(false)} />);
   if (tevkilAc && !secili) return sar(<TevkilListesi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setTevkilAc(false)} />);

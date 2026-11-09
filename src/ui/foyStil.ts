@@ -30,8 +30,9 @@ export function dosyaListesiSec(uzantilar: string[], klasor = false): Promise<Fi
 }
 export function indir(ad: string, icerik: Blob) {
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(icerik); a.download = ad; a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+  a.href = URL.createObjectURL(icerik); a.download = ad; a.style.display = "none";
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
 }
 export const boyutYaz = (n: number) => (n > 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB");
 export const gunYaz = (g?: number) => (g === undefined ? "" : g === 0 ? t("bugün") : g === 1 ? t("yarın") : g > 0 ? t("{n} gün sonra", { n: g }) : t("{n} gün geçti", { n: -g }));

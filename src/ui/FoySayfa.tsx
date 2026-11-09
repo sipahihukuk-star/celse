@@ -17,6 +17,7 @@ import { yerDegisimi } from "../data/durusma";
 import { asilDosya } from "../data/buroDosya";
 import { buroUyeleri, buroYetkim } from "../data/buro";
 import { FoyYzSor } from "./FoyYzSor";
+import { BeyanEditoru } from "./BeyanEditoru";
 import { DUZEY_RENK, duzeyAdi, GorevKapat } from "./GorevKapat";
 import { Katlanir } from "./Katlanir";
 import { Acilir } from "./Acilir";
@@ -376,6 +377,9 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         </View>
       )}
 
+      <Katlanir anahtar="beyan" baslik={t("✍ Beyan yaz")} ozet={f.beyanlar?.length ? t("{n} taslak", { n: f.beyanlar.length }) : t("dilekçe, itiraz, istinaf; içtihat ve mevzuatla")}>
+        <BeyanEditoru f={f} onDegistir={degistir} />
+      </Katlanir>
       {(
         <Katlanir anahtar="yzsor" baslik={t("🤖 Yapay zekâya sor")} varsayilan ozet={f.yzSohbet?.length ? t("son soru {d}", { d: tarihYaz(f.yzSohbet[f.yzSohbet.length - 1].tarih) }) : t("ne durumda, nerede kaldık, sırada ne var")}>
           <FoyYzSor f={f} tur={tb.ad} onDegistir={degistir} />
