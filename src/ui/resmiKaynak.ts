@@ -8,7 +8,7 @@ import { ekAdlar } from "./foyEvrak";
 
 export interface Karar { id: string; mahkeme: string; birim: string; esas: string; karar: string; tarih: string; kesinlesme?: string; url: string; bolum?: string }
 export interface KanunMaddesi { no: string; kanun: string; durum: string; madde: string; baslik: string; metin: string; slug: string }
-export interface MevzuatBelgesi { id: string; no: string; ad: string; tur: string; turKod: string; rgTarih: string; rgSayi: string; url: string }
+export interface MevzuatBelgesi { id: string; no: string; ad: string; tur: string; turKod: string; rgTarih: string; rgSayi: string; url: string; bolum?: string; arsiv?: boolean }
 type Sonuc<T> = ({ ok: true } & T) | { ok: false; hata: string; vars?: Record<string, string | number> };
 
 export const MAHKEME_SECENEK = [
@@ -30,12 +30,18 @@ export async function kararAra(soz: string, s: { mahkeme?: string; birim?: strin
   return r.ok ? { ok: true, kararlar: r.data.kararlar || [], toplam: r.data.toplam || 0 } : { ok: false, hata: r.error, vars: r.vars as Record<string, string | number> | undefined };
 }
 export async function mevzuatBul(soz: string, s: { tur?: string; mulga?: boolean; sayfa?: number }, f?: Foy | null): Promise<Sonuc<{ maddeler: KanunMaddesi[]; belgeler: MevzuatBelgesi[]; resmiHata?: string; arsivYok?: boolean }>> {
-  const r = await call<{ maddeler: KanunMaddesi[]; belgeler: MevzuatBelgesi[]; resmiHata?: string; arsivYok?: boolean }>("mevzuat_bul", { soz: kodla(soz, f), ...s }, 60000);
-  return r.ok ? { ok: true, maddeler: r.data.maddeler || [], belgeler: r.data.belgeler || [], resmiHata: r.data.resmiHata, arsivYok: r.data.arsivYok } : { ok: false, hata: r.error, vars: r.vars as Record<string, string | number> | undefined };
+  const r = await call<{ maddeler: KanunMaddesi[]; belgeler: MevzuatBelgesi[]; arsivBelgeler?: MevzuatBelgesi[]; resmiHata?: string; arsivYok?: boolean }>("mevzuat_bul", { soz: kodla(soz, f), ...s }, 60000);
+  if (!r.ok) return { ok: false, hata: r.error, vars: r.vars as Record<string, string | number> | undefined };
+  // Arşivdekiler başta; aynı belge resmî sonuçlarda tekrar gösterilmez.
+  const arsiv = (s.sayfa || 1) === 1 ? r.data.arsivBelgeler || [] : [];
+  const belgeler = [...arsiv, ...(r.data.belgeler || []).filter(x => !arsiv.some(y => y.id === x.id))];
+  return { ok: true, maddeler: r.data.maddeler || [], belgeler, resmiHata: r.data.resmiHata, arsivYok: r.data.arsivYok };
 }
 /** Belge metni; karar açılınca (meta ile) Celse içtihat arşivine de eklenir. */
-export async function belgeGetir(kaynak: "karar" | "mevzuat", id: string, meta?: Partial<Karar>): Promise<Sonuc<{ metin: string; pdf: boolean; url: string }>> {
-  const m = meta ? { mahkeme: (meta.mahkeme || "").replace(/\s*Kararı$/i, ""), birim: meta.birim, esas: meta.esas, karar: meta.karar, tarih: meta.tarih } : undefined;
+export async function belgeGetir(kaynak: "karar" | "mevzuat", id: string, meta?: Partial<Karar> | Partial<MevzuatBelgesi>): Promise<Sonuc<{ metin: string; pdf: boolean; url: string }>> {
+  const k = meta as Partial<Karar> | undefined, b = meta as Partial<MevzuatBelgesi> | undefined;
+  const m = !meta ? undefined : kaynak === "karar" ? { mahkeme: (k!.mahkeme || "").replace(/\s*Kararı$/i, ""), birim: k!.birim, esas: k!.esas, karar: k!.karar, tarih: k!.tarih }
+    : { turKod: b!.turKod, tur: b!.tur, no: b!.no, ad: b!.ad, rgTarih: b!.rgTarih, rgSayi: b!.rgSayi };
   const r = await call<{ metin: string; pdf: boolean; url: string }>("belge_getir", { kaynak, id, meta: m }, 60000);
   return r.ok ? { ok: true, metin: r.data.metin || "", pdf: !!r.data.pdf, url: r.data.url } : { ok: false, hata: r.error, vars: r.vars as Record<string, string | number> | undefined };
 }
@@ -85,6 +91,37 @@ export async function ictihatArsiviniYukle(plan: ReturnType<typeof ICTIHAT_PLANI
       kaydet({ i, yi: yi + 1, sayfa: 1 });
     }
     kaydet({ i: i + 1, yi: 0, sayfa: 1 });
+  }
+  return { ok: true, eklenen };
+}
+
+/** Kanunlar dışında arşive tamamı yüklenen mevzuat türleri (az sayıda belge). Yönetmelik ve tebliğ açıldıkça eklenir. */
+export const MEVZUAT_PLANI = [
+  { tur: "KHK", ad: "Kanun hükmünde kararnameler (olağan ve olağanüstü)" }, { tur: "CB_KARARNAME", ad: "Cumhurbaşkanlığı kararnameleri" },
+  { tur: "TUZUK", ad: "Tüzükler" }, { tur: "CB_YONETMELIK", ad: "Cumhurbaşkanlığı yönetmelikleri" }, { tur: "CB_GENELGE", ad: "Cumhurbaşkanlığı genelgeleri" }
+];
+export async function mevzuatTurleriniYukle(ilerle: (x: { ad: string; sayfa: number; toplam: number; eklenen: number; mesaj?: string }) => void, devam: () => boolean, kaldigi: { i: number; sayfa: number }, kaydet: (k: { i: number; sayfa: number }) => void): Promise<Sonuc<{ eklenen: number; dolu?: boolean }>> {
+  let eklenen = 0;
+  const bekle = (ms: number) => new Promise(r => setTimeout(r, ms));
+  for (let i = kaldigi.i; i < MEVZUAT_PLANI.length; i++) {
+    const p = MEVZUAT_PLANI[i];
+    let sayfa = i === kaldigi.i ? kaldigi.sayfa : 1;
+    for (;;) {
+      if (!devam()) return { ok: true, eklenen };
+      const r = await call<{ sayfa: number; toplam: number; eklenen: number; bitti: boolean; yogun?: boolean; dolu?: boolean }>("mevzuat_tur_yukle", { tur: p.tur, sayfa }, 150000);
+      if (!r.ok) {
+        if (/yoğun|servis|503/.test(r.error)) { ilerle({ ad: p.ad, sayfa, toplam: 0, eklenen, mesaj: "Resmî servis yoğun; 30 saniye bekleniyor…" }); await bekle(30000); continue; }
+        return { ok: false, hata: r.error, vars: r.vars as Record<string, string | number> | undefined };
+      }
+      if (r.data.dolu) return { ok: true, eklenen, dolu: true };
+      eklenen += r.data.eklenen;
+      ilerle({ ad: p.ad, sayfa, toplam: r.data.toplam, eklenen });
+      if (r.data.yogun) { await bekle(30000); continue; }
+      if (r.data.bitti) break;
+      sayfa++;
+      kaydet({ i, sayfa });
+    }
+    kaydet({ i: i + 1, sayfa: 1 });
   }
   return { ok: true, eklenen };
 }

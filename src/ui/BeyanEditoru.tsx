@@ -68,7 +68,7 @@ function KaynakKart({ k, onEkle, onKaydet, onSil, eklendi }: { k: HukukKaynak; o
 }
 
 /** Bir kararın ya da mevzuatın tam metni (açılıp kapanır, içinde arama sözcükleri vurgulanmaz; kaydırılabilir). */
-function TamMetin({ kaynak, id, meta }: { kaynak: "karar" | "mevzuat"; id: string; meta?: Karar }) {
+function TamMetin({ kaynak, id, meta }: { kaynak: "karar" | "mevzuat"; id: string; meta?: Karar | MevzuatBelgesi }) {
   const [m, setM] = useState<{ metin: string; pdf: boolean; url: string } | null>(null);
   const [hata, setHata] = useState("");
   useEffect(() => { belgeGetir(kaynak, id, meta).then(r => (r.ok ? setM(r) : setHata(t(r.hata, r.vars)))); }, [kaynak, id]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -142,10 +142,11 @@ function ResmiArama({ tur, f, onEkle, ekli, kaydet, ilkSoz, arsiv }: { tur: "ict
         </View>); })}
       {(belgeler || []).map(b => { const k = belgeKaynak(b); const key = "b" + b.id; return (
         <View key={key} style={[s.file, { flexDirection: "column", alignItems: "stretch", gap: 6 }]}>
-          <Text style={s.meta}>{b.tur}{b.rgTarih ? " · RG " + b.rgTarih + (b.rgSayi ? "/" + b.rgSayi : "") : ""}</Text>
+          <Text style={s.meta}>{b.tur}{b.rgTarih ? " · RG " + b.rgTarih + (b.rgSayi ? "/" + b.rgSayi : "") : ""}{b.arsiv ? " · " + t("Celse arşivinde") : ""}</Text>
           <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{belgeKunye(b)}</Text>
+          {!!b.bolum && <Text style={s.hint}>{b.bolum}</Text>}
           <Dugmeler k={k} acKey={key} url={b.url} />
-          {acik === key && <TamMetin kaynak="mevzuat" id={b.id} />}
+          {acik === key && <TamMetin kaynak="mevzuat" id={b.id} meta={b} />}
         </View>); })}
       {(kararlar || []).map(x => { const k = kararKaynak(x); const key = "k" + x.id; return (
         <View key={key} style={[s.file, { flexDirection: "column", alignItems: "stretch", gap: 6 }]}>
