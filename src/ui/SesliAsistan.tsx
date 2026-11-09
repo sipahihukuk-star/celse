@@ -55,6 +55,18 @@ export function SesliAsistan({ liste, onAc, onIsler }: { liste: Foy[]; onAc: (id
       await foyKaydet(yeni);
       return;
     }
+    if (e.tip === "yzSor") {
+      const hedef = listeRef.current.find(x => x.id === e.foyId);
+      if (!hedef) return;
+      const { foyaSor } = await import("./foySorCagri");
+      const r = await foyaSor(hedef, e.soru);
+      const metin = r.ok ? r.yeni.cevap : t(r.hata, r.vars);
+      if (r.ok) await foyKaydet({ ...hedef, yzSohbet: [...(hedef.yzSohbet || []), r.yeni].slice(-30) });
+      setKonusma(k => [...k, { kim: "celse" as const, metin }].slice(-20));
+      const { okunacak } = await import("../data/yzCevap");
+      sesliOku(r.ok ? okunacak(metin) : metin, 1.05);
+      return;
+    }
     const f = listeRef.current.find(x => x.id === (e.tip === "isler" ? "" : e.foyId));
     if (e.tip === "ekle" && f) await foyKaydet({ ...f, gorevler: [...f.gorevler, e.gorev] });
     if (e.tip === "kapat" && f) await foyKaydet({ ...f, gorevler: f.gorevler.map(g => (g.id === e.gorevId ? { ...g, bitti: true, kapanis: e.kapanis } : g)) });

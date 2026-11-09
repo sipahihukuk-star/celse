@@ -68,5 +68,13 @@ ok(r.baglam.bekleyen?.tip === "yeniDava" && r.baglam.bekleyen.v.tur === "icra" &
 sor("vazgeç");
 r = sor("tüm işleri oku");
 ok(/açık iş var/.test(r.metin), "tüm işler: " + r.metin);
+// Yapay zekâya sor
+bg = {};
+r = sor("Uydurmaoğlu dosyası için yapay zekâya sor, itiraz süresi ne zaman doluyor");
+ok(r.eylem?.tip === "yzSor" && r.eylem.foyId === a.id && /itiraz süresi/.test(r.eylem.soru), "yz sor: " + JSON.stringify(r.eylem));
+r = sor("bu dosyayı yapay zekaya sor");
+ok(r.eylem?.tip === "yzSor" && r.eylem.foyId === a.id && /nerede kaldık/.test(r.eylem.soru), "bu dosya, varsayılan soru");
+bg = {};
+ok(/Hangi dosya/.test(sor("yapay zekâya sor").metin), "dosya sorulur");
 if (fail) { console.log(`ses-test: ${fail} hata`); process.exit(1); }
 console.log("ses-test: tamam");

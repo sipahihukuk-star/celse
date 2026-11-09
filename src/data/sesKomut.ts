@@ -19,7 +19,8 @@ export type Eylem =
   | { tip: "kapat"; foyId: string; gorevId: string; kapanis: GorevKapanis }
   | { tip: "ac"; foyId: string }
   | { tip: "yeniDava"; foy: { tur: FoyTur; muvekkil: string; karsiTaraf: string; davaTuru: string }; gorev: Gorev }
-  | { tip: "isler" };
+  | { tip: "isler" }
+  | { tip: "yzSor"; foyId: string; soru: string };
 export interface Cevap { metin: string; baglam: Baglam; eylem?: Eylem }
 
 const AYLAR = ["ocak", "şubat", "mart", "nisan", "mayıs", "haziran", "temmuz", "ağustos", "eylül", "ekim", "kasım", "aralık"];
@@ -147,7 +148,7 @@ function yeniDavaSor(v: YeniDava, foyId?: string): Cevap {
   return { metin: `Yeni ${turBilgi(v.tur).ad.toLocaleLowerCase("tr")} föyü açayım: ${v.dava}${kim ? ", " + kim : ""}. Yapılacaklara "Dava aç: ${v.dava}" işini${v.tarih ? ", son gün " + tarihSoyle(v.tarih) + " olarak" : ", son gün olmadan"} yazayım mı?`, baglam: b("onay") };
 }
 
-const YARDIM = "Şunları sorabilirsiniz: bugün ne var; gecikmiş işler; bu hafta duruşmalar; bir dosyanın durumu, örneğin Yılmaz dosyası ne durumda; iş eklemek için: Yılmaz dosyasına iş ekle, bilirkişi raporuna itiraz, son gün 15 Kasım; iş kapatmak için: bilirkişi işini kapat, numara 4 0 1 2; yeni dava kaydetmek için: yeni dava aç, boşanma davası; tüm işleri oku; ve dosyayı aç.";
+const YARDIM = "Şunları sorabilirsiniz: bugün ne var; gecikmiş işler; bu hafta duruşmalar; bir dosyanın durumu, örneğin Yılmaz dosyası ne durumda; iş eklemek için: Yılmaz dosyasına iş ekle, bilirkişi raporuna itiraz, son gün 15 Kasım; iş kapatmak için: bilirkişi işini kapat, numara 4 0 1 2; yeni dava kaydetmek için: yeni dava aç, boşanma davası; dosyayı yapay zekâya sormak için: Yılmaz dosyası için yapay zekâya sor, sırada ne var; tüm işleri oku; ve dosyayı aç.";
 const EVET = /^(evet|onaylıyorum|onayla|tamam|olur|doğru|aynen|ekle|kapat)(\s|$|[,.!])/;
 const HAYIR = /^(hayır|iptal|vazgeç|vazgeçtim|yanlış|dur)(\s|$|[,.!])/;
 const SIRA: Record<string, number> = { birinci: 0, ilk: 0, "1": 0, ikinci: 1, "2": 1, üçüncü: 2, "3": 2, dördüncü: 3, "4": 3, beşinci: 4, "5": 4 };
@@ -217,6 +218,17 @@ export function sesliKomut(soz: string, liste: Foy[], b: Baglam, bugun = bugunSt
   }
 
   if (/^(yardım|neler yapabilirsin|ne sorabilirim|komutlar)/.test(m)) return cevap(YARDIM);
+
+  // Yapay zekâya sor: "Yılmaz dosyası için yapay zekâya sor, itiraz süresi ne zaman doluyor" / "bu dosyayı yapay zekâya sor".
+  const yz = m.match(/^(.*?)\s*(?:için\s+|hakkında\s+)?yapay\s*zek[âa]ya\s+sor(?:ar mısın)?\s*[:,]?\s*(.*)$/);
+  if (yz) {
+    const once = yz[1].trim(), soru = yz[2].trim() || "Bu dosya ne durumda, nerede kaldık, sırada ne var, mevzuata göre hangi yollar açık?";
+    const ad = once ? foyBul(liste, once) : [];
+    const f = ad.length === 1 ? ad[0] : !once || /bu dosya/.test(once) ? bag : undefined;
+    if (!f && ad.length > 1) return secSor(ad, "durum");
+    if (!f) return cevap("Hangi dosya için sorayım? Örneğin: Yılmaz dosyası için yapay zekâya sor, itiraz süresi ne zaman doluyor.");
+    return cevap(`${foyKisa(f)} dosyasını yapay zekâya soruyorum; yarım dakika kadar sürebilir.`, { foyId: f.id }, { tip: "yzSor", foyId: f.id, soru });
+  }
   if (/yapılacaklar(ı)?\s+(ekranını\s+)?(aç|göster)/.test(m)) return cevap("Yapılacaklar açılıyor.", { foyId: b.foyId }, { tip: "isler" });
 
   // Yeni dava (henüz açılmamış): föy açılır, "Dava aç" işi yapılacaklara yazılır. Eksik bilgiler tek tek sorulur.
