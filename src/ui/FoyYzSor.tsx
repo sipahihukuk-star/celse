@@ -73,9 +73,12 @@ export function FoyYzSor({ f, onDegistir }: { f: Foy; tur?: string; onDegistir: 
       </View>
       <View style={s.addRow}>
         <TextInput value={dinliyor ? ara || t("Dinliyorum…") : soru} onChangeText={setSoru} onSubmitEditing={() => sor(soru)} editable={!dinliyor}
-          placeholder={t("Sorunuzu yazın: ör. bilirkişi raporuna itiraz süresi ne zaman doluyor?")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 220 }]} multiline />
+          // Enter gönderir; Shift+Enter yeni satır açar (telefon klavyesinde tuş "Gönder" yazar).
+          onKeyPress={(e: Any) => { const n = e?.nativeEvent; if (n?.key === "Enter" && !n.shiftKey) { e.preventDefault?.(); sor(soru); } }}
+          enterKeyHint="send" returnKeyType="send" blurOnSubmit={false}
+          placeholder={t("Sorunuzu yazın, Enter ile gönderin: ör. bilirkişi raporuna itiraz süresi ne zaman doluyor?")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 220 }]} multiline />
         {!!SR() && <Btn kind={dinliyor ? "primary" : "secondary"} label={dinliyor ? t("⏹ Dur") : t("🎙 Konuşarak sor")} disabled={bekle} onPress={dinliyor ? () => { try { rec.current?.stop(); } catch { /* yok say */ } } : dinle} />}
-        <Btn label={bekle ? t("Düşünüyor…") : t("Sor")} disabled={bekle || soru.trim().length < 3} onPress={() => sor(soru)} />
+        <Btn label={bekle ? t("Düşünüyor…") : t("Gönder ➤")} disabled={bekle || soru.trim().length < 3} onPress={() => sor(soru)} />
       </View>
       <Pressable onPress={() => setSesli(!sesli)} style={[s.row, { alignItems: "center" }]} accessibilityRole="checkbox" accessibilityState={{ checked: sesli }}>
         <View style={{ width: 18, height: 18, borderRadius: 4, borderWidth: 1, borderColor: C.brassDim, backgroundColor: sesli ? C.brassDim : "transparent" }} />
