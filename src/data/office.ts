@@ -307,7 +307,7 @@ export async function resolveEvent(idx: number) {
   const ch = e.choices(ctx)[idx];
   if (!ch || (ch.needCash && o.cash < ch.needCash)) return;
   let life = ch.apply ? ch.apply(o.life, o.month) : o.life;
-  life = { ...life, done: life.done.includes(e.id) ? life.done : [...life.done, e.id],
+  life = { ...life, lastEventAt: o.month, sorulan: { ...(life.sorulan || {}), [e.id]: o.month }, done: life.done.includes(e.id) ? life.done : [...life.done, e.id],
     snooze: { ...life.snooze, [e.id]: o.month + (ch.snooze || (e.repeat ? 1 : 0)) } };
   const ledger = ch.once ? [...o.ledger, { ay: o.month, text: `${e.title}: ${ch.label}`, amount: ch.once }].slice(-80) : o.ledger;
   await save({ ...o, life, cash: o.cash + (ch.once || 0), ledger, pendingEvent: undefined });

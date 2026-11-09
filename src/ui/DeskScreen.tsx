@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Branch, branchLabel, branchOf } from "../data/branches";
 import { CareerView, DIFFICULTY, levelOf, Progress } from "../data/career";
-import { accept, branchStats, decline, EARLY_FILES, ensureDeal, Flow, postponeSpecialty, setFocus, setSpecialty, specialtyDue, suggestSpecialty, useFlow } from "../data/flow";
+import { accept, akisEtkisi, MASA_EN_COK, branchStats, decline, EARLY_FILES, ensureDeal, Flow, postponeSpecialty, setFocus, setSpecialty, specialtyDue, suggestSpecialty, useFlow } from "../data/flow";
 import { dateOf, EDU, hasDegree, studying } from "../data/life";
 import { careerSide, closeMonth, enroll, eventChoices, feeFor, monthlyCost, Office, resolveEvent, Source, SOURCE_LABEL, sourceOf, tl, useOffice } from "../data/office";
 import { locale, t } from "../i18n";
@@ -15,7 +15,7 @@ import { Btn } from "./kit";
 import { AvatarFace } from "./OfficeScreen";
 import { C, F } from "./theme";
 
-export const DESK_MAX = 3;
+export const DESK_MAX = MASA_EN_COK;
 
 interface Props {
   solo: CaseFile[];
@@ -151,7 +151,14 @@ export default function DeskScreen({ solo, progress, view, premium, admin, onPla
         </View>
       )}
 
-      <Fold title={t("Gelen dosyalar")} count={flow.offers.length} note={t("kabul etmezseniz bir ay sonra müvekkil başka avukata gider")} open={open.gelen} onToggle={() => flip("gelen")} />
+      <Fold title={t("Gelen dosyalar")} count={flow.offers.length} note={t("bu ay kabul etmezseniz müvekkil başka avukata gider; dosya almadıkça gelen dosya azalır")} open={open.gelen} onToggle={() => flip("gelen")} />
+      {open.gelen && (!!flow.kacan || akisEtkisi(flow) !== 0) && (
+        <Text style={[s.small, { color: akisEtkisi(flow) < 0 ? C.bad : akisEtkisi(flow) > 0 ? C.good : C.textSoft }]}>
+          {[flow.kacan ? t("Geçen ay alınmayan {n} dosya başka avukata gitti.", { n: flow.kacan }) : "",
+            akisEtkisi(flow) < 0 ? t("Dosya almadığınız için büronuza ayda {n} dosya daha az geliyor; dosya kabul ettikçe yeniden artar.", { n: -akisEtkisi(flow) })
+              : akisEtkisi(flow) > 0 ? t("Düzenli dosya aldığınız için ayda bir dosya fazla geliyor.") : t("Dosya akışınız normal.")].filter(Boolean).join(" ")}
+        </Text>
+      )}
       {open.gelen && !flow.offers.length && <Text style={s.empty}>{t("Bu ay yeni dosya yok. Masadaki dosyaları bitirin ya da ayı kapatın.")}</Text>}
       {open.gelen && flow.offers.map(o => {
         const c = byId.get(o.id); if (!c) return null;
