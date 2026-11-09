@@ -8,6 +8,7 @@ import { Katlanir } from "./Katlanir";
 import { Acilir } from "./Acilir";
 import { IcraBolum } from "./IcraBolum";
 import { tl } from "../data/icra";
+import { evrakTuruBul, icraDoldur } from "../data/icraEvrak";
 import { dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, KarsiBilgi, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
 import { DAVA_TURLERI, EVRAK_TURLERI, FoyTur, turBilgi, TURLER } from "../data/foyTurleri";
 import { unmask } from "../engine/mask";
@@ -60,6 +61,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const nav = useFloatingNav();
   const [karsiAc, setKarsiAc] = useState(false);
   const [surum, setSurum] = useState(0);
+  const [icraMesaj, setIcraMesaj] = useState("");
   const [kunyeMesaj, setKunyeMesaj] = useState("");
   const [soruluyor, setSoruluyor] = useState(false);
   const [baglaAc, setBaglaAc] = useState(false);
@@ -111,7 +113,12 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       eklenen.push(zorTur ? { ...r, tur: zorTur, onemli: true } : r);
     }
     setOkuma("");
-    if (eklenen.length) degistir({ evraklar: [...f.evraklar, ...eklenen], ...kunyeEvraktan(eklenen, f) });
+    if (eklenen.length) {
+      // İcra föyünde takibe konu evrak (ilam, çek, senet, kira sözleşmesi, fatura) icra bilgilerini de doldurur.
+      const ic = f.tur === "icra" ? icraDoldur(f.icra || { yol: "genel", paraBirimi: "TL", faizTuru: "yasal" }, eklenen.map(e => e.metin)) : null;
+      degistir({ evraklar: [...f.evraklar, ...eklenen], ...kunyeEvraktan(eklenen, f), ...(ic && ic.dolan.length ? { icra: ic.yeni } : {}) });
+      if (ic && ic.dolan.length) { setIcraMesaj(t("İcra bilgileri evraktan dolduruldu: {x}. Kontrol edin.", { x: ic.dolan.join(", ") })); setSurum(v => v + 1); }
+    }
   };
   const evrakAc = async (e: FoyEvrak) => {
     if (!dosyaSaklanir()) { setErr(t("Asıl dosya bilgisayarınızda duruyor; telefonda yalnız künye ve kodlanmış metin vardır.")); return; }
@@ -209,7 +216,12 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     let x: Foy = temel; const tum: string[] = [];
     for (const e of [...evraklar].sort((a, b) => a.eklenme.localeCompare(b.eklenme))) {
       if (!e.metin.trim()) continue;
-      const r = kunyeyiDoldur(x, kunyeCikar(e.metin));
+      const o = kunyeCikar(e.metin);
+      // İcra föyünde künyedeki merci icra dairesidir: ilamın, çekin ya da faturanın mahkemesi/numarası oraya yazılmaz (icra bilgilerine gider).
+      if ((temel.tur === "icra") && !/İCRA/.test((o.mahkeme || "").toLocaleUpperCase("tr"))) { o.mahkeme = undefined; o.esasNo = undefined; }
+      // Çek ve senette keşideci borçludur (karşı taraf), müvekkil değil.
+      if (temel.tur === "icra" && /^(cek|senet)$/.test(evrakTuruBul(e.metin))) { o.ikinci = o.ikinci || o.birinci; o.birinci = undefined; }
+      const r = kunyeyiDoldur(x, o);
       if (r.dolan.length) { x = { ...x, ...r.ek }; tum.push(...r.dolan); }
     }
     const ek: Partial<Foy> = {};
@@ -426,7 +438,12 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
 
       {(f.tur === "icra" || !!f.icra) && (
         <Katlanir anahtar="icra" baslik={t("İcra takibi bilgileri")} varsayilan ozet={f.icra?.asil ? t("asıl alacak {x}", { x: tl(f.icra.asil, f.icra.paraBirimi || "TL") }) : t("doldurulmadı")}>
-          <IcraBolum f={f} degistir={degistir} surum={surum} />
+          {!!icraMesaj && <Text style={[s.hint, { color: C.good }]}>{icraMesaj}</Text>}
+          <IcraBolum f={f} degistir={degistir} surum={surum} onEvraktan={() => {
+            const r = icraDoldur(f.icra || { yol: "genel", paraBirimi: "TL", faizTuru: "yasal" }, f.evraklar.map(e => e.metin));
+            if (r.dolan.length) { degistir({ icra: r.yeni }); setSurum(v => v + 1); }
+            setIcraMesaj(r.dolan.length ? t("İcra bilgileri evraktan dolduruldu: {x}. Kontrol edin.", { x: r.dolan.join(", ") }) : f.evraklar.some(e => e.metin.trim()) ? t("Evrakta ilam, çek, senet, kira sözleşmesi ya da fatura bulunamadı; ya da alanlar zaten dolu (yalnız boş alanlar doldurulur).") : t("Önce aşağıdaki Evrak bölümünden takibe konu evrakı (ilam, çek, senet, kira sözleşmesi, fatura) ve varsa vekâletnameyi ekleyin."));
+          }} />
         </Katlanir>
       )}
 
