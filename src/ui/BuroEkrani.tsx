@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { BuroDurum, buroDurumu, burodanAyril, buroKur, davetGuncelle, davetIptal, davetKabul, davetOlustur, UNVANLAR, unvanYetkisi, uyeCikar, uyeGuncelle, Yetki, YETKI_AD } from "../data/buro";
 import { esitle } from "../data/foyBulut";
+import { buroDosyaDurumu, DosyaDurum } from "../data/buroDosya";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
 import { s } from "./foyStil";
@@ -30,6 +31,8 @@ export function BuroEkrani({ onKapat }: { onKapat: () => void }) {
   const [yeniKod, setYeniKod] = useState<{ kod: string; ad: string; unvan: string } | null>(null);
   const [cikarSor, setCikarSor] = useState<string | null>(null);
 
+  const [dosya, setDosya] = useState<DosyaDurum | null>(null);
+  useEffect(() => { const z = setInterval(() => { buroDosyaDurumu().then(setDosya).catch(() => {}); }, 3000); buroDosyaDurumu().then(setDosya).catch(() => {}); return () => clearInterval(z); }, []);
   const yenile = () => buroDurumu().then(setD).catch(e => { setMesaj({ t: String((e as Error).message || e) }); setD({ tur: "yok" }); });
   useEffect(() => { yenile(); }, []);
   const yap = async (ad: string, f: () => Promise<void>, basari?: string) => {
@@ -191,6 +194,18 @@ export function BuroEkrani({ onKapat }: { onKapat: () => void }) {
           )}
         </View>
       )}
+
+      <View style={s.card}>
+        <Text style={[s.body, { color: C.text }]}>{t("Asıl evrak dosyaları")}</Text>
+        <Text style={s.hint}>{t("Büro föylerindeki PDF, UDF ve fotoğraflar büro anahtarıyla şifrelenip büro bulutuna yüklenir; çalışanlar evrakı açınca kendi bilgisayarına iner. Şahsi dosyalarınız yüklenmez. Yükleme Celse açıkken, her eşitlemede birkaç dosya olarak sürer.")}</Text>
+        {!!dosya && (
+          <Text style={[s.hint, { color: dosya.kurulumYok || dosya.hata ? C.bad : dosya.bekleyen ? C.mid : C.good }]}>
+            {dosya.kurulumYok ? t("Sunucuda dosya deposu kurulmamış (supabase/surum20.sql çalıştırılmalı).")
+              : dosya.hata ? t("Yükleme hatası: {h}", { h: dosya.hata })
+              : t("{y} dosya büro bulutunda", { y: dosya.yuklenen }) + (dosya.bekleyen ? " · " + t("{n} dosya sırada", { n: dosya.bekleyen }) : " · " + t("hepsi yüklendi ✓")) + (dosya.buyuk ? " · " + t("{n} dosya 45 MB'tan büyük, yüklenmedi", { n: dosya.buyuk }) : "")}
+          </Text>
+        )}
+      </View>
 
       <View style={s.card}>
         <Text style={s.hint}>{t("Yetkiler: Yönetici çalışan ekler, çıkarır, ünvan verir ve föy siler. “Föy yazar ve siler” yetkisindeki avukat föy ekler, değiştirir, siler. “Föy yazar, silemez” yetkisindeki stajyer, katip ve sekreter föy ve evrak ekler, iş kapatır ama föy silemez. İşler Yapılacaklar ekranından çalışana atanır.")}</Text>

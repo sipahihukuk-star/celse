@@ -1,6 +1,7 @@
 // "Toplu evrak yükle": elinizdeki bütün evrakı (dosyalar ya da bütün bir klasör, ZIP dahil) bir kerede seçersiniz; Celse hepsini
 // bu bilgisayarda okur, dosya numarası, mahkeme ve taraf adlarına göre gruplar, var olan föylere ekler ya da yeni föy açar.
 // Evrak hiçbir yere gönderilmez; okuma kütüphaneleri bir kez indirildikten sonra internet kapalıyken de çalışır.
+import { asilDosya } from "../data/buroDosya";
 import React, { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { useAccount } from "../data/account";
@@ -80,14 +81,14 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy, hazir: klasorden }: { l
         i++;
         let metin = e.metin, okunamadi = e.okunamadi;
         if (!metin.trim()) {
-          const b = await dosyaOku(e.id).catch(() => undefined);
+          const b = await asilDosya(e.id, e.ad).catch(() => undefined);
           if (b && b.size) {
             const o = await evrakMetniOku({ ad: e.ad, bytes: new Uint8Array(await b.arrayBuffer()), blob: b }, m => setIlerleme(t("({a} / {b}) {ad}: {m}", { a: i, b: f.evraklar.length, ad: e.ad, m: t(m) })));
             metin = "hata" in o ? "" : o.metin; okunamadi = "hata" in o ? o.hata : o.okunamadi;
           } else if (!okunamadi) okunamadi = e.bulutMetin ? "yazısı buluttan getirilemedi; bu evrakı ekleyen bilgisayarda bir kez eşitleme yapılmalı" : "yazısı da asıl dosyası da bu bilgisayarda yok";
         }
         xs.push({ id: e.id, ad: e.ad, boyut: e.boyut, metin, okunamadi, oneri: metin ? kunyeCikar(metin) : {},
-          kaynak: async () => { const b = await dosyaOku(e.id); return { ad: e.ad, bytes: b ? new Uint8Array(await b.arrayBuffer()) : new Uint8Array(), blob: b, yol: e.kaynak }; } });
+          kaynak: async () => { const b = await asilDosya(e.id, e.ad); return { ad: e.ad, bytes: b ? new Uint8Array(await b.arrayBuffer()) : new Uint8Array(), blob: b, yol: e.kaynak }; } });
       }
       if (!iptal) { setOkunan(xs); setIlerleme(""); }
     })();
