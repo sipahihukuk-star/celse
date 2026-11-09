@@ -36,7 +36,8 @@ export function uyariDuzeyi(g: Gorev, f: Foy, bugun = bugunStr()): Uyari {
 }
 
 export interface IsSatir { f: Foy; g: Gorev; u: Uyari }
-export interface IsSuzgec { gorunum: "acik" | "kapali" | "hepsi"; duzey: "hepsi" | "acil" | "hafta" | "gecikti" | Duzey; tur: string; ara: string }
+/** kisi: "hepsi", "yok" (kimseye atanmamış) ya da çalışanın kullanıcı kimliği */
+export interface IsSuzgec { gorunum: "acik" | "kapali" | "hepsi"; duzey: "hepsi" | "acil" | "hafta" | "gecikti" | Duzey; tur: string; ara: string; kisi?: string }
 
 /** Bütün föylerdeki işler; açıklar uyarı düzeyine, sonra son güne göre sıralanır. Şahsi föyler dahil değil. */
 export function isListesi(liste: Foy[], s: IsSuzgec, bugun = bugunStr()): IsSatir[] {
@@ -47,13 +48,14 @@ export function isListesi(liste: Foy[], s: IsSuzgec, bugun = bugunStr()): IsSati
     if (s.tur !== "hepsi" && (f.tur || "hukuk") !== s.tur) continue;
     for (const g of f.gorevler) {
       if (s.gorunum === "acik" && g.bitti || s.gorunum === "kapali" && !g.bitti) continue;
+      if (s.kisi && s.kisi !== "hepsi" && (s.kisi === "yok" ? !!g.atanan : g.atanan !== s.kisi)) continue;
       const u = uyariDuzeyi(g, f, bugun);
       if (!g.bitti && s.duzey !== "hepsi") {
         const i = DUZEY_SIRA.indexOf(u.duzey);
         const ok = s.duzey === "acil" ? i <= 2 : s.duzey === "hafta" ? i <= 3 : s.duzey === u.duzey;
         if (!ok) continue;
       }
-      if (q && ![g.metin, f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, g.kapanis?.no || ""].join(" ").toLocaleLowerCase("tr").includes(q)) continue;
+      if (q && ![g.metin, f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, g.kapanis?.no || "", g.atananAd || ""].join(" ").toLocaleLowerCase("tr").includes(q)) continue;
       xs.push({ f, g, u });
     }
   }
@@ -106,8 +108,8 @@ export function isEmriAdaylari(metin: string): NoAday[] {
 export function isTablosu(xs: IsSatir[]): (string | number)[][] {
   const tr = (x?: string) => (x ? x.slice(0, 10).split("-").reverse().join(".") : "");
   return [
-    ["İş", "Müvekkil – karşı taraf", "Mahkeme / merci", "Dosya no", "Eklenme", "Son gün", "Uyarı", "Durum", "Kapanış tarihi", "İş emri / evrak no"],
+    ["İş", "Müvekkil – karşı taraf", "Mahkeme / merci", "Dosya no", "Eklenme", "Son gün", "Uyarı", "Durum", "Kapanış tarihi", "İş emri / evrak no", "Atanan"],
     ...xs.map(x => [x.g.metin, [x.f.muvekkil, x.f.karsiTaraf].filter(Boolean).join(" – "), x.f.mahkeme, x.f.esasNo, tr(x.g.eklenme || x.f.olusturma), tr(x.g.tarih),
-      x.g.bitti ? "" : DUZEY_AD[x.u.duzey] + " – " + x.u.metin, x.g.bitti ? "Kapandı" : "Açık", tr(x.g.kapanis?.tarih), x.g.kapanis?.no || (x.g.bitti ? "(numarasız kapatılmış)" : "")])
+      x.g.bitti ? "" : DUZEY_AD[x.u.duzey] + " – " + x.u.metin, x.g.bitti ? "Kapandı" : "Açık", tr(x.g.kapanis?.tarih), x.g.kapanis?.no || (x.g.bitti ? "(numarasız kapatılmış)" : ""), x.g.atananAd || ""])
   ];
 }

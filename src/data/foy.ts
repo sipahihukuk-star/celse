@@ -30,6 +30,8 @@ export interface Gorev {
   /** İşin eklendiği gün (uyarı, eklenmeden son güne geçen süreye göre artar). */
   eklenme?: string;
   kapanis?: GorevKapanis;
+  /** büroda işin verildiği çalışan (kullanıcı kimliği) ve adı */
+  atanan?: string; atananAd?: string;
 }
 export interface FoyEvrak {
   id: string; ad: string; boyut: number; eklenme: string; metin: string; okunamadi?: string;
@@ -49,6 +51,8 @@ export interface FoyEvrak {
 export interface FoyDegerlendirme { tarih: string; ozet: string; uyusmazlik: string[]; sureler: string[]; zayif: string[] }
 export interface Foy {
   id: string; olusturma: string; guncelleme: string;
+  /** silinen iş ve evrakların kimlikleri (büroda iki kişi aynı föyü değiştirince silinen geri gelmesin; son 300) */
+  silinen?: string[];
   /** dosya türü; eski föylerde yoktur (hukuk davası sayılır) */
   tur?: FoyTur;
   /** türüne göre aşama (Tahkikat, İddianame, Haciz…) */
@@ -250,6 +254,9 @@ export async function foylerKaydet(xs: Foy[]) {
   for (const f of ozel) await yaz({ ...f, guncelleme: simdi });
   haber();
 }
+/** Silinen iş / evrak kimliklerini föye not eder (eşitlemede geri gelmesin). */
+export const silineniNotEt = (f: Foy, ids: string[]): string[] => [...(f.silinen || []), ...ids].slice(-300);
+
 export async function foySil(f: Foy) {
   await islem(f.ozel ? "ozel" : "foyler", "readwrite", s => { s.delete(f.id); });
   if (idbVar()) await islem("dosyalar", "readwrite", s => { for (const e of f.evraklar) s.delete(e.id); });

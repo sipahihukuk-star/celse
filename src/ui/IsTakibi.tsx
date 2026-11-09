@@ -1,11 +1,12 @@
 // Yapılacaklar: bütün föylerdeki işler tek ekranda. Uyarı gün geçtikçe artar (renk ve düzey); iş yalnız
 // iş emri / evrak numarasıyla kapanır. Yeni iş buradan da eklenir; liste Excel'e aktarılır.
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { bosFoy, Foy, foyBaslik, foyKaydet, Gorev, tarihCoz, tarihYaz, yeniId } from "../data/foy";
 import { FoyTur, TURLER } from "../data/foyTurleri";
 import { bugunStr, duzeySayilari, DUZEY_SIRA, isListesi, IsSuzgec, isTablosu } from "../data/isTakibi";
 import { xlsxYaz } from "../data/xlsxYaz";
+import { buroUyeleri, Uye } from "../data/buro";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
 import { indir, s } from "./foyStil";
@@ -20,6 +21,13 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
   });
   const yaz = (ek: Partial<IsSuzgec>) => { const y = { ...sz, ...ek }; setSz(y); setSayfa(0); try { const { ara: _a, ...k } = y; globalThis.localStorage?.setItem("celse-is-takibi", JSON.stringify(k)); } catch { /* yok say */ } };
   const [sayfa, setSayfa] = useState(0);
+  // Büro çalışanları (iş atama). Büro yoksa liste boş, atama alanları görünmez.
+  const [uyeler, setUyeler] = useState<Uye[]>([]);
+  const [ben, setBen] = useState<string>();
+  useEffect(() => { buroUyeleri().then(x => { setUyeler(x.uyeler); setBen(x.ben); }).catch(() => {}); }, []);
+  const [kime, setKime] = useState("");
+  const atama = (uid: string) => { const u = uyeler.find(x => x.kullanici_id === uid); return u ? { atanan: u.kullanici_id, atananAd: u.ad } : { atanan: undefined, atananAd: undefined }; };
+  const kisiSecenek = [{ k: "", ad: t("Kimseye") }, ...uyeler.map(u => ({ k: u.kullanici_id, ad: `${u.ad} · ${t(u.unvan)}${u.kullanici_id === ben ? " (" + t("siz") + ")" : ""}` }))];
   const [kapat, setKapat] = useState<string | null>(null);
   const [mesaj, setMesaj] = useState("");
   const satirlar = useMemo(() => isListesi(liste, sz), [liste, sz]);
@@ -51,19 +59,19 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
   const davaKaydet = async () => {
     if (!yd.dava.trim() && !yd.muvekkil.trim()) return;
     const is = yeni.trim() || "Dava aç: " + (yd.dava.trim() || TURLER.find(x => x.tur === yd.tur)?.ad || "dava");
-    const g: Gorev = { id: yeniId("g"), metin: is, tarih: tarihCoz(sonGun), bitti: false, kaynak: "elle", eklenme: bugunStr() };
+    const g: Gorev = { id: yeniId("g"), metin: is, tarih: tarihCoz(sonGun), bitti: false, kaynak: "elle", eklenme: bugunStr(), ...atama(kime) };
     await foyKaydet(bosFoy({ tur: yd.tur, muvekkil: yd.muvekkil.trim(), karsiTaraf: yd.karsi.trim(), davaTuru: yd.dava.trim(), notlar: "Yapılacaklardan kaydedildi; dava henüz açılmadı.", gorevler: [g] }));
     setMesaj(t("Yeni föy açıldı, iş yapılacaklara yazıldı: {is}", { is })); setYeni(""); setSonGun(""); setYd({ tur: yd.tur, muvekkil: "", karsi: "", dava: "" });
   };
   const ekle = async () => {
     if (!hedef || !yeni.trim()) return;
-    const g: Gorev = { id: yeniId("g"), metin: yeni.trim(), tarih: tarihCoz(sonGun), bitti: false, kaynak: "elle", eklenme: bugunStr() };
+    const g: Gorev = { id: yeniId("g"), metin: yeni.trim(), tarih: tarihCoz(sonGun), bitti: false, kaynak: "elle", eklenme: bugunStr(), ...atama(kime) };
     await foyKaydet({ ...hedef, gorevler: [...hedef.gorevler, g] });
     setMesaj(t("İş eklendi: {is}", { is: g.metin })); setYeni(""); setSonGun("");
   };
 
   const excel = () => {
-    const b = xlsxYaz("Yapılacaklar", isTablosu(satirlar), [40, 30, 32, 14, 12, 12, 34, 10, 14, 22]);
+    const b = xlsxYaz("Yapılacaklar", isTablosu(satirlar), [40, 30, 32, 14, 12, 12, 34, 10, 14, 22, 20]);
     indir(`yapilacaklar-${bugunStr()}.xlsx`, new Blob([b as BlobPart], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
   };
   const web = Platform.OS === "web";
@@ -91,6 +99,7 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
         <Text style={[s.body, { color: C.text }]}>{t("+ Yeni iş")}</Text>
         <Acilir etiket={t("İş nereye")} secili={yeniDava ? "yeni" : "mevcut"} genislik={280} onSec={k => setYeniDava(k === "yeni")}
           secenekler={[{ k: "mevcut", ad: t("Var olan bir föye") }, { k: "yeni", ad: t("Yeni dava (henüz açılmadı)") }]} />
+        {uyeler.length > 1 && <Acilir etiket={t("Kime verilsin")} secili={kime} genislik={300} secenekler={kisiSecenek} onSec={setKime} />}
         {yeniDava ? (
           <View style={{ gap: 8 }}>
             <Acilir etiket={t("Dosya türü")} secili={yd.tur} genislik={260} onSec={k => setYd({ ...yd, tur: k as FoyTur })}
@@ -137,6 +146,8 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
             secenekler={[{ k: "acik", ad: t("Açık işler") }, { k: "kapali", ad: t("Kapananlar") }, { k: "hepsi", ad: t("Hepsi") }]} />
           <Acilir etiket={t("Uyarı")} secili={sz.duzey} genislik={210} onSec={k => yaz({ duzey: k as IsSuzgec["duzey"] })}
             secenekler={[{ k: "hepsi", ad: t("Hepsi") }, { k: "acil", ad: t("Gecikmiş, bugün ve acil") }, { k: "hafta", ad: t("Bu hafta ve öncesi") }, ...DUZEY_SIRA.map(d => ({ k: d, ad: duzeyAdi(d), n: sayilar[d] }))]} />
+          {uyeler.length > 1 && <Acilir etiket={t("Kişi")} secili={sz.kisi || "hepsi"} genislik={240} onSec={k => yaz({ kisi: k })}
+            secenekler={[{ k: "hepsi", ad: t("Herkesin işleri") }, ...(ben ? [{ k: ben, ad: t("Bana verilenler") }] : []), { k: "yok", ad: t("Kimseye verilmemiş") }, ...uyeler.filter(u => u.kullanici_id !== ben).map(u => ({ k: u.kullanici_id, ad: `${u.ad} · ${t(u.unvan)}` }))]} />}
           <Acilir etiket={t("Dosya türü")} secili={sz.tur} genislik={210} onSec={k => yaz({ tur: k })}
             secenekler={[{ k: "hepsi", ad: t("Bütün türler") }, ...turler.map(x => ({ k: x.tur, ad: t(x.ad) }))]} />
         </View>
@@ -160,6 +171,9 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
                   ? <Text style={[s.hint, { color: C.good }]}>{g.kapanis ? t("Kapandı {d} · no: {no}{g}", { d: tarihYaz(g.kapanis.tarih), no: g.kapanis.no, g: g.kapanis.kaynak === "gorsel" ? " · " + t("görselden okundu") : "" }) : t("Numarasız kapatılmış (eski kayıt)")}</Text>
                   : <Text style={{ color: renk, fontSize: 13, fontWeight: "700" }}>{duzeyAdi(u.duzey)} · {t(u.metin)}{g.tarih ? " · " + t("son gün {d}", { d: tarihYaz(g.tarih) }) : ""}</Text>}
                 {g.kaynak === "yapay" && !g.bitti && <Text style={s.hint}>{t("yapay zekâ önerisi, kontrol edin")}</Text>}
+                {uyeler.length > 1 && !g.bitti
+                  ? <Acilir etiket={t("Kimde")} secili={g.atanan || ""} genislik={260} secenekler={kisiSecenek} onSec={k => gorevYaz(f, g, atama(k))} />
+                  : !!g.atananAd && <Text style={s.hint}>👤 {g.atananAd}</Text>}
               </View>
               {!g.bitti && kapat !== g.id && <Btn kind="secondary" label={t("Kapat…")} onPress={() => setKapat(g.id)} />}
               {g.bitti && !g.kapanis && <Btn kind="ghost" label={t("Numara ekle")} onPress={() => setKapat(g.id)} />}
