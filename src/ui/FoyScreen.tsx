@@ -39,7 +39,7 @@ import { C } from "./theme";
 
 type Secili = { id: string; ekle?: string };
 
-export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) => void; ucretsiz?: boolean }) {
+export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) => void; ucretsiz?: boolean; ilkSekme?: "beyan" | "kaynak" }) {
   const [liste, setListe] = useState<Foy[]>([]);
   const [yuklendi, setYuklendi] = useState(false);
   const [secili, setSecili] = useState<Secili | null>(null);
@@ -52,7 +52,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [buroAc, setBuroAc] = useState(false);
   const [tevkilAc, setTevkilAc] = useState(false);
   const [durusmaAc, setDurusmaAc] = useState(false);
-  const [beyanAc, setBeyanAc] = useState<false | "beyan" | "kaynak">(false);
+  const [beyanAc, setBeyanAc] = useState<false | "beyan" | "kaynak">(p.ilkSekme || false);
   // "sahsi": şahsi dosyalar bölümünden açılan giriş (yeni föy şahsi ve şifreli olur).
   const [giris, setGiris] = useState<false | "normal" | "sahsi">(false);
   const [ara, setAra] = useState("");

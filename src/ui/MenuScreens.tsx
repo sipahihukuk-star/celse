@@ -38,7 +38,7 @@ export interface TitleProps {
   /** "Derdini anlat" danışma ekranı; evrak: doğrudan "Evrakla duruşma provası" açılır */ onDanisma?: (evrak?: boolean) => void;
   /** Web mağazası (Celse Pro ve kredi paketleri; yalnız web) */ onShop?: () => void;
   /** Danışma dosyaları (gerçek olaylar): kullanıcıların anonim olaylarını avukat olarak oynama (antrenman) */ onDanismaDosya?: () => void;
-  /** Dava takibi (föyler; yalnız bu cihazda) */ onFoy?: () => void;
+  /** Dava takibi (föyler; yalnız bu cihazda); sekme: beyan klasörü ya da mevzuat ve içtihat */ onFoy?: (sekme?: "beyan" | "kaynak") => void;
   /** Ön sayfadan örnek duruşma canlandırması (üyeliksiz) */ onOrnek?: () => void;
 }
 export function TitleScreen(p: TitleProps) {
@@ -283,7 +283,7 @@ function ShopCard({ onPress }: { onPress: () => void }) {
 }
 
 /** Ön yüzün "Dava takibi" sayfası: avukatın föyleri (duruşmalar, süreler, yapılacaklar, evrak). Föyler cihazda kalır. */
-function TakipHome({ wide, admin: yonetici, onFoy, onNext, footer }: { wide: boolean; admin: boolean; onFoy?: () => void; onNext?: () => void; footer: React.ReactNode }) {
+function TakipHome({ wide, admin: yonetici, onFoy, onNext, footer }: { wide: boolean; admin: boolean; onFoy?: (sekme?: "beyan" | "kaynak") => void; onNext?: () => void; footer: React.ReactNode }) {
   const prem = usePremium();
   const satis = useSettings().avukatSatis;
   const acik = yonetici || prem.evrak || !!prem.avukat?.aktif || satis;
@@ -304,6 +304,28 @@ function TakipHome({ wide, admin: yonetici, onFoy, onNext, footer }: { wide: boo
             <Text style={styles.homeT}>{t("Föylerim")}</Text>
             <Text style={styles.webNote}>{t("Dosya listenizi Excel ya da Word'den toplu aktarın; evrakı ekleyin, yaklaşan duruşma ve işleri görün, yapay zekâya özet, süre ve yapılacakları çıkartın.")}</Text>
             {Platform.OS !== "web" && <Text style={styles.webNote}>{t("Evrak ekleme ve toplu aktarma bilgisayarda (celse.themiscode.com); föyler bulut eşitlemesiyle telefona gelir.")}</Text>}
+          </View>
+          {acik && <Text style={styles.careerGoDark}>›</Text>}
+        </Pressable>
+      )}
+      {!!onFoy && (
+        <Pressable accessibilityRole="button" onPress={() => (acik ? onFoy("beyan") : setKilit(k => !k))} style={({ pressed }) => [styles.homeCard, pressed && { opacity: 0.85 }]}>
+          <IconBadge name="notes" size={48} />
+          <View style={{ flex: 1, gap: 4 }}>
+            <Text style={styles.careerKDark}>{t("BEYAN KLASÖRÜ")}</Text>
+            <Text style={styles.homeT}>{t("Beyan, dilekçe ve sözleşme yaz")}</Text>
+            <Text style={styles.webNote}>{t("Dilekçeler, kanun yolları, sözleşmeler, ihtarname, arabuluculuk, uzlaştırma, komisyon başvuruları, Anayasa Mahkemesi ve AİHM başvuruları, bilirkişi raporu. Föyden yazılır; UYAP (UDF), Word ya da PDF olarak alınır.")}</Text>
+          </View>
+          {acik && <Text style={styles.careerGoDark}>›</Text>}
+        </Pressable>
+      )}
+      {!!onFoy && (
+        <Pressable accessibilityRole="button" onPress={() => (acik ? onFoy("kaynak") : setKilit(k => !k))} style={({ pressed }) => [styles.homeCard, pressed && { opacity: 0.85 }]}>
+          <IconBadge name="scales" size={48} />
+          <View style={{ flex: 1, gap: 4 }}>
+            <Text style={styles.careerKDark}>{t("MEVZUAT VE İÇTİHAT")}</Text>
+            <Text style={styles.homeT}>{t("Mevzuat, içtihat ve doktrin")}</Text>
+            <Text style={styles.webNote}>{t("Yürürlükteki ve mülga bütün kanunlar madde madde; KHK, yönetmelik, tüzük, genelge; Yargıtay, Danıştay, bölge adliye ve ilk derece kararları tam metniyle.")}</Text>
           </View>
           {acik && <Text style={styles.careerGoDark}>›</Text>}
         </Pressable>

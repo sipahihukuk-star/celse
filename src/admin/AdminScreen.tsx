@@ -200,7 +200,7 @@ function AdminHome({ onExit, onPreview, onEvrak, onFoy }: Props) {
         {yuzNe === "danisma" && <SmallBtn label="📂 Örnek olaylar" tone={ai === "ornek" ? "accent" : "plain"} onPress={() => setAi(ai === "ornek" ? "" : "ornek")} />}
         {yuzNe === "danisma" && !!onEvrak && <SmallBtn label="📄 Evrakla duruşma provası" onPress={onEvrak} />}
         {yuzNe === "takip" && !!onFoy && <SmallBtn label="📁 Föylerim" onPress={onFoy} />}
-        {yuzNe === "takip" && <SmallBtn label="📚 Mevzuat arşivi" tone={ai === "mevzuat" ? "accent" : "plain"} onPress={() => setAi(ai === "mevzuat" ? "" : "mevzuat")} />}
+        {yuzNe === "takip" && <SmallBtn label="📚 Mevzuat ve içtihat arşivi" tone={ai === "mevzuat" ? "accent" : "plain"} onPress={() => setAi(ai === "mevzuat" ? "" : "mevzuat")} />}
         {yuzNe === "oyun" && <>
           <SmallBtn label="🎭 Görsel denetim" tone={ai === "gorsel" ? "accent" : "plain"} onPress={() => setAi(ai === "gorsel" ? "" : "gorsel")} />
           <SmallBtn label="🔍 Yapay zekâ denetimi" tone={ai === "denetim" ? "accent" : "plain"} onPress={() => setAi(ai === "denetim" ? "" : "denetim")} />

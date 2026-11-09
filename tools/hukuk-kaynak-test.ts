@@ -10,6 +10,7 @@ let yonetici = true, bedesten429 = 0;
 const onbellek = new Map<string, unknown>();
 const kanunlar = new Map<string, Record<string, unknown>>();
 const maddeler: Record<string, unknown>[] = [];
+const arsiv = new Map<string, Record<string, unknown>>();
 const MD = `# DENEME KANUNU (No. 9999)
 
 > Resmî kaynak: https://mevzuat.adalet.gov.tr/mevzuat/1
@@ -58,7 +59,13 @@ globalThis.fetch = (async (u: string | URL, o?: RequestInit) => {
   if (url.includes("/rpc/yonetici_mi")) return js(yonetici);
   if (url.includes("/rpc/mevzuat_madde_getir")) { const a = JSON.parse(body); return js(a.p_no === "6100" && a.p_madde === "281" ? [{ slug: "6100-hmk", no: "6100", ad: "HUKUK MUHAKEMELERİ KANUNU", durum: "yururlukte", madde: "281", baslik: "Bilirkişi raporuna itiraz", metin: "(1) Taraflar..." }] : []); }
   if (url.includes("/rpc/mevzuat_ara")) return js([{ slug: "6100-hmk", no: "6100", ad: "HUKUK MUHAKEMELERİ KANUNU", durum: "yururlukte", madde: "281", baslik: "Bilirkişi raporuna itiraz", metin: "(1) Taraflar...", puan: 0.5 }]);
+  if (url.includes("/rpc/ictihat_durumu")) return js([{ karar: arsiv.size, mb: 1 }]);
+  if (url.includes("/rpc/ictihat_ara")) return js([...arsiv.values()].map(x => ({ ...x, bolum: "… «bilirkişi» …", puan: 1 })));
   if (url.includes("/rpc/")) return js(true);
+  if (url.includes("/rest/v1/ictihat_karar")) {
+    if (method === "GET") { const id = url.match(/id=eq\.([^&]+)/)?.[1]; if (id) return js(arsiv.has(id) ? [arsiv.get(id)] : []); const ids = (url.match(/id=in\.\((.*)\)/)?.[1] || "").split(",").map(x => x.replace(/"/g, "")); return js(ids.filter(x => arsiv.has(x)).map(id => ({ id }))); }
+    const r = JSON.parse(body); if (!arsiv.has(r.id)) arsiv.set(r.id, r); return new Response(null, { status: 201 });
+  }
   if (url.includes("/rest/v1/hukuk_onbellek")) {
     if (method === "GET") { const k = url.match(/anahtar=eq\.(.+?)&select/)?.[1] || ""; return js(onbellek.has(k) ? [{ veri: onbellek.get(k), tarih: new Date().toISOString() }] : []); }
     const r = JSON.parse(body); onbellek.set(r.anahtar, r.veri); return new Response(null, { status: 201 });
@@ -141,6 +148,27 @@ const son = (p: string) => [...cagrilar].reverse().find(c => c.url.includes(p));
   r = await handle(istek({ action: "mevzuat_yukle", bas: 0 }));
   j = await r.json();
   ok(j.degisen === 0 && cagrilar.filter(c => c.url.includes("raw.githubusercontent.com") && c.url.endsWith("metin.md")).length === m0, "değişmeyen kanun atlanır");
+  // İçtihat arşivi: açılan karar meta ile arşive girer, sonra arşivden okunur (servise gidilmez)
+  r = await handle(istek({ action: "belge_getir", kaynak: "karar", id: "2002", meta: { mahkeme: "Yargıtay", birim: "9. Hukuk Dairesi", esas: "2023/5", karar: "2024/6", tarih: "12.03.2024" } }));
+  ok(arsiv.get("2002")?.tarih === "2024-03-12" && arsiv.get("2002")?.birim === "9. Hukuk Dairesi" && arsiv.get("2002")?.kaynak === "acilan", "açılan karar arşive: " + JSON.stringify(arsiv.get("2002")).slice(0, 160));
+  const n2 = cagrilar.length;
+  r = await handle(istek({ action: "belge_getir", kaynak: "karar", id: "2002" }));
+  j = await r.json();
+  ok(j.arsiv && /YARGITAY/.test(j.metin) && !cagrilar.slice(n2).some(c => c.url.includes("bedesten")), "arşivdeki karar servise gitmeden");
+  r = await handle(istek({ action: "karar_ara", soz: "bilirkişi", kaynak: "arsiv", mahkeme: "YARGITAYKARARI" }));
+  j = await r.json();
+  ok(j.arsiv && j.kararlar.length === 1 && j.kararlar[0].tarih === "12.03.2024" && /bilirkişi/.test(j.kararlar[0].bolum) && JSON.parse(son("/rpc/ictihat_ara")!.body).p_mahkeme === "Yargıtay", "arşivde arama: " + JSON.stringify(j).slice(0, 200));
+  yonetici = false;
+  r = await handle(istek({ action: "ictihat_yukle", mahkeme: "YARGITAYKARARI", birim: "Hukuk Genel Kurulu", yil: 2025, sayfa: 1 }));
+  ok(r.status === 403, "içtihat yükleme yalnız yönetici");
+  yonetici = true;
+  r = await handle(istek({ action: "ictihat_yukle", mahkeme: "YARGITAYKARARI", birim: "Hukuk Genel Kurulu", yil: 2025, sayfa: 1 }));
+  j = await r.json();
+  const ara = JSON.parse(son("/emsal-karar/searchDocuments")!.body);
+  ok(j.eklenen === 1 && j.bitti && arsiv.get("1001")?.kaynak === "yukleme" && arsiv.get("1001")?.mahkeme === "Yargıtay" && ara.data.birimAdi === "Hukuk Genel Kurulu" && /^2025-01-01/.test(ara.data.kararTarihiStart), "temel karar yüklendi: " + JSON.stringify(j) + " " + JSON.stringify(arsiv.get("1001")).slice(0, 120));
+  r = await handle(istek({ action: "ictihat_yukle", mahkeme: "YARGITAYKARARI", birim: "Hukuk Genel Kurulu", yil: 2025, sayfa: 1 }));
+  j = await r.json();
+  ok(j.eklenen === 0 && j.atlanan === 1, "arşivdeki karar yeniden alınmaz");
   if (fail) { console.log(`hukuk-kaynak-test: ${fail} hata`); process.exit(1); }
   console.log("hukuk-kaynak-test: tamam");
 })();

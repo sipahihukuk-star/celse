@@ -59,7 +59,7 @@ const TAKIP_AZAMI = 1000;
 const DANISMA_EVRAK = 40000;
 
 // Hız sınırı (kişi başına, saatlik).
-const SINIR: Record<string, number> = { kontrol: 30, degerlendir: 6, canlandir: 10, izle: 10, ses: 8, takip: 30, dosya: 4, evrak: 8, evrak_izle: 6, evrak_oyna: 4, evrak_bilet: 10, evrak_derle: 150, foyle: 60, foy_sor: 40, ses_anla: 200, genel_sor: 40, beyan_yaz: 40, kaynak_ara: 60, karar_ara: 400, mevzuat_bul: 400, belge_getir: 400, mevzuat_yukle: 3000 };
+const SINIR: Record<string, number> = { kontrol: 30, degerlendir: 6, canlandir: 10, izle: 10, ses: 8, takip: 30, dosya: 4, evrak: 8, evrak_izle: 6, evrak_oyna: 4, evrak_bilet: 10, evrak_derle: 150, foyle: 60, foy_sor: 40, ses_anla: 200, genel_sor: 40, beyan_yaz: 40, kaynak_ara: 60, karar_ara: 400, mevzuat_bul: 400, belge_getir: 400, mevzuat_yukle: 3000, ictihat_yukle: 5000 };
 
 // Oyuncunun dili: model metni bu dilde yazar (JSON alan adları aynı kalır). yz ile aynı "dil" alanı.
 const DIL: Record<string, string> = { en: "English", es: "Spanish", fr: "French", de: "German" };
@@ -1197,6 +1197,16 @@ async function kararAra(req: Request, uid: string, b: Record<string, unknown>) {
   const soz = kodsuz(cut(b.soz, 300));
   if (soz.length < 2) return json({ error: "eksik" }, 400);
   if (evrakSizinti(soz).length) return json({ error: "maskelenmemiş veri" }, 422);
+  // Celse içtihat arşivi (surum22.sql): yüklenen ve açılan kararlarda Türkçe tam metin araması.
+  if (b.kaynak === "arsiv") {
+    const ad: Record<string, string> = { YARGITAYKARARI: "Yargıtay", DANISTAYKARAR: "Danıştay", ISTINAFHUKUK: "Bölge Adliye", YERELHUKUK: "Yerel", KYB: "Kanun Yararına" };
+    try {
+      const rows = await rpc("ictihat_ara", { p_soz: soz, p_mahkeme: ad[String(b.mahkeme)] || "", p_birim: cut(b.birim, 80).trim(), p_sinir: 20 });
+      const kararlar = (rows || []).map((x: Record<string, unknown>) => ({ id: String(x.id), mahkeme: cut(x.mahkeme, 80), birim: cut(x.birim, 120), esas: cut(x.esas, 40), karar: cut(x.karar, 40),
+        tarih: trTarih(x.tarih), bolum: cut(x.bolum, 800), url: "https://mevzuat.adalet.gov.tr/ictihat/" + String(x.id) }));
+      return json({ kararlar: kararlar, toplam: kararlar.length, sayfa: 1, arsiv: true });
+    } catch (_e) { return json({ error: "İçtihat arşivi henüz kurulmadı (yönetim paneli)." }, 503); }
+  }
   const mahkeme = MAHKEMELER.indexOf(String(b.mahkeme)) >= 0 ? [String(b.mahkeme)] : MAHKEMELER;
   const sayfa = Math.max(1, Math.min(50, Number(b.sayfa) || 1));
   const data: Record<string, unknown> = { pageSize: 10, pageNumber: sayfa, itemTypeList: mahkeme, phrase: soz, sortFields: ["KARAR_TARIHI"], sortDirection: "desc" };
@@ -1291,6 +1301,12 @@ async function belgeGetir(req: Request, uid: string, b: Record<string, unknown>)
   const kaynak = b.kaynak === "mevzuat" ? "mevzuat" : "karar";
   if (!id) return json({ error: "eksik" }, 400);
   const anahtar = "belge:" + kaynak + ":" + id;
+  if (kaynak === "karar") {
+    try {
+      const a = await srv("/rest/v1/ictihat_karar?id=eq." + encodeURIComponent(id) + "&select=metin", "GET");
+      if (a && a[0] && a[0].metin) return json({ id: id, kaynak: kaynak, metin: a[0].metin, pdf: false, url: "https://mevzuat.adalet.gov.tr/ictihat/" + id, arsiv: true });
+    } catch (_e) { void _e; }
+  }
   const eski = await onbellek(anahtar, 30) as Record<string, unknown> | null;
   if (eski) return json(eski);
   let d: Record<string, unknown>;
@@ -1301,8 +1317,62 @@ async function belgeGetir(req: Request, uid: string, b: Record<string, unknown>)
   let metin = "";
   if (/html/i.test(mime) && d.content) metin = htmlMetin(new TextDecoder().decode(b64Utf8(String(d.content))));
   const out = { id: id, kaynak: kaynak, metin: cut(metin, 200000), pdf: !/html/i.test(mime), url: url };
-  if (metin) await onbellegeYaz(anahtar, out);
+  if (metin && kaynak === "karar" && b.meta && typeof b.meta === "object") await arsiveYaz(id, b.meta as Record<string, unknown>, out.metin, "acilan");
+  else if (metin) await onbellegeYaz(anahtar, out);
   return json(out);
+}
+
+const isoTarih = (x: unknown) => { const m = String(x || "").match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/); if (m) return m[3] + "-" + ("0" + m[2]).slice(-2) + "-" + ("0" + m[1]).slice(-2); const n = String(x || "").match(/^(\d{4}-\d{2}-\d{2})/); return n ? n[1] : null; };
+async function arsiveYaz(id: string, m: Record<string, unknown>, metin: string, kaynak: string) {
+  try {
+    await srv("/rest/v1/ictihat_karar?on_conflict=id", "POST", { id: id, mahkeme: cut(m.mahkeme, 80), birim: cut(m.birim, 120), esas: cut(m.esas, 40), karar: cut(m.karar, 40), tarih: isoTarih(m.tarih), metin: cut(metin, 300000), kaynak: kaynak }, "resolution=ignore-duplicates,return=minimal");
+  } catch (_e) { void _e; }
+}
+
+// İçtihat arşivinin yüklenmesi (yalnız yönetici; panel art arda çağırır): bir mahkeme / kurul ve (isteğe bağlı) yıl için resmî
+// emsal karar servisinden bir sayfa (10 karar) aranır, arşivde olmayanların metni alınıp eklenir. Servisin hız sınırına uymak için
+// belge istekleri arasında beklenir. Arşiv 300 MB'ı aşarsa durulur.
+async function ictihatYukle(req: Request, b: Record<string, unknown>) {
+  if (!(await isAdmin(req))) return json({ error: "yetki yok" }, 403);
+  const mahkeme = MAHKEMELER.indexOf(String(b.mahkeme)) >= 0 ? String(b.mahkeme) : "YARGITAYKARARI";
+  const birim = cut(b.birim, 80).trim();
+  const yil = Number(b.yil) || 0;
+  const sayfa = Math.max(1, Math.min(1000, Number(b.sayfa) || 1));
+  try {
+    const d0 = await rpc("ictihat_durumu", {});
+    if (d0 && d0[0] && Number(d0[0].mb) > 300) return json({ bitti: true, dolu: true, mb: Number(d0[0].mb), eklenen: 0, toplam: 0 });
+  } catch (e) { return json({ error: "içtihat arşivi tablosu yok (surum22.sql çalıştırılmalı): " + cut((e as Error).message, 160) }, 500); }
+  const data: Record<string, unknown> = { pageSize: 10, pageNumber: sayfa, itemTypeList: [mahkeme], phrase: cut(b.soz, 100) || "karar", sortFields: ["KARAR_TARIHI"], sortDirection: "desc" };
+  if (birim) data.birimAdi = birim;
+  if (yil >= 1950 && yil <= 2100) { data.kararTarihiStart = yil + "-01-01T00:00:00.000Z"; data.kararTarihiEnd = yil + "-12-31T23:59:59.999Z"; }
+  let d: Record<string, unknown>;
+  try { d = await bedesten("/emsal-karar/searchDocuments", data, true); } catch (e) { return json({ error: String((e as Error).message) === "yoğun" ? "yoğun" : "servis", bekle: 30 }, 503); }
+  const liste = ((d.emsalKararList || []) as Record<string, unknown>[]).filter(x => x.documentId);
+  const toplam = Number(d.total) || 0;
+  let mevcut = new Set<string>();
+  if (liste.length) {
+    try {
+      const rows = await srv("/rest/v1/ictihat_karar?select=id&id=in.(" + liste.map(x => encodeURIComponent("\"" + String(x.documentId) + "\"")).join(",") + ")", "GET");
+      mevcut = new Set((rows || []).map((x: { id: string }) => x.id));
+    } catch (_e) { void _e; }
+  }
+  let eklenen = 0, yogun = false;
+  for (const x of liste) {
+    const id = String(x.documentId);
+    if (mevcut.has(id)) continue;
+    try {
+      await new Promise(ok => setTimeout(ok, 3200));
+      const c = await bedesten("/emsal-karar/getDocumentContent", { documentId: id }, false);
+      if (!/html/i.test(String(c.mimeType || "text/html")) || !c.content) continue;
+      const metin = htmlMetin(new TextDecoder().decode(b64Utf8(String(c.content))));
+      if (!metin) continue;
+      const tur = (x.itemType || {}) as Record<string, unknown>;
+      await arsiveYaz(id, { mahkeme: String(tur.description || tur.name || "").replace(/\s*Kararı$/i, ""), birim: x.birimAdi, esas: x.esasNo || (x.esasNoYil ? x.esasNoYil + "/" + x.esasNoSira : ""),
+        karar: x.kararNo || (x.kararNoYil ? x.kararNoYil + "/" + x.kararNoSira : ""), tarih: x.kararTarihiStr || x.kararTarihi }, metin, "yukleme");
+      eklenen++;
+    } catch (e) { if (String((e as Error).message) === "yoğun") { yogun = true; break; } }
+  }
+  return json({ sayfa: sayfa, toplam: toplam, eklenen: eklenen, atlanan: mevcut.size, bitti: !yogun && sayfa * 10 >= toplam, yogun: yogun });
 }
 
 // Kanun arşivinin yüklenmesi / güncellenmesi (yalnız yönetici; panel art arda çağırır). Kaynak: Adalet Bakanlığı mevzuat
@@ -1697,6 +1767,7 @@ export async function handle(req: Request): Promise<Response> {
     if (action === "mevzuat_bul") return await mevzuatBul(req, uid, b);
     if (action === "belge_getir") return await belgeGetir(req, uid, b);
     if (action === "mevzuat_yukle") return await mevzuatYukle(req, b);
+    if (action === "ictihat_yukle") return await ictihatYukle(req, b);
     if (action === "evrak_derle") return b.akis === true ? akisla(evrakDerle(uid, b)) : await evrakDerle(uid, b);
     return await takip(uid, b);
   } catch (e) {
