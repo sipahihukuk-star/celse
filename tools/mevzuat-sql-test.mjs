@@ -10,6 +10,12 @@ create role anon; create role authenticated; grant usage on schema public, auth 
 `);
 await db.exec(fs.readFileSync(R + "surum21.sql", "utf8"));
 await db.exec(fs.readFileSync(R + "surum21.sql", "utf8"));
+await db.exec(fs.readFileSync(R + "surum22.sql", "utf8"));
+await db.exec(fs.readFileSync(R + "surum22.sql", "utf8"));
+await db.exec("grant select on public.ictihat_karar to authenticated");
+await db.exec(`insert into public.ictihat_karar (id, mahkeme, birim, esas, karar, tarih, metin, kaynak) values
+ ('1', 'Yargıtay', 'Hukuk Genel Kurulu', '2023/1', '2024/2', '2024-03-12', 'Bilirkişi raporlarına yapılan itirazlar karşılanmadan hüküm kurulamaz.', 'yukleme'),
+ ('2', 'Danıştay', 'İdare Dava Daireleri Kurulu', '2022/3', '2023/4', '2023-05-01', 'İdari işlemin iptali için menfaat ihlali yeterlidir.', 'acilan')`);
 await db.exec("grant select on public.mevzuat_kanun, public.mevzuat_madde, public.hukuk_onbellek to authenticated; grant insert on public.mevzuat_madde to authenticated");
 await db.exec(`insert into public.mevzuat_kanun (slug, no, ad, durum) values ('6100-hmk', '6100', 'HUKUK MUHAKEMELERİ KANUNU', 'yururlukte'), ('1086-humk', '1086', 'HUKUK USULÜ MUHAKEMELERİ KANUNU', 'mulga');
 insert into public.mevzuat_madde (slug, sira, madde, baslik, metin) values
@@ -30,5 +36,13 @@ let hata = ""; try { await as("insert into public.mevzuat_madde (slug, sira, mad
 ok(/row-level|policy|permission denied/i.test(hata), "kullanıcı arşive yazamaz: " + hata);
 r = await as("select count(1)::int as n from public.hukuk_onbellek");
 ok(r.rows[0].n === 0, "önbellek okunamaz (kural yok)");
+r = await as("select id, birim, bolum from public.ictihat_ara($1, '', '', 10)", ["bilirkişi raporuna itiraz"]);
+ok(r.rows.length === 1 && r.rows[0].id === "1" && /«/.test(r.rows[0].bolum), "içtihat arşivi araması: " + JSON.stringify(r.rows));
+r = await as("select id from public.ictihat_ara($1, 'Danıştay', '', 10)", ["bilirkişi"]);
+ok(r.rows.length === 0, "mahkeme süzgeci");
+r = await as("select karar, yargitay, danistay from public.ictihat_durumu()");
+ok(Number(r.rows[0].karar) === 2 && Number(r.rows[0].yargitay) === 1, "içtihat durumu: " + JSON.stringify(r.rows[0]));
+hata = ""; try { await as("insert into public.ictihat_karar (id, metin) values ('x', 'y')"); } catch (e) { hata = e.message; }
+ok(/row-level|policy|permission denied/i.test(hata), "kullanıcı içtihat arşivine yazamaz");
 if (fail) { console.log(`mevzuat-sql-test: ${fail} hata`); process.exit(1); }
 console.log("mevzuat-sql-test: tamam");
