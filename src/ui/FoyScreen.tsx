@@ -1,9 +1,9 @@
 // Dava takibi: föy listesi (türe göre), yeni giriş menüsü (dava, suç duyurusu, arabuluculuk, idari başvuru, icra, sözleşme…),
 // yaklaşan duruşma ve işler, kilitli özel dosyalar, DavaTek klasörü, Excel/Word'den toplu föy, yedek.
 // Her şey bu cihazda (src/data/foy.ts); yapay zekâya yalnız kodlanmış metin gider. Föy sayfası: FoySayfa.tsx.
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { bosFoy, Foy, foyBaslik, foyDinle, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, tarihYaz, yedekMetni, yedektenYukle } from "../data/foy";
+import { bosFoy, Foy, foyBaslik, foyDinle, foyGetir, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, tarihYaz, yedekMetni, yedektenYukle } from "../data/foy";
 import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyAktar";
 import { turDuzeltmeleri } from "../data/dosyaListesi";
 import { DAVA_TURLERI, FoyTur, Giris, GIRISLER, turBilgi, TURLER } from "../data/foyTurleri";
@@ -22,6 +22,12 @@ import { DavaListesi } from "./DavaListesi";
 import { gunlukBildirim, IsTakibi } from "./IsTakibi";
 import { SesliAsistan } from "./SesliAsistan";
 import { BuroEkrani } from "./BuroEkrani";
+import { BuroKatilKart } from "./BuroKatilKart";
+import { TevkilListesi } from "./TevkilListesi";
+import { durusmaUyarilari, tumDurusmaUyarilari } from "../data/durusma";
+import { telefonBildirimPlanla, webDurusmaBildirimi } from "./durusmaBildirim";
+
+let bildirimZaman: ReturnType<typeof setTimeout> | null = null;
 import { duzeySayilari } from "../data/isTakibi";
 import { DUZEY_RENK } from "./GorevKapat";
 import { Btn } from "./kit";
@@ -36,10 +42,13 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [secili, setSecili] = useState<Secili | null>(null);
   const [aktar, setAktar] = useState(false);
   const [havuz, setHavuz] = useState<false | true | Foy>(false);
+  // Evrak klasöründe föyü bulunamayan dosyalar: toplu yüklemeye hazır olarak gider (gruplanır, yeni föy açılabilir).
+  const [klasordenGelen, setKlasordenGelen] = useState<TaramaDosyasi[]>([]);
   const [rapor, setRapor] = useState(false);
   const [isler, setIsler] = useState(false);
   const [ses, setSes] = useState(false);
   const [buroAc, setBuroAc] = useState(false);
+  const [tevkilAc, setTevkilAc] = useState(false);
   // "sahsi": şahsi dosyalar bölümünden açılan giriş (yeni föy şahsi ve şifreli olur).
   const [giris, setGiris] = useState<false | "normal" | "sahsi">(false);
   const [ara, setAra] = useState("");
@@ -64,21 +73,29 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   useEffect(() => { setDavaF(null); setAsamaF(null); }, [turF]);
   const [kilitSor, setKilitSor] = useState<null | { sonra?: () => void }>(null);
   const yenile = () => {
-    foyListesi().then(x => { setListe(x); setYuklendi(true); gunlukBildirim(x); }).catch(() => setYuklendi(true));
+    foyListesi().then(x => {
+      setListe(x); setYuklendi(true); gunlukBildirim(x); webDurusmaBildirimi(x);
+      // Telefonda duruşma bildirimleri: föyler değiştikten birkaç saniye sonra plan yenilenir.
+      if (bildirimZaman) clearTimeout(bildirimZaman);
+      bildirimZaman = setTimeout(() => telefonBildirimPlanla(x), 4000);
+    }).catch(() => setYuklendi(true));
     ozelKilitDurumu().then(setKilit).catch(() => {});
   };
   useEffect(() => { yenile(); return foyDinle(yenile); }, []);
   // Dava takibinden çıkınca şahsi dosyalar kilitlenir (bilgisayarı başkası kullanırsa görünmesin).
   useEffect(() => () => { ozelKilitle(); }, []);
-  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc, () => { if (secili && (rapor || isler)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); });
+  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc || tevkilAc, () => { if (secili && (rapor || isler || tevkilAc)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); });
 
   // Telefonda: föyler uygulamanın deposunda; evrak ekleme, toplu aktarma, DavaTek klasörü ve yedek dosyası bilgisayardadır.
   const web = Platform.OS === "web";
   if (kilitSor) return <OzelKilit durum={kilit} onKapat={() => setKilitSor(null)} onAcildi={() => { const f = kilitSor.sonra; setKilitSor(null); yenile(); f?.(); }} />;
   if (buroAc && !secili) return <BuroEkrani onKapat={() => setBuroAc(false)} />;
+  if (tevkilAc && !secili) return <TevkilListesi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setTevkilAc(false)} />;
   if (isler && !secili) return <IsTakibi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setIsler(false)} />;
   if (rapor && !secili) return <DavaListesi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setRapor(false)} />;
-  if (havuz) return <EvrakHavuzu liste={liste.filter(f => !f.ozel || (havuz !== true && f.id === havuz.id))} kaynakFoy={havuz === true ? undefined : havuz} onBitti={m => { setHavuz(false); if (m) setMesaj({ t: m, ok: true }); yenile(); }} />;
+  if (havuz) return <EvrakHavuzu liste={liste.filter(f => !f.ozel || (havuz !== true && f.id === havuz.id))} kaynakFoy={havuz === true ? undefined : havuz}
+    hazir={havuz === true ? klasordenGelen : undefined}
+    onBitti={async m => { if (m && klasordenGelen.length) { await gorulduYaz(klasordenGelen.map(x => x.anahtar)); setKlasordenGelen([]); } setHavuz(false); if (m) setMesaj({ t: m, ok: true }); yenile(); }} />;
   if (aktar) return <Aktar mevcut={liste} onBitti={(n) => { setAktar(false); if (n) setMesaj({ t: n, ok: true }); }} />;
   if (secili) return <FoySayfa key={secili.id} id={secili.id} ekle={secili.ekle} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} onAyir={f => { setSecili(null); setHavuz(f); }} />;
 
@@ -142,7 +159,9 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
                 <Text style={s.foyT} numberOfLines={1}>{foyBaslik(f)}</Text>
                 <Text style={s.hint} numberOfLines={1}>{[f.mahkeme, f.esasNo, f.davaTuru, f.acilis ? t("açılış {d}", { d: tarihYaz(f.acilis) }) : ""].filter(Boolean).join(" · ") || t("Merci ve numara yazılmamış")}</Text>
                 {!!once && <Text style={s.hint} numberOfLines={1}>↳ {t("{tur} {no} dosyasının devamı", { tur: turBilgi(once.tur).ad, no: once.esasNo || "" })}</Text>}
-                <Text style={s.meta}>{[t("{n} EVRAK", { n: f.evraklar.length }), acikGorev ? t("{n} AÇIK İŞ", { n: acikGorev }) : ""].filter(Boolean).join(" · ")}</Text>
+                <Text style={s.meta}>{[t("{n} EVRAK", { n: f.evraklar.length }), acikGorev ? t("{n} AÇIK İŞ", { n: acikGorev }) : ""].filter(Boolean).join(" · ")}
+                  {(() => { const u = durusmaUyarilari(f); return u.length ? <Text style={{ color: u.some(x => x.duzey === "gecikti" || x.duzey === "bugun" || x.duzey === "acil") ? C.bad : C.mid }}>{"  ⚖ " + t(u[0].metin).toLocaleUpperCase("tr")}</Text> : (f.durusmalar?.length ? <Text style={{ color: C.good }}>{"  ⚖ ✓"}</Text> : null); })()}
+                </Text>
               </View>
               {!!f.durusma && <Text style={[s.foyD, g !== undefined && g >= 0 && g <= 7 && { color: C.brass }]}>{tarihYaz(f.durusma)}{"\n"}<Text style={s.hint}>{gunYaz(g)}</Text></Text>}
             </Pressable>
@@ -185,19 +204,25 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         <Btn kind="secondary" label={t("✅ Yapılacaklar")} onPress={() => setIsler(true)} />
         {web && <Btn kind={ses ? "primary" : "secondary"} label={t("🎙 Sesli asistan")} onPress={() => setSes(!ses)} />}
         <Btn kind="secondary" label={t("👥 Büro ve çalışanlar")} onPress={() => setBuroAc(true)} />
+        <Btn kind="secondary" label={t("🤝 Tevkil avukatlar")} onPress={() => setTevkilAc(true)} />
         <Btn kind={web ? "secondary" : "primary"} label={t("+ Yeni giriş")} onPress={() => setGiris("normal")} />
         {web && <Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} />}
       </View>
       {mesaj && <Text style={[s.hint, { color: mesaj.ok ? C.good : C.bad }]}>{mesaj.t}</Text>}
-      {web && ses && <SesliAsistan liste={liste} onAc={id => setSecili({ id })} onIsler={() => setIsler(true)} />}
+      {web && <GizliPencereUyarisi />}
+      <BuroKatilKart onBuro={() => setBuroAc(true)} />
+      {web && ses && <SesliAsistan liste={liste} onAc={id => setSecili({ id })} onIsler={() => setIsler(true)} onEkran={ad => (ad === "tevkil" ? setTevkilAc(true) : setBuroAc(true))} />}
       {(() => {
         const n = duzeySayilari(liste);
-        const kirmizi = n.gecikti + n.bugun + n.acil;
-        if (!kirmizi && !n.uyari) return null;
+        // Duruşma ve e-duruşma konuları da sayılır (girildi kutusu boş, e-duruşma sorulmadı, karar bekleniyor).
+        const du = tumDurusmaUyarilari(liste);
+        const dKirmizi = du.filter(u => u.duzey === "gecikti" || u.duzey === "bugun" || u.duzey === "acil").length;
+        const kirmizi = n.gecikti + n.bugun + n.acil + dKirmizi;
+        if (!kirmizi && !n.uyari && !du.length) return null;
         return (
           <Pressable onPress={() => setIsler(true)} accessibilityRole="button" style={{ borderWidth: 1, borderColor: kirmizi ? DUZEY_RENK.gecikti : DUZEY_RENK.uyari, borderRadius: 10, padding: 12, backgroundColor: (kirmizi ? DUZEY_RENK.gecikti : DUZEY_RENK.uyari) + "22" }}>
             <Text style={{ color: kirmizi ? DUZEY_RENK.gecikti : DUZEY_RENK.uyari, fontWeight: "700", fontSize: 14 }}>
-              ⚠ {[n.gecikti ? t("{n} gecikmiş", { n: n.gecikti }) : "", n.bugun ? t("{n} son günü bugün", { n: n.bugun }) : "", n.acil ? t("{n} acil", { n: n.acil }) : "", n.uyari ? t("{n} bu hafta", { n: n.uyari }) : ""].filter(Boolean).join(" · ")} — {t("Yapılacaklar'ı aç ›")}
+              ⚠ {[n.gecikti ? t("{n} gecikmiş", { n: n.gecikti }) : "", n.bugun ? t("{n} son günü bugün", { n: n.bugun }) : "", n.acil ? t("{n} acil", { n: n.acil }) : "", n.uyari ? t("{n} bu hafta", { n: n.uyari }) : "", du.length ? "⚖ " + t("{n} duruşma konusu", { n: du.length }) : ""].filter(Boolean).join(" · ")} — {t("Yapılacaklar'ı aç ›")}
             </Text>
           </Pressable>
         );
@@ -217,7 +242,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
           </Katlanir>
         );
       })()}
-      {web && <KlasorKart liste={buro} onBilgi={m => setMesaj(m)} />}
+      {web && <KlasorKart liste={buro} onBilgi={m => setMesaj(m)} onToplu={xs => { setKlasordenGelen(xs); setHavuz(true); }} />}
 
       {yaklasan.length > 0 && (
         <View style={s.card}>
@@ -401,20 +426,21 @@ function OzelKilit({ durum, onKapat, onAcildi }: { durum: "yok" | "kilitli" | "a
 }
 
 /* ---------- DavaTek klasörü ---------- */
-function KlasorKart({ liste, onBilgi }: { liste: Foy[]; onBilgi: (m: { t: string; ok?: boolean }) => void }) {
+function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { t: string; ok?: boolean }) => void; onToplu: (xs: TaramaDosyasi[]) => void }) {
   const [bilgi, setBilgi] = useState<{ ad: string; izin: string } | null>(null);
   const [ilerleme, setIlerleme] = useState("");
   const [bekleyen, setBekleyen] = useState<TaramaDosyasi[]>([]);
   const [busy, setBusy] = useState(false);
-  useEffect(() => { klasorBilgisi().then(setBilgi).catch(() => {}); }, []);
+  const [son, setSon] = useState("");
   const byId = useMemo(() => new Map(liste.map(f => [f.id, f] as const)), [liste]);
-  if (!klasorDestekli()) return null;
+  const listeRef = useRef(liste); listeRef.current = liste;
+  const otomatik = useRef(false);
 
   const ekle = async (xs: { d: TaramaDosyasi; foyId: string }[]) => {
     const gruplar = new Map<string, TaramaDosyasi[]>();
     for (const x of xs) gruplar.set(x.foyId, [...(gruplar.get(x.foyId) || []), x.d]);
     for (const [id, ds] of gruplar) {
-      const f = byId.get(id);
+      const f = (await foyGetir(id)) || byId.get(id);
       if (!f) continue;
       const evraklar = [...f.evraklar];
       for (const d of ds) evraklar.push(await evrakOlustur(f, d.kaynak, { metin: d.metin, okunamadi: d.okunamadi }));
@@ -422,37 +448,54 @@ function KlasorKart({ liste, onBilgi }: { liste: Foy[]; onBilgi: (m: { t: string
     }
     await gorulduYaz(xs.map(x => x.d.anahtar));
   };
-  const tara = async () => {
-    setBusy(true); setBekleyen([]);
+  const tara = async (sessiz = false) => {
+    setBusy(true); if (!sessiz) setBekleyen([]);
     try {
-      const sonuc = await klasorTara(liste, setIlerleme);
+      const sonuc = await klasorTara(listeRef.current, setIlerleme);
       const eslesen = sonuc.filter(d => d.foyId).map(d => ({ d, foyId: d.foyId! }));
       await ekle(eslesen);
       const kalan = sonuc.filter(d => !d.foyId);
-      setBekleyen(kalan);
-      onBilgi({ t: sonuc.length ? t("{n} yeni dosya bulundu: {e} tanesi föyüne eklendi, {k} tanesi için föy seçmeniz gerekiyor.", { n: sonuc.length, e: eslesen.length, k: kalan.length }) : t("Klasörde yeni dosya yok."), ok: true });
-    } catch (e) { onBilgi({ t: t(String((e as Error).message || e)) }); }
+      setBekleyen(x => [...x.filter(y => !kalan.some(z => z.anahtar === y.anahtar)), ...kalan]);
+      const m = sonuc.length ? t("Evrak klasörü: {n} yeni dosya; {e} tanesi föyüne eklendi, {k} tanesinin föyü bulunamadı.", { n: sonuc.length, e: eslesen.length, k: kalan.length }) : t("Evrak klasöründe yeni dosya yok.");
+      setSon(m);
+      if (!sessiz || sonuc.length) onBilgi({ t: m, ok: true });
+    } catch (e) { if (!sessiz) onBilgi({ t: t(String((e as Error).message || e)) }); }
     setIlerleme(""); setBusy(false);
     klasorBilgisi().then(setBilgi).catch(() => {});
   };
+  // Föylerim açılınca: klasör izni bu tarayıcıda kalıcıysa yeni dosyalar kendiliğinden alınır (tıklamak gerekmez).
+  useEffect(() => {
+    klasorBilgisi().then(b => { setBilgi(b); if (b?.izin === "granted" && !otomatik.current) { otomatik.current = true; tara(true); } }).catch(() => {});
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!klasorDestekli()) return (
+    <Katlanir anahtar="davatek" baslik={t("Evrak klasörü (DavaTek / indirilenler)")} ozet={t("bu tarayıcıda yok")}>
+      <Text style={s.hint}>{t("Bilgisayardaki bir klasörü izleme yalnız Chrome ya da Edge'de (gizli pencere olmadan) çalışır. Bu tarayıcıda “📥 Toplu evrak yükle > Klasör seç” ile aynı klasörü seçebilirsiniz.")}</Text>
+    </Katlanir>
+  );
   return (
-    <Katlanir anahtar="davatek" baslik={t("DavaTek klasörü")} ozet={bilgi ? bilgi.ad : t("klasör seçilmedi")}>
-      <Text style={s.hint}>{t("DavaTek'in evrak indirdiği klasörü bir kez seçin. “Yeni evrakı al” dediğinizde Celse klasördeki yeni dosyaları okur, esas ya da dosya numarasından föyünü bulup ekler. Dosyalar bu bilgisayardan çıkmaz.")}</Text>
+    <Katlanir anahtar="davatek" baslik={t("Evrak klasörü (DavaTek / indirilenler)")} ozet={bilgi ? [bilgi.ad, bekleyen.length ? t("{n} dosya föy bekliyor", { n: bekleyen.length }) : ""].filter(Boolean).join(" · ") : t("klasör seçilmedi")}>
+      <Text style={s.hint}>{t("Bilgisayarınızda bir klasör seçin (DavaTek'in indirdiği klasör ya da UYAP'tan indirdiklerinizi attığınız klasör). Celse, Föylerim her açıldığında bu klasördeki yeni dosyaları okur, kişisel verileri bu bilgisayarda kodlar ve esas / dosya numarasından föyüne ekler. Föyü bulunamayanları toplu yüklemeye gönderirsiniz; orada gruplanır, gerekirse yeni föy açılır. Dosyalar bu bilgisayardan çıkmaz.")}</Text>
+      <Text style={s.hint}>{t("Önemli: Chrome'un gizli (incognito) penceresinde klasör izni, föyler ve eşitleme şifresi pencere kapanınca silinir. Celse'yi normal pencerede açın; Chrome izin sorarsa “Her ziyarette izin ver” deyin.")}</Text>
       <View style={s.row}>
-        {bilgi ? <Btn label={busy ? t("Okunuyor…") : t("Yeni evrakı al")} onPress={tara} disabled={busy} /> : null}
-        <Btn kind={bilgi ? "ghost" : "secondary"} label={bilgi ? t("Klasörü değiştir ({ad})", { ad: bilgi.ad }) : t("Klasörü seç")} onPress={async () => { const ad = await klasorSec(); if (ad) setBilgi({ ad, izin: "granted" }); }} disabled={busy} />
+        {bilgi ? <Btn label={busy ? t("Okunuyor…") : t("Yeni evrakı şimdi al")} onPress={() => tara()} disabled={busy} /> : null}
+        <Btn kind={bilgi ? "ghost" : "secondary"} label={bilgi ? t("Klasörü değiştir ({ad})", { ad: bilgi.ad }) : t("Klasörü seç")} onPress={async () => { const ad = await klasorSec(); if (ad) { setBilgi({ ad, izin: "granted" }); tara(); } }} disabled={busy} />
+        {bekleyen.length > 0 && <Btn kind="secondary" label={t("Föyü bulunamayanları toplu yüklemede föyle ({n})", { n: bekleyen.length })} onPress={() => onToplu(bekleyen)} disabled={busy} />}
       </View>
+      {bilgi && bilgi.izin !== "granted" && !busy && <Text style={[s.hint, { color: C.mid }]}>{t("Tarayıcı bu oturumda klasöre bakmak için bir kez izin istiyor: “Yeni evrakı şimdi al”a basın.")}</Text>}
       {!!ilerleme && <Text style={s.hint}>{ilerleme}</Text>}
-      {bekleyen.map(d => (
+      {!!son && !ilerleme && <Text style={s.hint}>{son}</Text>}
+      {bekleyen.slice(0, 30).map(d => (
         <View key={d.anahtar} style={[s.file, { flexWrap: "wrap" }]}>
           <View style={{ flex: 1, minWidth: 200 }}>
             <Text style={s.fileT} numberOfLines={1}>{d.kaynak.ad}</Text>
-            <Text style={s.hint} numberOfLines={1}>{d.kaynak.yol} · {t(d.neden || "")}</Text>
+            <Text style={s.hint} numberOfLines={1}>{d.kaynak.yol} · {t(d.neden || "")}{d.okunamadi ? " · " + t("okunamadı: {n}", { n: d.okunamadi }) : ""}</Text>
           </View>
           <FoySecici liste={liste} onSec={async id => { await ekle([{ d, foyId: id }]); setBekleyen(xs => xs.filter(x => x !== d)); }} />
           <Pressable onPress={async () => { await gorulduYaz([d.anahtar]); setBekleyen(xs => xs.filter(x => x !== d)); }}><Text style={s.sil}>{t("Atla")}</Text></Pressable>
         </View>
       ))}
+      {bekleyen.length > 30 && <Text style={s.hint}>{t("… ve {n} dosya daha", { n: bekleyen.length - 30 })}</Text>}
     </Katlanir>
   );
 }
@@ -525,3 +568,27 @@ function Aktar({ mevcut, onBitti }: { mevcut: Foy[]; onBitti: (mesaj?: string) =
   );
 }
 
+
+/** Chrome/Edge gizli penceresi: depolama kotası bellekle sınırlıdır (bilinen işaret). Orada föyler, eşitleme şifresi ve klasör
+ *  izni pencere kapanınca silinir; "eşitleme çalışmıyor, klasör kayboluyor" şikâyetinin en sık nedeni budur. */
+function GizliPencereUyarisi() {
+  const [gizli, setGizli] = useState(false);
+  useEffect(() => {
+    (async () => {
+      try {
+        const n = globalThis.navigator as unknown as { storage?: { estimate?: () => Promise<{ quota?: number }> }; userAgent?: string };
+        if (!n?.storage?.estimate || !/Chrome|Edg\//.test(n.userAgent || "")) return;
+        const { quota } = await n.storage.estimate();
+        const yigin = (globalThis.performance as unknown as { memory?: { jsHeapSizeLimit?: number } })?.memory?.jsHeapSizeLimit || 1073741824;
+        if (quota && quota < yigin * 2) setGizli(true);
+      } catch { /* bilinmiyorsa uyarma */ }
+    })();
+  }, []);
+  if (!gizli) return null;
+  return (
+    <View style={[s.warn, { borderColor: C.bad }]}>
+      <Text style={[s.warnT, { color: C.bad }]}>{t("Gizli (incognito) pencerede çalışıyorsunuz.")}</Text>
+      <Text style={s.warnD}>{t("Bu pencere kapanınca bu bilgisayardaki föyler, bulut eşitleme şifresi ve evrak klasörü izni silinir; her açılışta eşitleme ve klasör baştan istenir. Celse'yi normal bir Chrome ya da Edge penceresinde açın (celse.themiscode.com).")}</Text>
+    </View>
+  );
+}

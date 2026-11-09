@@ -4,10 +4,17 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
 import { MuvekkilMesaj } from "./MuvekkilMesaj";
+import { DurusmaAkisi } from "./DurusmaAkisi";
+import { bugunGun, evraktanDurusma } from "../data/durusma";
+import { evraktanHesap } from "../data/hesap";
+import { HesapBolum, hesapOzetYazi, hesapTara, TaleplerBolum, TevkilBolum } from "./HesapBolum";
+import { IliskiKart } from "./IliskiKart";
+import { kisiDosyalari } from "../data/iliski";
+import { TALEP_AD } from "../data/hesap";
 import { bugunStr, uyariDuzeyi } from "../data/isTakibi";
 import { evrakBasligi } from "../data/evrakBaslik";
+import { buroUyeleri, buroYetkim } from "../data/buro";
 import { FoyYzSor } from "./FoyYzSor";
-import { buroYetkim } from "../data/buro";
 import { DUZEY_RENK, duzeyAdi, GorevKapat } from "./GorevKapat";
 import { Katlanir } from "./Katlanir";
 import { Acilir } from "./Acilir";
@@ -57,6 +64,9 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const [kapatId, setKapatId] = useState<string | null>(null);
   const [yetkim, setYetkim] = useState<string | null>(null);
   useEffect(() => { buroYetkim().then(setYetkim).catch(() => {}); }, []);
+  const [uyeAdlari, setUyeAdlari] = useState<string[]>([]);
+  useEffect(() => { buroUyeleri().then(x => setUyeAdlari(x.uyeler.map(u => u.ad))).catch(() => {}); }, []);
+  const [kisiAc, setKisiAc] = useState<"" | "muvekkil" | "karsi">("");
   const [durusmaYazi, setDurusmaYazi] = useState("");
   const [silOnay, setSilOnay] = useState(false);
   const [muvAc, setMuvAc] = useState(false);
@@ -104,7 +114,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   if (!f) return <ScrollView contentContainerStyle={s.wrap}><Text style={s.hint}>{t("Yükleniyor…")}</Text></ScrollView>;
   const tb = turBilgi(f.tur);
 
-  const evrakEkle = async (zorTur?: string) => {
+  const evrakEkle = async (zorTur?: string): Promise<FoyEvrak[]> => {
     setErr("");
     const secilen = await dosyaSec(".udf,.doc,.docx,.rtf,.odt,.htm,.html,.txt,.pdf,.tif,.tiff,.jpg,.jpeg,.png,.zip");
     const sira: Kaynak[] = [];
@@ -125,10 +135,20 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     if (eklenen.length) {
       // İcra föyünde takibe konu evrak (ilam, çek, senet, kira sözleşmesi, fatura) icra bilgilerini de doldurur.
       const ic = f.tur === "icra" ? icraDoldur(f.icra || { yol: "genel", paraBirimi: "TL", faizTuru: "yasal" }, eklenen.map(e => e.metin)) : null;
-      degistir({ evraklar: [...f.evraklar, ...eklenen], ...kunyeEvraktan(eklenen, f), ...(ic && ic.dolan.length ? { icra: ic.yeni } : {}) });
+      // Tutanak, ara karar ya da e-duruşma onay ekranı (fotoğraf dahil) duruşma akışını da doldurur.
+      const kunyeEk = kunyeEvraktan(eklenen, f);
+      const dr = evraktanDurusma({ ...f, ...kunyeEk }, eklenen);
+      // Ücret sözleşmesi, makbuz, yetki belgesi ve talep/karar evrakı hesap, tevkil ve talep bölümlerini doldurur.
+      const hr = evraktanHesap({ ...f, ...kunyeEk }, eklenen, haricAdlar(), bugunGun());
+      const islenen = [...dr.degisen, ...hr.degisen];
+      if (islenen.length) setKunyeMesaj(m => [m, t("Evraktan işlendi: {x}. Kontrol edin.", { x: islenen.join(", ") })].filter(Boolean).join(" "));
+      degistir({ evraklar: [...f.evraklar, ...eklenen], ...kunyeEk, ...hr.ek, ...(dr.degisen.length ? { durusmalar: dr.durusmalar } : {}), ...(ic && ic.dolan.length ? { icra: ic.yeni } : {}) });
       if (ic && ic.dolan.length) { setIcraMesaj(t("İcra bilgileri evraktan dolduruldu: {x}. Kontrol edin.", { x: ic.dolan.join(", ") })); setSurum(v => v + 1); }
     }
+    return eklenen;
   };
+  /** Tevkil sayılmayacak adlar: büronun çalışanları ve karşı taraf vekili. */
+  const haricAdlar = () => [...uyeAdlari, f.karsiBilgi?.vekil || ""].filter(Boolean);
   const evrakAc = async (e: FoyEvrak) => {
     if (!dosyaSaklanir()) { setErr(t("Asıl dosya bilgisayarınızda duruyor; telefonda yalnız künye ve kodlanmış metin vardır.")); return; }
     const b = await dosyaOku(e.id);
@@ -296,6 +316,27 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       <Text style={s.title}>{foyBaslik(f)}</Text>
       {f.ozel && <Text style={[s.turChip, s.ozelChip]}>🔒 {t("ŞAHSİ DOSYA · ŞİFRELİ SAKLANIR")}</Text>}
 
+      {(() => {
+        const k = kisiDosyalari(liste, f);
+        if (!k.muvekkil.length && !k.karsi.length) return null;
+        const goster = kisiAc === "muvekkil" ? k.muvekkil : kisiAc === "karsi" ? k.karsi : [];
+        return (
+          <View style={{ gap: 4 }}>
+            <View style={[s.row, { gap: 14 }]}>
+              {k.muvekkil.length > 0 && <Pressable onPress={() => setKisiAc(kisiAc === "muvekkil" ? "" : "muvekkil")}><Text style={s.link}>{kisiAc === "muvekkil" ? "▾ " : "▸ "}{t("{ad}: öteki dosyaları ({n})", { ad: f.muvekkil, n: k.muvekkil.length })}</Text></Pressable>}
+              {k.karsi.length > 0 && <Pressable onPress={() => setKisiAc(kisiAc === "karsi" ? "" : "karsi")}><Text style={s.link}>{kisiAc === "karsi" ? "▾ " : "▸ "}{t("{ad}: öteki dosyaları ({n})", { ad: f.karsiTaraf, n: k.karsi.length })}</Text></Pressable>}
+            </View>
+            {goster.map(x => (
+              <Pressable key={x.id} onPress={async () => { await hemenKaydet(); onAc(x.id); }} style={[s.foy, { paddingVertical: 6 }]}>
+                <Text style={[s.hint, { flex: 1, color: C.textSoft }]} numberOfLines={1}>{[turBilgi(x.tur).kisa, foyBaslik(x), x.mahkeme, x.esasNo, x.durum === "kapali" ? t("kapalı") : ""].filter(Boolean).join(" · ")}</Text>
+              </Pressable>
+            ))}
+          </View>
+        );
+      })()}
+
+      <DurusmaAkisi f={f} degistir={degistir} okumaVar={f.evraklar.some(e => !!e.metin.trim())} />
+
       <View style={s.card}>
         <View style={s.row}>
           <Btn label={soruluyor ? t("Bakılıyor…") : t("Dosya ne durumda?")} onPress={durumSor} disabled={soruluyor || !onemli.some(e => e.metin.trim() || e.bulutMetin)} />
@@ -359,6 +400,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             </View>
           </>
         )}
+        <IliskiKart liste={liste.filter(x => !x.ozel).map(x => (x.id === f.id ? f : x))} odak={f.id} odakDegistir={degistir} onAc={async id => { await hemenKaydet(); onAc(id); }} />
         <View style={s.row}>
           <Btn kind="ghost" label={baglaAc ? t("Vazgeç") : f.oncekiId ? t("Önceki dosyayı değiştir") : t("Önceki bir dosyaya bağla")} onPress={() => setBaglaAc(!baglaAc)} />
           {!!f.oncekiId && <Btn kind="ghost" label={t("Bağlantıyı kaldır")} onPress={() => degistir({ oncekiId: undefined })} />}
@@ -481,6 +523,16 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       )}
 
       <Katlanir anahtar="mesaj" baslik={t("Müvekkile mesaj")} ozet={t("WhatsApp / Telegram")}><MuvekkilMesaj f={f} ic /></Katlanir>
+
+      <Katlanir anahtar="hesap" baslik={t("Ücret, ödemeler ve masraflar")} ozet={hesapOzetYazi(f)}>
+        <HesapBolum f={f} degistir={degistir} evrakEkle={dosyaSaklanir() ? evrakEkle : undefined} />
+      </Katlanir>
+      <Katlanir anahtar="tevkil" baslik={t("Tevkil avukatlar")} ozet={f.tevkil?.length ? f.tevkil.map(x => x.ad).join(", ") : t("yok")}>
+        <TevkilBolum f={f} degistir={degistir} onTara={f.evraklar.some(e => !!e.metin.trim()) ? () => hesapTara(f, haricAdlar(), degistir) : undefined} />
+      </Katlanir>
+      <Katlanir anahtar="talep" baslik={t("Talepler")} ozet={f.talepler?.length ? f.talepler.map(x => (x.durum === "kabul" ? "✓ " : x.durum === "red" ? "✗ " : "⏳ ") + t(TALEP_AD[x.tur])).join(" · ") : t("adli yardım, ihtiyati haciz, ihtiyati tedbir…")}>
+        <TaleplerBolum f={f} degistir={degistir} evrakEkle={dosyaSaklanir() ? evrakEkle : undefined} />
+      </Katlanir>
 
       <Katlanir anahtar="gorev" baslik={t("Yapılacaklar")} ozet={acik.length ? t("{n} açık iş", { n: acik.length }) : t("açık iş yok")}>
         {acik.map(x => (

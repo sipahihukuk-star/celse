@@ -31,6 +31,16 @@ export function FoylemeSohbeti(p: {
   const gonder = async (metin: string) => {
     const m = metin.trim();
     if (!m || bekliyor) return;
+    // Yazısı hiç okunamamış evrakla yapay zekâya gidilmez: ne olduğunu göremez, boşuna kredi harcanır. Nedeni burada söylenir.
+    const tum = [...p.gruplar.flatMap(g => g.evraklar), ...p.ayrilamayan];
+    const okunamayan = tum.filter(e => !e.metin.trim());
+    if (tum.length && okunamayan.length === tum.length) {
+      const nedenler = new Map<string, number>();
+      for (const e of okunamayan) { const n = (e.okunamadi || "içinde yazı bulunamadı").replace(/\s*\[.*\]$/, ""); nedenler.set(n, (nedenler.get(n) || 0) + 1); }
+      setMesajlar(x => [...x, { kim: "avukat", metin: m }, { kim: "yz", metin: t("{n} evrakın hiçbirinin yazısı bu bilgisayarda okunamadı, bu yüzden föylenemiyor. Nedenler: {x}. Evrakı yükleyen bilgisayarda bir kez “Şimdi eşitle” yapılınca yazılar buraya da gelir; asıl dosyalar bu bilgisayardaysa “Bunları yeniden oku” deyin.", { n: tum.length, x: [...nedenler].map(([a, b]) => `${t(a)} (${b})`).join("; ") }) }]);
+      setYazi("");
+      return;
+    }
     const k = kodlaDurum(p.gruplar, p.hedefi, p.oncesi, p.ayrilamayan, p.liste, p.avukatlar);
     const kodlu = k.kodla(m);
     setMesajlar(x => [...x, { kim: "avukat", metin: m }]);

@@ -1,8 +1,8 @@
 // Föylerin bulut eşitlemesi (bilgisayar ↔ telefon). Uçtan uca şifreli: avukat bir "eşitleme şifresi" belirler; anahtar bu
 // şifreden cihazda türetilir (PBKDF2) ve föyler cihazda AES-256-GCM ile şifrelenip gönderilir. Sunucu (supabase/surum17.sql:
 // foy_bulut) yalnız şifreli veri, kayıt kimliği ve güncelleme zamanını görür; şifre ve anahtar hiçbir zaman gönderilmez.
-// - Föyün künyesi, görevleri, notları ve değerlendirmesi "foy" kaydında gider; evrak metinleri ayrı "metin:<föy>" kaydında
-//   ve her evrak ayrı ayrı maskelenmiş (kişisel veriler kodlanmış) olarak gider. Telefon metni yalnız gerektiğinde indirir.
+// - Föyün künyesi, görevleri, notları ve değerlendirmesi "foy" kaydında gider; evrak yazıları ayrı "metin:<föy>" kaydında
+//   (aynı uçtan uca şifreyle) gider. Bilgisayar eşitlemede indirip saklar; telefon yalnız gerektiğinde indirir.
 // - Asıl evrak dosyaları (PDF, UDF…) gönderilmez; bilgisayarda kalır.
 // - Şahsi dosyalar zaten şahsi şifreyle şifrelidir; buluta bu şifreli hâliyle, üstüne eşitleme anahtarıyla bir kez daha
 //   şifrelenerek gider. Telefonda açmak için şahsi dosya şifresi de gerekir.
@@ -10,7 +10,6 @@
 //   kaybolmaz, gelen föye eklenir (birlestir). Silinen föy diğer cihazlardan da silinir.
 // - Büroya üyeyse (buro.ts, supabase/surum18.sql) şahsi olmayan föyler kişisel bulut yerine büro bulutunda (buro_foy), büro
 //   anahtarıyla şifreli olarak eşitlenir; büronun bütün çalışanları görür. Şahsi dosyalar yine kişisel bulutta kalır.
-import { mask } from "../engine/mask";
 import { supabase } from "./account";
 import {
   ayarOku, ayarYaz, Foy, foyHaber, hamFoyler, hamFoyYaz, hamOzeller, hamOzelYaz, hamSil, kilitBilgisi, KilitBilgi, kilitBilgisiYaz, OzelKayit
@@ -106,17 +105,59 @@ export async function paketle(k: Anahtar, x: unknown) {
 export async function ac<T>(k: Anahtar, r: { iv: string; veri: string }): Promise<T> {
   return JSON.parse(metneCevir(await coz(k, { iv: b64Coz(r.iv), veri: b64Coz(r.veri).buffer as ArrayBuffer }))) as T;
 }
-const ekAdlar = (f: Foy) => [f.muvekkil, f.karsiTaraf].map(x => (x || "").trim()).filter(x => x.length > 2);
 
 /** Föyün buluta giden hâli: evrak metinleri ayrı kayıtta (maskeli) gider; kodların karşılıkları (gerçek adlar) hiç gitmez. */
 function foyKabugu(f: Foy): Foy {
   return { ...f, evraklar: f.evraklar.map(e => { const { kodlar: _k, maskeli: _m, ...g } = e; return { ...g, metin: "", bulutMetin: !!e.metin || !!e.bulutMetin }; }) };
 }
-/** Her evrak ayrı ayrı maskelenir (gerçek adlar, numaralar, adresler kodlanır); cihazda hazır maskeli hâli varsa o kullanılır. */
-function maskeliMetinler(f: Foy): Record<string, string> {
-  const out: Record<string, string> = {};
-  for (const e of f.evraklar) if (e.metin && e.metin.trim()) out[e.id] = e.maskeli || mask(e.metin, { extra: ekAdlar(f) }).masked;
+/** Evrak yazıları ayrı "metin:<föy>" kaydında, föyün kendisi gibi uçtan uca şifreli gider. Eskiden yalnız kodlanmış (maskeli)
+ *  hâl gidiyordu; kodlu hâlden geri çevirme kayıplı olduğu (tarihler ay-yıla iner, adlar kaybolur) ve öbür bilgisayarda toplu
+ *  yükleme, föyleme ve evraktan okuma çalışmadığı için artık asıl yazı gider (t). Eski kayıtlarda değer maskeli metindir (string).
+ *  Bu cihazda yazısı olmayan evrakın buluttaki değeri korunur (üzerine yazılıp silinmesin). */
+type MetinDeger = string | { t: string };
+function maskeliMetinler(f: Foy, uzak?: Record<string, MetinDeger>): Record<string, MetinDeger> {
+  const out: Record<string, MetinDeger> = {};
+  for (const e of f.evraklar) {
+    if (e.metin && e.metin.trim()) out[e.id] = { t: e.metin };
+    else if (e.bulutMetin && uzak?.[e.id]) out[e.id] = uzak[e.id];
+  }
   return out;
+}
+const metinAc = (v: MetinDeger | undefined): { metin: string; maskeli?: string; kodlar?: Record<string, string> } | null => {
+  if (!v) return null;
+  return { metin: typeof v === "string" ? v : v.t || "" };
+};
+/** Evrak metni kaydını (büro ya da kişisel bulut) okur. */
+async function uzakMetin(foyId: string, k: Anahtar, buroId?: string): Promise<Record<string, MetinDeger> | null> {
+  const r = buroId
+    ? await supabase()!.from(BURO_TABLO).select("iv, veri, silindi").eq("buro_id", buroId).eq("kayit_id", "metin:" + foyId).maybeSingle()
+    : await supabase()!.from(TABLO).select("iv, veri, silindi").eq("kayit_id", "metin:" + foyId).maybeSingle();
+  if (r.error || !r.data || r.data.silindi || !r.data.veri) return null;
+  try { return await ac<Record<string, MetinDeger>>(k, r.data as { iv: string; veri: string }); } catch { return null; }
+}
+/** Gönderilecek metin paketi: bu cihazda yazısı olmayan evrak varsa buluttaki kayıt önce okunur, üzerine yazılıp silinmesin. */
+async function metinPaketi(f: Foy, k: Anahtar, buroId?: string) {
+  const eksik = f.evraklar.some(e => !e.metin && e.bulutMetin);
+  return maskeliMetinler(f, eksik ? (await uzakMetin(f.id, k, buroId)) || undefined : undefined);
+}
+/** Bilgisayarda (tarayıcı): başka cihazdan gelen föylerin evrak yazısı buluttan indirilip bu cihazda saklanır (föyün
+ *  güncelleme zamanı değişmez). Telefonda yapılmaz; orada yazı gerektiğinde indirilir. */
+async function metinleriIndir(yerel: Map<string, Foy>, k: Anahtar, buroId?: string) {
+  if (typeof indexedDB === "undefined") return;
+  const eksikler = [...yerel.values()].filter(f => !f.ozel && f.evraklar.some(e => !e.metin && e.bulutMetin));
+  for (const f of eksikler.slice(0, 300)) {
+    const m = await uzakMetin(f.id, k, buroId).catch(() => null);
+    if (!m) continue;
+    let degisti = false;
+    const evraklar = f.evraklar.map(e => {
+      if (e.metin || !e.bulutMetin) return e;
+      const a = metinAc(m[e.id]);
+      if (!a || !a.metin.trim()) return e;
+      degisti = true;
+      return { ...e, metin: a.metin, ...(a.maskeli ? { maskeli: a.maskeli, kodlar: a.kodlar } : {}) };
+    });
+    if (degisti) { const y = { ...f, evraklar }; await hamFoyYaz(y); yerel.set(f.id, y); }
+  }
 }
 /** İki sürümü birleştirir: yeni olan esastır; eskide olup yenide olmayan işler ve evraklar (silinmedikçe) eklenir, kapatılmış
  *  iş kapalı kalır, bu cihazdaki evrak metinleri korunur. Büroda iki kişi aynı föye aynı anda iş eklediğinde biri kaybolmaz. */
@@ -127,7 +168,24 @@ export function surumBirlestir(yeni: Foy, eski: Foy): Foy {
   for (const g of eski.gorevler) if (!sil.has(g.id) && !gorevler.some(y => y.id === g.id)) gorevler.push(g);
   const evraklar = yeni.evraklar.filter(e => !sil.has(e.id));
   for (const e of eski.evraklar) if (!sil.has(e.id) && !evraklar.some(y => y.id === e.id)) evraklar.push(e);
-  return { ...yeni, gorevler, evraklar, ...(silinen.length ? { silinen } : {}) };
+  // Duruşma akışı, hesap kalemleri, tevkil avukatlar ve talepler de kimliğe göre birleşir. Duruşmada boş kalan kutu öbür
+  // sürümde işaretliyse işaret korunur (biri "girildi" der, öbürü e-duruşma kararını işlerse ikisi de kalır).
+  const birlestir = <T extends { id: string }>(a?: T[], b?: T[], tamamla?: (x: T, o: T) => T): T[] | undefined => {
+    if (!a && !b) return undefined;
+    const xs = (a || []).filter(x => !sil.has(x.id)).map(x => { const o = (b || []).find(y => y.id === x.id); return o && tamamla ? tamamla(x, o) : x; });
+    for (const x of b || []) if (!sil.has(x.id) && !xs.some(y => y.id === x.id)) xs.push(x);
+    return xs;
+  };
+  const durusmalar = birlestir(yeni.durusmalar, eski.durusmalar, (x, o) => ({ ...o, ...Object.fromEntries(Object.entries(x).filter(([, v]) => v !== undefined)) }) as typeof x)
+    ?.sort((a, b) => a.tarih.localeCompare(b.tarih));
+  const kalemler = birlestir(yeni.hesap?.kalemler, eski.hesap?.kalemler);
+  const ek = {
+    ...(durusmalar ? { durusmalar } : {}),
+    ...(kalemler ? { hesap: { ...(eski.hesap || {}), ...(yeni.hesap || {}), kalemler } } : {}),
+    ...(yeni.tevkil || eski.tevkil ? { tevkil: birlestir(yeni.tevkil, eski.tevkil) } : {}),
+    ...(yeni.talepler || eski.talepler ? { talepler: birlestir(yeni.talepler, eski.talepler) } : {})
+  };
+  return { ...yeni, gorevler, evraklar, ...ek, ...(silinen.length ? { silinen } : {}) };
 }
 const metinKoru = (f: Foy, yerel: Foy): Foy => ({ ...f, evraklar: f.evraklar.map(e => { const o = yerel.evraklar.find(y => y.id === e.id); return o && o.metin && !e.metin ? { ...e, metin: o.metin, maskeli: o.maskeli, kodlar: o.kodlar } : e; }) });
 /** Gelen föyle bu cihazdakini karşılaştırır. Döner: yazılacak föy (ya da değişiklik yoksa null) ve yeniden gönderilmesi gerekip
@@ -137,13 +195,14 @@ export function gelenFoy(uzak: Foy, yerel: Foy | undefined, gonderilmedi: boolea
   if (!gonderilmedi) return yerel.guncelleme >= uzak.guncelleme ? { f: null, gonder: false } : { f: metinKoru(uzak, yerel), gonder: false };
   if (uzak.guncelleme > yerel.guncelleme) {
     const b = metinKoru(surumBirlestir(uzak, yerel), yerel);
-    const fark = b.gorevler.length !== uzak.gorevler.length || b.evraklar.length !== uzak.evraklar.length || b.gorevler.some((g, i) => g !== uzak.gorevler[i]);
+    const ekImza = (x: Foy) => JSON.stringify([x.durusmalar, x.hesap?.kalemler?.length, x.tevkil?.length, x.talepler?.length]);
+    const fark = b.gorevler.length !== uzak.gorevler.length || b.evraklar.length !== uzak.evraklar.length || b.gorevler.some((g, i) => g !== uzak.gorevler[i]) || ekImza(b) !== ekImza(uzak);
     return { f: fark ? { ...b, guncelleme: new Date(Math.max(Date.now(), Date.parse(uzak.guncelleme) + 1)).toISOString() } : b, gonder: fark };
   }
   return { f: metinKoru(surumBirlestir(yerel, uzak), yerel), gonder: true };
 }
 
-const metinImzasi = (f: Foy) => f.evraklar.filter(e => e.metin).map(e => e.id + ":" + e.metin.length).join(",");
+const metinImzasi = (f: Foy) => { const x = f.evraklar.filter(e => e.metin).map(e => e.id + ":" + e.metin.length).join(","); return x ? "v2|" + x : ""; };
 
 let calisiyor: Promise<{ gelen: number; giden: number }> | null = null;
 
@@ -214,6 +273,7 @@ async function esitleIc() {
 
   // 1b) Büro: şahsi olmayan föyler büro bulutunda eşitlenir.
   const buro = await buroAnahtari();
+  if (!buro) await metinleriIndir(yerel, k).catch(() => {});
   if (buro) {
     const r = await buroEsitle(buro, yerel);
     gelen += r.gelen; giden += r.giden;
@@ -238,7 +298,7 @@ async function esitleIc() {
     await yaz({ kayit_id: f.id, tur: "foy", ...(await paketle(k, foyKabugu(f))), guncelleme: f.guncelleme, silindi: false });
     const imza = metinImzasi(f);
     if (imza && metinGonderilen[f.id] !== imza) {
-      await yaz({ kayit_id: "metin:" + f.id, tur: "metin", ...(await paketle(k, maskeliMetinler(f))), guncelleme: f.guncelleme, silindi: false });
+      await yaz({ kayit_id: "metin:" + f.id, tur: "metin", ...(await paketle(k, await metinPaketi(f, k))), guncelleme: f.guncelleme, silindi: false });
       metinGonderilen[f.id] = imza;
     }
     gonderilen[f.id] = f.guncelleme; giden++;
@@ -305,6 +365,7 @@ async function buroEsitle(b: { buroId: string; k: Anahtar }, yerel: Map<string, 
     alt = cekim;
   }
   await ayarYaz("buroCekim", cekim);
+  await metinleriIndir(yerel, b.k, b.buroId).catch(() => {});
 
   let bekleyen: Satir[] = [];
   const gonder = async () => {
@@ -321,7 +382,7 @@ async function buroEsitle(b: { buroId: string; k: Anahtar }, yerel: Map<string, 
     await yaz({ kayit_id: f.id, tur: "foy", ...(await paketle(b.k, foyKabugu(f))), guncelleme: f.guncelleme, silindi: false });
     const imza = metinImzasi(f);
     if (imza && metinGonderilen[f.id] !== imza) {
-      await yaz({ kayit_id: "metin:" + f.id, tur: "metin", ...(await paketle(b.k, maskeliMetinler(f))), guncelleme: f.guncelleme, silindi: false });
+      await yaz({ kayit_id: "metin:" + f.id, tur: "metin", ...(await paketle(b.k, await metinPaketi(f, b.k, b.buroId))), guncelleme: f.guncelleme, silindi: false });
       metinGonderilen[f.id] = imza;
     }
     gonderilen[f.id] = f.guncelleme; giden++;
@@ -349,11 +410,8 @@ export async function metinleriGetir(f: Foy): Promise<Foy> {
   const uid = await oturum();
   const k = uid ? await cihazAnahtari(uid) : null;
   if (!uid || !k) return f;
-  const buro = await buroAnahtari();
-  const r = buro
-    ? await supabase()!.from(BURO_TABLO).select("iv, veri, silindi").eq("buro_id", buro.buroId).eq("kayit_id", "metin:" + f.id).maybeSingle()
-    : await supabase()!.from(TABLO).select("iv, veri, silindi").eq("kayit_id", "metin:" + f.id).maybeSingle();
-  if (r.error || !r.data || r.data.silindi) return f;
-  const m = await ac<Record<string, string>>(buro ? buro.k : k, r.data as { iv: string; veri: string });
-  return { ...f, evraklar: f.evraklar.map(e => (!e.metin && m[e.id] ? { ...e, metin: m[e.id] } : e)) };
+  const buro = f.ozel ? null : await buroAnahtari();
+  const m = await uzakMetin(f.id, buro ? buro.k : k, buro?.buroId);
+  if (!m) return f;
+  return { ...f, evraklar: f.evraklar.map(e => { if (e.metin) return e; const a = metinAc(m[e.id]); return a ? { ...e, metin: a.metin, ...(a.maskeli ? { maskeli: a.maskeli, kodlar: a.kodlar } : {}) } : e; }) };
 }

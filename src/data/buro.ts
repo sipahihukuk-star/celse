@@ -137,6 +137,12 @@ async function buroHam(): Promise<Uint8Array | null> {
   const x = await ayarOku<CihazBuro>("buroAnahtar");
   return x?.ham instanceof Uint8Array ? x.ham : null;
 }
+/** Bekleyen davetin ünvanını ve yetkisini değiştirir (kod aynı kalır; kabul edilince yeni ünvanla katılır). */
+export async function davetGuncelle(id: string, ek: { unvan: string; yetki: Yetki }) {
+  const r = await supabase()!.from("buro_davet").update(ek).eq("id", id).select("id");
+  if (r.error) throw new Error(r.error.message);
+  if (!r.data?.length) throw new Error("Davet bulunamadı ya da artık geçerli değil.");
+}
 export async function davetIptal(id: string) {
   const r = await supabase()!.from("buro_davet").delete().eq("id", id);
   if (r.error) throw new Error(r.error.message);

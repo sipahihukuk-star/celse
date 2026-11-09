@@ -27,7 +27,7 @@ async function yerelTanima(): Promise<boolean> {
   return false;
 }
 
-export function SesliAsistan({ liste, onAc, onIsler }: { liste: Foy[]; onAc: (id: string) => void; onIsler: () => void }) {
+export function SesliAsistan({ liste, onAc, onIsler, onEkran }: { liste: Foy[]; onAc: (id: string) => void; onIsler: () => void; onEkran?: (ad: "tevkil" | "buro") => void }) {
   const [konusma, setKonusma] = useState<{ kim: "siz" | "celse"; metin: string }[]>([]);
   const [dinliyor, setDinliyor] = useState(false);
   const [ara, setAra] = useState("");
@@ -67,11 +67,14 @@ export function SesliAsistan({ liste, onAc, onIsler }: { liste: Foy[]; onAc: (id
       sesliOku(r.ok ? okunacak(metin) : metin, 1.05);
       return;
     }
-    const f = listeRef.current.find(x => x.id === (e.tip === "isler" ? "" : e.foyId));
+    const f = listeRef.current.find(x => x.id === (e.tip === "isler" || e.tip === "ekran" ? "" : e.foyId));
     if (e.tip === "ekle" && f) await foyKaydet({ ...f, gorevler: [...f.gorevler, e.gorev] });
     if (e.tip === "kapat" && f) await foyKaydet({ ...f, gorevler: f.gorevler.map(g => (g.id === e.gorevId ? { ...g, bitti: true, kapanis: e.kapanis } : g)) });
     if (e.tip === "ac") setTimeout(() => onAc(e.foyId), 1800);
     if (e.tip === "isler") setTimeout(onIsler, 1200);
+    if (e.tip === "durusma" && f) await foyKaydet({ ...f, durusmalar: (f.durusmalar || []).map(d => (d.id === e.durusmaId ? { ...d, ...e.ek } : d)) });
+    if (e.tip === "kalem" && f) await foyKaydet({ ...f, hesap: { ...(f.hesap || {}), kalemler: [...(f.hesap?.kalemler || []), e.kalem] } });
+    if (e.tip === "ekran") setTimeout(() => onEkran?.(e.ad), 1200);
   };
 
   const isle = (soz: string) => {

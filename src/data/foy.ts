@@ -80,6 +80,16 @@ export interface Foy {
   komisyon?: { durum: "yok" | "basvuruldu" | "sonuclandi"; tarih?: string; no?: string };
   /** Sonraki duruşma: YYYY-AA-GG (saat isteğe bağlı: YYYY-AA-GGTSS:DD). */
   durusma?: string;
+  /** duruşma akışı: her duruşma günü, girildi kutusu, e-duruşma talebi ve kararı (durusma.ts) */
+  durusmalar?: import("./durusma").Durusma[];
+  /** büroda dosyanın (duruşma ve e-duruşma bildirimlerinin) sorumlusu */
+  sorumlu?: { id: string; ad: string };
+  /** vekâlet ücreti, tahsilatlar, dava masrafları, tevkil ödemeleri (hesap.ts) */
+  hesap?: import("./hesap").FoyHesap;
+  /** tevkil verilen avukatlar (hesap.ts) */
+  tevkil?: import("./hesap").TevkilAvukat[];
+  /** talepler: adli yardım, ihtiyati haciz, ihtiyati tedbir… (hesap.ts) */
+  talepler?: import("./hesap").Talep[];
   notlar: string; gorevler: Gorev[]; evraklar: FoyEvrak[]; degerlendirme?: FoyDegerlendirme;
   /** "Yapay zekâya sor" konuşması (son 30 soru-cevap; cevaplar gerçek adlarla, cihazda ve şifreli bulutta) */
   yzSohbet?: YzSoru[];

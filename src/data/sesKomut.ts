@@ -4,13 +4,17 @@ import { siradakiIs } from "./davaListesi";
 import type { Foy, Gorev, GorevKapanis } from "./foy";
 import { FoyTur, turBilgi } from "./foyTurleri";
 import { bugunStr, duzeySayilari, isListesi, uyariDuzeyi } from "./isTakibi";
+import { Durusma, durusmaSirala, tumDurusmaUyarilari } from "./durusma";
+import { HesapKalem, MASRAF_KATEGORI, tevkilListesi, tlYaz } from "./hesap";
 
 export type Bekleyen =
   | { tip: "ekle"; foyId: string; metin: string; tarih?: string }
   | { tip: "kapatNo"; foyId: string; gorevId: string }
   | { tip: "kapatOnay"; foyId: string; gorevId: string; no: string }
   | { tip: "foySec"; adaylar: string[]; sonra?: "durum" | "ekle"; metin?: string; tarih?: string }
-  | { tip: "yeniDava"; adim: "dava" | "muvekkil" | "karsi" | "tarih" | "onay"; v: YeniDava };
+  | { tip: "yeniDava"; adim: "dava" | "muvekkil" | "karsi" | "tarih" | "onay"; v: YeniDava }
+  | { tip: "durusmaIsle"; foyId: string; durusmaId: string; ek: Partial<Durusma> }
+  | { tip: "kalemEkle"; foyId: string; kalem: HesapKalem };
 /** Henüz açılmamış dava: föy açılır, "Dava aç" işi yapılacaklara yazılır. */
 export interface YeniDava { tur: FoyTur; dava?: string; muvekkil?: string; karsi?: string; tarih?: string }
 export interface Baglam { foyId?: string; bekleyen?: Bekleyen }
@@ -20,6 +24,9 @@ export type Eylem =
   | { tip: "ac"; foyId: string }
   | { tip: "yeniDava"; foy: { tur: FoyTur; muvekkil: string; karsiTaraf: string; davaTuru: string }; gorev: Gorev }
   | { tip: "isler" }
+  | { tip: "durusma"; foyId: string; durusmaId: string; ek: Partial<Durusma> }
+  | { tip: "kalem"; foyId: string; kalem: HesapKalem }
+  | { tip: "ekran"; ad: "tevkil" | "buro" }
   | { tip: "yzSor"; foyId: string; soru: string };
 export interface Cevap { metin: string; baglam: Baglam; eylem?: Eylem }
 
@@ -148,7 +155,7 @@ function yeniDavaSor(v: YeniDava, foyId?: string): Cevap {
   return { metin: `Yeni ${turBilgi(v.tur).ad.toLocaleLowerCase("tr")} föyü açayım: ${v.dava}${kim ? ", " + kim : ""}. Yapılacaklara "Dava aç: ${v.dava}" işini${v.tarih ? ", son gün " + tarihSoyle(v.tarih) + " olarak" : ", son gün olmadan"} yazayım mı?`, baglam: b("onay") };
 }
 
-const YARDIM = "Şunları sorabilirsiniz: bugün ne var; gecikmiş işler; bu hafta duruşmalar; bir dosyanın durumu, örneğin Yılmaz dosyası ne durumda; iş eklemek için: Yılmaz dosyasına iş ekle, bilirkişi raporuna itiraz, son gün 15 Kasım; iş kapatmak için: bilirkişi işini kapat, numara 4 0 1 2; yeni dava kaydetmek için: yeni dava aç, boşanma davası; dosyayı yapay zekâya sormak için: Yılmaz dosyası için yapay zekâya sor, sırada ne var; tüm işleri oku; ve dosyayı aç.";
+const YARDIM = "Şunları sorabilirsiniz: dosyayı yapay zekâya sormak için: Yılmaz dosyası için yapay zekâya sor, sırada ne var; bugün ne var; gecikmiş işler; bu hafta duruşmalar; duruşma konuları; Yılmaz dosyasında duruşmaya girildi; Yılmaz dosyasında e-duruşma talep ettik, e-duruşma kabul edildi ya da reddedildi; Yılmaz dosyasına masraf ekle 615 lira harç; Yılmaz dosyasına tahsilat 20 bin lira; Yılmaz'ın dosyaları; tevkil avukatlar; bir dosyanın durumu, örneğin Yılmaz dosyası ne durumda; iş eklemek için: Yılmaz dosyasına iş ekle, bilirkişi raporuna itiraz, son gün 15 Kasım; iş kapatmak için: bilirkişi işini kapat, numara 4 0 1 2; yeni dava kaydetmek için: yeni dava aç, boşanma davası; tüm işleri oku; ve dosyayı aç.";
 const EVET = /^(evet|onaylıyorum|onayla|tamam|olur|doğru|aynen|ekle|kapat)(\s|$|[,.!])/;
 const HAYIR = /^(hayır|iptal|vazgeç|vazgeçtim|yanlış|dur)(\s|$|[,.!])/;
 const SIRA: Record<string, number> = { birinci: 0, ilk: 0, "1": 0, ikinci: 1, "2": 1, üçüncü: 2, "3": 2, dördüncü: 3, "4": 3, beşinci: 4, "5": 4 };
@@ -188,6 +195,8 @@ export function sesliKomut(soz: string, liste: Foy[], b: Baglam, bugun = bugunSt
     const g = byId.get(bk.foyId)?.gorevler.find(x => x.id === bk.gorevId);
     return cevap(`Kapatıldı: ${g?.metin || "iş"}, numara ${rakamRakam(bk.no)}.`, { foyId: bk.foyId }, { tip: "kapat", foyId: bk.foyId, gorevId: bk.gorevId, kapanis: { tarih: bugun, no: bk.no, kaynak: "elle" } });
   }
+  if (bk?.tip === "durusmaIsle" && EVET.test(m)) return cevap("İşlendi.", { foyId: bk.foyId }, { tip: "durusma", foyId: bk.foyId, durusmaId: bk.durusmaId, ek: bk.ek });
+  if (bk?.tip === "kalemEkle" && EVET.test(m)) return cevap("Yazıldı.", { foyId: bk.foyId }, { tip: "kalem", foyId: bk.foyId, kalem: bk.kalem });
   if (bk?.tip === "kapatNo") {
     const no = soylenenNo(m) || soylenenNo("numara " + m);
     if (no) return cevap(`Numara ${rakamRakam(no)}. Doğru mu? Evet derseniz kapatırım.`, { foyId: bk.foyId, bekleyen: { tip: "kapatOnay", foyId: bk.foyId, gorevId: bk.gorevId, no } });
@@ -230,6 +239,68 @@ export function sesliKomut(soz: string, liste: Foy[], b: Baglam, bugun = bugunSt
     return cevap(`${foyKisa(f)} dosyasını yapay zekâya soruyorum; yarım dakika kadar sürebilir.`, { foyId: f.id }, { tip: "yzSor", foyId: f.id, soru });
   }
   if (/yapılacaklar(ı)?\s+(ekranını\s+)?(aç|göster)/.test(m)) return cevap("Yapılacaklar açılıyor.", { foyId: b.foyId }, { tip: "isler" });
+
+  // Ekranlar
+  if (/tevkil/.test(m) && /(ekran|aç|göster)/.test(m)) return cevap("Tevkil avukatlar açılıyor.", { foyId: b.foyId }, { tip: "ekran", ad: "tevkil" });
+  if (/(büro|çalışan)/.test(m) && /(ekran|aç|göster)/.test(m)) return cevap("Büro ve çalışanlar açılıyor.", { foyId: b.foyId }, { tip: "ekran", ad: "buro" });
+  if (/tevkil/.test(m)) {
+    const ks = tevkilListesi(liste.filter(f => !f.ozel));
+    if (!ks.length) return cevap("Tevkil avukat kaydı yok.");
+    return cevap(`${ks.length} tevkil avukat var. ` + ks.slice(0, 6).map(k => `${k.ad}, ${k.dosyalar.length} dosya, ödenen ${tlYaz(k.toplam)}`).join(". ") + ".");
+  }
+
+  // Duruşma ve e-duruşma işaretleri: "Yılmaz dosyasında duruşmaya girildi", "e-duruşma talep ettik", "e-duruşma kabul edildi".
+  const eSoz = /e[\s-]?duruşma|segbis/.test(m);
+  const girSoz = /duruşma(ya)?\s+(girildi|girdik|girdim|katıldık|katıldım|girilmedi|giremedik|girmedik|giremedim|katılmadık)/.test(m);
+  if (eSoz || girSoz) {
+    const ad = foyBul(liste, m.replace(/e[\s-]?duruşma\S*|duruşma\S*|segbis/g, " "));
+    const f = ad.length === 1 ? ad[0] : !ad.length ? bag : undefined;
+    if (!f && ad.length > 1) return secSor(ad, "durum");
+    if (!f) return cevap("Hangi dosya? Müvekkilin adını ya da dosya numarasını söyleyin.");
+    const xs = durusmaSirala(f.durusmalar || []);
+    if (girSoz) {
+      const d = [...xs].reverse().find(x => x.tarih.slice(0, 10) <= bugun);
+      if (!d) return cevap(`${foyKisa(f)} dosyasında günü gelmiş duruşma yok.`, { foyId: f.id });
+      const girildi = /girilmedi|giremedik|girmedik|giremedim|katılmadık/.test(m) ? "hayir" as const : "evet" as const;
+      return cevap(`${foyKisa(f)}, ${tarihSoyle(d.tarih)} duruşması: ${girildi === "evet" ? "girildi" : "girilmedi"} olarak işaretleyeyim mi?`, { foyId: f.id, bekleyen: { tip: "durusmaIsle", foyId: f.id, durusmaId: d.id, ek: { girildi } } });
+    }
+    const d = xs.find(x => x.tarih.slice(0, 10) >= bugun);
+    if (!d) return cevap(`${foyKisa(f)} dosyasında ileri tarihli duruşma yok. Önce duruşma gününü yazın.`, { foyId: f.id });
+    const e = /redd|kabul edilmedi|onaylanmadı/.test(m) ? "red" as const : /kabul|onaylan/.test(m) ? "kabul" as const : /istemiyoruz|istemeyece|talep etmeyece|gerek yok/.test(m) ? "istenmeyecek" as const : /talep|istedik|gönderdik/.test(m) ? "talep" as const : undefined;
+    if (!e) return cevap(`${tarihSoyle(d.tarih)} duruşması için e-duruşma: ${d.e === "kabul" ? "kabul edildi" : d.e === "red" ? "reddedildi" : d.e === "talep" ? "talep edildi, karar bekleniyor" : d.e === "istenmeyecek" ? "talep edilmeyecek" : "henüz karar verilmedi"}.`, { foyId: f.id });
+    const ad2 = { red: "reddedildi", kabul: "kabul edildi", istenmeyecek: "talep edilmeyecek", talep: "talep edildi" }[e];
+    const ek: Partial<Durusma> = { e, ...(e === "talep" ? { eTalep: bugun } : e === "kabul" || e === "red" ? { eKarar: bugun } : {}) };
+    return cevap(`${foyKisa(f)}, ${tarihSoyle(d.tarih)} duruşması: e-duruşma ${ad2} olarak işaretleyeyim mi?`, { foyId: f.id, bekleyen: { tip: "durusmaIsle", foyId: f.id, durusmaId: d.id, ek } });
+  }
+  if (/duruşma\s+(konu|uyarı)|bekleyen\s+duruşma|e[\s-]?duruşma(lar)?\s+(ne|neler|durum)/.test(m)) {
+    const us = tumDurusmaUyarilari(liste, bugun);
+    if (!us.length) return cevap("Duruşmalarda bekleyen bir şey yok. Hepsi işlenmiş.");
+    return cevap(`${us.length} duruşma konusu var. ` + us.slice(0, 5).map((u, i) => `${i + 1}: ${foyKisa(u.f)}, ${u.d ? tarihSoyle(u.d.tarih) + ", " : ""}${u.metin}`).join(". ") + ".");
+  }
+
+  // Masraf ve tahsilat: "Yılmaz dosyasına masraf ekle 615 lira harç", "tahsilat 20 bin lira"
+  if (/(masraf|tahsilat|ödeme)\s*(ekle|yaz|gir|aldım|alındı|yapıldı)?/.test(m) && /\d|bin/.test(m) && /(masraf|tahsilat|tahsil|ödeme)/.test(m)) {
+    const tm = m.match(/(\d+(?:[.,]\d+)?)\s*(bin)?\s*(lira|tl)?/);
+    const n = tm ? Number(tm[1].replace(/\./g, "").replace(",", ".")) * (tm[2] ? 1000 : 1) : 0;
+    if (!n) return cevap("Tutarı anlayamadım. Örneğin: masraf ekle 615 lira harç.");
+    const ad = foyBul(liste, m.replace(/(masraf|tahsilat|ödeme)\S*|\d+([.,]\d+)?|bin|lira|tl/g, " "));
+    const f = ad.length === 1 ? ad[0] : !ad.length ? bag : undefined;
+    if (!f && ad.length > 1) return secSor(ad, "durum");
+    if (!f) return cevap("Hangi dosyaya yazayım? Müvekkilin adını ya da dosya numarasını söyleyin.");
+    const tur = /tahsil|aldık|aldım|ödedi/.test(m) && !/masraf/.test(m) ? "tahsilat" as const : "masraf" as const;
+    const kat = tur === "masraf" ? (MASRAF_KATEGORI.find(k => k.toLocaleLowerCase("tr").split(/[ /]+/).some(w => w.length > 3 && m.includes(w))) || (/harç/.test(m) ? "Başvuru / peşin harç" : /yol/.test(m) ? "Yol gideri" : "Diğer")) : undefined;
+    const kalem: HesapKalem = { id: "h-" + Date.now().toString(36), tarih: bugun, tutar: n, tur, ...(kat ? { kategori: kat } : {}), aciklama: "Sesli asistanla" };
+    return cevap(`${foyKisa(f)} dosyasına ${tur === "tahsilat" ? "tahsilat" : kat + " masrafı"} olarak ${tlYaz(n)} yazayım mı?`, { foyId: f.id, bekleyen: { tip: "kalemEkle", foyId: f.id, kalem } });
+  }
+
+  // Bir kişinin bütün dosyaları: "Yılmaz'ın dosyaları", "Ahmet Kaya'nın davaları"
+  if (/(dosyaları|davaları|dosyalarını|davalarını)(\s|$)/.test(m)) {
+    const xs = foyBul(liste, m.replace(/(dosyaları|davaları|dosyalarını|davalarını)\S*/g, " "));
+    if (!xs.length) return cevap("Bu ada kayıtlı dosya bulamadım.");
+    const tum = liste.filter(f => !f.ozel && xs.some(x => [x.muvekkil, x.karsiTaraf].some(a => a && (a === f.muvekkil || a === f.karsiTaraf))));
+    const hepsi = [...new Map([...xs, ...tum].map(f => [f.id, f])).values()];
+    return cevap(`${hepsi.length} dosya var. ` + hepsi.slice(0, 6).map((f, i) => `${i + 1}: ${foyKisa(f)}${f.durum === "kapali" ? ", kapalı" : ""}`).join(". ") + (hepsi.length > 6 ? ". Diğerleri ekranda." : "."), { foyId: hepsi.length === 1 ? hepsi[0].id : b.foyId });
+  }
 
   // Yeni dava (henüz açılmamış): föy açılır, "Dava aç" işi yapılacaklara yazılır. Eksik bilgiler tek tek sorulur.
   if (/yeni\s+(\S+\s+){0,2}(dava|dosya|takib|takip|başvuru|duyuru|föy)/.test(m) || /dava\s+açaca(ğım|z)|dava\s+açılacak/.test(m)) {
