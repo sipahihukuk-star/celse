@@ -8,6 +8,7 @@ import { Katlanir } from "./Katlanir";
 import { Acilir } from "./Acilir";
 import { IcraBolum } from "./IcraBolum";
 import { tl } from "../data/icra";
+import { komisyonaUygun } from "../data/davaListesi";
 import { evrakTuruBul, icraDoldur } from "../data/icraEvrak";
 import { dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, KarsiBilgi, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
 import { DAVA_TURLERI, EVRAK_TURLERI, FoyTur, turBilgi, TURLER } from "../data/foyTurleri";
@@ -429,8 +430,23 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
           {taraflar && <Acilir etiket={t("Hangi tarafın vekiliyiz")} secili={f.taraf || "davaci"} genislik={220} onSec={k => degistir({ taraf: k as "davaci" | "davali" })}
             secenekler={(["davaci", "davali"] as const).map((k, i) => ({ k, ad: t(taraflar[i]) }))} />}
-          <Acilir etiket={t("Dosya durumu")} secili={f.durum || "acik"} genislik={140} onSec={k => degistir({ durum: k as "acik" | "kapali" })}
+          <Acilir etiket={t("Dosya durumu")} secili={f.durum || "acik"} genislik={140} onSec={k => degistir({ durum: k as "acik" | "kapali", ...(k === "kapali" && !f.kapanis ? { kapanis: new Date().toISOString().slice(0, 10) } : {}) })}
             secenekler={[{ k: "acik", ad: t("Açık") }, { k: "kapali", ad: t("Kapalı") }]} />
+          {f.durum === "kapali" && (
+            <View style={{ gap: 4, minWidth: 150 }} key={"kapanis:" + surum}>
+              <Text style={{ color: C.muted, fontSize: 11, letterSpacing: 0.5 }}>{t("Kapanış / kesinleşme")}</Text>
+              <TextInput defaultValue={tarihYaz(f.kapanis)} onChangeText={v => { const d = tarihCoz(v); if (d || !v.trim()) degistir({ kapanis: d ? d.slice(0, 10) : undefined }); }} placeholder="GG.AA.YYYY" placeholderTextColor={C.muted} style={s.inputTek} />
+            </View>
+          )}
+          {komisyonaUygun(f) && <Acilir etiket={t("Tazminat Komisyonu (6384)")} secili={f.komisyon?.durum || "yok"} genislik={210}
+            onSec={k => degistir({ komisyon: { ...(f.komisyon || {}), durum: k as "yok" | "basvuruldu" | "sonuclandi", ...(k !== "yok" && !f.komisyon?.tarih ? { tarih: new Date().toISOString().slice(0, 10) } : {}) } })}
+            secenekler={[{ k: "yok", ad: t("Başvurulmadı") }, { k: "basvuruldu", ad: t("Başvuruldu") }, { k: "sonuclandi", ad: t("Sonuçlandı") }]} />}
+          {komisyonaUygun(f) && f.komisyon && f.komisyon.durum !== "yok" && (
+            <View style={{ gap: 4, minWidth: 150 }} key={"kom:" + surum}>
+              <Text style={{ color: C.muted, fontSize: 11, letterSpacing: 0.5 }}>{t("Komisyon başvuru tarihi / no")}</Text>
+              <TextInput defaultValue={[tarihYaz(f.komisyon.tarih), f.komisyon.no].filter(Boolean).join(" · ")} onChangeText={v => { const d = tarihCoz(v.split("·")[0].trim()); const no = v.split("·")[1]?.trim(); degistir({ komisyon: { ...f.komisyon!, tarih: d ? d.slice(0, 10) : f.komisyon!.tarih, no: no || undefined } }); }} placeholder="GG.AA.YYYY · 2024/1234" placeholderTextColor={C.muted} style={s.inputTek} />
+            </View>
+          )}
         </View>
         <Text style={s.label}>{t("Notlar")}</Text>
         <TextInput defaultValue={f.notlar} onChangeText={v => degistir({ notlar: v })} multiline placeholder={t("Dosyayla ilgili notlarınız")} placeholderTextColor={C.muted} style={s.input} />
