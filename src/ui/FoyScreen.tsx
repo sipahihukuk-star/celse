@@ -22,6 +22,7 @@ import { DavaListesi } from "./DavaListesi";
 import { gunlukBildirim, IsTakibi } from "./IsTakibi";
 import { SesliAsistan } from "./SesliAsistan";
 import { BuroEkrani } from "./BuroEkrani";
+import { BuroKatilKart } from "./BuroKatilKart";
 import { duzeySayilari } from "../data/isTakibi";
 import { DUZEY_RENK } from "./GorevKapat";
 import { Btn } from "./kit";
@@ -189,6 +190,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         {web && <Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} />}
       </View>
       {mesaj && <Text style={[s.hint, { color: mesaj.ok ? C.good : C.bad }]}>{mesaj.t}</Text>}
+      <BuroKatilKart onBuro={() => setBuroAc(true)} />
       {web && ses && <SesliAsistan liste={liste} onAc={id => setSecili({ id })} onIsler={() => setIsler(true)} />}
       {(() => {
         const n = duzeySayilari(liste);

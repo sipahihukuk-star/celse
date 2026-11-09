@@ -2,7 +2,7 @@
 // Föyler büro anahtarıyla uçtan uca şifreli paylaşılır; ayrıntı data/buro.ts ve supabase/surum18.sql.
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { BuroDurum, buroDurumu, burodanAyril, buroKur, davetIptal, davetKabul, davetOlustur, UNVANLAR, unvanYetkisi, uyeCikar, uyeGuncelle, Yetki, YETKI_AD } from "../data/buro";
+import { BuroDurum, buroDurumu, burodanAyril, buroKur, davetGuncelle, davetIptal, davetKabul, davetOlustur, UNVANLAR, unvanYetkisi, uyeCikar, uyeGuncelle, Yetki, YETKI_AD } from "../data/buro";
 import { esitle } from "../data/foyBulut";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
@@ -24,7 +24,7 @@ export function BuroEkrani({ onKapat }: { onKapat: () => void }) {
   const [kod, setKod] = useState("");
   // Davet
   const [dAd, setDAd] = useState("");
-  const [dUnvan, setDUnvan] = useState("Stajyer avukat");
+  const [dUnvan, setDUnvan] = useState(""); // önceden seçili ünvan yok: yanlışlıkla "Stajyer avukat" gitmesin
   const [dYetki, setDYetki] = useState<Yetki>("yaz");
   const [adOdak, setAdOdak] = useState(false);
   const [yeniKod, setYeniKod] = useState<{ kod: string; ad: string; unvan: string } | null>(null);
@@ -157,11 +157,12 @@ export function BuroEkrani({ onKapat }: { onKapat: () => void }) {
                 onFocus={() => setAdOdak(true)} onBlur={() => setAdOdak(false)}
                 style={[s.inputTek, { borderRadius: 10, paddingVertical: 8, paddingHorizontal: 12, fontSize: 14, borderColor: adOdak ? C.brass : C.line }, Platform.OS === "web" ? { outlineWidth: 0 } : null]} />
             </View>
-            <Acilir etiket={t("Ünvan")} secili={dUnvan} genislik={200} secenekler={unvanSecenek} onSec={k => { setDUnvan(k); setDYetki(unvanYetkisi(k)); }} />
+            <Acilir etiket={t("Ünvan")} secili={dUnvan} genislik={200} secenekler={[...(dUnvan ? [] : [{ k: "", ad: t("Ünvan seçin") }]), ...unvanSecenek]} onSec={k => { setDUnvan(k); setDYetki(unvanYetkisi(k)); }} />
             <Acilir etiket={t("Yetki")} secili={dYetki} genislik={290} secenekler={yetkiSecenek} onSec={k => setDYetki(k as Yetki)} />
           </View>
-          <Btn label={busy === "davet" ? t("Hazırlanıyor…") : t("Davet kodu oluştur")} disabled={!!busy || !dAd.trim() || !anahtar}
-            onPress={() => yap("davet", async () => { const k = await davetOlustur(b.id, { ad: dAd, unvan: dUnvan, yetki: dYetki }); setYeniKod({ kod: k, ad: dAd, unvan: dUnvan }); setDAd(""); })} />
+          <Btn label={busy === "davet" ? t("Hazırlanıyor…") : t("Davet kodu oluştur")} disabled={!!busy || !dAd.trim() || !dUnvan || !anahtar}
+            onPress={() => yap("davet", async () => { const k = await davetOlustur(b.id, { ad: dAd, unvan: dUnvan, yetki: dYetki }); setYeniKod({ kod: k, ad: dAd, unvan: dUnvan }); setDAd(""); setDUnvan(""); })} />
+          {!!dAd.trim() && !dUnvan && <Text style={s.hint}>{t("Ünvanı seçin: katip, sekreter, stajyer avukat…")}</Text>}
           {yeniKod && (
             <View style={[s.warn, { gap: 8 }]}>
               <Text style={[s.body, { color: C.text }]}>{t("Davet kodu (bir kez gösterilir):")}</Text>
@@ -179,9 +180,11 @@ export function BuroEkrani({ onKapat }: { onKapat: () => void }) {
             <View style={{ gap: 4 }}>
               <Text style={s.hint}>{t("Bekleyen davetler")}</Text>
               {b.davetler.map(x => (
-                <View key={x.id} style={[s.row, { alignItems: "center" }]}>
-                  <Text style={[s.body, { flex: 1 }]}>{x.ad} · {t(x.unvan)} · {t("son gün {d}", { d: tarihYaz(x.son) })}</Text>
-                  <Pressable onPress={() => yap("i", () => davetIptal(x.id), t("Davet iptal edildi."))}><Text style={s.sil}>{t("İptal")}</Text></Pressable>
+                <View key={x.id} style={[s.row, { alignItems: "flex-end", flexWrap: "wrap" }]}>
+                  <Text style={[s.body, { flex: 1, minWidth: 160 }]}>{x.ad} · {t("son gün {d}", { d: tarihYaz(x.son) })}</Text>
+                  <Acilir etiket={t("Ünvan")} secili={x.unvan} genislik={180} secenekler={unvanSecenek.some(u => u.k === x.unvan) ? unvanSecenek : [{ k: x.unvan, ad: x.unvan }, ...unvanSecenek]}
+                    onSec={k => yap("d" + x.id, () => davetGuncelle(x.id, { unvan: k, yetki: unvanYetkisi(k) }), t("{ad}: {unvan}", { ad: x.ad, unvan: t(k) }))} />
+                  <Pressable onPress={() => yap("i", () => davetIptal(x.id), t("Davet iptal edildi."))} style={{ paddingBottom: 10 }}><Text style={s.sil}>{t("İptal")}</Text></Pressable>
                 </View>
               ))}
             </View>
