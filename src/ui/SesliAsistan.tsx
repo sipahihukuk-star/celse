@@ -287,7 +287,8 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
   if (!yuzen) return <View style={[s.card, { gap: 10 }]}>{icerik}</View>;
   const genislik = Math.min(440, width - 24);
   return (
-    <View pointerEvents="box-none" style={{ position: "absolute", right: 12, bottom: 84, alignItems: "flex-end", gap: 10, zIndex: 50 }}>
+    // Web'de pencerenin sağ alt köşesine sabitlenir (sayfa ortalanmış dar bir sütunda olsa da en sağda durur).
+    <View pointerEvents="box-none" style={{ position: (Platform.OS === "web" ? "fixed" : "absolute") as "absolute", right: Platform.OS === "web" ? 20 : 12, bottom: Platform.OS === "web" ? 28 : 84, alignItems: "flex-end", gap: 10, zIndex: 50 }}>
       {acik && (
         <View style={[s.card, { width: genislik, gap: 8, shadowColor: "#000", shadowOpacity: 0.5, shadowRadius: 18, borderColor: C.brassDim }]}>{icerik}</View>
       )}
