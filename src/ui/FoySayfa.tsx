@@ -4,6 +4,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
 import { MuvekkilMesaj } from "./MuvekkilMesaj";
+import { bugunStr, uyariDuzeyi } from "../data/isTakibi";
+import { DUZEY_RENK, duzeyAdi, GorevKapat } from "./GorevKapat";
 import { Katlanir } from "./Katlanir";
 import { Acilir } from "./Acilir";
 import { IcraBolum } from "./IcraBolum";
@@ -49,6 +51,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const [err, setErr] = useState("");
   const [yeniGorev, setYeniGorev] = useState("");
   const [gorevTarih, setGorevTarih] = useState("");
+  const [kapatId, setKapatId] = useState<string | null>(null);
   const [durusmaYazi, setDurusmaYazi] = useState("");
   const [silOnay, setSilOnay] = useState(false);
   const [muvAc, setMuvAc] = useState(false);
@@ -146,7 +149,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const gorevEkle = () => {
     const m = yeniGorev.trim();
     if (!m) return;
-    degistir({ gorevler: [...f.gorevler, { id: yeniId("g"), metin: m, tarih: tarihCoz(gorevTarih), bitti: false, kaynak: "elle" }] });
+    degistir({ gorevler: [...f.gorevler, { id: yeniId("g"), metin: m, tarih: tarihCoz(gorevTarih), bitti: false, kaynak: "elle", eklenme: bugunStr() }] });
     setYeniGorev(""); setGorevTarih("");
   };
   const gorevDegistir = (g: Gorev, ek: Partial<Gorev> | null) => degistir({ gorevler: ek ? f.gorevler.map(x => (x.id === g.id ? { ...x, ...ek } : x)) : f.gorevler.filter(x => x.id !== g.id) });
@@ -170,7 +173,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     if (typeof r.data.avukatKalan === "number") setAvukatKalan(r.data.avukatKalan);
     const u = (x: string) => unmask(x, k.map);
     const d = r.data;
-    const yapay: Gorev[] = (d.eksik || []).map(x => ({ id: yeniId("g"), metin: u(x), bitti: false, kaynak: "yapay" as const }))
+    const yapay: Gorev[] = (d.eksik || []).map(x => ({ id: yeniId("g"), metin: u(x), bitti: false, kaynak: "yapay" as const, eklenme: bugunStr() }))
       .filter(x => !f.gorevler.some(y => y.metin === x.metin));
     degistir({
       degerlendirme: { tarih: new Date().toISOString(), ozet: u(d.ozet || ""), uyusmazlik: (d.uyusmazlik || []).map(u), sureler: (d.sureler || []).map(u), zayif: (d.zayif || []).map(u) },
@@ -468,10 +471,11 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       <Katlanir anahtar="gorev" baslik={t("Yapılacaklar")} ozet={acik.length ? t("{n} açık iş", { n: acik.length }) : t("açık iş yok")}>
         {acik.map(x => (
           <View key={x.id} style={s.gorev}>
-            <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: false }} onPress={() => gorevDegistir(x, { bitti: true })} style={s.box} />
-            <View style={{ flex: 1 }}>
+            <Pressable accessibilityRole="checkbox" accessibilityLabel={t("Kapat")} accessibilityState={{ checked: false }} onPress={() => setKapatId(x.id)} style={[s.box, { borderColor: DUZEY_RENK[uyariDuzeyi(x, f).duzey] }]} />
+            <View style={{ flex: 1, gap: 6 }}>
               <Text style={s.body}>{x.metin}</Text>
-              <Text style={s.hint}>{[x.tarih ? tarihYaz(x.tarih) + " · " + gunYaz(kacGun(x.tarih)) : "", x.kaynak === "yapay" ? t("yapay zekâ önerisi, kontrol edin") : ""].filter(Boolean).join(" · ")}</Text>
+              {(() => { const u = uyariDuzeyi(x, f); return <Text style={[s.hint, { color: DUZEY_RENK[u.duzey], fontWeight: "700" }]}>{[duzeyAdi(u.duzey), t(u.metin), x.tarih ? tarihYaz(x.tarih) : "", x.kaynak === "yapay" ? t("yapay zekâ önerisi, kontrol edin") : ""].filter(Boolean).join(" · ")}</Text>; })()}
+              {kapatId === x.id && <GorevKapat g={x} onVazgec={() => setKapatId(null)} onKapat={k => { gorevDegistir(x, { bitti: true, kapanis: k }); setKapatId(null); }} />}
             </View>
             <Pressable onPress={() => gorevDegistir(x, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>
           </View>
@@ -481,7 +485,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
           <TextInput value={gorevTarih} onChangeText={setGorevTarih} onSubmitEditing={gorevEkle} placeholder={t("son gün")} placeholderTextColor={C.muted} style={[s.inputTek, { width: 120 }]} />
           <Btn kind="secondary" label={t("Ekle")} onPress={gorevEkle} />
         </View>
-        {biten.length > 0 && <Text style={s.hint}>{t("Tamamlanan")}: {biten.map(x => x.metin).join(" · ")}</Text>}
+        {biten.length > 0 && <Text style={s.hint}>{t("Tamamlanan")}: {biten.map(x => x.metin + (x.kapanis ? ` (${t("no")}: ${x.kapanis.no}, ${tarihYaz(x.kapanis.tarih)})` : "")).join(" · ")}</Text>}
       </Katlanir>
 
       <Katlanir anahtar="evrak" baslik={`${t("Evrak")} (${f.evraklar.length})`} zorla={!!ekle} ozet={f.evraklar.length ? t("{n} evrak", { n: f.evraklar.length }) : t("evrak yok")}>
