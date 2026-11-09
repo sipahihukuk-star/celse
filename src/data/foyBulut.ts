@@ -16,6 +16,7 @@ import {
 } from "./foy";
 import { Anahtar, b64, b64Coz, coz, hamAnahtar, hamTuret, kodla, metneCevir, rastgele, sifrele } from "./sifre";
 import { buroAnahtari, buroYetkim } from "./buro";
+import { buroDosyalariYukle } from "./buroDosya";
 
 const DOGRULAMA = "celse-foy-bulut";
 const TABLO = "foy_bulut", ANAHTAR_TABLO = "foy_bulut_anahtar";
@@ -204,10 +205,11 @@ export function gelenFoy(uzak: Foy, yerel: Foy | undefined, gonderilmedi: boolea
 
 const metinImzasi = (f: Foy) => { const x = f.evraklar.filter(e => e.metin).map(e => e.id + ":" + e.metin.length).join(","); return x ? "v2|" + x : ""; };
 
-let calisiyor: Promise<{ gelen: number; giden: number }> | null = null;
+export interface EsitlemeSonucu { gelen: number; giden: number; /** büro bulutuna henüz yüklenmemiş asıl dosya sayısı */ dosyaBekleyen?: number }
+let calisiyor: Promise<EsitlemeSonucu> | null = null;
 
 /** Çeker, sonra gönderir. Aynı anda ikinci çağrı birincinin sonucunu bekler. */
-export function esitle(): Promise<{ gelen: number; giden: number }> {
+export function esitle(): Promise<EsitlemeSonucu> {
   if (!calisiyor) calisiyor = esitleIc().finally(() => { calisiyor = null; });
   return calisiyor;
 }
@@ -274,9 +276,13 @@ async function esitleIc() {
   // 1b) Büro: şahsi olmayan föyler büro bulutunda eşitlenir.
   const buro = await buroAnahtari();
   if (!buro) await metinleriIndir(yerel, k).catch(() => {});
+  let dosyaBekleyen = 0;
   if (buro) {
     const r = await buroEsitle(buro, yerel);
     gelen += r.gelen; giden += r.giden;
+    // Asıl dosyalar (PDF, UDF, fotoğraf): her eşitlemede birkaç tane şifrelenip büro bulutuna yüklenir.
+    const d = await buroDosyalariYukle(buro, yerel.values()).catch(() => null);
+    dosyaBekleyen = d && !d.kurulumYok && !d.hata ? d.bekleyen : 0;
   }
 
   // 2) Gönder: bu cihazda değişenler (büroya üyeyken föyler büroya gider; burada yalnız şahsi dosyalar ve kilit).
@@ -327,7 +333,7 @@ async function esitleIc() {
   const son = new Date().toISOString();
   await ayarYaz("bulutSon", son);
   if (gelen) foyHaber();
-  return { gelen, giden };
+  return { gelen, giden, dosyaBekleyen };
 }
 
 const BURO_TABLO = "buro_foy";

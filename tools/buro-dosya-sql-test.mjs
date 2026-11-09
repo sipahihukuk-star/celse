@@ -1,0 +1,36 @@
+// Büro asıl dosya deposu kuralları (surum20.sql) gerçek Postgres (PGlite) üzerinde: npm i --no-save @electric-sql/pglite@0.2.17 && node tools/buro-dosya-sql-test.mjs
+import { PGlite } from "@electric-sql/pglite";
+import fs from "fs";
+const R = new URL("../supabase/", import.meta.url).pathname;
+const db = new PGlite();
+await db.exec(`
+create schema auth; create table auth.users (id uuid primary key);
+create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('test.uid', true), '')::uuid $$;
+create role anon; create role authenticated; grant usage on schema public, auth to anon, authenticated; grant execute on function auth.uid() to authenticated, anon;
+create schema storage; grant usage on schema storage to authenticated, anon;
+create table storage.buckets (id text primary key, name text, public boolean, file_size_limit bigint);
+create table storage.objects (id uuid primary key default gen_random_uuid(), bucket_id text, name text, owner uuid default auth.uid());
+alter table storage.objects enable row level security;
+grant select, insert, update, delete on storage.objects to authenticated;
+`);
+await db.exec(fs.readFileSync(R + "surum18.sql", "utf8"));
+await db.exec(fs.readFileSync(R + "surum20.sql", "utf8"));
+await db.exec(fs.readFileSync(R + "surum20.sql", "utf8"));
+const A = "00000000-0000-0000-0000-00000000000a", S = "00000000-0000-0000-0000-00000000000b", X = "00000000-0000-0000-0000-0000000000ff";
+for (const u of [A, S, X]) await db.query("insert into auth.users values ($1)", [u]);
+let fail = 0; const ok = (c, m) => { if (!c) { fail++; console.log("✗ " + m); } };
+const as = async (u, sql, p = []) => { await db.exec("reset role"); await db.query("select set_config('test.uid', $1, false)", [u]); await db.exec("set role authenticated"); return db.query(sql, p); };
+const hata = async (u, sql, p = []) => { try { await as(u, sql, p); return ""; } catch (e) { return e.message; } };
+const buro = (await as(A, "select public.buro_kur('B', 'A', '', '') as id")).rows[0].id;
+await as(A, "insert into public.buro_davet (buro_id, kod_ozet, ad, unvan, yetki, tuz, iv, veri) values ($1, 'k', 'S', 'Sekreter', 'yaz', 't', 'i', 'v')", [buro]);
+await as(S, "select public.buro_davet_kabul('k', 'S')");
+ok(!(await hata(A, "insert into storage.objects (bucket_id, name) values ('buro-evrak', $1)", [buro + "/e1"])), "kurucu yükler");
+ok((await as(S, "select count(1)::int as n from storage.objects where bucket_id = 'buro-evrak'")).rows[0].n === 1, "sekreter görür");
+ok(!(await hata(S, "insert into storage.objects (bucket_id, name) values ('buro-evrak', $1)", [buro + "/e2"])), "sekreter yükler");
+ok((await as(X, "select count(1)::int as n from storage.objects where bucket_id = 'buro-evrak'")).rows[0].n === 0, "yabancı göremez");
+ok(/row-level|violates/.test(await hata(X, "insert into storage.objects (bucket_id, name) values ('buro-evrak', $1)", [buro + "/e3"])), "yabancı yükleyemez");
+ok(/row-level|violates/.test(await hata(S, "insert into storage.objects (bucket_id, name) values ('buro-evrak', $1)", ["baska-buro/e4"])), "başka büro yoluna yazılamaz");
+await as(A, "delete from public.buro_uye where kullanici_id = $1", [S]);
+ok((await as(S, "select count(1)::int as n from storage.objects where bucket_id = 'buro-evrak'")).rows[0].n === 0, "çıkarılan sekreter göremez");
+await db.exec("reset role"); ok((await db.query("select public from storage.buckets where id = 'buro-evrak'")).rows[0]?.public === false, "kova kapalı");
+console.log(fail ? "surum20: " + fail + " hata" : "surum20: tamam");

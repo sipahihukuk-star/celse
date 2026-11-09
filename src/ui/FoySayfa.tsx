@@ -14,6 +14,7 @@ import { TALEP_AD } from "../data/hesap";
 import { bugunStr, uyariDuzeyi } from "../data/isTakibi";
 import { evrakBasligi } from "../data/evrakBaslik";
 import { yerDegisimi } from "../data/durusma";
+import { asilDosya } from "../data/buroDosya";
 import { buroUyeleri, buroYetkim } from "../data/buro";
 import { FoyYzSor } from "./FoyYzSor";
 import { DUZEY_RENK, duzeyAdi, GorevKapat } from "./GorevKapat";
@@ -159,8 +160,9 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const haricAdlar = () => [...uyeAdlari, f.karsiBilgi?.vekil || ""].filter(Boolean);
   const evrakAc = async (e: FoyEvrak) => {
     if (!dosyaSaklanir()) { setErr(t("Asıl dosya bilgisayarınızda duruyor; telefonda yalnız künye ve kodlanmış metin vardır.")); return; }
-    const b = await dosyaOku(e.id);
-    if (!b) { setErr(t("Asıl dosya bu cihazda bulunamadı (yalnız okunan metni var).")); return; }
+    // Bu cihazda yoksa büro bulutundan indirilir (büroya üyeyken; asıl dosyalar şifreli olarak orada durur).
+    const b = await asilDosya(e.id, e.ad).catch(() => undefined);
+    if (!b) { setErr(t("Asıl dosya bu cihazda yok, büro bulutunda da henüz yok. Dosyayı yükleyen bilgisayarda Celse açılınca buluta gider.")); return; }
     if (/\.(pdf|jpg|jpeg|png|txt)$/i.test(e.ad)) window.open(URL.createObjectURL(b), "_blank"); else indir(evrakBasligi(f, e).dosyaAdi, b);
   };
   const evrakDegistir = (e: FoyEvrak, ek: Partial<FoyEvrak> | null) => {
@@ -299,7 +301,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
           </View>
         </View>
         <Pressable onPress={() => evrakAc(e)}><Text style={s.link}>{t("Aç")}</Text></Pressable>
-        {dosyaSaklanir() && <Pressable onPress={async () => { const b = await dosyaOku(e.id); if (b) indir(evrakBasligi(f, e).dosyaAdi, b); else setErr(t("Asıl dosya bu cihazda bulunamadı (yalnız okunan metni var).")); }}><Text style={s.link}>{t("İndir")}</Text></Pressable>}
+        {dosyaSaklanir() && <Pressable onPress={async () => { const b = await asilDosya(e.id, e.ad).catch(() => undefined); if (b) indir(evrakBasligi(f, e).dosyaAdi, b); else setErr(t("Asıl dosya bu cihazda yok, büro bulutunda da henüz yok.")); }}><Text style={s.link}>{t("İndir")}</Text></Pressable>}
         <Pressable onPress={() => evrakDegistir(e, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>
       </View>
       {turSec === e.id && (

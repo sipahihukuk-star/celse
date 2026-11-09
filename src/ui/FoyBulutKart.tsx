@@ -31,6 +31,8 @@ export function FoyBulutKart() {
       susturma.current = true;
       const r = await esitle();
       if (!sessiz || r.gelen) setMesaj({ t: t("Eşitlendi: {g} föy geldi, {c} föy gitti.", { g: r.gelen, c: r.giden }), ok: true });
+      // Asıl dosyalar birkaç birkaç yüklenir: bekleyen varsa kısa süre sonra yeniden eşitlenir.
+      if (r.dosyaBekleyen) { if (zaman.current) clearTimeout(zaman.current); zaman.current = setTimeout(() => simdiEsitle(true), 2500); }
     } catch (e) { setMesaj({ t: t(String((e as Error).message || e)) }); }
     finally { setTimeout(() => { susturma.current = false; }, 300); if (!sessiz) setBusy(""); yenile(); }
   };
