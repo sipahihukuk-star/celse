@@ -6,6 +6,7 @@ import { FoyTur, turBilgi } from "./foyTurleri";
 import { bugunStr, duzeySayilari, isListesi, uyariDuzeyi } from "./isTakibi";
 import { Durusma, durusmaSirala, tumDurusmaUyarilari } from "./durusma";
 import { HesapKalem, MASRAF_KATEGORI, tevkilListesi, tlYaz } from "./hesap";
+import { ekKomut, SekmeAd, SesOrtam } from "./sesEk";
 
 export type Bekleyen =
   | { tip: "ekle"; foyId: string; metin: string; tarih?: string }
@@ -14,7 +15,8 @@ export type Bekleyen =
   | { tip: "foySec"; adaylar: string[]; sonra?: "durum" | "ekle"; metin?: string; tarih?: string }
   | { tip: "yeniDava"; adim: "dava" | "muvekkil" | "karsi" | "tarih" | "onay"; v: YeniDava }
   | { tip: "durusmaIsle"; foyId: string; durusmaId: string; ek: Partial<Durusma> }
-  | { tip: "kalemEkle"; foyId: string; kalem: HesapKalem };
+  | { tip: "kalemEkle"; foyId: string; kalem: HesapKalem }
+  | { tip: "foyYaz"; foyId: string; ek: Partial<Foy>; ozet: string; diger?: { foyId: string; ek: Partial<Foy> } };
 /** Henüz açılmamış dava: föy açılır, "Dava aç" işi yapılacaklara yazılır. */
 export interface YeniDava { tur: FoyTur; dava?: string; muvekkil?: string; karsi?: string; tarih?: string }
 export interface Baglam { foyId?: string; bekleyen?: Bekleyen }
@@ -27,8 +29,11 @@ export type Eylem =
   | { tip: "durusma"; foyId: string; durusmaId: string; ek: Partial<Durusma> }
   | { tip: "kalem"; foyId: string; kalem: HesapKalem }
   | { tip: "ekran"; ad: "tevkil" | "buro" }
-  | { tip: "yzSor"; foyId: string; soru: string };
-export interface Cevap { metin: string; baglam: Baglam; eylem?: Eylem }
+  | { tip: "yzSor"; foyId: string; soru: string }
+  | { tip: "foyYaz"; foyId: string; ek: Partial<Foy>; diger?: { foyId: string; ek: Partial<Foy> } }
+  | { tip: "sekme"; ad: SekmeAd };
+/** anlasilmadi: kurallarla anlaşılamadı (sesli asistan cümleyi kodlayıp yapay zekâya yorumlatabilir). */
+export interface Cevap { metin: string; baglam: Baglam; eylem?: Eylem; anlasilmadi?: boolean }
 
 const AYLAR = ["ocak", "şubat", "mart", "nisan", "mayıs", "haziran", "temmuz", "ağustos", "eylül", "ekim", "kasım", "aralık"];
 const GUNLER = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
@@ -87,7 +92,7 @@ export function foyBul(liste: Foy[], soz: string): Foy[] {
   return puanli.filter(x => x.p === en).map(x => x.f).slice(0, 5);
 }
 const foyAdi = (f: Foy) => [f.muvekkil || "müvekkil yazılmamış", f.karsiTaraf ? "karşı taraf " + f.karsiTaraf : ""].filter(Boolean).join(", ");
-const foyKisa = (f: Foy) => [f.muvekkil || f.karsiTaraf, f.mahkeme, f.esasNo.replace("/", " bölü ")].filter(Boolean).join(", ") || "adsız dosya";
+export const foyKisa = (f: Foy) => [f.muvekkil || f.karsiTaraf, f.mahkeme, f.esasNo.replace("/", " bölü ")].filter(Boolean).join(", ") || "adsız dosya";
 
 /** Föyün sesli durumu. */
 export function foyDurumu(f: Foy, bugun = bugunStr()): string {
@@ -177,8 +182,10 @@ function isBul(f: Foy, soz: string): Gorev[] {
   return acik.length === 1 ? acik : [];
 }
 
+const kelimeVar = (f: Foy, w: string) => kucuk(`${f.muvekkil} ${f.karsiTaraf} ${f.mahkeme} ${f.esasNo} ${f.davaTuru}`).split(/[^\p{L}\d/]+/u).some(x => x.length > 2 && (x.startsWith(w.slice(0, Math.max(4, w.length - 4))) || w.startsWith(x)));
+
 /** Söyleneni işler. */
-export function sesliKomut(soz: string, liste: Foy[], b: Baglam, bugun = bugunStr()): Cevap {
+export function sesliKomut(soz: string, liste: Foy[], b: Baglam, bugun = bugunStr(), ortam: SesOrtam = {}): Cevap {
   const m = kucuk(soz).trim().replace(/[.!?]+$/, "");
   const byId = new Map(liste.map(f => [f.id, f] as const));
   const bag = b.foyId ? byId.get(b.foyId) : undefined;
@@ -197,6 +204,8 @@ export function sesliKomut(soz: string, liste: Foy[], b: Baglam, bugun = bugunSt
   }
   if (bk?.tip === "durusmaIsle" && EVET.test(m)) return cevap("İşlendi.", { foyId: bk.foyId }, { tip: "durusma", foyId: bk.foyId, durusmaId: bk.durusmaId, ek: bk.ek });
   if (bk?.tip === "kalemEkle" && EVET.test(m)) return cevap("Yazıldı.", { foyId: bk.foyId }, { tip: "kalem", foyId: bk.foyId, kalem: bk.kalem });
+  if (bk?.tip === "foyYaz" && EVET.test(m)) return cevap("Tamam, yapıldı.", { foyId: bk.foyId }, { tip: "foyYaz", foyId: bk.foyId, ek: bk.ek, diger: bk.diger });
+  if (bk && (bk.tip === "foyYaz" || bk.tip === "ekle" || bk.tip === "kapatOnay" || bk.tip === "durusmaIsle" || bk.tip === "kalemEkle") && /^(tekrar|ne dedin|bir daha)/.test(m)) return cevap(bk.tip === "foyYaz" ? bk.ozet + ". Yapayım mı?" : "Evet ya da vazgeç deyin.", b);
   if (bk?.tip === "kapatNo") {
     const no = soylenenNo(m) || soylenenNo("numara " + m);
     if (no) return cevap(`Numara ${rakamRakam(no)}. Doğru mu? Evet derseniz kapatırım.`, { foyId: bk.foyId, bekleyen: { tip: "kapatOnay", foyId: bk.foyId, gorevId: bk.gorevId, no } });
@@ -238,6 +247,9 @@ export function sesliKomut(soz: string, liste: Foy[], b: Baglam, bugun = bugunSt
     if (!f) return cevap("Hangi dosya için sorayım? Örneğin: Yılmaz dosyası için yapay zekâya sor, itiraz süresi ne zaman doluyor.");
     return cevap(`${foyKisa(f)} dosyasını yapay zekâya soruyorum; yarım dakika kadar sürebilir.`, { foyId: f.id }, { tip: "yzSor", foyId: f.id, soru });
   }
+  // Ek komutlar: föy alanları, not, duruşma / keşif ekleme, iş sil / ver / son gün, sekmeler, sayım, evrak ve not okuma.
+  const ekc = ekKomut(soz, liste, b, bag, bugun, ortam);
+  if (ekc) return ekc;
   if (/yapılacaklar(ı)?\s+(ekranını\s+)?(aç|göster)/.test(m)) return cevap("Yapılacaklar açılıyor.", { foyId: b.foyId }, { tip: "isler" });
 
   // Ekranlar
@@ -357,9 +369,13 @@ export function sesliKomut(soz: string, liste: Foy[], b: Baglam, bugun = bugunSt
   if (/sırada(ki)?\s+(ne|iş)|ne durumda|durumu/.test(m) && bag && !foyBul(liste, m).length) return cevap(foyDurumu(bag, bugun), { foyId: bag.id });
 
   const ad = foyBul(liste, m);
-  if (ad.length === 1) return cevap(foyDurumu(ad[0], bugun), { foyId: ad[0].id });
+  // Yalnız dosyanın adı ya da durum sorusu söylendiyse durum okunur; başka bir şey isteniyorsa (ör. "bilirkişi aşamasına alalım")
+  // cümle anlaşılmamış sayılır ki yapay zekâ yorumlasın; yorumlanamazsa yine durum okunur.
+  const sade = (x: string) => kucuk(x).replace(/[^\p{L}\d/ ]/gu, " ").split(/\s+/).filter(w => w.length > 2 && !/^(dosya|dava|föy|müvekkil|şu|bu|hocam|lütfen|bakalım|acaba)/.test(w));
+  const durumSorusu = (f: Foy) => /durum|nerede|ne\s+oldu|nasıl|anlat|bilgi|özet|sırada/.test(m) || sade(m).filter(w => !kelimeVar(f, w)).length <= 1;
+  if (ad.length === 1) return { ...cevap(foyDurumu(ad[0], bugun), { foyId: ad[0].id }), ...(durumSorusu(ad[0]) ? {} : { anlasilmadi: true }) };
   if (ad.length > 1) return secSor(ad, "durum");
-  return cevap("Anlayamadım. Yardım derseniz neler sorabileceğinizi söylerim.", { foyId: b.foyId });
+  return { ...cevap("Anlayamadım. Yardım derseniz neler sorabileceğinizi söylerim.", { foyId: b.foyId }), anlasilmadi: true };
 
   function ekleSor(f: Foy, metin: string, tarih?: string): Cevap {
     return cevap(`${foyKisa(f)} dosyasına "${metin}" işini${tarih ? ", son gün " + tarihSoyle(tarih) + " olarak" : ", son gün olmadan"} ekleyeyim mi?`, { foyId: f.id, bekleyen: { tip: "ekle", foyId: f.id, metin, tarih } });

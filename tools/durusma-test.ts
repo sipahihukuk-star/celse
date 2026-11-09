@@ -111,4 +111,16 @@ ok(durusmaEkle({ ...kf, durusmalar: kr.durusmalar }, "2026-11-25", {}).length ==
 const tk = takvim([{ ...kf, durusmalar: kr.durusmalar }, { ...bosFoy({}), ozel: true, durusmalar: [{ id: "z", tarih: "2026-11-26" }] }], "2026-11-01", "2026-12-31", "2026-11-09");
 ok(tk.length === 2 && tk[0].tur === "kesif" && tk[1].tur === "durusma", "takvim " + JSON.stringify(tk.map(x => [x.gun, x.tur])));
 
+// İcra: duruşma yok; haciz ve keşif günü. Evraktan haciz günü okunur, duruşma cümlesi icrada eklenmez, e-duruşma sorulmaz.
+const icf = bosFoy({ tur: "icra", mahkeme: "Uydurma 4. İcra Dairesi", esasNo: "2026/90", durusma: "2026-11-20" });
+ok(kunyeDurusmasi(icf)?.[0]?.tur === "haciz", "icrada künyedeki gün haciz olur");
+const hm = "Alacaklı vekilinin talebi üzerine borçlunun adresinde haczin 27/11/2026 günü saat 09:30'da yapılmasına, kıymet takdiri için keşfin 04/12/2026 günü yapılmasına karar verildi.";
+const hb = evrakDurusmaOku(hm, "davaci", simdi);
+ok(hb.hacizler?.[0] === "2026-11-27T09:30" && hb.kesifler?.[0] === "2026-12-04" && !hb.tarihler.length, "haciz ve keşif okunur " + JSON.stringify(hb));
+const hr = evraktanDurusma(icf, [ev("h1", hm, "2026-11-08")], simdi);
+ok(hr.durusmalar.filter(x => x.tur === "haciz").length === 1 && hr.durusmalar.some(x => x.tur === "kesif") && hr.degisen.includes("haciz günü"), "akışa haciz " + JSON.stringify(hr.durusmalar));
+const hu = durusmaUyarilari({ ...icf, durusmalar: hr.durusmalar }, "2026-11-27");
+ok(hu.some(x => /Bugün haciz/.test(x.metin)) && !hu.some(x => x.tur.startsWith("e")), "haciz uyarısı, e-duruşma yok " + JSON.stringify(hu.map(x => x.metin)));
+ok(durusmaUyarilari({ ...icf, durusmalar: hr.durusmalar }, "2026-11-30").some(x => /Hacze gidildi mi/.test(x.metin)), "hacze gidildi mi");
+
 if (fail) { console.log(`durusma-test: ${fail} hata`); process.exit(1); } else console.log("durusma-test: tamam");

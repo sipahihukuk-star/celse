@@ -26,5 +26,5 @@ ok(/2 dosya/.test(r.metin), "kişinin dosyaları: " + r.metin);
 r = sesliKomut("duruşma konuları", [a], {}, bugun);
 ok(/duruşma konusu/.test(r.metin), "duruşma konuları: " + r.metin);
 r = sesliKomut("tevkil avukatlar ekranını aç", [a], {}, bugun);
-ok(r.eylem?.tip === "ekran", "ekran");
+ok(r.eylem?.tip === "ekran" || (r.eylem?.tip === "sekme" && r.eylem.ad === "tevkil"), "ekran");
 if (fail) { console.log(`ses-durusma-test: ${fail} hata`); process.exit(1); } else console.log("ses-durusma-test: tamam");
