@@ -23,6 +23,11 @@ import { gunlukBildirim, IsTakibi } from "./IsTakibi";
 import { SesliAsistan } from "./SesliAsistan";
 import { BuroEkrani } from "./BuroEkrani";
 import { BuroKatilKart } from "./BuroKatilKart";
+import { TevkilListesi } from "./TevkilListesi";
+import { durusmaUyarilari, tumDurusmaUyarilari } from "../data/durusma";
+import { telefonBildirimPlanla, webDurusmaBildirimi } from "./durusmaBildirim";
+
+let bildirimZaman: ReturnType<typeof setTimeout> | null = null;
 import { duzeySayilari } from "../data/isTakibi";
 import { DUZEY_RENK } from "./GorevKapat";
 import { Btn } from "./kit";
@@ -41,6 +46,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [isler, setIsler] = useState(false);
   const [ses, setSes] = useState(false);
   const [buroAc, setBuroAc] = useState(false);
+  const [tevkilAc, setTevkilAc] = useState(false);
   // "sahsi": şahsi dosyalar bölümünden açılan giriş (yeni föy şahsi ve şifreli olur).
   const [giris, setGiris] = useState<false | "normal" | "sahsi">(false);
   const [ara, setAra] = useState("");
@@ -65,18 +71,24 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   useEffect(() => { setDavaF(null); setAsamaF(null); }, [turF]);
   const [kilitSor, setKilitSor] = useState<null | { sonra?: () => void }>(null);
   const yenile = () => {
-    foyListesi().then(x => { setListe(x); setYuklendi(true); gunlukBildirim(x); }).catch(() => setYuklendi(true));
+    foyListesi().then(x => {
+      setListe(x); setYuklendi(true); gunlukBildirim(x); webDurusmaBildirimi(x);
+      // Telefonda duruşma bildirimleri: föyler değiştikten birkaç saniye sonra plan yenilenir.
+      if (bildirimZaman) clearTimeout(bildirimZaman);
+      bildirimZaman = setTimeout(() => telefonBildirimPlanla(x), 4000);
+    }).catch(() => setYuklendi(true));
     ozelKilitDurumu().then(setKilit).catch(() => {});
   };
   useEffect(() => { yenile(); return foyDinle(yenile); }, []);
   // Dava takibinden çıkınca şahsi dosyalar kilitlenir (bilgisayarı başkası kullanırsa görünmesin).
   useEffect(() => () => { ozelKilitle(); }, []);
-  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc, () => { if (secili && (rapor || isler)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); });
+  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc || tevkilAc, () => { if (secili && (rapor || isler || tevkilAc)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); });
 
   // Telefonda: föyler uygulamanın deposunda; evrak ekleme, toplu aktarma, DavaTek klasörü ve yedek dosyası bilgisayardadır.
   const web = Platform.OS === "web";
   if (kilitSor) return <OzelKilit durum={kilit} onKapat={() => setKilitSor(null)} onAcildi={() => { const f = kilitSor.sonra; setKilitSor(null); yenile(); f?.(); }} />;
   if (buroAc && !secili) return <BuroEkrani onKapat={() => setBuroAc(false)} />;
+  if (tevkilAc && !secili) return <TevkilListesi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setTevkilAc(false)} />;
   if (isler && !secili) return <IsTakibi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setIsler(false)} />;
   if (rapor && !secili) return <DavaListesi liste={liste} onAc={id => setSecili({ id })} onKapat={() => setRapor(false)} />;
   if (havuz) return <EvrakHavuzu liste={liste.filter(f => !f.ozel || (havuz !== true && f.id === havuz.id))} kaynakFoy={havuz === true ? undefined : havuz} onBitti={m => { setHavuz(false); if (m) setMesaj({ t: m, ok: true }); yenile(); }} />;
@@ -143,7 +155,9 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
                 <Text style={s.foyT} numberOfLines={1}>{foyBaslik(f)}</Text>
                 <Text style={s.hint} numberOfLines={1}>{[f.mahkeme, f.esasNo, f.davaTuru, f.acilis ? t("açılış {d}", { d: tarihYaz(f.acilis) }) : ""].filter(Boolean).join(" · ") || t("Merci ve numara yazılmamış")}</Text>
                 {!!once && <Text style={s.hint} numberOfLines={1}>↳ {t("{tur} {no} dosyasının devamı", { tur: turBilgi(once.tur).ad, no: once.esasNo || "" })}</Text>}
-                <Text style={s.meta}>{[t("{n} EVRAK", { n: f.evraklar.length }), acikGorev ? t("{n} AÇIK İŞ", { n: acikGorev }) : ""].filter(Boolean).join(" · ")}</Text>
+                <Text style={s.meta}>{[t("{n} EVRAK", { n: f.evraklar.length }), acikGorev ? t("{n} AÇIK İŞ", { n: acikGorev }) : ""].filter(Boolean).join(" · ")}
+                  {(() => { const u = durusmaUyarilari(f); return u.length ? <Text style={{ color: u.some(x => x.duzey === "gecikti" || x.duzey === "bugun" || x.duzey === "acil") ? C.bad : C.mid }}>{"  ⚖ " + t(u[0].metin).toLocaleUpperCase("tr")}</Text> : (f.durusmalar?.length ? <Text style={{ color: C.good }}>{"  ⚖ ✓"}</Text> : null); })()}
+                </Text>
               </View>
               {!!f.durusma && <Text style={[s.foyD, g !== undefined && g >= 0 && g <= 7 && { color: C.brass }]}>{tarihYaz(f.durusma)}{"\n"}<Text style={s.hint}>{gunYaz(g)}</Text></Text>}
             </Pressable>
@@ -186,20 +200,24 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         <Btn kind="secondary" label={t("✅ Yapılacaklar")} onPress={() => setIsler(true)} />
         {web && <Btn kind={ses ? "primary" : "secondary"} label={t("🎙 Sesli asistan")} onPress={() => setSes(!ses)} />}
         <Btn kind="secondary" label={t("👥 Büro ve çalışanlar")} onPress={() => setBuroAc(true)} />
+        <Btn kind="secondary" label={t("🤝 Tevkil avukatlar")} onPress={() => setTevkilAc(true)} />
         <Btn kind={web ? "secondary" : "primary"} label={t("+ Yeni giriş")} onPress={() => setGiris("normal")} />
         {web && <Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} />}
       </View>
       {mesaj && <Text style={[s.hint, { color: mesaj.ok ? C.good : C.bad }]}>{mesaj.t}</Text>}
       <BuroKatilKart onBuro={() => setBuroAc(true)} />
-      {web && ses && <SesliAsistan liste={liste} onAc={id => setSecili({ id })} onIsler={() => setIsler(true)} />}
+      {web && ses && <SesliAsistan liste={liste} onAc={id => setSecili({ id })} onIsler={() => setIsler(true)} onEkran={ad => (ad === "tevkil" ? setTevkilAc(true) : setBuroAc(true))} />}
       {(() => {
         const n = duzeySayilari(liste);
-        const kirmizi = n.gecikti + n.bugun + n.acil;
-        if (!kirmizi && !n.uyari) return null;
+        // Duruşma ve e-duruşma konuları da sayılır (girildi kutusu boş, e-duruşma sorulmadı, karar bekleniyor).
+        const du = tumDurusmaUyarilari(liste);
+        const dKirmizi = du.filter(u => u.duzey === "gecikti" || u.duzey === "bugun" || u.duzey === "acil").length;
+        const kirmizi = n.gecikti + n.bugun + n.acil + dKirmizi;
+        if (!kirmizi && !n.uyari && !du.length) return null;
         return (
           <Pressable onPress={() => setIsler(true)} accessibilityRole="button" style={{ borderWidth: 1, borderColor: kirmizi ? DUZEY_RENK.gecikti : DUZEY_RENK.uyari, borderRadius: 10, padding: 12, backgroundColor: (kirmizi ? DUZEY_RENK.gecikti : DUZEY_RENK.uyari) + "22" }}>
             <Text style={{ color: kirmizi ? DUZEY_RENK.gecikti : DUZEY_RENK.uyari, fontWeight: "700", fontSize: 14 }}>
-              ⚠ {[n.gecikti ? t("{n} gecikmiş", { n: n.gecikti }) : "", n.bugun ? t("{n} son günü bugün", { n: n.bugun }) : "", n.acil ? t("{n} acil", { n: n.acil }) : "", n.uyari ? t("{n} bu hafta", { n: n.uyari }) : ""].filter(Boolean).join(" · ")} — {t("Yapılacaklar'ı aç ›")}
+              ⚠ {[n.gecikti ? t("{n} gecikmiş", { n: n.gecikti }) : "", n.bugun ? t("{n} son günü bugün", { n: n.bugun }) : "", n.acil ? t("{n} acil", { n: n.acil }) : "", n.uyari ? t("{n} bu hafta", { n: n.uyari }) : "", du.length ? "⚖ " + t("{n} duruşma konusu", { n: du.length }) : ""].filter(Boolean).join(" · ")} — {t("Yapılacaklar'ı aç ›")}
             </Text>
           </Pressable>
         );

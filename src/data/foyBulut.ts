@@ -127,7 +127,24 @@ export function surumBirlestir(yeni: Foy, eski: Foy): Foy {
   for (const g of eski.gorevler) if (!sil.has(g.id) && !gorevler.some(y => y.id === g.id)) gorevler.push(g);
   const evraklar = yeni.evraklar.filter(e => !sil.has(e.id));
   for (const e of eski.evraklar) if (!sil.has(e.id) && !evraklar.some(y => y.id === e.id)) evraklar.push(e);
-  return { ...yeni, gorevler, evraklar, ...(silinen.length ? { silinen } : {}) };
+  // Duruşma akışı, hesap kalemleri, tevkil avukatlar ve talepler de kimliğe göre birleşir. Duruşmada boş kalan kutu öbür
+  // sürümde işaretliyse işaret korunur (biri "girildi" der, öbürü e-duruşma kararını işlerse ikisi de kalır).
+  const birlestir = <T extends { id: string }>(a?: T[], b?: T[], tamamla?: (x: T, o: T) => T): T[] | undefined => {
+    if (!a && !b) return undefined;
+    const xs = (a || []).filter(x => !sil.has(x.id)).map(x => { const o = (b || []).find(y => y.id === x.id); return o && tamamla ? tamamla(x, o) : x; });
+    for (const x of b || []) if (!sil.has(x.id) && !xs.some(y => y.id === x.id)) xs.push(x);
+    return xs;
+  };
+  const durusmalar = birlestir(yeni.durusmalar, eski.durusmalar, (x, o) => ({ ...o, ...Object.fromEntries(Object.entries(x).filter(([, v]) => v !== undefined)) }) as typeof x)
+    ?.sort((a, b) => a.tarih.localeCompare(b.tarih));
+  const kalemler = birlestir(yeni.hesap?.kalemler, eski.hesap?.kalemler);
+  const ek = {
+    ...(durusmalar ? { durusmalar } : {}),
+    ...(kalemler ? { hesap: { ...(eski.hesap || {}), ...(yeni.hesap || {}), kalemler } } : {}),
+    ...(yeni.tevkil || eski.tevkil ? { tevkil: birlestir(yeni.tevkil, eski.tevkil) } : {}),
+    ...(yeni.talepler || eski.talepler ? { talepler: birlestir(yeni.talepler, eski.talepler) } : {})
+  };
+  return { ...yeni, gorevler, evraklar, ...ek, ...(silinen.length ? { silinen } : {}) };
 }
 const metinKoru = (f: Foy, yerel: Foy): Foy => ({ ...f, evraklar: f.evraklar.map(e => { const o = yerel.evraklar.find(y => y.id === e.id); return o && o.metin && !e.metin ? { ...e, metin: o.metin, maskeli: o.maskeli, kodlar: o.kodlar } : e; }) });
 /** Gelen föyle bu cihazdakini karşılaştırır. Döner: yazılacak föy (ya da değişiklik yoksa null) ve yeniden gönderilmesi gerekip
@@ -137,7 +154,8 @@ export function gelenFoy(uzak: Foy, yerel: Foy | undefined, gonderilmedi: boolea
   if (!gonderilmedi) return yerel.guncelleme >= uzak.guncelleme ? { f: null, gonder: false } : { f: metinKoru(uzak, yerel), gonder: false };
   if (uzak.guncelleme > yerel.guncelleme) {
     const b = metinKoru(surumBirlestir(uzak, yerel), yerel);
-    const fark = b.gorevler.length !== uzak.gorevler.length || b.evraklar.length !== uzak.evraklar.length || b.gorevler.some((g, i) => g !== uzak.gorevler[i]);
+    const ekImza = (x: Foy) => JSON.stringify([x.durusmalar, x.hesap?.kalemler?.length, x.tevkil?.length, x.talepler?.length]);
+    const fark = b.gorevler.length !== uzak.gorevler.length || b.evraklar.length !== uzak.evraklar.length || b.gorevler.some((g, i) => g !== uzak.gorevler[i]) || ekImza(b) !== ekImza(uzak);
     return { f: fark ? { ...b, guncelleme: new Date(Math.max(Date.now(), Date.parse(uzak.guncelleme) + 1)).toISOString() } : b, gonder: fark };
   }
   return { f: metinKoru(surumBirlestir(yerel, uzak), yerel), gonder: true };

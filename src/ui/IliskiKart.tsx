@@ -2,7 +2,7 @@
 // durduğunu cihazda bulur (iliski.ts); avukat tek tuşla bağlar, taşır ya da "Değil" der (bir daha önerilmez).
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, Text, View } from "react-native";
-import { ayarOku, ayarYaz, Foy, foyBaslik, foyGetir, foyKaydet } from "../data/foy";
+import { ayarOku, ayarYaz, Foy, foyBaslik, foyGetir, foyKaydet as foyKaydetAsil } from "../data/foy";
 import { turBilgi } from "../data/foyTurleri";
 import { iliskiOner, IliskiOnerisi } from "../data/iliski";
 import { t } from "../i18n";
@@ -12,12 +12,14 @@ import { C } from "./theme";
 
 const etiket = (f: Foy) => `${turBilgi(f.tur).ad} · ${foyBaslik(f)}${f.esasNo ? " · " + f.esasNo : ""}`;
 
-export function IliskiKart({ liste, onAc }: { liste: Foy[]; onAc: (id: string) => void }) {
+/** odak verilirse yalnız o föyü ilgilendiren öneriler gösterilir (föy sayfasının içinde); odak föyün değişikliği
+ *  odakDegistir ile yapılır ki açık föy sayfasındaki kayıt bu değişikliği ezmesin. */
+export function IliskiKart({ liste, onAc, odak, odakDegistir }: { liste: Foy[]; onAc: (id: string) => void; odak?: string; odakDegistir?: (ek: Partial<Foy>) => void }) {
   const [red, setRed] = useState<Set<string> | null>(null);
   const [acik, setAcik] = useState(false);
   const [bilgi, setBilgi] = useState("");
   useEffect(() => { ayarOku<string[]>("iliskiRed").then(x => setRed(new Set(x || []))).catch(() => setRed(new Set())); }, []);
-  const oneriler = useMemo(() => (red ? iliskiOner(liste, red) : []), [liste, red]);
+  const oneriler = useMemo(() => (red ? iliskiOner(liste, red).filter(o => !odak || o.a.id === odak || o.b.id === odak) : []), [liste, red, odak]);
   if (!red || !oneriler.length) return bilgi ? <Text style={[s.hint, { color: C.good }]}>{bilgi}</Text> : null;
 
   const reddet = async (o: IliskiOnerisi) => {
@@ -25,7 +27,18 @@ export function IliskiKart({ liste, onAc }: { liste: Foy[]; onAc: (id: string) =
     await ayarYaz("iliskiRed", [...y]);
   };
   // Kaydetmeden önce föyün son hâli okunur (açık başka bir ekranda değişmiş olabilir).
-  const guncel = async (f: Foy) => (await foyGetir(f.id)) || f;
+  // Açık föy (odak) için güncel hâli ekrandakidir; ona yalnız değişen alanlar verilir (kaydedilmemiş yazılar ezilmesin).
+  const odakFoy = () => liste.find(x => x.id === odak);
+  const guncel = async (f: Foy) => (odak && f.id === odak && odakFoy()) || (await foyGetir(f.id)) || f;
+  const foyKaydet = async (f: Foy) => {
+    const o = odak && f.id === odak && odakDegistir ? odakFoy() : undefined;
+    if (o && odakDegistir) {
+      const ek = Object.fromEntries(Object.entries(f).filter(([k, v]) => k !== "id" && JSON.stringify(v) !== JSON.stringify((o as unknown as Record<string, unknown>)[k])));
+      odakDegistir(ek as Partial<Foy>);
+      return;
+    }
+    await foyKaydetAsil(f);
+  };
   const uygula = async (o: IliskiOnerisi, nasil: "zincir" | "ilgili" | "tasi") => {
     const a = await guncel(o.a), b = await guncel(o.b);
     if (nasil === "zincir") { await foyKaydet({ ...b, oncekiId: a.id }); setBilgi(t("Bağlandı: {b}, {a} dosyasının devamı.", { a: foyBaslik(a), b: foyBaslik(b) })); }
@@ -45,7 +58,7 @@ export function IliskiKart({ liste, onAc }: { liste: Foy[]; onAc: (id: string) =
   const goster = acik ? oneriler : oneriler.slice(0, 3);
   return (
     <View style={[s.card, { borderColor: C.brass }]}>
-      <Text style={s.cardT}>🔗 {t("Bağlantı önerileri ({n})", { n: oneriler.length })}</Text>
+      <Text style={odak ? [s.body, { color: C.text, fontWeight: "700" }] : s.cardT}>🔗 {odak ? t("Bu dosyayla ilgili olabilecek dosyalar ({n})", { n: oneriler.length }) : t("Bağlantı önerileri ({n})", { n: oneriler.length })}</Text>
       <Text style={s.hint}>{t("Dosya numaraları, kimlik numaraları, taraf adları ve dosya türlerine bakılarak bu cihazda bulundu; hiçbir bilgi dışarı gönderilmedi. Uygun olanı bağlayın, olmayana “Değil” deyin.")}</Text>
       {goster.map(o => (
         <View key={o.anahtar} style={[s.foy, { flexDirection: "column", alignItems: "stretch", gap: 6 }]}>

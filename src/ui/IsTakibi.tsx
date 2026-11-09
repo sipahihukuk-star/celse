@@ -13,6 +13,7 @@ import { indir, s } from "./foyStil";
 import { DUZEY_RENK, duzeyAdi, GorevKapat } from "./GorevKapat";
 import { Btn } from "./kit";
 import { C } from "./theme";
+import { DurusmaUyarilari } from "./DurusmaUyarilari";
 
 export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: string) => void; onKapat: () => void }) {
   const [sz, setSz] = useState<IsSuzgec>(() => {
@@ -86,6 +87,8 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
       <Text style={s.title}>{t("Yapılacaklar")}</Text>
       <Text style={s.hint}>{t("Bütün föylerdeki işler. Uyarı son gün gelince değil, gün geçtikçe artar: kalan gün azaldıkça ve işin eklendiği günden son güne kadarki sürenin yarısı, dörtte üçü geçtikçe renk koyulaşır. Son günü yazılmamış işler de bekledikçe uyarır. Bir iş, iş emri / evrak numarası yazılmadan kapanmaz.")}</Text>
 
+      <DurusmaUyarilari liste={liste} onAc={onAc} />
+
       <View style={[s.card, { flexDirection: "row", flexWrap: "wrap", gap: 8 }]}>
         {DUZEY_SIRA.filter(d => sayilar[d]).map(d => (
           <Pressable key={d} onPress={() => yaz({ gorunum: "acik", duzey: sz.duzey === d ? "hepsi" : d })} style={{ borderWidth: 1, borderColor: DUZEY_RENK[d], borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, backgroundColor: sz.duzey === d ? DUZEY_RENK[d] + "33" : "transparent" }}>
@@ -156,7 +159,7 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
           {web && N.Notification && bildirim !== "granted" && <Btn kind="ghost" label={t("🔔 Bildirimleri aç")} onPress={async () => setBildirim(await N.Notification!.requestPermission())} />}
           <Btn kind="secondary" label={t("Excel'e aktar (.xlsx)")} disabled={!satirlar.length} onPress={excel} />
         </View>
-        {bildirim === "granted" && <Text style={s.hint}>{t("Bildirimler açık: Celse her gün ilk açıldığında gecikmiş ve acil işleri bildirir.")}</Text>}
+        {bildirim === "granted" && <Text style={s.hint}>{t("Bildirimler açık: Celse her gün ilk açıldığında gecikmiş ve acil işleri, duruşma ve e-duruşma konularını bildirir.")}</Text>}
       </View>
 
       {gorunen.map(({ f, g, u }) => {

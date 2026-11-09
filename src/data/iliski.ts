@@ -118,3 +118,20 @@ export function iliskiOner(liste: Foy[], reddedilen: Set<string>): IliskiOnerisi
   }
   return out.sort((p, q) => q.puan - p.puan).slice(0, 50);
 }
+
+/** Föyün müvekkilinin ve karşı tarafının öteki dosyaları (ad ya da kimlik no aynı; müvekkil başka dosyada karşı taraf
+ *  olarak da geçebilir). Şahsi föyler dahil değil. */
+export function kisiDosyalari(liste: Foy[], f: Foy): { muvekkil: Foy[]; karsi: Foy[] } {
+  const ayni = (ad: string, kimlik: string | undefined, x: Foy) => {
+    const s = sade(ad);
+    const k = (kimlik || "").replace(/\D/g, "");
+    return (!!s && s.split(" ").length >= 1 && s.length >= 4 && (sade(x.muvekkil) === s || sade(x.karsiTaraf) === s))
+      || (k.length >= 10 && [x.muvekkilBilgi?.kimlikNo, x.karsiBilgi?.kimlikNo].some(y => (y || "").replace(/\D/g, "") === k));
+  };
+  const diger = liste.filter(x => x.id !== f.id && !x.ozel);
+  const sirala = (xs: Foy[]) => xs.sort((a, b) => (a.durum === b.durum ? (b.acilis || b.olusturma).localeCompare(a.acilis || a.olusturma) : a.durum === "acik" ? -1 : 1));
+  return {
+    muvekkil: f.muvekkil.trim() ? sirala(diger.filter(x => ayni(f.muvekkil, f.muvekkilBilgi?.kimlikNo, x))) : [],
+    karsi: f.karsiTaraf.trim() ? sirala(diger.filter(x => ayni(f.karsiTaraf, f.karsiBilgi?.kimlikNo, x))) : []
+  };
+}
