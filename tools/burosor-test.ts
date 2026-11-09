@@ -27,11 +27,11 @@ ok(/sıradaki duruşma 2026-11-20 Cuma 10:30/.test(k.buro) && /son duruşma 2026
 ok(/YAKLAŞAN 30 GÜN[\s\S]*2026-11-13 Cuma Haciz/.test(k.buro), "takvimde haciz");
 ok(/GECİKMİŞ VE ACİL İŞLER[\s\S]*Bilirkişi raporuna itiraz \(son güne 2 gün/.test(k.buro), "acil iş");
 ok(/kalan 25\.000 TL/.test(k.buro), "hesap: " + (k.buro.match(/hesap:[^\n·]*/) || [""])[0]);
-ok(k.ayrintili === 1 && /DOSYA 1 AYRINTISI[\s\S]*Kusur oranı %50/.test(k.buro), "soruda geçen föy ayrıntılı");
+ok(k.ayrintili === 1 && /AYRINTISI[\s\S]*Kusur oranı %50/.test(k.buro), "soruda geçen föy ayrıntılı");
 const kod = (k.soru.match(/\[[^\]]+\]/) || [""])[0];
 ok(!!kod && unmask(kod + " dosyasında kusur %50.", k.map).startsWith("Ayşe Uydurmaoğlu") && k.buro.includes(kod), "cevap açılır: " + kod);
 const g = buroSoruKaynagi([a, b], "Bu hafta neler var?", [{ soru: "Hayali Tekstil dosyası ne durumda?", cevap: "Hayali Tekstil dosyasında haciz 13 Kasım." }], bugun);
-ok(g.ayrintili === 1 && /DOSYA 2 AYRINTISI/.test(g.buro) && !/Hayali/.test(JSON.stringify(g.gecmis)), "geçmişteki dosya da ayrıntılı, geçmiş kodlu");
+ok(g.ayrintili === 1 && /AYRINTISI/.test(g.buro) && !/Kusur oranı/.test(g.buro) && !/Hayali/.test(JSON.stringify(g.gecmis)), "geçmişteki dosya da ayrıntılı, geçmiş kodlu");
 // Sesli komut
 const r = sesliKomut("büroya sor bu ay hangi dosyalarda karar bekleniyor", [a, b], {}, bugun);
 ok(r.eylem?.tip === "buroSor" && (r.eylem as { soru: string }).soru === "bu ay hangi dosyalarda karar bekleniyor", "büroya sor komutu");

@@ -97,8 +97,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   };
   const rozet = useMemo(() => { const n = duzeySayilari(liste); const d = tumDurusmaUyarilari(liste).filter(x => x.duzey === "gecikti" || x.duzey === "bugun" || x.duzey === "acil").length; return { isler: n.gecikti + n.bugun + n.acil, durusmalar: d }; }, [liste]);
   // Sesli asistan: her ekranda sağ altta mikrofon (föyün içinde "bu dosya" o föydür).
-  const asistan = Platform.OS === "web" ? <SesliAsistan yuzen liste={liste} onAc={id => setSecili({ id })} onIsler={() => sekmeSec("isler")} onSekme={k => sekmeSec(k)}
-    baglamFoyId={secili?.id} ekran={secili ? "açık föy" : sekme} /> : null;
+  const asistan = <SesliAsistan yuzen liste={liste} onAc={id => setSecili({ id })} onIsler={() => sekmeSec("isler")} onSekme={k => sekmeSec(k)}
+    baglamFoyId={secili?.id} ekran={secili ? "açık föy" : sekme} />;
   const sar = (el: React.ReactNode) => <View style={{ flex: 1 }}><TakipSekmeler aktif={sekme} onSec={sekmeSec} rozet={rozet} /><View style={{ flex: 1 }}>{el}</View>{asistan}</View>;
 
   // Telefonda: föyler uygulamanın deposunda; evrak ekleme, toplu aktarma, DavaTek klasörü ve yedek dosyası bilgisayardadır.
