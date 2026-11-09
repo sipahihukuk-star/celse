@@ -40,6 +40,16 @@ import { C } from "./theme";
 
 type Secili = { id: string; ekle?: string };
 
+/** Dosya tablosundaki kısa adlar. */
+const TUR_KISA: Partial<Record<FoyTur, string>> = {
+  sorusturma: "CBS", arabuluculuk: "ARB müv", arabulucu_gorev: "ARB şahsi", ceza: "CEZA", ozel_ceza: "CEZA şahsi", hukuk: "HUKUK", idari_dava: "İDARE",
+  idari_basvuru: "İDARİ BŞV", icra: "İCRA", tazminat_komisyonu: "KOMİSYON", bireysel_basvuru: "AYM/AİHM", kurum_basvuru: "KURUM", danisma: "DANIŞMA",
+  sozlesme: "SÖZLEŞME", baro: "BARO", idari_sorusturma: "DİSİPLİN", bilirkisi_gorev: "BİLİRKİŞİ"
+};
+/** Tablo sırası: CBS, ARB şahsi, ARB müv, CEZA, İDARE, HUKUK, sonra diğerleri. */
+const TABLO_SIRA: FoyTur[] = ["sorusturma", "arabulucu_gorev", "arabuluculuk", "ceza", "ozel_ceza", "idari_dava", "hukuk", "icra"];
+const tabloSira = (x: FoyTur) => { const i = TABLO_SIRA.indexOf(x); return i < 0 ? 99 : i; };
+
 export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) => void; ucretsiz?: boolean; ilkSekme?: "beyan" | "kaynak" }) {
   const [liste, setListe] = useState<Foy[]>([]);
   const [yuklendi, setYuklendi] = useState(false);
@@ -275,6 +285,39 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
               </View>
             </Pressable>
           ))}
+        </View>
+      )}
+
+      {/* Dosya tablosu: türlere göre açık / kapalı / şahsi dosya sayıları (CBS, ARB, CEZA, İDARE, HUKUK…); satıra basınca süzülür. */}
+      {(buro.length > 0 || sahsiler.length > 0) && (
+        <View style={[s.card, { gap: 4 }]}>
+          <Text style={s.cardT}>{t("Dosya tablosu")}</Text>
+          <View style={{ flexDirection: "row", paddingVertical: 4, borderBottomWidth: 1, borderBottomColor: C.line }}>
+            <Text style={[s.hint, { flex: 1, fontWeight: "700" }]}>{t("Tür")}</Text>
+            {[t("Açık"), t("Kapalı"), ...(sahsiler.length ? [t("Şahsi 🔒")] : []), t("Toplam")].map(x => <Text key={x} style={[s.hint, { width: 64, textAlign: "right", fontWeight: "700" }]}>{x}</Text>)}
+          </View>
+          {[...TURLER].sort((a, c) => tabloSira(a.tur) - tabloSira(c.tur)).map(x => {
+            const b = buro.filter(f => (f.tur || "hukuk") === x.tur), z = sahsiler.filter(f => (f.tur || "hukuk") === x.tur);
+            if (!b.length && !z.length) return null;
+            const acik = b.filter(f => f.durum === "acik").length;
+            const secili = turF === x.tur;
+            const goster = (d: "acik" | "kapali" | "hepsi") => { setTurF(x.tur); setFiltre(d); };
+            const hucre = (n: number, d: "acik" | "kapali" | "hepsi" | null, i: number) => d && n
+              ? <Pressable key={i} onPress={() => goster(d)} accessibilityRole="button" style={{ width: 64 }}><Text style={[s.body, { textAlign: "right", textDecorationLine: "underline", color: secili && filtre === d ? C.brass : C.text }]}>{n}</Text></Pressable>
+              : <Text key={i} style={[s.body, { width: 64, textAlign: "right", color: n ? C.text : C.muted }]}>{n}</Text>;
+            return (
+              <Pressable key={x.tur} onPress={() => secili ? setTurF("hepsi") : goster("hepsi")} accessibilityRole="button" accessibilityLabel={t("{ad} dosyalarını göster", { ad: t(x.ad) })}
+                style={({ pressed }) => [{ flexDirection: "row", alignItems: "center", paddingVertical: 5, borderRadius: 6 }, secili && { backgroundColor: C.panel2 }, pressed && { opacity: 0.7 }]}>
+                <Text style={[s.body, { flex: 1, color: secili ? C.brass : C.text }]} numberOfLines={1}><Text style={{ fontWeight: "800" }}>{TUR_KISA[x.tur] || x.kisa}</Text>  <Text style={s.hint}>{t(x.ad)}</Text></Text>
+                {hucre(acik, "acik", 0)}{hucre(b.length - acik, "kapali", 1)}{sahsiler.length ? hucre(z.length, null, 2) : null}{hucre(b.length + z.length, "hepsi", 3)}
+              </Pressable>
+            );
+          })}
+          <View style={{ flexDirection: "row", paddingTop: 4, borderTopWidth: 1, borderTopColor: C.line }}>
+            <Text style={[s.body, { flex: 1, fontWeight: "800" }]}>{t("Hepsi")}</Text>
+            {[buro.filter(f => f.durum === "acik").length, buro.filter(f => f.durum !== "acik").length, ...(sahsiler.length ? [sahsiler.length] : []), buro.length + sahsiler.length].map((n, i) => <Text key={i} style={[s.body, { width: 64, textAlign: "right", fontWeight: "800" }]}>{n}</Text>)}
+          </View>
+          {turF !== "hepsi" && <Pressable onPress={() => { setTurF("hepsi"); setFiltre("acik"); }}><Text style={s.link}>{t("Süzgeci kaldır")}</Text></Pressable>}
         </View>
       )}
 
