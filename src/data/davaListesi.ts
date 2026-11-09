@@ -39,7 +39,7 @@ export function komisyonDurumu(f: Foy, byId: Map<string, Foy>): { durum: "yok" |
   if (f.komisyon && f.komisyon.durum !== "yok") return { durum: f.komisyon.durum, tarih: f.komisyon.tarih, kaynak: "elle" };
   const bagli = [...(f.ilgiliIds || []), ...(f.oncekiId ? [f.oncekiId] : [])].map(id => byId.get(id)).filter(Boolean) as Foy[];
   for (const x of byId.values()) if (x.oncekiId === f.id) bagli.push(x);
-  const k = bagli.find(x => KOMISYON.test((x.mahkeme || "").toLocaleUpperCase("tr")));
+  const k = bagli.find(x => x.tur === "tazminat_komisyonu" || KOMISYON.test((x.mahkeme || "").toLocaleUpperCase("tr")));
   if (k) return { durum: k.durum === "kapali" ? "sonuclandi" : "basvuruldu", tarih: k.acilis, kaynak: "bagli" };
   return { durum: f.komisyon?.durum || "yok", kaynak: f.komisyon ? "elle" : "yok" };
 }
@@ -47,10 +47,16 @@ export const komisyonAdi = (d: "yok" | "basvuruldu" | "sonuclandi") => (d === "b
 
 /** Bu türde Tazminat Komisyonu sorulur mu (yargılama ya da soruşturma olan dosyalar). */
 export const komisyonaUygun = (f: Foy) => ["hukuk", "ceza", "idari_dava", "sorusturma", "icra", "idari_sorusturma"].includes(f.tur || "hukuk") && !KOMISYON.test((f.mahkeme || "").toLocaleUpperCase("tr"));
+/** AYM / AİHM başvurusu da bağlı föylerden gösterilir. */
+export function bireyselDurumu(f: Foy, byId: Map<string, Foy>): string {
+  const bagli = [...(f.ilgiliIds || []), ...(f.oncekiId ? [f.oncekiId] : [])].map(id => byId.get(id)).filter(Boolean) as Foy[];
+  for (const x of byId.values()) if (x.oncekiId === f.id) bagli.push(x);
+  return bagli.filter(x => x.tur === "bireysel_basvuru").map(x => (/AİHM|AVRUPA/.test((x.mahkeme || "").toLocaleUpperCase("tr")) ? "AİHM" : "AYM") + (x.durum === "kapali" ? " (sonuçlandı)" : "")).join(", ");
+}
 
 export interface ListeSatir {
   f: Foy; tur: string; mahkeme: string; esasNo: string; taraflar: string; asama: string; sonrakiIs: string; sonrakiTarih?: string;
-  acilis: string; sure: Sure; komisyon: ReturnType<typeof komisyonDurumu>;
+  acilis: string; sure: Sure; komisyon: ReturnType<typeof komisyonDurumu>; bireysel: string;
 }
 export interface ListeSuzgec {
   tur: string; durum: "acik" | "kapali" | "hepsi"; enAzYil: number; komisyon: "hepsi" | "yok" | "var"; sirala: "sure" | "acilisEski" | "acilisYeni" | "mahkeme" | "is"; ara: string;
@@ -68,7 +74,7 @@ export function davaListesi(liste: Foy[], s: ListeSuzgec, bugun = new Date().toI
         f, tur: turBilgi(f.tur).ad, mahkeme: f.mahkeme, esasNo: f.esasNo,
         taraflar: [f.muvekkil, f.karsiTaraf].filter(Boolean).join(" – "),
         asama: f.asama || "", sonrakiIs: is.metin, sonrakiTarih: is.tarih,
-        acilis: f.acilis || "", sure: yargilamaSuresi(f, bugun), komisyon: komisyonDurumu(f, byId)
+        acilis: f.acilis || "", sure: yargilamaSuresi(f, bugun), komisyon: komisyonDurumu(f, byId), bireysel: bireyselDurumu(f, byId)
       };
     })
     .filter(x => x.sure.gun >= s.enAzYil * 365.25)
@@ -87,8 +93,8 @@ export function davaListesi(liste: Foy[], s: ListeSuzgec, bugun = new Date().toI
 /** Excel satırları (ilk satır başlık). */
 export function listeTablosu(xs: ListeSatir[]): (string | number)[][] {
   return [
-    ["Tür", "Mahkeme / merci", "Dosya no", "Müvekkil – karşı taraf", "Dava türü", "Aşama", "Sıradaki iş", "Sıradaki iş tarihi", "Açılış", "Yargılama süresi", "Süre (gün)", "Durum", "Tazminat Komisyonu", "Komisyon başvuru tarihi"],
+    ["Tür", "Mahkeme / merci", "Dosya no", "Müvekkil – karşı taraf", "Dava türü", "Aşama", "Sıradaki iş", "Sıradaki iş tarihi", "Açılış", "Yargılama süresi", "Süre (gün)", "Durum", "Tazminat Komisyonu", "Komisyon başvuru tarihi", "AYM / AİHM"],
     ...xs.map(x => [x.tur, x.mahkeme, x.esasNo, x.taraflar, x.f.davaTuru || "", x.asama, x.sonrakiIs, tarihYaz(x.sonrakiTarih), tarihYaz(x.acilis), x.sure.metin + (x.sure.tahmini ? " (tahmini)" : ""), x.sure.gun,
-      x.f.durum === "kapali" ? "Kapalı" : "Açık", komisyonaUygun(x.f) || x.komisyon.durum !== "yok" ? komisyonAdi(x.komisyon.durum) : "", tarihYaz(x.komisyon.tarih)])
+      x.f.durum === "kapali" ? "Kapalı" : "Açık", komisyonaUygun(x.f) || x.komisyon.durum !== "yok" ? komisyonAdi(x.komisyon.durum) : "", tarihYaz(x.komisyon.tarih), x.bireysel])
   ];
 }

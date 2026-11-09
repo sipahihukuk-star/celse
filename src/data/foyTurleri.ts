@@ -5,7 +5,7 @@
 
 export type FoyTur =
   | "danisma" | "arabuluculuk" | "sorusturma" | "ceza" | "hukuk" | "idari_basvuru" | "idari_dava" | "idari_sorusturma"
-  | "icra" | "kurum_basvuru" | "sozlesme" | "ozel_ceza" | "baro" | "arabulucu_gorev" | "bilirkisi_gorev";
+  | "icra" | "kurum_basvuru" | "sozlesme" | "ozel_ceza" | "baro" | "arabulucu_gorev" | "bilirkisi_gorev" | "tazminat_komisyonu" | "bireysel_basvuru";
 
 export interface TurBilgi {
   tur: FoyTur; ad: string; kisa: string; aciklama: string;
@@ -28,13 +28,17 @@ export const TURLER: TurBilgi[] = [
   { tur: "sorusturma", ad: "Ceza soruşturması (suç duyurusu)", kisa: "SORUŞTURMA", aciklama: "Suç duyurusu ya da şikâyetle başlayan soruşturma.", merci: "Cumhuriyet başsavcılığı", no: "Soruşturma no", merciOrnek: "İzmir Cumhuriyet Başsavcılığı",
     taraflar: ["Müşteki / şüpheli", "Karşı taraf"], asamalar: ["Suç duyurusu", "Soruşturma", "İddianame", "Kovuşturmaya yer yok", "İtiraz"], sonraki: ["ceza"] },
   { tur: "ceza", ad: "Ceza davası", kisa: "CEZA DAVASI", aciklama: "İddianamenin kabulüyle başlayan kovuşturma.", merci: "Mahkeme", no: "Esas no", merciOrnek: "İzmir 5. Asliye Ceza Mahkemesi",
-    taraflar: ["Katılan / sanık", "Karşı taraf"], asamalar: ["Tensip", "Duruşma", "Karar", "İstinaf", "Temyiz", "Kesinleşti"], sonraki: [] },
+    taraflar: ["Katılan / sanık", "Karşı taraf"], asamalar: ["Tensip", "Duruşma", "Karar", "İstinaf", "Temyiz", "Kesinleşti"], sonraki: ["tazminat_komisyonu", "bireysel_basvuru"] },
   { tur: "hukuk", ad: "Hukuk davası", kisa: "HUKUK DAVASI", aciklama: "Asliye hukuk, iş, tüketici, aile, ticaret, sulh hukuk davaları.", merci: "Mahkeme", no: "Esas no", merciOrnek: "İzmir 3. Asliye Hukuk Mahkemesi",
-    taraflar: ["Davacı / davalı", "Karşı taraf"], asamalar: ["Dilekçeler", "Ön inceleme", "Tahkikat", "Bilirkişi", "Karar", "İstinaf", "Temyiz", "Kesinleşti"], sonraki: ["icra"] },
+    taraflar: ["Davacı / davalı", "Karşı taraf"], asamalar: ["Dilekçeler", "Ön inceleme", "Tahkikat", "Bilirkişi", "Karar", "İstinaf", "Temyiz", "Kesinleşti"], sonraki: ["icra", "tazminat_komisyonu", "bireysel_basvuru"] },
   { tur: "idari_basvuru", ad: "İdari başvuru", kisa: "İDARİ BAŞVURU", aciklama: "İdareye başvuru, itiraz ya da bilgi edinme.", merci: "İdare", no: "Başvuru / evrak no", merciOrnek: "Karşıyaka Belediyesi",
     taraflar: ["Başvurucu", "İdare"], asamalar: ["Başvuru", "Cevap bekleniyor", "Ret / zımni ret", "Kabul"], sonraki: ["idari_dava"] },
   { tur: "idari_dava", ad: "İdari dava", kisa: "İDARİ DAVA", aciklama: "İdare ve vergi mahkemelerindeki iptal ve tam yargı davaları.", merci: "Mahkeme", no: "Esas no", merciOrnek: "İzmir 2. İdare Mahkemesi",
-    taraflar: ["Davacı", "Davalı idare"], asamalar: ["Dava açıldı", "Savunma", "Bilirkişi / keşif", "Karar", "İstinaf", "Temyiz", "Kesinleşti"], sonraki: [] },
+    taraflar: ["Davacı", "Davalı idare"], asamalar: ["Dava açıldı", "Savunma", "Bilirkişi / keşif", "Karar", "İstinaf", "Temyiz", "Kesinleşti"], sonraki: ["tazminat_komisyonu", "bireysel_basvuru"] },
+  { tur: "tazminat_komisyonu", ad: "Tazminat Komisyonu başvurusu", kisa: "TAZMİNAT KOMİSYONU", aciklama: "Adalet Bakanlığı İnsan Hakları Tazminat Komisyonu (6384 s. Kanun): makul sürede yargılanma, kararın geç ya da eksik icrası.", merci: "Komisyon", no: "Başvuru no", merciOrnek: "Adalet Bakanlığı Tazminat Komisyonu Başkanlığı",
+    taraflar: ["Başvurucu", "Bakanlık"], asamalar: ["Başvuru", "İnceleme", "Karar", "İtiraz (Bölge İdare Mahkemesi)", "Kesinleşti", "Ödeme"], sonraki: ["idari_dava", "bireysel_basvuru"] },
+  { tur: "bireysel_basvuru", ad: "Bireysel başvuru (AYM / AİHM)", kisa: "BİREYSEL BAŞVURU", aciklama: "Anayasa Mahkemesi bireysel başvurusu ya da Avrupa İnsan Hakları Mahkemesi başvurusu.", merci: "Mahkeme", no: "Başvuru no", merciOrnek: "Anayasa Mahkemesi / AİHM",
+    taraflar: ["Başvurucu", "Devlet"], asamalar: ["Başvuru", "Kabul edilebilirlik", "Hükümete bildirim", "Görüş / cevap", "Karar", "Kesinleşti", "Ödeme / yeniden yargılama"], sonraki: ["bireysel_basvuru"] },
   { tur: "idari_sorusturma", ad: "Disiplin soruşturması", kisa: "DİSİPLİN SORUŞTURMASI", aciklama: "Memur, hekim, öğretmen, işçi (4857), avukat (baro), noter, mali müşavir… hakkında disiplin ya da ön inceleme.", merci: "Kurum / meslek kuruluşu / işveren", no: "Soruşturma no", merciOrnek: "İl Sağlık Müdürlüğü",
     taraflar: ["Hakkında soruşturma yapılan", "Kurum / işveren"], asamalar: ["Soruşturma", "Savunma", "Disiplin kararı", "İtiraz"], sonraki: ["idari_dava", "hukuk"] },
   { tur: "icra", ad: "İcra takibi", kisa: "İCRA", aciklama: "İlamlı, ilamsız ya da rehinli takip.", merci: "İcra dairesi", no: "Takip no", merciOrnek: "İzmir 12. İcra Dairesi",
@@ -80,6 +84,7 @@ export const DAVA_TURLERI: Partial<Record<FoyTur, string[]>> = {
 export interface Giris { ad: string; aciklama: string; tur?: FoyTur; secenek?: FoyTur[]; evrakaEkle?: string }
 export const GIRISLER: Giris[] = [
   { ad: "Yeni dava / soruşturma", aciklama: "Hukuk, ceza ya da idari dava; ceza soruşturması", secenek: ["hukuk", "ceza", "idari_dava", "sorusturma"] },
+  { ad: "Tazminat Komisyonu / AYM / AİHM", aciklama: "İnsan Hakları Tazminat Komisyonu, Anayasa Mahkemesi bireysel başvuru, Avrupa İnsan Hakları Mahkemesi", secenek: ["tazminat_komisyonu", "bireysel_basvuru"] },
   { ad: "Suç duyurusu", aciklama: "Savcılığa şikâyet ya da ihbar", tur: "sorusturma" },
   { ad: "Arabuluculuk başvurusu", aciklama: "Dava şartı ya da ihtiyari", tur: "arabuluculuk" },
   { ad: "Bilirkişi raporu", aciklama: "Var olan föye rapor ekle", evrakaEkle: "Bilirkişi raporu" },
@@ -99,11 +104,12 @@ export function turTahmin(...metinler: string[]): FoyTur | undefined {
   if (!m.trim()) return undefined;
   if (/baro/.test(m) && /sorustur|disiplin|sikayet/.test(m)) return "idari_sorusturma";
   if (/arabulucu/.test(m)) return "arabuluculuk";
+  if (/tazminat komisyonu|insan haklari tazminat/.test(m)) return "tazminat_komisyonu";
+  if (/anayasa mahkemesi|bireysel basvuru|aihm|avrupa insan haklari|european court|strasbourg|strazburg/.test(m)) return "bireysel_basvuru";
   if (/cbs sorusturma|sorusturma dosyasi/.test(m)) return "sorusturma";
   // Satış memurluğu iki kaynaktan gelir: sulh hukuk mahkemesinin ortaklığın giderilmesi (izale-i şuyu) kararıyla satış ya da icra
   // satışı. Kaynak yazıyorsa ona göre; yazmıyorsa sulh hukuk sayılır (satış memurlukları sulh hukuk mahkemelerine bağlıdır).
   if (/satis memurlugu/.test(m)) return /icra dairesi|icra mud|icra dosyasi|haciz|takip/.test(m) && !/sulh hukuk|ortakligin giderilmesi|izale/.test(m) ? "icra" : "hukuk";
-  if (/tazminat komisyonu/.test(m)) return "idari_basvuru";
   if (/sulh ceza hakimligi|infaz hakimligi/.test(m)) return "ceza";
   if (/idare dava|idari dava dosyasi|vergi dava/.test(m)) return "idari_dava";
   if (/ceza dava/.test(m)) return "ceza";

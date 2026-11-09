@@ -85,7 +85,9 @@ export function turDuzeltmeleri(liste: Foy[]): { f: Foy; tur: Foy["tur"] & strin
     const satis = /SATIŞ MEMURLUĞU/.test((f.mahkeme + " " + dosyaTuru).toLocaleUpperCase("tr"));
     const tur = (satis ? turTahmin(dosyaTuru, f.mahkeme) : (dosyaTuru && turTahmin(dosyaTuru)) || turTahmin(f.mahkeme)) || "hukuk";
     // Yalnız varsayılan "hukuk" olarak açılmış föyler düzeltilir (öteki türler zaten tanınmıştı).
-    if ((f.tur || "hukuk") !== "hukuk" || tur === "hukuk" && !satis) continue;
+    // Varsayılan "hukuk" olarak açılmış föyler; Tazminat Komisyonu ve AYM/AİHM dosyaları önceki düzeltmede "idari başvuru" olmuş olabilir.
+    const yeniTurler = tur === "tazminat_komisyonu" || tur === "bireysel_basvuru";
+    if (!((f.tur || "hukuk") === "hukuk" || (yeniTurler && f.tur === "idari_basvuru")) || tur === "hukuk" && !satis) continue;
     if (tur === (f.tur || "hukuk") && !(satis && !f.davaTuru)) continue;
     out.push({ f, tur, davaTuru: satis ? (tur === "icra" ? "Satış (icra satışı)" : "Satış (ortaklığın giderilmesi – sulh hukuk)") : "" });
   }

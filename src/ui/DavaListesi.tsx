@@ -13,7 +13,7 @@ import { Btn } from "./kit";
 import { C } from "./theme";
 
 const tarihYaz = (x?: string) => (x ? x.slice(0, 10).split("-").reverse().join(".") : "");
-const KOLON: [string, number][] = [["Tür", 120], ["Mahkeme / merci", 230], ["Dosya no", 100], ["Müvekkil – karşı taraf", 240], ["Aşama", 110], ["Sıradaki iş", 220], ["Açılış", 90], ["Yargılama süresi", 120], ["Tazminat Komisyonu", 130]];
+const KOLON: [string, number][] = [["Tür", 120], ["Mahkeme / merci", 230], ["Dosya no", 100], ["Müvekkil – karşı taraf", 240], ["Aşama", 110], ["Sıradaki iş", 220], ["Açılış", 90], ["Yargılama süresi", 120], ["Tazminat Komisyonu", 130], ["AYM / AİHM", 120]];
 
 export function DavaListesi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: string) => void; onKapat: () => void }) {
   const [sz, setSz] = useState<ListeSuzgec>(() => {
@@ -32,7 +32,7 @@ export function DavaListesi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id:
 
   const excel = () => {
     const tablo = listeTablosu(satirlar);
-    const b = xlsxYaz("Dava listesi", tablo, [16, 34, 12, 36, 20, 16, 34, 14, 12, 16, 10, 8, 18, 16]);
+    const b = xlsxYaz("Dava listesi", tablo, [16, 34, 12, 36, 20, 16, 34, 14, 12, 16, 10, 8, 18, 16, 14]);
     indir(`dava-listesi-${new Date().toISOString().slice(0, 10)}.xlsx`, new Blob([b as BlobPart], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
   };
 
@@ -85,6 +85,7 @@ export function DavaListesi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id:
               {hucre(KOLON[6][1], yazi(tarihYaz(x.acilis)))}
               {hucre(KOLON[7][1], yazi(x.sure.metin + (x.sure.tahmini ? " ~" : ""), uzun ? C.bad : C.textSoft, uzun))}
               {hucre(KOLON[8][1], yazi(kom, x.komisyon.durum === "yok" ? C.muted : C.good))}
+              {hucre(KOLON[9][1], yazi(x.bireysel, x.bireysel ? C.good : C.muted))}
             </Pressable>
           );
         })}
