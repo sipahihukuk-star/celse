@@ -128,13 +128,28 @@ export async function mevzuatTurleriniYukle(ilerle: (x: { ad: string; sayfa: num
 
 /** Yönetici: kanun arşivini baştan sona yükler / günceller (değişmeyenler atlanır). */
 export async function mevzuatArsiviniYukle(ilerleme: (x: { islenen: number; toplam: number; degisen: number; madde: number; hatalar: string[] }) => void, zorla = false): Promise<Sonuc<{ degisen: number; madde: number; hatalar: string[] }>> {
-  let bas = 0, degisen = 0, madde = 0;
+  let bas = 0, degisen = 0, madde = 0, toplam = 0;
   const hatalar: string[] = [];
-  for (let tur = 0; tur < 400; tur++) {
-    const r = await call<{ toplam: number; islenen: number; degisen: number; madde: number; bitti: boolean; sonraki: number; hatalar: string[] }>("mevzuat_yukle", { bas, adet: 8, zorla }, 150000);
-    if (!r.ok) return { ok: false, hata: r.error, vars: r.vars as Record<string, string | number> | undefined };
+  ilerleme({ islenen: 0, toplam: 0, degisen: 0, madde: 0, hatalar });
+  type Parca = { toplam: number; islenen: number; degisen: number; madde: number; bitti: boolean; sonraki: number; hatalar: string[] };
+  const bekle = (ms: number) => new Promise(r => setTimeout(r, ms));
+  for (let tur = 0; tur < 1500; tur++) {
+    // Küçük parçalar: ilerleme hemen görünür, büyük bir kanun sunucunun süre sınırına takılmaz. Başarısız parça bir kez
+    // yeniden denenir, olmazsa tek tek; tek kanun da olmuyorsa o kanun hatalara yazılıp geçilir.
+    let r = await call<Parca>("mevzuat_yukle", { bas, adet: 4, zorla }, 150000);
+    if (!r.ok) { await bekle(3000); r = await call<Parca>("mevzuat_yukle", { bas, adet: 4, zorla }, 150000); }
+    if (!r.ok) { await bekle(3000); r = await call<Parca>("mevzuat_yukle", { bas, adet: 1, zorla }, 150000); }
+    if (!r.ok) {
+      if (!toplam || r.status === 403) return { ok: false, hata: r.error, vars: r.vars as Record<string, string | number> | undefined };
+      hatalar.push(`${bas + 1}. kanun: ${r.error}`);
+      bas++;
+      ilerleme({ islenen: bas, toplam, degisen, madde, hatalar });
+      if (bas >= toplam) break;
+      continue;
+    }
+    toplam = r.data.toplam;
     degisen += r.data.degisen; madde += r.data.madde; hatalar.push(...(r.data.hatalar || []));
-    ilerleme({ islenen: r.data.islenen, toplam: r.data.toplam, degisen, madde, hatalar });
+    ilerleme({ islenen: r.data.islenen, toplam, degisen, madde, hatalar });
     if (r.data.bitti) break;
     bas = r.data.sonraki;
   }
