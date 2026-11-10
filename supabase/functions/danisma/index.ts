@@ -1092,13 +1092,14 @@ async function beyanYaz(req: Request, uid: string, b: Record<string, unknown>) {
   if (!(await evrakIzni(req, uid)) && !(await avukatAktif(uid))) return json({ error: "avukat paketi yok" }, 403);
   const dosya = cut(b.dosya, 90000).trim();
   const tur = cut(b.tur, 120).trim(), konu = cut(b.konu, 400).trim(), talimat = cut(b.talimat, 3000).trim();
-  const taslak = cut(b.taslak, 20000).trim(), kaynaklar = cut(b.kaynaklar, 12000).trim();
+  const taslak = cut(b.taslak, 20000).trim(), kaynaklar = cut(b.kaynaklar, 12000).trim(), ornekler = cut(b.ornekler, 26000).trim();
   if (!dosya || !tur) return json({ error: "eksik" }, 400);
-  const sizinti = evrakSizinti(dosya + " " + talimat + " " + taslak + " " + kaynaklar);
+  const sizinti = evrakSizinti(dosya + " " + talimat + " " + taslak + " " + kaynaklar + " " + ornekler);
   if (sizinti.length) return json({ error: "maskelenmemiş veri", turler: sizinti }, 422);
   const cerceve = ["mahkeme", "basvuru", "sozlesme", "ihtarname", "rapor", "serbest"].indexOf(String(b.cerceve)) >= 0 ? String(b.cerceve) : "mahkeme";
   const istek = "Belge biçimi (çerçeve): " + cerceve + (b.klasor ? " · klasör: " + cut(b.klasor, 80) : "") + NL + "Dosya (kodlanmış):" + NL + Q3 + dosya + Q3 + NL + NL + "Belge türü: " + tur + (konu ? NL + "Konu: " + konu : "") +
     (kaynaklar ? NL + NL + "Avukatın seçtiği kaynaklar:" + NL + kaynaklar : "") +
+    (ornekler ? NL + NL + "Avukatın kendi yazdığı örnek dilekçeler (yalnız üslup, yapı, başlık düzeni ve kalıp ifadeler için örnek al; içlerindeki olayları, kişileri, tarihleri, tutarları, [ÖRNEK ...] kodlarını bu dosyaya TAŞIMA, bu dosyanın olgularıyla yaz):" + NL + Q3 + ornekler + Q3 : "") +
     (taslak ? NL + NL + "Var olan taslak (düzeltilecek):" + NL + Q3 + taslak + Q3 : "") +
     NL + NL + "Avukatın talimatı: " + (talimat || (taslak ? "Taslağı gözden geçir ve güçlendir." : "Dosyaya göre bu beyanı yaz."));
   const sistem = BEYAN_SISTEM + NL + TARIH() + NL + dilTalimati(dilOf(b));
@@ -1805,7 +1806,7 @@ export async function handle(req: Request): Promise<Response> {
     // Evrak provası maskelenmiş dosya metnini taşır; öteki işlemler kısa formdur.
     const evrakMi = raw.slice(0, 40).indexOf("\"action\":\"evrak") >= 0;
     const foyleMi = raw.slice(0, 40).indexOf("\"action\":\"foyle") >= 0 || raw.slice(0, 40).indexOf("\"action\":\"foy_sor") >= 0 || raw.slice(0, 40).indexOf("\"action\":\"genel_sor") >= 0 || raw.slice(0, 40).indexOf("\"action\":\"beyan_yaz") >= 0;
-    if (raw.length > (evrakMi ? EVRAK_AZAMI + 40000 : foyleMi ? 110000 : 40000)) return json({ error: "istek çok uzun" }, 413);
+    if (raw.length > (evrakMi ? EVRAK_AZAMI + 40000 : foyleMi ? 150000 : 40000)) return json({ error: "istek çok uzun" }, 413);
     const b = JSON.parse(raw || "{}") as Record<string, unknown>;
     const action = String(b.action || "");
     if (!SINIR[action]) return json({ error: "bilinmeyen işlem" }, 400);

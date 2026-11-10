@@ -12,6 +12,7 @@ import { useInnerBack } from "./innerBack";
 import { FoySayfa } from "./FoySayfa";
 import { evrakOlustur } from "./foyEvrak";
 import { EslesmeyenEvrak } from "./EslesmeyenEvrak";
+import { ornekEkle, yoldanOrnek } from "../data/dilekceOrnek";
 import { gorulduYaz, klasorBilgisi, klasorDestekli, klasorSec, klasorTara, kopruDurumu, kopruKlasorAc, kopruKlasorDegistir, KURULUM_ADRESI, TaramaDosyasi } from "./foyKlasor";
 import { dosyaSec, gunYaz, indir, s } from "./foyStil";
 import { FoyBulutKart } from "./FoyBulutKart";
@@ -515,14 +516,21 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
   const tara = async (sessiz = false) => {
     setBusy(true); if (!sessiz) setBekleyen([]);
     try {
-      const sonuc = await klasorTara(listeRef.current, setIlerleme);
+      const tumu = await klasorTara(listeRef.current, setIlerleme);
+      // "Dilekçe örnekleri" (adında örnek / şablon geçen) alt klasöründeki dosyalar föye değil, dilekçe örneklerine gider.
+      const orn = tumu.filter(d => yoldanOrnek(d.kaynak.yol || ""));
+      let ornekSayi = 0;
+      for (const d of orn) { try { if (d.metin.trim()) { await ornekEkle({ ad: d.kaynak.ad, metin: d.metin, klasor: yoldanOrnek(d.kaynak.yol || "")?.klasor, kaynak: d.kaynak.yol }); ornekSayi++; } } catch { /* gizlenemeyen örnek atlanır */ } }
+      if (orn.length) await gorulduYaz(orn.map(d => d.anahtar));
+      const sonuc = tumu.filter(d => !orn.includes(d));
       const eslesen = sonuc.filter(d => d.foyId).map(d => ({ d, foyId: d.foyId! }));
       await ekle(eslesen);
       const kalan = sonuc.filter(d => !d.foyId);
       setBekleyen(x => [...x.filter(y => !kalan.some(z => z.anahtar === y.anahtar)), ...kalan]);
-      const m = sonuc.length ? t("Evrak klasörü: {n} yeni dosya; {e} tanesi föyüne eklendi, {k} tanesinin föyü bulunamadı.", { n: sonuc.length, e: eslesen.length, k: kalan.length }) : t("Evrak klasöründe yeni dosya yok.");
+      const m = (sonuc.length ? t("Evrak klasörü: {n} yeni dosya; {e} tanesi föyüne eklendi, {k} tanesinin föyü bulunamadı.", { n: sonuc.length, e: eslesen.length, k: kalan.length }) : orn.length ? "" : t("Evrak klasöründe yeni dosya yok."))
+        + (orn.length ? (sonuc.length ? " " : "") + t("{n} dosya dilekçe örneklerine kaydedildi.", { n: ornekSayi }) : "");
       setSon(m);
-      if (!sessiz || sonuc.length) onBilgi({ t: m, ok: true });
+      if (!sessiz || tumu.length) onBilgi({ t: m, ok: true });
     } catch (e) { if (!sessiz) onBilgi({ t: t(String((e as Error).message || e)) }); }
     setIlerleme(""); setBusy(false);
     klasorBilgisi().then(setBilgi).catch(() => {});
@@ -588,7 +596,8 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
       {bekleyen.slice(0, 30).map(d => (
         <EslesmeyenEvrak key={d.anahtar} d={d} liste={liste}
           onEkle={async id => { await ekle([{ d, foyId: id }]); setBekleyen(xs => xs.filter(x => x !== d)); onBilgi({ t: t("“{ad}” dosyasına eklendi.", { ad: d.kaynak.ad }), ok: true }); }}
-          onAtla={async () => { await gorulduYaz([d.anahtar]); setBekleyen(xs => xs.filter(x => x !== d)); }} />
+          onAtla={async () => { await gorulduYaz([d.anahtar]); setBekleyen(xs => xs.filter(x => x !== d)); }}
+          onOrnek={async () => { await gorulduYaz([d.anahtar]); setBekleyen(xs => xs.filter(x => x !== d)); onBilgi({ t: t("“{ad}” dilekçe örneklerine kaydedildi.", { ad: d.kaynak.ad }), ok: true }); }} />
       ))}
       {bekleyen.length > 30 && <Text style={s.hint}>{t("… ve {n} dosya daha", { n: bekleyen.length - 30 })}</Text>}
     </Katlanir>

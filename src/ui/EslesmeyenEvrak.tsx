@@ -2,9 +2,12 @@
 //  1) Yeni dosya aç: tür (ceza soruşturması, tarafımca yürütülen arabuluculuk, idari dava…) evraktan tahmin edilir, merci,
 //     numara ve taraflar evraktan doldurulur; "şahsi dosyam" işaretlenirse dosya şifreli şahsi dosyalara açılır.
 //  2) Var olan dosyaya ekle: dosyalar türü, mercii, numarası ve müvekkiliyle listelenir; aynı numaralılar başta gelir.
-//  3) Atla.
+//  3) Dilekçe örneği olarak kaydet: evrak föye girmez; kodlanıp "Dilekçe örneklerim"e girer (beyan yazarken üslup örneği).
+//  4) Atla.
 import React, { useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
+import { BEYAN_KLASORLERI, beyanTuru } from "../data/beyan";
+import { ornekEkle, ornekTurTahmin } from "../data/dilekceOrnek";
 import { bosFoy, Foy, foyKaydet, ozelKilitDurumu } from "../data/foy";
 import { FoyTur, TURLER, turBilgi, turTahmin } from "../data/foyTurleri";
 import { kunyeCikar } from "../data/kunyeCikar";
@@ -22,10 +25,12 @@ const temizAd = (ad: string) => ad.replace(/\.[a-z0-9]{2,5}$/i, "").replace(/[_]
 /** Bir dosyanın listede görünen adı: TÜR · merci · numara · müvekkil. */
 export const foyEtiketi = (f: Foy) => [turBilgi(f.tur).kisa, f.mahkeme, f.esasNo, f.muvekkil || f.karsiTaraf].filter(Boolean).join(" · ") + (f.ozel ? " 🔒" : "") + (f.durum === "kapali" ? " (kapalı)" : "");
 
-export function EslesmeyenEvrak({ d, liste, onEkle, onAtla }: { d: TaramaDosyasi; liste: Foy[]; onEkle: (foyId: string) => Promise<void>; onAtla: () => void }) {
+export function EslesmeyenEvrak({ d, liste, onEkle, onAtla, onOrnek }: { d: TaramaDosyasi; liste: Foy[]; onEkle: (foyId: string) => Promise<void>; onAtla: () => void; onOrnek?: () => void }) {
   const k = useMemo(() => kunyeCikar(d.metin || ""), [d.metin]);
   const tahmin = useMemo<FoyTur>(() => turTahmin(k.dosyaTuru || "", k.mahkeme || "", d.kaynak.ad, (d.metin || "").slice(0, 4000)) || "hukuk", [k, d]);
-  const [mod, setMod] = useState<"" | "yeni" | "var">("");
+  const [mod, setMod] = useState<"" | "yeni" | "var" | "ornek">("");
+  const ornekTur = useMemo(() => ornekTurTahmin(d.metin || "", d.kaynak.ad), [d]);
+  const [ornekKlasor, setOrnekKlasor] = useState(() => (ornekTur ? beyanTuru(ornekTur).klasor : "Dilekçeler"));
   const [tur, setTur] = useState<FoyTur>(tahmin);
   const [muvekkil, setMuvekkil] = useState(k.birinci?.ad || "");
   const [karsi, setKarsi] = useState(k.ikinci?.ad || "");
@@ -65,6 +70,7 @@ export function EslesmeyenEvrak({ d, liste, onEkle, onAtla }: { d: TaramaDosyasi
         <View style={s.addRow}>
           <Btn label={t("➕ Bunun için yeni dosya aç")} onPress={() => setMod("yeni")} />
           <Btn kind="secondary" label={t("📁 Var olan dosyaya ekle")} onPress={() => setMod("var")} />
+          {!!onOrnek && !!(d.metin || "").trim() && <Btn kind="secondary" label={t("📝 Dilekçe örneği olarak kaydet")} onPress={() => setMod("ornek")} />}
           <Pressable onPress={onAtla}><Text style={s.sil}>{t("Atla")}</Text></Pressable>
         </View>
       )}
@@ -91,6 +97,22 @@ export function EslesmeyenEvrak({ d, liste, onEkle, onAtla }: { d: TaramaDosyasi
           {!!hata && <Text style={s.err}>{hata}</Text>}
           <View style={s.addRow}>
             <Btn label={bekle ? t("Açılıyor…") : t("Dosyayı aç ve evrakı içine koy")} disabled={bekle} onPress={ac} />
+            <Btn kind="ghost" label={t("Geri")} onPress={() => setMod("")} />
+          </View>
+        </View>
+      )}
+      {mod === "ornek" && (
+        <View style={{ gap: 8 }}>
+          <Text style={s.hint}>{t("Bu evrak bir dosyaya girmez; adlar ve numaralar kodlanıp Beyan editörü > Dilekçe örneklerim'e kaydedilir. Beyan yazarken üslup örneği olur.")}{ornekTur ? " " + t("Anlaşılan tür: {x}", { x: t(ornekTur) }) : ""}</Text>
+          <Acilir etiket={t("Hangi klasör")} genislik={280} secili={ornekKlasor} onSec={setOrnekKlasor} secenekler={BEYAN_KLASORLERI.map(k => ({ k: k.ad, ad: t(k.ad) }))} />
+          {!!hata && <Text style={s.err}>{hata}</Text>}
+          <View style={s.addRow}>
+            <Btn label={bekle ? t("Kaydediliyor…") : t("Örnek olarak kaydet")} disabled={bekle} onPress={async () => {
+              setBekle(true); setHata("");
+              try { await ornekEkle({ ad: d.kaynak.ad, metin: d.metin || "", klasor: ornekKlasor, tur: ornekTur && beyanTuru(ornekTur).klasor === ornekKlasor ? ornekTur : undefined, kaynak: d.kaynak.yol }); onOrnek?.(); }
+              catch (e) { setHata(t(String((e as Error).message || e))); }
+              setBekle(false);
+            }} />
             <Btn kind="ghost" label={t("Geri")} onPress={() => setMod("")} />
           </View>
         </View>
