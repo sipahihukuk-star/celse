@@ -297,7 +297,7 @@ function TakipHome({ wide, admin: yonetici, onFoy, onNext, footer }: { wide: boo
         <Text style={styles.lede}>{t("Dava dosyalarınızı föy föy takip edin: duruşmalar, süreler, yapılacak işler ve evrak tek yerde. Föyden tek tuşla duruşma provasına geçin. Föyleriniz cihazınızda tutulur; isterseniz uçtan uca şifreli eşitlemeyle telefonunuzda da açılır.")}</Text>
       </View>
       {!!onFoy && (
-        <Pressable accessibilityRole="button" onPress={() => (acik ? onFoy() : setKilit(k => !k))} style={({ pressed }) => [styles.homeCard, styles.homeCardPro, pressed && { opacity: 0.85 }]}>
+        <Pressable accessibilityRole="button" onPress={() => (acik ? onFoy() : setKilit(k => !k))} style={({ pressed }) => [styles.homeCard, pressed && { opacity: 0.85 }]}>
           <IconBadge name="folder" size={48} />
           <View style={{ flex: 1, gap: 4 }}>
             <Text style={styles.careerKDark}>{acik ? t("AVUKATLAR İÇİN") : t("AVUKATLAR İÇİN · YAKINDA")}</Text>
@@ -369,7 +369,7 @@ function DanismaHome({ wide, admin: yonetici, onDanisma, onGame, footer }: { wid
         </Pressable>
       )}
       {!!onDanisma && (
-        <Pressable accessibilityRole="button" onPress={() => (admin ? onDanisma(true) : setKilit(k => !k))} style={({ pressed }) => [styles.homeCard, styles.homeCardPro, pressed && { opacity: 0.85 }]}>
+        <Pressable accessibilityRole="button" onPress={() => (admin ? onDanisma(true) : setKilit(k => !k))} style={({ pressed }) => [styles.homeCard, pressed && { opacity: 0.85 }]}>
           <IconBadge name="folder" size={48} />
           <View style={{ flex: 1, gap: 4 }}>
             <Text style={styles.careerKDark}>{admin ? t("AVUKATLAR İÇİN · CELSE AVUKAT") : t("AVUKATLAR İÇİN · YAKINDA")}</Text>

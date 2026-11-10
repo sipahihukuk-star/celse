@@ -15,7 +15,8 @@ import { Acilir } from "./Acilir";
 import { beyanYazdir, kaynakBul } from "./beyanCagri";
 import { DogrulamaSonucu, kararlariDogrula, belgeGetir, belgeKaynak, Karar, KanunMaddesi, kararAra, kararKaynak, kararKunye, MAHKEME_SECENEK, maddeKaynak, maddeKunye, MEVZUAT_TURU, mevzuatBul, MevzuatBelgesi, belgeKunye } from "./resmiKaynak";
 import { dosyaSec, indir, s } from "./foyStil";
-import { evrakMetniOku } from "./foyEvrak";
+import { evrakMetniOku, foyKisaAd } from "./foyEvrak";
+import { hareketEkle } from "../data/evrakHareket";
 import { DilekceOrnekleri } from "./DilekceOrnekleri";
 import { Katlanir } from "./Katlanir";
 import { Btn } from "./kit";
@@ -358,6 +359,7 @@ export function BeyanEditoru({ f, onDegistir }: { f: Foy; onDegistir: (ek: Parti
     const metin = tamMetin(f, b, { vekil });
     const cb = ciktiBicimi(f, b, { vekil });
     ayarYaz("beyanBicim", bicim).catch(() => {});
+    hareketEkle({ yon: "giden", ad: beyanDosyaAdi(f, b, web ? (bicim === "docx" ? "docx" : bicim === "pdf" ? "pdf" : "udf") : "txt"), sonuc: "indirildi", ...(f.id !== "foysuz" ? { foyId: f.id, foyAd: foyKisaAd(f) } : {}), not: web ? (bicim === "pdf" ? t("yazdırma / PDF") : bicim.toUpperCase()) : t("paylaşıldı") }).catch(() => {});
     if (!web) { await Share.share({ message: metin, title: b.tur }); return; }
     if (bicim === "udf") indir(beyanDosyaAdi(f, b, "udf"), new Blob([udfOlustur(metin, cb.imza, cb.ortaBaslik) as BlobPart], { type: "application/octet-stream" }));
     else if (bicim === "docx") indir(beyanDosyaAdi(f, b, "docx"), new Blob([docxOlustur(metin, cb.imza, cb.ortaBaslik) as BlobPart], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" }));

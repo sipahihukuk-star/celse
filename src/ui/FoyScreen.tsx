@@ -4,7 +4,7 @@
 import { BeyanSekmesi, KaynakSekmesi } from "./BeyanEditoru";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { bosFoy, Foy, foyBaslik, foyDinle, foyGetir, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, tarihYaz, yedekMetni, yedektenYukle } from "../data/foy";
+import { bosFoy, Foy, foyBaslik, foyDinle, foyGetir, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, tarihYaz, yedekMetni, yedektenYukle, yeniId } from "../data/foy";
 import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyAktar";
 import { turDuzeltmeleri } from "../data/dosyaListesi";
 import { DAVA_TURLERI, FoyTur, Giris, GIRISLER, turBilgi, TURLER } from "../data/foyTurleri";
@@ -13,6 +13,8 @@ import { FoySayfa } from "./FoySayfa";
 import { evrakOlustur } from "./foyEvrak";
 import { EslesmeyenEvrak } from "./EslesmeyenEvrak";
 import { ornekEkle, yoldanOrnek } from "../data/dilekceOrnek";
+import { hareketEkle, HareketSonuc } from "../data/evrakHareket";
+import { EvrakHareketKart } from "./EvrakHareketKart";
 import { gorulduYaz, klasorBilgisi, klasorDestekli, klasorSec, klasorTara, kopruDurumu, kopruKlasorAc, kopruKlasorDegistir, KURULUM_ADRESI, TaramaDosyasi } from "./foyKlasor";
 import { dosyaSec, gunYaz, indir, s } from "./foyStil";
 import { FoyBulutKart } from "./FoyBulutKart";
@@ -260,6 +262,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
 
       <FoyBulutKart />
       <IliskiKart liste={buro} onAc={id => setSecili({ id })} />
+      <EvrakHareketKart liste={liste} onAc={id => setSecili({ id })} />
       {(() => {
         const duzelecek = turDuzeltmeleri(buro);
         if (!duzelecek.length && !turDuzelt) return null;
@@ -508,7 +511,7 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
       const f = (await foyGetir(id)) || byId.get(id);
       if (!f) continue;
       const evraklar = [...f.evraklar];
-      for (const d of ds) evraklar.push(await evrakOlustur(f, d.kaynak, { metin: d.metin, okunamadi: d.okunamadi }));
+      for (const d of ds) evraklar.push(await evrakOlustur(f, d.kaynak, { metin: d.metin, okunamadi: d.okunamadi }, d.anahtar));
       await foyKaydet({ ...f, evraklar });
     }
     await gorulduYaz(xs.map(x => x.d.anahtar));
@@ -517,6 +520,9 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
     setBusy(true); if (!sessiz) setBekleyen([]);
     try {
       const tumu = await klasorTara(listeRef.current, setIlerleme);
+      // Evrak hareketleri: tarama kaydı (yarıda kalırsa görünür) ve her dosyanın akıbeti.
+      const taramaId = yeniId("tr");
+      if (tumu.length) await hareketEkle({ yon: "gelen", ad: t("Evrak klasörü taraması"), sonuc: "tarama", anahtar: taramaId, bitti: false, not: t("{n} yeni dosya bulundu; işleniyor…", { n: tumu.length }) });
       // "Dilekçe örnekleri" (adında örnek / şablon geçen) alt klasöründeki dosyalar föye değil, dilekçe örneklerine gider.
       const orn = tumu.filter(d => yoldanOrnek(d.kaynak.yol || ""));
       let ornekSayi = 0;
@@ -526,10 +532,13 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
       const eslesen = sonuc.filter(d => d.foyId).map(d => ({ d, foyId: d.foyId! }));
       await ekle(eslesen);
       const kalan = sonuc.filter(d => !d.foyId);
+      if (orn.length) await hareketEkle(orn.map(d => ({ yon: "gelen" as const, ad: d.kaynak.ad, sonuc: (d.metin.trim() ? "ornek" : "okunamadi") as HareketSonuc, kaynak: "Evrak klasörü: " + (d.kaynak.yol || d.kaynak.ad), anahtar: d.anahtar, not: d.okunamadi })));
+      if (kalan.length) await hareketEkle(kalan.map(d => ({ yon: "gelen" as const, ad: d.kaynak.ad, sonuc: (d.metin.trim() ? "bekliyor" : "okunamadi") as HareketSonuc, kaynak: "Evrak klasörü: " + (d.kaynak.yol || d.kaynak.ad), anahtar: d.anahtar, not: d.okunamadi || d.neden })));
       setBekleyen(x => [...x.filter(y => !kalan.some(z => z.anahtar === y.anahtar)), ...kalan]);
       const m = (sonuc.length ? t("Evrak klasörü: {n} yeni dosya; {e} tanesi föyüne eklendi, {k} tanesinin föyü bulunamadı.", { n: sonuc.length, e: eslesen.length, k: kalan.length }) : orn.length ? "" : t("Evrak klasöründe yeni dosya yok."))
         + (orn.length ? (sonuc.length ? " " : "") + t("{n} dosya dilekçe örneklerine kaydedildi.", { n: ornekSayi }) : "");
       setSon(m);
+      if (tumu.length) await hareketEkle({ yon: "gelen", ad: t("Evrak klasörü taraması"), sonuc: "tarama", anahtar: taramaId, bitti: true, not: m });
       if (!sessiz || tumu.length) onBilgi({ t: m, ok: true });
     } catch (e) { if (!sessiz) onBilgi({ t: t(String((e as Error).message || e)) }); }
     setIlerleme(""); setBusy(false);
@@ -596,8 +605,8 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
       {bekleyen.slice(0, 30).map(d => (
         <EslesmeyenEvrak key={d.anahtar} d={d} liste={liste}
           onEkle={async id => { await ekle([{ d, foyId: id }]); setBekleyen(xs => xs.filter(x => x !== d)); onBilgi({ t: t("“{ad}” dosyasına eklendi.", { ad: d.kaynak.ad }), ok: true }); }}
-          onAtla={async () => { await gorulduYaz([d.anahtar]); setBekleyen(xs => xs.filter(x => x !== d)); }}
-          onOrnek={async () => { await gorulduYaz([d.anahtar]); setBekleyen(xs => xs.filter(x => x !== d)); onBilgi({ t: t("“{ad}” dilekçe örneklerine kaydedildi.", { ad: d.kaynak.ad }), ok: true }); }} />
+          onAtla={async () => { await gorulduYaz([d.anahtar]); setBekleyen(xs => xs.filter(x => x !== d)); hareketEkle({ yon: "gelen", ad: d.kaynak.ad, sonuc: "atlandi", kaynak: "Evrak klasörü: " + (d.kaynak.yol || d.kaynak.ad), anahtar: d.anahtar }); }}
+          onOrnek={async () => { await gorulduYaz([d.anahtar]); hareketEkle({ yon: "gelen", ad: d.kaynak.ad, sonuc: "ornek", kaynak: "Evrak klasörü: " + (d.kaynak.yol || d.kaynak.ad), anahtar: d.anahtar }); setBekleyen(xs => xs.filter(x => x !== d)); onBilgi({ t: t("“{ad}” dilekçe örneklerine kaydedildi.", { ad: d.kaynak.ad }), ok: true }); }} />
       ))}
       {bekleyen.length > 30 && <Text style={s.hint}>{t("… ve {n} dosya daha", { n: bekleyen.length - 30 })}</Text>}
     </Katlanir>
