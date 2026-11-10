@@ -10,6 +10,8 @@ import { turBilgi } from "../data/foyTurleri";
 import { kutuphane, kutuphanedenSil, kutuphaneyeEkle } from "../data/hukukKutuphane";
 import { DilekceOrnegi, ornekler, ornekSec } from "../data/dilekceOrnek";
 import { KararKunyesi, kunyeleriAyikla, kunyeYaz } from "../data/kunyeAyikla";
+import { turFormlari } from "../data/resmiForm";
+import { ResmiFormPaneli } from "./ResmiFormPaneli";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
 import { beyanYazdir, kaynakBul } from "./beyanCagri";
@@ -336,7 +338,7 @@ export function BeyanEditoru({ f, onDegistir }: { f: Foy; onDegistir: (ek: Parti
     setB(y);
     if (zaman.current) clearTimeout(zaman.current);
     zaman.current = setTimeout(() => {
-      if (!y.metin.trim()) return;
+      if (!y.metin.trim() && !y.form) return;
       const g = { ...y, guncelleme: new Date().toISOString() };
       const xs = [g, ...beyanlar.filter(x => x.id !== g.id)].slice(0, 50);
       setBeyanlar(xs); onDegistir({ beyanlar: xs });
@@ -426,6 +428,7 @@ export function BeyanEditoru({ f, onDegistir }: { f: Foy; onDegistir: (ek: Parti
         {!!b.metin && beyanlar.some(x => x.id === b.id) && <Pressable onPress={() => { const xs = beyanlar.filter(x => x.id !== b.id); setBeyanlar(xs); onDegistir({ beyanlar: xs, silinen: [...(f.silinen || []), b.id].slice(-300) }); setB(bosBeyan(b.tur)); }}><Text style={s.sil}>{t("Taslağı sil")}</Text></Pressable>}
       </View>
       {web && bicim === "udf" && <Text style={s.hint}>{t("UDF dosyasını UYAP Doküman Editörü'nde açıp kontrol edin, sonra imzalayıp gönderin.")}</Text>}
+      {turFormlari(b.tur).length > 0 && <ResmiFormPaneli key={b.id + b.tur} f={f} b={b} vekilAd={vekil} onKaydet={sakla} />}
       <Katlanir anahtar="kaynak-ic" baslik={t("📚 İçtihat, mevzuat ve doktrin")} ozet={t("ara, beyana ekle, kütüphaneye kaydet")}>
         <KaynakPaneli f={f} onEkle={kaynakEkle} ekli={(b.kaynaklar || []).map(x => x.kunye)} konu={b.konu} />
       </Katlanir>

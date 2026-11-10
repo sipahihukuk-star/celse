@@ -32,6 +32,8 @@ export interface Beyan {
   kaynaklar?: HukukKaynak[];
   /** son verilen talimat */
   talimat?: string;
+  /** resmî formun alanları (resmiForm.ts): hangi form ve alan değerleri (yalnız cihazda / şifreli eşitlemede) */
+  form?: { id: string; alanlar: Record<string, string> };
 }
 
 // Beyan klasörü: belge türleri klasörlere ayrılır. Her türün çerçevesi (başlık ve imza biçimi) ayrıdır:
