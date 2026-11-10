@@ -9,11 +9,13 @@ import { ayarOku, ayarYaz, bosFoy, Foy, foyKaydet, yeniId } from "../data/foy";
 import { turBilgi } from "../data/foyTurleri";
 import { kutuphane, kutuphanedenSil, kutuphaneyeEkle } from "../data/hukukKutuphane";
 import { DilekceOrnegi, ornekler, ornekSec } from "../data/dilekceOrnek";
+import { KararKunyesi, kunyeleriAyikla, kunyeYaz } from "../data/kunyeAyikla";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
 import { beyanYazdir, kaynakBul } from "./beyanCagri";
-import { belgeGetir, belgeKaynak, Karar, KanunMaddesi, kararAra, kararKaynak, kararKunye, MAHKEME_SECENEK, maddeKaynak, maddeKunye, MEVZUAT_TURU, mevzuatBul, MevzuatBelgesi, belgeKunye } from "./resmiKaynak";
-import { indir, s } from "./foyStil";
+import { DogrulamaSonucu, kararlariDogrula, belgeGetir, belgeKaynak, Karar, KanunMaddesi, kararAra, kararKaynak, kararKunye, MAHKEME_SECENEK, maddeKaynak, maddeKunye, MEVZUAT_TURU, mevzuatBul, MevzuatBelgesi, belgeKunye } from "./resmiKaynak";
+import { dosyaSec, indir, s } from "./foyStil";
+import { evrakMetniOku } from "./foyEvrak";
 import { DilekceOrnekleri } from "./DilekceOrnekleri";
 import { Katlanir } from "./Katlanir";
 import { Btn } from "./kit";
@@ -58,10 +60,13 @@ function KaynakKart({ k, onEkle, onKaydet, onSil, eklendi }: { k: HukukKaynak; o
     <View style={[s.file, { flexDirection: "column", alignItems: "stretch", gap: 6 }]}>
       <Text style={s.meta}>{t(TUR_AD[k.tur])}{k.kaynak === "genel" ? " · " + t("yapay zekânın genel bilgisi, kaynak gösterilmedi") : k.kaynak === "elle" ? " · " + t("elle eklendi") : ""}</Text>
       <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{k.kunye}</Text>
+      {k.dogrulama === "dogru" && <Text style={[s.hint, { color: C.good }]}>{t("✓ Resmî kaynakta doğrulandı (esas ve karar numarası tutuyor); resmî metin içtihat arşivinde.")}</Text>}
+      {k.dogrulama === "yok" && <Text style={[s.hint, { color: C.bad }]}>{t("⚠ Bu künye resmî karar servisinde bulunamadı. Numarası yanlış ya da karar yayımlanmamış olabilir; beyana koymadan önce kontrol edin.")}</Text>}
       {!!k.ozet && <Text style={s.body}>{k.ozet}</Text>}
       {!!k.alinti && <Text style={[s.body, { fontStyle: "italic" }]}>“{k.alinti}”</Text>}
       <View style={s.addRow}>
         {!!k.url && <Pressable onPress={() => Linking.openURL(k.url!)}><Text style={s.link}>{t("Kaynağı aç")}</Text></Pressable>}
+        {!!k.resmiUrl && k.resmiUrl !== k.url && <Pressable onPress={() => Linking.openURL(k.resmiUrl!)}><Text style={s.link}>{t("Resmî metni aç")}</Text></Pressable>}
         {onEkle && <Btn kind={eklendi ? "secondary" : "primary"} label={eklendi ? t("✓ Beyanda") : t("➕ Beyana ekle")} onPress={onEkle} disabled={eklendi} />}
         {onKaydet && <Btn kind="ghost" label={t("⭐ Kütüphaneme kaydet")} onPress={onKaydet} />}
         {onSil && <Pressable onPress={onSil}><Text style={s.sil}>{t("Sil")}</Text></Pressable>}
@@ -170,6 +175,75 @@ function ResmiArama({ tur, f, onEkle, ekli, kaydet, ilkSoz, arsiv }: { tur: "ict
   );
 }
 
+/** İçtihat kaynaklarının künyelerini resmî serviste doğrular; sonucu kaynağa işler (doğrulananın resmî bağlantısı da eklenir). */
+async function dogrulaKaynaklar(xs: HukukKaynak[]): Promise<HukukKaynak[]> {
+  const kunyeler = xs.map(k => kunyeleriAyikla(k.kunye)[0]);
+  const sorgu = kunyeler.filter((k): k is KararKunyesi => !!k);
+  if (!sorgu.length) return xs;
+  const r = await kararlariDogrula(sorgu);
+  if (!r.ok) return xs;
+  let j = 0;
+  return xs.map((k, i) => {
+    if (!kunyeler[i]) return k;
+    const d = r.sonuc[j++];
+    return d?.durum === "dogru" ? { ...k, dogrulama: "dogru", resmiUrl: d.url } : d?.durum === "yok" ? { ...k, dogrulama: "yok" } : k;
+  });
+}
+
+/** Yapıştırılan metindeki (makale, blog, dilekçe) ya da yüklenen dosyadaki karar künyelerini ayıklar, resmî serviste doğrular. */
+function KararDogrula({ onKaydet }: { onKaydet: (k: HukukKaynak) => void }) {
+  const [metin, setMetin] = useState("");
+  const [liste, setListe] = useState<KararKunyesi[]>([]);
+  const [sonuc, setSonuc] = useState<DogrulamaSonucu[]>([]);
+  const [bekle, setBekle] = useState(false);
+  const [hata, setHata] = useState("");
+  const devam = useRef(true);
+  const ayikla = (x: string) => { setMetin(x); setListe(kunyeleriAyikla(x).slice(0, 200)); setSonuc([]); setHata(""); };
+  const dosyadan = async () => {
+    const xs = await dosyaSec(".pdf,.docx,.doc,.udf,.txt,.rtf,.html,.htm", false);
+    if (!xs[0]) return;
+    setBekle(true); setHata("");
+    try { const o = await evrakMetniOku(xs[0], () => {}); if ("hata" in o) setHata(t(o.hata)); else ayikla(o.metin); } finally { setBekle(false); }
+  };
+  const dogrula = async () => {
+    devam.current = true; setBekle(true); setHata(""); setSonuc([]);
+    try { const r = await kararlariDogrula(liste, setSonuc, () => devam.current); if (!r.ok) setHata(t(r.hata, r.vars)); else setSonuc(r.sonuc); } finally { setBekle(false); }
+  };
+  const sayi = (d: DogrulamaSonucu["durum"]) => sonuc.filter(x => x.durum === d).length;
+  return (
+    <View style={{ gap: 8 }}>
+      <Text style={s.hint}>{t("Bir makaleyi, blog yazısını, kararı ya da dilekçeyi yapıştırın veya dosyasını seçin. İçindeki Yargıtay ve Danıştay künyeleri (daire, esas ve karar numarası) ayıklanır ve resmî emsal karar servisinde tek tek aranır. Numaraları birebir tutan kararın resmî metni içtihat arşivine eklenir; tutmayan “bulunamadı” diye ayrılır.")}</Text>
+      <TextInput value={metin} onChangeText={ayikla} multiline placeholder={t("Örn. Yargıtay 9. HD, 2019/1234 E., 2020/567 K. … Danıştay 6. Daire, E: 2019/123, K: 2020/45 …")} placeholderTextColor={C.muted} style={[s.input, { minHeight: 90 }]} />
+      <View style={s.addRow}>
+        {web && <Btn kind="secondary" label={t("📄 Dosyadan al")} disabled={bekle} onPress={dosyadan} />}
+        {!!liste.length && !bekle && <Btn label={t("✅ {n} künyeyi doğrula", { n: liste.length })} onPress={dogrula} />}
+        {bekle && <Btn kind="ghost" label={t("Durdur")} onPress={() => { devam.current = false; }} />}
+      </View>
+      {!!metin && !liste.length && <Text style={s.hint}>{t("Metinde daire / kurul ve esas numarası birlikte yazılmış karar künyesi bulunamadı.")}</Text>}
+      {!!hata && <Text style={s.err}>{hata}</Text>}
+      {!!sonuc.length && <Text style={s.hint}>{t("Doğrulandı: {a} · Bulunamadı: {b}", { a: sayi("dogru"), b: sayi("yok") })}{sayi("yogun") + sayi("hata") ? " · " + t("Bakılamadı (servis yoğun): {n}", { n: sayi("yogun") + sayi("hata") }) : ""}{bekle ? " · " + t("sürüyor ({n} / {m})…", { n: sonuc.length, m: liste.length }) : ""}</Text>}
+      {liste.map((k, i) => {
+        const d = sonuc[i];
+        return (
+          <View key={i} style={[s.file, { flexDirection: "column", alignItems: "stretch", gap: 4 }]}>
+            <Text style={[s.body, { fontWeight: "700", color: d?.durum === "dogru" ? C.good : d?.durum === "yok" ? C.bad : C.text }]}>
+              {d?.durum === "dogru" ? "✓ " : d?.durum === "yok" ? "✗ " : d ? "… " : ""}{kunyeYaz(k)}{d?.tarih ? " · " + d.tarih : ""}
+            </Text>
+            <Text style={s.hint} numberOfLines={2}>{k.metin}</Text>
+            {d?.durum === "dogru" && (
+              <View style={s.addRow}>
+                {!!d.url && <Pressable onPress={() => Linking.openURL(d.url!)}><Text style={s.link}>{t("Resmî metni aç")}</Text></Pressable>}
+                <Btn kind="ghost" label={t("⭐ Kütüphaneme kaydet")} onPress={() => onKaydet({ id: yeniId("k"), tur: "ictihat", kunye: `${d.mahkeme || ""} ${d.birim || k.birim}, ${d.esas} E., ${d.karar} K.${d.tarih ? ", " + d.tarih : ""}`.trim(), ozet: "", url: d.url, resmiUrl: d.url, kaynak: "elle", dogrulama: "dogru", tarih: new Date().toISOString() })} />
+              </View>
+            )}
+            {d?.durum === "yok" && <Text style={[s.hint, { color: C.bad }]}>{t("Resmî serviste bu numaralarla karar bulunamadı (numara yanlış yazılmış ya da karar yayımlanmamış olabilir).")}</Text>}
+          </View>
+        );
+      })}
+    </View>
+  );
+}
+
 /** İçtihat, mevzuat ve doktrin: arama, sonuçlar, kütüphanem, elle ekleme. onEkle verilirse kaynak beyana eklenebilir. */
 export function KaynakPaneli({ f, onEkle, ekli = [], konu: varsayilan = "" }: { f?: Foy | null; onEkle?: (k: HukukKaynak) => void; ekli?: string[]; konu?: string }) {
   const [tur, setTur] = useState<HukukKaynak["tur"]>("ictihat");
@@ -187,7 +261,11 @@ export function KaynakPaneli({ f, onEkle, ekli = [], konu: varsayilan = "" }: { 
     try {
       const r = await kaynakBul(tur, konu, f);
       if (!r.ok) setHata(t(r.hata, r.vars));
-      else { setSonuc({ kaynaklar: r.kaynaklar, genel: r.genel }); if (!r.kaynaklar.length && !r.genel) setHata(t("Resmî sitelerde bu konuda kaynak bulunamadı. Konuyu farklı sözcüklerle yazıp yeniden deneyin.")); }
+      else {
+        setSonuc({ kaynaklar: r.kaynaklar, genel: r.genel });
+        if (!r.kaynaklar.length && !r.genel) setHata(t("Resmî sitelerde bu konuda kaynak bulunamadı. Konuyu farklı sözcüklerle yazıp yeniden deneyin."));
+        if (tur === "ictihat" && r.kaynaklar.length) dogrulaKaynaklar(r.kaynaklar).then(xs => setSonuc(x => (x ? { ...x, kaynaklar: xs } : x))).catch(() => {});
+      }
     } finally { setBekle(false); }
   };
   const kaydet = async (k: HukukKaynak) => setKut(await kutuphaneyeEkle(k));
@@ -208,6 +286,11 @@ export function KaynakPaneli({ f, onEkle, ekli = [], konu: varsayilan = "" }: { 
       {!!hata && <Text style={s.err}>{hata}</Text>}
       {sonuc?.kaynaklar.map(k => <KaynakKart key={k.id} k={k} eklendi={ekli.includes(k.kunye)} onEkle={onEkle ? () => onEkle(k) : undefined} onKaydet={() => kaydet(k)} />)}
       {!!sonuc?.genel && <KaynakKart k={genelKaynak(sonuc.genel)} onEkle={onEkle ? () => onEkle(genelKaynak(sonuc.genel)) : undefined} onKaydet={() => kaydet(genelKaynak(sonuc.genel))} />}
+      {tur === "ictihat" && (
+        <Katlanir anahtar="karar-dogrula" baslik={t("✅ Künye doğrula ve arşive ekle")} ozet={t("makale, blog ya da dilekçedeki kararları resmî serviste teyit et")}>
+          <KararDogrula onKaydet={kaydet} />
+        </Katlanir>
+      )}
       <Text style={s.secT}>{t("Kütüphanem")} · {t(TUR_AD[tur])} ({kutTur.length})</Text>
       {!kutTur.length && <Text style={s.hint}>{t("Kaydettiğiniz kaynaklar burada durur ve sonraki beyanlarda kullanılır.")}</Text>}
       {kutTur.slice(0, 30).map(k => <KaynakKart key={k.id} k={k} eklendi={ekli.includes(k.kunye)} onEkle={onEkle ? () => onEkle(k) : undefined} onSil={async () => setKut(await kutuphanedenSil(k.id))} />)}
@@ -221,7 +304,8 @@ export function KaynakPaneli({ f, onEkle, ekli = [], konu: varsayilan = "" }: { 
           <View style={s.addRow}>
             <Btn label={t("Kaydet")} disabled={!elle.kunye.trim()} onPress={async () => {
               const k: HukukKaynak = { id: yeniId("k"), tur, kunye: elle.kunye.trim(), ozet: elle.ozet.trim(), alinti: elle.alinti.trim() || undefined, url: elle.url.trim() || undefined, kaynak: "elle", tarih: new Date().toISOString() };
-              await kaydet(k); if (onEkle) onEkle(k); setElle(null);
+              const [d] = tur === "ictihat" ? await dogrulaKaynaklar([k]).catch(() => [k]) : [k];
+              await kaydet(d); if (onEkle) onEkle(d); setElle(null);
             }} />
             <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setElle(null)} />
           </View>
