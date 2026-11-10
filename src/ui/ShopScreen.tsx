@@ -1,6 +1,6 @@
 // Web mağazası: Celse Pro (aylık, yıllık) ve "Derdini anlat" kredi paketleri; ürün → sepet → sipariş özeti ve onaylar → ödeme.
 // Ürünler, fiyatlar ve açıklamalar yasal sayfalarla aynı kaynaktan gelir (src/legal/satis.ts · URUNLER), böylece
-// sitede ve sözleşmelerde yazan fiyat hep aynıdır. Kart ödemesi iyzico'nun ödeme sayfasında alınır (iyzico onayından sonra bağlanır).
+// sitede ve sözleşmelerde yazan fiyat hep aynıdır. Kart ödemesi lisanslı ödeme kuruluşunun sayfasında alınır (üye işyeri onayından sonra bağlanır).
 // Sepet sayfa içinde saklanır; giriş yapmak için mağazadan çıkıp dönünce kaybolmaz.
 import React, { useEffect, useState } from "react";
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -59,7 +59,7 @@ export default function ShopScreen({ onBack, signedIn, server, buyer, onSignIn, 
   const pay = () => {
     if (!ready) { setMsg(t("Devam etmek için onay kutularını işaretleyin.")); return; }
     logUsage("paywall_goruldu", { davaId: "web_magaza_odeme" });
-    setMsg(t("Kartla ödeme, ödeme kuruluşu iyzico'nun üye işyeri onayı tamamlanınca bu adımda açılacak. O zamana kadar Celse Pro'yu ve danışma kredilerini iPhone ya da Android uygulamasından alabilirsiniz; aynı hesapla girdiğinizde web'de de geçerli olur."));
+    setMsg(t("Kartla ödeme, ödeme kuruluşunun üye işyeri onayı tamamlanınca bu adımda açılacak. O zamana kadar Celse Pro'yu ve danışma kredilerini iPhone ya da Android uygulamasından alabilirsiniz; aynı hesapla girdiğinizde web'de de geçerli olur."));
   };
 
   const Steps = () => (
@@ -198,9 +198,9 @@ export default function ShopScreen({ onBack, signedIn, server, buyer, onSignIn, 
                   </Check>
                 )}
               </View>
-              <Btn disabled={!ready} label={t("iyzico ile güvenli öde · {tutar}", { tutar: tl(total(cart)) })} onPress={pay} />
-              <View style={s.marks}>{["iyzico ile Öde", "VISA", "Mastercard", "TROY"].map(m => <Text key={m} style={s.mark}>{m}</Text>)}</View>
-              <Text style={s.fine}>{t("Kart bilgileriniz yalnızca lisanslı ödeme kuruluşu iyzico'nun güvenli ödeme sayfasına girilir; Celse kart bilginizi görmez ve saklamaz.")}</Text>
+              <Btn disabled={!ready} label={t("Kartla güvenli öde · {tutar}", { tutar: tl(total(cart)) })} onPress={pay} />
+              <View style={s.marks}>{["VISA", "Mastercard", "TROY"].map(m => <Text key={m} style={s.mark}>{m}</Text>)}</View>
+              <Text style={s.fine}>{t("Kart bilgileriniz yalnızca lisanslı ödeme kuruluşunun güvenli ödeme sayfasına girilir; Celse kart bilginizi görmez ve saklamaz.")}</Text>
             </>
           )}
         </>

@@ -25,7 +25,7 @@ export const SATICI = {
 };
 
 /** Ödeme kuruluşu (6493 sayılı Kanun kapsamında lisanslı). */
-export const ODEME_KURULUSU = "İyzi Ödeme ve Elektronik Para Hizmetleri A.Ş. (iyzico)";
+export const ODEME_KURULUSU = "6493 sayılı Kanun kapsamında lisanslı bir ödeme kuruluşu";
 
 /** Danışma ürünlerinde her yerde aynen kullanılan uyarı (1136 sayılı Avukatlık Kanunu m.35). */
 export const DANISMA_UYARI =
@@ -283,7 +283,7 @@ export const ON_BILGILENDIRME: Belge = {
 // ---------- İade ve Cayma Hakkı Politikası ----------
 export const IADE: Belge = {
   dosya: "iade.html", kisaAd: "İade ve Cayma Hakkı", baslik: "İade ve Cayma Hakkı Politikası",
-  giris: "Bu politika, Celse internet sitesinde iyzico ile yapılan satın alımlara uygulanır. App Store ve Google Play satın alımları için 7. bölüme bakın.",
+  giris: "Bu politika, Celse internet sitesinde kartla yapılan satın alımlara uygulanır. App Store ve Google Play satın alımları için 7. bölüme bakın.",
   bolumler: [
     { baslik: "1. Cayma hakkı", bloklar: [
       "Mesafeli sözleşmelerde tüketici, 14 gün içinde gerekçe göstermeden ve cezai şart ödemeden sözleşmeden cayabilir (6502 s. Kanun m.48/4; Mesafeli Sözleşmeler Yönetmeliği m.9). Hizmetlerde bu süre sözleşmenin kurulduğu gün başlar."

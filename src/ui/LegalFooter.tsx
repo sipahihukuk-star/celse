@@ -1,6 +1,6 @@
 // Web sürümünün giriş sayfasının altında duran yasal bilgiler: satış sözleşmesi, ön bilgilendirme, iade, teslimat, fiyatlar,
 // gizlilik ve iletişim sayfalarına bağlantılar, satıcı (şirket) bilgileri ve ödeme yöntemi işaretleri.
-// Mesafeli Sözleşmeler Yönetmeliği ve iyzico üye işyeri koşulları bu bilgilerin sitede kolayca bulunmasını ister.
+// Mesafeli Sözleşmeler Yönetmeliği ve ödeme kuruluşlarının üye işyeri koşulları bu bilgilerin sitede kolayca bulunmasını ister.
 import React from "react";
 import { Linking, Pressable, StyleSheet, Text, View } from "react-native";
 import { SATICI } from "../legal/satis";
@@ -17,7 +17,7 @@ const LINKS: [string, string][] = [
   ["İletişim", "iletisim.html"]
 ];
 
-const MARKS = ["iyzico ile Öde", "VISA", "Mastercard", "TROY"];
+const MARKS = ["VISA", "Mastercard", "TROY"];
 
 export function LegalFooter({ onShop }: { onShop?: () => void } = {}) {
   return (
@@ -34,7 +34,7 @@ export function LegalFooter({ onShop }: { onShop?: () => void } = {}) {
         ))}
       </View>
       <View style={s.marks}>
-        {MARKS.map(m => <Text key={m} style={[s.mark, m.startsWith("iyzico") && s.markIyzico]}>{m}</Text>)}
+        {MARKS.map(m => <Text key={m} style={s.mark}>{m}</Text>)}
       </View>
       <Text style={s.company}>{SATICI.unvan}</Text>
       <Text style={s.meta}>{SATICI.adres} · {SATICI.telefon} · {SATICI.eposta}</Text>
@@ -49,7 +49,6 @@ const s = StyleSheet.create({
   link: { fontFamily: F.body, fontSize: 13, color: C.brass, textDecorationLine: "underline" },
   marks: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   mark: { fontFamily: F.bodyBold, fontSize: 12, letterSpacing: 0.5, color: C.text, borderWidth: 1, borderColor: C.line, borderRadius: 6, paddingHorizontal: 8, paddingVertical: 3, backgroundColor: C.panel2 },
-  markIyzico: { borderColor: C.brass, color: C.brass },
   company: { fontFamily: F.bodyBold, fontSize: 12, color: C.muted },
   meta: { fontFamily: F.body, fontSize: 12, lineHeight: 17, color: C.muted }
 });
