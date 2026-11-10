@@ -1,7 +1,7 @@
 // Web satışı (iyzico üye işyeri) için istenen yasal sayfaları src/legal/satis.ts'teki metinden üretir:
 //   public/satis-sozlesmesi.html · on-bilgilendirme.html · iade.html · teslimat.html · iletisim.html · fiyatlar.html
 // Görünüm public/gizlilik.html ile aynıdır (tools/privacy.ts). Her sayfanın altında bütün yasal sayfalara bağlantı ve
-// ödeme logoları (iyzico ile öde, Visa, Mastercard; dış görsel çekilmez, satır içi SVG) bulunur.
+// ödeme logoları (Visa, Mastercard; dış görsel çekilmez, satır içi SVG) bulunur.
 // Expo, public/ klasörünü web dışa aktarımına (dist/) kopyalar; tools/deploy-pages.sh dist'i yayımlar.
 // Çalıştırma: npx tsx tools/satis.ts
 import { writeFileSync } from "fs";
@@ -27,14 +27,13 @@ const SAYFALAR: [string, string][] = [
 
 // Basit rozetler: resmî logo dosyaları iyzico üye işyeri panelinden alınıp public/ altına konulabilir.
 const ROZETLER = `<div class="pay" aria-label="Ödeme yöntemleri">
-<svg role="img" aria-label="iyzico ile öde" width="118" height="32" viewBox="0 0 118 32"><rect width="118" height="32" rx="6" fill="#1e64ff"/><text x="59" y="21" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="700" fill="#fff">iyzico ile öde</text></svg>
 <svg role="img" aria-label="Visa" width="64" height="32" viewBox="0 0 64 32"><rect width="64" height="32" rx="6" fill="#fff" stroke="#d9d9d9"/><text x="32" y="22" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="900" font-style="italic" fill="#1a1f71" letter-spacing="1">VISA</text></svg>
 <svg role="img" aria-label="Mastercard" width="64" height="32" viewBox="0 0 64 32"><rect width="64" height="32" rx="6" fill="#fff" stroke="#d9d9d9"/><circle cx="26" cy="16" r="10" fill="#eb001b"/><circle cx="38" cy="16" r="10" fill="#f79e1b"/><path d="M32 8a10 10 0 0 1 0 16a10 10 0 0 1 0-16z" fill="#ff5f00"/></svg>
 </div>`;
 
 const footer = (aktif: string) => `<footer><nav>${SAYFALAR.map(([f, ad]) => f === aktif ? `<b>${esc(ad)}</b>` : `<a href="./${f}">${esc(ad)}</a>`).join(" · ")}</nav>
 ${ROZETLER}
-<p class="m">${metin(SATICI.unvan)} · ${esc(SATICI.adres)} · <a href="mailto:${SATICI.eposta}">${SATICI.eposta}</a><br>Ödemeler iyzico güvencesiyle alınır; kart bilgileriniz Celse sunucularında saklanmaz. <a href="./">Celse'ye dön</a></p></footer>`;
+<p class="m">${metin(SATICI.unvan)} · ${esc(SATICI.adres)} · <a href="mailto:${SATICI.eposta}">${SATICI.eposta}</a><br>Kartla ödemeler lisanslı bir ödeme kuruluşunun güvenli ödeme sayfasında alınır; kart bilgileriniz Celse sunucularında saklanmaz. <a href="./">Celse'ye dön</a></p></footer>`;
 
 const page = (dosya: string, title: string, body: string) => `<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><style>
