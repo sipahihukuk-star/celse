@@ -2,7 +2,13 @@
 // adlar ve numaralar kodlanır, yalnız kodlu hâli saklanır. Beyan yazılırken aynı türden örnekler üslup örneği olarak kullanılır.
 import React, { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import { BEYAN_KLASORLERI, BEYAN_TURLERI } from "../data/beyan";
+import { Beyan, BEYAN_KLASORLERI, BEYAN_TURLERI, beyanTuru } from "../data/beyan";
+import { bosFoy, Foy, yeniId } from "../data/foy";
+import { turBilgi } from "../data/foyTurleri";
+import { beyanYazdir } from "./beyanCagri";
+import { Katlanir } from "./Katlanir";
+import { C } from "./theme";
+import { TextInput } from "react-native";
 import { DilekceOrnegi, ornekEkle, ornekGuncelle, ornekler, ornekSil } from "../data/dilekceOrnek";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
@@ -26,7 +32,7 @@ export async function dosyalardanOrnek(dosyalar: { ad: string; bytes: Uint8Array
   return { eklenen, hatali };
 }
 
-export function DilekceOrnekleri() {
+export function DilekceOrnekleri({ secili, onSec, yenile }: { secili?: Set<string>; onSec?: (id: string) => void; yenile?: number } = {}) {
   const [xs, setXs] = useState<DilekceOrnegi[]>([]);
   const [hedef, setHedef] = useState("_oto");
   const [goster, setGoster] = useState("_hepsi");
@@ -34,7 +40,7 @@ export function DilekceOrnekleri() {
   const [mesaj, setMesaj] = useState("");
   const [acik, setAcik] = useState<string | null>(null);
   const [bekle, setBekle] = useState(false);
-  useEffect(() => { ornekler().then(setXs).catch(() => {}); }, []);
+  useEffect(() => { ornekler().then(setXs).catch(() => {}); }, [yenile]);
   const sayilar = useMemo(() => { const m: Record<string, number> = {}; for (const x of xs) m[x.klasor] = (m[x.klasor] || 0) + 1; return m; }, [xs]);
   const liste = goster === "_hepsi" ? xs : xs.filter(x => x.klasor === goster);
 
@@ -69,7 +75,15 @@ export function DilekceOrnekleri() {
       )}
       {liste.slice(0, 100).map(x => (
         <View key={x.id} style={[s.file, { flexDirection: "column", alignItems: "stretch", gap: 6 }]}>
-          <Text style={s.fileT} numberOfLines={2}>{x.ad}</Text>
+          <View style={[s.row, { alignItems: "center", gap: 8 }]}>
+            {!!onSec && (
+              <Pressable onPress={() => onSec(x.id)} accessibilityRole="checkbox" accessibilityState={{ checked: !!secili?.has(x.id) }} hitSlop={6}
+                style={{ width: 20, height: 20, borderRadius: 4, borderWidth: 2, borderColor: secili?.has(x.id) ? C.brass : C.muted, backgroundColor: secili?.has(x.id) ? C.brass : "transparent", alignItems: "center", justifyContent: "center" }}>
+                {secili?.has(x.id) && <Text style={{ color: "#fff", fontWeight: "800", fontSize: 12 }}>✓</Text>}
+              </Pressable>
+            )}
+            <Text style={[s.fileT, { flex: 1 }]} numberOfLines={2}>{x.ad}</Text>
+          </View>
           <View style={s.addRow}>
             <Acilir etiket={t("Klasör")} genislik={200} secili={x.klasor} onSec={async k => setXs(await ornekGuncelle(x.id, { klasor: k, tur: BEYAN_KLASORLERI.find(y => y.ad === k)?.turler.some(z => z.ad === x.tur) ? x.tur : undefined }))}
               secenekler={BEYAN_KLASORLERI.map(k => ({ k: k.ad, ad: t(k.ad) }))} />
@@ -84,6 +98,88 @@ export function DilekceOrnekleri() {
         </View>
       ))}
       {liste.length > 100 && <Text style={s.hint}>{t("… ve {n} örnek daha", { n: liste.length - 100 })}</Text>}
+    </View>
+  );
+}
+
+/** Beyan editörü > "Beyanlarım, dilekçelerim ve örneklerim": Celse'de yazılan bütün beyanlar, yüklenen dilekçe örnekleri ve
+ *  seçilen örneklere bakarak yapay zekâyla yeni (genel, yer tutuculu) örnek dilekçe oluşturma. */
+export function BeyanKutuphanesi({ liste, serbest, onAc, onTohum }: { liste: Foy[]; serbest: Foy | null; onAc: (foyId: string, beyanId: string) => void; onTohum: (b: Beyan) => void }) {
+  const [secili, setSecili] = useState<Set<string>>(new Set());
+  const [yenile, setYenile] = useState(0);
+  const [klasor, setKlasor] = useState(BEYAN_KLASORLERI[0].ad);
+  const [tur, setTur] = useState(BEYAN_KLASORLERI[0].turler[0].ad);
+  const [ek, setEk] = useState("");
+  const [sonuc, setSonuc] = useState("");
+  const [bekle, setBekle] = useState(false);
+  const [mesaj, setMesaj] = useState("");
+  const [q, setQ] = useState("");
+  const beyanlar = useMemo(() => {
+    const out: { f: Foy; b: Beyan }[] = [];
+    for (const f of [...liste, ...(serbest ? [serbest] : [])]) for (const b of f.beyanlar || []) if (b.metin.trim()) out.push({ f, b });
+    const kq = q.trim().toLocaleLowerCase("tr");
+    return out.filter(x => !kq || [x.b.tur, x.b.konu, x.f.muvekkil, x.f.mahkeme, x.f.esasNo].join(" ").toLocaleLowerCase("tr").includes(kq))
+      .sort((a, c) => (c.b.guncelleme || "").localeCompare(a.b.guncelleme || ""));
+  }, [liste, serbest, q]);
+  const sec = (id: string) => setSecili(x => { const y = new Set(x); if (y.has(id)) y.delete(id); else y.add(id); return y; });
+  const olustur = async () => {
+    setBekle(true); setMesaj(""); setSonuc("");
+    try {
+      const f = bosFoy({ id: "foysuz", muvekkil: "", karsiTaraf: "", mahkeme: "", esasNo: "" });
+      const n = new Date().toISOString();
+      const b: Beyan = { id: yeniId("by"), olusturma: n, guncelleme: n, tur, konu: "", metin: "" };
+      const talimat = t("Seçili örnek dilekçeleri inceleyerek “{tur}” türünde genel, yeniden kullanılabilir bir ÖRNEK dilekçe yaz. Somut kişi, kurum, tarih, numara ve tutar yerine köşeli parantezli yer tutucular kullan ([MÜVEKKİL], [KARŞI TARAF], [MAHKEME], [ESAS NO], [TARİH], [TUTAR]). Örneklerdeki ortak yapıyı, başlıkları, kalıp ifadeleri ve hukuki gerekçe iskeletini koru; örneklerden olay ayrıntısı taşıma.", { tur: t(tur) }) + (ek.trim() ? "\n" + ek.trim() : "");
+      const r = await beyanYazdir(f, b, talimat, false, "ids:" + [...secili].join(","));
+      if (!r.ok) setMesaj(t(r.hata, r.vars)); else setSonuc(r.metin);
+    } finally { setBekle(false); }
+  };
+  return (
+    <View style={{ gap: 10 }}>
+      <Katlanir anahtar="kutuphane-beyan" baslik={t("✍ Beyanlarım ({n})", { n: beyanlar.length })} ozet={t("Celse'de yazdığınız bütün beyan ve dilekçeler")}>
+        <View style={{ gap: 6 }}>
+          <TextInput value={q} onChangeText={setQ} placeholder={t("Ara: tür, konu, müvekkil, merci, numara…")} placeholderTextColor={C.muted} style={s.inputTek} />
+          {!beyanlar.length && <Text style={s.hint}>{t("Henüz yazılmış beyan yok.")}</Text>}
+          {beyanlar.slice(0, 60).map(({ f, b }) => (
+            <View key={f.id + b.id} style={[s.file, { flexDirection: "column", alignItems: "stretch", gap: 3 }]}>
+              <Text style={s.fileT} numberOfLines={2}>{b.tur}{b.konu ? " · " + b.konu : ""}</Text>
+              <Text style={s.hint}>{f.id === "foysuz" ? t("Föy seçmeden yazılan") : [turBilgi(f.tur).kisa, f.muvekkil, f.mahkeme, f.esasNo].filter(Boolean).join(" · ")}{" · " + new Date(b.guncelleme).toLocaleDateString("tr-TR")}</Text>
+              <View style={s.row}>
+                <Pressable onPress={() => onAc(f.id, b.id)}><Text style={s.link}>{t("Editörde aç")}</Text></Pressable>
+                <Pressable onPress={async () => { try { await ornekEkle({ ad: b.tur + (b.konu ? " – " + b.konu.slice(0, 60) : ""), metin: b.metin, tur: b.tur, klasor: beyanTuru(b.tur).klasor }); setYenile(x => x + 1); setMesaj(t("Örneklerinize eklendi (adlar ve numaralar kodlandı).")); } catch (e) { setMesaj(t(String((e as Error).message || e))); } }}>
+                  <Text style={s.link}>{t("📝 Örneklerime ekle")}</Text>
+                </Pressable>
+              </View>
+            </View>
+          ))}
+        </View>
+      </Katlanir>
+      <Text style={s.secT}>{t("📝 Dilekçe örneklerim")}</Text>
+      <Text style={s.hint}>{t("Elinizdeki bütün dilekçeleri buraya ekleyin. Kutucukla seçtiklerinize bakarak yeni bir örnek oluşturabilirsiniz.")}</Text>
+      <DilekceOrnekleri secili={secili} onSec={sec} yenile={yenile} />
+      {secili.size > 0 && (
+        <View style={[s.warn, { gap: 8 }]}>
+          <Text style={[s.body, { fontWeight: "700" }]}>{t("✨ Seçtiğim {n} örneğe bakarak yeni örnek oluştur", { n: secili.size })}{secili.size > 4 ? " " + t("(ilk 4'ü kullanılır)") : ""}</Text>
+          <View style={s.addRow}>
+            <Acilir etiket={t("Klasör")} genislik={240} secili={klasor} onSec={k => { setKlasor(k); setTur(BEYAN_KLASORLERI.find(x => x.ad === k)!.turler[0].ad); }} secenekler={BEYAN_KLASORLERI.map(k => ({ k: k.ad, ad: t(k.ad) }))} />
+            <Acilir etiket={t("Belge türü")} genislik={300} secili={tur} onSec={setTur} secenekler={(BEYAN_KLASORLERI.find(x => x.ad === klasor)?.turler || []).map(x => ({ k: x.ad, ad: t(x.ad) }))} />
+          </View>
+          <TextInput value={ek} onChangeText={setEk} multiline placeholder={t("İsteğe bağlı ek talimat (örn. iş davası için, kısa tut, Yargıtay kararlarına yer aç)")} placeholderTextColor={C.muted} style={[s.input, { minHeight: 60 }]} />
+          <View style={s.addRow}>
+            <Btn label={bekle ? t("Oluşturuluyor…") : t("✨ Örnek oluştur")} disabled={bekle} onPress={olustur} />
+            <Btn kind="ghost" label={t("Seçimi temizle")} onPress={() => setSecili(new Set())} />
+          </View>
+          {!!sonuc && (
+            <View style={{ gap: 6 }}>
+              <Text style={[s.body, { fontFamily: web ? "'Times New Roman', serif" : undefined, backgroundColor: "#fbfaf6", color: "#111", padding: 10, borderRadius: 8 }]}>{sonuc}</Text>
+              <View style={s.addRow}>
+                <Btn label={t("📝 Örneklerime kaydet")} onPress={async () => { try { await ornekEkle({ ad: t("Celse örneği – {t}", { t: t(tur) }), metin: sonuc, tur, klasor: beyanTuru(tur).klasor }); setYenile(x => x + 1); setMesaj(t("Yeni örnek kaydedildi.")); } catch (e) { setMesaj(t(String((e as Error).message || e))); } }} />
+                <Btn kind="secondary" label={t("Editörde aç ve düzenle")} onPress={() => { const n = new Date().toISOString(); onTohum({ id: yeniId("by"), olusturma: n, guncelleme: n, tur, konu: "", metin: sonuc }); }} />
+              </View>
+            </View>
+          )}
+        </View>
+      )}
+      {!!mesaj && <Text style={s.hint}>{mesaj}</Text>}
     </View>
   );
 }

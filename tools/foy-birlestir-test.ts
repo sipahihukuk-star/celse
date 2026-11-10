@@ -2,6 +2,7 @@
 import { bosFoy } from "../src/data/foy";
 import { foylariBirlestir, kalacakFoy } from "../src/data/foyBirlestir";
 import { turTahmin } from "../src/data/foyTurleri";
+import { ayniDosyaMi, ayniGruplari, iliskiOner } from "../src/data/iliski";
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
 const ev = (id: string, ad: string, boyut = 100) => ({ id, ad, boyut, eklenme: "2026-01-01", metin: "x" });
@@ -21,5 +22,17 @@ ok(turTahmin("", "Diyarbakır Bölge Adliye Mahkemesi 3. Hukuk Dairesi", "karar.
 ok(turTahmin("", "Ankara Bölge Adliye Mahkemesi 5. Ceza Dairesi", "", "şikâyetçi") === "ceza", "BAM ceza dairesi ceza");
 ok(turTahmin("", "İl Sağlık Müdürlüğü", "", "hakkında disiplin soruşturması") === "idari_sorusturma", "kurum disiplin soruşturması yine disiplin");
 ok(turTahmin("", "İzmir Cumhuriyet Başsavcılığı", "", "suç duyurusu") === "sorusturma", "savcılık soruşturma");
+// Aynı dosya: esas no aynı (sıfır, "E." farkı), merci ve taraflar çelişmiyor, en az bir olumlu işaret
+const F = (o: Record<string, unknown>) => bosFoy(o as never);
+const d1 = F({ mahkeme: "Bismil 2. Asliye Hukuk Mahkemesi Sayın Hakimliği", esasNo: "2023/311", muvekkil: "Deneme Kişi", karsiTaraf: "Örnek Ltd." });
+const d2 = F({ mahkeme: "Bismil 2. Asliye Hukuk Mahkemesi", esasNo: "2023/0311 E.", muvekkil: "", karsiTaraf: "Örnek Ltd. Şti." });
+const d3 = F({ mahkeme: "", esasNo: "2023/311", muvekkil: "DENEME KİŞİ", karsiTaraf: "" });
+const d4 = F({ mahkeme: "İzmir 5. İş Mahkemesi", esasNo: "2023/311", muvekkil: "Deneme Kişi" });
+const d5 = F({ mahkeme: "", esasNo: "2023/311", muvekkil: "Başka Biri" });
+const d6 = F({ mahkeme: "", esasNo: "2023/311", muvekkil: "" });
+ok(!!ayniDosyaMi(d1, d2) && !!ayniDosyaMi(d1, d3) && !ayniDosyaMi(d1, d4) && !ayniDosyaMi(d3, d5) && !ayniDosyaMi(d6, d5), "aynı dosya kuralları");
+const gr = ayniGruplari([d1, d2, d3, d4, d5, d6]);
+ok(gr.length === 1 && gr[0].foyler.map(x => x.id).sort().join() === [d1.id, d2.id, d3.id].sort().join(), "gruplama: " + gr.map(g => g.foyler.length).join());
+ok(iliskiOner([d1, d2, d4], new Set()).some(o => o.tur === "ayni"), "öneride de görünür");
 if (fail) { console.log(`foy-birlestir-test: ${fail} hata`); process.exit(1); }
 console.log("foy-birlestir-test: tamam");

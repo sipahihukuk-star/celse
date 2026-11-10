@@ -49,7 +49,7 @@ export function foylariBirlestir(kalan: Foy, giden: Foy): Foy {
 }
 
 /** Birleştirir, kaydeder, öteki föyü siler, bağlantıları çevirir. Şahsi ile büro föyü birleştirilmez. */
-export async function foyBirlestir(aId: string, bId: string): Promise<Foy> {
+export async function foyBirlestir(aId: string, bId: string, baglantiCevir = true): Promise<Foy> {
   const a = await foyGetir(aId), b = await foyGetir(bId);
   if (!a || !b) throw new Error("Föylerden biri bulunamadı.");
   if (!!a.ozel !== !!b.ozel) throw new Error("Şahsi dosya ile büro dosyası birleştirilemez.");
@@ -58,11 +58,20 @@ export async function foyBirlestir(aId: string, bId: string): Promise<Foy> {
   await foyKaydet(yeni);
   // Öteki föyü silerken evrak dosyaları silinmesin: taşınan evrakın asıl dosyası aynı kimlikle durur.
   await foySil({ ...giden, evraklar: giden.evraklar.filter(e => !yeni.evraklar.some(x => x.id === e.id)) });
-  for (const x of await foyler()) {
-    if (x.id === yeni.id) continue;
-    const once = x.oncekiId === giden.id, ilgili = (x.ilgiliIds || []).includes(giden.id);
-    if (!once && !ilgili) continue;
-    await foyKaydet({ ...x, oncekiId: once ? yeni.id : x.oncekiId, ilgiliIds: ilgili ? [...new Set((x.ilgiliIds || []).map((y: string) => (y === giden.id ? yeni.id : y)))] : x.ilgiliIds });
-  }
+  if (baglantiCevir) await baglantilariCevir(new Map([[giden.id, yeni.id]]));
   return yeni;
+}
+
+/** Silinen föylere işaret eden "devamı" ve "ilgili" bağlantılarını kalan föylere çevirir (toplu birleştirmede bir kez). */
+export async function baglantilariCevir(harita: Map<string, string>): Promise<number> {
+  let n = 0;
+  const cevir = (id: string) => { let x = id; for (let i = 0; i < 10 && harita.has(x); i++) x = harita.get(x)!; return x; };
+  for (const x of await foyler()) {
+    const once = x.oncekiId && harita.has(x.oncekiId), ilgili = (x.ilgiliIds || []).some(y => harita.has(y));
+    if (!once && !ilgili) continue;
+    const yeniOnce = once ? cevir(x.oncekiId!) : x.oncekiId;
+    await foyKaydet({ ...x, oncekiId: yeniOnce === x.id ? undefined : yeniOnce, ilgiliIds: ilgili ? [...new Set((x.ilgiliIds || []).map(cevir))].filter(y => y !== x.id) : x.ilgiliIds });
+    n++;
+  }
+  return n;
 }

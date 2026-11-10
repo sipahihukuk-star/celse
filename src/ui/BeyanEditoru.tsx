@@ -19,7 +19,7 @@ import { DogrulamaSonucu, kararlariDogrula, belgeGetir, belgeKaynak, Karar, Kanu
 import { dosyaSec, indir, s } from "./foyStil";
 import { evrakMetniOku, foyKisaAd } from "./foyEvrak";
 import { hareketEkle } from "../data/evrakHareket";
-import { DilekceOrnekleri } from "./DilekceOrnekleri";
+import { BeyanKutuphanesi } from "./DilekceOrnekleri";
 import { Katlanir } from "./Katlanir";
 import { Btn } from "./kit";
 import { izinYokMetni, tanimaIzni, tanimaSinifi } from "./konusmaTanima";
@@ -319,9 +319,9 @@ export function KaynakPaneli({ f, onEkle, ekli = [], konu: varsayilan = "" }: { 
 }
 
 /** Bir föyün beyan editörü. onDegistir föyün değişen alanlarını kaydeder (beyanlar). */
-export function BeyanEditoru({ f, onDegistir }: { f: Foy; onDegistir: (ek: Partial<Foy>) => void }) {
+export function BeyanEditoru({ f, onDegistir, tohum, ilkBeyanId }: { f: Foy; onDegistir: (ek: Partial<Foy>) => void; tohum?: Beyan; ilkBeyanId?: string }) {
   const [beyanlar, setBeyanlar] = useState<Beyan[]>(f.beyanlar || []);
-  const [b, setB] = useState<Beyan>(() => (f.beyanlar || [])[0] || bosBeyan());
+  const [b, setB] = useState<Beyan>(() => tohum || (ilkBeyanId && (f.beyanlar || []).find(x => x.id === ilkBeyanId)) || (f.beyanlar || [])[0] || bosBeyan());
   const [talimat, setTalimat] = useState("");
   const [bekle, setBekle] = useState(false);
   const [hata, setHata] = useState("");
@@ -443,6 +443,8 @@ export function BeyanSekmesi({ liste }: { liste: Foy[] }) {
   const sirali = [...liste].sort((a, b) => (a.durum === b.durum ? (b.guncelleme || "").localeCompare(a.guncelleme || "") : a.durum === "acik" ? -1 : 1));
   const [id, setId] = useState<string>("_foysuz");
   const [serbest, setSerbest] = useState<Foy | null>(null);
+  // Kütüphaneden açılan: hangi beyan ya da (örnekten oluşturulan) yeni taslak; editör anahtarı değişince yeniden kurulur.
+  const [ac, setAc] = useState<{ n: number; beyanId?: string; tohum?: Beyan }>({ n: 0 });
   useEffect(() => { ayarOku<Foy>(FOYSUZ).then(x => setSerbest(x || bosFoy({ id: "foysuz", muvekkil: "", karsiTaraf: "", mahkeme: "", esasNo: "" }))).catch(() => setSerbest(bosFoy({ id: "foysuz" }))); }, []);
   const serbestKaydet = (ek: Partial<Foy>) => setSerbest(x => { const y = { ...(x as Foy), ...ek }; ayarYaz(FOYSUZ, y).catch(() => {}); return y; });
   const f = id === "_foysuz" ? serbest : liste.find(x => x.id === id);
@@ -468,10 +470,12 @@ export function BeyanSekmesi({ liste }: { liste: Foy[] }) {
           </View>
         </View>
       )}
-      <Katlanir anahtar="dilekce-ornek" baslik={t("📝 Dilekçe örneklerim")} ozet={t("kendi dilekçelerinizi ekleyin; beyanlar sizin üslubunuzla yazılsın")}>
-        <DilekceOrnekleri />
+      <Katlanir anahtar="dilekce-ornek" baslik={t("🗂 Beyanlarım, dilekçelerim ve örneklerim")} ozet={t("yazdığınız beyanlar, yüklediğiniz dilekçeler; onlara bakarak yeni örnek oluşturun")}>
+        <BeyanKutuphanesi liste={liste} serbest={serbest}
+          onAc={(foyId, beyanId) => { setId(foyId === "foysuz" ? "_foysuz" : foyId); setAc(x => ({ n: x.n + 1, beyanId })); }}
+          onTohum={b => { setId("_foysuz"); setAc(x => ({ n: x.n + 1, tohum: b })); }} />
       </Katlanir>
-      {f && <View style={s.card}><BeyanEditoru key={f.id} f={f} onDegistir={ek => (f.id === "foysuz" ? serbestKaydet(ek) : foyKaydet({ ...f, ...ek }))} /></View>}
+      {f && <View style={s.card}><BeyanEditoru key={f.id + ":" + ac.n} f={f} tohum={ac.tohum} ilkBeyanId={ac.beyanId} onDegistir={ek => (f.id === "foysuz" ? serbestKaydet(ek) : foyKaydet({ ...f, ...ek }))} /></View>}
     </View></ScrollView>
   );
 }

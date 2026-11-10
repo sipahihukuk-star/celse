@@ -25,6 +25,65 @@ const sade = (x?: string) => (x || "").toLocaleLowerCase("tr").replace(/[^\p{L}\
 const esasSade = (x?: string) => (x || "").replace(/\s+/g, "").replace(/[^\d/]/g, "");
 const ESAS = /(?:19|20)\d{2}\s*\/\s*\d{2,7}/g;
 
+/** Esas no karşılaştırması: "2023/0311 E." ile "2023/311" aynıdır. */
+export const esasNorm = (x?: string) => { const m = (x || "").match(/((?:19|20)\d{2})\s*[/\-.]\s*0*(\d{1,7})/); return m ? m[1] + "/" + m[2] : ""; };
+/** Merci karşılaştırması: "Bismil 2. Asliye Hukuk Mahkemesi Sayın Hakimliği" ile "Bismil 2. Asliye Hukuk Mahkemesi" aynıdır. */
+const merciSade = (x?: string) => sade(x).replace(/\b(sayın|hakimliği|hâkimliği|mahkemesi|mahkemesine|mahkemesi'ne|başkanlığı|başkanlığına|müdürlüğü|müdürlüğüne)\b/g, " ").replace(/\s+/g, " ").trim();
+const kelimeler = (x: string) => x.split(" ").filter(w => w.length >= 4);
+const adTutar = (a: string, b: string) => !!a && !!b && (a === b || kelimeler(a).some(w => kelimeler(b).includes(w)));
+const adCelisir = (a: string, b: string) => !!a && !!b && !adTutar(a, b);
+/**
+ * İki föy aynı dosya mı? Esas no aynı (baştaki sıfırlar, "E." yok sayılır) ve hiçbir bilgi çelişmiyor (merci, müvekkil, karşı taraf
+ * yazılıysa uyumlu) ve en az bir olumlu işaret var (aynı merci, aynı müvekkil ya da aynı karşı taraf). Şahsi ile büro föyü birleşmez.
+ */
+export function ayniDosyaMi(x: Foy, y: Foy): string[] | null {
+  if (!!x.ozel !== !!y.ozel) return null;
+  const ex = esasNorm(x.esasNo);
+  if (!ex || ex !== esasNorm(y.esasNo)) return null;
+  const mx = merciSade(x.mahkeme), my = merciSade(y.mahkeme);
+  const merciAyni = !!mx && !!my && (mx === my || mx.includes(my) || my.includes(mx));
+  if (mx && my && !merciAyni) return null;
+  const ax = { m: sade(x.muvekkil), k: sade(x.karsiTaraf) }, ay = { m: sade(y.muvekkil), k: sade(y.karsiTaraf) };
+  if (adCelisir(ax.m, ay.m) || adCelisir(ax.k, ay.k)) return null;
+  const neden: string[] = ["aynı esas no (" + ex + ")"];
+  if (merciAyni) neden.push("aynı merci");
+  if (adTutar(ax.m, ay.m)) neden.push("aynı müvekkil");
+  if (adTutar(ax.k, ay.k)) neden.push("aynı karşı taraf");
+  return neden.length >= 2 ? neden : null;
+}
+
+/** İki föyün bilgileri çelişiyor mu (merci ya da taraf adı yazılı ve farklı)? Gruplarda zincirleme yanlış birleşmeyi önler. */
+function celisir(x: Foy, y: Foy): boolean {
+  const mx = merciSade(x.mahkeme), my = merciSade(y.mahkeme);
+  if (mx && my && !(mx === my || mx.includes(my) || my.includes(mx))) return true;
+  return adCelisir(sade(x.muvekkil), sade(y.muvekkil)) || adCelisir(sade(x.karsiTaraf), sade(y.karsiTaraf));
+}
+
+/** Bütün listede aynı dosyanın birden çok föyü: gruplar (her grup tek föyde birleştirilebilir). */
+export function ayniGruplari(liste: Foy[], reddedilen: Set<string> = new Set()): { foyler: Foy[]; nedenler: string[] }[] {
+  const esas = new Map<string, number[]>();
+  liste.forEach((f, i) => { const e = esasNorm(f.esasNo); if (e) esas.set(e, [...(esas.get(e) || []), i]); });
+  const ata = liste.map((_x, i) => i);
+  const kok = (i: number): number => (ata[i] === i ? i : (ata[i] = kok(ata[i])));
+  const neden = new Map<number, Set<string>>();
+  for (const xs of esas.values()) {
+    if (xs.length < 2 || xs.length > 60) continue;
+    for (let p = 0; p < xs.length; p++) for (let q = p + 1; q < xs.length; q++) {
+      const x = liste[xs[p]], y = liste[xs[q]];
+      if (reddedilen.has(ciftAnahtari(x.id, y.id, "ayni"))) continue;
+      const n = ayniDosyaMi(x, y);
+      if (!n) continue;
+      const a = kok(xs[p]), b = kok(xs[q]);
+      if (a !== b && xs.some(i => kok(i) === a && xs.some(j => kok(j) === b && celisir(liste[i], liste[j])))) continue;
+      if (a !== b) { ata[b] = a; neden.set(a, new Set([...(neden.get(a) || []), ...(neden.get(b) || []), ...n])); }
+      else neden.set(a, new Set([...(neden.get(a) || []), ...n]));
+    }
+  }
+  const gruplar = new Map<number, Foy[]>();
+  liste.forEach((f, i) => { const k = kok(i); if (k !== i || neden.has(k)) gruplar.set(k, [...(gruplar.get(k) || []), f]); });
+  return [...gruplar.entries()].filter(([, fs]) => fs.length > 1).map(([k, fs]) => ({ foyler: fs, nedenler: [...(neden.get(k) || [])] }));
+}
+
 function numaralar(f: Foy): Set<string> {
   const s = new Set<string>();
   for (const e of f.evraklar) for (const m of (e.metin || "").matchAll(ESAS)) s.add(esasSade(m[0]));
@@ -35,7 +94,7 @@ const kimlikler = (f: Foy) => new Set([f.muvekkilBilgi?.kimlikNo, f.karsiBilgi?.
 const tarih = (f: Foy) => f.evraklar.map(e => e.eklenme).sort()[0] || f.olusturma;
 export const ciftAnahtari = (a: string, b: string, tur: string) => [a, b].sort().join("|") + "|" + tur;
 
-export function iliskiOner(liste: Foy[], reddedilen: Set<string>): IliskiOnerisi[] {
+export function iliskiOner(liste: Foy[], reddedilen: Set<string>, sinir = 50): IliskiOnerisi[] {
   const out: IliskiOnerisi[] = [];
   const nums = new Map(liste.map(f => [f.id, numaralar(f)] as const));
   const kims = new Map(liste.map(f => [f.id, kimlikler(f)] as const));
@@ -46,6 +105,7 @@ export function iliskiOner(liste: Foy[], reddedilen: Set<string>): IliskiOnerisi
   const koy = (anahtar: string, i: number) => { const a = dizin.get(anahtar); if (a) { if (a[a.length - 1] !== i) a.push(i); } else dizin.set(anahtar, [i]); };
   liste.forEach((f, i) => {
     const e = esasSade(f.esasNo); if (e.length >= 6) koy("e:" + e, i);
+    const en = esasNorm(f.esasNo); if (en) koy("n:" + en, i);
     for (const n of nums.get(f.id)!) koy("e:" + n, i);
     for (const k of kims.get(f.id)!) koy("k:" + k, i);
     const a = sadeAd.get(f.id)!;
@@ -64,10 +124,11 @@ export function iliskiOner(liste: Foy[], reddedilen: Set<string>): IliskiOnerisi
     const x = liste[i], y = liste[j];
     if (bagli(x, y)) continue;
     const ex = esasSade(x.esasNo), ey = esasSade(y.esasNo);
-    // Aynı mahkeme ve esas no: iki kez açılmış olabilir.
-    if (ex.length >= 6 && ex === ey && sade(x.mahkeme) && sade(x.mahkeme) === sade(y.mahkeme)) {
+    // Aynı esas no ve çelişmeyen merci / taraflar: iki kez açılmış olabilir.
+    const ayni = ayniDosyaMi(x, y);
+    if (ayni) {
       const k = ciftAnahtari(x.id, y.id, "ayni");
-      if (!reddedilen.has(k)) out.push({ anahtar: k, tur: "ayni", puan: 10, nedenler: ["aynı mahkeme ve esas no"], a: x, b: y });
+      if (!reddedilen.has(k)) out.push({ anahtar: k, tur: "ayni", puan: 10, nedenler: ayni, a: x, b: y });
       continue;
     }
     let puan = 0; const nedenler: string[] = [];
@@ -116,7 +177,7 @@ export function iliskiOner(liste: Foy[], reddedilen: Set<string>): IliskiOnerisi
       if (!reddedilen.has(k)) out.push({ anahtar: k, tur: "evrak", puan: 6, nedenler: [`evrakın başlığındaki dosya no ${o.esasNo}`], a: f, b: hedef[0], evrak: ev });
     }
   }
-  return out.sort((p, q) => q.puan - p.puan).slice(0, 50);
+  return out.sort((p, q) => q.puan - p.puan).slice(0, sinir);
 }
 
 /** Föyün müvekkilinin ve karşı tarafının öteki dosyaları (ad ya da kimlik no aynı; müvekkil başka dosyada karşı taraf
