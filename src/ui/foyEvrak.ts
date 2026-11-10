@@ -3,8 +3,9 @@
 // "Dosya ne durumda?" için önemli evraktan, sınıra sığacak kadar seçilip birlikte kodlanan metin hazırlanır.
 import { konuCikar } from "../data/evrakBaslik";
 import { dosyaYaz, Foy, FoyEvrak, yeniId } from "../data/foy";
-import { evrakSinifla } from "../data/foyTurleri";
+import { evrakSinifla, turBilgi } from "../data/foyTurleri";
 import { kunyeCikar } from "../data/kunyeCikar";
+import { hareketEkle } from "../data/evrakHareket";
 import { mask } from "../engine/mask";
 import { DOGRUDAN_SINIR } from "../engine/mask/derleme";
 import { evrakMetni, evrakTanisi, gercekTur } from "../engine/mask/readers";
@@ -52,11 +53,16 @@ export async function evrakMetniOku(k: Kaynak, ilerle: (m: string) => void): Pro
 }
 
 /** Okunmuş dosyayı föyün evrakı yapar: tür, önem, kodlama; asıl dosya cihazda saklanır (özel föyde şifreli). */
-export async function evrakOlustur(f: Foy, k: Kaynak, okunan: { metin: string; okunamadi?: string }): Promise<FoyEvrak> {
+export async function evrakOlustur(f: Foy, k: Kaynak, okunan: { metin: string; okunamadi?: string }, anahtar?: string): Promise<FoyEvrak> {
   const e = evrakHazirla(f, { id: yeniId("ev"), ad: k.ad, boyut: k.bytes.length, eklenme: new Date().toISOString(), metin: okunan.metin, okunamadi: okunan.okunamadi, kaynak: k.yol });
   try { await dosyaYaz(e.id, k.blob || new Blob([k.bytes as BlobPart]), !!f.ozel); } catch { /* asıl dosya saklanamazsa metin yine durur */ }
+  // Evrak hareketleri: gelen evrak hangi föye girdi (okunamadıysa da föyde durur; yazısı yoktur).
+  hareketEkle({ yon: "gelen", ad: k.ad, sonuc: "foy", kaynak: anahtar ? "Evrak klasörü: " + (k.yol || k.ad) : k.yol || "Yükleme", foyId: f.id, foyAd: foyKisaAd(f),
+    not: okunan.okunamadi ? "yazısı okunamadı: " + okunan.okunamadi : undefined, anahtar }).catch(() => {});
   return e;
 }
+/** Hareket kaydında föyün kısa adı: TÜR · merci · numara · müvekkil. */
+export const foyKisaAd = (f: Foy) => [turBilgi(f.tur).kisa, f.mahkeme, f.esasNo, f.muvekkil || f.karsiTaraf].filter(Boolean).join(" · ");
 
 /** Dosyayı okur ve föyün evrakı yapar. */
 export async function evrakOkuVeHazirla(f: Foy, k: Kaynak, ilerle: (m: string) => void): Promise<FoyEvrak | { hata: string }> {

@@ -6,6 +6,8 @@ import { ayarOku, ayarYaz, Foy, foyBaslik, foyGetir, foyKaydet as foyKaydetAsil 
 import { foyBirlestir, kalacakFoy } from "../data/foyBirlestir";
 import { FoyTur, TURLER, turBilgi } from "../data/foyTurleri";
 import { Acilir } from "./Acilir";
+import { hareketEkle } from "../data/evrakHareket";
+import { foyKisaAd } from "./foyEvrak";
 import { iliskiOner, IliskiOnerisi } from "../data/iliski";
 import { t } from "../i18n";
 import { s } from "./foyStil";
@@ -57,6 +59,7 @@ export function IliskiKart({ liste, onAc, odak, odakDegistir }: { liste: Foy[]; 
       await foyKaydet({ ...b, evraklar: [...b.evraklar, ev] });
       await foyKaydet({ ...a, evraklar: a.evraklar.filter(e => e.id !== ev.id) });
       setBilgi(t("“{e}” taşındı.", { e: ev.ad }));
+      hareketEkle({ yon: "giden", ad: ev.ad, sonuc: "tasindi", foyId: b.id, foyAd: foyKisaAd(b), not: t("çıktığı föy: {a}", { a: foyKisaAd(a) }) }).catch(() => {});
     }
   };
 
@@ -64,6 +67,8 @@ export function IliskiKart({ liste, onAc, odak, odakDegistir }: { liste: Foy[]; 
     setHata("");
     try {
       const y = await foyBirlestir(o.a.id, o.b.id);
+      const giden = y.id === o.a.id ? o.b : o.a;
+      hareketEkle({ yon: "giden", ad: foyKisaAd(giden), sonuc: "birlesti", foyId: y.id, foyAd: foyKisaAd(y), not: t("{n} evrak bu föye taşındı; öteki föy silindi", { n: giden.evraklar.length }) }).catch(() => {});
       setOnay(null);
       setBilgi(t("Birleştirildi: tek dosya kaldı ({e} evrak).", { e: y.evraklar.length }));
       if (odak && odak !== y.id) onAc(y.id);
