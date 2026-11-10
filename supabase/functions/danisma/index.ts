@@ -1113,7 +1113,7 @@ async function beyanYaz(req: Request, uid: string, b: Record<string, unknown>) {
 // sitelerde arar; döndürdüğü her kaynağın bağlantısı aramada GERÇEKTEN bulunan sonuçlardan olmalıdır (uydurma künye elenir).
 // Doktrinde ayrıca yapay zekânın genel bilgisi (kaynaksız, "genel" işaretli) dönebilir. Konu cihazda kodlanır.
 const KAYNAK_SITELERI: Record<string, string[]> = {
-  ictihat: ["karararama.yargitay.gov.tr", "yargitay.gov.tr", "emsal.uyap.gov.tr", "karararama.danistay.gov.tr", "danistay.gov.tr", "kararlarbilgibankasi.anayasa.gov.tr", "anayasa.gov.tr", "hudoc.echr.coe.int", "kazanci.com.tr", "lexpera.com.tr", "corpus.com.tr"],
+  ictihat: ["karararama.yargitay.gov.tr", "yargitay.gov.tr", "emsal.uyap.gov.tr", "karararama.danistay.gov.tr", "danistay.gov.tr", "kararlarbilgibankasi.anayasa.gov.tr", "anayasa.gov.tr", "hudoc.echr.coe.int", "icc-cpi.int", "kazanci.com.tr", "lexpera.com.tr", "corpus.com.tr"],
   mevzuat: ["mevzuat.gov.tr", "resmigazete.gov.tr", "tbmm.gov.tr", "adalet.gov.tr"],
   doktrin: ["dergipark.org.tr", "acikerisim.ankara.edu.tr", "tez.yok.gov.tr", "barobirlik.org.tr", "izmirbarosu.org.tr", "istanbulbarosu.org.tr", "ankarabarosu.org.tr"]
 };
@@ -1338,7 +1338,7 @@ async function belgeGetir(req: Request, uid: string, b: Record<string, unknown>)
   return json(out);
 }
 
-const isoTarih = (x: unknown) => { const m = String(x || "").match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/); if (m) return m[3] + "-" + ("0" + m[2]).slice(-2) + "-" + ("0" + m[1]).slice(-2); const n = String(x || "").match(/^(\d{4}-\d{2}-\d{2})/); return n ? n[1] : null; };
+const isoTarih = (x: unknown) => { const m = String(x || "").match(/(\d{1,2})[./](\d{1,2})[./](\d{4})/); if (m) return m[3] + "-" + ("0" + m[2]).slice(-2) + "-" + ("0" + m[1]).slice(-2); const n = String(x || "").match(/^(\d{4}-\d{2}-\d{2})/); return n ? n[1] : null; };
 async function arsiveYaz(id: string, m: Record<string, unknown>, metin: string, kaynak: string) {
   try {
     await srv("/rest/v1/ictihat_karar?on_conflict=id", "POST", { id: id, mahkeme: cut(m.mahkeme, 80), birim: cut(m.birim, 120), esas: cut(m.esas, 40), karar: cut(m.karar, 40), tarih: isoTarih(m.tarih), metin: cut(metin, 300000), kaynak: kaynak }, "resolution=ignore-duplicates,return=minimal");
@@ -1396,7 +1396,8 @@ async function mevzuatTurYukle(req: Request, b: Record<string, unknown>) {
 // İçtihat arşivinin yüklenmesi: bir mahkeme / kurul ve (isteğe bağlı) yıl için resmî emsal karar servisinden bir sayfa (10 karar)
 // aranır, arşivde olmayanların metni alınıp eklenir. Servisin hız sınırına uymak için belge istekleri arasında beklenir. Arşiv
 // sınırı (MB; ücretsiz planda 300, Pro'da yönetim panelinden yükseltilir) aşılırsa durulur.
-async function ictihatSayfa(mahkemeAd: string, birim: string, yil: number, sayfa: number, sinirMb: number): Promise<{ toplam: number; eklenen: number; atlanan: number; bitti: boolean; yogun: boolean; dolu: boolean; mb: number }> {
+async function ictihatSayfa(mahkemeAd: string, birim: string, yil: number, sayfa: number, sinirMb: number): Promise<{ toplam: number; eklenen: number; atlanan: number; bitti: boolean; yogun: boolean; dolu: boolean; mb: number; not?: string }> {
+  if (mahkemeAd === "AIHM_TR" || mahkemeAd === "AIHM_TUR" || mahkemeAd === "AYM_BB" || mahkemeAd === "AYM_NORM") return await disKaynakSayfa(mahkemeAd, sayfa, sinirMb);
   const mahkeme = MAHKEMELER.indexOf(mahkemeAd) >= 0 ? mahkemeAd : "YARGITAYKARARI";
   const d0 = await rpc("ictihat_durumu", {});
   const mb = d0 && d0[0] ? Number(d0[0].mb) : 0;
@@ -1426,6 +1427,104 @@ async function ictihatSayfa(mahkemeAd: string, birim: string, yil: number, sayfa
   }
   return { toplam: toplam, eklenen: eklenen, atlanan: mevcut.size, bitti: !yogun && (sayfa * 10 >= toplam || !liste.length), yogun: yogun, dolu: false, mb: mb };
 }
+// Anayasa Mahkemesi (bireysel başvuru ve norm denetimi karar bilgi bankaları) ve AİHM (HUDOC) kararları. AİHM'de iki küme:
+// Türkçe çeviriler (bütün devletler; Adalet Bakanlığı çevirileri) ve Türkiye hakkındaki kararlar (İngilizce asıl metin).
+const DIS_UA = { "User-Agent": "Celse/1.0 (+https://celse.themiscode.com)", "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.5" };
+const HUDOC_SORGU: Record<string, string> = {
+  AIHM_TR: "contentsitename:ECHR AND (languageisocode:\"TUR\") AND (documentcollectionid2:\"JUDGMENTS\" OR documentcollectionid2:\"DECISIONS\")",
+  AIHM_TUR: "contentsitename:ECHR AND (respondent:\"TUR\") AND (languageisocode:\"ENG\") AND (documentcollectionid2:\"JUDGMENTS\")"
+};
+async function hudocAra(sorgu: string, bas: number, adet: number): Promise<{ toplam: number; liste: Record<string, unknown>[] }> {
+  const u = "https://hudoc.echr.coe.int/app/query/results?query=" + encodeURIComponent(sorgu) +
+    "&select=itemid,docname,appno,kpdate,languageisocode,doctypebranch,respondent,importance&sort=" + encodeURIComponent("kpdate Descending") + "&start=" + bas + "&length=" + adet;
+  const r = await fetch(u, { headers: { ...DIS_UA, Accept: "application/json" } });
+  if (r.status === 429 || r.status >= 500) throw new Error("yoğun");
+  if (!r.ok) throw new Error("HUDOC " + r.status);
+  const j = await r.json();
+  return { toplam: Number(j.resultcount) || 0, liste: ((j.results || []) as { columns: Record<string, unknown> }[]).map(x => x.columns || {}) };
+}
+async function hudocMetin(itemid: string): Promise<string> {
+  const r = await fetch("https://hudoc.echr.coe.int/app/conversion/docx/html/body?library=ECHR&id=" + encodeURIComponent(itemid), { headers: DIS_UA });
+  if (r.status === 429 || r.status >= 500) throw new Error("yoğun");
+  if (!r.ok) return "";
+  return htmlMetin((await r.text()).replace(/&#x([0-9a-f]+);/gi, (_a, h) => String.fromCharCode(parseInt(h, 16))));
+}
+const BRANS: Record<string, string> = { GRANDCHAMBER: "Büyük Daire", CHAMBER: "Daire", COMMITTEE: "Komite", ADMISSIBILITY: "Kabul edilebilirlik", ADMISSIBILITYCOM: "Kabul edilebilirlik (komite)", DECGRANDCHAMBER: "Büyük Daire kararı" };
+async function hudocArsivle(x: Record<string, unknown>, kaynak: string): Promise<boolean> {
+  const itemid = String(x.itemid || "");
+  if (!itemid) return false;
+  const metin = await hudocMetin(itemid);
+  if (metin.length < 200) return false;
+  await arsiveYaz("aihm:" + itemid, { mahkeme: "AİHM", birim: cut(String(x.docname || ""), 90) + (x.doctypebranch ? " · " + (BRANS[String(x.doctypebranch)] || x.doctypebranch) : ""), esas: cut(String(x.appno || "").split(";")[0], 40), karar: String(x.languageisocode || ""), tarih: x.kpdate }, metin, kaynak);
+  return true;
+}
+const AYM_SITE: Record<string, { kok: string; yol: string; birim: string }> = {
+  AYM_BB: { kok: "https://kararlarbilgibankasi.anayasa.gov.tr", yol: "BB", birim: "Bireysel Başvuru" },
+  AYM_NORM: { kok: "https://normkararlarbilgibankasi.anayasa.gov.tr", yol: "ND", birim: "Norm Denetimi" }
+};
+async function aymSayfaGetir(u: string): Promise<string> {
+  const r = await fetch(u, { headers: DIS_UA });
+  if (r.status === 429 || r.status >= 500) throw new Error("yoğun");
+  return r.ok ? await r.text() : "";
+}
+/** Karar sayfası: başlık (başvuru adı), karar tarihi ve metin. */
+async function aymArsivle(tur: string, yil: string, no: string, kaynak: string): Promise<{ id: string; birim: string; tarih: string } | null> {
+  const k = AYM_SITE[tur];
+  const h = await aymSayfaGetir(k.kok + "/" + k.yol + "/" + yil + "/" + no);
+  if (!h) return null;
+  const metin = htmlMetin(h.replace(/<(header|nav|footer)[^>]*>[\s\S]*?<\/\1>/gi, " "));
+  if (metin.length < 500) return null;
+  const baslik = ((h.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1] || "").replace(/\s+/g, " ").trim();
+  const tarih = (metin.match(/Karar Tarihi\s*:?\s*(\d{1,2}[./]\d{1,2}[./]\d{4})/i) || [])[1] || "";
+  const id = "aym:" + k.yol + "/" + yil + "/" + no;
+  const birim = cut(k.birim + (baslik ? " · " + baslik : ""), 120);
+  await arsiveYaz(id, { mahkeme: "Anayasa Mahkemesi", birim: birim, esas: yil + "/" + no, karar: "", tarih: tarih }, metin, kaynak);
+  return { id: id, birim: birim, tarih: tarih };
+}
+async function disKaynakSayfa(tur: string, sayfa: number, sinirMb: number): Promise<{ toplam: number; eklenen: number; atlanan: number; bitti: boolean; yogun: boolean; dolu: boolean; mb: number; not?: string }> {
+  const d0 = await rpc("ictihat_durumu", {});
+  const mb = d0 && d0[0] ? Number(d0[0].mb) : 0;
+  const bos = { toplam: 0, eklenen: 0, atlanan: 0, bitti: false, yogun: false, dolu: false, mb: mb };
+  if (mb > sinirMb) return { ...bos, bitti: true, dolu: true };
+  // Listeyi al: AİHM'de HUDOC sorgusu, AYM'de karar bilgi bankasının sayfaları (karar bağlantıları sayfadan ayıklanır).
+  let adaylar: { id: string; x?: Record<string, unknown>; yil?: string; no?: string }[] = [];
+  let toplam = 0;
+  try {
+    if (tur.startsWith("AIHM")) {
+      const r = await hudocAra(HUDOC_SORGU[tur], (sayfa - 1) * 10, 10);
+      toplam = r.toplam;
+      adaylar = r.liste.filter(x => x.itemid).map(x => ({ id: "aihm:" + String(x.itemid), x: x }));
+    } else {
+      const k = AYM_SITE[tur];
+      const h = await aymSayfaGetir(k.kok + "/?page=" + sayfa);
+      const re = new RegExp("/" + k.yol + "/(\\d{4})/(\\d+)", "g");
+      const gor = new Set<string>();
+      for (const m of h.matchAll(re)) { const id = "aym:" + k.yol + "/" + m[1] + "/" + m[2]; if (!gor.has(id)) { gor.add(id); adaylar.push({ id: id, yil: m[1], no: m[2] }); } }
+      const t = h.match(/([\d.]+)\s*(?:Karar|Decisions)/i);
+      toplam = t ? Number(t[1].replace(/\./g, "")) : 0;
+      if (!adaylar.length) return { ...bos, bitti: true, not: sayfa === 1 ? k.birim + " karar listesi okunamadı (site yapısı değişmiş olabilir)." : undefined };
+    }
+  } catch (e) { if (String((e as Error).message) === "yoğun") return { ...bos, yogun: true }; return { ...bos, bitti: true, not: cut((e as Error).message, 120) }; }
+  let mevcut = new Set<string>();
+  if (adaylar.length) {
+    try {
+      const rows = await srv("/rest/v1/ictihat_karar?select=id&id=in.(" + adaylar.map(a => encodeURIComponent("\"" + a.id + "\"")).join(",") + ")", "GET");
+      mevcut = new Set((rows || []).map((x: { id: string }) => x.id));
+    } catch (_e) { void _e; }
+  }
+  let eklenen = 0, yogun = false;
+  for (const a of adaylar) {
+    if (mevcut.has(a.id)) continue;
+    try {
+      await new Promise(ok => setTimeout(ok, 1500));
+      const ok = a.x ? await hudocArsivle(a.x, "yukleme") : !!(await aymArsivle(tur, a.yil!, a.no!, "yukleme"));
+      if (ok) eklenen++;
+    } catch (e) { if (String((e as Error).message) === "yoğun") { yogun = true; break; } }
+  }
+  const bitti = !yogun && (tur.startsWith("AIHM") ? sayfa * 10 >= toplam || !adaylar.length : !adaylar.length || (toplam > 0 && sayfa * adaylar.length >= toplam) || sayfa >= 5000);
+  return { toplam: toplam, eklenen: eklenen, atlanan: mevcut.size, bitti: bitti, yogun: yogun, dolu: false, mb: mb };
+}
+
 const esasOf = (x: Record<string, unknown>) => String(x.esasNo || (x.esasNoYil ? x.esasNoYil + "/" + x.esasNoSira : ""));
 const kararOf = (x: Record<string, unknown>) => String(x.kararNo || (x.kararNoYil ? x.kararNoYil + "/" + x.kararNoSira : ""));
 /** Kararın resmî metnini alıp arşive yazar; metni yoksa false. */
@@ -1468,6 +1567,7 @@ async function ictihatIs(req: Request) {
       const r = await ictihatSayfa(p.mahkeme, p.birim || "", Number(p.yil) || 0, sayfa, Number(is.sinir_mb) || 300);
       if (r.dolu) { durum = "dolu"; hata = "Arşiv sınırına ulaşıldı (" + r.mb + " MB)."; break; }
       eklenen += r.eklenen;
+      if (r.not) hata = r.not;
       if (r.yogun) { hata = "Resmî servis yoğun; bir sonraki turda sürecek."; await rpc("ictihat_is_kaydet", { p_i: i, p_sayfa: sayfa, p_eklenen: r.eklenen }); break; }
       if (r.bitti) { i++; sayfa = 1; } else sayfa++;
       await rpc("ictihat_is_kaydet", { p_i: i, p_sayfa: sayfa, p_eklenen: r.eklenen });
@@ -1489,6 +1589,33 @@ async function kararDogrula(req: Request, uid: string, b: Record<string, unknown
   const sonuc: Record<string, unknown>[] = [];
   let ilk = true;
   for (const k of giris) {
+    // Anayasa Mahkemesi bireysel başvuru: başvuru numarasıyla karar sayfası doğrudan açılır.
+    if (k.mahkeme === "AYM_BB") {
+      const m = String(k.esas || "").match(/^(\d{4})\/(\d{1,7})$/);
+      if (!m) { sonuc.push({ durum: "eksik" }); continue; }
+      const url = "https://kararlarbilgibankasi.anayasa.gov.tr/BB/" + m[1] + "/" + m[2];
+      try {
+        const rows = await srv("/rest/v1/ictihat_karar?select=id,birim,tarih&id=eq." + encodeURIComponent("aym:BB/" + m[1] + "/" + m[2]), "GET");
+        if (rows && rows[0]) { sonuc.push({ durum: "dogru", arsivde: true, id: rows[0].id, mahkeme: "Anayasa Mahkemesi", birim: rows[0].birim, esas: m[1] + "/" + m[2], karar: "", tarih: trTarih(rows[0].tarih), url: url }); continue; }
+        const r = await aymArsivle("AYM_BB", m[1], m[2], "dogrulama");
+        sonuc.push(r ? { durum: "dogru", id: r.id, mahkeme: "Anayasa Mahkemesi", birim: r.birim, esas: m[1] + "/" + m[2], karar: "", tarih: r.tarih, url: url } : { durum: "yok" });
+      } catch (e) { sonuc.push({ durum: String((e as Error).message) === "yoğun" ? "yogun" : "yok" }); }
+      continue;
+    }
+    // AİHM: başvuru numarasıyla HUDOC'ta; Türkçe çevirisi varsa o, yoksa asıl metin.
+    if (k.mahkeme === "AIHM") {
+      const no = cut(k.esas, 20).trim();
+      if (!/^\d{1,6}\/\d{2}$/.test(no)) { sonuc.push({ durum: "eksik" }); continue; }
+      try {
+        const r = await hudocAra("contentsitename:ECHR AND (appno:\"" + no + "\") AND (documentcollectionid2:\"JUDGMENTS\" OR documentcollectionid2:\"DECISIONS\")", 0, 20);
+        const xs = r.liste.filter(x => String(x.appno || "").split(";").map(y => y.trim()).includes(no));
+        const x = xs.find(y => y.languageisocode === "TUR") || xs.find(y => y.languageisocode === "ENG") || xs[0];
+        if (!x) { sonuc.push({ durum: "yok" }); continue; }
+        await hudocArsivle(x, "dogrulama").catch(() => false);
+        sonuc.push({ durum: "dogru", id: "aihm:" + x.itemid, mahkeme: "AİHM", birim: cut(x.docname, 120), esas: no, karar: "", tarih: trTarih(x.kpdate), url: "https://hudoc.echr.coe.int/tur?i=" + x.itemid });
+      } catch (e) { sonuc.push({ durum: String((e as Error).message) === "yoğun" ? "yogun" : "yok" }); }
+      continue;
+    }
     const mahkeme = MAHKEMELER.indexOf(String(k.mahkeme)) >= 0 ? String(k.mahkeme) : "YARGITAYKARARI";
     const birim = cut(k.birim, 80).trim(), esas = noSade(cut(k.esas, 20)), karar = noSade(cut(k.karar, 20));
     if (!/^\d{4}\/\d{1,6}$/.test(esas)) { sonuc.push({ durum: "eksik" }); continue; }

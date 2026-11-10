@@ -1,6 +1,6 @@
 // Metinden (makale, blog, dilekçe, yapay zekâ cevabı) Yargıtay ve Danıştay karar künyelerini ayıklar: mahkeme, daire / kurul,
 // esas ve karar numarası. Doğrulama bu künyelerle resmî serviste yapılır.
-export interface KararKunyesi { mahkeme: "YARGITAYKARARI" | "DANISTAYKARAR"; birim: string; esas: string; karar: string; metin: string }
+export interface KararKunyesi { mahkeme: "YARGITAYKARARI" | "DANISTAYKARAR" | "AYM_BB" | "AIHM"; birim: string; esas: string; karar: string; metin: string }
 
 const NO = String.raw`((?:19|20)\d{2})\s*\/\s*(\d{1,6})`;
 const ESAS = new RegExp(String.raw`(?:\bE(?:sas)?\s*(?:No)?\s*[.:]?\s*${NO})|(?:${NO}\s*(?:E\b\.?|Esas\b))`, "gi");
@@ -48,8 +48,28 @@ export function kunyeleriAyikla(metin: string): KararKunyesi[] {
     const bas = Math.max(0, m.index - Math.min(80, on.length)), son = m.index + m[0].length + (k ? (k.index || 0) + k[0].length : 0);
     out.push({ ...b, esas, karar, metin: x.slice(bas, son).replace(/\s+/g, " ").trim() });
   }
+  // Anayasa Mahkemesi bireysel başvuru: "B. No: 2016/14951" (önünde Anayasa Mahkemesi / AYM / bireysel başvuru geçmeli).
+  for (const m of x.matchAll(/\b(?:B\.\s*No|Başvuru\s+Numarası)\s*[:.]?\s*((?:19|20)\d{2})\s*\/\s*(\d{1,7})(?!\d)/gi)) {
+    const on = x.slice(Math.max(0, (m.index || 0) - 220), m.index);
+    if (!/Anayasa Mahkemesi|\bAYM\b|bireysel başvuru/i.test(on + m[0])) continue;
+    const esas = sade(m[1], m[2]), anahtar = "AYM_BB||" + esas;
+    if (gor.has(anahtar)) continue;
+    gor.add(anahtar);
+    out.push({ mahkeme: "AYM_BB", birim: "Bireysel Başvuru", esas, karar: "", metin: x.slice(Math.max(0, (m.index || 0) - 80), (m.index || 0) + m[0].length).replace(/\s+/g, " ").trim() });
+  }
+  // AİHM: "Başvuru no: 12345/10", "(no. 12345/10)"; yakınında AİHM / Avrupa İnsan Hakları / v. Turkey / Türkiye davası geçmeli.
+  for (const m of x.matchAll(/\b(?:Başvuru\s*(?:no|No|numarası)|Application\s+no|no)\s*[.:]?\s*(\d{1,6}\/\d{2})(?![\d/])/g)) {
+    const cevre = x.slice(Math.max(0, (m.index || 0) - 200), (m.index || 0) + 60);
+    if (!/AİHM|Avrupa İnsan Hakları|\bECHR\b|\bECtHR\b|v\.\s*Turkey|v\.\s*Türkiye|\/\s*Türkiye|Türkiye davası|Turquie/i.test(cevre)) continue;
+    const anahtar = "AIHM||" + m[1];
+    if (gor.has(anahtar)) continue;
+    gor.add(anahtar);
+    out.push({ mahkeme: "AIHM", birim: "", esas: m[1], karar: "", metin: cevre.replace(/\s+/g, " ").trim().slice(0, 200) });
+  }
   return out;
 }
 
 export const kunyeYaz = (k: Pick<KararKunyesi, "mahkeme" | "birim" | "esas" | "karar">) =>
-  `${k.mahkeme === "DANISTAYKARAR" ? "Danıştay" : "Yargıtay"} ${k.birim}, E. ${k.esas}${k.karar ? ", K. " + k.karar : ""}`;
+  k.mahkeme === "AYM_BB" ? `Anayasa Mahkemesi (Bireysel Başvuru), B. No: ${k.esas}`
+    : k.mahkeme === "AIHM" ? `AİHM, Başvuru no: ${k.esas}`
+    : `${k.mahkeme === "DANISTAYKARAR" ? "Danıştay" : "Yargıtay"} ${k.birim}, E. ${k.esas}${k.karar ? ", K. " + k.karar : ""}`;
