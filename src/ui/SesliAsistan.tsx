@@ -15,7 +15,7 @@ import { Baglam, BITIR, Cevap, Eylem, sesliKomut } from "../data/sesKomut";
 import { t } from "../i18n";
 import { s } from "./foyStil";
 import { Btn } from "./kit";
-import { sesliDur, sesliOku, useSesliOkuma } from "./sesliOku";
+import { sesEngeliDinle, sesKilidiAc, sesliDur, sesliOku, useSesliOkuma } from "./sesliOku";
 import { C } from "./theme";
 import { izinYokMetni, tanimaIzni, tanimaSinifi, telefonda } from "./konusmaTanima";
 
@@ -112,9 +112,10 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
   };
 
   useEffect(() => {
-    if (!yuzen) yerelTanima().then(setYerel);
+    if (!yuzen) yerelTanima().then(v => { setYerel(v); yerelRef.current = v; yerelDenetlendi.current = true; });
+    sesEngeliDinle(m => setHata(t(m)));
     buroUyeleri().then(x => { uyeRef.current = { uyeler: x.uyeler, ben: x.ben }; }).catch(() => {});
-    return () => { try { rec.current?.abort(); } catch { /* yok say */ } };
+    return () => { sesEngeliDinle(null); try { rec.current?.abort(); } catch { /* yok say */ } };
   }, []);
   // Açık föy değişince "bu dosya" o föy olur.
   useEffect(() => { if (baglamFoyId) kalici.bag = { ...kalici.bag, foyId: baglamFoyId }; }, [baglamFoyId]);
@@ -242,7 +243,8 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
     const R = SR();
     if (!R) return;
     // Cihazda tanıma yalnız mikrofona ilk basılınca denetlenir (gerekirse dil paketi o an, kullanıcının isteğiyle indirilir).
-    if (!yerelDenetlendi.current && yuzen) { yerelDenetlendi.current = true; const v = await yerelTanima(); setYerel(v); yerelRef.current = v; }
+    // Cihazda tanıma denetimi mikrofonu bekletmez: ilk basışta sunucu tanımasıyla başlanır, sonuç sonraki basışlarda kullanılır.
+    if (!yerelDenetlendi.current) { yerelDenetlendi.current = true; yerelTanima().then(v => { setYerel(v); yerelRef.current = v; }).catch(() => {}); }
     if (telefonda && !(await tanimaIzni())) { sohbetAcik.current = false; setHata(t(izinYokMetni())); return; }
     sesliDur(); setHata(""); setAra("");
     try { rec.current?.abort(); } catch { /* yok say */ }
@@ -299,7 +301,7 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
   const durum = dinliyor ? t("Dinliyorum…") : dusunuyor ? t("Düşünüyorum…") : okuyor ? t("Cevap okunuyor…") : t("Mikrofona basıp konuşun");
 
   const mikrofon = (boy: number) => (
-    <Pressable accessibilityRole="button" accessibilityLabel={dinliyor ? t("Dinlemeyi durdur") : t("Konuş")} onPress={dinliyor ? durdur : dinle} disabled={!SR()}
+    <Pressable accessibilityRole="button" accessibilityLabel={dinliyor ? t("Dinlemeyi durdur") : t("Konuş")} onPress={dinliyor ? durdur : () => { sesKilidiAc(); dinle(); }} disabled={!SR()}
       style={{ width: boy, height: boy, borderRadius: boy / 2, alignItems: "center", justifyContent: "center", backgroundColor: dinliyor ? C.bad : C.bordo, borderWidth: 2, borderColor: dinliyor ? "#fff" : C.brassDim, opacity: SR() ? 1 : 0.5 }}>
       <Text style={{ fontSize: boy * 0.42 }}>{dinliyor ? "⏹" : "🎙"}</Text>
     </Pressable>
@@ -322,6 +324,10 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
           <Text key={i} style={[s.body, x.kim === "celse" ? { color: C.text } : { color: C.muted }]}>{x.kim === "siz" ? "🗣 " : "⚖ "}{x.metin}</Text>
         ))}
       </ScrollView>
+      <View style={[s.row, { gap: 14, flexWrap: "wrap" }]}>
+        <Pressable onPress={() => { sesKilidiAc(); setHata(""); sesliOku(t("Merhaba, sesli asistan hazır. Mikrofona basıp konuşabilirsiniz."), 1.05); }}><Text style={s.link}>{t("🔊 Sesi dene")}</Text></Pressable>
+        <Text style={[s.hint, { fontSize: 11 }]}>{t("Ses gelmiyorsa bilgisayarın sesini ve tarayıcı sekmesinin sesinin kapalı olmadığını kontrol edin.")}</Text>
+      </View>
       <TextInput value={yazi} onChangeText={setYazi} onSubmitEditing={yaziGonder} enterKeyHint="send" returnKeyType="send" blurOnSubmit={false}
         placeholder={t("Yazarak da komut verin, Enter ile gönderin")} placeholderTextColor={C.muted} style={s.inputTek} />
       <Pressable onPress={() => { const y = !surekli; setSurekli(y); try { globalThis.localStorage?.setItem("celse-ses-surekli", y ? "1" : "0"); } catch { /* yok say */ } }} style={[s.row, { alignItems: "center" }]} accessibilityRole="checkbox" accessibilityState={{ checked: surekli }}>
@@ -350,7 +356,7 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
       )}
       {!acik && (
         <View {...(Platform.OS === "web" ? ({ onPointerDown: webSurukle } as Any) : surukle.panHandlers)}>
-        <Pressable onPress={() => { if (suruklendi.current) { suruklendi.current = false; return; } setAcik(true); if (SR()) dinle(); }} accessibilityRole="button" accessibilityLabel={t("Sesli asistan")} accessibilityHint={t("Basılı tutup sürükleyerek yerini değiştirebilirsiniz")}
+        <Pressable onPress={() => { if (suruklendi.current) { suruklendi.current = false; return; } setAcik(true); sesKilidiAc(); if (SR()) dinle(); }} accessibilityRole="button" accessibilityLabel={t("Sesli asistan")} accessibilityHint={t("Basılı tutup sürükleyerek yerini değiştirebilirsiniz")}
           style={{ width: 60, height: 60, borderRadius: 30, alignItems: "center", justifyContent: "center", backgroundColor: C.bordo, borderWidth: 2, borderColor: C.brass, shadowColor: "#000", shadowOpacity: 0.5, shadowRadius: 12 }}>
           <Text style={{ fontSize: 26 }}>🎙</Text>
         </Pressable>

@@ -33,6 +33,19 @@ function parcala(metin: string): string[] {
   return out;
 }
 
+// Chrome, kullanıcı dokunuşu olmadan başlayan ilk konuşmayı engelliyor: yapay zekâ cevabı ağdan gelince (dokunuştan saniyeler
+// sonra) okunamıyordu. Mikrofona basıldığı anda sessiz, boş bir konuşma başlatılır; sayfa böylece "sesli" sayılır.
+let kilitAcik = false;
+let engelDinleyici: ((x: string) => void) | null = null;
+export const sesEngeliDinle = (f: ((x: string) => void) | null) => { engelDinleyici = f; };
+export function sesKilidiAc() {
+  if (YEREL || kilitAcik) return;
+  const s = synth();
+  if (!s || typeof SpeechSynthesisUtterance === "undefined") return;
+  try { const u = new SpeechSynthesisUtterance(" "); u.volume = 0; u.lang = "tr-TR"; s.speak(u); kilitAcik = true; } catch { /* yok say */ }
+  try { s.getVoices(); } catch { /* sesler yüklensin */ }
+}
+
 export function sesliOku(metin: string, hiz = 1) {
   if (YEREL) {
     if (!metin.trim()) return;
@@ -48,17 +61,28 @@ export function sesliOku(metin: string, hiz = 1) {
   }
   const s = synth();
   if (!s || !metin.trim()) return;
+  const mesgul = s.speaking || s.pending;
   s.cancel();
-  const { ses } = turkceSes();
-  const parcalar = parcala(metin);
-  parcalar.forEach((p, i) => {
-    const u = new SpeechSynthesisUtterance(p);
-    u.lang = "tr-TR"; u.rate = Math.max(0.5, Math.min(2, hiz));
-    if (ses) u.voice = ses;
-    if (i === 0) u.onstart = () => bildir(true);
-    if (i === parcalar.length - 1) { u.onend = () => bildir(false); u.onerror = () => bildir(false); }
-    s.speak(u);
-  });
+  // cancel'dan hemen sonra verilen konuşmayı Chrome zaman zaman yutuyor: meşgulse kısa bir ara verilir.
+  const basla = () => {
+    const { ses } = turkceSes();
+    const parcalar = parcala(metin);
+    parcalar.forEach((p, i) => {
+      const u = new SpeechSynthesisUtterance(p);
+      u.lang = "tr-TR"; u.rate = Math.max(0.5, Math.min(2, hiz));
+      if (ses) u.voice = ses;
+      if (i === 0) u.onstart = () => bildir(true);
+      u.onerror = (e: SpeechSynthesisErrorEvent) => {
+        bildir(false);
+        if (e?.error === "not-allowed") engelDinleyici?.("Tarayıcı sesli cevabı engelledi; mikrofona bir kez daha basın.");
+        else if (e?.error && e.error !== "interrupted" && e.error !== "canceled") engelDinleyici?.("Sesli cevap okunamadı (" + e.error + ").");
+      };
+      if (i === parcalar.length - 1) u.onend = () => bildir(false);
+      s.speak(u);
+    });
+    if (s.paused) s.resume();
+  };
+  if (mesgul) setTimeout(basla, 80); else basla();
 }
 export function sesliDur() { if (YEREL) Speech.stop(); else synth()?.cancel(); bildir(false); }
 

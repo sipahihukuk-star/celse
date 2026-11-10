@@ -371,7 +371,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         </View>
       ) : (
         <Pressable accessibilityRole="button" onPress={() => setKilitSor({})} hitSlop={8} style={{ alignSelf: "flex-start", paddingVertical: 14 }}>
-          <Text style={[s.hint, { textDecorationLine: "underline", opacity: 0.6 }]}>{t("Şahsi dosyalar")}</Text>
+          <Text style={[s.link, { opacity: 0.85 }]}>{t("🔒 Şahsi dosyalar (sayfanın en altında; şifreyle açılır)")}</Text>
         </Pressable>
       )}
     </ScrollView>

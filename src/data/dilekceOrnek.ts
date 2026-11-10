@@ -90,6 +90,7 @@ export function yoldanOrnek(yol: string): { klasor?: string } | null {
  */
 export function ornekSec(xs: DilekceOrnegi[], tur: string, secim = "otomatik"): DilekceOrnegi[] {
   if (secim === "yok" || !xs.length) return [];
+  if (secim.startsWith("ids:")) { const ids = secim.slice(4).split(","); return xs.filter(x => ids.includes(x.id)).slice(0, 4); }
   if (secim !== "otomatik") return xs.filter(x => x.id === secim);
   const ayni = xs.filter(x => x.tur === tur).slice(0, 2);
   if (ayni.length) return ayni;
