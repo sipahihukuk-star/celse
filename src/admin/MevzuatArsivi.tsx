@@ -52,8 +52,19 @@ const KAPSAM = [
   { k: "hgk", ad: "Yargıtay Hukuk Genel Kurulu" },
   { k: "cgk", ad: "Yargıtay Ceza Genel Kurulu" },
   { k: "iddk", ad: "Danıştay İdare Dava Daireleri Kurulu" },
-  { k: "vddk", ad: "Danıştay Vergi Dava Daireleri Kurulu" }
+  { k: "vddk", ad: "Danıştay Vergi Dava Daireleri Kurulu" },
+  { k: "aym", ad: "Anayasa Mahkemesi bireysel başvuru kararları" },
+  { k: "aymnorm", ad: "Anayasa Mahkemesi norm denetimi kararları" },
+  { k: "aihmtr", ad: "AİHM kararlarının Türkçe çevirileri (bütün devletler)" },
+  { k: "aihmtur", ad: "AİHM'nin Türkiye kararları (İngilizce asıl metin)" }
 ];
+/** Yıla bölünmeyen kaynaklar (kendi sayfalarıyla baştan sona gezilir). */
+const DIS: Record<string, PlanOgesi> = {
+  aym: { mahkeme: "AYM_BB", birim: "", yil: 0, ad: "AYM bireysel başvuru" },
+  aymnorm: { mahkeme: "AYM_NORM", birim: "", yil: 0, ad: "AYM norm denetimi" },
+  aihmtr: { mahkeme: "AIHM_TR", birim: "", yil: 0, ad: "AİHM Türkçe çeviriler" },
+  aihmtur: { mahkeme: "AIHM_TUR", birim: "", yil: 0, ad: "AİHM Türkiye kararları" }
+};
 type PlanOgesi = { mahkeme: string; birim: string; yil: number; ad: string };
 function planKur(kapsam: string[], yilSay: number): PlanOgesi[] {
   const buYil = new Date().getFullYear();
@@ -61,6 +72,8 @@ function planKur(kapsam: string[], yilSay: number): PlanOgesi[] {
   const temel = ICTIHAT_PLANI(yillar);
   const sec: Record<string, number[]> = { ibk: [0, 1], hgk: [2], cgk: [3], iddk: [4], vddk: [5] };
   const out: PlanOgesi[] = [];
+  // Önce AYM ve AİHM (yıl yok), sonra Yargıtay / Danıştay kurulları yıl yıl.
+  for (const k of kapsam) if (DIS[k]) out.push(DIS[k]);
   for (const k of kapsam) for (const i of sec[k] || []) for (const yil of temel[i].yillar) out.push({ mahkeme: temel[i].mahkeme, birim: temel[i].birim, yil, ad: temel[i].ad });
   return out;
 }
@@ -98,9 +111,9 @@ function IctihatArsivi() {
   return (
     <View style={{ gap: 8, borderTopWidth: 1, borderTopColor: C.line, paddingTop: 12, marginTop: 4 }}>
       <Text style={{ color: C.text, fontWeight: "700" }}>⚖ İçtihat arşivi</Text>
-      <Text style={{ color: C.muted, fontSize: 12 }}>Bütün kararlar zaten canlı aranabilir; arşive hızlı arama ve yapay zekânın başvurması için yüklenir. Yükleme sunucuda kendi kendine yürür (sayfayı kapatabilirsiniz): resmî servis saatte yaklaşık 1.000 karara izin verir. Ayrıca beyan editöründeki “Künye doğrula” ile makale ve bloglardaki kararlar resmî serviste teyit edilip eklenir.</Text>
+      <Text style={{ color: C.muted, fontSize: 12 }}>Bütün kararlar zaten canlı aranabilir; arşive hızlı arama ve yapay zekânın başvurması için yüklenir. Yükleme sunucuda kendi kendine yürür (sayfayı kapatabilirsiniz): resmî servis saatte yaklaşık 1.000 karara izin verir. Ayrıca beyan editöründeki “Künye doğrula” ile makale ve bloglardaki kararlar (Yargıtay, Danıştay, AYM, AİHM) resmî kaynağında teyit edilip eklenir. Uluslararası Ceza Mahkemesi kararları çok uzun PDF'ler olduğundan arşive alınmaz; yapay zekâ araması icc-cpi.int'te canlı arar.</Text>
       {d && <Text style={{ color: C.text }}>{Number(d.karar).toLocaleString("tr-TR")} karar (Yargıtay {Number(d.yargitay).toLocaleString("tr-TR")}, Danıştay {Number(d.danistay).toLocaleString("tr-TR")}, diğer {Number(d.diger).toLocaleString("tr-TR")}) · {d.mb} MB{is ? " / sınır " + is.sinir_mb.toLocaleString("tr-TR") + " MB" : ""}</Text>}
-      {is && <Text style={{ color: is.durum === "calisiyor" ? C.good : C.muted }}>{DURUM[is.durum] || is.durum}{is.plan?.length ? ` · ${Math.min(is.i, is.plan.length)} / ${is.plan.length} adım` : ""}{simdiki && is.durum === "calisiyor" ? ` · şimdi: ${simdiki.ad}${simdiki.yil ? " " + simdiki.yil : ""}, sayfa ${is.sayfa}` : ""} · bu planla {Number(is.eklenen).toLocaleString("tr-TR")} karar eklendi{sonCalisma !== null ? ` · son tur ${sonCalisma} dk önce` : ""}</Text>}
+      {is && <Text style={{ color: is.durum === "calisiyor" ? C.good : C.muted }}>{DURUM[is.durum] || is.durum}{is.plan?.length ? ` · ${Math.min(is.i, is.plan.length)} / ${is.plan.length} adım` : ""}{simdiki && is.durum === "calisiyor" ? ` · şimdi: ${simdiki.ad || simdiki.mahkeme}${simdiki.yil ? " " + simdiki.yil : ""}, sayfa ${is.sayfa}` : ""} · bu planla {Number(is.eklenen).toLocaleString("tr-TR")} karar eklendi{sonCalisma !== null ? ` · son tur ${sonCalisma} dk önce` : ""}</Text>}
       {is && is.durum === "calisiyor" && sonCalisma !== null && sonCalisma > 5 && <Text style={{ color: C.bad, fontSize: 12 }}>Son 5 dakikada tur çalışmadı: danisma fonksiyonunda “Verify JWT” kapalı mı ve surum23.sql çalıştırıldı mı, kontrol edin.</Text>}
       {!!is?.son_hata && <Text style={{ color: C.mid, fontSize: 12 }}>Son not: {is.son_hata}</Text>}
       {!!hata && <Text style={{ color: C.bad }}>{hata}</Text>}

@@ -213,14 +213,14 @@ function KararDogrula({ onKaydet }: { onKaydet: (k: HukukKaynak) => void }) {
   const sayi = (d: DogrulamaSonucu["durum"]) => sonuc.filter(x => x.durum === d).length;
   return (
     <View style={{ gap: 8 }}>
-      <Text style={s.hint}>{t("Bir makaleyi, blog yazısını, kararı ya da dilekçeyi yapıştırın veya dosyasını seçin. İçindeki Yargıtay ve Danıştay künyeleri (daire, esas ve karar numarası) ayıklanır ve resmî emsal karar servisinde tek tek aranır. Numaraları birebir tutan kararın resmî metni içtihat arşivine eklenir; tutmayan “bulunamadı” diye ayrılır.")}</Text>
+      <Text style={s.hint}>{t("Bir makaleyi, blog yazısını, kararı ya da dilekçeyi yapıştırın veya dosyasını seçin. İçindeki Yargıtay ve Danıştay (daire, esas ve karar numarası), Anayasa Mahkemesi (B. No) ve AİHM (başvuru no) künyeleri ayıklanır ve resmî kaynağında tek tek aranır. Numaraları birebir tutan kararın resmî metni içtihat arşivine eklenir; tutmayan “bulunamadı” diye ayrılır.")}</Text>
       <TextInput value={metin} onChangeText={ayikla} multiline placeholder={t("Örn. Yargıtay 9. HD, 2019/1234 E., 2020/567 K. … Danıştay 6. Daire, E: 2019/123, K: 2020/45 …")} placeholderTextColor={C.muted} style={[s.input, { minHeight: 90 }]} />
       <View style={s.addRow}>
         {web && <Btn kind="secondary" label={t("📄 Dosyadan al")} disabled={bekle} onPress={dosyadan} />}
         {!!liste.length && !bekle && <Btn label={t("✅ {n} künyeyi doğrula", { n: liste.length })} onPress={dogrula} />}
         {bekle && <Btn kind="ghost" label={t("Durdur")} onPress={() => { devam.current = false; }} />}
       </View>
-      {!!metin && !liste.length && <Text style={s.hint}>{t("Metinde daire / kurul ve esas numarası birlikte yazılmış karar künyesi bulunamadı.")}</Text>}
+      {!!metin && !liste.length && <Text style={s.hint}>{t("Metinde karar künyesi bulunamadı (Yargıtay / Danıştay için daire ve esas numarası, AYM için B. No, AİHM için başvuru no gerekir).")}</Text>}
       {!!hata && <Text style={s.err}>{hata}</Text>}
       {!!sonuc.length && <Text style={s.hint}>{t("Doğrulandı: {a} · Bulunamadı: {b}", { a: sayi("dogru"), b: sayi("yok") })}{sayi("yogun") + sayi("hata") ? " · " + t("Bakılamadı (servis yoğun): {n}", { n: sayi("yogun") + sayi("hata") }) : ""}{bekle ? " · " + t("sürüyor ({n} / {m})…", { n: sonuc.length, m: liste.length }) : ""}</Text>}
       {liste.map((k, i) => {

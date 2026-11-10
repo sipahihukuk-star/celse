@@ -53,6 +53,8 @@ GEÇİCİ MADDE 1-
 (1) Geçiş hükmü.
 `;
 let isSirada = true;
+let isPlan: Record<string, unknown>[] = [{ mahkeme: "YARGITAYKARARI", birim: "Hukuk Genel Kurulu", yil: 2025 }];
+const UZUN = "Uydurma karar metni. ".repeat(60);
 const js = (x: unknown, st = 200) => new Response(JSON.stringify(x), { status: st, headers: { "Content-Type": "application/json" } });
 globalThis.fetch = (async (u: string | URL, o?: RequestInit) => {
   const url = decodeURIComponent(String(u)), method = o?.method || "GET", body = String(o?.body || "");
@@ -70,8 +72,18 @@ globalThis.fetch = (async (u: string | URL, o?: RequestInit) => {
   if (url.includes("/rpc/ictihat_durumu")) return js([{ karar: arsiv.size, mb: 1 }]);
   if (url.includes("/rpc/ictihat_ara")) return js([...arsiv.values()].map(x => ({ ...x, bolum: "… «bilirkişi» …", puan: 1 })));
   if (url.includes("/rpc/ictihat_is_anahtar")) return js(JSON.parse(body).p_anahtar === "gizli-anahtar-0123456789abcdef");
-  if (url.includes("/rpc/ictihat_is_al")) return js(isSirada ? [{ plan: [{ mahkeme: "YARGITAYKARARI", birim: "Hukuk Genel Kurulu", yil: 2025 }], i: 0, sayfa: 1, sinir_mb: 300 }] : []);
+  if (url.includes("/rpc/ictihat_is_al")) return js(isSirada ? [{ plan: isPlan, i: 0, sayfa: 1, sinir_mb: 300 }] : []);
   if (url.includes("/rpc/")) return js(true);
+  // HUDOC (AİHM) ve AYM karar bilgi bankası taklitleri
+  if (url.includes("hudoc.echr.coe.int/app/query/results")) {
+    const tek = /appno:"12345\/10"/.test(url);
+    return js({ resultcount: tek ? 2 : 2, results: (tek ? [{ itemid: "001-900", docname: "CASE OF DENEME v. TURKEY", appno: "12345/10", kpdate: "2015-03-10T00:00:00", languageisocode: "ENG", doctypebranch: "CHAMBER" }, { itemid: "001-901", docname: "DENEME / TÜRKİYE DAVASI", appno: "12345/10", kpdate: "2015-03-10T00:00:00", languageisocode: "TUR", doctypebranch: "CHAMBER" }]
+      : [{ itemid: "001-111", docname: "ÖRNEK / TÜRKİYE DAVASI", appno: "1111/11", kpdate: "2020-01-02T00:00:00", languageisocode: "TUR", doctypebranch: "GRANDCHAMBER" }, { itemid: "001-112", docname: "BAŞKA / FRANSA DAVASI", appno: "2222/12", kpdate: "2019-05-06T00:00:00", languageisocode: "TUR", doctypebranch: "CHAMBER" }]).map(c => ({ columns: c })) });
+  }
+  if (url.includes("hudoc.echr.coe.int/app/conversion")) return new Response("<div><p>" + UZUN + "</p></div>", { status: 200 });
+  if (url.includes("kararlarbilgibankasi.anayasa.gov.tr/BB/2016/14951")) return new Response("<html><title>Ayşe Örnek Başvurusu</title><body><p>Karar Tarihi: 12/3/2020</p><p>" + UZUN + "</p></body></html>", { status: 200 });
+  if (url.includes("kararlarbilgibankasi.anayasa.gov.tr/BB/")) return new Response("", { status: 404 });
+  if (url.includes("kararlarbilgibankasi.anayasa.gov.tr/?page=")) return new Response(url.endsWith("page=1") ? '<a href="/BB/2016/14951">x</a> <a href="/BB/2016/14951">x</a> 1 Karar' : "", { status: 200 });
   if (url.includes("/rest/v1/ictihat_karar")) {
     if (method === "GET") { const id = url.match(/id=eq\.([^&]+)/)?.[1]; if (id) return js(arsiv.has(id) ? [arsiv.get(id)] : []); const ids = (url.match(/id=in\.\((.*)\)/)?.[1] || "").split(",").map(x => x.replace(/"/g, "")); return js(ids.filter(x => arsiv.has(x)).map(id => ({ id }))); }
     const r = JSON.parse(body); if (!arsiv.has(r.id)) arsiv.set(r.id, r); return new Response(null, { status: 201 });
@@ -187,6 +199,12 @@ const son = (p: string) => [...cagrilar].reverse().find(c => c.url.includes(p));
   j = await r.json();
   const kay = JSON.parse(son("/rpc/ictihat_is_kaydet")!.body), birak = JSON.parse(son("/rpc/ictihat_is_birak")!.body);
   ok(j.durum === "bitti" && kay.p_i === 1 && kay.p_sayfa === 1 && birak.p_durum === "bitti", "zamanlanmış iş planı bitirir: " + JSON.stringify(j) + " " + JSON.stringify(birak));
+  // Zamanlanmış işte AİHM Türkçe çeviriler ve AYM bireysel başvuru adımları
+  isPlan = [{ mahkeme: "AIHM_TR", birim: "", yil: 0 }, { mahkeme: "AYM_BB", birim: "", yil: 0 }];
+  r = await handle(new Request("https://x/functions/v1/danisma", { method: "POST", headers: { "x-celse-is": "gizli-anahtar-0123456789abcdef" }, body: JSON.stringify({ action: "ictihat_is" }) }));
+  j = await r.json();
+  ok(j.durum === "bitti" && arsiv.get("aihm:001-111")?.mahkeme === "AİHM" && arsiv.get("aihm:001-111")?.esas === "1111/11" && arsiv.has("aihm:001-112") && arsiv.get("aym:BB/2016/14951")?.tarih === "2020-03-12", "AİHM ve AYM yüklemesi: " + JSON.stringify(j) + " " + [...arsiv.keys()].join(","));
+  arsiv.delete("aym:BB/2016/14951");
   isSirada = false;
   r = await handle(new Request("https://x/functions/v1/danisma", { method: "POST", headers: { "x-celse-is": "gizli-anahtar-0123456789abcdef" }, body: JSON.stringify({ action: "ictihat_is" }) }));
   ok((await r.json()).bos === true, "sırada iş yoksa boş döner");
@@ -196,6 +214,10 @@ const son = (p: string) => [...cagrilar].reverse().find(c => c.url.includes(p));
   j = await r.json();
   ok(j.sonuc?.[0]?.durum === "dogru" && j.sonuc[0].id === "1001" && arsiv.get("1001")?.kaynak === "dogrulama" && j.sonuc[1]?.durum === "yok", "karar doğrulama: " + JSON.stringify(j).slice(0, 300));
   ok(JSON.parse(son("/emsal-karar/searchDocuments")!.body).data.phrase === "2024/2", "esas, sonra karar no ile aranır");
+  // AYM ve AİHM künyesi doğrulama
+  r = await handle(istek({ action: "karar_dogrula", kunyeler: [{ mahkeme: "AYM_BB", birim: "Bireysel Başvuru", esas: "2016/14951", karar: "" }, { mahkeme: "AYM_BB", birim: "", esas: "2016/99999", karar: "" }, { mahkeme: "AIHM", birim: "", esas: "12345/10", karar: "" }] }));
+  j = await r.json();
+  ok(j.sonuc?.[0]?.durum === "dogru" && arsiv.has("aym:BB/2016/14951") && j.sonuc[1]?.durum === "yok" && j.sonuc[2]?.durum === "dogru" && j.sonuc[2].id === "aihm:001-901", "AYM / AİHM doğrulama (Türkçe çeviri önce): " + JSON.stringify(j).slice(0, 400));
   // Diğer mevzuat arşivi
   r = await handle(istek({ action: "mevzuat_tur_yukle", tur: "KHK", sayfa: 1 }));
   j = await r.json();

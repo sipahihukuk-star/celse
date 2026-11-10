@@ -20,5 +20,7 @@ const bekle = [
 ok(JSON.stringify(yaz) === JSON.stringify(bekle), "künyeler:\n  " + yaz.join("\n  "));
 ok(xs.every(x => x.metin.length > 10), "künyenin geçtiği metin");
 ok(kunyeleriAyikla("Yargıtay 3. HD 2024/77 E.").map(kunyeYaz)[0] === "Yargıtay 3. Hukuk Dairesi, E. 2024/77", "karar numarasız künye");
+const ek = kunyeleriAyikla("Anayasa Mahkemesinin Ayşe Örnek başvurusunda (B. No: 2016/14951, 12/3/2020) ihlal kararı verilmiştir. AİHM'nin Deneme / Türkiye (Başvuru no: 12345/10) kararı ile Örnek v. Turkey (no. 2345/07) kararı da aynı yöndedir. Bu 15/20 sayılı karar değildir.").map(kunyeYaz);
+ok(JSON.stringify(ek) === JSON.stringify(["Anayasa Mahkemesi (Bireysel Başvuru), B. No: 2016/14951", "AİHM, Başvuru no: 12345/10", "AİHM, Başvuru no: 2345/07"]), "AYM ve AİHM: " + ek.join(" | "));
 if (fail) { console.log(`kunye-ayikla-test: ${fail} hata`); process.exit(1); }
 console.log("kunye-ayikla-test: tamam");
