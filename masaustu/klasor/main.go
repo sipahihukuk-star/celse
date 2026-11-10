@@ -57,7 +57,12 @@ func (k *Kopru) Yukle(ayarYolu, varsayilan string) error {
 	if k.ayar.Klasor == "" {
 		k.ayar.Klasor = varsayilan
 	}
-	return os.MkdirAll(k.ayar.Klasor, 0o755)
+	if err := os.MkdirAll(k.ayar.Klasor, 0o755); err != nil {
+		return err
+	}
+	// Bu alt klasöre konan dosyalar föye değil, Celse'deki dilekçe örneklerine gider.
+	_ = os.MkdirAll(filepath.Join(k.ayar.Klasor, "Dilekçe örnekleri"), 0o755)
+	return nil
 }
 
 func (k *Kopru) KlasorDegistir(yol string) error {

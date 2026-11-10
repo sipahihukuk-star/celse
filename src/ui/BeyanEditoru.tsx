@@ -8,11 +8,13 @@ import { atif, Beyan, BEYAN_KLASORLERI, beyanCercevesi, beyanDosyaAdi, beyanHtml
 import { ayarOku, ayarYaz, bosFoy, Foy, foyKaydet, yeniId } from "../data/foy";
 import { turBilgi } from "../data/foyTurleri";
 import { kutuphane, kutuphanedenSil, kutuphaneyeEkle } from "../data/hukukKutuphane";
+import { DilekceOrnegi, ornekler, ornekSec } from "../data/dilekceOrnek";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
 import { beyanYazdir, kaynakBul } from "./beyanCagri";
 import { belgeGetir, belgeKaynak, Karar, KanunMaddesi, kararAra, kararKaynak, kararKunye, MAHKEME_SECENEK, maddeKaynak, maddeKunye, MEVZUAT_TURU, mevzuatBul, MevzuatBelgesi, belgeKunye } from "./resmiKaynak";
 import { indir, s } from "./foyStil";
+import { DilekceOrnekleri } from "./DilekceOrnekleri";
 import { Katlanir } from "./Katlanir";
 import { Btn } from "./kit";
 import { izinYokMetni, tanimaIzni, tanimaSinifi } from "./konusmaTanima";
@@ -238,6 +240,10 @@ export function BeyanEditoru({ f, onDegistir }: { f: Foy; onDegistir: (ek: Parti
   const [hata, setHata] = useState("");
   const [vekil, setVekil] = useState("");
   const [bicim, setBicim] = useState("udf");
+  const [ornekSecim, setOrnekSecim] = useState("otomatik");
+  const [orn, setOrn] = useState<DilekceOrnegi[]>([]);
+  const [kullanilan, setKullanilan] = useState<number | null>(null);
+  useEffect(() => { ornekler().then(setOrn).catch(() => {}); }, [b.tur, bekle]);
   const zaman = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => { ayarOku<string>("beyanVekil").then(v => v && setVekil(v)); ayarOku<string>("beyanBicim").then(v => v && setBicim(v)); }, []);
   // Değişiklik bir saniye sonra föye kaydedilir (yalnız metni olan taslaklar).
@@ -257,8 +263,9 @@ export function BeyanEditoru({ f, onDegistir }: { f: Foy; onDegistir: (ek: Parti
   const yaz = async (duzelt: boolean) => {
     setBekle(true); setHata("");
     try {
-      const r = await beyanYazdir(f, b, talimat, duzelt);
+      const r = await beyanYazdir(f, b, talimat, duzelt, ornekSecim);
       if (!r.ok) { setHata(t(r.hata, r.vars)); return; }
+      setKullanilan(r.ornekSayisi);
       sakla({ ...b, metin: r.metin, talimat });
       setTalimat("");
     } finally { setBekle(false); }
@@ -289,6 +296,11 @@ export function BeyanEditoru({ f, onDegistir }: { f: Foy; onDegistir: (ek: Parti
           onSec={k => { const x = BEYAN_KLASORLERI.find(y => y.ad === k)!.turler[0].ad; sakla({ ...b, tur: x, konu: !b.konu || b.konu === konuOner(b.tur) ? konuOner(x) : b.konu }); }} />
         <Acilir etiket={t("Belge türü")} genislik={300} secenekler={(BEYAN_KLASORLERI.find(k => k.ad === beyanTuru(b.tur).klasor)?.turler || []).map(x => ({ k: x.ad, ad: t(x.ad) }))} secili={beyanTuru(b.tur).ad} onSec={k => sakla({ ...b, tur: k, konu: !b.konu || b.konu === konuOner(b.tur) ? konuOner(k) : b.konu })} />
       </View>
+      {!!orn.length && (
+        <Acilir etiket={t("Örnek dilekçem")} genislik={360} secili={ornekSecim} onSec={setOrnekSecim}
+          secenekler={[{ k: "otomatik", ad: t("Otomatik: aynı türdeki örneklerim") + " (" + ornekSec(orn, b.tur).length + ")" }, { k: "yok", ad: t("Örnek kullanma") },
+            ...orn.filter(x => x.klasor === beyanTuru(b.tur).klasor).slice(0, 40).map(x => ({ k: x.id, ad: (x.tur ? x.tur + " · " : "") + x.ad }))]} />
+      )}
       <Text style={s.label}>{t("Konu")}</Text>
       <TextInput value={b.konu} onChangeText={x => sakla({ ...b, konu: x })} placeholder={t("Konu satırı")} placeholderTextColor={C.muted} style={s.inputTek} />
       <Text style={s.label}>{b.metin ? t("Düzeltme talimatı") : t("Talimat")}</Text>
@@ -301,6 +313,7 @@ export function BeyanEditoru({ f, onDegistir }: { f: Foy; onDegistir: (ek: Parti
         {!!b.metin && <Btn kind="ghost" label={t("Baştan yaz")} disabled={bekle} onPress={() => yaz(false)} />}
       </View>
       {!!hata && <Text style={s.err}>{hata}</Text>}
+      {kullanilan !== null && !bekle && <Text style={s.hint}>{kullanilan ? t("Üslup için {n} örnek dilekçenizden yararlanıldı.", { n: kullanilan }) : t("Bu türde örnek dilekçeniz yok; genel üslupla yazıldı.")}</Text>}
       {!!(b.kaynaklar || []).length && (
         <View style={{ gap: 6 }}>
           <Text style={s.label}>{t("Beyanda anılacak kaynaklar")}</Text>
@@ -366,6 +379,9 @@ export function BeyanSekmesi({ liste }: { liste: Foy[] }) {
           </View>
         </View>
       )}
+      <Katlanir anahtar="dilekce-ornek" baslik={t("📝 Dilekçe örneklerim")} ozet={t("kendi dilekçelerinizi ekleyin; beyanlar sizin üslubunuzla yazılsın")}>
+        <DilekceOrnekleri />
+      </Katlanir>
       {f && <View style={s.card}><BeyanEditoru key={f.id} f={f} onDegistir={ek => (f.id === "foysuz" ? serbestKaydet(ek) : foyKaydet({ ...f, ...ek }))} /></View>}
     </View></ScrollView>
   );

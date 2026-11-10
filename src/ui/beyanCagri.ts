@@ -2,6 +2,7 @@
 // dönen gövde cihazda gerçek adlarla açılır. Kaynak aramada konu da föyün adları kodlanarak gider.
 import { atif, Beyan, beyanTuru, HukukKaynak } from "../data/beyan";
 import { call } from "../data/danisma";
+import { ornekler, ornekMetni, ornekSec } from "../data/dilekceOrnek";
 import { Foy, yeniId } from "../data/foy";
 import { turBilgi } from "../data/foyTurleri";
 import { mask, unmask } from "../engine/mask";
@@ -11,7 +12,7 @@ type Sonuc<T> = ({ ok: true } & T) | { ok: false; hata: string; vars?: Record<st
 const SIZINTI = /(?<!\d[.,]?)[1-9]\d{10}(?![.,]?\d)|\bTR\s?\d{2}(?:\s?\d{4}){5}|[\w.+-]+@[\w-]+\.[\w.]+/i;
 
 /** Beyan gövdesini yazdırır ya da var olan gövdeyi talimata göre düzelttirir. */
-export async function beyanYazdir(f: Foy, b: Beyan, talimat: string, duzelt: boolean): Promise<Sonuc<{ metin: string }>> {
+export async function beyanYazdir(f: Foy, b: Beyan, talimat: string, duzelt: boolean, ornekSecim = "otomatik"): Promise<Sonuc<{ metin: string; ornekSayisi: number }>> {
   const kaynakMetni = (b.kaynaklar || []).map((x, i) => `${i + 1}. [${x.tur === "ictihat" ? "İçtihat" : x.tur === "mevzuat" ? "Mevzuat" : "Doktrin"}${x.kaynak === "genel" ? ", genel bilgi" : ""}] ${atif(x)}${x.url ? " <" + x.url + ">" : ""}`).join("\n");
   // Taslak ve kaynaklar föyle aynı kodlamaya girsin diye "geçmiş" olarak verilir (soru = taslak, cevap = kaynaklar).
   const k = foySoruKaynagi(f, talimat.trim() || "-", [{ soru: duzelt ? b.metin || "-" : "-", cevap: kaynakMetni || "-" }], turBilgi(f.tur).ad);
@@ -19,9 +20,11 @@ export async function beyanYazdir(f: Foy, b: Beyan, talimat: string, duzelt: boo
   if (SIZINTI.test(k.dosya + " " + k.soru + " " + taslak + " " + kaynaklar)) return { ok: false, hata: "Dosyada ya da taslakta gizlenmemiş kişisel veri (kimlik no, IBAN ya da e-posta) kalmış olabilir; gönderilmedi. Bu bilgiyi çıkarın." };
   const konu = mask(b.konu || "", { extra: ekAdlar(f) }).masked;
   const bt = beyanTuru(b.tur);
-  const r = await call<{ metin: string }>("beyan_yaz", { dosya: k.dosya, tur: b.tur, cerceve: bt.cerceve, klasor: bt.klasor, konu, talimat: k.soru === "-" ? "" : k.soru, taslak: taslak === "-" ? "" : taslak, kaynaklar: kaynaklar === "-" ? "" : kaynaklar, arama: true }, 240000);
+  // Avukatın kendi dilekçe örnekleri (kaydedilirken kodlanmış): üslup ve yapı için.
+  const secilen = ornekSec(await ornekler().catch(() => []), b.tur, ornekSecim).filter(x => !SIZINTI.test(x.metin));
+  const r = await call<{ metin: string }>("beyan_yaz", { dosya: k.dosya, tur: b.tur, cerceve: bt.cerceve, klasor: bt.klasor, konu, talimat: k.soru === "-" ? "" : k.soru, taslak: taslak === "-" ? "" : taslak, kaynaklar: kaynaklar === "-" ? "" : kaynaklar, ornekler: secilen.length ? ornekMetni(secilen) : "", arama: true }, 240000);
   if (!r.ok) return { ok: false, hata: r.error, vars: r.vars as Record<string, string | number> | undefined };
-  return { ok: true, metin: unmask(r.data.metin || "", k.map).trim() };
+  return { ok: true, metin: unmask(r.data.metin || "", k.map).trim(), ornekSayisi: secilen.length };
 }
 
 /** İçtihat, mevzuat ya da doktrin arar; yalnız aramada gerçekten bulunan kaynaklar döner (sunucu eler). */
