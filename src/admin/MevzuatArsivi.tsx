@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Text, View } from "react-native";
 import { supabase } from "../data/account";
 import { ayarOku, ayarYaz } from "../data/foy";
-import { ICTIHAT_PLANI, ictihatArsiviniYukle, IctihatIlerleme, mevzuatArsiviniYukle, mevzuatTurleriniYukle } from "../ui/resmiKaynak";
+import { ICTIHAT_PLANI, mevzuatArsiviniYukle, mevzuatTurleriniYukle } from "../ui/resmiKaynak";
 import { C } from "../ui/theme";
 import { Section, SmallBtn } from "./form";
 
@@ -46,46 +46,82 @@ function DigerMevzuat() {
   );
 }
 
-/** İçtihat arşivi: temel kararların (İBK, genel kurullar, dava daireleri kurulları) resmî servisten yüklenmesi; durdurulup sürdürülebilir. */
+/** İçtihat arşivi: yükleme SUNUCUDA zamanlanmış iş olarak yürür (surum23.sql); sayfayı açık tutmak gerekmez. */
+const KAPSAM = [
+  { k: "ibk", ad: "İçtihadı birleştirme kararları (Yargıtay ve Danıştay, hepsi)" },
+  { k: "hgk", ad: "Yargıtay Hukuk Genel Kurulu" },
+  { k: "cgk", ad: "Yargıtay Ceza Genel Kurulu" },
+  { k: "iddk", ad: "Danıştay İdare Dava Daireleri Kurulu" },
+  { k: "vddk", ad: "Danıştay Vergi Dava Daireleri Kurulu" }
+];
+type PlanOgesi = { mahkeme: string; birim: string; yil: number; ad: string };
+function planKur(kapsam: string[], yilSay: number): PlanOgesi[] {
+  const buYil = new Date().getFullYear();
+  const yillar = Array.from({ length: yilSay }, (_x, i) => buYil - i);
+  const temel = ICTIHAT_PLANI(yillar);
+  const sec: Record<string, number[]> = { ibk: [0, 1], hgk: [2], cgk: [3], iddk: [4], vddk: [5] };
+  const out: PlanOgesi[] = [];
+  for (const k of kapsam) for (const i of sec[k] || []) for (const yil of temel[i].yillar) out.push({ mahkeme: temel[i].mahkeme, birim: temel[i].birim, yil, ad: temel[i].ad });
+  return out;
+}
+type IsDurumu = { plan: PlanOgesi[]; i: number; sayfa: number; durum: string; sinir_mb: number; eklenen: number; son_hata: string; son_calisma: string | null; calisiyor_mu: boolean };
 function IctihatArsivi() {
   const [d, setD] = useState<{ karar: number; yargitay: number; danistay: number; diger: number; mb: number; son: string | null } | null>(null);
-  const [is, setIs] = useState<IctihatIlerleme | null>(null);
-  const [calisiyor, setCalisiyor] = useState(false);
+  const [is, setIs] = useState<IsDurumu | null>(null);
   const [hata, setHata] = useState("");
-  const [yilSay, setYilSay] = useState(3);
-  const devam = useRef(false);
+  const [kapsam, setKapsam] = useState<string[]>(KAPSAM.map(x => x.k));
+  const [yilSay, setYilSay] = useState(47);
+  const [sinir, setSinir] = useState(300);
+  const [bekle, setBekle] = useState(false);
   const yukleDurum = async () => {
     const sb = supabase(); if (!sb) return;
     const r = await sb.rpc("ictihat_durumu");
     if (r.error) setHata(/function|does not exist|404/i.test(r.error.message) ? "Önce supabase/surum22.sql çalıştırılmalı." : r.error.message);
-    else { setHata(""); setD((r.data || [])[0] || null); }
+    else setD((r.data || [])[0] || null);
+    const j = await sb.rpc("ictihat_is_durumu");
+    if (j.error) setHata(/function|does not exist|404/i.test(j.error.message) ? "Sunucuda yükleme için önce supabase/surum23.sql çalıştırılmalı." : j.error.message);
+    else { const x = (j.data || [])[0] as IsDurumu | undefined; setIs(x || null); if (x && x.sinir_mb) setSinir(s => (x.durum === "calisiyor" ? x.sinir_mb : s)); }
   };
-  useEffect(() => { yukleDurum(); }, []);
-  const baslat = async () => {
-    const buYil = new Date().getFullYear();
-    const plan = ICTIHAT_PLANI(Array.from({ length: yilSay }, (_x, i) => buYil - i));
-    const kaldigi = (await ayarOku<{ i: number; yi: number; sayfa: number; yilSay: number }>("ictihatYukleme")) || { i: 0, yi: 0, sayfa: 1, yilSay };
-    const k = kaldigi.yilSay === yilSay ? kaldigi : { i: 0, yi: 0, sayfa: 1, yilSay };
-    devam.current = true; setCalisiyor(true); setHata("");
-    try {
-      const r = await ictihatArsiviniYukle(plan, x => { setIs(x); }, () => devam.current, k, y => { ayarYaz("ictihatYukleme", { ...y, yilSay }); });
-      if (!r.ok) setHata(r.hata);
-      else if (r.dolu) setHata("Arşiv 300 MB sınırına ulaştı; yükleme durdu. Daha fazlası için Supabase planı büyütülmeli.");
-      await yukleDurum();
-    } finally { setCalisiyor(false); devam.current = false; }
+  useEffect(() => { yukleDurum(); const z = setInterval(yukleDurum, 15000); return () => clearInterval(z); }, []);
+  const baslat = async (bastan: boolean) => {
+    const sb = supabase(); if (!sb) return;
+    setBekle(true); setHata("");
+    const r = await sb.rpc("ictihat_is_baslat", { p_plan: planKur(kapsam, yilSay), p_sinir: sinir, p_bastan: bastan });
+    if (r.error) setHata(r.error.message);
+    await yukleDurum(); setBekle(false);
   };
+  const durdur = async () => { const sb = supabase(); if (!sb) return; await sb.rpc("ictihat_is_durdur"); await yukleDurum(); };
+  const simdiki = is && is.plan && is.plan[is.i];
+  const DURUM: Record<string, string> = { calisiyor: "▶ Sunucuda yükleniyor", durdu: "⏸ Durdu", bitti: "✓ Plan bitti", dolu: "■ Arşiv sınırı doldu" };
+  const sonCalisma = is?.son_calisma ? Math.round((Date.now() - new Date(is.son_calisma).getTime()) / 60000) : null;
+  const plan = planKur(kapsam, yilSay);
   return (
     <View style={{ gap: 8, borderTopWidth: 1, borderTopColor: C.line, paddingTop: 12, marginTop: 4 }}>
       <Text style={{ color: C.text, fontWeight: "700" }}>⚖ İçtihat arşivi</Text>
-      <Text style={{ color: C.muted, fontSize: 12 }}>Bütün kararlar zaten canlı aranabilir. Arşive, hızlı ve çevrim dışı aranabilsin diye temel kararlar yüklenir: Yargıtay ve Danıştay içtihadı birleştirme kararlarının hepsi; Yargıtay Hukuk ve Ceza Genel Kurulu, Danıştay İdare ve Vergi Dava Daireleri Kurulu kararları (seçilen son yıllar). Celse'de açılan her karar da arşive eklenir. Resmî servis kısa sürede az isteğe izin verdiği için saatte yaklaşık 1.000 karar yüklenir; sayfayı açık bırakın, durdurup sonra kaldığı yerden sürdürebilirsiniz.</Text>
-      {d && <Text style={{ color: C.text }}>{Number(d.karar).toLocaleString("tr-TR")} karar (Yargıtay {Number(d.yargitay).toLocaleString("tr-TR")}, Danıştay {Number(d.danistay).toLocaleString("tr-TR")}, diğer {Number(d.diger).toLocaleString("tr-TR")}) · {d.mb} MB</Text>}
+      <Text style={{ color: C.muted, fontSize: 12 }}>Bütün kararlar zaten canlı aranabilir; arşive hızlı arama ve yapay zekânın başvurması için yüklenir. Yükleme sunucuda kendi kendine yürür (sayfayı kapatabilirsiniz): resmî servis saatte yaklaşık 1.000 karara izin verir. Ayrıca beyan editöründeki “Künye doğrula” ile makale ve bloglardaki kararlar resmî serviste teyit edilip eklenir.</Text>
+      {d && <Text style={{ color: C.text }}>{Number(d.karar).toLocaleString("tr-TR")} karar (Yargıtay {Number(d.yargitay).toLocaleString("tr-TR")}, Danıştay {Number(d.danistay).toLocaleString("tr-TR")}, diğer {Number(d.diger).toLocaleString("tr-TR")}) · {d.mb} MB{is ? " / sınır " + is.sinir_mb.toLocaleString("tr-TR") + " MB" : ""}</Text>}
+      {is && <Text style={{ color: is.durum === "calisiyor" ? C.good : C.muted }}>{DURUM[is.durum] || is.durum}{is.plan?.length ? ` · ${Math.min(is.i, is.plan.length)} / ${is.plan.length} adım` : ""}{simdiki && is.durum === "calisiyor" ? ` · şimdi: ${simdiki.ad}${simdiki.yil ? " " + simdiki.yil : ""}, sayfa ${is.sayfa}` : ""} · bu planla {Number(is.eklenen).toLocaleString("tr-TR")} karar eklendi{sonCalisma !== null ? ` · son tur ${sonCalisma} dk önce` : ""}</Text>}
+      {is && is.durum === "calisiyor" && sonCalisma !== null && sonCalisma > 5 && <Text style={{ color: C.bad, fontSize: 12 }}>Son 5 dakikada tur çalışmadı: danisma fonksiyonunda “Verify JWT” kapalı mı ve surum23.sql çalıştırıldı mı, kontrol edin.</Text>}
+      {!!is?.son_hata && <Text style={{ color: C.mid, fontSize: 12 }}>Son not: {is.son_hata}</Text>}
       {!!hata && <Text style={{ color: C.bad }}>{hata}</Text>}
-      {is && <Text style={{ color: C.muted }}>{calisiyor ? "Yükleniyor: " : "Son durum: "}{is.ad}{is.yil ? " " + is.yil : ""} · sayfa {is.sayfa}{is.toplam ? " / " + Math.ceil(is.toplam / 10) : ""} · bu oturumda {is.eklenen} karar eklendi{is.mesaj ? " · " + is.mesaj : ""}</Text>}
+      <Text style={{ color: C.muted, fontSize: 12 }}>Kapsam</Text>
+      <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
+        {KAPSAM.map(x => <SmallBtn key={x.k} label={(kapsam.includes(x.k) ? "☑ " : "☐ ") + x.ad} tone={kapsam.includes(x.k) ? "accent" : "plain"} onPress={() => setKapsam(k => (k.includes(x.k) ? k.filter(y => y !== x.k) : [...k, x.k]))} />)}
+      </View>
       <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-        {[1, 3, 5].map(n => <SmallBtn key={n} label={"Son " + n + " yıl"} tone={yilSay === n ? "accent" : "plain"} disabled={calisiyor} onPress={() => setYilSay(n)} />)}
-        {calisiyor
-          ? <SmallBtn label="Durdur" tone="danger" onPress={() => { devam.current = false; }} />
-          : <SmallBtn label="⬇ Temel kararları yükle / sürdür" tone="accent" onPress={baslat} />}
+        <Text style={{ color: C.muted, fontSize: 12 }}>Yıllar:</Text>
+        {[[5, "Son 5 yıl"], [10, "Son 10 yıl"], [20, "Son 20 yıl"], [47, "Hepsi (1980'den)"]].map(([n, ad]) => <SmallBtn key={String(n)} label={String(ad)} tone={yilSay === n ? "accent" : "plain"} onPress={() => setYilSay(Number(n))} />)}
+      </View>
+      <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+        <Text style={{ color: C.muted, fontSize: 12 }}>Arşiv sınırı:</Text>
+        {[[300, "300 MB (ücretsiz plan)"], [2000, "2 GB"], [6000, "6 GB (Pro plan)"]].map(([n, ad]) => <SmallBtn key={String(n)} label={String(ad)} tone={sinir === n ? "accent" : "plain"} onPress={() => setSinir(Number(n))} />)}
+      </View>
+      <Text style={{ color: C.muted, fontSize: 12 }}>Seçilen plan {plan.length} adım (her adım bir kurul ve yıl). 6 GB'a yaklaşık 250-300 bin karar sığar.</Text>
+      <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
+        {is?.durum === "calisiyor"
+          ? <SmallBtn label="⏸ Durdur" tone="danger" onPress={durdur} />
+          : <SmallBtn label={bekle ? "…" : "▶ Sunucuda başlat / sürdür"} tone="accent" disabled={bekle || !plan.length} onPress={() => baslat(false)} />}
+        {is?.durum !== "calisiyor" && !!is?.plan?.length && <SmallBtn label="↺ Baştan başlat" disabled={bekle || !plan.length} onPress={() => baslat(true)} />}
       </View>
     </View>
   );

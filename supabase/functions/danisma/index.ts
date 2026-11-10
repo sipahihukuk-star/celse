@@ -59,7 +59,7 @@ const TAKIP_AZAMI = 1000;
 const DANISMA_EVRAK = 40000;
 
 // Hız sınırı (kişi başına, saatlik).
-const SINIR: Record<string, number> = { kontrol: 30, degerlendir: 6, canlandir: 10, izle: 10, ses: 8, takip: 30, dosya: 4, evrak: 8, evrak_izle: 6, evrak_oyna: 4, evrak_bilet: 10, evrak_derle: 150, foyle: 60, foy_sor: 40, ses_anla: 200, genel_sor: 40, beyan_yaz: 40, kaynak_ara: 60, karar_ara: 400, mevzuat_bul: 400, belge_getir: 400, mevzuat_yukle: 3000, ictihat_yukle: 5000, mevzuat_tur_yukle: 5000 };
+const SINIR: Record<string, number> = { kontrol: 30, degerlendir: 6, canlandir: 10, izle: 10, ses: 8, takip: 30, dosya: 4, evrak: 8, evrak_izle: 6, evrak_oyna: 4, evrak_bilet: 10, evrak_derle: 150, foyle: 60, foy_sor: 40, ses_anla: 200, genel_sor: 40, beyan_yaz: 40, kaynak_ara: 60, karar_ara: 400, mevzuat_bul: 400, belge_getir: 400, mevzuat_yukle: 3000, ictihat_yukle: 5000, mevzuat_tur_yukle: 5000, karar_dogrula: 300 };
 
 // Oyuncunun dili: model metni bu dilde yazar (JSON alan adları aynı kalır). yz ile aynı "dil" alanı.
 const DIL: Record<string, string> = { en: "English", es: "Spanish", fr: "French", de: "German" };
@@ -1393,24 +1393,19 @@ async function mevzuatTurYukle(req: Request, b: Record<string, unknown>) {
   return json({ sayfa: sayfa, toplam: toplam, eklenen: eklenen, atlanan: mevcut.size, bitti: !yogun && (sayfa * 10 >= toplam || !liste.length), yogun: yogun });
 }
 
-// İçtihat arşivinin yüklenmesi (yalnız yönetici; panel art arda çağırır): bir mahkeme / kurul ve (isteğe bağlı) yıl için resmî
-// emsal karar servisinden bir sayfa (10 karar) aranır, arşivde olmayanların metni alınıp eklenir. Servisin hız sınırına uymak için
-// belge istekleri arasında beklenir. Arşiv 300 MB'ı aşarsa durulur.
-async function ictihatYukle(req: Request, b: Record<string, unknown>) {
-  if (!(await isAdmin(req))) return json({ error: "yetki yok" }, 403);
-  const mahkeme = MAHKEMELER.indexOf(String(b.mahkeme)) >= 0 ? String(b.mahkeme) : "YARGITAYKARARI";
-  const birim = cut(b.birim, 80).trim();
-  const yil = Number(b.yil) || 0;
-  const sayfa = Math.max(1, Math.min(1000, Number(b.sayfa) || 1));
-  try {
-    const d0 = await rpc("ictihat_durumu", {});
-    if (d0 && d0[0] && Number(d0[0].mb) > 300) return json({ bitti: true, dolu: true, mb: Number(d0[0].mb), eklenen: 0, toplam: 0 });
-  } catch (e) { return json({ error: "içtihat arşivi tablosu yok (surum22.sql çalıştırılmalı): " + cut((e as Error).message, 160) }, 500); }
-  const data: Record<string, unknown> = { pageSize: 10, pageNumber: sayfa, itemTypeList: [mahkeme], phrase: cut(b.soz, 100) || "karar", sortFields: ["KARAR_TARIHI"], sortDirection: "desc" };
+// İçtihat arşivinin yüklenmesi: bir mahkeme / kurul ve (isteğe bağlı) yıl için resmî emsal karar servisinden bir sayfa (10 karar)
+// aranır, arşivde olmayanların metni alınıp eklenir. Servisin hız sınırına uymak için belge istekleri arasında beklenir. Arşiv
+// sınırı (MB; ücretsiz planda 300, Pro'da yönetim panelinden yükseltilir) aşılırsa durulur.
+async function ictihatSayfa(mahkemeAd: string, birim: string, yil: number, sayfa: number, sinirMb: number): Promise<{ toplam: number; eklenen: number; atlanan: number; bitti: boolean; yogun: boolean; dolu: boolean; mb: number }> {
+  const mahkeme = MAHKEMELER.indexOf(mahkemeAd) >= 0 ? mahkemeAd : "YARGITAYKARARI";
+  const d0 = await rpc("ictihat_durumu", {});
+  const mb = d0 && d0[0] ? Number(d0[0].mb) : 0;
+  if (mb > sinirMb) return { toplam: 0, eklenen: 0, atlanan: 0, bitti: true, yogun: false, dolu: true, mb: mb };
+  const data: Record<string, unknown> = { pageSize: 10, pageNumber: sayfa, itemTypeList: [mahkeme], phrase: "karar", sortFields: ["KARAR_TARIHI"], sortDirection: "desc" };
   if (birim) data.birimAdi = birim;
   if (yil >= 1950 && yil <= 2100) { data.kararTarihiStart = yil + "-01-01T00:00:00.000Z"; data.kararTarihiEnd = yil + "-12-31T23:59:59.999Z"; }
   let d: Record<string, unknown>;
-  try { d = await bedesten("/emsal-karar/searchDocuments", data, true); } catch (e) { return json({ error: String((e as Error).message) === "yoğun" ? "yoğun" : "servis", bekle: 30 }, 503); }
+  try { d = await bedesten("/emsal-karar/searchDocuments", data, true); } catch (e) { if (String((e as Error).message) === "yoğun") return { toplam: 0, eklenen: 0, atlanan: 0, bitti: false, yogun: true, dolu: false, mb: mb }; throw e; }
   const liste = ((d.emsalKararList || []) as Record<string, unknown>[]).filter(x => x.documentId);
   const toplam = Number(d.total) || 0;
   let mevcut = new Set<string>();
@@ -1426,18 +1421,110 @@ async function ictihatYukle(req: Request, b: Record<string, unknown>) {
     if (mevcut.has(id)) continue;
     try {
       await new Promise(ok => setTimeout(ok, 3200));
-      const c = await bedesten("/emsal-karar/getDocumentContent", { documentId: id }, false);
-      if (!/html/i.test(String(c.mimeType || "text/html")) || !c.content) continue;
-      const metin = htmlMetin(new TextDecoder().decode(b64Utf8(String(c.content))));
-      if (!metin) continue;
-      const tur = (x.itemType || {}) as Record<string, unknown>;
-      await arsiveYaz(id, { mahkeme: String(tur.description || tur.name || "").replace(/\s*Kararı$/i, ""), birim: x.birimAdi, esas: x.esasNo || (x.esasNoYil ? x.esasNoYil + "/" + x.esasNoSira : ""),
-        karar: x.kararNo || (x.kararNoYil ? x.kararNoYil + "/" + x.kararNoSira : ""), tarih: x.kararTarihiStr || x.kararTarihi }, metin, "yukleme");
-      eklenen++;
+      if (await kararArsivle(id, x, "yukleme")) eklenen++;
     } catch (e) { if (String((e as Error).message) === "yoğun") { yogun = true; break; } }
   }
-  return json({ sayfa: sayfa, toplam: toplam, eklenen: eklenen, atlanan: mevcut.size, bitti: !yogun && sayfa * 10 >= toplam, yogun: yogun });
+  return { toplam: toplam, eklenen: eklenen, atlanan: mevcut.size, bitti: !yogun && (sayfa * 10 >= toplam || !liste.length), yogun: yogun, dolu: false, mb: mb };
 }
+const esasOf = (x: Record<string, unknown>) => String(x.esasNo || (x.esasNoYil ? x.esasNoYil + "/" + x.esasNoSira : ""));
+const kararOf = (x: Record<string, unknown>) => String(x.kararNo || (x.kararNoYil ? x.kararNoYil + "/" + x.kararNoSira : ""));
+/** Kararın resmî metnini alıp arşive yazar; metni yoksa false. */
+async function kararArsivle(id: string, x: Record<string, unknown>, kaynak: string): Promise<boolean> {
+  const c = await bedesten("/emsal-karar/getDocumentContent", { documentId: id }, false);
+  if (!/html/i.test(String(c.mimeType || "text/html")) || !c.content) return false;
+  const metin = htmlMetin(new TextDecoder().decode(b64Utf8(String(c.content))));
+  if (!metin) return false;
+  const tur = (x.itemType || {}) as Record<string, unknown>;
+  await arsiveYaz(id, { mahkeme: String(tur.description || tur.name || "").replace(/\s*Kararı$/i, ""), birim: x.birimAdi, esas: esasOf(x), karar: kararOf(x), tarih: x.kararTarihiStr || x.kararTarihi }, metin, kaynak);
+  return true;
+}
+
+async function ictihatYukle(req: Request, b: Record<string, unknown>) {
+  if (!(await isAdmin(req))) return json({ error: "yetki yok" }, 403);
+  const sayfa = Math.max(1, Math.min(1000, Number(b.sayfa) || 1));
+  let r;
+  try { r = await ictihatSayfa(String(b.mahkeme), cut(b.birim, 80).trim(), Number(b.yil) || 0, sayfa, Math.max(50, Math.min(7000, Number(b.sinir) || 300))); }
+  catch (e) { return /veritabanı/.test(String((e as Error).message)) ? json({ error: "içtihat arşivi tablosu yok (surum22.sql çalıştırılmalı)" }, 500) : json({ error: "servis", bekle: 30 }, 503); }
+  if (r.yogun && !r.eklenen) return json({ error: "yoğun", bekle: 30 }, 503);
+  return json({ sayfa: sayfa, toplam: r.toplam, eklenen: r.eklenen, atlanan: r.atlanan, bitti: r.bitti, yogun: r.yogun, dolu: r.dolu, mb: r.mb });
+}
+
+// Sunucuda sürekli içtihat yükleme (surum23.sql): pg_cron yaklaşık her dakika bu işlemi çağırır. Çağrı, veritabanı kasasındaki
+// gizli anahtarla (x-celse-is başlığı) doğrulanır; kullanıcı oturumu gerekmez. Yönetim panelinde başlatılan plan (mahkeme / kurul / yıl
+// listesi) kaldığı yerden sürdürülür; her turda en çok ~90 saniye çalışılır, ilerleme her sayfadan sonra kaydedilir.
+async function ictihatIs(req: Request) {
+  const anahtar = req.headers.get("x-celse-is") || "";
+  if (anahtar.length < 20 || (await rpc("ictihat_is_anahtar", { p_anahtar: anahtar })) !== true) return json({ error: "yetki yok" }, 403);
+  const rows = await rpc("ictihat_is_al", {});
+  const is = rows && rows[0];
+  if (!is) return json({ bos: true });
+  const plan = (is.plan || []) as { mahkeme: string; birim: string; yil: number }[];
+  let i = Number(is.i) || 0, sayfa = Number(is.sayfa) || 1, eklenen = 0, hata = "", durum: string | null = null;
+  const bas = Date.now();
+  try {
+    while (Date.now() - bas < 90000) {
+      if (i >= plan.length) { durum = "bitti"; break; }
+      const p = plan[i];
+      const r = await ictihatSayfa(p.mahkeme, p.birim || "", Number(p.yil) || 0, sayfa, Number(is.sinir_mb) || 300);
+      if (r.dolu) { durum = "dolu"; hata = "Arşiv sınırına ulaşıldı (" + r.mb + " MB)."; break; }
+      eklenen += r.eklenen;
+      if (r.yogun) { hata = "Resmî servis yoğun; bir sonraki turda sürecek."; await rpc("ictihat_is_kaydet", { p_i: i, p_sayfa: sayfa, p_eklenen: r.eklenen }); break; }
+      if (r.bitti) { i++; sayfa = 1; } else sayfa++;
+      await rpc("ictihat_is_kaydet", { p_i: i, p_sayfa: sayfa, p_eklenen: r.eklenen });
+    }
+  } catch (e) { hata = cut((e as Error).message, 200); }
+  await rpc("ictihat_is_birak", { p_hata: hata, p_durum: durum });
+  return json({ eklenen: eklenen, i: i, sayfa: sayfa, durum: durum || "calisiyor", hata: hata });
+}
+
+// Karar doğrulama: makalede, blogda ya da yapay zekâ aramasında geçen bir kararın künyesi (mahkeme, daire / kurul, esas ve karar no)
+// resmî emsal karar servisinde aranır. Esas (ve verilmişse karar) numarası birebir tutan kayıt bulunursa resmî metni arşive eklenir
+// ve "doğrulandı" döner; bulunmazsa "yok". Arşivde zaten varsa servise gidilmez. En çok 6 künye bir çağrıda.
+const noSade = (x: string) => String(x || "").replace(/\s+/g, "").replace(/^(\d{4})\/0+(\d)/, "$1/$2");
+const birimSade = (x: string) => String(x || "").toLocaleLowerCase("tr").replace(/\s+/g, " ").replace(/\.$/, "").trim();
+async function kararDogrula(req: Request, uid: string, b: Record<string, unknown>) {
+  if (!(await evrakIzni(req, uid)) && !(await avukatAktif(uid))) return json({ error: "avukat paketi yok" }, 403);
+  const giris = (Array.isArray(b.kunyeler) ? b.kunyeler : []).slice(0, 6) as Record<string, unknown>[];
+  if (!giris.length) return json({ error: "eksik" }, 400);
+  const sonuc: Record<string, unknown>[] = [];
+  let ilk = true;
+  for (const k of giris) {
+    const mahkeme = MAHKEMELER.indexOf(String(k.mahkeme)) >= 0 ? String(k.mahkeme) : "YARGITAYKARARI";
+    const birim = cut(k.birim, 80).trim(), esas = noSade(cut(k.esas, 20)), karar = noSade(cut(k.karar, 20));
+    if (!/^\d{4}\/\d{1,6}$/.test(esas)) { sonuc.push({ durum: "eksik" }); continue; }
+    // 1) Arşivde var mı?
+    try {
+      const rows = await srv("/rest/v1/ictihat_karar?select=id,mahkeme,birim,esas,karar,tarih&esas=eq." + encodeURIComponent(esas) + (karar ? "&karar=eq." + encodeURIComponent(karar) : "") + "&limit=5", "GET");
+      const x = (rows || []).find((y: Record<string, unknown>) => !birim || birimSade(String(y.birim)) === birimSade(birim));
+      if (x) { sonuc.push({ durum: "dogru", arsivde: true, id: x.id, mahkeme: x.mahkeme, birim: x.birim, esas: x.esas, karar: x.karar, tarih: trTarih(x.tarih), url: "https://mevzuat.adalet.gov.tr/ictihat/" + x.id }); continue; }
+    } catch (_e) { void _e; }
+    // 2) Resmî serviste: önce daireyle, olmazsa dairesiz; esas no, sonra karar no ile aranır; künye birebir tutmalı.
+    let bulunan: Record<string, unknown> | null = null, yogun = false;
+    const denemeler: Record<string, unknown>[] = [];
+    for (const soz of [esas, karar].filter(Boolean)) {
+      if (birim) denemeler.push({ phrase: soz, birimAdi: birim });
+      denemeler.push({ phrase: soz });
+    }
+    for (const d of denemeler) {
+      if (!ilk) await new Promise(ok => setTimeout(ok, 3200));
+      ilk = false;
+      let r: Record<string, unknown>;
+      try { r = await bedesten("/emsal-karar/searchDocuments", { pageSize: 50, pageNumber: 1, itemTypeList: [mahkeme], sortFields: ["KARAR_TARIHI"], sortDirection: "desc", ...d }, true); }
+      catch (e) { if (String((e as Error).message) === "yoğun") { yogun = true; break; } continue; }
+      const xs = (r.emsalKararList || []) as Record<string, unknown>[];
+      bulunan = xs.find(x => noSade(esasOf(x)) === esas && (!karar || noSade(kararOf(x)) === karar) && (!birim || birimSade(String(x.birimAdi)) === birimSade(birim))) || null;
+      if (bulunan) break;
+    }
+    if (!bulunan) { sonuc.push({ durum: yogun ? "yogun" : "yok" }); if (yogun) break; continue; }
+    const id = String(bulunan.documentId);
+    try { await new Promise(ok => setTimeout(ok, 3200)); await kararArsivle(id, bulunan, "dogrulama"); } catch (_e) { void _e; }
+    const tur = (bulunan.itemType || {}) as Record<string, unknown>;
+    sonuc.push({ durum: "dogru", id: id, mahkeme: cut(String(tur.description || tur.name || "").replace(/\s*Kararı$/i, ""), 80), birim: cut(bulunan.birimAdi, 120), esas: esasOf(bulunan), karar: kararOf(bulunan),
+      tarih: cut(bulunan.kararTarihiStr || trTarih(bulunan.kararTarihi), 20), url: "https://mevzuat.adalet.gov.tr/ictihat/" + id });
+  }
+  return json({ sonuc: sonuc });
+}
+
 
 // Kanun arşivinin yüklenmesi / güncellenmesi (yalnız yönetici; panel art arda çağırır). Kaynak: Adalet Bakanlığı mevzuat
 // servisinden günlük güncellenen açık veri deposu (github.com/onurcan-b/acik-mevzuat; yürürlükteki ve mülga bütün kanunlar).
@@ -1809,6 +1896,8 @@ export async function handle(req: Request): Promise<Response> {
     if (raw.length > (evrakMi ? EVRAK_AZAMI + 40000 : foyleMi ? 150000 : 40000)) return json({ error: "istek çok uzun" }, 413);
     const b = JSON.parse(raw || "{}") as Record<string, unknown>;
     const action = String(b.action || "");
+    // Zamanlanmış iş (pg_cron): kullanıcı oturumu yok, kasadaki anahtarla doğrulanır.
+    if (action === "ictihat_is") return await ictihatIs(req);
     if (!SINIR[action]) return json({ error: "bilinmeyen işlem" }, 400);
     const uid = await userOf(req);
     if (!uid) return json({ error: "giriş gerekli" }, 401);
@@ -1833,6 +1922,7 @@ export async function handle(req: Request): Promise<Response> {
     if (action === "mevzuat_yukle") return await mevzuatYukle(req, b);
     if (action === "ictihat_yukle") return await ictihatYukle(req, b);
     if (action === "mevzuat_tur_yukle") return await mevzuatTurYukle(req, b);
+    if (action === "karar_dogrula") return await kararDogrula(req, uid, b);
     if (action === "evrak_derle") return b.akis === true ? akisla(evrakDerle(uid, b)) : await evrakDerle(uid, b);
     return await takip(uid, b);
   } catch (e) {

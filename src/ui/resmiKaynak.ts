@@ -1,6 +1,7 @@
 // Resmî hukuk kaynakları (danisma karar_ara, mevzuat_bul, belge_getir, mevzuat_yukle): Adalet Bakanlığı'nın emsal karar ve
 // mevzuat servisi ile Celse'nin kanun arşivi (madde madde). Arama sözcüklerindeki föy adları kodlanır, sunucu kodları atar.
 import { HukukKaynak } from "../data/beyan";
+import type { KararKunyesi } from "../data/kunyeAyikla";
 import { call } from "../data/danisma";
 import { Foy, yeniId } from "../data/foy";
 import { mask } from "../engine/mask";
@@ -154,4 +155,29 @@ export async function mevzuatArsiviniYukle(ilerleme: (x: { islenen: number; topl
     bas = r.data.sonraki;
   }
   return { ok: true, degisen, madde, hatalar };
+}
+
+/* ---------- Karar doğrulama (makale, blog, yapay zekâ cevabındaki künyeler resmî serviste aranır) ---------- */
+export interface DogrulamaSonucu { durum: "dogru" | "yok" | "yogun" | "eksik" | "hata"; id?: string; mahkeme?: string; birim?: string; esas?: string; karar?: string; tarih?: string; url?: string; arsivde?: boolean }
+/** Künyeleri üçer üçer doğrular; doğrulananların resmî metni içtihat arşivine eklenir. Servis yoğunsa 30 saniye bekleyip sürer. */
+export async function kararlariDogrula(xs: Pick<KararKunyesi, "mahkeme" | "birim" | "esas" | "karar">[], ilerle?: (sonuclar: DogrulamaSonucu[]) => void, devam: () => boolean = () => true): Promise<Sonuc<{ sonuc: DogrulamaSonucu[] }>> {
+  const sonuc: DogrulamaSonucu[] = [];
+  const bekle = (ms: number) => new Promise(r => setTimeout(r, ms));
+  let yogunTur = 0;
+  for (let i = 0; i < xs.length && devam();) {
+    const parca = xs.slice(i, i + 3);
+    const r = await call<{ sonuc: DogrulamaSonucu[] }>("karar_dogrula", { kunyeler: parca.map(k => ({ mahkeme: k.mahkeme, birim: k.birim, esas: k.esas, karar: k.karar })) }, 150000);
+    if (!r.ok) {
+      if (sonuc.length || i) { for (let j = i; j < xs.length; j++) sonuc.push({ durum: "hata" }); ilerle?.(sonuc); return { ok: true, sonuc }; }
+      return { ok: false, hata: r.error, vars: r.vars as Record<string, string | number> | undefined };
+    }
+    const gelen = r.data.sonuc || [];
+    const tamam = gelen.filter(x => x.durum !== "yogun");
+    sonuc.push(...tamam);
+    i += tamam.length;
+    if (tamam.length < parca.length) { if (++yogunTur > 6) { for (let j = i; j < xs.length; j++) sonuc.push({ durum: "yogun" }); break; } await bekle(30000); }
+    else yogunTur = 0;
+    ilerle?.([...sonuc]);
+  }
+  return { ok: true, sonuc };
 }

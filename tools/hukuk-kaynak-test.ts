@@ -52,6 +52,7 @@ Son Hükümler
 GEÇİCİ MADDE 1-
 (1) Geçiş hükmü.
 `;
+let isSirada = true;
 const js = (x: unknown, st = 200) => new Response(JSON.stringify(x), { status: st, headers: { "Content-Type": "application/json" } });
 globalThis.fetch = (async (u: string | URL, o?: RequestInit) => {
   const url = decodeURIComponent(String(u)), method = o?.method || "GET", body = String(o?.body || "");
@@ -68,6 +69,8 @@ globalThis.fetch = (async (u: string | URL, o?: RequestInit) => {
   }
   if (url.includes("/rpc/ictihat_durumu")) return js([{ karar: arsiv.size, mb: 1 }]);
   if (url.includes("/rpc/ictihat_ara")) return js([...arsiv.values()].map(x => ({ ...x, bolum: "… «bilirkişi» …", puan: 1 })));
+  if (url.includes("/rpc/ictihat_is_anahtar")) return js(JSON.parse(body).p_anahtar === "gizli-anahtar-0123456789abcdef");
+  if (url.includes("/rpc/ictihat_is_al")) return js(isSirada ? [{ plan: [{ mahkeme: "YARGITAYKARARI", birim: "Hukuk Genel Kurulu", yil: 2025 }], i: 0, sayfa: 1, sinir_mb: 300 }] : []);
   if (url.includes("/rpc/")) return js(true);
   if (url.includes("/rest/v1/ictihat_karar")) {
     if (method === "GET") { const id = url.match(/id=eq\.([^&]+)/)?.[1]; if (id) return js(arsiv.has(id) ? [arsiv.get(id)] : []); const ids = (url.match(/id=in\.\((.*)\)/)?.[1] || "").split(",").map(x => x.replace(/"/g, "")); return js(ids.filter(x => arsiv.has(x)).map(id => ({ id }))); }
@@ -177,6 +180,22 @@ const son = (p: string) => [...cagrilar].reverse().find(c => c.url.includes(p));
   r = await handle(istek({ action: "ictihat_yukle", mahkeme: "YARGITAYKARARI", birim: "Hukuk Genel Kurulu", yil: 2025, sayfa: 1 }));
   j = await r.json();
   ok(j.eklenen === 0 && j.atlanan === 1, "arşivdeki karar yeniden alınmaz");
+  // Sunucuda zamanlanmış iş: anahtarsız çağrı reddedilir; anahtarla plan işlenir, ilerleme kaydedilir, iş biter.
+  r = await handle(new Request("https://x/functions/v1/danisma", { method: "POST", body: JSON.stringify({ action: "ictihat_is" }) }));
+  ok(r.status === 403, "zamanlanmış iş anahtarsız reddedilir");
+  r = await handle(new Request("https://x/functions/v1/danisma", { method: "POST", headers: { "x-celse-is": "gizli-anahtar-0123456789abcdef" }, body: JSON.stringify({ action: "ictihat_is" }) }));
+  j = await r.json();
+  const kay = JSON.parse(son("/rpc/ictihat_is_kaydet")!.body), birak = JSON.parse(son("/rpc/ictihat_is_birak")!.body);
+  ok(j.durum === "bitti" && kay.p_i === 1 && kay.p_sayfa === 1 && birak.p_durum === "bitti", "zamanlanmış iş planı bitirir: " + JSON.stringify(j) + " " + JSON.stringify(birak));
+  isSirada = false;
+  r = await handle(new Request("https://x/functions/v1/danisma", { method: "POST", headers: { "x-celse-is": "gizli-anahtar-0123456789abcdef" }, body: JSON.stringify({ action: "ictihat_is" }) }));
+  ok((await r.json()).bos === true, "sırada iş yoksa boş döner");
+  // Karar doğrulama: künye birebir tutarsa resmî metin arşive; tutmazsa "yok".
+  arsiv.delete("1001");
+  r = await handle(istek({ action: "karar_dogrula", kunyeler: [{ mahkeme: "YARGITAYKARARI", birim: "9. Hukuk Dairesi", esas: "2023/1", karar: "2024/2" }, { mahkeme: "YARGITAYKARARI", birim: "9. Hukuk Dairesi", esas: "2023/999", karar: "2024/2" }] }));
+  j = await r.json();
+  ok(j.sonuc?.[0]?.durum === "dogru" && j.sonuc[0].id === "1001" && arsiv.get("1001")?.kaynak === "dogrulama" && j.sonuc[1]?.durum === "yok", "karar doğrulama: " + JSON.stringify(j).slice(0, 300));
+  ok(JSON.parse(son("/emsal-karar/searchDocuments")!.body).data.phrase === "2024/2", "esas, sonra karar no ile aranır");
   // Diğer mevzuat arşivi
   r = await handle(istek({ action: "mevzuat_tur_yukle", tur: "KHK", sayfa: 1 }));
   j = await r.json();

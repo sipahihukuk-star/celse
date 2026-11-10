@@ -18,6 +18,9 @@ export interface HukukKaynak {
   /** yz: yapay zekâ resmî sitelerde buldu; genel: yapay zekânın genel bilgisi (kaynak gösterilmedi); elle: avukat ekledi */
   kaynak: "yz" | "genel" | "elle";
   tarih: string;
+  /** İçtihatta künyenin resmî serviste aranma sonucu: dogru (esas ve karar no birebir tuttu; resmî metin arşivde), yok (bulunamadı). */
+  dogrulama?: "dogru" | "yok";
+  resmiUrl?: string;
 }
 
 export interface Beyan {
