@@ -96,6 +96,13 @@ export function MevzuatArsivi({ onClose }: { onClose: () => void }) {
   const [is, setIs] = useState<{ islenen: number; toplam: number; degisen: number; madde: number; hatalar: string[] } | null>(null);
   const [calisiyor, setCalisiyor] = useState(false);
   const [hata, setHata] = useState("");
+  const [gecen, setGecen] = useState(0);
+  useEffect(() => {
+    if (!calisiyor) return;
+    const bas = Date.now(); setGecen(0);
+    const z = setInterval(() => setGecen(Math.round((Date.now() - bas) / 1000)), 1000);
+    return () => clearInterval(z);
+  }, [calisiyor]);
   const yukleDurum = async () => {
     const sb = supabase(); if (!sb) return;
     const r = await sb.rpc("mevzuat_durumu");
@@ -116,7 +123,8 @@ export function MevzuatArsivi({ onClose }: { onClose: () => void }) {
       <View style={{ gap: 8 }}>
         {d && <Text style={{ color: C.text }}>Yürürlükte {d.kanun} kanun · mülga {d.mulga} · {Number(d.madde).toLocaleString("tr-TR")} madde{d.son ? " · son güncelleme " + new Date(d.son).toLocaleString("tr-TR") : ""}</Text>}
         {!!hata && <Text style={{ color: C.bad }}>{hata}</Text>}
-        {is && <Text style={{ color: C.muted }}>{calisiyor ? "Yükleniyor: " : "Bitti: "}{is.islenen} / {is.toplam} kanun tarandı · {is.degisen} kanun yüklendi · {is.madde.toLocaleString("tr-TR")} madde{is.hatalar.length ? " · " + is.hatalar.length + " hata" : ""}</Text>}
+        {calisiyor && <Text style={{ color: C.muted }}>Geçen süre {Math.floor(gecen / 60)}:{String(gecen % 60).padStart(2, "0")}{is && !is.toplam ? " · ilk kanunlar alınıyor (ilk cevap 1-2 dakika sürebilir)…" : ""}</Text>}
+        {is && !!is.toplam && <Text style={{ color: C.muted }}>{calisiyor ? "Yükleniyor: " : "Bitti: "}{is.islenen} / {is.toplam} kanun tarandı · {is.degisen} kanun yüklendi · {is.madde.toLocaleString("tr-TR")} madde{is.hatalar.length ? " · " + is.hatalar.length + " hata" : ""}</Text>}
         {is && !!is.hatalar.length && <Text style={{ color: C.bad, fontSize: 12 }}>{is.hatalar.slice(0, 5).join("\n")}</Text>}
         <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
           <SmallBtn label={calisiyor ? "Yükleniyor… (sayfayı kapatmayın)" : d && d.kanun ? "↻ Güncelle (değişenler)" : "⬇ Arşivi yükle"} tone="accent" disabled={calisiyor} onPress={() => baslat(false)} />
