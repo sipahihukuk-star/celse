@@ -7,7 +7,8 @@ import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-na
 import { bosFoy, Foy, foyBaslik, foyDinle, foyGetir, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, tarihYaz, yedekMetni, yedektenYukle, yeniId } from "../data/foy";
 import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyAktar";
 import { turDuzeltmeleri } from "../data/dosyaListesi";
-import { DAVA_TURLERI, FoyTur, Giris, GIRISLER, turBilgi, TURLER } from "../data/foyTurleri";
+import { DAVA_TURLERI, FoyTur, Giris, GIRISLER, turBilgi, turTahmin, TURLER } from "../data/foyTurleri";
+import { kunyeCikar } from "../data/kunyeCikar";
 import { useInnerBack } from "./innerBack";
 import { FoySayfa } from "./FoySayfa";
 import { evrakOlustur } from "./foyEvrak";
@@ -275,7 +276,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
           </Katlanir>
         );
       })()}
-      {web && <KlasorKart liste={buro} onBilgi={m => setMesaj(m)} onToplu={xs => { setKlasordenGelen(xs); setHavuz(true); }} />}
+      {web && <KlasorKart liste={liste} onBilgi={m => setMesaj(m)} onToplu={xs => { setKlasordenGelen(xs); setHavuz(true); }} />}
 
       {yaklasan.length > 0 && (
         <View style={s.card}>
@@ -498,6 +499,8 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
   const [yolDegis, setYolDegis] = useState<string | null>(null);
   const [ilerleme, setIlerleme] = useState("");
   const [bekleyen, setBekleyen] = useState<TaramaDosyasi[]>([]);
+  const [sonra, setSonra] = useState<Set<string>>(new Set());
+  const [sahipsizTur, setSahipsizTur] = useState("_hepsi");
   const [busy, setBusy] = useState(false);
   const [son, setSon] = useState("");
   const byId = useMemo(() => new Map(liste.map(f => [f.id, f] as const)), [liste]);
@@ -602,13 +605,35 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
       {bilgi && bilgi.izin !== "granted" && !busy && <Text style={[s.hint, { color: C.mid }]}>{t("Tarayıcı bu oturumda klasöre bakmak için bir kez izin istiyor: “Yeni evrakı şimdi al”a basın.")}</Text>}
       {!!ilerleme && <Text style={s.hint}>{ilerleme}</Text>}
       {!!son && !ilerleme && <Text style={s.hint}>{son}</Text>}
-      {bekleyen.slice(0, 30).map(d => (
-        <EslesmeyenEvrak key={d.anahtar} d={d} liste={liste}
+      {bekleyen.length > 0 && (() => {
+        // Sahipsiz (föylendirilmemiş) evrak: evraktan anlaşılan dava tipine göre gruplanır; "Sonra bakarım" bu oturumda gizler.
+        const turOf = (d: TaramaDosyasi) => { const k = kunyeCikar(d.metin || ""); return turTahmin(k.dosyaTuru || "", k.mahkeme || "", d.kaynak.ad, (d.metin || "").slice(0, 4000)) || "hukuk"; };
+        const xs = bekleyen.map(d => ({ d, tur: turOf(d) }));
+        const gorunen = xs.filter(x => !sonra.has(x.d.anahtar) && (sahipsizTur === "_hepsi" || x.tur === sahipsizTur));
+        const turler = TURLER.filter(x => xs.some(y => y.tur === x.tur));
+        return (
+          <View style={{ gap: 8 }}>
+            <Text style={s.secT}>{t("Sahipsiz evrak (föylendirilmemiş): {n}", { n: bekleyen.length })}</Text>
+            <Text style={s.hint}>{t("Föyü bulunamayan evrak burada bekler; siz bakana kadar her taramada yeniden listelenir. Dava tipine göre süzüp tek tek föyleyin, şahsi dosyanıza koyun ya da gereksizse listeden kaldırın.")}</Text>
+            <View style={[s.addRow, { alignItems: "flex-end" }]}>
+              <Acilir etiket={t("Dava tipi")} genislik={240} secili={sahipsizTur} onSec={setSahipsizTur}
+                secenekler={[{ k: "_hepsi", ad: t("Bütün türler"), n: xs.length }, ...turler.map(x => ({ k: x.tur, ad: t(x.ad), n: xs.filter(y => y.tur === x.tur).length }))]} />
+              {sonra.size > 0 && <Btn kind="ghost" label={t("Sonraya bırakılanları göster ({n})", { n: sonra.size })} onPress={() => setSonra(new Set())} />}
+            </View>
+            {turler.filter(x => gorunen.some(y => y.tur === x.tur)).map(x => (
+              <View key={x.tur} style={{ gap: 8 }}>
+                <Text style={[s.hint, { fontWeight: "800", letterSpacing: 1 }]}>{t(x.ad).toLocaleUpperCase("tr")} ({gorunen.filter(y => y.tur === x.tur).length})</Text>
+                {gorunen.filter(y => y.tur === x.tur).slice(0, 30).map(({ d }) => (
+        <EslesmeyenEvrak key={d.anahtar} d={d} liste={liste} onSonra={() => setSonra(z => new Set([...z, d.anahtar]))}
           onEkle={async id => { await ekle([{ d, foyId: id }]); setBekleyen(xs => xs.filter(x => x !== d)); onBilgi({ t: t("“{ad}” dosyasına eklendi.", { ad: d.kaynak.ad }), ok: true }); }}
           onAtla={async () => { await gorulduYaz([d.anahtar]); setBekleyen(xs => xs.filter(x => x !== d)); hareketEkle({ yon: "gelen", ad: d.kaynak.ad, sonuc: "atlandi", kaynak: "Evrak klasörü: " + (d.kaynak.yol || d.kaynak.ad), anahtar: d.anahtar }); }}
           onOrnek={async () => { await gorulduYaz([d.anahtar]); hareketEkle({ yon: "gelen", ad: d.kaynak.ad, sonuc: "ornek", kaynak: "Evrak klasörü: " + (d.kaynak.yol || d.kaynak.ad), anahtar: d.anahtar }); setBekleyen(xs => xs.filter(x => x !== d)); onBilgi({ t: t("“{ad}” dilekçe örneklerine kaydedildi.", { ad: d.kaynak.ad }), ok: true }); }} />
-      ))}
-      {bekleyen.length > 30 && <Text style={s.hint}>{t("… ve {n} dosya daha", { n: bekleyen.length - 30 })}</Text>}
+                ))}
+              </View>
+            ))}
+          </View>
+        );
+      })()}
     </Katlanir>
   );
 }
