@@ -16,6 +16,7 @@ import { EslesmeyenEvrak } from "./EslesmeyenEvrak";
 import { ornekEkle, yoldanOrnek } from "../data/dilekceOrnek";
 import { hareketEkle, HareketSonuc } from "../data/evrakHareket";
 import { EvrakHareketKart } from "./EvrakHareketKart";
+import { DosyaDuzenle } from "./DosyaDuzenle";
 import { gorulduYaz, klasorBilgisi, klasorDestekli, klasorSec, klasorTara, kopruDurumu, kopruKlasorAc, kopruKlasorDegistir, KURULUM_ADRESI, TaramaDosyasi } from "./foyKlasor";
 import { dosyaSec, gunYaz, indir, s } from "./foyStil";
 import { FoyBulutKart } from "./FoyBulutKart";
@@ -262,6 +263,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       })()}
 
       <FoyBulutKart />
+      <DosyaDuzenle liste={buro} onAc={id => setSecili({ id })} />
       <IliskiKart liste={buro} onAc={id => setSecili({ id })} />
       <EvrakHareketKart liste={liste} onAc={id => setSecili({ id })} />
       {(() => {
