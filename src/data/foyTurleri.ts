@@ -107,6 +107,12 @@ export function turTahmin(...metinler: string[]): FoyTur | undefined {
   if (/tazminat komisyonu|insan haklari tazminat/.test(m)) return "tazminat_komisyonu";
   if (/anayasa mahkemesi|bireysel basvuru|aihm|avrupa insan haklari|european court|strasbourg|strazburg/.test(m)) return "bireysel_basvuru";
   if (/cbs sorusturma|sorusturma dosyasi/.test(m)) return "sorusturma";
+  // Başta (künye / merci) açıkça yazan mahkeme ve daire, metindeki "disiplin", "şikâyet" gibi sözcüklerden önce gelir:
+  // ör. işçinin disiplin cezasına karşı açılan davada bölge adliye hukuk dairesi dosyası hukuk davasıdır.
+  const bas = m.slice(0, 400);
+  if (/bolge adliye mahkemesi.{0,40}ceza dairesi|yargitay.{0,30}ceza dairesi|agir ceza mahkemesi|asliye ceza mahkemesi|sulh ceza hakimligi|cocuk (agir )?ceza mahkemesi/.test(bas)) return "ceza";
+  if (/bolge adliye mahkemesi.{0,40}hukuk dairesi|yargitay.{0,30}hukuk dairesi|asliye hukuk mahkemesi|sulh hukuk mahkemesi|is mahkemesi|aile mahkemesi|tuketici mahkemesi|asliye ticaret mahkemesi|kadastro mahkemesi|fikri ve sinai haklar/.test(bas)) return "hukuk";
+  if (/bolge idare mahkemesi|idare mahkemesi|vergi mahkemesi|danistay/.test(bas)) return "idari_dava";
   // Satış memurluğu iki kaynaktan gelir: sulh hukuk mahkemesinin ortaklığın giderilmesi (izale-i şuyu) kararıyla satış ya da icra
   // satışı. Kaynak yazıyorsa ona göre; yazmıyorsa sulh hukuk sayılır (satış memurlukları sulh hukuk mahkemelerine bağlıdır).
   if (/satis memurlugu/.test(m)) return /icra dairesi|icra mud|icra dosyasi|haciz|takip/.test(m) && !/sulh hukuk|ortakligin giderilmesi|izale/.test(m) ? "icra" : "hukuk";
