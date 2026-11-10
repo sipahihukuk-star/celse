@@ -3,7 +3,8 @@
 //     numara ve taraflar evraktan doldurulur; "şahsi dosyam" işaretlenirse dosya şifreli şahsi dosyalara açılır.
 //  2) Var olan dosyaya ekle: dosyalar türü, mercii, numarası ve müvekkiliyle listelenir; aynı numaralılar başta gelir.
 //  3) Dilekçe örneği olarak kaydet: evrak föye girmez; kodlanıp "Dilekçe örneklerim"e girer (beyan yazarken üslup örneği).
-//  4) Atla.
+//  4) Gereksiz: listeden kalkar, Celse bir daha sormaz (dosya bilgisayarda kalır). Sonra bakarım: bu taramada gizlenir.
+// "İçeriğe bak" evrakın okunan yazısını gösterir. Var olan dosyalar benzerliğe göre (numara, taraf adı, merci, tür) sıralanır.
 import React, { useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { BEYAN_KLASORLERI, beyanTuru } from "../data/beyan";
@@ -25,7 +26,7 @@ const temizAd = (ad: string) => ad.replace(/\.[a-z0-9]{2,5}$/i, "").replace(/[_]
 /** Bir dosyanın listede görünen adı: TÜR · merci · numara · müvekkil. */
 export const foyEtiketi = (f: Foy) => [turBilgi(f.tur).kisa, f.mahkeme, f.esasNo, f.muvekkil || f.karsiTaraf].filter(Boolean).join(" · ") + (f.ozel ? " 🔒" : "") + (f.durum === "kapali" ? " (kapalı)" : "");
 
-export function EslesmeyenEvrak({ d, liste, onEkle, onAtla, onOrnek }: { d: TaramaDosyasi; liste: Foy[]; onEkle: (foyId: string) => Promise<void>; onAtla: () => void; onOrnek?: () => void }) {
+export function EslesmeyenEvrak({ d, liste, onEkle, onAtla, onOrnek, onSonra }: { d: TaramaDosyasi; liste: Foy[]; onEkle: (foyId: string) => Promise<void>; onAtla: () => void; onOrnek?: () => void; onSonra?: () => void }) {
   const k = useMemo(() => kunyeCikar(d.metin || ""), [d.metin]);
   const tahmin = useMemo<FoyTur>(() => turTahmin(k.dosyaTuru || "", k.mahkeme || "", d.kaynak.ad, (d.metin || "").slice(0, 4000)) || "hukuk", [k, d]);
   const [mod, setMod] = useState<"" | "yeni" | "var" | "ornek">("");
@@ -38,15 +39,35 @@ export function EslesmeyenEvrak({ d, liste, onEkle, onAtla, onOrnek }: { d: Tara
   const [no, setNo] = useState(k.esasNo || "");
   const [ozel, setOzel] = useState(false);
   const [q, setQ] = useState("");
+  const [icerik, setIcerik] = useState(false);
+  const [turSuz, setTurSuz] = useState<string>("_hepsi");
   const [hata, setHata] = useState("");
   const [bekle, setBekle] = useState(false);
+  // Benzerlik: aynı numara > taraf adı tutuyor > dosya adında föyün tarafı geçiyor > aynı merci > aynı tür.
   const adaylar = useMemo(() => {
     const ns = nolar(d.kaynak.yol + " " + (d.metin || "").slice(0, 4000));
-    const sk = (f: Foy) => (f.esasNo && [...nolar(f.esasNo)].some(x => ns.has(x)) ? 0 : 1);
+    const bas = (d.kaynak.yol + " " + d.kaynak.ad + " " + (d.metin || "").slice(0, 4000)).toLocaleLowerCase("tr");
+    const adlar = [k.birinci?.ad, k.ikinci?.ad].filter(Boolean).map(x => String(x).toLocaleLowerCase("tr"));
+    const kelime = (x?: string) => (x || "").toLocaleLowerCase("tr").split(/[^a-zçğıöşü]+/).filter(w => w.length >= 4);
+    const puanla = (f: Foy) => {
+      const neden: string[] = []; let p = 0;
+      if (f.esasNo && [...nolar(f.esasNo)].some(x => ns.has(x))) { p += 100; neden.push(t("aynı numara")); }
+      const taraf = [...kelime(f.muvekkil), ...kelime(f.karsiTaraf)];
+      const tutan = taraf.filter(w => bas.includes(w) || adlar.some(a => a.includes(w)));
+      if (tutan.length) { p += 30 + tutan.length * 10; neden.push(t("taraf adı tutuyor")); }
+      const merci = (x: string) => x.toLocaleLowerCase("tr").replace(/sayın|hakimliği|hâkimliği|mahkemesi(ne)?|'?n[ea]\b|[.,']/g, " ").replace(/\s+/g, " ").trim();
+      if (k.mahkeme && f.mahkeme) { const a = merci(k.mahkeme), b = merci(f.mahkeme); if (a.length > 6 && b.length > 6 && (a === b || a.includes(b) || b.includes(a))) { p += 15; neden.push(t("aynı merci")); } }
+      if ((f.tur || "hukuk") === tahmin) { p += 5; }
+      return { f, p, neden };
+    };
     const kq = q.trim().toLocaleLowerCase("tr");
-    return [...liste].filter(f => !kq || [turBilgi(f.tur).ad, f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo].join(" ").toLocaleLowerCase("tr").includes(kq))
-      .sort((a, b) => sk(a) - sk(b) || (b.guncelleme || "").localeCompare(a.guncelleme || "")).slice(0, 10);
-  }, [liste, q, d]);
+    return liste
+      .filter(f => turSuz === "_hepsi" || (f.tur || "hukuk") === turSuz)
+      .filter(f => !kq || [turBilgi(f.tur).ad, f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru].join(" ").toLocaleLowerCase("tr").includes(kq))
+      .map(puanla)
+      .filter(x => kq || turSuz !== "_hepsi" || x.p >= 15)
+      .sort((a, b) => b.p - a.p || (b.f.guncelleme || "").localeCompare(a.f.guncelleme || "")).slice(0, 12);
+  }, [liste, q, d, k, tahmin, turSuz]);
   const tb = turBilgi(tur);
 
   const ac = async () => {
@@ -68,10 +89,24 @@ export function EslesmeyenEvrak({ d, liste, onEkle, onAtla, onOrnek }: { d: Tara
       <Text style={s.hint}>{t("Bu evrakın dosyası bulunamadı ({n}).", { n: t(d.neden || "numara bulunamadı") })} {t("Evraktan anlaşılan:")} {[tb.ad, k.mahkeme, k.esasNo].filter(Boolean).join(" · ") || t("tür ve numara okunamadı")}{d.okunamadi ? " · " + t("okunamadı: {n}", { n: d.okunamadi }) : ""}</Text>
       {!mod && (
         <View style={s.addRow}>
-          <Btn label={t("➕ Bunun için yeni dosya aç")} onPress={() => setMod("yeni")} />
+          <Btn label={t("➕ Bunun için yeni dosya aç")} onPress={() => { setOzel(false); setMod("yeni"); }} />
           <Btn kind="secondary" label={t("📁 Var olan dosyaya ekle")} onPress={() => setMod("var")} />
+          <Btn kind="secondary" label={t("🔒 Şahsi dosyam")} onPress={() => { setOzel(true); setMod("yeni"); }} />
           {!!onOrnek && !!(d.metin || "").trim() && <Btn kind="secondary" label={t("📝 Dilekçe örneği olarak kaydet")} onPress={() => setMod("ornek")} />}
-          <Pressable onPress={onAtla}><Text style={s.sil}>{t("Atla")}</Text></Pressable>
+        </View>
+      )}
+      {!mod && (
+        <View style={[s.addRow, { alignItems: "center" }]}>
+          <Pressable onPress={() => setIcerik(x => !x)}><Text style={s.link}>{icerik ? t("İçeriği gizle") : t("👁 İçeriğe bak")}</Text></Pressable>
+          {!!onSonra && <Pressable onPress={onSonra}><Text style={s.link}>{t("Sonra bakarım")}</Text></Pressable>}
+          <Pressable onPress={onAtla}><Text style={s.sil}>{t("🗑 Gereksiz, listeden kaldır")}</Text></Pressable>
+        </View>
+      )}
+      {icerik && (
+        <View style={{ gap: 4, borderLeftWidth: 2, borderLeftColor: C.line, paddingLeft: 8 }}>
+          <Text style={s.hint}>{d.kaynak.yol}</Text>
+          <Text style={[s.body, { fontSize: 13 }]}>{(d.metin || "").trim() ? (d.metin || "").trim().slice(0, 2500) + ((d.metin || "").length > 2500 ? " …" : "") : t("Bu evrakın yazısı okunamadı ({n}).", { n: d.okunamadi || t("taranmış görüntü olabilir") })}</Text>
+          <Text style={s.hint}>{t("“Gereksiz” derseniz dosya bilgisayarınızdaki klasörde kalır; Celse yalnız bir daha sormaz.")}</Text>
         </View>
       )}
       {mod === "yeni" && (
@@ -119,14 +154,20 @@ export function EslesmeyenEvrak({ d, liste, onEkle, onAtla, onOrnek }: { d: Tara
       )}
       {mod === "var" && (
         <View style={{ gap: 6 }}>
-          <TextInput value={q} onChangeText={setQ} placeholder={t("Ara: müvekkil, merci, numara, tür…")} placeholderTextColor={C.muted} style={s.inputTek} autoFocus />
-          {adaylar.map(f => (
-            <Pressable key={f.id} onPress={async () => { setBekle(true); try { await onEkle(f.id); } finally { setBekle(false); } }} disabled={bekle}>
-              <Text style={s.link}>{foyEtiketi(f)}</Text>
+          <View style={[s.addRow, { alignItems: "flex-end" }]}>
+            <TextInput value={q} onChangeText={setQ} placeholder={t("Ara: ad soyad, merci, numara…")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 220 }]} autoFocus />
+            <Acilir etiket={t("Dava tipi")} genislik={220} secili={turSuz} onSec={setTurSuz}
+              secenekler={[{ k: "_hepsi", ad: t("Bütün türler") }, ...TURLER.filter(x => liste.some(f => (f.tur || "hukuk") === x.tur)).map(x => ({ k: x.tur, ad: t(x.ad), n: liste.filter(f => (f.tur || "hukuk") === x.tur).length }))]} />
+          </View>
+          {!q.trim() && turSuz === "_hepsi" && <Text style={s.hint}>{t("Benzer dosyalar (numara, taraf adı, merci ve türe göre). Aradığınız yoksa ad soyad yazın ya da dava tipini seçin.")}</Text>}
+          {adaylar.map(({ f, neden }) => (
+            <Pressable key={f.id} onPress={async () => { setBekle(true); try { await onEkle(f.id); } finally { setBekle(false); } }} disabled={bekle} style={{ gap: 1 }}>
+              <Text style={s.link}>{[f.muvekkil || t("müvekkil yazılmamış"), f.karsiTaraf].filter(Boolean).join(" – ")}{f.ozel ? " 🔒" : ""}</Text>
+              <Text style={s.hint}>{[turBilgi(f.tur).ad, f.davaTuru, f.mahkeme, f.esasNo, f.durum === "kapali" ? t("kapalı") : ""].filter(Boolean).join(" · ")}{neden.length ? "  ·  " + neden.join(", ") : ""}</Text>
             </Pressable>
           ))}
-          {!adaylar.length && <Text style={s.hint}>{t("Eşleşen dosya yok; “Geri” deyip yeni dosya açabilirsiniz.")}</Text>}
-          <View style={s.addRow}><Btn kind="ghost" label={t("Geri")} onPress={() => setMod("")} /><Pressable onPress={onAtla}><Text style={s.sil}>{t("Atla")}</Text></Pressable></View>
+          {!adaylar.length && <Text style={s.hint}>{q.trim() || turSuz !== "_hepsi" ? t("Bu aramayla dosya yok.") : t("Benzer dosya bulunamadı. Ad soyad yazarak arayın, dava tipini seçin ya da “Geri” deyip yeni dosya açın.")}</Text>}
+          <View style={s.addRow}><Btn kind="ghost" label={t("Geri")} onPress={() => setMod("")} /></View>
         </View>
       )}
     </View>
