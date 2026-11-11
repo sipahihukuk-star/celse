@@ -463,7 +463,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
             <View style={[s.row, { gap: 14, alignItems: "center", flexWrap: "wrap" }]}>
               <Pressable onPress={() => setAyr(a => ({ ...a, evrak: !a.evrak }))} accessibilityRole="checkbox" accessibilityState={{ checked: ayr.evrak }} style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
                 <View style={{ width: 20, height: 20, borderRadius: 4, borderWidth: 2, borderColor: ayr.evrak ? C.brass : C.muted, backgroundColor: ayr.evrak ? C.brass : "transparent", alignItems: "center", justifyContent: "center" }}>{ayr.evrak && <Text style={{ color: C.brassInk, fontWeight: "900", fontSize: 13, lineHeight: 15 }}>✓</Text>}</View>
-                <Text style={s.hint}>{t("Evrakın içinde de ara (ad, T.C. no, adres, telefon evrakta geçiyorsa bulunur)")}</Text>
+                <Text style={[s.hint, { flex: 1, flexShrink: 1 }]}>{t("Evrakın içinde de ara (ad, T.C. no, adres, telefon evrakta geçiyorsa bulunur)")}</Text>
               </Pressable>
             </View>
             <View style={[s.row, { gap: 10, alignItems: "center", flexWrap: "wrap" }]}>
