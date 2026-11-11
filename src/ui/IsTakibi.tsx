@@ -13,6 +13,7 @@ import { indir, s } from "./foyStil";
 import { DUZEY_RENK, duzeyAdi, GorevKapat } from "./GorevKapat";
 import { Btn } from "./kit";
 import { C } from "./theme";
+import { eIsDurusma, eKarar } from "../data/otoIs";
 import { DurusmaUyarilari } from "./DurusmaUyarilari";
 
 export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: string) => void; onKapat: () => void }) {
@@ -40,6 +41,7 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
   const buro = liste.filter(f => !f.ozel);
   const turler = TURLER.filter(x => !x.eski && buro.some(f => (f.tur || "hukuk") === x.tur));
 
+  const eYaz = async (f: Foy, g: Gorev, karar: "kabul" | "red") => { const d = eIsDurusma(g); if (d) await foyKaydet({ ...f, ...eKarar(f, d, karar) }); };
   const gorevYaz = async (f: Foy, g: Gorev, ek: Partial<Gorev> | null) => {
     await foyKaydet({ ...f, gorevler: ek ? f.gorevler.map(x => (x.id === g.id ? { ...x, ...ek } : x)) : f.gorevler.filter(x => x.id !== g.id) });
   };
@@ -174,13 +176,16 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
                   ? <Text style={[s.hint, { color: C.good }]}>{g.kapanis ? t("Kapandı {d} · no: {no}{g}", { d: tarihYaz(g.kapanis.tarih), no: g.kapanis.no, g: g.kapanis.kaynak === "gorsel" ? " · " + t("görselden okundu") : "" }) : t("Numarasız kapatılmış (eski kayıt)")}</Text>
                   : <Text style={{ color: renk, fontSize: 13, fontWeight: "700" }}>{duzeyAdi(u.duzey)} · {t(u.metin)}{g.tarih ? " · " + t("son gün {d}", { d: tarihYaz(g.tarih) }) : ""}</Text>}
                 {g.kaynak === "yapay" && !g.bitti && <Text style={s.hint}>{t("yapay zekâ önerisi, kontrol edin")}</Text>}
+                {g.kaynak === "oto" && !g.bitti && <Text style={s.hint}>{eIsDurusma(g) ? t("kendiliğinden açıldı; kabul ya da red işaretlenince kapanır") : t("kendiliğinden açıldı; künye tamamlanınca kapanır")}</Text>}
                 {uyeler.length > 1 && !g.bitti
                   ? <Acilir etiket={t("Kimde")} secili={g.atanan || ""} genislik={260} secenekler={kisiSecenek} onSec={k => gorevYaz(f, g, atama(k))} />
                   : !!g.atananAd && <Text style={s.hint}>👤 {g.atananAd}</Text>}
               </View>
-              {!g.bitti && kapat !== g.id && <Btn kind="secondary" label={t("Kapat…")} onPress={() => setKapat(g.id)} />}
+              {!g.bitti && !!eIsDurusma(g) && <View style={{ gap: 6 }}><Btn kind="secondary" label={t("e✓ Kabul")} onPress={() => eYaz(f, g, "kabul")} /><Btn kind="ghost" label={t("e✗ Red")} onPress={() => eYaz(f, g, "red")} /></View>}
+              {!g.bitti && g.kaynak === "oto" && !eIsDurusma(g) && <Btn kind="secondary" label={t("Föyü aç")} onPress={() => onAc(f.id)} />}
+              {!g.bitti && g.kaynak !== "oto" && kapat !== g.id && <Btn kind="secondary" label={t("Kapat…")} onPress={() => setKapat(g.id)} />}
               {g.bitti && !g.kapanis && <Btn kind="ghost" label={t("Numara ekle")} onPress={() => setKapat(g.id)} />}
-              {g.bitti && <Pressable onPress={() => gorevYaz(f, g, { bitti: false, kapanis: undefined })}><Text style={s.sil}>{t("Yeniden aç")}</Text></Pressable>}
+              {g.bitti && g.kaynak !== "oto" && <Pressable onPress={() => gorevYaz(f, g, { bitti: false, kapanis: undefined })}><Text style={s.sil}>{t("Yeniden aç")}</Text></Pressable>}
             </View>
             {kapat === g.id && <GorevKapat g={g} onVazgec={() => setKapat(null)} onKapat={async k => { await gorevYaz(f, g, { bitti: true, kapanis: k }); setKapat(null); }} />}
           </View>

@@ -202,6 +202,7 @@ export function kunyeyiDoldur(f: Foy, o: KunyeOneri): { ek: Partial<Foy>; dolan:
     mb.vekaletname = [o.vekalet.noter, o.vekalet.tarih, o.vekalet.yevmiye ? "yevmiye " + o.vekalet.yevmiye : ""].filter(Boolean).join(", ");
     mbDegisti = true; dolan.push("vekâletname");
   }
+  if (bos(mb.vekil) && biz?.vekil) { mb.vekil = biz.vekil; mbDegisti = true; dolan.push("müvekkil vekili"); }
   if (mbDegisti) ek.muvekkilBilgi = mb;
   const kb: KarsiBilgi = { ...(f.karsiBilgi || {}) };
   let kbDegisti = false;

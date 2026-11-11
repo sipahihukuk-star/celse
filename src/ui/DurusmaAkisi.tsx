@@ -3,7 +3,7 @@
 // dosya numarası değiştiyse araya küçük bir "↳ yeni mahkeme · yeni no" etiketi girer. En üstte tek satır özet: sorun yoksa
 // yeşil "Her şey işlendi ✓". Hapa basınca altında ayrıntı açılır (açılır kutularla). Az yer kaplar; eski duruşmalar katlanır.
 import { beyanDosyaAdi, ciktiBicimi, eDurusmaTalebi, tamMetin, udfOlustur } from "../data/beyan";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Platform, Pressable, Text, TextInput, View } from "react-native";
 import { buroUyeleri, Uye } from "../data/buro";
 import { dTur, DTur, DTUR_AD, DTUR_SIMGE, girildiSoru, gunTurleri, icraMi, Durusma, durusmaEkle, durusmaOzeti, durusmaSirala, durusmaUyarilari, EDurum, eSorulur, evraktanDurusma, Girildi, kunyeDurusmasi, durusmaDuzeni, yerDegisti, bugunGun, E_TALEP_GUN } from "../data/durusma";
@@ -13,6 +13,7 @@ import { Acilir } from "./Acilir";
 import { indir, s } from "./foyStil";
 import { Btn } from "./kit";
 import { C } from "./theme";
+import { eKarar } from "../data/otoIs";
 
 const GOSTER = 6;
 const kisaTarih = (x: string) => `${x.slice(8, 10)}.${x.slice(5, 7)}.${x.slice(2, 4)}${x.length > 10 ? " " + x.slice(11, 16) : ""}`;
@@ -24,6 +25,27 @@ const E_SIMGE: Record<EDurum | "yok", { s: string; renk: string; ad: string }> =
   red: { s: "e✗", renk: C.bad, ad: "E-duruşma reddedildi" }
 };
 const SONRAKI_GIRILDI: Record<string, Girildi | undefined> = { "": "evet", evet: "hayir", hayir: undefined };
+
+/** E-duruşma kutusu: tıklama (dokunma) kabul, sağ tık (telefonda basılı tutma) red; aynı karara ikinci basış kararı kaldırır. */
+function EKutu({ ad, onKabul, onRed, children }: { ad: string; onKabul: () => void; onRed: () => void; children: React.ReactNode }) {
+  const ref = useRef<React.ElementRef<typeof Pressable>>(null);
+  const red = useRef(onRed); red.current = onRed;
+  useEffect(() => {
+    if (Platform.OS !== "web") return;
+    const el = ref.current as unknown as HTMLElement | null;
+    if (!el?.addEventListener) return;
+    const f = (e: MouseEvent) => { e.preventDefault(); red.current(); };
+    el.addEventListener("contextmenu", f);
+    return () => el.removeEventListener("contextmenu", f);
+  }, []);
+  return (
+    <Pressable ref={ref} onPress={onKabul} onLongPress={Platform.OS === "web" ? undefined : onRed} delayLongPress={450} hitSlop={6}
+      accessibilityLabel={ad + " · " + t("dokunun: kabul, sağ tık ya da basılı tutun: red")}
+      {...(Platform.OS === "web" ? { title: t("Sol tık: e-duruşma kabul · Sağ tık: red") } as object : {})}>
+      {children}
+    </Pressable>
+  );
+}
 
 export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek: Partial<Foy>) => void; okumaVar: boolean }) {
   const [secili, setSecili] = useState<string | null>(null);
@@ -127,9 +149,9 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
                   {!!d.girildi && <Text style={{ color: "#fff", fontWeight: "800", fontSize: 12, lineHeight: 14 }}>{d.girildi === "evet" ? "✓" : "✗"}</Text>}
                 </Pressable>
                 {(esor || !!d.e) && dTur(d) === "durusma" && (
-                  <Pressable onPress={() => setSecili(secili === d.id ? null : d.id)} hitSlop={6} accessibilityLabel={t(e.ad)}>
+                  <EKutu ad={t(e.ad)} onKabul={() => degistir(eKarar(f, d.id, "kabul"))} onRed={() => degistir(eKarar(f, d.id, "red"))}>
                     <Text style={{ color: d.e ? e.renk : gecmis ? C.muted : e.renk, fontSize: 12, fontWeight: "800" }}>{e.s}</Text>
-                  </Pressable>
+                  </EKutu>
                 )}
               </View>
             </React.Fragment>

@@ -32,6 +32,7 @@ import { BuroEkrani } from "./BuroEkrani";
 import { BuroKatilKart } from "./BuroKatilKart";
 import { TevkilListesi } from "./TevkilListesi";
 import { durusmaUyarilari, tumDurusmaUyarilari } from "../data/durusma";
+import { otoIsleriEsitle } from "../data/otoIs";
 import { telefonBildirimPlanla, webDurusmaBildirimi } from "./durusmaBildirim";
 
 let bildirimZaman: ReturnType<typeof setTimeout> | null = null;
@@ -153,6 +154,9 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const yenile = () => {
     foyListesi().then(x => {
       setListe(x); setYuklendi(true); setYukHata(""); gunlukBildirim(x); webDurusmaBildirimi(x);
+      // Kendiliğinden işler (e-duruşma, eksik künye) föy föy güncellenir; yalnız değişen föyler kaydedilir.
+      const degisen = x.flatMap(f => { const g = otoIsleriEsitle(f); return g ? [{ ...f, gorevler: g, guncelleme: new Date().toISOString() }] : []; });
+      if (degisen.length) foylerKaydet(degisen).catch(() => {});
       // Telefonda duruşma bildirimleri: föyler değiştikten birkaç saniye sonra plan yenilenir.
       if (bildirimZaman) clearTimeout(bildirimZaman);
       bildirimZaman = setTimeout(() => telefonBildirimPlanla(x), 4000);
