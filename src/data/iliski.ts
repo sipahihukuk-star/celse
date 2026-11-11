@@ -84,7 +84,47 @@ export function ayniGruplari(liste: Foy[], reddedilen: Set<string> = new Set()):
   return [...gruplar.entries()].filter(([, fs]) => fs.length > 1).map(([k, fs]) => ({ foyler: fs, nedenler: [...(neden.get(k) || [])] }));
 }
 
+// Evrak metinleri taranırken bulunanlar föyün kimliği ve güncelleme zamanına göre saklanır: föy listesi her yenilendiğinde
+// (eşitleme, kayıt) binlerce evrak baştan taranmasın (telefonda ekran açılırken donmanın asıl sebebi buydu).
+const numOnbellek = new Map<string, Set<string>>();
+const kunyeOnbellek = new Map<string, { esasNo?: string; mahkeme?: string }>();
+const sinirla = <K, V>(m: Map<K, V>) => { if (m.size > 30000) m.clear(); };
 function numaralar(f: Foy): Set<string> {
+  const ok = f.id + "|" + f.guncelleme;
+  const eski = numOnbellek.get(ok);
+  if (eski) return eski;
+  const s = numaralarHam(f);
+  sinirla(numOnbellek); numOnbellek.set(ok, s);
+  return s;
+}
+/** Evrak başlığındaki künye (esas no, merci); evrak değişmediği sürece bir kez okunur. */
+function evrakKunyesi(ev: { id: string; metin: string }): { esasNo?: string; mahkeme?: string } {
+  const ok = ev.id + "|" + ev.metin.length;
+  let x = kunyeOnbellek.get(ok);
+  if (!x) {
+    const bas = ev.metin.slice(0, 4000);
+    // Başlıkta yıl/numara biçiminde bir numara yoksa künye okumaya gerek yok (en pahalı adım).
+    if (!/(?:19|20)\d{2}\s*\/\s*\d/.test(bas)) x = {};
+    else { const o = kunyeCikar(bas); x = { esasNo: o.esasNo, mahkeme: o.mahkeme }; }
+    sinirla(kunyeOnbellek); kunyeOnbellek.set(ok, x);
+  }
+  return x;
+}
+/**
+ * Öneriler hesaplanmadan önce evrak taraması küçük parçalar hâlinde, aralarda ekrana nefes aldırarak yapılır
+ * (telefonda binlerce evrakta ekran donmasın). Bittikten sonra iliskiOner önbellekten hızlı çalışır.
+ */
+export async function iliskiHazirla(liste: Foy[], iptal?: () => boolean): Promise<void> {
+  let bas = Date.now();
+  const nefes = async () => { if (Date.now() - bas > 25) { await new Promise(ok => setTimeout(ok, 0)); bas = Date.now(); } };
+  for (const f of liste) {
+    if (iptal?.()) return;
+    numaralar(f); await nefes();
+    if (esasSade(f.esasNo).length < 6) continue;
+    for (const ev of f.evraklar) { if (ev.metin && ev.metin.trim()) { evrakKunyesi(ev); await nefes(); if (iptal?.()) return; } }
+  }
+}
+function numaralarHam(f: Foy): Set<string> {
   const s = new Set<string>();
   for (const e of f.evraklar) for (const m of (e.metin || "").matchAll(ESAS)) s.add(esasSade(m[0]));
   for (const m of (f.notlar || "").matchAll(ESAS)) s.add(esasSade(m[0]));
@@ -166,7 +206,7 @@ export function iliskiOner(liste: Foy[], reddedilen: Set<string>, sinir = 50): I
     if (kendi.length < 6) continue;
     for (const ev of f.evraklar) {
       if (!ev.metin || !ev.metin.trim()) continue;
-      const o = kunyeCikar(ev.metin.slice(0, 4000));
+      const o = evrakKunyesi(ev);
       const e = esasSade(o.esasNo);
       if (e.length < 6 || e === kendi) continue;
       // Evrakın başlığında merci de olmalı ve hedef föyünkiyle aynı olmalı (metinde geçen başka bir dosya numarası yetmez).

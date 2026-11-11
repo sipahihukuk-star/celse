@@ -168,8 +168,8 @@ export default function App() {
   /** "Üye olmadan dene": giriş kartını geçip oyun menüsüne misafir olarak girer (bu oturum boyunca). */
   const [guest, setGuest] = useState(false);
   const me = useCharacter();
-  // Oyun davaları ayrı dosyada: dava takibi / danışma açılışını yavaşlatmasın diye birkaç saniye sonra, oyun ekranında hemen yüklenir.
-  const cases = useCases(["title", "foy", "danisma", "danismaDosya", "account", "magaza", "paywall"].includes(route.k) ? 4000 : 0);
+  // Oyun davaları ayrı dosyada: dava takibi ve danışmada hiç yüklenmez, ana sayfada 6 sn sonra, oyun ekranında hemen yüklenir.
+  const cases = useCases(route.k === "title" ? 6000 : ["foy", "danisma", "danismaDosya", "account", "magaza", "paywall"].includes(route.k) ? -1 : 0);
   const progress = useProgress();
   const { account } = useAccount();
   const { premium, admin: pinAdmin } = usePremium();
