@@ -5,7 +5,7 @@
 // (doğrulama + bütün yolların oynatılması) yeniden sınanır.
 import { AI_FUNCTION, serverReady, SUPABASE_ANON_KEY, SUPABASE_URL } from "../config";
 import { getAccessToken } from "../data/account";
-import { CASES } from "../data/cases";
+import { yukluDavalar } from "../data/davalar";
 import { normalizeCase } from "../engine/engine";
 import { AppealKind, AppealStage, CaseFile } from "../engine/types";
 import { validateAppeals } from "../engine/appeal";
@@ -127,6 +127,7 @@ const GEN_RULES = [
 ].join("\n\n");
 
 function example(mode: "solo" | "duel"): string {
+  const CASES = yukluDavalar();
   const pick = mode === "solo" ? CASES.find(c => c.id === "kira-depozito") : [...CASES].filter(c => c.mode === "duel").sort((a, b) => JSON.stringify(a).length - JSON.stringify(b).length)[0];
   return JSON.stringify(pick || CASES[0]);
 }
@@ -230,7 +231,7 @@ const APPEAL_FORMAT = [
 export async function generateAppeal(c: CaseFile, kind: AppealKind, onStage: (s: string) => void): Promise<GenResult> {
   const log: string[] = [];
   const say = (s: string) => { log.push(s); onStage(s); };
-  const sample = CASES.find(x => x.appeal?.[kind])?.appeal?.[kind];
+  const sample = yukluDavalar().find(x => x.appeal?.[kind])?.appeal?.[kind];
   say(`${kind === "cevap" ? "İstinafa cevap" : kind === "temyiz" ? "Temyiz" : "İstinaf"} aşaması yazılıyor…`);
   const r = await askAdmin([GEN_RULES, APPEAL_FORMAT].join("\n\n"), [
     `DOSYA: ${c.title} (${c.id}) · ${c.court} · oyuncu p1: ${c.sides.p1.role}`,

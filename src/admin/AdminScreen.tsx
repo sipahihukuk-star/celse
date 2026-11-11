@@ -4,7 +4,7 @@ import { DIFFICULTY, levelOf } from "../data/career";
 import { setAdminPreview } from "../data/subscription";
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { CASES } from "../data/cases";
+import { useDavalar } from "../data/davalar";
 import { normalizeCase, validateCase } from "../engine/engine";
 import { CaseFile } from "../engine/types";
 import { Btn, Chip } from "../ui/kit";
@@ -87,6 +87,7 @@ function PinGate({ onOk, onExit }: { onOk: () => void; onExit: () => void }) {
 /* ---------- Liste ---------- */
 function AdminHome({ onExit, onPreview, onEvrak, onFoy }: Props) {
   const [stored, setStored] = useState<StoredCase[]>([]);
+  const CASES = useDavalar();
   const [editing, setEditing] = useState<{ c: CaseFile; status: Entry["status"]; isNew: boolean } | null>(null);
   const [wizard, setWizard] = useState(false);
   const [importing, setImporting] = useState(false);
@@ -131,7 +132,7 @@ function AdminHome({ onExit, onPreview, onEvrak, onFoy }: Props) {
     });
     stored.filter(s => !CASES.some(b => b.id === s.case.id)).forEach(s => list.unshift({ c: s.case, status: s.status, updatedAt: s.updatedAt, builtIn: false, overridden: false }));
     return list;
-  }, [stored]);
+  }, [stored, CASES]);
 
   const shown = entries.filter(e =>
     (modeF === "hepsi" || e.c.mode === modeF) &&
