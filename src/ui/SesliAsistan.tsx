@@ -46,6 +46,14 @@ export interface AsistanProps {
   baglamFoyId?: string; ekran?: string;
 }
 
+/** Telefon tarayıcısı: dokunmatik ve dar ekran. */
+function telefonWeb(width: number): boolean {
+  if (Platform.OS !== "web") return false;
+  let dokunmatik = false;
+  try { dokunmatik = !!globalThis.matchMedia?.("(pointer: coarse)").matches; } catch { /* yok say */ }
+  return dokunmatik && width < 900;
+}
+
 export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, baglamFoyId, ekran }: AsistanProps) {
   const [konusma, setKonusmaRaw] = useState<Satir[]>(kalici.konusma);
   const setKonusma = (f: (k: Satir[]) => Satir[]) => setKonusmaRaw(k => { const y = f(k).slice(-30); kalici.konusma = y; return y; });
@@ -345,7 +353,10 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
   if (!yuzen) return <View style={[s.card, { gap: 10 }]}>{icerik}</View>;
   const genislik = Math.min(440, width - 24);
   const sinirla = (p: { r: number; b: number }) => ({ r: Math.max(8, Math.min(p.r, width - 68)), b: Math.max(8, Math.min(p.b, height - 68)) });
-  const yer = sinirla(konum);
+  // Telefonda (web) top sürüklenmez, sağ altta "Geri / Başa dön" düğmelerinin üstüne sabitlenir: parmakla sürükleme sayfayı
+  // da kaydırıp ekranı oynatıyordu.
+  const sabit = telefonWeb(width);
+  const yer = sabit ? { r: 16, b: 78 } : sinirla(konum);
   // Panel açıkken pencereden taşmasın.
   const sag = acik ? Math.min(yer.r, Math.max(8, width - genislik - 8)) : yer.r;
   return (
@@ -355,9 +366,9 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
         <View style={[s.card, { width: genislik, gap: 8, shadowColor: "#000", shadowOpacity: 0.5, shadowRadius: 18, borderColor: C.brassDim }]}>{icerik}</View>
       )}
       {!acik && (
-        <View {...(Platform.OS === "web" ? ({ onPointerDown: webSurukle } as Any) : surukle.panHandlers)}>
-        <Pressable onPress={() => { if (suruklendi.current) { suruklendi.current = false; return; } setAcik(true); sesKilidiAc(); if (SR()) dinle(); }} accessibilityRole="button" accessibilityLabel={t("Sesli asistan")} accessibilityHint={t("Basılı tutup sürükleyerek yerini değiştirebilirsiniz")}
-          style={{ width: 60, height: 60, borderRadius: 30, alignItems: "center", justifyContent: "center", backgroundColor: C.bordo, borderWidth: 2, borderColor: C.brass, shadowColor: "#000", shadowOpacity: 0.5, shadowRadius: 12 }}>
+        <View {...(sabit ? {} : Platform.OS === "web" ? ({ onPointerDown: webSurukle } as Any) : surukle.panHandlers)}>
+        <Pressable onPress={() => { if (suruklendi.current) { suruklendi.current = false; return; } setAcik(true); sesKilidiAc(); if (SR()) dinle(); }} accessibilityRole="button" accessibilityLabel={t("Sesli asistan")} accessibilityHint={sabit ? undefined : t("Basılı tutup sürükleyerek yerini değiştirebilirsiniz")}
+          style={{ width: sabit ? 54 : 60, height: sabit ? 54 : 60, borderRadius: 30, alignItems: "center", justifyContent: "center", backgroundColor: C.bordo, borderWidth: 2, borderColor: C.brass, shadowColor: "#000", shadowOpacity: 0.5, shadowRadius: 12 }}>
           <Text style={{ fontSize: 26 }}>🎙</Text>
         </Pressable>
         </View>
