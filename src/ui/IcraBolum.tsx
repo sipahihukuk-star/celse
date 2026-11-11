@@ -55,15 +55,23 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, okuma }
   const [vekil, setVekilRaw] = useState<{ ad?: string; tc?: string; baroNo?: string; tbbNo?: string; adres?: string }>(() => { try { return JSON.parse(globalThis.localStorage?.getItem("celse-vekil") || "{}"); } catch { return {}; } });
   const setVekil = (ek: Partial<typeof vekil>) => { const v = { ...vekil, ...ek }; setVekilRaw(v); try { globalThis.localStorage?.setItem("celse-vekil", JSON.stringify(v)); } catch { /* yok say */ } };
   const vekilBilgi = { adSoyad: vekil.ad || account?.adSoyad || "", tcKimlikNo: vekil.tc, baroNo: vekil.baroNo, tbbNo: vekil.tbbNo, adres: vekil.adres };
+  const [xmlHata, setXmlHata] = useState("");
   const xmlIndir = () => {
+    setBilgi(""); setXmlHata("");
+    // Olmadan XML'in anlamı olmayanlar: taraf adları, alacak kalemi, vekil bilgisi. Ötekiler (adres, kimlik no, IBAN) uyarıdır;
+    // UYAP'ta "Tamamlanmayan Dosyalarım"da da tamamlanabilir.
+    const sart = [...eksik.filter(x => /adı \/ unvanı|alacak kalemi/.test(x)), ...vekilEksik(vekilBilgi)];
+    if (sart.length) { setXmlHata(t("XML için önce şunları yazın: {x}.", { x: sart.map(x => t(x)).join(", ") }) + (vekilEksik(vekilBilgi).length ? " " + t("Vekil bilgileri bu bölümün altındaki “Vekil bilgileri” alanlarına bir kez yazılır.") : "")); return; }
+    const uyari = eksik.filter(x => !/adı \/ unvanı|alacak kalemi|İcra dairesi/.test(x));
     const x = uyapXml(f, b, vekilBilgi);
     indir(`uyap-takip-${(f.esasNo || f.id).replace(/[^\w-]+/g, "-")}.xml`, new Blob([x], { type: "application/xml;charset=utf-8" }));
     setBilgi(t("XML indirildi. UYAP Avukat Portal → İcra Takip Açılış – XML ekranında il, adliye ve kota/tevzi tipini seçip bu dosyayı yükleyin; takip “Tamamlanmayan Dosyalarım”a düşer, orada kontrol edip imzalarsınız."));
+    if (uyari.length) setXmlHata(t("Dosyada eksik kalanlar (UYAP'ta tamamlamanız gerekir): {x}.", { x: uyari.map(y => t(y)).join(", ") }));
   };
 
   return (
     <View style={{ gap: 12 }}>
-      <Text style={s.hint}>{t("Alacaklı (müvekkil) ve borçlu (karşı taraf) adı, kimlik no ve adresi künyeden alınır. Buraya takibin yolu, dayanağı ve alacak kalemleri girilir; Celse işlemiş faizi ve toplamı hesaplar, UYAP'a giriş sırasıyla takip talebi özetini hazırlar.")}</Text>
+      <Text style={s.hint}>{t("Alacaklı (müvekkil) ve borçlu (karşı taraf) bilgileri künyeyle ortaktır; burada da yazılabilir. Buraya takibin yolu, dayanağı ve alacak kalemleri girilir; Celse işlemiş faizi ve toplamı hesaplar, UYAP'a giriş sırasıyla takip talebi özetini hazırlar.")}</Text>
 
       {(!!onEvrakEkle || !!onEvraktan) && (
         <View style={{ gap: 6, borderWidth: 1, borderColor: C.brassDim, borderRadius: 10, padding: 10 }}>
@@ -76,6 +84,26 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, okuma }
           {!!okuma && <Text style={s.hint}>{okuma}</Text>}
         </View>
       )}
+      {/* Taraflar ve icra dairesi: künyeye yazılır (künyede de görünür) */}
+      <Text style={s.secT}>{t("İcra dairesi ve taraflar")}</Text>
+      <View style={s.alanlar}>
+        {alan("İcra dairesi", f.mahkeme || "", v => degistir({ mahkeme: v }), "Örn. İzmir Genel İcra Dairesi", 260)}
+        {alan("Takip no (açıldıktan sonra)", f.esasNo || "", v => degistir({ esasNo: v }), "2026/1234 E.", 160)}
+      </View>
+      <Text style={s.label}>{t("Alacaklı (müvekkil)")}</Text>
+      <View style={s.alanlar}>
+        {alan("Adı soyadı / unvanı", f.muvekkil || "", v => degistir({ muvekkil: v }), undefined, 240)}
+        {alan("T.C. kimlik / vergi no", f.muvekkilBilgi?.kimlikNo || "", v => degistir({ muvekkilBilgi: { ...f.muvekkilBilgi, kimlikNo: v.replace(/\D/g, "") } }), undefined, 160)}
+        {alan("Adresi", f.muvekkilBilgi?.adres || "", v => degistir({ muvekkilBilgi: { ...f.muvekkilBilgi, adres: v } }), "… Mah. … Sok. No … Karşıyaka / İZMİR", 320)}
+      </View>
+      <Text style={s.label}>{t("Borçlu")}</Text>
+      <View style={s.alanlar}>
+        {alan("Adı soyadı / unvanı", f.karsiTaraf || "", v => degistir({ karsiTaraf: v }), undefined, 240)}
+        {alan("T.C. kimlik / vergi no", f.karsiBilgi?.kimlikNo || "", v => degistir({ karsiBilgi: { ...f.karsiBilgi, kimlikNo: v.replace(/\D/g, "") } }), undefined, 160)}
+        {alan("Adresi", f.karsiBilgi?.adres || "", v => degistir({ karsiBilgi: { ...f.karsiBilgi, adres: v } }), undefined, 320)}
+      </View>
+      <Text style={s.hint}>{t("Adres yazmak yerine aşağıdaki “Ödeme hesabı ve adresler” bölümünden MERNİS adresini de seçebilirsiniz.")}</Text>
+
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
         <Acilir etiket={t("Takip yolu")} secili={b.yol} genislik={300} onSec={k => yaz({ yol: k as TakipYolu, talep: k === "kira" ? "haciz_tahliye" : k === "ipotek" || k === "tasinir_rehni" ? "rehin" : "haciz" })}
           secenekler={TAKIP_YOLLARI.map(x => ({ k: x.k, ad: t(x.ad) + (x.ornek ? ` (${x.ornek})` : "") }))} />
@@ -209,6 +237,13 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, okuma }
           {eksik.map(x => <Text key={x} style={s.hint}>• {t(x)}</Text>)}
         </View>
       )}
+      <View style={{ gap: 6, borderWidth: 1, borderColor: C.brass, borderRadius: 10, padding: 10 }}>
+        <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{t("📤 UYAP'ta takip açmak için XML dosyası")}</Text>
+        <Text style={s.hint}>{t("Bu föyün icra bilgilerinden UYAP Avukat Portal'ın “İcra Takip Açılış – XML” ekranına yüklenecek dosyayı hazırlar.")}</Text>
+        <View style={s.row}><Btn label={t("📤 XML dosyasını oluştur ve indir")} onPress={xmlIndir} /></View>
+        {!!xmlHata && <Text style={[s.hint, { color: C.bad }]}>{xmlHata}</Text>}
+        {!!bilgi && <Text style={[s.hint, { color: C.good }]}>{bilgi}</Text>}
+      </View>
       {alan("Not (takip talebine eklenir)", b.not || "", v => yaz({ not: v }), undefined, 400)}
       <Text style={s.secT}>{t("Vekil bilgileri (UYAP XML için; bu bilgisayarda hatırlanır)")}</Text>
       <View style={s.alanlar}>
@@ -223,12 +258,13 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, okuma }
         <Text style={s.hint}>{t("a) “UYAP XML indir” ile dosyayı indirin (İndirilenler klasörüne düşer). b) UYAP Avukat Portal → menü → Dava Açılış İşlemleri → İcra Takip Açılış – XML. c) İl, adliye, kota / daire tevzi tipi ve takip tipini seçin. d) “Dosya Seç” ile indirdiğiniz .xml dosyasını seçin ve takibi başlatın. e) Takip “Tamamlanmayan Dosyalarım”a düşer: orada kontrol edip dayanak evrakı ekler, imzalar ve harcı yatırırsınız.")}</Text>
       </View>
       <View style={s.row}>
-        <Btn label={t("UYAP XML indir (deneme)")} disabled={vekilEksik(vekilBilgi).length > 0 || eksik.some(x => /alacak kalemi|İcra dairesi|adı/.test(x))} onPress={xmlIndir} />
+        <Btn label={t("📤 XML dosyasını oluştur ve indir")} onPress={xmlIndir} />
         <Btn kind="secondary" label={t("Takip talebi özetini kopyala")} onPress={kopyala} />
         <Btn kind="secondary" label={goster ? t("Özeti gizle") : t("Özeti göster")} onPress={() => setGoster(!goster)} />
         <Btn kind="ghost" label={t("Metin olarak indir")} onPress={() => indir(`takip-talebi-${(f.esasNo || f.id).replace(/[^\w-]+/g, "-")}.txt`, new Blob([metin()], { type: "text/plain;charset=utf-8" }))} />
       </View>
       {vekilEksik(vekilBilgi).length > 0 && <Text style={s.hint}>{t("XML için vekil bilgisi eksik: {x}", { x: vekilEksik(vekilBilgi).map(x => t(x)).join(", ") })}</Text>}
+      {!!xmlHata && <Text style={[s.hint, { color: C.bad }]}>{xmlHata}</Text>}
       {!!bilgi && <Text style={[s.hint, { color: C.good }]}>{bilgi}</Text>}
       {goster && <Text selectable style={[s.body, { fontFamily: "monospace", fontSize: 13 }]}>{metin()}</Text>}
       <Text style={s.hint}>{t("Oranlar: yasal faiz 1984'ten bu yana dönem dönem (son: %24 01.06.2024, %31 31.07.2026, 7589 s. Kanun); TTK 1530 faizi TCMB'nin yıllık ilanlarından (2026: %43); avans faizi TCMB tablosundan dönem dönem (1990–20.12.2025, son oran %39,75). Yeni bir oran yayımlandığında yukarıdaki oran alanına yazabilirsiniz. Hesaplar bilgi içindir; takip talebini UYAP'ta kontrol edin.")}</Text>

@@ -34,7 +34,8 @@ export function takipKodlari(b: IcraBilgi): { takipTuru: number; takipYolu: numb
   }
 }
 
-const KURUM = /\b(A\.?\s?Ş\.?|ANONİM|LTD|LİMİTED|ŞTİ|ŞİRKETİ|KOOPERATİF|VAKFI|DERNEĞİ|BANKASI|BAŞKANLIĞI|MÜDÜRLÜĞÜ|BAKANLIĞI|BELEDİYE|ÜNİVERSİTESİ|HAZİNE|SİGORTA|HOLDİNG|T\.A\.O|BİRLİĞİ|ODASI)\b/;
+// Türkçe harfler JavaScript'te \\b sözcük sınırı sayılmadığı için sınırlar elle yazılır ("A.Ş." sonunda nokta da olabilir).
+const KURUM = /(?:^|[\s(,])(A\.?\s?Ş\.?|ANONİM|LTD\.?|LİMİTED|ŞTİ\.?|ŞİRKETİ|KOOPERATİF|VAKFI|DERNEĞİ|BANKASI|BAŞKANLIĞI|MÜDÜRLÜĞÜ|BAKANLIĞI|BELEDİYESİ|BELEDİYE|ÜNİVERSİTESİ|HAZİNE|HAZİNESİ|SİGORTA|HOLDİNG|T\.A\.O\.?|BİRLİĞİ|ODASI)(?=$|[\s.,)])/u;
 const ust = (x: string) => x.toLocaleUpperCase("tr");
 
 /** Adres metninden il ve ilçe kodu (ör. "… Karşıyaka / İZMİR"). */

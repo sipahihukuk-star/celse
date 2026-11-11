@@ -64,7 +64,9 @@ const tarihIso = (g: string, a: string, y: string, s?: string, d?: string) => {
 /** Taraf satırının geri kalanından ad, kimlik no ve adresi ayırır. */
 function tarafAyir(kalan: string, sonraki: string): TarafOneri | undefined {
   const tum = kalan + " " + sonraki;
-  const kimlik = tum.match(/(?:T\.?\s?C\.?|TCKN|Kimlik\s*No|V\.?\s?K\.?\s?N\.?|Vergi\s*No)\D{0,20}?(\d{10,11})\b/i)?.[1] || kalan.match(/(?:^|\D)(\d{11})(?:\D|$)/)?.[1];
+  const kimlik = tum.match(/(?:T\.?\s?C\.?|TCKN|Kimlik\s*No|V\.?\s?K\.?\s?N\.?|Vergi\s*No)\D{0,20}?(\d{10,11})\b/i)?.[1] || kalan.match(/(?:^|\D)(\d{11})(?:\D|$)/)?.[1]
+    // Şirket ve kurumlarda etiketsiz 10 haneli vergi no
+    || (/(?:A\.?\s?Ş\.?|LTD|ŞTİ|ŞİRKETİ|KOOPERATİF)/i.test(kalan) ? kalan.match(/(?:^|\D)(\d{10})(?:\D|$)/)?.[1] : undefined);
   let ad = kalan.split(/\s[-–]\s|\(|,|\bT\.?\s?C\.?\s|\bTCKN\b|\bKimlik\b|\bAdres\b|\d/i)[0].replace(/[:;\s]+$/, "").trim();
   ad = ad.replace(/^(Av\.|Avukat)\s*/i, "").trim();
   if (ad.length < 3 || ad.split(/\s+/).length > 8) return undefined;
@@ -187,8 +189,11 @@ export function kunyeyiDoldur(f: Foy, o: KunyeOneri): { ek: Partial<Foy>; dolan:
   const bos = (x?: string) => !x || !x.trim();
   const biz = f.taraf === "davali" ? o.ikinci : o.birinci;
   const onlar = f.taraf === "davali" ? o.birinci : o.ikinci;
-  if (bos(f.mahkeme) && o.mahkeme) { ek.mahkeme = o.mahkeme; dolan.push("mahkeme"); }
-  if (bos(f.esasNo) && o.esasNo) { ek.esasNo = o.esasNo; dolan.push("esas no"); }
+  // İcra föyünde merci icra dairesi, no takip no'sudur: ilamın (mahkeme kararının) mahkemesi ve esas no'su buraya yazılmaz
+  // (ilam bilgileri icra bölümüne gider).
+  const icraDisi = f.tur === "icra" && !!o.mahkeme && !/icra/i.test(o.mahkeme);
+  if (bos(f.mahkeme) && o.mahkeme && !icraDisi) { ek.mahkeme = o.mahkeme; dolan.push(f.tur === "icra" ? "icra dairesi" : "mahkeme"); }
+  if (bos(f.esasNo) && o.esasNo && !icraDisi) { ek.esasNo = o.esasNo; dolan.push(f.tur === "icra" ? "takip no" : "esas no"); }
   if (bos(f.davaTuru) && o.konu) { ek.davaTuru = o.konu; dolan.push("konu"); }
   if (!f.durusma && o.durusma) { ek.durusma = o.durusma; dolan.push("duruşma"); }
   if (!f.acilis && o.acilis) { ek.acilis = o.acilis; dolan.push("açılış tarihi"); }

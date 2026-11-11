@@ -554,8 +554,11 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
           {!!icraMesaj && <Text style={[s.hint, { color: C.good }]}>{icraMesaj}</Text>}
           <IcraBolum f={f} degistir={degistir} surum={surum} okuma={okuma} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} onEvraktan={() => {
             const r = icraDoldur(f.icra || { yol: "genel", paraBirimi: "TL", faizTuru: "yasal" }, f.evraklar.map(e => e.metin));
-            if (r.dolan.length) { degistir({ icra: r.yeni }); setSurum(v => v + 1); }
-            setIcraMesaj(r.dolan.length ? t("İcra bilgileri evraktan dolduruldu: {x}. Kontrol edin.", { x: r.dolan.join(", ") }) : f.evraklar.some(e => e.metin.trim()) ? t("Evrakta ilam, çek, senet, kira sözleşmesi ya da fatura bulunamadı; ya da alanlar zaten dolu (yalnız boş alanlar doldurulur).") : t("Önce aşağıdaki Evrak bölümünden takibe konu evrakı (ilam, çek, senet, kira sözleşmesi, fatura) ve varsa vekâletnameyi ekleyin."));
+            // Taraflar (alacaklı, borçlu: ad, kimlik no, adres) da evraktan (ilam, vekâletname…) doldurulur.
+            const kun = kunyeEvraktan(f.evraklar, f);
+            const kunDolan = Object.keys(kun).length;
+            if (r.dolan.length || kunDolan) { degistir({ ...kun, ...(r.dolan.length ? { icra: r.yeni } : {}) }); setSurum(v => v + 1); }
+            setIcraMesaj(r.dolan.length || kunDolan ? t("İcra bilgileri evraktan dolduruldu: {x}. Kontrol edin.", { x: [...r.dolan, ...(kunDolan ? [t("taraf bilgileri")] : [])].join(", ") }) : f.evraklar.some(e => e.metin.trim()) ? t("Evrakta ilam, çek, senet, kira sözleşmesi ya da fatura bulunamadı; ya da alanlar zaten dolu (yalnız boş alanlar doldurulur).") : t("Önce aşağıdaki Evrak bölümünden takibe konu evrakı (ilam, çek, senet, kira sözleşmesi, fatura) ve varsa vekâletnameyi ekleyin."));
           }} />
         </Katlanir>
       )}
