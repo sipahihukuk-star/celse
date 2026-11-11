@@ -59,7 +59,7 @@ const GECMIS_UYARI_GUN = 45;
 
 const gun = (x: string) => Date.parse(x.slice(0, 10) + "T00:00:00Z");
 const fark = (a: string, b: string) => Math.round((gun(b) - gun(a)) / 86400000);
-const gunEkle = (x: string, n: number) => new Date(gun(x) + n * 86400000).toISOString().slice(0, 10);
+export const gunEkle = (x: string, n: number) => new Date(gun(x) + n * 86400000).toISOString().slice(0, 10);
 export const bugunGun = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
 const yeniDId = () => "d-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 7);
 const esasNormal = (x?: string) => (x || "").replace(/\s+/g, "").replace(/(E|ESAS)\.?$/i, "");

@@ -14,6 +14,8 @@ export interface MuvekkilBilgi {
   kimlikNo?: string; telefon?: string; eposta?: string; adres?: string;
   /** vekâletname: noterlik, tarih, yevmiye no */
   vekaletname?: string;
+  /** dosyada müvekkilin vekili olarak görünen avukat(lar): ad, baro, sicil no */
+  vekil?: string;
   /** diğer müvekkiller, yetkili kişi, aile bilgisi gibi serbest not */
   ek?: string;
 }
@@ -27,7 +29,7 @@ export interface KarsiBilgi {
 export interface YzSoru { id: string; tarih: string; soru: string; cevap: string; kaynaklar?: { baslik: string; url: string }[] }
 export interface GorevKapanis { tarih: string; no: string; kaynak: "elle" | "gorsel"; gorsel?: string }
 export interface Gorev {
-  id: string; metin: string; tarih?: string; bitti: boolean; kaynak: "elle" | "yapay" | "aktarma";
+  id: string; metin: string; tarih?: string; bitti: boolean; kaynak: "elle" | "yapay" | "aktarma" | "oto";
   /** İşin eklendiği gün (uyarı, eklenmeden son güne geçen süreye göre artar). */
   eklenme?: string;
   kapanis?: GorevKapanis;

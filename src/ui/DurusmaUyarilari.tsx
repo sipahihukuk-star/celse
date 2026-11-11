@@ -12,7 +12,8 @@ import { C } from "./theme";
 export const D_RENK = { gecikti: C.bad, bugun: C.bad, acil: C.bad, uyari: C.mid, dikkat: C.mid } as const;
 
 export function DurusmaUyarilari({ liste, onAc, en = 50 }: { liste: Foy[]; onAc: (id: string) => void; en?: number }) {
-  const us = useMemo(() => tumDurusmaUyarilari(liste), [liste]);
+  // "E-duruşma talep edilecek mi?" artık yapılacak işlerde (kendiliğinden açılan iş) duruyor; burada ikinci kez gösterilmez.
+  const us = useMemo(() => tumDurusmaUyarilari(liste).filter(u => u.tur !== "eSor"), [liste]);
   if (!us.length) return (
     <View style={[s.card, { paddingVertical: 10, borderColor: C.good + "88" }]}>
       <Text style={[s.body, { color: C.good, fontWeight: "700" }]}>⚖ {t("Duruşmalar: bekleyen bir şey yok ✓")}</Text>

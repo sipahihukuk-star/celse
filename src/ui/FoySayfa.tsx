@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
+import { eIsDurusma, eKarar, kunyeEksikleri, otoIsleriEsitle } from "../data/otoIs";
 import { MuvekkilMesaj } from "./MuvekkilMesaj";
 import { DurusmaAkisi } from "./DurusmaAkisi";
 import { bugunGun, evraktanDurusma } from "../data/durusma";
@@ -110,7 +111,12 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const son = useRef<Foy | null>(null);
   useEffect(() => {
     setF(null); setYok(false);
-    foyGetir(id).then(x => { if (x) { setF(x); setDurusmaYazi(x.durusma ? tarihYaz(x.durusma) : ""); } else setYok(true); });
+    foyGetir(id).then(x => {
+      if (!x) { setYok(true); return; }
+      setF(x); setDurusmaYazi(x.durusma ? tarihYaz(x.durusma) : "");
+      // Kendiliğinden işler (e-duruşma, eksik künye) güncel değilse şimdi güncellenir.
+      const g = otoIsleriEsitle(x); if (g) degistir({ gorevler: g });
+    });
   }, [id]);
   // Her değişiklik yarım saniye sonra kaydedilir; ekrandan çıkarken bekleyen kayıt hemen yazılır.
   const degistir = (ek: Partial<Foy>) => setF(x => {
@@ -118,6 +124,9 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     const y = { ...x, ...ek };
     // Mahkeme ya da dosya no değişince gelecek duruşma günleri yeni mahkeme ve numarayla akar (geçmişteki günler kalır).
     if (("mahkeme" in ek || "esasNo" in ek) && !("durusmalar" in ek)) { const d = yerDegisimi(x, { mahkeme: ek.mahkeme, esasNo: ek.esasNo }); if (d) y.durusmalar = d; }
+    // Kendiliğinden işler: duruşma, e-duruşma kararı ya da künye değişince güncellenir; e-duruşma işi elle kapatılsa da
+    // kabul / red işaretlenmedikçe yeniden açılır.
+    const og = otoIsleriEsitle(y); if (og) y.gorevler = og;
     son.current = y;
     if (zaman.current) clearTimeout(zaman.current);
     zaman.current = setTimeout(() => { foyKaydet(y).catch(e => setErr(t(String((e as Error).message || e)))); zaman.current = null; }, 500);
@@ -360,15 +369,23 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
 
       <DurusmaAkisi f={f} degistir={degistir} okumaVar={f.evraklar.some(e => !!e.metin.trim())} />
 
-      <View style={s.card}>
-        <View style={s.row}>
-          <Btn label={soruluyor ? t("Bakılıyor…") : t("Dosya ne durumda?")} onPress={durumSor} disabled={soruluyor || !onemli.some(e => e.metin.trim() || e.bulutMetin)} />
-          {DAVA.includes(f.tur || "hukuk") && <Btn kind="secondary" label={t("Duruşmaya hazırlan")} onPress={async () => { await hemenKaydet(); onHazirlan(f); }} disabled={!f.evraklar.some(e => e.metin.trim())} />}
-        </View>
-        <Text style={s.hint}>{t("Dosya ne durumda: önemli evrak (kararlar, bilirkişi raporları, tutanaklar, dilekçeler) cihazda kodlanıp yapay zekâya gönderilir; özet, süreler ve yapılacak işler föye yazılır{k}. Önemsiz işaretlenen evrak (tebligat, makbuz, vekâletname) gönderilmez.", { k: bedava ? "" : " (" + t("{n} kredi", { n: EVRAK_KREDI.evrak }) + ")" })}</Text>
-        {soruluyor && <Text style={s.hint}>{t("Bir-üç dakika sürebilir; sayfayı açık tutun.")}</Text>}
-        {!!err && <Text style={s.err}>{err}</Text>}
-      </View>
+      {(() => {
+        // Künyede eksik bilgi: başta görünür; tek tuşla eldeki belgelerden (bu cihazda) doldurulur.
+        const eksik = kunyeEksikleri(f).map(k => t(k));
+        const okunmus = f.evraklar.some(e => e.metin.trim());
+        if (!eksik.length && !kunyeMesaj) return null;
+        return (
+          <View style={[s.card, { gap: 6, borderColor: eksik.length ? C.mid : C.line }]}>
+            {eksik.length > 0 && <Text style={[s.body, { fontWeight: "700", color: C.mid }]}>{t("Künyede eksik: {x}", { x: eksik.join(", ") })}</Text>}
+            {okunmus
+              ? <Btn label={t("📄 Künyeyi belgelerden oluştur")} onPress={() => { const ek = kunyeEvraktan(f.evraklar, f); if (Object.keys(ek).length) degistir(ek); }} />
+              : eksik.length > 0 && <Text style={s.hint}>{t("Evrak eklenince künye evraktan doldurulabilir; ya da aşağıdaki Künye bölümüne elle yazın.")}</Text>}
+            {okunmus && <Text style={s.hint}>{t("Müvekkil ve karşı taraf, vekilleri, mahkeme, dosya no, kimlik no, adres ve vekâletname evrakın kendisinden, bu cihazda okunur. Yalnız boş alanlar doldurulur; kontrol edin.")}</Text>}
+            {!!kunyeMesaj && <Text style={[s.hint, { color: C.brass }]}>{kunyeMesaj}</Text>}
+          </View>
+        );
+      })()}
+      {!!err && <Text style={s.err}>{err}</Text>}
 
       {f.degerlendirme && (
         <View style={s.card}>
@@ -451,7 +468,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       <Katlanir anahtar="kunye" baslik={t("Künye")} varsayilan={!f.mahkeme && !f.muvekkil} ozet={[f.mahkeme, f.esasNo, f.muvekkil].filter(Boolean).join(" · ")}>
         {f.evraklar.some(e => e.metin.trim()) && (
           <View style={[s.row, { alignItems: "center" }]}>
-            <Btn kind="ghost" label={t("Künyeyi evraktan doldur")} onPress={() => { const ek = kunyeEvraktan(f.evraklar, f); if (Object.keys(ek).length) degistir(ek); }} />
+            <Btn kind="ghost" label={t("Künyeyi belgelerden oluştur")} onPress={() => { const ek = kunyeEvraktan(f.evraklar, f); if (Object.keys(ek).length) degistir(ek); }} />
             <Text style={[s.hint, { flex: 1 }]}>{t("Mahkeme, esas no, taraflar, vekiller, kimlik no, adres, duruşma günü ve vekâletname bilgisi evrakın kendisinden, bu cihazda okunur. Yalnız boş alanlar doldurulur.")}</Text>
           </View>
         )}
@@ -467,6 +484,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
                 {mbEl("Telefon", "telefon")}
                 {mbEl("E-posta", "eposta")}
                 {mbEl("Adres", "adres")}
+                {mbEl("Vekili (dosyada görünen avukat: ad, baro, sicil no)", "vekil", "Örn. Av. … · İzmir Barosu · 12345")}
                 {mbEl("Vekâletname (noterlik, tarih, yevmiye no)", "vekaletname", "İzmir 5. Noterliği, 12.03.2026, 12345")}
                 {mbEl("Diğer bilgiler (diğer müvekkiller, yetkili, notlar)", "ek")}
                 <Text style={[s.hint, { flexBasis: "100%" }]}>{t("Bu bilgiler yalnız bu cihazda (eşitlemede şifreli) durur; yapay zekâya hiç gönderilmez.")}</Text>
@@ -492,12 +510,6 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             <TextInput defaultValue={tarihYaz(f.acilis)} onChangeText={v => { const d = tarihCoz(v); if (d || !v.trim()) degistir({ acilis: d ? d.slice(0, 10) : undefined }); }} placeholder={t("Örn. 05.01.2026")} placeholderTextColor={C.muted} style={s.inputTek} />
           </View>
           {alanEl(f.tur === "idari_sorusturma" || f.tur === "baro" || f.tur === "sorusturma" ? "Soruşturma konusu" : "Dava konusu", f.davaTuru, "davaTuru")}
-          <View style={s.alan}>
-            <Text style={s.label}>{t("Sonraki duruşma / toplantı")}</Text>
-            <TextInput value={durusmaYazi} onChangeText={v => { setDurusmaYazi(v); const d = tarihCoz(v); if (d || !v.trim()) degistir({ durusma: d }); }} placeholder={t("Örn. 12.03.2027 10:30")} placeholderTextColor={C.muted} style={s.inputTek} />
-            {!!f.durusma && <Text style={[s.hint, g !== undefined && g >= 0 && g <= 7 && { color: C.brass }]}>{gunYaz(g)}</Text>}
-            {!!durusmaYazi.trim() && !tarihCoz(durusmaYazi) && <Text style={s.err}>{t("Tarihi 12.03.2027 ya da 12.03.2027 10:30 biçiminde yazın.")}</Text>}
-          </View>
         </View>
         {/* Dosya türü, aşama ve hangi dava: açılır kutularda; kutuya basınca başlıklar altına doğru listelenir. */}
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
@@ -563,13 +575,22 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       <Katlanir anahtar="gorev" baslik={t("Yapılacaklar")} ozet={acik.length ? t("{n} açık iş", { n: acik.length }) : t("açık iş yok")}>
         {acik.map(x => (
           <View key={x.id} style={s.gorev}>
-            <Pressable accessibilityRole="checkbox" accessibilityLabel={t("Kapat")} accessibilityState={{ checked: false }} onPress={() => setKapatId(x.id)} style={[s.box, { borderColor: DUZEY_RENK[uyariDuzeyi(x, f).duzey] }]} />
+            {x.kaynak === "oto"
+              ? <View style={[s.box, { borderColor: DUZEY_RENK[uyariDuzeyi(x, f).duzey], borderStyle: "dashed" }]} />
+              : <Pressable accessibilityRole="checkbox" accessibilityLabel={t("Kapat")} accessibilityState={{ checked: false }} onPress={() => setKapatId(x.id)} style={[s.box, { borderColor: DUZEY_RENK[uyariDuzeyi(x, f).duzey] }]} />}
             <View style={{ flex: 1, gap: 6 }}>
               <Text style={s.body}>{x.metin}</Text>
               {(() => { const u = uyariDuzeyi(x, f); return <Text style={[s.hint, { color: DUZEY_RENK[u.duzey], fontWeight: "700" }]}>{[duzeyAdi(u.duzey), t(u.metin), x.tarih ? tarihYaz(x.tarih) : "", x.atananAd ? "👤 " + x.atananAd : "", x.kaynak === "yapay" ? t("yapay zekâ önerisi, kontrol edin") : ""].filter(Boolean).join(" · ")}</Text>; })()}
               {kapatId === x.id && <GorevKapat g={x} onVazgec={() => setKapatId(null)} onKapat={k => { gorevDegistir(x, { bitti: true, kapanis: k }); setKapatId(null); }} />}
+              {!!eIsDurusma(x) && (
+                <View style={s.row}>
+                  <Btn kind="secondary" label={t("e✓ Kabul edildi")} onPress={() => degistir(eKarar(f, eIsDurusma(x)!, "kabul"))} />
+                  <Btn kind="ghost" label={t("e✗ Reddedildi")} onPress={() => degistir(eKarar(f, eIsDurusma(x)!, "red"))} />
+                </View>
+              )}
+              {x.kaynak === "oto" && <Text style={s.hint}>{eIsDurusma(x) ? t("Kendiliğinden açılan iş: kabul ya da red işaretlenince kapanır (duruşma gününün yanındaki “e”ye sol tık kabul, sağ tık red).") : t("Kendiliğinden açılan iş: künye tamamlanınca kapanır.")}</Text>}
             </View>
-            <Pressable onPress={() => gorevDegistir(x, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>
+            {!eIsDurusma(x) && <Pressable onPress={() => gorevDegistir(x, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>}
           </View>
         ))}
         <View style={s.addRow}>
