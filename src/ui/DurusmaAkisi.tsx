@@ -78,6 +78,8 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
 
   const xs = useMemo(() => durusmaSirala(f.durusmalar || []), [f.durusmalar]);
   const uyarilar = useMemo(() => durusmaUyarilari(f, bugun), [f, bugun]);
+  // Gün ekleme satırı istenince açılır (ekranda yer kaplamasın); uyarılar başlıktaki özetle ve Yapılacaklar'daki işlerle gösterilir.
+  const [ekleAcik, setEkleAcik] = useState(false);
   const ozet = durusmaOzeti(f, bugun);
   const esor = eSorulur(f);
   const dGuncelle = (d: Durusma, ek: Partial<Durusma> | null) => {
@@ -94,7 +96,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
     const liste = durusmaEkle(f, tarih, yeniTur === "durusma" ? {} : { tur: yeniTur });
     const ileri = liste.filter(x => x.tarih.slice(0, 10) >= bugun && dTur(x) === "durusma");
     degistir({ durusmalar: liste, ...(ileri.length ? { durusma: ileri[0].tarih } : {}) });
-    setYeni(""); setMesaj("");
+    setYeni(""); setMesaj(""); setEkleAcik(false);
   };
   const evraktan = () => {
     const r = evraktanDurusma(f, f.evraklar);
@@ -110,7 +112,9 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
           <Text style={[s.hint, { flex: 1 }]}>{icraMi(f) ? t("henüz haciz ya da keşif günü yok") : t("henüz duruşma ya da keşif günü yok")}</Text>
         </View>
         {durusmaDuzeni(f) === "talepli" && <Text style={s.hint}>{t("Bu tür dosyada duruşma her celsede olmaz; yalnız talep ya da karar üzerine (çoğu zaman bir kez) yapılır. Duruşma günü verilirse buraya ekleyin.")}</Text>}
-        <EkleSatiri yeni={yeni} setYeni={setYeni} ekle={ekle} tur={yeniTur} turler={turler} setTur={setYeniTur} evraktan={okumaVar ? evraktan : undefined} />
+        {ekleAcik
+          ? <EkleSatiri yeni={yeni} setYeni={setYeni} ekle={ekle} tur={yeniTur} turler={turler} setTur={setYeniTur} evraktan={okumaVar ? evraktan : undefined} />
+          : <Pressable onPress={() => setEkleAcik(true)} accessibilityRole="button"><Text style={s.link}>{icraMi(f) ? t("+ Haciz / keşif günü ekle") : t("+ Duruşma / keşif günü ekle")}</Text></Pressable>}
         {!!mesaj && <Text style={[s.hint, { color: C.brass }]}>{mesaj}</Text>}
       </View>
     );
@@ -211,18 +215,9 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
         </View>
       )}
 
-      {uyarilar.length > 0 && !sec && (
-        <View style={{ gap: 2 }}>
-          {uyarilar.slice(0, 3).map((u, i) => (
-            <Pressable key={i} onPress={() => u.d && setSecili(u.d.id)}>
-              <Text style={[s.hint, { color: u.duzey === "gecikti" || u.duzey === "bugun" || u.duzey === "acil" ? C.bad : C.mid }]}>
-                • {u.d ? kisaTarih(u.d.tarih) + ": " : ""}{t(u.metin)}{u.kalan > 0 ? " · " + t("son güne {n} gün", { n: u.kalan }) : u.kalan === 0 ? " · " + t("bugün") : ""}
-              </Text>
-            </Pressable>
-          ))}
-        </View>
-      )}
-      <EkleSatiri yeni={yeni} setYeni={setYeni} ekle={ekle} tur={yeniTur} turler={turler} setTur={setYeniTur} evraktan={okumaVar ? evraktan : undefined} />
+      {ekleAcik
+          ? <EkleSatiri yeni={yeni} setYeni={setYeni} ekle={ekle} tur={yeniTur} turler={turler} setTur={setYeniTur} evraktan={okumaVar ? evraktan : undefined} />
+          : <Pressable onPress={() => setEkleAcik(true)} accessibilityRole="button"><Text style={s.link}>{icraMi(f) ? t("+ Haciz / keşif günü ekle") : t("+ Duruşma / keşif günü ekle")}</Text></Pressable>}
       {!!mesaj && <Text style={[s.hint, { color: C.brass }]}>{mesaj}</Text>}
     </View>
   );
