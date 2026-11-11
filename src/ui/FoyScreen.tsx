@@ -114,6 +114,10 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   // Ayrıntılı arama: ad soyad, T.C. / vergi no, adres, telefon, dosya no, merci (hepsi birlikte); evrak içinde de aranabilir.
   const [ayr, setAyr] = useState<{ ad: string; tc: string; adres: string; tel: string; no: string; merci: string; evrak: boolean }>({ ad: "", tc: "", adres: "", tel: "", no: "", merci: "", evrak: true });
   const [ayrAcik, setAyrAcik] = useState(true);
+  // "Ara"ya basılınca arama bütün föylerde yapılır (durum, tür, evrak süzgeçleri yok sayılır).
+  const [aranan, setAranan] = useState<typeof ayr | null>(null);
+  const [sahsiGorunum, setSahsiGorunum] = useState(false);
+  const [sahsiAra, setSahsiAra] = useState("");
   const [filtre, setFiltre] = useState<"acik" | "kapali" | "hepsi">("acik");
   const [turF, setTurF] = useState<FoyTur | "hepsi">("hepsi");
   // Yalnız evrakı olan föyler (listeden gelen binlerce boş föy arasında evrak yüklenmiş olanları bulmak için).
@@ -194,14 +198,15 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   // şahsi dosyalar bölümünde, kilit açıkken görünür.
   const buro = liste.filter(f => !f.ozel);
   const sahsiler = liste.filter(f => f.ozel);
+  const aramaVar = !!aranan && ayrintiliDolu(aranan);
   const gorunen = buro
-    .filter(f => filtre === "hepsi" || f.durum === filtre)
-    .filter(f => turF === "hepsi" || (f.tur || "hukuk") === turF)
-    .filter(f => !evrakli || f.evraklar.length > 0)
-    .filter(f => davaF === null || (f.davaTuru || "").trim() === davaF)
-    .filter(f => asamaF === null || (f.asama || "").trim() === asamaF)
+    .filter(f => aramaVar || filtre === "hepsi" || f.durum === filtre)
+    .filter(f => aramaVar || turF === "hepsi" || (f.tur || "hukuk") === turF)
+    .filter(f => aramaVar || !evrakli || f.evraklar.length > 0)
+    .filter(f => aramaVar || davaF === null || (f.davaTuru || "").trim() === davaF)
+    .filter(f => aramaVar || asamaF === null || (f.asama || "").trim() === asamaF)
     .filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, f.notlar, turBilgi(f.tur).ad, ...Object.values(f.muvekkilBilgi || {}), ...Object.values(f.karsiBilgi || {})].join(" ").toLocaleLowerCase("tr").includes(q))
-    .filter(f => ayrintiliEslesir(f, ayr))
+    .filter(f => !aramaVar || ayrintiliEslesir(f, aranan!))
     .sort((a, b) => {
       const ac = (f: Foy) => f.acilis || f.olusturma.slice(0, 10);
       if (sirala === "acilisYeni") return ac(b).localeCompare(ac(a));
@@ -266,6 +271,31 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       </>}
     </View>
   );
+  // Şahsi dosyalarım: ayrı bir klasör görünümü (kilit açıkken). Kilitlenince kendiliğinden kapanır.
+  if (sahsiGorunum && kilit === "acik") {
+    const sq = katla(sahsiAra.trim());
+    const xs = sahsiler.filter(f => !sq || katla([f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, turBilgi(f.tur).ad].join(" ")).includes(sq));
+    return (
+      <View style={{ flex: 1 }}>
+      <TakipSekmeler aktif="foyler" onSec={sekmeSec} rozet={rozet} />
+      <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
+        <Btn kind="ghost" label={t("‹ Föylerime dön")} onPress={() => setSahsiGorunum(false)} />
+        <Text style={s.title}>🔓 {t("Şahsi dosyalarım")}</Text>
+        <Text style={s.hint}>{t("Yalnız şifreyi bilen görür; büro listesine, yaklaşanlara, önerilere ve DavaTek eşleştirmesine karışmaz, büroyla paylaşılmaz. 15 dakika kullanılmazsa ya da dava takibinden çıkınca kendiliğinden kilitlenir.")}</Text>
+        <View style={s.row}>
+          <Btn label={t("+ Şahsi dosya ekle")} onPress={() => setGiris("sahsi")} />
+          <Btn kind="ghost" label={t("🔒 Kilitle ve çık")} onPress={() => { ozelKilitle(); setSahsiGorunum(false); yenile(); }} />
+        </View>
+        <View style={s.card}>
+          <TextInput value={sahsiAra} onChangeText={setSahsiAra} placeholder={t("Ara: ad soyad, merci, numara…")} placeholderTextColor={C.muted} style={s.inputTek} />
+          <Text style={s.hint}>{t("{n} şahsi dosya", { n: xs.length })}</Text>
+          {xs.map(foySatir)}
+          {!sahsiler.length && <Text style={s.hint}>{t("Henüz şahsi dosya yok. “+ Şahsi dosya ekle” ile açın ya da bir föyün en altındaki “🔒 Şahsi dosyalarıma taşı” ile buraya alın.")}</Text>}
+        </View>
+      </ScrollView>
+      </View>
+    );
+  }
   return (
     <View style={{ flex: 1 }}>
     <TakipSekmeler aktif="foyler" onSec={sekmeSec} rozet={rozet} />
@@ -284,6 +314,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
 
       <View style={s.row}>
         <Btn label={t("+ Yeni giriş")} onPress={() => setGiris("normal")} />
+        <Btn kind="secondary" label={t("🔒 Şahsi dosyalarım")} onPress={() => (kilit === "acik" ? setSahsiGorunum(true) : setKilitSor({ sonra: () => setSahsiGorunum(true) }))} />
         {web && <Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} />}
       </View>
       {mesaj && <Text style={[s.hint, { color: mesaj.ok ? C.good : C.bad }]}>{mesaj.t}</Text>}
@@ -377,23 +408,26 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         {ayrAcik && (
           <View style={{ gap: 6 }}>
             <View style={s.addRow}>
-              <TextInput value={ayr.ad} onChangeText={x => setAyr(a => ({ ...a, ad: x }))} placeholder={t("Adı soyadı (müvekkil, karşı taraf, vekil)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 2, minWidth: 220 }]} />
-              <TextInput value={ayr.tc} onChangeText={x => setAyr(a => ({ ...a, tc: x }))} placeholder={t("T.C. kimlik / vergi no")} placeholderTextColor={C.muted} keyboardType="number-pad" style={[s.inputTek, { flex: 1, minWidth: 160 }]} />
-              <TextInput value={ayr.tel} onChangeText={x => setAyr(a => ({ ...a, tel: x }))} placeholder={t("Telefon")} placeholderTextColor={C.muted} keyboardType="phone-pad" style={[s.inputTek, { flex: 1, minWidth: 140 }]} />
+              <TextInput value={ayr.ad} onChangeText={x => setAyr(a => ({ ...a, ad: x }))} onSubmitEditing={() => setAranan({ ...ayr })} returnKeyType="search" placeholder={t("Adı soyadı (müvekkil, karşı taraf, vekil)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 2, minWidth: 220 }]} />
+              <TextInput value={ayr.tc} onChangeText={x => setAyr(a => ({ ...a, tc: x }))} onSubmitEditing={() => setAranan({ ...ayr })} returnKeyType="search" placeholder={t("T.C. kimlik / vergi no")} placeholderTextColor={C.muted} keyboardType="number-pad" style={[s.inputTek, { flex: 1, minWidth: 160 }]} />
+              <TextInput value={ayr.tel} onChangeText={x => setAyr(a => ({ ...a, tel: x }))} onSubmitEditing={() => setAranan({ ...ayr })} returnKeyType="search" placeholder={t("Telefon")} placeholderTextColor={C.muted} keyboardType="phone-pad" style={[s.inputTek, { flex: 1, minWidth: 140 }]} />
             </View>
             <View style={s.addRow}>
-              <TextInput value={ayr.adres} onChangeText={x => setAyr(a => ({ ...a, adres: x }))} placeholder={t("Adres (mahalle, sokak, ilçe…)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 2, minWidth: 220 }]} />
-              <TextInput value={ayr.no} onChangeText={x => setAyr(a => ({ ...a, no: x }))} placeholder={t("Dosya / esas no (2024/896)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 150 }]} />
-              <TextInput value={ayr.merci} onChangeText={x => setAyr(a => ({ ...a, merci: x }))} placeholder={t("Mahkeme / merci")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 180 }]} />
+              <TextInput value={ayr.adres} onChangeText={x => setAyr(a => ({ ...a, adres: x }))} onSubmitEditing={() => setAranan({ ...ayr })} returnKeyType="search" placeholder={t("Adres (mahalle, sokak, ilçe…)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 2, minWidth: 220 }]} />
+              <TextInput value={ayr.no} onChangeText={x => setAyr(a => ({ ...a, no: x }))} onSubmitEditing={() => setAranan({ ...ayr })} returnKeyType="search" placeholder={t("Dosya / esas no (2024/896)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 150 }]} />
+              <TextInput value={ayr.merci} onChangeText={x => setAyr(a => ({ ...a, merci: x }))} onSubmitEditing={() => setAranan({ ...ayr })} returnKeyType="search" placeholder={t("Mahkeme / merci")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 180 }]} />
             </View>
             <View style={[s.row, { gap: 14, alignItems: "center", flexWrap: "wrap" }]}>
               <Pressable onPress={() => setAyr(a => ({ ...a, evrak: !a.evrak }))} accessibilityRole="checkbox" accessibilityState={{ checked: ayr.evrak }} style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
                 <View style={{ width: 18, height: 18, borderRadius: 4, borderWidth: 2, borderColor: ayr.evrak ? C.brass : C.muted, backgroundColor: ayr.evrak ? C.brass : "transparent" }} />
                 <Text style={s.hint}>{t("Evrakın içinde de ara (ad, T.C. no, adres, telefon evrakta geçiyorsa bulunur)")}</Text>
               </Pressable>
-              {ayrintiliDolu(ayr) && <Pressable onPress={() => setAyr(a => ({ ad: "", tc: "", adres: "", tel: "", no: "", merci: "", evrak: a.evrak }))}><Text style={s.link}>{t("Temizle")}</Text></Pressable>}
             </View>
-            {ayrintiliDolu(ayr) && <Text style={s.hint}>{t("{n} föy bulundu (durum ve tür süzgeçleriyle birlikte). Arama bu cihazda yapılır.", { n: gorunen.length })}</Text>}
+            <View style={[s.row, { gap: 10, alignItems: "center", flexWrap: "wrap" }]}>
+              <Btn label={t("🔍 Ara")} disabled={!ayrintiliDolu(ayr)} onPress={() => setAranan({ ...ayr })} />
+              {(ayrintiliDolu(ayr) || aramaVar) && <Btn kind="ghost" label={t("Temizle")} onPress={() => { setAyr(a => ({ ad: "", tc: "", adres: "", tel: "", no: "", merci: "", evrak: a.evrak })); setAranan(null); }} />}
+              {aramaVar && <Text style={[s.hint, { color: gorunen.length ? C.good : C.bad }]}>{gorunen.length ? t("{n} föy bulundu (bütün föylerde; durum ve tür süzgeçleri bu aramada yok sayılır). Sonuçlar aşağıda.", { n: gorunen.length }) : t("Bulunamadı. Daha az bilgiyle (ör. yalnız soyad ya da yalnız numara) yeniden deneyin.")}</Text>}
+            </View>
           </View>
         )}
         {(() => {

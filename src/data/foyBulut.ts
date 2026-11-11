@@ -190,7 +190,12 @@ export function surumBirlestir(yeni: Foy, eski: Foy): Foy {
   };
   return { ...yeni, gorevler, evraklar, ...ek, ...(silinen.length ? { silinen } : {}) };
 }
-const metinKoru = (f: Foy, yerel: Foy): Foy => ({ ...f, evraklar: f.evraklar.map(e => { const o = yerel.evraklar.find(y => y.id === e.id); return o && o.metin && !e.metin ? { ...e, metin: o.metin, maskeli: o.maskeli, kodlar: o.kodlar } : e; }) });
+/** Föyler arası bağlantılar (devamı / ilgili) kaybolmasın: öbür cihazdaki sürüm bağlantıdan önce kaydedilmiş olabilir. */
+const baglantiKoru = (f: Foy, yerel: Foy): Foy => {
+  const ilgili = [...new Set([...(f.ilgiliIds || []), ...(yerel.ilgiliIds || [])])].filter(x => x !== f.id);
+  return { ...f, ...(f.oncekiId || yerel.oncekiId ? { oncekiId: f.oncekiId || yerel.oncekiId } : {}), ...(ilgili.length ? { ilgiliIds: ilgili } : {}) };
+};
+const metinKoru = (f0: Foy, yerel: Foy): Foy => { const f = baglantiKoru(f0, yerel); return ({ ...f, evraklar: f.evraklar.map(e => { const o = yerel.evraklar.find(y => y.id === e.id); return o && o.metin && !e.metin ? { ...e, metin: o.metin, maskeli: o.maskeli, kodlar: o.kodlar } : e; }) }); };
 /** Gelen föyle bu cihazdakini karşılaştırır. Döner: yazılacak föy (ya da değişiklik yoksa null) ve yeniden gönderilmesi gerekip
  *  gerekmediği. Bu cihazda gönderilmemiş değişiklik varsa iki sürüm birleştirilir; yoksa yeni olan alınır. */
 export function gelenFoy(uzak: Foy, yerel: Foy | undefined, gonderilmedi: boolean): { f: Foy | null; gonder: boolean } {
@@ -229,6 +234,8 @@ async function esitleIc() {
   let cekim = (await ayarOku<string>("bulutCekim")) || "";
   const yerel = new Map((await hamFoyler()).map(f => [f.id, f] as const));
   const ozel = new Map((await hamOzeller()).map(x => [x.id, x] as const));
+  // Bu cihazda silinmiş (ya da birleştirilip kalkmış) ama silinişi henüz gönderilmemiş föy, çekimde geri getirilmez.
+  const silinecek = (await ayarOku<Record<string, string>>("bulutSilinen")) || {};
   // İlk sayfada iki dakikalık bindirme: aynı anda yazılan ve sonradan görünen kayıt kaçmasın (tekrar gelen kayıt zararsızdır).
   const onceki = cekim ? Date.parse(cekim) : NaN;
   let alt = cekim && !isNaN(onceki) ? new Date(onceki - 120000).toISOString() : cekim;
@@ -254,6 +261,7 @@ async function esitleIc() {
         delete gonderilen[x.kayit_id];
         continue;
       }
+      if (silinecek[x.kayit_id]) continue;
       if (x.tur === "foy") {
         const eski = yerel.get(x.kayit_id);
         const gonderilmedi = !!eski && gonderilen[eski.id] !== eski.guncelleme;
@@ -350,6 +358,7 @@ async function buroEsitle(b: { buroId: string; k: Anahtar }, yerel: Map<string, 
   let alt = cekim && !isNaN(onceki) ? new Date(onceki - 120000).toISOString() : cekim;
   // Bu cihazda şahsi dosyalara taşınmış föy büroda dursa da geri getirilmez (şahsi taşıma büroyu ezer).
   const sahsiIds = new Set((await hamOzeller()).map(x => x.id));
+  const silinecekB = (await ayarOku<Record<string, string>>("bulutSilinen")) || {};
   for (;;) {
     let q = sb.from(BURO_TABLO).select("kayit_id, tur, iv, veri, guncelleme, silindi, degisim").eq("buro_id", b.buroId).eq("tur", "foy").order("degisim", { ascending: true }).limit(200);
     if (alt) q = q.gt("degisim", alt);
@@ -365,6 +374,7 @@ async function buroEsitle(b: { buroId: string; k: Anahtar }, yerel: Map<string, 
         continue;
       }
       if (sahsiIds.has(x.kayit_id)) { gonderilen[x.kayit_id] = x.guncelleme; continue; }
+      if (silinecekB[x.kayit_id]) continue;
       const gonderilmedi = !!eski && gonderilen[eski.id] !== eski.guncelleme;
       if (eski && !gonderilmedi && eski.guncelleme >= x.guncelleme) continue;
       const g = gelenFoy(await ac<Foy>(b.k, x), eski, gonderilmedi);
