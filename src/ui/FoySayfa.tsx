@@ -529,7 +529,6 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         );
       })()}
 
-      <DurusmaAkisi f={f} degistir={degistir} okumaVar={f.evraklar.some(e => !!e.metin.trim())} />
       {icraUstte && icraBlok}
       {icraUstte && kunyeEksikBlok}
       {icraUstte && kunyeBlok}
