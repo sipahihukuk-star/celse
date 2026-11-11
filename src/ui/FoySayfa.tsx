@@ -25,7 +25,7 @@ import { Acilir } from "./Acilir";
 import { IcraBolum } from "./IcraBolum";
 import { tl } from "../data/icra";
 import { komisyonaUygun } from "../data/davaListesi";
-import { evrakTuruBul, icraDoldur } from "../data/icraEvrak";
+import { evrakTuruBul, icraDoldur, icraEvrakGeriAl } from "../data/icraEvrak";
 import { foyDinle, silineniNotEt, dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, KarsiBilgi, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
 import { DAVA_TURLERI, EVRAK_TURLERI, FoyTur, turBilgi, TURLER } from "../data/foyTurleri";
 import { unmask } from "../engine/mask";
@@ -567,7 +567,32 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       {(f.tur === "icra" || !!f.icra) && (
         <Katlanir anahtar="icra" baslik={t("İcra takibi bilgileri")} varsayilan ozet={f.icra?.asil ? t("asıl alacak {x}", { x: tl(f.icra.asil, f.icra.paraBirimi || "TL") }) : t("doldurulmadı")}>
           {!!icraMesaj && <Text style={[s.hint, { color: C.good }]}>{icraMesaj}</Text>}
-          <IcraBolum f={f} degistir={degistir} surum={surum} okuma={okuma} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} onEvraktan={() => {
+          <IcraBolum f={f} degistir={degistir} surum={surum} okuma={okuma} onKaydet={async () => { await hemenKaydet(); if (!zaman.current) await foyKaydet(son.current || f); }} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} onEvrakSil={e => {
+            // Yanlış evrak: silinir, ondan yazılan icra ve taraf bilgileri geri alınır, kalan evrakla yeniden doldurulur.
+            const kalan = f.evraklar.filter(x => x.id !== e.id);
+            let icra = f.icra;
+            if (icra && e.metin.trim()) icra = icraDoldur(icraEvrakGeriAl(icra, e.metin), kalan.map(x => x.metin)).yeni;
+            const geri: Partial<Foy> = {};
+            if (e.metin.trim()) {
+              const o = kunyeCikar(e.metin);
+              if (f.tur === "icra" && !/İCRA/.test((o.mahkeme || "").toLocaleUpperCase("tr"))) { o.mahkeme = undefined; o.esasNo = undefined; }
+              const ref = kunyeyiDoldur(bosFoy({ tur: f.tur, taraf: f.taraf }), o, bizimAdlar()).ek;
+              for (const k of ["muvekkil", "karsiTaraf", "mahkeme", "esasNo"] as const) if (ref[k] && f[k] === ref[k]) geri[k] = "";
+              for (const k of ["muvekkilBilgi", "karsiBilgi"] as const) {
+                const r0 = ref[k] as Record<string, unknown> | undefined, m0 = f[k] as Record<string, unknown> | undefined;
+                if (!r0 || !m0) continue;
+                const y = { ...m0 }; let d = false;
+                for (const [kk, v] of Object.entries(r0)) if (v && y[kk] === v) { delete y[kk]; d = true; }
+                if (d) (geri as Record<string, unknown>)[k] = y;
+              }
+            }
+            const temiz = { ...f, ...geri, evraklar: kalan };
+            const yeniden = kunyeEvraktan(kalan, temiz);
+            dosyaSil(e.id).catch(() => {});
+            degistir({ ...geri, ...yeniden, evraklar: kalan, silinen: silineniNotEt(f, [e.id]), ...(icra !== f.icra ? { icra } : {}) });
+            setSurum(v => v + 1);
+            setIcraMesaj(t("“{ad}” silindi; ondan yazılan bilgiler kaldırıldı.", { ad: e.ad }) + (Object.keys(yeniden).length ? " " + t("Kalan evraktan yeniden dolduruldu.") : ""));
+          }} onEvraktan={() => {
             const r = icraDoldur(f.icra || { yol: "genel", paraBirimi: "TL", faizTuru: "yasal" }, f.evraklar.map(e => e.metin));
             // Taraflar (alacaklı, borçlu: ad, kimlik no, adres) da evraktan (ilam, vekâletname…) doldurulur.
             const kun = kunyeEvraktan(f.evraklar, f);

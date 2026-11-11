@@ -1548,6 +1548,57 @@ async function ictihatYukle(req: Request, b: Record<string, unknown>) {
   return json({ sayfa: sayfa, toplam: r.toplam, eklenen: r.eklenen, atlanan: r.atlanan, bitti: r.bitti, yogun: r.yogun, dolu: r.dolu, mb: r.mb });
 }
 
+// ---------- Faiz oranları (günlük denetim) ----------
+// pg_cron her gün sabah danisma'ya "faiz_guncelle" gönderir (supabase/surum24.sql). TCMB'nin resmî tablolarından reeskont
+// (iskonto) ve avans faiz oranları ile TTK m.1530 temerrüt faiz oranı okunur, faiz_oran tablosuna yazılır. Uygulama açılışta
+// bu tabloyu okur; yeni oran gelince faiz hesapları kendiliğinden güncellenir. Kimlik: kasadaki gizli anahtar (x-celse-is).
+const TCMB_REESKONT = "https://www.tcmb.gov.tr/wps/wcm/connect/TR/TCMB+TR/Main+Menu/Temel+Faaliyetler/Para+Politikasi/Reeskont+ve+Avans+Faiz+Oranlari";
+const TCMB_1530 = "https://www.tcmb.gov.tr/wps/wcm/connect/TR/TCMB+TR/Main+Menu/Istatistikler/Piyasa+Verileri/TTK+Md.+1530";
+function tabloSatirlari(html: string): string[][] {
+  const out: string[][] = [];
+  const trs = html.match(/<tr[\s\S]*?<\/tr>/gi) || [];
+  for (const tr of trs) {
+    const hs = (tr.match(/<t[dh][^>]*>[\s\S]*?<\/t[dh]>/gi) || []).map(c => c.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim());
+    if (hs.length) out.push(hs);
+  }
+  return out;
+}
+const isoGun = (x: string) => { const m = x.match(/^(\d{2})\.(\d{2})\.(\d{4})$/); return m ? m[3] + "-" + m[2] + "-" + m[1] : ""; };
+const oranSayi = (x: string) => { const n = Number(x.replace(/\./g, "").replace(",", ".")); return isFinite(n) && n > 0 && n < 500 ? n : NaN; };
+async function faizSayfa(url: string): Promise<string[][]> {
+  const r = await fetch(url, { headers: DIS_UA });
+  if (!r.ok) throw new Error("TCMB " + r.status);
+  return tabloSatirlari(await r.text());
+}
+async function faizGuncelle(req: Request) {
+  const anahtar = req.headers.get("x-celse-is") || "";
+  if (anahtar.length < 20 || (await rpc("ictihat_is_anahtar", { p_anahtar: anahtar })) !== true) return json({ error: "yetki yok" }, 403);
+  const satir: { tur: string; bas: string; oran: number; kaynak: string }[] = [];
+  const notlar: string[] = [];
+  try {
+    for (const r of await faizSayfa(TCMB_REESKONT)) {
+      const g = isoGun(r[0] || ""), a = oranSayi(r[1] || ""), b = oranSayi(r[2] || "");
+      if (!g) continue;
+      if (!isNaN(a)) satir.push({ tur: "reeskont", bas: g, oran: a, kaynak: "TCMB" });
+      if (!isNaN(b)) satir.push({ tur: "avans", bas: g, oran: b, kaynak: "TCMB" });
+    }
+  } catch (e) { notlar.push("reeskont/avans: " + cut((e as Error).message, 120)); }
+  try {
+    for (const r of await faizSayfa(TCMB_1530)) {
+      const g = isoGun(r[0] || ""), a = oranSayi(r[1] || "");
+      if (g && !isNaN(a)) satir.push({ tur: "ttk1530", bas: g, oran: a, kaynak: "TCMB" });
+    }
+  } catch (e) { notlar.push("TTK 1530: " + cut((e as Error).message, 120)); }
+  // Tablo bozuk gelirse (sayfa değişmişse) eski kayıtlar korunur: en az birkaç satır okunmadıkça yazılmaz.
+  const say = (t: string) => satir.filter(x => x.tur === t).length;
+  const yazilacak = satir.filter(x => (x.tur === "ttk1530" ? say("ttk1530") >= 5 : say(x.tur) >= 20));
+  if (yazilacak.length) await srv("/rest/v1/faiz_oran?on_conflict=tur,bas", "POST", yazilacak, "resolution=merge-duplicates,return=minimal");
+  if (!yazilacak.length && !notlar.length) notlar.push("TCMB sayfasında oran tablosu bulunamadı (sayfa düzeni değişmiş olabilir).");
+  await srv("/rest/v1/faiz_kontrol?on_conflict=id", "POST", [{ id: 1, son: new Date().toISOString(), satir: yazilacak.length, aciklama: notlar.join(" · ") || null }], "resolution=merge-duplicates,return=minimal");
+  return json({ ok: true, satir: yazilacak.length, not: notlar });
+}
+
+
 // Sunucuda sürekli içtihat yükleme (surum23.sql): pg_cron yaklaşık her dakika bu işlemi çağırır. Çağrı, veritabanı kasasındaki
 // gizli anahtarla (x-celse-is başlığı) doğrulanır; kullanıcı oturumu gerekmez. Yönetim panelinde başlatılan plan (mahkeme / kurul / yıl
 // listesi) kaldığı yerden sürdürülür; her turda en çok ~90 saniye çalışılır, ilerleme her sayfadan sonra kaydedilir.
@@ -2025,6 +2076,7 @@ export async function handle(req: Request): Promise<Response> {
     const action = String(b.action || "");
     // Zamanlanmış iş (pg_cron): kullanıcı oturumu yok, kasadaki anahtarla doğrulanır.
     if (action === "ictihat_is") return await ictihatIs(req);
+    if (action === "faiz_guncelle") return await faizGuncelle(req);
     if (!SINIR[action]) return json({ error: "bilinmeyen işlem" }, 400);
     const uid = await userOf(req);
     if (!uid) return json({ error: "giriş gerekli" }, 401);

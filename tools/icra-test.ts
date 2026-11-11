@@ -1,4 +1,5 @@
 // İcra hesapları: dönemsel yasal faiz, avans faizi, AAÜT 2026-2027 vekâlet ücreti, takip talebi metni (uydurma verilerle).
+import { brutNet, brutTurTahmin } from "../src/data/brutNet";
 import { bosFoy } from "../src/data/foy";
 import { icraEksikler, icraHesapla, icraVekalet, islemisFaiz, nispiUcret, takipTalebiMetni } from "../src/data/icra";
 let fail = 0;
@@ -52,5 +53,13 @@ ok(icraEksikler(bosFoy({ tur: "icra" }), { yol: "genel" }).length >= 5, "eksikle
 }
 { const t = islemisFaiz(1000, "2025-07-01", "2026-07-01", "ttk1530"); ok(t.dilimler.map(d => d.oran).join(",") === "53.25,43", "TTK 1530 dilimleri: " + JSON.stringify(t.dilimler)); }
 { const y = islemisFaiz(1000, "2005-01-01", "2006-06-01", "yasal"); ok(y.dilimler.map(d => d.oran).join(",") === "38,12,9" && !y.eksik, "eski yasal faiz: " + JSON.stringify(y.dilimler)); }
+// Brütten nete
+{
+  const u = brutNet(10000, "ucret", 15);
+  ok(u.net === 7149.1 && u.kesintiler.length === 4, "ücret: 10.000 − 1.400 SGK − 100 işsizlik − 1.275 GV − 75,90 DV = 7.149,10: " + JSON.stringify(u));
+  const ih = brutNet(10000, "ihbar", 15); ok(ih.net === 8424.1, "ihbar: " + ih.net);
+  const kd = brutNet(10000, "kidem"); ok(kd.net === 9924.1 && kd.kesintiler.length === 1, "kıdem yalnız damga: " + kd.net);
+  ok(brutTurTahmin("Kıdem tazminatı") === "kidem" && brutTurTahmin("İhbar tazminatı") === "ihbar" && brutTurTahmin("Fazla mesai alacağı") === "ucret", "tür tahmini");
+}
 if (fail) { console.log(`icra-test: ${fail} hata`); process.exit(1); }
 console.log("icra-test: tamam");

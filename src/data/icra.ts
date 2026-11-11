@@ -15,7 +15,11 @@ export type ParaBirimi = "TL" | "USD" | "EUR" | "GBP";
 export interface Kisi { ad: string; kimlikNo?: string; adres?: string }
 export interface Masraf { ad: string; tutar: number }
 /** Alacak kalemi: UYAP'ta her kalem kendi faiz türüyle ayrı satırdır (ör. manevi tazminat avans faizli, yargılama gideri yasal faizli). */
-export interface Kalem { ad: string; tutar: number; faizTuru?: FaizTuru; oran?: number; faizBaslangic?: string; islemisElle?: number }
+export interface Kalem {
+  ad: string; tutar: number; faizTuru?: FaizTuru; oran?: number; faizBaslangic?: string; islemisElle?: number;
+  /** brütten nete çevrildiyse ilamdaki brüt tutar ve hesap (geri almak için) */
+  brut?: { tutar: number; tur: "ucret" | "ihbar" | "kidem"; gv: number };
+}
 export interface IcraBilgi {
   yol: TakipYolu;
   talep?: "haciz" | "haciz_tahliye" | "tahliye" | "rehin";

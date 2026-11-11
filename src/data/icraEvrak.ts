@@ -10,7 +10,9 @@ export type IcraEvrakTuru = "ilam" | "cek" | "senet" | "kira" | "fatura" | "dige
 const para = (x: string) => Number(x.replace(/\s/g, "").replace(/\./g, "").replace(",", "."));
 const iso = (g: string, a: string, y: string) => `${y}-${a.padStart(2, "0")}-${g.padStart(2, "0")}`;
 const TARIH = /(\d{1,2})[./-](\d{1,2})[./-]((?:19|20)\d{2})/;
-const TUTAR = /(\d{1,3}(?:\.\d{3})*(?:,\d{1,2})|\d+(?:,\d{1,2}))\s*(?:TL|TRY|₺|Türk Lirası)/i;
+// Tutar: "15.000,00 TL", "15.000 TL", "15.000,00-TL", "15.000,00.-TL", "15000 TL", "1.500.000,00 Türk Lirası".
+const TUTAR = /(?<![\d.,])(\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?|\d+(?:,\d{1,2})?)\s*(?:\.?\s*-\s*)?(?:TL|TRY|₺|Türk Lirası)(?![\p{L}])/iu;
+const TUTARLAR = new RegExp(TUTAR.source, "giu");
 const ust = (x: string) => x.toLocaleUpperCase("tr");
 
 export function evrakTuruBul(metin: string): IcraEvrakTuru {
@@ -33,6 +35,17 @@ function faizTuru(x: string): FaizTuru | undefined {
   return undefined;
 }
 
+/** "01/06/2024 tarihinden", "15/03/2024 fesih tarihinden", "01.01.2025 T." */
+const TARIH_IFADE = new RegExp(TARIH.source + "\\s*(?:[\\p{L}]+\\s+){0,3}?(?:tarihinden|tarihi|T\\.)", "iu");
+/** Metinde ilk geçen faiz türü (birden çok faiz türü sayılan cümlede en yakındaki). */
+function faizTuruIlk(x: string): FaizTuru | undefined {
+  const u = ust(x);
+  const adaylar: [RegExp, FaizTuru][] = [[/1530/, "ttk1530"], [/AVANS|TİCARİ|REESKONT/, "avans"], [/MEVDUAT/, "mevduat"], [/YASAL|KANUNİ/, "yasal"], [/FAİZSİZ|FAİZ İŞLETİLMEKSİZİN/, "yok"]];
+  let en: FaizTuru | undefined, yer = Infinity;
+  for (const [re, tur] of adaylar) { const i = u.search(re); if (i >= 0 && i < yer) { yer = i; en = tur; } }
+  return en;
+}
+
 /** Hüküm fıkrasından alacak kalemleri. */
 export function hukumKalemleri(metin: string, kararTarihi?: string): Kalem[] {
   const u = metin.replace(/\s+/g, " ");
@@ -42,23 +55,41 @@ export function hukumKalemleri(metin: string, kararTarihi?: string): Kalem[] {
   const ekle = (k: Kalem) => { if (k.tutar > 0 && !out.some(x => x.ad === k.ad && x.tutar === k.tutar)) out.push(k); };
   // Cümle cümle: "15.000,00 TL manevi tazminatın 01/01/2025 tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan tahsiline"
   // Hüküm maddeleri ("1-", "2)") ve cümleler ayrı ayrı; tutardaki "15.000,00" madde numarası sayılmaz.
+  const kalemAdi = (uc: string) => /MANEVİ TAZMİNAT/.test(uc) ? "Manevi tazminat" : /MADDİ TAZMİNAT|DESTEKTEN YOKSUN|İŞ GÖREMEZLİK|İŞGÖREMEZLİK/.test(uc) ? "Maddi tazminat"
+    : /KIDEM/.test(uc) ? "Kıdem tazminatı" : /İHBAR/.test(uc) ? "İhbar tazminatı" : /FAZLA (?:MESAİ|ÇALIŞMA)/.test(uc) ? "Fazla mesai alacağı"
+    : /YILLIK (?:ÜCRETLİ )?İZİN/.test(uc) ? "Yıllık izin ücreti" : /GENEL TATİL|BAYRAM/.test(uc) ? "UBGT alacağı" : /HAFTA TATİLİ/.test(uc) ? "Hafta tatili alacağı"
+    : /KÖTÜ ?NİYET/.test(uc) ? "Kötüniyet tazminatı" : /ÜCRET ALACAĞ|BAKİYE ÜCRET|ÜCRETİN/.test(uc) ? "Ücret alacağı"
+    : /NAFAKA/.test(uc) ? "Nafaka" : /KİRA/.test(uc) ? "Kira bedeli" : /DEĞER KAYB/.test(uc) ? "Değer kaybı" : /ARAÇ MAHRUMİYET|KAZANÇ KAYB/.test(uc) ? "Kazanç kaybı" : "Asıl alacak";
   for (const c of hukum.split(/\s(?=\d{1,2}\s*[-)]\s*\p{L})|(?<=[.;])\s+(?=\p{Lu})/u)) {
-    const m = c.match(TUTAR);
-    if (!m) continue;
-    const tutar = para(m[1]);
+    const tutarlar = [...c.matchAll(TUTARLAR)];
+    if (!tutarlar.length) continue;
     const uc = ust(c);
     // Davacının lehine olmayan (Hazine'ye gelir kaydı, iade, reddedilen) cümleler atlanır.
     if (/HAZİNEYE GELİR|GELİR KAYDI|REDDİNE|İADESİNE|DAVACIYA İADE/.test(uc) && !/DAVALIDAN ALINARAK DAVACIYA/.test(uc)) continue;
-    const t = c.match(new RegExp(TARIH.source + "\\s*(?:tarihinden|tarihi|T\\.)", "i"));
-    const fz = faizTuru(c) || "yasal";
-    if (/VEKALET ÜCRET|VEKÂLET ÜCRET|AVUKATLIK ÜCRET/.test(uc)) ekle({ ad: "Vekâlet ücreti", tutar, faizTuru: "yasal", faizBaslangic: kararTarihi });
-    else if (/YARGILAMA GİDER/.test(uc)) ekle({ ad: "Yargılama gideri", tutar, faizTuru: "yasal", faizBaslangic: kararTarihi });
-    else if (/HARÇ|HARC/.test(uc) && /DAVALIDAN ALINARAK DAVACIYA/.test(uc)) ekle({ ad: "Harç", tutar, faizTuru: "yasal", faizBaslangic: kararTarihi });
-    else if (/TAHSİLİNE|ÖDENMESİNE|ALINARAK|VERİLMESİNE/.test(uc)) {
-      const ad = /MANEVİ TAZMİNAT/.test(uc) ? "Manevi tazminat" : /MADDİ TAZMİNAT/.test(uc) ? "Maddi tazminat" : /KIDEM/.test(uc) ? "Kıdem tazminatı" : /İHBAR/.test(uc) ? "İhbar tazminatı"
-        : /NAFAKA/.test(uc) ? "Nafaka" : /KİRA/.test(uc) ? "Kira bedeli" : "Asıl alacak";
-      ekle({ ad, tutar, faizTuru: /FAİZ/.test(uc) ? fz : "yok", faizBaslangic: t ? iso(t[1], t[2], t[3]) : undefined });
-    }
+    const tc = c.match(TARIH_IFADE);
+    const fzC = faizTuru(c) || "yasal";
+    // Vekâlet ücreti, yargılama gideri, harç: cümlede gider kalemleri tek tek sayılsa da tek tutar ("toplam …" ya da en büyüğü).
+    const tek = () => { const top = c.match(new RegExp("toplam\\s*(?:olarak\\s*)?" + TUTAR.source, "iu")); return top ? para(top[1]) : Math.max(...tutarlar.map(m => para(m[1]))); };
+    if (/VEKALET ÜCRET|VEKÂLET ÜCRET|AVUKATLIK ÜCRET/.test(uc)) { ekle({ ad: "Vekâlet ücreti", tutar: para(tutarlar[0][1]), faizTuru: "yasal", faizBaslangic: kararTarihi }); continue; }
+    if (/YARGILAMA GİDER/.test(uc)) { ekle({ ad: "Yargılama gideri", tutar: tek(), faizTuru: "yasal", faizBaslangic: kararTarihi }); continue; }
+    if (/HARÇ|HARC/.test(uc) && /DAVALIDAN ALINARAK DAVACIYA/.test(uc)) { ekle({ ad: "Harç", tutar: tek(), faizTuru: "yasal", faizBaslangic: kararTarihi }); continue; }
+    if (!/TAHSİLİNE|ÖDENMESİNE|ALINARAK|VERİLMESİNE/.test(uc)) continue;
+    // Bir cümlede birden çok alacak ("50.000 TL kıdem, 20.000 TL ihbar tazminatının … tahsiline"): her tutar kendi kalemi;
+    // adı tutarın ardındaki (yoksa önündeki) sözcüklerden, faiz türü ve başlangıcı o parçadan (yoksa cümleden).
+    tutarlar.forEach((m, j) => {
+      const bas = (m.index || 0) + m[0].length, son = j + 1 < tutarlar.length ? tutarlar[j + 1].index || c.length : c.length;
+      const once = c.slice(j ? (tutarlar[j - 1].index || 0) + tutarlar[j - 1][0].length : 0, m.index || 0);
+      const sonra = c.slice(bas, Math.min(son, bas + 160));
+      let ad = kalemAdi(ust(sonra));
+      if (ad === "Asıl alacak") ad = kalemAdi(ust(once.slice(-80)));
+      if (ad === "Asıl alacak" && tutarlar.length === 1) ad = kalemAdi(uc);
+      // Faiz başlangıcı ve türü: bu tutardan sonra gelen ilk ifade ("… ve 12.250 TL izin ücretinin dava tarihinden itibaren yasal
+      // faizi ile" ortak ifadesi öndeki kalemleri de kapsar).
+      const kalanC = c.slice(bas);
+      const t = kalanC.match(TARIH_IFADE) || tc;
+      const fz = faizTuruIlk(kalanC) || fzC;
+      ekle({ ad, tutar: para(m[1]), faizTuru: /FAİZ/.test(uc) ? fz : "yok", faizBaslangic: t ? iso(t[1], t[2], t[3]) : undefined });
+    });
   }
   return out;
 }
@@ -142,4 +173,26 @@ export function icraDoldur(b: IcraBilgi, metinler: string[]): { yeni: IcraBilgi;
   if (bosKalem && !b.asil && r.kalemler.length) { y.kalemler = r.kalemler; dolan.push(`${r.kalemler.length} alacak kalemi`); }
   if (r.yol === "ilamli" && !y.mahiyet && r.kalemler.length) { y.mahiyet = "4045"; dolan.push("takip mahiyeti (para alacağı)"); }
   return { yeni: y, dolan };
+}
+
+/**
+ * Yanlış eklenen evrakın icra bilgilerine yazdıklarını geri alır: ilam / çek / senet / kira bilgilerinde ve alacak
+ * kalemlerinde, o evraktan okunan değerle aynı olan her şey silinir (elle değiştirilmiş olanlar kalır). Ardından kalan
+ * evrakla yeniden doldurmak için icraDoldur çağrılır.
+ */
+export function icraEvrakGeriAl(b: IcraBilgi, metin: string): IcraBilgi {
+  const r = icraEvraktan(metin);
+  if (r.tur === "diger") return b;
+  const temizle = <T extends object>(eski: T | undefined, gelen: T | undefined): T | undefined => {
+    if (!eski || !gelen) return eski;
+    const out = { ...eski } as Record<string, unknown>;
+    for (const [k, v] of Object.entries(gelen)) if (v !== undefined && v !== "" && out[k] === v) delete out[k];
+    return Object.keys(out).length ? (out as T) : undefined;
+  };
+  const y: IcraBilgi = { ...b, ilam: temizle(b.ilam, r.bilgi.ilam), senet: temizle(b.senet, r.bilgi.senet), kira: temizle(b.kira, r.bilgi.kira) };
+  if (r.bilgi.belge && b.belge === r.bilgi.belge) y.belge = undefined;
+  const ayni = (k: Kalem) => r.kalemler.some(x => x.ad === k.ad.replace(/\s*\(net\)$/i, "") && Math.abs((x.tutar || 0) - (k.brut?.tutar ?? k.tutar ?? 0)) < 0.01);
+  if (b.kalemler?.length) { const kalan = b.kalemler.filter(k => !ayni(k)); y.kalemler = kalan.length ? kalan : undefined; }
+  if (!y.kalemler?.length && r.yol === "ilamli" && b.mahiyet === "4045") y.mahiyet = undefined;
+  return y;
 }
