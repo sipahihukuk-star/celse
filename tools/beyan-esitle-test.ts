@@ -7,7 +7,7 @@ Module._load = function (req: string, ...a: any[]) {
   if (/^(react-native|@react-native|expo|@expo|@supabase)/.test(req)) return new Proxy({}, { get: () => () => ({}) });
   return yukle.call(this, req, ...a);
 };
-const { surumBirlestir } = require("../src/data/foyBulut");
+const { surumBirlestir, gelenFoy } = require("../src/data/foyBulut");
 const { bosFoy } = require("../src/data/foy");
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
@@ -19,5 +19,10 @@ const m = surumBirlestir(x, y);
 ok(m.beyanlar?.length === 3 && m.beyanlar.find((z: any) => z.id === "b1")?.metin === "yeni hâli", "taslaklar birleşir, en yeni kalır: " + JSON.stringify(m.beyanlar?.map((z: any) => z.id + ":" + z.metin)));
 const m2 = surumBirlestir({ ...x, beyanlar: [b], silinen: ["b2"] }, { ...y, beyanlar: [...y.beyanlar, { ...b, id: "b2", metin: "ikinci" }] });
 ok(!m2.beyanlar?.some((z: any) => z.id === "b2"), "silinen taslak geri gelmez");
+// Bağlantılar: öbür cihazın daha yeni ama bağlantısız sürümü gelince "devamı" ve "ilgili" kaybolmaz.
+const yerelF = { ...f, guncelleme: "2026-11-10T10:00:00Z", oncekiId: "onceki1", ilgiliIds: ["i1"] };
+const uzakF = { ...f, guncelleme: "2026-11-10T12:00:00Z", notlar: "uzakta not", ilgiliIds: ["i2"] };
+const g = gelenFoy(uzakF, yerelF, false).f;
+ok(g?.oncekiId === "onceki1" && g?.ilgiliIds?.sort().join() === "i1,i2" && g?.notlar === "uzakta not", "bağlantılar korunur: " + JSON.stringify([g?.oncekiId, g?.ilgiliIds]));
 if (fail) { console.log(`beyan-esitle-test: ${fail} hata`); process.exit(1); }
 console.log("beyan-esitle-test: tamam");
