@@ -33,6 +33,7 @@ import { BuroKatilKart } from "./BuroKatilKart";
 import { TevkilListesi } from "./TevkilListesi";
 import { durusmaUyarilari, tumDurusmaUyarilari } from "../data/durusma";
 import { otoIsleriEsitle } from "../data/otoIs";
+import { otoEsitlemeBaslat } from "../data/bulutOto";
 import { telefonBildirimPlanla, webDurusmaBildirimi } from "./durusmaBildirim";
 
 let bildirimZaman: ReturnType<typeof setTimeout> | null = null;
@@ -164,6 +165,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     ozelKilitDurumu().then(setKilit).catch(() => {});
   };
   useEffect(() => { yenile(); return foyDinle(yenile); }, []);
+  // Bilgisayar ↔ telefon: Dava takibi açık olduğu sürece kendiliğinden eşitlenir (bkz. bulutOto.ts).
+  useEffect(() => otoEsitlemeBaslat(), []);
   // Dava takibinden çıkınca şahsi dosyalar kilitlenir (bilgisayarı başkası kullanırsa görünmesin).
   useEffect(() => () => { ozelKilitle(); }, []);
   useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc || tevkilAc || durusmaAc || !!beyanAc, () => { if (secili && (rapor || isler || tevkilAc || durusmaAc)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setBeyanAc(false); });
@@ -398,8 +401,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       {web && <KlasorKart liste={liste} onBilgi={m => setMesaj(m)} onToplu={xs => { setKlasordenGelen(xs); setHavuz(true); }} />}
 
       {yaklasan.length > 0 && (
-        <View style={s.card}>
-          <Text style={s.cardT}>{t("Yaklaşanlar (14 gün)")}</Text>
+        <Katlanir anahtar="yaklasanlar" varsayilan baslik={t("Yaklaşanlar (14 gün)")} ozet={t("{n} duruşma ve iş", { n: yaklasan.length })}>
           {yaklasan.slice(0, 20).map((y, i) => (
             <Pressable key={i} onPress={() => setSecili({ id: y.f.id })} style={({ pressed }) => [s.yak, pressed && { opacity: 0.8 }]}>
               <Text style={[s.yakTarih, y.gun < 0 && { color: C.bad }, y.gun <= 2 && y.gun >= 0 && { color: C.brass }]}>{tarihYaz(y.tarih)}{"\n"}<Text style={s.hint}>{gunYaz(y.gun)}</Text></Text>
@@ -409,13 +411,13 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
               </View>
             </Pressable>
           ))}
-        </View>
+        </Katlanir>
       )}
 
       {/* Dosya tablosu: türlere göre açık / kapalı / şahsi dosya sayıları (CBS, ARB, CEZA, İDARE, HUKUK…); satıra basınca süzülür. */}
       {(buro.length > 0 || sahsiler.length > 0) && (
-        <View style={[s.card, { gap: 4 }]}>
-          <Text style={s.cardT}>{t("Dosya tablosu")}</Text>
+        <Katlanir anahtar="dosya-tablosu" varsayilan baslik={t("Dosya tablosu")} ozet={t("{a} açık · {n} toplam", { a: buro.filter(f => f.durum === "acik").length, n: buro.length + sahsiler.length })}>
+          <View>
           <View style={{ flexDirection: "row", paddingVertical: 4, borderBottomWidth: 1, borderBottomColor: C.line }}>
             <Text style={[s.hint, { flex: 1, fontWeight: "700" }]}>{t("Tür")}</Text>
             {[t("Açık"), t("Kapalı"), ...(sahsiler.length ? [t("Şahsi 🔒")] : []), t("Toplam")].map(x => <Text key={x} style={[s.hint, { width: 64, textAlign: "right", fontWeight: "700" }]}>{x}</Text>)}
@@ -442,10 +444,11 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
             {[buro.filter(f => f.durum === "acik").length, buro.filter(f => f.durum !== "acik").length, ...(sahsiler.length ? [sahsiler.length] : []), buro.length + sahsiler.length].map((n, i) => <Text key={i} style={[s.body, { width: 64, textAlign: "right", fontWeight: "800" }]}>{n}</Text>)}
           </View>
           {turF !== "hepsi" && <Pressable onPress={() => { setTurF("hepsi"); setFiltre("acik"); }}><Text style={s.link}>{t("Süzgeci kaldır")}</Text></Pressable>}
-        </View>
+          </View>
+        </Katlanir>
       )}
 
-      <View style={s.card}>
+      <Katlanir anahtar="foy-ara" varsayilan baslik={t("🔍 Föylerim: ara, süz, listele")} ozet={t("{n} föy", { n: buro.length })}>
         <TextInput value={ara} onChangeText={setAra} placeholder={t("Ara: müvekkil, karşı taraf, mahkeme, esas no…")} placeholderTextColor={C.muted} style={s.inputTek} />
         <Pressable onPress={() => setAyrAcik(x => !x)}><Text style={s.link}>{ayrAcik ? t("▴ Ayrıntılı aramayı gizle") : t("▾ Ayrıntılı arama: ad soyad, T.C. no, adres, telefon, dosya no, merci")}{ayrintiliDolu(ayr) ? " · " + t("süzgeç açık") : ""}</Text></Pressable>
         {ayrAcik && (
@@ -515,7 +518,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         {gorunen.length > 1 && sayfalama}
         {sayfadaki.map(foySatir)}
         {gorunen.length > boy && sayfalama}
-      </View>
+      </Katlanir>
 
       {/* Şahsi dosyalar: sayfanın en sonunda, kilit açıkken; kilitliyken hiçbir yerde sayısı bile görünmez. */}
       {kilit === "acik" ? (

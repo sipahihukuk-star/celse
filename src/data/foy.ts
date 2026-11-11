@@ -106,7 +106,15 @@ export function bosFoy(k: Partial<Foy> = {}): Foy {
   f.ozel = k.ozel ?? ozelTur(f.tur);
   return f;
 }
-export const foyBaslik = (f: Foy) => [f.muvekkil || "Müvekkil yazılmamış", f.karsiTaraf].filter(Boolean).join(" – ");
+/** Föyün adı: müvekkil – karşı taraf; adlar yoksa merci ve dosya no, o da yoksa açılış günü ("Müvekkil yazılmamış" yazılmaz). */
+export const foyBaslik = (f: Foy) => {
+  const ad = [f.muvekkil, f.karsiTaraf].map(x => (x || "").trim()).filter(Boolean).join(" – ");
+  if (ad) return ad;
+  const kunye = [f.mahkeme, f.esasNo].map(x => (x || "").trim()).filter(Boolean).join(" ");
+  if (kunye) return kunye;
+  const g = (f.olusturma || "").slice(0, 10).split("-").reverse().join(".");
+  return g ? `Adsız dosya (${g})` : "Adsız dosya";
+};
 
 // ---------- IndexedDB ----------
 // Sürüm 2: "ozel" (şifreli özel föyler) ve "ayar" (kilit bilgisi, DavaTek klasörü, görülen dosyalar) depoları eklendi.

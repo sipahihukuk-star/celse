@@ -1,13 +1,13 @@
 // Föylerim ekranındaki "Bulut eşitlemesi" kartı: eşitleme şifresini kurma, başka cihazda açma, elle ve kendiliğinden eşitleme.
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Text, TextInput, View } from "react-native";
-import { foyDinle } from "../data/foy";
 import { bulutAc, bulutCihazdaKapat, BulutDurum, bulutDurumu, bulutKur, esitle } from "../data/foyBulut";
 import { t } from "../i18n";
 import { s } from "./foyStil";
 import { Btn } from "./kit";
 import { C } from "./theme";
 import { Katlanir } from "./Katlanir";
+import { otoEsitlemeDinle } from "../data/bulutOto";
 
 const saatYaz = (iso?: string) => {
   if (!iso) return "";
@@ -39,17 +39,12 @@ export function FoyBulutKart({ acik }: { acik?: boolean } = {}) {
   };
 
   useEffect(() => { yenile(); }, []);
-  // Açıkken: ekran açılınca ve föyler değiştikten birkaç saniye sonra kendiliğinden eşitlenir.
-  useEffect(() => {
-    if (durum?.tur !== "acik") return;
-    simdiEsitle(true);
-    const kapat = foyDinle(() => {
-      if (susturma.current) return;
-      if (zaman.current) clearTimeout(zaman.current);
-      zaman.current = setTimeout(() => simdiEsitle(true), 4000);
-    });
-    return () => { kapat(); if (zaman.current) clearTimeout(zaman.current); };
-  }, [durum?.tur]);
+  // Kendiliğinden eşitleme Dava takibi boyunca bulutOto.ts'te çalışır (açılış, geri dönüş, dakikada bir, değişiklikten sonra);
+  // bu kart yalnız sonucunu gösterir.
+  useEffect(() => otoEsitlemeDinle(m => {
+    const [g, c] = m.split("|").map(Number);
+    setMesaj({ t: t("Eşitlendi: {g} föy geldi, {c} föy gitti.", { g, c }), ok: true }); yenile();
+  }), []);
 
   if (!durum) return null;
   const kur = async () => {
