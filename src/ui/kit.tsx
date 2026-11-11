@@ -9,7 +9,8 @@ type BtnKind = "primary" | "secondary" | "ghost" | "next" | "ghostInk";
 export function Btn({ label, onPress, kind = "primary", style, disabled }: { label: string; onPress: () => void; kind?: BtnKind; style?: StyleProp<ViewStyle>; disabled?: boolean }) {
   return (
     <Pressable accessibilityRole="button" disabled={disabled} onPress={onPress}
-      style={({ pressed }) => [styles.btn, styles[kind], pressed && { opacity: 0.8 }, style]}>
+      // Basınca belirgin geri bildirim: kararır ve hafifçe küçülür; web'de fare üstündeyken çerçeve parlar.
+      style={(st) => { const { pressed, hovered } = st as { pressed: boolean; hovered?: boolean }; return [styles.btn, styles[kind], hovered && !disabled && { borderColor: C.brass }, pressed && { opacity: 0.55, transform: [{ scale: 0.97 }] }, style]; }}>
       <Text style={[styles.btnText, textStyles[kind]]}>{label}</Text>
     </Pressable>
   );

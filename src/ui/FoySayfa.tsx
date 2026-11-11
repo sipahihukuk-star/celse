@@ -2,7 +2,7 @@
 // "Dosya ne durumda?" (önemli evrak üzerinden yapay zekâ özeti, sesli dinleme). Her şey bu cihazda; dışarı yalnız kodlu metin gider.
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { kunyeCikar, kunyeyiDoldur } from "../data/kunyeCikar";
+import { kunyeCikar, kunyeyiDoldur, yapiIskeleti } from "../data/kunyeCikar";
 import { eIsDurusma, eKarar, kunyeEksikleri, otoIsleriEsitle } from "../data/otoIs";
 import { MuvekkilMesaj } from "./MuvekkilMesaj";
 import { DurusmaAkisi } from "./DurusmaAkisi";
@@ -33,6 +33,7 @@ import { zipIcerigi, turBul } from "../engine/mask/readers";
 import { evrakProva } from "../data/evrak";
 import { metinleriGetir } from "../data/foyBulut";
 import { setAvukatKalan, usePremium } from "../data/subscription";
+import { useAccount } from "../data/account";
 import { EVRAK_KREDI } from "../data/purchaseIds";
 import { durumKaynagi, evrakHazirla, evrakOkuVeHazirla, Kaynak } from "./foyEvrak";
 import { boyutYaz, dosyaSec, gunYaz, indir, s } from "./foyStil";
@@ -81,10 +82,12 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const [yetkim, setYetkim] = useState<string | null>(null);
   useEffect(() => { buroYetkim().then(setYetkim).catch(() => {}); }, []);
   const [uyeAdlari, setUyeAdlari] = useState<string[]>([]);
+  const vekilAdi = useAccount().account?.adSoyad || "";
   useEffect(() => { buroUyeleri().then(x => setUyeAdlari(x.uyeler.map(u => u.ad))).catch(() => {}); }, []);
   const [kisiAc, setKisiAc] = useState<"" | "muvekkil" | "karsi">("");
   const [durusmaYazi, setDurusmaYazi] = useState("");
   const [silOnay, setSilOnay] = useState(false);
+  const [iskelet, setIskelet] = useState(false);
   const [muvAc, setMuvAc] = useState(false);
   // Evrak listesi: seçim kutuları, toplu işlem ve sayfalama (5, 10, 25, 50, 100; tercih bu cihazda hatırlanır).
   const [secim, setSecim] = useState<Set<string>>(new Set());
@@ -180,6 +183,11 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   };
   /** Tevkil sayılmayacak adlar: büronun çalışanları ve karşı taraf vekili. */
   const haricAdlar = () => [...uyeAdlari, f.karsiBilgi?.vekil || ""].filter(Boolean);
+  /** Bizim avukatlarımız: hesap sahibi, vekil bilgisi ve büro üyeleri (evrakta hangi tarafın vekili olduğumuzu bulmak için). */
+  const bizimAdlar = () => {
+    let v = ""; try { v = JSON.parse(globalThis.localStorage?.getItem("celse-vekil") || "{}").ad || ""; } catch { /* yok say */ }
+    return [vekilAdi, v, ...uyeAdlari].filter((x): x is string => !!x && x.trim().length > 4);
+  };
   const evrakAc = async (e: FoyEvrak) => {
     if (!dosyaSaklanir()) { setErr(t("Asıl dosya bilgisayarınızda duruyor; telefonda yalnız künye ve kodlanmış metin vardır.")); return; }
     // Bu cihazda yoksa büro bulutundan indirilir (büroya üyeyken; asıl dosyalar şifreli olarak orada durur).
@@ -282,11 +290,11 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       if ((temel.tur === "icra") && !/İCRA/.test((o.mahkeme || "").toLocaleUpperCase("tr"))) { o.mahkeme = undefined; o.esasNo = undefined; }
       // Çek ve senette keşideci borçludur (karşı taraf), müvekkil değil.
       if (temel.tur === "icra" && /^(cek|senet)$/.test(evrakTuruBul(e.metin))) { o.ikinci = o.ikinci || o.birinci; o.birinci = undefined; }
-      const r = kunyeyiDoldur(x, o);
+      const r = kunyeyiDoldur(x, o, bizimAdlar());
       if (r.dolan.length) { x = { ...x, ...r.ek }; tum.push(...r.dolan); }
     }
     const ek: Partial<Foy> = {};
-    for (const k of ["mahkeme", "esasNo", "davaTuru", "durusma", "muvekkil", "karsiTaraf", "muvekkilBilgi", "karsiBilgi"] as const) if (x[k] !== temel[k]) (ek as Record<string, unknown>)[k] = x[k];
+    for (const k of ["mahkeme", "esasNo", "davaTuru", "durusma", "muvekkil", "karsiTaraf", "muvekkilBilgi", "karsiBilgi", "taraf"] as const) if (x[k] !== temel[k]) (ek as Record<string, unknown>)[k] = x[k];
     setKunyeMesaj(tum.length ? t("Evraktan dolduruldu: {x}. Kontrol edin.", { x: [...new Set(tum)].join(", ") }) : t("Evrakta künyeye eklenecek yeni bilgi bulunamadı (yalnız boş alanlar doldurulur)."));
     if (tum.length) setSurum(v => v + 1);
     if (ek.durusma) setDurusmaYazi(tarihYaz(ek.durusma));
@@ -382,6 +390,13 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
               : eksik.length > 0 && <Text style={s.hint}>{t("Evrak eklenince künye evraktan doldurulabilir; ya da aşağıdaki Künye bölümüne elle yazın.")}</Text>}
             {okunmus && <Text style={s.hint}>{t("Müvekkil ve karşı taraf, vekilleri, mahkeme, dosya no, kimlik no, adres ve vekâletname evrakın kendisinden, bu cihazda okunur. Yalnız boş alanlar doldurulur; kontrol edin.")}</Text>}
             {!!kunyeMesaj && <Text style={[s.hint, { color: C.brass }]}>{kunyeMesaj}</Text>}
+            {okunmus && eksik.length > 0 && (
+              <Pressable onPress={() => setIskelet(x => !x)}><Text style={s.link}>{iskelet ? t("Evrak düzenini gizle") : t("Okuyamadıysa: evrakın başlık düzenini göster (ad ve numaralar gizli)")}</Text></Pressable>
+            )}
+            {iskelet && f.evraklar.filter(e => e.metin.trim()).slice(0, 3).map(e => (
+              <Text key={e.id} selectable style={[s.hint, { fontFamily: "monospace", borderTopWidth: 1, borderTopColor: C.line, paddingTop: 4 }]}>{yapiIskeleti(e.metin, 25)}</Text>
+            ))}
+            {iskelet && <Text style={s.hint}>{t("Bu görünümde adlar □, rakamlar 9 olur; kişisel bilgi görünmez. Okuma hatası bildirirken bu görünümün ekran görüntüsünü güvenle paylaşabilirsiniz.")}</Text>}
           </View>
         );
       })()}

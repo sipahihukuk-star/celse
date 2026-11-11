@@ -84,5 +84,16 @@ ok(!kunyeCikar("İZMİR NÖBETÇİ ASLİYE HUKUK MAHKEMESİ'NE", simdi).mahkeme,
   const isk = yapiIskeleti("Birim    İzmir 7. İş Mahkemesi\nDavacı    Kişi    UYDURMA KİŞİ SEKİZ    2024/456");
   ok(!/İzmir|UYDURMA|SEKİZ|2024\/456/.test(isk) && /Birim/.test(isk) && /Davacı/.test(isk) && /9999\/999/.test(isk), "iskelet ad ve numara göstermez: " + isk);
 }
+// Dilekçe başlıkları: etiket / iki nokta / değer ayrı satırda, numaralı taraflar, parantezli rol, "SAYIN HAKİMLİĞİ'NE"
+const d1 = kunyeCikar("UYDURMA ASLİYE HUKUK MAHKEMESİ SAYIN HAKİMLİĞİ'NE\n2024/362 E.\nDAVALI\n:\nAYŞE ÖRNEK\nVEKİLİ\n:\nAv. Deneme Avukat\nDAVACI\n:\nMEHMET KURGU\nKONU\n:\nBilirkişi raporuna karşı beyanlarımızdır");
+ok(d1.ikinci?.ad === "Ayşe Örnek" && d1.birinci?.ad === "Mehmet Kurgu" && d1.ikinci?.vekil === "Av. Deneme Avukat" && d1.esasNo === "2024/362" && d1.mahkeme === "Uydurma Asliye Hukuk Mahkemesi", "ayrı satırlı başlık: " + JSON.stringify(d1));
+const d2 = kunyeCikar("UYDURMA ASLİYE HUKUK MAHKEMESİ'NE\nDOSYA NO : 2024/362\nDAVALILAR (KARŞI DAVACILAR) : 1- AYŞE ÖRNEK 2- ALİ ÖRNEK\nVEKİLLERİ : Av. Deneme Avukat\nDAVACI : MEHMET KURGU");
+ok(d2.ikinci?.ad === "Ayşe Örnek", "numaralı ve parantezli rol: " + JSON.stringify(d2.ikinci));
+// Hangi tarafın vekiliyiz: evraktaki vekil adımızdan
+const fd = bosFoy({ tur: "hukuk", taraf: "davaci" });
+const rd = kunyeyiDoldur(fd, d1, ["Av. Deneme Avukat"]);
+ok(rd.ek.muvekkil === "Ayşe Örnek" && rd.ek.karsiTaraf === "Mehmet Kurgu" && rd.ek.taraf === "davali", "vekil adımız davalı tarafta: " + JSON.stringify(rd.ek));
+ok(!rd.ek.davaTuru, "dilekçenin konusu (beyan) dava konusu yazılmaz");
+
 if (fail) { console.log(`kunye-test: ${fail} hata`); process.exit(1); }
 console.log("kunye-test: tamam");
