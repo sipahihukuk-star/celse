@@ -1,5 +1,5 @@
 // Föyün başındaki duruşma şeridi: her duruşma küçük bir hap. Hapta iki kutu: duruşmaya girildi mi (☐ / ✓ / ✗; dokununca
-// sırayla değişir) ve e-duruşma (e? sorulmadı · e– istenmeyecek · e⏳ talep edildi · e✓ kabul · e✗ red). Mahkeme ya da
+// sırayla değişir) ve e-duruşma kutusu ("E-duruşma: ?", "kabul ✓", "red ✗", "talep edildi ⏳", "istenmeyecek"). Mahkeme ya da
 // dosya numarası değiştiyse araya küçük bir "↳ yeni mahkeme · yeni no" etiketi girer. En üstte tek satır özet: sorun yoksa
 // yeşil "Her şey işlendi ✓". Hapa basınca altında ayrıntı açılır (açılır kutularla). Az yer kaplar; eski duruşmalar katlanır.
 import { beyanDosyaAdi, ciktiBicimi, eDurusmaTalebi, tamMetin, udfOlustur } from "../data/beyan";
@@ -18,11 +18,11 @@ import { eKarar } from "../data/otoIs";
 const GOSTER = 6;
 const kisaTarih = (x: string) => `${x.slice(8, 10)}.${x.slice(5, 7)}.${x.slice(2, 4)}${x.length > 10 ? " " + x.slice(11, 16) : ""}`;
 const E_SIMGE: Record<EDurum | "yok", { s: string; renk: string; ad: string }> = {
-  yok: { s: "e?", renk: C.mid, ad: "E-duruşma sorulmadı" },
-  istenmeyecek: { s: "e–", renk: C.muted, ad: "E-duruşma istenmeyecek" },
-  talep: { s: "e⏳", renk: C.mid, ad: "E-duruşma talep edildi, karar bekleniyor" },
-  kabul: { s: "e✓", renk: C.good, ad: "E-duruşma kabul edildi" },
-  red: { s: "e✗", renk: C.bad, ad: "E-duruşma reddedildi" }
+  yok: { s: "E-duruşma: ?", renk: C.mid, ad: "E-duruşma sorulmadı" },
+  istenmeyecek: { s: "E-duruşma: istenmeyecek", renk: C.muted, ad: "E-duruşma istenmeyecek" },
+  talep: { s: "E-duruşma: talep edildi ⏳", renk: C.mid, ad: "E-duruşma talep edildi, karar bekleniyor" },
+  kabul: { s: "E-duruşma: kabul ✓", renk: C.good, ad: "E-duruşma kabul edildi" },
+  red: { s: "E-duruşma: red ✗", renk: C.bad, ad: "E-duruşma reddedildi" }
 };
 const SONRAKI_GIRILDI: Record<string, Girildi | undefined> = { "": "evet", evet: "hayir", hayir: undefined };
 
@@ -150,7 +150,9 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
                 </Pressable>
                 {(esor || !!d.e) && dTur(d) === "durusma" && (
                   <EKutu ad={t(e.ad)} onKabul={() => degistir(eKarar(f, d.id, "kabul"))} onRed={() => degistir(eKarar(f, d.id, "red"))}>
-                    <Text style={{ color: d.e ? e.renk : gecmis ? C.muted : e.renk, fontSize: 12, fontWeight: "800" }}>{e.s}</Text>
+                    <View style={{ borderWidth: 1, borderColor: d.e ? e.renk : gecmis ? C.line : e.renk, borderRadius: 999, paddingHorizontal: 7, paddingVertical: 1 }}>
+                      <Text style={{ color: d.e ? e.renk : gecmis ? C.muted : e.renk, fontSize: 12, fontWeight: "800" }}>{t(e.s)}</Text>
+                    </View>
                   </EKutu>
                 )}
               </View>

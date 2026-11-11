@@ -584,11 +584,11 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
               {kapatId === x.id && <GorevKapat g={x} onVazgec={() => setKapatId(null)} onKapat={k => { gorevDegistir(x, { bitti: true, kapanis: k }); setKapatId(null); }} />}
               {!!eIsDurusma(x) && (
                 <View style={s.row}>
-                  <Btn kind="secondary" label={t("e✓ Kabul edildi")} onPress={() => degistir(eKarar(f, eIsDurusma(x)!, "kabul"))} />
-                  <Btn kind="ghost" label={t("e✗ Reddedildi")} onPress={() => degistir(eKarar(f, eIsDurusma(x)!, "red"))} />
+                  <Btn kind="secondary" label={t("✓ E-duruşma kabul edildi")} onPress={() => degistir(eKarar(f, eIsDurusma(x)!, "kabul"))} />
+                  <Btn kind="ghost" label={t("✗ E-duruşma reddedildi")} onPress={() => degistir(eKarar(f, eIsDurusma(x)!, "red"))} />
                 </View>
               )}
-              {x.kaynak === "oto" && <Text style={s.hint}>{eIsDurusma(x) ? t("Kendiliğinden açılan iş: kabul ya da red işaretlenince kapanır (duruşma gününün yanındaki “e”ye sol tık kabul, sağ tık red).") : t("Kendiliğinden açılan iş: künye tamamlanınca kapanır.")}</Text>}
+              {x.kaynak === "oto" && <Text style={s.hint}>{eIsDurusma(x) ? t("Kendiliğinden açılan iş: kabul ya da red işaretlenince kapanır (duruşma gününün yanındaki “E-duruşma” kutusuna sol tık kabul, sağ tık red).") : t("Kendiliğinden açılan iş: künye tamamlanınca kapanır.")}</Text>}
             </View>
             {!eIsDurusma(x) && <Pressable onPress={() => gorevDegistir(x, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>}
           </View>

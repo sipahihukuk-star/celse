@@ -181,7 +181,7 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
                   ? <Acilir etiket={t("Kimde")} secili={g.atanan || ""} genislik={260} secenekler={kisiSecenek} onSec={k => gorevYaz(f, g, atama(k))} />
                   : !!g.atananAd && <Text style={s.hint}>👤 {g.atananAd}</Text>}
               </View>
-              {!g.bitti && !!eIsDurusma(g) && <View style={{ gap: 6 }}><Btn kind="secondary" label={t("e✓ Kabul")} onPress={() => eYaz(f, g, "kabul")} /><Btn kind="ghost" label={t("e✗ Red")} onPress={() => eYaz(f, g, "red")} /></View>}
+              {!g.bitti && !!eIsDurusma(g) && <View style={{ gap: 6 }}><Btn kind="secondary" label={t("✓ E-duruşma kabul")} onPress={() => eYaz(f, g, "kabul")} /><Btn kind="ghost" label={t("✗ E-duruşma red")} onPress={() => eYaz(f, g, "red")} /></View>}
               {!g.bitti && g.kaynak === "oto" && !eIsDurusma(g) && <Btn kind="secondary" label={t("Föyü aç")} onPress={() => onAc(f.id)} />}
               {!g.bitti && g.kaynak !== "oto" && kapat !== g.id && <Btn kind="secondary" label={t("Kapat…")} onPress={() => setKapat(g.id)} />}
               {g.bitti && !g.kapanis && <Btn kind="ghost" label={t("Numara ekle")} onPress={() => setKapat(g.id)} />}
