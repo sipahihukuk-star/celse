@@ -40,11 +40,18 @@ const kalici: { konusma: Satir[]; bag: Baglam; acik: boolean } = { konusma: [], 
 
 export interface AsistanProps {
   liste: Foy[]; onAc: (id: string) => void; onIsler: () => void; onEkran?: (ad: "tevkil" | "buro") => void; onSekme?: (ad: SekmeAd) => void;
-  /** sağ altta yüzen düğme (yoksa kart) */
+  /** sağ altta yüzen pencere (yoksa kart) */
   yuzen?: boolean;
+  /** yüzen topu gösterme; asistan üst sekmedeki düğmeyle (asistanAc) açılır */
+  topYok?: boolean;
   /** açık föy (komutlarda "bu dosya") ve açık ekran */
   baglamFoyId?: string; ekran?: string;
 }
+
+// Üst sekmelerdeki "🎙 Sesli asistan" düğmesi asistanı buradan açar (yüzen top kaldırıldı).
+const acanlar = new Set<() => void>();
+/** Sesli asistanı açar ve dinlemeye başlar (dokunma anında çağrılmalı: tarayıcı sesi ancak dokunmayla açar). */
+export function asistanAc() { acanlar.forEach(f => f()); }
 
 /** Telefon tarayıcısı: dokunmatik ve dar ekran. */
 function telefonWeb(width: number): boolean {
@@ -54,11 +61,13 @@ function telefonWeb(width: number): boolean {
   return dokunmatik && width < 900;
 }
 
-export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, baglamFoyId, ekran }: AsistanProps) {
+export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, topYok, baglamFoyId, ekran }: AsistanProps) {
   const [konusma, setKonusmaRaw] = useState<Satir[]>(kalici.konusma);
   const setKonusma = (f: (k: Satir[]) => Satir[]) => setKonusmaRaw(k => { const y = f(k).slice(-30); kalici.konusma = y; return y; });
   const [acik, setAcikRaw] = useState(kalici.acik);
   const setAcik = (v: boolean) => { kalici.acik = v; setAcikRaw(v); };
+  const ac = useRef<() => void>(() => {});
+  useEffect(() => { if (!yuzen) return; const f = () => ac.current(); acanlar.add(f); return () => { acanlar.delete(f); }; }, [yuzen]);
   const [dinliyor, setDinliyor] = useState(false);
   const [dusunuyor, setDusunuyor] = useState(false);
   const [ara, setAra] = useState("");
@@ -350,13 +359,14 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
     </>
   );
 
+  ac.current = () => { setAcik(true); sesKilidiAc(); if (SR()) dinle(); };
   if (!yuzen) return <View style={[s.card, { gap: 10 }]}>{icerik}</View>;
   const genislik = Math.min(440, width - 24);
   const sinirla = (p: { r: number; b: number }) => ({ r: Math.max(8, Math.min(p.r, width - 68)), b: Math.max(8, Math.min(p.b, height - 68)) });
   // Telefonda (web) top sürüklenmez, sağ altta "Geri / Başa dön" düğmelerinin üstüne sabitlenir: parmakla sürükleme sayfayı
   // da kaydırıp ekranı oynatıyordu.
   const sabit = telefonWeb(width);
-  const yer = sabit ? { r: 16, b: 78 } : sinirla(konum);
+  const yer = topYok ? { r: 12, b: 16 } : sabit ? { r: 16, b: 78 } : sinirla(konum);
   // Panel açıkken pencereden taşmasın.
   const sag = acik ? Math.min(yer.r, Math.max(8, width - genislik - 8)) : yer.r;
   return (
@@ -365,7 +375,7 @@ export function SesliAsistan({ liste, onAc, onIsler, onEkran, onSekme, yuzen, ba
       {acik && (
         <View style={[s.card, { width: genislik, gap: 8, shadowColor: "#000", shadowOpacity: 0.5, shadowRadius: 18, borderColor: C.brassDim }]}>{icerik}</View>
       )}
-      {!acik && (
+      {!acik && !topYok && (
         <View {...(sabit ? {} : Platform.OS === "web" ? ({ onPointerDown: webSurukle } as Any) : surukle.panHandlers)}>
         <Pressable onPress={() => { if (suruklendi.current) { suruklendi.current = false; return; } setAcik(true); sesKilidiAc(); if (SR()) dinle(); }} accessibilityRole="button" accessibilityLabel={t("Sesli asistan")} accessibilityHint={sabit ? undefined : t("Basılı tutup sürükleyerek yerini değiştirebilirsiniz")}
           style={{ width: sabit ? 54 : 60, height: sabit ? 54 : 60, borderRadius: 30, alignItems: "center", justifyContent: "center", backgroundColor: C.bordo, borderWidth: 2, borderColor: C.brass, shadowColor: "#000", shadowOpacity: 0.5, shadowRadius: 12 }}>

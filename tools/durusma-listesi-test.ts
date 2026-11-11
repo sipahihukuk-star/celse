@@ -1,6 +1,6 @@
 // UYAP duruşma listesi okuma ve föylerle eşleştirme (uydurma verilerle).
 import { bosFoy } from "../src/data/foy";
-import { eslestir, listedenYeniFoy, listeyiIsle, metindenDurusmalar, tablodanDurusmalar, tekillestir } from "../src/data/durusmaListesi";
+import { eskiExcelTablo, eslestir, htmlTablo, listedenYeniFoy, listeyiIsle, metindenDurusmalar, tablodanDurusmalar, tekillestir } from "../src/data/durusmaListesi";
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
 
@@ -67,6 +67,19 @@ const icra = listeyiIsle(bosFoy({ tur: "icra", esasNo: "2026/9" }), [m[2]], "202
 ok(icra.durusmalar?.[0].tur === "haciz", "icra dosyasında gün haciz günüdür");
 const yeni = listedenYeniFoy({ ...m[1], taraflar: "A - B" });
 ok(yeni.esasNo === "2026/45" && yeni.tur === "idari_dava" && yeni.durusmalar?.length === 1 && /A - B/.test(yeni.notlar), "yeni föy: tür, numara, gün, taraflar notta");
+
+// UYAP "Excel'e aktar": .xls uzantılı HTML tablo
+const html = `<html><body><table><tr><th>Birim Ad&#305;</th><th>Dosya No</th><th>Duru&#351;ma Tarihi</th></tr><tr><td>&#304;zmir 3. Asliye Hukuk Mahkemesi</td><td>2025/311</td><td>12.12.2026&nbsp;10:30</td></tr></table></body></html>`;
+const ht = tablodanDurusmalar(eskiExcelTablo(new TextEncoder().encode(html)));
+ok(!!ht && ht.length === 1 && ht[0].tarih === "2026-12-12T10:30" && /İzmir 3/.test(ht[0].mahkeme || ""), "HTML .xls tablosu okunur: " + JSON.stringify(ht));
+ok(htmlTablo("<tr><td>a<br>b</td></tr>")[0][0] === "a b", "hücre içi satır sonu");
+let ikili = "";
+try { eskiExcelTablo(new Uint8Array([0xd0, 0xcf, 0x11, 0xe0, 1, 2])); } catch (e) { ikili = String((e as Error).message); }
+ok(/xlsx/.test(ikili), "ikili .xls için açıklamalı hata");
+// Dosya no'su yazılmamış föy: taraf adı tutuyorsa seçenek olur
+const numsuz = bosFoy({ muvekkil: "Deneme Kişi", mahkeme: "İzmir 3. Asliye Hukuk" });
+const ns = eslestir([{ ...tablo[0], esasNo: "2026/999" }], [numsuz]);
+ok(ns[0].durum === "secim" && ns[0].adaylar[0]?.id === numsuz.id, "numarasız föy, mahkeme ve taraf adıyla seçenek olur");
 
 if (fail) { console.log(`durusma-listesi-test: ${fail} hata`); process.exit(1); }
 console.log("durusma-listesi-test: tamam");

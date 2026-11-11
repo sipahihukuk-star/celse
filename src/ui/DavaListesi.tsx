@@ -1,19 +1,28 @@
 // Dava listesi: bütün türlerde dosyalar bir tabloda (mahkeme, dosya no, taraflar, aşama, sıradaki iş, yargılama süresi,
 // Tazminat Komisyonu). Açılır kutularla süzülür, satıra basınca föy açılır, Excel'e (.xlsx) aktarılır.
 import React, { useMemo, useState } from "react";
-import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { Keyboard, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { davaListesi, komisyonaUygun, komisyonAdi, ListeSuzgec, listeTablosu } from "../data/davaListesi";
 import type { Foy } from "../data/foy";
 import { TURLER } from "../data/foyTurleri";
 import { xlsxYaz } from "../data/xlsxYaz";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
+import { DurusmaListesiYukle } from "./DurusmaListesiYukle";
+import { Katlanir } from "./Katlanir";
+import { bugunGun, dTur } from "../data/durusma";
 import { indir, s } from "./foyStil";
 import { Btn } from "./kit";
 import { C } from "./theme";
 
 const tarihYaz = (x?: string) => (x ? x.slice(0, 10).split("-").reverse().join(".") : "");
-const KOLON: [string, number][] = [["Tür", 120], ["Mahkeme / merci", 230], ["Dosya no", 100], ["Müvekkil – karşı taraf", 240], ["Aşama", 110], ["Sıradaki iş", 220], ["Açılış", 90], ["Yargılama süresi", 120], ["Tazminat Komisyonu", 130], ["AYM / AİHM", 120]];
+const gunSaat = (x?: string) => (x ? tarihYaz(x) + (x.length > 10 ? " " + x.slice(11, 16) : "") : "");
+/** Föyün sıradaki duruşması (duruşma akışından; yoksa künyedeki gün). */
+function siradakiDurusma(f: Foy, bugun: string): string | undefined {
+  const xs = (f.durusmalar || []).filter(d => dTur(d) === "durusma" && d.tarih.slice(0, 10) >= bugun).map(d => d.tarih).sort();
+  return xs[0] || (f.durusma && f.durusma.slice(0, 10) >= bugun ? f.durusma : undefined);
+}
+const KOLON: [string, number][] = [["Tür", 120], ["Mahkeme / merci", 230], ["Dosya no", 100], ["Müvekkil – karşı taraf", 240], ["Duruşma", 110], ["Aşama", 110], ["Sıradaki iş", 220], ["Açılış", 90], ["Yargılama süresi", 120], ["Tazminat Komisyonu", 130], ["AYM / AİHM", 120]];
 
 export function DavaListesi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: string) => void; onKapat: () => void }) {
   const [sz, setSz] = useState<ListeSuzgec>(() => {
@@ -22,6 +31,10 @@ export function DavaListesi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id:
   });
   const yaz = (ek: Partial<ListeSuzgec>) => { const y = { ...sz, ...ek }; setSz(y); setSayfa(0); try { const { ara: _a, ...k } = y; globalThis.localStorage?.setItem("celse-dava-listesi", JSON.stringify(k)); } catch { /* yok say */ } };
   const [boy, setBoy] = useState(25);
+  // Arama kutusu "Tamam"a (ya da Enter'a) basınca uygulanır; seçilen süzgeçler (tür, durum…) de o anda geçerli.
+  const [araYazi, setAraYazi] = useState("");
+  const tamam = () => { Keyboard.dismiss(); yaz({ ara: araYazi }); };
+  const bugun = bugunGun();
   const [sayfa, setSayfa] = useState(0);
   const satirlar = useMemo(() => davaListesi(liste, sz), [liste, sz]);
   const sayfaSay = Math.max(1, Math.ceil(satirlar.length / boy));
@@ -44,10 +57,13 @@ export function DavaListesi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id:
       <View style={s.head}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={onKapat} /></View>
       <Text style={s.eyebrow}>{t("DAVA TAKİBİ · LİSTE")}</Text>
       <Text style={s.title}>{t("Dava listesi")}</Text>
-      <Text style={s.hint}>{t("Bütün türlerde dosyalarınız: mahkeme, dosya no, taraflar, aşama, sıradaki iş, yargılama süresi ve Tazminat Komisyonu (6384 s. Kanun) başvurusu. Satıra basınca föy açılır. Şahsi dosyalar bu listede yoktur.")}</Text>
+      <Text style={s.hint}>{t("Bütün türlerde dosyalarınız: mahkeme, dosya no, taraflar, sıradaki duruşma, aşama, sıradaki iş, yargılama süresi ve Tazminat Komisyonu (6384 s. Kanun) başvurusu. Satıra basınca föy açılır. Şahsi dosyalar bu listede yoktur.")}</Text>
 
       <View style={s.card}>
-        <TextInput value={sz.ara} onChangeText={v => yaz({ ara: v })} placeholder={t("Ara: mahkeme, dosya no, taraf, aşama, iş…")} placeholderTextColor={C.muted} style={s.inputTek} />
+        <View style={[s.row, { alignItems: "center", gap: 8 }]}>
+          <TextInput value={araYazi} onChangeText={setAraYazi} onSubmitEditing={tamam} returnKeyType="search" placeholder={t("Ara: mahkeme, dosya no, taraf, aşama, iş…")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1 }]} />
+          <Btn label={t("Tamam")} onPress={tamam} />
+        </View>
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
           <Acilir etiket={t("Dosya türü")} secili={sz.tur} genislik={210} onSec={k => yaz({ tur: k })}
             secenekler={[{ k: "hepsi", ad: t("Bütün türler"), n: liste.filter(f => !f.ozel).length }, ...turler.map(x => ({ k: x.tur, ad: t(x.ad), n: liste.filter(f => !f.ozel && (f.tur || "hukuk") === x.tur).length }))]} />
@@ -67,6 +83,10 @@ export function DavaListesi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id:
         </View>
       </View>
 
+      <Katlanir anahtar="dava-listesi-uyap" baslik={t("📥 UYAP duruşma listesini yükle")} ozet={t("günler föylere ve “Duruşma” sütununa işlenir")}>
+        <DurusmaListesiYukle liste={liste} />
+      </Katlanir>
+
       <ScrollView horizontal contentContainerStyle={{ flexDirection: "column" }} style={{ borderWidth: 1, borderColor: C.line, borderRadius: 10 }}>
         <View style={{ flexDirection: "row", backgroundColor: C.panel2, borderBottomWidth: 1, borderBottomColor: C.line }}>
           {KOLON.map(([ad, w]) => <React.Fragment key={ad}>{hucre(w, yazi(t(ad), C.brass, true))}</React.Fragment>)}
@@ -80,12 +100,13 @@ export function DavaListesi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id:
               {hucre(KOLON[1][1], yazi(x.mahkeme, C.text))}
               {hucre(KOLON[2][1], yazi(x.esasNo, C.text, true))}
               {hucre(KOLON[3][1], yazi(x.taraflar))}
-              {hucre(KOLON[4][1], yazi(x.asama))}
-              {hucre(KOLON[5][1], yazi([x.sonrakiIs, tarihYaz(x.sonrakiTarih)].filter(Boolean).join(" · ")))}
-              {hucre(KOLON[6][1], yazi(tarihYaz(x.acilis)))}
-              {hucre(KOLON[7][1], yazi(x.sure.metin + (x.sure.tahmini ? " ~" : ""), uzun ? C.bad : C.textSoft, uzun))}
-              {hucre(KOLON[8][1], yazi(kom, x.komisyon.durum === "yok" ? C.muted : C.good))}
-              {hucre(KOLON[9][1], yazi(x.bireysel, x.bireysel ? C.good : C.muted))}
+              {hucre(KOLON[4][1], yazi(gunSaat(siradakiDurusma(x.f, bugun)), C.brass, true))}
+              {hucre(KOLON[5][1], yazi(x.asama))}
+              {hucre(KOLON[6][1], yazi([x.sonrakiIs, tarihYaz(x.sonrakiTarih)].filter(Boolean).join(" · ")))}
+              {hucre(KOLON[7][1], yazi(tarihYaz(x.acilis)))}
+              {hucre(KOLON[8][1], yazi(x.sure.metin + (x.sure.tahmini ? " ~" : ""), uzun ? C.bad : C.textSoft, uzun))}
+              {hucre(KOLON[9][1], yazi(kom, x.komisyon.durum === "yok" ? C.muted : C.good))}
+              {hucre(KOLON[10][1], yazi(x.bireysel, x.bireysel ? C.good : C.muted))}
             </Pressable>
           );
         })}

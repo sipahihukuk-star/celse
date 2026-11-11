@@ -19,7 +19,7 @@ const GUN = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "
 const gunBaslik = (g: string) => { const d = new Date(g + "T00:00:00Z"); return `${d.getUTCDate()} ${AY[d.getUTCMonth()]} ${d.getUTCFullYear()} ${GUN[d.getUTCDay()]}`; };
 const trTarih = (x: string) => x.slice(0, 10).split("-").reverse().join(".");
 const E_AD: Record<string, string> = { istenmeyecek: "e-duruşma istenmeyecek", talep: "e-duruşma talep edildi, karar bekleniyor", kabul: "e-duruşma kabul ✓", red: "e-duruşma reddedildi: bizzat girilecek" };
-type Donem = "bugun" | "hafta" | "30" | "90" | "gecmis30" | "gecmis365";
+type Donem = "bugun" | "hafta" | "30" | "90" | "ileri" | "gecmis30" | "gecmis365";
 
 export function DurusmalarEkrani({ liste, onAc, yukleAc }: { liste: Foy[]; onAc: (id: string) => void; yukleAc?: boolean }) {
   const bugun = bugunGun();
@@ -29,7 +29,7 @@ export function DurusmalarEkrani({ liste, onAc, yukleAc }: { liste: Foy[]; onAc:
   const [ara, setAra] = useState("");
   const donemSec = (d: Donem) => { setDonem(d); try { globalThis.localStorage?.setItem("celse-durusma-donem", d); } catch { /* yok say */ } };
   const [bas, son] = donem === "bugun" ? [bugun, bugun] : donem === "hafta" ? [bugun, gunKaydir(bugun, 7)] : donem === "30" ? [bugun, gunKaydir(bugun, 30)]
-    : donem === "90" ? [bugun, gunKaydir(bugun, 90)] : donem === "gecmis30" ? [gunKaydir(bugun, -30), gunKaydir(bugun, -1)] : [gunKaydir(bugun, -365), gunKaydir(bugun, -1)];
+    : donem === "90" ? [bugun, gunKaydir(bugun, 90)] : donem === "ileri" ? [bugun, gunKaydir(bugun, 3650)] : donem === "gecmis30" ? [gunKaydir(bugun, -30), gunKaydir(bugun, -1)] : [gunKaydir(bugun, -365), gunKaydir(bugun, -1)];
   const hepsi = useMemo(() => takvim(liste, bas, son, bugun), [liste, bas, son, bugun]);
   const q = ara.trim().toLocaleLowerCase("tr");
   const satirlar = hepsi.filter(x => (tur === "hepsi" || x.tur === tur) && (!bekleyen || !!x.uyari)
@@ -89,14 +89,14 @@ export function DurusmalarEkrani({ liste, onAc, yukleAc }: { liste: Foy[]; onAc:
       </View>
 
       <Katlanir key={yukleAc ? "a" : "k"} anahtar="durusma-liste-yukle" zorla={yukleAc} baslik={t("📥 UYAP duruşma listesini yükle")} ozet={t("Excel, PDF, Word, ekran görüntüsü ya da kopyalanan tablo")}>
-        <DurusmaListesiYukle liste={liste} />
+        <DurusmaListesiYukle liste={liste} onBitti={() => { donemSec("ileri"); setTur("hepsi"); setBekleyen(false); setAra(""); }} />
       </Katlanir>
 
       <View style={s.card}>
         <TextInput value={ara} onChangeText={setAra} placeholder={t("Ara: müvekkil, mahkeme, dosya no…")} placeholderTextColor={C.muted} style={s.inputTek} />
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
           <Acilir etiket={t("Dönem")} secili={donem} genislik={200} onSec={k => donemSec(k as Donem)}
-            secenekler={[{ k: "bugun", ad: t("Bugün") }, { k: "hafta", ad: t("Önümüzdeki 7 gün") }, { k: "30", ad: t("Önümüzdeki 30 gün") }, { k: "90", ad: t("Önümüzdeki 90 gün") }, { k: "gecmis30", ad: t("Geçmiş 30 gün") }, { k: "gecmis365", ad: t("Geçmiş 1 yıl") }]} />
+            secenekler={[{ k: "bugun", ad: t("Bugün") }, { k: "hafta", ad: t("Önümüzdeki 7 gün") }, { k: "30", ad: t("Önümüzdeki 30 gün") }, { k: "90", ad: t("Önümüzdeki 90 gün") }, { k: "ileri", ad: t("Bütün ileri tarihler") }, { k: "gecmis30", ad: t("Geçmiş 30 gün") }, { k: "gecmis365", ad: t("Geçmiş 1 yıl") }]} />
           <Acilir etiket={t("Tür")} secili={tur} genislik={170} onSec={k => setTur(k as "hepsi" | DTur)}
             secenekler={[{ k: "hepsi", ad: t("Hepsi") }, { k: "durusma", ad: "⚖ " + t("Yalnız duruşma") }, { k: "haciz", ad: "📌 " + t("Yalnız haciz") }, { k: "kesif", ad: "🔍 " + t("Yalnız keşif") }]} />
           <Acilir etiket={t("Göster")} secili={bekleyen ? "bekleyen" : "hepsi"} genislik={220} onSec={k => setBekleyen(k === "bekleyen")}
