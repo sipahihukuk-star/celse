@@ -71,6 +71,9 @@ globalThis.fetch = (async (u: string | URL, o?: RequestInit) => {
   }
   if (url.includes("/rpc/ictihat_durumu")) return js([{ karar: arsiv.size, mb: 1 }]);
   if (url.includes("/rpc/ictihat_ara")) return js([...arsiv.values()].map(x => ({ ...x, bolum: "… «bilirkişi» …", puan: 1 })));
+  if (url.includes("Reeskont+ve+Avans")) return new Response("<table><tr><th>Yürürlük Tarihi</th><th>Reeskont</th><th>Avans</th></tr>" + Array.from({ length: 25 }, (_, i) => "<tr><td>01.01." + (2000 + i) + "</td><td>" + (40 - i) + "</td><td>" + (45 - i) + ",50</td></tr>").join("") + "<tr><td>20.12.2025</td><td>38,75</td><td>39,75</td></tr></table>", { status: 200 });
+  if (url.includes("TTK+Md.+1530")) return new Response("<table><tr><td>Geçerlilik</td><td>Oran</td><td>Tutar</td></tr>" + [2020, 2021, 2022, 2023, 2024, 2025, 2026].map(y => "<tr><td>01.01." + y + "</td><td>" + (y - 1980) + ",00</td><td>1.000,00</td></tr>").join("") + "</table>", { status: 200 });
+  if (url.includes("/rest/v1/faiz_oran") || url.includes("/rest/v1/faiz_kontrol")) return new Response(null, { status: 201 });
   if (url.includes("/rpc/ictihat_is_anahtar")) return js(JSON.parse(body).p_anahtar === "gizli-anahtar-0123456789abcdef");
   if (url.includes("/rpc/ictihat_is_al")) return js(isSirada ? [{ plan: isPlan, i: 0, sayfa: 1, sinir_mb: 300 }] : []);
   if (url.includes("/rpc/")) return js(true);
@@ -208,6 +211,13 @@ const son = (p: string) => [...cagrilar].reverse().find(c => c.url.includes(p));
   isSirada = false;
   r = await handle(new Request("https://x/functions/v1/danisma", { method: "POST", headers: { "x-celse-is": "gizli-anahtar-0123456789abcdef" }, body: JSON.stringify({ action: "ictihat_is" }) }));
   ok((await r.json()).bos === true, "sırada iş yoksa boş döner");
+  // Günlük faiz denetimi: anahtarsız reddedilir; TCMB tablolarından reeskont, avans ve TTK 1530 satırları yazılır.
+  r = await handle(new Request("https://x/functions/v1/danisma", { method: "POST", body: JSON.stringify({ action: "faiz_guncelle" }) }));
+  ok(r.status === 403, "faiz denetimi anahtarsız reddedilir");
+  r = await handle(new Request("https://x/functions/v1/danisma", { method: "POST", headers: { "x-celse-is": "gizli-anahtar-0123456789abcdef" }, body: JSON.stringify({ action: "faiz_guncelle" }) }));
+  j = await r.json();
+  const fo = JSON.parse(son("/rest/v1/faiz_oran")!.body) as { tur: string; bas: string; oran: number }[];
+  ok(j.ok && fo.some(x => x.tur === "avans" && x.bas === "2025-12-20" && x.oran === 39.75) && fo.some(x => x.tur === "reeskont" && x.oran === 38.75) && fo.filter(x => x.tur === "ttk1530").length === 7 && !!son("/rest/v1/faiz_kontrol"), "faiz denetimi: " + JSON.stringify(j));
   // Karar doğrulama: künye birebir tutarsa resmî metin arşive; tutmazsa "yok".
   arsiv.delete("1001");
   r = await handle(istek({ action: "karar_dogrula", kunyeler: [{ mahkeme: "YARGITAYKARARI", birim: "9. Hukuk Dairesi", esas: "2023/1", karar: "2024/2" }, { mahkeme: "YARGITAYKARARI", birim: "9. Hukuk Dairesi", esas: "2023/999", karar: "2024/2" }] }));

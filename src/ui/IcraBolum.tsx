@@ -3,12 +3,14 @@
 // dayanak belge, alacak kalemleri, faiz ve talep doldurulur. Hesap cihazda yapılır.
 import React, { useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
-import { Foy, tarihCoz } from "../data/foy";
+import { Foy, FoyEvrak, tarihCoz } from "../data/foy";
 import { Kalem, KALEM_ADLARI, kalemleri, MAHIYETLER, FAIZ_TURLERI, FaizTuru, IcraBilgi, icraEksikler, icraHesapla, Masraf, ParaBirimi, TAKIP_YOLLARI, TakipYolu, takipTalebiMetni, tl } from "../data/icra";
 import { t } from "../i18n";
 import { useAccount } from "../data/account";
 import { uyapXml, vekilEksik } from "../data/icraXml";
 import { Acilir } from "./Acilir";
+import { FaizDurumu, useFaizOranlari } from "../data/faizOran";
+import { BRUT_TURLER, brutNet, BrutTur, brutTurTahmin, GV_ORANLARI } from "../data/brutNet";
 import { indir, s } from "./foyStil";
 import { Btn } from "./kit";
 import { C } from "./theme";
@@ -17,11 +19,14 @@ const sayi = (v: string): number | undefined => { const x = v.replace(/\./g, "")
 const sayiYaz = (x?: number) => (x === undefined ? "" : String(x).replace(".", ","));
 const tarihYaz = (x?: string) => (x ? x.split("-").reverse().join(".") : "");
 
-export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, okuma }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; onEvraktan?: () => void; onEvrakEkle?: () => void; okuma?: string }) {
+export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrakSil, onKaydet, okuma }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; onEvraktan?: () => void; onEvrakEkle?: () => void; onEvrakSil?: (e: FoyEvrak) => void; onKaydet?: () => Promise<void>; okuma?: string }) {
+  const [kayit, setKayit] = useState("");
   const b: IcraBilgi = f.icra || { yol: "genel", talep: "haciz", paraBirimi: "TL", faizTuru: "yasal" };
   const [bilgi, setBilgi] = useState("");
   const yaz = (ek: Partial<IcraBilgi>) => degistir({ icra: { ...b, ...ek } });
-  const h = useMemo(() => icraHesapla(b), [f.icra]);
+  // Faiz oranları sunucudan (TCMB'nin günlük denetimi) gelince hesap yenilenir.
+  const faiz = useFaizOranlari();
+  const h = useMemo(() => icraHesapla(b), [f.icra, faiz.surum]);
   const eksik = useMemo(() => icraEksikler(f, b), [f]);
   const pb = b.paraBirimi || "TL";
 
@@ -82,6 +87,18 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, okuma }
             {!!onEvraktan && <Btn kind="secondary" label={t("Eklenmiş evraktan yeniden doldur")} onPress={onEvraktan} />}
           </View>
           {!!okuma && <Text style={s.hint}>{okuma}</Text>}
+          {!!onEvrakSil && f.evraklar.length > 0 && (
+            <View style={{ gap: 4, marginTop: 4 }}>
+              <Text style={s.label}>{t("Yüklenen evrak ({n})", { n: f.evraklar.length })}</Text>
+              {[...f.evraklar].sort((a, c) => c.eklenme.localeCompare(a.eklenme)).slice(0, 12).map(e => (
+                <View key={e.id} style={[s.row, { alignItems: "center", gap: 8, flexWrap: "wrap" }]}>
+                  <Text style={[s.body, { flex: 1, minWidth: 180 }]} numberOfLines={1}>📄 {e.ad}</Text>
+                  <EvrakSilDugme onSil={() => onEvrakSil(e)} />
+                </View>
+              ))}
+              <Text style={s.hint}>{t("Yanlış evrakı silince ondan yazılan bilgiler (ilam, çek, alacak kalemleri, taraflar) da kaldırılır; elle değiştirdikleriniz kalır. Kalan evrak varsa bilgiler onlardan yeniden doldurulur.")}</Text>
+            </View>
+          )}
         </View>
       )}
       {/* Taraflar ve icra dairesi: künyeye yazılır (künyede de görünür) */}
@@ -200,6 +217,7 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, okuma }
             {(x.k.faizTuru || "yasal") !== "yok" && alan(x.k.faizTuru === "sozlesme" || x.k.faizTuru === "mevduat" ? "Yıllık oran (%)" : "Yıllık oran (%) – boşsa dönemsel", sayiYaz(x.k.oran), v => kalemYaz(i, { oran: sayi(v) }), x.k.faizTuru === "avans" ? "39,75" : x.k.faizTuru === "yasal" || !x.k.faizTuru ? "9 / 24 / 31" : "Örn. 48", 170)}
             {(x.k.faizTuru || "yasal") !== "yok" && para("İşlemiş faiz elle (isteğe bağlı)", x.k.islemisElle, v => kalemYaz(i, { islemisElle: v }))}
           </View>
+          <BrutNetSatir k={x.k} pb={pb} onYaz={ek => kalemYaz(i, ek)} />
           {(x.k.faizTuru || "yasal") !== "yok" && <Text style={s.body}>{t("İşlemiş faiz: {x}", { x: tl(x.faiz, pb) })}{x.k.islemisElle !== undefined ? " " + t("(elle)") : ""}</Text>}
           {x.k.islemisElle === undefined && x.dilimler.map((d, j) => <Text key={j} style={s.hint}>{tarihYaz(d.bas)} – {tarihYaz(d.son)}: {d.gun} {t("gün")} × %{String(d.oran).replace(".", ",")} = {tl(d.tutar, pb)}</Text>)}
           {!!x.eksik && x.k.islemisElle === undefined && <Text style={[s.hint, { color: C.bad }]}>{t(x.eksik)}</Text>}
@@ -257,17 +275,82 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, okuma }
         <Text style={[s.body, { color: C.text }]}>{t("2. UYAP'a yükleme")}</Text>
         <Text style={s.hint}>{t("a) “UYAP XML indir” ile dosyayı indirin (İndirilenler klasörüne düşer). b) UYAP Avukat Portal → menü → Dava Açılış İşlemleri → İcra Takip Açılış – XML. c) İl, adliye, kota / daire tevzi tipi ve takip tipini seçin. d) “Dosya Seç” ile indirdiğiniz .xml dosyasını seçin ve takibi başlatın. e) Takip “Tamamlanmayan Dosyalarım”a düşer: orada kontrol edip dayanak evrakı ekler, imzalar ve harcı yatırırsınız.")}</Text>
       </View>
-      <View style={s.row}>
+      <View style={[s.row, { flexWrap: "wrap" }]}>
+        {!!onKaydet && <Btn label={t("💾 Kaydet")} onPress={async () => { await onKaydet(); setKayit(new Date().toLocaleTimeString("tr", { hour: "2-digit", minute: "2-digit" })); }} />}
         <Btn label={t("📤 XML dosyasını oluştur ve indir")} onPress={xmlIndir} />
         <Btn kind="secondary" label={t("Takip talebi özetini kopyala")} onPress={kopyala} />
         <Btn kind="secondary" label={goster ? t("Özeti gizle") : t("Özeti göster")} onPress={() => setGoster(!goster)} />
         <Btn kind="ghost" label={t("Metin olarak indir")} onPress={() => indir(`takip-talebi-${(f.esasNo || f.id).replace(/[^\w-]+/g, "-")}.txt`, new Blob([metin()], { type: "text/plain;charset=utf-8" }))} />
       </View>
+      {!!kayit && <Text style={[s.hint, { color: C.good }]}>{t("✓ İcra takibi bilgileri kaydedildi ({s}). Yazdıklarınız zaten her değişiklikte kendiliğinden de kaydedilir.", { s: kayit })}</Text>}
       {vekilEksik(vekilBilgi).length > 0 && <Text style={s.hint}>{t("XML için vekil bilgisi eksik: {x}", { x: vekilEksik(vekilBilgi).map(x => t(x)).join(", ") })}</Text>}
       {!!xmlHata && <Text style={[s.hint, { color: C.bad }]}>{xmlHata}</Text>}
       {!!bilgi && <Text style={[s.hint, { color: C.good }]}>{bilgi}</Text>}
       {goster && <Text selectable style={[s.body, { fontFamily: "monospace", fontSize: 13 }]}>{metin()}</Text>}
-      <Text style={s.hint}>{t("Oranlar: yasal faiz 1984'ten bu yana dönem dönem (son: %24 01.06.2024, %31 31.07.2026, 7589 s. Kanun); TTK 1530 faizi TCMB'nin yıllık ilanlarından (2026: %43); avans faizi TCMB tablosundan dönem dönem (1990–20.12.2025, son oran %39,75). Yeni bir oran yayımlandığında yukarıdaki oran alanına yazabilirsiniz. Hesaplar bilgi içindir; takip talebini UYAP'ta kontrol edin.")}</Text>
+      <Text style={s.hint}>{faizNotu(faiz.durum)}</Text>
     </View>
   );
+}
+
+/** Kalemin altında: "⇄ Brütten nete çevir" (işçilik alacakları). Kesintileri gösterir; onaylanınca kalemin tutarı net olur,
+ *  brüt tutar saklanır ve geri alınabilir. */
+function BrutNetSatir({ k, pb, onYaz }: { k: Kalem; pb: ParaBirimi; onYaz: (ek: Partial<Kalem>) => void }) {
+  const [acik, setAcik] = useState(false);
+  const [tur, setTur] = useState<BrutTur>(() => k.brut?.tur || brutTurTahmin(k.ad));
+  const [gv, setGv] = useState(k.brut?.gv || 15);
+  if (k.brut) {
+    return (
+      <View style={[s.row, { flexWrap: "wrap", gap: 8, alignItems: "center" }]}>
+        <Text style={s.hint}>{t("Brüt {b} → net {n} ({tur}, gelir vergisi %{gv})", { b: tl(k.brut.tutar, pb), n: tl(k.tutar, pb), tur: t(BRUT_TURLER.find(x => x.k === k.brut!.tur)!.ad.split(":")[0]), gv: k.brut.gv })}</Text>
+        <Pressable onPress={() => onYaz({ tutar: k.brut!.tutar, brut: undefined, ad: k.ad.replace(/\s*\(net\)$/i, "") })}><Text style={s.link}>{t("Brüte geri dön")}</Text></Pressable>
+      </View>
+    );
+  }
+  if (!acik) return <Pressable onPress={() => setAcik(true)} disabled={!k.tutar}><Text style={[s.link, !k.tutar && { opacity: 0.5 }]}>{t("⇄ Brütten nete çevir (işçilik alacağı)")}</Text></Pressable>;
+  const r = brutNet(k.tutar, tur, gv);
+  return (
+    <View style={{ gap: 6, borderWidth: 1, borderColor: C.line, borderRadius: 8, padding: 8 }}>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+        <Acilir etiket={t("Alacağın niteliği")} secili={tur} genislik={330} onSec={x => setTur(x as BrutTur)} secenekler={BRUT_TURLER.map(x => ({ k: x.k, ad: t(x.ad) }))} />
+        {tur !== "kidem" && <Acilir etiket={t("Gelir vergisi dilimi")} secili={String(gv)} genislik={150} onSec={x => setGv(Number(x))} secenekler={GV_ORANLARI.map(x => ({ k: String(x), ad: "%" + x }))} />}
+      </View>
+      <Text style={s.body}>{t("Brüt: {x}", { x: tl(r.brut, pb) })}</Text>
+      {r.kesintiler.map(x => <Text key={x.ad} style={s.hint}>− {t(x.ad)}: {tl(x.tutar, pb)}</Text>)}
+      <Text style={[s.body, { fontWeight: "800" }]}>{t("Net: {x}", { x: tl(r.net, pb) })}</Text>
+      <Text style={s.hint}>{t("Gelir vergisi tek dilimle yaklaşık hesaplanır (bordrodaki kümülatif matrah ve asgari ücret istisnası dikkate alınmaz). İlam alacağı zaten “net” yazıyorsa çevirmeyin.")}</Text>
+      <View style={[s.row, { gap: 8, alignItems: "center" }]}>
+        <Btn label={t("✓ Neti bu kalemin tutarı yap")} onPress={() => { onYaz({ tutar: r.net, brut: { tutar: r.brut, tur, gv }, ad: /\(net\)$/i.test(k.ad) ? k.ad : k.ad + " (net)" }); setAcik(false); }} />
+        <Pressable onPress={() => setAcik(false)}><Text style={s.link}>{t("Vazgeç")}</Text></Pressable>
+      </View>
+    </View>
+  );
+}
+
+/** İki basışlı silme: ilk basışta kırmızıya döner ("Silinsin mi?"), ikinci basışta siler; 4 saniye içinde basılmazsa eski hâline döner. */
+function EvrakSilDugme({ onSil }: { onSil: () => void }) {
+  const [onay, setOnay] = useState(false);
+  const z = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const bas = () => {
+    if (onay) { if (z.current) clearTimeout(z.current); setOnay(false); onSil(); return; }
+    setOnay(true); z.current = setTimeout(() => setOnay(false), 4000);
+  };
+  return (
+    <Pressable onPress={bas} accessibilityRole="button" accessibilityLabel={onay ? t("Silmeyi onayla") : t("Evrakı sil")}
+      style={({ pressed }) => [{ paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: C.bad, backgroundColor: onay ? C.bad : "transparent" }, pressed && { opacity: 0.6, transform: [{ scale: 0.96 }] }]}>
+      <Text style={{ color: onay ? "#fff" : C.bad, fontWeight: "700" }}>{onay ? t("Silinsin mi? Yeniden basın") : t("🗑 Sil")}</Text>
+    </Pressable>
+  );
+}
+
+const yuzde = (x?: [string, number]) => (x ? "%" + String(x[1]).replace(".", ",") + " (" + x[0].split("-").reverse().join(".") + ")" : "");
+/** Faiz oranlarının kaynağı ve son günlük denetim. */
+function faizNotu(d: FaizDurumu): string {
+  const son = d.son ? new Date(d.son).toLocaleString("tr", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "";
+  return [
+    son ? t("Faiz oranları TCMB'nin resmî tablolarından her sabah denetlenir; son denetim: {s}.", { s: son }) : t("Faiz oranları Celse'de kayıtlı tablolardan (günlük denetim henüz bağlanmadı)."),
+    t("Güncel: avans faizi {a}, yasal faiz {y}, TTK 1530 faizi {k}.", { a: yuzde(d.sonAvans), y: yuzde(d.sonYasal), k: yuzde(d.sonTtk) }),
+    d.hesaplanan.length ? t("{x} tarihli yasal faiz oranı 7589 s. Kanun kuralıyla (reeskont oranının %80'i) hesaplandı; Resmî Gazete'den kontrol edin.", { x: d.hesaplanan.map(x => x.split("-").reverse().join(".")).join(", ") }) : "",
+    d.not ? t("Son denetimde not: {n}", { n: d.not }) : "",
+    t("Tabloda olmayan bir oran için kalemin oran alanına elle yazabilirsiniz. Hesaplar bilgi içindir; takip talebini UYAP'ta kontrol edin.")
+  ].filter(Boolean).join(" ");
 }
