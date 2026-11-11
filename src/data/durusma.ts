@@ -35,7 +35,7 @@ export interface Durusma {
   /** e-duruşma talebinin ve kararın günü (YYYY-AA-GG) ve talebi Celse'den gönderen çalışan */
   eTalep?: string; eKarar?: string; eTalepEden?: string;
   not?: string;
-  kaynak?: "elle" | "kunye" | "evrak";
+  kaynak?: "elle" | "kunye" | "evrak" | "liste";
   /** bilginin okunduğu evrak */
   evrakId?: string;
 }
