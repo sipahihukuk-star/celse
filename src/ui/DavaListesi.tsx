@@ -2,7 +2,7 @@
 // Tazminat Komisyonu). Açılır kutularla süzülür, satıra basınca föy açılır, Excel'e (.xlsx) aktarılır.
 import React, { useMemo, useState } from "react";
 import { Keyboard, Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { davaListesi, komisyonaUygun, komisyonAdi, ListeSuzgec, listeTablosu } from "../data/davaListesi";
+import { davaListesi, Kolon, komisyonaUygun, komisyonAdi, ListeSuzgec, listeTablosu, siradakiDurusma, TARIHLI } from "../data/davaListesi";
 import type { Foy } from "../data/foy";
 import { TURLER } from "../data/foyTurleri";
 import { xlsxYaz } from "../data/xlsxYaz";
@@ -10,19 +10,14 @@ import { t } from "../i18n";
 import { Acilir } from "./Acilir";
 import { DurusmaListesiYukle } from "./DurusmaListesiYukle";
 import { Katlanir } from "./Katlanir";
-import { bugunGun, dTur } from "../data/durusma";
+import { bugunGun } from "../data/durusma";
 import { indir, s } from "./foyStil";
 import { Btn } from "./kit";
 import { C } from "./theme";
 
 const tarihYaz = (x?: string) => (x ? x.slice(0, 10).split("-").reverse().join(".") : "");
 const gunSaat = (x?: string) => (x ? tarihYaz(x) + (x.length > 10 ? " " + x.slice(11, 16) : "") : "");
-/** Föyün sıradaki duruşması (duruşma akışından; yoksa künyedeki gün). */
-function siradakiDurusma(f: Foy, bugun: string): string | undefined {
-  const xs = (f.durusmalar || []).filter(d => dTur(d) === "durusma" && d.tarih.slice(0, 10) >= bugun).map(d => d.tarih).sort();
-  return xs[0] || (f.durusma && f.durusma.slice(0, 10) >= bugun ? f.durusma : undefined);
-}
-const KOLON: [string, number][] = [["Tür", 120], ["Mahkeme / merci", 230], ["Dosya no", 100], ["Müvekkil – karşı taraf", 240], ["Duruşma", 110], ["Aşama", 110], ["Sıradaki iş", 220], ["Açılış", 90], ["Yargılama süresi", 120], ["Tazminat Komisyonu", 130], ["AYM / AİHM", 120]];
+const KOLON: [string, number, Kolon][] = [["Tür", 120, "tur"], ["Mahkeme / merci", 230, "mahkeme"], ["Dosya no", 100, "esasNo"], ["Müvekkil – karşı taraf", 240, "taraflar"], ["Duruşma", 110, "durusma"], ["Aşama", 110, "asama"], ["Sıradaki iş", 220, "is"], ["Açılış", 90, "acilis"], ["Yargılama süresi", 120, "sure"], ["Tazminat Komisyonu", 130, "komisyon"], ["AYM / AİHM", 120, "bireysel"]];
 
 export function DavaListesi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: string) => void; onKapat: () => void }) {
   const [sz, setSz] = useState<ListeSuzgec>(() => {
@@ -57,6 +52,7 @@ export function DavaListesi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id:
       <View style={s.head}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={onKapat} /></View>
       <Text style={s.eyebrow}>{t("DAVA TAKİBİ · LİSTE")}</Text>
       <Text style={s.title}>{t("Dava listesi")}</Text>
+      <Text style={s.hint}>{t("Sütun başlığına basınca liste o sütuna göre sıralanır; ikinci basış sırayı çevirir (tarihlerde yeniden eskiye ↔ eskiden yeniye, yazılarda A–Z ↔ Z–A).")}</Text>
       <Text style={s.hint}>{t("Bütün türlerde dosyalarınız: mahkeme, dosya no, taraflar, sıradaki duruşma, aşama, sıradaki iş, yargılama süresi ve Tazminat Komisyonu (6384 s. Kanun) başvurusu. Satıra basınca föy açılır. Şahsi dosyalar bu listede yoktur.")}</Text>
 
       <View style={s.card}>
@@ -73,8 +69,8 @@ export function DavaListesi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id:
             secenekler={[0, 1, 2, 3, 4, 5, 7, 10].map(n => ({ k: String(n), ad: n ? t("{n} yıldan uzun", { n }) : t("Hepsi") }))} />
           <Acilir etiket={t("Tazminat Komisyonu")} secili={sz.komisyon} genislik={200} onSec={k => yaz({ komisyon: k as ListeSuzgec["komisyon"] })}
             secenekler={[{ k: "hepsi", ad: t("Hepsi") }, { k: "yok", ad: t("Başvurulmamış") }, { k: "var", ad: t("Başvurulmuş / sonuçlanmış") }]} />
-          <Acilir etiket={t("Sırala")} secili={sz.sirala} genislik={200} onSec={k => yaz({ sirala: k as ListeSuzgec["sirala"] })}
-            secenekler={[{ k: "sure", ad: t("En uzun süren önce") }, { k: "is", ad: t("Sıradaki işin tarihi") }, { k: "acilisEski", ad: t("Açılış (eski önce)") }, { k: "acilisYeni", ad: t("Açılış (yeni önce)") }, { k: "mahkeme", ad: t("Mahkemeye göre") }]} />
+          <Acilir etiket={t("Sırala")} secili={sz.kolon ? "-" : sz.sirala} genislik={200} onSec={k => k !== "-" && yaz({ sirala: k as ListeSuzgec["sirala"], kolon: undefined, yon: undefined })}
+            secenekler={[...(sz.kolon ? [{ k: "-", ad: t("Sütun başlığına göre") }] : []), { k: "sure", ad: t("En uzun süren önce") }, { k: "is", ad: t("Sıradaki işin tarihi") }, { k: "acilisEski", ad: t("Açılış (eski önce)") }, { k: "acilisYeni", ad: t("Açılış (yeni önce)") }, { k: "mahkeme", ad: t("Mahkemeye göre") }]} />
           <Acilir etiket={t("Sayfada")} secili={String(boy)} genislik={90} onSec={k => { setBoy(Number(k)); setSayfa(0); }} secenekler={[10, 25, 50, 100, 250].map(n => ({ k: String(n), ad: String(n) }))} />
         </View>
         <View style={[s.row, { alignItems: "center" }]}>
@@ -89,7 +85,19 @@ export function DavaListesi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id:
 
       <ScrollView horizontal contentContainerStyle={{ flexDirection: "column" }} style={{ borderWidth: 1, borderColor: C.line, borderRadius: 10 }}>
         <View style={{ flexDirection: "row", backgroundColor: C.panel2, borderBottomWidth: 1, borderBottomColor: C.line }}>
-          {KOLON.map(([ad, w]) => <React.Fragment key={ad}>{hucre(w, yazi(t(ad), C.brass, true))}</React.Fragment>)}
+          {KOLON.map(([ad, w, k]) => {
+            // Başlığa basınca o sütuna göre sıralanır; ikinci basış yönü çevirir (tarihte yeniden eskiye ↔ eskiden yeniye, yazıda A–Z ↔ Z–A).
+            const secili = sz.kolon === k;
+            const yon = secili ? sz.yon || (TARIHLI.includes(k) ? "azalan" : "artan") : undefined;
+            const ok = !yon ? " ⇅" : yon === "azalan" ? " ▼" : " ▲";
+            return (
+              <Pressable key={ad} accessibilityRole="button" accessibilityLabel={t("{ad} sütununa göre sırala", { ad: t(ad) })}
+                onPress={() => yaz(secili ? { yon: yon === "azalan" ? "artan" : "azalan" } : { kolon: k, yon: TARIHLI.includes(k) ? "azalan" : "artan" })}
+                style={({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) => [hovered && { backgroundColor: C.panel }, pressed && { opacity: 0.6 }]}>
+                {hucre(w, <Text style={{ color: secili ? C.text : C.brass, fontSize: 13, fontWeight: "800" }} numberOfLines={2}>{t(ad)}<Text style={{ color: secili ? C.brass : C.muted }}>{ok}</Text></Text>)}
+              </Pressable>
+            );
+          })}
         </View>
         {gorunen.map((x, i) => {
           const uzun = x.sure.bitmedi && x.sure.gun >= 5 * 365.25;

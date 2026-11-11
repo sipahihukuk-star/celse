@@ -60,6 +60,38 @@ export interface ListeSatir {
 }
 export interface ListeSuzgec {
   tur: string; durum: "acik" | "kapali" | "hepsi"; enAzYil: number; komisyon: "hepsi" | "yok" | "var"; sirala: "sure" | "acilisEski" | "acilisYeni" | "mahkeme" | "is"; ara: string;
+  /** sütun başlığına basılarak seçilen sıra (Sırala seçiminin yerine geçer) */
+  kolon?: Kolon; yon?: "artan" | "azalan";
+}
+export type Kolon = "tur" | "mahkeme" | "esasNo" | "taraflar" | "durusma" | "asama" | "is" | "acilis" | "sure" | "komisyon" | "bireysel";
+/** Tarih ve süre sütunlarında ilk basış yeniden eskiye (büyükten küçüğe); yazı sütunlarında A'dan Z'ye. */
+export const TARIHLI: Kolon[] = ["durusma", "is", "acilis", "sure"];
+
+/** Föyün sıradaki duruşması (duruşma akışından; yoksa künyedeki gün). */
+export function siradakiDurusma(f: Foy, bugun: string): string | undefined {
+  const xs = (f.durusmalar || []).filter(d => (d.tur || "durusma") === "durusma" && d.tarih.slice(0, 10) >= bugun).map(d => d.tarih).sort();
+  return xs[0] || (f.durusma && f.durusma.slice(0, 10) >= bugun ? f.durusma : undefined);
+}
+/** "2023/101" → yıl ve sıra sayısıyla karşılaştırılabilir anahtar. */
+const noAnahtar = (x: string) => { const m = x.match(/(\d{4})\s*\/\s*(\d+)/); return m ? m[1] + "/" + m[2].padStart(8, "0") : x; };
+
+/** Sütun başlığına göre sıralama; boş değerler her iki yönde de sonda kalır. */
+export function kolonSirala(xs: ListeSatir[], kolon: Kolon, yon: "artan" | "azalan", bugun: string): ListeSatir[] {
+  const deger = (x: ListeSatir): string | number | undefined => {
+    switch (kolon) {
+      case "tur": return x.tur; case "mahkeme": return x.mahkeme; case "esasNo": return x.esasNo ? noAnahtar(x.esasNo) : undefined;
+      case "taraflar": return x.taraflar; case "durusma": return siradakiDurusma(x.f, bugun); case "asama": return x.asama;
+      case "is": return x.sonrakiTarih; case "acilis": return x.acilis; case "sure": return x.sure.gun; case "komisyon": return x.komisyon.durum === "yok" ? undefined : x.komisyon.durum;
+      case "bireysel": return x.bireysel;
+    }
+  };
+  const k = (v: string | number | undefined) => (v === undefined || v === "" ? undefined : v);
+  return [...xs].sort((a, b) => {
+    const va = k(deger(a)), vb = k(deger(b));
+    if (va === undefined || vb === undefined) return va === vb ? 0 : va === undefined ? 1 : -1;
+    const c = typeof va === "number" && typeof vb === "number" ? va - vb : String(va).localeCompare(String(vb), "tr", { sensitivity: "base" });
+    return yon === "artan" ? c : -c;
+  });
 }
 export function davaListesi(liste: Foy[], s: ListeSuzgec, bugun = new Date().toISOString().slice(0, 10)): ListeSatir[] {
   const buro = liste.filter(f => !f.ozel);
@@ -87,7 +119,8 @@ export function davaListesi(liste: Foy[], s: ListeSuzgec, bugun = new Date().toI
     mahkeme: (a, b) => a.mahkeme.localeCompare(b.mahkeme, "tr") || a.esasNo.localeCompare(b.esasNo),
     is: (a, b) => (a.sonrakiTarih || "9999").localeCompare(b.sonrakiTarih || "9999")
   };
-  return xs.sort(cmp[s.sirala]);
+  xs.sort(cmp[s.sirala]);
+  return s.kolon ? kolonSirala(xs, s.kolon, s.yon || (TARIHLI.includes(s.kolon) ? "azalan" : "artan"), bugun) : xs;
 }
 
 /** Excel satırları (ilk satır başlık). */
