@@ -95,5 +95,11 @@ const rd = kunyeyiDoldur(fd, d1, ["Av. Deneme Avukat"]);
 ok(rd.ek.muvekkil === "Ayşe Örnek" && rd.ek.karsiTaraf === "Mehmet Kurgu" && rd.ek.taraf === "davali", "vekil adımız davalı tarafta: " + JSON.stringify(rd.ek));
 ok(!rd.ek.davaTuru, "dilekçenin konusu (beyan) dava konusu yazılmaz");
 
+// Föyde müvekkil yazılı ve evrakta davacı olarak geçiyorsa (föy "davalı" seçili olsa da) karşı tarafa müvekkilin adı yazılmaz.
+{
+  const o = kunyeCikar("DAVACI : UYDURMA İŞÇİ\nDAVALI : HAYALİ FABRİKA A.Ş.\n");
+  const r = kunyeyiDoldur({ ...bosFoy(), muvekkil: "Uydurma İşçi", taraf: "davali" }, o);
+  ok(r.ek.taraf === "davaci" && /HAYALİ|Hayali/.test(r.ek.karsiTaraf || ""), "müvekkil adından taraf: " + JSON.stringify(r.ek));
+}
 if (fail) { console.log(`kunye-test: ${fail} hata`); process.exit(1); }
 console.log("kunye-test: tamam");

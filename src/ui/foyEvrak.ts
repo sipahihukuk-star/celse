@@ -13,13 +13,8 @@ import { evrakMetni, evrakTanisi, gercekTur } from "../engine/mask/readers";
 export type Kaynak = { ad: string; bytes: Uint8Array; blob?: Blob; yol?: string };
 
 /** Föyün bilinen adları her evrakta mutlaka kodlansın. */
-// Müvekkil ve karşı taraf adı; şirketlerde unvan eki olmadan geçen kısa adı da (ör. "Örnek Sigorta A.Ş." → "Örnek Sigorta") kodlanır.
-const SIRKET_EKI = /\s+(A\.?\s?Ş\.?|ANONİM ŞİRKETİ|Anonim Şirketi|LTD\.?\s?ŞTİ\.?|Ltd\.?\s?Şti\.?|LİMİTED ŞİRKETİ|Limited Şirketi|ve Tic\.?.*|VE TİC\.?.*|San\.?\s?ve\s?Tic\.?.*)$/;
-export const ekAdlar = (f: Foy) => {
-  const xs = [f.muvekkil, f.karsiTaraf].map(x => (x || "").trim()).filter(x => x.length > 2);
-  for (const x of [...xs]) { const k = x.replace(SIRKET_EKI, "").trim(); if (k !== x && k.length > 4) xs.push(k); }
-  return xs;
-};
+import { ekAdlar } from "../data/icraSohbet";
+export { ekAdlar };
 
 /** Evrakın türünü, önemini ve kodlu hâlini (yeniden) hesaplar. Avukatın elle seçtiği tür ve önem korunur. */
 export function evrakHazirla(f: Foy, e: FoyEvrak, yeniden = false): FoyEvrak {

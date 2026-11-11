@@ -1,3 +1,4 @@
+import { YeniSurum } from "./src/ui/YeniSurum";
 import { Cinzel_700Bold } from "@expo-google-fonts/cinzel/700Bold";
 import { Manrope_400Regular } from "@expo-google-fonts/manrope/400Regular";
 import { Manrope_500Medium } from "@expo-google-fonts/manrope/500Medium";
@@ -349,6 +350,7 @@ export default function App() {
     <SafeAreaProvider>
       <SafeAreaView style={styles.root} edges={["top", "bottom", "left", "right"]} onTouchStart={resumeMusic}>
         <NewPassword />
+        <YeniSurum />
         <BoardInvite visible={invite} onClose={() => setInvite(false)}
           info={{ sehir: office ? CITIES.find(x => x.id === office.city)?.name : undefined, avatar: office?.avatar || me?.avatar, unvan: career.rank }} />
         <StatusBar style="light" />
