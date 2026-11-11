@@ -55,8 +55,14 @@ export function otoIsleriEsitle(f: Foy, bugun = bugunGun()): Gorev[] | null {
       yeni.push(eski.bitti || eski.metin !== metin || eski.tarih !== tarih ? { ...eski, metin, tarih, bitti: false, kapanis: undefined } : eski);
     }
   }
-  // Duruşması geçmiş ya da silinmiş e-duruşma işi: kapanmışsa kayıt olarak kalır, açıksa kalkar.
-  for (const [id, g] of [...kalan]) if (id.startsWith("oto-e-")) { kalan.delete(id); if (g.bitti) yeni.push(g); }
+  // Duruşma günü geçmiş e-duruşma işi açıksa "süresi geçti" diye kapanır (arşive düşer); duruşması silinmişse açık iş kalkar;
+  // kapanmış iş kayıt olarak kalır.
+  for (const [id, g] of [...kalan]) if (id.startsWith("oto-e-")) {
+    kalan.delete(id);
+    if (g.bitti) { yeni.push(g); continue; }
+    const d = (f.durusmalar || []).find(x => x.id === id.slice(6));
+    if (d && d.tarih.slice(0, 10) < bugun) yeni.push({ ...g, bitti: true, kapanis: { tarih: bugun, no: "Süresi geçti: duruşma günü geçti", kaynak: "elle", sureGecti: true } });
+  }
 
   // Künye
   const eksik = kunyeEksikleri(f);
@@ -83,4 +89,14 @@ export function eKarar(f: Foy, durusmaId: string, karar: "kabul" | "red", bugun 
   const durusmalar = (f.durusmalar || []).map(d => (d.id !== durusmaId ? d : d.e === karar ? { ...d, e: undefined, eKarar: undefined } : { ...d, e: karar, eKarar: bugun }));
   const y = { ...f, durusmalar };
   return { durusmalar, gorevler: otoIsleriEsitle(y, bugun) || f.gorevler };
+}
+
+/** Duruşmalar sekmesinden e-duruşma durumu: talep edildi, istenmeyecek, kabul, red ya da sorulmadı (undefined). İşler de güncellenir. */
+export function eDurumYaz(f: Foy, durusmaId: string, durum: EDurum | undefined, bugun = bugunGun()): Partial<Foy> {
+  const durusmalar = (f.durusmalar || []).map(d => (d.id !== durusmaId ? d : {
+    ...d, e: durum,
+    eTalep: durum === "talep" || durum === "kabul" || durum === "red" ? d.eTalep || bugun : durum ? d.eTalep : undefined,
+    eKarar: durum === "kabul" || durum === "red" ? (d.e === durum && d.eKarar ? d.eKarar : bugun) : undefined
+  }));
+  return { durusmalar, gorevler: otoIsleriEsitle({ ...f, durusmalar }, bugun) || f.gorevler };
 }

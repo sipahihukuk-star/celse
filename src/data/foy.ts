@@ -27,7 +27,7 @@ export interface KarsiBilgi {
 }
 /** İşin kapanışı: iş emri / evrak numarası olmadan iş kapanmaz. Numara elle yazılır ya da yüklenen görselden okunur. */
 export interface YzSoru { id: string; tarih: string; soru: string; cevap: string; kaynaklar?: { baslik: string; url: string }[] }
-export interface GorevKapanis { tarih: string; no: string; kaynak: "elle" | "gorsel"; gorsel?: string }
+export interface GorevKapanis { tarih: string; no: string; kaynak: "elle" | "gorsel"; gorsel?: string; /** iş yapılmadan süresi geçtiği için kapandı (arşivde "süresi geçti") */ sureGecti?: boolean }
 export interface Gorev {
   id: string; metin: string; tarih?: string; bitti: boolean; kaynak: "elle" | "yapay" | "aktarma" | "oto";
   /** İşin eklendiği gün (uyarı, eklenmeden son güne geçen süreye göre artar). */

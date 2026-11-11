@@ -25,6 +25,7 @@ import { IliskiKart } from "./IliskiKart";
 import { EvrakHavuzu } from "./EvrakHavuzu";
 import { Acilir } from "./Acilir";
 import { Katlanir } from "./Katlanir";
+import { IsArsivi } from "./IsArsivi";
 import { DavaListesi } from "./DavaListesi";
 import { gunlukBildirim, IsTakibi } from "./IsTakibi";
 import { SesliAsistan } from "./SesliAsistan";
@@ -116,6 +117,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [buroAc, setBuroAc] = useState(false);
   const [tevkilAc, setTevkilAc] = useState(false);
   const [durusmaAc, setDurusmaAc] = useState(false);
+  const [arsivAc, setArsivAc] = useState(false);
   const [durusmaYukle, setDurusmaYukle] = useState(false);
   const [beyanAc, setBeyanAc] = useState<false | "beyan" | "kaynak">(p.ilkSekme || false);
   // "sahsi": şahsi dosyalar bölümünden açılan giriş (yeni föy şahsi ve şifreli olur).
@@ -240,17 +242,18 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       return (a.durusma || "9999").localeCompare(b.durusma || "9999") || b.guncelleme.localeCompare(a.guncelleme);
     });
   const turlerVar = TURLER.filter(x => buro.some(f => (f.tur || "hukuk") === x.tur));
-  // Yaklaşanlar: önümüzdeki 14 gün (ve geçmiş ama tamamlanmamış işler).
+  // Yaklaşanlar: bugün ve önümüzdeki 14 gün. Son günü geçmiş işler arşive (süresi geçenler) düşer.
   const yaklasan: { f: Foy; tur: "durusma" | "gorev"; metin: string; tarih: string; gun: number }[] = [];
   for (const f of buro.filter(x => x.durum === "acik")) {
     const g = kacGun(f.durusma);
     if (f.durusma && g !== undefined && g >= 0 && g <= 14) yaklasan.push({ f, tur: "durusma", metin: t("Duruşma"), tarih: f.durusma, gun: g });
     for (const x of f.gorevler) {
       const gg = kacGun(x.tarih);
-      if (!x.bitti && x.tarih && gg !== undefined && gg <= 14) yaklasan.push({ f, tur: "gorev", metin: x.metin, tarih: x.tarih, gun: gg });
+      if (!x.bitti && x.tarih && gg !== undefined && gg >= 0 && gg <= 14) yaklasan.push({ f, tur: "gorev", metin: x.metin, tarih: x.tarih, gun: gg });
     }
   }
   yaklasan.sort((a, b) => a.tarih.localeCompare(b.tarih));
+  const gecmisIs = buro.reduce((n, f) => n + (f.durum === "acik" ? f.gorevler.filter(x => !x.bitti && x.tarih && (kacGun(x.tarih) ?? 0) < 0).length : 0), 0);
 
   // Ara: önce klavye kapanır (telefonda klavye kapanırken ağır iş yapılınca ekran beyazlayıp kayıyordu), sonra aranır ve
   // sonuçlar ekranın başına getirilir.
@@ -400,8 +403,10 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       })()}
       {web && <KlasorKart liste={liste} onBilgi={m => setMesaj(m)} onToplu={xs => { setKlasordenGelen(xs); setHavuz(true); }} />}
 
-      {yaklasan.length > 0 && (
-        <Katlanir anahtar="yaklasanlar" varsayilan baslik={t("Yaklaşanlar (14 gün)")} ozet={t("{n} duruşma ve iş", { n: yaklasan.length })}>
+      {(yaklasan.length > 0 || gecmisIs > 0) && (
+        <Katlanir anahtar="yaklasanlar" varsayilan baslik={t("Yaklaşanlar (14 gün)")} ozet={t("{n} duruşma ve iş", { n: yaklasan.length }) + (gecmisIs ? " · " + t("{n} süresi geçmiş iş arşivde", { n: gecmisIs }) : "")}>
+          {gecmisIs > 0 && <Pressable onPress={() => { setArsivAc(true); setTimeout(() => { try { globalThis.document?.getElementById("is-arsivi")?.scrollIntoView({ behavior: "smooth", block: "start" }); } catch { /* yok say */ } }, 80); }}><Text style={[s.link, { color: C.bad }]}>{t("⚠ {n} işin son günü geçti: arşivde “süresi geçmiş” olarak duruyor", { n: gecmisIs })}</Text></Pressable>}
+          {!yaklasan.length && <Text style={s.hint}>{t("Önümüzdeki 14 günde duruşma ya da iş yok.")}</Text>}
           {yaklasan.slice(0, 20).map((y, i) => (
             <Pressable key={i} onPress={() => setSecili({ id: y.f.id })} style={({ pressed }) => [s.yak, pressed && { opacity: 0.8 }]}>
               <Text style={[s.yakTarih, y.gun < 0 && { color: C.bad }, y.gun <= 2 && y.gun >= 0 && { color: C.brass }]}>{tarihYaz(y.tarih)}{"\n"}<Text style={s.hint}>{gunYaz(y.gun)}</Text></Text>
@@ -413,6 +418,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
           ))}
         </Katlanir>
       )}
+      <View nativeID="is-arsivi"><IsArsivi key={arsivAc ? "a" : "k"} liste={liste} onAc={id => setSecili({ id })} zorla={arsivAc} /></View>
 
       {/* Dosya tablosu: türlere göre açık / kapalı / şahsi dosya sayıları (CBS, ARB, CEZA, İDARE, HUKUK…); satıra basınca süzülür. */}
       {(buro.length > 0 || sahsiler.length > 0) && (

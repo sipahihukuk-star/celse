@@ -27,5 +27,15 @@ const x = xlsxYaz("Dava listesi", listeTablosu(tum), [10, 20]);
 const z = unzipSync(x);
 const sh = strFromU8(z["xl/worksheets/sheet1.xml"]);
 ok(!!z["xl/workbook.xml"] && /Tazminat Komisyonu/.test(sh) && /Başvuruldu/.test(sh) && /2019\/10/.test(sh), "xlsx içeriği");
+// Sütun başlığına göre sıralama: açılış yeniden eskiye / eskiden yeniye, mahkeme A–Z, dosya no yıl ve sıraya göre, duruşma (boş sonda).
+{
+  const sz = { tur: "hepsi", durum: "hepsi" as const, enAzYil: 0, komisyon: "hepsi" as const, sirala: "sure" as const, ara: "" };
+  const ac = (kolon: string, yon?: "artan" | "azalan") => davaListesi(liste, { ...sz, kolon: kolon as never, yon }, bugun).map(x => x.f.esasNo).join(",");
+  ok(ac("acilis") === "2025/7,2024/55,2020/3,2019/10", "açılış ilk basış yeniden eskiye: " + ac("acilis"));
+  ok(ac("acilis", "artan") === "2019/10,2020/3,2024/55,2025/7", "açılış eskiden yeniye: " + ac("acilis", "artan"));
+  ok(ac("mahkeme").split(",")[0] === "2024/55", "mahkeme A–Z (Adalet Bakanlığı önce): " + ac("mahkeme"));
+  ok(ac("esasNo", "artan") === "2019/10,2020/3,2024/55,2025/7", "dosya no yıl ve sıra: " + ac("esasNo", "artan"));
+  ok(ac("durusma").startsWith("2025/7"), "duruşması olan önce, boşlar sonda: " + ac("durusma"));
+}
 if (fail) { console.log(`davalistesi-test: ${fail} hata`); process.exit(1); }
 console.log("davalistesi-test: tamam");
