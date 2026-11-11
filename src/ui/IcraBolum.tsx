@@ -9,7 +9,9 @@ import { t } from "../i18n";
 import { useAccount } from "../data/account";
 import { uyapXml, vekilEksik } from "../data/icraXml";
 import { Acilir } from "./Acilir";
-import { evrakTuruBul, hukumAnaliz, Lehine } from "../data/icraEvrak";
+import { IcraSohbet } from "./IcraSohbet";
+import { dilekceYazari, evrakTuruBul, hukumAnaliz, ilamTaraflari, Lehine, Talep, talepAnaliz } from "../data/icraEvrak";
+import { bizimVekil } from "../data/kunyeCikar";
 import { FaizDurumu, useFaizOranlari } from "../data/faizOran";
 import { BRUT_TURLER, brutNet, BrutTur, brutTurTahmin, GV_ORANLARI } from "../data/brutNet";
 import { indir, s } from "./foyStil";
@@ -20,7 +22,7 @@ const sayi = (v: string): number | undefined => { const x = v.replace(/\./g, "")
 const sayiYaz = (x?: number) => (x === undefined ? "" : String(x).replace(".", ","));
 const tarihYaz = (x?: string) => (x ? x.split("-").reverse().join(".") : "");
 
-export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrakSil, onKaydet, okuma }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; onEvraktan?: () => void; onEvrakEkle?: () => void; onEvrakSil?: (e: FoyEvrak) => void; onKaydet?: () => Promise<void>; okuma?: string }) {
+export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrakSil, onKaydet, onMetinEkle, bizimAdlar = [], okuma }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; onEvraktan?: () => void; onEvrakEkle?: () => void; onEvrakSil?: (e: FoyEvrak) => void; onKaydet?: () => Promise<void>; onMetinEkle?: (metin: string) => Promise<void>; bizimAdlar?: string[]; okuma?: string }) {
   const [kayit, setKayit] = useState("");
   const b: IcraBilgi = f.icra || { yol: "genel", talep: "haciz", paraBirimi: "TL", faizTuru: "yasal" };
   const [bilgi, setBilgi] = useState("");
@@ -102,7 +104,8 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
           )}
         </View>
       )}
-      <HukumOnizleme f={f} degistir={degistir} kalemSayisi={ks.filter(k => k.tutar).length} onKabul={async xs => { kalemlerYaz(xs); if (onKaydet) await onKaydet(); }} />
+      <IcraSohbet f={f} degistir={degistir} onMetinEkle={onMetinEkle} onKaydet={onKaydet} />
+      <HukumOnizleme f={f} degistir={degistir} bizimAdlar={bizimAdlar} kalemSayisi={ks.filter(k => k.tutar).length} onKabul={async xs => { kalemlerYaz(xs); if (onKaydet) await onKaydet(); }} />
 
       {/* Taraflar ve icra dairesi: künyeye yazılır (künyede de görünür) */}
       <Text style={s.secT}>{t("İcra dairesi ve taraflar")}</Text>
@@ -358,17 +361,63 @@ function faizNotu(d: FaizDurumu): string {
   ].filter(Boolean).join(" ");
 }
 
-const LEHINE_AD: Record<Lehine, string> = { birinci: "davacı lehine", ikinci: "davalı lehine", hazine: "Hazine'ye", iade: "iade", red: "reddedilen", belirsiz: "kimin lehine olduğu anlaşılamadı" };
+const LEHINE_AD: Record<Lehine, string> = { birinci: "davacı lehine", ikinci: "davalı lehine", hazine: "Hazine'ye", iade: "iade", red: "reddedilen", belirsiz: "kimin lehine olduğu anlaşılamadı: kontrol edin" };
+const ADSADE = (x?: string) => ust2(x || "").replace(/[^A-ZÇĞİÖŞÜ ]/g, " ").replace(/\s+/g, " ").trim();
+const ust2 = (x: string) => x.toLocaleUpperCase("tr");
+
 /**
- * İlamın hükmünden alacak kalemleri: önce hangi tarafın vekili olduğumuz seçilir, hükümdeki her tutar kimin lehine olduğuyla
- * listelenir (iki vekâlet ücreti varsa hangisi bizim), bizim lehimize olanlar seçili gelir; "Kabul et ve kaydet" ile takibe yazılır.
+ * Hangi tarafın vekiliyiz: (1) ilamdaki vekil adı bizim avukatlarımızdan biri; (2) föydeki müvekkil adı ilamda davacı ya da
+ * davalı olarak geçiyor; (3) föydeki dilekçeyi (netice ve talep, imza) bizim avukatımız yazmış; (4) föydeki seçim.
  */
-function HukumOnizleme({ f, degistir, kalemSayisi, onKabul }: { f: Foy; degistir: (ek: Partial<Foy>) => void; kalemSayisi: number; onKabul: (xs: Kalem[]) => Promise<void> }) {
+export function bizimYanBul(f: Foy, ilamMetni: string, bizimAdlar: string[]): { yan: "birinci" | "ikinci"; neden: string; kesin: boolean } {
+  const it = ilamTaraflari(ilamMetni);
+  const v1 = bizimVekil(it.birinci?.vekil, bizimAdlar), v2 = bizimVekil(it.ikinci?.vekil, bizimAdlar);
+  if (v1 !== v2) return { yan: v1 ? "birinci" : "ikinci", neden: t("İlamda {v} {r} vekili olarak yazılı.", { v: (v1 ? it.birinci?.vekil : it.ikinci?.vekil) || "", r: v1 ? t("davacı") : t("davalı") }), kesin: true };
+  const m = ADSADE(f.muvekkil);
+  if (m.length > 4) {
+    const a1 = ADSADE(it.birinci?.ad), a2 = ADSADE(it.ikinci?.ad);
+    const uy = (a: string) => !!a && (a.includes(m) || m.includes(a));
+    if (uy(a1) !== uy(a2)) return { yan: uy(a1) ? "birinci" : "ikinci", neden: t("Müvekkiliniz ({m}) ilamda {r} olarak geçiyor.", { m: f.muvekkil, r: uy(a1) ? t("davacı") : t("davalı") }), kesin: true };
+  }
+  for (const e of f.evraklar) {
+    if (!e.metin.trim() || evrakTuruBul(e.metin) === "ilam") continue;
+    const d = dilekceYazari(e.metin);
+    if (d.yan && d.imza && bizimVekil("Av. " + d.imza, bizimAdlar)) return { yan: d.yan, neden: t("“{ad}” dilekçesini {r} vekili sıfatıyla siz yazmışsınız.", { ad: e.ad, r: d.yan === "birinci" ? t("davacı") : t("davalı") }), kesin: true };
+  }
+  return { yan: f.taraf === "davali" ? "ikinci" : "birinci", neden: t("İlamdan anlaşılamadı; föydeki seçime göre. Doğru değilse aşağıdan değiştirin."), kesin: false };
+}
+
+/**
+ * İlamdan takip: önce taraflar (davacı, davalı, vekilleri; bizim hangi tarafın vekili olduğumuz ve neden), sonra davada
+ * istenenler (netice ve talep / ıslah), sonra hükümle verilen tutarlar kimin lehine olduklarıyla. Bizim lehimize olanlar seçili
+ * gelir; "Kabul et ve kaydet" ile takibe yazılır.
+ */
+function HukumOnizleme({ f, degistir, kalemSayisi, bizimAdlar, onKabul }: { f: Foy; degistir: (ek: Partial<Foy>) => void; kalemSayisi: number; bizimAdlar: string[]; onKabul: (xs: Kalem[]) => Promise<void> }) {
   const ilamlar = f.evraklar.filter(e => e.metin.trim() && evrakTuruBul(e.metin) === "ilam").sort((a, b) => b.eklenme.localeCompare(a.eklenme));
-  const ilam = ilamlar[0];
-  const yan: "birinci" | "ikinci" = f.taraf === "davali" ? "ikinci" : "birinci";
+  const [ilamId, setIlamId] = useState<string | undefined>(undefined);
+  const ilam = ilamlar.find(e => e.id === ilamId) || ilamlar[0];
+  const tespit = useMemo(() => (ilam ? bizimYanBul(f, ilam.metin, bizimAdlar) : undefined), [ilam?.id, f.muvekkil, f.taraf, f.evraklar.length, bizimAdlar.join("|")]);
+  const yan: "birinci" | "ikinci" = tespit?.yan || (f.taraf === "davali" ? "ikinci" : "birinci");
+  // İlamdan kesin anlaşılan taraf föyün seçiminden farklıysa föy düzeltilir (bir kez).
+  const uygulandi = React.useRef("");
+  React.useEffect(() => {
+    if (!ilam || !tespit?.kesin || uygulandi.current === ilam.id) return;
+    uygulandi.current = ilam.id;
+    const ist = tespit.yan === "ikinci" ? "davali" : "davaci";
+    if ((f.taraf || "davaci") !== ist) degistir({ taraf: ist });
+  }, [ilam?.id, tespit?.kesin, tespit?.yan]);
+  const it = useMemo(() => (ilam ? ilamTaraflari(ilam.metin) : undefined), [ilam?.id, ilam?.metin]);
   const liste = useMemo(() => (ilam ? hukumAnaliz(ilam.metin, f.icra?.ilam?.kararTarihi) : []), [ilam?.id, ilam?.metin, f.icra?.ilam?.kararTarihi]);
-  const varsayilan = () => new Set(liste.map((x, i) => (x.lehine === yan || (x.lehine === "belirsiz" && yan === "birinci" && x.ad !== "Vekâlet ücreti") ? i : -1)).filter(i => i >= 0));
+  const talepler = useMemo(() => {
+    if (!ilam) return [];
+    // Önce föydeki dava ve ıslah dilekçelerinin "netice ve talep"i; yoksa ilamın iddia özeti.
+    const dil = f.evraklar.filter(e => e.id !== ilam.id && e.metin.trim() && /NETİCE|SONUÇ VE (?:İSTEM|TALEP)/i.test(ust2(e.metin)) && dilekceYazari(e.metin).yan === "birinci");
+    const xs = dil.sort((a, b) => a.eklenme.localeCompare(b.eklenme)).flatMap(e => talepAnaliz(e.metin));
+    const birlesik: Talep[] = [];
+    for (const x of [...xs, ...talepAnaliz(ilam.metin)]) { const i = birlesik.findIndex(y => y.ad === x.ad); if (i < 0) birlesik.push(x); else if (x.islah) birlesik[i] = x; }
+    return birlesik;
+  }, [ilam?.id, f.evraklar.length]);
+  const varsayilan = () => new Set(liste.map((x, i) => (x.lehine === yan ? i : -1)).filter(i => i >= 0));
   const [secili, setSecili] = useState<Set<number>>(varsayilan);
   const [acik, setAcik] = useState(kalemSayisi === 0);
   const [mesaj, setMesaj] = useState("");
@@ -377,29 +426,53 @@ function HukumOnizleme({ f, degistir, kalemSayisi, onKabul }: { f: Foy; degistir
   if (!acik) return (
     <View style={{ gap: 2 }}>
       {!!mesaj && <Text style={[s.hint, { color: C.good, fontWeight: "700" }]}>✓ {mesaj}</Text>}
-      <Pressable onPress={() => { setMesaj(""); setAcik(true); }}><Text style={s.link}>{t("⚖ İlamın hükmünden alacak kalemlerini yeniden oku")}</Text></Pressable>
+      <Pressable onPress={() => { setMesaj(""); setAcik(true); }}><Text style={s.link}>{t("⚖ İlamı yeniden oku: taraflar, talepler, hüküm")}</Text></Pressable>
     </View>
   );
   const sec = liste.filter((_, i) => secili.has(i));
   const toplam = sec.reduce((a, x) => a + x.tutar, 0);
+  const bas = (n: string, x: string) => <Text style={[s.label, { marginTop: 6, color: C.brass }]}>{n} · {x}</Text>;
+  const tarafSatir = (rol: string, x?: { ad: string; vekil?: string }, biz?: boolean) => (
+    <View style={{ flexDirection: "row", gap: 6, flexWrap: "wrap", alignItems: "baseline" }}>
+      <Text style={[s.body, { fontWeight: "800", minWidth: 62 }]}>{rol}:</Text>
+      <Text style={[s.body, { flex: 1, minWidth: 160 }]}>{x?.ad || t("ilamda bulunamadı")}{x?.vekil ? " · " + t("vekili") + " " + x.vekil : ""}</Text>
+      {biz && <Text style={[s.hint, { color: C.good, fontWeight: "800" }]}>{t("◀ BİZ")}</Text>}
+    </View>
+  );
   return (
     <View style={{ gap: 6, borderWidth: 1, borderColor: C.brass, borderRadius: 10, padding: 10 }}>
-      <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{t("⚖ Hükümden alacak kalemleri")}</Text>
-      <Text style={s.hint}>{t("“{ad}” evrakının hüküm kısmı okundu. Önce kimin vekili olduğunuzu seçin: lehinize hükmedilen tutarlar seçili gelir. Kontrol edip “Kabul et ve kaydet”e basın.", { ad: ilam.ad })}</Text>
+      <Text style={[s.body, { color: C.text, fontWeight: "800" }]}>{t("⚖ İlamdan takip")}</Text>
+      {ilamlar.length > 1 && (
+        <Acilir etiket={t("Okunan ilam")} secili={ilam.id} genislik={300} onSec={k => setIlamId(k)} secenekler={ilamlar.map(e => ({ k: e.id, ad: e.ad }))} />
+      )}
+
+      {bas("1", t("Taraflar"))}
+      {tarafSatir(t("Davacı"), it?.birinci, yan === "birinci")}
+      {tarafSatir(t("Davalı"), it?.ikinci, yan === "ikinci")}
       <Acilir etiket={t("Bu dosyada kimin vekilisiniz?")} secili={yan} genislik={300} onSec={k => degistir({ taraf: k === "ikinci" ? "davali" : "davaci" })}
-        secenekler={[{ k: "birinci", ad: t("Davacı vekiliyiz (alacaklı biz)") }, { k: "ikinci", ad: t("Davalı vekiliyiz") }]} />
-      {!liste.length && <Text style={[s.hint, { color: C.bad }]}>{t("Hüküm kısmında tutar bulunamadı. Kalemleri aşağıya elle ekleyin; okunamayan biçimi bildirmek için föyün başındaki “evrakın başlık düzenini göster”i kullanabilirsiniz.")}</Text>}
+        secenekler={[{ k: "birinci", ad: t("Davacı vekiliyiz") }, { k: "ikinci", ad: t("Davalı vekiliyiz") }]} />
+      {!!tespit && <Text style={[s.hint, { color: tespit.kesin ? C.good : C.mid }]}>{tespit.neden}</Text>}
+      <Text style={s.hint}>{t("Takipte alacaklı müvekkiliniz, borçlu karşı taraftır: hükümde müvekkilinize verilen tutarlar alınır.")}</Text>
+
+      {bas("2", t("Davada istenenler"))}
+      {talepler.length
+        ? talepler.map((x, i) => <Text key={i} style={s.body}>• {t(x.ad)}: {tl(x.tutar, "TL")}{x.islah ? " " + t("(ıslahla)") : ""}</Text>)
+        : <Text style={s.hint}>{t("Dava dilekçesinin netice ve talebi ya da ilamın iddia özeti okunamadı. Dava dilekçesini föye ekler ya da aşağıdaki kutuya yapıştırırsanız burada görünür.")}</Text>}
+
+      {bas("3", t("Hükümle verilenler"))}
+      {!liste.length && <Text style={[s.hint, { color: C.bad }]}>{t("Hüküm kısmında tutar bulunamadı. Hüküm metnini aşağıdaki kutuya yapıştırıp yapay zekâdan okumasını isteyebilir ya da kalemleri elle ekleyebilirsiniz.")}</Text>}
       {liste.map((x, i) => {
         const on = secili.has(i);
         const bizim = x.lehine === yan;
+        const istenen = talepler.find(y => y.ad === x.ad);
         return (
           <Pressable key={i} onPress={() => setSecili(v => { const y = new Set(v); if (y.has(i)) y.delete(i); else y.add(i); return y; })} accessibilityRole="checkbox" accessibilityState={{ checked: on }}
             style={({ pressed }) => [{ flexDirection: "row", gap: 8, alignItems: "flex-start", paddingVertical: 4, borderTopWidth: 1, borderTopColor: C.line }, pressed && { opacity: 0.6 }]}>
             <View style={{ width: 20, height: 20, marginTop: 2, borderRadius: 4, borderWidth: 2, borderColor: on ? C.brass : C.muted, backgroundColor: on ? C.brass : "transparent", alignItems: "center", justifyContent: "center" }}>{on && <Text style={{ color: C.brassInk, fontWeight: "900", fontSize: 13, lineHeight: 15 }}>✓</Text>}</View>
             <View style={{ flex: 1, gap: 2 }}>
-              <Text style={[s.body, { fontWeight: "700", color: on ? C.text : C.textSoft }]}>{t(x.ad)}{x.brutMu ? " " + t("(brüt)") : ""}: {tl(x.tutar, "TL")}</Text>
-              <Text style={[s.hint, { color: bizim ? C.good : x.lehine === "belirsiz" ? C.mid : C.muted }]}>
-                {t(LEHINE_AD[x.lehine])}{x.faizTuru && x.faizTuru !== "yok" ? " · " + t(turAdi(x.faizTuru)) : ""}{x.faizBaslangic ? " · " + t("{d} tarihinden", { d: x.faizBaslangic.split("-").reverse().join(".") }) : ""}
+              <Text style={[s.body, { fontWeight: "700", color: on ? C.text : C.textSoft }]}>{t(x.ad)}{x.brutMu ? " " + t("(brüt)") : ""}: {tl(x.tutar, "TL")}{istenen && istenen.tutar !== x.tutar ? "  ·  " + t("istenen {x}", { x: tl(istenen.tutar, "TL") }) : ""}</Text>
+              <Text style={[s.hint, { color: bizim ? C.good : x.lehine === "belirsiz" ? C.mid : C.muted, fontWeight: bizim ? "700" : "400" }]}>
+                {bizim ? t("müvekkiliniz lehine") : t(LEHINE_AD[x.lehine])}{x.faizTuru && x.faizTuru !== "yok" ? " · " + t(turAdi(x.faizTuru)) : ""}{x.faizBaslangic ? " · " + t("{d} tarihinden", { d: tarihYaz(x.faizBaslangic) }) : x.faizTuru && x.faizTuru !== "yok" ? " · " + t("faiz başlangıcı yazılmamış") : ""}
               </Text>
               <Text style={s.hint} numberOfLines={2}>{x.cumle}</Text>
             </View>
@@ -411,8 +484,11 @@ function HukumOnizleme({ f, degistir, kalemSayisi, onKabul }: { f: Foy; degistir
           <Text style={[s.body, { fontWeight: "800" }]}>{t("Seçilen {n} kalem: {x}", { n: sec.length, x: tl(toplam, "TL") })}</Text>
           {kalemSayisi > 0 && <Text style={[s.hint, { color: C.mid }]}>{t("Şu an yazılı {n} alacak kaleminin yerine bunlar yazılır.", { n: kalemSayisi })}</Text>}
           <View style={[s.row, { gap: 8, alignItems: "center", flexWrap: "wrap" }]}>
-            <Btn label={t("✓ Kabul et ve kaydet")} disabled={!sec.length} onPress={async () => { const kt = f.icra?.ilam?.kararTarihi;
-              await onKabul(sec.map(({ lehine: _l, cumle: _c, brutMu, ...k }) => ({ ...k, ad: brutMu ? k.ad + " (brüt)" : k.ad, faizBaslangic: k.faizBaslangic || (/Yargılama|Vekâlet/.test(k.ad) ? kt : undefined) }))); setMesaj(t("{n} kalem takibe yazıldı ve kaydedildi.", { n: sec.length })); setAcik(false); }} />
+            <Btn label={t("✓ Kabul et ve kaydet")} disabled={!sec.length} onPress={async () => {
+              const kt = f.icra?.ilam?.kararTarihi || it?.kararTarihi;
+              await onKabul(sec.map(({ lehine: _l, cumle: _c, brutMu, ...k }) => ({ ...k, ad: brutMu ? k.ad + " (brüt)" : k.ad, faizBaslangic: k.faizBaslangic || (/Yargılama|Vekâlet|Harç/.test(k.ad) ? kt : undefined) })));
+              setMesaj(t("{n} kalem takibe yazıldı ve kaydedildi.", { n: sec.length })); setAcik(false);
+            }} />
             {kalemSayisi > 0 && <Pressable onPress={() => setAcik(false)}><Text style={s.link}>{t("Vazgeç")}</Text></Pressable>}
           </View>
         </>

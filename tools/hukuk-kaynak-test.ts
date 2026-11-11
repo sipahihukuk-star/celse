@@ -7,6 +7,7 @@ const ENV: Record<string, string> = { ANTHROPIC_API_KEY: "x", SUPABASE_URL: "htt
 type Cagri = { url: string; method: string; body: string };
 const cagrilar: Cagri[] = [];
 let yonetici = true, bedesten429 = 0;
+let yzIstek = "";
 const onbellek = new Map<string, unknown>();
 const kanunlar = new Map<string, Record<string, unknown>>();
 const maddeler: Record<string, unknown>[] = [];
@@ -59,6 +60,7 @@ const js = (x: unknown, st = 200) => new Response(JSON.stringify(x), { status: s
 globalThis.fetch = (async (u: string | URL, o?: RequestInit) => {
   const url = decodeURIComponent(String(u)), method = o?.method || "GET", body = String(o?.body || "");
   cagrilar.push({ url, method, body });
+  if (url.includes("api.anthropic.com")) { yzIstek = body; return js({ content: [{ type: "text", text: JSON.stringify({ cevap: "Taraflar: [DAVACI] davacı, [ŞİRKET-1] davalı. Kıdem tazminatı [TARİH-2] tarihinden.", degisiklik: { kalemler: [{ ad: "Kıdem tazminatı (brüt)", tutar: 85000, faizTuru: "mevduat", faizBaslangic: "[TARİH-2]" }] } }) }], stop_reason: "end_turn" }); }
   if (url.includes("/auth/v1/user")) return js({ id: "11111111-1111-1111-1111-111111111111" });
   if (url.includes("/rpc/yonetici_mi")) return js(yonetici);
   if (url.includes("/rpc/mevzuat_madde_getir")) { const a = JSON.parse(body); return js(a.p_no === "6100" && a.p_madde === "281" ? [{ slug: "6100-hmk", no: "6100", ad: "HUKUK MUHAKEMELERİ KANUNU", durum: "yururlukte", madde: "281", baslik: "Bilirkişi raporuna itiraz", metin: "(1) Taraflar..." }] : []); }
@@ -218,6 +220,12 @@ const son = (p: string) => [...cagrilar].reverse().find(c => c.url.includes(p));
   j = await r.json();
   const fo = JSON.parse(son("/rest/v1/faiz_oran")!.body) as { tur: string; bas: string; oran: number }[];
   ok(j.ok && fo.some(x => x.tur === "avans" && x.bas === "2025-12-20" && x.oran === 39.75) && fo.some(x => x.tur === "reeskont" && x.oran === 38.75) && fo.filter(x => x.tur === "ttk1530").length === 7 && !!son("/rest/v1/faiz_kontrol"), "faiz denetimi: " + JSON.stringify(j));
+  // İcra takibi sohbeti: kodlu dosya modele gider, öneri JSON'u döner; kodsuz kimlik no reddedilir.
+  r = await handle(istek({ action: "icra_sor", dosya: "=== KÜNYE ===\nBizim taraf: DAVACI vekiliyiz\nDAVACI : [DAVACI]\nHÜKÜM: 85.000 TL kıdem [TARİH-2] tarihinden", soru: "Alacakları yaz", gecmis: [] }));
+  j = await r.json();
+  ok(r.status === 200 && /\[DAVACI\]/.test(j.cevap) && j.degisiklik?.kalemler?.[0]?.tutar === 85000 && /BİZİM müvekkilimize/.test(JSON.parse(yzIstek).system) && /Alacakları yaz/.test(yzIstek), "icra sohbeti: " + JSON.stringify(j).slice(0, 200));
+  r = await handle(istek({ action: "icra_sor", dosya: "Davacı 10000000146 kimlik nolu", soru: "Alacakları yaz" }));
+  ok(r.status === 422, "icra sohbetinde kodlanmamış kimlik no reddedilir: " + r.status);
   // Karar doğrulama: künye birebir tutarsa resmî metin arşive; tutmazsa "yok".
   arsiv.delete("1001");
   r = await handle(istek({ action: "karar_dogrula", kunyeler: [{ mahkeme: "YARGITAYKARARI", birim: "9. Hukuk Dairesi", esas: "2023/1", karar: "2024/2" }, { mahkeme: "YARGITAYKARARI", birim: "9. Hukuk Dairesi", esas: "2023/999", karar: "2024/2" }] }));

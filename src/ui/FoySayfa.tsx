@@ -148,9 +148,9 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   if (!f) return <ScrollView contentContainerStyle={s.wrap}><Text style={s.hint}>{t("Yükleniyor…")}</Text></ScrollView>;
   const tb = turBilgi(f.tur);
 
-  const evrakEkle = async (zorTur?: string): Promise<FoyEvrak[]> => {
+  const evrakEkle = async (zorTur?: string, hazir?: Kaynak[]): Promise<FoyEvrak[]> => {
     setErr("");
-    const secilen = await dosyaSec(".udf,.doc,.docx,.rtf,.odt,.htm,.html,.txt,.pdf,.tif,.tiff,.jpg,.jpeg,.png,.zip");
+    const secilen = hazir || await dosyaSec(".udf,.doc,.docx,.rtf,.odt,.htm,.html,.txt,.pdf,.tif,.tiff,.jpg,.jpeg,.png,.zip");
     const sira: Kaynak[] = [];
     for (const k of secilen) {
       if (turBul(k.ad) === "zip") { try { sira.push(...zipIcerigi(k.bytes)); } catch { setErr(t("{ad}: ZIP dosyası açılamadı.", { ad: k.ad })); } }
@@ -347,37 +347,9 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     </View>
   );
 
-  const geri = async () => { await hemenKaydet(); onKapat(); };
-  return (
-    <View style={{ flex: 1 }}>
-    <ScrollView ref={nav.ref} onScroll={nav.onScroll} scrollEventThrottle={64} contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
-      <View style={s.head}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={geri} /></View>
-      <Text style={s.eyebrow}>{[tb.kisa, f.asama, f.mahkeme, f.esasNo].filter(Boolean).join(" · ").toLocaleUpperCase("tr")}</Text>
-      <Text style={s.title}>{foyBaslik(f)}</Text>
-      {f.ozel && <Text style={[s.turChip, s.ozelChip]}>🔒 {t("ŞAHSİ DOSYA · ŞİFRELİ SAKLANIR")}</Text>}
-
-      {(() => {
-        const k = kisiDosyalari(liste, f);
-        if (!k.muvekkil.length && !k.karsi.length) return null;
-        const goster = kisiAc === "muvekkil" ? k.muvekkil : kisiAc === "karsi" ? k.karsi : [];
-        return (
-          <View style={{ gap: 4 }}>
-            <View style={[s.row, { gap: 14 }]}>
-              {k.muvekkil.length > 0 && <Pressable onPress={() => setKisiAc(kisiAc === "muvekkil" ? "" : "muvekkil")}><Text style={s.link}>{kisiAc === "muvekkil" ? "▾ " : "▸ "}{t("{ad}: öteki dosyaları ({n})", { ad: f.muvekkil, n: k.muvekkil.length })}</Text></Pressable>}
-              {k.karsi.length > 0 && <Pressable onPress={() => setKisiAc(kisiAc === "karsi" ? "" : "karsi")}><Text style={s.link}>{kisiAc === "karsi" ? "▾ " : "▸ "}{t("{ad}: öteki dosyaları ({n})", { ad: f.karsiTaraf, n: k.karsi.length })}</Text></Pressable>}
-            </View>
-            {goster.map(x => (
-              <Pressable key={x.id} onPress={async () => { await hemenKaydet(); onAc(x.id); }} style={[s.foy, { paddingVertical: 6 }]}>
-                <Text style={[s.hint, { flex: 1, color: C.textSoft }]} numberOfLines={1}>{[turBilgi(x.tur).kisa, foyBaslik(x), x.mahkeme, x.esasNo, x.durum === "kapali" ? t("kapalı") : ""].filter(Boolean).join(" · ")}</Text>
-              </Pressable>
-            ))}
-          </View>
-        );
-      })()}
-
-      <DurusmaAkisi f={f} degistir={degistir} okumaVar={f.evraklar.some(e => !!e.metin.trim())} />
-
-      {(() => {
+  // İcra föyünde en üstte icra takibi bilgileri, sonra künye; öteki bölümler aşağıda.
+  const icraUstte = f.tur === "icra";
+  const kunyeEksikBlok = (() => {
         // Künyede eksik bilgi: başta görünür; tek tuşla eldeki belgelerden (bu cihazda) doldurulur.
         const eksik = kunyeEksikleri(f).map(k => t(k));
         const okunmus = f.evraklar.some(e => e.metin.trim());
@@ -399,87 +371,8 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             {iskelet && <Text style={s.hint}>{t("Bu görünümde adlar □, rakamlar 9 olur; kişisel bilgi görünmez. Okuma hatası bildirirken bu görünümün ekran görüntüsünü güvenle paylaşabilirsiniz.")}</Text>}
           </View>
         );
-      })()}
-      {!!err && <Text style={s.err}>{err}</Text>}
-
-      {f.degerlendirme && (
-        <View style={s.card}>
-          <Text style={s.cardT}>{t("Dosyanın durumu")}</Text>
-          <Text style={s.hint}>{tarihYaz(f.degerlendirme.tarih.slice(0, 10))} · {t("Yardım amaçlıdır; süreleri ve sonucu kendiniz doğrulayın.")}</Text>
-          {sesliOkumaVar() && (
-            <View style={s.row}>
-              {okuyor ? <Btn kind="secondary" label={t("■ Durdur")} onPress={sesliDur} /> : <Btn kind="secondary" label={t("🔊 Sesli dinle")} onPress={() => sesliOku(okunacak(f.degerlendirme!), hiz)} />}
-              <Acilir etiket={t("Okuma hızı")} secili={String(hiz)} genislik={110} onSec={k => { const h = Number(k); setHiz(h); if (okuyor) sesliOku(okunacak(f.degerlendirme!), h); }}
-                secenekler={[0.8, 1, 1.25, 1.5].map(h => ({ k: String(h), ad: String(h).replace(".", ",") + "×" }))} />
-            </View>
-          )}
-          {sesliOkumaVar() && !yerelSesVar() && <Text style={s.hint}>{t("Bu bilgisayarda yerel Türkçe ses yok; tarayıcının çevrim içi sesi kullanılır.")}</Text>}
-          <Text style={s.body}>{f.degerlendirme.ozet}</Text>
-          {f.degerlendirme.sureler.length > 0 && <><Text style={s.secT}>{t("Süreler")}</Text>{f.degerlendirme.sureler.map((x, i) => <Text key={i} style={s.body}>• {x}</Text>)}</>}
-          {f.degerlendirme.uyusmazlik.length > 0 && <><Text style={s.secT}>{t("Çekişmeli konular")}</Text>{f.degerlendirme.uyusmazlik.map((x, i) => <Text key={i} style={s.body}>• {x}</Text>)}</>}
-          {f.degerlendirme.zayif.length > 0 && <><Text style={s.secT}>{t("Zayıf noktalar ve riskler")}</Text>{f.degerlendirme.zayif.map((x, i) => <Text key={i} style={s.body}>• {x}</Text>)}</>}
-        </View>
-      )}
-
-      <Katlanir anahtar="beyan" baslik={f.tur === "icra" ? t("✍ Talep yaz") : t("✍ Beyan yaz")} ozet={f.beyanlar?.length ? t("{n} taslak", { n: f.beyanlar.length }) : f.tur === "icra" ? t("haciz, satış, maaş haczi talepleri; itiraz ve şikâyet") : t("dilekçe, itiraz, istinaf; içtihat ve mevzuatla")}>
-        <BeyanEditoru f={f} onDegistir={degistir} />
-      </Katlanir>
-      {(
-        <Katlanir anahtar="yzsor" baslik={t("🤖 Yapay zekâya sor")} varsayilan ozet={f.yzSohbet?.length ? t("son soru {d}", { d: tarihYaz(f.yzSohbet[f.yzSohbet.length - 1].tarih) }) : t("ne durumda, nerede kaldık, sırada ne var")}>
-          <FoyYzSor f={f} tur={tb.ad} onDegistir={degistir} />
-        </Katlanir>
-      )}
-      <Katlanir anahtar="zincir" baslik={t("Dosya zinciri")} ozet={zin.onceki.length + zin.sonraki.length + (f.ilgiliIds?.length || 0) ? t("{n} bağlı dosya", { n: zin.onceki.length + zin.sonraki.length + (f.ilgiliIds?.length || 0) }) : t("bağlı dosya yok")}>
-        <View style={s.zincir}>
-          {zin.onceki.map(x => <React.Fragment key={x.id}>{halka(x)}<Text style={s.hint}>→</Text></React.Fragment>)}
-          {halka(f, true)}
-          {zin.sonraki.map(x => <React.Fragment key={x.id}><Text style={s.hint}>→</Text>{halka(x)}</React.Fragment>)}
-        </View>
-        {tb.sonraki.length > 0 && (
-          <>
-            <Text style={s.label}>{t("Devamını aç (dönüştü)")}</Text>
-            <View style={s.chips}>
-              {tb.sonraki.map(x => (
-                <Pressable key={x} onPress={() => devaminiAc(x)} style={s.chip}><Text style={s.chipT}>+ {t(turBilgi(x).ad)}</Text></Pressable>
-              ))}
-            </View>
-          </>
-        )}
-        {!!f.ilgiliIds?.length && (
-          <>
-            <Text style={s.label}>{t("İlgili dosyalar")}</Text>
-            <View style={s.chips}>
-              {f.ilgiliIds.map(id => liste.find(x => x.id === id)).filter((x): x is Foy => !!x).map(x => (
-                <View key={x.id} style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
-                  {halka(x)}
-                  <Pressable accessibilityLabel={t("Bağlantıyı kaldır")} hitSlop={6} onPress={() => { degistir({ ilgiliIds: (f.ilgiliIds || []).filter(y => y !== x.id) }); foyGetir(x.id).then(o => o && foyKaydet({ ...o, ilgiliIds: (o.ilgiliIds || []).filter(y => y !== f.id) }, true)).catch(() => {}); }}><Text style={s.hint}>✕</Text></Pressable>
-                </View>
-              ))}
-            </View>
-          </>
-        )}
-        <IliskiKart liste={liste.filter(x => !x.ozel).map(x => (x.id === f.id ? f : x))} odak={f.id} odakDegistir={degistir} onAc={async id => { await hemenKaydet(); onAc(id); }} />
-        <View style={s.row}>
-          <Btn kind="ghost" label={baglaAc ? t("Vazgeç") : f.oncekiId ? t("Önceki dosyayı değiştir") : t("Önceki bir dosyaya bağla")} onPress={() => setBaglaAc(!baglaAc)} />
-          {!!f.oncekiId && <Btn kind="ghost" label={t("Bağlantıyı kaldır")} onPress={() => degistir({ oncekiId: undefined })} />}
-        </View>
-        {baglaAc && (
-          <View style={{ gap: 6 }}>
-            <TextInput value={baglaAra} onChangeText={setBaglaAra} placeholder={t("Ara: müvekkil, karşı taraf, esas no…")} placeholderTextColor={C.muted} style={s.inputTek} />
-            {baglanabilir.map(x => (
-              <Pressable key={x.id} onPress={() => { degistir({ oncekiId: x.id }); setBaglaAc(false); }} style={s.foy}>
-                <View style={{ flex: 1 }}>
-                  <Text style={s.meta}>{turBilgi(x.tur).kisa}</Text>
-                  <Text style={s.fileT} numberOfLines={1}>{foyBaslik(x)}</Text>
-                  <Text style={s.hint} numberOfLines={1}>{[x.mahkeme, x.esasNo].filter(Boolean).join(" · ")}</Text>
-                </View>
-              </Pressable>
-            ))}
-            {!baglanabilir.length && <Text style={s.hint}>{t("Bağlanabilecek föy yok.")}</Text>}
-          </View>
-        )}
-      </Katlanir>
-
+  })();
+  const kunyeBlok = (
       <Katlanir anahtar="kunye" baslik={t("Künye")} varsayilan={!f.mahkeme && !f.muvekkil} ozet={[f.mahkeme, f.esasNo, f.muvekkil].filter(Boolean).join(" · ")}>
         {f.evraklar.some(e => e.metin.trim()) && (
           <View style={[s.row, { alignItems: "center" }]}>
@@ -563,11 +456,17 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         <Text style={s.label}>{t("Notlar")}</Text>
         <TextInput defaultValue={f.notlar} onChangeText={v => degistir({ notlar: v })} multiline placeholder={t("Dosyayla ilgili notlarınız")} placeholderTextColor={C.muted} style={s.input} />
       </Katlanir>
-
-      {(f.tur === "icra" || !!f.icra) && (
+  );
+  const icraBlok = (f.tur === "icra" || !!f.icra) ? (
         <Katlanir anahtar="icra" baslik={t("İcra takibi bilgileri")} varsayilan ozet={f.icra?.asil ? t("asıl alacak {x}", { x: tl(f.icra.asil, f.icra.paraBirimi || "TL") }) : t("doldurulmadı")}>
           {!!icraMesaj && <Text style={[s.hint, { color: C.good }]}>{icraMesaj}</Text>}
-          <IcraBolum f={f} degistir={degistir} surum={surum} okuma={okuma} onKaydet={async () => { await hemenKaydet(); if (!zaman.current) await foyKaydet(son.current || f); }} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} onEvrakSil={e => {
+          <IcraBolum f={f} degistir={degistir} surum={surum} okuma={okuma} onKaydet={async () => { await hemenKaydet(); if (!zaman.current) await foyKaydet(son.current || f); }} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} bizimAdlar={bizimAdlar()} onMetinEkle={async metin => {
+            // Yapıştırılan metin, dosya gibi okunur (tür, kodlu hâl, künye, icra bilgisi).
+            const g = new Date(); const p2 = (n: number) => String(n).padStart(2, "0");
+            const ad = `Yapıştırılan metin ${p2(g.getDate())}.${p2(g.getMonth() + 1)}.${g.getFullYear()} ${p2(g.getHours())}.${p2(g.getMinutes())}.txt`;
+            const e = await evrakEkle(undefined, [{ ad, bytes: new TextEncoder().encode(metin) }]);
+            if (!e.length) throw new Error(t("Metin okunamadı."));
+          }} onEvrakSil={e => {
             // Yanlış evrak: silinir, ondan yazılan icra ve taraf bilgileri geri alınır, kalan evrakla yeniden doldurulur.
             const kalan = f.evraklar.filter(x => x.id !== e.id);
             let icra = f.icra;
@@ -601,7 +500,125 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             setIcraMesaj(r.dolan.length || kunDolan ? t("İcra bilgileri evraktan dolduruldu: {x}. Kontrol edin.", { x: [...r.dolan, ...(kunDolan ? [t("taraf bilgileri")] : [])].join(", ") }) : f.evraklar.some(e => e.metin.trim()) ? t("Evrakta ilam, çek, senet, kira sözleşmesi ya da fatura bulunamadı; ya da alanlar zaten dolu (yalnız boş alanlar doldurulur).") : t("Önce aşağıdaki Evrak bölümünden takibe konu evrakı (ilam, çek, senet, kira sözleşmesi, fatura) ve varsa vekâletnameyi ekleyin."));
           }} />
         </Katlanir>
+  ) : null;
+  const geri = async () => { await hemenKaydet(); onKapat(); };
+  return (
+    <View style={{ flex: 1 }}>
+    <ScrollView ref={nav.ref} onScroll={nav.onScroll} scrollEventThrottle={64} contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
+      <View style={s.head}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={geri} /></View>
+      <Text style={s.eyebrow}>{[tb.kisa, f.asama, f.mahkeme, f.esasNo].filter(Boolean).join(" · ").toLocaleUpperCase("tr")}</Text>
+      <Text style={s.title}>{foyBaslik(f)}</Text>
+      {f.ozel && <Text style={[s.turChip, s.ozelChip]}>🔒 {t("ŞAHSİ DOSYA · ŞİFRELİ SAKLANIR")}</Text>}
+
+      {(() => {
+        const k = kisiDosyalari(liste, f);
+        if (!k.muvekkil.length && !k.karsi.length) return null;
+        const goster = kisiAc === "muvekkil" ? k.muvekkil : kisiAc === "karsi" ? k.karsi : [];
+        return (
+          <View style={{ gap: 4 }}>
+            <View style={[s.row, { gap: 14 }]}>
+              {k.muvekkil.length > 0 && <Pressable onPress={() => setKisiAc(kisiAc === "muvekkil" ? "" : "muvekkil")}><Text style={s.link}>{kisiAc === "muvekkil" ? "▾ " : "▸ "}{t("{ad}: öteki dosyaları ({n})", { ad: f.muvekkil, n: k.muvekkil.length })}</Text></Pressable>}
+              {k.karsi.length > 0 && <Pressable onPress={() => setKisiAc(kisiAc === "karsi" ? "" : "karsi")}><Text style={s.link}>{kisiAc === "karsi" ? "▾ " : "▸ "}{t("{ad}: öteki dosyaları ({n})", { ad: f.karsiTaraf, n: k.karsi.length })}</Text></Pressable>}
+            </View>
+            {goster.map(x => (
+              <Pressable key={x.id} onPress={async () => { await hemenKaydet(); onAc(x.id); }} style={[s.foy, { paddingVertical: 6 }]}>
+                <Text style={[s.hint, { flex: 1, color: C.textSoft }]} numberOfLines={1}>{[turBilgi(x.tur).kisa, foyBaslik(x), x.mahkeme, x.esasNo, x.durum === "kapali" ? t("kapalı") : ""].filter(Boolean).join(" · ")}</Text>
+              </Pressable>
+            ))}
+          </View>
+        );
+      })()}
+
+      <DurusmaAkisi f={f} degistir={degistir} okumaVar={f.evraklar.some(e => !!e.metin.trim())} />
+      {icraUstte && icraBlok}
+      {icraUstte && kunyeEksikBlok}
+      {icraUstte && kunyeBlok}
+      <DurusmaAkisi f={f} degistir={degistir} okumaVar={f.evraklar.some(e => !!e.metin.trim())} />
+
+      {!icraUstte && kunyeEksikBlok}
+      {!!err && <Text style={s.err}>{err}</Text>}
+
+      {f.degerlendirme && (
+        <View style={s.card}>
+          <Text style={s.cardT}>{t("Dosyanın durumu")}</Text>
+          <Text style={s.hint}>{tarihYaz(f.degerlendirme.tarih.slice(0, 10))} · {t("Yardım amaçlıdır; süreleri ve sonucu kendiniz doğrulayın.")}</Text>
+          {sesliOkumaVar() && (
+            <View style={s.row}>
+              {okuyor ? <Btn kind="secondary" label={t("■ Durdur")} onPress={sesliDur} /> : <Btn kind="secondary" label={t("🔊 Sesli dinle")} onPress={() => sesliOku(okunacak(f.degerlendirme!), hiz)} />}
+              <Acilir etiket={t("Okuma hızı")} secili={String(hiz)} genislik={110} onSec={k => { const h = Number(k); setHiz(h); if (okuyor) sesliOku(okunacak(f.degerlendirme!), h); }}
+                secenekler={[0.8, 1, 1.25, 1.5].map(h => ({ k: String(h), ad: String(h).replace(".", ",") + "×" }))} />
+            </View>
+          )}
+          {sesliOkumaVar() && !yerelSesVar() && <Text style={s.hint}>{t("Bu bilgisayarda yerel Türkçe ses yok; tarayıcının çevrim içi sesi kullanılır.")}</Text>}
+          <Text style={s.body}>{f.degerlendirme.ozet}</Text>
+          {f.degerlendirme.sureler.length > 0 && <><Text style={s.secT}>{t("Süreler")}</Text>{f.degerlendirme.sureler.map((x, i) => <Text key={i} style={s.body}>• {x}</Text>)}</>}
+          {f.degerlendirme.uyusmazlik.length > 0 && <><Text style={s.secT}>{t("Çekişmeli konular")}</Text>{f.degerlendirme.uyusmazlik.map((x, i) => <Text key={i} style={s.body}>• {x}</Text>)}</>}
+          {f.degerlendirme.zayif.length > 0 && <><Text style={s.secT}>{t("Zayıf noktalar ve riskler")}</Text>{f.degerlendirme.zayif.map((x, i) => <Text key={i} style={s.body}>• {x}</Text>)}</>}
+        </View>
       )}
+
+      <Katlanir anahtar="beyan" baslik={f.tur === "icra" ? t("✍ Talep yaz") : t("✍ Beyan yaz")} ozet={f.beyanlar?.length ? t("{n} taslak", { n: f.beyanlar.length }) : f.tur === "icra" ? t("haciz, satış, maaş haczi talepleri; itiraz ve şikâyet") : t("dilekçe, itiraz, istinaf; içtihat ve mevzuatla")}>
+        <BeyanEditoru f={f} onDegistir={degistir} />
+      </Katlanir>
+      {(
+        <Katlanir anahtar="yzsor" baslik={t("🤖 Yapay zekâya sor")} varsayilan ozet={f.yzSohbet?.length ? t("son soru {d}", { d: tarihYaz(f.yzSohbet[f.yzSohbet.length - 1].tarih) }) : t("ne durumda, nerede kaldık, sırada ne var")}>
+          <FoyYzSor f={f} tur={tb.ad} onDegistir={degistir} />
+        </Katlanir>
+      )}
+      <Katlanir anahtar="zincir" baslik={t("Dosya zinciri")} ozet={zin.onceki.length + zin.sonraki.length + (f.ilgiliIds?.length || 0) ? t("{n} bağlı dosya", { n: zin.onceki.length + zin.sonraki.length + (f.ilgiliIds?.length || 0) }) : t("bağlı dosya yok")}>
+        <View style={s.zincir}>
+          {zin.onceki.map(x => <React.Fragment key={x.id}>{halka(x)}<Text style={s.hint}>→</Text></React.Fragment>)}
+          {halka(f, true)}
+          {zin.sonraki.map(x => <React.Fragment key={x.id}><Text style={s.hint}>→</Text>{halka(x)}</React.Fragment>)}
+        </View>
+        {tb.sonraki.length > 0 && (
+          <>
+            <Text style={s.label}>{t("Devamını aç (dönüştü)")}</Text>
+            <View style={s.chips}>
+              {tb.sonraki.map(x => (
+                <Pressable key={x} onPress={() => devaminiAc(x)} style={s.chip}><Text style={s.chipT}>+ {t(turBilgi(x).ad)}</Text></Pressable>
+              ))}
+            </View>
+          </>
+        )}
+        {!!f.ilgiliIds?.length && (
+          <>
+            <Text style={s.label}>{t("İlgili dosyalar")}</Text>
+            <View style={s.chips}>
+              {f.ilgiliIds.map(id => liste.find(x => x.id === id)).filter((x): x is Foy => !!x).map(x => (
+                <View key={x.id} style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+                  {halka(x)}
+                  <Pressable accessibilityLabel={t("Bağlantıyı kaldır")} hitSlop={6} onPress={() => { degistir({ ilgiliIds: (f.ilgiliIds || []).filter(y => y !== x.id) }); foyGetir(x.id).then(o => o && foyKaydet({ ...o, ilgiliIds: (o.ilgiliIds || []).filter(y => y !== f.id) }, true)).catch(() => {}); }}><Text style={s.hint}>✕</Text></Pressable>
+                </View>
+              ))}
+            </View>
+          </>
+        )}
+        <IliskiKart liste={liste.filter(x => !x.ozel).map(x => (x.id === f.id ? f : x))} odak={f.id} odakDegistir={degistir} onAc={async id => { await hemenKaydet(); onAc(id); }} />
+        <View style={s.row}>
+          <Btn kind="ghost" label={baglaAc ? t("Vazgeç") : f.oncekiId ? t("Önceki dosyayı değiştir") : t("Önceki bir dosyaya bağla")} onPress={() => setBaglaAc(!baglaAc)} />
+          {!!f.oncekiId && <Btn kind="ghost" label={t("Bağlantıyı kaldır")} onPress={() => degistir({ oncekiId: undefined })} />}
+        </View>
+        {baglaAc && (
+          <View style={{ gap: 6 }}>
+            <TextInput value={baglaAra} onChangeText={setBaglaAra} placeholder={t("Ara: müvekkil, karşı taraf, esas no…")} placeholderTextColor={C.muted} style={s.inputTek} />
+            {baglanabilir.map(x => (
+              <Pressable key={x.id} onPress={() => { degistir({ oncekiId: x.id }); setBaglaAc(false); }} style={s.foy}>
+                <View style={{ flex: 1 }}>
+                  <Text style={s.meta}>{turBilgi(x.tur).kisa}</Text>
+                  <Text style={s.fileT} numberOfLines={1}>{foyBaslik(x)}</Text>
+                  <Text style={s.hint} numberOfLines={1}>{[x.mahkeme, x.esasNo].filter(Boolean).join(" · ")}</Text>
+                </View>
+              </Pressable>
+            ))}
+            {!baglanabilir.length && <Text style={s.hint}>{t("Bağlanabilecek föy yok.")}</Text>}
+          </View>
+        )}
+      </Katlanir>
+
+      {!icraUstte && kunyeBlok}
+
+      {!icraUstte && icraBlok}
 
       <Katlanir anahtar="mesaj" baslik={t("Müvekkile mesaj")} ozet={t("WhatsApp / Telegram")}><MuvekkilMesaj f={f} ic /></Katlanir>
 

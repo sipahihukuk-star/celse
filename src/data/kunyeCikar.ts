@@ -200,7 +200,7 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
 
 /** Öneriyi föyün BOŞ alanlarına yazar; neyin dolduğunu da söyler. Müvekkil, föydeki "davacı/davalı vekiliyiz" seçimine göre seçilir. */
 /** Vekil adında bizim avukatlarımızdan biri geçiyor mu (soyadı ve adın ilk harfleriyle). */
-function bizimVekil(vekil: string | undefined, adlar: string[]): boolean {
+export function bizimVekil(vekil: string | undefined, adlar: string[]): boolean {
   if (!vekil) return false;
   const v = " " + vekil.toLocaleUpperCase("tr").replace(/[^A-ZÇĞİÖŞÜ ]/g, " ") + " ";
   return adlar.some(a => { const p = a.toLocaleUpperCase("tr").replace(/^AV\.?\s*/, "").replace(/[^A-ZÇĞİÖŞÜ ]/g, " ").split(/\s+/).filter(w => w.length >= 3); const soy = p[p.length - 1]; return !!soy && v.includes(" " + soy + " ") && (p.length < 2 || v.includes(" " + p[0] + " ")); });
@@ -215,8 +215,13 @@ export function kunyeyiDoldur(f: Foy, o: KunyeOneri, bizimAdlar: string[] = []):
   // Hangi tarafın vekiliyiz: evraktaki vekil adlarında kendi adımız geçiyorsa oradan; yoksa föydeki seçimden.
   const bizIkinci = bizimVekil(o.ikinci?.vekil, bizimAdlar) && !bizimVekil(o.birinci?.vekil, bizimAdlar);
   const bizBirinci = bizimVekil(o.birinci?.vekil, bizimAdlar) && !bizimVekil(o.ikinci?.vekil, bizimAdlar);
-  const davali = bizIkinci ? true : bizBirinci ? false : f.taraf === "davali";
-  if (bos(f.muvekkil) && (bizIkinci || bizBirinci) && (f.taraf === "davali") !== davali && f.taraf !== undefined) { ek.taraf = davali ? "davali" : "davaci"; dolan.push(davali ? "davalı vekiliyiz" : "davacı vekiliyiz"); }
+  // Föyde müvekkil adı yazılıysa ve evrakta taraflardan biri o ise taraf oradan anlaşılır (karşı tarafa müvekkilin adı yazılmasın).
+  const sade = (x?: string) => (x || "").toLocaleUpperCase("tr").replace(/[^A-ZÇĞİÖŞÜ ]/g, " ").replace(/\s+/g, " ").trim();
+  const m = sade(f.muvekkil);
+  const uy = (x?: string) => { const a = sade(x); return m.length > 4 && !!a && (a.includes(m) || m.includes(a)); };
+  const mBirinci = uy(o.birinci?.ad) && !uy(o.ikinci?.ad), mIkinci = uy(o.ikinci?.ad) && !uy(o.birinci?.ad);
+  const davali = bizIkinci ? true : bizBirinci ? false : mIkinci ? true : mBirinci ? false : f.taraf === "davali";
+  if ((bizIkinci || bizBirinci || mBirinci || mIkinci) && (f.taraf === "davali") !== davali && f.taraf !== undefined) { ek.taraf = davali ? "davali" : "davaci"; dolan.push(davali ? "davalı vekiliyiz" : "davacı vekiliyiz"); }
   const biz = davali ? o.ikinci : o.birinci;
   const onlar = davali ? o.birinci : o.ikinci;
   // İcra föyünde merci icra dairesi, no takip no'sudur: ilamın (mahkeme kararının) mahkemesi ve esas no'su buraya yazılmaz

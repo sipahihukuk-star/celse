@@ -51,6 +51,8 @@ export interface IcraBilgi {
   /** TBK 100 (eski BK 84): kısmi ödemeler önce faiz, masraf ve ferilere mahsup edilsin (varsayılan evet) */
   tbk100?: boolean;
   bsmv?: boolean;
+  /** icra takibi sohbeti (yapay zekâyla; son 20 soru-cevap, gerçek adlarla bu cihazda) */
+  sohbet?: { soru: string; cevap: string; tarih: string }[];
   kkdf?: boolean;
   takipSonrasiTur?: FaizTuru;
   takipSonrasiOran?: number;

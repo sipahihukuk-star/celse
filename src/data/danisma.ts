@@ -94,7 +94,8 @@ const HATA: Record<string, string> = {
   "istek çok uzun": "Evrak çok uzun. Daha az sayfa seçin.",
   "avukat paketi yok": "Evrakla duruşma provası Celse Avukat paketiyle kullanılır.",
   "bilet": "Derleme süresi doldu; dosyayı yeniden derleyin.",
-  "avukat kredisi yok": "Bu ayki Celse Avukat krediniz bitti; yeni dönemde yenilenir."
+  "avukat kredisi yok": "Bu ayki Celse Avukat krediniz bitti; yeni dönemde yenilenir.",
+  "bilinmeyen işlem": "Sunucudaki yapay zekâ işlevi henüz güncellenmedi: Supabase'de danisma işlevinin son kodunu yayınlayın."
 };
 
 export async function call<T>(action: string, body: Record<string, unknown>, sure = 120000): Promise<Cevap<T>> {
