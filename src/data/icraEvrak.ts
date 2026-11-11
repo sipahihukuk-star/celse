@@ -3,7 +3,8 @@
 // bononun düzenleme ve vade tarihi; kira sözleşmesinin tarihi ve aylık kirası; faturanın tarihi, numarası ve tutarı.
 // Yalnız boş alanlar doldurulur; avukat her zaman kontrol eder.
 import type { FaizTuru, IcraBilgi, Kalem, TakipYolu } from "./icra";
-import { kunyeCikar } from "./kunyeCikar";
+import type { Foy } from "./foy";
+import { kunyeCikar, TarafOneri } from "./kunyeCikar";
 
 export type IcraEvrakTuru = "ilam" | "cek" | "senet" | "kira" | "fatura" | "diger";
 
@@ -52,7 +53,7 @@ export type Lehine = "birinci" | "ikinci" | "hazine" | "iade" | "red" | "belirsi
 export interface HukumKalemi extends Kalem { lehine: Lehine; cumle: string; brutMu?: boolean }
 
 /** İlamın başındaki taraflar (davacı / davalı, vekilleri) ve tarihleri. */
-export interface IlamTaraflari { birinci?: { ad: string; vekil?: string }; ikinci?: { ad: string; vekil?: string }; davaTarihi?: string; kararTarihi?: string; islahTarihi?: string }
+export interface IlamTaraflari { birinci?: { ad: string; vekil?: string }; ikinci?: { ad: string; vekil?: string }; birinciler: TarafOneri[]; ikinciler: TarafOneri[]; davaTarihi?: string; kararTarihi?: string; islahTarihi?: string }
 export function ilamTaraflari(metin: string): IlamTaraflari {
   const k = kunyeCikar(metin);
   const tarih = (re: RegExp) => { const m = ust(metin).match(new RegExp(re.source + "\\s*[:.]?\\s*" + TARIH.source)); return m ? iso(m[m.length - 3], m[m.length - 2], m[m.length - 1]) : undefined; };
@@ -60,9 +61,64 @@ export function ilamTaraflari(metin: string): IlamTaraflari {
   return {
     birinci: k.birinci?.ad ? { ad: k.birinci.ad, vekil: k.birinci.vekil } : undefined,
     ikinci: k.ikinci?.ad ? { ad: k.ikinci.ad, vekil: k.ikinci.vekil } : undefined,
+    birinciler: k.birinciler?.length ? k.birinciler : k.birinci ? [k.birinci] : [], ikinciler: k.ikinciler?.length ? k.ikinciler : k.ikinci ? [k.ikinci] : [],
     davaTarihi: tarih(/DAVA\s*(?:AÇILIŞ\s*)?TARİHİ/), kararTarihi: tarih(/KARAR\s*TARİHİ/) || k.belgeTarihi,
     islahTarihi: islah ? iso(islah[1], islah[2], islah[3]) : undefined
   };
+}
+
+const sade = (x?: string) => ust(x || "").replace(/[^A-ZÇĞİÖŞÜ ]/g, " ").replace(/\b(A Ş|LTD|ŞTİ|ANONİM|LİMİTED|ŞİRKETİ)\b/g, " ").replace(/\s+/g, " ").trim();
+const ayniKisi = (a?: string, b?: string) => { const x = sade(a), y = sade(b); return x.length > 3 && y.length > 3 && (x.includes(y) || y.includes(x)); };
+
+/**
+ * İlamın başındaki taraflardan takibin alacaklısı (müvekkil) ve borçlusu (karşı taraf): bizim tarafımız alacaklı, öteki taraf
+ * borçludur; birden çok borçlu varsa ötekiler ek borçlu olur. Boş alanlar doldurulur; müvekkil ya da karşı taraf hanesinde
+ * yanlış kişi (ör. karşı tarafa müvekkilin adı) yazılıysa düzeltilir. Elle yazılmış başka bir ad varsa dokunulmaz, öneri döner.
+ */
+export function ilamdanTaraflar(f: Foy, it: IlamTaraflari, yan: "birinci" | "ikinci"): { ek: Partial<Foy>; dolan: string[]; oneri?: TarafOneri } {
+  const biz = yan === "birinci" ? it.birinciler : it.ikinciler;
+  const onlar = yan === "birinci" ? it.ikinciler : it.birinciler;
+  const bizV = (yan === "birinci" ? it.birinci : it.ikinci)?.vekil, onlarV = (yan === "birinci" ? it.ikinci : it.birinci)?.vekil;
+  const ek: Partial<Foy> = {};
+  const dolan: string[] = [];
+  let oneri: TarafOneri | undefined;
+  const bos = (x?: string) => !x || !x.trim();
+  if (biz[0]) {
+    const yanlis = bos(f.muvekkil) || onlar.some(x => ayniKisi(x.ad, f.muvekkil));
+    if (yanlis) {
+      ek.muvekkil = biz[0].ad; dolan.push("alacaklı (müvekkil)");
+      ek.muvekkilBilgi = { ...(f.muvekkilBilgi || {}), kimlikNo: biz[0].kimlikNo || (bos(f.muvekkil) ? f.muvekkilBilgi?.kimlikNo : undefined), adres: biz[0].adres || (bos(f.muvekkil) ? f.muvekkilBilgi?.adres : undefined), vekil: f.muvekkilBilgi?.vekil || bizV };
+    } else if (ayniKisi(biz[0].ad, f.muvekkil)) {
+      const mb = { ...(f.muvekkilBilgi || {}) }; let d = false;
+      if (bos(mb.kimlikNo) && biz[0].kimlikNo) { mb.kimlikNo = biz[0].kimlikNo; d = true; }
+      if (bos(mb.adres) && biz[0].adres) { mb.adres = biz[0].adres; d = true; }
+      if (bos(mb.vekil) && bizV) { mb.vekil = bizV; d = true; }
+      if (d) { ek.muvekkilBilgi = mb; dolan.push("alacaklı bilgileri"); }
+    }
+  }
+  if (onlar[0]) {
+    const muv = ek.muvekkil || f.muvekkil;
+    const yanlis = bos(f.karsiTaraf) || ayniKisi(f.karsiTaraf, muv) || biz.some(x => ayniKisi(x.ad, f.karsiTaraf));
+    if (yanlis) {
+      ek.karsiTaraf = onlar[0].ad; dolan.push("borçlu (karşı taraf)");
+      ek.karsiBilgi = { ...(f.karsiBilgi || {}), kimlikNo: onlar[0].kimlikNo, adres: onlar[0].adres, vekil: onlarV };
+    } else if (onlar.some(x => ayniKisi(x.ad, f.karsiTaraf))) {
+      const o0 = onlar.find(x => ayniKisi(x.ad, f.karsiTaraf))!;
+      const kb = { ...(f.karsiBilgi || {}) }; let d = false;
+      if (bos(kb.kimlikNo) && o0.kimlikNo) { kb.kimlikNo = o0.kimlikNo; d = true; }
+      if (bos(kb.adres) && o0.adres) { kb.adres = o0.adres; d = true; }
+      if (bos(kb.vekil) && onlarV) { kb.vekil = onlarV; d = true; }
+      if (d) { ek.karsiBilgi = kb; dolan.push("borçlu bilgileri"); }
+    } else oneri = onlar[0];
+    // Birden çok borçlu: ötekiler ek borçlu.
+    const birinciBorclu = ek.karsiTaraf || f.karsiTaraf;
+    const ekler = onlar.filter(x => !ayniKisi(x.ad, birinciBorclu));
+    if (ekler.length && !(f.icra?.ekBorclular || []).some(x => x.ad.trim())) {
+      ek.icra = { ...(f.icra || { yol: "ilamli" }), ekBorclular: ekler.map(x => ({ ad: x.ad, kimlikNo: x.kimlikNo, adres: x.adres })) } as IcraBilgi;
+      dolan.push(ekler.length + " ek borçlu");
+    }
+  }
+  return { ek, dolan, oneri };
 }
 
 /** Bir tarafın hükümde adıyla anılabilmesi için ayırt edici sözcükleri (soyadı, şirket adının ilk sözcüğü). */

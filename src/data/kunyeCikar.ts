@@ -13,6 +13,8 @@ export interface KunyeOneri {
   /** evrakın kendi tarihi (karar, tutanak, dilekçe tarihi; YYYY-AA-GG): föyde evrak bu tarihe göre sıralanır */
   belgeTarihi?: string;
   birinci?: TarafOneri; ikinci?: TarafOneri;
+  /** birden çok davacı / davalı varsa hepsi (ilk sıradaki birinci / ikinci ile aynıdır) */
+  birinciler?: TarafOneri[]; ikinciler?: TarafOneri[];
   vekalet?: { noter?: string; tarih?: string; yevmiye?: string; kimlikNo?: string };
 }
 
@@ -33,7 +35,7 @@ const IKINCI = ["DAVALILAR", "DAVALI", "ŞÜPHELİ", "SANIK", "BORÇLU", "KARŞI
 const ROLLER = [...BIRINCI, ...IKINCI].sort((a, b) => b.length - a.length);
 // Ayraç iki nokta ya da (PDF ve taramada sütun olarak dizilmiş başlıklarda) sekme / birden çok boşluk.
 // "DAVALI (KARŞI DAVACI) :" gibi parantezli rol de olur.
-const rolDeseni = new RegExp(`^\\s*(${ROLLER.join("|")})(?:\\s*\\([^)\\n]{1,30}\\))?\\s*(VEKİLİ|VEKİLLERİ|MÜDAFİİ)?(?:\\s*\\([^)\\n]{1,30}\\))?(?:\\s*:|\\t|\\s{2,})\\s*(.*)$`, "i");
+const rolDeseni = new RegExp(`^\\s*(${ROLLER.join("|")})(?:\\s*[-–/]\\s*(?:KARŞI|BİRLEŞEN DAVADA|BİRLEŞEN DAVANIN|ASIL DAVADA)\\s*(?:DAVACI|DAVALI)(?:LAR)?)?(?:\\s*\\([^)\\n]{1,30}\\))?\\s*(VEKİLİ|VEKİLLERİ|MÜDAFİİ)?(?:\\s*\\([^)\\n]{1,30}\\))?(?:\\s*:|\\t|\\s{2,})\\s*(.*)$`, "i");
 const vekilDeseni = /^\s*(VEKİLİ|VEKİLLERİ|MÜDAFİİ)(?:\s*:|\t|\s{2,})\s*(.*)$/i;
 /** UYAP tablolarında tarafın türü sütunu; ad değildir. */
 const TIP_HUCRE = /^(KİŞİ|KURUM|GERÇEK KİŞİ|TÜZEL KİŞİ|ŞİRKET|ŞAHIS|SANAL KİŞİ|TÜZEL|GERÇEK|-|—)$/i;
@@ -70,9 +72,11 @@ function tarafAyir(kalan0: string, sonraki: string): TarafOneri | undefined {
   const kimlik = tum.match(/(?:T\.?\s?C\.?|TCKN|Kimlik\s*No|V\.?\s?K\.?\s?N\.?|Vergi\s*No)\D{0,20}?(\d{10,11})\b/i)?.[1] || kalan.match(/(?:^|\D)(\d{11})(?:\D|$)/)?.[1]
     // Şirket ve kurumlarda etiketsiz 10 haneli vergi no
     || (/(?:A\.?\s?Ş\.?|LTD|ŞTİ|ŞİRKETİ|KOOPERATİF)/i.test(kalan) ? kalan.match(/(?:^|\D)(\d{10})(?:\D|$)/)?.[1] : undefined);
-  let ad = kalan.split(/\s[-–]\s|\(|,|\bT\.?\s?C\.?\s|\bTCKN\b|\bKimlik\b|\bAdres\b|\d/i)[0].replace(/[:;\s]+$/, "").trim();
+  let ad = kalan.split(/\s[-–]\s|\(|,|\bT\.?\s?C\.?\s|\bTCKN\b|\bKimlik\b|\bAdres\b|\bV\.?\s?K\.?\s?N\b|\bVergi\b|\b\S+\s+(?:Mah\.|Mahallesi|MAHALLESİ|MAH\.)|\d/i)[0].replace(/[:;\s]+$/, "").trim();
   ad = ad.replace(/^(Av\.|Avukat)\s*/i, "").trim();
-  if (ad.length < 3 || ad.split(/\s+/).length > 8) return undefined;
+  // Şirket ve kurum unvanları uzun olur ("… ENERJİ ÜRETİM İNŞAAT TURİZM GIDA SANAYİ VE TİCARET ANONİM ŞİRKETİ").
+  const tuzel = /A\.?\s?Ş\.?|LTD|ŞTİ|ŞİRKET|KOOPERATİF|KURUM|MÜDÜRLÜĞÜ|BAŞKANLIĞI|BAKANLIĞI|BELEDİYE|BANKASI|VAKF|DERNEĞ|HAZİNE|ÜNİVERSİTE/i.test(ad);
+  if (ad.length < 3 || ad.split(/\s+/).length > (tuzel ? 20 : 8)) return undefined;
   // Adres: satırda adın (ve kimlik numarasının) ardından gelen kısım; satırda yoksa (rol satırı değilse) bir alttaki satır.
   const ADRES = /\b(?:Mah(?:\.|allesi)?|Cad(?:\.|desi)?|Sok(?:\.|ak)?|Sk\.|Bulv(?:\.|arı)?)\b/i;
   const temizle = (x: string) => x.replace(/\b(?:T\.?\s?C\.?|TCKN|Kimlik\s*No|Vergi\s*No|Adres(?:i)?)\s*[:.]?/gi, " ").replace(kimlik || "§§", " ")
@@ -88,7 +92,7 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
   const o: KunyeOneri = {};
   // Satır sonu olmadan yazılmış başlıklar ("DAVACI : … VEKİLİ : … DAVALI : …") satırlara ayrılır.
   const rolHepsi = [...ROLLER, "VEKİLİ", "VEKİLLERİ", "MÜDAFİİ", "KONU", "DAVA", "SUÇ", "ESAS NO", "DOSYA NO", "SORUŞTURMA NO"].sort((a, b) => b.length - a.length).join("|");
-  const duz = metin.replace(/\r/g, "").replace(new RegExp(`[ \\t]{2,}(?=(?:${rolHepsi})[ \\t]*:)`, "g"), "\n").replace(new RegExp(`([^\\n])\\s+(?=(?:${rolHepsi.replace(/\b(DAVA|SUÇ|KONU)\|/g, "")})[ \\t]*:)`, "g"), "$1\n");
+  const duz = metin.replace(/\r/g, "").replace(new RegExp(`[ \\t]{2,}(?=(?:${rolHepsi})[ \\t]*:)`, "g"), "\n").replace(new RegExp(`([^\\n])(?<!KARŞI|DAVADA|DAVANIN|[-–/])\\s+(?=(?:${rolHepsi.replace(/\b(DAVA|SUÇ|KONU)\|/g, "")})[ \\t]*:)`, "g"), "$1\n");
   const ham = duz.split("\n").map(x => x.trim()).filter(Boolean);
   // Etiket, iki nokta ve değer ayrı satırlara düşmüşse (UDF / Word tablosu: "DAVALI" / ":" / "AYŞE ÖRNEK") birleştirilir.
   const ETIKET_TEK = new RegExp(`^(?:${rolHepsi})(?:\\s*\\([^)]{1,30}\\))?$`, "i");
@@ -116,37 +120,53 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
   if (!o.esasNo) { const e = etiket(satirlar, ["DOSYA NO", "DOSYA NUMARASI", "ESAS NO", "ESAS NUMARASI", "SORUŞTURMA NO", "TAKİP NO", "BAŞVURU NO"], v => ESAS_DEGER.test(v)); if (e) o.esasNo = e.match(ESAS_DEGER)![1].replace(/\s+/g, ""); }
   const dt = etiket(satirlar, ["DOSYA TÜRÜ", "DOSYA TİPİ", "DOSYA TURU"]) || metin.toLocaleUpperCase("tr").match(/\b((?:CBS|C\.?B\.?S\.?)\s+SORUŞTURMA|HUKUK\s+DAVA|CEZA\s+DAVA|İDARE\s+DAVA|İDARİ\s+DAVA|VERGİ\s+DAVA|İCRA|ARABULUCULUK|TAZMİNAT\s+KOMİSYONU|İSTİNAF|TEMYİZ|TALİMAT|SATIŞ\s+MEMURLUĞU)\s+DOSYASI\b/i)?.[0];
   if (dt) o.dosyaTuru = basHarf(dt.replace(/\s+/g, " ").trim());
-  // Taraflar ve vekilleri.
-  let sonRol: "birinci" | "ikinci" | null = null;
-  for (let i = 0; i < Math.min(satirlar.length, 120); i++) {
-    const m = rolBul(satirlar[i]);
-    if (!m) continue;
-    // Tablo satırı ("Davacı   Kişi   AD SOYAD   Av. VEKİL"): hücrelere bölünür.
-    if (!m[2] && /\t|\s{2,}/.test(m[3].trim())) {
-      const rol0 = m[1].toLocaleUpperCase("tr").replace("ŞİKÂYETÇİ", "ŞİKAYETÇİ");
-      const yan0 = BIRINCI.includes(rol0) ? "birinci" : "ikinci";
-      const hs = hucreler(m[3]).filter(c => !TIP_HUCRE.test(c));
-      const adH = hs.find(c => !/^(AV\.|AVUKAT)/i.test(c) && !/^\d+$/.test(c));
-      const vekH = hs.find(c => /^(AV\.|AVUKAT)/i.test(c));
-      if (adH && !o[yan0]) { const t = tarafAyir(adH, ""); if (t) o[yan0] = t; }
-      if (vekH && o[yan0] && !o[yan0]!.vekil) { const v = tarafAyir(vekH, "")?.ad; if (v) o[yan0]!.vekil = "Av. " + v; }
-      continue;
+  // Taraflar ve vekilleri. Asıl roller (davacı, davalı, sanık…) önce; "İSTİNAF EDEN", "KARŞI TARAF" gibi kanun yolu rolleri
+  // ancak parantezde asıl rol yazılıysa ("İSTİNAF EDEN (DAVALI)") ya da hiç asıl rol yoksa kullanılır.
+  const IKINCIL = ["İSTİNAF EDEN", "TEMYİZ EDEN", "İTİRAZ EDEN", "KARŞI TARAF", "KARŞI TARAFLAR", "MUHATAP", "ALEYHİNE BAŞVURULAN"];
+  const yanOf = (satir: string, rol: string, tur: 1 | 2): "birinci" | "ikinci" | null => {
+    if (!IKINCIL.includes(rol)) return tur === 1 ? (BIRINCI.includes(rol) ? "birinci" : "ikinci") : null;
+    const p = satir.toLocaleUpperCase("tr").split(/:|\t/)[0].match(/\(([^)]*)\)/)?.[1] || "";
+    if (/DAVALI|SANIK|BORÇLU|ŞÜPHELİ/.test(p) && !/DAVACI/.test(p)) return tur === 1 ? "ikinci" : null;
+    if (/DAVACI|KATILAN|MÜŞTEKİ|ALACAKLI/.test(p)) return tur === 1 ? "birinci" : null;
+    return tur === 2 ? (BIRINCI.includes(rol) ? "birinci" : "ikinci") : null;
+  };
+  const rolAd = (x: string) => x.toLocaleUpperCase("tr").replace("ŞİKÂYETÇİ", "ŞİKAYETÇİ");
+  for (const tur of [1, 2] as const) {
+    if (tur === 2 && o.birinci && o.ikinci) break;
+    for (let i = 0; i < Math.min(satirlar.length, 120); i++) {
+      const m = rolBul(satirlar[i]);
+      if (!m) continue;
+      const rol = rolAd(m[1]);
+      const yan = yanOf(satirlar[i], rol, tur);
+      if (!yan) continue;
+      // Tablo satırı ("Davacı   Kişi   AD SOYAD   Av. VEKİL"): hücrelere bölünür.
+      if (!m[2] && /\t|\s{2,}/.test(m[3].trim())) {
+        const hs = hucreler(m[3]).filter(c => !TIP_HUCRE.test(c));
+        const adH = hs.find(c => !/^(AV\.|AVUKAT)/i.test(c) && !/^\d+$/.test(c));
+        const vekH = hs.find(c => /^(AV\.|AVUKAT)/i.test(c));
+        if (adH && !o[yan]) { const t = tarafAyir(adH, ""); if (t) o[yan] = t; }
+        if (vekH && o[yan] && !o[yan]!.vekil) { const v = tarafAyir(vekH, "")?.ad; if (v) o[yan]!.vekil = "Av. " + v; }
+        continue;
+      }
+      if (m[2]) {
+        // "DAVACI VEKİLİ : Av. …"
+        const v = tarafAyir(m[3] || satirlar[i + 1] || "", "")?.ad;
+        if (v && o[yan] && !o[yan]!.vekil) o[yan]!.vekil = "Av. " + v;
+        continue;
+      }
+      // Değer iki noktanın altındaki satırda ("DAVALI :" / "HAYALİ YAPI A.Ş.").
+      let deger = m[3], j = i;
+      if (!deger.trim() && satirlar[i + 1] && !rolBul(satirlar[i + 1]) && !vekilDeseni.test(satirlar[i + 1].toLocaleUpperCase("tr"))) { deger = satirlar[i + 1]; j = i + 1; }
+      if (!o[yan]) { const t = tarafAyir(deger, satirlar[j + 1] || ""); if (t) o[yan] = t; }
+      // Bütün taraflar: "1- X 2- Y" ya da alt alta "DAVALI : 1-X", "DAVALI : 2-Y".
+      const parca = deger.replace(/^\s*\d{1,2}\s*[-.)]\s*/, "").split(/\s+\d{1,2}\s*[-.)]\s+/);
+      const liste = (o[yan === "birinci" ? "birinciler" : "ikinciler"] ||= []);
+      for (const p of parca) { const t = tarafAyir(p, parca.length === 1 ? satirlar[j + 1] || "" : ""); if (t && !liste.some(x => x.ad === t.ad)) liste.push(t); }
+      // Hemen altındaki "VEKİLİ :" satırı bu tarafındır.
+      const alt = satirlar[j + 1]?.toLocaleUpperCase("tr").match(vekilDeseni) || satirlar[j + 2]?.toLocaleUpperCase("tr").match(vekilDeseni);
+      if (alt && o[yan] && !o[yan]!.vekil) { const v = tarafAyir(alt[2], "")?.ad; if (v) o[yan]!.vekil = "Av. " + v; }
     }
-    const rol = m[1].toLocaleUpperCase("tr").replace("ŞİKÂYETÇİ", "ŞİKAYETÇİ");
-    const yan = BIRINCI.includes(rol) ? "birinci" : "ikinci";
-    if (m[2]) {
-      // "DAVACI VEKİLİ : Av. …"
-      const v = tarafAyir(m[3], "")?.ad;
-      if (v && o[yan] && !o[yan]!.vekil) o[yan]!.vekil = "Av. " + v;
-      continue;
-    }
-    if (!o[yan]) { const t = tarafAyir(m[3], satirlar[i + 1] || ""); if (t) o[yan] = t; }
-    sonRol = yan;
-    // Hemen altındaki "VEKİLİ :" satırı bu tarafındır.
-    const alt = satirlar[i + 1]?.toLocaleUpperCase("tr").match(vekilDeseni) || satirlar[i + 2]?.toLocaleUpperCase("tr").match(vekilDeseni);
-    if (alt && o[yan] && !o[yan]!.vekil) { const v = tarafAyir(alt[2], "")?.ad; if (v) o[yan]!.vekil = "Av. " + v; }
   }
-  void sonRol;
   // Rolün sonda ya da ortada olduğu tablo satırları ("AD SOYAD   Davacı   Av. …").
   if (!o.birinci || !o.ikinci) for (const x of satirlar.slice(0, 150)) {
     const hs = hucreler(x);

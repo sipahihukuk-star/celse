@@ -10,7 +10,7 @@ import { useAccount } from "../data/account";
 import { uyapXml, vekilEksik } from "../data/icraXml";
 import { Acilir } from "./Acilir";
 import { IcraSohbet } from "./IcraSohbet";
-import { dilekceYazari, evrakTuruBul, hukumAnaliz, ilamTaraflari, Lehine, Talep, talepAnaliz } from "../data/icraEvrak";
+import { dilekceYazari, evrakTuruBul, hukumAnaliz, ilamdanTaraflar, ilamTaraflari, Lehine, Talep, talepAnaliz } from "../data/icraEvrak";
 import { bizimVekil } from "../data/kunyeCikar";
 import { FaizDurumu, useFaizOranlari } from "../data/faizOran";
 import { BRUT_TURLER, brutNet, BrutTur, brutTurTahmin, GV_ORANLARI } from "../data/brutNet";
@@ -407,6 +407,16 @@ function HukumOnizleme({ f, degistir, kalemSayisi, bizimAdlar, onKabul }: { f: F
     if ((f.taraf || "davaci") !== ist) degistir({ taraf: ist });
   }, [ilam?.id, tespit?.kesin, tespit?.yan]);
   const it = useMemo(() => (ilam ? ilamTaraflari(ilam.metin) : undefined), [ilam?.id, ilam?.metin]);
+  // Alacaklı ve borçlu ilamın başından: bizim taraf alacaklı, öteki taraf borçlu (boşsa ya da yanlış kişi yazılıysa yazılır).
+  const yerlesim = useMemo(() => (it ? ilamdanTaraflar(f, it, yan) : undefined), [it, yan, f.muvekkil, f.karsiTaraf, f.muvekkilBilgi, f.karsiBilgi, f.icra?.ekBorclular]);
+  const [tarafMesaj, setTarafMesaj] = useState("");
+  React.useEffect(() => {
+    if (!yerlesim || !Object.keys(yerlesim.ek).length) return;
+    // Taraf seçimi föye henüz yazılmadıysa (yukarıdaki düzeltme) önce o yazılsın.
+    if (tespit?.kesin && (f.taraf || "davaci") !== (yan === "ikinci" ? "davali" : "davaci")) return;
+    degistir(yerlesim.ek);
+    setTarafMesaj(t("İlamdan yazıldı: {x}.", { x: yerlesim.dolan.map(x => t(x)).join(", ") }));
+  }, [yerlesim, f.taraf]);
   const liste = useMemo(() => (ilam ? hukumAnaliz(ilam.metin, f.icra?.ilam?.kararTarihi) : []), [ilam?.id, ilam?.metin, f.icra?.ilam?.kararTarihi]);
   const talepler = useMemo(() => {
     if (!ilam) return [];
@@ -452,7 +462,16 @@ function HukumOnizleme({ f, degistir, kalemSayisi, bizimAdlar, onKabul }: { f: F
       <Acilir etiket={t("Bu dosyada kimin vekilisiniz?")} secili={yan} genislik={300} onSec={k => degistir({ taraf: k === "ikinci" ? "davali" : "davaci" })}
         secenekler={[{ k: "birinci", ad: t("Davacı vekiliyiz") }, { k: "ikinci", ad: t("Davalı vekiliyiz") }]} />
       {!!tespit && <Text style={[s.hint, { color: tespit.kesin ? C.good : C.mid }]}>{tespit.neden}</Text>}
-      <Text style={s.hint}>{t("Takipte alacaklı müvekkiliniz, borçlu karşı taraftır: hükümde müvekkilinize verilen tutarlar alınır.")}</Text>
+      <View style={{ gap: 2, borderLeftWidth: 3, borderLeftColor: C.brass, paddingLeft: 8 }}>
+        <Text style={s.body}><Text style={{ fontWeight: "800" }}>{t("Alacaklı")}:</Text> {f.muvekkil || t("(yazılmamış)")}</Text>
+        <Text style={s.body}><Text style={{ fontWeight: "800" }}>{t("Borçlu")}:</Text> {f.karsiTaraf || t("(yazılmamış)")}{(f.icra?.ekBorclular || []).filter(x => x.ad.trim()).length ? " " + t("ve {n} ek borçlu", { n: (f.icra?.ekBorclular || []).filter(x => x.ad.trim()).length }) : ""}</Text>
+        {!!tarafMesaj && <Text style={[s.hint, { color: C.good }]}>{tarafMesaj}</Text>}
+        {!!yerlesim?.oneri && (
+          <Pressable onPress={() => { const o = yerlesim.oneri!; degistir({ karsiTaraf: o.ad, karsiBilgi: { ...(f.karsiBilgi || {}), kimlikNo: o.kimlikNo, adres: o.adres, vekil: (yan === "birinci" ? it?.ikinci : it?.birinci)?.vekil } }); setTarafMesaj(t("Borçlu ilamdan yazıldı.")); }}>
+            <Text style={s.link}>{t("Borçlu hanesinde başka bir ad yazılı. İlamdaki {r} “{ad}” borçlu olarak yazılsın mı? Dokunun.", { r: yan === "birinci" ? t("davalı") : t("davacı"), ad: yerlesim.oneri.ad })}</Text>
+          </Pressable>
+        )}
+      </View>
 
       {bas("2", t("Davada istenenler"))}
       {talepler.length

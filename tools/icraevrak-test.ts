@@ -1,5 +1,6 @@
 // Takibe konu evraktan icra bilgisi (uydurma ilam, çek, fatura).
-import { dilekceYazari, hukumAnaliz, hukumKalemleri, ilamTaraflari, talepAnaliz } from "../src/data/icraEvrak";
+import { dilekceYazari, hukumAnaliz, hukumKalemleri, ilamdanTaraflar, ilamTaraflari, talepAnaliz } from "../src/data/icraEvrak";
+import type { Foy } from "../src/data/foy";
 import { icraDoldur, icraEvraktan } from "../src/data/icraEvrak";
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
@@ -105,6 +106,21 @@ ok(d2.yeni.kalemler!.length === 1, "girilmiş kalemlere dokunulmaz");
   ok(talepAnaliz(dil)[0]?.tutar === 1000, "netice ve talep: " + JSON.stringify(talepAnaliz(dil)));
   const cevap = "DAVACI : X\nDAVALI : Y\nSONUÇ VE İSTEM : Haksız ve mesnetsiz davanın reddine karar verilmesini talep ederiz.";
   ok(dilekceYazari(cevap).yan === "ikinci", "cevap dilekçesi davalı tarafından");
+}
+// İlamın başından alacaklı ve borçlu: uzun şirket unvanı, değer alt satırda, karşı dava rolleri, iki davalı, yanlış yazılmış karşı taraf.
+{
+  const ilam = "T.C.\nUYDURMA 2. ASLİYE TİCARET MAHKEMESİ\nDAVACI-KARŞI DAVALI : UYDURMA KİŞİ BİR - 10000000146\nVEKİLİ : Av. ÖRNEK AVUKAT\nDAVALI-KARŞI DAVACI :\nABC ENERJİ ÜRETİM İNŞAAT TURİZM GIDA SANAYİ VE TİCARET ANONİM ŞİRKETİ - 1234567890\nVEKİLİ : Av. BAŞKA VEKİL\nDAVALI : 2-ALİ HAYALİ\nKARAR TARİHİ : 10/09/2026\nHÜKÜM: 1-10.000 TL alacağın davalılardan alınarak davacıya verilmesine,";
+  const it = ilamTaraflari(ilam);
+  ok(/Uydurma Kişi Bir/i.test(it.birinci?.ad || "") && /Abc Enerji .* Anonim Şirketi/i.test(it.ikinci?.ad || "") && it.ikinciler.length === 2, "taraflar: " + JSON.stringify(it));
+  const temel = { id: "x", olusturma: "", guncelleme: "", tur: "icra", muvekkil: "Uydurma Kişi Bir", karsiTaraf: "Uydurma Kişi Bir", mahkeme: "", esasNo: "", davaTuru: "", taraf: "davaci", durum: "acik", notlar: "", gorevler: [], evraklar: [] } as unknown as Foy;
+  const r = ilamdanTaraflar(temel, it, "birinci");
+  ok(/Abc Enerji/i.test(r.ek.karsiTaraf || "") && r.ek.karsiBilgi?.kimlikNo === "1234567890" && /Başka Vekil/i.test(r.ek.karsiBilgi?.vekil || "") && r.ek.icra?.ekBorclular?.[0]?.ad === "Ali Hayali", "karşı tarafa yazılmış müvekkil adı borçluyla değişir, ikinci davalı ek borçlu: " + JSON.stringify(r));
+  const r2 = ilamdanTaraflar({ ...temel, muvekkil: "", karsiTaraf: "" } as Foy, it, "birinci");
+  ok(/Uydurma Kişi Bir/i.test(r2.ek.muvekkil || "") && r2.ek.muvekkilBilgi?.kimlikNo === "10000000146" && /Abc Enerji/i.test(r2.ek.karsiTaraf || ""), "boş künye ilamdan dolar");
+  const r3 = ilamdanTaraflar({ ...temel, karsiTaraf: "Elle Yazılmış Başka Kişi" } as Foy, it, "birinci");
+  ok(!r3.ek.karsiTaraf && /Abc Enerji/i.test(r3.oneri?.ad || ""), "elle yazılmış başka ad değişmez, öneri olur");
+  const r4 = ilamdanTaraflar({ ...temel, muvekkil: "Abc Enerji Üretim İnşaat Turizm Gıda Sanayi ve Ticaret Anonim Şirketi", karsiTaraf: "Uydurma Kişi Bir" } as Foy, it, "ikinci");
+  ok(Object.keys(r4.ek).filter(k => k !== "icra" && k !== "muvekkilBilgi" && k !== "karsiBilgi").length === 0, "davalı vekiliyken doğru yazılmış künyeye dokunulmaz: " + JSON.stringify(r4.ek));
 }
 if (fail) { console.log(`icraevrak-test: ${fail} hata`); process.exit(1); }
 console.log("icraevrak-test: tamam");

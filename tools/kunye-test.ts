@@ -101,5 +101,14 @@ ok(!rd.ek.davaTuru, "dilekçenin konusu (beyan) dava konusu yazılmaz");
   const r = kunyeyiDoldur({ ...bosFoy(), muvekkil: "Uydurma İşçi", taraf: "davali" }, o);
   ok(r.ek.taraf === "davaci" && /HAYALİ|Hayali/.test(r.ek.karsiTaraf || ""), "müvekkil adından taraf: " + JSON.stringify(r.ek));
 }
+// Gerçek ilam başlıkları: uzun şirket unvanı, değer alt satırda, karşı dava rolleri, istinaf rolleri, alt alta numaralı davalılar.
+{
+  const t = (m: string) => { const o = kunyeCikar(m); return [o.birinci?.ad, o.ikinci?.ad, (o.ikinciler || []).length].join(" | "); };
+  ok(/Abc Enerji Üretim İnşaat Turizm Gıda Sanayi ve Ticaret Anonim Şirketi/.test(t("DAVACI\t\t: AYŞE ÖRNEK\nDAVALI\t\t: ABC ENERJİ ÜRETİM İNŞAAT TURİZM GIDA SANAYİ VE TİCARET ANONİM ŞİRKETİ - 1234567890\n")), "uzun unvan");
+  ok(t("DAVACI :\nAYŞE ÖRNEK\nDAVALI :\nHAYALİ YAPI A.Ş.\n") === "Ayşe Örnek | Hayali Yapı A.Ş. | 1", "değer alt satırda: " + t("DAVACI :\nAYŞE ÖRNEK\nDAVALI :\nHAYALİ YAPI A.Ş.\n"));
+  ok(t("DAVACI-KARŞI DAVALI : AYŞE ÖRNEK\nDAVALI-KARŞI DAVACI : HAYALİ YAPI A.Ş.\n").startsWith("Ayşe Örnek | Hayali Yapı A.Ş."), "karşı dava rolleri");
+  ok(t("İSTİNAF EDEN (DAVALI) : HAYALİ YAPI A.Ş.\nKARŞI TARAF (DAVACI) : AYŞE ÖRNEK\n").startsWith("Ayşe Örnek | Hayali Yapı A.Ş."), "istinaf rolleri parantezden: " + t("İSTİNAF EDEN (DAVALI) : HAYALİ YAPI A.Ş.\nKARŞI TARAF (DAVACI) : AYŞE ÖRNEK\n"));
+  ok(t("DAVACI : AYŞE ÖRNEK\nDAVALI : 1-HAYALİ YAPI A.Ş.\nDAVALI : 2-ALİ HAYALİ\n") === "Ayşe Örnek | Hayali Yapı A.Ş. | 2", "alt alta numaralı davalılar");
+}
 if (fail) { console.log(`kunye-test: ${fail} hata`); process.exit(1); }
 console.log("kunye-test: tamam");
