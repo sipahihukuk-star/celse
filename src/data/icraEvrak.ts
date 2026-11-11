@@ -11,7 +11,7 @@ const para = (x: string) => Number(x.replace(/\s/g, "").replace(/\./g, "").repla
 const iso = (g: string, a: string, y: string) => `${y}-${a.padStart(2, "0")}-${g.padStart(2, "0")}`;
 const TARIH = /(\d{1,2})[./-](\d{1,2})[./-]((?:19|20)\d{2})/;
 // Tutar: "15.000,00 TL", "15.000 TL", "15.000,00-TL", "15.000,00.-TL", "15000 TL", "1.500.000,00 Türk Lirası".
-const TUTAR = /(?<![\d.,])(\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?|\d+(?:,\d{1,2})?)\s*(?:\.?\s*-\s*)?(?:TL|TRY|₺|Türk Lirası)(?![\p{L}])/iu;
+const TUTAR = /(?<![\d.,])(\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?|\d+(?:,\d{1,2})?)\s*(?:[.,]?\s*-\s*)?(?:TL|TRY|₺|Türk Lirası)(?![\p{L}])/iu;
 const TUTARLAR = new RegExp(TUTAR.source, "giu");
 const ust = (x: string) => x.toLocaleUpperCase("tr");
 
@@ -46,36 +46,65 @@ function faizTuruIlk(x: string): FaizTuru | undefined {
   return en;
 }
 
-/** Hüküm fıkrasından alacak kalemleri. */
-export function hukumKalemleri(metin: string, kararTarihi?: string): Kalem[] {
-  const u = metin.replace(/\s+/g, " ");
-  const i = Math.max(u.search(/HÜKÜM\s*:|GEREĞİ DÜŞÜNÜLDÜ|Gereği Düşünüldü|HÜKÜM-/i), 0);
+/** Hükmün kimin lehine olduğu: davacı tarafı (davacı, katılan, alacaklı…), davalı tarafı (davalı, sanık, borçlu…), Hazine,
+ *  iade (yatırılan avansın geri verilmesi), reddedilen kısım ya da anlaşılamayan. */
+export type Lehine = "birinci" | "ikinci" | "hazine" | "iade" | "red" | "belirsiz";
+export interface HukumKalemi extends Kalem { lehine: Lehine; cumle: string; brutMu?: boolean }
+
+const BIRINCI_YON = /DAVACI(?:LAR)?(?:A|YA)\b|DAVACI(?:LAR)? VEKİLİNE|KATILAN(?:LAR)?A\b|MÜŞTEKİ(?:LER)?(?:E|YE)\b|ALACAKLI(?:LAR)?(?:A|YA)\b|BAŞVURUCU(?:LAR)?(?:A|YA)\b|MÜDAHİL(?:LER)?E\b|İHBAR EDENE\b/g;
+const IKINCI_YON = /DAVALI(?:LAR)?(?:A|YA)\b|DAVALI(?:LAR)? VEKİLİNE|SANIĞA\b|SANIKLARA\b|BORÇLU(?:LAR)?(?:A|YA)\b|ŞÜPHELİ(?:LER)?(?:E|YE)\b/g;
+/** Fıkranın kimin lehine olduğu: fiilden önceki son "…-e / -a" (davacıya, davalıya, Hazineye) belirler. */
+function lehineBul(uc: string): Lehine {
+  if (/REDDİNE|REDDİ İLE/.test(uc) && !/ALINARAK|TAHSİL/.test(uc)) return "red";
+  if (/İADESİNE|İADE EDİLMESİNE/.test(uc)) return "iade";
+  if (/HAZİNEYE|HAZİNE ADINA|GELİR KAYDI/.test(uc)) return "hazine";
+  const son = (re: RegExp) => { let i = -1; for (const m of uc.matchAll(re)) i = m.index ?? i; return i; };
+  const b = son(BIRINCI_YON), k = son(IKINCI_YON);
+  if (b < 0 && k < 0) return "belirsiz";
+  return b > k ? "birinci" : "ikinci";
+}
+
+/** Hükmü fıkralara ayırır: madde numaraları ("1-", "2)") ve hüküm fiilleri ("…verilmesine,", "…reddine,") fıkra sonudur. */
+function fikralar(hukum: string): string[] {
+  const FIIL = /(VERİLMESİNE|ÖDENMESİNE|TAHSİLİNE|REDDİNE|KAYDINA|İADESİNE|BIRAKILMASINA|MAHSUBUNA|HÜKMEDİLMESİNE|KABULÜNE|YÜKLETİLMESİNE)\s*[,;.]?/g;
+  const out: string[] = [];
+  for (const parca of hukum.split(/\s(?=\d{1,2}\s*[-)]\s*\p{L})/u)) {
+    const u = ust(parca);
+    let bas = 0;
+    for (const m of u.matchAll(FIIL)) { const son = (m.index || 0) + m[0].length; out.push(parca.slice(bas, son)); bas = son; }
+    if (bas < parca.length) out.push(parca.slice(bas));
+  }
+  return out.map(x => x.trim()).filter(Boolean);
+}
+
+/** Hüküm fıkrasındaki bütün para tutarları, kimin lehine olduklarıyla. */
+export function hukumAnaliz(metin: string, kararTarihi?: string): HukumKalemi[] {
+  // UYAP ilamında başlık çoğu zaman harf aralıklı yazılır: "H Ü K Ü M".
+  const u = metin.replace(/\s+/g, " ").replace(/H\s?Ü\s?K\s?Ü\s?M(?=\s*[:\-])/g, "HÜKÜM");
+  const i = Math.max(u.search(/HÜKÜM\s*:|GEREĞİ DÜŞÜNÜLDÜ|Gereği Düşünüldü|HÜKÜM-|HÜKÜM FIKRASI/i), 0);
   const hukum = u.slice(i);
-  const out: Kalem[] = [];
-  const ekle = (k: Kalem) => { if (k.tutar > 0 && !out.some(x => x.ad === k.ad && x.tutar === k.tutar)) out.push(k); };
-  // Cümle cümle: "15.000,00 TL manevi tazminatın 01/01/2025 tarihinden itibaren işleyecek yasal faiziyle birlikte davalıdan tahsiline"
-  // Hüküm maddeleri ("1-", "2)") ve cümleler ayrı ayrı; tutardaki "15.000,00" madde numarası sayılmaz.
+  const out: HukumKalemi[] = [];
+  const ekle = (k: HukumKalemi) => { if (k.tutar > 0 && !out.some(x => x.ad === k.ad && x.tutar === k.tutar && x.lehine === k.lehine)) out.push(k); };
   const kalemAdi = (uc: string) => /MANEVİ TAZMİNAT/.test(uc) ? "Manevi tazminat" : /MADDİ TAZMİNAT|DESTEKTEN YOKSUN|İŞ GÖREMEZLİK|İŞGÖREMEZLİK/.test(uc) ? "Maddi tazminat"
     : /KIDEM/.test(uc) ? "Kıdem tazminatı" : /İHBAR/.test(uc) ? "İhbar tazminatı" : /FAZLA (?:MESAİ|ÇALIŞMA)/.test(uc) ? "Fazla mesai alacağı"
     : /YILLIK (?:ÜCRETLİ )?İZİN/.test(uc) ? "Yıllık izin ücreti" : /GENEL TATİL|BAYRAM/.test(uc) ? "UBGT alacağı" : /HAFTA TATİLİ/.test(uc) ? "Hafta tatili alacağı"
-    : /KÖTÜ ?NİYET/.test(uc) ? "Kötüniyet tazminatı" : /ÜCRET ALACAĞ|BAKİYE ÜCRET|ÜCRETİN/.test(uc) ? "Ücret alacağı"
+    : /KÖTÜ ?NİYET/.test(uc) ? "Kötüniyet tazminatı" : /ÜCRET ALACAĞ|BAKİYE ÜCRET|ÜCRETİN/.test(uc) ? "Ücret alacağı" : /PRİM/.test(uc) ? "Prim alacağı"
     : /NAFAKA/.test(uc) ? "Nafaka" : /KİRA/.test(uc) ? "Kira bedeli" : /DEĞER KAYB/.test(uc) ? "Değer kaybı" : /ARAÇ MAHRUMİYET|KAZANÇ KAYB/.test(uc) ? "Kazanç kaybı" : "Asıl alacak";
-  for (const c of hukum.split(/\s(?=\d{1,2}\s*[-)]\s*\p{L})|(?<=[.;])\s+(?=\p{Lu})/u)) {
+  for (const c of fikralar(hukum)) {
     const tutarlar = [...c.matchAll(TUTARLAR)];
     if (!tutarlar.length) continue;
     const uc = ust(c);
-    // Davacının lehine olmayan (Hazine'ye gelir kaydı, iade, reddedilen) cümleler atlanır.
-    if (/HAZİNEYE GELİR|GELİR KAYDI|REDDİNE|İADESİNE|DAVACIYA İADE/.test(uc) && !/DAVALIDAN ALINARAK DAVACIYA/.test(uc)) continue;
+    const lehine = lehineBul(uc);
+    const cumle = c.slice(0, 400);
     const tc = c.match(TARIH_IFADE);
     const fzC = faizTuru(c) || "yasal";
-    // Vekâlet ücreti, yargılama gideri, harç: cümlede gider kalemleri tek tek sayılsa da tek tutar ("toplam …" ya da en büyüğü).
+    // Vekâlet ücreti, yargılama gideri, harç: fıkrada gider kalemleri tek tek sayılsa da tek tutar ("toplam …" ya da en büyüğü).
     const tek = () => { const top = c.match(new RegExp("toplam\\s*(?:olarak\\s*)?" + TUTAR.source, "iu")); return top ? para(top[1]) : Math.max(...tutarlar.map(m => para(m[1]))); };
-    if (/VEKALET ÜCRET|VEKÂLET ÜCRET|AVUKATLIK ÜCRET/.test(uc)) { ekle({ ad: "Vekâlet ücreti", tutar: para(tutarlar[0][1]), faizTuru: "yasal", faizBaslangic: kararTarihi }); continue; }
-    if (/YARGILAMA GİDER/.test(uc)) { ekle({ ad: "Yargılama gideri", tutar: tek(), faizTuru: "yasal", faizBaslangic: kararTarihi }); continue; }
-    if (/HARÇ|HARC/.test(uc) && /DAVALIDAN ALINARAK DAVACIYA/.test(uc)) { ekle({ ad: "Harç", tutar: tek(), faizTuru: "yasal", faizBaslangic: kararTarihi }); continue; }
-    if (!/TAHSİLİNE|ÖDENMESİNE|ALINARAK|VERİLMESİNE/.test(uc)) continue;
-    // Bir cümlede birden çok alacak ("50.000 TL kıdem, 20.000 TL ihbar tazminatının … tahsiline"): her tutar kendi kalemi;
-    // adı tutarın ardındaki (yoksa önündeki) sözcüklerden, faiz türü ve başlangıcı o parçadan (yoksa cümleden).
+    if (/VEKALET ÜCRET|VEKÂLET ÜCRET|AVUKATLIK ÜCRET/.test(uc)) { ekle({ ad: "Vekâlet ücreti", tutar: para(tutarlar[0][1]), faizTuru: "yasal", faizBaslangic: kararTarihi, lehine, cumle }); continue; }
+    if (/YARGILAMA GİDER/.test(uc)) { ekle({ ad: "Yargılama gideri", tutar: tek(), faizTuru: "yasal", faizBaslangic: kararTarihi, lehine, cumle }); continue; }
+    if (/HARÇ|HARC/.test(uc) && lehine !== "hazine") { ekle({ ad: "Harç", tutar: tek(), faizTuru: "yasal", faizBaslangic: kararTarihi, lehine, cumle }); continue; }
+    // Bir fıkrada birden çok alacak ("50.000 TL kıdem, 20.000 TL ihbar tazminatının … tahsiline"): her tutar kendi kalemi;
+    // adı tutarın ardındaki (yoksa önündeki) sözcüklerden; faiz türü ve başlangıcı bu tutardan sonra gelen ilk ifadeden.
     tutarlar.forEach((m, j) => {
       const bas = (m.index || 0) + m[0].length, son = j + 1 < tutarlar.length ? tutarlar[j + 1].index || c.length : c.length;
       const once = c.slice(j ? (tutarlar[j - 1].index || 0) + tutarlar[j - 1][0].length : 0, m.index || 0);
@@ -83,15 +112,20 @@ export function hukumKalemleri(metin: string, kararTarihi?: string): Kalem[] {
       let ad = kalemAdi(ust(sonra));
       if (ad === "Asıl alacak") ad = kalemAdi(ust(once.slice(-80)));
       if (ad === "Asıl alacak" && tutarlar.length === 1) ad = kalemAdi(uc);
-      // Faiz başlangıcı ve türü: bu tutardan sonra gelen ilk ifade ("… ve 12.250 TL izin ücretinin dava tarihinden itibaren yasal
-      // faizi ile" ortak ifadesi öndeki kalemleri de kapsar).
       const kalanC = c.slice(bas);
       const t = kalanC.match(TARIH_IFADE) || tc;
       const fz = faizTuruIlk(kalanC) || fzC;
-      ekle({ ad, tutar: para(m[1]), faizTuru: /FAİZ/.test(uc) ? fz : "yok", faizBaslangic: t ? iso(t[1], t[2], t[3]) : undefined });
+      const brutMu = /BRÜT/.test(ust(once.slice(-20) + " " + sonra.slice(0, 20)));
+      ekle({ ad, tutar: para(m[1]), faizTuru: /FAİZ/.test(uc) ? fz : "yok", faizBaslangic: t ? iso(t[1], t[2], t[3]) : undefined, lehine, cumle, brutMu });
     });
   }
   return out;
+}
+
+/** Hüküm fıkrasından bir tarafın lehine olan alacak kalemleri (varsayılan: davacı tarafı). */
+export function hukumKalemleri(metin: string, kararTarihi?: string, yan: "birinci" | "ikinci" = "birinci"): Kalem[] {
+  return hukumAnaliz(metin, kararTarihi).filter(x => x.lehine === yan || (x.lehine === "belirsiz" && yan === "birinci" && x.ad !== "Vekâlet ücreti"))
+    .map(({ lehine: _l, cumle: _c, brutMu: _b, ...k }) => k);
 }
 
 // Etiketler Türkçe büyük harfe çevrilmiş metinde aranır (i bayrağı ı/I ve i/İ eşleşmesini yapmaz).
@@ -148,7 +182,8 @@ export function icraEvraktan(metin: string): { tur: IcraEvrakTuru; yol?: TakipYo
 }
 
 /** Föyün evrakından icra bilgisini doldurur: yalnız boş alanlar; kalemler hiç girilmemişse eklenir. */
-export function icraDoldur(b: IcraBilgi, metinler: string[]): { yeni: IcraBilgi; dolan: string[] } {
+/** kalem: false → alacak kalemleri yazılmaz (hükümden okunan kalemler önizlemede avukatın onayıyla yazılır). */
+export function icraDoldur(b: IcraBilgi, metinler: string[], secenek: { kalem?: boolean } = {}): { yeni: IcraBilgi; dolan: string[] } {
   const oncelik: IcraEvrakTuru[] = ["ilam", "cek", "senet", "kira", "fatura"];
   const sonuclar = metinler.filter(x => x && x.trim()).map(icraEvraktan).filter(r => r.tur !== "diger")
     .sort((a, c) => oncelik.indexOf(a.tur) - oncelik.indexOf(c.tur));
@@ -170,7 +205,7 @@ export function icraDoldur(b: IcraBilgi, metinler: string[]): { yeni: IcraBilgi;
   y.senet = birlestir(b.senet, r.bilgi.senet, r.bilgi.senet?.tur === "cek" ? "çek bilgileri" : "senet bilgileri");
   y.kira = birlestir(b.kira, r.bilgi.kira, "kira bilgileri");
   if (r.bilgi.belge && !b.belge) { y.belge = r.bilgi.belge; dolan.push("dayanak"); }
-  if (bosKalem && !b.asil && r.kalemler.length) { y.kalemler = r.kalemler; dolan.push(`${r.kalemler.length} alacak kalemi`); }
+  if (secenek.kalem !== false && bosKalem && !b.asil && r.kalemler.length) { y.kalemler = r.kalemler; dolan.push(`${r.kalemler.length} alacak kalemi`); }
   if (r.yol === "ilamli" && !y.mahiyet && r.kalemler.length) { y.mahiyet = "4045"; dolan.push("takip mahiyeti (para alacağı)"); }
   return { yeni: y, dolan };
 }

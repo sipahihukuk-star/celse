@@ -168,7 +168,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     setOkuma("");
     if (eklenen.length) {
       // İcra föyünde takibe konu evrak (ilam, çek, senet, kira sözleşmesi, fatura) icra bilgilerini de doldurur.
-      const ic = f.tur === "icra" ? icraDoldur(f.icra || { yol: "genel", paraBirimi: "TL", faizTuru: "yasal" }, eklenen.map(e => e.metin)) : null;
+      const ic = f.tur === "icra" ? icraDoldur(f.icra || { yol: "genel", paraBirimi: "TL", faizTuru: "yasal" }, eklenen.map(e => e.metin), { kalem: false }) : null;
       // Tutanak, ara karar ya da e-duruşma onay ekranı (fotoğraf dahil) duruşma akışını da doldurur.
       const kunyeEk = kunyeEvraktan(eklenen, f);
       const dr = evraktanDurusma({ ...f, ...kunyeEk }, eklenen);
@@ -571,7 +571,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             // Yanlış evrak: silinir, ondan yazılan icra ve taraf bilgileri geri alınır, kalan evrakla yeniden doldurulur.
             const kalan = f.evraklar.filter(x => x.id !== e.id);
             let icra = f.icra;
-            if (icra && e.metin.trim()) icra = icraDoldur(icraEvrakGeriAl(icra, e.metin), kalan.map(x => x.metin)).yeni;
+            if (icra && e.metin.trim()) icra = icraDoldur(icraEvrakGeriAl(icra, e.metin), kalan.map(x => x.metin), { kalem: false }).yeni;
             const geri: Partial<Foy> = {};
             if (e.metin.trim()) {
               const o = kunyeCikar(e.metin);
@@ -593,7 +593,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             setSurum(v => v + 1);
             setIcraMesaj(t("“{ad}” silindi; ondan yazılan bilgiler kaldırıldı.", { ad: e.ad }) + (Object.keys(yeniden).length ? " " + t("Kalan evraktan yeniden dolduruldu.") : ""));
           }} onEvraktan={() => {
-            const r = icraDoldur(f.icra || { yol: "genel", paraBirimi: "TL", faizTuru: "yasal" }, f.evraklar.map(e => e.metin));
+            const r = icraDoldur(f.icra || { yol: "genel", paraBirimi: "TL", faizTuru: "yasal" }, f.evraklar.map(e => e.metin), { kalem: false });
             // Taraflar (alacaklı, borçlu: ad, kimlik no, adres) da evraktan (ilam, vekâletname…) doldurulur.
             const kun = kunyeEvraktan(f.evraklar, f);
             const kunDolan = Object.keys(kun).length;

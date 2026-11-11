@@ -1,5 +1,5 @@
 // Takibe konu evraktan icra bilgisi (uydurma ilam, çek, fatura).
-import { hukumKalemleri } from "../src/data/icraEvrak";
+import { hukumAnaliz, hukumKalemleri } from "../src/data/icraEvrak";
 import { icraDoldur, icraEvraktan } from "../src/data/icraEvrak";
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
@@ -52,6 +52,20 @@ ok(d2.yeni.kalemler!.length === 1, "girilmiş kalemlere dokunulmaz");
   ok(bul("Fazla mesai alacağı")?.faizBaslangic === "2024-06-01" && bul("Fazla mesai alacağı")?.faizTuru === "yasal", "ortak faiz başlangıcı ve türü: " + JSON.stringify(bul("Fazla mesai alacağı")));
   ok(bul("Yargılama gideri")?.tutar === 8567.6 && !k.some(x => x.tutar === 427.6 || x.tutar === 8000), "yargılama gideri toplamı; hazineye harç alınmaz: " + JSON.stringify(k));
   ok(bul("Vekâlet ücreti")?.tutar === 32000 && k.length === 6, "toplam 6 kalem: " + k.map(x => x.ad + " " + x.tutar).join(" | "));
+}
+// Kimin lehine: iki vekâlet ücreti, reddedilen kısım, iade, Hazine; "H Ü K Ü M" başlığı; aynı maddede kabul ve red
+{
+  const h = "GEREKÇE: bilirkişi 120.000,00 TL hesaplamıştır. H Ü K Ü M : 1-Davanın KISMEN KABULÜ ile, brüt 85.000,00 TL kıdem tazminatının fesih tarihi olan 15/03/2024 tarihinden itibaren bankalarca mevduata uygulanan en yüksek faiz ile davalıdan tahsili ile davacıya verilmesine, fazlaya ilişkin 35.000,00 TL talebin REDDİNE, 2-Davacı tarafından yatırılan gider avansından kullanılmayan 1.250,00 TL'nin karar kesinleştiğinde davacıya iadesine, 3-Kabul edilen kısım üzerinden AAÜT gereğince hesaplanan 17.000,00 TL vekalet ücretinin davalıdan alınarak kendisini vekille temsil ettiren davacıya verilmesine, 4-Reddedilen kısım üzerinden AAÜT gereğince hesaplanan 8.400,00 TL vekalet ücretinin davacıdan alınarak davalıya verilmesine, 5-Eksik kalan 4.300,00 TL harcın davalıdan alınarak Hazineye gelir kaydına,";
+  const a = hukumAnaliz(h, "2026-06-24");
+  const k = a.find(x => x.ad === "Kıdem tazminatı");
+  ok(!!k && k.tutar === 85000 && k.lehine === "birinci" && k.brutMu && k.faizTuru === "mevduat" && k.faizBaslangic === "2024-03-15", "kıdem davacı lehine (aynı maddede red olsa da): " + JSON.stringify(k));
+  ok(!a.some(x => x.tutar === 120000), "gerekçedeki tutar alınmaz");
+  ok(a.find(x => x.tutar === 35000)?.lehine === "red" && a.find(x => x.tutar === 1250)?.lehine === "iade" && a.find(x => x.tutar === 4300)?.lehine === "hazine", "red, iade, Hazine: " + JSON.stringify(a.map(x => [x.tutar, x.lehine])));
+  const v = a.filter(x => x.ad === "Vekâlet ücreti");
+  ok(v.length === 2 && v.find(x => x.tutar === 17000)?.lehine === "birinci" && v.find(x => x.tutar === 8400)?.lehine === "ikinci", "iki vekâlet ücreti, ayrı taraflara: " + JSON.stringify(v.map(x => [x.tutar, x.lehine])));
+  const davaci = hukumKalemleri(h, "2026-06-24", "birinci"), davali = hukumKalemleri(h, "2026-06-24", "ikinci");
+  ok(davaci.map(x => x.tutar).join(",") === "85000,17000", "davacı vekilinin takibe koyacağı: " + JSON.stringify(davaci));
+  ok(davali.map(x => x.tutar).join(",") === "8400", "davalı vekilinin takibe koyacağı: " + JSON.stringify(davali));
 }
 if (fail) { console.log(`icraevrak-test: ${fail} hata`); process.exit(1); }
 console.log("icraevrak-test: tamam");
