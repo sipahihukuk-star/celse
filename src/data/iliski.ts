@@ -29,6 +29,14 @@ const ESAS = /(?:19|20)\d{2}\s*\/\s*\d{2,7}/g;
 export const esasNorm = (x?: string) => { const m = (x || "").match(/((?:19|20)\d{2})\s*[/\-.]\s*0*(\d{1,7})/); return m ? m[1] + "/" + m[2] : ""; };
 /** Merci karşılaştırması: "Bismil 2. Asliye Hukuk Mahkemesi Sayın Hakimliği" ile "Bismil 2. Asliye Hukuk Mahkemesi" aynıdır. */
 const merciSade = (x?: string) => sade(x).replace(/\b(sayın|hakimliği|hâkimliği|mahkemesi|mahkemesine|mahkemesi'ne|başkanlığı|başkanlığına|müdürlüğü|müdürlüğüne)\b/g, " ").replace(/\s+/g, " ").trim();
+/** İki merci adı: aynı mı, çelişiyor mu, yoksa biri yazılı değil mi? */
+export function merciUyumu(a?: string, b?: string): "ayni" | "celisir" | "bilinmiyor" {
+  const x = merciSade(a), y = merciSade(b);
+  if (!x || !y) return "bilinmiyor";
+  return x === y || x.includes(y) || y.includes(x) ? "ayni" : "celisir";
+}
+/** Ad karşılaştırması için sadeleştirme (küçük harf, noktalama ve şirket ekleri atılır). */
+export const adSade = (x?: string) => sade(x);
 const kelimeler = (x: string) => x.split(" ").filter(w => w.length >= 4);
 const adTutar = (a: string, b: string) => !!a && !!b && (a === b || kelimeler(a).some(w => kelimeler(b).includes(w)));
 const adCelisir = (a: string, b: string) => !!a && !!b && !adTutar(a, b);

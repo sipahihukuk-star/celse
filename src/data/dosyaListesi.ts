@@ -10,7 +10,8 @@ const TARIH = /\b(\d{1,2})[./](\d{1,2})[./]((?:19|20)\d{2})\b/;
 const MERCI_SON = /(MAHKEMESİ|HAKİMLİĞİ|HÂKİMLİĞİ|SATIŞ MEMURLUĞU|BAŞSAVCILIĞI|SAVCILIĞI|İCRA DAİRESİ|İCRA MÜDÜRLÜĞÜ|HUKUK DAİRESİ|CEZA DAİRESİ|DAVA DAİRESİ|KOMİSYONU BAŞKANLIĞI|KOMİSYONU|ARABULUCULUK BÜROSU|HAKEM HEYETİ|DANIŞTAY|YARGITAY)/;
 const DUR = /^(AÇIK|KAPALI|KAPANMIŞ|DERDEST|\d+|(?:19|20)\d{2}\/\d+|\d{1,2}[./]\d{1,2}[./]\d{4}|DOSYASI|DOSYA|NO|BİRİM|[-–|•])$/;
 
-function merciBul(u: string): string | undefined {
+/** Büyük harfli satırda merci adı (… MAHKEMESİ, … İCRA DAİRESİ …). */
+export function merciBul(u: string): string | undefined {
   const m = u.match(MERCI_SON);
   if (!m || m.index === undefined) return undefined;
   // Anahtar sözcükten geriye doğru en çok 7 sözcük: numara, tarih, durum ya da tür sözcüğüne gelince durulur.

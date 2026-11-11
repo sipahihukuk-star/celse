@@ -11,6 +11,8 @@ import { Acilir } from "./Acilir";
 import { indir, s } from "./foyStil";
 import { Btn } from "./kit";
 import { C } from "./theme";
+import { DurusmaListesiYukle } from "./DurusmaListesiYukle";
+import { Katlanir } from "./Katlanir";
 
 const AY = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
 const GUN = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
@@ -19,7 +21,7 @@ const trTarih = (x: string) => x.slice(0, 10).split("-").reverse().join(".");
 const E_AD: Record<string, string> = { istenmeyecek: "e-duruşma istenmeyecek", talep: "e-duruşma talep edildi, karar bekleniyor", kabul: "e-duruşma kabul ✓", red: "e-duruşma reddedildi: bizzat girilecek" };
 type Donem = "bugun" | "hafta" | "30" | "90" | "gecmis30" | "gecmis365";
 
-export function DurusmalarEkrani({ liste, onAc }: { liste: Foy[]; onAc: (id: string) => void }) {
+export function DurusmalarEkrani({ liste, onAc, yukleAc }: { liste: Foy[]; onAc: (id: string) => void; yukleAc?: boolean }) {
   const bugun = bugunGun();
   const [donem, setDonem] = useState<Donem>(() => { try { return (globalThis.localStorage?.getItem("celse-durusma-donem") as Donem) || "30"; } catch { return "30"; } });
   const [tur, setTur] = useState<"hepsi" | DTur>("hepsi");
@@ -85,6 +87,10 @@ export function DurusmalarEkrani({ liste, onAc }: { liste: Foy[]; onAc: (id: str
         <Hap ad={t("E-duruşma kararı beklenen")} n={ozet.eBekleyen} renk={C.mid} onPress={() => { donemSec("90"); setBekleyen(true); }} />
         <Hap ad={t("Girildi işaretlenmemiş")} n={ozet.isaretsiz} renk={C.bad} onPress={() => { donemSec("gecmis30"); setBekleyen(true); }} />
       </View>
+
+      <Katlanir key={yukleAc ? "a" : "k"} anahtar="durusma-liste-yukle" zorla={yukleAc} baslik={t("📥 UYAP duruşma listesini yükle")} ozet={t("Excel, PDF, Word, ekran görüntüsü ya da kopyalanan tablo")}>
+        <DurusmaListesiYukle liste={liste} />
+      </Katlanir>
 
       <View style={s.card}>
         <TextInput value={ara} onChangeText={setAra} placeholder={t("Ara: müvekkil, mahkeme, dosya no…")} placeholderTextColor={C.muted} style={s.inputTek} />
