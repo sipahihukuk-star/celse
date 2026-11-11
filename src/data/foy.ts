@@ -314,6 +314,8 @@ export async function foyOzelYap(f: Foy, ozel: boolean): Promise<Foy> {
   const yeni: Foy = { ...f, ozel };
   await yaz(yeni);
   await islem(f.ozel ? "ozel" : "foyler", "readwrite", s => { s.delete(f.id); });
+  // Şahsiye taşınan föy büro eşitlemesinden de kalkar (büro arkadaşlarının cihazlarından silinir); geri alınınca yeniden gönderilir.
+  if (ozel) { const sil = (await ayarOku<Record<string, string>>("bulutSilinen")) || {}; sil[f.id] = new Date().toISOString(); await ayarYaz("bulutSilinen", sil); }
   haber();
   return yeni;
 }

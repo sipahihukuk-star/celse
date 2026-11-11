@@ -55,6 +55,45 @@ const TUR_KISA: Partial<Record<FoyTur, string>> = {
 const TABLO_SIRA: FoyTur[] = ["sorusturma", "arabulucu_gorev", "arabuluculuk", "ceza", "ozel_ceza", "idari_dava", "hukuk", "icra"];
 const tabloSira = (x: FoyTur) => { const i = TABLO_SIRA.indexOf(x); return i < 0 ? 99 : i; };
 
+/* ---------- Ayrıntılı arama ---------- */
+type Ayrintili = { ad: string; tc: string; adres: string; tel: string; no: string; merci: string; evrak: boolean };
+/** Büyük / küçük harf ve Türkçe harf farkı gözetmeden karşılaştırma (Şahin = sahin). */
+const katla = (x: string) => x.toLocaleLowerCase("tr").replace(/[çğıöşüâîû]/g, c => ({ ç: "c", ğ: "g", ı: "i", ö: "o", ş: "s", ü: "u", â: "a", î: "i", û: "u" } as Record<string, string>)[c] || c).replace(/\s+/g, " ");
+const rakam = (x: string) => x.replace(/\D/g, "");
+const ayrintiliDolu = (a: Ayrintili) => !!(a.ad.trim() || rakam(a.tc) || a.adres.trim() || rakam(a.tel) || a.no.trim() || a.merci.trim());
+const evrakMetni = new WeakMap<Foy, { duz: string; rak: string }>();
+function evrakIci(f: Foy) {
+  let x = evrakMetni.get(f);
+  if (!x) { const m = f.evraklar.map(e => e.ad + " " + (e.metin || "")).join(" \n "); x = { duz: katla(m), rak: m.replace(/[^\d\n ]/g, "").replace(/ +/g, "") }; evrakMetni.set(f, x); }
+  return x;
+}
+function ayrintiliEslesir(f: Foy, a: Ayrintili): boolean {
+  if (!ayrintiliDolu(a)) return true;
+  const mb = f.muvekkilBilgi || {}, kb = f.karsiBilgi || {};
+  const ev = a.evrak ? evrakIci(f) : null;
+  const ad = katla(a.ad.trim());
+  if (ad) {
+    const kelimeler = ad.split(" ").filter(Boolean);
+    const alan = katla([f.muvekkil, f.karsiTaraf, kb.vekil].filter(Boolean).join(" "));
+    if (!kelimeler.every(w => alan.includes(w)) && !(ev && ev.duz.includes(ad))) return false;
+  }
+  const tc = rakam(a.tc);
+  if (tc) { const alan = rakam([mb.kimlikNo, kb.kimlikNo].filter(Boolean).join(" ")); if (!alan.includes(tc) && !(ev && ev.rak.includes(tc))) return false; }
+  const tel = rakam(a.tel).replace(/^0/, "");
+  if (tel) { const alan = rakam([mb.telefon, kb.telefon].filter(Boolean).join(" ")); if (!alan.includes(tel) && !(ev && ev.rak.includes(tel))) return false; }
+  const adres = katla(a.adres.trim());
+  if (adres) {
+    const kelimeler = adres.split(" ").filter(w => w.length >= 2);
+    const alan = katla([mb.adres, kb.adres].filter(Boolean).join(" "));
+    if (!kelimeler.every(w => alan.includes(w)) && !(ev && kelimeler.every(w => ev.duz.includes(w)))) return false;
+  }
+  const no = a.no.trim();
+  if (no) { const m = no.match(/(\d{4})\s*[/\-.]\s*0*(\d+)/); const hedef = m ? m[1] + "/" + m[2] : rakam(no); const kendi = (f.esasNo || "").replace(/\s+/g, "").replace(/\/0+(\d)/, "/$1"); if (!kendi.includes(hedef)) return false; }
+  const merci = katla(a.merci.trim());
+  if (merci && !merci.split(" ").every(w => katla(f.mahkeme || "").includes(w))) return false;
+  return true;
+}
+
 export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) => void; ucretsiz?: boolean; ilkSekme?: "beyan" | "kaynak" }) {
   const [liste, setListe] = useState<Foy[]>([]);
   const [yuklendi, setYuklendi] = useState(false);
@@ -72,6 +111,9 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   // "sahsi": şahsi dosyalar bölümünden açılan giriş (yeni föy şahsi ve şifreli olur).
   const [giris, setGiris] = useState<false | "normal" | "sahsi">(false);
   const [ara, setAra] = useState("");
+  // Ayrıntılı arama: ad soyad, T.C. / vergi no, adres, telefon, dosya no, merci (hepsi birlikte); evrak içinde de aranabilir.
+  const [ayr, setAyr] = useState<{ ad: string; tc: string; adres: string; tel: string; no: string; merci: string; evrak: boolean }>({ ad: "", tc: "", adres: "", tel: "", no: "", merci: "", evrak: true });
+  const [ayrAcik, setAyrAcik] = useState(true);
   const [filtre, setFiltre] = useState<"acik" | "kapali" | "hepsi">("acik");
   const [turF, setTurF] = useState<FoyTur | "hepsi">("hepsi");
   // Yalnız evrakı olan föyler (listeden gelen binlerce boş föy arasında evrak yüklenmiş olanları bulmak için).
@@ -158,7 +200,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     .filter(f => !evrakli || f.evraklar.length > 0)
     .filter(f => davaF === null || (f.davaTuru || "").trim() === davaF)
     .filter(f => asamaF === null || (f.asama || "").trim() === asamaF)
-    .filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, f.notlar, turBilgi(f.tur).ad, ...Object.values(f.muvekkilBilgi || {})].join(" ").toLocaleLowerCase("tr").includes(q))
+    .filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, f.notlar, turBilgi(f.tur).ad, ...Object.values(f.muvekkilBilgi || {}), ...Object.values(f.karsiBilgi || {})].join(" ").toLocaleLowerCase("tr").includes(q))
+    .filter(f => ayrintiliEslesir(f, ayr))
     .sort((a, b) => {
       const ac = (f: Foy) => f.acilis || f.olusturma.slice(0, 10);
       if (sirala === "acilisYeni") return ac(b).localeCompare(ac(a));
@@ -330,6 +373,29 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
 
       <View style={s.card}>
         <TextInput value={ara} onChangeText={setAra} placeholder={t("Ara: müvekkil, karşı taraf, mahkeme, esas no…")} placeholderTextColor={C.muted} style={s.inputTek} />
+        <Pressable onPress={() => setAyrAcik(x => !x)}><Text style={s.link}>{ayrAcik ? t("▴ Ayrıntılı aramayı gizle") : t("▾ Ayrıntılı arama: ad soyad, T.C. no, adres, telefon, dosya no, merci")}{ayrintiliDolu(ayr) ? " · " + t("süzgeç açık") : ""}</Text></Pressable>
+        {ayrAcik && (
+          <View style={{ gap: 6 }}>
+            <View style={s.addRow}>
+              <TextInput value={ayr.ad} onChangeText={x => setAyr(a => ({ ...a, ad: x }))} placeholder={t("Adı soyadı (müvekkil, karşı taraf, vekil)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 2, minWidth: 220 }]} />
+              <TextInput value={ayr.tc} onChangeText={x => setAyr(a => ({ ...a, tc: x }))} placeholder={t("T.C. kimlik / vergi no")} placeholderTextColor={C.muted} keyboardType="number-pad" style={[s.inputTek, { flex: 1, minWidth: 160 }]} />
+              <TextInput value={ayr.tel} onChangeText={x => setAyr(a => ({ ...a, tel: x }))} placeholder={t("Telefon")} placeholderTextColor={C.muted} keyboardType="phone-pad" style={[s.inputTek, { flex: 1, minWidth: 140 }]} />
+            </View>
+            <View style={s.addRow}>
+              <TextInput value={ayr.adres} onChangeText={x => setAyr(a => ({ ...a, adres: x }))} placeholder={t("Adres (mahalle, sokak, ilçe…)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 2, minWidth: 220 }]} />
+              <TextInput value={ayr.no} onChangeText={x => setAyr(a => ({ ...a, no: x }))} placeholder={t("Dosya / esas no (2024/896)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 150 }]} />
+              <TextInput value={ayr.merci} onChangeText={x => setAyr(a => ({ ...a, merci: x }))} placeholder={t("Mahkeme / merci")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 180 }]} />
+            </View>
+            <View style={[s.row, { gap: 14, alignItems: "center", flexWrap: "wrap" }]}>
+              <Pressable onPress={() => setAyr(a => ({ ...a, evrak: !a.evrak }))} accessibilityRole="checkbox" accessibilityState={{ checked: ayr.evrak }} style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+                <View style={{ width: 18, height: 18, borderRadius: 4, borderWidth: 2, borderColor: ayr.evrak ? C.brass : C.muted, backgroundColor: ayr.evrak ? C.brass : "transparent" }} />
+                <Text style={s.hint}>{t("Evrakın içinde de ara (ad, T.C. no, adres, telefon evrakta geçiyorsa bulunur)")}</Text>
+              </Pressable>
+              {ayrintiliDolu(ayr) && <Pressable onPress={() => setAyr(a => ({ ad: "", tc: "", adres: "", tel: "", no: "", merci: "", evrak: a.evrak }))}><Text style={s.link}>{t("Temizle")}</Text></Pressable>}
+            </View>
+            {ayrintiliDolu(ayr) && <Text style={s.hint}>{t("{n} föy bulundu (durum ve tür süzgeçleriyle birlikte). Arama bu cihazda yapılır.", { n: gorunen.length })}</Text>}
+          </View>
+        )}
         {(() => {
           // Süzgeçler açılır kutularda: durum, evrak, tür; tür seçilince o türün dava türleri ve aşamaları.
           const tf = turF === "hepsi" ? [] : buro.filter(f => (f.tur || "hukuk") === turF && (filtre === "hepsi" || f.durum === filtre));
