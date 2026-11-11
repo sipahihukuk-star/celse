@@ -177,8 +177,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     else if (k === "toplu") setHavuz(true); else if (k === "buro") setBuroAc(true); else if (k === "tevkil") setTevkilAc(true);
   };
   const rozet = useMemo(() => { const n = duzeySayilari(liste); const d = tumDurusmaUyarilari(liste).filter(x => x.duzey === "gecikti" || x.duzey === "bugun" || x.duzey === "acil").length; return { isler: n.gecikti + n.bugun + n.acil, durusmalar: d }; }, [liste]);
-  // Sesli asistan: her ekranda sağ altta mikrofon (föyün içinde "bu dosya" o föydür).
-  const asistan = <SesliAsistan yuzen liste={liste} onAc={id => setSecili({ id })} onIsler={() => sekmeSec("isler")} onSekme={k => sekmeSec(k)}
+  // Sesli asistan: üst sekmelerdeki "🎙 Sesli asistan" düğmesiyle açılır (föyün içinde "bu dosya" o föydür).
+  const asistan = <SesliAsistan yuzen topYok liste={liste} onAc={id => setSecili({ id })} onIsler={() => sekmeSec("isler")} onSekme={k => sekmeSec(k)}
     baglamFoyId={secili?.id} ekran={secili ? "açık föy" : sekme} />;
   const sar = (el: React.ReactNode) => <View style={{ flex: 1 }}><TakipSekmeler aktif={sekme} onSec={sekmeSec} rozet={rozet} /><View style={{ flex: 1 }}>{el}</View>{asistan}</View>;
 

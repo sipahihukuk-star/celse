@@ -5,7 +5,7 @@
 import React, { useMemo, useState } from "react";
 import { Platform, Pressable, Text, TextInput, View } from "react-native";
 import { DTUR_AD, DTUR_SIMGE } from "../data/durusma";
-import { benzerFoyler, eslestir, ListeDurusmasi, ListeEslesmesi, listedenYeniFoy, listeyiIsle, metindenDurusmalar, tablodanDurusmalar, tekillestir } from "../data/durusmaListesi";
+import { benzerFoyler, eskiExcelTablo, eslestir, ListeDurusmasi, ListeEslesmesi, listedenYeniFoy, listeyiIsle, metindenDurusmalar, tablodanDurusmalar, tekillestir } from "../data/durusmaListesi";
 import { Foy, foyGetir, foylerKaydet } from "../data/foy";
 import { tabloOku } from "../data/foyAktar";
 import { t } from "../i18n";
@@ -23,7 +23,11 @@ const GOSTER = 150;
 /** Dosyayı okur: tablo (Excel, CSV, Word) önce başlıklarıyla, olmazsa düz metin gibi; PDF ve resim yazı tanımayla. */
 async function dosyadanOku(k: { ad: string; bytes: Uint8Array; blob?: Blob }, ilerle: (m: string) => void): Promise<ListeDurusmasi[]> {
   const uz = (k.ad.split(".").pop() || "").toLowerCase();
-  if (["xlsx", "xlsm", "csv", "docx", "xls", "doc"].includes(uz)) {
+  if (["xls", "html", "htm"].includes(uz)) {
+    const tablo = eskiExcelTablo(k.bytes);
+    return tablodanDurusmalar(tablo) || metindenDurusmalar(tablo.map(r => r.join("\t")).join("\n"));
+  }
+  if (["xlsx", "xlsm", "csv", "docx", "doc"].includes(uz)) {
     const tablo = tabloOku(k.ad, k.bytes);
     return tablodanDurusmalar(tablo) || metindenDurusmalar(tablo.map(r => r.map(x => String(x ?? "")).join("\t")).join("\n"));
   }
@@ -56,7 +60,7 @@ export function DurusmaListesiYukle({ liste, onBitti }: { liste: Foy[]; onBitti?
   };
   const dosya = async () => {
     setHata(""); setSonuc("");
-    const [k] = await dosyaSec(".xlsx,.xlsm,.csv,.docx,.pdf,.png,.jpg,.jpeg,.heic,.tif,.tiff,.txt,.udf", false);
+    const [k] = await dosyaSec(".xlsx,.xls,.xlsm,.csv,.html,.htm,.docx,.pdf,.png,.jpg,.jpeg,.heic,.tif,.tiff,.txt,.udf", false);
     if (!k) return;
     setBusy(true); setDurum(t("Okunuyor…"));
     try { bas(await dosyadanOku(k, m => setDurum(t("Okunuyor: {m}", { m }))), k.ad); }
@@ -86,6 +90,13 @@ export function DurusmaListesiYukle({ liste, onBitti }: { liste: Foy[]; onBitti?
     finally { setBusy(false); }
   };
 
+  const topluSec = (d: ListeEslesmesi["durum"], v: string) => setSecim(x => { const y = { ...x }; eslesme.forEach((e, i) => { if (e.durum === d) y[i] = v; }); return y; });
+  const tamamDugmesi = (
+    <View style={[s.addRow, { alignItems: "center" }]}>
+      <Btn label={busy ? t("İşleniyor…") : t("✓ Tamam: {n} günü föylere işle", { n: islenecek.length })} disabled={busy || !islenecek.length} onPress={isle} />
+      <Pressable onPress={() => { setOkunan(null); setSecim({}); }}><Text style={s.link}>{t("Vazgeç")}</Text></Pressable>
+    </View>
+  );
   const satir = (e: ListeEslesmesi, i: number) => {
     const sc = secim[i] || "atla";
     const setS = (v: string) => setSecim(x => ({ ...x, [i]: v }));
@@ -128,18 +139,25 @@ export function DurusmaListesiYukle({ liste, onBitti }: { liste: Foy[]; onBitti?
         </View>
       )}
       {!!hata && <Text style={s.err}>{hata}</Text>}
-      {!!sonuc && <Text style={[s.body, { color: C.good, fontWeight: "700" }]}>✓ {sonuc}</Text>}
+      {!!sonuc && <Text style={[s.body, { color: C.good, fontWeight: "700" }]}>✓ {sonuc} {t("Günler föylerin duruşmalarında, Duruşma sekmesinde ve Dava listesinin “Duruşma” sütununda görünür.")}</Text>}
       {okunan && okunan.length > 0 && (
         <View style={{ gap: 4 }}>
-          <Text style={[s.body, { fontWeight: "700" }]}>{t("{kaynak}: {n} gün okundu", { kaynak, n: okunan.length })}</Text>
-          <Text style={s.hint}>{t("✓ {a} föyüyle eşleşti · ? {b} seçim bekliyor · ✗ {c} föyü bulunamadı", { a: say("eslesti"), b: say("secim"), c: say("yok") })}</Text>
+          <View style={{ gap: 6, borderWidth: 1, borderColor: C.brass, borderRadius: 10, padding: 10 }}>
+            <Text style={[s.body, { fontWeight: "700" }]}>{t("{kaynak}: {n} gün okundu", { kaynak, n: okunan.length })}</Text>
+            <Text style={s.hint}>{t("✓ {a} föyüyle eşleşti · ? {b} seçim bekliyor · ✗ {c} föyü bulunamadı", { a: say("eslesti"), b: say("secim"), c: say("yok") })}</Text>
+            {tamamDugmesi}
+            {say("yok") > 0 && (
+              <View style={s.addRow}>
+                <Btn kind="secondary" label={t("Föyü bulunamayan {n} satırın hepsine yeni föy aç", { n: say("yok") })} onPress={() => topluSec("yok", "yeni")} />
+                <Btn kind="ghost" label={t("Hepsini atla")} onPress={() => topluSec("yok", "atla")} />
+              </View>
+            )}
+            {!islenecek.length && <Text style={[s.hint, { color: C.bad }]}>{t("Şu an işlenecek satır yok: hiçbir satır föyüyle eşleşmedi. Aşağıda her satır için föy seçin ya da “yeni föy aç” deyin; sonra Tamam'a basın.")}</Text>}
+          </View>
           {grup("secim", t("? Hangi föy olduğunu seçin"))}
           {grup("yok", t("✗ Föyü bulunamayanlar (föy seçin, yeni föy açın ya da atlayın)"))}
           {grup("eslesti", t("✓ Föyüyle eşleşenler"))}
-          <View style={[s.addRow, { marginTop: 8 }]}>
-            <Btn label={busy ? t("İşleniyor…") : t("✓ {n} günü föylere işle", { n: islenecek.length })} disabled={busy || !islenecek.length} onPress={isle} />
-            <Pressable onPress={() => { setOkunan(null); setSecim({}); }}><Text style={s.link}>{t("Vazgeç")}</Text></Pressable>
-          </View>
+          <View style={{ marginTop: 8 }}>{tamamDugmesi}</View>
         </View>
       )}
     </View>

@@ -75,6 +75,28 @@ export function tablodanDurusmalar(tablo: (string | number)[][]): ListeDurusmasi
   return out;
 }
 
+// ---------- Eski Excel (.xls) ve web sayfası (.html) ----------
+const VARLIK: Record<string, string> = { nbsp: " ", amp: "&", lt: "<", gt: ">", quot: '"', apos: "'" };
+const varlikCoz = (x: string) => x.replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (m, k: string) => (k[0] === "#" ? String.fromCodePoint(k[1].toLowerCase() === "x" ? parseInt(k.slice(2), 16) : parseInt(k.slice(1), 10)) : VARLIK[k.toLowerCase()] ?? m));
+/** HTML tablosunu satır ve hücrelere ayırır (UYAP'ın "Excel'e aktar" çıktısı çoğu zaman .xls uzantılı bir HTML tablosudur). */
+export function htmlTablo(html: string): string[][] {
+  const out: string[][] = [];
+  for (const tr of html.match(/<tr[\s\S]*?<\/tr>/gi) || []) {
+    const hucreler = (tr.match(/<t[dh][^>]*>[\s\S]*?<\/t[dh]>/gi) || []).map(c => varlikCoz(c.replace(/<br\s*\/?>/gi, " ").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim());
+    if (hucreler.length) out.push(hucreler);
+  }
+  return out;
+}
+/** .xls / .html dosyasının baytları: HTML ise tablo; eski ikili Excel ise açıklamalı hata. */
+export function eskiExcelTablo(bytes: Uint8Array): string[][] {
+  if (bytes[0] === 0xd0 && bytes[1] === 0xcf && bytes[2] === 0x11 && bytes[3] === 0xe0)
+    throw new Error("Bu dosya eski Excel biçiminde (.xls). Excel'de açıp “Farklı kaydet → Excel Çalışma Kitabı (.xlsx)” ile kaydedip yükleyin; ya da UYAP'tan PDF olarak alın veya tabloyu kopyalayıp “Metni yapıştır”a yapıştırın.");
+  let metin = new TextDecoder("utf-8").decode(bytes);
+  if (metin.includes("\uFFFD")) { try { metin = new TextDecoder("windows-1254").decode(bytes); } catch { /* utf-8 kalsın */ } }
+  if (!/<table/i.test(metin)) throw new Error("Dosyada tablo bulunamadı.");
+  return htmlTablo(metin);
+}
+
 // ---------- Düz metin (PDF, ekran görüntüsü, kopyalanan sayfa) ----------
 /** Her satırda (ya da birkaç satıra bölünmüş kayıtta) dosya numarası ve gün aranır. */
 export function metindenDurusmalar(metin: string): ListeDurusmasi[] {
@@ -152,6 +174,7 @@ export function eslestir(satirlar: ListeDurusmasi[], liste: Foy[]): ListeEslesme
     // Föyün önceki numaraları (dosya mahkeme değiştirdiyse duruşma kayıtlarında durur).
     for (const d of f.durusmalar || []) { const x = esasNorm(d.esasNo); if (x && x !== e) dizin.set(x, [...(dizin.get(x) || []).filter(y => y.id !== f.id), f]); }
   }
+  const numarasizlar = liste.filter(f => !esasNorm(f.esasNo) && f.durum !== "kapali");
   return satirlar.map(r => {
     const ayni = dizin.get(esasNorm(r.esasNo)) || [];
     const uyumlu = ayni.filter(f => merciUyumu(f.mahkeme, r.mahkeme) !== "celisir");
@@ -164,6 +187,9 @@ export function eslestir(satirlar: ListeDurusmasi[], liste: Foy[]): ListeEslesme
     const taraf = adaylar.filter(f => tarafTutar(f, r.taraflar));
     if (adaylar.length > 1 && taraf.length === 1) return sec(taraf[0], "aynı dosya no ve taraf adı");
     if (adaylar.length) return { r, durum: "secim", adaylar, neden: adaylar.length > 1 ? "bu numarada birden çok föy var" : "dosya no tutuyor, mahkeme farklı yazılmış", zatenVar: false };
+    // Föyde dosya no yazılı değilse: aynı mahkeme ya da taraf adı tutan numarasız föyler seçenek olur.
+    const numarasiz = numarasizlar.filter(f => tarafTutar(f, r.taraflar) || (merciUyumu(f.mahkeme, r.mahkeme) === "ayni" && !!r.mahkeme));
+    if (numarasiz.length && numarasiz.length <= 8) return { r, durum: "secim", adaylar: numarasiz, neden: "bu numarada föy yok; dosya no'su yazılmamış föylerde mahkeme ya da taraf adı tutuyor", zatenVar: false };
     return { r, durum: "yok", adaylar: [], neden: "bu numarada föy yok", zatenVar: false };
   });
 }

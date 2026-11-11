@@ -406,7 +406,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         </View>
       )}
 
-      <Katlanir anahtar="beyan" baslik={t("✍ Beyan yaz")} ozet={f.beyanlar?.length ? t("{n} taslak", { n: f.beyanlar.length }) : t("dilekçe, itiraz, istinaf; içtihat ve mevzuatla")}>
+      <Katlanir anahtar="beyan" baslik={f.tur === "icra" ? t("✍ Talep yaz") : t("✍ Beyan yaz")} ozet={f.beyanlar?.length ? t("{n} taslak", { n: f.beyanlar.length }) : f.tur === "icra" ? t("haciz, satış, maaş haczi talepleri; itiraz ve şikâyet") : t("dilekçe, itiraz, istinaf; içtihat ve mevzuatla")}>
         <BeyanEditoru f={f} onDegistir={degistir} />
       </Katlanir>
       {(

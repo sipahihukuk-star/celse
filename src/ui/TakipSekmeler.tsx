@@ -1,9 +1,11 @@
-// Dava takibinin üst sekmeleri: Föyler, Beyan editörü, İçtihat-mevzuat-doktrin, Duruşma ve keşifler, Yapılacaklar, Dava listesi, Toplu evrak yükle, Büro, Tevkil.
+// Dava takibinin üst sekmeleri: Föyler, Beyan editörü, İçtihat-mevzuat-doktrin, Duruşma ve keşifler, Yapılacaklar, Dava listesi, Toplu evrak yükle, Büro, Tevkil
+// ve en sonda sesli asistanı açan düğme.
 // Her ekranın üstünde aynı çubuk durur; föy açıkken gizlenir (föyden geri dönünce hangi sekmedeyseniz oraya dönülür).
 import React from "react";
 import { Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { t } from "../i18n";
 import { C } from "./theme";
+import { asistanAc } from "./SesliAsistan";
 
 export type Sekme = "foyler" | "beyan" | "kaynak" | "durusmalar" | "isler" | "liste" | "toplu" | "buro" | "tevkil";
 const SEKMELER: { k: Sekme; ad: string; web?: boolean }[] = [
@@ -26,6 +28,10 @@ export function TakipSekmeler({ aktif, onSec, rozet }: { aktif: Sekme; onSec: (k
             </Pressable>
           );
         })}
+        <Pressable onPress={asistanAc} accessibilityRole="button" accessibilityLabel={t("Sesli asistan")}
+          style={{ paddingHorizontal: 12, paddingVertical: 8, borderRadius: 18, borderWidth: 1, borderColor: C.brass, flexDirection: "row", alignItems: "center", gap: 6 }}>
+          <Text style={{ color: C.text, fontWeight: "700", fontSize: 13 }}>{t("🎙 Sesli asistan")}</Text>
+        </Pressable>
       </ScrollView>
     </View>
   );
