@@ -348,6 +348,8 @@ async function buroEsitle(b: { buroId: string; k: Anahtar }, yerel: Map<string, 
   let cekim = (await ayarOku<string>("buroCekim")) || "";
   const onceki = cekim ? Date.parse(cekim) : NaN;
   let alt = cekim && !isNaN(onceki) ? new Date(onceki - 120000).toISOString() : cekim;
+  // Bu cihazda şahsi dosyalara taşınmış föy büroda dursa da geri getirilmez (şahsi taşıma büroyu ezer).
+  const sahsiIds = new Set((await hamOzeller()).map(x => x.id));
   for (;;) {
     let q = sb.from(BURO_TABLO).select("kayit_id, tur, iv, veri, guncelleme, silindi, degisim").eq("buro_id", b.buroId).eq("tur", "foy").order("degisim", { ascending: true }).limit(200);
     if (alt) q = q.gt("degisim", alt);
@@ -362,6 +364,7 @@ async function buroEsitle(b: { buroId: string; k: Anahtar }, yerel: Map<string, 
         delete gonderilen[x.kayit_id];
         continue;
       }
+      if (sahsiIds.has(x.kayit_id)) { gonderilen[x.kayit_id] = x.guncelleme; continue; }
       const gonderilmedi = !!eski && gonderilen[eski.id] !== eski.guncelleme;
       if (eski && !gonderilmedi && eski.guncelleme >= x.guncelleme) continue;
       const g = gelenFoy(await ac<Foy>(b.k, x), eski, gonderilmedi);

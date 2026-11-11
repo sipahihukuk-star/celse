@@ -41,6 +41,7 @@ import { FloatingNav, useFloatingNav } from "./FloatingNav";
 import { Btn } from "./kit";
 import { t } from "../i18n";
 import { C } from "./theme";
+import { OzelKilitSatir } from "./OzelKilitSatir";
 
 const DAVA: FoyTur[] = ["hukuk", "ceza", "idari_dava"];
 function tarafAdlari(tur?: FoyTur): [string, string] | null {
@@ -62,6 +63,17 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const [yok, setYok] = useState(false);
   const [okuma, setOkuma] = useState("");
   const [err, setErr] = useState("");
+  const [kilitSor, setKilitSor] = useState(false);
+  const [tasiHata, setTasiHata] = useState(""), [tasiBilgi, setTasiBilgi] = useState("");
+  const sahsiyeTasi = async () => {
+    try {
+      if (!f) return;
+      await hemenKaydet();
+      const y = await foyOzelYap(son.current || f, !f.ozel);
+      son.current = null; setF(y);
+      setTasiBilgi(y.ozel ? t("Şahsi dosyalarınıza taşındı: yalnız siz görürsünüz (şifreli); büro listesinden kalktı.") : t("Şahsi dosyalardan çıkarıldı; büro föyleri arasına döndü."));
+    } catch (e) { setTasiHata(t(String((e as Error).message || e))); }
+  };
   const [yeniGorev, setYeniGorev] = useState("");
   const [gorevTarih, setGorevTarih] = useState("");
   const [kapatId, setKapatId] = useState<string | null>(null);
@@ -635,16 +647,18 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
 
       <View style={s.row}>
         <Btn kind="ghost" label={f.ozel ? t("🔓 Şahsi dosyalardan çıkar") : t("🔒 Şahsi dosyalarıma taşı")} onPress={async () => {
-          setErr("");
-          if ((await ozelKilitDurumu()) !== "acik") { setErr(t("Önce Föylerim ekranında şahsi dosyaları şifreyle açın (şifre kurulu değilse oradan kurun).")); return; }
-          try { await hemenKaydet(); const y = await foyOzelYap(son.current || f, !f.ozel); son.current = null; setF(y); }
-          catch (e) { setErr(t(String((e as Error).message || e))); }
+          setTasiHata(""); setTasiBilgi("");
+          if ((await ozelKilitDurumu()) !== "acik") { setKilitSor(true); return; }
+          await sahsiyeTasi();
         }} />
         {yetkim === "yaz" ? <Text style={s.hint}>{t("Ünvanınızın föy silme yetkisi yok.")}</Text> : !silOnay ? <Btn kind="ghost" label={t("Föyü sil")} onPress={() => setSilOnay(true)} />
           : <><Text style={[s.err, { alignSelf: "center" }]}>{t("Föy, evrakı ve görevleriyle bu cihazdan silinecek.")}</Text>
             <Btn kind="ghost" label={t("Evet, sil")} onPress={async () => { if (zaman.current) clearTimeout(zaman.current); zaman.current = null; son.current = null; await foySil(f); onKapat(); }} />
             <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setSilOnay(false)} /></>}
       </View>
+      {kilitSor && <OzelKilitSatir dugme={t("Kilidi aç ve taşı")} onAcildi={async () => { setKilitSor(false); await sahsiyeTasi(); }} onVazgec={() => setKilitSor(false)} />}
+      {!!tasiHata && <Text style={s.err}>{tasiHata}</Text>}
+      {!!tasiBilgi && <Text style={[s.hint, { color: C.good }]}>{tasiBilgi}</Text>}
     </ScrollView>
     <FloatingNav nav={nav} onBack={geri} backLabel={t("‹ Föylere dön")} />
     </View>

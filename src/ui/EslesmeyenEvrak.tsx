@@ -9,7 +9,8 @@ import React, { useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { BEYAN_KLASORLERI, beyanTuru } from "../data/beyan";
 import { ornekEkle, ornekTurTahmin } from "../data/dilekceOrnek";
-import { bosFoy, Foy, foyKaydet, ozelAc, ozelKilitDurumu, ozelKilitKur } from "../data/foy";
+import { bosFoy, Foy, foyKaydet, ozelKilitDurumu } from "../data/foy";
+import { OzelKilitSatir } from "./OzelKilitSatir";
 import { FoyTur, TURLER, turBilgi, turTahmin } from "../data/foyTurleri";
 import { kunyeCikar } from "../data/kunyeCikar";
 import { t } from "../i18n";
@@ -45,7 +46,6 @@ export function EslesmeyenEvrak({ d, liste, onEkle, onAtla, onOrnek, onSonra }: 
   const [bekle, setBekle] = useState(false);
   // Şahsi dosya kilidi burada, kartın içinde açılır (ya da ilk kez kurulur).
   const [kilit, setKilit] = useState<"" | "yok" | "kilitli">("");
-  const [sifre, setSifre] = useState(""), [sifre2, setSifre2] = useState("");
   // Benzerlik: aynı numara > taraf adı tutuyor > dosya adında föyün tarafı geçiyor > aynı merci > aynı tür.
   const adaylar = useMemo(() => {
     const ns = nolar(d.kaynak.yol + " " + (d.metin || "").slice(0, 4000));
@@ -132,25 +132,7 @@ export function EslesmeyenEvrak({ d, liste, onEkle, onAtla, onOrnek, onSonra }: 
             </View>
             <Text style={[s.body, { flex: 1 }]}>{t("🔒 Şahsi dosyam: yalnız ben görürüm (şifreli; büroyla paylaşılmaz, yapay zekâ genel aramalarına girmez)")}</Text>
           </Pressable>
-          {ozel && !!kilit && (
-            <View style={[s.warn, { gap: 6 }]}>
-              <Text style={s.body}>{kilit === "yok"
-                ? t("Şahsi dosyalar için henüz şifre kurulmamış. Bir şifre belirleyin (en az 6 karakter): şahsi dosyalar bu şifreden türetilen anahtarla şifrelenir; şifre hiçbir yere kaydedilmez, unutursanız açılamaz.")
-                : t("Şahsi dosyalar kilitli. Şifrenizi girin.")}</Text>
-              <TextInput value={sifre} onChangeText={setSifre} secureTextEntry placeholder={t("Şifre")} placeholderTextColor={C.muted} style={s.inputTek} autoFocus />
-              {kilit === "yok" && <TextInput value={sifre2} onChangeText={setSifre2} secureTextEntry placeholder={t("Şifre (tekrar)")} placeholderTextColor={C.muted} style={s.inputTek} />}
-              <View style={s.addRow}>
-                <Btn label={kilit === "yok" ? t("Şifreyi kur ve dosyayı aç") : t("Kilidi aç ve dosyayı aç")} disabled={bekle || !sifre} onPress={async () => {
-                  setHata("");
-                  try {
-                    if (kilit === "yok") { if (sifre !== sifre2) { setHata(t("Şifreler aynı değil.")); return; } await ozelKilitKur(sifre); }
-                    else if (!(await ozelAc(sifre))) { setHata(t("Şifre yanlış.")); return; }
-                    setKilit(""); setSifre(""); setSifre2(""); await ac();
-                  } catch (e) { setHata(t(String((e as Error).message || e))); }
-                }} />
-              </View>
-            </View>
-          )}
+          {ozel && !!kilit && <OzelKilitSatir dugme={t("Kilidi aç ve dosyayı aç")} onAcildi={async () => { setKilit(""); await ac(); }} onVazgec={() => setKilit("")} />}
           {!!hata && <Text style={s.err}>{hata}</Text>}
           <View style={s.addRow}>
             <Btn label={bekle ? t("Açılıyor…") : t("Dosyayı aç ve evrakı içine koy")} disabled={bekle} onPress={ac} />
