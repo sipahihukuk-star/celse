@@ -105,6 +105,10 @@ export default function App() {
     Manrope_400Regular, Manrope_500Medium, Manrope_700Bold,
     IBMPlexMono_500Medium, IBMPlexMono_600SemiBold
   });
+  // Yavaş bağlantıda (telefon) yazı tipleri gelene kadar boş ekran beklenmez: 1,2 saniye sonra sistem yazı tipiyle açılır,
+  // yazı tipleri gelince kendiliğinden değişir.
+  const [yaziBekleme, setYaziBekleme] = useState(false);
+  React.useEffect(() => { const z = setTimeout(() => setYaziBekleme(true), 1200); return () => clearTimeout(z); }, []);
   // Doğrudan yönetim paneli: adresin sonuna ?yonetim yazılınca panel açılır (PIN yine sorulur).
   const [route, setRouteRaw] = useState<Route>(() =>
     typeof window !== "undefined" && /[?&#]yonetim\b/i.test((window.location?.search || "") + (window.location?.hash || "")) ? { k: "admin" }
@@ -164,7 +168,8 @@ export default function App() {
   /** "Üye olmadan dene": giriş kartını geçip oyun menüsüne misafir olarak girer (bu oturum boyunca). */
   const [guest, setGuest] = useState(false);
   const me = useCharacter();
-  const cases = useCases();
+  // Oyun davaları ayrı dosyada: dava takibi / danışma açılışını yavaşlatmasın diye birkaç saniye sonra, oyun ekranında hemen yüklenir.
+  const cases = useCases(["title", "foy", "danisma", "danismaDosya", "account", "magaza", "paywall"].includes(route.k) ? 4000 : 0);
   const progress = useProgress();
   const { account } = useAccount();
   const { premium, admin: pinAdmin } = usePremium();
@@ -185,7 +190,7 @@ export default function App() {
   }, [account?.id]);
   // Kullanım istatistiği: duruşma açılınca, karar ekranına varınca ya da yarıda bırakılınca bir olay yazılır (src/data/usage.ts).
   React.useEffect(() => { trackRoute(route, !!careerOnline); }, [route]);
-  if (!loaded && !error) return <View style={styles.root} />;
+  if (!loaded && !error && !yaziBekleme) return <View style={styles.root} />;
 
   // Tahkim dosyaları seçili dilde açılır (çevirisi varsa).
   const startGame = async (c0: CaseFile, players: Record<Side, Player>, from: From = "list", chain?: Chain) => {

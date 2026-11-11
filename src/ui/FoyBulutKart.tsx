@@ -15,7 +15,8 @@ const saatYaz = (iso?: string) => {
   return `${String(d.getDate()).padStart(2, "0")}.${String(d.getMonth() + 1).padStart(2, "0")} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 };
 
-export function FoyBulutKart() {
+/** acik: bu cihazda hiç föy yokken kart açık gelir (telefona föy getirmenin yolu burası). */
+export function FoyBulutKart({ acik }: { acik?: boolean } = {}) {
   const [durum, setDurum] = useState<BulutDurum | null>(null);
   const [sifre, setSifre] = useState("");
   const [sifre2, setSifre2] = useState("");
@@ -70,7 +71,7 @@ export function FoyBulutKart() {
   };
 
   return (
-    <Katlanir anahtar="bulut" baslik={"☁️ " + t("Bulut eşitlemesi")} ozet={durum.tur === "acik" ? t("açık") : durum.tur === "cihaz_kapali" ? t("bu cihazda kapalı") : durum.tur === "sifre_yok" ? t("kurulmadı") : durum.tur === "giris_yok" ? t("giriş gerekli") : ""}>
+    <Katlanir key={acik ? "a" : "k"} zorla={acik} anahtar="bulut" baslik={"☁️ " + t("Bulut eşitlemesi")} ozet={durum.tur === "acik" ? t("açık") : durum.tur === "cihaz_kapali" ? t("bu cihazda kapalı") : durum.tur === "sifre_yok" ? t("kurulmadı") : durum.tur === "giris_yok" ? t("giriş gerekli") : ""}>
       {durum.tur === "giris_yok" && <Text style={s.hint}>{t("Föylerinizi bilgisayar ile telefon arasında eşitlemek için hesabınıza giriş yapın.")}</Text>}
       {durum.tur === "kurulum_yok" && <Text style={s.hint}>{t("Bulut eşitlemesi henüz sunucuda kurulmadı (yönetici: supabase/surum17.sql).")}</Text>}
       {(durum.tur === "sifre_yok" || durum.tur === "cihaz_kapali") && (
