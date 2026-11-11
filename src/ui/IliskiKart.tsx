@@ -1,6 +1,6 @@
 // Föylerim: "Bağlantı önerileri" kartı. Hangi föylerin birbirinin devamı ya da ilgilisi olduğunu, hangi evrakın yanlış föyde
 // durduğunu cihazda bulur (iliski.ts); avukat tek tuşla bağlar, taşır ya da "Değil" der (bir daha önerilmez).
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { ayarOku, ayarYaz, Foy, foyBaslik, foyGetir, foyKaydet as foyKaydetAsil } from "../data/foy";
 import { foyBirlestir, kalacakFoy } from "../data/foyBirlestir";
@@ -8,7 +8,7 @@ import { FoyTur, TURLER, turBilgi } from "../data/foyTurleri";
 import { Acilir } from "./Acilir";
 import { hareketEkle } from "../data/evrakHareket";
 import { foyKisaAd } from "./foyEvrak";
-import { iliskiOner, IliskiOnerisi } from "../data/iliski";
+import { iliskiHazirla, iliskiOner, IliskiOnerisi } from "../data/iliski";
 import { t } from "../i18n";
 import { s } from "./foyStil";
 import { Btn } from "./kit";
@@ -26,7 +26,17 @@ export function IliskiKart({ liste, onAc, odak, odakDegistir }: { liste: Foy[]; 
   const [turAc, setTurAc] = useState<string | null>(null);
   const [hata, setHata] = useState("");
   useEffect(() => { ayarOku<string[]>("iliskiRed").then(x => setRed(new Set(x || []))).catch(() => setRed(new Set())); }, []);
-  const oneriler = useMemo(() => (red ? iliskiOner(liste, red).filter(o => !odak || o.a.id === odak || o.b.id === odak) : []), [liste, red, odak]);
+  // Öneriler ekran çizildikten sonra hesaplanır (binlerce föyde ekranın gelişini bekletmesin).
+  const [oneriler, setOneriler] = useState<IliskiOnerisi[]>([]);
+  useEffect(() => {
+    if (!red) return;
+    let bitti = false;
+    const z = setTimeout(async () => {
+      await iliskiHazirla(liste, () => bitti);
+      if (!bitti) setOneriler(iliskiOner(liste, red).filter(o => !odak || o.a.id === odak || o.b.id === odak));
+    }, odak ? 0 : 600);
+    return () => { bitti = true; clearTimeout(z); };
+  }, [liste, red, odak]);
   if (!red || !oneriler.length) return bilgi ? <Text style={[s.hint, { color: C.good }]}>{bilgi}</Text> : null;
 
   const reddet = async (o: IliskiOnerisi) => {

@@ -41,11 +41,17 @@ export interface TitleProps {
   /** Dava takibi (föyler; yalnız bu cihazda); sekme: beyan klasörü ya da mevzuat ve içtihat */ onFoy?: (sekme?: "beyan" | "kaynak") => void;
   /** Ön sayfadan örnek duruşma canlandırması (üyeliksiz) */ onOrnek?: () => void;
 }
+/** Üç saniyede bir yön değiştiren terazi. Kendi durumunu tutar: eskiden bütün ana sayfa her üç saniyede baştan çiziliyordu
+ *  (telefonda kasılma). */
+function SallananTerazi({ size }: { size: number }) {
+  const [tilt, setTilt] = useState(-4);
+  useEffect(() => { const id = setInterval(() => setTilt(a => -a), 3000); return () => clearInterval(id); }, []);
+  return <HeroScale angle={tilt} size={size} left={C.p1} right={C.p2} />;
+}
+
 export function TitleScreen(p: TitleProps) {
   const { width } = useWindowDimensions();
-  const [tilt, setTilt] = useState(-4);
   const [menu, setMenu] = useState(false);
-  useEffect(() => { const id = setInterval(() => setTilt(a => -a), 3000); return () => clearInterval(id); }, []);
   const wide = width >= 760;
   const { account, server, office } = p;
   // İlk giriş sayfası: oturum yokken ve oyuncu "Üye olmadan dene" demediyse üç bölümden önce gelir (Apple zorunlu üyeliği kabul etmez; üye olmadan da geçilir).
@@ -103,7 +109,7 @@ export function TitleScreen(p: TitleProps) {
 
       {entry ? (
         <View style={{ flex: 1, flexDirection: "row" }}>
-          <EntryHome wide={wide} tilt={tilt} server={server} onSignUp={p.onSignUp} onSignIn={p.onSignIn} onGuest={p.onGuest} onOrnek={p.onOrnek} onDanisma={p.onDanisma ? () => p.onDanisma?.() : undefined} footer={footer} />
+          <EntryHome wide={wide} server={server} onSignUp={p.onSignUp} onSignIn={p.onSignIn} onGuest={p.onGuest} onOrnek={p.onOrnek} onDanisma={p.onDanisma ? () => p.onDanisma?.() : undefined} footer={footer} />
           {rails && <View style={styles.railCol}><StoreRails /></View>}
         </View>
       ) : (<>
@@ -130,7 +136,7 @@ export function TitleScreen(p: TitleProps) {
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.titleWrap, wide && { flexDirection: "row-reverse", alignItems: "flex-start" }]}>
         {/* Geniş ekranda terazi başlığın hizasında durur; sayfa kaydırılmadan görünür. */}
         <View style={[styles.titleArt, wide && { flex: 0.8, paddingTop: 24, paddingLeft: 24 }]}>
-          <HeroScale angle={tilt} size={wide ? 300 : 190} left={C.p1} right={C.p2} />
+          <SallananTerazi size={wide ? 300 : 190} />
         </View>
         <View style={[{ gap: 6 }, wide && { flex: 1.2 }]}>
           <Text style={styles.eyebrow}>{t("BİR AVUKATLIK OYUNU")}</Text>
@@ -203,7 +209,7 @@ export function TitleScreen(p: TitleProps) {
 
 /** İlk giriş sayfası: oturum yokken üç bölümden (Dava takibi, Derdini anlat, Kariyer ve oyun) önce gelir.
  *  Giriş yapınca ya da "Üye olmadan dene" denince üç sayfa açılır. Apple zorunlu üyeliği kabul etmediği için üye olmadan da geçilebilir. */
-function EntryHome({ wide, tilt, server, onSignUp, onSignIn, onGuest, onOrnek, onDanisma, footer }: { wide: boolean; tilt: number; server: boolean; onSignUp: () => void; onSignIn: () => void; onGuest?: () => void; onOrnek?: () => void; onDanisma?: () => void; footer: React.ReactNode }) {
+function EntryHome({ wide, server, onSignUp, onSignIn, onGuest, onOrnek, onDanisma, footer }: { wide: boolean; server: boolean; onSignUp: () => void; onSignIn: () => void; onGuest?: () => void; onOrnek?: () => void; onDanisma?: () => void; footer: React.ReactNode }) {
   // Bölümler burada yalnız tanıtılır (tıklanmaz); girişten sonra üstteki sekmelerle açılır.
   const bolumler: { ikon: "folder" | "scales" | "trophy"; ad: string; not: string }[] = [
     { ikon: "folder", ad: t("Dava takibi"), not: t("föyleriniz, duruşmalarınız, süreleriniz ve evrakınız tek yerde.") },
@@ -220,7 +226,7 @@ function EntryHome({ wide, tilt, server, onSignUp, onSignIn, onGuest, onOrnek, o
               <Text style={[styles.logo, { fontSize: wide ? 72 : 50, lineHeight: wide ? 80 : 58 }]}>Celse</Text>
               <Text style={styles.byline}>BY THEMISCODE</Text>
             </View>
-            <HeroScale angle={tilt} size={wide ? 120 : 84} left={C.p1} right={C.p2} />
+            <SallananTerazi size={wide ? 120 : 84} />
           </View>
           <Text style={[styles.entryIntro, { marginTop: wide ? 10 : 6 }]}>{t("Celse'de üç bölüm var:")}</Text>
           <View style={{ gap: 8, marginTop: 4 }}>

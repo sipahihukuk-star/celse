@@ -18,14 +18,15 @@ export function davalariYukle(): Promise<CaseFile[]> {
 /** Yüklendiyse davalar, yoksa boş liste (yükleme bitince useDavalar yeniden çizer). */
 export const yukluDavalar = (): CaseFile[] => yuklu || [];
 
-/** Yerleşik davalar; arkadan yüklenir. gecikme: açılışta önce asıl ekran gelsin diye yüklemeyi biraz geciktirir (ms). */
+/** Yerleşik davalar; arkadan yüklenir. gecikme: açılışta önce asıl ekran gelsin diye yüklemeyi biraz geciktirir (ms);
+ *  eksi değer: bu ekranda hiç yükleme (dava takibi, danışma). */
 export function useDavalar(gecikme = 0): CaseFile[] {
   const [, yenile] = useState(0);
   useEffect(() => {
     const f = () => yenile(x => x + 1);
     dinleyen.add(f);
     let z: ReturnType<typeof setTimeout> | undefined;
-    if (!yuklu) { if (gecikme > 0) z = setTimeout(() => { davalariYukle().catch(() => {}); }, gecikme); else davalariYukle().catch(() => {}); }
+    if (!yuklu && gecikme >= 0) { if (gecikme > 0) z = setTimeout(() => { davalariYukle().catch(() => {}); }, gecikme); else davalariYukle().catch(() => {}); }
     return () => { dinleyen.delete(f); if (z) clearTimeout(z); };
   }, [gecikme]);
   return yukluDavalar();
