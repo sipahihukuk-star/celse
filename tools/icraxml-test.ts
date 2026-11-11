@@ -15,6 +15,9 @@ ok(/takipTuru="0" takipYolu="1" takipSekli="0"/.test(x) && /mahiyetKodu="4045"/.
 ok(/<kurum kurumAdi="Hayali Yapı A.Ş." vergiNo="1234567890"/.test(x) && /<kisiTumBilgileri adi="Uydurma Kişi" soyadi="Bir" tcKimlikNo="10000000146"/.test(x), "kişi / kurum");
 ok(/ilamDosyaNoYil="2015" ilamDosyaSira="432" ilamKararNoYil="2026" ilamKararSira="592" ilamTarihi="24\/06\/2026"/.test(x), "ilam: " + (x.match(/<ilam[^>]*>/) || [])[0]);
 ok(/alacakKalemTutar="1000.50"/.test(x) && /faizTipKod="FAIZT00007"/.test(x) && /faizTipKod="FAIZT00002"/.test(x), "kalem ve faiz kodları");
+// Vergi no'suz şirket de kurum sayılır (Türkçe harfte sözcük sınırı)
+const g = uyapXml({ ...f, karsiBilgi: {} }, { yol: "genel", kalemler: [{ ad: "Asıl alacak", tutar: 100, faizTuru: "yok" }] }, { adSoyad: "Av. Deneme Avukat", tcKimlikNo: "10000000146", baroNo: "1" });
+ok(/<kurum kurumAdi="Hayali Yapı A.Ş."/.test(g), "vergi no'suz A.Ş. kurum");
 if (process.argv[2]) require("fs").writeFileSync(process.argv[2], x);
 if (fail) { console.log(`icraxml-test: ${fail} hata`); process.exit(1); }
 console.log("icraxml-test: tamam");
