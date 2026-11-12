@@ -6,7 +6,11 @@ import { mask } from "../engine/mask";
 import { BEYAN_KLASORLERI, BEYAN_TURLERI, beyanTuru } from "./beyan";
 import { ayarOku, ayarYaz, dosyaSaklanir, yeniId } from "./foy";
 
-export interface DilekceOrnegi { id: string; ad: string; klasor: string; tur?: string; konu?: string; metin: string; eklenme: string; kaynak?: string }
+export interface DilekceOrnegi { id: string; ad: string; klasor: string; tur?: string; konu?: string; metin: string; eklenme: string; kaynak?: string; /** son değişiklik (eşitleme) */ guncelleme?: string }
+/** Örnekler değişince (eklendi, silindi, öteki cihazdan geldi) haber verilir. */
+const dinleyen = new Set<() => void>();
+export function ornekDinle(f: () => void) { dinleyen.add(f); return () => { dinleyen.delete(f); }; }
+const haber = () => dinleyen.forEach(f => { try { f(); } catch { /* yok say */ } });
 
 const ANAHTAR = "dilekceOrnekleri";
 const TEK = 40000;
@@ -57,21 +61,33 @@ export async function ornekEkle(k: { ad: string; metin: string; klasor?: string;
   if (metin.length < 80) throw new Error("Örnekte yeterli yazı yok ya da kişisel veri tam gizlenemedi; kaydedilmedi.");
   const tur = k.tur || ornekTurTahmin(k.metin, k.ad) || undefined;
   const klasor = k.klasor && BEYAN_KLASORLERI.some(x => x.ad === k.klasor) ? k.klasor : tur ? beyanTuru(tur).klasor : "Dilekçeler";
-  const o: DilekceOrnegi = { id: yeniId("do"), ad: ad || tur || klasor, klasor, tur, konu: ornekKonu(metin) || undefined, metin, eklenme: new Date().toISOString() };
+  const simdi = new Date().toISOString();
+  const o: DilekceOrnegi = { id: yeniId("do"), ad: ad || tur || klasor, klasor, tur, konu: ornekKonu(metin) || undefined, metin, eklenme: simdi, guncelleme: simdi };
   const xs = [o, ...(await ornekler()).filter(x => x.metin !== metin)];
   let boyut = 0;
   const kalan = xs.filter(x => (boyut += x.metin.length * 2) <= toplamSinir());
   if (!kalan.length) throw new Error("Örnek bu cihazın sınırını aşıyor.");
   await ayarYaz(ANAHTAR, kalan);
+  haber();
   return o;
 }
 export async function ornekGuncelle(id: string, ek: Partial<Pick<DilekceOrnegi, "klasor" | "tur" | "ad">>): Promise<DilekceOrnegi[]> {
-  const xs = (await ornekler()).map(x => (x.id === id ? { ...x, ...ek } : x));
-  await ayarYaz(ANAHTAR, xs); return xs;
+  const xs = (await ornekler()).map(x => (x.id === id ? { ...x, ...ek, guncelleme: new Date().toISOString() } : x));
+  await ayarYaz(ANAHTAR, xs); haber(); return xs;
 }
 export async function ornekSil(id: string): Promise<DilekceOrnegi[]> {
   const xs = (await ornekler()).filter(x => x.id !== id);
-  await ayarYaz(ANAHTAR, xs); return xs;
+  await ayarYaz(ANAHTAR, xs);
+  // Silinen örnek öteki cihazlardan da silinsin (eşitlemede gönderilir).
+  const sil = (await ayarOku<Record<string, string>>(SILINEN)) || {};
+  sil[id] = new Date().toISOString();
+  await ayarYaz(SILINEN, sil);
+  haber(); return xs;
+}
+
+/** Eşitleme (ornekBulut.ts) için: listeyi olduğu gibi yazar. */
+export const SILINEN = "dilekceOrnekSilinen";
+export async function ornekleriYaz(xs: DilekceOrnegi[]) { await ayarYaz(ANAHTAR, xs); haber();
 }
 
 /** Klasör yolunda "örnek" ya da "şablon" geçen dosyalar örnektir; ardından gelen klasör adı Celse klasörüyse o klasöre girer. */
@@ -86,7 +102,7 @@ export function yoldanOrnek(yol: string): { klasor?: string } | null {
 
 /**
  * Beyan için örnek seçer. secim: "otomatik" | "yok" | örnek id. Otomatikte aynı türden en yeni iki örnek;
- * yoksa aynı klasörden konusu en yakın bir örnek. Toplam en çok 24 bin karakter.
+ * yoksa aynı klasörden konusu en yakın bir örnek; o da yoksa en yeni örnek (yalnız üslup için). Toplam en çok 24 bin karakter.
  */
 export function ornekSec(xs: DilekceOrnegi[], tur: string, secim = "otomatik"): DilekceOrnegi[] {
   if (secim === "yok" || !xs.length) return [];
@@ -98,7 +114,9 @@ export function ornekSec(xs: DilekceOrnegi[], tur: string, secim = "otomatik"): 
   const aday = xs.filter(x => x.klasor === klasor)
     .map(x => ({ x, p: ks.filter(k => kucuk(x.ad + " " + (x.konu || "") + " " + (x.tur || "")).includes(k)).length }))
     .sort((a, b) => b.p - a.p);
-  return aday.length && aday[0].p > 0 ? [aday[0].x] : [];
+  if (aday.length) return [aday[0].x];
+  // Aynı klasörde de yoksa en yeni örneğiniz yalnız üslup için örnek alınır.
+  return [[...xs].sort((a, b) => (b.guncelleme || b.eklenme).localeCompare(a.guncelleme || a.eklenme))[0]];
 }
 /** Seçilen örnekleri yapay zekâya gidecek tek metne çevirir. */
 export function ornekMetni(xs: DilekceOrnegi[]): string {

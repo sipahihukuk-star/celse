@@ -33,7 +33,7 @@ const o = (id: string, tur: string | undefined, klasor: string, ad = id): Dilekc
 const xs = [o("a", "Bilirkişi raporuna itiraz", "Dilekçeler"), o("b", "Bilirkişi raporuna itiraz", "Dilekçeler"), o("c", "Bilirkişi raporuna itiraz", "Dilekçeler"), o("d", undefined, "Kanun yolları", "istinaf örneği"), o("e", "Kira sözleşmesi", "Sözleşmeler")];
 ok(ornekSec(xs, "Bilirkişi raporuna itiraz").map(x => x.id).join() === "a,b", "aynı türden iki örnek");
 ok(ornekSec(xs, "İstinaf dilekçesi").map(x => x.id).join() === "d", "aynı klasörden konusu yakın örnek");
-ok(ornekSec(xs, "Temyiz dilekçesi").length === 0 && ornekSec(xs, "Bilirkişi raporuna itiraz", "yok").length === 0 && ornekSec(xs, "x", "e")[0].id === "e", "yok / elle seçim");
+ok(ornekSec(xs, "Temyiz dilekçesi").length === 1 && ornekSec(xs, "Bilirkişi raporuna itiraz", "yok").length === 0 && ornekSec(xs, "x", "e")[0].id === "e", "yok / elle seçim; eşleşme yoksa aynı klasörden bir örnek üslup için");
 ok(ornekMetni(xs.slice(0, 2)).includes("--- Örnek 2: Bilirkişi raporuna itiraz ---"), "örnek metni");
 if (fail) { console.log(`dilekce-ornek-test: ${fail} hata`); process.exit(1); }
 console.log("dilekce-ornek-test: tamam");
