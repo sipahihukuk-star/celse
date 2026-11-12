@@ -472,7 +472,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             const g = new Date(); const p2 = (n: number) => String(n).padStart(2, "0");
             const ad = `Yapıştırılan metin ${p2(g.getDate())}.${p2(g.getMonth() + 1)}.${g.getFullYear()} ${p2(g.getHours())}.${p2(g.getMinutes())}.txt`;
             const e = await evrakEkle(undefined, [{ ad, bytes: new TextEncoder().encode(metin) }]);
-            if (!e.length) throw new Error(t("Metin okunamadı."));
+            if (!e.length) throw new Error(esiVar(f.evraklar, { ad, boyut: metin.length, metin }) ? t("Bu metin föyde zaten var; yeniden kaydedilmedi.") : t("Metin okunamadı."));
           }} onEvrakSil={e => {
             // Yanlış evrak: silinir, ondan yazılan icra ve taraf bilgileri geri alınır, kalan evrakla yeniden doldurulur.
             const kalan = f.evraklar.filter(x => x.id !== e.id);
