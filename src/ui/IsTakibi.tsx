@@ -11,6 +11,7 @@ import { t } from "../i18n";
 import { Acilir } from "./Acilir";
 import { indir, s } from "./foyStil";
 import { DUZEY_RENK, duzeyAdi, GorevKapat } from "./GorevKapat";
+import { Sayfali } from "./Sayfalama";
 import { Btn } from "./kit";
 import { C } from "./theme";
 import { eIsDurusma, eKarar } from "../data/otoIs";
@@ -164,7 +165,7 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
         {bildirim === "granted" && <Text style={s.hint}>{t("Bildirimler açık: Celse her gün ilk açıldığında gecikmiş ve acil işleri, duruşma ve e-duruşma konularını bildirir.")}</Text>}
       </View>
 
-      {gorunen.map(({ f, g, u }) => {
+      <Sayfali anahtar="is-takibi" xs={gorunen} varsayilan={25} sifirla={[gorunen.length]} satir={({ f, g, u }) => {
         const renk = g.bitti ? C.line : DUZEY_RENK[u.duzey];
         return (
           <View key={f.id + g.id} style={[s.card, { borderLeftWidth: 5, borderLeftColor: renk, gap: 6 }]}>
@@ -190,7 +191,7 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
             {kapat === g.id && <GorevKapat g={g} onVazgec={() => setKapat(null)} onKapat={async k => { await gorevYaz(f, g, { bitti: true, kapanis: k }); setKapat(null); }} />}
           </View>
         );
-      })}
+      }} />
       {!gorunen.length && <Text style={s.hint}>{t("Bu süzgeçlere uyan iş yok.")}</Text>}
       {sayfaSay > 1 && (
         <View style={[s.row, { alignItems: "center" }]}>

@@ -9,6 +9,7 @@ import { Acilir } from "./Acilir";
 import { s } from "./foyStil";
 import { Katlanir } from "./Katlanir";
 import { Btn } from "./kit";
+import { Sayfali } from "./Sayfalama";
 import { C } from "./theme";
 
 const saat = (z: string) => { const d = new Date(z); return d.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit" }) + " " + d.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }); };
@@ -18,7 +19,6 @@ export function EvrakHareketKart({ liste, onAc }: { liste: Foy[]; onAc: (id: str
   const [xs, setXs] = useState<EvrakHareketi[]>([]);
   const [goster, setGoster] = useState<"yeni" | "hepsi">("yeni");
   const [yon, setYon] = useState<"hepsi" | "gelen" | "giden">("hepsi");
-  const [sayi, setSayi] = useState(40);
   useEffect(() => { const yukle = () => hareketler().then(setXs).catch(() => {}); yukle(); return hareketDinle(yukle); }, []);
   const ids = useMemo(() => new Set(liste.map(f => f.id)), [liste]);
   const gorunen = xs.filter(x => (goster === "hepsi" || !x.goruldu) && (yon === "hepsi" || x.yon === yon));
@@ -48,7 +48,7 @@ export function EvrakHareketKart({ liste, onAc }: { liste: Foy[]; onAc: (id: str
           {xs.some(x => x.goruldu) && <Btn kind="ghost" label={t("Görülenleri kaldır")} onPress={() => hareketSil("gorulenler")} />}
         </View>
         {!gorunen.length && <Text style={s.hint}>{t("Görmediğiniz hareket yok.")}</Text>}
-        {gorunen.filter(x => !yarimTarama(x)).slice(0, sayi).map(x => (
+        <Sayfali anahtar="evrak-hareket" xs={gorunen.filter(x => !yarimTarama(x))} varsayilan={10} sifirla={[goster, yon]} satir={x => (
           <View key={x.id} style={[s.file, { flexDirection: "column", alignItems: "stretch", gap: 3, opacity: x.goruldu ? 0.6 : 1 }]}>
             <Text style={s.fileT} numberOfLines={2}>{x.yon === "gelen" ? "📥 " : "📤 "}{x.ad}</Text>
             <Text style={[s.hint, { color: RENK[x.sonuc] || C.muted }]}>
@@ -65,8 +65,7 @@ export function EvrakHareketKart({ liste, onAc }: { liste: Foy[]; onAc: (id: str
               <Pressable onPress={() => hareketSil([x.id])}><Text style={s.sil}>{t("Kaldır")}</Text></Pressable>
             </View>
           </View>
-        ))}
-        {gorunen.length > sayi && <Btn kind="ghost" label={t("Daha fazla ({n})", { n: gorunen.length - sayi })} onPress={() => setSayi(n => n + 60)} />}
+        )} />
       </View>
     </Katlanir>
   );

@@ -11,6 +11,7 @@ import { t } from "../i18n";
 import { Acilir } from "./Acilir";
 import { indir, s } from "./foyStil";
 import { Katlanir } from "./Katlanir";
+import { Sayfali } from "./Sayfalama";
 import { Btn } from "./kit";
 import { C } from "./theme";
 
@@ -38,7 +39,6 @@ export function IsArsivi({ liste, onAc, zorla }: { liste: Foy[]; onAc: (id: stri
   const [ayar, setAyar] = useState<ArsivAyar>(ARSIV_VARSAYILAN);
   const [hazir, setHazir] = useState(false);
   const [goster, setGoster] = useState<"hepsi" | ArsivTur>("hepsi");
-  const [kac, setKac] = useState(30);
   const [mesaj, setMesaj] = useState("");
   useEffect(() => { ayarOku<ArsivAyar>("isArsivi").then(a => { if (a?.ay) setAyar(a); }).catch(() => {}).finally(() => setHazir(true)); }, []);
   const ayarDegis = (ek: Partial<ArsivAyar>) => { const y = { ...ayar, ...ek }; setAyar(y); ayarYaz("isArsivi", y).catch(() => {}); };
@@ -68,7 +68,7 @@ export function IsArsivi({ liste, onAc, zorla }: { liste: Foy[]; onAc: (id: stri
           secenekler={SAKLAMA_AY.map(a => ({ k: String(a), ad: a === 12 ? t("1 yıl") : t("{n} ay", { n: a }) }))} />
         <Acilir etiket={t("Süresi dolanlar")} secili={ayar.mod} genislik={260} onSec={k => ayarDegis({ mod: k as ArsivAyar["mod"] })}
           secenekler={[{ k: "gonder", ad: t("Önce bana gönder, sonra sil") }, { k: "sil", ad: t("Kendiliğinden sil") }]} />
-        <Acilir etiket={t("Göster")} secili={goster} genislik={220} onSec={k => { setGoster(k as "hepsi" | ArsivTur); setKac(30); }}
+        <Acilir etiket={t("Göster")} secili={goster} genislik={220} onSec={k => setGoster(k as "hepsi" | ArsivTur)}
           secenekler={[{ k: "hepsi", ad: t("Hepsi ({n})", { n: arsiv.length }) }, ...(["gecmis_acik", "gecmis_kapandi", "tamamlandi"] as ArsivTur[]).map(k => ({ k, ad: t(ARSIV_AD[k]) + " (" + sayi(k) + ")" }))]} />
       </View>
       {ayar.mod === "gonder" && dolan.length > 0 && (
@@ -84,7 +84,7 @@ export function IsArsivi({ liste, onAc, zorla }: { liste: Foy[]; onAc: (id: stri
         <Btn kind="secondary" label={t("📤 Arşivi bana gönder (.xlsx)")} disabled={!gorunen.length} onPress={async () => { if (await gonder(gorunen, `celse-is-arsivi-${bugun}.xlsx`)) setMesaj(t("{n} kayıt Excel dosyası olarak hazırlandı.", { n: gorunen.length })); }} />
       </View>
       {!!mesaj && <Text style={[s.hint, { color: C.good }]}>{mesaj}</Text>}
-      {gorunen.slice(0, kac).map(x => (
+      <Sayfali anahtar="is-arsivi" xs={gorunen} varsayilan={10} sifirla={[goster]} satir={x => (
         <Pressable key={x.f.id + x.g.id} onPress={() => onAc(x.f.id)} style={({ pressed }) => [s.yak, pressed && { opacity: 0.8 }]}>
           <Text style={[s.yakTarih, { color: RENK[x.tur] }]}>{trTarih(x.gun)}{"\n"}<Text style={[s.hint, { color: RENK[x.tur] }]}>{t(ARSIV_AD[x.tur])}</Text></Text>
           <View style={{ flex: 1 }}>
@@ -92,8 +92,7 @@ export function IsArsivi({ liste, onAc, zorla }: { liste: Foy[]; onAc: (id: stri
             <Text style={s.hint} numberOfLines={1}>{foyBaslik(x.f)} · {x.f.mahkeme} {x.f.esasNo}{x.g.kapanis?.no && !x.g.kapanis.sureGecti ? " · " + x.g.kapanis.no : ""}</Text>
           </View>
         </Pressable>
-      ))}
-      {gorunen.length > kac && <Pressable onPress={() => setKac(k => k + 50)}><Text style={s.link}>{t("Daha fazla göster ({n} kaldı)", { n: gorunen.length - kac })}</Text></Pressable>}
+      )} />
     </Katlanir>
   );
 }

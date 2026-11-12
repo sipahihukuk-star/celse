@@ -5,6 +5,7 @@ import React, { useMemo, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { bugunGun, dTur, DTur, DTUR_AD, DTUR_SIMGE, EDurum, eSorulur, girildiSoru, gunKaydir, icraMi, takvim, TakvimSatir } from "../data/durusma";
 import { eDurumYaz } from "../data/otoIs";
+import { useSayfalama } from "./Sayfalama";
 import { Foy, foyKaydet } from "../data/foy";
 import { turBilgi } from "../data/foyTurleri";
 import { xlsxYaz } from "../data/xlsxYaz";
@@ -42,12 +43,14 @@ export function DurusmalarEkrani({ liste, onAc, yukleAc }: { liste: Foy[]; onAc:
   const q = ara.trim().toLocaleLowerCase("tr");
   const satirlar = hepsi.filter(x => (tur === "hepsi" || (tur === "e" ? eSatiri(x) : x.tur === tur)) && (!bekleyen || !!x.uyari)
     && (!q || [x.f.muvekkil, x.f.karsiTaraf, x.d.mahkeme || x.f.mahkeme, x.d.esasNo || x.f.esasNo, x.f.davaTuru].join(" ").toLocaleLowerCase("tr").includes(q)));
+  // Sıraya dizilir, sayfalara bölünür (Sayfada 5 / 10 / 25…), sayfadakiler gün gün gruplanır.
+  const sirali = useMemo(() => (sira === "yeni" ? [...satirlar].reverse() : satirlar), [satirlar, sira]);
+  const sayfa = useSayfalama("durusmalar", sirali, 25, [donem, tur, bekleyen, sira, satirlar.length]);
   const gruplar = useMemo(() => {
     const m = new Map<string, TakvimSatir[]>();
-    for (const x of satirlar) m.set(x.gun, [...(m.get(x.gun) || []), x]);
-    const xs = [...m.entries()];
-    return sira === "yeni" ? xs.reverse().map(([g, ys]) => [g, [...ys].reverse()] as [string, TakvimSatir[]]) : xs;
-  }, [satirlar, sira]);
+    for (const x of sayfa.sayfadaki) m.set(x.gun, [...(m.get(x.gun) || []), x]);
+    return [...m.entries()];
+  }, [sayfa.sayfadaki]);
 
   // Özet: bugün, yarın, 7 gün, e-duruşma kararı beklenen, geçmişte işaretlenmemiş.
   const ozet = useMemo(() => {
@@ -124,6 +127,7 @@ export function DurusmalarEkrani({ liste, onAc, yukleAc }: { liste: Foy[]; onAc:
         </View>
       </View>
 
+      {sayfa.ust}
       {gruplar.map(([g, xs]) => (
         <View key={g} style={{ gap: 6 }}>
           <Text style={{ color: g === bugun ? C.bad : C.brass, fontWeight: "800", fontSize: 15, marginTop: 6 }}>
@@ -166,6 +170,7 @@ export function DurusmalarEkrani({ liste, onAc, yukleAc }: { liste: Foy[]; onAc:
           })}
         </View>
       ))}
+      {sayfa.alt}
       {!gruplar.length && <Text style={s.hint}>{t("Bu dönemde duruşma, haciz ya da keşif yok.")}</Text>}
     </ScrollView>
   );
