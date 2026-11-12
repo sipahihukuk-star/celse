@@ -1,6 +1,7 @@
 // Toplu föy oluşturma: Excel (.xlsx), CSV ya da Word (.docx) tablosundan. İlk satır başlıktır; başlık adları serbesttir
 // ("Müvekkil", "Karşı taraf", "Mahkeme", "Esas no", "Dava türü", "Sıfatımız", "Duruşma tarihi", "Not", "Yapılacak"...).
 // Dosya cihazda okunur; hiçbir yere gönderilmez.
+import { ayniFoyuBul } from "./tekillik";
 import { unzipSync, strFromU8 } from "fflate";
 import { bosFoy, Foy, FoyTaraf, tarihCoz, yeniId } from "./foy";
 
@@ -148,12 +149,19 @@ export function tablodanFoyler(tablo: (string | number)[][]): AktarimSonucu {
 
 /** Aynı mahkeme ve esas numaralı föy varsa yenisi onunla birleştirilir (tekrar yükleme çift föy yaratmasın). */
 export function birlestir(varolan: Foy[], gelen: Foy[]): { yeni: Foy[]; guncellenen: Foy[] } {
-  const anahtar = (f: Foy) => (f.esasNo ? sade(f.mahkeme) + "|" + sade(f.esasNo) : "");
-  const harita = new Map(varolan.filter(anahtar).map(f => [anahtar(f), f] as const));
+  // Aynı dosya (esas no aynı, merci çelişmiyor; tekillik.ts): var olan föy güncellenir, listede ikinci kez geçen satır yeni föy
+  // açmaz.
   const yeni: Foy[] = [], guncellenen: Foy[] = [];
   for (const g of gelen) {
-    const v = anahtar(g) ? harita.get(anahtar(g)) : undefined;
+    const v = ayniFoyuBul([...guncellenen, ...varolan.filter(x => !guncellenen.some(y => y.id === x.id))], g);
+    const y = v ? undefined : ayniFoyuBul(yeni, g);
+    if (y) {
+      for (const k of ["muvekkil", "karsiTaraf", "davaTuru", "mahkeme", "durusma", "acilis"] as const) if (!String(y[k] || "").trim() && g[k]) (y as unknown as Record<string, unknown>)[k] = g[k];
+      continue;
+    }
     if (!v) { yeni.push(g); continue; }
+    const i = guncellenen.findIndex(x => x.id === v.id);
+    if (i >= 0) guncellenen.splice(i, 1);
     guncellenen.push({
       ...v, muvekkil: g.muvekkil || v.muvekkil, karsiTaraf: g.karsiTaraf || v.karsiTaraf, davaTuru: g.davaTuru || v.davaTuru,
       durusma: g.durusma || v.durusma, notlar: g.notlar && !v.notlar.includes(g.notlar) ? (v.notlar ? v.notlar + "\n" : "") + g.notlar : v.notlar,

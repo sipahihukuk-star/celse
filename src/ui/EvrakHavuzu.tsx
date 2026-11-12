@@ -21,6 +21,7 @@ import { AktarimSonucu, birlestir, tabloOku, tablodanFoyler } from "../data/foyA
 import { metinleriGetir } from "../data/foyBulut";
 import type { TaramaDosyasi } from "./foyKlasor";
 import { listedenFoyler } from "../data/dosyaListesi";
+import { ayniEvrakMi, ayniFoyuBul, esiVar } from "../data/tekillik";
 import { Btn } from "./kit";
 import { C } from "./theme";
 
@@ -45,6 +46,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy, hazir: klasorden }: { l
   const [hazir, setHazir] = useState<boolean>(() => { try { return globalThis.localStorage?.getItem("celse-cevrimdisi-hazir") === "1"; } catch { return false; } });
 
   const [goster, setGoster] = useState<string | null>(null);
+  const [tekrar, setTekrar] = useState(0);
   const [iskelet, setIskelet] = useState<string | null>(null);
   const [tablolar, setTablolar] = useState<{ ad: string; sonuc: AktarimSonucu }[]>([]);
   const [tabloHata, setTabloHata] = useState("");
@@ -98,9 +100,8 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy, hazir: klasorden }: { l
   // Excel satırlarından föyler: listede aynı mahkeme ve esas varsa güncellenir, yoksa yeni föy olur. Evrak bu föylerle de eşleşir.
   const ayrim = useMemo(() => {
     const tek: Foy[] = [];
-    const anahtar = (f: Foy) => (f.esasNo ? (f.mahkeme || "").toLocaleLowerCase("tr") + "|" + f.esasNo.replace(/\s+/g, "") : "");
-    const gorulen = new Set<string>();
-    for (const x of tablolar.flatMap(t => t.sonuc.foyler)) { const a = anahtar(x); if (!a || !gorulen.has(a)) { tek.push(x); if (a) gorulen.add(a); } }
+    // Birden çok listede (ya da aynı listede iki kez) geçen dosya tek föy olur.
+    for (const x of tablolar.flatMap(t => t.sonuc.foyler)) if (!ayniFoyuBul(tek, x)) tek.push(x);
     return tek.length ? birlestir(liste, tek) : { yeni: [] as Foy[], guncellenen: [] as Foy[] };
   }, [tablolar, liste]);
   const tumFoy = useMemo(() => [...liste, ...ayrim.yeni], [liste, ayrim]);
@@ -113,7 +114,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy, hazir: klasorden }: { l
     const dosyalar = await dosyaListesiSec(UZANTILAR, klasor);
     if (!dosyalar.length) return;
     const yeni: Okunan[] = [];
-    let i = 0;
+    let i = 0, tekrarSayisi = 0;
     for (const d of dosyalar) {
       i++;
       const uz = (d.name.split(".").pop() || "").toLowerCase();
@@ -139,6 +140,8 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy, hazir: klasorden }: { l
         if (okunan.some(x => x.ad === k.ad && x.boyut === k.bytes.length) || yeni.some(x => x.ad === k.ad && x.boyut === k.bytes.length)) continue;
         const o = await evrakMetniOku(k, m => setIlerleme(t("({a} / {b}) {ad}: {m}", { a: i, b: dosyalar.length, ad: k.ad, m: t(m) })));
         const metin = "hata" in o ? "" : o.metin;
+        // Aynı evrak bu yüklemede ikinci kez geldiyse (başka adla, UDF ile PDF'i) bir kez alınır.
+        if ([...okunan, ...yeni].some(x => ayniEvrakMi(x, { ad: k.ad, boyut: k.bytes.length, metin }))) { tekrarSayisi++; continue; }
         // UYAP dosya listesi (her satırı bir dosya): evrak değil, her satır föy olur (Excel listesi gibi).
         const lf = metin ? listedenFoyler(metin, k.ad) : [];
         if (lf.length) { setTablolar(x => [...x.filter(y => y.ad !== k.ad), { ad: k.ad, sonuc: { foyler: lf, eslesen: {}, eslesmeyen: [], atlanan: 0 } }]); continue; }
@@ -153,6 +156,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy, hazir: klasorden }: { l
       }
     }
     setIlerleme("");
+    if (tekrarSayisi) setTekrar(x => x + tekrarSayisi);
     setOkunan(x => [...x, ...yeni]);
   };
 
@@ -162,7 +166,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy, hazir: klasorden }: { l
     // Önce Excel listesindeki föyler kaydedilir (evrak bunlara da eklenebilsin diye).
     const listeFoy = ayrim.yeni.length + ayrim.guncellenen.length;
     if (listeFoy) await foylerKaydet([...ayrim.yeni, ...ayrim.guncellenen]);
-    let yeniFoy = 0, eklenen = 0;
+    let yeniFoy = 0, eklenen = 0, atlananTekrar = 0;
     const tasinan: string[] = [];
     const grupFoy: Record<string, string> = {};
     const isle = async (hedef: Hedef, evraklar: Okunan[], g?: HavuzGrup, kunye?: { merci?: string; no?: string }) => {
@@ -177,7 +181,8 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy, hazir: klasorden }: { l
       const eklenecek: FoyEvrak[] = [];
       // Kronoloji: evrak kendi tarihine göre eklenir.
       for (const e of [...evraklar].sort((a, b) => (a.oneri.belgeTarihi || "9999").localeCompare(b.oneri.belgeTarihi || "9999"))) {
-        if (f.evraklar.some(x => x.ad === e.ad && x.boyut === e.boyut)) { if (kaynakFoy) tasinan.push(e.id); continue; } // aynı evrak zaten var
+        if (!kaynakFoy?.evraklar.some(x => x.id === e.id) && esiVar([...f.evraklar, ...eklenecek], e)) { atlananTekrar++; continue; } // aynı evrak föyde zaten var
+        if (f.evraklar.some(x => x.id === e.id)) { if (kaynakFoy) tasinan.push(e.id); continue; }
         if (kaynakFoy) tasinan.push(e.id);
         setIlerleme(t("{ad} föye ekleniyor…", { ad: e.ad }));
         // Föyden ayırırken evrak olduğu gibi taşınır (aynı kimlik, asıl dosya ve buluttaki yazı korunur).
@@ -217,7 +222,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy, hazir: klasorden }: { l
     }
     foyHaber();
     setUyguluyor(false); setIlerleme("");
-    onBitti(t("{n} evrak föylere eklendi; {y} yeni föy açıldı.", { n: eklenen, y: yeniFoy + ayrim.yeni.length }) + (ayrim.guncellenen.length ? " " + t("Excel listesinden {g} föy güncellendi.", { g: ayrim.guncellenen.length }) : ""));
+    onBitti(t("{n} evrak föylere eklendi; {y} yeni föy açıldı.", { n: eklenen, y: yeniFoy + ayrim.yeni.length }) + (atlananTekrar + tekrar ? " " + t("{n} evrak zaten vardı (aynı yazı), kaydedilmedi.", { n: atlananTekrar + tekrar }) : "") + (ayrim.guncellenen.length ? " " + t("Excel listesinden {g} föy güncellendi.", { g: ayrim.guncellenen.length }) : ""));
   };
 
   // Okuyucu güncellendiğinde ya da yazı tanıma sonradan hazırlandığında ayrılamayan evrak asıl dosyadan yeniden okunur.
@@ -282,6 +287,7 @@ export function EvrakHavuzu({ liste, onBitti, kaynakFoy, hazir: klasorden }: { l
           <Btn kind="secondary" label={t("Klasör seç")} disabled={!!ilerleme || uyguluyor} onPress={() => sec(true)} />
           {okunan.length > 0 && <Btn kind="ghost" label={t("Temizle")} disabled={uyguluyor} onPress={() => { setOkunan([]); setHedefler({}); setAyriHedef({}); }} />}
         </View>}
+        {tekrar > 0 && <Text style={[s.hint, { color: C.mid }]}>{t("{n} evrak bu yüklemede ikinci kez geldi (aynı yazı başka adla ya da UDF ile PDF'i); bir kez alındı.", { n: tekrar })}</Text>}
         {!!ilerleme && <View style={[s.row, { alignItems: "center" }]}><ActivityIndicator color={C.brass} /><Text style={s.hint}>{ilerleme}</Text></View>}
       </View>
 

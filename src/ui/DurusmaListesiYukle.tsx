@@ -2,6 +2,7 @@
 // görüntüsü ya da kopyalanan metin) okunur, her satır dosya numarası ve mahkemeye göre föyüyle eşleştirilir; avukat önizlemeyi
 // görüp onaylayınca günler föylerin duruşmalarına işlenir. Eşleşmeyen satırlar için föy seçilir, yeni föy açılır ya da atlanır.
 // Liste bu cihazda okunur; hiçbir yere gönderilmez.
+import { ayniFoyuBul } from "../data/tekillik";
 import React, { useMemo, useState } from "react";
 import { Platform, Pressable, Text, TextInput, View } from "react-native";
 import { DTUR_AD, DTUR_SIMGE } from "../data/durusma";
@@ -77,13 +78,19 @@ export function DurusmaListesiYukle({ liste, onBitti }: { liste: Foy[]; onBitti?
       const foyeGore = new Map<string, ListeDurusmasi[]>();
       const yeniler: Foy[] = [];
       for (const { e, s: sc } of islenecek) {
-        if (sc === "yeni") yeniler.push(listedenYeniFoy(e.r));
+        if (sc === "yeni") {
+          // Aynı dosyanın listede birden çok günü varsa tek yeni föy açılır, günler ona işlenir.
+          const v = ayniFoyuBul(yeniler, { mahkeme: e.r.mahkeme, esasNo: e.r.esasNo });
+          if (v) yeniler.splice(yeniler.indexOf(v), 1, listeyiIsle(v, [e.r]));
+          else yeniler.push(listedenYeniFoy(e.r));
+        }
         else foyeGore.set(sc, [...(foyeGore.get(sc) || []), e.r]);
       }
       const kayit: Foy[] = [];
       for (const [id, xs] of foyeGore) { const f = (await foyGetir(id)) || liste.find(x => x.id === id); if (f) kayit.push(listeyiIsle(f, xs)); }
       await foylerKaydet([...kayit, ...yeniler]);
-      const m = t("{n} gün {f} föye işlendi.", { n: islenecek.length - yeniler.length, f: kayit.length }) + (yeniler.length ? " " + t("{y} yeni föy açıldı.", { y: yeniler.length }) : "");
+      const yeniGun = islenecek.filter(x => x.s === "yeni").length;
+      const m = t("{n} gün {f} föye işlendi.", { n: islenecek.length - yeniGun, f: kayit.length }) + (yeniler.length ? " " + t("{y} yeni föy açıldı.", { y: yeniler.length }) : "");
       setSonuc(m); setOkunan(null); setSecim({}); setMetin(""); setYapistir(false);
       onBitti?.(m);
     } catch (e) { setHata(String((e as Error).message || e)); }

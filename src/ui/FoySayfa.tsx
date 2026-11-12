@@ -1,5 +1,6 @@
 // Föy sayfası: tür ve aşama, dosya zinciri (öncesi ve devamı), künye, yapılacaklar, evrak (tür ve önem, kodlu hâli),
 // "Dosya ne durumda?" (önemli evrak üzerinden yapay zekâ özeti, sesli dinleme). Her şey bu cihazda; dışarı yalnız kodlu metin gider.
+import { esiVar } from "../data/tekillik";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { kunyeCikar, kunyeyiDoldur, yapiIskeleti } from "../data/kunyeCikar";
@@ -35,7 +36,7 @@ import { metinleriGetir } from "../data/foyBulut";
 import { setAvukatKalan, usePremium } from "../data/subscription";
 import { useAccount } from "../data/account";
 import { EVRAK_KREDI } from "../data/purchaseIds";
-import { durumKaynagi, evrakHazirla, evrakOkuVeHazirla, Kaynak } from "./foyEvrak";
+import { durumKaynagi, evrakHazirla, evrakMetniOku, evrakOkuVeHazirla, evrakOlustur, Kaynak } from "./foyEvrak";
 import { boyutYaz, dosyaSec, gunYaz, indir, s } from "./foyStil";
 import { sesliDur, sesliOku, sesliOkumaVar, useSesliOkuma, yerelSesVar } from "./sesliOku";
 import { IconBadge } from "./icons";
@@ -157,15 +158,21 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       else sira.push(k);
     }
     const eklenen: FoyEvrak[] = [];
+    const tekrarlar: string[] = [];
     let i = 0;
     for (const k of sira) {
       i++;
       const onEk = sira.length > 1 ? `(${i} / ${sira.length}) ` : "";
-      const r = await evrakOkuVeHazirla(f, k, m => setOkuma(`${onEk}${k.ad}: ${t(m)}`));
-      if ("hata" in r) { setErr(t("{ad}: {hata}.", { ad: k.ad, hata: t(r.hata) })); continue; }
+      const o = await evrakMetniOku(k, m => setOkuma(`${onEk}${k.ad}: ${t(m)}`));
+      if ("hata" in o) { setErr(t("{ad}: {hata}.", { ad: k.ad, hata: t(o.hata) })); continue; }
+      // Föyde (ya da bu yüklemede) aynı evrak varsa kaydedilmez.
+      const es = esiVar([...f.evraklar, ...eklenen], { ad: k.ad, boyut: k.bytes.length, metin: o.metin });
+      if (es) { tekrarlar.push(k.ad + (es.ad !== k.ad ? " (= " + es.ad + ")" : "")); continue; }
+      const r = await evrakOlustur(f, k, o);
       eklenen.push(zorTur ? { ...r, tur: zorTur, onemli: true } : r);
     }
     setOkuma("");
+    if (tekrarlar.length) setKunyeMesaj(m => [m, t("{n} evrak föyde zaten vardı, yeniden kaydedilmedi: {x}", { n: tekrarlar.length, x: tekrarlar.slice(0, 5).join(", ") + (tekrarlar.length > 5 ? "…" : "") })].filter(Boolean).join(" "));
     if (eklenen.length) {
       // İcra föyünde takibe konu evrak (ilam, çek, senet, kira sözleşmesi, fatura) icra bilgilerini de doldurur.
       const ic = f.tur === "icra" ? icraDoldur(f.icra || { yol: "genel", paraBirimi: "TL", faizTuru: "yasal" }, eklenen.map(e => e.metin), { kalem: false }) : null;
@@ -465,7 +472,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             const g = new Date(); const p2 = (n: number) => String(n).padStart(2, "0");
             const ad = `Yapıştırılan metin ${p2(g.getDate())}.${p2(g.getMonth() + 1)}.${g.getFullYear()} ${p2(g.getHours())}.${p2(g.getMinutes())}.txt`;
             const e = await evrakEkle(undefined, [{ ad, bytes: new TextEncoder().encode(metin) }]);
-            if (!e.length) throw new Error(t("Metin okunamadı."));
+            if (!e.length) throw new Error(esiVar(f.evraklar, { ad, boyut: metin.length, metin }) ? t("Bu metin föyde zaten var; yeniden kaydedilmedi.") : t("Metin okunamadı."));
           }} onEvrakSil={e => {
             // Yanlış evrak: silinir, ondan yazılan icra ve taraf bilgileri geri alınır, kalan evrakla yeniden doldurulur.
             const kalan = f.evraklar.filter(x => x.id !== e.id);
