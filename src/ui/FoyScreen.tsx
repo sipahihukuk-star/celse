@@ -27,6 +27,7 @@ import { Acilir } from "./Acilir";
 import { Katlanir } from "./Katlanir";
 import { IsArsivi } from "./IsArsivi";
 import { TekrarTemizle } from "./TekrarTemizle";
+import { Sayfali } from "./Sayfalama";
 import { ayniEvrakMi, esiVar } from "../data/tekillik";
 import { DavaListesi } from "./DavaListesi";
 import { gunlukBildirim, IsTakibi } from "./IsTakibi";
@@ -410,15 +411,15 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         <Katlanir anahtar="yaklasanlar" varsayilan baslik={t("Yaklaşanlar (14 gün)")} ozet={t("{n} duruşma ve iş", { n: yaklasan.length }) + (gecmisIs ? " · " + t("{n} süresi geçmiş iş arşivde", { n: gecmisIs }) : "")}>
           {gecmisIs > 0 && <Pressable onPress={() => { setArsivAc(true); setTimeout(() => { try { globalThis.document?.getElementById("is-arsivi")?.scrollIntoView({ behavior: "smooth", block: "start" }); } catch { /* yok say */ } }, 80); }}><Text style={[s.link, { color: C.bad }]}>{t("⚠ {n} işin son günü geçti: arşivde “süresi geçmiş” olarak duruyor", { n: gecmisIs })}</Text></Pressable>}
           {!yaklasan.length && <Text style={s.hint}>{t("Önümüzdeki 14 günde duruşma ya da iş yok.")}</Text>}
-          {yaklasan.slice(0, 20).map((y, i) => (
-            <Pressable key={i} onPress={() => setSecili({ id: y.f.id })} style={({ pressed }) => [s.yak, pressed && { opacity: 0.8 }]}>
+          <Sayfali anahtar="yaklasanlar" xs={yaklasan} varsayilan={10} satir={(y, i) => (
+            <Pressable key={y.f.id + y.tarih + i} onPress={() => setSecili({ id: y.f.id })} style={({ pressed }) => [s.yak, pressed && { opacity: 0.8 }]}>
               <Text style={[s.yakTarih, y.gun < 0 && { color: C.bad }, y.gun <= 2 && y.gun >= 0 && { color: C.brass }]}>{tarihYaz(y.tarih)}{"\n"}<Text style={s.hint}>{gunYaz(y.gun)}</Text></Text>
               <View style={{ flex: 1 }}>
                 <Text style={s.fileT}>{y.tur === "durusma" ? "⚖ " : "☐ "}{y.metin}</Text>
                 <Text style={s.hint} numberOfLines={1}>{foyBaslik(y.f)} · {y.f.mahkeme} {y.f.esasNo}</Text>
               </View>
             </Pressable>
-          ))}
+          )} />
         </Katlanir>
       )}
       <View nativeID="is-arsivi"><IsArsivi key={arsivAc ? "a" : "k"} liste={liste} onAc={id => setSecili({ id })} zorla={arsivAc} /></View>

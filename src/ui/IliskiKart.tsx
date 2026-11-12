@@ -1,5 +1,6 @@
 // Föylerim: "Bağlantı önerileri" kartı. Hangi föylerin birbirinin devamı ya da ilgilisi olduğunu, hangi evrakın yanlış föyde
 // durduğunu cihazda bulur (iliski.ts); avukat tek tuşla bağlar, taşır ya da "Değil" der (bir daha önerilmez).
+import { Sayfali } from "./Sayfalama";
 import React, { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { ayarOku, ayarYaz, Foy, foyBaslik, foyGetir, foyKaydet as foyKaydetAsil } from "../data/foy";
@@ -109,7 +110,7 @@ export function IliskiKart({ liste, onAc, odak, odakDegistir }: { liste: Foy[]; 
     <View style={[s.card, { borderColor: C.brass }]}>
       <Text style={odak ? [s.body, { color: C.text, fontWeight: "700" }] : s.cardT}>🔗 {odak ? t("Bu dosyayla ilgili olabilecek dosyalar ({n})", { n: oneriler.length }) : t("Bağlantı önerileri ({n})", { n: oneriler.length })}</Text>
       <Text style={s.hint}>{t("Dosya numaraları, kimlik numaraları, taraf adları ve dosya türlerine bakılarak bu cihazda bulundu; hiçbir bilgi dışarı gönderilmedi. Uygun olanı bağlayın, olmayana “Değil” deyin.")}</Text>
-      {goster.map(o => (
+      <Sayfali anahtar="baglanti-onerileri" xs={goster} varsayilan={10} satir={o => (
         <View key={o.anahtar} style={[s.foy, { flexDirection: "column", alignItems: "stretch", gap: 6 }]}>
           <Text style={s.meta}>{o.tur === "zincir" ? t("DEVAMI OLABİLİR") : o.tur === "ilgili" ? t("İLGİLİ OLABİLİR") : o.tur === "ayni" ? t("AYNI DOSYA İKİ KEZ AÇILMIŞ OLABİLİR") : t("EVRAK BAŞKA FÖYE AİT OLABİLİR")}</Text>
           {o.tur === "evrak" ? (
@@ -138,7 +139,7 @@ export function IliskiKart({ liste, onAc, odak, odakDegistir }: { liste: Foy[]; 
             <Btn kind="ghost" label={t("Değil")} onPress={() => reddet(o)} />
           </View>
         </View>
-      ))}
+      )} />
       {oneriler.length > 3 && <Btn kind="ghost" label={acik ? t("Daha az göster") : t("Hepsini göster ({n})", { n: oneriler.length })} onPress={() => setAcik(!acik)} />}
       {!!hata && <Text style={s.err}>{hata}</Text>}
       {!!bilgi && <Text style={[s.hint, { color: C.good }]}>{bilgi}</Text>}

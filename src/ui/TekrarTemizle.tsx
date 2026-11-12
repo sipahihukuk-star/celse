@@ -8,6 +8,7 @@ import { tekrarEdenEvrak } from "../data/tekillik";
 import { t } from "../i18n";
 import { s } from "./foyStil";
 import { Btn } from "./kit";
+import { Sayfali } from "./Sayfalama";
 import { C } from "./theme";
 
 export function TekrarTemizle({ liste, onBitti }: { liste: Foy[]; onBitti?: (m: string) => void }) {
@@ -35,14 +36,13 @@ export function TekrarTemizle({ liste, onBitti }: { liste: Foy[]; onBitti?: (m: 
       {!ac
         ? <View style={s.row}><Btn kind="secondary" label={t("Göster")} onPress={() => setAc(true)} /></View>
         : <>
-          {tekrar.slice(0, 30).map(({ f, xs }) => (
+          <Sayfali anahtar="tekrar-temizle" xs={tekrar} varsayilan={10} satir={({ f, xs }) => (
             <View key={f.id} style={{ gap: 2, borderTopWidth: 1, borderTopColor: C.line, paddingTop: 4 }}>
               <Text style={[s.hint, { color: C.text, fontWeight: "700" }]} numberOfLines={1}>{foyBaslik(f)} · {f.mahkeme} {f.esasNo}</Text>
               {xs.slice(0, 6).map((e: FoyEvrak) => <Text key={e.id} style={s.hint} numberOfLines={1}>– {e.ad}</Text>)}
               {xs.length > 6 && <Text style={s.hint}>{t("ve {n} evrak daha", { n: xs.length - 6 })}</Text>}
             </View>
-          ))}
-          {tekrar.length > 30 && <Text style={s.hint}>{t("ve {n} föy daha", { n: tekrar.length - 30 })}</Text>}
+          )} />
           <View style={[s.row, { gap: 8, alignItems: "center" }]}>
             <Btn label={busy ? t("Kaldırılıyor…") : t("🧹 Tekrarları kaldır ({m})", { m: toplam })} disabled={busy} onPress={temizle} />
             <Pressable onPress={() => setAc(false)}><Text style={s.link}>{t("Vazgeç")}</Text></Pressable>
