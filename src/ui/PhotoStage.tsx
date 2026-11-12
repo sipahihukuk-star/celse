@@ -73,7 +73,7 @@ export default function PhotoStage({ c, scene, focus, talking, say, side, faces:
   const { w: W0, h: H } = box;
   const W = Math.min(W0, Math.round(H * 2.1));
   const me = useCharacter();
-  const own = useMemo(() => (given ? null : cast(c, office?.avatar || me?.avatar)), [c.id, office?.avatar, me?.avatar, !!given]);
+  const own = useMemo(() => (given ? null : cast(c, me?.avatar || office?.avatar)), [c.id, office?.avatar, me?.avatar, !!given]);
   const faces = given || own!;
   // Büroda konuşan diğer kişi (büro ortağı, müvekkilin yakını, şirket yetkilisi; karşılıklı modda müvekkil): ilk konuştuğu
   // satırdan itibaren büroda görünür, salona geçilince çıkar. Böylece yüzü olmayan bir ses konuşmaz.

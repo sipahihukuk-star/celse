@@ -174,8 +174,11 @@ export function castFaces(c: CaseFile, avatar?: Avatar | null, accountFemale = f
   }
   // Oyuncunun kendisi: büroda seçtiği karakter; seçmemişse hesaptaki ada göre bir avukat.
   // Kanun yolunda oyuncu ilk derecedeki yüzüyle gelir.
-  if (inherited.p1) map.p1 = inherited.p1;
-  else if (!tahkim && (avatar || c.mode === "solo")) {
+  // Seçilen karakter her dosyada (tek kişilik, karşılıklı, tahkim, kanun yolu) oyuncunun yüzüdür; karakter seçilmemişse de
+  // her dosyada aynı (hesaptaki ada göre) yüz gelir.
+  const ps0 = c.mode === "duel" ? (ap ? "p1" : playerSide) : "p1";
+  if (inherited[ps0] && (!avatar || inherited[ps0] === avatar)) map[ps0] = inherited[ps0];
+  else {
     const mine: PhotoKey = avatar || (accountFemale ? "av-kadin-32" : "av-erkek-38");
     // Karşı tarafın avukatı oyuncunun yüzünü taşıyorsa ona başka bir yüz ver.
     const ps = c.mode === "duel" ? playerSide : "p1";

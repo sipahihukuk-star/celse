@@ -22,7 +22,16 @@ export function visualAudit(raw: CaseFile): VisualIssue[] {
   const out: VisualIssue[] = [];
 
   // 1 ve 2: karşılıklı dava, iki taraf için ayrı ayrı.
-  if (c.mode === "duel" && c.room !== "tahkim") for (const side of ["p1", "p2"] as const) {
+  // 1a: tek kişilik dosyada ve bütün kanun yolu aşamalarında oyuncunun yüzü seçtiği karakterdir (tahkim dahil).
+  if (c.mode !== "duel") { const f0 = castFaces(c, AV, false); if (f0.p1 !== AV) out.push({ tur: "yuz", yer: "dosya", sorun: "Oyuncunun yüzü seçtiği karakter değil.", oneri: "Kod hatası: geliştiriciye bildirin." }); }
+  try {
+    for (const st of allStages(c)) {
+      const fs = castFaces(st, AV, false, "p1");
+      if (fs.p1 !== AV) out.push({ tur: "yuz", yer: `${st.appealOf?.kind || "kanun yolu"} aşaması`, sorun: "Kanun yolu aşamasında oyuncunun yüzü seçtiği karakter değil.", oneri: "Kod hatası: geliştiriciye bildirin." });
+      else if (Object.entries(fs).some(([r, k]) => r !== "p1" && k === AV)) out.push({ tur: "yuz", yer: `${st.appealOf?.kind || "kanun yolu"} aşaması`, sorun: "Kanun yolu aşamasında başka biri oyuncunun yüzünü taşıyor.", oneri: "Kod hatası: geliştiriciye bildirin." });
+    }
+  } catch { /* aşaması olmayan dosya */ }
+  if (c.mode === "duel") for (const side of ["p1", "p2"] as const) {
     const f = castFaces(c, AV, false, side);
     const other = side === "p1" ? "p2" : "p1";
     if (f[side] !== AV) out.push({ tur: "yuz", yer: `${side} tarafı`, sorun: `Oyuncu ${side} tarafını oynadığında kendi yüzü o tarafta görünmüyor.`, oneri: "Kod hatası: geliştiriciye bildirin." });
@@ -30,7 +39,7 @@ export function visualAudit(raw: CaseFile): VisualIssue[] {
     const guest = Object.keys(c.cast).find(r => !/^(judge|p1|p2)$/.test(r)) || null;
     let bildirildi = false;
     c.steps.forEach((st, i) => {
-      if (st.scene !== "office" || bildirildi) return;
+      if (st.scene !== "office" || bildirildi || c.room === "tahkim") return;
       const keys = stageLayout({ c, scene: "office", faces: f, focus: null, guest, W: 1200, H: 600, side: st.side }).figs.map(x => x.key);
       if (!keys.includes(st.side)) { out.push({ tur: "sahne", yer: `${i + 1}. adım`, sorun: `Büroda sırası gelen avukat (${st.side}) görünmüyor.`, oneri: "Kod hatası: geliştiriciye bildirin." }); bildirildi = true; }
       else if (keys.includes(st.side === "p1" ? "p2" : "p1")) { out.push({ tur: "sahne", yer: `${i + 1}. adım`, sorun: "Büroda karşı vekil de görünüyor.", oneri: "Kod hatası: geliştiriciye bildirin." }); bildirildi = true; }
