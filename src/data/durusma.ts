@@ -213,7 +213,8 @@ export function evraktanDurusma(f: Foy, evraklar: { id: string; metin: string; t
       const d = xs.find(x => x.tarih.slice(0, 10) === b.oturum!.tarih.slice(0, 10));
       if (d && !d.girildi) { xs = xs.map(x => (x.id === d.id ? { ...x, girildi: b.oturum!.girildi } : x)); degisen.add(b.oturum.girildi === "evet" ? "duruşmaya girildi" : "duruşmaya girilmedi"); }
     }
-    if (b.e) {
+    // E-duruşma yalnız hukuk davalarında (ceza duruşmasında e-duruşma yoktur; SEGBİS ayrı bir şeydir).
+    if (b.e && eSorulur(f)) {
       const ref = b.e.tarih || (e.tarih || b.belgeTarihi || e.eklenme.slice(0, 10));
       const d = b.e.tarih ? xs.find(x => x.tarih.slice(0, 10) === b.e!.tarih!.slice(0, 10) && dTur(x) === "durusma") : durusmaSirala(xs).find(x => x.tarih.slice(0, 10) >= ref.slice(0, 10) && dTur(x) === "durusma");
       if (d && (!d.e || E_SIRA[b.e.durum] > E_SIRA[d.e] || (d.e === "istenmeyecek" && b.e.durum !== "talep"))) {
@@ -279,7 +280,7 @@ export function durusmaUyarilari(f: Foy, bugun = bugunGun()): DurusmaUyari[] {
       continue;
     }
     if (!d.e && eSorulur(f)) ekle(d, "eSor", "E-duruşma talep edilecek mi? Karar verilmedi", gunEkle(g, -E_TALEP_GUN), 21);
-    else if (d.e === "talep") {
+    else if (d.e === "talep" && eSorulur(f)) {
       // Karar gelmeyen talep: talepten iki gün sonra (en geç duruşmadan iki hafta önce) her gün hatırlatılır; duruşmaya iki gün
       // kala karar hâlâ yoksa acil olur (UYAP'ta görünmeyen ret yüzünden duruşma kaçmasın).
       const bas = [d.eTalep ? gunEkle(d.eTalep, 2) : bugun, gunEkle(g, -14)].sort()[1];
@@ -287,7 +288,7 @@ export function durusmaUyarilari(f: Foy, bugun = bugunGun()): DurusmaUyari[] {
         : "E-duruşma talebine karar verilmedi: UYAP'tan kontrol edin";
       ekle(d, "eKarar", metin, gunEkle(g, -2), 21, bas);
     }
-    else if (d.e === "red") ekle(d, "eRed", "E-duruşma reddedildi: duruşmaya bizzat girilecek", g, 7);
+    else if (d.e === "red" && eSorulur(f)) ekle(d, "eRed", "E-duruşma reddedildi: duruşmaya bizzat girilecek", g, 7);
     if (kalanD === 0 && !d.girildi) ekle(d, "girildi", "Bugün duruşma var: girilince kutuyu işaretleyin", g);
   }
   // Son duruşma geçmiş, girilmiş ve sonraki gün yazılmamışsa: sonraki duruşma günü sorulur.

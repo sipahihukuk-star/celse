@@ -37,6 +37,7 @@ import { BuroKatilKart } from "./BuroKatilKart";
 import { TevkilListesi } from "./TevkilListesi";
 import { durusmaUyarilari, tumDurusmaUyarilari } from "../data/durusma";
 import { otoIsleriEsitle } from "../data/otoIs";
+import { foyNolariVer } from "../data/foyNo";
 import { otoEsitlemeBaslat } from "../data/bulutOto";
 import { telefonBildirimPlanla, webDurusmaBildirimi } from "./durusmaBildirim";
 
@@ -161,7 +162,9 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     foyListesi().then(x => {
       setListe(x); setYuklendi(true); setYukHata(""); gunlukBildirim(x); webDurusmaBildirimi(x);
       // Kendiliğinden işler (e-duruşma, eksik künye) föy föy güncellenir; yalnız değişen föyler kaydedilir.
-      const degisen = x.flatMap(f => { const g = otoIsleriEsitle(f); return g ? [{ ...f, gorevler: g, guncelleme: new Date().toISOString() }] : []; });
+      const numarali = new Map(foyNolariVer(x).map(f => [f.id, f] as const));
+      const degisen = x.flatMap(f0 => { const f = numarali.get(f0.id) || f0; const g = otoIsleriEsitle(f); return g || f !== f0 ? [{ ...f, ...(g ? { gorevler: g } : {}), guncelleme: new Date().toISOString() }] : []; });
+      if (numarali.size) setListe(x.map(f => numarali.get(f.id) || f));
       if (degisen.length) foylerKaydet(degisen).catch(() => {});
       // Telefonda duruşma bildirimleri: föyler değiştikten birkaç saniye sonra plan yenilenir.
       if (bildirimZaman) clearTimeout(bildirimZaman);
@@ -235,7 +238,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     .filter(f => aramaVar || !evrakli || f.evraklar.length > 0)
     .filter(f => aramaVar || davaF === null || (f.davaTuru || "").trim() === davaF)
     .filter(f => aramaVar || asamaF === null || (f.asama || "").trim() === asamaF)
-    .filter(f => !q || [f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, f.notlar, turBilgi(f.tur).ad, ...Object.values(f.muvekkilBilgi || {}), ...Object.values(f.karsiBilgi || {})].join(" ").toLocaleLowerCase("tr").includes(q))
+    .filter(f => !q || [f.foyNo || "", f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, f.notlar, turBilgi(f.tur).ad, ...Object.values(f.muvekkilBilgi || {}).flat(), ...Object.values(f.karsiBilgi || {}).flat(), ...(f.ekMuvekkiller || []).map(x => x.ad + " " + (x.kimlikNo || "")), ...(f.ekKarsiTaraflar || []).map(x => x.ad + " " + (x.kimlikNo || ""))].join(" ").toLocaleLowerCase("tr").includes(q))
     .filter(f => !eslesen || eslesen.has(f.id))
     .sort((a, b) => {
       const ac = (f: Foy) => f.acilis || f.olusturma.slice(0, 10);
@@ -288,7 +291,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
             <Pressable key={f.id} onPress={() => setSecili({ id: f.id })} style={({ pressed }) => [s.foy, pressed && { opacity: 0.85 }]}>
               <View style={{ flex: 1, gap: 3 }}>
                 <Text style={[s.turChip, f.ozel && s.ozelChip]}>{f.ozel ? "🔒 " : ""}{tb.kisa}{f.asama ? " · " + f.asama.toLocaleUpperCase("tr") : ""}</Text>
-                <Text style={s.foyT} numberOfLines={1}>{foyBaslik(f)}</Text>
+                <Text style={s.foyT} numberOfLines={1}>{f.foyNo ? f.foyNo + " · " : ""}{foyBaslik(f)}</Text>
                 <Text style={s.hint} numberOfLines={1}>{[f.mahkeme, f.esasNo, f.davaTuru, f.acilis ? t("açılış {d}", { d: tarihYaz(f.acilis) }) : ""].filter(Boolean).join(" · ") || t("Merci ve numara yazılmamış")}</Text>
                 {!!once && <Text style={s.hint} numberOfLines={1}>↳ {t("{tur} {no} dosyasının devamı", { tur: turBilgi(once.tur).ad, no: once.esasNo || "" })}</Text>}
                 <Text style={s.meta}>{[t("{n} EVRAK", { n: f.evraklar.length }), acikGorev ? t("{n} AÇIK İŞ", { n: acikGorev }) : ""].filter(Boolean).join(" · ")}
@@ -602,7 +605,7 @@ function GirisMenu({ liste, sahsi, onKapat, onSec, onEvraka }: { liste: Foy[]; s
           <Pressable key={f.id} onPress={() => onEvraka(f.id, alt.evrakaEkle!)} style={s.foy}>
             <View style={{ flex: 1 }}>
               <Text style={s.turChip}>{turBilgi(f.tur).kisa}</Text>
-              <Text style={s.foyT} numberOfLines={1}>{foyBaslik(f)}</Text>
+              <Text style={s.foyT} numberOfLines={1}>{f.foyNo ? f.foyNo + " · " : ""}{foyBaslik(f)}</Text>
               <Text style={s.hint} numberOfLines={1}>{[f.mahkeme, f.esasNo].filter(Boolean).join(" · ")}</Text>
             </View>
           </Pressable>
@@ -868,7 +871,7 @@ function Aktar({ mevcut, onBitti }: { mevcut: Foy[]; onBitti: (mesaj?: string) =
           {sonuc.foyler.slice(0, 30).map(f => (
             <View key={f.id} style={s.foy}>
               <View style={{ flex: 1 }}>
-                <Text style={s.foyT} numberOfLines={1}>{foyBaslik(f)}</Text>
+                <Text style={s.foyT} numberOfLines={1}>{f.foyNo ? f.foyNo + " · " : ""}{foyBaslik(f)}</Text>
                 <Text style={s.hint} numberOfLines={1}>{[f.taraf === "davali" ? t("Davalı vekili") : t("Davacı vekili"), f.mahkeme, f.esasNo, f.davaTuru].filter(Boolean).join(" · ")}</Text>
               </View>
               {!!f.durusma && <Text style={s.foyD}>{tarihYaz(f.durusma)}</Text>}

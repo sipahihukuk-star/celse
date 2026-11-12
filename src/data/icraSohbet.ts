@@ -3,7 +3,7 @@
 //  • kişi, şirket, adres, numara: maskeleme motoru ([DAVACI], [ŞİRKET-1] …);
 //  • tarihler: faiz başlangıcı için gün gerekir, bu yüzden her tarih [TARİH-n] koduna çevrilir (gerçeği cihazda kalır).
 // Cevaptaki kodlar cihazda gerçek değerlere döner; önerilen değişiklik avukat "Uygula" demeden yazılmaz.
-import { Foy } from "./foy";
+import { bizimVekiller, Foy, karsiVekiller, tumKarsiTaraflar, tumMuvekkiller } from "./foy";
 import { FaizTuru, Kalem, kalemleri, TakipYolu, turAdi } from "./icra";
 import { evrakTuruBul } from "./icraEvrak";
 import { mask, unmask } from "../engine/mask";
@@ -11,7 +11,8 @@ import { mask, unmask } from "../engine/mask";
 /** Föyün bilinen adları her metinde mutlaka kodlansın (şirketlerde unvan eki olmadan geçen kısa ad da). */
 const SIRKET_EKI = /\s+(A\.?\s?Ş\.?|ANONİM ŞİRKETİ|Anonim Şirketi|LTD\.?\s?ŞTİ\.?|Ltd\.?\s?Şti\.?|LİMİTED ŞİRKETİ|Limited Şirketi|ve Tic\.?.*|VE TİC\.?.*|San\.?\s?ve\s?Tic\.?.*)$/;
 export const ekAdlar = (f: Foy) => {
-  const xs = [f.muvekkil, f.karsiTaraf].map(x => (x || "").trim()).filter(x => x.length > 2);
+  // Birden çok müvekkil / karşı taraf ve bütün vekiller de kodlanır.
+  const xs = [...tumMuvekkiller(f), ...tumKarsiTaraflar(f)].map(x => x.ad).concat([...bizimVekiller(f), ...karsiVekiller(f)].map(v => v.replace(/^Av\.\s*/i, "").split(/[·,(]/)[0])).map(x => (x || "").trim()).filter(x => x.length > 2);
   for (const x of [...xs]) { const k = x.replace(SIRKET_EKI, "").trim(); if (k !== x && k.length > 4) xs.push(k); }
   return xs;
 };

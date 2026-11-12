@@ -1,6 +1,6 @@
 // Dava listesi (rapor): mahkeme, dosya no, taraflar, aşama, sıradaki iş, yargılama süresi ve Tazminat Komisyonu durumu.
 // Hukuk, ceza, idari dava, soruşturma, icra… bütün türler; şahsi dosyalar katılmaz. Excel'e aktarılabilir.
-import type { Foy } from "./foy";
+import { adlarUzun, Foy, tumKarsiTaraflar, tumMuvekkiller } from "./foy";
 import { turBilgi } from "./foyTurleri";
 
 const gunFark = (a: string, b: string) => Math.max(0, Math.round((Date.parse(b.slice(0, 10) + "T00:00:00Z") - Date.parse(a.slice(0, 10) + "T00:00:00Z")) / 86400000));
@@ -104,7 +104,7 @@ export function davaListesi(liste: Foy[], s: ListeSuzgec, bugun = new Date().toI
       const is = siradakiIs(f);
       return {
         f, tur: turBilgi(f.tur).ad, mahkeme: f.mahkeme, esasNo: f.esasNo,
-        taraflar: [f.muvekkil, f.karsiTaraf].filter(Boolean).join(" – "),
+        taraflar: [adlarUzun(tumMuvekkiller(f)), adlarUzun(tumKarsiTaraflar(f))].filter(Boolean).join(" – "),
         asama: f.asama || "", sonrakiIs: is.metin, sonrakiTarih: is.tarih,
         acilis: f.acilis || "", sure: yargilamaSuresi(f, bugun), komisyon: komisyonDurumu(f, byId), bireysel: bireyselDurumu(f, byId)
       };

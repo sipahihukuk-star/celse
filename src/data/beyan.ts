@@ -1,3 +1,4 @@
+import { adlarUzun, tumKarsiTaraflar, tumMuvekkiller } from "./foy";
 // Beyan editörü: föyden beyan / dilekçe taslağı. Başlık (merci, dosya no, taraflar, vekil, konu) cihazda föyden kurulur;
 // gövdeyi yapay zekâ kodlanmış föyden yazar (beyanCagri.ts), avukat düzeltir. Taslaklar föyde saklanır (büroda eşitlenir).
 // Çıktı avukatın seçtiği biçimde: UYAP UDF, Word (.docx) ya da PDF (yazdırma penceresinden).
@@ -178,23 +179,23 @@ export function beyanCercevesi(f: Foy, b: Pick<Beyan, "konu"> & { tur?: string }
       return { ust: [], alt: [], imza: 0, ortaBaslik: false };
     case "ihtarname":
       return {
-        ust: ["İHTARNAME", "", sat("KEŞİDECİ", f.muvekkil || "…"), sat("VEKİLİ", vekil), sat("MUHATAP", f.karsiTaraf || "…"), ...konu, ""],
+        ust: ["İHTARNAME", "", sat("KEŞİDECİ", (adlarUzun(tumMuvekkiller(f)) || "…")), sat("VEKİLİ", vekil), sat("MUHATAP", (adlarUzun(tumKarsiTaraflar(f)) || "…")), ...konu, ""],
         alt: ["", "Sayın Noter; işbu ihtarnamenin bir suretinin muhataba tebliğini, bir suretinin dairenizde saklanmasını ve tebliğ şerhli bir suretinin tarafımıza verilmesini rica ederiz.", "", tarih, "Keşideci Vekili", vekil],
         imza: 3, ortaBaslik: true
       };
     case "rapor":
       return {
-        ust: [merciyeHitap(f.mahkeme), "", ...(no ? [sat("DOSYA NO", no)] : []), sat(biz0, f.muvekkil || "…"), sat(karsi0, f.karsiTaraf || "…"), ...(b.konu ? [sat("RAPOR KONUSU", b.konu)] : []), ""],
+        ust: [merciyeHitap(f.mahkeme), "", ...(no ? [sat("DOSYA NO", no)] : []), sat(biz0, (adlarUzun(tumMuvekkiller(f)) || "…")), sat(karsi0, (adlarUzun(tumKarsiTaraflar(f)) || "…")), ...(b.konu ? [sat("RAPOR KONUSU", b.konu)] : []), ""],
         alt: ["", "Bilgilerinize saygıyla sunulur.", tarih, "Bilirkişi", vekil], imza: 3, ortaBaslik: true
       };
     case "basvuru":
       return {
-        ust: [hitap, "", ...(no && !/AVRUPA|ANAYASA/.test(hitap) ? [sat("DOSYA NO", no)] : []), sat(biz, f.muvekkil || "…"), sat("VEKİLİ", vekil), ...(f.karsiTaraf || /DEVLET/.test(karsi) ? [sat(karsi, /DEVLET/.test(karsi) ? "Türkiye Cumhuriyeti" : f.karsiTaraf)] : []), ...konu, ""],
+        ust: [hitap, "", ...(no && !/AVRUPA|ANAYASA/.test(hitap) ? [sat("DOSYA NO", no)] : []), sat(biz, (adlarUzun(tumMuvekkiller(f)) || "…")), sat("VEKİLİ", vekil), ...(f.karsiTaraf || /DEVLET/.test(karsi) ? [sat(karsi, /DEVLET/.test(karsi) ? "Türkiye Cumhuriyeti" : f.karsiTaraf)] : []), ...konu, ""],
         alt: ["", "Saygılarımızla.", tarih, `${sifat(biz)} Vekili`, vekil], imza: 4, ortaBaslik: true
       };
     default:
       return {
-        ust: [hitap, "", ...(no ? [sat("DOSYA NO", no)] : []), sat(biz, f.muvekkil || "…"), sat("VEKİLİ", vekil), sat(karsi, f.karsiTaraf || "…"), ...konu, ""],
+        ust: [hitap, "", ...(no ? [sat("DOSYA NO", no)] : []), sat(biz, (adlarUzun(tumMuvekkiller(f)) || "…")), sat("VEKİLİ", vekil), sat(karsi, (adlarUzun(tumKarsiTaraflar(f)) || "…")), ...konu, ""],
         alt: ["", "Saygılarımızla.", tarih, `${sifat(biz)} Vekili`, vekil], imza: 4, ortaBaslik: true
       };
   }

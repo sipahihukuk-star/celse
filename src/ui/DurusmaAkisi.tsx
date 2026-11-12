@@ -152,7 +152,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
                     backgroundColor: d.girildi === "evet" ? C.good : d.girildi === "hayir" ? C.bad : "transparent" }}>
                   {!!d.girildi && <Text style={{ color: "#fff", fontWeight: "800", fontSize: 12, lineHeight: 14 }}>{d.girildi === "evet" ? "✓" : "✗"}</Text>}
                 </Pressable>
-                {(esor || !!d.e) && dTur(d) === "durusma" && (
+                {esor && dTur(d) === "durusma" && (
                   <EKutu ad={t(e.ad)} onKabul={() => degistir(eKarar(f, d.id, "kabul"))} onRed={() => degistir(eKarar(f, d.id, "red"))}>
                     <View style={{ borderWidth: 1, borderColor: d.e ? e.renk : gecmis ? C.line : e.renk, borderRadius: 999, paddingHorizontal: 7, paddingVertical: 1 }}>
                       <Text style={{ color: d.e ? e.renk : gecmis ? C.muted : e.renk, fontSize: 12, fontWeight: "800" }}>{t(e.s)}</Text>
@@ -172,7 +172,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
               secenekler={[...new Set([...turler, dTur(sec)])].map(k => ({ k, ad: DTUR_SIMGE[k] + " " + t(DTUR_AD[k]) }))} />
             <Acilir etiket={t(girildiSoru(dTur(sec)))} secili={sec.girildi || "-"} genislik={180} onSec={k => dGuncelle(sec, { girildi: k === "-" ? undefined : k as Girildi })}
               secenekler={[{ k: "-", ad: t("İşaretlenmedi") }, { k: "evet", ad: "✓ " + (dTur(sec) === "kesif" ? t("Katılındı") : dTur(sec) === "haciz" ? t("Gidildi") : t("Girildi")) }, { k: "hayir", ad: "✗ " + (dTur(sec) === "kesif" ? t("Katılınmadı") : dTur(sec) === "haciz" ? t("Gidilmedi") : t("Girilmedi")) }]} />
-            {(esor || !!sec.e) && dTur(sec) === "durusma" && <Acilir etiket={t("E-duruşma")} secili={sec.e || "-"} genislik={230}
+            {esor && dTur(sec) === "durusma" && <Acilir etiket={t("E-duruşma")} secili={sec.e || "-"} genislik={230}
               onSec={k => dGuncelle(sec, { e: k === "-" ? undefined : k as EDurum, ...(k === "talep" && !sec.eTalep ? { eTalep: bugun } : {}), ...((k === "kabul" || k === "red") && !sec.eKarar ? { eKarar: bugun } : {}) })}
               secenekler={[{ k: "-", ad: t("Henüz karar verilmedi") }, { k: "istenmeyecek", ad: t("Talep edilmeyecek") }, { k: "talep", ad: "⏳ " + t("Talep edildi, karar bekleniyor") }, { k: "kabul", ad: "✓ " + t("Kabul edildi") }, { k: "red", ad: "✗ " + t("Reddedildi") }]} />}
             {uyeler.length > 1 && <Acilir etiket={t("Bu dosyanın sorumlusu")} secili={f.sorumlu?.id || "-"} genislik={200}
