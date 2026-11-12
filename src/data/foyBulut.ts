@@ -17,6 +17,7 @@ import {
 import { Anahtar, b64, b64Coz, coz, hamAnahtar, hamTuret, kodla, metneCevir, rastgele, sifrele } from "./sifre";
 import { buroAnahtari, buroYetkim } from "./buro";
 import { buroDosyalariYukle } from "./buroDosya";
+import { ornekleriEsitle } from "./ornekBulut";
 
 const DOGRULAMA = "celse-foy-bulut";
 const TABLO = "foy_bulut", ANAHTAR_TABLO = "foy_bulut_anahtar";
@@ -338,6 +339,8 @@ async function esitleIc() {
   }
   await gonder();
   if (!buro) await ayarYaz("bulutSilinen", {});
+  // Dilekçe örnekleri (kodlu; bütün cihazlarda örnek alınsın diye) aynı şifreyle eşitlenir. Hata föy eşitlemesini durdurmaz.
+  try { await ornekleriEsitle(sb, uid, k, paketle, ac); } catch { /* sonraki eşitlemede yeniden denenir */ }
   await ayarYaz("bulutGonderilen", gonderilen);
   await ayarYaz("bulutMetinGonderilen", metinGonderilen);
   const son = new Date().toISOString();

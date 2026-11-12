@@ -9,7 +9,7 @@ import { beyanYazdir } from "./beyanCagri";
 import { Katlanir } from "./Katlanir";
 import { C } from "./theme";
 import { TextInput } from "react-native";
-import { DilekceOrnegi, ornekEkle, ornekGuncelle, ornekler, ornekSil } from "../data/dilekceOrnek";
+import { DilekceOrnegi, ornekDinle, ornekEkle, ornekGuncelle, ornekler, ornekSil } from "../data/dilekceOrnek";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
 import { evrakMetniOku } from "./foyEvrak";
@@ -32,6 +32,44 @@ export async function dosyalardanOrnek(dosyalar: { ad: string; bytes: Uint8Array
   return { eklenen, hatali };
 }
 
+/**
+ * "📥 Dilekçelerimi çek": avukatın bilgisayarındaki dilekçeleri (tek tek ya da bütün klasör) Celse'ye alır. Metin cihazda okunur,
+ * adlar ve numaralar gizlenerek saklanır; eşitleme açıksa öteki bilgisayarlara ve telefona da gider. Beyan yazılırken
+ * Celse bunlardan örnek alır (üslup ve yapı).
+ */
+export function DilekceCek({ kisa, onDegisti }: { kisa?: boolean; onDegisti?: () => void }) {
+  const [n, setN] = useState<number | null>(null);
+  const [ilerleme, setIlerleme] = useState("");
+  const [mesaj, setMesaj] = useState("");
+  const [bekle, setBekle] = useState(false);
+  useEffect(() => { const yukle = () => { ornekler().then(x => setN(x.length)).catch(() => setN(0)); }; yukle(); return ornekDinle(yukle); }, []);
+  const cek = async (klasorSec: boolean) => {
+    const dosyalar = await dosyaListesiSec(UZANTI, klasorSec);
+    if (!dosyalar.length) return;
+    setBekle(true); setMesaj("");
+    try {
+      const r = await dosyalardanOrnek(await Promise.all(dosyalar.map(async f => ({ ad: f.name, bytes: new Uint8Array(await f.arrayBuffer()), yol: (f as File & { webkitRelativePath?: string }).webkitRelativePath || f.name }))), undefined, setIlerleme);
+      setMesaj(t("{n} dilekçe alındı.", { n: r.eklenen }) + (r.hatali.length ? " " + t("Okunamayan ya da gizlenemeyen: {x}", { x: r.hatali.slice(0, 5).join(", ") + (r.hatali.length > 5 ? " …" : "") }) : ""));
+      onDegisti?.();
+    } finally { setIlerleme(""); setBekle(false); }
+  };
+  return (
+    <View style={[s.card, { gap: 6, borderColor: C.brass }]}>
+      <Text style={[s.body, { fontWeight: "800" }]}>{t("📥 Dilekçelerimi çek")}{n ? "  ·  " + t("{n} dilekçeniz kayıtlı", { n }) : ""}</Text>
+      {!kisa && <Text style={s.hint}>{t("Bilgisayarınızdaki kendi dilekçelerinizi (UDF, Word, PDF) tek tek ya da bütün klasörüyle Celse'ye alın. Adlar, kimlik ve dosya numaraları, adresler bu cihazda gizlenir; yalnız gizlenmiş hâli saklanır. Eşitleme açıksa öteki bilgisayarlarınıza ve telefonunuza da gider. Beyan yazarken Celse aynı türdeki dilekçelerinizi üslup ve yapı örneği olarak alır; olayları ve adları yeni dosyaya taşımaz.")}</Text>}
+      {web ? (
+        <View style={s.addRow}>
+          <Btn label={bekle ? t("Alınıyor…") : t("📄 Dilekçe dosyalarını seç")} disabled={bekle} onPress={() => cek(false)} />
+          <Btn kind="secondary" label={t("📁 Bütün klasörü al")} disabled={bekle} onPress={() => cek(true)} />
+        </View>
+      ) : <Text style={s.hint}>{t("Dilekçeleri bilgisayardaki Celse'den ekleyin; eşitlemeyle buraya da gelir.")}</Text>}
+      {!kisa && <Text style={s.hint}>{t("Başka bir bilgisayardaki dilekçeler için: o bilgisayarda Celse'yi açıp aynı hesapla buradan çekin ya da Celse Klasör programının izlediği evrak klasöründe “Dilekçe örnekleri” adlı bir alt klasöre koyun; kendiliğinden gelir.")}</Text>}
+      {!!ilerleme && <Text style={s.hint}>{ilerleme}</Text>}
+      {!!mesaj && <Text style={[s.hint, { color: C.good }]}>{mesaj}</Text>}
+    </View>
+  );
+}
+
 export function DilekceOrnekleri({ secili, onSec, yenile }: { secili?: Set<string>; onSec?: (id: string) => void; yenile?: number } = {}) {
   const [xs, setXs] = useState<DilekceOrnegi[]>([]);
   const [hedef, setHedef] = useState("_oto");
@@ -40,7 +78,7 @@ export function DilekceOrnekleri({ secili, onSec, yenile }: { secili?: Set<strin
   const [mesaj, setMesaj] = useState("");
   const [acik, setAcik] = useState<string | null>(null);
   const [bekle, setBekle] = useState(false);
-  useEffect(() => { ornekler().then(setXs).catch(() => {}); }, [yenile]);
+  useEffect(() => { const yukle = () => { ornekler().then(setXs).catch(() => {}); }; yukle(); return ornekDinle(yukle); }, [yenile]);
   const sayilar = useMemo(() => { const m: Record<string, number> = {}; for (const x of xs) m[x.klasor] = (m[x.klasor] || 0) + 1; return m; }, [xs]);
   const liste = goster === "_hepsi" ? xs : xs.filter(x => x.klasor === goster);
 
