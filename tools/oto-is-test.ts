@@ -6,7 +6,7 @@ let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
 const B = "2026-11-11";
 const f = bosFoy({ tur: "hukuk", muvekkil: "Deneme", karsiTaraf: "Örnek A.Ş.", mahkeme: "İzmir 3. Asliye Hukuk", esasNo: "2025/311",
-  durusmalar: [{ id: "d1", tarih: "2026-12-12T10:30" }, { id: "d0", tarih: "2026-10-01" }] as never,
+  durusmalar: [{ id: "d1", tarih: "2026-12-12T10:30" }, { id: "d0", tarih: "2026-08-01" }] as never,
   gorevler: [{ id: "g1", metin: "Elle iş", bitti: false, kaynak: "elle" }] });
 const g1 = otoIsleriEsitle(f, B)!;
 ok(!!g1 && g1.length === 2 && g1[0].id === "g1", "elle iş korunur, bir e-duruşma işi eklenir: " + g1?.map(x => x.id));
@@ -81,6 +81,24 @@ ok(!(otoIsleriEsitle({ ...bos, silinen: ["oto-kunye"] }, B) || []).some(x => x.i
   ok(suresiDolanlar([ff], 1, B).map(x => x.g.id).join(",") === "c,b", "1 ayda dolanlar");
   const sil = arsivdenSil(d);
   ok(sil.length === 1 && sil[0].gorevler.length === 3 && !sil[0].gorevler.some(g => g.id === "b"), "silinir");
+}
+// Tutanak işi: günü geçmiş duruşmanın tutanağı yoksa gecikmiş iş; tutanak eklenince kapanır. Ara karardaki görevler iş olur.
+{
+  const tf = bosFoy({ tur: "hukuk", muvekkil: "Deneme", karsiTaraf: "Örnek A.Ş.", mahkeme: "Uydurma 3. Asliye Hukuk", esasNo: "2025/311", taraf: "davaci",
+    durusmalar: [{ id: "p1", tarih: "2026-11-04T10:30" }, { id: "p2", tarih: "2026-11-20T10:30" }, { id: "p3", tarih: "2026-06-01" }] as never });
+  const a = otoIsleriEsitle(tf, B)!;
+  const t1 = a.find(x => x.id === "oto-t-p1");
+  ok(!!t1 && !t1.bitti && t1.tarih === "2026-11-04" && /tutanağını tarayıp/.test(t1.metin), "geçmiş duruşmaya tutanak işi: " + JSON.stringify(t1));
+  ok(!a.some(x => x.id === "oto-t-p2" || x.id === "oto-t-p3"), "ileri ve çok eski duruşmaya tutanak işi açılmaz");
+  const tutanak = "T.C.\nUYDURMA 3. ASLİYE HUKUK MAHKEMESİ\nDURUŞMA TUTANAĞI\nESAS NO : 2025/311\nCELSE NO : 4\nDURUŞMA TARİHİ : 04/11/2026\nDavacı vekili Av. Örnek geldi. Davalı vekili gelmedi.\nGEREĞİ DÜŞÜNÜLDÜ: 1- Bilirkişi ücreti olan 3.000,00 TL'nin yatırılması için davacı vekiline 2 hafta kesin süre verilmesine, aksi halde bu delile dayanmaktan vazgeçmiş sayılacağının ihtarına, 2- Davalı vekiline tanık listesini sunması için 1 hafta süre verilmesine, 3- Taraf vekillerine bilirkişi raporuna karşı beyanda bulunmaları için tebliğden itibaren 2 hafta süre verilmesine, 4- Duruşmanın 20/11/2026 günü saat 10:30'a bırakılmasına karar verildi.\nKatip 12345 Hakim 54321";
+  const tf2 = { ...tf, gorevler: a, evraklar: [{ id: "ev1", ad: "tutanak.udf", boyut: 1, eklenme: "2026-11-10T09:00:00Z", metin: tutanak }] } as never;
+  const b = otoIsleriEsitle(tf2, B)!;
+  ok(b.find(x => x.id === "oto-t-p1")?.bitti === true, "tutanak eklenince tutanak işi kapanır");
+  const ak = b.filter(x => x.id.startsWith("oto-ak-ev1"));
+  ok(ak.length === 2 && ak[0].kaynak === "evrak" && /3\.000,00 TL/.test(ak[0].metin) && ak[0].tarih === "2026-11-18", "ara karar: bizim tarafa iki iş (karşı tarafın tanık listesi yok): " + JSON.stringify(ak.map(x => [x.metin.slice(0, 60), x.tarih])));
+  ok(ak[1].tarih === "2026-11-24", "tebliğden itibaren süre evrakın eklendiği günden: " + ak[1].tarih);
+  const c = otoIsleriEsitle({ ...(tf2 as object), gorevler: b.filter(x => x.id !== ak[0].id), silinen: [ak[0].id] } as never, B);
+  ok(!(c || b.filter(x => x.id !== ak[0].id)).some(x => x.id === ak[0].id), "silinen ara karar işi geri gelmez");
 }
 if (fail) { console.log(`oto-is-test: ${fail} hata`); process.exit(1); }
 console.log("oto-is-test: tamam");

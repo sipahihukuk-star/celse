@@ -76,7 +76,7 @@ export function DurusmalarEkrani({ liste, onAc, yukleAc }: { liste: Foy[]; onAc:
   const excel = () => {
     const tablo: (string | number)[][] = [["Gün", "Saat", "Tür", "Mahkeme / merci", "Dosya no", "Müvekkil – karşı taraf", "Dosya türü", "Aşama", "E-duruşma", "Girildi", "Bekleyen konu"],
       ...(sira === "yeni" ? [...satirlar].reverse() : satirlar).map(x => [trTarih(x.d.tarih), x.d.tarih.length > 10 ? x.d.tarih.slice(11, 16) : "", DTUR_AD[x.tur], x.d.mahkeme || x.f.mahkeme, x.d.esasNo || x.f.esasNo,
-        [x.f.muvekkil, x.f.karsiTaraf].filter(Boolean).join(" – "), turBilgi(x.f.tur).ad, x.f.asama || "", x.d.e ? E_AD[x.d.e] : "", x.d.girildi === "evet" ? "Evet" : x.d.girildi === "hayir" ? "Hayır" : "", x.uyari?.metin || ""])];
+        [x.f.muvekkil, x.f.karsiTaraf].filter(Boolean).join(" – "), turBilgi(x.f.tur).ad, x.f.asama || "", x.d.e && eSorulur(x.f) ? E_AD[x.d.e] : "", x.d.girildi === "evet" ? "Evet" : x.d.girildi === "hayir" ? "Hayır" : "", x.uyari?.metin || ""])];
     const b = xlsxYaz("Duruşma haciz keşif", tablo, [12, 7, 9, 34, 12, 34, 16, 14, 26, 8, 34]);
     indir(`durusma-ve-kesifler-${bugun}.xlsx`, new Blob([b as BlobPart], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
   };
@@ -150,9 +150,9 @@ export function DurusmalarEkrani({ liste, onAc, yukleAc }: { liste: Foy[]; onAc:
                     {x.d.tarih.length > 10 ? x.d.tarih.slice(11, 16) + " · " : ""}{DTUR_SIMGE[tr] + " " + t(DTUR_AD[tr])} · {x.d.mahkeme || x.f.mahkeme || t("mahkeme yazılmamış")}{(x.d.esasNo || x.f.esasNo) ? " · " + (x.d.esasNo || x.f.esasNo) : ""}
                   </Text>
                   <Text style={s.hint} numberOfLines={1}>{[[x.f.muvekkil, x.f.karsiTaraf].filter(Boolean).join(" – "), x.f.davaTuru || t(turBilgi(x.f.tur).ad), x.f.asama].filter(Boolean).join(" · ")}</Text>
-                  {((!!x.d.e && !eSatiri(x)) || !!x.uyari) && (
+                  {((!!x.d.e && !eSatiri(x) && eSorulur(x.f)) || !!x.uyari) && (
                     <Text style={{ color: x.uyari ? C.mid : x.d.e === "kabul" ? C.good : x.d.e === "red" ? C.bad : C.textSoft, fontSize: 13, fontWeight: "700" }}>
-                      {[x.d.e && !kesif && !eSatiri(x) ? t(E_AD[x.d.e]) : "", x.uyari ? "⚠ " + t(x.uyari.metin) : ""].filter(Boolean).join(" · ")}
+                      {[x.d.e && !kesif && !eSatiri(x) && eSorulur(x.f) ? t(E_AD[x.d.e]) : "", x.uyari ? "⚠ " + t(x.uyari.metin) : ""].filter(Boolean).join(" · ")}
                     </Text>
                   )}
                   {!!x.d.not && <Text style={s.hint} numberOfLines={2}>{x.d.not}</Text>}

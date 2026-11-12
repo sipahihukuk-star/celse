@@ -18,18 +18,24 @@ export interface MuvekkilBilgi {
   vekil?: string;
   /** diğer müvekkiller, yetkili kişi, aile bilgisi gibi serbest not */
   ek?: string;
+  /** dosyadaki öteki vekillerimiz (ad, baro, sicil no); ilki "vekil" alanındadır */
+  ekVekiller?: string[];
 }
 export interface KarsiBilgi {
   kimlikNo?: string; telefon?: string; eposta?: string; adres?: string;
   /** karşı taraf vekili: ad, baro, sicil no */
   vekil?: string;
   ek?: string;
+  /** karşı tarafın öteki vekilleri; ilki "vekil" alanındadır */
+  ekVekiller?: string[];
 }
+/** Birden çok davacı / davalı olan dosyada ilkinden sonraki taraflar. */
+export interface TarafKisi { ad: string; kimlikNo?: string; adres?: string; telefon?: string; eposta?: string }
 /** İşin kapanışı: iş emri / evrak numarası olmadan iş kapanmaz. Numara elle yazılır ya da yüklenen görselden okunur. */
 export interface YzSoru { id: string; tarih: string; soru: string; cevap: string; kaynaklar?: { baslik: string; url: string }[] }
 export interface GorevKapanis { tarih: string; no: string; kaynak: "elle" | "gorsel"; gorsel?: string; /** iş yapılmadan süresi geçtiği için kapandı (arşivde "süresi geçti") */ sureGecti?: boolean }
 export interface Gorev {
-  id: string; metin: string; tarih?: string; bitti: boolean; kaynak: "elle" | "yapay" | "aktarma" | "oto";
+  id: string; metin: string; tarih?: string; bitti: boolean; kaynak: "elle" | "yapay" | "aktarma" | "oto" | "evrak";
   /** İşin eklendiği gün (uyarı, eklenmeden son güne geçen süreye göre artar). */
   eklenme?: string;
   kapanis?: GorevKapanis;
@@ -70,9 +76,15 @@ export interface Foy {
   ozel?: boolean;
   muvekkil: string; karsiTaraf: string; mahkeme: string; esasNo: string; davaTuru: string; taraf: FoyTaraf;
   /** müvekkilin iletişim ve vekâlet bilgileri: yalnız cihazda (eşitlemede şifreli); yapay zekâya hiç gönderilmez */
+  /** büro föy numarası (foyNo.ts: H-12, C-3, İ-40); bir kez verilir */
+  foyNo?: string;
   muvekkilBilgi?: MuvekkilBilgi;
+  /** öteki müvekkiller (ilki "muvekkil" alanındadır) */
+  ekMuvekkiller?: TarafKisi[];
   /** karşı tarafın kimlik, iletişim ve vekil bilgileri: müvekkil bilgileri gibi yalnız cihazda (eşitlemede şifreli) */
   karsiBilgi?: KarsiBilgi;
+  /** öteki karşı taraflar (ilki "karsiTaraf" alanındadır) */
+  ekKarsiTaraflar?: TarafKisi[];
   /** icra takibi hazırlığı (takip yolu, alacak kalemleri, faiz, dayanak belge) */
   icra?: import("./icra").IcraBilgi;
   durum: "acik" | "kapali";
@@ -107,8 +119,19 @@ export function bosFoy(k: Partial<Foy> = {}): Foy {
   return f;
 }
 /** Föyün adı: müvekkil – karşı taraf; adlar yoksa merci ve dosya no, o da yoksa açılış günü ("Müvekkil yazılmamış" yazılmaz). */
+/** Bütün müvekkiller / karşı taraflar (ilki künyedeki ana ad). */
+export const tumMuvekkiller = (f: Foy): TarafKisi[] => [{ ad: f.muvekkil || "", kimlikNo: f.muvekkilBilgi?.kimlikNo, adres: f.muvekkilBilgi?.adres, telefon: f.muvekkilBilgi?.telefon, eposta: f.muvekkilBilgi?.eposta }, ...(f.ekMuvekkiller || [])].filter(x => x.ad.trim());
+export const tumKarsiTaraflar = (f: Foy): TarafKisi[] => [{ ad: f.karsiTaraf || "", kimlikNo: f.karsiBilgi?.kimlikNo, adres: f.karsiBilgi?.adres, telefon: f.karsiBilgi?.telefon, eposta: f.karsiBilgi?.eposta }, ...(f.ekKarsiTaraflar || [])].filter(x => x.ad.trim());
+/** Bizim ve karşı tarafın bütün vekilleri. */
+export const bizimVekiller = (f: Foy): string[] => [f.muvekkilBilgi?.vekil || "", ...(f.muvekkilBilgi?.ekVekiller || [])].map(x => x.trim()).filter(Boolean);
+export const karsiVekiller = (f: Foy): string[] => [f.karsiBilgi?.vekil || "", ...(f.karsiBilgi?.ekVekiller || [])].map(x => x.trim()).filter(Boolean);
+/** "Ayşe Örnek ve 2 diğeri" */
+export const adlarKisa = (xs: TarafKisi[]) => !xs.length ? "" : xs.length === 1 ? xs[0].ad : `${xs[0].ad} ve ${xs.length - 1} diğeri`;
+/** Bütün adlar virgülle (arama, başlık satırı, beyan başlığı). */
+export const adlarUzun = (xs: TarafKisi[]) => xs.map(x => x.ad.trim()).filter(Boolean).join(", ");
+
 export const foyBaslik = (f: Foy) => {
-  const ad = [f.muvekkil, f.karsiTaraf].map(x => (x || "").trim()).filter(Boolean).join(" – ");
+  const ad = [adlarKisa(tumMuvekkiller(f)), adlarKisa(tumKarsiTaraflar(f))].map(x => (x || "").trim()).filter(Boolean).join(" – ");
   if (ad) return ad;
   const kunye = [f.mahkeme, f.esasNo].map(x => (x || "").trim()).filter(Boolean).join(" ");
   if (kunye) return kunye;

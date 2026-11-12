@@ -1,6 +1,6 @@
 // Evraktan künye çıkarma: uydurma (sentetik) UYAP biçimli metinlerle.
 import { yapiIskeleti, kunyeCikar, kunyeyiDoldur } from "../src/data/kunyeCikar";
-import { bosFoy } from "../src/data/foy";
+import { bosFoy, Foy, foyBaslik } from "../src/data/foy";
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
 const simdi = new Date("2026-11-08T10:00:00Z");
@@ -109,6 +109,17 @@ ok(!rd.ek.davaTuru, "dilekçenin konusu (beyan) dava konusu yazılmaz");
   ok(t("DAVACI-KARŞI DAVALI : AYŞE ÖRNEK\nDAVALI-KARŞI DAVACI : HAYALİ YAPI A.Ş.\n").startsWith("Ayşe Örnek | Hayali Yapı A.Ş."), "karşı dava rolleri");
   ok(t("İSTİNAF EDEN (DAVALI) : HAYALİ YAPI A.Ş.\nKARŞI TARAF (DAVACI) : AYŞE ÖRNEK\n").startsWith("Ayşe Örnek | Hayali Yapı A.Ş."), "istinaf rolleri parantezden: " + t("İSTİNAF EDEN (DAVALI) : HAYALİ YAPI A.Ş.\nKARŞI TARAF (DAVACI) : AYŞE ÖRNEK\n"));
   ok(t("DAVACI : AYŞE ÖRNEK\nDAVALI : 1-HAYALİ YAPI A.Ş.\nDAVALI : 2-ALİ HAYALİ\n") === "Ayşe Örnek | Hayali Yapı A.Ş. | 2", "alt alta numaralı davalılar");
+}
+// Birden çok davacı, davalı ve vekil: hepsi künyeye tek tek yazılır.
+{
+  const m = "T.C.\nUYDURMA 2. İŞ MAHKEMESİ\nDAVACILAR : 1- AYŞE ÖRNEK 2- MEHMET DENEME\nVEKİLLERİ : Av. ÖRNEK AVUKAT - Av. İKİNCİ AVUKAT\nVEKİLİ : Av. ÜÇÜNCÜ AVUKAT\nDAVALI : 1-HAYALİ YAPI A.Ş.\nVEKİLİ : Av. BAŞKA VEKİL, Av. DİĞER VEKİL\nDAVALI : 2-SOSYAL GÜVENLİK KURUMU BAŞKANLIĞI\n";
+  const r = kunyeyiDoldur({ ...bosFoy(), taraf: "davaci" }, kunyeCikar(m));
+  ok(r.ek.muvekkil === "Ayşe Örnek" && r.ek.ekMuvekkiller?.map(x => x.ad).join() === "Mehmet Deneme", "iki davacı: " + JSON.stringify([r.ek.muvekkil, r.ek.ekMuvekkiller]));
+  ok(r.ek.karsiTaraf === "Hayali Yapı A.Ş." && r.ek.ekKarsiTaraflar?.map(x => x.ad).join() === "Sosyal Güvenlik Kurumu Başkanlığı", "iki davalı");
+  ok(r.ek.muvekkilBilgi?.vekil === "Av. Örnek Avukat" && r.ek.muvekkilBilgi?.ekVekiller?.join() === "Av. İkinci Avukat,Av. Üçüncü Avukat", "üç vekilimiz: " + JSON.stringify(r.ek.muvekkilBilgi));
+  ok(r.ek.karsiBilgi?.vekil === "Av. Başka Vekil" && r.ek.karsiBilgi?.ekVekiller?.join() === "Av. Diğer Vekil", "karşı tarafın iki vekili");
+  const f2 = { ...bosFoy(), ...r.ek } as Foy;
+  ok(foyBaslik(f2) === "Ayşe Örnek ve 1 diğeri – Hayali Yapı A.Ş. ve 1 diğeri", "föy başlığı: " + foyBaslik(f2));
 }
 if (fail) { console.log(`kunye-test: ${fail} hata`); process.exit(1); }
 console.log("kunye-test: tamam");

@@ -177,7 +177,8 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
                   ? <Text style={[s.hint, { color: C.good }]}>{g.kapanis ? t("Kapandı {d} · no: {no}{g}", { d: tarihYaz(g.kapanis.tarih), no: g.kapanis.no, g: g.kapanis.kaynak === "gorsel" ? " · " + t("görselden okundu") : "" }) : t("Numarasız kapatılmış (eski kayıt)")}</Text>
                   : <Text style={{ color: renk, fontSize: 13, fontWeight: "700" }}>{duzeyAdi(u.duzey)} · {t(u.metin)}{g.tarih ? " · " + t("son gün {d}", { d: tarihYaz(g.tarih) }) : ""}</Text>}
                 {g.kaynak === "yapay" && !g.bitti && <Text style={s.hint}>{t("yapay zekâ önerisi, kontrol edin")}</Text>}
-                {g.kaynak === "oto" && !g.bitti && <Text style={s.hint}>{eIsDurusma(g) ? t("kendiliğinden açıldı; kabul ya da red işaretlenince kapanır") : t("kendiliğinden açıldı; künye tamamlanınca kapanır")}</Text>}
+                {g.kaynak === "oto" && !g.bitti && <Text style={s.hint}>{eIsDurusma(g) ? t("kendiliğinden açıldı; kabul ya da red işaretlenince kapanır") : g.id.startsWith("oto-t-") ? t("kendiliğinden açıldı; tutanak föye eklenince kapanır") : t("kendiliğinden açıldı; künye tamamlanınca kapanır")}</Text>}
+                {g.kaynak === "evrak" && !g.bitti && <Text style={s.hint}>{t("evraktaki ara karardan; son günü kontrol edin")}</Text>}
                 {uyeler.length > 1 && !g.bitti
                   ? <Acilir etiket={t("Kimde")} secili={g.atanan || ""} genislik={260} secenekler={kisiSecenek} onSec={k => gorevYaz(f, g, atama(k))} />
                   : !!g.atananAd && <Text style={s.hint}>👤 {g.atananAd}</Text>}

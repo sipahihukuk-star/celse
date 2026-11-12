@@ -3,7 +3,16 @@
 // içerdiği için bu iş bilinçli olarak cihazda yapılır, metin hiçbir yere gönderilmez. Föyde yalnız BOŞ alanlar doldurulur.
 import type { Foy, KarsiBilgi, MuvekkilBilgi } from "./foy";
 
-export interface TarafOneri { ad: string; kimlikNo?: string; adres?: string; vekil?: string }
+export interface TarafOneri { ad: string; kimlikNo?: string; adres?: string; vekil?: string; /** bu tarafın bütün vekilleri (ilki "vekil") */ vekiller?: string[] }
+/** "Av. A - Av. B", "1-Av. A 2-Av. B", "Av. A, Av. B ve Av. C": her vekil ayrı. */
+function vekilAdlari(deger: string): string[] {
+  const parca = deger.split(/(?=(?:^|(?<=[\s,;\-–]))(?:Av\.|AV\.)\s?\p{Lu})/u).map(x => x.replace(/^[\s,;\-–]*(?:\d{1,2}\s*[-.)]\s*)?/, "").replace(/[\s,;\-–]*(?:\bve\b|\bVE\b)?[\s,;\-–]*$/, "")).filter(x => x.trim());
+  return parca.map(p => tarafAyir(p, "")?.ad).filter((x): x is string => !!x).map(x => "Av. " + x);
+}
+function vekilEkle(t: TarafOneri | undefined, xs: string[]) {
+  if (!t) return;
+  for (const v of xs) { t.vekiller = t.vekiller || (t.vekil ? [t.vekil] : []); if (!t.vekiller.some(y => y.toLocaleUpperCase("tr") === v.toLocaleUpperCase("tr"))) t.vekiller.push(v); if (!t.vekil) t.vekil = v; }
+}
 export interface KunyeOneri {
   mahkeme?: string; esasNo?: string; konu?: string; durusma?: string;
   /** UYAP dosya türü ("CBS Soruşturma Dosyası", "Hukuk Dava Dosyası", "İcra Dosyası"…): föy türü tahmini için */
@@ -152,6 +161,7 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
         // "DAVACI VEKİLİ : Av. …"
         const v = tarafAyir(m[3] || satirlar[i + 1] || "", "")?.ad;
         if (v && o[yan] && !o[yan]!.vekil) o[yan]!.vekil = "Av. " + v;
+        vekilEkle(o[yan], vekilAdlari(m[3] || satirlar[i + 1] || ""));
         continue;
       }
       // Değer iki noktanın altındaki satırda ("DAVALI :" / "HAYALİ YAPI A.Ş.").
@@ -165,6 +175,14 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
       // Hemen altındaki "VEKİLİ :" satırı bu tarafındır.
       const alt = satirlar[j + 1]?.toLocaleUpperCase("tr").match(vekilDeseni) || satirlar[j + 2]?.toLocaleUpperCase("tr").match(vekilDeseni);
       if (alt && o[yan] && !o[yan]!.vekil) { const v = tarafAyir(alt[2], "")?.ad; if (v) o[yan]!.vekil = "Av. " + v; }
+      // Alt alta birden çok "VEKİLİ :" satırı ya da tek satırda birden çok avukat.
+      for (let z = j + 1; z < Math.min(satirlar.length, j + 8); z++) {
+        const u = satirlar[z]?.toLocaleUpperCase("tr");
+        if (!u) break;
+        if (rolBul(satirlar[z]) && !vekilDeseni.test(u)) break;
+        const vm = u.match(vekilDeseni);
+        if (vm) vekilEkle(o[yan], vekilAdlari(satirlar[z].slice(satirlar[z].length - vm[2].length)));
+      }
     }
   }
   // Rolün sonda ya da ortada olduğu tablo satırları ("AD SOYAD   Davacı   Av. …").
@@ -263,13 +281,24 @@ export function kunyeyiDoldur(f: Foy, o: KunyeOneri, bizimAdlar: string[] = []):
     mbDegisti = true; dolan.push("vekâletname");
   }
   if (bos(mb.vekil) && biz?.vekil) { mb.vekil = biz.vekil; mbDegisti = true; dolan.push("müvekkil vekili"); }
+  // Birden çok vekil: ilki "vekil", ötekiler ekVekiller (boşsa).
+  const vEk = (xs: string[] | undefined, ana?: string) => (xs || []).filter(v => !ana || v.toLocaleUpperCase("tr") !== ana.toLocaleUpperCase("tr"));
+  if (!(mb.ekVekiller || []).length && vEk(biz?.vekiller, mb.vekil).length) { mb.ekVekiller = vEk(biz?.vekiller, mb.vekil); mbDegisti = true; dolan.push(mb.ekVekiller.length + " vekil daha"); }
   if (mbDegisti) ek.muvekkilBilgi = mb;
   const kb: KarsiBilgi = { ...(f.karsiBilgi || {}) };
   let kbDegisti = false;
   if (bos(kb.kimlikNo) && onlar?.kimlikNo) { kb.kimlikNo = onlar.kimlikNo; kbDegisti = true; dolan.push("karşı taraf kimlik no"); }
   if (bos(kb.adres) && onlar?.adres) { kb.adres = onlar.adres; kbDegisti = true; dolan.push("karşı taraf adresi"); }
   if (bos(kb.vekil) && onlar?.vekil) { kb.vekil = onlar.vekil; kbDegisti = true; dolan.push("karşı taraf vekili"); }
+  if (!(kb.ekVekiller || []).length && vEk(onlar?.vekiller, kb.vekil).length) { kb.ekVekiller = vEk(onlar?.vekiller, kb.vekil); kbDegisti = true; dolan.push("karşı tarafın " + kb.ekVekiller.length + " vekili daha"); }
   if (kbDegisti) ek.karsiBilgi = kb;
+  // Birden çok davacı / davalı: ilki ana alanda, ötekiler ek listede (liste boşsa).
+  const ayni = (a?: string, b?: string) => sade(a) === sade(b);
+  const ekler = (xs: TarafOneri[] | undefined, ana?: string) => (xs || []).filter(x => !ayni(x.ad, ana)).map(x => ({ ad: x.ad, kimlikNo: x.kimlikNo, adres: x.adres }));
+  const bizL = davali ? o.ikinciler : o.birinciler, onlarL = davali ? o.birinciler : o.ikinciler;
+  const anaM = ek.muvekkil || f.muvekkil, anaK = ek.karsiTaraf || f.karsiTaraf;
+  if (!(f.ekMuvekkiller || []).length && ekler(bizL, anaM).length && (bizL || []).some(x => ayni(x.ad, anaM))) { ek.ekMuvekkiller = ekler(bizL, anaM); dolan.push(ek.ekMuvekkiller.length + " müvekkil daha"); }
+  if (!(f.ekKarsiTaraflar || []).length && ekler(onlarL, anaK).length && (onlarL || []).some(x => ayni(x.ad, anaK))) { ek.ekKarsiTaraflar = ekler(onlarL, anaK); dolan.push(ek.ekKarsiTaraflar.length + " karşı taraf daha"); }
   return { ek, dolan };
 }
 

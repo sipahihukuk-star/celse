@@ -1,5 +1,7 @@
 // Föy sayfası: tür ve aşama, dosya zinciri (öncesi ve devamı), künye, yapılacaklar, evrak (tür ve önem, kodlu hâli),
 // "Dosya ne durumda?" (önemli evrak üzerinden yapay zekâ özeti, sesli dinleme). Her şey bu cihazda; dışarı yalnız kodlu metin gider.
+import { TarafKunye } from "./TarafKunye";
+import { SesliIsGir } from "./SesliIsGir";
 import { esiVar } from "../data/tekillik";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
@@ -142,6 +144,20 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     foyGetir(id).then(x => { if (x) setF(y => { if (y && x.guncelleme > y.guncelleme) { setSurum(v => v + 1); return x; } return y; }); }).catch(() => {});
   }), [id]);
   const hemenKaydet = async () => { if (zaman.current && son.current) { clearTimeout(zaman.current); zaman.current = null; await foyKaydet(son.current); } };
+  // "💾 Kaydet": değişiklikler zaten birkaç saniye içinde kendiliğinden kaydedilir; düğme hemen kaydeder ve bunu gösterir.
+  const [kayitAni, setKayitAni] = useState("");
+  const kaydetDugme = async () => {
+    await hemenKaydet();
+    const x = son.current || f; if (x) await foyKaydet(x);
+    const d = new Date();
+    setKayitAni(String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"));
+  };
+  const kaydetSatiri = (
+    <View style={[s.row, { gap: 10, alignItems: "center", flexWrap: "wrap" }]}>
+      <Btn label={t("💾 Kaydet")} onPress={kaydetDugme} />
+      <Text style={[s.hint, { color: kayitAni ? C.good : C.muted }]}>{kayitAni ? t("Kaydedildi · {s}", { s: kayitAni }) : t("Değişiklikler birkaç saniye içinde kendiliğinden de kaydedilir.")}</Text>
+    </View>
+  );
   useEffect(() => () => { if (zaman.current && son.current) { clearTimeout(zaman.current); foyKaydet(son.current).catch(() => {}); } }, []);
   const zin = useMemo(() => (f ? zincir(f, liste) : { onceki: [], sonraki: [] }), [f, liste]);
 
@@ -271,22 +287,6 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       <TextInput defaultValue={deger} onChangeText={v => degistir({ [alan]: v } as Partial<Foy>)} placeholder={ph ? t(ph) : undefined} placeholderTextColor={C.muted} style={s.inputTek} />
     </View>
   );
-  const mb = f.muvekkilBilgi || {};
-  const mbDolu = Object.values(mb).filter(x => (x || "").trim()).length;
-  const mbEl = (etiket: string, k: keyof MuvekkilBilgi, ph?: string) => (
-    <View style={s.alan} key={"m" + k + ":" + surum}>
-      <Text style={s.label}>{t(etiket)}</Text>
-      <TextInput defaultValue={mb[k] || ""} onChangeText={v => degistir({ muvekkilBilgi: { ...(son.current?.muvekkilBilgi || f.muvekkilBilgi || {}), [k]: v } })} placeholder={ph ? t(ph) : undefined} placeholderTextColor={C.muted} multiline={k === "adres" || k === "ek"} style={s.inputTek} />
-    </View>
-  );
-  const kb = f.karsiBilgi || {};
-  const kbDolu = Object.values(kb).filter(x => (x || "").trim()).length;
-  const kbEl = (etiket: string, k: keyof KarsiBilgi, ph?: string) => (
-    <View style={s.alan} key={"k" + k + ":" + surum}>
-      <Text style={s.label}>{t(etiket)}</Text>
-      <TextInput defaultValue={kb[k] || ""} onChangeText={v => degistir({ karsiBilgi: { ...(son.current?.karsiBilgi || f.karsiBilgi || {}), [k]: v } })} placeholder={ph ? t(ph) : undefined} placeholderTextColor={C.muted} multiline={k === "adres" || k === "ek"} style={s.inputTek} />
-    </View>
-  );
   /** Okunmuş evraktan künyenin boş alanlarını doldurur (cihazda; metin hiçbir yere gitmez). */
   const kunyeEvraktan = (evraklar: FoyEvrak[], temel: Foy): Partial<Foy> => {
     let x: Foy = temel; const tum: string[] = [];
@@ -301,7 +301,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       if (r.dolan.length) { x = { ...x, ...r.ek }; tum.push(...r.dolan); }
     }
     const ek: Partial<Foy> = {};
-    for (const k of ["mahkeme", "esasNo", "davaTuru", "durusma", "muvekkil", "karsiTaraf", "muvekkilBilgi", "karsiBilgi", "taraf"] as const) if (x[k] !== temel[k]) (ek as Record<string, unknown>)[k] = x[k];
+    for (const k of ["mahkeme", "esasNo", "davaTuru", "durusma", "muvekkil", "karsiTaraf", "muvekkilBilgi", "karsiBilgi", "taraf", "ekMuvekkiller", "ekKarsiTaraflar"] as const) if (x[k] !== temel[k]) (ek as Record<string, unknown>)[k] = x[k];
     setKunyeMesaj(tum.length ? t("Evraktan dolduruldu: {x}. Kontrol edin.", { x: [...new Set(tum)].join(", ") }) : t("Evrakta künyeye eklenecek yeni bilgi bulunamadı (yalnız boş alanlar doldurulur)."));
     if (tum.length) setSurum(v => v + 1);
     if (ek.durusma) setDurusmaYazi(tarihYaz(ek.durusma));
@@ -381,43 +381,8 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   })();
   const kunyeBlok = (
       <Katlanir anahtar="kunye" baslik={t("Künye")} varsayilan={!f.mahkeme && !f.muvekkil} ozet={[f.mahkeme, f.esasNo, f.muvekkil].filter(Boolean).join(" · ")}>
-        {f.evraklar.some(e => e.metin.trim()) && (
-          <View style={[s.row, { alignItems: "center" }]}>
-            <Btn kind="ghost" label={t("Künyeyi belgelerden oluştur")} onPress={() => { const ek = kunyeEvraktan(f.evraklar, f); if (Object.keys(ek).length) degistir(ek); }} />
-            <Text style={[s.hint, { flex: 1 }]}>{t("Mahkeme, esas no, taraflar, vekiller, kimlik no, adres, duruşma günü ve vekâletname bilgisi evrakın kendisinden, bu cihazda okunur. Yalnız boş alanlar doldurulur.")}</Text>
-          </View>
-        )}
-        {!!kunyeMesaj && <Text style={[s.hint, { color: C.brass }]}>{kunyeMesaj}</Text>}
         <View style={s.alanlar}>
-          {alanEl("Müvekkil", f.muvekkil, "muvekkil")}
-          {alanEl("Karşı taraf", f.karsiTaraf, "karsiTaraf")}
-          <View style={[s.alan, { flexBasis: "100%" }]}>
-            <Pressable onPress={() => setMuvAc(!muvAc)}><Text style={s.link}>{muvAc ? "▾ " : "▸ "}{t("Müvekkil bilgileri")}{mbDolu ? " · " + t("{n} alan dolu", { n: mbDolu }) : ""}</Text></Pressable>
-            {muvAc && (
-              <View style={[s.alanlar, { marginTop: 6 }]}>
-                {mbEl("T.C. kimlik / vergi no", "kimlikNo")}
-                {mbEl("Telefon", "telefon")}
-                {mbEl("E-posta", "eposta")}
-                {mbEl("Adres", "adres")}
-                {mbEl("Vekili (dosyada görünen avukat: ad, baro, sicil no)", "vekil", "Örn. Av. … · İzmir Barosu · 12345")}
-                {mbEl("Vekâletname (noterlik, tarih, yevmiye no)", "vekaletname", "İzmir 5. Noterliği, 12.03.2026, 12345")}
-                {mbEl("Diğer bilgiler (diğer müvekkiller, yetkili, notlar)", "ek")}
-                <Text style={[s.hint, { flexBasis: "100%" }]}>{t("Bu bilgiler yalnız bu cihazda (eşitlemede şifreli) durur; yapay zekâya hiç gönderilmez.")}</Text>
-              </View>
-            )}
-            <Pressable onPress={() => setKarsiAc(!karsiAc)} style={{ marginTop: 6 }}><Text style={s.link}>{karsiAc ? "▾ " : "▸ "}{t("Karşı taraf bilgileri")}{kbDolu ? " · " + t("{n} alan dolu", { n: kbDolu }) : ""}</Text></Pressable>
-            {karsiAc && (
-              <View style={[s.alanlar, { marginTop: 6 }]}>
-                {kbEl("Vekili (ad, baro, sicil no)", "vekil", "Örn. Av. … · İzmir Barosu · 12345")}
-                {kbEl("T.C. kimlik / vergi no", "kimlikNo")}
-                {kbEl("Telefon", "telefon")}
-                {kbEl("E-posta", "eposta")}
-                {kbEl("Adres", "adres")}
-                {kbEl("Diğer bilgiler", "ek")}
-                <Text style={[s.hint, { flexBasis: "100%" }]}>{t("Bu bilgiler yalnız bu cihazda (eşitlemede şifreli) durur; yapay zekâya hiç gönderilmez.")}</Text>
-              </View>
-            )}
-          </View>
+          <TarafKunye f={f} degistir={degistir} guncel={() => son.current || f} surum={surum} taraflar={taraflar ? [taraflar[0], taraflar[1]] : undefined} />
           {alanEl(tb.merci, f.mahkeme, "mahkeme", tb.merciOrnek ? "Örn. " + tb.merciOrnek : undefined)}
           {alanEl(tb.no, f.esasNo, "esasNo", "Örn. 2026/123")}
           <View style={s.alan} key={"acilis:" + surum}>
@@ -462,6 +427,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         </View>
         <Text style={s.label}>{t("Notlar")}</Text>
         <TextInput defaultValue={f.notlar} onChangeText={v => degistir({ notlar: v })} multiline placeholder={t("Dosyayla ilgili notlarınız")} placeholderTextColor={C.muted} style={s.input} />
+        {kaydetSatiri}
       </Katlanir>
   );
   const icraBlok = (f.tur === "icra" || !!f.icra) ? (
@@ -565,8 +531,11 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     <View style={{ flex: 1 }}>
     <ScrollView ref={nav.ref} onScroll={nav.onScroll} scrollEventThrottle={64} contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
       <View style={s.head}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={geri} /></View>
-      <Text style={s.eyebrow}>{[tb.kisa, f.asama, f.mahkeme, f.esasNo].filter(Boolean).join(" · ").toLocaleUpperCase("tr")}</Text>
+      <Text style={s.eyebrow}>{[f.foyNo ? t("Föy no {n}", { n: f.foyNo }) : "", tb.kisa, f.asama].filter(Boolean).join(" · ").toLocaleUpperCase("tr")}</Text>
+      {/* Mahkeme ve dosya numarası başlığın hemen üstünde, büyük: "Foça Asliye Hukuk Mahkemesi · 2024/362 Esas" */}
+      {!!(f.mahkeme || f.esasNo) && <Text style={[s.body, { fontWeight: "800", fontSize: 17, color: C.brass }]}>{[f.mahkeme, f.esasNo].filter(Boolean).join(" · ")}</Text>}
       <Text style={s.title}>{foyBaslik(f)}</Text>
+      {kaydetSatiri}
       {f.ozel && <Text style={[s.turChip, s.ozelChip]}>🔒 {t("ŞAHSİ DOSYA · ŞİFRELİ SAKLANIR")}</Text>}
 
       {(() => {
@@ -642,7 +611,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         <TaleplerBolum f={f} degistir={degistir} evrakEkle={dosyaSaklanir() ? evrakEkle : undefined} />
       </Katlanir>
 
-      <Katlanir anahtar="gorev" baslik={t("Yapılacaklar")} ozet={acik.length ? t("{n} açık iş", { n: acik.length }) : t("açık iş yok")}>
+      <Katlanir anahtar="gorev" varsayilan baslik={t("Yapılacaklar")} ozet={acik.length ? t("{n} açık iş", { n: acik.length }) : t("açık iş yok")}>
         {acik.map(x => (
           <View key={x.id} style={s.gorev}>
             {x.kaynak === "oto"
@@ -658,7 +627,8 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
                   <Btn kind="ghost" label={t("✗ E-duruşma reddedildi")} onPress={() => degistir(eKarar(f, eIsDurusma(x)!, "red"))} />
                 </View>
               )}
-              {x.kaynak === "oto" && <Text style={s.hint}>{eIsDurusma(x) ? t("Kendiliğinden açılan iş: kabul ya da red işaretlenince kapanır (duruşma gününün yanındaki “E-duruşma” kutusuna sol tık kabul, sağ tık red).") : t("Kendiliğinden açılan iş: künye tamamlanınca kapanır.")}</Text>}
+              {x.kaynak === "oto" && <Text style={s.hint}>{eIsDurusma(x) ? t("Kendiliğinden açılan iş: kabul ya da red işaretlenince kapanır (duruşma gününün yanındaki “E-duruşma” kutusuna sol tık kabul, sağ tık red).") : x.id.startsWith("oto-t-") ? t("Kendiliğinden açılan iş: o günün tutanağı föye eklenince kapanır.") : t("Kendiliğinden açılan iş: künye tamamlanınca kapanır.")}</Text>}
+              {x.kaynak === "evrak" && <Text style={s.hint}>{t("Föye eklenen evraktaki ara karardan çıkarıldı; son gün süreden hesaplandı, kontrol edin.")}</Text>}
             </View>
             {!eIsDurusma(x) && <Pressable onPress={() => gorevDegistir(x, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>}
           </View>
@@ -668,6 +638,8 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
           <TextInput value={gorevTarih} onChangeText={setGorevTarih} onSubmitEditing={gorevEkle} placeholder={t("son gün")} placeholderTextColor={C.muted} style={[s.inputTek, { width: 120 }]} />
           <Btn kind="secondary" label={t("Ekle")} onPress={gorevEkle} />
         </View>
+        <SesliIsGir onEkle={xs => { const g = son.current || f; degistir({ gorevler: [...g.gorevler, ...xs] }); }}
+          onGeriAl={ids => { const g = son.current || f; degistir({ gorevler: g.gorevler.filter(x => !ids.includes(x.id)), silinen: silineniNotEt(g, ids) }); }} />
         {biten.length > 0 && <Text style={s.hint}>{t("Tamamlanan")}: {biten.map(x => x.metin + (x.kapanis ? ` (${t("no")}: ${x.kapanis.no}, ${tarihYaz(x.kapanis.tarih)})` : "")).join(" · ")}</Text>}
       </Katlanir>
 

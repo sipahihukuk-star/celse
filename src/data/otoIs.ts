@@ -2,9 +2,12 @@
 //  • E-duruşma: hukuk davasında ileri tarihli her duruşma için "E-duruşma talep et". Duruşma hapındaki "e" kutusunda kabul ya da
 //    red işaretlenmedikçe iş listeden çıkmaz (elle kapatılsa da yeniden açılır). Talep edildiyse iş "sonucunu işaretleyin" olur.
 //  • Künye: açık föyde müvekkil, karşı taraf, mahkeme ya da dosya no yoksa "Künyeyi tamamlayın". Hepsi yazılınca kendiliğinden kapanır.
+//  • Tutanak: günü geçmiş duruşma / keşfin tutanağı föyde yoksa "Duruşma tutanağını tarayıp föye ekleyin" (gecikmiş, kırmızı).
+//  • Ara karar: yeni eklenen tutanak / ara kararda bizim tarafa verilen görevler (evrakIs.ts).
 // İş kimlikleri sabittir (oto-e-<duruşma>, oto-kunye): aynı föy iki cihazda eşitlenince iş çoğalmaz.
 import { bugunGun, dTur, Durusma, E_TALEP_GUN, EDurum, eSorulur, gunEkle, icraMi } from "./durusma";
 import type { Foy, Gorev } from "./foy";
+import { evrakOku } from "./evrakIs";
 import type { FoyTur } from "./foyTurleri";
 
 const KUNYE_TAM: FoyTur[] = ["hukuk", "ceza", "idari_dava", "icra", "sorusturma", "arabuluculuk", "idari_sorusturma", "bireysel_basvuru", "tazminat_komisyonu", "baro", "ozel_ceza"];
@@ -27,6 +30,11 @@ const trGun = (x: string) => x.slice(0, 10).split("-").reverse().join(".") + (x.
 const KARAR_ADI: Record<EDurum, string> = { kabul: "kabul edildi", red: "reddedildi", istenmeyecek: "istenmeyecek", talep: "talep edildi" };
 export const eIsId = (d: Durusma) => "oto-e-" + d.id;
 export const KUNYE_IS = "oto-kunye";
+export const tutanakIsId = (d: Durusma) => "oto-t-" + d.id;
+/** Tutanak işi açılan geçmiş duruşmalar (eski aktarılmış duruşmalar için iş yığılmasın). */
+export const TUTANAK_GUN = 45;
+/** Ara karar işleri yalnız bu kadar gün içinde föye eklenen evraktan çıkar. */
+export const YENI_EVRAK_GUN = 10;
 /** Bu iş kendiliğinden açılan e-duruşma işi mi? (duruşma kimliğini verir) */
 export const eIsDurusma = (g: Gorev) => (g.id.startsWith("oto-e-") ? g.id.slice(6) : undefined);
 
@@ -75,6 +83,38 @@ export function otoIsleriEsitle(f: Foy, bugun = bugunGun()): Gorev[] | null {
     if (ke.bitti) yeni.push(ke);
     else if (!eksik.length) yeni.push({ ...ke, metin: "Künyeyi tamamlayın", bitti: true, kapanis: kapanis("Künye tamamlandı") });
     // kapalı föyde açık kalan künye işi kalkar
+  }
+
+  // Duruşma / keşif tutanağı: günü geçmiş (son 45 gün) ve o günün tutanağı föyde yoksa "tarayın" işi, duruşma gününe tarihli
+  // (gecikmiş) açılır; tutanak eklenince kendiliğinden kapanır.
+  const taraf = f.taraf === "davali" ? "davali" : "davaci";
+  const silinen = new Set(f.silinen || []);
+  const oturumlar = new Set((f.evraklar || []).map(e => evrakOku(e, taraf).oturum).filter(Boolean) as string[]);
+  if (acik && !icraMi(f)) {
+    const sinir = gunEkle(bugun, -TUTANAK_GUN);
+    for (const d of f.durusmalar || []) {
+      const tur = dTur(d);
+      if (tur !== "durusma" && tur !== "kesif") continue;
+      const gun = d.tarih.slice(0, 10);
+      if (gun >= bugun || gun < sinir) continue;
+      const id = tutanakIsId(d), eski = kalan.get(id);
+      kalan.delete(id);
+      const var_ = oturumlar.has(gun);
+      if (eski) { yeni.push(var_ && !eski.bitti ? { ...eski, bitti: true, kapanis: kapanis("Tutanak föye eklendi") } : eski); continue; }
+      if (var_ || silinen.has(id)) continue;
+      yeni.push({ id, metin: `${tur === "kesif" ? "Keşif" : "Duruşma"} tutanağını tarayıp föye ekleyin (${trGun(d.tarih)} ${tur === "kesif" ? "keşfi" : "duruşması"})`, tarih: gun, bitti: false, kaynak: "oto", eklenme: bugun });
+    }
+  }
+
+  // Ara karar: föye son günlerde eklenen tutanak / ara kararda bizim tarafa verilen görevler iş olur (bir kez; silinirse dönmez).
+  const yeniEvrak = gunEkle(bugun, -YENI_EVRAK_GUN);
+  for (const e of f.evraklar || []) {
+    if ((e.eklenme || "").slice(0, 10) < yeniEvrak) continue;
+    evrakOku(e, taraf).isler.forEach((x, i) => {
+      const id = "oto-ak-" + e.id + "-" + i;
+      if (xs.some(g => g.id === id) || silinen.has(id)) return;
+      yeni.push({ id, metin: x.metin, tarih: x.tarih, bitti: false, kaynak: "evrak", eklenme: bugun });
+    });
   }
 
   // Öteki işler olduğu gibi; sıra korunur, yeni açılan kendiliğinden işler sona eklenir.
