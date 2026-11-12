@@ -5,6 +5,7 @@
 //  3) Dilekçe örneği olarak kaydet: evrak föye girmez; kodlanıp "Dilekçe örneklerim"e girer (beyan yazarken üslup örneği).
 //  4) Gereksiz: listeden kalkar, Celse bir daha sormaz (dosya bilgisayarda kalır). Sonra bakarım: bu taramada gizlenir.
 // "İçeriğe bak" evrakın okunan yazısını gösterir. Var olan dosyalar benzerliğe göre (numara, taraf adı, merci, tür) sıralanır.
+import { ayniFoyuBul } from "../data/tekillik";
 import React, { useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { BEYAN_KLASORLERI, beyanTuru } from "../data/beyan";
@@ -78,6 +79,9 @@ export function EslesmeyenEvrak({ d, liste, onEkle, onAtla, onOrnek, onSonra }: 
     if (ozel) { const dk = await ozelKilitDurumu(); if (dk !== "acik") { setKilit(dk); return; } }
     setBekle(true);
     try {
+      // Bu numara ve mercide föy zaten varsa yenisi açılmaz, evrak ona eklenir.
+      const var_ = ayniFoyuBul(liste, { mahkeme: merci, esasNo: no, ozel });
+      if (var_) { await onEkle(var_.id); setBekle(false); return; }
       const f = bosFoy({ tur, muvekkil: muvekkil.trim(), karsiTaraf: karsi.trim(), mahkeme: merci.trim(), esasNo: no.trim(), ...(k.acilis ? { acilis: k.acilis } : {}), ...(k.durusma ? { durusma: k.durusma } : {}), ...(ozel ? { ozel: true } : {}),
         notlar: t("“{ad}” evrakından açıldı.", { ad: d.kaynak.ad }) });
       await foyKaydet(f);

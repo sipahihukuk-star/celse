@@ -2,6 +2,7 @@
 // duruşmaları, beyanları, notları ve boş alanları ona taşınır; öteki föy silinir. Başka föylerdeki "devamı" ve "ilgili"
 // bağlantıları kalan föye çevrilir. Asıl evrak dosyaları aynı kimlikle durduğu için taşınmaz, olduğu yerde kalır.
 import { Foy, FoyEvrak, foyGetir, foyKaydet, foyler, foySil } from "./foy";
+import { ayniEvrakMi } from "./tekillik";
 
 const doluluk = (f: Foy) => f.evraklar.length * 10 + f.gorevler.length * 3 + (f.durusmalar?.length || 0) * 3 + (f.beyanlar?.length || 0) * 3 + (f.notlar.trim() ? 2 : 0)
   + ["muvekkil", "karsiTaraf", "mahkeme", "esasNo", "davaTuru"].filter(k => String((f as unknown as Record<string, unknown>)[k] || "").trim()).length;
@@ -33,7 +34,7 @@ export function foylariBirlestir(kalan: Foy, giden: Foy): Foy {
   if (!kalan.oncekiId && giden.oncekiId && giden.oncekiId !== kalan.id) f.oncekiId = giden.oncekiId;
   const ilgili = [...new Set([...(kalan.ilgiliIds || []), ...(giden.ilgiliIds || [])])].filter(x => x !== kalan.id && x !== giden.id);
   f.ilgiliIds = ilgili.length ? ilgili : undefined;
-  f.evraklar = birlesikListe(kalan.evraklar, giden.evraklar, (x, y) => evrakAnahtari(x) === evrakAnahtari(y)) || [];
+  f.evraklar = birlesikListe(kalan.evraklar, giden.evraklar, (x, y) => evrakAnahtari(x) === evrakAnahtari(y) || ayniEvrakMi(x, y)) || [];
   f.gorevler = birlesikListe(kalan.gorevler, giden.gorevler, (x, y) => x.metin.trim() === y.metin.trim() && (x.tarih || "") === (y.tarih || "")) || [];
   f.beyanlar = birlesikListe(kalan.beyanlar, giden.beyanlar);
   f.durusmalar = birlesikListe(kalan.durusmalar as ({ id: string } & object)[] | undefined, giden.durusmalar as ({ id: string } & object)[] | undefined,

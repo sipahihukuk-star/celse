@@ -28,7 +28,7 @@ const ESAS = /(?:19|20)\d{2}\s*\/\s*\d{2,7}/g;
 /** Esas no karşılaştırması: "2023/0311 E." ile "2023/311" aynıdır. */
 export const esasNorm = (x?: string) => { const m = (x || "").match(/((?:19|20)\d{2})\s*[/\-.]\s*0*(\d{1,7})/); return m ? m[1] + "/" + m[2] : ""; };
 /** Merci karşılaştırması: "Bismil 2. Asliye Hukuk Mahkemesi Sayın Hakimliği" ile "Bismil 2. Asliye Hukuk Mahkemesi" aynıdır. */
-const merciSade = (x?: string) => sade(x).replace(/\b(sayın|hakimliği|hâkimliği|mahkemesi|mahkemesine|mahkemesi'ne|başkanlığı|başkanlığına|müdürlüğü|müdürlüğüne)\b/g, " ").replace(/\s+/g, " ").trim();
+export const merciSade = (x?: string) => sade(x).replace(/\b(sayın|hakimliği|hâkimliği|mahkemesi|mahkemesine|mahkemesi'ne|başkanlığı|başkanlığına|müdürlüğü|müdürlüğüne)\b/g, " ").replace(/\s+/g, " ").trim();
 /** İki merci adı: aynı mı, çelişiyor mu, yoksa biri yazılı değil mi? */
 export function merciUyumu(a?: string, b?: string): "ayni" | "celisir" | "bilinmiyor" {
   const x = merciSade(a), y = merciSade(b);

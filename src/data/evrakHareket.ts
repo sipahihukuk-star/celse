@@ -4,7 +4,7 @@
 // yeniden alınır, çünkü dosya ancak föye yazıldıktan sonra "işlendi" sayılır.
 import { ayarOku, ayarYaz, dosyaSaklanir, yeniId } from "./foy";
 
-export type HareketSonuc = "foy" | "ornek" | "bekliyor" | "okunamadi" | "atlandi" | "indirildi" | "tasindi" | "birlesti" | "tarama";
+export type HareketSonuc = "foy" | "ornek" | "bekliyor" | "okunamadi" | "atlandi" | "indirildi" | "tasindi" | "birlesti" | "tarama" | "tekrar";
 export interface EvrakHareketi {
   id: string; zaman: string; yon: "gelen" | "giden"; ad: string; sonuc: HareketSonuc;
   /** nereden geldi: klasördeki yol, "Toplu yükleme", "Föye elle" */
@@ -68,6 +68,7 @@ export const hareketSil = (ids: string[] | "gorulenler") => degistir(xs => xs.fi
 export const yarimTarama = (h: EvrakHareketi, simdi = Date.now()) => h.sonuc === "tarama" && !h.bitti && simdi - new Date(h.zaman).getTime() > 10 * 60000;
 
 export const SONUC_AD: Record<HareketSonuc, string> = {
+  tekrar: "zaten vardı, kaydedilmedi",
   foy: "föye girdi", ornek: "dilekçe örneklerine kaydedildi", bekliyor: "föyü bulunamadı, sizi bekliyor", okunamadi: "okunamadı",
   atlandi: "atlandı", indirildi: "indirildi", tasindi: "başka föye taşındı", birlesti: "föyler birleştirildi", tarama: "klasör taraması"
 };

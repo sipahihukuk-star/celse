@@ -26,6 +26,8 @@ import { EvrakHavuzu } from "./EvrakHavuzu";
 import { Acilir } from "./Acilir";
 import { Katlanir } from "./Katlanir";
 import { IsArsivi } from "./IsArsivi";
+import { TekrarTemizle } from "./TekrarTemizle";
+import { ayniEvrakMi, esiVar } from "../data/tekillik";
 import { DavaListesi } from "./DavaListesi";
 import { gunlukBildirim, IsTakibi } from "./IsTakibi";
 import { SesliAsistan } from "./SesliAsistan";
@@ -388,6 +390,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       <FoyBulutKart acik={yuklendi && liste.length === 0} />
       <DosyaDuzenle liste={buro} onAc={id => setSecili({ id })} />
       <IliskiKart liste={buro} onAc={id => setSecili({ id })} />
+      <TekrarTemizle liste={liste} onBitti={m => { setMesaj({ t: m, ok: true }); yenile(); }} />
       <EvrakHareketKart liste={liste} onAc={id => setSecili({ id })} />
       {(() => {
         const duzelecek = turDuzeltmeleri(buro);
@@ -675,17 +678,25 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
   const listeRef = useRef(liste); listeRef.current = liste;
   const otomatik = useRef(false);
 
-  const ekle = async (xs: { d: TaramaDosyasi; foyId: string }[]) => {
+  // Föyde zaten bulunan evrak (aynı yazı başka adla, ikinci kez indirilmiş) kaydedilmez; sayısı döner.
+  const ekle = async (xs: { d: TaramaDosyasi; foyId: string }[]): Promise<number> => {
     const gruplar = new Map<string, TaramaDosyasi[]>();
     for (const x of xs) gruplar.set(x.foyId, [...(gruplar.get(x.foyId) || []), x.d]);
+    let tekrar = 0;
+    const tekrarlar: TaramaDosyasi[] = [];
     for (const [id, ds] of gruplar) {
       const f = (await foyGetir(id)) || byId.get(id);
       if (!f) continue;
       const evraklar = [...f.evraklar];
-      for (const d of ds) evraklar.push(await evrakOlustur(f, d.kaynak, { metin: d.metin, okunamadi: d.okunamadi }, d.anahtar));
-      await foyKaydet({ ...f, evraklar });
+      for (const d of ds) {
+        if (esiVar(evraklar, { ad: d.kaynak.ad, boyut: d.kaynak.bytes.length, metin: d.metin })) { tekrar++; tekrarlar.push(d); continue; }
+        evraklar.push(await evrakOlustur(f, d.kaynak, { metin: d.metin, okunamadi: d.okunamadi }, d.anahtar));
+      }
+      if (evraklar.length !== f.evraklar.length) await foyKaydet({ ...f, evraklar });
     }
+    if (tekrarlar.length) await hareketEkle(tekrarlar.map(d => ({ yon: "gelen" as const, ad: d.kaynak.ad, sonuc: "tekrar" as HareketSonuc, kaynak: "Evrak klasörü: " + (d.kaynak.yol || d.kaynak.ad), anahtar: d.anahtar, not: t("föyde aynı evrak zaten var; kaydedilmedi") })));
     await gorulduYaz(xs.map(x => x.d.anahtar));
+    return tekrar;
   };
   const tara = async (sessiz = false) => {
     setBusy(true); if (!sessiz) setBekleyen([]);
@@ -701,12 +712,20 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
       if (orn.length) await gorulduYaz(orn.map(d => d.anahtar));
       const sonuc = tumu.filter(d => !orn.includes(d));
       const eslesen = sonuc.filter(d => d.foyId).map(d => ({ d, foyId: d.foyId! }));
-      await ekle(eslesen);
-      const kalan = sonuc.filter(d => !d.foyId);
+      const tekrar = await ekle(eslesen);
+      // Föyü bulunamayan evrak: aynısı bu taramada daha önce geldiyse ya da zaten bir föyde duruyorsa beklemeye alınmaz.
+      const tumEvrak = listeRef.current.flatMap(f => f.evraklar);
+      const kalan: TaramaDosyasi[] = [], kTekrar: TaramaDosyasi[] = [];
+      const ev = (d: TaramaDosyasi) => ({ ad: d.kaynak.ad, boyut: d.kaynak.bytes.length, metin: d.metin });
+      for (const d of sonuc.filter(x => !x.foyId)) (kalan.some(k => ayniEvrakMi(ev(k), ev(d))) || esiVar(tumEvrak, ev(d)) ? kTekrar : kalan).push(d);
+      if (kTekrar.length) {
+        await gorulduYaz(kTekrar.map(d => d.anahtar));
+        await hareketEkle(kTekrar.map(d => ({ yon: "gelen" as const, ad: d.kaynak.ad, sonuc: "tekrar" as HareketSonuc, kaynak: "Evrak klasörü: " + (d.kaynak.yol || d.kaynak.ad), anahtar: d.anahtar, not: t("aynı evrak zaten var; kaydedilmedi") })));
+      }
       if (orn.length) await hareketEkle(orn.map(d => ({ yon: "gelen" as const, ad: d.kaynak.ad, sonuc: (d.metin.trim() ? "ornek" : "okunamadi") as HareketSonuc, kaynak: "Evrak klasörü: " + (d.kaynak.yol || d.kaynak.ad), anahtar: d.anahtar, not: d.okunamadi })));
       if (kalan.length) await hareketEkle(kalan.map(d => ({ yon: "gelen" as const, ad: d.kaynak.ad, sonuc: (d.metin.trim() ? "bekliyor" : "okunamadi") as HareketSonuc, kaynak: "Evrak klasörü: " + (d.kaynak.yol || d.kaynak.ad), anahtar: d.anahtar, not: d.okunamadi || d.neden })));
       setBekleyen(x => [...x.filter(y => !kalan.some(z => z.anahtar === y.anahtar)), ...kalan]);
-      const m = (sonuc.length ? t("Evrak klasörü: {n} yeni dosya; {e} tanesi föyüne eklendi, {k} tanesinin föyü bulunamadı.", { n: sonuc.length, e: eslesen.length, k: kalan.length }) : orn.length ? "" : t("Evrak klasöründe yeni dosya yok."))
+      const m = (sonuc.length ? t("Evrak klasörü: {n} yeni dosya; {e} tanesi föyüne eklendi, {k} tanesinin föyü bulunamadı.", { n: sonuc.length, e: eslesen.length - tekrar, k: kalan.length }) + (tekrar + kTekrar.length ? " " + t("{n} tanesi zaten vardı, kaydedilmedi.", { n: tekrar + kTekrar.length }) : "") : orn.length ? "" : t("Evrak klasöründe yeni dosya yok."))
         + (orn.length ? (sonuc.length ? " " : "") + t("{n} dosya dilekçe örneklerine kaydedildi.", { n: ornekSayi }) : "");
       setSon(m);
       if (tumu.length) await hareketEkle({ yon: "gelen", ad: t("Evrak klasörü taraması"), sonuc: "tarama", anahtar: taramaId, bitti: true, not: m });
