@@ -23,7 +23,7 @@ import { APP_VERSION } from "../data/usage";
 import type { TutanakSatiri } from "../data/danismaDosya";
 
 /** onFinish'in ikinci değeri ekrandaki duruşma tutanağıdır (danışma dosyalarının oyun kaydı için; danismaDosya.ts kayitOf). */
-interface Props { c: CaseFile; players: Record<Side, Player>; onExit: () => void; onFinish: (g: GameState, tutanak: TutanakSatiri[]) => void; online?: OnlineLink }
+interface Props { c: CaseFile; /** kanun yolunda önceki aşamaların tutanakları */ onceki?: { baslik: string; satirlar: TutanakSatiri[] }[]; players: Record<Side, Player>; onExit: () => void; onFinish: (g: GameState, tutanak: TutanakSatiri[]) => void; online?: OnlineLink }
 
 /** Motorun hamle değerlendirme etiketi (Türkçe) seçili dile çevrilir. */
 const gradeLabel = (l: string) =>
@@ -46,7 +46,7 @@ export default function GameScreen(props: Props) {
   // Her karakterin yüzü (ve sesi) davanın kadrosundan seçilir; oyuncunun yüzü büroda seçtiği karakterdir.
   // Karşılıklı davada oyuncunun tarafı: internetten oynanıyorsa kendi tarafı, bilgisayara karşı ise insan olan taraf.
   const mySide = props.online?.mySide ?? (props.players.p1.ai && !props.players.p2.ai ? "p2" : "p1");
-  const faces = useMemo(() => cast(props.c, office?.avatar || me.character?.avatar, mySide), [props.c, office?.avatar, me.character?.avatar, mySide]);
+  const faces = useMemo(() => cast(props.c, me.character?.avatar || office?.avatar, mySide), [props.c, office?.avatar, me.character?.avatar, mySide]);
   // Oyuncunun avukatına "Avukat Hanım / Bey" hitabı, sahnedeki yüzünün cinsiyetine uyarlanır (kime yöneldiği belli
   // olmayan avukat hitabı "Sayın Avukat" olur). Satırlar, seçenekler, notlar ve seslendirme aynı metni kullanır.
   const playerFemale = (faces[props.c.mode === "duel" ? mySide : "p1"] || "").includes("kadin");
@@ -56,7 +56,7 @@ export default function GameScreen(props: Props) {
   return <Game {...props} c={c} faces={faces} />;
 }
 
-function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: Record<string, PhotoKey> }) {
+function Game({ c, players, onExit, onFinish, online, faces, onceki }: Props & { faces: Record<string, PhotoKey> }) {
   // Tutanak, oyun bitince karar ekranına giderken onFinish ile verilir (en güncel hâli ref'ten okunur).
   const tutanakRef = useRef<TutanakSatiri[]>([]);
   const court = useCourt(c, players, g => onFinish(g, tutanakRef.current), online);
@@ -67,6 +67,9 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
   const [bug, setBug] = useState(false);
   // Duruşma tutanağı: gösterilen her satır ve verilen her karar, sırasıyla.
   const [history, setHistory] = useState<TutanakSatiri[]>([]);
+  const [oncekiKapali, setOncekiKapali] = useState<Set<number>>(new Set());
+  /** Önceki aşamadaki konuşanın adı (o aşamanın kadrosu bu dosyada yoksa genel ad). */
+  const oncekiAd = (who: string) => who === "narr" ? t("Dosya notu") : who === "mubasir" ? t("Mübaşir") : who === "p1" || who === "p2" ? `${players[who].name} · ${c.sides[who].role}` : c.cast[who]?.name || (who === "karsi" ? t("Karşı taraf") : t("Konuşan"));
   // Şıklarda iki dokunuş: ilk dokunuş seçer, aynı şıkka ikinci dokunuş onaylar (yanlışlıkla basınca hamle gitmesin).
   const [secili, setSecili] = useState<string | null>(null);
   tutanakRef.current = history;
@@ -339,6 +342,21 @@ function Game({ c, players, onExit, onFinish, online, faces }: Props & { faces: 
             <Text style={styles.sheetSub}>{c.court} · {c.esas}</Text>
             <ScrollView style={{ maxHeight: Math.max(240, height * 0.62) }} ref={recRef} showsVerticalScrollIndicator
               onContentSizeChange={() => { if (!recScrolled.current) { recScrolled.current = true; recRef.current?.scrollToEnd({ animated: false }); } }}>
+              {/* Kanun yolunda önceki aşamaların (ilk derece, istinaf…) tutanağı en üstte; neler konuşulduğu unutulmasın. */}
+              {(onceki || []).map((k, ki) => (
+                <View key={"o" + ki}>
+                  <Pressable onPress={() => setOncekiKapali(x => { const y = new Set(x); if (y.has(ki)) y.delete(ki); else y.add(ki); return y; })} style={styles.recOnceki}>
+                    <Text style={styles.recOncekiT}>{oncekiKapali.has(ki) ? "▸ " : "▾ "}{t("Önceki aşama")} · {k.baslik}</Text>
+                  </Pressable>
+                  {!oncekiKapali.has(ki) && k.satirlar.map((h, i) => (
+                    <View key={i} style={[styles.sheetItem, { opacity: 0.78 }, h.karar && styles.recKarar, h.not && styles.recNot]}>
+                      <Text style={[styles.sheetT, h.not && styles.recNotT]}>{h.karar ? t("KARAR") : h.not ? t("Hukukçu notu") : h.ad || oncekiAd(h.who)}</Text>
+                      <Text style={[styles.sheetD, h.not && { fontStyle: "italic" }]}>{h.text}</Text>
+                    </View>
+                  ))}
+                </View>
+              ))}
+              {(onceki || []).length > 0 && <View style={styles.recOnceki}><Text style={styles.recOncekiT}>{t("Bu aşama")} · {c.court}</Text></View>}
               {history.map((h, i) => (
                 <View key={i} style={[styles.sheetItem, h.karar && styles.recKarar, h.not && styles.recNot]}>
                   <Text style={[styles.sheetT, h.not && styles.recNotT]}>{h.karar ? t("KARAR") : h.not ? t("Hukukçu notu") : speakerName(h.who).name}</Text>
@@ -406,6 +424,8 @@ const styles = StyleSheet.create({
   dlgNarr: { fontFamily: F.bodyItalic, color: C.textSoft },
   rowEnd: { flexDirection: "row", justifyContent: "flex-end", marginTop: 12 },
   rowBetween: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8, marginTop: 12 },
+  recOnceki: { paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: C.rule, marginTop: 6 },
+  recOncekiT: { fontWeight: "800", fontSize: 13, letterSpacing: 0.4, color: C.muted },
   recNot: { borderTopWidth: 0, paddingLeft: 12, borderLeftWidth: 3, borderLeftColor: C.rule, marginBottom: 4 },
   recNotT: { fontFamily: F.mono, fontSize: 11, letterSpacing: 1, color: C.inkSoft },
   recKarar: { backgroundColor: "rgba(255,255,255,0.11)", paddingHorizontal: 8 },

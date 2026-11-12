@@ -10,7 +10,7 @@ export const INSAN_BEKLEME_DK = 30;
 export type DosyaDurum = "bekliyor" | "oynaniyor" | "oynandi";
 
 /** Duruşma ekranının tutanağındaki bir satır (GameScreen): gösterilen konuşma, verilen karar ya da açıklama notu. */
-export interface TutanakSatiri { who: string; text: string; karar?: boolean; not?: boolean; scene?: Scene }
+export interface TutanakSatiri { who: string; text: string; karar?: boolean; not?: boolean; scene?: Scene; /** konuşanın adı (kanun yolunda önceki aşamanın tutanağı gösterilirken) */ ad?: string }
 
 export interface KayitSatiri { who: string; ad: string; text: string; scene: Scene; tur?: "karar" | "not" }
 export interface OyunKaydi {
