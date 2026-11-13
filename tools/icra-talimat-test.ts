@@ -116,6 +116,15 @@ ok(it.birinci?.vekilAdres === "Hayal Mah. 1. Sok. No:3 Karşıyaka/İZMİR", "ve
   const u4 = talimatUygula(fK, talimatOku("alacaklının adresi Örnek Mah. Deneme Cad. No:1 Karşıyaka/İzmir"), {});
   ok(u4.ek.muvekkilBilgi?.adres === "Örnek Mah. Deneme Cad. No:1 Karşıyaka/İzmir", "alacaklının adresi");
 }
+// Gider kalemlerinde faiz: hüküm "dava tarihinden itibaren yasal faiz" diyorsa başlıktaki dava tarihi; demiyorsa karar tarihi.
+{
+  const ilamF = evrak.replace("KARAR TARİHİ : 15/10/2026", "DAVA TARİHİ : 05/03/2023\nKARAR TARİHİ : 15/10/2026")
+    .replace("10.000,00 TL vekalet ücretinin davalılardan", "10.000,00 TL vekalet ücretinin dava tarihinden itibaren işleyecek yasal faiziyle birlikte davalılardan");
+  const hf = hukumKalemleri(ilamF);
+  ok(hf.find(k => k.ad === "Vekâlet ücreti")?.faizBaslangic === "2023-03-05", "vekâlet ücretine dava tarihinden faiz: " + hf.find(k => k.ad === "Vekâlet ücreti")?.faizBaslangic);
+  ok(hf.find(k => k.ad === "Yargılama gideri")?.faizBaslangic === "2026-10-15", "faiz yazılmayan giderde karar tarihi");
+  ok(hf.find(k => k.ad === "Maddi tazminat")?.faizBaslangic === "2022-02-01", "asıl alacakta hükümdeki tarih");
+}
 // Talimatsız ilam: hiçbir şey ayrılmaz.
 ok(talimatAyir(evrak).talimat === "", "talimatsız ilamda talimat yok");
 // Dilekçe ilam sayılmaz.

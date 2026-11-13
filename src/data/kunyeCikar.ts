@@ -412,6 +412,30 @@ const SOZLUK = new Set([...ROLLER.flatMap(r => r.split(" ")), "T.C.", "TC", "Bİ
   "KAPALI", "SAYFA", "TARİH", "KONU", "SUÇ", "SUÇU", "BİLGİLERİ", "BİLGİSİ", "DETAY", "EVRAK", "LİSTESİ", "AİLE", "TÜKETİCİ", "TİCARET", "ARABULUCULUK", "BÜROSU", "KOMİSYONU", "BAŞKANLIĞI",
   "TAZMİNAT", "ADALET", "BAKANLIĞI", "UYAP", "BİLİŞİM", "SİSTEMİ", "TAKİP", "TÜR", "TÜRÜ", "YOLU", "İLAMLI", "İLAMSIZ", "DURUŞMA", "SAAT", "HAKİM", "KATİP", "ZABIT", "TUTANAĞI", "VE", "İLE", "AV.", "AVUKAT",
   "ADRES", "ADRESİ", "KİMLİK", "VERGİ", "MERCİ", "GÖNDERİLEN", "GÖNDEREN", "ALAN", "TEBLİĞ", "İSTİNAF", "TEMYİZ", "DAİRE", "BÖLGE", "ADLİYE", "BİLİRKİŞİ", "RAPORU", "DİLEKÇE", "DİLEKÇESİ", "CEVAP"]);
+/** Hükmün yapısı: küçük harfli sözcükler (hukuk dili) kalır; büyük harfle başlayan ve sözlükte olmayan her sözcük (adlar)
+ *  □, rakamlar 9 olur. Okunamayan hükmü, kişisel veri göstermeden incelemek için. */
+const HUKUM_SOZ = new Set(["HÜKÜM", "GEREĞİ", "DÜŞÜNÜLDÜ", "KABULÜ", "KABULÜNE", "KISMEN", "REDDİ", "REDDİNE", "FAİZ", "FAİZİ", "FAİZİYLE", "YASAL", "AVANS", "TİCARİ", "MEVDUAT",
+  "TL", "TL'NİN", "VEKALET", "VEKÂLET", "ÜCRETİ", "ÜCRETİNİN", "YARGILAMA", "GİDERİ", "GİDERİNİN", "HARÇ", "HARCIN", "DAVACI", "DAVACIYA", "DAVACILARA", "DAVALI", "DAVALILAR", "DAVALIDAN",
+  "DAVALILARDAN", "DAVANIN", "MÜŞTEREKEN", "MÜTESELSİLEN", "HMK", "AAÜT", "İSTİNAF", "KALDIRILMASINA", "DÜZELTİLEREK", "ESASTAN", "BAŞVURUSUNUN", "DAİR", "OY", "BİRLİĞİYLE", "KESİN"]);
+/** Başlık ve taraflar için sıkı iskelet: yalnız rol ve yapı sözcükleri kalır (ad olabilecek her sözcük □): "ADALET", "HAKİM"
+ *  gibi ad da olabilen sözlük sözcükleri de gizlenir. */
+const YAPI_SOZ = new Set([...ROLLER.flatMap(r => r.split(" ")), "T.C.", "TC", "AV.", "VEKİLİ", "VEKİLLERİ", "DOSYA", "ESAS", "KARAR", "NO", "NUMARASI", "TARİHİ", "MAHKEMESİ",
+  "DAİRESİ", "HUKUK", "BÖLGE", "ADLİYE", "İNCELENEN", "KARARIN", "DAVANIN", "KONUSU", "MAH.", "MAH", "CAD.", "CAD", "SOK.", "SOK", "NO:", "BULV.", "ADRES", "ADRESİ", "İSTİNAF", "EDEN",
+  "KARŞI", "TARAF", "BİRLEŞEN", "DAVADA", "KİŞİ", "KURUM", "VKN", "TCKN", "VE", "İLE"]);
+export function taraflarIskeleti(metin: string, satir = 60): string {
+  return metin.split("\n").filter(x => x.trim()).slice(0, satir).map(x => x.replace(/\t/g, " ⇥ ").replace(/[^\s⇥]+/g, w => {
+    const cip = w.toLocaleUpperCase("tr").replace(/[:;,()]+$/, "");
+    if (YAPI_SOZ.has(cip) || YAPI_SOZ.has(cip.replace(/\.$/, ""))) return w.replace(/\d/g, "9");
+    return w.replace(/\d/g, "9").replace(/\p{L}+/gu, "□");
+  }).replace(/(□[ ]?){3,}/g, "□□□ ")).join("\n");
+}
+export function hukumIskeleti(hukum: string, uzunluk = 2500): string {
+  return hukum.slice(0, uzunluk).replace(/[^\s]+/g, w => {
+    const cip = w.toLocaleUpperCase("tr").replace(/[:;,.()'’]+$/, "");
+    if (SOZLUK.has(cip) || HUKUM_SOZ.has(cip) || /^\p{Ll}/u.test(w)) return w.replace(/\d/g, "9");
+    return w.replace(/\d/g, "9").replace(/\p{L}+/gu, "□");
+  }).replace(/(□[ ]?){3,}/g, "□□□ ");
+}
 export function yapiIskeleti(metin: string, satir = 20): string {
   return metin.split("\n").filter(x => x.trim()).slice(0, satir).map(x => x.replace(/\t/g, " ⇥ ").replace(/[^\s⇥]+/g, w => {
     const cip = w.toLocaleUpperCase("tr").replace(/[:;,()]+$/, "");

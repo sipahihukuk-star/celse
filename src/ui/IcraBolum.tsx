@@ -11,8 +11,8 @@ import { uyapXml, vekilEksik } from "../data/icraXml";
 import { Acilir } from "./Acilir";
 import { IcraSohbet } from "./IcraSohbet";
 import { IcraOrnekleri } from "./IcraOrnekleri";
-import { dilekceYazari, evrakTuruBul, hukumAnaliz, ilamdanTaraflar, ilamTaraflari, Lehine, Talep, talepAnaliz } from "../data/icraEvrak";
-import { bizimVekil } from "../data/kunyeCikar";
+import { dilekceYazari, evrakTuruBul, hukumAnaliz, hukumBolumu, ilamdanTaraflar, ilamTaraflari, Lehine, Talep, talepAnaliz } from "../data/icraEvrak";
+import { bizimVekil, hukumIskeleti, taraflarIskeleti } from "../data/kunyeCikar";
 import { FaizDurumu, useFaizOranlari } from "../data/faizOran";
 import { BRUT_TURLER, brutNet, BrutTur, brutTurTahmin, GV_ORANLARI } from "../data/brutNet";
 import { indir, s } from "./foyStil";
@@ -462,6 +462,33 @@ function HukumOnizleme({ f, degistir, kalemSayisi, bizimAdlar, onKabul }: { f: F
     setTarafMesaj(t("İlamdan yazıldı: {x}.", { x: yerlesim.dolan.map(x => t(x)).join(", ") }));
   }, [yerlesim, f.taraf]);
   const liste = useMemo(() => (ilam ? hukumAnaliz(ilam.metin, f.icra?.ilam?.kararTarihi) : []), [ilam?.id, ilam?.metin, f.icra?.ilam?.kararTarihi]);
+  // Okuma raporu: Celse'nin ilamdan ne okuduğu ve ilamın kişisel veri içermeyen yapı iskeleti (adlar □, rakamlar 9).
+  const [rapor, setRapor] = useState(false);
+  const raporMetni = () => {
+    if (!ilam || !it) return "";
+    const tr = (x?: string) => (x ? x.split("-").reverse().join(".") : "yok");
+    const satir = [
+      "CELSE OKUMA RAPORU (kişisel veri yok: adlar □, rakamlar 9)",
+      `Davacı tarafı: ${it.birinciler.length} kişi · vekil ${it.birinci?.vekil ? "var" : "yok"}`,
+      `Davalı tarafı: ${it.ikinciler.length} kişi · vekil ${it.ikinci?.vekil ? "var" : "yok"}`,
+      `Dava tarihi: ${it.davaTarihi ? "bulundu" : "bulunamadı"} · karar tarihi: ${it.kararTarihi ? "bulundu" : "bulunamadı"}`,
+      "Hüküm kalemleri: " + (liste.length ? liste.map(k => `${k.ad} (${k.lehine}, faiz ${k.faizTuru || "-"}, başlangıç ${k.faizBaslangic ? (k.faizBaslangic === it.davaTarihi ? "dava tarihi" : k.faizBaslangic === it.kararTarihi ? "karar tarihi" : "hükümdeki tarih") : "yok"})`).join("; ") : "yok"),
+      "", "--- BAŞLIK VE TARAFLAR ---", taraflarIskeleti(ilam.metin, 60), "", "--- HÜKÜM ---", hukumIskeleti(hukumBolumu(ilam.metin))
+    ];
+    return satir.join("\n");
+  };
+  const raporBolumu = () => (
+    <View style={{ gap: 4 }}>
+      <Pressable onPress={() => setRapor(!rapor)}><Text style={[s.link, { fontSize: 13 }]}>{rapor ? "▾ " : "▸ "}{t("🔍 Okuma raporu: taraf ya da faiz yanlış okunduysa")}</Text></Pressable>
+      {rapor && (
+        <View style={{ gap: 4 }}>
+          <Text style={s.hint}>{t("Celse'nin ilamdan ne okuduğunu ve ilamın yapısını gösterir. Adlar □, rakamlar 9 olarak gizlenmiştir; kişisel veri içermez. Yanlış okunan yer varsa bu metni kopyalayıp destek için gönderebilirsiniz.")}</Text>
+          <Text selectable style={[s.hint, { fontFamily: "monospace", borderWidth: 1, borderColor: C.line, borderRadius: 8, padding: 8 }]}>{raporMetni()}</Text>
+          <View style={s.row}><Btn kind="ghost" label={t("Raporu kopyala")} onPress={async () => { try { await (globalThis.navigator as Navigator | undefined)?.clipboard?.writeText(raporMetni()); setTarafMesaj(t("Okuma raporu kopyalandı.")); } catch { /* metin seçilebilir */ } }} /></View>
+        </View>
+      )}
+    </View>
+  );
   const talepler = useMemo(() => {
     if (!ilam) return [];
     // Önce föydeki dava ve ıslah dilekçelerinin "netice ve talep"i; yoksa ilamın iddia özeti.
@@ -481,6 +508,7 @@ function HukumOnizleme({ f, degistir, kalemSayisi, bizimAdlar, onKabul }: { f: F
     <View style={{ gap: 2 }}>
       {!!mesaj && <Text style={[s.hint, { color: C.good, fontWeight: "700" }]}>✓ {mesaj}</Text>}
       <Pressable onPress={() => { setMesaj(""); setAcik(true); }}><Text style={s.link}>{t("⚖ İlamı yeniden oku: taraflar, talepler, hüküm")}</Text></Pressable>
+      {raporBolumu()}
     </View>
   );
   const sec = liste.filter((_, i) => secili.has(i));
@@ -557,6 +585,7 @@ function HukumOnizleme({ f, degistir, kalemSayisi, bizimAdlar, onKabul }: { f: F
         </>
       )}
       {!!mesaj && <Text style={[s.hint, { color: C.good }]}>{mesaj}</Text>}
+      {raporBolumu()}
     </View>
   );
 }
