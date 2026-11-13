@@ -5,6 +5,9 @@ import React, { useState } from "react";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { Foy } from "../data/foy";
 import { IcraBilgi } from "../data/icra";
+import { evrakTuruBul, hukumKalemleri, ilamdanTaraflar, ilamTaraflari } from "../data/icraEvrak";
+import { talimatAyir, talimatOku, talimatUygula } from "../data/icraTalimat";
+import { bizimVekil } from "../data/kunyeCikar";
 import { t } from "../i18n";
 import { degisiklikOzeti, IcraDegisiklik, icraSor } from "./icraSorCagri";
 import { s } from "./foyStil";
@@ -18,7 +21,7 @@ const HAZIR = [
   "Takip için eksik ne var?"
 ];
 
-export function IcraSohbet({ f, degistir, onMetinEkle, onKaydet }: { f: Foy; degistir: (ek: Partial<Foy>) => void; onMetinEkle?: (metin: string) => Promise<void>; onKaydet?: () => Promise<void> }) {
+export function IcraSohbet({ f, degistir, onMetinEkle, onKaydet, guncel, yenile, bizimAdlar = [] }: { f: Foy; degistir: (ek: Partial<Foy>) => void; onMetinEkle?: (metin: string) => Promise<void>; onKaydet?: () => Promise<void>; guncel?: () => Foy; yenile?: () => void; bizimAdlar?: string[] }) {
   const [metin, setMetin] = useState("");
   const [soru, setSoru] = useState("");
   const [bekle, setBekle] = useState(false);
@@ -29,11 +32,52 @@ export function IcraSohbet({ f, degistir, onMetinEkle, onKaydet }: { f: Foy; deg
   const b: IcraBilgi = f.icra || { yol: "genel", paraBirimi: "TL", faizTuru: "yasal" };
   const sohbet = b.sohbet || [];
 
+  /**
+   * Talimatı önce bu cihazda uygular (tutarlar, eklenecek alacaklı / borçlu); okunacak bir şey yoksa yapay zekâya sorar.
+   * Föydeki en yeni ilam varsa hükmünden bizim lehimize olan kalemler temel alınır, talimattaki tutarlar üstüne yazılır.
+   */
+  const talimatla = async (talimat: string): Promise<boolean> => {
+    const r = talimatOku(talimat);
+    if (!r.kalemler.length && !r.alacaklilar.length && !r.borclular.length) return false;
+    const g = guncel ? guncel() : f;
+    const ilam = g.evraklar.filter(e => e.metin.trim() && evrakTuruBul(e.metin) === "ilam").sort((a, c) => c.eklenme.localeCompare(a.eklenme))[0];
+    const it = ilam ? ilamTaraflari(ilam.metin) : undefined;
+    // Bizim taraf: ilamdaki vekil bizim avukatımızsa o; değilse föydeki seçim.
+    const v1 = bizimVekil(it?.birinci?.vekil, bizimAdlar), v2 = bizimVekil(it?.ikinci?.vekil, bizimAdlar);
+    const yan: "birinci" | "ikinci" = v1 !== v2 ? (v1 ? "birinci" : "ikinci") : g.taraf === "davali" ? "ikinci" : "birinci";
+    const kt = g.icra?.ilam?.kararTarihi || it?.kararTarihi;
+    // Önce ilamın taraflarını yerleştir (davacılar alacaklı, davalılar borçlu); talimattaki adlar onların üstüne eklenir.
+    const yer = it ? ilamdanTaraflar(g, it, yan, { ekAlacakli: yan === "birinci" ? v1 : v2 }) : { ek: {} as Partial<Foy>, dolan: [] as string[] };
+    const g2: Foy = { ...g, ...yer.ek };
+    const u0 = talimatUygula(g2, r, {
+      taraflar: it ? [...it.birinciler, ...it.ikinciler] : [], kaynak: g.evraklar.map(e => e.metin).join("\n"),
+      hukumKalemleri: ilam ? hukumKalemleri(ilam.metin, kt, yan) : [], kararTarihi: kt, ilamli: !!ilam || /ilam|karar/i.test(talimat)
+    });
+    const u = { ek: { ...yer.ek, ...u0.ek, icra: u0.ek.icra || (yer.ek.icra ? { ...(g.icra || b), ...yer.ek.icra } : undefined) } as Partial<Foy>, dolan: [...yer.dolan.map(x => t(x)), ...u0.dolan] };
+    if (!u.ek.icra) delete u.ek.icra;
+    const icra = u.ek.icra || g.icra || b;
+    if (u0.ek.icra && yer.ek.icra?.ekBorclular && !u0.ek.icra.ekBorclular) icra.ekBorclular = yer.ek.icra.ekBorclular;
+    const cevap = u.dolan.length ? t("Bu cihazda uygulandı: {x}. Aşağıdaki alanlardan kontrol edin.", { x: u.dolan.join(", ") }) : t("Talimattaki her şey zaten takipte yazılı; değişiklik gerekmedi.");
+    degistir({ ...u.ek, icra: { ...icra, sohbet: [...(icra.sohbet || []), { soru: talimat, cevap, tarih: new Date().toISOString() }].slice(-20) } });
+    yenile?.();
+    if (onKaydet) await onKaydet();
+    setBilgi(cevap);
+    return true;
+  };
+
   const ekle = async () => {
-    const x = metin.trim();
-    if (x.length < 40 || !onMetinEkle) return;
+    const { evrak, talimat } = talimatAyir(metin);
+    if (evrak.length < 40 || !onMetinEkle) { if (talimat || metin.trim().length >= 3) await gonder(metin); return; }
     setEkleniyor(true); setHata(""); setBilgi("");
-    try { await onMetinEkle(x); setMetin(""); setBilgi(t("Metin föye evrak olarak eklendi ve bu cihazda okundu. Aşağıdaki “İlamdan takip” kutusunu kontrol edin.")); }
+    try {
+      const once = (guncel ? guncel() : f).evraklar.length;
+      await onMetinEkle(evrak); setMetin("");
+      // Föy sayfası yeni evrakı bir sonraki çizimde alır; talimat ona göre uygulansın diye kısa bir süre beklenir.
+      for (let i = 0; i < 40 && guncel && guncel().evraklar.length <= once; i++) await new Promise(r => setTimeout(r, 50));
+      setBilgi(t("Metin föye evrak olarak eklendi ve bu cihazda okundu. Aşağıdaki “İlamdan takip” kutusunu kontrol edin."));
+      // Metnin sonuna yazılmış istek ("… olacak şekilde takibi hazırla, borçlu X'i de ekle") ayrıca uygulanır.
+      if (talimat && !(await talimatla(talimat))) await gonder(talimat);
+    }
     catch (e) { setHata(String((e as Error).message || e)); }
     finally { setEkleniyor(false); }
   };
@@ -41,6 +85,8 @@ export function IcraSohbet({ f, degistir, onMetinEkle, onKaydet }: { f: Foy; deg
   const gonder = async (q: string) => {
     const x = q.trim();
     if (x.length < 3 || bekle) return;
+    // Tutar ve taraf içeren talimat bu cihazda uygulanır; öteki sorular yapay zekâya gider.
+    if (await talimatla(x)) { setSoru(""); return; }
     setBekle(true); setHata(""); setBilgi(""); setOneri(null);
     try {
       // Yapıştırılıp henüz eklenmemiş metin de bu soruyla birlikte gider.
@@ -113,7 +159,7 @@ export function IcraSohbet({ f, degistir, onMetinEkle, onKaydet }: { f: Foy; deg
         <TextInput value={soru} onChangeText={setSoru} multiline placeholder={t("Ne yapayım? Ör. “ihbarı da ekle”")} placeholderTextColor={C.muted}
           onKeyPress={(e: { nativeEvent?: { key?: string; shiftKey?: boolean }; preventDefault?: () => void }) => { const n = e?.nativeEvent; if (n?.key === "Enter" && !n.shiftKey) { e.preventDefault?.(); gonder(soru); } }}
           style={[s.input, { flex: 1, minHeight: 44 }]} />
-        <Btn label={t("Gönder")} disabled={bekle || soru.trim().length < 3} onPress={() => gonder(soru)} />
+        <Btn label={t("Gönder")} disabled={bekle || ekleniyor || (soru.trim().length < 3 && metin.trim().length < 3)} onPress={() => (soru.trim().length >= 3 ? gonder(soru) : ekle())} />
       </View>
       {sohbet.length > 0 && <Pressable onPress={() => degistir({ icra: { ...b, sohbet: [] } })}><Text style={[s.link, { color: C.muted }]}>{t("Sohbeti temizle")}</Text></Pressable>}
     </View>

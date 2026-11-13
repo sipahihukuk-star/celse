@@ -1,0 +1,59 @@
+// İcra talimatı: yapıştırılan ilamın sonundaki istek ayrılır, tutarlar ve eklenecek taraflar cihazda okunur (uydurma ilam).
+import { readFileSync } from "fs";
+import { join } from "path";
+import { bosFoy, Foy } from "../src/data/foy";
+import { evrakTuruBul, hukumKalemleri, icraEvraktan, ilamdanTaraflar, ilamTaraflari } from "../src/data/icraEvrak";
+import { adCoz, talimatAyir, talimatOku, talimatUygula } from "../src/data/icraTalimat";
+
+let fail = 0;
+const ok = (c: unknown, m: string) => { if (c) console.log("✓ " + m); else { fail++; console.log("✗ " + m); } };
+const ham = readFileSync(join(__dirname, "ornek/bam-ilam.txt"), "utf8");
+
+const { evrak, talimat } = talimatAyir(ham);
+ok(/^bu kararı 10\.000 tl vekalet/.test(talimat), "talimat ayrıldı: " + talimat.slice(0, 50));
+ok(/e-imzalıdır$/.test(evrak) && !/hazırla/.test(evrak), "evrak talimatsız");
+ok(evrakTuruBul(evrak) === "ilam", "bölge adliye kararı ilam sayılır");
+// Hüküm uzun gerekçenin sonunda (ilk 6000 karakterden sonra) olsa da ilam.
+const uzun = evrak.replace("Dosya kapsamına göre", ("Bilirkişi raporu ve tanık beyanları birlikte değerlendirilmiştir. ").repeat(120) + "Dosya kapsamına göre").replace(/gereği düşünüldü/i, "incelendi");
+ok(evrakTuruBul(uzun) === "ilam", "hüküm metnin sonunda olsa da ilam");
+const it = ilamTaraflari(evrak);
+ok(it.birinciler.map(x => x.ad).join("|") === "Ayşe Örnek Deneme|Mehmet Deneme", "iki davacı: " + it.birinciler.map(x => x.ad));
+ok(it.ikinciler.map(x => x.ad).join("|") === "Hayali Yılmaz|Kurgu Yılmaz", "iki davalı: " + it.ikinciler.map(x => x.ad));
+ok(it.ikinciler[1].adres === "Kurgu Mah. Masal Cad. No:9 Buca/İZMİR" && it.birinciler[1].kimlikNo === "22222222220", "ikinci tarafların adres ve kimlik no'su");
+ok(icraEvraktan(evrak).bilgi.ilam?.mahkeme === "İzmir Bölge Adliye Mahkemesi 20. Hukuk Dairesi", "mahkeme tam adı: " + icraEvraktan(evrak).bilgi.ilam?.mahkeme);
+const hk = hukumKalemleri(evrak);
+ok(hk.map(k => k.ad + ":" + k.tutar).join("|") === "Maddi tazminat:35000|Vekâlet ücreti:10000|Yargılama gideri:2538", "hüküm kalemleri: " + hk.map(k => k.ad + ":" + k.tutar));
+
+const r = talimatOku(talimat);
+ok(JSON.stringify(r.kalemler) === JSON.stringify([{ ad: "Vekâlet ücreti", tutar: 10000 }, { ad: "Yargılama gideri", tutar: 2538 }]), "talimattaki tutarlar: " + JSON.stringify(r.kalemler));
+ok(r.alacaklilar.join() === "mehmet deneme" && r.borclular.join() === "kurgu yılmazı", "talimattaki adlar: " + JSON.stringify([r.alacaklilar, r.borclular]));
+ok(adCoz("kurgu yılmazı", it.ikinciler).ad === "Kurgu Yılmaz", "ek atılıp evraktaki tarafla eşleşti");
+ok(adCoz("ömer keskini", []).ad === "Ömer Keskin", "evrakta yoksa belirtme eki atılır");
+ok(adCoz("Ali'yi", []).ad === "Ali", "kesme işaretli ek atılır");
+
+const f: Foy = { ...bosFoy({ tur: "icra", taraf: "davaci" }), muvekkil: "Ayşe Örnek Deneme", karsiTaraf: "Hayali Yılmaz" };
+const u = talimatUygula(f, r, { taraflar: [...it.birinciler, ...it.ikinciler], kaynak: evrak, hukumKalemleri: hk, kararTarihi: it.kararTarihi, ilamli: true });
+const g = { ...f, ...u.ek } as Foy;
+ok(g.ekMuvekkiller?.[0]?.ad === "Mehmet Deneme" && g.ekMuvekkiller?.[0]?.kimlikNo === "22222222220", "ek alacaklı künyeye (kimlik no'suyla)");
+ok(g.icra?.ekBorclular?.[0]?.ad === "Kurgu Yılmaz" && !!g.icra?.ekBorclular?.[0]?.adres, "ek borçlu takibe (adresiyle)");
+ok(g.icra?.yol === "ilamli" && g.icra?.kalemler?.length === 3 && g.icra.kalemler.find(k => k.ad === "Vekâlet ücreti")?.tutar === 10000, "ilamlı, üç kalem");
+// Talimat başka tutar derse hükümdekinin üstüne yazılır.
+const u2 = talimatUygula(g, talimatOku("vekalet ücreti 12.500 TL olsun, ayrıca 1.250,50 tl harç ekle"), {});
+ok(u2.ek.icra?.kalemler?.find(k => k.ad === "Vekâlet ücreti")?.tutar === 12500 && u2.ek.icra?.kalemler?.find(k => k.ad === "Harç")?.tutar === 1250.5, "talimat tutarı değiştirir ve ekler");
+// İkinci kez aynı talimat bir şey değiştirmez.
+ok(!talimatUygula(g, r, { taraflar: [...it.birinciler, ...it.ikinciler], kaynak: evrak }).dolan.length, "aynı talimat ikinci kez değişiklik yapmaz");
+// İlamdan taraflar: iki davacı alacaklı, iki davalı borçlu; vekilimizin büro adresi.
+const bos: Foy = { ...bosFoy({ tur: "icra", taraf: "davaci" }), muvekkil: "", karsiTaraf: "" };
+const y = ilamdanTaraflar(bos, it, "birinci", { ekAlacakli: true });
+ok(!ilamdanTaraflar(bos, it, "birinci").ek.ekMuvekkiller, "vekil biz değilken öteki davacı alacaklı yapılmaz");
+const h2 = { ...bos, ...y.ek } as Foy;
+ok(h2.muvekkil === "Ayşe Örnek Deneme" && h2.ekMuvekkiller?.map(x => x.ad).join() === "Mehmet Deneme", "iki alacaklı: " + JSON.stringify([h2.muvekkil, h2.ekMuvekkiller]));
+ok(h2.karsiTaraf === "Hayali Yılmaz" && h2.icra?.ekBorclular?.map(x => x.ad).join() === "Kurgu Yılmaz", "iki borçlu");
+ok(h2.muvekkilBilgi?.adres === "Örnek Mah. Deneme Sok. No:5 Karşıyaka/İZMİR" && h2.karsiBilgi?.kimlikNo === "33333333330", "adres ve kimlik no ilamdan");
+ok(it.birinci?.vekilAdres === "Hayal Mah. 1. Sok. No:3 Karşıyaka/İZMİR", "vekilin büro adresi: " + it.birinci?.vekilAdres);
+// Talimatsız ilam: hiçbir şey ayrılmaz.
+ok(talimatAyir(evrak).talimat === "", "talimatsız ilamda talimat yok");
+// Dilekçe ilam sayılmaz.
+ok(evrakTuruBul("İZMİR 3. ASLİYE HUKUK MAHKEMESİ'NE\nESAS NO: 2023/512\nDAVACI: X\nAÇIKLAMALAR: Mahkemenizin ilamı ile karar verildi... KARAR NO 2025/1\nSONUÇ VE İSTEM: arz ve talep ederiz.\nDavacı Vekili Av. Örnek") !== "ilam", "dilekçe ilam değil");
+if (fail) { console.log(`icra-talimat-test: ${fail} hata`); process.exit(1); }
+console.log("icra-talimat-test: tamam");

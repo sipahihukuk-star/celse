@@ -77,6 +77,7 @@ export function uyapXml(f: Foy, b: IcraBilgi, vekil: VekilBilgi, bugun = new Dat
   const t: string[] = [];
   let n = 0;
   t.push(`<taraf id="t${++n}">${kisiKurum(f.muvekkil, m.kimlikNo, m.adres, b.mernisAlacakli)}<rolTur Rol="Alacaklı"/></taraf>`);
+  for (const x of f.ekMuvekkiller || []) if (x.ad.trim()) t.push(`<taraf id="t${++n}">${kisiKurum(x.ad, x.kimlikNo, x.adres)}<rolTur Rol="Alacaklı"/></taraf>`);
   t.push(`<taraf id="t${++n}">${kisiKurum(f.karsiTaraf, k.kimlikNo, k.adres, b.mernisBorclu)}<rolTur Rol="Borçlu"/></taraf>`);
   for (const x of b.ekBorclular || []) if (x.ad.trim()) t.push(`<taraf id="t${++n}">${kisiKurum(x.ad, x.kimlikNo, x.adres)}<rolTur Rol="Borçlu"/></taraf>`);
   // Vekil

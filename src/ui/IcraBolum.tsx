@@ -3,7 +3,7 @@
 // dayanak belge, alacak kalemleri, faiz ve talep doldurulur. Hesap cihazda yapılır.
 import React, { useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
-import { Foy, FoyEvrak, tarihCoz } from "../data/foy";
+import { Foy, FoyEvrak, TarafKisi, tarihCoz } from "../data/foy";
 import { Kalem, KALEM_ADLARI, kalemleri, MAHIYETLER, FAIZ_TURLERI, FaizTuru, IcraBilgi, icraEksikler, icraHesapla, Masraf, ParaBirimi, TAKIP_YOLLARI, TakipYolu, takipTalebiMetni, tl, turAdi } from "../data/icra";
 import { t } from "../i18n";
 import { useAccount } from "../data/account";
@@ -22,7 +22,7 @@ const sayi = (v: string): number | undefined => { const x = v.replace(/\./g, "")
 const sayiYaz = (x?: number) => (x === undefined ? "" : String(x).replace(".", ","));
 const tarihYaz = (x?: string) => (x ? x.split("-").reverse().join(".") : "");
 
-export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrakSil, onKaydet, onMetinEkle, bizimAdlar = [], okuma }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; onEvraktan?: () => void; onEvrakEkle?: () => void; onEvrakSil?: (e: FoyEvrak) => void; onKaydet?: () => Promise<void>; onMetinEkle?: (metin: string) => Promise<void>; bizimAdlar?: string[]; okuma?: string }) {
+export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrakSil, onKaydet, onMetinEkle, bizimAdlar = [], okuma, guncel, yenile }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; guncel?: () => Foy; yenile?: () => void; onEvraktan?: () => void; onEvrakEkle?: () => void; onEvrakSil?: (e: FoyEvrak) => void; onKaydet?: () => Promise<void>; onMetinEkle?: (metin: string) => Promise<void>; bizimAdlar?: string[]; okuma?: string }) {
   const [kayit, setKayit] = useState("");
   const b: IcraBilgi = f.icra || { yol: "genel", talep: "haciz", paraBirimi: "TL", faizTuru: "yasal" };
   const [bilgi, setBilgi] = useState("");
@@ -63,6 +63,15 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
   const [vekil, setVekilRaw] = useState<{ ad?: string; tc?: string; baroNo?: string; tbbNo?: string; adres?: string }>(() => { try { return JSON.parse(globalThis.localStorage?.getItem("celse-vekil") || "{}"); } catch { return {}; } });
   const setVekil = (ek: Partial<typeof vekil>) => { const v = { ...vekil, ...ek }; setVekilRaw(v); try { globalThis.localStorage?.setItem("celse-vekil", JSON.stringify(v)); } catch { /* yok say */ } };
   const vekilBilgi = { adSoyad: vekil.ad || account?.adSoyad || "", tcKimlikNo: vekil.tc, baroNo: vekil.baroNo, tbbNo: vekil.tbbNo, adres: vekil.adres };
+  // İlamda vekil olarak siz yazılıysanız (adınız ya da büro avukatlarınızdan biri) büro adresiniz oradan alınır (boşsa).
+  React.useEffect(() => {
+    if (vekil.adres) return;
+    const ilam = f.evraklar.filter(e => e.metin.trim() && evrakTuruBul(e.metin) === "ilam").sort((a, c) => c.eklenme.localeCompare(a.eklenme))[0];
+    if (!ilam) return;
+    const it = ilamTaraflari(ilam.metin);
+    const biz = [it.birinci, it.ikinci].find(x => x?.vekil && bizimVekil(x.vekil, [...bizimAdlar, vekil.ad || "", account?.adSoyad || ""].filter(Boolean)));
+    if (biz?.vekilAdres) setVekil({ adres: biz.vekilAdres, ad: vekil.ad || biz.vekil });
+  }, [f.evraklar.length]);
   const [xmlHata, setXmlHata] = useState("");
   const xmlIndir = () => {
     setBilgi(""); setXmlHata("");
@@ -104,7 +113,7 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
           )}
         </View>
       )}
-      <IcraSohbet f={f} degistir={degistir} onMetinEkle={onMetinEkle} onKaydet={onKaydet} />
+      <IcraSohbet f={f} degistir={degistir} onMetinEkle={onMetinEkle} onKaydet={onKaydet} guncel={guncel} yenile={yenile} bizimAdlar={bizimAdlar} />
       <HukumOnizleme f={f} degistir={degistir} bizimAdlar={bizimAdlar} kalemSayisi={ks.filter(k => k.tutar).length} onKabul={async xs => { kalemlerYaz(xs); if (onKaydet) await onKaydet(); }} />
 
       {/* Taraflar ve icra dairesi: künyeye yazılır (künyede de görünür) */}
@@ -117,7 +126,25 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
       <View style={s.alanlar}>
         {alan("Adı soyadı / unvanı", f.muvekkil || "", v => degistir({ muvekkil: v }), undefined, 240)}
         {alan("T.C. kimlik / vergi no", f.muvekkilBilgi?.kimlikNo || "", v => degistir({ muvekkilBilgi: { ...f.muvekkilBilgi, kimlikNo: v.replace(/\D/g, "") } }), undefined, 160)}
-        {alan("Adresi", f.muvekkilBilgi?.adres || "", v => degistir({ muvekkilBilgi: { ...f.muvekkilBilgi, adres: v } }), "… Mah. … Sok. No … Karşıyaka / İZMİR", 320)}
+        {alan("Adresi", f.muvekkilBilgi?.adres || "", v => degistir({ muvekkilBilgi: { ...f.muvekkilBilgi, adres: v } }), "Mahalle, cadde/sokak, no, ilçe / il", 320)}
+      </View>
+      {/* Birden çok alacaklı: künyedeki öteki müvekkiller */}
+      {(f.ekMuvekkiller || []).map((x, i) => {
+        const xs = f.ekMuvekkiller || [];
+        const yazM = (ek: Partial<TarafKisi>) => degistir({ ekMuvekkiller: xs.map((y, j) => (j === i ? { ...y, ...ek } : y)) });
+        return (
+          <View key={"am" + i + ":" + surum} style={[s.alanlar, { alignItems: "flex-end" }]}>
+            {alan(`${i + 2}. alacaklı`, x.ad, v => yazM({ ad: v }), "Ad soyad / unvan", 240)}
+            {alan("T.C. / vergi no", x.kimlikNo || "", v => yazM({ kimlikNo: v.replace(/\D/g, "") }), undefined, 150)}
+            {alan("Adres", x.adres || "", v => yazM({ adres: v }), undefined, 300)}
+            <Pressable onPress={() => { degistir({ ekMuvekkiller: xs.filter((_, j) => j !== i) }); yenile?.(); }}><Text style={s.sil}>{t("Kaldır")}</Text></Pressable>
+          </View>
+        );
+      })}
+      <View style={s.row}><Btn kind="ghost" label={t("+ Alacaklı ekle")} onPress={() => degistir({ ekMuvekkiller: [...(f.ekMuvekkiller || []), { ad: "" }] })} /></View>
+      <View style={{ gap: 2, borderLeftWidth: 3, borderLeftColor: C.brass, paddingLeft: 8 }}>
+        <Text style={s.body}><Text style={{ fontWeight: "800" }}>{t("Alacaklı vekili")}:</Text> {vekilBilgi.adSoyad ? (/^av\./i.test(vekilBilgi.adSoyad) ? "" : "Av. ") + vekilBilgi.adSoyad : t("(yazılmamış)")}{vekil.baroNo ? " · " + t("sicil {n}", { n: vekil.baroNo }) : ""}</Text>
+        <Text style={s.hint}>{vekil.adres || t("Büro adresi yazılmamış")} · {t("aşağıdaki “Vekil bilgileri”nden değiştirilir; bütün takiplerde kullanılır")}</Text>
       </View>
       <Text style={s.label}>{t("Borçlu")}</Text>
       <View style={s.alanlar}>
@@ -408,7 +435,7 @@ function HukumOnizleme({ f, degistir, kalemSayisi, bizimAdlar, onKabul }: { f: F
   }, [ilam?.id, tespit?.kesin, tespit?.yan]);
   const it = useMemo(() => (ilam ? ilamTaraflari(ilam.metin) : undefined), [ilam?.id, ilam?.metin]);
   // Alacaklı ve borçlu ilamın başından: bizim taraf alacaklı, öteki taraf borçlu (boşsa ya da yanlış kişi yazılıysa yazılır).
-  const yerlesim = useMemo(() => (it ? ilamdanTaraflar(f, it, yan) : undefined), [it, yan, f.muvekkil, f.karsiTaraf, f.muvekkilBilgi, f.karsiBilgi, f.icra?.ekBorclular]);
+  const yerlesim = useMemo(() => (it ? ilamdanTaraflar(f, it, yan, { ekAlacakli: bizimVekil((yan === "birinci" ? it.birinci : it.ikinci)?.vekil, bizimAdlar) }) : undefined), [it, yan, f.muvekkil, f.karsiTaraf, f.muvekkilBilgi, f.karsiBilgi, f.icra?.ekBorclular]);
   const [tarafMesaj, setTarafMesaj] = useState("");
   React.useEffect(() => {
     if (!yerlesim || !Object.keys(yerlesim.ek).length) return;
@@ -463,7 +490,7 @@ function HukumOnizleme({ f, degistir, kalemSayisi, bizimAdlar, onKabul }: { f: F
         secenekler={[{ k: "birinci", ad: t("Davacı vekiliyiz") }, { k: "ikinci", ad: t("Davalı vekiliyiz") }]} />
       {!!tespit && <Text style={[s.hint, { color: tespit.kesin ? C.good : C.mid }]}>{tespit.neden}</Text>}
       <View style={{ gap: 2, borderLeftWidth: 3, borderLeftColor: C.brass, paddingLeft: 8 }}>
-        <Text style={s.body}><Text style={{ fontWeight: "800" }}>{t("Alacaklı")}:</Text> {f.muvekkil || t("(yazılmamış)")}</Text>
+        <Text style={s.body}><Text style={{ fontWeight: "800" }}>{t("Alacaklı")}:</Text> {f.muvekkil || t("(yazılmamış)")}{(f.ekMuvekkiller || []).filter(x => x.ad.trim()).length ? " " + t("ve {n} ek alacaklı", { n: (f.ekMuvekkiller || []).filter(x => x.ad.trim()).length }) : ""}</Text>
         <Text style={s.body}><Text style={{ fontWeight: "800" }}>{t("Borçlu")}:</Text> {f.karsiTaraf || t("(yazılmamış)")}{(f.icra?.ekBorclular || []).filter(x => x.ad.trim()).length ? " " + t("ve {n} ek borçlu", { n: (f.icra?.ekBorclular || []).filter(x => x.ad.trim()).length }) : ""}</Text>
         {!!tarafMesaj && <Text style={[s.hint, { color: C.good }]}>{tarafMesaj}</Text>}
         {!!yerlesim?.oneri && (
