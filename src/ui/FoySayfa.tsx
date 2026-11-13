@@ -121,14 +121,13 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     setF(null); setYok(false);
     foyGetir(id).then(x => {
       if (!x) { setYok(true); return; }
-      setF(x); setDurusmaYazi(x.durusma ? tarihYaz(x.durusma) : "");
+      son.current = x; setF(x); setDurusmaYazi(x.durusma ? tarihYaz(x.durusma) : "");
       // Kendiliğinden işler (e-duruşma, eksik künye) güncel değilse şimdi güncellenir.
       const g = otoIsleriEsitle(x); if (g) degistir({ gorevler: g });
     });
   }, [id]);
   // Her değişiklik yarım saniye sonra kaydedilir; ekrandan çıkarken bekleyen kayıt hemen yazılır.
-  const degistir = (ek: Partial<Foy>) => setF(x => {
-    if (!x) return x;
+  const hesapla = (x: Foy, ek: Partial<Foy>): Foy => {
     const y = { ...x, ...ek };
     // Mahkeme ya da dosya no değişince gelecek duruşma günleri yeni mahkeme ve numarayla akar (geçmişteki günler kalır).
     if (("mahkeme" in ek || "esasNo" in ek) && !("durusmalar" in ek)) { const d = yerDegisimi(x, { mahkeme: ek.mahkeme, esasNo: ek.esasNo }); if (d) y.durusmalar = d; }
@@ -139,11 +138,29 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     if (zaman.current) clearTimeout(zaman.current);
     zaman.current = setTimeout(() => { foyKaydet(y).catch(e => setErr(t(String((e as Error).message || e)))); zaman.current = null; }, 500);
     return y;
-  });
+  };
+  // Yazarken (art arda gelen değişiklikler) sayfa her harfte baştan çizilmez: değişiklik hemen bellekte ve kayıtta işlenir,
+  // ekran yazma durunca (çeyrek saniye) güncellenir. Tek seferlik işlemler (düğmeler) hemen çizilir.
+  const sonDegisim = useRef(0);
+  const cizim = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const degistir = (ek: Partial<Foy>) => {
+    const simdi = Date.now();
+    const yazarken = simdi - sonDegisim.current < 350;
+    sonDegisim.current = simdi;
+    if (yazarken && son.current && (cizim.current || son.current.id === f?.id)) {
+      hesapla(son.current, ek);
+      if (cizim.current) clearTimeout(cizim.current);
+      cizim.current = setTimeout(() => { cizim.current = null; const y = son.current; if (y) setF(x => (x && x.id === y.id ? y : x)); }, 250);
+      return;
+    }
+    const bekleyen = !!cizim.current;
+    if (cizim.current) { clearTimeout(cizim.current); cizim.current = null; }
+    setF(x => (x ? hesapla(bekleyen && son.current && son.current.id === x.id ? son.current : x, ek) : x));
+  };
   // Föy başka yerden değişirse (sesli asistan, eşitleme, Yapılacaklar): bekleyen yerel kayıt yoksa yeni hâli alınır.
   useEffect(() => foyDinle(() => {
     if (zaman.current) return;
-    foyGetir(id).then(x => { if (x) setF(y => { if (y && x.guncelleme > y.guncelleme) { setSurum(v => v + 1); return x; } return y; }); }).catch(() => {});
+    foyGetir(id).then(x => { if (x) setF(y => { if (y && x.guncelleme > y.guncelleme && !cizim.current) { setSurum(v => v + 1); son.current = x; return x; } return y; }); }).catch(() => {});
   }), [id]);
   const hemenKaydet = async () => { if (zaman.current && son.current) { clearTimeout(zaman.current); zaman.current = null; await foyKaydet(son.current); } };
   // "💾 Kaydet": değişiklikler zaten birkaç saniye içinde kendiliğinden kaydedilir; düğme hemen kaydeder ve bunu gösterir.

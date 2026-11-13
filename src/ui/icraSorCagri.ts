@@ -1,7 +1,8 @@
 // İcra takibi sohbetinin sunucu çağrısı (kodlama ve açma: data/icraSohbet.ts).
 import { call } from "../data/danisma";
 import { Foy } from "../data/foy";
-import { FaizTuru, TakipYolu } from "../data/icra";
+import { FaizTuru, MAHIYETLER, TakipYolu } from "../data/icra";
+import type { TalimatAlanlari } from "../data/icraTalimat";
 import { ac, FAIZLER, IcraDegisiklik, icraSoruKaynagi, IcraSohbetSatiri, SIZINTI, YOLLAR } from "../data/icraSohbet";
 export { degisiklikOzeti } from "../data/icraSohbet";
 export type { IcraDegisiklik, IcraSohbetSatiri } from "../data/icraSohbet";
@@ -28,7 +29,29 @@ export async function icraSor(f: Foy, soru: string, yapistirilan = ""): Promise<
         return { ad: ac(String(x.ad || "Alacak"), k.map, k.tarihler).slice(0, 80), tutar: Math.round((tutar || 0) * 100) / 100, faizTuru: fz, faizBaslangic: /^\d{4}-\d{2}-\d{2}$/.test(bas) ? bas : undefined };
       }).filter(x => x.tutar > 0).slice(0, 30);
     }
-    if (!degisiklik.taraf && !degisiklik.yol && !degisiklik.kalemler) degisiklik = undefined;
+    // Takip formunun kutuları: kodlar cihazda gerçek değerlerine açılır; tarihler YYYY-AA-GG olur.
+    const metinA = (x: unknown, n = 300) => (typeof x === "string" && x.trim() ? ac(x, k.map, k.tarihler).trim().slice(0, n) : undefined);
+    const tarihA = (x: unknown) => { const v = typeof x === "string" ? ac(x, k.map, k.tarihler, true).trim() : ""; return /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : undefined; };
+    const al: TalimatAlanlari = {};
+    const ic = metinA(d.icraDairesi, 120); if (ic && /icra/i.test(ic)) al.icraDairesi = ic;
+    if (d.ilam && typeof d.ilam === "object") {
+      const il = d.ilam as Record<string, unknown>;
+      const x = { mahkeme: metinA(il.mahkeme, 160), esasNo: metinA(il.esasNo, 30), kararNo: metinA(il.kararNo, 30), kararTarihi: tarihA(il.kararTarihi), kesinlesme: tarihA(il.kesinlesme) };
+      const dolu = Object.fromEntries(Object.entries(x).filter(([, v]) => v));
+      if (Object.keys(dolu).length) al.ilam = dolu;
+    }
+    const tt = tarihA(d.takipTarihi); if (tt) al.takipTarihi = tt;
+    if (typeof d.mahiyet === "string" && MAHIYETLER.some(m => m.kod === d.mahiyet)) al.mahiyet = d.mahiyet;
+    if (d.paraBirimi === "TL" || d.paraBirimi === "USD" || d.paraBirimi === "EUR" || d.paraBirimi === "GBP") al.paraBirimi = d.paraBirimi;
+    if (Array.isArray(d.masraflar)) { const ms = (d.masraflar as Record<string, unknown>[]).map(m => ({ ad: metinA(m.ad, 80) || "Masraf", tutar: typeof m.tutar === "number" ? m.tutar : Number(String(m.tutar || "").replace(/\./g, "").replace(",", ".")) })).filter(m => m.tutar > 0).slice(0, 20); if (ms.length) al.masraflar = ms; }
+    const nt = metinA(d.not, 600); if (nt) al.not = nt;
+    if (Array.isArray(d.taraflar)) {
+      const ks = (d.taraflar as Record<string, unknown>[]).map(x => ({ rol: (x.rol === "alacakli" ? "alacakli" : "borclu") as "alacakli" | "borclu", ad: metinA(x.ad, 160), kimlikNo: metinA(x.kimlikNo, 20)?.replace(/\D/g, "") || undefined, adres: metinA(x.adres, 300) }))
+        .filter(x => x.ad || x.kimlikNo || x.adres).slice(0, 10);
+      if (ks.length) al.kisiBilgi = ks;
+    }
+    if (Object.keys(al).length) degisiklik.alanlar = al;
+    if (!degisiklik.taraf && !degisiklik.yol && !degisiklik.kalemler && !degisiklik.alanlar) degisiklik = undefined;
   }
   return { ok: true, satir, degisiklik };
 }
