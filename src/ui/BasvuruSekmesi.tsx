@@ -5,14 +5,14 @@
 import React, { useMemo, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { BASVURULAR, basvuruBul } from "../data/basvuru";
-import { bosFoy, Foy, foyBaslik, foyKaydet } from "../data/foy";
+import { bosFoy, Foy, foyBaslik } from "../data/foy";
 import { DAVA_TURLERI, turBilgi } from "../data/foyTurleri";
 import { t } from "../i18n";
 import { s } from "./foyStil";
 import { Btn } from "./kit";
 import { C } from "./theme";
 
-export function BasvuruSekmesi({ liste, onAc }: { liste: Foy[]; onAc: (id: string, basvuru: string) => void }) {
+export function BasvuruSekmesi({ liste, onAc }: { liste: Foy[]; onAc: (id: string, basvuru: string, taslak?: Foy) => void }) {
   const [secK, setSecK] = useState<string | null>(null);
   const [ara, setAra] = useState("");
   const [hata, setHata] = useState("");
@@ -30,7 +30,7 @@ export function BasvuruSekmesi({ liste, onAc }: { liste: Foy[]; onAc: (id: strin
 
   const yeni = async () => {
     if (!b) return;
-    try { const f = bosFoy({ tur: b.foyTur, davaTuru: konu.trim() }); await foyKaydet(f); onAc(f.id, b.k); }
+    try { const f = bosFoy({ tur: b.foyTur, davaTuru: konu.trim() }); onAc(f.id, b.k, f); }
     catch (e) { setHata(t(String((e as Error).message || e))); }
   };
 

@@ -2,6 +2,7 @@
 // Avukat beyan türünü ve talimatını yazar ya da söyler; yapay zekâ föyden gövdeyi yazar (beyanCagri). Başlık (merci, dosya no,
 // taraflar, vekil, konu) ve imza cihazda föyden eklenir. Taslaklar föyde saklanır; çıktı avukatın seçtiği biçimde (UDF, Word, PDF).
 // Kaynak paneli resmî sitelerde içtihat / mevzuat, DergiPark gibi açık erişimli sitelerde doktrin arar; avukat elle de ekler.
+import { HizliGirdi } from "./HizliGirdi";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Linking, Platform, Pressable, ScrollView, Share, Text, TextInput, View } from "react-native";
 import { atif, Beyan, BEYAN_KLASORLERI, beyanCercevesi, beyanDosyaAdi, beyanHtml, beyanTuru, ciktiBicimi, docxOlustur, HukukKaynak, tamMetin, udfOlustur } from "../data/beyan";
@@ -400,9 +401,9 @@ export function BeyanEditoru({ f, onDegistir, tohum, ilkBeyanId, ilkTur }: { f: 
             ...orn.filter(x => x.klasor === beyanTuru(b.tur).klasor).slice(0, 40).map(x => ({ k: x.id, ad: (x.tur ? x.tur + " · " : "") + x.ad }))]} />
       )}
       <Text style={s.label}>{t("Konu")}</Text>
-      <TextInput value={b.konu} onChangeText={x => sakla({ ...b, konu: x })} placeholder={t("Konu satırı")} placeholderTextColor={C.muted} style={s.inputTek} />
+      <HizliGirdi gecikme={150} value={b.konu} onChangeText={x => sakla({ ...b, konu: x })} placeholder={t("Konu satırı")} placeholderTextColor={C.muted} style={s.inputTek} />
       <Text style={s.label}>{b.metin ? t("Düzeltme talimatı") : t("Talimat")}</Text>
-      <TextInput value={talimat} onChangeText={setTalimat} multiline style={[s.input, { minHeight: 70 }]} placeholderTextColor={C.muted}
+      <HizliGirdi gecikme={150} value={talimat} onChangeText={setTalimat} multiline style={[s.input, { minHeight: 70 }]} placeholderTextColor={C.muted}
         placeholder={b.metin ? t("Örn. ikinci maddeyi kısalt, kusur oranına itirazı güçlendir, ek rapor talebini ekle") : t(TALIMAT_ORNEK[beyanTuru(b.tur).cerceve])} />
       <View style={s.addRow}>
         <Dikte onMetin={x => (x ? setTalimat(y => (y ? y + " " : "") + x) : setHata(t(izinYokMetni())))} />
@@ -427,7 +428,7 @@ export function BeyanEditoru({ f, onDegistir, tohum, ilkBeyanId, ilkTur }: { f: 
       <Text style={s.label}>{t("Beyan")}</Text>
       <View style={{ borderWidth: 1, borderColor: C.line, borderRadius: 8, backgroundColor: "#fbfaf6", padding: 12, gap: 0 }}>
         <Text style={{ color: "#333", fontFamily: Platform.OS === "web" ? "'Times New Roman', serif" : undefined, fontSize: 13 }}>{cerceve.ust.join("\n")}</Text>
-        <TextInput value={b.metin} onChangeText={x => sakla({ ...b, metin: x })} multiline placeholder={t("Gövde burada görünecek; doğrudan da yazabilirsiniz.")} placeholderTextColor="#999"
+        <HizliGirdi gecikme={150} value={b.metin} onChangeText={x => sakla({ ...b, metin: x })} multiline placeholder={t("Gövde burada görünecek; doğrudan da yazabilirsiniz.")} placeholderTextColor="#999"
           style={{ minHeight: 360, color: "#111", fontSize: 15, lineHeight: 22, fontFamily: Platform.OS === "web" ? "'Times New Roman', serif" : undefined, textAlignVertical: "top", padding: 0 }} />
         <Text style={{ color: "#333", textAlign: "right", fontSize: 13, fontFamily: Platform.OS === "web" ? "'Times New Roman', serif" : undefined }}>{cerceve.alt.join("\n")}</Text>
       </View>
