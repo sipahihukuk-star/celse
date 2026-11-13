@@ -6,7 +6,7 @@ import React, { useMemo, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { BASVURULAR, basvuruBul } from "../data/basvuru";
 import { bosFoy, Foy, foyBaslik, foyKaydet } from "../data/foy";
-import { turBilgi } from "../data/foyTurleri";
+import { DAVA_TURLERI, turBilgi } from "../data/foyTurleri";
 import { t } from "../i18n";
 import { s } from "./foyStil";
 import { Btn } from "./kit";
@@ -16,6 +16,8 @@ export function BasvuruSekmesi({ liste, onAc }: { liste: Foy[]; onAc: (id: strin
   const [secK, setSecK] = useState<string | null>(null);
   const [ara, setAra] = useState("");
   const [hata, setHata] = useState("");
+  // "Hangi dava": hukuk davası, soruşturma… için konu (föyde "Konu" olur); boş bırakılabilir.
+  const [konu, setKonu] = useState("");
   const b = basvuruBul(secK || undefined);
   const turler = b ? b.foyTurleri || [b.foyTur] : [];
   const foyler = useMemo(() => {
@@ -28,7 +30,7 @@ export function BasvuruSekmesi({ liste, onAc }: { liste: Foy[]; onAc: (id: strin
 
   const yeni = async () => {
     if (!b) return;
-    try { const f = bosFoy({ tur: b.foyTur }); await foyKaydet(f); onAc(f.id, b.k); }
+    try { const f = bosFoy({ tur: b.foyTur, davaTuru: konu.trim() }); await foyKaydet(f); onAc(f.id, b.k); }
     catch (e) { setHata(t(String((e as Error).message || e))); }
   };
 
@@ -38,19 +40,20 @@ export function BasvuruSekmesi({ liste, onAc }: { liste: Foy[]; onAc: (id: strin
       <Text style={s.title}>{t("📝 Başvuru yap")}</Text>
       <Text style={s.hint}>{t("Yapacağınız başvuruyu seçin: neler gerektiği listelenir, başvuruyu bir föyde hazırlarsınız (dilekçe, belge, icra takibi, talep). UYAP'tan gelen ve yüklenen evrak föylerin kendisinde, Föyler sekmesinde kalır.")}</Text>
 
-      <View style={s.grid}>
+      {!b && <View style={s.grid}>
         {BASVURULAR.map(x => {
           const on = x.k === secK;
           return (
-            <Pressable key={x.k} onPress={() => { setSecK(on ? null : x.k); setAra(""); setHata(""); }} accessibilityRole="button" accessibilityState={{ selected: on }}
+            <Pressable key={x.k} onPress={() => { setSecK(on ? null : x.k); setAra(""); setHata(""); setKonu(""); }} accessibilityRole="button" accessibilityState={{ selected: on }}
               style={({ pressed }) => [s.girisK, on && { borderColor: C.brass, backgroundColor: C.bordo }, pressed && { opacity: 0.85 }]}>
               <Text style={s.girisT}>{t(x.ad)}</Text>
               <Text style={s.hint}>{t(x.aciklama)}</Text>
             </Pressable>
           );
         })}
-      </View>
+      </View>}
 
+      {b && <View style={s.row}><Btn kind="ghost" label={t("‹ Başka başvuru seç")} onPress={() => setSecK(null)} /></View>}
       {b && (
         <View style={[s.card, { gap: 8, borderColor: C.brass }]}>
           <Text style={s.cardT}>{t(b.ad)}</Text>
@@ -58,8 +61,20 @@ export function BasvuruSekmesi({ liste, onAc }: { liste: Foy[]; onAc: (id: strin
           <Text style={s.secT}>{t("Hazırlanması gerekenler")}</Text>
           {b.gerekenler.map((x, i) => <Text key={i} style={s.body}>☐ {t(x)}</Text>)}
 
-          <Text style={s.secT}>{t("Hangi föyde hazırlanacak?")}</Text>
-          <View style={s.row}><Btn label={t("➕ Yeni başvuru föyü aç ({tur})", { tur: t(turBilgi(b.foyTur).ad) })} onPress={yeni} /></View>
+          <Text style={s.secT}>{t("Yeni mi, var olan föyde mi?")}</Text>
+          {!!DAVA_TURLERI[b.foyTur]?.length && !b.talep && (
+            <View style={{ gap: 4 }}>
+              <Text style={s.label}>{t("Konu (isteğe bağlı)")}</Text>
+              <View style={s.chips}>
+                {DAVA_TURLERI[b.foyTur]!.map(x => (
+                  <Pressable key={x} onPress={() => setKonu(konu === x ? "" : x)} style={[s.chip, konu === x && s.chipOn]}>
+                    <Text style={[s.chipT, konu === x && s.chipTOn]}>{t(x)}</Text>
+                  </Pressable>
+                ))}
+              </View>
+            </View>
+          )}
+          {!b.talep && <View style={s.row}><Btn label={b.icra ? t("➕ Yeni icra takibi aç") : t("➕ Yeni aç: {tur}", { tur: t(turBilgi(b.foyTur).ad) }) + (konu ? " · " + t(konu) : "")} onPress={yeni} /></View>}
           {!!hata && <Text style={s.err}>{hata}</Text>}
           {foyler.length > 0 || ara ? (
             <>
@@ -75,7 +90,7 @@ export function BasvuruSekmesi({ liste, onAc }: { liste: Foy[]; onAc: (id: strin
               ))}
               {!foyler.length && <Text style={s.hint}>{t("Aramaya uyan açık föy yok.")}</Text>}
             </>
-          ) : <Text style={s.hint}>{t("Bu türde açık föy yok; yeni başvuru föyü açın.")}</Text>}
+          ) : <Text style={s.hint}>{b.talep ? t("Açık dava ya da icra föyü yok.") : t("Bu türde açık föy yok; yukarıdan yenisini açın.")}</Text>}
         </View>
       )}
     </ScrollView>

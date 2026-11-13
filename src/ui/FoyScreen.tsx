@@ -365,7 +365,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       </View>
 
       <View style={s.row}>
-        <Btn label={t("+ Yeni giriş")} onPress={() => setGiris("normal")} />
+        <Btn label={t("📝 Başvuru yap (yeni dosya)")} onPress={() => sekmeSec("basvuru")} />
         <Btn kind="secondary" label={t("🔒 Şahsi dosyalarım")} onPress={() => (kilit === "acik" ? setSahsiGorunum(true) : setKilitSor({ sonra: () => setSahsiGorunum(true) }))} />
         <Btn kind="secondary" label={t("📥 UYAP duruşma listesi yükle")} onPress={() => { setDurusmaYukle(true); setDurusmaAc(true); }} />
         {web && <Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} />}
@@ -532,7 +532,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         })()}
         {!yuklendi && <Text style={s.hint}>{t("Föyler yükleniyor…")}</Text>}
         {!!yukHata && <Text style={[s.hint, { color: C.bad }]}>{t("Föyler bu tarayıcıda açılamadı: {e}", { e: yukHata })}</Text>}
-        {yuklendi && liste.length === 0 && <Text style={s.body}>{t("Henüz föy yok. “+ Yeni giriş” ile ekleyin ya da dosya listenizi Excel veya Word tablosundan toplu olarak aktarın.")}</Text>}
+        {yuklendi && liste.length === 0 && <Text style={s.body}>{t("Henüz föy yok. “📝 Başvuru yap” sekmesinden açın ya da dosya listenizi Excel veya Word tablosundan toplu olarak aktarın.")}</Text>}
         {gorunen.length > 1 && sayfalama}
         {sayfadaki.map(foySatir)}
         {gorunen.length > boy && sayfalama}
