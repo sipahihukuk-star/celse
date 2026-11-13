@@ -6,7 +6,7 @@ import { EvrakIsOnay } from "./EvrakIsOnay";
 import { esiVar } from "../data/tekillik";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { kunyeCikar, kunyeyiDoldur, yapiIskeleti } from "../data/kunyeCikar";
+import { kunyeCikar, KunyeOneri, kunyeyiDoldur, taraflariEkle, yapiIskeleti } from "../data/kunyeCikar";
 import { eIsDurusma, eKarar, kunyeEksikleri, otoIsleriEsitle } from "../data/otoIs";
 import { MuvekkilMesaj } from "./MuvekkilMesaj";
 import { DurusmaAkisi } from "./DurusmaAkisi";
@@ -105,6 +105,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const [surum, setSurum] = useState(0);
   const [icraMesaj, setIcraMesaj] = useState("");
   const [kunyeMesaj, setKunyeMesaj] = useState("");
+  const [tarafMesaj, setTarafMesaj] = useState("");
   const [soruluyor, setSoruluyor] = useState(false);
   const [baglaAc, setBaglaAc] = useState(false);
   const [baglaAra, setBaglaAra] = useState("");
@@ -289,15 +290,38 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     </View>
   );
   /** Okunmuş evraktan künyenin boş alanlarını doldurur (cihazda; metin hiçbir yere gitmez). */
+  /** Evraktan künye önerisi (icra föyünde ilamın mahkemesi künyeye yazılmaz; çek ve senette keşideci borçludur). */
+  const evrakOneri = (e: FoyEvrak, temel: Foy): KunyeOneri => {
+    const o = kunyeCikar(e.metin);
+    if ((temel.tur === "icra") && !/İCRA/.test((o.mahkeme || "").toLocaleUpperCase("tr"))) { o.mahkeme = undefined; o.esasNo = undefined; }
+    if (temel.tur === "icra" && /^(cek|senet)$/.test(evrakTuruBul(e.metin))) { o.ikinci = o.ikinci || o.birinci; o.birinci = undefined; o.ikinciler = o.ikinciler || o.birinciler; o.birinciler = undefined; }
+    return o;
+  };
+  // Künyedeki "Tarafları ve vekilleri evraktan yükle": önceden tek taraflı doldurulmuş föyde eksik müvekkil, karşı taraf ve
+  // vekilleri bütün evraktan toplar; var olanları çoğaltmaz.
+  const taraflariEvraktan = () => {
+    const temel = son.current || f;
+    if (!temel) return;
+    let x: Foy = temel; const tum: string[] = [];
+    for (const e of [...temel.evraklar].sort((a, b) => a.eklenme.localeCompare(b.eklenme))) {
+      if (!e.metin.trim()) continue;
+      const r = taraflariEkle(x, evrakOneri(e, x), bizimAdlar());
+      if (r.dolan.length) { x = { ...x, ...r.ek }; tum.push(...r.dolan); }
+    }
+    const ek: Partial<Foy> = {};
+    for (const k of ["mahkeme", "esasNo", "davaTuru", "durusma", "acilis", "muvekkil", "karsiTaraf", "muvekkilBilgi", "karsiBilgi", "taraf", "ekMuvekkiller", "ekKarsiTaraflar"] as const) if (x[k] !== temel[k]) (ek as Record<string, unknown>)[k] = x[k];
+    if (Object.keys(ek).length) { degistir(ek); setSurum(v => v + 1); }
+    if (ek.durusma) setDurusmaYazi(tarihYaz(ek.durusma));
+    const okunan = temel.evraklar.filter(e => e.metin.trim()).length;
+    setTarafMesaj(!okunan ? t("Föyde metni okunmuş evrak yok; önce tutanak, dilekçe ya da karar ekleyin.")
+      : tum.length ? t("Evraktan eklendi: {x}. Kontrol edin.", { x: [...new Set(tum)].join(", ") })
+      : t("{n} evraka bakıldı; künyede olmayan taraf ya da vekil bulunamadı. (Evrakta müvekkilin adı geçmiyorsa başka dosyanın evrakı sayılır ve eklenmez.)", { n: okunan }));
+  };
   const kunyeEvraktan = (evraklar: FoyEvrak[], temel: Foy): Partial<Foy> => {
     let x: Foy = temel; const tum: string[] = [];
     for (const e of [...evraklar].sort((a, b) => a.eklenme.localeCompare(b.eklenme))) {
       if (!e.metin.trim()) continue;
-      const o = kunyeCikar(e.metin);
-      // İcra föyünde künyedeki merci icra dairesidir: ilamın, çekin ya da faturanın mahkemesi/numarası oraya yazılmaz (icra bilgilerine gider).
-      if ((temel.tur === "icra") && !/İCRA/.test((o.mahkeme || "").toLocaleUpperCase("tr"))) { o.mahkeme = undefined; o.esasNo = undefined; }
-      // Çek ve senette keşideci borçludur (karşı taraf), müvekkil değil.
-      if (temel.tur === "icra" && /^(cek|senet)$/.test(evrakTuruBul(e.metin))) { o.ikinci = o.ikinci || o.birinci; o.birinci = undefined; }
+      const o = evrakOneri(e, temel);
       const r = kunyeyiDoldur(x, o, bizimAdlar());
       if (r.dolan.length) { x = { ...x, ...r.ek }; tum.push(...r.dolan); }
     }
@@ -383,7 +407,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const kunyeBlok = (
       <Katlanir anahtar="kunye" baslik={t("Künye")} varsayilan={!f.mahkeme && !f.muvekkil} ozet={[f.mahkeme, f.esasNo, f.muvekkil].filter(Boolean).join(" · ")}>
         <View style={s.alanlar}>
-          <TarafKunye f={f} degistir={degistir} guncel={() => son.current || f} surum={surum} taraflar={taraflar ? [taraflar[0], taraflar[1]] : undefined} />
+          <TarafKunye f={f} degistir={degistir} guncel={() => son.current || f} surum={surum} onEvraktan={taraflariEvraktan} evrakMesaj={tarafMesaj} />
           {alanEl(tb.merci, f.mahkeme, "mahkeme", tb.merciOrnek ? "Örn. " + tb.merciOrnek : undefined)}
           {alanEl(tb.no, f.esasNo, "esasNo", "Örn. 2026/123")}
           <View style={s.alan} key={"acilis:" + surum}>

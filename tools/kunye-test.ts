@@ -1,5 +1,5 @@
 // Evraktan künye çıkarma: uydurma (sentetik) UYAP biçimli metinlerle.
-import { yapiIskeleti, kunyeCikar, kunyeyiDoldur } from "../src/data/kunyeCikar";
+import { yapiIskeleti, kunyeCikar, kunyeyiDoldur, taraflariEkle } from "../src/data/kunyeCikar";
 import { bosFoy, Foy, foyBaslik } from "../src/data/foy";
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
@@ -120,6 +120,20 @@ ok(!rd.ek.davaTuru, "dilekçenin konusu (beyan) dava konusu yazılmaz");
   ok(r.ek.karsiBilgi?.vekil === "Av. Başka Vekil" && r.ek.karsiBilgi?.ekVekiller?.join() === "Av. Diğer Vekil", "karşı tarafın iki vekili");
   const f2 = { ...bosFoy(), ...r.ek } as Foy;
   ok(foyBaslik(f2) === "Ayşe Örnek ve 1 diğeri – Hayali Yapı A.Ş. ve 1 diğeri", "föy başlığı: " + foyBaslik(f2));
+  // Önceden tek taraflı doldurulmuş föy: "Tarafları evraktan yükle" eksik taraf ve vekilleri ekler, var olanı çoğaltmaz.
+  const eski = { ...bosFoy(), taraf: "davaci", muvekkil: "AYŞE ÖRNEK", karsiTaraf: "Hayali Yapı A.Ş.", muvekkilBilgi: { vekil: "Av. Örnek Avukat", telefon: "0" }, karsiBilgi: { vekil: "Av. Başka Vekil" } } as Foy;
+  const y = taraflariEkle(eski, kunyeCikar(m));
+  const f3 = { ...eski, ...y.ek } as Foy;
+  ok(f3.muvekkil === "AYŞE ÖRNEK" && f3.ekMuvekkiller?.map(x => x.ad).join() === "Mehmet Deneme", "ikinci müvekkil eklendi: " + JSON.stringify([f3.muvekkil, f3.ekMuvekkiller]));
+  ok(f3.ekKarsiTaraflar?.map(x => x.ad).join() === "Sosyal Güvenlik Kurumu Başkanlığı", "ikinci davalı eklendi");
+  ok(f3.muvekkilBilgi?.vekil === "Av. Örnek Avukat" && f3.muvekkilBilgi?.ekVekiller?.join() === "Av. İkinci Avukat,Av. Üçüncü Avukat" && f3.muvekkilBilgi?.telefon === "0", "vekillerimiz eklendi, telefon korundu: " + JSON.stringify(f3.muvekkilBilgi));
+  ok(f3.karsiBilgi?.ekVekiller?.join() === "Av. Diğer Vekil", "karşı vekil eklendi");
+  const z = taraflariEkle(f3, kunyeCikar(m));
+  ok(!z.dolan.length, "ikinci kez basınca bir şey eklenmez: " + z.dolan);
+  // Müvekkilin adı evrakta yoksa (başka dosyanın evrakı) taraf eklenmez.
+  const baska = { ...eski, muvekkil: "Zeynep Başka", karsiTaraf: "Başka Ltd.", muvekkilBilgi: {}, karsiBilgi: {} } as Foy;
+  const b2 = taraflariEkle(baska, kunyeCikar(m));
+  ok(!Object.keys(b2.ek).length, "başka dosyanın evrakından taraf eklenmez: " + JSON.stringify(b2.ek));
 }
 if (fail) { console.log(`kunye-test: ${fail} hata`); process.exit(1); }
 console.log("kunye-test: tamam");
