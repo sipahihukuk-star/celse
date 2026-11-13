@@ -1,7 +1,7 @@
 // Evraktan künye çıkarma (cihazda, yapay zekâsız): UYAP evrakının başlığındaki mahkeme, esas no, taraflar, vekiller,
 // kimlik numaraları, adresler, duruşma günü ve dava konusu; vekâletnamede noterlik, tarih ve yevmiye no. Gerçek adlar
 // içerdiği için bu iş bilinçli olarak cihazda yapılır, metin hiçbir yere gönderilmez. Föyde yalnız BOŞ alanlar doldurulur.
-import type { Foy, KarsiBilgi, MuvekkilBilgi } from "./foy";
+import type { Foy, KarsiBilgi, MuvekkilBilgi, TarafKisi } from "./foy";
 
 export interface TarafOneri { ad: string; kimlikNo?: string; adres?: string; vekil?: string; /** bu tarafın bütün vekilleri (ilki "vekil") */ vekiller?: string[] }
 /** "Av. A - Av. B", "1-Av. A 2-Av. B", "Av. A, Av. B ve Av. C": her vekil ayrı. */
@@ -300,6 +300,70 @@ export function kunyeyiDoldur(f: Foy, o: KunyeOneri, bizimAdlar: string[] = []):
   if (!(f.ekMuvekkiller || []).length && ekler(bizL, anaM).length && (bizL || []).some(x => ayni(x.ad, anaM))) { ek.ekMuvekkiller = ekler(bizL, anaM); dolan.push(ek.ekMuvekkiller.length + " müvekkil daha"); }
   if (!(f.ekKarsiTaraflar || []).length && ekler(onlarL, anaK).length && (onlarL || []).some(x => ayni(x.ad, anaK))) { ek.ekKarsiTaraflar = ekler(onlarL, anaK); dolan.push(ek.ekKarsiTaraflar.length + " karşı taraf daha"); }
   return { ek, dolan };
+}
+
+/** Künyeye evraktaki eksik tarafları ve vekilleri ekler (önceden tek taraflı doldurulmuş föyler için): boş alanlar
+ *  kunyeyiDoldur ile dolar; sonra föyde olmayan her müvekkil, karşı taraf ve vekil listeye eklenir, var olanların boş kimlik no /
+ *  adresi tamamlanır. Hangi listenin bizim olduğu, müvekkilin adı ya da vekilimizin adı evrakta geçiyorsa anlaşılır; anlaşılmazsa
+ *  taraf eklenmez (başka dosyanın evrakı karışmasın). */
+export function taraflariEkle(f: Foy, o: KunyeOneri, bizimAdlar: string[] = []): { ek: Partial<Foy>; dolan: string[] } {
+  const ilk = kunyeyiDoldur(f, o, bizimAdlar);
+  const x: Foy = { ...f, ...ilk.ek };
+  const dolan = [...ilk.dolan];
+  const ek: Partial<Foy> = { ...ilk.ek };
+  const sade = (a?: string) => (a || "").toLocaleUpperCase("tr").replace(/^AV\.?\s*/, "").replace(/[^A-ZÇĞİÖŞÜ0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+  const ayni = (a?: string, b?: string) => { const p = sade(a), q = sade(b); return !!p && !!q && (p === q || (p.length > 5 && q.length > 5 && (p.includes(q) || q.includes(p)))); };
+  const davali = x.taraf === "davali";
+  const bizL = (davali ? o.ikinciler || (o.ikinci ? [o.ikinci] : []) : o.birinciler || (o.birinci ? [o.birinci] : []));
+  const onlarL = (davali ? o.birinciler || (o.birinci ? [o.birinci] : []) : o.ikinciler || (o.ikinci ? [o.ikinci] : []));
+  const bizV = bizL.flatMap(t => t.vekiller || (t.vekil ? [t.vekil] : [])), onlarV = onlarL.flatMap(t => t.vekiller || (t.vekil ? [t.vekil] : []));
+  // Bu evrak bu dosyanın mı ve yanlar doğru mu: müvekkillerimizden biri bizim listede ya da vekilimiz bizim vekillerde geçmeli;
+  // müvekkil karşı listede geçiyorsa (yan ters) hiçbir şey eklenmez.
+  const muvAdlari = [x.muvekkil, ...(x.ekMuvekkiller || []).map(y => y.ad)].filter(Boolean) as string[];
+  const tutar = muvAdlari.some(m => bizL.some(t => ayni(t.ad, m))) || bizV.some(v => bizimVekil(v, bizimAdlar));
+  const ters = muvAdlari.some(m => onlarL.some(t => ayni(t.ad, m))) && !muvAdlari.some(m => bizL.some(t => ayni(t.ad, m)));
+  // Föyde müvekkil yazılıyken evrak ona uymuyorsa hiçbir şey yazılmaz (vekil, adres de başka dosyadan gelmesin).
+  if (!tutar || ters) return (f.muvekkil || "").trim() ? { ek: {}, dolan: [] } : { ek: ilk.ek, dolan };
+  const birlestir = (ana: TarafKisi, ekler: TarafKisi[], yeni: TarafOneri[], ad: string) => {
+    const liste = [ana, ...ekler.map(y => ({ ...y }))];
+    let eklenen = 0;
+    for (const t of yeni) {
+      if (!t.ad) continue;
+      const v = liste.find(y => ayni(y.ad, t.ad));
+      if (v) { if (!v.kimlikNo && t.kimlikNo) v.kimlikNo = t.kimlikNo; if (!v.adres && t.adres) v.adres = t.adres; continue; }
+      if (!liste[0].ad) liste[0] = { ...liste[0], ad: t.ad, kimlikNo: liste[0].kimlikNo || t.kimlikNo, adres: liste[0].adres || t.adres };
+      else liste.push({ ad: t.ad, kimlikNo: t.kimlikNo, adres: t.adres });
+      eklenen++;
+    }
+    if (eklenen) dolan.push(eklenen + " " + ad);
+    return liste;
+  };
+  const vekilBirlestir = (ana: string | undefined, ekler: string[], yeni: string[], ad: string) => {
+    const liste = [ana || "", ...ekler];
+    let eklenen = 0;
+    for (const v of yeni) {
+      if (liste.some(y => ayni(y, v))) continue;
+      if (!liste[0]) liste[0] = v; else liste.push(v);
+      eklenen++;
+    }
+    if (eklenen) dolan.push(eklenen + " " + ad);
+    return liste;
+  };
+  const mb = x.muvekkilBilgi || {}, kb = x.karsiBilgi || {};
+  const m = birlestir({ ad: x.muvekkil || "", kimlikNo: mb.kimlikNo, adres: mb.adres }, x.ekMuvekkiller || [], bizL, "müvekkil eklendi");
+  const k = birlestir({ ad: x.karsiTaraf || "", kimlikNo: kb.kimlikNo, adres: kb.adres }, x.ekKarsiTaraflar || [], onlarL, "karşı taraf eklendi");
+  const mv = vekilBirlestir(mb.vekil, mb.ekVekiller || [], bizV, "vekilimiz eklendi");
+  const kv = vekilBirlestir(kb.vekil, kb.ekVekiller || [], onlarV, "karşı taraf vekili eklendi");
+  const esit = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
+  const yeniMb: MuvekkilBilgi = { ...mb, kimlikNo: m[0].kimlikNo, adres: m[0].adres, vekil: mv[0] || undefined, ekVekiller: mv.slice(1).length ? mv.slice(1) : undefined };
+  const yeniKb: KarsiBilgi = { ...kb, kimlikNo: k[0].kimlikNo, adres: k[0].adres, vekil: kv[0] || undefined, ekVekiller: kv.slice(1).length ? kv.slice(1) : undefined };
+  if ((m[0].ad || "") !== (x.muvekkil || "")) ek.muvekkil = m[0].ad;
+  if ((k[0].ad || "") !== (x.karsiTaraf || "")) ek.karsiTaraf = k[0].ad;
+  if (!esit(m.slice(1), x.ekMuvekkiller || [])) ek.ekMuvekkiller = m.slice(1).length ? m.slice(1) : undefined;
+  if (!esit(k.slice(1), x.ekKarsiTaraflar || [])) ek.ekKarsiTaraflar = k.slice(1).length ? k.slice(1) : undefined;
+  if (!esit(yeniMb, { ...mb, kimlikNo: mb.kimlikNo, adres: mb.adres, vekil: mb.vekil || undefined, ekVekiller: mb.ekVekiller?.length ? mb.ekVekiller : undefined })) { ek.muvekkilBilgi = yeniMb; if (m[0].kimlikNo !== mb.kimlikNo || m[0].adres !== mb.adres) dolan.push("müvekkil bilgisi"); }
+  if (!esit(yeniKb, { ...kb, kimlikNo: kb.kimlikNo, adres: kb.adres, vekil: kb.vekil || undefined, ekVekiller: kb.ekVekiller?.length ? kb.ekVekiller : undefined })) { ek.karsiBilgi = yeniKb; if (k[0].kimlikNo !== kb.kimlikNo || k[0].adres !== kb.adres) dolan.push("karşı taraf bilgisi"); }
+  return { ek, dolan: [...new Set(dolan)] };
 }
 
 // Yapı iskeleti: okunamayan evrakın düzenini kişisel bilgi göstermeden incelemek için. Bilinen hukuk ve başlık sözcükleri kalır,

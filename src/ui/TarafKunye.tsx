@@ -6,10 +6,11 @@ import { Pressable, Text, TextInput, View } from "react-native";
 import { bizimVekiller, Foy, karsiVekiller, KarsiBilgi, MuvekkilBilgi, TarafKisi, tumKarsiTaraflar, tumMuvekkiller } from "../data/foy";
 import { t } from "../i18n";
 import { s } from "./foyStil";
+import { Btn } from "./kit";
 import { C } from "./theme";
 
 type Yan = "biz" | "karsi";
-interface Props { f: Foy; degistir: (ek: Partial<Foy>) => void; guncel: () => Foy; surum: number; taraflar?: [string, string] }
+interface Props { f: Foy; degistir: (ek: Partial<Foy>) => void; guncel: () => Foy; surum: number; onEvraktan?: () => void; evrakMesaj?: string }
 
 /** Taraf listesini künye alanlarına geri yazar (ilki ana alanlara, ötekiler ek listeye). */
 function tarafYaz(f: Foy, yan: Yan, xs: TarafKisi[]): Partial<Foy> {
@@ -30,7 +31,7 @@ const hamTaraflar = (f: Foy, yan: Yan): TarafKisi[] => {
 };
 const hamVekiller = (f: Foy, yan: Yan): string[] => { const b = yan === "biz" ? f.muvekkilBilgi : f.karsiBilgi; return [b?.vekil || "", ...(b?.ekVekiller || [])]; };
 
-export function TarafKunye({ f, degistir, guncel, surum }: Props) {
+export function TarafKunye({ f, degistir, guncel, surum, onEvraktan, evrakMesaj }: Props) {
   const [acik, setAcik] = useState<Record<string, boolean>>({});
   const [anahtar, setAnahtar] = useState(0); // satır eklenip silinince alanlar yeniden çizilsin
   const ac = (k: string) => setAcik(x => ({ ...x, [k]: !x[k] }));
@@ -105,6 +106,15 @@ export function TarafKunye({ f, degistir, guncel, surum }: Props) {
 
   return (
     <View style={{ gap: 12, width: "100%" }}>
+      {!!onEvraktan && (
+        <View style={{ gap: 4 }}>
+          <View style={[s.row, { gap: 8, alignItems: "center", flexWrap: "wrap" }]}>
+            <Btn kind="secondary" label={t("📄 Tarafları ve vekilleri evraktan yükle")} onPress={onEvraktan} />
+            <Text style={[s.hint, { flex: 1, minWidth: 200 }]}>{t("Föydeki evrakı okur; künyede olmayan ikinci, üçüncü müvekkili, karşı tarafları ve iki tarafın vekillerini ekler. Var olanlar çoğalmaz.")}</Text>
+          </View>
+          {!!evrakMesaj && <Text style={[s.hint, { color: C.brass }]}>{evrakMesaj}</Text>}
+        </View>
+      )}
       <View style={{ gap: 8, borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 10 }}>
         {tarafBolum("biz")}
         {vekilBolum("biz")}
