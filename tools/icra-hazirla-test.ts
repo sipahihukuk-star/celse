@@ -24,6 +24,7 @@ globalThis.fetch = (async (u: string | URL, o?: RequestInit) => {
 }) as typeof fetch;
 
 import { bosFoy, Foy } from "../src/data/foy";
+import { islemisFaiz } from "../src/data/icra";
 import { takipTalebiMetni, tumBorclular } from "../src/data/icra";
 import { hukumKalemleri } from "../src/data/icraEvrak";
 import { hazirlikAdlari, hazirlikCoz, hazirligiUygula, okumaKarsilastir } from "../src/data/icraHazirla";
@@ -47,6 +48,7 @@ const istek = (b: Record<string, unknown>) => new Request("https://x/functions/v
   for (const gizli of ["AYŞE", "Ayşe", "MEHMET DENEME", "HAYALİ", "KURGU YILMAZ", "Kurgu Yılmaz", "11111111110", "22222222220", "33333333330", "44444444440", "Masal Cad", "Deneme Sok", "ÖRNEK AVUKAT", "BAŞKA VEKİL"])
     ok(!giden.includes(gizli), "açık gitmiyor: " + gizli.slice(0, 3) + "…");
   ok(giden.includes("35.000,00 TL") && /HÜKÜM/.test(giden), "tutar ve hüküm metni gidiyor");
+  ok(/1 Haziran 2024–30 Temmuz 2026 %24; 31 Temmuz 2026 tarihinden itibaren %31/.test(k.dosya), "güncel yasal faiz dönemleri (7589 s. Kanun, %31) yapay zekâya gidiyor");
   const kod = (re: RegExp) => Object.entries(k.map).find(([, v]) => re.test(v))?.[0] || "";
   const kodT = (iso: string) => Object.entries(k.tarihler).find(([, v]) => v === iso)?.[0] || "";
   const [A1, A2, B1, B2] = [kod(/^ayşe örnek deneme$/i), kod(/^mehmet deneme$/i), kod(/^hayali yılmaz$/i), kod(/^kurgu yılmaz$/i)];
@@ -105,6 +107,9 @@ const istek = (b: Record<string, unknown>) => new Request("https://x/functions/v
   const fk = okumaKarsilastir(farkli, yerel);
   ok(fk.some(x => x.tur === "fazla") && fk.some(x => x.tur === "eksik") && fk.some(x => x.tur === "faiz"), "farklar gösterilir: " + fk.map(x => x.tur).join(","));
 
+  // Yasal faiz dönemlere bölünür: 01.06.2024'ten %24, 31.07.2026'dan %31.
+  const fz = islemisFaiz(35000, "2022-02-01", "2026-11-13", "yasal");
+  ok(fz.dilimler.map(d => d.bas + ":" + d.oran).join(",") === "2022-02-01:9,2024-06-01:24,2026-07-31:31" && fz.dilimler[2].gun === 105, "yasal faiz dilimleri %9, %24, %31: " + fz.dilimler.map(d => d.bas + ":" + d.oran));
   // Takibe yaz: XML'e yetecek her şey.
   const { ek, yazilan } = hazirligiUygula(f, h);
   const g = { ...f, ...ek } as Foy;

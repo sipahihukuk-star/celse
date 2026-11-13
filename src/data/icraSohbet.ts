@@ -4,7 +4,7 @@
 //  • tarihler: faiz başlangıcı için gün gerekir, bu yüzden her tarih [TARİH-n] koduna çevrilir (gerçeği cihazda kalır).
 // Cevaptaki kodlar cihazda gerçek değerlere döner; önerilen değişiklik avukat "Uygula" demeden yazılmaz.
 import { bizimVekiller, Foy, karsiVekiller, tumKarsiTaraflar, tumMuvekkiller } from "./foy";
-import { FaizTuru, Kalem, kalemleri, TakipYolu, turAdi } from "./icra";
+import { FaizTuru, faizOranMetni, Kalem, kalemleri, TakipYolu, turAdi } from "./icra";
 import { evrakTuruBul } from "./icraEvrak";
 import { mask, unmask } from "../engine/mask";
 
@@ -65,7 +65,7 @@ export function icraSoruKaynagi(f: Foy, soru: string, gecmis: IcraSohbetSatiri[]
   const k = m.masked.split(AYRAC.trim()).map(x => x.trim());
   const gk: { soru: string; cevap: string }[] = [];
   for (let i = 2; i + 1 < k.length; i += 2) gk.push({ soru: k[i], cevap: k[i + 1] });
-  return { dosya: k[0], soru: k[1] || soru, gecmis: gk, map: m.map, tarihler };
+  return { dosya: k[0] + "\n\n" + faizOranMetni(), soru: k[1] || soru, gecmis: gk, map: m.map, tarihler };
 }
 
 /** Kodlu cevabı açar: [TARİH-n] → gg.aa.yyyy (metinde) ya da YYYY-AA-GG (alanlarda); öteki kodlar gerçek değerlere. */
