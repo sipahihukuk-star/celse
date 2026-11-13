@@ -275,9 +275,12 @@ export function hukumAnaliz(metin: string, kararTarihi?: string): HukumKalemi[] 
       const once = al >= 0 ? tutarlar.filter(m => (m.index || 0) < al) : [];
       return para((once.length ? once[once.length - 1] : tutarlar[tutarlar.length - 1])[1]);
     };
-    if (/VEKALET ÜCRET|VEKÂLET ÜCRET|AVUKATLIK ÜCRET/.test(uc)) { ekle({ ad: "Vekâlet ücreti", tutar: tek(), faizTuru: "yasal", faizBaslangic: kt, lehine, cumle }); continue; }
-    if (/YARGILAMA GİDER/.test(uc)) { ekle({ ad: "Yargılama gideri", tutar: tek(), faizTuru: "yasal", faizBaslangic: kt, lehine, cumle }); continue; }
-    if (/HARÇ|HARC/.test(uc) && lehine !== "hazine") { ekle({ ad: "Harç", tutar: tek(), faizTuru: "yasal", faizBaslangic: kt, lehine, cumle }); continue; }
+    // Gider kalemlerinde faiz: hüküm faizini ve başlangıcını yazmışsa ("… dava tarihinden itibaren işleyecek yasal faiziyle") o;
+    // yazmamışsa karar tarihinden yasal faiz.
+    const giderFaiz = (): { faizTuru: FaizTuru; faizBaslangic?: string } => (/FAİZ/.test(uc) ? { faizTuru: faizTuruIlk(c) || fzC, faizBaslangic: baslangic(c.slice(Math.max(0, uc.search(/FAİZ/) - 160))) || kt } : { faizTuru: "yasal", faizBaslangic: kt });
+    if (/VEKALET ÜCRET|VEKÂLET ÜCRET|AVUKATLIK ÜCRET/.test(uc)) { ekle({ ad: "Vekâlet ücreti", tutar: tek(), ...giderFaiz(), lehine, cumle }); continue; }
+    if (/YARGILAMA GİDER/.test(uc)) { ekle({ ad: "Yargılama gideri", tutar: tek(), ...giderFaiz(), lehine, cumle }); continue; }
+    if (/HARÇ|HARC/.test(uc) && lehine !== "hazine") { ekle({ ad: "Harç", tutar: tek(), ...giderFaiz(), lehine, cumle }); continue; }
     // Bir fıkrada birden çok alacak ("50.000 TL kıdem, 20.000 TL ihbar tazminatının … tahsiline"): her tutar kendi kalemi;
     // adı tutarın ardındaki (yoksa önündeki) sözcüklerden; faiz türü ve başlangıcı bu tutardan sonra gelen ilk ifadeden.
     tutarlar.forEach((m, j) => {
