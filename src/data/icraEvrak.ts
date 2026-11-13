@@ -16,7 +16,20 @@ const TUTAR = /(?<![\d.,])(\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?|\d+(?:,\d{1,2})?)\s*
 const TUTARLAR = new RegExp(TUTAR.source, "giu");
 const ust = (x: string) => x.toLocaleUpperCase("tr");
 
-export function evrakTuruBul(metin: string): IcraEvrakTuru {
+// Ekranda her çizimde aynı evrak yeniden taranmasın: aynı metnin sonucu saklanır (son birkaç metin; metin değişirse yeniden okunur).
+function onbellekli<T>(f: (m: string) => T, boy = 24): (m: string) => T {
+  const sakla = new Map<string, T>();
+  return (m: string) => {
+    const v = sakla.get(m);
+    if (v !== undefined) return v;
+    const r = f(m);
+    if (sakla.size >= boy) sakla.delete(sakla.keys().next().value as string);
+    sakla.set(m, r);
+    return r;
+  };
+}
+export const evrakTuruBul = onbellekli(evrakTuruBulHam);
+function evrakTuruBulHam(metin: string): IcraEvrakTuru {
   const u = ust(metin.slice(0, 6000));
   // İlam: hüküm kısmı uzun gerekçeden sonra (metnin sonunda) da olur; bölge adliye ve Yargıtay kararları da ilamdır.
   // Avukatın kendi dilekçesi ("… ilamı …, arz ve talep ederiz") ilam değildir.
@@ -60,7 +73,8 @@ export interface HukumKalemi extends Kalem { lehine: Lehine; cumle: string; brut
 
 /** İlamın başındaki taraflar (davacı / davalı, vekilleri) ve tarihleri. */
 export interface IlamTaraflari { birinci?: { ad: string; vekil?: string; vekilAdres?: string }; ikinci?: { ad: string; vekil?: string; vekilAdres?: string }; birinciler: TarafOneri[]; ikinciler: TarafOneri[]; davaTarihi?: string; kararTarihi?: string; islahTarihi?: string }
-export function ilamTaraflari(metin: string): IlamTaraflari {
+export const ilamTaraflari = onbellekli(ilamTaraflariHam, 12);
+function ilamTaraflariHam(metin: string): IlamTaraflari {
   const k = kunyeCikar(metin);
   const tarih = (re: RegExp) => { const m = ust(metin).match(new RegExp(re.source + "\\s*[:.]?\\s*" + TARIH.source)); return m ? iso(m[m.length - 3], m[m.length - 2], m[m.length - 1]) : undefined; };
   const islah = ust(metin).match(new RegExp(TARIH.source + "\\s*(?:TARİHLİ|TARİHİNDE|T\\.)?\\s*(?:[\\p{L}]+\\s+){0,2}?ISLAH", "u")) || ust(metin).match(new RegExp("ISLAH\\s*(?:DİLEKÇESİ|TARİHİ)?\\s*(?:İLE|OLAN)?\\s*[:(]?\\s*" + TARIH.source, "u"));
@@ -138,14 +152,30 @@ export function ilamdanTaraflar(f: Foy, it: IlamTaraflari, yan: "birinci" | "iki
     // Birden çok borçlu: ötekiler ek borçlu.
     const birinciBorclu = ek.karsiTaraf || f.karsiTaraf;
     const ekler = onlar.filter(x => !ayniKisi(x.ad, birinciBorclu));
-    // Eksik olanlar eklenir (önceden yazılmış ek borçlular, künyedeki öteki karşı taraflar korunur; aynı kişi iki kez yazılmaz).
-    const mevcut = [...(f.icra?.ekBorclular || []), ...(f.ekKarsiTaraflar || [])].filter(x => x.ad.trim());
+    // Eksik olanlar takibin borçlu kutularına ("2. borçlu", "3. borçlu") eklenir; önceden yazılmış ek borçlular korunur, boş kalan
+    // kimlik no ve adresleri ilamdan tamamlanır. Künyede (öteki karşı taraflar) zaten yazılı olsa da takibin kutusuna da yazılır.
+    const mevcut = (f.icra?.ekBorclular || []).filter(x => x.ad.trim());
     const yeni = ekler.filter(x => !mevcut.some(y => ayniKisi(y.ad, x.ad)));
-    if (yeni.length) {
-      ek.icra = { ...(f.icra || { yol: "ilamli" }), ekBorclular: [...(f.icra?.ekBorclular || []).filter(x => x.ad.trim()), ...yeni.map(x => ({ ad: x.ad, kimlikNo: x.kimlikNo, adres: x.adres }))] } as IcraBilgi;
-      dolan.push(yeni.length + " ek borçlu");
+    let tamam = 0;
+    const eskiler = mevcut.map(y => {
+      const x = ekler.find(z => ayniKisi(z.ad, y.ad));
+      if (!x || ((y.kimlikNo || !x.kimlikNo) && (y.adres || !x.adres))) return y;
+      tamam++;
+      return { ...y, kimlikNo: y.kimlikNo || x.kimlikNo, adres: y.adres || x.adres };
+    });
+    if (yeni.length || tamam) {
+      ek.icra = { ...(f.icra || { yol: "ilamli" }), ekBorclular: [...eskiler, ...yeni.map(x => ({ ad: x.ad, kimlikNo: x.kimlikNo, adres: x.adres }))] } as IcraBilgi;
+      if (yeni.length) dolan.push(yeni.length + " ek borçlu");
+      if (tamam) dolan.push("ek borçlu bilgileri");
       // İcra föyünün künyesinde karşı taraflar borçlulardır: künyede de görünsünler.
-      if (f.tur === "icra") ek.ekKarsiTaraflar = [...(f.ekKarsiTaraflar || []), ...yeni.filter(x => !(f.ekKarsiTaraflar || []).some(y => ayniKisi(y.ad, x.ad))).map(x => ({ ad: x.ad, kimlikNo: x.kimlikNo, adres: x.adres }))];
+      if (f.tur === "icra" && yeni.length) ek.ekKarsiTaraflar = [...(f.ekKarsiTaraflar || []), ...yeni.filter(x => !(f.ekKarsiTaraflar || []).some(y => ayniKisi(y.ad, x.ad))).map(x => ({ ad: x.ad, kimlikNo: x.kimlikNo, adres: x.adres }))];
+    }
+    // Künyedeki öteki karşı tarafların boş kimlik no ve adresi de ilamdan tamamlanır (icra föyünde).
+    if (f.tur === "icra") {
+      const kt = ek.ekKarsiTaraflar || f.ekKarsiTaraflar || [];
+      let d = false;
+      const kt2 = kt.map(y => { const x = ekler.find(z => ayniKisi(z.ad, y.ad)); if (!x || ((y.kimlikNo || !x.kimlikNo) && (y.adres || !x.adres))) return y; d = true; return { ...y, kimlikNo: y.kimlikNo || x.kimlikNo, adres: y.adres || x.adres }; });
+      if (d) ek.ekKarsiTaraflar = kt2;
     }
   }
   return { ek, dolan, oneri };

@@ -73,6 +73,12 @@ const tarihIso = (g: string, a: string, y: string, s?: string, d?: string) => {
   return s && d ? `${t}T${String(Number(s)).padStart(2, "0")}:${d}` : t;
 };
 
+/** Tarafın alt satırı: yalnız kimlik no'su olan satır ("T.C. Kimlik No: …") varsa adres bir alttadır; ikisi birlikte verilir. */
+function altSatirlar(satirlar: string[], i: number): string {
+  const a = satirlar[i] || "";
+  const kimlikSatiri = /^\s*(?:T\.?\s?C\.?|TCKN|Kimlik|V\.?\s?K\.?\s?N|Vergi)[^\n]{0,30}?\d{10,11}\s*\)?\s*$/i.test(a);
+  return kimlikSatiri && satirlar[i + 1] ? a + "\n" + satirlar[i + 1] : a;
+}
 /** Taraf satırının geri kalanından ad, kimlik no ve adresi ayırır. */
 function tarafAyir(kalan0: string, sonraki: string): TarafOneri | undefined {
   // Numaralı taraflar ("1- AYŞE ÖRNEK 2- ALİ ÖRNEK"): ilki alınır.
@@ -178,7 +184,7 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
       // Değer iki noktanın altındaki satırda ("DAVALI :" / "HAYALİ YAPI A.Ş.").
       let deger = m[3], j = i;
       if (!deger.trim() && satirlar[i + 1] && !rolBul(satirlar[i + 1]) && !vekilDeseni.test(satirlar[i + 1].toLocaleUpperCase("tr"))) { deger = satirlar[i + 1]; j = i + 1; }
-      if (!o[yan]) { const t = tarafAyir(deger, satirlar[j + 1] || ""); if (t) o[yan] = t; }
+      if (!o[yan]) { const t = tarafAyir(deger, altSatirlar(satirlar, j + 1)); if (t) o[yan] = t; }
       // Bütün taraflar: "1- X 2- Y" ya da alt alta "DAVALI : 1-X", "DAVALI : 2-Y".
       // "1- AHMET 2- AYŞE" ya da boşluksuz "1-AHMET 2-AYŞE" (numaradan sonra büyük harfle başlayan ad).
       let parca = deger.replace(/^\s*\d{1,2}\s*[-.)]\s*/, "").split(/\s+\d{1,2}\s*[-.)]\s*(?=\p{Lu})/u);
@@ -192,7 +198,7 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
       }
       if (parca.length > 1 && o[yan] && /\s(?:ve|VE|ile|İLE)\s|,/.test(o[yan]!.ad)) { const ilk = tarafAyir(parca[0], ""); if (ilk) o[yan] = { ...ilk, vekil: o[yan]!.vekil, vekiller: o[yan]!.vekiller }; }
       const liste = (o[yan === "birinci" ? "birinciler" : "ikinciler"] ||= []);
-      for (const p of parca) { const t = tarafAyir(p, parca.length === 1 ? satirlar[j + 1] || "" : ""); if (t && !liste.some(x => x.ad === t.ad)) liste.push(t); }
+      for (const p of parca) { const t = tarafAyir(p, parca.length === 1 ? altSatirlar(satirlar, j + 1) : ""); if (t && !liste.some(x => x.ad === t.ad)) liste.push(t); }
       // Alt satırlarda devam eden numaralı taraflar ("2- MEHMET … T.C. …" / altında adresi). Her tarafın altında kendi "VEKİLİ :"
       // satırı olabilir (bölge adliye kararları): vekil satırı atlanır, sonraki asıl rol ya da karar metni başlayınca durulur.
       const SON = /^\s*(?:DAVA(?:NIN)?\s+(?:KONUSU|TARİHİ|TÜRÜ)|KARAR\s+TARİHİ|KARARIN\s+YAZILDIĞI|İNCELENEN|İSTİNAF\s+(?:KONUSU|İNCELEMESİ)|GEREĞİ|HÜKÜM|GEREKÇE|TARAFLAR\s+ARASINDAKİ|DOSYA\s+İNCELENDİ|BAŞVURU(?:NUN)?\s+KONUSU|SUÇ\b|İDDİA)/;
@@ -206,7 +212,7 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
         // Numarasız alt satır: kimlik / vergi no'su olan ve adres olmayan satır da yeni taraftır ("KURGU YILMAZ - T.C. …").
         const kimlikli = /(?:T\.?\s?C\.?|TCKN|VKN|Vergi\s*No)\D{0,12}\d{10,11}|(?:^|\D)\d{11}(?:\D|$)/i.test(satirlar[z]) && !/\b(?:Mah|Cad|Sok|Sk|Bulv)\b\.?|Mahallesi|Caddesi|Sokak/i.test(satirlar[z].split(/\d{10,11}/)[0]);
         if (nm ? Number(nm[1]) < 2 || !(adBuyuk || kimlikli) : !kimlikli) continue;
-        const sonraki = satirlar[z + 1] && !/^\s*\d{1,2}\s*[-.)]/.test(satirlar[z + 1]) && !rolBul(satirlar[z + 1]) && !vekilDeseni.test(satirlar[z + 1].toLocaleUpperCase("tr")) ? satirlar[z + 1] : "";
+        const sonraki = satirlar[z + 1] && !/^\s*\d{1,2}\s*[-.)]/.test(satirlar[z + 1]) && !rolBul(satirlar[z + 1]) && !vekilDeseni.test(satirlar[z + 1].toLocaleUpperCase("tr")) ? altSatirlar(satirlar, z + 1) : "";
         const t = tarafAyir(nm ? nm[2] : satirlar[z], sonraki);
         if (t && !liste.some(x => x.ad === t.ad)) liste.push(t);
       }

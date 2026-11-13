@@ -24,6 +24,7 @@ const sayi = (v: string): number | undefined => { const x = v.replace(/\./g, "")
 const sayiYaz = (x?: number) => (x === undefined ? "" : String(x).replace(".", ","));
 const tarihYaz = (x?: string) => (x ? x.split("-").reverse().join(".") : "");
 
+const adSade = (x?: string) => (x || "").toLocaleUpperCase("tr").replace(/[^A-ZÇĞİÖŞÜ0-9 ]/g, " ").replace(/\s+/g, " ").trim();
 export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrakSil, onKaydet, onMetinEkle, bizimAdlar = [], okuma, guncel, yenile, hata }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; guncel?: () => Foy; yenile?: () => void; hata?: string; onEvraktan?: () => void; onEvrakEkle?: () => void; onEvrakSil?: (e: FoyEvrak) => void; onKaydet?: () => Promise<void>; onMetinEkle?: (metin: string) => Promise<void>; bizimAdlar?: string[]; okuma?: string }) {
   const b: IcraBilgi = f.icra || { yol: "genel", talep: "haciz", paraBirimi: "TL", faizTuru: "yasal" };
   const [bilgi, setBilgi] = useState("");
@@ -48,6 +49,11 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
   const masraflar = b.masraflar || [];
   const masrafYaz = (i: number, ek: Partial<Masraf>) => yaz({ masraflar: masraflar.map((m, j) => (j === i ? { ...m, ...ek } : m)) });
   const borclular = b.ekBorclular || [];
+  // İcra föyünde künyedeki öteki karşı taraflar (2., 3. davalı…) borçludur: takibin "2. borçlu" kutularına da yazılır.
+  const kunyeBorclu = f.tur === "icra" ? (f.ekKarsiTaraflar || []).filter(x => x.ad.trim() && adSade(x.ad) !== adSade(f.karsiTaraf) && !borclular.some(y => adSade(y.ad) === adSade(x.ad))) : [];
+  React.useEffect(() => {
+    if (kunyeBorclu.length) yaz({ ekBorclular: [...borclular.filter(x => x.ad.trim() || x.kimlikNo || x.adres), ...kunyeBorclu.map(x => ({ ad: x.ad, kimlikNo: x.kimlikNo, adres: x.adres }))] });
+  }, [kunyeBorclu.map(x => x.ad).join("|")]);
   // Kalemler: eski kayıttaki tek asıl alacak ilk düzenlemede kalem listesine çevrilir.
   const ks = kalemleri(b);
   const kalemlerYaz = (xs: Kalem[]) => yaz({ kalemler: xs, asil: undefined, islemisFaizElle: undefined, ilamVekalet: undefined, yargilamaGideri: undefined });
@@ -153,15 +159,9 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
           {alan(`${i + 2}. borçlu`, x.ad, v => yaz({ ekBorclular: borclular.map((y, j) => (j === i ? { ...y, ad: v } : y)) }), "Ad soyad / unvan")}
           {alan("T.C. / vergi no", x.kimlikNo || "", v => yaz({ ekBorclular: borclular.map((y, j) => (j === i ? { ...y, kimlikNo: v } : y)) }), undefined, 150)}
           {alan("Adres", x.adres || "", v => yaz({ ekBorclular: borclular.map((y, j) => (j === i ? { ...y, adres: v } : y)) }), undefined, 260)}
-          <Pressable onPress={() => yaz({ ekBorclular: borclular.filter((_, j) => j !== i) })}><Text style={s.sil}>{t("Kaldır")}</Text></Pressable>
+          <Pressable onPress={() => degistir({ icra: { ...b, ekBorclular: borclular.filter((_, j) => j !== i) }, ...(f.tur === "icra" ? { ekKarsiTaraflar: (f.ekKarsiTaraflar || []).filter(y => adSade(y.ad) !== adSade(x.ad)) } : {}) })}><Text style={s.sil}>{t("Kaldır")}</Text></Pressable>
         </View>
       ))}
-      {(() => {
-        // Künyede yazılı ama bu listede olmayan öteki karşı taraflar da borçludur (XML'e ve takip talebine girer).
-        const sd = (x?: string) => (x || "").toLocaleUpperCase("tr").replace(/\s+/g, " ").trim();
-        const xs = (f.ekKarsiTaraflar || []).filter(x => x.ad.trim() && sd(x.ad) !== sd(f.karsiTaraf) && !borclular.some(y => sd(y.ad) === sd(x.ad)));
-        return xs.length ? <Text style={s.hint}>{t("Künyeden gelen borçlular (künyede düzenlenir): {x}", { x: xs.map(x => x.ad).join(", ") })}</Text> : null;
-      })()}
       <View style={s.row}><Btn kind="ghost" label={t("+ Borçlu ekle (kefil, avalist, ciranta…)")} onPress={() => yaz({ ekBorclular: [...borclular, { ad: "" }] })} /></View>
       <Text style={s.hint}>{t("Adres yazmak yerine aşağıdaki “Ödeme hesabı ve adresler” bölümünden MERNİS adresini de seçebilirsiniz.")}</Text>
 
@@ -414,7 +414,7 @@ export function bizimYanBul(f: Foy, ilamMetni: string, bizimAdlar: string[]): { 
  * gelir; "Kabul et ve kaydet" ile takibe yazılır.
  */
 function HukumOnizleme({ f, degistir, kalemSayisi, bizimAdlar, onKabul }: { f: Foy; degistir: (ek: Partial<Foy>) => void; kalemSayisi: number; bizimAdlar: string[]; onKabul: (xs: Kalem[]) => Promise<void> }) {
-  const ilamlar = f.evraklar.filter(e => e.metin.trim() && evrakTuruBul(e.metin) === "ilam").sort((a, b) => b.eklenme.localeCompare(a.eklenme));
+  const ilamlar = useMemo(() => f.evraklar.filter(e => e.metin.trim() && evrakTuruBul(e.metin) === "ilam").sort((a, b) => b.eklenme.localeCompare(a.eklenme)), [f.evraklar]);
   const [katAcik, setKatAcik] = useState(false);
   const [ilamId, setIlamId] = useState<string | undefined>(undefined);
   const ilam = ilamlar.find(e => e.id === ilamId) || ilamlar[0];

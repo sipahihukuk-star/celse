@@ -135,5 +135,23 @@ ok(!rd.ek.davaTuru, "dilekçenin konusu (beyan) dava konusu yazılmaz");
   const b2 = taraflariEkle(baska, kunyeCikar(m));
   ok(!Object.keys(b2.ek).length, "başka dosyanın evrakından taraf eklenmez: " + JSON.stringify(b2.ek));
 }
+// "Davalı: 1 - …" ve "Davalı: 2 - …" ayrı satırlarda, her birinin altında kendi adresi (ya da önce kimlik no satırı, sonra adres).
+{
+  const ilk = "T.C.\nUYDURMA 3. ASLİYE HUKUK MAHKEMESİ\nESAS NO : 2025/1\n";
+  const son = "\nDAVA : Tazminat\nKARAR TARİHİ : 10/09/2026\nHÜKÜM: 1-10.000 TL'nin davalılardan alınmasına,";
+  const bicimler = [
+    "Davacı: AYŞE ÖRNEK\nDavalı: 1 - HAYALİ YILMAZ\nKurgu Mah. Masal Cad. No:9 Buca/İZMİR\nDavalı: 2 - KURGU YILMAZ\nMasal Mah. Hayal Sok. No:3 Bornova/İZMİR",
+    "Davacı\t:\tAYŞE ÖRNEK\nDavalı\t:\t1 - HAYALİ YILMAZ\n\t\tKurgu Mah. Masal Cad. No:9 Buca/İZMİR\nDavalı\t:\t2 - KURGU YILMAZ\n\t\tMasal Mah. Hayal Sok. No:3 Bornova/İZMİR",
+    "DAVACI : AYŞE ÖRNEK\nDAVALI : 1 - Hayali Yılmaz\nT.C. Kimlik No: 33333333330\nKurgu Mah. Masal Cad. No:9 Buca/İZMİR\nDAVALI : 2 - Kurgu Yılmaz\nT.C. Kimlik No: 44444444440\nMasal Mah. Hayal Sok. No:3 Bornova/İZMİR",
+    "DAVACI :\nAYŞE ÖRNEK\nDAVALI :\n1 - HAYALİ YILMAZ\nKurgu Mah. Masal Cad. No:9 Buca/İZMİR\nDAVALI :\n2 - KURGU YILMAZ\nMasal Mah. Hayal Sok. No:3 Bornova/İZMİR",
+    "DAVACI : AYŞE ÖRNEK\nVEKİLİ : Av. ÖRNEK AVUKAT\nDAVALI : 1 - HAYALİ YILMAZ\nKurgu Mah. Masal Cad. No:9 Buca/İZMİR\nVEKİLİ : Av. BAŞKA VEKİL\nDAVALI : 2 - KURGU YILMAZ\nMasal Mah. Hayal Sok. No:3 Bornova/İZMİR"
+  ];
+  bicimler.forEach((b, i) => {
+    const o = kunyeCikar(ilk + b + son);
+    const d = o.ikinciler || [];
+    ok(d.length === 2 && /hayali yılmaz/i.test(d[0].ad) && /kurgu yılmaz/i.test(d[1].ad), "biçim " + (i + 1) + ": iki davalı: " + d.map(x => x.ad));
+    ok(/^Kurgu Mah/.test(d[0]?.adres || "") && /^Masal Mah/.test(d[1]?.adres || ""), "biçim " + (i + 1) + ": her davalının kendi adresi: " + d.map(x => x.adres));
+  });
+}
 if (fail) { console.log(`kunye-test: ${fail} hata`); process.exit(1); }
 console.log("kunye-test: tamam");

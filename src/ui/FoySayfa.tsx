@@ -60,6 +60,7 @@ function tarafAdlari(tur?: FoyTur): [string, string] | null {
   }
 }
 
+const sonGirdi = { an: 0 };
 export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz, onAyir }: {
   id: string; liste: Foy[]; ekle?: string; onKapat: () => void; onAc: (id: string) => void; onHazirlan: (f: Foy) => void; ucretsiz?: boolean;
   /** bu föyde toplanmış evrakı ait oldukları föylere ayır */
@@ -140,10 +141,18 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   // Yazarken (art arda gelen değişiklikler) sayfa her harfte baştan çizilmez: değişiklik hemen bellekte ve kayıtta işlenir,
   // ekran yazma durunca (çeyrek saniye) güncellenir. Tek seferlik işlemler (düğmeler) hemen çizilir.
   const sonDegisim = useRef(0);
+  useEffect(() => {
+    const d = (globalThis as { document?: Document }).document;
+    if (!d) return;
+    const dinle = () => { sonGirdi.an = Date.now(); };
+    d.addEventListener("input", dinle, true);
+    return () => d.removeEventListener("input", dinle, true);
+  }, []);
   const cizim = useRef<ReturnType<typeof setTimeout> | null>(null);
   const degistir = (ek: Partial<Foy>) => {
     const simdi = Date.now();
-    const yazarken = simdi - sonDegisim.current < 350;
+    // Klavyeden gelen değişiklik (ilk harf dahil) ertelenerek çizilir: yazı kutusu kendi yazısını zaten gösterir.
+    const yazarken = simdi - sonDegisim.current < 350 || simdi - sonGirdi.an < 60;
     sonDegisim.current = simdi;
     if (yazarken && son.current && (cizim.current || son.current.id === f?.id)) {
       hesapla(son.current, ek);
@@ -177,6 +186,8 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   );
   useEffect(() => () => { if (zaman.current && son.current) { clearTimeout(zaman.current); foyKaydet(son.current).catch(() => {}); } }, []);
   const zin = useMemo(() => (f ? zincir(f, liste) : { onceki: [], sonraki: [] }), [f, liste]);
+  // Evraktan iş adayları her çizimde yeniden okunmasın: yalnız evrak ya da işler değişince.
+  const tekFoy = useMemo(() => (f ? [f] : []), [f?.id, f?.evraklar, f?.gorevler, f?.durum]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (yok) return <ScrollView contentContainerStyle={s.wrap}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={onKapat} /><Text style={s.err}>{t("Föy bulunamadı ya da şahsi dosyalar kilitli.")}</Text></ScrollView>;
   if (!f) return <ScrollView contentContainerStyle={s.wrap}><Text style={s.hint}>{t("Yükleniyor…")}</Text></ScrollView>;
@@ -670,7 +681,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             {!eIsDurusma(x) && <Pressable onPress={() => gorevDegistir(x, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>}
           </View>
         ))}
-        <EvrakIsOnay liste={[f]} hepsi yerel={{ f: () => son.current || f, degistir }} />
+        <EvrakIsOnay liste={tekFoy} hepsi yerel={{ f: () => son.current || f, degistir }} />
         <SesliIsGir onEkle={xs => { const g = son.current || f; degistir({ gorevler: [...g.gorevler, ...xs] }); }}
           onGeriAl={ids => { const g = son.current || f; degistir({ gorevler: g.gorevler.filter(x => !ids.includes(x.id)), silinen: silineniNotEt(g, ids) }); }} />
         {biten.length > 0 && <Text style={s.hint}>{t("Tamamlanan")}: {biten.map(x => x.metin + (x.kapanis ? ` (${x.kapanis.no ? t("no") + ": " + x.kapanis.no + ", " : ""}${tarihYaz(x.kapanis.tarih)})` : "")).join(" · ")}</Text>}
