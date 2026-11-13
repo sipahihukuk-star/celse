@@ -22,11 +22,16 @@ export interface Kalem {
 }
 export interface IcraBilgi {
   yol: TakipYolu;
-  talep?: "haciz" | "haciz_tahliye" | "tahliye" | "rehin";
+  talep?: "haciz" | "haciz_tahliye" | "tahliye" | "rehin" | "iflas";
+  /** ipotek / taşınır rehni: dayanak ilam niteliğinde belge (icra emri: Örnek 6 / 44) */
+  ilamNiteliginde?: boolean;
+  /** icra vekâlet ücreti takip talebine yazılmasın (varsayılan: yazılır) */
+  icraVekaletYazma?: boolean;
+
   // Dayanak belge
   ilam?: { mahkeme?: string; esasNo?: string; kararNo?: string; kararTarihi?: string; kesinlesme?: string; dosyaTuru?: string };
   senet?: { tur?: "bono" | "cek" | "police"; duzenleme?: string; vade?: string; seriNo?: string; banka?: string; kesideci?: string };
-  kira?: { sozlesmeTarihi?: string; aylikKira?: number; aylar?: string; adres?: string };
+  kira?: { sozlesmeTarihi?: string; aylikKira?: number; aylar?: string; adres?: string; /** kira süresi bitti, tahliye (Örnek 14) */ sozlesmeSonu?: boolean };
   belge?: string; // genel haciz: fatura, sözleşme, cari hesap, ihtarname…
   ekBorclular?: Kisi[];
   // Alacak
@@ -126,6 +131,23 @@ export function islemisFaiz(asil: number, bas: string, son: string, tur: FaizTur
   }
   return { tutar: r2(dilimler.reduce((a, d) => a + d.tutar, 0)), dilimler, eksik };
 }
+
+/** Takip yoluna, talebe ve mahiyete göre borçluya gidecek emrin İİK Yönetmeliği örnek no'su (icraOrnekleri.ts). */
+export function emirOrnegi(b: IcraBilgi): string {
+  switch (b.yol) {
+    case "ilamli": return b.mahiyet === "2045" ? "3" : b.talep === "tahliye" ? "2" : "5";
+    case "kambiyo": return b.talep === "iflas" ? "12" : "10";
+    case "kira": return b.talep === "tahliye" && b.kira?.sozlesmeSonu ? "14" : "13";
+    case "ipotek": return b.ilamNiteliginde ? "6" : "9";
+    case "tasinir_rehni": return b.ilamNiteliginde ? "44" : "8";
+    default: return b.talep === "iflas" ? "11" : "7";
+  }
+}
+const EMIR_AD: Record<string, string> = {
+  "2": "taşınır teslimi / taşınmaz tahliyesi icra emri", "3": "çocuk teslimi icra emri", "5": "para borcu icra emri", "6": "ipotek icra emri",
+  "7": "ilamsız takipte ödeme emri", "8": "taşınır rehni ödeme emri", "9": "ipotek ödeme emri", "10": "kambiyo senedi ödeme emri",
+  "11": "iflas yoluyla ödeme emri", "12": "kambiyo senedi iflas ödeme emri", "13": "kira ödeme emri", "14": "tahliye emri", "44": "taşınır rehni icra emri"
+};
 
 /** 2026–2027 AAÜT Üçüncü Kısım nispi dilimleri. */
 const DILIMLER: [number, number][] = [[800000, 16], [800000, 15], [1600000, 14], [1600000, 13], [2400000, 11], [3200000, 8], [4000000, 5], [4800000, 3], [5600000, 2], [Infinity, 1]];
@@ -262,8 +284,9 @@ export function takipTalebiMetni(f: Foy, b: IcraBilgi, bugun = new Date().toISOS
     : b.yol === "ipotek" || b.yol === "tasinir_rehni" ? "Rehnin paraya çevrilmesi yolu" : "Haciz yolu";
   const sat: string[] = [];
   const mah = MAHIYETLER.find(x => x.kod === b.mahiyet);
-  sat.push("TAKİP TALEBİ ÖZETİ (UYAP'a giriş sırasıyla)", "");
-  sat.push(`Takip yolu: ${yol ? yol.ad + (yol.ornek ? ` (${yol.ornek})` : " (örnek no'yu UYAP'ta seçin)") : "…"}${mah ? ` · takip mahiyeti: ${mah.ad} (${mah.kod})` : ""}`);
+  const eo = emirOrnegi(b);
+  sat.push("TAKİP TALEBİ (İİK Yönetmeliği Örnek 1) – UYAP'a giriş sırasıyla", "");
+  sat.push(`Takip yolu: ${yol ? yol.ad : "…"} · borçluya gidecek emir: Örnek ${eo} (${EMIR_AD[eo] || ""})${mah ? ` · takip mahiyeti: ${mah.ad} (${mah.kod})` : ""}`);
   sat.push(`İcra dairesi: ${f.mahkeme || "…"}`);
   const ekA = (f.ekMuvekkiller || []).filter(x => x.ad.trim());
   if (!ekA.length) sat.push(`1. Alacaklı: ${kisi(f.muvekkil, m.kimlikNo, m.adres, b.mernisAlacakli)}`);
@@ -286,11 +309,13 @@ export function takipTalebiMetni(f: Foy, b: IcraBilgi, bugun = new Date().toISOS
   for (const x of h.ek) sat.push(`   ${tl(x.tutar, pb)}  ${x.ad}`);
   for (const x of b.masraflar || []) if (x.tutar) sat.push(`   ${tl(x.tutar, pb)}  ${x.ad || "Masraf"}`);
   sat.push(`   ${tl(h.toplam, pb)}  Toplam alacak${pb !== "TL" ? ` (takip tarihindeki kur ${b.kur || "…"} ile ${tl(h.toplamTL)}; ödeme günündeki kurla tahsili istenir)` : ""}`);
+  // İcra vekâlet ücreti (AAÜT Üçüncü Kısım; Av.K. m. 168): takip miktarına göre; takip miktarına eklenmez, borçludan ayrıca istenir.
+  if (!b.icraVekaletYazma && h.vekalet.ucret) sat.push(`   ${tl(h.vekalet.ucret)}  İcra vekâlet ücreti (2026–2027 AAÜT, ${h.vekalet.aciklama}; borçlu ödeme süresinde öderse ${tl(h.vekalet.ucDortte)}) – takip giderleriyle birlikte borçludan tahsili istenir`);
   sat.push(`5. Talep edilen hak: ${talepEdilenHak(b, bugun)}`);
   sat.push(`   TBK 100: ${b.tbk100 !== false ? "uygulanacak" : "uygulanmayacak"} · BSMV: ${b.bsmv ? "evet" : "hayır"} · KKDF: ${b.kkdf ? "evet" : "hayır"}`);
   sat.push(`6. Takip yolu (48/9): ${talep}`);
   if (b.not) sat.push(`Not: ${b.not}`);
   sat.push("");
-  sat.push(`Bilgi: 2026–2027 AAÜT'ye göre icra vekâlet ücreti yaklaşık ${tl(h.vekalet.ucret)} (${h.vekalet.aciklama}); borçlu ödeme süresinde öderse ${tl(h.vekalet.ucDortte)}. Dosya hesabını icra dairesi yapar.`);
+  if (b.icraVekaletYazma) sat.push(`Bilgi: 2026–2027 AAÜT'ye göre icra vekâlet ücreti yaklaşık ${tl(h.vekalet.ucret)} (${h.vekalet.aciklama}); borçlu ödeme süresinde öderse ${tl(h.vekalet.ucDortte)}. Dosya hesabını icra dairesi yapar.`);
   return sat.join("\n");
 }

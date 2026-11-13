@@ -10,6 +10,7 @@ import { useAccount } from "../data/account";
 import { uyapXml, vekilEksik } from "../data/icraXml";
 import { Acilir } from "./Acilir";
 import { IcraSohbet } from "./IcraSohbet";
+import { IcraOrnekleri } from "./IcraOrnekleri";
 import { dilekceYazari, evrakTuruBul, hukumAnaliz, ilamdanTaraflar, ilamTaraflari, Lehine, Talep, talepAnaliz } from "../data/icraEvrak";
 import { bizimVekil } from "../data/kunyeCikar";
 import { FaizDurumu, useFaizOranlari } from "../data/faizOran";
@@ -53,7 +54,7 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
   const kalemYaz = (i: number, ek: Partial<Kalem>) => kalemlerYaz(ks.map((k, j) => (j === i ? { ...k, ...ek } : k)));
 
   const { account } = useAccount();
-  const metin = () => takipTalebiMetni(f, b, undefined, account?.adSoyad);
+  const metin = () => takipTalebiMetni(f, b, undefined, vekil.ad || account?.adSoyad);
   const kopyala = async () => {
     try { await (globalThis.navigator as Navigator | undefined)?.clipboard?.writeText(metin()); setBilgi(t("Takip talebi özeti kopyalandı; UYAP'ta alanlara sırayla yapıştırabilirsiniz.")); }
     catch { setBilgi(t("Kopyalanamadı; aşağıdaki metni seçip kopyalayın.")); }
@@ -170,6 +171,10 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
           secenekler={TAKIP_YOLLARI.map(x => ({ k: x.k, ad: t(x.ad) + (x.ornek ? ` (${x.ornek})` : "") }))} />
         {b.yol === "kira" && <Acilir etiket={t("Talep")} secili={b.talep || "haciz_tahliye"} genislik={220} onSec={k => yaz({ talep: k as IcraBilgi["talep"] })}
           secenekler={[{ k: "haciz_tahliye", ad: t("Haciz ve tahliye") }, { k: "haciz", ad: t("Yalnız haciz (kira alacağı)") }, { k: "tahliye", ad: t("Yalnız tahliye") }]} />}
+        {b.yol === "kira" && b.talep === "tahliye" && <Acilir etiket={t("Tahliye sebebi")} secili={b.kira?.sozlesmeSonu ? "son" : "odenmedi"} genislik={300} onSec={k => yaz({ kira: { ...b.kira, sozlesmeSonu: k === "son" } })}
+          secenekler={[{ k: "odenmedi", ad: t("Kira ödenmedi – ödeme emri (Örnek 13)") }, { k: "son", ad: t("Kira süresi bitti – tahliye emri (Örnek 14)") }]} />}
+        {(b.yol === "ipotek" || b.yol === "tasinir_rehni") && <Acilir etiket={t("Dayanak")} secili={b.ilamNiteliginde ? "ilam" : "adi"} genislik={320} onSec={k => yaz({ ilamNiteliginde: k === "ilam" })}
+          secenekler={[{ k: "adi", ad: b.yol === "ipotek" ? t("İpotek belgesi – ödeme emri (Örnek 9)") : t("Rehin sözleşmesi – ödeme emri (Örnek 8)") }, { k: "ilam", ad: b.yol === "ipotek" ? t("İlam niteliğinde belge – icra emri (Örnek 6)") : t("İlam – icra emri (Örnek 44)") }]} />}
         {(b.yol === "genel" || b.yol === "ilamli") && <Acilir etiket={t("Takip mahiyeti (zorunlu)")} secili={b.mahiyet || "-"} genislik={240} onSec={k => yaz({ mahiyet: k === "-" ? undefined : k })}
           secenekler={[{ k: "-", ad: t("Seçiniz") }, ...MAHIYETLER.filter(x => x.yol === b.yol).map(x => ({ k: x.kod, ad: `${t(x.ad)} (${x.kod})` }))]} />}
         <Acilir etiket={t("Para birimi")} secili={pb} genislik={110} onSec={k => yaz({ paraBirimi: k as ParaBirimi })}
@@ -279,7 +284,12 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
       {/* Sonuç */}
       <View style={{ borderTopWidth: 1, borderTopColor: C.line, paddingTop: 10, gap: 4 }}>
         <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{t("Takip miktarı: {x}", { x: tl(h.toplam, pb) })}{pb !== "TL" ? ` · ${tl(h.toplamTL)}` : ""}</Text>
-        <Text style={s.hint}>{t("İcra vekâlet ücreti (2026–2027 AAÜT, bilgi için): {u} · ödeme süresinde ödenirse {d}. Dosya hesabını icra dairesi yapar.", { u: tl(h.vekalet.ucret), d: tl(h.vekalet.ucDortte) })}</Text>
+        <Text style={[s.body, { color: C.text }]}>{t("İcra vekâlet ücreti (2026–2027 AAÜT): {u}", { u: tl(h.vekalet.ucret) })}<Text style={s.hint}>{"  " + t("{a}; borçlu ödeme süresinde öderse {d}", { a: h.vekalet.aciklama, d: tl(h.vekalet.ucDortte) })}</Text></Text>
+        <View style={[s.row, { gap: 8, alignItems: "center", flexWrap: "wrap" }]}>
+          <Acilir etiket={t("Takip talebine")} secili={b.icraVekaletYazma ? "hayir" : "evet"} genislik={260} onSec={k => yaz({ icraVekaletYazma: k === "hayir" })}
+            secenekler={[{ k: "evet", ad: t("İcra vekâlet ücretini yaz") }, { k: "hayir", ad: t("Yazma (yalnız bilgi)") }]} />
+          <Text style={[s.hint, { flex: 1, minWidth: 220 }]}>{t("Takip miktarına eklenmez; takip giderleriyle birlikte borçludan ayrıca istenir. Kesin hesabı icra dairesi yapar.")}</Text>
+        </View>
       </View>
       {eksik.length > 0 && (
         <View style={{ gap: 2 }}>
@@ -294,6 +304,7 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
         {!!xmlHata && <Text style={[s.hint, { color: C.bad }]}>{xmlHata}</Text>}
         {!!bilgi && <Text style={[s.hint, { color: C.good }]}>{bilgi}</Text>}
       </View>
+      <IcraOrnekleri f={f} b={b} vekil={vekilBilgi.adSoyad} />
       {alan("Not (takip talebine eklenir)", b.not || "", v => yaz({ not: v }), undefined, 400)}
       <Text style={s.secT}>{t("Vekil bilgileri (UYAP XML için; bu bilgisayarda hatırlanır)")}</Text>
       <View style={s.alanlar}>
