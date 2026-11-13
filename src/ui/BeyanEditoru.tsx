@@ -319,9 +319,9 @@ export function KaynakPaneli({ f, onEkle, ekli = [], konu: varsayilan = "" }: { 
 }
 
 /** Bir föyün beyan editörü. onDegistir föyün değişen alanlarını kaydeder (beyanlar). */
-export function BeyanEditoru({ f, onDegistir, tohum, ilkBeyanId }: { f: Foy; onDegistir: (ek: Partial<Foy>) => void; tohum?: Beyan; ilkBeyanId?: string }) {
+export function BeyanEditoru({ f, onDegistir, tohum, ilkBeyanId, ilkTur }: { f: Foy; onDegistir: (ek: Partial<Foy>) => void; tohum?: Beyan; ilkBeyanId?: string; /** "Başvuru yap": bu türdeki taslak ya da o türde yeni taslak açılır */ ilkTur?: string }) {
   const [beyanlar, setBeyanlar] = useState<Beyan[]>(f.beyanlar || []);
-  const [b, setB] = useState<Beyan>(() => tohum || (ilkBeyanId && (f.beyanlar || []).find(x => x.id === ilkBeyanId)) || (f.beyanlar || [])[0] || bosBeyan());
+  const [b, setB] = useState<Beyan>(() => tohum || (ilkBeyanId && (f.beyanlar || []).find(x => x.id === ilkBeyanId)) || (ilkTur ? (f.beyanlar || []).find(x => x.tur === ilkTur) || bosBeyan(ilkTur) : undefined) || (f.beyanlar || [])[0] || bosBeyan());
   const [talimat, setTalimat] = useState("");
   const [bekle, setBekle] = useState(false);
   const [hata, setHata] = useState("");

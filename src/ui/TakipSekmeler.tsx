@@ -1,4 +1,4 @@
-// Dava takibinin üst sekmeleri: Föyler, Beyan editörü, İçtihat-mevzuat-doktrin, Duruşma ve keşifler, Yapılacaklar, Dava listesi, Toplu evrak yükle, Büro, Tevkil
+// Dava takibinin üst sekmeleri: Föyler, Başvuru yap, Beyan editörü, İçtihat-mevzuat-doktrin, Duruşma ve keşifler, Yapılacaklar, Dava listesi, Toplu evrak yükle, Büro, Tevkil
 // ve en sonda sesli asistanı açan düğme.
 // Her ekranın üstünde aynı çubuk durur; föy açıkken gizlenir (föyden geri dönünce hangi sekmedeyseniz oraya dönülür).
 import React from "react";
@@ -7,9 +7,9 @@ import { t } from "../i18n";
 import { C } from "./theme";
 import { asistanAc } from "./SesliAsistan";
 
-export type Sekme = "foyler" | "beyan" | "kaynak" | "durusmalar" | "isler" | "liste" | "toplu" | "buro" | "tevkil";
+export type Sekme = "foyler" | "basvuru" | "beyan" | "kaynak" | "durusmalar" | "isler" | "liste" | "toplu" | "buro" | "tevkil";
 const SEKMELER: { k: Sekme; ad: string; web?: boolean }[] = [
-  { k: "foyler", ad: "📁 Föyler" }, { k: "beyan", ad: "✍ Beyan editörü" }, { k: "kaynak", ad: "📚 İçtihat, mevzuat, doktrin" }, { k: "durusmalar", ad: "⚖ Duruşma, haciz, keşif" }, { k: "isler", ad: "✅ Yapılacaklar" },
+  { k: "foyler", ad: "📁 Föyler" }, { k: "basvuru", ad: "📝 Başvuru yap" }, { k: "beyan", ad: "✍ Beyan editörü" }, { k: "kaynak", ad: "📚 İçtihat, mevzuat, doktrin" }, { k: "durusmalar", ad: "⚖ Duruşma, haciz, keşif" }, { k: "isler", ad: "✅ Yapılacaklar" },
   { k: "liste", ad: "📋 Dava listesi" }, { k: "toplu", ad: "📥 Toplu evrak yükle", web: true }, { k: "buro", ad: "👥 Büro" }, { k: "tevkil", ad: "🤝 Tevkil" }
 ];
 

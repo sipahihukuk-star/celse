@@ -2,6 +2,7 @@
 // "Dosya ne durumda?" (önemli evrak üzerinden yapay zekâ özeti, sesli dinleme). Her şey bu cihazda; dışarı yalnız kodlu metin gider.
 import { TarafKunye } from "./TarafKunye";
 import { SesliIsGir } from "./SesliIsGir";
+import { basvuruBul, foyBasvurusu } from "../data/basvuru";
 import { EvrakIsOnay } from "./EvrakIsOnay";
 import { esiVar } from "../data/tekillik";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -61,13 +62,17 @@ function tarafAdlari(tur?: FoyTur): [string, string] | null {
 }
 
 const sonGirdi = { an: 0 };
-export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz, onAyir }: {
-  id: string; liste: Foy[]; ekle?: string; onKapat: () => void; onAc: (id: string) => void; onHazirlan: (f: Foy) => void; ucretsiz?: boolean;
+export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz, onAyir, basvuru }: {
+  id: string; liste: Foy[]; ekle?: string;
+  /** "Başvuru yap"tan açıldı: föy başvuru görünümünde açılır (basvuru.ts türü) */
+  basvuru?: string; onKapat: () => void; onAc: (id: string) => void; onHazirlan: (f: Foy) => void; ucretsiz?: boolean;
   /** bu föyde toplanmış evrakı ait oldukları föylere ayır */
   onAyir?: (f: Foy) => void;
 }) {
   const [f, setF] = useState<Foy | null>(null);
   const [yok, setYok] = useState(false);
+  // İki görünüm: başvuru (dilekçe / belge yazma, icra takibi, talepler) ve dosya (gelen evrak: UYAP'tan indirilen, yüklenen).
+  const [bsv, setBsv] = useState(basvuru || "");
   const [okuma, setOkuma] = useState("");
   const [err, setErr] = useState("");
   const [kilitSor, setKilitSor] = useState(false);
@@ -575,6 +580,57 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       </Katlanir>
   );
   const geri = async () => { await hemenKaydet(); onKapat(); };
+  const bt = basvuruBul(bsv);
+  const yaziAd = f.tur === "icra" ? t("✍ Talep yaz") : t("✍ Beyan / dilekçe yaz");
+  const beyanBlok = (acikGelsin: boolean) => (
+    <Katlanir anahtar="beyan" varsayilan={acikGelsin} baslik={bt?.beyanTur && !bt.icra ? t("✍ Dilekçe / belge yaz") : yaziAd} ozet={f.beyanlar?.length ? t("{n} taslak", { n: f.beyanlar.length }) : f.tur === "icra" ? t("haciz, satış, maaş haczi talepleri; itiraz ve şikâyet") : t("dilekçe, itiraz, istinaf; içtihat ve mevzuatla")}>
+      <BeyanEditoru f={f} onDegistir={degistir} ilkTur={basvuru && bt?.k === basvuru ? bt.beyanTur : undefined} />
+    </Katlanir>
+  );
+  const talepBlok = (acikGelsin: boolean) => (
+    <Katlanir anahtar="talep" varsayilan={acikGelsin} baslik={t("Talepler")} ozet={f.talepler?.length ? f.talepler.map(x => (x.durum === "kabul" ? "✓ " : x.durum === "red" ? "✗ " : "⏳ ") + t(TALEP_AD[x.tur])).join(" · ") : t("adli yardım, ihtiyati haciz, ihtiyati tedbir…")}>
+      <TaleplerBolum f={f} degistir={degistir} evrakEkle={dosyaSaklanir() ? evrakEkle : undefined} />
+    </Katlanir>
+  );
+  // Dosya görünümünde başvuru araçları yerine tek kart: bu föyde başvuru / dilekçe işleri "Başvuru" görünümündedir.
+  const fb = foyBasvurusu(f.tur || "hukuk");
+  const basvuruKarti = (
+    <View style={[s.card, { gap: 6, borderColor: C.brass }]}>
+      <Text style={s.secT}>{t("📝 Başvuru ve dilekçeler")}</Text>
+      <Text style={s.hint}>{f.tur === "icra"
+        ? t("Takip bilgileri (alacaklı, borçlu, alacak kalemleri, faiz, UYAP XML), yapay zekâyla hazırlama ve talep yazma başvuru görünümündedir.")
+        : t("Dilekçe, beyan, belge yazma ve talepler (ihtiyati haciz, tedbir, delil tespiti, adli yardım) başvuru görünümündedir.")}</Text>
+      <View style={[s.row, { gap: 8 }]}>
+        <Btn label={f.tur === "icra" ? t("⚖ İcra takibini hazırla") : t("✍ Dilekçe / beyan yaz")} onPress={() => setBsv(fb.k)} />
+        {!fb.talep && <Btn kind="ghost" label={t("📌 Talepler")} onPress={() => setBsv("talep")} />}
+      </View>
+      {(f.beyanlar?.length || f.talepler?.length) ? <Text style={s.hint}>{[f.beyanlar?.length ? t("{n} taslak", { n: f.beyanlar.length }) : "", f.talepler?.length ? t("{n} talep", { n: f.talepler.length }) : ""].filter(Boolean).join(" · ")}</Text> : null}
+    </View>
+  );
+
+  if (bt) return (
+    <View style={{ flex: 1 }}>
+    <ScrollView ref={nav.ref} onScroll={nav.onScroll} scrollEventThrottle={64} contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
+      <View style={[s.head, { gap: 8, flexWrap: "wrap" }]}>
+        <Btn kind="ghost" label={t("‹ Geri")} onPress={geri} />
+        <Btn kind="secondary" label={t("📂 Dosyanın evrakı (gelen evrak)")} onPress={() => setBsv("")} />
+      </View>
+      <Text style={s.eyebrow}>{[t("BAŞVURU"), t(bt.ad).replace(/^\S+\s/, ""), f.foyNo].filter(Boolean).join(" · ").toLocaleUpperCase("tr")}</Text>
+      <Text style={s.title}>{foyBaslik(f)}</Text>
+      {kaydetSatiri}
+      <Katlanir anahtar={"gereken-" + bt.k} varsayilan baslik={t("Hazırlanması gerekenler")} ozet={t("{n} madde", { n: bt.gerekenler.length })}>
+        {bt.gerekenler.map((x, i) => <Text key={i} style={s.body}>☐ {t(x)}</Text>)}
+      </Katlanir>
+      {!!err && <Text style={s.err}>{err}</Text>}
+      {bt.icra && icraBlok}
+      {kunyeBlok}
+      {beyanBlok(!bt.icra && !bt.talep)}
+      {bt.talep && talepBlok(true)}
+    </ScrollView>
+    <FloatingNav nav={nav} onBack={geri} backLabel={t("‹ Geri")} />
+    </View>
+  );
+
   return (
     <View style={{ flex: 1 }}>
     <ScrollView ref={nav.ref} onScroll={nav.onScroll} scrollEventThrottle={64} contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
@@ -605,7 +661,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         );
       })()}
 
-      {icraUstte && icraBlok}
+      {basvuruKarti}
       {icraUstte && kunyeEksikBlok}
       {icraUstte && kunyeBlok}
       {/* Dava föylerinde en üstte dosya zinciri ve künye; öteki bölümler aşağıda. */}
@@ -635,9 +691,6 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         </View>
       )}
 
-      <Katlanir anahtar="beyan" baslik={f.tur === "icra" ? t("✍ Talep yaz") : t("✍ Beyan yaz")} ozet={f.beyanlar?.length ? t("{n} taslak", { n: f.beyanlar.length }) : f.tur === "icra" ? t("haciz, satış, maaş haczi talepleri; itiraz ve şikâyet") : t("dilekçe, itiraz, istinaf; içtihat ve mevzuatla")}>
-        <BeyanEditoru f={f} onDegistir={degistir} />
-      </Katlanir>
       {(
         <Katlanir anahtar="yzsor" baslik={t("🤖 Yapay zekâya sor")} varsayilan ozet={f.yzSohbet?.length ? t("son soru {d}", { d: tarihYaz(f.yzSohbet[f.yzSohbet.length - 1].tarih) }) : t("ne durumda, nerede kaldık, sırada ne var")}>
           <FoyYzSor f={f} tur={tb.ad} onDegistir={degistir} />
@@ -645,7 +698,6 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       )}
       {icraUstte && zincirBlok}
 
-      {!icraUstte && icraBlok}
 
       <Katlanir anahtar="mesaj" baslik={t("Müvekkile mesaj")} ozet={t("WhatsApp / Telegram")}><MuvekkilMesaj f={f} ic /></Katlanir>
 
@@ -654,9 +706,6 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       </Katlanir>
       <Katlanir anahtar="tevkil" baslik={t("Tevkil avukatlar")} ozet={f.tevkil?.length ? f.tevkil.map(x => x.ad).join(", ") : t("yok")}>
         <TevkilBolum f={f} degistir={degistir} onTara={f.evraklar.some(e => !!e.metin.trim()) ? () => hesapTara(f, haricAdlar(), degistir) : undefined} />
-      </Katlanir>
-      <Katlanir anahtar="talep" baslik={t("Talepler")} ozet={f.talepler?.length ? f.talepler.map(x => (x.durum === "kabul" ? "✓ " : x.durum === "red" ? "✗ " : "⏳ ") + t(TALEP_AD[x.tur])).join(" · ") : t("adli yardım, ihtiyati haciz, ihtiyati tedbir…")}>
-        <TaleplerBolum f={f} degistir={degistir} evrakEkle={dosyaSaklanir() ? evrakEkle : undefined} />
       </Katlanir>
 
       <Katlanir anahtar="gorev" varsayilan baslik={t("Yapılacaklar")} ozet={acik.length ? t("{n} açık iş", { n: acik.length }) : t("açık iş yok")}>
