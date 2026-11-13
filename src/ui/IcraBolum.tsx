@@ -4,7 +4,7 @@
 import React, { useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { Foy, FoyEvrak, TarafKisi, tarihCoz } from "../data/foy";
-import { Kalem, KALEM_ADLARI, kalemleri, MAHIYETLER, FAIZ_TURLERI, FaizTuru, IcraBilgi, icraEksikler, icraHesapla, Masraf, ParaBirimi, TAKIP_YOLLARI, TakipYolu, takipTalebiMetni, tl, turAdi } from "../data/icra";
+import { Kalem, KALEM_ADLARI, kalemleri, MAHIYETLER, FAIZ_TURLERI, FaizTuru, IcraBilgi, icraEksikler, icraHesapla, Masraf, ParaBirimi, TAKIP_YOLLARI, TakipYolu, tl, turAdi } from "../data/icra";
 import { t } from "../i18n";
 import { useAccount } from "../data/account";
 import { uyapXml, vekilEksik } from "../data/icraXml";
@@ -25,7 +25,6 @@ const sayiYaz = (x?: number) => (x === undefined ? "" : String(x).replace(".", "
 const tarihYaz = (x?: string) => (x ? x.split("-").reverse().join(".") : "");
 
 export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrakSil, onKaydet, onMetinEkle, bizimAdlar = [], okuma, guncel, yenile, hata }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; guncel?: () => Foy; yenile?: () => void; hata?: string; onEvraktan?: () => void; onEvrakEkle?: () => void; onEvrakSil?: (e: FoyEvrak) => void; onKaydet?: () => Promise<void>; onMetinEkle?: (metin: string) => Promise<void>; bizimAdlar?: string[]; okuma?: string }) {
-  const [kayit, setKayit] = useState("");
   const b: IcraBilgi = f.icra || { yol: "genel", talep: "haciz", paraBirimi: "TL", faizTuru: "yasal" };
   const [bilgi, setBilgi] = useState("");
   const yaz = (ek: Partial<IcraBilgi>) => degistir({ icra: { ...b, ...ek } });
@@ -55,12 +54,6 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
   const kalemYaz = (i: number, ek: Partial<Kalem>) => kalemlerYaz(ks.map((k, j) => (j === i ? { ...k, ...ek } : k)));
 
   const { account } = useAccount();
-  const metin = () => takipTalebiMetni(f, b, undefined, vekil.ad || account?.adSoyad);
-  const kopyala = async () => {
-    try { await (globalThis.navigator as Navigator | undefined)?.clipboard?.writeText(metin()); setBilgi(t("Takip talebi özeti kopyalandı; UYAP'ta alanlara sırayla yapıştırabilirsiniz.")); }
-    catch { setBilgi(t("Kopyalanamadı; aşağıdaki metni seçip kopyalayın.")); }
-  };
-  const [goster, setGoster] = useState(false);
   // Vekil bilgileri (UYAP XML'inde zorunlu): bu bilgisayarda hatırlanır, her föyde yeniden yazılmaz.
   const [vekil, setVekilRaw] = useState<{ ad?: string; tc?: string; baroNo?: string; tbbNo?: string; adres?: string }>(() => { try { return JSON.parse(globalThis.localStorage?.getItem("celse-vekil") || "{}"); } catch { return {}; } });
   const setVekil = (ek: Partial<typeof vekil>) => { const v = { ...vekil, ...ek }; setVekilRaw(v); try { globalThis.localStorage?.setItem("celse-vekil", JSON.stringify(v)); } catch { /* yok say */ } };
@@ -90,15 +83,12 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
 
   return (
     <View style={{ gap: 12 }}>
-      <Text style={s.hint}>{t("Alacaklı (müvekkil) ve borçlu (karşı taraf) bilgileri künyeyle ortaktır; burada da yazılabilir. Buraya takibin yolu, dayanağı ve alacak kalemleri girilir; Celse işlemiş faizi ve toplamı hesaplar, UYAP'a giriş sırasıyla takip talebi özetini hazırlar.")}</Text>
-
       {(!!onEvrakEkle || !!onEvraktan) && (
         <View style={{ gap: 6, borderWidth: 1, borderColor: C.brassDim, borderRadius: 10, padding: 10 }}>
           <Text style={[s.body, { color: C.text }]}>{t("1. Takibe konu evrakı yükleyin")}</Text>
           <Text style={s.hint}>{t("İlam, çek, senet, kira sözleşmesi ya da fatura (PDF, fotoğraf, UDF, Word) ve varsa vekâletname. Celse okur; takip yolu, ilam/çek bilgileri, alacak kalemleri, faiz başlangıçları ve tarafların adı, kimlik no'su, adresi kendiliğinden yazılır. Yalnız boş alanlar doldurulur.")}</Text>
           <View style={s.row}>
             {!!onEvrakEkle && <Btn label={okuma ? t("Okunuyor…") : t("📎 Evrak yükle (ilam, çek, senet…)")} disabled={!!okuma} onPress={onEvrakEkle} />}
-            {!!onEvraktan && <Btn kind="secondary" label={t("Eklenmiş evraktan yeniden doldur")} onPress={onEvraktan} />}
           </View>
           {!!okuma && <Text style={s.hint}>{okuma}</Text>}
           {!!hata && !okuma && <Text style={[s.hint, { color: C.bad }]}>{hata}</Text>}
@@ -306,14 +296,6 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
           {eksik.map(x => <Text key={x} style={s.hint}>• {t(x)}</Text>)}
         </View>
       )}
-      <View style={{ gap: 6, borderWidth: 1, borderColor: C.brass, borderRadius: 10, padding: 10 }}>
-        <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{t("📤 UYAP'ta takip açmak için XML dosyası")}</Text>
-        <Text style={s.hint}>{t("Bu föyün icra bilgilerinden UYAP Avukat Portal'ın “İcra Takip Açılış – XML” ekranına yüklenecek dosyayı hazırlar.")}</Text>
-        <View style={s.row}><Btn label={t("📤 XML dosyasını oluştur ve indir")} onPress={xmlIndir} /></View>
-        {!!xmlHata && <Text style={[s.hint, { color: C.bad }]}>{xmlHata}</Text>}
-        {!!bilgi && <Text style={[s.hint, { color: C.good }]}>{bilgi}</Text>}
-      </View>
-      <IcraOrnekleri f={f} b={b} vekil={vekilBilgi.adSoyad} />
       {alan("Not (takip talebine eklenir)", b.not || "", v => yaz({ not: v }), undefined, 400)}
       <Text style={s.secT}>{t("Vekil bilgileri (UYAP XML için; bu bilgisayarda hatırlanır)")}</Text>
       <View style={s.alanlar}>
@@ -323,22 +305,15 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
         {alan("TBB no", vekil.tbbNo || "", v => setVekil({ tbbNo: v }), undefined, 120)}
         {alan("Büro adresi", vekil.adres || "", v => setVekil({ adres: v }), "… / İZMİR", 300)}
       </View>
-      <View style={{ gap: 4, borderWidth: 1, borderColor: C.brassDim, borderRadius: 10, padding: 10 }}>
-        <Text style={[s.body, { color: C.text }]}>{t("3. UYAP'a yükleme")}</Text>
-        <Text style={s.hint}>{t("a) “UYAP XML indir” ile dosyayı indirin (İndirilenler klasörüne düşer). b) UYAP Avukat Portal → menü → Dava Açılış İşlemleri → İcra Takip Açılış – XML. c) İl, adliye, kota / daire tevzi tipi ve takip tipini seçin. d) “Dosya Seç” ile indirdiğiniz .xml dosyasını seçin ve takibi başlatın. e) Takip “Tamamlanmayan Dosyalarım”a düşer: orada kontrol edip dayanak evrakı ekler, imzalar ve harcı yatırırsınız.")}</Text>
+      <View style={{ gap: 6, borderWidth: 2, borderColor: C.brass, borderRadius: 12, padding: 12 }}>
+        <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{t("3. 📤 UYAP'a yükleme (XML)")}</Text>
+        <Text style={s.hint}>{t("a) Aşağıdaki düğmeyle XML dosyasını indirin. b) UYAP Avukat Portal → menü → Dava Açılış İşlemleri → İcra Takip Açılış – XML. c) İl, adliye, kota / daire tevzi tipi ve takip tipini seçin. d) “Dosya Seç” ile indirdiğiniz .xml dosyasını seçin ve takibi başlatın. e) Takip “Tamamlanmayan Dosyalarım”a düşer: orada kontrol edip dayanak evrakı ekler, imzalar ve harcı yatırırsınız.")}</Text>
+        <View style={s.row}><Btn label={t("📤 XML dosyasını oluştur ve indir")} onPress={xmlIndir} /></View>
+        {vekilEksik(vekilBilgi).length > 0 && <Text style={s.hint}>{t("XML için vekil bilgisi eksik: {x}", { x: vekilEksik(vekilBilgi).map(x => t(x)).join(", ") })}</Text>}
+        {!!xmlHata && <Text style={[s.hint, { color: C.bad }]}>{xmlHata}</Text>}
+        {!!bilgi && <Text style={[s.hint, { color: C.good }]}>{bilgi}</Text>}
       </View>
-      <View style={[s.row, { flexWrap: "wrap" }]}>
-        {!!onKaydet && <Btn label={t("💾 Kaydet")} onPress={async () => { await onKaydet(); setKayit(new Date().toLocaleTimeString("tr", { hour: "2-digit", minute: "2-digit" })); }} />}
-        <Btn label={t("📤 XML dosyasını oluştur ve indir")} onPress={xmlIndir} />
-        <Btn kind="secondary" label={t("Takip talebi özetini kopyala")} onPress={kopyala} />
-        <Btn kind="secondary" label={goster ? t("Özeti gizle") : t("Özeti göster")} onPress={() => setGoster(!goster)} />
-        <Btn kind="ghost" label={t("Metin olarak indir")} onPress={() => indir(`takip-talebi-${(f.esasNo || f.id).replace(/[^\w-]+/g, "-")}.txt`, new Blob([metin()], { type: "text/plain;charset=utf-8" }))} />
-      </View>
-      {!!kayit && <Text style={[s.hint, { color: C.good }]}>{t("✓ İcra takibi bilgileri kaydedildi ({s}). Yazdıklarınız zaten her değişiklikte kendiliğinden de kaydedilir.", { s: kayit })}</Text>}
-      {vekilEksik(vekilBilgi).length > 0 && <Text style={s.hint}>{t("XML için vekil bilgisi eksik: {x}", { x: vekilEksik(vekilBilgi).map(x => t(x)).join(", ") })}</Text>}
-      {!!xmlHata && <Text style={[s.hint, { color: C.bad }]}>{xmlHata}</Text>}
-      {!!bilgi && <Text style={[s.hint, { color: C.good }]}>{bilgi}</Text>}
-      {goster && <Text selectable style={[s.body, { fontFamily: "monospace", fontSize: 13 }]}>{metin()}</Text>}
+      <IcraOrnekleri f={f} b={b} vekil={vekilBilgi.adSoyad} />
       <Text style={s.hint}>{faizNotu(faiz.durum)}</Text>
     </View>
   );
@@ -440,6 +415,7 @@ export function bizimYanBul(f: Foy, ilamMetni: string, bizimAdlar: string[]): { 
  */
 function HukumOnizleme({ f, degistir, kalemSayisi, bizimAdlar, onKabul }: { f: Foy; degistir: (ek: Partial<Foy>) => void; kalemSayisi: number; bizimAdlar: string[]; onKabul: (xs: Kalem[]) => Promise<void> }) {
   const ilamlar = f.evraklar.filter(e => e.metin.trim() && evrakTuruBul(e.metin) === "ilam").sort((a, b) => b.eklenme.localeCompare(a.eklenme));
+  const [katAcik, setKatAcik] = useState(false);
   const [ilamId, setIlamId] = useState<string | undefined>(undefined);
   const ilam = ilamlar.find(e => e.id === ilamId) || ilamlar[0];
   const tespit = useMemo(() => (ilam ? bizimYanBul(f, ilam.metin, bizimAdlar) : undefined), [ilam?.id, f.muvekkil, f.taraf, f.evraklar.length, bizimAdlar.join("|")]);
@@ -527,7 +503,12 @@ function HukumOnizleme({ f, degistir, kalemSayisi, bizimAdlar, onKabul }: { f: F
   );
   return (
     <View style={{ gap: 6, borderWidth: 1, borderColor: C.brass, borderRadius: 10, padding: 10 }}>
-      <Text style={[s.body, { color: C.text, fontWeight: "800" }]}>{t("⚖ İlamdan takip")}</Text>
+      <Pressable onPress={() => setKatAcik(!katAcik)} accessibilityRole="button" style={[s.row, { alignItems: "center", gap: 8 }]}>
+        <Text style={[s.body, { color: C.text, fontWeight: "800", flex: 1 }]}>{t("⚖ Celse'nin kendi okuması (yapay zekâsız)")}</Text>
+        <Text style={s.hint}>{katAcik ? "▴" : "▾"}</Text>
+      </Pressable>
+      {!katAcik && <Text style={s.hint}>{t("İlamın taraflarını ve hükmünü bu cihazda kurallarla okur; yapay zekânın hazırladığıyla karşılaştırmak ya da yapay zekâsız doldurmak için açın.")}</Text>}
+      {katAcik && <>
       {ilamlar.length > 1 && (
         <Acilir etiket={t("Okunan ilam")} secili={ilam.id} genislik={300} onSec={k => setIlamId(k)} secenekler={ilamlar.map(e => ({ k: e.id, ad: e.ad }))} />
       )}
@@ -588,8 +569,9 @@ function HukumOnizleme({ f, degistir, kalemSayisi, bizimAdlar, onKabul }: { f: F
           </View>
         </>
       )}
-      {!!mesaj && <Text style={[s.hint, { color: C.good }]}>{mesaj}</Text>}
       {raporBolumu()}
+      </>}
+      {!!mesaj && <Text style={[s.hint, { color: C.good }]}>{mesaj}</Text>}
     </View>
   );
 }

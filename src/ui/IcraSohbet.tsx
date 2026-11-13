@@ -14,15 +14,15 @@ import { s } from "./foyStil";
 import { Btn } from "./kit";
 import { C } from "./theme";
 
+// İlamın hükmünü okuyup tarafları ve alacakları çıkarmak "Takibi yapay zekâyla hazırla"nın işidir; burada yalnız ek sorular.
 const HAZIR = [
-  "İlamın hükmünü oku; müvekkilime verilen alacakları faiz türü ve başlangıcıyla yaz",
-  "Tarafları ve hangi tarafın vekili olduğumuzu kontrol et",
   "İki vekâlet ücreti var mı, hangisi kime verilmiş?",
   "Takip için eksik ne var?"
 ];
 
 export function IcraSohbet({ f, degistir, onMetinEkle, onKaydet, guncel, yenile, bizimAdlar = [] }: { f: Foy; degistir: (ek: Partial<Foy>) => void; onMetinEkle?: (metin: string) => Promise<void>; onKaydet?: () => Promise<void>; guncel?: () => Foy; yenile?: () => void; bizimAdlar?: string[] }) {
   const [metin, setMetin] = useState("");
+  const [acik, setAcik] = useState(false);
   const [soru, setSoru] = useState("");
   const [bekle, setBekle] = useState(false);
   const [ekleniyor, setEkleniyor] = useState(false);
@@ -124,7 +124,12 @@ export function IcraSohbet({ f, degistir, onMetinEkle, onKaydet, guncel, yenile,
 
   return (
     <View style={{ gap: 6, borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 10 }}>
-      <Text style={[s.body, { color: C.text, fontWeight: "800" }]}>{t("💬 Evrakı yapıştırın, yapay zekâyla konuşun")}</Text>
+      <Pressable onPress={() => setAcik(!acik)} accessibilityRole="button" style={[s.row, { alignItems: "center", gap: 8 }]}>
+        <Text style={[s.body, { color: C.text, fontWeight: "800", flex: 1 }]}>{t("💬 Metin yapıştır, yapay zekâya ek iş ver")}</Text>
+        <Text style={s.hint}>{acik ? "▴" : "▾"}</Text>
+      </Pressable>
+      {!acik && <Text style={s.hint}>{t("Evrak dosya değil de metin olarak elinizdeyse buraya yapıştırın; ya da “ihbarı da ekle”, “takip tarihini 20.11.2026 yap” gibi ek istekler yazın.")}</Text>}
+      {acik && <>
       <Text style={s.hint}>{t("İlamın, dilekçenin ya da raporun metnini kopyalayıp buraya yapıştırın: “Evrak olarak ekle” ile Celse bu cihazda okur. Yapay zekâya ne yapacağını alttaki kutuya yazabilirsiniz. Adlar, numaralar ve tarihler gönderilmeden önce bu cihazda kodlanır; öneriyi siz onaylamadan hiçbir şey değişmez.")}</Text>
       <TextInput value={metin} onChangeText={setMetin} multiline placeholder={t("Evrak metnini buraya yapıştırın…")} placeholderTextColor={C.muted}
         style={[s.input, { minHeight: 90, maxHeight: 220 }]} />
@@ -172,6 +177,7 @@ export function IcraSohbet({ f, degistir, onMetinEkle, onKaydet, guncel, yenile,
         <Btn label={t("Gönder")} disabled={bekle || ekleniyor || (soru.trim().length < 3 && metin.trim().length < 3)} onPress={() => (soru.trim().length >= 3 ? gonder(soru) : ekle())} />
       </View>
       {sohbet.length > 0 && <Pressable onPress={() => degistir({ icra: { ...b, sohbet: [] } })}><Text style={[s.link, { color: C.muted }]}>{t("Sohbeti temizle")}</Text></Pressable>}
+      </>}
     </View>
   );
 }
