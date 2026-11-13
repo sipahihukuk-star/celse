@@ -172,6 +172,15 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
       const parca = deger.replace(/^\s*\d{1,2}\s*[-.)]\s*/, "").split(/\s+\d{1,2}\s*[-.)]\s+/);
       const liste = (o[yan === "birinci" ? "birinciler" : "ikinciler"] ||= []);
       for (const p of parca) { const t = tarafAyir(p, parca.length === 1 ? satirlar[j + 1] || "" : ""); if (t && !liste.some(x => x.ad === t.ad)) liste.push(t); }
+      // Alt satırlarda devam eden numaralı taraflar ("2- MEHMET … T.C. …" / altında adresi), sonraki rol ya da vekil satırına kadar.
+      for (let z = j + 1; z < Math.min(satirlar.length, j + 40); z++) {
+        const u = satirlar[z].toLocaleUpperCase("tr");
+        if (rolBul(satirlar[z]) || vekilDeseni.test(u) || /^\s*(?:VEKİLİ|VEKİLLERİ|MÜDAFİİ)/.test(u)) break;
+        const nm = satirlar[z].match(/^\s*(\d{1,2})\s*[-.)]\s*(.+)$/);
+        if (!nm || Number(nm[1]) < 2) continue;
+        const t = tarafAyir(nm[2], satirlar[z + 1] && !/^\s*\d{1,2}\s*[-.)]/.test(satirlar[z + 1]) ? satirlar[z + 1] : "");
+        if (t && !liste.some(x => x.ad === t.ad)) liste.push(t);
+      }
       // Hemen altındaki "VEKİLİ :" satırı bu tarafındır.
       const alt = satirlar[j + 1]?.toLocaleUpperCase("tr").match(vekilDeseni) || satirlar[j + 2]?.toLocaleUpperCase("tr").match(vekilDeseni);
       if (alt && o[yan] && !o[yan]!.vekil) { const v = tarafAyir(alt[2], "")?.ad; if (v) o[yan]!.vekil = "Av. " + v; }

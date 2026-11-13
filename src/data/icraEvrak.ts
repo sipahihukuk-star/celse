@@ -18,7 +18,13 @@ const ust = (x: string) => x.toLocaleUpperCase("tr");
 
 export function evrakTuruBul(metin: string): IcraEvrakTuru {
   const u = ust(metin.slice(0, 6000));
-  if (/GEREKÇELİ KARAR|KISA KARAR|HÜKÜM\s*:|GEREĞİ DÜŞÜNÜLDÜ|İLAM/.test(u) && /KARAR\s*(NO|TARİHİ)/.test(u)) return "ilam";
+  // İlam: hüküm kısmı uzun gerekçeden sonra (metnin sonunda) da olur; bölge adliye ve Yargıtay kararları da ilamdır.
+  // Avukatın kendi dilekçesi ("… ilamı …, arz ve talep ederiz") ilam değildir.
+  const tum = ust(metin);
+  const dilekce = /ARZ VE TALEP|ARZ EDERİ[MZ]|SAYGILARIMLA|SAYGILARIMIZLA/.test(tum.slice(-1500)) && !/E-?İMZALIDIR|KATİP|ZABIT KATİBİ/.test(tum.slice(-1500));
+  const hukumVar = /GEREKÇELİ KARAR|KISA KARAR|HÜKÜM\s*:|HÜKÜM\s+(?:GEREKÇESİ|YUKARIDA)|GEREĞİ DÜŞÜNÜLDÜ|İLAM|KARAR VERİLDİ|OY ?BİRLİĞİ(?:YLE|İLE)|OY ÇOKLUĞU(?:YLA|İLE)/.test(tum);
+  const kararBasligi = /KARAR\s*(NO|TARİHİ|NUMARASI)|BÖLGE ADLİYE MAHKEMESİ|YARGITAY|HUKUK DAİRESİ/.test(tum);
+  if (!dilekce && hukumVar && kararBasligi) return "ilam";
   if (/\bÇEK\b|ÇEK NO|KARŞILIKSIZ|MUHATAP BANKA|KEŞİDE YERİ/.test(u) && !/BONO|EMRE MUHARRER/.test(u)) return "cek";
   if (/BONO|EMRE MUHARRER|SENET/.test(u) && /VADE/.test(u)) return "senet";
   if (/KİRA SÖZLEŞMESİ|KİRA KONTRATI|AYLIK KİRA/.test(u)) return "kira";
@@ -53,14 +59,26 @@ export type Lehine = "birinci" | "ikinci" | "hazine" | "iade" | "red" | "belirsi
 export interface HukumKalemi extends Kalem { lehine: Lehine; cumle: string; brutMu?: boolean }
 
 /** İlamın başındaki taraflar (davacı / davalı, vekilleri) ve tarihleri. */
-export interface IlamTaraflari { birinci?: { ad: string; vekil?: string }; ikinci?: { ad: string; vekil?: string }; birinciler: TarafOneri[]; ikinciler: TarafOneri[]; davaTarihi?: string; kararTarihi?: string; islahTarihi?: string }
+export interface IlamTaraflari { birinci?: { ad: string; vekil?: string; vekilAdres?: string }; ikinci?: { ad: string; vekil?: string; vekilAdres?: string }; birinciler: TarafOneri[]; ikinciler: TarafOneri[]; davaTarihi?: string; kararTarihi?: string; islahTarihi?: string }
 export function ilamTaraflari(metin: string): IlamTaraflari {
   const k = kunyeCikar(metin);
   const tarih = (re: RegExp) => { const m = ust(metin).match(new RegExp(re.source + "\\s*[:.]?\\s*" + TARIH.source)); return m ? iso(m[m.length - 3], m[m.length - 2], m[m.length - 1]) : undefined; };
   const islah = ust(metin).match(new RegExp(TARIH.source + "\\s*(?:TARİHLİ|TARİHİNDE|T\\.)?\\s*(?:[\\p{L}]+\\s+){0,2}?ISLAH", "u")) || ust(metin).match(new RegExp("ISLAH\\s*(?:DİLEKÇESİ|TARİHİ)?\\s*(?:İLE|OLAN)?\\s*[:(]?\\s*" + TARIH.source, "u"));
+  // Vekilin adresi: "VEKİLİ : Av. …" satırının altındaki adres satırı (ilk vekil satırı davacı tarafının, sonraki davalınınki).
+  const vekilAdres = (vekil?: string) => {
+    if (!vekil) return undefined;
+    const soy = ust(vekil.replace(/^av\.?\s*/i, "").trim().split(/\s+/).pop() || "");
+    const satir = metin.replace(/\r/g, "").split("\n").map(x => x.trim());
+    for (let i = 0; i < Math.min(satir.length, 150); i++) {
+      if (!/VEKİLİ|VEKİLLERİ/.test(ust(satir[i])) || !soy || !ust(satir[i]).includes(soy)) continue;
+      const alt = satir[i + 1] || "";
+      if (/\b(?:Mah|Cad|Sok|Sk|Bulv|Blv)\b\.?|Mahallesi|Caddesi|Sokak/i.test(alt) && !/^(DAVA|DAVALI|DAVACI|SANIK|KATILAN)/i.test(ust(alt))) return alt.replace(/\s+/g, " ").trim();
+    }
+    return undefined;
+  };
   return {
-    birinci: k.birinci?.ad ? { ad: k.birinci.ad, vekil: k.birinci.vekil } : undefined,
-    ikinci: k.ikinci?.ad ? { ad: k.ikinci.ad, vekil: k.ikinci.vekil } : undefined,
+    birinci: k.birinci?.ad ? { ad: k.birinci.ad, vekil: k.birinci.vekil, vekilAdres: vekilAdres(k.birinci.vekil) } : undefined,
+    ikinci: k.ikinci?.ad ? { ad: k.ikinci.ad, vekil: k.ikinci.vekil, vekilAdres: vekilAdres(k.ikinci.vekil) } : undefined,
     birinciler: k.birinciler?.length ? k.birinciler : k.birinci ? [k.birinci] : [], ikinciler: k.ikinciler?.length ? k.ikinciler : k.ikinci ? [k.ikinci] : [],
     davaTarihi: tarih(/DAVA\s*(?:AÇILIŞ\s*)?TARİHİ/), kararTarihi: tarih(/KARAR\s*TARİHİ/) || k.belgeTarihi,
     islahTarihi: islah ? iso(islah[1], islah[2], islah[3]) : undefined
@@ -75,7 +93,7 @@ const ayniKisi = (a?: string, b?: string) => { const x = sade(a), y = sade(b); r
  * borçludur; birden çok borçlu varsa ötekiler ek borçlu olur. Boş alanlar doldurulur; müvekkil ya da karşı taraf hanesinde
  * yanlış kişi (ör. karşı tarafa müvekkilin adı) yazılıysa düzeltilir. Elle yazılmış başka bir ad varsa dokunulmaz, öneri döner.
  */
-export function ilamdanTaraflar(f: Foy, it: IlamTaraflari, yan: "birinci" | "ikinci"): { ek: Partial<Foy>; dolan: string[]; oneri?: TarafOneri } {
+export function ilamdanTaraflar(f: Foy, it: IlamTaraflari, yan: "birinci" | "ikinci", opt: { ekAlacakli?: boolean } = {}): { ek: Partial<Foy>; dolan: string[]; oneri?: TarafOneri } {
   const biz = yan === "birinci" ? it.birinciler : it.ikinciler;
   const onlar = yan === "birinci" ? it.ikinciler : it.birinciler;
   const bizV = (yan === "birinci" ? it.birinci : it.ikinci)?.vekil, onlarV = (yan === "birinci" ? it.ikinci : it.birinci)?.vekil;
@@ -95,6 +113,13 @@ export function ilamdanTaraflar(f: Foy, it: IlamTaraflari, yan: "birinci" | "iki
       if (bos(mb.vekil) && bizV) { mb.vekil = bizV; d = true; }
       if (d) { ek.muvekkilBilgi = mb; dolan.push("alacaklı bilgileri"); }
     }
+  }
+  // Birden çok alacaklı (davacılar): ötekiler künyedeki ek müvekkiller olur (liste boşsa). Yalnız o tarafın vekili bizsek:
+  // aynı taraftaki öteki kişilerin başka avukatı olabilir.
+  if (opt.ekAlacakli && biz.length > 1 && !(f.ekMuvekkiller || []).some(x => x.ad.trim())) {
+    const ana = ek.muvekkil || f.muvekkil;
+    const ekler = biz.filter(x => !ayniKisi(x.ad, ana));
+    if (ekler.length) { ek.ekMuvekkiller = ekler.map(x => ({ ad: x.ad, kimlikNo: x.kimlikNo, adres: x.adres })); dolan.push(ekler.length + " ek alacaklı"); }
   }
   if (onlar[0]) {
     const muv = ek.muvekkil || f.muvekkil;
@@ -334,6 +359,20 @@ export function dilekceYazari(metin: string): { yan?: "birinci" | "ikinci"; imza
 // Etiketler Türkçe büyük harfe çevrilmiş metinde aranır (i bayrağı ı/I ve i/İ eşleşmesini yapmaz).
 const tarihAl = (metin: string, etiket: RegExp) => { const m = ust(metin).match(new RegExp(etiket.source + "\\s*[:.]?\\s*" + TARIH.source, "i")); return m ? iso(m[m.length - 3], m[m.length - 2], m[m.length - 1]) : undefined; };
 
+/** Bölge adliye / Yargıtay kararının başlığındaki tam ad: "İZMİR / BÖLGE ADLİYE MAHKEMESİ / 20. HUKUK DAİRESİ" →
+ *  "İzmir Bölge Adliye Mahkemesi 20. Hukuk Dairesi". */
+function bamAdi(metin: string): string | undefined {
+  const satir = metin.split(/\n/).slice(0, 25).map(x => x.trim()).filter(Boolean);
+  const i = satir.findIndex(x => /BÖLGE ADLİYE MAHKEMESİ|YARGITAY/.test(ust(x)));
+  if (i < 0) return undefined;
+  const bh = (x: string) => x.toLocaleLowerCase("tr").replace(/(^|\s)(\p{L})/gu, (_m, a, b) => a + b.toLocaleUpperCase("tr"));
+  const sehir = /BÖLGE ADLİYE/.test(ust(satir[i])) && /^[A-ZÇĞİÖŞÜ]{3,15}$/.test(ust(satir[i - 1] || "")) && !/^T\.?C\.?$/.test(satir[i - 1]) ? bh(satir[i - 1]) + " " : "";
+  const ad = satir[i].match(/(?:[A-ZÇĞİÖŞÜa-zçğıöşü]+\s+)?(?:BÖLGE ADLİYE MAHKEMESİ|YARGITAY)/i)?.[0] || satir[i];
+  const daire = (satir[i].match(/\d{1,2}\s*\.\s*(?:HUKUK|CEZA)\s+DAİRESİ/i) || (satir[i + 1] || "").match(/^\d{1,2}\s*\.\s*(?:HUKUK|CEZA)\s+DAİRESİ/i))?.[0];
+  const tamAd = (sehir && !ust(ad).startsWith(ust(sehir.trim())) ? sehir : "") + ad + (daire && !ad.includes(daire) ? " " + daire : "");
+  return bh(tamAd.replace(/\s+/g, " ").trim()).replace(/(\d+)\s*\.\s*/g, "$1. ");
+}
+
 /** Evraktan icra bilgisi önerisi (yalnız bulunanlar). */
 export function icraEvraktan(metin: string): { tur: IcraEvrakTuru; yol?: TakipYolu; bilgi: Partial<IcraBilgi>; kalemler: Kalem[] } {
   const tur = evrakTuruBul(metin);
@@ -344,7 +383,7 @@ export function icraEvraktan(metin: string): { tur: IcraEvrakTuru; yol?: TakipYo
     const karar = metin.match(/KARAR\s*(?:NO|NUMARASI)\s*[:.]?\s*((?:19|20)\d{2}\s*\/\s*\d+)/i)?.[1]?.replace(/\s+/g, "");
     const kararTarihi = tarihAl(metin, /KARAR\s*TAR[İI]H[İI]/) || k.belgeTarihi;
     const kesin = tarihAl(metin, /KES[İI]NLE[ŞS](?:ME|T[İI]Ğ[İI])\s*(?:TAR[İI]H[İI])?/);
-    bilgi.ilam = { mahkeme: k.mahkeme, esasNo: k.esasNo, kararNo: karar, kararTarihi, kesinlesme: kesin };
+    bilgi.ilam = { mahkeme: bamAdi(metin) || k.mahkeme, esasNo: k.esasNo, kararNo: karar, kararTarihi, kesinlesme: kesin };
     kalemler = hukumKalemleri(metin, kararTarihi);
     return { tur, yol: "ilamli", bilgi, kalemler };
   }

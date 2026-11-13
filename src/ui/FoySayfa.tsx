@@ -458,7 +458,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const icraBlok = (f.tur === "icra" || !!f.icra) ? (
         <Katlanir anahtar="icra" baslik={t("İcra takibi bilgileri")} varsayilan ozet={f.icra?.asil ? t("asıl alacak {x}", { x: tl(f.icra.asil, f.icra.paraBirimi || "TL") }) : t("doldurulmadı")}>
           {!!icraMesaj && <Text style={[s.hint, { color: C.good }]}>{icraMesaj}</Text>}
-          <IcraBolum f={f} degistir={degistir} surum={surum} okuma={okuma} onKaydet={async () => { await hemenKaydet(); if (!zaman.current) await foyKaydet(son.current || f); }} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} bizimAdlar={bizimAdlar()} onMetinEkle={async metin => {
+          <IcraBolum f={f} degistir={degistir} surum={surum} okuma={okuma} guncel={() => son.current || f} yenile={() => setSurum(v => v + 1)} onKaydet={async () => { await hemenKaydet(); if (!zaman.current) await foyKaydet(son.current || f); }} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} bizimAdlar={bizimAdlar()} onMetinEkle={async metin => {
             // Yapıştırılan metin, dosya gibi okunur (tür, kodlu hâl, künye, icra bilgisi).
             const g = new Date(); const p2 = (n: number) => String(n).padStart(2, "0");
             const ad = `Yapıştırılan metin ${p2(g.getDate())}.${p2(g.getMonth() + 1)}.${g.getFullYear()} ${p2(g.getHours())}.${p2(g.getMinutes())}.txt`;

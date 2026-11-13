@@ -265,7 +265,9 @@ export function takipTalebiMetni(f: Foy, b: IcraBilgi, bugun = new Date().toISOS
   sat.push("TAKİP TALEBİ ÖZETİ (UYAP'a giriş sırasıyla)", "");
   sat.push(`Takip yolu: ${yol ? yol.ad + (yol.ornek ? ` (${yol.ornek})` : " (örnek no'yu UYAP'ta seçin)") : "…"}${mah ? ` · takip mahiyeti: ${mah.ad} (${mah.kod})` : ""}`);
   sat.push(`İcra dairesi: ${f.mahkeme || "…"}`);
-  sat.push(`1. Alacaklı: ${kisi(f.muvekkil, m.kimlikNo, m.adres, b.mernisAlacakli)}`);
+  const ekA = (f.ekMuvekkiller || []).filter(x => x.ad.trim());
+  if (!ekA.length) sat.push(`1. Alacaklı: ${kisi(f.muvekkil, m.kimlikNo, m.adres, b.mernisAlacakli)}`);
+  else { sat.push("1. Alacaklılar:"); [kisi(f.muvekkil, m.kimlikNo, m.adres, b.mernisAlacakli), ...ekA.map(x => kisi(x.ad, x.kimlikNo, x.adres))].forEach((x, i) => sat.push(`   ${i + 1}) ${x}`)); }
   sat.push(`   Vekili: ${vekil ? "Av. " + vekil.replace(/^av\.?\s*/i, "") : "…"}${m.vekaletname ? ` (vekâletname: ${m.vekaletname})` : ""}`);
   sat.push(`   Ödeme hesabı: ${b.hesap?.iban ? `${b.hesap.iban}${b.hesap.banka ? " – " + b.hesap.banka : ""} (${b.hesap.sahibi === "alacakli" ? "alacaklı adına" : "vekil adına"})` : "…"}`);
   sat.push(`2. Borçlu${borclular.length > 1 ? "lar" : ""}:`);
