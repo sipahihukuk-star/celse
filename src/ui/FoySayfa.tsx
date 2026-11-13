@@ -2,6 +2,7 @@
 // "Dosya ne durumda?" (önemli evrak üzerinden yapay zekâ özeti, sesli dinleme). Her şey bu cihazda; dışarı yalnız kodlu metin gider.
 import { TarafKunye } from "./TarafKunye";
 import { SesliIsGir } from "./SesliIsGir";
+import { EvrakIsOnay } from "./EvrakIsOnay";
 import { esiVar } from "../data/tekillik";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
@@ -638,6 +639,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
           <TextInput value={gorevTarih} onChangeText={setGorevTarih} onSubmitEditing={gorevEkle} placeholder={t("son gün")} placeholderTextColor={C.muted} style={[s.inputTek, { width: 120 }]} />
           <Btn kind="secondary" label={t("Ekle")} onPress={gorevEkle} />
         </View>
+        <EvrakIsOnay liste={[f]} hepsi yerel={{ f: () => son.current || f, degistir }} />
         <SesliIsGir onEkle={xs => { const g = son.current || f; degistir({ gorevler: [...g.gorevler, ...xs] }); }}
           onGeriAl={ids => { const g = son.current || f; degistir({ gorevler: g.gorevler.filter(x => !ids.includes(x.id)), silinen: silineniNotEt(g, ids) }); }} />
         {biten.length > 0 && <Text style={s.hint}>{t("Tamamlanan")}: {biten.map(x => x.metin + (x.kapanis ? ` (${x.kapanis.no ? t("no") + ": " + x.kapanis.no + ", " : ""}${tarihYaz(x.kapanis.tarih)})` : "")).join(" · ")}</Text>}

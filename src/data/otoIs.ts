@@ -39,6 +39,36 @@ export const YENI_EVRAK_GUN = 10;
 export const EVRAK_IS_BASLANGIC = "2026-11-13";
 /** Evrakın kendi tarihi (oturum / yazı tarihi) föye eklendiği günden en çok bu kadar eski olabilir; eski yılların ara kararı iş olmaz. */
 export const EVRAK_TAZE_GUN = 30;
+/** Evrak hem yakında föye eklenmiş hem kendi tarihi yeni mi (eski yılların tutanağı değil)? */
+export function evrakTaze(e: { eklenme?: string }, belge?: string): boolean {
+  const ekl = (e.eklenme || "").slice(0, 10);
+  return ekl >= EVRAK_IS_BASLANGIC && !!belge && belge <= gunEkle(ekl, 1) && belge >= gunEkle(ekl, -EVRAK_TAZE_GUN);
+}
+export interface EvrakIsAdayi { id: string; foyId: string; evrakId: string; evrakAd: string; metin: string; tarih?: string; eski: boolean }
+/** Evraktan çıkan, henüz ne iş listesinde ne de reddedilmiş olan iş adayları. hepsi: föydeki bütün evrak (yoksa yalnız son
+ *  günlerde eklenen). Eski tarihli evraktan çıkanlar "eski" işaretlidir (varsayılan seçili gelmez). */
+export function evrakIsAdaylari(f: Foy, bugun = bugunGun(), hepsi = false): EvrakIsAdayi[] {
+  const taraf = f.taraf === "davali" ? "davali" : "davaci";
+  const var_ = new Set([...(f.gorevler || []).map(g => g.id), ...(f.silinen || [])]);
+  const sinir = gunEkle(bugun, -YENI_EVRAK_GUN);
+  const out: EvrakIsAdayi[] = [];
+  for (const e of f.evraklar || []) {
+    const ekl = (e.eklenme || "").slice(0, 10);
+    if (!hepsi && (ekl < sinir || ekl < EVRAK_IS_BASLANGIC)) continue;
+    const o = evrakOku(e, taraf);
+    o.isler.forEach((x, i) => {
+      const id = "oto-ak-" + e.id + "-" + i;
+      if (var_.has(id)) return;
+      out.push({ id, foyId: f.id, evrakId: e.id, evrakAd: e.ad, metin: x.metin, tarih: x.tarih, eski: !evrakTaze(e, o.belge) });
+    });
+  }
+  return out;
+}
+/** Onaylanan adaylar işe dönüşür; seçilmeyenler bir daha sorulmaz. */
+export function adaylariUygula(f: Foy, secilen: { id: string; metin: string; tarih?: string }[], reddedilen: string[], bugun = bugunGun()): Partial<Foy> {
+  const yeni: Gorev[] = secilen.filter(x => !(f.gorevler || []).some(g => g.id === x.id)).map(x => ({ id: x.id, metin: x.metin, tarih: x.tarih, bitti: false, kaynak: "evrak", eklenme: bugun, onayli: true }));
+  return { gorevler: [...(f.gorevler || []), ...yeni], silinen: [...(f.silinen || []), ...reddedilen].slice(-300) };
+}
 /** Bu iş kendiliğinden açılan e-duruşma işi mi? (duruşma kimliğini verir) */
 export const eIsDurusma = (g: Gorev) => (g.id.startsWith("oto-e-") ? g.id.slice(6) : undefined);
 
@@ -111,27 +141,12 @@ export function otoIsleriEsitle(f: Foy, bugun = bugunGun()): Gorev[] | null {
     }
   }
 
-  // Ara karar ve resmî yazı: föye son günlerde eklenen, kendi tarihi de yeni olan tutanak / yazıda bize verilen görevler iş olur
-  // (bir kez; silinirse dönmez). Eski tarihli evraktan (aktarılan geçmiş yılların tutanakları) iş çıkmaz; daha önce çıkmış ve
-  // yapılmamış olanlar kaldırılır.
-  const tazeMi = (e: { eklenme?: string }, belge?: string) => {
-    const ekl = (e.eklenme || "").slice(0, 10);
-    return ekl >= EVRAK_IS_BASLANGIC && !!belge && belge <= gunEkle(ekl, 1) && belge >= gunEkle(ekl, -EVRAK_TAZE_GUN);
-  };
+  // Ara karar ve resmî yazı işleri artık kendiliğinden eklenmez: avukat "Yapılacak işleri çıkar" ile görüp onaylar
+  // (evrakIsAdaylari). Daha önce kendiliğinden eklenmiş, yapılmamış ve eski tarihli evraktan çıkmış işler kaldırılır.
   for (const [id, g] of [...kalan]) if (id.startsWith("oto-ak-")) {
-    if (g.bitti) continue;
+    if (g.bitti || g.onayli) continue;
     const e = (f.evraklar || []).find(x => id.startsWith("oto-ak-" + x.id + "-"));
-    if (!e || !tazeMi(e, evrakOku(e, taraf).belge)) kalan.delete(id);
-  }
-  const yeniEvrak = gunEkle(bugun, -YENI_EVRAK_GUN);
-  for (const e of f.evraklar || []) {
-    if ((e.eklenme || "").slice(0, 10) < yeniEvrak) continue;
-    if (!tazeMi(e, evrakOku(e, taraf).belge)) continue;
-    evrakOku(e, taraf).isler.forEach((x, i) => {
-      const id = "oto-ak-" + e.id + "-" + i;
-      if (kalan.has(id) || silinen.has(id)) return;
-      yeni.push({ id, metin: x.metin, tarih: x.tarih, bitti: false, kaynak: "evrak", eklenme: bugun });
-    });
+    if (!e || !evrakTaze(e, evrakOku(e, taraf).belge)) kalan.delete(id);
   }
 
   // Öteki işler olduğu gibi; sıra korunur, yeni açılan kendiliğinden işler sona eklenir.

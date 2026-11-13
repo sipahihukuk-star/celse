@@ -46,6 +46,7 @@ import { TakipSekmeler, Sekme } from "./TakipSekmeler";
 import { DurusmalarEkrani } from "./DurusmalarEkrani";
 import { duzeySayilari } from "../data/isTakibi";
 import { DUZEY_RENK } from "./GorevKapat";
+import { EvrakIsOnay } from "./EvrakIsOnay";
 import { Btn } from "./kit";
 import { t } from "../i18n";
 import { C } from "./theme";
@@ -788,7 +789,7 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
           <Text style={s.hint}>{t("Klasörün tam yolunu yazın (Dosya Gezgini'nin adres çubuğundan kopyalayabilirsiniz):")}</Text>
           <TextInput value={yolDegis} onChangeText={setYolDegis} style={s.inputTek} autoCapitalize="none" />
           <View style={s.row}>
-            <Btn label={t("Kaydet")} onPress={async () => { try { const ad = await kopruKlasorDegistir(yolDegis); setBilgi({ ad, izin: "granted", kopru: true }); setYolDegis(null); tara(); } catch (e) { onBilgi({ t: t(String((e as Error).message)) }); } }} />
+            <Btn label={t("Klasör yolunu kaydet")} onPress={async () => { try { const ad = await kopruKlasorDegistir(yolDegis); setBilgi({ ad, izin: "granted", kopru: true }); setYolDegis(null); tara(); } catch (e) { onBilgi({ t: t(String((e as Error).message)) }); } }} />
             <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setYolDegis(null)} />
           </View>
         </View>
@@ -796,6 +797,7 @@ function KlasorKart({ liste, onBilgi, onToplu }: { liste: Foy[]; onBilgi: (m: { 
       {bilgi && bilgi.izin !== "granted" && !busy && <Text style={[s.hint, { color: C.mid }]}>{t("Tarayıcı bu oturumda klasöre bakmak için bir kez izin istiyor: “Yeni evrakı şimdi al”a basın.")}</Text>}
       {!!ilerleme && <Text style={s.hint}>{ilerleme}</Text>}
       {!!son && !ilerleme && <Text style={s.hint}>{son}</Text>}
+      <EvrakIsOnay liste={liste} onBitti={m => onBilgi({ t: m, ok: true })} />
       {bekleyen.length > 0 && (() => {
         // Sahipsiz (föylendirilmemiş) evrak: evraktan anlaşılan dava tipine göre gruplanır; "Sonra bakarım" bu oturumda gizler.
         const turOf = (d: TaramaDosyasi) => { const k = kunyeCikar(d.metin || ""); return turTahmin(k.dosyaTuru || "", k.mahkeme || "", d.kaynak.ad, (d.metin || "").slice(0, 4000)) || "hukuk"; };
