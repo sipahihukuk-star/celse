@@ -18,7 +18,11 @@ export const ekAdlar = (f: Foy) => {
 };
 
 export interface IcraSohbetSatiri { soru: string; cevap: string; tarih: string }
-export interface IcraDegisiklik { taraf?: "davaci" | "davali"; kalemler?: Kalem[]; yol?: TakipYolu }
+export interface IcraDegisiklik {
+  taraf?: "davaci" | "davali"; kalemler?: Kalem[]; yol?: TakipYolu;
+  /** takip formunun kutuları (yapay zekânın önerisi; kişisel bilgiler cihazda kodundan açılmış olarak) */
+  alanlar?: import("./icraTalimat").TalimatAlanlari;
+}
 
 export const SIZINTI = /(?<!\d[.,]?)[1-9]\d{10}(?![.,]?\d)|\bTR\s?\d{2}(?:\s?\d{4}){5}|[\w.+-]+@[\w-]+\.[\w.]+/i;
 const TARIH_G = /\b(\d{1,2})[./-](\d{1,2})[./-]((?:19|20)\d{2})\b/g;
@@ -73,6 +77,17 @@ export function ac(x: string, map: Record<string, string>, tarihler: Record<stri
 /** Önerilen değişikliğin avukata gösterilecek özeti. */
 export function degisiklikOzeti(d: IcraDegisiklik): string[] {
   const out: string[] = [];
+  const a = d.alanlar;
+  if (a) {
+    if (a.icraDairesi) out.push("İcra dairesi: " + a.icraDairesi);
+    if (a.ilam) out.push("İlam: " + [a.ilam.mahkeme, a.ilam.esasNo && a.ilam.esasNo + " E.", a.ilam.kararNo && a.ilam.kararNo + " K.", a.ilam.kararTarihi && "karar " + tarihYaz(a.ilam.kararTarihi), a.ilam.kesinlesme && "kesinleşme " + tarihYaz(a.ilam.kesinlesme)].filter(Boolean).join(" · "));
+    if (a.takipTarihi) out.push("Takip tarihi: " + tarihYaz(a.takipTarihi));
+    if (a.mahiyet) out.push("Takip mahiyeti: " + a.mahiyet);
+    if (a.paraBirimi) out.push("Para birimi: " + a.paraBirimi);
+    for (const m of a.masraflar || []) out.push(`${m.ad}: ${m.tutar.toLocaleString("tr-TR")} TL`);
+    if (a.not) out.push("Not: " + a.not);
+    for (const k of a.kisiBilgi || []) out.push(`${k.rol === "borclu" ? "Borçlu" : "Alacaklı"} ${k.ad || ""}${k.kimlikNo ? " · kimlik no " + k.kimlikNo : ""}${k.adres ? " · adres " + k.adres : ""}`.replace(/\s+/g, " "));
+  }
   if (d.taraf) out.push(d.taraf === "davali" ? "Biz: davalı vekiliyiz" : "Biz: davacı vekiliyiz");
   if (d.yol) out.push("Takip yolu: " + d.yol);
   if (d.kalemler) for (const k of d.kalemler) out.push(`${k.ad}: ${k.tutar.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} TL · ${turAdi(k.faizTuru) || "faizsiz"}${k.faizBaslangic ? " · " + tarihYaz(k.faizBaslangic) + " tarihinden" : ""}`);

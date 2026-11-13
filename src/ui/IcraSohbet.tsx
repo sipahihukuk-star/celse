@@ -38,7 +38,7 @@ export function IcraSohbet({ f, degistir, onMetinEkle, onKaydet, guncel, yenile,
    */
   const talimatla = async (talimat: string): Promise<boolean> => {
     const r = talimatOku(talimat);
-    if (!r.kalemler.length && !r.alacaklilar.length && !r.borclular.length) return false;
+    if (!r.kalemler.length && !r.alacaklilar.length && !r.borclular.length && !r.alanlar) return false;
     const g = guncel ? guncel() : f;
     const ilam = g.evraklar.filter(e => e.metin.trim() && evrakTuruBul(e.metin) === "ilam").sort((a, c) => c.eklenme.localeCompare(a.eklenme))[0];
     const it = ilam ? ilamTaraflari(ilam.metin) : undefined;
@@ -51,7 +51,9 @@ export function IcraSohbet({ f, degistir, onMetinEkle, onKaydet, guncel, yenile,
     const g2: Foy = { ...g, ...yer.ek };
     const u0 = talimatUygula(g2, r, {
       taraflar: it ? [...it.birinciler, ...it.ikinciler] : [], kaynak: g.evraklar.map(e => e.metin).join("\n"),
-      hukumKalemleri: ilam ? hukumKalemleri(ilam.metin, kt, yan) : [], kararTarihi: kt, ilamli: !!ilam || /ilam|karar/i.test(talimat)
+      // Yalnız kutu dolduran talimatta ("icra dairesi …", "borçlunun adresi …") kalemlere ve takip yoluna dokunulmaz.
+      hukumKalemleri: ilam && (r.kalemler.length || /hazırla|takip|kalem/i.test(talimat)) ? hukumKalemleri(ilam.metin, kt, yan) : [], kararTarihi: kt,
+      ilamli: (!!ilam && (r.kalemler.length > 0 || /hazırla|takip/i.test(talimat))) || /ilamlı/i.test(talimat)
     });
     const u = { ek: { ...yer.ek, ...u0.ek, icra: u0.ek.icra || (yer.ek.icra ? { ...(g.icra || b), ...yer.ek.icra } : undefined) } as Partial<Foy>, dolan: [...yer.dolan.map(x => t(x)), ...u0.dolan] };
     if (!u.ek.icra) delete u.ek.icra;
@@ -106,7 +108,15 @@ export function IcraSohbet({ f, degistir, onMetinEkle, onKaydet, guncel, yenile,
     const icra: IcraBilgi = { ...b, sohbet: b.sohbet };
     if (oneri.yol) icra.yol = oneri.yol;
     if (oneri.kalemler) { icra.kalemler = oneri.kalemler; icra.asil = undefined; icra.islemisFaizElle = undefined; icra.ilamVekalet = undefined; icra.yargilamaGideri = undefined; }
+    // Kutular: yerel talimatla aynı yoldan yazılır (kişi bilgileri doğru tarafa, borçlu künyeye de).
+    if (oneri.alanlar) {
+      const g = { ...(guncel ? guncel() : f), ...ek, icra };
+      const u = talimatUygula(g, { kalemler: [], alacaklilar: [], borclular: [], alanlar: oneri.alanlar }, {});
+      Object.assign(ek, u.ek);
+      if (u.ek.icra) Object.assign(icra, u.ek.icra);
+    }
     degistir({ ...ek, icra });
+    yenile?.();
     setOneri(null);
     if (onKaydet) await onKaydet();
     setBilgi(t("Değişiklik takibe yazıldı ve kaydedildi."));

@@ -88,6 +88,30 @@ ok(it.birinci?.vekilAdres === "Hayal Mah. 1. Sok. No:3 Karşıyaka/İZMİR", "ve
   const k2 = talimatUygula({ ...f0, karsiTaraf: "Kurgu" } as Foy, talimatOku("borçlu kurgu yılmazı de ekle"), { taraflar: it.ikinciler });
   ok(k2.ek.icra?.ekBorclular?.some(x => x.ad === "Kurgu Yılmaz"), "kısa adlı birinci borçlu, uzun adlı ikinciyi engellemez");
 }
+// Sohbetten kutulara: icra dairesi, IBAN, kimlik no, adres, ilam bilgileri, faiz, masraf, not.
+{
+  const al = talimatOku("icra dairesi izmir 5. icra dairesi olsun, IBAN TR12 0006 4000 0011 2345 6789 01 hesap vekil adına, borçlu kurgu yılmazın tc no 44444444440, borçlu hayali yılmazın adresi Masal Mah. Kurgu Sok. No:3 Bornova/İzmir, kesinleşme tarihi 01.11.2026, vekalet ücretine faiz başlangıcı 15.10.2026, 1.250 TL protesto masrafı ekle");
+  ok(al.alanlar?.icraDairesi === "İzmir 5. İcra Dairesi", "icra dairesi: " + al.alanlar?.icraDairesi);
+  ok(al.alanlar?.iban === "TR12 0006 4000 0011 2345 6789 01" && al.alanlar?.hesapSahibi === "vekil", "IBAN ve hesap sahibi: " + al.alanlar?.iban);
+  ok(al.alanlar?.ilam?.kesinlesme === "2026-11-01", "kesinleşme tarihi");
+  ok(JSON.stringify(al.alanlar?.faizBaslangic) === JSON.stringify([{ kalem: "Vekâlet ücreti", tarih: "2026-10-15" }]), "kaleme özel faiz başlangıcı: " + JSON.stringify(al.alanlar?.faizBaslangic));
+  ok(JSON.stringify(al.alanlar?.masraflar) === JSON.stringify([{ ad: "Protesto masrafı", tutar: 1250 }]), "masraf: " + JSON.stringify(al.alanlar?.masraflar));
+  ok(!al.kalemler.length && !al.borclular.length, "tarih, IBAN, kimlik no tutar ya da yeni borçlu sanılmaz: " + JSON.stringify([al.kalemler, al.borclular]));
+  ok(al.alanlar?.kisiBilgi?.length === 2, "iki kişi bilgisi: " + JSON.stringify(al.alanlar?.kisiBilgi));
+  const fK: Foy = { ...bosFoy({ tur: "icra", taraf: "davaci" }), muvekkil: "Ayşe Örnek", karsiTaraf: "Hayali Yılmaz", ekKarsiTaraflar: [{ ad: "Kurgu Yılmaz" }],
+    icra: { yol: "ilamli", ekBorclular: [{ ad: "Kurgu Yılmaz" }], kalemler: [{ ad: "Vekâlet ücreti", tutar: 10000, faizTuru: "yasal" }, { ad: "Yargılama gideri", tutar: 2538, faizTuru: "yasal" }] } };
+  const uK = talimatUygula(fK, al, {});
+  const gK = { ...fK, ...uK.ek } as Foy;
+  ok(gK.mahkeme === "İzmir 5. İcra Dairesi" && gK.icra?.hesap?.iban?.startsWith("TR12") && gK.icra?.hesap?.sahibi === "vekil", "icra dairesi ve hesap kutulara");
+  ok(gK.icra?.ekBorclular?.[0].kimlikNo === "44444444440" && gK.ekKarsiTaraflar?.[0].kimlikNo === "44444444440", "ikinci borçlunun kimlik no'su (takipte ve künyede)");
+  ok(gK.karsiBilgi?.adres === "Masal Mah. Kurgu Sok. No:3 Bornova/İzmir", "birinci borçlunun adresi: " + gK.karsiBilgi?.adres);
+  ok(gK.icra?.ilam?.kesinlesme === "2026-11-01" && gK.icra?.kalemler?.[0].faizBaslangic === "2026-10-15" && !gK.icra?.kalemler?.[1].faizBaslangic, "kesinleşme ve yalnız vekâlet ücretinin faiz başlangıcı");
+  ok(gK.icra?.masraflar?.[0]?.tutar === 1250 && gK.icra?.ekBorclular?.length === 1, "masraf; yeni borçlu eklenmedi");
+  const u3 = talimatUygula(gK, talimatOku("yargılama gideri kalemini sil, bütün kalemlere avans faizi uygula, not: kısmi ödeme yapıldı"), {});
+  ok(u3.ek.icra?.kalemler?.length === 1 && u3.ek.icra.kalemler[0].faizTuru === "avans" && u3.ek.icra.not === "kısmi ödeme yapıldı", "kalem silme, faiz türü, not: " + JSON.stringify(u3.ek.icra?.kalemler));
+  const u4 = talimatUygula(fK, talimatOku("alacaklının adresi Örnek Mah. Deneme Cad. No:1 Karşıyaka/İzmir"), {});
+  ok(u4.ek.muvekkilBilgi?.adres === "Örnek Mah. Deneme Cad. No:1 Karşıyaka/İzmir", "alacaklının adresi");
+}
 // Talimatsız ilam: hiçbir şey ayrılmaz.
 ok(talimatAyir(evrak).talimat === "", "talimatsız ilamda talimat yok");
 // Dilekçe ilam sayılmaz.
