@@ -4,6 +4,7 @@ import { join } from "path";
 import { bosFoy, Foy } from "../src/data/foy";
 import { evrakTuruBul, hukumKalemleri, icraEvraktan, ilamdanTaraflar, ilamTaraflari } from "../src/data/icraEvrak";
 import { adCoz, talimatAyir, talimatOku, talimatUygula } from "../src/data/icraTalimat";
+import { takipTalebiMetni, tumBorclular } from "../src/data/icra";
 
 let fail = 0;
 const ok = (c: unknown, m: string) => { if (c) console.log("✓ " + m); else { fail++; console.log("✗ " + m); } };
@@ -61,13 +62,31 @@ ok(it.birinci?.vekilAdres === "Hayal Mah. 1. Sok. No:3 Karşıyaka/İZMİR", "ve
     "tek satırda numaralı": "DAVALILAR : 1- HAYALİ YILMAZ 2- KURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL",
     "ve ile": "DAVALILAR : HAYALİ YILMAZ ve KURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL",
     "virgülle": "DAVALILAR : HAYALİ YILMAZ, KURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL",
-    "birleşen dava": "DAVALI : HAYALİ YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL\nBİRLEŞEN DAVADA DAVALI : KURGU YILMAZ"
+    "birleşen dava": "DAVALI : HAYALİ YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL\nBİRLEŞEN DAVADA DAVALI : KURGU YILMAZ",
+    "boşluksuz numara": "DAVALILAR : 1-HAYALİ YILMAZ 2-KURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL",
+    "sekmeyle": "DAVALILAR : HAYALİ YILMAZ\tKURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL",
+    "çok boşlukla": "DAVALILAR : HAYALİ YILMAZ      KURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL"
   };
   for (const [ad, x] of Object.entries(bicimler)) {
     const t2 = ilamTaraflari(bas + x + son);
     ok(t2.ikinciler.map(y => y.ad).join("|") === "Hayali Yılmaz|Kurgu Yılmaz" && t2.ikinci?.ad === "Hayali Yılmaz", "iki davalı (" + ad + "): " + t2.ikinciler.map(y => y.ad).join("|") + " / " + t2.ikinci?.ad);
   }
+  const tablo = ilamTaraflari("T.C.\nUYDURMA 1. ASLİYE HUKUK MAHKEMESİ\nESAS NO : 2025/1\nKARAR NO : 2026/2\nDavacı\tKişi\tAYŞE ÖRNEK\tAv. ÖRNEK AVUKAT\nDavalı\tKişi\tHAYALİ YILMAZ\nDavalı\tKişi\tKURGU YILMAZ\tAv. BAŞKA VEKİL" + son);
+  ok(tablo.ikinciler.map(y => y.ad).join("|") === "Hayali Yılmaz|Kurgu Yılmaz", "UYAP tablosunda her satırdaki davalı: " + tablo.ikinciler.map(y => y.ad));
   ok(ilamTaraflari(bas.replace("AYŞE ÖRNEK", "ÖRNEK SANAYİ VE TİCARET A.Ş.") + "DAVALI : HAYALİ YILMAZ" + son).birinciler.length === 1, "şirket unvanındaki 've' bölünmez");
+}
+// Önceden bir ek borçlu yazılmışsa ilamdaki öteki borçlu yine eklenir; künyede de görünür; çıktılarda tekrar yok.
+{
+  const f0: Foy = { ...bosFoy({ tur: "icra", taraf: "davaci" }), muvekkil: "Ayşe Örnek Deneme", karsiTaraf: "Hayali Yılmaz", icra: { yol: "ilamli", ekBorclular: [{ ad: "Elle Yazılan Kefil" }] } };
+  const r0 = ilamdanTaraflar(f0, it, "birinci");
+  const g0 = { ...f0, ...r0.ek } as Foy;
+  ok(g0.icra?.ekBorclular?.map(x => x.ad).join("|") === "Elle Yazılan Kefil|Kurgu Yılmaz", "ek borçlu varken ilamdaki öteki borçlu eklenir: " + g0.icra?.ekBorclular?.map(x => x.ad));
+  ok(g0.ekKarsiTaraflar?.map(x => x.ad).join() === "Kurgu Yılmaz", "künyede de görünür");
+  ok(tumBorclular(g0).map(x => x.ad).join("|") === "Hayali Yılmaz|Kurgu Yılmaz|Elle Yazılan Kefil", "bütün borçlular bir kez: " + tumBorclular(g0).map(x => x.ad));
+  const tt = takipTalebiMetni(g0, g0.icra!, "2026-11-13");
+  ok((tt.match(/Kurgu Yılmaz/g) || []).length === 1 && /3\) Elle Yazılan Kefil/.test(tt), "takip talebinde üç borçlu, tekrar yok");
+  const k2 = talimatUygula({ ...f0, karsiTaraf: "Kurgu" } as Foy, talimatOku("borçlu kurgu yılmazı de ekle"), { taraflar: it.ikinciler });
+  ok(k2.ek.icra?.ekBorclular?.some(x => x.ad === "Kurgu Yılmaz"), "kısa adlı birinci borçlu, uzun adlı ikinciyi engellemez");
 }
 // Talimatsız ilam: hiçbir şey ayrılmaz.
 ok(talimatAyir(evrak).talimat === "", "talimatsız ilamda talimat yok");

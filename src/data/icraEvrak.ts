@@ -138,9 +138,14 @@ export function ilamdanTaraflar(f: Foy, it: IlamTaraflari, yan: "birinci" | "iki
     // Birden çok borçlu: ötekiler ek borçlu.
     const birinciBorclu = ek.karsiTaraf || f.karsiTaraf;
     const ekler = onlar.filter(x => !ayniKisi(x.ad, birinciBorclu));
-    if (ekler.length && !(f.icra?.ekBorclular || []).some(x => x.ad.trim())) {
-      ek.icra = { ...(f.icra || { yol: "ilamli" }), ekBorclular: ekler.map(x => ({ ad: x.ad, kimlikNo: x.kimlikNo, adres: x.adres })) } as IcraBilgi;
-      dolan.push(ekler.length + " ek borçlu");
+    // Eksik olanlar eklenir (önceden yazılmış ek borçlular, künyedeki öteki karşı taraflar korunur; aynı kişi iki kez yazılmaz).
+    const mevcut = [...(f.icra?.ekBorclular || []), ...(f.ekKarsiTaraflar || [])].filter(x => x.ad.trim());
+    const yeni = ekler.filter(x => !mevcut.some(y => ayniKisi(y.ad, x.ad)));
+    if (yeni.length) {
+      ek.icra = { ...(f.icra || { yol: "ilamli" }), ekBorclular: [...(f.icra?.ekBorclular || []).filter(x => x.ad.trim()), ...yeni.map(x => ({ ad: x.ad, kimlikNo: x.kimlikNo, adres: x.adres }))] } as IcraBilgi;
+      dolan.push(yeni.length + " ek borçlu");
+      // İcra föyünün künyesinde karşı taraflar borçlulardır: künyede de görünsünler.
+      if (f.tur === "icra") ek.ekKarsiTaraflar = [...(f.ekKarsiTaraflar || []), ...yeni.filter(x => !(f.ekKarsiTaraflar || []).some(y => ayniKisi(y.ad, x.ad))).map(x => ({ ad: x.ad, kimlikNo: x.kimlikNo, adres: x.adres }))];
     }
   }
   return { ek, dolan, oneri };

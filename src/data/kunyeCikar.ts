@@ -156,6 +156,13 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
         const vekH = hs.find(c => /^(AV\.|AVUKAT)/i.test(c));
         if (adH && !o[yan]) { const t = tarafAyir(adH, ""); if (t) o[yan] = t; }
         if (vekH && o[yan] && !o[yan]!.vekil) { const v = tarafAyir(vekH, "")?.ad; if (v) o[yan]!.vekil = "Av. " + v; }
+        // Her tablo satırındaki taraf listeye de girer (UYAP tablosunda her davalı ayrı satırdadır). "DAVALILAR : A<sekme>B" gibi
+        // iki noktalı satırda hücrelerin hepsi ayrı taraftır.
+        const listeT = (o[yan === "birinci" ? "birinciler" : "ikinciler"] ||= []);
+        const ikiNokta = /^[^:\t]{0,40}:/.test(satirlar[i]);
+        const adlar = ikiNokta ? hs.filter(c => !/^(AV\.|AVUKAT)/i.test(c) && !/^\d+$/.test(c)) : adH ? [adH] : [];
+        for (const a of adlar) { const t = tarafAyir(a, ""); if (t && !listeT.some(x => x.ad === t.ad)) listeT.push(t); }
+        if (ikiNokta && listeT[0] && o[yan] && o[yan]!.ad !== listeT[0].ad && listeT.some(x => x.ad === o[yan]!.ad) === false) o[yan] = { ...listeT[0], vekil: o[yan]!.vekil };
         continue;
       }
       if (m[2]) {
@@ -170,12 +177,14 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
       if (!deger.trim() && satirlar[i + 1] && !rolBul(satirlar[i + 1]) && !vekilDeseni.test(satirlar[i + 1].toLocaleUpperCase("tr"))) { deger = satirlar[i + 1]; j = i + 1; }
       if (!o[yan]) { const t = tarafAyir(deger, satirlar[j + 1] || ""); if (t) o[yan] = t; }
       // Bütün taraflar: "1- X 2- Y" ya da alt alta "DAVALI : 1-X", "DAVALI : 2-Y".
-      let parca = deger.replace(/^\s*\d{1,2}\s*[-.)]\s*/, "").split(/\s+\d{1,2}\s*[-.)]\s+/);
+      // "1- AHMET 2- AYŞE" ya da boşluksuz "1-AHMET 2-AYŞE" (numaradan sonra büyük harfle başlayan ad).
+      let parca = deger.replace(/^\s*\d{1,2}\s*[-.)]\s*/, "").split(/\s+\d{1,2}\s*[-.)]\s*(?=\p{Lu})/u);
       // "AHMET ÖRNEK ve AYŞE ÖRNEK", "AHMET ÖRNEK, AYŞE ÖRNEK": her parça yalın bir kişi adıysa ayrı taraf (şirket unvanındaki
       // "SANAYİ VE TİCARET" ya da adresli satır bölünmez).
       if (parca.length === 1) {
         const yalin = (x: string) => /^[\p{L}.']+(?:\s+[\p{L}.']+){1,3}$/u.test(x.trim()) && !/A\.?\s?Ş|LTD|ŞTİ|ŞİRKET|SANAYİ|TİCARET|KURUM|BAŞKANLIĞI|MÜDÜRLÜĞÜ|BAKANLIĞI|HAZİNE|MAH|CAD|SOK/i.test(x);
-        const b2 = parca[0].split(/\s*,\s*|\s+(?:ve|VE|ile|İLE)\s+/);
+        // Ayraç: virgül, "ve" / "ile", sekme ya da birden çok boşluk (tablodan kopyalanmış satır).
+        const b2 = parca[0].trim().split(/\s*,\s*|\s+(?:ve|VE|ile|İLE)\s+|\t+|\s{2,}/);
         if (b2.length > 1 && b2.every(yalin)) parca = b2;
       }
       if (parca.length > 1 && o[yan] && /\s(?:ve|VE|ile|İLE)\s|,/.test(o[yan]!.ad)) { const ilk = tarafAyir(parca[0], ""); if (ilk) o[yan] = { ...ilk, vekil: o[yan]!.vekil, vekiller: o[yan]!.vekiller }; }
