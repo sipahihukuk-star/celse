@@ -23,7 +23,7 @@ const sayi = (v: string): number | undefined => { const x = v.replace(/\./g, "")
 const sayiYaz = (x?: number) => (x === undefined ? "" : String(x).replace(".", ","));
 const tarihYaz = (x?: string) => (x ? x.split("-").reverse().join(".") : "");
 
-export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrakSil, onKaydet, onMetinEkle, bizimAdlar = [], okuma, guncel, yenile }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; guncel?: () => Foy; yenile?: () => void; onEvraktan?: () => void; onEvrakEkle?: () => void; onEvrakSil?: (e: FoyEvrak) => void; onKaydet?: () => Promise<void>; onMetinEkle?: (metin: string) => Promise<void>; bizimAdlar?: string[]; okuma?: string }) {
+export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrakSil, onKaydet, onMetinEkle, bizimAdlar = [], okuma, guncel, yenile, hata }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; guncel?: () => Foy; yenile?: () => void; hata?: string; onEvraktan?: () => void; onEvrakEkle?: () => void; onEvrakSil?: (e: FoyEvrak) => void; onKaydet?: () => Promise<void>; onMetinEkle?: (metin: string) => Promise<void>; bizimAdlar?: string[]; okuma?: string }) {
   const [kayit, setKayit] = useState("");
   const b: IcraBilgi = f.icra || { yol: "genel", talep: "haciz", paraBirimi: "TL", faizTuru: "yasal" };
   const [bilgi, setBilgi] = useState("");
@@ -100,6 +100,7 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
             {!!onEvraktan && <Btn kind="secondary" label={t("Eklenmiş evraktan yeniden doldur")} onPress={onEvraktan} />}
           </View>
           {!!okuma && <Text style={s.hint}>{okuma}</Text>}
+          {!!hata && !okuma && <Text style={[s.hint, { color: C.bad }]}>{hata}</Text>}
           {!!onEvrakSil && f.evraklar.length > 0 && (
             <View style={{ gap: 4, marginTop: 4 }}>
               <Text style={s.label}>{t("Yüklenen evrak ({n})", { n: f.evraklar.length })}</Text>

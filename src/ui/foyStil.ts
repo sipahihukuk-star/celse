@@ -4,12 +4,26 @@ import { t } from "../i18n";
 import { C, F } from "./theme";
 import type { Kaynak } from "./foyEvrak";
 
+/** Telefon ya da tablet tarayıcısı mı (iPadOS masaüstü gibi görünür; dokunmatik Mac yoktur). */
+export const mobilTarayici = () => {
+  const n = globalThis.navigator as (Navigator & { maxTouchPoints?: number }) | undefined;
+  return !!n && (/Android|iPhone|iPad|iPod/i.test(n.userAgent || "") || (n.platform === "MacIntel" && (n.maxTouchPoints || 0) > 1));
+};
+/**
+ * Telefonda dosya seçicinin süzgeci: iPhone ve Android, tanımadıkları uzantıları (.udf, .tif…) soluk gösterip seçtirmez.
+ * Bu yüzden telefonda yalnız "image/*" gibi tür süzgeçleri bırakılır; uzantılı listede süzgeç kaldırılır, tür içerikten anlaşılır.
+ */
+export const secimSuzgeci = (accept: string) => (mobilTarayici() && /\.[a-z0-9]+/i.test(accept) ? "" : accept);
 export function dosyaSec(accept: string, coklu = true): Promise<Kaynak[]> {
   return new Promise(resolve => {
     const input = document.createElement("input");
-    input.type = "file"; input.multiple = coklu; input.accept = accept;
+    input.type = "file"; input.multiple = coklu; input.accept = secimSuzgeci(accept);
+    // iOS Safari'de sayfaya eklenmemiş input bazen açılmaz ya da seçimden sonra change olayı gelmez.
+    input.style.display = "none"; document.body.appendChild(input);
+    setTimeout(() => input.remove(), 10 * 60 * 1000);
     input.onchange = async () => {
       const files = Array.from(input.files || []);
+      input.remove();
       resolve(await Promise.all(files.map(async f => ({ ad: f.name, bytes: new Uint8Array(await f.arrayBuffer()), blob: f }))));
     };
     input.click();
@@ -20,7 +34,7 @@ export function dosyaListesiSec(uzantilar: string[], klasor = false): Promise<Fi
   return new Promise(resolve => {
     const input = document.createElement("input");
     input.type = "file"; input.multiple = true;
-    if (klasor) input.setAttribute("webkitdirectory", ""); else input.accept = uzantilar.map(x => "." + x).join(",");
+    if (klasor) input.setAttribute("webkitdirectory", ""); else input.accept = secimSuzgeci(uzantilar.map(x => "." + x).join(","));
     input.onchange = () => {
       const xs = Array.from(input.files || []).filter(f => uzantilar.includes((f.name.split(".").pop() || "").toLowerCase()));
       resolve(xs);

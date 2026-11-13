@@ -33,7 +33,7 @@ import { evrakTuruBul, icraDoldur, icraEvrakGeriAl } from "../data/icraEvrak";
 import { foyDinle, silineniNotEt, dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, KarsiBilgi, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
 import { DAVA_TURLERI, EVRAK_TURLERI, FoyTur, turBilgi, TURLER } from "../data/foyTurleri";
 import { unmask } from "../engine/mask";
-import { zipIcerigi, turBul } from "../engine/mask/readers";
+import { gercekTur, zipIcerigi } from "../engine/mask/readers";
 import { evrakProva } from "../data/evrak";
 import { metinleriGetir } from "../data/foyBulut";
 import { setAvukatKalan, usePremium } from "../data/subscription";
@@ -172,7 +172,8 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     const secilen = hazir || await dosyaSec(".udf,.doc,.docx,.rtf,.odt,.htm,.html,.txt,.pdf,.tif,.tiff,.jpg,.jpeg,.png,.zip");
     const sira: Kaynak[] = [];
     for (const k of secilen) {
-      if (turBul(k.ad) === "zip") { try { sira.push(...zipIcerigi(k.bytes)); } catch { setErr(t("{ad}: ZIP dosyası açılamadı.", { ad: k.ad })); } }
+      // Arşiv: uzantıya değil içeriğe bakılır (telefonda .zip ya da uzantısız inen UDF de arşiv sanılmasın).
+      if (gercekTur(k.ad, k.bytes) === "zip") { try { sira.push(...zipIcerigi(k.bytes)); } catch { setErr(t("{ad}: ZIP dosyası açılamadı.", { ad: k.ad })); } }
       else sira.push(k);
     }
     const eklenen: FoyEvrak[] = [];
@@ -458,7 +459,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const icraBlok = (f.tur === "icra" || !!f.icra) ? (
         <Katlanir anahtar="icra" baslik={t("İcra takibi bilgileri")} varsayilan ozet={f.icra?.asil ? t("asıl alacak {x}", { x: tl(f.icra.asil, f.icra.paraBirimi || "TL") }) : t("doldurulmadı")}>
           {!!icraMesaj && <Text style={[s.hint, { color: C.good }]}>{icraMesaj}</Text>}
-          <IcraBolum f={f} degistir={degistir} surum={surum} okuma={okuma} guncel={() => son.current || f} yenile={() => setSurum(v => v + 1)} onKaydet={async () => { await hemenKaydet(); if (!zaman.current) await foyKaydet(son.current || f); }} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} bizimAdlar={bizimAdlar()} onMetinEkle={async metin => {
+          <IcraBolum f={f} degistir={degistir} surum={surum} okuma={okuma} hata={err} guncel={() => son.current || f} yenile={() => setSurum(v => v + 1)} onKaydet={async () => { await hemenKaydet(); if (!zaman.current) await foyKaydet(son.current || f); }} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} bizimAdlar={bizimAdlar()} onMetinEkle={async metin => {
             // Yapıştırılan metin, dosya gibi okunur (tür, kodlu hâl, künye, icra bilgisi).
             const g = new Date(); const p2 = (n: number) => String(n).padStart(2, "0");
             const ad = `Yapıştırılan metin ${p2(g.getDate())}.${p2(g.getMonth() + 1)}.${g.getFullYear()} ${p2(g.getHours())}.${p2(g.getMinutes())}.txt`;
