@@ -65,7 +65,11 @@ ok(it.birinci?.vekilAdres === "Hayal Mah. 1. Sok. No:3 Karşıyaka/İZMİR", "ve
     "birleşen dava": "DAVALI : HAYALİ YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL\nBİRLEŞEN DAVADA DAVALI : KURGU YILMAZ",
     "boşluksuz numara": "DAVALILAR : 1-HAYALİ YILMAZ 2-KURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL",
     "sekmeyle": "DAVALILAR : HAYALİ YILMAZ\tKURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL",
-    "çok boşlukla": "DAVALILAR : HAYALİ YILMAZ      KURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL"
+    "çok boşlukla": "DAVALILAR : HAYALİ YILMAZ      KURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL",
+    "her davalının altında vekili": "DAVALILAR : 1. HAYALİ YILMAZ - T.C. 33333333330\nKurgu Mah. Masal Cad. No:9 Buca/İZMİR\nVEKİLİ : Av. BAŞKA VEKİL\n2. KURGU YILMAZ - T.C. 44444444440\nKurgu Mah. Masal Cad. No:9 Buca/İZMİR\nVEKİLİ : Av. DİĞER VEKİL",
+    "numaralı rol etiketi": "1.DAVALI : HAYALİ YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL\n2.DAVALI : KURGU YILMAZ",
+    "rolden sonra numara": "DAVALI 1 : HAYALİ YILMAZ\nDAVALI 2 : KURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL",
+    "numara noktalı, vekil adresli": "DAVALILAR : 1. HAYALİ YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL\nAvukat Mah. Hukuk Sok. No:1 Konak/İZMİR\n2. KURGU YILMAZ\nKurgu Mah. Masal Cad. No:9 Buca/İZMİR\nDAVANIN KONUSU : Tazminat\n1. Davanın KABULÜNE karar verildi\n2. Fazlaya ilişkin talebin reddine"
   };
   for (const [ad, x] of Object.entries(bicimler)) {
     const t2 = ilamTaraflari(bas + x + son);

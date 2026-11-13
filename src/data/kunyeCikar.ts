@@ -102,7 +102,10 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
   // Satır sonu olmadan yazılmış başlıklar ("DAVACI : … VEKİLİ : … DAVALI : …") satırlara ayrılır.
   const rolHepsi = [...ROLLER, "VEKİLİ", "VEKİLLERİ", "MÜDAFİİ", "KONU", "DAVA", "SUÇ", "ESAS NO", "DOSYA NO", "SORUŞTURMA NO"].sort((a, b) => b.length - a.length).join("|");
   // "BİRLEŞEN DAVADA DAVALI :", "ASIL DOSYADA DAVACI :" satırları da taraf satırıdır.
-  const duz = metin.replace(/\r/g, "").replace(/^([ \t]*)(?:BİRLEŞEN|ASIL|Birleşen|Asıl)\s+(?:DAVADA|DOSYADA|DAVA|DOSYA|davada|dosyada)\s+(?=(?:DAVACI|DAVALI|Davacı|Davalı))/gm, "$1").replace(new RegExp(`[ \\t]{2,}(?=(?:${rolHepsi})[ \\t]*:)`, "g"), "\n").replace(new RegExp(`([^\\n])(?<!KARŞI|DAVADA|DAVANIN|[-–/])\\s+(?=(?:${rolHepsi.replace(/\b(DAVA|SUÇ|KONU)\|/g, "")})[ \\t]*:)`, "g"), "$1\n");
+  const duz = metin.replace(/\r/g, "")
+    // Numaralı rol etiketleri: "1.DAVALI :", "2- DAVALI :", "DAVALI 2 :", "DAVALI (2) :" → "DAVALI :"
+    .replace(/^([ \t]*)\d{1,2}\s*[-.)]\s*(?=(?:DAVACI|DAVALI|Davacı|Davalı|SANIK|Sanık|ALACAKLI|BORÇLU|Alacaklı|Borçlu))/gm, "$1")
+    .replace(/^([ \t]*(?:DAVACI|DAVALI|Davacı|Davalı|ALACAKLI|BORÇLU|Alacaklı|Borçlu|SANIK|Sanık)(?:LAR|lar)?)\s*\(?\d{1,2}\)?\s*[-.)]?\s*(?=:)/gm, "$1 ").replace(/^([ \t]*)(?:BİRLEŞEN|ASIL|Birleşen|Asıl)\s+(?:DAVADA|DOSYADA|DAVA|DOSYA|davada|dosyada)\s+(?=(?:DAVACI|DAVALI|Davacı|Davalı))/gm, "$1").replace(new RegExp(`[ \\t]{2,}(?=(?:${rolHepsi})[ \\t]*:)`, "g"), "\n").replace(new RegExp(`([^\\n])(?<!KARŞI|DAVADA|DAVANIN|[-–/])\\s+(?=(?:${rolHepsi.replace(/\b(DAVA|SUÇ|KONU)\|/g, "")})[ \\t]*:)`, "g"), "$1\n");
   const ham = duz.split("\n").map(x => x.trim()).filter(Boolean);
   // Etiket, iki nokta ve değer ayrı satırlara düşmüşse (UDF / Word tablosu: "DAVALI" / ":" / "AYŞE ÖRNEK") birleştirilir.
   const ETIKET_TEK = new RegExp(`^(?:${rolHepsi})(?:\\s*\\([^)]{1,30}\\))?$`, "i");
@@ -190,15 +193,20 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
       if (parca.length > 1 && o[yan] && /\s(?:ve|VE|ile|İLE)\s|,/.test(o[yan]!.ad)) { const ilk = tarafAyir(parca[0], ""); if (ilk) o[yan] = { ...ilk, vekil: o[yan]!.vekil, vekiller: o[yan]!.vekiller }; }
       const liste = (o[yan === "birinci" ? "birinciler" : "ikinciler"] ||= []);
       for (const p of parca) { const t = tarafAyir(p, parca.length === 1 ? satirlar[j + 1] || "" : ""); if (t && !liste.some(x => x.ad === t.ad)) liste.push(t); }
-      // Alt satırlarda devam eden numaralı taraflar ("2- MEHMET … T.C. …" / altında adresi), sonraki rol ya da vekil satırına kadar.
+      // Alt satırlarda devam eden numaralı taraflar ("2- MEHMET … T.C. …" / altında adresi). Her tarafın altında kendi "VEKİLİ :"
+      // satırı olabilir (bölge adliye kararları): vekil satırı atlanır, sonraki asıl rol ya da karar metni başlayınca durulur.
+      const SON = /^\s*(?:DAVA(?:NIN)?\s+(?:KONUSU|TARİHİ|TÜRÜ)|KARAR\s+TARİHİ|KARARIN\s+YAZILDIĞI|İNCELENEN|İSTİNAF\s+(?:KONUSU|İNCELEMESİ)|GEREĞİ|HÜKÜM|GEREKÇE|TARAFLAR\s+ARASINDAKİ|DOSYA\s+İNCELENDİ|BAŞVURU(?:NUN)?\s+KONUSU|SUÇ\b|İDDİA)/;
       for (let z = j + 1; z < Math.min(satirlar.length, j + 40); z++) {
         const u = satirlar[z].toLocaleUpperCase("tr");
-        if (rolBul(satirlar[z]) || vekilDeseni.test(u) || /^\s*(?:VEKİLİ|VEKİLLERİ|MÜDAFİİ)/.test(u)) break;
+        if (rolBul(satirlar[z]) || SON.test(u) || satirlar[z].length > 220) break;
+        if (vekilDeseni.test(u) || /^\s*(?:VEKİLİ|VEKİLLERİ|MÜDAFİİ)/.test(u) || /^\s*AV\.\s/.test(u)) continue;
         const nm = satirlar[z].match(/^\s*(\d{1,2})\s*[-.)]\s*(.+)$/);
+        // Numaralı satır gerçekten bir taraf mı: adı büyük harfle yazılmış ("2. ÖMER ÖRNEK") ya da kimlik / vergi no'su var.
+        const adBuyuk = nm && /^(?:[A-ZÇĞİÖŞÜÂÎÛ][A-ZÇĞİÖŞÜÂÎÛ.'’]+\s+){1,}[A-ZÇĞİÖŞÜÂÎÛ][A-ZÇĞİÖŞÜÂÎÛ.'’]+/.test(nm[2].trim());
         // Numarasız alt satır: kimlik / vergi no'su olan ve adres olmayan satır da yeni taraftır ("KURGU YILMAZ - T.C. …").
-        const kimlikli = !nm && /(?:T\.?\s?C\.?|TCKN|VKN|Vergi\s*No)\D{0,12}\d{10,11}|(?:^|\D)\d{11}(?:\D|$)/i.test(satirlar[z]) && !/\b(?:Mah|Cad|Sok|Sk|Bulv)\b\.?|Mahallesi|Caddesi|Sokak/i.test(satirlar[z].split(/\d{10,11}/)[0]);
-        if ((!nm || Number(nm[1]) < 2) && !kimlikli) continue;
-        const sonraki = satirlar[z + 1] && !/^\s*\d{1,2}\s*[-.)]/.test(satirlar[z + 1]) && !rolBul(satirlar[z + 1]) ? satirlar[z + 1] : "";
+        const kimlikli = /(?:T\.?\s?C\.?|TCKN|VKN|Vergi\s*No)\D{0,12}\d{10,11}|(?:^|\D)\d{11}(?:\D|$)/i.test(satirlar[z]) && !/\b(?:Mah|Cad|Sok|Sk|Bulv)\b\.?|Mahallesi|Caddesi|Sokak/i.test(satirlar[z].split(/\d{10,11}/)[0]);
+        if (nm ? Number(nm[1]) < 2 || !(adBuyuk || kimlikli) : !kimlikli) continue;
+        const sonraki = satirlar[z + 1] && !/^\s*\d{1,2}\s*[-.)]/.test(satirlar[z + 1]) && !rolBul(satirlar[z + 1]) && !vekilDeseni.test(satirlar[z + 1].toLocaleUpperCase("tr")) ? satirlar[z + 1] : "";
         const t = tarafAyir(nm ? nm[2] : satirlar[z], sonraki);
         if (t && !liste.some(x => x.ad === t.ad)) liste.push(t);
       }
