@@ -51,6 +51,24 @@ ok(h2.muvekkil === "Ayşe Örnek Deneme" && h2.ekMuvekkiller?.map(x => x.ad).joi
 ok(h2.karsiTaraf === "Hayali Yılmaz" && h2.icra?.ekBorclular?.map(x => x.ad).join() === "Kurgu Yılmaz", "iki borçlu");
 ok(h2.muvekkilBilgi?.adres === "Örnek Mah. Deneme Sok. No:5 Karşıyaka/İZMİR" && h2.karsiBilgi?.kimlikNo === "33333333330", "adres ve kimlik no ilamdan");
 ok(it.birinci?.vekilAdres === "Hayal Mah. 1. Sok. No:3 Karşıyaka/İZMİR", "vekilin büro adresi: " + it.birinci?.vekilAdres);
+// Davalılar başka biçimlerde yazılmış olsa da hepsi okunur.
+{
+  const bas = "T.C.\nİZMİR\nBÖLGE ADLİYE MAHKEMESİ\n20. HUKUK DAİRESİ\nDOSYA NO : 2025/1\nKARAR NO : 2026/2\nDAVACI : AYŞE ÖRNEK\nVEKİLİ : Av. ÖRNEK AVUKAT\n";
+  const son = "\nHÜKÜM : 1- 1.000,00 TL vekalet ücretinin davalılardan alınarak davacıya verilmesine,\nDair karar verildi.\ne-imzalıdır";
+  const bicimler: Record<string, string> = {
+    "ayrı satır": "DAVALI : HAYALİ YILMAZ - 33333333330\nKurgu Mah. Masal Cad. No:9 Buca/İZMİR\nDAVALI : KURGU YILMAZ - 44444444440\nVEKİLİ : Av. BAŞKA VEKİL",
+    "numarasız alt satır": "DAVALILAR : HAYALİ YILMAZ - T.C. 33333333330\nKurgu Mah. Masal Cad. No:9 Buca/İZMİR\nKURGU YILMAZ - T.C. 44444444440\nKurgu Mah. Masal Cad. No:9 Buca/İZMİR\nVEKİLİ : Av. BAŞKA VEKİL",
+    "tek satırda numaralı": "DAVALILAR : 1- HAYALİ YILMAZ 2- KURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL",
+    "ve ile": "DAVALILAR : HAYALİ YILMAZ ve KURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL",
+    "virgülle": "DAVALILAR : HAYALİ YILMAZ, KURGU YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL",
+    "birleşen dava": "DAVALI : HAYALİ YILMAZ\nVEKİLİ : Av. BAŞKA VEKİL\nBİRLEŞEN DAVADA DAVALI : KURGU YILMAZ"
+  };
+  for (const [ad, x] of Object.entries(bicimler)) {
+    const t2 = ilamTaraflari(bas + x + son);
+    ok(t2.ikinciler.map(y => y.ad).join("|") === "Hayali Yılmaz|Kurgu Yılmaz" && t2.ikinci?.ad === "Hayali Yılmaz", "iki davalı (" + ad + "): " + t2.ikinciler.map(y => y.ad).join("|") + " / " + t2.ikinci?.ad);
+  }
+  ok(ilamTaraflari(bas.replace("AYŞE ÖRNEK", "ÖRNEK SANAYİ VE TİCARET A.Ş.") + "DAVALI : HAYALİ YILMAZ" + son).birinciler.length === 1, "şirket unvanındaki 've' bölünmez");
+}
 // Talimatsız ilam: hiçbir şey ayrılmaz.
 ok(talimatAyir(evrak).talimat === "", "talimatsız ilamda talimat yok");
 // Dilekçe ilam sayılmaz.

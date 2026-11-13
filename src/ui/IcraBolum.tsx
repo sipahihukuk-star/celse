@@ -152,6 +152,17 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
         {alan("T.C. kimlik / vergi no", f.karsiBilgi?.kimlikNo || "", v => degistir({ karsiBilgi: { ...f.karsiBilgi, kimlikNo: v.replace(/\D/g, "") } }), undefined, 160)}
         {alan("Adresi", f.karsiBilgi?.adres || "", v => degistir({ karsiBilgi: { ...f.karsiBilgi, adres: v } }), undefined, 320)}
       </View>
+      {/* Borçlular */}
+      <Text style={s.hint}>{t("Yukarıdaki 1. borçlu künyedeki karşı taraftır; öteki borçlular (ilamdaki öteki davalılar, kefil, avalist…) aşağıda.")}</Text>
+      {borclular.map((x, i) => (
+        <View key={i + ":" + surum} style={[s.alanlar, { alignItems: "flex-end" }]}>
+          {alan(`${i + 2}. borçlu`, x.ad, v => yaz({ ekBorclular: borclular.map((y, j) => (j === i ? { ...y, ad: v } : y)) }), "Ad soyad / unvan")}
+          {alan("T.C. / vergi no", x.kimlikNo || "", v => yaz({ ekBorclular: borclular.map((y, j) => (j === i ? { ...y, kimlikNo: v } : y)) }), undefined, 150)}
+          {alan("Adres", x.adres || "", v => yaz({ ekBorclular: borclular.map((y, j) => (j === i ? { ...y, adres: v } : y)) }), undefined, 260)}
+          <Pressable onPress={() => yaz({ ekBorclular: borclular.filter((_, j) => j !== i) })}><Text style={s.sil}>{t("Kaldır")}</Text></Pressable>
+        </View>
+      ))}
+      <View style={s.row}><Btn kind="ghost" label={t("+ Borçlu ekle (kefil, avalist, ciranta…)")} onPress={() => yaz({ ekBorclular: [...borclular, { ad: "" }] })} /></View>
       <Text style={s.hint}>{t("Adres yazmak yerine aşağıdaki “Ödeme hesabı ve adresler” bölümünden MERNİS adresini de seçebilirsiniz.")}</Text>
 
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
@@ -204,18 +215,6 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
         </View>
       )}
 
-      {/* Borçlular */}
-      <Text style={s.secT}>{t("Borçlular")}</Text>
-      <Text style={s.hint}>{t("1. borçlu künyedeki karşı taraftır: {ad}", { ad: f.karsiTaraf || t("(yazılmamış)") })}</Text>
-      {borclular.map((x, i) => (
-        <View key={i + ":" + surum} style={[s.alanlar, { alignItems: "flex-end" }]}>
-          {alan(`${i + 2}. borçlu`, x.ad, v => yaz({ ekBorclular: borclular.map((y, j) => (j === i ? { ...y, ad: v } : y)) }), "Ad soyad / unvan")}
-          {alan("T.C. / vergi no", x.kimlikNo || "", v => yaz({ ekBorclular: borclular.map((y, j) => (j === i ? { ...y, kimlikNo: v } : y)) }), undefined, 150)}
-          {alan("Adres", x.adres || "", v => yaz({ ekBorclular: borclular.map((y, j) => (j === i ? { ...y, adres: v } : y)) }), undefined, 260)}
-          <Pressable onPress={() => yaz({ ekBorclular: borclular.filter((_, j) => j !== i) })}><Text style={s.sil}>{t("Kaldır")}</Text></Pressable>
-        </View>
-      ))}
-      <View style={s.row}><Btn kind="ghost" label={t("+ Borçlu ekle (kefil, avalist, ciranta…)")} onPress={() => yaz({ ekBorclular: [...borclular, { ad: "" }] })} /></View>
 
       {/* Ödeme hesabı ve adres seçimi */}
       <Text style={s.secT}>{t("Ödeme hesabı ve adresler")}</Text>
