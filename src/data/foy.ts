@@ -307,13 +307,31 @@ export async function foylerKaydet(xs: Foy[]) {
 /** Silinen iş / evrak kimliklerini föye not eder (eşitlemede geri gelmesin). */
 export const silineniNotEt = (f: Foy, ids: string[]): string[] => [...(f.silinen || []), ...ids].slice(-300);
 
+/** Silme damgası: avukatın sildiği föyün silme kaydı bu "zamanla" gönderilir; öteki cihazda föy sonradan (kendiliğinden işler,
+ *  föy no gibi) güncellenmiş olsa da silme kazanır. (Şahsi dosyalara taşımada gerçek zaman kullanılır.) */
+export const SILME_DAMGASI = "9999-12-31T23:59:59.999Z";
+/** Bu cihazda silinen föyler (kalıcı): başka bir cihaz eski kopyasını yeniden gönderse de geri getirilmez. */
+export async function mezaraEkle(ids: string[]) {
+  const m = (await ayarOku<Record<string, string>>("foyMezar")) || {};
+  const z = new Date().toISOString();
+  for (const id of ids) m[id] = z;
+  const xs = Object.entries(m).sort((a, b) => a[1].localeCompare(b[1])).slice(-5000);
+  await ayarYaz("foyMezar", Object.fromEntries(xs));
+}
+export async function mezardanCikar(ids: string[]) {
+  const m = (await ayarOku<Record<string, string>>("foyMezar")) || {};
+  for (const id of ids) delete m[id];
+  await ayarYaz("foyMezar", m);
+}
+export const mezar = async () => (await ayarOku<Record<string, string>>("foyMezar")) || {};
 export async function foySil(f: Foy) {
   await islem(f.ozel ? "ozel" : "foyler", "readwrite", s => { s.delete(f.id); });
   if (idbVar()) await islem("dosyalar", "readwrite", s => { for (const e of f.evraklar) s.delete(e.id); });
   // Bulut eşitlemesi diğer cihazlardan da silsin diye silinen föy not edilir.
   const sil = (await ayarOku<Record<string, string>>("bulutSilinen")) || {};
-  sil[f.id] = new Date().toISOString();
+  sil[f.id] = SILME_DAMGASI;
   await ayarYaz("bulutSilinen", sil);
+  await mezaraEkle([f.id]);
   haber();
 }
 

@@ -133,6 +133,25 @@ const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m
   ok(kova.size === 15 && r1.dosyaBekleyen === 5, "ilk turda 15 dosya, 5 bekliyor: " + kova.size + "/" + r1.dosyaBekleyen);
   const r2 = await A.bulut.esitle();
   ok(kova.size === 20 && r2.dosyaBekleyen === 0, "ikinci turda tamamı");
+  // Silme kazanır: sekreterin cihazında föy sonradan (ör. kendiliğinden iş, föy no) güncellenmiş olsa da kurucunun silmesi oraya
+  // da ulaşır ve föy geri gelmez.
+  const x = A.foy.bosFoy({ muvekkil: "Yanlışlıkla Açılan", tur: "icra" });
+  await A.foy.foyKaydet(x); await A.bulut.esitle();
+  S = cihaz("S"); await S.bulut.esitle();
+  ok(!!(await S.foy.foyGetir(x.id)), "sekreterde föy var");
+  A = cihaz("A");
+  await A.foy.foySil((await A.foy.foyGetir(x.id))!);
+  await A.bulut.esitle();
+  // Sekreter cihazı silme ulaşmadan föyü kendiliğinden yeniden kaydetti (föy no, kendiliğinden iş): silmeden daha yeni.
+  S = cihaz("S");
+  await new Promise(r => setTimeout(r, 5));
+  await S.foy.foyKaydet({ ...(await S.foy.foyGetir(x.id)), foyNo: "İ-9" });
+  A = cihaz("A");
+  ok(!(await A.foy.foyGetir(x.id)), "kurucuda silindi");
+  S = cihaz("S"); await S.bulut.esitle();
+  ok(!(await S.foy.foyGetir(x.id)), "sekreterde de silindi (sonradan değişmiş olsa da)");
+  A = cihaz("A"); await A.bulut.esitle(); await A.bulut.esitle();
+  ok(!(await A.foy.foyGetir(x.id)), "kurucuda geri gelmedi");
   if (fail) { console.log(`buro-dosya-test: ${fail} hata`); process.exit(1); }
   console.log("buro-dosya-test: tamam");
 })().catch(e => { console.log("✗ " + (e?.stack || e)); process.exit(1); });

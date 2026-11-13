@@ -11,7 +11,7 @@
 // - Büroya üyeyse (buro.ts, supabase/surum18.sql) şahsi olmayan föyler kişisel bulut yerine büro bulutunda (buro_foy), büro
 //   anahtarıyla şifreli olarak eşitlenir; büronun bütün çalışanları görür. Şahsi dosyalar yine kişisel bulutta kalır.
 import { supabase } from "./account";
-import {
+import { mezar, mezaraEkle, mezardanCikar, SILME_DAMGASI,
   ayarOku, ayarYaz, Foy, foyHaber, hamFoyler, hamFoyYaz, hamOzeller, hamOzelYaz, hamSil, kilitBilgisi, KilitBilgi, kilitBilgisiYaz, OzelKayit
 } from "./foy";
 import { Anahtar, b64, b64Coz, coz, hamAnahtar, hamTuret, kodla, metneCevir, rastgele, sifrele } from "./sifre";
@@ -237,6 +237,8 @@ async function esitleIc() {
   const ozel = new Map((await hamOzeller()).map(x => [x.id, x] as const));
   // Bu cihazda silinmiş (ya da birleştirilip kalkmış) ama silinişi henüz gönderilmemiş föy, çekimde geri getirilmez.
   const silinecek = (await ayarOku<Record<string, string>>("bulutSilinen")) || {};
+  const mezarlik = await mezar();
+  let yeniSilme = false;
   // İlk sayfada iki dakikalık bindirme: aynı anda yazılan ve sonradan görünen kayıt kaçmasın (tekrar gelen kayıt zararsızdır).
   const onceki = cekim ? Date.parse(cekim) : NaN;
   let alt = cekim && !isNaN(onceki) ? new Date(onceki - 120000).toISOString() : cekim;
@@ -259,10 +261,13 @@ async function esitleIc() {
       }
       if (x.silindi) {
         if ((yerel.has(x.kayit_id) || ozel.has(x.kayit_id)) && yerelZaman <= x.guncelleme) { await hamSil(x.kayit_id); yerel.delete(x.kayit_id); ozel.delete(x.kayit_id); gelen++; }
+        if (x.guncelleme === SILME_DAMGASI) await mezaraEkle([x.kayit_id]);
         delete gonderilen[x.kayit_id];
         continue;
       }
       if (silinecek[x.kayit_id]) continue;
+      // Silinmiş föyün eski kopyası başka cihazdan yeniden geldiyse alınmaz; silme yeniden gönderilir.
+      if (x.tur === "foy" && mezarlik[x.kayit_id]) { silinecek[x.kayit_id] = SILME_DAMGASI; yeniSilme = true; continue; }
       if (x.tur === "foy") {
         const eski = yerel.get(x.kayit_id);
         const gonderilmedi = !!eski && gonderilen[eski.id] !== eski.guncelleme;
@@ -283,6 +288,7 @@ async function esitleIc() {
     alt = cekim;
   }
   await ayarYaz("bulutCekim", cekim);
+  if (yeniSilme) await ayarYaz("bulutSilinen", silinecek);
 
   // 1b) Büro: şahsi olmayan föyler büro bulutunda eşitlenir.
   const buro = await buroAnahtari();
@@ -362,6 +368,8 @@ async function buroEsitle(b: { buroId: string; k: Anahtar }, yerel: Map<string, 
   // Bu cihazda şahsi dosyalara taşınmış föy büroda dursa da geri getirilmez (şahsi taşıma büroyu ezer).
   const sahsiIds = new Set((await hamOzeller()).map(x => x.id));
   const silinecekB = (await ayarOku<Record<string, string>>("bulutSilinen")) || {};
+  const mezarlikB = await mezar();
+  let yeniSilmeB = false;
   for (;;) {
     let q = sb.from(BURO_TABLO).select("kayit_id, tur, iv, veri, guncelleme, silindi, degisim").eq("buro_id", b.buroId).eq("tur", "foy").order("degisim", { ascending: true }).limit(200);
     if (alt) q = q.gt("degisim", alt);
@@ -373,11 +381,14 @@ async function buroEsitle(b: { buroId: string; k: Anahtar }, yerel: Map<string, 
       const eski = yerel.get(x.kayit_id);
       if (x.silindi) {
         if (eski && eski.guncelleme <= x.guncelleme) { await hamSil(x.kayit_id); yerel.delete(x.kayit_id); gelen++; }
+        if (x.guncelleme === SILME_DAMGASI) await mezaraEkle([x.kayit_id]);
         delete gonderilen[x.kayit_id];
         continue;
       }
       if (sahsiIds.has(x.kayit_id)) { gonderilen[x.kayit_id] = x.guncelleme; continue; }
       if (silinecekB[x.kayit_id]) continue;
+      // Bu cihazda silinmiş föyün eski kopyası (başka cihaz yeniden göndermiş): alınmaz, silme yeniden gönderilir.
+      if (mezarlikB[x.kayit_id]) { silinecekB[x.kayit_id] = SILME_DAMGASI; yeniSilmeB = true; continue; }
       const gonderilmedi = !!eski && gonderilen[eski.id] !== eski.guncelleme;
       if (eski && !gonderilmedi && eski.guncelleme >= x.guncelleme) continue;
       const g = gelenFoy(await ac<Foy>(b.k, x), eski, gonderilmedi);
@@ -389,6 +400,7 @@ async function buroEsitle(b: { buroId: string; k: Anahtar }, yerel: Map<string, 
     alt = cekim;
   }
   await ayarYaz("buroCekim", cekim);
+  if (yeniSilmeB) await ayarYaz("bulutSilinen", silinecekB);
   await metinleriIndir(yerel, b.k, b.buroId).catch(() => {});
 
   let bekleyen: Satir[] = [];
@@ -424,7 +436,7 @@ async function buroEsitle(b: { buroId: string; k: Anahtar }, yerel: Map<string, 
   await gonder();
   await ayarYaz("bulutSilinen", {});
   // Yetkisiz silinen föy büroda duruyor: bir sonraki eşitlemede baştan çekilip geri gelsin.
-  if (Object.keys(silinen).length && !silebilir) { await ayarYaz("buroCekim", ""); await ayarYaz("buroGonderilen", {}); }
+  if (Object.keys(silinen).length && !silebilir) { await mezardanCikar(Object.keys(silinen)); await ayarYaz("buroCekim", ""); await ayarYaz("buroGonderilen", {}); }
   return { gelen, giden };
 }
 
