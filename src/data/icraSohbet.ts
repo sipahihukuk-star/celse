@@ -12,7 +12,7 @@ import { mask, unmask } from "../engine/mask";
 const SIRKET_EKI = /\s+(A\.?\s?Ş\.?|ANONİM ŞİRKETİ|Anonim Şirketi|LTD\.?\s?ŞTİ\.?|Ltd\.?\s?Şti\.?|LİMİTED ŞİRKETİ|Limited Şirketi|ve Tic\.?.*|VE TİC\.?.*|San\.?\s?ve\s?Tic\.?.*)$/;
 export const ekAdlar = (f: Foy) => {
   // Birden çok müvekkil / karşı taraf ve bütün vekiller de kodlanır.
-  const xs = [...tumMuvekkiller(f), ...tumKarsiTaraflar(f)].map(x => x.ad).concat([...bizimVekiller(f), ...karsiVekiller(f)].map(v => v.replace(/^Av\.\s*/i, "").split(/[·,(]/)[0])).map(x => (x || "").trim()).filter(x => x.length > 2);
+  const xs = [...tumMuvekkiller(f), ...tumKarsiTaraflar(f), ...(f.icra?.ekBorclular || [])].map(x => x.ad).concat([...bizimVekiller(f), ...karsiVekiller(f)].map(v => v.replace(/^Av\.\s*/i, "").split(/[·,(]/)[0])).map(x => (x || "").trim()).filter(x => x.length > 2);
   for (const x of [...xs]) { const k = x.replace(SIRKET_EKI, "").trim(); if (k !== x && k.length > 4) xs.push(k); }
   return xs;
 };
