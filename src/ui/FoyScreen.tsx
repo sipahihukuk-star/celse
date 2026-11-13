@@ -365,7 +365,6 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       </View>
 
       <View style={s.row}>
-        <Btn label={t("📝 Başvuru yap (yeni dosya)")} onPress={() => sekmeSec("basvuru")} />
         <Btn kind="secondary" label={t("🔒 Şahsi dosyalarım")} onPress={() => (kilit === "acik" ? setSahsiGorunum(true) : setKilitSor({ sonra: () => setSahsiGorunum(true) }))} />
         <Btn kind="secondary" label={t("📥 UYAP duruşma listesi yükle")} onPress={() => { setDurusmaYukle(true); setDurusmaAc(true); }} />
         {web && <Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} />}
