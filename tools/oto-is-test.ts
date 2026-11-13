@@ -91,14 +91,28 @@ ok(!(otoIsleriEsitle({ ...bos, silinen: ["oto-kunye"] }, B) || []).some(x => x.i
   ok(!!t1 && !t1.bitti && t1.tarih === "2026-11-04" && /tutanağını tarayıp/.test(t1.metin), "geçmiş duruşmaya tutanak işi: " + JSON.stringify(t1));
   ok(!a.some(x => x.id === "oto-t-p2" || x.id === "oto-t-p3"), "ileri ve çok eski duruşmaya tutanak işi açılmaz");
   const tutanak = "T.C.\nUYDURMA 3. ASLİYE HUKUK MAHKEMESİ\nDURUŞMA TUTANAĞI\nESAS NO : 2025/311\nCELSE NO : 4\nDURUŞMA TARİHİ : 04/11/2026\nDavacı vekili Av. Örnek geldi. Davalı vekili gelmedi.\nGEREĞİ DÜŞÜNÜLDÜ: 1- Bilirkişi ücreti olan 3.000,00 TL'nin yatırılması için davacı vekiline 2 hafta kesin süre verilmesine, aksi halde bu delile dayanmaktan vazgeçmiş sayılacağının ihtarına, 2- Davalı vekiline tanık listesini sunması için 1 hafta süre verilmesine, 3- Taraf vekillerine bilirkişi raporuna karşı beyanda bulunmaları için tebliğden itibaren 2 hafta süre verilmesine, 4- Duruşmanın 20/11/2026 günü saat 10:30'a bırakılmasına karar verildi.\nKatip 12345 Hakim 54321";
-  const tf2 = { ...tf, gorevler: a, evraklar: [{ id: "ev1", ad: "tutanak.udf", boyut: 1, eklenme: "2026-11-10T09:00:00Z", metin: tutanak }] } as never;
-  const b = otoIsleriEsitle(tf2, B)!;
+  const tf2 = { ...tf, gorevler: a, evraklar: [{ id: "ev1", ad: "tutanak.udf", boyut: 1, eklenme: "2026-11-13T09:00:00Z", metin: tutanak }] } as never;
+  const B2 = "2026-11-14";
+  const b = otoIsleriEsitle(tf2, B2)!;
   ok(b.find(x => x.id === "oto-t-p1")?.bitti === true, "tutanak eklenince tutanak işi kapanır");
   const ak = b.filter(x => x.id.startsWith("oto-ak-ev1"));
   ok(ak.length === 2 && ak[0].kaynak === "evrak" && /3\.000,00 TL/.test(ak[0].metin) && ak[0].tarih === "2026-11-18", "ara karar: bizim tarafa iki iş (karşı tarafın tanık listesi yok): " + JSON.stringify(ak.map(x => [x.metin.slice(0, 60), x.tarih])));
-  ok(ak[1].tarih === "2026-11-24", "tebliğden itibaren süre evrakın eklendiği günden: " + ak[1].tarih);
-  const c = otoIsleriEsitle({ ...(tf2 as object), gorevler: b.filter(x => x.id !== ak[0].id), silinen: [ak[0].id] } as never, B);
+  ok(ak[1].tarih === "2026-11-27", "tebliğden itibaren süre evrakın eklendiği günden: " + ak[1].tarih);
+  const c = otoIsleriEsitle({ ...(tf2 as object), gorevler: b.filter(x => x.id !== ak[0].id), silinen: [ak[0].id] } as never, B2);
   ok(!(c || b.filter(x => x.id !== ak[0].id)).some(x => x.id === ak[0].id), "silinen ara karar işi geri gelmez");
+  // Eski tarihli tutanak (geçen yılın) bugün eklense de iş çıkmaz; daha önce çıkmış ve yapılmamış işi kaldırılır.
+  const eski = tutanak.replace("04/11/2026", "03/01/2026");
+  const tf3 = { ...tf, gorevler: [{ id: "oto-ak-ev9-0", metin: "Ara karar: eski", tarih: "2026-01-17", bitti: false, kaynak: "evrak", eklenme: "2026-11-13" }, { id: "oto-ak-ev9-1", metin: "Ara karar: yapılmış", bitti: true, kaynak: "evrak", eklenme: "2026-11-13" }], evraklar: [{ id: "ev9", ad: "eski.udf", boyut: 1, eklenme: "2026-11-13T08:00:00Z", metin: eski }] } as never;
+  const d3 = otoIsleriEsitle(tf3, B2) || (tf3 as { gorevler: { id: string }[] }).gorevler;
+  ok(!d3.some(x => x.id === "oto-ak-ev9-0") && d3.some(x => x.id === "oto-ak-ev9-1"), "eski tutanağın açık ara karar işi kalkar, yapılmış kayıt kalır: " + JSON.stringify(d3.map(x => x.id)));
+  // Başlangıçtan önce eklenen evraktan iş çıkmaz.
+  const tf4 = { ...tf, gorevler: [], evraklar: [{ id: "ev8", ad: "t.udf", boyut: 1, eklenme: "2026-11-12T08:00:00Z", metin: tutanak }] } as never;
+  ok(!(otoIsleriEsitle(tf4, B2) || []).some(x => x.id.startsWith("oto-ak-")), "başlangıçtan önce eklenen evraktan iş çıkmaz");
+  // Kurum yazısı: bize yöneltilen istek iş olur.
+  const yazi = "T.C.\nSOSYAL GÜVENLİK KURUMU\nUYDURMA SOSYAL GÜVENLİK İL MÜDÜRLÜĞÜ\nSayı : E-12345678-000-999\nKonu : Hizmet dökümü talebi\nTarih: 12.11.2026\nSAYIN AV. ÖRNEK AVUKAT\nİlgi dilekçeniz incelenmiştir. Talebinizin karşılanabilmesi için vekâletnamenin onaylı örneğini yazımızın tebliğinden itibaren 15 gün içinde Kurumumuza göndermeniz rica olunur. Bilgilerinize sunulur.\nUydurma Müdür";
+  const tf5 = { ...tf, gorevler: [], evraklar: [{ id: "ev7", ad: "sgk.pdf", boyut: 1, eklenme: "2026-11-13T08:00:00Z", metin: yazi }] } as never;
+  const y5 = (otoIsleriEsitle(tf5, B2) || []).filter(x => x.id.startsWith("oto-ak-ev7"));
+  ok(y5.length === 1 && /^Yazı: .*göndermeniz/.test(y5[0].metin) && y5[0].tarih === "2026-11-28", "kurum yazısındaki istek iş olur: " + JSON.stringify(y5.map(x => [x.metin, x.tarih])));
 }
 if (fail) { console.log(`oto-is-test: ${fail} hata`); process.exit(1); }
 console.log("oto-is-test: tamam");

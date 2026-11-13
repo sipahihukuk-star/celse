@@ -628,7 +628,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
                 </View>
               )}
               {x.kaynak === "oto" && <Text style={s.hint}>{eIsDurusma(x) ? t("Kendiliğinden açılan iş: kabul ya da red işaretlenince kapanır (duruşma gününün yanındaki “E-duruşma” kutusuna sol tık kabul, sağ tık red).") : x.id.startsWith("oto-t-") ? t("Kendiliğinden açılan iş: o günün tutanağı föye eklenince kapanır.") : t("Kendiliğinden açılan iş: künye tamamlanınca kapanır.")}</Text>}
-              {x.kaynak === "evrak" && <Text style={s.hint}>{t("Föye eklenen evraktaki ara karardan çıkarıldı; son gün süreden hesaplandı, kontrol edin.")}</Text>}
+              {x.kaynak === "evrak" && <Text style={s.hint}>{t("Föye yeni eklenen tutanağın ara kararından ya da kurum yazısından çıkarıldı; son gün süreden hesaplandı, kontrol edin.")}</Text>}
             </View>
             {!eIsDurusma(x) && <Pressable onPress={() => gorevDegistir(x, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>}
           </View>
