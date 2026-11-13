@@ -2,6 +2,7 @@
 import { bosFoy } from "../src/data/foy";
 import { eDurumYaz, eKarar, kunyeEksikleri, otoIsleriEsitle } from "../src/data/otoIs";
 import { arsivdenSil, arsivListesi, sinirGunu, suresiDolanlar } from "../src/data/isArsivi";
+import { araKararIsleri } from "../src/data/evrakIs";
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
 const B = "2026-11-11";
@@ -113,6 +114,12 @@ ok(!(otoIsleriEsitle({ ...bos, silinen: ["oto-kunye"] }, B) || []).some(x => x.i
   const tf5 = { ...tf, gorevler: [], evraklar: [{ id: "ev7", ad: "sgk.pdf", boyut: 1, eklenme: "2026-11-13T08:00:00Z", metin: yazi }] } as never;
   const y5 = (otoIsleriEsitle(tf5, B2) || []).filter(x => x.id.startsWith("oto-ak-ev7"));
   ok(y5.length === 1 && /^Yazı: .*göndermeniz/.test(y5[0].metin) && y5[0].tarih === "2026-11-28", "kurum yazısındaki istek iş olur: " + JSON.stringify(y5.map(x => [x.metin, x.tarih])));
+}
+// Avukatın dilekçesinde geçen "ara kararı gereğince" ara karar sayılmaz.
+{
+
+  const dil = "UYDURMA 7. TÜKETİCİ MAHKEMESİ'NE\nESAS NO: 2025/503\nKONU: Beyanlarımızın sunulmasıdır.\nAÇIKLAMALAR: Sayın Mahkemenizin 10/02/2026 tarihli celsesinde kurulan 5 numaralı ara kararı gereğince, süresi içinde beyanlarımızın sunulmasına ilişkin 2 hafta süre verilmiştir.\nSONUÇ VE İSTEM: Yukarıda arz edilen nedenlerle arz ve talep ederiz.\nDavacı Vekili Av. Örnek";
+  ok(araKararIsleri(dil, "davaci", "2026-02-10").length === 0, "dilekçedeki ara karar anışı iş olmaz");
 }
 if (fail) { console.log(`oto-is-test: ${fail} hata`); process.exit(1); }
 console.log("oto-is-test: tamam");

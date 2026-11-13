@@ -25,7 +25,9 @@ const EYLEM = /SÜRE VERİL|SÜRE VERİLDİ|KESİN SÜRE|İHTARINA|İHTAR EDİL|
 export function araKararIsleri(metin: string, taraf: "davaci" | "davali", baz?: string, eklenme?: string): AraKararIsi[] {
   const duz = metin.replace(/\s+/g, " ");
   const u = duz.toLocaleUpperCase("tr");
-  const bas = u.search(/ARA KARAR\s*:?|GEREĞİ DÜŞÜNÜLDÜ|GEREĞİ DÜŞÜNÜLDÜ\s*:/);
+  // Avukatın kendi dilekçesi ("… ara kararı gereğince beyanlarımız…") ara karar sayılmaz: yalnız mahkemenin yazdığı tutanak / karar.
+  if (/ARZ VE TALEP|ARZ EDERİM|ARZ EDERİZ|SONUÇ VE (?:İSTEM|TALEP)|AÇIKLAMALAR\s*:/.test(u) && !/TUTANA[ĞK]I|CELSE (?:NO|SAYISI)/.test(u)) return [];
+  const bas = u.search(/ARA KARAR(?![\p{L}])\s*:?|GEREĞİ DÜŞÜNÜLDÜ/u);
   if (bas < 0) return [];
   const son = (() => { const k = u.slice(bas + 20).search(/\b(KATİP|KÂTİP|HAKİM|HÂKİM|BAŞKAN|ÜYE)\s+\d|E-İMZALIDIR|AÇIKÇA OKUNUP/); return k >= 0 ? bas + 20 + k : u.length; })();
   const bolum = duz.slice(bas, son), ub = u.slice(bas, son);

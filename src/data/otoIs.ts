@@ -80,7 +80,8 @@ export function otoIsleriEsitle(f: Foy, bugun = bugunGun()): Gorev[] | null {
   const eksik = kunyeEksikleri(f);
   const ke = kalan.get(KUNYE_IS);
   kalan.delete(KUNYE_IS);
-  if (acik && eksik.length && !(f.silinen || []).includes(KUNYE_IS)) {
+  if (ke?.bitti && eksik.length) yeni.push(ke); // elle kapatıldıysa kapalı kalır
+  else if (acik && eksik.length && !(f.silinen || []).includes(KUNYE_IS)) {
     const metin = `Künyeyi tamamlayın: ${eksik.join(", ")} yok`;
     yeni.push(ke && !ke.bitti && ke.metin === metin ? ke : { ...(ke || { eklenme: bugun }), id: KUNYE_IS, metin, bitti: false, kapanis: undefined, kaynak: "oto" });
   } else if (ke) {

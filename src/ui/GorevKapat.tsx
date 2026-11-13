@@ -1,5 +1,5 @@
-// Bir işin kapanışı: iş emri / evrak numarası yazılmadan iş kapanmaz. Görsel (UYAP gönderim ekranı, makbuz,
-// tebligat barkodu…) yüklenirse yazısı bu cihazda okunur, numara adayları gösterilir; seçilen numara kaydedilir.
+// Bir işin kapanışı: "Yapıldı, kapat" işi hemen kapatır (arşive düşer). İş emri / evrak numarası isteğe bağlıdır; UYAP gönderim
+// ekranının, makbuzun ya da tebligat barkodunun fotoğrafı seçilirse numara bu cihazda okunup yazılır. "Listeden kaldır" işi siler.
 import React, { useState } from "react";
 import { Platform, Pressable, Text, TextInput, View } from "react-native";
 import type { Gorev, GorevKapanis } from "../data/foy";
@@ -12,7 +12,7 @@ import { C } from "./theme";
 export const DUZEY_RENK: Record<Duzey, string> = { gecikti: "#ff4d4d", bugun: "#ff4d4d", acil: C.bad, uyari: C.p2, dikkat: C.mid, sakin: C.good, tarihsiz: C.muted };
 export const duzeyAdi = (d: Duzey) => t(DUZEY_AD[d]);
 
-export function GorevKapat({ g, onKapat, onVazgec }: { g: Gorev; onKapat: (k: GorevKapanis) => void; onVazgec: () => void }) {
+export function GorevKapat({ g, onKapat, onVazgec, onSil }: { g: Gorev; onKapat: (k: GorevKapanis) => void; onVazgec: () => void; onSil?: () => void }) {
   const [no, setNo] = useState("");
   const [kaynak, setKaynak] = useState<GorevKapanis["kaynak"]>("elle");
   const [gorsel, setGorsel] = useState<string>();
@@ -37,15 +37,14 @@ export function GorevKapat({ g, onKapat, onVazgec }: { g: Gorev; onKapat: (k: Go
     } catch (e) { setDurum(t(String((e as Error).message || e))); }
     finally { setOkunuyor(false); }
   };
-  const gecerli = no.trim().length >= 3;
 
   return (
     <View style={{ gap: 8, padding: 10, borderWidth: 1, borderColor: C.brassDim, borderRadius: 10, backgroundColor: C.panel2 }}>
       <Text style={[s.body, { color: C.text }]}>{t("İşi kapat: {is}", { is: g.metin })}</Text>
-      <Text style={s.hint}>{t("İş, iş emri / evrak numarası yazılmadan kapanmaz. UYAP gönderim ekranının, makbuzun ya da tebligat barkodunun görselini yüklerseniz numara görselden okunur.")}</Text>
+      <Text style={s.hint}>{t("Numara yazmak zorunlu değil. İsterseniz iş emri / evrak numarasını yazın ya da UYAP gönderim ekranının, makbuzun veya tebligat barkodunun fotoğrafını seçin; numara fotoğraftan okunup kutuya yazılır.")}</Text>
       <View style={s.addRow}>
-        <TextInput value={no} onChangeText={v => { setNo(v); setKaynak(gorsel && adaylar?.some(x => x.no === v) ? "gorsel" : "elle"); }} placeholder={t("İş emri / evrak no")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 180 }]} autoCapitalize="characters" />
-        {web && <Btn kind="secondary" label={okunuyor ? t("Okunuyor…") : t("📷 Görselden oku")} disabled={okunuyor} onPress={gorselOku} />}
+        <TextInput value={no} onChangeText={v => { setNo(v); setKaynak(gorsel && adaylar?.some(x => x.no === v) ? "gorsel" : "elle"); }} placeholder={t("İş emri / evrak no (isteğe bağlı)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 180 }]} autoCapitalize="characters" />
+        {web && <Btn kind="ghost" label={okunuyor ? t("Okunuyor…") : t("📷 Numarayı fotoğraftan al")} disabled={okunuyor} onPress={gorselOku} />}
       </View>
       {!!durum && <Text style={s.hint}>{durum}</Text>}
       {!!adaylar && adaylar.length > 1 && (
@@ -58,7 +57,8 @@ export function GorevKapat({ g, onKapat, onVazgec }: { g: Gorev; onKapat: (k: Go
         </View>
       )}
       <View style={s.row}>
-        <Btn label={t("✓ Numarayla kapat")} disabled={!gecerli} onPress={() => onKapat({ tarih: bugunStr(), no: no.trim(), kaynak, gorsel: kaynak === "gorsel" ? gorsel : undefined })} />
+        <Btn label={t("✓ Yapıldı, kapat")} onPress={() => onKapat({ tarih: bugunStr(), no: no.trim(), kaynak: no.trim() ? kaynak : "elle", gorsel: no.trim() && kaynak === "gorsel" ? gorsel : undefined })} />
+        {onSil && <Btn kind="ghost" label={t("🗑 Listeden kaldır")} onPress={onSil} />}
         <Btn kind="ghost" label={t("Vazgeç")} onPress={onVazgec} />
       </View>
     </View>
