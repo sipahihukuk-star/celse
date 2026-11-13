@@ -11,6 +11,7 @@ import { t } from "../i18n";
 import { Acilir } from "./Acilir";
 import { indir, s } from "./foyStil";
 import { DUZEY_RENK, duzeyAdi, GorevKapat } from "./GorevKapat";
+import { EvrakIsOnay } from "./EvrakIsOnay";
 import { Sayfali } from "./Sayfalama";
 import { Btn } from "./kit";
 import { C } from "./theme";
@@ -89,6 +90,7 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
       <Text style={s.eyebrow}>{t("DAVA TAKİBİ · YAPILACAKLAR")}</Text>
       <Text style={s.title}>{t("Yapılacaklar")}</Text>
       <Text style={s.hint}>{t("Bütün föylerdeki işler. Uyarı son gün gelince değil, gün geçtikçe artar: kalan gün azaldıkça ve işin eklendiği günden son güne kadarki sürenin yarısı, dörtte üçü geçtikçe renk koyulaşır. Son günü yazılmamış işler de bekledikçe uyarır. “Kapat…” ile işi kapatın; numara yazmak isteğe bağlıdır.")}</Text>
+      <EvrakIsOnay liste={liste} />
 
       <DurusmaUyarilari liste={liste} onAc={onAc} />
 

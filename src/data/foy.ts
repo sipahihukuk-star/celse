@@ -41,6 +41,8 @@ export interface Gorev {
   kapanis?: GorevKapanis;
   /** büroda işin verildiği çalışan (kullanıcı kimliği) ve adı */
   atanan?: string; atananAd?: string;
+  /** evraktan çıkan iş avukatın onayıyla eklendi (kendiliğinden temizlenmez) */
+  onayli?: boolean;
 }
 export interface FoyEvrak {
   id: string; ad: string; boyut: number; eklenme: string; metin: string; okunamadi?: string;
