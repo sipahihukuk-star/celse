@@ -80,8 +80,6 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       setTasiBilgi(y.ozel ? t("Şahsi dosyalarınıza taşındı: yalnız siz görürsünüz (şifreli); büro listesinden kalktı.") : t("Şahsi dosyalardan çıkarıldı; büro föyleri arasına döndü."));
     } catch (e) { setTasiHata(t(String((e as Error).message || e))); }
   };
-  const [yeniGorev, setYeniGorev] = useState("");
-  const [gorevTarih, setGorevTarih] = useState("");
   const [kapatId, setKapatId] = useState<string | null>(null);
   const [yetkim, setYetkim] = useState<string | null>(null);
   useEffect(() => { buroYetkim().then(setYetkim).catch(() => {}); }, []);
@@ -254,12 +252,6 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     degistir({ evraklar: f.evraklar.map(x => (secim.has(x.id) ? { ...x, ...ek } : x)) });
     setSecim(new Set());
   };
-  const gorevEkle = () => {
-    const m = yeniGorev.trim();
-    if (!m) return;
-    degistir({ gorevler: [...f.gorevler, { id: yeniId("g"), metin: m, tarih: tarihCoz(gorevTarih), bitti: false, kaynak: "elle", eklenme: bugunStr() }] });
-    setYeniGorev(""); setGorevTarih("");
-  };
   const gorevDegistir = (g: Gorev, ek: Partial<Gorev> | null) => degistir(ek ? { gorevler: f.gorevler.map(x => (x.id === g.id ? { ...x, ...ek } : x)) } : { gorevler: f.gorevler.filter(x => x.id !== g.id), silinen: silineniNotEt(f, [g.id]) });
 
   // Dosya ne durumda: önemli evrak cihazda birlikte kodlanır; kodlu metin gider, dönen özet gerçek adlarla föye yazılır.
@@ -403,6 +395,8 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         // Künyede eksik bilgi: başta görünür; tek tuşla eldeki belgelerden (bu cihazda) doldurulur.
         const eksik = kunyeEksikleri(f).map(k => t(k));
         const okunmus = f.evraklar.some(e => e.metin.trim());
+        // İcra föyünde taraflar ve eksikler İcra takibi bölümünde (eksik listesi, evraktan doldurma, yapay zekâyla hazırlama) gösterilir.
+        if (icraUstte) return null;
         if (!eksik.length && !kunyeMesaj) return null;
         return (
           <View style={[s.card, { gap: 6, borderColor: eksik.length ? C.mid : C.line }]}>
@@ -676,11 +670,6 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             {!eIsDurusma(x) && <Pressable onPress={() => gorevDegistir(x, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>}
           </View>
         ))}
-        <View style={s.addRow}>
-          <TextInput value={yeniGorev} onChangeText={setYeniGorev} onSubmitEditing={gorevEkle} placeholder={t("Yeni iş: ör. bilirkişi raporuna itiraz")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1 }]} />
-          <TextInput value={gorevTarih} onChangeText={setGorevTarih} onSubmitEditing={gorevEkle} placeholder={t("son gün")} placeholderTextColor={C.muted} style={[s.inputTek, { width: 120 }]} />
-          <Btn kind="secondary" label={t("Ekle")} onPress={gorevEkle} />
-        </View>
         <EvrakIsOnay liste={[f]} hepsi yerel={{ f: () => son.current || f, degistir }} />
         <SesliIsGir onEkle={xs => { const g = son.current || f; degistir({ gorevler: [...g.gorevler, ...xs] }); }}
           onGeriAl={ids => { const g = son.current || f; degistir({ gorevler: g.gorevler.filter(x => !ids.includes(x.id)), silinen: silineniNotEt(g, ids) }); }} />

@@ -27,8 +27,9 @@ export function SesliIsGir({ onEkle, onGeriAl }: { onEkle: (xs: Gorev[]) => void
   const gonder = (soz: string) => {
     const x = soz.trim();
     if (!x) return;
-    const isler = sestenIsler(x, bugunStr());
-    if (!isler.length) { setHata(t("Bu cümleden iş çıkaramadım; ör. “yarın bilirkişi raporuna itiraz et” deyin.")); return; }
+    // Kurallar iş çıkaramazsa yazılan olduğu gibi tarihsiz iş olarak eklenir (ayrı bir "elle ekle" satırı gerekmesin).
+    const okunan = sestenIsler(x, bugunStr());
+    const isler: SesliIs[] = okunan.length ? okunan : [{ metin: x.slice(0, 300) }];
     const yeni: Gorev[] = isler.map(i => ({ id: yeniId("g"), metin: i.metin, tarih: i.tarih, bitti: false, kaynak: "elle", eklenme: bugunStr() }));
     onEkle(yeni);
     setMesajlar(m => [...m.slice(-5), { soz: x, isler, idler: yeni.map(g => g.id) }]);
@@ -59,7 +60,7 @@ export function SesliIsGir({ onEkle, onGeriAl }: { onEkle: (xs: Gorev[]) => void
 
   return (
     <View style={{ gap: 6, borderWidth: 1, borderColor: C.line, borderRadius: 10, padding: 8, backgroundColor: C.panel }}>
-      <Text style={[s.label, { color: C.brass }]}>{t("🎙 Sesle iş ekle")}</Text>
+      <Text style={[s.label, { color: C.brass }]}>{t("➕ İş ekle (yazarak ya da 🎙 konuşarak)")}</Text>
       {mesajlar.map((m, i) => (
         <View key={i} style={{ gap: 3 }}>
           <Text style={[s.hint, { alignSelf: "flex-end", textAlign: "right", backgroundColor: C.panel2, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4, maxWidth: "90%" }]}>“{m.soz}”</Text>

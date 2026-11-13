@@ -62,6 +62,8 @@ export interface IcraBilgi {
   takipSonrasiTur?: FaizTuru;
   takipSonrasiOran?: number;
   not?: string;
+  /** "Takibi yapay zekâyla hazırla" sonucu föye yazıldı: taraflar artık ilamın kurallı okumasıyla kendiliğinden değiştirilmez */
+  yzHazirlik?: { tarih: string };
 }
 
 export const TAKIP_YOLLARI: { k: TakipYolu; ad: string; ornek?: string }[] = [

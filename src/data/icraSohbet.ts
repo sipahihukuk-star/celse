@@ -31,7 +31,7 @@ export const YOLLAR: TakipYolu[] = ["ilamli", "genel", "kambiyo", "kira"];
 const tarihYaz = (x?: string) => (x ? x.split("-").reverse().join(".") : "");
 
 /** Gönderilecek metni hazırlar: tarihler [TARİH-n], öteki kişisel veriler maskeleme motoruyla kodlanır. */
-export function icraSoruKaynagi(f: Foy, soru: string, gecmis: IcraSohbetSatiri[], yapistirilan = "", sinir = 70000) {
+export function icraSoruKaynagi(f: Foy, soru: string, gecmis: IcraSohbetSatiri[], yapistirilan = "", sinir = 70000, ekIsimler: string[] = []) {
   const b = f.icra;
   const kunye = [
     "=== KÜNYE ===",
@@ -61,7 +61,7 @@ export function icraSoruKaynagi(f: Foy, soru: string, gecmis: IcraSohbetSatiri[]
     if (!kod) { kod = `[TARİH-${geri.size + 1}]`; geri.set(iso, kod); tarihler[kod] = iso; }
     return kod;
   });
-  const m = mask(tarihli, { extra: ekAdlar(f) });
+  const m = mask(tarihli, { extra: [...ekAdlar(f), ...ekIsimler.map(x => x.trim()).filter(x => x.length > 2)] });
   const k = m.masked.split(AYRAC.trim()).map(x => x.trim());
   const gk: { soru: string; cevap: string }[] = [];
   for (let i = 2; i + 1 < k.length; i += 2) gk.push({ soru: k[i], cevap: k[i + 1] });
