@@ -24,6 +24,7 @@ const sayi = (v: string): number | undefined => { const x = v.replace(/\./g, "")
 const sayiYaz = (x?: number) => (x === undefined ? "" : String(x).replace(".", ","));
 const tarihYaz = (x?: string) => (x ? x.split("-").reverse().join(".") : "");
 
+const birGunOnce = (x: string) => new Date(Date.parse(x + "T00:00:00Z") - 86400000).toISOString().slice(0, 10);
 const adSade = (x?: string) => (x || "").toLocaleUpperCase("tr").replace(/[^A-ZÇĞİÖŞÜ0-9 ]/g, " ").replace(/\s+/g, " ").trim();
 export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrakSil, onKaydet, onMetinEkle, bizimAdlar = [], okuma, guncel, yenile, hata }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; guncel?: () => Foy; yenile?: () => void; hata?: string; onEvraktan?: () => void; onEvrakEkle?: () => void; onEvrakSil?: (e: FoyEvrak) => void; onKaydet?: () => Promise<void>; onMetinEkle?: (metin: string) => Promise<void>; bizimAdlar?: string[]; okuma?: string }) {
   const b: IcraBilgi = f.icra || { yol: "genel", talep: "haciz", paraBirimi: "TL", faizTuru: "yasal" };
@@ -255,7 +256,7 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
           </View>
           <BrutNetSatir k={x.k} pb={pb} onYaz={ek => kalemYaz(i, ek)} />
           {(x.k.faizTuru || "yasal") !== "yok" && <Text style={s.body}>{t("İşlemiş faiz: {x}", { x: tl(x.faiz, pb) })}{x.k.islemisElle !== undefined ? " " + t("(elle)") : ""}</Text>}
-          {x.k.islemisElle === undefined && x.dilimler.map((d, j) => <Text key={j} style={s.hint}>{tarihYaz(d.bas)} – {tarihYaz(d.son)}: {d.gun} {t("gün")} × %{String(d.oran).replace(".", ",")} = {tl(d.tutar, pb)}</Text>)}
+          {x.k.islemisElle === undefined && x.dilimler.map((d, j, xs) => <Text key={j} style={s.hint}>{tarihYaz(d.bas)} – {j + 1 < xs.length ? tarihYaz(birGunOnce(d.son)) : tarihYaz(d.son)}: {d.gun} {t("gün")} × %{String(d.oran).replace(".", ",")} = {tl(d.tutar, pb)}</Text>)}
           {!!x.eksik && x.k.islemisElle === undefined && <Text style={[s.hint, { color: C.bad }]}>{t(x.eksik)}</Text>}
         </View>
       ))}

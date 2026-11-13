@@ -108,6 +108,22 @@ export const AVANS: [string, number][] = [
   ["1990-01-01", 45.0], ["1990-09-20", 48.25], ["1990-11-23", 50.75], ["1991-02-15", 54.5], ["1994-01-27", 65.0], ["1994-04-21", 98.0], ["1994-07-12", 85.0], ["1994-07-27", 75.0], ["1994-10-01", 64.0], ["1995-06-10", 60.0], ["1995-08-01", 57.0], ["1997-08-02", 80.0], ["1999-12-30", 70.0], ["2002-05-17", 64.0], ["2003-06-14", 57.0], ["2003-10-08", 48.0], ["2004-06-15", 42.0], ["2005-01-13", 35.0], ["2005-05-25", 30.0], ["2005-12-20", 25.0], ["2006-12-20", 29.0], ["2007-12-28", 27.0], ["2009-04-09", 20.0], ["2009-06-12", 19.0], ["2009-12-22", 16.0], ["2010-12-30", 15.0], ["2011-12-29", 17.75], ["2012-06-19", 16.5], ["2012-12-20", 13.75], ["2013-06-21", 11.0], ["2013-12-27", 11.75], ["2014-12-14", 10.5], ["2016-12-31", 9.75], ["2018-06-29", 19.5], ["2019-10-11", 18.25], ["2019-12-21", 13.75], ["2020-06-13", 10.0], ["2020-12-19", 16.75], ["2021-12-31", 15.75], ["2022-12-31", 10.75], ["2023-06-24", 16.75], ["2023-09-01", 26.75], ["2023-09-28", 31.75], ["2023-11-01", 36.75], ["2023-12-01", 41.75], ["2023-12-23", 44.25], ["2024-04-01", 51.75], ["2024-12-28", 49.25], ["2025-03-08", 44.25], ["2025-09-17", 42.25], ["2025-12-20", 39.75]
 ];
 
+/** Yapay zekâya giden güncel faiz oranları (kişisel veri içermez; maskelemeden sonra eklenir). Oranı yapay zekâ kendi bilgisinden
+ *  yazmasın diye: Celse'nin tablosu (sunucu her sabah TCMB'den günceller) esastır. */
+export function faizOranMetni(bugun = new Date().toISOString().slice(0, 10)): string {
+  // Tarihler yazıyla ("31 Temmuz 2026"): dosyadaki kişisel tarihler gibi rakamla gitmez, kodlanmaz.
+  const AY = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+  const tr = (x: string) => { const [y, a, g] = x.split("-"); return `${Number(g)} ${AY[Number(a) - 1]} ${y}`; };
+  const once = (x: string) => { const d = new Date(Date.parse(x + "T00:00:00Z") - 86400000); return d.toISOString().slice(0, 10); };
+  const donemler = (tablo: [string, number][], kac: number) => tablo.slice(-kac).map(([b, o], i, xs) => (i + 1 < xs.length ? `${tr(b)}–${tr(once(xs[i + 1][0]))} %${String(o).replace(".", ",")}` : `${tr(b)} tarihinden itibaren %${String(o).replace(".", ",")}`)).join("; ");
+  return [
+    "=== GÜNCEL FAİZ ORANLARI (Celse tablosu, " + tr(bugun) + "; oranları kendi bilginden değil buradan al) ===",
+    "Yasal (kanuni) faiz, 3095 s. Kanun m.1: " + donemler(YASAL, 3) + ". 7589 s. Kanun (12. Yargı Paketi) ile 31 Temmuz 2026'dan itibaren sabit oran yerine TCMB'nin önceki yılın 31 Aralık reeskont oranının %80'i uygulanır (30 Haziran oranı 5 puan ya da daha çok ayrışırsa yılın ikinci yarısında o oranın %80'i). Faiz dönemlere bölünerek hesaplanır: her dönem kendi oranıyla.",
+    "Avans (ticari temerrüt) faizi, 3095 s. Kanun m.2/2: " + donemler(AVANS, 3) + ".",
+    "TTK m.1530 temerrüt faizi: " + donemler(TTK1530, 2) + "."
+  ].join("\n");
+}
+
 const gun = (a: string, b: string) => Math.round((Date.parse(b + "T00:00:00Z") - Date.parse(a + "T00:00:00Z")) / 86400000);
 const r2 = (x: number) => Math.round(x * 100) / 100;
 
