@@ -334,15 +334,25 @@ export function BeyanEditoru({ f, onDegistir, tohum, ilkBeyanId }: { f: Foy; onD
   const zaman = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => { ayarOku<string>("beyanVekil").then(v => v && setVekil(v)); ayarOku<string>("beyanBicim").then(v => v && setBicim(v)); }, []);
   // Değişiklik bir saniye sonra föye kaydedilir (yalnız metni olan taslaklar).
+  const [kayitAni, setKayitAni] = useState("");
+  const yazKayit = (y: Beyan): boolean => {
+    if (!y.metin.trim() && !y.form) return false;
+    const g = { ...y, guncelleme: new Date().toISOString() };
+    const xs = [g, ...beyanlar.filter(x => x.id !== g.id)].slice(0, 50);
+    setBeyanlar(xs); onDegistir({ beyanlar: xs });
+    setKayitAni(new Date().toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }));
+    return true;
+  };
   const sakla = (y: Beyan) => {
     setB(y);
     if (zaman.current) clearTimeout(zaman.current);
-    zaman.current = setTimeout(() => {
-      if (!y.metin.trim() && !y.form) return;
-      const g = { ...y, guncelleme: new Date().toISOString() };
-      const xs = [g, ...beyanlar.filter(x => x.id !== g.id)].slice(0, 50);
-      setBeyanlar(xs); onDegistir({ beyanlar: xs });
-    }, 1000);
+    zaman.current = setTimeout(() => { yazKayit(y); }, 1000);
+  };
+  /** 💾 Kaydet: beklemeden hemen kaydeder. */
+  const hemenKaydet = () => {
+    if (zaman.current) clearTimeout(zaman.current);
+    if (!yazKayit(b)) setHata(t("Kaydedilecek metin yok; önce beyanı yazın ya da taslak oluşturun."));
+    else setHata("");
   };
   useEffect(() => () => { if (zaman.current) clearTimeout(zaman.current); }, []);
   const cerceve = useMemo(() => beyanCercevesi(f, b, { vekil }), [f, b, vekil]);
@@ -424,7 +434,9 @@ export function BeyanEditoru({ f, onDegistir, tohum, ilkBeyanId }: { f: Foy; onD
       <View style={s.addRow}>
         <TextInput value={vekil} onChangeText={x => { setVekil(x); ayarYaz("beyanVekil", x); }} placeholder={t("Vekil adı soyadı (imzada)")} placeholderTextColor={C.muted} style={[s.inputTek, { minWidth: 220 }]} />
         {web && <Acilir etiket={t("Biçim")} secenekler={BICIMLER.map(x => ({ k: x.k, ad: t(x.ad) }))} secili={bicim} onSec={setBicim} />}
-        <Btn label={web ? t("⬇ İndir") : t("Paylaş")} disabled={!b.metin.trim()} onPress={disari} />
+        <Btn label={t("💾 Kaydet")} onPress={hemenKaydet} />
+        <Btn kind="secondary" label={web ? t("⬇ İndir") : t("Paylaş")} disabled={!b.metin.trim()} onPress={disari} />
+        {!!kayitAni && <Text style={[s.hint, { color: C.good }]}>{t("Kaydedildi · {s}", { s: kayitAni })}</Text>}
         {!!b.metin && beyanlar.some(x => x.id === b.id) && <Pressable onPress={() => { const xs = beyanlar.filter(x => x.id !== b.id); setBeyanlar(xs); onDegistir({ beyanlar: xs, silinen: [...(f.silinen || []), b.id].slice(-300) }); setB(bosBeyan(b.tur)); }}><Text style={s.sil}>{t("Taslağı sil")}</Text></Pressable>}
       </View>
       {web && bicim === "udf" && <Text style={s.hint}>{t("UDF dosyasını UYAP Doküman Editörü'nde açıp kontrol edin, sonra imzalayıp gönderin.")}</Text>}
