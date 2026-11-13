@@ -131,5 +131,14 @@ ok(it.birinci?.vekilAdres === "Hayal Mah. 1. Sok. No:3 Karşıyaka/İZMİR", "ve
 ok(talimatAyir(evrak).talimat === "", "talimatsız ilamda talimat yok");
 // Dilekçe ilam sayılmaz.
 ok(evrakTuruBul("İZMİR 3. ASLİYE HUKUK MAHKEMESİ'NE\nESAS NO: 2023/512\nDAVACI: X\nAÇIKLAMALAR: Mahkemenizin ilamı ile karar verildi... KARAR NO 2025/1\nSONUÇ VE İSTEM: arz ve talep ederiz.\nDavacı Vekili Av. Örnek") !== "ilam", "dilekçe ilam değil");
+// 2. davalı künyede (öteki karşı taraf, adressiz) zaten yazılı olsa da takibin "2. borçlu" kutusuna adresiyle yazılır.
+{
+  const fk: Foy = { ...bosFoy({ tur: "icra", taraf: "davaci" }), muvekkil: "Ayşe Örnek Deneme", karsiTaraf: "Hayali Yılmaz", ekKarsiTaraflar: [{ ad: "Kurgu Yılmaz" }] };
+  const r2 = ilamdanTaraflar(fk, ilamTaraflari(evrak), "birinci");
+  const g2 = { ...fk, ...r2.ek } as Foy;
+  ok(g2.icra?.ekBorclular?.length === 1 && /Masal Cad/.test(g2.icra.ekBorclular[0].adres || "") && g2.icra.ekBorclular[0].kimlikNo === "44444444440", "künyedeki 2. davalı takibin 2. borçlu kutusuna adresiyle: " + JSON.stringify(g2.icra?.ekBorclular));
+  ok(/Masal Cad/.test(g2.ekKarsiTaraflar?.[0]?.adres || "") && g2.ekKarsiTaraflar?.length === 1, "künyedeki adres de tamamlandı, kişi iki kez yazılmadı");
+  ok(!Object.keys(ilamdanTaraflar(g2, ilamTaraflari(evrak), "birinci").ek).length, "ikinci kez okununca değişiklik yok");
+}
 if (fail) { console.log(`icra-talimat-test: ${fail} hata`); process.exit(1); }
 console.log("icra-talimat-test: tamam");
