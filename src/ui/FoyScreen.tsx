@@ -2,6 +2,7 @@
 // yaklaşan duruşma ve işler, kilitli özel dosyalar, DavaTek klasörü, Excel/Word'den toplu föy, yedek.
 // Her şey bu cihazda (src/data/foy.ts); yapay zekâya yalnız kodlanmış metin gider. Föy sayfası: FoySayfa.tsx.
 import { BeyanSekmesi, KaynakSekmesi } from "./BeyanEditoru";
+import { BasvuruSekmesi } from "./BasvuruSekmesi";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Keyboard, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { bosFoy, Foy, foyBaslik, foyDinle, foyGetir, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, tarihYaz, yedekMetni, yedektenYukle, yeniId } from "../data/foy";
@@ -51,7 +52,7 @@ import { Btn } from "./kit";
 import { t } from "../i18n";
 import { C } from "./theme";
 
-type Secili = { id: string; ekle?: string };
+type Secili = { id: string; ekle?: string; /** "Başvuru yap"tan açıldı: föy başvuru görünümünde (basvuru.ts) */ basvuru?: string };
 
 /** Dosya tablosundaki kısa adlar. */
 const TUR_KISA: Partial<Record<FoyTur, string>> = {
@@ -122,6 +123,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [buroAc, setBuroAc] = useState(false);
   const [tevkilAc, setTevkilAc] = useState(false);
   const [durusmaAc, setDurusmaAc] = useState(false);
+  const [basvuruAc, setBasvuruAc] = useState(false);
   const [arsivAc, setArsivAc] = useState(false);
   const [durusmaYukle, setDurusmaYukle] = useState(false);
   const [beyanAc, setBeyanAc] = useState<false | "beyan" | "kaynak">(p.ilkSekme || false);
@@ -178,13 +180,14 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   useEffect(() => otoEsitlemeBaslat(), []);
   // Dava takibinden çıkınca şahsi dosyalar kilitlenir (bilgisayarı başkası kullanırsa görünmesin).
   useEffect(() => () => { ozelKilitle(); }, []);
-  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc || tevkilAc || durusmaAc || !!beyanAc, () => { if (secili && (rapor || isler || tevkilAc || durusmaAc)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setBeyanAc(false); });
+  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc || tevkilAc || durusmaAc || basvuruAc || !!beyanAc, () => { if (secili && (rapor || isler || tevkilAc || durusmaAc || basvuruAc)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setBasvuruAc(false); setBeyanAc(false); });
   // Üst sekmeler: hangi ekran açıksa o sekme seçili görünür; sekmeye basınca öbürleri kapanır.
-  const sekme: Sekme = beyanAc ? beyanAc : durusmaAc ? "durusmalar" : isler ? "isler" : rapor ? "liste" : havuz ? "toplu" : buroAc ? "buro" : tevkilAc ? "tevkil" : "foyler";
+  const sekme: Sekme = beyanAc ? beyanAc : basvuruAc ? "basvuru" : durusmaAc ? "durusmalar" : isler ? "isler" : rapor ? "liste" : havuz ? "toplu" : buroAc ? "buro" : tevkilAc ? "tevkil" : "foyler";
   const sekmeSec = (k: Sekme) => {
-    setSecili(null); setAktar(false); setGiris(false); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setDurusmaYukle(false); setBeyanAc(false);
+    setSecili(null); setAktar(false); setGiris(false); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setDurusmaYukle(false); setBeyanAc(false); setBasvuruAc(false);
     if (k !== "toplu") setHavuz(false);
     if (k === "beyan" || k === "kaynak") setBeyanAc(k);
+    if (k === "basvuru") setBasvuruAc(true);
     if (k === "durusmalar") setDurusmaAc(true); else if (k === "isler") setIsler(true); else if (k === "liste") setRapor(true);
     else if (k === "toplu") setHavuz(true); else if (k === "buro") setBuroAc(true); else if (k === "tevkil") setTevkilAc(true);
   };
@@ -198,6 +201,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const web = Platform.OS === "web";
   if (kilitSor) return <OzelKilit durum={kilit} onKapat={() => setKilitSor(null)} onAcildi={() => { const f = kilitSor.sonra; setKilitSor(null); yenile(); f?.(); }} />;
   if (beyanAc === "beyan" && !secili) return sar(<BeyanSekmesi liste={liste} />);
+  if (basvuruAc && !secili) return sar(<BasvuruSekmesi liste={liste} onAc={(id, basvuru) => setSecili({ id, basvuru })} />);
   if (beyanAc === "kaynak" && !secili) return sar(<KaynakSekmesi />);
   if (durusmaAc && !secili) return sar(<DurusmalarEkrani liste={liste} yukleAc={durusmaYukle} onAc={id => setSecili({ id })} />);
   if (buroAc && !secili) return sar(<BuroEkrani onKapat={() => setBuroAc(false)} />);
@@ -211,7 +215,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     return havuz === true ? sar(el) : el;
   }
   if (aktar) return <Aktar mevcut={liste} onBitti={(n) => { setAktar(false); if (n) setMesaj({ t: n, ok: true }); }} />;
-  if (secili) return <View style={{ flex: 1 }}><FoySayfa key={secili.id} id={secili.id} ekle={secili.ekle} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} onAyir={f => { setSecili(null); setHavuz(f); }} />{asistan}</View>;
+  if (secili) return <View style={{ flex: 1 }}><FoySayfa key={secili.id + (secili.basvuru || "")} id={secili.id} ekle={secili.ekle} basvuru={secili.basvuru} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} onAyir={f => { setSecili(null); setHavuz(f); }} />{asistan}</View>;
 
   const yeniFoy = async (tur: FoyTur, ek: { ozel?: boolean; davaTuru?: string } = {}) => {
     const olustur = async () => { const f = bosFoy({ tur, ozel: !!ek.ozel, davaTuru: ek.davaTuru || "" }); await foyKaydet(f); setGiris(false); setSecili({ id: f.id }); };
