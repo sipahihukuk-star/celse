@@ -7,9 +7,9 @@ import { t } from "../i18n";
 import { C } from "./theme";
 import { asistanAc } from "./SesliAsistan";
 
-export type Sekme = "foyler" | "basvuru" | "beyan" | "kaynak" | "durusmalar" | "isler" | "liste" | "toplu" | "buro" | "tevkil";
+export type Sekme = "foyler" | "basvuru" | "sahsi" | "beyan" | "kaynak" | "durusmalar" | "isler" | "liste" | "toplu" | "buro" | "tevkil";
 const SEKMELER: { k: Sekme; ad: string; web?: boolean }[] = [
-  { k: "foyler", ad: "📁 Föyler" }, { k: "basvuru", ad: "📝 Başvuru yap" }, { k: "beyan", ad: "✍ Beyan editörü" }, { k: "kaynak", ad: "📚 İçtihat, mevzuat, doktrin" }, { k: "durusmalar", ad: "⚖ Duruşma, haciz, keşif" }, { k: "isler", ad: "✅ Yapılacaklar" },
+  { k: "foyler", ad: "📁 Föyler" }, { k: "basvuru", ad: "📝 Başvuru yap" }, { k: "sahsi", ad: "🔒 Şahsi dosyalarım" }, { k: "beyan", ad: "✍ Beyan editörü" }, { k: "kaynak", ad: "📚 İçtihat, mevzuat, doktrin" }, { k: "durusmalar", ad: "⚖ Duruşma, haciz, keşif" }, { k: "isler", ad: "✅ Yapılacaklar" },
   { k: "liste", ad: "📋 Dava listesi" }, { k: "toplu", ad: "📥 Toplu evrak yükle", web: true }, { k: "buro", ad: "👥 Büro" }, { k: "tevkil", ad: "🤝 Tevkil" }
 ];
 

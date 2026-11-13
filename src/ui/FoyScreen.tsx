@@ -3,6 +3,7 @@
 // Her şey bu cihazda (src/data/foy.ts); yapay zekâya yalnız kodlanmış metin gider. Föy sayfası: FoySayfa.tsx.
 import { BeyanSekmesi, KaynakSekmesi } from "./BeyanEditoru";
 import { BasvuruSekmesi } from "./BasvuruSekmesi";
+import { HizliGirdi } from "./HizliGirdi";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Keyboard, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { bosFoy, Foy, foyBaslik, foyDinle, foyGetir, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, tarihYaz, yedekMetni, yedektenYukle, yeniId } from "../data/foy";
@@ -52,7 +53,7 @@ import { Btn } from "./kit";
 import { t } from "../i18n";
 import { C } from "./theme";
 
-type Secili = { id: string; ekle?: string; /** "Başvuru yap"tan açıldı: föy başvuru görünümünde (basvuru.ts) */ basvuru?: string };
+type Secili = { id: string; ekle?: string; /** "Başvuru yap"tan açıldı: föy başvuru görünümünde (basvuru.ts) */ basvuru?: string; /** henüz kaydedilmemiş yeni föy */ taslak?: Foy };
 
 /** Dosya tablosundaki kısa adlar. */
 const TUR_KISA: Partial<Record<FoyTur, string>> = {
@@ -133,6 +134,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   // Ayrıntılı arama: ad soyad, T.C. / vergi no, adres, telefon, dosya no, merci (hepsi birlikte); evrak içinde de aranabilir.
   const [ayr, setAyr] = useState<{ ad: string; tc: string; adres: string; tel: string; no: string; merci: string; evrak: boolean }>({ ad: "", tc: "", adres: "", tel: "", no: "", merci: "", evrak: true });
   const [ayrAcik, setAyrAcik] = useState(true);
+  const ayrRef = useRef(ayr); ayrRef.current = ayr;
+  const setAyrHemen = (f: (a: typeof ayr) => typeof ayr) => { ayrRef.current = f(ayrRef.current); setAyr(ayrRef.current); };
   // "Ara"ya basılınca arama bütün föylerde yapılır (durum, tür, evrak süzgeçleri yok sayılır).
   const [aranan, setAranan] = useState<typeof ayr | null>(null);
   const [araniyor, setAraniyor] = useState(false);
@@ -182,12 +185,13 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   useEffect(() => () => { ozelKilitle(); }, []);
   useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc || tevkilAc || durusmaAc || basvuruAc || !!beyanAc, () => { if (secili && (rapor || isler || tevkilAc || durusmaAc || basvuruAc)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setBasvuruAc(false); setBeyanAc(false); });
   // Üst sekmeler: hangi ekran açıksa o sekme seçili görünür; sekmeye basınca öbürleri kapanır.
-  const sekme: Sekme = beyanAc ? beyanAc : basvuruAc ? "basvuru" : durusmaAc ? "durusmalar" : isler ? "isler" : rapor ? "liste" : havuz ? "toplu" : buroAc ? "buro" : tevkilAc ? "tevkil" : "foyler";
+  const sekme: Sekme = beyanAc ? beyanAc : basvuruAc ? "basvuru" : sahsiGorunum ? "sahsi" : durusmaAc ? "durusmalar" : isler ? "isler" : rapor ? "liste" : havuz ? "toplu" : buroAc ? "buro" : tevkilAc ? "tevkil" : "foyler";
   const sekmeSec = (k: Sekme) => {
-    setSecili(null); setAktar(false); setGiris(false); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setDurusmaYukle(false); setBeyanAc(false); setBasvuruAc(false);
+    setSecili(null); setAktar(false); setGiris(false); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setDurusmaYukle(false); setBeyanAc(false); setBasvuruAc(false); setSahsiGorunum(false);
     if (k !== "toplu") setHavuz(false);
     if (k === "beyan" || k === "kaynak") setBeyanAc(k);
     if (k === "basvuru") setBasvuruAc(true);
+    if (k === "sahsi") { if (kilit === "acik") setSahsiGorunum(true); else setKilitSor({ sonra: () => setSahsiGorunum(true) }); }
     if (k === "durusmalar") setDurusmaAc(true); else if (k === "isler") setIsler(true); else if (k === "liste") setRapor(true);
     else if (k === "toplu") setHavuz(true); else if (k === "buro") setBuroAc(true); else if (k === "tevkil") setTevkilAc(true);
   };
@@ -201,7 +205,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const web = Platform.OS === "web";
   if (kilitSor) return <OzelKilit durum={kilit} onKapat={() => setKilitSor(null)} onAcildi={() => { const f = kilitSor.sonra; setKilitSor(null); yenile(); f?.(); }} />;
   if (beyanAc === "beyan" && !secili) return sar(<BeyanSekmesi liste={liste} />);
-  if (basvuruAc && !secili) return sar(<BasvuruSekmesi liste={liste} onAc={(id, basvuru) => setSecili({ id, basvuru })} />);
+  if (basvuruAc && !secili) return sar(<BasvuruSekmesi liste={liste} onAc={(id, basvuru, taslak) => setSecili({ id, basvuru, taslak })} />);
   if (beyanAc === "kaynak" && !secili) return sar(<KaynakSekmesi />);
   if (durusmaAc && !secili) return sar(<DurusmalarEkrani liste={liste} yukleAc={durusmaYukle} onAc={id => setSecili({ id })} />);
   if (buroAc && !secili) return sar(<BuroEkrani onKapat={() => setBuroAc(false)} />);
@@ -215,10 +219,10 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     return havuz === true ? sar(el) : el;
   }
   if (aktar) return <Aktar mevcut={liste} onBitti={(n) => { setAktar(false); if (n) setMesaj({ t: n, ok: true }); }} />;
-  if (secili) return <View style={{ flex: 1 }}><FoySayfa key={secili.id + (secili.basvuru || "")} id={secili.id} ekle={secili.ekle} basvuru={secili.basvuru} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} onAyir={f => { setSecili(null); setHavuz(f); }} />{asistan}</View>;
+  if (secili) return <View style={{ flex: 1 }}><FoySayfa key={secili.id + (secili.basvuru || "")} id={secili.id} ekle={secili.ekle} basvuru={secili.basvuru} taslak={secili.taslak} liste={liste} onKapat={() => setSecili(null)} onAc={id => setSecili({ id })} onHazirlan={p.onHazirlan} ucretsiz={p.ucretsiz} onAyir={f => { setSecili(null); setHavuz(f); }} />{asistan}</View>;
 
   const yeniFoy = async (tur: FoyTur, ek: { ozel?: boolean; davaTuru?: string } = {}) => {
-    const olustur = async () => { const f = bosFoy({ tur, ozel: !!ek.ozel, davaTuru: ek.davaTuru || "" }); await foyKaydet(f); setGiris(false); setSecili({ id: f.id }); };
+    const olustur = async () => { const f = bosFoy({ tur, ozel: !!ek.ozel, davaTuru: ek.davaTuru || "" }); setGiris(false); setSecili({ id: f.id, taslak: f }); };
     if (ek.ozel && (await ozelKilitDurumu()) !== "acik") { setKilitSor({ sonra: olustur }); return; }
     await olustur();
   };
@@ -268,7 +272,10 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
 
   // Ara: önce klavye kapanır (telefonda klavye kapanırken ağır iş yapılınca ekran beyazlayıp kayıyordu), sonra aranır ve
   // sonuçlar ekranın başına getirilir.
-  const aramaYap = () => {
+  // Yazı kutuları değişikliği gecikmeli iletir: arama en son yazılanla yapılsın diye güncel değer ref'te tutulur.
+  const aramaYap = () => setTimeout(aramaYapHemen, 0);
+  const aramaYapHemen = () => {
+    const ayr = ayrRef.current;
     if (!ayrintiliDolu(ayr)) return;
     Keyboard.dismiss();
     try { (globalThis.document?.activeElement as HTMLElement | null)?.blur?.(); } catch { /* yok say */ }
@@ -329,7 +336,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
     const xs = sahsiler.filter(f => !sq || katla([f.muvekkil, f.karsiTaraf, f.mahkeme, f.esasNo, f.davaTuru, turBilgi(f.tur).ad].join(" ")).includes(sq));
     return (
       <View style={{ flex: 1 }}>
-      <TakipSekmeler aktif="foyler" onSec={sekmeSec} rozet={rozet} />
+      <TakipSekmeler aktif="sahsi" onSec={sekmeSec} rozet={rozet} />
       <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
         <Btn kind="ghost" label={t("‹ Föylerime dön")} onPress={() => setSahsiGorunum(false)} />
         <Text style={s.title}>🔓 {t("Şahsi dosyalarım")}</Text>
@@ -339,7 +346,7 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
           <Btn kind="ghost" label={t("🔒 Kilitle ve çık")} onPress={() => { ozelKilitle(); setSahsiGorunum(false); yenile(); }} />
         </View>
         <View style={s.card}>
-          <TextInput value={sahsiAra} onChangeText={setSahsiAra} placeholder={t("Ara: ad soyad, merci, numara…")} placeholderTextColor={C.muted} style={s.inputTek} />
+          <HizliGirdi value={sahsiAra} onChangeText={setSahsiAra} placeholder={t("Ara: ad soyad, merci, numara…")} placeholderTextColor={C.muted} style={s.inputTek} />
           <Text style={s.hint}>{t("{n} şahsi dosya", { n: xs.length })}</Text>
           {xs.map(foySatir)}
           {!sahsiler.length && <Text style={s.hint}>{t("Henüz şahsi dosya yok. “+ Şahsi dosya ekle” ile açın ya da bir föyün en altındaki “🔒 Şahsi dosyalarıma taşı” ile buraya alın.")}</Text>}
@@ -365,7 +372,6 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       </View>
 
       <View style={s.row}>
-        <Btn kind="secondary" label={t("🔒 Şahsi dosyalarım")} onPress={() => (kilit === "acik" ? setSahsiGorunum(true) : setKilitSor({ sonra: () => setSahsiGorunum(true) }))} />
         <Btn kind="secondary" label={t("📥 UYAP duruşma listesi yükle")} onPress={() => { setDurusmaYukle(true); setDurusmaAc(true); }} />
         {web && <Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} />}
       </View>
@@ -466,19 +472,19 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
       )}
 
       <Katlanir anahtar="foy-ara" varsayilan baslik={t("🔍 Föylerim: ara, süz, listele")} ozet={t("{n} föy", { n: buro.length })}>
-        <TextInput value={ara} onChangeText={setAra} placeholder={t("Ara: müvekkil, karşı taraf, mahkeme, esas no…")} placeholderTextColor={C.muted} style={s.inputTek} />
+        <HizliGirdi value={ara} onChangeText={setAra} placeholder={t("Ara: müvekkil, karşı taraf, mahkeme, esas no…")} placeholderTextColor={C.muted} style={s.inputTek} />
         <Pressable onPress={() => setAyrAcik(x => !x)}><Text style={s.link}>{ayrAcik ? t("▴ Ayrıntılı aramayı gizle") : t("▾ Ayrıntılı arama: ad soyad, T.C. no, adres, telefon, dosya no, merci")}{ayrintiliDolu(ayr) ? " · " + t("süzgeç açık") : ""}</Text></Pressable>
         {ayrAcik && (
           <View style={{ gap: 6 }}>
             <View style={s.addRow}>
-              <TextInput value={ayr.ad} onChangeText={x => setAyr(a => ({ ...a, ad: x }))} onSubmitEditing={aramaYap} returnKeyType="search" placeholder={t("Adı soyadı (müvekkil, karşı taraf, vekil)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 2, minWidth: 220 }]} />
-              <TextInput value={ayr.tc} onChangeText={x => setAyr(a => ({ ...a, tc: x }))} onSubmitEditing={aramaYap} returnKeyType="search" placeholder={t("T.C. kimlik / vergi no")} placeholderTextColor={C.muted} keyboardType="number-pad" style={[s.inputTek, { flex: 1, minWidth: 160 }]} />
-              <TextInput value={ayr.tel} onChangeText={x => setAyr(a => ({ ...a, tel: x }))} onSubmitEditing={aramaYap} returnKeyType="search" placeholder={t("Telefon")} placeholderTextColor={C.muted} keyboardType="phone-pad" style={[s.inputTek, { flex: 1, minWidth: 140 }]} />
+              <HizliGirdi value={ayr.ad} onChangeText={x => setAyrHemen(a => ({ ...a, ad: x }))} onSubmitEditing={aramaYap} returnKeyType="search" placeholder={t("Adı soyadı (müvekkil, karşı taraf, vekil)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 2, minWidth: 220 }]} />
+              <HizliGirdi value={ayr.tc} onChangeText={x => setAyrHemen(a => ({ ...a, tc: x }))} onSubmitEditing={aramaYap} returnKeyType="search" placeholder={t("T.C. kimlik / vergi no")} placeholderTextColor={C.muted} keyboardType="number-pad" style={[s.inputTek, { flex: 1, minWidth: 160 }]} />
+              <HizliGirdi value={ayr.tel} onChangeText={x => setAyrHemen(a => ({ ...a, tel: x }))} onSubmitEditing={aramaYap} returnKeyType="search" placeholder={t("Telefon")} placeholderTextColor={C.muted} keyboardType="phone-pad" style={[s.inputTek, { flex: 1, minWidth: 140 }]} />
             </View>
             <View style={s.addRow}>
-              <TextInput value={ayr.adres} onChangeText={x => setAyr(a => ({ ...a, adres: x }))} onSubmitEditing={aramaYap} returnKeyType="search" placeholder={t("Adres (mahalle, sokak, ilçe…)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 2, minWidth: 220 }]} />
-              <TextInput value={ayr.no} onChangeText={x => setAyr(a => ({ ...a, no: x }))} onSubmitEditing={aramaYap} returnKeyType="search" placeholder={t("Dosya / esas no (2024/896)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 150 }]} />
-              <TextInput value={ayr.merci} onChangeText={x => setAyr(a => ({ ...a, merci: x }))} onSubmitEditing={aramaYap} returnKeyType="search" placeholder={t("Mahkeme / merci")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 180 }]} />
+              <HizliGirdi value={ayr.adres} onChangeText={x => setAyrHemen(a => ({ ...a, adres: x }))} onSubmitEditing={aramaYap} returnKeyType="search" placeholder={t("Adres (mahalle, sokak, ilçe…)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 2, minWidth: 220 }]} />
+              <HizliGirdi value={ayr.no} onChangeText={x => setAyrHemen(a => ({ ...a, no: x }))} onSubmitEditing={aramaYap} returnKeyType="search" placeholder={t("Dosya / esas no (2024/896)")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 150 }]} />
+              <HizliGirdi value={ayr.merci} onChangeText={x => setAyrHemen(a => ({ ...a, merci: x }))} onSubmitEditing={aramaYap} returnKeyType="search" placeholder={t("Mahkeme / merci")} placeholderTextColor={C.muted} style={[s.inputTek, { flex: 1, minWidth: 180 }]} />
             </View>
             <View style={[s.row, { gap: 14, alignItems: "center", flexWrap: "wrap" }]}>
               <Pressable onPress={() => setAyr(a => ({ ...a, evrak: !a.evrak }))} accessibilityRole="checkbox" accessibilityState={{ checked: ayr.evrak }} style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
@@ -604,7 +610,7 @@ function GirisMenu({ liste, sahsi, onKapat, onSec, onEvraka }: { liste: Foy[]; s
       <ScrollView contentContainerStyle={s.wrap} keyboardShouldPersistTaps="handled">
         <View style={s.head}><Btn kind="ghost" label={t("‹ Geri")} onPress={() => setAlt(null)} /></View>
         <Text style={s.title}>{t("{tur} hangi föye?", { tur: t(alt.evrakaEkle) })}</Text>
-        <TextInput value={ara} onChangeText={setAra} placeholder={t("Ara: müvekkil, karşı taraf, esas no…")} placeholderTextColor={C.muted} style={s.inputTek} />
+        <HizliGirdi value={ara} onChangeText={setAra} placeholder={t("Ara: müvekkil, karşı taraf, esas no…")} placeholderTextColor={C.muted} style={s.inputTek} />
         {xs.map(f => (
           <Pressable key={f.id} onPress={() => onEvraka(f.id, alt.evrakaEkle!)} style={s.foy}>
             <View style={{ flex: 1 }}>

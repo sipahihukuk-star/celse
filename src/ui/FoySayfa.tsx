@@ -62,8 +62,10 @@ function tarafAdlari(tur?: FoyTur): [string, string] | null {
 }
 
 const sonGirdi = { an: 0 };
-export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz, onAyir, basvuru }: {
+export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz, onAyir, basvuru, taslak }: {
   id: string; liste: Foy[]; ekle?: string;
+  /** yeni açılan föy: "💾 Kaydet"e basılana kadar hiçbir yere kaydedilmez; kaydetmeden çıkılırsa silinir */
+  taslak?: Foy;
   /** "Başvuru yap"tan açıldı: föy başvuru görünümünde açılır (basvuru.ts türü) */
   basvuru?: string; onKapat: () => void; onAc: (id: string) => void; onHazirlan: (f: Foy) => void; ucretsiz?: boolean;
   /** bu föyde toplanmış evrakı ait oldukları föylere ayır */
@@ -121,8 +123,14 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const bedava = !!ucretsiz || prem.evrak;
   const zaman = useRef<ReturnType<typeof setTimeout> | null>(null);
   const son = useRef<Foy | null>(null);
+  // Yeni föy taslağı: kaydedilene kadar kendiliğinden kayıt yok.
+  const taslakRef = useRef(!!taslak && taslak.id === id);
+  const [taslakMi, setTaslakMi] = useState(taslakRef.current);
+  const [cikOnay, setCikOnay] = useState(false);
+  const kaydetIzinli = async (x: Foy) => { if (!taslakRef.current) await foyKaydet(x); };
   useEffect(() => {
     setF(null); setYok(false);
+    if (taslakRef.current && taslak) { son.current = taslak; setF(taslak); return; }
     foyGetir(id).then(x => {
       if (!x) { setYok(true); return; }
       son.current = x; setF(x); setDurusmaYazi(x.durusma ? tarihYaz(x.durusma) : "");
@@ -139,6 +147,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     // kabul / red işaretlenmedikçe yeniden açılır.
     const og = otoIsleriEsitle(y); if (og) y.gorevler = og;
     son.current = y;
+    if (taslakRef.current) return y;
     if (zaman.current) clearTimeout(zaman.current);
     zaman.current = setTimeout(() => { foyKaydet(y).catch(e => setErr(t(String((e as Error).message || e)))); zaman.current = null; }, 500);
     return y;
@@ -178,6 +187,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   // "💾 Kaydet": değişiklikler zaten birkaç saniye içinde kendiliğinden kaydedilir; düğme hemen kaydeder ve bunu gösterir.
   const [kayitAni, setKayitAni] = useState("");
   const kaydetDugme = async () => {
+    if (taslakRef.current) { taslakRef.current = false; setTaslakMi(false); }
     await hemenKaydet();
     const x = son.current || f; if (x) await foyKaydet(x);
     const d = new Date();
@@ -186,10 +196,10 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const kaydetSatiri = (
     <View style={[s.row, { gap: 10, alignItems: "center", flexWrap: "wrap" }]}>
       <Btn label={t("💾 Kaydet")} onPress={kaydetDugme} />
-      <Text style={[s.hint, { color: kayitAni ? C.good : C.muted }]}>{kayitAni ? t("Kaydedildi · {s}", { s: kayitAni }) : t("Değişiklikler birkaç saniye içinde kendiliğinden de kaydedilir.")}</Text>
+      <Text style={[s.hint, { color: kayitAni ? C.good : taslakMi ? C.mid : C.muted }]}>{kayitAni ? t("Kaydedildi · {s}", { s: kayitAni }) : taslakMi ? t("Yeni föy: “💾 Kaydet”e basana kadar kaydedilmez. Kaydetmeden çıkarsanız silinir.") : t("Değişiklikler birkaç saniye içinde kendiliğinden de kaydedilir.")}</Text>
     </View>
   );
-  useEffect(() => () => { if (zaman.current && son.current) { clearTimeout(zaman.current); foyKaydet(son.current).catch(() => {}); } }, []);
+  useEffect(() => () => { if (zaman.current && son.current && !taslakRef.current) { clearTimeout(zaman.current); foyKaydet(son.current).catch(() => {}); } }, []);
   const zin = useMemo(() => (f ? zincir(f, liste) : { onceki: [], sonraki: [] }), [f, liste]);
   // Evraktan iş adayları her çizimde yeniden okunmasın: yalnız evrak ya da işler değişince.
   const tekFoy = useMemo(() => (f ? [f] : []), [f?.id, f?.evraklar, f?.gorevler, f?.durum]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -486,7 +496,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const icraBlok = (f.tur === "icra" || !!f.icra) ? (
         <Katlanir anahtar="icra" baslik={t("İcra takibi bilgileri")} varsayilan ozet={f.icra?.asil ? t("asıl alacak {x}", { x: tl(f.icra.asil, f.icra.paraBirimi || "TL") }) : t("doldurulmadı")}>
           {!!icraMesaj && <Text style={[s.hint, { color: C.good }]}>{icraMesaj}</Text>}
-          <IcraBolum f={f} degistir={degistir} surum={surum} okuma={okuma} hata={err} guncel={() => son.current || f} yenile={() => setSurum(v => v + 1)} onKaydet={async () => { await hemenKaydet(); if (!zaman.current) await foyKaydet(son.current || f); }} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} bizimAdlar={bizimAdlar()} onMetinEkle={async metin => {
+          <IcraBolum f={f} degistir={degistir} surum={surum} okuma={okuma} hata={err} guncel={() => son.current || f} yenile={() => setSurum(v => v + 1)} onKaydet={async () => { await hemenKaydet(); if (!zaman.current) await kaydetIzinli(son.current || f); }} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} bizimAdlar={bizimAdlar()} onMetinEkle={async metin => {
             // Yapıştırılan metin, dosya gibi okunur (tür, kodlu hâl, künye, icra bilgisi).
             const g = new Date(); const p2 = (n: number) => String(n).padStart(2, "0");
             const ad = `Yapıştırılan metin ${p2(g.getDate())}.${p2(g.getMonth() + 1)}.${g.getFullYear()} ${p2(g.getHours())}.${p2(g.getMinutes())}.txt`;
@@ -579,7 +589,28 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         )}
       </Katlanir>
   );
-  const geri = async () => { await hemenKaydet(); onKapat(); };
+  const geri = async () => { if (taslakRef.current) { setCikOnay(true); try { (nav.ref.current as unknown as { scrollTo?: (o: { y: number; animated: boolean }) => void })?.scrollTo?.({ y: 0, animated: true }); } catch { /* yok say */ } return; } await hemenKaydet(); onKapat(); };
+  // Kaydedilmemiş yeni föyden çıkarken sorulur.
+  const cikSor = cikOnay && (
+    <View style={[s.warn, { gap: 6 }]}>
+      <Text style={s.warnT}>{t("Bu yeni föy kaydedilmedi.")}</Text>
+      <Text style={s.warnD}>{t("Kaydetmeden çıkarsanız yazdıklarınız silinir.")}</Text>
+      <View style={[s.row, { gap: 8 }]}>
+        <Btn label={t("💾 Kaydet ve çık")} onPress={async () => { await kaydetDugme(); setCikOnay(false); onKapat(); }} />
+        <Btn kind="ghost" label={t("Kaydetmeden çık")} onPress={() => { setCikOnay(false); onKapat(); }} />
+        <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setCikOnay(false)} />
+      </View>
+    </View>
+  );
+  // Her görünümün sonunda: föyü sil (taslak föy yalnız kapatılır, hiç kaydedilmemiştir).
+  const silSatiri = (
+    <View style={s.row}>
+      {yetkim === "yaz" ? <Text style={s.hint}>{t("Ünvanınızın föy silme yetkisi yok.")}</Text> : !silOnay ? <Btn kind="ghost" label={t("Föyü sil")} onPress={() => setSilOnay(true)} />
+        : <><Text style={[s.err, { alignSelf: "center" }]}>{taslakMi ? t("Kaydedilmemiş bu yeni föy kapatılacak.") : t("Föy, evrakı ve görevleriyle bu cihazdan silinecek.")}</Text>
+          <Btn kind="ghost" label={t("Evet, sil")} onPress={async () => { if (zaman.current) clearTimeout(zaman.current); zaman.current = null; const x = son.current; son.current = null; if (!taslakRef.current) await foySil(x || f); onKapat(); }} />
+          <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setSilOnay(false)} /></>}
+    </View>
+  );
   const bt = basvuruBul(bsv);
   const yaziAd = f.tur === "icra" ? t("✍ Talep yaz") : t("✍ Beyan / dilekçe yaz");
   const beyanBlok = (acikGelsin: boolean) => (
@@ -618,6 +649,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       <Text style={s.eyebrow}>{[t("BAŞVURU"), t(bt.ad).replace(/^\S+\s/, ""), f.foyNo].filter(Boolean).join(" · ").toLocaleUpperCase("tr")}</Text>
       <Text style={s.title}>{foyBaslik(f)}</Text>
       {kaydetSatiri}
+      {cikSor}
       <Katlanir anahtar={"gereken-" + bt.k} varsayilan baslik={t("Hazırlanması gerekenler")} ozet={t("{n} madde", { n: bt.gerekenler.length })}>
         {bt.gerekenler.map((x, i) => <Text key={i} style={s.body}>☐ {t(x)}</Text>)}
       </Katlanir>
@@ -626,6 +658,10 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       {kunyeBlok}
       {beyanBlok(!bt.icra && !bt.talep)}
       {bt.talep && talepBlok(true)}
+      <View style={[s.card, { gap: 8 }]}>
+        {kaydetSatiri}
+        {silSatiri}
+      </View>
     </ScrollView>
     <FloatingNav nav={nav} onBack={geri} backLabel={t("‹ Geri")} />
     </View>
@@ -640,6 +676,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       {!!(f.mahkeme || f.esasNo) && <Text style={[s.body, { fontWeight: "800", fontSize: 17, color: C.brass }]}>{[f.mahkeme, f.esasNo].filter(Boolean).join(" · ")}</Text>}
       <Text style={s.title}>{foyBaslik(f)}</Text>
       {kaydetSatiri}
+      {cikSor}
       {f.ozel && <Text style={[s.turChip, s.ozelChip]}>🔒 {t("ŞAHSİ DOSYA · ŞİFRELİ SAKLANIR")}</Text>}
 
       {(() => {
@@ -807,11 +844,8 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
           if ((await ozelKilitDurumu()) !== "acik") { setKilitSor(true); return; }
           await sahsiyeTasi();
         }} />
-        {yetkim === "yaz" ? <Text style={s.hint}>{t("Ünvanınızın föy silme yetkisi yok.")}</Text> : !silOnay ? <Btn kind="ghost" label={t("Föyü sil")} onPress={() => setSilOnay(true)} />
-          : <><Text style={[s.err, { alignSelf: "center" }]}>{t("Föy, evrakı ve görevleriyle bu cihazdan silinecek.")}</Text>
-            <Btn kind="ghost" label={t("Evet, sil")} onPress={async () => { if (zaman.current) clearTimeout(zaman.current); zaman.current = null; son.current = null; await foySil(f); onKapat(); }} />
-            <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setSilOnay(false)} /></>}
       </View>
+      {silSatiri}
       {kilitSor && <OzelKilitSatir dugme={t("Kilidi aç ve taşı")} onAcildi={async () => { setKilitSor(false); await sahsiyeTasi(); }} onVazgec={() => setKilitSor(false)} />}
       {!!tasiHata && <Text style={s.err}>{tasiHata}</Text>}
       {!!tasiBilgi && <Text style={[s.hint, { color: C.good }]}>{tasiBilgi}</Text>}
