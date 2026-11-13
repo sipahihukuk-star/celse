@@ -9,6 +9,7 @@ import { t } from "../i18n";
 import { useAccount } from "../data/account";
 import { uyapXml, vekilEksik } from "../data/icraXml";
 import { Acilir } from "./Acilir";
+import { IcraHazirla } from "./IcraHazirla";
 import { IcraSohbet } from "./IcraSohbet";
 import { IcraOrnekleri } from "./IcraOrnekleri";
 import { dilekceYazari, evrakTuruBul, hukumAnaliz, hukumBolumu, ilamdanTaraflar, ilamTaraflari, Lehine, Talep, talepAnaliz } from "../data/icraEvrak";
@@ -115,6 +116,7 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
           )}
         </View>
       )}
+      <IcraHazirla f={f} degistir={degistir} guncel={guncel} yenile={yenile} onKaydet={onKaydet} />
       <IcraSohbet f={f} degistir={degistir} onMetinEkle={onMetinEkle} onKaydet={onKaydet} guncel={guncel} yenile={yenile} bizimAdlar={bizimAdlar} />
       <HukumOnizleme f={f} degistir={degistir} bizimAdlar={bizimAdlar} kalemSayisi={ks.filter(k => k.tutar).length} onKabul={async xs => { kalemlerYaz(xs); if (onKaydet) await onKaydet(); }} />
 
@@ -322,7 +324,7 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
         {alan("Büro adresi", vekil.adres || "", v => setVekil({ adres: v }), "… / İZMİR", 300)}
       </View>
       <View style={{ gap: 4, borderWidth: 1, borderColor: C.brassDim, borderRadius: 10, padding: 10 }}>
-        <Text style={[s.body, { color: C.text }]}>{t("2. UYAP'a yükleme")}</Text>
+        <Text style={[s.body, { color: C.text }]}>{t("3. UYAP'a yükleme")}</Text>
         <Text style={s.hint}>{t("a) “UYAP XML indir” ile dosyayı indirin (İndirilenler klasörüne düşer). b) UYAP Avukat Portal → menü → Dava Açılış İşlemleri → İcra Takip Açılış – XML. c) İl, adliye, kota / daire tevzi tipi ve takip tipini seçin. d) “Dosya Seç” ile indirdiğiniz .xml dosyasını seçin ve takibi başlatın. e) Takip “Tamamlanmayan Dosyalarım”a düşer: orada kontrol edip dayanak evrakı ekler, imzalar ve harcı yatırırsınız.")}</Text>
       </View>
       <View style={[s.row, { flexWrap: "wrap" }]}>
@@ -456,6 +458,8 @@ function HukumOnizleme({ f, degistir, kalemSayisi, bizimAdlar, onKabul }: { f: F
   const [tarafMesaj, setTarafMesaj] = useState("");
   React.useEffect(() => {
     if (!yerlesim || !Object.keys(yerlesim.ek).length) return;
+    // Yapay zekâyla hazırlanıp avukatça onaylanan taraflar kurallı okumayla değiştirilmez.
+    if (f.icra?.yzHazirlik) return;
     // Taraf seçimi föye henüz yazılmadıysa (yukarıdaki düzeltme) önce o yazılsın.
     if (tespit?.kesin && (f.taraf || "davaci") !== (yan === "ikinci" ? "davali" : "davaci")) return;
     degistir(yerlesim.ek);

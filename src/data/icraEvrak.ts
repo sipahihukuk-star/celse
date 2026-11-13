@@ -86,7 +86,7 @@ export function ilamTaraflari(metin: string): IlamTaraflari {
 }
 
 const sade = (x?: string) => ust(x || "").replace(/[^A-ZÇĞİÖŞÜ ]/g, " ").replace(/\b(A Ş|LTD|ŞTİ|ANONİM|LİMİTED|ŞİRKETİ)\b/g, " ").replace(/\s+/g, " ").trim();
-const ayniKisi = (a?: string, b?: string) => { const x = sade(a), y = sade(b); return x.length > 3 && y.length > 3 && (x.includes(y) || y.includes(x)); };
+export const ayniKisi = (a?: string, b?: string) => { const x = sade(a), y = sade(b); return x.length > 3 && y.length > 3 && (x.includes(y) || y.includes(x)); };
 
 /**
  * İlamın başındaki taraflardan takibin alacaklısı (müvekkil) ve borçlusu (karşı taraf): bizim tarafımız alacaklı, öteki taraf

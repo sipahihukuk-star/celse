@@ -139,26 +139,37 @@ export function mask(text: string, opts: MaskOptions = {}): MaskResult {
     }
   }
   // Tarafların adı metnin her yerinde: tam ad (büyük-küçük harf farkıyla) ve tek başına soyadı ya da adı.
+  // Önce tam adlar, sonra elle eklenenler (2), en son tek sözcükler: bir tarafın tek sözcüğü (ör. vekilin adı) başka bir kişinin
+  // tam adının ortasını kodlayıp o adı tanınmaz (ve yarısı açık) bırakmasın.
   for (const p of people) {
     if (kinds.get(p.code) === "sirket") { put(new RegExp(`${esc(p.value)}${EK}`, "g"), m => { count(p.code); return p.code + suffixOf(m, p.value); }); continue; }
     const parts = p.value.split(/\s+/);
     const variants = new Set([p.value, trUp(p.value), parts.map(x => x[0] + trLow(x.slice(1))).join(" ")]);
     for (const v of variants) put(new RegExp(`(?<![${UP}${LOW}])${esc(v)}${EK}`, "g"), m => { count(p.code); return p.code + suffixOf(m, v); });
-    for (const part of parts) {
-      if (part.length < 2 || (part.length < 3 && part !== trUp(part))) continue;
-      for (const v of new Set([part, trUp(part), part[0] + trLow(part.slice(1))])) {
-        if (v.length < 3 && v !== trUp(v)) continue;
-        put(new RegExp(`(?<![${UP}${LOW}\\[])${esc(v)}(?![${LOW}${UP}])${EK}`, "g"), m => { count(p.code); return p.code + suffixOf(m, v); });
+  }
+  const tekSozcukler = () => {
+    for (const p of people) {
+      if (kinds.get(p.code) === "sirket") continue;
+      for (const part of p.value.split(/\s+/)) {
+        if (part.length < 2 || (part.length < 3 && part !== trUp(part))) continue;
+        for (const v of new Set([part, trUp(part), part[0] + trLow(part.slice(1))])) {
+          if (v.length < 3 && v !== trUp(v)) continue;
+          put(new RegExp(`(?<![${UP}${LOW}\\[])${esc(v)}(?![${LOW}${UP}])${EK}`, "g"), m => { count(p.code); return p.code + suffixOf(m, v); });
+        }
       }
     }
-  }
+  };
 
   // 2) Elle eklenen ifadeler.
   for (const x of opts.extra || []) {
     const v = x.trim();
     if (v.length < 2) continue;
-    put(new RegExp(`${esc(v)}${EK}`, "g"), m => { const c = codeFor("elle", "GİZLİ", v); count(c); return c + suffixOf(m, v); });
+    // Evrakta ad büyük harfle de yazılır ("AYŞE YILMAZ"): yazılışın büyük, küçük ve baş harfi büyük biçimleri de aynı koda döner.
+    const bicim = [v, trUp(v), trLow(v), trLow(v).split(" ").map(w => trUp(w.slice(0, 1)) + w.slice(1)).join(" ")];
+    for (const b of [...new Set(bicim)]) put(new RegExp(`${esc(b)}${EK}`, "g"), m => { const c = codeFor("elle", "GİZLİ", v); count(c); return c + suffixOf(m, b); });
   }
+
+  tekSozcukler();
 
   // 3) Adres satırları (numaralardan önce: kapı ve kat numaraları adresle birlikte gider).
   // "Adres:" etiketli satır tümüyle; metin içinde ise sokak/cadde öbeği (öncesindeki ve sonrasındaki büyük harfli sözcükler, No/Kat/Daire ve numaralar).

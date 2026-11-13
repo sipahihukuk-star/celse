@@ -2,6 +2,7 @@
 import { call } from "../data/danisma";
 import { Foy } from "../data/foy";
 import { FaizTuru, MAHIYETLER, TakipYolu } from "../data/icra";
+import { hazirlikAdlari, hazirlikCoz, IcraHazirlik } from "../data/icraHazirla";
 import type { TalimatAlanlari } from "../data/icraTalimat";
 import { ac, FAIZLER, IcraDegisiklik, icraSoruKaynagi, IcraSohbetSatiri, SIZINTI, YOLLAR } from "../data/icraSohbet";
 export { degisiklikOzeti } from "../data/icraSohbet";
@@ -56,3 +57,11 @@ export async function icraSor(f: Foy, soru: string, yapistirilan = ""): Promise<
   return { ok: true, satir, degisiklik };
 }
 
+
+export async function icraHazirla(f: Foy, talimat = ""): Promise<{ ok: true; h: IcraHazirlik } | { ok: false; hata: string; vars?: Record<string, string | number>; status?: number }> {
+  const k = icraSoruKaynagi(f, talimat.trim() || "Takibi hazırla", [], "", 110000, hazirlikAdlari(f));
+  if (SIZINTI.test(k.dosya + " " + k.soru)) return { ok: false, hata: "Metinde gizlenmemiş kişisel veri (kimlik no, IBAN ya da e-posta) kalmış olabilir; gönderilmedi. Bu bilgiyi metinden çıkarın." };
+  const r = await call<{ sonuc?: Record<string, unknown> }>("icra_hazirla", { dosya: k.dosya, talimat: talimat.trim() ? k.soru : "", akis: true }, 300000);
+  if (!r.ok) return { ok: false, hata: r.error, vars: r.vars as Record<string, string | number> | undefined, status: r.status };
+  return { ok: true, h: hazirlikCoz(r.data.sonuc || {}, k.map, k.tarihler) };
+}
