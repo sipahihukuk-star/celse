@@ -35,6 +35,10 @@ export const tutanakIsId = (d: Durusma) => "oto-t-" + d.id;
 export const TUTANAK_GUN = 45;
 /** Ara karar işleri yalnız bu kadar gün içinde föye eklenen evraktan çıkar. */
 export const YENI_EVRAK_GUN = 10;
+/** Evraktan iş çıkarma bu günden sonra föye eklenen evrak için çalışır (eski aktarımlardan iş yağmasın). */
+export const EVRAK_IS_BASLANGIC = "2026-11-13";
+/** Evrakın kendi tarihi (oturum / yazı tarihi) föye eklendiği günden en çok bu kadar eski olabilir; eski yılların ara kararı iş olmaz. */
+export const EVRAK_TAZE_GUN = 30;
 /** Bu iş kendiliğinden açılan e-duruşma işi mi? (duruşma kimliğini verir) */
 export const eIsDurusma = (g: Gorev) => (g.id.startsWith("oto-e-") ? g.id.slice(6) : undefined);
 
@@ -76,7 +80,8 @@ export function otoIsleriEsitle(f: Foy, bugun = bugunGun()): Gorev[] | null {
   const eksik = kunyeEksikleri(f);
   const ke = kalan.get(KUNYE_IS);
   kalan.delete(KUNYE_IS);
-  if (acik && eksik.length && !(f.silinen || []).includes(KUNYE_IS)) {
+  if (ke?.bitti && eksik.length) yeni.push(ke); // elle kapatıldıysa kapalı kalır
+  else if (acik && eksik.length && !(f.silinen || []).includes(KUNYE_IS)) {
     const metin = `Künyeyi tamamlayın: ${eksik.join(", ")} yok`;
     yeni.push(ke && !ke.bitti && ke.metin === metin ? ke : { ...(ke || { eklenme: bugun }), id: KUNYE_IS, metin, bitti: false, kapanis: undefined, kaynak: "oto" });
   } else if (ke) {
@@ -106,13 +111,25 @@ export function otoIsleriEsitle(f: Foy, bugun = bugunGun()): Gorev[] | null {
     }
   }
 
-  // Ara karar: föye son günlerde eklenen tutanak / ara kararda bizim tarafa verilen görevler iş olur (bir kez; silinirse dönmez).
+  // Ara karar ve resmî yazı: föye son günlerde eklenen, kendi tarihi de yeni olan tutanak / yazıda bize verilen görevler iş olur
+  // (bir kez; silinirse dönmez). Eski tarihli evraktan (aktarılan geçmiş yılların tutanakları) iş çıkmaz; daha önce çıkmış ve
+  // yapılmamış olanlar kaldırılır.
+  const tazeMi = (e: { eklenme?: string }, belge?: string) => {
+    const ekl = (e.eklenme || "").slice(0, 10);
+    return ekl >= EVRAK_IS_BASLANGIC && !!belge && belge <= gunEkle(ekl, 1) && belge >= gunEkle(ekl, -EVRAK_TAZE_GUN);
+  };
+  for (const [id, g] of [...kalan]) if (id.startsWith("oto-ak-")) {
+    if (g.bitti) continue;
+    const e = (f.evraklar || []).find(x => id.startsWith("oto-ak-" + x.id + "-"));
+    if (!e || !tazeMi(e, evrakOku(e, taraf).belge)) kalan.delete(id);
+  }
   const yeniEvrak = gunEkle(bugun, -YENI_EVRAK_GUN);
   for (const e of f.evraklar || []) {
     if ((e.eklenme || "").slice(0, 10) < yeniEvrak) continue;
+    if (!tazeMi(e, evrakOku(e, taraf).belge)) continue;
     evrakOku(e, taraf).isler.forEach((x, i) => {
       const id = "oto-ak-" + e.id + "-" + i;
-      if (xs.some(g => g.id === id) || silinen.has(id)) return;
+      if (kalan.has(id) || silinen.has(id)) return;
       yeni.push({ id, metin: x.metin, tarih: x.tarih, bitti: false, kaynak: "evrak", eklenme: bugun });
     });
   }

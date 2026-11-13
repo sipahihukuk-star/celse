@@ -620,7 +620,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
             <View style={{ flex: 1, gap: 6 }}>
               <Text style={s.body}>{x.metin}</Text>
               {(() => { const u = uyariDuzeyi(x, f); return <Text style={[s.hint, { color: DUZEY_RENK[u.duzey], fontWeight: "700" }]}>{[duzeyAdi(u.duzey), t(u.metin), x.tarih ? tarihYaz(x.tarih) : "", x.atananAd ? "👤 " + x.atananAd : "", x.kaynak === "yapay" ? t("yapay zekâ önerisi, kontrol edin") : ""].filter(Boolean).join(" · ")}</Text>; })()}
-              {kapatId === x.id && <GorevKapat g={x} onVazgec={() => setKapatId(null)} onKapat={k => { gorevDegistir(x, { bitti: true, kapanis: k }); setKapatId(null); }} />}
+              {kapatId === x.id && <GorevKapat g={x} onVazgec={() => setKapatId(null)} onKapat={k => { gorevDegistir(x, { bitti: true, kapanis: k }); setKapatId(null); }} onSil={eIsDurusma(x) ? undefined : () => { gorevDegistir(x, null); setKapatId(null); }} />}
               {!!eIsDurusma(x) && (
                 <View style={s.row}>
                   <Btn kind="secondary" label={t("✓ E-duruşma kabul edildi")} onPress={() => degistir(eKarar(f, eIsDurusma(x)!, "kabul"))} />
@@ -628,7 +628,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
                 </View>
               )}
               {x.kaynak === "oto" && <Text style={s.hint}>{eIsDurusma(x) ? t("Kendiliğinden açılan iş: kabul ya da red işaretlenince kapanır (duruşma gününün yanındaki “E-duruşma” kutusuna sol tık kabul, sağ tık red).") : x.id.startsWith("oto-t-") ? t("Kendiliğinden açılan iş: o günün tutanağı föye eklenince kapanır.") : t("Kendiliğinden açılan iş: künye tamamlanınca kapanır.")}</Text>}
-              {x.kaynak === "evrak" && <Text style={s.hint}>{t("Föye eklenen evraktaki ara karardan çıkarıldı; son gün süreden hesaplandı, kontrol edin.")}</Text>}
+              {x.kaynak === "evrak" && <Text style={s.hint}>{t("Föye yeni eklenen tutanağın ara kararından ya da kurum yazısından çıkarıldı; son gün süreden hesaplandı, kontrol edin.")}</Text>}
             </View>
             {!eIsDurusma(x) && <Pressable onPress={() => gorevDegistir(x, null)}><Text style={s.sil}>{t("Sil")}</Text></Pressable>}
           </View>
@@ -640,7 +640,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         </View>
         <SesliIsGir onEkle={xs => { const g = son.current || f; degistir({ gorevler: [...g.gorevler, ...xs] }); }}
           onGeriAl={ids => { const g = son.current || f; degistir({ gorevler: g.gorevler.filter(x => !ids.includes(x.id)), silinen: silineniNotEt(g, ids) }); }} />
-        {biten.length > 0 && <Text style={s.hint}>{t("Tamamlanan")}: {biten.map(x => x.metin + (x.kapanis ? ` (${t("no")}: ${x.kapanis.no}, ${tarihYaz(x.kapanis.tarih)})` : "")).join(" · ")}</Text>}
+        {biten.length > 0 && <Text style={s.hint}>{t("Tamamlanan")}: {biten.map(x => x.metin + (x.kapanis ? ` (${x.kapanis.no ? t("no") + ": " + x.kapanis.no + ", " : ""}${tarihYaz(x.kapanis.tarih)})` : "")).join(" · ")}</Text>}
       </Katlanir>
 
       <Katlanir anahtar="evrak" baslik={`${t("Evrak")} (${f.evraklar.length})`} zorla={!!ekle} ozet={f.evraklar.length ? t("{n} evrak", { n: f.evraklar.length }) : t("evrak yok")}>

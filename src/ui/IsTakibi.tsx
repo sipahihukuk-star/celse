@@ -2,7 +2,7 @@
 // iş emri / evrak numarasıyla kapanır. Yeni iş buradan da eklenir; liste Excel'e aktarılır.
 import React, { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { bosFoy, Foy, foyBaslik, foyKaydet, Gorev, tarihCoz, tarihYaz, yeniId } from "../data/foy";
+import { bosFoy, Foy, foyBaslik, foyKaydet, Gorev, silineniNotEt, tarihCoz, tarihYaz, yeniId } from "../data/foy";
 import { FoyTur, TURLER } from "../data/foyTurleri";
 import { bugunStr, duzeySayilari, DUZEY_SIRA, isListesi, IsSuzgec, isTablosu } from "../data/isTakibi";
 import { xlsxYaz } from "../data/xlsxYaz";
@@ -44,7 +44,7 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
 
   const eYaz = async (f: Foy, g: Gorev, karar: "kabul" | "red") => { const d = eIsDurusma(g); if (d) await foyKaydet({ ...f, ...eKarar(f, d, karar) }); };
   const gorevYaz = async (f: Foy, g: Gorev, ek: Partial<Gorev> | null) => {
-    await foyKaydet({ ...f, gorevler: ek ? f.gorevler.map(x => (x.id === g.id ? { ...x, ...ek } : x)) : f.gorevler.filter(x => x.id !== g.id) });
+    await foyKaydet({ ...f, gorevler: ek ? f.gorevler.map(x => (x.id === g.id ? { ...x, ...ek } : x)) : f.gorevler.filter(x => x.id !== g.id), silinen: silineniNotEt(f, [g.id]) });
   };
 
   // Yeni iş: föy aranıp seçilir.
@@ -88,7 +88,7 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
       <View style={s.head}><Btn kind="ghost" label={t("‹ Föylere dön")} onPress={onKapat} /></View>
       <Text style={s.eyebrow}>{t("DAVA TAKİBİ · YAPILACAKLAR")}</Text>
       <Text style={s.title}>{t("Yapılacaklar")}</Text>
-      <Text style={s.hint}>{t("Bütün föylerdeki işler. Uyarı son gün gelince değil, gün geçtikçe artar: kalan gün azaldıkça ve işin eklendiği günden son güne kadarki sürenin yarısı, dörtte üçü geçtikçe renk koyulaşır. Son günü yazılmamış işler de bekledikçe uyarır. Bir iş, iş emri / evrak numarası yazılmadan kapanmaz.")}</Text>
+      <Text style={s.hint}>{t("Bütün föylerdeki işler. Uyarı son gün gelince değil, gün geçtikçe artar: kalan gün azaldıkça ve işin eklendiği günden son güne kadarki sürenin yarısı, dörtte üçü geçtikçe renk koyulaşır. Son günü yazılmamış işler de bekledikçe uyarır. “Kapat…” ile işi kapatın; numara yazmak isteğe bağlıdır.")}</Text>
 
       <DurusmaUyarilari liste={liste} onAc={onAc} />
 
@@ -174,11 +174,11 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
                 <Text style={[s.body, { color: g.bitti ? C.muted : C.text, textDecorationLine: g.bitti ? "line-through" : "none" }]}>{g.metin}</Text>
                 <Pressable onPress={() => onAc(f.id)}><Text style={[s.hint, { textDecorationLine: "underline" }]} numberOfLines={1}>{foyBaslik(f)} · {[f.mahkeme, f.esasNo].filter(Boolean).join(" ")}</Text></Pressable>
                 {g.bitti
-                  ? <Text style={[s.hint, { color: C.good }]}>{g.kapanis ? t("Kapandı {d} · no: {no}{g}", { d: tarihYaz(g.kapanis.tarih), no: g.kapanis.no, g: g.kapanis.kaynak === "gorsel" ? " · " + t("görselden okundu") : "" }) : t("Numarasız kapatılmış (eski kayıt)")}</Text>
+                  ? <Text style={[s.hint, { color: C.good }]}>{g.kapanis ? (g.kapanis.no ? t("Kapandı {d} · no: {no}{g}", { d: tarihYaz(g.kapanis.tarih), no: g.kapanis.no, g: g.kapanis.kaynak === "gorsel" ? " · " + t("görselden okundu") : "" }) : t("Kapandı {d}", { d: tarihYaz(g.kapanis.tarih) })) : t("Numarasız kapatılmış (eski kayıt)")}</Text>
                   : <Text style={{ color: renk, fontSize: 13, fontWeight: "700" }}>{duzeyAdi(u.duzey)} · {t(u.metin)}{g.tarih ? " · " + t("son gün {d}", { d: tarihYaz(g.tarih) }) : ""}</Text>}
                 {g.kaynak === "yapay" && !g.bitti && <Text style={s.hint}>{t("yapay zekâ önerisi, kontrol edin")}</Text>}
                 {g.kaynak === "oto" && !g.bitti && <Text style={s.hint}>{eIsDurusma(g) ? t("kendiliğinden açıldı; kabul ya da red işaretlenince kapanır") : g.id.startsWith("oto-t-") ? t("kendiliğinden açıldı; tutanak föye eklenince kapanır") : t("kendiliğinden açıldı; künye tamamlanınca kapanır")}</Text>}
-                {g.kaynak === "evrak" && !g.bitti && <Text style={s.hint}>{t("evraktaki ara karardan; son günü kontrol edin")}</Text>}
+                {g.kaynak === "evrak" && !g.bitti && <Text style={s.hint}>{t("yeni tutanağın ara kararından ya da kurum yazısından; son günü kontrol edin")}</Text>}
                 {uyeler.length > 1 && !g.bitti
                   ? <Acilir etiket={t("Kimde")} secili={g.atanan || ""} genislik={260} secenekler={kisiSecenek} onSec={k => gorevYaz(f, g, atama(k))} />
                   : !!g.atananAd && <Text style={s.hint}>👤 {g.atananAd}</Text>}
@@ -189,7 +189,7 @@ export function IsTakibi({ liste, onAc, onKapat }: { liste: Foy[]; onAc: (id: st
               {g.bitti && !g.kapanis && <Btn kind="ghost" label={t("Numara ekle")} onPress={() => setKapat(g.id)} />}
               {g.bitti && g.kaynak !== "oto" && <Pressable onPress={() => gorevYaz(f, g, { bitti: false, kapanis: undefined })}><Text style={s.sil}>{t("Yeniden aç")}</Text></Pressable>}
             </View>
-            {kapat === g.id && <GorevKapat g={g} onVazgec={() => setKapat(null)} onKapat={async k => { await gorevYaz(f, g, { bitti: true, kapanis: k }); setKapat(null); }} />}
+            {kapat === g.id && <GorevKapat g={g} onVazgec={() => setKapat(null)} onKapat={async k => { await gorevYaz(f, g, { bitti: true, kapanis: k }); setKapat(null); }} onSil={eIsDurusma(g) ? undefined : async () => { await gorevYaz(f, g, null); setKapat(null); }} />}
           </View>
         );
       }} />
