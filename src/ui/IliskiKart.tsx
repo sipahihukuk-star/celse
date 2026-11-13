@@ -128,14 +128,14 @@ export function IliskiKart({ liste, onAc, odak, odakDegistir }: { liste: Foy[]; 
       <Text style={odak ? [s.body, { color: C.text, fontWeight: "700" }] : s.cardT}>🔗 {odak ? t("Bu dosyayla ilgili olabilecek dosyalar ({n})", { n: oneriler.length }) : t("Bağlantı önerileri ({n})", { n: oneriler.length })}</Text>
       <Text style={s.hint}>{t("Dosya numaraları, kimlik numaraları, taraf adları ve dosya türlerine bakılarak bu cihazda bulundu; hiçbir bilgi dışarı gönderilmedi. Uygun olanı bağlayın, olmayana “Değil” deyin.")}</Text>
       {!topluOnay ? (
-        <View style={[s.row, { gap: 14 }]}>
-          {evrakOneri.length > 1 && <Pressable onPress={() => setTopluOnay("evrak")}><Text style={[s.link, { fontSize: 13 }]}>{t("🗑 Evrak önerilerini temizle ({n})", { n: evrakOneri.length })}</Text></Pressable>}
-          {oneriler.length > 1 && <Pressable onPress={() => setTopluOnay("hepsi")}><Text style={[s.link, { fontSize: 13, color: C.muted }]}>{t("Hepsini temizle ({n})", { n: oneriler.length })}</Text></Pressable>}
+        <View style={[s.row, { gap: 8, alignItems: "center" }]}>
+          {oneriler.length > 1 && <Btn kind="secondary" label={t("🗑 Toplu sil ({n})", { n: oneriler.length })} onPress={() => setTopluOnay("hepsi")} />}
+          {evrakOneri.length > 1 && evrakOneri.length < oneriler.length && <Btn kind="ghost" label={t("Yalnız evrak önerilerini sil ({n})", { n: evrakOneri.length })} onPress={() => setTopluOnay("evrak")} />}
         </View>
       ) : (
         <View style={[s.row, { gap: 8, alignItems: "center" }]}>
-          <Text style={[s.hint, { flex: 1, minWidth: 200 }]}>{t("{n} öneri listeden kalkacak ve bir daha önerilmeyecek. Evrak silinmez, olduğu föyde kalır.", { n: topluOnay === "evrak" ? evrakOneri.length : oneriler.length })}</Text>
-          <Btn kind="secondary" label={t("Temizle")} onPress={() => topluTemizle(topluOnay === "evrak" ? evrakOneri : oneriler)} />
+          <Text style={[s.body, { flex: 1, minWidth: 200, color: C.bad }]}>{t("Emin misiniz? {n} öneri listeden silinecek ve bir daha önerilmeyecek. Föyler ve evrak silinmez.", { n: topluOnay === "evrak" ? evrakOneri.length : oneriler.length })}</Text>
+          <Btn label={t("Evet, sil")} onPress={() => topluTemizle(topluOnay === "evrak" ? evrakOneri : oneriler)} />
           <Btn kind="ghost" label={t("Vazgeç")} onPress={() => setTopluOnay(null)} />
         </View>
       )}

@@ -2,10 +2,12 @@
 // suç duyurusu, AYM, AİHM, Tazminat Komisyonu, kurum başvurusu ve görülen davada talepler tek yerde. Tür seçilince ne
 // gerektiği listelenir; o türdeki bir föy seçilir ya da yeni başvuru föyü açılır ve föy "başvuru" görünümünde açılır
 // (dilekçe / belge yazma, icra takibi, talepler). Gelen evrak (UYAP'tan indirilen) föyün kendi görünümünde kalır.
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { BASVURULAR, basvuruBul } from "../data/basvuru";
-import { bosFoy, Foy, foyBaslik } from "../data/foy";
+import { bosFoy, Foy, foyBaslik, foySil } from "../data/foy";
+import { buroYetkim } from "../data/buro";
+import { KaydirSil } from "./KaydirSil";
 import { DAVA_TURLERI, turBilgi } from "../data/foyTurleri";
 import { t } from "../i18n";
 import { s } from "./foyStil";
@@ -18,6 +20,9 @@ export function BasvuruSekmesi({ liste, onAc }: { liste: Foy[]; onAc: (id: strin
   const [hata, setHata] = useState("");
   // "Hangi dava": hukuk davası, soruşturma… için konu (föyde "Konu" olur); boş bırakılabilir.
   const [konu, setKonu] = useState("");
+  const [silinen, setSilinen] = useState<Set<string>>(new Set());
+  const [yetki, setYetki] = useState<string | null>(null);
+  useEffect(() => { buroYetkim().then(setYetki).catch(() => {}); }, []);
   const b = basvuruBul(secK || undefined);
   const turler = b ? b.foyTurleri || [b.foyTur] : [];
   const foyler = useMemo(() => {
@@ -79,14 +84,20 @@ export function BasvuruSekmesi({ liste, onAc }: { liste: Foy[]; onAc: (id: strin
           {foyler.length > 0 || ara ? (
             <>
               <TextInput value={ara} onChangeText={setAra} placeholder={t("Var olan föylerde ara: ad, mahkeme, dosya no…")} placeholderTextColor={C.muted} style={s.inputTek} />
-              {foyler.map(f => (
-                <Pressable key={f.id} onPress={() => onAc(f.id, b.k)} style={({ pressed }) => [s.foy, pressed && { opacity: 0.85 }]}>
-                  <View style={{ flex: 1 }}>
-                    <Text style={s.foyT} numberOfLines={1}>{[f.foyNo, foyBaslik(f)].filter(Boolean).join(" · ")}</Text>
-                    <Text style={s.hint} numberOfLines={1}>{[t(turBilgi(f.tur).ad), f.mahkeme, f.esasNo].filter(Boolean).join(" · ")}</Text>
-                  </View>
-                  <Text style={s.link}>{t("Aç ›")}</Text>
-                </Pressable>
+              {foyler.length > 0 && <Text style={s.hint}>{t("Silmek için satırı yana kaydırın (bilgisayarda uzun basın).")}</Text>}
+              {foyler.filter(f => !silinen.has(f.id)).map(f => (
+                <KaydirSil key={f.id} kapali={yetki === "yaz"} soru={t("“{ad}” föyü, evrakı ve görevleriyle bu cihazdan silinsin mi?", { ad: [f.foyNo, foyBaslik(f)].filter(Boolean).join(" · ") })}
+                  onSil={async () => { await foySil(f); setSilinen(x => new Set([...x, f.id])); }}>
+                  {uzunBas => (
+                    <Pressable onPress={() => onAc(f.id, b.k)} onLongPress={uzunBas} delayLongPress={500} style={({ pressed }) => [s.foy, pressed && { opacity: 0.85 }]}>
+                      <View style={{ flex: 1 }}>
+                        <Text style={s.foyT} numberOfLines={1}>{[f.foyNo, foyBaslik(f)].filter(Boolean).join(" · ")}</Text>
+                        <Text style={s.hint} numberOfLines={1}>{[t(turBilgi(f.tur).ad), f.mahkeme, f.esasNo].filter(Boolean).join(" · ")}</Text>
+                      </View>
+                      <Text style={s.link}>{t("Aç ›")}</Text>
+                    </Pressable>
+                  )}
+                </KaydirSil>
               ))}
               {!foyler.length && <Text style={s.hint}>{t("Aramaya uyan açık föy yok.")}</Text>}
             </>
