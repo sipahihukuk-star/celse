@@ -89,7 +89,7 @@ function tarafAyir(kalan0: string, sonraki: string): TarafOneri | undefined {
   // Adres: satırda adın (ve kimlik numarasının) ardından gelen kısım; satırda yoksa (rol satırı değilse) bir alttaki satır.
   const ADRES = /\b(?:Mah(?:\.|allesi)?|Cad(?:\.|desi)?|Sok(?:\.|ak)?|Sk\.|Bulv(?:\.|arı)?)\b/i;
   const temizle = (x: string) => x.replace(/\b(?:T\.?\s?C\.?|TCKN|Kimlik\s*No|Vergi\s*No|Adres(?:i)?)\s*[:.]?/gi, " ").replace(kimlik || "§§", " ")
-    .split(/\s(?:VEKİLİ|VEKİLLERİ|MÜDAFİİ|DAVALI|DAVACI)\s*:/i)[0].replace(/^[\s\-–,:;]+|[\s\-–,:;]+$/g, "").replace(/\s+/g, " ");
+    .split(/\s(?:VEKİLİ|VEKİLLERİ|MÜDAFİİ|DAVALI|DAVACI)\s*:/i)[0].replace(/\(\s*[:.]?\s*\)/g, " ").replace(/^[\s\-–,:;()]+|[\s\-–,:;(]+$/g, "").replace(/\s+/g, " ");
   let adres: string | undefined;
   const kalanSonra = temizle(kalan.slice(kalan.toLocaleUpperCase("tr").indexOf(ad.toLocaleUpperCase("tr")) + ad.length));
   if (ADRES.test(kalanSonra)) adres = kalanSonra;
@@ -252,6 +252,33 @@ export function kunyeCikar(metin: string, simdi = new Date()): KunyeOneri {
   const ac = metin.match(/(?:DAVA|BAŞVURU|SORUŞTURMA|TAKİP|İHBAR|ŞİKAYET|ŞİKÂYET)\s*(?:AÇILIŞ\s*)?TARİHİ\s*[:]?\s*(\d{1,2})[./](\d{1,2})[./](\d{4})/i);
   if (ac) { const x = tarihIso(ac[1], ac[2], ac[3]); if (x) o.acilis = x; }
   if (!o.acilis) { const a = etiket(satirlar, ["AÇILIŞ TARİHİ", "DOSYA AÇILIŞ TARİHİ", "KAYIT TARİHİ", "DOSYA KAYIT TARİHİ"], v => /^\d{1,2}[./]\d{1,2}[./]\d{4}/.test(v)); const d = a?.match(/^(\d{1,2})[./](\d{1,2})[./](\d{4})/); if (d) { const x = tarihIso(d[1], d[2], d[3]); if (x) o.acilis = x; } }
+  // Son çare: davalılar (davacılar) bölümünde "2." / "2-" / "2)" ile başlayan her şey — satır başında ya da satır içinde,
+  // aradaki vekil ve adres satırlarından bağımsız — ayrı taraftır. Bölüm, öteki tarafın rolüne ya da dava konusu / tarih
+  // satırına gelince biter.
+  const blokTara = (yan: "birinci" | "ikinci") => {
+    const anahtar = yan === "birinci" ? "birinciler" : "ikinciler";
+    const liste = (o[anahtar] ||= []);
+    if (!o[yan]) return;
+    const kendi = (yan === "birinci" ? BIRINCI : IKINCI).filter(r => !IKINCIL.includes(r));
+    const oteki = [...(yan === "birinci" ? IKINCI : BIRINCI), ...IKINCIL];
+    const bas = duz.search(new RegExp(`(?:^|\\n)[ \\t]*(?:${kendi.join("|")})(?:LAR|lar)?(?:\\s*\\([^)\\n]{1,30}\\))?\\s*:`, "i"));
+    if (bas < 0) return;
+    let blok = duz.slice(bas, bas + 3000);
+    const bit = blok.slice(10).search(new RegExp(`\\n[ \\t]*(?:${oteki.join("|")})(?:LAR|lar)?(?:\\s*\\([^)\\n]{1,30}\\))?\\s*:|\\n[ \\t]*(?:DAVA(?:NIN)?\\s+(?:KONUSU|TARİHİ|TÜRÜ)|KARAR\\s+TARİHİ|İNCELENEN|GEREĞİ|HÜKÜM|TARAFLAR\\s+ARASINDAKİ|BAŞVURU|İSTİNAF\\s+(?:KONUSU|İNCELEMESİ))`, "i"));
+    if (bit >= 0) blok = blok.slice(0, bit + 10);
+    const ADRES_BAS = /^(?:Sok|Sk|Sokak|Cad|Cadde|Caddesi|Mah|Mahalle|Kat|Daire|D|Blok|No|Bulv|Bulvarı|Apt|Site|Hukuk|Asliye|İş|Ağır|Sulh|Av|Avukat)\b/i;
+    for (const m of blok.matchAll(/(?:^|[\s:])([2-9])\s*[-.)]\s*(\p{L}[^\n]*?)(?=\s+[2-9]\s*[-.)]\s*\p{L}|\n|$)/gu)) {
+      const govde = m[2].trim();
+      if (ADRES_BAS.test(govde) || govde.split(/\s+/).filter(w => /^\p{L}/u.test(w)).length < 2) continue;
+      const satirSonu = blok.indexOf("\n", (m.index || 0) + m[0].length);
+      const sonraki = satirSonu >= 0 ? (blok.slice(satirSonu + 1).split("\n")[0] || "") : "";
+      const t = tarafAyir(govde, /^\s*(?:\d\s*[-.)]|VEKİL|Av\.)/i.test(sonraki) ? "" : sonraki);
+      if (t && !ADRES_BAS.test(t.ad) && !liste.some(x => x.ad === t.ad) && t.ad !== o[yan]!.ad) liste.push(t);
+    }
+    // Liste yalnız sonradan bulunanlarla dolduysa ilk taraf da başa konur.
+    if (liste.length && !liste.some(x => x.ad === o[yan]!.ad)) liste.unshift({ ad: o[yan]!.ad, kimlikNo: o[yan]!.kimlikNo, adres: o[yan]!.adres });
+  };
+  blokTara("birinci"); blokTara("ikinci");
   // Evrakın kendi tarihi: "KARAR TARİHİ", "TUTANAK TARİHİ", "Tarih :" ya da başlıktaki/sondaki ilk tarih.
   const bt = metin.match(/(?:KARAR|TUTANAK|RAPOR|DİLEKÇE|TEBLİĞ|DÜZENLEME)\s*TARİHİ\s*[:]\s*(\d{1,2})[./](\d{1,2})[./](\d{4})/i)
     || metin.match(/(?:^|\n)\s*TARİH\s*[:]\s*(\d{1,2})[./](\d{1,2})[./](\d{4})/i)
