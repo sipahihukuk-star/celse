@@ -3,7 +3,7 @@
 // m. 20–36'ya göre; süreler İİK'daki sürelerdir. Borçluya gidecek emri icra dairesi UYAP'ta düzenler; buradaki metinler
 // avukatın kontrolü, müvekkile açıklama ve dosyaya not içindir (taslak).
 import type { Foy } from "./foy";
-import { emirOrnegi, IcraBilgi, icraHesapla, takipTalebiMetni, tl } from "./icra";
+import { emirOrnegi, IcraBilgi, icraHesapla, takipTalebiMetni, tl, tumBorclular } from "./icra";
 
 export type OrnekTur = "takip_talebi" | "icra_emri" | "odeme_emri" | "tahliye_emri" | "takip_sonrasi";
 export interface IcraOrnegi {
@@ -100,7 +100,8 @@ export function ornekMetni(no: string, f: Foy, b: IcraBilgi, opt: { vekil?: stri
   const m = f.muvekkilBilgi || {}, k = f.karsiBilgi || {};
   const kisi = (ad?: string, kimlik?: string, adres?: string) => [ad || "…", kimlik ? `(T.C./V.K.N. ${kimlik})` : "", adres ? `– ${adres}` : ""].filter(Boolean).join(" ");
   const alacaklilar = [kisi(f.muvekkil, m.kimlikNo, m.adres), ...(f.ekMuvekkiller || []).filter(x => x.ad.trim()).map(x => kisi(x.ad, x.kimlikNo, x.adres))];
-  const borclular = [kisi(f.karsiTaraf, k.kimlikNo, k.adres), ...(b.ekBorclular || []).filter(x => x.ad.trim()).map(x => kisi(x.ad, x.kimlikNo, x.adres))];
+  const tb = tumBorclular(f, b);
+  const borclular = tb.length ? tb.map(x => kisi(x.ad, x.kimlikNo, x.adres)) : [kisi(f.karsiTaraf, k.kimlikNo, k.adres)];
   const s: string[] = [];
   s.push("T.C.", (f.mahkeme || "… İCRA DAİRESİ").toLocaleUpperCase("tr"), `DOSYA NO: ${f.esasNo || "…"}`, "", `ÖRNEK NO: ${o.no}`, o.ad.toLocaleUpperCase("tr"), "");
   s.push(alacaklilar.length > 1 ? "ALACAKLILAR :" : `ALACAKLI : ${alacaklilar[0]}`);

@@ -10,7 +10,7 @@
 // Taraf rol kodları (rolID) ve alacak kalemi kodları programda yok (sunucudan gelir); yerine adları yazılır.
 // Tarih biçimi GG/AA/YYYY, tutar biçimi 15000.00 kabul edilmiştir. İlk yüklemede UYAP'ın hata mesajına göre düzeltilecek.
 import type { Foy } from "./foy";
-import { IcraBilgi, icraHesapla, MAHIYETLER, ParaBirimi, talepEdilenHak } from "./icra";
+import { IcraBilgi, icraHesapla, MAHIYETLER, ParaBirimi, talepEdilenHak, tumBorclular } from "./icra";
 import { IL_ILCE } from "./ilIlce";
 
 export interface VekilBilgi { adSoyad: string; tcKimlikNo?: string; baroNo?: string; tbbNo?: string; adres?: string }
@@ -78,8 +78,9 @@ export function uyapXml(f: Foy, b: IcraBilgi, vekil: VekilBilgi, bugun = new Dat
   let n = 0;
   t.push(`<taraf id="t${++n}">${kisiKurum(f.muvekkil, m.kimlikNo, m.adres, b.mernisAlacakli)}<rolTur Rol="Alacaklı"/></taraf>`);
   for (const x of f.ekMuvekkiller || []) if (x.ad.trim()) t.push(`<taraf id="t${++n}">${kisiKurum(x.ad, x.kimlikNo, x.adres)}<rolTur Rol="Alacaklı"/></taraf>`);
-  t.push(`<taraf id="t${++n}">${kisiKurum(f.karsiTaraf, k.kimlikNo, k.adres, b.mernisBorclu)}<rolTur Rol="Borçlu"/></taraf>`);
-  for (const x of b.ekBorclular || []) if (x.ad.trim()) t.push(`<taraf id="t${++n}">${kisiKurum(x.ad, x.kimlikNo, x.adres)}<rolTur Rol="Borçlu"/></taraf>`);
+  const tb = tumBorclular(f, b);
+  if (!tb.length) t.push(`<taraf id="t${++n}">${kisiKurum(f.karsiTaraf, k.kimlikNo, k.adres, b.mernisBorclu)}<rolTur Rol="Borçlu"/></taraf>`);
+  for (const x of tb) t.push(`<taraf id="t${++n}">${kisiKurum(x.ad, x.kimlikNo, x.adres, x.mernis)}<rolTur Rol="Borçlu"/></taraf>`);
   // Vekil
   const vp = vekil.adSoyad.replace(/^av\.?\s*/i, "").trim().split(/\s+/);
   const vSoy = vp.length > 1 ? vp.pop()! : "";

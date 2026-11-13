@@ -132,6 +132,19 @@ export function islemisFaiz(asil: number, bas: string, son: string, tur: FaizTur
   return { tutar: r2(dilimler.reduce((a, d) => a + d.tutar, 0)), dilimler, eksik };
 }
 
+/** Takibin bütün borçluları: künyedeki karşı taraf ve öteki karşı taraflar, takipte eklenen borçlular (kefil, avalist…);
+ *  aynı ad bir kez. */
+export function tumBorclular(f: Foy, b: IcraBilgi = f.icra || { yol: "genel" }): (Kisi & { mernis?: boolean })[] {
+  const sade = (x?: string) => (x || "").toLocaleUpperCase("tr").replace(/[^A-ZÇĞİÖŞÜ0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+  const out: (Kisi & { mernis?: boolean })[] = [];
+  const k = f.karsiBilgi || {};
+  const ekle = (x: Kisi & { mernis?: boolean }) => { if (!x.ad?.trim()) return; const i = out.findIndex(y => sade(y.ad) === sade(x.ad)); if (i < 0) out.push(x); else out[i] = { ...x, ...out[i], kimlikNo: out[i].kimlikNo || x.kimlikNo, adres: out[i].adres || x.adres }; };
+  ekle({ ad: f.karsiTaraf || "", kimlikNo: k.kimlikNo, adres: k.adres, mernis: b.mernisBorclu });
+  for (const x of f.ekKarsiTaraflar || []) ekle({ ad: x.ad, kimlikNo: x.kimlikNo, adres: x.adres });
+  for (const x of b.ekBorclular || []) ekle(x);
+  return out;
+}
+
 /** Takip yoluna, talebe ve mahiyete göre borçluya gidecek emrin İİK Yönetmeliği örnek no'su (icraOrnekleri.ts). */
 export function emirOrnegi(b: IcraBilgi): string {
   switch (b.yol) {
@@ -273,7 +286,8 @@ export function takipTalebiMetni(f: Foy, b: IcraBilgi, bugun = new Date().toISOS
   const yol = TAKIP_YOLLARI.find(x => x.k === b.yol);
   const m = f.muvekkilBilgi || {}, k = f.karsiBilgi || {};
   const kisi = (ad?: string, kimlik?: string, adres?: string, mernis?: boolean) => [ad || "…", kimlik ? `(T.C./V.K.N. ${kimlik})` : "", mernis ? "– MERNİS adresi seçilmiştir" : adres ? `– ${adres}` : ""].filter(Boolean).join(" ");
-  const borclular = [kisi(f.karsiTaraf, k.kimlikNo, k.adres, b.mernisBorclu), ...(b.ekBorclular || []).filter(x => x.ad).map(x => kisi(x.ad, x.kimlikNo, x.adres))];
+  const tb = tumBorclular(f, b);
+  const borclular = tb.length ? tb.map(x => kisi(x.ad, x.kimlikNo, x.adres, x.mernis)) : [kisi(f.karsiTaraf, k.kimlikNo, k.adres, b.mernisBorclu)];
   // UYAP icra emrindeki kalıp: "… Mahkemesi'nin 2015/432 (Hukuk Dava Dosyası) esas ve 2026/592 karar sayılı 24/06/2026 karar tarihli ilamı"
   const dayanak = b.yol === "ilamli" ? `${b.ilam?.mahkeme || "…"}'nin ${b.ilam?.esasNo || "…"} (${b.ilam?.dosyaTuru || "Hukuk Dava Dosyası"}) esas ve ${b.ilam?.kararNo || "…"} karar sayılı ${b.ilam?.kararTarihi ? b.ilam.kararTarihi.split("-").reverse().join("/") : "…"} karar tarihli ilamı${b.ilam?.kesinlesme ? ` (kesinleşme ${tarihYaz(b.ilam.kesinlesme)})` : ""}`
     : b.yol === "kambiyo" ? `${b.senet?.tur === "cek" ? "Çek" : b.senet?.tur === "police" ? "Poliçe" : "Bono"}: düzenleme ${tarihYaz(b.senet?.duzenleme)}, vade ${tarihYaz(b.senet?.vade)}${b.senet?.seriNo ? `, seri/çek no ${b.senet.seriNo}` : ""}${b.senet?.banka ? `, ${b.senet.banka}` : ""}${b.senet?.kesideci ? `, keşideci ${b.senet.kesideci}` : ""}`

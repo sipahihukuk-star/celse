@@ -133,6 +133,8 @@ export function talimatUygula(f: Foy, r: TalimatSonucu, opt: { taraflar?: TarafO
   if (opt.ilamli && b.yol !== "ilamli") { b.yol = "ilamli"; b.talep = "haciz"; if (!b.mahiyet) b.mahiyet = "4045"; icraDegisti = true; dolan.push("takip yolu: ilamlı"); }
   const taraflar = opt.taraflar || [];
   const ayni = (a?: string, c?: string) => { const x = sade(a), y = sade(c); return !!x && !!y && (x === y || x.includes(y) || y.includes(x)); };
+  // Borçlularda yalnız tam eşleşme: "Ali Kaya" ile "Ali Kaya İnşaat Ltd." ayrı kişilerdir.
+  const ayniTam = (a?: string, c?: string) => { const x = sade(a), y = sade(c); return !!x && x === y; };
   // Ek alacaklılar → künyedeki müvekkiller.
   const ekM = [...(f.ekMuvekkiller || [])];
   for (const a of r.alacaklilar) {
@@ -147,12 +149,16 @@ export function talimatUygula(f: Foy, r: TalimatSonucu, opt: { taraflar?: TarafO
   const ekB = [...(b.ekBorclular || [])];
   for (const a of r.borclular) {
     const k = adCoz(a, taraflar, opt.kaynak);
-    if (ayni(k.ad, f.karsiTaraf) || ekB.some(x => ayni(x.ad, k.ad))) continue;
+    if (ayniTam(k.ad, f.karsiTaraf) || ekB.some(x => ayniTam(x.ad, k.ad))) continue;
     if (!(f.karsiTaraf || "").trim()) { ek.karsiTaraf = k.ad; ek.karsiBilgi = { ...(f.karsiBilgi || {}), kimlikNo: k.kimlikNo, adres: k.adres }; }
     else ekB.push({ ad: k.ad, kimlikNo: k.kimlikNo, adres: k.adres });
     dolan.push("borçlu " + k.ad);
   }
-  if (ekB.length !== (b.ekBorclular || []).length) { b.ekBorclular = ekB; icraDegisti = true; }
+  if (ekB.length !== (b.ekBorclular || []).length) {
+    b.ekBorclular = ekB; icraDegisti = true;
+    // İcra föyünün künyesindeki karşı taraflar da borçlulardır.
+    if (f.tur === "icra") { const ekK = [...(f.ekKarsiTaraflar || [])]; for (const x of ekB) if (!ekK.some(y => ayni(y.ad, x.ad))) ekK.push({ ad: x.ad, kimlikNo: x.kimlikNo, adres: x.adres }); ek.ekKarsiTaraflar = ekK; }
+  }
   if (icraDegisti) ek.icra = b;
   return { ek, dolan };
 }

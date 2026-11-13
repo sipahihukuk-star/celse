@@ -164,6 +164,12 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
           <Pressable onPress={() => yaz({ ekBorclular: borclular.filter((_, j) => j !== i) })}><Text style={s.sil}>{t("Kaldır")}</Text></Pressable>
         </View>
       ))}
+      {(() => {
+        // Künyede yazılı ama bu listede olmayan öteki karşı taraflar da borçludur (XML'e ve takip talebine girer).
+        const sd = (x?: string) => (x || "").toLocaleUpperCase("tr").replace(/\s+/g, " ").trim();
+        const xs = (f.ekKarsiTaraflar || []).filter(x => x.ad.trim() && sd(x.ad) !== sd(f.karsiTaraf) && !borclular.some(y => sd(y.ad) === sd(x.ad)));
+        return xs.length ? <Text style={s.hint}>{t("Künyeden gelen borçlular (künyede düzenlenir): {x}", { x: xs.map(x => x.ad).join(", ") })}</Text> : null;
+      })()}
       <View style={s.row}><Btn kind="ghost" label={t("+ Borçlu ekle (kefil, avalist, ciranta…)")} onPress={() => yaz({ ekBorclular: [...borclular, { ad: "" }] })} /></View>
       <Text style={s.hint}>{t("Adres yazmak yerine aşağıdaki “Ödeme hesabı ve adresler” bölümünden MERNİS adresini de seçebilirsiniz.")}</Text>
 
