@@ -384,7 +384,6 @@ export function BeyanEditoru({ f, onDegistir, tohum, ilkBeyanId }: { f: Foy; onD
           onSec={k => { const x = BEYAN_KLASORLERI.find(y => y.ad === k)!.turler[0].ad; sakla({ ...b, tur: x, konu: !b.konu || b.konu === konuOner(b.tur) ? konuOner(x) : b.konu }); }} />
         <Acilir etiket={t("Belge türü")} genislik={300} secenekler={(BEYAN_KLASORLERI.find(k => k.ad === beyanTuru(b.tur).klasor)?.turler || []).map(x => ({ k: x.ad, ad: t(x.ad) }))} secili={beyanTuru(b.tur).ad} onSec={k => sakla({ ...b, tur: k, konu: !b.konu || b.konu === konuOner(b.tur) ? konuOner(k) : b.konu })} />
       </View>
-      {!orn.length && <DilekceCek kisa />}
       {!!orn.length && (
         <Acilir etiket={t("Örnek dilekçem")} genislik={360} secili={ornekSecim} onSec={setOrnekSecim}
           secenekler={[{ k: "otomatik", ad: t("Otomatik: aynı türdeki örneklerim") + " (" + ornekSec(orn, b.tur).length + ")" }, { k: "yok", ad: t("Örnek kullanma") },
