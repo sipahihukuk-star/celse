@@ -385,10 +385,8 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
         </View>}
       </View>
 
-      <View style={s.row}>
-        <Btn kind="secondary" label={t("📥 UYAP duruşma listesi yükle")} onPress={() => { setDurusmaYukle(true); setDurusmaAc(true); }} />
-        {web && <Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} />}
-      </View>
+      {/* UYAP duruşma listesi "⚖ Duruşma, haciz, keşif" bölümünden yüklenir. */}
+      {web && <View style={s.row}><Btn kind="ghost" label={t("Dosya listesini Excel/Word'den aktar")} onPress={() => setAktar(true)} /></View>}
       {mesaj && <Text style={[s.hint, { color: mesaj.ok ? C.good : C.bad }]}>{mesaj.t}</Text>}
       {web && <GizliPencereUyarisi />}
       {yuklendi && !yukHata && liste.length === 0 && (
