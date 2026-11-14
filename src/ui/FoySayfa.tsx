@@ -335,7 +335,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   };
   // Künyedeki "Tarafları ve vekilleri evraktan yükle": önceden tek taraflı doldurulmuş föyde eksik müvekkil, karşı taraf ve
   // vekilleri bütün evraktan toplar; var olanları çoğaltmaz.
-  const taraflariEvraktan = () => {
+  const taraflariEvraktan = (bosSessiz = false) => {
     const temel = son.current || f;
     if (!temel) return;
     let x: Foy = temel; const tum: string[] = [];
@@ -349,6 +349,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
     if (Object.keys(ek).length) { degistir(ek); setSurum(v => v + 1); }
     if (ek.durusma) setDurusmaYazi(tarihYaz(ek.durusma));
     const okunan = temel.evraklar.filter(e => e.metin.trim()).length;
+    if (bosSessiz && !tum.length) { setTarafMesaj(""); return; }
     setTarafMesaj(!okunan ? t("Föyde metni okunmuş evrak yok; önce tutanak, dilekçe ya da karar ekleyin.")
       : tum.length ? t("Evraktan eklendi: {x}. Kontrol edin.", { x: [...new Set(tum)].join(", ") })
       : t("{n} evraka bakıldı; künyede olmayan taraf ya da vekil bulunamadı. (Evrakta müvekkilin adı geçmiyorsa başka dosyanın evrakı sayılır ve eklenmez.)", { n: okunan }));
@@ -421,17 +422,23 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         // Künyede eksik bilgi: başta görünür; tek tuşla eldeki belgelerden (bu cihazda) doldurulur.
         const eksik = kunyeEksikleri(f).map(k => t(k));
         const okunmus = f.evraklar.some(e => e.metin.trim());
-        // İcra föyünde taraflar ve eksikler İcra takibi bölümünde (eksik listesi, evraktan doldurma, yapay zekâyla hazırlama) gösterilir.
-        if (icraUstte) return null;
-        if (!eksik.length && !kunyeMesaj) return null;
+        // Künyede eksik yoksa da (ör. 2. davalı ya da vekil sonradan eklenecekse) evrak varken tek düğme görünür.
+        if (!eksik.length && !kunyeMesaj && !tarafMesaj && !okunmus) return null;
         return (
           <View style={[s.card, { gap: 6, borderColor: eksik.length ? C.mid : C.line }]}>
             {eksik.length > 0 && <Text style={[s.body, { fontWeight: "700", color: C.mid }]}>{t("Künyede eksik: {x}", { x: eksik.join(", ") })}</Text>}
             {okunmus
-              ? <Btn label={t("📄 Künyeyi belgelerden oluştur")} onPress={() => { const ek = kunyeEvraktan(f.evraklar, f); if (Object.keys(ek).length) degistir(ek); }} />
+              ? <Btn label={t("📄 Künyeyi belgelerden oluştur")} onPress={() => {
+                  // Önce boş alanlar, sonra evrakta geçip künyede olmayan taraflar ve vekiller (2., 3. davalı…) eklenir.
+                  const ek = kunyeEvraktan(f.evraklar, f);
+                  const doldu = Object.keys(ek).length > 0;
+                  if (doldu) { son.current = { ...(son.current || f), ...ek }; degistir(ek); }
+                  taraflariEvraktan(doldu);
+                }} />
               : eksik.length > 0 && <Text style={s.hint}>{t("Evrak eklenince künye evraktan doldurulabilir; ya da aşağıdaki Künye bölümüne elle yazın.")}</Text>}
             {okunmus && <Text style={s.hint}>{t("Müvekkil ve karşı taraf, vekilleri, mahkeme, dosya no, kimlik no, adres ve vekâletname evrakın kendisinden, bu cihazda okunur. Yalnız boş alanlar doldurulur; kontrol edin.")}</Text>}
             {!!kunyeMesaj && <Text style={[s.hint, { color: C.brass }]}>{kunyeMesaj}</Text>}
+            {!!tarafMesaj && <Text style={[s.hint, { color: C.brass }]}>{tarafMesaj}</Text>}
             {okunmus && eksik.length > 0 && (
               <Pressable onPress={() => setIskelet(x => !x)}><Text style={s.link}>{iskelet ? t("Evrak düzenini gizle") : t("Okuyamadıysa: evrakın başlık düzenini göster (ad ve numaralar gizli)")}</Text></Pressable>
             )}
@@ -445,7 +452,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const kunyeBlok = (
       <Katlanir anahtar="kunye" baslik={t("Künye")} varsayilan={!f.mahkeme && !f.muvekkil} ozet={[f.mahkeme, f.esasNo, f.muvekkil].filter(Boolean).join(" · ")}>
         <View style={s.alanlar}>
-          <TarafKunye f={f} degistir={degistir} guncel={() => son.current || f} surum={surum} onEvraktan={taraflariEvraktan} evrakMesaj={tarafMesaj} />
+          <TarafKunye f={f} degistir={degistir} guncel={() => son.current || f} surum={surum} />
           {alanEl(tb.merci, f.mahkeme, "mahkeme", tb.merciOrnek ? "Örn. " + tb.merciOrnek : undefined)}
           {alanEl(tb.no, f.esasNo, "esasNo", "Örn. 2026/123")}
           <View style={s.alan} key={"acilis:" + surum}>
