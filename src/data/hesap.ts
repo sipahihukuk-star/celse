@@ -19,6 +19,8 @@ export interface HesapKalem {
   durusmaId?: string;
   /** tarifeden hesaplanmış başlangıç gideri (ucretTarife.ts kodu): gerçek makbuz gelince düzeltilir */
   tahmin?: string;
+  /** "Tamamı tahsil edildi" düğmesiyle yazılan kalan ücret tahsilatı (düğme geri alınınca silinir) */
+  tamami?: boolean;
 }
 export interface FoyHesap {
   ucret?: { tutar?: number; aciklama?: string; sozlesmeEvrakId?: string; tarih?: string };

@@ -26,10 +26,13 @@ export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partia
   const [sec, setSec] = useState<Set<string> | null>(null);
   const secili = sec || new Set(g.kalemler.filter(k => !yazili.has(k.kod) && !/istinaf|temyiz/.test(k.kod)).map(k => k.kod));
   const [mesaj, setMesaj] = useState("");
+  // Aç / kapa: kapalıyken yalnız başlık ve tek satır özet (asgari ücret, eklenmemiş gider toplamı, uyarı) görünür.
+  const [acik, setAcik] = useState(false);
   // Evraktan (makbuz, dekont) ya da elle gerçek gider yazılınca aynı türdeki tahmini kayıt kaldırılabilir.
   const cakisan = hesap.kalemler.filter(k => k.tahmin && hesap.kalemler.some(x => !x.tahmin && x.tur === "masraf" && x.kategori === k.kategori));
   const sozlesme = hesap.ucret?.tutar || 0;
   const asgari = a.guncel.asgari || 0;
+  const kalanGider = g.kalemler.filter(k => !yazili.has(k.kod) && !/istinaf|temyiz/.test(k.kod)).reduce((x, k) => x + k.tutar, 0);
 
   const giderEkle = () => {
     const yeni: HesapKalem[] = g.kalemler.filter(k => secili.has(k.kod) && !yazili.has(k.kod))
@@ -42,7 +45,21 @@ export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partia
 
   return (
     <View style={{ gap: 8, borderWidth: 1, borderColor: C.brass, borderRadius: 10, padding: 10 }}>
-      <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{t("⚖ Asgari vekâlet ücreti ve başlangıç giderleri")}</Text>
+      <Pressable onPress={() => setAcik(!acik)} accessibilityRole="button" accessibilityState={{ expanded: acik }} hitSlop={6}
+        style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+        <Text style={[s.body, { flex: 1, color: C.text, fontWeight: "700" }]}>{t("⚖ Asgari vekâlet ücreti ve başlangıç giderleri")}</Text>
+        <Text style={{ color: C.brass, fontSize: 13, fontWeight: "700" }}>{acik ? t("▲ Kapat") : t("▼ Aç")}</Text>
+      </Pressable>
+      {!acik && (
+        <Pressable onPress={() => setAcik(true)}>
+          <Text style={s.hint}>
+            {t("Asgari ücret: ")}<Text style={{ fontWeight: "800", color: C.brass }}>{asgari ? tlYaz(asgari) : t("tarifede bulunamadı")}</Text>
+            {kalanGider > 0 ? " · " + t("eklenmemiş tahmini gider {x}", { x: tlYaz(kalanGider) }) : ""}
+          </Text>
+          {sozlesme > 0 && asgari > 0 && sozlesme < asgari && <Text style={[s.hint, { color: C.bad }]}>{t("Sözleşmedeki ücret ({x}) asgari ücretin altında.", { x: tlYaz(sozlesme) })}</Text>}
+        </Pressable>
+      )}
+      {acik && <>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, alignItems: "flex-end" }}>
         <View style={{ gap: 4, minWidth: 170 }}>
           <Text style={etiket}>{t("Dava değeri (TL, konusu para ise)")}</Text>
@@ -98,6 +115,7 @@ export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partia
           <Btn kind="secondary" label={t("Tahminleri kaldır")} onPress={() => { degistir({ hesap: { ...hesap, kalemler: hesap.kalemler.filter(k => !cakisan.includes(k)) } }); setMesaj(t("Gerçek kaydı gelen tahmini giderler kaldırıldı.")); }} />
         </View>
       )}
+      </>}
       {!!mesaj && <Text style={[s.hint, { color: C.good }]}>{mesaj}</Text>}
     </View>
   );
