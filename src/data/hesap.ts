@@ -6,6 +6,7 @@
 //    Bütün föylerdeki kayıtlar birleşerek "Tevkil avukatlar" listesini oluşturur (kim, telefon, hangi dosyalar, ne ödendi).
 //  - Talepler: adli yardım, ihtiyati haciz, ihtiyati tedbir, delil tespiti, yürütmeyi durdurma, duruşmalı inceleme.
 import type { Foy } from "./foy";
+import { davaDegeriBul } from "./ucretTarife";
 
 export type KalemTur = "tahsilat" | "masraf" | "tevkil";
 export interface HesapKalem {
@@ -23,7 +24,8 @@ export interface HesapKalem {
   tamami?: boolean;
 }
 export interface FoyHesap {
-  ucret?: { tutar?: number; aciklama?: string; sozlesmeEvrakId?: string; tarih?: string };
+  /** tutar: vekâlet ücreti toplamı. Yüzde ücrette (dava değerinin %'si) tutar = sabit + dava değeri × yüzde / 100 olarak hesaplanır. */
+  ucret?: { tutar?: number; aciklama?: string; sozlesmeEvrakId?: string; tarih?: string; yuzde?: number; sabit?: number };
   /** dava değeri (harca esas değer): asgari ücret ve harç hesabı için */
   davaDegeri?: number;
   kalemler: HesapKalem[];
@@ -94,13 +96,49 @@ export function standartGiderler(f: Foy, b: BirimBedel, bugun: string): HesapKal
 const UST = (x: string) => x.toLocaleUpperCase("tr").replace(/[ \t]+/g, " ");
 const PARA = String.raw`(\d{1,3}(?:[.\s]\d{3})+(?:,\d{1,2})?|\d+(?:,\d{1,2})?)\s*(?:TL|₺|TÜRK LİRASI)`;
 
-/** Vekâlet ücreti sözleşmesi mi; öyleyse kararlaştırılan ücret. */
-export function ucretSozlesmesiOku(metin: string): { sozlesme: boolean; tutar?: number } {
+/** Yüzde ücretli sözleşmede toplam ücret: sabit kısım + dava değeri × yüzde / 100 (dava değeri yoksa yalnız sabit kısım). */
+export function yuzdeUcret(yuzde: number, davaDegeri?: number, sabit?: number): number | undefined {
+  const n = (sabit || 0) + (davaDegeri && davaDegeri > 0 ? (davaDegeri * yuzde) / 100 : 0);
+  return n > 0 ? Math.round(n * 100) / 100 : undefined;
+}
+
+const SAYI_SOZ: Record<string, number> = { BİR: 1, İKİ: 2, ÜÇ: 3, DÖRT: 4, BEŞ: 5, ALTI: 6, YEDİ: 7, SEKİZ: 8, DOKUZ: 9, ON: 10, YİRMİ: 20, OTUZ: 30, KIRK: 40, ELLİ: 50 };
+/** "YÜZDE ON BEŞ", "YÜZDEYİRMİBEŞ" → 15, 25 */
+function yuzdeSozden(x: string): number | undefined {
+  let k = x.replace(/\s+/g, ""), n = 0;
+  const sira = ["ELLİ", "KIRK", "OTUZ", "YİRMİ", "ON", "DOKUZ", "SEKİZ", "YEDİ", "ALTI", "BEŞ", "DÖRT", "ÜÇ", "İKİ", "BİR"];
+  for (const grup of [sira.slice(0, 5), sira.slice(5)]) {
+    const w = grup.find(g => k.startsWith(g));
+    if (w) { n += SAYI_SOZ[w]; k = k.slice(w.length); }
+  }
+  return n || undefined;
+}
+
+/** Vekâlet ücreti sözleşmesi mi; öyleyse kararlaştırılan ücret: TL tutarı ve / veya dava değerinin (tahsil edilenin) yüzdesi.
+ *  Yüzde varsa TL tutarı sabit (peşin) kısım sayılır. KDV, faiz, stopaj yüzdeleri ve kanunun %25 sınırı alınmaz. */
+export function ucretSozlesmesiOku(metin: string): { sozlesme: boolean; tutar?: number; yuzde?: number } {
   const u = UST(metin);
   const sozlesme = /(AVUKATLIK|VEKALET|VEKÂLET)\s*ÜCRET[İI]?\s*SÖZLEŞMES[İI]|ÜCRET SÖZLEŞMES[İI]/.test(u);
   if (!sozlesme) return { sozlesme };
-  const m = u.match(new RegExp(String.raw`(?:ÜCRET|BEDEL|TUTAR)[^\n]{0,80}?` + PARA)) || u.match(new RegExp(PARA));
-  return { sozlesme, tutar: m ? tutarCoz(m[1]) : undefined };
+  let yuzde: number | undefined;
+  const YZ = /%\s*(\d{1,2}(?:[.,]\d{1,2})?)|(\d{1,2}(?:[.,]\d{1,2})?)\s*%|YÜZDE\s*(\d{1,2}(?:[.,]\d{1,2})?)|YÜZDE\s*((?:(?:ELLİ|KIRK|OTUZ|YİRMİ|ON|DOKUZ|SEKİZ|YEDİ|ALTI|BEŞ|DÖRT|ÜÇ|İKİ|BİR)\s*){1,2})/g;
+  for (const m of u.matchAll(YZ)) {
+    // Bağlam: aynı cümlede yüzdenin hemen önü ve arkası (bir sonraki cümledeki "KDV %20" bu yüzdeyi elemesin).
+    const once = u.slice(Math.max(0, (m.index || 0) - 30), m.index).split(/[.\n]/).pop() || "", sonra = (u.slice((m.index || 0) + m[0].length, (m.index || 0) + m[0].length + 40).split(/\.\s|\n/)[0]);
+    if (/KDV|K\.D\.V|FAİZ|STOPAJ|GELİR VERGİSİ|TEMERRÜT/.test(once + sonra) || /GEÇEMEZ|AŞAMAZ|FAZLA OLAMAZ/.test(sonra)) continue;
+    const n = m[4] ? yuzdeSozden(m[4]) : Number((m[1] || m[2] || m[3]).replace(",", "."));
+    if (n && n > 0 && n <= 50) { yuzde = n; break; }
+  }
+  let tutar: number | undefined;
+  if (yuzde) {
+    // Yüzde ücrette TL tutarı yalnız peşin / sabit ücret olarak yazılmışsa alınır (dava değeri ya da alacak tutarı değil).
+    const m = u.match(new RegExp(String.raw`(?:PEŞİN|SABİT|MAKTU|ÖN ÖDEME|AVANS)[^\n]{0,60}?` + PARA)) || u.match(new RegExp(String.raw`(?:ÜCRET|BEDEL)[^\n]{0,60}?` + PARA));
+    if (m && !/DEĞER|ALACA|TAHSİL/.test(m[0])) tutar = tutarCoz(m[1]);
+  } else {
+    const m = u.match(new RegExp(String.raw`(?:ÜCRET|BEDEL|TUTAR)[^\n]{0,80}?` + PARA)) || u.match(new RegExp(PARA));
+    tutar = m ? tutarCoz(m[1]) : undefined;
+  }
+  return { sozlesme, tutar, yuzde };
 }
 
 /** Harç / masraf makbuzu, dekont: kategori ve tutar (en büyük "TOPLAM" ya da son tutar). */
@@ -167,7 +205,7 @@ const TALEP_SIRA: Record<TalepDurum, number> = { talep: 0, kabul: 1, red: 1 };
  *  yazılana dokunulmaz). haric: bizim büronun avukatları ve karşı taraf vekili (tevkil sayılmaz). */
 export function evraktanHesap(f: Foy, evraklar: { id: string; metin: string; tarih?: string; eklenme: string }[], haric: string[], bugun: string): { ek: Partial<Foy>; degisen: string[] } {
   const degisen = new Set<string>();
-  let hesap: FoyHesap = { kalemler: [...(f.hesap?.kalemler || [])], ...(f.hesap?.ucret ? { ucret: { ...f.hesap.ucret } } : {}) };
+  let hesap: FoyHesap = { ...(f.hesap || {}), kalemler: [...(f.hesap?.kalemler || [])], ...(f.hesap?.ucret ? { ucret: { ...f.hesap.ucret } } : {}) };
   let tevkil = [...(f.tevkil || [])];
   let talepler = [...(f.talepler || [])];
   const sade = (x: string) => x.toLocaleLowerCase("tr").replace(/^av(ukat)?\.?\s*/, "").replace(/[^\p{L} ]+/gu, " ").replace(/\s+/g, " ").trim();
@@ -175,7 +213,18 @@ export function evraktanHesap(f: Foy, evraklar: { id: string; metin: string; tar
     if (!e.metin || !e.metin.trim()) continue;
     const gun = (e.tarih || e.eklenme).slice(0, 10) || bugun;
     const u = ucretSozlesmesiOku(e.metin);
-    if (u.sozlesme && !hesap.ucret?.sozlesmeEvrakId) { hesap = { ...hesap, ucret: { ...(hesap.ucret || {}), sozlesmeEvrakId: e.id, tarih: hesap.ucret?.tarih || gun, ...(hesap.ucret?.tutar ? {} : u.tutar ? { tutar: u.tutar } : {}) } }; degisen.add("vekâlet ücreti sözleşmesi"); continue; }
+    if (u.sozlesme) {
+      const eski = hesap.ucret || {};
+      let ucret = { ...eski };
+      if (!eski.sozlesmeEvrakId) ucret = { ...ucret, sozlesmeEvrakId: e.id, tarih: eski.tarih || gun };
+      if (u.yuzde && !eski.yuzde) {
+        // Yüzde ücret: elle yazılmış bir TL tutarı varsa ve sözleşmede ayrıca sabit kısım yoksa, o tutar sabit kısım sayılmaz.
+        const deger = f.hesap?.davaDegeri ?? davaDegeriBul([...f.evraklar.map(x => x.metin.slice(0, 20000)), ...evraklar.map(x => x.metin.slice(0, 20000))]);
+        ucret = { ...ucret, yuzde: u.yuzde, sabit: u.tutar, tutar: yuzdeUcret(u.yuzde, deger, u.tutar) };
+      } else if (!eski.tutar && !eski.yuzde && u.tutar) ucret = { ...ucret, tutar: u.tutar };
+      if (JSON.stringify(ucret) !== JSON.stringify(eski)) { hesap = { ...hesap, ucret }; degisen.add(u.yuzde && ucret.yuzde === u.yuzde && !eski.yuzde ? "vekâlet ücreti sözleşmesi (dava değerinin %" + String(u.yuzde).replace(".", ",") + "'i)" : "vekâlet ücreti sözleşmesi"); }
+      continue;
+    }
     const m = makbuzOku(e.metin);
     if (m && !hesap.kalemler.some(k => k.evrakId === e.id)) { hesap.kalemler.push({ id: yeniKalemId(), tarih: gun, tutar: m.tutar, tur: "masraf", kategori: m.kategori, aciklama: "Makbuzdan okundu", evrakId: e.id }); degisen.add("masraf (" + m.kategori.toLocaleLowerCase("tr") + ")"); }
     for (const tv of tevkilOku(e.metin, haric)) {
