@@ -12,6 +12,7 @@ import { t } from "../i18n";
 import { foyaSor } from "./foySorCagri";
 import { s } from "./foyStil";
 import { Btn } from "./kit";
+import { KayanListe } from "./KayanListe";
 import { sesliDur, sesliOku, useSesliOkuma } from "./sesliOku";
 import { C } from "./theme";
 
@@ -101,6 +102,7 @@ export function DurusmaSimulasyon({ f, degistir, onHazirlan }: { f: Foy; degisti
             </Pressable>
           </View>
           {eski && <Text style={[s.hint, { color: C.mid }]}>{t("Simülasyondan sonra yeni evrak geldi ya da sıradaki duruşma değişti; yenileyin.")}</Text>}
+          <KayanListe yukseklik={420} sonaGit={false}>
           {bolumler.map((b, i) => {
             const on = !b.baslik || acik.has(b.baslik);
             return (
@@ -119,6 +121,7 @@ export function DurusmaSimulasyon({ f, degistir, onHazirlan }: { f: Foy; degisti
               </View>
             );
           })}
+          </KayanListe>
           {isler.length > 0 && <View style={s.row}><Btn kind="secondary" label={t("➕ Önerilen {n} işi Yapılacaklar'a ekle", { n: isler.length })} onPress={isEkle} /></View>}
           {!!sim.kaynaklar?.length && <Text style={s.hint}>{t("Kaynaklar: {x}", { x: sim.kaynaklar.map(k => k.baslik).join(" · ") })}</Text>}
           <Text style={s.hint}>{t("Simülasyon bir hazırlık aracıdır; duruşmada olacakları kesin göstermez. Son değerlendirme sizindir.")}</Text>
