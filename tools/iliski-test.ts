@@ -29,5 +29,26 @@ ok(!r2.some(o => o.tur === "zincir"), "“Değil” denen bir daha önerilmez");
 const r3 = iliskiOner([arb, { ...dava, oncekiId: arb.id }], new Set());
 ok(!r3.length, "bağlı olanlar önerilmez");
 
+// Aynı taraflı çok föy: çift çift tekrar eden öneriler yerine tek grup önerisi.
+{
+  const icralar = [1, 2, 3, 4, 5].map(i => f({ tur: "icra", muvekkil: "Uydurma Alacaklı ve 1 diğeri", karsiTaraf: i === 3 ? "Kurgu Borçlu" : "Kurgu Borçlu ve 1 diğeri", foyNo: "İ-" + i }));
+  const g = iliskiOner(icralar, new Set());
+  ok(g.length === 1 && g[0].tur === "grup" && g[0].kopya === true && g[0].grup!.length === 5 && g[0].ciftler!.length === 10, "5 numarasız aynı taraflı icra föyü: 10 çift yerine tek 'kopya' grubu: " + g.map(o => o.tur + ":" + (o.grup?.length || 2)).join(","));
+  const davalar = ["2026/11", "2026/12", "2026/13", "2026/14"].map(e => f({ tur: "hukuk", muvekkil: "Deneme Kişi İki", karsiTaraf: "Uydurma İnşaat A.Ş.", esasNo: e }));
+  const g2 = iliskiOner(davalar, new Set());
+  ok(g2.length === 1 && g2[0].tur === "grup" && !g2[0].kopya && g2[0].grup!.length === 4, "aynı taraflı 4 ayrı dava: tek 'ilgili' grubu");
+  // Gruptakiler ilk föye bağlanınca (yıldız) hiçbir çift yeniden önerilmez.
+  const [ilk, ...oteki] = davalar;
+  const bagli = [{ ...ilk, ilgiliIds: oteki.map(x => x.id) }, ...oteki.map(x => ({ ...x, ilgiliIds: [ilk.id] }))];
+  ok(iliskiOner(bagli, new Set()).length === 0, "zincirleme bağlı olanlar (B–A–C) bir daha önerilmez");
+  // "Değil" denen grubun çiftleri reddedilince grup da gelmez.
+  ok(iliskiOner(icralar, new Set([g[0].anahtar, ...g[0].ciftler!])).length === 0, "grup reddedilince bir daha gelmez");
+  // "ve 1 diğeri" ortak sözcük sayılmaz: başka kişilerin föyleri kopya sanılmaz.
+  const yabanci = [f({ tur: "icra", muvekkil: "Başka Kişi ve 1 diğeri", karsiTaraf: "Öteki Borçlu ve 1 diğeri" }), icralar[0]];
+  ok(!iliskiOner(yabanci, new Set()).length, "“ve 1 diğeri” adları eşleştirmez");
+  // İki numarasız kopya: "aynı dosya" önerisi (birleştirilebilir).
+  ok(iliskiOner(icralar.slice(0, 2), new Set()).some(o => o.tur === "ayni"), "iki numarasız kopya: aynı dosya olabilir");
+}
+
 if (fail) { console.log(`iliski-test: ${fail} hata`); process.exit(1); }
 console.log("iliski-test: tamam");

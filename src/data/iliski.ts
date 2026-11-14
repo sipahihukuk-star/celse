@@ -10,16 +10,22 @@ import type { Foy, FoyEvrak } from "./foy";
 import { turBilgi } from "./foyTurleri";
 import { kunyeCikar } from "./kunyeCikar";
 
-export type OneriTur = "zincir" | "ilgili" | "ayni" | "evrak";
+export type OneriTur = "zincir" | "ilgili" | "ayni" | "evrak" | "grup";
 export interface IliskiOnerisi {
   anahtar: string; tur: OneriTur; puan: number; nedenler: string[];
   /** zincirde önceki dosya; ilgili/ayni için birinci föy */
   a: Foy; b: Foy;
   /** tur "evrak": a'daki bu evrak b'ye ait olabilir */
   evrak?: FoyEvrak;
+  /** tur "grup": aynı taraflı üç ya da daha çok föy (çift çift tekrar tekrar önerilmesin diye tek öneri) */
+  grup?: Foy[];
+  /** grubun içindeki çift önerilerinin anahtarları ("Değil" denince hepsi reddedilir) */
+  ciftler?: string[];
+  /** grup: aynı türde, numarasız ya da aynı numaralı, aynı taraflı föyler: aynı dosyanın kopyaları olabilir */
+  kopya?: boolean;
 }
 
-const EKLER = new Set(["av", "avukat", "aş", "aş", "as", "a", "ş", "ltd", "şti", "sti", "limited", "anonim", "şirketi", "sirketi", "ve", "tic", "san"]);
+const EKLER = new Set(["diğeri", "diğerleri", "digeri", "digerleri", "av", "avukat", "aş", "aş", "as", "a", "ş", "ltd", "şti", "sti", "limited", "anonim", "şirketi", "sirketi", "ve", "tic", "san"]);
 /** Ad karşılaştırması için: küçük harf, noktalama yok, şirket ekleri (A.Ş., Ltd. Şti.) ve "Av." atılır. */
 const sade = (x?: string) => (x || "").toLocaleLowerCase("tr").replace(/[^\p{L}\d]+/gu, " ").split(" ").filter(w => w && !EKLER.has(w)).join(" ");
 const esasSade = (x?: string) => (x || "").replace(/\s+/g, "").replace(/[^\d/]/g, "");
@@ -166,14 +172,23 @@ export function iliskiOner(liste: Foy[], reddedilen: Set<string>, sinir = 50): I
     if (xs.length < 2 || xs.length > 400) continue; // çok yaygın bir ad ya da numara işaret sayılmaz
     for (let p = 0; p < xs.length; p++) for (let q = p + 1; q < xs.length; q++) ciftler.add(Math.min(xs[p], xs[q]) * N + Math.max(xs[p], xs[q]));
   }
-  const bagli = (x: Foy, y: Foy) => x.oncekiId === y.id || y.oncekiId === x.id || !!x.ilgiliIds?.includes(y.id) || !!y.ilgiliIds?.includes(x.id);
+  // Zaten bağlı olanlar (doğrudan ya da zincirleme: A–B ve B–C bağlıysa A–C de önerilmez).
+  const kok = new Map<string, string>();
+  const bul = (id: string): string => { let x = id; while (kok.has(x) && kok.get(x) !== x) x = kok.get(x)!; return x; };
+  const birles = (a: string, b: string) => { const ra = bul(a), rb = bul(b); if (ra !== rb) kok.set(ra, rb); };
+  const varIds = new Set(liste.map(f => f.id));
+  for (const f of liste) {
+    if (f.oncekiId && varIds.has(f.oncekiId)) birles(f.id, f.oncekiId);
+    for (const g of f.ilgiliIds || []) if (varIds.has(g)) birles(f.id, g);
+  }
+  const bagli = (x: Foy, y: Foy) => bul(x.id) === bul(y.id);
   for (const c of ciftler) {
     const i = Math.floor(c / N), j = c % N;
     const x = liste[i], y = liste[j];
     if (bagli(x, y)) continue;
     const ex = esasSade(x.esasNo), ey = esasSade(y.esasNo);
     // Aynı esas no ve çelişmeyen merci / taraflar: iki kez açılmış olabilir.
-    const ayni = ayniDosyaMi(x, y);
+    const ayni = ayniDosyaMi(x, y) || numarasizKopya(x, y);
     if (ayni) {
       const k = ciftAnahtari(x.id, y.id, "ayni");
       if (!reddedilen.has(k)) out.push({ anahtar: k, tur: "ayni", puan: 10, nedenler: ayni, a: x, b: y });
@@ -225,7 +240,43 @@ export function iliskiOner(liste: Foy[], reddedilen: Set<string>, sinir = 50): I
       if (!reddedilen.has(k)) out.push({ anahtar: k, tur: "evrak", puan: 6, nedenler: [`evrakın başlığındaki dosya no ${o.esasNo}`], a: f, b: hedef[0], evrak: ev });
     }
   }
-  return out.sort((p, q) => q.puan - p.puan).slice(0, sinir);
+  return gruplaOneriler(out).sort((p, q) => q.puan - p.puan).slice(0, sinir);
+}
+
+/** Numarası yazılmamış iki föy aynı türde ve tarafları aynıysa (ör. iki kez açılmış icra takibi) aynı dosya olabilir. */
+function numarasizKopya(x: Foy, y: Foy): string[] | null {
+  if (!!x.ozel !== !!y.ozel || (x.tur || "hukuk") !== (y.tur || "hukuk")) return null;
+  if (esasSade(x.esasNo) || esasSade(y.esasNo)) return null;
+  const ax = { m: sade(x.muvekkil), k: sade(x.karsiTaraf) }, ay = { m: sade(y.muvekkil), k: sade(y.karsiTaraf) };
+  // Ad tam aynı olmayabilir ("X" ile "X ve 1 diğeri"): ortak sözcük yeter; ikisi de yazılı olmalı.
+  if (ax.m.length < 5 || ax.k.length < 5 || ay.m.length < 5 || ay.k.length < 5 || !adTutar(ax.m, ay.m) || !adTutar(ax.k, ay.k)) return null;
+  const mx = merciSade(x.mahkeme), my = merciSade(y.mahkeme);
+  if (mx && my && mx !== my) return null;
+  return ["numarası yazılmamış", "aynı tür (" + turBilgi(x.tur).ad + ")", "aynı müvekkil", "aynı karşı taraf"];
+}
+
+/** Üç ya da daha çok föy birbirine çift çift öneriliyorsa (ör. aynı taraflı 10 icra föyü: 45 öneri) tek "grup" önerisi olur. */
+function gruplaOneriler(out: IliskiOnerisi[]): IliskiOnerisi[] {
+  const sonuc = out.filter(o => o.tur === "evrak" || o.tur === "zincir");
+  // "Aynı dosya" ve "ilgili" öneriler ayrı gruplanır (birleştirme ile bağlama karışmasın).
+  for (const tur of ["ayni", "ilgili"] as const) {
+  const cift = out.filter(o => o.tur === tur);
+  const kok = new Map<string, string>();
+  const bul = (id: string): string => { let x = id; while (kok.has(x) && kok.get(x) !== x) x = kok.get(x)!; return x; };
+  for (const o of cift) { const ra = bul(o.a.id), rb = bul(o.b.id); if (ra !== rb) kok.set(ra, rb); }
+  const gruplar = new Map<string, IliskiOnerisi[]>();
+  for (const o of cift) { const r = bul(o.a.id); gruplar.set(r, [...(gruplar.get(r) || []), o]); }
+  for (const xs of gruplar.values()) {
+    const foyler = new Map<string, Foy>();
+    for (const o of xs) { foyler.set(o.a.id, o.a); foyler.set(o.b.id, o.b); }
+    if (foyler.size < 3) { sonuc.push(...xs); continue; }
+    const grup = [...foyler.values()].sort((a, b) => (a.foyNo || "").localeCompare(b.foyNo || "", "tr", { numeric: true }));
+    const kopya = xs.every(o => o.tur === "ayni");
+    const nedenler = [...new Set(xs.flatMap(o => o.nedenler).filter(n => !/^aynı esas no/.test(n)))].slice(0, 5);
+    sonuc.push({ anahtar: "grup|" + tur + "|" + grup.map(f => f.id).sort().join("|"), tur: "grup", puan: Math.max(...xs.map(o => o.puan)), nedenler, a: grup[0], b: grup[1], grup, ciftler: xs.map(o => o.anahtar), kopya });
+  }
+  }
+  return sonuc;
 }
 
 /** Föyün müvekkilinin ve karşı tarafının öteki dosyaları (ad ya da kimlik no aynı; müvekkil başka dosyada karşı taraf

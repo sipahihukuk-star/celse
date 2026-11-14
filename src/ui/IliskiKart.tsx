@@ -4,7 +4,7 @@ import { Sayfali } from "./Sayfalama";
 import React, { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { ayarOku, ayarYaz, Foy, foyBaslik, foyGetir, foyKaydet as foyKaydetAsil } from "../data/foy";
-import { foyBirlestir, kalacakFoy } from "../data/foyBirlestir";
+import { baglantilariCevir, foyBirlestir, kalacakFoy } from "../data/foyBirlestir";
 import { FoyTur, TURLER, turBilgi } from "../data/foyTurleri";
 import { Acilir } from "./Acilir";
 import { hareketEkle } from "../data/evrakHareket";
@@ -36,7 +36,7 @@ export function IliskiKart({ liste, onAc, odak, odakDegistir }: { liste: Foy[]; 
     let bitti = false;
     const z = setTimeout(async () => {
       await iliskiHazirla(liste, () => bitti);
-      if (!bitti) setOneriler(iliskiOner(liste, red).filter(o => !odak || o.a.id === odak || o.b.id === odak));
+      if (!bitti) setOneriler(iliskiOner(liste, red).filter(o => !odak || o.a.id === odak || o.b.id === odak || !!o.grup?.some(f => f.id === odak)));
     }, odak ? 0 : 600);
     return () => { bitti = true; clearTimeout(z); };
   }, [liste, red, odak]);
@@ -51,14 +51,14 @@ export function IliskiKart({ liste, onAc, odak, odakDegistir }: { liste: Foy[]; 
   const evrakOneri = oneriler.filter(o => o.tur === "evrak");
   const topluTemizle = async (xs: IliskiOnerisi[]) => {
     const once = [...red];
-    const y = new Set(red); xs.forEach(o => y.add(o.anahtar));
+    const y = new Set(red); xs.forEach(o => { y.add(o.anahtar); (o.ciftler || []).forEach(k => y.add(k)); });
     setRed(y); setTopluOnay(null); setGeriAl(once);
     await ayarYaz("iliskiRed", [...y]);
     setBilgi(t("{n} öneri listeden kaldırıldı; evrak yerinde duruyor.", { n: xs.length }));
   };
   const geriAlYap = async () => { if (!geriAl) return; setRed(new Set(geriAl)); await ayarYaz("iliskiRed", geriAl); setGeriAl(null); setBilgi(t("Öneriler geri getirildi.")); };
   const reddet = async (o: IliskiOnerisi) => {
-    const y = new Set(red); y.add(o.anahtar); setRed(y);
+    const y = new Set(red); y.add(o.anahtar); (o.ciftler || []).forEach(k => y.add(k)); setRed(y);
     await ayarYaz("iliskiRed", [...y]);
   };
   // Kaydetmeden önce föyün son hâli okunur (açık başka bir ekranda değişmiş olabilir).
@@ -91,6 +91,34 @@ export function IliskiKart({ liste, onAc, odak, odakDegistir }: { liste: Foy[]; 
     }
   };
 
+  // Grup: hepsi ilk föye "ilgili" bağlanır (zincirleme bağlı sayıldıkları için çiftler bir daha önerilmez).
+  const grupBagla = async (o: IliskiOnerisi) => {
+    const xs = await Promise.all((o.grup || []).map(guncel));
+    if (xs.length < 2) return;
+    const [ilk, ...oteki] = xs;
+    await foyKaydet({ ...ilk, ilgiliIds: [...new Set([...(ilk.ilgiliIds || []), ...oteki.map(x => x.id)])] });
+    for (const x of oteki) await foyKaydet({ ...x, ilgiliIds: [...new Set([...(x.ilgiliIds || []), ilk.id])] });
+    setBilgi(t("{n} föy birbirine ilgili dosya olarak bağlandı.", { n: xs.length }));
+  };
+  // Grup kopyaysa: hepsi tek föyde birleşir (evrak, işler, duruşmalar, notlar taşınır; ötekiler silinir).
+  const grupBirlestir = async (o: IliskiOnerisi) => {
+    setHata("");
+    try {
+      const ids = (o.grup || []).map(f => f.id);
+      let kalanId = ids[0];
+      const harita = new Map<string, string>();
+      for (const id of ids.slice(1)) {
+        const y = await foyBirlestir(kalanId, id, false);
+        const giden = y.id === kalanId ? id : kalanId;
+        harita.set(giden, y.id);
+        kalanId = y.id;
+      }
+      await baglantilariCevir(harita);
+      setOnay(null);
+      setBilgi(t("{n} föy tek föyde birleştirildi.", { n: ids.length }));
+      if (odak && odak !== kalanId) onAc(kalanId);
+    } catch (e) { setHata(t(String((e as Error).message || e))); }
+  };
   const birlestir = async (o: IliskiOnerisi) => {
     setHata("");
     try {
@@ -141,8 +169,13 @@ export function IliskiKart({ liste, onAc, odak, odakDegistir }: { liste: Foy[]; 
       )}
       <Sayfali anahtar="baglanti-onerileri" xs={goster} varsayilan={10} satir={o => (
         <View key={o.anahtar} style={[s.foy, { flexDirection: "column", alignItems: "stretch", gap: 6 }]}>
-          <Text style={s.meta}>{o.tur === "zincir" ? t("DEVAMI OLABİLİR") : o.tur === "ilgili" ? t("İLGİLİ OLABİLİR") : o.tur === "ayni" ? t("AYNI DOSYA İKİ KEZ AÇILMIŞ OLABİLİR") : t("EVRAK BAŞKA FÖYE AİT OLABİLİR")}</Text>
-          {o.tur === "evrak" ? (
+          <Text style={s.meta}>{o.tur === "grup" ? (o.kopya ? t("AYNI DOSYA {n} KEZ AÇILMIŞ OLABİLİR", { n: o.grup!.length }) : t("{n} DOSYA BİRBİRİYLE İLGİLİ OLABİLİR", { n: o.grup!.length })) : o.tur === "zincir" ? t("DEVAMI OLABİLİR") : o.tur === "ilgili" ? t("İLGİLİ OLABİLİR") : o.tur === "ayni" ? t("AYNI DOSYA İKİ KEZ AÇILMIŞ OLABİLİR") : t("EVRAK BAŞKA FÖYE AİT OLABİLİR")}</Text>
+          {o.tur === "grup" ? (
+            <View style={{ gap: 4 }}>
+              {o.grup!.slice(0, 30).map(f => satir(o, f, "• "))}
+              {o.grup!.length > 30 && <Text style={s.hint}>{t("…ve {n} föy daha", { n: o.grup!.length - 30 })}</Text>}
+            </View>
+          ) : o.tur === "evrak" ? (
             <Text style={s.fileT}>📄 {o.evrak!.ad}{"\n"}<Text style={s.hint}>{t("şu an: {a}", { a: etiket(o.a) })}{"\n"}{t("ait olabileceği föy: {b}", { b: etiket(o.b) })}</Text></Text>
           ) : (
             <View style={{ gap: 4 }}>
@@ -153,6 +186,13 @@ export function IliskiKart({ liste, onAc, odak, odakDegistir }: { liste: Foy[]; 
           <Text style={s.hint}>{t("Neden: {n}", { n: o.nedenler.join(", ") })}</Text>
           {(o.tur === "zincir" || o.tur === "ilgili") && <Text style={s.hint}>{t("“Devamı”: aynı uyuşmazlığın sonraki aşaması (soruşturma → ceza davası, arabuluculuk → dava, ilk derece → istinaf / BAM → Yargıtay); föyde aşamalar sırayla görünür. “İlgili”: ayrı ama bağlantılı dosya (aynı olaydan başka dava, karşı dava, icra takibi). Türü yanlış kaydedilmiş dosyayı önce “türü yanlış mı?” ile düzeltin.")}</Text>}
           {o.tur === "ayni" && onay !== o.anahtar && <Text style={s.hint}>{t("Gerçekten aynı dosyaysa birleştirin: evrak, işler, duruşmalar ve notlar tek föyde toplanır, öteki föy silinir.")}</Text>}
+          {o.tur === "grup" && onay !== o.anahtar && <Text style={s.hint}>{o.kopya ? t("Bunlar aynı dosyanın kopyalarıysa hepsini tek föyde birleştirin: evrak, işler, duruşmalar ve notlar tek föyde toplanır, ötekiler silinir. Ayrı dosyalarsa ilgili olarak bağlayın; bir daha önerilmez.") : t("Ayrı ama bağlantılı dosyalarsa hepsini ilgili olarak bağlayın; bir daha tek tek önerilmez.")}</Text>}
+          {o.tur === "grup" && onay === o.anahtar && (
+            <View style={{ gap: 6 }}>
+              <Text style={[s.body, { color: C.bad }]}>{t("Emin misiniz? {n} föy tek föyde birleşecek; evrak ve işler taşınacak, öteki {m} föy silinecek.", { n: o.grup!.length, m: o.grup!.length - 1 })}</Text>
+              <View style={s.row}><Btn label={t("Evet, birleştir")} onPress={() => grupBirlestir(o)} /><Btn kind="ghost" label={t("Vazgeç")} onPress={() => setOnay(null)} /></View>
+            </View>
+          )}
           {o.tur === "ayni" && onay === o.anahtar && (() => { const [k, g] = kalacakFoy(o.a, o.b); return (
             <View style={{ gap: 6 }}>
               <Text style={[s.body, { color: C.text }]}>{t("Kalacak föy: {a} ({n} evrak). Öteki föyün {m} evrakı, işleri, duruşmaları, beyanları ve notları buna taşınacak; öteki föy silinecek. Aynı adlı ve boyutlu evrak bir kez kalır.", { a: etiket(k), n: k.evraklar.length, m: g.evraklar.length })}</Text>
@@ -160,6 +200,8 @@ export function IliskiKart({ liste, onAc, odak, odakDegistir }: { liste: Foy[]; 
             </View>
           ); })()}
           <View style={[s.row, { flexWrap: "wrap", gap: 8 }]}>
+            {o.tur === "grup" && o.kopya && onay !== o.anahtar && <Btn label={t("🔀 Hepsini tek föyde birleştir")} onPress={() => setOnay(o.anahtar)} />}
+            {o.tur === "grup" && onay !== o.anahtar && <Btn kind={o.kopya ? "secondary" : "primary"} label={t("Hepsini ilgili dosya olarak bağla")} onPress={() => grupBagla(o)} />}
             {o.tur === "zincir" && <Btn label={t("Devamı olarak bağla (② ①'den sonra)")} onPress={() => uygula(o, "zincir")} />}
             {(o.tur === "zincir" || o.tur === "ilgili") && <Btn kind={o.tur === "zincir" ? "secondary" : "primary"} label={t("İlgili dosya olarak bağla")} onPress={() => uygula(o, "ilgili")} />}
             {o.tur === "evrak" && <Btn label={t("Evrakı o föye taşı")} onPress={() => uygula(o, "tasi")} />}
