@@ -111,3 +111,43 @@ export function dosyalariTamamla(kartlar: Foy[], dosyalar: Foy[]): Foy[] {
   }
   return out;
 }
+
+/** Bu föyün müvekkillerinin (ilk müvekkil ve öteki müvekkiller) boş bilgilerini müvekkil kartlarından getirir:
+ *  kimlik no, adres, telefon, e-posta; ilk müvekkil için vekâletname de. Kimlik no ile, yoksa tek kartla eşleşen adla bulunur. */
+export function karttanGetir(f: Foy, kartlar: Foy[]): { ek: Partial<Foy>; dolan: string[]; bulunamayan: string[] } {
+  const noIle = new Map<string, Foy>(), adIle = new Map<string, Foy | null>();
+  for (const k of kartlar.filter(muvekkilMi)) {
+    if (k.muvekkilBilgi?.kimlikNo) noIle.set(k.muvekkilBilgi.kimlikNo, k);
+    const a = sadeAd(k.muvekkil);
+    adIle.set(a, adIle.has(a) ? null : k);
+  }
+  const bul = (ad: string, no?: string) => (no && noIle.get(no)) || adIle.get(sadeAd(ad)) || undefined;
+  const ek: Partial<Foy> = {};
+  const dolan: string[] = [], bulunamayan: string[] = [];
+  if (f.muvekkil.trim()) {
+    const k = bul(f.muvekkil, f.muvekkilBilgi?.kimlikNo);
+    if (!k) bulunamayan.push(f.muvekkil);
+    else {
+      const mb = f.muvekkilBilgi || {}, kb = k.muvekkilBilgi || {};
+      const yeni = { ...mb };
+      for (const [alan, ad] of [["kimlikNo", "kimlik no"], ["adres", "adres"], ["telefon", "telefon"], ["eposta", "e-posta"], ["vekaletname", "vekâletname"]] as const) {
+        if (!mb[alan] && kb[alan]) { yeni[alan] = kb[alan]; dolan.push(f.muvekkil + ": " + ad); }
+      }
+      if (dolan.length) ek.muvekkilBilgi = yeni;
+    }
+  }
+  let degisti = false;
+  const ekler = (f.ekMuvekkiller || []).map(x => {
+    if (!x.ad.trim()) return x;
+    const k = bul(x.ad, x.kimlikNo);
+    if (!k) { bulunamayan.push(x.ad); return x; }
+    const kb = k.muvekkilBilgi || {};
+    const y = { ...x };
+    for (const [alan, ad] of [["kimlikNo", "kimlik no"], ["adres", "adres"], ["telefon", "telefon"], ["eposta", "e-posta"]] as const) {
+      if (!x[alan] && kb[alan]) { y[alan] = kb[alan]; dolan.push(x.ad + ": " + ad); degisti = true; }
+    }
+    return y;
+  });
+  if (degisti) ek.ekMuvekkiller = ekler;
+  return { ek, dolan, bulunamayan };
+}
