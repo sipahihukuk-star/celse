@@ -4,6 +4,7 @@
 // Adlar evraktaki taraflarla eşleştirilir (doğru yazımı, kimlik no ve adresi oradan gelir); "Yılmaz'ı", "keskini" gibi ekler atılır.
 import type { Foy, TarafKisi } from "./foy";
 import type { FaizTuru, IcraBilgi, Kalem, Masraf, ParaBirimi, TakipYolu } from "./icra";
+import { AVANS, kalemleri, TTK1530, YASAL } from "./icra";
 import type { TarafOneri } from "./kunyeCikar";
 
 const ust = (x: string) => x.toLocaleUpperCase("tr");
@@ -36,7 +37,9 @@ export interface TalimatAlanlari {
   icraDairesi?: string; iban?: string; banka?: string; hesapSahibi?: "vekil" | "alacakli";
   yol?: TakipYolu; mahiyet?: string; paraBirimi?: ParaBirimi; takipTarihi?: string;
   ilam?: { mahkeme?: string; esasNo?: string; kararNo?: string; kararTarihi?: string; kesinlesme?: string };
-  faizTuru?: FaizTuru; faizBaslangic?: { kalem?: string; tarih: string }[];
+  faizTuru?: FaizTuru; faizBaslangic?: { kalem?: string; tarih?: string; ref?: "dava" | "karar" | "kesinlesme" | "takip" }[];
+  /** "faiz %31", "yüzde 31 faiz": yasal / avans faizinde dönemsel tabloyla aynıysa sabitlenmez */
+  faizOran?: number;
   masraflar?: Masraf[]; not?: string; mernis?: ("alacakli" | "borclu")[];
   kisiBilgi?: { rol: "alacakli" | "borclu"; ad?: string; kimlikNo?: string; adres?: string }[];
   kalemSil?: string[];
@@ -90,13 +93,26 @@ export function alanlariOku(talimat: string): TalimatAlanlari {
   if (Object.keys(ilam).length) a.ilam = ilam;
   const tt = tarihSonra(/takip\s+tarih/); if (tt) a.takipTarihi = tt;
   // Faiz türü (bütün kalemler) ve kaleme özel başlangıç
-  const ft = /avans|ticari faiz/i.test(x) ? "avans" : /mevduat/i.test(x) ? "mevduat" : /3095|yasal faiz|kanuni faiz/i.test(x) ? "yasal" : /faizsiz|faiz istem|faiz olmasın/i.test(x) ? "yok" : undefined;
+  const ft = /avans|ticari faiz/i.test(x) ? "avans" : /mevduat/i.test(x) ? "mevduat" : /1530/i.test(x) ? "ttk1530" : /sözleşme(?:deki)?\s*(?:temerrüt\s*)?faiz/i.test(x) ? "sozlesme" : /3095|yasal faiz|kanuni faiz/i.test(x) ? "yasal" : /faizsiz|faiz istem|faiz olmasın/i.test(x) ? "yok" : undefined;
   if (ft && /faiz/i.test(x)) a.faizTuru = ft as FaizTuru;
   for (const m of x.matchAll(/((?:\p{L}+\s+){0,3}?)(?:için\s+)?faiz(?:i|in)?\s*(?:başlangıcı|başlangıç tarihi)?\s*:?\s*(\d{1,2}[./-]\d{1,2}[./-](?:19|20)\d{2})/giu)) {
     const tarih = isoTarih(m[2]); if (!tarih) continue;
     const kalem = KALEMLER.find(([re]) => re.test(m[1]))?.[1];
     (a.faizBaslangic ||= []).push({ kalem, tarih });
   }
+  // "asıl alacağa 15.03.2024 tarihinden itibaren avans faizi"
+  for (const m of x.matchAll(/((?:\p{L}+\s+){0,3}?)(\d{1,2}[./-]\d{1,2}[./-](?:19|20)\d{2})\s*(?:tarihinden|['’]?(?:den|dan|ten|tan))\s*(?:itibaren\s+)?[^.\n]{0,40}?faiz/giu)) {
+    const tarih = isoTarih(m[2]); if (!tarih || a.faizBaslangic?.some(y => y.tarih === tarih)) continue;
+    (a.faizBaslangic ||= []).push({ kalem: KALEMLER.find(([re]) => re.test(m[1]))?.[1], tarih });
+  }
+  // "dava tarihinden itibaren", "karar tarihinden", "kesinleşme tarihinden", "takip tarihinden" (faizle birlikte)
+  if (/faiz/i.test(x)) for (const m of x.matchAll(/((?:\p{L}+\s+){0,3}?)(dava|karar|kesinleşme|takip)\s+tarihinden/giu)) {
+    const ref = ({ dava: "dava", karar: "karar", kesinleşme: "kesinlesme", takip: "takip" } as const)[m[2].toLocaleLowerCase("tr") as "dava"];
+    (a.faizBaslangic ||= []).push({ kalem: KALEMLER.find(([re]) => re.test(m[1]))?.[1], ref });
+  }
+  // Faiz oranı: "faiz %31", "yüzde 31 faiz", "faiz oranı 31"
+  const fo = x.match(/faiz[^.\n%]{0,40}?(?:%|yüzde|oranı)\s*(\d{1,2}(?:[.,]\d{1,2})?)/i) || x.match(/(?:%|yüzde)\s*(\d{1,2}(?:[.,]\d{1,2})?)[^.\n]{0,30}?faiz/i);
+  if (fo) { const n = Number(fo[1].replace(",", ".")); if (n > 0 && n < 200) a.faizOran = n; }
   // Masraf: "1.250 TL protesto masrafı", "ihtarname masrafı 850 TL"
   for (const m of x.matchAll(/(\d{1,3}(?:[.\s]\d{3})*(?:,\d{1,2})?|\d+(?:,\d{1,2})?)\s*(?:tl|₺)?\s*(?:lik\s+)?((?:protesto|ihtarname|noter|tebligat|posta|keşif|bilirkişi)\w*)\s+(?:masraf|gider|ücret)/giu)) (a.masraflar ||= []).push({ ad: bicimAd(m[2]) + " masrafı", tutar: sayi(m[1]) });
   for (const m of x.matchAll(/((?:protesto|ihtarname|noter|tebligat|posta)\w*)\s+(?:masraf|gider|ücret)\w*\s*:?\s*(\d{1,3}(?:[.\s]\d{3})*(?:,\d{1,2})?|\d+(?:,\d{1,2})?)\s*(?:tl|₺)/giu)) (a.masraflar ||= []).push({ ad: bicimAd(m[1]) + " masrafı", tutar: sayi(m[2]) });
@@ -141,6 +157,7 @@ const KALEMLER: [RegExp, string][] = [
   [/kıdem/i, "Kıdem tazminatı"],
   [/ihbar\s*tazminat/i, "İhbar tazminatı"],
   [/fazla\s*(?:mesai|çalışma)/i, "Fazla mesai alacağı"],
+  [/asıl\s*alaca[kğ]/i, "Asıl alacak"],
   [/yıllık\s*(?:ücretli\s*)?izin/i, "Yıllık izin ücreti"],
   [/kira/i, "Kira bedeli"],
   [/asıl\s*alacak|alacak/i, "Asıl alacak"]
@@ -217,7 +234,7 @@ const bicim = (x: string) => x.toLocaleLowerCase("tr").replace(/(^|\s)(\p{L})/gu
  * Talimatı föye uygular: alacak kalemleri (talimattaki tutarlar hükümden okunanların üstüne yazılır, olmayan eklenir),
  * ek alacaklılar (künyedeki müvekkillere) ve ek borçlular (takibin borçlularına).
  */
-export function talimatUygula(f: Foy, r: TalimatSonucu, opt: { taraflar?: TarafOneri[]; kaynak?: string; hukumKalemleri?: Kalem[]; kararTarihi?: string; ilamli?: boolean }): { ek: Partial<Foy>; dolan: string[] } {
+export function talimatUygula(f: Foy, r: TalimatSonucu, opt: { taraflar?: TarafOneri[]; kaynak?: string; hukumKalemleri?: Kalem[]; kararTarihi?: string; davaTarihi?: string; ilamli?: boolean }): { ek: Partial<Foy>; dolan: string[] } {
   const dolan: string[] = [];
   const ek: Partial<Foy> = {};
   const b: IcraBilgi = { ...(f.icra || { yol: "genel", paraBirimi: "TL", faizTuru: "yasal" }) };
@@ -273,11 +290,30 @@ export function talimatUygula(f: Foy, r: TalimatSonucu, opt: { taraflar?: TarafO
     if (a.paraBirimi && a.paraBirimi !== b.paraBirimi) { b.paraBirimi = a.paraBirimi; icraDegisti = true; dolan.push("para birimi: " + a.paraBirimi); }
     if (a.takipTarihi) { b.takipTarihi = a.takipTarihi; icraDegisti = true; dolan.push("takip tarihi " + tr(a.takipTarihi)); }
     if (a.ilam) { b.ilam = { ...(b.ilam || {}), ...a.ilam }; icraDegisti = true; dolan.push("ilam bilgileri (" + Object.entries(a.ilam).map(([k, v]) => ({ mahkeme: "mahkeme", esasNo: "esas", kararNo: "karar no", kararTarihi: "karar tarihi " + tr(v), kesinlesme: "kesinleşme " + tr(v) } as Record<string, string>)[k]).join(", ") + ")"); }
-    if (a.faizTuru || a.faizBaslangic || a.kalemSil) {
-      let ks = (b.kalemler || []).map(k => ({ ...k }));
+    if (a.faizTuru || a.faizBaslangic || a.kalemSil || a.faizOran) {
+      // Eski kayıtlarda kalemler ayrı alanlarda (asıl alacak, vekâlet ücreti…): önce kalemlere çevrilir, yoksa faiz boş listeye yazılırdı.
+      let ks = kalemleri(b).filter(k => k.tutar).map(k => ({ ...k }));
+      if (!b.kalemler) { b.asil = undefined; b.islemisFaizElle = undefined; b.ilamVekalet = undefined; b.yargilamaGideri = undefined; }
       if (a.kalemSil) { const once = ks.length; ks = ks.filter(k => !a.kalemSil!.includes(k.ad.replace(/\s*\((?:brüt|net)\)$/i, ""))); if (ks.length !== once) dolan.push((once - ks.length) + " kalem silindi"); }
       if (a.faizTuru) { ks = ks.map(k => ({ ...k, faizTuru: a.faizTuru })); dolan.push("faiz türü: " + a.faizTuru); }
-      for (const fb of a.faizBaslangic || []) { ks = ks.map(k => (!fb.kalem || k.ad.startsWith(fb.kalem) ? { ...k, faizBaslangic: fb.tarih } : k)); dolan.push((fb.kalem ? fb.kalem + " " : "") + "faiz başlangıcı " + tr(fb.tarih)); }
+      for (const fb of a.faizBaslangic || []) {
+        const tarih = fb.tarih || (fb.ref === "dava" ? opt.davaTarihi || b.ilam?.davaTarihi : fb.ref === "karar" ? opt.kararTarihi || b.ilam?.kararTarihi : fb.ref === "kesinlesme" ? b.ilam?.kesinlesme : fb.ref === "takip" ? b.takipTarihi : undefined);
+        const adi = { dava: "dava tarihi", karar: "karar tarihi", kesinlesme: "kesinleşme tarihi", takip: "takip tarihi" }[fb.ref || "dava"];
+        if (!tarih) { dolan.push((fb.kalem ? fb.kalem + " " : "") + "faiz başlangıcı: " + adi + " evrakta bulunamadı, tarihi yazın"); continue; }
+        // Kalem belirtilmeden "dava tarihinden" denmişse gider kalemleri (vekâlet ücreti, yargılama gideri, harç) karar tarihinden işler.
+        const gider = (ad: string) => /vekâlet|vekalet|yargılama|harç/i.test(ad);
+        const kt = opt.kararTarihi || b.ilam?.kararTarihi;
+        ks = ks.map(k => (fb.kalem ? k.ad.startsWith(fb.kalem) : true) ? { ...k, faizBaslangic: !fb.kalem && fb.ref === "dava" && gider(k.ad) && kt ? kt : tarih } : k); dolan.push((fb.kalem ? fb.kalem + " " : "") + "faiz başlangıcı " + tr(tarih) + (fb.ref ? " (" + adi + ")" : ""));
+      }
+      if (a.faizOran) {
+        // Yasal / avans / TTK 1530 faizinde dönemsel tablo uygulanır (7589 s. Kanun: 31.07.2026'dan itibaren %31); avukatın yazdığı
+        // oran bugünkü tablo oranıyla aynıysa kaleme sabit oran yazılmaz (yoksa geçmiş dönemler de o oranla hesaplanırdı).
+        const bugun = new Date().toISOString().slice(0, 10);
+        const tabloOrani = (tur?: FaizTuru) => { const tb = tur === "avans" ? AVANS : tur === "ttk1530" ? TTK1530 : tur === "yasal" || !tur ? YASAL : undefined; return tb ? [...tb].reverse().find(([g]) => g <= bugun)?.[1] : undefined; };
+        let sabit = 0;
+        ks = ks.map(k => { if ((k.faizTuru || "yasal") === "yok") return k; const to = tabloOrani(k.faizTuru); if (to === a.faizOran) return { ...k, oran: undefined }; sabit++; return { ...k, oran: a.faizOran }; });
+        dolan.push(sabit ? "yıllık faiz oranı %" + String(a.faizOran).replace(".", ",") + " (sabit)" : "faiz oranı: dönemsel tablo (bugün %" + String(a.faizOran).replace(".", ",") + "; önceki dönemler kendi oranıyla)");
+      }
       b.kalemler = ks; icraDegisti = true;
     }
     if (a.masraflar?.length) { const ms = [...(b.masraflar || [])]; for (const m of a.masraflar) if (!ms.some(x => x.ad === m.ad && x.tutar === m.tutar)) { ms.push(m); dolan.push(`${m.ad}: ${m.tutar.toLocaleString("tr-TR")} TL`); } b.masraflar = ms; icraDegisti = true; }

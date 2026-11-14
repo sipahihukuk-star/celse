@@ -4,7 +4,7 @@ import { Foy } from "../data/foy";
 import { FaizTuru, MAHIYETLER, TakipYolu } from "../data/icra";
 import { hazirlikAdlari, hazirlikCoz, IcraHazirlik } from "../data/icraHazirla";
 import type { TalimatAlanlari } from "../data/icraTalimat";
-import { ac, FAIZLER, IcraDegisiklik, icraSoruKaynagi, IcraSohbetSatiri, SIZINTI, YOLLAR } from "../data/icraSohbet";
+import { ac, FAIZLER, IcraDegisiklik, isoCikar, icraSoruKaynagi, IcraSohbetSatiri, SIZINTI, YOLLAR } from "../data/icraSohbet";
 export { degisiklikOzeti } from "../data/icraSohbet";
 export type { IcraDegisiklik, IcraSohbetSatiri } from "../data/icraSohbet";
 
@@ -26,8 +26,10 @@ export async function icraSor(f: Foy, soru: string, yapistirilan = ""): Promise<
       degisiklik.kalemler = (d.kalemler as Record<string, unknown>[]).map(x => {
         const tutar = typeof x.tutar === "number" ? x.tutar : Number(String(x.tutar || "").replace(/\./g, "").replace(",", "."));
         const fz = FAIZLER.includes(x.faizTuru as FaizTuru) ? (x.faizTuru as FaizTuru) : "yasal";
-        const bas = ac(String(x.faizBaslangic || ""), k.map, k.tarihler, true).trim();
-        return { ad: ac(String(x.ad || "Alacak"), k.map, k.tarihler).slice(0, 80), tutar: Math.round((tutar || 0) * 100) / 100, faizTuru: fz, faizBaslangic: /^\d{4}-\d{2}-\d{2}$/.test(bas) ? bas : undefined };
+        const bas = isoCikar(ac(String(x.faizBaslangic || ""), k.map, k.tarihler, true));
+        const oran = Number(String(x.oran ?? "").replace(",", "."));
+        // Sabit oran yalnız sözleşme / mevduat faizinde; yasal, avans ve TTK 1530'da Celse dönemsel tabloyu uygular.
+        return { ad: ac(String(x.ad || "Alacak"), k.map, k.tarihler).slice(0, 80), tutar: Math.round((tutar || 0) * 100) / 100, faizTuru: fz, faizBaslangic: fz === "yok" ? undefined : bas, ...((fz === "sozlesme" || fz === "mevduat") && oran > 0 && oran < 200 ? { oran } : {}) };
       }).filter(x => x.tutar > 0).slice(0, 30);
     }
     // Takip formunun kutuları: kodlar cihazda gerçek değerlerine açılır; tarihler YYYY-AA-GG olur.

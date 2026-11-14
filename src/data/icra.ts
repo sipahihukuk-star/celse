@@ -29,7 +29,7 @@ export interface IcraBilgi {
   icraVekaletYazma?: boolean;
 
   // Dayanak belge
-  ilam?: { mahkeme?: string; esasNo?: string; kararNo?: string; kararTarihi?: string; kesinlesme?: string; dosyaTuru?: string };
+  ilam?: { mahkeme?: string; esasNo?: string; kararNo?: string; kararTarihi?: string; kesinlesme?: string; dosyaTuru?: string; /** faiz başlangıcı için ("dava tarihinden") */ davaTarihi?: string };
   senet?: { tur?: "bono" | "cek" | "police"; duzenleme?: string; vade?: string; seriNo?: string; banka?: string; kesideci?: string };
   kira?: { sozlesmeTarihi?: string; aylikKira?: number; aylar?: string; adres?: string; /** kira süresi bitti, tahliye (Örnek 14) */ sozlesmeSonu?: boolean };
   belge?: string; // genel haciz: fatura, sözleşme, cari hesap, ihtarname…

@@ -10,7 +10,7 @@
 // Taraf rol kodları (rolID) ve alacak kalemi kodları programda yok (sunucudan gelir); yerine adları yazılır.
 // Tarih biçimi GG/AA/YYYY, tutar biçimi 15000.00 kabul edilmiştir. İlk yüklemede UYAP'ın hata mesajına göre düzeltilecek.
 import type { Foy } from "./foy";
-import { IcraBilgi, icraHesapla, MAHIYETLER, ParaBirimi, talepEdilenHak, tumBorclular } from "./icra";
+import { AVANS, IcraBilgi, icraHesapla, MAHIYETLER, ParaBirimi, talepEdilenHak, tumBorclular, TTK1530, YASAL } from "./icra";
 import { IL_ILCE } from "./ilIlce";
 
 export interface VekilBilgi { adSoyad: string; tcKimlikNo?: string; baroNo?: string; tbbNo?: string; adres?: string }
@@ -20,6 +20,13 @@ const nit = (o: Record<string, unknown>) => Object.entries(o).filter(([, v]) => 
 const tarih = (iso?: string) => (iso ? iso.split("-").reverse().join("/") : undefined);
 const tutar = (x?: number) => (x === undefined ? undefined : (Math.round(x * 100) / 100).toFixed(2));
 const PB: Record<ParaBirimi, [string, string]> = { TL: ["PRBRMTL", "TL - Türk Lirası"], USD: ["PRBRMUSD", "USD - Amerikan Doları"], EUR: ["PRBRMEUR", "EUR - Euro"], GBP: ["PRBRMGBP", "GBP - İngiliz Sterlini"] };
+/** Sabit oran yazılmamış dönemsel faizde (yasal, avans, TTK 1530) takip tarihindeki oran: UYAP'ta faiz satırında oran boş kalmasın. */
+const tabloOrani = (tur: string, gun?: string): string | undefined => {
+  const tb = tur === "yasal" ? YASAL : tur === "avans" ? AVANS : tur === "ttk1530" ? TTK1530 : undefined;
+  const g = (gun || new Date().toISOString()).slice(0, 10);
+  const o = tb ? [...tb].reverse().find(([b]) => b <= g)?.[1] : undefined;
+  return o !== undefined ? String(o) : undefined;
+};
 const FAIZ_KOD: Record<string, [string, string]> = { yasal: ["FAIZT00002", "Adi Kanuni Faiz"], avans: ["FAIZT00007", "Reeskont Avans"], mevduat: ["FAIZT00011", "En Yüksek Mevduat Faizi(TL)"], sozlesme: ["FAIZT00003", "Diğer"], ttk1530: ["FAIZT00003", "TTK 1530. Madde Temerrüt Faizi"] };
 
 /** Takip türü / yolu / şekli. */
@@ -91,7 +98,7 @@ export function uyapXml(f: Foy, b: IcraBilgi, vekil: VekilBilgi, bugun = new Dat
   const kalemXml = h.kalemler.filter(x => x.k.tutar).map((x, i) => {
     const tur = x.k.faizTuru || "yasal";
     const fk = FAIZ_KOD[tur];
-    const faiz = tur !== "yok" && fk ? `<faiz${nit({ id: `f${i + 1}`, baslangicTarihi: tarih(x.k.faizBaslangic), bitisTarihi: tarih(takip), faizOran: x.k.oran !== undefined ? String(x.k.oran) : undefined, faizTipKod: fk[0], faizTipKodAciklama: fk[1], faizTutar: tutar(x.faiz), faizTutarTur: tt, faizTutarTurAdi: ta, faizSureTip: "SRBRM00003" })}/>` : "";
+    const faiz = tur !== "yok" && fk ? `<faiz${nit({ id: `f${i + 1}`, baslangicTarihi: tarih(x.k.faizBaslangic), bitisTarihi: tarih(takip), faizOran: x.k.oran !== undefined ? String(x.k.oran) : tabloOrani(tur, takip), faizTipKod: fk[0], faizTipKodAciklama: fk[1], faizTutar: tutar(x.faiz), faizTutarTur: tt, faizTutarTurAdi: ta, faizSureTip: "SRBRM00003" })}/>` : "";
     return `<alacakKalemi${nit({ id: `k${i + 1}`, alacakKalemAdi: x.k.ad, alacakKalemKodAciklama: x.k.ad, alacakKalemTutar: tutar(x.k.tutar), alacakKalemIlkTutar: tutar(x.k.tutar), tutarTur: tt, tutarAdi: ta, dovizKurCevrimi: pb !== "TL" && b.kur ? String(b.kur) : undefined })}>${faiz}</alacakKalemi>`;
   });
   const ekXml = [...h.ek, ...(b.masraflar || []).filter(x => x.tutar).map(x => ({ ad: x.ad || "Masraf", tutar: x.tutar }))]

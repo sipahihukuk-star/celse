@@ -5,7 +5,7 @@
 import { Foy, TarafKisi } from "./foy";
 import { FaizTuru, IcraBilgi, Kalem, Kisi, MAHIYETLER, TakipYolu } from "./icra";
 import { ayniKisi, ilamTaraflari } from "./icraEvrak";
-import { ac, FAIZLER, YOLLAR } from "./icraSohbet";
+import { ac, FAIZLER, isoCikar, YOLLAR } from "./icraSohbet";
 
 export interface HazirlikKisi { ad: string; kimlikNo?: string; adres?: string }
 export interface HazirlikKalemi extends Kalem { alacakli?: string; borclular?: string; dayanak?: string }
@@ -59,12 +59,15 @@ export function hazirligiUygula(f: Foy, h: IcraHazirlik): { ek: Partial<Foy>; ya
     if (f.tur === "icra") ek.ekKarsiTaraflar = xs.slice(1);
     yazilan.push(xs.length + " borçlu");
   }
+  // Faiz başlangıcı okunamayan gider kalemlerine (vekâlet ücreti, yargılama gideri, harç) karar tarihi yazılır.
+  const kt = h.ilam?.kararTarihi || b.ilam?.kararTarihi;
   const kalemler: Kalem[] | undefined = h.kalemler.length
-    ? h.kalemler.map(k => ({ ad: kalemAdi(k, h), tutar: k.tutar, faizTuru: k.faizTuru || "yasal", faizBaslangic: k.faizTuru === "yok" ? undefined : k.faizBaslangic }))
+    ? h.kalemler.map(k => ({ ad: kalemAdi(k, h), tutar: k.tutar, faizTuru: k.faizTuru || "yasal",
+      faizBaslangic: k.faizTuru === "yok" ? undefined : k.faizBaslangic || (/vekâlet|vekalet|yargılama|harç/i.test(k.ad) ? kt : undefined) }))
     : undefined;
   if (kalemler) yazilan.push(kalemler.length + " alacak kalemi");
   const il = h.ilam || {};
-  const ilam = { ...(b.ilam || {}), ...Object.fromEntries(Object.entries(il).filter(([, v]) => dolu(v as string))) };
+  const ilam = { ...(b.ilam || {}), ...Object.fromEntries(Object.entries(il).filter(([, v]) => dolu(v as string))), ...(h.davaTarihi ? { davaTarihi: h.davaTarihi } : {}) };
   if (Object.keys(il).some(k => dolu((il as Record<string, string>)[k]))) yazilan.push("ilam bilgileri");
   ek.icra = {
     ...b,
@@ -101,7 +104,7 @@ export function okumaKarsilastir(h: IcraHazirlik, yerel: Kalem[]): Fark[] {
  *  Açılamayan kod (ör. [AD-9]) kimlik no ya da adres olarak yazılmaz. */
 export function hazirlikCoz(d: Record<string, unknown>, map: Record<string, string>, tarihler: Record<string, string>): IcraHazirlik {
   const m = (x: unknown, n = 300) => (typeof x === "string" && x.trim() ? ac(x, map, tarihler).trim().slice(0, n) : undefined);
-  const tarih = (x: unknown) => { const v = typeof x === "string" ? ac(x, map, tarihler, true).trim() : ""; return /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : undefined; };
+  const tarih = (x: unknown) => (typeof x === "string" ? isoCikar(ac(x, map, tarihler, true)) : undefined);
   const kodsuz = (x?: string) => (x && !/\[[A-ZÇĞİÖŞÜ]+-\d+\]/.test(x) ? x : undefined);
   const kisi = (x: Record<string, unknown>): HazirlikKisi => ({ ad: m(x.ad, 200) || "", kimlikNo: kodsuz(m(x.kimlikNo, 30))?.replace(/\D/g, "") || undefined, adres: kodsuz(m(x.adres, 300)) });
   const dizi = (x: unknown) => (Array.isArray(x) ? (x as unknown[]).filter(y => y && typeof y === "object") as Record<string, unknown>[] : []);

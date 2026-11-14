@@ -74,6 +74,15 @@ export function ac(x: string, map: Record<string, string>, tarihler: Record<stri
   return unmask(t, map);
 }
 
+/** Açılmış tarih alanını YYYY-AA-GG'ye çevirir: "2023-01-12", "2023-01-12'den", "12.01.2023" kabul edilir; olmazsa undefined. */
+export function isoCikar(v?: string): string | undefined {
+  if (!v) return undefined;
+  const a = v.match(/\b((?:19|20)\d{2})-(\d{2})-(\d{2})\b/);
+  if (a) return `${a[1]}-${a[2]}-${a[3]}`;
+  const b = v.match(/\b(\d{1,2})[./-](\d{1,2})[./-]((?:19|20)\d{2})\b/);
+  return b ? `${b[3]}-${b[2].padStart(2, "0")}-${b[1].padStart(2, "0")}` : undefined;
+}
+
 /** Önerilen değişikliğin avukata gösterilecek özeti. */
 export function degisiklikOzeti(d: IcraDegisiklik): string[] {
   const out: string[] = [];

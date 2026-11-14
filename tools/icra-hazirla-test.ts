@@ -133,6 +133,19 @@ const istek = (b: Record<string, unknown>) => new Request("https://x/functions/v
   const f2 = { ...f, muvekkilBilgi: { adres: "Önceden Yazılı Adres" } } as Foy;
   ok(hazirligiUygula(f2, h).ek.muvekkilBilgi?.adres === "Önceden Yazılı Adres", "boş kalan adres föydekinden korunur");
 
+  // Faiz başlangıcı: "[TARİH-n]'den" gibi ekli kod ve okunamayan gider kalemi (uydurma)
+  {
+    const hf = hazirlikCoz({ ozet: "x", yol: "ilamli", ilam: { kararTarihi: "[TARİH-2]" }, davaTarihi: "[TARİH-1]", kalemler: [
+      { ad: "Asıl alacak", tutar: 1000, faizTuru: "yasal", faizBaslangic: "[TARİH-1]'den itibaren" },
+      { ad: "Vekâlet ücreti", tutar: 500, faizTuru: "yasal", faizBaslangic: "" }] }, {}, { "[TARİH-1]": "2023-01-12", "[TARİH-2]": "2025-03-10" });
+    ok(hf.kalemler[0].faizBaslangic === "2023-01-12", "ekli kod açılır: " + hf.kalemler[0].faizBaslangic);
+    const uf = hazirligiUygula(bosFoy({ tur: "icra" }), hf);
+    ok(uf.ek.icra?.kalemler?.[1].faizBaslangic === "2025-03-10" && uf.ek.icra?.ilam?.davaTarihi === "2023-01-12", "vekâlet ücretine karar tarihi, dava tarihi saklanır");
+    const bf = { ...uf.ek.icra!, takipTarihi: "2026-11-14" };
+    const xf = uyapXml({ ...bosFoy({ tur: "icra", muvekkil: "Kurgu A", karsiTaraf: "Kurgu B" }), icra: bf }, bf, { adSoyad: "Av. Kurgu" });
+    ok(/faizOran="31"/.test(xf), "XML'de dönemsel faizin takip tarihindeki oranı (%31)");
+  }
+
   console.log(fail ? `\n${fail} hata` : "\nicra hazırla: tamam");
   process.exit(fail ? 1 : 0);
 })();
