@@ -28,6 +28,7 @@ import { BeyanEditoru } from "./BeyanEditoru";
 import { DUZEY_RENK, duzeyAdi, GorevKapat } from "./GorevKapat";
 import { Katlanir } from "./Katlanir";
 import { Acilir } from "./Acilir";
+import { IcraOrnekleri } from "./IcraOrnekleri";
 import { IcraBolum } from "./IcraBolum";
 import { tl } from "../data/icra";
 import { komisyonaUygun } from "../data/davaListesi";
@@ -520,7 +521,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const icraBlok = (f.tur === "icra" || !!f.icra) ? (
         <Katlanir anahtar="icra" baslik={t("İcra takibi bilgileri")} varsayilan ozet={f.icra?.asil ? t("asıl alacak {x}", { x: tl(f.icra.asil, f.icra.paraBirimi || "TL") }) : t("doldurulmadı")}>
           {!!icraMesaj && <Text style={[s.hint, { color: C.good }]}>{icraMesaj}</Text>}
-          <IcraBolum f={f} degistir={degistir} surum={surum} okuma={okuma} hata={err} guncel={() => son.current || f} yenile={() => setSurum(v => v + 1)} onKaydet={async () => { await hemenKaydet(); if (!zaman.current) await kaydetIzinli(son.current || f); }} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} bizimAdlar={bizimAdlar()} onMetinEkle={async metin => {
+          <IcraBolum ornekYok f={f} degistir={degistir} surum={surum} okuma={okuma} hata={err} guncel={() => son.current || f} yenile={() => setSurum(v => v + 1)} onKaydet={async () => { await hemenKaydet(); if (!zaman.current) await kaydetIzinli(son.current || f); }} onEvrakEkle={dosyaSaklanir() ? () => evrakEkle() : undefined} bizimAdlar={bizimAdlar()} onMetinEkle={async metin => {
             // Yapıştırılan metin, dosya gibi okunur (tür, kodlu hâl, künye, icra bilgisi).
             const g = new Date(); const p2 = (n: number) => String(n).padStart(2, "0");
             const ad = `Yapıştırılan metin ${p2(g.getDate())}.${p2(g.getMonth() + 1)}.${g.getFullYear()} ${p2(g.getHours())}.${p2(g.getMinutes())}.txt`;
@@ -679,8 +680,9 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       </Katlanir>
       {!!err && <Text style={s.err}>{err}</Text>}
       {bt.icra && icraBlok}
-      {kunyeBlok}
-      {beyanBlok(!bt.icra && !bt.talep)}
+      {/* İcra takibi açarken yalnız takip bilgileri: künye, icra örnekleri ve talep yazma açılmış föyde durur. */}
+      {!bt.icra && kunyeBlok}
+      {!bt.icra && beyanBlok(!bt.talep)}
       {bt.talep && talepBlok(true)}
       <View style={[s.card, { gap: 8 }]}>
         {kaydetSatiri}
@@ -722,9 +724,16 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         );
       })()}
 
-      {basvuruKarti}
+      {/* İcra föyünde takip hazırlığı (alacak kalemleri, XML) gösterilmez; föyde künye, icra örnekleri ve talep yazma durur. */}
+      {!icraUstte && basvuruKarti}
       {icraUstte && kunyeEksikBlok}
       {icraUstte && kunyeBlok}
+      {icraUstte && (
+        <Katlanir anahtar="icra-ornek" baslik={t("📄 İcra örnekleri")} ozet={t("İİK Yönetmeliği örnekleri, dosyanın bilgileriyle")}>
+          <IcraOrnekleri f={f} b={f.icra || { yol: "genel", talep: "haciz", paraBirimi: "TL", faizTuru: "yasal" }} vekil={vekilAdi} />
+        </Katlanir>
+      )}
+      {icraUstte && beyanBlok(false)}
       {/* Dava föylerinde en üstte dosya zinciri ve künye; öteki bölümler aşağıda. */}
       {!icraUstte && zincirBlok}
       {!icraUstte && kunyeEksikBlok}
