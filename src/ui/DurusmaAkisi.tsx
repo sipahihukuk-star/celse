@@ -18,6 +18,7 @@ import { Btn } from "./kit";
 import { C } from "./theme";
 import { eKarar } from "../data/otoIs";
 import { DurusmaSimulasyon } from "./DurusmaSimulasyon";
+import { KayanListe } from "./KayanListe";
 
 const kisaTarih = (x: string) => `${x.slice(8, 10)}.${x.slice(5, 7)}.${x.slice(2, 4)}${x.length > 10 ? " " + x.slice(11, 16) : ""}`;
 const E_SIMGE_: Record<EDurum | "yok", { s: string; renk: string; ad: string }> = {
@@ -191,7 +192,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar, onHazirlan }: { f: Foy; de
         <Text style={[s.hint, { flex: 1, color: ozet.iyi ? C.good : C.mid, fontWeight: "700" }]} numberOfLines={2}>{t(ozet.metin)}</Text>
       </View>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12, alignItems: "flex-start" }}>
-      <View style={{ flexShrink: 1, flexGrow: 0, maxWidth: as.length * 320 + 10, minWidth: 310 }}>
+      <View style={{ flexShrink: 1, flexGrow: 0, maxWidth: as.length * 360 + 10, minWidth: 330 }}>
       <ScrollView ref={kaydirma} horizontal showsHorizontalScrollIndicator contentContainerStyle={{ gap: 10, paddingBottom: 4, alignItems: "flex-start" }}
         onContentSizeChange={() => kaydirma.current?.scrollToEnd({ animated: false })}>
         {as.map((a, ai) => {
@@ -199,7 +200,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar, onHazirlan }: { f: Foy; de
           const gunN = a.gunler.filter(g => g.d).length;
           const sonraki = a.gunler.find(g => g.d && g.d.tarih.slice(0, 10) >= bugun)?.d;
           return (
-            <View key={a.anahtar} style={{ width: 310, borderWidth: 1, borderColor: a.guncel ? C.brass : C.line, borderRadius: 10, padding: 8, gap: 6, backgroundColor: a.guncel ? C.panel2 : "transparent" }}>
+            <View key={a.anahtar} style={{ width: 350, borderWidth: 1, borderColor: a.guncel ? C.brass : C.line, borderRadius: 10, padding: 8, gap: 6, backgroundColor: a.guncel ? C.panel2 : "transparent" }}>
               <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 6 }}>
                 <Pressable onPress={() => ac(a.anahtar)} accessibilityRole="button" accessibilityState={{ expanded: acik }} style={{ flex: 1 }}>
                   <Text style={{ color: C.text, fontWeight: "800", fontSize: 13 }} numberOfLines={2}>{ai > 0 ? "➜ " : ""}{a.kisa || t("Mahkeme yazılmadı")}</Text>
@@ -222,7 +223,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar, onHazirlan }: { f: Foy; de
                 </View>
               )}
               {acik && (
-                <View style={{ gap: 6 }}>
+                <KayanListe>
                   {!a.gunler.length && <Text style={s.hint}>{t("Bu aşamada henüz gün yok.")}</Text>}
                   {a.gunler.map((g, i) => g.d ? hap(g.d, g.celse) : (
                     <View key={"bos" + g.celse + i} style={{ gap: 4 }}>
@@ -236,7 +237,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar, onHazirlan }: { f: Foy; de
                       )}
                     </View>
                   ))}
-                </View>
+                </KayanListe>
               )}
             </View>
           );
@@ -383,3 +384,4 @@ function AsamaEkle({ onEkle, onIptal }: { onEkle: (mahkeme: string, esasNo: stri
     </View>
   );
 }
+
