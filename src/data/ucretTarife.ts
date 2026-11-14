@@ -4,7 +4,7 @@
 //  - 2025–2026 AAÜT: RG 04.11.2025 (yalnız başlıca maktu ücretler biliniyor: asliye, sulh, tüketici, ağır ceza, idare, icra).
 //  - Harçlar: 98 Seri No.lu Harçlar Kanunu Genel Tebliği (RG 31.12.2025): başvurma harcı sulh 335,20 TL, asliye / iş / aile /
 //    tüketici / ticaret 732,00 TL; maktu karar ve ilam harcı 732,00 TL; nispi karar ve ilam harcı binde 68,31 (peşini dörtte biri);
-//    icra başvurma 732,00 TL, ilamsız takip peşin harcı binde 5; istinaf başvurma 2.002,00 TL, temyiz 3.608,50 TL.
+//    icra başvurma 732,00 TL, ilamsız takip peşin harcı binde 5.
 //  - HMK Gider Avansı Tarifesi (RG 28.10.2025): taraf başına beş tebligat + 530 TL; PTT tebligat ücreti 300 TL (01.10.2026).
 // Mahkeme, karşı tarafa yükletilecek vekâlet ücretini karar tarihinde yürürlükteki tarifeye göre belirler; burada dava açılış
 // tarihindeki tarife ile bugünkü tarife birlikte gösterilir. Avukat ile müvekkil daha yüksek ücrette anlaşabilir; asgariden az olamaz.
@@ -100,7 +100,7 @@ export function asgariUcret(f: Pick<Foy, "mahkeme" | "tur" | "davaTuru" | "acili
 
 export interface GiderTahmini { kod: string; kategori: string; aciklama: string; tutar: number }
 const BASVURMA = { sulh: 335.2, asliye: 732 }, MAKTU_KARAR = 732, NISPI_BINDE = 68.31, TEBLIGAT = 300, AVANS_SABIT = 530;
-const ICRA_BASVURMA = 732, ICRA_PESIN_BINDE = 5, ISTINAF = 2002, TEMYIZ = 3608.5;
+const ICRA_BASVURMA = 732, ICRA_PESIN_BINDE = 5;
 
 /** Davayı biz açıyorsak açılışta ödenecek başlangıç giderleri; davalıysak kanun yoluna giderken ödenecekler bilgi olarak. */
 export function giderTahmini(f: Pick<Foy, "mahkeme" | "tur" | "davaTuru" | "taraf" | "ekMuvekkiller" | "ekKarsiTaraflar"> & { icra?: { ekBorclular?: unknown[] } }, davaDegeri?: number): { kalemler: GiderTahmini[]; notlar: string[] } {
@@ -122,9 +122,7 @@ export function giderTahmini(f: Pick<Foy, "mahkeme" | "tur" | "davaTuru" | "tara
     return { kalemler, notlar };
   }
   if (f.taraf === "davali") {
-    notlar.push("Davalı olarak açılışta harç ve gider avansı ödemezsiniz. Kanun yoluna giderseniz: istinaf başvurma harcı 2.002,00 TL, temyiz 3.608,50 TL ve karar harcı farkı.");
-    kalemler.push({ kod: "istinaf", kategori: "İstinaf / temyiz harcı", aciklama: "İstinaf başvurma harcı (istinafa gidilirse)", tutar: ISTINAF });
-    kalemler.push({ kod: "temyiz", kategori: "İstinaf / temyiz harcı", aciklama: "Temyiz başvurma harcı (temyize gidilirse)", tutar: TEMYIZ });
+    notlar.push("Davalı olarak açılışta harç ve gider avansı ödemezsiniz; talebiniz üzerine çıkan giderleri (bilirkişi, keşif, tanık) “Diğer giderler”den ekleyin.");
     return { kalemler, notlar };
   }
   const idare = mt === "idare" || mt === "danistay";

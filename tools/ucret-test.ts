@@ -20,7 +20,7 @@ ok(asgariUcret(bosFoy({ tur: "icra" }), 50000, BUGUN).guncel.asgari === 12500, "
 const g = giderTahmini({ ...asliye, taraf: "davaci" }, 100000);
 ok(g.kalemler.map(k => k.kod + ":" + k.tutar).join(",") === "basvurma:732,pesin:1707.75,avans:3530", "asliye davacı 100.000 TL: " + g.kalemler.map(k => k.kod + ":" + k.tutar).join(","));
 ok(giderTahmini({ ...sulh, taraf: "davaci" }).kalemler[0].tutar === 335.2, "sulh başvurma 335,20");
-ok(giderTahmini({ ...asliye, taraf: "davali" }).kalemler.map(k => k.kod).join() === "istinaf,temyiz", "davalı: açılışta harç yok, kanun yolu harçları");
+ok(giderTahmini({ ...asliye, taraf: "davali" }).kalemler.length === 0, "davalı: açılışta harç yok, istinaf / temyiz harcı gösterilmez");
 const gi = giderTahmini({ ...bosFoy({ tur: "icra" }), icra: { ekBorclular: [{}] } }, 100000);
 ok(gi.kalemler.map(k => k.tutar).join() === "732,500,600", "icra: başvurma, binde 5 peşin, 2 borçluya tebligat");
 ok(!giderTahmini(bosFoy({ tur: "ceza", mahkeme: "Uydurma 4. Asliye Ceza Mahkemesi" })).kalemler.length, "ceza davasında harç yok");
