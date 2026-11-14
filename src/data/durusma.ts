@@ -38,10 +38,39 @@ export interface Durusma {
   kaynak?: "elle" | "kunye" | "evrak" | "liste";
   /** bilginin okunduğu evrak */
   evrakId?: string;
+  /** kaçıncı celse (tutanaktan okunur ya da elle yazılır); eksik celseler akışta "?" olarak görünür */
+  celse?: number;
 }
 
-/** E-duruşma yalnız hukuk davalarında (ilk derece, istinaf ve temyiz duruşmaları) sorulur. */
-export const E_TURLER = ["hukuk"];
+/** Yargılama aşaması: mahkeme + dosya numarası. Duruşma akışı aşama aşama sütunlara ayrılır (eski aşama solda, yeni sağda).
+ *  Duruşmalardan kendiliğinden çıkar; evraktan (tutanak, karar) ya da elle de eklenir; elle kısaltma ve celse sayısı yazılabilir. */
+export interface Yargilama {
+  id: string; mahkeme?: string; esasNo?: string;
+  /** elle yazılmış kısa ad (yoksa mahkemeKisa) */
+  kisa?: string;
+  /** sıralama için: aşamanın bilinen en erken günü (evrakın tarihi) */
+  tarih?: string;
+  /** bu aşamada bilinen celse sayısı (tutanaktan): eksik celseler "?" olarak gösterilir */
+  celse?: number;
+  kaynak?: "elle" | "evrak"; evrakId?: string;
+}
+
+/** Uzaktan katılım: hukuk davalarında ve icra ceza mahkemesinde e-duruşma (avukat portalı); öteki ceza davalarında avukat
+ *  SEGBİS ile bağlanır. Aynı akış (talep, kabul, red) iki ad altında yürür. */
+export type ETur = "e" | "segbis";
+export function eTuru(f: { tur?: string; mahkeme?: string }, d?: { mahkeme?: string }): ETur | null {
+  const m = (d?.mahkeme || f.mahkeme || "").toLocaleLowerCase("tr");
+  if (/icra\s*ceza/.test(m)) return "e";
+  const tr = f.tur || "hukuk";
+  if (tr === "hukuk") return "e";
+  if (tr === "ceza" || tr === "ozel_ceza") return "segbis";
+  return null;
+}
+/** "E-duruşma" ya da "SEGBİS" */
+export const eAdi = (f: { tur?: string; mahkeme?: string }, d?: { mahkeme?: string }) => (eTuru(f, d) === "segbis" ? "SEGBİS" : "E-duruşma");
+/** Cümle içinde: "e-duruşma" ya da "SEGBİS" */
+export const eAdiKucuk = (f: { tur?: string; mahkeme?: string }, d?: { mahkeme?: string }) => (eTuru(f, d) === "segbis" ? "SEGBİS" : "e-duruşma");
+export const E_TURLER = ["hukuk", "ceza", "ozel_ceza"];
 /** Duruşma düzeni: hukuk ve ceza davalarında her celsede duruşma olur; idare mahkemesi, komisyon, AYM / AİHM ve disiplin
  *  dosyalarında duruşma yalnız talep ya da karar üzerine (çoğu zaman bir kez) yapılır; diğerlerinde duruşma yoktur. */
 export type DurusmaDuzeni = "olagan" | "talepli" | "yok";
@@ -51,7 +80,7 @@ export function durusmaDuzeni(f: { tur?: string }): DurusmaDuzeni {
   if (t === "idari_dava" || t === "tazminat_komisyonu" || t === "bireysel_basvuru" || t === "kurum_basvuru" || t === "baro" || t === "idari_sorusturma" || t === "bilirkisi_gorev") return "talepli";
   return "yok";
 }
-export const eSorulur = (f: Foy) => E_TURLER.includes(f.tur || "hukuk");
+export const eSorulur = (f: Foy) => !!eTuru(f);
 /** E-duruşma talebi için son gün: duruşmadan bu kadar gün önce (mahkemenin karar verecek zamanı olsun). */
 export const E_TALEP_GUN = 7;
 /** Günü geçmiş ama işaretlenmemiş duruşma ancak bu kadar gün içindeyse uyarır (eski dosyadan gelen geçmiş duruşmalar susar). */
@@ -123,7 +152,7 @@ export interface EvrakDurusmaBulgu {
   /** metinde geçen haciz günleri */
   hacizler?: string[];
   /** tutanaksa: o duruşmanın günü ve bizim vekilin gelip gelmediği */
-  oturum?: { tarih: string; girildi?: Girildi };
+  oturum?: { tarih: string; girildi?: Girildi; celse?: number };
   /** e-duruşma: talep / kabul / red ve hangi duruşma için */
   e?: { durum: "talep" | "kabul" | "red"; tarih?: string };
   mahkeme?: string; esasNo?: string; belgeTarihi?: string;
@@ -162,6 +191,9 @@ export function evrakDurusmaOku(metin: string, taraf: "davaci" | "davali" = "dav
       const re = new RegExp(String.raw`(?:${rol})\s*(?:VEKİLİ|VEKİLLERİ|MÜDAFİİ|MÜDAFİLERİ)(?:(?!VEKİL|MÜDAFİ)[^\n]){0,90}?\b(GELDİ|HAZIR|KATILDI|BAĞLANDI|GELMEDİ|YOK|KATILMADI|BAĞLANAMADI|GELMEMİŞ)`, "u");
       const m = u.match(re);
       o.oturum = { tarih: ilk, girildi: m ? (/GELMEDİ|YOK|KATILMADI|BAĞLANAMADI|GELMEMİŞ/.test(m[1]) ? "hayir" : "evet") : undefined };
+      // Kaçıncı celse: "5. CELSE", "CELSE NO: 5", "OTURUM: 5", "5 NOLU CELSE"
+      const c = u.slice(0, 2500).match(/(?:^|[^\d])(\d{1,2})\s*\.?\s*(?:NOLU\s*|NO'?LU\s*)?(?:CELSE|OTURUM)(?![A-ZÇĞİÖŞÜ]{3})/) || u.slice(0, 2500).match(/(?:CELSE|OTURUM)\s*(?:NO|NUMARASI|SAYISI|SIRA\s*NO)?\s*[:：]\s*(\d{1,2})(?!\d)/);
+      if (c && +c[1] > 0 && +c[1] < 100) o.oturum.celse = +c[1];
     }
   }
   // E-duruşma (hukuk) ve SEGBİS (ceza) talebi ve kararı.
@@ -186,8 +218,9 @@ const E_SIRA: Record<EDurum, number> = { istenmeyecek: 0, talep: 1, kabul: 2, re
 
 /** Evraktan okunanları föyün duruşma akışına işler. Elle işaretlenmiş kutulara dokunulmaz; e-duruşma geri gitmez
  *  (kabul edilmiş bir talep, sonradan gelen talep dilekçesiyle "talep"e dönmez). */
-export function evraktanDurusma(f: Foy, evraklar: { id: string; metin: string; tarih?: string; eklenme: string }[], simdi = new Date()): { durusmalar: Durusma[]; degisen: string[] } {
+export function evraktanDurusma(f: Foy, evraklar: { id: string; metin: string; tarih?: string; eklenme: string }[], simdi = new Date()): { durusmalar: Durusma[]; degisen: string[]; yargilamalar?: Yargilama[] } {
   let xs = f.durusmalar || [];
+  let ys = f.yargilamalar || [];
   const degisen = new Set<string>();
   const ff = () => ({ ...f, durusmalar: xs });
   const sira = [...evraklar].filter(e => e.metin && e.metin.trim()).sort((a, b) => (a.tarih || a.eklenme).localeCompare(b.tarih || b.eklenme));
@@ -213,18 +246,28 @@ export function evraktanDurusma(f: Foy, evraklar: { id: string; metin: string; t
       const d = xs.find(x => x.tarih.slice(0, 10) === b.oturum!.tarih.slice(0, 10));
       if (d && !d.girildi) { xs = xs.map(x => (x.id === d.id ? { ...x, girildi: b.oturum!.girildi } : x)); degisen.add(b.oturum.girildi === "evet" ? "duruşmaya girildi" : "duruşmaya girilmedi"); }
     }
-    // E-duruşma yalnız hukuk davalarında (ceza duruşmasında e-duruşma yoktur; SEGBİS ayrı bir şeydir).
+    if (b.oturum?.celse) {
+      const d = xs.find(x => x.tarih.slice(0, 10) === b.oturum!.tarih.slice(0, 10) && dTur(x) === "durusma");
+      if (d && !d.celse) { xs = xs.map(x => (x.id === d.id ? { ...x, celse: b.oturum!.celse } : x)); degisen.add(b.oturum.celse + ". celse"); }
+    }
+    // Mahkeme belgesindeki mahkeme ve dosya no akışta yoksa yeni bir yargılama aşaması açılır (eski ise solda, yeni ise sağda).
+    if (b.mahkeme && b.esasNo && MAHKEME_BELGESI.test(e.metin.slice(0, 4000).toLocaleUpperCase("tr"))) {
+      const a = asamaAnahtari(b.mahkeme, b.esasNo);
+      const var_ = asamaAnahtari(f.mahkeme, f.esasNo) === a || xs.some(x => asamaAnahtari(x.mahkeme || f.mahkeme, x.esasNo || f.esasNo) === a) || ys.some(y => asamaAnahtari(y.mahkeme, y.esasNo) === a);
+      if (!var_) { ys = [...ys, { id: "y-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 6), mahkeme: b.mahkeme, esasNo: b.esasNo, tarih: (e.tarih || b.belgeTarihi || e.eklenme).slice(0, 10), kaynak: "evrak", evrakId: e.id }]; degisen.add("yargılama aşaması (" + mahkemeKisa(b.mahkeme) + " " + b.esasNo + ")"); }
+    }
+    // E-duruşma (hukuk, icra ceza) ya da SEGBİS (öteki ceza davaları); öteki dosyalarda sorulmaz.
     if (b.e && eSorulur(f)) {
       const ref = b.e.tarih || (e.tarih || b.belgeTarihi || e.eklenme.slice(0, 10));
       const d = b.e.tarih ? xs.find(x => x.tarih.slice(0, 10) === b.e!.tarih!.slice(0, 10) && dTur(x) === "durusma") : durusmaSirala(xs).find(x => x.tarih.slice(0, 10) >= ref.slice(0, 10) && dTur(x) === "durusma");
       if (d && (!d.e || E_SIRA[b.e.durum] > E_SIRA[d.e] || (d.e === "istenmeyecek" && b.e.durum !== "talep"))) {
         const gunu = (e.tarih || b.belgeTarihi || e.eklenme).slice(0, 10);
         xs = xs.map(x => (x.id === d.id ? { ...x, e: b.e!.durum, ...(b.e!.durum === "talep" ? { eTalep: x.eTalep || gunu } : { eKarar: gunu, eTalep: x.eTalep || gunu }) } : x));
-        degisen.add(b.e.durum === "talep" ? "e-duruşma talebi" : b.e.durum === "kabul" ? "e-duruşma kabulü" : "e-duruşma reddi");
+        { const ad = eAdiKucuk(f, d); degisen.add(ad + (b.e.durum === "talep" ? " talebi" : b.e.durum === "kabul" ? " kabulü" : " reddi")); }
       }
     }
   }
-  return { durusmalar: durusmaSirala(xs), degisen: [...degisen] };
+  return { durusmalar: durusmaSirala(xs), degisen: [...degisen], ...(ys.length !== (f.yargilamalar || []).length ? { yargilamalar: ys } : {}) };
 }
 
 /** Föyün mahkemesi ya da dosya numarası değişince (görevsizlik, birleşme, istinaf, yeni esas): bugün ve sonrasındaki günler
@@ -249,6 +292,89 @@ export function yerDegisti(onceki: Durusma | undefined, d: Durusma): string | nu
   const mah = d.mahkeme && onceki.mahkeme && mahkemeNormal(d.mahkeme) !== mahkemeNormal(onceki.mahkeme);
   if (!esas && !mah) return null;
   return [mah ? d.mahkeme : "", esas ? d.esasNo : ""].filter(Boolean).join(" · ");
+}
+
+// ── Yargılama aşamaları ─────────────────────────────────────────────────────────────────────────────
+/** Mahkeme belgesi mi (aşama açabilir): tutanak, karar, ara karar, tensip, görevsizlik / yetkisizlik, istinaf, temyiz. */
+const MAHKEME_BELGESI = /TUTANA[GĞ]I|KARAR|TENSİP|GÖREVSİZLİK|YETKİSİZLİK|BİRLEŞTİRME|BOZMA|İSTİNAF|TEMYİZ|DURUŞMA/;
+const sadeMah = (x?: string) => (x || "").toLocaleLowerCase("tr").replace(/['’]\s*[a-zçğıöşü]+/g, "").replace(/t\.c\.|mahkemesi[a-zçğıöşü]*|mahk?\.|başkanlığı[a-zçğıöşü]*|h[aâ]kimliği[a-zçğıöşü]*|[^a-zçğıöşü0-9]+/g, "");
+const sadeEsas = (x?: string) => (x || "").toLocaleUpperCase("tr").replace(/ESAS|ESAS NO|E\.|\s+/g, "").replace(/[^0-9/]/g, "");
+export const asamaAnahtari = (mahkeme?: string, esasNo?: string) => sadeMah(mahkeme) + "|" + sadeEsas(esasNo);
+
+const KISALTMA: [RegExp, string][] = [
+  [/\s*\([^)]*sıfat[^)]*\)/, ""], [/^t\.c\.\s*/, ""],
+  [/fikri\s+ve\s+sına[iî]\s+haklar\s+hukuk\s+mahkemesi/, "FSHHM"], [/fikri\s+ve\s+sına[iî]\s+haklar\s+ceza\s+mahkemesi/, "FSHCM"],
+  [/asliye\s+hukuk\s+mahkemesi/, "AHM"], [/asliye\s+ticaret\s+mahkemesi/, "ATM"], [/asliye\s+ceza\s+mahkemesi/, "ACM"],
+  [/ağır\s+ceza\s+mahkemesi/, "AğCM"], [/sulh\s+hukuk\s+mahkemesi/, "SHM"], [/sulh\s+ceza\s+h[aâ]kimliği/, "SCH"],
+  [/icra\s+hukuk\s+mahkemesi/, "İcra HM"], [/icra\s+ceza\s+mahkemesi/, "İcra CM"], [/iş\s+mahkemesi/, "İş M."], [/aile\s+mahkemesi/, "Aile M."],
+  [/tüketici\s+mahkemesi/, "Tük. M."], [/kadastro\s+mahkemesi/, "Kad. M."], [/çocuk\s+mahkemesi/, "Çocuk M."], [/idare\s+mahkemesi/, "İdare M."],
+  [/vergi\s+mahkemesi/, "Vergi M."], [/bölge\s+adliye\s+mahkemesi/, "BAM"], [/bölge\s+idare\s+mahkemesi/, "BİM"], [/hukuk\s+dairesi/, "HD"],
+  [/ceza\s+dairesi/, "CD"], [/idari\s+dava\s+daireleri\s+kurulu/, "İDDK"], [/vergi\s+dava\s+daireleri\s+kurulu/, "VDDK"], [/dava\s+dairesi/, "DD"],
+  [/\s+başkanlığı/, ""], [/mahkemesi/, "M."]
+];
+/** "İzmir 3. Asliye Hukuk Mahkemesi" → "İzmir 3. AHM"; "İZMİR BÖLGE ADLİYE MAHKEMESİ 20. HUKUK DAİRESİ" → "İzmir BAM 20. HD". */
+export function mahkemeKisa(m?: string): string {
+  let o = (m || "").replace(/\s+/g, " ").trim();
+  if (!o) return "";
+  if (o === o.toLocaleUpperCase("tr")) o = o.split(" ").map(w => w.slice(0, 1) + w.slice(1).toLocaleLowerCase("tr")).join(" ");
+  for (const [re, yeni] of KISALTMA) {
+    const x = re.exec(o.toLocaleLowerCase("tr"));
+    if (x) o = o.slice(0, x.index) + yeni + o.slice(x.index + x[0].length);
+  }
+  return o.replace(/\s+/g, " ").trim();
+}
+
+export interface AsamaGun { d?: Durusma; celse?: number }
+export interface Asama {
+  anahtar: string; mahkeme?: string; esasNo?: string; kisa: string;
+  /** kayıtlı aşama (evraktan ya da elle) */
+  y?: Yargilama;
+  /** günler sırasıyla; d yoksa günü bilinmeyen (eksik) celse */
+  gunler: AsamaGun[];
+  /** günü bilinmeyen celse numaraları */
+  eksik: number[];
+  /** föyün şimdiki mahkemesi ve numarası */
+  guncel: boolean;
+  ilk: string;
+}
+/** Föyün yargılama aşamaları, eskiden yeniye: duruşmalardaki mahkeme ve numaralar, kayıtlı aşamalar ve föyün şimdiki yeri.
+ *  Celse numarası bilinen duruşmalardan öncekiler sırayla numaralanır; günü bilinmeyen celseler "?" olarak araya girer. */
+export function asamalar(f: Foy): Asama[] {
+  const m = new Map<string, Asama>();
+  const al = (mahkeme?: string, esasNo?: string): Asama => {
+    const a = asamaAnahtari(mahkeme, esasNo);
+    let x = m.get(a);
+    if (!x) { x = { anahtar: a, mahkeme, esasNo, kisa: mahkemeKisa(mahkeme), gunler: [], eksik: [], guncel: false, ilk: "" }; m.set(a, x); }
+    return x;
+  };
+  const guncelA = asamaAnahtari(f.mahkeme, f.esasNo);
+  if (f.mahkeme || f.esasNo || (f.durusmalar || []).length) al(f.mahkeme, f.esasNo).guncel = true;
+  for (const y of f.yargilamalar || []) { const x = al(y.mahkeme, y.esasNo); x.y = y; if (y.kisa) x.kisa = y.kisa; if (y.tarih && (!x.ilk || y.tarih < x.ilk)) x.ilk = y.tarih; }
+  for (const d of durusmaSirala(f.durusmalar || [])) {
+    const x = al(d.mahkeme || f.mahkeme, d.esasNo || f.esasNo);
+    x.gunler.push({ d });
+    const g = d.tarih.slice(0, 10);
+    if (!x.ilk || g < x.ilk) x.ilk = g;
+  }
+  for (const x of m.values()) {
+    x.guncel = x.anahtar === guncelA;
+    const ds = x.gunler.filter(g => g.d && dTur(g.d) === "durusma");
+    const n = ds.map(g => g.d!.celse);
+    for (let i = 1; i < n.length; i++) if (n[i] === undefined && n[i - 1] !== undefined) n[i] = n[i - 1]! + 1;
+    for (let i = n.length - 2; i >= 0; i--) if (n[i] === undefined && n[i + 1] !== undefined && n[i + 1]! > 1) n[i] = n[i + 1]! - 1;
+    ds.forEach((g, i) => { g.celse = n[i]; });
+    const enBuyuk = Math.max(0, ...n.filter((v): v is number => v !== undefined), x.y?.celse || 0);
+    const var_ = new Set(n.filter((v): v is number => v !== undefined));
+    if (var_.size || x.y?.celse) for (let c = 1; c <= enBuyuk; c++) if (!var_.has(c)) x.eksik.push(c);
+    // Günü bilinmeyen celseler: kendinden büyük ilk bilinen celsenin önüne (yoksa sona) girer.
+    for (const c of x.eksik) {
+      const i = x.gunler.findIndex(g => g.celse !== undefined && g.celse > c);
+      x.gunler.splice(i < 0 ? x.gunler.length : i, 0, { celse: c });
+    }
+  }
+  // Bilinen en erken güne göre (eski solda); günü olmayan şimdiki aşama en sağda, günü olmayan eski kayıt en solda.
+  const sira = (a: Asama) => a.ilk || (a.guncel ? "9999" : "0000");
+  return [...m.values()].sort((a, b) => sira(a).localeCompare(sira(b)));
 }
 
 // ── Uyarılar ────────────────────────────────────────────────────────────────────────────────────────
@@ -279,16 +405,16 @@ export function durusmaUyarilari(f: Foy, bugun = bugunGun()): DurusmaUyari[] {
       if (kalanD === 0 && !d.girildi) ekle(d, "girildi", tur === "kesif" ? "Bugün keşif var: katılınca kutuyu işaretleyin" : tur === "haciz" ? "Bugün haciz var: gidilince kutuyu işaretleyin" : "Bugün işlem var: kutuyu işaretleyin", g);
       continue;
     }
-    if (!d.e && eSorulur(f)) ekle(d, "eSor", "E-duruşma talep edilecek mi? Karar verilmedi", gunEkle(g, -E_TALEP_GUN), 21);
+    if (!d.e && eSorulur(f)) ekle(d, "eSor", eAdi(f, d) + " talep edilecek mi? Karar verilmedi", gunEkle(g, -E_TALEP_GUN), 21);
     else if (d.e === "talep" && eSorulur(f)) {
       // Karar gelmeyen talep: talepten iki gün sonra (en geç duruşmadan iki hafta önce) her gün hatırlatılır; duruşmaya iki gün
       // kala karar hâlâ yoksa acil olur (UYAP'ta görünmeyen ret yüzünden duruşma kaçmasın).
       const bas = [d.eTalep ? gunEkle(d.eTalep, 2) : bugun, gunEkle(g, -14)].sort()[1];
-      const metin = kalanD <= 2 ? (kalanD === 0 ? "Bugün duruşma: e-duruşma kararı yok! UYAP'tan bakın; kabul edilmediyse duruşmaya girecek kişiyi hemen ayarlayın" : "Duruşmaya " + kalanD + " gün var, e-duruşma kararı yok! UYAP'tan bakın; kabul edilmediyse duruşmaya girecek kişiyi ayarlayın")
-        : "E-duruşma talebine karar verilmedi: UYAP'tan kontrol edin";
+      const metin = kalanD <= 2 ? (kalanD === 0 ? "Bugün duruşma: " + eAdiKucuk(f, d) + " kararı yok! UYAP'tan bakın; kabul edilmediyse duruşmaya girecek kişiyi hemen ayarlayın" : "Duruşmaya " + kalanD + " gün var, " + eAdiKucuk(f, d) + " kararı yok! UYAP'tan bakın; kabul edilmediyse duruşmaya girecek kişiyi ayarlayın")
+        : eAdi(f, d) + " talebine karar verilmedi: UYAP'tan kontrol edin";
       ekle(d, "eKarar", metin, gunEkle(g, -2), 21, bas);
     }
-    else if (d.e === "red" && eSorulur(f)) ekle(d, "eRed", "E-duruşma reddedildi: duruşmaya bizzat girilecek", g, 7);
+    else if (d.e === "red" && eSorulur(f)) ekle(d, "eRed", eAdi(f, d) + " reddedildi: duruşmaya bizzat girilecek", g, 7);
     if (kalanD === 0 && !d.girildi) ekle(d, "girildi", "Bugün duruşma var: girilince kutuyu işaretleyin", g);
   }
   // Son duruşma geçmiş, girilmiş ve sonraki gün yazılmamışsa: sonraki duruşma günü sorulur.
@@ -316,7 +442,7 @@ export function durusmaOzeti(f: Foy, bugun = bugunGun()): { metin: string; iyi: 
   const u = durusmaUyarilari(f, bugun);
   const sonraki = durusmaSirala(xs).find(x => x.tarih.slice(0, 10) >= bugun);
   const kesifMi = sonraki && dTur(sonraki) !== "durusma";
-  const sn = sonraki ? `sonraki ${kesifMi ? DTUR_AD[dTur(sonraki)].toLocaleLowerCase("tr") + " " : ""}${sonraki.tarih.slice(8, 10)}.${sonraki.tarih.slice(5, 7)}.${sonraki.tarih.slice(0, 4)}` + (sonraki.e === "kabul" ? " · e-duruşma ✓" : "") : "";
+  const sn = sonraki ? `sonraki ${kesifMi ? DTUR_AD[dTur(sonraki)].toLocaleLowerCase("tr") + " " : ""}${sonraki.tarih.slice(8, 10)}.${sonraki.tarih.slice(5, 7)}.${sonraki.tarih.slice(0, 4)}` + (sonraki.e === "kabul" ? " · " + eAdiKucuk(f, sonraki) + " ✓" : "") : "";
   if (!u.length) return { metin: ["Her şey işlendi ✓", sn].filter(Boolean).join(" · "), iyi: true };
   return { metin: `${u.length} konu bekliyor: ${u[0].metin.toLocaleLowerCase("tr")}`, iyi: false };
 }

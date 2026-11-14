@@ -3,7 +3,7 @@
 // işaretlenir ("E-duruşmalar" görünümü); bekleyen konular görünür; liste Excel'e aktarılır.
 import React, { useMemo, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { bugunGun, dTur, DTur, DTUR_AD, DTUR_SIMGE, EDurum, eSorulur, girildiSoru, gunKaydir, icraMi, takvim, TakvimSatir } from "../data/durusma";
+import { bugunGun, dTur, DTur, DTUR_AD, DTUR_SIMGE, EDurum, eAdi, eSorulur, girildiSoru, gunKaydir, icraMi, takvim, TakvimSatir } from "../data/durusma";
 import { eDurumYaz } from "../data/otoIs";
 import { useSayfalama } from "./Sayfalama";
 import { Foy, foyKaydet } from "../data/foy";
@@ -23,6 +23,7 @@ const gunBaslik = (g: string) => { const d = new Date(g + "T00:00:00Z"); return 
 const trTarih = (x: string) => x.slice(0, 10).split("-").reverse().join(".");
 const E_AD: Record<string, string> = { istenmeyecek: "e-duruşma istenmeyecek", talep: "e-duruşma talep edildi, karar bekleniyor", kabul: "e-duruşma kabul ✓", red: "e-duruşma reddedildi: bizzat girilecek" };
 /** Hukuk (e-duruşma sorulan) dosyasının duruşması mı? */
+const eYazi = (x: TakvimSatir) => (x.d.e ? (eAdi(x.f, x.d) === "SEGBİS" ? E_AD[x.d.e].replace("e-duruşma", "SEGBİS") : E_AD[x.d.e]) : "");
 const eSatiri = (x: TakvimSatir) => x.tur === "durusma" && eSorulur(x.f) && !icraMi(x.f);
 const E_SECENEK: { k: EDurum | "-"; ad: string }[] = [{ k: "-", ad: "Sorulmadı / istenmedi" }, { k: "talep", ad: "Talep edildi ⏳" }, { k: "kabul", ad: "Kabul edildi ✓" }, { k: "red", ad: "Reddedildi ✗" }, { k: "istenmeyecek", ad: "İstenmeyecek" }];
 type Donem = "bugun" | "hafta" | "30" | "90" | "ileri" | "gecmis30" | "gecmis365";
@@ -74,9 +75,9 @@ export function DurusmalarEkrani({ liste, onAc, yukleAc }: { liste: Foy[]; onAc:
   };
   const eYaz = async (x: TakvimSatir, durum: EDurum | undefined) => { await foyKaydet({ ...x.f, ...eDurumYaz(x.f, x.d.id, durum, bugun) }); };
   const excel = () => {
-    const tablo: (string | number)[][] = [["Gün", "Saat", "Tür", "Mahkeme / merci", "Dosya no", "Müvekkil – karşı taraf", "Dosya türü", "Aşama", "E-duruşma", "Girildi", "Bekleyen konu"],
+    const tablo: (string | number)[][] = [["Gün", "Saat", "Tür", "Mahkeme / merci", "Dosya no", "Müvekkil – karşı taraf", "Dosya türü", "Aşama", "E-duruşma / SEGBİS", "Girildi", "Bekleyen konu"],
       ...(sira === "yeni" ? [...satirlar].reverse() : satirlar).map(x => [trTarih(x.d.tarih), x.d.tarih.length > 10 ? x.d.tarih.slice(11, 16) : "", DTUR_AD[x.tur], x.d.mahkeme || x.f.mahkeme, x.d.esasNo || x.f.esasNo,
-        [x.f.muvekkil, x.f.karsiTaraf].filter(Boolean).join(" – "), turBilgi(x.f.tur).ad, x.f.asama || "", x.d.e && eSorulur(x.f) ? E_AD[x.d.e] : "", x.d.girildi === "evet" ? "Evet" : x.d.girildi === "hayir" ? "Hayır" : "", x.uyari?.metin || ""])];
+        [x.f.muvekkil, x.f.karsiTaraf].filter(Boolean).join(" – "), turBilgi(x.f.tur).ad, x.f.asama || "", x.d.e && eSorulur(x.f) ? eYazi(x) : "", x.d.girildi === "evet" ? "Evet" : x.d.girildi === "hayir" ? "Hayır" : "", x.uyari?.metin || ""])];
     const b = xlsxYaz("Duruşma haciz keşif", tablo, [12, 7, 9, 34, 12, 34, 16, 14, 26, 8, 34]);
     indir(`durusma-ve-kesifler-${bugun}.xlsx`, new Blob([b as BlobPart], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
   };
@@ -152,7 +153,7 @@ export function DurusmalarEkrani({ liste, onAc, yukleAc }: { liste: Foy[]; onAc:
                   <Text style={s.hint} numberOfLines={1}>{[[x.f.muvekkil, x.f.karsiTaraf].filter(Boolean).join(" – "), x.f.davaTuru || t(turBilgi(x.f.tur).ad), x.f.asama].filter(Boolean).join(" · ")}</Text>
                   {((!!x.d.e && !eSatiri(x) && eSorulur(x.f)) || !!x.uyari) && (
                     <Text style={{ color: x.uyari ? C.mid : x.d.e === "kabul" ? C.good : x.d.e === "red" ? C.bad : C.textSoft, fontSize: 13, fontWeight: "700" }}>
-                      {[x.d.e && !kesif && !eSatiri(x) && eSorulur(x.f) ? t(E_AD[x.d.e]) : "", x.uyari ? "⚠ " + t(x.uyari.metin) : ""].filter(Boolean).join(" · ")}
+                      {[x.d.e && !kesif && !eSatiri(x) && eSorulur(x.f) ? t(eYazi(x)) : "", x.uyari ? "⚠ " + t(x.uyari.metin) : ""].filter(Boolean).join(" · ")}
                     </Text>
                   )}
                   {!!x.d.not && <Text style={s.hint} numberOfLines={2}>{x.d.not}</Text>}

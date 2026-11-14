@@ -136,6 +136,33 @@ export function giderTahmini(f: Pick<Foy, "mahkeme" | "tur" | "davaTuru" | "tara
 }
 
 /** Dava dilekçesinden ya da harç makbuzundan dava değeri: "Dava Değeri : 100.000,00 TL", "harca esas değer 250.000 TL". */
+const PARA_TL = String.raw`(\d{1,3}(?:[.\s]\d{3})+(?:,\d{1,2})?|\d+(?:,\d{1,2})?)\s*(?:TL|₺|TÜRK\s+LİRASI)`;
+const paraSayi = (x: string) => { const n = Number(x.replace(/[.\s]/g, "").replace(",", ".")); return n > 0 && n < 1e12 ? n : undefined; };
+/** Talep artırım / ıslah / bedel artırım dilekçesi mi. */
+export const artirimMi = (metin: string) => /TALEP\s*ARTIR|BEDEL\s*ARTIR|BEDELİN\s*ARTIRILMASI|DEĞER\s*ARTIR|ARTIRIM\s*DİLEKÇE|ISLAH\s*DİLEKÇE|ISLAH\s*EDİYORUZ|ISLAHEN|ISLAH\s*TALEB/.test(metin.toLocaleUpperCase("tr"));
+/** Artırım dilekçesindeki yeni (toplam) dava değeri; yalnız artırılan miktar yazılmışsa önceki değere eklenir. */
+export function artirimDegeri(metin: string, onceki?: number): number | undefined {
+  const u = metin.toLocaleUpperCase("tr").replace(/[ \t]+/g, " ");
+  const toplam = u.match(new RegExp(String.raw`(?:ARTIRILAN|ARTIRILMIŞ|YÜKSELTİLEN|ISLAH\s*EDİLEN|ISLAHLA|ISLAH\s*SONRASI|YENİ|TOPLAM)\s*(?:DAVA\s*)?(?:DEĞER[İI]?|TALEP(?:\s*MİKTARI)?|MİKTAR|BEDEL|ALACAK)?\s*(?:TOPLAM)?\s*[:：]?\s*` + PARA_TL))
+    || u.match(new RegExp(PARA_TL + String.raw`\s*['’]?\s*(?:YE|E|A|YA)\s+(?:ARTIR|YÜKSELT|ÇIKAR|ISLAH)`))
+    || u.match(new RegExp(String.raw`(?:DAVA\s*DEĞERİ|HARCA\s*ESAS\s*DEĞER)\s*[:：]?\s*` + PARA_TL));
+  if (toplam) return paraSayi(toplam[1]);
+  const artis = u.match(new RegExp(PARA_TL + String.raw`\s*(?:DAHA\s*)?(?:ARTIRARAK|ARTIRIYORUZ|ARTIRILMASINI|ARTIRILMASINA|ISLAH\s*EDİYORUZ|FAZLASI)`));
+  const n = artis ? paraSayi(artis[1]) : undefined;
+  return n ? (onceki || 0) + n : undefined;
+}
+/** Föyün dava değeri evraktan: dava dilekçesindeki değer, sonra tarih sırasıyla talep artırım / ıslah dilekçeleri (en sonuncusu geçerli). */
+export function davaDegeriEvraktan(evraklar: { metin: string; tarih?: string; eklenme?: string }[]): { deger?: number; artirim?: boolean } {
+  const sirali = [...evraklar].filter(e => e.metin).sort((a, b) => ((a.tarih || a.eklenme || "") < (b.tarih || b.eklenme || "") ? -1 : 1));
+  let deger: number | undefined, artirim = false;
+  for (const e of sirali) {
+    const m = e.metin.slice(0, 20000);
+    if (artirimMi(m)) { const n = artirimDegeri(m, deger); if (n) { deger = n; artirim = true; } continue; }
+    if (deger === undefined) deger = davaDegeriBul([m]);
+  }
+  return { deger, artirim };
+}
+
 export function davaDegeriBul(metinler: string[]): number | undefined {
   for (const m of metinler) {
     const x = m.match(/(?:DAVA\s+DEĞERİ|DAVA\s+DEGERI|HARCA\s+ESAS\s+DEĞER|Harca\s+esas\s+değer|Dava\s+değeri|DEĞERİ)\s*[:：]?\s*([\d.]{1,15}(?:,\d{1,2})?)\s*(?:TL|₺|Türk\s+Lirası)/i);

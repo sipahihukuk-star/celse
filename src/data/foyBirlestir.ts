@@ -41,6 +41,7 @@ export function foylariBirlestir(kalan: Foy, giden: Foy): Foy {
     (x, y) => (x as { tarih?: string }).tarih === (y as { tarih?: string }).tarih);
   f.talepler = birlesikListe(kalan.talepler as ({ id: string } & object)[] | undefined, giden.talepler as ({ id: string } & object)[] | undefined);
   f.tevkil = birlesikListe(kalan.tevkil as ({ id: string } & object)[] | undefined, giden.tevkil as ({ id: string } & object)[] | undefined);
+  f.yargilamalar = birlesikListe(kalan.yargilamalar, giden.yargilamalar);
   f.yzSohbet = kalan.yzSohbet?.length ? kalan.yzSohbet : giden.yzSohbet;
   const n1 = kalan.notlar.trim(), n2 = giden.notlar.trim();
   f.notlar = n2 && n2 !== n1 && !n1.includes(n2) ? (n1 ? n1 + "\n\n" : "") + n2 : kalan.notlar;

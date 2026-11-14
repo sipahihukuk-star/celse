@@ -6,7 +6,7 @@
 //    Bütün föylerdeki kayıtlar birleşerek "Tevkil avukatlar" listesini oluşturur (kim, telefon, hangi dosyalar, ne ödendi).
 //  - Talepler: adli yardım, ihtiyati haciz, ihtiyati tedbir, delil tespiti, yürütmeyi durdurma, duruşmalı inceleme.
 import type { Foy } from "./foy";
-import { davaDegeriBul } from "./ucretTarife";
+import { artirimDegeri, artirimMi, davaDegeriEvraktan } from "./ucretTarife";
 
 export type KalemTur = "tahsilat" | "masraf" | "tevkil";
 export interface HesapKalem {
@@ -45,7 +45,7 @@ export const TALEP_AD: Record<TalepTur, string> = {
   delil_tespiti: "Delil tespiti", yurutmeyi_durdurma: "Yürütmeyi durdurma", durusmali_inceleme: "Duruşmalı inceleme"
 };
 export const MASRAF_KATEGORI = ["Başvuru / peşin harç", "Gider avansı", "Bilirkişi ücreti", "Keşif gideri", "Tebligat / posta", "Tanık ücreti",
-  "İstinaf / temyiz harcı", "Noter", "Yol gideri", "Kırtasiye / fotokopi", "Diğer"];
+  "İstinaf / temyiz harcı", "Noter", "Yol gideri", "Kırtasiye / fotokopi", "İletişim (telefon, posta, kargo)", "Diğer"];
 
 const yid = (on: string) => on + "-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 7);
 export const yeniKalemId = () => yid("h");
@@ -219,11 +219,20 @@ export function evraktanHesap(f: Foy, evraklar: { id: string; metin: string; tar
       if (!eski.sozlesmeEvrakId) ucret = { ...ucret, sozlesmeEvrakId: e.id, tarih: eski.tarih || gun };
       if (u.yuzde && !eski.yuzde) {
         // Yüzde ücret: elle yazılmış bir TL tutarı varsa ve sözleşmede ayrıca sabit kısım yoksa, o tutar sabit kısım sayılmaz.
-        const deger = f.hesap?.davaDegeri ?? davaDegeriBul([...f.evraklar.map(x => x.metin.slice(0, 20000)), ...evraklar.map(x => x.metin.slice(0, 20000))]);
+        const deger = hesap.davaDegeri ?? davaDegeriEvraktan([...f.evraklar, ...evraklar]).deger;
         ucret = { ...ucret, yuzde: u.yuzde, sabit: u.tutar, tutar: yuzdeUcret(u.yuzde, deger, u.tutar) };
       } else if (!eski.tutar && !eski.yuzde && u.tutar) ucret = { ...ucret, tutar: u.tutar };
       if (JSON.stringify(ucret) !== JSON.stringify(eski)) { hesap = { ...hesap, ucret }; degisen.add(u.yuzde && ucret.yuzde === u.yuzde && !eski.yuzde ? "vekâlet ücreti sözleşmesi (dava değerinin %" + String(u.yuzde).replace(".", ",") + "'i)" : "vekâlet ücreti sözleşmesi"); }
       continue;
+    }
+    // Talep artırım / ıslah dilekçesi: dava değeri yeni (toplam) değere güncellenir; yüzde ücret buna göre yeniden hesaplanır.
+    if (artirimMi(e.metin.slice(0, 20000))) {
+      const once = hesap.davaDegeri ?? davaDegeriEvraktan(f.evraklar.filter(x => x.id !== e.id)).deger;
+      const n = artirimDegeri(e.metin.slice(0, 20000), once);
+      if (n && n !== hesap.davaDegeri) {
+        hesap = { ...hesap, davaDegeri: n, ...(hesap.ucret?.yuzde ? { ucret: { ...hesap.ucret, tutar: yuzdeUcret(hesap.ucret.yuzde, n, hesap.ucret.sabit) } } : {}) };
+        degisen.add("dava değeri (talep artırımı): " + tlYaz(n));
+      }
     }
     const m = makbuzOku(e.metin);
     if (m && !hesap.kalemler.some(k => k.evrakId === e.id)) { hesap.kalemler.push({ id: yeniKalemId(), tarih: gun, tutar: m.tutar, tur: "masraf", kategori: m.kategori, aciklama: "Makbuzdan okundu", evrakId: e.id }); degisen.add("masraf (" + m.kategori.toLocaleLowerCase("tr") + ")"); }

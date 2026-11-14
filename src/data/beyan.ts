@@ -202,22 +202,26 @@ export function beyanCercevesi(f: Foy, b: Pick<Beyan, "konu"> & { tur?: string }
 }
 
 /** E-duruşma talep dilekçesinin gövdesi (hazır metin; yapay zekâ gerekmez). tarih: "YYYY-AA-GG" ya da "YYYY-AA-GGTSS:DD". */
-export function eDurusmaTalebi(tarih: string): Beyan {
+/** Uzaktan katılım talebi: hukukta ve icra ceza mahkemesinde e-duruşma, öteki ceza davalarında SEGBİS. */
+export function eDurusmaTalebi(tarih: string, tur: "e" | "segbis" | "e-ceza" = "e"): Beyan {
   const g = tarih.slice(0, 10).split("-").reverse().join(".");
   const saat = tarih.length > 10 ? " saat " + tarih.slice(11, 16) : "";
   const n = new Date().toISOString();
+  const segbis = tur === "segbis";
+  const yol = segbis ? "SEGBİS (Ses ve Görüntü Bilişim Sistemi)" : "e-duruşma (ses ve görüntü nakli)";
+  const dayanak = tur === "e" ? "6100 sayılı Hukuk Muhakemeleri Kanunu'nun 149. maddesi ve ilgili mevzuat" : segbis ? "5271 sayılı Ceza Muhakemesi Kanunu, Ceza Muhakemesinde Sesli ve Görüntülü Bilişim Sistemi Kullanılması Hakkında Yönetmelik ve ilgili mevzuat" : "ilgili mevzuat";
   return {
-    id: "by-e-" + tarih.replace(/\D/g, ""), olusturma: n, guncelleme: n, tur: "E-duruşma talebi",
-    konu: `${g} tarihli duruşmaya e-duruşma yoluyla katılma talebimizdir.`,
+    id: "by-e-" + tarih.replace(/\D/g, ""), olusturma: n, guncelleme: n, tur: segbis ? "SEGBİS talebi" : "E-duruşma talebi",
+    konu: `${g} tarihli duruşmaya ${segbis ? "SEGBİS" : "e-duruşma"} yoluyla katılma talebimizdir.`,
     metin: [
       "AÇIKLAMALAR",
-      `1- Yukarıda numarası yazılı dosyanın ${g}${saat} için belirlenen duruşmasına, 6100 sayılı Hukuk Muhakemeleri Kanunu'nun 149. maddesi ve ilgili mevzuat uyarınca, UYAP Avukat Portal üzerinden e-duruşma (ses ve görüntü nakli) yoluyla katılmak istiyoruz.`,
-      "2- E-duruşma için gerekli teknik altyapı tarafımızca sağlanmıştır.",
+      `1- Yukarıda numarası yazılı dosyanın ${g}${saat} için belirlenen duruşmasına, ${dayanak} uyarınca, ${segbis ? "" : "UYAP Avukat Portal üzerinden "}${yol} yoluyla katılmak istiyoruz.`,
+      `2- ${segbis ? "SEGBİS" : "E-duruşma"} için gerekli teknik altyapı tarafımızca sağlanmıştır.`,
       "",
-      "HUKUKİ NEDENLER : HMK m. 149 ve ilgili mevzuat.",
+      `HUKUKİ NEDENLER : ${tur === "e" ? "HMK m. 149 ve ilgili mevzuat." : segbis ? "CMK, SEGBİS Yönetmeliği ve ilgili mevzuat." : "İlgili mevzuat."}`,
       "",
       "SONUÇ VE İSTEM",
-      `Yukarıda açıklanan nedenlerle, ${g} tarihli duruşmaya e-duruşma yoluyla katılmamıza izin verilmesini saygıyla arz ve talep ederiz.`
+      `Yukarıda açıklanan nedenlerle, ${g} tarihli duruşmaya ${segbis ? "SEGBİS" : "e-duruşma"} yoluyla katılmamıza izin verilmesini saygıyla arz ve talep ederiz.`
     ].join("\n")
   };
 }

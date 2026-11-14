@@ -5,7 +5,7 @@
 //  • Tutanak: günü geçmiş duruşma / keşfin tutanağı föyde yoksa "Duruşma tutanağını tarayıp föye ekleyin" (gecikmiş, kırmızı).
 //  • Ara karar: yeni eklenen tutanak / ara kararda bizim tarafa verilen görevler (evrakIs.ts).
 // İş kimlikleri sabittir (oto-e-<duruşma>, oto-kunye): aynı föy iki cihazda eşitlenince iş çoğalmaz.
-import { bugunGun, dTur, Durusma, E_TALEP_GUN, EDurum, eSorulur, gunEkle, icraMi } from "./durusma";
+import { asamalar, bugunGun, dTur, Durusma, E_TALEP_GUN, eAdi, EDurum, eSorulur, gunEkle, icraMi } from "./durusma";
 import type { Foy, Gorev } from "./foy";
 import { evrakOku } from "./evrakIs";
 import type { FoyTur } from "./foyTurleri";
@@ -87,11 +87,12 @@ export function otoIsleriEsitle(f: Foy, bugun = bugunGun()): Gorev[] | null {
     const id = eIsId(d), eski = kalan.get(id);
     kalan.delete(id);
     const karar = d.e === "kabul" || d.e === "red" || d.e === "istenmeyecek";
-    const metin = d.e === "talep" ? `E-duruşma talebinin sonucunu işaretleyin (${trGun(d.tarih)} duruşması): kabul ya da red` : `E-duruşma talep et (${trGun(d.tarih)} duruşması)`;
+    const ead = eAdi(f, d);
+    const metin = d.e === "talep" ? `${ead} talebinin sonucunu işaretleyin (${trGun(d.tarih)} duruşması): kabul ya da red` : `${ead} talep et (${trGun(d.tarih)} duruşması)`;
     const tarih = d.e === "talep" ? gunEkle(d.tarih.slice(0, 10), -2) : gunEkle(d.tarih.slice(0, 10), -E_TALEP_GUN);
     if (!eski) { if (!karar) yeni.push({ id, metin, tarih, bitti: false, kaynak: "oto", eklenme: bugun }); continue; }
     if (karar) {
-      yeni.push(eski.bitti && eski.kapanis ? eski : { ...eski, bitti: true, kapanis: kapanis("E-duruşma " + KARAR_ADI[d.e!]) });
+      yeni.push(eski.bitti && eski.kapanis ? eski : { ...eski, bitti: true, kapanis: kapanis(ead + " " + KARAR_ADI[d.e!]) });
     } else {
       // Kabul ya da red işaretlenmedikçe açık kalır.
       yeni.push(eski.bitti || eski.metin !== metin || eski.tarih !== tarih ? { ...eski, metin, tarih, bitti: false, kapanis: undefined } : eski);
@@ -140,6 +141,20 @@ export function otoIsleriEsitle(f: Foy, bugun = bugunGun()): Gorev[] | null {
       yeni.push({ id, metin: `${tur === "kesif" ? "Keşif" : "Duruşma"} tutanağını tarayıp föye ekleyin (${trGun(d.tarih)} ${tur === "kesif" ? "keşfi" : "duruşması"})`, tarih: gun, bitti: false, kaynak: "oto", eklenme: bugun });
     }
   }
+
+  // Günü bilinmeyen celseler (tutanaktan 5. celsede olunduğu anlaşıldı ama önceki günler yok): aşama başına bir iş;
+  // evrak taranıp ya da gün elle yazılıp eksik kalmayınca kendiliğinden kapanır.
+  const celseAsamalari = acik && !icraMi(f) ? asamalar(f) : [];
+  for (const a of celseAsamalari) {
+    const id = "oto-celse-" + a.anahtar.replace(/[^a-z0-9çğıöşü]/g, "").slice(0, 40), eski = kalan.get(id);
+    kalan.delete(id);
+    if (!a.eksik.length) { if (eski) yeni.push(eski.bitti ? eski : { ...eski, bitti: true, kapanis: kapanis("Celse günleri tamamlandı") }); continue; }
+    if (silinen.has(id)) continue;
+    const metin = `Günü bilinmeyen celseleri tamamlayın: ${[a.kisa, a.esasNo].filter(Boolean).join(" ")} · ${a.eksik.join(", ")}. celse (tutanakları tarayın ya da günü yazın)`;
+    if (eski && eski.bitti) { yeni.push(eski); continue; }
+    yeni.push(eski && eski.metin === metin ? eski : { ...(eski || { eklenme: bugun, tarih: gunEkle(bugun, 7) }), id, metin, bitti: false, kapanis: undefined, kaynak: "oto" });
+  }
+  for (const [id, g] of [...kalan]) if (id.startsWith("oto-celse-")) { kalan.delete(id); if (g.bitti) yeni.push(g); }
 
   // Ara karar ve resmî yazı işleri artık kendiliğinden eklenmez: avukat "Yapılacak işleri çıkar" ile görüp onaylar
   // (evrakIsAdaylari). Daha önce kendiliğinden eklenmiş, yapılmamış ve eski tarihli evraktan çıkmış işler kaldırılır.

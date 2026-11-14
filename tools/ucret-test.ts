@@ -1,6 +1,7 @@
 // AAÜT asgari ücret ve başlangıç giderleri (uydurma föylerle).
 import { bosFoy } from "../src/data/foy";
 import { evraktanHesap, ucretSozlesmesiOku, yuzdeUcret } from "../src/data/hesap";
+import { artirimDegeri, artirimMi, davaDegeriEvraktan } from "../src/data/ucretTarife";
 import { asgariUcret, davaDegeriBul, giderTahmini, mahkemeTuru } from "../src/data/ucretTarife";
 let fail = 0;
 const ok = (c: unknown, m: string) => { if (c) console.log("✓ " + m); else { fail++; console.log("✗ " + m); } };
@@ -43,5 +44,17 @@ ok(ev.ek.hesap?.ucret?.yuzde === 15 && ev.ek.hesap?.ucret?.sabit === 10000 && ev
 const fy2 = { ...fy, hesap: { davaDegeri: 1000000, kalemler: [] } };
 const ev2 = evraktanHesap(fy2, [{ id: "s", metin: S + "Ücret dava değerinin %10'u.", eklenme: "2026-11-02" }], [], BUGUN);
 ok(ev2.ek.hesap?.ucret?.tutar === 100000 && ev2.ek.hesap?.davaDegeri === 1000000, "elle yazılan dava değeri esas alınır ve korunur");
+// Talep artırımı / ıslah (uydurma metinler)
+const DV = { metin: "DAVA DİLEKÇESİ\nDAVA DEĞERİ : 100.000,00 TL", tarih: "2025-01-10" };
+const AR = { metin: "TALEP ARTIRIM DİLEKÇESİ\nBilirkişi raporu doğrultusunda talebimizi toplam 450.000,00 TL'ye artırıyoruz.", tarih: "2026-03-01" };
+const AR2 = { metin: "ISLAH DİLEKÇESİ\nDava değerini 50.000 TL daha artırarak ıslah ediyoruz.", tarih: "2026-05-01" };
+ok(!artirimMi(DV.metin) && artirimMi(AR.metin) && artirimMi(AR2.metin), "artırım dilekçesi tanınır");
+ok(artirimDegeri(AR.metin, 100000) === 450000, "toplam değere artırım: 450.000");
+ok(artirimDegeri(AR2.metin, 450000) === 500000, "yalnız artış yazılmış: 450.000 + 50.000");
+const dv = davaDegeriEvraktan([AR2, DV, AR]);
+ok(dv.deger === 500000 && dv.artirim, "tarih sırasıyla son değer 500.000: " + JSON.stringify(dv));
+const fa = { ...bosFoy({ tur: "hukuk", mahkeme: "Uydurma 3. Asliye Hukuk Mahkemesi", evraklar: [{ id: "d", ad: "dava.pdf", boyut: 1, eklenme: "2025-01-10", metin: DV.metin }] as never }), hesap: { kalemler: [], ucret: { yuzde: 10, tutar: 10000 } } };
+const ea = evraktanHesap(fa, [{ id: "a", metin: AR.metin, eklenme: "2026-03-01" }], [], BUGUN);
+ok(ea.ek.hesap?.davaDegeri === 450000 && ea.ek.hesap?.ucret?.tutar === 45000, "artırım yüklenince dava değeri ve %10 ücret güncellenir: " + JSON.stringify(ea.ek.hesap) + " " + ea.degisen.join());
 if (fail) { console.log(`ucret-test: ${fail} hata`); process.exit(1); }
 console.log("ucret-test: tamam");
