@@ -1,5 +1,6 @@
 // AAÜT asgari ücret ve başlangıç giderleri (uydurma föylerle).
 import { bosFoy } from "../src/data/foy";
+import { evraktanHesap, ucretSozlesmesiOku, yuzdeUcret } from "../src/data/hesap";
 import { asgariUcret, davaDegeriBul, giderTahmini, mahkemeTuru } from "../src/data/ucretTarife";
 let fail = 0;
 const ok = (c: unknown, m: string) => { if (c) console.log("✓ " + m); else { fail++; console.log("✗ " + m); } };
@@ -25,5 +26,22 @@ const gi = giderTahmini({ ...bosFoy({ tur: "icra" }), icra: { ekBorclular: [{}] 
 ok(gi.kalemler.map(k => k.tutar).join() === "732,500,600", "icra: başvurma, binde 5 peşin, 2 borçluya tebligat");
 ok(!giderTahmini(bosFoy({ tur: "ceza", mahkeme: "Uydurma 4. Asliye Ceza Mahkemesi" })).kalemler.length, "ceza davasında harç yok");
 ok(davaDegeriBul(["DAVA DEĞERİ : 250.000,00 TL"]) === 250000 && davaDegeriBul(["Harca esas değer 75.500 TL"]) === 75500, "dava değeri evraktan okunur");
+// Yüzde ücretli sözleşme (uydurma metinler)
+const S = "AVUKATLIK ÜCRET SÖZLEŞMESİ\n";
+ok(ucretSozlesmesiOku(S + "Madde 3: Avukatlık ücreti dava değerinin %15'idir. Ücrete KDV %20 eklenir.").yuzde === 15, "yüzde: %15 (KDV %20 alınmaz)");
+ok(ucretSozlesmesiOku(S + "Ücret: dava sonunda tahsil edilecek miktarın yüzde on beşi.").yuzde === 15, "yüzde yazıyla: yüzde on beş");
+ok(ucretSozlesmesiOku(S + "Ücret tahsil edilenin 12,5 % oranındadır.").yuzde === 12.5, "yüzde: 12,5 %");
+const pe = ucretSozlesmesiOku(S + "Peşin ücret olarak 20.000,00 TL ödenir.\nAyrıca dava değerinin %10'u ücret olarak ödenir. Ücret %25'i geçemez.");
+ok(pe.yuzde === 10 && pe.tutar === 20000, "peşin 20.000 TL + %10: " + JSON.stringify(pe));
+const yd = ucretSozlesmesiOku(S + "1.000.000 TL değerindeki alacak davası için ücret, tahsil edilecek alacağın %10'udur.");
+ok(yd.yuzde === 10 && !yd.tutar, "dava değeri / alacak tutarı sabit ücret sayılmaz: " + JSON.stringify(yd));
+ok(ucretSozlesmesiOku(S + "Ücret 75.000,00 TL'dir.").tutar === 75000 && !ucretSozlesmesiOku(S + "Ücret 75.000,00 TL'dir.").yuzde, "yalnız TL ücret: yüzde yok");
+ok(yuzdeUcret(15, 1000000) === 150000 && yuzdeUcret(10, 1000000, 20000) === 120000 && yuzdeUcret(10, undefined, 20000) === 20000, "yüzde ücret hesabı");
+const fy = bosFoy({ tur: "hukuk", mahkeme: "Uydurma 3. Asliye Hukuk Mahkemesi", evraklar: [{ id: "d", ad: "dava.pdf", boyut: 1, eklenme: "2026-11-01", metin: "DAVA DİLEKÇESİ\nDAVA DEĞERİ : 400.000,00 TL" }] as never });
+const ev = evraktanHesap(fy, [{ id: "s", metin: S + "Peşin ücret 10.000 TL. Ayrıca dava değerinin %15'i.", eklenme: "2026-11-02" }], [], BUGUN);
+ok(ev.ek.hesap?.ucret?.yuzde === 15 && ev.ek.hesap?.ucret?.sabit === 10000 && ev.ek.hesap?.ucret?.tutar === 70000, "sözleşme taranınca: 10.000 + %15 × 400.000 = 70.000: " + JSON.stringify(ev.ek.hesap?.ucret));
+const fy2 = { ...fy, hesap: { davaDegeri: 1000000, kalemler: [] } };
+const ev2 = evraktanHesap(fy2, [{ id: "s", metin: S + "Ücret dava değerinin %10'u.", eklenme: "2026-11-02" }], [], BUGUN);
+ok(ev2.ek.hesap?.ucret?.tutar === 100000 && ev2.ek.hesap?.davaDegeri === 1000000, "elle yazılan dava değeri esas alınır ve korunur");
 if (fail) { console.log(`ucret-test: ${fail} hata`); process.exit(1); }
 console.log("ucret-test: tamam");

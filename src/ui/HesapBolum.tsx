@@ -3,7 +3,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { ayarOku, ayarYaz, Foy, FoyEvrak, silineniNotEt, tarihCoz, tarihYaz } from "../data/foy";
-import { BirimBedel, evraktanHesap, HesapKalem, hesapOzeti, KalemTur, MASRAF_KATEGORI, standartGiderler, Talep, TALEP_AD, TalepDurum, TalepTur, TevkilAvukat, tlYaz, tutarCoz, VARSAYILAN_BEDEL, yeniKalemId, yeniKisiId, yeniTalepId } from "../data/hesap";
+import { BirimBedel, evraktanHesap, HesapKalem, hesapOzeti, KalemTur, MASRAF_KATEGORI, standartGiderler, Talep, TALEP_AD, TalepDurum, TalepTur, TevkilAvukat, tlYaz, tutarCoz, VARSAYILAN_BEDEL, yeniKalemId, yeniKisiId, yeniTalepId, yuzdeUcret } from "../data/hesap";
+import { davaDegeriBul } from "../data/ucretTarife";
 import { bugunGun } from "../data/durusma";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
@@ -65,6 +66,32 @@ export function HesapBolum({ f, degistir, evrakEkle }: { f: Foy; degistir: (ek: 
     yaz([...hesap.kalemler, { id: yeniKalemId(), tarih: bugunGun(), tutar: o.kalanUcret, tur: "tahsilat", aciklama: t("Ücretin tamamı tahsil edildi"), tamami: true }]);
     setTamMesaj(t("Kalan ücret ({x}) tahsil edildi olarak yazıldı.", { x: tlYaz(o.kalanUcret) }));
   };
+  // Yüzde ücret: dava değerinin %'si (+ varsa sabit kısım). Dava değeri (elle ya da evraktan) değişince ücret yeniden hesaplanır.
+  const evraktanDeger = useMemo(() => davaDegeriBul(f.evraklar.map(e => e.metin.slice(0, 20000))), [f.evraklar]);
+  const deger = hesap.davaDegeri ?? evraktanDeger;
+  const yuzde = hesap.ucret?.yuzde;
+  useEffect(() => {
+    if (!yuzde) return;
+    const hedef = yuzdeUcret(yuzde, deger, hesap.ucret?.sabit);
+    if (hedef !== hesap.ucret?.tutar) degistir({ hesap: { ...hesap, ucret: { ...(hesap.ucret || {}), tutar: hedef } } });
+  }, [yuzde, deger, hesap.ucret?.sabit]);
+  const tlKaydet = (v: string) => {
+    const n = tutarCoz(v);
+    if (yuzde) yaz(hesap.kalemler, { ...(hesap.ucret || {}), sabit: n, tutar: yuzdeUcret(yuzde, deger, n) });
+    else yaz(hesap.kalemler, { ...(hesap.ucret || {}), tutar: n });
+  };
+  const yuzdeKaydet = (v: string) => {
+    const x = Number(v.replace(",", ".").replace(/[^\d.]/g, ""));
+    const u = { ...(hesap.ucret || {}) };
+    if (!(x > 0)) {
+      // Yüzde silindi: sabit kısım (varsa) sözleşme ücreti olarak kalır.
+      const sabit = u.sabit; delete u.yuzde; delete u.sabit;
+      yaz(hesap.kalemler, { ...u, tutar: sabit });
+      return;
+    }
+    const sabit = u.yuzde ? u.sabit : undefined;
+    yaz(hesap.kalemler, { ...u, yuzde: x, sabit, tutar: yuzdeUcret(x, deger, sabit) });
+  };
   const gider = standartGiderler(f, bedel, bugunGun());
   const bedelYaz = (ek: Partial<BirimBedel>) => { const y = { ...bedel, ...ek }; setBedel(y); ayarYaz("birimBedel", y).catch(() => {}); };
   const sozlesme = hesap.ucret?.sozlesmeEvrakId ? f.evraklar.find(e => e.id === hesap.ucret!.sozlesmeEvrakId) : undefined;
@@ -90,13 +117,31 @@ export function HesapBolum({ f, degistir, evrakEkle }: { f: Foy; degistir: (ek: 
 
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, alignItems: "flex-end" }}>
         <View style={{ gap: 4, minWidth: 150 }}>
-          <Text style={etiket}>{t("Sözleşmedeki vekâlet ücreti (TL)")}</Text>
-          <SonraKaydet deger={hesap.ucret?.tutar ? String(hesap.ucret.tutar).replace(".", ",") : ""} onKaydet={v => yaz(hesap.kalemler, { ...(hesap.ucret || {}), tutar: tutarCoz(v) })}
-            placeholder="75.000" style={[s.inputTek, { paddingVertical: 6 }]} />
+          <Text style={etiket}>{yuzde ? t("Sabit / peşin kısım (TL, varsa)") : t("Sözleşmedeki vekâlet ücreti (TL)")}</Text>
+          <SonraKaydet deger={(yuzde ? hesap.ucret?.sabit : hesap.ucret?.tutar) ? String(yuzde ? hesap.ucret!.sabit : hesap.ucret!.tutar).replace(".", ",") : ""} onKaydet={tlKaydet}
+            placeholder={yuzde ? t("yoksa boş") : "75.000"} style={[s.inputTek, { paddingVertical: 6 }]} />
+        </View>
+        <View style={{ gap: 4, width: 150 }}>
+          <Text style={etiket}>{t("ya da dava değerinin %'si")}</Text>
+          <SonraKaydet deger={yuzde ? String(yuzde).replace(".", ",") : ""} onKaydet={yuzdeKaydet} placeholder={t("ör. 15")} style={[s.inputTek, { paddingVertical: 6 }]} />
         </View>
         {evrakEkle && <Btn kind="secondary" label={sozlesme ? t("Sözleşmeyi değiştir") : t("📎 Ücret sözleşmesini tara / ekle")} onPress={() => belgeEkle("Vekâlet ücreti sözleşmesi")} />}
         {!!sozlesme && <Text style={[s.hint, { flex: 1 }]}>📄 {sozlesme.ad}</Text>}
       </View>
+
+      {!!yuzde && (
+        <View style={{ gap: 2 }}>
+          <Text style={[s.body, { color: C.text }]}>
+            {t("Vekâlet ücreti: ")}
+            {[hesap.ucret?.sabit ? tlYaz(hesap.ucret.sabit) : "", deger ? "%" + String(yuzde).replace(".", ",") + " × " + tlYaz(deger) + " = " + tlYaz((deger * yuzde) / 100) : "%" + String(yuzde).replace(".", ",")].filter(Boolean).join(" + ")}
+            {deger ? <Text style={{ fontWeight: "800", color: C.brass }}>{"  →  " + tlYaz(hesap.ucret?.tutar || 0)}</Text> : null}
+          </Text>
+          {!deger && <Text style={[s.hint, { color: C.mid }]}>{t("Dava değeri yazılınca (aşağıdaki asgari ücret kutusundan ya da dava dilekçesinden) ücret TL olarak hesaplanır.")}</Text>}
+          {!!deger && !hesap.davaDegeri && <Text style={s.hint}>{t("Dava değeri evraktan okundu; değişirse asgari ücret kutusundan düzeltin.")}</Text>}
+          {yuzde > 25 && <Text style={[s.hint, { color: C.bad }]}>{t("Yüzde olarak kararlaştırılan ücret dava değerinin %25'ini geçemez (Av.K. m.164/2).")}</Text>}
+          <Text style={s.hint}>{t("Sözleşme “tahsil edilecek tutarın” yüzdesini öngörüyorsa kesin ücret tahsilatta belli olur; burada dava değeri üzerinden tahmin gösterilir.")}</Text>
+        </View>
+      )}
 
       <AsgariUcretKart f={f} degistir={degistir} />
 
