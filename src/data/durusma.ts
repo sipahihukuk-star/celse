@@ -359,7 +359,15 @@ export function asamalar(f: Foy): Asama[] {
   for (const x of m.values()) {
     x.guncel = x.anahtar === guncelA;
     const ds = x.gunler.filter(g => g.d && dTur(g.d) === "durusma");
-    const n = ds.map(g => g.d!.celse);
+    const n: (number | undefined)[] = ds.map(g => g.d!.celse);
+    // "Kaçıncı celsede" elle ya da evraktan yazıldıysa ve hiçbir duruşmanın numarası yoksa: bugüne kadarki son duruşma
+    // (hepsi ileride ise ilki) o celsedir; öncekiler ve sonrakiler buna göre numaralanır.
+    if (x.y?.celse && n.length && !n.some(v => v !== undefined)) {
+      const bugun = bugunGun();
+      let j = -1;
+      ds.forEach((g, i) => { if (g.d!.tarih.slice(0, 10) <= bugun) j = i; });
+      n[Math.max(0, j)] = x.y.celse;
+    }
     for (let i = 1; i < n.length; i++) if (n[i] === undefined && n[i - 1] !== undefined) n[i] = n[i - 1]! + 1;
     for (let i = n.length - 2; i >= 0; i--) if (n[i] === undefined && n[i + 1] !== undefined && n[i + 1]! > 1) n[i] = n[i + 1]! - 1;
     ds.forEach((g, i) => { g.celse = n[i]; });

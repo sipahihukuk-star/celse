@@ -9,7 +9,7 @@ import { beyanDosyaAdi, ciktiBicimi, eDurusmaTalebi, tamMetin, udfOlustur } from
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { buroUyeleri, Uye } from "../data/buro";
-import { dTur, DTur, DTUR_AD, DTUR_SIMGE, girildiSoru, gunTurleri, icraMi, Durusma, durusmaEkle, durusmaOzeti, durusmaSirala, durusmaUyarilari, EDurum, evraktanDurusma, Girildi, kunyeDurusmasi, durusmaDuzeni, bugunGun, E_TALEP_GUN, asamalar, Asama, eAdi, eTuru, gunEkle, mahkemeKisa, Yargilama } from "../data/durusma";
+import { dTur, DTur, DTUR_AD, DTUR_SIMGE, girildiSoru, gunTurleri, icraMi, Durusma, durusmaEkle, durusmaOzeti, durusmaSirala, durusmaUyarilari, EDurum, evraktanDurusma, Girildi, kunyeDurusmasi, durusmaDuzeni, bugunGun, E_TALEP_GUN, asamalar, Asama, eAdi, eTuru, gunEkle, Yargilama } from "../data/durusma";
 import { ayarOku, Foy, silineniNotEt, tarihCoz, tarihYaz } from "../data/foy";
 import { t } from "../i18n";
 import { Acilir } from "./Acilir";
@@ -159,10 +159,10 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
     const e = eSimge(d.e || "yok", ead);
     const renk = sorunlu.has(d.id) ? C.mid : secili === d.id ? C.brass : C.line;
     return (
-      <View key={d.id} style={[hapStil(renk), { alignSelf: "flex-start" }, bugunMu && { backgroundColor: C.bordo }]}>
+      <View key={d.id} style={[hapStil(renk), { alignSelf: "flex-start", flexWrap: "wrap", maxWidth: "100%" }, bugunMu && { backgroundColor: C.bordo }]}>
         <Pressable onPress={() => setSecili(secili === d.id ? null : d.id)} accessibilityRole="button" accessibilityLabel={t("Duruşma {d} ayrıntısı", { d: tarihYaz(d.tarih) })}>
           <Text style={{ color: gecmis ? C.textSoft : C.text, fontSize: 12, fontWeight: "700" }}>
-            {celse ? <Text style={{ color: C.brass }}>{celse}. </Text> : null}
+            {celse ? <Text style={{ color: C.brass }}>{t("{n}. celse · ", { n: celse })}</Text> : null}
             {dTur(d) !== "durusma" || icraMi(f) ? DTUR_SIMGE[dTur(d)] + " " + t(DTUR_AD[dTur(d)]) + " " : ""}{kisaTarih(d.tarih)}
           </Text>
         </Pressable>
@@ -196,7 +196,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
           const gunN = a.gunler.filter(g => g.d).length;
           const sonraki = a.gunler.find(g => g.d && g.d.tarih.slice(0, 10) >= bugun)?.d;
           return (
-            <View key={a.anahtar} style={{ width: 270, borderWidth: 1, borderColor: a.guncel ? C.brass : C.line, borderRadius: 10, padding: 8, gap: 6, backgroundColor: a.guncel ? C.panel2 : "transparent" }}>
+            <View key={a.anahtar} style={{ width: 310, borderWidth: 1, borderColor: a.guncel ? C.brass : C.line, borderRadius: 10, padding: 8, gap: 6, backgroundColor: a.guncel ? C.panel2 : "transparent" }}>
               <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 6 }}>
                 <Pressable onPress={() => ac(a.anahtar)} accessibilityRole="button" accessibilityState={{ expanded: acik }} style={{ flex: 1 }}>
                   <Text style={{ color: C.text, fontWeight: "800", fontSize: 13 }} numberOfLines={2}>{ai > 0 ? "➜ " : ""}{a.kisa || t("Mahkeme yazılmadı")}</Text>
@@ -210,7 +210,6 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
               {duzenA === a.anahtar && (
                 <View style={{ gap: 6, borderTopWidth: 1, borderTopColor: C.line, paddingTop: 6 }} key={a.anahtar + (a.mahkeme || "") + (a.esasNo || "")}>
                   <Alan etiket={t("Mahkeme (tam adı)")} deger={a.mahkeme || ""} genislik={240} onDegis={v => asamaYaz(a, { mahkeme: v })} />
-                  <Alan etiket={t("Kısaltma (boşsa kendiliğinden: {k})", { k: mahkemeKisa(a.mahkeme) || "-" })} deger={a.y?.kisa || ""} genislik={240} onDegis={v => asamaYaz(a, { kisa: v })} />
                   <View style={{ flexDirection: "row", gap: 6 }}>
                     <Alan etiket={t("Dosya no")} deger={a.esasNo || ""} genislik={120} onDegis={v => asamaYaz(a, { esasNo: v })} />
                     <Alan etiket={t("Kaçıncı celsede")} deger={a.y?.celse ? String(a.y.celse) : ""} genislik={100} onDegis={v => asamaYaz(a, { celse: Number(v.replace(/\D/g, "")) || 0 })} />
@@ -226,7 +225,7 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
                     <View key={"bos" + g.celse + i} style={{ gap: 4 }}>
                       <Pressable onPress={() => setBos(bos?.a === a.anahtar && bos.celse === g.celse ? null : { a: a.anahtar, celse: g.celse! })}
                         style={[hapStil(C.mid), { alignSelf: "flex-start", borderStyle: "dashed" }]} accessibilityRole="button">
-                        <Text style={{ color: C.mid, fontSize: 12, fontWeight: "700" }}><Text style={{ color: C.brass }}>{g.celse}. </Text>{t("celse · gün ?")}</Text>
+                        <Text style={{ color: C.mid, fontSize: 12, fontWeight: "700" }}><Text style={{ color: C.brass }}>{t("{n}. celse · ", { n: g.celse! })}</Text>{t("gün ?")}</Text>
                         {eTuru(f, { mahkeme: a.mahkeme }) && !icraMi(f) && <Text style={{ color: C.muted, fontSize: 11, fontWeight: "700" }}>{eAdi(f, { mahkeme: a.mahkeme })}: ?</Text>}
                       </Pressable>
                       {bos?.a === a.anahtar && bos.celse === g.celse && (
