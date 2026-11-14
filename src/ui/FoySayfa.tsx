@@ -648,7 +648,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       </View>
       <Text style={s.eyebrow}>{[t("BAŞVURU"), t(bt.ad).replace(/^\S+\s/, ""), f.foyNo].filter(Boolean).join(" · ").toLocaleUpperCase("tr")}</Text>
       <Text style={s.title}>{foyBaslik(f)}</Text>
-      {kaydetSatiri}
+      {taslakMi && <Text style={[s.hint, { color: C.mid }]}>{t("Yeni föy: en alttaki “💾 Kaydet”e basana kadar kaydedilmez.")}</Text>}
       {cikSor}
       <Katlanir anahtar={"gereken-" + bt.k} varsayilan baslik={t("Hazırlanması gerekenler")} ozet={t("{n} madde", { n: bt.gerekenler.length })}>
         {bt.gerekenler.map((x, i) => <Text key={i} style={s.body}>☐ {t(x)}</Text>)}
@@ -675,7 +675,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       {/* Mahkeme ve dosya numarası başlığın hemen üstünde, büyük: "Foça Asliye Hukuk Mahkemesi · 2024/362 Esas" */}
       {!!(f.mahkeme || f.esasNo) && <Text style={[s.body, { fontWeight: "800", fontSize: 17, color: C.brass }]}>{[f.mahkeme, f.esasNo].filter(Boolean).join(" · ")}</Text>}
       <Text style={s.title}>{foyBaslik(f)}</Text>
-      {kaydetSatiri}
+      {taslakMi && <Text style={[s.hint, { color: C.mid }]}>{t("Yeni föy: en alttaki “💾 Kaydet”e basana kadar kaydedilmez.")}</Text>}
       {cikSor}
       {f.ozel && <Text style={[s.turChip, s.ozelChip]}>🔒 {t("ŞAHSİ DOSYA · ŞİFRELİ SAKLANIR")}</Text>}
 
@@ -845,6 +845,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
           await sahsiyeTasi();
         }} />
       </View>
+      {kaydetSatiri}
       {silSatiri}
       {kilitSor && <OzelKilitSatir dugme={t("Kilidi aç ve taşı")} onAcildi={async () => { setKilitSor(false); await sahsiyeTasi(); }} onVazgec={() => setKilitSor(false)} />}
       {!!tasiHata && <Text style={s.err}>{tasiHata}</Text>}
