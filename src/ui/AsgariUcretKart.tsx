@@ -24,7 +24,7 @@ export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partia
   const g = useMemo(() => giderTahmini(f, deger), [f.mahkeme, f.tur, f.taraf, f.ekMuvekkiller, f.ekKarsiTaraflar, f.icra?.ekBorclular, deger]);
   const yazili = new Set(hesap.kalemler.map(k => k.tahmin).filter(Boolean));
   const [sec, setSec] = useState<Set<string> | null>(null);
-  const secili = sec || new Set(g.kalemler.filter(k => !yazili.has(k.kod) && !/istinaf|temyiz/.test(k.kod)).map(k => k.kod));
+  const secili = sec || new Set(g.kalemler.filter(k => !yazili.has(k.kod)).map(k => k.kod));
   const [mesaj, setMesaj] = useState("");
   // Aç / kapa: kapalıyken yalnız başlık ve tek satır özet (asgari ücret, eklenmemiş gider toplamı, uyarı) görünür.
   const [acik, setAcik] = useState(false);
@@ -35,7 +35,7 @@ export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partia
   const cakisan = hesap.kalemler.filter(k => k.tahmin && hesap.kalemler.some(x => !x.tahmin && x.tur === "masraf" && x.kategori === k.kategori));
   const sozlesme = hesap.ucret?.tutar || 0;
   const asgari = a.guncel.asgari || 0;
-  const kalanGider = g.kalemler.filter(k => !yazili.has(k.kod) && !/istinaf|temyiz/.test(k.kod)).reduce((x, k) => x + k.tutar, 0);
+  const kalanGider = g.kalemler.filter(k => !yazili.has(k.kod)).reduce((x, k) => x + k.tutar, 0);
 
   const giderEkle = () => {
     const yeni: HesapKalem[] = g.kalemler.filter(k => secili.has(k.kod) && !yazili.has(k.kod))
@@ -107,7 +107,7 @@ export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partia
         {a.notlar.map((n, i) => <Text key={i} style={s.hint}>• {t(n)}</Text>)}
       </View>
 
-      <Text style={[s.label, { marginTop: 4 }]}>{f.taraf === "davali" && f.tur !== "icra" ? t("Davalı olarak giderler") : t("Davayı açarken ödenecek giderler (tahmini)")}</Text>
+      {g.kalemler.length > 0 && <Text style={[s.label, { marginTop: 4 }]}>{t("Davayı açarken ödenecek giderler (tahmini)")}</Text>}
       {g.kalemler.map(k => {
         const var_ = yazili.has(k.kod), on = secili.has(k.kod);
         return (
