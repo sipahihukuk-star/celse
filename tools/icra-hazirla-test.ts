@@ -86,6 +86,11 @@ const istek = (b: Record<string, unknown>) => new Request("https://x/functions/v
   ok(j.sonuc?.kalemler?.length === 4, "akışlı cevap çözüldü");
   ok(istekler.some(x => x.model === "claude-opus-5-5") && istekler.some(x => x.model === "claude-sonnet-5-5"), "en güçlü model cevap vermezse öteki modele düşüldü: " + istekler.map(x => x.model).join(","));
   opusBozuk = false;
+  // "Yapay zekâya sor" (foy_sor) da akışlı: ağ geçidinin süre sınırına takılmasın (cevap hemen başlar).
+  modelCevabi = { content: [{ type: "text", text: "Dosya ilk derece aşamasında." }], stop_reason: "end_turn" };
+  r = await handle(istek({ action: "foy_sor", dosya: k.dosya, soru: "Bu dosya ne durumda?", gecmis: [], arama: false, akis: true }));
+  const fsr = await r.text();
+  ok(r.status === 200 && /^\s/.test(fsr) && JSON.parse(fsr.trim()).cevap === "Dosya ilk derece aşamasında.", "foy_sor akışlı cevap: " + fsr.trim().slice(0, 80));
   r = await handle(istek({ action: "icra_hazirla", dosya: "DAVALI 44444444440 kimlik nolu", talimat: "" }));
   ok(r.status === 422, "kodlanmamış kimlik no reddedildi: " + r.status);
 
