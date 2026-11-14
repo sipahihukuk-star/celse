@@ -32,7 +32,8 @@ ok(r.durusmalar!.find(d => d.id === "d1")!.e === "red" && r.gorevler!.find(x => 
 const tal = otoIsleriEsitle({ ...f2, durusmalar: [{ id: "d1", tarih: "2026-12-12T10:30", e: "talep" }] as never }, B)!;
 ok(/sonucunu işaretleyin/.test(tal.find(x => x.id === "oto-e-d1")!.metin) && !tal.find(x => x.id === "oto-e-d1")!.bitti, "talep edilince iş 'sonucunu işaretleyin' olur");
 // Ceza ve icra dosyasında e-duruşma işi yok
-ok(!(otoIsleriEsitle({ ...f, tur: "ceza", gorevler: [] }, B) || []).some(x => x.id.startsWith("oto-e-")), "ceza davasında e-duruşma işi yok");
+ok((otoIsleriEsitle({ ...f, tur: "ceza", mahkeme: "Uydurma 1. Asliye Ceza Mahkemesi", gorevler: [] }, B) || []).filter(x => x.id.startsWith("oto-e-")).every(x => /^SEGBİS/.test(x.metin)), "ceza davasında e-duruşma yerine SEGBİS işi");
+ok(!(otoIsleriEsitle({ ...f, tur: "idari_dava", gorevler: [] }, B) || []).some(x => x.id.startsWith("oto-e-")), "idari davada e-duruşma işi yok");
 // Silinen duruşma: açık iş kalkar
 ok(!otoIsleriEsitle({ ...f2, durusmalar: [] }, B)!.some(x => x.id === "oto-e-d1"), "duruşma silinince açık e işi kalkar");
 // Kapalı föy

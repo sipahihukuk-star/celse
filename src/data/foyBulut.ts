@@ -185,6 +185,7 @@ export function surumBirlestir(yeni: Foy, eski: Foy): Foy {
     ...(durusmalar ? { durusmalar } : {}),
     ...(kalemler ? { hesap: { ...(eski.hesap || {}), ...(yeni.hesap || {}), kalemler } } : {}),
     ...(yeni.tevkil || eski.tevkil ? { tevkil: birlestir(yeni.tevkil, eski.tevkil) } : {}),
+    ...(yeni.yargilamalar || eski.yargilamalar ? { yargilamalar: birlestir(yeni.yargilamalar, eski.yargilamalar) } : {}),
     ...(yeni.talepler || eski.talepler ? { talepler: birlestir(yeni.talepler, eski.talepler) } : {}),
     // Beyan taslakları: aynı taslağın en son düzenlenen hâli kalır.
     ...(yeni.beyanlar || eski.beyanlar ? { beyanlar: birlestir(yeni.beyanlar, eski.beyanlar, (x, o) => (o.guncelleme > x.guncelleme ? o : x)) } : {})

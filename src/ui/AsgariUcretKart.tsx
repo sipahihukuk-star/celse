@@ -6,7 +6,7 @@ import React, { useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { Foy, tarihYaz } from "../data/foy";
 import { HesapKalem, tlYaz, tutarCoz, yeniKalemId } from "../data/hesap";
-import { asgariUcret, davaDegeriBul, giderTahmini, MAHKEME_AD } from "../data/ucretTarife";
+import { asgariUcret, davaDegeriEvraktan, giderTahmini, MAHKEME_AD } from "../data/ucretTarife";
 import { bugunGun } from "../data/durusma";
 import { t } from "../i18n";
 import { s } from "./foyStil";
@@ -18,7 +18,7 @@ const etiket = { color: C.muted, fontSize: 11, letterSpacing: 0.5 } as const;
 
 export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partial<Foy>) => void }) {
   const hesap = f.hesap || { kalemler: [] };
-  const evraktanDeger = useMemo(() => davaDegeriBul(f.evraklar.map(e => e.metin.slice(0, 20000))), [f.evraklar]);
+  const evraktanDeger = useMemo(() => davaDegeriEvraktan(f.evraklar).deger, [f.evraklar]);
   const deger = hesap.davaDegeri ?? evraktanDeger;
   const a = useMemo(() => asgariUcret(f, deger), [f.mahkeme, f.tur, f.davaTuru, f.acilis, deger]);
   const g = useMemo(() => giderTahmini(f, deger), [f.mahkeme, f.tur, f.taraf, f.ekMuvekkiller, f.ekKarsiTaraflar, f.icra?.ekBorclular, deger]);
@@ -49,7 +49,7 @@ export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partia
   const digerKategori = (x: string) => {
     const u = x.toLocaleLowerCase("tr");
     return /bilirkişi/.test(u) ? "Bilirkişi ücreti" : /keşif/.test(u) ? "Keşif gideri" : /tanık/.test(u) ? "Tanık ücreti" : /tebligat|posta/.test(u) ? "Tebligat / posta"
-      : /avans/.test(u) ? "Gider avansı" : /istinaf|temyiz/.test(u) ? "İstinaf / temyiz harcı" : /harç/.test(u) ? "Başvuru / peşin harç" : /noter/.test(u) ? "Noter" : /yol/.test(u) ? "Yol gideri" : "Diğer";
+      : /avans/.test(u) ? "Gider avansı" : /istinaf|temyiz/.test(u) ? "İstinaf / temyiz harcı" : /harç/.test(u) ? "Başvuru / peşin harç" : /noter/.test(u) ? "Noter" : /yol|ulaşım|yakıt|otopark/.test(u) ? "Yol gideri" : /kırtasiye|fotokopi|baskı/.test(u) ? "Kırtasiye / fotokopi" : /iletişim|telefon|kargo|kurye/.test(u) ? "İletişim (telefon, posta, kargo)" : "Diğer";
   };
   const digerEkle = () => {
     const ad = digerAd.trim(), n = tutarCoz(digerTutar);
@@ -77,17 +77,9 @@ export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partia
         </Pressable>
       )}
       {acik && <>
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, alignItems: "flex-end" }}>
-        <View style={{ gap: 4, minWidth: 170 }}>
-          <Text style={etiket}>{t("Dava değeri (TL, konusu para ise)")}</Text>
-          <SonraKaydet deger={hesap.davaDegeri ? String(hesap.davaDegeri).replace(".", ",") : ""} placeholder={evraktanDeger ? tlYaz(evraktanDeger) : t("ör. 250.000")}
-            onKaydet={v => degistir({ hesap: { ...hesap, davaDegeri: tutarCoz(v) } })} style={[s.inputTek, { paddingVertical: 6 }]} />
-        </View>
-        <Text style={[s.hint, { flex: 1, minWidth: 200 }]}>
-          {t("Yer: {m}", { m: t(MAHKEME_AD[a.mahkeme]) })}{!hesap.davaDegeri && evraktanDeger ? " · " + t("dava değeri evraktan okundu") : ""}
-        </Text>
-      </View>
-
+      <Text style={s.hint}>
+        {t("Yer: {m}", { m: t(MAHKEME_AD[a.mahkeme]) })}{deger ? " · " + t("dava değeri {x}", { x: tlYaz(deger) }) + (hesap.davaDegeri ? "" : " (" + t("evraktan") + ")") : " · " + t("dava değeri yazılmadı (yukarıdaki kutudan yazın)")}
+      </Text>
       <View style={{ gap: 2 }}>
         <Text style={[s.body, { color: C.text }]}>
           {t("Asgari ücret ({tarife}): ", { tarife: a.guncel.tarife })}<Text style={{ fontWeight: "800", color: C.brass }}>{asgari ? tlYaz(asgari) : t("tarifede bulunamadı")}</Text>
@@ -124,9 +116,9 @@ export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partia
           <Text style={s.hint}>{t("Toplam: {x}", { x: tlYaz(g.kalemler.filter(k => secili.has(k.kod) || yazili.has(k.kod)).reduce((x, k) => x + k.tutar, 0)) })}</Text>
         </View>
       )}
-      <Text style={[s.label, { marginTop: 4 }]}>{t("Diğer giderler (bilirkişi, keşif, tanık…)")}</Text>
+      <Text style={[s.label, { marginTop: 4 }]}>{t("Diğer giderler (bilirkişi, keşif, tanık, yol, kırtasiye, iletişim…)")}</Text>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6 }}>
-        {["Bilirkişi ücreti", "Keşif gideri", "Tanık ücreti", "Tebligat gideri", "Ek gider avansı"].map(x => (
+        {["Bilirkişi ücreti", "Keşif gideri", "Tanık ücreti", "Tebligat gideri", "Ek gider avansı", "Yol gideri", "Kırtasiye gideri", "İletişim gideri"].map(x => (
           <Pressable key={x} onPress={() => setDigerAd(t(x))} style={{ borderWidth: 1, borderColor: digerAd === t(x) ? C.brass : C.line, borderRadius: 14, paddingHorizontal: 10, paddingVertical: 4 }}>
             <Text style={{ color: digerAd === t(x) ? C.brass : C.textSoft, fontSize: 12 }}>{t(x)}</Text>
           </Pressable>
@@ -144,7 +136,7 @@ export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partia
         <Btn label={t("➕ Ekle")} onPress={digerEkle} disabled={!digerAd.trim() || !digerTutar.trim()} />
       </View>
       {g.notlar.map((n, i) => <Text key={i} style={s.hint}>• {t(n)}</Text>)}
-      <Text style={s.hint}>{t("Tutarlar 2026 harç tarifesi ve HMK gider avansı tarifesine göre tahminidir; vezne makbuzu ya da dekont ekleyince gerçek tutarı yazın. Bilirkişi, keşif, tanık gibi tarifede olmayan giderleri yukarıdaki “Diğer giderler”den ekleyin.")}</Text>
+      <Text style={s.hint}>{t("Tutarlar 2026 harç tarifesi ve HMK gider avansı tarifesine göre tahminidir; vezne makbuzu ya da dekont ekleyince gerçek tutarı yazın. Bilirkişi, keşif, tanık, yol, kırtasiye ve iletişim gibi tarifede olmayan giderleri yukarıdaki “Diğer giderler”den ekleyin.")}</Text>
       {cakisan.length > 0 && (
         <View style={[s.row, { gap: 8, alignItems: "center" }]}>
           <Text style={[s.hint, { flex: 1, color: C.mid }]}>{t("{n} tahmini giderin gerçek kaydı (makbuz / dekont) da var.", { n: cakisan.length })}</Text>

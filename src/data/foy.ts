@@ -98,6 +98,8 @@ export interface Foy {
   durusma?: string;
   /** duruşma akışı: her duruşma günü, girildi kutusu, e-duruşma talebi ve kararı (durusma.ts) */
   durusmalar?: import("./durusma").Durusma[];
+  /** yargılama aşamaları (mahkeme + dosya no): duruşma akışının sütunları; duruşmalardan kendiliğinden de çıkar (durusma.ts) */
+  yargilamalar?: import("./durusma").Yargilama[];
   /** büroda dosyanın (duruşma ve e-duruşma bildirimlerinin) sorumlusu */
   sorumlu?: { id: string; ad: string };
   /** vekâlet ücreti, tahsilatlar, dava masrafları, tevkil ödemeleri (hesap.ts) */

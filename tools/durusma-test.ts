@@ -1,7 +1,8 @@
 // Duruşma akışı, hesap ve talepler: uydurma (sentetik) evrakla.
 import { bosFoy } from "../src/data/foy";
 import { eDurusmaTalebi } from "../src/data/beyan";
-import { durusmaDuzeni, eSorulur, durusmaEkle, durusmaOzeti, durusmaUyarilari, evrakDurusmaOku, evraktanDurusma, kunyeDurusmasi, yerDegisti, banaAit, takvim } from "../src/data/durusma";
+import { otoIsleriEsitle } from "../src/data/otoIs";
+import { asamalar, eAdi, eTuru, mahkemeKisa, durusmaDuzeni, eSorulur, durusmaEkle, durusmaOzeti, durusmaUyarilari, evrakDurusmaOku, evraktanDurusma, kunyeDurusmasi, yerDegisti, banaAit, takvim } from "../src/data/durusma";
 import { hesapOzeti, makbuzOku, standartGiderler, talepOku, tevkilOku, tutarCoz, ucretSozlesmesiOku } from "../src/data/hesap";
 let fail = 0;
 const ok = (c: boolean, m: string) => { if (!c) { fail++; console.log("✗ " + m); } };
@@ -126,7 +127,8 @@ ok(durusmaUyarilari({ ...icf, durusmalar: hr.durusmalar }, "2026-11-30").some(x 
 
 // E-duruşma yalnız hukukta; idare mahkemesinde duruşma talepli
 {
-  ok(eSorulur(bosFoy({ tur: "hukuk" })) && !eSorulur(bosFoy({ tur: "ceza" })) && !eSorulur(bosFoy({ tur: "idari_dava" })), "e-duruşma yalnız hukuk");
+  ok(eSorulur(bosFoy({ tur: "hukuk" })) && eSorulur(bosFoy({ tur: "ceza" })) && !eSorulur(bosFoy({ tur: "idari_dava" })), "e-duruşma hukukta, SEGBİS cezada; idari davada sorulmaz");
+  ok(eTuru(bosFoy({ tur: "ceza", mahkeme: "Uydurma 2. Asliye Ceza Mahkemesi" })) === "segbis" && eTuru(bosFoy({ tur: "ceza", mahkeme: "Uydurma 1. İcra Ceza Mahkemesi" })) === "e" && eAdi(bosFoy({ tur: "ceza" })) === "SEGBİS", "ceza: SEGBİS; icra ceza mahkemesi: e-duruşma");
   ok(durusmaDuzeni({ tur: "hukuk" }) === "olagan" && durusmaDuzeni({ tur: "ceza" }) === "olagan" && durusmaDuzeni({ tur: "idari_dava" }) === "talepli" && durusmaDuzeni({ tur: "tazminat_komisyonu" }) === "talepli" && durusmaDuzeni({ tur: "danisma" }) === "yok", "duruşma düzeni");
   const idari = bosFoy({ tur: "idari_dava", durusmalar: [{ id: "i1", tarih: "2026-10-01", girildi: "evet" }] });
   ok(!durusmaUyarilari(idari, "2026-11-09").some(u => u.tur === "sonraki" || u.tur === "eSor"), "idari: sonraki duruşma ve e-duruşma sorulmaz");
@@ -147,5 +149,52 @@ ok(durusmaUyarilari({ ...icf, durusmalar: hr.durusmalar }, "2026-11-30").some(x 
   ok(red.some(u => u.tur === "eRed"), "redde bizzat girilecek uyarısı");
   const b = eDurusmaTalebi("2026-12-10T10:30");
   ok(b.tur === "E-duruşma talebi" && /10\.12\.2026 saat 10:30/.test(b.metin) && /HMK m\. 149/.test(b.metin) && /SONUÇ VE İSTEM/.test(b.metin), "e-duruşma talep dilekçesi");
+}
+
+// ── Yargılama aşamaları, mahkeme kısaltması, celse numarası, SEGBİS (uydurma künyeler) ──
+{
+  ok(mahkemeKisa("İzmir 3. Asliye Hukuk Mahkemesi") === "İzmir 3. AHM", "kısaltma AHM: " + mahkemeKisa("İzmir 3. Asliye Hukuk Mahkemesi"));
+  ok(mahkemeKisa("İZMİR BÖLGE ADLİYE MAHKEMESİ 20. HUKUK DAİRESİ") === "İzmir BAM 20. HD", "kısaltma BAM HD: " + mahkemeKisa("İZMİR BÖLGE ADLİYE MAHKEMESİ 20. HUKUK DAİRESİ"));
+  ok(mahkemeKisa("Uydurma 2. Ağır Ceza Mahkemesi") === "Uydurma 2. AğCM" && mahkemeKisa("Uydurma 1. İş Mahkemesi") === "Uydurma 1. İş M.", "kısaltma AğCM, İş M.");
+  ok(mahkemeKisa("Uydurma 4. Asliye Hukuk Mahkemesi (Tüketici Mahkemesi Sıfatıyla)") === "Uydurma 4. AHM", "sıfatıyla parantezi atılır");
+  // Görevsizlikle başka mahkemeye geçmiş dosya: eski aşama solda, şimdiki sağda.
+  const fa = bosFoy({ tur: "hukuk", mahkeme: "Uydurma 2. Asliye Ticaret Mahkemesi", esasNo: "2026/40", durusmalar: [
+    { id: "a1", tarih: "2025-03-10", mahkeme: "Uydurma 5. Asliye Hukuk Mahkemesi", esasNo: "2024/900" },
+    { id: "a2", tarih: "2025-06-12", mahkeme: "Uydurma 5. Asliye Hukuk Mahkemesi", esasNo: "2024/900" },
+    { id: "b1", tarih: "2026-02-01", celse: 3 },
+    { id: "b2", tarih: "2026-05-05" },
+    { id: "b3", tarih: "2026-09-09", tur: "kesif" }
+  ] });
+  const as = asamalar(fa);
+  ok(as.length === 2 && as[0].kisa === "Uydurma 5. AHM" && as[1].guncel && as[1].kisa === "Uydurma 2. ATM", "iki aşama, eski solda: " + as.map(a => a.kisa + " " + a.esasNo).join(" | "));
+  ok(JSON.stringify(as[1].eksik) === "[1,2]" && as[1].gunler.map(g => (g.d ? g.d.id : "?") + ":" + (g.celse || "")).join(",") === "?:1,?:2,b1:3,b2:4,b3:", "3. celseden önceki iki celse ? ve sonraki 4.: " + as[1].gunler.map(g => (g.d ? g.d.id : "?") + ":" + (g.celse || "")).join(","));
+  ok(!as[0].eksik.length, "celse no bilinmeyen aşamada ? yok");
+  const g = otoIsleriEsitle(fa, "2026-11-14") || [];
+  const ci = g.find(x => x.id.startsWith("oto-celse-"));
+  ok(!!ci && /1, 2\. celse/.test(ci.metin) && /Uydurma 2\. ATM 2026\/40/.test(ci.metin), "eksik celse işi: " + ci?.metin);
+  const fb = { ...fa, gorevler: g, durusmalar: [...fa.durusmalar!, { id: "c1", tarih: "2025-10-01", celse: 1 }, { id: "c2", tarih: "2025-12-01", celse: 2 }] };
+  const g2 = otoIsleriEsitle(fb, "2026-11-14") || fb.gorevler;
+  ok(asamalar(fb)[1].eksik.length === 0 && g2.find(x => x.id === ci?.id)?.bitti === true, "günler yazılınca ? kalkar, iş kapanır");
+  // Tutanaktan celse numarası ve eski aşamanın evraktan bulunması.
+  const tut = "T.C.\nUYDURMA 2. ASLİYE TİCARET MAHKEMESİ\nESAS NO : 2026/40\nDURUŞMA TUTANAĞI\n5. CELSE\nDuruşma tarihi: 05.05.2026\nDavacı vekili Av. Kurgu geldi.\nDuruşmanın 09/12/2026 günü saat 10:00'a bırakılmasına";
+  const bt = evrakDurusmaOku(tut, "davaci", simdi);
+  ok(bt.oturum?.celse === 5, "tutanaktan 5. celse: " + JSON.stringify(bt.oturum));
+  const r5 = evraktanDurusma(fa, [ev("t5", tut, "2026-05-05")], simdi);
+  ok(r5.durusmalar.find(x => x.id === "b2")?.celse === 5, "05.05 duruşması 5. celse oldu");
+  const gor = "T.C.\nUYDURMA 7. SULH HUKUK MAHKEMESİ\nESAS NO : 2023/77\nKARAR NO : 2024/5\nGEREKÇELİ KARAR\nMahkememizin görevsizliğine karar verildi.\nKarar tarihi: 10.01.2024";
+  const r6 = evraktanDurusma(fa, [ev("k6", gor, "2024-01-10")], simdi);
+  const as6 = asamalar({ ...fa, yargilamalar: r6.yargilamalar });
+  ok(!!r6.yargilamalar?.length && as6[0].kisa === "Uydurma 7. SHM" && as6[0].esasNo === "2023/77", "evraktan eski aşama sola eklendi: " + as6.map(a => a.kisa).join(" | "));
+  ok(!evraktanDurusma({ ...fa, yargilamalar: r6.yargilamalar }, [ev("k7", gor, "2024-01-10")], simdi).yargilamalar, "aynı aşama ikinci kez eklenmez");
+  const dil = "UYDURMA 2. ASLİYE TİCARET MAHKEMESİ'NE\nDOSYA NO: 2026/40 E.\nKONU: Duruşma günü hakkında beyanımızdır.";
+  ok(!evraktanDurusma(fa, [ev("dl", dil, "2026-06-01")], simdi).yargilamalar, "kendi mahkemesine yazılan dilekçe yeni aşama açmaz");
+  // SEGBİS: ceza davasında uyarı ve dilekçe SEGBİS adıyla.
+  const fc = bosFoy({ tur: "ceza", mahkeme: "Uydurma 3. Asliye Ceza Mahkemesi", esasNo: "2026/12", durusmalar: [{ id: "s1", tarih: "2026-11-25T10:00" }] });
+  const uc = durusmaUyarilari(fc, "2026-11-14");
+  ok(uc.some(u => /^SEGBİS talep edilecek mi/.test(u.metin)), "ceza: SEGBİS sorusu: " + uc.map(u => u.metin).join(" | "));
+  const gc = otoIsleriEsitle(fc, "2026-11-14") || [];
+  ok(gc.some(x => /^SEGBİS talep et/.test(x.metin)), "ceza: SEGBİS işi");
+  const bs = eDurusmaTalebi("2026-11-25T10:00", "segbis");
+  ok(bs.tur === "SEGBİS talebi" && /SEGBİS/.test(bs.metin) && !/HMK/.test(bs.metin), "SEGBİS talep dilekçesi");
 }
 if (fail) { console.log(`durusma-test: ${fail} hata`); process.exit(1); } else console.log("durusma-test: tamam");

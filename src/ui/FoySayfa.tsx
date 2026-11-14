@@ -244,7 +244,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       const hr = evraktanHesap({ ...f, ...kunyeEk }, eklenen, haricAdlar(), bugunGun());
       const islenen = [...dr.degisen, ...hr.degisen];
       if (islenen.length) setKunyeMesaj(m => [m, t("Evraktan işlendi: {x}. Kontrol edin.", { x: islenen.join(", ") })].filter(Boolean).join(" "));
-      degistir({ evraklar: [...f.evraklar, ...eklenen], ...kunyeEk, ...hr.ek, ...(dr.degisen.length ? { durusmalar: dr.durusmalar } : {}), ...(ic && ic.dolan.length ? { icra: ic.yeni } : {}) });
+      degistir({ evraklar: [...f.evraklar, ...eklenen], ...kunyeEk, ...hr.ek, ...(dr.degisen.length ? { durusmalar: dr.durusmalar } : {}), ...(dr.yargilamalar ? { yargilamalar: dr.yargilamalar } : {}), ...(ic && ic.dolan.length ? { icra: ic.yeni } : {}) });
       if (ic && ic.dolan.length) { setIcraMesaj(t("İcra bilgileri evraktan dolduruldu: {x}. Kontrol edin.", { x: ic.dolan.join(", ") })); setSurum(v => v + 1); }
     }
     return eklenen;
