@@ -26,7 +26,7 @@ const tarihYaz = (x?: string) => (x ? x.split("-").reverse().join(".") : "");
 
 const birGunOnce = (x: string) => new Date(Date.parse(x + "T00:00:00Z") - 86400000).toISOString().slice(0, 10);
 const adSade = (x?: string) => (x || "").toLocaleUpperCase("tr").replace(/[^A-ZÇĞİÖŞÜ0-9 ]/g, " ").replace(/\s+/g, " ").trim();
-export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrakSil, onKaydet, onMetinEkle, bizimAdlar = [], okuma, guncel, yenile, hata }: { f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; guncel?: () => Foy; yenile?: () => void; hata?: string; onEvraktan?: () => void; onEvrakEkle?: () => void; onEvrakSil?: (e: FoyEvrak) => void; onKaydet?: () => Promise<void>; onMetinEkle?: (metin: string) => Promise<void>; bizimAdlar?: string[]; okuma?: string }) {
+export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrakSil, onKaydet, onMetinEkle, bizimAdlar = [], okuma, guncel, yenile, hata, ornekYok }: { ornekYok?: boolean; f: Foy; degistir: (ek: Partial<Foy>) => void; surum: number; guncel?: () => Foy; yenile?: () => void; hata?: string; onEvraktan?: () => void; onEvrakEkle?: () => void; onEvrakSil?: (e: FoyEvrak) => void; onKaydet?: () => Promise<void>; onMetinEkle?: (metin: string) => Promise<void>; bizimAdlar?: string[]; okuma?: string }) {
   const b: IcraBilgi = f.icra || { yol: "genel", talep: "haciz", paraBirimi: "TL", faizTuru: "yasal" };
   const [bilgi, setBilgi] = useState("");
   const yaz = (ek: Partial<IcraBilgi>) => degistir({ icra: { ...b, ...ek } });
@@ -314,7 +314,7 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
         {!!xmlHata && <Text style={[s.hint, { color: C.bad }]}>{xmlHata}</Text>}
         {!!bilgi && <Text style={[s.hint, { color: C.good }]}>{bilgi}</Text>}
       </View>
-      <IcraOrnekleri f={f} b={b} vekil={vekilBilgi.adSoyad} />
+      {!ornekYok && <IcraOrnekleri f={f} b={b} vekil={vekilBilgi.adSoyad} />}
       <Text style={s.hint}>{faizNotu(faiz.durum)}</Text>
     </View>
   );
