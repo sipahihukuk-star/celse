@@ -125,7 +125,9 @@ export async function call<T>(action: string, body: Record<string, unknown>, sur
     if (j?.uygunsuz) return { ok: false, status: durum, error: "Bu istek değerlendirilemedi: {neden}", vars: { neden: String(j.neden || "") } };
     const e = String(j?.error || "");
     return { ok: false, status: durum, iade: !!j?.iade, error: HATA[e] || (durum === 400 ? "Formdaki bilgiler eksik." : "Sunucu şu an cevap veremedi. Biraz sonra yeniden deneyin.") };
-  } catch {
+  } catch (e) {
+    // Süre doldu (iptal) ile bağlantı hiç kurulamadı ayrı söylenir.
+    if ((e as Error)?.name === "AbortError") return { ok: false, error: "Sunucu zamanında cevap vermedi. Biraz sonra yeniden deneyin." };
     return { ok: false, error: "Bağlantı kurulamadı. İnternet bağlantınızı kontrol edin." };
   }
 }

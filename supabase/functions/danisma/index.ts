@@ -2160,7 +2160,7 @@ export async function handle(req: Request): Promise<Response> {
     if (action === "evrak" || action === "evrak_izle" || action === "evrak_oyna") return b.akis === true ? akisla(evrakKredili(req, uid, action, b)) : await evrakKredili(req, uid, action, b);
     if (action === "evrak_bilet") return await evrakBilet(req, uid, b);
     if (action === "foyle") return await foyle(req, uid, b);
-    if (action === "foy_sor") return await foySor(req, uid, b);
+    if (action === "foy_sor") return b.akis === true ? akisla(foySor(req, uid, b)) : await foySor(req, uid, b);
     if (action === "icra_sor") return await icraSor(req, uid, b);
     if (action === "icra_hazirla") return b.akis === true ? akisla(icraHazirla(req, uid, b)) : await icraHazirla(req, uid, b);
     if (action === "ses_anla") return await sesAnla(req, uid, b);
