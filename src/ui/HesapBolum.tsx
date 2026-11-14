@@ -32,6 +32,7 @@ export function HesapBolum({ f, degistir, evrakEkle }: { f: Foy; degistir: (ek: 
   const [gun, setGun] = useState("");
   const [aciklama, setAciklama] = useState("");
   const [mesaj, setMesaj] = useState("");
+  const [tamMesaj, setTamMesaj] = useState("");
   const [bedel, setBedel] = useState<BirimBedel>(VARSAYILAN_BEDEL);
   const [bedelAc, setBedelAc] = useState(false);
   useEffect(() => { ayarOku<BirimBedel>("birimBedel").then(x => x && setBedel({ ...VARSAYILAN_BEDEL, ...x })).catch(() => {}); }, []);
@@ -50,6 +51,20 @@ export function HesapBolum({ f, degistir, evrakEkle }: { f: Foy; degistir: (ek: 
     const xs = await evrakEkle(evrakTur);
     if (xs.length) setMesaj(t("Evrak eklendi; okunabilen bilgiler işlendi. Kontrol edin."));
   };
+  // "Tamamı tahsil edildi": kalan ücret tek tahsilat kalemi olarak yazılır; işaret kaldırılınca yalnız bu kalem silinir.
+  const tamami = o.ucret > 0 && o.kalanUcret === 0;
+  const tamamiDegistir = () => {
+    if (!o.ucret) { setTamMesaj(t("Önce sözleşmedeki vekâlet ücretini yazın.")); return; }
+    if (tamami) {
+      const oto = hesap.kalemler.filter(k => k.tamami);
+      if (!oto.length) { setTamMesaj(t("Tahsilatlar elle yazılmış; geri almak için aşağıdaki listeden silin.")); return; }
+      yaz(hesap.kalemler.filter(k => !k.tamami));
+      setTamMesaj(t("“Tamamı tahsil edildi” işareti kaldırıldı."));
+      return;
+    }
+    yaz([...hesap.kalemler, { id: yeniKalemId(), tarih: bugunGun(), tutar: o.kalanUcret, tur: "tahsilat", aciklama: t("Ücretin tamamı tahsil edildi"), tamami: true }]);
+    setTamMesaj(t("Kalan ücret ({x}) tahsil edildi olarak yazıldı.", { x: tlYaz(o.kalanUcret) }));
+  };
   const gider = standartGiderler(f, bedel, bugunGun());
   const bedelYaz = (ek: Partial<BirimBedel>) => { const y = { ...bedel, ...ek }; setBedel(y); ayarYaz("birimBedel", y).catch(() => {}); };
   const sozlesme = hesap.ucret?.sozlesmeEvrakId ? f.evraklar.find(e => e.id === hesap.ucret!.sozlesmeEvrakId) : undefined;
@@ -57,13 +72,21 @@ export function HesapBolum({ f, degistir, evrakEkle }: { f: Foy; degistir: (ek: 
   return (
     <View style={{ gap: 10 }}>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-        {[[t("Vekâlet ücreti"), o.ucret], [t("Tahsil edilen"), o.tahsilat], [t("Kalan ücret"), o.kalanUcret], [t("Dava masrafı"), o.masraf], [t("Tevkil ödemesi"), o.tevkil]].map(([a, v]) => (
-          <View key={a as string} style={{ borderWidth: 1, borderColor: C.line, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, minWidth: 120 }}>
+        {[[t("Vekâlet ücreti"), o.ucret], [t("Tahsil edilen"), o.tahsilat], [t("Kalan ücret"), o.kalanUcret], [t("Dava masrafı"), o.masraf], [t("Tevkil ödemesi"), o.tevkil]].map(([a, v], i) => (
+          <View key={a as string} style={{ borderWidth: 1, borderColor: i === 1 && tamami ? C.good : C.line, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, minWidth: 120, gap: 2 }}>
             <Text style={etiket}>{a}</Text>
             <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{tlYaz(v as number)}</Text>
+            {i === 1 && (
+              <Pressable onPress={tamamiDegistir} disabled={!o.ucret} accessibilityRole="checkbox" accessibilityState={{ checked: tamami, disabled: !o.ucret }} hitSlop={6}
+                style={{ flexDirection: "row", alignItems: "center", gap: 5, opacity: o.ucret ? 1 : 0.5 }}>
+                <Text style={{ fontSize: 15, color: tamami ? C.good : C.brass }}>{tamami ? "☑" : "☐"}</Text>
+                <Text style={{ color: tamami ? C.good : C.textSoft, fontSize: 12, fontWeight: "700" }}>{t("Tamamı tahsil edildi")}</Text>
+              </Pressable>
+            )}
           </View>
         ))}
       </View>
+      {!!tamMesaj && <Text style={[s.hint, { color: C.good }]}>{tamMesaj}</Text>}
 
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, alignItems: "flex-end" }}>
         <View style={{ gap: 4, minWidth: 150 }}>
