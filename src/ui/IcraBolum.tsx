@@ -251,13 +251,25 @@ export function IcraBolum({ f, degistir, surum, onEvraktan, onEvrakEkle, onEvrak
           </View>
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>
             <Acilir etiket={t("Faiz türü")} secili={x.k.faizTuru || "yasal"} genislik={280} onSec={k => kalemYaz(i, { faizTuru: k as FaizTuru })} secenekler={FAIZ_TURLERI.map(y => ({ k: y.k, ad: t(y.ad) }))} />
-            {(x.k.faizTuru || "yasal") !== "yok" && alan(x.k.faizTuru === "sozlesme" || x.k.faizTuru === "mevduat" ? "Yıllık oran (%)" : "Yıllık oran (%) – boşsa dönemsel", sayiYaz(x.k.oran), v => kalemYaz(i, { oran: sayi(v) }), x.k.faizTuru === "avans" ? "39,75" : x.k.faizTuru === "yasal" || !x.k.faizTuru ? "9 / 24 / 31" : "Örn. 48", 170)}
+            {(x.k.faizTuru || "yasal") !== "yok" && alan(x.k.faizTuru === "sozlesme" || x.k.faizTuru === "mevduat" ? "Yıllık oran (%)" : "Yıllık oran (%) – boşsa dönemsel", sayiYaz(x.k.oran), v => kalemYaz(i, { oran: sayi(v) }), x.k.faizTuru === "avans" ? t("dönemsel, bugün %{o}", { o: String(faiz.durum.sonAvans?.[1] ?? "").replace(".", ",") }) : x.k.faizTuru === "yasal" || !x.k.faizTuru ? t("dönemsel, bugün %{o}", { o: String(faiz.durum.sonYasal?.[1] ?? "").replace(".", ",") }) : x.k.faizTuru === "ttk1530" ? t("dönemsel, bugün %{o}", { o: String(faiz.durum.sonTtk?.[1] ?? "").replace(".", ",") }) : "Örn. 48", 190)}
             {(x.k.faizTuru || "yasal") !== "yok" && para("İşlemiş faiz elle (isteğe bağlı)", x.k.islemisElle, v => kalemYaz(i, { islemisElle: v }))}
           </View>
           <BrutNetSatir k={x.k} pb={pb} onYaz={ek => kalemYaz(i, ek)} />
           {(x.k.faizTuru || "yasal") !== "yok" && <Text style={s.body}>{t("İşlemiş faiz: {x}", { x: tl(x.faiz, pb) })}{x.k.islemisElle !== undefined ? " " + t("(elle)") : ""}</Text>}
           {x.k.islemisElle === undefined && x.dilimler.map((d, j, xs) => <Text key={j} style={s.hint}>{tarihYaz(d.bas)} – {j + 1 < xs.length ? tarihYaz(birGunOnce(d.son)) : tarihYaz(d.son)}: {d.gun} {t("gün")} × %{String(d.oran).replace(".", ",")} = {tl(d.tutar, pb)}</Text>)}
           {!!x.eksik && x.k.islemisElle === undefined && <Text style={[s.hint, { color: C.bad }]}>{t(x.eksik)}</Text>}
+          {(x.k.faizTuru || "yasal") !== "yok" && !x.k.faizBaslangic && x.k.islemisElle === undefined && !!x.k.tutar && (
+            <View style={{ gap: 4 }}>
+              <Text style={[s.hint, { color: C.bad, fontWeight: "700" }]}>{t("Faiz başlangıcı yazılmadığı için bu kaleme faiz işlemiyor (takip talebine ve XML'e de girmez). Tarihi yazın ya da seçin:")}</Text>
+              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6 }}>
+                {([["Dava tarihi", b.ilam?.davaTarihi], ["Karar tarihi", b.ilam?.kararTarihi], ["Kesinleşme", b.ilam?.kesinlesme], ["Takip tarihi", b.takipTarihi]] as [string, string | undefined][]).filter(([, g]) => !!g).map(([ad, g]) => (
+                  <Pressable key={ad} onPress={() => kalemYaz(i, { faizBaslangic: g })} style={{ borderWidth: 1, borderColor: C.brass, borderRadius: 14, paddingHorizontal: 10, paddingVertical: 4 }}>
+                    <Text style={{ color: C.brass, fontSize: 12, fontWeight: "700" }}>{t(ad)}: {tarihYaz(g)}</Text>
+                  </Pressable>
+                ))}
+              </View>
+            </View>
+          )}
         </View>
       ))}
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, alignItems: "flex-start" }}>

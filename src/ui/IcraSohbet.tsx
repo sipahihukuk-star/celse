@@ -52,7 +52,7 @@ export function IcraSohbet({ f, degistir, onMetinEkle, onKaydet, guncel, yenile,
     const u0 = talimatUygula(g2, r, {
       taraflar: it ? [...it.birinciler, ...it.ikinciler] : [], kaynak: g.evraklar.map(e => e.metin).join("\n"),
       // Yalnız kutu dolduran talimatta ("icra dairesi …", "borçlunun adresi …") kalemlere ve takip yoluna dokunulmaz.
-      hukumKalemleri: ilam && (r.kalemler.length || /hazırla|takip|kalem/i.test(talimat)) ? hukumKalemleri(ilam.metin, kt, yan) : [], kararTarihi: kt,
+      hukumKalemleri: ilam && (r.kalemler.length || /hazırla|takip|kalem/i.test(talimat)) ? hukumKalemleri(ilam.metin, kt, yan) : [], kararTarihi: kt, davaTarihi: g.icra?.ilam?.davaTarihi || it?.davaTarihi,
       ilamli: (!!ilam && (r.kalemler.length > 0 || /hazırla|takip/i.test(talimat))) || /ilamlı/i.test(talimat)
     });
     const u = { ek: { ...yer.ek, ...u0.ek, icra: u0.ek.icra || (yer.ek.icra ? { ...(g.icra || b), ...yer.ek.icra } : undefined) } as Partial<Foy>, dolan: [...yer.dolan.map(x => t(x)), ...u0.dolan] };

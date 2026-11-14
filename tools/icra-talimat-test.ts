@@ -4,7 +4,7 @@ import { join } from "path";
 import { bosFoy, Foy } from "../src/data/foy";
 import { evrakTuruBul, hukumKalemleri, icraEvraktan, ilamdanTaraflar, ilamTaraflari } from "../src/data/icraEvrak";
 import { adCoz, talimatAyir, talimatOku, talimatUygula } from "../src/data/icraTalimat";
-import { takipTalebiMetni, tumBorclular } from "../src/data/icra";
+import { icraHesapla, takipTalebiMetni, tumBorclular } from "../src/data/icra";
 
 let fail = 0;
 const ok = (c: unknown, m: string) => { if (c) console.log("✓ " + m); else { fail++; console.log("✗ " + m); } };
@@ -139,6 +139,25 @@ ok(evrakTuruBul("İZMİR 3. ASLİYE HUKUK MAHKEMESİ'NE\nESAS NO: 2023/512\nDAVA
   ok(g2.icra?.ekBorclular?.length === 1 && /Masal Cad/.test(g2.icra.ekBorclular[0].adres || "") && g2.icra.ekBorclular[0].kimlikNo === "44444444440", "künyedeki 2. davalı takibin 2. borçlu kutusuna adresiyle: " + JSON.stringify(g2.icra?.ekBorclular));
   ok(/Masal Cad/.test(g2.ekKarsiTaraflar?.[0]?.adres || "") && g2.ekKarsiTaraflar?.length === 1, "künyedeki adres de tamamlandı, kişi iki kez yazılmadı");
   ok(!Object.keys(ilamdanTaraflar(g2, ilamTaraflari(evrak), "birinci").ek).length, "ikinci kez okununca değişiklik yok");
+}
+
+// ── Faiz talimatları (uydurma tutarlar) ──
+{
+  ok(talimatOku("faizi %31 olarak koy").alanlar?.faizOran === 31, "faiz oranı okunur");
+  const a = talimatOku("tüm kalemlere dava tarihinden itibaren yasal faiz koy").alanlar;
+  ok(a?.faizTuru === "yasal" && a.faizBaslangic?.[0]?.ref === "dava", "dava tarihinden: " + JSON.stringify(a));
+  const c = talimatOku("asıl alacağa 15.03.2024 tarihinden itibaren avans faizi uygula").alanlar;
+  ok(c?.faizBaslangic?.[0]?.kalem === "Asıl alacak" && c.faizBaslangic[0].tarih === "2024-03-15", "tarih önce, faiz sonra: " + JSON.stringify(c));
+  ok(talimatOku("faiz %20 sözleşme faizi olsun").alanlar?.faizTuru === "sozlesme", "sözleşme faizi");
+  // Eski kayıt (asıl alacak ayrı alanda): faiz talimatı kalemleri silmez, kalemlere çevirip faizi yazar.
+  const f = bosFoy({ tur: "icra", icra: { yol: "ilamli", paraBirimi: "TL", faizTuru: "yasal", asil: 100000, ilamVekalet: 20000, ilam: { kararTarihi: "2025-03-10", davaTarihi: "2023-01-12" } } as never });
+  const u = talimatUygula(f, talimatOku("dava tarihinden itibaren yasal faiz koy, faiz %31"), {});
+  const ks = u.ek.icra?.kalemler || [];
+  ok(ks.length === 2 && ks[0].faizBaslangic === "2023-01-12" && ks[1].faizBaslangic === "2025-03-10" && ks.every(k => k.oran === undefined), "eski kayıt kalemlere çevrildi; asıl alacak dava, vekâlet ücreti karar tarihinden; %31 sabitlenmedi: " + JSON.stringify(ks));
+  const h = icraHesapla({ ...u.ek.icra!, takipTarihi: "2026-11-14" });
+  ok(h.kalemler[0].dilimler.map(d => d.oran).join("/") === "9/24/31" && h.faiz > 0, "dönemsel: %9, %24, %31");
+  const u2 = talimatUygula({ ...f, icra: u.ek.icra }, talimatOku("faiz %40 olsun"), {});
+  ok((u2.ek.icra?.kalemler || []).every(k => k.oran === 40), "tablodan farklı oran sabit yazılır");
 }
 if (fail) { console.log(`icra-talimat-test: ${fail} hata`); process.exit(1); }
 console.log("icra-talimat-test: tamam");
