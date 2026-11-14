@@ -3,7 +3,7 @@
 // asgari ücret hep görünür, sözleşme altındaysa uyarılır. Giderler seçilip "Masraflara ekle" ile tahmini kalem olarak yazılır;
 // gerçek makbuz / dekont ya da mahkemenin ara kararı gelince düzeltilir ya da silinir.
 import React, { useMemo, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, TextInput, View } from "react-native";
 import { Foy, tarihYaz } from "../data/foy";
 import { HesapKalem, tlYaz, tutarCoz, yeniKalemId } from "../data/hesap";
 import { asgariUcret, davaDegeriBul, giderTahmini, MAHKEME_AD } from "../data/ucretTarife";
@@ -28,6 +28,9 @@ export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partia
   const [mesaj, setMesaj] = useState("");
   // Aç / kapa: kapalıyken yalnız başlık ve tek satır özet (asgari ücret, eklenmemiş gider toplamı, uyarı) görünür.
   const [acik, setAcik] = useState(false);
+  // Tarifede olmayan giderler (bilirkişi, keşif, tanık…): ne masrafı olduğu ve TL tutarı yazılıp eklenir.
+  const [digerAd, setDigerAd] = useState("");
+  const [digerTutar, setDigerTutar] = useState("");
   // Evraktan (makbuz, dekont) ya da elle gerçek gider yazılınca aynı türdeki tahmini kayıt kaldırılabilir.
   const cakisan = hesap.kalemler.filter(k => k.tahmin && hesap.kalemler.some(x => !x.tahmin && x.tur === "masraf" && x.kategori === k.kategori));
   const sozlesme = hesap.ucret?.tutar || 0;
@@ -41,6 +44,20 @@ export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partia
     degistir({ hesap: { ...hesap, kalemler: [...hesap.kalemler, ...yeni] } });
     setSec(null);
     setMesaj(t("{n} gider masraflara eklendi (tahmini). Makbuz ya da ara karar gelince tutarı düzeltin.", { n: yeni.length }));
+  };
+
+  const digerKategori = (x: string) => {
+    const u = x.toLocaleLowerCase("tr");
+    return /bilirkişi/.test(u) ? "Bilirkişi ücreti" : /keşif/.test(u) ? "Keşif gideri" : /tanık/.test(u) ? "Tanık ücreti" : /tebligat|posta/.test(u) ? "Tebligat / posta"
+      : /avans/.test(u) ? "Gider avansı" : /istinaf|temyiz/.test(u) ? "İstinaf / temyiz harcı" : /harç/.test(u) ? "Başvuru / peşin harç" : /noter/.test(u) ? "Noter" : /yol/.test(u) ? "Yol gideri" : "Diğer";
+  };
+  const digerEkle = () => {
+    const ad = digerAd.trim(), n = tutarCoz(digerTutar);
+    if (!ad) { setMesaj(t("Ne masrafı olduğunu yazın: ör. Bilirkişi ücreti")); return; }
+    if (!n) { setMesaj(t("Tutarı TL olarak yazın: ör. 6.000")); return; }
+    degistir({ hesap: { ...hesap, kalemler: [...hesap.kalemler, { id: yeniKalemId(), tarih: bugunGun(), tutar: n, tur: "masraf", kategori: digerKategori(ad), aciklama: ad }] } });
+    setDigerAd(""); setDigerTutar("");
+    setMesaj(t("“{a}” {x} masraflara eklendi.", { a: ad, x: tlYaz(n) }));
   };
 
   return (
@@ -107,8 +124,27 @@ export function AsgariUcretKart({ f, degistir }: { f: Foy; degistir: (ek: Partia
           <Text style={s.hint}>{t("Toplam: {x}", { x: tlYaz(g.kalemler.filter(k => secili.has(k.kod) || yazili.has(k.kod)).reduce((x, k) => x + k.tutar, 0)) })}</Text>
         </View>
       )}
+      <Text style={[s.label, { marginTop: 4 }]}>{t("Diğer giderler (bilirkişi, keşif, tanık…)")}</Text>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6 }}>
+        {["Bilirkişi ücreti", "Keşif gideri", "Tanık ücreti", "Tebligat gideri", "Ek gider avansı"].map(x => (
+          <Pressable key={x} onPress={() => setDigerAd(t(x))} style={{ borderWidth: 1, borderColor: digerAd === t(x) ? C.brass : C.line, borderRadius: 14, paddingHorizontal: 10, paddingVertical: 4 }}>
+            <Text style={{ color: digerAd === t(x) ? C.brass : C.textSoft, fontSize: 12 }}>{t(x)}</Text>
+          </Pressable>
+        ))}
+      </View>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, alignItems: "flex-end" }}>
+        <View style={{ gap: 4, flex: 1, minWidth: 200 }}>
+          <Text style={etiket}>{t("Ne masrafı")}</Text>
+          <TextInput value={digerAd} onChangeText={setDigerAd} onSubmitEditing={digerEkle} placeholder={t("ör. Bilirkişi ücreti (talebimiz üzerine)")} placeholderTextColor={C.muted} style={[s.inputTek, { paddingVertical: 6 }]} />
+        </View>
+        <View style={{ gap: 4, width: 140 }}>
+          <Text style={etiket}>{t("Tutar (TL)")}</Text>
+          <TextInput value={digerTutar} onChangeText={setDigerTutar} onSubmitEditing={digerEkle} placeholder="6.000" placeholderTextColor={C.muted} keyboardType="decimal-pad" style={[s.inputTek, { paddingVertical: 6 }]} />
+        </View>
+        <Btn label={t("➕ Ekle")} onPress={digerEkle} disabled={!digerAd.trim() || !digerTutar.trim()} />
+      </View>
       {g.notlar.map((n, i) => <Text key={i} style={s.hint}>• {t(n)}</Text>)}
-      <Text style={s.hint}>{t("Tutarlar 2026 harç tarifesi ve HMK gider avansı tarifesine göre tahminidir; vezne makbuzu ya da dekont ekleyince gerçek tutarı yazın. Mahkemenin ara kararıyla istenen bilirkişi, keşif ve tanık giderlerini aşağıdan “Dava masrafı” olarak ekleyin.")}</Text>
+      <Text style={s.hint}>{t("Tutarlar 2026 harç tarifesi ve HMK gider avansı tarifesine göre tahminidir; vezne makbuzu ya da dekont ekleyince gerçek tutarı yazın. Bilirkişi, keşif, tanık gibi tarifede olmayan giderleri yukarıdaki “Diğer giderler”den ekleyin.")}</Text>
       {cakisan.length > 0 && (
         <View style={[s.row, { gap: 8, alignItems: "center" }]}>
           <Text style={[s.hint, { flex: 1, color: C.mid }]}>{t("{n} tahmini giderin gerçek kaydı (makbuz / dekont) da var.", { n: cakisan.length })}</Text>
