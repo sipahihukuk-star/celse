@@ -17,9 +17,13 @@ export interface HesapKalem {
   evrakId?: string;
   /** yol gideri hangi duruşma için hesaplandı (aynı duruşma iki kez sayılmasın) */
   durusmaId?: string;
+  /** tarifeden hesaplanmış başlangıç gideri (ucretTarife.ts kodu): gerçek makbuz gelince düzeltilir */
+  tahmin?: string;
 }
 export interface FoyHesap {
   ucret?: { tutar?: number; aciklama?: string; sozlesmeEvrakId?: string; tarih?: string };
+  /** dava değeri (harca esas değer): asgari ücret ve harç hesabı için */
+  davaDegeri?: number;
   kalemler: HesapKalem[];
 }
 export interface TevkilAvukat {
