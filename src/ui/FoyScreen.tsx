@@ -4,6 +4,8 @@
 import { BeyanSekmesi, KaynakSekmesi } from "./BeyanEditoru";
 import { BasvuruSekmesi } from "./BasvuruSekmesi";
 import { HizliGirdi } from "./HizliGirdi";
+import { MuvekkilKarti, MuvekkillerSekmesi } from "./MuvekkillerSekmesi";
+import { muvekkilMi } from "../data/muvekkil";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Keyboard, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { bosFoy, Foy, foyBaslik, foyDinle, foyGetir, foyKaydet, foyler as foyListesi, foylerKaydet, kacGun, ozelAc, ozelKilitDurumu, ozelKilitKur, ozelKilitle, tarihYaz, yedekMetni, yedektenYukle, yeniId } from "../data/foy";
@@ -125,6 +127,10 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const [tevkilAc, setTevkilAc] = useState(false);
   const [durusmaAc, setDurusmaAc] = useState(false);
   const [basvuruAc, setBasvuruAc] = useState(false);
+  // Müvekkillerim: müvekkil kartları (tür "muvekkil") dava föylerinden ayrı tutulur; Föyler'de görünmez.
+  const [muvekkilAc, setMuvekkilAc] = useState(false);
+  const [kartlar, setKartlar] = useState<Foy[]>([]);
+  const [kartSec, setKartSec] = useState<string | null>(null);
   const [arsivAc, setArsivAc] = useState(false);
   const [durusmaYukle, setDurusmaYukle] = useState(false);
   const [beyanAc, setBeyanAc] = useState<false | "beyan" | "kaynak">(p.ilkSekme || false);
@@ -165,7 +171,9 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   useEffect(() => { setDavaF(null); setAsamaF(null); }, [turF]);
   const [kilitSor, setKilitSor] = useState<null | { sonra?: () => void }>(null);
   const yenile = () => {
-    foyListesi().then(x => {
+    foyListesi().then(hepsi => {
+      const x = hepsi.filter(f => !muvekkilMi(f));
+      setKartlar(hepsi.filter(muvekkilMi));
       setListe(x); setYuklendi(true); setYukHata(""); gunlukBildirim(x); webDurusmaBildirimi(x);
       // Kendiliğinden işler (e-duruşma, eksik künye) föy föy güncellenir; yalnız değişen föyler kaydedilir.
       const numarali = new Map(foyNolariVer(x).map(f => [f.id, f] as const));
@@ -183,14 +191,15 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   useEffect(() => otoEsitlemeBaslat(), []);
   // Dava takibinden çıkınca şahsi dosyalar kilitlenir (bilgisayarı başkası kullanırsa görünmesin).
   useEffect(() => () => { ozelKilitle(); }, []);
-  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc || tevkilAc || durusmaAc || basvuruAc || !!beyanAc, () => { if (secili && (rapor || isler || tevkilAc || durusmaAc || basvuruAc)) { setSecili(null); return; } setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setBasvuruAc(false); setBeyanAc(false); });
+  useInnerBack(!!secili || aktar || !!havuz || !!giris || !!kilitSor || rapor || isler || buroAc || tevkilAc || durusmaAc || basvuruAc || muvekkilAc || !!beyanAc, () => { if (secili && (rapor || isler || tevkilAc || durusmaAc || basvuruAc || muvekkilAc)) { setSecili(null); return; } if (kartSec) { setKartSec(null); return; } setMuvekkilAc(false); setSecili(null); setAktar(false); setHavuz(false); setGiris(false); setKilitSor(null); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setBasvuruAc(false); setBeyanAc(false); });
   // Üst sekmeler: hangi ekran açıksa o sekme seçili görünür; sekmeye basınca öbürleri kapanır.
-  const sekme: Sekme = beyanAc ? beyanAc : basvuruAc ? "basvuru" : sahsiGorunum ? "sahsi" : durusmaAc ? "durusmalar" : isler ? "isler" : rapor ? "liste" : havuz ? "toplu" : buroAc ? "buro" : tevkilAc ? "tevkil" : "foyler";
+  const sekme: Sekme = beyanAc ? beyanAc : muvekkilAc ? "muvekkil" : basvuruAc ? "basvuru" : sahsiGorunum ? "sahsi" : durusmaAc ? "durusmalar" : isler ? "isler" : rapor ? "liste" : havuz ? "toplu" : buroAc ? "buro" : tevkilAc ? "tevkil" : "foyler";
   const sekmeSec = (k: Sekme) => {
-    setSecili(null); setAktar(false); setGiris(false); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setDurusmaYukle(false); setBeyanAc(false); setBasvuruAc(false); setSahsiGorunum(false);
+    setSecili(null); setAktar(false); setGiris(false); setRapor(false); setIsler(false); setBuroAc(false); setTevkilAc(false); setDurusmaAc(false); setDurusmaYukle(false); setBeyanAc(false); setBasvuruAc(false); setSahsiGorunum(false); setMuvekkilAc(false); setKartSec(null);
     if (k !== "toplu") setHavuz(false);
     if (k === "beyan" || k === "kaynak") setBeyanAc(k);
     if (k === "basvuru") setBasvuruAc(true);
+    if (k === "muvekkil") setMuvekkilAc(true);
     if (k === "sahsi") { if (kilit === "acik") setSahsiGorunum(true); else setKilitSor({ sonra: () => setSahsiGorunum(true) }); }
     if (k === "durusmalar") setDurusmaAc(true); else if (k === "isler") setIsler(true); else if (k === "liste") setRapor(true);
     else if (k === "toplu") setHavuz(true); else if (k === "buro") setBuroAc(true); else if (k === "tevkil") setTevkilAc(true);
@@ -205,6 +214,11 @@ export default function FoyScreen(p: { onBack: () => void; onHazirlan: (f: Foy) 
   const web = Platform.OS === "web";
   if (kilitSor) return <OzelKilit durum={kilit} onKapat={() => setKilitSor(null)} onAcildi={() => { const f = kilitSor.sonra; setKilitSor(null); yenile(); f?.(); }} />;
   if (beyanAc === "beyan" && !secili) return sar(<BeyanSekmesi liste={liste} />);
+  if (muvekkilAc && !secili) {
+    const kart = kartSec ? kartlar.find(x => x.id === kartSec) : undefined;
+    return sar(kart ? <MuvekkilKarti key={kart.id + kart.guncelleme} kart={kart} dosyalar={liste} onKapat={() => setKartSec(null)} onDosyaAc={id => setSecili({ id })} />
+      : <MuvekkillerSekmesi kartlar={kartlar} dosyalar={liste} onAc={setKartSec} />);
+  }
   if (basvuruAc && !secili) return sar(<BasvuruSekmesi liste={liste} onAc={(id, basvuru, taslak) => setSecili({ id, basvuru, taslak })} />);
   if (beyanAc === "kaynak" && !secili) return sar(<KaynakSekmesi />);
   if (durusmaAc && !secili) return sar(<DurusmalarEkrani liste={liste} yukleAc={durusmaYukle} onAc={id => setSecili({ id })} />);

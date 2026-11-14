@@ -5,7 +5,9 @@
 
 export type FoyTur =
   | "danisma" | "arabuluculuk" | "sorusturma" | "ceza" | "hukuk" | "idari_basvuru" | "idari_dava" | "idari_sorusturma"
-  | "icra" | "kurum_basvuru" | "sozlesme" | "ozel_ceza" | "baro" | "arabulucu_gorev" | "bilirkisi_gorev" | "tazminat_komisyonu" | "bireysel_basvuru";
+  | "icra" | "kurum_basvuru" | "sozlesme" | "ozel_ceza" | "baro" | "arabulucu_gorev" | "bilirkisi_gorev" | "tazminat_komisyonu" | "bireysel_basvuru"
+  /** müvekkil kartı (vekâletnameden): dava dosyası değildir; Föyler'de değil "Müvekkillerim"de görünür */
+  | "muvekkil";
 
 export interface TurBilgi {
   tur: FoyTur; ad: string; kisa: string; aciklama: string;
@@ -54,7 +56,10 @@ export const TURLER: TurBilgi[] = [
   { tur: "arabulucu_gorev", ad: "Arabulucu olarak görev", kisa: "ARABULUCU GÖREVİ", aciklama: "Avukatın arabulucu olarak yürüttüğü dosya.", merci: "Arabuluculuk bürosu", no: "Büro / arabuluculuk no", merciOrnek: "İzmir Arabuluculuk Bürosu",
     taraflar: ["Başvurucu", "Diğer taraf"], asamalar: ["Görevlendirme", "Taraflara ulaşma", "Toplantı", "Anlaşma", "Anlaşamama", "Ücret tahsil edildi"], sonraki: [] },
   { tur: "bilirkisi_gorev", ad: "Bilirkişi olarak görev", kisa: "BİLİRKİŞİ GÖREVİ", aciklama: "Avukatın bilirkişi olarak rapor yazdığı dosya.", merci: "Mahkeme / savcılık", no: "Esas / soruşturma no", merciOrnek: "İzmir 3. Asliye Hukuk Mahkemesi",
-    taraflar: ["Davacı", "Davalı"], asamalar: ["Görevlendirme", "İnceleme / keşif", "Rapor yazımı", "Rapor teslim edildi", "Ek rapor", "Ücret tahsil edildi"], sonraki: [] }
+    taraflar: ["Davacı", "Davalı"], asamalar: ["Görevlendirme", "İnceleme / keşif", "Rapor yazımı", "Rapor teslim edildi", "Ek rapor", "Ücret tahsil edildi"], sonraki: [] },
+  // Müvekkil kartı: tür seçiminde ve dosya listelerinde görünmez (eski: true), "Müvekkillerim" sekmesinde tutulur.
+  { tur: "muvekkil", ad: "Müvekkil kartı", kisa: "MÜVEKKİL", aciklama: "Vekâletnameden oluşturulan müvekkil kaydı.", merci: "Noterlik", no: "Yevmiye no", merciOrnek: "İzmir 5. Noterliği",
+    taraflar: ["Müvekkil", ""], asamalar: ["Vekâlet var", "Vekâlet sona erdi"], sonraki: [], eski: true }
 ];
 
 export const turBilgi = (t?: FoyTur): TurBilgi => TURLER.find(x => x.tur === (t || "hukuk")) || TURLER[4];
