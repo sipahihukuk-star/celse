@@ -10,6 +10,7 @@ import { Acilir } from "./Acilir";
 import { s } from "./foyStil";
 import { Btn } from "./kit";
 import { SonraKaydet } from "./SonraKaydet";
+import { AsgariUcretKart } from "./AsgariUcretKart";
 import { C } from "./theme";
 
 type EvrakEkle = (tur?: string) => Promise<FoyEvrak[]>;
@@ -73,6 +74,8 @@ export function HesapBolum({ f, degistir, evrakEkle }: { f: Foy; degistir: (ek: 
         {evrakEkle && <Btn kind="secondary" label={sozlesme ? t("Sözleşmeyi değiştir") : t("📎 Ücret sözleşmesini tara / ekle")} onPress={() => belgeEkle("Vekâlet ücreti sözleşmesi")} />}
         {!!sozlesme && <Text style={[s.hint, { flex: 1 }]}>📄 {sozlesme.ad}</Text>}
       </View>
+
+      <AsgariUcretKart f={f} degistir={degistir} />
 
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, alignItems: "flex-end" }}>
         <Acilir etiket={t("Kayıt")} secili={tur} genislik={190} onSec={k => setTur(k as KalemTur)} secenekler={(Object.keys(KALEM_AD) as KalemTur[]).map(k => ({ k, ad: t(KALEM_AD[k]) }))} />
