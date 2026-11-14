@@ -188,6 +188,10 @@ ok(durusmaUyarilari({ ...icf, durusmalar: hr.durusmalar }, "2026-11-30").some(x 
   ok(!evraktanDurusma({ ...fa, yargilamalar: r6.yargilamalar }, [ev("k7", gor, "2024-01-10")], simdi).yargilamalar, "aynı aşama ikinci kez eklenmez");
   const dil = "UYDURMA 2. ASLİYE TİCARET MAHKEMESİ'NE\nDOSYA NO: 2026/40 E.\nKONU: Duruşma günü hakkında beyanımızdır.";
   ok(!evraktanDurusma(fa, [ev("dl", dil, "2026-06-01")], simdi).yargilamalar, "kendi mahkemesine yazılan dilekçe yeni aşama açmaz");
+  // Elle "kaçıncı celsede: 5" ve tek duruşma (geçmiş): o duruşma 5. celse, önceki dördü "?".
+  const fk = bosFoy({ tur: "hukuk", mahkeme: "Uydurma Asliye Hukuk Mahkemesi", esasNo: "2024/1", durusmalar: [{ id: "k1", tarih: "2026-11-11T09:55" }], yargilamalar: [{ id: "y1", mahkeme: "Uydurma Asliye Hukuk Mahkemesi", esasNo: "2024/1", celse: 5 }] });
+  const ak = asamalar(fk)[0];
+  ok(JSON.stringify(ak.eksik) === "[1,2,3,4]" && ak.gunler.map(g => (g.d ? g.d.id : "?") + ":" + g.celse).join(",") === "?:1,?:2,?:3,?:4,k1:5", "kaçıncı celsede 5: son duruşma 5., öncekiler ?: " + ak.gunler.map(g => (g.d ? g.d.id : "?") + ":" + g.celse).join(","));
   // SEGBİS: ceza davasında uyarı ve dilekçe SEGBİS adıyla.
   const fc = bosFoy({ tur: "ceza", mahkeme: "Uydurma 3. Asliye Ceza Mahkemesi", esasNo: "2026/12", durusmalar: [{ id: "s1", tarih: "2026-11-25T10:00" }] });
   const uc = durusmaUyarilari(fc, "2026-11-14");
