@@ -729,7 +729,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       {!icraUstte && zincirBlok}
       {!icraUstte && kunyeEksikBlok}
       {!icraUstte && kunyeBlok}
-      <DurusmaAkisi f={f} degistir={degistir} okumaVar={f.evraklar.some(e => !!e.metin.trim())} />
+      <DurusmaAkisi f={f} degistir={degistir} okumaVar={f.evraklar.some(e => !!e.metin.trim())} onHazirlan={onHazirlan} />
 
       {!!err && <Text style={s.err}>{err}</Text>}
 

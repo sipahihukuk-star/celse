@@ -113,6 +113,8 @@ export interface Foy {
   beyanlar?: import("./beyan").Beyan[];
   /** "Yapay zekâya sor" konuşması (son 30 soru-cevap; cevaplar gerçek adlarla, cihazda ve şifreli bulutta) */
   yzSohbet?: YzSoru[];
+  /** duruşma simülasyonu: eldeki evrakla sıradaki duruşmada neler yaşanabileceği (yapay zekâ; cevap gerçek adlarla açılmış) */
+  durusmaSim?: { tarih: string; durusmaId?: string; durusmaTarih?: string; metin: string; kaynaklar?: { baslik: string; url: string }[] };
 }
 
 export const yeniId = (on: string) => on + "-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 7);

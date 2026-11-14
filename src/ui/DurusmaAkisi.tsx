@@ -17,6 +17,7 @@ import { indir, s } from "./foyStil";
 import { Btn } from "./kit";
 import { C } from "./theme";
 import { eKarar } from "../data/otoIs";
+import { DurusmaSimulasyon } from "./DurusmaSimulasyon";
 
 const kisaTarih = (x: string) => `${x.slice(8, 10)}.${x.slice(5, 7)}.${x.slice(2, 4)}${x.length > 10 ? " " + x.slice(11, 16) : ""}`;
 const E_SIMGE_: Record<EDurum | "yok", { s: string; renk: string; ad: string }> = {
@@ -51,7 +52,7 @@ function EKutu({ ad, onKabul, onRed, children }: { ad: string; onKabul: () => vo
   );
 }
 
-export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek: Partial<Foy>) => void; okumaVar: boolean }) {
+export function DurusmaAkisi({ f, degistir, okumaVar, onHazirlan }: { f: Foy; degistir: (ek: Partial<Foy>) => void; okumaVar: boolean; onHazirlan?: (f: Foy) => void }) {
   const [secili, setSecili] = useState<string | null>(null);
   // Açık sütunlar (aşama anahtarı); ilk açılışta şimdiki aşama açık gelir.
   const [acikA, setAcikA] = useState<Set<string> | null>(null);
@@ -189,6 +190,8 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
         <Text style={[s.body, { color: C.text, fontWeight: "700" }]}>{icraMi(f) ? "📌" : "⚖"} {baslik}</Text>
         <Text style={[s.hint, { flex: 1, color: ozet.iyi ? C.good : C.mid, fontWeight: "700" }]} numberOfLines={2}>{t(ozet.metin)}</Text>
       </View>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12, alignItems: "flex-start" }}>
+      <View style={{ flexShrink: 1, flexGrow: 0, maxWidth: as.length * 320 + 10, minWidth: 310 }}>
       <ScrollView ref={kaydirma} horizontal showsHorizontalScrollIndicator contentContainerStyle={{ gap: 10, paddingBottom: 4, alignItems: "flex-start" }}
         onContentSizeChange={() => kaydirma.current?.scrollToEnd({ animated: false })}>
         {as.map((a, ai) => {
@@ -239,6 +242,11 @@ export function DurusmaAkisi({ f, degistir, okumaVar }: { f: Foy; degistir: (ek:
           );
         })}
       </ScrollView>
+      </View>
+      <View style={{ flex: 1, minWidth: 300 }}>
+        <DurusmaSimulasyon f={f} degistir={degistir} onHazirlan={onHazirlan} />
+      </View>
+      </View>
       {asamaEkle
         ? <AsamaEkle onIptal={() => setAsamaEkle(false)} onEkle={(mahkeme, esasNo, yon, kunye) => {
             const ilkler = as.map(a => a.ilk).filter(Boolean).sort();

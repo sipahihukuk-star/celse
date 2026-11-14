@@ -1,7 +1,7 @@
 // "Yapay zekâya sor" cevabının işlenmesi: başlıklar, önerilen işler, sesli okunacak metin.
 import { tarihCoz } from "./foy";
 
-export const BASLIK = /^(NEREDE KALDIK|SIRADA NE VAR|YASAL İMKÂNLAR|YASAL IMKANLAR|SÜRELER|DİKKAT|ÖNERİLEN İŞLER)\s*:/;
+export const BASLIK = /^(NEREDE KALDIK|SIRADA NE VAR|YASAL İMKÂNLAR|YASAL IMKANLAR|SÜRELER|DİKKAT|ÖNERİLEN İŞLER|DURUŞMANIN GÜNDEMİ|SALONDA OLABİLECEKLER|HÂKİMİN SORABİLECEKLERİ|HAKİMİN SORABİLECEKLERİ|KARŞI TARAFIN MUHTEMEL BEYANLARI|MUHTEMEL ARA KARARLAR|HAZIRLIK)\s*:/;
 
 /** Cevaptaki "ÖNERİLEN İŞLER" satırları: "- iş (15.11.2026)". */
 export function onerilenIsler(cevap: string): { metin: string; tarih?: string }[] {
