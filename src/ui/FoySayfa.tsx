@@ -3,6 +3,7 @@
 import { TarafKunye } from "./TarafKunye";
 import { SesliIsGir } from "./SesliIsGir";
 import { basvuruBul, foyBasvurusu } from "../data/basvuru";
+import { karttanGetir, muvekkilMi } from "../data/muvekkil";
 import { EvrakIsOnay } from "./EvrakIsOnay";
 import { esiVar } from "../data/tekillik";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -31,7 +32,7 @@ import { IcraBolum } from "./IcraBolum";
 import { tl } from "../data/icra";
 import { komisyonaUygun } from "../data/davaListesi";
 import { evrakTuruBul, icraDoldur, icraEvrakGeriAl } from "../data/icraEvrak";
-import { foyDinle, silineniNotEt, dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, KarsiBilgi, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
+import { foyler as tumFoyler, foyDinle, silineniNotEt, dosyaOku, dosyaSaklanir, dosyaSil, donguMu, Foy, KarsiBilgi, MuvekkilBilgi, foyBaslik, FoyEvrak, foyGetir, foyKaydet, foyOzelYap, foySil, ozelKilitDurumu, Gorev, kacGun, bosFoy, tarihCoz, tarihYaz, yeniId, zincir } from "../data/foy";
 import { DAVA_TURLERI, EVRAK_TURLERI, FoyTur, turBilgi, TURLER } from "../data/foyTurleri";
 import { unmask } from "../engine/mask";
 import { gercekTur, zipIcerigi } from "../engine/mask/readers";
@@ -354,6 +355,29 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
       : tum.length ? t("Evraktan eklendi: {x}. Kontrol edin.", { x: [...new Set(tum)].join(", ") })
       : t("{n} evraka bakıldı; künyede olmayan taraf ya da vekil bulunamadı. (Evrakta müvekkilin adı geçmiyorsa başka dosyanın evrakı sayılır ve eklenmez.)", { n: okunan }));
   };
+  // Künyedeki "📄 Tarafları ve vekilleri evraktan yükle": önce boş alanlar, sonra künyede olmayan taraflar ve vekiller.
+  const evraktanHepsi = () => {
+    const temel = son.current || f;
+    if (!temel) return;
+    setKunyeMesaj(""); setTarafMesaj("");
+    const ek = kunyeEvraktan(temel.evraklar, temel);
+    const doldu = Object.keys(ek).length > 0;
+    if (doldu) { son.current = { ...temel, ...ek }; degistir(ek); }
+    taraflariEvraktan(doldu);
+  };
+  // Künyedeki "👤 Eksik bilgileri müvekkil klasöründen getir": Müvekkillerim'deki kartlardan boş alanlar.
+  const muvekkildenGetir = async () => {
+    const temel = son.current || f;
+    if (!temel) return;
+    setKunyeMesaj(""); setTarafMesaj("");
+    const kartlar = (await tumFoyler()).filter(muvekkilMi);
+    if (!kartlar.length) { setTarafMesaj(t("Müvekkillerim'de kart yok; önce vekâletnameleri yükleyin.")); return; }
+    const r = karttanGetir(temel, kartlar);
+    if (Object.keys(r.ek).length) { son.current = { ...temel, ...r.ek }; degistir(r.ek); setSurum(v => v + 1); }
+    setTarafMesaj(r.dolan.length ? t("Müvekkil klasöründen getirildi: {x}. Kontrol edin.", { x: r.dolan.join(", ") })
+      : r.bulunamayan.length ? t("Müvekkillerim'de kartı bulunamadı: {x}. (Ad ya da kimlik no kartla aynı olmalı.)", { x: r.bulunamayan.join(", ") })
+      : t("Müvekkillerin bilgileri zaten dolu; getirilecek eksik bilgi yok."));
+  };
   const kunyeEvraktan = (evraklar: FoyEvrak[], temel: Foy): Partial<Foy> => {
     let x: Foy = temel; const tum: string[] = [];
     for (const e of [...evraklar].sort((a, b) => a.eklenme.localeCompare(b.eklenme))) {
@@ -422,23 +446,16 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
         // Künyede eksik bilgi: başta görünür; tek tuşla eldeki belgelerden (bu cihazda) doldurulur.
         const eksik = kunyeEksikleri(f).map(k => t(k));
         const okunmus = f.evraklar.some(e => e.metin.trim());
-        // Künyede eksik yoksa da (ör. 2. davalı ya da vekil sonradan eklenecekse) evrak varken tek düğme görünür.
-        if (!eksik.length && !kunyeMesaj && !tarafMesaj && !okunmus) return null;
+        // Yalnız künyede eksik varken: ne eksik olduğu yazılır; doldurma düğmeleri Künye bölümündedir.
+        if (!eksik.length) return null;
         return (
           <View style={[s.card, { gap: 6, borderColor: eksik.length ? C.mid : C.line }]}>
             {eksik.length > 0 && <Text style={[s.body, { fontWeight: "700", color: C.mid }]}>{t("Künyede eksik: {x}", { x: eksik.join(", ") })}</Text>}
             {okunmus
-              ? <Btn label={t("📄 Künyeyi belgelerden oluştur")} onPress={() => {
-                  // Önce boş alanlar, sonra evrakta geçip künyede olmayan taraflar ve vekiller (2., 3. davalı…) eklenir.
-                  const ek = kunyeEvraktan(f.evraklar, f);
-                  const doldu = Object.keys(ek).length > 0;
-                  if (doldu) { son.current = { ...(son.current || f), ...ek }; degistir(ek); }
-                  taraflariEvraktan(doldu);
-                }} />
+              ? <Text style={s.hint}>{t("Aşağıdaki Künye bölümünde “📄 Tarafları ve vekilleri evraktan yükle” ya da “👤 Eksik bilgileri müvekkil klasöründen getir” ile doldurabilirsiniz.")}</Text>
               : eksik.length > 0 && <Text style={s.hint}>{t("Evrak eklenince künye evraktan doldurulabilir; ya da aşağıdaki Künye bölümüne elle yazın.")}</Text>}
             {okunmus && <Text style={s.hint}>{t("Müvekkil ve karşı taraf, vekilleri, mahkeme, dosya no, kimlik no, adres ve vekâletname evrakın kendisinden, bu cihazda okunur. Yalnız boş alanlar doldurulur; kontrol edin.")}</Text>}
-            {!!kunyeMesaj && <Text style={[s.hint, { color: C.brass }]}>{kunyeMesaj}</Text>}
-            {!!tarafMesaj && <Text style={[s.hint, { color: C.brass }]}>{tarafMesaj}</Text>}
+
             {okunmus && eksik.length > 0 && (
               <Pressable onPress={() => setIskelet(x => !x)}><Text style={s.link}>{iskelet ? t("Evrak düzenini gizle") : t("Okuyamadıysa: evrakın başlık düzenini göster (ad ve numaralar gizli)")}</Text></Pressable>
             )}
@@ -452,7 +469,7 @@ export function FoySayfa({ id, liste, ekle, onKapat, onAc, onHazirlan, ucretsiz,
   const kunyeBlok = (
       <Katlanir anahtar="kunye" baslik={t("Künye")} varsayilan={!f.mahkeme && !f.muvekkil} ozet={[f.mahkeme, f.esasNo, f.muvekkil].filter(Boolean).join(" · ")}>
         <View style={s.alanlar}>
-          <TarafKunye f={f} degistir={degistir} guncel={() => son.current || f} surum={surum} />
+          <TarafKunye f={f} degistir={degistir} guncel={() => son.current || f} surum={surum} onEvraktan={evraktanHepsi} onMuvekkilden={muvekkildenGetir} evrakMesaj={[kunyeMesaj, tarafMesaj].filter(Boolean).join(" ")} />
           {alanEl(tb.merci, f.mahkeme, "mahkeme", tb.merciOrnek ? "Örn. " + tb.merciOrnek : undefined)}
           {alanEl(tb.no, f.esasNo, "esasNo", "Örn. 2026/123")}
           <View style={s.alan} key={"acilis:" + surum}>

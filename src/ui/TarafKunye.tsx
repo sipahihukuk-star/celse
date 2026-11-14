@@ -10,7 +10,7 @@ import { Btn } from "./kit";
 import { C } from "./theme";
 
 type Yan = "biz" | "karsi";
-interface Props { f: Foy; degistir: (ek: Partial<Foy>) => void; guncel: () => Foy; surum: number; onEvraktan?: () => void; evrakMesaj?: string }
+interface Props { f: Foy; degistir: (ek: Partial<Foy>) => void; guncel: () => Foy; surum: number; onEvraktan?: () => void; evrakMesaj?: string; onMuvekkilden?: () => void }
 
 /** Taraf listesini künye alanlarına geri yazar (ilki ana alanlara, ötekiler ek listeye). */
 function tarafYaz(f: Foy, yan: Yan, xs: TarafKisi[]): Partial<Foy> {
@@ -31,7 +31,7 @@ const hamTaraflar = (f: Foy, yan: Yan): TarafKisi[] => {
 };
 const hamVekiller = (f: Foy, yan: Yan): string[] => { const b = yan === "biz" ? f.muvekkilBilgi : f.karsiBilgi; return [b?.vekil || "", ...(b?.ekVekiller || [])]; };
 
-export function TarafKunye({ f, degistir, guncel, surum, onEvraktan, evrakMesaj }: Props) {
+export function TarafKunye({ f, degistir, guncel, surum, onEvraktan, evrakMesaj, onMuvekkilden }: Props) {
   const [acik, setAcik] = useState<Record<string, boolean>>({});
   const [anahtar, setAnahtar] = useState(0); // satır eklenip silinince alanlar yeniden çizilsin
   const ac = (k: string) => setAcik(x => ({ ...x, [k]: !x[k] }));
@@ -106,12 +106,13 @@ export function TarafKunye({ f, degistir, guncel, surum, onEvraktan, evrakMesaj 
 
   return (
     <View style={{ gap: 12, width: "100%" }}>
-      {!!onEvraktan && (
+      {(!!onEvraktan || !!onMuvekkilden) && (
         <View style={{ gap: 4 }}>
           <View style={[s.row, { gap: 8, alignItems: "center", flexWrap: "wrap" }]}>
-            <Btn kind="secondary" label={t("📄 Tarafları ve vekilleri evraktan yükle")} onPress={onEvraktan} />
-            <Text style={[s.hint, { flex: 1, minWidth: 200 }]}>{t("Föydeki evrakı okur; künyede olmayan ikinci, üçüncü müvekkili, karşı tarafları ve iki tarafın vekillerini ekler. Var olanlar çoğalmaz.")}</Text>
+            {!!onEvraktan && <Btn label={t("📄 Tarafları ve vekilleri evraktan yükle")} onPress={onEvraktan} />}
+            {!!onMuvekkilden && <Btn label={t("👤 Eksik bilgileri müvekkil klasöründen getir")} onPress={onMuvekkilden} />}
           </View>
+          <Text style={s.hint}>{t("Evraktan: künyedeki boş alanları doldurur; künyede olmayan ikinci, üçüncü müvekkili, karşı tarafları ve iki tarafın vekillerini ekler. Müvekkil klasöründen: müvekkillerin boş kalan kimlik no, adres, telefon, e-posta ve vekâletname bilgilerini Müvekkillerim'deki kartlarından getirir. Yazılmış bilgi değişmez, var olanlar çoğalmaz.")}</Text>
           {!!evrakMesaj && <Text style={[s.hint, { color: C.brass }]}>{evrakMesaj}</Text>}
         </View>
       )}

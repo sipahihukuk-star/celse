@@ -1,6 +1,6 @@
 // Vekâletname okuma: uydurma vekâletnamelerle (gerçek kişi ve belge kullanılmaz).
 import { vekaletKunye, vekaletOku } from "../src/data/vekaletOku";
-import { dosyalariTamamla, kartDosyalari, vekaletlerdenKartlar } from "../src/data/muvekkil";
+import { dosyalariTamamla, kartDosyalari, karttanGetir, vekaletlerdenKartlar } from "../src/data/muvekkil";
 import { bosFoy, Foy } from "../src/data/foy";
 let fail = 0;
 const ok = (c: unknown, m: string) => { if (c) console.log("✓ " + m); else { fail++; console.log("✗ " + m); } };
@@ -64,6 +64,11 @@ ok(ve.vekilEdenler.length === 1 && ve.vekilEdenler[0].kimlikNo === "12345678950"
   const t = dosyalariTamamla(r.yeni, [dosya]);
   ok(t.length === 1 && t[0].muvekkilBilgi?.kimlikNo === "12345678950" && t[0].muvekkilBilgi?.adres === "Elle yazılmış adres" && /yevmiye 12345/.test(t[0].muvekkilBilgi?.vekaletname || ""), "dava föyünde boş alanlar tamamlandı, dolu adres korundu");
   ok(kartDosyalari(ayse, [dosya]).length === 1, "kartın dosyaları bulunur");
+  // Föyün içinden "Eksik bilgileri müvekkil klasöründen getir": ilk ve öteki müvekkiller.
+  const iki = { ...bosFoy({ tur: "hukuk" }), muvekkil: "Mehmet Deneme", muvekkilBilgi: { telefon: "0555" }, ekMuvekkiller: [{ ad: "FATMA DENEME" }, { ad: "Tanımsız Kişi" }] } as Foy;
+  const g = karttanGetir(iki, r.yeni);
+  ok(g.ek.muvekkilBilgi?.kimlikNo === "23456789138" && g.ek.muvekkilBilgi?.telefon === "0555" && /İzmir 12\. Noterliği/.test(g.ek.muvekkilBilgi?.vekaletname || ""), "ilk müvekkilin boş bilgileri karttan geldi, dolu telefon korundu");
+  ok(g.ek.ekMuvekkiller?.[0].kimlikNo === "34567891238" && /Bornova/.test(g.ek.ekMuvekkiller?.[0].adres || "") && g.bulunamayan.join() === "Tanımsız Kişi", "öteki müvekkil de doldu; kartı olmayan bildirildi");
   // 2000 vekâletname: hız
   const t0 = Date.now(); const cok = [];
   for (let i = 0; i < 2000; i++) {
